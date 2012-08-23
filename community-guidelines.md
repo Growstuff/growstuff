@@ -1,3 +1,5 @@
+# Growstuff Community Guidelines
+
 Growstuff is a community by and for food-gardeners.  Together, we are building a website where we can share our experience, knowledge, and the products of our harvest.  The most important thing about Growstuff is the people.  For Growstuff to thrive, we need people to add their crops, share their knowledge, and help build the site itself.
 
 Whatever your interest in Growstuff you are welcome here, and will be treated with respect.  In particular:
