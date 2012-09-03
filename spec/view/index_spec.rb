@@ -25,6 +25,7 @@ describe 'home/index.html.erb', :type => "view" do
 
     before(:each) do
       @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
+      @user.confirm!
       sign_in @user
     end
 

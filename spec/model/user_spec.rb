@@ -5,7 +5,7 @@ describe 'user' do
   before(:each) do
     @user = User.new
     @user.email = "example@example.com"
-    @user.username = "Someone"
+    @user.username = "someone"
     @user.password = "irrelevant"
   end
 
@@ -17,7 +17,7 @@ describe 'user' do
     @user.save
     @user2 = User.find_by_email('example@example.com')
     @user2.email.should == "example@example.com"
-    @user2.username.should == "Someone"
+    @user2.username.should == "someone"
     @user2.encrypted_password.should_not be_nil
   end
 
