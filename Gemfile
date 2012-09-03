@@ -39,3 +39,7 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+# growstuff additions
+gem 'devise'
+gem 'rspec'
