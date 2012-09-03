@@ -39,3 +39,12 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+#  GROWSTUFF ADDITIONS BELOW HERE
+
+# user signup/login/etc
+gem 'devise'
+
+# for testing
+gem 'rspec-rails'
+gem 'webrat'
