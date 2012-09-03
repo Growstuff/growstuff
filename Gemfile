@@ -48,4 +48,3 @@ gem 'devise'
 # for testing
 gem 'rspec-rails'
 gem 'webrat'
-
