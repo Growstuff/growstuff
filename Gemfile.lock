@@ -51,6 +51,8 @@ GEM
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
+    compass-rails (1.0.3)
+      compass (>= 0.12.2, < 0.14)
     daemon_controller (1.0.0)
     devise (2.1.2)
       bcrypt-ruby (~> 3.0)
@@ -183,6 +185,7 @@ DEPENDENCIES
   capistrano
   coffee-rails (~> 3.2.1)
   compass
+  compass-rails (~> 1.0.3)
   devise
   haml
   jquery-rails
@@ -196,4 +199,4 @@ DEPENDENCIES
   therubyracer
   uglifier (>= 1.0.3)
   webrat
-  zurb-foundation
+  zurb-foundation (~> 3.0.9)
