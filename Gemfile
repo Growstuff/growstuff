@@ -59,3 +59,5 @@ gem 'cape'
 
 # compile sass to css
 gem 'compass'
+# zurb foundation, to make it all look pretty
+gem "zurb-foundation", :group => :assets
