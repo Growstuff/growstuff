@@ -52,3 +52,4 @@ gem 'webrat'
 
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
+gem 'rake'
