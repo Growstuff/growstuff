@@ -22,9 +22,6 @@ set :rvm_type, :user
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
-# after "deploy", "deploy:bundle_gems"
-# after "deploy:bundle_gems", "deploy:restart"
-
 require 'bundler/capistrano'
 
 namespace :deploy do

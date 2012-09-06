@@ -164,6 +164,7 @@ DEPENDENCIES
   jquery-rails
   passenger
   rails (= 3.2.8)
+  rake
   rspec-rails
   rvm-capistrano
   sass-rails (~> 3.2.3)
