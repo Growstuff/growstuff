@@ -19,6 +19,12 @@ describe 'home/index.html.erb', :type => "view" do
         rendered.should contain 'Log in'
     end
 
+    it 'should have description' do
+        render
+        rendered.should contain 'Growstuff is a community of food gardeners'
+        rendered.should contain 'We welcome you regardless of your experience, and invite you to be part of our development process.'
+    end
+
   end
 
   context "logged in" do
@@ -39,5 +45,12 @@ describe 'home/index.html.erb', :type => "view" do
       render
       rendered.should contain 'Log out'
     end
+
+    it 'should have description' do
+        render
+        rendered.should contain 'Growstuff is a community of food gardeners'
+        rendered.should contain 'We welcome you regardless of your experience, and invite you to be part of our development process.'
+    end
+
   end
 end
