@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'home/index.html.erb', :type => "view" do
+describe 'home/index.html.haml', :type => "view" do
   context "when not logged in" do
 
     before(:each) do
