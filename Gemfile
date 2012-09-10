@@ -48,5 +48,7 @@ gem 'jquery-rails'
 gem 'devise'
 
 # for testing
-gem 'rspec-rails'
-gem 'webrat'
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'webrat'
+end
