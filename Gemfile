@@ -51,4 +51,5 @@ gem 'devise'
 group :development, :test do
   gem 'rspec-rails'
   gem 'webrat'
+  gem 'watchr'
 end
