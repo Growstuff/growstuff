@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'devise/mailer/confirmation_instructions.html.erb', :type => "view" do
+describe 'devise/mailer/confirmation_instructions.html.haml', :type => "view" do
 
   context "logged in" do
     before(:each) do

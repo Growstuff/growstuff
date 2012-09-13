@@ -1,4 +1,4 @@
-describe 'devise/shared/_links.erb', :type => "view" do
+describe 'devise/shared/_links.haml', :type => "view" do
 
   def devise_mapping(register, recover, confirm, lock, oauth)
     dm = mock("mappings")
