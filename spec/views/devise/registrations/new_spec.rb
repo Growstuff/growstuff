@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'devise/registrations/new.html.erb', :type => "view" do
+describe 'devise/registrations/new.html.haml', :type => "view" do
 
   context "logged in" do
     before(:each) do
