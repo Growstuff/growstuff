@@ -12,6 +12,7 @@ describe 'devise/mailer/unlock_instructions.html.haml', :type => "view" do
     end
 
     it "should have an unlock link" do
+      rendered.should contain "Unlock my account"
     end
   end
 end
