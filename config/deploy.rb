@@ -33,3 +33,17 @@ namespace :deploy do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 end
+
+# this makes it easier to run rake tasks on the server.
+# just "bundle exec cap rake_task" where rake_task is eg. db:migrate
+
+require 'cape'
+
+Cape do
+  # Create Capistrano recipes for all Rake tasks.
+  mirror_rake_tasks :db
+
+  mirror_rake_tasks 'db:migrate', :roles => :app do |env|
+    env['RAILS_ENV'] = rails_env
+  end
+end

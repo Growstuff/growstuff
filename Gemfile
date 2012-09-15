@@ -53,6 +53,7 @@ gem 'webrat'
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
 gem 'rake'
+gem 'cape'
 
 # compile sass to css
 gem 'compass'
