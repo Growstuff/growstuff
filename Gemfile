@@ -60,5 +60,4 @@ gem 'passenger'
 gem 'rake'
 gem 'cape'
 
-# compile sass to css
-gem 'compass'
+gem 'diff-lcs'
