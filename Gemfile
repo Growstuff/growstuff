@@ -59,3 +59,5 @@ gem 'webrat'
 gem 'passenger'
 gem 'rake'
 gem 'cape'
+
+gem 'diff-lcs'
