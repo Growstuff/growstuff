@@ -1,8 +1,8 @@
 set :application, "dev.growstuff.org"
-set :repository,  "https://github.com/Skud/growstuff.git"
+set :repository,  "https://github.com/Growstuff/growstuff.git"
 
 set :scm, :git
-set :branch, "story4deploy"
+set :branch, "dev"
 set :user, "deploy"
 set :use_sudo, false
 set :deploy_to, "/var/www/#{application}"
@@ -42,7 +42,9 @@ require 'cape'
 Cape do
   # Create Capistrano recipes for all Rake tasks.
   mirror_rake_tasks :db
-
+  mirror_rake_tasks 'db:create:all', :roles => :app do |env|
+    env['RAILS_ENV'] = rails_env
+  end
   mirror_rake_tasks 'db:migrate', :roles => :app do |env|
     env['RAILS_ENV'] = rails_env
   end
