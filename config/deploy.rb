@@ -49,3 +49,5 @@ Cape do
     env['RAILS_ENV'] = rails_env
   end
 end
+
+after :deploy, 'db:migrate'
