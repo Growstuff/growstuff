@@ -37,7 +37,8 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
+gem 'rvm-capistrano'
 
 # To use debugger
 # gem 'debugger'
@@ -50,3 +51,11 @@ gem 'devise'
 # for testing
 gem 'rspec-rails'
 gem 'webrat'
+
+# for phusion passenger (i.e. mod_rails) on the server
+gem 'passenger'
+gem 'rake'
+gem 'cape'
+
+# compile sass to css
+gem 'compass'
