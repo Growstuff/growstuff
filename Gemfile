@@ -51,13 +51,16 @@ gem 'rvm-capistrano'
 # user signup/login/etc
 gem 'devise'
 
-# for testing
-gem 'rspec-rails'
-gem 'webrat'
-
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
 gem 'rake'
 gem 'cape'
 
 gem 'diff-lcs'
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'webrat'
+  gem 'watchr'
+  gem 'spork', '~> 0.9.0.rc'
+end
