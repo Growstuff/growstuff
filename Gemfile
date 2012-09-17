@@ -9,8 +9,6 @@ gem 'haml'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
-
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -59,8 +57,13 @@ gem 'cape'
 gem 'diff-lcs'
 
 group :development, :test do
+  gem 'sqlite3'
   gem 'rspec-rails'
   gem 'webrat'
   gem 'watchr'
   gem 'spork', '~> 0.9.0.rc'
+end
+
+group :production do
+  gem 'pg'
 end
