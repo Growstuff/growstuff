@@ -1,9 +1,14 @@
-= render :partial => "layouts/header"
-- if notice
-  %p.notice
-    = notice
-- if alert
-  %p.alert
-    = alert
-= yield
-= render :partial => "layouts/footer"
+%html
+  = render :partial => "layouts/meta"
+  %body
+    = render :partial => "layouts/header"
+    .row
+      .ten.columns
+        - if notice
+          %p.notice
+            = notice
+        - if alert
+          %p.alert
+            = alert
+        = yield
+    = render :partial => "layouts/footer"

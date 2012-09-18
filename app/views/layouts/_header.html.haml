@@ -1,18 +1,3 @@
-<html>
-- # There are some tags here, such as html, body, etc, which are opened in this file and closed in the footer fragment. HAML can't handle this, so they're left as HTML.  If you were wondering.
-
-%head
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href='http://fonts.googleapis.com/css?family=Sevillana' rel='stylesheet' type='text/css'>
-  %title
-    = content_for?(:title) ? yield(:title) : "Growstuff"
-  = stylesheet_link_tag    "application", :media => "all"
-  = javascript_include_tag "application"
-  = csrf_meta_tags
-
-<body>
-
 .row
   .ten.columns
     - if user_signed_in?
@@ -34,4 +19,3 @@
     %h1
       = link_to('Growstuff', root_path)
 
-<div class="row"><div class="ten columns">
