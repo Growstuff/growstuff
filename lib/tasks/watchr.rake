@@ -1,4 +1,7 @@
-desc "Run watchr"
-task :watchr do
-    sh %{bundle exec watchr .watchr}
+begin
+  desc "Run watchr"
+  task :watchr do
+      sh %{bundle exec watchr .watchr}
+  end
+rescue LoadError
 end
