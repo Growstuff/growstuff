@@ -48,6 +48,8 @@ Cape do
   mirror_rake_tasks 'db:migrate', :roles => :app do |env|
     env['RAILS_ENV'] = rails_env
   end
+  mirror_rake_tasks :assets
 end
 
 after :deploy, 'db:migrate'
+after :deploy, 'assets:precompile'
