@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b System name:
+  = @crop.system_name
+%p
+  %b En wikipedia url:
+  = @crop.en_wikipedia_url
+
+= link_to 'Edit', edit_crop_path(@crop)
+\|
+= link_to 'Back', crops_path

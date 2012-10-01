@@ -59,6 +59,7 @@ gem 'cape'
 gem 'diff-lcs'
 
 group :development, :test do
+  gem 'haml-rails'
   gem 'rspec-rails'
   gem 'webrat'
   gem 'watchr'

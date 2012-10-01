@@ -1,4 +1,6 @@
 Growstuff::Application.routes.draw do
+  resources :crops
+
   devise_for :users
 
   get "home/index"
