@@ -1,20 +1,9 @@
-%h1 Listing crops
+%h2 Crops
 
-%table
-  %tr
-    %th System name
-    %th En wikipedia url
-    %th
-    %th
-    %th
-
-  - @crops.each do |crop|
-    %tr
-      %td= crop.system_name
-      %td= crop.en_wikipedia_url
-      %td= link_to 'Show', crop
-      %td= link_to 'Edit', edit_crop_path(crop)
-      %td= link_to 'Destroy', crop, method: :delete, data: { confirm: 'Are you sure?' }
+%ul
+- @crops.each do |crop|
+  %li
+    = link_to crop.system_name, crop
 
 %br
 

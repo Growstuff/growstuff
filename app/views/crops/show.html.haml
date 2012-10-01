@@ -1,12 +1,11 @@
+%h2= @crop.system_name
 %p#notice= notice
 
 %p
-  %b System name:
-  = @crop.system_name
-%p
-  %b En wikipedia url:
-  = @crop.en_wikipedia_url
+  %b More information:
+  = link_to @crop.en_wikipedia_url, @crop.en_wikipedia_url
 
-= link_to 'Edit', edit_crop_path(@crop)
-\|
-= link_to 'Back', crops_path
+%ul.link-list
+  %li= link_to 'Edit', edit_crop_path(@crop)
+  %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }
+  %li= link_to 'Back', crops_path
