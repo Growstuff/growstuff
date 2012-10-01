@@ -4,11 +4,13 @@
     = render :partial => "layouts/header"
     .row
       .ten.columns
+        - if content_for?(:title)
+          %h2=yield(:title)
         - if notice
-          %p.notice
+          %div.alert-box.success
             = notice
         - if alert
-          %p.alert
+          %div.alert-box.alert
             = alert
         = yield
     = render :partial => "layouts/footer"

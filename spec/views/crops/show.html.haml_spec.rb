@@ -11,7 +11,6 @@ describe "crops/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/System Name/)
     rendered.should match(/En Wikipedia Url/)
   end
 end
