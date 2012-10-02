@@ -5,6 +5,7 @@
   = link_to @crop.en_wikipedia_url, @crop.en_wikipedia_url
 
 %ul.link-list
-  %li= link_to 'Edit', edit_crop_path(@crop)
-  %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }
-  %li= link_to 'Back', crops_path
+  - if user_signed_in?
+    %li= link_to 'Edit', edit_crop_path(@crop)
+    %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }
+  %li= link_to 'Crop Index', crops_path

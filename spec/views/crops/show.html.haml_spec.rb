@@ -8,9 +8,26 @@ describe "crops/show" do
     ))
   end
 
-  it "renders attributes in <p>" do
-    render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/En Wikipedia Url/)
+  context "logged out" do
+    it "doesn't show the edit links if logged out" do
+      render
+      rendered.should_not contain "Edit"
+    end
   end
+
+  context "logged in" do
+
+    before(:each) do
+      @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
+      @user.confirm!
+      sign_in @user
+      render
+    end
+
+    it "links to the edit crop form" do
+      render
+      rendered.should contain "Edit"
+    end
+  end
+
 end
