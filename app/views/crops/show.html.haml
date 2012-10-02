@@ -6,6 +6,5 @@
 
 %ul.link-list
   - if user_signed_in?
-    %li= link_to 'Edit', edit_crop_path(@crop)
-    %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }
-  %li= link_to 'Crop Index', crops_path
+    %li= link_to 'Edit', edit_crop_path(@crop), { :class => 'button' }
+    %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?', :class => 'button' }

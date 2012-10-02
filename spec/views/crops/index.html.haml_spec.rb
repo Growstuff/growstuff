@@ -20,4 +20,26 @@ describe "crops/index" do
     assert_select "a", :text => "Maize"
     assert_select "a", :text => "Tomato"
   end
+
+  context "logged out" do
+    it "doesn't show the add new link if logged out" do
+      render
+      rendered.should_not contain "Edit"
+    end
+  end
+
+  context "logged in" do
+
+    before(:each) do
+      @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
+      @user.confirm!
+      sign_in @user
+      render
+    end
+
+    it "links to the add new form if logged in" do
+      render
+      rendered.should contain "New Crop"
+    end
+  end
 end
