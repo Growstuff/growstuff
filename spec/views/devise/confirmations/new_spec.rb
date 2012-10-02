@@ -8,7 +8,7 @@ describe 'devise/confirmations/new.html.haml', :type => "view" do
     render
   end
 
-  it 'should have a Resend button' do
-    rendered.should contain "Resend confirmation instructions"
+  it 'should contain an Email field' do
+    rendered.should contain "Email"
   end
 end
