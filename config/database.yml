@@ -1,18 +1,14 @@
 development:
-  adapter: postgresql
-  database: growstuff_dev
+  adapter: sqlite3
+  database: db/growstuff_dev.sqlite3
   pool: 5
   timeout: 5000
-  username: growstuff
-  host: localhost
 
 test:
-  adapter: postgresql
-  database: growstuff_test
+  adapter: sqlite3
+  database: db/growstuff_test.sqlite3
   pool: 5
   timeout: 5000
-  username: growstuff
-  host: localhost
 
 production:
   adapter: postgresql
