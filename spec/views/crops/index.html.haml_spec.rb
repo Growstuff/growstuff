@@ -22,9 +22,9 @@ describe "crops/index" do
   end
 
   context "logged out" do
-    it "doesn't show the add new link if logged out" do
+    it "doesn't show the new crop link if logged out" do
       render
-      rendered.should_not contain "Edit"
+      rendered.should_not contain "New Crop"
     end
   end
 
@@ -38,7 +38,6 @@ describe "crops/index" do
     end
 
     it "links to the add new form if logged in" do
-      render
       rendered.should contain "New Crop"
     end
   end
