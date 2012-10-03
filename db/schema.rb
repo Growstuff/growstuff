@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120903112806) do
+ActiveRecord::Schema.define(:version => 20121003190731) do
+
+  create_table "crops", :force => true do |t|
+    t.string   "system_name",      :null => false
+    t.string   "en_wikipedia_url"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

@@ -12,7 +12,6 @@ describe 'devise/unlocks/new.html.haml', :type => "view" do
     end
 
     it 'should have some fields' do
-        rendered.should contain 'Resend unlock instructions'
         rendered.should contain 'Email'
     end
   end

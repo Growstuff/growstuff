@@ -61,5 +61,10 @@ module Growstuff
 
     # Don't try to connect to the database when precompiling assets
     config.assets.initialize_on_precompile = false
+
+    config.generators do |g|
+      g.template_engine :haml
+      g.stylesheets false
+    end 
   end
 end
