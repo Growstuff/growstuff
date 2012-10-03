@@ -24,7 +24,7 @@ describe CropsController do
   # Crop. As you add validations to Crop, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+     { :system_name => "Tomato" }
   end
 
   # This should return the minimal set of values that should be in the session
