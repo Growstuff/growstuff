@@ -10,6 +10,7 @@ describe 'layouts/_footer.html.haml', :type => "view" do
         rendered.should contain 'About'
         rendered.should contain 'License'
         rendered.should contain 'Github'
+        rendered.should contain 'Wiki'
         rendered.should contain 'Mailing list'
         rendered.should contain 'Community Guidelines'
     end
