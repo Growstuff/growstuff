@@ -65,6 +65,6 @@ module Growstuff
     config.generators do |g|
       g.template_engine :haml
       g.stylesheets false
-    end 
+    end
   end
 end
