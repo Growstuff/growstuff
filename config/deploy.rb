@@ -5,8 +5,17 @@ set :scm, :git
 set :branch, "dev"
 set :user, "deploy"
 set :use_sudo, false
-set :deploy_to, "/var/www/#{application}"
 set :deploy_via, :remote_cache
+
+set :stages, %w(staging production)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+
+# for now we only deploy to staging.
+# when we really deploy to production, we should break this out into two
+# files under /config/deploy/staging.rb and production.rb
+set :deploy_to, "/var/www/#{application}"
+set :rails_env "staging"
 
 role :web, application
 role :app, application
