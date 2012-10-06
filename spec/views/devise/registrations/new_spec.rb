@@ -12,7 +12,6 @@ describe 'devise/registrations/new.html.haml', :type => "view" do
     end
 
     it 'should have some fields' do
-        rendered.should contain 'Sign up'
         rendered.should contain 'Email'
     end
   end

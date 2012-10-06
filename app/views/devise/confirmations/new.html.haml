@@ -3,12 +3,10 @@
 = form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
   = devise_error_messages!
 
-  %div
-    = f.label :email
-    %br
-    = f.email_field :email
+  %p Enter either your username or your email address to resend the confirmation email.
 
-  %div
-    = f.submit "Resend confirmation instructions"
+  = f.label :login
+  = f.text_field :login
+  = f.submit "Resend confirmation instructions"
 
 = render "devise/shared/links"
