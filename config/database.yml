@@ -20,4 +20,10 @@ production:
   password: thisisnottherealpassword
 
 staging:
-  production
+  adapter: postgresql
+  database: growstuff_prod
+  pool: 5
+  timeout: 5000
+  username: growstuff
+  host: localhost
+  password: thisisnottherealpassword
