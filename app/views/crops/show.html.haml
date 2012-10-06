@@ -1,0 +1,10 @@
+- content_for :title, @crop.system_name
+
+%p
+  %b More information:
+  = link_to @crop.en_wikipedia_url, @crop.en_wikipedia_url
+
+%ul.link-list
+  - if user_signed_in?
+    %li= link_to 'Edit', edit_crop_path(@crop), { :class => 'button' }
+    %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?', :class => 'button' }

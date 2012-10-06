@@ -1,0 +1,16 @@
+%html
+  = render :partial => "layouts/meta"
+  %body
+    = render :partial => "layouts/header"
+    .row
+      .ten.columns
+        - if content_for?(:title)
+          %h2=yield(:title)
+        - if notice
+          %div.alert-box.success
+            = notice
+        - if alert
+          %div.alert-box.alert
+            = alert
+        = yield
+    = render :partial => "layouts/footer"
