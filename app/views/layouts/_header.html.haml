@@ -6,7 +6,7 @@
           You are signed in as
           = current_user.email + "."
         %li
-          = link_to("Log out", destroy_user_session_path)
+          = link_to("Log out", destroy_user_session_path, :method => :delete)
     - else
       %ul.link-list
         %li
