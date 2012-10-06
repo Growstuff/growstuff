@@ -15,7 +15,7 @@ require 'capistrano/ext/multistage'
 # when we really deploy to production, we should break this out into two
 # files under /config/deploy/staging.rb and production.rb
 set :deploy_to, "/var/www/#{application}"
-set :rails_env "staging"
+set :rails_env, "staging"
 
 role :web, application
 role :app, application
