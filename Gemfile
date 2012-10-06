@@ -9,7 +9,7 @@ gem 'haml'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-group :production do
+group :production, :staging do
   gem 'pg'
 end
 
@@ -43,6 +43,7 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 gem 'capistrano'
 gem 'rvm-capistrano'
+gem 'capistrano-ext'
 
 # To use debugger
 # gem 'debugger'
