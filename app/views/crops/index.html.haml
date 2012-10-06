@@ -1,0 +1,10 @@
+- content_for :title, "Crops"
+
+%ul
+  - @crops.each do |crop|
+    %li
+      = link_to crop.system_name, crop
+
+- if user_signed_in?
+  %div
+    = link_to 'New Crop', new_crop_path, {:class => 'button'}
