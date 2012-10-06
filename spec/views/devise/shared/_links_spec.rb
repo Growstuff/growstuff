@@ -16,7 +16,6 @@ describe 'devise/shared/_links.haml', :type => "view" do
     @view.stub(:devise_mapping =>
                devise_mapping(false, false, false, false, false))
     render
-    rendered.should contain "Sign in"
   end
 
   it "shouldn't have a sign-in link if in sessions" do
@@ -25,6 +24,5 @@ describe 'devise/shared/_links.haml', :type => "view" do
     @view.stub(:devise_mapping =>
                devise_mapping(false, false, false, false, false))
     render
-    rendered.should_not contain "Sign in"
   end
 end

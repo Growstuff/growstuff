@@ -8,7 +8,7 @@ describe 'devise/confirmations/new.html.haml', :type => "view" do
     render
   end
 
-  it 'should contain an Email field' do
-    rendered.should contain "Email"
+  it 'should contain a login field' do
+    rendered.should contain "Username or email"
   end
 end

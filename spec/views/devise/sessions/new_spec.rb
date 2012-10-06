@@ -14,7 +14,6 @@ describe 'devise/sessions/new.html.haml', :type => "view" do
     it 'should have some fields' do
         rendered.should contain 'Remember me'
         rendered.should contain 'Password'
-        rendered.should contain 'Sign in'
     end
   end
 end
