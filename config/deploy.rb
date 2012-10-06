@@ -62,6 +62,9 @@ namespace :deploy do
   end
 end
 
-after :deploy, 'deploy:symlink_shared'
 after :deploy, 'db:migrate'
-after :deploy, 'assets:precompile'
+
+after 'deploy:update_code', 'deploy:symlink_shared'
+
+after 'deploy:finalize_update', 'assets:precompile'
+after 'assets:precompile', :restart
