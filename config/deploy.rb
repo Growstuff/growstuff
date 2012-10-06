@@ -65,6 +65,4 @@ end
 after :deploy, 'db:migrate'
 
 after 'deploy:update_code', 'deploy:symlink_shared'
-
 after 'deploy:finalize_update', 'assets:precompile'
-after 'assets:precompile', :restart
