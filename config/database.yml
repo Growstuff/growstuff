@@ -17,4 +17,4 @@ production:
   timeout: 5000
   username: growstuff
   host: localhost
-  password: <% begin IO.read("/home/deploy/.db_password") rescue "" end %>
+  password: thisisnottherealpassword

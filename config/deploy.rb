@@ -26,14 +26,6 @@ set :bundle_dir, "/home/deploy/.rvm/gems/ruby-1.9.3-p194@growstuffdev/"
 set :bundle_flags, "--deployment"
 require 'bundler/capistrano'
 
-namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-  end
-end
-
 # this makes it easier to run rake tasks on the server.
 # just "bundle exec cap rake_task" where rake_task is eg. db:migrate
 
@@ -49,6 +41,25 @@ Cape do
     env['RAILS_ENV'] = rails_env
   end
   mirror_rake_tasks :assets
+end
+
+namespace :deploy do
+  task :start do ; end
+  task :stop do ; end
+
+  desc "Tell Passenger to restart the app."
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+
+  # We keep a partial database.yml (with no production passwords) in git.
+  # This replaces it with one that has all the right credentials.
+
+  desc "Symlink shared configs and folders on each release."
+  task :symlink_shared do
+    run "rm #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
 end
 
 after :deploy, 'db:migrate'
