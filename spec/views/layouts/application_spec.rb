@@ -11,6 +11,7 @@ describe 'layouts/application.html.haml', :type => "view" do
 
     it 'shows the title' do
         rendered.should contain 'Growstuff'
+        rendered.should contain 'development site'
     end
 
     it 'should have signup/login links' do
