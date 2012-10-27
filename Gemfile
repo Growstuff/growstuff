@@ -52,6 +52,7 @@ gem 'capistrano-ext'
 
 # user signup/login/etc
 gem 'devise'
+gem 'friendly_id'
 
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'

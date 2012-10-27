@@ -17,6 +17,7 @@ describe Crop do
       @crop.save
       @crop2 = Crop.find_by_system_name('Tomato')
       @crop2.en_wikipedia_url.should == "http://en.wikipedia.org/wiki/Tomato"
+      @crop2.slug.should == "tomato"
     end
   end
 
