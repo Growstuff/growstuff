@@ -65,6 +65,7 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     fastthread (1.0.7)
+    friendly_id (4.0.8)
     fssm (0.2.9)
     haml (3.1.7)
     haml-rails (0.3.5)
@@ -195,6 +196,7 @@ DEPENDENCIES
   compass-rails (~> 1.0.3)
   devise
   diff-lcs
+  friendly_id
   haml
   haml-rails
   jquery-rails
