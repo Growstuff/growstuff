@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @garden.name
+%p
+  %b User:
+  = @garden.user_id
+%p
+  %b Slug:
+  = @garden.slug
+
+= link_to 'Edit', edit_garden_path(@garden)
+\|
+= link_to 'Back', gardens_path

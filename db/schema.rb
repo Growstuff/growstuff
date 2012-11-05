@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121027035231) do
+ActiveRecord::Schema.define(:version => 20121105032913) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(:version => 20121027035231) do
 
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
   add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
+
+  create_table "gardens", :force => true do |t|
+    t.string   "name",       :null => false
+    t.integer  "user_id",    :null => false
+    t.string   "slug",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
+  add_index "gardens", ["user_id"], :name => "index_gardens_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
