@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121105035239) do
+ActiveRecord::Schema.define(:version => 20121105052119) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false

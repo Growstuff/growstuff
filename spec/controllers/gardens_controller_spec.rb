@@ -20,11 +20,14 @@ require 'spec_helper'
 
 describe GardensController do
 
+  @user = User.create(:username => 'testuser', :email => 'testuser@example.com', :password => 'testuser' )
+  @user.confirm!
+
   # This should return the minimal set of attributes required to create a valid
   # Garden. As you add validations to Garden, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {:name => 'My Garden'}
+    {:name => 'My Garden', :user_id => @user.id }
   end
 
   # This should return the minimal set of values that should be in the session
