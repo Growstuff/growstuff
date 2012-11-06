@@ -1,0 +1,4 @@
+- content_for :title, "#{@user.username}"
+
+%p
+  = "A Growstuff member since #{@user.created_at.strftime("%B %d, %Y")}."
