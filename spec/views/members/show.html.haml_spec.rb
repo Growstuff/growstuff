@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "profile/show" do
+describe "members/show" do
   before(:each) do
     @user = assign(:user, stub_model(User,
       :username => "pie",
@@ -12,7 +12,7 @@ describe "profile/show" do
 
   it "shows account creation date" do
     render
-    rendered.should contain "A Growstuff user since"
+    rendered.should contain "A Growstuff member since"
   end
 
 end
