@@ -16,7 +16,6 @@ describe "crops/edit" do
   end
 
   context "logged in" do
-
     before(:each) do
       @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
       @user.confirm!
@@ -26,7 +25,6 @@ describe "crops/edit" do
 
     it "renders the edit crop form" do
       render
-
       # Run the generator again with the --webrat flag if you want to use webrat matchers
       assert_select "form", :action => crops_path(@crop), :method => "post" do
         assert_select "input#crop_system_name", :name => "crop[system_name]"
@@ -34,5 +32,4 @@ describe "crops/edit" do
       end
     end
   end
-
 end

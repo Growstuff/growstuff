@@ -1,4 +1,6 @@
 Growstuff::Application.routes.draw do
+  resources :scientific_names
+
   resources :crops, :members
 
   devise_for :users
