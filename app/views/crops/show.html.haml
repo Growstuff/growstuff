@@ -1,6 +1,13 @@
 - content_for :title, @crop.system_name
 
 %p
+  %b Scientific names:
+
+%ul
+  - @crop.scientific_names.each do |sn|
+    %li= sn.scientific_name
+
+%p
   %b More information:
   = link_to @crop.en_wikipedia_url, @crop.en_wikipedia_url
 
