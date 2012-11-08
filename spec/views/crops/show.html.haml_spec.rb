@@ -3,9 +3,25 @@ require 'spec_helper'
 describe "crops/show" do
   before(:each) do
     @crop = assign(:crop, stub_model(Crop,
-      :system_name => "System Name",
-      :en_wikipedia_url => "En Wikipedia Url"
+      :id => 1,
+      :system_name => "Corn",
+      :en_wikipedia_url => "http://en.wikipedia.org/Maize"
     ))
+    @crop.scientific_names.create(
+      :scientific_name => "Zea mays",
+      :crop_id => 1
+    )
+  end
+
+  it "shows the wikipedia URL" do
+    render
+    rendered.should contain "en.wikipedia.org"
+  end
+
+  it "shows the scientific name" do
+    render
+    rendered.should contain "Scientific names"
+    rendered.should contain "Zea mays"
   end
 
   context "logged out" do

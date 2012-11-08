@@ -1,0 +1,21 @@
+%h1 Listing scientific_names
+
+%table
+  %tr
+    %th Scientific name
+    %th Crop
+    %th
+    %th
+    %th
+
+  - @scientific_names.each do |scientific_name|
+    %tr
+      %td= scientific_name.scientific_name
+      %td= scientific_name.crop_id
+      %td= link_to 'Show', scientific_name
+      %td= link_to 'Edit', edit_scientific_name_path(scientific_name)
+      %td= link_to 'Destroy', scientific_name, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Scientific name', new_scientific_name_path
