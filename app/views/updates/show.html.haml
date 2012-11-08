@@ -1,13 +1,10 @@
-%p#notice= notice
+= content_for :title, @update.subject
 
 %p
-  %b User:
-  = @update.user_id
+  %i
+    = "By #{@update.user.username} at #{@update.created_at}"
+
 %p
-  %b Subject:
-  = @update.subject
-%p
-  %b Body:
   = @update.body
 
 = link_to 'Edit', edit_update_path(@update)

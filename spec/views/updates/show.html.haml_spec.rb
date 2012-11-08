@@ -2,8 +2,10 @@ require 'spec_helper'
 
 describe "updates/show" do
   before(:each) do
+    user = User.create! :username => "test_user", :email => "test@example.com",
+      :password => "password"
     @update = assign(:update, stub_model(Update,
-      :user_id => 1,
+      :user_id => user.id,
       :subject => "Subject",
       :body => "MyText"
     ))
@@ -11,9 +13,8 @@ describe "updates/show" do
 
   it "renders attributes in <p>" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/1/)
-    rendered.should match(/Subject/)
+    rendered.should match(/test_user/)
+    # Subject goes in title
     rendered.should match(/MyText/)
   end
 end
