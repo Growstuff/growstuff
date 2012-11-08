@@ -40,6 +40,7 @@ class UpdatesController < ApplicationController
   # POST /updates
   # POST /updates.json
   def create
+    params[:update][:user_id] = current_user.id
     @update = Update.new(params[:update])
 
     respond_to do |format|

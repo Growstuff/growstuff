@@ -20,11 +20,18 @@ require 'spec_helper'
 
 describe UpdatesController do
 
+  login_user
+
   # This should return the minimal set of attributes required to create a valid
   # Update. As you add validations to Update, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
     { :user_id => 1, :subject => "blah", :body => "blah blah" }
+  end
+
+  # The parameters required to be passed to a Web request.
+  def valid_web_attributes
+    { :subject => "blah", :body => "blah blah" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -37,7 +44,7 @@ describe UpdatesController do
   describe "GET index" do
     it "assigns all updates as @updates" do
       update = Update.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       assigns(:updates).should eq([update])
     end
   end
@@ -45,14 +52,14 @@ describe UpdatesController do
   describe "GET show" do
     it "assigns the requested update as @update" do
       update = Update.create! valid_attributes
-      get :show, {:id => update.to_param}, valid_session
+      get :show, {:id => update.to_param}
       assigns(:update).should eq(update)
     end
   end
 
   describe "GET new" do
     it "assigns a new update as @update" do
-      get :new, {}, valid_session
+      get :new, {}
       assigns(:update).should be_a_new(Update)
     end
   end
@@ -60,7 +67,7 @@ describe UpdatesController do
   describe "GET edit" do
     it "assigns the requested update as @update" do
       update = Update.create! valid_attributes
-      get :edit, {:id => update.to_param}, valid_session
+      get :edit, {:id => update.to_param}
       assigns(:update).should eq(update)
     end
   end
@@ -69,18 +76,18 @@ describe UpdatesController do
     describe "with valid params" do
       it "creates a new Update" do
         expect {
-          post :create, {:update => valid_attributes}, valid_session
+          post :create, {:update => valid_web_attributes}
         }.to change(Update, :count).by(1)
       end
 
       it "assigns a newly created update as @update" do
-        post :create, {:update => valid_attributes}, valid_session
+        post :create, {:update => valid_web_attributes}
         assigns(:update).should be_a(Update)
         assigns(:update).should be_persisted
       end
 
       it "redirects to the created update" do
-        post :create, {:update => valid_attributes}, valid_session
+        post :create, {:update => valid_web_attributes}
         response.should redirect_to(Update.last)
       end
     end
@@ -89,14 +96,14 @@ describe UpdatesController do
       it "assigns a newly created but unsaved update as @update" do
         # Trigger the behavior that occurs when invalid params are submitted
         Update.any_instance.stub(:save).and_return(false)
-        post :create, {:update => {}}, valid_session
+        post :create, {:update => {}}
         assigns(:update).should be_a_new(Update)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Update.any_instance.stub(:save).and_return(false)
-        post :create, {:update => {}}, valid_session
+        post :create, {:update => {}}
         response.should render_template("new")
       end
     end
@@ -111,18 +118,18 @@ describe UpdatesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Update.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => update.to_param, :update => {'these' => 'params'}}, valid_session
+        put :update, {:id => update.to_param, :update => {'these' => 'params'}}
       end
 
       it "assigns the requested update as @update" do
         update = Update.create! valid_attributes
-        put :update, {:id => update.to_param, :update => valid_attributes}, valid_session
+        put :update, {:id => update.to_param, :update => valid_attributes}
         assigns(:update).should eq(update)
       end
 
       it "redirects to the update" do
         update = Update.create! valid_attributes
-        put :update, {:id => update.to_param, :update => valid_attributes}, valid_session
+        put :update, {:id => update.to_param, :update => valid_attributes}
         response.should redirect_to(update)
       end
     end
@@ -132,7 +139,7 @@ describe UpdatesController do
         update = Update.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Update.any_instance.stub(:save).and_return(false)
-        put :update, {:id => update.to_param, :update => {}}, valid_session
+        put :update, {:id => update.to_param, :update => {}}
         assigns(:update).should eq(update)
       end
 
@@ -140,7 +147,7 @@ describe UpdatesController do
         update = Update.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Update.any_instance.stub(:save).and_return(false)
-        put :update, {:id => update.to_param, :update => {}}, valid_session
+        put :update, {:id => update.to_param, :update => {}}
         response.should render_template("edit")
       end
     end
@@ -150,13 +157,13 @@ describe UpdatesController do
     it "destroys the requested update" do
       update = Update.create! valid_attributes
       expect {
-        delete :destroy, {:id => update.to_param}, valid_session
+        delete :destroy, {:id => update.to_param}
       }.to change(Update, :count).by(-1)
     end
 
     it "redirects to the updates list" do
       update = Update.create! valid_attributes
-      delete :destroy, {:id => update.to_param}, valid_session
+      delete :destroy, {:id => update.to_param}
       response.should redirect_to(updates_url)
     end
   end
