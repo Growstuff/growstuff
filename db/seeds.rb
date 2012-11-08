@@ -10,8 +10,20 @@
 
 require 'csv'
 
+puts "Loading crops..."
 CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
   system_name,scientific_name,en_wikipedia_url = row
   @crop = Crop.create(:system_name => system_name, :en_wikipedia_url => en_wikipedia_url)
   @crop.scientific_names.create(:scientific_name => scientific_name)
 end
+puts "Finished loading crops"
+
+puts "Loading test users..."
+if Rails.env.development? or Rails.env.test?
+  (1..3).each do |i|
+    @user = User.create(:username => "test#{i}", :email => "test#{i}@example.com", :password => "password#{i}")
+    @user.confirm!
+    @user.save!
+  end
+end
+puts "Finished loading test users"
