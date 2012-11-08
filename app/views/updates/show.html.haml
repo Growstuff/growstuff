@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @update.user_id
+%p
+  %b Subject:
+  = @update.subject
+%p
+  %b Body:
+  = @update.body
+
+= link_to 'Edit', edit_update_path(@update)
+\|
+= link_to 'Back', updates_path
