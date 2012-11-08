@@ -2,7 +2,9 @@
 
 %p
   %i
-    = "By #{@update.user.username} at #{@update.created_at}"
+    = "By "
+    = link_to @update.user.username, member_path(@update.user)
+    = " at #{@update.created_at}"
 
 %p
   = @update.body
