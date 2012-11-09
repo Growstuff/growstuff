@@ -1,13 +1,6 @@
 = content_for :title, @update.subject
 
-%p
-  %i
-    = "By "
-    = link_to @update.user.username, member_path(@update.user)
-    = " at #{@update.created_at}"
-
-%p
-  = @update.body
+= render :partial => "single", :locals => { :update => @update, :subject => false }
 
 = link_to 'Edit', edit_update_path(@update)
 \|

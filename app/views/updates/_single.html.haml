@@ -1,5 +1,6 @@
 %div.update
-  %h3= link_to update.subject, update
+  - if subject
+    %h3= link_to strip_tags(update.subject), update
 
   %div.update-meta
     Posted by
@@ -7,7 +8,9 @@
     at
     = update.created_at
 
-  %div.update-body= update.body
+  %div.update-body
+    :markdown
+      #{ strip_tags update.body }
 
   - if current_user == update.user
     %div.update-actions

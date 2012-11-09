@@ -6,4 +6,4 @@
 %h3 Updates
 %table
   - @user.updates.each do |update|
-    = render :partial => "updates/single", :locals => { :update => update }
+    = render :partial => "updates/single", :locals => { :update => update, :subject => true }
