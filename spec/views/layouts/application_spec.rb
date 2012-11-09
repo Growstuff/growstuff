@@ -35,6 +35,10 @@ describe 'layouts/application.html.haml', :type => "view" do
       rendered.should contain 'growstuff@example.com'
     end
 
+    it 'should have a "Post update" link' do
+      rendered.should contain 'Post an update'
+    end
+
     it 'should show logout link' do
       rendered.should contain 'Log out'
     end

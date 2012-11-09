@@ -2,3 +2,8 @@
 
 %p
   = "A Growstuff member since #{@user.created_at.strftime("%B %d, %Y")}."
+
+%h3 Updates
+%table
+  - @user.updates.each do |update|
+    = render :partial => "updates/single", :locals => { :update => update, :subject => true }

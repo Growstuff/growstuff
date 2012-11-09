@@ -48,7 +48,8 @@ gem 'capistrano-ext'
 # To use debugger
 # gem 'debugger'
 
-#  GROWSTUFF ADDITIONS BELOW HERE
+# Markdown formatting for updates etc
+gem 'bluecloth'
 
 # user signup/login/etc
 gem 'devise'
