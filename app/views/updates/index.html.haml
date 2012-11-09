@@ -1,23 +1,6 @@
-%h1 Listing updates
+= content_for :title, "Recent Growstuff member updates"
 
-%table
-  %tr
-    %th User
-    %th Subject
-    %th Body
-    %th
-    %th
-    %th
-
-  - @updates.each do |update|
-    %tr
-      %td= update.user_id
-      %td= update.subject
-      %td= update.body
-      %td= link_to 'Show', update
-      %td= link_to 'Edit', edit_update_path(update)
-      %td= link_to 'Destroy', update, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
+- @updates.each do |update|
+  = render :partial => "single", :locals => { :update => update }
 
 = link_to 'New Update', new_update_path

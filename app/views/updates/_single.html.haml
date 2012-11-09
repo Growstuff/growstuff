@@ -1,0 +1,15 @@
+%div.update
+  %h3= link_to update.subject, update
+
+  %div.update-meta
+    Posted by
+    = link_to update.user.username, member_path(update.user)
+    at
+    = update.created_at
+
+  %div.update-body= update.body
+
+  - if current_user == update.user
+    %div.update-actions
+      = link_to 'Edit', edit_update_path(update)
+      = link_to 'Delete', update, method: :delete, data: { confirm: 'Are you sure?' }

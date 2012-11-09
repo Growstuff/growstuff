@@ -5,7 +5,5 @@
 
 %h3 Updates
 %table
-  - @user.updates.order("created_at desc").each do |update|
-    %tr
-      %td= link_to update.subject, update
-      %td= update.created_at
+  - @user.updates.each do |update|
+    = render :partial => "updates/single", :locals => { :update => update }
