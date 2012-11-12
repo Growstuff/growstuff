@@ -2,6 +2,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href='http://fonts.googleapis.com/css?family=Sevillana' rel='stylesheet' type='text/css'>
+
+  = auto_discovery_link_tag(:rss, { :controller => "updates", :format => "rss" }, { :title => "Recent Growstuff members' updates" })
+  - if (content_for?(:member_rss_username) && content_for(:member_rss_slug))
+    = auto_discovery_link_tag(:rss, { :controller => "members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "#{yield(:member_rss_username)}'s Growstuff updates" })
+
   %title
     = content_for?(:title) ? yield(:title) + " - Growstuff" : "Growstuff"
   = stylesheet_link_tag    "application", :media => "all"
