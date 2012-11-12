@@ -5,7 +5,7 @@ xml.rss :version => "2.0" do
     xml.description "Recent updates from Growstuff members"
     xml.link updates_url
 
-    for update in @updates
+    for update in @recent_updates
       xml.item do
         xml.author update.user.username
         xml.title update.subject

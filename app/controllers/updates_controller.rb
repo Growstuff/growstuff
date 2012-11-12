@@ -4,6 +4,7 @@ class UpdatesController < ApplicationController
 
   def index
     @updates = Update.all
+    @recent_updates = Update.limit(100).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.erb
