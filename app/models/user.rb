@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :username, use: :slugged
 
+  has_many :updates
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable

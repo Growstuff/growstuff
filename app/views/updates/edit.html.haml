@@ -1,0 +1,14 @@
+= content_for :title, "Edit update"
+
+- if user_signed_in?
+  = form_for @update do |f|
+    = label_tag :subject, "Subject"
+    = f.text_field :subject
+    = f.text_area :body, :size => "60x12"
+    = f.submit "Post"
+- else
+  %div.alert-box.alert You're not logged in. Only logged in users can do this.
+
+= link_to 'Show', @update
+\|
+= link_to 'Back', updates_path

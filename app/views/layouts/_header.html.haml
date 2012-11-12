@@ -6,6 +6,8 @@
           You are signed in as
           = link_to current_user.username, member_path(current_user)
         %li
+          = link_to("Post an update", new_update_path)
+        %li
           = link_to("Log out", destroy_user_session_path, :method => :delete)
     - else
       %ul.link-list
