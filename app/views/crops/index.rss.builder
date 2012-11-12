@@ -1,8 +1,7 @@
 xml.instruct! :xml, :version => "1.0" 
 xml.rss :version => "2.0" do
   xml.channel do
-    xml.title "Growstuff new crops"
-    xml.description "New crops added to Growstuff"
+    xml.title "Growstuff - Recently added crops"
     xml.link crops_url
 
     for crop in @new_crops
