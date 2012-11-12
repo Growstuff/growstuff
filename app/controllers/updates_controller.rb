@@ -1,12 +1,15 @@
 class UpdatesController < ApplicationController
   # GET /updates
   # GET /updates.json
+  
   def index
     @updates = Update.all
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @updates }
+      format.rss { render :layout => false } #index.rss.builder
+
     end
   end
 
