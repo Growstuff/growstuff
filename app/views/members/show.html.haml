@@ -18,10 +18,10 @@
   .tab-content
     .tab-pane.active#tab1
       %ul.thumbnails
-        = (1..6).each do
+        - (1..6).each do
           %li.span2
             .thumbnail
-              = image_tag('http://placehold.it/150x150')
+              = image_tag('http://placehold.it/150x150', :alt => '')
               %h4 Some crop
               %p Planted YYYY-MM-DD.  99 updates.
 

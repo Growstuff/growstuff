@@ -4,7 +4,7 @@
   - @crops.each do |crop|
     %li.span3
       .thumbnail
-        = image_tag('http://placehold.it/250x250')
+        = image_tag('http://placehold.it/250x250', :alt => '')
         %h3= link_to crop.system_name, crop
         - if crop.scientific_names.count > 0
           %p
