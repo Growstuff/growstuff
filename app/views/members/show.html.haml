@@ -4,7 +4,7 @@
 
 .row
   .span3
-    =image_tag('http://placehold.it/150x150', :alt => '')
+    =image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
     %h4= @member.username
 
     %p
@@ -26,7 +26,7 @@
             - (1..4).each do
               %li.span2
                 .thumbnail
-                  = image_tag('http://placehold.it/150x150', :alt => '')
+                  = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
                   %h4 Some crop
                   %p Planted YYYY-MM-DD.  99 updates.
 

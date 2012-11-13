@@ -3,10 +3,10 @@
 .row-fluid
   .span9
     %ul.thumbnails
-      - (1..3).each do
-        %li.span4
+      - (1..4).each do
+        %li.span3
           .thumbnail
-            = image_tag('http://placehold.it/250x250', :alt => '')
+            = image_tag('http://placehold.it/200x200', :alt => '', :class => 'img-rounded')
 
     %h2 Who's growing this?
     - (1..5).each do
