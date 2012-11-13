@@ -1,11 +1,13 @@
-= content_for :title, "New update"
+= content_for :title, "Post an update"
 
 - if user_signed_in?
   = form_for @update, :url => { :action => "create" } do |f|
-    = label_tag :subject, "Subject"
-    = f.text_field :subject
-    = f.text_area :body, :size => "60x12"
-    = f.submit "Post"
+    %fieldset
+      = label_tag :update, "Subject"
+      = f.text_field :subject, :class => 'input-block-level'
+      = label_tag :body, "What's going on in your food garden?"
+      = f.text_area :body, :rows => 12, :class => 'input-block-level'
+      = f.submit "Post", :class => 'btn'
 - else
   %div.alert-box.alert You're not logged in. Only logged in users can do this.
 
