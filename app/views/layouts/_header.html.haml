@@ -10,6 +10,7 @@
         %ul.nav
           %li= link_to "Home", root_path
           %li= link_to "Crops", crops_path
+          %li= link_to "Members", members_path
           %li= link_to "Updates", updates_path
           - if user_signed_in?
             %li= link_to("Post an update", new_update_path)

@@ -1,9 +1,11 @@
-- content_for :title, "#{@user.username}"
+- content_for :title, "#{@member.username}"
+- content_for :member_rss_username, "#{@member.username}"
+- content_for :member_rss_slug, "#{@member.slug}"
 
 %p
-  = "A Growstuff member since #{@user.created_at.strftime("%B %d, %Y")}."
+  = "A Growstuff member since #{@member.created_at.strftime("%B %d, %Y")}."
 
 %h3 Updates
 %table
-  - @user.updates.each do |update|
+  - @member.updates.each do |update|
     = render :partial => "updates/single", :locals => { :update => update, :subject => true }
