@@ -17,7 +17,6 @@ class MembersController < ApplicationController
       format.json { render json: @member }
       format.rss { render(
         :layout => false,
-        :locals => { :updates => @updates, :member => @member }
       )}
     end
   end
