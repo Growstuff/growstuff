@@ -1,9 +1,15 @@
 - content_for :title, "Crops"
 
-%ul
+%ul.thumbnails
   - @crops.each do |crop|
-    %li
-      = link_to crop.system_name, crop
+    %li.span3
+      .thumbnail
+        = image_tag('http://placehold.it/250x250')
+
+        %h3= link_to crop.system_name, crop
+        %p
+          %i
+            = crop.scientific_names.first.scientific_name
 
 - if user_signed_in?
   %div
