@@ -1,5 +1,4 @@
-
-.navbar.navbar-fixed-top
+.navbar.navbar-static-top
   .navbar-inner
     .container
       %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
@@ -9,10 +8,14 @@
       %a.brand(href="#") Growstuff
       .container.nav-collapse
         %ul.nav
+          %li= link_to "Crops", crops_path
+          %li= link_to "Updates", updates_path
           - if user_signed_in?
-            %li= link_to current_user.username, member_path(current_user)
             %li= link_to("Post an update", new_update_path)
-            %li= link_to("Log out", destroy_user_session_path, :method => :delete)
+            %li.divider-vertical
+            %li= link_to current_user.username, member_path(current_user)
+            %li= link_to "Log out", destroy_user_session_path, :method => :delete
           - else
-            %li= link_to('Sign up', new_user_registration_path)
-            %li= link_to('Log in', new_user_session_path)
+            %li.divider-vertical
+            %li= link_to 'Sign up', new_user_registration_path
+            %li= link_to 'Log in', new_user_session_path
