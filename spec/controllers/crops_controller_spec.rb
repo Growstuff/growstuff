@@ -42,6 +42,15 @@ describe CropsController do
     end
   end
 
+  describe "GET RSS feed" do
+    it "returns an RSS feed" do
+      get :index, :format => "rss"
+      response.should be_success
+      response.should render_template("crops/index")
+      response.content_type.should eq("application/rss+xml")
+    end
+  end
+
   describe "GET show" do
     it "assigns the requested crop as @crop" do
       crop = Crop.create! valid_attributes

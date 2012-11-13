@@ -1,9 +1,26 @@
 %head
+<<<<<<< HEAD
   %meta(charset="utf-8")
   %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
   %meta(name="viewport" content="width=device-width, initial-scale=1.0")
 
   %title= content_for?(:title) ? yield(:title) + " - Growstuff" : "Growstuff"
+=======
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href='http://fonts.googleapis.com/css?family=Sevillana' rel='stylesheet' type='text/css'>
+
+  - if (content_for?(:member_rss_username) && content_for(:member_rss_slug))
+    = auto_discovery_link_tag(:rss, { :controller => "members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "Growstuff - #{yield(:member_rss_username)}'s updates" })
+  = auto_discovery_link_tag(:rss, { :controller => "updates", :format => "rss" }, { :title => "Growstuff - Recent updates from all members" })
+  = auto_discovery_link_tag(:rss, { :controller => "crops", :format => "rss" }, { :title => "Growstuff - Recently added crops" })
+
+  %title
+    = content_for?(:title) ? yield(:title) + " - Growstuff" : "Growstuff"
+  = stylesheet_link_tag    "application", :media => "all"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+>>>>>>> 9f70027f872c93cae57f68f0124f0fff222cdeee
 
   - if (content_for?(:member_rss_username) && content_for(:member_rss_slug))
     = auto_discovery_link_tag(:rss, { :controller => "members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "Growstuff - #{yield(:member_rss_username)}'s updates" })
