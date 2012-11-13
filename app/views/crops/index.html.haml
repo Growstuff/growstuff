@@ -6,9 +6,10 @@
       .thumbnail
         = image_tag('http://placehold.it/250x250')
         %h3= link_to crop.system_name, crop
-        %p
-          %i
-            = crop.scientific_names.first.scientific_name
+        - if crop.scientific_names.count > 0
+          %p
+            %i
+              = crop.scientific_names.first.scientific_name
 
 - if user_signed_in?
   %div
