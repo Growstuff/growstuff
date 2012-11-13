@@ -1,16 +1,28 @@
-%html
+!!! 5
+%html(lang="en")
   = render :partial => "layouts/meta"
   %body
     = render :partial => "layouts/header"
-    .row
-      .ten.columns
-        - if content_for?(:title)
-          %h2=yield(:title)
-        - if notice
-          %div.alert-box.success
-            = notice
-        - if alert
-          %div.alert-box.alert
-            = alert
-        = yield
-    = render :partial => "layouts/footer"
+
+    .container
+
+      .row
+        .span9
+          = bootstrap_flash
+          = yield
+        .span3
+          .well.sidebar-nav
+            %h3 Sidebar
+            %ul.nav.nav-list
+              %li.nav-header Sidebar
+              %li= link_to "Link 1", "/path1"
+              %li= link_to "Link 2", "/path2"
+              %li= link_to "Link 3", "/path3"
+    
+      %footer
+        = render :partial => "layouts/footer"
+    /
+      Javascripts
+      \==================================================
+    / Placed at the end of the document so the pages load faster
+    = javascript_include_tag "application"

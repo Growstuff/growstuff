@@ -1,25 +1,18 @@
-.row
-  .ten.columns
-    - if user_signed_in?
-      %ul.link-list
-        %li
-          You are signed in as
-          = link_to current_user.username, member_path(current_user)
-        %li
-          = link_to("Post an update", new_update_path)
-        %li
-          = link_to("Log out", destroy_user_session_path, :method => :delete)
-    - else
-      %ul.link-list
-        %li
-          = link_to('Sign up', new_user_registration_path)
-        %li
-          = link_to('Log in', new_user_session_path)
 
-.row
-  .ten.columns
-    %h1
-      = link_to('Growstuff', root_path)
-      %small
-        development site
-
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container
+      %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.brand(href="#") Growstuff
+      .container.nav-collapse
+        %ul.nav
+          - if user_signed_in?
+            %li= link_to current_user.username, member_path(current_user)
+            %li= link_to("Post an update", new_update_path)
+            %li= link_to("Log out", destroy_user_session_path, :method => :delete)
+          - else
+            %li= link_to('Sign up', new_user_registration_path)
+            %li= link_to('Log in', new_user_session_path)
