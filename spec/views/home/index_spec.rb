@@ -9,10 +9,6 @@ describe 'home/index.html.haml', :type => "view" do
     rendered.should contain 'Crops'
   end
 
-  it 'links to the members page' do
-    rendered.should contain 'Members'
-  end
-
   it 'links to the updates page' do
     rendered.should contain 'Recent updates'
   end

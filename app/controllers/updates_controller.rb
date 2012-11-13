@@ -1,15 +1,12 @@
 class UpdatesController < ApplicationController
   # GET /updates
   # GET /updates.json
-
   def index
     @updates = Update.all
-    @recent_updates = Update.limit(100).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @updates }
-      format.rss { render :layout => false } #index.rss.builder
     end
   end
 

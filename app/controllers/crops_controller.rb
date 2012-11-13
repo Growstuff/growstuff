@@ -3,12 +3,10 @@ class CropsController < ApplicationController
   # GET /crops.json
   def index
     @crops = Crop.all
-    @new_crops = Crop.limit(20).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @crops }
-      format.rss { render :layout => false }
     end
   end
 

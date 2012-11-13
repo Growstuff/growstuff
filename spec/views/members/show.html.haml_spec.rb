@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "members/show" do
   before(:each) do
-    @member = assign(:user, stub_model(User,
+    @user = assign(:user, stub_model(User,
       :username => "pie",
       :password => "steak&kidney",
       :email => "steak-and-kidney@pie.com",
