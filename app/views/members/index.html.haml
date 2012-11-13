@@ -1,6 +1,9 @@
 = content_for :title, "Growstuff members"
 
-%ul
+%ul.thumbnails
   - @members.each do |m|
-    %li= link_to m.username, member_path(m)
+    %li.span2
+      .thumbnail
+        = image_tag('http://placehold.it/150x150')
+        %h3= link_to m.username, member_path(m)
 

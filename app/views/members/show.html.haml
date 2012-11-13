@@ -5,6 +5,32 @@
 %p
   = "A Growstuff member since #{@member.created_at.strftime("%B %d, %Y")}."
 
+%h3 Gardens
+
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to 'My Garden', '#tab1', 'data-toggle' => 'tab'
+    %li
+      = link_to '2nd Garden', '#tab2', 'data-toggle' => 'tab'
+    %li
+      = link_to '3nd Garden', '#tab3', 'data-toggle' => 'tab'
+  .tab-content
+    .tab-pane.active#tab1
+      %ul.thumbnails
+        = (1..6).each do
+          %li.span2
+            .thumbnail
+              = image_tag('http://placehold.it/150x150')
+              %h4 Some crop
+              %p Planted YYYY-MM-DD.  99 updates.
+
+    .tab-pane#tab2
+      Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+    .tab-pane#tab3
+      Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+
+
 %h3 Updates
 %table
   - @member.updates.each do |update|
