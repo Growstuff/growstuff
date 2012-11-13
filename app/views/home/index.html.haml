@@ -1,6 +1,22 @@
-%p
-  Growstuff is a community of food gardeners working together to build an open source platform to track, share, and discuss edible gardens and sustainable lifestyles. You can join us right now and be part of growing our website, from seed to harvest. We welcome you regardless of your experience, and invite you to be part of our development process.
+.hero-unit
+  %h1
+    Growstuff
+    %small development site
 
-%ul
-  %li= link_to "Crops", crops_path
-  %li= link_to "Recent updates", updates_path
+  %p Growstuff is a community of food gardeners working together to build an open source platform to track, share, and discuss edible gardens and sustainable lifestyles. You can join us right now and be part of growing our website, from seed to harvest. We welcome you regardless of your experience, and invite you to be part of our development process.
+
+  %p
+    %a.btn.btn-primary.btn-large Learn more &raquo;
+
+.row
+  .span4
+    %h2 Crops
+    %p See our database of food crops, learn about how to grow them, and see who else is planting and harvesting them right now.
+    %p= link_to "Crops...", crops_path
+  .span4
+    %h2 Members
+    %p Meet our members -- food gardeners from all around the world!
+  .span4
+    %h2 Updates
+    %p Read updates from our members, telling you what they're growing and planning for their food gardens.
+    %p= link_to "Recent updates...", updates_path
