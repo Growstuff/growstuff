@@ -1,27 +1,10 @@
 - content_for :title, @crop.system_name
 
 .row-fluid
-  .span3
-    %h3 Scientific names:
-
-    %ul
-      - @crop.scientific_names.each do |sn|
-        %li= sn.scientific_name
-
-    %h3 More information:
-
-    %ul
-      %li= link_to @crop.en_wikipedia_url, @crop.en_wikipedia_url
-
-    %ul.link-list
-      - if user_signed_in?
-        %li= link_to 'Edit', edit_crop_path(@crop), { :class => 'button' }
-        %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?', :class => 'button' }
-
   .span9
     %ul.thumbnails
       - (1..3).each do
-        %li.span3
+        %li.span4
           .thumbnail
             = image_tag('http://placehold.it/250x250')
 
@@ -29,4 +12,17 @@
     - (1..5).each do
       .well
         %h4 Some person
-        %p These would contain updates from members who are growing this crop.
+        %p These blocks would contain recent updates from members who are growing this crop.
+
+  .span3
+    %h3 Scientific names:
+    %ul
+      - @crop.scientific_names.each do |sn|
+        %li= sn.scientific_name
+    %h3 More information:
+    %ul
+      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+    %ul.link-list
+      - if user_signed_in?
+        %li= link_to 'Edit', edit_crop_path(@crop), { :class => 'button' }
+        %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?', :class => 'button' }
