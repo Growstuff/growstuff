@@ -1,0 +1,6 @@
+= content_for :title, "Growstuff members"
+
+%ul
+  - @members.each do |m|
+    %li= link_to m.username, member_path(m)
+
