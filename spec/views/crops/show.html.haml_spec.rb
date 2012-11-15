@@ -15,7 +15,7 @@ describe "crops/show" do
 
   it "shows the wikipedia URL" do
     render
-    rendered.should contain "en.wikipedia.org"
+    assert_select("a[href=#{@crop.en_wikipedia_url}]", 'Wikipedia (English)')
   end
 
   it "shows the scientific name" do

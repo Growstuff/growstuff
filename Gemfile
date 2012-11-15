@@ -22,11 +22,12 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # long term, we'll probably want node.js for performance, but this will do for now as it's easier for new people to install
   gem 'therubyracer', :platforms => :ruby
+  gem "less-rails"
+  gem "twitter-bootstrap-rails"
 
   gem 'uglifier', '>= 1.0.3'
 
   gem 'compass-rails', '~> 1.0.3'
-  gem 'zurb-foundation', '~> 3.0.9'
 end
 
 gem 'jquery-rails'
