@@ -35,7 +35,6 @@ describe 'layouts/application.html.haml', :type => "view" do
     end
 
     it 'should show username' do
-      rendered.should contain 'You are signed in as'
       rendered.should contain 'test_user'
     end
 

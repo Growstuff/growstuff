@@ -1,7 +1,3 @@
 = content_for :title, @update.subject
 
 = render :partial => "single", :locals => { :update => @update, :subject => false }
-
-= link_to 'Edit', edit_update_path(@update)
-\|
-= link_to 'Back', updates_path
