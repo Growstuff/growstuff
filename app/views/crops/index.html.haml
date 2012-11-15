@@ -1,15 +1,21 @@
 - content_for :title, "Crops"
+- c = 0
 
 %ul.thumbnails
+  .row
   - @crops.each do |crop|
+    - c += 1
     %li.span2
-      .thumbnail
+      .thumbnail(style='height: 200px')
         = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-        %h3= link_to crop.system_name, crop
+        %p= link_to crop.system_name, crop
         - if crop.scientific_names.count > 0
           %p
             %i
-              = crop.scientific_names.first.scientific_name
+              %small
+                = crop.scientific_names.first.scientific_name
+    - if (c % 6) == 0
+      .row
 
 - if user_signed_in?
   %div
