@@ -22,7 +22,7 @@
     %h3 More information:
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
-    %ul.link-list
+    %p
       - if user_signed_in?
-        %li= link_to 'Edit', edit_crop_path(@crop), { :class => 'button' }
-        %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?', :class => 'button' }
+        = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn' }
+        = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
