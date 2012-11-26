@@ -2,10 +2,8 @@
 
 - if user_signed_in?
   = render 'form'
-  %ul.link-list
-    %li
-    = link_to 'Show', @crop, { :class => 'button' }
-    %li
-    = link_to 'Back', crops_path, { :class => 'button' }
+  %p
+    = link_to 'Show', @crop, { :class => 'btn' }
+    = link_to 'Back', crops_path, { :class => 'btn' }
 - else
-  %div.alert-box.alert You're not logged in. Only logged in users can do this.
+  %div.alert You're not logged in. Only logged in users can do this.

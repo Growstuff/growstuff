@@ -5,10 +5,6 @@ describe 'home/index.html.haml', :type => "view" do
     render
   end
 
-  it 'links to the crops page' do
-    rendered.should contain 'Crops'
-  end
-
   it 'should have description' do
     render
     rendered.should contain 'Growstuff is a community of food gardeners'

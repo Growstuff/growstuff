@@ -1,8 +1,9 @@
 Growstuff::Application.routes.draw do
   resources :gardens
-
-  resources :crops, :profile
-
+  resources :updates
+  resources :scientific_names
+  resources :crops
+  resources :members
   devise_for :users
 
   get "home/index"

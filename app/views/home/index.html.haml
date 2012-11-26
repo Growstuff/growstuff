@@ -1,5 +1,42 @@
-%p
-  Growstuff is a community of food gardeners working together to build an open source platform to track, share, and discuss edible gardens and sustainable lifestyles. You can join us right now and be part of growing our website, from seed to harvest. We welcome you regardless of your experience, and invite you to be part of our development process.
+.hero-unit
+  %h1
+    Growstuff
+    %small development site
 
-%p
-  = link_to "Crops", crops_path
+  %p Growstuff is a community of food gardeners working together to build an open source platform to track, share, and discuss edible gardens and sustainable lifestyles. You can join us right now and be part of growing our website, from seed to harvest. We welcome you regardless of your experience, and invite you to be part of our development process.
+
+  %p= link_to 'Learn more', 'http://wiki.growstuff.org/', :class => 'btn btn-primary btn-large'
+
+.row
+  .span3
+    %h2 Track
+    %p
+      Track your garden, your
+      = link_to 'crops', crops_path
+      , and everything to do with them. |
+      Remember what you planted or harvested, and plan for what you want to do next. |
+      Import and export your data to a spreadsheet or other format.
+
+  .span3
+    %h2 Connect
+    %p
+      Connect with friends, people who live in your area, or others |
+      who share your gardening interests.  Show off your crops and |
+      harvests, share updates and tips, and
+      = link_to 'see', updates_path
+      what everyone else is doing, too.
+  .span3
+    %h2 Learn
+    %p
+      Browse our
+      = link_to 'crops', crops_path
+      database and learn about food plants for your
+      climate and garden type.  Read other 
+      = link_to "members' updates", updates_path
+      and tips, or post questions and discuss food gardening issues in our forums.
+  .span3
+    %h2 Trade
+    %p
+      Use Growstuff as a marketplace for everything related to food
+      gardens.  Buy and sell, trade, or give away anything from seeds
+      to garden supplies, or find events and businesses in your area.

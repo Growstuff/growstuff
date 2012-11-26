@@ -18,6 +18,7 @@ describe 'user' do
     @user2 = User.find_by_email('example@example.com')
     @user2.email.should == "example@example.com"
     @user2.username.should == "someone"
+    @user2.slug.should == "someone"
     @user2.encrypted_password.should_not be_nil
   end
 

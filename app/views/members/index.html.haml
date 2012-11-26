@@ -1,0 +1,9 @@
+= content_for :title, "Growstuff members"
+
+%ul.thumbnails
+  - @members.each do |m|
+    %li.span2
+      .thumbnail
+        = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+        %h3= link_to m.username, member_path(m)
+

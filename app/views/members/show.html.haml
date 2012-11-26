@@ -1,0 +1,43 @@
+- content_for :title, "#{@member.username}"
+- content_for :member_rss_username, "#{@member.username}"
+- content_for :member_rss_slug, "#{@member.slug}"
+
+.row
+  .span3
+    =image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+    %h4= @member.username
+
+    %p
+      = "Member since: #{@member.created_at.strftime("%B %d, %Y")}."
+    %p Location: Unknown
+
+  .span9
+    .tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          = link_to 'My Garden', '#tab1', 'data-toggle' => 'tab'
+        %li
+          = link_to '2nd Garden', '#tab2', 'data-toggle' => 'tab'
+        %li
+          = link_to '3nd Garden', '#tab3', 'data-toggle' => 'tab'
+      .tab-content
+        .tab-pane.active#tab1
+          %ul.thumbnails
+            - (1..4).each do
+              %li.span2
+                .thumbnail
+                  = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+                  %h4 Some crop
+                  %p Planted YYYY-MM-DD.  99 updates.
+
+        .tab-pane#tab2
+          Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+        .tab-pane#tab3
+          Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+
+
+    %h3 Updates
+    %table
+      - @member.updates.each do |update|
+        = render :partial => "updates/single", :locals => { :update => update, :subject => true }
+

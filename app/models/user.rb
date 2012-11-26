@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :username, use: :slugged
+
+  has_many :updates
   has_many :gardens
 
   # Include default devise modules. Others available are:

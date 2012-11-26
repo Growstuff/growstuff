@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121105052119) do
+ActiveRecord::Schema.define(:version => 20121109130033) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -35,6 +35,23 @@ ActiveRecord::Schema.define(:version => 20121105052119) do
   add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
   add_index "gardens", ["user_id"], :name => "index_gardens_on_user_id"
 
+  create_table "scientific_names", :force => true do |t|
+    t.string   "scientific_name", :null => false
+    t.integer  "crop_id",         :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "updates", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.string   "subject",    :null => false
+    t.text     "body",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "updates", ["created_at", "user_id"], :name => "index_updates_on_created_at_and_user_id"
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -56,11 +73,13 @@ ActiveRecord::Schema.define(:version => 20121105052119) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "username"
+    t.string   "slug"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["slug"], :name => "index_users_on_slug", :unique => true
   add_index "users", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
 
 end

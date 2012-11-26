@@ -24,15 +24,22 @@ describe 'layouts/application.html.haml', :type => "view" do
   context "logged in" do
 
     before(:each) do
-      @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
+      @user = User.create(
+        :username => "test_user",
+        :email => "growstuff@example.com",
+        :password => "irrelevant"
+      )
       @user.confirm!
       sign_in @user
       render
     end
 
     it 'should show username' do
-      rendered.should contain 'You are signed in as'
-      rendered.should contain 'growstuff@example.com'
+      rendered.should contain 'test_user'
+    end
+
+    it 'should have a "Post update" link' do
+      rendered.should contain 'Post an update'
     end
 
     it 'should show logout link' do

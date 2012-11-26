@@ -1,0 +1,6 @@
+= content_for :title, "Recent Growstuff member updates"
+
+- @updates.each do |update|
+    = render :partial => "single", :locals => { :update => update, :subject => true }
+
+= link_to 'New Update', new_update_path

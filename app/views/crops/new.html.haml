@@ -1,5 +1,11 @@
 - content_for :title, "New crop"
 
-= render 'form'
+- if user_signed_in?
+  = render 'form'
+  %p
+    = link_to 'Show', @crop, { :class => 'btn' }
+    = link_to 'Back', crops_path, { :class => 'btn' }
+- else
+  %div.alert You're not logged in. Only logged in users can do this.
 
 = link_to 'Back', crops_path

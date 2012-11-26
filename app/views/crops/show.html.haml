@@ -1,10 +1,28 @@
 - content_for :title, @crop.system_name
 
-%p
-  %b More information:
-  = link_to @crop.en_wikipedia_url, @crop.en_wikipedia_url
+.row-fluid
+  .span9
+    %ul.thumbnails
+      - (1..4).each do
+        %li.span3
+          .thumbnail
+            = image_tag('http://placehold.it/200x200', :alt => '', :class => 'img-rounded')
 
-%ul.link-list
-  - if user_signed_in?
-    %li= link_to 'Edit', edit_crop_path(@crop), { :class => 'button' }
-    %li= link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?', :class => 'button' }
+    %h2 Who's growing this?
+    - (1..5).each do
+      .well
+        %h4 Some person
+        %p These blocks would contain recent updates from members who are growing this crop.
+
+  .span3
+    %h3 Scientific names:
+    %ul
+      - @crop.scientific_names.each do |sn|
+        %li= sn.scientific_name
+    %h3 More information:
+    %ul
+      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+    %p
+      - if user_signed_in?
+        = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn' }
+        = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
