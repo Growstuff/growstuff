@@ -40,9 +40,13 @@
           %p= link_to "More about #{@member.gardens.first.name}...", url_for(@member.gardens.first)
 
         .tab-pane#tab2
-          Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+          %div.alert
+            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+            Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
         .tab-pane#tab3
-          Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+          %div.alert
+            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+            Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
 
 
     %h3 Updates
