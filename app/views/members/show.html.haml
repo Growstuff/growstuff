@@ -15,20 +15,29 @@
     .tabbable
       %ul.nav.nav-tabs
         %li.active
-          = link_to 'My Garden', '#tab1', 'data-toggle' => 'tab'
+          = link_to @member.gardens.first.name, '#tab1', 'data-toggle' => 'tab'
         %li
           = link_to '2nd Garden', '#tab2', 'data-toggle' => 'tab'
         %li
           = link_to '3nd Garden', '#tab3', 'data-toggle' => 'tab'
       .tab-content
         .tab-pane.active#tab1
+
+          %div.alert
+            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+            Note: these are a random selection, and don't represent actual plantings
+
           %ul.thumbnails
             - (1..4).each do
               %li.span2
-                .thumbnail
-                  = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-                  %h4 Some crop
-                  %p Planted YYYY-MM-DD.  99 updates.
+                = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
+
+          %p
+            and 20 more crops including:
+            - (1..20).each do
+              = link_to random_crop.system_name, url_for(random_crop)
+
+          %p= link_to "More about #{@member.gardens.first.name}...", url_for(@member.gardens.first)
 
         .tab-pane#tab2
           Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
