@@ -14,12 +14,14 @@
   .span9
 
     %h2 What's planted here?
+    %div.alert
+      %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+      Note: these are a random selection, and don't represent actual plantings
+
     %ul.thumbnails
       - (1..8).each do
         %li.span2
-          .thumbnail
-            = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-            Crop name
+          = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
 
     %h2 Updates
 

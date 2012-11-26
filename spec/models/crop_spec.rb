@@ -1,4 +1,4 @@
-require 'spec_helper'
+rGkequire 'spec_helper'
 
 describe Crop do
   context 'all fields present' do
@@ -25,6 +25,20 @@ describe Crop do
     it 'should not save a crop without a system name' do
       @crop = Crop.new
       expect { @crop.save }.to raise_error ActiveRecord::StatementInvalid
+    end
+  end
+
+  context 'random' do
+    before(:each) do
+      @crop = Crop.new
+      @crop.system_name = "Tomato"
+      @crop.en_wikipedia_url = "http://en.wikipedia.org/wiki/Tomato"
+      @crop.save
+    end
+
+    it 'should find a random crop' do
+      @rand_crop = Crop.random
+      @rand_crop.system_name.should == 'Tomato'
     end
   end
 end
