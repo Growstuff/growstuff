@@ -12,22 +12,26 @@
       %li Some other garden
 
   .span9
+    .tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          = link_to 'Plantings', '#tab1', 'data-toggle' => 'tab'
+        %li
+          = link_to 'Updates', '#tab2', 'data-toggle' => 'tab'
+      .tab-content
+        .tab-pane.active#tab1
+          %div.alert
+            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+            Note: these are a random selection, and don't represent actual plantings
 
-    %h2 What's planted here?
-    %div.alert
-      %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-      Note: these are a random selection, and don't represent actual plantings
+          %ul.thumbnails
+            - (1..20).each do
+              %li.span2
+                = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
+        .tab-pane.active#tab2
+          %div.alert
+            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+            Note: in due these will be limited to only those updates that apply to this particular garden!
 
-    %ul.thumbnails
-      - (1..8).each do
-        %li.span2
-          = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
-
-    %h2 Updates
-
-    %div.alert
-      %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-      Note: in due these will be limited to only those updates that apply to this particular garden!
-
-    - @garden.user.updates.each do |update|
-      = render :partial => "updates/single", :locals => { :update => update, :subject => true }
+          - @garden.user.updates.each do |update|
+            = render :partial => "updates/single", :locals => { :update => update, :subject => true }
