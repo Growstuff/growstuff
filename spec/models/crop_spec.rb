@@ -1,4 +1,4 @@
-rGkequire 'spec_helper'
+require 'spec_helper'
 
 describe Crop do
   context 'all fields present' do
