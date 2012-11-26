@@ -1,15 +1,31 @@
-%p#notice= notice
+=content_for :title, "#{@garden.name} (#{@garden.user.username})"
 
-%p
-  %b Name:
-  = @garden.name
-%p
-  %b User:
-  = @garden.user_id
-%p
-  %b Slug:
-  = @garden.slug
 
-= link_to 'Edit', edit_garden_path(@garden)
-\|
-= link_to 'Back', gardens_path
+.row
+  .span3
+    =image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+    %h4= "Owner: #{@garden.user.username}"
+
+    %h4= "#{@garden.user.username}'s other gardens"
+    %ul
+      %li Some garden
+      %li Some other garden
+
+  .span9
+
+    %h2 What's planted here?
+    %ul.thumbnails
+      - (1..8).each do
+        %li.span2
+          .thumbnail
+            = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+            Crop name
+
+    %h2 Updates
+
+    %div.alert
+      %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+      Note: in due these will be limited to only those updates that apply to this particular garden!
+
+    - @garden.user.updates.each do |update|
+      = render :partial => "updates/single", :locals => { :update => update, :subject => true }
