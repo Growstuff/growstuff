@@ -36,7 +36,7 @@
             and 20 more crops including:
             - (1..20).each do
               - @crop = random_crop
-              - @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
+              = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
 
           %p= link_to "More about #{@member.gardens.first.name}...", url_for(@member.gardens.first)
 
