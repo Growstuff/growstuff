@@ -51,7 +51,6 @@
 
 
     %h3 Updates
-    %table
-      - @member.updates.each do |update|
-        = render :partial => "updates/single", :locals => { :update => update, :subject => true }
+    - @member.updates.each do |update|
+      = render :partial => "updates/single", :locals => { :update => update, :subject => true }
 
