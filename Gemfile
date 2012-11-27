@@ -70,4 +70,5 @@ group :development, :test do
   gem 'webrat'
   gem 'watchr'
   gem 'spork', '~> 0.9.0.rc'
+  gem 'icalendar' # for making the iteration calendar
 end
