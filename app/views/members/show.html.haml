@@ -23,7 +23,7 @@
       .tab-content
         .tab-pane.active#tab1
 
-          %div.alert
+          .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
             Note: these are a random selection, and don't represent actual plantings
 
@@ -41,11 +41,11 @@
           %p= link_to "More about #{@member.username}'s #{@member.gardens.first.name}...", url_for(@member.gardens.first)
 
         .tab-pane#tab2
-          %div.alert
+          .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
             Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
         .tab-pane#tab3
-          %div.alert
+          .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
             Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
 
