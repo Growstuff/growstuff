@@ -19,6 +19,12 @@
     = f.label :password_confirmation, :class => "control-label"
     .controls= f.password_field :password_confirmation
 
+  .control-group
+    .controls
+      = f.check_box :tos_agreement
+      I agree to the 
+      = link_to('Terms of Service', url_for(:action => 'tos', :controller => '/policy'))
+
     .form-actions
       = f.submit "Sign up", :class => 'btn'
 
