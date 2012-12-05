@@ -3,8 +3,12 @@ module ControllerMacros
   def login_user
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      user = User.create! :username => "fred", :email => "fred@example.com",
-        :password => "Yabba-dabba-doo"
+      user = User.create!(
+        :username => "fred",
+        :email => "fred@example.com",
+        :password => "Yabba-dabba-doo",
+        :tos_agreement => true
+      )
       user.confirm!
       sign_in user
     end
