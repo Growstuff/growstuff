@@ -22,7 +22,6 @@
           = link_to '3nd Garden', '#tab3', 'data-toggle' => 'tab'
       .tab-content
         .tab-pane.active#tab1
-
           .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
             Note: these are a random selection, and don't represent actual plantings
@@ -53,4 +52,3 @@
     %h3 Updates
     - @member.updates.each do |update|
       = render :partial => "updates/single", :locals => { :update => update, :subject => true }
-

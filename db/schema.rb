@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121109130033) do
+ActiveRecord::Schema.define(:version => 20121203034745) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20121109130033) do
     t.datetime "updated_at",                             :null => false
     t.string   "username"
     t.string   "slug"
+    t.boolean  "tos_agreement"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

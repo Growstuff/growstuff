@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe "members/show" do
   before(:each) do
-    @member = User.create!(
+    @time = Time.new
+    @member = assign(:user, stub_model(User,
       :username => "pie",
       :password => "steak&kidney",
       :email => "steak-and-kidney@pie.com",
-    )
-    @time = @member.created_at
-    @member.gardens.create(:name => 'My Garden', :user_id => @member.id)
+      :created_at => @time
+    ))
   end
 
   it "shows account creation date" do

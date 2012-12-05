@@ -1,7 +1,9 @@
-%h1 Editing garden
+= content_for :title, "Edit garden"
 
-= render 'form'
-
-= link_to 'Show', @garden
-\|
-= link_to 'Back', gardens_path
+- if user_signed_in?
+  = form_for @garden do |f|
+    = label_tag :name, "Name"
+    = f.text_field :name
+    = f.submit "Save"
+- else
+  .alert You're not logged in. Only logged in users can do this.

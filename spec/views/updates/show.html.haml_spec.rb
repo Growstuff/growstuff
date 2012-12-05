@@ -2,8 +2,12 @@ require 'spec_helper'
 
 describe "updates/show" do
   before(:each) do
-    @user = User.create! :username => "test_user", :email => "test@example.com",
-      :password => "password"
+    @user = User.create!(
+      :username => "test_user",
+      :email => "test@example.com",
+      :password => "password",
+      :tos_agreement => true
+    )
   end
 
   it "renders the post" do
