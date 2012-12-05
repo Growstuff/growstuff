@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(:version => 20121203034745) do
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
   add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
 
+  create_table "gardens", :force => true do |t|
+    t.string   "name",       :null => false
+    t.integer  "user_id"
+    t.string   "slug",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
+  add_index "gardens", ["user_id"], :name => "index_gardens_on_user_id"
+
   create_table "scientific_names", :force => true do |t|
     t.string   "scientific_name", :null => false
     t.integer  "crop_id",         :null => false
