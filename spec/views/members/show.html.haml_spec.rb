@@ -7,7 +7,8 @@ describe "members/show" do
       :username => "pie",
       :password => "steak&kidney",
       :email => "steak-and-kidney@pie.com",
-      :created_at => @time
+      :created_at => @time,
+      :tos_agreement => true
     ))
   end
 

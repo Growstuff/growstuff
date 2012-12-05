@@ -5,12 +5,8 @@ describe "updates/index" do
     user = User.create!(
       :username => "test_user",
       :email => "test@growstuff.org",
-<<<<<<< HEAD
-      :password => "password"
-=======
       :password => "password",
       :tos_agreement => true
->>>>>>> 77233cbb73b4d97b6ff9981de3e948842f8dbb27
     )
     assign(:updates, [
       stub_model(Update,

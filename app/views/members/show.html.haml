@@ -14,39 +14,33 @@
   .span9
     .tabbable
       %ul.nav.nav-tabs
-        %li.active
-          = link_to @member.gardens.first.name, '#tab1', 'data-toggle' => 'tab'
-        %li
-          = link_to '2nd Garden', '#tab2', 'data-toggle' => 'tab'
-        %li
-          = link_to '3nd Garden', '#tab3', 'data-toggle' => 'tab'
+        - first_garden = true
+        - @member.gardens.each do |g|
+          %li{:class => first_garden ? 'active' : '' }
+          - first_garden = false
+          = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
       .tab-content
-        .tab-pane.active#tab1
-          .alert
-            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-            Note: these are a random selection, and don't represent actual plantings
+        - first_garden = true
+        - @member.gardens.each do |g|
 
-          %ul.thumbnails
-            - (1..4).each do
-              %li.span2
-                = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
+          %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "#garden#{g.id}"}
+            - first_garden = false
+            .alert
+              %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+              Note: these are a random selection, and don't represent actual plantings
 
-          %p
-            and 20 more crops including:
-            - (1..20).each do
-              - @crop = random_crop
-              = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
+            %ul.thumbnails
+              - (1..4).each do
+                %li.span2
+                  = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
 
-          %p= link_to "More about #{@member.username}'s #{@member.gardens.first.name}...", url_for(@member.gardens.first)
+            %p
+              and 20 more crops including:
+              - (1..20).each do
+                - @crop = random_crop
+                = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
 
-        .tab-pane#tab2
-          .alert
-            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-            Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
-        .tab-pane#tab3
-          .alert
-            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-            Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+            %p= link_to "More about #{@member.username}'s #{@member.gardens.first.name}...", url_for(@member.gardens.first)
 
 
     %h3 Updates
