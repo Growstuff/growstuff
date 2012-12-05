@@ -12,6 +12,9 @@
       %li Some garden
       %li Some other garden
 
+    - if current_user == @garden.user
+      = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
+
   .span9
     .tabbable
       %ul.nav.nav-tabs
