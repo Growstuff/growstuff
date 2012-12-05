@@ -1,5 +1,4 @@
 Growstuff::Application.routes.draw do
-<<<<<<< HEAD
   resources :gardens
   resources :updates
   resources :scientific_names
