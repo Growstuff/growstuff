@@ -3,7 +3,7 @@
 %ul.thumbnails
   - @members.each do |m|
     %li.span2
-      .thumbnail
+      .thumbnail(style="height: 190px")
         = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-        %h3= link_to m.username, member_path(m)
+        = link_to shorten(m.username, 30), member_path(m)
 
