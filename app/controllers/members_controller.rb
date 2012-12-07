@@ -3,7 +3,7 @@ class MembersController < ApplicationController
     @members = User.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html # index.html.haml
       format.json { render json: @members}
     end
   end
@@ -13,7 +13,7 @@ class MembersController < ApplicationController
     @updates = @member.updates
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html # show.html.haml
       format.json { render json: @member }
       format.rss { render(
         :layout => false,

@@ -7,7 +7,7 @@ class UpdatesController < ApplicationController
     @recent_updates = Update.limit(100).order('created_at desc').all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html # index.html.haml
       format.json { render json: @updates }
       format.rss { render :layout => false } #index.rss.builder
     end
@@ -19,7 +19,7 @@ class UpdatesController < ApplicationController
     @update = Update.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html # show.html.haml
       format.json { render json: @update }
     end
   end
@@ -30,7 +30,7 @@ class UpdatesController < ApplicationController
     @update = Update.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html # new.html.haml
       format.json { render json: @update }
     end
   end

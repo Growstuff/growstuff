@@ -5,7 +5,7 @@ class ScientificNamesController < ApplicationController
     @scientific_names = ScientificName.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html # index.html.haml
       format.json { render json: @scientific_names }
     end
   end
@@ -16,7 +16,7 @@ class ScientificNamesController < ApplicationController
     @scientific_name = ScientificName.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html # show.html.haml
       format.json { render json: @scientific_name }
     end
   end
@@ -27,7 +27,7 @@ class ScientificNamesController < ApplicationController
     @scientific_name = ScientificName.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html # new.html.haml
       format.json { render json: @scientific_name }
     end
   end
