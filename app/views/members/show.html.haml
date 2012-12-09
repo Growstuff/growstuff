@@ -14,30 +14,35 @@
   .span9
     .tabbable
       %ul.nav.nav-tabs
-        %li.active
-          = link_to 'My Garden', '#tab1', 'data-toggle' => 'tab'
-        %li
-          = link_to '2nd Garden', '#tab2', 'data-toggle' => 'tab'
-        %li
-          = link_to '3nd Garden', '#tab3', 'data-toggle' => 'tab'
+        - first_garden = true
+        - @member.gardens.each do |g|
+          %li{:class => first_garden ? 'active' : '' }
+          - first_garden = false
+          = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
       .tab-content
-        .tab-pane.active#tab1
-          %ul.thumbnails
-            - (1..4).each do
-              %li.span2
-                .thumbnail
-                  = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-                  %h4 Some crop
-                  %p Planted YYYY-MM-DD.  99 updates.
+        - first_garden = true
+        - @member.gardens.each do |g|
 
-        .tab-pane#tab2
-          Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
-        .tab-pane#tab3
-          Multiple gardens aren't supported yet.  This is just to show how they could be tabbed.
+          %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "#garden#{g.id}"}
+            - first_garden = false
+            .alert
+              %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+              Note: these are a random selection, and don't represent actual plantings
+
+            %ul.thumbnails
+              - (1..4).each do
+                %li.span2
+                  = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
+
+            %p
+              and 20 more crops including:
+              - (1..20).each do
+                - @crop = random_crop
+                = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
+
+            %p= link_to "More about #{@member.username}'s #{@member.gardens.first.name}...", url_for(@member.gardens.first)
 
 
     %h3 Updates
-    %table
-      - @member.updates.each do |update|
-        = render :partial => "updates/single", :locals => { :update => update, :subject => true }
-
+    - @member.updates.each do |update|
+      = render :partial => "updates/single", :locals => { :update => update, :subject => true }

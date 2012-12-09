@@ -1,0 +1,41 @@
+=content_for :title, "#{@garden.user.username}'s #{@garden.name}"
+
+.row
+  .span3
+    =image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+    %h4
+      Owner:
+      =link_to @garden.user.username, url_for(member_path(@garden.user))
+
+    %h4= "#{@garden.user.username}'s other gardens"
+    %ul
+      %li Some garden
+      %li Some other garden
+
+    - if current_user == @garden.user
+      = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
+
+  .span9
+    .tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          = link_to 'Plantings', '#tab1', 'data-toggle' => 'tab'
+        %li
+          = link_to 'Updates', '#tab2', 'data-toggle' => 'tab'
+      .tab-content
+        .tab-pane.active#tab1
+          .alert
+            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+            Note: these are a random selection, and don't represent actual plantings
+
+          %ul.thumbnails
+            - (1..20).each do
+              %li.span2
+                = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
+        .tab-pane.active#tab2
+          .alert
+            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
+            Note: in due these will be limited to only those updates that apply to this particular garden!
+
+          - @garden.user.updates.each do |update|
+            = render :partial => "updates/single", :locals => { :update => update, :subject => true }

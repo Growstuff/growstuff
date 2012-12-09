@@ -1,4 +1,5 @@
 /log/*
 /db/*.sqlite3
 /tmp/*
+.pt
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'user' do
 
-  context 'valid user' do 
+  context 'valid user' do
     before(:each) do
       @user = User.new
       @user.email = "example@example.com"

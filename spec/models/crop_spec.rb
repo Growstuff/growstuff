@@ -27,4 +27,18 @@ describe Crop do
       expect { @crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
   end
+
+  context 'random' do
+    before(:each) do
+      @crop = Crop.new
+      @crop.system_name = "Tomato"
+      @crop.en_wikipedia_url = "http://en.wikipedia.org/wiki/Tomato"
+      @crop.save
+    end
+
+    it 'should find a random crop' do
+      @rand_crop = Crop.random
+      @rand_crop.system_name.should == 'Tomato'
+    end
+  end
 end

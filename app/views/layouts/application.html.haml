@@ -10,10 +10,10 @@
           - if content_for?(:title) 
             %h1= yield(:title)
           - if notice
-            %div.alert.alert-success
+            .alert.alert-success
               = notice
           - if alert
-            %div.alert
+            .alert
               = alert
           = yield
 

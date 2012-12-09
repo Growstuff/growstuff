@@ -6,14 +6,7 @@
   - @crops.each do |crop|
     - c += 1
     %li.span2
-      .thumbnail(style='height: 220px')
-        = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-        %p= link_to crop.system_name, crop
-        - if crop.scientific_names.count > 0
-          %p
-            %i
-              %small
-                = crop.scientific_names.first.scientific_name
+      = render :partial => "thumbnail", :locals => { :crop => crop }
     - if (c % 6) == 0
       .row
 
