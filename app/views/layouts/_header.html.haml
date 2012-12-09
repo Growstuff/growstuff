@@ -8,9 +8,9 @@
       %a.brand(href=root_path) Growstuff (development site)
       .container.nav-collapse
         %ul.nav
-          %li= link_to "Crops", crops_path
-          %li= link_to "Members", members_path
-          %li= link_to "Updates", updates_path
+          %li= link_to "Crops (#{@crop_count})", crops_path
+          %li= link_to "Members (#{@member_count})", members_path
+          %li= link_to "Updates (#{@update_count})", updates_path
           - if user_signed_in?
             %li= link_to("Post an update", new_update_path)
             %li.divider-vertical

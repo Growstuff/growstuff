@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe 'home/index.html.haml', :type => "view" do
-  before(:each) do
-    render
-  end
 
   it 'should have description' do
     render
