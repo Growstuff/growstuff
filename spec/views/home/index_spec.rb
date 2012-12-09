@@ -2,21 +2,12 @@ require 'spec_helper'
 
 describe 'home/index.html.haml', :type => "view" do
   before(:each) do
-    assign(:crops, [
-      stub_model(Crop,
-        :system_name => "Maize",
-        :en_wikipedia_url => "http://en.wikipedia.org/wiki/Maize"
-      ),
-      stub_model(Crop,
-        :system_name => "Tomato",
-        :en_wikipedia_url => "http://en.wikipedia.org/wiki/Tomato"
-      )
-    ])
+    assign(:crop_count, 2)
+    assign(:update_count, 1337)
+    assign(:member_count, 42)
     render
   end
   
-
-
   it 'links to the crops page' do
     rendered.should contain 'Crops'
   end
@@ -30,10 +21,17 @@ describe 'home/index.html.haml', :type => "view" do
   end
   
   it 'counts the number of updates' do
-     rendered.should contain '(0)'
+    rendered.should contain '(1337)'
   end
   
-
+  it 'links to the members page' do
+    rendered.should contain 'Members'
+  end
+  
+  it 'counts the number of members' do
+    rendered.should contain '(42)'
+  end
+  
   it 'should have description' do
     render
     rendered.should contain 'Growstuff is a community of food gardeners'

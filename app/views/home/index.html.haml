@@ -4,7 +4,10 @@
 %ul
   %li
     = link_to "Crops", crops_path
-    = "(#{Crop.all.count})"
+    = "(#{@crop_count})"
   %li
     = link_to "Recent updates", updates_path
-    = "(#{Update.all.count})"
+    = "(#{@update_count})"
+  %li
+    = link_to "Members", members_path
+    = "(#{@member_count})"
