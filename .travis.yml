@@ -1,0 +1,4 @@
+language: ruby
+script:
+  - bundle exec rake db:migrate --trace
+  - bundle exec rspec spec/
