@@ -23,6 +23,11 @@ describe 'user' do
       @user2.slug.should == "someone"
       @user2.encrypted_password.should_not be_nil
     end
+
+    it 'should have a default garden' do
+      @user.save
+      @user.gardens.count.should == 1
+    end
   end
 
   context 'no TOS agreement' do

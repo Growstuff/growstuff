@@ -38,9 +38,9 @@ describe GardensController do
 
   describe "GET index" do
     it "assigns all gardens as @gardens" do
-      garden = Garden.create! valid_attributes
+      gardens = Garden.all
       get :index, {}
-      assigns(:gardens).should eq([garden])
+      assigns(:gardens).should eq(gardens)
     end
   end
 
