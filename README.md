@@ -1,3 +1,7 @@
+# Growstuff
+
+[![Build Status](https://travis-ci.org/growstuff/growstuff.png)](https://travis-ci.org/growstuff/growstuff)
+
 Welcome to the Growstuff project.
 
 Growstuff is an open source/open data project to create a website for food gardeners.
