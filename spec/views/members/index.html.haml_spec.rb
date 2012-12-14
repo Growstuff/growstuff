@@ -27,4 +27,9 @@ describe "members/index" do
     rendered.should contain "bob"
     rendered.should_not contain "bob..."
   end
+  
+  it "counts the number of members" do
+    rendered.should contain "Displaying 2 members"
+  end
+  
 end
