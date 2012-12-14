@@ -1,6 +1,9 @@
 - content_for :title, "Crops"
 - c = 0
 
+%p
+  = "Displaying #{@crops.length} crops"
+
 %ul.thumbnails
   .row
   - @crops.each do |crop|

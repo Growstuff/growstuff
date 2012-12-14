@@ -1,5 +1,8 @@
 = content_for :title, "Growstuff members"
 
+%p
+  = "Displaying #{@members.length} members"
+  
 %ul.thumbnails
   - @members.each do |m|
     %li.span2
