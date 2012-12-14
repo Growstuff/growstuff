@@ -20,7 +20,12 @@ describe "crops/index" do
     assert_select "a", :text => "Maize"
     assert_select "a", :text => "Tomato"
   end
-
+  
+  it "counts the number of crops" do
+    render
+    rendered.should contain "Displaying 2 crops"
+  end
+  
   context "logged out" do
     it "doesn't show the new crop link if logged out" do
       render
