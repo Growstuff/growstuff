@@ -5,7 +5,8 @@ describe "updates/edit" do
     @update = assign(:update, stub_model(Update,
       :user_id => 1,
       :subject => "MyString",
-      :body => "MyText"
+      :body => "MyText",
+      :created_at => Time.now
     ))
   end
 

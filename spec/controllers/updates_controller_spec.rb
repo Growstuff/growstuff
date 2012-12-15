@@ -61,7 +61,17 @@ describe UpdatesController do
   describe "GET show" do
     it "assigns the requested update as @update" do
       update = Update.create! valid_attributes
-      get :show, {:id => update.to_param}
+      get :show, {:id => update.slug}
+      assigns(:update).should eq(update)
+    end
+  end
+
+  describe "GET show" do
+    it "assigns the requested update as @update fetching with dates" do
+      update = Update.create! valid_attributes
+      date = update.created_at
+      get :show, {:year => date.year, :month => date.month, :day => date.day,
+        :id => update.slug}
       assigns(:update).should eq(update)
     end
   end
@@ -76,7 +86,7 @@ describe UpdatesController do
   describe "GET edit" do
     it "assigns the requested update as @update" do
       update = Update.create! valid_attributes
-      get :edit, {:id => update.to_param}
+      get :edit, {:id => update.slug}
       assigns(:update).should eq(update)
     end
   end
@@ -127,18 +137,18 @@ describe UpdatesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Update.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => update.to_param, :update => {'these' => 'params'}}
+        put :update, {:id => update.slug, :update => {'these' => 'params'}}
       end
 
       it "assigns the requested update as @update" do
         update = Update.create! valid_attributes
-        put :update, {:id => update.to_param, :update => valid_attributes}
+        put :update, {:id => update.slug, :update => valid_attributes}
         assigns(:update).should eq(update)
       end
 
       it "redirects to the update" do
         update = Update.create! valid_attributes
-        put :update, {:id => update.to_param, :update => valid_attributes}
+        put :update, {:id => update.slug, :update => valid_attributes}
         response.should redirect_to(update)
       end
     end
@@ -148,7 +158,7 @@ describe UpdatesController do
         update = Update.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Update.any_instance.stub(:save).and_return(false)
-        put :update, {:id => update.to_param, :update => {}}
+        put :update, {:id => update.slug, :update => {}}
         assigns(:update).should eq(update)
       end
 
@@ -156,7 +166,7 @@ describe UpdatesController do
         update = Update.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Update.any_instance.stub(:save).and_return(false)
-        put :update, {:id => update.to_param, :update => {}}
+        put :update, {:id => update.slug, :update => {}}
         response.should render_template("edit")
       end
     end
@@ -166,13 +176,13 @@ describe UpdatesController do
     it "destroys the requested update" do
       update = Update.create! valid_attributes
       expect {
-        delete :destroy, {:id => update.to_param}
+        delete :destroy, {:id => update.slug}
       }.to change(Update, :count).by(-1)
     end
 
     it "redirects to the updates list" do
       update = Update.create! valid_attributes
-      delete :destroy, {:id => update.to_param}
+      delete :destroy, {:id => update.slug}
       response.should redirect_to(updates_url)
     end
   end
