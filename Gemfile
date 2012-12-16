@@ -54,7 +54,12 @@ gem 'bluecloth'
 
 # user signup/login/etc
 gem 'devise'
+
+# nicely formatted URLs
 gem 'friendly_id'
+
+# gravatars
+gem 'gravatar-ultimate'
 
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'

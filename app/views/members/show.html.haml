@@ -4,7 +4,7 @@
 
 .row
   .span3
-    =image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+    =image_tag(Gravatar.new(@member.email).image_url( options = { :s => 150 }), :alt => '', :class => 'img-rounded')
     %h4= @member.username
 
     %p
