@@ -29,4 +29,10 @@ describe "updates/index" do
     assert_select "div.update>div.update-body",
       :text => "MyText".to_s, :count => 2
   end
+    
+  it "counts the number of updates" do 
+    render
+    rendered.should contain "Displaying 2 updates"
+  end
+   
 end
