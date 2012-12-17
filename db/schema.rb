@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121203034745) do
+ActiveRecord::Schema.define(:version => 20121214230336) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 20121203034745) do
 
   create_table "gardens", :force => true do |t|
     t.string   "name",       :null => false
-    t.integer  "user_id"
+    t.integer  "user_id",    :null => false
     t.string   "slug",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -48,9 +48,11 @@ ActiveRecord::Schema.define(:version => 20121203034745) do
     t.text     "body",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "slug"
   end
 
   add_index "updates", ["created_at", "user_id"], :name => "index_updates_on_created_at_and_user_id"
+  add_index "updates", ["slug"], :name => "index_updates_on_slug", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
