@@ -6,9 +6,6 @@ Growstuff::Application.routes.draw do
   resources :members
   devise_for :users
 
-  match "/updates/:year/:month/:day/:id", :to => "updates#show"
-  match "/updates/:id", :to => "updates#show"
-
   get "home/index"
 
   # The priority is based upon order of creation:

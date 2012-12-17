@@ -66,16 +66,6 @@ describe UpdatesController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested update as @update fetching with dates" do
-      update = Update.create! valid_attributes
-      date = update.created_at
-      get :show, {:year => date.year, :month => date.month, :day => date.day,
-        :id => update.slug}
-      assigns(:update).should eq(update)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new update as @update" do
       get :new, {}
