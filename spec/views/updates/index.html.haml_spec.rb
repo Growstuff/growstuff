@@ -12,12 +12,14 @@ describe "updates/index" do
       stub_model(Update,
         :user_id => user.id,
         :subject => "Subject",
-        :body => "MyText"
+        :body => "MyText",
+        :created_at => Time.now
       ),
       stub_model(Update,
         :user_id => user.id,
         :subject => "Subject",
-        :body => "MyText"
+        :body => "MyText",
+        :created_at => Time.now
       )
     ])
     render
