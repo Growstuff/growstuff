@@ -1,20 +1,24 @@
 .well
   .update
-    - if subject
-      %h3= link_to strip_tags(update.subject), update
+    .row
+      .span1
+        = render :partial => "members/gravatar", :locals => { :email => update.user.email }
+      .span7
+        - if subject
+          %h3= link_to strip_tags(update.subject), update
 
-    .update-meta
-      Posted by
-      = link_to update.user.username, member_path(update.user)
-      at
-      = update.created_at
+        .update-meta
+          Posted by
+          = link_to update.user.username, member_path(update.user)
+          at
+          = update.created_at
 
-    .update-body
-      :markdown
-        #{ strip_tags update.body }
+        .update-body
+          :markdown
+            #{ strip_tags update.body }
 
-    - if current_user == update.user
-      .update-actions
-        = link_to 'Edit', edit_update_path(update), :class => 'btn'
-        = link_to 'Delete', update, method: :delete, |
-          data: { confirm: 'Are you sure?' }, :class => 'btn'
+        - if current_user == update.user
+          .update-actions
+            = link_to 'Edit', edit_update_path(update), :class => 'btn'
+            = link_to 'Delete', update, method: :delete, |
+              data: { confirm: 'Are you sure?' }, :class => 'btn'

@@ -31,5 +31,9 @@ describe "members/index" do
   it "counts the number of members" do
     rendered.should contain "Displaying 2 members"
   end
+
+  it "contains two gravatar icons" do
+    assert_select "img", :src => /gravatar\.com\/avatar/, :count => 2
+  end
   
 end

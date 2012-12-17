@@ -7,5 +7,5 @@
   - @members.each do |m|
     %li.span2
       .thumbnail(style="height: 190px")
-        = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+        = render :partial => "gravatar", :locals => { :email => m.email }
         = link_to shorten(m.username, 30), member_path(m)

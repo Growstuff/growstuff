@@ -10,12 +10,16 @@ describe "members/show" do
     )
     @time = @member.created_at
     @member.gardens.create(:name => 'My Garden', :user_id => @member.id)
+    render
   end
 
   it "shows account creation date" do
-    render
     rendered.should contain "Member since"
     rendered.should contain @time.strftime("%B %d, %Y")
+  end
+
+  it "contains a gravatar icon" do
+    assert_select "img", :src => /gravatar\.com\/avatar/
   end
 
 end
