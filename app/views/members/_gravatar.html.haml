@@ -1,2 +1,2 @@
-=image_tag(Gravatar.new(email).image_url( options = { :s => defined?(size) ?  size : 150 }), :alt => '', :class => 'img-rounded')
+=image_tag(Gravatar.new(email).image_url( options = { :size => defined?(size) ?  size : 150, :default => :identicon }), :alt => '', :class => 'img-rounded' )
 
