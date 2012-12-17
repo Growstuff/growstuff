@@ -19,7 +19,9 @@ describe Update do
       :body => "They leave slime everywhere", :user_id => @id
     time = update.created_at
     datestr = time.strftime("%Y%m%d")
-    datestr.length.should == 8
+    # 2 digit day and month, full-length years
+    # Counting digits using Math.log is not precise enough!
+    datestr.length.should == 4 + time.year.to_s.size
     update.slug.should == "test-#{datestr}-slugs-are-nasty"
   end
 end
