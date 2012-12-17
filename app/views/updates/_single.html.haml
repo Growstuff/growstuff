@@ -2,7 +2,7 @@
   .update
     .row
       .span1
-        =image_tag(Gravatar.new(update.user.email).image_url, :alt => '', :class => 'img-rounded')
+        = render :partial => "members/gravatar", :locals => { :email => update.user.email }
       .span7
         - if subject
           %h3= link_to strip_tags(update.subject), update

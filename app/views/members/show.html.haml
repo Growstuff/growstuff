@@ -4,7 +4,7 @@
 
 .row
   .span3
-    =image_tag(Gravatar.new(@member.email).image_url( options = { :s => 150 }), :alt => '', :class => 'img-rounded')
+    = render :partial => "gravatar", :locals => { :email => @member.email }
     %h4= @member.username
 
     %p
