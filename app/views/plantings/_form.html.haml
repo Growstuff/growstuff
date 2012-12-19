@@ -8,10 +8,10 @@
 
   .field
     = f.label :garden_id
-    = f.number_field :garden_id
+    = collection_select(:planting, :garden_id, Garden.where(:user_id => current_user), :id, :name)
   .field
     = f.label :crop_id
-    = f.number_field :crop_id
+    = collection_select(:planting, :crop_id, Crop.all(:order => :system_name), :id, :system_name)
   .field
     = f.label :planted_at
     = f.datetime_select :planted_at
