@@ -18,7 +18,7 @@
     %p
       = link_to 'More...', p
 
-    - if user_signed_in? && current_user == p.garden.user
+    - if user_signed_in? && current_user == p.owner
       %p
         =link_to 'Edit', edit_planting_path(p), :class => 'btn'
         =link_to 'Destroy', p, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'

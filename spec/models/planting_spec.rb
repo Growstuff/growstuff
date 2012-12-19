@@ -28,7 +28,13 @@ describe Planting do
 
   end
 
+  it "generates an owner" do
+    @planting.owner.should be_an_instance_of User
+    @planting.owner.username.should match /^foo$/
+  end
+
   it "generates a location" do
     @planting.location.should match /^foo's bar$/
   end
+
 end

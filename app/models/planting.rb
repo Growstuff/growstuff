@@ -7,4 +7,8 @@ class Planting < ActiveRecord::Base
   def location
     return "#{garden.user.username}'s #{garden.name}"
   end
+
+  def owner
+    return garden.user
+  end
 end
