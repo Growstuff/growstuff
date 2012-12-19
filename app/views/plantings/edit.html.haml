@@ -1,6 +1,6 @@
-%h1 Editing planting
+= content_for :title, "Editing planting"
 
-- if user_signed_in? && current_user == @planting.garden.user
+- if user_signed_in? && current_user == @planting.owner
   = render 'form'
 - elsif user_signed_in?
   .alert You don't have permission to edit this planting.
