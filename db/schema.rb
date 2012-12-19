@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121214230336) do
+ActiveRecord::Schema.define(:version => 20121219022554) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 20121214230336) do
 
   create_table "gardens", :force => true do |t|
     t.string   "name",       :null => false
-    t.integer  "user_id",    :null => false
+    t.integer  "user_id"
     t.string   "slug",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(:version => 20121214230336) do
 
   add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
   add_index "gardens", ["user_id"], :name => "index_gardens_on_user_id"
+
+  create_table "plantings", :force => true do |t|
+    t.integer  "garden_id",   :null => false
+    t.integer  "crop_id",     :null => false
+    t.datetime "planted_at"
+    t.integer  "quantity"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "scientific_names", :force => true do |t|
     t.string   "scientific_name", :null => false

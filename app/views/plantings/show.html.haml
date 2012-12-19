@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Garden:
+  = @planting.garden_id
+%p
+  %b Crop:
+  = @planting.crop_id
+%p
+  %b Planted at:
+  = @planting.planted_at
+%p
+  %b Quantity:
+  = @planting.quantity
+%p
+  %b Description:
+  = @planting.description
+
+= link_to 'Edit', edit_planting_path(@planting)
+\|
+= link_to 'Back', plantings_path

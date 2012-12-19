@@ -1,0 +1,27 @@
+%h1 Listing plantings
+
+%table
+  %tr
+    %th Garden
+    %th Crop
+    %th Planted at
+    %th Quantity
+    %th Description
+    %th
+    %th
+    %th
+
+  - @plantings.each do |planting|
+    %tr
+      %td= planting.garden_id
+      %td= planting.crop_id
+      %td= planting.planted_at
+      %td= planting.quantity
+      %td= planting.description
+      %td= link_to 'Show', planting
+      %td= link_to 'Edit', edit_planting_path(planting)
+      %td= link_to 'Destroy', planting, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Planting', new_planting_path

@@ -1,0 +1,25 @@
+= form_for @planting do |f|
+  - if @planting.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@planting.errors.count, "error")} prohibited this planting from being saved:"
+      %ul
+        - @planting.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :garden_id
+    = f.number_field :garden_id
+  .field
+    = f.label :crop_id
+    = f.number_field :crop_id
+  .field
+    = f.label :planted_at
+    = f.datetime_select :planted_at
+  .field
+    = f.label :quantity
+    = f.number_field :quantity
+  .field
+    = f.label :description
+    = f.text_area :description
+  .actions
+    = f.submit 'Save'
