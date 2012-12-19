@@ -1,5 +1,8 @@
 %h1 New planting
 
-= render 'form'
+- if user_signed_in?
+  = render 'form'
+- else
+  .alert You're not logged in. Only logged in users can do this.
 
 = link_to 'Back', plantings_path

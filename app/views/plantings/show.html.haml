@@ -15,6 +15,5 @@
   %b Description:
   = @planting.description ? @planting.description : "No description."
 
-= link_to 'Edit', edit_planting_path(@planting)
-\|
-= link_to 'Back', plantings_path
+- if user_signed_in? && current_user == @planting.garden.user
+  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn'

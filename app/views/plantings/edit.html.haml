@@ -1,6 +1,11 @@
 %h1 Editing planting
 
-= render 'form'
+- if user_signed_in? && current_user == @planting.garden.user
+  = render 'form'
+- elsif user_signed_in?
+  .alert You don't have permission to edit this planting.
+- else
+  .alert You're not logged in. Only logged in users can do this.
 
 = link_to 'Show', @planting
 \|
