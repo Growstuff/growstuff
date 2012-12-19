@@ -2,7 +2,7 @@
 
 %p
   = "Displaying #{@updates.length} updates"
-  
+
 - @updates.each do |update|
   = render :partial => "single", :locals => { :update => update, :subject => true }
 
