@@ -8,4 +8,8 @@ class Garden < ActiveRecord::Base
   def garden_slug
     "#{user.username}-#{name}"
   end
+
+  def owner
+    return user
+  end
 end
