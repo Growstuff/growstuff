@@ -1,9 +1,9 @@
-=content_for :title, "#{@planting.crop.system_name} in #{@planting.location}"
+=content_for :title, "#{@planting.crop} in #{@planting.location}"
 
 %p#notice= notice
 
 %h2
-  = @planting.crop.system_name
+  = @planting.crop
   %small
     = "in #{@planting.location}"
 

@@ -8,4 +8,8 @@ class Crop < ActiveRecord::Base
     @crop = Crop.offset(rand(Crop.count)).first
     return @crop
   end
+
+  def to_s
+    return system_name
+  end
 end

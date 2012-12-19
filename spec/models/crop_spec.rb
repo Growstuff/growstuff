@@ -19,6 +19,12 @@ describe Crop do
       @crop2.en_wikipedia_url.should == "http://en.wikipedia.org/wiki/Tomato"
       @crop2.slug.should == "tomato"
     end
+
+    it 'should stringify as the system name' do
+      @crop.save
+      @crop.to_s.should == 'Tomato'
+      "#{@crop}".should == 'Tomato'
+    end
   end
 
   context 'invalid data' do
