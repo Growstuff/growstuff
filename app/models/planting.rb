@@ -3,4 +3,8 @@ class Planting < ActiveRecord::Base
 
   belongs_to :garden
   belongs_to :crop
+
+  def location
+    return "#{garden.user.username}'s #{garden.name}"
+  end
 end

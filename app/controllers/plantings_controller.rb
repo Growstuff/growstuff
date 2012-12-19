@@ -3,6 +3,7 @@ class PlantingsController < ApplicationController
   # GET /plantings.json
   def index
     @plantings = Planting.all
+    @recent_plantings = Planting.limit(100).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,27 +1,25 @@
-%h1 Listing plantings
+%h1 Recent plantings
 
-%table
-  %tr
-    %th Garden
-    %th Crop
-    %th Planted at
-    %th Quantity
-    %th Description
-    %th
-    %th
-    %th
+- @recent_plantings.each do |p|
+  .well
+    %h2
+      = p.crop.system_name
+      %small
+        = "in #{p.location}"
 
-  - @plantings.each do |planting|
-    %tr
-      %td= planting.garden_id
-      %td= planting.crop_id
-      %td= planting.planted_at
-      %td= planting.quantity
-      %td= planting.description
-      %td= link_to 'Show', planting
-      %td= link_to 'Edit', edit_planting_path(planting)
-      %td= link_to 'Destroy', planting, method: :delete, data: { confirm: 'Are you sure?' }
+    - if p.planted_at
+      %p
+        Planted at
+        = p.planted_at
 
-%br
+    %div
+      = p.description != "" ? p.description : "No description given"
 
-= link_to 'New Planting', new_planting_path
+    %p
+      = link_to 'More...', p
+
+    - if user_signed_in? && current_user == p.garden.user
+      %p
+        =link_to 'Edit', edit_planting_path(p), :class => 'btn'
+        =link_to 'Destroy', p, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
+
