@@ -1,4 +1,6 @@
 Growstuff::Application.routes.draw do
+  resources :plantings
+
   resources :gardens
   resources :updates
   resources :scientific_names

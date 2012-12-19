@@ -1,0 +1,27 @@
+=content_for :title, "What's been planted recently?"
+
+%p Here are the latest things planted by Growstuff members.
+
+- @recent_plantings.each do |p|
+  .well
+    %h2
+      = p.crop
+      %small
+        = "in #{p.location}"
+
+    - if p.planted_at
+      %p
+        Planted at
+        = p.planted_at
+
+    %div
+      = p.description != "" ? p.description : "No description given"
+
+    %p
+      = link_to 'More...', p
+
+    - if user_signed_in? && current_user == p.owner
+      %p
+        =link_to 'Edit', edit_planting_path(p), :class => 'btn'
+        =link_to 'Destroy', p, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
+

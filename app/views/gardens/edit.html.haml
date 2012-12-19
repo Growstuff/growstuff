@@ -1,7 +1,7 @@
 = content_for :title, "Edit garden"
 
 - if user_signed_in?
-  - if current_user == @garden.user
+  - if current_user == @garden.owner
     = form_for @garden, :html => {:class => "form-horizontal"} do |f|
       .control-group
         = f.label :name, :class => "control-label"
