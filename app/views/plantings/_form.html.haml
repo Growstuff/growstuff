@@ -1,5 +1,3 @@
-= content_for :title, "Recent Growstuff member updates"
-
 = form_for(@planting, :html => {:class => "form-horizontal"}) do |f|
   - if @planting.errors.any?
     #error_explanation
@@ -9,22 +7,20 @@
           %li= msg
 
   .control-group
-    = f.label :garden_id, :class => 'control-label'
-    .controls= collection_select(:planting, :garden_id, Garden.where(:user_id => current_user), :id, :name)
-  .control-group
-    = f.label :crop_id, :class => 'control-label'
+    = f.label 'What did you plant?', :class => 'control-label'
     .controls= collection_select(:planting, :crop_id, Crop.all(:order => :system_name), :id, :system_name)
   .control-group
-    = f.label :planted_at, :class => 'control-label'
+    = f.label 'Where did you plant it?', :class => 'control-label'
+    .controls= collection_select(:planting, :garden_id, Garden.where(:user_id => current_user), :id, :name)
+  .control-group
+    = f.label 'When?', :class => 'control-label'
     .controls= f.datetime_select :planted_at, options = { :include_blank => true }, html_options = { :class => "span1" }
   .control-group
-    = f.label :quantity, :class => 'control-label'
+    = f.label 'How many?', :class => 'control-label'
     .controls
       = f.number_field :quantity, :class => 'input-small'
-      %span.help-block
-        The number of plants.
   .control-group
-    = f.label :description, :class => 'control-label'
+    = f.label 'Tell us more about it', :class => 'control-label'
     .controls= f.text_area :description, :rows => 6
 
     .form-actions
