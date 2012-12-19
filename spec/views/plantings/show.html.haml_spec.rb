@@ -26,14 +26,6 @@ describe "plantings/show" do
     render
   end
 
-  it "renders the name of the garden" do
-    rendered.should match(/#{@garden.name}/)
-  end
-
-  it "renders the name of the crop" do
-    rendered.should match(/#{@crop.system_name}/)
-  end
-
   it "renders the quantity planted" do
     rendered.should match(/333/)
   end

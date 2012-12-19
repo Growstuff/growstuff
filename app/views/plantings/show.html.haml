@@ -2,11 +2,6 @@
 
 %p#notice= notice
 
-%h2
-  = @planting.crop
-  %small
-    = "in #{@planting.location}"
-
 %p
   %b Planted at:
   = @planting.planted_at ? @planting.planted_at : "not specified"
