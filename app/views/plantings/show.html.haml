@@ -1,20 +1,19 @@
 %p#notice= notice
 
-%p
-  %b Garden:
-  = @planting.garden_id
-%p
-  %b Crop:
-  = @planting.crop_id
+%h2
+  = @planting.crop.system_name
+  %small
+    = "planted in #{@planting.garden.user.username}'s #{@planting.garden.name}"
+
 %p
   %b Planted at:
-  = @planting.planted_at
+  = @planting.planted_at ? @planting.planted_at : "not specified"
 %p
   %b Quantity:
-  = @planting.quantity
+  = @planting.quantity ? @planting.quantity : "not specified"
 %p
   %b Description:
-  = @planting.description
+  = @planting.description ? @planting.description : "No description."
 
 = link_to 'Edit', edit_planting_path(@planting)
 \|
