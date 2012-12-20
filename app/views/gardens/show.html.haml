@@ -15,6 +15,7 @@
 
     - if current_user == @garden.owner
       = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
+      = link_to 'New', new_garden_path, :class => 'btn'
 
   .span9
     .tabbable
