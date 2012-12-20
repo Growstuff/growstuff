@@ -17,8 +17,9 @@
         - first_garden = true
         - @member.gardens.each do |g|
           %li{:class => first_garden ? 'active' : '' }
-          - first_garden = false
-          = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
+            - first_garden = false
+            = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
+        %li= link_to  'New garden', new_garden_path
       .tab-content
         - first_garden = true
         - @member.gardens.each do |g|
@@ -41,7 +42,6 @@
                 = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
 
             %p= link_to "More about #{@member.username}'s #{@member.gardens.first.name}...", url_for(@member.gardens.first)
-
 
     %h3 Updates
     - @member.updates.each do |update|
