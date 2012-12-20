@@ -11,6 +11,7 @@ class MembersController < ApplicationController
   def show
     @member = User.find(params[:id])
     @updates = @member.updates
+    @garden = Garden.new # in case a new garden is created; not persisted yet
 
     respond_to do |format|
       format.html # show.html.haml

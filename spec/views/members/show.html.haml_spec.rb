@@ -10,6 +10,7 @@ describe "members/show" do
     )
     @time = @member.created_at
     @member.gardens.create(:name => 'My Garden', :user_id => @member.id)
+    @garden = Garden.new
     render
   end
 

@@ -19,12 +19,12 @@
           %li{:class => first_garden ? 'active' : '' }
             - first_garden = false
             = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
-        %li= link_to  'New garden', new_garden_path
+        %li= link_to 'New garden', '#garden_new', 'data-toggle' => 'tab'
       .tab-content
         - first_garden = true
         - @member.gardens.each do |g|
 
-          %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "#garden#{g.id}"}
+          %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
             - first_garden = false
             .alert
               %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
@@ -41,7 +41,9 @@
                 - @crop = random_crop
                 = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
 
-            %p= link_to "More about #{@member.username}'s #{@member.gardens.first.name}...", url_for(@member.gardens.first)
+            %p= link_to "More about #{@member.username}'s #{g.name}...", url_for(g)
+        %div{:class => 'tab-pane', :id => "garden_new"}
+          = render 'gardens/form'
 
     %h3 Updates
     - @member.updates.each do |update|
