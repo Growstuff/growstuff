@@ -7,10 +7,11 @@
       Owner:
       =link_to @garden.owner, url_for(member_path(@garden.owner))
 
-    %h4= "#{@garden.owner}'s other gardens"
+    %h4= "#{@garden.owner}'s gardens"
     %ul
-      %li Some garden
-      %li Some other garden
+      - @garden.user.gardens.each do |othergarden|
+        %li
+          = link_to "#{othergarden.name}", garden_path(othergarden)
 
     - if current_user == @garden.owner
       = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
