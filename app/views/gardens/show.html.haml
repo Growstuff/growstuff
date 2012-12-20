@@ -11,7 +11,10 @@
     %ul
       - @garden.user.gardens.each do |othergarden|
         %li
-          = link_to "#{othergarden.name}", garden_path(othergarden)
+          - if @garden == othergarden
+            = @garden.name
+          - else
+            = link_to "#{othergarden.name}", garden_path(othergarden)
 
     - if current_user == @garden.owner
       = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
