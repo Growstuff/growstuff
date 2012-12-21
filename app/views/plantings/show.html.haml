@@ -10,7 +10,8 @@
   = @planting.quantity != 0 ? @planting.quantity : "not specified"
 %p
   %b Description:
-  = @planting.description != "" ? @planting.description : "No description."
+  :markdown
+    #{ @planting.description != "" ? @planting.description : "No description." }
 
 - if user_signed_in? && current_user == @planting.owner
   = link_to 'Edit', edit_planting_path(@planting), :class => 'btn'

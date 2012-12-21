@@ -15,7 +15,8 @@
         = p.planted_at
 
     %div
-      = p.description != "" ? p.description : "No description given"
+      :markdown
+        #{ p.description != "" ? p.description : "No description given." }
 
     %p
       = link_to 'More...', p

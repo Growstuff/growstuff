@@ -26,7 +26,7 @@ describe "plantings/index" do
         :crop => @crop,
         :planted_at => '2008-01-05 12:34:56',
         :quantity => 3,
-        :description => "MyText",
+        :description => "MyText *ITALIC*",
         :created_at => Time.now
       ),
       stub_model(Planting,
@@ -55,6 +55,10 @@ describe "plantings/index" do
 
   it "displays planting time" do
     rendered.should contain '2008-01-05 12:34:56'
+  end
+
+  it "renders markdown in the description" do
+    assert_select "em", "ITALIC"
   end
 
 end
