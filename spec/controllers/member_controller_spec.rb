@@ -2,10 +2,24 @@ require 'spec_helper'
 
 describe MembersController do
 
-  login_user
+  before :each do
+    @user1 = User.create!(
+      :username => "fred",
+      :password => "mynameisfred",
+      :email => "fred@example.com",
+      :tos_agreement => true
+    )
+    @user2 = User.create!(
+      :username => "bob",
+      :password => "mynameisbob",
+      :email => "bob@example.com",
+      :tos_agreement => true
+    )
+    @user1.confirm!
+  end
 
   describe "GET index" do
-    it "assigns all members as @members" do
+    it "assigns only confirmed members as @members" do
       user = User.find('fred')
       get :index, {}
       assigns(:members).should eq([user])

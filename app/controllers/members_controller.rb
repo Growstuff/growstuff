@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
   def index
-    @members = User.all
+    @members = User.where('confirmed_at IS NOT NULL')
 
     respond_to do |format|
       format.html # index.html.haml
