@@ -9,7 +9,10 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member = User.find(params[:id])
+    @member = User.find(
+      params[:id],
+      :conditions => 'confirmed_at IS NOT NULL'
+    )
     @updates = @member.updates
 
     respond_to do |format|

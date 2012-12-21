@@ -32,6 +32,15 @@ describe MembersController do
       get :show, {:id => user.id}
       assigns(:member).should eq(user)
     end
+
+    it "doesn't show completely nonsense members" do
+      lambda { get :show, {:id => 9999} }.should raise_error
+    end
+
+    it "doesn't show unconfirmed members" do
+      user = User.find('bob')
+      lambda { get :show, {:id => user.id} }.should raise_error
+    end
   end
 
   describe "GET member's RSS feed" do
