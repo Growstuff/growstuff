@@ -21,7 +21,7 @@ describe "plantings/show" do
       :garden => @garden,
       :crop => @crop,
       :quantity => 333,
-      :description => "MyText"
+      :description => "MyText *ITALIC*"
     ))
     render
   end
@@ -32,5 +32,9 @@ describe "plantings/show" do
 
   it "renders the description" do
     rendered.should match(/MyText/)
+  end
+
+  it "renders markdown in the description" do
+    assert_select "em", "ITALIC"
   end
 end
