@@ -8,6 +8,8 @@
           .thumbnail
             = image_tag('http://placehold.it/200x200', :alt => '', :class => 'img-rounded')
 
+    =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-large btn-primary'
+
     %h2 Who's growing this?
     - (1..5).each do
       .well
