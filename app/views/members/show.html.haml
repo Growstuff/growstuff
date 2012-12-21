@@ -43,6 +43,7 @@
 
             %p= link_to "More about #{@member.username}'s #{g.name}...", url_for(g)
         %div{:class => 'tab-pane', :id => "garden_new"}
+          %h3 Create a new garden
           = render 'gardens/form'
 
     %h3 Updates
