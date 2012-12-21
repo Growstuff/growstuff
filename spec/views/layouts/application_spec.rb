@@ -10,13 +10,13 @@ describe 'layouts/application.html.haml', :type => "view" do
     end
 
     it 'shows the title' do
-        rendered.should contain 'Growstuff'
-        rendered.should contain 'development site'
+      rendered.should contain 'Growstuff'
+      rendered.should contain 'development site'
     end
 
     it 'should have signup/login links' do
-        rendered.should contain 'Sign up'
-        rendered.should contain 'Log in'
+      rendered.should contain 'Sign up'
+      rendered.should contain 'Log in'
     end
 
   end
@@ -40,6 +40,10 @@ describe 'layouts/application.html.haml', :type => "view" do
 
     it 'should have a "Post update" link' do
       rendered.should contain 'Post an update'
+    end
+
+    it 'should have a plant something link' do
+      rendered.should contain 'Plant something'
     end
 
     it 'should show logout link' do
