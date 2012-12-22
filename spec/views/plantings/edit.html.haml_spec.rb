@@ -29,6 +29,10 @@ describe "plantings/edit" do
       :quantity => 1,
       :description => "MyText"
     ))
+
+    assign(:crop, Crop.new)
+    assign(:garden, Garden.new)
+
   end
 
   context "logged out" do
