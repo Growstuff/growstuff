@@ -29,6 +29,8 @@
           = link_to 'Updates', '#tab2', 'data-toggle' => 'tab'
       .tab-content
         .tab-pane.active#tab1
+          - if current_user == @garden.owner
+            %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
           .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
             Note: these are a random selection, and don't represent actual plantings

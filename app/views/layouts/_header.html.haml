@@ -13,6 +13,7 @@
           %li= link_to "Updates", updates_path
           - if user_signed_in?
             %li= link_to("Post an update", new_update_path)
+            %li= link_to("Plant something", new_planting_path)
             %li.divider-vertical
             %li= link_to current_user.username, member_path(current_user)
             %li= link_to "Log out", destroy_user_session_path, :method => :delete

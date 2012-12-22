@@ -23,10 +23,22 @@ describe "gardens/show" do
   end
 
   context 'signed in' do
-    it 'should have an edit button' do
+
+    before :each do
       sign_in @user
       render
+    end
+
+    it 'should have an edit button' do
       rendered.should contain 'Edit'
+    end
+
+    it "shows a 'plant something' button" do
+      rendered.should contain "Plant something"
+    end
+
+    it "links to the right crop in the planting link" do
+      assert_select("a[href=#{new_planting_path}?garden_id=#{@garden.id}]")
     end
   end
 
