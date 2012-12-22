@@ -27,6 +27,10 @@ class PlantingsController < ApplicationController
   def new
     @planting = Planting.new
 
+    # using find_by_id here because it returns nil, unlike find
+    @crop     = Crop.find_by_id(params[:crop_id])
+    @garden   = Garden.find_by_id(params[:garden_id])
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @planting }
