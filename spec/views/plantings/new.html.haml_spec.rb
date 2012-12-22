@@ -26,37 +26,31 @@ describe "plantings/new" do
 
       # create gardens and crops to populate dropdowns
       @garden1 = Garden.create!(
-        :id => 1,
         :user_id => @user.id,
         :name => 'Garden1'
       )
       @garden2 = Garden.create!(
-        :id => 2,
         :user_id => @user.id,
         :name => 'Garden2'
       )
 
       @crop1 = Crop.create!(
-        :id => 1,
         :system_name => 'Tomato',
         :en_wikipedia_url => 'http://blah'
       )
       @crop2 = Crop.create!(
-        :id => 2,
         :system_name => 'Corn',
         :en_wikipedia_url => 'http://blah'
       )
       @crop3 = Crop.create!(
-        :id => 3,
         :system_name => 'Chard',
         :en_wikipedia_url => 'http://blah'
       )
 
-      # params to test default choice of crop and garden
-      # XXX this is very wrong! but we are still trying to figure out
-      # how to do it the right way. commiting as is, for now.
-      render :template => 'plantings/new',
-        :params => { :crop_id => 2, :garden_id => 2 }
+      assign(:crop, @crop2)
+      assign(:garden, @garden2)
+
+      render
     end
 
     it "renders new planting form" do
@@ -70,12 +64,12 @@ describe "plantings/new" do
 
     it "selects a crop given in a param" do
       assert_select "select#planting_crop_id",
-        :html => /option value="2" selected="selected"/
+        :html => /option value="#{@crop2.id}" selected="selected"/
     end
 
     it "selects a garden given in a param" do
       assert_select "select#planting_garden_id",
-        :html => /option value="2" selected="selected"/
+        :html => /option value="#{@garden2.id}" selected="selected"/
     end
   end
 end

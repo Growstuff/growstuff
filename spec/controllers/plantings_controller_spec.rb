@@ -43,7 +43,7 @@ describe PlantingsController do
 
     it "doesn't die if no crop specified" do
       get :new, {}, valid_session
-      assigns(:crop).should be_nil
+      assigns(:crop).should be_a_new(Crop)
     end
 
     it "picks up garden from params" do
@@ -63,7 +63,7 @@ describe PlantingsController do
 
     it "doesn't die if no garden specified" do
       get :new, {}, valid_session
-      assigns(:garden).should be_nil
+      assigns(:garden).should be_a_new(Garden)
     end
 
   end

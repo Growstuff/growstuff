@@ -8,10 +8,11 @@
 
   .control-group
     = f.label 'What did you plant?', :class => 'control-label'
-    .controls= collection_select(:planting, :crop_id, Crop.all(:order => :system_name), :id, :system_name, :selected => params[:crop_id])
+    .controls= collection_select(:planting, :crop_id, Crop.all(:order => :system_name), :id, :system_name, :selected => @crop.id)
   .control-group
     = f.label 'Where did you plant it?', :class => 'control-label'
-    .controls= collection_select(:planting, :garden_id, Garden.where(:user_id => current_user), :id, :name, :selected => params[:garden_id])
+    .controls= collection_select(:planting, :garden_id,
+        Garden.where(:user_id => current_user), :id, :name, :selected => @garden.id)
   .control-group
     = f.label 'When?', :class => 'control-label'
     .controls= f.datetime_select :planted_at, options = { :include_blank => true }, html_options = { :class => "span1" }
