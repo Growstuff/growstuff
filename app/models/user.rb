@@ -38,6 +38,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.find_confirmed(params)
+    find(params, :conditions => 'confirmed_at IS NOT NULL')
+  end
+
+  def self.confirmed
+    where('confirmed_at IS NOT NULL')
+  end
+
   def to_s
     return username
   end
