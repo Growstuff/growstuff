@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
   def index
-    @members = User.where('confirmed_at IS NOT NULL')
+    @members = User.confirmed
 
     respond_to do |format|
       format.html # index.html.haml
@@ -9,10 +9,7 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member = User.find(
-      params[:id],
-      :conditions => 'confirmed_at IS NOT NULL'
-    )
+    @member = User.find_confirmed(params[:id])
     @updates = @member.updates
 
     respond_to do |format|
