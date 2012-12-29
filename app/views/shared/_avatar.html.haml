@@ -1,0 +1,4 @@
+- truncate ||= false
+=image_tag(Gravatar.new(member.email).image_url( options = { :size => defined?(size) ?  size : 150, :default => :identicon }), :alt => '', :class => 'img-rounded' )
+%h4= link_to(truncate ? shorten(member.to_s, 30) : member, member_path(member))
+

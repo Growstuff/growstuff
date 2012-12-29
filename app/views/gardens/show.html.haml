@@ -2,10 +2,7 @@
 
 .row
   .span3
-    =image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-    %h4
-      Owner:
-      =link_to @garden.owner, url_for(member_path(@garden.owner))
+    = render :partial => "shared/avatar", :locals => { :member => @garden.owner }
 
     %h4= "#{@garden.owner}'s other gardens"
     %ul
