@@ -9,7 +9,7 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member = User.find_confirmed(params[:id])
+    @member = User.confirmed.find(params[:id])
     @updates = @member.updates
 
     respond_to do |format|

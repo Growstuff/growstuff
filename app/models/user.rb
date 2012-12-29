@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   # Give each new user a default garden
   after_create {|user| Garden.new(:name => "Garden", :user_id => user.id).save }
 
+  scope :confirmed, where('confirmed_at IS NOT NULL')
+
   # allow login via either username or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -36,14 +38,6 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
-  end
-
-  def self.find_confirmed(params)
-    find(params, :conditions => 'confirmed_at IS NOT NULL')
-  end
-
-  def self.confirmed
-    where('confirmed_at IS NOT NULL')
   end
 
   def to_s
