@@ -2,7 +2,7 @@
   .update
     .row
       .span1
-        = render :partial => "members/gravatar", :locals => { :email => update.user.email }
+        = render :partial => "shared/avatar", :locals => { :member => update.user }
       .span7
         - if subject
           %h3= link_to strip_tags(update.subject), update

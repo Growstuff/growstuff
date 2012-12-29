@@ -7,5 +7,4 @@
   - @members.each do |m|
     %li.span2
       .thumbnail(style="height: 190px")
-        = render :partial => "gravatar", :locals => { :email => m.email }
-        = link_to shorten(m.username, 30), member_path(m)
+        = render :partial => "shared/avatar", :locals => { :member => m, :truncate => true }
