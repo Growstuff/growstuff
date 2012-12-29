@@ -9,7 +9,7 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member = User.find_confirmed(params[:id])
+    @member = User.confirmed.find(params[:id])
     @updates = @member.updates
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
