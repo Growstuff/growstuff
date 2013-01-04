@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'bundler', '>=1.1.5'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.10'
 
 gem 'haml'
 
@@ -21,7 +21,7 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # long term, we'll probably want node.js for performance, but this will do for now as it's easier for new people to install
-  gem 'therubyracer', :platforms => :ruby
+  gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
   gem "less-rails"
   gem "twitter-bootstrap-rails"
 
