@@ -169,7 +169,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.1.9)
+    twitter-bootstrap-rails (2.1.6)
       actionpack (>= 3.1)
       execjs
       railties (>= 3.1)
@@ -214,7 +214,7 @@ DEPENDENCIES
   spork (~> 0.9.0.rc)
   sqlite3
   therubyracer (~> 0.10.2)
-  twitter-bootstrap-rails
+  twitter-bootstrap-rails (= 2.1.6)
   uglifier (>= 1.0.3)
   watchr
   webrat
