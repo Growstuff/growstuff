@@ -64,7 +64,7 @@ gem 'gravatar-ultimate'
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
 gem 'rake', '>= 10.0.0'
-gem 'cape'
+gem 'cape', '~> 1.5.0'
 
 gem 'diff-lcs'
 
