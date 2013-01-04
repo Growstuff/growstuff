@@ -67,4 +67,14 @@ Growstuff::Application.configure do
 
   # Growstuff configuration
   config.action_mailer.default_url_options = { :host => 'growstuff.org' }
+
+  config.action_mailer.smtp_settings = {
+    :domain => "growstuff.org",
+    :address   => "smtp.mandrillapp.com",
+    :port      => 587,
+    :enable_starttls_auto => true, # detects and uses STARTTLS
+    :user_name => ENV['MANDRILL_USERNAME'],
+    :password  => ENV['MANDRILL_PASSWORD'],
+    :authentication => 'login' # Mandrill supports 'plain' or 'login'
+  }
 end
