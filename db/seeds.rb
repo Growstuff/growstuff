@@ -21,7 +21,7 @@ puts "Finished loading crops"
 puts "Loading test users..."
 if Rails.env.development? or Rails.env.test?
   (1..3).each do |i|
-    @user = User.create(
+    @user = User.create!(
         :username => "test#{i}",
         :email => "test#{i}@example.com",
         :password => "password#{i}",
