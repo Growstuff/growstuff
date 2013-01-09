@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'bundler', '>=1.1.5'
 
-gem 'rails', '3.2.10'
+gem 'rails', '3.2.11'
 
 gem 'haml'
 
@@ -65,6 +65,11 @@ gem 'gravatar-ultimate'
 gem 'passenger'
 gem 'rake', '>= 10.0.0'
 gem 'cape', '~> 1.5.0'
+
+# instead of webrick, use thin, which is recommended for many reasons
+# eg. better on heroku, also doesn't throw spurious asset warnings
+
+gem 'thin'
 
 gem 'diff-lcs'
 
