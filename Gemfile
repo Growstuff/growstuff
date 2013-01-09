@@ -64,7 +64,7 @@ gem 'gravatar-ultimate'
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
 gem 'rake', '>= 10.0.0'
-gem 'cape'
+gem 'cape', '~> 1.5.0'
 
 # instead of webrick, use thin, which is recommended for many reasons
 # eg. better on heroku, also doesn't throw spurious asset warnings
