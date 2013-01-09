@@ -66,6 +66,11 @@ gem 'passenger'
 gem 'rake', '>= 10.0.0'
 gem 'cape'
 
+# instead of webrick, use thin, which is recommended for many reasons
+# eg. better on heroku, also doesn't throw spurious asset warnings
+
+gem 'thin'
+
 gem 'diff-lcs'
 
 group :development, :test do
