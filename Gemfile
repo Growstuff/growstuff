@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'bundler', '>=1.1.5'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.11'
 
 gem 'haml'
 
@@ -21,9 +21,9 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # long term, we'll probably want node.js for performance, but this will do for now as it's easier for new people to install
-  gem 'therubyracer', :platforms => :ruby
+  gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
   gem "less-rails"
-  gem "twitter-bootstrap-rails"
+  gem "twitter-bootstrap-rails", '2.1.6'
 
   gem 'uglifier', '>= 1.0.3'
 
@@ -65,6 +65,11 @@ gem 'gravatar-ultimate'
 gem 'passenger'
 gem 'rake', '>= 10.0.0'
 gem 'cape'
+
+# instead of webrick, use thin, which is recommended for many reasons
+# eg. better on heroku, also doesn't throw spurious asset warnings
+
+gem 'thin'
 
 gem 'diff-lcs'
 
