@@ -67,4 +67,15 @@ Growstuff::Application.configure do
 
   # Growstuff configuration
   config.action_mailer.default_url_options = { :host => 'dev.growstuff.org' }
+
+  config.action_mailer.smtp_settings = {
+      :port =>           '587',
+      :address =>        'smtp.mandrillapp.com',
+      :user_name =>      ENV['MANDRILL_USERNAME'],
+      :password =>       ENV['MANDRILL_APIKEY'],
+      :domain =>         'heroku.com',
+      :authentication => :plain
+  }
+  config.action_mailer.delivery_method = :smtp
+
 end
