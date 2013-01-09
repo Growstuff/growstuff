@@ -15,7 +15,7 @@
         Garden.where(:user_id => current_user), :id, :name, :selected => @garden.id)
   .control-group
     = f.label 'When?', :class => 'control-label'
-    .controls= f.datetime_select :planted_at, options = { :include_blank => true }, html_options = { :class => "span1" }
+    .controls= f.date_select :planted_at, options = { :include_blank => true }, html_options = { :class => "span1" }
   .control-group
     = f.label 'How many?', :class => 'control-label'
     .controls
