@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe "crops/new" do
   before(:each) do
-    assign(:crop, stub_model(Crop,
-      :system_name => "MyString",
-      :en_wikipedia_url => "MyString"
-    ).as_new_record)
+    assign(:crop, FactoryGirl.create(:maize))
   end
 
   context "logged out" do
@@ -18,8 +15,7 @@ describe "crops/new" do
   context "logged in" do
 
     before(:each) do
-      @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
-      @user.confirm!
+      @user = FactoryGirl.create(:confirmed_user)
       sign_in @user
       render
     end

@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe "scientific_names/edit" do
   before(:each) do
-    @scientific_name = assign(:scientific_name, stub_model(ScientificName,
-      :scientific_name => "MyString",
-      :crop_id => 1
-    ))
+    @scientific_name = assign(:scientific_name,
+      FactoryGirl.create(:zea_mays)
+    )
   end
 
   context "logged out" do
@@ -17,8 +16,7 @@ describe "scientific_names/edit" do
 
   context "logged in" do
     before(:each) do
-      @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
-      @user.confirm!
+      @user = FactoryGirl.create(:confirmed_user)
       sign_in @user
       render
     end
