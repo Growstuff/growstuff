@@ -2,16 +2,10 @@ require 'spec_helper'
 
 describe "crops/index" do
   before(:each) do
-    assign(:crops, [
-      stub_model(Crop,
-        :system_name => "Maize",
-        :en_wikipedia_url => "http://en.wikipedia.org/wiki/Maize"
-      ),
-      stub_model(Crop,
-        :system_name => "Tomato",
-        :en_wikipedia_url => "http://en.wikipedia.org/wiki/Tomato"
-      )
-    ])
+  assign(:crops, [
+    FactoryGirl.create(:tomato),
+    FactoryGirl.create(:maize)
+  ])
   end
 
   it "renders a list of crops" do
@@ -20,12 +14,12 @@ describe "crops/index" do
     assert_select "a", :text => "Maize"
     assert_select "a", :text => "Tomato"
   end
-  
+
   it "counts the number of crops" do
     render
     rendered.should contain "Displaying 2 crops"
   end
-  
+
   context "logged out" do
     it "doesn't show the new crop link if logged out" do
       render
