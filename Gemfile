@@ -80,4 +80,5 @@ group :development, :test do
   gem 'webrat'
   gem 'watchr'
   gem 'spork', '~> 0.9.0.rc'
+  gem 'factory_girl_rails', '~> 4.0'
 end
