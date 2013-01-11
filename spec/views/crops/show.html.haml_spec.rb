@@ -2,15 +2,9 @@ require 'spec_helper'
 
 describe "crops/show" do
   before(:each) do
-    @crop = assign(:crop, stub_model(Crop,
-      :id => 1,
-      :system_name => "Corn",
-      :en_wikipedia_url => "http://en.wikipedia.org/Maize"
+    @crop = assign(:crop, FactoryGirl.create(:maize,
+      :scientific_names => [ FactoryGirl.create(:zea_mays) ]
     ))
-    @crop.scientific_names.create(
-      :scientific_name => "Zea mays",
-      :crop_id => 1
-    )
   end
 
   it "shows the wikipedia URL" do
@@ -31,7 +25,7 @@ describe "crops/show" do
 
   it "links to the right crop in the planting link" do
     render
-    assert_select("a[href=#{new_planting_path}?crop_id=1]")
+    assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
   end
 
   context "logged out" do
