@@ -4,9 +4,7 @@ describe Crop do
   context 'all fields present' do
 
     before(:each) do
-      @crop = Crop.new
-      @crop.system_name = "Tomato"
-      @crop.en_wikipedia_url = "http://en.wikipedia.org/wiki/Tomato"
+      @crop = FactoryGirl.create(:tomato)
     end
 
     it 'should save a basic crop' do
@@ -36,10 +34,7 @@ describe Crop do
 
   context 'random' do
     before(:each) do
-      @crop = Crop.new
-      @crop.system_name = "Tomato"
-      @crop.en_wikipedia_url = "http://en.wikipedia.org/wiki/Tomato"
-      @crop.save
+      @crop = FactoryGirl.create(:tomato)
     end
 
     it 'should find a random crop' do
