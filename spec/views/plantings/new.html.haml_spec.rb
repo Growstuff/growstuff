@@ -2,7 +2,16 @@ require 'spec_helper'
 
 describe "plantings/new" do
   before(:each) do
-    assign(:planting, FactoryGirl.create(:planting))
+    @user = FactoryGirl.create(:user)
+
+    # create gardens and crops to populate dropdowns
+    @garden1 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden1')
+    @garden2 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden2')
+    @crop1 = FactoryGirl.create(:tomato)
+    @crop2 = FactoryGirl.create(:maize)
+
+    assign(:planting, FactoryGirl.create(:planting, :garden => @garden1))
+
   end
 
   context "logged out" do
@@ -14,18 +23,9 @@ describe "plantings/new" do
 
   context "logged in" do
     before(:each) do
-      @user = FactoryGirl.create(:confirmed_user)
       sign_in @user
-
-      # create gardens and crops to populate dropdowns
-      @garden1 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden1')
-      @garden2 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden2')
-      @crop1 = FactoryGirl.create(:tomato)
-      @crop2 = FactoryGirl.create(:maize)
-
       assign(:crop, @crop2)
       assign(:garden, @garden2)
-
       render
     end
 

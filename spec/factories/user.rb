@@ -5,14 +5,15 @@ FactoryGirl.define do
     password 'password1'
     email 'user1@example.com'
     tos_agreement true
+    confirmed_at Time.now()
 
     factory :no_tos_user do
       tos_agreement false
       email 'notos@example.com'
     end
 
-    factory :confirmed_user do
-      confirmed_at Time.now()
+    factory :unconfirmed_user do
+      confirmed_at nil
       email 'confirmed@example.com'
     end
 

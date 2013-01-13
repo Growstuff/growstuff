@@ -28,7 +28,6 @@ describe "members/show" do
 
   context "signed in user" do
     before(:each) do
-      @member.confirm!
       sign_in @member
       render
     end

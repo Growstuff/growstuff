@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe "updates/new" do
   before(:each) do
-    assign(:update, FactoryGirl.create(:update))
+    @user = FactoryGirl.create(:user)
+    assign(:update, FactoryGirl.create(:update, :user => @user))
   end
 
   context "logged out" do
@@ -14,7 +15,6 @@ describe "updates/new" do
 
   context "logged in" do
     before(:each) do
-      @user = FactoryGirl.create(:confirmed_user)
       sign_in @user
       render
     end

@@ -4,7 +4,7 @@ describe Planting do
 
   before(:each) do
     @crop     = FactoryGirl.create(:tomato)
-    @user     = FactoryGirl.create(:confirmed_user)
+    @user     = FactoryGirl.create(:user)
     @garden   = FactoryGirl.create(:garden, :user => @user)
     @planting = FactoryGirl.create(:planting,
         :crop => @crop, :garden => @garden)
