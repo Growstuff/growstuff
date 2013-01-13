@@ -2,38 +2,20 @@ require 'spec_helper'
 
 describe "plantings/index" do
   before(:each) do
-    @user = assign(:user, stub_model(User,
-      :id => 23,
-      :username => 'blah',
-      :password => 'blahblah',
-      :tos_agreement => true
-    ))
-    @garden = assign(:garden, stub_model(Garden,
-      :id => 42,
-      :user => @user,
-      :name => "My Awesome Allotment"
-    ))
-    @crop = assign(:crop, stub_model(Crop,
-      :id => 98,
-      :system_name => "Tomato"
-    ))
-    @crop2 = assign(:crop, stub_model(Crop,
-      :id => 99,
-      :system_name => "Maize"
-    ))
-    assign(:recent_plantings, [ stub_model(Planting,
+    @user   = FactoryGirl.create(:user)
+    @garden = FactoryGirl.create(:garden, :user => @user)
+    @tomato = FactoryGirl.create(:tomato)
+    @maize  = FactoryGirl.create(:maize)
+    assign(:recent_plantings, [
+      FactoryGirl.create(:planting,
         :garden => @garden,
-        :crop => @crop,
-        :planted_at => '2008-01-05 12:34:56',
-        :quantity => 3,
-        :description => "MyText *ITALIC*",
-        :created_at => Time.now
+        :crop => @tomato
       ),
-      stub_model(Planting,
+      FactoryGirl.create(:planting,
         :garden => @garden,
-        :crop => @crop2,
+        :crop => @maize,
         :description => '',
-        :created_at => Time.now
+        :planted_at => '2013-01-13 01:25:34'
       )
     ])
     render
@@ -42,11 +24,11 @@ describe "plantings/index" do
   it "renders a list of plantings" do
     rendered.should contain 'Tomato'
     rendered.should contain 'Maize'
-    rendered.should contain "blah's My Awesome Allotment"
+    rendered.should contain "user1's My Garden"
   end
 
   it "shows descriptions where they exist" do
-    rendered.should contain "MyText"
+    rendered.should contain "This is a"
   end
 
   it "shows filler when there is no description" do
@@ -54,11 +36,11 @@ describe "plantings/index" do
   end
 
   it "displays planting time" do
-    rendered.should contain '2008-01-05 12:34:56'
+    rendered.should contain '2013-01-13 01:25:34'
   end
 
   it "renders markdown in the description" do
-    assert_select "em", "ITALIC"
+    assert_select "em", "really"
   end
 
 end

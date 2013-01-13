@@ -18,20 +18,12 @@ describe "plantings/edit" do
     )
     @wrong_user.confirm!
 
-    @garden = assign(:garden, stub_model(Garden,
-      :id => 1,
-      :user => @right_user,
-      :name => "Blah"
-    ))
-    @planting = assign(:planting, stub_model(Planting,
-      :garden_id => 1,
-      :crop_id => 1,
-      :quantity => 1,
-      :description => "MyText"
-    ))
+    @crop = FactoryGirl.create(:crop)
+    @garden = FactoryGirl.create(:garden, :user => @right_user)
 
-    assign(:crop, Crop.new)
-    assign(:garden, Garden.new)
+    @planting = assign(:planting,
+      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)
+    )
 
   end
 
@@ -61,9 +53,6 @@ describe "plantings/edit" do
     end
 
     it "renders the edit planting form" do
-      render
-
-      # Run the generator again with the --webrat flag if you want to use webrat matchers
       assert_select "form", :action => plantings_path(@planting), :method => "post" do
         assert_select "select#planting_garden_id", :name => "planting[garden_id]"
         assert_select "select#planting_crop_id", :name => "planting[crop_id]"
