@@ -4,8 +4,8 @@ describe 'members/show.rss.builder', :type => "view" do
   before(:each) do
     @member = assign(:member, FactoryGirl.create(:member))
     assign(:posts, [
-      FactoryGirl.build(:post, :id => 1, :member => @member),
-      FactoryGirl.build(:post, :id => 2, :member => @member)
+      FactoryGirl.build(:post, :id => 1, :author => @member),
+      FactoryGirl.build(:post, :id => 2, :author => @member)
     ])
     render
   end

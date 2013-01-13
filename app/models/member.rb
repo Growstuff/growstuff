@@ -2,7 +2,7 @@ class Member < ActiveRecord::Base
   extend FriendlyId
   friendly_id :login_name, use: :slugged
 
-  has_many :posts
+  has_many :posts, :foreign_key => 'author_id'
   has_many :gardens
 
   # Include default devise modules. Others available are:

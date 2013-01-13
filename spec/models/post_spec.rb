@@ -6,13 +6,13 @@ describe Post do
   end
 
   it "should be sorted in reverse order" do
-    FactoryGirl.create(:post, :subject => 'first entry', :member => @member)
-    FactoryGirl.create(:post, :subject => 'second entry', :member => @member)
+    FactoryGirl.create(:post, :subject => 'first entry', :author => @member)
+    FactoryGirl.create(:post, :subject => 'second entry', :author => @member)
     Post.first.subject.should == "second entry"
   end
 
   it "should have a slug" do
-    @post = FactoryGirl.create(:post, :member => @member)
+    @post = FactoryGirl.create(:post, :author => @member)
     @time = @post.created_at
     @datestr = @time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years

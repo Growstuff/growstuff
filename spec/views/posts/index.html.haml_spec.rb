@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "posts/index" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
-    @post1 = FactoryGirl.build(:post, :member => @member)
-    @post2 = FactoryGirl.build(:post, :member => @member)
+    @author = FactoryGirl.create(:member)
+    @post1 = FactoryGirl.build(:post, :author => @author)
+    @post2 = FactoryGirl.build(:post, :author => @author)
     assign(:posts, [@post1, @post2])
     render
   end

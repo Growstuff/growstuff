@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe "posts/show" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @author = FactoryGirl.create(:member)
   end
 
   it "renders the post" do
     @post = assign(:post,
-      FactoryGirl.create(:post, :member => @member))
+      FactoryGirl.create(:post, :author => @author))
     render
     # show the name of the member who posted the post
     rendered.should match(/member1/)
@@ -20,14 +20,14 @@ describe "posts/show" do
 
   it "should parse markdown into html" do
     @post = assign(:post,
-      FactoryGirl.create(:markdown_post, :member => @member))
+      FactoryGirl.create(:markdown_post, :author => @author))
     render
     assert_select "strong", "strong"
   end
 
   it "shouldn't let html through in body" do
     @post = assign(:post,
-      FactoryGirl.create(:html_post, :member => @member))
+      FactoryGirl.create(:html_post, :author => @author))
     render
     rendered.should match(/EVIL/)
     rendered.should_not match(/a href="http:\/\/evil.com"/)

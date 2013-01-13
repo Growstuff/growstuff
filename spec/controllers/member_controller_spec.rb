@@ -5,7 +5,7 @@ describe MembersController do
   before :each do
     @member1 = FactoryGirl.create(:member, :login_name => 'fred')
     @member2 = FactoryGirl.create(:unconfirmed_member, :login_name => 'bob')
-    @posts = [ FactoryGirl.create(:post, :member => @member1) ]
+    @posts = [ FactoryGirl.create(:post, :author => @member1) ]
   end
 
   describe "GET index" do

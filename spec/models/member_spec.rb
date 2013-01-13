@@ -29,6 +29,11 @@ describe 'member' do
       @member.to_s.should == 'member1'
       "#{@member}".should == 'member1'
     end
+
+    it 'should be able to fetch posts' do
+      @post = FactoryGirl.create(:post, :author => @member)
+      @member.posts.should eq [@post]
+    end
   end
 
   context 'no TOS agreement' do

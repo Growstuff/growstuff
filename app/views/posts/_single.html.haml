@@ -2,14 +2,14 @@
   .post
     .row
       .span1
-        = render :partial => "shared/avatar", :locals => { :member => post.member }
+        = render :partial => "shared/avatar", :locals => { :member => post.author }
       .span7
         - if subject
           %h3= link_to strip_tags(post.subject), post
 
         .post-meta
           Posted by
-          = link_to post.member.login_name, member_path(post.member)
+          = link_to post.author.login_name, member_path(post.author)
           at
           = post.created_at
 
@@ -17,7 +17,7 @@
           :markdown
             #{ strip_tags post.body }
 
-        - if current_member == post.member
+        - if current_member == post.author
           .post-actions
             = link_to 'Edit', edit_post_path(post), :class => 'btn'
             = link_to 'Delete', post, method: :delete, |

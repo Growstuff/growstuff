@@ -1,4 +1,4 @@
-= content_for :title, "Post an post"
+= content_for :title, "Post a post"
 
 - if member_signed_in?
   = form_for @post, :url => { :action => "create" } do |f|

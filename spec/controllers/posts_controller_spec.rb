@@ -8,7 +8,7 @@ describe PostsController do
   # Post. As you add validations to Post, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { :member_id => 1, :subject => "blah", :body => "blah blah" }
+    { :author_id => 1, :subject => "blah", :body => "blah blah" }
   end
 
   # The parameters required to be passed to a Web request.

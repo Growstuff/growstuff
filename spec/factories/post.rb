@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :post do
     subject "A Post"
     body "This is some text."
-    member
+    author
     created_at Time.now
 
     # Markdown is allowed in posts

@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe 'posts/index.rss.builder', :type => "view" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @author = FactoryGirl.create(:member)
     assign(:recent_posts, [
-      FactoryGirl.build(:post, :id => 1, :member => @member),
-      FactoryGirl.build(:post, :id => 2, :member => @member)
+      FactoryGirl.build(:post, :id => 1, :author => @author),
+      FactoryGirl.build(:post, :id => 2, :author => @author)
     ])
     render
   end

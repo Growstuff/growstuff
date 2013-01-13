@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe "posts/edit" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
-    @post = assign(:post, FactoryGirl.create(:post, :member => @member))
+    @author = FactoryGirl.create(:member)
+    @post = assign(:post, FactoryGirl.create(:post, :author => @author))
   end
 
   context "logged out" do
@@ -15,7 +15,7 @@ describe "posts/edit" do
 
   context "logged in" do
     before(:each) do
-      sign_in @member
+      sign_in @author
       render
     end
 
