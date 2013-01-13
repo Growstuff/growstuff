@@ -6,6 +6,10 @@ FactoryGirl.define do
     email "user1@example.com"
     tos_agreement true
 
+    factory :no_tos_user do
+      tos_agreement false
+    end
+
     factory :confirmed_user do
       confirmed_at Time.now()
     end
