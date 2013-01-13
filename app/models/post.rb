@@ -1,13 +1,13 @@
 class Post < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :user_date_subject, use: :slugged
-  attr_accessible :body, :subject, :user_id
-  belongs_to :user
+  friendly_id :member_date_subject, use: :slugged
+  attr_accessible :body, :subject, :member_id
+  belongs_to :member
   default_scope order("created_at desc")
 
-  def user_date_subject
+  def member_date_subject
     # slugs are created before created_at is set
     time = created_at || Time.now
-    "#{user.username} #{time.strftime("%Y%m%d")} #{subject}"
+    "#{member.username} #{time.strftime("%Y%m%d")} #{subject}"
   end
 end

@@ -2,15 +2,15 @@ class Garden < ActiveRecord::Base
   extend FriendlyId
   friendly_id :garden_slug, use: :slugged
 
-  attr_accessible :name, :slug, :user_id
-  belongs_to :user
+  attr_accessible :name, :slug, :member_id
+  belongs_to :member
 
   def garden_slug
     formatted_name = name.downcase.gsub(' ', '-')
-    "#{user.username}-#{formatted_name}"
+    "#{member.username}-#{formatted_name}"
   end
 
   def owner
-    return user
+    return member
   end
 end

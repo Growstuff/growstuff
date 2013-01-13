@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :garden do
     name 'My Garden'
-    user
+    member
   end
 end

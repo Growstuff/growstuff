@@ -6,7 +6,7 @@ Growstuff::Application.routes.draw do
   resources :scientific_names
   resources :crops
   resources :members
-  devise_for :users
+  devise_for :members
 
   get "home/index"
 

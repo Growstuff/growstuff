@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130113045802) do
+ActiveRecord::Schema.define(:version => 20130113060852) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -26,45 +26,16 @@ ActiveRecord::Schema.define(:version => 20130113045802) do
 
   create_table "gardens", :force => true do |t|
     t.string   "name",       :null => false
-    t.integer  "user_id"
+    t.integer  "member_id"
     t.string   "slug",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  add_index "gardens", ["member_id"], :name => "index_gardens_on_user_id"
   add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
-  add_index "gardens", ["user_id"], :name => "index_gardens_on_user_id"
 
-  create_table "plantings", :force => true do |t|
-    t.integer  "garden_id",   :null => false
-    t.integer  "crop_id",     :null => false
-    t.datetime "planted_at"
-    t.integer  "quantity"
-    t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  create_table "posts", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.string   "subject",    :null => false
-    t.text     "body",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "slug"
-  end
-
-  add_index "posts", ["created_at", "user_id"], :name => "index_updates_on_created_at_and_user_id"
-  add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
-
-  create_table "scientific_names", :force => true do |t|
-    t.string   "scientific_name", :null => false
-    t.integer  "crop_id",         :null => false
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
-  create_table "users", :force => true do |t|
+  create_table "members", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
@@ -89,10 +60,39 @@ ActiveRecord::Schema.define(:version => 20130113045802) do
     t.boolean  "tos_agreement"
   end
 
-  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-  add_index "users", ["slug"], :name => "index_users_on_slug", :unique => true
-  add_index "users", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
+  add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
+  add_index "members", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "members", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "members", ["slug"], :name => "index_users_on_slug", :unique => true
+  add_index "members", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
+
+  create_table "plantings", :force => true do |t|
+    t.integer  "garden_id",   :null => false
+    t.integer  "crop_id",     :null => false
+    t.datetime "planted_at"
+    t.integer  "quantity"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "posts", :force => true do |t|
+    t.integer  "member_id",  :null => false
+    t.string   "subject",    :null => false
+    t.text     "body",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "slug"
+  end
+
+  add_index "posts", ["created_at", "member_id"], :name => "index_updates_on_created_at_and_user_id"
+  add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
+
+  create_table "scientific_names", :force => true do |t|
+    t.string   "scientific_name", :null => false
+    t.integer  "crop_id",         :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
 end

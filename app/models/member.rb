@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class Member < ActiveRecord::Base
   extend FriendlyId
   friendly_id :username, use: :slugged
 
@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
   validates_acceptance_of :tos_agreement, :allow_nil => false,
     :accept => true
 
-  # Give each new user a default garden
-  after_create {|user| Garden.new(:name => "Garden", :user_id => user.id).save }
+  # Give each new member a default garden
+  after_create {|member| Garden.new(:name => "Garden", :member_id => member.id).save }
 
   # allow login via either username or email address
   def self.find_first_by_auth_conditions(warden_conditions)
