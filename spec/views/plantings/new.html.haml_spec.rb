@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe "plantings/new" do
   before(:each) do
-    @user = FactoryGirl.create(:user)
+    @member = FactoryGirl.create(:member)
 
     # create gardens and crops to populate dropdowns
-    @garden1 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden1')
-    @garden2 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden2')
+    @garden1 = FactoryGirl.create(:garden, :owner => @member, :name => 'Garden1')
+    @garden2 = FactoryGirl.create(:garden, :owner => @member, :name => 'Garden2')
     @crop1 = FactoryGirl.create(:tomato)
     @crop2 = FactoryGirl.create(:maize)
 
@@ -17,13 +17,13 @@ describe "plantings/new" do
   context "logged out" do
     it "doesn't show the planting form if logged out" do
       render
-      rendered.should contain "Only logged in users can do this"
+      rendered.should contain "Only logged in members can do this"
     end
   end
 
   context "logged in" do
     before(:each) do
-      sign_in @user
+      sign_in @member
       assign(:crop, @crop2)
       assign(:garden, @garden2)
       render

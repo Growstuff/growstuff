@@ -4,19 +4,19 @@ describe Planting do
 
   before(:each) do
     @crop     = FactoryGirl.create(:tomato)
-    @user     = FactoryGirl.create(:user)
-    @garden   = FactoryGirl.create(:garden, :user => @user)
+    @member   = FactoryGirl.create(:member)
+    @garden   = FactoryGirl.create(:garden, :owner => @member)
     @planting = FactoryGirl.create(:planting,
         :crop => @crop, :garden => @garden)
   end
 
   it "generates an owner" do
-    @planting.owner.should be_an_instance_of User
-    @planting.owner.username.should match /^user1$/
+    @planting.owner.should be_an_instance_of Member
+    @planting.owner.login_name.should match /^member1$/
   end
 
   it "generates a location" do
-    @planting.location.should match /^user1's My Garden$/
+    @planting.location.should match /^member1's Springfield Community Garden$/
   end
 
 end

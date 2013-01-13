@@ -1,7 +1,7 @@
 = content_for :title, "Edit garden"
 
-- if user_signed_in?
-  - if current_user == @garden.owner
+- if member_signed_in?
+  - if current_member == @garden.owner
     = form_for @garden, :html => {:class => "form-horizontal"} do |f|
       .control-group
         = f.label :name, :class => "control-label"
@@ -11,4 +11,4 @@
   - else
     .alert You aren't allowed to edit this garden.
 - else
-  .alert You're not logged in. Only logged in users can do this.
+  .alert You're not logged in. Only logged in members can do this.

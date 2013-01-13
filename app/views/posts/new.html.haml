@@ -1,14 +1,14 @@
-= content_for :title, "Post an update"
+= content_for :title, "Post a post"
 
-- if user_signed_in?
-  = form_for @update, :url => { :action => "create" } do |f|
+- if member_signed_in?
+  = form_for @post, :url => { :action => "create" } do |f|
     %fieldset
-      = label_tag :update, "Subject"
+      = label_tag :post, "Subject"
       = f.text_field :subject, :class => 'input-block-level'
       = label_tag :body, "What's going on in your food garden?"
       = f.text_area :body, :rows => 12, :class => 'input-block-level'
       = f.submit "Post", :class => 'btn'
 - else
-  .alert You're not logged in. Only logged in users can do this.
+  .alert You're not logged in. Only logged in members can do this.
 
-= link_to 'Back', updates_path
+= link_to 'Back', posts_path

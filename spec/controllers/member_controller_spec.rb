@@ -3,34 +3,30 @@ require 'spec_helper'
 describe MembersController do
 
   before :each do
-    @user1 = User.create!(
-      :username => "fred",
-      :password => "mynameisfred",
-      :email => "fred@example.com",
-      :tos_agreement => true
-    )
-    @user2 = User.create!(
-      :username => "bob",
-      :password => "mynameisbob",
-      :email => "bob@example.com",
-      :tos_agreement => true
-    )
-    @user1.confirm!
+    @member1 = FactoryGirl.create(:member, :login_name => 'fred')
+    @member2 = FactoryGirl.create(:unconfirmed_member, :login_name => 'bob')
+    @posts = [ FactoryGirl.create(:post, :author => @member1) ]
   end
 
   describe "GET index" do
     it "assigns only confirmed members as @members" do
-      user = User.find('fred')
+      member = Member.find('fred')
       get :index, {}
-      assigns(:members).should eq([user])
+      assigns(:members).should eq([member])
     end
   end
 
   describe "GET show" do
-    it "assigns the requested member as @member " do
-      user = User.find('fred')
-      get :show, {:id => user.id}
-      assigns(:member).should eq(user)
+    it "assigns the requested member as @member" do
+      member = Member.find('fred')
+      get :show, {:id => member.id}
+      assigns(:member).should eq(member)
+    end
+
+    it "assigns @posts with the member's posts" do
+      member = Member.find('fred')
+      get :show, {:id => member.id}
+      assigns(:posts).should eq(@posts)
     end
 
     it "doesn't show completely nonsense members" do
@@ -38,15 +34,16 @@ describe MembersController do
     end
 
     it "doesn't show unconfirmed members" do
-      user = User.find('bob')
-      lambda { get :show, {:id => user.id} }.should raise_error
+      member = Member.find('bob')
+      lambda { get :show, {:id => member.id} }.should raise_error
     end
+
   end
 
   describe "GET member's RSS feed" do
     it "returns an RSS feed" do
-      user = User.find('fred')
-      get :show, { :id => user.to_param, :format => "rss" }
+      member = Member.find('fred')
+      get :show, { :id => member.to_param, :format => "rss" }
       response.should be_success
       response.should render_template("members/show")
       response.content_type.should eq("application/rss+xml")

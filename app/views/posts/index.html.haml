@@ -1,0 +1,9 @@
+= content_for :title, "Recent Growstuff member posts"
+
+%p
+  = "Displaying #{@posts.length} posts"
+
+- @posts.each do |post|
+  = render :partial => "single", :locals => { :post => post, :subject => true }
+
+= link_to 'New Update', new_post_path

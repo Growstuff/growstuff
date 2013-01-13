@@ -5,10 +5,10 @@ class Planting < ActiveRecord::Base
   belongs_to :crop
 
   def location
-    return "#{garden.user.username}'s #{garden.name}"
+    return "#{garden.owner.login_name}'s #{garden.name}"
   end
 
   def owner
-    return garden.user
+    return garden.owner
   end
 end

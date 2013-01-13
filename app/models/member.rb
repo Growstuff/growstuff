@@ -1,9 +1,9 @@
-class User < ActiveRecord::Base
+class Member < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :username, use: :slugged
+  friendly_id :login_name, use: :slugged
 
-  has_many :updates
-  has_many :gardens
+  has_many :posts,   :foreign_key => 'author_id'
+  has_many :gardens, :foreign_key => 'owner_id'
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
          :confirmable, :lockable, :timeoutable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation,
+  attr_accessible :login_name, :email, :password, :password_confirmation,
     :remember_me, :login, :tos_agreement
   # attr_accessible :title, :body
 
@@ -25,14 +25,14 @@ class User < ActiveRecord::Base
   validates_acceptance_of :tos_agreement, :allow_nil => false,
     :accept => true
 
-  # Give each new user a default garden
-  after_create {|user| Garden.new(:name => "Garden", :user_id => user.id).save }
+  # Give each new member a default garden
+  after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
 
-  # allow login via either username or email address
+  # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions).where(["lower(login_name) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     else
       where(conditions).first
     end
@@ -47,6 +47,6 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    return username
+    return login_name
   end
 end

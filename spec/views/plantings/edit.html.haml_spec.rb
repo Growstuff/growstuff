@@ -2,24 +2,17 @@ require 'spec_helper'
 
 describe "plantings/edit" do
   before(:each) do
-    @right_user = User.create!(
-      :username => 'right',
-      :email => "growstuff@example.com",
-      :password => 'irrelevant',
-      :tos_agreement => true
+    @right_member = FactoryGirl.create(:member,
+      :login_name => 'right',
+      :email => 'right@example.com'
     )
-    @right_user.confirm!
-
-    @wrong_user = User.create!(
-      :username => 'wrong',
-      :email => "growstuff2@example.com",
-      :password => 'irrelevant',
-      :tos_agreement => true
+    @wrong_member = FactoryGirl.create(:member,
+      :login_name => 'wrong',
+      :email => 'wrong@example.com'
     )
-    @wrong_user.confirm!
 
     @crop = FactoryGirl.create(:crop)
-    @garden = FactoryGirl.create(:garden, :user => @right_user)
+    @garden = FactoryGirl.create(:garden, :owner => @right_member)
 
     @planting = assign(:planting,
       FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)
@@ -30,13 +23,13 @@ describe "plantings/edit" do
   context "logged out" do
     it "doesn't show the planting form if logged out" do
       render
-      rendered.should contain "Only logged in users can do this"
+      rendered.should contain "Only logged in members can do this"
     end
   end
 
-  context "wrong user" do
+  context "wrong member" do
     before(:each) do
-      sign_in @wrong_user
+      sign_in @wrong_member
       render
     end
 
@@ -48,7 +41,7 @@ describe "plantings/edit" do
 
   context "logged in" do
     before(:each) do
-      sign_in @right_user
+      sign_in @right_member
       render
     end
 
