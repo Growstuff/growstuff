@@ -4,7 +4,7 @@ describe 'user' do
 
   context 'valid user' do
     before(:each) do
-      @user = FactoryGirl.create(:confirmed_user)
+      @user = FactoryGirl.create(:user)
     end
 
     it 'should save a basic user' do
