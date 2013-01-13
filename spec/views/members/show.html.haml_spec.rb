@@ -20,10 +20,8 @@ describe "members/show" do
     assert_select "img", :src => /gravatar\.com\/avatar/
   end
 
-  context "no gardens" do
-    it "shouldn't mention the name of a garden" do
-      rendered.should_not contain "My Garden"
-    end
+  it "shows the auto-created garden" do
+    assert_select "li.active>a", :text => "Garden"
   end
 
   context "signed in member" do
@@ -34,17 +32,6 @@ describe "members/show" do
 
     it "contains a 'New Garden' link" do
       assert_select "a[href=#garden_new]", :text => "New Garden"
-    end
-  end
-
-  context "member has a garden" do
-    before(:each) do
-      FactoryGirl.create(:garden, :owner => @member)
-      render
-    end
-
-    it "displays a garden, if the member has one" do
-      rendered.should contain "Garden"
     end
   end
 
