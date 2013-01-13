@@ -3,18 +3,8 @@ require 'spec_helper'
 describe "members/index" do
   before(:each) do
     assign(:members, [
-      User.create!(
-        :username => "Marmaduke Blundell-Hollinshead-Blundell-Tolemache-Plantagenet-Whistlebinkie, 3rd Duke of Marmoset",
-        :password => "ilikehorses",
-        :email => "binky@example.com",
-        :tos_agreement => true
-      ),
-      User.create!(
-        :username => "bob",
-        :password => "password",
-        :email => "bob@example.com",
-        :tos_agreement => true
-      )
+      FactoryGirl.create(:user),
+      FactoryGirl.create(:long_name_user)
     ])
     render
   end
@@ -24,10 +14,10 @@ describe "members/index" do
   end
 
   it "does not truncate short names" do
-    rendered.should contain "bob"
-    rendered.should_not contain "bob..."
+    rendered.should contain "user1"
+    rendered.should_not contain "user1..."
   end
-  
+
   it "counts the number of members" do
     rendered.should contain "Displaying 2 members"
   end
@@ -35,5 +25,5 @@ describe "members/index" do
   it "contains two gravatar icons" do
     assert_select "img", :src => /gravatar\.com\/avatar/, :count => 2
   end
-  
+
 end
