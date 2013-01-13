@@ -1,0 +1,24 @@
+.well
+  .post
+    .row
+      .span1
+        = render :partial => "shared/avatar", :locals => { :member => post.user }
+      .span7
+        - if subject
+          %h3= link_to strip_tags(post.subject), post
+
+        .post-meta
+          Posted by
+          = link_to post.user.username, member_path(post.user)
+          at
+          = post.created_at
+
+        .post-body
+          :markdown
+            #{ strip_tags post.body }
+
+        - if current_user == post.user
+          .post-actions
+            = link_to 'Edit', edit_post_path(post), :class => 'btn'
+            = link_to 'Delete', post, method: :delete, |
+              data: { confirm: 'Are you sure?' }, :class => 'btn'

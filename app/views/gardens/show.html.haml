@@ -39,7 +39,7 @@
         .tab-pane.active#tab2
           .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-            Note: in due these will be limited to only those updates that apply to this particular garden!
+            Note: in due these will be limited to only those posts that apply to this particular garden!
 
-          - @garden.owner.updates.each do |update|
-            = render :partial => "updates/single", :locals => { :update => update, :subject => true }
+          - @garden.owner.posts.each do |post|
+            = render :partial => "posts/single", :locals => { :post => post, :subject => true }

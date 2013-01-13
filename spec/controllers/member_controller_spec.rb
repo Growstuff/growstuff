@@ -3,19 +3,9 @@ require 'spec_helper'
 describe MembersController do
 
   before :each do
-    @user1 = User.create!(
-      :username => "fred",
-      :password => "mynameisfred",
-      :email => "fred@example.com",
-      :tos_agreement => true
-    )
-    @user2 = User.create!(
-      :username => "bob",
-      :password => "mynameisbob",
-      :email => "bob@example.com",
-      :tos_agreement => true
-    )
-    @user1.confirm!
+    @user1 = FactoryGirl.create(:user, :username => 'fred')
+    @user2 = FactoryGirl.create(:unconfirmed_user, :username => 'bob')
+    @posts = [ FactoryGirl.create(:post, :user => @user1) ]
   end
 
   describe "GET index" do
@@ -27,10 +17,16 @@ describe MembersController do
   end
 
   describe "GET show" do
-    it "assigns the requested member as @member " do
+    it "assigns the requested member as @member" do
       user = User.find('fred')
       get :show, {:id => user.id}
       assigns(:member).should eq(user)
+    end
+
+    it "assigns @posts with the member's posts" do
+      user = User.find('fred')
+      get :show, {:id => user.id}
+      assigns(:posts).should eq(@posts)
     end
 
     it "doesn't show completely nonsense members" do
@@ -41,6 +37,7 @@ describe MembersController do
       user = User.find('bob')
       lambda { get :show, {:id => user.id} }.should raise_error
     end
+
   end
 
   describe "GET member's RSS feed" do

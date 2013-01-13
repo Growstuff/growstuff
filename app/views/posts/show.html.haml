@@ -1,0 +1,3 @@
+= content_for :title, @post.subject
+
+= render :partial => "single", :locals => { :post => @post, :subject => false }

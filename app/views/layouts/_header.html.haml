@@ -10,9 +10,9 @@
         %ul.nav
           %li= link_to "Crops", crops_path
           %li= link_to "Members", members_path
-          %li= link_to "Updates", updates_path
+          %li= link_to "Posts", posts_path
           - if user_signed_in?
-            %li= link_to("Post an update", new_update_path)
+            %li= link_to("Post something", new_post_path)
             %li= link_to("Plant something", new_planting_path)
             %li.divider-vertical
             %li= link_to current_user.username, member_path(current_user)
