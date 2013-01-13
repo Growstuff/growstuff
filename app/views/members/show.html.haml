@@ -46,5 +46,5 @@
           = render 'gardens/form'
 
     %h3 Updates
-    - @member.updates.each do |update|
-      = render :partial => "updates/single", :locals => { :update => update, :subject => true }
+    - @member.posts.each do |post|
+      = render :partial => "posts/single", :locals => { :post => post, :subject => true }

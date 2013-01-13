@@ -38,8 +38,8 @@ describe 'layouts/application.html.haml', :type => "view" do
       rendered.should contain 'test_user'
     end
 
-    it 'should have a "Post update" link' do
-      rendered.should contain 'Post an update'
+    it 'should have a "Post" link' do
+      rendered.should contain 'Post something'
     end
 
     it 'should have a plant something link' do
