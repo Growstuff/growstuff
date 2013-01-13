@@ -1,9 +1,9 @@
-= content_for :title, "Recent Growstuff member updates"
+= content_for :title, "Recent Growstuff member posts"
 
 %p
-  = "Displaying #{@updates.length} updates"
+  = "Displaying #{@posts.length} posts"
 
-- @updates.each do |update|
-  = render :partial => "single", :locals => { :update => update, :subject => true }
+- @posts.each do |post|
+  = render :partial => "single", :locals => { :post => post, :subject => true }
 
-= link_to 'New Update', new_update_path
+= link_to 'New Update', new_post_path
