@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :member, aliases: [:author] do
+  factory :member, aliases: [:author, :owner] do
     login_name 'member1'
     password 'password1'
     email 'member1@example.com'

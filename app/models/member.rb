@@ -2,8 +2,8 @@ class Member < ActiveRecord::Base
   extend FriendlyId
   friendly_id :login_name, use: :slugged
 
-  has_many :posts, :foreign_key => 'author_id'
-  has_many :gardens
+  has_many :posts,   :foreign_key => 'author_id'
+  has_many :gardens, :foreign_key => 'owner_id'
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -26,7 +26,7 @@ class Member < ActiveRecord::Base
     :accept => true
 
   # Give each new member a default garden
-  after_create {|member| Garden.new(:name => "Garden", :member_id => member.id).save }
+  after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)

@@ -11,9 +11,9 @@ describe "gardens/edit" do
 
   context "logged in" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
-      sign_in @member
-      @garden = assign(:garden, FactoryGirl.create(:garden, :member => @member))
+      @owner = FactoryGirl.create(:member)
+      sign_in @owner
+      @garden = assign(:garden, FactoryGirl.create(:garden, :owner => @owner))
       render
     end
 

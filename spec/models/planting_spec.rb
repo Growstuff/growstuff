@@ -4,8 +4,8 @@ describe Planting do
 
   before(:each) do
     @crop     = FactoryGirl.create(:tomato)
-    @member     = FactoryGirl.create(:member)
-    @garden   = FactoryGirl.create(:garden, :member => @member)
+    @member   = FactoryGirl.create(:member)
+    @garden   = FactoryGirl.create(:garden, :owner => @member)
     @planting = FactoryGirl.create(:planting,
         :crop => @crop, :garden => @garden)
   end

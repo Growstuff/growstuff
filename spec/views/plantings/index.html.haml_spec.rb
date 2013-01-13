@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "plantings/index" do
   before(:each) do
     @member   = FactoryGirl.create(:member)
-    @garden = FactoryGirl.create(:garden, :member => @member)
+    @garden = FactoryGirl.create(:garden, :owner => @member)
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
     assign(:recent_plantings, [

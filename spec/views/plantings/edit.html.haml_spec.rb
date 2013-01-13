@@ -12,7 +12,7 @@ describe "plantings/edit" do
     )
 
     @crop = FactoryGirl.create(:crop)
-    @garden = FactoryGirl.create(:garden, :member => @right_member)
+    @garden = FactoryGirl.create(:garden, :owner => @right_member)
 
     @planting = assign(:planting,
       FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)

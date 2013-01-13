@@ -4,7 +4,7 @@ describe 'member' do
 
   context 'valid member' do
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryGirl.build(:member)
     end
 
     it 'should save a basic member' do
@@ -34,6 +34,12 @@ describe 'member' do
       @post = FactoryGirl.create(:post, :author => @member)
       @member.posts.should eq [@post]
     end
+
+    it 'should be able to fetch gardens' do
+      @member.save
+      @member.gardens.first.name.should eq "Garden"
+    end
+
   end
 
   context 'no TOS agreement' do

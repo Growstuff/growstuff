@@ -39,12 +39,12 @@ describe "members/show" do
 
   context "member has a garden" do
     before(:each) do
-      @member.gardens.create(:name => 'My Garden', :member_id => @member.id)
+      FactoryGirl.create(:garden, :owner => @member)
       render
     end
 
     it "displays a garden, if the member has one" do
-      rendered.should contain "My Garden"
+      rendered.should contain "Garden"
     end
   end
 

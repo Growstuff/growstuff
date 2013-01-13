@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Garden do
   before :each do
-    @member   = FactoryGirl.create(:member)
-    @garden = FactoryGirl.create(:garden, :member => @member)
+    @owner  = FactoryGirl.create(:member)
+    @garden = FactoryGirl.create(:garden, :owner => @owner)
   end
 
   it "should have a slug" do

@@ -8,7 +8,7 @@ describe GardensController do
   # Garden. As you add validations to Garden, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {:name => 'My Garden', :member_id => 1 }
+    {:name => 'My Garden', :owner_id => 1 }
   end
 
   # This should return the minimal set of values that should be in the session

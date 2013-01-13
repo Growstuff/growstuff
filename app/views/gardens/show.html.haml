@@ -6,7 +6,7 @@
 
     %h4= "#{@garden.owner}'s gardens"
     %ul
-      - @garden.member.gardens.each do |othergarden|
+      - @garden.owner.gardens.each do |othergarden|
         %li
           - if @garden == othergarden
             = @garden.name

@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe "gardens/index" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @owner = FactoryGirl.create(:member)
     assign(:gardens, [
-      FactoryGirl.create(:garden, :member => @member),
-      FactoryGirl.create(:garden, :member => @member)
+      FactoryGirl.create(:garden, :owner => @owner),
+      FactoryGirl.create(:garden, :owner => @owner)
     ])
   end
 

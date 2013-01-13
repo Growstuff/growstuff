@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe "gardens/show" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
-    @garden = assign(:garden, FactoryGirl.create(:garden, :member => @member))
+    @owner = FactoryGirl.create(:member)
+    @garden = assign(:garden, FactoryGirl.create(:garden, :owner => @owner))
   end
 
   context 'logged out' do
@@ -16,7 +16,7 @@ describe "gardens/show" do
   context 'signed in' do
 
     before :each do
-      sign_in @member
+      sign_in @owner
       render
     end
 

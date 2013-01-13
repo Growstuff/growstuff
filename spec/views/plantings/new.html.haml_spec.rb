@@ -5,8 +5,8 @@ describe "plantings/new" do
     @member = FactoryGirl.create(:member)
 
     # create gardens and crops to populate dropdowns
-    @garden1 = FactoryGirl.create(:garden, :member => @member, :name => 'Garden1')
-    @garden2 = FactoryGirl.create(:garden, :member => @member, :name => 'Garden2')
+    @garden1 = FactoryGirl.create(:garden, :owner => @member, :name => 'Garden1')
+    @garden2 = FactoryGirl.create(:garden, :owner => @member, :name => 'Garden2')
     @crop1 = FactoryGirl.create(:tomato)
     @crop2 = FactoryGirl.create(:maize)
 

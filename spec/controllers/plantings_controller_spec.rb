@@ -45,7 +45,7 @@ describe PlantingsController do
 
     it "picks up garden from params" do
       member = FactoryGirl.create(:member)
-      garden = FactoryGirl.create(:garden, :member => member)
+      garden = FactoryGirl.create(:garden, :owner => member)
       get :new, {:garden_id => garden.id}, valid_session
       assigns(:garden).should eq(garden)
     end
