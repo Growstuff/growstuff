@@ -3,13 +3,7 @@ module ControllerMacros
   def login_member
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:member]
-      member = Member.create!(
-        :login_name => "fred",
-        :email => "fred@example.com",
-        :password => "Yabba-dabba-doo",
-        :tos_agreement => true
-      )
-      member.confirm!
+      member = FactoryGirl.create(:member)
       sign_in member
     end
   end
