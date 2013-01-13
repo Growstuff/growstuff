@@ -2,17 +2,8 @@ require 'spec_helper'
 
 describe "gardens/show" do
   before(:each) do
-    @user = User.create(
-        :username => 'foo',
-        :email => 'foo@example.com',
-        :password => 'irrelevant',
-        :tos_agreement => true
-    )
-    @user.confirm!
-    @garden = assign(:garden, stub_model(Garden,
-      :name => "Garden Name",
-      :user_id => @user.id
-    ))
+    @user = FactoryGirl.create(:confirmed_user)
+    @garden = assign(:garden, FactoryGirl.create(:garden, :user => @user))
   end
 
   context 'logged out' do
