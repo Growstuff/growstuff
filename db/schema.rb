@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121219022554) do
+ActiveRecord::Schema.define(:version => 20130113045802) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -45,14 +45,7 @@ ActiveRecord::Schema.define(:version => 20121219022554) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "scientific_names", :force => true do |t|
-    t.string   "scientific_name", :null => false
-    t.integer  "crop_id",         :null => false
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
-  create_table "updates", :force => true do |t|
+  create_table "posts", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.string   "subject",    :null => false
     t.text     "body",       :null => false
@@ -61,8 +54,15 @@ ActiveRecord::Schema.define(:version => 20121219022554) do
     t.string   "slug"
   end
 
-  add_index "updates", ["created_at", "user_id"], :name => "index_updates_on_created_at_and_user_id"
-  add_index "updates", ["slug"], :name => "index_updates_on_slug", :unique => true
+  add_index "posts", ["created_at", "user_id"], :name => "index_updates_on_created_at_and_user_id"
+  add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
+
+  create_table "scientific_names", :force => true do |t|
+    t.string   "scientific_name", :null => false
+    t.integer  "crop_id",         :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

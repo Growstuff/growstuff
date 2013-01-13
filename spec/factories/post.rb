@@ -1,17 +1,17 @@
 FactoryGirl.define do
 
-  factory :update do
-    subject "An Update"
+  factory :post do
+    subject "A Post"
     body "This is some text."
     user
 
-    # Markdown is allowed in updates
-    factory :markdown_update do
+    # Markdown is allowed in posts
+    factory :markdown_post do
       body "This is some **strong** text."
     end
 
-    # HTML isn't allowed in updates
-    factory :html_update do
+    # HTML isn't allowed in posts
+    factory :html_post do
       body '<a href="http://evil.com">EVIL</a>'
     end
   end

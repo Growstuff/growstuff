@@ -2,7 +2,7 @@ Growstuff::Application.routes.draw do
   resources :plantings
 
   resources :gardens
-  resources :updates
+  resources :posts
   resources :scientific_names
   resources :crops
   resources :members

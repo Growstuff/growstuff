@@ -1,4 +1,4 @@
-class Update < ActiveRecord::Base
+class Post < ActiveRecord::Base
   extend FriendlyId
   friendly_id :user_date_subject, use: :slugged
   attr_accessible :body, :subject, :user_id
