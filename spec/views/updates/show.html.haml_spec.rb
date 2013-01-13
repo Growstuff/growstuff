@@ -22,7 +22,7 @@ describe "updates/show" do
     @update = assign(:update,
       FactoryGirl.create(:markdown_update, :user => @user))
     render
-    rendered.should match(/<strong>strong<\/strong>/)
+    assert_select "strong", "strong"
   end
 
   it "shouldn't let html through in body" do
