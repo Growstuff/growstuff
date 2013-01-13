@@ -9,7 +9,7 @@
 
         .post-meta
           Posted by
-          = link_to post.member.username, member_path(post.member)
+          = link_to post.member.login_name, member_path(post.member)
           at
           = post.created_at
 

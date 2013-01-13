@@ -14,7 +14,7 @@ describe 'member' do
     it 'should be fetchable from the database' do
       @member.save
       @member2 = Member.find_by_email('member1@example.com')
-      @member2.username.should == "member1"
+      @member2.login_name.should == "member1"
       @member2.email.should    == "member1@example.com"
       @member2.slug.should     == "member1"
       @member2.encrypted_password.should_not be_nil
@@ -25,7 +25,7 @@ describe 'member' do
       @member.gardens.count.should == 1
     end
 
-    it 'should stringify as the username' do
+    it 'should stringify as the login_name' do
       @member.to_s.should == 'member1'
       "#{@member}".should == 'member1'
     end

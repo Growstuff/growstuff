@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :member do
-    username 'member1'
+    login_name 'member1'
     password 'password1'
     email 'member1@example.com'
     tos_agreement true
@@ -18,7 +18,7 @@ FactoryGirl.define do
     end
 
     factory :long_name_member do
-      username 'Marmaduke Blundell-Hollinshead-Blundell-Tolemache-Plantagenet-Whistlebinkie, 3rd Duke of Marmoset'
+      login_name 'Marmaduke Blundell-Hollinshead-Blundell-Tolemache-Plantagenet-Whistlebinkie, 3rd Duke of Marmoset'
       email 'marmaduke@example.com'
     end
 

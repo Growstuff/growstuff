@@ -29,7 +29,7 @@ describe 'layouts/application.html.haml', :type => "view" do
       render
     end
 
-    it 'should show username' do
+    it 'should show login name' do
       rendered.should contain 'member1'
     end
 

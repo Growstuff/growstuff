@@ -4,7 +4,7 @@ module ControllerMacros
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:member]
       member = Member.create!(
-        :username => "fred",
+        :login_name => "fred",
         :email => "fred@example.com",
         :password => "Yabba-dabba-doo",
         :tos_agreement => true

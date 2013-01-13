@@ -3,11 +3,11 @@ require 'spec_helper'
 describe "plantings/edit" do
   before(:each) do
     @right_member = FactoryGirl.create(:member,
-      :username => 'right',
+      :login_name => 'right',
       :email => 'right@example.com'
     )
     @wrong_member = FactoryGirl.create(:member,
-      :username => 'wrong',
+      :login_name => 'wrong',
       :email => 'wrong@example.com'
     )
 

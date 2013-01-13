@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(:version => 20130113060852) do
     t.datetime "locked_at"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
-    t.string   "username"
+    t.string   "login_name"
     t.string   "slug"
     t.boolean  "tos_agreement"
   end

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe MembersController do
 
   before :each do
-    @member1 = FactoryGirl.create(:member, :username => 'fred')
-    @member2 = FactoryGirl.create(:unconfirmed_member, :username => 'bob')
+    @member1 = FactoryGirl.create(:member, :login_name => 'fred')
+    @member2 = FactoryGirl.create(:unconfirmed_member, :login_name => 'bob')
     @posts = [ FactoryGirl.create(:post, :member => @member1) ]
   end
 

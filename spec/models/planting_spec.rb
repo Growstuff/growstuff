@@ -12,7 +12,7 @@ describe Planting do
 
   it "generates an owner" do
     @planting.owner.should be_an_instance_of Member
-    @planting.owner.username.should match /^member1$/
+    @planting.owner.login_name.should match /^member1$/
   end
 
   it "generates a location" do

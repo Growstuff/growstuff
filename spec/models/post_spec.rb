@@ -18,6 +18,6 @@ describe Post do
     # 2 digit day and month, full-length years
     # Counting digits using Math.log is not precise enough!
     @datestr.length.should == 4 + @time.year.to_s.size
-    @post.slug.should == "#{@member.username}-#{@datestr}-a-post"
+    @post.slug.should == "#{@member.login_name}-#{@datestr}-a-post"
   end
 end

@@ -1,6 +1,6 @@
 class Member < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :username, use: :slugged
+  friendly_id :login_name, use: :slugged
 
   has_many :posts
   has_many :gardens
@@ -13,7 +13,7 @@ class Member < ActiveRecord::Base
          :confirmable, :lockable, :timeoutable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation,
+  attr_accessible :login_name, :email, :password, :password_confirmation,
     :remember_me, :login, :tos_agreement
   # attr_accessible :title, :body
 
@@ -28,11 +28,11 @@ class Member < ActiveRecord::Base
   # Give each new member a default garden
   after_create {|member| Garden.new(:name => "Garden", :member_id => member.id).save }
 
-  # allow login via either username or email address
+  # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions).where(["lower(login_name) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     else
       where(conditions).first
     end
@@ -47,6 +47,6 @@ class Member < ActiveRecord::Base
   end
 
   def to_s
-    return username
+    return login_name
   end
 end

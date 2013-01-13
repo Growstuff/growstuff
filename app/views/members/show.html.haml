@@ -1,5 +1,5 @@
-- content_for :title, "#{@member.username}"
-- content_for :member_rss_username, "#{@member.username}"
+- content_for :title, "#{@member.login_name}"
+- content_for :member_rss_login_name, "#{@member.login_name}"
 - content_for :member_rss_slug, "#{@member.slug}"
 
 .row
@@ -40,7 +40,7 @@
                 - @crop = random_crop
                 = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
 
-            %p= link_to "More about #{@member.username}'s #{g.name}...", url_for(g)
+            %p= link_to "More about #{@member.login_name}'s #{g.name}...", url_for(g)
         %div{:class => 'tab-pane', :id => "garden_new"}
           %h3 Create a new garden
           = render 'gardens/form'

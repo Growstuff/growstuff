@@ -3,8 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href='http://fonts.googleapis.com/css?family=Sevillana' rel='stylesheet' type='text/css'>
 
-  - if (content_for?(:member_rss_username) && content_for(:member_rss_slug))
-    = auto_discovery_link_tag(:rss, { :controller => "/members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "Growstuff - #{yield(:member_rss_username)}'s posts" })
+  - if (content_for?(:member_rss_login_name) && content_for(:member_rss_slug))
+    = auto_discovery_link_tag(:rss, { :controller => "/members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "Growstuff - #{yield(:member_rss_login_name)}'s posts" })
   = auto_discovery_link_tag(:rss, { :controller => "/posts", :format => "rss" }, { :title => "Growstuff - Recent posts from all members" })
   = auto_discovery_link_tag(:rss, { :controller => "/crops", :format => "rss" }, { :title => "Growstuff - Recently added crops" })
 

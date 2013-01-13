@@ -8,6 +8,6 @@ class Post < ActiveRecord::Base
   def member_date_subject
     # slugs are created before created_at is set
     time = created_at || Time.now
-    "#{member.username} #{time.strftime("%Y%m%d")} #{subject}"
+    "#{member.login_name} #{time.strftime("%Y%m%d")} #{subject}"
   end
 end

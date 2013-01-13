@@ -7,7 +7,7 @@ class Garden < ActiveRecord::Base
 
   def garden_slug
     formatted_name = name.downcase.gsub(' ', '-')
-    "#{member.username}-#{formatted_name}"
+    "#{member.login_name}-#{formatted_name}"
   end
 
   def owner
