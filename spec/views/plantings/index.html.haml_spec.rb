@@ -24,7 +24,7 @@ describe "plantings/index" do
   it "renders a list of plantings" do
     rendered.should contain 'Tomato'
     rendered.should contain 'Maize'
-    rendered.should contain "member1's My Garden"
+    rendered.should contain "member1's Springfield Community Garden"
   end
 
   it "shows descriptions where they exist" do

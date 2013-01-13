@@ -16,7 +16,7 @@ describe Planting do
   end
 
   it "generates a location" do
-    @planting.location.should match /^member1's My Garden$/
+    @planting.location.should match /^member1's Springfield Community Garden$/
   end
 
 end
