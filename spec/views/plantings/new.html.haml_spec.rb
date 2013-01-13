@@ -2,12 +2,16 @@ require 'spec_helper'
 
 describe "plantings/new" do
   before(:each) do
-    assign(:planting, stub_model(Planting,
-      :garden_id => 1,
-      :crop_id => 1,
-      :quantity => 1,
-      :description => "MyText"
-    ).as_new_record)
+    @user = FactoryGirl.create(:user)
+
+    # create gardens and crops to populate dropdowns
+    @garden1 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden1')
+    @garden2 = FactoryGirl.create(:garden, :user => @user, :name => 'Garden2')
+    @crop1 = FactoryGirl.create(:tomato)
+    @crop2 = FactoryGirl.create(:maize)
+
+    assign(:planting, FactoryGirl.create(:planting, :garden => @garden1))
+
   end
 
   context "logged out" do
@@ -19,37 +23,9 @@ describe "plantings/new" do
 
   context "logged in" do
     before(:each) do
-      @user = User.create(:email => "growstuff@example.com",
-                          :password => "irrelevant")
-      @user.confirm!
       sign_in @user
-
-      # create gardens and crops to populate dropdowns
-      @garden1 = Garden.create!(
-        :user_id => @user.id,
-        :name => 'Garden1'
-      )
-      @garden2 = Garden.create!(
-        :user_id => @user.id,
-        :name => 'Garden2'
-      )
-
-      @crop1 = Crop.create!(
-        :system_name => 'Tomato',
-        :en_wikipedia_url => 'http://blah'
-      )
-      @crop2 = Crop.create!(
-        :system_name => 'Corn',
-        :en_wikipedia_url => 'http://blah'
-      )
-      @crop3 = Crop.create!(
-        :system_name => 'Chard',
-        :en_wikipedia_url => 'http://blah'
-      )
-
       assign(:crop, @crop2)
       assign(:garden, @garden2)
-
       render
     end
 

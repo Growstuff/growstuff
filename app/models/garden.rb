@@ -6,7 +6,8 @@ class Garden < ActiveRecord::Base
   belongs_to :user
 
   def garden_slug
-    "#{user.username}-#{name}"
+    formatted_name = name.downcase.gsub(' ', '-')
+    "#{user.username}-#{formatted_name}"
   end
 
   def owner

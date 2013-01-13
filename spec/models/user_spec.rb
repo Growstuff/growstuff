@@ -4,12 +4,7 @@ describe 'user' do
 
   context 'valid user' do
     before(:each) do
-      @user = User.create(
-        :email => "example@example.com",
-        :username => "someone",
-        :password => "irrelevant",
-        :tos_agreement => true
-      )
+      @user = FactoryGirl.create(:user)
     end
 
     it 'should save a basic user' do
@@ -18,10 +13,10 @@ describe 'user' do
 
     it 'should be fetchable from the database' do
       @user.save
-      @user2 = User.find_by_email('example@example.com')
-      @user2.username.should == "someone"
-      @user2.email.should    == "example@example.com"
-      @user2.slug.should     == "someone"
+      @user2 = User.find_by_email('user1@example.com')
+      @user2.username.should == "user1"
+      @user2.email.should    == "user1@example.com"
+      @user2.slug.should     == "user1"
       @user2.encrypted_password.should_not be_nil
     end
 
@@ -31,18 +26,14 @@ describe 'user' do
     end
 
     it 'should stringify as the username' do
-      @user.to_s.should == 'someone'
-      "#{@user}".should == 'someone'
+      @user.to_s.should == 'user1'
+      "#{@user}".should == 'user1'
     end
   end
 
   context 'no TOS agreement' do
     before(:each) do
-      @user = User.create(
-        :email => "example@example.com",
-        :username => "someone",
-        :password => "irrelevant"
-      )
+      @user = FactoryGirl.build(:no_tos_user)
     end
 
     it "should refuse to save a user who hasn't agreed to the TOS" do
