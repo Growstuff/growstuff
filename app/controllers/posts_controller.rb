@@ -43,7 +43,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    params[:post][:user_id] = current_user.id
+    params[:post][:member_id] = current_user.id
     @post = Post.new(params[:post])
 
     respond_to do |format|
