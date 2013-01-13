@@ -2,11 +2,7 @@ require 'spec_helper'
 
 describe "gardens/new" do
   before(:each) do
-    assign(:garden, stub_model(Garden,
-      :name => "MyString",
-      :user_id => "",
-      :slug => "MyString"
-    ).as_new_record)
+    assign(:garden, FactoryGirl.create(:garden))
   end
 
   it "renders new garden form" do

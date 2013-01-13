@@ -2,11 +2,8 @@ require 'spec_helper'
 
 describe "updates/new" do
   before(:each) do
-    assign(:update, stub_model(Update,
-      :user_id => 1,
-      :subject => "MyString",
-      :body => "MyText"
-    ).as_new_record)
+    @user = FactoryGirl.create(:user)
+    assign(:update, FactoryGirl.create(:update, :user => @user))
   end
 
   context "logged out" do
@@ -18,9 +15,6 @@ describe "updates/new" do
 
   context "logged in" do
     before(:each) do
-      @user = User.create(:email => "growstuff@example.com",
-                          :password => "irrelevant")
-      @user.confirm!
       sign_in @user
       render
     end

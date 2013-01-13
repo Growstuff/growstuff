@@ -11,17 +11,9 @@ describe "gardens/edit" do
 
   context "logged in" do
     before(:each) do
-      @user = User.create(:email => "growstuff@example.com",
-                          :password => "irrelevant")
-      @user.confirm!
+      @user = FactoryGirl.create(:user)
       sign_in @user
-
-      @garden = assign(:garden, stub_model(Garden,
-        :name => "MyString",
-        :user_id => @user.id,
-        :slug => "MyString"
-      ))
-
+      @garden = assign(:garden, FactoryGirl.create(:garden, :user => @user))
       render
     end
 

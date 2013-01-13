@@ -14,7 +14,7 @@ describe "scientific_names/new" do
 
   context "logged in" do
     before(:each) do
-      @user = FactoryGirl.create(:confirmed_user)
+      @user = FactoryGirl.create(:user)
       sign_in @user
       render
     end

@@ -18,7 +18,7 @@
           %li{:class => first_garden ? 'active' : '' }
             - first_garden = false
             = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
-        %li= link_to 'New garden', '#garden_new', 'data-toggle' => 'tab'
+        %li= link_to 'New Garden', '#garden_new', 'data-toggle' => 'tab'
       .tab-content
         - first_garden = true
         - @member.gardens.each do |g|

@@ -2,34 +2,18 @@ require 'spec_helper'
 
 describe "updates/index" do
   before(:each) do
-    user = User.create!(
-      :username => "test_user",
-      :email => "test@growstuff.org",
-      :password => "password",
-      :tos_agreement => true
-    )
-    assign(:updates, [
-      stub_model(Update,
-        :user_id => user.id,
-        :subject => "Subject",
-        :body => "MyText",
-        :created_at => Time.now
-      ),
-      stub_model(Update,
-        :user_id => user.id,
-        :subject => "Subject",
-        :body => "MyText",
-        :created_at => Time.now
-      )
-    ])
+    @member = FactoryGirl.create(:user)
+    @update1 = FactoryGirl.build(:update, :user => @member)
+    @update2 = FactoryGirl.build(:update, :user => @member)
+    assign(:updates, [@update1, @update2])
     render
   end
 
   it "renders a list of updates" do
     assert_select "div.update", :count => 2
-    assert_select "h3", :text => "Subject".to_s, :count => 2
+    assert_select "h3", :text => "An Update".to_s, :count => 2
     assert_select "div.update-body",
-      :text => "MyText".to_s, :count => 2
+      :text => "This is some text.".to_s, :count => 2
   end
 
   it "counts the number of updates" do
