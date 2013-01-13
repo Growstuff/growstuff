@@ -20,7 +20,7 @@ describe PostsController do
   # in order to pass any filters (e.g. authentication) defined in
   # PostsController. Be sure to keep this updated too.
   def valid_session
-    { :member_id => 1 }
+    { }
   end
 
   describe "GET index" do
@@ -67,18 +67,18 @@ describe PostsController do
     describe "with valid params" do
       it "creates a new Post" do
         expect {
-          post :create, {:post => valid_web_attributes}, valid_session
+          post :create, {:post => valid_web_attributes}
         }.to change(Post, :count).by(1)
       end
 
       it "assigns a newly created post as @post" do
-        post :create, {:post => valid_web_attributes}, valid_session
+        post :create, {:post => valid_web_attributes}
         assigns(:post).should be_a(Post)
         assigns(:post).should be_persisted
       end
 
       it "redirects to the created post" do
-        post :create, {:post => valid_web_attributes}, valid_session
+        post :create, {:post => valid_web_attributes}
         response.should redirect_to(Post.last)
       end
     end
@@ -87,14 +87,14 @@ describe PostsController do
       it "assigns a newly created but unsaved post as @post" do
         # Trigger the behavior that occurs when invalid params are submitted
         Post.any_instance.stub(:save).and_return(false)
-        post :create, {:post => {}}, valid_session
+        post :create, {:post => {}}
         assigns(:post).should be_a_new(Post)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Post.any_instance.stub(:save).and_return(false)
-        post :create, {:post => {}}, valid_session
+        post :create, {:post => {}}
         response.should render_template("new")
       end
     end

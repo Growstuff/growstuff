@@ -1,6 +1,6 @@
 = content_for :title, "Post an post"
 
-- if user_signed_in?
+- if member_signed_in?
   = form_for @post, :url => { :action => "create" } do |f|
     %fieldset
       = label_tag :post, "Subject"
@@ -9,6 +9,6 @@
       = f.text_area :body, :rows => 12, :class => 'input-block-level'
       = f.submit "Post", :class => 'btn'
 - else
-  .alert You're not logged in. Only logged in users can do this.
+  .alert You're not logged in. Only logged in members can do this.
 
 = link_to 'Back', posts_path

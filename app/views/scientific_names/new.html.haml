@@ -1,9 +1,9 @@
 %h1 New scientific_name
 
-- if user_signed_in?
+- if member_signed_in?
   = render 'form'
   %p
     = link_to 'Show', @scientific_name, { :class => 'btn' }
     = link_to 'Back', scientific_names_path, { :class => 'btn' }
 - else
-  .alert You're not logged in. Only logged in users can do this.
+  .alert You're not logged in. Only logged in members can do this.

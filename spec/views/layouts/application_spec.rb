@@ -4,8 +4,8 @@ describe 'layouts/application.html.haml', :type => "view" do
   context "when not logged in" do
 
     before(:each) do
-      view.stub(:user_signed_in).and_return(false)
-      view.stub(:current_user).and_return(nil)
+      view.stub(:member_signed_in).and_return(false)
+      view.stub(:current_member).and_return(nil)
       render
     end
 
@@ -24,18 +24,13 @@ describe 'layouts/application.html.haml', :type => "view" do
   context "logged in" do
 
     before(:each) do
-      @user = User.create(
-        :username => "test_user",
-        :email => "growstuff@example.com",
-        :password => "irrelevant"
-      )
-      @user.confirm!
-      sign_in @user
+      @member = FactoryGirl.create(:member)
+      sign_in @member
       render
     end
 
     it 'should show username' do
-      rendered.should contain 'test_user'
+      rendered.should contain 'member1'
     end
 
     it 'should have a "Post" link' do

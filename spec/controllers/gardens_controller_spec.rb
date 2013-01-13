@@ -15,7 +15,7 @@ describe GardensController do
   # in order to pass any filters (e.g. authentication) defined in
   # GardensController. Be sure to keep this updated too.
   def valid_session
-    { :member_id => 1 }
+    { }
   end
 
   describe "GET index" do
@@ -53,18 +53,18 @@ describe GardensController do
     describe "with valid params" do
       it "creates a new Garden" do
         expect {
-          post :create, {:garden => valid_attributes}, valid_session
+          post :create, {:garden => valid_attributes}
         }.to change(Garden, :count).by(1)
       end
 
       it "assigns a newly created garden as @garden" do
-        post :create, {:garden => valid_attributes}, valid_session
+        post :create, {:garden => valid_attributes}
         assigns(:garden).should be_a(Garden)
         assigns(:garden).should be_persisted
       end
 
       it "redirects to the created garden" do
-        post :create, {:garden => valid_attributes}, valid_session
+        post :create, {:garden => valid_attributes}
         response.should redirect_to(Garden.last)
       end
     end
@@ -73,14 +73,14 @@ describe GardensController do
       it "assigns a newly created but unsaved garden as @garden" do
         # Trigger the behavior that occurs when invalid params are submitted
         Garden.any_instance.stub(:save).and_return(false)
-        post :create, {:garden => {}}, valid_session
+        post :create, {:garden => {}}
         assigns(:garden).should be_a_new(Garden)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Garden.any_instance.stub(:save).and_return(false)
-        post :create, {:garden => {}}, valid_session
+        post :create, {:garden => {}}
         response.should render_template("new")
       end
     end

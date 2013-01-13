@@ -6,7 +6,7 @@ xml.rss :version => "2.0" do
 
     for post in @recent_posts
       xml.item do
-        xml.author post.user.username
+        xml.author post.member.username
         xml.title post.subject
         xml.description post.body
         xml.pubDate post.created_at.to_s(:rfc822)

@@ -8,14 +8,14 @@ describe "scientific_names/new" do
   context "logged out" do
     it "doesn't show the SN form if logged out" do
       render
-      rendered.should contain "Only logged in users can do this"
+      rendered.should contain "Only logged in members can do this"
     end
   end
 
   context "logged in" do
     before(:each) do
-      @user = FactoryGirl.create(:user)
-      sign_in @user
+      @member = FactoryGirl.create(:member)
+      sign_in @member
       render
     end
 

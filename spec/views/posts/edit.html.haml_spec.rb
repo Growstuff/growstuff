@@ -2,20 +2,20 @@ require 'spec_helper'
 
 describe "posts/edit" do
   before(:each) do
-    @user = FactoryGirl.create(:user)
-    @post = assign(:post, FactoryGirl.create(:post, :user => @user))
+    @member = FactoryGirl.create(:member)
+    @post = assign(:post, FactoryGirl.create(:post, :member => @member))
   end
 
   context "logged out" do
     it "doesn't show the post form if logged out" do
       render
-      rendered.should contain "Only logged in users can do this"
+      rendered.should contain "Only logged in members can do this"
     end
   end
 
   context "logged in" do
     before(:each) do
-      sign_in @user
+      sign_in @member
       render
     end
 

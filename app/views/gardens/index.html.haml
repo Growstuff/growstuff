@@ -12,7 +12,7 @@
   - @gardens.each do |garden|
     %tr
       %td= garden.name
-      %td= garden.user_id
+      %td= garden.owner
       %td= garden.slug
       %td= link_to 'Show', garden
       %td= link_to 'Edit', edit_garden_path(garden)

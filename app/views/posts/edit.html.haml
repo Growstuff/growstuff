@@ -1,10 +1,10 @@
 = content_for :title, "Edit post"
 
-- if user_signed_in?
+- if member_signed_in?
   = form_for @post do |f|
     = label_tag :subject, "Subject"
     = f.text_field :subject, :class => 'input-block-level'
     = f.text_area :body, :rows => 12, :class => 'input-block-level'
     = f.submit "Post"
 - else
-  .alert You're not logged in. Only logged in users can do this.
+  .alert You're not logged in. Only logged in members can do this.

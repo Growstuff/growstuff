@@ -25,6 +25,6 @@
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
     %p
-      - if user_signed_in?
+      - if member_signed_in?
         = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn' }
         = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'

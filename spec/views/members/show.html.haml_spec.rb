@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "members/show" do
 
   before(:each) do
-    @member = FactoryGirl.create(:user)
+    @member = FactoryGirl.create(:member)
     @time = @member.created_at
 
     # need @garden to render the page
@@ -26,7 +26,7 @@ describe "members/show" do
     end
   end
 
-  context "signed in user" do
+  context "signed in member" do
     before(:each) do
       sign_in @member
       render
@@ -37,13 +37,13 @@ describe "members/show" do
     end
   end
 
-  context "user has a garden" do
+  context "member has a garden" do
     before(:each) do
-      @member.gardens.create(:name => 'My Garden', :user_id => @member.id)
+      @member.gardens.create(:name => 'My Garden', :member_id => @member.id)
       render
     end
 
-    it "displays a garden, if the user has one" do
+    it "displays a garden, if the member has one" do
       rendered.should contain "My Garden"
     end
   end
