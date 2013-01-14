@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
   def index
-    @members = User.confirmed
+    @members = Member.confirmed
 
     respond_to do |format|
       format.html # index.html.haml
@@ -9,8 +9,8 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member = User.find_confirmed(params[:id])
-    @updates = @member.updates
+    @member = Member.find_confirmed(params[:id])
+    @posts = @member.posts
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe "members/index" do
   before(:each) do
     assign(:members, [
-      FactoryGirl.create(:user),
-      FactoryGirl.create(:long_name_user)
+      FactoryGirl.create(:member),
+      FactoryGirl.create(:long_name_member)
     ])
     render
   end
@@ -14,8 +14,8 @@ describe "members/index" do
   end
 
   it "does not truncate short names" do
-    rendered.should contain "user1"
-    rendered.should_not contain "user1..."
+    rendered.should contain "member1"
+    rendered.should_not contain "member1..."
   end
 
   it "counts the number of members" do

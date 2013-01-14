@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe "plantings/show" do
   before(:each) do
-    @user = FactoryGirl.create(:user)
-    @garden = FactoryGirl.create(:garden, :user => @user)
+    @member = FactoryGirl.create(:member)
+    @garden = FactoryGirl.create(:garden, :owner => @member)
     @crop = FactoryGirl.create(:tomato)
     @planting = assign(:planting,
       FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)

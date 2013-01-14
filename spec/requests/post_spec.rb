@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe "Updates" do
-  describe "GET /updates" do
+describe "Posts" do
+  describe "GET /posts" do
     it "works! (now write some real specs)" do
-      get updates_path
+      get posts_path
       response.status.should be(200)
     end
   end

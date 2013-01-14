@@ -40,7 +40,7 @@ class GardensController < ApplicationController
   # POST /gardens
   # POST /gardens.json
   def create
-    params[:garden][:user_id] = current_user.id
+    params[:garden][:owner_id] = current_member.id
     @garden = Garden.new(params[:garden])
 
     respond_to do |format|

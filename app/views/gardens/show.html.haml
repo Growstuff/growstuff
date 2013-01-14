@@ -6,14 +6,14 @@
 
     %h4= "#{@garden.owner}'s gardens"
     %ul
-      - @garden.user.gardens.each do |othergarden|
+      - @garden.owner.gardens.each do |othergarden|
         %li
           - if @garden == othergarden
             = @garden.name
           - else
             = link_to "#{othergarden.name}", garden_path(othergarden)
 
-    - if current_user == @garden.owner
+    - if current_member == @garden.owner
       = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
       = link_to 'New', new_garden_path, :class => 'btn'
 
@@ -26,7 +26,7 @@
           = link_to 'Updates', '#tab2', 'data-toggle' => 'tab'
       .tab-content
         .tab-pane.active#tab1
-          - if current_user == @garden.owner
+          - if current_member == @garden.owner
             %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
           .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
@@ -39,7 +39,7 @@
         .tab-pane.active#tab2
           .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-            Note: in due these will be limited to only those updates that apply to this particular garden!
+            Note: in due these will be limited to only those posts that apply to this particular garden!
 
-          - @garden.owner.updates.each do |update|
-            = render :partial => "updates/single", :locals => { :update => update, :subject => true }
+          - @garden.owner.posts.each do |post|
+            = render :partial => "posts/single", :locals => { :post => post, :subject => true }

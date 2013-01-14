@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'layouts/_footer.html.haml', :type => "view" do
-    
+
     before(:each) do
       render
     end

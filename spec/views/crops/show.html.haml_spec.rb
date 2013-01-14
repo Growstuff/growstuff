@@ -38,9 +38,8 @@ describe "crops/show" do
   context "logged in" do
 
     before(:each) do
-      @user = User.create(:email => "growstuff@example.com", :password => "irrelevant")
-      @user.confirm!
-      sign_in @user
+      @member = FactoryGirl.create(:member)
+      sign_in @member
       render
     end
 

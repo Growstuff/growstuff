@@ -1,12 +1,12 @@
 Growstuff::Application.routes.draw do
-  resources :plantings
+  devise_for :members
 
+  resources :plantings
   resources :gardens
-  resources :updates
+  resources :posts
   resources :scientific_names
   resources :crops
   resources :members
-  devise_for :users
 
   get "home/index"
 

@@ -33,10 +33,7 @@ describe PlantingsController do
     end
 
     it "picks up crop from params" do
-      crop = Crop.create!(
-        :system_name => 'Maize',
-        :en_wikipedia_url => 'http://blah'
-      )
+      crop = FactoryGirl.create(:crop)
       get :new, {:crop_id => crop.id}, valid_session
       assigns(:crop).should eq(crop)
     end
@@ -47,16 +44,8 @@ describe PlantingsController do
     end
 
     it "picks up garden from params" do
-      user = User.create!(
-        :username => 'blah',
-        :password => 'blahblah',
-        :email => 'blah@example.com',
-        :tos_agreement => true
-      )
-      garden = Garden.create!(
-        :name => 'blah',
-        :user_id => user.id
-      )
+      member = FactoryGirl.create(:member)
+      garden = FactoryGirl.create(:garden, :owner => member)
       get :new, {:garden_id => garden.id}, valid_session
       assigns(:garden).should eq(garden)
     end
