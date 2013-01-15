@@ -49,6 +49,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    columnize (0.3.6)
     commonjs (0.2.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
@@ -58,6 +59,13 @@ GEM
       compass (>= 0.12.2, < 0.14)
     daemon_controller (1.1.0)
     daemons (1.1.9)
+    debugger (1.2.3)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.5)
+    debugger-linecache (1.1.2)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.6)
     devise (2.2.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -207,6 +215,7 @@ DEPENDENCIES
   capistrano-ext
   coffee-rails (~> 3.2.1)
   compass-rails (~> 1.0.3)
+  debugger
   devise
   diff-lcs
   factory_girl_rails (~> 4.0)

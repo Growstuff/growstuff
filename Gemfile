@@ -47,7 +47,7 @@ gem 'rvm-capistrano'
 gem 'capistrano-ext'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
