@@ -5,7 +5,7 @@ FactoryGirl.define do
     password 'password1'
     email 'member1@example.com'
     tos_agreement true
-    confirmed_at Time.now()
+    confirmed_at Time.now
 
     factory :no_tos_member do
       tos_agreement false
