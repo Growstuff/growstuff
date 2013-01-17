@@ -31,13 +31,7 @@
                 %li.span2
                   = render :partial => "crops/thumbnail", :locals => { :crop => p.crop }
 
-            %p
-              and 20 more crops including:
-              - (1..20).each do
-                - @crop = random_crop
-                = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
-
-            %p= link_to "More about #{@member.login_name}'s #{g.name}...", url_for(g)
+            %p= link_to "More about this garden...", url_for(g)
         %div{:class => 'tab-pane', :id => "garden_new"}
           %h3 Create a new garden
           = render 'gardens/form'
