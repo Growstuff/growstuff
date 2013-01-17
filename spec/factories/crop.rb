@@ -14,6 +14,22 @@ FactoryGirl.define do
       en_wikipedia_url "http://en.wikipedia.org/wiki/Maize"
     end
 
+    factory :chard do
+      system_name "Chard"
+    end
+
+    factory :walnut do
+      system_name "Walnut"
+    end
+
+    factory :apple do
+      system_name "Apple"
+    end
+
+    factory :pear do
+      system_name "Pear"
+    end
+
   end
 
 end

@@ -33,9 +33,9 @@
             Note: these are a random selection, and don't represent actual plantings
 
           %ul.thumbnails
-            - (1..20).each do
+            - @garden.plantings.each do |p|
               %li.span2
-                = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
+                = render :partial => "crops/thumbnail", :locals => { :crop => p.crop }
         .tab-pane.active#tab2
           .alert
             %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×

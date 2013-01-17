@@ -2,13 +2,19 @@ require 'spec_helper'
 
 describe "gardens/show" do
   before(:each) do
-    @owner = FactoryGirl.create(:member)
-    @garden = assign(:garden, FactoryGirl.create(:garden, :owner => @owner))
+    @owner    = FactoryGirl.create(:member)
+    @garden   = FactoryGirl.create(:garden, :owner => @owner)
+    @planting = FactoryGirl.create(:planting, :garden => @garden)
+    assign(:garden, @garden)
+    render
+  end
+
+  it 'should show plantings on the garden page' do
+    rendered.should contain @planting.crop.system_name
   end
 
   context 'logged out' do
     it 'should not show the edit button' do
-      render
       rendered.should_not contain 'Edit'
     end
   end

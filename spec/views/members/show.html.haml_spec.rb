@@ -6,8 +6,8 @@ describe "members/show" do
     @member = FactoryGirl.create(:member)
     @time = @member.created_at
 
-    # need @garden to render the page
-    @garden = Garden.new
+    @garden   = FactoryGirl.create(:garden, :owner => @member)
+    @planting = FactoryGirl.create(:planting, :garden => @garden)
     render
   end
 
@@ -22,6 +22,10 @@ describe "members/show" do
 
   it "shows the auto-created garden" do
     assert_select "li.active>a", :text => "Garden"
+  end
+
+  it "shows the plantings in the garden" do
+    rendered.should contain @planting.crop.system_name
   end
 
   context "signed in member" do
