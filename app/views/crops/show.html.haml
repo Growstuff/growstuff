@@ -11,10 +11,13 @@
     =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-large btn-primary'
 
     %h2 Who's growing this?
-    - (1..5).each do
-      .well
-        %h4 Some person
-        %p These blocks would contain recent posts from members who are growing this crop.
+    - @crop.plantings.each do |p|
+      %p
+        = p.quantity ? p.quantity : nil
+        = link_to p.crop.system_name, p.crop
+        in
+        = link_to p.location, p.garden
+        = p.planted_at ? "planted at #{p.planted_at}" : nil
 
   .span3
     %h3 Scientific names:

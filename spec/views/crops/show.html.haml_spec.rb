@@ -5,6 +5,12 @@ describe "crops/show" do
     @crop = assign(:crop, FactoryGirl.create(:maize,
       :scientific_names => [ FactoryGirl.create(:zea_mays) ]
     ))
+    @owner    = FactoryGirl.create(:member)
+    @garden   = FactoryGirl.create(:garden, :owner => @owner)
+    @planting = FactoryGirl.create(:planting,
+      :garden => @garden,
+      :crop => @crop
+    )
   end
 
   it "shows the wikipedia URL" do
@@ -26,6 +32,10 @@ describe "crops/show" do
   it "links to the right crop in the planting link" do
     render
     assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
+  end
+
+  it "links to people who are growing this crop" do
+    rendered.should contain "member1"
   end
 
   context "logged out" do
