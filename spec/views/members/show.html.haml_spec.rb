@@ -28,6 +28,10 @@ describe "members/show" do
     rendered.should contain @planting.crop.system_name
   end
 
+  it "doesn't show the note about random plantings" do
+    rendered.should_not contain "Note: these are a random selection"
+  end
+
   context "signed in member" do
     before(:each) do
       sign_in @member

@@ -13,6 +13,10 @@ describe "gardens/show" do
     rendered.should contain @planting.crop.system_name
   end
 
+  it "doesn't show the note about random plantings" do
+    rendered.should_not contain "Note: these are a random selection"
+  end
+
   context 'logged out' do
     it 'should not show the edit button' do
       rendered.should_not contain 'Edit'

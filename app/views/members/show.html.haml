@@ -25,9 +25,6 @@
 
           %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
             - first_garden = false
-            .alert
-              %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-              Note: these are a random selection, and don't represent actual plantings
 
             %ul.thumbnails
               - g.featured_plantings.each do |p|
