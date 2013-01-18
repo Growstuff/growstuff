@@ -8,8 +8,7 @@ class Garden < ActiveRecord::Base
   has_many :crops, :through => :plantings
 
   def garden_slug
-    formatted_name = name.downcase.gsub(' ', '-')
-    "#{owner.login_name}-#{formatted_name}"
+    "#{owner.login_name}-#{name}".downcase.gsub(' ', '-')
   end
 
   # featured plantings returns the most recent 4 plantings for a garden,

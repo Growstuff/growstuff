@@ -19,4 +19,8 @@ describe Planting do
     @planting.location.should match /^member1's Springfield Community Garden$/
   end
 
+  it "should have a slug" do
+    @planting.slug.should == "member1-springfield-community-garden-tomato"
+  end
+
 end
