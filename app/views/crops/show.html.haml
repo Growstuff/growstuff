@@ -1,33 +1,25 @@
 - content_for :title, @crop.system_name
 
-.row-fluid
-  .span9
-    %ul.thumbnails
-      - (1..4).each do
-        %li.span3
-          .thumbnail
-            = image_tag('http://placehold.it/200x200', :alt => '', :class => 'img-rounded')
+.container-fluid
+  .row-fluid
+    .span9
+      %h2 Who's growing this?
+      - @crop.plantings.each do |p|
+        = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner'}
 
-    =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-large btn-primary'
+    .span3
+      %h4 Scientific names:
+      %ul
+        - @crop.scientific_names.each do |sn|
+          %li= sn.scientific_name
+      %h4 More information:
+      %ul
+        %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
 
-    %h2 Who's growing this?
-    - @crop.plantings.each do |p|
-      %p
-        = p.quantity ? p.quantity : nil
-        = link_to p.crop.system_name, p.crop
-        in
-        = link_to p.location, p.garden
-        = p.planted_at ? "planted at #{p.planted_at}" : nil
-
-  .span3
-    %h3 Scientific names:
-    %ul
-      - @crop.scientific_names.each do |sn|
-        %li= sn.scientific_name
-    %h3 More information:
-    %ul
-      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
-    %p
       - if member_signed_in?
-        = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn' }
-        = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
+        %p
+          = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn' }
+          = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
+      %p
+        =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-large btn-primary'
+

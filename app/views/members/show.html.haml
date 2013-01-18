@@ -26,12 +26,13 @@
           %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
             - first_garden = false
 
-            %ul.thumbnails
-              - g.featured_plantings.each do |p|
-                %li.span2
-                  = render :partial => "crops/thumbnail", :locals => { :crop => p.crop }
+          %h3 What's planted here?
+          - g.featured_plantings.each do |p|
+            = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
-            %p= link_to "More about this garden...", url_for(g)
+          %p
+            = link_to "More about this garden...", url_for(g)
+
         %div{:class => 'tab-pane', :id => "garden_new"}
           %h3 Create a new garden
           = render 'gardens/form'
