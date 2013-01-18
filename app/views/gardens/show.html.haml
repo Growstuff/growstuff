@@ -25,6 +25,7 @@
     - if current_member == @garden.owner
       %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
 
+    %h3 What's planted here?
     - @garden.plantings.each do |p|
       = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
