@@ -2,8 +2,11 @@ require 'spec_helper'
 
 describe PlantingsController do
 
-  def valid_attributes
-    { :garden_id => 1, :crop_id => 1 }
+  def valid_attributes 
+  {
+    :garden_id => FactoryGirl.create(:garden).id,
+    :crop_id => FactoryGirl.create(:crop).id
+  }
   end
 
   def valid_session
