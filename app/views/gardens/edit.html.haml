@@ -2,12 +2,7 @@
 
 - if member_signed_in?
   - if current_member == @garden.owner
-    = form_for @garden, :html => {:class => "form-horizontal"} do |f|
-      .control-group
-        = f.label :name, :class => "control-label"
-        .controls= f.text_field :name
-        .form-actions
-          = f.submit "Save", :class => 'btn'
+    = render "form"
   - else
     .alert You aren't allowed to edit this garden.
 - else

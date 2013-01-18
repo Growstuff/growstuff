@@ -18,28 +18,13 @@
       = link_to 'New', new_garden_path, :class => 'btn'
 
   .span9
-    .tabbable
-      %ul.nav.nav-tabs
-        %li.active
-          = link_to 'Plantings', '#tab1', 'data-toggle' => 'tab'
-        %li
-          = link_to 'Updates', '#tab2', 'data-toggle' => 'tab'
-      .tab-content
-        .tab-pane.active#tab1
-          - if current_member == @garden.owner
-            %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
-          .alert
-            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-            Note: these are a random selection, and don't represent actual plantings
+    %div
+      :markdown
+        #{@garden.description}
 
-          %ul.thumbnails
-            - (1..20).each do
-              %li.span2
-                = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
-        .tab-pane.active#tab2
-          .alert
-            %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-            Note: in due these will be limited to only those posts that apply to this particular garden!
+    - if current_member == @garden.owner
+      %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
 
-          - @garden.owner.posts.each do |post|
-            = render :partial => "posts/single", :locals => { :post => post, :subject => true }
+    - @garden.plantings.each do |p|
+      = render :partial => "plantings/thumbnail", :locals => { :planting => p }
+

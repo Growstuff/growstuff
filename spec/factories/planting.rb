@@ -3,7 +3,7 @@ FactoryGirl.define do
     garden
     crop
     planted_at Time.now
-    quantity 3
+    quantity 33
     description "This is a *really* good plant."
   end
 end

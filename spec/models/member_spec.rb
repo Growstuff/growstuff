@@ -13,11 +13,15 @@ describe 'member' do
 
     it 'should be fetchable from the database' do
       @member.save
-      @member2 = Member.find_by_email('member1@example.com')
+      @member2 = Member.find(@member.id)
+      @member2.should be_an_instance_of Member
       @member2.login_name.should == "member1"
-      @member2.email.should    == "member1@example.com"
-      @member2.slug.should     == "member1"
       @member2.encrypted_password.should_not be_nil
+    end
+
+    it 'should have a friendly slug' do
+      @member.save
+      @member.slug.should     == "member1"
     end
 
     it 'should have a default garden' do

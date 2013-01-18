@@ -7,7 +7,7 @@
     = render :partial => "shared/avatar", :locals => { :member => @member }
 
     %p
-      = "Member since: #{@member.created_at.strftime("%B %d, %Y")}."
+      = "Member since: #{@member.created_at.to_s(:date)}"
     %p Location: Unknown
 
   .span9
@@ -25,22 +25,18 @@
 
           %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
             - first_garden = false
-            .alert
-              %button.close{:type => 'button', 'data-dismiss' => 'alert'} ×
-              Note: these are a random selection, and don't represent actual plantings
 
-            %ul.thumbnails
-              - (1..4).each do
-                %li.span2
-                  = render :partial => "crops/thumbnail", :locals => { :crop => random_crop }
+          %div
+            :markdown
+              #{g.description}
 
-            %p
-              and 20 more crops including:
-              - (1..20).each do
-                - @crop = random_crop
-                = @crop ? link_to(@crop.system_name, url_for(@crop)) : 'blah'
+          %h3 What's planted here?
+          - g.featured_plantings.each do |p|
+            = render :partial => "plantings/thumbnail", :locals => { :planting => p, :hide_description => true }
 
-            %p= link_to "More about #{@member.login_name}'s #{g.name}...", url_for(g)
+          %p
+            = link_to "More about this garden...", url_for(g)
+
         %div{:class => 'tab-pane', :id => "garden_new"}
           %h3 Create a new garden
           = render 'gardens/form'
