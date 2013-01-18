@@ -31,12 +31,8 @@ describe "plantings/index" do
     rendered.should contain "This is a"
   end
 
-  it "shows filler when there is no description" do
-    rendered.should contain "No description given"
-  end
-
   it "displays planting time" do
-    rendered.should contain '2013-01-13 01:25:34'
+    rendered.should contain 'January 13, 2013'
   end
 
   it "renders markdown in the description" do
