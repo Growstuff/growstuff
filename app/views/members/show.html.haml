@@ -28,7 +28,7 @@
 
           %h3 What's planted here?
           - g.featured_plantings.each do |p|
-            = render :partial => "plantings/thumbnail", :locals => { :planting => p }
+            = render :partial => "plantings/thumbnail", :locals => { :planting => p, :hide_description => true }
 
           %p
             = link_to "More about this garden...", url_for(g)

@@ -5,7 +5,7 @@
     .span9
       %h2 Who's growing this?
       - @crop.plantings.each do |p|
-        = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner'}
+        = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
 
     .span3
       %h4 Scientific names:

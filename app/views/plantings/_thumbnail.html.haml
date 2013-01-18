@@ -1,19 +1,25 @@
-%h4
-  - if defined?(title) && title == 'owner'
-    = link_to planting.owner, planting.owner
-  - else
-    = link_to planting.crop.system_name, planting.crop
+.well
+  %h4
+    - if defined?(title) && title == 'owner'
+      = link_to planting.owner, planting.owner
+    - else
+      = link_to planting.crop.system_name, planting.crop
 
-%p
-  Planted
-  - if planting.planted_at
-    = planting.planted_at.to_s(:date)
-  in
-  = link_to planting.location, planting.garden
+  %p
+    Planted
+    - if planting.planted_at
+      = planting.planted_at.to_s(:date)
+    in
+    = link_to planting.location, planting.garden
 
-%p
-  - if planting.quantity
-    Quantity:
-    = planting.quantity
-  - else
-    &nbsp;
+  %p
+    - if planting.quantity
+      Quantity:
+      = planting.quantity
+    - else
+      &nbsp;
+
+  - if planting.description && ! defined?(hide_description)
+    %div
+      :markdown
+        #{ planting.description }
