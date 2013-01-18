@@ -7,7 +7,7 @@
     = render :partial => "shared/avatar", :locals => { :member => @member }
 
     %p
-      = "Member since: #{@member.created_at.strftime("%B %d, %Y")}."
+      = "Member since: #{@member.created_at.to_s(:date)}"
     %p Location: Unknown
 
   .span9
