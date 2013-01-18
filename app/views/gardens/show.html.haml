@@ -18,6 +18,10 @@
       = link_to 'New', new_garden_path, :class => 'btn'
 
   .span9
+    %div
+      :markdown
+        #{@garden.description}
+
     - if current_member == @garden.owner
       %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
 

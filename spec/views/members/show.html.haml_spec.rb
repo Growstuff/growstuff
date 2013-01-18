@@ -24,6 +24,14 @@ describe "members/show" do
     assert_select "li.active>a", :text => "Garden"
   end
 
+  it 'shows the garden description' do
+    rendered.should contain "totally cool garden"
+  end
+
+  it 'renders markdown in the garden description' do
+    assert_select "strong", "totally"
+  end
+
   it "shows the plantings in the garden" do
     rendered.should contain @planting.crop.system_name
   end

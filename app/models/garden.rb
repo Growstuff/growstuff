@@ -2,7 +2,7 @@ class Garden < ActiveRecord::Base
   extend FriendlyId
   friendly_id :garden_slug, use: :slugged
 
-  attr_accessible :name, :slug, :owner_id
+  attr_accessible :name, :slug, :owner_id, :description
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
   has_many :plantings, :order => 'created_at DESC'
   has_many :crops, :through => :plantings

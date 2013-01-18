@@ -9,6 +9,14 @@ describe "gardens/show" do
     render
   end
 
+  it 'should show the description' do
+    rendered.should contain "totally cool garden"
+  end
+
+  it 'renders markdown in the description' do
+    assert_select "strong", "totally"
+  end
+  
   it 'should show plantings on the garden page' do
     rendered.should contain @planting.crop.system_name
   end

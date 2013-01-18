@@ -10,6 +10,10 @@ describe Garden do
     @garden.garden_slug.should == "member1-springfield-community-garden"
   end
 
+  it "should have a description" do
+    @garden.description.should == "This is a **totally** cool garden"
+  end
+
   it "should have an owner" do
     @garden.owner.should be_an_instance_of Member
   end

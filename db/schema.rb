@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130113095802) do
+ActiveRecord::Schema.define(:version => 20130118031942) do
 
   create_table "crops", :force => true do |t|
     t.string   "system_name",      :null => false
@@ -25,11 +25,12 @@ ActiveRecord::Schema.define(:version => 20130113095802) do
   add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
 
   create_table "gardens", :force => true do |t|
-    t.string   "name",       :null => false
+    t.string   "name",        :null => false
     t.integer  "owner_id"
-    t.string   "slug",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "slug",        :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.text     "description"
   end
 
   add_index "gardens", ["owner_id"], :name => "index_gardens_on_user_id"
