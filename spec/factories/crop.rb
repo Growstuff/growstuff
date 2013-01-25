@@ -30,6 +30,10 @@ FactoryGirl.define do
       system_name "Pear"
     end
 
+    factory :lowercasecrop do
+      system_name "ffrench bean"
+    end
+
   end
 
 end

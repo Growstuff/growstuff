@@ -8,7 +8,7 @@
 
   .control-group
     = f.label 'What did you plant?', :class => 'control-label'
-    .controls= collection_select(:planting, :crop_id, Crop.all(:order => :system_name), :id, :system_name, :selected => @crop.id)
+    .controls= collection_select(:planting, :crop_id, Crop.order("lower(system_name) ASC").all, :id, :system_name, :selected => @crop.id)
   .control-group
     = f.label 'Where did you plant it?', :class => 'control-label'
     .controls= collection_select(:planting, :garden_id,
