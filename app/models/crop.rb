@@ -4,6 +4,7 @@ class Crop < ActiveRecord::Base
   attr_accessible :en_wikipedia_url, :system_name
   has_many :scientific_names
   has_many :plantings
+  default_scope order("lower(system_name) asc")
 
   def Crop.random
     @crop = Crop.offset(rand(Crop.count)).first

@@ -42,4 +42,12 @@ describe Crop do
       @rand_crop.system_name.should == 'Tomato'
     end
   end
+
+  context 'ordering' do
+    it "should be sorted case-insensitively" do
+      uppercase = FactoryGirl.create(:uppercasecrop)
+      lowercase = FactoryGirl.create(:lowercasecrop)
+      Crop.first.should == lowercase
+    end
+  end
 end

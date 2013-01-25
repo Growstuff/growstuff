@@ -30,6 +30,16 @@ FactoryGirl.define do
       system_name "Pear"
     end
 
+    # This should have a name that is alphabetically earlier than :uppercase
+    # crop to ensure that the ordering tests work.
+    factory :lowercasecrop do
+      system_name "ffrench bean"
+    end
+
+    factory :uppercasecrop do
+      system_name "Swiss chard"
+    end
+
   end
 
 end
