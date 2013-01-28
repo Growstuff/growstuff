@@ -59,4 +59,12 @@ describe Garden do
     end
   end
 
+  context 'ordering' do
+    it "should be sorted alphabetically" do
+      z = FactoryGirl.create(:garden_z)
+      a = FactoryGirl.create(:garden_a)
+      Garden.first.should == a
+    end
+  end
+
 end
