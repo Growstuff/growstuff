@@ -5,12 +5,15 @@ describe "plantings/new" do
     @member = FactoryGirl.create(:member)
 
     # create gardens and crops to populate dropdowns
-    @garden1 = FactoryGirl.create(:garden, :owner => @member, :name => 'Garden1')
-    @garden2 = FactoryGirl.create(:garden, :owner => @member, :name => 'Garden2')
+    @garden_a = FactoryGirl.create(:garden, :owner => @member)
+    @garden_z = FactoryGirl.create(:garden, :owner => @member)
     @crop1 = FactoryGirl.create(:tomato)
     @crop2 = FactoryGirl.create(:maize)
 
-    assign(:planting, FactoryGirl.create(:planting, :garden => @garden1))
+    assign(:planting, FactoryGirl.create(:planting,
+      :garden => @garden_a,
+      :crop => @crop2
+    ))
 
   end
 
@@ -24,8 +27,9 @@ describe "plantings/new" do
   context "logged in" do
     before(:each) do
       sign_in @member
+      assign(:planting, Planting.new())
       assign(:crop, @crop2)
-      assign(:garden, @garden2)
+      assign(:garden, @garden_z)
       render
     end
 
@@ -45,7 +49,7 @@ describe "plantings/new" do
 
     it "selects a garden given in a param" do
       assert_select "select#planting_garden_id",
-        :html => /option value="#{@garden2.id}" selected="selected"/
+        :html => /option value="#{@garden_z.id}" selected="selected"/
     end
   end
 end
