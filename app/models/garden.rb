@@ -7,6 +7,8 @@ class Garden < ActiveRecord::Base
   has_many :plantings, :order => 'created_at DESC'
   has_many :crops, :through => :plantings
 
+  default_scope order("lower(name) asc")
+
   def garden_slug
     "#{owner.login_name}-#{name}".downcase.gsub(' ', '-')
   end

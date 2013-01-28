@@ -17,9 +17,8 @@ describe "plantings/edit" do
     @maize = FactoryGirl.create(:maize)
 
     # and likewise for gardens
-    @garden =  FactoryGirl.create(:garden, :owner => @right_member)
-    @garden2 = FactoryGirl.create(:garden, :owner => @right_member,
-        :name => "An alphabetically earlier garden")
+    @garden =  FactoryGirl.create(:garden_z, :owner => @right_member)
+    @garden2 = FactoryGirl.create(:garden_a, :owner => @right_member)
 
     @planting = assign(:planting,
       FactoryGirl.create(:planting, :garden => @garden, :crop => @tomato)
