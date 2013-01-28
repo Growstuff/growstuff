@@ -4,3 +4,4 @@
 .pt
 .*.sw*
 *~
+*.DS_Store
