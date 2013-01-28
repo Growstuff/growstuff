@@ -11,11 +11,18 @@ describe "plantings/edit" do
       :email => 'wrong@example.com'
     )
 
-    @crop = FactoryGirl.create(:crop)
-    @garden = FactoryGirl.create(:garden, :owner => @right_member)
+    # creating two crops to make sure that the correct one is selected
+    # in the form.
+    @tomato = FactoryGirl.create(:tomato)
+    @maize = FactoryGirl.create(:maize)
+
+    # and likewise for gardens
+    @garden =  FactoryGirl.create(:garden, :owner => @right_member)
+    @garden2 = FactoryGirl.create(:garden, :owner => @right_member,
+        :name => "An alphabetically earlier garden")
 
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)
+      FactoryGirl.create(:planting, :garden => @garden, :crop => @tomato)
     )
 
   end
@@ -47,11 +54,20 @@ describe "plantings/edit" do
 
     it "renders the edit planting form" do
       assert_select "form", :action => plantings_path(@planting), :method => "post" do
-        assert_select "select#planting_garden_id", :name => "planting[garden_id]"
-        assert_select "select#planting_crop_id", :name => "planting[crop_id]"
         assert_select "input#planting_quantity", :name => "planting[quantity]"
         assert_select "textarea#planting_description", :name => "planting[description]"
       end
     end
+
+    it "chooses the right crop" do
+      assert_select "select#planting_crop_id",
+        :html => /option value="#{@tomato.id}" selected="selected"/
+    end
+
+    it "chooses the right garden" do
+      assert_select "select#planting_garden_id",
+        :html => /option value="#{@garden.id}" selected="selected"/
+    end
+
   end
 end
