@@ -39,6 +39,7 @@ describe CropsController do
       crop = Crop.create! valid_attributes
       get :index, {}, valid_session
       assigns(:crops).should eq([crop])
+      assigns(:new_crops).should eq([crop])
     end
   end
 

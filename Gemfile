@@ -76,7 +76,7 @@ gem 'diff-lcs'
 group :development, :test do
   gem 'sqlite3'
   gem 'haml-rails'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.12.1'
   gem 'webrat'
   gem 'watchr'
   gem 'spork', '~> 0.9.0.rc'
