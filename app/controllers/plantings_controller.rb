@@ -8,6 +8,8 @@ class PlantingsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @plantings }
+      format.rss { render :layout => false } #index.rss.builder
+
     end
   end
 

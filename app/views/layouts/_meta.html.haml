@@ -6,6 +6,7 @@
     = auto_discovery_link_tag(:rss, { :controller => "/members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "Growstuff - #{yield(:member_rss_login_name)}'s posts" })
   = auto_discovery_link_tag(:rss, { :controller => "/posts", :format => "rss" }, { :title => "Growstuff - Recent posts from all members" })
   = auto_discovery_link_tag(:rss, { :controller => "/crops", :format => "rss" }, { :title => "Growstuff - Recently added crops" })
+  = auto_discovery_link_tag(:rss, { :controller => "/plantings", :format => "rss" }, { :title => "Growstuff - Recent plantings from all members" })
 
   %title
     = content_for?(:title) ? yield(:title) + " - Growstuff" : "Growstuff"
