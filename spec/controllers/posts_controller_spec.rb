@@ -28,6 +28,7 @@ describe PostsController do
       post = Post.create! valid_attributes
       get :index, {}
       assigns(:posts).should eq([post])
+      assigns(:recent_posts).should eq([post])
     end
   end
 
