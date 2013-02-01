@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "scientific_names/edit" do
   before(:each) do
-    controller.stub(:current_user) { Member.new }
+    controller.stub(:current_user) { nil }
     @scientific_name = assign(:scientific_name,
       FactoryGirl.create(:zea_mays)
     )

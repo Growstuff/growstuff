@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe "crops/new" do
   before(:each) do
-    controller.stub(:current_user) { Member.new }
     assign(:crop, FactoryGirl.create(:maize))
     @member = FactoryGirl.create(:member)
     sign_in @member
+    controller.stub(:current_user) { @member }
     render
   end
 

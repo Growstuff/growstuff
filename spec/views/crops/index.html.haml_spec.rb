@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "crops/index" do
   before(:each) do
-    controller.stub(:current_user) { Member.new }
+    controller.stub(:current_user) { nil }
     assign(:crops, [
       FactoryGirl.create(:tomato),
       FactoryGirl.create(:maize)
@@ -24,6 +24,7 @@ describe "crops/index" do
     before(:each) do
       @member = FactoryGirl.create(:member)
       sign_in @member
+      controller.stub(:current_user) { @member }
       render
     end
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "gardens/index" do
   before(:each) do
-    controller.stub(:current_user) { Member.new }
+    controller.stub(:current_user) { nil }
     @owner = FactoryGirl.create(:member)
     assign(:gardens, [
       FactoryGirl.create(:garden, :owner => @owner),

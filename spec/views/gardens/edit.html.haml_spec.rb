@@ -4,9 +4,9 @@ describe "gardens/edit" do
 
   context "logged in" do
     before(:each) do
-      controller.stub(:current_user) { Member.new }
       @owner = FactoryGirl.create(:member)
       sign_in @owner
+      controller.stub(:current_user) { @owner }
       @garden = assign(:garden, FactoryGirl.create(:garden, :owner => @owner))
       render
     end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "posts/edit" do
   before(:each) do
-    controller.stub(:current_user) { Member.new }
+    controller.stub(:current_user) { nil }
     @author = FactoryGirl.create(:member)
     @post = assign(:post, FactoryGirl.create(:post, :author => @author))
   end

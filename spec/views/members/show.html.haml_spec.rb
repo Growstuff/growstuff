@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "members/show" do
 
   before(:each) do
-    controller.stub(:current_user) { Member.new }
+    controller.stub(:current_user) { nil }
     @member = FactoryGirl.create(:member)
     @time = @member.created_at
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "crops/show" do
   before(:each) do
-    controller.stub(:current_user) { Member.new }
+    controller.stub(:current_user) { nil }
     @crop = FactoryGirl.create(:maize,
       :scientific_names => [ FactoryGirl.create(:zea_mays) ]
     )
@@ -49,6 +49,7 @@ describe "crops/show" do
     before(:each) do
       @member = FactoryGirl.create(:member)
       sign_in @member
+      controller.stub(:current_user) { @member }
       render
     end
 
