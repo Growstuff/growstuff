@@ -1,4 +1,5 @@
 class CropsController < ApplicationController
+
   # GET /crops
   # GET /crops.json
   def index

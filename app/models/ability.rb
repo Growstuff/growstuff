@@ -3,13 +3,11 @@ class Ability
 
   def initialize(member)
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
-    member ||= Member.new # guest member (not logged in)
 
     # everyone can do these things, even non-logged in
     can :read, :all
 
-    if member.logged_in?
-
+    if member
       # managing your own user settings
       can :update, Member, :id => member.id
 
@@ -36,8 +34,6 @@ class Ability
       can :create, Planting
       can :update, Planting, :garden => { :owner_id => member.id }
       can :destroy, Planting, :garden => { :owner_id => member.id }
-
     end
-
   end
 end
