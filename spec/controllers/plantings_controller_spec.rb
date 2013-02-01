@@ -6,7 +6,7 @@ describe PlantingsController do
 
   def valid_attributes
     {
-      :garden_id => FactoryGirl.create(:garden).id,
+      :garden_id => FactoryGirl.create(:garden, :owner => subject.current_member).id,
       :crop_id => FactoryGirl.create(:crop).id
     }
   end
