@@ -1,4 +1,5 @@
 class ScientificNamesController < ApplicationController
+  load_and_authorize_resource
   # GET /scientific_names
   # GET /scientific_names.json
   def index

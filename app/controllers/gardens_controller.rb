@@ -1,4 +1,5 @@
 class GardensController < ApplicationController
+  load_and_authorize_resource
   # GET /gardens
   # GET /gardens.json
   def index
