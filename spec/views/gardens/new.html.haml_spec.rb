@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "gardens/new" do
   before(:each) do
+    controller.stub(:current_user) { Member.new }
     assign(:garden, FactoryGirl.create(:garden))
   end
 

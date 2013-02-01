@@ -17,8 +17,10 @@
           :markdown
             #{ strip_tags post.body }
 
-        - if current_member == post.author
+        - if can? :edit, post or can? :destroy, post
           .post-actions
-            = link_to 'Edit', edit_post_path(post), :class => 'btn'
-            = link_to 'Delete', post, method: :delete, |
-              data: { confirm: 'Are you sure?' }, :class => 'btn'
+            - if can? :edit, post
+              = link_to 'Edit', edit_post_path(post), :class => 'btn'
+            - if can? :destroy, post
+              = link_to 'Delete', post, method: :delete, |
+                data: { confirm: 'Are you sure?' }, :class => 'btn'

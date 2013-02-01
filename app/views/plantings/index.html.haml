@@ -5,8 +5,4 @@
 - @recent_plantings.each do |p|
   = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
-  - if member_signed_in? && current_member == p.owner
-    %p
-      =link_to 'Edit', edit_planting_path(p), :class => 'btn'
-      =link_to 'Destroy', p, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
 

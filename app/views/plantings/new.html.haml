@@ -1,8 +1,3 @@
 =content_for :title, "Plant something"
 
-- if member_signed_in?
-  = render 'form'
-- else
-  .alert You're not logged in. Only logged in members can do this.
-
-= link_to 'Back', plantings_path
+= render 'form'
