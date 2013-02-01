@@ -5,17 +5,11 @@ describe "scientific_names/new" do
     assign(:scientific_name, FactoryGirl.create(:zea_mays))
   end
 
-  context "logged out" do
-    it "doesn't show the SN form if logged out" do
-      render
-      rendered.should contain "Only logged in members can do this"
-    end
-  end
-
   context "logged in" do
     before(:each) do
       @member = FactoryGirl.create(:member)
       sign_in @member
+      controller.stub(:current_user) { @member }
       render
     end
 

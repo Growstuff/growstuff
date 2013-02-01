@@ -13,7 +13,7 @@
           - else
             = link_to "#{othergarden.name}", garden_path(othergarden)
 
-    - if current_member == @garden.owner
+    - if can? :edit, @garden
       = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
       = link_to 'New', new_garden_path, :class => 'btn'
 
@@ -22,7 +22,7 @@
       :markdown
         #{@garden.description}
 
-    - if current_member == @garden.owner
+    - if can? :edit, @garden
       %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
 
     %h3 What's planted here?

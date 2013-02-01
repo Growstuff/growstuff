@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "posts/index" do
   before(:each) do
+    controller.stub(:current_user) { Member.new }
     @author = FactoryGirl.create(:member)
     @post1 = FactoryGirl.build(:post, :author => @author)
     @post2 = FactoryGirl.build(:post, :author => @author)

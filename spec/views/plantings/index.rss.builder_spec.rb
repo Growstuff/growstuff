@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'plantings/index.rss.builder', :type => "view" do
   before(:each) do
+    controller.stub(:current_user) { Member.new }
     assign(:recent_plantings, [
       FactoryGirl.create(:planting)
     ])

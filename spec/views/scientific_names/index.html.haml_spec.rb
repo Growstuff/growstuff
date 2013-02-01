@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "scientific_names/index" do
   before(:each) do
+    controller.stub(:current_user) { Member.new }
     assign(:scientific_names, [
       FactoryGirl.create(:zea_mays),
       FactoryGirl.create(:solanum_lycopersicum) 

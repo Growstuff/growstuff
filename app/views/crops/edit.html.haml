@@ -1,9 +1,4 @@
 - content_for :title, "Editing crop"
 
-- if member_signed_in?
+- if can? :edit, @crop
   = render 'form'
-  %p
-    = link_to 'Show', @crop, { :class => 'btn' }
-    = link_to 'Back', crops_path, { :class => 'btn' }
-- else
-  .alert You're not logged in. Only logged in members can do this.

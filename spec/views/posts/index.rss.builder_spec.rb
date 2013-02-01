@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'posts/index.rss.builder', :type => "view" do
   before(:each) do
+    controller.stub(:current_user) { Member.new }
     @author = FactoryGirl.create(:member)
     assign(:recent_posts, [
       FactoryGirl.build(:post, :id => 1, :author => @author),

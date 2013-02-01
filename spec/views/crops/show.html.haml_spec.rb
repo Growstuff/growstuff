@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "crops/show" do
   before(:each) do
+    controller.stub(:current_user) { Member.new }
     @crop = FactoryGirl.create(:maize,
       :scientific_names => [ FactoryGirl.create(:zea_mays) ]
     )
@@ -41,13 +42,6 @@ describe "crops/show" do
     render
     rendered.should contain "member1"
     rendered.should contain "Springfield Community Garden"
-  end
-
-  context "logged out" do
-    it "doesn't show the edit links if logged out" do
-      render
-      rendered.should_not contain "Edit"
-    end
   end
 
   context "logged in" do

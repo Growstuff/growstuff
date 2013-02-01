@@ -4,8 +4,7 @@ describe 'layouts/application.html.haml', :type => "view" do
   context "when not logged in" do
 
     before(:each) do
-      view.stub(:member_signed_in).and_return(false)
-      view.stub(:current_member).and_return(nil)
+      controller.stub(:current_user) { nil }
       render
     end
 
@@ -26,6 +25,7 @@ describe 'layouts/application.html.haml', :type => "view" do
     before(:each) do
       @member = FactoryGirl.create(:member)
       sign_in @member
+      controller.stub(:current_user) { @member }
       render
     end
 
