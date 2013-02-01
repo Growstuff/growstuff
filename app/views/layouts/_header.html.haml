@@ -11,13 +11,14 @@
           %li= link_to "Crops", crops_path
           %li= link_to "Members", members_path
           %li= link_to "Posts", posts_path
-          - if member_signed_in?
+          - if can? :create, Post
             %li= link_to("Post something", new_post_path)
+          - if can? :create, Planting
             %li= link_to("Plant something", new_planting_path)
-            %li.divider-vertical
+          %li.divider-vertical
+          - if member_signed_in?
             %li= link_to current_member.login_name, member_path(current_member)
             %li= link_to "Log out", destroy_member_session_path, :method => :delete
           - else
-            %li.divider-vertical
             %li.pull-right= link_to 'Sign up', new_member_registration_path
             %li.pull-right= link_to 'Log in', new_member_session_path

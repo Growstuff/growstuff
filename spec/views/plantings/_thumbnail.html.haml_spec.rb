@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "plantings/_thumbnail" do
   before(:each) do
+    controller.stub(:current_user) { nil }
     @member = FactoryGirl.create(:member)
     @garden = FactoryGirl.create(:garden, :owner => @member)
     @crop = FactoryGirl.create(:tomato)

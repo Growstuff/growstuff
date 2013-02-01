@@ -47,7 +47,7 @@ Spork.prefork do
 
     # controller specs require this to work with Devise
     # see https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29
-    config.include Devise::TestHelpers, :type => :controller 
+    config.include Devise::TestHelpers, :type => :controller
     config.extend ControllerMacros, :type => :controller
   end
 end

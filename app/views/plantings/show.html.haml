@@ -13,5 +13,5 @@
   :markdown
     #{ @planting.description != "" ? @planting.description : "No description." }
 
-- if member_signed_in? && current_member == @planting.owner
+- if can? :edit, @planting
   = link_to 'Edit', edit_planting_path(@planting), :class => 'btn'

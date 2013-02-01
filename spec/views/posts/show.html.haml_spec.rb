@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "posts/show" do
   before(:each) do
+    controller.stub(:current_user) { nil }
     @author = FactoryGirl.create(:member)
   end
 

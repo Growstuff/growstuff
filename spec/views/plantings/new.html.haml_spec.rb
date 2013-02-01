@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "plantings/new" do
   before(:each) do
     @member = FactoryGirl.create(:member)
+    controller.stub(:current_user) { @member }
 
     # create gardens and crops to populate dropdowns
     @garden_a = FactoryGirl.create(:garden, :owner => @member)
@@ -15,13 +16,6 @@ describe "plantings/new" do
       :crop => @crop2
     ))
 
-  end
-
-  context "logged out" do
-    it "doesn't show the planting form if logged out" do
-      render
-      rendered.should contain "Only logged in members can do this"
-    end
   end
 
   context "logged in" do

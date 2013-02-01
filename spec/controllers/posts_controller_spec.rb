@@ -4,23 +4,8 @@ describe PostsController do
 
   login_member
 
-  # This should return the minimal set of attributes required to create a valid
-  # Post. As you add validations to Post, be sure to
-  # update the return value of this method accordingly.
   def valid_attributes
     { :author_id => 1, :subject => "blah", :body => "blah blah" }
-  end
-
-  # The parameters required to be passed to a Web request.
-  def valid_web_attributes
-    { :subject => "blah", :body => "blah blah" }
-  end
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # PostsController. Be sure to keep this updated too.
-  def valid_session
-    { }
   end
 
   describe "GET index" do
@@ -68,18 +53,18 @@ describe PostsController do
     describe "with valid params" do
       it "creates a new Post" do
         expect {
-          post :create, {:post => valid_web_attributes}
+          post :create, {:post => valid_attributes}
         }.to change(Post, :count).by(1)
       end
 
       it "assigns a newly created post as @post" do
-        post :create, {:post => valid_web_attributes}
+        post :create, {:post => valid_attributes}
         assigns(:post).should be_a(Post)
         assigns(:post).should be_persisted
       end
 
       it "redirects to the created post" do
-        post :create, {:post => valid_web_attributes}
+        post :create, {:post => valid_attributes}
         response.should redirect_to(Post.last)
       end
     end

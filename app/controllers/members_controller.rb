@@ -1,4 +1,5 @@
 class MembersController < ApplicationController
+  load_and_authorize_resource
   def index
     @members = Member.confirmed
 

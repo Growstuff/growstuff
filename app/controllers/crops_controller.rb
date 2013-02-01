@@ -1,4 +1,6 @@
 class CropsController < ApplicationController
+  load_and_authorize_resource
+
   # GET /crops
   # GET /crops.json
   def index
