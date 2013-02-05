@@ -5,7 +5,6 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.haml
-      format.json { render json: @members}
     end
   end
 
@@ -19,7 +18,6 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.haml
-      format.json { render json: @member }
       format.rss { render(
         :layout => false,
         :locals => { :member => @member }
