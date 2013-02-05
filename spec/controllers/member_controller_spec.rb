@@ -28,7 +28,7 @@ describe MembersController do
     end
 
     it "does NOT provide JSON for member profile" do
-      get :show, { :id => @member1.id }, :format => 'json'
+      get :show, { :id => @member1.id , :format => 'json' }
       response.should_not be_success
     end
 
