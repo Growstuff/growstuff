@@ -17,8 +17,14 @@
             %li= link_to("Plant something", new_planting_path)
           %li.divider-vertical
           - if member_signed_in?
-            %li= link_to current_member.login_name, member_path(current_member)
-            %li= link_to "Log out", destroy_member_session_path, :method => :delete
+            %li.dropdown<
+              %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => member_path(current_member)}
+                = current_member.login_name
+                %b.caret
+              %ul.dropdown-menu
+                %li= link_to "Profile", member_path(current_member)
+                %li= link_to "Settings", url_for(:controller => 'members', :action => 'edit', :id => current_member)
+                %li= link_to "Log out", destroy_member_session_path, :method => :delete
           - else
             %li.pull-right= link_to 'Sign up', new_member_registration_path
             %li.pull-right= link_to 'Log in', new_member_session_path
