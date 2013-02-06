@@ -29,6 +29,11 @@ describe 'member' do
       @member.gardens.count.should == 1
     end
 
+    it "doesn't show email by default" do
+      @member.save
+      @member.show_email.should be_false
+    end
+
     it 'should stringify as the login_name' do
       @member.to_s.should == 'member1'
       "#{@member}".should == 'member1'
