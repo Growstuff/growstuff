@@ -7,6 +7,7 @@ FactoryGirl.define do
     email { generate(:email) }
     tos_agreement true
     confirmed_at Time.now
+    show_email false
 
     factory :no_tos_member do
       tos_agreement false
