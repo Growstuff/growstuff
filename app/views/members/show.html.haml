@@ -8,7 +8,12 @@
 
     %p
       = "Member since: #{@member.created_at.to_s(:date)}"
-    %p Location: Unknown
+    %p
+      Location: Unknown
+    - if @member.show_email
+      %p
+        Email:
+        = mail_to @member.email
 
   .span9
     .tabbable
