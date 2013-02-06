@@ -46,7 +46,7 @@ describe 'layouts/application.html.haml', :type => "view" do
     end
 
     it "should show settings link" do
-      assert_select "a[href=/members/#{@member.login_name}/edit]", "Settings"
+      assert_select "a[href=/members/edit]", "Settings"
     end
 
     it 'should show logout link' do

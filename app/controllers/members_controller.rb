@@ -25,7 +25,4 @@ class MembersController < ApplicationController
     end
   end
 
-  def edit
-  end
-
 end

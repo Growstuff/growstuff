@@ -86,7 +86,7 @@ describe PostsController do
     end
   end
 
-  describe "PUT post" do
+  describe "PUT update" do
     describe "with valid params" do
       it "updates the requested post" do
         post = Post.create! valid_attributes
