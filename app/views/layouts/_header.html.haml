@@ -24,7 +24,7 @@
               %ul.dropdown-menu
                 %li= link_to "Profile", member_path(current_member)
                 %li= link_to "Settings", edit_member_registration_path
-                %li= link_to "Log out", destroy_member_session_path, :method => :delete
+                %li= link_to "Sign out", destroy_member_session_path, :method => :delete
           - else
             %li.pull-right= link_to 'Sign up', new_member_registration_path
-            %li.pull-right= link_to 'Log in', new_member_session_path
+            %li.pull-right= link_to 'Sign in', new_member_session_path
