@@ -3,6 +3,7 @@ class Member < ActiveRecord::Base
   friendly_id :login_name, use: :slugged
 
   has_many :posts,   :foreign_key => 'author_id'
+  has_many :comments, :foreign_key => 'author_id'
   has_many :gardens, :foreign_key => 'owner_id'
 
   # Include default devise modules. Others available are:
