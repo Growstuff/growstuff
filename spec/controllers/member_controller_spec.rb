@@ -3,14 +3,14 @@ require 'spec_helper'
 describe MembersController do
 
   before :each do
-    @member1 = FactoryGirl.create(:member)
-    @posts = [ FactoryGirl.create(:post, :author => @member1) ]
+    @member = FactoryGirl.create(:member)
+    @posts = [ FactoryGirl.create(:post, :author => @member) ]
   end
 
   describe "GET index" do
-    it "assigns only confirmed members as @member1s" do
+    it "assigns only confirmed members as @members" do
       get :index, {}
-      assigns(:members).should eq([@member1])
+      assigns(:members).should eq([@member])
     end
   end
 
@@ -22,18 +22,18 @@ describe MembersController do
   end
 
   describe "GET show" do
-    it "assigns the requested member as @member1" do
-      get :show, {:id => @member1.id}
-      assigns(:member).should eq(@member1)
+    it "assigns the requested member as @member" do
+      get :show, {:id => @member.id}
+      assigns(:member).should eq(@member)
     end
 
     it "does NOT provide JSON for member profile" do
-      get :show, { :id => @member1.id , :format => 'json' }
+      get :show, { :id => @member.id , :format => 'json' }
       response.should_not be_success
     end
 
     it "assigns @posts with the member's posts" do
-      get :show, {:id => @member1.id}
+      get :show, {:id => @member.id}
       assigns(:posts).should eq(@posts)
     end
 
@@ -50,10 +50,11 @@ describe MembersController do
 
   describe "GET member's RSS feed" do
     it "returns an RSS feed" do
-      get :show, { :id => @member1.to_param, :format => "rss" }
+      get :show, { :id => @member.to_param, :format => "rss" }
       response.should be_success
       response.should render_template("members/show")
       response.content_type.should eq("application/rss+xml")
     end
   end
+
 end
