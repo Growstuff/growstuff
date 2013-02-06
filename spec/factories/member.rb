@@ -11,17 +11,20 @@ FactoryGirl.define do
 
     factory :no_tos_member do
       tos_agreement false
-# email 'notos@example.com'
     end
 
     factory :unconfirmed_member do
       confirmed_at nil
-# email 'confirmed@example.com'
     end
 
     factory :long_name_member do
       login_name 'Marmaduke Blundell-Hollinshead-Blundell-Tolemache-Plantagenet-Whistlebinkie, 3rd Duke of Marmoset'
-# email 'marmaduke@example.com'
+    end
+
+    # this member has very loose privacy settings
+    factory :public_member do
+      login_name 'NothingToHide'
+      show_email true
     end
 
   end

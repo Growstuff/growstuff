@@ -41,6 +41,10 @@ describe "members/show" do
     rendered.should_not contain "Note: these are a random selection"
   end
 
+  it "doesn't show the email address" do
+    rendered.should_not contain @member.email
+  end
+
   context "signed in member" do
     before(:each) do
       sign_in @member
@@ -49,6 +53,17 @@ describe "members/show" do
 
     it "contains a 'New Garden' link" do
       assert_select "a[href=#garden_new]", :text => "New Garden"
+    end
+  end
+
+  context "public member" do
+    before(:each) do
+      @member = FactoryGirl.create(:public_member)
+      render
+    end
+
+    it "shows the email address" do
+      rendered.should contain @member.email
     end
   end
 
