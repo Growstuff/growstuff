@@ -15,7 +15,7 @@ describe 'layouts/application.html.haml', :type => "view" do
 
     it 'should have signup/login links' do
       rendered.should contain 'Sign up'
-      rendered.should contain 'Log in'
+      rendered.should contain 'Sign in'
     end
 
   end
@@ -41,8 +41,16 @@ describe 'layouts/application.html.haml', :type => "view" do
       rendered.should contain 'Plant something'
     end
 
+    it "should show member's name" do
+      assert_select("a[href=/members/#{@member.login_name}]", "Profile")
+    end
+
+    it "should show settings link" do
+      assert_select "a[href=/members/edit]", "Settings"
+    end
+
     it 'should show logout link' do
-      rendered.should contain 'Log out'
+      rendered.should contain 'Sign out'
     end
 
   end
