@@ -5,7 +5,8 @@ describe CommentsController do
   login_member
 
   def valid_attributes
-    { :post_id => 1, :author_id => 1, :body => "some text" }
+    @post = FactoryGirl.create(:post)
+    { :post_id => @post.id, :author_id => 1, :body => "some text" }
   end
 
   describe "GET index" do
@@ -66,7 +67,7 @@ describe CommentsController do
 
       it "redirects to the created comment" do
         post :create, {:comment => valid_attributes}
-        response.should redirect_to(Comment.last)
+        response.should redirect_to(Comment.last.post)
       end
     end
 
@@ -108,7 +109,7 @@ describe CommentsController do
       it "redirects to the comment" do
         comment = Comment.create! valid_attributes
         put :update, {:id => comment.to_param, :comment => valid_attributes}
-        response.should redirect_to(comment)
+        response.should redirect_to(comment.post)
       end
     end
 
