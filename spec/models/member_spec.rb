@@ -49,6 +49,12 @@ describe 'member' do
       @member.gardens.first.name.should eq "Garden"
     end
 
+    it "has many comments" do
+      @member.save
+      @comment1 = FactoryGirl.create(:comment, :author => @member)
+      @comment2 = FactoryGirl.create(:comment, :author => @member)
+      @member.comments.length.should == 2
+    end
   end
 
   context 'no TOS agreement' do

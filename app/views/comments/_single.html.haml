@@ -1,0 +1,24 @@
+.well
+  .comment
+    .row
+      .span1
+        = render :partial => "shared/avatar", :locals => { :member => comment.author }
+      .span7
+        .comment-meta
+          Posted by
+          = link_to comment.author.login_name, member_path(comment.author)
+          at
+          = comment.created_at
+
+        .comment-body
+          :markdown
+            #{ strip_tags comment.body }
+
+        - if can? :edit, comment or can? :destroy, comment
+          .comment-actions
+            - if can? :edit, comment
+              = link_to 'Edit', edit_comment_path(comment), :class => 'btn'
+            - if can? :destroy, comment
+              = link_to 'Delete', comment, method: :delete, |
+                data: { confirm: 'Are you sure?' }, :class => 'btn'
+

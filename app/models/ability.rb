@@ -20,11 +20,14 @@ class Ability
       can :update, ScientificName
       can :destroy, ScientificName
 
-      # anyone can create a post, but only the author can edit/destroy
-      # it.
+      # anyone can create a post, or comment on a post,
+      # but only the author can edit/destroy it.
       can :create, Post
       can :update, Post, :author_id => member.id
       can :destroy, Post, :author_id => member.id
+      can :create, Comment
+      can :update, Comment, :author_id => member.id
+      can :destroy, Comment, :author_id => member.id
 
       # same deal for gardens and plantings
       can :create, Garden
