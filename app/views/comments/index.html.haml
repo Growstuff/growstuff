@@ -1,23 +1,7 @@
 %h1 Listing comments
 
-%table
-  %tr
-    %th Post
-    %th Author
-    %th Body
-    %th
-    %th
-    %th
-
-  - @comments.each do |comment|
-    %tr
-      %td= comment.post_id
-      %td= comment.author_id
-      %td= comment.body
-      %td= link_to 'Show', comment
-      %td= link_to 'Edit', edit_comment_path(comment)
-      %td= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Comment', new_comment_path
+- @comments.reverse.each do |comment|
+  %h2
+    Comment on
+    = link_to comment.post.subject, comment.post
+  = render :partial => "single", :locals => { :comment => comment }
