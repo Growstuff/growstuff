@@ -140,10 +140,11 @@ describe CommentsController do
       }.to change(Comment, :count).by(-1)
     end
 
-    it "redirects to the comments list" do
+    it "redirects to the post the comment was on" do
       comment = Comment.create! valid_attributes
+      post = comment.post
       delete :destroy, {:id => comment.to_param}
-      response.should redirect_to(comments_url)
+      response.should redirect_to(post)
     end
   end
 
