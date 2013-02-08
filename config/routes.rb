@@ -7,6 +7,7 @@ Growstuff::Application.routes.draw do
   resources :scientific_names
   resources :crops
   resources :members
+  resources :comments
 
   get "home/index"
 

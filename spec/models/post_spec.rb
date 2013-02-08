@@ -20,4 +20,11 @@ describe Post do
     @datestr.length.should == 4 + @time.year.to_s.size
     @post.slug.should == "#{@member.login_name}-#{@datestr}-a-post"
   end
+
+  it "has many comments" do
+    @post = FactoryGirl.create(:post, :author => @member)
+    @comment1 = FactoryGirl.create(:comment, :post => @post)
+    @comment2 = FactoryGirl.create(:comment, :post => @post)
+    @post.comments.length.should == 2
+  end
 end

@@ -24,3 +24,7 @@
             - if can? :destroy, post
               = link_to 'Delete', post, method: :delete, |
                 data: { confirm: 'Are you sure?' }, :class => 'btn'
+
+        - if can? :create, Comment
+          .post-actions
+            =link_to 'Comment', new_comment_path(:post_id => post.id), :class => 'btn'

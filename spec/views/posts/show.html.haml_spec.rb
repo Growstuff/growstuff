@@ -34,4 +34,19 @@ describe "posts/show" do
     rendered.should_not match(/a href="http:\/\/evil.com"/)
   end
 
+  context "signed in" do
+    before(:each) do
+      sign_in @author
+      controller.stub(:current_user) { @author }
+      @post = assign(:post,
+        FactoryGirl.create(:post, :author => @author))
+      render
+    end
+
+    it 'shows a comment button' do
+      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", "Comment"
+    end
+
+  end
+
 end
