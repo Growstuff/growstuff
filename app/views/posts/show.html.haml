@@ -5,9 +5,9 @@
 - if can? :edit, @post or can? :destroy, @post
   .post-actions
     - if can? :edit, @post
-      = link_to 'Edit', edit_post_path(@post), :class => 'btn'
+      = link_to 'Edit Post', edit_post_path(@post), :class => 'btn'
     - if can? :destroy, @post
-      = link_to 'Delete', @post, method: :delete, |
+      = link_to 'Delete Post', @post, method: :delete, |
         data: { confirm: 'Are you sure?' }, :class => 'btn'
 
 

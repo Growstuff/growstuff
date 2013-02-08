@@ -27,4 +27,14 @@ describe Post do
     @comment2 = FactoryGirl.create(:comment, :post => @post)
     @post.comments.length.should == 2
   end
+
+  it "destroys comments when deleted" do
+    @post = FactoryGirl.create(:post, :author => @member)
+    @comment1 = FactoryGirl.create(:comment, :post => @post)
+    @comment2 = FactoryGirl.create(:comment, :post => @post)
+    @post.comments.length.should == 2
+    all = Comment.count
+    @post.destroy
+    Comment.count.should == all - 2
+  end
 end
