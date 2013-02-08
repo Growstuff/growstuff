@@ -7,13 +7,7 @@
           %li= msg
 
   .field
-    = f.label :post_id
-    = f.number_field :post_id
-  .field
-    = f.label :author_id
-    = f.number_field :author_id
-  .field
     = f.label :body
-    = f.text_area :body
+    = f.text_area :body, :rows => 6, :class => 'input-block-level'
   .actions
     = f.submit 'Save'

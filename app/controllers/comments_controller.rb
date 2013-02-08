@@ -40,6 +40,7 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
+    params[:comment][:author_id] = current_member.id
     @comment = Comment.new(params[:comment])
 
     respond_to do |format|
