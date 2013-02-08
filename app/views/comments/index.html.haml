@@ -1,6 +1,6 @@
 = content_for :title, "Recent comments"
 
-- @comments.reverse.each do |comment|
+- @recent_comments.each do |comment|
   %h2
     Comment on
     = link_to comment.post.subject, comment.post

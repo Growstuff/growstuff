@@ -14,6 +14,7 @@ describe CommentsController do
       comment = Comment.create! valid_attributes
       get :index, {}
       assigns(:comments).should eq([comment])
+      assigns(:recent_comments).should eq([comment])
     end
   end
 

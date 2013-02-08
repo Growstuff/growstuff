@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "comments/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    assign(:comments, [
+    assign(:recent_comments, [
       FactoryGirl.create(:comment),
       FactoryGirl.create(:comment, :body => 'ROFL')
     ])

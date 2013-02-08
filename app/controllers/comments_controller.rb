@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
   # GET /comments.json
   def index
     @comments = Comment.all
+    @recent_comments = Comment.limit(100).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.erb
