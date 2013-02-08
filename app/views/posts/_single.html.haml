@@ -4,7 +4,7 @@
       .span1
         = render :partial => "shared/avatar", :locals => { :member => post.author }
       .span7
-        - if subject
+        - if defined?(subject)
           %h3= link_to strip_tags(post.subject), post
 
         .post-meta

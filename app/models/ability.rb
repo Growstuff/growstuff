@@ -25,7 +25,6 @@ class Ability
       can :create, Post
       can :update, Post, :author_id => member.id
       can :destroy, Post, :author_id => member.id
-
       can :create, Comment
       can :update, Comment, :author_id => member.id
       can :destroy, Comment, :author_id => member.id

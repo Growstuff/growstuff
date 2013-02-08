@@ -1,15 +1,11 @@
+= content_for :title, @comment.post.subject
+
 %p#notice= notice
 
-%p
-  %b Post:
-  = @comment.post_id
-%p
-  %b Author:
-  = @comment.author_id
-%p
-  %b Body:
-  = @comment.body
+= render :partial => "posts/single", :locals => { :post => @comment.post }
 
-= link_to 'Edit', edit_comment_path(@comment)
-\|
-= link_to 'Back', comments_path
+%h2 Showing 1 comment
+
+= render :partial => "single", :locals => { :comment => @comment }
+
+=link_to "View all comments", post_path(@comment.post)
