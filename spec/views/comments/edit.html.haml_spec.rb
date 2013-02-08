@@ -2,11 +2,7 @@ require 'spec_helper'
 
 describe "comments/edit" do
   before(:each) do
-    @comment = assign(:comment, stub_model(Comment,
-      :post_id => 1,
-      :author_id => 1,
-      :body => "MyText"
-    ))
+    assign(:comment, FactoryGirl.create(:comment))
   end
 
   it "renders the edit comment form" do

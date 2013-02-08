@@ -1,3 +1,6 @@
+= render :partial => "posts/single", :locals => { :post => @post || @comment.post, :subject => true }
+
+%h2 Your comment
 = form_for @comment do |f|
   - if @comment.errors.any?
     #error_explanation
@@ -7,10 +10,9 @@
           %li= msg
 
   .field
-    = f.label :body
     = f.text_area :body, :rows => 6, :class => 'input-block-level'
   .actions
-    = f.submit 'Save'
+    = f.submit 'Post comment', :class => 'btn'
   - if defined?(@post)
     .field
       = f.hidden_field :post_id, :value => @post.id
