@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130206033956) do
+ActiveRecord::Schema.define(:version => 20130208034248) do
 
   create_table "comments", :force => true do |t|
-    t.integer  "post_id"
-    t.integer  "author_id"
-    t.text     "body"
+    t.string   "post_id",    :null => false
+    t.string   "author_id",  :null => false
+    t.string   "body",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130206033956) do
     t.string   "login_name"
     t.string   "slug"
     t.boolean  "tos_agreement"
+    t.boolean  "show_email"
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

@@ -60,6 +60,11 @@ class CommentsController < ApplicationController
   def update
     @comment = Comment.find(params[:id])
 
+    # you should never be able to change the author or post when
+    # updating
+    params[:comment].delete("post_id")
+    params[:comment].delete("author_id")
+
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
         format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
