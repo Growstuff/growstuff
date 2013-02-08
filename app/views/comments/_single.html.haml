@@ -1,0 +1,16 @@
+.well
+  .comment
+    .row
+      .span1
+        = render :partial => "shared/avatar", :locals => { :member => comment.author }
+      .span7
+        .post-meta
+          Posted by
+          = link_to comment.author.login_name, member_path(comment.author)
+          at
+          = comment.created_at
+
+        .post-body
+          :markdown
+            #{ strip_tags comment.body }
+

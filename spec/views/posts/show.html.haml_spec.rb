@@ -34,6 +34,14 @@ describe "posts/show" do
     rendered.should_not match(/a href="http:\/\/evil.com"/)
   end
 
+  it "shows comments" do
+    @post = assign(:post,
+      FactoryGirl.create(:html_post, :author => @author))
+    @comment = FactoryGirl.create(:comment, :post => @post)
+    render
+    rendered.should contain @comment.body
+  end
+
   context "signed in" do
     before(:each) do
       sign_in @author

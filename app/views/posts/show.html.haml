@@ -1,3 +1,27 @@
 = content_for :title, @post.subject
 
 = render :partial => "single", :locals => { :post => @post, :subject => false }
+
+- if can? :edit, @post or can? :destroy, @post
+  .post-actions
+    - if can? :edit, @post
+      = link_to 'Edit', edit_post_path(@post), :class => 'btn'
+    - if can? :destroy, @post
+      = link_to 'Delete', @post, method: :delete, |
+        data: { confirm: 'Are you sure?' }, :class => 'btn'
+
+
+- if @post.comments.length > 0
+  %h2
+    =@post.comments.length
+    =@post.comments.length == 1 ? 'comment' : 'comments'
+
+  - @post.comments.each do |c|
+    = render :partial => "comments/single", :locals => { :comment => c }
+
+- else
+  %h2 There are no comments yet
+
+- if can? :create, Comment
+  .post-actions
+    =link_to 'Comment', new_comment_path(:post_id => @post.id), :class => 'btn'
