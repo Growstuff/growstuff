@@ -11,3 +11,5 @@
     = f.text_area :body, :rows => 6, :class => 'input-block-level'
   .actions
     = f.submit 'Save'
+  .field
+    = f.hidden_field :post_id, :value => @post.id
