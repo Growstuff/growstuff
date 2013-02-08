@@ -5,7 +5,7 @@ describe CommentsController do
   login_member
 
   def valid_attributes
-    { "post_id" => "1" }
+    { :post_id => 1, :author_id => 1, :body => "some text" }
   end
 
   describe "GET index" do
@@ -36,9 +36,9 @@ describe CommentsController do
       assigns(:post).should eq(post)
     end
 
-    it "doesn't die if no post specified" do
-      get :new, {}
-      assigns(:post).should be_a_new(Post)
+    it "dies if no post specified" do
+      get :new
+      response.should redirect_to(root_url)
     end
   end
 
@@ -95,8 +95,8 @@ describe CommentsController do
         # specifies that the Comment created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Comment.any_instance.should_receive(:update_attributes).with({ "post_id" => "1" })
-        put :update, {:id => comment.to_param, :comment => { "post_id" => "1" }}
+        Comment.any_instance.should_receive(:update_attributes).with({ "body" => "some text" })
+        put :update, {:id => comment.to_param, :comment => { "body" => "some text" }}
       end
 
       it "assigns the requested comment as @comment" do

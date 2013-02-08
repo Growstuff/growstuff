@@ -25,11 +25,16 @@ class CommentsController < ApplicationController
   # GET /comments/new.json
   def new
     @comment = Comment.new
-    @post    = Post.find_by_id(params[:post_id]) || Post.new
+    @post = Post.find_by_id(params[:post_id])
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @comment }
+    if @post
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @comment }
+      end
+    else
+      redirect_to request.referer || root_url,
+        :alert => "Can't post a comment on a non-existent post"
     end
   end
 

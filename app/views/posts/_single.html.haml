@@ -27,4 +27,4 @@
 
         - if can? :create, Comment
           .post-actions
-            =link_to 'Comment', new_comment_path(:post_id => @post.id), :class => 'btn'
+            =link_to 'Comment', new_comment_path(:post_id => post.id), :class => 'btn'
