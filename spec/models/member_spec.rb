@@ -62,6 +62,15 @@ describe 'member' do
       @member.latitude.round(2).should eq 51.48
       @member.longitude.round(2).should eq 0.00
     end
+
+    it 'empties the lat/long if location removed' do
+      @member.update_attributes(:location => 'Greenwich, UK')
+      @member.update_attributes(:location => '')
+      @member.location.should eq ''
+      @member.latitude.should be_nil
+      @member.longitude.should be_nil
+    end
+
   end
 
   context 'no TOS agreement' do

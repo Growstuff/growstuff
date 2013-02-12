@@ -21,6 +21,7 @@ class Member < ActiveRecord::Base
   # set up geocoding
   geocoded_by :location
   after_validation :geocode
+  after_validation :empty_unwanted_geocodes
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -53,5 +54,13 @@ class Member < ActiveRecord::Base
 
   def to_s
     return login_name
+  end
+
+  protected
+  def empty_unwanted_geocodes
+    if self.location.to_s == ''
+      self.latitude = nil
+      self.longitude = nil
+    end
   end
 end

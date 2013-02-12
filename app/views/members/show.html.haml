@@ -8,10 +8,12 @@
 
     %p
       = "Member since: #{@member.created_at.to_s(:date)}"
-    %p
-      Location:
-      = @member.location
-      = "(#{@member.latitude}, #{@member.longitude})"
+    - if @member.location.to_s != ''
+      %p
+        Location:
+        = @member.location
+        %br/
+        = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
     - if @member.show_email
       %p
         Email:
