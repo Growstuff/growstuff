@@ -15,7 +15,12 @@ class Member < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login_name, :email, :password, :password_confirmation,
-    :remember_me, :login, :tos_agreement, :show_email
+    :remember_me, :login, :tos_agreement, :show_email,
+    :location, :latitude, :longitude
+
+  # set up geocoding
+  geocoded_by :location
+  after_validation :geocode
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'

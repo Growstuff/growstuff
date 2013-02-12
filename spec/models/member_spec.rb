@@ -55,6 +55,13 @@ describe 'member' do
       @comment2 = FactoryGirl.create(:comment, :author => @member)
       @member.comments.length.should == 2
     end
+
+    it 'has location and lat/long fields' do
+      @member.update_attributes(:location => 'Greenwich, UK')
+      @member.location.should eq 'Greenwich, UK'
+      @member.latitude.round(2).should eq 51.48
+      @member.longitude.round(2).should eq 0.00
+    end
   end
 
   context 'no TOS agreement' do
