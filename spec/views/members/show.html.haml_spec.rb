@@ -67,4 +67,20 @@ describe "members/show" do
     end
   end
 
+  context "geolocations" do
+    before(:each) do
+      @member = FactoryGirl.create(:geolocated_member)
+      render
+    end
+    it "shows the location" do
+      rendered.should contain @member.location
+    end
+    it "shows the latitude" do
+      rendered.should contain @member.latitude.to_s
+    end
+    it "shows the longitude" do
+      rendered.should contain @member.longitude.to_s
+    end
+  end
+
 end

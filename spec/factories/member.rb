@@ -27,6 +27,13 @@ FactoryGirl.define do
       show_email true
     end
 
+    factory :geolocated_member do
+      location 'Greenwich, UK'
+      # including lat/long explicitly because geocoder doesn't work with FG
+      latitude 51.483
+      longitude 0.004
+    end
+
   end
 
 end

@@ -9,7 +9,9 @@
     %p
       = "Member since: #{@member.created_at.to_s(:date)}"
     %p
-      Location: Unknown
+      Location:
+      = @member.location
+      = "(#{@member.latitude}, #{@member.longitude})"
     - if @member.show_email
       %p
         Email:
