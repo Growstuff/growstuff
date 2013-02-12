@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b From:
+  = @notification.from_id
+%p
+  %b To:
+  = @notification.to_id
+%p
+  %b Subject:
+  = @notification.subject
+%p
+  %b Body:
+  = @notification.body
+%p
+  %b Read:
+  = @notification.read
+%p
+  %b Notification type:
+  = @notification.notification_type
+%p
+  %b Post:
+  = @notification.post_id
+
+= link_to 'Edit', edit_notification_path(@notification)
+\|
+= link_to 'Back', notifications_path

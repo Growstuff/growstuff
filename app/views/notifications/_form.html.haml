@@ -1,0 +1,31 @@
+= form_for @notification do |f|
+  - if @notification.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@notification.errors.count, "error")} prohibited this notification from being saved:"
+      %ul
+        - @notification.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :from_id
+    = f.number_field :from_id
+  .field
+    = f.label :to_id
+    = f.number_field :to_id
+  .field
+    = f.label :subject
+    = f.text_field :subject
+  .field
+    = f.label :body
+    = f.text_area :body
+  .field
+    = f.label :read
+    = f.check_box :read
+  .field
+    = f.label :notification_type
+    = f.number_field :notification_type
+  .field
+    = f.label :post_id
+    = f.number_field :post_id
+  .actions
+    = f.submit 'Save'
