@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212001748) do
+ActiveRecord::Schema.define(:version => 20130213014511) do
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :limit => 255, :null => false
@@ -31,6 +31,14 @@ ActiveRecord::Schema.define(:version => 20130212001748) do
 
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
   add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
+
+  create_table "forums", :force => true do |t|
+    t.string   "name",        :null => false
+    t.text     "description", :null => false
+    t.integer  "owner_id",    :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "gardens", :force => true do |t|
     t.string   "name",        :null => false
