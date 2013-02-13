@@ -37,4 +37,9 @@ describe Post do
     @post.destroy
     Comment.count.should == all - 2
   end
+
+  it "belongs to a forum" do
+    @post = FactoryGirl.create(:forum_post)
+    @post.forum.should be_an_instance_of Forum
+  end
 end

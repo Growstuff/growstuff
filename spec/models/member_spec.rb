@@ -56,6 +56,13 @@ describe 'member' do
       @member.comments.length.should == 2
     end
 
+    it "has many forums" do
+      @member.save
+      @forum1 = FactoryGirl.create(:forum, :owner => @member)
+      @forum2 = FactoryGirl.create(:forum, :owner => @member)
+      @member.forums.length.should == 2
+    end
+
     it 'has location and lat/long fields' do
       @member.update_attributes(:location => 'Greenwich, UK')
       @member.location.should eq 'Greenwich, UK'

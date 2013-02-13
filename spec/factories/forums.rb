@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :forum do
-    name "MyString"
-    description "MyText"
-    owner_id 1
+    name "Permaculture"
+    description "*Everything* about permaculture!"
+    owner
   end
 end
