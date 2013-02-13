@@ -16,7 +16,7 @@ describe "forums/edit" do
     assert_select "form", :action => forums_path(@forum), :method => "post" do
       assert_select "input#forum_name", :name => "forum[name]"
       assert_select "textarea#forum_description", :name => "forum[description]"
-      assert_select "input#forum_owner_id", :name => "forum[owner_id]"
+      assert_select "select#forum_owner_id", :name => "forum[owner_id]"
     end
   end
 end

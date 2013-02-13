@@ -2,18 +2,12 @@ require 'spec_helper'
 
 describe "forums/show" do
   before(:each) do
-    @forum = assign(:forum, stub_model(Forum,
-      :name => "Name",
-      :description => "MyText",
-      :owner_id => 1
-    ))
+    @forum = assign(:forum, FactoryGirl.create(:forum))
+    render
   end
 
-  it "renders attributes in <p>" do
-    render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Name/)
-    rendered.should match(/MyText/)
-    rendered.should match(/1/)
+  it "renders attributes" do
+    rendered.should contain @forum.description
+    rendered.should contain @forum.owner.to_s
   end
 end

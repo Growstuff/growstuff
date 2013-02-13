@@ -1,15 +1,20 @@
+- content_for :title, @forum.name
+
 %p#notice= notice
 
 %p
-  %b Name:
-  = @forum.name
-%p
-  %b Description:
   = @forum.description
 %p
-  %b Owner:
-  = @forum.owner_id
+  This forum is run by
+  = link_to @forum.owner, @forum.owner
 
-= link_to 'Edit', edit_forum_path(@forum)
-\|
-= link_to 'Back', forums_path
+%h2 Posts
+
+- if @forum.posts.length > 0
+  - @forum.posts.each do |post|
+    = render :partial => "posts/single", :locals => { :post => post, :subject => true }
+
+- else
+  %p No posts yet.
+
+%p=link_to "Post something", new_post_path(:forum_id => @forum.id), :class => 'btn'
