@@ -1,0 +1,19 @@
+= form_for @forum do |f|
+  - if @forum.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@forum.errors.count, "error")} prohibited this forum from being saved:"
+      %ul
+        - @forum.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :description
+    = f.text_area :description
+  .field
+    = f.label :owner_id
+    = f.number_field :owner_id
+  .actions
+    = f.submit 'Save'
