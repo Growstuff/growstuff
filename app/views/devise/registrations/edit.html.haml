@@ -25,21 +25,22 @@
       Show email publicly on your profile page
 
   %h2 Change password
-
-  .control-group
-    = f.label :password, :class => 'control-label'
-    .controls
-      = f.password_field :password, :autocomplete => "off"
-      %span.help-inline Leave blank if you don't want to change your password
-
-  .control-group
-    = f.label :password_confirmation, :class => 'control-label'
-    .controls= f.password_field :password_confirmation
+  %p
+    %span.help-block Leave blank if you don't want to change your password
 
   .control-group
     = f.label :current_password, :class => 'control-label'
     .controls
       = f.password_field :current_password
+
+  .control-group
+    = f.label :password, "New password", :class => 'control-label'
+    .controls
+      = f.password_field :password, :autocomplete => "off"
+
+  .control-group
+    = f.label :password_confirmation, :class => 'control-label'
+    .controls= f.password_field :password_confirmation
 
   .form-actions
     = f.submit "Update", :class => 'btn'
