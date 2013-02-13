@@ -64,6 +64,8 @@ gem 'friendly_id'
 # gravatars
 gem 'gravatar-ultimate'
 
+gem 'geocoder'
+
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
 gem 'rake', '>= 10.0.0'
