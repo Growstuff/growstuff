@@ -11,6 +11,14 @@
       = f.email_field :email
       %span.help-inline If you change your email address you will have to reconfirm
 
+  %h2 Profile details
+
+  .control-group
+    =f.label :location, 'Your location', :class => 'control-label'
+    .controls
+      =f.text_field :location
+      %span.help-inline Be as detailed or vague as you like.
+
   .control-group
     .controls
       = f.check_box :show_email

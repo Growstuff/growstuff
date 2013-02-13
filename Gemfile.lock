@@ -85,6 +85,7 @@ GEM
     fastthread (1.0.7)
     friendly_id (4.0.9)
     fssm (0.2.10)
+    geocoder (1.1.6)
     gravatar-ultimate (1.0.3)
     haml (3.1.7)
     haml-rails (0.3.5)
@@ -222,6 +223,7 @@ DEPENDENCIES
   diff-lcs
   factory_girl_rails (~> 4.0)
   friendly_id
+  geocoder
   gravatar-ultimate
   haml
   haml-rails
