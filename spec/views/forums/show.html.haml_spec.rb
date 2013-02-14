@@ -7,8 +7,12 @@ describe "forums/show" do
   end
 
   it "renders attributes" do
-    rendered.should contain @forum.description
+    rendered.should contain "Everything about permaculture"
     rendered.should contain @forum.owner.to_s
+  end
+
+  it "parses markdown description into html" do
+    assert_select "em", "Everything"
   end
 
   it 'links to new post with the forum id' do

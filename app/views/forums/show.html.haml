@@ -3,7 +3,8 @@
 %p#notice= notice
 
 %p
-  = @forum.description
+  :markdown
+    #{ strip_tags(@forum.description) }
 %p
   This forum is run by
   = link_to @forum.owner, @forum.owner
