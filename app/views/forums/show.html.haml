@@ -11,11 +11,7 @@
 
 %h2 Posts
 
-- if @forum.posts.length > 0
-  - @forum.posts.each do |post|
-    = render :partial => "posts/single", :locals => { :post => post, :subject => true }
+=render :partial => "posts/summary", :locals => { :posts => @forum.posts }
 
-- else
-  %p No posts yet.
 
 %p=link_to "Post something", new_post_path(:forum_id => @forum.id), :class => 'btn'
