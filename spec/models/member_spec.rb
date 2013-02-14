@@ -90,4 +90,16 @@ describe 'member' do
     end
   end
 
+  context 'roles' do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      @role = FactoryGirl.create(:role)
+      @member.roles << @role
+    end
+
+    it 'has a role' do
+      @member.roles.first.should eq @role
+    end
+  end
+
 end

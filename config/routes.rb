@@ -1,6 +1,4 @@
 Growstuff::Application.routes.draw do
-  resources :forums
-
 
   devise_for :members, :controllers => { :registrations => "registrations" }
 
@@ -11,6 +9,8 @@ Growstuff::Application.routes.draw do
   resources :crops
   resources :members
   resources :comments
+  resources :roles
+  resources :forums
 
   get "home/index"
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213015708) do
+ActiveRecord::Schema.define(:version => 20130214034838) do
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :limit => 255, :null => false
@@ -87,6 +87,13 @@ ActiveRecord::Schema.define(:version => 20130213015708) do
   add_index "members", ["slug"], :name => "index_users_on_slug", :unique => true
   add_index "members", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
 
+  create_table "members_roles", :force => true do |t|
+    t.integer  "member_id"
+    t.integer  "role_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "plantings", :force => true do |t|
     t.integer  "garden_id",   :null => false
     t.integer  "crop_id",     :null => false
@@ -112,6 +119,13 @@ ActiveRecord::Schema.define(:version => 20130213015708) do
 
   add_index "posts", ["created_at", "author_id"], :name => "index_updates_on_created_at_and_user_id"
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
+
+  create_table "roles", :force => true do |t|
+    t.string   "name",        :null => false
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "scientific_names", :force => true do |t|
     t.string   "scientific_name", :null => false
