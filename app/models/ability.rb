@@ -14,7 +14,7 @@ class Ability
 
       # can read/delete notifications that were sent to them
       can :read, Notification, :to_id => member.id
-      can :delete, Notification, :to_id => member.id
+      can :destroy, Notification, :to_id => member.id
       # note we don't support create/update for notifications
 
       # for now, anyone can create/edit/destroy crops
