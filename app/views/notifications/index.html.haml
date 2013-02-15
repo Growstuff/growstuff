@@ -7,7 +7,6 @@
     %th Subject
     %th Body
     %th Read
-    %th Notification type
     %th Post
     %th
     %th
@@ -20,7 +19,6 @@
       %td= notification.subject
       %td= notification.body
       %td= notification.read
-      %td= notification.notification_type
       %td= notification.post_id
       %td= link_to 'Show', notification
       %td= link_to 'Edit', edit_notification_path(notification)

@@ -8,7 +8,6 @@ describe "notifications/new" do
       :subject => "MyString",
       :body => "MyText",
       :read => false,
-      :notification_type => 1,
       :post_id => 1
     ).as_new_record)
   end
@@ -23,7 +22,6 @@ describe "notifications/new" do
       assert_select "input#notification_subject", :name => "notification[subject]"
       assert_select "textarea#notification_body", :name => "notification[body]"
       assert_select "input#notification_read", :name => "notification[read]"
-      assert_select "input#notification_notification_type", :name => "notification[notification_type]"
       assert_select "input#notification_post_id", :name => "notification[post_id]"
     end
   end

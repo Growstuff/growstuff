@@ -6,7 +6,6 @@ class CreateNotifications < ActiveRecord::Migration
       t.string :subject
       t.text :body
       t.boolean :read
-      t.integer :notification_type
       t.integer :post_id
 
       t.timestamps

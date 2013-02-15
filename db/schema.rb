@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130214034838) do
+ActiveRecord::Schema.define(:version => 20130212123628) do
 
   create_table "comments", :force => true do |t|
-    t.integer  "post_id",    :limit => 255, :null => false
-    t.integer  "author_id",  :limit => 255, :null => false
-    t.text     "body",       :limit => 255, :null => false
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.integer  "post_id",    :null => false
+    t.integer  "author_id",  :null => false
+    t.text     "body",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "crops", :force => true do |t|
@@ -31,14 +31,6 @@ ActiveRecord::Schema.define(:version => 20130214034838) do
 
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
   add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
-
-  create_table "forums", :force => true do |t|
-    t.string   "name",        :null => false
-    t.text     "description", :null => false
-    t.integer  "owner_id",    :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
 
   create_table "gardens", :force => true do |t|
     t.string   "name",        :null => false
@@ -76,9 +68,6 @@ ActiveRecord::Schema.define(:version => 20130214034838) do
     t.string   "slug"
     t.boolean  "tos_agreement"
     t.boolean  "show_email"
-    t.string   "location"
-    t.float    "latitude"
-    t.float    "longitude"
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
@@ -87,23 +76,15 @@ ActiveRecord::Schema.define(:version => 20130214034838) do
   add_index "members", ["slug"], :name => "index_users_on_slug", :unique => true
   add_index "members", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
 
-  create_table "members_roles", :force => true do |t|
-    t.integer  "member_id"
-    t.integer  "role_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "notifications", :force => true do |t|
     t.integer  "from_id"
-    t.integer  "to_id",             :null => false
+    t.integer  "to_id",      :null => false
     t.string   "subject"
     t.text     "body"
     t.boolean  "read"
-    t.integer  "notification_type"
     t.integer  "post_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "plantings", :force => true do |t|
@@ -126,18 +107,10 @@ ActiveRecord::Schema.define(:version => 20130214034838) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "slug"
-    t.integer  "forum_id"
   end
 
   add_index "posts", ["created_at", "author_id"], :name => "index_updates_on_created_at_and_user_id"
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
-
-  create_table "roles", :force => true do |t|
-    t.string   "name",        :null => false
-    t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
 
   create_table "scientific_names", :force => true do |t|
     t.string   "scientific_name", :null => false

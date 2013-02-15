@@ -8,7 +8,6 @@ describe "notifications/show" do
       :subject => "Subject",
       :body => "MyText",
       :read => false,
-      :notification_type => 3,
       :post_id => 4
     ))
   end
@@ -21,7 +20,6 @@ describe "notifications/show" do
     rendered.should match(/Subject/)
     rendered.should match(/MyText/)
     rendered.should match(/false/)
-    rendered.should match(/3/)
     rendered.should match(/4/)
   end
 end

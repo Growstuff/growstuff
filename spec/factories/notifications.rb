@@ -7,7 +7,6 @@ FactoryGirl.define do
     subject "MyString"
     body "MyText"
     read false
-    notification_type 1
     post
   end
 end
