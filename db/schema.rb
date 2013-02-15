@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212123628) do
+ActiveRecord::Schema.define(:version => 20130215131921) do
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :null => false
@@ -77,14 +77,14 @@ ActiveRecord::Schema.define(:version => 20130212123628) do
   add_index "members", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
 
   create_table "notifications", :force => true do |t|
-    t.integer  "from_id"
-    t.integer  "to_id",      :null => false
+    t.integer  "sender_id"
+    t.integer  "recipient_id", :null => false
     t.string   "subject"
     t.text     "body"
     t.boolean  "read"
     t.integer  "post_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "plantings", :force => true do |t|

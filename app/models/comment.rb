@@ -5,8 +5,8 @@ class Comment < ActiveRecord::Base
 
   after_create {
     Notification.create(
-      :to_id => self.post.author.id,
-      :from_id => self.author.id,
+      :recipient_id => self.post.author.id,
+      :sender_id => self.author.id,
       :subject => "New comment on #{self.post.subject}",
       :body => self.body,
       :post_id => self.post.id

@@ -14,8 +14,8 @@
 
   - @notifications.each do |notification|
     %tr
-      %td= notification.from_id
-      %td= notification.to_id
+      %td= notification.sender_id
+      %td= notification.recipient_id
       %td= notification.subject
       %td= notification.body
       %td= notification.read

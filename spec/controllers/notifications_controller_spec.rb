@@ -5,7 +5,7 @@ describe NotificationsController do
   login_member
 
   def valid_attributes
-    { "to_id" => subject.current_member.id }
+    { "recipient_id" => subject.current_member.id }
   end
 
   def valid_session

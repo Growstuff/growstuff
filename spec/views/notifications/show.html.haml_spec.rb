@@ -3,8 +3,8 @@ require 'spec_helper'
 describe "notifications/show" do
   before(:each) do
     @notification = assign(:notification, stub_model(Notification,
-      :from_id => 1,
-      :to_id => 2,
+      :sender_id => 1,
+      :recipient_id => 2,
       :subject => "Subject",
       :body => "MyText",
       :read => false,
