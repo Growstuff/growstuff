@@ -2,24 +2,20 @@ require 'spec_helper'
 
 describe "notifications/show" do
   before(:each) do
-    @notification = assign(:notification, stub_model(Notification,
-      :sender_id => 1,
-      :recipient_id => 2,
-      :subject => "Subject",
-      :body => "MyText",
-      :read => false,
-      :post_id => 4
-    ))
+    @member = FactoryGirl.create(:member)
+    @notification = FactoryGirl.create(:notification, :recipient => @member)
+    assign(:notification, @notification)
+    controller.stub(:current_user) { @member }
+    render
   end
 
-  it "renders attributes in <p>" do
-    render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/1/)
-    rendered.should match(/2/)
-    rendered.should match(/Subject/)
-    rendered.should match(/MyText/)
-    rendered.should match(/false/)
-    rendered.should match(/4/)
+  it "renders attributes" do
+    rendered.should contain @notification.sender.to_s
+    rendered.should contain @notification.body.to_s
   end
+
+  it "includes a delete button" do
+    assert_select "a", "Delete"
+  end
+
 end

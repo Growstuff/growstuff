@@ -1,24 +1,18 @@
-%p#notice= notice
+= content_for :title, @notification.subject
 
 %p
-  %b From:
-  = @notification.sender_id
-%p
-  %b To:
-  = @notification.recipient_id
-%p
-  %b Subject:
-  = @notification.subject
-%p
-  %b Body:
-  = @notification.body
-%p
-  %b Read:
-  = @notification.read
-%p
-  %b Post:
-  = @notification.post_id
+  From
+  = link_to @notification.sender, @notification.sender
+  on
+  = @notification.created_at.to_s(:date)
 
-= link_to 'Edit', edit_notification_path(@notification)
-\|
-= link_to 'Back', notifications_path
+  - if @notification.post_id
+    in response to:
+    = link_to @notification.post.subject, @notification.post
+
+.well
+  :markdown
+    #{ strip_tags(@notification.body) }
+
+%p
+  =link_to 'Delete', @notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'

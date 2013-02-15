@@ -1,29 +1,19 @@
-%h1 Listing notifications
+- content_for :title, "Notifications"
 
-%table
-  %tr
-    %th From
-    %th To
-    %th Subject
-    %th Body
-    %th Read
-    %th Post
-    %th
-    %th
-    %th
-
-  - @notifications.each do |notification|
+- if @notifications.length > 0
+  %table.table.table-striped
     %tr
-      %td= notification.sender_id
-      %td= notification.recipient_id
-      %td= notification.subject
-      %td= notification.body
-      %td= notification.read
-      %td= notification.post_id
-      %td= link_to 'Show', notification
-      %td= link_to 'Edit', edit_notification_path(notification)
-      %td= link_to 'Destroy', notification, method: :delete, data: { confirm: 'Are you sure?' }
+      %th From
+      %th Subject
+      %th Date
+      %th
 
-%br
-
-= link_to 'New Notification', new_notification_path
+    - @notifications.each do |n|
+      - if can? :read, n
+        %tr
+          %td= link_to n.sender
+          %td= link_to n.subject, notification_path(n)
+          %td= n.created_at.to_s(:date)
+          %td= link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
+- else
+  You have no messages.

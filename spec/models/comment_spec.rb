@@ -25,7 +25,7 @@ describe Comment do
     @n = Notification.last
     @n.sender.should eq @c.author
     @n.recipient.should eq @c.post.author
-    @n.subject.should match /New comment/
+    @n.subject.should match /commented on/
     @n.body.should eq @c.body
     @n.post.should eq @c.post
   end
