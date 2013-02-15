@@ -1,4 +1,5 @@
 class NotificationsController < ApplicationController
+  load_and_authorize_resource
   # GET /notifications
   # GET /notifications.json
   def index

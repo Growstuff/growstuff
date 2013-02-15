@@ -5,6 +5,8 @@ class Member < ActiveRecord::Base
   has_many :posts,   :foreign_key => 'author_id'
   has_many :comments, :foreign_key => 'author_id'
   has_many :gardens, :foreign_key => 'owner_id'
+  has_many :notifications, :foreign_key => 'to_id'
+  has_many :sent_notifications, :foreign_key => 'from_id'
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
