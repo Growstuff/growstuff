@@ -4,7 +4,7 @@ describe "members/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @member = FactoryGirl.create(:member)
-    @garden   = FactoryGirl.create(:garden, :owner => @member)
+    @garden = FactoryGirl.create(:garden, :owner => @member)
   end
 
   context "the basics" do
@@ -21,7 +21,6 @@ describe "members/show" do
     it "contains a gravatar icon" do
       assert_select "img", :src => /gravatar\.com\/avatar/
     end
-
   end
 
   context "gardens and plantings" do
@@ -53,6 +52,14 @@ describe "members/show" do
     it "doesn't show the email address" do
       rendered.should_not contain @member.email
     end
+
+    it "does not contain a 'New Garden' link" do
+      assert_select "a[href=#garden_new]", false
+    end
+
+    it "does not contain a 'New Garden' tab" do
+      assert_select "#garden_new", false
+    end        
   end
 
   context "signed in member" do
@@ -65,6 +72,23 @@ describe "members/show" do
     it "contains a 'New Garden' link" do
       assert_select "a[href=#garden_new]", :text => "New Garden"
     end
+  end
+
+  context "signed in as different member" do
+    before(:each) do
+      @member2 = FactoryGirl.create(:member)
+      sign_in @member2
+      controller.stub(:current_user) { @member2 }
+      render
+    end
+
+    it "does not contain a 'New Garden' link" do
+      assert_select "a[href=#garden_new]", false
+    end
+    
+    it "does not contain a 'New Garden' tab" do
+      assert_select "#garden_new", false
+    end  
   end
 
   context "public member" do

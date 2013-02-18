@@ -27,7 +27,8 @@
           %li{:class => first_garden ? 'active' : '' }
             - first_garden = false
             = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
-        %li= link_to 'New Garden', '#garden_new', 'data-toggle' => 'tab'
+        - if current_member == @member
+          %li= link_to 'New Garden', '#garden_new', 'data-toggle' => 'tab'
       .tab-content
         - first_garden = true
         - @member.gardens.each do |g|
@@ -46,9 +47,10 @@
             %p
               = link_to "More about this garden...", url_for(g)
 
-        %div{:class => 'tab-pane', :id => "garden_new"}
-          %h3 Create a new garden
-          = render 'gardens/form'
+        - if current_member == @member
+          %div{:class => 'tab-pane', :id => "garden_new"}
+            %h3 Create a new garden
+            = render 'gardens/form'
 
     %h3 Updates
     - @member.posts.each do |post|
