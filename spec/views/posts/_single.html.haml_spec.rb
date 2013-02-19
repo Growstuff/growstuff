@@ -32,6 +32,10 @@ describe "posts/_single" do
     it "contains a link to post" do
       assert_select "a[href=#{post_path @post}]"
     end
+
+    it "contains link to new comment" do
+      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", "Comment"
+    end
   end
 
   context "2 comments" do
@@ -63,6 +67,11 @@ describe "posts/_single" do
     it "does not contain link to post" do
       assert_select "a[href=#{post_path @post}]", false
     end
+
+    it "does not contain link to new comment" do
+      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", false
+    end
+
   end
 end
 
