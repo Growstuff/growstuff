@@ -28,6 +28,10 @@ describe "posts/_single" do
     it "renders the number of comments" do
       rendered.should contain "1 comment"
     end
+
+    it "contains a link to post" do
+      assert_select "a[href=#{post_path @post}]"
+    end
   end
 
   context "2 comments" do
@@ -54,6 +58,10 @@ describe "posts/_single" do
 
     it "renders no value of comments" do
       rendered.should_not contain "1 comment"
+    end
+
+    it "does not contain link to post" do
+      assert_select "a[href=#{post_path @post}]", false
     end
   end
 end

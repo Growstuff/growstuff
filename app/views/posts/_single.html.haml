@@ -19,6 +19,6 @@
         
         - unless defined?(hide_comments) 
           .post-comments
-            = pluralize post.comments.count, "comment"
+            = link_to pluralize(post.comments.count, "comment"), post
 
 
