@@ -17,3 +17,6 @@
           :markdown
             #{ strip_tags post.body }
 
+        .post-comments
+          = pluralize post.comments.count, "comment"
+
