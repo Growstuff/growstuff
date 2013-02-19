@@ -19,6 +19,9 @@
         
         - unless defined?(hide_comments) 
           .post-comments
-            = link_to pluralize(post.comments.count, "comment"), post
+            = pluralize(post.comments.count, "comment")
+            = link_to "Read", post
+            %br
+            = link_to "Comment", new_comment_path(:post_id => post.id)
 
 
