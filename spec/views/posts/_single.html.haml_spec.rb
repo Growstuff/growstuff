@@ -44,6 +44,18 @@ describe "posts/_single" do
     end
   end
 
+  context "hide comment" do
+    before(:each) do
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      render :partial => "single", :locals => {
+        :post => @post, :hide_comments => true
+      }
+    end
+
+    it "renders no value of comments" do
+      rendered.should_not contain "1 comment"
+    end
+  end
 end
 
 

@@ -16,7 +16,9 @@
         .post-body
           :markdown
             #{ strip_tags post.body }
+        
+        - unless defined?(hide_comments) 
+          .post-comments
+            = pluralize post.comments.count, "comment"
 
-        .post-comments
-          = pluralize post.comments.count, "comment"
 
