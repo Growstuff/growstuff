@@ -14,11 +14,11 @@
 ActiveRecord::Schema.define(:version => 20130214034838) do
 
   create_table "comments", :force => true do |t|
-    t.integer  "post_id",    :limit => 255, :null => false
-    t.integer  "author_id",  :limit => 255, :null => false
-    t.text     "body",       :limit => 255, :null => false
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.integer  "post_id",    :null => false
+    t.integer  "author_id",  :null => false
+    t.text     "body",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "crops", :force => true do |t|
@@ -87,11 +87,9 @@ ActiveRecord::Schema.define(:version => 20130214034838) do
   add_index "members", ["slug"], :name => "index_users_on_slug", :unique => true
   add_index "members", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
 
-  create_table "members_roles", :force => true do |t|
-    t.integer  "member_id"
-    t.integer  "role_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "members_roles", :id => false, :force => true do |t|
+    t.integer "member_id"
+    t.integer "role_id"
   end
 
   create_table "plantings", :force => true do |t|

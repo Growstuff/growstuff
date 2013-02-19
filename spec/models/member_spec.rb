@@ -99,7 +99,14 @@ describe 'member' do
 
     it 'has a role' do
       @member.roles.first.should eq @role
+      @member.has_role?(:moderator).should eq true
     end
+
+    it 'sets up roles in factories' do
+      @admin = FactoryGirl.create(:admin_member)
+      @admin.has_role?(:admin).should eq true
+    end
+
   end
 
 end

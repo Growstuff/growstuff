@@ -58,6 +58,10 @@ class Member < ActiveRecord::Base
     return login_name
   end
 
+  def has_role?(role_sym)
+    roles.any? { |r| r.name.underscore.to_sym == role_sym }
+  end
+
   protected
   def empty_unwanted_geocodes
     if self.location.to_s == ''
@@ -65,4 +69,5 @@ class Member < ActiveRecord::Base
       self.longitude = nil
     end
   end
+
 end

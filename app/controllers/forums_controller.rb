@@ -1,4 +1,5 @@
 class ForumsController < ApplicationController
+  load_and_authorize_resource
   # GET /forums
   # GET /forums.json
   def index
