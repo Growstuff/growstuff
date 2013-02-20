@@ -16,4 +16,12 @@
         .post-body
           :markdown
             #{ strip_tags post.body }
+        
+        - unless defined?(hide_comments) 
+          .post-comments
+            = pluralize(post.comments.count, "comment")
+            = link_to "Read", post
+            %br
+            = link_to "Comment", new_comment_path(:post_id => post.id)
+
 

@@ -42,6 +42,14 @@ describe "posts/show" do
     rendered.should contain @comment.body
   end
 
+  it 'shows comment count only 1' do
+    @post = assign(:post,
+      FactoryGirl.create(:html_post, :author => @author))
+    @comment = FactoryGirl.create(:comment, :post => @post)
+    render
+    assert_select "div.post_comments", false
+  end
+
   context "signed in" do
     before(:each) do
       sign_in @author
@@ -53,8 +61,11 @@ describe "posts/show" do
 
     it 'shows a comment button' do
       assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", "Comment"
-    end
+    end 
 
   end
+
+
+
 
 end
