@@ -9,6 +9,10 @@ describe Forum do
     @forum.owner.should be_an_instance_of Member
   end
 
+  it "stringifies nicely" do
+    "#{@forum}".should eq @forum.name
+  end
+
   it "has many posts" do
     @post1 = FactoryGirl.create(:forum_post, :forum => @forum)
     @post2 = FactoryGirl.create(:forum_post, :forum => @forum)

@@ -42,6 +42,15 @@ describe "posts/show" do
     rendered.should contain @comment.body
   end
 
+  context "forum post" do
+    it "shows forum name" do
+      @post = assign(:post,
+        FactoryGirl.create(:forum_post, :author => @author))
+      render
+      rendered.should contain "in #{@post.forum.name}"
+    end
+  end
+
   context "signed in" do
     before(:each) do
       sign_in @author
