@@ -42,4 +42,29 @@ describe Post do
     @post = FactoryGirl.create(:forum_post)
     @post.forum.should be_an_instance_of Forum
   end
+
+  context "recent activity" do
+    before(:each) do
+      @post = FactoryGirl.create(:post)
+    end
+
+    it "sets recent activity to post time" do
+      @post.recent_activity.should eq @post.created_at
+    end
+
+    it "sets recent activity to comment time" do
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post.recent_activity.should eq @comment.created_at
+    end
+
+    it "sorts recently active" do
+      # create a shiny new post
+      @post2 = FactoryGirl.create(:post)
+      Post.recently_active.first.should eq @post2
+      # now comment on an older post
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      Post.recently_active.first.should eq @post
+    end
+  end
+
 end

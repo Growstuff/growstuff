@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "forums/show" do
   before(:each) do
+    controller.stub(:current_user) { nil }
     @forum = assign(:forum, FactoryGirl.create(:forum))
   end
 
@@ -23,7 +24,7 @@ describe "forums/show" do
 
   it 'has no posts' do
     render
-    rendered.should contain "No posts yet"
+    rendered.should contain "No posts yet."
   end
 
   it 'shows posts' do

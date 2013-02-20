@@ -9,9 +9,17 @@
   This forum is run by
   = link_to @forum.owner, @forum.owner
 
-%h2 Posts
+- if can? :edit, @forum
+  =link_to "Edit", edit_forum_path(@forum), :class => 'btn'
 
-=render :partial => "posts/summary", :locals => { :posts => @forum.posts }
+%h2
+  Posts
+  =link_to "Post something", new_post_path(:forum_id => @forum.id), :class => 'btn'
+
+- if @forum.posts.count > 0
+  =render :partial => "posts/summary", :locals => { :posts => @forum.posts }
+- else
+  No posts yet.
 
 
-%p=link_to "Post something", new_post_path(:forum_id => @forum.id), :class => 'btn'
+

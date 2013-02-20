@@ -87,11 +87,12 @@ GEM
     fssm (0.2.10)
     geocoder (1.1.6)
     gravatar-ultimate (1.0.3)
-    haml (3.1.7)
-    haml-rails (0.3.5)
+    haml (4.0.0)
+      tilt
+    haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
       activesupport (>= 3.1, < 4.1)
-      haml (~> 3.1)
+      haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     highline (1.6.15)
     hike (1.2.1)
@@ -112,7 +113,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.21)
-    multi_json (1.5.1)
+    multi_json (1.6.1)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.1)
@@ -190,7 +191,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.1.6)
+    twitter-bootstrap-rails (2.2.4)
       actionpack (>= 3.1)
       execjs
       railties (>= 3.1)
@@ -242,7 +243,7 @@ DEPENDENCIES
   sqlite3
   therubyracer (~> 0.10.2)
   thin
-  twitter-bootstrap-rails (= 2.1.6)
+  twitter-bootstrap-rails (~> 2.2.2)
   uglifier (>= 1.0.3)
   watchr
   webrat
