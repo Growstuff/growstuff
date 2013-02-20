@@ -10,4 +10,8 @@ describe Role do
   it 'has members' do
     @role.members.first.should eq @member
   end
+
+  it 'has a slug' do
+    @role.slug.should eq 'moderator'
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130214034838) do
+ActiveRecord::Schema.define(:version => 20130220044642) do
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :null => false
@@ -38,7 +38,10 @@ ActiveRecord::Schema.define(:version => 20130214034838) do
     t.integer  "owner_id",    :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "slug"
   end
+
+  add_index "forums", ["slug"], :name => "index_forums_on_slug", :unique => true
 
   create_table "gardens", :force => true do |t|
     t.string   "name",        :null => false
@@ -123,7 +126,10 @@ ActiveRecord::Schema.define(:version => 20130214034838) do
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "slug"
   end
+
+  add_index "roles", ["slug"], :name => "index_roles_on_slug", :unique => true
 
   create_table "scientific_names", :force => true do |t|
     t.string   "scientific_name", :null => false

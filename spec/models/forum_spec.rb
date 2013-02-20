@@ -13,6 +13,10 @@ describe Forum do
     "#{@forum}".should eq @forum.name
   end
 
+  it 'has a slug' do
+    @forum.slug.should eq 'permaculture'
+  end
+
   it "has many posts" do
     @post1 = FactoryGirl.create(:forum_post, :forum => @forum)
     @post2 = FactoryGirl.create(:forum_post, :forum => @forum)
