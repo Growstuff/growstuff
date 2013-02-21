@@ -56,6 +56,13 @@ describe 'member' do
       @member.comments.length.should == 2
     end
 
+    it "has many forums" do
+      @member.save
+      @forum1 = FactoryGirl.create(:forum, :owner => @member)
+      @forum2 = FactoryGirl.create(:forum, :owner => @member)
+      @member.forums.length.should == 2
+    end
+
     it 'has location and lat/long fields' do
       @member.update_attributes(:location => 'Greenwich, UK')
       @member.location.should eq 'Greenwich, UK'
@@ -81,6 +88,25 @@ describe 'member' do
     it "should refuse to save a member who hasn't agreed to the TOS" do
       @member.save.should_not be_true
     end
+  end
+
+  context 'roles' do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      @role = FactoryGirl.create(:role)
+      @member.roles << @role
+    end
+
+    it 'has a role' do
+      @member.roles.first.should eq @role
+      @member.has_role?(:moderator).should eq true
+    end
+
+    it 'sets up roles in factories' do
+      @admin = FactoryGirl.create(:admin_member)
+      @admin.has_role?(:admin).should eq true
+    end
+
   end
 
 end

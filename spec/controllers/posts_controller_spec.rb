@@ -39,6 +39,17 @@ describe PostsController do
       get :new, {}
       assigns(:post).should be_a_new(Post)
     end
+
+    it "picks up forum from params" do
+      forum = FactoryGirl.create(:forum)
+      get :new, {:forum_id => forum.id}
+      assigns(:forum).should eq(forum)
+    end
+
+    it "doesn't die if no forum specified" do
+      get :new, {}
+      assigns(:forum).should be_a_new(Forum)
+    end
   end
 
   describe "GET edit" do
