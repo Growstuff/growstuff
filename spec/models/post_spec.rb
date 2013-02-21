@@ -50,12 +50,12 @@ describe Post do
     end
 
     it "sets recent activity to post time" do
-      @post.recent_activity.should eq @post.created_at
+      @post.recent_activity.to_i.should eq @post.created_at.to_i
     end
 
     it "sets recent activity to comment time" do
       @comment = FactoryGirl.create(:comment, :post => @post)
-      @post.recent_activity.should eq @comment.created_at
+      @post.recent_activity.to_i.should eq @comment.created_at.to_i
     end
 
     it "sorts recently active" do
