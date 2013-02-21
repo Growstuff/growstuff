@@ -45,6 +45,7 @@ describe Post do
 
   context "recent activity" do
     before(:each) do
+      Time.stub(:now => Time.now)
       @post = FactoryGirl.create(:post)
     end
 
