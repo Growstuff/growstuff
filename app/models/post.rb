@@ -9,7 +9,7 @@ class Post < ActiveRecord::Base
 
   def author_date_subject
     # slugs are created before created_at is set
-    time = created_at || Time.now
+    time = created_at || Time.zone.now
     "#{author.login_name} #{time.strftime("%Y%m%d")} #{subject}"
   end
 
