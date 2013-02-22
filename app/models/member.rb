@@ -33,6 +33,8 @@ class Member < ActiveRecord::Base
   validates_acceptance_of :tos_agreement, :allow_nil => false,
     :accept => true
 
+  validates_uniqueness_of :login_name
+
   # Give each new member a default garden
   after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
 

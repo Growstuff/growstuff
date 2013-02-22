@@ -11,7 +11,7 @@ describe 'members/show.rss.builder', :type => "view" do
   end
 
   it 'shows RSS feed title' do
-    rendered.should contain "member1's recent posts"
+    rendered.should contain /member\d+'s recent posts/
   end
 
   it 'shows content of posts' do

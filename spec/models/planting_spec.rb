@@ -12,15 +12,15 @@ describe Planting do
 
   it "generates an owner" do
     @planting.owner.should be_an_instance_of Member
-    @planting.owner.login_name.should match /^member1$/
+    @planting.owner.login_name.should match /^member\d+$/
   end
 
   it "generates a location" do
-    @planting.location.should match /^member1's Springfield Community Garden$/
+    @planting.location.should match /^member\d+'s Springfield Community Garden$/
   end
 
   it "should have a slug" do
-    @planting.slug.should == "member1-springfield-community-garden-tomato"
+    @planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
   end
 
 end
