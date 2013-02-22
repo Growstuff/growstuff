@@ -7,6 +7,8 @@ class Member < ActiveRecord::Base
   has_many :gardens, :foreign_key => 'owner_id'
   has_many :forums, :foreign_key => 'owner_id'
   has_and_belongs_to_many :roles
+  has_many :notifications, :foreign_key => 'recipient_id'
+  has_many :sent_notifications, :foreign_key => 'sender_id'
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

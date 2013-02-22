@@ -53,5 +53,18 @@ describe 'layouts/application.html.haml', :type => "view" do
       rendered.should contain 'Sign out'
     end
 
+    it 'should show inbox link' do
+      rendered.should contain 'Inbox'
+      rendered.should_not match(/Inbox \(\d+\)/)
+    end
+
+    context 'has notifications' do
+      it 'should show inbox count' do
+        FactoryGirl.create(:notification, :recipient => @member)
+        render
+        rendered.should contain 'Inbox (1)'
+      end
+    end
+
   end
 end

@@ -11,6 +11,7 @@ Growstuff::Application.routes.draw do
   resources :comments
   resources :roles
   resources :forums
+  resources :notifications
 
   get "home/index"
 

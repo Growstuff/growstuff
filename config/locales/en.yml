@@ -3,5 +3,7 @@
 
 en:
   unauthorized:
+    read:
+      notification: "You must be signed in to view notifications."
     manage:
       all: "Not authorized to %{action} %{subject}."

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130220044642) do
+ActiveRecord::Schema.define(:version => 20130222060730) do
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :null => false
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20130220044642) do
 
   create_table "gardens", :force => true do |t|
     t.string   "name",        :null => false
-    t.integer  "owner_id"
+    t.integer  "owner_id",    :null => false
     t.string   "slug",        :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -93,6 +93,18 @@ ActiveRecord::Schema.define(:version => 20130220044642) do
   create_table "members_roles", :id => false, :force => true do |t|
     t.integer "member_id"
     t.integer "role_id"
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id",                         :null => false
+    t.string   "subject"
+    t.text     "body"
+    t.boolean  "read",              :default => false
+    t.integer  "notification_type"
+    t.integer  "post_id"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   create_table "plantings", :force => true do |t|

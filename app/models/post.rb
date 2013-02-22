@@ -5,6 +5,9 @@ class Post < ActiveRecord::Base
   belongs_to :author, :class_name => 'Member'
   belongs_to :forum
   has_many :comments, :dependent => :destroy
+  # also has_many notifications, but kinda meaningless to get at them
+  # from this direction, so we won't set up an association for now.
+
   default_scope order("created_at desc")
 
   def author_date_subject
