@@ -1,9 +1,4 @@
-= content_for :title, "Post a post"
+= content_for :title, @forum.name ? "Post in #{@forum.name}" : "Post something"
 
-= form_for @post, :url => { :action => "create" } do |f|
-  %fieldset
-    = label_tag :post, "Subject"
-    = f.text_field :subject, :class => 'input-block-level'
-    = label_tag :body, "What's going on in your food garden?"
-    = f.text_area :body, :rows => 12, :class => 'input-block-level'
-    = f.submit "Post", :class => 'btn'
+=render 'form'
+

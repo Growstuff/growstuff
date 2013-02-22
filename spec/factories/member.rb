@@ -35,6 +35,10 @@ FactoryGirl.define do
       longitude 0.004
     end
 
+    factory :admin_member do
+      roles { [ FactoryGirl.create(:admin) ] }
+    end
+
   end
 
 end

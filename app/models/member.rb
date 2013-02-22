@@ -5,6 +5,8 @@ class Member < ActiveRecord::Base
   has_many :posts,   :foreign_key => 'author_id'
   has_many :comments, :foreign_key => 'author_id'
   has_many :gardens, :foreign_key => 'owner_id'
+  has_many :forums, :foreign_key => 'owner_id'
+  has_and_belongs_to_many :roles
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -56,6 +58,10 @@ class Member < ActiveRecord::Base
     return login_name
   end
 
+  def has_role?(role_sym)
+    roles.any? { |r| r.name.underscore.to_sym == role_sym }
+  end
+
   protected
   def empty_unwanted_geocodes
     if self.location.to_s == ''
@@ -63,4 +69,5 @@ class Member < ActiveRecord::Base
       self.longitude = nil
     end
   end
+
 end
