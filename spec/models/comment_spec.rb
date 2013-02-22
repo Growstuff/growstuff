@@ -30,4 +30,12 @@ describe Comment do
     @n.post.should eq @c.post
   end
 
+  it "doesn't send notifications to yourself" do
+    @m = FactoryGirl.create(:member)
+    @p = FactoryGirl.create(:post, :author => @m)
+    expect {
+      FactoryGirl.create(:comment, :post => @p, :author => @m)
+    }.to change(Notification, :count).by(0)
+  end
+
 end
