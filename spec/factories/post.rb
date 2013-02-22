@@ -15,6 +15,10 @@ FactoryGirl.define do
     factory :html_post do
       body '<a href="http://evil.com">EVIL</a>'
     end
+
+    factory :forum_post do
+      forum
+    end
   end
 
 end

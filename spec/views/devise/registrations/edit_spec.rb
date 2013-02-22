@@ -18,18 +18,28 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
         rendered.should contain 'Email'
     end
 
-    context 'email section'
+    context 'email section' do
       it 'has a heading' do
         assert_select "h2", "Email address"
       end
+    end
 
+    context 'profile section' do
+      it 'has a heading' do
+        assert_select "h2", "Profile details"
+      end
       it 'shows show_email checkbox' do
         assert_select "input[id=member_show_email][type=checkbox]"
       end
+      it 'shows location field' do
+        assert_select "input[id=member_location][type=text]"
+      end
+    end
 
     it 'should have a password section' do
       assert_select "h2", "Change password"
     end
 
   end
+
 end

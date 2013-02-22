@@ -29,6 +29,7 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
+    @forum = Forum.find_by_id(params[:forum_id]) || Forum.new
 
     respond_to do |format|
       format.html # new.html.haml

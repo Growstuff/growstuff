@@ -8,8 +8,12 @@
 
     %p
       = "Member since: #{@member.created_at.to_s(:date)}"
-    %p
-      Location: Unknown
+    - if @member.location.to_s != ''
+      %p
+        Location:
+        = @member.location
+        %br/
+        = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
     - if @member.show_email
       %p
         Email:
@@ -23,7 +27,8 @@
           %li{:class => first_garden ? 'active' : '' }
             - first_garden = false
             = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
-        %li= link_to 'New Garden', '#garden_new', 'data-toggle' => 'tab'
+        - if current_member == @member
+          %li= link_to 'New Garden', '#garden_new', 'data-toggle' => 'tab'
       .tab-content
         - first_garden = true
         - @member.gardens.each do |g|
@@ -42,9 +47,10 @@
             %p
               = link_to "More about this garden...", url_for(g)
 
-        %div{:class => 'tab-pane', :id => "garden_new"}
-          %h3 Create a new garden
-          = render 'gardens/form'
+        - if current_member == @member
+          %div{:class => 'tab-pane', :id => "garden_new"}
+            %h3 Create a new garden
+            = render 'gardens/form'
 
     %h3 Updates
     - @member.posts.each do |post|
