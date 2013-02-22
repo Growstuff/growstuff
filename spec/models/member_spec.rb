@@ -68,4 +68,13 @@ describe 'member' do
     end
   end
 
+  context 'same :login_name' do
+    it "should not allow two members with the same login_name" do
+      FactoryGirl.create(:member, :login_name => "login-name")
+      member = FactoryGirl.build(:member, :login_name => "login-name")
+      member.should_not be_valid
+      member.errors[:login_name].should include("has already been taken")
+    end
+  end
+
 end
