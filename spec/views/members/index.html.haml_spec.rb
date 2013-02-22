@@ -14,8 +14,8 @@ describe "members/index" do
   end
 
   it "does not truncate short names" do
-    rendered.should contain "member1"
-    rendered.should_not contain "member1..."
+    rendered.should contain /member\d+/
+    rendered.should_not contain /member\d+\.\.\./
   end
 
   it "counts the number of members" do

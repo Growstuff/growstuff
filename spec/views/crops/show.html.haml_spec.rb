@@ -40,7 +40,7 @@ describe "crops/show" do
 
   it "links to people who are growing this crop" do
     render
-    rendered.should contain "member1"
+    rendered.should contain /member\d+/
     rendered.should contain "Springfield Community Garden"
   end
 

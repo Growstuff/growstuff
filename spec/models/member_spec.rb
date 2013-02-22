@@ -15,13 +15,13 @@ describe 'member' do
       @member.save
       @member2 = Member.find(@member.id)
       @member2.should be_an_instance_of Member
-      @member2.login_name.should == "member1"
+      @member2.login_name.should match(/member\d+/)
       @member2.encrypted_password.should_not be_nil
     end
 
     it 'should have a friendly slug' do
       @member.save
-      @member.slug.should     == "member1"
+      @member.slug.should match(/member\d+/)
     end
 
     it 'should have a default garden' do
@@ -35,8 +35,9 @@ describe 'member' do
     end
 
     it 'should stringify as the login_name' do
-      @member.to_s.should == 'member1'
-      "#{@member}".should == 'member1'
+      @member.save
+      @member.to_s.should match(/member\d+/)
+      "#{@member}".should match(/member\d+/)
     end
 
     it 'should be able to fetch posts' do
