@@ -7,7 +7,7 @@ describe Garden do
   end
 
   it "should have a slug" do
-    @garden.slug.should == "member1-springfield-community-garden"
+    @garden.slug.should match(/member\d+-springfield-community-garden/)
   end
 
   it "should have a description" do

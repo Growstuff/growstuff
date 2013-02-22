@@ -1,8 +1,9 @@
 FactoryGirl.define do
   sequence(:email) { |n| "member#{n}@example.com" }
+  sequence(:login_name) { |n| "member#{n}" }
 
   factory :member, aliases: [:author, :owner] do
-    login_name 'member1'
+    login_name { generate(:login_name) }
     password 'password1'
     email { generate(:email) }
     tos_agreement true
