@@ -11,9 +11,25 @@
     - @notifications.each do |n|
       - if can? :read, n
         %tr
-          %td= link_to n.sender
-          %td= link_to n.subject, notification_path(n)
-          %td= n.created_at.to_s(:date)
-          %td= link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
+          %td
+            - if n.read
+              = link_to n.sender
+            - else
+              %strong= link_to n.sender
+          %td
+            - if n.read
+              = link_to n.subject, notification_path(n)
+            - else
+              %strong= link_to n.subject, notification_path(n)
+          %td
+            - if n.read
+              = n.created_at.to_s(:date)
+            - else
+              %strong= n.created_at.to_s(:date)
+          %td
+            - if n.read
+              = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
+            - else
+              %strong= link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
 - else
   You have no messages.

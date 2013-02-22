@@ -26,6 +26,14 @@ describe NotificationsController do
       get :show, {:id => notification.to_param}
       assigns(:notification).should eq(notification)
     end
+
+    it "marks notifications as read" do
+      notification = Notification.create! valid_attributes
+      get :show, {:id => notification.to_param}
+      # we need to fetch it from the db again, can't test against the old one
+      n = Notification.find(notification.id)
+      n.read.should eq true
+    end
   end
 
   describe "DELETE destroy" do
