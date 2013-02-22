@@ -30,7 +30,7 @@ describe 'layouts/application.html.haml', :type => "view" do
     end
 
     it 'should show login name' do
-      rendered.should contain 'member1'
+      rendered.should contain /member\d+/
     end
 
     it 'should have a "Post" link' do

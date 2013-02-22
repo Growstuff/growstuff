@@ -11,7 +11,7 @@ describe "posts/show" do
       FactoryGirl.create(:post, :author => @author))
     render
     # show the name of the member who posted the post
-    rendered.should match(/member1/)
+    rendered.should match(/member\d+/)
     # Subject goes in title
     rendered.should match(/This is some text./)
     # shouldn't show the subject on a single post page
