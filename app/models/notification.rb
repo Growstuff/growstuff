@@ -6,4 +6,11 @@ class Notification < ActiveRecord::Base
   belongs_to :recipient, :class_name => 'Member'
   belongs_to :post
 
+  default_scope order('created_at DESC')
+  scope :unread, where(:read => false)
+
+  def self.unread_count
+    self.unread.count
+  end
+
 end

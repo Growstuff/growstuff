@@ -22,7 +22,7 @@ describe Comment do
 
   it "sets the notification fields" do
     @c = FactoryGirl.create(:comment)
-    @n = Notification.last
+    @n = Notification.first
     @n.sender.should eq @c.author
     @n.recipient.should eq @c.post.author
     @n.subject.should match /commented on/

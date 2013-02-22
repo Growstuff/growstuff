@@ -17,4 +17,18 @@ describe Notification do
     @notification.sender.should be_an_instance_of Member
   end
 
+  it "has a scope for unread" do
+    Notification.unread.should eq [@notification]
+    @n2 = FactoryGirl.create(:notification, :read => true)
+    Notification.unread.should eq [@notification]
+    @n3 = FactoryGirl.create(:notification, :read => false)
+    Notification.unread.should eq [@n3, @notification]
+  end
+
+  it "counts unread" do
+    @who = @notification.recipient
+    @n2 = FactoryGirl.create(:notification, :recipient => @who, :read => false)
+    @who.notifications.unread_count.should eq 2
+  end
+
 end
