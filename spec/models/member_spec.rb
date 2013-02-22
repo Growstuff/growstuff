@@ -56,6 +56,29 @@ describe 'member' do
       @comment2 = FactoryGirl.create(:comment, :author => @member)
       @member.comments.length.should == 2
     end
+
+    it "has many forums" do
+      @member.save
+      @forum1 = FactoryGirl.create(:forum, :owner => @member)
+      @forum2 = FactoryGirl.create(:forum, :owner => @member)
+      @member.forums.length.should == 2
+    end
+
+    it 'has location and lat/long fields' do
+      @member.update_attributes(:location => 'Greenwich, UK')
+      @member.location.should eq 'Greenwich, UK'
+      @member.latitude.round(2).should eq 51.48
+      @member.longitude.round(2).should eq 0.00
+    end
+
+    it 'empties the lat/long if location removed' do
+      @member.update_attributes(:location => 'Greenwich, UK')
+      @member.update_attributes(:location => '')
+      @member.location.should eq ''
+      @member.latitude.should be_nil
+      @member.longitude.should be_nil
+    end
+
   end
 
   context 'no TOS agreement' do
@@ -74,6 +97,24 @@ describe 'member' do
       member = FactoryGirl.build(:member, :login_name => "login-name")
       member.should_not be_valid
       member.errors[:login_name].should include("has already been taken")
+    end
+  end
+
+  context 'roles' do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      @role = FactoryGirl.create(:role)
+      @member.roles << @role
+    end
+
+    it 'has a role' do
+      @member.roles.first.should eq @role
+      @member.has_role?(:moderator).should eq true
+    end
+
+    it 'sets up roles in factories' do
+      @admin = FactoryGirl.create(:admin_member)
+      @admin.has_role?(:admin).should eq true
     end
   end
 

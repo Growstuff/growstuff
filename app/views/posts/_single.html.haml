@@ -8,10 +8,14 @@
           %h3= link_to strip_tags(post.subject), post
 
         .post-meta
-          Posted by
-          = link_to post.author.login_name, member_path(post.author)
-          at
-          = post.created_at
+          %p
+            Posted by
+            = link_to post.author.login_name, member_path(post.author)
+            - if post.forum
+              in
+              = link_to post.forum, post.forum
+            at
+            = post.created_at
 
         .post-body
           :markdown
