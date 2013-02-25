@@ -11,7 +11,7 @@ describe "posts/show" do
       FactoryGirl.create(:post, :author => @author))
     render
     # show the name of the member who posted the post
-    rendered.should match(/member1/)
+    rendered.should match(/member\d+/)
     # Subject goes in title
     rendered.should match(/This is some text./)
     # shouldn't show the subject on a single post page
@@ -40,6 +40,15 @@ describe "posts/show" do
     @comment = FactoryGirl.create(:comment, :post => @post)
     render
     rendered.should contain @comment.body
+  end
+
+  context "forum post" do
+    it "shows forum name" do
+      @post = assign(:post,
+        FactoryGirl.create(:forum_post, :author => @author))
+      render
+      rendered.should contain "in #{@post.forum.name}"
+    end
   end
 
   context "signed in" do

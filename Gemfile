@@ -26,7 +26,7 @@ group :assets do
   # long term, we'll probably want node.js for performance, but this will do for now as it's easier for new people to install
   gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
   gem "less-rails"
-  gem "twitter-bootstrap-rails", '2.1.6'
+  gem "twitter-bootstrap-rails", '~> 2.2.2'
 
   gem 'uglifier', '>= 1.0.3'
 
@@ -63,6 +63,8 @@ gem 'friendly_id'
 
 # gravatars
 gem 'gravatar-ultimate'
+
+gem 'geocoder'
 
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'

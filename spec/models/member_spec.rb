@@ -15,13 +15,13 @@ describe 'member' do
       @member.save
       @member2 = Member.find(@member.id)
       @member2.should be_an_instance_of Member
-      @member2.login_name.should == "member1"
+      @member2.login_name.should match(/member\d+/)
       @member2.encrypted_password.should_not be_nil
     end
 
     it 'should have a friendly slug' do
       @member.save
-      @member.slug.should     == "member1"
+      @member.slug.should match(/member\d+/)
     end
 
     it 'should have a default garden' do
@@ -35,8 +35,9 @@ describe 'member' do
     end
 
     it 'should stringify as the login_name' do
-      @member.to_s.should == 'member1'
-      "#{@member}".should == 'member1'
+      @member.save
+      @member.to_s.should match(/member\d+/)
+      "#{@member}".should match(/member\d+/)
     end
 
     it 'should be able to fetch posts' do
@@ -55,6 +56,29 @@ describe 'member' do
       @comment2 = FactoryGirl.create(:comment, :author => @member)
       @member.comments.length.should == 2
     end
+
+    it "has many forums" do
+      @member.save
+      @forum1 = FactoryGirl.create(:forum, :owner => @member)
+      @forum2 = FactoryGirl.create(:forum, :owner => @member)
+      @member.forums.length.should == 2
+    end
+
+    it 'has location and lat/long fields' do
+      @member.update_attributes(:location => 'Greenwich, UK')
+      @member.location.should eq 'Greenwich, UK'
+      @member.latitude.round(2).should eq 51.48
+      @member.longitude.round(2).should eq 0.00
+    end
+
+    it 'empties the lat/long if location removed' do
+      @member.update_attributes(:location => 'Greenwich, UK')
+      @member.update_attributes(:location => '')
+      @member.location.should eq ''
+      @member.latitude.should be_nil
+      @member.longitude.should be_nil
+    end
+
   end
 
   context 'no TOS agreement' do
@@ -64,6 +88,33 @@ describe 'member' do
 
     it "should refuse to save a member who hasn't agreed to the TOS" do
       @member.save.should_not be_true
+    end
+  end
+
+  context 'same :login_name' do
+    it "should not allow two members with the same login_name" do
+      FactoryGirl.create(:member, :login_name => "login-name")
+      member = FactoryGirl.build(:member, :login_name => "login-name")
+      member.should_not be_valid
+      member.errors[:login_name].should include("has already been taken")
+    end
+  end
+
+  context 'roles' do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      @role = FactoryGirl.create(:role)
+      @member.roles << @role
+    end
+
+    it 'has a role' do
+      @member.roles.first.should eq @role
+      @member.has_role?(:moderator).should eq true
+    end
+
+    it 'sets up roles in factories' do
+      @admin = FactoryGirl.create(:admin_member)
+      @admin.has_role?(:admin).should eq true
     end
   end
 

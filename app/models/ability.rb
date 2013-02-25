@@ -8,7 +8,20 @@ class Ability
     can :read, :all
     cannot :read, Notification
 
+    # nobody should be able to view this except admins
+    cannot :read, Role
+
     if member
+
+      if member.has_role? :admin
+        # admin user roles (for authorization)
+        can :read, Role
+        can :manage, Role
+
+        # for now, only admins can create/edit forums
+        can :manage, Forum
+      end
+
       # managing your own user settings
       can :update, Member, :id => member.id
 
@@ -19,12 +32,8 @@ class Ability
 
       # for now, anyone can create/edit/destroy crops
       # (later, we probably want to limit this to a role)
-      can :create, Crop
-      can :update, Crop
-      can :destroy, Crop
-      can :create, ScientificName
-      can :update, ScientificName
-      can :destroy, ScientificName
+      can :manage, Crop
+      can :manage, ScientificName
 
       # anyone can create a post, or comment on a post,
       # but only the author can edit/destroy it.

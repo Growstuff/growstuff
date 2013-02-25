@@ -11,6 +11,7 @@
           %li= link_to "Crops", crops_path
           %li= link_to "Members", members_path
           %li= link_to "Posts", posts_path
+          %li= link_to "Forums", forums_path
           - if can? :create, Post
             %li= link_to("Post something", new_post_path)
           - if can? :create, Planting
