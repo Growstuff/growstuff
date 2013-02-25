@@ -2,13 +2,18 @@
 
 .row
   .span6
-    %h3= @planting.crop
     %p
       %b Planted:
       = @planting.planted_at ? @planting.planted_at.to_s(:date) : "not specified"
       - if can? :edit, @planting
         %small
           = link_to 'Edit', edit_planting_path(@planting)
+    %p
+      %b Where:
+      =link_to "#{@planting.owner}'s", @planting.owner
+      = link_to @planting.garden.name
+      - if defined?(@planting.owner.location)
+        = "(#{@planting.owner.location})"
     %p
       %b Quantity:
       = @planting.quantity != 0 ? @planting.quantity : "not specified"
