@@ -12,7 +12,7 @@
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
       =link_to @planting.garden.name, @planting.garden
-      - if defined?(@planting.owner.location)
+      - if @planting.owner.location
         = "(#{@planting.owner.location})"
     %p
       %b Quantity:
