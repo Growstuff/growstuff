@@ -1,13 +1,11 @@
 =content_for :title, "#{@planting.crop} in #{@planting.location}"
 
-%p#notice= notice
-
 .row
   .span6
     %h3= @planting.crop
     %p
-      %b Planted at:
-      = @planting.planted_at ? @planting.planted_at : "not specified"
+      %b Planted:
+      = @planting.planted_at ? @planting.planted_at.to_s(:date) : "not specified"
       - if can? :edit, @planting
         %small
           = link_to 'Edit', edit_planting_path(@planting)
@@ -19,7 +17,11 @@
           = link_to 'Edit', edit_planting_path(@planting)
   .span6
     .well
-      %h3= link_to @planting.crop
+      %h3
+        = link_to @planting.crop
+        - if can? :create, Planting
+          = link_to 'Plant this', new_planting_path, :class => 'btn'
+
       %p
         %b Scientific name:
         = @planting.crop_default_scientific_name
@@ -42,4 +44,4 @@
   #{ @planting.description != "" ? @planting.description : "No description given." }
 
 - if can? :edit, @planting
-  = link_to 'Add a description', edit_planting_path(@planting)
+  = link_to 'Edit', edit_planting_path(@planting)
