@@ -27,7 +27,10 @@ class Garden < ActiveRecord::Base
     end
 
     return unique_plantings[0..3]
+  end
 
+  def to_s
+    name
   end
 
 end
