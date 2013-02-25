@@ -11,7 +11,7 @@
     %p
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
-      = link_to @planting.garden.name
+      =link_to @planting.garden.name, @planting.garden
       - if defined?(@planting.owner.location)
         = "(#{@planting.owner.location})"
     %p
@@ -23,7 +23,7 @@
   .span6
     .well
       %h3
-        = link_to @planting.crop
+        = link_to @planting.crop, @planting.crop
         - if can? :create, Planting
           = link_to 'Plant this', new_planting_path, :class => 'btn'
 
