@@ -2,16 +2,44 @@
 
 %p#notice= notice
 
-%p
-  %b Planted at:
-  = @planting.planted_at ? @planting.planted_at : "not specified"
-%p
-  %b Quantity:
-  = @planting.quantity != 0 ? @planting.quantity : "not specified"
-%p
-  %b Description:
-  :markdown
-    #{ @planting.description != "" ? @planting.description : "No description." }
+.row
+  .span6
+    %h3= @planting.crop
+    %p
+      %b Planted at:
+      = @planting.planted_at ? @planting.planted_at : "not specified"
+      - if can? :edit, @planting
+        %small
+          = link_to 'Edit', edit_planting_path(@planting)
+    %p
+      %b Quantity:
+      = @planting.quantity != 0 ? @planting.quantity : "not specified"
+      - if can? :edit, @planting
+        %small
+          = link_to 'Edit', edit_planting_path(@planting)
+  .span6
+    .well
+      %h3= link_to @planting.crop
+      %p
+        %b Scientific name:
+        = @planting.crop_default_scientific_name
+      %p
+        %b
+          Planted
+          = pluralize(@planting.crop_plantings_count, "time")
+        by Growstuff members
+
+%h2 Pictures
+.row
+  - (1..6).each do
+    .span2
+      = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+
+%h2
+  Notes
+
+:markdown
+  #{ @planting.description != "" ? @planting.description : "No description given." }
 
 - if can? :edit, @planting
-  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn'
+  = link_to 'Add a description', edit_planting_path(@planting)

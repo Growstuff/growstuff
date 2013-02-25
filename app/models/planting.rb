@@ -7,6 +7,11 @@ class Planting < ActiveRecord::Base
   belongs_to :garden
   belongs_to :crop
 
+  delegate :default_scientific_name,
+    :plantings_count,
+    :to => :crop,
+    :prefix => true
+
   def planting_slug
     "#{owner.login_name}-#{garden.name}-#{crop.system_name}".downcase.gsub(' ', '-')
   end
