@@ -14,4 +14,17 @@ class Crop < ActiveRecord::Base
   def to_s
     return system_name
   end
+
+  def default_scientific_name
+    if scientific_names.count > 0
+      return scientific_names.first.scientific_name
+    else
+      return nil
+    end
+  end
+
+  def plantings_count
+    return plantings.count
+  end
+
 end
