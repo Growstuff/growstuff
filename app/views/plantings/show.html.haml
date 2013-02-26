@@ -11,7 +11,7 @@
     %p
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
-      =link_to @planting.garden.name, @planting.garden
+      =link_to @planting.garden, @planting.garden
       - if @planting.owner.location
         = "(#{@planting.owner.location})"
     %p

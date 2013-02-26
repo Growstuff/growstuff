@@ -13,11 +13,11 @@ class Planting < ActiveRecord::Base
     :prefix => true
 
   def planting_slug
-    "#{owner.login_name}-#{garden.name}-#{crop.system_name}".downcase.gsub(' ', '-')
+    "#{owner.login_name}-#{garden}-#{crop}".downcase.gsub(' ', '-')
   end
 
   def location
-    return "#{garden.owner.login_name}'s #{garden.name}"
+    return "#{garden.owner.login_name}'s #{garden}"
   end
 
   def owner
