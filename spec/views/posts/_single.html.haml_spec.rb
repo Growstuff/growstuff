@@ -5,7 +5,7 @@ describe "posts/_single" do
     @post = FactoryGirl.create(:post)
   end
 
-  context "0 comments" do
+  context "when there are no comments" do
     before(:each) do
       render :partial => "single", :locals => {
         :post => @post
@@ -17,7 +17,7 @@ describe "posts/_single" do
     end
   end
 
-  context "1 comment" do
+  context "when there is 1 comment" do
     before(:each) do
       @comment = FactoryGirl.create(:comment, :post => @post)
       render :partial => "single", :locals => {
@@ -38,7 +38,7 @@ describe "posts/_single" do
     end
   end
 
-  context "2 comments" do
+  context "when there are 2 comments" do
     before(:each) do
       @comment = FactoryGirl.create(:comment, :post => @post)
       @comment2 = FactoryGirl.create(:comment, :post => @post)
@@ -52,7 +52,7 @@ describe "posts/_single" do
     end
   end
 
-  context "hide comment" do
+  context "when comments should be hidden" do
     before(:each) do
       @comment = FactoryGirl.create(:comment, :post => @post)
       render :partial => "single", :locals => {
