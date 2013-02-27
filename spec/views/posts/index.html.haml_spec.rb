@@ -6,6 +6,8 @@ describe "posts/index" do
     @author = FactoryGirl.create(:member)
     @post1 = FactoryGirl.build(:post, :author => @author)
     @post2 = FactoryGirl.build(:post, :author => @author)
+    @post1.save # needed to generate slugs and hence paths for posts
+    @post2.save
     assign(:posts, [@post1, @post2])
     render
   end

@@ -62,7 +62,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      rendered.should contain "0 comments"
+      assert_select "a[href=#{post_path(@post)}\#comments]", "0 comments"
     end
   end
 
@@ -73,11 +73,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      rendered.should contain "1 comment"
-    end
-
-    it "contains a link to post" do
-      assert_select "a[href=#{post_path @post}]"
+      assert_select "a[href=#{post_path(@post)}\#comments]", "1 comment"
     end
   end
 
@@ -89,7 +85,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      rendered.should contain "2 comments"
+      assert_select "a[href=#{post_path(@post)}\#comments]", "2 comments"
     end
   end
 
