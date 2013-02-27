@@ -34,20 +34,32 @@ describe "posts/show" do
     rendered.should_not match(/a href="http:\/\/evil.com"/)
   end
 
-  it "shows comments" do
+  it 'has an anchor to the comments' do
     @post = assign(:post,
-      FactoryGirl.create(:html_post, :author => @author))
-    @comment = FactoryGirl.create(:comment, :post => @post)
+                   FactoryGirl.create(:post, :author => @author))
     render
-    rendered.should contain @comment.body
+    assert_select 'a[name=comments]'
   end
 
-  it 'shows comment count only 1' do
-    @post = assign(:post,
-                   FactoryGirl.create(:html_post, :author => @author))
-    @comment = FactoryGirl.create(:comment, :post => @post)
-    render
-    assert_select "div.post_comments", false
+  context "when there is one comment" do
+    before(:each) do
+      @post = assign(:post,
+                     FactoryGirl.create(:html_post, :author => @author))
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      render
+    end
+
+    it 'shows comment count only 1' do
+      assert_select "div.post_comments", false
+    end
+
+    it "shows comments" do
+      rendered.should contain @comment.body
+    end
+
+    it 'has an anchor to the comments' do
+      assert_select 'a[name=comments]'
+    end
   end
 
   context "forum post" do

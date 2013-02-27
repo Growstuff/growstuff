@@ -11,11 +11,10 @@
         data: { confirm: 'Are you sure?' }, :class => 'btn'
 
 
+%a{:name => "comments"}
 - if @post.comments.length > 0
   %h2
-    =@post.comments.length
-    =@post.comments.length == 1 ? 'comment' : 'comments'
-
+    =pluralize(@post.comments.length, "comment")
   - @post.comments.each do |c|
     = render :partial => "comments/single", :locals => { :comment => c }
 
