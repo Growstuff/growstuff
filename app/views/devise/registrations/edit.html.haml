@@ -19,10 +19,9 @@
   %h2 About you
 
   .control-group
-    =f.label :about_me, 'Tell us about yourself!', :class => 'control-label'
+    =f.label :about_me, 'Tell us about yourself! (optional)', :class => 'control-label'
     .controls
-      =f.text_field :about_me
-      %span.help-inline This is optional. You can tell us some details about you if you like, or remain a mystery to us all.
+      =f.text_area :about_me, :rows => 8
 
   %h2 Email address
 
