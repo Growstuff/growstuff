@@ -24,7 +24,7 @@
         - unless defined?(hide_comments) 
           .post-comments
             %ul.inline
-              %li= link_to pluralize(post.comments.count, "comment"), post
+              %li.first= link_to pluralize(post.comments.count, "comment"), post
               %li= link_to "Comment", new_comment_path(:post_id => post.id)
 
 
