@@ -23,8 +23,11 @@
         = link_to 'Edit Settings', "edit", :class => 'btn btn-mini'
     %p
       = "About:"
+    -if @member.about_me.to_s != ''
       %p
-        = @member.about_me
+        = "About:"
+        %p
+          = @member.about_me
 
   .span9
     .tabbable

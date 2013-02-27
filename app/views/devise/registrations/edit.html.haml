@@ -17,9 +17,11 @@
       Show email publicly on your profile page
 
   %h2 About you
+  %p
+    %span.help-block This section is all optional. Tell us as much as you like, or remain a mystery.
 
   .control-group
-    =f.label :about_me, 'Tell us about yourself! (optional)', :class => 'control-label'
+    =f.label :about_me, 'Tell us about yourself!', :class => 'control-label'
     .controls
       =f.text_area :about_me, :rows => 8
 
