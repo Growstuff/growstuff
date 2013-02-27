@@ -87,6 +87,10 @@ describe 'member' do
       @member.longitude.should be_nil
     end
 
+    it 'has an "about me" section' do
+      @member.about_me.should eq "I like to garden all day long"
+    end
+
   end
 
   context 'no TOS agreement' do
