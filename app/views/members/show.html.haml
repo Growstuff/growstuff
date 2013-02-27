@@ -21,6 +21,10 @@
     - if current_member == @member
       %p
         = link_to 'Edit Settings', "edit", :class => 'btn btn-mini'
+    %p
+      = "About:"
+      %p
+        = @member.about_me
 
   .span9
     .tabbable
