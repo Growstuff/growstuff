@@ -131,4 +131,34 @@ describe "members/show" do
     end
   end
 
+  context "no about me" do
+    before (:each)  do
+      @member = FactoryGirl.create(:member, :about_me => nil)
+      render
+    end
+    it "doesn't show the About: on the profile" do
+      rendered.should_not contain "About:"
+    end
+  end
+
+  context "has about me" do
+    before (:each) do
+      render
+    end
+    it "shows the About section on the profile" do
+      rendered.should contain "About:"
+    end
+  end
+
+  context "about me is removed" do
+    before (:each) do
+      @member = FactoryGirl.create(:member)
+      @member.about_me = ''
+      render
+    end
+    it "doesn't show the About: section after the member removes it" do
+      rendered.should_not contain "About:"
+    end
+  end
+
 end

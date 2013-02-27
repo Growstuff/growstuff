@@ -18,10 +18,11 @@
       %p
         Email:
         = mail_to @member.email
-    %p
-      = "About:"
+    -if @member.about_me.to_s != ''
       %p
-        = @member.about_me
+        = "About:"
+        %p
+          = @member.about_me
 
   .span9
     .tabbable

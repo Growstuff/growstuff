@@ -34,6 +34,9 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       it 'shows location field' do
         assert_select "input[id=member_location][type=text]"
       end
+      it 'shows about me field' do
+        assert_select "textarea#member_about_me"
+      end
     end
 
     it 'should have a password section' do
