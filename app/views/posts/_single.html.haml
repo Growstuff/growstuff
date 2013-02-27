@@ -25,6 +25,10 @@
           .post-comments
             %ul.inline
               %li.first= link_to pluralize(post.comments.count, "comment"), post
-              %li= link_to "Comment", new_comment_path(:post_id => post.id)
+              -if can? :create, Comment
+                %li= link_to "Reply", new_comment_path(:post_id => post.id)
+              %li= link_to "Permalink", post
+              -if can? :edit, post
+                %li= link_to "Edit", edit_post_path(post)
 
 
