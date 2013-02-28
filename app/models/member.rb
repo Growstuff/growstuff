@@ -22,7 +22,7 @@ class Member < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login_name, :email, :password, :password_confirmation,
     :remember_me, :login, :tos_agreement, :show_email,
-    :location, :latitude, :longitude, :about_me
+    :location, :latitude, :longitude, :about_me, :full_name
 
   # set up geocoding
   geocoded_by :location
