@@ -79,6 +79,10 @@ describe 'member' do
       @member.longitude.should be_nil
     end
 
+    it "has a full name" do
+      @member.full_name.should eq "Fake McNamerson"
+    end
+
     it 'has an "about me" section' do
       @member.about_me.should eq "I like to garden all day long"
     end
