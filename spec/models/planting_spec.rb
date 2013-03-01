@@ -23,4 +23,19 @@ describe Planting do
     @planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
   end
 
+  it "should accept ISO-format dates" do
+    @planting.planted_at_string = "2013-03-01"
+    @planting.planted_at.should == Date.new(2013, 03, 01)
+  end
+
+  it "should accept DD Month YY format dates" do
+    @planting.planted_at_string = "1st March 13" # Dydd Gŵyl Dewi Hapus!
+    @planting.planted_at.should == Date.new(2013, 03, 01)
+  end
+
+  it "should output dates in ISO format" do
+    @planting.planted_at = Date.new(2013, 03, 01)
+    @planting.planted_at_string.should == "2013-03-01"
+  end
+
 end
