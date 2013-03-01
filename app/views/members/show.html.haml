@@ -6,6 +6,9 @@
   .span3
     = render :partial => "members/avatar", :locals => { :member => @member }
 
+    -if @member.full_name.to_s != ''
+      %p
+        = "Name: #{@member.full_name}"
     %p
       = "Member since: #{@member.created_at.to_s(:date)}"
     - if @member.location.to_s != ''
@@ -25,7 +28,7 @@
       = "About:"
     -if @member.about_me.to_s != ''
       %p
-        = "About:"
+        = "About me:"
         %p
           = @member.about_me
 
