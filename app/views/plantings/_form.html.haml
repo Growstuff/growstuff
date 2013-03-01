@@ -15,7 +15,7 @@
         Garden.where(:owner_id => current_member), :id, :name, :selected => @planting.garden_id || @garden.id)
   .control-group
     = f.label 'When?', :class => 'control-label'
-    .controls= f.text_field :planted_at_string
+    .controls= f.text_field :planted_at_string, { :class => 'add-datepicker' }
   .control-group
     = f.label 'How many?', :class => 'control-label'
     .controls
