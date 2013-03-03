@@ -3,14 +3,6 @@
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-horizontal' }) do |f|
   = devise_error_messages!
 
-  %h2 Email address
-
-  .control-group
-    = f.label :email, :class => 'control-label'
-    .controls
-      = f.email_field :email
-      %span.help-inline If you change your email address you will have to reconfirm
-
   %h2 Profile details
 
   .control-group
@@ -23,6 +15,29 @@
     .controls
       = f.check_box :show_email
       Show email publicly on your profile page
+
+  %h2 About you
+  %p
+    %span.help-block This section is all optional. Tell us as much or as little as you like.
+
+  .control-group
+    =f.label :full_name, 'Your name', :class => 'control-label'
+    .controls
+      =f.text_field :full_name
+      %span.help-inline This doesn't have to be your legal name
+
+  .control-group
+    =f.label :about_me, 'Tell us about yourself!', :class => 'control-label'
+    .controls
+      =f.text_area :about_me, :rows => 8
+
+  %h2 Email address
+
+  .control-group
+    = f.label :email, :class => 'control-label'
+    .controls
+      = f.email_field :email
+      %span.help-inline If you change your email address you will have to reconfirm
 
   %h2 Change password
   %p

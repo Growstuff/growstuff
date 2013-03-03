@@ -9,6 +9,8 @@ FactoryGirl.define do
     tos_agreement true
     confirmed_at Time.now
     show_email false
+    about_me "I like to garden all day long"
+    full_name "Fake McNamerson"
 
     factory :no_tos_member do
       tos_agreement false
