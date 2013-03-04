@@ -31,6 +31,21 @@
     .controls
       =f.text_area :about_me, :rows => 8
 
+  .control-group
+    =f.label :gardening_since, "How long have you been gardening?", :class => 'control-label'
+    .controls
+      =f.text_field :gardening_since
+
+  .control-group
+    =f.label :wish_i_could_grow, "What do you wish you could grow?", :class => 'control-label'
+    .controls
+      =f.text_field :wish_i_could_grow
+
+  .control-group
+    =f.label :gardening_clothes, "What do you wear while gardening?", :class => 'control-label'
+    .controls
+      =f.text_field :gardening_clothes
+
   %h2 Email address
 
   .control-group

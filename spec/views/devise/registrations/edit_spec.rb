@@ -40,6 +40,15 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       it 'shows about me field' do
         assert_select "textarea#member_about_me"
       end
+      it 'shows gardening since field' do
+        assert_select "input[id=member_gardening_since][type=text]"
+      end
+      it "shows 'I wish I could grow' field" do
+        assert_select "input[id=member_wish_i_could_grow][type=text]"
+      end
+      it "shows gardening clothes field" do
+        assert_select "input[id=member_gardening_clothes][type=text]"
+      end
     end
 
     it 'should have a password section' do

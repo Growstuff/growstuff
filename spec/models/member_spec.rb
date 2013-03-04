@@ -87,6 +87,18 @@ describe 'member' do
       @member.about_me.should eq "I like to garden all day long"
     end
 
+    it 'has a gardening_since field' do
+      @member.gardening_since.should eq "Last February"
+    end
+
+    it 'has a wish_i_could_grow field' do
+      @member.wish_i_could_grow.should eq "turnips"
+    end
+
+    it 'has a gardening_clothes field' do
+      @member.gardening_clothes.should eq "a jolly hat"
+    end
+
   end
 
   context 'no TOS agreement' do

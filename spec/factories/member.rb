@@ -11,6 +11,9 @@ FactoryGirl.define do
     show_email false
     about_me "I like to garden all day long"
     full_name "Fake McNamerson"
+    gardening_since "Last February"
+    wish_i_could_grow "turnips"
+    gardening_clothes "a jolly hat"
 
     factory :no_tos_member do
       tos_agreement false
