@@ -4,10 +4,9 @@ describe "posts/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @author = FactoryGirl.create(:member)
-    @post1 = FactoryGirl.build(:post, :author => @author)
-    @post2 = FactoryGirl.build(:post, :author => @author)
-    @post1.save # needed to generate slugs and hence paths for posts
-    @post2.save
+    # We use create (= build+save) to generate slugs and hence paths for posts
+    @post1 = FactoryGirl.create(:post, :author => @author)
+    @post2 = FactoryGirl.create(:post, :author => @author)
     assign(:posts, [@post1, @post2])
     render
   end
