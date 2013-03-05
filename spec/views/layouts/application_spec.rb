@@ -33,14 +33,6 @@ describe 'layouts/application.html.haml', :type => "view" do
       rendered.should contain /member\d+/
     end
 
-    it 'should have a "Post" link' do
-      rendered.should contain 'Post something'
-    end
-
-    it 'should have a plant something link' do
-      rendered.should contain 'Plant something'
-    end
-
     it "should show member's name" do
       assert_select("a[href=/members/#{@member.login_name}]", "Profile")
     end

@@ -50,6 +50,14 @@ describe 'member' do
       @member.gardens.first.name.should eq "Garden"
     end
 
+    it 'has many plantings through gardens' do
+      @member.save
+      @planting = FactoryGirl.create(:planting,
+        :garden => @member.gardens.first
+      )
+      @member.plantings.count.should eq 1
+    end
+
     it "has many comments" do
       @member.save
       @comment1 = FactoryGirl.create(:comment, :author => @member)

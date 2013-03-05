@@ -5,6 +5,7 @@ class Member < ActiveRecord::Base
   has_many :posts,   :foreign_key => 'author_id'
   has_many :comments, :foreign_key => 'author_id'
   has_many :gardens, :foreign_key => 'owner_id'
+  has_many :plantings, :through => :gardens
   has_many :forums, :foreign_key => 'owner_id'
   has_and_belongs_to_many :roles
 

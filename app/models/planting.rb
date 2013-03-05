@@ -6,6 +6,7 @@ class Planting < ActiveRecord::Base
 
   belongs_to :garden
   belongs_to :crop
+  belongs_to :forum
 
   def planting_slug
     "#{owner.login_name}-#{garden.name}-#{crop.system_name}".downcase.gsub(' ', '-')
