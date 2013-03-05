@@ -8,12 +8,17 @@ class Planting < ActiveRecord::Base
   belongs_to :crop
   belongs_to :forum
 
+  delegate :default_scientific_name,
+    :plantings_count,
+    :to => :crop,
+    :prefix => true
+
   def planting_slug
-    "#{owner.login_name}-#{garden.name}-#{crop.system_name}".downcase.gsub(' ', '-')
+    "#{owner.login_name}-#{garden}-#{crop}".downcase.gsub(' ', '-')
   end
 
   def location
-    return "#{garden.owner.login_name}'s #{garden.name}"
+    return "#{garden.owner.login_name}'s #{garden}"
   end
 
   def owner

@@ -50,4 +50,18 @@ describe Crop do
       Crop.first.should == lowercase
     end
   end
+
+  it 'finds a default scientific name' do
+    @c = FactoryGirl.create(:tomato)
+    @c.default_scientific_name.should eq nil
+    @sn = FactoryGirl.create(:solanum_lycopersicum, :crop => @c)
+    @c.default_scientific_name.should eq @sn.scientific_name
+  end
+
+  it 'counts plantings' do
+    @c = FactoryGirl.create(:tomato)
+    @c.plantings_count.should eq 0
+    FactoryGirl.create(:planting, :crop => @c)
+    @c.plantings_count.should eq 1
+  end
 end

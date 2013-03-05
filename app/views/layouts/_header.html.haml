@@ -1,4 +1,4 @@
-.navbar.navbar-static-top
+.navbar.navbar-fixed-top
   .navbar-inner
     .container
       %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
@@ -6,7 +6,7 @@
         %span.icon-bar
         %span.icon-bar
       %a.brand(href=root_path) Growstuff (development site)
-      .container.nav-collapse
+      .container.nav-collapse.collapse
         %ul.nav
           %li= link_to "Crops", crops_path
           %li= link_to "Members", members_path
@@ -22,6 +22,12 @@
                 %li= link_to "Profile", member_path(current_member)
                 %li= link_to "Settings", edit_member_registration_path
                 %li= link_to "Sign out", destroy_member_session_path, :method => :delete
+            %li
+              - if current_member.notifications.unread_count > 0
+                = link_to("Inbox (#{current_member.notifications.unread_count})", notifications_path)
+              - else
+                = link_to("Inbox", notifications_path)
+
           - else
             %li.pull-right= link_to 'Sign up', new_member_registration_path
             %li.pull-right= link_to 'Sign in', new_member_session_path

@@ -2,7 +2,7 @@ FactoryGirl.define do
   sequence(:email) { |n| "member#{n}@example.com" }
   sequence(:login_name) { |n| "member#{n}" }
 
-  factory :member, aliases: [:author, :owner] do
+  factory :member, aliases: [:author, :owner, :sender, :recipient] do
     login_name { generate(:login_name) }
     password 'password1'
     email { generate(:email) }

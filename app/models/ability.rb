@@ -6,6 +6,7 @@ class Ability
 
     # everyone can do these things, even non-logged in
     can :read, :all
+    cannot :read, Notification
 
     # nobody should be able to view this except admins
     cannot :read, Role
@@ -23,6 +24,11 @@ class Ability
 
       # managing your own user settings
       can :update, Member, :id => member.id
+
+      # can read/delete notifications that were sent to them
+      can :read, Notification, :recipient_id => member.id
+      can :destroy, Notification, :recipient_id => member.id
+      # note we don't support create/update for notifications
 
       # for now, anyone can create/edit/destroy crops
       # (later, we probably want to limit this to a role)

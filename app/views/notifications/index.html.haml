@@ -1,0 +1,35 @@
+- content_for :title, "Notifications"
+
+- if @notifications.length > 0
+  %table.table.table-striped
+    %tr
+      %th From
+      %th Subject
+      %th Date
+      %th
+
+    - @notifications.each do |n|
+      - if can? :read, n
+        %tr
+          %td
+            - if n.read
+              = link_to n.sender
+            - else
+              %strong= link_to n.sender
+          %td
+            - if n.read
+              = link_to n.subject, notification_path(n)
+            - else
+              %strong= link_to n.subject, notification_path(n)
+          %td
+            - if n.read
+              = n.created_at.to_s(:date)
+            - else
+              %strong= n.created_at.to_s(:date)
+          %td
+            - if n.read
+              = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
+            - else
+              %strong= link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
+- else
+  You have no messages.

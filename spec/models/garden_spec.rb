@@ -18,6 +18,10 @@ describe Garden do
     @garden.owner.should be_an_instance_of Member
   end
 
+  it "should stringify as its name" do
+    @garden.to_s.should == @garden.name
+  end
+
   context "featured plantings" do
     before :each do
       @tomato = FactoryGirl.create(:tomato)
