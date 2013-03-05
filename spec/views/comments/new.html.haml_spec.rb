@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "comments/new" do
   before(:each) do
+    controller.stub(:current_user) { nil }
     assign(:comment, FactoryGirl.create(:comment))
   end
 
