@@ -6,7 +6,6 @@ class Planting < ActiveRecord::Base
 
   belongs_to :garden
   belongs_to :crop
-  belongs_to :forum
 
   delegate :default_scientific_name,
     :plantings_count,
