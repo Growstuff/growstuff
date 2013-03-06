@@ -12,10 +12,6 @@
           %li= link_to "Members", members_path
           %li= link_to "Posts", posts_path
           %li= link_to "Forums", forums_path
-          - if can? :create, Post
-            %li= link_to("Post something", new_post_path)
-          - if can? :create, Planting
-            %li= link_to("Plant something", new_planting_path)
           %li.divider-vertical
           - if member_signed_in?
             %li.dropdown<

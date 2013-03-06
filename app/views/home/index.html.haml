@@ -1,40 +1,112 @@
-.visible-desktop.visible-tablet
-  .hero-unit
+- if member_signed_in?
+
+  %h1= "Welcome, #{current_member.login_name}"
+
+  .row
+    .span6
+      %p
+        %b Your profile:
+        =link_to current_member, current_member
+
+      %p
+        %b Your location:
+        = current_member.location ? current_member.location : 'Not set'
+        %small
+          = link_to "Edit", edit_registration_path(current_member)
+
+      %ul.inline
+        %li.first
+          %b Your gardens:
+        - current_member.gardens.each do |g|
+          %li= link_to g.name, g
+        - if can? :create, Garden
+          %li= link_to 'Add a garden', new_garden_path
+    .span6
+      - if current_member.has_role?(:admin)
+        %p
+          %b You are an ADMIN USER.
+
+      - if current_member.forums.count > 0
+        %p
+          %b Forums you administer:
+        %ul
+          - current_member.forums.each do |f|
+            %li= link_to f.name, f
+
+  .row
+    .span6
+      %h2 Your recent plantings
+      - if current_member.plantings.count > 0
+        %ul
+          - current_member.plantings.limit(10).each do |p|
+            %li
+              = link_to "#{p.crop.system_name} in #{p.location}", p
+              - if p.planted_at
+                on
+                = p.planted_at.to_s(:date)
+      - else
+        %p None yet.
+      - if can? :create, Planting
+        %p= link_to "Plant something", new_planting_path, :class => 'btn btn-primary'
+
+    .span6
+      %h2 Your recent posts
+      - if current_member.posts.count > 0
+        %ul
+          - current_member.posts.limit(10).each do |p|
+            %li
+              = link_to p.subject, p
+              - if p.forum
+                in
+                = link_to p.forum.name, p.forum
+              on
+              = p.created_at.to_s(:date)
+      - else
+        %p None yet.
+      - if can? :create, Planting
+        %p= link_to "Post something", new_post_path, :class => 'btn btn-primary'
+
+    .span6
+
+
+- else
+  .visible-desktop.visible-tablet
+    .hero-unit
+      = render :partial => 'blurb'
+
+  .visible-phone
     = render :partial => 'blurb'
 
-.visible-phone
-  = render :partial => 'blurb'
+  .row
+    .span3
+      %h2 Track
+      %p
+        Track your garden, your
+        = link_to 'crops', crops_path
+        , and everything to do with them. |
+        Remember what you planted or harvested, and plan for what you want to do next. |
+        Import and export your data to a spreadsheet or other format.
 
-.row
-  .span3
-    %h2 Track
-    %p
-      Track your garden, your
-      = link_to 'crops', crops_path
-      , and everything to do with them. |
-      Remember what you planted or harvested, and plan for what you want to do next. |
-      Import and export your data to a spreadsheet or other format.
-
-  .span3
-    %h2 Connect
-    %p
-      Connect with friends, people who live in your area, or others |
-      who share your gardening interests.  Show off your crops and |
-      harvests, share updates and tips, and
-      = link_to 'see', posts_path
-      what everyone else is doing, too.
-  .span3
-    %h2 Learn
-    %p
-      Browse our
-      = link_to 'crops', crops_path
-      database and learn about food plants for your
-      climate and garden type.  Read other
-      = link_to "members' posts", posts_path
-      and tips, or post questions and discuss food gardening issues in our forums.
-  .span3
-    %h2 Trade
-    %p
-      Use Growstuff as a marketplace for everything related to food
-      gardens.  Buy and sell, trade, or give away anything from seeds
-      to garden supplies, or find events and businesses in your area.
+    .span3
+      %h2 Connect
+      %p
+        Connect with friends, people who live in your area, or others |
+        who share your gardening interests.  Show off your crops and |
+        harvests, share updates and tips, and
+        = link_to 'see', posts_path
+        what everyone else is doing, too.
+    .span3
+      %h2 Learn
+      %p
+        Browse our
+        = link_to 'crops', crops_path
+        database and learn about food plants for your
+        climate and garden type.  Read other
+        = link_to "members' posts", posts_path
+        and tips, or post questions and discuss food gardening issues in our forums.
+    .span3
+      %h2 Trade
+      %p
+        Use Growstuff as a marketplace for everything related to food
+        gardens.  Buy and sell, trade, or give away anything from seeds
+        to garden supplies, or find events and businesses in your area.
