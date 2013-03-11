@@ -2,9 +2,10 @@
 
 %p
   = "Displaying #{@members.length} members"
-  
+
 %ul.thumbnails
   - @members.each do |m|
     %li.span2
       .thumbnail(style="height: 190px")
-        = render :partial => "shared/avatar", :locals => { :member => m, :truncate => true }
+        = render :partial => "members/avatar", :locals => { :member => m }
+        = link_to shorten(m.to_s, 30), m
