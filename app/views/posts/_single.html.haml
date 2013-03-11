@@ -2,7 +2,7 @@
   .post
     .row
       .span1
-        = render :partial => "shared/avatar", :locals => { :member => post.author }
+        = render :partial => "members/avatar", :locals => { :member => post.author }
       .span7
         - if defined?(subject)
           %h3= link_to strip_tags(post.subject), post
@@ -20,8 +20,8 @@
         .post-body
           :markdown
             #{ strip_tags post.body }
-        
-        - unless defined?(hide_comments) 
+
+        - unless defined?(hide_comments)
           .post-comments
             %ul.inline
               %li.first= link_to pluralize(post.comments.count, "comment"),

@@ -2,7 +2,7 @@
 
 .row
   .span3
-    = render :partial => "shared/avatar", :locals => { :member => @garden.owner }
+    = render :partial => "members/avatar", :locals => { :member => @garden.owner }
 
     %h4= "#{@garden.owner}'s gardens"
     %ul

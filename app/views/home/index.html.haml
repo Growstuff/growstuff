@@ -3,10 +3,15 @@
   %h1= "Welcome, #{current_member.login_name}"
 
   .row
+    .visible-desktop.visible-tablet
+      .span2
+        = render :partial => "members/avatar", :locals => { :member => current_member }
     .span6
       %p
         %b Your profile:
         =link_to current_member, current_member
+        %small
+          = link_to "Edit", edit_registration_path(current_member)
 
       %p
         %b Your location:
@@ -20,8 +25,10 @@
         - current_member.gardens.each do |g|
           %li= link_to g.name, g
         - if can? :create, Garden
-          %li= link_to 'Add a garden', new_garden_path
-    .span6
+          %li
+            %small= link_to 'Add a garden', new_garden_path
+
+    .span4
       - if current_member.has_role?(:admin)
         %p
           %b You are an ADMIN USER.
