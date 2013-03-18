@@ -70,7 +70,6 @@ FactoryGirl.define do
 
     factory :valid_member_underscore do
       login_name 'abc_123'
->>>>>>> restrict_usernames
     end
 
   end
