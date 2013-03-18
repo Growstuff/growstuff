@@ -101,10 +101,25 @@ describe 'member' do
 
   context 'same :login_name' do
     it "should not allow two members with the same login_name" do
-      FactoryGirl.create(:member, :login_name => "login_name")
-      member = FactoryGirl.build(:member, :login_name => "login_name")
+      FactoryGirl.create(:member, :login_name => "bob")
+      member = FactoryGirl.build(:member, :login_name => "bob")
       member.should_not be_valid
       member.errors[:login_name].should include("has already been taken")
+    end
+
+    it "tests uniqueness case-insensitively" do
+      FactoryGirl.create(:member, :login_name => "bob")
+      member = FactoryGirl.build(:member, :login_name => "BoB")
+      member.should_not be_valid
+      member.errors[:login_name].should include("has already been taken")
+    end
+  end
+
+  context 'case sensitivity' do
+    it 'preserves case of login name' do
+      member = FactoryGirl.create(:member, :login_name => "BOB")
+      check = Member.find('bob')
+      check.login_name.should eq 'BOB'
     end
   end
 

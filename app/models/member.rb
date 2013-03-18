@@ -36,7 +36,6 @@ class Member < ActiveRecord::Base
   validates_acceptance_of :tos_agreement, :allow_nil => false,
     :accept => true
 
-  validates_uniqueness_of :login_name
   validates :login_name,
     :length => {
       :minimum => 2,
@@ -44,12 +43,15 @@ class Member < ActiveRecord::Base
       :message => "should be between 2 and 25 characters long"
     },
     :exclusion => {
-      :in => %w(growstuff admin moderator),
+      :in => %w(growstuff admin moderator staff),
       :message => "name is reserved"
     },
     :format => {
       :with => /^\w+$/,
       :message => "may only include letters, numbers, or underscores"
+    },
+    :uniqueness => {
+      :case_sensitive => false
     }
 
   # Give each new member a default garden
