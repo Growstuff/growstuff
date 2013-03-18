@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CropsController do
 
-  login_member
+  login_member(:crop_wrangling_member)
 
   def valid_attributes
      { :system_name => "Tomato" }

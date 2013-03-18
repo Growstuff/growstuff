@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "crops/new" do
   before(:each) do
     assign(:crop, FactoryGirl.create(:maize))
-    @member = FactoryGirl.create(:member)
+    @member = FactoryGirl.create(:crop_wrangling_member)
     sign_in @member
     controller.stub(:current_user) { @member }
     render

@@ -13,9 +13,14 @@
       %td= scientific_name.scientific_name
       %td= scientific_name.crop_id
       %td= link_to 'Show', scientific_name
-      %td= link_to 'Edit', edit_scientific_name_path(scientific_name)
-      %td= link_to 'Destroy', scientific_name, method: :delete, data: { confirm: 'Are you sure?' }
+      %td
+        - if can? :edit, scientific_name
+          = link_to 'Edit', edit_scientific_name_path(scientific_name)
+      %td
+        - if can? :destroy, scientific_name
+          = link_to 'Destroy', scientific_name, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Scientific name', new_scientific_name_path
+- if can? :create, ScientificName
+  = link_to 'New Scientific name', new_scientific_name_path

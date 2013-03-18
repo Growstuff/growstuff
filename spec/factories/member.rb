@@ -40,6 +40,10 @@ FactoryGirl.define do
       roles { [ FactoryGirl.create(:admin) ] }
     end
 
+    factory :crop_wrangling_member do
+      roles { [ FactoryGirl.create(:crop_wrangler) ] }
+    end
+
   end
 
 end

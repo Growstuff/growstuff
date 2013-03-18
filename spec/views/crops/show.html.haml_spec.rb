@@ -44,10 +44,10 @@ describe "crops/show" do
     rendered.should contain "Springfield Community Garden"
   end
 
-  context "logged in" do
+  context "logged in and crop wrangler" do
 
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryGirl.create(:crop_wrangling_member)
       sign_in @member
       controller.stub(:current_user) { @member }
       render
