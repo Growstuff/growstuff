@@ -8,4 +8,4 @@
     %li.span2
       .thumbnail(style="height: 190px")
         = render :partial => "members/avatar", :locals => { :member => m }
-        = link_to shorten(m.to_s, 30), m
+        = link_to m.to_s, m

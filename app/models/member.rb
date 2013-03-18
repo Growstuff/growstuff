@@ -36,7 +36,23 @@ class Member < ActiveRecord::Base
   validates_acceptance_of :tos_agreement, :allow_nil => false,
     :accept => true
 
-  validates_uniqueness_of :login_name
+  validates :login_name,
+    :length => {
+      :minimum => 2,
+      :maximum => 25,
+      :message => "should be between 2 and 25 characters long"
+    },
+    :exclusion => {
+      :in => %w(growstuff admin moderator staff),
+      :message => "name is reserved"
+    },
+    :format => {
+      :with => /^\w+$/,
+      :message => "may only include letters, numbers, or underscores"
+    },
+    :uniqueness => {
+      :case_sensitive => false
+    }
 
   # Give each new member a default garden
   after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
