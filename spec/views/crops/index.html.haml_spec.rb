@@ -20,9 +20,9 @@ describe "crops/index" do
     rendered.should contain "Displaying 2 crops"
   end
 
-  context "logged in" do
+  context "logged in and crop wrangler" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryGirl.create(:crop_wrangling_member)
       sign_in @member
       controller.stub(:current_user) { @member }
       render

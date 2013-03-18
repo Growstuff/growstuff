@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe "crops/edit" do
   before(:each) do
-    controller.stub(:current_user) { Member.new }
+    controller.stub(:current_user) {
+      FactoryGirl.create(:crop_wrangling_member)
+    }
     @crop = assign(:crop, FactoryGirl.create(:maize))
     render
   end
