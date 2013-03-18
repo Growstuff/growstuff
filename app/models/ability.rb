@@ -30,10 +30,12 @@ class Ability
       can :destroy, Notification, :recipient_id => member.id
       # note we don't support create/update for notifications
 
-      # for now, anyone can create/edit/destroy crops
+      # only crop wranglers can create/edit/destroy crops
       # (later, we probably want to limit this to a role)
-      can :manage, Crop
-      can :manage, ScientificName
+      if member.has_role? :crop_wrangler
+        can :manage, Crop
+        can :manage, ScientificName
+      end
 
       # anyone can create a post, or comment on a post,
       # but only the author can edit/destroy it.

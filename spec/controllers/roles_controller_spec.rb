@@ -6,11 +6,7 @@ describe RolesController do
     { "name" => "MyString" }
   end
 
-  def valid_session
-    {}
-  end
-
-  login_admin_member
+  login_member(:admin_member)
 
   describe "GET index" do
     it "assigns all roles as @roles" do

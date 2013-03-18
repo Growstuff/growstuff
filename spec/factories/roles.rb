@@ -8,6 +8,11 @@ FactoryGirl.define do
     factory :admin do
       name "admin"
     end
+
+    factory :crop_wrangler do
+      name "crop wrangler"
+      description "they wrangle crops"
+    end
   end
 
 end

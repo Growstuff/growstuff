@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ForumsController do
 
-  login_admin_member
+  login_member(:admin_member)
 
   def valid_attributes
     {

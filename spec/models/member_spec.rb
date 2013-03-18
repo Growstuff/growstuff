@@ -124,6 +124,13 @@ describe 'member' do
       @admin = FactoryGirl.create(:admin_member)
       @admin.has_role?(:admin).should eq true
     end
+
+    it 'converts role names properly' do
+      # need to make sure spaces get turned to underscores
+      @role = FactoryGirl.create(:role, :name => "a b c")
+      @member.roles << @role
+      @member.has_role?(:a_b_c).should eq true
+    end
   end
 
 end

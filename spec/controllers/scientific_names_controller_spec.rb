@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ScientificNamesController do
 
-  login_member
+  login_member(:crop_wrangling_member)
 
   def valid_attributes
     { :scientific_name => 'Solanum lycopersicum', :crop_id => 1 }
