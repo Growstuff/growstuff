@@ -31,7 +31,6 @@ class Ability
       # note we don't support create/update for notifications
 
       # only crop wranglers can create/edit/destroy crops
-      # (later, we probably want to limit this to a role)
       if member.has_role? :crop_wrangler
         can :manage, Crop
         can :manage, ScientificName
