@@ -4,18 +4,9 @@ describe "members/index" do
   before(:each) do
     assign(:members, [
       FactoryGirl.create(:member),
-      FactoryGirl.create(:long_name_member)
+      FactoryGirl.create(:member)
     ])
     render
-  end
-
-  it "truncates long names" do
-    rendered.should contain "marmaduke blundell-hollinsh..."
-  end
-
-  it "does not truncate short names" do
-    rendered.should contain /member\d+/
-    rendered.should_not contain /member\d+\.\.\./
   end
 
   it "counts the number of members" do

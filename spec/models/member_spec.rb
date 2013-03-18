@@ -101,10 +101,53 @@ describe 'member' do
 
   context 'same :login_name' do
     it "should not allow two members with the same login_name" do
-      FactoryGirl.create(:member, :login_name => "login-name")
-      member = FactoryGirl.build(:member, :login_name => "login-name")
+      FactoryGirl.create(:member, :login_name => "login_name")
+      member = FactoryGirl.build(:member, :login_name => "login_name")
       member.should_not be_valid
       member.errors[:login_name].should include("has already been taken")
+    end
+  end
+
+  context 'invalid login names' do
+    it "doesn't allow short names" do
+      member = FactoryGirl.build(:invalid_member_shortname)
+      member.should_not be_valid
+      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+    end
+    it "doesn't allow really long names" do
+      member = FactoryGirl.build(:invalid_member_longname)
+      member.should_not be_valid
+      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+    end
+    it "doesn't allow spaces in names" do
+      member = FactoryGirl.build(:invalid_member_spaces)
+      member.should_not be_valid
+      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+    end
+    it "doesn't allow other chars in names" do
+      member = FactoryGirl.build(:invalid_member_badchars)
+      member.should_not be_valid
+      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+    end
+    it "doesn't allow reserved names" do
+      member = FactoryGirl.build(:invalid_member_badname)
+      member.should_not be_valid
+      member.errors[:login_name].should include("name is reserved")
+    end
+  end
+
+  context 'valid login names' do
+    it "allows plain alphanumeric chars in names" do
+      member = FactoryGirl.build(:valid_member_alphanumeric)
+      member.should be_valid
+    end
+    it "allows uppercase chars in names" do
+      member = FactoryGirl.build(:valid_member_uppercase)
+      member.should be_valid
+    end
+    it "allows underscores in names" do
+      member = FactoryGirl.build(:valid_member_underscore)
+      member.should be_valid
     end
   end
 

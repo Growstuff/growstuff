@@ -18,10 +18,6 @@ FactoryGirl.define do
       confirmed_at nil
     end
 
-    factory :long_name_member do
-      login_name 'Marmaduke Blundell-Hollinshead-Blundell-Tolemache-Plantagenet-Whistlebinkie, 3rd Duke of Marmoset'
-    end
-
     # this member has very loose privacy settings
     factory :public_member do
       login_name 'NothingToHide'
@@ -38,6 +34,38 @@ FactoryGirl.define do
 
     factory :admin_member do
       roles { [ FactoryGirl.create(:admin) ] }
+    end
+
+    factory :invalid_member_shortname do
+      login_name 'a'
+    end
+
+    factory :invalid_member_longname do
+      login_name 'MarmadukeBlundellHollinsheadBlundellTolemachePlantagenetWhistlebinkie3rdDukeofMarmoset'
+    end
+
+    factory :invalid_member_spaces do
+      login_name "a b"
+    end
+
+    factory :invalid_member_badchars do
+      login_name 'aa%$'
+    end
+
+    factory :invalid_member_badname do
+      login_name 'admin'
+    end
+
+    factory :valid_member_alphanumeric do
+      login_name 'abc123'
+    end
+
+    factory :valid_member_uppercase do
+      login_name 'ABC123'
+    end
+
+    factory :valid_member_underscore do
+      login_name 'abc_123'
     end
 
   end
