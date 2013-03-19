@@ -34,7 +34,7 @@
         %b
           Planted
           = pluralize(@planting.crop_plantings_count, "time")
-        by Growstuff members
+        by #{Growstuff::Application.config.site_name} members
 
 %h2 Pictures
 .row
