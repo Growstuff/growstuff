@@ -14,7 +14,7 @@ You agree to limit your access to the API in such a way as to prevent excessive 
 
 ## 3. Use of Growstuff Data and Content
 
-You agree to observe the terms of the Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported license under which our Structured Data is made available.  You agree to to observe the copyright and intellectual property rights of Growstuff's members with regard to their Content posted on the Service, including but not limited to posts, comments, images, etc.
+You agree to observe the terms of the [Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US) under which our Structured Data is made available.  You agree to to observe the copyright and intellectual property rights of Growstuff's members with regard to their Content posted on the Service, including but not limited to posts, comments, images, etc.
 
 You agree to respect any privacy settings which pertain to the Structured Data or Content you access via the API.  You agree not to republish any Structured Data or Content with more permissive access than was originally intended by the member who posted it.
 
@@ -36,4 +36,4 @@ We may change our API and Data Use Policy from time to time. A history of change
 
 ## 7. Creative Commons License
 
-This API and Data Use Policy is licensed under a Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License.
+This API and Data Use Policy is licensed under a [Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US).

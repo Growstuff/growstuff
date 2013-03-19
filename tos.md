@@ -149,5 +149,5 @@ To report a violation of this agreement, please email [support@growstuff.org](su
 
 ## 17. Creative Commons
 
-This Terms of Service document is based on one developed by Automattic ([http://wordpress.com/tos/](http://wordpress.com/tos/)) with amendments by Dreamwidth ([http://www.dreamwidth.org/legal/tos](http://www.dreamwidth.org/legal/tos)) and is licensed under a Creative Commons Attribution-ShareAlike 2.5 License.
+This Terms of Service document is based on one developed by Automattic ([http://wordpress.com/tos/](http://wordpress.com/tos/)) with amendments by Dreamwidth ([http://www.dreamwidth.org/legal/tos](http://www.dreamwidth.org/legal/tos)) and is licensed under a [Creative Commons Attribution-ShareAlike 2.5 License](http://creativecommons.org/licenses/by-sa/2.5/).
 

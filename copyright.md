@@ -80,4 +80,5 @@ We also reserve the right to terminate the accounts of those who, in our opinion
 We may change our Copyright Infringement Policy from time to time. A history of changes to this Policy is available via our public source code repository at [https://github.com/Growstuff/policy](https://github.com/Growstuff/policy). We will take reasonable steps to notify you of any substantial changes to this Policy; however, it is your responsibility to check this Policy periodically for changes. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
 ## 6. Creative Commons license
 
-This Terms of Service document is based on one developed by Dreamwidth ([http://www.dreamwidth.org/legal/dmca](http://www.dreamwidth.org/legal/dmca)) and is licensed under a Creative Commons Attribution-ShareAlike 2.5 License.
+This Terms of Service document is based on one developed by Dreamwidth ([http://www.dreamwidth.org/legal/dmca](http://www.dreamwidth.org/legal/dmca)) and is licensed under a [Creative Commons Attribution-ShareAlike 2.5 License](http://creativecommons.org/licenses/by-sa/2.5/).
+
