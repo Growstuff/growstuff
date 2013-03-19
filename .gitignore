@@ -1,0 +1,7 @@
+/log/*
+/db/*.sqlite3
+/tmp/*
+.pt
+.*.sw*
+*~
+*.DS_Store

@@ -1,0 +1,8 @@
+=content_for :title, "What's been planted recently?"
+
+%p Here are the latest things planted by Growstuff members.
+
+- @recent_plantings.each do |p|
+  = render :partial => "plantings/thumbnail", :locals => { :planting => p }
+
+

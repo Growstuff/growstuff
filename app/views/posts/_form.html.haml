@@ -1,0 +1,23 @@
+= form_for @post do |f|
+  - if @post.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
+      %ul
+        - @post.errors.full_messages.each do |msg|
+          %li= msg
+
+
+  = label_tag :post, "Subject"
+  = f.text_field :subject, :class => 'input-block-level'
+  = label_tag :body, "What's going on in your food garden?"
+  = f.text_area :body, :rows => 12, :class => 'input-block-level'
+
+  - if @post.forum || @forum
+    - forum = @post.forum || @forum
+    %p
+      This post will be posted in the forum
+      =link_to forum.name, forum
+    .field
+      = f.hidden_field :forum_id, :value => forum.id
+
+  = f.submit "Post", :class => 'btn'

@@ -1,0 +1,52 @@
+=content_for :title, "#{@planting.crop} in #{@planting.location}"
+
+.row
+  .span6
+    %p
+      %b Planted:
+      = @planting.planted_at ? @planting.planted_at.to_s(:date) : "not specified"
+      - if can? :edit, @planting
+        %small
+          = link_to 'Edit', edit_planting_path(@planting)
+    %p
+      %b Where:
+      =link_to "#{@planting.owner}'s", @planting.owner
+      =link_to @planting.garden, @planting.garden
+      - if @planting.owner.location
+        = "(#{@planting.owner.location})"
+    %p
+      %b Quantity:
+      = @planting.quantity != 0 ? @planting.quantity : "not specified"
+      - if can? :edit, @planting
+        %small
+          = link_to 'Edit', edit_planting_path(@planting)
+  .span6
+    .well
+      %h3
+        = link_to @planting.crop, @planting.crop
+        - if can? :create, Planting
+          = link_to 'Plant this', new_planting_path, :class => 'btn'
+
+      %p
+        %b Scientific name:
+        = @planting.crop_default_scientific_name
+      %p
+        %b
+          Planted
+          = pluralize(@planting.crop_plantings_count, "time")
+        by Growstuff members
+
+%h2 Pictures
+.row
+  - (1..6).each do
+    .span2
+      = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+
+%h2
+  Notes
+
+:markdown
+  #{ @planting.description != "" ? @planting.description : "No description given." }
+
+- if can? :edit, @planting
+  = link_to 'Edit', edit_planting_path(@planting)

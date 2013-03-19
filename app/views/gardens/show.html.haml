@@ -1,0 +1,31 @@
+=content_for :title, "#{@garden.owner}'s #{@garden}"
+
+.row
+  .span3
+    = render :partial => "members/avatar", :locals => { :member => @garden.owner }
+
+    %h4= "#{@garden.owner}'s gardens"
+    %ul
+      - @garden.owner.gardens.each do |othergarden|
+        %li
+          - if @garden == othergarden
+            = @garden
+          - else
+            = link_to "#{othergarden}", garden_path(othergarden)
+
+    - if can? :edit, @garden
+      = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
+      = link_to 'New', new_garden_path, :class => 'btn'
+
+  .span9
+    %div
+      :markdown
+        #{@garden.description}
+
+    - if can? :edit, @garden
+      %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
+
+    %h3 What's planted here?
+    - @garden.plantings.each do |p|
+      = render :partial => "plantings/thumbnail", :locals => { :planting => p }
+

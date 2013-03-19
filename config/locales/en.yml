@@ -1,0 +1,9 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  unauthorized:
+    read:
+      notification: "You must be signed in to view notifications."
+    manage:
+      all: "Not authorized to %{action} %{subject}."

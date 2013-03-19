@@ -1,0 +1,19 @@
+= form_for @forum, :html => { :class => 'form-horizontal' } do |f|
+  - if @forum.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@forum.errors.count, "error")} prohibited this forum from being saved:"
+      %ul
+        - @forum.errors.full_messages.each do |msg|
+          %li= msg
+
+  .control-group
+    = f.label :name, :class => 'control-label'
+    .controls= f.text_field :name, :class => 'input-block-level'
+  .control-group
+    = f.label :description, :class => 'control-label'
+    .controls= f.text_area :description, :rows => 6, :class => 'input-block-level'
+  .control-group
+    = f.label :owner_id, :class => 'control-label'
+    .controls= collection_select(:forum, :owner_id, Member.all, :id, :login_name)
+  .form-actions
+    = f.submit 'Save', :class => 'btn'

@@ -1,0 +1,23 @@
+- howmany ||= 100
+- if posts.length > 0
+  %table.table.table-striped
+    %tr
+      %th Subject
+      %th Posted by
+      %th Posted
+      %th Most recent activity
+      %th Comments
+
+    - posts.recently_active[0..howmany-1].each do |post|
+      %tr
+        %td
+          = link_to strip_tags(post.subject), post
+        %td
+          =link_to post.author, post.author
+        %td
+          = post.created_at.to_s(:date)
+        %td
+          = distance_of_time_in_words(post.recent_activity, Time.zone.now)
+          ago
+        %td
+          = post.comments.count.to_s
