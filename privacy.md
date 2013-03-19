@@ -1,3 +1,5 @@
+# Privacy Policy
+
 We hate legalese, so we've tried to make this policy readable. If you've got any questions, feel free to [ask us](mailto:support@growstuff.org), and we'll do our best to answer.
 
 This privacy statement ("Privacy Policy") covers all websites (such as growstuff.org) owned and operated by Growstuff Pty Ltd ("Growstuff", "we", "us", "our") and all associated services.

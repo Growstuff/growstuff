@@ -1,3 +1,5 @@
+# API and Data Use Policy
+
 This API and Data Use Policy covers all websites (such as http://growstuff.org) owned and operated by Growstuff Pty Ltd ("Growstuff", "we", "us", "our") and all associated services, collectively referred to as the Service.
 
 In particular, this policy covers any access to the Service via any Application Programming Interface, feeds, spidering, scraping, or any other automated or programmatic access to the Structured Data or Content available via the Service (collectively, the "API"). This policy applies to anyone who uses the API ("you", "developer").
