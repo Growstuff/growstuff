@@ -2,7 +2,7 @@
 
 We hate legalese, so we've tried to make our Terms of Service readable. If you've got any questions, feel free to [ask us](mailto:support@growstuff.org), and we'll do our best to answer.
 
-Growstuff Pty Ltd ("we", "us", "our", "Growstuff") present the following terms and conditions, which govern your use of the Growstuff website at [http://growstuff.org](http://growstuff.org), and all content, services and products available at or through the website, which we collectively refer to as "the Service".
+Growstuff Pty Ltd ("we", "us", "our", "Growstuff") present the following terms and conditions, which govern your use of the Growstuff website at [growstuff.org](http://growstuff.org), and all content, services and products available at or through the website, which we collectively refer to as "the Service".
 
 To use the Service, you need to agree to these Terms of Service, along with all other policies we publish (including, but not limited to, Growstuff's Privacy Policy, API and Data Use Policy, Copyright Infringement Policy and Community Guidelines). We refer to this as "the Agreement".
 
