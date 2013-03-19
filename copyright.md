@@ -1,5 +1,7 @@
 # Copyright Infringement Policy
 
+We hate legalese, so we've tried to make this policy readable. If you've got any questions, feel free to [ask us](mailto:support@growstuff.org), and we'll do our best to answer.
+
 This Copyright Infringement Policy covers all websites (such as [growstuff.org](http://growstuff.org)) owned and operated by Growstuff Pty Ltd ("Growstuff", "we", "us", "our") and all associated services, collectively referred to as "the Service".  It describes how you may report a violation of copyright on the Service.
 
 Growstuff respects the intellectual property of others, and we ask our users to do the same. Growstuff members are required by the [Terms of Service](http://growstuff.org/policy/tos) to ensure that they have the legal right to post content to the Service.
