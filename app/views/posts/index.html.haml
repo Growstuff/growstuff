@@ -1,4 +1,4 @@
-= content_for :title, "Recent Growstuff member posts"
+= content_for :title, "Recent #{Growstuff::Application.config.site_name} member posts"
 
 %p= link_to 'Post something', new_post_path, :class => 'btn'
 
