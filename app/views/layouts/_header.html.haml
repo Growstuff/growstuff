@@ -5,7 +5,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.brand(href=root_path) Growstuff (development site)
+      %a.brand(href=root_path)= Growstuff::Application.config.site_name
       .nav-collapse.collapse
         %ul.nav
           %li= link_to "Crops", crops_path

@@ -78,4 +78,8 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
+  Growstuff::Application.configure do
+    config.site_name = "Growstuff"
+  end
+
 end

@@ -1,6 +1,6 @@
 namespace :growstuff do
 
-  desc "Add an admin user to Growstuff, by name"
+  desc "Add an admin user, by name"
   # usage: rake growstuff:admin_user name=skud
 
   task :admin_user => :environment do
