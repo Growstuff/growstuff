@@ -4,7 +4,7 @@ Growstuff respects the intellectual property of others, and we ask our users to 
 
 Growstuff is based in Melbourne, Australia and is not subject to the provisions of the United States Digital Millennium Copyright Act (DMCA).  However, we have established policy and procedures which are similar to those required by the DMCA, as we believe they constitute best practice for web services operating in Australia.
 
-## Notifying us of an infringement
+## 1. Notifying us of an infringement
 
 If you believe that a Growstuff member has infringed your intellectual property rights by posting Content to the service, you may follow these steps to notify us and ask for the removal of the Content.
 
@@ -27,7 +27,7 @@ You must provide the following information:
 * A statement by you that the above information is accurate and that you are the copyright or intellectual property owner or authorized to act on the copyright or intellectual property owner's behalf.
 * A physical signature or digital signature in a recognized industry-standard format such as PGP, of the copyright or intellectual property owner or the person authorized to act on their behalf. Unsigned notifications will not be processed.
 
-## Responding to notifications
+## 2. Responding to notifications
 
 We will respond to copyright infringement notifications within two business days.
 
@@ -46,7 +46,7 @@ The member will have two business days to respond.  They may respond as follows:
 
 When Content is deleted or rendered inaccessible, we will take reasonable efforts to ensure it cannot be accessed via the Service. However, caching or external references may mean that Content remains accessible for some time, including on third-party sites or applications.  Third party sites and applications are not under Growstuff's control. If infringing Content has been removed or rendered inaccessible via the Service but is still available via third-party sites and applications, the copyright or intellectual property holder may contact the operators of those sites/applications to notify them of the infringement.
 
-## Counter-notification and restoration process
+## 3. Counter-notification and restoration process
 
 A counter-notification is a statement that you do not believe your content infringes on another person's rights, or that your use of another person's copyrighted material falls into a protected category under law.
 
@@ -67,7 +67,7 @@ If, after 14 days, we have not been informed that legal proceedings have been in
 
 If you have filed a counter-notification, you may not re-post the allegedly-infringing material until we notify you that the waiting period has expired.
 
-## Repeat offenses
+## 4. Repeat offenses
 
 Members who receive three or more valid copyright infringement notices will have their accounts terminated.
 
@@ -75,6 +75,9 @@ If a counter-notification is filed, or if the member has stated that they do not
 
 We also reserve the right to terminate the accounts of those who, in our opinion, misuse or abuse the copyright infringement notification process against other members.
 
-## Creative Commons license
+## 5. Changes
+
+We may change our Copyright Infringement Policy from time to time. A history of changes to this Policy is available via our public source code repository at [https://github.com/Growstuff/policy](https://github.com/Growstuff/policy). We will take reasonable steps to notify you of any substantial changes to this Policy; however, it is your responsibility to check this Policy periodically for changes. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
+## 6. Creative Commons license
 
 This Terms of Service document is based on one developed by Dreamwidth ([http://www.dreamwidth.org/legal/dmca](http://www.dreamwidth.org/legal/dmca)) and is licensed under a Creative Commons Attribution-ShareAlike 2.5 License.
