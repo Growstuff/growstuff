@@ -16,6 +16,8 @@ group :production, :staging do
   gem 'pg'
 end
 
+gem 'unicorn'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -71,14 +73,10 @@ gem 'passenger'
 gem 'rake', '>= 10.0.0'
 gem 'cape', '~> 1.5.0'
 
-# instead of webrick, use thin, which is recommended for many reasons
-# eg. better on heroku, also doesn't throw spurious asset warnings
-
-gem 'thin'
-
 gem 'diff-lcs'
 
 group :development, :test do
+  gem 'thin'
   gem 'sqlite3'
   gem 'haml-rails'
   gem 'rspec-rails', '~> 2.12.1'
