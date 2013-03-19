@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'bundler', '>=1.1.5'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 gem 'rack', '~>1.4.5'
 gem 'json', '~>1.7.7'
 gem 'haml'
@@ -14,6 +14,8 @@ gem 'cancan'
 
 group :production, :staging do
   gem 'pg'
+  gem 'newrelic_rpm'
+  gem 'unicorn'
 end
 
 # Gems used only for assets and not required
@@ -71,14 +73,10 @@ gem 'passenger'
 gem 'rake', '>= 10.0.0'
 gem 'cape', '~> 1.5.0'
 
-# instead of webrick, use thin, which is recommended for many reasons
-# eg. better on heroku, also doesn't throw spurious asset warnings
-
-gem 'thin'
-
 gem 'diff-lcs'
 
 group :development, :test do
+  gem 'thin'
   gem 'sqlite3'
   gem 'haml-rails'
   gem 'rspec-rails', '~> 2.12.1'

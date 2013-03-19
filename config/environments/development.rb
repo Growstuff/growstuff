@@ -44,4 +44,8 @@ Growstuff::Application.configure do
     :port => 25,
     :domain => "growstuff.org"
   }
+
+  Growstuff::Application.configure do
+    config.site_name = "Growstuff (dev)"
+  end
 end
