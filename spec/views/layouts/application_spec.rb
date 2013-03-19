@@ -9,8 +9,7 @@ describe 'layouts/application.html.haml', :type => "view" do
     end
 
     it 'shows the title' do
-      rendered.should contain 'Growstuff'
-      rendered.should contain 'development site'
+      rendered.should contain Growstuff::Application.config.site_name
     end
 
     it 'should have signup/login links' do
