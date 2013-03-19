@@ -1,0 +1,73 @@
+@import "twitter/bootstrap/bootstrap";
+body { padding-top: 60px; }
+@import "twitter/bootstrap/responsive";
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings-white.png");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+// Note: If you use asset_path() here, your compiled bootstrap_and_overrides.css will not
+//       have the proper paths. So for now we use the absolute path.
+@fontAwesomeEotPath: asset-path("fontawesome-webfont.eot?v=3.0.2");
+@fontAwesomeEotPath_iefix: asset-path("fontawesome-webfont.eot?#iefix&v=3.0.2");
+@fontAwesomeWoffPath: asset-path("fontawesome-webfont.woff?v=3.0.2");
+@fontAwesomeTtfPath: asset-path("fontawesome-webfont.ttf?v=3.0.2");
+
+// Font Awesome
+@import "fontawesome";
+
+// Base colours
+
+@beige: #f3f1ee;
+@brown: #413f3b;
+
+@green:  #5f8e43;
+@blue:   #2f4365;
+@red:    #8e4d43;
+@orange: #b2685c;
+@yellow: #b2935c;
+
+@bodyBackground: @beige;
+@textColor: @brown;
+
+@linkColor: @green;
+
+// Typography (with help from bootswatch.com's "readable" theme)
+@import url('//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic');
+@sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
+@serifFontFamily:       Georgia, "Times New Roman", Times, serif;
+@monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
+
+@baseFontSize:          16px;
+@baseFontFamily:        @serifFontFamily;
+@baseLineHeight:        @baseFontSize * 1.5;
+@altFontFamily:         @sansFontFamily;
+
+@headingsFontFamily:    "Lora", Georgia, "Times New Roman", Times, serif;
+@headingsFontWeight:    bold;    // instead of browser default, bold
+@headingsColor:         inherit; // empty to use BS default, @textColor
+
+// Hero unit
+@heroUnitBackground: darken(@bodyBackground, 10%);
+
+// Nav bar
+@navbarBackground: @brown;
+@navbarBackgroundHighlight: @brown;
+@navbarText: @beige;
+@navbarLinkColor: darken(@beige, 20%);
+@navbarLinkColorHover: @beige;
+@navbarLinkColorActive: @beige;
+@navbarBrandColor: lighten(@green, 20%);
+
+@dropdownBackground: lighten(@beige, 10%);
+@dropdownLinkColor: @brown;
+@dropdownLinkColorHover: @brown;
+@dropdownLinkBackgroundHover: lighten(@green, 50%);
+
+body {
+  padding-bottom: @navbarHeight + 10px;
+}
+ul.inline > li.first {
+  padding-left: 0px;
+}

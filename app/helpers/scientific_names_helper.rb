@@ -1,0 +1,2 @@
+module ScientificNamesHelper
+end

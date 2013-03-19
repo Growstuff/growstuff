@@ -1,0 +1,16 @@
+language: ruby
+script:
+  - bundle exec rake db:migrate --trace
+  - bundle exec rspec spec/
+
+notifications:
+  recipients:
+    - discuss@lists.growstuff.org
+  email:
+    on_success: change
+    on_failure: always
+  irc:
+    channels:
+      - "irc.parrot.org#growstuff"
+    on_success: change
+    on_failure: change

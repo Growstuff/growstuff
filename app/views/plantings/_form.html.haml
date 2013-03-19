@@ -1,0 +1,28 @@
+= form_for(@planting, :html => {:class => "form-horizontal"}) do |f|
+  - if @planting.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@planting.errors.count, "error")} prohibited this planting from being saved:"
+      %ul
+        - @planting.errors.full_messages.each do |msg|
+          %li= msg
+
+  .control-group
+    = f.label 'What did you plant?', :class => 'control-label'
+    .controls= collection_select(:planting, :crop_id, Crop.all, :id, :system_name, :selected => @planting.crop_id || @crop.id)
+  .control-group
+    = f.label 'Where did you plant it?', :class => 'control-label'
+    .controls= collection_select(:planting, :garden_id,
+        Garden.where(:owner_id => current_member), :id, :name, :selected => @planting.garden_id || @garden.id)
+  .control-group
+    = f.label 'When?', :class => 'control-label'
+    .controls= f.date_select :planted_at, options = { :include_blank => true }, html_options = { :class => "span1" }
+  .control-group
+    = f.label 'How many?', :class => 'control-label'
+    .controls
+      = f.number_field :quantity, :class => 'input-small'
+  .control-group
+    = f.label 'Tell us more about it', :class => 'control-label'
+    .controls= f.text_area :description, :rows => 6
+
+    .form-actions
+      = f.submit 'Save', :class => 'btn'

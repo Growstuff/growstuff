@@ -1,0 +1,27 @@
+- content_for :title, @crop.system_name
+
+.container-fluid
+  .row-fluid
+    .span9
+      %h2 Who's growing this?
+      - @crop.plantings.each do |p|
+        = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
+
+    .span3
+      %h4 Scientific names:
+      %ul
+        - @crop.scientific_names.each do |sn|
+          %li= sn.scientific_name
+      %h4 More information:
+      %ul
+        %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+
+      - if can? :edit, @crop or can? :destroy, @crop
+        %p
+          - if can? :edit, @crop
+            = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn' }
+          - if can? :destroy, @crop
+            = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
+      %p
+        =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-large btn-primary'
+

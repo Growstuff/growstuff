@@ -1,0 +1,35 @@
+.well
+  .post
+    .row
+      .span1
+        = render :partial => "members/avatar", :locals => { :member => post.author }
+      .span7
+        - if defined?(subject)
+          %h3= link_to strip_tags(post.subject), post
+
+        .post-meta
+          %p
+            Posted by
+            = link_to post.author.login_name, member_path(post.author)
+            - if post.forum
+              in
+              = link_to post.forum, post.forum
+            at
+            = post.created_at
+
+        .post-body
+          :markdown
+            #{ strip_tags post.body }
+
+        - unless defined?(hide_comments)
+          .post-comments
+            %ul.inline
+              %li.first= link_to pluralize(post.comments.count, "comment"),
+                post_path(post, :anchor => 'comments')
+              -if can? :create, Comment
+                %li= link_to "Reply", new_comment_path(:post_id => post.id)
+              %li= link_to "Permalink", post
+              -if can? :edit, post
+                %li= link_to "Edit", edit_post_path(post)
+
+

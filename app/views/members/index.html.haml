@@ -1,0 +1,11 @@
+= content_for :title, "Growstuff members"
+
+%p
+  = "Displaying #{@members.length} members"
+
+%ul.thumbnails
+  - @members.each do |m|
+    %li.span2
+      .thumbnail(style="height: 190px")
+        = render :partial => "members/avatar", :locals => { :member => m }
+        = link_to m.to_s, m

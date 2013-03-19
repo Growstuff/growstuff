@@ -1,0 +1,24 @@
+- content_for :title, "Sign in"
+
+= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-horizontal"}) do |f|
+  = devise_error_messages!
+
+  .control-group
+    = f.label :login, :class => "control-label"
+    .controls= f.text_field :login
+
+  .control-group
+    = f.label :password, :class => "control-label"
+    .controls= f.password_field :password
+
+  - if devise_mapping.rememberable?
+    .control-group
+      .controls
+        = f.check_box :remember_me
+        Remember me
+
+  .form-actions
+    = f.submit "Sign in", :class => 'btn'
+
+
+= render "devise/shared/links"
