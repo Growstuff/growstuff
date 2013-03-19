@@ -18,7 +18,7 @@ If you want to participate in the Growstuff community (which includes our websit
 
 - The privacy of our community members is very important.  You may not disclose any member's personal details (including names by which they are known outside of Growstuff, their location, employment details, family details, outside-of-Growstuff contact details, or any other identifying or personal information) without their explicit consent.
 
-- Although we let you choose your own name on our site, and don't insist that you use the same name on our website as you have on the cards in your wallet, you're not allowed to create or use a pseudonymous account to mislead people, evade accountability, or otherwise cause trouble.  (This is commonly known as a "sockpuppet" account.) 
+- Although we let you choose your own name on our site, and don't insist that you use the same name on our website as you have on the cards in your wallet, you're not allowed to create or use a pseudonymous account to mislead people, evade accountability, or otherwise cause trouble.  (This is commonly known as a "sockpuppet" account.)
 
 If you experience or witness behaviour that goes against these community guidelines, you can report it to support@growstuff.org.  We will listen carefully and take your report seriously.  Once we've looked into the situation, we may take any action we deem necessary.  For instance, we may issue a warning, or in serious cases we may suspend or ban people from our community.  If this happens, we will always tell the person affected the reason for our action, with reference to our policy documents.
 
