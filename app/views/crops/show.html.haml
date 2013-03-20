@@ -19,9 +19,9 @@
       - if can? :edit, @crop or can? :destroy, @crop
         %p
           - if can? :edit, @crop
-            = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn' }
+            = link_to 'Edit', edit_crop_path(@crop), { :class => 'btn btn-mini' }
           - if can? :destroy, @crop
-            = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
+            = link_to 'Destroy', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
       %p
-        =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-large btn-primary'
+        =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
 

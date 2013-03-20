@@ -15,9 +15,9 @@
       %td= garden.owner
       %td= garden.slug
       %td= link_to 'Show', garden
-      %td= link_to 'Edit', edit_garden_path(garden)
-      %td= link_to 'Destroy', garden, method: :delete, data: { confirm: 'Are you sure?' }
+      %td= link_to 'Edit', edit_garden_path(garden), :class => 'btn btn-mini'
+      %td= link_to 'Destroy', garden, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
 %br
 
-= link_to 'New Garden', new_garden_path
+= link_to 'New Garden', new_garden_path, :class => 'btn btn-primary'

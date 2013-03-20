@@ -15,12 +15,12 @@
       %td= link_to 'Show', scientific_name
       %td
         - if can? :edit, scientific_name
-          = link_to 'Edit', edit_scientific_name_path(scientific_name)
+          = link_to 'Edit', edit_scientific_name_path(scientific_name), :class => 'btn btn-mini'
       %td
         - if can? :destroy, scientific_name
-          = link_to 'Destroy', scientific_name, method: :delete, data: { confirm: 'Are you sure?' }
+          = link_to 'Destroy', scientific_name, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
 %br
 
 - if can? :create, ScientificName
-  = link_to 'New Scientific name', new_scientific_name_path
+  = link_to 'New Scientific name', new_scientific_name_path, :class => 'btn btn-primary'

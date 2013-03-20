@@ -5,8 +5,8 @@
   %p
     = pluralize(forum.posts.count, "post")
     |
-    =link_to "Post", new_post_path(:forum_id => forum.id)
-    |
     =link_to "Visit forum", forum
+    |
+    =link_to "Post", new_post_path(:forum_id => forum.id), :class => 'btn btn-mini'
   =render :partial => "posts/summary", :locals => { :posts => forum.posts, :howmany => 4 }
 

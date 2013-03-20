@@ -14,16 +14,16 @@
             = link_to "#{othergarden}", garden_path(othergarden)
 
     - if can? :create, @garden
-      = link_to 'New Garden', new_garden_path, :class => 'btn btn-mini'
+      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-mini'
 
   .span9
     %div
       :markdown
         #{@garden.description}
     - if can? :edit, @garden
-      = link_to 'Edit Garden', edit_garden_path(@garden), :class => 'btn btn-mini'
+      = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-mini'
     - if can? :destroy, @garden
-      = link_to 'Delete Garden', @garden, method: :delete, |
+      = link_to 'Delete garden', @garden, method: :delete, |
         data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' }, :class => 'btn btn-mini'
 
     %h3

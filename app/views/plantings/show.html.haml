@@ -7,7 +7,7 @@
       = @planting.planted_at ? @planting.planted_at.to_s(:date) : "not specified"
       - if can? :edit, @planting
         %small
-          = link_to 'Edit', edit_planting_path(@planting)
+          = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
     %p
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
@@ -19,13 +19,13 @@
       = @planting.quantity != 0 ? @planting.quantity : "not specified"
       - if can? :edit, @planting
         %small
-          = link_to 'Edit', edit_planting_path(@planting)
+          = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
   .span6
     .well
       %h3
         = link_to @planting.crop, @planting.crop
         - if can? :create, Planting
-          = link_to 'Plant this', new_planting_path, :class => 'btn'
+          = link_to 'Plant another', new_planting_path, :class => 'btn btn-primary'
 
       %p
         %b Scientific name:
@@ -49,4 +49,4 @@
   #{ @planting.description != "" ? @planting.description : "No description given." }
 
 - if can? :edit, @planting
-  = link_to 'Edit', edit_planting_path(@planting)
+  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'

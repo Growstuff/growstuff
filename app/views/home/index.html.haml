@@ -11,13 +11,13 @@
         %b Your profile:
         =link_to current_member, current_member
         %small
-          = link_to "Edit", edit_registration_path(current_member)
+          = link_to "Edit", edit_registration_path(current_member), :class => 'btn btn-mini'
 
       %p
         %b Your location:
         = current_member.location ? current_member.location : 'Not set'
         %small
-          = link_to "Edit", edit_registration_path(current_member)
+          = link_to "Edit", edit_registration_path(current_member), :class => 'btn btn-mini'
 
       %ul.inline
         %li.first
@@ -26,7 +26,7 @@
           %li= link_to g.name, g
         - if can? :create, Garden
           %li
-            %small= link_to 'Add a garden', new_garden_path
+            %small= link_to 'Add a garden', new_garden_path, :class => 'btn btn-mini'
 
     .span4
       - if current_member.has_role?(:admin)

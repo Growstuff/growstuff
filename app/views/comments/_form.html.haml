@@ -12,7 +12,7 @@
   .field
     = f.text_area :body, :rows => 6, :class => 'input-block-level'
   .actions
-    = f.submit 'Post comment', :class => 'btn'
+    = f.submit 'Post comment', :class => 'btn btn-primary'
   - if defined?(@post)
     .field
       = f.hidden_field :post_id, :value => @post.id
