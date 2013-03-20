@@ -41,4 +41,9 @@ describe "posts/new" do
     end
   end
 
+  it 'shows markdown help' do
+    render
+    rendered.should contain 'Markdown'
+  end
+
 end
