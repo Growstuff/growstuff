@@ -1,8 +1,10 @@
 = content_for :title, "Recent #{Growstuff::Application.config.site_name} member posts"
 
-%p= link_to 'Post something', new_post_path, :class => 'btn'
+%p= link_to 'Post something', new_post_path, :class => 'btn btn-primary'
 
-%p= "Displaying #{@posts.length} posts"
+%div.pagination
+  = page_entries_info @posts, :model => "posts"
+  = will_paginate @posts
 
 - @posts.each do |post|
   = render :partial => "single", :locals => { :post => post, :subject => true }
