@@ -57,6 +57,9 @@ gem 'debugger'
 # Markdown formatting for updates etc
 gem 'bluecloth'
 
+# Pagination
+gem 'will_paginate', '~> 3.0'
+
 # user signup/login/etc
 gem 'devise'
 
