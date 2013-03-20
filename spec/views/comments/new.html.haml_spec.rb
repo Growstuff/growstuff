@@ -14,4 +14,10 @@ describe "comments/new" do
       assert_select "textarea#comment_body", :name => "comment[body]"
     end
   end
+
+  it 'shows markdown help' do
+    render
+    rendered.should contain 'Markdown'
+  end
+
 end
