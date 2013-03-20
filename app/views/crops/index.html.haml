@@ -1,8 +1,9 @@
 - content_for :title, "Crops"
 - c = 0
 
-%p
-  = "Displaying #{@crops.length} crops"
+%div.pagination
+  = page_entries_info @crops, :model => "crops"
+  = will_paginate @crops
 
 %ul.thumbnails
   .row
