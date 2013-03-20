@@ -4,7 +4,7 @@ describe "posts/new" do
   before(:each) do
     @author = FactoryGirl.create(:member)
     assign(:post, FactoryGirl.create(:post, :author => @author))
-    assign(:forum, Forum.new)
+# assign(:forum, Forum.new)
     sign_in @author
     controller.stub(:current_user) { @author }
   end
@@ -18,11 +18,18 @@ describe "posts/new" do
   end
 
   it 'no hidden forum field' do
+    render
     assert_select "input#post_forum_id[type=hidden]", false
   end
 
   it 'no forum mentioned' do
+    render
     rendered.should_not contain "This post will be posted in the forum"
+  end
+
+  it "asks what's going on in your garden" do
+    render
+    rendered.should contain "What's going on in your food garden?"
   end
 
   context "forum specified" do
@@ -38,6 +45,12 @@ describe "posts/new" do
 
     it 'tells the user what forum it will be posted in' do
       rendered.should contain "This post will be posted in the forum #{@forum.name}"
+    end
+
+    it "asks what's going on generally" do
+      render
+      rendered.should_not contain "What's going on in your food garden?"
+      rendered.should contain "What's up?"
     end
   end
 
