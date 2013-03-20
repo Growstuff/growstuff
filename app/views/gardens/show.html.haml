@@ -13,19 +13,24 @@
           - else
             = link_to "#{othergarden}", garden_path(othergarden)
 
-    - if can? :edit, @garden
-      = link_to 'Edit', edit_garden_path(@garden), :class => 'btn'
-      = link_to 'New', new_garden_path, :class => 'btn'
+    - if can? :create, @garden
+      = link_to 'New Garden', new_garden_path, :class => 'btn btn-mini'
 
   .span9
     %div
       :markdown
         #{@garden.description}
-
     - if can? :edit, @garden
-      %p= link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-large btn-primary'
+      = link_to 'Edit Garden', edit_garden_path(@garden), :class => 'btn btn-mini'
+    - if can? :destroy, @garden
+      = link_to 'Delete Garden', @garden, method: :delete, |
+        data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' }, :class => 'btn btn-mini'
 
-    %h3 What's planted here?
+    %h3
+      What's planted here?
+      - if can? :edit, @garden
+        = link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-primary'
+
     - @garden.plantings.each do |p|
       = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
