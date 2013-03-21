@@ -15,7 +15,7 @@ describe "notifications/show" do
   end
 
   it "includes a delete button" do
-    assert_select "a", "Delete notification"
+    assert_select "a", "Delete"
   end
 
 end

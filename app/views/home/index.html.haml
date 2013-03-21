@@ -26,7 +26,7 @@
           %li= link_to g.name, g
         - if can? :create, Garden
           %li
-            %small= link_to 'Add a garden', new_garden_path, :class => 'btn btn-mini'
+            %small= link_to 'Add', new_garden_path, :class => 'btn btn-mini'
 
     .span4
       - if current_member.has_role?(:admin)
