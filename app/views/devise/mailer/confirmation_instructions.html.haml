@@ -1,9 +1,41 @@
+- site_name = Growstuff::Application.config.site_name
 %p
-  Welcome
-  = @resource.email
+  Welcome,
+  = @resource.login_name
   !
 
-%p You can confirm your account email through the link below:
+%p
+  Your account on #{site_name} has been created.  You just need to confirm
+  your email address through the link below:
 
 %p
   = link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)
+
+%p
+  Once you're confirmed, you can sign in with your login name
+  (#{@resource.login_name}) or email address (#{@resource.email}),
+  and the password you provided when you signed up. Note that your
+  login name and password are case sensitive.
+
+%p
+  We're excited to have you as a member, and hope you'll enjoy
+  what #{site_name} has to offer. Take a look around the site,
+  =link_to 'plant some things', url_for(:controller => '/crops', :only_path => false)
+  , and feel free to drop in on the
+  =link_to 'forums', url_for(:controller => '/forums', :only_path => false)
+  if you have any questions or feedback.
+
+%p
+  We'd also appreciate it if you'd read our
+  =link_to 'Community Guidelines', url_for(:controller => '/policy', :action => 'community', :only_path => false)
+  , and make sure you follow them. We want #{site_name} to be a
+  friendly, welcoming environment for everyone, and we hope you'll
+  help us keep it that way.
+
+%p
+  Looking forward to seeing you!
+
+%p
+  The #{site_name} team.
+  %br/
+  =link_to root_url, root_url

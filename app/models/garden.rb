@@ -4,7 +4,7 @@ class Garden < ActiveRecord::Base
 
   attr_accessible :name, :slug, :owner_id, :description
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
-  has_many :plantings, :order => 'created_at DESC'
+  has_many :plantings, :order => 'created_at DESC', :dependent => :destroy
   has_many :crops, :through => :plantings
 
   default_scope order("lower(name) asc")

@@ -71,4 +71,14 @@ describe Garden do
     end
   end
 
+  it "destroys plantings when deleted" do
+    @garden = FactoryGirl.create(:garden, :owner => @owner)
+    @planting1 = FactoryGirl.create(:planting, :garden => @garden)
+    @planting2 = FactoryGirl.create(:planting, :garden => @garden)
+    @garden.plantings.length.should == 2
+    all = Planting.count
+    @garden.destroy
+    Planting.count.should == all - 2
+  end
+
 end
