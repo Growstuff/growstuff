@@ -30,6 +30,6 @@
                 %li= link_to "Reply", new_comment_path(:post_id => post.id)
               %li= link_to "Permalink", post
               -if can? :edit, post
-                %li= link_to "Edit", edit_post_path(post), :class => 'btn btn-mini'
+                %li= link_to "Edit", edit_post_path(post)
 
 

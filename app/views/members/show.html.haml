@@ -28,7 +28,7 @@
             - first_garden = false
             = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
         - if current_member == @member
-          %li= link_to 'New Garden', '#garden_new', 'data-toggle' => 'tab', :class => 'btn btn-primary'
+          %li= link_to 'New Garden', '#garden_new', 'data-toggle' => 'tab'
       .tab-content
         - first_garden = true
         - @member.gardens.each do |g|
