@@ -1,4 +1,4 @@
-= content_for :title, @forum.name ? "Post in #{@forum.name}" : "Post something"
+= content_for :title, @forum ? "Post in #{@forum.name}" : "Post something"
 
 =render 'form'
 

@@ -11,6 +11,8 @@
 
   .field
     = f.text_area :body, :rows => 6, :class => 'input-block-level'
+  %span.help-block
+    = render :partial => "shared/markdown_help"
   .actions
     = f.submit 'Post comment', :class => 'btn'
   - if defined?(@post)
