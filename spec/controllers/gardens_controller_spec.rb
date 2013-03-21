@@ -131,7 +131,7 @@ describe GardensController do
     it "redirects to the gardens list" do
       garden = Garden.create! valid_attributes
       delete :destroy, {:id => garden.to_param}
-      response.should redirect_to(gardens_url)
+      response.should redirect_to(garden.owner)
     end
   end
 

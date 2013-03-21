@@ -10,6 +10,7 @@ class Member < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
+  default_scope order("lower(login_name) asc")
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

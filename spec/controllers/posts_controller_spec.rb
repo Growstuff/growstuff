@@ -48,7 +48,7 @@ describe PostsController do
 
     it "doesn't die if no forum specified" do
       get :new, {}
-      assigns(:forum).should be_a_new(Forum)
+      assigns(:forum).should eq nil
     end
   end
 
