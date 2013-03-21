@@ -49,7 +49,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.1)
+    coffee-script-source (1.6.2)
     columnize (0.3.6)
     commonjs (0.2.6)
     compass (0.12.2)
@@ -122,8 +122,8 @@ GEM
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     newrelic_rpm (3.5.8.72)
-    nokogiri (1.5.6)
     nokogiri (1.5.7)
+    nokogiri (1.5.8)
     orm_adapter (0.4.0)
     passenger (3.0.19)
       daemon_controller (>= 1.0.0)
@@ -212,6 +212,7 @@ GEM
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
+    will_paginate (3.0.4)
 
 PLATFORMS
   ruby
@@ -254,3 +255,4 @@ DEPENDENCIES
   unicorn
   watchr
   webrat
+  will_paginate (~> 3.0)

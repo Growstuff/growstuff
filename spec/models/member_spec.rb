@@ -123,6 +123,14 @@ describe 'member' do
     end
   end
 
+  context 'ordering' do
+    it "should be sorted by name" do
+      z = FactoryGirl.create(:member, :login_name => "Zoe")
+      a = FactoryGirl.create(:member, :login_name => "Anna")
+      Member.first.should == a
+    end
+  end
+
   context 'invalid login names' do
     it "doesn't allow short names" do
       member = FactoryGirl.build(:invalid_member_shortname)

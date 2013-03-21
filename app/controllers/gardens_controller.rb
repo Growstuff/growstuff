@@ -78,7 +78,7 @@ class GardensController < ApplicationController
     @garden.destroy
 
     respond_to do |format|
-      format.html { redirect_to gardens_url }
+      format.html { redirect_to @garden.owner, notice: 'Garden was successfully deleted.' }
       format.json { head :no_content }
     end
   end
