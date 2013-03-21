@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /posts.json
 
   def index
-    @posts = Post.all
+    @posts = Post.paginate(:page => params[:page])
     @recent_posts = Post.limit(100).order('created_at desc').all
 
     respond_to do |format|

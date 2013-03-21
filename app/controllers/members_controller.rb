@@ -1,7 +1,7 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
   def index
-    @members = Member.confirmed
+    @members = Member.confirmed.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.haml
