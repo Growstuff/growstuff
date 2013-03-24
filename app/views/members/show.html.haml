@@ -18,6 +18,9 @@
       %p
         Email:
         = mail_to @member.email
+    - if current_member == @member
+      %p
+        = link_to 'Edit Settings', "edit", :class => 'btn btn-mini'
 
   .span9
     .tabbable

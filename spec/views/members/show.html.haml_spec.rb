@@ -72,6 +72,10 @@ describe "members/show" do
     it "contains a 'New Garden' link" do
       assert_select "a[href=#garden_new]", :text => "New Garden"
     end
+
+    it "contains an edit settings button" do
+      rendered.should contain "Edit Settings"
+    end
   end
 
   context "signed in as different member" do
@@ -89,6 +93,10 @@ describe "members/show" do
     it "does not contain a 'New Garden' tab" do
       assert_select "#garden_new", false
     end  
+    
+    it "contains no edit settings button" do
+      rendered.should_not contain "Edit Settings"
+    end
   end
 
   context "public member" do
