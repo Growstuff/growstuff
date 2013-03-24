@@ -18,7 +18,7 @@ describe "scientific_names/index" do
   it "doesn't show edit/destroy links" do
     render
     rendered.should_not contain "Edit"
-    rendered.should_not contain "Destroy"
+    rendered.should_not contain "Delete"
   end
 
   context "logged in and crop wrangler" do
@@ -31,7 +31,7 @@ describe "scientific_names/index" do
     it "shows edit/destroy links" do
       render
       rendered.should contain "Edit"
-      rendered.should contain "Destroy"
+      rendered.should contain "Delete"
     end
   end
 end
