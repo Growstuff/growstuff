@@ -6,6 +6,10 @@
   .span3
     = render :partial => "members/avatar", :locals => { :member => @member }
 
+    -if current_member && current_member != @member
+      %p
+        =link_to 'Send Message', new_notification_path(:sender_id => current_member.id, :recipient_id => @member.id), :class => 'btn btn-primary'
+
     %p
       = "Member since: #{@member.created_at.to_s(:date)}"
     - if @member.location.to_s != ''

@@ -1,0 +1,23 @@
+= form_for @notification do |f|
+  - if @notification.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this message from being sent:"
+      %ul
+        - @notification.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.hidden_field :recipient_id, :value => @recipient.id
+    = f.hidden_field :sender_id, :value => @sender.id
+
+  %p
+    = label_tag "You are sending a private message to: "
+    = link_to @recipient, @recipient
+  = label_tag :notification, "Subject"
+  = f.text_field :subject, :class => 'input-block-level'
+  = label_tag :body, "Type your message here"
+  = f.text_area :body, :rows => 12, :class => 'input-block-level'
+  %span.help-block
+    = render :partial => "shared/markdown_help"
+
+  = f.submit "Send", :class => 'btn btn-primary'

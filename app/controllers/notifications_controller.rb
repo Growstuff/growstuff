@@ -24,6 +24,20 @@ class NotificationsController < ApplicationController
     end
   end
 
+  # GET /notifications/new
+  # GET /notifications/new.json
+
+  def new
+    @notification = Notification.new
+    @recipient = Member.find_by_id(params[:recipient_id])
+    @sender = Member.find_by_id(params[:sender_id])
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @notification }
+    end
+  end
+
   # DELETE /notifications/1
   # DELETE /notifications/1.json
   def destroy
@@ -33,6 +47,23 @@ class NotificationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to notifications_url }
       format.json { head :no_content }
+    end
+  end
+
+  # POST /notifications
+  # POST /notifications.json
+  def create
+    @notification = Notification.new(params[:notification])
+    @recipient = Member.find_by_id(params[:notification][:recipient_id])
+    
+    respond_to do |format|
+      if @notification.save
+        format.html { redirect_to @recipient, notice: 'Message was successfully sent.' }
+        format.json { render json: @notification, status: :created, location: @notification }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @notification.errors, status: :unprocessable_entity }
+      end
     end
   end
 end
