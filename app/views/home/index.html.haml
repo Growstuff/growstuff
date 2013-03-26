@@ -1,6 +1,6 @@
 - if member_signed_in?
 
-  %h1= "Welcome, #{current_member.login_name}"
+  %h1= "Welcome, #{current_member.full_name || current_member.login_name}"
 
   .row
     .visible-desktop.visible-tablet

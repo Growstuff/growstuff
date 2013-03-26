@@ -29,7 +29,7 @@ describe 'home/index.html.haml', :type => "view" do
 
     it 'should say welcome' do
       render
-      rendered.should contain "Welcome, #{@member.login_name}"
+      rendered.should contain "Welcome, #{@member.full_name}"
     end
 
     it 'mentions location' do
