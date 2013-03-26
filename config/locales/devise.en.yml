@@ -58,6 +58,6 @@ en:
       confirmation_instructions:
         subject: 'Welcome to Growstuff. Please confirm your account.'
       reset_password_instructions:
-        subject: 'Reset password instructions'
+        subject: 'Growstuff password reset instructions'
       unlock_instructions:
-        subject: 'Unlock Instructions'
+        subject: 'Unlock your Growstuff account'
