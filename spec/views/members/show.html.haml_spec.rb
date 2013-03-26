@@ -21,6 +21,10 @@ describe "members/show" do
     it "contains a gravatar icon" do
       assert_select "img", :src => /gravatar\.com\/avatar/
     end
+
+    it "doesn't show the email address" do
+      rendered.should_not contain @member.email
+    end
   end
 
   context "gardens and plantings" do
@@ -33,8 +37,13 @@ describe "members/show" do
       assert_select "li.active>a", :text => "Garden"
     end
 
+    it "shows the other garden" do
+      assert_select "li>a", :text => @garden.name
+    end
+
+
     it 'shows the garden description' do
-      rendered.should contain "totally cool garden"
+      rendered.should contain "This is a totally cool garden"
     end
 
     it 'renders markdown in the garden description' do
@@ -49,17 +58,13 @@ describe "members/show" do
       rendered.should_not contain "Note: these are a random selection"
     end
 
-    it "doesn't show the email address" do
-      rendered.should_not contain @member.email
-    end
-
     it "does not contain a 'New Garden' link" do
       assert_select "a[href=#garden_new]", false
     end
 
     it "does not contain a 'New Garden' tab" do
       assert_select "#garden_new", false
-    end        
+    end
   end
 
   context "signed in member" do
@@ -73,8 +78,8 @@ describe "members/show" do
       assert_select "a[href=#garden_new]", :text => "New Garden"
     end
 
-    it "contains an edit settings button" do
-      rendered.should contain "Edit Settings"
+    it "contains an edit profile button" do
+      rendered.should contain "Edit Profile"
     end
   end
 
@@ -89,7 +94,7 @@ describe "members/show" do
     it "does not contain a 'New Garden' link" do
       assert_select "a[href=#garden_new]", false
     end
-    
+
     it "does not contain a 'New Garden' tab" do
       assert_select "#garden_new", false
     end  
@@ -139,32 +144,18 @@ describe "members/show" do
     end
   end
 
-  context "no full name" do
-    before (:each) do
-      @member = FactoryGirl.create(:member, :full_name => nil)
-      render
-    end
-    it "doesn't show the full name" do
-      rendered.should_not contain "Name:"
-    end
-  end
-
-  context "has full name" do
-    before (:each) do
-      render
-    end
-    it "shows the member's full name" do
-      rendered.should contain "Fake McNamerson"
-    end
-  end
-
   context "no about me" do
     before (:each)  do
-      @member = FactoryGirl.create(:member, :about_me => nil)
+      @member = FactoryGirl.create(:member,
+        :about_me => nil,
+        :gardening_since => nil,
+        :wish_i_could_grow => nil,
+        :gardening_clothes => nil
+      )
       render
     end
     it "doesn't show the About: on the profile" do
-      rendered.should_not contain "About me:"
+      rendered.should_not contain "About"
     end
   end
 
@@ -173,7 +164,7 @@ describe "members/show" do
       render
     end
     it "shows the About section on the profile" do
-      rendered.should contain "About me:"
+      rendered.should contain "About"
     end
   end
 

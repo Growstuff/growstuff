@@ -3,56 +3,53 @@
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-horizontal' }) do |f|
   = devise_error_messages!
 
-  %h2 Profile details
+  %h2 Email settings
 
   .control-group
-    =f.label :location, 'Your location', :class => 'control-label'
+    = f.label :email, :class => 'control-label'
     .controls
-      =f.text_field :location
-      %span.help-inline Be as detailed or vague as you like.
+      = f.email_field :email, :class => 'input-block-level'
+      %span.help-inline If you change your email address you will have to reconfirm
 
   .control-group
     .controls
       = f.check_box :show_email
       Show email publicly on your profile page
 
-  %h2 About you
+  %h2 Profile details
+
   %p
     %span.help-block This section is all optional. Tell us as much or as little as you like.
 
   .control-group
-    =f.label :full_name, 'Your name', :class => 'control-label'
+    =f.label :location, 'Your location', :class => 'control-label'
     .controls
-      =f.text_field :full_name
-      %span.help-inline This doesn't have to be your legal name
+      =f.text_field :location, :class => 'input-block-level'
 
   .control-group
-    =f.label :about_me, 'Tell us about yourself!', :class => 'control-label'
+    =f.label :full_name, 'Full name', :class => 'control-label'
     .controls
-      =f.text_area :about_me, :rows => 8
+      =f.text_field :full_name, :class => 'input-block-level'
 
   .control-group
-    =f.label :gardening_since, "How long have you been gardening?", :class => 'control-label'
+    =f.label :gardening_since, "I've been gardening since...", :class => 'control-label'
     .controls
-      =f.text_field :gardening_since
+      =f.text_field :gardening_since, :class => 'input-block-level'
 
   .control-group
-    =f.label :wish_i_could_grow, "What do you wish you could grow?", :class => 'control-label'
+    =f.label :wish_i_could_grow, "I wish you could grow...", :class => 'control-label'
     .controls
-      =f.text_field :wish_i_could_grow
+      =f.text_field :wish_i_could_grow, :class => 'input-block-level'
 
   .control-group
-    =f.label :gardening_clothes, "What do you wear while gardening?", :class => 'control-label'
+    =f.label :gardening_clothes, "When I'm gardening I wear...", :class => 'control-label'
     .controls
-      =f.text_field :gardening_clothes
-
-  %h2 Email address
+      =f.text_field :gardening_clothes, :class => 'input-block-level'
 
   .control-group
-    = f.label :email, :class => 'control-label'
+    =f.label :about_me, 'More about you:', :class => 'control-label'
     .controls
-      = f.email_field :email
-      %span.help-inline If you change your email address you will have to reconfirm
+      =f.text_area :about_me, :rows => 8, :class => 'input-block-level'
 
   %h2 Change password
   %p
