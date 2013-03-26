@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130222060730) do
+ActiveRecord::Schema.define(:version => 20130326092227) do
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :null => false
@@ -106,10 +106,19 @@ ActiveRecord::Schema.define(:version => 20130222060730) do
     t.datetime "updated_at",                      :null => false
   end
 
+  create_table "payments", :force => true do |t|
+    t.integer  "payer_id"
+    t.decimal  "amount"
+    t.date     "paid_period_begins"
+    t.date     "paid_period_ends"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "plantings", :force => true do |t|
     t.integer  "garden_id",   :null => false
     t.integer  "crop_id",     :null => false
-    t.datetime "planted_at"
+    t.date     "planted_at"
     t.integer  "quantity"
     t.text     "description"
     t.datetime "created_at",  :null => false

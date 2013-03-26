@@ -16,7 +16,7 @@ describe "plantings/index" do
         :garden => @garden,
         :crop => @maize,
         :description => '',
-        :planted_at => '2013-01-13 01:25:34'
+        :planted_at => Time.local(2013, 1, 13)
       )
     ])
     render
