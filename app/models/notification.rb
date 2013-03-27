@@ -16,7 +16,9 @@ class Notification < ActiveRecord::Base
   end
 
   def send_email
-    Notifier.notify(self).deliver
+    if self.recipient.send_notification_email
+      Notifier.notify(self).deliver
+    end
   end
 
 end

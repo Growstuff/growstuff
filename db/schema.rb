@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326092227) do
+ActiveRecord::Schema.define(:version => 20130327120024) do
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :null => false
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20130326092227) do
 
   create_table "gardens", :force => true do |t|
     t.string   "name",        :null => false
-    t.integer  "owner_id"
+    t.integer  "owner_id",    :null => false
     t.string   "slug",        :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -56,12 +56,12 @@ ActiveRecord::Schema.define(:version => 20130326092227) do
   add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
 
   create_table "members", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                   :default => "",   :null => false
+    t.string   "encrypted_password",      :default => "",   :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",           :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -70,11 +70,11 @@ ActiveRecord::Schema.define(:version => 20130326092227) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",        :default => 0
+    t.integer  "failed_attempts",         :default => 0
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.string   "login_name"
     t.string   "slug"
     t.boolean  "tos_agreement"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(:version => 20130326092227) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "send_notification_email", :default => true
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
@@ -97,22 +98,14 @@ ActiveRecord::Schema.define(:version => 20130326092227) do
 
   create_table "notifications", :force => true do |t|
     t.integer  "sender_id"
-    t.integer  "recipient_id",                    :null => false
+    t.integer  "recipient_id",                         :null => false
     t.string   "subject"
     t.text     "body"
-    t.boolean  "read",         :default => false
+    t.boolean  "read",              :default => false
+    t.integer  "notification_type"
     t.integer  "post_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-  end
-
-  create_table "payments", :force => true do |t|
-    t.integer  "payer_id"
-    t.decimal  "amount"
-    t.date     "paid_period_begins"
-    t.date     "paid_period_ends"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   create_table "plantings", :force => true do |t|
