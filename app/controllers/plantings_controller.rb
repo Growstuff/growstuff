@@ -29,6 +29,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/new.json
   def new
     @planting = Planting.new
+    @planting.planted_at = Date.today
 
     # using find_by_id here because it returns nil, unlike find
     @crop     = Crop.find_by_id(params[:crop_id])     || Crop.new
