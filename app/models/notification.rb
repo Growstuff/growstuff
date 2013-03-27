@@ -9,8 +9,14 @@ class Notification < ActiveRecord::Base
   default_scope order('created_at DESC')
   scope :unread, where(:read => false)
 
+  after_create :send_email
+
   def self.unread_count
     self.unread.count
+  end
+
+  def send_email
+    Notifier.notify(self).deliver
   end
 
 end

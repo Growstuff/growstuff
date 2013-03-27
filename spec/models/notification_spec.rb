@@ -31,4 +31,15 @@ describe Notification do
     @who.notifications.unread_count.should eq 2
   end
 
+  it "sends email if asked" do
+    @notification2 = FactoryGirl.create(:notification)
+    @notification2.send_email
+    ActionMailer::Base.deliveries.last.to.should == [@notification2.recipient.email]
+  end
+
+  it "sends email on creation" do
+    @notification2 = FactoryGirl.create(:notification)
+    ActionMailer::Base.deliveries.last.to.should == [@notification2.recipient.email]
+  end
+
 end
