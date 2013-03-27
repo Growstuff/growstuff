@@ -82,5 +82,7 @@ Growstuff::Application.configure do
   config.analytics_code = ''
 	config.email_from_address = "noreply@staging.growstuff.org"
 	config.support_address = "support@growstuff.org"
+  config.media_address = "media@growstuff.org"
+  config.info_address = "info@growstuff.org"
 
 end

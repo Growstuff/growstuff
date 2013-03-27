@@ -1,5 +1,5 @@
 class Notifier < ActionMailer::Base
-  default from: "Growstuff <noreply@growstuff.org>"
+  default from: "#{site_name} <#{email_from_address}>"
 
   def notify(notification)
     @notification = notification
