@@ -31,6 +31,8 @@ GEM
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     bluecloth (2.2.0)
+    bootstrap-datepicker-rails (1.0.0)
+      railties (>= 3.0)
     builder (3.0.4)
     cancan (1.6.9)
     cape (1.5.0)
@@ -219,6 +221,7 @@ PLATFORMS
 
 DEPENDENCIES
   bluecloth
+  bootstrap-datepicker-rails
   bundler (>= 1.1.5)
   cancan
   cape (~> 1.5.0)
