@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20130327120024) do
 
   create_table "gardens", :force => true do |t|
     t.string   "name",        :null => false
-    t.integer  "owner_id",    :null => false
+    t.integer  "owner_id"
     t.string   "slug",        :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -82,6 +82,11 @@ ActiveRecord::Schema.define(:version => 20130327120024) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
+    t.text     "about_me"
+    t.string   "full_name"
+    t.string   "gardening_since"
+    t.string   "wish_i_could_grow"
+    t.string   "gardening_clothes"
     t.boolean  "send_notification_email", :default => true
   end
 
@@ -98,14 +103,22 @@ ActiveRecord::Schema.define(:version => 20130327120024) do
 
   create_table "notifications", :force => true do |t|
     t.integer  "sender_id"
-    t.integer  "recipient_id",                         :null => false
+    t.integer  "recipient_id",                    :null => false
     t.string   "subject"
     t.text     "body"
-    t.boolean  "read",              :default => false
-    t.integer  "notification_type"
+    t.boolean  "read",         :default => false
     t.integer  "post_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "payments", :force => true do |t|
+    t.integer  "payer_id"
+    t.decimal  "amount"
+    t.date     "paid_period_begins"
+    t.date     "paid_period_ends"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "plantings", :force => true do |t|

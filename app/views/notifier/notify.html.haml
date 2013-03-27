@@ -13,7 +13,10 @@
   :markdown
     #{strip_tags @notification.body}
 
-%p= link_to "View this message in your inbox", url_for(@notification)
+%p
+  = link_to "View this message in your inbox", url_for(@notification)
+  %br/
+  = link_to "Turn off these notifications", edit_member_registration_url
 
 %p
   The #{site_name} team.
