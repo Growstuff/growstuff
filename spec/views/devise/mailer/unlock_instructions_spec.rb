@@ -2,10 +2,7 @@ require 'spec_helper'
 describe 'devise/mailer/unlock_instructions.html.haml', :type => "view" do
   context "logged in" do
     before(:each) do
-#@resource = mock_model(Member)
       @resource = FactoryGirl.create(:member)
-      @resource.should_receive(:email).and_return("example@example.com")
-      @resource.should_receive(:unlock_token).and_return("fred")
       render
     end
 
