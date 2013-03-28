@@ -1,0 +1,24 @@
+- site_name = Growstuff::Application.config.site_name
+%p Hello #{@notification.recipient.login_name},
+
+%p
+  You have received a message from
+  = link_to @notification.sender.login_name, member_url(@notification.sender)
+  on #{site_name} at #{@notification.created_at.to_s(:date)}
+  - if @notification.post
+    in response to
+    = link_to @notification.post.subject, post_url(@notification.post)
+  \.
+%blockquote
+  :markdown
+    #{strip_tags @notification.body}
+
+%p
+  = link_to "View this message in your inbox", notification_url(@notification)
+  %br/
+  = link_to "Turn off these notifications", edit_member_registration_url
+
+%p
+  The #{site_name} team.
+  %br/
+  =link_to root_url, root_url

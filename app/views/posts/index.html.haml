@@ -9,3 +9,6 @@
 - @posts.each do |post|
   = render :partial => "single", :locals => { :post => post, :subject => true }
 
+%div.pagination
+  = page_entries_info @posts, :model => "posts"
+  = will_paginate @posts

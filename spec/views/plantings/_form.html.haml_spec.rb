@@ -11,9 +11,14 @@ describe "plantings/_form" do
 
     @planting = FactoryGirl.create(:planting,
       :garden => @garden,
-      :crop => @crop
+      :crop => @crop,
+      :planted_at => Date.new(2013, 03, 01)
     )
     render
+  end
+
+  it "has a free-form text field containing the planting date in ISO format" do
+    assert_select 'input#planting_planted_at_string[type=text][value=2013-03-01]'
   end
 
   context "logged in" do

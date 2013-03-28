@@ -42,6 +42,7 @@ Growstuff::Application.configure do
 
   Growstuff::Application.configure do
     config.site_name = "Growstuff (test)"
+    config.analytics_code = ''
   end
 
 end

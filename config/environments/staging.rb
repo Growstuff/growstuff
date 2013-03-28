@@ -80,6 +80,7 @@ Growstuff::Application.configure do
 
   Growstuff::Application.configure do
     config.site_name = "Growstuff (staging)"
+    config.analytics_code = ''
   end
 
 end
