@@ -1,13 +1,20 @@
-%p
-  Hello
-  = @resource.email
-  !
+- site_name = Growstuff::Application.config.site_name
+%p Hello #{@resource.login_name},
 
 %p
-  Your account has been locked due to an excessive amount of unsuccessful sign
-  in attempts.
+  Your #{site_name} account has been locked due to an excessive number
+  of unsuccessful sign in attempts.  We do this in case someone's trying
+  to break into your account, but it might also mean you've just
+  forgotten your password.  In either case, use the link below to unlock
+  your account:
 
-%p Click the link below to unlock your account:
+%p= link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @resource.unlock_token)
 
-%p
-  = link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @resource.unlock_token)
+%p If you have actually forgotten your password, you can
+= link_to 'reset your password', new_password_url(@resource)
+after you've unlocked your account.
+
+%p See you soon,
+%p The #{site_name} team.
+%br/
+=link_to root_url, root_url

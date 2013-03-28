@@ -1,6 +1,6 @@
 # Growstuff
 
-[![Build Status](https://travis-ci.org/growstuff/growstuff.png)](https://travis-ci.org/growstuff/growstuff)
+[![Build Status](https://travis-ci.org/Growstuff/growstuff.png)](https://travis-ci.org/Growstuff/growstuff)
 
 Welcome to the Growstuff project.
 

@@ -57,6 +57,11 @@ describe PlantingsController do
       assigns(:garden).should be_a_new(Garden)
     end
 
+    it "sets the date of the planting to today" do
+      get :new, {}
+      assigns(:planting).planted_at.should == Date.today
+    end
+
   end
 
   describe "GET edit" do

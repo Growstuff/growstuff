@@ -17,8 +17,8 @@
         - if can? :edit, comment or can? :destroy, comment
           .comment-actions
             - if can? :edit, comment
-              = link_to 'Edit', edit_comment_path(comment), :class => 'btn'
+              = link_to 'Edit', edit_comment_path(comment), :class => 'btn btn-mini'
             - if can? :destroy, comment
               = link_to 'Delete', comment, method: :delete, |
-                data: { confirm: 'Are you sure?' }, :class => 'btn'
+                data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 

@@ -16,4 +16,4 @@
     = f.label :owner_id, :class => 'control-label'
     .controls= collection_select(:forum, :owner_id, Member.all, :id, :login_name)
   .form-actions
-    = f.submit 'Save', :class => 'btn'
+    = f.submit 'Save', :class => 'btn btn-primary'

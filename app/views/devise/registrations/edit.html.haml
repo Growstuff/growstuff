@@ -3,13 +3,18 @@
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-horizontal' }) do |f|
   = devise_error_messages!
 
-  %h2 Email address
+  %h2 Email settings
 
   .control-group
     = f.label :email, :class => 'control-label'
     .controls
       = f.email_field :email
-      %span.help-inline If you change your email address you will have to reconfirm
+      %span.help-inline If you change your email address you will have to reconfirm.
+
+  .control-group
+    .controls
+      = f.check_box :send_notification_email
+      Receive emailed copies of Inbox notifications.
 
   %h2 Profile details
 
@@ -26,7 +31,7 @@
 
   %h2 Change password
   %p
-    %span.help-block Leave blank if you don't want to change your password
+    %span.help-block Leave blank if you don't want to change your password.
 
   .control-group
     = f.label :current_password, :class => 'control-label'
@@ -43,6 +48,6 @@
     .controls= f.password_field :password_confirmation
 
   .form-actions
-    = f.submit "Update", :class => 'btn'
+    = f.submit "Save", :class => 'btn btn-primary'
 
   =f.hidden_field(:tos_agreement, :value => true)

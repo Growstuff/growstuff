@@ -57,5 +57,11 @@ describe 'layouts/application.html.haml', :type => "view" do
       end
     end
 
+    it 'includes the analytics code' do
+      Growstuff::Application.config.analytics_code = 'ANALYTICS'
+      render
+      rendered.should contain 'ANALYTICS'
+    end
+
   end
 end
