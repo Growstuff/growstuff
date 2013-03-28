@@ -26,6 +26,7 @@ class MembersController < ApplicationController
   end
 
   def nearby
+    @location = params[:location] || current_member.location
     @nearby_members = [current_member]
     respond_to do |format|
       format.html # nearby.html.haml
