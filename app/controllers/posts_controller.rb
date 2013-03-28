@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /posts.json
 
   def index
-    @posts = Post.all
+    @posts = Post.paginate(:page => params[:page])
     @recent_posts = Post.limit(100).order('created_at desc').all
 
     respond_to do |format|
@@ -29,7 +29,7 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
-    @forum = Forum.find_by_id(params[:forum_id]) || Forum.new
+    @forum = Forum.find_by_id(params[:forum_id])
 
     respond_to do |format|
       format.html # new.html.haml

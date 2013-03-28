@@ -5,9 +5,6 @@
     %p
       %b Planted:
       = @planting.planted_at ? @planting.planted_at.to_s(:date) : "not specified"
-      - if can? :edit, @planting
-        %small
-          = link_to 'Edit', edit_planting_path(@planting)
     %p
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
@@ -17,15 +14,22 @@
     %p
       %b Quantity:
       = @planting.quantity != 0 ? @planting.quantity : "not specified"
+
+    - if can? :edit, @planting or can? :destroy, @planting
+      %p
       - if can? :edit, @planting
-        %small
-          = link_to 'Edit', edit_planting_path(@planting)
+        =link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
+      - if can? :destroy, @planting
+        =link_to 'Delete', @planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+
   .span6
     .well
       %h3
         = link_to @planting.crop, @planting.crop
-        - if can? :create, Planting
-          = link_to 'Plant this', new_planting_path, :class => 'btn'
+        - if can? :edit, @planting
+          = link_to 'Plant another', new_planting_path, :class => 'btn btn-primary'
+        - elsif can? :create, Planting
+          = link_to 'Plant this', new_planting_path, :class => 'btn btn-primary'
 
       %p
         %b Scientific name:
@@ -34,7 +38,7 @@
         %b
           Planted
           = pluralize(@planting.crop_plantings_count, "time")
-        by Growstuff members
+        by #{Growstuff::Application.config.site_name} members
 
 %h2 Pictures
 .row
@@ -49,4 +53,4 @@
   #{ @planting.description != "" ? @planting.description : "No description given." }
 
 - if can? :edit, @planting
-  = link_to 'Edit', edit_planting_path(@planting)
+  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'

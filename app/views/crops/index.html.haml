@@ -1,8 +1,9 @@
 - content_for :title, "Crops"
 - c = 0
 
-%p
-  = "Displaying #{@crops.length} crops"
+%div.pagination
+  = page_entries_info @crops, :model => "crops"
+  = will_paginate @crops
 
 %ul.thumbnails
   .row
@@ -15,4 +16,9 @@
 
 - if can? :create, Crop
   %div
-    = link_to 'New Crop', new_crop_path, {:class => 'btn'}
+    = link_to 'New Crop', new_crop_path, {:class => 'btn btn-primary'}
+
+%div.pagination
+  = page_entries_info @crops, :model => "crops"
+  = will_paginate @crops
+

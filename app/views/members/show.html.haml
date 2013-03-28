@@ -1,33 +1,58 @@
-- content_for :title, "#{@member.login_name}"
-- content_for :member_rss_login_name, "#{@member.login_name}"
+- name = @member.full_name ? "#{@member.full_name} (#{@member.login_name})" : @member.login_name
+- content_for :title, name
+- content_for :member_rss_login_name, name
 - content_for :member_rss_slug, "#{@member.slug}"
 
-.row
-  .span3
-    = render :partial => "shared/avatar", :locals => { :member => @member }
-
-    -if @member.full_name.to_s != ''
+.row-fluid
+  .span2
+    = render :partial => "members/avatar", :locals => { :member => @member }
+  .span6
+    - if @member.location
       %p
-        = "Name: #{@member.full_name}"
-    %p
-      = "Member since: #{@member.created_at.to_s(:date)}"
-    - if @member.location.to_s != ''
-      %p
-        Location:
+        %b Location:
         = @member.location
-        %br/
-        = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
+    %p
+      %b Member since:
+      = @member.created_at.to_s(:date)
     - if @member.show_email
       %p
-        Email:
+        %b Email:
         = mail_to @member.email
-    -if @member.about_me.to_s != ''
-      %p
-        = "About me:"
-        %p
-          = @member.about_me
 
-  .span9
+    - if can? :update, @member
+      %p
+        = link_to 'Edit Profile', "edit", :class => 'btn btn-mini'
+  .span4
+    -if @member.location
+      %div= image_tag("http://maps.google.com/maps/api/staticmap?size=300x150&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 300, :height => 150 )
+
+- if @member.gardening_since || @member.wish_i_could_grow || @member.gardening_clothes || @member.about_me
+  .row-fluid
+    .span12
+      %h2 About
+      - if @member.gardening_since
+        %p
+          %b I've been gardening since...
+          = @member.gardening_since
+      - if @member.wish_i_could_grow
+        %p
+          %b I wish I could grow...
+          = @member.wish_i_could_grow
+      - if @member.gardening_clothes
+        %p
+          %b When I'm gardening I wear...
+          = @member.gardening_clothes
+      -if @member.about_me
+        %div
+          :markdown
+            #{ strip_tags(@member.about_me) }
+
+.row
+  .span12
+    %h2
+      Gardens and plantings
+      - if current_member == @member
+        = link_to "Plant something", new_planting_path, :class => 'btn btn-primary'
     .tabbable
       %ul.nav.nav-tabs
         - first_garden = true
@@ -43,23 +68,50 @@
 
           %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
             - first_garden = false
-
             %div
               :markdown
-                #{g.description}
+                #{ strip_tags(g.description) }
 
-            %h3 What's planted here?
-            - g.featured_plantings.each do |p|
-              = render :partial => "plantings/thumbnail", :locals => { :planting => p, :hide_description => true }
-
-            %p
-              = link_to "More about this garden...", url_for(g)
+            - if g.plantings.count > 0
+              %ul
+                - g.featured_plantings.each do |p|
+                  %li
+                    - if p.quantity
+                      = p.quantity
+                    = link_to p.crop.system_name, p
+                    - if p.planted_at
+                      on
+                      = p.planted_at.to_s(:date)
+                - other_plantings =  g.plantings.count - g.featured_plantings.count
+                - if other_plantings > 0
+                  %li
+                    and
+                    =link_to "#{other_plantings} more...", g
+            - else
+              %p Nothing planted here yet.
+            %p=link_to "More information", g
 
         - if current_member == @member
           %div{:class => 'tab-pane', :id => "garden_new"}
-            %h3 Create a new garden
             = render 'gardens/form'
 
-    %h3 Updates
-    - @member.posts.each do |post|
-      = render :partial => "posts/single", :locals => { :post => post, :subject => true }
+
+.row
+  .span12
+    %h2
+      Recent posts
+      - if current_member == @member
+        = link_to "Post something", new_post_path, :class => 'btn btn-primary'
+    - if @member.posts.count > 0
+      %ul
+        - @member.posts.limit(10).each do |p|
+          %li
+            = link_to p.subject, p
+            - if p.forum
+              in
+              = link_to p.forum.name, p.forum
+            on
+            = p.created_at.to_s(:date)
+    - else
+      %p None yet.
+

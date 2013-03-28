@@ -1,10 +1,16 @@
-= content_for :title, "Growstuff members"
+= content_for :title, "#{Growstuff::Application.config.site_name} members"
 
-%p
-  = "Displaying #{@members.length} members"
-  
+%div.pagination
+  = page_entries_info @members, :model => "members"
+  = will_paginate @members
+
 %ul.thumbnails
   - @members.each do |m|
     %li.span2
       .thumbnail(style="height: 190px")
-        = render :partial => "shared/avatar", :locals => { :member => m, :truncate => true }
+        = render :partial => "members/avatar", :locals => { :member => m }
+        = link_to m.to_s, m
+
+%div.pagination
+  = page_entries_info @members, :model => "members"
+  = will_paginate @members

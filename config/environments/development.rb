@@ -40,8 +40,15 @@ Growstuff::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => "localhost",
-    :port => 25,
-    :domain => "growstuff.org"
+      :port =>           '587',
+      :address =>        'smtp.mandrillapp.com',
+      :user_name =>      ENV['MANDRILL_USERNAME'],
+      :password =>       ENV['MANDRILL_APIKEY'],
+      :authentication => :login
   }
+  config.action_mailer.delivery_method = :smtp
+
+  Growstuff::Application.configure do
+    config.site_name = "Growstuff (dev)"
+  end
 end

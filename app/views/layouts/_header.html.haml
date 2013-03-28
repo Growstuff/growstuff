@@ -1,21 +1,17 @@
-.navbar.navbar-static-top
+.navbar.navbar-fixed-top
   .navbar-inner
     .container
       %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.brand(href=root_path) Growstuff (development site)
-      .container.nav-collapse.collapse
+      %a.brand(href=root_path)= Growstuff::Application.config.site_name
+      .nav-collapse.collapse
         %ul.nav
           %li= link_to "Crops", crops_path
           %li= link_to "Members", members_path
           %li= link_to "Posts", posts_path
           %li= link_to "Forums", forums_path
-          - if can? :create, Post
-            %li= link_to("Post something", new_post_path)
-          - if can? :create, Planting
-            %li= link_to("Plant something", new_planting_path)
           %li.divider-vertical
           - if member_signed_in?
             %li.dropdown<

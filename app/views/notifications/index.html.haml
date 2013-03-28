@@ -27,9 +27,6 @@
             - else
               %strong= n.created_at.to_s(:date)
           %td
-            - if n.read
-              = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
-            - else
-              %strong= link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 - else
   You have no messages.

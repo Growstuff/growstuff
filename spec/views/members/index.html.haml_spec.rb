@@ -2,24 +2,18 @@ require 'spec_helper'
 
 describe "members/index" do
   before(:each) do
-    assign(:members, [
-      FactoryGirl.create(:member),
-      FactoryGirl.create(:long_name_member)
-    ])
+    controller.stub(:current_user) { nil }
+    page = 1
+    per_page = 2
+    total_entries = 2
+    members = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+      pager.replace([
+        FactoryGirl.create(:member),
+        FactoryGirl.create(:member)
+      ])
+    end
+    assign(:members, members)
     render
-  end
-
-  it "truncates long names" do
-    rendered.should contain "marmaduke blundell-hollinsh..."
-  end
-
-  it "does not truncate short names" do
-    rendered.should contain /member\d+/
-    rendered.should_not contain /member\d+\.\.\./
-  end
-
-  it "counts the number of members" do
-    rendered.should contain "Displaying 2 members"
   end
 
   it "contains two gravatar icons" do

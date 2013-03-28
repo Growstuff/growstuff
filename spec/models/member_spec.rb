@@ -50,6 +50,14 @@ describe 'member' do
       @member.gardens.first.name.should eq "Garden"
     end
 
+    it 'has many plantings through gardens' do
+      @member.save
+      @planting = FactoryGirl.create(:planting,
+        :garden => @member.gardens.first
+      )
+      @member.plantings.count.should eq 1
+    end
+
     it "has many comments" do
       @member.save
       @comment1 = FactoryGirl.create(:comment, :author => @member)
@@ -113,10 +121,76 @@ describe 'member' do
 
   context 'same :login_name' do
     it "should not allow two members with the same login_name" do
-      FactoryGirl.create(:member, :login_name => "login-name")
-      member = FactoryGirl.build(:member, :login_name => "login-name")
+      FactoryGirl.create(:member, :login_name => "bob")
+      member = FactoryGirl.build(:member, :login_name => "bob")
       member.should_not be_valid
       member.errors[:login_name].should include("has already been taken")
+    end
+
+    it "tests uniqueness case-insensitively" do
+      FactoryGirl.create(:member, :login_name => "bob")
+      member = FactoryGirl.build(:member, :login_name => "BoB")
+      member.should_not be_valid
+      member.errors[:login_name].should include("has already been taken")
+    end
+  end
+
+  context 'case sensitivity' do
+    it 'preserves case of login name' do
+      member = FactoryGirl.create(:member, :login_name => "BOB")
+      check = Member.find('bob')
+      check.login_name.should eq 'BOB'
+    end
+  end
+
+  context 'ordering' do
+    it "should be sorted by name" do
+      z = FactoryGirl.create(:member, :login_name => "Zoe")
+      a = FactoryGirl.create(:member, :login_name => "Anna")
+      Member.first.should == a
+    end
+  end
+
+  context 'invalid login names' do
+    it "doesn't allow short names" do
+      member = FactoryGirl.build(:invalid_member_shortname)
+      member.should_not be_valid
+      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+    end
+    it "doesn't allow really long names" do
+      member = FactoryGirl.build(:invalid_member_longname)
+      member.should_not be_valid
+      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+    end
+    it "doesn't allow spaces in names" do
+      member = FactoryGirl.build(:invalid_member_spaces)
+      member.should_not be_valid
+      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+    end
+    it "doesn't allow other chars in names" do
+      member = FactoryGirl.build(:invalid_member_badchars)
+      member.should_not be_valid
+      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+    end
+    it "doesn't allow reserved names" do
+      member = FactoryGirl.build(:invalid_member_badname)
+      member.should_not be_valid
+      member.errors[:login_name].should include("name is reserved")
+    end
+  end
+
+  context 'valid login names' do
+    it "allows plain alphanumeric chars in names" do
+      member = FactoryGirl.build(:valid_member_alphanumeric)
+      member.should be_valid
+    end
+    it "allows uppercase chars in names" do
+      member = FactoryGirl.build(:valid_member_uppercase)
+      member.should be_valid
+    end
+    it "allows underscores in names" do
+      member = FactoryGirl.build(:valid_member_underscore)
+      member.should be_valid
     end
   end
 
@@ -135,6 +209,13 @@ describe 'member' do
     it 'sets up roles in factories' do
       @admin = FactoryGirl.create(:admin_member)
       @admin.has_role?(:admin).should eq true
+    end
+
+    it 'converts role names properly' do
+      # need to make sure spaces get turned to underscores
+      @role = FactoryGirl.create(:role, :name => "a b c")
+      @member.roles << @role
+      @member.has_role?(:a_b_c).should eq true
     end
   end
 

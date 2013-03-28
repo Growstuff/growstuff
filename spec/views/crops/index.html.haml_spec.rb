@@ -3,10 +3,16 @@ require 'spec_helper'
 describe "crops/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    assign(:crops, [
-      FactoryGirl.create(:tomato),
-      FactoryGirl.create(:maize)
-    ])
+    page = 1
+    per_page = 2
+    total_entries = 2
+    crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+      pager.replace([
+        FactoryGirl.create(:tomato),
+        FactoryGirl.create(:maize)
+      ])
+    end
+    assign(:crops, crops)
   end
 
   it "renders a list of crops" do
@@ -15,14 +21,14 @@ describe "crops/index" do
     assert_select "a", :text => "Tomato"
   end
 
-  it "counts the number of crops" do
-    render
-    rendered.should contain "Displaying 2 crops"
+  it "linkifies crop images" do
+   render
+   assert_select "img", :src => :tomato
   end
 
-  context "logged in" do
+  context "logged in and crop wrangler" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryGirl.create(:crop_wrangling_member)
       sign_in @member
       controller.stub(:current_user) { @member }
       render

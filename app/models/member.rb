@@ -5,10 +5,12 @@ class Member < ActiveRecord::Base
   has_many :posts,   :foreign_key => 'author_id'
   has_many :comments, :foreign_key => 'author_id'
   has_many :gardens, :foreign_key => 'owner_id'
+  has_many :plantings, :through => :gardens
   has_many :forums, :foreign_key => 'owner_id'
   has_and_belongs_to_many :roles
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
+  default_scope order("lower(login_name) asc")
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -35,7 +37,23 @@ class Member < ActiveRecord::Base
   validates_acceptance_of :tos_agreement, :allow_nil => false,
     :accept => true
 
-  validates_uniqueness_of :login_name
+  validates :login_name,
+    :length => {
+      :minimum => 2,
+      :maximum => 25,
+      :message => "should be between 2 and 25 characters long"
+    },
+    :exclusion => {
+      :in => %w(growstuff admin moderator staff),
+      :message => "name is reserved"
+    },
+    :format => {
+      :with => /^\w+$/,
+      :message => "may only include letters, numbers, or underscores"
+    },
+    :uniqueness => {
+      :case_sensitive => false
+    }
 
   # Give each new member a default garden
   after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
@@ -63,7 +81,7 @@ class Member < ActiveRecord::Base
   end
 
   def has_role?(role_sym)
-    roles.any? { |r| r.name.underscore.to_sym == role_sym }
+    roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
   end
 
   protected

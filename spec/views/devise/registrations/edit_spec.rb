@@ -20,7 +20,7 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
 
     context 'email section' do
       it 'has a heading' do
-        assert_select "h2", "Email address"
+        assert_select "h2", "Email settings"
       end
     end
 
