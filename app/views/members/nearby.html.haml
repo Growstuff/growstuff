@@ -1,0 +1,8 @@
+- content_for :title, "Members near you"
+
+%ul
+  - @nearby_members.each do |member|
+    %li
+      = link_to(member.login_name, member)
+      ,
+      = member.location

@@ -53,6 +53,9 @@ class Ability
       can :create, Planting
       can :update, Planting, :garden => { :owner_id => member.id }
       can :destroy, Planting, :garden => { :owner_id => member.id }
+
+      # you can see members near you
+      can :nearby, Member, :id => member.id
     end
   end
 end
