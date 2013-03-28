@@ -144,25 +144,6 @@ describe "members/show" do
     end
   end
 
-  context "no full name" do
-    before (:each) do
-      @member = FactoryGirl.create(:member, :full_name => nil)
-      render
-    end
-    it "doesn't show the full name" do
-      rendered.should_not contain "Name:"
-    end
-  end
-
-  context "has full name" do
-    before (:each) do
-      render
-    end
-    it "shows the member's full name" do
-      rendered.should contain "Fake McNamerson"
-    end
-  end
-
   context "no about me" do
     before (:each)  do
       @member = FactoryGirl.create(:member, :about_me => nil)
