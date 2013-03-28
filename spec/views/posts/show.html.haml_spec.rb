@@ -62,6 +62,25 @@ describe "posts/show" do
     end
   end
 
+  context "when there is more than one comment" do
+    before(:each) do
+      @post = assign(:post,
+                     FactoryGirl.create(:html_post, :author => @author))
+      @comment1 = FactoryGirl.create(:comment, :post => @post, :body => "F1rst!!!",
+                                    :created_at => Date.new(2010, 5, 17))
+      @comment3 = FactoryGirl.create(:comment, :post => @post, :body => "Th1rd!!!",
+                                    :created_at => Date.new(2012, 5, 17))
+      @comment4 = FactoryGirl.create(:comment, :post => @post, :body => "F0urth!!!")
+      @comment2 = FactoryGirl.create(:comment, :post => @post, :body => "S3c0nd!!1!",
+                                    :created_at => Date.new(2011, 5, 17))
+      render
+    end
+
+    it "shows the oldest comments first" do
+      rendered.should contain /#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m
+    end
+  end
+
   context "forum post" do
     it "shows forum name" do
       @post = assign(:post,

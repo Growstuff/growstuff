@@ -3,6 +3,8 @@ class Comment < ActiveRecord::Base
   belongs_to :author, :class_name => 'Member'
   belongs_to :post
 
+  default_scope order("created_at asc")
+
   after_create do
     recipient = self.post.author.id
     sender    = self.author.id
