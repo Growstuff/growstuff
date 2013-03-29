@@ -27,7 +27,8 @@ class MembersController < ApplicationController
 
   def nearby
     @location = params[:location] || current_member.location
-    @nearby_members = [current_member]
+    @distance = 100
+    @nearby_members = Member.near(@location, @distance)
     respond_to do |format|
       format.html # nearby.html.haml
       format.json { render json: @nearby_members }

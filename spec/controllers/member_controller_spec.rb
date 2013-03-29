@@ -58,10 +58,24 @@ describe MembersController do
   end
 
   describe "GET nearby members" do
-    it "assigns the current member as nearby" do
+    before(:each) do
+      @member = FactoryGirl.create(:geolocated_member)
+      @member_near = FactoryGirl.create(:geolocated_member)
+      @member_far = FactoryGirl.create(:lonely_geolocated_member)
       controller.stub(:current_member) { @member }
       get :nearby, {:id => @member.id}
-      assigns(:nearby_members).should == [@member]
+    end
+
+    it "assigns the current member as nearby" do
+      assigns(:nearby_members).should include @member
+    end
+
+    it "assigns nearby members as nearby" do
+      assigns(:nearby_members).should include @member_near
+    end
+
+    it "doesn't assign far-off members as nearby" do
+      assigns(:nearby_members).should_not include @member_far
     end
   end
 
