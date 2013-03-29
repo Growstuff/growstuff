@@ -55,7 +55,7 @@ class Ability
       can :destroy, Planting, :garden => { :owner_id => member.id }
 
       # you can see members near you
-      can :nearby, Member, :id => member.id
+      can :nearby, Member
     end
   end
 end
