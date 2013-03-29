@@ -16,7 +16,8 @@ class Planting < ActiveRecord::Base
   SUNNINESS_VALUES = %w(sun semi-shade shade)
   validates :sunniness, :inclusion => { :in => SUNNINESS_VALUES,
         :message => "%{value} is not a valid sunniness value" },
-        :allow_nil => true
+        :allow_nil => true,
+        :allow_blank => true
 
   def planting_slug
     "#{owner.login_name}-#{garden}-#{crop}".downcase.gsub(' ', '-')

@@ -43,7 +43,7 @@ describe Planting do
   end
 
   it 'all three valid sunniness values should work' do
-    ['sun', 'shade', 'semi-shade', nil].each do |s|
+    ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
       @planting = FactoryGirl.build(:planting, :sunniness => s)
       @planting.should be_valid
     end
