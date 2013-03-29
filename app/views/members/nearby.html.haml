@@ -3,21 +3,21 @@
 - else
   - content_for :title, "Members near you"
 
-= link_to "Edit your location", edit_member_registration_path(current_member)
-
-= form_tag(nearby_members_path(current_member), :html => { :method => :get, :class => 'form-horizontal' }) do
+= form_tag(nearby_members_path, :method => :get, :class => 'form-inline') do
 
   .control-group
-    = label_tag :location, "Location", :class => 'control-label'
+    = label_tag :location, "Find members near", :class => 'control-label'
     .controls
       = text_field_tag :location, @location
 
   .form-actions
     = submit_tag "Search", :class => 'btn btn-primary'
 
+= link_to "Edit your location", edit_member_registration_path(current_member)
+
 %ul
   - @nearby_members.each do |member|
     %li
       = link_to(member.login_name, member)
       - if member.location
-        , #{@member.location}
+        , #{member.location}
