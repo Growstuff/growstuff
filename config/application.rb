@@ -75,5 +75,7 @@ module Growstuff
         :openssl_verify_mode  => 'none'
       }
 
+    config.company_name = "Growstuff Pty Ltd"
+
   end
 end
