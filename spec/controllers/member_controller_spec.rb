@@ -57,4 +57,12 @@ describe MembersController do
     end
   end
 
+  describe "GET nearby members" do
+    it "assigns the current member as nearby" do
+      controller.stub(:current_member) { @member }
+      get :nearby, {:id => @member.id}
+      assigns(:nearby_members).should == [@member]
+    end
+  end
+
 end
