@@ -18,6 +18,8 @@
         = current_member.location ? current_member.location : 'Not set'
         %small
           = link_to "Edit", edit_registration_path(current_member), :class => 'btn btn-mini'
+      %p
+        = link_to 'Find members near you', nearby_members_path
 
       %ul.inline
         %li.first
