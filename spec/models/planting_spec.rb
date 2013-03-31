@@ -38,4 +38,9 @@ describe Planting do
     @planting.planted_at_string.should == "2013-03-01"
   end
 
+  it 'should sort in reverse creation order' do
+    @planting2 = FactoryGirl.create(:planting)
+    Planting.first.should eq @planting2
+  end
+
 end

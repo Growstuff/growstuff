@@ -8,6 +8,8 @@ class Planting < ActiveRecord::Base
   belongs_to :garden
   belongs_to :crop
 
+  default_scope order("created_at desc")
+
   delegate :default_scientific_name,
     :plantings_count,
     :to => :crop,
