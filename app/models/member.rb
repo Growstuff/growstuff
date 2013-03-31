@@ -10,7 +10,9 @@ class Member < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
+
   default_scope order("lower(login_name) asc")
+  scope :confirmed, where('confirmed_at IS NOT NULL')
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -66,14 +68,6 @@ class Member < ActiveRecord::Base
     else
       where(conditions).first
     end
-  end
-
-  def self.find_confirmed(params)
-    find(params, :conditions => 'confirmed_at IS NOT NULL')
-  end
-
-  def self.confirmed
-    where('confirmed_at IS NOT NULL')
   end
 
   def to_s

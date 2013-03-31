@@ -199,4 +199,22 @@ describe 'member' do
     end
   end
 
+  context 'confirmed scope' do
+    before(:each) do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:member)
+    end
+
+    it 'sees confirmed members' do
+      Member.confirmed.count.should == 2
+    end
+
+    it 'ignores unconfirmed members' do
+      @member3 = FactoryGirl.create(:unconfirmed_member)
+      Member.confirmed.count.should == 2
+    end
+
+
+  end
+
 end
