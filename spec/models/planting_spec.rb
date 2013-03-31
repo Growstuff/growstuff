@@ -38,4 +38,21 @@ describe Planting do
     @planting.planted_at_string.should == "2013-03-01"
   end
 
+  it 'should have a sunniness value' do
+    @planting.sunniness.should eq 'sun'
+  end
+
+  it 'all three valid sunniness values should work' do
+    ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
+      @planting = FactoryGirl.build(:planting, :sunniness => s)
+      @planting.should be_valid
+    end
+  end
+
+  it 'should refuse invalid sunniness values' do
+    @planting = FactoryGirl.build(:planting, :sunniness => 'not valid')
+    @planting.should_not be_valid
+    @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
+  end
+
 end
