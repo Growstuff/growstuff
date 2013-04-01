@@ -5,5 +5,6 @@ FactoryGirl.define do
     planted_at Time.now
     quantity 33
     description "This is a *really* good plant."
+    sunniness 'sun'
   end
 end

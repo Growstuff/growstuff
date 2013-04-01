@@ -20,7 +20,11 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
 
     context 'email section' do
       it 'has a heading' do
-        assert_select "h2", "Email address"
+        assert_select "h2", "Email settings"
+      end
+
+      it 'has a checkbox for email notifications' do
+        assert_select "input[id=member_send_notification_email][type=checkbox]"
       end
     end
 

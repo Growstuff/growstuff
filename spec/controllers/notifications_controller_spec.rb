@@ -29,7 +29,7 @@ describe NotificationsController do
 
   describe "GET index" do
     it "assigns all notifications as @notifications" do
-      notification = Notification.create! valid_attributes
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
       get :index, {}
       assigns(:notifications).should eq([notification])
     end
@@ -37,13 +37,13 @@ describe NotificationsController do
 
   describe "GET show" do
     it "assigns the requested notification as @notification" do
-      notification = Notification.create! valid_attributes
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
       get :show, {:id => notification.to_param}
       assigns(:notification).should eq(notification)
     end
 
     it "marks notifications as read" do
-      notification = Notification.create! valid_attributes
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
       get :show, {:id => notification.to_param}
       # we need to fetch it from the db again, can't test against the old one
       n = Notification.find(notification.id)
@@ -66,14 +66,14 @@ describe NotificationsController do
 
   describe "DELETE destroy" do
     it "destroys the requested notification" do
-      notification = Notification.create! valid_attributes
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
       expect {
         delete :destroy, {:id => notification.to_param}
       }.to change(Notification, :count).by(-1)
     end
 
     it "redirects to the notifications page" do
-      notification = Notification.create! valid_attributes
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
       delete :destroy, {:id => notification.to_param}
       response.should redirect_to(notifications_url)
     end

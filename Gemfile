@@ -70,6 +70,7 @@ gem 'friendly_id'
 gem 'gravatar-ultimate'
 
 gem 'geocoder'
+gem 'bootstrap-datepicker-rails'
 
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'

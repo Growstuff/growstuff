@@ -1,8 +1,5 @@
 - site_name = Growstuff::Application.config.site_name
-%p
-  Welcome,
-  = @resource.login_name
-  !
+%p Hello #{@resource.login_name},
 
 %p
   Your account on #{site_name} has been created.  You just need to confirm
