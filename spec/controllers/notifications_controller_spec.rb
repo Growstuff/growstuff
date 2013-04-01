@@ -95,7 +95,7 @@ describe NotificationsController do
 
       it "redirects to the recipient's profile" do
         @recipient = FactoryGirl.create(:member)
-        post :create, { :notification => { :recipient_id => @recipient.id}}
+        post :create, { :notification => { :recipient_id => @recipient.id } }
         response.should redirect_to(@recipient)
       end
     end
