@@ -11,11 +11,11 @@
     = f.hidden_field :sender_id, :value => @sender.id
 
   %p
-    = label_tag "You are sending a private message to: "
+    To:
     = link_to @recipient, @recipient
-  = label_tag :notification, "Subject"
+  = label_tag :notification, "Subject:"
   = f.text_field :subject, :class => 'input-block-level'
-  = label_tag :body, "Type your message here"
+  = label_tag :body, "Type your message here:"
   = f.text_area :body, :rows => 12, :class => 'input-block-level'
   %span.help-block
     = render :partial => "shared/markdown_help"
