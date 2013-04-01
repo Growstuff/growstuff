@@ -29,8 +29,12 @@ class Ability
       # can read/delete notifications that were sent to them
       can :read, Notification, :recipient_id => member.id
       can :destroy, Notification, :recipient_id => member.id
-      # can create notifications that were sent by them
-      can :create, Notification, :sender_id => member.id
+      # can send a private message to anyone but themselves
+      # note: sadly, we can't test for this from the view, but it works
+      # for the model/controller
+      can :create, Notification do |n|
+        n.recipient_id != member.id
+      end
       # note we don't support update for notifications
 
       # only crop wranglers can create/edit/destroy crops

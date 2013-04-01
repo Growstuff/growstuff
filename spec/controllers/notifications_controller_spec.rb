@@ -5,7 +5,22 @@ describe NotificationsController do
   login_member
 
   def valid_attributes
-    { "recipient_id" => subject.current_member.id }
+    {
+      "recipient_id" => subject.current_member.id,
+      "sender_id" => FactoryGirl.create(:member).id
+    }
+  end
+
+  # this gets a bit confused because for most of the notification tests
+  # (reading, etc) the logged in member needs to be the recipient.
+  # However, for sending private messages (create, etc) the logged in
+  # member needs to be the sender.  Hence this separate set of
+  # attributes.
+  def valid_attributes_for_sender
+    {
+      "sender_id" => subject.current_member.id,
+      "recipient_id" => FactoryGirl.create(:member).id
+    }
   end
 
   def valid_session
@@ -68,12 +83,12 @@ describe NotificationsController do
     describe "with valid params" do
       it "creates a new notification" do
         expect {
-          post :create, {:notification => valid_attributes}
+          post :create, {:notification => valid_attributes_for_sender}
         }.to change(Notification, :count).by(1)
       end
 
       it "assigns a newly created notification as @notification" do
-        post :create, {:notification => valid_attributes}
+        post :create, {:notification => valid_attributes_for_sender}
         assigns(:notification).should be_a(Notification)
         assigns(:notification).should be_persisted
       end
