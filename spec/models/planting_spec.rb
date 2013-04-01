@@ -19,6 +19,12 @@ describe Planting do
     @planting.location.should match /^member\d+'s Springfield Community Garden$/
   end
 
+  it "sorts plantings in descending order of creation" do
+    @planting1 = FactoryGirl.create(:planting)
+    @planting2 = FactoryGirl.create(:planting)
+    Planting.first.should eq @planting2
+  end
+
   it "should have a slug" do
     @planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
   end
