@@ -47,13 +47,6 @@ describe NotificationsController do
       get :new, {:recipient_id => @recipient.id }
       assigns(:recipient).should be_an_instance_of(Member)
     end
-
-    it "assigns a sender" do
-      @sender = FactoryGirl.create(:member)
-      @notification = FactoryGirl.create(:notification, :sender => @sender)
-      get :new, {:sender_id => @sender.id }
-      assigns(:sender).should be_an_instance_of(Member)
-    end
   end
 
   describe "DELETE destroy" do
@@ -86,10 +79,8 @@ describe NotificationsController do
       end
 
       it "redirects to the recipient's profile" do
-        @sender = FactoryGirl.create(:member)
         @recipient = FactoryGirl.create(:member)
-        post :create, { :notification => { :recipient_id => @recipient.id,
-          :sender_id => @sender.id}}
+        post :create, { :notification => { :recipient_id => @recipient.id}}
         response.should redirect_to(@recipient)
       end
     end
