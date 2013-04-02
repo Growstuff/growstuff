@@ -8,6 +8,7 @@ class Ability
     can :read, :all
     cannot :read, Notification
     cannot :create, Notification
+    can :nearby, Member # see members near to a location
 
     # nobody should be able to view this except admins
     cannot :read, Role
@@ -60,9 +61,6 @@ class Ability
       can :create, Planting
       can :update, Planting, :garden => { :owner_id => member.id }
       can :destroy, Planting, :garden => { :owner_id => member.id }
-
-      # you can see members near you
-      can :nearby, Member
     end
   end
 end
