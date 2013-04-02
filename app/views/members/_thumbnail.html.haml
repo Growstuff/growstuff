@@ -1,0 +1,8 @@
+.thumbnail(style="height: 220px")
+  = render :partial => "members/avatar", :locals => { :member => member }
+  %p
+    = link_to member.to_s, member
+    - if member.location
+      %br/
+      %i
+        %small= member.location

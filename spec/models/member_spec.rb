@@ -199,4 +199,40 @@ describe 'member' do
     end
   end
 
+  context 'confirmed scope' do
+    before(:each) do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:member)
+    end
+
+    it 'sees confirmed members' do
+      Member.confirmed.count.should == 2
+    end
+
+    it 'ignores unconfirmed members' do
+      @member3 = FactoryGirl.create(:unconfirmed_member)
+      Member.confirmed.count.should == 2
+    end
+  end
+
+  context 'interesting scope' do
+
+    # active members are defined as:
+    # 1) confirmed
+    # 2) ordered by the most recent sign in
+    it 'finds interesting members' do
+      @member1 = FactoryGirl.create(:geolocated_member)
+      @member2 = FactoryGirl.create(:geolocated_member)
+      @member3 = FactoryGirl.create(:geolocated_member)
+      @member4 = FactoryGirl.create(:unconfirmed_member)
+
+      @member1.updated_at = 3.days.ago
+      @member2.updated_at = 2.days.ago
+      @member3.updated_at = 1.days.ago
+
+      Member.interesting.should eq [ @member3, @member2, @member1 ]
+
+    end
+  end
+
 end
