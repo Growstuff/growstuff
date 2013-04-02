@@ -39,6 +39,11 @@ describe Planting do
     @planting.planted_at.should == Time.local(2013, 03, 01)
   end
 
+  it 'should accept blank dates' do
+    @planting.planted_at_string = ''
+    @planting.planted_at.should == nil
+  end
+
   it "should output dates in ISO format" do
     @planting.planted_at = Time.local(2013, 03, 01)
     @planting.planted_at_string.should == "2013-03-01"
