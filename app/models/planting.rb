@@ -42,6 +42,6 @@ class Planting < ActiveRecord::Base
   end
 
   def planted_at_string=(str)
-    self.planted_at = Time.parse(str)
+    self.planted_at = str == '' ? nil : Time.parse(str)
   end
 end
