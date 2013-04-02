@@ -1,0 +1,24 @@
+- if current_member && current_member.location && @location == current_member.location
+  - content_for :title, "Members near you"
+- elsif @location
+  - content_for :title, "Members near #{@location}"
+- else content_for :title, "Find nearby members"
+
+%p
+  = form_tag(nearby_members_path, :method => :get, :class => 'form-inline') do
+    = label_tag :location, "Find members near", :class => 'control-label'
+    = text_field_tag :location, @location
+    = submit_tag "Search", :class => 'btn btn-primary'
+
+- if can? :update, current_member
+  %p
+    = link_to "Edit your location", edit_member_registration_path(current_member)
+
+- if !@nearby_members.empty?
+  %h3 Results found
+  %ul.thumbnails
+    - @nearby_members.each do |member|
+      %li.span2
+        = render :partial => "members/thumbnail", :locals => { :member => member }
+- elsif @location
+  %h3 No results found

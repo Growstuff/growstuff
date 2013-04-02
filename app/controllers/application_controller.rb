@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   # tweak CanCan defaults because we don't have a "current_user" method
+  # this means that we use current_user in specs but current_member everywhere
+  # else in the code.
   def current_ability
     @current_ability ||= Ability.new(current_member)
   end

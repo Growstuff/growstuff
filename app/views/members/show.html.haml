@@ -19,6 +19,9 @@
         = @member.location
         %br/
         = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
+    - if current_member == @member
+      %p
+        = link_to 'Find members near you', nearby_members_path
     - if @member.show_email
       %p
         Email:
