@@ -15,7 +15,7 @@ Growstuff::Application.routes.draw do
 
   get "home/index"
 
-  match 'search/members/near' => 'members#nearby', :as => :nearby_members
+  match 'search/members/nearby' => 'members#nearby', :as => :nearby_members
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
