@@ -12,10 +12,10 @@
 
 
 %a{:name => "comments"}
-- if @post.comments.length > 0
+- if @comments
   %h2
-    =pluralize(@post.comments.length, "comment")
-  - @post.comments.each do |c|
+    =pluralize(@comments.length, "comment")
+  - @comments.each do |c|
     = render :partial => "comments/single", :locals => { :comment => c }
 
 - else

@@ -2,8 +2,9 @@ FactoryGirl.define do
   factory :planting do
     garden
     crop
-    planted_at Time.now
+    planted_at Date.today
     quantity 33
     description "This is a *really* good plant."
+    sunniness 'sun'
   end
 end

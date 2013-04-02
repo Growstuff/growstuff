@@ -3,12 +3,33 @@ require 'spec_helper'
 describe 'home/index.html.haml', :type => "view" do
   context 'logged out' do
     before(:each) do
+      @member = FactoryGirl.create(:geolocated_member)
+      @member.updated_at = 2.days.ago
+      @post = FactoryGirl.create(:post, :author => @member)
+      @planting = FactoryGirl.create(:planting, :garden => @member.gardens.first)
+      controller.stub(:current_user) { nil }
+      assign(:interesting_members, [@member])
+      assign(:plantings, [@planting])
+      assign(:posts, [@post])
       render
     end
 
-    it 'should have description' do
+    it 'has description' do
       rendered.should contain 'is a community of food gardeners'
-      rendered.should contain 'We welcome you regardless of your experience, and invite you to be part of our development process.'
+    end
+
+    it 'show recent posts' do
+      rendered.should contain @post.subject
+    end
+
+    it 'show recent plantings' do
+      rendered.should contain @planting.crop_system_name
+      rendered.should contain @planting.garden.name
+    end
+
+    it 'show interesting members' do
+      rendered.should contain @member.login_name
+      rendered.should contain @member.location
     end
   end
 
@@ -17,11 +38,14 @@ describe 'home/index.html.haml', :type => "view" do
       @member = FactoryGirl.create(:geolocated_member)
       controller.stub(:current_user) { @member }
       sign_in @member
+      assign(:member, @member)
       @planting = FactoryGirl.create(:planting,
         :garden => @member.gardens.first
       )
+      assign(:plantings, [@planting])
       @forum = FactoryGirl.create(:forum, :owner => @member)
       @post = FactoryGirl.create(:post, :author => @member)
+      assign(:posts, [@post])
       @role = FactoryGirl.create(:admin)
       @member.roles << @role
       render

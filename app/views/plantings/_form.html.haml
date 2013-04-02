@@ -21,6 +21,10 @@
     .controls
       = f.number_field :quantity, :class => 'input-small'
   .control-group
+    = f.label 'Sun or shade?', :class => 'control-label'
+    .controls
+      = f.select(:sunniness, Planting::SUNNINESS_VALUES, {:include_blank => true})
+  .control-group
     = f.label 'Tell us more about it', :class => 'control-label'
     .controls= f.text_area :description, :rows => 6
 
