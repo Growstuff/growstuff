@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'home/index.html.haml', :type => "view" do
   context 'logged out' do
     before(:each) do
+      controller.stub(:current_user) { nil }
       render
     end
 
@@ -16,11 +17,14 @@ describe 'home/index.html.haml', :type => "view" do
       @member = FactoryGirl.create(:geolocated_member)
       controller.stub(:current_user) { @member }
       sign_in @member
+      assign(:member, @member)
       @planting = FactoryGirl.create(:planting,
         :garden => @member.gardens.first
       )
+      assign(:plantings, [@planting])
       @forum = FactoryGirl.create(:forum, :owner => @member)
       @post = FactoryGirl.create(:post, :author => @member)
+      assign(:posts, [@post])
       @role = FactoryGirl.create(:admin)
       @member.roles << @role
       render

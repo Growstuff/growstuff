@@ -43,35 +43,11 @@
   .row
     .span6
       %h2 Your recent plantings
-      - if current_member.plantings.count > 0
-        %ul
-          - current_member.plantings.limit(10).each do |p|
-            %li
-              = link_to "#{p.crop.system_name} in #{p.location}", p
-              - if p.planted_at
-                on
-                = p.planted_at.to_s(:date)
-      - else
-        %p None yet.
-      - if can? :create, Planting
-        %p= link_to "Plant something", new_planting_path, :class => 'btn btn-primary'
+      = render :partial => 'shared/recent_plantings'
 
     .span6
       %h2 Your recent posts
-      - if current_member.posts.count > 0
-        %ul
-          - current_member.posts.limit(10).each do |p|
-            %li
-              = link_to p.subject, p
-              - if p.forum
-                in
-                = link_to p.forum.name, p.forum
-              on
-              = p.created_at.to_s(:date)
-      - else
-        %p None yet.
-      - if can? :create, Planting
-        %p= link_to "Post something", new_post_path, :class => 'btn btn-primary'
+      = render :partial => 'shared/recent_posts'
 
 - else
   .visible-desktop.visible-tablet
@@ -79,3 +55,11 @@
       = render :partial => 'blurb'
   .visible-phone
     = render :partial => 'blurb'
+
+  .row
+    .span6
+      %h2 Recent plantings
+      = render :partial => 'shared/recent_plantings'
+    .span6
+      %h2 Recent posts
+      = render :partial => 'shared/recent_posts'
