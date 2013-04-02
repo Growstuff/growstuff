@@ -3,13 +3,15 @@
 - else
   - content_for :title, "Members near you"
 
-= form_tag(nearby_members_path, :method => :get, :class => 'form-inline') do
+%p
+  = form_tag(nearby_members_path, :method => :get, :class => 'form-inline') do
+    = label_tag :location, "Find members near", :class => 'control-label'
+    = text_field_tag :location, @location
+    = submit_tag "Search", :class => 'btn btn-primary'
 
-  = label_tag :location, "Find members near", :class => 'control-label'
-  = text_field_tag :location, @location
-  = submit_tag "Search", :class => 'btn btn-primary'
-
-= link_to "Edit your location", edit_member_registration_path(current_member)
+- if can? :update, current_member
+  %p
+    = link_to "Edit your location", edit_member_registration_path(current_member)
 
 %h3 Results found
 %ul.thumbnails

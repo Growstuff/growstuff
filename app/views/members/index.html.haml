@@ -1,7 +1,8 @@
 = content_for :title, "#{Growstuff::Application.config.site_name} members"
 
-- if member_signed_in? && current_member.location
-  = link_to "Find members near you", nearby_members_path
+%p
+  - if member_signed_in? && current_member.location
+    = link_to "Find members near you", nearby_members_path
 
 %div.pagination
   = page_entries_info @members, :model => "members"
