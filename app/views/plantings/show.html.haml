@@ -4,7 +4,7 @@
   .span6
     %p
       %b Planted:
-      = @planting.planted_at ? @planting.planted_at.to_s(:date) : "not specified"
+      = @planting.planted_at ? @planting.planted_at : "not specified"
     %p
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner

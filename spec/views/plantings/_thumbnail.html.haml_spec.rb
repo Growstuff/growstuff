@@ -25,7 +25,7 @@ describe "plantings/_thumbnail" do
     end
 
     it "renders the date planted" do
-      rendered.should contain @planting.planted_at.to_s(:date)
+      rendered.should contain @planting.planted_at.to_s(:default)
     end
 
     it "shows the name of the crop" do
