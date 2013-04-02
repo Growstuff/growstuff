@@ -17,6 +17,4 @@
 %ul.thumbnails
   - @nearby_members.each do |member|
     %li.span2
-      .thumbnail(style="height: 190px")
-        = render :partial => "members/avatar", :locals => { :member => member }
-        = link_to "#{member.to_s}, #{member.location}", member
+      = render :partial => "members/thumbnail", :locals => { :member => member }
