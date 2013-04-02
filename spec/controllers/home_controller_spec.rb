@@ -20,6 +20,12 @@ describe HomeController do
       assigns(:plantings).should eq [@planting]
     end
 
+    it 'assigns interesting members' do
+      @member = FactoryGirl.create(:geolocated_member)
+      get :index, {}
+      assigns(:interesting_members).should eq [@member]
+    end
+
     context 'logged in' do
 
       login_member

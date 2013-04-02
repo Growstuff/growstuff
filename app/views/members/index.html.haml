@@ -7,9 +7,7 @@
 %ul.thumbnails
   - @members.each do |m|
     %li.span2
-      .thumbnail(style="height: 190px")
-        = render :partial => "members/avatar", :locals => { :member => m }
-        = link_to m.to_s, m
+      = render :partial => "members/thumbnail", :locals => { :member => m }
 
 %div.pagination
   = page_entries_info @members, :model => "members"

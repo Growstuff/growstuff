@@ -56,6 +56,13 @@
   .visible-phone
     = render :partial => 'blurb'
 
+  - if @interesting_members
+    %h2 Some of our members
+    %ul.thumbnails
+      - @interesting_members.each do |m|
+        %li.span2
+          = render :partial => "members/thumbnail", :locals => { :member => m }
+
   .row
     .span6
       %h2 Recent plantings

@@ -13,6 +13,12 @@ class Member < ActiveRecord::Base
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
+  scope :located, where('location IS NOT NULL')
+  scope :recently_signed_in, reorder('updated_at DESC')
+
+  # this is used on the signed-out homepage so we're basically
+  # just trying to select some members who look good.
+  scope :interesting, confirmed.located.recently_signed_in
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -24,7 +30,7 @@ class Member < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login_name, :email, :password, :password_confirmation,
     :remember_me, :login, :tos_agreement, :show_email,
-    :location, :latitude, :longitude
+    :location, :latitude, :longitude, :send_notification_email
 
   # set up geocoding
   geocoded_by :location

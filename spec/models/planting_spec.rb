@@ -19,6 +19,12 @@ describe Planting do
     @planting.location.should match /^member\d+'s Springfield Community Garden$/
   end
 
+  it "sorts plantings in descending order of creation" do
+    @planting1 = FactoryGirl.create(:planting)
+    @planting2 = FactoryGirl.create(:planting)
+    Planting.first.should eq @planting2
+  end
+
   it "should have a slug" do
     @planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
   end
@@ -56,6 +62,23 @@ describe Planting do
     it 'plantings count' do
       @planting.crop_plantings_count.should eq @planting.crop.plantings_count
     end
+  end
+
+  it 'should have a sunniness value' do
+    @planting.sunniness.should eq 'sun'
+  end
+
+  it 'all three valid sunniness values should work' do
+    ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
+      @planting = FactoryGirl.build(:planting, :sunniness => s)
+      @planting.should be_valid
+    end
+  end
+
+  it 'should refuse invalid sunniness values' do
+    @planting = FactoryGirl.build(:planting, :sunniness => 'not valid')
+    @planting.should_not be_valid
+    @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
   end
 
 end

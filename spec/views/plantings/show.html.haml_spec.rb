@@ -9,6 +9,26 @@ describe "plantings/show" do
     )
   end
 
+  it "shows the sunniness" do
+    controller.stub(:current_user) { nil }
+    @member = FactoryGirl.create(:member)
+    create_planting_for(@member)
+    render
+    rendered.should contain 'Sun or shade?'
+    rendered.should contain 'sun'
+  end
+
+  it "doesn't show sunniness if blank" do
+    controller.stub(:current_user) { nil }
+    @member = FactoryGirl.create(:member)
+    @p = create_planting_for(@member)
+    @p.sunniness = ''
+    @p.save
+    render
+    rendered.should_not contain 'Sun or shade?'
+    rendered.should_not contain 'sun'
+  end
+
   context "no location set" do
     before(:each) do
       controller.stub(:current_user) { nil }
