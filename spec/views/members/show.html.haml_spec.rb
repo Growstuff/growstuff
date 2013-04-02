@@ -76,6 +76,10 @@ describe "members/show" do
     it "contains an edit settings button" do
       rendered.should contain "Edit Settings"
     end
+
+    it "contains no send message button" do
+      rendered.should_not contain "Send Message"
+    end
   end
 
   context "signed in as different member" do
@@ -97,6 +101,10 @@ describe "members/show" do
     it "contains no edit settings button" do
       rendered.should_not contain "Edit Settings"
     end
+
+    it "contains a send message button" do
+      rendered.should contain "Send Message"
+    end
   end
 
   context "public member" do
@@ -107,6 +115,10 @@ describe "members/show" do
 
     it "shows the email address" do
       rendered.should contain @member.email
+    end
+
+    it "doesn't show a send message button" do
+      rendered.should_not contain "Send Message"
     end
   end
 

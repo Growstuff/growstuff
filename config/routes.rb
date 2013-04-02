@@ -1,5 +1,7 @@
 Growstuff::Application.routes.draw do
 
+  get "notifications/new"
+
   devise_for :members, :controllers => { :registrations => "registrations" }
 
   resources :plantings

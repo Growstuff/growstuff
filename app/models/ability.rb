@@ -7,6 +7,7 @@ class Ability
     # everyone can do these things, even non-logged in
     can :read, :all
     cannot :read, Notification
+    cannot :create, Notification
 
     # nobody should be able to view this except admins
     cannot :read, Role
@@ -28,7 +29,13 @@ class Ability
       # can read/delete notifications that were sent to them
       can :read, Notification, :recipient_id => member.id
       can :destroy, Notification, :recipient_id => member.id
-      # note we don't support create/update for notifications
+      # can send a private message to anyone but themselves
+      # note: sadly, we can't test for this from the view, but it works
+      # for the model/controller
+      can :create, Notification do |n|
+        n.recipient_id != member.id
+      end
+      # note we don't support update for notifications
 
       # only crop wranglers can create/edit/destroy crops
       if member.has_role? :crop_wrangler
