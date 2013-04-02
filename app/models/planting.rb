@@ -10,7 +10,9 @@ class Planting < ActiveRecord::Base
 
   default_scope order("created_at desc")
 
-  delegate :default_scientific_name,
+  delegate :system_name,
+    :en_wikipedia_url,
+    :default_scientific_name,
     :plantings_count,
     :to => :crop,
     :prefix => true

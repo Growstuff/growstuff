@@ -2,7 +2,7 @@
   %ul
     - @plantings.each do |p|
       %li
-        = link_to "#{p.crop.system_name} in #{p.location}", p
+        = link_to "#{p.crop_system_name} in #{p.location}", p
         - if p.planted_at
           on
           = p.planted_at
