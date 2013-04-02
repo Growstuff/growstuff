@@ -4,7 +4,7 @@
   From
   = link_to @notification.sender, @notification.sender
   on
-  = @notification.created_at.to_s(:date)
+  = @notification.created_at
 
   - if @notification.post_id
     in response to:
