@@ -58,9 +58,10 @@ describe 'layouts/application.html.haml', :type => "view" do
     end
 
     it 'includes the analytics code' do
-      Growstuff::Application.config.analytics_code = 'ANALYTICS'
+      Growstuff::Application.config.analytics_code = '<script>alert("foo!")</script>'
       render
-      rendered.should contain 'ANALYTICS'
+      assert_select "script", :text => 'alert("foo!")'
+      rendered.should_not contain 'script'
     end
 
   end

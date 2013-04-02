@@ -1,6 +1,15 @@
-%h1
-  = Growstuff::Application.config.site_name
+%h1= Growstuff::Application.config.site_name
 
-%p #{Growstuff::Application.config.site_name} is a community of food gardeners working together to build an open source platform to track, share, and discuss edible gardens and sustainable lifestyles. You can join us right now and be part of growing our website, from seed to harvest. We welcome you regardless of your experience, and invite you to be part of our development process.
+%p
+  #{Growstuff::Application.config.site_name} is a community of food gardeners. We're building an open source platform to track, share, and discuss edible gardens and sustainable lifestyles.  We offer growing information tailored to your location, and help you connect with your local food-growing community.
 
-%p= link_to 'Learn more', 'http://wiki.growstuff.org/', :class => 'btn btn-primary btn-large'
+  %strong
+    So far,
+    = link_to "#{@member_count} members", members_path
+    have planted
+    = link_to "#{@crop_count} crops", crops_path
+    #{@planting_count} times in #{@garden_count} gardens.
+
+  You could be one of them. Sign up for a free account and start tracking your food garden today.
+%p
+  = link_to 'Join now', new_member_registration_path, :class => 'btn btn-primary btn-large'

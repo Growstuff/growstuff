@@ -7,16 +7,34 @@ describe Ability do
     @ability = Ability.new(@member)
   end
 
-  it 'member can view their own notifications' do
-    @notification = FactoryGirl.create(:notification, :recipient => @member)
-    @ability.should be_able_to(:read, @notification)
-  end
+  context "notifications" do
+    it 'member can view their own notifications' do
+      @notification = FactoryGirl.create(:notification, :recipient => @member)
+      @ability.should be_able_to(:read, @notification)
+    end
 
-  it "member can't view someone else's notifications" do
-    @notification = FactoryGirl.create(:notification,
-      :recipient => FactoryGirl.create(:member)
-    )
-    @ability.should_not be_able_to(:read, @notification)
+    it "member can't view someone else's notifications" do
+      @notification = FactoryGirl.create(:notification,
+        :recipient => FactoryGirl.create(:member)
+      )
+      @ability.should_not be_able_to(:read, @notification)
+    end
+    it "member can't send messages to themself" do
+      @ability.should_not be_able_to(:create,
+        FactoryGirl.create(:notification,
+          :recipient => @member,
+          :sender => @member
+        )
+      )
+    end
+    it "member can send messages to someone else" do
+      @ability.should be_able_to(:create,
+        FactoryGirl.create(:notification,
+          :recipient => FactoryGirl.create(:member),
+          :sender => @member
+        )
+      )
+    end
   end
 
   context "crop wrangling" do

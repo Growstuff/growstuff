@@ -6,11 +6,9 @@ describe "members/index" do
     page = 1
     per_page = 2
     total_entries = 2
+    @member = FactoryGirl.create(:geolocated_member)
     members = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([
-        FactoryGirl.create(:member),
-        FactoryGirl.create(:member)
-      ])
+      pager.replace([ @member, @member ])
     end
     assign(:members, members)
     render
@@ -18,6 +16,10 @@ describe "members/index" do
 
   it "contains two gravatar icons" do
     assert_select "img", :src => /gravatar\.com\/avatar/, :count => 2
+  end
+
+  it 'contains member locations' do
+    rendered.should contain @member.location
   end
 
 end

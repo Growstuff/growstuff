@@ -45,78 +45,30 @@
   .row
     .span6
       %h2 Your recent plantings
-      - if current_member.plantings.count > 0
-        %ul
-          - current_member.plantings.limit(10).each do |p|
-            %li
-              = link_to "#{p.crop.system_name} in #{p.location}", p
-              - if p.planted_at
-                on
-                = p.planted_at.to_s(:date)
-      - else
-        %p None yet.
-      - if can? :create, Planting
-        %p= link_to "Plant something", new_planting_path, :class => 'btn btn-primary'
+      = render :partial => 'shared/recent_plantings'
 
     .span6
       %h2 Your recent posts
-      - if current_member.posts.count > 0
-        %ul
-          - current_member.posts.limit(10).each do |p|
-            %li
-              = link_to p.subject, p
-              - if p.forum
-                in
-                = link_to p.forum.name, p.forum
-              on
-              = p.created_at.to_s(:date)
-      - else
-        %p None yet.
-      - if can? :create, Planting
-        %p= link_to "Post something", new_post_path, :class => 'btn btn-primary'
-
-    .span6
-
+      = render :partial => 'shared/recent_posts'
 
 - else
   .visible-desktop.visible-tablet
     .hero-unit
       = render :partial => 'blurb'
-
   .visible-phone
     = render :partial => 'blurb'
 
-  .row
-    .span3
-      %h2 Track
-      %p
-        Track your garden, your
-        = link_to 'crops', crops_path
-        , and everything to do with them. |
-        Remember what you planted or harvested, and plan for what you want to do next. |
-        Import and export your data to a spreadsheet or other format.
+  - if @interesting_members
+    %h2 Some of our members
+    %ul.thumbnails
+      - @interesting_members.each do |m|
+        %li.span2
+          = render :partial => "members/thumbnail", :locals => { :member => m }
 
-    .span3
-      %h2 Connect
-      %p
-        Connect with friends, people who live in your area, or others |
-        who share your gardening interests.  Show off your crops and |
-        harvests, share updates and tips, and
-        = link_to 'see', posts_path
-        what everyone else is doing, too.
-    .span3
-      %h2 Learn
-      %p
-        Browse our
-        = link_to 'crops', crops_path
-        database and learn about food plants for your
-        climate and garden type.  Read other
-        = link_to "members' posts", posts_path
-        and tips, or post questions and discuss food gardening issues in our forums.
-    .span3
-      %h2 Trade
-      %p
-        Use #{ Growstuff::Application.config.site_name } as a marketplace
-        for everything related to food gardens.  Buy and sell, trade,
-        or give away anything from seeds to garden supplies, or find
-        events and businesses in your area.
+  .row
+    .span6
+      %h2 Recent plantings
+      = render :partial => 'shared/recent_plantings'
+    .span6
+      %h2 Recent posts
+      = render :partial => 'shared/recent_posts'
