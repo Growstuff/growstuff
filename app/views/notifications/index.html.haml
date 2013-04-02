@@ -23,9 +23,9 @@
               %strong= link_to n.subject, notification_path(n)
           %td
             - if n.read
-              = n.created_at.to_s(:date)
+              = n.created_at
             - else
-              %strong= n.created_at.to_s(:date)
+              %strong= n.created_at
           %td
             = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 - else

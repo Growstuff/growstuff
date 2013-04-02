@@ -8,7 +8,11 @@ class Planting < ActiveRecord::Base
   belongs_to :garden
   belongs_to :crop
 
-  delegate :default_scientific_name,
+  default_scope order("created_at desc")
+
+  delegate :system_name,
+    :en_wikipedia_url,
+    :default_scientific_name,
     :plantings_count,
     :to => :crop,
     :prefix => true
