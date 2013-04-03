@@ -1,6 +1,4 @@
-- if current_member && current_member.location && @location == current_member.location
-  - content_for :title, "Members near you"
-- elsif @location
+- if @location
   - content_for :title, "Members near #{@location}"
 - else content_for :title, "Find nearby members"
 

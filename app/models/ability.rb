@@ -8,7 +8,6 @@ class Ability
     can :read, :all
     cannot :read, Notification
     cannot :create, Notification
-    can :nearby, Member # see members near to a location
 
     # nobody should be able to view this except admins
     cannot :read, Role

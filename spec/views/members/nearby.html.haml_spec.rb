@@ -18,10 +18,6 @@ describe "members/nearby" do
       assert_select "#location", :value => @location
     end
 
-    it "shows 'Members near you' instead of naming the place" do
-      view.content_for(:title).should == "Members near you"
-    end 
-
     it "shows the names of nearby members" do
       @nearby_members.each do |m|
         rendered.should contain m.login_name
