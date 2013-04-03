@@ -52,7 +52,7 @@ class Member < ActiveRecord::Base
       :message => "should be between 2 and 25 characters long"
     },
     :exclusion => {
-      :in => %w(growstuff admin moderator staff),
+      :in => %w(growstuff admin moderator staff nearby),
       :message => "name is reserved"
     },
     :format => {
