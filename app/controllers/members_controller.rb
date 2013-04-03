@@ -1,5 +1,7 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
+  skip_authorize_resource :only => :nearby
+
   def index
     @members = Member.confirmed.paginate(:page => params[:page])
 
