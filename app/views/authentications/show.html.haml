@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Member:
+  = @authentication.member_id
+%p
+  %b Provider:
+  = @authentication.provider
+%p
+  %b Uid:
+  = @authentication.uid
+%p
+  %b Secret:
+  = @authentication.secret
+
+= link_to 'Edit', edit_authentication_path(@authentication)
+\|
+= link_to 'Back', authentications_path

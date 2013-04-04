@@ -1,0 +1,22 @@
+= form_for @authentication do |f|
+  - if @authentication.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@authentication.errors.count, "error")} prohibited this authentication from being saved:"
+      %ul
+        - @authentication.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :member_id
+    = f.number_field :member_id
+  .field
+    = f.label :provider
+    = f.text_field :provider
+  .field
+    = f.label :uid
+    = f.text_field :uid
+  .field
+    = f.label :secret
+    = f.text_field :secret
+  .actions
+    = f.submit 'Save'
