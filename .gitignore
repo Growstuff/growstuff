@@ -5,3 +5,4 @@
 .*.sw*
 *~
 *.DS_Store
+credentials.sh
