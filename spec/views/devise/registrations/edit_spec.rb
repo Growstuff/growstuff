@@ -35,6 +35,12 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       it 'shows show_email checkbox' do
         assert_select "input[id=member_show_email][type=checkbox]"
       end
+      it "contains a gravatar icon" do
+        assert_select "img", :src => /gravatar\.com\/avatar/
+      end
+      it 'contains a link to gravatar.com' do
+        assert_select "a", :href => /gravatar\.com/
+      end
       it 'shows location field' do
         assert_select "input[id=member_location][type=text]"
       end

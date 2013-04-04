@@ -17,6 +17,15 @@
       Receive emailed copies of Inbox notifications.
 
   %h2 Profile details
+  .control-group
+    %label.control-label
+      Profile picture
+    .controls
+      = render :partial => "members/avatar", :locals => { :member => @member }
+      %p
+        %br/
+        To change your profile picture, visit
+        = link_to 'gravatar.com', "http://gravatar.com/"
 
   .control-group
     =f.label :location, 'Your location', :class => 'control-label'
