@@ -40,17 +40,7 @@ class AuthenticationsController < ApplicationController
   # POST /authentications
   # POST /authentications.json
   def create
-    @authentication = Authentication.new(params[:authentication])
-
-    respond_to do |format|
-      if @authentication.save
-        format.html { redirect_to @authentication, notice: 'Authentication was successfully created.' }
-        format.json { render json: @authentication, status: :created, location: @authentication }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @authentication.errors, status: :unprocessable_entity }
-      end
-    end
+    render :text => request.env["omniauth.auth."].to_yaml
   end
 
   # PUT /authentications/1
