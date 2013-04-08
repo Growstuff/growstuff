@@ -41,7 +41,12 @@ class AuthenticationsController < ApplicationController
   # POST /authentications.json
   def create
     auth = request.env['omniauth.auth']
-    render :text => auth.to_yaml
+    current_member.authentications.create(
+      :provider => auth['provider'],
+      :uid => auth['uid'],
+      :secret => auth['credentials']['secret'])
+    flash[:notice] = "Authentication successful."
+    redirect_to authentications_url
   end
 
   # PUT /authentications/1
