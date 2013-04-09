@@ -43,6 +43,11 @@ describe Post do
     @post.forum.should be_an_instance_of Forum
   end
 
+  it "doesn't allow a blank subject" do
+    @post = FactoryGirl.build(:post, :subject => nil)
+    expect { @post.save }.to raise_error ActiveRecord::StatementInvalid
+  end
+
   context "recent activity" do
     before(:each) do
       Time.stub(:now => Time.now)
