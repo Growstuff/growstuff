@@ -1,25 +1,15 @@
-%h1 Listing authentications
+%h1 Linked accounts on other sites
 
-%table
-  %tr
-    %th Member
-    %th Provider
-    %th Uid
-    %th Secret
-    %th
-    %th
-    %th
-
+- if @authentications && !@authentications.empty?
+  .authentications
   - @authentications.each do |authentication|
-    %tr
-      %td= authentication.member_id
-      %td= authentication.provider
-      %td= authentication.uid
-      %td= authentication.secret
-      %td= link_to 'Show', authentication
-      %td= link_to 'Edit', edit_authentication_path(authentication)
-      %td= link_to 'Destroy', authentication, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
+    .authentication
+      = image_tag "#{authentication.provider}_64.png", :size => "64x64"
+    .provider
+      = authentication.provider.titleize
+    .uid
+      = authentication.uid
+    = link_to "X", authentication, :confirm => "Are you sure you want to remove this authentication?", :method => :delete, :class => "remove"
+  .clear
 
 = link_to 'New Authentication', new_authentication_path

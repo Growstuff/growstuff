@@ -2,7 +2,7 @@ class AuthenticationsController < ApplicationController
   # GET /authentications
   # GET /authentications.json
   def index
-    @authentications = Authentication.all
+    @authentications = current_member.authentications if member_signed_in?
 
     respond_to do |format|
       format.html # index.html.erb
