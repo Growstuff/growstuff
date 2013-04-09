@@ -14,7 +14,7 @@ class AuthenticationsController < ApplicationController
   # POST /authentications.json
   def create
     auth = request.env['omniauth.auth']
-    current_member.authentications.create(
+    current_member.authentications.find_or_create_by_provider_and_uid(
       :provider => auth['provider'],
       :uid => auth['uid'],
       :name => auth['info']['nickname'] || auth['info']['name'],
