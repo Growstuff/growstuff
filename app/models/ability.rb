@@ -43,6 +43,11 @@ class Ability
         can :manage, ScientificName
       end
 
+      # can create/update/destroy their own authentications against other sites.
+      can :create, Authentication
+      can :update, Authentication, :member_id => member.id
+      can :destroy, Authentication, :member_id => member.id
+
       # anyone can create a post, or comment on a post,
       # but only the author can edit/destroy it.
       can :create, Post
