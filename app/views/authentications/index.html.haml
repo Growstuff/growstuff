@@ -1,15 +1,21 @@
 %h1 Linked accounts on other sites
 
-- if @authentications && !@authentications.empty?
-  .authentications
-  - @authentications.each do |authentication|
-    .authentication
-      = image_tag "#{authentication.provider}_64.png", :size => "64x64"
-    .provider
-      = authentication.provider.titleize
-    .uid
-      = authentication.uid
-    = link_to "X", authentication, :confirm => "Are you sure you want to remove this authentication?", :method => :delete, :class => "remove"
-  .clear
+- if @authentications
+  - unless @authentications.empty?
+    .authentications
+    - @authentications.each do |authentication|
+      .authentication
+        = image_tag "#{authentication.provider}_64.png", :size => "64x64"
+      .provider
+        = authentication.provider.titleize
+      .uid
+        = authentication.uid
+      = link_to "X", authentication, :confirm => "Are you sure you want to remove this authentication?", :method => :delete, :class => "remove"
+    .clear
+    %p
+      %strong Link another external account:
+  - else
+    %p
+      %strong Link to an external account:
 
-= link_to 'New Authentication', new_authentication_path
+= link_to image_tag("twitter_64.png", :size => "64x64"), "/auth/twitter", :class => "auth_provider"
