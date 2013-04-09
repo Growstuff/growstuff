@@ -78,6 +78,7 @@ gem 'bootstrap-datepicker-rails'
 # For connecting to other services (eg Twitter)
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'authbuttons-rails'
 
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
