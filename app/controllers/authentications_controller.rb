@@ -44,6 +44,7 @@ class AuthenticationsController < ApplicationController
     current_member.authentications.create(
       :provider => auth['provider'],
       :uid => auth['uid'],
+      :token => auth['credentials']['token'],
       :secret => auth['credentials']['secret'])
     flash[:notice] = "Authentication successful."
     redirect_to authentications_url
