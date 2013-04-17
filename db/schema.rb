@@ -82,11 +82,6 @@ ActiveRecord::Schema.define(:version => 20130329045744) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
-    t.text     "about_me"
-    t.string   "full_name"
-    t.string   "gardening_since"
-    t.string   "wish_i_could_grow"
-    t.string   "gardening_clothes"
     t.boolean  "send_notification_email", :default => true
   end
 
@@ -110,15 +105,6 @@ ActiveRecord::Schema.define(:version => 20130329045744) do
     t.integer  "post_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-  end
-
-  create_table "payments", :force => true do |t|
-    t.integer  "payer_id"
-    t.decimal  "amount"
-    t.date     "paid_period_begins"
-    t.date     "paid_period_ends"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
   end
 
   create_table "plantings", :force => true do |t|

@@ -69,7 +69,10 @@ gem 'friendly_id'
 # gravatars
 gem 'gravatar-ultimate'
 
+# For geolocation
 gem 'geocoder'
+
+# For easy calendar selection
 gem 'bootstrap-datepicker-rails'
 
 # for phusion passenger (i.e. mod_rails) on the server
