@@ -13,9 +13,9 @@
         %tr
           %td
             - if n.read
-              = link_to n.sender
+              = link_to n.sender, member_path(n.sender)
             - else
-              %strong= link_to n.sender
+              %strong= link_to n.sender, member_path(n.sender)
           %td
             - if n.read
               = link_to n.subject, notification_path(n)
