@@ -38,6 +38,20 @@
       = f.check_box :show_email
       Show email publicly on your profile page
 
+  %h2 Linked accounts
+
+  .control-group
+    .controls
+      %p
+        = image_tag "twitter_32.png", :size => "32x32", :alt => 'Twitter logo'
+        - if @twitter_auth
+          You are connected to Twitter as
+          = succeed "." do
+            =link_to @twitter_auth.name, "http://twitter.com/#{@twitter_auth.name}"
+          = link_to "Disconnect", @twitter_auth, :confirm => "Are you sure you want to remove this connection?", :method => :delete, :class => "remove"
+        - else
+          =link_to 'Connect to Twitter', '/auth/twitter'
+
   %h2 Change password
   %p
     %span.help-block Leave blank if you don't want to change your password.

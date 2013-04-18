@@ -14,14 +14,19 @@ class AuthenticationsController < ApplicationController
   # POST /authentications.json
   def create
     auth = request.env['omniauth.auth']
-    current_member.authentications.find_or_create_by_provider_and_uid(
-      :provider => auth['provider'],
-      :uid => auth['uid'],
-      :name => auth['info']['nickname'] || auth['info']['name'],
-      :token => auth['credentials']['token'],
-      :secret => auth['credentials']['secret'])
-    flash[:notice] = "Authentication successful."
-    redirect_to authentications_url
+    @authentication = nil
+    if auth
+      @authentication = current_member.authentications.find_or_create_by_provider_and_uid(
+        :provider => auth['provider'],
+        :uid => auth['uid'],
+        :name => auth['info']['nickname'] || auth['info']['name'],
+        :token => auth['credentials']['token'],
+        :secret => auth['credentials']['secret'])
+      flash[:notice] = "Authentication successful."
+    else
+      flash[:notice] = "Authentication failed."
+    end
+    redirect_to edit_member_registration_path
   end
 
   # DELETE /authentications/1
@@ -31,7 +36,7 @@ class AuthenticationsController < ApplicationController
     @authentication.destroy
 
     respond_to do |format|
-      format.html { redirect_to authentications_url }
+      format.html { redirect_to edit_member_registration_path }
       format.json { head :no_content }
     end
   end
