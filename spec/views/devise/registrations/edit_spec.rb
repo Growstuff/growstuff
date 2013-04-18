@@ -11,14 +11,18 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       @view.stub(:resource_name).and_return("member")
       @view.stub(:resource_class).and_return(Member)
       @view.stub(:devise_mapping).and_return(Devise.mappings[:member])
-      render
     end
 
     it 'should have some fields' do
-        rendered.should contain 'Email'
+      render
+      rendered.should contain 'Email'
     end
 
     context 'email section' do
+      before(:each) do
+        render
+      end
+
       it 'has a heading' do
         assert_select "h2", "Email settings"
       end
@@ -29,6 +33,10 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
     end
 
     context 'profile section' do
+      before(:each) do
+        render
+      end
+
       it 'has a heading' do
         assert_select "h2", "Profile details"
       end
@@ -46,7 +54,34 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       end
     end
 
+    context 'other sites section' do
+      it 'has a heading' do
+        render
+        assert_select "h2", "Linked accounts"
+      end
+      context 'not connected to twitter' do
+        it 'has a link to connect' do
+          render
+          assert_select "a", "Connect to Twitter"
+        end
+      end
+      context 'connected to twitter' do
+        before(:each) do
+          @twitter_auth = FactoryGirl.create(:authentication, :member => @member)
+          render
+        end
+        it 'has a link to twitter profile' do
+          assert_select "a", :href => "http://twitter.com/#{@twitter_auth.name}"
+        end
+        it 'has a link to disconnect' do
+          render
+          assert_select "a", :href => @twitter_auth, :text => "Disconnect"
+        end
+      end
+    end
+
     it 'should have a password section' do
+      render
       assert_select "h2", "Change password"
     end
 

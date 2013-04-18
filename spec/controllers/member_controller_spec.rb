@@ -5,6 +5,7 @@ describe MembersController do
   before :each do
     @member = FactoryGirl.create(:member)
     @posts = [ FactoryGirl.create(:post, :author => @member) ]
+    @twitter_auth = FactoryGirl.create(:authentication, :member => @member)
   end
 
   describe "GET index" do
@@ -33,6 +34,11 @@ describe MembersController do
     end
 
     it "assigns @posts with the member's posts" do
+      get :show, {:id => @member.id}
+      assigns(:posts).should eq(@posts)
+    end
+
+    it "assigns @twitter_auth" do
       get :show, {:id => @member.id}
       assigns(:posts).should eq(@posts)
     end
