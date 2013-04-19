@@ -8,6 +8,7 @@ class Ability
     can :read, :all
     cannot :read, Notification
     cannot :create, Notification
+    cannot :read, Authentication
 
     # nobody should be able to view this except admins
     cannot :read, Role
@@ -42,6 +43,10 @@ class Ability
         can :manage, Crop
         can :manage, ScientificName
       end
+
+      # can create & destroy their own authentications against other sites.
+      can :create, Authentication
+      can :destroy, Authentication, :member_id => member.id
 
       # anyone can create a post, or comment on a post,
       # but only the author can edit/destroy it.

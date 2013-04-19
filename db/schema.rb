@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329045744) do
+ActiveRecord::Schema.define(:version => 20130418102558) do
+
+  create_table "authentications", :force => true do |t|
+    t.integer  "member_id",  :null => false
+    t.string   "provider",   :null => false
+    t.string   "uid"
+    t.string   "token"
+    t.string   "secret"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "name"
+  end
+
+  add_index "authentications", ["member_id"], :name => "index_authentications_on_member_id"
 
   create_table "comments", :force => true do |t|
     t.integer  "post_id",    :null => false
@@ -105,6 +118,14 @@ ActiveRecord::Schema.define(:version => 20130329045744) do
     t.integer  "post_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "payments", :force => true do |t|
+    t.integer  "payer_id"
+    t.string   "payment_type"
+    t.decimal  "amount"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "plantings", :force => true do |t|

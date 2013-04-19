@@ -12,21 +12,32 @@
         =link_to 'Send Message', new_notification_path(:sender_id => current_member.id, :recipient_id => @member.id), :class => 'btn btn-primary'
 
     %p
-      %strong Member since: 
+      %strong Member since:
       = @member.created_at.to_s(:date)
+
+    - if @twitter_auth || @member.show_email
+      %h4 Contact
+
+      - if @twitter_auth
+        %p
+          = image_tag "twitter_32.png", :size => "32x32", :alt => 'Twitter logo'
+          =link_to @twitter_auth.name, "http://twitter.com/#{@twitter_auth.name}"
+
+      - if @member.show_email
+        %p
+          Email:
+          = mail_to @member.email
+
     - if @member.location.to_s != ''
+      %h4 Location
       %p
-        %strong Location:
+        = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
+        %br/
+        Location:
         = @member.location
         %br/
         = link_to 'Find members near here', nearby_members_path(:location => @member.location)
-        %br/
-        = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
     %p
-    - if @member.show_email
-      %p
-        Email:
-        = mail_to @member.email
     - if current_member == @member
       %p
         = link_to 'Edit Settings', "edit", :class => 'btn btn-mini'
@@ -64,6 +75,9 @@
             %h3 Create a new garden
             = render 'gardens/form'
 
-    %h3 Updates
-    - @member.posts.each do |post|
-      = render :partial => "posts/single", :locals => { :post => post, :subject => true }
+    %h3 Posts
+    - if @member.posts.count > 0
+      - @member.posts.each do |post|
+        = render :partial => "posts/single", :locals => { :post => post, :subject => true }
+    - else
+      %p Nothing posted yet.
