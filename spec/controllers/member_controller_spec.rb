@@ -105,6 +105,16 @@ describe MembersController do
 				assigns(:nearby_members).should include @member_far
 			end
 
+			it "finds them by miles" #do
+			#  get :nearby, { :distance => "350", :units => :mi, :location => [55.953252, -3.188267] }
+			#  assigns(:nearby_members).should include @member_near
+			#end
+
+			it "doesn't find them by km" #do
+			#  get :nearby, { :distance => "350", :units => :km, :location => [55.953252, -3.188267] }
+			#  assigns(:nearby_members).should_not include @member_near
+			#end
+
     end
 
     context "when the user is logged in but hasn't set their location" do
