@@ -99,6 +99,12 @@ describe MembersController do
         get :nearby, { :location => @member_far.location }
         assigns(:nearby_members).should_not include @member_near
       end
+
+      it "finds lonely members if you increase the distance" do
+				get :nearby, { :distance => "50000" }
+				assigns(:nearby_members).should include @member_far
+			end
+
     end
 
     context "when the user is logged in but hasn't set their location" do
