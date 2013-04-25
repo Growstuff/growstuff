@@ -43,11 +43,10 @@ class MembersController < ApplicationController
       @distance = 100
     end
 
-    # This isn't actually working yet
-    if !params[:units].blank?
+    if params[:units] == "mi" || params[:units] == "km"
       @units = params[:units].to_sym
     else
-      @units = :mi
+      @units = :km
     end
 
 		@nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
