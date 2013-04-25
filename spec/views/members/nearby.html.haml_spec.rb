@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "members/nearby" do
   before(:each) do
-    @member = FactoryGirl.create(:geolocated_member)
+    @member = FactoryGirl.create(:london_member)
     @nearby_members = [FactoryGirl.create(:member)]
   end
 

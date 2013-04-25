@@ -65,13 +65,13 @@ describe MembersController do
 
   describe "GET nearby members" do
     before(:each) do
-      @member_london = FactoryGirl.create(:geolocated_member)
-      @member_south_pole = FactoryGirl.create(:lonely_geolocated_member)
+      @member_london = FactoryGirl.create(:london_member)
+      @member_south_pole = FactoryGirl.create(:south_pole_member)
     end
 
     context "when the user is logged in and has set their location" do
       before(:each) do
-        @member = FactoryGirl.create(:geolocated_member)
+        @member = FactoryGirl.create(:london_member)
         controller.stub(:current_member) { @member }
       end
 
