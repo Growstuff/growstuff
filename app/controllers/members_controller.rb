@@ -45,7 +45,7 @@ class MembersController < ApplicationController
 
     # This isn't actually working yet
     if !params[:units].blank?
-      @units = params[:units]
+      @units = params[:units].to_sym
     else
       @units = :mi
     end
