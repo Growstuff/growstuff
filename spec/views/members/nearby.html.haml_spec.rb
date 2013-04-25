@@ -22,6 +22,12 @@ describe "members/nearby" do
 			assert_select "#distance", :value => "100"
     end
 
+    it "shows a dropdown with miles and km" do
+      assert_select "select#units"
+      assert_select "select#units option[value=km]"
+      assert_select "select#units option[value=mi]"
+    end
+
     it "shows the names of nearby members" do
       @nearby_members.each do |m|
         rendered.should contain m.login_name
