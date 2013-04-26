@@ -19,7 +19,7 @@ describe "members/nearby" do
     end
 
     it "shows the default distance in the textbox" do
-			assert_select "#distance", :value => "100"
+      assert_select "#distance", :value => "100"
     end
 
     it "shows a dropdown with miles and km" do

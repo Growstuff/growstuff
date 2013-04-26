@@ -37,9 +37,9 @@ class MembersController < ApplicationController
       @location = nil
     end
 
-		if !params[:distance].blank?
-			@distance = params[:distance]
-		else
+    if !params[:distance].blank?
+      @distance = params[:distance]
+    else
       @distance = 100
     end
 
@@ -49,7 +49,7 @@ class MembersController < ApplicationController
       @units = :km
     end
 
-		@nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
+    @nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
     respond_to do |format|
       format.html # nearby.html.haml
       format.json { render json: @nearby_members }
