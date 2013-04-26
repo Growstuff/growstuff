@@ -18,12 +18,13 @@ significant changes.  This means that if you submit a pull request and
 weren't working in a pair, we can't merge it into the project as-is.
 
 If you would like to work on any larger change, we would appreciate it
-if you would get in touch with us first, preferably via our [mailing
+if you would get in touch with us, preferably via our [mailing
 list](http://lists.growstuff.org/mailman/listinfo/discuss), and talk to
 us about it first.  We'll try and hook you up with a partner so you can
 work as a pair, either in person or remotely depending on where you are.
 The [Growstuff wiki](http://wiki.growstuff.org/) has lots more
-information on our dev process, if you're interested.
+information on our dev process, to get you started if you would like to
+join us.
 
 If you submit a significant change without working in a pair, we will
 treat your work as an experimental "spike" and get one of our pairs of
