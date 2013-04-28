@@ -8,6 +8,7 @@ describe 'layouts/_footer.html.haml', :type => "view" do
 
     it 'should have links in footer' do
         rendered.should contain 'About'
+        rendered.should contain 'Contact'
         assert_select("a[href=/policy/tos]", 'Terms of Service')
         assert_select("a[href=/policy/privacy]", 'Privacy Policy')
         assert_select("a[href=/policy/community]", 'Community Guidelines')
