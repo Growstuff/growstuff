@@ -1,16 +1,29 @@
+---
 language: ruby
+rvm:
+  - 1.9.3
 script:
-  - bundle exec rake db:migrate --trace
-  - bundle exec rspec spec/
+- bundle exec rake db:migrate --trace
+- bundle exec rspec spec/
 
-notifications:
-  recipients:
-    - discuss@lists.growstuff.org
-  email:
-    on_success: change
-    on_failure: always
-  irc:
-    channels:
-      - "irc.parrot.org#growstuff"
-    on_success: change
-    on_failure: change
+after_success:
+  - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then git remote add heroku git@heroku.com:growstuff-dev.git
+  - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+  - echo "Host heroku.com" >> ~/.ssh/config
+  - echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+  - echo "   CheckHostIP no" >> ~/.ssh/config
+  - echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+  - heroku keys:clear
+  - yes | heroku keys:add
+  - yes | git push heroku dev:master
+  - yes | heroku run rake db:migrate
+  - yes | heroku restart
+  - fi
+
+env:
+  global:
+  - secure: ! 'LihQ5mCdGmQr9hXeh0yGO0YQH8fgpQ6govovNI2lPzchLD79R0T/m8UgcDmP
+
+      R+/rlOoZtxxaBt+kO5ueWUTa7+PF2a9Yy3N+WozrxHL1sW0NXY6X82ZERwxA
+
+      ekXwH2PqCWqR5x2+dOgvz2B3MdaE5piMiXz3lORbxXv5M5w9skw='
