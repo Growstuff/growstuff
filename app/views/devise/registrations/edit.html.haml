@@ -25,7 +25,8 @@
       %p
         %br/
         To change your profile picture, visit
-        = link_to 'gravatar.com', "http://gravatar.com/"
+        = succeed "." do
+          = link_to 'gravatar.com', "http://gravatar.com/"
 
   .control-group
     =f.label :location, 'Your location', :class => 'control-label'
