@@ -10,11 +10,14 @@
 
 %p= link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @resource.unlock_token)
 
-%p If you have actually forgotten your password, you can
-= link_to 'reset your password', new_password_url(@resource)
-after you've unlocked your account.
+%p
+  If you have actually forgotten your password, you can
+  = link_to 'reset your password', new_password_url(@resource)
+  after you've unlocked your account.
 
 %p See you soon,
-%p The #{site_name} team.
-%br/
-=link_to root_url, root_url
+
+%p
+  The #{site_name} team.
+  %br/
+  =link_to root_url, root_url
