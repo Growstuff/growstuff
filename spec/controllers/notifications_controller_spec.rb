@@ -42,6 +42,28 @@ describe NotificationsController do
       assigns(:notification).should eq(notification)
     end
 
+    it "assigns the reply link for a PM" do
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id, :post_id => nil)
+      subject = "Re: " + notification.subject
+
+      get :show, {:id => notification.to_param}
+      assigns(:reply_link).should_not be_nil
+      assigns(:reply_link).should eq new_notification_path(
+        :recipient_id => notification.sender_id,
+        :subject => subject
+      )
+    end
+
+    it "assigns the reply link for a post comment" do
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
+
+      get :show, {:id => notification.to_param}
+      assigns(:reply_link).should_not be_nil
+      assigns(:reply_link).should eq new_comment_path(
+        :post_id => notification.post.id
+      )
+    end
+
     it "marks notifications as read" do
       notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
       get :show, {:id => notification.to_param}
@@ -96,7 +118,7 @@ describe NotificationsController do
       it "redirects to the recipient's profile" do
         @recipient = FactoryGirl.create(:member)
         post :create, { :notification => { :recipient_id => @recipient.id } }
-        response.should redirect_to(@recipient)
+        response.should redirect_to(notifications_path)
       end
     end
 
