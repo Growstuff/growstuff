@@ -38,6 +38,13 @@ describe CommentsController do
       assigns(:post).should eq(post)
     end
 
+    it "assigns the old comments as @comments" do
+      post = FactoryGirl.create(:post)
+      old_comment = FactoryGirl.create(:comment, :post => post)
+      get :new, {:post_id => post.id}
+      assigns(:comments).should eq [old_comment]
+    end
+
     it "dies if no post specified" do
       get :new
       response.should redirect_to(root_url)

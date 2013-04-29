@@ -29,6 +29,7 @@ class CommentsController < ApplicationController
     @post = Post.find_by_id(params[:post_id])
 
     if @post
+      @comments = @post.comments
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @comment }

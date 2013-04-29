@@ -1,0 +1,11 @@
+%a{:name => "comments"}
+- if !@comments.empty?
+  %h2
+    =pluralize(@comments.length, "comment")
+  - @comments.each do |c|
+    = render :partial => "comments/single", :locals => { :comment => c }
+
+- else
+  %h2 There are no comments yet
+
+

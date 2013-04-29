@@ -10,16 +10,7 @@
       = link_to 'Delete Post', @post, method: :delete, |
         data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
-
-%a{:name => "comments"}
-- if @comments
-  %h2
-    =pluralize(@comments.length, "comment")
-  - @comments.each do |c|
-    = render :partial => "comments/single", :locals => { :comment => c }
-
-- else
-  %h2 There are no comments yet
+= render :partial => "comments", :locals => { :post => @post }
 
 - if can? :create, Comment
   .post-actions
