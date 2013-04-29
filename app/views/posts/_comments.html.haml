@@ -1,5 +1,5 @@
 %a{:name => "comments"}
-- if !@comments.empty?
+- if @comments
   %h2
     =pluralize(@comments.length, "comment")
   - @comments.each do |c|

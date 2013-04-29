@@ -43,6 +43,7 @@ class CommentsController < ApplicationController
   # GET /comments/1/edit
   def edit
     @comment = Comment.find(params[:id])
+    @comments = @comment.post.comments
   end
 
   # POST /comments

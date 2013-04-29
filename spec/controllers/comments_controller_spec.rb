@@ -57,6 +57,15 @@ describe CommentsController do
       get :edit, {:id => comment.to_param}
       assigns(:comment).should eq(comment)
     end
+
+    it "assigns previous comments as @comments" do
+      post = FactoryGirl.create(:post)
+      old_comment = FactoryGirl.create(:comment, :post => post)
+      comment = FactoryGirl.create(:comment, :post => post)
+      get :edit, {:id => comment.to_param}
+      assigns(:comments).should eq([old_comment, comment])
+    end
+
   end
 
   describe "POST create" do
