@@ -12,12 +12,11 @@ after_success:
 - echo "   StrictHostKeyChecking no" >> ~/.ssh/config
 - echo "   CheckHostIP no" >> ~/.ssh/config
 - echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
-- heroku keys:clear
 - yes | heroku keys:add
-- yes | git push heroku dev:master
-- yes | heroku run rake db:migrate
-- yes | heroku restart
+- git push heroku dev:master
+- heroku run rake db:migrate
+- heroku restart
 - fi
 env:
   global:
-  -  secure: "WdBJxngS0ChPZnCOdGn0DJ41NmQ1k7uOhfdXjyNp5DyrXcY8oOgJ3iK16eJh\nPDcTDJja9vRuNc8qlBm3p6OS6keWu2PUdgarAf2nztgit5cXJaE/z0W4tYTo\nfFdwCvEuh2hWIQ0yjPz7eRx5Y0L9fnA3GxPZq0Xcvg62mKij5xY="
+  - secure: "WdBJxngS0ChPZnCOdGn0DJ41NmQ1k7uOhfdXjyNp5DyrXcY8oOgJ3iK16eJh\nPDcTDJja9vRuNc8qlBm3p6OS6keWu2PUdgarAf2nztgit5cXJaE/z0W4tYTo\nfFdwCvEuh2hWIQ0yjPz7eRx5Y0L9fnA3GxPZq0Xcvg62mKij5xY="
