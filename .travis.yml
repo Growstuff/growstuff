@@ -20,8 +20,4 @@ after_success:
 - fi
 env:
   global:
-  - secure: ! 'arc+bJUPRjyUVcAo0QPEJFXdJJDnyccPhSfGtD8rpg6rg9stqgFYfspTvMz6
-
-      9hW8mf8z5HU69x2PBSARy4mZDIPfPfX87HQUkLIWmxtpwDRTFSEJQADAI8Ea
-
-      QPKFoAyJB8FEZ2ecRNzuZzSCHL4z7qRIuKyE2wHdMMTr9X8kCJM='
+  -  secure: "WdBJxngS0ChPZnCOdGn0DJ41NmQ1k7uOhfdXjyNp5DyrXcY8oOgJ3iK16eJh\nPDcTDJja9vRuNc8qlBm3p6OS6keWu2PUdgarAf2nztgit5cXJaE/z0W4tYTo\nfFdwCvEuh2hWIQ0yjPz7eRx5Y0L9fnA3GxPZq0Xcvg62mKij5xY="
