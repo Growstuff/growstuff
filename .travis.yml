@@ -5,18 +5,21 @@ rvm:
 script:
 - bundle exec rake db:migrate --trace
 - bundle exec rspec spec/
-after_success:
-- if [[ "$TRAVIS_BRANCH" == "dev" ]]; then git remote add heroku git@heroku.com:growstuff-dev.git
-- wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-- echo "Host heroku.com" >> ~/.ssh/config
-- echo "   StrictHostKeyChecking no" >> ~/.ssh/config
-- echo "   CheckHostIP no" >> ~/.ssh/config
-- echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
-- yes | heroku keys:add
-- git push heroku dev:master
-- heroku run rake db:migrate
-- heroku restart
-- fi
+
+# after_success:
+# - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then git remote add heroku git@heroku.com:growstuff-dev.git
+# - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+# - echo "Host heroku.com" >> ~/.ssh/config
+# - echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+# - echo "   CheckHostIP no" >> ~/.ssh/config
+# - echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+# - heroku keys:clear
+# - yes | heroku keys:add
+# - yes | git push heroku dev:master
+# - heroku run rake db:migrate
+# - heroku restart
+# - fi
+
 env:
   global:
     secure: "QFQbCdNGyjeatp/H0j0y0oGiue45fpG2w6eA2QAbq2RmvhabgXbd5WIobN90\ndrae3S7TRxPDpMpus90icykX6EzOTLXCEvaC4rh9pCcRktj3SZqq5b9rVTvs\n1MvlS6HhtsVqsrKjQUb0WmPpnganIzTs0RtGaQspo2joPJO18A4="
