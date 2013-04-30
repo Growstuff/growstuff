@@ -80,5 +80,7 @@ Growstuff::Application.routes.draw do
   match '/policy/:action' => 'policy#:action'
   match '/support' => 'support#index'
   match '/support/:action' => 'support#:action'
+  match '/about' => 'about#index'
+  match '/about/:action' => 'about#:action'
 
 end
