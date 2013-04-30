@@ -6,7 +6,7 @@ describe "members/index" do
     page = 1
     per_page = 2
     total_entries = 2
-    @member = FactoryGirl.create(:geolocated_member)
+    @member = FactoryGirl.create(:london_member)
     members = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([ @member, @member ])
     end

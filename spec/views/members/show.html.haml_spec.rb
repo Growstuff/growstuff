@@ -140,7 +140,7 @@ describe "members/show" do
 
   context "geolocations" do
     before(:each) do
-      @member = FactoryGirl.create(:geolocated_member)
+      @member = FactoryGirl.create(:london_member)
       render
     end
     it "shows the location" do

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'home/index.html.haml', :type => "view" do
   context 'logged out' do
     before(:each) do
-      @member = FactoryGirl.create(:geolocated_member)
+      @member = FactoryGirl.create(:london_member)
       @member.updated_at = 2.days.ago
       @post = FactoryGirl.create(:post, :author => @member)
       @planting = FactoryGirl.create(:planting, :garden => @member.gardens.first)
@@ -35,7 +35,7 @@ describe 'home/index.html.haml', :type => "view" do
 
   context 'logged in' do
     before(:each) do
-      @member = FactoryGirl.create(:geolocated_member)
+      @member = FactoryGirl.create(:london_member)
       controller.stub(:current_user) { @member }
       sign_in @member
       assign(:member, @member)

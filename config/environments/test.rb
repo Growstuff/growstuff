@@ -66,3 +66,12 @@ Geocoder::Lookup::Test.add_stub(
     }
   ]
 )
+
+Geocoder::Lookup::Test.add_stub(
+  "Edinburgh", [
+    {
+      'latitude' =>         55.953252,
+      'longitude' =>        -3.188267,
+    }
+  ]
+)
