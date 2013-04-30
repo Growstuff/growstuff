@@ -6,7 +6,11 @@ describe 'support/index.html.haml', :type => "view" do
   end
 
   it 'should show support faq' do
-    render
     rendered.should contain 'About Growstuff'
+  end
+
+  it 'should not mention Courtney any more' do
+    rendered.should_not contain 'Courtney'
+    rendered.should_not contain 'phazel'
   end
 end
