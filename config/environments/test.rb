@@ -40,10 +40,12 @@ Growstuff::Application.configure do
   # Growstuff config
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff (test)"
-    config.analytics_code = ''
-  end
+  config.site_name = "Growstuff (test)"
+  config.analytics_code = ''
+	config.support_address = "support@growstuff.org"
+	config.email_from_address = "noreply@growstuff.org"
+  config.media_address = "media@growstuff.org"
+  config.info_address = "info@growstuff.org"
 
 end
 

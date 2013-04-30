@@ -48,8 +48,11 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff (dev)"
-    config.analytics_code = ''
-  end
+  config.site_name = "Growstuff (dev)"
+  config.analytics_code = ''
+	config.email_from_address = "noreply-development@growstuff.org"
+	config.support_address = "support@growstuff.org"
+  config.media_address = "media@growstuff.org"
+  config.info_address = "info@growstuff.org"
+
 end
