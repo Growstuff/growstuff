@@ -39,6 +39,22 @@ describe "members/show" do
     end
   end
 
+  context 'flickr' do
+    context "no flickr" do
+      it "doesn't show flickr link" do
+        render
+        assert_select "a[href^=http://flickr.com/]", :count => 0
+      end
+    end
+    context 'has flickr' do
+      it "shows flickr link" do
+        @flickr_auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+        render
+        assert_select "a", :href => "http://flickr.com/photos/#{@flickr_auth.uid}"
+      end
+    end
+  end
+
   context "gardens and plantings" do
     before(:each) do
       @planting = FactoryGirl.create(:planting, :garden => @garden)
