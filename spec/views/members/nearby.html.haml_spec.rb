@@ -18,6 +18,10 @@ describe "members/nearby" do
       assert_select "#location", :value => @location
     end
 
+    it "shows the default distance in the textbox" do
+			assert_select "#distance", :value => "100"
+    end
+
     it "shows the names of nearby members" do
       @nearby_members.each do |m|
         rendered.should contain m.login_name
