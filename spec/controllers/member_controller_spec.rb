@@ -6,6 +6,7 @@ describe MembersController do
     @member = FactoryGirl.create(:member)
     @posts = [ FactoryGirl.create(:post, :author => @member) ]
     @twitter_auth = FactoryGirl.create(:authentication, :member => @member)
+    @flickr_auth = FactoryGirl.create(:flickr_authentication, :member => @member)
   end
 
   describe "GET index" do
@@ -40,7 +41,12 @@ describe MembersController do
 
     it "assigns @twitter_auth" do
       get :show, {:id => @member.id}
-      assigns(:posts).should eq(@posts)
+      assigns(:twitter_auth).should eq(@twitter_auth)
+    end
+
+    it "assigns @flickr_auth" do
+      get :show, {:id => @member.id}
+      assigns(:flickr_auth).should eq(@flickr_auth)
     end
 
     it "doesn't show completely nonsense members" do
