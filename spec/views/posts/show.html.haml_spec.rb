@@ -107,7 +107,4 @@ describe "posts/show" do
 
   end
 
-
-
-
 end
