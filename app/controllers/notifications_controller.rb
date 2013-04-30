@@ -15,6 +15,19 @@ class NotificationsController < ApplicationController
     @notification.read = true
     @notification.save
 
+    # by default, reply link sends a PM in return
+    @reply_link = new_notification_path(
+      :recipient_id => @notification.sender.id,
+      :subject => @notification.subject =~ /^Re: / ?
+        @notification.subject :
+        "Re: " + @notification.subject
+    )
+
+    if @notification.post
+      # comment on the post in question
+      @reply_link = new_comment_path(:post_id => @notification.post.id)
+    end
+
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -25,6 +38,7 @@ class NotificationsController < ApplicationController
   def new
     @notification = Notification.new
     @recipient = Member.find_by_id(params[:recipient_id])
+    @subject   = params[:subject] || ""
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,7 +63,7 @@ class NotificationsController < ApplicationController
 
     respond_to do |format|
       if @notification.save
-        format.html { redirect_to @recipient, notice: 'Message was successfully sent.' }
+        format.html { redirect_to notifications_path, notice: 'Message was successfully sent.' }
       else
         format.html { render action: "new" }
       end

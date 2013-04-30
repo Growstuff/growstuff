@@ -7,7 +7,8 @@ describe NotificationsController do
   def valid_attributes
     {
       "recipient_id" => subject.current_member.id,
-      "sender_id" => FactoryGirl.create(:member).id
+      "sender_id" => FactoryGirl.create(:member).id,
+      "subject" => 'test'
     }
   end
 
@@ -19,7 +20,8 @@ describe NotificationsController do
   def valid_attributes_for_sender
     {
       "sender_id" => subject.current_member.id,
-      "recipient_id" => FactoryGirl.create(:member).id
+      "recipient_id" => FactoryGirl.create(:member).id,
+      "subject" => 'test'
     }
   end
 
@@ -40,6 +42,28 @@ describe NotificationsController do
       notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
       get :show, {:id => notification.to_param}
       assigns(:notification).should eq(notification)
+    end
+
+    it "assigns the reply link for a PM" do
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id, :post_id => nil)
+      subject = "Re: " + notification.subject
+
+      get :show, {:id => notification.to_param}
+      assigns(:reply_link).should_not be_nil
+      assigns(:reply_link).should eq new_notification_path(
+        :recipient_id => notification.sender_id,
+        :subject => subject
+      )
+    end
+
+    it "assigns the reply link for a post comment" do
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
+
+      get :show, {:id => notification.to_param}
+      assigns(:reply_link).should_not be_nil
+      assigns(:reply_link).should eq new_comment_path(
+        :post_id => notification.post.id
+      )
     end
 
     it "marks notifications as read" do
@@ -95,8 +119,8 @@ describe NotificationsController do
 
       it "redirects to the recipient's profile" do
         @recipient = FactoryGirl.create(:member)
-        post :create, { :notification => { :recipient_id => @recipient.id } }
-        response.should redirect_to(@recipient)
+        post :create, { :notification => { :recipient_id => @recipient.id, :subject => 'foo' } }
+        response.should redirect_to(notifications_path)
       end
     end
 
