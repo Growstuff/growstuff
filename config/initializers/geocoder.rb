@@ -1,0 +1,1 @@
+Geocoder.configure(:units => :km)

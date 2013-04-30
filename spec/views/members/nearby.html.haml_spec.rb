@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "members/nearby" do
   before(:each) do
-    @member = FactoryGirl.create(:geolocated_member)
+    @member = FactoryGirl.create(:london_member)
     @nearby_members = [FactoryGirl.create(:member)]
   end
 
@@ -16,6 +16,16 @@ describe "members/nearby" do
 
     it "shows the member's location in the textbox" do
       assert_select "#location", :value => @location
+    end
+
+    it "shows the default distance in the textbox" do
+      assert_select "#distance", :value => "100"
+    end
+
+    it "shows a dropdown with miles and km" do
+      assert_select "select#units"
+      assert_select "select#units option[value=km]"
+      assert_select "select#units option[value=mi]"
     end
 
     it "shows the names of nearby members" do

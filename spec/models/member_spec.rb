@@ -221,9 +221,9 @@ describe 'member' do
     # 1) confirmed
     # 2) ordered by the most recent sign in
     it 'finds interesting members' do
-      @member1 = FactoryGirl.create(:geolocated_member)
-      @member2 = FactoryGirl.create(:geolocated_member)
-      @member3 = FactoryGirl.create(:geolocated_member)
+      @member1 = FactoryGirl.create(:london_member)
+      @member2 = FactoryGirl.create(:london_member)
+      @member3 = FactoryGirl.create(:london_member)
       @member4 = FactoryGirl.create(:unconfirmed_member)
 
       @member1.updated_at = 3.days.ago

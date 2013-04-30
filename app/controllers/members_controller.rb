@@ -36,8 +36,20 @@ class MembersController < ApplicationController
     else
       @location = nil
     end
-    @distance = 100
-    @nearby_members = @location ? Member.near(@location, @distance) : []
+
+    if !params[:distance].blank?
+      @distance = params[:distance]
+    else
+      @distance = 100
+    end
+
+    if params[:units] == "mi"
+      @units = :mi
+    else
+      @units = :km
+    end
+
+    @nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
     respond_to do |format|
       format.html # nearby.html.haml
       format.json { render json: @nearby_members }
