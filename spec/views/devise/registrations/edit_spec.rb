@@ -59,6 +59,7 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
         render
         assert_select "h2", "Linked accounts"
       end
+
       context 'not connected to twitter' do
         it 'has a link to connect' do
           render
@@ -78,6 +79,27 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
           assert_select "a", :href => @twitter_auth, :text => "Disconnect"
         end
       end
+
+      context 'not connected to flickr' do
+        it 'has a link to connect' do
+          render
+          assert_select "a", "Connect to Flickr"
+        end
+      end
+      context 'connected to flickr' do
+        before(:each) do
+          @flickr_auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+          render
+        end
+        it 'has a link to flickr photostream' do
+          assert_select "a", :href => "http://flickr.com/photos/#{@flickr_auth.uid}"
+        end
+        it 'has a link to disconnect' do
+          render
+          assert_select "a", :href => @flickr_auth, :text => "Disconnect"
+        end
+      end
+
     end
 
     it 'should have a password section' do

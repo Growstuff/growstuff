@@ -16,10 +16,21 @@ class AuthenticationsController < ApplicationController
     auth = request.env['omniauth.auth']
     @authentication = nil
     if auth
+
+      name = ''
+      case auth['provider']
+      when 'twitter'
+        name = auth['info']['nickname']
+      when 'flickr'
+        name = auth['info']['name']
+      else
+        name = auth['info']['name']
+      end
+
       @authentication = current_member.authentications.find_or_create_by_provider_and_uid(
         :provider => auth['provider'],
         :uid => auth['uid'],
-        :name => auth['info']['nickname'] || auth['info']['name'],
+        :name => name,
         :token => auth['credentials']['token'],
         :secret => auth['credentials']['secret'])
       flash[:notice] = "Authentication successful."

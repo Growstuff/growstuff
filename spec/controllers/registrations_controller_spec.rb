@@ -20,6 +20,12 @@ describe RegistrationsController do
       get :edit
       assigns(:twitter_auth).should eq @auth
     end
+
+    it "picks up the flickr auth" do
+      @auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+      get :edit
+      assigns(:flickr_auth).should eq @auth
+    end
   end
 
 end
