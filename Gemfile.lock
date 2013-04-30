@@ -131,6 +131,8 @@ GEM
     omniauth (1.1.3)
       hashie (~> 1.2)
       rack
+    omniauth-flickr (0.0.11)
+      omniauth-oauth (~> 1.0)
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
@@ -255,6 +257,7 @@ DEPENDENCIES
   less-rails
   newrelic_rpm
   omniauth
+  omniauth-flickr
   omniauth-twitter
   passenger
   pg
