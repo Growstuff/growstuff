@@ -43,8 +43,8 @@ class MembersController < ApplicationController
       @distance = 100
     end
 
-    if params[:units] == "mi" || params[:units] == "km"
-      @units = params[:units].to_sym
+    if params[:units] == "mi"
+      @units = :mi
     else
       @units = :km
     end
