@@ -7,7 +7,8 @@ describe NotificationsController do
   def valid_attributes
     {
       "recipient_id" => subject.current_member.id,
-      "sender_id" => FactoryGirl.create(:member).id
+      "sender_id" => FactoryGirl.create(:member).id,
+      "subject" => 'test'
     }
   end
 
@@ -19,7 +20,8 @@ describe NotificationsController do
   def valid_attributes_for_sender
     {
       "sender_id" => subject.current_member.id,
-      "recipient_id" => FactoryGirl.create(:member).id
+      "recipient_id" => FactoryGirl.create(:member).id,
+      "subject" => 'test'
     }
   end
 
@@ -117,7 +119,7 @@ describe NotificationsController do
 
       it "redirects to the recipient's profile" do
         @recipient = FactoryGirl.create(:member)
-        post :create, { :notification => { :recipient_id => @recipient.id } }
+        post :create, { :notification => { :recipient_id => @recipient.id, :subject => 'foo' } }
         response.should redirect_to(notifications_path)
       end
     end
