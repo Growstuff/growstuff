@@ -1,4 +1,5 @@
 class NotificationsController < ApplicationController
+  include NotificationsHelper
   load_and_authorize_resource
   # GET /notifications
   def index
@@ -14,19 +15,7 @@ class NotificationsController < ApplicationController
     @notification = Notification.find(params[:id])
     @notification.read = true
     @notification.save
-
-    # by default, reply link sends a PM in return
-    @reply_link = new_notification_path(
-      :recipient_id => @notification.sender.id,
-      :subject => @notification.subject =~ /^Re: / ?
-        @notification.subject :
-        "Re: " + @notification.subject
-    )
-
-    if @notification.post
-      # comment on the post in question
-      @reply_link = new_comment_path(:post_id => @notification.post.id)
-    end
+    @reply_link = reply_link(@notification)
 
     respond_to do |format|
       format.html # show.html.erb

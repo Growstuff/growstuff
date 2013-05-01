@@ -50,7 +50,7 @@ describe NotificationsController do
 
       get :show, {:id => notification.to_param}
       assigns(:reply_link).should_not be_nil
-      assigns(:reply_link).should eq new_notification_path(
+      assigns(:reply_link).should eq new_notification_url(
         :recipient_id => notification.sender_id,
         :subject => subject
       )
@@ -61,7 +61,7 @@ describe NotificationsController do
 
       get :show, {:id => notification.to_param}
       assigns(:reply_link).should_not be_nil
-      assigns(:reply_link).should eq new_comment_path(
+      assigns(:reply_link).should eq new_comment_url(
         :post_id => notification.post.id
       )
     end
