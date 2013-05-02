@@ -10,12 +10,15 @@ describe "crops/new" do
   end
 
   it "renders new crop form" do
-    render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => crops_path, :method => "post" do
       assert_select "input#crop_system_name", :name => "crop[system_name]"
       assert_select "input#crop_en_wikipedia_url", :name => "crop[en_wikipedia_url]"
     end
+  end
+
+  it "shows a link to crop wrangling guidelines" do
+    assert_select "a[href^=http://wiki.growstuff.org]", "crop wrangling guide"
   end
 
 end
