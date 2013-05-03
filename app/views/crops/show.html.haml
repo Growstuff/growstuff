@@ -2,11 +2,19 @@
 
 .row
   .span9
-    %p
-      =link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
-    %h2 Who's growing this?
-    - @crop.plantings.each do |p|
-      = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
+    - if @crop.plantings_count > 0
+      %p
+        Planted
+        = pluralize(@crop.plantings_count, "time")
+        by #{Growstuff::Application.config.site_name} members
+      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+
+      - @crop.plantings.each do |p|
+        = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
+
+    - else
+      %p Nobody is growing this yet. You could be the first!
+      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
 
   .span3
     %h4 Scientific names:
