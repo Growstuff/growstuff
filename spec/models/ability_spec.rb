@@ -78,4 +78,87 @@ describe Ability do
     end
   end
 
+  context "products" do
+
+    before(:each) do
+      @product = FactoryGirl.create(:product)
+    end
+
+    context "standard member" do
+      it "can't read or manage products" do
+        @ability.should_not be_able_to(:read, @product)
+        @ability.should_not be_able_to(:create, Product)
+        @ability.should_not be_able_to(:update, @product)
+        @ability.should_not be_able_to(:destroy, @product)
+      end
+
+    end
+
+    context "admin" do
+      before(:each) do
+        @role = FactoryGirl.create(:admin)
+        @member.roles << @role
+        @admin_ability = Ability.new(@member)
+      end
+
+      it "has admin role" do
+        @member.has_role?(:admin).should be true
+      end
+
+      it "can read products" do
+        @admin_ability.should be_able_to(:read, @product)
+      end
+      it "can create products" do
+        @admin_ability.should be_able_to(:create, Product)
+      end
+      it "can update products" do
+        @admin_ability.should be_able_to(:update, @product)
+      end
+      it "can destroy products" do
+        @admin_ability.should be_able_to(:destroy, @product)
+      end
+    end
+  end
+
+  context "orders" do
+
+    before(:each) do
+      @order = FactoryGirl.create(:order)
+    end
+
+    context "standard member" do
+      it "can't read or manage orders" do
+        @ability.should_not be_able_to(:read, @order)
+        @ability.should_not be_able_to(:create, Order)
+        @ability.should_not be_able_to(:update, @order)
+        @ability.should_not be_able_to(:destroy, @order)
+      end
+
+    end
+
+    context "admin" do
+      before(:each) do
+        @role = FactoryGirl.create(:admin)
+        @member.roles << @role
+        @admin_ability = Ability.new(@member)
+      end
+
+      it "has admin role" do
+        @member.has_role?(:admin).should be true
+      end
+
+      it "can read orders" do
+        @admin_ability.should be_able_to(:read, @order)
+      end
+      it "can create orders" do
+        @admin_ability.should be_able_to(:create, Order)
+      end
+      it "can update orders" do
+        @admin_ability.should be_able_to(:update, @order)
+      end
+      it "can destroy orders" do
+        @admin_ability.should be_able_to(:destroy, @order)
+      end
+    end
+  end
 end

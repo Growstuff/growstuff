@@ -14,6 +14,7 @@ class Ability
     # nobody should be able to view this except admins
     cannot :read, Role
     cannot :read, Product
+    cannot :read, Order
 
     if member
 
@@ -24,6 +25,10 @@ class Ability
 
         # for now, only admins can create/edit forums
         can :manage, Forum
+
+        # admins can manage products and orders
+        can :manage, Product
+        can :manage, Order # for now
       end
 
       # managing your own user settings
