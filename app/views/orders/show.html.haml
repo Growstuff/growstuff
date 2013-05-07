@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Member:
+  = @order.member_id
+
+= link_to 'Edit', edit_order_path(@order)
+\|
+= link_to 'Back', orders_path

@@ -11,6 +11,7 @@ class Member < ActiveRecord::Base
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
   has_many :authentications
+  has_many :orders
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
