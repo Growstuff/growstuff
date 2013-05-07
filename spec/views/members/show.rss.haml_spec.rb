@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'members/show.rss.builder', :type => "view" do
+describe 'members/show.rss.haml', :type => "view" do
   before(:each) do
     @member = assign(:member, FactoryGirl.create(:member))
     assign(:posts, [
