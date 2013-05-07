@@ -57,7 +57,24 @@ if Rails.env.development? or Rails.env.test?
   @wrangler_user.confirm!
   @wrangler_user.roles << @wrangler
   @wrangler_user.save!
-  puts "Done!"
 
+  puts "Adding products..."
+  Product.create!(
+    :name => "Monthly subscription",
+    :description => "Paid account, renews monthly",
+    :min_price => 3.00
+  )
+  Product.create!(
+    :name => "Annual subscription",
+    :description => "Paid account, renews yearly",
+    :min_price => 30.00
+  )
+  Product.create!(
+    :name => "Seed account",
+    :description => "Paid account, in perpetuity",
+    :min_price => 150.00
+  )
 end
+
+puts "Done!"
 
