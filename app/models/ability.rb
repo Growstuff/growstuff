@@ -6,12 +6,14 @@ class Ability
 
     # everyone can do these things, even non-logged in
     can :read, :all
+
+    # except these, which don't make sense if you're not logged in
     cannot :read, Notification
-    cannot :create, Notification
     cannot :read, Authentication
 
     # nobody should be able to view this except admins
     cannot :read, Role
+    cannot :read, Product
 
     if member
 
