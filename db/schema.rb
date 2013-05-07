@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130418102558) do
+ActiveRecord::Schema.define(:version => 20130507105357) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "member_id",  :null => false
@@ -154,6 +154,14 @@ ActiveRecord::Schema.define(:version => 20130418102558) do
 
   add_index "posts", ["created_at", "author_id"], :name => "index_updates_on_created_at_and_user_id"
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
+
+  create_table "products", :force => true do |t|
+    t.string   "name",        :null => false
+    t.string   "description", :null => false
+    t.decimal  "min_price",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name",        :null => false
