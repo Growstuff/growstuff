@@ -5,6 +5,8 @@ describe MembersController do
   before :each do
     @member = FactoryGirl.create(:member)
     @posts = [ FactoryGirl.create(:post, :author => @member) ]
+    @twitter_auth = FactoryGirl.create(:authentication, :member => @member)
+    @flickr_auth = FactoryGirl.create(:flickr_authentication, :member => @member)
   end
 
   describe "GET index" do
@@ -37,6 +39,16 @@ describe MembersController do
       assigns(:posts).should eq(@posts)
     end
 
+    it "assigns @twitter_auth" do
+      get :show, {:id => @member.id}
+      assigns(:twitter_auth).should eq(@twitter_auth)
+    end
+
+    it "assigns @flickr_auth" do
+      get :show, {:id => @member.id}
+      assigns(:flickr_auth).should eq(@flickr_auth)
+    end
+
     it "doesn't show completely nonsense members" do
       lambda { get :show, {:id => 9999} }.should raise_error
     end
@@ -59,13 +71,13 @@ describe MembersController do
 
   describe "GET nearby members" do
     before(:each) do
-      @member_near = FactoryGirl.create(:geolocated_member)
-      @member_far = FactoryGirl.create(:lonely_geolocated_member)
+      @member_london = FactoryGirl.create(:london_member)
+      @member_south_pole = FactoryGirl.create(:south_pole_member)
     end
 
     context "when the user is logged in and has set their location" do
       before(:each) do
-        @member = FactoryGirl.create(:geolocated_member)
+        @member = FactoryGirl.create(:london_member)
         controller.stub(:current_member) { @member }
       end
 
@@ -76,23 +88,40 @@ describe MembersController do
 
       it "assigns nearby members as nearby" do
         get :nearby
-        assigns(:nearby_members).should include @member_near
+        assigns(:nearby_members).should include @member_london
       end
 
       it "doesn't assign far-off members as nearby" do
         get :nearby
-        assigns(:nearby_members).should_not include @member_far
+        assigns(:nearby_members).should_not include @member_south_pole
       end
 
       it "gets members near the specified location if one is set" do
-        get :nearby, { :location => @member_far.location }
-        assigns(:nearby_members).should include @member_far
+        get :nearby, { :location => @member_south_pole.location }
+        assigns(:nearby_members).should include @member_south_pole
       end
 
       it "does not assign members near current_member if a location is set" do
-        get :nearby, { :location => @member_far.location }
-        assigns(:nearby_members).should_not include @member_near
+        get :nearby, { :location => @member_south_pole.location }
+        assigns(:nearby_members).should_not include @member_london
       end
+
+      it "finds faraway members if you increase the distance" do
+        get :nearby, { :distance => "50000" }
+        assigns(:nearby_members).should include @member_south_pole
+      end
+
+      # Edinburgh and London are approximately 330mi/530km apart
+      it "finds London members within 350 miles of Edinburgh" do 
+        get :nearby, { :distance => "350", :units => :mi, :location => "Edinburgh" }
+        assigns(:nearby_members).should include @member_london
+      end
+
+      it "doesn't find London members within 350 km of Edinburgh" do
+        get :nearby, { :distance => "350", :units => :km, :location => "Edinburgh" }
+        assigns(:nearby_members).should_not include @member_london
+      end
+
     end
 
     context "when the user is logged in but hasn't set their location" do
@@ -107,13 +136,13 @@ describe MembersController do
       end
 
       it "assigns nearby members if a location is set" do
-        get :nearby, { :location => @member_near.location }
-        assigns(:nearby_members).should include @member_near
+        get :nearby, { :location => @member_london.location }
+        assigns(:nearby_members).should include @member_london
       end
 
       it "does not assign far members if a location is set" do
-        get :nearby, { :location => @member_near.location }
-        assigns(:nearby_members).should_not include @member_far
+        get :nearby, { :location => @member_london.location }
+        assigns(:nearby_members).should_not include @member_south_pole
       end
 
     end
@@ -130,13 +159,13 @@ describe MembersController do
       end
 
       it "assigns nearby members if a location is set" do
-        get :nearby, { :location => @member_near.location }
-        assigns(:nearby_members).should include @member_near
+        get :nearby, { :location => @member_london.location }
+        assigns(:nearby_members).should include @member_london
       end
 
       it "does not assign far members if a location is set" do
-        get :nearby, { :location => @member_near.location }
-        assigns(:nearby_members).should_not include @member_far
+        get :nearby, { :location => @member_london.location }
+        assigns(:nearby_members).should_not include @member_south_pole
       end
     end
   end

@@ -57,7 +57,7 @@ describe "plantings/show" do
   context "location set" do
     before(:each) do
       controller.stub(:current_user) { nil }
-      @member = FactoryGirl.create(:geolocated_member)
+      @member = FactoryGirl.create(:london_member)
       create_planting_for(@member)
       render
     end

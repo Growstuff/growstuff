@@ -11,8 +11,10 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member = Member.confirmed.find(params[:id])
-    @posts = @member.posts
+    @member       = Member.confirmed.find(params[:id])
+    @twitter_auth = @member.authentications.find_by_provider('twitter')
+    @flickr_auth  = @member.authentications.find_by_provider('flickr')
+    @posts        = @member.posts
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.
@@ -35,8 +37,20 @@ class MembersController < ApplicationController
     else
       @location = nil
     end
-    @distance = 100
-    @nearby_members = @location ? Member.near(@location, @distance) : []
+
+    if !params[:distance].blank?
+      @distance = params[:distance]
+    else
+      @distance = 100
+    end
+
+    if params[:units] == "mi"
+      @units = :mi
+    else
+      @units = :km
+    end
+
+    @nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
     respond_to do |format|
       format.html # nearby.html.haml
       format.json { render json: @nearby_members }

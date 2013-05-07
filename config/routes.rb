@@ -2,6 +2,7 @@ Growstuff::Application.routes.draw do
 
   devise_for :members, :controllers => { :registrations => "registrations" }
 
+  resources :authentications
   resources :plantings
   resources :gardens
   resources :posts
@@ -16,6 +17,8 @@ Growstuff::Application.routes.draw do
   get "home/index"
 
   match 'search/members/nearby' => 'members#nearby', :as => :nearby_members
+
+  match 'auth/:provider/callback' => 'authentications#create'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -77,5 +80,7 @@ Growstuff::Application.routes.draw do
   match '/policy/:action' => 'policy#:action'
   match '/support' => 'support#index'
   match '/support/:action' => 'support#:action'
+  match '/about' => 'about#index'
+  match '/about/:action' => 'about#:action'
 
 end

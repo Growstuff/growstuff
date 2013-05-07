@@ -24,7 +24,7 @@ FactoryGirl.define do
       show_email true
     end
 
-    factory :geolocated_member do
+    factory :london_member do
       sequence(:login_name) { |n| "JohnH#{n}" } # for the astronomer who figured out longitude
       location 'Greenwich, UK'
       # including lat/long explicitly because geocoder doesn't work with FG
@@ -32,7 +32,7 @@ FactoryGirl.define do
       longitude 0.004
     end
 
-    factory :lonely_geolocated_member do
+    factory :south_pole_member do
       sequence(:login_name) { |n| "ScottRF#{n}" }
       location 'Amundsen-Scott Base, Antarctica'
       latitude -90

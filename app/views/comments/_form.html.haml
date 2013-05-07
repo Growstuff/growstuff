@@ -1,5 +1,7 @@
 = render :partial => "posts/single", :locals => { :post => @post || @comment.post, :subject => true }
 
+= render :partial => "posts/comments"
+
 %h2 Your comment
 = form_for @comment do |f|
   - if @comment.errors.any?
