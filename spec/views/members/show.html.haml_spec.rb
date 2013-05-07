@@ -23,6 +23,38 @@ describe "members/show" do
     end
   end
 
+  context 'twitter' do
+    context "no twitter" do
+      it "doesn't show twitter link" do
+        render
+        assert_select "a[href^=http://twitter.com/]", :count => 0
+      end
+    end
+    context 'has twitter' do
+      it "shows twitter link" do
+        @twitter_auth = FactoryGirl.create(:authentication, :member => @member)
+        render
+        assert_select "a", :href => "http://twitter.com/#{@twitter_auth.name}"
+      end
+    end
+  end
+
+  context 'flickr' do
+    context "no flickr" do
+      it "doesn't show flickr link" do
+        render
+        assert_select "a[href^=http://flickr.com/]", :count => 0
+      end
+    end
+    context 'has flickr' do
+      it "shows flickr link" do
+        @flickr_auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+        render
+        assert_select "a", :href => "http://flickr.com/photos/#{@flickr_auth.uid}"
+      end
+    end
+  end
+
   context "gardens and plantings" do
     before(:each) do
       @planting = FactoryGirl.create(:planting, :garden => @garden)
@@ -59,7 +91,7 @@ describe "members/show" do
 
     it "does not contain a 'New Garden' tab" do
       assert_select "#garden_new", false
-    end        
+    end
   end
 
   context "signed in member" do
@@ -93,11 +125,11 @@ describe "members/show" do
     it "does not contain a 'New Garden' link" do
       assert_select "a[href=#garden_new]", false
     end
-    
+
     it "does not contain a 'New Garden' tab" do
       assert_select "#garden_new", false
-    end  
-    
+    end
+
     it "contains no edit settings button" do
       rendered.should_not contain "Edit Settings"
     end
@@ -124,7 +156,7 @@ describe "members/show" do
 
   context "geolocations" do
     before(:each) do
-      @member = FactoryGirl.create(:geolocated_member)
+      @member = FactoryGirl.create(:london_member)
       render
     end
     it "shows the location" do

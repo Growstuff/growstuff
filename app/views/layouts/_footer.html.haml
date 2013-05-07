@@ -4,6 +4,7 @@
       .container
         %ul.nav
           %li= link_to "About", "http://wiki.growstuff.org"
+          %li= link_to "Contact", url_for(:controller => '/about', :action => 'contact')
           %li= link_to "Terms of Service", url_for(:controller => '/policy', :action => 'tos')
           %li= link_to "Privacy Policy", url_for(:controller => %'/policy', :action => 'privacy')
           %li= link_to "Community Guidelines", url_for(:controller => '/policy', :action => 'community')

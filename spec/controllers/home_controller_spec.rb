@@ -21,7 +21,7 @@ describe HomeController do
     end
 
     it 'assigns interesting members' do
-      @member = FactoryGirl.create(:geolocated_member)
+      @member = FactoryGirl.create(:london_member)
       get :index, {}
       assigns(:interesting_members).should eq [@member]
     end

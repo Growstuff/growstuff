@@ -75,6 +75,12 @@ gem 'geocoder'
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
 
+# For connecting to other services (eg Twitter)
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-flickr'
+gem 'authbuttons-rails'
+
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'
 gem 'rake', '>= 10.0.0'
