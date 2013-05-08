@@ -38,6 +38,8 @@ describe PhotosController do
       @member = FactoryGirl.create(:member)
       sign_in @member
       @auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+      subject.stub(:login_to_flickr)
+      subject.stub(:get_photos) { [FactoryGirl.create(:photo)] }
       get :new, {}
       assigns(:flickr_auth).should be_an_instance_of(Authentication)
     end

@@ -22,6 +22,22 @@ class PhotosController < ApplicationController
     end
   end
 
+  # I really hate the mixture of side-effects and return values here.
+  # It's done like this for easier mocking. Hopefully it'll soon be deleted!
+  def login_to_flickr()
+    FlickRaw.api_key = ENV['FLICKR_KEY']
+    FlickRaw.shared_secret = ENV['FLICKR_SECRET']
+    flickr = FlickRaw::Flickr.new
+    flickr.access_token = @flickr_auth.token
+    flickr.access_secret = @flickr_auth.secret
+    @flickr_login = flickr.test.login
+    return flickr
+  end
+
+  def get_photos(flickr)
+    @photos = flickr.people.getPhotos(:user_id => 'me', :per_page => 30)
+  end
+
   # GET /photos/new
   # GET /photos/new.json
   def new
@@ -32,14 +48,8 @@ class PhotosController < ApplicationController
     @flickr_auth = current_member.authentications.find_by_provider('flickr')
 
     if @flickr_auth
-      FlickRaw.api_key = ENV['FLICKR_KEY']
-      FlickRaw.shared_secret = ENV['FLICKR_SECRET']
-      flickr = FlickRaw::Flickr.new
-      flickr.access_token = @flickr_auth.token
-      flickr.access_secret = @flickr_auth.secret
-      @flickr_login = flickr.test.login
-
-      @photos = flickr.people.getPhotos(:user_id => 'me', :per_page => 30)
+      flickr = login_to_flickr()
+      get_photos(flickr)
     end
 
     respond_to do |format|
