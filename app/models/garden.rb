@@ -7,6 +7,8 @@ class Garden < ActiveRecord::Base
   has_many :plantings, :order => 'created_at DESC', :dependent => :destroy
   has_many :crops, :through => :plantings
 
+  validates_presence_of :name
+
   default_scope order("lower(name) asc")
 
   def garden_slug
