@@ -11,4 +11,9 @@ describe Order do
     @order.products.first.should eq @product
   end
 
+  it 'sorts by created_at DESC' do
+    @order2 = FactoryGirl.create(:order)
+    Order.all.should eq [@order2, @order]
+  end
+
 end
