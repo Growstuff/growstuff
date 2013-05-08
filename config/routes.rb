@@ -2,9 +2,7 @@ Growstuff::Application.routes.draw do
 
   resources :orders
 
-
   resources :products
-
 
   devise_for :members, :controllers => { :registrations => "registrations" }
 
@@ -88,5 +86,7 @@ Growstuff::Application.routes.draw do
   match '/support/:action' => 'support#:action'
   match '/about' => 'about#index'
   match '/about/:action' => 'about#:action'
+  match '/shop' => 'shop#index'
+  match '/shop/:action' => 'shop#:action'
 
 end
