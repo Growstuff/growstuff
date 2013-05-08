@@ -12,8 +12,8 @@ class MembersController < ApplicationController
 
   def show
     @member       = Member.confirmed.find(params[:id])
-    @twitter_auth = @member.authentications.find_by_provider('twitter')
-    @flickr_auth  = @member.authentications.find_by_provider('flickr')
+    @twitter_auth = @member.auth('twitter')
+    @flickr_auth  = @member.auth('flickr')
     @posts        = @member.posts
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.

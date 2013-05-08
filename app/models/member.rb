@@ -86,6 +86,10 @@ class Member < ActiveRecord::Base
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
   end
 
+  def auth(provider)
+    return authentications.find_by_provider(provider)
+  end
+
   protected
   def empty_unwanted_geocodes
     if self.location.to_s == ''

@@ -45,7 +45,7 @@ class PhotosController < ApplicationController
 
     # NOTE: we should move a bunch of this into the Member model
     @flickr_login = nil
-    @flickr_auth = current_member.authentications.find_by_provider('flickr')
+    @flickr_auth = current_member.auth('flickr')
 
     if @flickr_auth
       flickr = login_to_flickr()
