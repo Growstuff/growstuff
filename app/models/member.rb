@@ -90,6 +90,24 @@ class Member < ActiveRecord::Base
     return authentications.find_by_provider(provider)
   end
 
+  def flickr
+    if @flickr.nil?
+      flickr_auth = auth('flickr')
+      if flickr_auth
+        FlickRaw.api_key = ENV['FLICKR_KEY']
+        FlickRaw.shared_secret = ENV['FLICKR_SECRET']
+        @flickr = FlickRaw::Flickr.new
+        @flickr.access_token = flickr_auth.token
+        @flickr.access_secret = flickr_auth.secret
+      end
+    end
+    return @flickr
+  end
+
+  def flickr_photos
+    return flickr.people.getPhotos(:user_id => 'me', :per_page => 30)
+  end
+
   protected
   def empty_unwanted_geocodes
     if self.location.to_s == ''
