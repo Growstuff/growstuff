@@ -51,5 +51,6 @@ Growstuff::Application.configure do
   Growstuff::Application.configure do
     config.site_name = "Growstuff (dev)"
     config.analytics_code = ''
+    config.currency = 'AUD'
   end
 end

@@ -1,2 +1,27 @@
 -content_for :title, 'Shop'
 
+%p
+  Growstuff relies on your support to build and run this open source
+  platform for food growers.
+
+%p
+  We offer paid accounts which have access to exclusive features.  You can
+  buy a monthly, yearly, or permanent ("seed") account.
+
+%p
+  All our accounts are priced on a sliding scale.  You can choose how much
+  you want to pay.  Remember, your subscription supports an open source
+  platform promoting sustainable lifestyles!
+
+- @products.each do |p|
+  %h2= p.name
+
+  %div
+    :markdown
+      #{ strip_tags p.description }
+
+  %div
+    Base price:
+    #{ number_with_precision(p.min_price, :precision => 2) }
+    #{ Growstuff::Application.config.currency }
+

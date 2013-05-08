@@ -85,6 +85,7 @@ Growstuff::Application.configure do
       <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
       <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
     eos
+    config.currency = 'AUD'
   end
 
 end
