@@ -25,3 +25,13 @@
     #{ number_with_precision(p.min_price, :precision => 2) }
     #{ Growstuff::Application.config.currency }
 
+  %div
+    - if can? :create, Order
+      %p This is the form for buying a product.
+    - else
+      Please
+      =link_to "sign in", new_member_session_path
+      or
+      =link_to "sign up", new_member_registration_path
+      to purchase.
+

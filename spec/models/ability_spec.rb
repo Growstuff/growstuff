@@ -123,14 +123,14 @@ describe Ability do
   context "orders" do
 
     before(:each) do
-      @order = FactoryGirl.create(:order)
+      @order = FactoryGirl.create(:order, :member => @member)
     end
 
     context "standard member" do
       it "can't read or manage orders" do
-        @ability.should_not be_able_to(:read, @order)
-        @ability.should_not be_able_to(:create, Order)
-        @ability.should_not be_able_to(:update, @order)
+        @ability.should be_able_to(:read, @order)
+        @ability.should be_able_to(:create, Order)
+        @ability.should be_able_to(:update, @order)
         @ability.should_not be_able_to(:destroy, @order)
       end
 
