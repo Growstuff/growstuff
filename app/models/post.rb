@@ -10,6 +10,11 @@ class Post < ActiveRecord::Base
 
   default_scope order("created_at desc")
 
+  validates :subject,
+    :format => {
+      :with => /\S/
+    }
+
   def author_date_subject
     # slugs are created before created_at is set
     time = created_at || Time.zone.now

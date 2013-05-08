@@ -9,10 +9,17 @@ class Notification < ActiveRecord::Base
   default_scope order('created_at DESC')
   scope :unread, where(:read => false)
 
+  before_create :replace_blank_subject
   after_create :send_email
 
   def self.unread_count
     self.unread.count
+  end
+
+  def replace_blank_subject
+    if self.subject.nil? or self.subject =~ /^\s*$/
+      self.subject = "(no subject)"
+    end
   end
 
   def send_email
