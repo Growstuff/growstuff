@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508050711) do
+ActiveRecord::Schema.define(:version => 20130508104506) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "member_id",  :null => false
@@ -138,6 +138,15 @@ ActiveRecord::Schema.define(:version => 20130508050711) do
     t.decimal  "amount"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "photos", :force => true do |t|
+    t.integer  "owner_id",        :null => false
+    t.integer  "flickr_photo_id", :null => false
+    t.string   "thumbnail_url",   :null => false
+    t.string   "fullsize_url",    :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "plantings", :force => true do |t|

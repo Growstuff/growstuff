@@ -1,0 +1,25 @@
+%h1 Listing photos
+
+%table
+  %tr
+    %th Owner
+    %th Flickr photo
+    %th Thumbnail url
+    %th Fullsize url
+    %th
+    %th
+    %th
+
+  - @photos.each do |photo|
+    %tr
+      %td= photo.owner_id
+      %td= photo.flickr_photo_id
+      %td= photo.thumbnail_url
+      %td= photo.fullsize_url
+      %td= link_to 'Show', photo
+      %td= link_to 'Edit', edit_photo_path(photo)
+      %td= link_to 'Destroy', photo, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Photo', new_photo_path

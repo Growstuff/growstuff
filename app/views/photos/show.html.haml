@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Owner:
+  = @photo.owner_id
+%p
+  %b Flickr photo:
+  = @photo.flickr_photo_id
+%p
+  %b Thumbnail url:
+  = @photo.thumbnail_url
+%p
+  %b Fullsize url:
+  = @photo.fullsize_url
+
+= link_to 'Edit', edit_photo_path(@photo)
+\|
+= link_to 'Back', photos_path
