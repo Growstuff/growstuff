@@ -5,8 +5,7 @@ namespace :growstuff do
 
   task :admin_user => :environment do
 
-    member = Member.find_by_login_name(ENV['name']) 
-      or raise "Usage: rake growstuff:admin_user name=whoever (login name is case-sensitive)"
+    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:admin_user name=whoever (login name is case-sensitive)"
     admin  = Role.find_or_create_by_name!('admin')
     member.roles << admin
   end
