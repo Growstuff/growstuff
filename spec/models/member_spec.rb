@@ -235,4 +235,20 @@ describe 'member' do
     end
   end
 
+  context 'orders' do
+    it 'finds the current order' do
+      @member = FactoryGirl.create(:member)
+      @order1 = FactoryGirl.create(:completed_order, :member => @member)
+      @order2 = FactoryGirl.create(:order, :member => @member)
+      @member.current_order.should eq @order2
+    end
+
+    it "copes if there's no current order" do
+      @member = FactoryGirl.create(:member)
+      @order1 = FactoryGirl.create(:completed_order, :member => @member)
+      @order2 = FactoryGirl.create(:completed_order, :member => @member)
+      @member.current_order.should be_nil
+    end
+  end
+
 end
