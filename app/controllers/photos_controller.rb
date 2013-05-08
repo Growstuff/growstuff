@@ -26,7 +26,21 @@ class PhotosController < ApplicationController
   # GET /photos/new.json
   def new
     @photo = Photo.new
+
+    # NOTE: we should move a bunch of this into the Member model
+    @flickr_login = nil
     @flickr_auth = current_member.authentications.find_by_provider('flickr')
+
+    if @flickr_auth
+      FlickRaw.api_key = ENV['FLICKR_KEY']
+      FlickRaw.shared_secret = ENV['FLICKR_SECRET']
+      flickr = FlickRaw::Flickr.new
+      flickr.access_token = @flickr_auth.token
+      flickr.access_secret = @flickr_auth.secret
+      @flickr_login = flickr.test.login
+
+      @photos = flickr.people.getPhotos(:user_id => 'me', :per_page => 30)
+    end
 
     respond_to do |format|
       format.html # new.html.erb

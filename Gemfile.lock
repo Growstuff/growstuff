@@ -85,6 +85,7 @@ GEM
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
     fastthread (1.0.7)
+    flickraw (0.9.6)
     friendly_id (4.0.9)
     fssm (0.2.10)
     geocoder (1.1.6)
@@ -247,6 +248,7 @@ DEPENDENCIES
   devise
   diff-lcs
   factory_girl_rails (~> 4.0)
+  flickraw
   friendly_id
   geocoder
   gravatar-ultimate
