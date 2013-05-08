@@ -4,7 +4,7 @@
   %p
     Connected to Flickr as
     = succeed "." do
-      = link_to @flickr_login.username, "http://flickr.com/photos/#{@flickr_login.id}"
+      = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
 
   %p Select a photo from your recent uploads:
 

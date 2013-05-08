@@ -30,7 +30,6 @@ class PhotosController < ApplicationController
     flickr = FlickRaw::Flickr.new
     flickr.access_token = @flickr_auth.token
     flickr.access_secret = @flickr_auth.secret
-    @flickr_login = flickr.test.login
     return flickr
   end
 
@@ -44,7 +43,6 @@ class PhotosController < ApplicationController
     @photo = Photo.new
 
     # NOTE: we should move a bunch of this into the Member model
-    @flickr_login = nil
     @flickr_auth = current_member.auth('flickr')
 
     if @flickr_auth
