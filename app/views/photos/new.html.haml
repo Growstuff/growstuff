@@ -1,5 +1,10 @@
-%h1 New photo
+- content_for :title, "New Photo"
 
-= render 'form'
+- if @flickr_auth
+  = render 'form'
+- else
+  .alert
+    You must
+    =link_to "connect your account to Flickr", '/auth/flickr'
+    to add photos.
 
-= link_to 'Back', photos_path

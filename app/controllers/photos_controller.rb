@@ -26,6 +26,7 @@ class PhotosController < ApplicationController
   # GET /photos/new.json
   def new
     @photo = Photo.new
+    @flickr_auth = current_member.authentications.find_by_provider('flickr')
 
     respond_to do |format|
       format.html # new.html.erb

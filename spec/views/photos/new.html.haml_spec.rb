@@ -2,12 +2,10 @@ require 'spec_helper'
 
 describe "photos/new" do
   before(:each) do
-    assign(:photo, stub_model(Photo,
-      :owner_id => 1,
-      :flickr_photo_id => 1,
-      :thumbnail_url => "MyString",
-      :fullsize_url => "MyString"
-    ).as_new_record)
+    @member = FactoryGirl.create(:member)
+    controller.stub(:current_user) { @member }
+    assign(:photo, FactoryGirl.create(:photo))
+    assign(:flickr_auth, FactoryGirl.create(:flickr_authentication, :member => @member))
   end
 
   it "renders new photo form" do

@@ -34,6 +34,14 @@ describe PhotosController do
   end
 
   describe "GET new" do
+    it "assigns the flickr auth as @flickr_auth" do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      @auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+      get :new, {}
+      assigns(:flickr_auth).should be_an_instance_of(Authentication)
+    end
+
     it "assigns a new photo as @photo" do
       get :new, {}
       assigns(:photo).should be_a_new(Photo)
