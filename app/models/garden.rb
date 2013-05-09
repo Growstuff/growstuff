@@ -7,7 +7,7 @@ class Garden < ActiveRecord::Base
   has_many :plantings, :order => 'created_at DESC', :dependent => :destroy
   has_many :crops, :through => :plantings
 
-  validates_presence_of :name
+  before_create :replace_blank_name
 
   default_scope order("lower(name) asc")
 
@@ -29,6 +29,12 @@ class Garden < ActiveRecord::Base
     end
 
     return unique_plantings[0..3]
+  end
+
+  def replace_blank_name
+    if self.name.nil? or self.name =~ /^\s*$/
+      self.name = "(no name)"
+    end
   end
 
   def to_s
