@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :photo do
     owner_id 1
     flickr_photo_id 1
-    thumbnail_url "MyString"
-    fullsize_url "MyString"
+    thumbnail_url "http://example.com/thumb.jpg"
+    fullsize_url "http://example.com/full.jpg"
   end
 end
