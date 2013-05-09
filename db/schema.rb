@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508104506) do
+ActiveRecord::Schema.define(:version => 20130509123711) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "member_id",  :null => false
@@ -147,6 +147,10 @@ ActiveRecord::Schema.define(:version => 20130508104506) do
     t.string   "fullsize_url",    :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "title",           :null => false
+    t.string   "license_name",    :null => false
+    t.string   "license_url"
+    t.string   "link_url",        :null => false
   end
 
   create_table "plantings", :force => true do |t|

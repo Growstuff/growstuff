@@ -8,8 +8,11 @@ describe PhotosController do
     {
       "owner_id" => "1",
       "flickr_photo_id" => 1,
-      "thumbnail_url" => 'http://example.com',
-      "fullsize_url" => 'http://example.com'
+      "title" => "Photo",
+      "license_name" => "CC-BY",
+      "thumbnail_url" => 'http://example.com/thumb.jpg',
+      "fullsize_url" => 'http://example.com/full.jpg',
+      "link_url" => 'http://example.com'
     }
   end
 
@@ -60,9 +63,14 @@ describe PhotosController do
 
   describe "POST create" do
     before(:each) do
-      Photo.any_instance.stub(:flickr_urls).and_return(
-        ["http://example.com", "http://example.com" ]
-      )
+      Photo.any_instance.stub(:flickr_metadata).and_return( {
+        :title => "A Heartbreaking work of staggering genius",
+        :license_name => "CC-BY",
+        :license_url => "http://example.com/aybpl",
+        :thumbnail_url => "http://example.com/thumb.jpg",
+        :fullsize_url => "http://example.com/full.jpg",
+        :link_url => "http://example.com"
+      })
     end
     describe "with valid params" do
       it "creates a new Photo" do

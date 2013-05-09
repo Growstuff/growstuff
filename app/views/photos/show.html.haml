@@ -3,13 +3,15 @@
 = image_tag(@photo.fullsize_url, :alt => 'A plant', :class => 'img-rounded')
 
 %p
-  [Photo title goes here]
+  = link_to @photo.title, @photo.link_url
   by
-  [Flickr username goes here]
-  on Flickr.
-  [if licence]
-  Licensed under [Licence goes here].
-  [else]
-  [Copyright, all rights reserved]
-  [endif]
+  = succeed "." do
+    = link_to @photo.owner, @photo.owner
+  License:
+  - if @photo.license_url
+    = succeed "." do
+      = link_to @photo.license_name, @photo.license_url
+  - else
+    = succeed "." do
+      = @photo.license_name
 

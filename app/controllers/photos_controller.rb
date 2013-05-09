@@ -48,7 +48,7 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.new(params[:photo])
     @photo.owner_id = current_member.id
-    @photo.set_flickr_urls
+    @photo.set_flickr_metadata
 
     respond_to do |format|
       if @photo.save
