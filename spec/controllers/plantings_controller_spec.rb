@@ -161,10 +161,11 @@ describe PlantingsController do
       }.to change(Planting, :count).by(-1)
     end
 
-    it "redirects to the plantings list" do
+    it "redirects to the garden" do
       planting = Planting.create! valid_attributes
+      garden = planting.garden
       delete :destroy, {:id => planting.to_param}
-      response.should redirect_to(plantings_url)
+      response.should redirect_to(garden)
     end
   end
 

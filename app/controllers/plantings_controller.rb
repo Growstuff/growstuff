@@ -85,10 +85,11 @@ class PlantingsController < ApplicationController
   # DELETE /plantings/1.json
   def destroy
     @planting = Planting.find(params[:id])
+    @garden = @planting.garden
     @planting.destroy
 
     respond_to do |format|
-      format.html { redirect_to plantings_url }
+      format.html { redirect_to @garden }
       format.json { head :no_content }
     end
   end
