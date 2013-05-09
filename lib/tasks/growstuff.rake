@@ -26,6 +26,18 @@ namespace :growstuff do
       end
     end
 
+    task :empty_names => :environment do
+      desc "May 2013: replace any empty garden names with (no subject)"
+
+      # this is inefficient as it checks every Garden, but the
+      # site is small and there aren't many of them, so it shouldn't matter
+      # for this one-off script.
+      Garden.all.each do |n|
+        n.replace_blank_name
+        n.save
+      end
+    end
+
   end
 
 end
