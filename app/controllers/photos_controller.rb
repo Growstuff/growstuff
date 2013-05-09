@@ -47,6 +47,8 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = Photo.new(params[:photo])
+    @photo.owner_id = current_member.id
+    @photo.set_flickr_urls
 
     respond_to do |format|
       if @photo.save

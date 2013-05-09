@@ -59,21 +59,26 @@ describe PhotosController do
   end
 
   describe "POST create" do
+    before(:each) do
+      Photo.any_instance.stub(:flickr_urls).and_return(
+        ["http://example.com", "http://example.com" ]
+      )
+    end
     describe "with valid params" do
       it "creates a new Photo" do
         expect {
-          post :create, {:photo => valid_attributes}
+          post :create, {:photo => { :flickr_photo_id => 1 } }
         }.to change(Photo, :count).by(1)
       end
 
       it "assigns a newly created photo as @photo" do
-        post :create, {:photo => valid_attributes}
+        post :create, {:photo => { :flickr_photo_id => 1 } }
         assigns(:photo).should be_a(Photo)
         assigns(:photo).should be_persisted
       end
 
       it "redirects to the created photo" do
-        post :create, {:photo => valid_attributes}
+        post :create, {:photo => { :flickr_photo_id => 1 } }
         response.should redirect_to(Photo.last)
       end
     end
