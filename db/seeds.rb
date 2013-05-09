@@ -18,8 +18,8 @@ CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
 end
 puts "Finished loading crops"
 
-puts "Loading test users..."
 if Rails.env.development? or Rails.env.test?
+  puts "Loading test users..."
   (1..3).each do |i|
     @user = Member.create(
         :login_name => "test#{i}",
@@ -30,5 +30,34 @@ if Rails.env.development? or Rails.env.test?
     @user.confirm!
     @user.save!
   end
+  puts "Finished loading test users"
+
+  puts "Creating admin role..."
+  @admin = Role.create(:name => 'Admin')
+  puts "Creating crop wrangler role..."
+  @wrangler = Role.create(:name => 'Crop Wrangler')
+
+  puts "Adding admin and crop wrangler members..."
+  @admin_user = Member.create(
+    :login_name => "admin1",
+    :email => "admin1@example.com",
+    :password => "password1",
+    :tos_agreement => true
+  )
+  @admin_user.confirm!
+  @admin_user.roles << @admin
+  @admin_user.save!
+
+  @wrangler_user = Member.create(
+    :login_name => "wrangler1",
+    :email => "wrangler1@example.com",
+    :password => "password1",
+    :tos_agreement => true
+  )
+  @wrangler_user.confirm!
+  @wrangler_user.roles << @wrangler
+  @wrangler_user.save!
+  puts "Done!"
+
 end
-puts "Finished loading test users"
+
