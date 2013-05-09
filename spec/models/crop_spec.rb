@@ -27,19 +27,8 @@ describe Crop do
 
   context 'invalid data' do
     it 'should not save a crop without a system name' do
-      @crop = Crop.new
+      @crop = FactoryGirl.build(:crop, :system_name => nil)
       expect { @crop.save }.to raise_error ActiveRecord::StatementInvalid
-    end
-  end
-
-  context 'random' do
-    before(:each) do
-      @crop = FactoryGirl.create(:tomato)
-    end
-
-    it 'should find a random crop' do
-      @rand_crop = Crop.random
-      @rand_crop.system_name.should == 'Tomato'
     end
   end
 
@@ -63,5 +52,12 @@ describe Crop do
     @c.plantings_count.should eq 0
     FactoryGirl.create(:planting, :crop => @c)
     @c.plantings_count.should eq 1
+  end
+
+  it 'validates en_wikipedia_url' do
+    @crop = FactoryGirl.build(:tomato, :en_wikipedia_url => 'this is not valid')
+    @crop.should_not be_valid
+    @crop = FactoryGirl.build(:tomato, :en_wikipedia_url => 'http://en.wikipedia.org/wiki/SomePage')
+    @crop.should be_valid
   end
 end

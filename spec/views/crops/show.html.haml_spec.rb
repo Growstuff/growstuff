@@ -54,7 +54,15 @@ describe "crops/show" do
     end
 
     it "links to the edit crop form" do
-      rendered.should contain "Edit"
+      assert_select "a[href=#{edit_crop_path(@crop)}]", :text => "Edit crop"
+    end
+
+    it "links to the add scientific name form" do
+      assert_select "a[href^=#{new_scientific_name_path}]", :text => "Add"
+    end
+
+    it "links to the edit scientific name form" do
+      assert_select "a[href=#{edit_scientific_name_path(@crop.scientific_names.first)}]", :text => "Edit"
     end
   end
 
