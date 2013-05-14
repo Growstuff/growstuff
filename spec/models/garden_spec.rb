@@ -14,9 +14,19 @@ describe Garden do
     @garden.description.should == "This is a **totally** cool garden"
   end
 
-  it "should have a name" do
-    @no_name_garden = FactoryGirl.create(:garden, :name => nil, :description => "New Garden")
-    @no_name_garden.name.should_not be_blank
+  it "doesn't allow a nil name" do
+    @garden = FactoryGirl.build(:garden, :name => nil)
+    @garden.should_not be_valid
+  end
+
+  it "doesn't allow a blank name" do
+    @garden = FactoryGirl.build(:garden, :name => "")
+    @garden.should_not be_valid
+  end
+  
+  it "doesn't allow a name with only spaces" do
+    @garden = FactoryGirl.build(:garden, :name => "    ")
+    @garden.should_not be_valid
   end
 
   it "should have an owner" do
@@ -84,16 +94,6 @@ describe Garden do
     all = Planting.count
     @garden.destroy
     Planting.count.should == all - 2
-  end
-
-  it "replaces missing name with (no name)" do
-    @no_name_garden = FactoryGirl.create(:garden, :name => nil)
-    @no_name_garden.name.should == "(no name)"
-  end
-
-  it "replaces whitespace-only names with (no name)" do
-    @no_name_garden = FactoryGirl.create(:garden, :name => "    ")
-    @no_name_garden.name.should == "(no name)"
   end
 
 end
