@@ -1,4 +1,5 @@
 class NotificationsController < ApplicationController
+  include NotificationsHelper
   load_and_authorize_resource
   # GET /notifications
   def index
@@ -14,6 +15,7 @@ class NotificationsController < ApplicationController
     @notification = Notification.find(params[:id])
     @notification.read = true
     @notification.save
+    @reply_link = reply_link(@notification)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,6 +27,7 @@ class NotificationsController < ApplicationController
   def new
     @notification = Notification.new
     @recipient = Member.find_by_id(params[:recipient_id])
+    @subject   = params[:subject] || ""
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,7 +52,7 @@ class NotificationsController < ApplicationController
 
     respond_to do |format|
       if @notification.save
-        format.html { redirect_to @recipient, notice: 'Message was successfully sent.' }
+        format.html { redirect_to notifications_path, notice: 'Message was successfully sent.' }
       else
         format.html { render action: "new" }
       end

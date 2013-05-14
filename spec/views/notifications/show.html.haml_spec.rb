@@ -5,6 +5,7 @@ describe "notifications/show" do
     @member = FactoryGirl.create(:member)
     @notification = FactoryGirl.create(:notification, :recipient => @member)
     assign(:notification, @notification)
+    @reply_link = assign(:reply_link, new_notification_path)
     controller.stub(:current_user) { @member }
     render
   end
@@ -16,6 +17,10 @@ describe "notifications/show" do
 
   it "includes a delete button" do
     assert_select "a", "Delete"
+  end
+
+  it "includes a reply button" do
+    assert_select "a[href=#{@reply_link}]", "Reply"
   end
 
 end
