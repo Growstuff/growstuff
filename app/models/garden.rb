@@ -36,12 +36,6 @@ class Garden < ActiveRecord::Base
     return unique_plantings[0..3]
   end
 
-  def replace_blank_name
-    if self.name.nil? or self.name =~ /^\s*$/
-      self.name = "(no name)"
-    end
-  end
-
   def to_s
     name
   end
