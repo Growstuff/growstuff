@@ -15,6 +15,7 @@ class Ability
     cannot :read, Role
     cannot :read, Product
     cannot :read, Order
+    cannot :read, OrderItem
 
     if member
 
@@ -57,26 +58,32 @@ class Ability
 
       # anyone can create a post, or comment on a post,
       # but only the author can edit/destroy it.
-      can :create, Post
-      can :update, Post, :author_id => member.id
+      can :create,  Post
+      can :update,  Post, :author_id => member.id
       can :destroy, Post, :author_id => member.id
-      can :create, Comment
-      can :update, Comment, :author_id => member.id
+      can :create,  Comment
+      can :update,  Comment, :author_id => member.id
       can :destroy, Comment, :author_id => member.id
 
       # same deal for gardens and plantings
-      can :create, Garden
-      can :update, Garden, :owner_id => member.id
+      can :create,  Garden
+      can :update,  Garden, :owner_id => member.id
       can :destroy, Garden, :owner_id => member.id
 
-      can :create, Planting
-      can :update, Planting, :garden => { :owner_id => member.id }
+      can :create,  Planting
+      can :update,  Planting, :garden => { :owner_id => member.id }
       can :destroy, Planting, :garden => { :owner_id => member.id }
 
       # orders/shop/etc
-      can :create, Order
-      can :read,   Order, :member_id => member.id
-      can :update, Order, :member_id => member.id
+      can :create,  Order
+      can :read,    Order, :member_id => member.id
+      can :update,  Order, :member_id => member.id, :completed_at => nil
+      can :destroy, Order, :member_id => member.id, :completed_at => nil
+
+      can :create,  OrderItem
+      can :read,    OrderItem, :order => { :member_id => member.id }
+      can :update,  OrderItem, :order => { :member_id => member.id, :completed_at => nil }
+      can :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
 
     end
   end

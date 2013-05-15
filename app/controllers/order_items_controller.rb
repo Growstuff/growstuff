@@ -1,4 +1,5 @@
 class OrderItemsController < ApplicationController
+  load_and_authorize_resource
   # GET /order_items
   # GET /order_items.json
   def index

@@ -124,15 +124,93 @@ describe Ability do
 
     before(:each) do
       @order = FactoryGirl.create(:order, :member => @member)
+      @strangers_order = FactoryGirl.create(:order,
+          :member => FactoryGirl.create(:member))
+      @completed_order = FactoryGirl.create(:completed_order,
+          :member => @member)
+
+      @order_item = FactoryGirl.create(:order_item, :order => @order)
+      @strangers_order_item = FactoryGirl.create(:order_item,
+          :order => @strangers_order)
+      @completed_order_item = FactoryGirl.create(:order_item,
+          :order => @completed_order)
     end
 
     context "standard member" do
-      it "can't read or manage orders" do
+      it "can read their own orders" do
         @ability.should be_able_to(:read, @order)
-        @ability.should be_able_to(:create, Order)
-        @ability.should be_able_to(:update, @order)
-        @ability.should_not be_able_to(:destroy, @order)
+        @ability.should be_able_to(:read, @completed_order)
       end
+
+      it "can't read other people's orders" do
+        @ability.should_not be_able_to(:read, @strangers_order)
+      end
+
+      it "can create a new order" do
+        @ability.should be_able_to(:create, Order)
+      end
+
+      it "can update their own current order" do
+        @ability.should be_able_to(:update, @order)
+      end
+
+      it "can't update someone else's order" do
+        @ability.should_not be_able_to(:update, @strangers_order)
+      end
+
+      it "can't update a completed order" do
+        @ability.should_not be_able_to(:update, @completed_order)
+      end
+
+      it "can delete a current order" do
+        @ability.should be_able_to(:destroy, @order)
+      end
+
+      it "can't delete someone else's order" do
+        @ability.should_not be_able_to(:destroy, @strangers_order)
+      end
+
+      it "can't delete a completed order" do
+        @ability.should_not be_able_to(:destroy, @completed_order)
+      end
+
+      it "can read their own order items" do
+        @ability.should be_able_to(:read, @order_item)
+        @ability.should be_able_to(:read, @completed_order_item)
+      end
+
+      it "can't read other people's order items" do
+        @ability.should_not be_able_to(:read, @strangers_order_item)
+      end
+
+      it "can create a new order item" do
+        @ability.should be_able_to(:create, OrderItem)
+      end
+
+      it "can update their own order items" do
+        @ability.should be_able_to(:update, @order_item)
+      end
+
+      it "can't update other people's order items" do
+        @ability.should_not be_able_to(:update, @strangers_order_item)
+      end
+
+      it "can't updated items in completed orders" do
+        @ability.should_not be_able_to(:update, @completed_order_item)
+      end
+
+      it "can delete their own order item" do
+        @ability.should be_able_to(:destroy, @order_item)
+      end
+
+      it "can't delete someone else's order item" do
+        @ability.should_not be_able_to(:destroy, @strangers_order_item)
+      end
+
+      it "can't delete items from completed orders" do
+        @ability.should_not be_able_to(:destroy, @completed_order_item)
+      end
+
 
     end
 
