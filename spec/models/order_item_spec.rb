@@ -10,4 +10,10 @@ describe OrderItem do
     @order_item.product.should be_an_instance_of Product
   end
 
+  it "validates price > product.min_price" do
+    @product = FactoryGirl.create(:product)
+    @order_item = FactoryGirl.build(:order_item, :price => @product.min_price - 1)
+    @order_item.should_not be_valid
+  end
+
 end
