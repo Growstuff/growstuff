@@ -30,6 +30,7 @@ class Ability
         # admins can manage products and orders
         can :manage, Product
         can :manage, Order # for now
+        can :manage, OrderItem # for now
       end
 
       # managing your own user settings
