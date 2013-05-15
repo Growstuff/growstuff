@@ -20,13 +20,24 @@
     :markdown
       #{ strip_tags p.description }
 
-  %div
-    Base price:
-    =format_price(p.min_price)
+  %p
+    Pay what you want, starting at
+    =succeed "." do
+      =price_with_currency(p.min_price)
 
   %div
     - if can? :create, Order
-      %p This is the form for buying a product.
+
+      = form_for @order_item do |f|
+        .field
+          = f.text_field :price, :value => price_in_dollars(p.min_price)
+        .field
+          = f.hidden_field :product_id, :value => p.id
+        .field
+          = f.hidden_field :quantity, :value => 1
+        .actions
+          = f.submit 'Buy', :class => 'btn btn-primary'
+
     - else
       Please
       =link_to "sign in", new_member_session_path

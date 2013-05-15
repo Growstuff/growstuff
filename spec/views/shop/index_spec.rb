@@ -5,6 +5,7 @@ describe 'shop/index.html.haml', :type => "view" do
     @product1 = FactoryGirl.create(:product)
     @product2 = FactoryGirl.create(:product)
     assign(:products, [@product1, @product2])
+    assign(:order_item, OrderItem.new)
   end
 
   context "signed in" do
@@ -23,7 +24,7 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it 'displays the order form' do
-      rendered.should contain 'This is the form'
+      assert_select "form", :count => 2
     end
   end
 

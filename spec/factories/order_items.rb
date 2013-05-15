@@ -5,6 +5,6 @@ FactoryGirl.define do
     order
     product
     price "999"
-    quantity 1
+    quantity 42
   end
 end

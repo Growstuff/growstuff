@@ -26,6 +26,6 @@
             x
             = o.product.name
             @
-            = format_price(o.price)
+            = price_with_currency(o.price)
             %br/
       %td= link_to 'Details', order, :class => 'btn btn-mini'

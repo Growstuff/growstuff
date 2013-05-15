@@ -7,9 +7,9 @@ class OrderItem < ActiveRecord::Base
   validate :price_must_be_greater_than_minimum
 
   def price_must_be_greater_than_minimum
-    @product = Product.find(product)
+    @product = Product.find(product_id)
     if price < @product.min_price
-      errors.add(:discount, "must be greater than the product's minimum value")
+      errors.add(:price, "must be greater than the product's minimum value")
     end
   end
 end

@@ -32,12 +32,12 @@
     %tr
       %td= i.product.name
       %td
-        = format_price(i.price)
+        = price_with_currency(i.price)
       %td= i.quantity
       %td
         - subtotal = i.price * i.quantity
         - total += subtotal
-        = format_price(subtotal)
+        = price_with_currency(subtotal)
 
   %tr
     %td
@@ -46,7 +46,7 @@
       %strong Total:
     %td
       %strong
-        = format_price(total)
+        = price_with_currency(total)
 
 %p
   = link_to "View other orders/order history", orders_path
