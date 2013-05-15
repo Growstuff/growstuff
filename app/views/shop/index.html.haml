@@ -22,8 +22,7 @@
 
   %div
     Base price:
-    = number_with_precision(p.min_price, :precision => 2)
-    = Growstuff::Application.config.currency
+    =format_price(p.min_price)
 
   %div
     - if can? :create, Order

@@ -9,7 +9,7 @@ describe "orders/show" do
     @order_item = FactoryGirl.create(:order_item,
       :order => @order,
       :quantity => 2,
-      :price => 99.00
+      :price => 9900
     )
     render
   end

@@ -32,14 +32,12 @@
     %tr
       %td= i.product.name
       %td
-        = number_with_precision(i.price, :precision => 2)
-        = Growstuff::Application.config.currency
+        = format_price(i.price)
       %td= i.quantity
       %td
         - subtotal = i.price * i.quantity
         - total += subtotal
-        = number_with_precision(subtotal, :precision => 2)
-        = Growstuff::Application.config.currency
+        = format_price(subtotal)
 
   %tr
     %td
@@ -48,8 +46,7 @@
       %strong Total:
     %td
       %strong
-        = number_with_precision(total, :precision => 2)
-        = Growstuff::Application.config.currency
+        = format_price(total)
 
 %p
   = link_to "View other orders/order history", orders_path
