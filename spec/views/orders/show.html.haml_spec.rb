@@ -2,14 +2,29 @@ require 'spec_helper'
 
 describe "orders/show" do
   before(:each) do
-    @order = assign(:order, stub_model(Order,
-      :member_id => "Member"
-    ))
+    @member = FactoryGirl.create(:member)
+    sign_in @member
+    controller.stub(:current_user) { @member }
+    @order = assign(:order, FactoryGirl.create(:order, :member => @member))
+    @order_item = FactoryGirl.create(:order_item,
+      :order => @order,
+      :quantity => 2,
+      :price => 99.00
+    )
+    render
   end
 
-  it "renders attributes in <p>" do
-    render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Member/)
+  it "displays order number" do
+    rendered.should contain "Order number"
   end
+
+  it "shows order items in a table" do
+    assert_select "table>tr>th", :text => "Product"
+  end
+
+  it "shows the total" do
+    rendered.should contain "Total:"
+    rendered.should contain "198.00"
+  end
+
 end

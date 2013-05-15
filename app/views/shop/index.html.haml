@@ -22,8 +22,8 @@
 
   %div
     Base price:
-    #{ number_with_precision(p.min_price, :precision => 2) }
-    #{ Growstuff::Application.config.currency }
+    = number_with_precision(p.min_price, :precision => 2)
+    = Growstuff::Application.config.currency
 
   %div
     - if can? :create, Order
@@ -34,4 +34,5 @@
       or
       =link_to "sign up", new_member_registration_path
       to purchase.
+
 

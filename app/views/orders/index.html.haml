@@ -1,16 +1,32 @@
 - content_for :title, "Order History"
 
-%table.table-striped
+%p
+  Your order history shows what you have bought via our
+  =succeed "." do
+    =link_to "shop", shop_path
+
+%table.table.table-striped
   %tr
     %th Order number
-    %th Order began
-    %th Order completed
-    %th Number of items
+    %th Date completed
+    %th Items
     %th
   - @orders.each do |order|
     %tr
       %td= order.id
-      %td= order.created_at.to_s
-      %td= order.completed_at.to_s
-      %td= order.order_items.count
-      %td= link_to 'Show', order, :class => 'btn btn-small'
+      %td
+        - if order.completed_at
+          = order.completed_at.to_s
+        - else
+          In progress
+      %td
+        - if order.order_items.count > 0
+          - order.order_items.each do |o|
+            = o.quantity
+            x
+            = o.product.name
+            @
+            = number_with_precision(o.price, :precision => 2)
+            = Growstuff::Application.config.currency
+            %br/
+      %td= link_to 'Details', order, :class => 'btn btn-mini'
