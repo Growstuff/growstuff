@@ -1,9 +1,10 @@
 class OrdersController < ApplicationController
   load_and_authorize_resource
+
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.find_all_by_member_id(current_member.id)
 
     respond_to do |format|
       format.html # index.html.erb

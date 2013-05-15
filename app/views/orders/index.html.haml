@@ -1,19 +1,16 @@
-%h1 Listing orders
+- content_for :title, "Order History"
 
-%table
+%table.table-striped
   %tr
-    %th Member
+    %th Order number
+    %th Order began
+    %th Order completed
+    %th Number of items
     %th
-    %th
-    %th
-
   - @orders.each do |order|
     %tr
-      %td= order.member_id
-      %td= link_to 'Show', order
-      %td= link_to 'Edit', edit_order_path(order)
-      %td= link_to 'Destroy', order, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Order', new_order_path
+      %td= order.id
+      %td= order.created_at.to_s
+      %td= order.completed_at.to_s
+      %td= order.order_items.count
+      %td= link_to 'Show', order, :class => 'btn btn-small'

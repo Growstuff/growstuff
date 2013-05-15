@@ -10,7 +10,10 @@ describe OrderItemsController do
 
   describe "GET index" do
     it "assigns all order_items as @order_items" do
-      order_item = OrderItem.create! valid_attributes
+      member = FactoryGirl.create(:member)
+      sign_in member
+      order = FactoryGirl.create(:order, :member_id => member.id)
+      order_item = FactoryGirl.create(:order_item, :order_id => order.id)
       get :index, {}
       assigns(:order_items).should eq([order_item])
     end
@@ -56,6 +59,13 @@ describe OrderItemsController do
       it "redirects to the created order_item" do
         post :create, {:order_item => valid_attributes}
         response.should redirect_to(OrderItem.last)
+      end
+
+      it 'creates an order for you' do
+        expect {
+          post :create, {:order_item => valid_attributes}
+        }.to change(Order, :count).by(1)
+        OrderItem.last.order.should be_an_instance_of Order
       end
     end
 

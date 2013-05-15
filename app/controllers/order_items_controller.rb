@@ -1,9 +1,10 @@
 class OrderItemsController < ApplicationController
   load_and_authorize_resource
+
   # GET /order_items
   # GET /order_items.json
   def index
-    @order_items = OrderItem.all
+    @order_items = OrderItem.joins(:order).where(:orders => {:member_id => current_member.id})
 
     respond_to do |format|
       format.html # index.html.erb
@@ -42,6 +43,7 @@ class OrderItemsController < ApplicationController
   # POST /order_items.json
   def create
     @order_item = OrderItem.new(params[:order_item])
+    @order_item.order = current_member.current_order || Order.create(:member_id => current_member.id)
 
     respond_to do |format|
       if @order_item.save
