@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Order:
+  = @order_item.order_id
+%p
+  %b Product:
+  = @order_item.product_id
+%p
+  %b Price:
+  = @order_item.price
+%p
+  %b Quantity:
+  = @order_item.quantity
+
+= link_to 'Edit', edit_order_item_path(@order_item)
+\|
+= link_to 'Back', order_items_path

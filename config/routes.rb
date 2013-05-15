@@ -1,5 +1,8 @@
 Growstuff::Application.routes.draw do
 
+  resources :order_items
+
+
   devise_for :members, :controllers => { :registrations => "registrations" }
 
   resources :authentications

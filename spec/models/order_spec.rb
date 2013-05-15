@@ -4,11 +4,12 @@ describe Order do
   before(:each) do
     @order = FactoryGirl.create(:order)
     @product = FactoryGirl.create(:product)
-    @order.products << @product
+    @order_item = FactoryGirl.create(:order_item,
+      :order_id => @order.id, :product_id => @product.id)
   end
 
-  it 'has products' do
-    @order.products.first.should eq @product
+  it 'has order_items' do
+    @order.order_items.first.should eq @order_item
   end
 
   it 'sorts by created_at DESC' do
