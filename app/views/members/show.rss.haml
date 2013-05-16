@@ -11,5 +11,5 @@
         %author= @member.login_name
         %title= post.subject
         %description
-          :markdown
+          :escaped_markdown
             #{ strip_tags post.body }
