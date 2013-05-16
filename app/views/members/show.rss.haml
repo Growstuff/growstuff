@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-%feed{:version => "2.0", "xmlns:atom"=>"http://www.w3.org/2005/Atom"}
+%rss{:version => 2.0}
   %channel
     %title #{Growstuff::Application.config.site_name} - #{@member.login_name}'s recent posts
-    %atom:link= member_url(@member)
-    %atom:link{ :type => "application/rss+xml", :href => member_url(@member), :rel  => "self" }
-
+    %link= member_url(@member)
     - @posts.each do |post|
-      %entry
-        %updated post.created_at.to_s(:rfc822)
-        %link{ :href =>  post_url(post) }
-        %guid post_url(post)
-        %author @member.login_name
-        %title post.subject
+      %item
+        %pubDate= post.created_at.to_s(:rfc822)
+        %link= post_url(post)
+        %guid= post_url(post)
+        %author= @member.login_name
+        %title= post.subject
         %description
           :markdown
             #{ strip_tags post.body }
