@@ -5,7 +5,6 @@ describe "notifications/new" do
     @recipient = FactoryGirl.create(:member)
     @sender = FactoryGirl.create(:member)
     assign(:notification, FactoryGirl.create(:notification, :recipient_id => @recipient.id, :sender_id => @sender.id))
-# assign(:forum, Forum.new)
     sign_in @sender
     controller.stub(:current_user) { @sender}
   end
@@ -21,6 +20,22 @@ describe "notifications/new" do
   it "tells you who the recipient is" do
     render
     rendered.should contain @recipient.login_name
+  end
+
+  it "puts the recipient in a hidden field" do
+    render
+    assert_select "input#notification_recipient_id[type=hidden]", :name => "notification[recipient_id]"
+  end
+
+  it "fills in the subject if provided" do
+    assign(:subject, 'Foo')
+    render
+    assert_select "input#notification_subject", :value => "Foo"
+  end
+
+  it "leaves the subject empty if not provided" do
+    render
+    assert_select "input#notification_subject", :value => ""
   end
 
   it "Tells you to write your message here" do

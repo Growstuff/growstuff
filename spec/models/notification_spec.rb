@@ -48,4 +48,14 @@ describe Notification do
     ActionMailer::Base.deliveries.last.to.should == [@notification2.recipient.email]
   end
 
+  it "replaces missing subjects with (no subject)" do
+    @notification = FactoryGirl.create(:notification, :subject => nil)
+    @notification.subject.should == "(no subject)"
+  end
+
+  it "replaces whitespace-only subjects with (no subject)" do
+    @notification = FactoryGirl.create(:notification, :subject => "    ")
+    @notification.subject.should == "(no subject)"
+  end
+
 end

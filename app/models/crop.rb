@@ -6,6 +6,12 @@ class Crop < ActiveRecord::Base
   has_many :plantings
   default_scope order("lower(system_name) asc")
 
+  validates :en_wikipedia_url,
+    :format => {
+      :with => /^https?:\/\/en\.wikipedia\.org\/wiki/,
+      :message => 'is not a valid English Wikipedia URL'
+    }
+
   def Crop.random
     @crop = Crop.offset(rand(Crop.count)).first
     return @crop

@@ -43,6 +43,21 @@ describe Post do
     @post.forum.should be_an_instance_of Forum
   end
 
+  it "doesn't allow a nil subject" do
+    @post = FactoryGirl.build(:post, :subject => nil)
+    @post.should_not be_valid
+  end
+
+  it "doesn't allow a blank subject" do
+    @post = FactoryGirl.build(:post, :subject => "")
+    @post.should_not be_valid
+  end
+  
+  it "doesn't allow a subject with only spaces" do
+    @post = FactoryGirl.build(:post, :subject => "    ")
+    @post.should_not be_valid
+  end
+
   context "recent activity" do
     before(:each) do
       Time.stub(:now => Time.now)

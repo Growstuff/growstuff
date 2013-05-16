@@ -9,7 +9,7 @@
     -if can? :create, Notification and current_member != @member
       %p
         %br/
-        =link_to 'Send Message', new_notification_path(:sender_id => current_member.id, :recipient_id => @member.id), :class => 'btn btn-primary'
+        =link_to 'Send Message', new_notification_path(:recipient_id => @member.id), :class => 'btn btn-primary'
 
     %p
       %strong Member since:

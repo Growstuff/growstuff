@@ -14,6 +14,21 @@ describe Garden do
     @garden.description.should == "This is a **totally** cool garden"
   end
 
+  it "doesn't allow a nil name" do
+    @garden = FactoryGirl.build(:garden, :name => nil)
+    @garden.should_not be_valid
+  end
+
+  it "doesn't allow a blank name" do
+    @garden = FactoryGirl.build(:garden, :name => "")
+    @garden.should_not be_valid
+  end
+  
+  it "doesn't allow a name with only spaces" do
+    @garden = FactoryGirl.build(:garden, :name => "    ")
+    @garden.should_not be_valid
+  end
+
   it "should have an owner" do
     @garden.owner.should be_an_instance_of Member
   end
