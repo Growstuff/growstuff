@@ -99,6 +99,8 @@ class Ability
         # status, etc)
         can :read, AccountDetail
         can :manage, AccountDetail
+        can :read, AccountType
+        can :manage, AccountType
       end
 
     end

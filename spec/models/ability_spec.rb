@@ -246,7 +246,7 @@ describe Ability do
 
   context 'account details' do
     before(:each) do
-      @account_detail = FactoryGirl.create(:account_detail, :member => @member)
+      @account_detail = @member.account_detail
     end
 
     context 'ordinary member' do

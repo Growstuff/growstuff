@@ -5,7 +5,10 @@
   = @account_detail.member_id
 %p
   %b Account type:
-  = @account_detail.account_type.name
+  - if @account_detail.account_type
+    = @account_detail.account_type.name
+  - else
+    Free account
 %p
   %b Paid until:
   = @account_detail.paid_until

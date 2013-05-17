@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe "account_details/index" do
   before(:each) do
-    @account_detail = FactoryGirl.create(:account_detail)
+    @member = FactoryGirl.create(:member)
+    @account_detail = @member.account_detail
     assign(:account_details, [@account_detail, @account_detail])
   end
 

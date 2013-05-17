@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe "account_details/new" do
   before(:each) do
-    assign(:account_detail, FactoryGirl.create(:account_detail))
+    @member = FactoryGirl.create(:member)
+    assign(:account_detail, @member.account_detail)
   end
 
   it "renders new account_detail form" do

@@ -1,9 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :account_detail do
-    member
-    account_type
-    paid_until "2013-05-17 11:59:20"
-  end
+  # never do this directly.
+  # create a member then look at member.account_detail instead.
+  # (because it's auto-created, and there can only be one.)
 end
