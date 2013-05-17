@@ -95,6 +95,11 @@ describe OrderItemsController do
 
   describe "PUT update" do
 
+    # we've said nobody can update an OrderItem; in future, we might
+    # want to delete all this code, but I wanted to wait just in case we
+    # needed it.
+    before(:each) { pending("we don't permit this (see app/model/ability.rb") }
+
     describe "with valid params" do
 
       it "updates the requested order_item" do
@@ -139,6 +144,11 @@ describe OrderItemsController do
   end
 
   describe "DELETE destroy" do
+    # we've said nobody can update an OrderItem; in future, we might
+    # want to delete all this code, but I wanted to wait just in case we
+    # needed it.
+    before(:each) { pending("we don't permit this (see app/model/ability.rb") }
+
     it "destroys the requested order_item" do
       expect {
         delete :destroy, {:id => @order_item.to_param}
