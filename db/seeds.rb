@@ -58,6 +58,28 @@ if Rails.env.development? or Rails.env.test?
   @wrangler_user.roles << @wrangler
   @wrangler_user.save!
 
+  puts "Adding account types..."
+  AccountType.create!(
+    :name => "Free",
+    :is_paid => false,
+    :is_permanent_paid => false
+  )
+  AccountType.create!(
+    :name => "Paid",
+    :is_paid => true,
+    :is_permanent_paid => false
+  )
+  AccountType.create!(
+    :name => "Seed",
+    :is_paid => true,
+    :is_permanent_paid => true
+  )
+  AccountType.create!(
+    :name => "Staff",
+    :is_paid => true,
+    :is_permanent_paid => true
+  )
+
   puts "Adding products..."
   Product.create!(
     :name => "Annual subscription",
