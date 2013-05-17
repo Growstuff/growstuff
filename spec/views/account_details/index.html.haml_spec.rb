@@ -5,11 +5,11 @@ describe "account_details/index" do
     assign(:account_details, [
       stub_model(AccountDetail,
         :member_id => 1,
-        :account_type => "Account Type"
+        :account_type => 1
       ),
       stub_model(AccountDetail,
         :member_id => 1,
-        :account_type => "Account Type"
+        :account_type => 1
       )
     ])
   end

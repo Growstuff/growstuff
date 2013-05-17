@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :account_detail do
     member_id 1
-    account_type "MyString"
+    account_type 1
     paid_until "2013-05-17 11:59:20"
   end
 end

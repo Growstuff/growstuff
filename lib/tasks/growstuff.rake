@@ -40,6 +40,16 @@ namespace :growstuff do
       end
     end
 
+    task :account_details => :environment do
+      desc "Give each member an account_detail record"
+
+      Member.all.each do |m|
+        unless m.account_detail
+          AccountDetail.create(:member_id => m.id)
+        end
+      end
+    end
+
   end
 
 end

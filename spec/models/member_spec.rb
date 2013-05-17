@@ -29,6 +29,11 @@ describe 'member' do
       @member.gardens.count.should == 1
     end
 
+    it 'should have a account detail entry' do
+      @member.save
+      @member.account_detail.should be_an_instance_of AccountDetail
+    end
+
     it "doesn't show email by default" do
       @member.save
       @member.show_email.should be_false

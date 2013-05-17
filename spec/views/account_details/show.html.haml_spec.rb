@@ -4,7 +4,7 @@ describe "account_details/show" do
   before(:each) do
     @account_detail = assign(:account_detail, stub_model(AccountDetail,
       :member_id => 1,
-      :account_type => "Account Type"
+      :account_type => 1
     ))
   end
 

@@ -4,7 +4,7 @@ describe "account_details/new" do
   before(:each) do
     assign(:account_detail, stub_model(AccountDetail,
       :member_id => 1,
-      :account_type => "MyString"
+      :account_type => 1
     ).as_new_record)
   end
 
