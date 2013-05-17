@@ -1,4 +1,4 @@
--content_for :title, "Order details (##{@order.id})"
+-content_for :title, @order.completed_at ? "Order details (##{@order.id})" : "Current order"
 
 %p
   %strong Order number:
@@ -13,11 +13,9 @@
   = @order.created_at.to_s
 
 %p
-  %strong Date completed:
   - if @order.completed_at
+    %strong Date completed:
     = @order.completed_at.to_s
-  - else
-    Not completed.
 
 %h2 Order items
 
@@ -47,6 +45,13 @@
     %td
       %strong
         = price_with_currency(total)
+
+%p
+  - if can? :destroy, @order
+    = link_to 'Delete this order', @order, method: :delete, |
+      data: { confirm: 'Are you sure?' }, :class => 'btn'
+  - if can? :update, @order
+    = link_to 'Checkout', '', :class => 'btn btn-primary'
 
 %p
   = link_to "View other orders/order history", orders_path

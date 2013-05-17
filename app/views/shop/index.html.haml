@@ -16,7 +16,7 @@
 - if @order and @order.order_items.count > 0
   %h2 Your current order
 
-  %p 
+  %p
     You currently have the following item in your cart:
     %strong
       = @most_recent_item.product
@@ -25,6 +25,10 @@
 
   %p
     = link_to "View order and checkout", order_path(@order)
+    or
+    =succeed "." do
+      = link_to 'delete this order', @order, method: :delete, |
+        data: { confirm: 'Are you sure?' }
 
 - else
   - @products.each do |p|

@@ -31,4 +31,24 @@ describe OrdersController do
       assigns(:order).should eq(order)
     end
   end
+
+  describe "DELETE destroy" do
+    it "destroys the requested order" do
+      member = FactoryGirl.create(:member)
+      sign_in member
+      order = Order.create!(:member_id => member.id)
+      expect {
+        delete :destroy, {:id => order.id}
+      }.to change(Order, :count).by(-1)
+    end
+
+    it "redirects to the posts list" do
+      member = FactoryGirl.create(:member)
+      sign_in member
+      order = Order.create!(:member_id => member.id)
+      delete :destroy, {:id => order.id}
+      response.should redirect_to(shop_url)
+    end
+  end
+
 end

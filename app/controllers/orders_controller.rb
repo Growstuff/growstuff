@@ -33,4 +33,16 @@ class OrdersController < ApplicationController
       format.json { render json: @order }
     end
   end
+
+  # DELETE /orders/1
+  # DELETE /orders/1.json
+  def destroy
+    @order = Order.find(params[:id])
+    @order.destroy
+
+    respond_to do |format|
+      format.html { redirect_to shop_url, notice: 'Order was deleted.' }
+      format.json { head :no_content }
+    end
+  end
 end
