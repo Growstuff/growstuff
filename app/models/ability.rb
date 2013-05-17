@@ -17,6 +17,7 @@ class Ability
     cannot :read, Role
     cannot :read, Product
     cannot :read, AccountDetail
+    cannot :read, AccountType
 
     if member
 
