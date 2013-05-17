@@ -1,9 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :account_detail do
-    member
-    account_type
-    paid_until "2013-05-17 11:59:20"
+  factory :account_type do
+    name "MyString"
+    is_paid false
+    is_permanent_paid false
   end
 end

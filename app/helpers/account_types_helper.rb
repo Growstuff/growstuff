@@ -1,0 +1,2 @@
+module AccountTypesHelper
+end

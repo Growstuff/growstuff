@@ -11,14 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130517015920) do
+ActiveRecord::Schema.define(:version => 20130517051922) do
 
   create_table "account_details", :force => true do |t|
-    t.integer  "member_id",                        :null => false
-    t.string   "account_type", :default => "free", :null => false
+    t.integer  "member_id",       :null => false
+    t.integer  "account_type_id"
     t.datetime "paid_until"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "account_types", :force => true do |t|
+    t.string   "name"
+    t.boolean  "is_paid"
+    t.boolean  "is_permanent_paid"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "authentications", :force => true do |t|

@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe "account_details/edit" do
   before(:each) do
-    @account_detail = assign(:account_detail, stub_model(AccountDetail,
-      :member_id => 1,
-      :account_type => 1
-    ))
+    @account_detail = assign(:account_detail,
+        FactoryGirl.create(:account_detail)
+    )
   end
 
   it "renders the edit account_detail form" do
