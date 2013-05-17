@@ -50,8 +50,8 @@
   - if can? :destroy, @order
     = link_to 'Delete this order', @order, method: :delete, |
       data: { confirm: 'Are you sure?' }, :class => 'btn'
-  - if can? :update, @order
-    = link_to 'Checkout', '', :class => 'btn btn-primary'
+  - if can? :complete, @order
+    = link_to 'Checkout', complete_order_path(@order), :class => 'btn btn-primary'
 
 %p
   = link_to "View other orders/order history", orders_path

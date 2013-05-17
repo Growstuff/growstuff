@@ -150,16 +150,16 @@ describe Ability do
         @ability.should be_able_to(:create, Order)
       end
 
-      it "can update their own current order" do
-        @ability.should be_able_to(:update, @order)
+      it "can complete their own current order" do
+        @ability.should be_able_to(:complete, @order)
       end
 
-      it "can't update someone else's order" do
-        @ability.should_not be_able_to(:update, @strangers_order)
+      it "can't complete someone else's order" do
+        @ability.should_not be_able_to(:complete, @strangers_order)
       end
 
-      it "can't update a completed order" do
-        @ability.should_not be_able_to(:update, @completed_order)
+      it "can't complete a completed order" do
+        @ability.should_not be_able_to(:complete, @completed_order)
       end
 
       it "can delete a current order" do
@@ -228,15 +228,19 @@ describe Ability do
       it "can read orders" do
         @admin_ability.should be_able_to(:read, @order)
       end
-      it "can create orders" do
-        @admin_ability.should be_able_to(:create, Order)
+
+      it "cannot create orders" do
+        @admin_ability.should_not be_able_to(:create, @order)
       end
-      it "can update orders" do
-        @admin_ability.should be_able_to(:update, @order)
+
+      it "cannot complete orders" do
+        @admin_ability.should_not be_able_to(:complete, @order)
       end
-      it "can destroy orders" do
-        @admin_ability.should be_able_to(:destroy, @order)
+
+      it "cannot delete orders" do
+        @admin_ability.should_not be_able_to(:delete, @order)
       end
+
     end
   end
 end

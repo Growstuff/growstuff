@@ -19,20 +19,6 @@ class Ability
 
     if member
 
-      if member.has_role? :admin
-        # admin user roles (for authorization)
-        can :read, Role
-        can :manage, Role
-
-        # for now, only admins can create/edit forums
-        can :manage, Forum
-
-        # admins can manage products and orders
-        can :manage, Product
-        can :manage, Order # for now
-        can :manage, OrderItem # for now
-      end
-
       # managing your own user settings
       can :update, Member, :id => member.id
 
@@ -76,15 +62,37 @@ class Ability
       can :destroy, Planting, :garden => { :owner_id => member.id }
 
       # orders/shop/etc
-      can :create,  Order
-      can :read,    Order, :member_id => member.id
-      can :update,  Order, :member_id => member.id, :completed_at => nil
-      can :destroy, Order, :member_id => member.id, :completed_at => nil
+      can :create,   Order
+      can :read,     Order, :member_id => member.id
+      can :complete, Order, :member_id => member.id, :completed_at => nil
+      can :destroy,  Order, :member_id => member.id, :completed_at => nil
 
       can :create,  OrderItem
       can :read,    OrderItem, :order => { :member_id => member.id }
       can :update,  OrderItem, :order => { :member_id => member.id, :completed_at => nil }
       can :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
+
+      if member.has_role? :admin
+        # admin user roles (for authorization)
+        can :read, Role
+        can :manage, Role
+
+        # for now, only admins can create/edit forums
+        can :manage, Forum
+
+        # admins can manage products
+        can :manage, Product
+
+        # admins can read other people's orders...
+        can :read, Order
+        can :read, OrderItem
+
+        # but they can't do anything to them, because orders are *history*
+        cannot :create, Order
+        cannot :complete, Order
+        cannot :destroy, Order
+        cannot :manage, OrderItem
+      end
 
     end
   end

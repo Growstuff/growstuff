@@ -32,6 +32,16 @@ describe OrdersController do
     end
   end
 
+  describe "GET complete" do
+    it "assigns the requested order as @order" do
+      member = FactoryGirl.create(:member)
+      sign_in member
+      order = Order.create!(:member_id => member.id)
+      get :complete, {:id => order.to_param}
+      assigns(:order).should eq(order)
+    end
+  end
+
   describe "DELETE destroy" do
     it "destroys the requested order" do
       member = FactoryGirl.create(:member)

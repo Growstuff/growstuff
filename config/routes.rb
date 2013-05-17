@@ -17,6 +17,7 @@ Growstuff::Application.routes.draw do
   resources :forums
   resources :notifications
   resources :orders
+  match 'orders/:id/complete' => 'orders#complete', :as => 'complete_order'
   resources :products
 
   get "home/index"
