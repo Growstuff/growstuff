@@ -10,12 +10,13 @@ class Ability
     # except these, which don't make sense if you're not logged in
     cannot :read, Notification
     cannot :read, Authentication
-
-    # nobody should be able to view this except admins
-    cannot :read, Role
-    cannot :read, Product
     cannot :read, Order
     cannot :read, OrderItem
+
+    # and nobody should be able to view this except admins
+    cannot :read, Role
+    cannot :read, Product
+    cannot :read, AccountDetail
 
     if member
 
@@ -68,9 +69,10 @@ class Ability
       can :destroy,  Order, :member_id => member.id, :completed_at => nil
 
       can :create,  OrderItem
-      can :read,    OrderItem, :order => { :member_id => member.id }
-      can :update,  OrderItem, :order => { :member_id => member.id, :completed_at => nil }
-      can :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
+      # for now, let's not let people mess with individual order items
+      cannot :read,    OrderItem, :order => { :member_id => member.id }
+      cannot :update,  OrderItem, :order => { :member_id => member.id, :completed_at => nil }
+      cannot :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
 
       if member.has_role? :admin
         # admin user roles (for authorization)
@@ -92,6 +94,11 @@ class Ability
         cannot :complete, Order
         cannot :destroy, Order
         cannot :manage, OrderItem
+
+        # admins can read and manage members' account details (paid acct
+        # status, etc)
+        can :read, AccountDetail
+        can :manage, AccountDetail
       end
 
     end

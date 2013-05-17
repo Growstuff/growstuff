@@ -174,9 +174,9 @@ describe Ability do
         @ability.should_not be_able_to(:destroy, @completed_order)
       end
 
-      it "can read their own order items" do
-        @ability.should be_able_to(:read, @order_item)
-        @ability.should be_able_to(:read, @completed_order_item)
+      it "can't read their own order items" do
+        @ability.should_not be_able_to(:read, @order_item)
+        @ability.should_not be_able_to(:read, @completed_order_item)
       end
 
       it "can't read other people's order items" do
@@ -187,8 +187,8 @@ describe Ability do
         @ability.should be_able_to(:create, OrderItem)
       end
 
-      it "can update their own order items" do
-        @ability.should be_able_to(:update, @order_item)
+      it "can't update their own order items" do
+        @ability.should_not be_able_to(:update, @order_item)
       end
 
       it "can't update other people's order items" do
@@ -199,8 +199,8 @@ describe Ability do
         @ability.should_not be_able_to(:update, @completed_order_item)
       end
 
-      it "can delete their own order item" do
-        @ability.should be_able_to(:destroy, @order_item)
+      it "can't delete their own order item" do
+        @ability.should_not be_able_to(:destroy, @order_item)
       end
 
       it "can't delete someone else's order item" do
@@ -243,4 +243,42 @@ describe Ability do
 
     end
   end
+
+  context 'account details' do
+    before(:each) do
+      @account_detail = FactoryGirl.create(:account_detail, :member => @member)
+    end
+
+    context 'ordinary member' do
+      it "can't read account details" do
+        @ability.should_not be_able_to(:read, @account_detail)
+      end
+      it "can't manage account details" do
+        @ability.should_not be_able_to(:create, AccountDetail)
+        @ability.should_not be_able_to(:update, @account_detail)
+        @ability.should_not be_able_to(:destroy, @account_detail)
+      end
+    end
+
+    context 'admin' do
+
+      before(:each) do
+        @role = FactoryGirl.create(:admin)
+        @member.roles << @role
+        @admin_ability = Ability.new(@member)
+      end
+
+      it "can read account details" do
+        @admin_ability.should be_able_to(:read, @account_detail)
+      end
+      it "can manage account details" do
+        @admin_ability.should be_able_to(:create, AccountDetail)
+        @admin_ability.should be_able_to(:update, @account_detail)
+        @admin_ability.should be_able_to(:destroy, @account_detail)
+      end
+
+    end
+
+  end
+
 end

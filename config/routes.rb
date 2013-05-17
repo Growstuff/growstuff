@@ -1,5 +1,8 @@
 Growstuff::Application.routes.draw do
 
+  resources :account_details
+
+
   resources :order_items
 
 

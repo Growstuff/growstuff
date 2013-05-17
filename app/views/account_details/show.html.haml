@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Member:
+  = @account_detail.member_id
+%p
+  %b Account type:
+  = @account_detail.account_type
+%p
+  %b Paid until:
+  = @account_detail.paid_until
+
+= link_to 'Edit', edit_account_detail_path(@account_detail)
+\|
+= link_to 'Back', account_details_path
