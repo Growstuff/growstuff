@@ -17,6 +17,8 @@ describe "products/new" do
       assert_select "input#product_name", :name => "product[name]"
       assert_select "input#product_description", :name => "product[description]"
       assert_select "input#product_min_price", :name => "product[min_price]"
+      assert_select "select#product_account_type_id", :name => "product[account_type_id]"
+      assert_select "input#product_paid_months", :name => "product[paid_months]"
     end
   end
 end

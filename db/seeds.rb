@@ -64,12 +64,12 @@ if Rails.env.development? or Rails.env.test?
     :is_paid => false,
     :is_permanent_paid => false
   )
-  AccountType.create!(
+  @paid_account = AccountType.create!(
     :name => "Paid",
     :is_paid => true,
     :is_permanent_paid => false
   )
-  AccountType.create!(
+  @seed_account = AccountType.create!(
     :name => "Seed",
     :is_paid => true,
     :is_permanent_paid => true
@@ -83,13 +83,16 @@ if Rails.env.development? or Rails.env.test?
   puts "Adding products..."
   Product.create!(
     :name => "Annual subscription",
-    :description => "Paid account, renews yearly",
-    :min_price => 3000
+    :description => "Paid account, 1 year",
+    :min_price => 3000,
+    :account_type_id => @paid_account.id,
+    :paid_months => 12
   )
   Product.create!(
     :name => "Seed account",
     :description => "Paid account, in perpetuity",
-    :min_price => 15000
+    :min_price => 15000,
+    :account_type_id => @seed_account.id,
   )
 end
 

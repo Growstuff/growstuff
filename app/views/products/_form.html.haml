@@ -15,5 +15,13 @@
   .field
     = f.label :min_price
     = f.text_field :min_price
+  .field
+    = f.label :account_type
+    = collection_select(:product, :account_type_id, AccountType.all, :id,
+        :name, :selected => @product.account_type_id )
+  .field
+    = f.label :paid_months
+    = f.text_field :paid_months
+  .control-group
   .actions
     = f.submit 'Save'

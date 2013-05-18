@@ -5,5 +5,7 @@ FactoryGirl.define do
     name "annual subscription"
     description "paid membership, renewing yearly"
     min_price "999"
+    account_type
+    paid_months 12
   end
 end

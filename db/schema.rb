@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130517234458) do
+ActiveRecord::Schema.define(:version => 20130518000339) do
 
   create_table "account_details", :force => true do |t|
     t.integer  "member_id",       :null => false
@@ -185,11 +185,13 @@ ActiveRecord::Schema.define(:version => 20130517234458) do
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
 
   create_table "products", :force => true do |t|
-    t.string   "name",        :null => false
-    t.string   "description", :null => false
-    t.integer  "min_price",   :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "name",            :null => false
+    t.string   "description",     :null => false
+    t.integer  "min_price",       :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "account_type_id"
+    t.integer  "paid_months"
   end
 
   create_table "roles", :force => true do |t|

@@ -5,6 +5,8 @@
     %th Name
     %th Description
     %th Min price
+    %th Account type
+    %th Paid months
     %th
     %th
     %th
@@ -14,6 +16,8 @@
       %td= product.name
       %td= product.description
       %td= product.min_price
+      %td= product.account_type ? product.account_type.name : ""
+      %td= product.paid_months
       %td= link_to 'Show', product
       %td= link_to 'Edit', edit_product_path(product)
       %td= link_to 'Destroy', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
