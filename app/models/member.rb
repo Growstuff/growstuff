@@ -96,6 +96,16 @@ class Member < ActiveRecord::Base
     orders.where(:completed_at => nil).first
   end
 
+  def is_paid?
+    if account.account_type.is_permanent_paid
+      return true
+    elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
+      return true
+    else
+      return false
+    end
+  end
+
   protected
   def empty_unwanted_geocodes
     if self.location.to_s == ''
@@ -103,6 +113,5 @@ class Member < ActiveRecord::Base
       self.longitude = nil
     end
   end
-
 
 end
