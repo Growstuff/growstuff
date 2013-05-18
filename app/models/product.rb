@@ -14,7 +14,9 @@ class Product < ActiveRecord::Base
 
   # when purchasing a product that gives you a paid account, this method
   # does all the messing around to actually make sure the account is
-  # updated correctly -- account type, paid until, etc.
+  # updated correctly -- account type, paid until, etc.  Usually this is
+  # called by order.update_account, which loops through all order items
+  # and does this for each one.
   def update_account(member)
     member.account.account_type = account_type
     if paid_months
