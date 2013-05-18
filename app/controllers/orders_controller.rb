@@ -32,8 +32,9 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
 
     @order.completed_at = Time.zone.now
-    # current_member.paid = true # or whatever
     @order.save
+
+    @order.update_account # apply paid account benefits, etc.
 
     respond_to do |format|
       format.html # new.html.erb

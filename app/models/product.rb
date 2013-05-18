@@ -23,6 +23,7 @@ class Product < ActiveRecord::Base
       start_date = member.account.paid_until || Time.zone.now
       member.account.paid_until = start_date + paid_months.months
     end
+    member.account.save
   end
 
 end
