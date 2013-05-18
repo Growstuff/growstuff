@@ -12,7 +12,7 @@ class Member < ActiveRecord::Base
   has_many :sent_notifications, :foreign_key => 'sender_id'
   has_many :authentications
   has_many :orders
-  has_one  :account_detail
+  has_one  :account
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
@@ -69,10 +69,10 @@ class Member < ActiveRecord::Base
   # Give each new member a default garden
   after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
 
-  # and an account details record
+  # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryGirl associations
-  after_create {|member| AccountDetail.find_or_create_by_member_id(:member_id => member.id) }
+  after_create {|member| Account.find_or_create_by_member_id(:member_id => member.id) }
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)

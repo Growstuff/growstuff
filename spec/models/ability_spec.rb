@@ -246,17 +246,17 @@ describe Ability do
 
   context 'account details' do
     before(:each) do
-      @account_detail = @member.account_detail
+      @account = @member.account
     end
 
     context 'ordinary member' do
       it "can't read account details" do
-        @ability.should_not be_able_to(:read, @account_detail)
+        @ability.should_not be_able_to(:read, @account)
       end
       it "can't manage account details" do
-        @ability.should_not be_able_to(:create, AccountDetail)
-        @ability.should_not be_able_to(:update, @account_detail)
-        @ability.should_not be_able_to(:destroy, @account_detail)
+        @ability.should_not be_able_to(:create, Account)
+        @ability.should_not be_able_to(:update, @account)
+        @ability.should_not be_able_to(:destroy, @account)
       end
     end
 
@@ -269,12 +269,12 @@ describe Ability do
       end
 
       it "can read account details" do
-        @admin_ability.should be_able_to(:read, @account_detail)
+        @admin_ability.should be_able_to(:read, @account)
       end
       it "can manage account details" do
-        @admin_ability.should be_able_to(:create, AccountDetail)
-        @admin_ability.should be_able_to(:update, @account_detail)
-        @admin_ability.should be_able_to(:destroy, @account_detail)
+        @admin_ability.should be_able_to(:create, Account)
+        @admin_ability.should be_able_to(:update, @account)
+        @admin_ability.should be_able_to(:destroy, @account)
       end
 
     end

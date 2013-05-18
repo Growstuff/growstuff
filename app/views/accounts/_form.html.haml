@@ -1,9 +1,9 @@
-= form_for @account_detail do |f|
-  - if @account_detail.errors.any?
+= form_for @account do |f|
+  - if @account.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@account_detail.errors.count, "error")} prohibited this account_detail from being saved:"
+      %h2= "#{pluralize(@account.errors.count, "error")} prohibited this account from being saved:"
       %ul
-        - @account_detail.errors.full_messages.each do |msg|
+        - @account.errors.full_messages.each do |msg|
           %li= msg
 
   .field

@@ -16,7 +16,7 @@ class Ability
     # and nobody should be able to view this except admins
     cannot :read, Role
     cannot :read, Product
-    cannot :read, AccountDetail
+    cannot :read, Account
     cannot :read, AccountType
 
     if member
@@ -98,8 +98,8 @@ class Ability
 
         # admins can read and manage members' account details (paid acct
         # status, etc)
-        can :read, AccountDetail
-        can :manage, AccountDetail
+        can :read, Account
+        can :manage, Account
         can :read, AccountType
         can :manage, AccountType
       end

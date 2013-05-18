@@ -1,14 +1,5 @@
 Growstuff::Application.routes.draw do
 
-  resources :account_types
-
-
-  resources :account_details
-
-
-  resources :order_items
-
-
   devise_for :members, :controllers => { :registrations => "registrations" }
 
   resources :authentications
@@ -22,8 +13,13 @@ Growstuff::Application.routes.draw do
   resources :roles
   resources :forums
   resources :notifications
+
+  # everything for paid accounts etc
+  resources :account_types
+  resources :accounts
   resources :orders
   match 'orders/:id/complete' => 'orders#complete', :as => 'complete_order'
+  resources :order_items
   resources :products
 
   get "home/index"
