@@ -1,9 +1,14 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :system_name, use: :slugged
-  attr_accessible :en_wikipedia_url, :system_name
+  attr_accessible :en_wikipedia_url, :system_name, :parent_id
+
   has_many :scientific_names
   has_many :plantings
+
+  belongs_to :parent, :class_name => 'Crop'
+  has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
+
   default_scope order("lower(system_name) asc")
 
   validates :en_wikipedia_url,
