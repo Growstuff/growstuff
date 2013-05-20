@@ -6,15 +6,20 @@ of the pair.
 If you contribute, please add yourself to the bottom of the list and
 submit the change with your pull request.
 
+## Committers
+
 - Alex Bayley / [Skud](https://github.com/Skud)
-- Ricky Amianym / [amianym](https://github.com/amianym)
 - Cesy / [cesy](https://github.com/cesy)
 - Miles Gould / [pozorvlak](https://github.com/pozorvlak)
+- Joseph Caudle / [jcaudle](https://github.com/jcaudle)
+
+## Contributors
+
+- Ricky Amianym / [amianym](https://github.com/amianym)
 - Juliet Kemp / [julietk](https://github.com/julietk)
 - Federico Mena Quintero / [federicomenaquintero](https://github.com/federicomenaquintero)
 - Jay Springett / [thejaymo](https://github.com/thejaymo)
 - Maia Sauren / [sauramaia](https://github.com/sauramaia)
-- Joseph Caudle / [jcaudle](https://github.com/jcaudle)
 - Norman Ancajas / [nbancajas](https://github.com/nbancajas)
 - Jonathan "Duke" Leto / [leto](https://github.com/leto)
 - Mackenzie Morgan / [maco](https://github.com/maco)
@@ -29,5 +34,5 @@ submit the change with your pull request.
 - Ju Transcendancing / [transcendancing](https://github.com/transcendancing)
 - Lillian Ryan / [attlebish](https://github.com/attlebish)
 - Gary Traffanstedt / [blimey85](https://github.com/blimey85)
-- Yaw Boakye [yawboakye](https://github.com/yawboakye)
+- Yaw Boakye / [yawboakye](https://github.com/yawboakye)
 - Ryan Clark / [IAMRYO](https://github.com/IAMRYO)
