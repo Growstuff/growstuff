@@ -13,6 +13,7 @@ class Member < ActiveRecord::Base
   has_many :authentications
   has_many :orders
   has_one  :account
+  has_one  :account_type, :through => :account
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
@@ -113,10 +114,14 @@ class Member < ActiveRecord::Base
   end
 
   def is_paid?
-    if account.account_type.is_permanent_paid
-      return true
-    elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
-      return true
+    if account.account_type # it might be nil if you've never had one
+      if account.account_type.is_permanent_paid
+        return true
+      elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
+        return true
+      else
+        return false
+      end
     else
       return false
     end

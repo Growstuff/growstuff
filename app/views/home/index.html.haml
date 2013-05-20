@@ -27,6 +27,14 @@
             = link_to 'Add', new_garden_path, :class => 'btn btn-mini'
 
     .span4
+      %p
+        Your account:
+        %strong
+          = current_member.account_type || "Free"
+          account
+        %br/
+        - if current_member == current_member && !current_member.is_paid?
+          = link_to "Upgrade and Support Growstuff", shop_path, :class => 'btn btn-primary'
       - if current_member.has_role?(:admin)
         %p
           %b You are an ADMIN USER.

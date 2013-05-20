@@ -74,6 +74,14 @@ describe 'home/index.html.haml', :type => "view" do
       assert_select "a[href=#{url_for(@post)}]"
     end
 
+    it 'shows account type' do
+      rendered.should contain "Free account"
+    end
+
+    it 'shows upgrade account button' do
+      rendered.should contain "Upgrade"
+    end
+
     it 'shows admin status' do
       rendered.should contain "You are an ADMIN USER"
     end
