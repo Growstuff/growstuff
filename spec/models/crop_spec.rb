@@ -60,4 +60,13 @@ describe Crop do
     @crop = FactoryGirl.build(:tomato, :en_wikipedia_url => 'http://en.wikipedia.org/wiki/SomePage')
     @crop.should be_valid
   end
+
+  context 'varieties' do
+    it 'has a crop hierarchy' do
+      @tomato = FactoryGirl.create(:tomato)
+      @roma = FactoryGirl.create(:roma, :parent_id => @tomato.id)
+      @roma.parent.should eq @tomato
+      @tomato.varieties.should eq [@roma]
+    end
+  end
 end

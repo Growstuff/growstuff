@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130418102558) do
+ActiveRecord::Schema.define(:version => 20130514124515) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "member_id",  :null => false
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20130418102558) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
     t.string   "slug"
+    t.integer  "parent_id"
   end
 
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
@@ -120,12 +121,37 @@ ActiveRecord::Schema.define(:version => 20130418102558) do
     t.datetime "updated_at",                      :null => false
   end
 
+  create_table "orders", :force => true do |t|
+    t.string   "member_id",    :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.datetime "completed_at"
+  end
+
+  create_table "orders_products", :id => false, :force => true do |t|
+    t.integer "order_id"
+    t.integer "product_id"
+  end
+
   create_table "payments", :force => true do |t|
     t.integer  "payer_id"
     t.string   "payment_type"
     t.decimal  "amount"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "photos", :force => true do |t|
+    t.integer  "owner_id",        :null => false
+    t.integer  "flickr_photo_id", :null => false
+    t.string   "thumbnail_url",   :null => false
+    t.string   "fullsize_url",    :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "title",           :null => false
+    t.string   "license_name",    :null => false
+    t.string   "license_url"
+    t.string   "link_url",        :null => false
   end
 
   create_table "plantings", :force => true do |t|
@@ -154,6 +180,14 @@ ActiveRecord::Schema.define(:version => 20130418102558) do
 
   add_index "posts", ["created_at", "author_id"], :name => "index_updates_on_created_at_and_user_id"
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
+
+  create_table "products", :force => true do |t|
+    t.string   "name",        :null => false
+    t.string   "description", :null => false
+    t.decimal  "min_price",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name",        :null => false
