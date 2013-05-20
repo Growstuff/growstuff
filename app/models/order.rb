@@ -10,7 +10,7 @@ class Order < ActiveRecord::Base
   # them as paid, or whatever, based on what products they ordered
   def update_account
     order_items.each do |i|
-      i.product.update_account(member)
+      member.update_account_after_purchase(i.product)
     end
   end
 end

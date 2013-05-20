@@ -96,6 +96,22 @@ class Member < ActiveRecord::Base
     orders.where(:completed_at => nil).first
   end
 
+  # when purchasing a product that gives you a paid account, this method
+  # does all the messing around to actually make sure the account is
+  # updated correctly -- account type, paid until, etc.  Usually this is
+  # called by order.update_account, which loops through all order items
+  # and does this for each one.
+  def update_account_after_purchase(product)
+    if product.account_type
+      account.account_type = product.account_type
+    end
+    if product.paid_months
+      start_date = account.paid_until || Time.zone.now
+      account.paid_until = start_date + product.paid_months.months
+    end
+    account.save
+  end
+
   def is_paid?
     if account.account_type.is_permanent_paid
       return true
