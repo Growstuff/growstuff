@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20130518002942) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
     t.string   "slug"
+    t.integer  "parent_id"
   end
 
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true

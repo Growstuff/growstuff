@@ -7,7 +7,7 @@
     = label_tag :distance, "Find members within", :class => 'control-label'
     = text_field_tag :distance, @distance, :class => 'input-mini'
     = select_tag :units, options_for_select({"miles" => :mi, "km" => :km}, @units), :class => 'input-small'
-    = label_tag :location, "miles of", :class => 'control-label'
+    = label_tag :location, "of", :class => 'control-label'
     = text_field_tag :location, @location
     = submit_tag "Search", :class => 'btn btn-primary'
 

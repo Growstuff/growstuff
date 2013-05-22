@@ -14,6 +14,7 @@ describe "crops/new" do
     assert_select "form", :action => crops_path, :method => "post" do
       assert_select "input#crop_system_name", :name => "crop[system_name]"
       assert_select "input#crop_en_wikipedia_url", :name => "crop[en_wikipedia_url]"
+      assert_select "select#crop_parent_id", :name => "crop[parent_id]"
     end
   end
 
