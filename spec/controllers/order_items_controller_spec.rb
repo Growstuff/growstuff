@@ -34,6 +34,7 @@ describe OrderItemsController do
 
     describe "with valid params" do
       it "creates a new OrderItem" do
+        @order = FactoryGirl.create(:order, :member => @member)
         expect {
           post :create, {:order_item => {
             :order_id => @order.id,
@@ -44,6 +45,7 @@ describe OrderItemsController do
       end
 
       it "assigns a newly created order_item as @order_item" do
+        @order = FactoryGirl.create(:order, :member => @member)
         post :create, {:order_item => {
           :order_id => @order.id,
           :product_id => @product.id,
@@ -53,7 +55,8 @@ describe OrderItemsController do
         assigns(:order_item).should be_persisted
       end
 
-      it "redirects to the created order_item" do
+      it "redirects to order" do
+        @order = FactoryGirl.create(:order, :member => @member)
         post :create, {:order_item => {
           :order_id => @order.id,
           :product_id => @product.id,
@@ -74,6 +77,7 @@ describe OrderItemsController do
         }.to change(Order, :count).by(1)
         OrderItem.last.order.should be_an_instance_of Order
       end
+
     end
 
     describe "with invalid params" do
@@ -84,11 +88,11 @@ describe OrderItemsController do
         assigns(:order_item).should be_a_new(OrderItem)
       end
 
-      it "re-renders the 'new' template" do
+      it "sends you back to the shop" do
         # Trigger the behavior that occurs when invalid params are submitted
         OrderItem.any_instance.stub(:save).and_return(false)
         post :create, {:order_item => { "order_id" => "invalid value" }}
-        response.should render_template("new")
+        response.should redirect_to(shop_path)
       end
     end
   end

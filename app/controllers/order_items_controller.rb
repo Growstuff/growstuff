@@ -29,7 +29,7 @@ class OrderItemsController < ApplicationController
         format.html { redirect_to @order_item.order, notice: 'Added item to your order.' }
         format.json { render json: @order_item, status: :created, location: @order_item }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to shop_path, alert: 'There was a problem with your order' }
         format.json { render json: @order_item.errors, status: :unprocessable_entity }
       end
     end
