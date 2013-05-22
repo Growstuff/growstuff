@@ -26,15 +26,17 @@ namespace :growstuff do
       end
     end
 
-    task :empty_names => :environment do
-      desc "May 2013: replace any empty garden names with (no subject)"
+    task :empty_garden_names => :environment do
+      desc "May 2013: replace any empty garden names with Garden"
 
       # this is inefficient as it checks every Garden, but the
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
-      Garden.all.each do |n|
-        n.replace_blank_name
-        n.save
+      Garden.all.each do |g|
+        if g.name.nil? or g.name =~ /^\s*$/
+          g.name = "Garden"
+          g.save
+        end
       end
     end
 

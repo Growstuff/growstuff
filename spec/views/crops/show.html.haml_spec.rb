@@ -44,6 +44,25 @@ describe "crops/show" do
     rendered.should contain "Springfield Community Garden"
   end
 
+  context 'varieties' do
+    before(:each) do
+      @popcorn = FactoryGirl.create(:popcorn, :parent_id => @crop.id)
+      @ubercrop = FactoryGirl.create(:crop, :system_name => 'ubercrop')
+      @crop.parent_id = @ubercrop.id
+      @crop.save
+      render
+    end
+
+    it 'shows popcorn as a child variety' do
+      rendered.should contain @popcorn.system_name
+    end
+
+    it 'shows parent crop' do
+      rendered.should contain @ubercrop.system_name
+    end
+
+  end
+
   context "logged in and crop wrangler" do
 
     before(:each) do
@@ -54,7 +73,15 @@ describe "crops/show" do
     end
 
     it "links to the edit crop form" do
-      rendered.should contain "Edit"
+      assert_select "a[href=#{edit_crop_path(@crop)}]", :text => "Edit crop"
+    end
+
+    it "links to the add scientific name form" do
+      assert_select "a[href^=#{new_scientific_name_path}]", :text => "Add"
+    end
+
+    it "links to the edit scientific name form" do
+      assert_select "a[href=#{edit_scientific_name_path(@crop.scientific_names.first)}]", :text => "Edit"
     end
   end
 

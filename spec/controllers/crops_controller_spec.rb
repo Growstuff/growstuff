@@ -5,7 +5,10 @@ describe CropsController do
   login_member(:crop_wrangling_member)
 
   def valid_attributes
-     { :system_name => "Tomato" }
+    {
+      :system_name => "Tomato",
+      :en_wikipedia_url => 'http://en.wikipedia.org/wiki/Tomato'
+    }
   end
 
   describe "GET index" do
