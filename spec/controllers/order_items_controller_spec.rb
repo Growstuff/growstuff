@@ -66,6 +66,21 @@ describe OrderItemsController do
 
     end
 
+    describe "with non-int price" do
+      it "converts 3.33 to 333 cents" do
+        @order = FactoryGirl.create(:order, :member => @member)
+        @product = FactoryGirl.create(:product, :min_price => 1)
+        expect {
+          post :create, {:order_item => {
+            :order_id => @order.id,
+            :product_id => @product.id,
+            :price => 3.33
+          }}
+        }.to change(OrderItem, :count).by(1)
+        OrderItem.last.price.should eq 333
+      end
+    end
+
     describe "with invalid params" do
       it "assigns a newly created but unsaved order_item as @order_item" do
         # Trigger the behavior that occurs when invalid params are submitted
@@ -82,73 +97,4 @@ describe OrderItemsController do
       end
     end
   end
-
-  describe "PUT update" do
-
-    # we've said nobody can update an OrderItem; in future, we might
-    # want to delete all this code, but I wanted to wait just in case we
-    # needed it.
-    before(:each) { pending("we don't permit this (see app/model/ability.rb") }
-
-    describe "with valid params" do
-
-      it "updates the requested order_item" do
-        OrderItem.any_instance.should_receive(:update_attributes).with({ "order_id" => "1" })
-        put :update, {:id => @order_item.to_param, :order_item => { "order_id" => "1" }}
-      end
-
-      it "assigns the requested order_item as @order_item" do
-        put :update, {:id => @order_item.to_param, :order_item => {
-          :order_id => @order.id,
-          :product_id => @product.id,
-          :price => @product.min_price
-        }}
-        assigns(:order_item).should eq(@order_item)
-      end
-
-      it "redirects to the order_item" do
-        put :update, {:id => @order_item.to_param, :order_item =>  {
-          :order_id => @order.id,
-          :product_id => @product.id,
-          :price => @product.min_price
-        }}
-        response.should redirect_to(@order_item.order)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the order_item as @order_item" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        OrderItem.any_instance.stub(:save).and_return(false)
-        put :update, {:id => @order_item.to_param, :order_item => { "order_id" => "invalid value" }}
-        assigns(:order_item).should eq(@order_item)
-      end
-
-      it "re-renders the 'edit' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        OrderItem.any_instance.stub(:save).and_return(false)
-        put :update, {:id => @order_item.to_param, :order_item => { "order_id" => "invalid value" }}
-        response.should render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE destroy" do
-    # we've said nobody can update an OrderItem; in future, we might
-    # want to delete all this code, but I wanted to wait just in case we
-    # needed it.
-    before(:each) { pending("we don't permit this (see app/model/ability.rb") }
-
-    it "destroys the requested order_item" do
-      expect {
-        delete :destroy, {:id => @order_item.to_param}
-      }.to change(OrderItem, :count).by(-1)
-    end
-
-    it "redirects to the order_items list" do
-      delete :destroy, {:id => @order_item.to_param}
-      response.should redirect_to(order_items_url)
-    end
-  end
-
 end
