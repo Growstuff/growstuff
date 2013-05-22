@@ -13,7 +13,12 @@
   you want to pay.  Remember, your subscription supports an open source
   platform promoting sustainable lifestyles!
 
-- if @order and @order.order_items.count > 0
+- if current_member && current_member.is_paid?
+  %h2 Thank you for supporting Growstuff
+
+  %p You currently have a paid membership, and can't buy another one at this time.
+
+- elsif @order and @order.order_items.count > 0
   %h2 Your current order
 
   %p
