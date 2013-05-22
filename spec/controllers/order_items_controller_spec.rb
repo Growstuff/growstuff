@@ -16,20 +16,6 @@ describe OrderItemsController do
     )
   end
 
-  describe "GET new" do
-    it "assigns a new order_item as @order_item" do
-      get :new, {}
-      assigns(:order_item).should be_a_new(OrderItem)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested order_item as @order_item" do
-      get :edit, {:id => @order_item.to_param}
-      assigns(:order_item).should eq(@order_item)
-    end
-  end
-
   describe "POST create" do
 
     describe "with valid params" do

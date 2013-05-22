@@ -1,22 +1,6 @@
 class OrderItemsController < ApplicationController
   load_and_authorize_resource
 
-  # GET /order_items/new
-  # GET /order_items/new.json
-  def new
-    @order_item = OrderItem.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @order_item }
-    end
-  end
-
-  # GET /order_items/1/edit
-  def edit
-    @order_item = OrderItem.find(params[:id])
-  end
-
   # POST /order_items
   # POST /order_items.json
   def create
