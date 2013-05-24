@@ -5,6 +5,7 @@
     %link= post_url(@post)
     - @post.comments.each do |comment|
       %item
+        %title Comment by #{comment.author.login_name} on #{comment.created_at.to_s}
         %author= comment.author.login_name
         %description
 
