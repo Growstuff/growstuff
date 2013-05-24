@@ -71,7 +71,7 @@ describe CommentsController do
       old_comment = FactoryGirl.create(:comment, :post => post)
       comment = FactoryGirl.create(:comment, :post => post)
       get :edit, {:id => comment.to_param}
-      assigns(:comments).should eq([old_comment, comment])
+      assigns(:comments).should eq([comment, old_comment])
     end
 
   end
