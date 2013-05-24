@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+%rss{:version => 2.0}
+  %channel
+    %title #{Growstuff::Application.config.site_name} - Recently added crops
+    %link= crops_url
+    - @crops.each do |crop|
+      %item
+        %title= crop.system_name
+        %pubDate= crop.created_at.to_s(:rfc822)
+        %link= post_url(crop)
+        %guid= post_url(crop)

@@ -7,18 +7,24 @@ describe "plantings/index" do
     @garden = FactoryGirl.create(:garden, :owner => @member)
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
-    assign(:recent_plantings, [
-      FactoryGirl.create(:planting,
-        :garden => @garden,
-        :crop => @tomato
-      ),
-      FactoryGirl.create(:planting,
-        :garden => @garden,
-        :crop => @maize,
-        :description => '',
-        :planted_at => Time.local(2013, 1, 13)
-      )
-    ])
+    page = 1
+    per_page = 2
+    total_entries = 2
+    plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+      pager.replace([
+        FactoryGirl.create(:planting,
+          :garden => @garden,
+          :crop => @tomato
+        ),
+        FactoryGirl.create(:planting,
+          :garden => @garden,
+          :crop => @maize,
+          :description => '',
+          :planted_at => Time.local(2013, 1, 13)
+        )
+      ])
+    end
+    assign(:plantings, plantings)
     render
   end
 

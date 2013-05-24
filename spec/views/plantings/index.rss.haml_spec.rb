@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'plantings/index.rss.builder', :type => "view" do
+describe 'plantings/index.rss.haml' do
   before(:each) do
     controller.stub(:current_user) { nil }
-    assign(:recent_plantings, [
+    assign(:plantings, [
       FactoryGirl.create(:planting)
     ])
     render
@@ -13,8 +13,8 @@ describe 'plantings/index.rss.builder', :type => "view" do
     rendered.should contain "Recent plantings from all members"
   end
 
-  it 'shows content of posts' do
-    rendered.should contain "This is a *really* good plant."
+  it 'shows formatted content of posts' do
+    rendered.should contain "This is a <em>really</em> good plant."
   end
 
 end
