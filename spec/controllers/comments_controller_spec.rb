@@ -17,6 +17,15 @@ describe CommentsController do
     end
   end
 
+  describe "GET RSS feed" do
+    it "returns an RSS feed" do
+      get :index, :format => "rss"
+      response.should be_success
+      response.should render_template("comments/index")
+      response.content_type.should eq("application/rss+xml")
+    end
+  end
+
   describe "GET show" do
     it "assigns the requested comment as @comment" do
       comment = Comment.create! valid_attributes
