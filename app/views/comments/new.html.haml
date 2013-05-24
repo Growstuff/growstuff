@@ -1,3 +1,9 @@
 = content_for :title, "New comment"
 
+= render :partial => "posts/single", :locals => { :post => @post || @comment.post, :subject => true }
+
+= render :partial => "posts/comments", :locals => {:post => @post || @comment.post}
+
+%p Your comment:
+
 = render 'form'
