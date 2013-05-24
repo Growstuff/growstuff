@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+%rss{:version => 2.0}
+  %channel
+    %title #{Growstuff::Application.config.site_name} - Recent posts from all members
+    %link= posts_url
+    - @recent_posts.each do |post|
+      %item
+        %author= post.author.login_name
+        %title= post.subject
+        %description
+          :escaped_markdown
+            #{ strip_tags post.body }
+        %pubDate= post.created_at.to_s(:rfc822)
+        %link= post_url(post)
+        %guid= post_url(post)
