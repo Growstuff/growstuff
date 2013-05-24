@@ -31,6 +31,7 @@ submit the change with your pull request.
 - Jared McCorkindale / [jmcorkindale](https://github.com/jmcorkindale)
 - Florian Vallen / [flov](https://github.com/flov)
 - Samuel Cochrane / [sj26](https://github.com/sj26)
+- Craig Read / [Catharz](https://github.com/Catharz)
 - Ju Transcendancing / [transcendancing](https://github.com/transcendancing)
 - Lillian Ryan / [attlebish](https://github.com/attlebish)
 - Gary Traffanstedt / [blimey85](https://github.com/blimey85)
