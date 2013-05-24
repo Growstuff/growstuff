@@ -16,7 +16,6 @@ describe PlantingsController do
       planting = Planting.create! valid_attributes
       get :index, {}
       assigns(:plantings).should eq([planting])
-      assigns(:recent_plantings).should eq([planting])
     end
   end
 

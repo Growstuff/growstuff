@@ -2,7 +2,13 @@
 
 %p Here are the latest things planted by #{Growstuff::Application.config.site_name} members.
 
-- @recent_plantings.each do |p|
+%div.pagination
+  = page_entries_info @plantings, :model => "plantings"
+  = will_paginate @plantings
+
+- @plantings.each do |p|
   = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
-
+%div.pagination
+  = page_entries_info @plantings, :model => "plantings"
+  = will_paginate @plantings
