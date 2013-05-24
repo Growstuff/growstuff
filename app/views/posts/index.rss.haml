@@ -3,7 +3,7 @@
   %channel
     %title #{Growstuff::Application.config.site_name} - Recent posts from all members
     %link= posts_url
-    - @recent_posts.each do |post|
+    - @posts.each do |post|
       %item
         %author= post.author.login_name
         %title= post.subject

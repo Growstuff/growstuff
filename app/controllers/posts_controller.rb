@@ -5,7 +5,6 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.paginate(:page => params[:page])
-    @recent_posts = Post.limit(100).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.haml
