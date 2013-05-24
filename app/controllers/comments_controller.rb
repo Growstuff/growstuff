@@ -2,8 +2,7 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
-    @recent_comments = Comment.limit(100).order('created_at desc').all
+    @comments = Comment.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
