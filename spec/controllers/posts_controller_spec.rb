@@ -13,7 +13,6 @@ describe PostsController do
       post = Post.create! valid_attributes
       get :index, {}
       assigns(:posts).should eq([post])
-      assigns(:recent_posts).should eq([post])
     end
   end
 
@@ -31,6 +30,16 @@ describe PostsController do
       post = Post.create! valid_attributes
       get :show, {:id => post.slug}
       assigns(:post).should eq(post)
+    end
+  end
+
+  describe "GET RSS feed for individual post" do
+    it "returns an RSS feed" do
+      post = Post.create! valid_attributes
+      get :show, { :format => "rss", :id => post.slug }
+      response.should be_success
+      response.should render_template("posts/show")
+      response.content_type.should eq("application/rss+xml")
     end
   end
 

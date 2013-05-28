@@ -1,3 +1,7 @@
 = content_for :title, "Editing comment"
 
+%p
+  Editing comment on
+  = link_to @comment.post.subject, @comment.post
+
 = render 'form'

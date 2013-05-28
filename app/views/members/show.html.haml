@@ -74,7 +74,7 @@
 
             %div
               :markdown
-                #{g.description}
+                #{ strip_tags g.description }
 
             %h3 What's planted here?
             - g.featured_plantings.each do |p|
