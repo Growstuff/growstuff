@@ -25,7 +25,6 @@
     %th Price
     %th Quantity
     %th Subtotal
-  - total = 0
   - @order.order_items.each do |i|
     %tr
       %td= i.product.name
@@ -34,7 +33,6 @@
       %td= i.quantity
       %td
         - subtotal = i.price * i.quantity
-        - total += subtotal
         = price_with_currency(subtotal)
 
   %tr
@@ -44,14 +42,14 @@
       %strong Total:
     %td
       %strong
-        = price_with_currency(total)
+        = price_with_currency(@order.total)
 
 %p
   - if can? :destroy, @order
     = link_to 'Delete this order', @order, method: :delete, |
       data: { confirm: 'Are you sure?' }, :class => 'btn'
   - if can? :complete, @order
-    = link_to 'Checkout', complete_order_path(@order), :class => 'btn btn-primary'
+    = link_to 'Checkout', checkout_order_path(@order), :class => 'btn btn-primary'
 
 %p
   = link_to "View other orders/order history", orders_path

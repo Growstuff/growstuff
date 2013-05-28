@@ -46,6 +46,12 @@ Growstuff::Application.configure do
     config.currency = 'AUD'
   end
 
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :test
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
+  end
+
 end
 
 Geocoder.configure(:lookup => :test)
@@ -76,3 +82,4 @@ Geocoder::Lookup::Test.add_stub(
     }
   ]
 )
+

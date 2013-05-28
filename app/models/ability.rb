@@ -67,6 +67,8 @@ class Ability
       can :create,   Order
       can :read,     Order, :member_id => member.id
       can :complete, Order, :member_id => member.id, :completed_at => nil
+      can :checkout, Order, :member_id => member.id, :completed_at => nil
+      can :cancel,   Order, :member_id => member.id, :completed_at => nil
       can :destroy,  Order, :member_id => member.id, :completed_at => nil
 
       can :create,  OrderItem

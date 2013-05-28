@@ -18,7 +18,10 @@ Growstuff::Application.routes.draw do
   resources :account_types
   resources :accounts
   resources :orders
+  match 'orders/:id/checkout' => 'orders#checkout', :as => 'checkout_order'
   match 'orders/:id/complete' => 'orders#complete', :as => 'complete_order'
+  match 'orders/:id/cancel' => 'orders#cancel', :as => 'cancel_order'
+
   resources :order_items
   resources :products
 

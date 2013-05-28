@@ -14,6 +14,17 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
+    active_utils (1.0.5)
+      activesupport (>= 2.3.11)
+      i18n
+    activemerchant (1.32.1)
+      active_utils (>= 1.0.2)
+      activesupport (>= 2.3.14)
+      builder (>= 2.0.0)
+      i18n
+      json (>= 1.5.1)
+      money
+      nokogiri
     activemodel (3.2.13)
       activesupport (= 3.2.13)
       builder (~> 3.0.0)
@@ -116,6 +127,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.21)
+    money (5.1.1)
+      i18n (~> 0.6.0)
     multi_json (1.7.1)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
@@ -232,6 +245,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemerchant
   bluecloth
   bootstrap-datepicker-rails
   bundler (>= 1.1.5)

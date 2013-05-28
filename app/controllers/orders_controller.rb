@@ -28,6 +28,23 @@ class OrdersController < ApplicationController
     end
   end
 
+  # checkout with PayPal
+  def checkout
+    @order = Order.find(params[:id])
+
+    response = EXPRESS_GATEWAY.setup_purchase(
+      @order.total,
+      :items             => @order.activemerchant_items,
+      :currency          => Growstuff::Application.config.currency,
+      :no_shipping       => true,
+      :ip                => request.remote_ip,
+      :return_url        => complete_order_url,
+      :cancel_return_url => shop_url
+    )
+    redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+
+  end
+
   def complete
     @order = Order.find(params[:id])
 
@@ -40,6 +57,13 @@ class OrdersController < ApplicationController
       format.html # new.html.erb
     end
 
+  end
+
+  def cancel
+    @order = Order.find(params[:id])
+    respond_to do |format|
+      format.html { redirect_to shop_url, notice: 'Order was cancelled.' }
+    end
   end
 
   # DELETE /orders/1
