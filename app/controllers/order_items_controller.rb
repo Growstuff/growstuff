@@ -15,7 +15,9 @@ class OrderItemsController < ApplicationController
         format.html { redirect_to @order_item.order, notice: 'Added item to your order.' }
         format.json { render json: @order_item, status: :created, location: @order_item }
       else
-        format.html { redirect_to shop_path, alert: 'There was a problem with your order' }
+        errors = @order_item.errors.empty? ?
+          "There was a problem with your order." : @order_item.errors.full_messages.to_sentence
+        format.html { redirect_to shop_path, alert: errors }
         format.json { render json: @order_item.errors, status: :unprocessable_entity }
       end
     end
