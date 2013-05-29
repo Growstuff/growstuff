@@ -17,6 +17,14 @@
     %strong Date completed:
     = @order.completed_at.to_s
 
+  - if current_member.has_role? :admin
+    %p
+      %strong Paypal Express token:
+      = @order.paypal_express_token
+    %p
+      %strong Paypal Express payer ID:
+      = @order.paypal_express_payer_id
+
 %h2 Order items
 
 %table.table.table-striped

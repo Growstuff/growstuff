@@ -99,6 +99,8 @@ Growstuff::Application.routes.draw do
   match '/shop' => 'shop#index'
   match '/shop/:action' => 'shop#:action'
 
+  match '/admin/orders' => 'admin/orders#index'
+  match '/admin/orders/:action' => 'admin/orders#:action'
   match '/admin' => 'admin#index'
   match '/admin/:action' => 'admin#:action'
 

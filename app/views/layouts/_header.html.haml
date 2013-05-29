@@ -13,6 +13,8 @@
           %li= link_to "Posts", posts_path
           %li= link_to "Forums", forums_path
           %li= link_to "Shop", shop_path
+          -if member_signed_in? and current_member.has_role?(:admin)
+            %li= link_to "Admin", admin_path
           %li.divider-vertical
           - if member_signed_in?
             %li.dropdown<
