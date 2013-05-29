@@ -51,6 +51,7 @@ class OrdersController < ApplicationController
     @order.completed_at = Time.zone.now
     @order.save
 
+    @order.record_paypal_details(params[:token])
     @order.update_account # apply paid account benefits, etc.
 
     respond_to do |format|
