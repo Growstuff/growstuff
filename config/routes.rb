@@ -89,11 +89,17 @@ Growstuff::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   match '/policy/:action' => 'policy#:action'
+
   match '/support' => 'support#index'
   match '/support/:action' => 'support#:action'
+
   match '/about' => 'about#index'
   match '/about/:action' => 'about#:action'
+
   match '/shop' => 'shop#index'
   match '/shop/:action' => 'shop#:action'
+
+  match '/admin' => 'admin#index'
+  match '/admin/:action' => 'admin#:action'
 
 end

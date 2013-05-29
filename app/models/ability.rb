@@ -78,32 +78,16 @@ class Ability
       cannot :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
 
       if member.has_role? :admin
-        # admin user roles (for authorization)
-        can :read, Role
-        can :manage, Role
 
-        # for now, only admins can create/edit forums
-        can :manage, Forum
+        can :read, :all
+        can :manage, :all
 
-        # admins can manage products
-        can :manage, Product
-
-        # admins can read other people's orders...
-        can :read, Order
-        can :read, OrderItem
-
-        # but they can't do anything to them, because orders are *history*
+        # can't change order history, because it's *history*
         cannot :create, Order
         cannot :complete, Order
         cannot :destroy, Order
         cannot :manage, OrderItem
 
-        # admins can read and manage members' account details (paid acct
-        # status, etc)
-        can :read, Account
-        can :manage, Account
-        can :read, AccountType
-        can :manage, AccountType
       end
 
     end

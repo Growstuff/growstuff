@@ -238,7 +238,7 @@ describe Ability do
       end
 
       it "cannot delete orders" do
-        @admin_ability.should_not be_able_to(:delete, @order)
+        @admin_ability.should_not be_able_to(:destroy, @order)
       end
 
     end
