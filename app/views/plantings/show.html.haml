@@ -51,6 +51,9 @@
   - (1..6).each do
     .span2
       = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
+- if can? :create, Photo and can? :edit, @planting
+  %p
+    = link_to "Add photo", new_photo_path(:planting_id => @planting.id)
 
 %h2
   Notes

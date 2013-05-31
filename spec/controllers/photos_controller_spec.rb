@@ -51,6 +51,11 @@ describe PhotosController do
       get :new, {}
       assigns(:photo).should be_a_new(Photo)
     end
+
+    it "assigns a planting id" do
+      get :new, { :planting_id => 5 }
+      assigns(:planting_id).should eq "5"
+    end
   end
 
   describe "GET edit" do
@@ -88,6 +93,13 @@ describe PhotosController do
       it "redirects to the created photo" do
         post :create, {:photo => { :flickr_photo_id => 1 } }
         response.should redirect_to(Photo.last)
+      end
+
+      it "attaches the photo to a planting" do
+        planting = FactoryGirl.create(:planting)
+        post :create, {:photo => { :flickr_photo_id => 1 },
+          :planting_id => planting.id }
+        Photo.last.plantings.first.should eq planting
       end
     end
 

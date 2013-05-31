@@ -26,6 +26,7 @@ class PhotosController < ApplicationController
   # GET /photos/new.json
   def new
     @photo = Photo.new
+    @planting_id = params[:planting_id]
 
     @flickr_auth = current_member.auth('flickr')
     if @flickr_auth
@@ -50,6 +51,12 @@ class PhotosController < ApplicationController
       Photo.new(params[:photo])
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
+    if params[:planting_id]
+      planting = Planting.find_by_id(params[:planting_id])
+      if planting
+        @photo.plantings << planting
+      end
+    end
 
     respond_to do |format|
       if @photo.save

@@ -15,7 +15,7 @@
       - c += 1
       %li.span2
         .thumbnail(style='height: 220px')
-          = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img-rounded'), photos_path(:photo => { :flickr_photo_id => p.id }), :method => :post
+          = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img-rounded'), photos_path(:photo => { :flickr_photo_id => p.id }, :planting_id => @planting_id), :method => :post
           %p
             =p.title
       - if (c % 6) == 0
