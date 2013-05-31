@@ -2,28 +2,21 @@ require 'spec_helper'
 
 describe "photos/index" do
   before(:each) do
-    assign(:photos, [
-      stub_model(Photo,
-        :owner_id => 1,
-        :flickr_photo_id => 2,
-        :thumbnail_url => "Thumbnail Url",
-        :fullsize_url => "Fullsize Url"
-      ),
-      stub_model(Photo,
-        :owner_id => 1,
-        :flickr_photo_id => 2,
-        :thumbnail_url => "Thumbnail Url",
-        :fullsize_url => "Fullsize Url"
-      )
-    ])
+    page = 1
+    per_page = 2
+    total_entries = 2
+    photos = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+      pager.replace([
+        FactoryGirl.create(:photo),
+        FactoryGirl.create(:photo)
+      ])
+    end
+    assign(:photos, photos)
   end
 
-  it "renders a list of photos" do
+  it "renders a gallery of photos" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => 1.to_s, :count => 2
-    assert_select "tr>td", :text => 2.to_s, :count => 2
-    assert_select "tr>td", :text => "Thumbnail Url".to_s, :count => 2
-    assert_select "tr>td", :text => "Fullsize Url".to_s, :count => 2
+    assert_select ".thumbnail", :count => 2
+    assert_select "img", :count => 2
   end
 end

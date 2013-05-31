@@ -3,6 +3,8 @@ class Photo < ActiveRecord::Base
     :license_url, :thumbnail_url, :fullsize_url, :link_url
   belongs_to :owner, :class_name => 'Member'
 
+  default_scope order("created_at desc")
+
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.
   def flickr_metadata

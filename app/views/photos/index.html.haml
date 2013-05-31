@@ -1,25 +1,26 @@
-%h1 Listing photos
+- content_for :title, "Photos"
 
-%table
-  %tr
-    %th Owner
-    %th Flickr photo
-    %th Thumbnail url
-    %th Fullsize url
-    %th
-    %th
-    %th
+%div.pagination
+  = page_entries_info @photos, :model => "photos"
+  = will_paginate @photos
 
-  - @photos.each do |photo|
-    %tr
-      %td= photo.owner_id
-      %td= photo.flickr_photo_id
-      %td= photo.thumbnail_url
-      %td= photo.fullsize_url
-      %td= link_to 'Show', photo
-      %td= link_to 'Edit', edit_photo_path(photo)
-      %td= link_to 'Destroy', photo, :method => :delete, :data => { :confirm => 'Are you sure?' }
+- c = 0
+%ul.thumbnails
+  .row
+  - @photos.each do |p|
+    - c += 1
+    %li.span2
+      .thumbnail(style='height: 220px')
+        = link_to image_tag(p.thumbnail_url, :alt => p.title, :class => 'img-rounded'), p
+        %p
+          = link_to p.title, p
+          by
+          = link_to p.owner, p.owner
+    - if (c % 6) == 0
+      .row
 
-%br
+%div.pagination
+  = page_entries_info @photos, :model => "photos"
+  = will_paginate @photos
 
-= link_to 'New Photo', new_photo_path
+

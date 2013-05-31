@@ -3,7 +3,7 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-    @photos = Photo.all
+    @photos = Photo.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
