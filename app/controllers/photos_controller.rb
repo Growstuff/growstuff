@@ -46,13 +46,14 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
-    @photo = Photo.new(params[:photo])
+    @photo = Photo.find_by_flickr_photo_id(params[:photo][:flickr_photo_id]) ||
+      Photo.new(params[:photo])
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
 
     respond_to do |format|
       if @photo.save
-        format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
+        format.html { redirect_to @photo, notice: 'Photo was successfully added.' }
         format.json { render json: @photo, status: :created, location: @photo }
       else
         format.html { render action: "new" }

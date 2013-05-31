@@ -91,6 +91,17 @@ describe PhotosController do
       end
     end
 
+    describe "for the second time" do
+      it "does not add a photo twice" do
+        expect {
+          post :create, {:photo => { :flickr_photo_id => 1 } }
+        }.to change(Photo, :count).by(1)
+        expect {
+          post :create, {:photo => { :flickr_photo_id => 1 } }
+        }.to change(Photo, :count).by(0)
+      end
+    end
+
     describe "with invalid params" do
       it "assigns a newly created but unsaved photo as @photo" do
         # Trigger the behavior that occurs when invalid params are submitted
