@@ -29,6 +29,24 @@ describe "plantings/show" do
     rendered.should_not contain 'sun'
   end
 
+  it "shows photos" do
+    @member = FactoryGirl.create(:member)
+    controller.stub(:current_user) { @member }
+    @p = create_planting_for(@member)
+    @photo = FactoryGirl.create(:photo, :owner => @member)
+    @p.photos << @photo
+    render
+    assert_select "img[src=#{@photo.thumbnail_url}]"
+  end
+
+  it "shows a link to add photos" do
+    @member = FactoryGirl.create(:member)
+    controller.stub(:current_user) { @member }
+    @p = create_planting_for(@member)
+    render
+    rendered.should contain "Add photo"
+  end
+
   context "no location set" do
     before(:each) do
       controller.stub(:current_user) { nil }
