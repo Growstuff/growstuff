@@ -46,4 +46,8 @@ class Planting < ActiveRecord::Base
   def planted_at_string=(str)
     self.planted_at = str == '' ? nil : Time.parse(str)
   end
+
+  def to_s
+    self.crop_system_name + " in " + self.location
+  end
 end
