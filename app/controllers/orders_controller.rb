@@ -51,7 +51,12 @@ class OrdersController < ApplicationController
     @order.completed_at = Time.zone.now
     @order.save
 
-    @order.record_paypal_details(params[:token])
+    if (params[:token])
+      @order.record_paypal_details(params[:token])
+    else
+      flash[:alert] = "PayPal didn't return a token for your order.  Please notify support."
+    end
+
     @order.update_account # apply paid account benefits, etc.
 
     respond_to do |format|

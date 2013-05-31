@@ -32,6 +32,17 @@ describe OrdersController do
     end
   end
 
+  describe "GET checkout" do
+    it "redirects to Paypal" do
+      member = FactoryGirl.create(:member)
+      sign_in member
+      order = Order.create!(:member_id => member.id)
+      get :checkout, {:id => order.to_param}
+      response.status.should eq 302
+      response.redirect_url.should match /paypal\.com/
+    end
+  end
+
   describe "GET complete" do
     it "assigns the requested order as @order" do
       member = FactoryGirl.create(:member)

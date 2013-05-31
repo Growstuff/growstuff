@@ -48,8 +48,8 @@ Growstuff::Application.configure do
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
-    ::STANDARD_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
-    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
   end
 
 end
