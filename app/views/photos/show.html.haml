@@ -22,5 +22,5 @@
         - @photo.plantings.each do |p|
           %li= link_to p, p
 
-%p= image_tag(@photo.fullsize_url, :alt => 'A plant', :class => 'img-rounded')
+%p= image_tag(@photo.fullsize_url, :alt => @photo.title, :class => 'img-rounded')
 
