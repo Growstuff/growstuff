@@ -96,8 +96,12 @@ describe PhotosController do
       end
 
       it "attaches the photo to a planting" do
-        planting = FactoryGirl.create(:planting)
-        post :create, {:photo => { :flickr_photo_id => 1 },
+        member = FactoryGirl.create(:member)
+        controller.stub(:current_member) { member }
+        garden = FactoryGirl.create(:garden, :owner => member)
+        planting = FactoryGirl.create(:planting, :garden => garden)
+        photo = FactoryGirl.create(:photo, :owner => member)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
           :planting_id => planting.id }
         Photo.last.plantings.first.should eq planting
       end
@@ -111,6 +115,30 @@ describe PhotosController do
         expect {
           post :create, {:photo => { :flickr_photo_id => 1 } }
         }.to change(Photo, :count).by(0)
+      end
+    end
+
+    describe "with matching owners" do
+      it "creates the planting/photo link" do
+        member = FactoryGirl.create(:member)
+        controller.stub(:current_member) { member }
+        garden = FactoryGirl.create(:garden, :owner => member)
+        planting = FactoryGirl.create(:planting, :garden => garden)
+        photo = FactoryGirl.create(:photo, :owner => member)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :planting_id => planting.id }
+        Photo.last.plantings.first.should eq planting
+      end
+    end
+
+    describe "with mismatched owners" do
+      it "creates the planting/photo link" do
+        # members will be auto-created, and different
+        planting = FactoryGirl.create(:planting)
+        photo = FactoryGirl.create(:photo)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :planting_id => planting.id }
+        Photo.last.plantings.first.should_not eq planting
       end
     end
 

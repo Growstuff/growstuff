@@ -51,10 +51,17 @@ class PhotosController < ApplicationController
       Photo.new(params[:photo])
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
+
     if params[:planting_id]
       planting = Planting.find_by_id(params[:planting_id])
       if planting
-        @photo.plantings << planting
+        if planting.owner.id == current_member.id
+          @photo.plantings << planting
+        else
+          flash[:alert] = "You must own both the planting and the photo."
+        end
+      else
+        flash[:alert] = "Couldn't find planting to connect to photo."
       end
     end
 
