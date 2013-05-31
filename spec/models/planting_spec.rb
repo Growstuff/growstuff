@@ -86,4 +86,13 @@ describe Planting do
     @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
   end
 
+  context 'photos' do
+    it 'has a photo' do
+      @planting = FactoryGirl.create(:planting)
+      @photo = FactoryGirl.create(:photo)
+      @planting.photos << @photo
+      @planting.photos.first.should eq @photo
+    end
+  end
+
 end

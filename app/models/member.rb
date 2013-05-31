@@ -11,6 +11,7 @@ class Member < ActiveRecord::Base
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
   has_many :authentications
+  has_many :photos
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
@@ -83,6 +84,28 @@ class Member < ActiveRecord::Base
 
   def has_role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
+  end
+
+  def auth(provider)
+    return authentications.find_by_provider(provider)
+  end
+
+  def flickr
+    if @flickr.nil?
+      flickr_auth = auth('flickr')
+      if flickr_auth
+        FlickRaw.api_key = ENV['FLICKR_KEY']
+        FlickRaw.shared_secret = ENV['FLICKR_SECRET']
+        @flickr = FlickRaw::Flickr.new
+        @flickr.access_token = flickr_auth.token
+        @flickr.access_secret = flickr_auth.secret
+      end
+    end
+    return @flickr
+  end
+
+  def flickr_photos
+    return flickr.people.getPhotos(:user_id => 'me', :per_page => 30)
   end
 
   protected
