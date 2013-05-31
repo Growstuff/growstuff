@@ -14,7 +14,15 @@ describe CommentsController do
       comment = Comment.create! valid_attributes
       get :index, {}
       assigns(:comments).should eq([comment])
-      assigns(:recent_comments).should eq([comment])
+    end
+  end
+
+  describe "GET RSS feed" do
+    it "returns an RSS feed" do
+      get :index, :format => "rss"
+      response.should be_success
+      response.should render_template("comments/index")
+      response.content_type.should eq("application/rss+xml")
     end
   end
 
@@ -63,7 +71,7 @@ describe CommentsController do
       old_comment = FactoryGirl.create(:comment, :post => post)
       comment = FactoryGirl.create(:comment, :post => post)
       get :edit, {:id => comment.to_param}
-      assigns(:comments).should eq([old_comment, comment])
+      assigns(:comments).should eq([comment, old_comment])
     end
 
   end

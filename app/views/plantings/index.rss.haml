@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+%rss{:version => 2.0}
+  %channel
+    %title #{Growstuff::Application.config.site_name} - Recent plantings from all members
+    %link= plantings_url
+    - @plantings.each do |planting|
+      %item
+        %author= planting.owner.login_name
+        %title= planting.crop.system_name
+        %pubDate= planting.created_at.to_s(:rfc822)
+        %description
+          :escaped_markdown
+            #{ strip_tags planting.description }
+        %link= planting_url(planting)
+        %guid= planting_url(planting)

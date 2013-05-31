@@ -29,7 +29,6 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     arel (3.0.2)
-    authbuttons-rails (0.1.2)
     bcrypt-ruby (3.0.1)
     bluecloth (2.2.0)
     bootstrap-datepicker-rails (1.0.0)
@@ -234,7 +233,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  authbuttons-rails
   bluecloth
   bootstrap-datepicker-rails
   bundler (>= 1.1.5)
