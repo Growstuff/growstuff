@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130518002942) do
+ActiveRecord::Schema.define(:version => 20130531110729) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -169,6 +169,11 @@ ActiveRecord::Schema.define(:version => 20130518002942) do
     t.string   "license_name",    :null => false
     t.string   "license_url"
     t.string   "link_url",        :null => false
+  end
+
+  create_table "photos_plantings", :id => false, :force => true do |t|
+    t.integer "photo_id"
+    t.integer "planting_id"
   end
 
   create_table "plantings", :force => true do |t|
