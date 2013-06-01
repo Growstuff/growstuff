@@ -2,7 +2,7 @@ class Photo < ActiveRecord::Base
   attr_accessible :flickr_photo_id, :owner_id, :title, :license_name,
     :license_url, :thumbnail_url, :fullsize_url, :link_url
   belongs_to :owner, :class_name => 'Member'
-  has_and_belongs_to_many :plantings, :uniq => true
+  has_and_belongs_to_many :plantings
 
   default_scope order("created_at desc")
 
