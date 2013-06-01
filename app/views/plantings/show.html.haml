@@ -46,6 +46,16 @@
           = pluralize(@planting.crop_plantings_count, "time")
         by #{Growstuff::Application.config.site_name} members
 
+%h2
+  Notes
+
+:markdown
+  #{ @planting.description != "" ? @planting.description : "No description given." }
+
+- if can? :edit, @planting
+  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
+
+
 - if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
 
@@ -68,12 +78,3 @@
       .thumbnail(style='height: 220px')
         %p{:style => 'text-align: center; padding-top: 50px'}
           = link_to "Add photo", new_photo_path(:planting_id => @planting.id), :class => 'btn btn-primary'
-
-%h2
-  Notes
-
-:markdown
-  #{ @planting.description != "" ? @planting.description : "No description given." }
-
-- if can? :edit, @planting
-  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'

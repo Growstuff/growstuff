@@ -56,6 +56,7 @@ describe PhotosController do
       get :new, { :planting_id => 5 }
       assigns(:planting_id).should eq "5"
     end
+
   end
 
   describe "GET edit" do
@@ -104,6 +105,19 @@ describe PhotosController do
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
           :planting_id => planting.id }
         Photo.last.plantings.first.should eq planting
+      end
+
+      it "doesn't attach a photo to a planting twice" do
+        member = FactoryGirl.create(:member)
+        controller.stub(:current_member) { member }
+        garden = FactoryGirl.create(:garden, :owner => member)
+        planting = FactoryGirl.create(:planting, :garden => garden)
+        photo = FactoryGirl.create(:photo, :owner => member)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :planting_id => planting.id }
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :planting_id => planting.id }
+        Photo.last.plantings.count.should eq 1
       end
     end
 

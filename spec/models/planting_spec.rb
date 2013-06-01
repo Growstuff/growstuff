@@ -93,6 +93,14 @@ describe Planting do
       @planting.photos << @photo
       @planting.photos.first.should eq @photo
     end
+
+    it "doesn't return duplicate photos" do
+      @planting = FactoryGirl.create(:planting)
+      @photo = FactoryGirl.create(:photo)
+      @planting.photos << @photo
+      @planting.photos << @photo
+      @planting.photos.count.should eq 1
+    end
   end
 
 end
