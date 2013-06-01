@@ -56,7 +56,7 @@ class PhotosController < ApplicationController
       planting = Planting.find_by_id(params[:planting_id])
       if planting
         if planting.owner.id == current_member.id
-          @photo.plantings << planting
+          @photo.plantings << planting unless @photo.plantings.include?(planting)
         else
           flash[:alert] = "You must own both the planting and the photo."
         end
