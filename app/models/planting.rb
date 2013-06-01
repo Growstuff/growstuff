@@ -7,7 +7,7 @@ class Planting < ActiveRecord::Base
 
   belongs_to :garden
   belongs_to :crop
-  has_and_belongs_to_many :photos, :uniq => true
+  has_and_belongs_to_many :photos
 
   default_scope order("created_at desc")
 
