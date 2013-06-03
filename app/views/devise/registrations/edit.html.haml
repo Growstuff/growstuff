@@ -53,6 +53,7 @@
         - else
           =link_to 'Connect to Twitter', '/auth/twitter'
       %p
+        = image_tag "flickr_32.png", :size => "32x32", :alt => 'Flickr logo'
         - if @flickr_auth
           You are connected to Flickr as
           = succeed "." do

@@ -4,9 +4,9 @@ describe "comments/new" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @post = FactoryGirl.create(:post)
-    @previous_comment = FactoryGirl.create(:comment, :post => @post)
-    assign(:comment, FactoryGirl.create(:comment, :post => @post))
-    assign(:comments, [@previous_comment])
+    @comment = FactoryGirl.create(:comment, :post => @post)
+    assign(:comment, @comment)
+    assign(:comments, [@comment])
     render
   end
 
@@ -15,7 +15,7 @@ describe "comments/new" do
   end
 
   it "shows previous comments" do
-    rendered.should contain @previous_comment.body
+    rendered.should contain @comment.body
   end
 
   it "shows the correct comment count" do

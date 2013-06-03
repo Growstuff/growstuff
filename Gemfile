@@ -36,6 +36,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'flickraw'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -79,7 +80,6 @@ gem 'bootstrap-datepicker-rails'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-flickr'
-gem 'authbuttons-rails'
 
 # for phusion passenger (i.e. mod_rails) on the server
 gem 'passenger'

@@ -65,6 +65,10 @@ class Ability
       can :create, Planting
       can :update, Planting, :garden => { :owner_id => member.id }
       can :destroy, Planting, :garden => { :owner_id => member.id }
+
+      can :create, Photo
+      can :update, Photo, :owner_id => member.id
+      can :destroy, Photo, :owner_id => member.id
     end
   end
 end

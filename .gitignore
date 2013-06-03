@@ -1,4 +1,5 @@
 /log/*
+/doc
 /db/*.sqlite3
 /tmp/*
 .pt
@@ -6,3 +7,6 @@
 *~
 *.DS_Store
 credentials.sh
+Pathogen:
+custom_plan.rb
+zeus.json

@@ -46,12 +46,6 @@
           = pluralize(@planting.crop_plantings_count, "time")
         by #{Growstuff::Application.config.site_name} members
 
-%h2 Pictures
-.row
-  - (1..6).each do
-    .span2
-      = image_tag('http://placehold.it/150x150', :alt => '', :class => 'img-rounded')
-
 %h2
   Notes
 
@@ -60,3 +54,27 @@
 
 - if can? :edit, @planting
   = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
+
+
+- if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
+  %h2 Pictures
+
+- c = 0
+%ul.thumbnails
+  .row
+  - @planting.photos.each do |p|
+    - c += 1
+    %li.span2
+      .thumbnail(style='height: 220px')
+        = link_to image_tag(p.thumbnail_url, :alt => p.title, :class => 'img-rounded'), p
+        %p
+          = link_to p.title, p
+          by
+          = link_to p.owner, p.owner
+    - if (c % 6) == 0
+      .row
+  - if can? :create, Photo and can? :edit, @planting
+    %li.span2
+      .thumbnail(style='height: 220px')
+        %p{:style => 'text-align: center; padding-top: 50px'}
+          = link_to "Add photo", new_photo_path(:planting_id => @planting.id), :class => 'btn btn-primary'

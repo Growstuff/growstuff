@@ -4,8 +4,12 @@ describe ScientificNamesController do
 
   login_member(:crop_wrangling_member)
 
+  before(:each) do
+    @crop = FactoryGirl.create(:tomato)
+  end
+
   def valid_attributes
-    { :scientific_name => 'Solanum lycopersicum', :crop_id => 1 }
+    { :scientific_name => 'Solanum lycopersicum', :crop_id => @crop.id }
   end
 
   describe "GET index" do
@@ -28,6 +32,32 @@ describe ScientificNamesController do
     it "assigns a new scientific_name as @scientific_name" do
       get :new, {}
       assigns(:scientific_name).should be_a_new(ScientificName)
+    end
+
+    it "assigns crop if specified" do
+      get :new, { :crop_id => 1 }
+      assigns(:crop).should be_an_instance_of Crop
+    end
+
+    it "assigns crop if specified" do
+    end
+  end
+
+  describe "GET edit" do
+    it "assigns the requested scientific_name as @scientific_name" do
+      scientific_name = ScientificName.create! valid_attributes
+      get :edit, {:id => scientific_name.to_param}
+      assigns(:scientific_name).should eq(scientific_name)
+    end
+  end
+
+  describe "POST create" do
+    describe "with valid params" do
+      it "creates a new ScientificName" do
+        expect {
+          post :create, {:scientific_name => valid_attributes}
+        }.to change(ScientificName, :count).by(1)
+      end
     end
   end
 
@@ -55,7 +85,7 @@ describe ScientificNamesController do
 
       it "redirects to the created scientific_name" do
         post :create, {:scientific_name => valid_attributes}
-        response.should redirect_to(ScientificName.last)
+        response.should redirect_to(ScientificName.last.crop)
       end
     end
 
@@ -97,7 +127,7 @@ describe ScientificNamesController do
       it "redirects to the scientific_name" do
         scientific_name = ScientificName.create! valid_attributes
         put :update, {:id => scientific_name.to_param, :scientific_name => valid_attributes}
-        response.should redirect_to(scientific_name)
+        response.should redirect_to(scientific_name.crop)
       end
     end
 
@@ -130,8 +160,9 @@ describe ScientificNamesController do
 
     it "redirects to the scientific_names list" do
       scientific_name = ScientificName.create! valid_attributes
+      crop = scientific_name.crop
       delete :destroy, {:id => scientific_name.to_param}
-      response.should redirect_to(scientific_names_url)
+      response.should redirect_to(crop)
     end
   end
 

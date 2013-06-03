@@ -5,7 +5,6 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.paginate(:page => params[:page])
-    @recent_posts = Post.limit(100).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.haml
@@ -23,6 +22,10 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.html # show.html.haml
       format.json { render json: @post }
+      format.rss { render(
+        :layout => false,
+        :locals => { :post => @post }
+      )}
     end
   end
 
