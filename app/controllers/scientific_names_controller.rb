@@ -26,6 +26,7 @@ class ScientificNamesController < ApplicationController
   # GET /scientific_names/new.json
   def new
     @scientific_name = ScientificName.new
+    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
 
     respond_to do |format|
       format.html # new.html.haml
@@ -45,7 +46,7 @@ class ScientificNamesController < ApplicationController
 
     respond_to do |format|
       if @scientific_name.save
-        format.html { redirect_to @scientific_name, notice: 'Scientific name was successfully created.' }
+        format.html { redirect_to @scientific_name.crop, notice: 'Scientific name was successfully created.' }
         format.json { render json: @scientific_name, status: :created, location: @scientific_name }
       else
         format.html { render action: "new" }
@@ -61,7 +62,7 @@ class ScientificNamesController < ApplicationController
 
     respond_to do |format|
       if @scientific_name.update_attributes(params[:scientific_name])
-        format.html { redirect_to @scientific_name, notice: 'Scientific name was successfully updated.' }
+        format.html { redirect_to @scientific_name.crop, notice: 'Scientific name was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -74,10 +75,11 @@ class ScientificNamesController < ApplicationController
   # DELETE /scientific_names/1.json
   def destroy
     @scientific_name = ScientificName.find(params[:id])
+    @crop = @scientific_name.crop
     @scientific_name.destroy
 
     respond_to do |format|
-      format.html { redirect_to scientific_names_url }
+      format.html { redirect_to @crop }
       format.json { head :no_content }
     end
   end

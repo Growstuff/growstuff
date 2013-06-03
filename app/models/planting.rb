@@ -7,6 +7,7 @@ class Planting < ActiveRecord::Base
 
   belongs_to :garden
   belongs_to :crop
+  has_and_belongs_to_many :photos
 
   default_scope order("created_at desc")
 
@@ -16,6 +17,7 @@ class Planting < ActiveRecord::Base
     :plantings_count,
     :to => :crop,
     :prefix => true
+  delegate :owner, :to => :garden
 
   default_scope order("created_at desc")
 
@@ -33,10 +35,6 @@ class Planting < ActiveRecord::Base
     return "#{garden.owner.login_name}'s #{garden}"
   end
 
-  def owner
-    return garden.owner
-  end
-
   def planted_at_string
     if planted_at
       planted_at.strftime("%F")
@@ -47,5 +45,9 @@ class Planting < ActiveRecord::Base
 
   def planted_at_string=(str)
     self.planted_at = str == '' ? nil : Time.parse(str)
+  end
+
+  def to_s
+    self.crop_system_name + " in " + self.location
   end
 end

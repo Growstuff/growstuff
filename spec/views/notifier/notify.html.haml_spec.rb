@@ -4,6 +4,8 @@ describe 'notifier/notify.html.haml', :type => "view" do
 
   before(:each) do
     @notification = FactoryGirl.create(:notification)
+    @reply_link = "http://example.com"
+    assign(:reply_link, @reply_link)
     render
   end
 
@@ -14,6 +16,10 @@ describe 'notifier/notify.html.haml', :type => "view" do
   it 'should include notification metadata' do
     rendered.should contain @notification.sender.login_name
     rendered.should contain @notification.post.subject
+  end
+
+  it 'should include a reply link' do
+    assert_select "a[href=#{@reply_link}]", :text => /Reply/
   end
 
   it 'should contain a link to your inbox' do

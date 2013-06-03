@@ -5,7 +5,6 @@ class CropsController < ApplicationController
   # GET /crops.json
   def index
     @crops = Crop.paginate(:page => params[:page])
-    @new_crops = Crop.limit(20).order('created_at desc').all
 
     respond_to do |format|
       format.html # index.html.haml
