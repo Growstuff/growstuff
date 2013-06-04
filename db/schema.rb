@@ -147,10 +147,10 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
   end
 
   create_table "orders", :force => true do |t|
-    t.integer  "member_id",               :limit => 255, :null => false
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
     t.datetime "completed_at"
+    t.integer  "member_id"
     t.string   "paypal_express_token"
     t.string   "paypal_express_payer_id"
   end
@@ -162,7 +162,6 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
 
   create_table "photos", :force => true do |t|
     t.integer  "owner_id",        :null => false
-    t.string   "flickr_photo_id", :null => false
     t.string   "thumbnail_url",   :null => false
     t.string   "fullsize_url",    :null => false
     t.datetime "created_at",      :null => false
@@ -171,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
     t.string   "license_name",    :null => false
     t.string   "license_url"
     t.string   "link_url",        :null => false
+    t.string   "flickr_photo_id"
   end
 
   create_table "photos_plantings", :id => false, :force => true do |t|
