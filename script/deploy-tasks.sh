@@ -37,7 +37,7 @@ then
   failed=true
 fi
 
-if [ failed ]
+if [ $failed ]
 then
   exit
 fi
