@@ -20,20 +20,25 @@ if [ ! $PAYPAL_USERNAME ]
 then
   echo "You must run:"
   echo "  heroku config:set PAYPAL_USERNAME=..."
-  exit
+  failed=true
 fi
 
 if [ ! $PAYPAL_PASSWORD ]
 then
   echo "You must run:"
   echo "  heroku config:set PAYPAL_PASSWORD=..."
-  exit
+  failed=true
 fi
 
 if [ ! $PAYPAL_SIGNATURE ]
 then
   echo "You must run:"
   echo "  heroku config:set PAYPAL_SIGNATURE=..."
+  failed=true
+fi
+
+if [ failed ]
+then
   exit
 fi
 
