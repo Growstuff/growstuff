@@ -54,17 +54,17 @@
   .visible-phone
     = render :partial => 'blurb'
 
-  - if @interesting_members
-    %h2 Some of our members
-    %ul.thumbnails
-      - @interesting_members.each do |m|
-        %li.span2
-          = render :partial => "members/thumbnail", :locals => { :member => m }
+- if !@interesting_members.blank?
+  %h2 Some of our members
+  %ul.thumbnails
+    - @interesting_members.each do |m|
+      %li.span2
+        = render :partial => "members/thumbnail", :locals => { :member => m }
 
-  .row
-    .span6
-      %h2 Recent plantings
-      = render :partial => 'shared/recent_plantings'
-    .span6
-      %h2 Recent posts
-      = render :partial => 'shared/recent_posts'
+.row
+  .span6
+    %h2 Recent plantings
+    = render :partial => 'shared/recent_plantings'
+  .span6
+    %h2 Recent posts
+    = render :partial => 'shared/recent_posts'
