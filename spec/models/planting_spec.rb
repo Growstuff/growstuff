@@ -86,6 +86,8 @@ describe Planting do
     @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
   end
 
+  # we decided that all the tests for the planting/photo association would
+  # be done on this side, not on the photos side
   context 'photos' do
     before(:each) do
       @planting = FactoryGirl.create(:planting)
@@ -95,6 +97,12 @@ describe Planting do
 
     it 'has a photo' do
       @planting.photos.first.should eq @photo
+    end
+
+    it 'deletes association with photos when photo is deleted' do
+      @photo.destroy
+      @planting.reload
+      @planting.photos.should be_empty
     end
 
     it 'has a default photo' do
