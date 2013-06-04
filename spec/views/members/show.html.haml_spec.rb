@@ -18,6 +18,10 @@ describe "members/show" do
       rendered.should contain @time.strftime("%B %d, %Y")
     end
 
+    it "shows account type" do
+      rendered.should contain "Free account"
+    end
+
     it "contains a gravatar icon" do
       assert_select "img", :src => /gravatar\.com\/avatar/
     end
@@ -106,7 +110,11 @@ describe "members/show" do
     end
 
     it "contains an edit settings button" do
-      rendered.should contain "Edit Settings"
+      rendered.should contain "Edit your profile"
+    end
+
+    it "asks you to upgrade your account" do
+      rendered.should contain "Upgrade"
     end
 
     it "contains no send message button" do

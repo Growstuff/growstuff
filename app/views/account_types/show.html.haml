@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @account_type.name
+%p
+  %b Is paid:
+  = @account_type.is_paid
+%p
+  %b Is permanent paid:
+  = @account_type.is_permanent_paid
+
+= link_to 'Edit', edit_account_type_path(@account_type)
+\|
+= link_to 'Back', account_types_path
