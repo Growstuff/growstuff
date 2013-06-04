@@ -38,15 +38,6 @@
           - current_member.forums.each do |f|
             %li= link_to f.name, f
 
-  .row
-    .span6
-      %h2 Your recent plantings
-      = render :partial => 'shared/recent_plantings'
-
-    .span6
-      %h2 Your recent posts
-      = render :partial => 'shared/recent_posts'
-
 - else
   .visible-desktop.visible-tablet
     .hero-unit
@@ -54,12 +45,12 @@
   .visible-phone
     = render :partial => 'blurb'
 
-- if !@interesting_members.blank?
-  %h2 Some of our members
-  %ul.thumbnails
-    - @interesting_members.each do |m|
-      %li.span2
-        = render :partial => "members/thumbnail", :locals => { :member => m }
+  - if @interesting_members.present?
+    %h2 Some of our members
+    %ul.thumbnails
+      - @interesting_members.each do |m|
+        %li.span2
+          = render :partial => "members/thumbnail", :locals => { :member => m }
 
 .row
   .span6
