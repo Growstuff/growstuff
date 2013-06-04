@@ -62,16 +62,6 @@ describe 'home/index.html.haml', :type => "view" do
       assert_select "a[href=#{url_for(@member.gardens.first)}]", "Garden"
     end
 
-    it 'lists plantings' do
-      rendered.should contain "Your recent plantings"
-      assert_select "a[href=#{url_for(@planting)}]"
-    end
-
-    it 'lists posts' do
-      rendered.should contain "Your recent posts"
-      assert_select "a[href=#{url_for(@post)}]"
-    end
-
     it 'shows account type' do
       rendered.should contain "Free account"
     end
