@@ -4,16 +4,23 @@ class Member < ActiveRecord::Base
 
   has_many :posts,   :foreign_key => 'author_id'
   has_many :comments, :foreign_key => 'author_id'
+  has_many :forums, :foreign_key => 'owner_id'
+
   has_many :gardens, :foreign_key => 'owner_id'
   has_many :plantings, :through => :gardens
-  has_many :forums, :foreign_key => 'owner_id'
+
   has_and_belongs_to_many :roles
+
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
+
   has_many :authentications
+
   has_many :orders
   has_one  :account
   has_one  :account_type, :through => :account
+
+  has_many :photos
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
@@ -125,6 +132,28 @@ class Member < ActiveRecord::Base
     else
       return false
     end
+  end
+
+  def auth(provider)
+    return authentications.find_by_provider(provider)
+  end
+
+  def flickr
+    if @flickr.nil?
+      flickr_auth = auth('flickr')
+      if flickr_auth
+        FlickRaw.api_key = ENV['FLICKR_KEY']
+        FlickRaw.shared_secret = ENV['FLICKR_SECRET']
+        @flickr = FlickRaw::Flickr.new
+        @flickr.access_token = flickr_auth.token
+        @flickr.access_secret = flickr_auth.secret
+      end
+    end
+    return @flickr
+  end
+
+  def flickr_photos
+    return flickr.people.getPhotos(:user_id => 'me', :per_page => 30)
   end
 
   protected
