@@ -87,11 +87,18 @@ describe Planting do
   end
 
   context 'photos' do
-    it 'has a photo' do
+    before(:each) do
       @planting = FactoryGirl.create(:planting)
       @photo = FactoryGirl.create(:photo)
       @planting.photos << @photo
+    end
+
+    it 'has a photo' do
       @planting.photos.first.should eq @photo
+    end
+
+    it 'has a default photo' do
+      @planting.default_photo.should eq @photo
     end
   end
 
