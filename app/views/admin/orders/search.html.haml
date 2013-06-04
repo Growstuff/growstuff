@@ -2,7 +2,7 @@
 
 =render "admin/orders/searchform"
 
-- if @orders
+- unless @orders.empty?
   %h2
     Found
     = pluralize(@orders.count, "result")

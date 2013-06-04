@@ -8,23 +8,32 @@ class Admin::OrdersController < ApplicationController
 
   def search
     authorize! :manage, :all
-    @orders = nil
+    @orders = []
 
     if params[:search_text]
       case params[:search_by]
         when "member"
-          @member = Member.find_by_id(params[:search_text])
-          if @member
-            @orders = @member.orders
+          member = Member.find_by_login_name(params[:search_text])
+          if member
+            @orders = member.orders
           end
         when "order_id"
-          @orders = [ Order.find_by_id(params[:search_text]) ]
+          order = Order.find_by_id(params[:search_text])
+          if order
+            @orders = [order]
+          end
         when "paypal_token"
-          @orders = [ Order.find_by_paypal_express_token(params[:search_text]) ]
+          order = Order.find_by_paypal_express_token(params[:search_text])
+          if order
+            @orders = [order]
+          end
         when "paypal_payer_id"
-          @orders = [ Order.find_by_paypal_express_payer_id(params[:search_text]) ]
+          order = Order.find_by_paypal_express_payer_id(params[:search_text])
+          if order
+            @orders = [order]
+          end
       end
-      if @orders.nil?
+      if @orders.empty?
         flash[:alert] = "Couldn't find order with #{params[:search_by]} = #{params[:search_text]}"
       end
     end
