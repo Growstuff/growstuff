@@ -5,6 +5,7 @@ class Crop < ActiveRecord::Base
 
   has_many :scientific_names
   has_many :plantings
+  has_many :photos, :through => :plantings
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
@@ -36,6 +37,10 @@ class Crop < ActiveRecord::Base
 
   def plantings_count
     return plantings.count
+  end
+
+  def default_photo
+    return photos.first
   end
 
 end
