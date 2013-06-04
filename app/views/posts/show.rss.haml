@@ -20,4 +20,4 @@
 
         %pubDate= comment.created_at.to_s(:rfc822)
         %link= post_url(@post)
-        %guid= post_url(@post)
+        %guid= comment_url(comment)

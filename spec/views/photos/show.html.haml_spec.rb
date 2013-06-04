@@ -1,9 +1,14 @@
 require 'spec_helper'
 
 describe "photos/show" do
+  before(:each) do
+    @member = FactoryGirl.create(:member)
+    controller.stub(:current_user) { @member }
+  end
+
   context "CC-licensed photo" do
     before(:each) do
-      @photo = assign(:photo, FactoryGirl.create(:photo))
+      @photo = assign(:photo, FactoryGirl.create(:photo, :owner => @member))
       render
     end
 
@@ -23,6 +28,10 @@ describe "photos/show" do
     it "shows a link to the original image" do
       assert_select "a", :href => @photo.link_url, :text => "View on Flickr"
     end
+
+    it "has a delete button" do
+      assert_select "a[href=#{photo_path(@photo)}]", 'Delete Photo'
+    end
   end
 
   context "unlicensed photo" do
@@ -34,6 +43,7 @@ describe "photos/show" do
     it "contains the phrase 'All rights reserved'" do
       rendered.should contain "All rights reserved"
     end
+
   end
 
   context "linked to a planting" do
