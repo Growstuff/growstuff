@@ -58,7 +58,7 @@ namespace :growstuff do
         :is_paid => true,
         :is_permanent_paid => true
       )
-      AccountType.find_or_create_by_name(
+      @staff_account = AccountType.find_or_create_by_name(
         :name => "Staff",
         :is_paid => true,
         :is_permanent_paid => true
@@ -84,6 +84,13 @@ namespace :growstuff do
         unless m.account
           Account.create(:member_id => m.id)
         end
+      end
+
+      puts "Making Skud a staff account..."
+      @skud = Member.find_by_login_name('Skud')
+      if @skud
+        @skud.account.account_type = @staff_account
+        @skud.account.save
       end
 
       puts "Done setting up shop."
