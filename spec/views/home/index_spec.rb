@@ -46,8 +46,6 @@ describe 'home/index.html.haml', :type => "view" do
       @forum = FactoryGirl.create(:forum, :owner => @member)
       @post = FactoryGirl.create(:post, :author => @member)
       assign(:posts, [@post])
-      @role = FactoryGirl.create(:admin)
-      @member.roles << @role
       render
     end
 
@@ -74,12 +72,12 @@ describe 'home/index.html.haml', :type => "view" do
       assert_select "a[href=#{url_for(@post)}]"
     end
 
-    it 'shows admin status' do
-      rendered.should contain "You are an ADMIN USER"
+    it 'shows account type' do
+      rendered.should contain "Free account"
     end
 
-    it 'shows forum list' do
-      assert_select "a[href=#{url_for(@forum)}]", @forum.name
+    it 'shows upgrade account button' do
+      rendered.should contain "Upgrade"
     end
 
   end

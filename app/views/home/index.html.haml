@@ -27,16 +27,14 @@
             = link_to 'Add', new_garden_path, :class => 'btn btn-mini'
 
     .span4
-      - if current_member.has_role?(:admin)
-        %p
-          %b You are an ADMIN USER.
-
-      - if current_member.forums.count > 0
-        %p
-          %b Forums you administer:
-        %ul
-          - current_member.forums.each do |f|
-            %li= link_to f.name, f
+      %p
+        Your account:
+        %strong
+          = current_member.account_type || "Free"
+          account
+        %br/
+        - if current_member == current_member && !current_member.is_paid?
+          = link_to "Upgrade and Support Growstuff", shop_path, :class => 'btn btn-primary'
 
   .row
     .span6

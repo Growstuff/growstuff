@@ -1,3 +1,15 @@
+PATH
+  remote: vendor/gems/active_utils-1.0.5
+  specs:
+    active_utils (1.0.5)
+      activesupport (>= 2.3.11)
+      i18n
+
+PATH
+  remote: vendor/gems/activemerchant-1.33.0
+  specs:
+    activemerchant (1.33.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -233,6 +245,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_utils (= 1.0.5)!
+  activemerchant (= 1.33.0)!
   bluecloth
   bootstrap-datepicker-rails
   bundler (>= 1.1.5)
