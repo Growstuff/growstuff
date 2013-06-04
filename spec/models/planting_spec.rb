@@ -104,6 +104,10 @@ describe Planting do
       @planting.reload
       @planting.photos.should be_empty
     end
+
+    it 'has a default photo' do
+      @planting.default_photo.should eq @photo
+    end
   end
 
 end

@@ -52,4 +52,8 @@ class Planting < ActiveRecord::Base
   def to_s
     self.crop_system_name + " in " + self.location
   end
+
+  def default_photo
+    return photos.first
+  end
 end
