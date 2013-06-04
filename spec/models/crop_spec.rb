@@ -69,4 +69,14 @@ describe Crop do
       @tomato.varieties.should eq [@roma]
     end
   end
+
+  context 'photos' do
+    it 'has a default photo' do
+      @crop = FactoryGirl.create(:tomato)
+      @planting = FactoryGirl.create(:planting, :crop => @crop)
+      @photo = FactoryGirl.create(:photo)
+      @planting.photos << @photo
+      @crop.default_photo.should be_an_instance_of Photo
+    end
+  end
 end
