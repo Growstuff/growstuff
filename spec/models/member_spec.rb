@@ -29,6 +29,11 @@ describe 'member' do
       @member.gardens.count.should == 1
     end
 
+    it 'should have a accounts entry' do
+      @member.save
+      @member.account.should be_an_instance_of Account
+    end
+
     it "doesn't show email by default" do
       @member.save
       @member.show_email.should be_false
@@ -232,6 +237,93 @@ describe 'member' do
 
       Member.interesting.should eq [ @member3, @member2, @member1 ]
 
+    end
+  end
+
+  context 'orders' do
+    it 'finds the current order' do
+      @member = FactoryGirl.create(:member)
+      @order1 = FactoryGirl.create(:completed_order, :member => @member)
+      @order2 = FactoryGirl.create(:order, :member => @member)
+      @member.current_order.should eq @order2
+    end
+
+    it "copes if there's no current order" do
+      @member = FactoryGirl.create(:member)
+      @order1 = FactoryGirl.create(:completed_order, :member => @member)
+      @order2 = FactoryGirl.create(:completed_order, :member => @member)
+      @member.current_order.should be_nil
+    end
+  end
+
+  context "paid accounts" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+    end
+
+    it "recognises a permanent paid account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => true, :is_permanent_paid => true)
+      @member.account.account_type = @account_type
+      @member.is_paid?.should be_true
+    end
+
+    it "recognises a current paid account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => true, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.account.paid_until = Time.zone.now + 1.month
+      @member.is_paid?.should be_true
+    end
+
+    it "recognises an expired paid account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => true, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.account.paid_until = Time.zone.now - 1.minute
+      @member.is_paid?.should be_false
+    end
+
+    it "recognises a free account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => false, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.is_paid?.should be_false
+    end
+
+    it "recognises a free account even with paid_until set" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => false, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.account.paid_until = Time.zone.now + 1.month
+      @member.is_paid?.should be_false
+    end
+
+  end
+
+  context "update account" do
+    before(:each) do
+      @product = FactoryGirl.create(:product,
+        :paid_months => 3
+      )
+      @member = FactoryGirl.create(:member)
+    end
+
+    it "sets account_type" do
+      @member.update_account_after_purchase(@product)
+      @member.account.account_type.should eq @product.account_type
+    end
+
+    it "sets paid_until" do
+      @member.account.paid_until = nil # blank for now, as if never paid before
+      @member.update_account_after_purchase(@product)
+
+      # stringify to avoid millisecond problems...
+      @member.account.paid_until.to_s.should eq (Time.zone.now + 3.months).to_s
+
+      # and again to make sure it works for currently paid accounts
+      @member.update_account_after_purchase(@product)
+      @member.account.paid_until.to_s.should eq (Time.zone.now + 6.months).to_s
     end
   end
 
