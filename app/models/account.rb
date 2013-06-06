@@ -7,4 +7,23 @@ class Account < ActiveRecord::Base
     :message => 'already has account details associated with it'
   }
 
+  def account_type_string
+    if account_type
+      return account_type.name
+    else
+      return "Free"
+    end
+  end
+
+  def paid_until_string
+    if account_type
+      if account_type.is_permanent_paid
+        return "forever"
+      elsif account_type.is_paid
+        return paid_until.to_s
+      end
+    end
+    return nil
+  end
+
 end
