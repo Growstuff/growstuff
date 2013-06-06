@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :product do
     name "annual subscription"
-    description "paid membership, renewing yearly"
+    description "paid membership, renewing yearly, *hurrah*"
     min_price "999"
     account_type
     paid_months 12

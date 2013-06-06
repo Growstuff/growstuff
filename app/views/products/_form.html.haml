@@ -8,10 +8,10 @@
 
   .field
     = f.label :name
-    = f.text_field :name
+    = f.text_field :name, :class => 'input-block-level'
   .field
     = f.label :description
-    = f.text_field :description
+    = f.text_area :description, :class => 'input-block-level'
   .field
     = f.label :min_price
     = f.text_field :min_price

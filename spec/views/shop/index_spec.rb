@@ -26,6 +26,10 @@ describe 'shop/index.html.haml', :type => "view" do
     it 'displays the order form' do
       assert_select "form", :count => 2
     end
+
+    it 'renders markdown in product descriptions' do
+      assert_select "em", :text => 'hurrah', :count => 2
+    end
   end
 
   context "is paid" do
