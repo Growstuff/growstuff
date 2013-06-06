@@ -57,7 +57,7 @@
     = link_to 'Delete this order', @order, method: :delete, |
       data: { confirm: 'Are you sure?' }, :class => 'btn'
   - if can? :complete, @order
-    = link_to 'Checkout', checkout_order_path(@order), :class => 'btn btn-primary'
+    = link_to 'Checkout with PayPal', checkout_order_path(@order), :class => 'btn btn-primary'
 
 %p
   = link_to "View other orders/order history", orders_path

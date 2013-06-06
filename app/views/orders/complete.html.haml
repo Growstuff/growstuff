@@ -3,12 +3,14 @@
 %p Thank you for your order.
 
 %p
-  Completed at:
+  %strong Completed at:
   = @order.completed_at
 
 %p
   %strong Order number:
   = @order.id
+
+= render "shared/account_status"
 
 %h2 Order items
 

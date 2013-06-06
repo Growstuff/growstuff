@@ -1,6 +1,6 @@
-- content_for :title, "Photo Gallery"
+- content_for :title, "Photos"
 
-%p This page shows all your photos.
+%p Most recent photos added to #{Growstuff::Application.config.site_name}.
 
 %div.pagination
   = page_entries_info @photos, :model => "photos"

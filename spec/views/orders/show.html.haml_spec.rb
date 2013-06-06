@@ -33,7 +33,7 @@ describe "orders/show" do
     end
 
     it "shows a checkout button" do
-      assert_select "a", :text => "Checkout"
+      assert_select "a", :text => "Checkout with PayPal"
     end
 
     it "shows a delete order button" do
