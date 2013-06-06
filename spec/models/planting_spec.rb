@@ -108,6 +108,12 @@ describe Planting do
     it 'has a default photo' do
       @planting.default_photo.should eq @photo
     end
+
+    it 'chooses the most recent photo' do
+      @photo2 = FactoryGirl.create(:photo)
+      @planting.photos << @photo2
+      @planting.default_photo.should eq @photo2
+    end
   end
 
 end
