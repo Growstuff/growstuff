@@ -6,11 +6,10 @@ describe "crops/index" do
     page = 1
     per_page = 2
     total_entries = 2
+    @tomato = FactoryGirl.create(:tomato)
+    @maize  = FactoryGirl.create(:maize)
     crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([
-        FactoryGirl.create(:tomato),
-        FactoryGirl.create(:maize)
-      ])
+      pager.replace([ @tomato, @maize ])
     end
     assign(:crops, crops)
   end
@@ -19,6 +18,14 @@ describe "crops/index" do
     render
     assert_select "a", :text => "Maize"
     assert_select "a", :text => "Tomato"
+  end
+
+  it "shows photos where available" do
+    @planting = FactoryGirl.create(:planting, :crop => @tomato)
+    @photo = FactoryGirl.create(:photo)
+    @planting.photos << @photo
+    render
+    assert_select "img", :src => @photo.thumbnail_url
   end
 
   it "linkifies crop images" do

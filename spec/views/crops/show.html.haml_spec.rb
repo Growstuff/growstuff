@@ -44,6 +44,14 @@ describe "crops/show" do
     rendered.should contain "Springfield Community Garden"
   end
 
+  it "shows photos where available" do
+    @planting = FactoryGirl.create(:planting, :crop => @crop)
+    @photo = FactoryGirl.create(:photo)
+    @planting.photos << @photo
+    render
+    assert_select "img", :src => @photo.thumbnail_url
+  end
+
   context 'varieties' do
     before(:each) do
       @popcorn = FactoryGirl.create(:popcorn, :parent_id => @crop.id)

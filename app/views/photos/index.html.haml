@@ -1,5 +1,7 @@
 - content_for :title, "Photos"
 
+%p Most recent photos added to #{Growstuff::Application.config.site_name}.
+
 %div.pagination
   = page_entries_info @photos, :model => "photos"
   = will_paginate @photos

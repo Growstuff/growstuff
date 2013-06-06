@@ -4,13 +4,22 @@ class Member < ActiveRecord::Base
 
   has_many :posts,   :foreign_key => 'author_id'
   has_many :comments, :foreign_key => 'author_id'
+  has_many :forums, :foreign_key => 'owner_id'
+
   has_many :gardens, :foreign_key => 'owner_id'
   has_many :plantings, :through => :gardens
-  has_many :forums, :foreign_key => 'owner_id'
+
   has_and_belongs_to_many :roles
+
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
+
   has_many :authentications
+
+  has_many :orders
+  has_one  :account
+  has_one  :account_type, :through => :account
+
   has_many :photos
 
   default_scope order("lower(login_name) asc")
@@ -68,6 +77,11 @@ class Member < ActiveRecord::Base
   # Give each new member a default garden
   after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
 
+  # and an account record (for paid accounts etc)
+  # we use find_or_create to avoid accidentally creating a second one,
+  # which can happen sometimes especially with FactoryGirl associations
+  after_create {|member| Account.find_or_create_by_member_id(:member_id => member.id) }
+
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -84,6 +98,40 @@ class Member < ActiveRecord::Base
 
   def has_role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
+  end
+
+  def current_order
+    orders.where(:completed_at => nil).first
+  end
+
+  # when purchasing a product that gives you a paid account, this method
+  # does all the messing around to actually make sure the account is
+  # updated correctly -- account type, paid until, etc.  Usually this is
+  # called by order.update_account, which loops through all order items
+  # and does this for each one.
+  def update_account_after_purchase(product)
+    if product.account_type
+      account.account_type = product.account_type
+    end
+    if product.paid_months
+      start_date = account.paid_until || Time.zone.now
+      account.paid_until = start_date + product.paid_months.months
+    end
+    account.save
+  end
+
+  def is_paid?
+    if account.account_type # it might be nil if you've never had one
+      if account.account_type.is_permanent_paid
+        return true
+      elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
   end
 
   def auth(provider)
