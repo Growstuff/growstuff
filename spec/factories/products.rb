@@ -7,5 +7,9 @@ FactoryGirl.define do
     min_price "999"
     account_type
     paid_months 12
+
+    factory :product_with_recommended_price do
+      recommended_price "1200"
+    end
   end
 end

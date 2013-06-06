@@ -17,6 +17,7 @@ describe "products/edit" do
       assert_select "input#product_name", :name => "product[name]"
       assert_select "textarea#product_description", :name => "product[description]"
       assert_select "input#product_min_price", :name => "product[min_price]"
+      assert_select "input#product_recommended_price", :name => "product[recommended_price]"
     end
   end
 end
