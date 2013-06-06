@@ -34,7 +34,7 @@
           account
         %br/
         - if current_member == current_member && !current_member.is_paid?
-          = link_to "Upgrade and Support Growstuff", shop_path, :class => 'btn btn-primary'
+          = link_to "Upgrade and Support #{Growstuff::Application.config.site_name}", shop_path, :class => 'btn btn-primary'
 
 - else
   .visible-desktop.visible-tablet

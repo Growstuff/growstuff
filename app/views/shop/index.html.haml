@@ -24,6 +24,8 @@
 
   %p You currently have a paid membership, and can't buy another one at this time.
 
+  = render "shared/account_status"
+
 - elsif @order and @order.order_items.count > 0
   %h2 Your current order
 
