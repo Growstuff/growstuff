@@ -51,5 +51,17 @@ Growstuff::Application.configure do
   Growstuff::Application.configure do
     config.site_name = "Growstuff (dev)"
     config.analytics_code = ''
+    config.currency = 'AUD'
+  end
+
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :test
+    paypal_options = {
+      :login =>     ENV['PAYPAL_USERNAME'] || 'dummy',
+      :password =>  ENV['PAYPAL_PASSWORD'] || 'dummy',
+      :signature => ENV['PAYPAL_SIGNATURE'] || 'dummy'
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 end
