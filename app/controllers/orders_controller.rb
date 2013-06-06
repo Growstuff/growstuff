@@ -48,13 +48,24 @@ class OrdersController < ApplicationController
   def complete
     @order = Order.find(params[:id])
 
-    @order.completed_at = Time.zone.now
     @order.save
 
-    if (params[:token])
-      @order.record_paypal_details(params[:token])
+    if (params[:token] && params['PayerID'])
+      purchase = EXPRESS_GATEWAY.purchase(
+        @order.total,
+        :currency          => Growstuff::Application.config.currency,
+        :ip       => request.remote_ip,
+        :payer_id => params['PayerID'],
+        :token    => params[:token]
+      )
+      if purchase.success?
+        @order.completed_at = Time.zone.now
+        @order.record_paypal_details(params[:token])
+      else
+        flash[:alert] = "Could not complete your order. Please notify support."
+      end
     else
-      flash[:alert] = "PayPal didn't return a token for your order.  Please notify support."
+      flash[:alert] = "PayPal didn't return a token or payer_id for your order.  Please notify support."
     end
 
     @order.update_account # apply paid account benefits, etc.
