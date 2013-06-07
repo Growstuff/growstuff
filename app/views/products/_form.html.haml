@@ -8,13 +8,16 @@
 
   .field
     = f.label :name
-    = f.text_field :name
+    = f.text_field :name, :class => 'input-block-level'
   .field
     = f.label :description
-    = f.text_field :description
+    = f.text_area :description, :class => 'input-block-level'
   .field
-    = f.label :min_price
+    = f.label :min_price, "Minimum price (in cents)"
     = f.text_field :min_price
+  .field
+    = f.label :recommended_price, "Recommended price (in cents)"
+    = f.text_field :recommended_price
   .field
     = f.label :account_type
     = collection_select(:product, :account_type_id, AccountType.all, :id,

@@ -55,13 +55,17 @@
       Pay what you want, starting at
       =succeed "." do
         =price_with_currency(p.min_price)
+      - if p.recommended_price
+        Recommended price:
+        =succeed "." do
+          =price_with_currency(p.recommended_price)
 
     %div
       - if can? :create, Order
 
         = form_for @order_item do |f|
           .field
-            = f.text_field :price, :value => price_in_dollars(p.min_price)
+            = f.text_field :price, :value => price_in_dollars(p.recommended_price || p.min_price)
           .field
             = f.hidden_field :product_id, :value => p.id
           .field
