@@ -22,6 +22,7 @@ group :production, :staging do
   gem 'newrelic_rpm'
   gem 'unicorn'
   gem 'dalli'
+  gem 'memcachier'
 end
 
 # Gems used only for assets and not required
