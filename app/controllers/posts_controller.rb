@@ -1,5 +1,8 @@
 class PostsController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :post_sweeper
+
   # GET /posts
   # GET /posts.json
 
