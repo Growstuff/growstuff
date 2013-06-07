@@ -5,6 +5,7 @@
     %th Name
     %th Description
     %th Min price
+    %th Recommended price
     %th Account type
     %th Paid months
     %th
@@ -16,6 +17,7 @@
       %td= product.name
       %td= product.description
       %td= product.min_price
+      %td= product.recommended_price
       %td= product.account_type ? product.account_type.name : ""
       %td= product.paid_months
       %td= link_to 'Show', product
