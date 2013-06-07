@@ -1,5 +1,8 @@
 class PlantingsController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :planting_sweeper
+
   # GET /plantings
   # GET /plantings.json
   def index
