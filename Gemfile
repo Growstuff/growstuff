@@ -17,14 +17,12 @@ gem 'activemerchant', '1.33.0',
 gem 'active_utils', '1.0.5',
   :path => 'vendor/gems/active_utils-1.0.5'
 
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 group :production, :staging do
   gem 'pg'
   gem 'newrelic_rpm'
   gem 'unicorn'
+  gem 'dalli'
+  gem 'memcachier'
 end
 
 # Gems used only for assets and not required
