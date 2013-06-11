@@ -29,26 +29,6 @@ describe Planting do
     @planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
   end
 
-  it "should accept ISO-format dates" do
-    @planting.planted_at_string = "2013-03-01"
-    @planting.planted_at.should == Time.local(2013, 03, 01)
-  end
-
-  it "should accept DD Month YY format dates" do
-    @planting.planted_at_string = "1st March 13" # Dydd Gŵyl Dewi Hapus!
-    @planting.planted_at.should == Time.local(2013, 03, 01)
-  end
-
-  it 'should accept blank dates' do
-    @planting.planted_at_string = ''
-    @planting.planted_at.should == nil
-  end
-
-  it "should output dates in ISO format" do
-    @planting.planted_at = Time.local(2013, 03, 01)
-    @planting.planted_at_string.should == "2013-03-01"
-  end
-
   it 'should sort in reverse creation order' do
     @planting2 = FactoryGirl.create(:planting)
     Planting.first.should eq @planting2

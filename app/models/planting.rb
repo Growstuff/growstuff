@@ -3,7 +3,7 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: :slugged
 
   attr_accessible :crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_at_string
+    :quantity, :sunniness
 
   belongs_to :garden
   belongs_to :crop
@@ -35,18 +35,6 @@ class Planting < ActiveRecord::Base
 
   def location
     return "#{garden.owner.login_name}'s #{garden}"
-  end
-
-  def planted_at_string
-    if planted_at
-      planted_at.strftime("%F")
-    else
-      "Not yet set"
-    end
-  end
-
-  def planted_at_string=(str)
-    self.planted_at = str == '' ? nil : Time.parse(str)
   end
 
   def to_s
