@@ -2,6 +2,7 @@
 /doc
 /db/*.sqlite3
 /tmp/*
+/coverage
 .pt
 .*.sw*
 *~
