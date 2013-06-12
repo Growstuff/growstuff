@@ -103,4 +103,5 @@ group :development, :test do
   gem 'webrat'
   gem 'watchr'
   gem 'factory_girl_rails', '~> 4.0'
+  gem 'coveralls', require: false
 end

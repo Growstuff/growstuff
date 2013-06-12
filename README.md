@@ -1,6 +1,7 @@
 # Growstuff
 
 [![Build Status](https://travis-ci.org/Growstuff/growstuff.png)](https://travis-ci.org/Growstuff/growstuff)
+[![Coverage Status](https://coveralls.io/repos/Growstuff/growstuff/badge.png)](https://coveralls.io/r/Growstuff/growstuff)
 
 Welcome to the Growstuff project.
 
