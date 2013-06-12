@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: 2c7c527c354d9068ce49346d4fd8389328d32ce6
+  ref: 2c7c52
   specs:
     twitter-bootstrap-rails (2.2.7)
       actionpack (>= 3.1)
