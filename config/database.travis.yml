@@ -1,0 +1,4 @@
+test:
+  adapter: postgresql
+  database: growstuff_test
+  username: postgres

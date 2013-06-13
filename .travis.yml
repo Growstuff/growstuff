@@ -5,6 +5,9 @@ rvm:
 script:
 - bundle exec rake db:migrate --trace
 - bundle exec rspec spec/
+before_script:
+- cp config/database.travis.yml config/database.yml
+- psql -c 'create database growstuff_test' -U postgres
 
 # after_success:
 # - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then git remote add heroku git@heroku.com:growstuff-dev.git
