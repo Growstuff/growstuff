@@ -35,7 +35,9 @@ group :assets do
   # long term, we'll probably want node.js for performance, but this will do for now as it's easier for new people to install
   gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
   gem "less-rails"
-  gem "twitter-bootstrap-rails", '~> 2.2.2'
+  gem "twitter-bootstrap-rails",
+    :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',
+    :ref => '2c7c52'
 
   gem 'uglifier', '>= 1.0.3'
 
