@@ -10,5 +10,10 @@ module ApplicationHelper
         Growstuff::Application.config.currency)
   end
 
+  def parse_date(str)
+    str ||= '' # Date.parse barfs on nil
+    return str == '' ? nil : Date.parse(str)
+  end
+
 end
 
