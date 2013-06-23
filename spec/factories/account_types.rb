@@ -18,6 +18,11 @@ FactoryGirl.define do
       is_permanent_paid true
     end
 
+    factory :staff_account_type do
+      name "Staff"
+      is_paid true
+      is_permanent_paid true
+    end
   end
 
 end

@@ -238,6 +238,12 @@ describe 'member' do
       Member.interesting.should eq [ @member3, @member2, @member1 ]
 
     end
+
+    it 'does not include staff members' do
+      @member1 = FactoryGirl.create(:member)
+      
+      Member.interesting.should_not include @member1
+    end
   end
 
   context 'orders' do
