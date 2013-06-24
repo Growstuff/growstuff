@@ -255,7 +255,7 @@ describe 'member' do
 
   context 'not_staff scope' do
     it 'should not include staff members' do
-      @member1 = FactoryGirl.create(:south_pole_member)
+      @member1 = FactoryGirl.create(:member)
       @member1.account_type = FactoryGirl.create(:staff_account_type)
       Member.not_staff.should_not include @member1
     end
