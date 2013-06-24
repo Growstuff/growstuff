@@ -26,11 +26,8 @@ class Member < ActiveRecord::Base
   scope :confirmed, where('confirmed_at IS NOT NULL')
   scope :located, where('location IS NOT NULL')
   scope :recently_signed_in, reorder('updated_at DESC')
-  scope :not_staff, joins('inner join accounts
-        on members.id = accounts.member_id
-      inner join account_types
-        on accounts.account_type_id = account_types.id').
-      where('account_types.name != "Staff"')
+  scope :not_staff, joins(:account => :account_type).
+    where('account_types.name != "Staff"')
 
   # this is used on the signed-out homepage so we're basically
   # just trying to select some members who look good.

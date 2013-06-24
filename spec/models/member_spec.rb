@@ -247,7 +247,7 @@ describe 'member' do
 
     it 'should not include staff members' do
       @member1 = FactoryGirl.create(:south_pole_member)
-      @member1.account.account_type = FactoryGirl.create(:staff_account_type)
+      @member1.account_type = FactoryGirl.create(:staff_account_type)
       @member1.updated_at = 3.days.ago
       Member.interesting.should eq []
     end
@@ -256,7 +256,7 @@ describe 'member' do
   context 'not_staff scope' do
     it 'should not include staff members' do
       @member1 = FactoryGirl.create(:south_pole_member)
-      @member1.account.account_type = FactoryGirl.create(:staff_account_type)
+      @member1.account_type = FactoryGirl.create(:staff_account_type)
       Member.not_staff.should_not include @member1
     end
 
@@ -267,7 +267,7 @@ describe 'member' do
 
     it 'should_include paid members' do
       @member1 = FactoryGirl.create(:member)
-      @member1.account.account_type = FactoryGirl.create(:paid_account_type)
+      @member1.account_type = FactoryGirl.create(:paid_account_type)
       Member.not_staff.should include @member1
     end
   end
