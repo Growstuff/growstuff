@@ -41,8 +41,7 @@ describe 'shop/index.html.haml', :type => "view" do
       @member = FactoryGirl.create(:member)
       @member.account.account_type = FactoryGirl.create(:paid_account_type)
       @member.account.paid_until = Time.zone.now + 1.year
-      @member.save
-      controller.stub(:current_user) { @member }
+      controller.stub(:current_member) { @member }
     end
 
     it "recognises the paid member" do
@@ -50,13 +49,11 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it "tells you you have a paid membership" do
-      pending "can't set up a paid member for some reason"
       render
       rendered.should contain "You currently have a paid"
     end
 
     it "doesn't show shop" do
-      pending "can't set up a paid member for some reason"
       render
       assert_select "form", false
     end
