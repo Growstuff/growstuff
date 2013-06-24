@@ -126,14 +126,10 @@ class Member < ActiveRecord::Base
   end
 
   def is_paid?
-    if account.account_type # it might be nil if you've never had one
-      if account.account_type.is_permanent_paid
-        return true
-      elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
-        return true
-      else
-        return false
-      end
+    if account.account_type.is_permanent_paid
+      return true
+    elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
+      return true
     else
       return false
     end

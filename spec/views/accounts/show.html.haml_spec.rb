@@ -10,7 +10,7 @@ describe "accounts/show" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     rendered.should contain @account.member_id.to_s
-    rendered.should contain 'Free account'
+    rendered.should contain 'Free'
     rendered.should contain @account.paid_until.to_s
   end
 end

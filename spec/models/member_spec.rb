@@ -35,9 +35,9 @@ describe 'member' do
     end
 
     it "should have a free account by default" do
-      FactoryGirl.create(:account_type)
       @member.save
       @member.account.account_type.name.should eq "Free"
+      @member.is_paid?.should be_false
     end
 
     it "doesn't show email by default" do

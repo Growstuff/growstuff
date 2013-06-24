@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe AccountTypesController do
 
+  # This automatically creates a "Free" account type
   login_member(:admin_member)
 
   def valid_attributes
@@ -12,7 +13,9 @@ describe AccountTypesController do
     it "assigns all account_types as @account_types" do
       account_type = AccountType.create! valid_attributes
       get :index, {}
-      assigns(:account_types).should eq([account_type])
+      assigns(:account_types).sort.should eq(
+        [account_type, subject.current_member.account_type].sort
+      )
     end
   end
 
