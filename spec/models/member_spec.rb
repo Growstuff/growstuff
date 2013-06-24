@@ -34,6 +34,12 @@ describe 'member' do
       @member.account.should be_an_instance_of Account
     end
 
+    it "should have a free account by default" do
+      FactoryGirl.create(:account_type)
+      @member.save
+      @member.account.account_type.name.should eq "Free"
+    end
+
     it "doesn't show email by default" do
       @member.save
       @member.show_email.should be_false

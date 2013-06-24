@@ -7,6 +7,12 @@ class Account < ActiveRecord::Base
     :message => 'already has account details associated with it'
   }
 
+  before_create do |account|
+    unless account.account_type
+      account.account_type = AccountType.find_by_name("Free")
+    end
+  end
+
   def account_type_string
     if account_type
       return account_type.name
