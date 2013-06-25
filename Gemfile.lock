@@ -255,7 +255,6 @@ DEPENDENCIES
   dalli
   debugger
   devise
-  diff-lcs
   factory_girl_rails (~> 4.0)
   flickraw
   friendly_id

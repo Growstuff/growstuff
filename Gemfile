@@ -91,8 +91,6 @@ gem 'omniauth-flickr'
 
 gem 'rake', '>= 10.0.0'
 
-gem 'diff-lcs'
-
 group :development, :test do
   gem 'thin'
   gem 'sqlite3'
