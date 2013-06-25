@@ -8,7 +8,7 @@ gem 'json', '~>1.7.7'
 gem 'haml'
 gem 'unicorn' # http server
 
-gem 'cancan'
+gem 'cancan' # for checking member privileges
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
