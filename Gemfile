@@ -96,7 +96,6 @@ group :development, :test do
   gem 'haml-rails'
   gem 'rspec-rails', '~> 2.12.1'
   gem 'webrat'
-  gem 'watchr'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'coveralls', require: false
 end
