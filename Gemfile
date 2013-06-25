@@ -56,11 +56,6 @@ gem 'flickraw'
 # Use unicorn as the app server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-gem 'capistrano'
-gem 'rvm-capistrano'
-gem 'capistrano-ext'
-
 # To use debugger
 group :development do
   # Installation of the debugger gem fails on Travis CI,
@@ -94,10 +89,7 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-flickr'
 
-# for phusion passenger (i.e. mod_rails) on the server
-gem 'passenger'
 gem 'rake', '>= 10.0.0'
-gem 'cape', '~> 1.5.0'
 
 gem 'diff-lcs'
 
