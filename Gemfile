@@ -6,6 +6,7 @@ gem 'rails', '3.2.13'
 gem 'rack', '~>1.4.5'
 gem 'json', '~>1.7.7'
 gem 'haml'
+gem 'unicorn' # http server
 
 gem 'cancan'
 
@@ -20,7 +21,6 @@ gem 'active_utils', '1.0.5',
 group :production, :staging do
   gem 'pg'
   gem 'newrelic_rpm'
-  gem 'unicorn'
   gem 'dalli'
   gem 'memcachier'
 end
@@ -92,7 +92,6 @@ gem 'omniauth-flickr'
 gem 'rake', '>= 10.0.0'
 
 group :development, :test do
-  gem 'thin'
   gem 'sqlite3'
   gem 'haml-rails'
   gem 'rspec-rails', '~> 2.12.1'
