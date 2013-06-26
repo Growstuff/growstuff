@@ -62,7 +62,11 @@ gem 'rvm-capistrano'
 gem 'capistrano-ext'
 
 # To use debugger
-gem 'debugger'
+group :development do
+  # Installation of the debugger gem fails on Travis CI,
+  # so we don't use it in the test environment
+  gem 'debugger'
+end
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
