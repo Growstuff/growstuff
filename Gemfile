@@ -28,20 +28,26 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  # CSS preprocessor, used for app/assets/stylesheets/application.css
   gem 'sass-rails',   '~> 3.2.3'
+  # CoffeeScript is a Python-like language that compiles to JavaScript
   gem 'coffee-rails', '~> 3.2.1'
 
+  # less-rails depends on a JavaScript engine; we use therubyracer.
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # long term, we'll probably want node.js for performance, but this will do for now as it's easier for new people to install
+  # long term, we'll probably want node.js for performance, but this will do
+  # for now as it's easier for new people to install
   gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
+  # Another CSS preprocessor, used for Bootstrap overrides
   gem "less-rails"
+  # CSS framework
   gem "twitter-bootstrap-rails",
     :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',
     :ref => '2c7c52'
 
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier', '>= 1.0.3' # JavaScript compressor
 
-  gem 'compass-rails', '~> 1.0.3'
+  gem 'compass-rails', '~> 1.0.3' # Yet Another CSS framework
 end
 
 gem 'jquery-rails'
