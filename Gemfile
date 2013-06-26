@@ -98,10 +98,10 @@ gem 'omniauth-flickr'
 gem 'rake', '>= 10.0.0'
 
 group :development, :test do
-  gem 'sqlite3'
-  gem 'haml-rails'
-  gem 'rspec-rails', '~> 2.12.1'
-  gem 'webrat'
-  gem 'factory_girl_rails', '~> 4.0'
-  gem 'coveralls', require: false
+  gem 'sqlite3'                      # database engine
+  gem 'haml-rails'                   # HTML templating language
+  gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
+  gem 'webrat'                       # provides HTML matchers for view tests
+  gem 'factory_girl_rails', '~> 4.0' # for creating test data
+  gem 'coveralls', require: false    # coverage analysis
 end
