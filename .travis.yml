@@ -1,6 +1,6 @@
 ---
 language: ruby
-bundler_args: --without development
+bundler_args: --without development assets
 rvm:
 - 1.9.3
 script:
