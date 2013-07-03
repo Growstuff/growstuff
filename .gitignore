@@ -2,7 +2,7 @@
 /doc
 /db/*.sqlite3
 /tmp/*
-/coverage
+coverage
 .pt
 .*.sw*
 *~
@@ -11,3 +11,4 @@ credentials.sh
 Pathogen:
 custom_plan.rb
 zeus.json
+.bundle
