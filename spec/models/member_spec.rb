@@ -34,9 +34,10 @@ describe 'member' do
       @member.account.should be_an_instance_of Account
     end
 
-    it "should have a free account by default" do
+    it "should have a default-type account by default" do
       @member.save
-      @member.account.account_type.name.should eq "Free"
+      @member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
+ 
       @member.is_paid?.should be_false
     end
 
