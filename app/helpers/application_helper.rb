@@ -17,7 +17,8 @@ module ApplicationHelper
 
   def forex_link(price)
     pid = price_in_dollars(price)
-    link = "http://www.wolframalpha.com/input/?i=#{pid}+aud"
+    currency = Growstuff::Application.config.currency
+    link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
     return link_to "See exchange rates",
       link,
       :target => "_blank"
