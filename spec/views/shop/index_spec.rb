@@ -24,7 +24,7 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it 'should contain an exchange rate link' do
-      assert_select("a[href=http://www.xe.com/currency/aud-australian-dollar?c=CAD]") 
+      assert_select("a[href=http://www.wolframalpha.com/input/?i=9.99+aud]")
     end
 
     it 'shows recommended price for products that have it' do

@@ -15,10 +15,13 @@ module ApplicationHelper
     return str == '' ? nil : Date.parse(str)
   end
 
-  def forex_link()
+  def forex_link(price)
+    pid = price_in_dollars(price)
+    link = "http://www.wolframalpha.com/input/?i=#{pid}+aud"
     return link_to "See exchange rates",
-      "http://www.xe.com/currency/aud-australian-dollar?c=CAD",        
+      link,
       :target => "_blank"
   end 
+
 end
 
