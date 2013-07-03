@@ -11,11 +11,11 @@ namespace :growstuff do
   end
 
 
+  desc "One-off tasks needed at various times and kept for posterity"
   namespace :oneoff do
-    desc "One-off tasks needed at various times and kept for posterity"
 
+    desc "May 2013: replace any empty notification subjects with (no subject)"
     task :empty_subjects => :environment do
-      desc "May 2013: replace any empty notification subjects with (no subject)"
 
       # this is inefficient as it checks every Notification, but the
       # site is small and there aren't many of them, so it shouldn't matter
@@ -26,8 +26,8 @@ namespace :growstuff do
       end
     end
 
+    desc "May 2013: replace any empty garden names with Garden"
     task :empty_garden_names => :environment do
-      desc "May 2013: replace any empty garden names with Garden"
 
       # this is inefficient as it checks every Garden, but the
       # site is small and there aren't many of them, so it shouldn't matter
@@ -41,6 +41,7 @@ namespace :growstuff do
     end
 
 
+    desc "June 2013: create account types and products."
     task :setup_shop => :environment do
       puts "Adding account types..."
       AccountType.find_or_create_by_name(
@@ -94,6 +95,20 @@ namespace :growstuff do
       end
 
       puts "Done setting up shop."
+    end
+
+    desc "June 2013: replace nil account_types with free accounts"
+    task :nil_account_type => :environment do
+
+      free = AccountType.find_by_name("Free")
+      raise "Free account type not found: run rake growstuff:oneoff:setup_shop"\
+        unless free
+      Account.all.each do |a|
+        unless a.account_type
+          a.account_type = free
+          a.save
+        end
+      end
     end
 
   end

@@ -28,7 +28,6 @@ describe Order do
     @order_item = FactoryGirl.create(:order_item,
       :order_id => @order.id, :product_id => @product.id)
 
-    @member.account.account_type.should be_nil
     @member.account.paid_until.should be_nil
 
     @order.update_account
