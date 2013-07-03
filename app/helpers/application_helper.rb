@@ -19,7 +19,7 @@ module ApplicationHelper
     pid = price_in_dollars(price)
     currency = Growstuff::Application.config.currency
     link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
-    return link_to "See exchange rates",
+    return link_to "(convert)",
       link,
       :target => "_blank"
   end 

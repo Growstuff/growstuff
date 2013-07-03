@@ -32,6 +32,11 @@ describe 'shop/index.html.haml', :type => "view" do
       rendered.should contain '12.00 AUD'
     end
 
+    it 'should contain an exchange rate link for recommended price' do
+      currency = Growstuff::Application.config.currency
+      assert_select("a[href=http://www.wolframalpha.com/input/?i=12.00+#{currency}]")
+    end
+
     it 'displays the order form' do
       assert_select "form", :count => 2
     end
