@@ -46,9 +46,23 @@ describe Order do
     # we force an order to only have one item at present. Add more if wanted
     # later.
     @order_item1 = FactoryGirl.create(:order_item,
-      :order_id => @order.id, :product_id => @product.id, :price => 1111)
+      :order_id => @order.id, :product_id => @product.id, :price => 1111, :quantity => 1)
 
-    @order.total.should eq 1111
+    @order.total.should eq 1111 
+  end
+
+  it "gives the correct total for quantities more than 1" do
+    @member = FactoryGirl.create(:member)
+    @order = FactoryGirl.create(:order, :member => @member)
+    @product = FactoryGirl.create(:product,
+      :min_price => 1000
+    )
+    # we force an order to only have one item at present. Add more if wanted
+    # later.
+    @order_item1 = FactoryGirl.create(:order_item,
+      :order_id => @order.id, :product_id => @product.id, :price => 1111, :quantity => 2)
+
+    @order.total.should eq 2222 
   end
 
   it "formats order items for activemerchant" do
