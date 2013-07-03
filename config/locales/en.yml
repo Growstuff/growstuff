@@ -5,5 +5,10 @@ en:
   unauthorized:
     read:
       notification: "You must be signed in to view notifications."
+    create:
+      planting: "Please sign in or sign up to plant something."
+      post: "Please sign in or sign up to post."
+      notification: "Please sign in to send a message."
+      all: "You don't have permission to create a %{subject}."
     manage:
       all: "Not authorized to %{action} %{subject}."
