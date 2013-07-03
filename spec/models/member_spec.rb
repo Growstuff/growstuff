@@ -246,6 +246,7 @@ describe 'member' do
     end
 
     it 'should not include staff members' do
+      # member needs a location in order to be included in 'interesting' scope
       @member1 = FactoryGirl.create(:south_pole_member)
       @member1.account_type = FactoryGirl.create(:staff_account_type)
       @member1.updated_at = 3.days.ago
