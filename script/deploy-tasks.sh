@@ -45,4 +45,5 @@ fi
 echo "2013-06-04 - set up shop/products/etc"
 rake growstuff:oneoff:setup_shop
 
-
+echo "2013-07-03 - set up Free account types for all members"
+rake growstuff:oneoff:nil_account_type
