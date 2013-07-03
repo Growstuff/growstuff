@@ -55,6 +55,8 @@
       Pay what you want, starting at
       =succeed "." do
         =price_with_currency(p.min_price)
+      =succeed "." do
+        =forex_link()
       - if p.recommended_price
         Recommended price:
         =succeed "." do

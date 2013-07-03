@@ -15,5 +15,10 @@ module ApplicationHelper
     return str == '' ? nil : Date.parse(str)
   end
 
+  def forex_link()
+    return link_to "See exchange rates",
+      "http://www.xe.com/currency/aud-australian-dollar?c=CAD",        
+      :target => "_blank"
+  end 
 end
 

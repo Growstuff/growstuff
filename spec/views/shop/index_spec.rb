@@ -23,6 +23,10 @@ describe 'shop/index.html.haml', :type => "view" do
       rendered.should contain '9.99 AUD'
     end
 
+    it 'should contain an exchange rate link' do
+      assert_select("a[href=http://www.xe.com/currency/aud-australian-dollar?c=CAD]") 
+    end
+
     it 'shows recommended price for products that have it' do
       rendered.should contain '12.00 AUD'
     end
