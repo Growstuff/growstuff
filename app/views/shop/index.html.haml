@@ -55,10 +55,12 @@
       Pay what you want, starting at
       =succeed "." do
         =price_with_currency(p.min_price)
+        =forex_link(p.min_price)
       - if p.recommended_price
         Recommended price:
         =succeed "." do
           =price_with_currency(p.recommended_price)
+          =forex_link(p.recommended_price)
 
     %div
       - if can? :create, Order
