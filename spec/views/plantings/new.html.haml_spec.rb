@@ -34,6 +34,7 @@ describe "plantings/new" do
         assert_select "input#planting_quantity", :name => "planting[quantity]"
         assert_select "textarea#planting_description", :name => "planting[description]"
         assert_select "select#planting_sunniness", :name => "planting[sunniness]"
+        assert_select "select#planting_planted_from", :name => "planting[planted_from]"
       end
     end
 
