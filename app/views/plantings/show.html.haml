@@ -13,7 +13,7 @@
         = "(#{@planting.owner.location})"
     %p
       %b Quantity:
-      = @planting.quantity != 0 ? @planting.quantity : "not specified"
+      = @planting.quantity.blank? ? "not specified" : @planting.quantity
 
     - if ! @planting.planted_from.blank?
       %p
