@@ -3,7 +3,7 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: :slugged
 
   attr_accessible :crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness
+    :quantity, :sunniness, :planted_from
 
   belongs_to :garden
   belongs_to :crop
@@ -26,6 +26,22 @@ class Planting < ActiveRecord::Base
   SUNNINESS_VALUES = %w(sun semi-shade shade)
   validates :sunniness, :inclusion => { :in => SUNNINESS_VALUES,
         :message => "%{value} is not a valid sunniness value" },
+        :allow_nil => true,
+        :allow_blank => true
+
+  PLANTED_FROM_VALUES = [
+    'seed',
+    'seedling',
+    'cutting',
+    'root division',
+    'runner',
+    'bare root plant',
+    'advanced plant',
+    'graft',
+    'layering'
+  ]
+  validates :planted_from, :inclusion => { :in => PLANTED_FROM_VALUES,
+        :message => "%{value} is not a valid planting method" },
         :allow_nil => true,
         :allow_blank => true
 
