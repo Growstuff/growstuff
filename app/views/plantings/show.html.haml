@@ -15,6 +15,11 @@
       %b Quantity:
       = @planting.quantity != 0 ? @planting.quantity : "not specified"
 
+    - if ! @planting.planted_from.blank?
+      %p
+        %b Planted from:
+        = @planting.planted_from
+
     - if ! @planting.sunniness.blank?
       %p
         %b Sun or shade?
