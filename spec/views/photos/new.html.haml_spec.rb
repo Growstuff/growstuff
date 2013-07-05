@@ -4,7 +4,13 @@ describe "photos/new" do
   before(:each) do
     @member = FactoryGirl.create(:member)
     controller.stub(:current_user) { @member }
-    assign(:photos, [])
+    page = 1
+    per_page = 2
+    total_entries = 2
+    photos = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+      pager.replace([])
+    end
+    assign(:photos, photos)
     assign(:flickr_auth, FactoryGirl.create(:flickr_authentication, :member => @member))
   end
 

@@ -5,8 +5,12 @@
     Connected to Flickr as
     = succeed "." do
       = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
+    Please select a photo from your recent uploads.
 
-  %p Select a photo from your recent uploads:
+
+  %div.pagination
+    = page_entries_info @photos, :model => "photos"
+    = will_paginate @photos
 
   - c = 0
   %ul.thumbnails
