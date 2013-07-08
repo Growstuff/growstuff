@@ -26,12 +26,10 @@ class Member < ActiveRecord::Base
   scope :confirmed, where('confirmed_at IS NOT NULL')
   scope :located, where('location IS NOT NULL')
   scope :recently_signed_in, reorder('updated_at DESC')
-  scope :not_staff, joins(:account => :account_type).
-    where('account_types.name != "Staff"')
 
   # this is used on the signed-out homepage so we're basically
   # just trying to select some members who look good.
-  scope :interesting, confirmed.located.recently_signed_in.not_staff
+  scope :interesting, confirmed.located.recently_signed_in
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
