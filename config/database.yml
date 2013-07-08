@@ -13,7 +13,7 @@ test:
 # should be identical to test apart from running on postgres
 travis:
   adapter: postgresql
-  database: myapp_test
+  database: growstuff_test
   username: postgres
 
 production:
