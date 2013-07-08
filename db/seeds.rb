@@ -18,7 +18,7 @@ CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
 end
 puts "Finished loading crops"
 
-if Rails.env.development? or Rails.env.test?
+if Rails.env.development? or Rails.env.test? or Rails.env.travis?
   puts "Loading test users..."
   (1..3).each do |i|
     @user = Member.create(
