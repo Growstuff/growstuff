@@ -6,8 +6,16 @@ describe Post do
   end
 
   it "should be sorted in reverse order" do
-    FactoryGirl.create(:post, :subject => 'first entry', :author => @member)
-    FactoryGirl.create(:post, :subject => 'second entry', :author => @member)
+    FactoryGirl.create(:post,
+      :subject => 'first entry',
+      :author => @member,
+      :created_at => 2.days.ago
+    )
+    FactoryGirl.create(:post,
+      :subject => 'second entry',
+      :author => @member,
+      :created_at => 1.day.ago
+    )
     Post.first.subject.should == "second entry"
   end
 
