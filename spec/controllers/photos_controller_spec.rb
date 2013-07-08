@@ -4,11 +4,11 @@ describe PhotosController do
 
   login_member
 
-  @member = FactoryGirl.create(:member)
 
   def valid_attributes
+    member = FactoryGirl.create(:member)
     {
-      "owner_id" => @member.id,
+      "owner_id" => member.id,
       "flickr_photo_id" => 1,
       "title" => "Photo",
       "license_name" => "CC-BY",

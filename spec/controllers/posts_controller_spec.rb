@@ -4,10 +4,9 @@ describe PostsController do
 
   login_member
 
-  @member = FactoryGirl.create(:member)
-
   def valid_attributes
-    { :author_id => @member.id, :subject => "blah", :body => "blah blah" }
+    member = FactoryGirl.create(:member)
+    { :author_id => member.id, :subject => "blah", :body => "blah blah" }
   end
 
   describe "GET index" do

@@ -52,7 +52,7 @@ describe Post do
     @post = FactoryGirl.build(:post, :subject => "")
     @post.should_not be_valid
   end
-  
+
   it "doesn't allow a subject with only spaces" do
     @post = FactoryGirl.build(:post, :subject => "    ")
     @post.should_not be_valid
@@ -61,7 +61,7 @@ describe Post do
   context "recent activity" do
     before(:each) do
       Time.stub(:now => Time.now)
-      @post = FactoryGirl.create(:post)
+      @post = FactoryGirl.create(:post, :created_at => 1.day.ago)
     end
 
     it "sets recent activity to post time" do
@@ -69,16 +69,20 @@ describe Post do
     end
 
     it "sets recent activity to comment time" do
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment = FactoryGirl.create(:comment, :post => @post,
+          :created_at => 1.hour.ago)
       @post.recent_activity.to_i.should eq @comment.created_at.to_i
     end
 
-    it "sorts recently active" do
+    it "shiny new post is recently active" do
       # create a shiny new post
-      @post2 = FactoryGirl.create(:post)
+      @post2 = FactoryGirl.create(:post, :created_at => 1.minute.ago)
       Post.recently_active.first.should eq @post2
+    end
+
+    it "new comment on old post is recently active" do
       # now comment on an older post
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment2 = FactoryGirl.create(:comment, :post => @post, :created_at => 1.second.ago)
       Post.recently_active.first.should eq @post
     end
   end
