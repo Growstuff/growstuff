@@ -6,7 +6,8 @@ describe CommentsController do
 
   def valid_attributes
     @post = FactoryGirl.create(:post)
-    { :post_id => @post.id, :author_id => 1, :body => "some text" }
+    @member = FactoryGirl.create(:member)
+    { :post_id => @post.id, :author_id => @member.id, :body => "some text" }
   end
 
   describe "GET index" do

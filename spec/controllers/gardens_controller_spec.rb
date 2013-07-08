@@ -4,8 +4,10 @@ describe GardensController do
 
   login_member
 
+  @member = FactoryGirl.create(:member)
+
   def valid_attributes
-    {:name => 'My Garden', :owner_id => 1 }
+    {:name => 'My Garden', :owner_id => @member.id }
   end
 
   describe "GET index" do
