@@ -37,7 +37,7 @@ describe 'member' do
     it "should have a default-type account by default" do
       @member.save
       @member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
- 
+
       @member.is_paid?.should be_false
     end
 
