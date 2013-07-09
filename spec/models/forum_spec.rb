@@ -24,8 +24,8 @@ describe Forum do
   end
 
   it "orders posts in reverse chron order" do
-    @post1 = FactoryGirl.create(:forum_post, :forum => @forum)
-    @post2 = FactoryGirl.create(:forum_post, :forum => @forum)
+    @post1 = FactoryGirl.create(:forum_post, :forum => @forum, :created_at => 2.days.ago)
+    @post2 = FactoryGirl.create(:forum_post, :forum => @forum, :created_at => 1.day.ago)
     @forum.posts.first.should eq @post2
   end
 

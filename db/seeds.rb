@@ -10,15 +10,61 @@
 
 require 'csv'
 
-puts "Loading crops..."
-CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
-  system_name,scientific_name,en_wikipedia_url = row
-  @crop = Crop.create(:system_name => system_name, :en_wikipedia_url => en_wikipedia_url)
-  @crop.scientific_names.create(:scientific_name => scientific_name)
-end
-puts "Finished loading crops"
+def load_data
+  # for all Growstuff sites, including production ones
+  load_crops
+  load_roles
+  load_basic_account_types
 
-if Rails.env.development? or Rails.env.test?
+  # for development environments only
+  if Rails.env.development?
+    load_test_users
+    load_admin_users
+    load_paid_account_types
+    load_products
+  end
+
+  puts "Done!"
+end
+
+
+def load_crops
+  puts "Loading crops..."
+  CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
+    system_name,scientific_name,en_wikipedia_url = row
+    @crop = Crop.create(
+      :system_name => system_name,
+      :en_wikipedia_url => en_wikipedia_url
+    )
+    @crop.scientific_names.create(
+      :scientific_name => scientific_name
+    )
+  end
+  puts "Finished loading crops"
+end
+
+def load_roles
+  puts "Creating admin role..."
+  @admin = Role.create(:name => 'Admin')
+  puts "Creating crop wrangler role..."
+  @wrangler = Role.create(:name => 'Crop Wrangler')
+end
+
+def load_basic_account_types
+  puts "Adding 'free' and 'staff' account types..."
+  AccountType.create!(
+    :name => "Free",
+    :is_paid => false,
+    :is_permanent_paid => false
+  )
+  AccountType.create!(
+    :name => "Staff",
+    :is_paid => true,
+    :is_permanent_paid => true
+  )
+end
+
+def load_test_users
   puts "Loading test users..."
   (1..3).each do |i|
     @user = Member.create(
@@ -31,12 +77,9 @@ if Rails.env.development? or Rails.env.test?
     @user.save!
   end
   puts "Finished loading test users"
+end
 
-  puts "Creating admin role..."
-  @admin = Role.create(:name => 'Admin')
-  puts "Creating crop wrangler role..."
-  @wrangler = Role.create(:name => 'Crop Wrangler')
-
+def load_admin_users
   puts "Adding admin and crop wrangler members..."
   @admin_user = Member.create(
     :login_name => "admin1",
@@ -57,13 +100,10 @@ if Rails.env.development? or Rails.env.test?
   @wrangler_user.confirm!
   @wrangler_user.roles << @wrangler
   @wrangler_user.save!
+end
 
-  puts "Adding account types..."
-  AccountType.create!(
-    :name => "Free",
-    :is_paid => false,
-    :is_permanent_paid => false
-  )
+def load_paid_account_types
+  puts "Adding 'paid' and 'seed' account types..."
   @paid_account = AccountType.create!(
     :name => "Paid",
     :is_paid => true,
@@ -74,12 +114,9 @@ if Rails.env.development? or Rails.env.test?
     :is_paid => true,
     :is_permanent_paid => true
   )
-  AccountType.create!(
-    :name => "Staff",
-    :is_paid => true,
-    :is_permanent_paid => true
-  )
+end
 
+def load_products
   puts "Adding products..."
   Product.create!(
     :name => "Annual subscription",
@@ -96,5 +133,4 @@ if Rails.env.development? or Rails.env.test?
   )
 end
 
-puts "Done!"
-
+load_data
