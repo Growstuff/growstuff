@@ -38,6 +38,10 @@ describe "plantings/show" do
   end
 
   context 'planted from' do
+    before(:each) do
+      @p = assign(:planting, FactoryGirl.create(:seed_planting))
+    end
+
     it "shows planted_from" do
       render
       rendered.should contain 'Planted from:'

@@ -74,6 +74,7 @@ describe Planting do
 
   context 'planted from' do
     it 'should have a planted_from value' do
+      @planting = FactoryGirl.create(:seed_planting)
       @planting.planted_from.should eq 'seed'
     end
 

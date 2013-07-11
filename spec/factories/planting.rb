@@ -5,7 +5,18 @@ FactoryGirl.define do
     planted_at Date.today
     quantity 33
     description "This is a *really* good plant."
-    planted_from 'seed'
+
+    factory :seed_planting do
+      planted_from 'seed'
+    end
+
+    factory :seedling_planting do
+      planted_from 'seedling'
+    end
+
+    factory :cutting_planting do
+      planted_from 'cutting'
+    end
 
     factory :sunny_planting do
       sunniness 'sun'

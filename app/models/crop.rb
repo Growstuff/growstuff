@@ -53,4 +53,14 @@ class Crop < ActiveRecord::Base
     return sunniness
   end
 
+  def planted_from
+    planted_from = Hash.new(0)
+    plantings.each do |p|
+      if p.planted_from
+        planted_from[p.planted_from] += 1
+      end
+    end
+    return planted_from
+  end
+
 end
