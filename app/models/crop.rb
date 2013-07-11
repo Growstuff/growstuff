@@ -43,4 +43,14 @@ class Crop < ActiveRecord::Base
     return photos.first
   end
 
+  def sunniness
+    sunniness = Hash.new(0)
+    plantings.each do |p|
+      if p.sunniness
+        sunniness[p.sunniness] += 1
+      end
+    end
+    return sunniness
+  end
+
 end

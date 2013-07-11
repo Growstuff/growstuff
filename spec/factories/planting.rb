@@ -7,5 +7,17 @@ FactoryGirl.define do
     description "This is a *really* good plant."
     sunniness 'sun'
     planted_from 'seed'
+
+    factory :sunny_planting do
+      sunniness 'sun'
+    end
+
+    factory :semi_shady_planting do
+      sunniness 'semi-shade'
+    end
+
+    factory :shady_planting do
+      sunniness 'shade'
+    end
   end
 end
