@@ -46,7 +46,7 @@ class Crop < ActiveRecord::Base
   def sunniness
     sunniness = Hash.new(0)
     plantings.each do |p|
-      if p.sunniness
+      if !p.sunniness.blank?
         sunniness[p.sunniness] += 1
       end
     end
@@ -56,7 +56,7 @@ class Crop < ActiveRecord::Base
   def planted_from
     planted_from = Hash.new(0)
     plantings.each do |p|
-      if p.planted_from
+      if !p.planted_from.blank?
         planted_from[p.planted_from] += 1
       end
     end
