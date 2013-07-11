@@ -61,6 +61,27 @@ describe "crops/show" do
       rendered.should contain "sun (2), shade (1)"
     end
 
+    it "doesn't show planted_from if none are set" do
+      render
+      rendered.should_not contain "Plant from:"
+    end
+
+    it "shows planted_from frequencies" do
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant from:"
+      rendered.should contain "seed (1)"
+    end
+
+    it "shows multiple planted_from frequencies" do
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      FactoryGirl.create(:cutting_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant from:"
+      rendered.should contain "seed (2), cutting (1)"
+    end
+
     it "links to people who are growing this crop" do
       render
       rendered.should contain /member\d+/
