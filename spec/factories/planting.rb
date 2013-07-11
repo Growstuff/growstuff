@@ -5,7 +5,6 @@ FactoryGirl.define do
     planted_at Date.today
     quantity 33
     description "This is a *really* good plant."
-    sunniness 'sun'
     planted_from 'seed'
 
     factory :sunny_planting do

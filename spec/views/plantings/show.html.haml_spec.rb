@@ -16,6 +16,11 @@ describe "plantings/show" do
   end
 
   context 'sunniness' do
+    before(:each) do
+      @p = assign(:planting,
+        FactoryGirl.create(:sunny_planting)
+      )
+    end
 
     it "shows the sunniness" do
       render

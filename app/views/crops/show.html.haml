@@ -14,6 +14,11 @@
         = succeed ":" do
           = @crop.system_name
         != @crop.varieties.map{ |c| link_to c, c }.join(", ")
+    - if @crop.sunniness.length > 0
+      %p
+        Plant in:
+        - sunniness = @crop.sunniness.sort_by {|s, freq| freq }.reverse
+        = sunniness.map {|s, freq| "#{s} (#{freq})" }.join(", ")
 
     - if @crop.plantings_count > 0
       %p

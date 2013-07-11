@@ -50,6 +50,10 @@ describe Planting do
   end
 
   context 'sunniness' do
+    before(:each) do
+      @planting = FactoryGirl.create(:sunny_planting)
+    end
+
     it 'should have a sunniness value' do
       @planting.sunniness.should eq 'sun'
     end
