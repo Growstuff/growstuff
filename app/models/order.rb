@@ -8,7 +8,12 @@ class Order < ActiveRecord::Base
 
   # total price of an order
   def total
-    order_items.to_a.sum(&:price)
+    sum = 0
+    for i in order_items do
+      subtotal = i.price * i.quantity
+      sum += subtotal 
+    end
+    return sum
   end
 
   # return items in the format ActiveMerchant/PayPal want them

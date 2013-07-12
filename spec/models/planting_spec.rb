@@ -29,26 +29,6 @@ describe Planting do
     @planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
   end
 
-  it "should accept ISO-format dates" do
-    @planting.planted_at_string = "2013-03-01"
-    @planting.planted_at.should == Time.local(2013, 03, 01)
-  end
-
-  it "should accept DD Month YY format dates" do
-    @planting.planted_at_string = "1st March 13" # Dydd Gŵyl Dewi Hapus!
-    @planting.planted_at.should == Time.local(2013, 03, 01)
-  end
-
-  it 'should accept blank dates' do
-    @planting.planted_at_string = ''
-    @planting.planted_at.should == nil
-  end
-
-  it "should output dates in ISO format" do
-    @planting.planted_at = Time.local(2013, 03, 01)
-    @planting.planted_at_string.should == "2013-03-01"
-  end
-
   it 'should sort in reverse creation order' do
     @planting2 = FactoryGirl.create(:planting)
     Planting.first.should eq @planting2
@@ -69,21 +49,44 @@ describe Planting do
     end
   end
 
-  it 'should have a sunniness value' do
-    @planting.sunniness.should eq 'sun'
-  end
+  context 'sunniness' do
+    it 'should have a sunniness value' do
+      @planting.sunniness.should eq 'sun'
+    end
 
-  it 'all three valid sunniness values should work' do
-    ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
-      @planting = FactoryGirl.build(:planting, :sunniness => s)
-      @planting.should be_valid
+    it 'all three valid sunniness values should work' do
+      ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
+        @planting = FactoryGirl.build(:planting, :sunniness => s)
+        @planting.should be_valid
+      end
+    end
+
+    it 'should refuse invalid sunniness values' do
+      @planting = FactoryGirl.build(:planting, :sunniness => 'not valid')
+      @planting.should_not be_valid
+      @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
     end
   end
 
-  it 'should refuse invalid sunniness values' do
-    @planting = FactoryGirl.build(:planting, :sunniness => 'not valid')
-    @planting.should_not be_valid
-    @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
+  context 'planted from' do
+    it 'should have a planted_from value' do
+      @planting.planted_from.should eq 'seed'
+    end
+
+    it 'all valid planted_from values should work' do
+      ['seed', 'seedling', 'cutting', 'root division',
+        'runner', 'bare root plant', 'advanced plant',
+        'graft', 'layering', nil, ''].each do |p|
+        @planting = FactoryGirl.build(:planting, :planted_from => p)
+        @planting.should be_valid
+      end
+    end
+
+    it 'should refuse invalid planted_from values' do
+      @planting = FactoryGirl.build(:planting, :planted_from => 'not valid')
+      @planting.should_not be_valid
+      @planting.errors[:planted_from].should include("not valid is not a valid planting method")
+    end
   end
 
   # we decided that all the tests for the planting/photo association would

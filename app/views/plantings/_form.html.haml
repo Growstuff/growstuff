@@ -15,11 +15,15 @@
         Garden.where(:owner_id => current_member), :id, :name, :selected => @planting.garden_id || @garden.id)
   .control-group
     = f.label 'When?', :class => 'control-label'
-    .controls= f.text_field :planted_at_string, :class => 'add-datepicker'
+    .controls= f.text_field :planted_at, :value => @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '', :class => 'add-datepicker'
   .control-group
     = f.label 'How many?', :class => 'control-label'
     .controls
       = f.number_field :quantity, :class => 'input-small'
+  .control-group
+    = f.label 'Planted from:', :class => 'control-label'
+    .controls
+      = f.select(:planted_from, Planting::PLANTED_FROM_VALUES, {:include_blank => true})
   .control-group
     = f.label 'Sun or shade?', :class => 'control-label'
     .controls

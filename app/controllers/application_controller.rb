@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  include ApplicationHelper
+
   # tweak CanCan defaults because we don't have a "current_user" method
   # this means that we use current_user in specs but current_member everywhere
   # else in the code.

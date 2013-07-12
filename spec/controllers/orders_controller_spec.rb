@@ -12,26 +12,6 @@ describe OrdersController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all orders as @orders" do
-      member = FactoryGirl.create(:member)
-      sign_in member
-      order = Order.create!(:member_id => member.id)
-      get :index, {}
-      assigns(:orders).should eq([order])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested order as @order" do
-      member = FactoryGirl.create(:member)
-      sign_in member
-      order = Order.create!(:member_id => member.id)
-      get :show, {:id => order.to_param}
-      assigns(:order).should eq(order)
-    end
-  end
-
   describe "GET checkout" do
     it "redirects to Paypal" do
       member = FactoryGirl.create(:member)
@@ -54,16 +34,7 @@ describe OrdersController do
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested order" do
-      member = FactoryGirl.create(:member)
-      sign_in member
-      order = Order.create!(:member_id => member.id)
-      expect {
-        delete :destroy, {:id => order.id}
-      }.to change(Order, :count).by(-1)
-    end
-
-    it "redirects to the posts list" do
+    it "redirects to the shop" do
       member = FactoryGirl.create(:member)
       sign_in member
       order = Order.create!(:member_id => member.id)

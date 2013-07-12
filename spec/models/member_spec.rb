@@ -34,6 +34,13 @@ describe 'member' do
       @member.account.should be_an_instance_of Account
     end
 
+    it "should have a default-type account by default" do
+      @member.save
+      @member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
+
+      @member.is_paid?.should be_false
+    end
+
     it "doesn't show email by default" do
       @member.save
       @member.show_email.should be_false
@@ -238,6 +245,7 @@ describe 'member' do
       Member.interesting.should eq [ @member3, @member2, @member1 ]
 
     end
+
   end
 
   context 'orders' do
