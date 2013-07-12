@@ -24,10 +24,6 @@ describe MembersController do
   end
 
   describe "GET show" do
-    it "assigns the requested member as @member" do
-      get :show, {:id => @member.id}
-      assigns(:member).should eq(@member)
-    end
 
     it "does NOT provide JSON for member profile" do
       get :show, { :id => @member.id , :format => 'json' }

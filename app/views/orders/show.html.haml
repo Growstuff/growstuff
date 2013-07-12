@@ -51,6 +51,7 @@
     %td
       %strong
         = price_with_currency(@order.total)
+        = forex_link(@order.total)
 
 %p
   - if can? :destroy, @order

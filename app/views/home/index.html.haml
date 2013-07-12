@@ -30,7 +30,7 @@
       %p
         Your account:
         %strong
-          = current_member.account_type || "Free"
+          = current_member.account_type 
           account
         %br/
         - if current_member == current_member && !current_member.is_paid?

@@ -26,7 +26,7 @@ class Post < ActiveRecord::Base
   end
 
   def recent_activity
-    self.comments.last ? self.comments.last.created_at : self.created_at
+    self.comments.reorder.last ? self.comments.reorder.last.created_at : self.created_at
   end
 
   def Post.recently_active

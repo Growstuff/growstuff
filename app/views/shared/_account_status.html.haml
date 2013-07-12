@@ -2,7 +2,7 @@
 
 %p
   %strong Account type:
-  = current_member.account.account_type_string
+  = current_member.account_type.name
 
 - if current_member.account.paid_until_string
   %p

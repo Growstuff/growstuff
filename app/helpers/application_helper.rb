@@ -10,5 +10,19 @@ module ApplicationHelper
         Growstuff::Application.config.currency)
   end
 
+  def parse_date(str)
+    str ||= '' # Date.parse barfs on nil
+    return str == '' ? nil : Date.parse(str)
+  end
+
+  def forex_link(price)
+    pid = price_in_dollars(price)
+    currency = Growstuff::Application.config.currency
+    link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
+    return link_to "(convert)",
+      link,
+      :target => "_blank"
+  end 
+
 end
 

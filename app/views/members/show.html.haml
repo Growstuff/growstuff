@@ -17,7 +17,7 @@
 
     %p
       %strong Account type:
-      = @member.account_type || "Free"
+      = @member.account_type
       account
 
       - if @member == current_member && !@member.is_paid?

@@ -6,8 +6,9 @@ gem 'rails', '3.2.13'
 gem 'rack', '~>1.4.5'
 gem 'json', '~>1.7.7'
 gem 'haml'
+gem 'unicorn' # http server
 
-gem 'cancan'
+gem 'cancan' # for checking member privileges
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
@@ -20,7 +21,6 @@ gem 'active_utils', '1.0.5',
 group :production, :staging do
   gem 'pg'
   gem 'newrelic_rpm'
-  gem 'unicorn'
   gem 'dalli'
   gem 'memcachier'
 end
@@ -28,18 +28,26 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  # CSS preprocessor, used for app/assets/stylesheets/application.css
   gem 'sass-rails',   '~> 3.2.3'
+  # CoffeeScript is a Python-like language that compiles to JavaScript
   gem 'coffee-rails', '~> 3.2.1'
 
+  # less-rails depends on a JavaScript engine; we use therubyracer.
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # long term, we'll probably want node.js for performance, but this will do for now as it's easier for new people to install
+  # long term, we'll probably want node.js for performance, but this will do
+  # for now as it's easier for new people to install
   gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
+  # Another CSS preprocessor, used for Bootstrap overrides
   gem "less-rails"
-  gem "twitter-bootstrap-rails", '~> 2.2.2'
+  # CSS framework
+  gem "twitter-bootstrap-rails",
+    :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',
+    :ref => '2c7c52'
 
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier', '>= 1.0.3' # JavaScript compressor
 
-  gem 'compass-rails', '~> 1.0.3'
+  gem 'compass-rails', '~> 1.0.3' # Yet Another CSS framework
 end
 
 gem 'jquery-rails'
@@ -54,13 +62,12 @@ gem 'flickraw'
 # Use unicorn as the app server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-gem 'capistrano'
-gem 'rvm-capistrano'
-gem 'capistrano-ext'
-
 # To use debugger
-gem 'debugger'
+group :development do
+  # Installation of the debugger gem fails on Travis CI,
+  # so we don't use it in the test environment
+  gem 'debugger'
+end
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
@@ -88,19 +95,16 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-flickr'
 
-# for phusion passenger (i.e. mod_rails) on the server
-gem 'passenger'
 gem 'rake', '>= 10.0.0'
-gem 'cape', '~> 1.5.0'
-
-gem 'diff-lcs'
 
 group :development, :test do
-  gem 'thin'
-  gem 'sqlite3'
-  gem 'haml-rails'
-  gem 'rspec-rails', '~> 2.12.1'
-  gem 'webrat'
-  gem 'watchr'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem 'sqlite3'                      # database engine
+end
+
+group :development, :test, :travis do
+  gem 'haml-rails'                   # HTML templating language
+  gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
+  gem 'webrat'                       # provides HTML matchers for view tests
+  gem 'factory_girl_rails', '~> 4.0' # for creating test data
+  gem 'coveralls', require: false    # coverage analysis
 end
