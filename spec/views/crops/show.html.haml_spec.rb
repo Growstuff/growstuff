@@ -28,16 +28,6 @@ describe "crops/show" do
     rendered.should contain "Zea mays"
   end
 
-  it "shows a plant this button" do
-    render
-    rendered.should contain "Plant this"
-  end
-
-  it "links to the right crop in the planting link" do
-    render
-    assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
-  end
-
   it "links to people who are growing this crop" do
     render
     rendered.should contain /member\d+/
@@ -69,6 +59,29 @@ describe "crops/show" do
       rendered.should contain @ubercrop.system_name
     end
 
+  end
+
+  it 'tells you to sign in/sign up' do
+    render
+    rendered.should contain 'Sign in or sign up to plant'
+    rendered.should contain 'Sign in or sign up to add seed'
+  end
+
+  context 'logged in' do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      render
+    end
+
+    it "shows a plant this button" do
+      rendered.should contain "Plant this"
+    end
+
+    it "links to the right crop in the planting link" do
+      assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
+    end
   end
 
   context "logged in and crop wrangler" do

@@ -88,6 +88,13 @@
             %h3 Create a new garden
             = render 'gardens/form'
 
+    %h3 Seeds
+    %p
+      - if @member.seeds.count > 0
+        = link_to pluralize(@member.seeds.count, "variety"), seeds_path(:owner_id => @member.id)
+      - else
+        No seeds yet.
+
     %h3 Posts
     - if @member.posts.count > 0
       - @member.posts.each do |post|
