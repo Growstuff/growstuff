@@ -1,0 +1,27 @@
+- content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
+
+%p#notice= notice
+
+.row
+  .span6
+    %p
+      %b Quantity:
+      = @seed.quantity.blank? ? "not specified" : @seed.quantity
+    %p
+      %b Use by:
+      = @seed.use_by.to_s
+
+    %p
+      %b Description:
+      :markdown
+        #{ @seed.description != "" ? @seed.description : "No description given." }
+
+    - if can? :edit, @seed or can? :destroy, @seed
+      %p
+      - if can? :edit, @seed
+        =link_to 'Edit', edit_seed_path(@seed), :class => 'btn btn-mini'
+      - if can? :destroy, @seed
+        =link_to 'Delete', @seed, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+
+  .span6
+    = render :partial => "crops/index_card", :locals => { :crop => @seed.crop}

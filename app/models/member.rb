@@ -9,6 +9,8 @@ class Member < ActiveRecord::Base
   has_many :gardens, :foreign_key => 'owner_id'
   has_many :plantings, :through => :gardens
 
+  has_many :seeds
+
   has_and_belongs_to_many :roles
 
   has_many :notifications, :foreign_key => 'recipient_id'

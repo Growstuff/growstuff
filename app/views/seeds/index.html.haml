@@ -1,0 +1,24 @@
+- content_for :title, "Listing seeds"
+
+%p= link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+
+%table.table.table-striped
+  %tr
+    %th Owner
+    %th Crop
+    %th Description
+    %th Quantity
+    %th Use by
+    %th
+
+  - @seeds.each do |seed|
+    %tr
+      %td= link_to seed.owner.login_name, seed.owner
+      %td= link_to seed.crop.system_name, seed.crop
+      %td= seed.description
+      %td= seed.quantity
+      %td= seed.use_by
+      %td= link_to 'Details', seed, :class => 'btn btn-mini'
+
+%br
+
