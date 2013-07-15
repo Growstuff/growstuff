@@ -4,6 +4,10 @@ class SeedsController < ApplicationController
   # GET /seeds.json
   def index
     @seeds = Seed.all
+    @owner = Member.find_by_id(params[:owner_id])
+    if @owner
+      @seeds = @owner.seeds.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -49,7 +53,7 @@ class SeedsController < ApplicationController
 
     respond_to do |format|
       if @seed.save
-        format.html { redirect_to @seed, notice: 'Seed was successfully created.' }
+        format.html { redirect_to @seed, notice: "Successfully added #{@seed.crop} seed to your stash." }
         format.json { render json: @seed, status: :created, location: @seed }
       else
         format.html { render action: "new" }
