@@ -150,12 +150,20 @@ class Member < ActiveRecord::Base
   end
 
   # Fetches a collection of photos from Flickr
-  def flickr_photos(page_num=1)
-    return flickr.people.getPhotos(
-      :user_id => 'me',
-      :page => page_num,
-      :per_page => 30
-    )
+  def flickr_photos(page_num=1, set=nil)
+    if set
+      return flickr.photosets.getPhotos(
+        :photoset_id => set,
+        :page => page_num,
+        :per_page => 30
+      )
+    else
+      return flickr.people.getPhotos(
+        :user_id => 'me',
+        :page => page_num,
+        :per_page => 30
+      )
+    end
   end
 
   # Returns a hash of Flickr photosets' ids and titles
