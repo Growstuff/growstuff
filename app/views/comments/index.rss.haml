@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+%rss{:version => 2.0}
+  %channel
+    %title #{Growstuff::Application.config.site_name} - Recent comments on all posts
+    %link= comments_url
+    - @comments.each do |comment|
+      %item
+        %title Comment by #{comment.author.login_name} on #{comment.post.subject}
+        %author= comment.author.login_name
+        %description
+
+          :escaped
+            <p>
+            Comment on
+            #{ link_to comment.post.subject, post_url(comment.post) }
+            </p>
+
+          :escaped_markdown
+            #{ strip_tags comment.body }
+
+        %pubDate= comment.created_at.to_s(:rfc822)
+        %link= post_url(comment.post)
+        %guid= comment_url(comment)

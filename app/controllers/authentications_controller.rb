@@ -37,7 +37,7 @@ class AuthenticationsController < ApplicationController
     else
       flash[:notice] = "Authentication failed."
     end
-    redirect_to edit_member_registration_path
+    redirect_to request.env['omniauth.origin'] || edit_member_registration_path
   end
 
   # DELETE /authentications/1

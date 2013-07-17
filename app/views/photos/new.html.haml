@@ -1,0 +1,34 @@
+- content_for :title, "New Photo"
+
+- if @flickr_auth
+  %p
+    Connected to Flickr as
+    = succeed "." do
+      = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
+    Please select a photo from your recent uploads.
+
+
+  %div.pagination
+    = page_entries_info @photos, :model => "photos"
+    = will_paginate @photos
+
+  - c = 0
+  %ul.thumbnails
+    .row
+    - @photos.each do |p|
+      - c += 1
+      %li.span2
+        .thumbnail(style='height: 220px')
+          = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img-rounded'), photos_path(:photo => { :flickr_photo_id => p.id }, :planting_id => @planting_id), :method => :post
+          %p
+            =p.title
+      - if (c % 6) == 0
+        .row
+
+
+- else
+  .alert
+    You must
+    =link_to "connect your account to Flickr", '/auth/flickr'
+    to add photos.
+

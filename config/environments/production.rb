@@ -40,7 +40,7 @@ Growstuff::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -85,6 +85,18 @@ Growstuff::Application.configure do
       <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
       <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
     eos
+    config.currency = 'AUD'
+  end
+
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :production
+    paypal_options = {
+      :login =>     ENV['PAYPAL_USERNAME'],
+      :password =>  ENV['PAYPAL_PASSWORD'],
+      :signature => ENV['PAYPAL_SIGNATURE']
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 
 end

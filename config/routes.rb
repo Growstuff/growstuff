@@ -1,5 +1,8 @@
 Growstuff::Application.routes.draw do
 
+  resources :photos
+
+
   devise_for :members, :controllers => { :registrations => "registrations" }
 
   resources :authentications
@@ -13,6 +16,17 @@ Growstuff::Application.routes.draw do
   resources :roles
   resources :forums
   resources :notifications
+
+  # everything for paid accounts etc
+  resources :account_types
+  resources :accounts
+  resources :orders
+  match 'orders/:id/checkout' => 'orders#checkout', :as => 'checkout_order'
+  match 'orders/:id/complete' => 'orders#complete', :as => 'complete_order'
+  match 'orders/:id/cancel' => 'orders#cancel', :as => 'cancel_order'
+
+  resources :order_items
+  resources :products
 
   get "home/index"
 
@@ -78,9 +92,19 @@ Growstuff::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   match '/policy/:action' => 'policy#:action'
+
   match '/support' => 'support#index'
   match '/support/:action' => 'support#:action'
+
   match '/about' => 'about#index'
   match '/about/:action' => 'about#:action'
+
+  match '/shop' => 'shop#index'
+  match '/shop/:action' => 'shop#:action'
+
+  match '/admin/orders' => 'admin/orders#index'
+  match '/admin/orders/:action' => 'admin/orders#:action'
+  match '/admin' => 'admin#index'
+  match '/admin/:action' => 'admin#:action'
 
 end

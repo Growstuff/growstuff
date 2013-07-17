@@ -6,5 +6,6 @@ FactoryGirl.define do
     quantity 33
     description "This is a *really* good plant."
     sunniness 'sun'
+    planted_from 'seed'
   end
 end

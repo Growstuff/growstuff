@@ -1,0 +1,64 @@
+-content_for :title, @order.completed_at ? "Order details (##{@order.id})" : "Current order"
+
+%p
+  %strong Order number:
+  = @order.id
+
+%p
+  %strong Ordered by:
+  =link_to @order.member, @order.member
+
+%p
+  %strong Date begun:
+  = @order.created_at.to_s
+
+%p
+  - if @order.completed_at
+    %strong Date completed:
+    = @order.completed_at.to_s
+
+  - if current_member.has_role? :admin
+    %p
+      %strong Paypal Express token:
+      = @order.paypal_express_token
+    %p
+      %strong Paypal Express payer ID:
+      = @order.paypal_express_payer_id
+
+%h2 Order items
+
+%table.table.table-striped
+  %tr
+    %th Product
+    %th Price
+    %th Quantity
+    %th Subtotal
+  - @order.order_items.each do |i|
+    %tr
+      %td= i.product.name
+      %td
+        = price_with_currency(i.price)
+      %td= i.quantity
+      %td
+        - subtotal = i.price * i.quantity
+        = price_with_currency(subtotal)
+
+  %tr
+    %td
+    %td
+    %td
+      %strong Total:
+    %td
+      %strong
+        = price_with_currency(@order.total)
+        = forex_link(@order.total)
+
+%p
+  - if can? :destroy, @order
+    = link_to 'Delete this order', @order, method: :delete, |
+      data: { confirm: 'Are you sure?' }, :class => 'btn'
+  - if can? :complete, @order
+    = link_to 'Checkout with PayPal', checkout_order_path(@order), :class => 'btn btn-primary'
+
+%p
+  = link_to "View other orders/order history", orders_path

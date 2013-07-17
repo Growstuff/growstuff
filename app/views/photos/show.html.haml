@@ -1,0 +1,29 @@
+-content_for :title, @photo.title
+
+.row
+  .span6
+    %p
+      %strong Posted by:
+      = link_to @photo.owner, @photo.owner
+    %p
+      %strong License:
+      - if @photo.license_url
+        = link_to @photo.license_name, @photo.license_url
+      - else
+        = succeed "." do
+          = @photo.license_name
+    %p
+      = link_to "View on Flickr", @photo.link_url
+
+    - if can? :destroy, @photo
+      %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+
+  .span6
+    - if @photo.plantings.count > 0
+      %p This photo depicts:
+      %ul
+        - @photo.plantings.each do |p|
+          %li= link_to p, p
+
+%p= image_tag(@photo.fullsize_url, :alt => @photo.title, :class => 'img-rounded')
+

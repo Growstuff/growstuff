@@ -9,31 +9,59 @@ describe "plantings/show" do
     )
   end
 
-  it "shows the sunniness" do
-    controller.stub(:current_user) { nil }
+  before (:each) do
     @member = FactoryGirl.create(:member)
-    create_planting_for(@member)
-    render
-    rendered.should contain 'Sun or shade?'
-    rendered.should contain 'sun'
+    controller.stub(:current_user) { @member }
+    @p = create_planting_for(@member)
   end
 
-  it "doesn't show sunniness if blank" do
-    controller.stub(:current_user) { nil }
-    @member = FactoryGirl.create(:member)
-    @p = create_planting_for(@member)
-    @p.sunniness = ''
-    @p.save
+  context 'sunniness' do
+
+    it "shows the sunniness" do
+      render
+      rendered.should contain 'Sun or shade?'
+      rendered.should contain 'sun'
+    end
+
+    it "doesn't show sunniness if blank" do
+      @p.sunniness = ''
+      @p.save
+      render
+      rendered.should_not contain 'Sun or shade?'
+      rendered.should_not contain 'sun'
+    end
+  end
+
+  context 'planted from' do
+    it "shows planted_from" do
+      render
+      rendered.should contain 'Planted from:'
+      rendered.should contain 'seed'
+    end
+
+    it "doesn't show planted_from if blank" do
+      @p.planted_from = ''
+      @p.save
+      render
+      rendered.should_not contain 'Planted from:'
+      rendered.should_not contain 'seed'
+    end
+  end
+
+  it "shows photos" do
+    @photo = FactoryGirl.create(:photo, :owner => @member)
+    @p.photos << @photo
     render
-    rendered.should_not contain 'Sun or shade?'
-    rendered.should_not contain 'sun'
+    assert_select "img[src=#{@photo.thumbnail_url}]"
+  end
+
+  it "shows a link to add photos" do
+    render
+    rendered.should contain "Add photo"
   end
 
   context "no location set" do
     before(:each) do
-      controller.stub(:current_user) { nil }
-      @member = FactoryGirl.create(:member)
-      create_planting_for(@member)
       render
     end
 
@@ -56,9 +84,8 @@ describe "plantings/show" do
 
   context "location set" do
     before(:each) do
-      controller.stub(:current_user) { nil }
-      @member = FactoryGirl.create(:london_member)
-      create_planting_for(@member)
+      @member.location = 'Greenwich, UK'
+      @member.save
       render
     end
 

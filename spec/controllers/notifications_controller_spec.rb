@@ -76,11 +76,6 @@ describe NotificationsController do
   end
 
   describe "GET new" do
-    it "assigns a new notification as @notification" do
-      get :new, {}
-      assigns(:notification).should be_a_new(Notification)
-    end
-
     it "assigns a recipient" do
       @recipient = FactoryGirl.create(:member)
       get :new, {:recipient_id => @recipient.id }
@@ -88,35 +83,8 @@ describe NotificationsController do
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested notification" do
-      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
-      expect {
-        delete :destroy, {:id => notification.to_param}
-      }.to change(Notification, :count).by(-1)
-    end
-
-    it "redirects to the notifications page" do
-      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
-      delete :destroy, {:id => notification.to_param}
-      response.should redirect_to(notifications_url)
-    end
-  end
-
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new notification" do
-        expect {
-          post :create, {:notification => valid_attributes_for_sender}
-        }.to change(Notification, :count).by(1)
-      end
-
-      it "assigns a newly created notification as @notification" do
-        post :create, {:notification => valid_attributes_for_sender}
-        assigns(:notification).should be_a(Notification)
-        assigns(:notification).should be_persisted
-      end
-
       it "redirects to the recipient's profile" do
         @recipient = FactoryGirl.create(:member)
         post :create, { :notification => { :recipient_id => @recipient.id, :subject => 'foo' } }
@@ -124,20 +92,5 @@ describe NotificationsController do
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved notification as @notification" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Notification.any_instance.stub(:save).and_return(false)
-        post :create, {:notification => {}}
-        assigns(:notification).should be_a_new(Notification)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Notification.any_instance.stub(:save).and_return(false)
-        post :create, {:notification => {}}
-        response.should render_template("new")
-      end
-    end
   end
 end

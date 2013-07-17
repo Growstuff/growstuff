@@ -11,7 +11,10 @@ Growstuff::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
+
+  # cache for testing/experimentation - turn off for normal dev use
   config.action_controller.perform_caching = false
+  config.cache_store = :memory_store
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
@@ -51,5 +54,17 @@ Growstuff::Application.configure do
   Growstuff::Application.configure do
     config.site_name = "Growstuff (dev)"
     config.analytics_code = ''
+    config.currency = 'AUD'
+  end
+
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :test
+    paypal_options = {
+      :login =>     ENV['PAYPAL_USERNAME'] || 'dummy',
+      :password =>  ENV['PAYPAL_PASSWORD'] || 'dummy',
+      :signature => ENV['PAYPAL_SIGNATURE'] || 'dummy'
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 end

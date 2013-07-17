@@ -11,7 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130514124515) do
+ActiveRecord::Schema.define(:version => 20130705104238) do
+
+  create_table "account_types", :force => true do |t|
+    t.string   "name",              :null => false
+    t.boolean  "is_paid"
+    t.boolean  "is_permanent_paid"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "accounts", :force => true do |t|
+    t.integer  "member_id",       :null => false
+    t.integer  "account_type_id"
+    t.datetime "paid_until"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "authentications", :force => true do |t|
     t.integer  "member_id",  :null => false
@@ -121,11 +137,22 @@ ActiveRecord::Schema.define(:version => 20130514124515) do
     t.datetime "updated_at",                      :null => false
   end
 
+  create_table "order_items", :force => true do |t|
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.integer  "price"
+    t.integer  "quantity"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "orders", :force => true do |t|
-    t.string   "member_id",    :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
     t.datetime "completed_at"
+    t.integer  "member_id"
+    t.string   "paypal_express_token"
+    t.string   "paypal_express_payer_id"
   end
 
   create_table "orders_products", :id => false, :force => true do |t|
@@ -133,17 +160,8 @@ ActiveRecord::Schema.define(:version => 20130514124515) do
     t.integer "product_id"
   end
 
-  create_table "payments", :force => true do |t|
-    t.integer  "payer_id"
-    t.string   "payment_type"
-    t.decimal  "amount"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
   create_table "photos", :force => true do |t|
     t.integer  "owner_id",        :null => false
-    t.integer  "flickr_photo_id", :null => false
     t.string   "thumbnail_url",   :null => false
     t.string   "fullsize_url",    :null => false
     t.datetime "created_at",      :null => false
@@ -152,18 +170,25 @@ ActiveRecord::Schema.define(:version => 20130514124515) do
     t.string   "license_name",    :null => false
     t.string   "license_url"
     t.string   "link_url",        :null => false
+    t.string   "flickr_photo_id"
+  end
+
+  create_table "photos_plantings", :id => false, :force => true do |t|
+    t.integer "photo_id"
+    t.integer "planting_id"
   end
 
   create_table "plantings", :force => true do |t|
-    t.integer  "garden_id",   :null => false
-    t.integer  "crop_id",     :null => false
+    t.integer  "garden_id",    :null => false
+    t.integer  "crop_id",      :null => false
     t.date     "planted_at"
     t.integer  "quantity"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "slug"
     t.string   "sunniness"
+    t.string   "planted_from"
   end
 
   add_index "plantings", ["slug"], :name => "index_plantings_on_slug", :unique => true
@@ -182,11 +207,14 @@ ActiveRecord::Schema.define(:version => 20130514124515) do
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
 
   create_table "products", :force => true do |t|
-    t.string   "name",        :null => false
-    t.string   "description", :null => false
-    t.decimal  "min_price",   :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "name",                             :null => false
+    t.text     "description",       :limit => 255, :null => false
+    t.integer  "min_price",                        :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.integer  "account_type_id"
+    t.integer  "paid_months"
+    t.integer  "recommended_price"
   end
 
   create_table "roles", :force => true do |t|

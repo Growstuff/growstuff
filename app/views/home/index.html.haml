@@ -27,25 +27,14 @@
             = link_to 'Add', new_garden_path, :class => 'btn btn-mini'
 
     .span4
-      - if current_member.has_role?(:admin)
-        %p
-          %b You are an ADMIN USER.
-
-      - if current_member.forums.count > 0
-        %p
-          %b Forums you administer:
-        %ul
-          - current_member.forums.each do |f|
-            %li= link_to f.name, f
-
-  .row
-    .span6
-      %h2 Your recent plantings
-      = render :partial => 'shared/recent_plantings'
-
-    .span6
-      %h2 Your recent posts
-      = render :partial => 'shared/recent_posts'
+      %p
+        Your account:
+        %strong
+          = current_member.account_type 
+          account
+        %br/
+        - if current_member == current_member && !current_member.is_paid?
+          = link_to "Upgrade and Support #{Growstuff::Application.config.site_name}", shop_path, :class => 'btn btn-primary'
 
 - else
   .visible-desktop.visible-tablet
@@ -54,17 +43,17 @@
   .visible-phone
     = render :partial => 'blurb'
 
-  - if @interesting_members
+  - if @interesting_members.present?
     %h2 Some of our members
     %ul.thumbnails
       - @interesting_members.each do |m|
         %li.span2
           = render :partial => "members/thumbnail", :locals => { :member => m }
 
-  .row
-    .span6
-      %h2 Recent plantings
-      = render :partial => 'shared/recent_plantings'
-    .span6
-      %h2 Recent posts
-      = render :partial => 'shared/recent_posts'
+.row
+  .span6
+    %h2 Recent plantings
+    = render :partial => 'shared/recent_plantings'
+  .span6
+    %h2 Recent posts
+    = render :partial => 'shared/recent_posts'

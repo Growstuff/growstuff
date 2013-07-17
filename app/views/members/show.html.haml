@@ -15,6 +15,14 @@
       %strong Member since:
       = @member.created_at.to_s(:date)
 
+    %p
+      %strong Account type:
+      = @member.account_type
+      account
+
+      - if @member == current_member && !@member.is_paid?
+        = link_to "Upgrade", shop_path, :class => 'btn btn-primary btn-mini'
+
     - if @twitter_auth || @flickr_auth || @member.show_email
       %h4 Contact
 
@@ -42,12 +50,12 @@
         = @member.location
         %br/
         = link_to 'Find members near here', nearby_members_path(:location => @member.location)
-    %p
-    - if current_member == @member
-      %p
-        = link_to 'Edit Settings', "edit", :class => 'btn btn-mini'
 
   .span9
+    %p
+    - if can? :update, @member
+      %p
+        = link_to 'Edit your profile', "edit", :class => 'btn btn-primary'
     .tabbable
       %ul.nav.nav-tabs
         - first_garden = true
@@ -66,7 +74,7 @@
 
             %div
               :markdown
-                #{g.description}
+                #{ strip_tags g.description }
 
             %h3 What's planted here?
             - g.featured_plantings.each do |p|

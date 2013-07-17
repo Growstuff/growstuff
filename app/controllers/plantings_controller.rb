@@ -1,10 +1,12 @@
 class PlantingsController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :planting_sweeper
+
   # GET /plantings
   # GET /plantings.json
   def index
-    @plantings = Planting.all
-    @recent_plantings = Planting.limit(100).order('created_at desc').all
+    @plantings = Planting.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -28,8 +30,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/new
   # GET /plantings/new.json
   def new
-    @planting = Planting.new
-    @planting.planted_at = Date.today
+    @planting = Planting.new('planted_at' => Date.today)
 
     # using find_by_id here because it returns nil, unlike find
     @crop     = Crop.find_by_id(params[:crop_id])     || Crop.new
@@ -44,6 +45,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/1/edit
   def edit
     @planting = Planting.find(params[:id])
+
     # the following are needed to display the form but aren't used
     @crop     = Crop.new
     @garden   = Garden.new
@@ -52,6 +54,7 @@ class PlantingsController < ApplicationController
   # POST /plantings
   # POST /plantings.json
   def create
+    params[:planted_at] = parse_date(params[:planted_at])
     @planting = Planting.new(params[:planting])
 
     respond_to do |format|
@@ -69,6 +72,7 @@ class PlantingsController < ApplicationController
   # PUT /plantings/1.json
   def update
     @planting = Planting.find(params[:id])
+    params[:planted_at] = parse_date(params[:planted_at])
 
     respond_to do |format|
       if @planting.update_attributes(params[:planting])
