@@ -160,6 +160,14 @@ ActiveRecord::Schema.define(:version => 20130705104238) do
     t.integer "product_id"
   end
 
+  create_table "payments", :force => true do |t|
+    t.integer  "payer_id"
+    t.string   "payment_type"
+    t.decimal  "amount"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "photos", :force => true do |t|
     t.integer  "owner_id",        :null => false
     t.string   "thumbnail_url",   :null => false

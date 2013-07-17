@@ -11,11 +11,16 @@ describe "photos/new" do
       pager.replace([])
     end
     assign(:photos, photos)
+    assign(:sets, {"foo" => "bar"})
     assign(:flickr_auth, FactoryGirl.create(:flickr_authentication, :member => @member))
+    render
+  end
+
+  it "shows a dropdown with sets from Flickr" do
+    assert_select "select#set"
   end
 
   it "shows a list of photos" do
-    render
     assert_select "ul.thumbnails"
   end
 end

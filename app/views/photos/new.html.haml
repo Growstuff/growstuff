@@ -7,6 +7,12 @@
       = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
     Please select a photo from your recent uploads.
 
+  - if @sets
+    %p
+      = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
+        = label_tag :set, "Choose a photo set:", :class => 'control-label'
+        = select_tag :set, options_for_select(@sets), :class => 'input-large'
+        = submit_tag "Search", :class => 'btn btn-primary'
 
   %div.pagination
     = page_entries_info @photos, :model => "photos"

@@ -134,6 +134,7 @@ class Member < ActiveRecord::Base
     return authentications.find_by_provider(provider)
   end
 
+  # Authentcates against Flickr and returns an object we can use for subsequent api calls
   def flickr
     if @flickr.nil?
       flickr_auth = auth('flickr')
@@ -148,12 +149,22 @@ class Member < ActiveRecord::Base
     return @flickr
   end
 
+  # Fetches a collection of photos from Flickr
   def flickr_photos(page_num=1)
     return flickr.people.getPhotos(
       :user_id => 'me',
       :page => page_num,
       :per_page => 30
     )
+  end
+
+  # Returns a hash of Flickr photosets' ids and titles
+  def flickr_sets
+    sets = Hash.new 
+    flickr.photosets.getList.each do |p|
+      sets[p.title] = p.id
+    end
+    return sets
   end
 
   protected
