@@ -16,10 +16,20 @@ describe "seeds/index" do
     assert_select "tr>td", :text => @seed1.quantity.to_s, :count => 2
   end
 
-  it "shows tradable seeds" do
-    @seed1 = FactoryGirl.create(:tradable_seed)
-    assign(:seeds, [@seed1, @seed1])
-    render
-    assert_select "tr>td", :text => @seed1.tradable_to, :count => 2
+  context "tradable" do
+    before(:each) do
+      @owner = FactoryGirl.create(:london_member)
+      @seed1 = FactoryGirl.create(:tradable_seed, :owner => @owner)
+      assign(:seeds, [@seed1, @seed1])
+      render
+    end
+
+    it "shows tradable seeds" do
+      assert_select "tr>td", :text => @seed1.tradable_to, :count => 2
+    end
+
+    it "shows location of seed owner" do 
+      assert_select "tr>td", :text => @owner.location, :count => 2
+    end
   end
 end
