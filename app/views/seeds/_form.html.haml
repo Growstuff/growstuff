@@ -1,0 +1,23 @@
+= form_for(@seed, :html => {:class => "form-horizontal"}) do |f|
+  - if @seed.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@seed.errors.count, "error")} prohibited this seed from being saved:"
+      %ul
+        - @seed.errors.full_messages.each do |msg|
+          %li= msg
+
+  .control-group
+    = f.label 'Crop:', :class => 'control-label'
+    .controls= collection_select(:seed, :crop_id, Crop.all, :id, :system_name, :selected => @seed.crop_id || @crop.id)
+  .control-group
+    = f.label 'Description:', :class => 'control-label'
+    .controls= f.text_area :description, :rows => 6
+  .control-group
+    = f.label 'Quantity:', :class => 'control-label'
+    .controls
+      = f.number_field :quantity, :class => 'input-small'
+  .control-group
+    = f.label 'Use by:', :class => 'control-label'
+    .controls= f.text_field :use_by, :value => @seed.use_by ?  @seed.use_by.to_s(:ymd) : '', :class => 'add-datepicker'
+  .form-actions
+    = f.submit 'Save', :class => 'btn btn-primary'

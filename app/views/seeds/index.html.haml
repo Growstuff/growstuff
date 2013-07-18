@@ -1,0 +1,32 @@
+- content_for :title, @owner ? "#{@owner}'s seeds" : "Everyone's seeds"
+
+%p
+  - if can? :create, Seed
+    - if @owner
+      - if @owner == current_member
+        = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+    - else # everyone's seeds
+      = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+  - else
+    = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
+
+- if @seeds.length > 0
+  %table.table.table-striped
+    %tr
+      %th Owner
+      %th Crop
+      %th Description
+      %th Quantity
+      %th Use by
+      %th
+
+    - @seeds.each do |seed|
+      %tr
+        %td= link_to seed.owner.login_name, seed.owner
+        %td= link_to seed.crop.system_name, seed.crop
+        %td= seed.description
+        %td= seed.quantity
+        %td= seed.use_by
+        %td= link_to 'Details', seed, :class => 'btn btn-mini'
+- else
+  %p There are no seeds to display.

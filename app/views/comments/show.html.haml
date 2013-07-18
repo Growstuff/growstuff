@@ -1,7 +1,5 @@
 = content_for :title, @comment.post.subject
 
-%p#notice= notice
-
 = render :partial => "posts/single", :locals => { :post => @comment.post }
 
 %h2 Showing 1 comment
