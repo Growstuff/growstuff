@@ -27,7 +27,7 @@ describe PhotosController do
       @member = FactoryGirl.create(:member)
       sign_in @member
       @member.stub(:flickr_photos) { [[], 0] }
-      @member.stub(:flickr_sets) { [] }
+      @member.stub(:flickr_sets) { { "foo" => "bar" } }
       controller.stub(:current_member) { @member }
     end
 
@@ -40,6 +40,11 @@ describe PhotosController do
     it "assigns a planting id" do
       get :new, { :planting_id => 5 }
       assigns(:planting_id).should eq "5"
+    end
+
+    it "assigns the current set as @current_set" do
+      get :new, { :set => 'foo' }
+      assigns(:current_set).should eq "foo"
     end
 
   end

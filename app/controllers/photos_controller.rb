@@ -31,9 +31,10 @@ class PhotosController < ApplicationController
     page = params[:page] || 1
 
     @flickr_auth = current_member.auth('flickr')
+    @current_set = params[:set]
     if @flickr_auth
       @sets = current_member.flickr_sets
-      photos, total = current_member.flickr_photos(page, params[:set])
+      photos, total = current_member.flickr_photos(page, @current_set)
 
       @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
         pager.replace photos

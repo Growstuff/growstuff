@@ -7,7 +7,10 @@
       = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
     Please select a photo from your recent uploads.
 
-  - if @sets
+  - if @sets and @current_set
+    %h2= @sets.key(@current_set)
+
+  - if @sets and @sets.length > 0
     %p
       = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
         = label_tag :set, "Choose a photo set:", :class => 'control-label'
