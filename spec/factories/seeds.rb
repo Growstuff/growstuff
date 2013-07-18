@@ -6,6 +6,6 @@ FactoryGirl.define do
     crop
     description "MyText"
     quantity 1
-    use_by "2013-07-15"
+    plant_before "2013-07-15"
   end
 end

@@ -17,7 +17,7 @@
       %th Crop
       %th Description
       %th Quantity
-      %th Use by
+      %th Plant before
       %th
 
     - @seeds.each do |seed|
@@ -26,7 +26,7 @@
         %td= link_to seed.crop.system_name, seed.crop
         %td= seed.description
         %td= seed.quantity
-        %td= seed.use_by
+        %td= seed.plant_before
         %td= link_to 'Details', seed, :class => 'btn btn-mini'
 - else
   %p There are no seeds to display.

@@ -18,6 +18,6 @@
       = f.number_field :quantity, :class => 'input-small'
   .control-group
     = f.label 'Use by:', :class => 'control-label'
-    .controls= f.text_field :use_by, :value => @seed.use_by ?  @seed.use_by.to_s(:ymd) : '', :class => 'add-datepicker'
+    .controls= f.text_field :plant_before, :value => @seed.plant_before ?  @seed.plant_before.to_s(:ymd) : '', :class => 'add-datepicker'
   .form-actions
     = f.submit 'Save', :class => 'btn btn-primary'
