@@ -153,34 +153,24 @@ class Member < ActiveRecord::Base
   # Returns a [[page of photos], total] pair.
   # Total is needed for pagination.
   def flickr_photos(page_num=1, set=nil)
-    # FlickRaw returns a ResponseList when asked for a user's photos, but a
-    # Response when asked for photos in a set. Only ResponseList supports
-    # to_a(). Both support total(). Hence the following.
-    #
-    # We think this is a bug in FlickRaw, and have reported it here:
-    # https://github.com/hanklords/flickraw/issues/58
+    result = false
     if set
       result = flickr.photosets.getPhotos(
         :photoset_id => set,
         :page => page_num,
         :per_page => 30
       )
-      if result
-        return [result.photo, result.total]
-      else
-        return [[], 0]
-      end
     else
-      result_list = flickr.people.getPhotos(
+      result = flickr.people.getPhotos(
         :user_id => 'me',
         :page => page_num,
         :per_page => 30
       )
-      if result_list
-        return [result_list.to_a, result_list.total]
-      else
-        return [[], 0]
-      end
+    end
+    if result
+      return [result.photo, result.total]
+    else
+      return [[], 0]
     end
   end
 
