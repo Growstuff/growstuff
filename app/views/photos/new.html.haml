@@ -14,7 +14,7 @@
     %p
       = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
         = label_tag :set, "Choose a photo set:", :class => 'control-label'
-        = select_tag :set, options_for_select(@sets), :class => 'input-large'
+        = select_tag :set, options_for_select(@sets, @current_set), :class => 'input-large'
         = submit_tag "Search", :class => 'btn btn-primary'
 
   %div.pagination
