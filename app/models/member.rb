@@ -134,7 +134,7 @@ class Member < ActiveRecord::Base
     return authentications.find_by_provider(provider)
   end
 
-  # Authentcates against Flickr and returns an object we can use for subsequent api calls
+  # Authenticates against Flickr and returns an object we can use for subsequent api calls
   def flickr
     if @flickr.nil?
       flickr_auth = auth('flickr')
