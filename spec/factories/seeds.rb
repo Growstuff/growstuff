@@ -6,6 +6,11 @@ FactoryGirl.define do
     crop
     description "MyText"
     quantity 1
-    use_by "2013-07-15"
+    plant_before "2013-07-15"
+
+    factory :tradable_seed do
+      tradable true
+      tradable_to "locally"
+    end
   end
 end
