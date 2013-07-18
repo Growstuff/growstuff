@@ -18,6 +18,8 @@
       %th Description
       %th Quantity
       %th Plant before
+      %th Willing to trade
+      %th Will trade
       %th
 
     - @seeds.each do |seed|
@@ -27,6 +29,8 @@
         %td= seed.description
         %td= seed.quantity
         %td= seed.plant_before
+        %td= seed.tradable ? "Yes" : ""
+        %td= seed.tradable_to
         %td= link_to 'Details', seed, :class => 'btn btn-mini'
 - else
   %p There are no seeds to display.

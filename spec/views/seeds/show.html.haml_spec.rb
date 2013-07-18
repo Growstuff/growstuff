@@ -13,4 +13,11 @@ describe "seeds/show" do
     render
     rendered.should contain @seed1.crop.system_name
   end
+
+  it "shows tradable attributes" do
+    assign(:seed, FactoryGirl.create(:tradable_seed)
+    render
+    rendered.should contain "Tradable: Yes"
+    rendered.should contain "Will trade to: locally"
+  end
 end

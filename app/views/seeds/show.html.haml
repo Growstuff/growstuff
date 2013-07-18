@@ -8,6 +8,12 @@
     %p
       %b Plant before:
       = @seed.plant_before.to_s
+    %p
+      %b Tradable:
+      = @seed.tradable ? "Yes" : "No"
+    %p
+      %b Will trade to:
+      = @seed.tradable_to ? @seed.tradable_to : "nowhere"
 
     %p
       %b Description:

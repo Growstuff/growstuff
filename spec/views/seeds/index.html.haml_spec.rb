@@ -15,4 +15,11 @@ describe "seeds/index" do
     assert_select "tr>td", :text => @seed1.owner.login_name, :count => 2
     assert_select "tr>td", :text => @seed1.quantity.to_s, :count => 2
   end
+
+  it "shows tradable seeds" do
+    @seed1 = FactoryGirl.create(:tradable_seed)
+    assign(:seeds, [@seed1, @seed1])
+    render
+    assert_select "tr>td", :text => @seed1.tradable_to, :count => 2
+  end
 end
