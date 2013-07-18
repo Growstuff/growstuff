@@ -27,8 +27,14 @@
     .controls
       = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {:include_blank => true})
       %span.help_inline
-        Don't forget to
-        =succeed "." do
-          =link_to "set your location", edit_member_registration_path
+        - if current_member.location.blank?
+          Don't forget to
+          =succeed "." do
+            =link_to "set your location", edit_member_registration_path
+        - else
+          from
+          =succeed "." do
+            = current_member.location
+          =link_to "Change your location.", edit_member_registration_path
   .form-actions
     = f.submit 'Save', :class => 'btn btn-primary'

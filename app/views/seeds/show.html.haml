@@ -17,16 +17,16 @@
     %p
       %b Will trade to:
       = @seed.tradable_to ? @seed.tradable_to : "nowhere"
-      - if @seed.tradable 
-        -if @seed.owner.location.blank?
+      - if @seed.tradable
+        - if @seed.owner.location.blank?
           (from unspecified location)
           - if current_member == @seed.owner
             = link_to "Set Location", edit_registration_path(current_member), :class => 'btn btn-mini'
         - else
-          (from 
+          (from
           = succeed ")" do
             =@seed.owner.location
-    
+
     %p
       %b Description:
       :markdown
