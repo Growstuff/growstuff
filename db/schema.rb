@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130718011247) do
+ActiveRecord::Schema.define(:version => 20130722050836) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -242,7 +242,6 @@ ActiveRecord::Schema.define(:version => 20130718011247) do
     t.date     "plant_before"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.boolean  "tradable"
     t.string   "tradable_to"
   end
 

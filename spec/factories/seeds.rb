@@ -9,8 +9,11 @@ FactoryGirl.define do
     plant_before "2013-07-15"
 
     factory :tradable_seed do
-      tradable true
       tradable_to "locally"
+    end
+
+    factory :untradable_seed do
+      tradable_to "nowhere"
     end
   end
 end

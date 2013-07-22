@@ -30,10 +30,9 @@
         %td= seed.description
         %td= seed.quantity
         %td= seed.plant_before
-        %td= seed.tradable ? "Yes" : ""
         %td= seed.tradable_to
         %td
-          - if seed.tradable_to
+          - if seed.tradable?
             = seed.owner.location.blank? ? "unspecified" : seed.owner.location
         %td= link_to 'Details', seed, :class => 'btn btn-mini'
 - else
