@@ -4,6 +4,8 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
 
+  validates :quantity, :numericality => { :only_integer => true }
+
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally)
   validates :tradable_to, :inclusion => { :in => TRADABLE_TO_VALUES,
         :message => "You may only trade seed nowhere, locally, nationally, or internationally" },

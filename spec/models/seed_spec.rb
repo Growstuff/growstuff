@@ -10,6 +10,30 @@ describe Seed do
     @seed.save.should be_true
   end
 
+  context 'quantity' do
+    it 'allows integer quantities' do
+      @seed = FactoryGirl.build(:seed, :quantity => 99)
+      @seed.should be_valid
+    end
+
+    it "doesn't allow decimal quantities" do
+      @seed = FactoryGirl.build(:seed, :quantity => 99.9)
+      @seed.should_not be_valid
+    end
+
+    it "doesn't allow non-numeric quantities" do
+      @seed = FactoryGirl.build(:seed, :quantity => 'foo')
+      @seed.should_not be_valid
+    end
+
+    it "allows blank quantities" do
+      @seed = FactoryGirl.build(:seed, :quantity => nil)
+      @seed.should_not be_valid
+      @seed = FactoryGirl.build(:seed, :quantity => '')
+      @seed.should_not be_valid
+    end
+  end
+
   context 'tradable' do
     it 'all three valid tradable_to values should work' do
       ['nowhere', 'locally', 'nationally', 'internationally', nil, ''].each do |t|
