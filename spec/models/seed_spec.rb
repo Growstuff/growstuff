@@ -10,6 +10,11 @@ describe Seed do
     @seed.save.should be_true
   end
 
+  it "should have a slug" do
+    @seed.save
+    @seed.slug.should match(/member\d+-magic-bean/)
+  end
+
   context 'quantity' do
     it 'allows integer quantities' do
       @seed = FactoryGirl.build(:seed, :quantity => 99)
