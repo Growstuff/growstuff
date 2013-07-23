@@ -33,9 +33,9 @@ describe Seed do
 
     it "allows blank quantities" do
       @seed = FactoryGirl.build(:seed, :quantity => nil)
-      @seed.should_not be_valid
+      @seed.should be_valid
       @seed = FactoryGirl.build(:seed, :quantity => '')
-      @seed.should_not be_valid
+      @seed.should be_valid
     end
   end
 

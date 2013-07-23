@@ -67,9 +67,9 @@ describe Planting do
 
     it "allows blank quantities" do
       @planting = FactoryGirl.build(:planting, :quantity => nil)
-      @planting.should_not be_valid
+      @planting.should be_valid
       @planting = FactoryGirl.build(:planting, :quantity => '')
-      @planting.should_not be_valid
+      @planting.should be_valid
     end
   end
 

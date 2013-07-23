@@ -23,7 +23,9 @@ class Planting < ActiveRecord::Base
 
   default_scope order("created_at desc")
 
-  validates :quantity, :numericality => { :only_integer => true }
+  validates :quantity,
+    :numericality => { :only_integer => true },
+    :allow_nil => true
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)
   validates :sunniness, :inclusion => { :in => SUNNINESS_VALUES,
