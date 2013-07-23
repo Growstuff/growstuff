@@ -40,7 +40,7 @@ describe "plantings/show" do
 
   context 'planted from' do
     before(:each) do
-      @p = assign(:planting, FactoryGirl.create(:seed_planting))
+      @p = assign(:planting, FactoryGirl.create(:cutting_planting))
     end
 
     it "shows planted_from" do
