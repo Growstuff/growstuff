@@ -6,6 +6,7 @@ class Crop < ActiveRecord::Base
   has_many :scientific_names
   has_many :plantings
   has_many :photos, :through => :plantings
+  has_many :seeds
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'

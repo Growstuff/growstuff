@@ -20,6 +20,24 @@ describe "crops/show" do
     rendered.should contain "Zea mays"
   end
 
+  it "shows a list of people with seeds to trade when seeds are available for trade" do
+    @owner = FactoryGirl.create(:london_member)
+    @owner2 = FactoryGirl.create(:london_member)
+    @seed1 = FactoryGirl.build(:tradable_seed, :owner => @owner)
+    @seed2 = FactoryGirl.build(:tradable_seed, :owner => @owner2)
+    @crop.seeds = [@seed1, @seed2]
+    render
+    rendered.should contain "Seeds available for trade:"
+    @crop.seeds.each do |seed|
+      assert_select "a[href=#{seed_path(seed)}]"
+    end
+  end
+
+  it "does not show a list of people with seeds to trade if there are none" do
+    render
+    rendered.should_not contain "Seeds available for trade:"
+  end
+
   context "has plantings" do
     before(:each) do
       @owner    = FactoryGirl.create(:member)

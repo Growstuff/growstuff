@@ -79,5 +79,4 @@ describe Seed do
       FactoryGirl.create(:untradable_seed).tradable?.should == false
     end
   end
-
 end
