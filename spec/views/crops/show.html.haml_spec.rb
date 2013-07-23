@@ -20,15 +20,6 @@ describe "crops/show" do
     rendered.should contain "Zea mays"
   end
 
-  it "shows a plant this button" do
-    render
-    rendered.should contain "Plant this"
-  end
-
-  it "links to the right crop in the planting link" do
-    render
-    assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
-
   context "has plantings" do
     before(:each) do
       @owner    = FactoryGirl.create(:member)
