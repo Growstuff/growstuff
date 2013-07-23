@@ -35,8 +35,8 @@ describe Seed do
   end
 
   context 'tradable' do
-    it 'all three valid tradable_to values should work' do
-      ['nowhere', 'locally', 'nationally', 'internationally', nil, ''].each do |t|
+    it 'all valid tradable_to values should work' do
+      ['nowhere', 'locally', 'nationally', 'internationally'].each do |t|
         @seed = FactoryGirl.build(:seed, :tradable_to => t)
         @seed.should be_valid
       end
@@ -46,6 +46,13 @@ describe Seed do
       @seed = FactoryGirl.build(:seed, :tradable_to => 'not valid')
       @seed.should_not be_valid
       @seed.errors[:tradable_to].should include("You may only trade seed nowhere, locally, nationally, or internationally")
+    end
+
+    it 'should not allow nil or blank values' do
+      @seed = FactoryGirl.build(:seed, :tradable_to => nil)
+      @seed.should_not be_valid
+      @seed = FactoryGirl.build(:seed, :tradable_to => '')
+      @seed.should_not be_valid
     end
 
     it 'tradable? gives the right answers' do

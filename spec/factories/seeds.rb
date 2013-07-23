@@ -7,6 +7,7 @@ FactoryGirl.define do
     description "MyText"
     quantity 1
     plant_before "2013-07-15"
+    tradable_to 'nowhere'
 
     factory :tradable_seed do
       tradable_to "locally"

@@ -9,8 +9,8 @@ class Seed < ActiveRecord::Base
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally)
   validates :tradable_to, :inclusion => { :in => TRADABLE_TO_VALUES,
         :message => "You may only trade seed nowhere, locally, nationally, or internationally" },
-        :allow_nil => true,
-        :allow_blank => true
+        :allow_nil => false,
+        :allow_blank => false
 
   def tradable?
     if self.tradable_to == 'nowhere'

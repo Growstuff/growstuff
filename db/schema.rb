@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130722050836) do
+ActiveRecord::Schema.define(:version => 20130723103128) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -235,14 +235,14 @@ ActiveRecord::Schema.define(:version => 20130722050836) do
   end
 
   create_table "seeds", :force => true do |t|
-    t.integer  "owner_id",     :null => false
-    t.integer  "crop_id",      :null => false
+    t.integer  "owner_id",                            :null => false
+    t.integer  "crop_id",                             :null => false
     t.text     "description"
     t.integer  "quantity"
     t.date     "plant_before"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.string   "tradable_to"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.string   "tradable_to",  :default => "nowhere"
   end
 
 end
