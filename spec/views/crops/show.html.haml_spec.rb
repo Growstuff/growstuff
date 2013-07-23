@@ -6,15 +6,7 @@ describe "crops/show" do
     @crop = FactoryGirl.create(:maize,
       :scientific_names => [ FactoryGirl.create(:zea_mays) ]
     )
-    @owner    = FactoryGirl.create(:member)
-    @garden   = FactoryGirl.create(:garden, :owner => @owner)
-    @planting = FactoryGirl.create(:planting,
-      :garden => @garden,
-      :crop => @crop
-    )
-
     assign(:crop, @crop)
-
   end
 
   it "shows the wikipedia URL" do
@@ -28,7 +20,8 @@ describe "crops/show" do
     rendered.should contain "Zea mays"
   end
 
-  it "shows a list of people with seeds to trade when seeds are avaialable for trade" do
+  it "shows a list of people with seeds to trade when seeds are available for trade" do
+    @owner = FactoryGirl.create(:london_member)
     @owner2 = FactoryGirl.create(:london_member)
     @seed1 = FactoryGirl.build(:tradable_seed, :owner => @owner)
     @seed2 = FactoryGirl.build(:tradable_seed, :owner => @owner2)
@@ -45,18 +38,71 @@ describe "crops/show" do
     rendered.should_not contain "Seeds available for trade:"
   end
 
-  it "links to people who are growing this crop" do
-    render
-    rendered.should contain /member\d+/
-    rendered.should contain "Springfield Community Garden"
-  end
+  context "has plantings" do
+    before(:each) do
+      @owner    = FactoryGirl.create(:member)
+      @garden   = FactoryGirl.create(:garden, :owner => @owner)
+      @planting = FactoryGirl.create(:planting,
+        :garden => @garden,
+        :crop => @crop
+      )
+    end
 
-  it "shows photos where available" do
-    @planting = FactoryGirl.create(:planting, :crop => @crop)
-    @photo = FactoryGirl.create(:photo)
-    @planting.photos << @photo
-    render
-    assert_select "img", :src => @photo.thumbnail_url
+    it "doesn't show sunniness if none are set" do
+      render
+      rendered.should_not contain "Plant in:"
+    end
+
+    it "shows sunniness frequencies" do
+      FactoryGirl.create(:sunny_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant in:"
+      rendered.should contain "sun (1)"
+    end
+
+    it "shows multiple sunniness frequencies" do
+      FactoryGirl.create(:sunny_planting, :crop => @crop)
+      FactoryGirl.create(:sunny_planting, :crop => @crop)
+      FactoryGirl.create(:shady_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant in:"
+      rendered.should contain "sun (2), shade (1)"
+    end
+
+    it "doesn't show planted_from if none are set" do
+      render
+      rendered.should_not contain "Plant from:"
+    end
+
+    it "shows planted_from frequencies" do
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant from:"
+      rendered.should contain "seed (1)"
+    end
+
+    it "shows multiple planted_from frequencies" do
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      FactoryGirl.create(:cutting_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant from:"
+      rendered.should contain "seed (2), cutting (1)"
+    end
+
+    it "links to people who are growing this crop" do
+      render
+      rendered.should contain /member\d+/
+      rendered.should contain "Springfield Community Garden"
+    end
+
+    it "shows photos where available" do
+      @photo = FactoryGirl.create(:photo)
+      @planting.photos << @photo
+      render
+      assert_select "img", :src => @photo.thumbnail_url
+    end
+
   end
 
   context 'varieties' do

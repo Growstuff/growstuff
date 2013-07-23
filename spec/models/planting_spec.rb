@@ -50,6 +50,10 @@ describe Planting do
   end
 
   context 'sunniness' do
+    before(:each) do
+      @planting = FactoryGirl.create(:sunny_planting)
+    end
+
     it 'should have a sunniness value' do
       @planting.sunniness.should eq 'sun'
     end
@@ -70,6 +74,7 @@ describe Planting do
 
   context 'planted from' do
     it 'should have a planted_from value' do
+      @planting = FactoryGirl.create(:seed_planting)
       @planting.planted_from.should eq 'seed'
     end
 
