@@ -67,6 +67,10 @@ class Ability
       can :update, Photo, :owner_id => member.id
       can :destroy, Photo, :owner_id => member.id
 
+      can :create, Seed
+      can :update, Seed, :owner_id => member.id
+      can :destroy, Seed, :owner_id => member.id
+
       # orders/shop/etc
       can :create,   Order
       can :read,     Order, :member_id => member.id

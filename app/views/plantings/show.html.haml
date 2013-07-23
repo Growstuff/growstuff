@@ -34,26 +34,7 @@
         =link_to 'Delete', @planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
   .span6
-    .well
-      .row-fluid
-        .span4
-          = link_to image_tag((@planting.crop.default_photo ?  @planting.crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img-rounded'), @planting.crop
-        .span8
-          %h3
-            = link_to @planting.crop, @planting.crop
-            - if can? :edit, @planting
-              = link_to 'Plant another', new_planting_path, :class => 'btn btn-primary'
-            - elsif can? :create, Planting
-              = link_to 'Plant this', new_planting_path, :class => 'btn btn-primary'
-
-          %p
-            %b Scientific name:
-            = @planting.crop_default_scientific_name
-          %p
-            %b
-              Planted
-              = pluralize(@planting.crop_plantings_count, "time")
-            by #{Growstuff::Application.config.site_name} members
+    = render :partial => "crops/index_card", :locals => { :crop => @planting.crop}
 
 %h2 Notes
 

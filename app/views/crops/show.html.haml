@@ -25,19 +25,28 @@
         - sunniness = @crop.sunniness.sort_by {|s, freq| freq }.reverse
         = sunniness.map {|s, freq| "#{s} (#{freq})" }.join(", ")
 
-    - if @crop.plantings_count > 0
-      %p
+    %p
+      - if @crop.plantings_count > 0
         Planted
         = pluralize(@crop.plantings_count, "time")
         by #{Growstuff::Application.config.site_name} members
-      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+      - else
+        Nobody is growing this yet. You could be the first!
 
+    %p
+      - if can? :create, Planting
+        = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+      - else
+        = render :partial => 'shared/signin_signup', :locals => { :to => 'plant this crop' }
+
+      - if can? :create, Seed
+        = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-primary'
+      - else
+        = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds for this crop to your stash' }
+
+    - if @crop.plantings_count > 0
       - @crop.plantings.each do |p|
         = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
-
-    - else
-      %p Nobody is growing this yet. You could be the first!
-      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
 
   .span3
     - if can? :edit, @crop or can? :destroy, @crop

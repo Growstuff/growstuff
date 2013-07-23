@@ -1,9 +1,10 @@
 Growstuff::Application.routes.draw do
 
-  resources :photos
-
-
   devise_for :members, :controllers => { :registrations => "registrations" }
+  resources :members
+
+  resources :photos
+  resources :seeds
 
   resources :authentications
   resources :plantings
@@ -11,7 +12,6 @@ Growstuff::Application.routes.draw do
   resources :posts
   resources :scientific_names
   resources :crops
-  resources :members
   resources :comments
   resources :roles
   resources :forums

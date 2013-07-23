@@ -26,6 +26,11 @@
           %li
             = link_to 'Add', new_garden_path, :class => 'btn btn-mini'
 
+      %p
+        %b Your seed stash:
+        = link_to pluralize(current_member.seeds.count, "variety"), seeds_path(:owner_id => current_member.id)
+        = link_to 'Add', new_seed_path, :class => 'btn btn-mini'
+
     .span4
       %p
         Your account:

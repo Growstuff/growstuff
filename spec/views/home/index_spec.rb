@@ -43,6 +43,7 @@ describe 'home/index.html.haml', :type => "view" do
         :garden => @member.gardens.first
       )
       assign(:plantings, [@planting])
+      @seed = FactoryGirl.create(:seed, :owner => @member)
       @forum = FactoryGirl.create(:forum, :owner => @member)
       @post = FactoryGirl.create(:post, :author => @member)
       assign(:posts, [@post])
@@ -60,6 +61,11 @@ describe 'home/index.html.haml', :type => "view" do
 
     it 'lists gardens' do
       assert_select "a[href=#{url_for(@member.gardens.first)}]", "Garden"
+    end
+
+    it 'shows seeds' do
+      rendered.should contain "Your seed stash"
+      rendered.should contain "1 variety"
     end
 
     it 'shows account type' do

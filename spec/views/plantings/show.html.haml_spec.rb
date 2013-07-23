@@ -5,7 +5,8 @@ describe "plantings/show" do
     @garden = FactoryGirl.create(:garden, :owner => @member)
     @crop = FactoryGirl.create(:tomato)
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)
+      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop,
+        :planted_from => 'cutting')
     )
   end
 
@@ -45,7 +46,7 @@ describe "plantings/show" do
     it "shows planted_from" do
       render
       rendered.should contain 'Planted from:'
-      rendered.should contain 'seed'
+      rendered.should contain 'cutting'
     end
 
     it "doesn't show planted_from if blank" do
@@ -53,7 +54,7 @@ describe "plantings/show" do
       @p.save
       render
       rendered.should_not contain 'Planted from:'
-      rendered.should_not contain 'seed'
+      rendered.should_not contain 'cutting'
     end
   end
 
