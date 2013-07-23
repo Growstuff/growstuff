@@ -66,3 +66,9 @@
     %h4 More information:
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+
+    - unless @crop.seeds.empty?
+      %h4 Seeds available for trade:
+      %ul
+        - @crop.seeds.each do |seed|
+          %li= link_to "#{seed.owner} in #{seed.owner.location} will trade #{seed.tradable_to}", seed_path(seed)

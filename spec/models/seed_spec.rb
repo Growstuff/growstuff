@@ -24,5 +24,4 @@ describe Seed do
       @seed.errors[:tradable_to].should include("You may only trade seed locally, nationally, or internationally")
     end
   end
-
 end
