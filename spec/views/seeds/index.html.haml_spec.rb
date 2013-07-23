@@ -28,7 +28,7 @@ describe "seeds/index" do
       assert_select "tr>td", :text => @seed1.tradable_to, :count => 2
     end
 
-    it "shows location of seed owner" do 
+    it "shows location of seed owner" do
       assert_select "tr>td", :text => @owner.location, :count => 2
     end
   end

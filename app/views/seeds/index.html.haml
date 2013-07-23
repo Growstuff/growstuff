@@ -3,10 +3,14 @@
 %p
   - if can? :create, Seed
     - if @owner
-      - if @owner == current_member
-        = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+      %p
+        - if @owner == current_member
+          = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+        = link_to "View everyone's seeds", seeds_path, :class => 'btn'
     - else # everyone's seeds
       = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+      - if current_member
+        = link_to 'View your seeds', seeds_path(:owner_id => current_member.id), :class => 'btn'
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
 
@@ -18,8 +22,7 @@
       %th Description
       %th Quantity
       %th Plant before
-      %th Willing to trade
-      %th Will trade
+      %th Will trade to
       %th From location
       %th
 
@@ -30,10 +33,9 @@
         %td= seed.description
         %td= seed.quantity
         %td= seed.plant_before
-        %td= seed.tradable ? "Yes" : ""
-        %td= seed.tradable_to
+        %td= seed.tradable? ? seed.tradable_to : ''
         %td
-          - if seed.tradable_to
+          - if seed.tradable?
             = seed.owner.location.blank? ? "unspecified" : seed.owner.location
         %td= link_to 'Details', seed, :class => 'btn btn-mini'
 - else

@@ -25,7 +25,6 @@ describe "seeds/show" do
 
     it "shows tradable attributes" do
       render
-      rendered.should contain "Tradable: Yes"
       rendered.should contain "Will trade to: locally"
     end
 
@@ -50,14 +49,13 @@ describe "seeds/show" do
       it "links to profile to set location" do
         render
         assert_select "a[href=#{url_for(edit_member_registration_path)}]", :text => "Set Location"
-
       end
-
     end
 
     it "shows button to send message" do
       render
       rendered.should contain "Request seeds"
     end
+
   end
 end

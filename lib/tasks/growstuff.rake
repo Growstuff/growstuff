@@ -111,6 +111,17 @@ namespace :growstuff do
       end
     end
 
+    desc "July 2013: replace nil seed.tradable_to with nowhere"
+    task :tradable_to_nowhere => :environment do
+
+      Seed.all.each do |s|
+        unless s.tradable_to
+          s.tradable_to = 'nowhere'
+          s.save
+        end
+      end
+    end
+
   end
 
 end
