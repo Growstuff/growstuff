@@ -9,6 +9,8 @@ class Member < ActiveRecord::Base
   has_many :gardens, :foreign_key => 'owner_id'
   has_many :plantings, :through => :gardens
 
+  has_many :seeds, :foreign_key => 'owner_id'
+
   has_and_belongs_to_many :roles
 
   has_many :notifications, :foreign_key => 'recipient_id'
@@ -134,6 +136,7 @@ class Member < ActiveRecord::Base
     return authentications.find_by_provider(provider)
   end
 
+  # Authenticates against Flickr and returns an object we can use for subsequent api calls
   def flickr
     if @flickr.nil?
       flickr_auth = auth('flickr')
@@ -148,12 +151,38 @@ class Member < ActiveRecord::Base
     return @flickr
   end
 
-  def flickr_photos(page_num=1)
-    return flickr.people.getPhotos(
-      :user_id => 'me',
-      :page => page_num,
-      :per_page => 30
-    )
+  # Fetches a collection of photos from Flickr
+  # Returns a [[page of photos], total] pair.
+  # Total is needed for pagination.
+  def flickr_photos(page_num=1, set=nil)
+    result = false
+    if set
+      result = flickr.photosets.getPhotos(
+        :photoset_id => set,
+        :page => page_num,
+        :per_page => 30
+      )
+    else
+      result = flickr.people.getPhotos(
+        :user_id => 'me',
+        :page => page_num,
+        :per_page => 30
+      )
+    end
+    if result
+      return [result.photo, result.total]
+    else
+      return [[], 0]
+    end
+  end
+
+  # Returns a hash of Flickr photosets' ids and titles
+  def flickr_sets
+    sets = Hash.new 
+    flickr.photosets.getList.each do |p|
+      sets[p.title] = p.id
+    end
+    return sets
   end
 
   protected

@@ -6,15 +6,7 @@ describe "crops/show" do
     @crop = FactoryGirl.create(:maize,
       :scientific_names => [ FactoryGirl.create(:zea_mays) ]
     )
-    @owner    = FactoryGirl.create(:member)
-    @garden   = FactoryGirl.create(:garden, :owner => @owner)
-    @planting = FactoryGirl.create(:planting,
-      :garden => @garden,
-      :crop => @crop
-    )
-
     assign(:crop, @crop)
-
   end
 
   it "shows the wikipedia URL" do
@@ -28,28 +20,111 @@ describe "crops/show" do
     rendered.should contain "Zea mays"
   end
 
-  it "shows a plant this button" do
-    render
-    rendered.should contain "Plant this"
+  context "seeds available for trade" do
+    before(:each) do
+      @owner1 = FactoryGirl.create(:london_member)
+      @owner2 = FactoryGirl.create(:member) # no location
+      @seed1 = FactoryGirl.create(:tradable_seed, :owner => @owner1, :crop => @crop)
+      @seed2 = FactoryGirl.create(:tradable_seed, :owner => @owner2, :crop => @crop)
+      render
+    end
+
+    it "shows a heading" do
+      rendered.should contain "Find seeds"
+    end
+
+    it "shows a list of people with seeds to trade" do
+      @crop.seeds.each do |seed|
+        assert_select "a[href=#{seed_path(seed)}]"
+      end
+    end
+
+    it "shows location if available" do
+      rendered.should contain "#{@owner1} in #{@owner1.location} will trade #{@seed1.tradable_to}"
+    end
+
+    it "shows grammatical text if seed trader has no location" do
+      rendered.should contain "#{@owner2} (location unknown) will trade #{@seed2.tradable_to}"
+    end
   end
 
-  it "links to the right crop in the planting link" do
-    render
-    assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
+  context "no seeds available for trade" do
+    it "shows a heading" do
+      render
+      rendered.should contain "Find seeds"
+    end
+
+    it "suggests you trade seeds" do
+      render
+      rendered.should contain "There are no seeds available to trade."
+    end
   end
 
-  it "links to people who are growing this crop" do
-    render
-    rendered.should contain /member\d+/
-    rendered.should contain "Springfield Community Garden"
-  end
+  context "has plantings" do
+    before(:each) do
+      @owner    = FactoryGirl.create(:member)
+      @garden   = FactoryGirl.create(:garden, :owner => @owner)
+      @planting = FactoryGirl.create(:planting,
+        :garden => @garden,
+        :crop => @crop
+      )
+    end
 
-  it "shows photos where available" do
-    @planting = FactoryGirl.create(:planting, :crop => @crop)
-    @photo = FactoryGirl.create(:photo)
-    @planting.photos << @photo
-    render
-    assert_select "img", :src => @photo.thumbnail_url
+    it "doesn't show sunniness if none are set" do
+      render
+      rendered.should_not contain "Plant in:"
+    end
+
+    it "shows sunniness frequencies" do
+      FactoryGirl.create(:sunny_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant in:"
+      rendered.should contain "sun (1)"
+    end
+
+    it "shows multiple sunniness frequencies" do
+      FactoryGirl.create(:sunny_planting, :crop => @crop)
+      FactoryGirl.create(:sunny_planting, :crop => @crop)
+      FactoryGirl.create(:shady_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant in:"
+      rendered.should contain "sun (2), shade (1)"
+    end
+
+    it "doesn't show planted_from if none are set" do
+      render
+      rendered.should_not contain "Plant from:"
+    end
+
+    it "shows planted_from frequencies" do
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant from:"
+      rendered.should contain "seed (1)"
+    end
+
+    it "shows multiple planted_from frequencies" do
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      FactoryGirl.create(:seed_planting, :crop => @crop)
+      FactoryGirl.create(:cutting_planting, :crop => @crop)
+      render
+      rendered.should contain "Plant from:"
+      rendered.should contain "seed (2), cutting (1)"
+    end
+
+    it "links to people who are growing this crop" do
+      render
+      rendered.should contain /member\d+/
+      rendered.should contain "Springfield Community Garden"
+    end
+
+    it "shows photos where available" do
+      @photo = FactoryGirl.create(:photo)
+      @planting.photos << @photo
+      render
+      assert_select "img", :src => @photo.thumbnail_url
+    end
+
   end
 
   context 'varieties' do
@@ -69,6 +144,28 @@ describe "crops/show" do
       rendered.should contain @ubercrop.system_name
     end
 
+  end
+
+  it 'tells you to sign in/sign up' do
+    render
+    rendered.should contain 'Sign in or sign up to plant'
+  end
+
+  context 'logged in' do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      render
+    end
+
+    it "shows a plant this button" do
+      rendered.should contain "Plant this"
+    end
+
+    it "links to the right crop in the planting link" do
+      assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
+    end
   end
 
   context "logged in and crop wrangler" do

@@ -5,7 +5,8 @@ describe "plantings/show" do
     @garden = FactoryGirl.create(:garden, :owner => @member)
     @crop = FactoryGirl.create(:tomato)
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)
+      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop,
+        :planted_from => 'cutting')
     )
   end
 
@@ -16,6 +17,11 @@ describe "plantings/show" do
   end
 
   context 'sunniness' do
+    before(:each) do
+      @p = assign(:planting,
+        FactoryGirl.create(:sunny_planting)
+      )
+    end
 
     it "shows the sunniness" do
       render
@@ -33,10 +39,14 @@ describe "plantings/show" do
   end
 
   context 'planted from' do
+    before(:each) do
+      @p = assign(:planting, FactoryGirl.create(:cutting_planting))
+    end
+
     it "shows planted_from" do
       render
       rendered.should contain 'Planted from:'
-      rendered.should contain 'seed'
+      rendered.should contain 'cutting'
     end
 
     it "doesn't show planted_from if blank" do
@@ -44,7 +54,7 @@ describe "plantings/show" do
       @p.save
       render
       rendered.should_not contain 'Planted from:'
-      rendered.should_not contain 'seed'
+      rendered.should_not contain 'cutting'
     end
   end
 

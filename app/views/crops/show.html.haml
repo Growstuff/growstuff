@@ -14,20 +14,37 @@
         = succeed ":" do
           = @crop.system_name
         != @crop.varieties.map{ |c| link_to c, c }.join(", ")
-
-    - if @crop.plantings_count > 0
+    - if @crop.planted_from.length > 0
       %p
+        Plant from:
+        - planted_from = @crop.planted_from.sort_by {|s, freq| freq }.reverse
+        = planted_from.map {|s, freq| "#{s} (#{freq})" }.join(", ")
+    - if @crop.sunniness.length > 0
+      %p
+        Plant in:
+        - sunniness = @crop.sunniness.sort_by {|s, freq| freq }.reverse
+        = sunniness.map {|s, freq| "#{s} (#{freq})" }.join(", ")
+
+    %p
+      - if @crop.plantings_count > 0
         Planted
         = pluralize(@crop.plantings_count, "time")
         by #{Growstuff::Application.config.site_name} members
-      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+      - else
+        Nobody is growing this yet. You could be the first!
 
+    %p
+      - if can? :create, Planting
+        = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+      - else
+        = render :partial => 'shared/signin_signup', :locals => { :to => 'plant this crop' }
+
+      - if can? :create, Seed
+        = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-primary'
+
+    - if @crop.plantings_count > 0
       - @crop.plantings.each do |p|
         = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
-
-    - else
-      %p Nobody is growing this yet. You could be the first!
-      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
 
   .span3
     - if can? :edit, @crop or can? :destroy, @crop
@@ -42,7 +59,7 @@
         - if can? :destroy, @crop
           = link_to 'Delete crop', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
-    %h4 Scientific names:
+    %h4 Scientific names
     %ul
       - @crop.scientific_names.each do |sn|
         %li
@@ -54,6 +71,26 @@
     %p
     - if can? :edit, @crop
       = link_to 'Add', new_scientific_name_path( :crop_id => @crop.id ), { :class => 'btn btn-mini' }
-    %h4 More information:
+    %h4 More information
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+
+    %h4 Find seeds
+    - if @crop.seeds.empty?
+      %p
+        There are no seeds available to trade.
+    - else
+      %ul
+        - @crop.seeds.tradable.each do |seed|
+          %li
+            = link_to seed.owner, seed.owner
+            - if seed.owner.location
+              in #{seed.owner.location}
+            - else
+              (location unknown)
+            will trade #{seed.tradable_to}.
+            = link_to "View details.", seed_path(seed)
+    - if current_member
+      = link_to "List your seeds to trade.", new_seed_path()
+    - else
+      = render :partial => 'shared/signin_signup', :locals => { :to => 'list your seeds to trade' }
