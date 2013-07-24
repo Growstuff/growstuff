@@ -25,7 +25,7 @@ describe "seeds/show" do
 
     it "shows tradable attributes" do
       render
-      rendered.should contain "Will trade to: locally"
+      rendered.should contain "Will trade: locally"
     end
 
     it "shows location of seed owner" do

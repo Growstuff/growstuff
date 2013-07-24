@@ -78,5 +78,13 @@ describe Seed do
     it 'recognises an untradable seed' do
       FactoryGirl.create(:untradable_seed).tradable?.should == false
     end
+
+    it 'scopes correctly' do
+      @tradable = FactoryGirl.create(:tradable_seed)
+      @untradable = FactoryGirl.create(:untradable_seed)
+      Seed.tradable.should include @tradable
+      Seed.tradable.should_not include @untradable
+
+    end
   end
 end

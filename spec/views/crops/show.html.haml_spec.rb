@@ -20,22 +20,44 @@ describe "crops/show" do
     rendered.should contain "Zea mays"
   end
 
-  it "shows a list of people with seeds to trade when seeds are available for trade" do
-    @owner = FactoryGirl.create(:london_member)
-    @owner2 = FactoryGirl.create(:london_member)
-    @seed1 = FactoryGirl.build(:tradable_seed, :owner => @owner)
-    @seed2 = FactoryGirl.build(:tradable_seed, :owner => @owner2)
-    @crop.seeds = [@seed1, @seed2]
-    render
-    rendered.should contain "Seeds available for trade:"
-    @crop.seeds.each do |seed|
-      assert_select "a[href=#{seed_path(seed)}]"
+  context "seeds available for trade" do
+    before(:each) do
+      @owner1 = FactoryGirl.create(:london_member)
+      @owner2 = FactoryGirl.create(:member) # no location
+      @seed1 = FactoryGirl.create(:tradable_seed, :owner => @owner1, :crop => @crop)
+      @seed2 = FactoryGirl.create(:tradable_seed, :owner => @owner2, :crop => @crop)
+      render
+    end
+
+    it "shows a heading" do
+      rendered.should contain "Find seeds"
+    end
+
+    it "shows a list of people with seeds to trade" do
+      @crop.seeds.each do |seed|
+        assert_select "a[href=#{seed_path(seed)}]"
+      end
+    end
+
+    it "shows location if available" do
+      rendered.should contain "#{@owner1} in #{@owner1.location} will trade #{@seed1.tradable_to}"
+    end
+
+    it "shows grammatical text if seed trader has no location" do
+      rendered.should contain "#{@owner2} (location unknown) will trade #{@seed2.tradable_to}"
     end
   end
 
-  it "does not show a list of people with seeds to trade if there are none" do
-    render
-    rendered.should_not contain "Seeds available for trade:"
+  context "no seeds available for trade" do
+    it "shows a heading" do
+      render
+      rendered.should contain "Find seeds"
+    end
+
+    it "suggests you trade seeds" do
+      render
+      rendered.should contain "There are no seeds available to trade."
+    end
   end
 
   context "has plantings" do
@@ -127,7 +149,6 @@ describe "crops/show" do
   it 'tells you to sign in/sign up' do
     render
     rendered.should contain 'Sign in or sign up to plant'
-    rendered.should contain 'Sign in or sign up to add seed'
   end
 
   context 'logged in' do

@@ -12,6 +12,8 @@ class Seed < ActiveRecord::Base
     :numericality => { :only_integer => true },
     :allow_nil => true
 
+  scope :tradable, where("tradable_to != 'nowhere'")
+
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally)
   validates :tradable_to, :inclusion => { :in => TRADABLE_TO_VALUES,
         :message => "You may only trade seed nowhere, locally, nationally, or internationally" },
