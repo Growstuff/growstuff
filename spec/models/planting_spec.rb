@@ -49,7 +49,35 @@ describe Planting do
     end
   end
 
+  context 'quantity' do
+    it 'allows integer quantities' do
+      @planting = FactoryGirl.build(:planting, :quantity => 99)
+      @planting.should be_valid
+    end
+
+    it "doesn't allow decimal quantities" do
+      @planting = FactoryGirl.build(:planting, :quantity => 99.9)
+      @planting.should_not be_valid
+    end
+
+    it "doesn't allow non-numeric quantities" do
+      @planting = FactoryGirl.build(:planting, :quantity => 'foo')
+      @planting.should_not be_valid
+    end
+
+    it "allows blank quantities" do
+      @planting = FactoryGirl.build(:planting, :quantity => nil)
+      @planting.should be_valid
+      @planting = FactoryGirl.build(:planting, :quantity => '')
+      @planting.should be_valid
+    end
+  end
+
   context 'sunniness' do
+    before(:each) do
+      @planting = FactoryGirl.create(:sunny_planting)
+    end
+
     it 'should have a sunniness value' do
       @planting.sunniness.should eq 'sun'
     end
@@ -70,6 +98,7 @@ describe Planting do
 
   context 'planted from' do
     it 'should have a planted_from value' do
+      @planting = FactoryGirl.create(:seed_planting)
       @planting.planted_from.should eq 'seed'
     end
 

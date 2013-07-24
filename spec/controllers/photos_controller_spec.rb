@@ -23,11 +23,15 @@ describe PhotosController do
   end
 
   describe "GET new" do
-    it "assigns the flickr auth as @flickr_auth" do
+    before(:each) do
       @member = FactoryGirl.create(:member)
       sign_in @member
-      @member.stub(:flickr_photos) { [] }
+      @member.stub(:flickr_photos) { [[], 0] }
+      @member.stub(:flickr_sets) { { "foo" => "bar" } }
       controller.stub(:current_member) { @member }
+    end
+
+    it "assigns the flickr auth as @flickr_auth" do
       @auth = FactoryGirl.create(:flickr_authentication, :member => @member)
       get :new, {}
       assigns(:flickr_auth).should be_an_instance_of(Authentication)
@@ -36,6 +40,11 @@ describe PhotosController do
     it "assigns a planting id" do
       get :new, { :planting_id => 5 }
       assigns(:planting_id).should eq "5"
+    end
+
+    it "assigns the current set as @current_set" do
+      get :new, { :set => 'foo' }
+      assigns(:current_set).should eq "foo"
     end
 
   end
