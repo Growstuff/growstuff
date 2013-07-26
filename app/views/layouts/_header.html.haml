@@ -15,10 +15,10 @@
                 %b.caret
                 %ul.dropdown-menu
                   %li= link_to "Profile", member_path(current_member)
-                  %li= link_to "Gardens", gardens_path(:owner_id => current_member.id)
-                  %li= link_to "Plantings", plantings_path(:owner_id => current_member.id)
-                  %li= link_to "Seeds", seeds_path(:owner_id => current_member.id)
-                  %li= link_to "Posts", posts_path(:author_id => current_member.id)
+                  %li= link_to "Gardens", gardens_by_owner_path(:owner => current_member.slug)
+                  %li= link_to "Plantings", plantings_by_owner_path(:owner => current_member.slug)
+                  %li= link_to "Seeds", seeds_by_owner_path(:owner => current_member.slug)
+                  %li= link_to "Posts", posts_by_author_path(:author => current_member.slug)
 
               %ul.dropdown-menu
           %li= link_to "Crops", crops_path

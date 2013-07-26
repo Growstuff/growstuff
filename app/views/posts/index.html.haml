@@ -10,7 +10,7 @@
     - else # everyone's posts
       = link_to 'Post something', new_post_path, :class => 'btn btn-primary'
       - if current_member
-        = link_to 'View your posts', posts_path(:author_id => current_member.id), :class => 'btn'
+        = link_to 'View your posts', posts_by_author_path(:author => current_member.slug), :class => 'btn'
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'write a post' }
 

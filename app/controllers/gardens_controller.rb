@@ -4,7 +4,7 @@ class GardensController < ApplicationController
   # GET /gardens.json
   def index
     @gardens = Garden.paginate(:page => params[:page])
-    @owner = Member.find_by_id(params[:owner_id])
+    @owner = Member.find_by_slug(params[:owner])
     if @owner
       @gardens = @owner.gardens.paginate(:page => params[:page])
     end

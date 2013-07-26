@@ -10,7 +10,7 @@
     - else # everyone's gardens
       = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
       - if current_member
-        = link_to 'View your gardens', gardens_path(:owner_id => current_member.id), :class => 'btn'
+        = link_to 'View your gardens', gardens_by_owner_path(:owner => current_member.slug), :class => 'btn'
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add a new garden' }
 

@@ -59,16 +59,16 @@ describe 'layouts/_header.html.haml', :type => "view" do
         assert_select("a[href=#{member_path(@member)}]", "Profile")
       end
       it "should show link to member's gardens" do
-        assert_select("a[href=#{gardens_path(:owner_id => @member.id)}]", "Gardens")
+        assert_select("a[href=#{gardens_by_owner_path(:owner => @member.slug)}]", "Gardens")
       end
       it "should show link to member's plantings" do
-        assert_select("a[href=#{plantings_path(:owner_id => @member.id)}]", "Plantings")
+        assert_select("a[href=#{plantings_by_owner_path(:owner => @member.slug)}]", "Plantings")
       end
       it "should show link to member's seeds" do
-        assert_select("a[href=#{seeds_path(:owner_id => @member.id)}]", "Seeds")
+        assert_select("a[href=#{seeds_by_owner_path(:owner => @member.slug)}]", "Seeds")
       end
       it "should show link to member's posts" do
-        assert_select("a[href=#{posts_path(:author_id => @member.id)}]", "Posts")
+        assert_select("a[href=#{posts_by_author_path(:author => @member.slug)}]", "Posts")
       end
     end
 

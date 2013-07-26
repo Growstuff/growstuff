@@ -8,7 +8,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.paginate(:page => params[:page])
-    @author = Member.find_by_id(params[:author_id])
+    @author = Member.find_by_slug(params[:author])
     if @author
       @posts = @author.posts.paginate(:page => params[:page])
     end
