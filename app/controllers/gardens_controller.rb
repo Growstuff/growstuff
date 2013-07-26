@@ -3,7 +3,11 @@ class GardensController < ApplicationController
   # GET /gardens
   # GET /gardens.json
   def index
-    @gardens = Garden.all
+    @gardens = Garden.paginate(:page => params[:page])
+    @owner = Member.find_by_id(params[:owner_id])
+    if @owner
+      @gardens = @owner.gardens.paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

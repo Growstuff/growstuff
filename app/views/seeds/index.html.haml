@@ -22,7 +22,8 @@
 
   %table.table.table-striped
     %tr
-      %th Owner
+      - unless @owner
+        %th Owner
       %th Crop
       %th Description
       %th Quantity
@@ -33,7 +34,8 @@
 
     - @seeds.each do |seed|
       %tr
-        %td= link_to seed.owner.login_name, seed.owner
+        - unless @owner
+          %td= link_to seed.owner.login_name, seed.owner
         %td= link_to seed.crop.system_name, seed.crop
         %td= seed.description
         %td= seed.quantity

@@ -1,23 +1,59 @@
-%h1 Listing gardens
+- content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
-- if can? :create, Garden
-  %p= link_to 'New Garden', new_garden_path, :class => 'btn btn-primary'
+%p
+  - if can? :create, Garden
+    - if @owner
+      %p
+        - if @owner == current_member
+          = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
+        = link_to "View everyone's gardens", gardens_path, :class => 'btn'
+    - else # everyone's gardens
+      = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
+      - if current_member
+        = link_to 'View your gardens', gardens_path(:owner_id => current_member.id), :class => 'btn'
+  - else
+    = render :partial => 'shared/signin_signup', :locals => { :to => 'add a new garden' }
 
-%table
-  %tr
-    %th Name
-    %th User
-    %th Slug
-    %th
-    %th
+- if @gardens.length > 0
 
-  - @gardens.each do |garden|
+  %div.pagination
+    = page_entries_info @gardens, :model => "gardens"
+    = will_paginate @gardens
+
+  %table.table.table-striped
     %tr
-      %td= link_to garden.name, garden
-      %td= garden.owner
-      %td= garden.slug
-      - if can? :edit, garden
-        %td= link_to 'Edit', edit_garden_path(garden), :class => 'btn btn-mini'
-      - if can? :destroy, garden
-        %td= link_to 'Delete', garden, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+      - unless @owner
+        %th Owner
+      %th Garden name
+      %th Description
+      %th Plantings
+      %th
+
+    - @gardens.each do |garden|
+      %tr
+        - unless @owner
+          %td= link_to garden.owner.login_name, garden.owner
+        %td= link_to garden.name, garden
+        %td= garden.description
+        %td
+          - if garden.plantings.empty?
+            None
+          - else
+            %ul
+            - garden.plantings.each do |p|
+              %li
+                = p.quantity
+                = link_to p.crop.system_name, p
+                - if p.planted_at
+                  planted on
+                  = p.planted_at
+              
+        %td= link_to 'Details', garden, :class => 'btn btn-mini'
+
+  %div.pagination
+    = page_entries_info @gardens, :model => "gardens"
+    = will_paginate @gardens
+
+- else
+  %p There are no gardens to display.
 
