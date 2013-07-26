@@ -1,14 +1,46 @@
-=content_for :title, "What's been planted recently?"
+- content_for :title, @owner ? "#{@owner}'s plantings" : "Everyone's plantings"
 
-%p Here are the latest things planted by #{Growstuff::Application.config.site_name} members.
+%p
+  - if can? :create, Planting
+    - if @owner
+      %p
+        - if @owner == current_member
+          = link_to 'Plant something', new_planting_path, :class => 'btn btn-primary'
+        = link_to "View everyone's plantings", plantings_path, :class => 'btn'
+    - else # everyone's plantings
+      = link_to 'Plant something', new_planting_path, :class => 'btn btn-primary'
+      - if current_member
+        = link_to 'View your plantings', plantings_path(:owner_id => current_member.id), :class => 'btn'
+  - else
+    = render :partial => 'shared/signin_signup', :locals => { :to => "track what you've planted" }
 
-%div.pagination
-  = page_entries_info @plantings, :model => "plantings"
-  = will_paginate @plantings
+- if @plantings.length > 0
+  %table.table.table-striped
+    %tr
+      - unless @owner
+        %th Owner
+      %th Crop
+      %th Garden
+      %th Description
+      %th Quantity
+      %th Planted on
+      %th Sun/shade?
+      %th Planted from
+      %th
 
-- @plantings.each do |p|
-  = render :partial => "plantings/thumbnail", :locals => { :planting => p }
-
-%div.pagination
-  = page_entries_info @plantings, :model => "plantings"
-  = will_paginate @plantings
+    - @plantings.each do |planting|
+      %tr
+        - unless @owner
+          %td= link_to planting.owner.login_name, planting.owner
+        %td= link_to planting.crop.system_name, planting.crop
+        %td= link_to planting.garden.name, planting.garden
+        %td
+          :markdown
+            #{ strip_tags planting.description }
+        %td= planting.quantity
+        %td= planting.planted_at
+        %td= planting.sunniness
+        %td= planting.planted_from
+        %td= link_to 'Details', planting, :class => 'btn btn-mini'
+- else
+  %p There are no plantings to display.
