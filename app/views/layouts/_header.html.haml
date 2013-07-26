@@ -8,11 +8,31 @@
       %a.brand(href=root_path)= Growstuff::Application.config.site_name
       .nav-collapse.collapse
         %ul.nav
+          - if member_signed_in?
+            %li.dropdown<
+              %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => root_path}
+                Your Stuff
+                %b.caret
+                %ul.dropdown-menu
+                  %li= link_to "Profile", member_path(current_member)
+                  %li= link_to "Gardens", gardens_path(:owner_id => current_member.id)
+                  %li= link_to "Plantings", plantings_path(:owner_id => current_member.id)
+                  %li= link_to "Seeds", seeds_path(:owner_id => current_member.id)
+                  %li= link_to "Posts", posts_path(:author_id => current_member.id)
+
+              %ul.dropdown-menu
           %li= link_to "Crops", crops_path
-          %li= link_to "Members", members_path
-          %li= link_to "Posts", posts_path
-          %li= link_to "Forums", forums_path
-          %li= link_to "Shop", shop_path
+          %li= link_to "Seeds", seeds_path
+          %li.dropdown<
+            %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => members_path}
+              Community
+              %b.caret
+            %ul.dropdown-menu
+              %li= link_to "Members", members_path
+              %li= link_to "Posts", posts_path
+              %li= link_to "Forums", forums_path
+          - if member_signed_in?
+            %li= link_to "Shop", shop_path
           -if member_signed_in? and current_member.has_role?(:admin)
             %li= link_to "Admin", admin_path
           %li.divider-vertical
@@ -22,7 +42,6 @@
                 = current_member.login_name
                 %b.caret
               %ul.dropdown-menu
-                %li= link_to "Profile", member_path(current_member)
                 %li= link_to "Settings", edit_member_registration_path
                 %li= link_to "Account", orders_path
                 %li= link_to "Sign out", destroy_member_session_path, :method => :delete
