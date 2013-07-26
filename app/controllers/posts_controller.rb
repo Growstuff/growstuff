@@ -8,6 +8,10 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.paginate(:page => params[:page])
+    @author = Member.find_by_id(params[:author_id])
+    if @author
+      @posts = @author.posts.paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.haml

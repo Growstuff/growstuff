@@ -1,14 +1,27 @@
-= content_for :title, "Recent #{Growstuff::Application.config.site_name} member posts"
+- content_for :title, @author ? "#{@author}'s posts" : "Everyone's posts"
 
-%p= link_to 'Post something', new_post_path, :class => 'btn btn-primary'
+%p
+  - if can? :create, Post
+    - if @author
+      %p
+        - if @author == current_member
+          = link_to 'Post something', new_post_path, :class => 'btn btn-primary'
+        = link_to "View everyone's posts", posts_path, :class => 'btn'
+    - else # everyone's posts
+      = link_to 'Post something', new_post_path, :class => 'btn btn-primary'
+      - if current_member
+        = link_to 'View your posts', posts_path(:author_id => current_member.id), :class => 'btn'
+  - else
+    = render :partial => 'shared/signin_signup', :locals => { :to => 'write a post' }
 
 %div.pagination
   = page_entries_info @posts, :model => "posts"
   = will_paginate @posts
 
-- @posts.each do |post|
-  = render :partial => "single", :locals => { :post => post, :subject => true }
+- unless @posts.empty?
+  - @posts.each do |post|
+    = render :partial => "single", :locals => { :post => post, :subject => true }
 
-%div.pagination
-  = page_entries_info @posts, :model => "posts"
-  = will_paginate @posts
+  %div.pagination
+    = page_entries_info @posts, :model => "posts"
+    = will_paginate @posts
