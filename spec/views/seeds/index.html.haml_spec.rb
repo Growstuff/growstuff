@@ -6,7 +6,13 @@ describe "seeds/index" do
     sign_in @member
     controller.stub(:current_user) { @member }
     @seed1 = FactoryGirl.create(:seed, :owner => @member)
-    assign(:seeds, [@seed1, @seed1])
+    @page = 1
+    @per_page = 2
+    @total_entries = 2
+    seeds = WillPaginate::Collection.create(@page, @per_page, @total_entries) do |pager|
+      pager.replace([ @seed1, @seed1 ])
+    end
+    assign(:seeds, seeds)
   end
 
   it "renders a list of seeds" do
@@ -20,7 +26,10 @@ describe "seeds/index" do
     before(:each) do
       @owner = FactoryGirl.create(:london_member)
       @seed1 = FactoryGirl.create(:tradable_seed, :owner => @owner)
-      assign(:seeds, [@seed1, @seed1])
+      seeds = WillPaginate::Collection.create(@page, @per_page, @total_entries) do |pager|
+        pager.replace([ @seed1, @seed1 ])
+      end
+      assign(:seeds, seeds)
       render
     end
 

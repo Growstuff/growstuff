@@ -15,6 +15,11 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => "track what you've planted" }
 
 - if @plantings.length > 0
+
+  %div.pagination
+    = page_entries_info @plantings, :model => "plantings"
+    = will_paginate @plantings
+
   %table.table.table-striped
     %tr
       - unless @owner
@@ -42,5 +47,10 @@
         %td= planting.sunniness
         %td= planting.planted_from
         %td= link_to 'Details', planting, :class => 'btn btn-mini'
+
+  %div.pagination
+    = page_entries_info @plantings, :model => "plantings"
+    = will_paginate @plantings
+
 - else
   %p There are no plantings to display.

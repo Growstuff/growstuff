@@ -15,6 +15,11 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
 
 - if @seeds.length > 0
+
+  %div.pagination
+    = page_entries_info @seeds, :model => "seeds"
+    = will_paginate @seeds
+
   %table.table.table-striped
     %tr
       %th Owner
@@ -38,5 +43,9 @@
           - if seed.tradable?
             = seed.owner.location.blank? ? "unspecified" : seed.owner.location
         %td= link_to 'Details', seed, :class => 'btn btn-mini'
+
+  %div.pagination
+    = page_entries_info @seeds, :model => "seeds"
+    = will_paginate @seeds
 - else
   %p There are no seeds to display.
