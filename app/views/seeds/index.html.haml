@@ -14,11 +14,11 @@
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
 
-- if @seeds.length > 0
+%div.pagination
+  = page_entries_info @seeds, :model => "seeds"
+  = will_paginate @seeds
 
-  %div.pagination
-    = page_entries_info @seeds, :model => "seeds"
-    = will_paginate @seeds
+- if @seeds.length > 0
 
   %table.table.table-striped
     %tr
@@ -49,5 +49,3 @@
   %div.pagination
     = page_entries_info @seeds, :model => "seeds"
     = will_paginate @seeds
-- else
-  %p There are no seeds to display.
