@@ -76,14 +76,6 @@ describe 'layouts/_header.html.haml', :type => "view" do
       rendered.should contain /member\d+/
     end
 
-    it "should show settings link" do
-      assert_select "a[href=/members/edit]", "Settings"
-    end
-
-    it "should show account link" do
-      assert_select "a[href=#{orders_path}]", "Account"
-    end
-
     it 'should show signout link' do
       rendered.should contain 'Sign out'
     end
