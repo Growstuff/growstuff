@@ -55,9 +55,6 @@ describe 'layouts/_header.html.haml', :type => "view" do
       it 'should have a Your Stuff section' do
         rendered.should contain "Your Stuff"
       end
-      it "should show link to member's profile" do
-        assert_select("a[href=#{member_path(@member)}]", "Profile")
-      end
       it "should show link to member's gardens" do
         assert_select("a[href=#{gardens_by_owner_path(:owner => @member.slug)}]", "Gardens")
       end
@@ -70,10 +67,6 @@ describe 'layouts/_header.html.haml', :type => "view" do
       it "should show link to member's posts" do
         assert_select("a[href=#{posts_by_author_path(:author => @member.slug)}]", "Posts")
       end
-    end
-
-    it 'should show login name' do
-      rendered.should contain /member\d+/
     end
 
     it 'should show signout link' do
