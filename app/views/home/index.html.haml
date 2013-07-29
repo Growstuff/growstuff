@@ -1,24 +1,18 @@
-- if member_signed_in?
-  = render :partial => 'signed_in'
+.row
+  = render :partial => 'blurb'
+.row
+  .span8
+    = render :partial => 'crops'
+    = render :partial => 'seeds'
+    = render :partial => 'people'
 
-- else
+  .span4
+    %h2 Keep in touch
 
-  .row
-    = render :partial => 'blurb'
-  .row
-    .span8
-      = render :partial => 'crops'
-      = render :partial => 'seeds'
-      = render :partial => 'people'
+    %h2 Open Source
 
+    %h2 Open Data and APIs
 
-    .span4
-      %h2 Keep in touch
+    %h2 Get Involved
 
-      %h2 Open Source
-
-      %h2 Open Data and APIs
-
-      %h2 Get Involved
-
-      %h2 Support Growstuff
+    %h2 Support Growstuff
