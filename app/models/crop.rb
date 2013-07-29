@@ -12,6 +12,7 @@ class Crop < ActiveRecord::Base
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
 
   default_scope order("lower(system_name) asc")
+  scope :recent, reorder("created_at desc")
 
   validates :en_wikipedia_url,
     :format => {

@@ -33,25 +33,32 @@ describe Crop do
   end
 
   context 'ordering' do
+    before(:each) do
+      @uppercase = FactoryGirl.create(:uppercasecrop, :created_at => 1.minute.ago)
+      @lowercase = FactoryGirl.create(:lowercasecrop, :created_at => 2.days.ago)
+    end
+
     it "should be sorted case-insensitively" do
-      uppercase = FactoryGirl.create(:uppercasecrop)
-      lowercase = FactoryGirl.create(:lowercasecrop)
-      Crop.first.should == lowercase
+      Crop.first.should == @lowercase
+    end
+
+    it 'recent scope sorts by creation date' do
+      Crop.recent.first.should == @uppercase
     end
   end
 
   it 'finds a default scientific name' do
-    @c = FactoryGirl.create(:tomato)
-    @c.default_scientific_name.should eq nil
-    @sn = FactoryGirl.create(:solanum_lycopersicum, :crop => @c)
-    @c.default_scientific_name.should eq @sn.scientific_name
+    @crop = FactoryGirl.create(:tomato)
+    @crop.default_scientific_name.should eq nil
+    @sn = FactoryGirl.create(:solanum_lycopersicum, :crop => @crop)
+    @crop.default_scientific_name.should eq @sn.scientific_name
   end
 
   it 'counts plantings' do
-    @c = FactoryGirl.create(:tomato)
-    @c.plantings_count.should eq 0
-    FactoryGirl.create(:planting, :crop => @c)
-    @c.plantings_count.should eq 1
+    @crop = FactoryGirl.create(:tomato)
+    @crop.plantings_count.should eq 0
+    FactoryGirl.create(:planting, :crop => @crop)
+    @crop.plantings_count.should eq 1
   end
 
   it 'validates en_wikipedia_url' do
