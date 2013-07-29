@@ -19,7 +19,7 @@
   .span9
     %div
       :markdown
-        #{@garden.description}
+        #{strip_tags @garden.description}
     - if can? :edit, @garden
       = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-mini'
     - if can? :destroy, @garden

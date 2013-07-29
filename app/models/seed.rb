@@ -8,6 +8,8 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
 
+  default_scope order("created_at desc")
+
   validates :quantity,
     :numericality => { :only_integer => true },
     :allow_nil => true
