@@ -7,7 +7,7 @@
     .container
       .row
         .span12
-          - if content_for?(:title) 
+          - if content_for?(:title)
             %h1= yield(:title)
           - if notice
             .alert.alert-success

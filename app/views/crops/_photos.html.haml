@@ -1,0 +1,6 @@
+- if !crop.photos.empty?
+  %ul.thumbnails
+    .row
+    - crop.photos.first(4).each do |p|
+      %li.span2
+        = render :partial => "photos/thumbnail", :locals => { :photo => p }

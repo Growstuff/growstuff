@@ -3,10 +3,10 @@ class SeedsController < ApplicationController
   # GET /seeds
   # GET /seeds.json
   def index
-    @seeds = Seed.all
-    @owner = Member.find_by_id(params[:owner_id])
+    @seeds = Seed.paginate(:page => params[:page])
+    @owner = Member.find_by_slug(params[:owner])
     if @owner
-      @seeds = @owner.seeds.all
+      @seeds = @owner.seeds.paginate(:page => params[:page])
     end
 
     respond_to do |format|
