@@ -31,7 +31,8 @@ describe "plantings/index" do
   it "renders a list of plantings" do
     rendered.should contain 'Tomato'
     rendered.should contain 'Maize'
-    rendered.should contain /member\d+'s Springfield Community Garden/
+    rendered.should contain @member.login_name
+    rendered.should contain @garden.name
   end
 
   it "shows descriptions where they exist" do
@@ -40,10 +41,6 @@ describe "plantings/index" do
 
   it "displays planting time" do
     rendered.should contain 'January 13, 2013'
-  end
-
-  it "renders markdown in the description" do
-    assert_select "em", "really"
   end
 
 end
