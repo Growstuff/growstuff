@@ -1,3 +1,39 @@
-%h2 Crops
+.row-fluid
+  .span6
+    %h3 Some of our crops
+    - count = 0
+    - Crop.all.shuffle.each do |c|
+      - next unless c.photos.present?
+      - count += 1
+      .span3{:style => 'margin:0px; padding: 3px'}
+        = render :partial => 'crops/image_with_popover.html.haml', :locals => { :crop => c }
+      - break if count == 12
 
-%p Here are some crops
+  .span6
+    %h3 Recently planted
+    - count = 0
+    - Planting.all.each do |p|
+      - next unless p.photos.present?
+      - count += 1
+      .row
+        .span2{:style => 'padding-bottom: 6px'}
+          =link_to image_tag(p.photos.first.thumbnail_url, :alt => p.to_s), p
+        .span10
+          = link_to p.crop, p.crop
+          in
+          = succeed "'s" do
+            = link_to p.owner, p.owner
+          = link_to p.garden, p.garden
+          %br/
+          %small
+            %i
+              = p.owner.location
+      - break if count == 4
+
+.row-fluid
+  .span12
+    %p
+      %strong
+        Recently added crops:
+      != @recent_crops.map {|c| link_to(c, c) }.join(", ")
+

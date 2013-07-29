@@ -7,14 +7,14 @@ class HomeController < ApplicationController
     @planting_count = Planting.count
     @garden_count   = Garden.count
 
+    @member = current_member
+
+    @recent_crops = Crop.recent.first(12)
+
     # choose 6 recently-signed-in members sort of at random
     @interesting_members = Member.interesting.limit(30).shuffle.first(6)
 
-    # customise what we show on the homepage based on whether you're
-    # logged in or not.
-    @member = current_member
     @plantings = Planting.limit(15)
-    @posts = Post.limit(10)
 
     respond_to do |format|
       format.html # index.html.haml
