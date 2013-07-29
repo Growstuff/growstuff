@@ -19,7 +19,7 @@
               %li= link_to "Posts", posts_path
               %li= link_to "Forums", forums_path
 
-          %li.divider-vertical
+            %li.divider-vertical
 
           - if member_signed_in?
             %li.dropdown<
@@ -46,7 +46,6 @@
               - if current_member.has_role?(:admin)
                 %li= link_to "Admin", admin_path
 
-          - if member_signed_in?
             %li= link_to "Sign out", destroy_member_session_path, :method => :delete
 
           - else
