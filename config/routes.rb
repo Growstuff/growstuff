@@ -4,12 +4,21 @@ Growstuff::Application.routes.draw do
   resources :members
 
   resources :photos
-  resources :seeds
 
   resources :authentications
+
   resources :plantings
+  match '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
+
   resources :gardens
+  match '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
+
+  resources :seeds
+  match '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner'
+
   resources :posts
+  match '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
+
   resources :scientific_names
   resources :crops
   resources :comments

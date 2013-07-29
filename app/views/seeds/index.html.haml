@@ -10,14 +10,20 @@
     - else # everyone's seeds
       = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
       - if current_member
-        = link_to 'View your seeds', seeds_path(:owner_id => current_member.id), :class => 'btn'
+        = link_to 'View your seeds', seeds_by_owner_path(:owner => current_member.slug), :class => 'btn'
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
 
+%div.pagination
+  = page_entries_info @seeds, :model => "seeds"
+  = will_paginate @seeds
+
 - if @seeds.length > 0
+
   %table.table.table-striped
     %tr
-      %th Owner
+      - unless @owner
+        %th Owner
       %th Crop
       %th Description
       %th Quantity
@@ -28,7 +34,8 @@
 
     - @seeds.each do |seed|
       %tr
-        %td= link_to seed.owner.login_name, seed.owner
+        - unless @owner
+          %td= link_to seed.owner.login_name, seed.owner
         %td= link_to seed.crop.system_name, seed.crop
         %td= seed.description
         %td= seed.quantity
@@ -38,5 +45,7 @@
           - if seed.tradable?
             = seed.owner.location.blank? ? "unspecified" : seed.owner.location
         %td= link_to 'Details', seed, :class => 'btn btn-mini'
-- else
-  %p There are no seeds to display.
+
+  %div.pagination
+    = page_entries_info @seeds, :model => "seeds"
+    = will_paginate @seeds

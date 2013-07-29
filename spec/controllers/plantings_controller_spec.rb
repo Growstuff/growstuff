@@ -11,6 +11,14 @@ describe PlantingsController do
     }
   end
 
+  describe "GET index" do
+    it "picks up owner from params" do
+      owner = FactoryGirl.create(:member)
+      get :index, {:owner => owner.slug}
+      assigns(:owner).should eq(owner)
+    end
+  end
+
   describe "GET new" do
 
     it "picks up crop from params" do
