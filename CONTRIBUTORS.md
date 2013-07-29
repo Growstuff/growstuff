@@ -37,3 +37,4 @@ submit the change with your pull request.
 - Gary Traffanstedt / [blimey85](https://github.com/blimey85)
 - Yaw Boakye / [yawboakye](https://github.com/yawboakye)
 - Ryan Clark / [IAMRYO](https://github.com/IAMRYO)
+- Marty Hines / [martyhines](https://github.com/martyhines)

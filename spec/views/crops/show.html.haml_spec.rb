@@ -9,6 +9,30 @@ describe "crops/show" do
     assign(:crop, @crop)
   end
 
+  context 'photos' do
+    before(:each) do
+      @planting = FactoryGirl.create(:planting, :crop => @crop)
+      @photo1 = FactoryGirl.create(:photo)
+      @photo2 = FactoryGirl.create(:photo)
+      @photo3 = FactoryGirl.create(:photo)
+      @photo4 = FactoryGirl.create(:photo)
+      @planting.photos << [@photo1, @photo2, @photo3, @photo4]
+      render
+    end
+
+    it 'shows 4 photos across the top of the page' do
+      assert_select "div.thumbnail>a>img", :count => 4
+    end
+
+    it 'links to the photo detail page' do
+      assert_select "a[href=#{photo_path(@photo1)}]"
+    end
+
+    it 'links to the photo owner' do
+      assert_select "a[href=#{member_path(@photo1.owner)}]"
+    end
+  end
+
   it "shows the wikipedia URL" do
     render
     assert_select("a[href=#{@crop.en_wikipedia_url}]", 'Wikipedia (English)')
