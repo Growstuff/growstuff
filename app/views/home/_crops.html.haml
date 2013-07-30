@@ -1,13 +1,10 @@
 .row-fluid
   .span6
     %h2 Some of our crops
-    - count = 0
-    - Crop.all.shuffle.each do |c|
+    - Crop.interesting(12).each do |c|
       - next unless c.photos.present?
-      - count += 1
       .span3{:style => 'margin:0px; padding: 3px'}
         = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
-      - break if count == 12
 
   .span6
     %h2 Recently planted

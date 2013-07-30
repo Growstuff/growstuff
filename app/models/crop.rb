@@ -41,10 +41,19 @@ class Crop < ActiveRecord::Base
     return plantings.count
   end
 
+  # crop.default_photo
+  # currently returns the first available photo, but exists so that
+  # later we can choose a default photo based on different criteria,
+  # eg. popularity
   def default_photo
     return photos.first
   end
 
+  # crop.sunniness
+  # returns hash indicating whether this crop is grown in
+  # sun/semi-shade/shade
+  # key: sunniness (eg. 'sun')
+  # value: count of how many times it's been used by plantings
   def sunniness
     sunniness = Hash.new(0)
     plantings.each do |p|
@@ -55,6 +64,10 @@ class Crop < ActiveRecord::Base
     return sunniness
   end
 
+  # crop.planted_from
+  # returns a hash of propagation methods (seed, seedling, etc),
+  # key: propagation method (eg. 'seed')
+  # value: count of how many times it's been used by plantings
   def planted_from
     planted_from = Hash.new(0)
     plantings.each do |p|
@@ -63,6 +76,23 @@ class Crop < ActiveRecord::Base
       end
     end
     return planted_from
+  end
+
+  # Crop.interesting(howmany)
+  # returns a list of interesting crops, for use on the homepage etc
+  def Crop.interesting(howmany=12)
+    interesting_crops = Array.new
+    min_plantings = 3 # needs this many plantings to be interesting
+    min_photos    = 3 # needs this many photos to be interesting
+
+    Crop.all.each do |c|
+      break if interesting_crops.length == howmany
+      next unless c.photos.count >= min_photos
+      next unless c.plantings_count >= min_plantings
+      interesting_crops.push(c)
+    end
+
+    return interesting_crops
   end
 
 end
