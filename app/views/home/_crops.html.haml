@@ -1,6 +1,6 @@
 .row-fluid
   .span6
-    %h3 Some of our crops
+    %h2 Some of our crops
     - count = 0
     - Crop.all.shuffle.each do |c|
       - next unless c.photos.present?
@@ -10,7 +10,7 @@
       - break if count == 12
 
   .span6
-    %h3 Recently planted
+    %h2 Recently planted
     - count = 0
     - Planting.all.each do |p|
       - next unless p.photos.present?
