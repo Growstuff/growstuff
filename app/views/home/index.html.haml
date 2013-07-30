@@ -1,36 +1,11 @@
-.row
+.row-fluid
   = render :partial => 'blurb'
-.row
-  .span8
+.row-fluid
+  .span8.main
     = render :partial => 'crops'
     = render :partial => 'seeds'
     = render :partial => 'people'
 
-  .span4
-    %h2 Keep in touch
-
-    %p
-      =image_tag("twitter_32.png", :alt => '')
-      Follow
-      =link_to '@growstufforg', 'http://twitter.com/growstufforg'
-      on Twitter.
-
-    %p
-      =image_tag("blog_32.png", :alt => '')
-      Subscribe to the
-      =link_to 'Growstuff Blog', 'http://blog.growstuff.org/'
-
-    %p
-      =image_tag("email_32.png", :alt => '')
-      Subscribe to our
-      =link_to 'email newsletter', 'http://blog.growstuff.org/newsletter'
-
-    %p
-
-    %h2 Open Source
-
-    %h2 Open Data and APIs
-
-    %h2 Get Involved
-
-    %h2 Support Growstuff
+  .span4.sidebar
+    = render :partial => 'keep_in_touch'
+    = render :partial => 'open'
