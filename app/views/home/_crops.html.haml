@@ -17,7 +17,7 @@
       - count += 1
       .row
         .span2{:style => 'padding-bottom: 6px'}
-          =link_to image_tag(p.photos.first.thumbnail_url, :alt => p.to_s), p
+          = render :partial => 'plantings/image_with_popover.html.haml', :locals => { :planting => p }
         .span10
           = link_to p.crop, p.crop
           in

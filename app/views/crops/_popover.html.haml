@@ -1,10 +1,8 @@
 %p
-  - if crop.scientific_names.count > 0
-    %i
-      %small
+  %small
+    - if crop.scientific_names.count > 0
+      %i
         = crop.scientific_names.first.scientific_name
     %br/
-    %small
-      Planted
-      = pluralize(crop.plantings_count, "time")
-= link_to "More detail", crop
+    Planted
+    = pluralize(crop.plantings_count, "time")
