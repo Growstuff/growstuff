@@ -51,7 +51,7 @@
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
 
-@baseFontSize:          16px;
+@baseFontSize:          15px;
 @baseFontFamily:        @serifFontFamily;
 @baseLineHeight:        @baseFontSize * 1.5;
 @altFontFamily:         @sansFontFamily;
@@ -83,4 +83,18 @@ body {
 }
 ul.inline > li.first {
   padding-left: 0px;
+}
+
+h2 {
+  font-size: 150%;
+}
+
+.main {
+  padding-right: 1em;
+}
+
+.sidebar {
+  margin-left: -1px;
+  border-left: 1px solid darken(@beige, 10%);
+  padding-left: 1em;
 }
