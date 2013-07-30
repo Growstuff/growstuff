@@ -6,29 +6,12 @@
       - next unless c.photos.present?
       - count += 1
       .span3{:style => 'margin:0px; padding: 3px'}
-        = render :partial => 'crops/image_with_popover.html.haml', :locals => { :crop => c }
+        = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
       - break if count == 12
 
   .span6
     %h2 Recently planted
-    - count = 0
-    - Planting.all.each do |p|
-      - next unless p.photos.present?
-      - count += 1
-      .row
-        .span2{:style => 'padding-bottom: 6px'}
-          = render :partial => 'plantings/image_with_popover.html.haml', :locals => { :planting => p }
-        .span10
-          = link_to p.crop, p.crop
-          in
-          = succeed "'s" do
-            = link_to p.owner, p.owner
-          = link_to p.garden, p.garden
-          %br/
-          %small
-            %i
-              = p.owner.location
-      - break if count == 4
+    = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting(4) }
 
 .row-fluid
   .span12
