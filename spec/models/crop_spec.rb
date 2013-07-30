@@ -145,5 +145,109 @@ describe Crop do
     end
   end
 
+  context 'interesting' do
+    it 'lists interesting crops' do
+      # first, a couple of candidate crops
+      @crop1 = FactoryGirl.create(:crop)
+      @crop2 = FactoryGirl.create(:crop)
+
+      # they need 3+ plantings each to be interesting
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @crop1)
+      end
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @crop2)
+      end
+
+      # crops need 3+ photos to be interesting
+      @photo = FactoryGirl.create(:photo)
+      [@crop1, @crop2].each do |c|
+        (1..3).each do
+          c.plantings.first.photos << @photo
+          c.plantings.first.save
+        end
+      end
+
+      Crop.interesting.should include @crop1
+      Crop.interesting.should include @crop2
+      Crop.interesting.length.should == 2
+    end
+
+    it 'ignores crops without plantings' do
+      # first, a couple of candidate crops
+      @crop1 = FactoryGirl.create(:crop)
+      @crop2 = FactoryGirl.create(:crop)
+
+      # only crop1 has plantings
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @crop1)
+      end
+
+      # ... and photos
+      @photo = FactoryGirl.create(:photo)
+      (1..3).each do
+        @crop1.plantings.first.photos << @photo
+        @crop1.plantings.first.save
+      end
+
+      Crop.interesting.should include @crop1
+      Crop.interesting.should_not include @crop2
+      Crop.interesting.length.should == 1
+
+    end
+
+    it 'ignores crops without photos' do
+      # first, a couple of candidate crops
+      @crop1 = FactoryGirl.create(:crop)
+      @crop2 = FactoryGirl.create(:crop)
+
+      # both crops have plantings
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @crop1)
+      end
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @crop2)
+      end
+
+      # but only crop1 has photos
+      @photo = FactoryGirl.create(:photo)
+      (1..3).each do
+        @crop1.plantings.first.photos << @photo
+        @crop1.plantings.first.save
+      end
+
+      Crop.interesting.should include @crop1
+      Crop.interesting.should_not include @crop2
+      Crop.interesting.length.should == 1
+    end
+
+    it 'only gives you as many as you ask for' do
+      # first, a couple of candidate crops
+      @crop1 = FactoryGirl.create(:crop, :system_name => 'aaa')
+      @crop2 = FactoryGirl.create(:crop, :system_name => 'zzz')
+
+      # they need 3+ plantings each to be interesting
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @crop1)
+      end
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @crop2)
+      end
+
+      # crops need 3+ photos to be interesting
+      @photo = FactoryGirl.create(:photo)
+      [@crop1, @crop2].each do |c|
+        (1..3).each do
+          c.plantings.first.photos << @photo
+          c.plantings.first.save
+        end
+      end
+
+      Crop.interesting(1).should include @crop1
+      Crop.interesting(1).should_not include @crop2
+      Crop.interesting(1).length.should == 1
+    end
+
+  end
 
 end
