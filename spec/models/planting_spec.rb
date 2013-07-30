@@ -148,4 +148,80 @@ describe Planting do
     end
   end
 
+  context 'interesting crops' do
+    it 'picks up interesting plantings' do
+      # plantings have members created implicitly for them
+      # each member is different, hence these are all interesting
+      @planting1 = FactoryGirl.create(:planting, :created_at => 5.days.ago)
+      @planting2 = FactoryGirl.create(:planting, :created_at => 4.days.ago)
+      @planting3 = FactoryGirl.create(:planting, :created_at => 3.days.ago)
+      @planting4 = FactoryGirl.create(:planting, :created_at => 2.days.ago)
+
+      # plantings need photos to be interesting
+      @photo = FactoryGirl.create(:photo)
+      [@planting1, @planting2, @planting3, @planting4].each do |p|
+        p.photos << @photo
+        p.save
+      end
+
+      Planting.interesting.should eq [
+        @planting4,
+        @planting3,
+        @planting2,
+        @planting1
+      ]
+    end
+
+    it 'ignores plantings without photos' do
+      # first, an interesting planting
+      @planting = FactoryGirl.create(:planting)
+      @planting.photos << FactoryGirl.create(:photo)
+      @planting.save
+
+      # this one doesn't have a photo
+      @boring_planting = FactoryGirl.create(:planting)
+
+      Planting.interesting.should include @planting
+      Planting.interesting.should_not include @boring_planting
+    end
+
+    it 'ignores plantings with the same owner' do
+      # this planting is older
+      @planting1 = FactoryGirl.create(:planting, :created_at => 1.day.ago)
+      @planting1.photos << FactoryGirl.create(:photo)
+      @planting1.save
+
+      # this one is newer, and has the same owner, through the garden
+      @planting2 = FactoryGirl.create(:planting,
+        :created_at => 1.minute.ago,
+        :garden_id => @planting1.garden.id
+      )
+      @planting2.photos << FactoryGirl.create(:photo)
+      @planting2.save
+
+      # result: the newer one is interesting, the older one isn't
+      Planting.interesting.should include @planting2
+      Planting.interesting.should_not include @planting1
+    end
+
+    it 'only gives you as many as you ask for' do
+      # plantings have members created implicitly for them
+      # each member is different, hence these are all interesting
+      @planting1 = FactoryGirl.create(:planting, :created_at => 5.days.ago)
+      @planting2 = FactoryGirl.create(:planting, :created_at => 4.days.ago)
+      @planting3 = FactoryGirl.create(:planting, :created_at => 3.days.ago)
+      @planting4 = FactoryGirl.create(:planting, :created_at => 2.days.ago)
+
+      # plantings need photos to be interesting
+      @photo = FactoryGirl.create(:photo)
+      [@planting1, @planting2, @planting3, @planting4].each do |p|
+        p.photos << @photo
+        p.save
+      end
+
+      Planting.interesting(2).length.should == 2
+    end
+
+  end
+
 end
