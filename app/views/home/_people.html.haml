@@ -1,9 +1,19 @@
-%h2 People
-
-%p Here are some people
-
 - if @interesting_members.present?
-  %ul.thumbnails
-    - @interesting_members.each do |m|
-      %li.span2
-        = render :partial => "members/thumbnail", :locals => { :member => m }
+  %h2 Some of our members
+
+  .row-fluid
+    - @interesting_members.first(6).each do |m|
+      .span6
+        .row-fluid{:style => 'padding-bottom: 1em'}
+          .span3
+            = render :partial => "members/image_with_popover", :locals => { :member => m }
+          .span9
+            %p
+              = link_to m.login_name, m
+              %br/
+              %i= m.location
+              %br/
+              Recently planted:
+              != m.plantings.first(4).map{|p| link_to p.crop_system_name, p }.join(", ")
+
+
