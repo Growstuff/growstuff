@@ -49,7 +49,7 @@
         Location:
         = @member.location
         %br/
-        = link_to 'Find members near here', nearby_members_path(:location => @member.location)
+        = link_to 'Find members near here', place_path(@member.location)
 
   .span9
     %p
