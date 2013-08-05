@@ -2,11 +2,14 @@ require 'spec_helper'
 
 describe CommentsController do
 
-  login_member
+  before(:each) do
+    @member = FactoryGirl.create(:member)
+    sign_in @member
+    controller.stub(:current_member) { @member }
+  end
 
   def valid_attributes
     @post = FactoryGirl.create(:post)
-    @member = FactoryGirl.create(:member)
     { :post_id => @post.id, :author_id => @member.id, :body => "some text" }
   end
 
@@ -43,7 +46,7 @@ describe CommentsController do
     it "assigns previous comments as @comments" do
       post = FactoryGirl.create(:post)
       old_comment = FactoryGirl.create(:comment, :post => post)
-      comment = FactoryGirl.create(:comment, :post => post)
+      comment = FactoryGirl.create(:comment, :post => post, :author => @member)
       get :edit, {:id => comment.to_param}
       assigns(:comments).should eq([comment, old_comment])
     end
