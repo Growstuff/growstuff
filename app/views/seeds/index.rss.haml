@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+%rss{:version => 2.0}
+  %channel
+    %title
+      #{Growstuff::Application.config.site_name} - Recent seeds from #{ @owner ? @owner : 'all members' }
+    %link= seeds_url
+    - @seeds.each do |seed|
+      %item
+        %author= seed.owner.login_name
+        %title #{seed.owner}'s #{seed.crop} seeds
+        %pubDate= seed.created_at.to_s(:rfc822)
+        %description
+          :escaped
+            <p>Quantity: #{seed.quantity ? seed.quantity : 'unknown' }</p>
+            <p>Plant before: #{seed.plant_before ? seed.plant_before : 'unknown' }</p>
+          - if seed.tradable?
+            :escaped
+              <p>Will trade #{seed.tradable_to} from #{seed.owner.location ? seed.owner.location : 'unknown location'}</p>
+
+          :escaped_markdown
+            #{ strip_tags seed.description }
+        %link= seed_url(seed)
+        %guid= seed_url(seed)

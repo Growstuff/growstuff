@@ -12,6 +12,7 @@ class SeedsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @seeds }
+      format.rss { render :layout => false } #index.rss.builder
     end
   end
 
