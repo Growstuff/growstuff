@@ -16,7 +16,6 @@ class PlantingsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @plantings }
       format.rss { render :layout => false } #index.rss.builder
-
     end
   end
 
