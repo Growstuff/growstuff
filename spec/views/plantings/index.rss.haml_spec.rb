@@ -7,16 +7,19 @@ describe 'plantings/index.rss.haml' do
 
   context 'all plantings' do
     before :each do
-      assign(:plantings, [
-        FactoryGirl.create(:planting),
-        FactoryGirl.create(:sunny_planting),
-        FactoryGirl.create(:seedling_planting)
-      ])
+      @planting = FactoryGirl.create(:planting)
+      @sunny = FactoryGirl.create(:sunny_planting)
+      @seedling = FactoryGirl.create(:seedling_planting)
+      assign(:plantings, [@planting, @sunny, @seedling])
       render
     end
 
     it 'shows RSS feed title' do
       rendered.should contain "Recent plantings from all members"
+    end
+
+    it 'item title shows owner and location' do
+      rendered.should contain "#{@planting.crop} in #{@planting.location}"
     end
 
     it 'shows formatted content of posts' do

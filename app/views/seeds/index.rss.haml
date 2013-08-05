@@ -6,7 +6,6 @@
     %link= seeds_url
     - @seeds.each do |seed|
       %item
-        %author= seed.owner.login_name
         %title #{seed.owner}'s #{seed.crop} seeds
         %pubDate= seed.created_at.to_s(:rfc822)
         %description
