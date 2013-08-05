@@ -3,7 +3,7 @@
 
   .row-fluid
     - @interesting_members.first(6).each do |m|
-      .span6
+      .span6.homepage-members
         .row-fluid{:style => 'padding-bottom: 1em'}
           .span3
             = render :partial => "members/image_with_popover", :locals => { :member => m }
