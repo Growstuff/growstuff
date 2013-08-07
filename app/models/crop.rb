@@ -85,6 +85,9 @@ class Crop < ActiveRecord::Base
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
 
+    # it's inefficient to shuffle this up-front, but if we cache
+    # the crops on the homepage it won't be run too often, and there's
+    # not *that* many crops.
     Crop.all.shuffle.each do |c|
       break if interesting_crops.length == howmany
       next unless c.photos.count >= min_photos
