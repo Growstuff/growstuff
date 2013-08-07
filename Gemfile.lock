@@ -123,6 +123,7 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.7.7)
     kgio (2.8.0)
+    leaflet-rails (0.6.2)
     less (2.3.2)
       commonjs (~> 0.2.6)
     less-rails (2.3.3)
@@ -256,6 +257,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   json (~> 1.7.7)
+  leaflet-rails
   less-rails
   memcachier
   newrelic_rpm
