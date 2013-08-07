@@ -1,0 +1,25 @@
+%h2 Seeds available to trade
+
+- if @seeds.length > 0
+
+  %table.table.table-striped
+    %tr
+      %th Owner
+      %th Crop
+      %th.hidden-phone.hidden-tablet Description
+      %th Will trade to
+      %th From location
+      %th
+
+    - @seeds.each do |seed|
+      %tr
+        %td= link_to seed.owner.login_name, seed.owner
+        %td= link_to seed.crop.system_name, seed.crop
+        %td.hidden-phone.hidden-tablet= truncate(seed.description, :length => 40, :separator => ' ')
+        %td= seed.tradable? ? seed.tradable_to : ''
+        %td
+          - if seed.tradable?
+            = seed.owner.location.blank? ? "unspecified" : truncate(seed.owner.location, :length => 25, :separator => ', ')
+        %td= link_to 'Details', seed, :class => 'btn btn-mini'
+
+%p= link_to "View all seeds", seeds_path, :class => 'btn btn-primary'
