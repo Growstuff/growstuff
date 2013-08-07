@@ -13,6 +13,11 @@
 
   .control-group
     .controls
+      = f.check_box :show_email
+      Show email publicly on your profile page
+
+  .control-group
+    .controls
       = f.check_box :send_notification_email
       Receive emailed copies of Inbox notifications.
 
@@ -32,12 +37,8 @@
     =f.label :location, 'Your location', :class => 'control-label'
     .controls
       =f.text_field :location
-      %span.help-inline Be as detailed or vague as you like.
+      %span.help-inline This will be displayed on a map. You can be as detailed or vague as you like.
 
-  .control-group
-    .controls
-      = f.check_box :show_email
-      Show email publicly on your profile page
 
   %h2 Linked accounts
 
