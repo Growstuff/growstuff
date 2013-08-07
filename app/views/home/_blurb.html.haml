@@ -1,19 +1,15 @@
-.span12
+%h1= Growstuff::Application.config.site_name
 
-  %h1= Growstuff::Application.config.site_name
+.row-fluid
+  .span8.info
+    %p
+      #{Growstuff::Application.config.site_name} is a community of food gardeners.
+      We're building an open source platform to help you learn about
+      growing food, track what you plant and harvest, and swap
+      seeds and produce with other gardeners near you.
 
-  %p
-    #{Growstuff::Application.config.site_name} is a community of food gardeners. We're building an open source platform to track, share, and discuss edible gardens and sustainable lifestyles.  We offer growing information tailored to your location, and help you connect with your local food-growing community.
+    = render :partial => 'stats'
+  .span4.signup
+    %p Join now for your free garden journal, seed sharing, forums, and more.
+    %p= link_to 'Sign up', new_member_registration_path, :class => 'btn btn-primary btn-large'
 
-  %p
-    %strong
-      So far,
-      = link_to "#{@member_count} members", members_path
-      have planted
-      = link_to "#{@crop_count} crops", crops_path
-      #{@planting_count} times in #{@garden_count} gardens.
-
-  %p
-    You could be one of them. Sign up for a free account and start tracking your food garden today.
-  %p
-    = link_to 'Join now', new_member_registration_path, :class => 'btn btn-primary'

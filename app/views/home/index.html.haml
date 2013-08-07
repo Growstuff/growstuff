@@ -1,5 +1,18 @@
 .row-fluid
-  = render :partial => 'blurb'
+  .span12
+    - if member_signed_in?
+      %h1
+        Welcome to
+        = succeed "," do
+          = Growstuff::Application.config.site_name
+        = current_member
+      = render :partial => 'stats'
+    - else
+      .visible-desktop.visible-tablet
+        .hero-unit
+          = render :partial => 'blurb'
+      .visible-phone
+        = render :partial => 'blurb'
 .row-fluid
   .span8.main
     = render :partial => 'crops'
