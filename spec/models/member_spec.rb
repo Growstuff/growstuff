@@ -227,16 +227,23 @@ describe 'member' do
     end
   end
 
-  context 'interesting scope' do
+  context 'interesting' do
 
-    # active members are defined as:
+    # interesting members are defined as:
     # 1) confirmed
-    # 2) ordered by the most recent sign in
+    # 2) have a location
+    # 3) have at least one planting
+    # 4) ordered by the most recent sign in
+
     it 'finds interesting members' do
       @member1 = FactoryGirl.create(:london_member)
       @member2 = FactoryGirl.create(:london_member)
       @member3 = FactoryGirl.create(:london_member)
       @member4 = FactoryGirl.create(:unconfirmed_member)
+
+      [@member1, @member2, @member3, @member4].each do |m|
+        FactoryGirl.create(:planting, :garden => m.gardens.first)
+      end
 
       @member1.updated_at = 3.days.ago
       @member2.updated_at = 2.days.ago

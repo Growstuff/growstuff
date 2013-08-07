@@ -1,0 +1,9 @@
+%p.stats
+  So far,
+  = link_to "#{@member_count} members", members_path
+  have planted
+  = link_to "#{@crop_count} crops", crops_path
+  = link_to "#{@planting_count} times", plantings_path
+  in
+  = succeed "." do
+    = link_to "#{@garden_count} gardens", gardens_path

@@ -5,7 +5,7 @@
     = render :partial => "layouts/header"
 
     .container
-      .row
+      .row-fluid
         .span12
           - if content_for?(:title)
             %h1= yield(:title)
