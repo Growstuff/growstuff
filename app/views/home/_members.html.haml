@@ -4,7 +4,7 @@
   .row-fluid
     - @interesting_members.first(6).each do |m|
       .span6.homepage-members
-        .row-fluid{:style => 'padding-bottom: 1em'}
+        .row-fluid
           .span3
             = render :partial => "members/image_with_popover", :locals => { :member => m }
           .span9
@@ -14,6 +14,6 @@
               %i= m.location
               %br/
               Recently planted:
-              != m.plantings.first(4).map{|p| link_to p.crop_system_name, p }.join(", ")
+              != m.plantings.first(3).map{|p| link_to p.crop_system_name, p }.join(", ")
 
 
