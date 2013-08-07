@@ -227,6 +227,21 @@ describe 'member' do
     end
   end
 
+  context 'located scope' do
+    it 'recognises non-blank locations as interesting' do
+      @m = FactoryGirl.create(:member, :location => 'Greenwich, UK')
+      Member.located.should include @m
+    end
+    it 'recognises nil locations as uninteresting' do
+      @m = FactoryGirl.create(:member, :location => nil)
+      Member.located.should_not include @m
+    end
+    it 'recognises empty string locations as uninteresting' do
+      @m = FactoryGirl.create(:member, :location => '')
+      Member.located.should_not include @m
+    end
+  end
+
   context 'interesting' do
 
     # interesting members are defined as:
