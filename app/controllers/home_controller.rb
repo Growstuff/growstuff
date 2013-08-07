@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     @member = current_member
 
     @recent_crops = Crop.recent.limit(12)
-    @seeds = Seed.tradable.limit(6)
+    @seeds = Seed.interesting(6)
 
     # choose 6 recently-signed-in members sort of at random
     @interesting_members = Member.interesting(6)

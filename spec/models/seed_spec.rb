@@ -87,4 +87,26 @@ describe Seed do
 
     end
   end
+
+  context 'interesting' do
+    it 'lists interesting seeds' do
+
+      # to be interesting a seed must:
+      # 1) be tradable
+      # 2) the owner must have a location set
+
+      @located_member = FactoryGirl.create(:london_member)
+      @seed1 = FactoryGirl.create(:tradable_seed, :owner => @located_member)
+      @seed2 = FactoryGirl.create(:seed, :owner => @located_member)
+      @seed3 = FactoryGirl.create(:tradable_seed)
+      @seed4 = FactoryGirl.create(:seed)
+
+      Seed.interesting.should include @seed1
+      Seed.interesting.should_not include @seed2
+      Seed.interesting.should_not include @seed3
+      Seed.interesting.should_not include @seed4
+      Seed.interesting.length.should == 1
+    end
+  end
+
 end
