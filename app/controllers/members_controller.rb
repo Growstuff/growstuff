@@ -53,7 +53,6 @@ class MembersController < ApplicationController
     @nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
     respond_to do |format|
       format.html # nearby.html.haml
-      format.json { render json: @nearby_members }
     end
   end
 
