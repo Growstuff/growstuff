@@ -1,9 +1,9 @@
 .well
   .comment
-    .row
+    .row-fluid
       .span1
         = render :partial => "members/avatar", :locals => { :member => comment.author }
-      .span7
+      .span11
         .comment-meta
           Posted by
           = link_to comment.author.login_name, member_path(comment.author)
