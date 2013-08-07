@@ -26,7 +26,7 @@ class Member < ActiveRecord::Base
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
-  scope :located, where('location <> ""')
+  scope :located, where("location <> ''")
   scope :recently_signed_in, reorder('updated_at DESC')
 
   # Include default devise modules. Others available are:
