@@ -6,8 +6,7 @@
     %link= posts_url
     - @posts.each do |post|
       %item
-        %author= post.author.login_name
-        %title= post.subject
+        %title #{post.subject} by #{post.author.login_name}
         %description
           :escaped_markdown
             #{ strip_tags post.body }
