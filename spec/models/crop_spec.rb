@@ -243,8 +243,6 @@ describe Crop do
         end
       end
 
-      Crop.interesting(1).should include @crop1
-      Crop.interesting(1).should_not include @crop2
       Crop.interesting(1).length.should == 1
     end
 

@@ -85,7 +85,7 @@ class Crop < ActiveRecord::Base
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
 
-    Crop.all.each do |c|
+    Crop.all.shuffle.each do |c|
       break if interesting_crops.length == howmany
       next unless c.photos.count >= min_photos
       next unless c.plantings_count >= min_plantings
