@@ -7,3 +7,8 @@ L.tileLayer("http://{s}.tile.cloudmade.com/<%= ENV['CLOUDMADE_KEY'] %>/997/256/{
   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
   maxZoom: 18
 }).addTo(map);
+
+<% Member.located.each do |m| %>
+map.addLayer(new L.Marker(new L.LatLng(<%= m.latitude %>, <%= m.longitude %>));
+);
+<% end %>
