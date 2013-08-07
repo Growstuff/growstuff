@@ -30,6 +30,20 @@ class Seed < ActiveRecord::Base
     end
   end
 
+  # Seed.interesting(howmany)
+  # returns a list of interesting seeds, for use on the homepage etc
+  def Seed.interesting(howmany=8)
+    interesting_seeds = Array.new
+
+    Seed.tradable.each do |s|
+      break if interesting_seeds.length == howmany
+      next if s.owner.location.blank? # don't want unspecified locations
+      interesting_seeds.push(s)
+    end
+
+    return interesting_seeds
+  end
+
   def seed_slug
     "#{owner.login_name}-#{crop.system_name}".downcase.gsub(' ', '-')
   end
