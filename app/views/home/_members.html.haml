@@ -1,19 +1,12 @@
 - if @members.present?
   %h2 Some of our members
 
-  .row-fluid
+  .visible-desktop.visible-tablet
+    .row-fluid
+      - @members.each do |m|
+        .span6.homepage-members
+          = render :partial => "members/thumbnail", :locals => { :member => m }
+
+  .visible-phone
     - @members.each do |m|
-      .span6.homepage-members
-        .row-fluid
-          .span3
-            = render :partial => "members/image_with_popover", :locals => { :member => m }
-          .span9
-            %p
-              = link_to m.login_name, m
-              %br/
-              %i= m.location
-              %br/
-              Recently planted:
-              != m.plantings.first(3).map{|p| link_to p.crop_system_name, p }.join(", ")
-
-
+      = render :partial => "members/thumbnail", :locals => { :member => m }
