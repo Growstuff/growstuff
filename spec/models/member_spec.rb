@@ -24,6 +24,12 @@ describe 'member' do
       @member.slug.should match(/member\d+/)
     end
 
+    it 'has a bio' do
+      @member.bio = 'I love seeds'
+      @member.save
+      @member.bio.should eq 'I love seeds'
+    end
+
     it 'should have a default garden' do
       @member.save
       @member.gardens.count.should == 1
