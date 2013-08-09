@@ -1,8 +1,8 @@
-- if @interesting_members.present?
+- if @members.present?
   %h2 Some of our members
 
   .row-fluid
-    - @interesting_members.first(6).each do |m|
+    - @members.each do |m|
       .span6.homepage-members
         .row-fluid
           .span3

@@ -8,7 +8,7 @@
 
   .span6
     %h2 Recently planted
-    = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting(4) }
+    = render :partial => 'plantings/list', :locals => { :plantings => @plantings }
 
 .row-fluid
   .span12
