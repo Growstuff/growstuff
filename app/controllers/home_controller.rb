@@ -8,6 +8,7 @@ class HomeController < ApplicationController
     @planting_count = Planting.count
     @garden_count   = Garden.count
 
+    @crops        = Crop.interesting(6)
     @recent_crops = Crop.recent.limit(12)
     @plantings    = Planting.interesting(4)
     @seeds        = Seed.interesting(6)
