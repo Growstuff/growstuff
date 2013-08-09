@@ -15,6 +15,11 @@ describe 'home/_blurb.html.haml', :type => "view" do
       assert_select "div.signup"
       assert_select "a", :href => new_member_registration_path
     end
+
+    it 'has a link to sign in' do
+      rendered.should contain "Or sign in if you already have an account"
+      assert_select "a", :href => new_member_session_path
+    end
   end
 
 end
