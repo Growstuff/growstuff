@@ -12,28 +12,23 @@ describe HomeController do
       assigns(:member_count).should == 1
     end
 
-    it "assigns posts and plantings" do
-      @post = FactoryGirl.create(:post)
-      @planting = FactoryGirl.create(:planting)
+    it "assigns plantings" do
+      @member = FactoryGirl.create(:london_member)
+      @planting = FactoryGirl.create(:planting, :garden => @member.gardens.first)
+      @planting.photos << FactoryGirl.create(:photo)
+      @planting.save
       get :index, {}
-      assigns(:posts).should eq [@post]
       assigns(:plantings).should eq [@planting]
     end
 
     it 'assigns interesting members' do
       @member = FactoryGirl.create(:london_member)
-      get :index, {}
-      assigns(:interesting_members).should eq [@member]
-    end
-
-    context 'logged in' do
-
-      login_member
-
-      it 'assigns member' do
-        get :index, {}
-        assigns(:member).should be_an_instance_of Member
+      (1..3).each do
+        FactoryGirl.create(:planting, :garden => @member.gardens.first)
       end
+      get :index, {}
+      assigns(:members).should eq [@member]
     end
+
   end
 end

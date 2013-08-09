@@ -7,7 +7,7 @@ coverage
 .*.sw*
 *~
 *.DS_Store
-credentials.sh
+credentials*.sh
 Pathogen:
 custom_plan.rb
 zeus.json

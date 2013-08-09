@@ -1,14 +1,14 @@
 .row-fluid
   .span6
     %h2 Some of our crops
-    - Crop.interesting(12).each do |c|
+    - @crops.each do |c|
       - next unless c.photos.present?
       .span3{:style => 'margin:0px; padding: 3px'}
         = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
 
   .span6
     %h2 Recently planted
-    = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting(4) }
+    = render :partial => 'plantings/list', :locals => { :plantings => @plantings }
 
 .row-fluid
   .span12
@@ -16,4 +16,7 @@
       %strong
         Recently added crops:
       != @recent_crops.map {|c| link_to(c, c) }.join(", ")
+
+    %p
+      =link_to "View all crops", crops_path, :class => 'btn btn-primary'
 
