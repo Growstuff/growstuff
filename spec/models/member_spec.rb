@@ -227,6 +227,27 @@ describe 'member' do
     end
   end
 
+  context 'located scope' do
+    # located members must have location, lat, long
+    it 'finds members who have locations' do
+      @london_member = FactoryGirl.create(:london_member)
+      Member.located.should include @london_member
+    end
+
+    it 'ignores members with blank locations' do
+      @nowhere_member = FactoryGirl.create(:member)
+      Member.located.should_not include @nowhere_member
+    end
+
+    it 'ignores members with blank lat/long' do
+      @london_member = FactoryGirl.create(:london_member)
+      @london_member.latitude = nil
+      @london_member.longitude = nil
+      @london_member.save(:validate => false)
+      Member.located.should_not include @london_member
+    end
+  end
+
   context 'interesting scope' do
 
     # active members are defined as:

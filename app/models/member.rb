@@ -26,7 +26,7 @@ class Member < ActiveRecord::Base
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
-  scope :located, where('location IS NOT NULL')
+  scope :located, where('location IS NOT NULL and latitude IS NOT NULL and longitude IS NOT NULL')
   scope :recently_signed_in, reorder('updated_at DESC')
 
   # this is used on the signed-out homepage so we're basically
@@ -187,7 +187,7 @@ class Member < ActiveRecord::Base
 
   protected
   def empty_unwanted_geocodes
-    if self.location.to_s == ''
+    if self.location.blank?
       self.latitude = nil
       self.longitude = nil
     end
