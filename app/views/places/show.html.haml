@@ -1,7 +1,21 @@
 -content_for :title, @place
 
-%p This would be a google map.
-= image_tag("http://placehold.it/700x300", :alt => "map goes here!")
+<script src="/assets/leaflet.js?body=1" type="text/javascript"></script>
+
+%div#map{ :style => "height:300px"}
+
+:javascript
+  map = L.map('map').setView([#{ @latitude }, #{ @longitude }]).fitBounds([ [#{@sw_lat}, #{@sw_lng}], [#{@ne_lat}, #{@ne_lng}] ]);
+  L.tileLayer("http://{s}.tile.cloudmade.com/#{ ENV['CLOUDMADE_KEY'] }/997/256/{z}/{x}/{y}.png", {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://cloudmade.com">CloudMade</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+- Member.located.each do |m|
+  :javascript
+    marker = new L.Marker(new L.LatLng(#{m.latitude}, #{m.longitude}));
+    marker.bindPopup('#{ escape_javascript( render :partial => 'members/popover', :locals => { :member => m }) }').openPopup();
+    map.addLayer(marker);
 
 %h3
   = Growstuff::Application.config.site_name
