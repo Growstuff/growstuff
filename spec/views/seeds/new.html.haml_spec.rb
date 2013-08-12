@@ -37,6 +37,7 @@ describe "seeds/new" do
     it 'shows the location' do
       render
       rendered.should contain "from #{@member.location}."
+      assert_select 'a', :href => place_path(@member.location)
     end
 
     it 'links to change location' do

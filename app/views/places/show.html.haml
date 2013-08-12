@@ -21,14 +21,13 @@
   = Growstuff::Application.config.site_name
   members near #{@place}
 
-%p
-  = form_tag(search_places_path, :method => :get, :class => 'form-inline') do
-    = label_tag :distance, "Find members within", :class => 'control-label'
-    = text_field_tag :distance, @distance, :class => 'input-mini'
-    = select_tag :units, options_for_select({"miles" => :mi, "km" => :km}, @units), :class => 'input-small'
-    = label_tag :place, "of", :class => 'control-label'
-    = text_field_tag :new_place, @place
-    = submit_tag "Search", :class => 'btn btn-primary'
+= form_tag(search_places_path, :method => :get, :class => 'form-inline') do
+  = label_tag :distance, "Find members within", :class => 'control-label'
+  = text_field_tag :distance, @distance, :class => 'input-mini'
+  = select_tag :units, options_for_select({"miles" => :mi, "km" => :km}, @units), :class => 'input-small'
+  = label_tag :place, "of", :class => 'control-label'
+  = text_field_tag :new_place, @place
+  = submit_tag "Search", :class => 'btn btn-primary'
 
 - if !@nearby_members.empty?
   %ul.thumbnails

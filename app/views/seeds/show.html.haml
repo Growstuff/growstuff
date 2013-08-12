@@ -23,7 +23,7 @@
       - else
         (from
         = succeed ")" do
-          = @seed.owner.location
+          = link_to @seed.owner.location, place_path(@seed.owner.location)
 
     %p
       %b Description:

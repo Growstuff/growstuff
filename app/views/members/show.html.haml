@@ -44,12 +44,9 @@
     - if @member.location.to_s != ''
       %h4 Location
       %p
-        = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
+        = link_to image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 ), place_path(@member.location)
         %br/
-        Location:
-        = @member.location
-        %br/
-        = link_to 'Find members near here', place_path(@member.location)
+        = link_to @member.location, place_path(@member.location)
 
   .span9
     %p

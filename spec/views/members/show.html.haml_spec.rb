@@ -173,6 +173,10 @@ describe "members/show" do
     it "shows a map" do
       assert_select "img", :src => /maps\.google\.com/
     end
+
+    it 'includes a link to places page' do
+      assert_select 'a', :href => place_path(@member.location)
+    end
   end
 
   context "no location stated" do
