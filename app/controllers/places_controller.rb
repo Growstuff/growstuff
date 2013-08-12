@@ -26,7 +26,7 @@ class PlacesController < ApplicationController
 
     location = Geocoder.search(Geocoder::Query.new(@place, :distance => @distance, :units => @units))
 
-    if location
+    if location && location[0] && location[0].coordinates
       @latitude, @longitude = location[0].coordinates
       @sw_lat, @sw_lng, @ne_lat, @ne_lng = Geocoder::Calculations.bounding_box(
         location[0].coordinates,
@@ -35,6 +35,8 @@ class PlacesController < ApplicationController
       )
     else
       @latitude, @longitude = [0, 0]
+      @sw_lat, @sw_lng, @ne_lat, @ne_lng = [0,0,0,0]
+      flash[:alert] = "Sorry, our map provider can't find this location."
     end
 
 
