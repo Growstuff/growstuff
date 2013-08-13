@@ -24,12 +24,16 @@ class PlacesController < ApplicationController
       @units = :km
     end
 
-    location = Geocoder.search(Geocoder::Query.new(@place, :distance => @distance, :units => @units))
+    json = open(URI.escape("http://nominatim.openstreetmap.org/search/#{@place}?format=json&limit=1")).read()
+    location = JSON.parse(json)
 
-    if location && location[0] && location[0].coordinates
-      @latitude, @longitude = location[0].coordinates
+    if location && location[0]
+      puts location[0].to_yaml
+      @latitude = location[0]['lat']
+      @longitude = location[0]['lon']
+
       @sw_lat, @sw_lng, @ne_lat, @ne_lng = Geocoder::Calculations.bounding_box(
-        location[0].coordinates,
+        [@latitude, @longitude],
         @distance,
         options = { :units => @units }
       )
