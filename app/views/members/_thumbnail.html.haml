@@ -1,4 +1,4 @@
-- cache "member_thumbnail_#{member.slug}" do
+- cache "member_thumbnail_#{member.id}" do
   .row-fluid
     .span3
       = render :partial => "members/image_with_popover", :locals => { :member => member }

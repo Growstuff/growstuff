@@ -6,7 +6,7 @@ class MemberSweeper < ActionController::Caching::Sweeper
   end
 
   def after_update(member)
-    expire_fragment("member_thumbnail_#{member.slug}")
+    expire_fragment("member_thumbnail_#{member.id}")
   end
 
 end
