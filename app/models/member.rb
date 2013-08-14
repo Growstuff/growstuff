@@ -189,7 +189,7 @@ class Member < ActiveRecord::Base
       next unless m.plantings.present?
       interesting_members.push(m)
     end
-    Rails.cache.fetch('interesting_members', :expires_in => 1.day)
+    Rails.cache.fetch('interesting_members', :expires_in => 1.day) { interesting_members }
     return interesting_members
   end
 
