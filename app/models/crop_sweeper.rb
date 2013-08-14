@@ -3,6 +3,7 @@ class CropSweeper < ActionController::Caching::Sweeper
 
   def after_create(crop)
     expire_fragment('homepage_stats')
+    expire_fragment('recent_crops')
   end
 
   def after_update(crop)
@@ -11,6 +12,7 @@ class CropSweeper < ActionController::Caching::Sweeper
 
   def after_destroy(crop)
     expire_fragment('homepage_stats')
+    expire_fragment('recent_crops')
   end
 
 end

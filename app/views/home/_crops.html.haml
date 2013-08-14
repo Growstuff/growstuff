@@ -12,10 +12,11 @@
 
 .row-fluid
   .span12
-    %p
-      %strong
-        Recently added crops:
-      != @recent_crops.map {|c| link_to(c, c) }.join(", ")
+    - cache "recent_crops" do
+      %p
+        %strong
+          Recently added crops:
+        != @recent_crops.map {|c| link_to(c, c) }.join(", ")
 
     %p
       =link_to "View all crops", crops_path, :class => 'btn btn-primary'
