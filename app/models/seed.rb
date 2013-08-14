@@ -41,6 +41,7 @@ class Seed < ActiveRecord::Base
       interesting_seeds.push(s)
     end
 
+    Rails.cache.fetch('interesting_seeds', :expires_in => 6.hours)
     return interesting_seeds
   end
 

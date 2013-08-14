@@ -95,6 +95,7 @@ class Crop < ActiveRecord::Base
       interesting_crops.push(c)
     end
 
+    Rails.cache.fetch("interesting_crops", :expires_in => 1.day)
     return interesting_crops
   end
 
