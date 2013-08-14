@@ -182,15 +182,16 @@ class Member < ActiveRecord::Base
   end
 
   def Member.interesting
-    howmany = 12 # max number to find
-    interesting_members = Array.new
-    Member.confirmed.located.recently_signed_in.each do |m|
-      break if interesting_members.length == howmany
-      next unless m.plantings.present?
-      interesting_members.push(m)
+    return Rails.cache.fetch('interesting_members', :expires_in => 1.day) do
+      howmany = 12 # max number to find
+      interesting_members = Array.new
+      Member.confirmed.located.recently_signed_in.each do |m|
+        break if interesting_members.length == howmany
+        next unless m.plantings.present?
+        interesting_members.push(m)
+      end
+      interesting_members
     end
-    Rails.cache.fetch('interesting_members', :expires_in => 1.day) { interesting_members }
-    return interesting_members
   end
 
   protected
