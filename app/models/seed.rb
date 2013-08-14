@@ -30,9 +30,10 @@ class Seed < ActiveRecord::Base
     end
   end
 
-  # Seed.interesting(howmany)
+  # Seed.interesting
   # returns a list of interesting seeds, for use on the homepage etc
-  def Seed.interesting(howmany=8)
+  def Seed.interesting
+    howmany = 12 # max number to find
     interesting_seeds = Array.new
 
     Seed.tradable.each do |s|

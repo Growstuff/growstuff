@@ -78,9 +78,10 @@ class Crop < ActiveRecord::Base
     return planted_from
   end
 
-  # Crop.interesting(howmany)
+  # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
-  def Crop.interesting(howmany=12)
+  def Crop.interesting
+    howmany = 12 # max number to find
     interesting_crops = Array.new
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting

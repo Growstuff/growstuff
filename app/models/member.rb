@@ -181,7 +181,8 @@ class Member < ActiveRecord::Base
     return sets
   end
 
-  def Member.interesting(howmany=12)
+  def Member.interesting
+    howmany = 12 # max number to find
     interesting_members = Array.new
     Member.confirmed.located.recently_signed_in.each do |m|
       break if interesting_members.length == howmany

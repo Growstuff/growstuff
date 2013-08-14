@@ -70,7 +70,8 @@ class Planting < ActiveRecord::Base
   # return a list of interesting plantings, for the homepage etc.
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
-  def Planting.interesting(howmany=10)
+  def Planting.interesting
+    howmany = 12 # max amount to collect
     interesting_plantings = Array.new
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 
