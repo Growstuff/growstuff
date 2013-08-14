@@ -33,17 +33,19 @@ class Seed < ActiveRecord::Base
   # Seed.interesting
   # returns a list of interesting seeds, for use on the homepage etc
   def Seed.interesting
-    howmany = 12 # max number to find
-    interesting_seeds = Array.new
+    return Rails.cache.fetch('interesting_seeds', :expires_in => 6.hours) do
 
-    Seed.tradable.each do |s|
-      break if interesting_seeds.length == howmany
-      next if s.owner.location.blank? # don't want unspecified locations
-      interesting_seeds.push(s)
+      howmany = 12 # max number to find
+      interesting_seeds = Array.new
+
+      Seed.tradable.each do |s|
+        break if interesting_seeds.length == howmany
+        next if s.owner.location.blank? # don't want unspecified locations
+        interesting_seeds.push(s)
+      end
+      interesting_seeds
     end
 
-    Rails.cache.fetch('interesting_seeds', :expires_in => 6.hours) { interesting_seeds }
-    return interesting_seeds
   end
 
   def seed_slug
