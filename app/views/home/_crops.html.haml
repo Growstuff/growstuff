@@ -2,7 +2,6 @@
   .span6
     %h2 Some of our crops
     - @crops.each do |c|
-      - next unless c.photos.present?
       .span3{:style => 'margin:0px; padding: 3px'}
         = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
 
