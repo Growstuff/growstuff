@@ -1,5 +1,8 @@
 class GardensController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :garden_sweeper
+
   # GET /gardens
   # GET /gardens.json
   def index
