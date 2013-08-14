@@ -88,7 +88,7 @@ class Planting < ActiveRecord::Base
       interesting_plantings.push(p)
     end
 
-    Rails.cache.fetch("interesting_plantings", :expires_in => 3.hours)
+    Rails.cache.fetch("interesting_plantings", :expires_in => 3.hours) { interesting_plantings }
     return interesting_plantings
   end
 end
