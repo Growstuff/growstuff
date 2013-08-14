@@ -81,23 +81,24 @@ class Crop < ActiveRecord::Base
   # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
-    howmany = 12 # max number to find
-    interesting_crops = Array.new
-    min_plantings = 3 # needs this many plantings to be interesting
-    min_photos    = 3 # needs this many photos to be interesting
+    return Rails.cache.fetch("interesting_crops", :expires_in => 1.day) do
+      howmany = 12 # max number to find
+      interesting_crops = Array.new
+      min_plantings = 3 # needs this many plantings to be interesting
+      min_photos    = 3 # needs this many photos to be interesting
 
-    # it's inefficient to shuffle this up-front, but if we cache
-    # the crops on the homepage it won't be run too often, and there's
-    # not *that* many crops.
-    Crop.all.shuffle.each do |c|
-      break if interesting_crops.length == howmany
-      next unless c.photos.count >= min_photos
-      next unless c.plantings_count >= min_plantings
-      interesting_crops.push(c)
+      # it's inefficient to shuffle this up-front, but if we cache
+      # the crops on the homepage it won't be run too often, and there's
+      # not *that* many crops.
+      Crop.all.shuffle.each do |c|
+        break if interesting_crops.length == howmany
+        next unless c.photos.count >= min_photos
+        next unless c.plantings_count >= min_plantings
+        interesting_crops.push(c)
+      end
+
+      interesting_crops
     end
-
-    Rails.cache.fetch("interesting_crops", :expires_in => 1.day) { interesting_crops }
-    return interesting_crops
   end
 
 end
