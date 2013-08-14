@@ -1,9 +1,10 @@
-%p.stats
-  So far,
-  = link_to "#{@member_count.to_i} members", members_path
-  have planted
-  = link_to "#{@crop_count.to_i} crops", crops_path
-  = link_to "#{@planting_count.to_i} times", plantings_path
-  in
-  = succeed "." do
-    = link_to "#{@garden_count.to_i} gardens", gardens_path
+- cache("homepage_stats") do
+  %p.stats
+    So far,
+    = link_to "#{@member_count.to_i} members", members_path
+    have planted
+    = link_to "#{@crop_count.to_i} crops", crops_path
+    = link_to "#{@planting_count.to_i} times", plantings_path
+    in
+    = succeed "." do
+      = link_to "#{@garden_count.to_i} gardens", gardens_path

@@ -221,31 +221,6 @@ describe Crop do
       Crop.interesting.length.should == 1
     end
 
-    it 'only gives you as many as you ask for' do
-      # first, a couple of candidate crops
-      @crop1 = FactoryGirl.create(:crop, :system_name => 'aaa')
-      @crop2 = FactoryGirl.create(:crop, :system_name => 'zzz')
-
-      # they need 3+ plantings each to be interesting
-      (1..3).each do
-        FactoryGirl.create(:planting, :crop => @crop1)
-      end
-      (1..3).each do
-        FactoryGirl.create(:planting, :crop => @crop2)
-      end
-
-      # crops need 3+ photos to be interesting
-      @photo = FactoryGirl.create(:photo)
-      [@crop1, @crop2].each do |c|
-        (1..3).each do
-          c.plantings.first.photos << @photo
-          c.plantings.first.save
-        end
-      end
-
-      Crop.interesting(1).length.should == 1
-    end
-
   end
 
 end

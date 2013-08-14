@@ -8,11 +8,11 @@ class HomeController < ApplicationController
     @planting_count = Planting.count
     @garden_count   = Garden.count
 
-    @crops        = Crop.interesting(6)
+    @crops        = Crop.interesting.first(6)
     @recent_crops = Crop.recent.limit(12)
-    @plantings    = Planting.interesting(4)
-    @seeds        = Seed.interesting(6)
-    @members      = Member.interesting(6)
+    @plantings    = Planting.interesting.first(4)
+    @seeds        = Seed.interesting.first(6)
+    @members      = Member.interesting.first(6)
 
     respond_to do |format|
       format.html # index.html.haml
