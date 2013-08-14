@@ -204,24 +204,6 @@ describe Planting do
       Planting.interesting.should_not include @planting1
     end
 
-    it 'only gives you as many as you ask for' do
-      # plantings have members created implicitly for them
-      # each member is different, hence these are all interesting
-      @planting1 = FactoryGirl.create(:planting, :created_at => 5.days.ago)
-      @planting2 = FactoryGirl.create(:planting, :created_at => 4.days.ago)
-      @planting3 = FactoryGirl.create(:planting, :created_at => 3.days.ago)
-      @planting4 = FactoryGirl.create(:planting, :created_at => 2.days.ago)
-
-      # plantings need photos to be interesting
-      @photo = FactoryGirl.create(:photo)
-      [@planting1, @planting2, @planting3, @planting4].each do |p|
-        p.photos << @photo
-        p.save
-      end
-
-      Planting.interesting(2).length.should == 2
-    end
-
   end
 
 end

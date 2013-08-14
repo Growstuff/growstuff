@@ -1,6 +1,8 @@
 class CropsController < ApplicationController
   load_and_authorize_resource
 
+  cache_sweeper :crop_sweeper
+
   # GET /crops
   # GET /crops.json
   def index
