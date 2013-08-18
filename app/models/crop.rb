@@ -100,7 +100,7 @@ class Crop < ActiveRecord::Base
         next unless c.interesting?
         interesting_crops.push(c)
       end
-      return interesting_crops
+      interesting_crops
     end
   end
 
