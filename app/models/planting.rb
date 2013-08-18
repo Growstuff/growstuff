@@ -75,16 +75,15 @@ class Planting < ActiveRecord::Base
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
   def Planting.interesting
+    howmany = 12 # max amount to collect
+
     return Rails.cache.fetch("interesting_plantings", :expires_in => 3.hours) do
-      howmany = 12 # max amount to collect
       interesting_plantings = Array.new
       seen_owners = Hash.new(false) # keep track of which owners we've seen already
-
       Planting.all.each do |p|
         break if interesting_plantings.count == howmany # got enough yet?
         next unless p.interesting?    # skip those that don't have photos
         next if seen_owners[p.owner]  # skip if we already have one from this owner
-
         seen_owners[p.owner] = true   # we've seen this owner
         interesting_plantings.push(p)
       end
