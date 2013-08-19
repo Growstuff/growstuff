@@ -107,8 +107,15 @@ h3 {
 .six-across:nth-child(6n+1) {
   margin-left: 0px
 }
+
+.three-across:nth-child(3):after {
+  content: "\A";
+  white-space: pre;
+}
+
 .three-across:nth-child(3n+1) {
-  margin-left: 0px
+  margin-left: 0px;
+  clear: all;
 }
 
 // let's condense the hero unit a little
