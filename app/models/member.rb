@@ -181,16 +181,25 @@ class Member < ActiveRecord::Base
     return sets
   end
 
+  def interesting?
+    # we assume we're being passed something from
+    # Member.confirmed.located as those are required for
+    # interestingness, as well.
+    return true if plantings.present?
+    return false
+  end
+
   def Member.interesting
     return Rails.cache.fetch('interesting_members', :expires_in => 1.day) do
       howmany = 12 # max number to find
       interesting_members = Array.new
       Member.confirmed.located.recently_signed_in.each do |m|
         break if interesting_members.length == howmany
-        next unless m.plantings.present?
-        interesting_members.push(m)
+        if m.interesting?
+          interesting_members.push(m)
+        end
       end
-      interesting_members
+      return interesting_members
     end
   end
 
