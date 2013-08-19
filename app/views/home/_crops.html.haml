@@ -14,11 +14,10 @@
 .row-fluid
   .span12
     - cache "recent_crops" do
-      %p
+      %p{ :style => 'margin-top: 11.25px' }
         %strong
           Recently added crops:
         != Crop.recent.limit(12).map {|c| link_to(c, c) }.join(", ")
 
-    %p
-      =link_to "View all crops", crops_path, :class => 'btn btn-primary'
-
+    %p.text-right
+      =link_to "View all crops »", crops_path

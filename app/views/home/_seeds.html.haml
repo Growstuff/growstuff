@@ -26,4 +26,5 @@
                 = seed.owner.location.blank? ? "unspecified" : truncate(seed.owner.location, :length => 25, :separator => ', ')
             %td= link_to 'Details', seed, :class => 'btn btn-mini'
 
-  %p= link_to "View all seeds", seeds_path, :class => 'btn btn-primary'
+  %p.text-right
+    = link_to "View all seeds »", seeds_path

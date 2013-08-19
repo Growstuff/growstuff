@@ -11,3 +11,6 @@
   .visible-phone
     - members.each do |m|
       = render :partial => "members/thumbnail", :locals => { :member => m }
+
+  %p.text-right
+    = link_to "View all members »", members_path

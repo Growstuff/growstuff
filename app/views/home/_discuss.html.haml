@@ -1,0 +1,16 @@
+%h2 Discussion
+
+- posts = Post.limit(6)
+- if posts
+  =render :partial => "posts/summary", :locals => { :posts => posts, :howmany => 6 }
+
+- forums = Forum.all
+- if forums
+  %ul.inline
+    %li
+      %strong Forums:
+    - forums.each do |f|
+      %li= link_to f.name, f
+
+%p.text-right
+  = link_to "View all posts »", posts_path
