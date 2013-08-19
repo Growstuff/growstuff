@@ -94,13 +94,13 @@ describe "plantings/show" do
 
   context "location set" do
     before(:each) do
-      @member.location = 'Greenwich, UK'
-      @member.save
+      @p.owner.location = 'Greenwich, UK'
+      @p.owner.save
       render
     end
 
     it "shows the member's location in parentheses" do
-      rendered.should contain "(#{@member.location})"
+      rendered.should contain "(#{@p.owner.location})"
     end
   end
 end
