@@ -1,12 +1,13 @@
-- if @members.present?
+- members = Member.interesting.first(6)
+- if members.present?
   %h2 Some of our members
 
   .visible-desktop.visible-tablet
     .row-fluid
-      - @members.each do |m|
+      - members.each do |m|
         .span6.homepage-members
           = render :partial => "members/thumbnail", :locals => { :member => m }
 
   .visible-phone
-    - @members.each do |m|
+    - members.each do |m|
       = render :partial => "members/thumbnail", :locals => { :member => m }

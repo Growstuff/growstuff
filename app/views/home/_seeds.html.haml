@@ -1,7 +1,9 @@
 %h2 Seeds available to trade
 
+- seeds = Seed.interesting.first(6)
+
 - cache "interesting_seeds", :expires_in => 3.hours do
-  - if @seeds.length > 0
+  - if seeds.length > 0
 
     %table.table.table-striped
       %tr
@@ -12,7 +14,7 @@
         %th From location
         %th
 
-      - @seeds.each do |seed|
+      - seeds.each do |seed|
         %tr
           %td= link_to seed.owner.login_name, seed.owner
           %td= link_to seed.crop.system_name, seed.crop
