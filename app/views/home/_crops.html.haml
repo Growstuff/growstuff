@@ -1,13 +1,15 @@
 .row-fluid
   .span6
-    %h2 Some of our crops
-    - @crops.each do |c|
-      .span3{:style => 'margin:0px; padding: 3px'}
-        = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
+    - cache "interesting_crops", :expires_in => 1.day do
+      %h2 Some of our crops
+      - @crops.each do |c|
+        .span3{:style => 'margin:0px; padding: 3px'}
+          = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
 
   .span6
-    %h2 Recently planted
-    = render :partial => 'plantings/list', :locals => { :plantings => @plantings }
+    - cache "interesting_plantings" do
+      %h2 Recently planted
+      = render :partial => 'plantings/list', :locals => { :plantings => @plantings }
 
 .row-fluid
   .span12

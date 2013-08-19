@@ -13,6 +13,7 @@ class Crop < ActiveRecord::Base
 
   default_scope order("lower(system_name) asc")
   scope :recent, reorder("created_at desc")
+  scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
 
   validates :en_wikipedia_url,
     :format => {
@@ -89,19 +90,14 @@ class Crop < ActiveRecord::Base
   # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
-    return Rails.cache.fetch("interesting_crops", :expires_in => 1.day) do
-      howmany = 12 # max number to find
-      interesting_crops = Array.new
-      # it's inefficient to shuffle this up-front, but if we cache
-      # the crops on the homepage it won't be run too often, and there's
-      # not *that* many crops.
-      Crop.all.each do |c|
-        break if interesting_crops.length == howmany
-        next unless c.interesting?
-        interesting_crops.push(c)
-      end
-      interesting_crops
+  howmany = 12 # max number to find
+  interesting_crops = Array.new
+    Crop.randomized.each do |c|
+      break if interesting_crops.length == howmany
+      next unless c.interesting?
+      interesting_crops.push(c)
     end
+    return interesting_crops
   end
 
 end

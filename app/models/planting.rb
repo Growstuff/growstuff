@@ -6,7 +6,8 @@ class Planting < ActiveRecord::Base
     :quantity, :sunniness, :planted_from
 
   belongs_to :garden
-  belongs_to :crop
+  belongs_to :crop, :counter_cache => true
+  has_one :owner, :through => :garden
 
   has_and_belongs_to_many :photos
   before_destroy {|planting| planting.photos.clear}
@@ -19,7 +20,6 @@ class Planting < ActiveRecord::Base
     :plantings_count,
     :to => :crop,
     :prefix => true
-  delegate :owner, :to => :garden
 
   default_scope order("created_at desc")
 
@@ -77,17 +77,17 @@ class Planting < ActiveRecord::Base
   def Planting.interesting
     howmany = 12 # max amount to collect
 
-    return Rails.cache.fetch("interesting_plantings", :expires_in => 3.hours) do
-      interesting_plantings = Array.new
-      seen_owners = Hash.new(false) # keep track of which owners we've seen already
-      Planting.all.each do |p|
-        break if interesting_plantings.count == howmany # got enough yet?
-        next unless p.interesting?    # skip those that don't have photos
-        next if seen_owners[p.owner]  # skip if we already have one from this owner
-        seen_owners[p.owner] = true   # we've seen this owner
-        interesting_plantings.push(p)
-      end
-      interesting_plantings
+    interesting_plantings = Array.new
+    seen_owners = Hash.new(false) # keep track of which owners we've seen already
+
+    Planting.all.each do |p|
+      break if interesting_plantings.count == howmany # got enough yet?
+      next unless p.interesting?    # skip those that don't have photos
+      next if seen_owners[p.owner]  # skip if we already have one from this owner
+      seen_owners[p.owner] = true   # we've seen this owner
+      interesting_plantings.push(p)
     end
+
+    return interesting_plantings
   end
 end

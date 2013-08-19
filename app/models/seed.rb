@@ -33,7 +33,7 @@ class Seed < ActiveRecord::Base
   def interesting?
     # assuming we're passed something that's already known to be tradable
     # eg. from Seed.tradable scope
-    return false if s.owner.location.blank? # don't want unspecified locations
+    return false if owner.location.blank? # don't want unspecified locations
     return true
   end
 
