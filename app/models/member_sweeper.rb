@@ -6,9 +6,7 @@ class MemberSweeper < ActionController::Caching::Sweeper
   end
 
   def after_update(member)
-    if member.location.blank?
-      Rails.cache.delete('interesting_members')
-    end
+    expire_fragment('interesting_members') if member.interesting?
     expire_fragment("member_thumbnail_#{member.id}")
   end
 

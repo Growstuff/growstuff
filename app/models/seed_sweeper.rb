@@ -3,7 +3,7 @@ class SeedSweeper < ActionController::Caching::Sweeper
 
   def after_destroy(seed)
     if seed.tradable? && seed.interesting?
-      Rails.cache.delete('interesting_seeds')
+      expire_fragment('interesting_seeds')
     end
   end
 
