@@ -27,7 +27,6 @@ describe "forums/index" do
     it "displays posts" do
       assert_select "table"
       rendered.should contain @post.subject
-      rendered.should contain @post.created_at.to_s(:date)
       rendered.should contain "less than a minute ago"
     end
 
