@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'home/_seeds.html.haml', :type => "view" do
   before(:each) do
-    @seed = FactoryGirl.create(:tradable_seed)
-    assign(:seeds, [@seed])
+    @owner = FactoryGirl.create(:london_member)
+    @seed = FactoryGirl.create(:tradable_seed, :owner => @owner)
     render
   end
 

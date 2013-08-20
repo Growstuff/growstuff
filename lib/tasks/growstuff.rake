@@ -122,6 +122,15 @@ namespace :growstuff do
       end
     end
 
+    desc "August 2013: set up plantings_count cache on crop"
+    task :reset_crop_plantings_count => :environment do
+
+      Crop.find_each do |c|
+        Crop.reset_counters c.id, :plantings
+      end
+
+    end
+
   end
 
 end
