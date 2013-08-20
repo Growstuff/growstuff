@@ -7,6 +7,14 @@
           = Growstuff::Application.config.site_name
         = current_member
       = render :partial => 'stats'
+      %ul.inline
+        %li{ :style => 'padding-left: 0px' }
+          %strong Quick links:
+        %li= link_to "Plant something", new_planting_path
+        %li= link_to "Add seeds", new_seed_path
+        %li= link_to "Post", new_post_path
+        %li= link_to "Edit profile", edit_member_registration_path
+
     - else
       .visible-desktop.visible-tablet
         .hero-unit
@@ -18,6 +26,7 @@
     = render :partial => 'crops'
     = render :partial => 'seeds'
     = render :partial => 'members'
+    = render :partial => 'discuss'
 
   .span4.sidebar
     = render :partial => 'keep_in_touch'

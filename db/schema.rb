@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130723110702) do
+ActiveRecord::Schema.define(:version => 20130819004549) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20130723110702) do
     t.datetime "updated_at",       :null => false
     t.string   "slug"
     t.integer  "parent_id"
+    t.integer  "plantings_count"
   end
 
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
