@@ -23,6 +23,11 @@ describe Crop do
       @crop.to_s.should == 'Tomato'
       "#{@crop}".should == 'Tomato'
     end
+
+    it 'has a creator' do
+      @crop.save
+      @crop.creator.should be_an_instance_of Member
+    end
   end
 
   context 'invalid data' do
