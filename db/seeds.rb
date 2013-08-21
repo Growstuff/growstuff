@@ -28,7 +28,6 @@ def load_data
   puts "Done!"
 end
 
-
 def load_crops
   puts "Loading crops..."
   CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
@@ -39,7 +38,8 @@ def load_crops
       :creator_id => @cropbot_user.id
     )
     @crop.scientific_names.create(
-      :scientific_name => scientific_name
+      :scientific_name => scientific_name,
+      :creator_id => @cropbot_user.id
     )
   end
   puts "Finished loading crops"

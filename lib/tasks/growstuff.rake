@@ -141,6 +141,10 @@ namespace :growstuff do
         crop.creator = cropbot
         crop.save
       end
+      ScientificName.find_each do |sn|
+        sn.creator = cropbot
+        sn.save
+      end
 
     end
   end
