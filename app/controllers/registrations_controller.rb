@@ -1,5 +1,6 @@
-
 class RegistrationsController < Devise::RegistrationsController
+
+  cache_sweeper :member_sweeper
 
   def edit
     @twitter_auth = current_member.auth('twitter')

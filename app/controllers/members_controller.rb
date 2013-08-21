@@ -1,5 +1,8 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :member_sweeper
+
   skip_authorize_resource :only => :nearby
 
   def index

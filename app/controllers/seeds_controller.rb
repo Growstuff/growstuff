@@ -1,5 +1,8 @@
 class SeedsController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :seed_sweeper
+
   # GET /seeds
   # GET /seeds.json
   def index
@@ -12,6 +15,7 @@ class SeedsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @seeds }
+      format.rss { render :layout => false } #index.rss.builder
     end
   end
 

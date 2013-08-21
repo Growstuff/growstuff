@@ -19,7 +19,7 @@
   %h3 Results found
   %ul.thumbnails
     - @nearby_members.each do |member|
-      %li.span2
+      %li.span4.three-across
         = render :partial => "members/thumbnail", :locals => { :member => member }
 - elsif @location
   %h3 No results found

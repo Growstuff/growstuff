@@ -30,6 +30,30 @@ class Seed < ActiveRecord::Base
     end
   end
 
+  def interesting?
+    # assuming we're passed something that's already known to be tradable
+    # eg. from Seed.tradable scope
+    return false if owner.location.blank? # don't want unspecified locations
+    return true
+  end
+
+  # Seed.interesting
+  # returns a list of interesting seeds, for use on the homepage etc
+  def Seed.interesting
+    howmany = 12 # max number to find
+    interesting_seeds = Array.new
+
+    Seed.tradable.each do |s|
+      break if interesting_seeds.length == howmany
+      if s.interesting?
+        interesting_seeds.push(s)
+      end
+    end
+
+    return interesting_seeds
+
+  end
+
   def seed_slug
     "#{owner.login_name}-#{crop.system_name}".downcase.gsub(' ', '-')
   end
