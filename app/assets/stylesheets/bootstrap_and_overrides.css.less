@@ -108,14 +108,9 @@ h3 {
   margin-left: 0px
 }
 
-.three-across:nth-child(3):after {
-  content: "\A";
-  white-space: pre;
-}
-
 .three-across:nth-child(3n+1) {
   margin-left: 0px;
-  clear: all;
+  clear: both;
 }
 
 // let's condense the hero unit a little
@@ -150,6 +145,10 @@ p.stats {
 
 .homepage-members:nth-child(odd) {
   margin-left: 0px;
+}
+
+.member-thumbnail {
+  line-height: 125%
 }
 
 // Overrides applying only to mobile view
