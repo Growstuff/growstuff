@@ -128,9 +128,24 @@ namespace :growstuff do
       Crop.find_each do |c|
         Crop.reset_counters c.id, :plantings
       end
-
     end
 
-  end
+    desc "August 2013: set default creator on existing crops"
+    task :set_default_crop_creator => :environment do
 
+      cropbot = Member.find_by_login_name("cropbot")
+      raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
+      cropbot.account.account_type = AccountType.find_by_name("Staff") # set this just because it's nice
+      cropbot.account.save
+      Crop.find_each do |crop|
+        crop.creator = cropbot
+        crop.save
+      end
+      ScientificName.find_each do |sn|
+        sn.creator = cropbot
+        sn.save
+      end
+
+    end
+  end
 end

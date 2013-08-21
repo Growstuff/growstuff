@@ -12,6 +12,10 @@ describe "scientific_names/edit" do
       render
     end
 
+  it "shows the creator" do
+    rendered.should contain "Added by #{@scientific_name.creator} less than a minute ago."
+  end
+
     it "renders the edit scientific_name form" do
       assert_select "form", :action => scientific_names_path(@scientific_name), :method => "post" do
         assert_select "input#scientific_name_scientific_name", :name => "scientific_name[scientific_name]"

@@ -45,6 +45,7 @@ class CropsController < ApplicationController
   # POST /crops
   # POST /crops.json
   def create
+    params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(params[:crop])
 
     respond_to do |format|

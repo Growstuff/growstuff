@@ -8,3 +8,6 @@
 
 echo "2013-08-18 - reset crop planting counts"
 rake growstuff:oneoff:reset_crop_plantings_count
+
+echo "2013-08-21 - set default crop creator"
+rake growstuff:oneoff:set_default_crop_creator

@@ -45,6 +45,7 @@ class ScientificNamesController < ApplicationController
   # POST /scientific_names
   # POST /scientific_names.json
   def create
+    params[:scientific_name][:creator_id] = current_member.id
     @scientific_name = ScientificName.new(params[:scientific_name])
 
     respond_to do |format|
