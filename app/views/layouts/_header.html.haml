@@ -43,6 +43,8 @@
                       = link_to("Inbox", notifications_path)
 
               %li= link_to "Shop", shop_path
+              - if current_member.has_role?(:crop_wrangler)
+                %li= link_to "Crop Wrangling", wrangle_crops_path
               - if current_member.has_role?(:admin)
                 %li= link_to "Admin", admin_path
 

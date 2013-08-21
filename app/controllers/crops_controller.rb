@@ -15,6 +15,15 @@ class CropsController < ApplicationController
     end
   end
 
+  # GET /wrangle
+  def wrangle
+    @crops = Crop.recent.paginate(:page => params[:page])
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
   # GET /crops/1
   # GET /crops/1.json
   def show
