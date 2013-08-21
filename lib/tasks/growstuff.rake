@@ -134,9 +134,9 @@ namespace :growstuff do
     task :set_default_crop_creator => :environment do
 
       cropbot = Member.find_by_login_name("cropbot")
+      raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
       cropbot.account.account_type = AccountType.find_by_name("Staff") # set this just because it's nice
       cropbot.account.save
-      raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
       Crop.find_each do |crop|
         crop.creator = cropbot
         crop.save
