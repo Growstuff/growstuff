@@ -29,6 +29,6 @@ describe 'home/_crops.html.haml', :type => "view" do
   end
 
   it 'includes a link to all crops' do
-    assert_select "a[href=#{crops_path}]", :text => "View all crops"
+    assert_select "a[href=#{crops_path}]", :text => /View all crops/
   end
 end
