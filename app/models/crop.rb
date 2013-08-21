@@ -1,12 +1,13 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :system_name, use: :slugged
-  attr_accessible :en_wikipedia_url, :system_name, :parent_id
+  attr_accessible :en_wikipedia_url, :system_name, :parent_id, :creator_id
 
   has_many :scientific_names
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
+  belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
