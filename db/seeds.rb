@@ -12,9 +12,10 @@ require 'csv'
 
 def load_data
   # for all Growstuff sites, including production ones
-  load_crops
   load_roles
   load_basic_account_types
+  create_cropbot
+  load_crops
 
   # for development environments only
   if Rails.env.development?
@@ -34,7 +35,8 @@ def load_crops
     system_name,scientific_name,en_wikipedia_url = row
     @crop = Crop.create(
       :system_name => system_name,
-      :en_wikipedia_url => en_wikipedia_url
+      :en_wikipedia_url => en_wikipedia_url,
+      :creator_id => @cropbot_user.id
     )
     @crop.scientific_names.create(
       :scientific_name => scientific_name
@@ -100,6 +102,20 @@ def load_admin_users
   @wrangler_user.confirm!
   @wrangler_user.roles << @wrangler
   @wrangler_user.save!
+end
+
+def create_cropbot
+  @cropbot_user = Member.create(
+    :login_name => "cropbot",
+    :email => Growstuff::Application.config.bot_email,
+    :password => SecureRandom.urlsafe_base64(64),
+    :tos_agreement => true
+  )
+  @cropbot_user.confirm!
+  @cropbot_user.roles << @wrangler
+  @cropbot_user.save!
+  @cropbot_user.account.account_type = AccountType.find_by_name("Staff")
+  @cropbot_user.account.save
 end
 
 def load_paid_account_types
