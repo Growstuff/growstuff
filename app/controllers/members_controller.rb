@@ -1,5 +1,8 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :member_sweeper
+
   skip_authorize_resource :only => :nearby
 
   def index
@@ -53,7 +56,6 @@ class MembersController < ApplicationController
     @nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
     respond_to do |format|
       format.html # nearby.html.haml
-      format.json { render json: @nearby_members }
     end
   end
 

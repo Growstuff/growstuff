@@ -1,6 +1,6 @@
 =content_for :title, "#{@planting.crop} in #{@planting.location}"
 
-.row
+.row-fluid
   .span6
     %p
       %b Planted:
@@ -9,7 +9,7 @@
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
       =link_to @planting.garden, @planting.garden
-      - if @planting.owner.location
+      - if ! @planting.owner.location.blank?
         = "(#{@planting.owner.location})"
     %p
       %b Quantity:
@@ -44,21 +44,15 @@
 - if can? :edit, @planting
   = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
 
-
 - if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
 
-- c = 0
-%ul.thumbnails
-  .row
-  - @planting.photos.each do |p|
-    - c += 1
-    %li.span2
-      = render :partial => 'photos/thumbnail', :locals => { :photo => p }
-    - if (c % 6) == 0
-      .row
-  - if can? :create, Photo and can? :edit, @planting
-    %li.span2
-      .thumbnail(style='height: 220px')
-        %p{:style => 'text-align: center; padding-top: 50px'}
-          = link_to "Add photo", new_photo_path(:planting_id => @planting.id), :class => 'btn btn-primary'
+  %ul.thumbnails
+    - @planting.photos.each do |p|
+      %li.span2.six-across
+        = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+    - if can? :create, Photo and can? :edit, @planting
+      %li.span2
+        .thumbnail(style='height: 220px')
+          %p{:style => 'text-align: center; padding-top: 50px'}
+            = link_to "Add photo", new_photo_path(:planting_id => @planting.id), :class => 'btn btn-primary'

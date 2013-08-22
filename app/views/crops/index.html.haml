@@ -1,18 +1,13 @@
 - content_for :title, "Crops"
-- c = 0
 
 %div.pagination
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
 
 %ul.thumbnails
-  .row
   - @crops.each do |crop|
-    - c += 1
-    %li.span2
+    %li.span2.six-across
       = render :partial => "thumbnail", :locals => { :crop => crop }
-    - if (c % 6) == 0
-      .row
 
 - if can? :create, Crop
   %div

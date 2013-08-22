@@ -1,6 +1,6 @@
 =content_for :title, "#{@garden.owner}'s #{@garden}"
 
-.row
+.row-fluid
   .span3
     = render :partial => "members/avatar", :locals => { :member => @garden.owner }
 

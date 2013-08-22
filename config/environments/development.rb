@@ -13,7 +13,7 @@ Growstuff::Application.configure do
   config.consider_all_requests_local       = true
 
   # cache for testing/experimentation - turn off for normal dev use
-  config.action_controller.perform_caching = false
+  config.action_controller.perform_caching = true
   config.cache_store = :memory_store
 
   # Don't care if the mailer can't send
@@ -55,6 +55,7 @@ Growstuff::Application.configure do
     config.site_name = "Growstuff (dev)"
     config.analytics_code = ''
     config.currency = 'AUD'
+    config.bot_email = "noreply@growstuff.org"
   end
 
   config.after_initialize do

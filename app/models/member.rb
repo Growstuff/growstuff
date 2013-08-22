@@ -26,12 +26,8 @@ class Member < ActiveRecord::Base
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
-  scope :located, where('location IS NOT NULL')
+  scope :located, where("location <> ''")
   scope :recently_signed_in, reorder('updated_at DESC')
-
-  # this is used on the signed-out homepage so we're basically
-  # just trying to select some members who look good.
-  scope :interesting, confirmed.located.recently_signed_in
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -183,6 +179,26 @@ class Member < ActiveRecord::Base
       sets[p.title] = p.id
     end
     return sets
+  end
+
+  def interesting?
+    # we assume we're being passed something from
+    # Member.confirmed.located as those are required for
+    # interestingness, as well.
+    return true if plantings.present?
+    return false
+  end
+
+  def Member.interesting
+    howmany = 12 # max number to find
+    interesting_members = Array.new
+    Member.confirmed.located.recently_signed_in.each do |m|
+      break if interesting_members.length == howmany
+      if m.interesting?
+        interesting_members.push(m)
+      end
+    end
+    return interesting_members
   end
 
   protected

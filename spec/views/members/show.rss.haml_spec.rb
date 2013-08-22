@@ -3,10 +3,9 @@ require 'spec_helper'
 describe 'members/show.rss.haml', :type => "view" do
   before(:each) do
     @member = assign(:member, FactoryGirl.create(:member))
-    assign(:posts, [
-      FactoryGirl.build(:post, :id => 1, :author => @member),
-      FactoryGirl.build(:markdown_post, :id => 2, :author => @member)
-    ])
+    @post1 = FactoryGirl.create(:post, :id => 1, :author => @member)
+    @post2 = FactoryGirl.create(:markdown_post, :id => 2, :author => @member)
+    assign(:posts, [@post1, @post2])
     render
   end
 
@@ -22,6 +21,10 @@ describe 'members/show.rss.haml', :type => "view" do
 # The variable "rendered" has been entity-replaced and tag-stripped
 # The literal string output contains "&lt;strong&gt;" etc.
     rendered.should contain "<strong>strong</strong>"
+  end
+
+  it 'gives the author in the item title' do
+    rendered.should contain "#{@post1.subject} by #{@post1.author}"
   end
 
 end
