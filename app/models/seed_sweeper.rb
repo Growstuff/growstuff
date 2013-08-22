@@ -5,6 +5,8 @@ class SeedSweeper < ActionController::Caching::Sweeper
     if seed.tradable? && seed.interesting?
       expire_fragment('interesting_seeds')
     end
+    expire_fragment('interesting_members') if seed.owner.interesting?
+    expire_fragment("member_thumbnail_#{seed.owner.id}")
   end
 
   def after_update(seed)
@@ -15,6 +17,8 @@ class SeedSweeper < ActionController::Caching::Sweeper
     if seed.tradable? && seed.interesting?
       expire_fragment('interesting_seeds')
     end
+    expire_fragment('interesting_members') if seed.owner.interesting?
+    expire_fragment("member_thumbnail_#{seed.owner.id}")
   end
 
 end
