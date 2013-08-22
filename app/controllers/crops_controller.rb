@@ -6,7 +6,7 @@ class CropsController < ApplicationController
   # GET /crops
   # GET /crops.json
   def index
-    @crops = Crop.paginate(:page => params[:page])
+    @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.haml
@@ -18,7 +18,7 @@ class CropsController < ApplicationController
   # GET /crops/1
   # GET /crops/1.json
   def show
-    @crop = Crop.find(params[:id])
+    @crop = Crop.includes(:scientific_names, {:plantings => :photos}).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.haml
