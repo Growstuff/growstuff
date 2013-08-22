@@ -86,6 +86,7 @@ Growstuff::Application.configure do
       <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
     eos
     config.currency = 'AUD'
+    config.bot_email = "noreply@growstuff.org"
   end
 
   config.after_initialize do

@@ -6,10 +6,14 @@
     %link= plantings_url
     - @plantings.each do |planting|
       %item
-        %author= planting.owner.login_name
-        %title= planting.crop.system_name
+        %title #{planting.crop} in #{planting.location}
         %pubDate= planting.created_at.to_s(:rfc822)
         %description
+          :escaped
+            <p>Quantity: #{planting.quantity ? planting.quantity : 'unknown' }</p>
+            <p>Planted on: #{planting.planted_at ? planting.planted_at : 'unknown' }</p>
+            <p>Sunniness: #{planting.sunniness ? planting.sunniness : 'unknown' }</p>
+            <p>Planted from: #{planting.planted_from ? planting.planted_from : 'unknown' }</p>
           :escaped_markdown
             #{ strip_tags planting.description }
         %link= planting_url(planting)

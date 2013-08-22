@@ -1,3 +1,9 @@
 - content_for :title, "Edit scientific name"
 
+%p
+  Added by
+  = @scientific_name.creator
+  = distance_of_time_in_words(@scientific_name.created_at, Time.zone.now)
+  ago.
+
 = render 'form'
