@@ -9,7 +9,7 @@
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
       =link_to @planting.garden, @planting.garden
-      - if !@planting.owner.location.blank?
+      - if ! @planting.owner.location.blank?
         = "(#{@planting.owner.location})"
     %p
       %b Quantity:

@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :crop do
     system_name "Magic bean"
     en_wikipedia_url "http://en.wikipedia.org/wiki/Magic_bean"
+    creator
 
     factory :tomato do
       system_name "Tomato"

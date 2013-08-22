@@ -1,5 +1,8 @@
 class ScientificNamesController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :scientific_name_sweeper
+
   # GET /scientific_names
   # GET /scientific_names.json
   def index
@@ -42,6 +45,7 @@ class ScientificNamesController < ApplicationController
   # POST /scientific_names
   # POST /scientific_names.json
   def create
+    params[:scientific_name][:creator_id] = current_member.id
     @scientific_name = ScientificName.new(params[:scientific_name])
 
     respond_to do |format|

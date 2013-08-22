@@ -1,12 +1,16 @@
 class SeedsController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :seed_sweeper
+
   # GET /seeds
   # GET /seeds.json
   def index
-    @seeds = Seed.paginate(:page => params[:page])
     @owner = Member.find_by_slug(params[:owner])
     if @owner
-      @seeds = @owner.seeds.paginate(:page => params[:page])
+      @seeds = @owner.seeds.includes(:owner, :crop).paginate(:page => params[:page])
+    else
+      @seeds = Seed.includes(:owner, :crop).paginate(:page => params[:page])
     end
 
     respond_to do |format|

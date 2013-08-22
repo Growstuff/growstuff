@@ -7,10 +7,11 @@ class PostsController < ApplicationController
   # GET /posts.json
 
   def index
-    @posts = Post.paginate(:page => params[:page])
     @author = Member.find_by_slug(params[:author])
     if @author
-      @posts = @author.posts.paginate(:page => params[:page])
+      @posts = @author.posts.includes(:author, { :comments => :author }).paginate(:page => params[:page])
+    else
+      @posts = Post.includes(:author, { :comments => :author }).paginate(:page => params[:page])
     end
 
     respond_to do |format|
@@ -23,8 +24,7 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @post = Post.find(params[:id])
-    @comments = @post.comments
+    @post = Post.includes(:author, { :comments => :author }).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.haml

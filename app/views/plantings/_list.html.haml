@@ -1,14 +1,15 @@
 - plantings.each do |p|
-  .row-fluid
-    .span2{:style => 'padding-bottom: 6px'}
-      = render :partial => 'plantings/image_with_popover', :locals => { :planting => p }
-    .span10
-      = link_to p.crop, p.crop
-      in
-      = succeed "'s" do
-        = link_to p.owner, p.owner
-      = link_to p.garden, p.garden
-      %br/
-      %small
-        %i
-          = p.owner.location
+  - cache "plantings_listitem_#{p.id}" do
+    .row-fluid
+      .span2{:style => 'padding-bottom: 6px'}
+        = render :partial => 'plantings/image_with_popover', :locals => { :planting => p }
+      .span10
+        = link_to p.crop, p.crop
+        in
+        = succeed "'s" do
+          = link_to p.owner, p.owner
+        = link_to p.garden, p.garden
+        %br/
+        %small
+          %i
+            = p.owner.location

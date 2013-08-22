@@ -82,6 +82,7 @@ Growstuff::Application.configure do
     config.site_name = "Growstuff (staging)"
     config.analytics_code = ''
     config.currency = 'AUD'
+    config.bot_email = "noreply@growstuff.org"
   end
 
   config.after_initialize do

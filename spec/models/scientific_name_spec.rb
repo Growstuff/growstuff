@@ -16,6 +16,11 @@ describe ScientificName do
       @sn2 = ScientificName.find_by_scientific_name('Zea mays')
       @sn2.crop.system_name.should == "Maize"
     end
+
+    it 'has a creator' do
+      @sn.save
+      @sn.creator.should be_an_instance_of Member
+    end
   end
 
   context 'invalid data' do
