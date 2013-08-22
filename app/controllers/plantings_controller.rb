@@ -6,10 +6,11 @@ class PlantingsController < ApplicationController
   # GET /plantings
   # GET /plantings.json
   def index
-    @plantings = Planting.paginate(:page => params[:page])
     @owner = Member.find_by_slug(params[:owner])
     if @owner
-      @plantings = @owner.plantings.paginate(:page => params[:page])
+      @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(:page => params[:page])
+    else
+      @plantings = Planting.includes(:owner, :crop, :garden).paginate(:page => params[:page])
     end
 
     respond_to do |format|
@@ -22,7 +23,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/1
   # GET /plantings/1.json
   def show
-    @planting = Planting.find(params[:id])
+    @planting = Planting.includes(:owner, :crop, :garden, :photos).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
