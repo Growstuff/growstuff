@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20130821073736) do
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "send_notification_email", :default => true
+    t.text     "bio"
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
