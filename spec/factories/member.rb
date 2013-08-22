@@ -9,9 +9,14 @@ FactoryGirl.define do
     tos_agreement true
     confirmed_at Time.now
     show_email false
+    bio 'I love seeds'
 
     factory :no_tos_member do
       tos_agreement false
+    end
+
+    factory :no_bio_member do
+      bio nil
     end
 
     factory :unconfirmed_member do
