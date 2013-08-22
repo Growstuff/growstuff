@@ -9,6 +9,10 @@ describe "crops/edit" do
     render
   end
 
+  it "shows the creator" do
+    rendered.should contain "Added by #{@crop.creator} less than a minute ago."
+  end
+
   it "renders the edit crop form" do
     assert_select "form", :action => crops_path(@crop), :method => "post" do
       assert_select "input#crop_system_name", :name => "crop[system_name]"

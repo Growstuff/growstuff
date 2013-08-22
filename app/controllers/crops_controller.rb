@@ -1,10 +1,12 @@
 class CropsController < ApplicationController
   load_and_authorize_resource
 
+  cache_sweeper :crop_sweeper
+
   # GET /crops
   # GET /crops.json
   def index
-    @crops = Crop.paginate(:page => params[:page])
+    @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.haml
@@ -13,10 +15,19 @@ class CropsController < ApplicationController
     end
   end
 
+  # GET /wrangle
+  def wrangle
+    @crops = Crop.recent.paginate(:page => params[:page])
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
   # GET /crops/1
   # GET /crops/1.json
   def show
-    @crop = Crop.find(params[:id])
+    @crop = Crop.includes(:scientific_names, {:plantings => :photos}).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.haml
@@ -43,6 +54,7 @@ class CropsController < ApplicationController
   # POST /crops
   # POST /crops.json
   def create
+    params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(params[:crop])
 
     respond_to do |format|

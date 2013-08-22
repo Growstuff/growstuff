@@ -1,5 +1,8 @@
 class PhotosController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :photo_sweeper
+
   # GET /photos
   # GET /photos.json
   def index

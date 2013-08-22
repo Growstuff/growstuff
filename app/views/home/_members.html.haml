@@ -1,19 +1,17 @@
-- if @interesting_members.present?
-  %h2 Some of our members
+- cache "interesting_members" do
+  - members = Member.interesting.first(6)
+  - if members.present?
+    %h2 Some of our members
 
-  .row-fluid
-    - @interesting_members.first(6).each do |m|
-      .span6.homepage-members
-        .row-fluid
-          .span3
-            = render :partial => "members/image_with_popover", :locals => { :member => m }
-          .span9
-            %p
-              = link_to m.login_name, m
-              %br/
-              %i= m.location
-              %br/
-              Recently planted:
-              != m.plantings.first(3).map{|p| link_to p.crop_system_name, p }.join(", ")
+    .visible-desktop.visible-tablet
+      .row-fluid
+        - members.each do |m|
+          .span6.homepage-members
+            = render :partial => "members/thumbnail", :locals => { :member => m }
 
+    .visible-phone
+      - members.each do |m|
+        = render :partial => "members/thumbnail", :locals => { :member => m }
 
+    %p.text-right
+      = link_to "View all members »", members_path

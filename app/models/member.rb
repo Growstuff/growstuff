@@ -39,7 +39,7 @@ class Member < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login_name, :email, :password, :password_confirmation,
     :remember_me, :login, :tos_agreement, :show_email,
-    :location, :latitude, :longitude, :send_notification_email
+    :location, :latitude, :longitude, :send_notification_email, :bio
 
   # set up geocoding
   geocoded_by :location
@@ -181,12 +181,22 @@ class Member < ActiveRecord::Base
     return sets
   end
 
-  def Member.interesting(howmany=12)
+  def interesting?
+    # we assume we're being passed something from
+    # Member.confirmed.located as those are required for
+    # interestingness, as well.
+    return true if plantings.present?
+    return false
+  end
+
+  def Member.interesting
+    howmany = 12 # max number to find
     interesting_members = Array.new
     Member.confirmed.located.recently_signed_in.each do |m|
       break if interesting_members.length == howmany
-      next unless m.plantings.present?
-      interesting_members.push(m)
+      if m.interesting?
+        interesting_members.push(m)
+      end
     end
     return interesting_members
   end

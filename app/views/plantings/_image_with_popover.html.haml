@@ -1,11 +1,12 @@
-= link_to |
-  image_tag( |
-    planting.photos.present? ? planting.photos.first.thumbnail_url : 'placeholder_150.png', |
-    :alt => planting.to_s |
-  ), |
-  planting, |
-  :rel => "popover", |
-  'data-trigger' => 'hover', |
-  'data-title' => planting.to_s, |
-  'data-content' => "#{ render :partial => 'plantings/popover', :locals => { :planting => planting } }", |
-  'data-html' => true
+- cache "planting_image_#{planting.id}" do
+  = link_to |
+    image_tag( |
+      planting.photos.present? ? planting.photos.first.thumbnail_url : 'placeholder_150.png', |
+      :alt => planting.to_s |
+    ), |
+    planting, |
+    :rel => "popover", |
+    'data-trigger' => 'hover', |
+    'data-title' => planting.to_s, |
+    'data-content' => "#{ render :partial => 'plantings/popover', :locals => { :planting => planting } }", |
+    'data-html' => true

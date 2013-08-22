@@ -12,6 +12,11 @@ describe "members/show" do
       render
     end
 
+    it "shows the bio" do
+      assert_select "h2", "Bio"
+      rendered.should contain @member.bio
+    end
+
     it "shows account creation date" do
       @time = @member.created_at
       rendered.should contain "Member since"
@@ -24,6 +29,17 @@ describe "members/show" do
 
     it "contains a gravatar icon" do
       assert_select "img", :src => /gravatar\.com\/avatar/
+    end
+  end
+
+  context 'no bio' do
+    before(:each) do
+      @member = FactoryGirl.create(:no_bio_member)
+      render
+    end
+
+    it "doesn't show the bio" do
+      rendered.should_not contain "Bio"
     end
   end
 
