@@ -19,4 +19,11 @@ describe "seeds/edit" do
       assert_select "select#seed_tradable_to", :name => "seed[tradable_to]"
     end
   end
+
+  it "doesn't revert tradable_to to nowhere" do
+    @seed = FactoryGirl.create(:tradable_seed, :owner => @member)
+    @seed.tradable_to.should_not eq "nowhere"
+    render
+    assert_select "option[selected=selected]", :text => @seed.tradable_to
+  end
 end
