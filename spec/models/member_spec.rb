@@ -105,6 +105,13 @@ describe 'member' do
       @member.longitude.should be_nil
     end
 
+    it 'fails gracefully for unfound locations' do
+      @member.update_attributes(:location => 'Tatooine')
+      @member.location.should eq 'Tatooine'
+      @member.latitude.should be_nil
+      @member.longitude.should be_nil
+    end
+
   end
 
   context 'no TOS agreement' do

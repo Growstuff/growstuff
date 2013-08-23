@@ -207,8 +207,13 @@ class Member < ActiveRecord::Base
       self.longitude = nil
     else
       location = Nominatim.geocode(self.location)
-      self.latitude = location[:latitude]
-      self.longitude = location[:longitude]
+      if location
+        self.latitude = location[:latitude]
+        self.longitude = location[:longitude]
+      else
+        self.latitude = nil
+        self.longitude = nil
+      end
     end
   end
 
