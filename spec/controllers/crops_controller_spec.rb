@@ -11,6 +11,14 @@ describe CropsController do
     }
   end
 
+  describe "GET crop wrangler homepage" do
+    it 'fetches the crop wrangler homepage' do
+      get :wrangle
+      response.should be_success
+      response.should render_template("crops/wrangle")
+    end
+  end
+
   describe "GET RSS feed" do
     it "returns an RSS feed" do
       get :index, :format => "rss"

@@ -22,7 +22,8 @@
   .control-group
     = f.label 'Will trade:', :class => 'control-label'
     .controls
-      = f.select(:tradable_to, options_for_select(Seed::TRADABLE_TO_VALUES, 'nowhere'))
+      = f.select(:tradable_to,
+          options_for_select(Seed::TRADABLE_TO_VALUES, :selected => @seed.tradable_to || 'nowhere'))
       %span.help_inline
         - if current_member.location.blank?
           Don't forget to

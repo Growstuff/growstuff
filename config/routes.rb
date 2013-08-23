@@ -20,7 +20,10 @@ Growstuff::Application.routes.draw do
   match '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
 
   resources :scientific_names
+
+  match 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
   resources :crops
+
   resources :comments
   resources :roles
   resources :forums

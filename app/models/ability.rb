@@ -37,6 +37,7 @@ class Ability
 
       # only crop wranglers can create/edit/destroy crops
       if member.has_role? :crop_wrangler
+        can :wrangle, Crop
         can :manage, Crop
         can :manage, ScientificName
       end

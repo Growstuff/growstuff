@@ -53,6 +53,11 @@
     - if can? :update, @member
       %p
         = link_to 'Edit your profile', "edit", :class => 'btn btn-primary'
+    - if @member.bio
+      %h2 Bio
+      :markdown
+        #{ strip_tags @member.bio }
+    %h2 Gardens
     .tabbable
       %ul.nav.nav-tabs
         - first_garden = true
