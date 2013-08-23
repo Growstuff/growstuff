@@ -4,8 +4,13 @@ require 'json'
 
 class Nominatim
 
+  # class-level instance variable, see
+  # http://www.railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/
+  class << self; attr_accessor :in_testing end
+  @in_testing = false
+
   def self.geocode(place)
-    if Rails.env.test?
+    if self.in_testing
       return stubs[place]
     end
     json = open(

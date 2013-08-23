@@ -53,6 +53,8 @@ Growstuff::Application.configure do
 
 end
 
+Nominatim.in_testing = true
+
 Nominatim.add_stub(
   "Amundsen-Scott Base, Antarctica", {
     :latitude =>         -90.0,
