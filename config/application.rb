@@ -78,5 +78,10 @@ module Growstuff
         :openssl_verify_mode  => 'none'
       }
 
+    # Growstuff-specific configuration variables
+    config.currency = 'AUD'
+    config.bot_email = "noreply@growstuff.org"
+    config.user_agent = 'Growstuff'
+    config.user_agent_email = "info@growstuff.org"
   end
 end

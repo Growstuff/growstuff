@@ -78,16 +78,12 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff"
-    config.analytics_code = <<-eos
-      <script src="//static.getclicky.com/js" type="text/javascript"></script>
-      <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
-      <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
-    eos
-    config.currency = 'AUD'
-    config.bot_email = "noreply@growstuff.org"
-  end
+  config.site_name = "Growstuff"
+  config.analytics_code = <<-eos
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+    <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
+  eos
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :production
