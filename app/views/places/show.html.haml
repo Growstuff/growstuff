@@ -4,10 +4,11 @@
 
 %div#map{ :style => "height:300px"}
 
+- attribution = render(:partial => 'map_attribution').gsub(/\n/, " ")
 :javascript
   map = L.map('map').setView([#{ @latitude }, #{ @longitude }]).fitBounds([ [#{@sw_lat}, #{@sw_lng}], [#{@ne_lat}, #{@ne_lng}] ]);
   L.tileLayer("http://{s}.tile.cloudmade.com/#{ ENV['CLOUDMADE_KEY'] }/997/256/{z}/{x}/{y}.png", {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://cloudmade.com">CloudMade</a>',
+    attribution: '#{ attribution }',
     maxZoom: 18
   }).addTo(map);
 
