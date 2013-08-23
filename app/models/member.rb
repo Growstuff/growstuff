@@ -43,8 +43,7 @@ class Member < ActiveRecord::Base
 
   # set up geocoding
   geocoded_by :location
-  after_validation :geocode
-  after_validation :empty_unwanted_geocodes
+  after_validation :nominatim_geocode
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -202,10 +201,14 @@ class Member < ActiveRecord::Base
   end
 
   protected
-  def empty_unwanted_geocodes
+  def nominatim_geocode
     if self.location.blank?
       self.latitude = nil
       self.longitude = nil
+    else
+      location = Nominatim.geocode(self.location)
+      self.latitude = location[:latitude]
+      self.longitude = location[:longitude]
     end
   end
 
