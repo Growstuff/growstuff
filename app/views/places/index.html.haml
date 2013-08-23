@@ -15,6 +15,6 @@
 - Member.located.each do |m|
   :javascript
     marker = new L.Marker(new L.LatLng(#{m.latitude}, #{m.longitude}));
-    marker.bindPopup('#{ escape_javascript( render :partial => 'members/popover', :locals => { :member => m }) }').openPopup();
+    marker.bindPopup('#{ link_to m, m } #{ escape_javascript( render :partial => 'members/popover', :locals => { :member => m }) }').openPopup();
     map.addLayer(marker);
 
