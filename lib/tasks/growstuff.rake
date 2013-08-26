@@ -147,5 +147,15 @@ namespace :growstuff do
       end
 
     end
+
+    desc "August 2013: set planting owner"
+    task :set_planting_owner => :environment do
+      Planting.find_each do |p|
+        p.owner = p.garden.owner
+        p.save
+      end
+    end
+
   end
+
 end
