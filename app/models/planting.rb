@@ -6,7 +6,7 @@ class Planting < ActiveRecord::Base
     :quantity, :sunniness, :planted_from, :owner_id
 
   belongs_to :garden
-  belongs_to :owner, :class_name => 'Member'
+  belongs_to :owner, :class_name => 'Member', :counter_cache => true
   belongs_to :crop, :counter_cache => true
 
   has_and_belongs_to_many :photos

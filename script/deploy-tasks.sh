@@ -11,3 +11,6 @@ rake growstuff:oneoff:set_default_crop_creator
 
 echo "2013-08-26 - set planting owner"
 rake growstuff:oneoff:set_planting_owner
+
+echo "2013-08-26 - initialize member planting count"
+rake growstuff:oneoff:initialize_member_planting_count
