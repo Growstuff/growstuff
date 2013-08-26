@@ -32,7 +32,7 @@ describe 'member' do
 
     it 'should have a default garden' do
       @member.save
-      @member.gardens.count.should == 1
+      @member.gardens.size.should == 1
     end
 
     it 'should have a accounts entry' do
@@ -71,7 +71,7 @@ describe 'member' do
     it 'has many plantings' do
       @member.save
       @planting = FactoryGirl.create(:planting, :owner => @member)
-      @member.plantings.count.should eq 1
+      @member.plantings.size.should eq 1
     end
 
     it "has many comments" do
