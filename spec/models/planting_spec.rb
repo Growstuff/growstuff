@@ -21,7 +21,7 @@ describe Planting do
   end
 
   it "generates a location" do
-    @planting.location.should match /^member\d+'s Springfield Community Garden$/
+    @planting.location.should eq "#{@garden_owner.login_name}'s #{@garden.name}"
   end
 
   it "sorts plantings in descending order of creation" do

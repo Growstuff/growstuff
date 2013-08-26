@@ -53,7 +53,7 @@ class Planting < ActiveRecord::Base
     "#{owner.login_name}-#{garden}-#{crop}".downcase.gsub(' ', '-')
   end
 
-  # location = owner + garden, i.e. "Skud's backyard"
+  # location = garden owner + garden name, i.e. "Skud's backyard"
   def location
     return "#{garden.owner.login_name}'s #{garden}"
   end
