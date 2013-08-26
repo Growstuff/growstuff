@@ -9,7 +9,7 @@ describe 'home/index.html.haml', :type => "view" do
     @post = FactoryGirl.create(:post, :author => @member)
     assign(:posts, [@post])
 
-    @planting = FactoryGirl.create(:planting, :garden => @member.gardens.first)
+    @planting = FactoryGirl.create(:planting, :owner => @member)
     assign(:plantings, [@planting])
 
     @crop = FactoryGirl.create(:crop)

@@ -4,7 +4,6 @@ describe PhotosController do
 
   login_member
 
-
   def valid_attributes
     member = FactoryGirl.create(:member)
     {
@@ -67,7 +66,7 @@ describe PhotosController do
         member = FactoryGirl.create(:member)
         controller.stub(:current_member) { member }
         garden = FactoryGirl.create(:garden, :owner => member)
-        planting = FactoryGirl.create(:planting, :garden => garden)
+        planting = FactoryGirl.create(:planting, :garden => garden, :owner => member)
         photo = FactoryGirl.create(:photo, :owner => member)
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
           :planting_id => planting.id }
@@ -78,7 +77,7 @@ describe PhotosController do
         member = FactoryGirl.create(:member)
         controller.stub(:current_member) { member }
         garden = FactoryGirl.create(:garden, :owner => member)
-        planting = FactoryGirl.create(:planting, :garden => garden)
+        planting = FactoryGirl.create(:planting, :garden => garden, :owner => member)
         photo = FactoryGirl.create(:photo, :owner => member)
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
           :planting_id => planting.id }
@@ -104,7 +103,7 @@ describe PhotosController do
         member = FactoryGirl.create(:member)
         controller.stub(:current_member) { member }
         garden = FactoryGirl.create(:garden, :owner => member)
-        planting = FactoryGirl.create(:planting, :garden => garden)
+        planting = FactoryGirl.create(:planting, :garden => garden, :owner => member)
         photo = FactoryGirl.create(:photo, :owner => member)
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
           :planting_id => planting.id }
