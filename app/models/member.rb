@@ -26,7 +26,7 @@ class Member < ActiveRecord::Base
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
-  scope :located, where("location <> ''")
+  scope :located, where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL")
   scope :recently_signed_in, reorder('updated_at DESC')
 
   # Include default devise modules. Others available are:
@@ -43,8 +43,7 @@ class Member < ActiveRecord::Base
 
   # set up geocoding
   geocoded_by :location
-  after_validation :geocode
-  after_validation :empty_unwanted_geocodes
+  after_validation :nominatim_geocode
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -202,10 +201,19 @@ class Member < ActiveRecord::Base
   end
 
   protected
-  def empty_unwanted_geocodes
-    if self.location.to_s == ''
+  def nominatim_geocode
+    if self.location.blank?
       self.latitude = nil
       self.longitude = nil
+    else
+      location = Nominatim.geocode(self.location)
+      if location
+        self.latitude = location[:latitude]
+        self.longitude = location[:longitude]
+      else
+        self.latitude = nil
+        self.longitude = nil
+      end
     end
   end
 

@@ -6,6 +6,7 @@ gem 'rails', '3.2.13'
 gem 'rack', '~>1.4.5'
 gem 'json', '~>1.7.7'
 gem 'haml'
+gem 'leaflet-rails'
 gem 'unicorn' # http server
 
 gem 'cancan' # for checking member privileges

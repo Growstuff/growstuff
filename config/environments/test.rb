@@ -1,3 +1,5 @@
+require 'nominatim'
+
 Growstuff::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -40,12 +42,8 @@ Growstuff::Application.configure do
   # Growstuff config
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff (test)"
-    config.analytics_code = ''
-    config.currency = 'AUD'
-    config.bot_email = "noreply@growstuff.org"
-  end
+  config.site_name = "Growstuff (test)"
+  config.analytics_code = ''
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
@@ -55,32 +53,26 @@ Growstuff::Application.configure do
 
 end
 
-Geocoder.configure(:lookup => :test)
+Nominatim.in_testing = true
 
-Geocoder::Lookup::Test.add_stub(
-  "Amundsen-Scott Base, Antarctica", [
-    {
-      'latitude' =>         -90.0,
-      'longitude' =>        0.0,
-    }
-  ]
+Nominatim.add_stub(
+  "Amundsen-Scott Base, Antarctica", {
+    :latitude =>         -90.0,
+    :longitude =>        0.0,
+  }
 )
 
-Geocoder::Lookup::Test.add_stub(
-  "Greenwich, UK", [
-    {
-      'latitude' =>         51.483061,
-      'longitude' =>        -0.004151,
-    }
-  ]
+Nominatim.add_stub(
+  "Greenwich, UK", {
+    :latitude =>         51.483061,
+    :longitude =>        -0.004151,
+  }
 )
 
-Geocoder::Lookup::Test.add_stub(
-  "Edinburgh", [
-    {
-      'latitude' =>         55.953252,
-      'longitude' =>        -3.188267,
-    }
-  ]
+Nominatim.add_stub(
+  "Edinburgh", {
+    :latitude =>         55.953252,
+    :longitude =>        -3.188267,
+  }
 )
 

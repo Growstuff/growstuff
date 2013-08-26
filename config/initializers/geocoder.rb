@@ -1,1 +1,5 @@
-Geocoder.configure(:units => :km)
+Geocoder.configure(
+  :units => :km,
+  :lookup => :nominatim
+)
+
