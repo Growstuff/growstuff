@@ -36,9 +36,13 @@
   .control-group
     =f.label :location, 'Your location', :class => 'control-label'
     .controls
-      =f.text_field :location
+      =f.text_field :location, :autocomplete => "off"
       %span.help-inline This will be displayed on a map. You can be as detailed or vague as you like.
 
+  .control-group
+    =f.label :bio, :class => 'control-label'
+    .controls
+      =f.text_area :bio, :rows => 6, :class => 'input-block-level'
 
   %h2 Linked accounts
 
