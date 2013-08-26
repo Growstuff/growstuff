@@ -3,11 +3,11 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: :slugged
 
   attr_accessible :crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from
+    :quantity, :sunniness, :planted_from, :owner_id
 
   belongs_to :garden
+  belongs_to :owner, :class_name => 'Member'
   belongs_to :crop, :counter_cache => true
-  has_one :owner, :through => :garden
 
   has_and_belongs_to_many :photos
   before_destroy {|planting| planting.photos.clear}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130821073736) do
+ActiveRecord::Schema.define(:version => 20130826012139) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20130821073736) do
     t.string   "slug"
     t.string   "sunniness"
     t.string   "planted_from"
+    t.integer  "owner_id"
   end
 
   add_index "plantings", ["slug"], :name => "index_plantings_on_slug", :unique => true

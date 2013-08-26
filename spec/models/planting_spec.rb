@@ -4,15 +4,20 @@ describe Planting do
 
   before(:each) do
     @crop     = FactoryGirl.create(:tomato)
-    @member   = FactoryGirl.create(:member)
-    @garden   = FactoryGirl.create(:garden, :owner => @member)
+    @garden_owner   = FactoryGirl.create(:member)
+    @garden   = FactoryGirl.create(:garden, :owner => @garden_owner)
     @planting = FactoryGirl.create(:planting,
         :crop => @crop, :garden => @garden)
   end
 
-  it "generates an owner" do
+  it 'has an owner' do
     @planting.owner.should be_an_instance_of Member
-    @planting.owner.login_name.should match /^member\d+$/
+  end
+
+  it "owner isn't necessarily the garden owner" do
+    # a new owner should be created automatically by FactoryGirl
+    # note that formerly, the planting belonged to an owner through the garden
+    @planting.owner.should_not eq @garden_owner
   end
 
   it "generates a location" do
@@ -194,7 +199,7 @@ describe Planting do
       # this one is newer, and has the same owner, through the garden
       @planting2 = FactoryGirl.create(:planting,
         :created_at => 1.minute.ago,
-        :garden_id => @planting1.garden.id
+        :owner_id => @planting1.owner.id
       )
       @planting2.photos << FactoryGirl.create(:photo)
       @planting2.save
