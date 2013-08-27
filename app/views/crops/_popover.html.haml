@@ -5,4 +5,4 @@
         = crop.scientific_names.first.scientific_name
     %br/
     Planted
-    = pluralize(crop.plantings_count, "time")
+    = pluralize(crop.plantings.size, "time")

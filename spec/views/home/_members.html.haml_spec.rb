@@ -6,7 +6,7 @@ describe 'home/_members.html.haml', :type => "view" do
     @member.updated_at = 2.days.ago
     assign(:members, [@member])
 
-    @planting = FactoryGirl.create(:planting, :garden => @member.gardens.first)
+    @planting = FactoryGirl.create(:planting, :owner => @member)
     render
   end
 
