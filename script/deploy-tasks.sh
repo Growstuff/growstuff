@@ -6,8 +6,6 @@
 # when it was added.  This will help us know which ones have been run
 # and can safely be commented out or removed.
 
-echo "2013-08-18 - reset crop planting counts"
-rake growstuff:oneoff:reset_crop_plantings_count
-
-echo "2013-08-21 - set default crop creator"
-rake growstuff:oneoff:set_default_crop_creator
+# Default format is:
+# echo "YYYY-MM-DD - do something or other"
+# rake growstuff:oneoff:something
