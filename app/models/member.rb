@@ -28,6 +28,7 @@ class Member < ActiveRecord::Base
   scope :confirmed, where('confirmed_at IS NOT NULL')
   scope :located, where("location <> ''")
   scope :recently_signed_in, reorder('updated_at DESC')
+  scope :wants_newsletter, where(:newsletter => true)
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

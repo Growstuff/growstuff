@@ -4,15 +4,10 @@ describe 'member' do
 
   context 'valid member' do
     before(:each) do
-      @member = FactoryGirl.build(:member)
-    end
-
-    it 'should save a basic member' do
-      @member.save.should be_true
+      @member = FactoryGirl.create(:member)
     end
 
     it 'should be fetchable from the database' do
-      @member.save
       @member2 = Member.find(@member.id)
       @member2.should be_an_instance_of Member
       @member2.login_name.should match(/member\d+/)
@@ -20,40 +15,32 @@ describe 'member' do
     end
 
     it 'should have a friendly slug' do
-      @member.save
       @member.slug.should match(/member\d+/)
     end
 
     it 'has a bio' do
       @member.bio = 'I love seeds'
-      @member.save
       @member.bio.should eq 'I love seeds'
     end
 
     it 'should have a default garden' do
-      @member.save
       @member.gardens.count.should == 1
     end
 
     it 'should have a accounts entry' do
-      @member.save
       @member.account.should be_an_instance_of Account
     end
 
     it "should have a default-type account by default" do
-      @member.save
       @member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
-
       @member.is_paid?.should be_false
     end
 
     it "doesn't show email by default" do
-      @member.save
       @member.show_email.should be_false
     end
 
     it 'should stringify as the login_name' do
-      @member.save
       @member.to_s.should match(/member\d+/)
       "#{@member}".should match(/member\d+/)
     end
@@ -64,12 +51,10 @@ describe 'member' do
     end
 
     it 'should be able to fetch gardens' do
-      @member.save
       @member.gardens.first.name.should eq "Garden"
     end
 
     it 'has many plantings through gardens' do
-      @member.save
       @planting = FactoryGirl.create(:planting,
         :garden => @member.gardens.first
       )
@@ -77,14 +62,12 @@ describe 'member' do
     end
 
     it "has many comments" do
-      @member.save
       @comment1 = FactoryGirl.create(:comment, :author => @member)
       @comment2 = FactoryGirl.create(:comment, :author => @member)
       @member.comments.length.should == 2
     end
 
     it "has many forums" do
-      @member.save
       @forum1 = FactoryGirl.create(:forum, :owner => @member)
       @forum2 = FactoryGirl.create(:forum, :owner => @member)
       @member.forums.length.should == 2
@@ -114,6 +97,15 @@ describe 'member' do
 
     it "should refuse to save a member who hasn't agreed to the TOS" do
       @member.save.should_not be_true
+    end
+  end
+
+  context 'newsletter scope' do
+    it 'finds newsletter recipients' do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:newsletter_recipient_member)
+      Member.wants_newsletter.should include @member2
+      Member.wants_newsletter.should_not include @member1
     end
   end
 
