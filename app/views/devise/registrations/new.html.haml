@@ -33,7 +33,7 @@
         = link_to 'Terms of Service', url_for(:action => 'tos', :controller => '/policy')
   .control-group
     .controls
-      = f.check_box :newsletter
+      = f.check_box :newsletter, :checked => true
       Subscribe to the #{Growstuff::Application.config.site_name} newsletter
       .help-inline
         = render :partial => 'newsletter_blurb'
