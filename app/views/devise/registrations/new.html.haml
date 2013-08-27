@@ -31,11 +31,12 @@
       I agree to the
       = succeed "." do
         = link_to 'Terms of Service', url_for(:action => 'tos', :controller => '/policy')
+  .control-group
     .controls
       = f.check_box :newsletter
-      Subscribe to the
-      = succeed "." do
-        = link_to 'Growstuff newsletter', 'http://blog.growstuff.org/category/newsletter'
+      Subscribe to the #{Growstuff::Application.config.site_name} newsletter
+      .help-inline
+        = render :partial => 'newsletter_blurb'
 
     .form-actions
       = f.submit "Sign up", :class => 'btn btn-primary'
