@@ -81,6 +81,8 @@ class Member < ActiveRecord::Base
   # which can happen sometimes especially with FactoryGirl associations
   after_create {|member| Account.find_or_create_by_member_id(:member_id => member.id) }
 
+  after_save :update_newsletter_subscription
+
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -202,12 +204,44 @@ class Member < ActiveRecord::Base
     return interesting_members
   end
 
-  protected
+  private
+
   def empty_unwanted_geocodes
     if self.location.to_s == ''
       self.latitude = nil
       self.longitude = nil
     end
+  end
+
+  def update_newsletter_subscription
+    if confirmed_at_changed? and newsletter # just signed up
+      newsletter_subscribe
+    elsif confirmed_at # i.e. after member's confirmed their account
+      if newsletter_changed? # edited member settings
+        if newsletter
+          newsletter_subscribe
+        else
+          newsletter_unsubscribe
+        end
+      end
+    end
+  end
+
+  def newsletter_subscribe
+    gb = Gibbon::API.new
+    res = gb.lists.subscribe({
+      :id => ENV['MAILCHIMP_NEWSLETTER_ID'],
+      :email => { :email => email },
+      :double_optin => false # they alredy confirmed their email with us
+    })
+  end
+
+  def newsletter_unsubscribe
+    gb = Gibbon::API.new
+    res = gb.lists.unsubscribe({
+      :id => ENV['MAILCHIMP_NEWSLETTER_ID'],
+      :email => { :email => email }
+    })
   end
 
 end
