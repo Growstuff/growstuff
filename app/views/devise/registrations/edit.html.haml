@@ -21,6 +21,13 @@
       = f.check_box :send_notification_email
       Receive emailed copies of Inbox notifications.
 
+  .control-group
+    .controls
+      = f.check_box :newsletter
+      Subscribe to the
+      = succeed "." do
+        = link_to 'Growstuff newsletter', 'http://blog.growstuff.org/category/newsletter'
+
   %h2 Profile details
   .control-group
     %label.control-label
