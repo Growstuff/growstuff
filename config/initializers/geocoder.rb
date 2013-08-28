@@ -1,5 +1,10 @@
 Geocoder.configure(
-  :units => :km
+  :units => :km,
+  :http_headers => {
+    "User-Agent" =>
+      "#{Growstuff::Application.config.user_agent} #{Growstuff::Application.config.user_agent_email}",
+    "From" => Growstuff::Application.config.user_agent_email
+  }
 )
 # This configuration takes precedence over environment/test.rb
 # Reported as https://github.com/alexreisner/geocoder/issues/509
