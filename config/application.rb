@@ -78,5 +78,10 @@ module Growstuff
         :openssl_verify_mode  => 'none'
       }
 
+    Gibbon::API.api_key = ENV['MAILCHIMP_APIKEY']
+    Gibbon::API.timeout = 10
+    Gibbon::API.throws_exceptions = false
+    config.newsletter_list_id = ENV['MAILCHIMP_NEWSLETTER_ID']
+
   end
 end

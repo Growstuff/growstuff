@@ -14,5 +14,9 @@ describe 'devise/registrations/new.html.haml', :type => "view" do
     it 'should have some fields' do
         rendered.should contain 'Email'
     end
+
+    it 'has a checkbox for newsletter subscription' do
+      assert_select "input[id=member_newsletter][type=checkbox]"
+    end
   end
 end

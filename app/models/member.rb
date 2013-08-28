@@ -28,6 +28,7 @@ class Member < ActiveRecord::Base
   scope :confirmed, where('confirmed_at IS NOT NULL')
   scope :located, where("location <> ''")
   scope :recently_signed_in, reorder('updated_at DESC')
+  scope :wants_newsletter, where(:newsletter => true)
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -38,7 +39,7 @@ class Member < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login_name, :email, :password, :password_confirmation,
-    :remember_me, :login, :tos_agreement, :show_email,
+    :remember_me, :login, :tos_agreement, :show_email, :newsletter,
     :location, :latitude, :longitude, :send_notification_email, :bio
 
   # set up geocoding
@@ -79,6 +80,8 @@ class Member < ActiveRecord::Base
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryGirl associations
   after_create {|member| Account.find_or_create_by_member_id(:member_id => member.id) }
+
+  after_save :update_newsletter_subscription
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -201,12 +204,45 @@ class Member < ActiveRecord::Base
     return interesting_members
   end
 
-  protected
+  private
+
   def empty_unwanted_geocodes
     if self.location.to_s == ''
       self.latitude = nil
       self.longitude = nil
     end
+  end
+
+  def update_newsletter_subscription
+    if confirmed_at_changed? and newsletter # just signed up
+      newsletter_subscribe
+    elsif confirmed_at # i.e. after member's confirmed their account
+      if newsletter_changed? # edited member settings
+        if newsletter
+          newsletter_subscribe
+        else
+          newsletter_unsubscribe
+        end
+      end
+    end
+  end
+
+  def newsletter_subscribe
+    gb = Gibbon::API.new
+    res = gb.lists.subscribe({
+      :id => ENV['MAILCHIMP_NEWSLETTER_ID'],
+      :email => { :email => email },
+      :merge_vars => { :login_name => login_name },
+      :double_optin => false # they alredy confirmed their email with us
+    })
+  end
+
+  def newsletter_unsubscribe
+    gb = Gibbon::API.new
+    res = gb.lists.unsubscribe({
+      :id => ENV['MAILCHIMP_NEWSLETTER_ID'],
+      :email => { :email => email }
+    })
   end
 
 end

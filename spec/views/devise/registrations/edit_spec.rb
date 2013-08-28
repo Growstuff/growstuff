@@ -30,6 +30,10 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       it 'has a checkbox for email notifications' do
         assert_select "input[id=member_send_notification_email][type=checkbox]"
       end
+
+      it 'has a checkbox for newsletter subscription' do
+        assert_select "input[id=member_newsletter][type=checkbox]"
+      end
     end
 
     context 'profile section' do
