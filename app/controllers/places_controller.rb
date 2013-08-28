@@ -24,15 +24,16 @@ class PlacesController < ApplicationController
       @units = :km
     end
 
-    location = Nominatim.geocode(@place)
-    if location
-      @latitude = location[:latitude]
-      @longitude = location[:longitude]
+    location = Geocoder.search(Geocoder::Query.new(
+      @place, :distance => @distance, :units => @units
+    ))
+    if location && location[0] && location[0].coordinates
+      @latitude, @longitude = location[0].coordinates
       if @distance
         @sw_lat, @sw_lng, @ne_lat, @ne_lng = Geocoder::Calculations.bounding_box(
           [@latitude, @longitude],
           @distance,
-          options = { :units => @units }
+          { :units => @units }
         )
       end
     else

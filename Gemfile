@@ -86,7 +86,9 @@ gem 'friendly_id'
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder'
+gem 'geocoder',
+  :git => 'https://github.com/alexreisner/geocoder.git',
+  :ref => '104d46'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
