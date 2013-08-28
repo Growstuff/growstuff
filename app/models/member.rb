@@ -232,6 +232,7 @@ class Member < ActiveRecord::Base
     res = gb.lists.subscribe({
       :id => ENV['MAILCHIMP_NEWSLETTER_ID'],
       :email => { :email => email },
+      :merge_vars => { :login_name => login_name },
       :double_optin => false # they alredy confirmed their email with us
     })
   end
