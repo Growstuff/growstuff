@@ -14,7 +14,8 @@ describe "plantings/index" do
       pager.replace([
         FactoryGirl.create(:planting,
           :garden => @garden,
-          :crop => @tomato
+          :crop => @tomato,
+          :owner => @member
         ),
         FactoryGirl.create(:planting,
           :garden => @garden,

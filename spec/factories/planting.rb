@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :planting do
     garden
+    owner
     crop
     planted_at Date.today
     quantity 33

@@ -49,6 +49,11 @@ describe PlantingsController do
       assigns(:planting).planted_at.should == Date.today
     end
 
+    it "sets the owner automatically" do
+      post :create, { :planting => valid_attributes }
+      assigns(:planting).owner.should eq subject.current_member
+    end
+
   end
 
 end

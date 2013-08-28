@@ -32,7 +32,7 @@ describe 'member' do
 
     it 'should have a default garden' do
       @member.save
-      @member.gardens.count.should == 1
+      @member.gardens.size.should == 1
     end
 
     it 'should have a accounts entry' do
@@ -68,12 +68,10 @@ describe 'member' do
       @member.gardens.first.name.should eq "Garden"
     end
 
-    it 'has many plantings through gardens' do
+    it 'has many plantings' do
       @member.save
-      @planting = FactoryGirl.create(:planting,
-        :garden => @member.gardens.first
-      )
-      @member.plantings.count.should eq 1
+      @planting = FactoryGirl.create(:planting, :owner => @member)
+      @member.plantings.size.should eq 1
     end
 
     it "has many comments" do
@@ -275,7 +273,7 @@ describe 'member' do
       @member4 = FactoryGirl.create(:unconfirmed_member)
 
       [@member1, @member2, @member3, @member4].each do |m|
-        FactoryGirl.create(:planting, :garden => m.gardens.first)
+        FactoryGirl.create(:planting, :owner => m)
       end
 
       @member1.updated_at = 3.days.ago

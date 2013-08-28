@@ -7,7 +7,7 @@ class Member < ActiveRecord::Base
   has_many :forums, :foreign_key => 'owner_id'
 
   has_many :gardens, :foreign_key => 'owner_id'
-  has_many :plantings, :through => :gardens
+  has_many :plantings, :foreign_key => 'owner_id'
 
   has_many :seeds, :foreign_key => 'owner_id'
 

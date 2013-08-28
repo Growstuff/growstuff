@@ -8,8 +8,8 @@
     = distance_of_time_in_words(member.created_at, Time.zone.now)
     ago.
   %p
-    = pluralize(member.gardens.count, "garden")
+    = pluralize(member.gardens.size, "garden")
     %br/
-    = pluralize(member.plantings.count, "planting")
+    = pluralize(member.plantings.size, "planting")
     %br/
-    = pluralize(member.seeds.count, "seed")
+    = pluralize(member.seeds.size, "seed")
