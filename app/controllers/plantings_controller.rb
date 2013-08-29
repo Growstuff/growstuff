@@ -58,6 +58,7 @@ class PlantingsController < ApplicationController
   # POST /plantings
   # POST /plantings.json
   def create
+    params[:planting][:owner_id] = current_member.id
     params[:planted_at] = parse_date(params[:planted_at])
     @planting = Planting.new(params[:planting])
 

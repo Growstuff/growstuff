@@ -21,6 +21,13 @@
       = f.check_box :send_notification_email
       Receive emailed copies of Inbox notifications.
 
+  .control-group
+    .controls
+      = f.check_box :newsletter
+      Subscribe to the #{Growstuff::Application.config.site_name} newsletter
+      .help-inline
+        = render :partial => 'newsletter_blurb'
+
   %h2 Profile details
   .control-group
     %label.control-label

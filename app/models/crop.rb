@@ -39,10 +39,6 @@ class Crop < ActiveRecord::Base
     end
   end
 
-  def plantings_count
-    return plantings.count
-  end
-
   # crop.default_photo
   # currently returns the first available photo, but exists so that
   # later we can choose a default photo based on different criteria,
