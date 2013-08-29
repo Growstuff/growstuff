@@ -61,9 +61,10 @@ describe Crop do
 
   it 'counts plantings' do
     @crop = FactoryGirl.create(:tomato)
-    @crop.plantings_count.should eq 0
-    FactoryGirl.create(:planting, :crop => @crop)
-    @crop.plantings_count.should eq 1
+    @crop.plantings.size.should eq 0
+    @planting = FactoryGirl.create(:planting, :crop => @crop)
+    @crop.reload
+    @crop.plantings.size.should eq 1
   end
 
   it 'validates en_wikipedia_url' do

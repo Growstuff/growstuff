@@ -12,7 +12,7 @@
       %p
         %b
           Planted
-          = pluralize(crop.plantings_count, "time")
+          = pluralize(crop.plantings.size, "time")
         by #{Growstuff::Application.config.site_name} members
 
       - if can? :create, Planting

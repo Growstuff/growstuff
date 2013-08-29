@@ -29,7 +29,14 @@
     .controls
       = f.check_box :tos_agreement
       I agree to the
-      = link_to('Terms of Service', url_for(:action => 'tos', :controller => '/policy'))
+      = succeed "." do
+        = link_to 'Terms of Service', url_for(:action => 'tos', :controller => '/policy')
+  .control-group
+    .controls
+      = f.check_box :newsletter, :checked => true
+      Subscribe to the #{Growstuff::Application.config.site_name} newsletter
+      .help-inline
+        = render :partial => 'newsletter_blurb'
 
     .form-actions
       = f.submit "Sign up", :class => 'btn btn-primary'

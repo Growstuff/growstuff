@@ -3,11 +3,11 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: :slugged
 
   attr_accessible :crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from
+    :quantity, :sunniness, :planted_from, :owner_id
 
   belongs_to :garden
+  belongs_to :owner, :class_name => 'Member', :counter_cache => true
   belongs_to :crop, :counter_cache => true
-  has_one :owner, :through => :garden
 
   has_and_belongs_to_many :photos
   before_destroy {|planting| planting.photos.clear}
@@ -53,7 +53,7 @@ class Planting < ActiveRecord::Base
     "#{owner.login_name}-#{garden}-#{crop}".downcase.gsub(' ', '-')
   end
 
-  # location = owner + garden, i.e. "Skud's backyard"
+  # location = garden owner + garden name, i.e. "Skud's backyard"
   def location
     return "#{garden.owner.login_name}'s #{garden}"
   end

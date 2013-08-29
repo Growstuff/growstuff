@@ -138,14 +138,35 @@ namespace :growstuff do
       cropbot.account.account_type = AccountType.find_by_name("Staff") # set this just because it's nice
       cropbot.account.save
       Crop.find_each do |crop|
-        crop.creator = cropbot
-        crop.save
+        unless crop.creator
+          crop.creator = cropbot
+          crop.save
+        end
       end
       ScientificName.find_each do |sn|
-        sn.creator = cropbot
-        sn.save
+        unless sn.creator
+          sn.creator = cropbot
+          sn.save
+        end
       end
 
     end
+
+    desc "August 2013: set planting owner"
+    task :set_planting_owner => :environment do
+      Planting.find_each do |p|
+        p.owner = p.garden.owner
+        p.save
+      end
+    end
+
+    desc "August 2013: initialize member planting counter"
+    task :initialize_member_planting_count => :environment do
+      Member.find_each do |m|
+        Member.reset_counters m.id, :plantings
+      end
+    end
+
   end
+
 end
