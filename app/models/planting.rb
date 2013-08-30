@@ -39,10 +39,11 @@ class Planting < ActiveRecord::Base
     'cutting',
     'root division',
     'runner',
+    'bulb',
     'bare root plant',
     'advanced plant',
     'graft',
-    'layering'
+    'layering'    
   ]
   validates :planted_from, :inclusion => { :in => PLANTED_FROM_VALUES,
         :message => "%{value} is not a valid planting method" },
