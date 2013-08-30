@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130828114516) do
+ActiveRecord::Schema.define(:version => 20130827105823) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -86,11 +86,6 @@ ActiveRecord::Schema.define(:version => 20130828114516) do
 
   add_index "gardens", ["owner_id"], :name => "index_gardens_on_user_id"
   add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
-
-  create_table "gardens_members", :id => false, :force => true do |t|
-    t.integer "garden_id"
-    t.integer "member_id"
-  end
 
   create_table "members", :force => true do |t|
     t.string   "email",                   :default => "",   :null => false
@@ -168,6 +163,14 @@ ActiveRecord::Schema.define(:version => 20130828114516) do
   create_table "orders_products", :id => false, :force => true do |t|
     t.integer "order_id"
     t.integer "product_id"
+  end
+
+  create_table "payments", :force => true do |t|
+    t.integer  "payer_id"
+    t.string   "payment_type"
+    t.decimal  "amount"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "photos", :force => true do |t|

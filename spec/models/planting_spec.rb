@@ -110,7 +110,7 @@ describe Planting do
     it 'all valid planted_from values should work' do
       ['seed', 'seedling', 'cutting', 'root division',
         'runner', 'bare root plant', 'advanced plant',
-        'graft', 'layering', nil, ''].each do |p|
+        'graft', 'layering', 'bulb', nil, ''].each do |p|
         @planting = FactoryGirl.build(:planting, :planted_from => p)
         @planting.should be_valid
       end
