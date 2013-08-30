@@ -38,6 +38,11 @@ describe "plantings/edit" do
       end
     end
 
+    it 'includes helpful links for crops and gardens' do
+      assert_select "a[href=#{new_garden_path}]", :text => "Add a garden."
+      assert_select "a[href=#{Growstuff::Application.config.new_crops_request_link}]", :text => "Request new crops."
+    end
+
     it "chooses the right crop" do
       assert_select "select#planting_crop_id",
         :html => /option value="#{@tomato.id}" selected="selected"/
