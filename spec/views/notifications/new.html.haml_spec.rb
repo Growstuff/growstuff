@@ -4,7 +4,8 @@ describe "notifications/new" do
   before(:each) do
     @recipient = FactoryGirl.create(:member)
     @sender = FactoryGirl.create(:member)
-    assign(:notification, FactoryGirl.create(:notification, :recipient_id => @recipient.id, :sender_id => @sender.id))
+    @notification = FactoryGirl.create(:notification, :recipient_id => @recipient.id, :sender_id => @sender.id)
+    assign(:notification, @notification)
     sign_in @sender
     controller.stub(:current_user) { @sender}
   end
@@ -48,4 +49,20 @@ describe "notifications/new" do
     rendered.should contain 'Markdown'
   end
 
+  context "replying to existing message" do
+    before :each do
+      @in_reply_to = FactoryGirl.create(
+        :notification,
+        :recipient_id => @sender.id,
+        :sender_id => @recipient.id,
+        :body => "This message demands an immediate reply"
+      )
+      assign(:in_reply_to, @in_reply_to)
+    end
+
+    it "shows the text of the previous notification" do
+     render
+     rendered.should contain @in_reply_to.body
+    end
+  end
 end
