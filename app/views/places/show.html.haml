@@ -17,7 +17,7 @@
   - popup.gsub!(/\n/, "") # Linebreaks in strings break JavaScript
   :javascript
     marker = new L.Marker(new L.LatLng(#{m.latitude}, #{m.longitude}));
-    marker.bindPopup('<p>#{link_to m, m}</p> #{ popup }').openPopup();
+    marker.bindPopup('<p>#{link_to m, m}</p> #{ escape_javascript(popup) }').openPopup();
     map.addLayer(marker);
 
 %h3
