@@ -43,7 +43,10 @@
         %td= seed.tradable? ? seed.tradable_to : ''
         %td
           - if seed.tradable?
-            = seed.owner.location.blank? ? "unspecified" : seed.owner.location
+            - if seed.owner.location.blank?
+              unspecified
+            - else
+              = link_to seed.owner.location, place_path(seed.owner.location)
         %td= link_to 'Details', seed, :class => 'btn btn-mini'
 
   %div.pagination

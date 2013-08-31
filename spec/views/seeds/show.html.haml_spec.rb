@@ -31,6 +31,7 @@ describe "seeds/show" do
     it "shows location of seed owner" do
       render
       rendered.should contain @owner.location
+      assert_select 'a', :href => place_path(@owner.location)
     end
 
     context 'with no location' do

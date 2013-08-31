@@ -86,6 +86,13 @@ describe 'member' do
       @member.longitude.should be_nil
     end
 
+    it 'fails gracefully for unfound locations' do
+      @member.update_attributes(:location => 'Tatooine')
+      @member.location.should eq 'Tatooine'
+      @member.latitude.should be_nil
+      @member.longitude.should be_nil
+    end
+
   end
 
   context 'no TOS agreement' do
@@ -224,22 +231,27 @@ describe 'member' do
   end
 
   context 'located scope' do
-    it 'recognises non-blank locations as interesting' do
-      @m = FactoryGirl.create(:member, :location => 'Greenwich, UK')
-      Member.located.should include @m
+    # located members must have location, lat, long
+    it 'finds members who have locations' do
+      @london_member = FactoryGirl.create(:london_member)
+      Member.located.should include @london_member
     end
-    it 'recognises nil locations as uninteresting' do
-      @m = FactoryGirl.create(:member, :location => nil)
-      Member.located.should_not include @m
+
+    it 'ignores members with blank locations' do
+      @nowhere_member = FactoryGirl.create(:member)
+      Member.located.should_not include @nowhere_member
     end
-    it 'recognises empty string locations as uninteresting' do
-      @m = FactoryGirl.create(:member, :location => '')
-      Member.located.should_not include @m
+
+    it 'ignores members with blank lat/long' do
+      @london_member = FactoryGirl.create(:london_member)
+      @london_member.latitude = nil
+      @london_member.longitude = nil
+      @london_member.save(:validate => false)
+      Member.located.should_not include @london_member
     end
   end
 
-  context 'interesting' do
-
+  context 'interesting scope' do
     # interesting members are defined as:
     # 1) confirmed
     # 2) have a location

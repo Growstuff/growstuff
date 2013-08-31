@@ -1,0 +1,41 @@
+-content_for :title, @place
+
+<script src="/assets/leaflet.js?body=1" type="text/javascript"></script>
+
+%div#map{ :style => "height:300px"}
+
+- attribution = render(:partial => 'map_attribution').gsub(/\n/, " ")
+:javascript
+  map = L.map('map').setView([#{ @latitude }, #{ @longitude }]).fitBounds([ [#{@sw_lat}, #{@sw_lng}], [#{@ne_lat}, #{@ne_lng}] ]);
+  L.tileLayer("http://{s}.tile.cloudmade.com/#{ ENV['CLOUDMADE_KEY'] }/997/256/{z}/{x}/{y}.png", {
+    attribution: '#{ attribution }',
+    maxZoom: 18
+  }).addTo(map);
+
+- Member.located.each do |m|
+  - popup = render :partial => 'members/popover', :locals => { :member => m }
+  - popup = escape_javascript(popup).gsub(/\\\//, "/")
+  :javascript
+    marker = new L.Marker(new L.LatLng(#{m.latitude}, #{m.longitude}));
+    marker.bindPopup('<p>#{link_to m, m}</p> #{ popup }').openPopup();
+    map.addLayer(marker);
+
+%h3
+  = Growstuff::Application.config.site_name
+  members near #{@place}
+
+= form_tag(search_places_path, :method => :get, :class => 'form-inline') do
+  = label_tag :distance, "Find members within", :class => 'control-label'
+  = text_field_tag :distance, @distance, :class => 'input-mini'
+  = select_tag :units, options_for_select({"miles" => :mi, "km" => :km}, @units), :class => 'input-small'
+  = label_tag :place, "of", :class => 'control-label'
+  = text_field_tag :new_place, @place
+  = submit_tag "Search", :class => 'btn btn-primary'
+
+- if !@nearby_members.empty?
+  %ul.thumbnails
+    - @nearby_members.each do |member|
+      %li.span2
+        = render :partial => "members/thumbnail", :locals => { :member => member }
+- elsif @place
+  %p No results found

@@ -24,6 +24,10 @@ describe 'layouts/_header.html.haml', :type => "view" do
       rendered.should contain "Seeds"
     end
 
+    it 'has a Places link' do
+      rendered.should contain "Places"
+    end
+
     it 'has a Community section' do
       rendered.should contain "Community"
     end

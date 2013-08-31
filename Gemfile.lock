@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/alexreisner/geocoder.git
+  revision: 104d466ba7097b7dce5ba19f8e4091b7f69ccdf6
+  ref: 104d46
+  specs:
+    geocoder (1.1.8)
+
+GIT
   remote: https://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: 2c7c527c354d9068ce49346d4fd8389328d32ce6
   ref: 2c7c52
@@ -105,7 +112,6 @@ GEM
     flickraw (0.9.6)
     friendly_id (4.0.9)
     fssm (0.2.10)
-    geocoder (1.1.8)
     gibbon (1.0.0)
       httparty
       multi_json (>= 1.3.4)
@@ -129,6 +135,7 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.7.7)
     kgio (2.8.0)
+    leaflet-rails (0.6.2)
     less (2.3.2)
       commonjs (~> 0.2.6)
     less-rails (2.3.3)
@@ -257,13 +264,14 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   flickraw
   friendly_id
-  geocoder
+  geocoder!
   gibbon
   gravatar-ultimate
   haml
   haml-rails
   jquery-rails
   json (~> 1.7.7)
+  leaflet-rails
   less-rails
   memcachier
   newrelic_rpm
