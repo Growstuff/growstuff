@@ -83,5 +83,10 @@ module Growstuff
     config.bot_email = "noreply@growstuff.org"
     config.user_agent = 'Growstuff'
     config.user_agent_email = "info@growstuff.org"
+    Gibbon::API.api_key = ENV['MAILCHIMP_APIKEY']
+    Gibbon::API.timeout = 10
+    Gibbon::API.throws_exceptions = false
+    config.newsletter_list_id = ENV['MAILCHIMP_NEWSLETTER_ID']
+
   end
 end

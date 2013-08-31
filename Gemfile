@@ -11,6 +11,8 @@ gem 'unicorn' # http server
 
 gem 'cancan' # for checking member privileges
 
+gem 'gibbon' # for Mailchimp newsletter subscriptions
+
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
 gem 'activemerchant', '1.33.0',

@@ -14,4 +14,8 @@ describe 'admin/index.html.haml', :type => "view" do
     assert_select "a", :href => roles_path
     assert_select "a", :href => forums_path
   end
+
+  it "has a link to newsletter subscribers" do
+    rendered.should contain "Newsletter subscribers"
+  end
 end

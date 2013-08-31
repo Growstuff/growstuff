@@ -66,6 +66,7 @@ Growstuff::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Growstuff configuration
+  config.new_crops_request_link = "http://growstuff.org/posts/skud-20130319-requests-for-new-crops"
   config.action_mailer.default_url_options = { :host => 'growstuff.org' }
 
   config.action_mailer.smtp_settings = {

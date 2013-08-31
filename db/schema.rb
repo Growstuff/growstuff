@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130826023159) do
+ActiveRecord::Schema.define(:version => 20130827105823) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(:version => 20130826023159) do
     t.boolean  "send_notification_email", :default => true
     t.text     "bio"
     t.integer  "plantings_count"
+    t.boolean  "newsletter"
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
@@ -162,6 +163,14 @@ ActiveRecord::Schema.define(:version => 20130826023159) do
   create_table "orders_products", :id => false, :force => true do |t|
     t.integer "order_id"
     t.integer "product_id"
+  end
+
+  create_table "payments", :force => true do |t|
+    t.integer  "payer_id"
+    t.string   "payment_type"
+    t.decimal  "amount"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "photos", :force => true do |t|
