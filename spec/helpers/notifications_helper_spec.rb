@@ -15,7 +15,8 @@ describe NotificationsHelper do
       link.should_not be_nil
       link.should eq new_notification_url(
         :recipient_id => notification.sender_id,
-        :subject => subject
+        :subject => subject,
+        :in_reply_to_id => notification.id
       )
     end
 
