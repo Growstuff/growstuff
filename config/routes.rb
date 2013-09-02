@@ -22,6 +22,7 @@ Growstuff::Application.routes.draw do
   resources :scientific_names
 
   match 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
+  match 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'
   resources :crops
 
   resources :comments
