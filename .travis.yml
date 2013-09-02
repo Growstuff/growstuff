@@ -15,3 +15,7 @@ deploy:
   app: enigmatic-cove-2527
   on: travis-deploy
   strategy: git
+  run:
+    - "rake db:migrate"
+    - "script/deploy-tasks.sh"
+    - restart
