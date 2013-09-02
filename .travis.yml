@@ -11,7 +11,7 @@ script:
 deploy:
   provider: heroku
   api_key:
-    - secure: "HNJfxo3TPFSztx6sr1PDxzR266gn1NNculry9N/oodToJyT0w6wpx146hprgfqOWi2DoNbBYwP2hjxxmbe19OBJ59sZRgl4Eou26D5YJCZZhpylQGGCJke5aXzLVxyy601jDFMIwnZzGkXV41t7Jt4kNcZ+UZh9mNeoiz/lruWo="
+    secure: PFxmtrivovPt1oW0V19/sBKa2uCs1W0MBgLAi7CRkENssxVTsgy+twiSyCWxN1NskLdiLFUZuvWHwBxjPlYrMY4LH/9JEX4qjjr/yQV49itb2Gy9y4dCtm5ai6UB7tL8HF9A9yxRXL1P6wkRlNjujMJDtaofp+wR24NmQQzO9V8=
   app: enigmatic-cove-2527
   on: travis-deploy
   strategy: git
