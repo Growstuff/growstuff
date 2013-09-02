@@ -14,3 +14,4 @@ deploy:
   - secure: RNyfHB0cW66lqUBKDT3tv2RJudf3iU3x6lf4Gvv5veVNAysK9VHdWsJMPy2QJun4Ki+sREap5AyOWPBMMwMoxkX8vBC44ndEY1P6M26dvN9Jpz+WT0rHCO32wIj1zV4NFR0inVDFcz9qTpeIkJNFunWdGU/AmwfbzjA81C/3Dw8=
   app: enigmatic-cove-2527
   on: travis-deploy
+  strategy: git
