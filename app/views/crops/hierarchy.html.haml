@@ -4,3 +4,5 @@
   This page shows the hierarchical tree of all crops in our
   = succeed "." do
     = link_to "crops database", crops_path
+
+= render :partial => "hierarchy", :locals => { :display_crops => @crops }

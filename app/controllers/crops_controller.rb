@@ -27,6 +27,7 @@ class CropsController < ApplicationController
 
   # GET /crops/hierarchy
   def hierarchy
+    @crops = Crop.toplevel
     respond_to do |format|
       format.html
     end
