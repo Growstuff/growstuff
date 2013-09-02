@@ -1,5 +1,10 @@
 - content_for :title, "Crops"
 
+%p
+  #{Growstuff::Application.config.site_name} tracks who's growing what, where.
+  View any crop page to see which of our members have planted it and find
+  information on how to grow it yourself.
+
 %div.pagination
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
