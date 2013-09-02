@@ -11,11 +11,11 @@ script:
 deploy:
   provider: heroku
   api_key:
-    secure: PFxmtrivovPt1oW0V19/sBKa2uCs1W0MBgLAi7CRkENssxVTsgy+twiSyCWxN1NskLdiLFUZuvWHwBxjPlYrMY4LH/9JEX4qjjr/yQV49itb2Gy9y4dCtm5ai6UB7tL8HF9A9yxRXL1P6wkRlNjujMJDtaofp+wR24NmQQzO9V8=
+    secure: "YWJ8xTTAGvmK6mhvg7HQLCfhkPHPmrYfSr0RXRwwy9kPQHURynwoA+503Qhkc/piua7Ss7wNZJq+n8b9ivZ+5T5dim+R+puvmKHW05YUE+oQzqj7vhcwQHSTNiwKEd+u+YVWYBsnSGT+opw9LFWnhs7JKFXkLNe8EiS8KAM7u9Y="
   app: enigmatic-cove-2527
   on: travis-deploy
   strategy: git
   run:
-    - "rake db:migrate"
-    - "script/deploy-tasks.sh"
+    - rake db:migrate
+    - script/deploy-tasks.sh
     - restart
