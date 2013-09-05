@@ -6,5 +6,7 @@
  *= require bootstrap-datepicker
  *= require leaflet.ie
  *= require leaflet
+ *= require leaflet.markercluster
+ *= require leaflet.markercluster.default
  *= require_tree .
 */

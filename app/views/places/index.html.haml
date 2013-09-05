@@ -3,6 +3,7 @@
 %div#map
 
 <script src="/assets/leaflet.js?body=1" type="text/javascript"></script>
+<script src="/assets/leaflet.markercluster.js?body=1" type="text/javascript"></script>
 
 - attribution = render(:partial => 'map_attribution').gsub(/\n/, " ")
 :javascript
@@ -11,10 +12,13 @@
     attribution: '#{ attribution }',
     maxZoom: 18
   }).addTo(map);
+  var markers = new L.MarkerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true});
 
 - Member.located.each do |m|
   :javascript
     marker = new L.Marker(new L.LatLng(#{m.latitude}, #{m.longitude}));
     marker.bindPopup('#{ link_to m, m } #{ escape_javascript( render :partial => 'members/popover', :locals => { :member => m }) }').openPopup();
-    map.addLayer(marker);
+    markers.addLayer(marker)
 
+:javascript
+  map.addLayer(markers);
