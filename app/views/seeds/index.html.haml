@@ -1,6 +1,10 @@
 - content_for :title, @owner ? "#{@owner}'s seeds" : "Everyone's seeds"
 
 %p
+  #{Growstuff::Application.config.site_name} helps you track your seed
+  stash or trade seeds with other members.
+
+%p
   - if can? :create, Seed
     - if @owner
       %p
