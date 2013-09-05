@@ -25,7 +25,7 @@ class PlacesController < ApplicationController
     end
 
     query = Geocoder::Query.new(
-      @place, :distance => @distance, :units => @units
+      @place, :distance => @distance, :units => @units, :params => {limit: 1}
     )
     location = Geocoder.search(query)
     if location && location[0] && location[0].coordinates
