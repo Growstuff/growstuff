@@ -1,0 +1,21 @@
+map = L.map('map').setView([0.0, -0.0], 2);
+L.tileLayer("http://{s}.tile.cloudmade.com/<%= ENV['CLOUDMADE_KEY'] %>/997/256/{z}/{x}/{y}.png", {
+  attribution: 'blah',
+  maxZoom: 18
+}).addTo(map);
+markers = new L.MarkerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true});
+
+$.getJSON('/members.json', function(members) {
+  $.each(members, function(i, m){
+    if (m.latitude && m.longitude) {
+      marker = new L.Marker(new L.LatLng(m.latitude, m.longitude))
+      link = "<p><a href='/members/" + m.login_name + "'>" + m.login_name + "</a></p>"
+      where = "<p><i>" + m.location + "</i></p>"
+      marker.bindPopup(link + where).openPopup()
+      markers.addLayer(marker)
+    }
+  });
+});
+
+map.addLayer(markers);
+
