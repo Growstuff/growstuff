@@ -15,3 +15,11 @@ rake growstuff:oneoff:set_planting_owner
 
 echo "2013-08-26 - initialize member planting count"
 rake growstuff:oneoff:initialize_member_planting_count
+
+echo "2013-09-11 - Maps setup"
+echo "************************************************************************"
+echo "Did you remember to:"
+echo "heroku labs:enable user-env-compile -a myapp"
+echo "heroku config:set CLOUDMADE_KEY=..."
+echo "(if not, rollback, do it, and then re-deploy.)"
+echo "************************************************************************"
