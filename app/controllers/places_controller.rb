@@ -12,6 +12,7 @@ class PlacesController < ApplicationController
   # GET /places/london
   # GET /places/london.json
   def show
+    @place = params[:place] # used for page title
     @nearby_members = Member.nearest_to(params[:place])
     respond_to do |format|
       format.html # show.html.haml

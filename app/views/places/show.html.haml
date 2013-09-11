@@ -2,7 +2,7 @@
 
 = form_tag(search_places_path, :method => :get, :class => 'form-inline') do
   = label_tag :place, "Change location:", :class => 'control-label'
-  = text_field_tag :new_place, @place
+  = text_field_tag :new_place
   = submit_tag "Search", :class => 'btn btn-primary'
 
 %div#map{ :style => "height:300px"}

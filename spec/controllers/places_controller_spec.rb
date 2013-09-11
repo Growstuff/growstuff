@@ -11,6 +11,11 @@ describe PlacesController do
       @member_south_pole = FactoryGirl.create(:south_pole_member)
     end
 
+    it "assigns place name" do
+      get :show, { :place => @member_london.location }
+      assigns(:place).should eq @member_london.location
+    end
+
     it "assigns nearby members" do
       get :show, { :place => @member_london.location }
       assigns(:nearby_members).should eq [@member_london, @member_south_pole]
