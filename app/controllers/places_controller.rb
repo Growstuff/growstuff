@@ -5,7 +5,7 @@ class PlacesController < ApplicationController
     respond_to do |format|
       format.html
       # json response is whatever we want to map here
-      format.json { render :json => Member.all.to_json(:only => [:id, :login_name, :location, :latitude, :longitude]) }
+      format.json { render :json => Member.located.to_json(:only => [:id, :login_name, :location, :latitude, :longitude]) }
     end
   end
 
