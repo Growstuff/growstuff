@@ -1,5 +1,9 @@
 places_base_path = "/places"
 things_to_map = location.pathname + '.json'
+nominatim_useragent_email = "<%= Growstuff::Application.config.user_agent_email %>"
+cloudmade_key = "<%= Growstuff::Application.config.cloudmade_key %>"
+cloudmade_url = "http://{s}.tile.cloudmade.com/" + cloudmade_key + "/997/256/{z}/{x}/{y}.png"
+xxx_test = "<%= ENV['NEW_RELIC_APP_NAME'].untaint %>" // does this show up?
 
 if (location.pathname === places_base_path) { //places index page
   map = L.map('map').setView([0.0, -0.0], 2);
@@ -11,7 +15,7 @@ if (location.pathname === places_base_path) { //places index page
     format: "json",
     callback: "placeholder",
     limit: 1,
-    email: "<%= Growstuff::Application.config.user_agent_email %>"
+    email: nominatim_useragent_email
   };
   $.getJSON(nominatim_query_url, nominatim_options, function(data) {
     map = L.map('map').setView([data[0].lat, data[0].lon], 5);
@@ -20,7 +24,7 @@ if (location.pathname === places_base_path) { //places index page
 }
 
 function showMap(map) {
-  L.tileLayer("http://{s}.tile.cloudmade.com/<%= ENV['CLOUDMADE_KEY'] %>/997/256/{z}/{x}/{y}.png", {
+  L.tileLayer(cloudmade_url, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Imagery &copy; <a href="http://cloudmade.com">Cloudmade</a>',
     maxZoom: 18
   }).addTo(map);
