@@ -14,38 +14,16 @@ class PlacesController < ApplicationController
   def show
     @place = params[:place]
 
-    if !params[:distance].blank?
-      @distance = params[:distance]
-    else
-      @distance = 100
-    end
+    # calculate location just once, rather than using @place later
+    # sadly we also do this in the javascript, which means we're making
+    # the same query twice, but I'm not sure how to avoid that.
+    location = Geocoder.search(Geocoder::Query.new(@place, :params => {limit: 1}))
 
-    if params[:units] == "mi"
-      @units = :mi
-    else
-      @units = :km
+    @nearby_members = []
+    if location
+      coords = [location[0].data['lat'], location[0].data['lon']]
+      @nearby_members = Member.near(coords, 1000, :units => :km).sort_by { |x| x.distance_from(coords) }.first(30)
     end
-
-    query = Geocoder::Query.new(
-      @place, :distance => @distance, :units => @units, :params => {limit: 1}
-    )
-    location = Geocoder.search(query)
-    if location && location[0] && location[0].coordinates
-      @latitude, @longitude = location[0].coordinates
-      if @distance
-        @sw_lat, @sw_lng, @ne_lat, @ne_lng = Geocoder::Calculations.bounding_box(
-          [@latitude, @longitude],
-          @distance,
-          { :units => @units }
-        )
-      end
-    else
-      @latitude, @longitude = [0, 0]
-      @sw_lat, @sw_lng, @ne_lat, @ne_lng = [0,0,0,0]
-      flash[:alert] = "Sorry, our map provider can't find this location."
-    end
-
-    @nearby_members = @place ? Member.near(@place, @distance, :units => @units) : []
 
     respond_to do |format|
       format.html # show.html.haml
