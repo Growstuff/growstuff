@@ -5,6 +5,8 @@ cloudmade_url = "http://{s}.tile.cloudmade.com/" + cloudmade_key + "/997/256/{z}
 nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
 nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email %>";
 
+L.Icon.Default.imagePath = '/assets'
+
 if (location.pathname === places_base_path) { //places index page
   map = L.map('map').setView([0.0, -0.0], 2);
   showMap(map);
