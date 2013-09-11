@@ -13,7 +13,7 @@
 
 - if !@nearby_members.empty?
   %ul.thumbnails
-    - @nearby_members.each do |member|
+    - @nearby_members.first(30).each do |member|
       %li.span4.three-across
         = render :partial => "members/thumbnail", :locals => { :member => member }
 - elsif @place
