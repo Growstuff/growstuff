@@ -89,5 +89,16 @@ module Growstuff
     config.newsletter_list_id = ENV['MAILCHIMP_NEWSLETTER_ID']
     config.cloudmade_key = ENV['CLOUDMADE_KEY']
 
+    # This is Growstuff's global Cloudmade key.  If you fork Growstuff for
+    # another project/website not run by the folks at http://growstuff.org/,
+    # then please change this key. (You can get one of your own at
+    # http://account.cloudmade.com/ and it's free/gratis for up to 500k tiles.)
+    # We'd much prefer to set this as an environment variable (as we do
+    # with most other things) but it turns out those aren't available at
+    # asset compile time on Heroku, when we need this to insert into our
+    # Javascript. Sigh. And yes, we know about user-env-compile but it
+    # didn't work for us.
+    config.cloudmade_key = '29a2d9e3cb3d429490a8f338b2388b1d'
+
   end
 end
