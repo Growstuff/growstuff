@@ -87,6 +87,7 @@ module Growstuff
     Gibbon::API.timeout = 10
     Gibbon::API.throws_exceptions = false
     config.newsletter_list_id = ENV['MAILCHIMP_NEWSLETTER_ID']
+    config.cloudmade_key = ENV['CLOUDMADE_KEY']
 
     # This is Growstuff's global Cloudmade key.  If you fork Growstuff for
     # another project/website not run by the folks at http://growstuff.org/,
