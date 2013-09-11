@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require leaflet
+//= require leaflet.markercluster
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap

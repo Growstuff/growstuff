@@ -251,6 +251,14 @@ describe 'member' do
     end
   end
 
+  context 'near location' do
+    it 'finds nearby members and sorts them' do
+      @edinburgh_member = FactoryGirl.create(:edinburgh_member)
+      @london_member = FactoryGirl.create(:london_member)
+      Member.nearest_to('Greenwich, UK').should eq [@london_member, @edinburgh_member]
+    end
+  end
+
   context 'interesting scope' do
     # interesting members are defined as:
     # 1) confirmed

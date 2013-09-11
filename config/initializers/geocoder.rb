@@ -1,5 +1,6 @@
 Geocoder.configure(
   :units => :km,
+  :timeout => 10,
   :http_headers => {
     "User-Agent" =>
       "#{Growstuff::Application.config.user_agent} #{Growstuff::Application.config.user_agent_email}",
