@@ -20,7 +20,7 @@ if (location.pathname === places_base_path) { //places index page
 }
 
 function showMap(map) {
-  L.tileLayer("http://{s}.tile.cloudmade.com/<%= ENV['CLOUDMADE_KEY'] %>/997/256/{z}/{x}/{y}.png", {
+  L.tileLayer("http://{s}.tile.cloudmade.com/<%= Growstuff::Application.config.cloudmade_key %>/997/256/{z}/{x}/{y}.png", {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Imagery &copy; <a href="http://cloudmade.com">Cloudmade</a>',
     maxZoom: 18
   }).addTo(map);
