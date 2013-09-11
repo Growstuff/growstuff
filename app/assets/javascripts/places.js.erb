@@ -1,18 +1,18 @@
 map = L.map('map').setView([0.0, -0.0], 2);
 L.tileLayer("http://{s}.tile.cloudmade.com/<%= ENV['CLOUDMADE_KEY'] %>/997/256/{z}/{x}/{y}.png", {
-  attribution: 'blah',
+  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Imagery &copy; <a href="http://cloudmade.com">Cloudmade</a>',
   maxZoom: 18
 }).addTo(map);
-markers = new L.MarkerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true});
+markers = new L.MarkerClusterGroup();
 
 $.getJSON('/members.json', function(members) {
-  $.each(members, function(i, m){
+  $.each(members, function(i, m) {
     if (m.latitude && m.longitude) {
-      marker = new L.Marker(new L.LatLng(m.latitude, m.longitude))
-      link = "<p><a href='/members/" + m.login_name + "'>" + m.login_name + "</a></p>"
-      where = "<p><i>" + m.location + "</i></p>"
-      marker.bindPopup(link + where).openPopup()
-      markers.addLayer(marker)
+      marker = new L.Marker(new L.LatLng(m.latitude, m.longitude));
+      link = "<p><a href='/members/" + m.login_name + "'>" + m.login_name + "</a></p>";
+      where = "<p><i>" + m.location + "</i></p>";
+      marker.bindPopup(link + where).openPopup();
+      markers.addLayer(marker);
     }
   });
 });
