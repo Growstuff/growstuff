@@ -10,7 +10,6 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.haml
-      format.json { render :json => Member.all.to_json(:only => [:id, :login_name, :location, :latitude, :longitude]) }
     end
   end
 

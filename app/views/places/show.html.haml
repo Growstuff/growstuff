@@ -1,24 +1,6 @@
 -content_for :title, @place
 
-<script src="/assets/leaflet.js?body=1" type="text/javascript"></script>
-
 %div#map{ :style => "height:300px"}
-
-- attribution = render(:partial => 'map_attribution').gsub(/\n/, " ")
-:javascript
-  map = L.map('map').setView([#{ @latitude }, #{ @longitude }]).fitBounds([ [#{@sw_lat}, #{@sw_lng}], [#{@ne_lat}, #{@ne_lng}] ]);
-  L.tileLayer("http://{s}.tile.cloudmade.com/#{ ENV['CLOUDMADE_KEY'] }/997/256/{z}/{x}/{y}.png", {
-    attribution: '#{ attribution }',
-    maxZoom: 18
-  }).addTo(map);
-
-- Member.located.each do |m|
-  - popup = render :partial => 'members/popover', :locals => { :member => m }
-  - popup = escape_javascript(popup).gsub(/\\\//, "/")
-  :javascript
-    marker = new L.Marker(new L.LatLng(#{m.latitude}, #{m.longitude}));
-    marker.bindPopup('<p>#{link_to m, m}</p> #{ popup }').openPopup();
-    map.addLayer(marker);
 
 %h3
   = Growstuff::Application.config.site_name

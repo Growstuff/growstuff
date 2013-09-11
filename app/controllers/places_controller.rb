@@ -4,6 +4,8 @@ class PlacesController < ApplicationController
   def index
     respond_to do |format|
       format.html
+      # json response is whatever we want to map here
+      format.json { render :json => Member.all.to_json(:only => [:id, :login_name, :location, :latitude, :longitude]) }
     end
   end
 
@@ -47,6 +49,7 @@ class PlacesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.haml
+      format.json { render :json => @nearby_members.to_json(:only => [:id, :login_name, :location, :latitude, :longitude]) }
     end
   end
 
