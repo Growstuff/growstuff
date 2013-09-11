@@ -1,7 +1,7 @@
 places_base_path = "/places"
 things_to_map = location.pathname + '.json'
 
-if (location.pathname == places_base_path) { //places index page
+if (location.pathname === places_base_path) { //places index page
   map = L.map('map').setView([0.0, -0.0], 2);
   showMap(map);
 } else { // specific place page
