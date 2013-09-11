@@ -3,7 +3,7 @@ things_to_map = location.pathname + '.json'
 nominatim_useragent_email = "<%= Growstuff::Application.config.user_agent_email %>"
 cloudmade_key = "<%= Growstuff::Application.config.cloudmade_key %>"
 cloudmade_url = "http://{s}.tile.cloudmade.com/" + cloudmade_key + "/997/256/{z}/{x}/{y}.png"
-xxx_test = "<%= ENV['NEW_RELIC_APP_NAME'] %>" // does this show up?
+xxx_test = "<%= untaint(ENV['NEW_RELIC_APP_NAME']) %>" // does this show up?
 
 if (location.pathname === places_base_path) { //places index page
   map = L.map('map').setView([0.0, -0.0], 2);
