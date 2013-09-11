@@ -204,7 +204,25 @@ class Member < ActiveRecord::Base
     return interesting_members
   end
 
+  def Member.nearest_to(place)
+    nearby_members = []
+    if place
+      latitude, longitude = Geocoder.coordinates(place, params: {limit: 1})
+      if latitude && longitude
+        nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
+      end
+    end
+    return nearby_members
+  end
+
   private
+
+  def geocode
+    unless self.location.blank?
+      self.latitude, self.longitude =
+        Geocoder.coordinates(location, params: {limit: 1})
+    end
+  end
 
   def empty_unwanted_geocodes
     if self.location.blank?

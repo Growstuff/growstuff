@@ -1,0 +1,42 @@
+places_base_path = "/places"
+things_to_map = location.pathname + '.json'
+
+if (location.pathname === places_base_path) { //places index page
+  map = L.map('map').setView([0.0, -0.0], 2);
+  showMap(map);
+} else { // specific place page
+  place = location.pathname.replace(places_base_path + "/", '');
+  nominatim_query_url = 'http://nominatim.openstreetmap.org/search/' + place;
+  nominatim_options = {
+    format: "json",
+    callback: "placeholder",
+    limit: 1,
+    email: "<%= Growstuff::Application.config.user_agent_email %>"
+  };
+  $.getJSON(nominatim_query_url, nominatim_options, function(data) {
+    map = L.map('map').setView([data[0].lat, data[0].lon], 5);
+    showMap(map);
+  })
+}
+
+function showMap(map) {
+  L.tileLayer("http://{s}.tile.cloudmade.com/<%= ENV['CLOUDMADE_KEY'] %>/997/256/{z}/{x}/{y}.png", {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Imagery &copy; <a href="http://cloudmade.com">Cloudmade</a>',
+    maxZoom: 18
+  }).addTo(map);
+  markers = new L.MarkerClusterGroup();
+
+  $.getJSON(things_to_map, function(members) {
+    $.each(members, function(i, m) {
+      if (m.latitude && m.longitude) {
+        marker = new L.Marker(new L.LatLng(m.latitude, m.longitude));
+        link = "<p><a href='/members/" + m.login_name + "'>" + m.login_name + "</a></p>";
+        where = "<p><i>" + m.location + "</i></p>";
+        marker.bindPopup(link + where).openPopup();
+        markers.addLayer(marker);
+      }
+    });
+  });
+
+  map.addLayer(markers);
+}

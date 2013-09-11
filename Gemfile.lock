@@ -135,6 +135,8 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.7.7)
     kgio (2.8.0)
+    leaflet-markercluster-rails (0.6.0)
+      railties (>= 3.1)
     leaflet-rails (0.6.2)
     less (2.3.2)
       commonjs (~> 0.2.6)
@@ -271,6 +273,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   json (~> 1.7.7)
+  leaflet-markercluster-rails
   leaflet-rails
   less-rails
   memcachier
