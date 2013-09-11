@@ -1,17 +1,21 @@
-places_base_path = "/places"
-things_to_map = location.pathname + '.json'
+places_base_path = "/places";
+things_to_map = location.pathname + '.json';
+cloudmade_key = "<%= Growstuff::Application.config.cloudmade_key %>";
+cloudmade_url = "http://{s}.tile.cloudmade.com/" + cloudmade_key + "/997/256/{z}/{x}/{y}.png";
+nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
+nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email %>";
 
 if (location.pathname === places_base_path) { //places index page
   map = L.map('map').setView([0.0, -0.0], 2);
   showMap(map);
 } else { // specific place page
   place = location.pathname.replace(places_base_path + "/", '');
-  nominatim_query_url = 'http://nominatim.openstreetmap.org/search/' + place;
+  nominatim_query_url = nominatim_base_url + place;
   nominatim_options = {
     format: "json",
     callback: "placeholder",
     limit: 1,
-    email: "<%= Growstuff::Application.config.user_agent_email %>"
+    email: nominatim_user_agent_email
   };
   $.getJSON(nominatim_query_url, nominatim_options, function(data) {
     map = L.map('map').setView([data[0].lat, data[0].lon], 5);
@@ -20,8 +24,8 @@ if (location.pathname === places_base_path) { //places index page
 }
 
 function showMap(map) {
-  L.tileLayer("http://{s}.tile.cloudmade.com/<%= ENV['CLOUDMADE_KEY'] %>/997/256/{z}/{x}/{y}.png", {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Imagery &copy; <a href="http://cloudmade.com">Cloudmade</a>',
+  L.tileLayer(cloudmade_url, {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://cloudmade.com">Cloudmade</a>',
     maxZoom: 18
   }).addTo(map);
   markers = new L.MarkerClusterGroup();
