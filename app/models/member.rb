@@ -26,7 +26,7 @@ class Member < ActiveRecord::Base
 
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
-  scope :located, where("location <> ''")
+  scope :located, where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL")
   scope :recently_signed_in, reorder('updated_at DESC')
   scope :wants_newsletter, where(:newsletter => true)
 
@@ -204,10 +204,28 @@ class Member < ActiveRecord::Base
     return interesting_members
   end
 
+  def Member.nearest_to(place)
+    nearby_members = []
+    if place
+      latitude, longitude = Geocoder.coordinates(place, params: {limit: 1})
+      if latitude && longitude
+        nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
+      end
+    end
+    return nearby_members
+  end
+
   private
 
+  def geocode
+    unless self.location.blank?
+      self.latitude, self.longitude =
+        Geocoder.coordinates(location, params: {limit: 1})
+    end
+  end
+
   def empty_unwanted_geocodes
-    if self.location.to_s == ''
+    if self.location.blank?
       self.latitude = nil
       self.longitude = nil
     end
