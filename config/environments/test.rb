@@ -38,13 +38,13 @@ Growstuff::Application.configure do
   config.active_support.deprecation = :stderr
 
   # Growstuff config
+  config.new_crops_request_link = "http://example.com/not-a-real-url"
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
   Growstuff::Application.configure do
     config.site_name = "Growstuff (test)"
     config.analytics_code = ''
     config.currency = 'AUD'
-    config.bot_email = "noreply@growstuff.org"
   end
 
   config.after_initialize do
@@ -84,3 +84,5 @@ Geocoder::Lookup::Test.add_stub(
   ]
 )
 
+# Unknown location
+Geocoder::Lookup::Test.add_stub( "Tatooine", [])

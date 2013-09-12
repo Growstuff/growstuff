@@ -6,6 +6,8 @@ gem 'rails', '3.2.13'
 gem 'rack', '~>1.4.5'
 gem 'json', '~>1.7.7'
 gem 'haml'
+gem 'leaflet-rails'
+gem 'leaflet-markercluster-rails'
 gem 'unicorn' # http server
 
 gem 'cancan' # for checking member privileges
@@ -87,7 +89,9 @@ gem 'friendly_id'
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder'
+gem 'geocoder',
+  :git => 'https://github.com/alexreisner/geocoder.git',
+  :ref => '104d46'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'

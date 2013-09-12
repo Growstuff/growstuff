@@ -39,6 +39,7 @@ describe "seeds/index" do
 
     it "shows location of seed owner" do
       assert_select "tr>td", :text => @owner.location, :count => 2
+      assert_select 'a', :href => place_path(@owner.location)
     end
   end
 end

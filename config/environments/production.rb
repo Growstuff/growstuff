@@ -66,6 +66,7 @@ Growstuff::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Growstuff configuration
+  config.new_crops_request_link = "http://growstuff.org/posts/skud-20130319-requests-for-new-crops"
   config.action_mailer.default_url_options = { :host => 'growstuff.org' }
 
   config.action_mailer.smtp_settings = {
@@ -78,16 +79,12 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff"
-    config.analytics_code = <<-eos
-      <script src="//static.getclicky.com/js" type="text/javascript"></script>
-      <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
-      <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
-    eos
-    config.currency = 'AUD'
-    config.bot_email = "noreply@growstuff.org"
-  end
+  config.site_name = "Growstuff"
+  config.analytics_code = <<-eos
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+    <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
+  eos
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :production

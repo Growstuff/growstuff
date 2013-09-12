@@ -32,31 +32,4 @@ class MembersController < ApplicationController
     end
   end
 
-  def nearby
-    if !params[:location].blank?
-      @location = params[:location]
-    elsif current_member
-      @location = current_member.location
-    else
-      @location = nil
-    end
-
-    if !params[:distance].blank?
-      @distance = params[:distance]
-    else
-      @distance = 100
-    end
-
-    if params[:units] == "mi"
-      @units = :mi
-    else
-      @units = :km
-    end
-
-    @nearby_members = @location ? Member.near(@location, @distance, :units => @units) : []
-    respond_to do |format|
-      format.html # nearby.html.haml
-    end
-  end
-
 end

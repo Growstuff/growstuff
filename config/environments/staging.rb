@@ -66,6 +66,7 @@ Growstuff::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Growstuff configuration
+  config.new_crops_request_link = "http://example.com/not-a-real-url"
   config.action_mailer.default_url_options = { :host => 'dev.growstuff.org' }
 
   config.action_mailer.smtp_settings = {
@@ -78,12 +79,8 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff (staging)"
-    config.analytics_code = ''
-    config.currency = 'AUD'
-    config.bot_email = "noreply@growstuff.org"
-  end
+  config.site_name = "Growstuff (staging)"
+  config.analytics_code = ''
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test

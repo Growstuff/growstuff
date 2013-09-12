@@ -1,0 +1,7 @@
+%ul
+  - display_crops.each do |c|
+    %li
+      = link_to c, c
+      - if c.varieties.present?
+        - c.varieties.each do |v|
+          = render :partial => 'hierarchy', :locals => { :display_crops => [ v ] }

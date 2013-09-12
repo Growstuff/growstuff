@@ -1,5 +1,6 @@
 class CropsController < ApplicationController
   load_and_authorize_resource
+  skip_authorize_resource :only => :hierarchy
 
   cache_sweeper :crop_sweeper
 
@@ -15,10 +16,18 @@ class CropsController < ApplicationController
     end
   end
 
-  # GET /wrangle
+  # GET /crops/wrangle
   def wrangle
     @crops = Crop.recent.paginate(:page => params[:page])
 
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  # GET /crops/hierarchy
+  def hierarchy
+    @crops = Crop.toplevel
     respond_to do |format|
       format.html
     end

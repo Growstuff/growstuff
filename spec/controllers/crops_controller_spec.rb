@@ -19,6 +19,14 @@ describe CropsController do
     end
   end
 
+  describe "GET crop hierarchy " do
+    it 'fetches the crop hierarchy page' do
+      get :hierarchy
+      response.should be_success
+      response.should render_template("crops/hierarchy")
+    end
+  end
+
   describe "GET RSS feed" do
     it "returns an RSS feed" do
       get :index, :format => "rss"

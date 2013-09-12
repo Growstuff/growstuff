@@ -39,6 +39,7 @@ class Planting < ActiveRecord::Base
     'cutting',
     'root division',
     'runner',
+    'bulb',
     'bare root plant',
     'advanced plant',
     'graft',

@@ -78,10 +78,27 @@ module Growstuff
         :openssl_verify_mode  => 'none'
       }
 
+    # Growstuff-specific configuration variables
+    config.currency = 'AUD'
+    config.bot_email = "noreply@growstuff.org"
+    config.user_agent = 'Growstuff'
+    config.user_agent_email = "info@growstuff.org"
     Gibbon::API.api_key = ENV['MAILCHIMP_APIKEY']
     Gibbon::API.timeout = 10
     Gibbon::API.throws_exceptions = false
     config.newsletter_list_id = ENV['MAILCHIMP_NEWSLETTER_ID']
+    config.cloudmade_key = '29a2d9e3cb3d429490a8f338b2388b1d'
+
+    # This is Growstuff's global Cloudmade key.  If you fork Growstuff for
+    # another project/website not run by the folks at http://growstuff.org/,
+    # then please change this key. (You can get one of your own at
+    # http://account.cloudmade.com/ and it's free/gratis for up to 500k tiles.)
+    # We'd much prefer to set this as an environment variable (as we do
+    # with most other things) but it turns out those aren't available at
+    # asset compile time on Heroku, when we need this to insert into our
+    # Javascript. Sigh. And yes, we know about user-env-compile but it
+    # didn't work for us.
+    config.cloudmade_key = '29a2d9e3cb3d429490a8f338b2388b1d'
 
   end
 end
