@@ -91,6 +91,7 @@ class Order < ActiveRecord::Base
           return Order.where(:referral_code => args[:for].upcase)
       end
     end
+    return []
   end
 
 end
