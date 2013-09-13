@@ -5,4 +5,5 @@
   = succeed "." do
     = link_to "crops database", crops_path
 
-= render :partial => "hierarchy", :locals => { :display_crops => @crops }
+- cache("full_crop_hierarchy") do
+  = render :partial => "hierarchy", :locals => { :display_crops => @crops }
