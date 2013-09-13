@@ -1,10 +1,17 @@
 class Order < ActiveRecord::Base
-  attr_accessible :member_id, :completed_at
+  attr_accessible :member_id, :completed_at, :referral_code
   belongs_to :member
 
   has_many :order_items, :dependent => :destroy
 
   default_scope order('created_at DESC')
+
+  validates :referral_code, :format => {
+    :with => /\A[a-zA-Z0-9 ]*\z/,
+    :message => "may only include letters and numbers"
+  }
+
+  before_save :standardize_referral_code
 
   # total price of an order
   def total
@@ -42,6 +49,14 @@ class Order < ActiveRecord::Base
   def update_account
     order_items.each do |i|
       member.update_account_after_purchase(i.product)
+    end
+  end
+
+  # removes whitespace and forces to uppercase (we're somewhat liberal
+  # in what we accept, but we clean it up anyway.)
+  def standardize_referral_code
+    if referral_code
+      self.referral_code = referral_code.upcase.gsub /\s/, ''
     end
   end
 
