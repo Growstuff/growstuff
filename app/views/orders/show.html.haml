@@ -17,6 +17,11 @@
     %strong Date completed:
     = @order.completed_at.to_s
 
+    - if @order.referral_code
+      %p
+        %strong Referral code:
+        = @order.referral_code
+
   - if current_member.has_role? :admin
     %p
       %strong Paypal Express token:

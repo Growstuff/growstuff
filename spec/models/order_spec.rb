@@ -122,6 +122,11 @@ describe Order do
       Order.search(:by => 'paypal_payer_id', :for => 'bar').should eq [order]
     end
 
+    it 'finds orders by referral_code' do
+      order = FactoryGirl.create(:order, :referral_code => 'baz')
+      Order.search(:by => 'referral_code', :for => 'baz').should eq [order]
+    end
+
   end
 
 end

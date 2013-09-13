@@ -86,6 +86,9 @@ class Order < ActiveRecord::Base
           if order
             return [order]
           end
+        when "referral_code"
+          # coerce to uppercase
+          return Order.where(:referral_code => args[:for].upcase)
       end
     end
   end
