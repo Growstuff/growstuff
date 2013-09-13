@@ -99,6 +99,28 @@ describe Order do
       referred_order = FactoryGirl.create(:order, :referral_code => 'CaMpAiGn 1  ')
       referred_order.referral_code.should eq 'CAMPAIGN1'
     end
+  end
+
+  context 'search' do
+    it 'finds orders by member' do
+      order = FactoryGirl.create(:order)
+      Order.search(:by => 'member', :for => order.member.login_name).should eq [order]
+    end
+
+    it 'finds orders by order_id' do
+      order = FactoryGirl.create(:order)
+      Order.search(:by => 'order_id', :for => order.id).should eq [order]
+    end
+
+    it 'finds orders by paypal_token' do
+      order = FactoryGirl.create(:order, :paypal_express_token => 'foo')
+      Order.search(:by => 'paypal_token', :for => 'foo').should eq [order]
+    end
+
+    it 'finds orders by paypal_payer_id' do
+      order = FactoryGirl.create(:order, :paypal_express_payer_id => 'bar')
+      Order.search(:by => 'paypal_payer_id', :for => 'bar').should eq [order]
+    end
 
   end
 

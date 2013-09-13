@@ -60,4 +60,34 @@ class Order < ActiveRecord::Base
     end
   end
 
+  # search orders (used by admin/orders)
+  # usage: Order.search({ :by => 'member', :for => 'Skud' })
+  # can search by: member, order_id, paypal_token, paypal_payer_id,
+  def Order.search(args={})
+    if args[:for]
+      case args[:by]
+        when "member"
+          member = Member.find_by_login_name(args[:for])
+          if member
+            return member.orders
+          end
+        when "order_id"
+          order = Order.find_by_id(args[:for])
+          if order
+            return [order]
+          end
+        when "paypal_token"
+          order = Order.find_by_paypal_express_token(args[:for])
+          if order
+            return [order]
+          end
+        when "paypal_payer_id"
+          order = Order.find_by_paypal_express_payer_id(args[:for])
+          if order
+            return [order]
+          end
+      end
+    end
+  end
+
 end
