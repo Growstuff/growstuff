@@ -51,6 +51,7 @@ describe NotificationsController do
       get :show, {:id => notification.to_param}
       assigns(:reply_link).should_not be_nil
       assigns(:reply_link).should eq new_notification_url(
+        :in_reply_to_id => notification.id,
         :recipient_id => notification.sender_id,
         :subject => subject
       )
@@ -80,6 +81,14 @@ describe NotificationsController do
       @recipient = FactoryGirl.create(:member)
       get :new, {:recipient_id => @recipient.id }
       assigns(:recipient).should be_an_instance_of(Member)
+    end
+
+    it "assigns in-reply-to" do
+      in_reply_to = FactoryGirl.create(:notification)
+      get :new, { :in_reply_to_id => in_reply_to.id }
+      assigns(:in_reply_to).should == in_reply_to
+      new_notification = assigns(:notification)
+      new_notification.in_reply_to.should == in_reply_to
     end
   end
 

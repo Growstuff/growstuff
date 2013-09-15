@@ -8,6 +8,7 @@ FactoryGirl.define do
     body "MyText"
     read false
     post
+    in_reply_to nil
 
     factory :no_email_notification do
       recipient { FactoryGirl.create(:no_email_notifications_member) }

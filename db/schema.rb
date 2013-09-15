@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130827105823) do
+ActiveRecord::Schema.define(:version => 20130831155645) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -133,13 +133,14 @@ ActiveRecord::Schema.define(:version => 20130827105823) do
 
   create_table "notifications", :force => true do |t|
     t.integer  "sender_id"
-    t.integer  "recipient_id",                    :null => false
+    t.integer  "recipient_id",                      :null => false
     t.string   "subject"
     t.text     "body"
-    t.boolean  "read",         :default => false
+    t.boolean  "read",           :default => false
     t.integer  "post_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "in_reply_to_id"
   end
 
   create_table "order_items", :force => true do |t|
@@ -163,14 +164,6 @@ ActiveRecord::Schema.define(:version => 20130827105823) do
   create_table "orders_products", :id => false, :force => true do |t|
     t.integer "order_id"
     t.integer "product_id"
-  end
-
-  create_table "payments", :force => true do |t|
-    t.integer  "payer_id"
-    t.string   "payment_type"
-    t.decimal  "amount"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
   end
 
   create_table "photos", :force => true do |t|

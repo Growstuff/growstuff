@@ -7,6 +7,7 @@ module NotificationsHelper
       # by default, reply link sends a PM in return
       new_notification_url(
         :recipient_id => notification.sender.id,
+        :in_reply_to_id => notification.id,
         :subject => notification.subject =~ /^Re: / ?
           notification.subject :
           "Re: " + notification.subject

@@ -28,6 +28,8 @@ class NotificationsController < ApplicationController
     @notification = Notification.new
     @recipient = Member.find_by_id(params[:recipient_id])
     @subject   = params[:subject] || ""
+    @in_reply_to = params[:in_reply_to_id].blank? ? nil : Notification.find(params[:in_reply_to_id])
+    @notification.in_reply_to = @in_reply_to
 
     respond_to do |format|
       format.html # new.html.erb
