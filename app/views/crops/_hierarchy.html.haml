@@ -1,6 +1,6 @@
 %ul
   - display_crops.each do |c|
-    %li
+    %li.crop-hierarchy
       = link_to c, c
       - if c.varieties.present?
         - c.varieties.each do |v|
