@@ -31,6 +31,7 @@ class OrdersController < ApplicationController
   # checkout with PayPal
   def checkout
     @order = Order.find(params[:id])
+    @order.update_attributes(:referral_code => params[:referral_code])
 
     response = EXPRESS_GATEWAY.setup_purchase(
       @order.total,
@@ -47,8 +48,6 @@ class OrdersController < ApplicationController
 
   def complete
     @order = Order.find(params[:id])
-
-    @order.save
 
     if (params[:token] && params['PayerID'])
       purchase = EXPRESS_GATEWAY.purchase(
