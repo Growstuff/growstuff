@@ -87,11 +87,6 @@ ActiveRecord::Schema.define(:version => 20130913015118) do
   add_index "gardens", ["owner_id"], :name => "index_gardens_on_user_id"
   add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
 
-  create_table "gardens_members", :id => false, :force => true do |t|
-    t.integer "garden_id"
-    t.integer "member_id"
-  end
-
   create_table "members", :force => true do |t|
     t.string   "email",                   :default => "",   :null => false
     t.string   "encrypted_password",      :default => "",   :null => false
