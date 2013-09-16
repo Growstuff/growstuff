@@ -13,4 +13,8 @@ describe 'admin/orders/index.html.haml', :type => "view" do
     assert_select "input#search_text"
     assert_select "select#search_by"
   end
+
+  it "lets you search by referral code" do
+    assert_select "option[value=referral_code]", :text => "Referral code"
+  end
 end
