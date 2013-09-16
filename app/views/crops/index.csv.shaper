@@ -19,7 +19,9 @@ csv.headers :id, :system_name,
   :planted_from_bare_root_plant,
   :planted_from_advanced_plant,
   :planted_from_graft,
-  :planted_from_layering
+  :planted_from_layering,
+  :date_added,
+  :last_modified
 
 @crops.each do |c|
   csv.row c do |csv, crop|
@@ -64,6 +66,9 @@ csv.headers :id, :system_name,
     csv.cell :planted_from_advanced_plant, planted_from['advanced plant']
     csv.cell :planted_from_graft, planted_from['graft']
     csv.cell :planted_from_layering, planted_from['layering']
+
+    csv.cell :date_added, c.created_at.to_s(:db)
+    csv.cell :last_modified, c.updated_at.to_s(:db)
 
   end
 end
