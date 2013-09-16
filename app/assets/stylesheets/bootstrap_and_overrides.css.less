@@ -1,4 +1,11 @@
 @import "twitter/bootstrap/bootstrap";
+
+// this padding needs to be done before the responsive stuff is imported
+body {
+  padding-top: @navbarHeight + 10px;
+  padding-bottom: @navbarHeight + 10px;
+}
+
 @import "twitter/bootstrap/responsive";
 
 // Set the correct sprite paths
@@ -77,10 +84,7 @@
 @dropdownLinkColorHover: @brown;
 @dropdownLinkBackgroundHover: lighten(@green, 50%);
 
-body {
-  padding-top: @navbarHeight + 10px;
-  padding-bottom: @navbarHeight + 10px;
-}
+
 ul.inline > li.first {
   padding-left: 0px;
 }
