@@ -12,23 +12,23 @@
   %strong Date begun:
   = @order.created_at.to_s
 
-%p
-  - if @order.completed_at
+- if @order.completed_at
+  %p
     %strong Date completed:
     = @order.completed_at.to_s
 
-    - if @order.referral_code
-      %p
-        %strong Referral code:
-        = @order.referral_code
+- if @order.referral_code
+  %p
+    %strong Referral code:
+    = @order.referral_code
 
-  - if current_member.has_role? :admin
-    %p
-      %strong Paypal Express token:
-      = @order.paypal_express_token
-    %p
-      %strong Paypal Express payer ID:
-      = @order.paypal_express_payer_id
+- if current_member.has_role? :admin
+  %p
+    %strong Paypal Express token:
+    = @order.paypal_express_token
+  %p
+    %strong Paypal Express payer ID:
+    = @order.paypal_express_payer_id
 
 %h2 Order items
 
