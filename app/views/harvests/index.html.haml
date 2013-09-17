@@ -1,29 +1,50 @@
-%h1 Listing harvests
+- content_for :title, @owner ? "#{@owner}'s harvests" : "Everyone's harvests"
 
-%table
-  %tr
-    %th Crop
-    %th Owner
-    %th Harvested at
-    %th Quantity
-    %th Units
-    %th Notes
-    %th
-    %th
-    %th
+%p
+  #{Growstuff::Application.config.site_name} helps you track what you're
+  harvesting from your home garden and see how productive it is.
 
-  - @harvests.each do |harvest|
+%p
+  - if can? :create, Harvest
+    - if @owner
+      %p
+        - if @owner == current_member
+          = link_to 'Add harvest', new_harvest_path, :class => 'btn btn-primary'
+        = link_to "View everyone's harvests", harvests_path, :class => 'btn'
+    - else # everyone's harvests
+      = link_to 'Add harvest', new_harvest_path, :class => 'btn btn-primary'
+      - if current_member
+        = link_to 'View your harvests', harvests_by_owner_path(:owner => current_member.slug), :class => 'btn'
+  - else
+    = render :partial => 'shared/signin_signup', :locals => { :to => 'track your harvests' }
+
+%div.pagination
+  = page_entries_info @harvests, :model => "harvests"
+  = will_paginate @harvests
+
+- if @harvests.length > 0
+
+  %table.table.table-striped
     %tr
-      %td= harvest.crop_id
-      %td= harvest.owner_id
-      %td= harvest.harvested_at
-      %td= harvest.quantity
-      %td= harvest.units
-      %td= harvest.description
-      %td= link_to 'Show', harvest
-      %td= link_to 'Edit', edit_harvest_path(harvest)
-      %td= link_to 'Destroy', harvest, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      - unless @owner
+        %th Owner
+      %th Crop
+      %th Quantity
+      %th Description
+      %th
 
-%br
+    - @harvests.each do |harvest|
+      %tr
+        - unless @owner
+          %td= link_to harvest.owner.login_name, harvest.owner
+        %td= link_to harvest.crop.system_name, harvest.crop
+        %td
+          - if harvest.quantity
+            = harvest.quantity
+            = harvest.units
+        %td= harvest.description
+        %td= link_to 'Details', harvest, :class => 'btn btn-mini'
 
-= link_to 'New Harvest', new_harvest_path
+  %div.pagination
+    = page_entries_info @harvests, :model => "harvests"
+    = will_paginate @harvests

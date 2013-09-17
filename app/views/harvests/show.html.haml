@@ -1,20 +1,32 @@
-%p#notice= notice
+=content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
 
-%p
-  %b Crop:
-  = @harvest.crop_id
-%p
-  %b Owner:
-  = @harvest.owner_id
-%p
-  %b Harvested at:
-  = @harvest.harvested_at
-%p
-  %b Quantity:
-  = @harvest.quantity
-%p
-  %b Units:
-  = @harvest.units
-%p
-  %b Notes:
-  = @harvest.description
+.row-fluid
+  .span6
+    %p
+      %b Harvested:
+      = @harvest.harvested_at ? @harvest.harvested_at : "not specified"
+    %p
+      %b Quantity:
+      - if ! @harvest.quantity.blank?
+        = @harvest.quantity
+        = @harvest.units
+      - else
+        not specified
+
+    - if can? :edit, @harvest or can? :destroy, @harvest
+      %p
+      - if can? :edit, @harvest
+        =link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-mini'
+      - if can? :destroy, @harvest
+        =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+
+  .span6
+    = render :partial => "crops/index_card", :locals => { :crop => @harvest.crop}
+
+%h2 Notes
+
+:markdown
+  #{ @harvest.description != "" ? @harvest.description : "No description given." }
+
+- if can? :edit, @harvest
+  = link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-mini'

@@ -1,8 +1,5 @@
 Growstuff::Application.routes.draw do
 
-  resources :harvests
-
-
   devise_for :members, :controllers => { :registrations => "registrations" }
   resources :members
 
@@ -18,6 +15,9 @@ Growstuff::Application.routes.draw do
 
   resources :seeds
   match '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner'
+
+  resources :harvests
+  match '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
 
   resources :posts
   match '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'

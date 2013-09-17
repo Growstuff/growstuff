@@ -2,22 +2,16 @@ require 'spec_helper'
 
 describe "harvests/show" do
   before(:each) do
-    @harvest = assign(:harvest, stub_model(Harvest,
-      :crop_id => 1,
-      :owner_id => 2,
-      :quantity => "9.99",
-      :units => "Units",
-      :notes => "MyText"
-    ))
+    controller.stub(:current_user) { nil }
+    @crop = FactoryGirl.create(:tomato)
+    @harvest = assign(:harvest, FactoryGirl.create(:harvest, :crop => @crop))
+    render
   end
 
-  it "renders attributes in <p>" do
-    render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/1/)
-    rendered.should match(/2/)
-    rendered.should match(/9.99/)
-    rendered.should match(/Units/)
-    rendered.should match(/MyText/)
+  it "renders attributes" do
+    rendered.should contain @crop.system_name
+    rendered.should contain @harvest.harvested_at.to_s
+    rendered.should contain "9.99 kg"
   end
+
 end

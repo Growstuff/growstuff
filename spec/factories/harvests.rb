@@ -7,6 +7,6 @@ FactoryGirl.define do
     harvested_at "2013-09-17"
     quantity "9.99"
     units "kg"
-    notes "A lovely harvest"
+    description "A lovely harvest"
   end
 end

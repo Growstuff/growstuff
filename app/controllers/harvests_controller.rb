@@ -5,7 +5,12 @@ class HarvestsController < ApplicationController
   # GET /harvests
   # GET /harvests.json
   def index
-    @harvests = Harvest.all
+    @owner = Member.find_by_slug(params[:owner])
+    if @owner
+      @harvests = @owner.harvests.includes(:owner, :crop).paginate(:page => params[:page])
+    else
+      @harvests = Harvest.includes(:owner, :crop).paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
