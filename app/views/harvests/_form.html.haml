@@ -22,7 +22,7 @@
     = f.label 'How many?', :class => 'control-label'
     .controls
       = f.number_field :quantity, :class => 'input-small'
-      = f.text_field :units, :class => 'input-small'
+      = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
 
   .control-group
     = f.label 'Notes', :class => 'control-label'

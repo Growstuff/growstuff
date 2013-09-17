@@ -1,7 +1,12 @@
 class Harvest < ActiveRecord::Base
-  attr_accessible :crop_id, :harvested_at, :description, :owner_id, :quantity, :units
+  attr_accessible :crop_id, :harvested_at, :description, :owner_id, :quantity, :unit
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
 
+  UNITS_VALUES = %w(individual bunches kg lb)
+  validates :unit, :inclusion => { :in => UNITS_VALUES,
+        :message => "%{value} is not a valid unit" },
+        :allow_nil => true,
+        :allow_blank => true
 end
