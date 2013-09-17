@@ -1,0 +1,28 @@
+= form_for @harvest do |f|
+  - if @harvest.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@harvest.errors.count, "error")} prohibited this harvest from being saved:"
+      %ul
+        - @harvest.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :crop_id
+    = f.number_field :crop_id
+  .field
+    = f.label :owner_id
+    = f.number_field :owner_id
+  .field
+    = f.label :harvested_at
+    = f.date_select :harvested_at
+  .field
+    = f.label :quantity
+    = f.text_field :quantity
+  .field
+    = f.label :units
+    = f.text_field :units
+  .field
+    = f.label :notes
+    = f.text_area :notes
+  .actions
+    = f.submit 'Save'

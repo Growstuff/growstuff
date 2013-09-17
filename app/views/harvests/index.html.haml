@@ -1,0 +1,29 @@
+%h1 Listing harvests
+
+%table
+  %tr
+    %th Crop
+    %th Owner
+    %th Harvested at
+    %th Quantity
+    %th Units
+    %th Notes
+    %th
+    %th
+    %th
+
+  - @harvests.each do |harvest|
+    %tr
+      %td= harvest.crop_id
+      %td= harvest.owner_id
+      %td= harvest.harvested_at
+      %td= harvest.quantity
+      %td= harvest.units
+      %td= harvest.notes
+      %td= link_to 'Show', harvest
+      %td= link_to 'Edit', edit_harvest_path(harvest)
+      %td= link_to 'Destroy', harvest, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Harvest', new_harvest_path

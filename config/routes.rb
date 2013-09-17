@@ -1,5 +1,8 @@
 Growstuff::Application.routes.draw do
 
+  resources :harvests
+
+
   devise_for :members, :controllers => { :registrations => "registrations" }
   resources :members
 

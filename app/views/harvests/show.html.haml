@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Crop:
+  = @harvest.crop_id
+%p
+  %b Owner:
+  = @harvest.owner_id
+%p
+  %b Harvested at:
+  = @harvest.harvested_at
+%p
+  %b Quantity:
+  = @harvest.quantity
+%p
+  %b Units:
+  = @harvest.units
+%p
+  %b Notes:
+  = @harvest.notes
+
+= link_to 'Edit', edit_harvest_path(@harvest)
+\|
+= link_to 'Back', harvests_path
