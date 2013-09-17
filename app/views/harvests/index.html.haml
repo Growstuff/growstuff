@@ -19,7 +19,7 @@
       %td= harvest.harvested_at
       %td= harvest.quantity
       %td= harvest.units
-      %td= harvest.notes
+      %td= harvest.description
       %td= link_to 'Show', harvest
       %td= link_to 'Edit', edit_harvest_path(harvest)
       %td= link_to 'Destroy', harvest, :method => :delete, :data => { :confirm => 'Are you sure?' }

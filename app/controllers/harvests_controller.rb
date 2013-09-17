@@ -27,7 +27,10 @@ class HarvestsController < ApplicationController
   # GET /harvests/new
   # GET /harvests/new.json
   def new
-    @harvest = Harvest.new
+    @harvest = Harvest.new('harvested_at' => Date.today)
+
+    # using find_by_id here because it returns nil, unlike find
+    @crop     = Crop.find_by_id(params[:crop_id]) || Crop.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,6 +46,8 @@ class HarvestsController < ApplicationController
   # POST /harvests
   # POST /harvests.json
   def create
+    params[:harvest][:owner_id] = current_member.id
+    params[:harvested_at] = parse_date(params[:harvested_at])
     @harvest = Harvest.new(params[:harvest])
 
     respond_to do |format|
