@@ -1,5 +1,9 @@
 class Harvest < ActiveRecord::Base
-  attr_accessible :crop_id, :harvested_at, :description, :owner_id, :quantity, :unit
+  extend FriendlyId
+  friendly_id :harvest_slug, use: :slugged
+
+  attr_accessible :crop_id, :harvested_at, :description, :owner_id,
+    :quantity, :unit, :slug
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
@@ -21,4 +25,9 @@ class Harvest < ActiveRecord::Base
       self.unit = nil
     end
   end
+
+  def harvest_slug
+    "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
+  end
+
 end
