@@ -7,6 +7,7 @@ class Crop < ActiveRecord::Base
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
+  has_many :harvests
   belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
