@@ -29,6 +29,7 @@
       - unless @owner
         %th Owner
       %th Crop
+      %th Date
       %th Quantity
       %th Description
       %th
@@ -38,10 +39,10 @@
         - unless @owner
           %td= link_to harvest.owner.login_name, harvest.owner
         %td= link_to harvest.crop.system_name, harvest.crop
+        %td= harvest.harvested_at
         %td
           - if harvest.quantity
-            = harvest.quantity
-            = harvest.unit
+            = display_quantity(harvest)
         %td= harvest.description
         %td= link_to 'Details', harvest, :class => 'btn btn-mini'
 

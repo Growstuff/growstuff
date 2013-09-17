@@ -12,8 +12,13 @@ class Harvest < ActiveRecord::Base
     :numericality => { :only_integer => false },
     :allow_nil => true
 
-  UNITS_VALUES = %w(individual bunches kg lb)
-  validates :unit, :inclusion => { :in => UNITS_VALUES,
+  UNITS_VALUES = {
+    "individual" => "individual",
+    "bunches" => "bunch",
+    "kg" => "kg",
+    "lb" => "lb"
+  }
+  validates :unit, :inclusion => { :in => UNITS_VALUES.values,
         :message => "%{value} is not a valid unit" },
         :allow_nil => true,
         :allow_blank => true

@@ -7,11 +7,7 @@
       = @harvest.harvested_at ? @harvest.harvested_at : "not specified"
     %p
       %b Quantity:
-      - if ! @harvest.quantity.blank?
-        = @harvest.quantity
-        = @harvest.unit
-      - else
-        not specified
+      = display_quantity(@harvest)
 
     - if can? :edit, @harvest or can? :destroy, @harvest
       %p
