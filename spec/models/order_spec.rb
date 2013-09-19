@@ -84,4 +84,49 @@ describe Order do
 
   end
 
+  context "referral codes" do
+    it "has a referral code" do
+      referred_order = FactoryGirl.create(:referred_order)
+      referred_order.referral_code.should_not be nil
+    end
+
+    it "validates referral codes" do
+      referred_order = FactoryGirl.build(:order, :referral_code => 'CAMP_AIGN1?')
+      referred_order.should_not be_valid
+    end
+
+    it "cleans up messy referral codes" do
+      referred_order = FactoryGirl.create(:order, :referral_code => 'CaMpAiGn 1  ')
+      referred_order.referral_code.should eq 'CAMPAIGN1'
+    end
+  end
+
+  context 'search' do
+    it 'finds orders by member' do
+      order = FactoryGirl.create(:order)
+      Order.search(:by => 'member', :for => order.member.login_name).should eq [order]
+    end
+
+    it 'finds orders by order_id' do
+      order = FactoryGirl.create(:order)
+      Order.search(:by => 'order_id', :for => order.id).should eq [order]
+    end
+
+    it 'finds orders by paypal_token' do
+      order = FactoryGirl.create(:order, :paypal_express_token => 'foo')
+      Order.search(:by => 'paypal_token', :for => 'foo').should eq [order]
+    end
+
+    it 'finds orders by paypal_payer_id' do
+      order = FactoryGirl.create(:order, :paypal_express_payer_id => 'bar')
+      Order.search(:by => 'paypal_payer_id', :for => 'bar').should eq [order]
+    end
+
+    it 'finds orders by referral_code' do
+      order = FactoryGirl.create(:order, :referral_code => 'baz')
+      Order.search(:by => 'referral_code', :for => 'baz').should eq [order]
+    end
+
+  end
+
 end
