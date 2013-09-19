@@ -31,10 +31,9 @@ class OrdersController < ApplicationController
   # checkout with PayPal
   def checkout
     @order = Order.find(params[:id])
-    @order.update_attributes(:referral_code => params[:referral_code])
 
     respond_to do |format|
-      if @order.save
+      if @order.update_attributes(:referral_code => params[:referral_code])
         response = EXPRESS_GATEWAY.setup_purchase(
           @order.total,
           :items             => @order.activemerchant_items,
@@ -44,7 +43,7 @@ class OrdersController < ApplicationController
           :return_url        => complete_order_url,
           :cancel_return_url => shop_url
         )
-        redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+        format.html { redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token) }
       else
         format.html { render action: "show" }
       end
