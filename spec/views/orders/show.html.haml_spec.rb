@@ -37,8 +37,12 @@ describe "orders/show" do
       assert_select("a[href=http://www.wolframalpha.com/input/?i=198.00+#{currency}]")
     end
 
+    it "asks for a referral code" do
+      assert_select "input[id='referral_code']"
+    end
+
     it "shows a checkout button" do
-      assert_select "a", :text => "Checkout with PayPal"
+      assert_select "input[value='Checkout with PayPal']"
     end
 
     it "shows a delete order button" do

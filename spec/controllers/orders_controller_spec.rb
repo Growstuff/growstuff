@@ -13,6 +13,15 @@ describe OrdersController do
   end
 
   describe "GET checkout" do
+    it 'sets the referral_code' do
+      member = FactoryGirl.create(:member)
+      sign_in member
+      order = Order.create!(:member_id => member.id)
+      get :checkout, {:id => order.to_param, :referral_code => 'FOOBAR'}
+      order.reload
+      order.referral_code.should eq 'FOOBAR'
+    end
+
     it "redirects to Paypal" do
       member = FactoryGirl.create(:member)
       sign_in member
