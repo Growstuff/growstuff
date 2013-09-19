@@ -31,18 +31,23 @@ class OrdersController < ApplicationController
   # checkout with PayPal
   def checkout
     @order = Order.find(params[:id])
-    @order.update_attributes(:referral_code => params[:referral_code])
 
-    response = EXPRESS_GATEWAY.setup_purchase(
-      @order.total,
-      :items             => @order.activemerchant_items,
-      :currency          => Growstuff::Application.config.currency,
-      :no_shipping       => true,
-      :ip                => request.remote_ip,
-      :return_url        => complete_order_url,
-      :cancel_return_url => shop_url
-    )
-    redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+    respond_to do |format|
+      if @order.update_attributes(:referral_code => params[:referral_code])
+        response = EXPRESS_GATEWAY.setup_purchase(
+          @order.total,
+          :items             => @order.activemerchant_items,
+          :currency          => Growstuff::Application.config.currency,
+          :no_shipping       => true,
+          :ip                => request.remote_ip,
+          :return_url        => complete_order_url,
+          :cancel_return_url => shop_url
+        )
+        format.html { redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token) }
+      else
+        format.html { render action: "show" }
+      end
+    end
 
   end
 
