@@ -373,4 +373,12 @@ describe 'member' do
     end
   end
 
+  context 'harvests' do
+    it 'has harvests' do
+      member = FactoryGirl.create(:member)
+      harvest = FactoryGirl.create(:harvest, :owner => member)
+      member.harvests.should eq [harvest]
+    end
+  end
+
 end
