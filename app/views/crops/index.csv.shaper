@@ -20,11 +20,16 @@ csv.headers :id, :system_name,
   :planted_from_advanced_plant,
   :planted_from_graft,
   :planted_from_layering,
+  :added_by_member_id,
+  :added_by_member_name,
   :date_added,
-  :last_modified
+  :last_modified,
+  :license
 
 @crops.each do |c|
   csv.row c do |csv, crop|
+
+
     csv.cells :id, :system_name, :en_wikipedia_url
     csv.cell :growstuff_url, crop_url(c)
 
@@ -67,8 +72,12 @@ csv.headers :id, :system_name,
     csv.cell :planted_from_graft, planted_from['graft']
     csv.cell :planted_from_layering, planted_from['layering']
 
+    csv.cell :added_by_member_id, c.creator.id
+    csv.cell :added_by_member_name, c.creator.to_s
     csv.cell :date_added, c.created_at.to_s(:db)
     csv.cell :last_modified, c.updated_at.to_s(:db)
+
+    csv.cell :license, "CC-BY-SA Growstuff http://growstuff.org/"
 
   end
 end
