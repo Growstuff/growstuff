@@ -31,4 +31,11 @@ describe "harvests/index" do
     assert_select "tr>td", :text => @tomato.system_name
     assert_select "tr>td", :text => @maize.system_name
   end
+
+  it "provides data links" do
+    render
+    rendered.should contain "The data on this page is available in the following formats:"
+    assert_select "a", :href => harvests_path(:format => 'csv')
+    assert_select "a", :href => harvests_path(:format => 'json')
+  end
 end
