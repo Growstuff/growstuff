@@ -15,6 +15,11 @@ class HarvestsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @harvests }
+      format.csv do
+        @filename = "Growstuff-Harvests-#{Time.zone.now.to_s(:number)}.csv"
+        @harvests = Harvest.includes(:owner, :crop)
+        render :csv => @harvests
+      end
     end
   end
 

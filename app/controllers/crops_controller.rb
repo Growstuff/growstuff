@@ -15,7 +15,7 @@ class CropsController < ApplicationController
       format.rss { render :layout => false }
       format.csv do
         @filename = "Growstuff-Crops-#{Time.zone.now.to_s(:number)}.csv"
-        @crops = Crop.includes(:scientific_names, :plantings, :seeds)
+        @crops = Crop.includes(:scientific_names, :plantings, :seeds, :creator)
         render :csv => @crops
       end
     end
