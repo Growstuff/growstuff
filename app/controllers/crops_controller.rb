@@ -12,7 +12,10 @@ class CropsController < ApplicationController
     respond_to do |format|
       format.html 
       format.json { render :json => @crops }
-      format.rss { render :layout => false }
+      format.rss do
+        @crops = Crop.recent.includes(:scientific_names, :creator)
+        render :rss => @crops
+      end
       format.csv do
         @filename = "Growstuff-Crops-#{Time.zone.now.to_s(:number)}.csv"
         @crops = Crop.includes(:scientific_names, :plantings, :seeds, :creator)
