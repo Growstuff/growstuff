@@ -51,3 +51,14 @@
   %div.pagination
     = page_entries_info @plantings, :model => "plantings"
     = will_paginate @plantings
+
+  %ul.inline
+    %li The data on this page is available in the following formats:
+    - if @owner
+      %li= link_to "CSV", plantings_by_owner_path(@owner, :format => 'csv')
+      %li= link_to "JSON", plantings_by_owner_path(@owner, :format => 'json')
+      %li= link_to "RSS", plantings_by_owner_path(@owner, :format => 'rss')
+    - else
+      %li= link_to "CSV", plantings_path(:format => 'csv')
+      %li= link_to "JSON", plantings_path(:format => 'json')
+      %li= link_to "RSS", plantings_path(:format => 'rss')

@@ -17,6 +17,16 @@ class PlantingsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @plantings }
       format.rss { render :layout => false } #index.rss.builder
+      format.csv do
+        if @owner
+          @filename = "Growstuff-#{@owner}-Plantings-#{Time.zone.now.to_s(:number)}.csv"
+          @plantings = @owner.plantings.includes(:owner, :crop, :garden)
+        else
+          @filename = "Growstuff-Plantings-#{Time.zone.now.to_s(:number)}.csv"
+          @plantings = Planting.includes(:owner, :crop, :garden)
+        end
+        render :csv => @plantings
+      end
     end
   end
 
