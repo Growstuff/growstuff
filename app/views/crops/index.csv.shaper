@@ -1,0 +1,74 @@
+csv.headers :id, :system_name,
+  :growstuff_url, :en_wikipedia_url,
+  :default_scientific_name,
+  :scientific_name_count,
+  :parent_crop_id, :parent_crop_name,
+  :plantings_count,
+  :seeds_count,
+  :recommended_sunniness,
+  :planted_in_sun,
+  :planted_in_semi_shade,
+  :planted_in_shade,
+  :plant_from_recommendation,
+  :planted_from_seed,
+  :planted_from_seedling,
+  :planted_from_cutting,
+  :planted_from_root_division,
+  :planted_from_runner,
+  :planted_from_bulb,
+  :planted_from_bare_root_plant,
+  :planted_from_advanced_plant,
+  :planted_from_graft,
+  :planted_from_layering,
+  :date_added,
+  :last_modified
+
+@crops.each do |c|
+  csv.row c do |csv, crop|
+    csv.cells :id, :system_name, :en_wikipedia_url
+    csv.cell :growstuff_url, crop_url(c)
+
+    if c.scientific_names.any?
+      csv.cell :default_scientific_name, c.default_scientific_name
+      csv.cell :scientific_name_count, c.scientific_names.count
+    end
+
+    if c.parent
+      csv.cell :parent_crop_id, c.parent.id
+      csv.cell :parent_crop_name, c.parent.system_name
+    end
+
+    csv.cell :plantings_count || 0
+    csv.cell :seeds_count, c.seeds.count
+
+    sunniness = c.sunniness
+    sunniness_rec = sunniness.max_by{|k,v| v}
+    if sunniness_rec
+      csv.cell :recommended_sunniness, sunniness_rec[0]
+    end
+    csv.cell :planted_in_sun, sunniness['sun']
+    csv.cell :planted_in_semi_shade, sunniness['semi_shade']
+    csv.cell :planted_in_shade, sunniness['shade']
+
+    planted_from  = c.planted_from
+    planted_from_rec = planted_from.max_by{|k,v| v}
+    if planted_from_rec
+      csv.cell :plant_from_recommendation, planted_from_rec[0]
+    end
+
+    csv.cell :planted_from_seed, planted_from['seed']
+    csv.cell :planted_from_seedling, planted_from['seedling']
+    csv.cell :planted_from_cutting, planted_from['cutting']
+    csv.cell :planted_from_root_division, planted_from['root division']
+    csv.cell :planted_from_runner, planted_from['runner']
+    csv.cell :planted_from_bulb, planted_from['bulb']
+    csv.cell :planted_from_bare_root_plant, planted_from['bare root plant']
+    csv.cell :planted_from_advanced_plant, planted_from['advanced plant']
+    csv.cell :planted_from_graft, planted_from['graft']
+    csv.cell :planted_from_layering, planted_from['layering']
+
+    csv.cell :date_added, c.created_at.to_s(:db)
+    csv.cell :last_modified, c.updated_at.to_s(:db)
+
+  end
+end
