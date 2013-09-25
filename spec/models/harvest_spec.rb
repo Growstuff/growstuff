@@ -33,6 +33,11 @@ describe Harvest do
       @harvest.should be_valid
     end
 
+    it 'cleans up zero quantities' do
+      @harvest = FactoryGirl.build(:harvest, :quantity => 0)
+      @harvest.quantity.should == 0
+    end
+
     it "doesn't allow non-numeric quantities" do
       @harvest = FactoryGirl.build(:harvest, :quantity => "99a")
       @harvest.should_not be_valid
@@ -79,6 +84,11 @@ describe Harvest do
     it 'allows nil weight quantities' do
       @harvest = FactoryGirl.build(:harvest, :weight_quantity => nil)
       @harvest.should be_valid
+    end
+
+    it 'cleans up zero quantities' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 0)
+      @harvest.weight_quantity.should == 0
     end
 
     it "doesn't allow non-numeric weight quantities" do

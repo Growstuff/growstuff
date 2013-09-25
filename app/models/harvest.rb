@@ -34,16 +34,21 @@ class Harvest < ActiveRecord::Base
         :allow_nil => true,
         :allow_blank => true
 
-  after_validation :clear_unit_if_qty_is_blank
-  after_validation :clear_weight_unit_if_weight_qty_is_blank
+  after_validation :cleanup_quantities
 
-  def clear_unit_if_qty_is_blank
+  def cleanup_quantities
+    if quantity == 0
+      self.quantity = nil
+    end
+
     if quantity.blank?
       self.unit = nil
     end
-  end
 
-  def clear_weight_unit_if_weight_qty_is_blank
+    if weight_quantity == 0
+      self.weight_quantity = nil
+    end
+
     if weight_quantity.blank?
       self.weight_unit = nil
     end
