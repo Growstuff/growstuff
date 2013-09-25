@@ -10,9 +10,17 @@ class CropsController < ApplicationController
     @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
 
     respond_to do |format|
-      format.html # index.html.haml
-      format.json { render json: @crops }
-      format.rss { render :layout => false }
+      format.html 
+      format.json { render :json => @crops }
+      format.rss do
+        @crops = Crop.recent.includes(:scientific_names, :creator)
+        render :rss => @crops
+      end
+      format.csv do
+        @filename = "Growstuff-Crops-#{Time.zone.now.to_s(:number)}.csv"
+        @crops = Crop.includes(:scientific_names, :plantings, :seeds, :creator)
+        render :csv => @crops
+      end
     end
   end
 

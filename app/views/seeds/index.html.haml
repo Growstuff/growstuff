@@ -56,3 +56,14 @@
   %div.pagination
     = page_entries_info @seeds, :model => "seeds"
     = will_paginate @seeds
+
+  %ul.inline
+    %li The data on this page is available in the following formats:
+    - if @owner
+      %li= link_to "CSV", seeds_by_owner_path(@owner, :format => 'csv')
+      %li= link_to "JSON", seeds_by_owner_path(@owner, :format => 'json')
+      %li= link_to "RSS", seeds_by_owner_path(@owner, :format => 'rss')
+    - else
+      %li= link_to "CSV", seeds_path(:format => 'csv')
+      %li= link_to "JSON", seeds_path(:format => 'json')
+      %li= link_to "RSS", seeds_path(:format => 'rss')
