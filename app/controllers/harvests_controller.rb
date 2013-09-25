@@ -16,8 +16,13 @@ class HarvestsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @harvests }
       format.csv do
-        @filename = "Growstuff-Harvests-#{Time.zone.now.to_s(:number)}.csv"
-        @harvests = Harvest.includes(:owner, :crop)
+        if @owner
+          @filename = "Growstuff-#{@owner}-Harvests-#{Time.zone.now.to_s(:number)}.csv"
+          @harvests = @owner.harvests.includes(:owner, :crop)
+        else
+          @filename = "Growstuff-Harvests-#{Time.zone.now.to_s(:number)}.csv"
+          @harvests = Harvest.includes(:owner, :crop)
+        end
         render :csv => @harvests
       end
     end
