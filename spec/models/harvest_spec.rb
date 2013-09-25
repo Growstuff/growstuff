@@ -41,7 +41,7 @@ describe Harvest do
 
   context 'units' do
     it 'all valid units should work' do
-      ['individual', 'bunch', 'kg', 'lb', nil, ''].each do |s|
+      ['individual', 'bunch', nil, ''].each do |s|
         @harvest = FactoryGirl.build(:harvest, :unit=> s)
         @harvest.should be_valid
       end
@@ -54,12 +54,57 @@ describe Harvest do
     end
 
     it 'sets unit to blank if quantity is blank' do
-      @harvest = FactoryGirl.build(:harvest, :quantity => '', :unit => 'kg')
+      @harvest = FactoryGirl.build(:harvest, :quantity => '', :unit => 'individual')
       @harvest.should be_valid
       @harvest.unit.should eq nil
     end
   end
 
+  context 'weight quantity' do
+    it 'allows numeric weight quantities' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 33)
+      @harvest.should be_valid
+    end
 
+    it 'allows decimal weight quantities' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 3.3)
+      @harvest.should be_valid
+    end
 
+    it 'allows blank weight quantities' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => '')
+      @harvest.should be_valid
+    end
+
+    it 'allows nil weight quantities' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => nil)
+      @harvest.should be_valid
+    end
+
+    it "doesn't allow non-numeric weight quantities" do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => "99a")
+      @harvest.should_not be_valid
+    end
+  end
+
+  context 'weight units' do
+    it 'all valid units should work' do
+      ['kg', 'lb', nil, ''].each do |s|
+        @harvest = FactoryGirl.build(:harvest, :weight_unit => s)
+        @harvest.should be_valid
+      end
+    end
+
+    it 'should refuse invalid weight unit values' do
+      @harvest = FactoryGirl.build(:harvest, :weight_unit => 'not valid')
+      @harvest.should_not be_valid
+      @harvest.errors[:weight_unit].should include("not valid is not a valid unit")
+    end
+
+    it 'sets weight_unit to blank if quantity is blank' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => '', :weight_unit => 'kg')
+      @harvest.should be_valid
+      @harvest.weight_unit.should eq nil
+    end
+  end
 end

@@ -5,8 +5,10 @@ FactoryGirl.define do
     crop
     owner
     harvested_at "2013-09-17"
-    quantity "9.99"
-    unit "kg"
+    quantity "3"
+    unit "individual"
+    weight_quantity 6
+    weight_unit "kg"
     description "A lovely harvest"
   end
 end
