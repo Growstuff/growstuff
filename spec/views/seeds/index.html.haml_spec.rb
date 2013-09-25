@@ -42,4 +42,12 @@ describe "seeds/index" do
       assert_select 'a', :href => place_path(@owner.location)
     end
   end
+
+  it "provides data links" do
+    render
+    rendered.should contain "The data on this page is available in the following formats:"
+    assert_select "a", :href => seeds_path(:format => 'csv')
+    assert_select "a", :href => seeds_path(:format => 'json')
+    assert_select "a", :href => seeds_path(:format => 'rss')
+  end
 end
