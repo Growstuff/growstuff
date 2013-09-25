@@ -11,7 +11,6 @@ describe "harvests/show" do
   it "renders attributes" do
     rendered.should contain @crop.system_name
     rendered.should contain @harvest.harvested_at.to_s
-    rendered.should contain "9.99 kg"
   end
 
 end

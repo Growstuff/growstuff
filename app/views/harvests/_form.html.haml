@@ -25,6 +25,12 @@
       = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
 
   .control-group
+    = f.label 'Weighing:', :class => 'control-label'
+    .controls
+      = f.number_field :weight_quantity, :class => 'input-small'
+      = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
+      in total
+  .control-group
     = f.label 'Notes', :class => 'control-label'
     .controls= f.text_area :description, :rows => 6
 
