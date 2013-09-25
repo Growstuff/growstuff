@@ -32,7 +32,7 @@ csv.headers :id,
 
     csv.cells :quantity, :planted_from, :sunniness
 
-    csv.cell :date_planted, p.created_at.to_s(:db)
+    csv.cell :date_planted, p.planted_at.to_s(:db)
 
     csv.cell :description
 
