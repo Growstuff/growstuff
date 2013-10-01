@@ -6,7 +6,7 @@
       %b Owner:
       = link_to @seed.owner, @seed.owner
       &mdash;
-      = link_to "view all #{@seed.owner}'s seeds", seeds_path(:owner_id => @seed.owner.id)
+      = link_to "view all #{@seed.owner}'s seeds", seeds_by_owner_path(:owner => @seed.owner.slug)
     %p
       %b Quantity:
       = @seed.quantity.blank? ? "not specified" : @seed.quantity
