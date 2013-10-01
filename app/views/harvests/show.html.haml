@@ -23,6 +23,3 @@
 
 :markdown
   #{ @harvest.description != "" ? @harvest.description : "No description given." }
-
-- if can? :edit, @harvest
-  = link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-mini'

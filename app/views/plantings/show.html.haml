@@ -41,9 +41,6 @@
 :markdown
   #{ @planting.description != "" ? @planting.description : "No description given." }
 
-- if can? :edit, @planting
-  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
-
 - if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
 
