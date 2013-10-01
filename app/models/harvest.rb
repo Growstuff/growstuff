@@ -14,7 +14,15 @@ class Harvest < ActiveRecord::Base
 
   UNITS_VALUES = {
     "individual" => "individual",
-    "bunches" => "bunch"
+    "bunches" => "bunch",
+    "sprigs" => "sprig",
+    "handfuls" => "handful",
+    "litres" => "litre",
+    "pints" => "ping",
+    "quarts" => "quart",
+    "buckets" => "bucket",
+    "baskets" => "basket",
+    "bushels" => "bushel"
   }
   validates :unit, :inclusion => { :in => UNITS_VALUES.values,
         :message => "%{value} is not a valid unit" },

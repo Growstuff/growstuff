@@ -40,9 +40,9 @@ describe Harvest do
   end
 
   context 'units' do
-    it 'all valid units should work' do
-      ['individual', 'bunch', nil, ''].each do |s|
-        @harvest = FactoryGirl.build(:harvest, :unit=> s)
+    Harvest::UNITS_VALUES.values.push(nil, '').each do |s|
+      it "#{s} should be a valid unit" do
+        @harvest = FactoryGirl.build(:harvest, :unit => s)
         @harvest.should be_valid
       end
     end
