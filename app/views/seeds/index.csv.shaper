@@ -29,7 +29,7 @@ csv.headers :id,
 
     csv.cell :quantity
 
-    csv.cell :plant_before, s.plant_before.to_s(:db)
+    csv.cell :plant_before, s.plant_before ? s.plant_before.to_s(:db) : ''
 
     csv.cell :tradable_to
     csv.cell :from_location, s.owner.location
