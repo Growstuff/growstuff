@@ -17,9 +17,9 @@ module HarvestsHelper
 
   def display_human_quantity(harvest)
     if ! harvest.quantity.blank? && harvest.quantity > 0
-      if harvest.unit == 'individual'
+      if harvest.unit == 'individual' # just the number
         number_to_human(harvest.quantity, :strip_insignificant_zeros => true)
-      elsif harvest.unit == 'bunch'
+      elsif ! harvest.unit.blank? # pluralize anything else
         return pluralize(number_to_human(harvest.quantity, :strip_insignificant_zeros => true), harvest.unit)
       else
         return "#{number_to_human(harvest.quantity, :strip_insignificant_zeros => true)} #{harvest.unit}"

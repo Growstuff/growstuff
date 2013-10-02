@@ -3,6 +3,11 @@
 .row-fluid
   .span6
     %p
+      %b Owner:
+      = link_to @planting.owner, @planting.owner
+      &mdash;
+      = link_to "view all #{@planting.owner}'s plantings", plantings_by_owner_path(:owner => @planting.owner.slug)
+    %p
       %b Planted:
       = @planting.planted_at ? @planting.planted_at : "not specified"
     %p
@@ -40,9 +45,6 @@
 
 :markdown
   #{ @planting.description != "" ? @planting.description : "No description given." }
-
-- if can? :edit, @planting
-  = link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
 
 - if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
