@@ -3,6 +3,11 @@
 .row-fluid
   .span6
     %p
+      %b Owner:
+      = link_to @harvest.owner, @harvest.owner
+      &mdash;
+      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(:owner => @harvest.owner.slug)
+    %p
       %b Harvested:
       = @harvest.harvested_at ? @harvest.harvested_at : "not specified"
     %p
@@ -23,6 +28,3 @@
 
 :markdown
   #{ @harvest.description != "" ? @harvest.description : "No description given." }
-
-- if can? :edit, @harvest
-  = link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-mini'
