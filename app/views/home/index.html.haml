@@ -7,13 +7,13 @@
           = Growstuff::Application.config.site_name
         = current_member
       = render :partial => 'stats'
-      %ul.inline
-        %li{ :style => 'padding-left: 0px' }
-          %strong Quick links:
-        %li= link_to "Plant something", new_planting_path
-        %li= link_to "Add seeds", new_seed_path
-        %li= link_to "Post", new_post_path
-        %li= link_to "Edit profile", edit_member_registration_path
+      %p
+        .btn-group
+          = link_to "Plant", new_planting_path, :class => 'btn'
+          = link_to "Harvest", new_harvest_path, :class => 'btn'
+          = link_to "Add seeds", new_seed_path, :class => 'btn'
+          = link_to "Post", new_post_path, :class => 'btn'
+          = link_to "Edit profile", edit_member_registration_path, :class => 'btn'
 
     - else
       .visible-desktop.visible-tablet

@@ -187,6 +187,10 @@ describe "crops/show" do
       rendered.should contain "Plant this"
     end
 
+    it "shows a harvest this button" do
+      rendered.should contain "Harvest this"
+    end
+
     it "links to the right crop in the planting link" do
       assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
     end

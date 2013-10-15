@@ -10,6 +10,7 @@ class Member < ActiveRecord::Base
   has_many :plantings, :foreign_key => 'owner_id'
 
   has_many :seeds, :foreign_key => 'owner_id'
+  has_many :harvests, :foreign_key => 'owner_id'
 
   has_and_belongs_to_many :roles
 

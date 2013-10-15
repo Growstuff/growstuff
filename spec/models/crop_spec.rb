@@ -235,4 +235,12 @@ describe Crop do
 
   end
 
+  context "harvests" do
+    it "has harvests" do
+      crop = FactoryGirl.create(:crop)
+      harvest = FactoryGirl.create(:harvest, :crop => crop)
+      crop.harvests.should eq [harvest]
+    end
+  end
+
 end

@@ -44,4 +44,12 @@ describe "plantings/index" do
     rendered.should contain 'January 13, 2013'
   end
 
+  it "provides data links" do
+    render
+    rendered.should contain "The data on this page is available in the following formats:"
+    assert_select "a", :href => plantings_path(:format => 'csv')
+    assert_select "a", :href => plantings_path(:format => 'json')
+    assert_select "a", :href => plantings_path(:format => 'rss')
+  end
+
 end

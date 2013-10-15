@@ -34,6 +34,7 @@
                 %li= link_to "Profile", member_path(current_member)
                 %li= link_to "Gardens", gardens_by_owner_path(:owner => current_member.slug)
                 %li= link_to "Plantings", plantings_by_owner_path(:owner => current_member.slug)
+                %li= link_to "Harvests", harvests_by_owner_path(:owner => current_member.slug)
                 %li= link_to "Seeds", seeds_by_owner_path(:owner => current_member.slug)
                 %li= link_to "Posts", posts_by_author_path(:author => current_member.slug)
                 %li= link_to "Account", orders_path
