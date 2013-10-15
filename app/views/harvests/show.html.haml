@@ -1,0 +1,30 @@
+=content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
+
+.row-fluid
+  .span6
+    %p
+      %b Owner:
+      = link_to @harvest.owner, @harvest.owner
+      &mdash;
+      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(:owner => @harvest.owner.slug)
+    %p
+      %b Harvested:
+      = @harvest.harvested_at ? @harvest.harvested_at : "not specified"
+    %p
+      %b Quantity:
+      = display_quantity(@harvest)
+
+    - if can? :edit, @harvest or can? :destroy, @harvest
+      %p
+      - if can? :edit, @harvest
+        =link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-mini'
+      - if can? :destroy, @harvest
+        =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+
+  .span6
+    = render :partial => "crops/index_card", :locals => { :crop => @harvest.crop}
+
+%h2 Notes
+
+:markdown
+  #{ @harvest.description != "" ? @harvest.description : "No description given." }

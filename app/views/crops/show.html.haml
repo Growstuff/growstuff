@@ -22,6 +22,9 @@
       - else
         = render :partial => 'shared/signin_signup', :locals => { :to => 'plant this crop' }
 
+      - if can? :create, Harvest
+        = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+
       - if can? :create, Seed
         = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-primary'
 
