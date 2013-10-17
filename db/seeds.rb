@@ -22,18 +22,12 @@ def load_data
 end
 
 def load_crops
-  puts "Loading crops..."
-  CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
-    system_name,scientific_name,en_wikipedia_url = row
-    @crop = Crop.create(
-      :system_name => system_name,
-      :en_wikipedia_url => en_wikipedia_url,
-      :creator_id => @cropbot_user.id
-    )
-    @crop.scientific_names.create(
-      :scientific_name => scientific_name,
-      :creator_id => @cropbot_user.id
-    )
+  source_path = Rails.root.join('db', 'seeds')
+  Dir.glob("#{source_path}/crops*.csv").each do |crop_file|
+    puts "Loading crops from #{crop_file}..."
+    CSV.foreach(crop_file) do |row|
+      Crop.create_from_csv(row)
+    end
   end
   puts "Finished loading crops"
 end
