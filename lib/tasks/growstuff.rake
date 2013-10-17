@@ -10,6 +10,57 @@ namespace :growstuff do
     member.roles << admin
   end
 
+  desc "Upload crops from a CSV file"
+  # usage: rake growstuff:import_crops file=filename.csv
+
+  task :import_crops => :environment do
+    require 'csv'
+
+    @cropbot = Member.find_by_login_name('cropbot')
+    raise "cropbot account not found: run rake db:seed" unless @cropbot
+    @file = ENV['file'] or raise "Usage: rake growstuff:import_crops file=file.csv"
+
+    puts "Loading crops from #{@file}..."
+
+    CSV.foreach(@file) do |row|
+      system_name,scientific_name,en_wikipedia_url,parent = row
+      @crop = Crop.find_or_create_by_system_name(system_name)
+      puts "Loading #{system_name}..."
+      @crop.update_attributes(
+        :en_wikipedia_url => en_wikipedia_url,
+        :creator_id => @cropbot.id
+      )
+      if parent
+        @parent = Crop.find_by_system_name(parent)
+        if @parent
+          @crop.update_attributes(:parent_id => @parent.id)
+        else
+          puts "Warning: parent crop #{parent} not found"
+        end
+      end
+
+      unless @crop.scientific_names.exists?(:scientific_name => scientific_name)
+        @sn = ''
+        if scientific_name
+          @sn = scientific_name
+        elsif @crop.parent
+          @sn = @crop.parent.scientific_names.first.scientific_name
+        end
+
+        if @sn
+          @crop.scientific_names.create(
+            :scientific_name => @sn,
+            :creator_id => @cropbot.id
+          )
+        else
+          puts "Warning: no scientific name (not even on parent crop) for #{@crop}"
+        end
+
+      end
+    end
+    puts "Finished loading crops"
+  end
+
 
   desc "One-off tasks needed at various times and kept for posterity"
   namespace :oneoff do
