@@ -73,6 +73,8 @@ group :development do
   # Installation of the debugger gem fails on Travis CI,
   # so we don't use it in the test environment
   gem 'debugger'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Markdown formatting for updates etc
