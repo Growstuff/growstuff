@@ -154,18 +154,18 @@ describe "crops/show" do
   context 'varieties' do
     before(:each) do
       @popcorn = FactoryGirl.create(:popcorn, :parent_id => @crop.id)
-      @ubercrop = FactoryGirl.create(:crop, :system_name => 'ubercrop')
+      @ubercrop = FactoryGirl.create(:crop, :name => 'ubercrop')
       @crop.parent_id = @ubercrop.id
       @crop.save
       render
     end
 
     it 'shows popcorn as a child variety' do
-      rendered.should contain @popcorn.system_name
+      rendered.should contain @popcorn.name
     end
 
     it 'shows parent crop' do
-      rendered.should contain @ubercrop.system_name
+      rendered.should contain @ubercrop.name
     end
 
   end

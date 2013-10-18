@@ -31,9 +31,9 @@ end
 def load_crops
   puts "Loading crops..."
   CSV.foreach(Rails.root.join('db', 'seeds', 'crops.csv')) do |row|
-    system_name,scientific_name,en_wikipedia_url = row
+    name,scientific_name,en_wikipedia_url = row
     @crop = Crop.create(
-      :system_name => system_name,
+      :name => name,
       :en_wikipedia_url => en_wikipedia_url,
       :creator_id => @cropbot_user.id
     )

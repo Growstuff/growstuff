@@ -14,7 +14,7 @@ class Planting < ActiveRecord::Base
 
   default_scope order("created_at desc")
 
-  delegate :system_name,
+  delegate :name,
     :en_wikipedia_url,
     :default_scientific_name,
     :plantings_count,
@@ -61,7 +61,7 @@ class Planting < ActiveRecord::Base
 
   # stringify as "beet in Skud's backyard" or similar
   def to_s
-    self.crop_system_name + " in " + self.location
+    self.crop_name + " in " + self.location
   end
 
   def default_photo

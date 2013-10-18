@@ -14,4 +14,4 @@
             %small
               %br/
               Recently planted:
-              != member.plantings.first(3).map{|p| link_to p.crop_system_name, p }.join(", ")
+              != member.plantings.first(3).map{|p| link_to p.crop_name, p }.join(", ")

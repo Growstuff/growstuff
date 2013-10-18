@@ -17,7 +17,7 @@ describe 'home/_members.html.haml', :type => "view" do
   it 'Shows members' do
     rendered.should contain @member.login_name
     rendered.should contain @member.location
-    rendered.should contain @planting.crop_system_name
+    rendered.should contain @planting.crop_name
   end
 
 end

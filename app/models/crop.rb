@@ -1,7 +1,7 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :system_name, use: :slugged
-  attr_accessible :en_wikipedia_url, :system_name, :parent_id, :creator_id
+  friendly_id :name, use: :slugged
+  attr_accessible :en_wikipedia_url, :name, :parent_id, :creator_id
 
   has_many :scientific_names
   has_many :plantings
@@ -13,7 +13,7 @@ class Crop < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
 
-  default_scope order("lower(system_name) asc")
+  default_scope order("lower(name) asc")
   scope :recent, reorder("created_at desc")
   scope :toplevel, where(:parent_id => nil)
   scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
@@ -30,7 +30,7 @@ class Crop < ActiveRecord::Base
   end
 
   def to_s
-    return system_name
+    return name
   end
 
   def default_scientific_name

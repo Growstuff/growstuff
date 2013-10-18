@@ -8,7 +8,7 @@
 
   .control-group
     = f.label 'Crop:', :class => 'control-label'
-    .controls= collection_select(:seed, :crop_id, Crop.all, :id, :system_name, :selected => @seed.crop_id || @crop.id)
+    .controls= collection_select(:seed, :crop_id, Crop.all, :id, :name, :selected => @seed.crop_id || @crop.id)
   .control-group
     = f.label 'Quantity:', :class => 'control-label'
     .controls
