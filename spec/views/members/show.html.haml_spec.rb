@@ -94,7 +94,7 @@ describe "members/show" do
     end
 
     it "shows the plantings in the garden" do
-      rendered.should contain @planting.crop.system_name
+      rendered.should contain @planting.crop.name
     end
 
     it "doesn't show the note about random plantings" do

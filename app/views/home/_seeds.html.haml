@@ -18,7 +18,7 @@
         - seeds.each do |seed|
           %tr
             %td= link_to seed.owner.login_name, seed.owner
-            %td= link_to seed.crop.system_name, seed.crop
+            %td= link_to seed.crop.name, seed.crop
             %td.hidden-phone.hidden-tablet= truncate(seed.description, :length => 40, :separator => ' ')
             %td= seed.tradable? ? seed.tradable_to : ''
             %td

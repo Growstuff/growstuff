@@ -23,7 +23,7 @@ describe "plantings/_form" do
 
   context "logged in" do
     it "orders crops alphabetically" do
-      rendered.should =~ /#{@lowercase.system_name}.*#{@uppercase.system_name}/m
+      rendered.should =~ /#{@lowercase.name}.*#{@uppercase.name}/m
     end
   end
 end

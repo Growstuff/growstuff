@@ -19,7 +19,7 @@ describe "gardens/show" do
   end
 
   it 'should show plantings on the garden page' do
-    rendered.should contain @planting.crop.system_name
+    rendered.should contain @planting.crop.name
   end
 
   it "doesn't show the note about random plantings" do

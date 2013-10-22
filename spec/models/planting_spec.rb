@@ -41,7 +41,7 @@ describe Planting do
 
   context 'delegation' do
     it 'system name' do
-      @planting.crop_system_name.should eq @planting.crop.system_name
+      @planting.crop_name.should eq @planting.crop.name
     end
     it 'wikipedia url' do
       @planting.crop_en_wikipedia_url.should eq @planting.crop.en_wikipedia_url

@@ -1,8 +1,8 @@
 .thumbnail(style='height: 220px')
   - if crop
-    = link_to image_tag((crop.default_photo ?  crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => crop.system_name, :class => 'img-rounded'), crop
+    = link_to image_tag((crop.default_photo ?  crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => crop.name, :class => 'img-rounded'), crop
     %p
-      = link_to crop.system_name, crop
+      = link_to crop.name, crop
       - if crop.scientific_names.count > 0
         %br/
         %i

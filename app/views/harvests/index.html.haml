@@ -38,7 +38,7 @@
       %tr
         - unless @owner
           %td= link_to harvest.owner.login_name, harvest.owner
-        %td= link_to harvest.crop.system_name, harvest.crop
+        %td= link_to harvest.crop.name, harvest.crop
         %td= harvest.harvested_at
         %td
           - if harvest.quantity

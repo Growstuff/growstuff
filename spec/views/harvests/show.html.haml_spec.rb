@@ -9,7 +9,7 @@ describe "harvests/show" do
   end
 
   it "renders attributes" do
-    rendered.should contain @crop.system_name
+    rendered.should contain @crop.name
     rendered.should contain @harvest.harvested_at.to_s
   end
 

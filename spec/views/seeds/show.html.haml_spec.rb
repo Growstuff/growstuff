@@ -9,7 +9,7 @@ describe "seeds/show" do
 
   it "renders attributes in <p>" do
     render
-    rendered.should contain @seed.crop.system_name
+    rendered.should contain @seed.crop.name
   end
 
   context "tradable" do
