@@ -29,6 +29,7 @@ group :production, :staging do
   gem 'newrelic_rpm'
   gem 'dalli'
   gem 'memcachier'
+  gem 'rails_12factor' # supresses heroku plugin injection
 end
 
 # Gems used only for assets and not required
