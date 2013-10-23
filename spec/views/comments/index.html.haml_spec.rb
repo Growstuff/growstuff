@@ -21,4 +21,8 @@ describe "comments/index" do
     rendered.should contain 'OMG LOL'
     rendered.should contain 'ROFL'
   end
+
+  it "contains an RSS feed link" do
+    assert_select "a", :href => comments_path(:format => 'rss')
+  end
 end
