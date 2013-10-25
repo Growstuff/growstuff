@@ -1,22 +1,19 @@
 =content_for :title, "#{@garden.owner}'s #{@garden}"
 
 .row-fluid
-  .span3
-    = render :partial => "members/avatar", :locals => { :member => @garden.owner }
-
-    %h4= "#{@garden.owner}'s gardens"
-    %ul
-      - @garden.owner.gardens.each do |othergarden|
-        %li
-          - if @garden == othergarden
-            = @garden
-          - else
-            = link_to "#{othergarden}", garden_path(othergarden)
-
-    - if can? :create, @garden
-      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-mini'
-
   .span9
+    - if ! @garden.active
+      .alert.alert-notice
+        NOTE: This garden is inactive.
+    - if @garden.location
+      %p
+        %strong Location:
+        = @garden.location
+    - if @garden.area
+      %p
+        %strong Area:
+        = pluralize(@garden.area, @garden.area_unit)
+
     %div
       :markdown
         #{strip_tags @garden.description}
@@ -34,3 +31,15 @@
     - @garden.plantings.each do |p|
       = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
+  .span3
+    %h4= "#{@garden.owner}'s gardens"
+    %ul
+      - @garden.owner.gardens.each do |othergarden|
+        %li
+          - if @garden == othergarden
+            = @garden
+          - else
+            = link_to "#{othergarden}", garden_path(othergarden)
+
+    - if can? :create, @garden
+      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-mini'

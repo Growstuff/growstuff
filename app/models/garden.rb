@@ -28,7 +28,7 @@ class Garden < ActiveRecord::Base
 
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
-    "square feet" => "square feet",
+    "square feet" => "square foot",
     "hectares" => "hectare",
     "acres" => "acre"
   }

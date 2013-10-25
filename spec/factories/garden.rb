@@ -4,6 +4,9 @@ FactoryGirl.define do
     description "This is a **totally** cool garden"
     owner
     active true
+    area 23
+    area_unit "acre"
+    location "Greenwich, UK"
 
     # the following are used for testing alphabetical ordering
     factory :garden_a do
