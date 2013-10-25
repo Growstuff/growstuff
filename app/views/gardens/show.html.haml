@@ -8,6 +8,9 @@
         - if can? :edit, @garden
           = link_to 'Set it to active', edit_garden_path(@garden)
           to plant something in this garden.
+    %p
+      %strong Owner:
+      = link_to @garden.owner, @garden.owner
     - if @garden.location
       %p
         %strong Location:
