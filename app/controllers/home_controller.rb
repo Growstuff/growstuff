@@ -9,6 +9,9 @@ class HomeController < ApplicationController
     # caching will be effective.
 
     respond_to do |format|
+      foo = "bar"
+      @fred = "barney"
+      raise "ohno! #{@fred}"
       format.html # index.html.haml
     end
   end
