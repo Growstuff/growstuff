@@ -149,4 +149,20 @@ describe Garden do
     end
   end
 
+  context 'active scopes' do
+    before(:each) do
+      @active = FactoryGirl.create(:garden)
+      @inactive = FactoryGirl.create(:inactive_garden)
+    end
+
+    it 'includes active garden in active scope' do
+      Garden.active.should include @active
+      Garden.active.should_not include @inactive
+    end
+    it 'includes inactive garden in inactive scope' do
+      Garden.inactive.should include @inactive
+      Garden.inactive.should_not include @active
+    end
+  end
+
 end

@@ -8,6 +8,10 @@ FactoryGirl.define do
     area_unit "acre"
     location "Greenwich, UK"
 
+    factory :inactive_garden do
+      active false
+    end
+
     # the following are used for testing alphabetical ordering
     factory :garden_a do
       name 'A garden starting with A'

@@ -16,6 +16,8 @@ class Garden < ActiveRecord::Base
   after_validation :empty_unwanted_geocodes
 
   default_scope order("lower(name) asc")
+  scope :active, where(:active => true)
+  scope :inactive, where(:active => false)
 
   validates :name,
     :format => {
