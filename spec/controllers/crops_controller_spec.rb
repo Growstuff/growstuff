@@ -6,7 +6,7 @@ describe CropsController do
 
   def valid_attributes
     {
-      :system_name => "Tomato",
+      :name => "Tomato",
       :en_wikipedia_url => 'http://en.wikipedia.org/wiki/Tomato'
     }
   end

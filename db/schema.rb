@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925050304) do
+ActiveRecord::Schema.define(:version => 20131018101204) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20130925050304) do
   end
 
   create_table "crops", :force => true do |t|
-    t.string   "system_name",      :null => false
+    t.string   "name",             :null => false
     t.string   "en_wikipedia_url"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(:version => 20130925050304) do
     t.integer  "creator_id"
   end
 
+  add_index "crops", ["name"], :name => "index_crops_on_name"
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
-  add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
 
   create_table "forums", :force => true do |t|
     t.string   "name",        :null => false

@@ -23,7 +23,7 @@
     %th When
   - @crops.each do |c|
     %tr
-      %td= link_to c.system_name, c
+      %td= link_to c.name, c
       %td= link_to c.en_wikipedia_url, c.en_wikipedia_url
       %td
         - c.scientific_names.each do |s|

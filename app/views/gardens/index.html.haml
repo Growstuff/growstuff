@@ -43,7 +43,7 @@
             - garden.plantings.each do |p|
               %li
                 = p.quantity
-                = link_to p.crop.system_name, p
+                = link_to p.crop.name, p
                 - if p.planted_at
                   planted on
                   = p.planted_at

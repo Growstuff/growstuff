@@ -8,7 +8,7 @@
         - if defined?(title) && title == 'owner'
           = link_to planting.owner, planting.owner
         - else
-          = link_to planting.crop.system_name, planting
+          = link_to planting.crop.name, planting
 
       %p
         Planted
