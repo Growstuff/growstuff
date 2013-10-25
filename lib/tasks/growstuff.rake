@@ -26,6 +26,16 @@ namespace :growstuff do
 
   end
 
+  desc "Depopulate Null Island"
+  # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
+  task :depopulate_null_island => :environment do
+    Member.find_each do |m|
+      if m.location and (m.latitude == nil and m.longitude == nil)
+        m.geocode
+        m.save
+      end
+    end
+  end
 
   desc "One-off tasks needed at various times and kept for posterity"
   namespace :oneoff do
@@ -182,6 +192,21 @@ namespace :growstuff do
         Member.reset_counters m.id, :plantings
       end
     end
+
+    desc "October 2013: set garden locations to member locations"
+    task :initialize_garden_locations => :environment do
+      Member.located.find_each do |m|
+        m.gardens.each do |g|
+          if g.location.blank?
+            g.location = m.location
+            g.latitude = m.latitude
+            g.longitude = m.longitude
+            g.save
+          end
+        end
+      end
+    end
+
 
   end
 
