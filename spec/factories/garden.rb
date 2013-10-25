@@ -3,6 +3,7 @@ FactoryGirl.define do
     name 'Springfield Community Garden'
     description "This is a **totally** cool garden"
     owner
+    active true
 
     # the following are used for testing alphabetical ordering
     factory :garden_a do

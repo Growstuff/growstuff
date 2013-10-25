@@ -23,7 +23,7 @@ describe Garden do
     @garden = FactoryGirl.build(:garden, :name => "")
     @garden.should_not be_valid
   end
-  
+
   it "doesn't allow a name with only spaces" do
     @garden = FactoryGirl.build(:garden, :name => "    ")
     @garden.should_not be_valid
@@ -94,6 +94,59 @@ describe Garden do
     all = Planting.count
     @garden.destroy
     Planting.count.should == all - 2
+  end
+
+  context 'area' do
+    it 'allows numeric area' do
+      @garden = FactoryGirl.build(:garden, :area => 33)
+      @garden.should be_valid
+    end
+
+    it 'allows decimal quantities' do
+      @garden = FactoryGirl.build(:garden, :area => 3.3)
+      @garden.should be_valid
+    end
+
+    it 'allows blank quantities' do
+      @garden = FactoryGirl.build(:garden, :area => '')
+      @garden.should be_valid
+    end
+
+    it 'allows nil quantities' do
+      @garden = FactoryGirl.build(:garden, :area => nil)
+      @garden.should be_valid
+    end
+
+    it 'cleans up zero quantities' do
+      @garden = FactoryGirl.build(:garden, :area => 0)
+      @garden.area.should == 0
+    end
+
+    it "doesn't allow non-numeric quantities" do
+      @garden = FactoryGirl.build(:garden, :area => "99a")
+      @garden.should_not be_valid
+    end
+  end
+
+  context 'units' do
+    Garden::AREA_UNITS_VALUES.values.push(nil, '').each do |s|
+      it "#{s} should be a valid unit" do
+        @garden = FactoryGirl.build(:garden, :area_unit => s)
+        @garden.should be_valid
+      end
+    end
+
+    it 'should refuse invalid unit values' do
+      @garden = FactoryGirl.build(:garden, :area_unit => 'not valid')
+      @garden.should_not be_valid
+      @garden.errors[:area_unit].should include("not valid is not a valid area unit")
+    end
+
+    it 'sets area unit to blank if area is blank' do
+      @garden = FactoryGirl.build(:garden, :area => '', :area_unit => 'acre')
+      @garden.should be_valid
+      @garden.area_unit.should eq nil
+    end
   end
 
 end

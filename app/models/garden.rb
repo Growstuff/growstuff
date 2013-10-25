@@ -22,6 +22,32 @@ class Garden < ActiveRecord::Base
       :with => /\S/
     }
 
+  validates :area,
+    :numericality => { :only_integer => false },
+    :allow_nil => true
+
+  AREA_UNITS_VALUES = {
+    "square metres" => "square metre",
+    "square feet" => "square feet",
+    "hectares" => "hectare",
+    "acres" => "acre"
+  }
+  validates :area_unit, :inclusion => { :in => AREA_UNITS_VALUES.values,
+        :message => "%{value} is not a valid area unit" },
+        :allow_nil => true,
+        :allow_blank => true
+
+  after_validation :cleanup_area
+
+  def cleanup_area
+    if area == 0
+      self.area = nil
+    end
+    if area.blank?
+      self.area_unit = nil
+    end
+  end
+
   def garden_slug
     "#{owner.login_name}-#{name}".downcase.gsub(' ', '-')
   end
