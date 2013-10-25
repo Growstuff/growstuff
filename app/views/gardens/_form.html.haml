@@ -19,10 +19,16 @@
   .control-group
     = f.label :location, :class => 'control-label'
     .controls
-      = f.text_field :location
+      = f.text_field :location, :value => @garden.location || current_member.location
       %span.help-inline
-        A garden's location does not have to be the same as the place
-        where you live.
+        - if current_member.location.blank?
+          This defaults to your location, if you have set it in your
+          profile.
+          =link_to "Set your location now.", edit_member_registration_path
+        - else
+          This defaults to your location, however it does not have to be
+          the same as your location.
+          =link_to "Change your location.", edit_member_registration_path
 
   .control-group
     = f.label :area, :class => 'control-label'
