@@ -26,6 +26,9 @@
         %th Owner
       %th Garden name
       %th Description
+      %th Location
+      %th Area
+      %th Active?
       %th Plantings
       %th
 
@@ -35,6 +38,13 @@
           %td= link_to garden.owner.login_name, garden.owner
         %td= link_to garden.name, garden
         %td= garden.description
+        %td
+          - if ! garden.location.blank?
+            = link_to garden.location, place_path(garden.location)
+        %td
+          - if garden.area
+            = pluralize(garden.area, garden.area_unit)
+        %td= garden.active ? "Yes" : "No"
         %td
           - if garden.plantings.empty?
             None
