@@ -1,3 +1,5 @@
+require 'geocodable'
+
 Geocoder.configure(
   :units => :km,
   :timeout => 10,

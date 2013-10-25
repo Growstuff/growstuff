@@ -3,6 +3,14 @@ FactoryGirl.define do
     name 'Springfield Community Garden'
     description "This is a **totally** cool garden"
     owner
+    active true
+    area 23
+    area_unit "acre"
+    location "Greenwich, UK"
+
+    factory :inactive_garden do
+      active false
+    end
 
     # the following are used for testing alphabetical ordering
     factory :garden_a do

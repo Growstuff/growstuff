@@ -10,6 +10,14 @@ describe "gardens/show" do
     render
   end
 
+  it 'should show the location' do
+    rendered.should contain @garden.location
+  end
+
+  it 'should show the area' do
+    rendered.should contain pluralize(@garden.area, @garden.area_unit)
+  end
+
   it 'should show the description' do
     rendered.should contain "totally cool garden"
   end

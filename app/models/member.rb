@@ -1,5 +1,7 @@
 class Member < ActiveRecord::Base
+  include Geocodable
   extend FriendlyId
+
   friendly_id :login_name, use: :slugged
 
   has_many :posts,   :foreign_key => 'author_id'
@@ -214,22 +216,6 @@ class Member < ActiveRecord::Base
       end
     end
     return nearby_members
-  end
-
-  private
-
-  def geocode
-    unless self.location.blank?
-      self.latitude, self.longitude =
-        Geocoder.coordinates(location, params: {limit: 1})
-    end
-  end
-
-  def empty_unwanted_geocodes
-    if self.location.blank?
-      self.latitude = nil
-      self.longitude = nil
-    end
   end
 
   def update_newsletter_subscription
