@@ -1,13 +1,19 @@
 class Garden < ActiveRecord::Base
+  include Geocodable
   extend FriendlyId
   friendly_id :garden_slug, use: :slugged
 
-  attr_accessible :name, :slug, :owner_id, :description
+  attr_accessible :name, :slug, :owner_id, :description, :active,
+    :location, :latitude, :longitude, :area, :area_unit
+
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
   has_many :plantings, :order => 'created_at DESC', :dependent => :destroy
   has_many :crops, :through => :plantings
 
-  # before_create :replace_blank_name
+  # set up geocoding
+  geocoded_by :location
+  after_validation :geocode
+  after_validation :empty_unwanted_geocodes
 
   default_scope order("lower(name) asc")
 
