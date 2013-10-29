@@ -44,7 +44,20 @@ class Harvest < ActiveRecord::Base
 
   after_validation :cleanup_quantities
 
-  PLANT_PARTS = %w( fruit flower seed pod leaf stem bark bulb root tuber )
+  PLANT_PARTS = [
+    'fruit',
+    'flower',
+    'seed',
+    'pod',
+    'leaf',
+    'stem',
+    'bark',
+    'bulb',
+    'root',
+    'tuber',
+    'whole plant',
+    'other'
+  ]
   validates :plant_part, :inclusion => { :in => PLANT_PARTS,
     :message => "%{value} is not a valid plant part" },
     :allow_nil => true,
