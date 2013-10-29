@@ -8,6 +8,8 @@ class Harvest < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
 
+  default_scope order('created_at DESC')
+
   validates :quantity,
     :numericality => { :only_integer => false },
     :allow_nil => true
