@@ -117,4 +117,20 @@ describe Harvest do
       @harvest.weight_unit.should eq nil
     end
   end
+
+  context "plant parts" do
+    it 'all valid plant parts should work' do
+      Harvest::PLANT_PARTS.push(nil, '').each do |p|
+        @harvest = FactoryGirl.build(:harvest, :plant_part => p)
+        @harvest.should be_valid
+      end
+    end
+
+    it 'should refuse invalid plant parts' do
+      @harvest = FactoryGirl.build(:harvest, :plant_part => 'leg')
+      @harvest.should_not be_valid
+      @harvest.errors[:plant_part].should include("leg is not a valid plant part")
+    end
+  end
+
 end
