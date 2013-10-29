@@ -117,4 +117,12 @@ describe Harvest do
       @harvest.weight_unit.should eq nil
     end
   end
+
+  context 'ordering' do
+    it 'lists most recent harvests first' do
+      @h1 = FactoryGirl.create(:harvest, :created_at => 1.day.ago)
+      @h2 = FactoryGirl.create(:harvest, :created_at => 1.hour.ago)
+      Harvest.all.should eq [@h2, @h1]
+    end
+  end
 end
