@@ -47,6 +47,7 @@ class Harvest < ActiveRecord::Base
   PLANT_PARTS = [
     'fruit',
     'flower',
+    'pollen',
     'seed',
     'pod',
     'leaf',
