@@ -3,7 +3,7 @@ class Harvest < ActiveRecord::Base
   friendly_id :harvest_slug, use: :slugged
 
   attr_accessible :crop_id, :harvested_at, :description, :owner_id,
-    :quantity, :unit, :weight_quantity, :weight_unit, :slug
+    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part, :slug
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
