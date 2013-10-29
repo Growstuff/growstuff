@@ -40,9 +40,7 @@
           %td= link_to harvest.owner.login_name, harvest.owner
         %td= link_to harvest.crop.name, harvest.crop
         %td= harvest.harvested_at
-        %td
-          - if harvest.quantity
-            = display_quantity(harvest)
+        %td= display_quantity(harvest)
         %td= harvest.description
         %td= link_to 'Details', harvest, :class => 'btn btn-mini'
 
