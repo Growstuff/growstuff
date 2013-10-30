@@ -3,10 +3,11 @@ class Harvest < ActiveRecord::Base
   friendly_id :harvest_slug, use: :slugged
 
   attr_accessible :crop_id, :harvested_at, :description, :owner_id,
-    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part, :slug
+    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
+  belongs_to :plant_part
 
   validates :quantity,
     :numericality => { :only_integer => false },
@@ -43,26 +44,6 @@ class Harvest < ActiveRecord::Base
     :allow_blank => true
 
   after_validation :cleanup_quantities
-
-  PLANT_PARTS = [
-    'fruit',
-    'flower',
-    'pollen',
-    'seed',
-    'pod',
-    'leaf',
-    'stem',
-    'bark',
-    'bulb',
-    'root',
-    'tuber',
-    'whole plant',
-    'other'
-  ]
-  validates :plant_part, :inclusion => { :in => PLANT_PARTS,
-    :message => "%{value} is not a valid plant part" },
-    :allow_nil => true,
-    :allow_blank => true
 
   def cleanup_quantities
     if quantity == 0
