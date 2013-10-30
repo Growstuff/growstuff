@@ -11,11 +11,11 @@
     %p
       %strong Owner:
       = link_to @garden.owner, @garden.owner
-    - if @garden.location
+    - if ! @garden.location.blank?
       %p
         %strong Location:
         = @garden.location
-    - if @garden.area
+    - if ! @garden.area.blank?
       %p
         %strong Area:
         = pluralize(@garden.area, @garden.area_unit)
