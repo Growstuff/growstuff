@@ -9,6 +9,7 @@ def load_data
   load_basic_account_types
   create_cropbot
   load_crops
+  load_plant_parts
 
   # for development environments only
   if Rails.env.development?
@@ -135,5 +136,28 @@ def load_products
     :account_type_id => @seed_account.id,
   )
 end
+
+def load_plant_parts
+  puts "Loading plant parts..."
+  plant_parts = [
+    'fruit',
+    'flower',
+    'seed',
+    'pod',
+    'leaf',
+    'stem',
+    'bark',
+    'bulb',
+    'root',
+    'tuber',
+    'whole plant',
+    'other'
+  ]
+  plant_parts.each do |pp|
+    PlantPart.find_or_create_by_name!(pp)
+  end
+end
+
+
 
 load_data

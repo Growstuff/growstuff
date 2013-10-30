@@ -207,7 +207,26 @@ namespace :growstuff do
       end
     end
 
-
+    desc "October 2013: import initial plant parts"
+    task :import_plant_parts => :environment do
+      plant_parts = [
+        'fruit',
+        'flower',
+        'seed',
+        'pod',
+        'leaf',
+        'stem',
+        'bark',
+        'bulb',
+        'root',
+        'tuber',
+        'whole plant',
+        'other'
+      ]
+      plant_parts.each do |pp|
+        PlantPart.find_or_create_by_name!(pp)
+      end
+    end
   end
 
 end
