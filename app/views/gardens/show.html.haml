@@ -40,7 +40,16 @@
   .span3
     %h4= "#{@garden.owner}'s gardens"
     %ul
-      - @garden.owner.gardens.each do |othergarden|
+      - @garden.owner.gardens.active.each do |othergarden|
+        %li
+          - if @garden == othergarden
+            = @garden
+          - else
+            = link_to "#{othergarden}", garden_path(othergarden)
+
+    %h4= "Inactive gardens"
+    %ul
+      - @garden.owner.gardens.inactive.each do |othergarden|
         %li
           - if @garden == othergarden
             = @garden
