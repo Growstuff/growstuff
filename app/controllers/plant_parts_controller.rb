@@ -1,4 +1,6 @@
 class PlantPartsController < ApplicationController
+  load_and_authorize_resource
+
   # GET /plant_parts
   # GET /plant_parts.json
   def index
