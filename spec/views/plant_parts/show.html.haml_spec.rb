@@ -2,14 +2,18 @@ require 'spec_helper'
 
 describe "plant_parts/show" do
   before(:each) do
-    @plant_part = assign(:plant_part, stub_model(PlantPart,
-      :name => "Name"
-    ))
+    controller.stub(:current_user) { nil }
+    @pp = FactoryGirl.create(:plant_part)
+    @harvest = FactoryGirl.create(:harvest, :plant_part => @pp)
+    assign(:plant_part, @pp)
   end
 
-  it "renders attributes in <p>" do
+  it "renders a list of crops harvested for this part" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Name/)
+    @pp.crops.each do |c|
+      rendered.should contain c.name
+      assert_select "a", :href => crop_path(c)
+    end
   end
 end
+
