@@ -29,6 +29,7 @@
       - unless @owner
         %th Owner
       %th Crop
+      %th Plant part
       %th Date
       %th Quantity
       %th Description
@@ -39,6 +40,9 @@
         - unless @owner
           %td= link_to harvest.owner.login_name, harvest.owner
         %td= link_to harvest.crop.name, harvest.crop
+        %td
+          - if harvest.plant_part
+            = link_to harvest.plant_part.name, harvest.plant_part
         %td= harvest.harvested_at
         %td
           - if harvest.quantity

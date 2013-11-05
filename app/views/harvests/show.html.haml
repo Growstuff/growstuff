@@ -8,6 +8,12 @@
       &mdash;
       = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(:owner => @harvest.owner.slug)
     %p
+      %b Plant part:
+      - if @harvest.plant_part 
+        = link_to @harvest.plant_part, @harvest.plant_part 
+      - else
+        not specified
+    %p
       %b Harvested:
       = @harvest.harvested_at ? @harvest.harvested_at : "not specified"
     %p
