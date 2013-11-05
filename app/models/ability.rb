@@ -101,6 +101,12 @@ class Ability
         cannot :destroy, Order
         cannot :manage, OrderItem
 
+        # can't delete plant parts if they have harvests associated with them
+        cannot :destroy, PlantPart
+        can :destroy, PlantPart do |pp|
+          pp.harvests.empty?
+        end
+
       end
 
     end
