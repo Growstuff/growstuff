@@ -157,6 +157,41 @@ describe Crop do
     end
   end
 
+  context 'popular plant parts' do
+    before(:each) do
+      @crop = FactoryGirl.create(:tomato)
+    end
+
+    it 'returns a hash of plant_part values' do
+      @crop.popular_plant_parts.should be_an_instance_of Hash
+    end
+
+    it 'counts each plant_part value' do
+      @fruit = FactoryGirl.create(:plant_part)
+      @seed = FactoryGirl.create(:plant_part)
+      @root = FactoryGirl.create(:plant_part)
+      @bulb = FactoryGirl.create(:plant_part)
+      @harvest1 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @fruit
+      )
+      @harvest2 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @fruit
+      )
+      @harvest3 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @seed
+      )
+      @harvest4 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @root
+      )
+      @crop.popular_plant_parts.should == { @fruit => 2, @seed => 1, @root => 1 }
+    end
+
+  end
+
   context 'interesting' do
     it 'lists interesting crops' do
       # first, a couple of candidate crops
@@ -241,6 +276,36 @@ describe Crop do
       harvest = FactoryGirl.create(:harvest, :crop => crop)
       crop.harvests.should eq [harvest]
     end
+  end
+
+  it 'has plant_parts' do
+    @maize = FactoryGirl.create(:maize)
+    @pp1 = FactoryGirl.create(:plant_part)
+    @pp2 = FactoryGirl.create(:plant_part)
+    @h1 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp1
+    )
+    @h2 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp2
+    )
+    @maize.plant_parts.should include @pp1
+    @maize.plant_parts.should include @pp2
+  end
+
+  it "doesn't dupliate plant_parts" do
+    @maize = FactoryGirl.create(:maize)
+    @pp1 = FactoryGirl.create(:plant_part)
+    @h1 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp1
+    )
+    @h2 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp1
+    )
+    @maize.plant_parts.should eq [@pp1]
   end
 
 end

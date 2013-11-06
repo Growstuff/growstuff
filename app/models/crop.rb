@@ -8,6 +8,7 @@ class Crop < ActiveRecord::Base
   has_many :photos, :through => :plantings
   has_many :seeds
   has_many :harvests
+  has_many :plant_parts, :through => :harvests, :uniq => :true
   belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
@@ -76,6 +77,20 @@ class Crop < ActiveRecord::Base
       end
     end
     return planted_from
+  end
+
+  # crop.popular_plant_parts
+  # returns a hash of most harvested plant parts (fruit, seed, etc)
+  # key: plant part (eg. 'fruit')
+  # value: count of how many times it's been used by harvests
+  def popular_plant_parts
+    popular_plant_parts = Hash.new(0)
+    harvests.each do |h|
+      if h.plant_part
+        popular_plant_parts[h.plant_part] += 1
+      end
+    end
+    return popular_plant_parts
   end
 
   def interesting?
