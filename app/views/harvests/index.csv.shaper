@@ -4,6 +4,8 @@ csv.headers :id,
   :owner_name,
   :crop_id,
   :crop_name,
+  :plant_part_id,
+  :plant_part_name,
   :quantity,
   :unit,
   :weight_quantity,
@@ -25,6 +27,9 @@ csv.headers :id,
 
     csv.cell :crop_id, h.crop.id
     csv.cell :crop_name, h.crop.to_s
+
+    csv.cell :plant_part_id, h.plant_part ? h.plant_part.id : ''
+    csv.cell :plant_part_name, h.plant_part ? h.plant_part.to_s : ''
 
     csv.cells :quantity, :unit, :weight_quantity, :weight_unit
 
