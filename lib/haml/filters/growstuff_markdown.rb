@@ -13,7 +13,7 @@ module Haml::Filters
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
       return orig.gsub(/\[(.*?)\]\(crop\)/) do |m|
         crop_str = $1
-        crop = Crop.find_by_system_name(crop_str)
+        crop = Crop.find_by_name(crop_str)
         if crop
           url = url_for(crop_path(crop))
           "[#{crop_str}](#{url})"

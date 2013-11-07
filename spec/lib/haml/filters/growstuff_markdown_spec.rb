@@ -8,7 +8,7 @@ def input_link(name)
 end
 
 def output_link(crop)
-  return "[#{crop.system_name}](#{crop_path(crop)})"
+  return "[#{crop.name}](#{crop_path(crop)})"
 end
 
 describe 'Haml::Filters::Growstuff_Markdown' do
@@ -19,7 +19,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
 
   it 'converts quick crop links' do
     @crop = FactoryGirl.create(:crop)
-    rendered = Haml::Filters::GrowstuffMarkdown.render(input_link(@crop.system_name))
+    rendered = Haml::Filters::GrowstuffMarkdown.render(input_link(@crop.name))
     rendered.should eq output_link(@crop)
   end
 
