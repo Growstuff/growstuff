@@ -1,6 +1,4 @@
 require 'bluecloth'
-include ActionDispatch::Routing
-include Rails.application.routes.url_helpers
 
 module Haml::Filters
   module GrowstuffMarkdown
@@ -15,7 +13,7 @@ module Haml::Filters
         crop_str = $1
         crop = Crop.find_by_name(crop_str)
         if crop
-          url = url_for(crop_path(crop))
+          url = Rails.application.routes.url_helpers.crop_url(crop, :host => Growstuff::Application.config.host)
           "[#{crop_str}](#{url})"
         else
           crop_str

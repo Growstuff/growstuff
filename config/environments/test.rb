@@ -43,6 +43,7 @@ Growstuff::Application.configure do
 
   Growstuff::Application.configure do
     config.site_name = "Growstuff (test)"
+    config.host = 'test.example.com'
     config.analytics_code = ''
     config.currency = 'AUD'
   end

@@ -1,14 +1,13 @@
 require 'spec_helper'
 require 'haml/filters'
 require 'haml/filters/growstuff_markdown'
-# require 'haml/helpers'
 
 def input_link(name)
   return "[#{name}](crop)"
 end
 
 def output_link(crop)
-  return "[#{crop.name}](#{crop_path(crop)})"
+  return "[#{crop.name}](#{Rails.application.routes.url_helpers.crop_url(crop, :host => Growstuff::Application.config.host)})"
 end
 
 describe 'Haml::Filters::Growstuff_Markdown' do
