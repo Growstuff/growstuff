@@ -18,7 +18,7 @@
             = post.created_at
 
         .post-body
-          :markdown
+          :growstuff_markdown
             #{ strip_tags post.body }
 
         - unless defined?(hide_comments)

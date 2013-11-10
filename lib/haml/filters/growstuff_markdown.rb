@@ -5,11 +5,9 @@ module Haml::Filters
     include Haml::Filters::Base
 
     def render(text)
-      bc = BlueCloth.new(text)
-      orig = bc.text
 
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
-      return orig.gsub(/\[(.*?)\]\(crop\)/) do |m|
+      expanded = text.gsub(/\[(.*?)\]\(crop\)/) do |m|
         crop_str = $1
         crop = Crop.find_by_name(crop_str)
         if crop
@@ -19,6 +17,9 @@ module Haml::Filters
           crop_str
         end
       end
+
+      return BlueCloth.new(expanded).to_html
+
     end
   end
 
