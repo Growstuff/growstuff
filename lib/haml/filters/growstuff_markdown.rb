@@ -9,7 +9,8 @@ module Haml::Filters
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
       expanded = text.gsub(/\[(.*?)\]\(crop\)/) do |m|
         crop_str = $1
-        crop = Crop.find_by_name(crop_str)
+        # find crop case-insensitively
+        crop = Crop.where('lower(name) = ?', crop_str.downcase).first
         if crop
           url = Rails.application.routes.url_helpers.crop_url(crop, :host => Growstuff::Application.config.host)
           "[#{crop_str}](#{url})"
