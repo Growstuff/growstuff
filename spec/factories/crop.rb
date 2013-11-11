@@ -1,39 +1,39 @@
 FactoryGirl.define do
 
   factory :crop do
-    name "Magic bean"
+    name "magic bean"
     en_wikipedia_url "http://en.wikipedia.org/wiki/Magic_bean"
     creator
 
     factory :tomato do
-      name "Tomato"
+      name "tomato"
       en_wikipedia_url "http://en.wikipedia.org/wiki/Tomato"
     end
 
     factory :maize do
-      name "Maize"
+      name "maize"
       en_wikipedia_url "http://en.wikipedia.org/wiki/Maize"
     end
 
     factory :chard do
-      name "Chard"
+      name "chard"
     end
 
     factory :walnut do
-      name "Walnut"
+      name "walnut"
     end
 
     factory :apple do
-      name "Apple"
+      name "apple"
     end
 
     factory :pear do
-      name "Pear"
+      name "pear"
     end
 
     # for testing varieties
     factory :roma do
-      name "Roma tomato"
+      name "roma tomato"
     end
 
     factory :popcorn do

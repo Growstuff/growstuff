@@ -4,10 +4,9 @@ describe 'crops/index.rss.haml' do
   before(:each) do
     controller.stub(:current_user) { nil }
     @author = FactoryGirl.create(:member)
-    assign(:crops, [
-      FactoryGirl.create(:tomato),
-      FactoryGirl.create(:maize)
-    ])
+    @tomato = FactoryGirl.create(:tomato)
+    @maize = FactoryGirl.create(:maize)
+    assign(:crops, [@tomato, @maize])
     render
   end
 
@@ -16,8 +15,8 @@ describe 'crops/index.rss.haml' do
   end
 
   it 'shows names of crops' do
-    rendered.should contain "Tomato"
-    rendered.should contain "Maize"
+    rendered.should contain @tomato.name
+    rendered.should contain @maize.name
   end
 
 end

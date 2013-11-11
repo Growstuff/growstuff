@@ -29,7 +29,7 @@ describe "plantings/_thumbnail" do
     end
 
     it "shows the name of the crop" do
-      rendered.should contain "Tomato"
+      rendered.should contain @crop.name
     end
 
     it "shows the description by default" do
