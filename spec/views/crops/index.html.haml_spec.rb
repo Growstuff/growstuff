@@ -47,11 +47,12 @@ describe "crops/index" do
   end
 
   context "downloads" do
-    it "offers a CSV download" do
+    it "offers data downloads" do
       render
       rendered.should contain "The data on this page is available in the following formats:"
       assert_select "a", :href => crops_path(:format => 'csv')
       assert_select "a", :href => crops_path(:format => 'json')
+      assert_select "a", :href => crops_path(:format => 'rss')
     end
   end
 end

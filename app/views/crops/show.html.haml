@@ -2,22 +2,6 @@
 
 .row-fluid
   .span9
-    = render :partial => 'photos', :locals => { :crop => @crop }
-
-    = render :partial => 'varieties', :locals => { :crop => @crop }
-
-    = render :partial => 'grown_for', :locals => { :crop => @crop }
-    
-    = render :partial => 'planting_advice', :locals => { :crop => @crop }
-
-    %p
-      - if @crop.plantings.size > 0
-        Planted
-        = pluralize(@crop.plantings.size, "time")
-        by #{Growstuff::Application.config.site_name} members
-      - else
-        Nobody is growing this yet. You could be the first!
-
     %p
       - if can? :create, Planting
         = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
@@ -29,6 +13,27 @@
 
       - if can? :create, Seed
         = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-primary'
+
+    = render :partial => 'photos', :locals => { :crop => @crop }
+
+    = render :partial => 'varieties', :locals => { :crop => @crop }
+
+    = render :partial => 'grown_for', :locals => { :crop => @crop }
+    
+    = render :partial => 'planting_advice', :locals => { :crop => @crop }
+
+
+    %h2 Who's planted this crop?
+
+    %p
+      - if @crop.plantings.size > 0
+        = @crop.name.titleize
+        has been planted
+        = pluralize(@crop.plantings.size, "time")
+        by #{Growstuff::Application.config.site_name} members.
+      - else
+        Nobody is growing this yet. You could be the first!
+
 
     - if @crop.plantings.size > 0
       - @crop.plantings.each do |p|
@@ -64,4 +69,5 @@
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
 
+    = render :partial => 'harvests', :locals => { :crop => @crop }
     = render :partial => 'find_seeds', :locals => { :crop => @crop }
