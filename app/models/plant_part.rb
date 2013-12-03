@@ -11,4 +11,8 @@ class PlantPart < ActiveRecord::Base
     return name
   end
 
+  def crops
+    return super.reorder('name')
+  end
+
 end
