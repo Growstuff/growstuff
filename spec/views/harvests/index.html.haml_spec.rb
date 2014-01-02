@@ -6,6 +6,7 @@ describe "harvests/index" do
     @member   = FactoryGirl.create(:member)
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
+    @pp = FactoryGirl.create(:plant_part)
     page = 1
     per_page = 2
     total_entries = 2
@@ -17,6 +18,7 @@ describe "harvests/index" do
         ),
         FactoryGirl.create(:harvest,
           :crop => @maize,
+          :plant_part => @pp,
           :owner => @member
         )
       ])
@@ -30,6 +32,7 @@ describe "harvests/index" do
     assert_select "tr>td", :text => @member.login_name
     assert_select "tr>td", :text => @tomato.name
     assert_select "tr>td", :text => @maize.name
+    assert_select "tr>td", :text => @pp.name
   end
 
   it "provides data links" do

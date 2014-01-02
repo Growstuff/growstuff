@@ -1,0 +1,17 @@
+- content_for :title, @plant_part.name.titlecase
+
+- if @plant_part.crops.empty?
+  %p No crops are harvested for this plant part (yet).
+- else
+  %p The following crops are harvested for their #{@plant_part}.
+  %ul
+    - @plant_part.crops.each do |c|
+      %li= link_to c, c
+
+%p= link_to "View other plant parts", plant_parts_path
+
+%p
+- if can? :edit, @plant_part
+  = link_to 'Edit', edit_plant_part_path(@plant_part), :class => 'btn btn-mini'
+- if can? :destroy, @plant_part
+  = link_to 'Delete', @plant_part, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-mini'

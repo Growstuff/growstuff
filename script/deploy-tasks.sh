@@ -16,3 +16,5 @@ rake growstuff:depopulate_null_island
 echo "2013-10-24 - initialize garden locations"
 rake growstuff:oneoff:initialize_garden_locations
 
+echo "2013-10-31 - import plant parts"
+rake growstuff:oneoff:import_plant_parts

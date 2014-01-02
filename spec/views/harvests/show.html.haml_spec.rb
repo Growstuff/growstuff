@@ -11,6 +11,7 @@ describe "harvests/show" do
   it "renders attributes" do
     rendered.should contain @crop.name
     rendered.should contain @harvest.harvested_at.to_s
+    rendered.should contain @harvest.plant_part.to_s
   end
 
 end
