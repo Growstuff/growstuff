@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925050304) do
+ActiveRecord::Schema.define(:version => 20131025104228) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20130925050304) do
   end
 
   create_table "crops", :force => true do |t|
-    t.string   "system_name",      :null => false
+    t.string   "name",             :null => false
     t.string   "en_wikipedia_url"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(:version => 20130925050304) do
     t.integer  "creator_id"
   end
 
+  add_index "crops", ["name"], :name => "index_crops_on_name"
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
-  add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
 
   create_table "forums", :force => true do |t|
     t.string   "name",        :null => false
@@ -76,12 +76,18 @@ ActiveRecord::Schema.define(:version => 20130925050304) do
   add_index "forums", ["slug"], :name => "index_forums_on_slug", :unique => true
 
   create_table "gardens", :force => true do |t|
-    t.string   "name",        :null => false
+    t.string   "name",                          :null => false
     t.integer  "owner_id"
-    t.string   "slug",        :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "slug",                          :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.text     "description"
+    t.boolean  "active",      :default => true
+    t.string   "location"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.decimal  "area"
+    t.string   "area_unit"
   end
 
   add_index "gardens", ["owner_id"], :name => "index_gardens_on_user_id"

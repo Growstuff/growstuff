@@ -15,7 +15,7 @@
   .control-group
     = f.label :crop_id, :class => 'control-label'
     .controls
-      = collection_select(:scientific_name, :crop_id, Crop.all, :id, :system_name, :selected => @scientific_name.crop_id || @crop.id)
+      = collection_select(:scientific_name, :crop_id, Crop.all, :id, :name, :selected => @scientific_name.crop_id || @crop.id)
   .control-group
     = f.label :scientific_name, :class => 'control-label'
     .controls

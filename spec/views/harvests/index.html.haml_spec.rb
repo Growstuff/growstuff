@@ -28,8 +28,8 @@ describe "harvests/index" do
   it "renders a list of harvests" do
     render
     assert_select "tr>td", :text => @member.login_name
-    assert_select "tr>td", :text => @tomato.system_name
-    assert_select "tr>td", :text => @maize.system_name
+    assert_select "tr>td", :text => @tomato.name
+    assert_select "tr>td", :text => @maize.name
   end
 
   it "provides data links" do

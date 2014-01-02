@@ -31,6 +31,7 @@ group :production, :staging do
   gem 'newrelic_rpm'
   gem 'dalli'
   gem 'memcachier'
+  gem 'rails_12factor' # supresses heroku plugin injection
 end
 
 # Gems used only for assets and not required
@@ -75,6 +76,8 @@ group :development do
   # Installation of the debugger gem fails on Travis CI,
   # so we don't use it in the test environment
   gem 'debugger'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Markdown formatting for updates etc

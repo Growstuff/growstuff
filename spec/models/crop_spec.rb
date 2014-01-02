@@ -13,7 +13,7 @@ describe Crop do
 
     it 'should be fetchable from the database' do
       @crop.save
-      @crop2 = Crop.find_by_system_name('Tomato')
+      @crop2 = Crop.find_by_name('Tomato')
       @crop2.en_wikipedia_url.should == "http://en.wikipedia.org/wiki/Tomato"
       @crop2.slug.should == "tomato"
     end
@@ -32,7 +32,7 @@ describe Crop do
 
   context 'invalid data' do
     it 'should not save a crop without a system name' do
-      @crop = FactoryGirl.build(:crop, :system_name => nil)
+      @crop = FactoryGirl.build(:crop, :name => nil)
       expect { @crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
   end

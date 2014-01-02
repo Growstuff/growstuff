@@ -1,4 +1,4 @@
-csv.headers :id, :system_name,
+csv.headers :id, :name,
   :growstuff_url, :en_wikipedia_url,
   :default_scientific_name,
   :scientific_name_count,
@@ -30,7 +30,7 @@ csv.headers :id, :system_name,
   csv.row c do |csv, crop|
 
 
-    csv.cells :id, :system_name, :en_wikipedia_url
+    csv.cells :id, :name, :en_wikipedia_url
     csv.cell :growstuff_url, crop_url(c)
 
     if c.scientific_names.any?
@@ -40,7 +40,7 @@ csv.headers :id, :system_name,
 
     if c.parent
       csv.cell :parent_crop_id, c.parent.id
-      csv.cell :parent_crop_name, c.parent.system_name
+      csv.cell :parent_crop_name, c.parent.name
     end
 
     csv.cell :plantings_count || 0

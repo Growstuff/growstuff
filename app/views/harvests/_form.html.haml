@@ -9,7 +9,7 @@
   .control-group
     = f.label 'What did you harvest?', :class => 'control-label'
     .controls
-      = collection_select(:harvest, :crop_id, Crop.all, :id, :system_name, :selected => @harvest.crop_id || @crop.id)
+      = collection_select(:harvest, :crop_id, Crop.all, :id, :name, :selected => @harvest.crop_id || @crop.id)
       %span.help-inline
         Can't find what you're looking for?
         = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link

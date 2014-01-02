@@ -10,6 +10,14 @@ describe "gardens/show" do
     render
   end
 
+  it 'should show the location' do
+    rendered.should contain @garden.location
+  end
+
+  it 'should show the area' do
+    rendered.should contain pluralize(@garden.area, @garden.area_unit)
+  end
+
   it 'should show the description' do
     rendered.should contain "totally cool garden"
   end
@@ -19,7 +27,7 @@ describe "gardens/show" do
   end
 
   it 'should show plantings on the garden page' do
-    rendered.should contain @planting.crop.system_name
+    rendered.should contain @planting.crop.name
   end
 
   it "doesn't show the note about random plantings" do

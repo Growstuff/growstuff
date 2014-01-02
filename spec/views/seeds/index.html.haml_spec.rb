@@ -17,7 +17,7 @@ describe "seeds/index" do
 
   it "renders a list of seeds" do
     render
-    assert_select "tr>td", :text => @seed1.crop.system_name, :count => 2
+    assert_select "tr>td", :text => @seed1.crop.name, :count => 2
     assert_select "tr>td", :text => @seed1.owner.login_name, :count => 2
     assert_select "tr>td", :text => @seed1.quantity.to_s, :count => 2
   end

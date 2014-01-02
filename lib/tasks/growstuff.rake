@@ -10,6 +10,32 @@ namespace :growstuff do
     member.roles << admin
   end
 
+  desc "Upload crops from a CSV file"
+  # usage: rake growstuff:import_crops file=filename.csv
+
+  task :import_crops => :environment do
+    require 'csv'
+
+    @file = ENV['file'] or raise "Usage: rake growstuff:import_crops file=file.csv"
+
+    puts "Loading crops from #{@file}..."
+    CSV.foreach(@file) do |row|
+      Crop.create_from_csv(row)
+    end
+    puts "Finished loading crops"
+
+  end
+
+  desc "Depopulate Null Island"
+  # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
+  task :depopulate_null_island => :environment do
+    Member.find_each do |m|
+      if m.location and (m.latitude == nil and m.longitude == nil)
+        m.geocode
+        m.save
+      end
+    end
+  end
 
   desc "One-off tasks needed at various times and kept for posterity"
   namespace :oneoff do
@@ -166,6 +192,21 @@ namespace :growstuff do
         Member.reset_counters m.id, :plantings
       end
     end
+
+    desc "October 2013: set garden locations to member locations"
+    task :initialize_garden_locations => :environment do
+      Member.located.find_each do |m|
+        m.gardens.each do |g|
+          if g.location.blank?
+            g.location = m.location
+            g.latitude = m.latitude
+            g.longitude = m.longitude
+            g.save
+          end
+        end
+      end
+    end
+
 
   end
 

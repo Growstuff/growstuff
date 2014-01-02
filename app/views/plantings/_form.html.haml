@@ -9,14 +9,14 @@
   .control-group
     = f.label 'What did you plant?', :class => 'control-label'
     .controls
-      = collection_select(:planting, :crop_id, Crop.all, :id, :system_name, :selected => @planting.crop_id || @crop.id)
+      = collection_select(:planting, :crop_id, Crop.all, :id, :name, :selected => @planting.crop_id || @crop.id)
       %span.help-inline
         Can't find what you're looking for?
         = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
   .control-group
     = f.label 'Where did you plant it?', :class => 'control-label'
     .controls
-      = collection_select(:planting, :garden_id, Garden.where(:owner_id => current_member), :id, :name, :selected => @planting.garden_id || @garden.id)
+      = collection_select(:planting, :garden_id, Garden.active.where(:owner_id => current_member), :id, :name, :selected => @planting.garden_id || @garden.id)
       %span.help-inline
         = link_to "Add a garden.", new_garden_path
   .control-group

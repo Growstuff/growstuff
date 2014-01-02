@@ -62,13 +62,24 @@ describe "crops/show" do
         assert_select "a[href=#{seed_path(seed)}]"
       end
     end
+  end
 
-    it "shows location if available" do
-      rendered.should contain "#{@owner1} in #{@owner1.location} will trade #{@seed1.tradable_to}"
+  context "harvests" do
+    before(:each) do
+      @owner1 = FactoryGirl.create(:london_member)
+      @h1 = FactoryGirl.create(:harvest, :owner => @owner1, :crop => @crop)
+      @h2 = FactoryGirl.create(:harvest, :owner => @owner1, :crop => @crop)
+      render
     end
 
-    it "shows grammatical text if seed trader has no location" do
-      rendered.should contain "#{@owner2} (location unknown) will trade #{@seed2.tradable_to}"
+    it "shows a heading" do
+      rendered.should contain "Harvests"
+    end
+
+    it "shows a list of people who have harvested this crop" do
+      @crop.harvests.each do |harvest|
+        assert_select "a[href=#{harvest_path(harvest)}]"
+      end
     end
   end
 
@@ -154,18 +165,18 @@ describe "crops/show" do
   context 'varieties' do
     before(:each) do
       @popcorn = FactoryGirl.create(:popcorn, :parent_id => @crop.id)
-      @ubercrop = FactoryGirl.create(:crop, :system_name => 'ubercrop')
+      @ubercrop = FactoryGirl.create(:crop, :name => 'ubercrop')
       @crop.parent_id = @ubercrop.id
       @crop.save
       render
     end
 
     it 'shows popcorn as a child variety' do
-      rendered.should contain @popcorn.system_name
+      rendered.should contain @popcorn.name
     end
 
     it 'shows parent crop' do
-      rendered.should contain @ubercrop.system_name
+      rendered.should contain @ubercrop.name
     end
 
   end
