@@ -43,7 +43,7 @@
 
 %h2 Notes
 
-:markdown
+:growstuff_markdown
   #{ @planting.description != "" ? @planting.description : "No description given." }
 
 - if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)

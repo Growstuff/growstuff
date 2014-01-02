@@ -11,7 +11,7 @@
     = link_to @notification.post.subject, @notification.post
 
 .well
-  :markdown
+  :growstuff_markdown
     #{ strip_tags(@notification.body) }
 
 %p

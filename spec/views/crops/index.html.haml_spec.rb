@@ -16,8 +16,8 @@ describe "crops/index" do
 
   it "renders a list of crops" do
     render
-    assert_select "a", :text => "Maize"
-    assert_select "a", :text => "Tomato"
+    assert_select "a", :text => @maize.name
+    assert_select "a", :text => @tomato.name
   end
 
   it "shows photos where available" do

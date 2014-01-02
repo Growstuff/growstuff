@@ -13,15 +13,15 @@ describe Crop do
 
     it 'should be fetchable from the database' do
       @crop.save
-      @crop2 = Crop.find_by_name('Tomato')
+      @crop2 = Crop.find_by_name('tomato')
       @crop2.en_wikipedia_url.should == "http://en.wikipedia.org/wiki/Tomato"
       @crop2.slug.should == "tomato"
     end
 
     it 'should stringify as the system name' do
       @crop.save
-      @crop.to_s.should == 'Tomato'
-      "#{@crop}".should == 'Tomato'
+      @crop.to_s.should == 'tomato'
+      "#{@crop}".should == 'tomato'
     end
 
     it 'has a creator' do

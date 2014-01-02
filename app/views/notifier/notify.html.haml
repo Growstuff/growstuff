@@ -10,7 +10,7 @@
     = link_to @notification.post.subject, post_url(@notification.post)
   \.
 %blockquote
-  :markdown
+  :growstuff_markdown
     #{strip_tags @notification.body}
 
 %p

@@ -11,7 +11,7 @@
           = comment.created_at
 
         .comment-body
-          :markdown
+          :growstuff_markdown
             #{ strip_tags comment.body }
 
         - if can? :edit, comment or can? :destroy, comment

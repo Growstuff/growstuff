@@ -80,6 +80,7 @@ Growstuff::Application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.site_name = "Growstuff"
+  config.host = 'growstuff.org'
   config.analytics_code = <<-eos
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
