@@ -13,10 +13,14 @@
   %div#exact_match
     %h2 Exact match
 
-    %p= link_to @exact_match.name, @exact_match
+    %ul.thumbnails
+      %li.span2.six-across
+        = render :partial => "thumbnail", :locals => { :crop => @exact_match }
 
 - if ! @partial_matches.empty?
   %div#partial_matches
     %h2 Partial matches
-    - @partial_matches.each do |c|
-      %p= link_to c.name, c
+    %ul.thumbnails
+      - @partial_matches.each do |c|
+        %li.span2.six-across
+          = render :partial => "thumbnail", :locals => { :crop => c }
