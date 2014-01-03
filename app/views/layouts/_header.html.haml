@@ -49,10 +49,12 @@
               %li= link_to "Crop Wrangling", wrangle_crops_path
             - if current_member.has_role?(:admin)
               %li= link_to "Admin", admin_path
-
             %li= link_to "Sign out", destroy_member_session_path, :method => :delete
 
           - else
             %li= link_to 'Sign in', new_member_session_path
             %li= link_to 'Sign up', new_member_registration_path
 
+        = form_tag 'crops_search_path', :method => :get, :class => 'navbar-search pull-right' do
+          = text_field_tag 'search', nil, :placeholder => 'Search crops'
+            

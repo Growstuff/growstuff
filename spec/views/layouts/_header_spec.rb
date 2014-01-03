@@ -44,6 +44,11 @@ describe 'layouts/_header.html.haml', :type => "view" do
       assert_select("a[href=#{forums_path}]", 'Forums')
     end
 
+    it 'has a crop search' do
+      assert_select("form[action=crops_search_path]")
+      assert_select("input#search")
+    end
+
   end
 
   context "logged in" do
