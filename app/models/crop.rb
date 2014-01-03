@@ -147,4 +147,11 @@ class Crop < ActiveRecord::Base
     end
   end
 
+  # Crop.search(string)
+  # searches for crops whose names match the string given
+  # just uses SQL LIKE for now, but can be made fancier later
+  def self.search(query)
+    where("name LIKE ?", "%#{query}%")
+  end
+
 end
