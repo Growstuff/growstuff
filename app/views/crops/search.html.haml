@@ -1,0 +1,22 @@
+- content_for :title, "Crops matching #{@search}"
+
+- unless (@exact_match || @partial_matches.length > 0)
+  %h2 No results found
+  %p
+    Sorry, we couldn't find any crops that matched your search for "#{@search}".
+  %p
+    Try
+    = link_to "browsing our crop database", crops_path
+    instead.
+
+- if @exact_match
+  %div#exact_match
+    %h2 Exact match
+
+    %p= link_to @exact_match.name, @exact_match
+
+- if ! @partial_matches.empty?
+  %div#partial_matches
+    %h2 Partial matches
+    - @partial_matches.each do |c|
+      %p= link_to c.name, c
