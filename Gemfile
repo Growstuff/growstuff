@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "1.9.3"
+ruby "2.0.0"
 
 gem 'bundler', '>=1.1.5'
 
@@ -46,7 +46,7 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # long term, we'll probably want node.js for performance, but this will do
   # for now as it's easier for new people to install
-  gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
+  gem "therubyracer", "~> 0.12", :platforms => :ruby
   # Another CSS preprocessor, used for Bootstrap overrides
   gem "less-rails"
   # CSS framework
