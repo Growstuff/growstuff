@@ -292,7 +292,7 @@ DEPENDENCIES
   devise
   factory_girl_rails (~> 4.0)
   flickraw
-  friendly_id
+  friendly_id (~> 4.0.10)
   geocoder!
   gibbon
   gravatar-ultimate

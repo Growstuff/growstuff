@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.0.0"
+ruby "2.1.1"
 
 gem 'bundler', '>=1.1.5'
 
@@ -90,7 +90,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'devise'
 
 # nicely formatted URLs
-gem 'friendly_id'
+gem 'friendly_id', '~> 4.0.10'
 
 # gravatars
 gem 'gravatar-ultimate'
