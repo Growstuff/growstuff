@@ -22,13 +22,16 @@
   .control-group
     = f.label 'How many?', :class => 'control-label'
     .controls
-      = f.number_field :quantity, :class => 'input-small'
+      -# Some browsers (eg Firefox for Android) assume "number" means
+      -# "integer" unless you specify step="any":
+      -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
+      = f.number_field :quantity, :class => 'input-small', :step => 'any'
       = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
 
   .control-group
     = f.label 'Weighing:', :class => 'control-label'
     .controls
-      = f.number_field :weight_quantity, :class => 'input-small'
+      = f.number_field :weight_quantity, :class => 'input-small', :step => 'any'
       = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
       in total
   .control-group
