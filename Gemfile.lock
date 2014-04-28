@@ -303,6 +303,7 @@ DEPENDENCIES
   leaflet-markercluster-rails
   leaflet-rails
   less-rails
+  libv8 (= 3.16.14.3)
   memcachier
   newrelic_rpm
   omniauth

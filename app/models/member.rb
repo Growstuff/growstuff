@@ -235,7 +235,7 @@ class Member < ActiveRecord::Base
   def newsletter_subscribe
     gb = Gibbon::API.new
     res = gb.lists.subscribe({
-      :id => ENV['MAILCHIMP_NEWSLETTER_ID'],
+      :id => Gibbon::API.api_key,
       :email => { :email => email },
       :merge_vars => { :login_name => login_name },
       :double_optin => false # they alredy confirmed their email with us

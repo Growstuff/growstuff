@@ -47,6 +47,9 @@ group :assets do
   # long term, we'll probably want node.js for performance, but this will do
   # for now as it's easier for new people to install
   gem "therubyracer", "~> 0.12", :platforms => :ruby
+  # libv8 is needed by therubyracer and is a bit finicky
+  gem 'libv8', '3.16.14.3'
+ 
   # Another CSS preprocessor, used for Bootstrap overrides
   gem "less-rails"
   # CSS framework
