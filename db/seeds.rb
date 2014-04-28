@@ -4,19 +4,21 @@
 require 'csv'
 
 def load_data
-  # for all Growstuff sites, including production ones
-  load_roles
-  load_basic_account_types
-  create_cropbot
-  load_crops
-  load_plant_parts
+  Crop.transaction do
+    # for all Growstuff sites, including production ones
+    load_roles
+    load_basic_account_types
+    create_cropbot
+    load_crops
+    load_plant_parts
 
-  # for development environments only
-  if Rails.env.development?
-    load_test_users
-    load_admin_users
-    load_paid_account_types
-    load_products
+    # for development environments only
+    if Rails.env.development?
+      load_test_users
+      load_admin_users
+      load_paid_account_types
+      load_products
+    end
   end
 
   puts "Done!"
@@ -27,7 +29,7 @@ def load_crops
   Dir.glob("#{source_path}/crops*.csv").each do |crop_file|
     puts "Loading crops from #{crop_file}..."
     CSV.foreach(crop_file) do |row|
-      Crop.create_from_csv(row)
+      Crop.create_from_csv(row, definitely_new=true)
     end
   end
   puts "Finished loading crops"
