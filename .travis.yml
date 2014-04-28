@@ -3,7 +3,7 @@ language: ruby
 bundler_args: --without development assets
 env: RAILS_ENV=travis
 rvm:
-  - 1.9.3
+  - 2.1.1
 before_script:
   - psql -c 'create database growstuff_test;' -U postgres
 script:
