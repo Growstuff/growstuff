@@ -49,9 +49,10 @@ group :assets do
   gem "therubyracer", "~> 0.12", :platforms => :ruby
   # libv8 is needed by therubyracer and is a bit finicky
   gem 'libv8', '3.16.14.3'
- 
+
   # Another CSS preprocessor, used for Bootstrap overrides
-  gem "less-rails"
+  gem "less", '~>2.3.2'
+  gem "less-rails", '~> 2.3.3'
   # CSS framework
   gem "twitter-bootstrap-rails",
     :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',

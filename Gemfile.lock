@@ -150,11 +150,11 @@ GEM
     leaflet-markercluster-rails (0.7.0)
       railties (>= 3.1)
     leaflet-rails (0.7.2)
-    less (2.5.0)
-      commonjs (~> 0.2.7)
-    less-rails (2.5.0)
+    less (2.3.3)
+      commonjs (~> 0.2.6)
+    less-rails (2.3.3)
       actionpack (>= 3.1)
-      less (~> 2.5.0)
+      less (~> 2.3.1)
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -302,7 +302,8 @@ DEPENDENCIES
   json (~> 1.7.7)
   leaflet-markercluster-rails
   leaflet-rails
-  less-rails
+  less (~> 2.3.2)
+  less-rails (~> 2.3.3)
   libv8 (= 3.16.14.3)
   memcachier
   newrelic_rpm
