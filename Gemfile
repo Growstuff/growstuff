@@ -12,6 +12,8 @@ gem 'leaflet-rails'
 gem 'leaflet-markercluster-rails'
 gem 'unicorn' # http server
 
+gem 'figaro' # for handling config via ENV variables
+
 gem 'cancan' # for checking member privileges
 
 gem 'gibbon' # for Mailchimp newsletter subscriptions

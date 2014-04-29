@@ -118,6 +118,9 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
+    figaro (0.7.0)
+      bundler (~> 1.0)
+      rails (>= 3, < 5)
     flickraw (0.9.8)
     friendly_id (4.0.10.1)
       activerecord (>= 3.0, < 4.0)
@@ -291,6 +294,7 @@ DEPENDENCIES
   debugger
   devise
   factory_girl_rails (~> 4.0)
+  figaro
   flickraw
   friendly_id (~> 4.0.10)
   geocoder!
