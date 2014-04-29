@@ -85,9 +85,9 @@ Growstuff::Application.configure do
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
-      :login =>     ENV['PAYPAL_USERNAME'],
-      :password =>  ENV['PAYPAL_PASSWORD'],
-      :signature => ENV['PAYPAL_SIGNATURE']
+      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'],
+      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'],
+      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE']
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
