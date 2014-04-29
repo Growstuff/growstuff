@@ -1,0 +1,38 @@
+# This file is a sample file which you (i.e. Growstuff developers) can
+# copy and use to store your API credentials for external APIs used by
+# the Growstuff application.
+
+# To use it, copy application.yml.example to application.yml (which is
+# .gitignored) and fill in the appropriate values.
+
+# Settings in this file will be available to you as ENV['WHATEVER']
+# To set env vars on heroku, use "rake figaro:heroku --app=whatever"
+
+# NOTE: please prefix all environment variables with GROWSTUFF_ to make
+# it easy to identify which were set by us vs. the system or anyone else
+
+##############################################################################
+# Default (this is basically what's used in the development environment
+##############################################################################
+
+# name that appears on the site, eg. in page titles
+GROWSTUFF_SITE_NAME: Growstuff (dev)
+
+
+##############################################################################
+# Other environments (you can override the above for staging,
+# production, etc
+##############################################################################
+
+test:
+  GROWSTUFF_SITE_NAME: Growstuff (test)
+
+travis:
+  GROWSTUFF_SITE_NAME: Growstuff (test)
+
+staging:
+  GROWSTUFF_SITE_NAME: Growstuff (staging)
+
+production:
+  GROWSTUFF_SITE_NAME: Growstuff
+
