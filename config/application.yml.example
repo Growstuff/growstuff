@@ -25,6 +25,14 @@ GROWSTUFF_SITE_NAME: Growstuff (dev)
 GROWSTUFF_MANDRILL_USERNAME: "dummy"
 GROWSTUFF_MANDRILL_APIKEY: "dummy"
 
+# Mailchimp is used for subscribing/unsubscribing people from the newsletter
+GROWSTUFF_MAILCHIMP_APIKEY: ""
+# To fetch list IDs using Gibbon (and thus find the ID of your newsletter):
+#   Gibbon::API.api_key = '...'
+#   gb = Gibbon::API.new
+#   puts gb.lists.list.to_yaml
+GROWSTUFF_MAILCHIMP_NEWSLETTER_ID: ""
+
 # Paypal is used for payments, obviously.
 GROWSTUFF_PAYPAL_USERNAME: "dummy"
 GROWSTUFF_PAYPAL_PASSWORD: "dummy"

@@ -245,7 +245,7 @@ class Member < ActiveRecord::Base
   def newsletter_unsubscribe
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({
-      :id => ENV['MAILCHIMP_NEWSLETTER_ID'],
+      :id => ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID'],
       :email => { :email => email }
     })
   end
