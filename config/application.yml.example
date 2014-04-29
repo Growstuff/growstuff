@@ -15,6 +15,12 @@
 # Default (this is basically what's used in the development environment
 ##############################################################################
 
+# This secret token is used by Rails to generate cookies.
+# It's the only one without "GROWSTUFF_" prefix.
+# To generate a real one, use 'rake secret' (you don't need to for
+# dev, though.)
+RAILS_SECRET_TOKEN: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 # name that appears on the site, eg. in page titles
 GROWSTUFF_SITE_NAME: Growstuff (dev)
 
