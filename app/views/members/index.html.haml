@@ -1,4 +1,4 @@
-= content_for :title, "#{Growstuff::Application.config.site_name} members"
+= content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} members"
 
 %div.pagination
   = page_entries_info @members, :model => "members"

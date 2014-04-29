@@ -10,4 +10,4 @@
     = current_member.account.paid_until_string
 
 - if ! current_member.is_paid?
-  = link_to "Upgrade and support #{Growstuff::Application.config.site_name}", shop_path, :class => 'btn btn-primary'
+  = link_to "Upgrade and support #{ENV['GROWSTUFF_SITE_NAME']}", shop_path, :class => 'btn btn-primary'

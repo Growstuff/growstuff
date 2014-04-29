@@ -8,7 +8,7 @@
 %div#map{ :style => "height:300px"}
 
 %h3
-  = Growstuff::Application.config.site_name
+  = ENV['GROWSTUFF_SITE_NAME']
   members near #{@place}
 
 - if !@nearby_members.empty?

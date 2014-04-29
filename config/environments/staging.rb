@@ -79,7 +79,6 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  config.site_name = "Growstuff (staging)"
   config.host = 'dev.growstuff.org'
   config.analytics_code = ''
 

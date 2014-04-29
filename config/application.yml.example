@@ -35,4 +35,3 @@ staging:
 
 production:
   GROWSTUFF_SITE_NAME: Growstuff
-

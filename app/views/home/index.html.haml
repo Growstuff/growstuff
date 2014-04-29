@@ -4,7 +4,7 @@
       %h1
         Welcome to
         = succeed "," do
-          = Growstuff::Application.config.site_name
+          = ENV['GROWSTUFF_SITE_NAME']
         = current_member
       = render :partial => 'stats'
       %p

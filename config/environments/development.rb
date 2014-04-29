@@ -52,7 +52,6 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  config.site_name = "Growstuff (dev)"
   config.host = 'localhost:8080'
   config.analytics_code = ''
 

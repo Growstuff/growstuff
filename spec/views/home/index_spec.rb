@@ -38,7 +38,7 @@ describe 'home/index.html.haml', :type => "view" do
     end
 
     it 'should say welcome' do
-      rendered.should contain "Welcome to #{Growstuff::Application.config.site_name}, #{@member.login_name}"
+      rendered.should contain "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{@member.login_name}"
     end
   end
 
