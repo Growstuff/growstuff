@@ -308,4 +308,19 @@ describe Crop do
     @maize.plant_parts.should eq [@pp1]
   end
 
+  context "search" do
+    before :each do
+      @mushroom = FactoryGirl.create(:crop, :name => 'mushroom')
+    end
+    it "finds exact matches" do
+      Crop.search('mushroom').should eq [@mushroom]
+    end
+    it "finds approximate matches" do
+      Crop.search('mush').should eq [@mushroom]
+    end
+    it "doesn't find non-matches" do
+      Crop.search('mush').should_not include @crop
+    end
+  end
+
 end

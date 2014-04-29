@@ -27,6 +27,14 @@ describe CropsController do
     end
   end
 
+  describe "GET crop search" do
+    it 'fetches the crop search page' do
+      get :search
+      response.should be_success
+      response.should render_template("crops/search")
+    end
+  end
+
   describe "GET RSS feed" do
     it "returns an RSS feed" do
       get :index, :format => "rss"

@@ -1,6 +1,6 @@
 class CropsController < ApplicationController
   load_and_authorize_resource
-  skip_authorize_resource :only => :hierarchy
+  skip_authorize_resource :only => [:hierarchy, :search]
 
   cache_sweeper :crop_sweeper
 
@@ -36,6 +36,20 @@ class CropsController < ApplicationController
   # GET /crops/hierarchy
   def hierarchy
     @crops = Crop.toplevel
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  # GET /crops/search
+  def search
+    @search = params[:search]
+    @exact_match = Crop.find_by_name(params[:search])
+
+    @partial_matches = Crop.search(params[:search])
+    # exclude exact match from partial match list
+    @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
+
     respond_to do |format|
       format.html
     end
