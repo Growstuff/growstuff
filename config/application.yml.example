@@ -33,6 +33,16 @@ GROWSTUFF_MAILCHIMP_APIKEY: ""
 #   puts gb.lists.list.to_yaml
 GROWSTUFF_MAILCHIMP_NEWSLETTER_ID: ""
 
+# Used for connecting member accounts to Twitter
+# Get Twitter key from https://dev.twitter.com/apps
+GROWSTUFF_TWITTER_KEY: ""
+GROWSTUFF_TWITTER_SECRET: ""
+
+# Used for connecting member accounts to Flickr
+# Get Flickr key from http://www.flickr.com/services/apps/create/apply/
+GROWSTUFF_FLICKR_KEY: ""
+GROWSTUFF_FLICKR_SECRET: ""
+
 # Paypal is used for payments, obviously.
 GROWSTUFF_PAYPAL_USERNAME: "dummy"
 GROWSTUFF_PAYPAL_PASSWORD: "dummy"
