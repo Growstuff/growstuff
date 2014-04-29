@@ -64,8 +64,9 @@ GROWSTUFF_PAYPAL_SIGNATURE: "dummy"
 test:
   GROWSTUFF_SITE_NAME: Growstuff (test)
 
-travis:
-  GROWSTUFF_SITE_NAME: Growstuff (test)
+# Note: there is no good way to deploy settings from Figaro to
+# Travis-CI.  If you need env vars set there in order for tests to pass,
+# set them in .travis.yml
 
 staging:
   GROWSTUFF_SITE_NAME: Growstuff (staging)
