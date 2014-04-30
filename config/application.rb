@@ -83,11 +83,12 @@ module Growstuff
     config.bot_email = "noreply@growstuff.org"
     config.user_agent = 'Growstuff'
     config.user_agent_email = "info@growstuff.org"
-    Gibbon::API.api_key = ENV['MAILCHIMP_APIKEY'] || 'notarealkey'
+
+    Gibbon::API.api_key = ENV['GROWSTUFF_MAILCHIMP_APIKEY'] || 'notarealkey'
       # API key can't be blank or tests fail
     Gibbon::API.timeout = 10
     Gibbon::API.throws_exceptions = false
-    config.newsletter_list_id = ENV['MAILCHIMP_NEWSLETTER_ID']
+    config.newsletter_list_id = ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID']
     config.cloudmade_key = '29a2d9e3cb3d429490a8f338b2388b1d'
 
     # This is Growstuff's global Cloudmade key.  If you fork Growstuff for

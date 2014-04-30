@@ -1,4 +1,4 @@
-- site_name = Growstuff::Application.config.site_name
+- site_name = ENV['GROWSTUFF_SITE_NAME']
 %p Hello #{@notification.recipient.login_name},
 
 %p

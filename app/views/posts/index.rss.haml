@@ -2,7 +2,7 @@
 %rss{:version => 2.0}
   %channel
     %title
-      #{Growstuff::Application.config.site_name} - Recent posts from #{ @author ? @author : 'all members' }
+      #{ENV['GROWSTUFF_SITE_NAME']} - Recent posts from #{ @author ? @author : 'all members' }
     %link= posts_url
     - @posts.each do |post|
       %item

@@ -1,11 +1,11 @@
 .span12
 
-%h1= Growstuff::Application.config.site_name
+%h1= ENV['GROWSTUFF_SITE_NAME']
 
 .row-fluid
   .span8.info
     %p
-      #{Growstuff::Application.config.site_name} is a community of food gardeners.
+      #{ENV['GROWSTUFF_SITE_NAME']} is a community of food gardeners.
       We're building an open source platform to help you learn about
       growing food, track what you plant and harvest, and swap
       seeds and produce with other gardeners near you.

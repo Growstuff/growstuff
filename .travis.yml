@@ -1,7 +1,7 @@
 ---
 language: ruby
 bundler_args: --without development assets
-env: RAILS_ENV=travis
+env: RAILS_ENV=travis GROWSTUFF_SITE_NAME="Growstuff (travis)"
 rvm:
   - 2.1.1
 before_script:

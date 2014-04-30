@@ -34,7 +34,7 @@
   .control-group
     .controls
       = f.check_box :newsletter, :checked => true
-      Subscribe to the #{Growstuff::Application.config.site_name} newsletter
+      Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
       .help-inline
         = render :partial => 'newsletter_blurb'
 

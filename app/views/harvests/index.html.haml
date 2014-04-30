@@ -1,7 +1,7 @@
 - content_for :title, @owner ? "#{@owner}'s harvests" : "Everyone's harvests"
 
 %p
-  #{Growstuff::Application.config.site_name} helps you track what you're
+  #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
   harvesting from your home garden and see how productive it is.
 
 %p

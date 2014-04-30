@@ -46,22 +46,20 @@ Growstuff::Application.configure do
   config.action_mailer.smtp_settings = {
       :port =>           '587',
       :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['MANDRILL_USERNAME'],
-      :password =>       ENV['MANDRILL_APIKEY'],
+      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
+      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
       :authentication => :login
   }
-  config.action_mailer.delivery_method = :smtp
 
-  config.site_name = "Growstuff (dev)"
   config.host = 'localhost:8080'
   config.analytics_code = ''
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
-      :login =>     ENV['PAYPAL_USERNAME'] || 'dummy',
-      :password =>  ENV['PAYPAL_PASSWORD'] || 'dummy',
-      :signature => ENV['PAYPAL_SIGNATURE'] || 'dummy'
+      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'] || 'dummy',
+      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'] || 'dummy',
+      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE'] || 'dummy'
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)

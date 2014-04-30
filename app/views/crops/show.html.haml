@@ -30,7 +30,7 @@
         = @crop.name.titleize
         has been planted
         = pluralize(@crop.plantings.size, "time")
-        by #{Growstuff::Application.config.site_name} members.
+        by #{ENV['GROWSTUFF_SITE_NAME']} members.
       - else
         Nobody is growing this yet. You could be the first!
 

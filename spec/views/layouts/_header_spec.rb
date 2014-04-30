@@ -8,7 +8,7 @@ describe 'layouts/_header.html.haml', :type => "view" do
     end
 
     it 'shows the title' do
-      rendered.should contain Growstuff::Application.config.site_name
+      rendered.should contain ENV['GROWSTUFF_SITE_NAME']
     end
 
     it 'should have signup/signin links' do
