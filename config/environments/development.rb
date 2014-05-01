@@ -40,9 +40,8 @@ Growstuff::Application.configure do
 
   # Growstuff config
   config.new_crops_request_link = "http://example.com/not-a-real-url"
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { :host => 'localhost:8080' }
+  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.smtp_settings = {
       :port =>           '587',
       :address =>        'smtp.mandrillapp.com',

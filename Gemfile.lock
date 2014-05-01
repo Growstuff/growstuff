@@ -58,6 +58,7 @@ GEM
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
+    addressable (2.3.6)
     arel (3.0.3)
     bcrypt (3.1.7)
     better_errors (1.1.0)
@@ -150,6 +151,8 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.7.7)
     kgio (2.9.2)
+    launchy (2.4.2)
+      addressable (~> 2.3)
     leaflet-markercluster-rails (0.7.0)
       railties (>= 3.1)
     leaflet-rails (0.7.2)
@@ -158,6 +161,8 @@ GEM
     less-rails (2.3.3)
       actionpack (>= 3.1)
       less (~> 2.3.1)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -308,6 +313,7 @@ DEPENDENCIES
   leaflet-rails
   less (~> 2.3.2)
   less-rails (~> 2.3.3)
+  letter_opener
   libv8 (= 3.16.14.3)
   memcachier
   newrelic_rpm
