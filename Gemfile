@@ -84,6 +84,7 @@ group :development do
   gem 'debugger'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'letter_opener'
 end
 
 # Markdown formatting for updates etc
@@ -93,7 +94,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise'
+gem 'devise', '~> 3.0.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 4.0.10'
