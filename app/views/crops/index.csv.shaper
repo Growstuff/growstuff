@@ -23,6 +23,7 @@ all_headers = [
   :planted_from_root_division,
   :planted_from_runner,
   :planted_from_bulb,
+  :planted_from_root_tuber,
   :planted_from_bare_root_plant,
   :planted_from_advanced_plant,
   :planted_from_graft,
@@ -85,6 +86,7 @@ csv.headers *all_headers
     csv.cell :planted_from_root_division, planted_from['root division']
     csv.cell :planted_from_runner, planted_from['runner']
     csv.cell :planted_from_bulb, planted_from['bulb']
+    csv.cell :planted_from_root_tuber, planted_from['root/tuber']
     csv.cell :planted_from_bare_root_plant, planted_from['bare root plant']
     csv.cell :planted_from_advanced_plant, planted_from['advanced plant']
     csv.cell :planted_from_graft, planted_from['graft']
