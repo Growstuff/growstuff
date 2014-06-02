@@ -82,6 +82,8 @@ Growstuff::Application.configure do
   config.host = 'dev.growstuff.org'
   config.analytics_code = ''
 
+  config.mapbox_map_id = 'growstuff.i3n2hao7'
+
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
