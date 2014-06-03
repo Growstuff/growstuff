@@ -2,6 +2,14 @@
 # copy and use to store your API credentials for external APIs used by
 # the Growstuff application.
 
+# We are progressively moving config variables out of
+# config/environments/*.rb and into this application.yml config instead.
+# Please do not add new config variables to config/environments.
+# There are however a couple of exceptions to this, particularly config
+# variables used by the assets pipeline, which cannot access ENV.  These
+# include:
+#   mapbox_map_id
+
 # To use it, copy application.yml.example to application.yml (which is
 # .gitignored) and fill in the appropriate values.
 

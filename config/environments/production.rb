@@ -86,6 +86,8 @@ Growstuff::Application.configure do
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
   eos
 
+  # this config variable cannot be put in application.yml as it is needed
+  # by the assets pipeline, which doesn't have access to ENV.
   config.mapbox_map_id = 'growstuff.i3n2c4ie'
 
   config.after_initialize do

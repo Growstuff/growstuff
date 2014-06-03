@@ -82,6 +82,8 @@ Growstuff::Application.configure do
   config.host = 'dev.growstuff.org'
   config.analytics_code = ''
 
+  # this config variable cannot be put in application.yml as it is needed
+  # by the assets pipeline, which doesn't have access to ENV.
   config.mapbox_map_id = 'growstuff.i3n2hao7'
 
   config.after_initialize do
