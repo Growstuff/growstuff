@@ -1,7 +1,7 @@
 places_base_path = "/places";
 things_to_map = location.pathname + '.json';
-cloudmade_key = "<%= Growstuff::Application.config.cloudmade_key %>";
-cloudmade_url = "http://{s}.tile.cloudmade.com/" + cloudmade_key + "/73038/256/{z}/{x}/{y}.png";
+mapbox_map_id = "<%= Growstuff::Application.config.mapbox_map_id %>";
+base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
 nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
 nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email %>";
 
@@ -26,8 +26,8 @@ if (location.pathname === places_base_path) { //places index page
 }
 
 function showMap(map) {
-  L.tileLayer(cloudmade_url, {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://cloudmade.com">Cloudmade</a>',
+  L.tileLayer(base_url, {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(map);
   markers = new L.MarkerClusterGroup({showCoverageOnHover: false});

@@ -54,6 +54,10 @@ Growstuff::Application.configure do
   config.host = 'localhost:8080'
   config.analytics_code = ''
 
+  # this config variable cannot be put in application.yml as it is needed
+  # by the assets pipeline, which doesn't have access to ENV.
+  config.mapbox_map_id = 'growstuff.i3n2il6a'
+
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
