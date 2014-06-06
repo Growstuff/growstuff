@@ -1,14 +1,21 @@
-csv.headers :id, :name,
+all_plant_parts = PlantPart.all
+plant_part_headers = all_plant_parts.map{ |p| "harvested_for_#{p.name}".to_sym }
+
+all_headers = [
+  :id, :name,
   :growstuff_url, :en_wikipedia_url,
   :default_scientific_name,
   :scientific_name_count,
   :parent_crop_id, :parent_crop_name,
   :plantings_count,
   :seeds_count,
+  :harvests_count,
+
   :recommended_sunniness,
   :planted_in_sun,
   :planted_in_semi_shade,
   :planted_in_shade,
+
   :plant_from_recommendation,
   :planted_from_seed,
   :planted_from_seedling,
@@ -16,19 +23,26 @@ csv.headers :id, :name,
   :planted_from_root_division,
   :planted_from_runner,
   :planted_from_bulb,
+  :planted_from_root_tuber,
   :planted_from_bare_root_plant,
   :planted_from_advanced_plant,
   :planted_from_graft,
   :planted_from_layering,
+
+  :most_harvested_part,
+  plant_part_headers,
+
   :added_by_member_id,
   :added_by_member_name,
   :date_added,
   :last_modified,
   :license
+].flatten
+
+csv.headers *all_headers
 
 @crops.each do |c|
   csv.row c do |csv, crop|
-
 
     csv.cells :id, :name, :en_wikipedia_url
     csv.cell :growstuff_url, crop_url(c)
@@ -43,8 +57,11 @@ csv.headers :id, :name,
       csv.cell :parent_crop_name, c.parent.name
     end
 
-    csv.cell :plantings_count || 0
+    csv.cell :plantings_count, c.plantings_count || 0
     csv.cell :seeds_count, c.seeds.count
+    csv.cell :harvests_count, c.harvests.count
+
+    # Sunniness
 
     sunniness = c.sunniness
     sunniness_rec = sunniness.max_by{|k,v| v}
@@ -54,6 +71,8 @@ csv.headers :id, :name,
     csv.cell :planted_in_sun, sunniness['sun']
     csv.cell :planted_in_semi_shade, sunniness['semi_shade']
     csv.cell :planted_in_shade, sunniness['shade']
+
+    # Planted from
 
     planted_from  = c.planted_from
     planted_from_rec = planted_from.max_by{|k,v| v}
@@ -67,10 +86,24 @@ csv.headers :id, :name,
     csv.cell :planted_from_root_division, planted_from['root division']
     csv.cell :planted_from_runner, planted_from['runner']
     csv.cell :planted_from_bulb, planted_from['bulb']
+    csv.cell :planted_from_root_tuber, planted_from['root/tuber']
     csv.cell :planted_from_bare_root_plant, planted_from['bare root plant']
     csv.cell :planted_from_advanced_plant, planted_from['advanced plant']
     csv.cell :planted_from_graft, planted_from['graft']
     csv.cell :planted_from_layering, planted_from['layering']
+
+    # Plant parts
+
+    harvested_plant_parts = c.popular_plant_parts
+    most_harvested_part = harvested_plant_parts.max_by{|k,v| v}
+    if most_harvested_part
+      csv.cell :most_harvested_part, most_harvested_part[0]
+    end
+
+    all_plant_parts.each do |pp|
+      col = "harvested_for_#{pp.name}".to_sym
+      csv.cell col, harvested_plant_parts[pp] || 0
+    end
 
     csv.cell :added_by_member_id, c.creator.id
     csv.cell :added_by_member_name, c.creator.to_s

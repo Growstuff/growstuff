@@ -7,7 +7,7 @@
   = link_to @forum.owner, @forum.owner
 
 %div
-  :markdown
+  :growstuff_markdown
     #{ strip_tags(@forum.description) }
 
 - if can? :edit, @forum

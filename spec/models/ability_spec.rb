@@ -281,4 +281,48 @@ describe Ability do
 
   end
 
+  context 'plant parts' do
+    before(:each) do
+      @plant_part = FactoryGirl.create(:plant_part)
+    end
+
+    context 'ordinary member' do
+      it "can read plant parts" do
+        @ability.should be_able_to(:read, @plant_part)
+      end
+      it "can't manage plant parts" do
+        @ability.should_not be_able_to(:create, PlantPart)
+        @ability.should_not be_able_to(:update, @plant_part)
+        @ability.should_not be_able_to(:destroy, @plant_part)
+      end
+    end
+
+    context 'admin' do
+
+      before(:each) do
+        @role = FactoryGirl.create(:admin)
+        @member.roles << @role
+        @admin_ability = Ability.new(@member)
+      end
+
+      it "can read plant_part details" do
+        @admin_ability.should be_able_to(:read, @plant_part)
+      end
+      it "can manage plant_part details" do
+        @admin_ability.should be_able_to(:create, PlantPart)
+        @admin_ability.should be_able_to(:update, @plant_part)
+      end
+
+      it "can delete an unused plant part" do
+        @admin_ability.should be_able_to(:destroy, @plant_part)
+      end
+
+      it "can't delete a plant part that has harvests" do
+        @harvest = FactoryGirl.create(:harvest, :plant_part => @plant_part)
+        @admin_ability.should_not be_able_to(:destroy, @plant_part)
+      end
+
+    end
+  end
+
 end

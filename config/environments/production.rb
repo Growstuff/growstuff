@@ -72,26 +72,30 @@ Growstuff::Application.configure do
   config.action_mailer.smtp_settings = {
       :port =>           '587',
       :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['MANDRILL_USERNAME'],
-      :password =>       ENV['MANDRILL_APIKEY'],
+      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
+      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
       :domain =>         'heroku.com',
       :authentication => :plain
   }
   config.action_mailer.delivery_method = :smtp
 
-  config.site_name = "Growstuff"
+  config.host = 'growstuff.org'
   config.analytics_code = <<-eos
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
   eos
 
+  # this config variable cannot be put in application.yml as it is needed
+  # by the assets pipeline, which doesn't have access to ENV.
+  config.mapbox_map_id = 'growstuff.i3n2c4ie'
+
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :production
     paypal_options = {
-      :login =>     ENV['PAYPAL_USERNAME'],
-      :password =>  ENV['PAYPAL_PASSWORD'],
-      :signature => ENV['PAYPAL_SIGNATURE']
+      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'],
+      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'],
+      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE']
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)

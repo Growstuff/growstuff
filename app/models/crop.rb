@@ -8,6 +8,7 @@ class Crop < ActiveRecord::Base
   has_many :photos, :through => :plantings
   has_many :seeds
   has_many :harvests
+  has_many :plant_parts, :through => :harvests, :uniq => :true
   belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
@@ -78,6 +79,20 @@ class Crop < ActiveRecord::Base
     return planted_from
   end
 
+  # crop.popular_plant_parts
+  # returns a hash of most harvested plant parts (fruit, seed, etc)
+  # key: plant part (eg. 'fruit')
+  # value: count of how many times it's been used by harvests
+  def popular_plant_parts
+    popular_plant_parts = Hash.new(0)
+    harvests.each do |h|
+      if h.plant_part
+        popular_plant_parts[h.plant_part] += 1
+      end
+    end
+    return popular_plant_parts
+  end
+
   def interesting?
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
@@ -107,17 +122,25 @@ class Crop < ActiveRecord::Base
 # - en_wikipedia_url (required)
 # - parent (name, optional)
 
-  def Crop.create_from_csv(row)
+  def Crop.create_from_csv(row, definitely_new=false)
     name,scientific_name,en_wikipedia_url,parent = row
 
     @cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless @cropbot
 
-    @crop = Crop.find_or_create_by_name(name)
-    @crop.update_attributes(
-      :en_wikipedia_url => en_wikipedia_url,
-      :creator_id => @cropbot.id
-    )
+    if definitely_new then
+      @crop = Crop.create(
+        :name => name,
+        :en_wikipedia_url => en_wikipedia_url,
+        :creator_id => @cropbot.id
+      )
+    else
+      @crop = Crop.find_or_create_by_name(name)
+      @crop.update_attributes(
+        :en_wikipedia_url => en_wikipedia_url,
+        :creator_id => @cropbot.id
+      )
+    end
     if parent
       @parent = Crop.find_by_name(parent)
       if @parent
@@ -145,6 +168,13 @@ class Crop < ActiveRecord::Base
       end
 
     end
+  end
+
+  # Crop.search(string)
+  # searches for crops whose names match the string given
+  # just uses SQL LIKE for now, but can be made fancier later
+  def self.search(query)
+    where("name LIKE ?", "%#{query}%")
   end
 
 end

@@ -30,8 +30,8 @@ describe "plantings/index" do
   end
 
   it "renders a list of plantings" do
-    rendered.should contain 'Tomato'
-    rendered.should contain 'Maize'
+    rendered.should contain @tomato.name
+    rendered.should contain @maize.name
     rendered.should contain @member.login_name
     rendered.should contain @garden.name
   end

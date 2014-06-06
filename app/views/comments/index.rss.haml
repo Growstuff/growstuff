@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 %rss{:version => 2.0}
   %channel
-    %title #{Growstuff::Application.config.site_name} - Recent comments on all posts
+    %title #{ENV['GROWSTUFF_SITE_NAME']} - Recent comments on all posts
     %link= comments_url
     - @comments.each do |comment|
       %item

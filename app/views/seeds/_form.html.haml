@@ -36,7 +36,7 @@
           =link_to "Change your location.", edit_member_registration_path
       %span.help-block
         Are you interested in trading or swapping seeds with other
-        #{Growstuff::Application.config.site_name} members?  If you
+        #{ENV['GROWSTUFF_SITE_NAME']} members?  If you
         list your seeds as available for trade, other members can
         contact you to request seeds.  You can list any conditions or
         other information in the description, above.

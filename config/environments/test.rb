@@ -39,10 +39,10 @@ Growstuff::Application.configure do
 
   # Growstuff config
   config.new_crops_request_link = "http://example.com/not-a-real-url"
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => 'localhost:8080' }
 
   Growstuff::Application.configure do
-    config.site_name = "Growstuff (test)"
+    config.host = 'test.example.com'
     config.analytics_code = ''
     config.currency = 'AUD'
   end

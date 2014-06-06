@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :harvest do
     crop
+    plant_part
     owner
     harvested_at "2013-09-17"
     quantity "3"

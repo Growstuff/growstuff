@@ -15,6 +15,6 @@
   = will_paginate @comments
 
 %p
-  Subscribe to the #{Growstuff::Application.config.site_name}
+  Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
   = succeed "." do
     = link_to "comments RSS feed", comments_path(:format => 'rss')

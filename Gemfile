@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "1.9.3"
+ruby "2.1.1"
 
 gem 'bundler', '>=1.1.5'
 
@@ -11,6 +11,8 @@ gem 'haml'
 gem 'leaflet-rails'
 gem 'leaflet-markercluster-rails'
 gem 'unicorn' # http server
+
+gem 'figaro' # for handling config via ENV variables
 
 gem 'cancan' # for checking member privileges
 
@@ -46,9 +48,13 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # long term, we'll probably want node.js for performance, but this will do
   # for now as it's easier for new people to install
-  gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
+  gem "therubyracer", "~> 0.12", :platforms => :ruby
+  # libv8 is needed by therubyracer and is a bit finicky
+  gem 'libv8', '3.16.14.3'
+
   # Another CSS preprocessor, used for Bootstrap overrides
-  gem "less-rails"
+  gem "less", '~>2.3.2'
+  gem "less-rails", '~> 2.3.3'
   # CSS framework
   gem "twitter-bootstrap-rails",
     :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',
@@ -78,6 +84,7 @@ group :development do
   gem 'debugger'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'letter_opener'
 end
 
 # Markdown formatting for updates etc
@@ -87,10 +94,10 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise'
+gem 'devise', '~> 3.0.0'
 
 # nicely formatted URLs
-gem 'friendly_id'
+gem 'friendly_id', '~> 4.0.10'
 
 # gravatars
 gem 'gravatar-ultimate'

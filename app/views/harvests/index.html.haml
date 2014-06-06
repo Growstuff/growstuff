@@ -1,7 +1,7 @@
 - content_for :title, @owner ? "#{@owner}'s harvests" : "Everyone's harvests"
 
 %p
-  #{Growstuff::Application.config.site_name} helps you track what you're
+  #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
   harvesting from your home garden and see how productive it is.
 
 %p
@@ -29,6 +29,7 @@
       - unless @owner
         %th Owner
       %th Crop
+      %th Plant part
       %th Date
       %th Quantity
       %th Description
@@ -39,6 +40,9 @@
         - unless @owner
           %td= link_to harvest.owner.login_name, harvest.owner
         %td= link_to harvest.crop.name, harvest.crop
+        %td
+          - if harvest.plant_part
+            = link_to harvest.plant_part.name, harvest.plant_part
         %td= harvest.harvested_at
         %td= display_quantity(harvest)
         %td= harvest.description

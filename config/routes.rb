@@ -1,5 +1,8 @@
 Growstuff::Application.routes.draw do
 
+  resources :plant_parts
+
+
   devise_for :members, :controllers => { :registrations => "registrations" }
   resources :members
 
@@ -26,6 +29,7 @@ Growstuff::Application.routes.draw do
 
   match 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
   match 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'
+  match 'crops/search' => 'crops#search', :as => 'crops_search'
   resources :crops
 
   resources :comments

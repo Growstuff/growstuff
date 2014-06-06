@@ -8,7 +8,7 @@ describe 'layouts/_header.html.haml', :type => "view" do
     end
 
     it 'shows the title' do
-      rendered.should contain Growstuff::Application.config.site_name
+      rendered.should contain ENV['GROWSTUFF_SITE_NAME']
     end
 
     it 'should have signup/signin links' do
@@ -42,6 +42,11 @@ describe 'layouts/_header.html.haml', :type => "view" do
 
     it 'links to forums' do
       assert_select("a[href=#{forums_path}]", 'Forums')
+    end
+
+    it 'has a crop search' do
+      assert_select("form[action=#{crops_search_path}]")
+      assert_select("input#search")
     end
 
   end

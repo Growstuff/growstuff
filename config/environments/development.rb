@@ -40,27 +40,30 @@ Growstuff::Application.configure do
 
   # Growstuff config
   config.new_crops_request_link = "http://example.com/not-a-real-url"
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => 'localhost:8080' }
 
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.smtp_settings = {
       :port =>           '587',
       :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['MANDRILL_USERNAME'],
-      :password =>       ENV['MANDRILL_APIKEY'],
+      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
+      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
       :authentication => :login
   }
-  config.action_mailer.delivery_method = :smtp
 
-  config.site_name = "Growstuff (dev)"
+  config.host = 'localhost:8080'
   config.analytics_code = ''
+
+  # this config variable cannot be put in application.yml as it is needed
+  # by the assets pipeline, which doesn't have access to ENV.
+  config.mapbox_map_id = 'growstuff.i3n2il6a'
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
-      :login =>     ENV['PAYPAL_USERNAME'] || 'dummy',
-      :password =>  ENV['PAYPAL_PASSWORD'] || 'dummy',
-      :signature => ENV['PAYPAL_SIGNATURE'] || 'dummy'
+      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'] || 'dummy',
+      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'] || 'dummy',
+      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE'] || 'dummy'
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)

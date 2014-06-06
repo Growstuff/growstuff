@@ -13,15 +13,15 @@ describe Crop do
 
     it 'should be fetchable from the database' do
       @crop.save
-      @crop2 = Crop.find_by_name('Tomato')
+      @crop2 = Crop.find_by_name('tomato')
       @crop2.en_wikipedia_url.should == "http://en.wikipedia.org/wiki/Tomato"
       @crop2.slug.should == "tomato"
     end
 
     it 'should stringify as the system name' do
       @crop.save
-      @crop.to_s.should == 'Tomato'
-      "#{@crop}".should == 'Tomato'
+      @crop.to_s.should == 'tomato'
+      "#{@crop}".should == 'tomato'
     end
 
     it 'has a creator' do
@@ -157,6 +157,41 @@ describe Crop do
     end
   end
 
+  context 'popular plant parts' do
+    before(:each) do
+      @crop = FactoryGirl.create(:tomato)
+    end
+
+    it 'returns a hash of plant_part values' do
+      @crop.popular_plant_parts.should be_an_instance_of Hash
+    end
+
+    it 'counts each plant_part value' do
+      @fruit = FactoryGirl.create(:plant_part)
+      @seed = FactoryGirl.create(:plant_part)
+      @root = FactoryGirl.create(:plant_part)
+      @bulb = FactoryGirl.create(:plant_part)
+      @harvest1 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @fruit
+      )
+      @harvest2 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @fruit
+      )
+      @harvest3 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @seed
+      )
+      @harvest4 = FactoryGirl.create(:harvest,
+        :crop => @crop,
+        :plant_part => @root
+      )
+      @crop.popular_plant_parts.should == { @fruit => 2, @seed => 1, @root => 1 }
+    end
+
+  end
+
   context 'interesting' do
     it 'lists interesting crops' do
       # first, a couple of candidate crops
@@ -240,6 +275,51 @@ describe Crop do
       crop = FactoryGirl.create(:crop)
       harvest = FactoryGirl.create(:harvest, :crop => crop)
       crop.harvests.should eq [harvest]
+    end
+  end
+
+  it 'has plant_parts' do
+    @maize = FactoryGirl.create(:maize)
+    @pp1 = FactoryGirl.create(:plant_part)
+    @pp2 = FactoryGirl.create(:plant_part)
+    @h1 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp1
+    )
+    @h2 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp2
+    )
+    @maize.plant_parts.should include @pp1
+    @maize.plant_parts.should include @pp2
+  end
+
+  it "doesn't dupliate plant_parts" do
+    @maize = FactoryGirl.create(:maize)
+    @pp1 = FactoryGirl.create(:plant_part)
+    @h1 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp1
+    )
+    @h2 = FactoryGirl.create(:harvest,
+      :crop => @maize,
+      :plant_part => @pp1
+    )
+    @maize.plant_parts.should eq [@pp1]
+  end
+
+  context "search" do
+    before :each do
+      @mushroom = FactoryGirl.create(:crop, :name => 'mushroom')
+    end
+    it "finds exact matches" do
+      Crop.search('mushroom').should eq [@mushroom]
+    end
+    it "finds approximate matches" do
+      Crop.search('mush').should eq [@mushroom]
+    end
+    it "doesn't find non-matches" do
+      Crop.search('mush').should_not include @crop
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131025104228) do
+ActiveRecord::Schema.define(:version => 20131031000655) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(:version => 20131025104228) do
     t.string   "slug"
     t.decimal  "weight_quantity"
     t.string   "weight_unit"
+    t.integer  "plant_part_id"
   end
 
   create_table "members", :force => true do |t|
@@ -202,6 +203,13 @@ ActiveRecord::Schema.define(:version => 20131025104228) do
   create_table "photos_plantings", :id => false, :force => true do |t|
     t.integer "photo_id"
     t.integer "planting_id"
+  end
+
+  create_table "plant_parts", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "slug"
   end
 
   create_table "plantings", :force => true do |t|

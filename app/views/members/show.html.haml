@@ -55,7 +55,7 @@
         = link_to 'Edit your profile', "edit", :class => 'btn btn-primary'
     - if @member.bio
       %h2 Bio
-      :markdown
+      :growstuff_markdown
         #{ strip_tags @member.bio }
     %h2 Gardens
     .tabbable
@@ -75,7 +75,7 @@
             - first_garden = false
 
             %div
-              :markdown
+              :growstuff_markdown
                 #{ strip_tags g.description }
 
             %h3 What's planted here?

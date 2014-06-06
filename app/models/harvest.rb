@@ -3,10 +3,11 @@ class Harvest < ActiveRecord::Base
   friendly_id :harvest_slug, use: :slugged
 
   attr_accessible :crop_id, :harvested_at, :description, :owner_id,
-    :quantity, :unit, :weight_quantity, :weight_unit, :slug
+    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
+  belongs_to :plant_part
 
   default_scope order('created_at DESC')
 
@@ -27,9 +28,9 @@ class Harvest < ActiveRecord::Base
     "bushels" => "bushel"
   }
   validates :unit, :inclusion => { :in => UNITS_VALUES.values,
-        :message => "%{value} is not a valid unit" },
-        :allow_nil => true,
-        :allow_blank => true
+    :message => "%{value} is not a valid unit" },
+    :allow_nil => true,
+    :allow_blank => true
 
   validates :weight_quantity,
     :numericality => { :only_integer => false },
@@ -40,9 +41,9 @@ class Harvest < ActiveRecord::Base
     "lb" => "lb"
   }
   validates :weight_unit, :inclusion => { :in => WEIGHT_UNITS_VALUES.values,
-        :message => "%{value} is not a valid unit" },
-        :allow_nil => true,
-        :allow_blank => true
+    :message => "%{value} is not a valid unit" },
+    :allow_nil => true,
+    :allow_blank => true
 
   after_validation :cleanup_quantities
 
