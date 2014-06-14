@@ -36,7 +36,7 @@ function showMap(map) {
     $.each(members, function(i, m) {
       if (m.latitude && m.longitude) {
         marker = new L.Marker(new L.LatLng(m.latitude, m.longitude));
-        link = "<p><a href='/members/" + m.login_name + "'>" + m.login_name + "</a></p>";
+        link = "<p><a href='/members/" + m.slug + "'>" + m.login_name + "</a></p>";
         where = "<p><i>" + m.location + "</i></p>";
         marker.bindPopup(link + where).openPopup();
         markers.addLayer(marker);
