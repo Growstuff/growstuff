@@ -1,6 +1,6 @@
 .row-fluid
 - if !crop.photos.empty?
   %ul.thumbnails
-    - crop.photos.first(4).each do |p|
-      %li.span2
+    - crop.photos.first(3).each do |p|
+      %li.span4
         = render :partial => "photos/thumbnail", :locals => { :photo => p }
