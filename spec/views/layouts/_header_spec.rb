@@ -25,7 +25,7 @@ describe 'layouts/_header.html.haml', :type => "view" do
     end
 
     it 'has a Places link' do
-      rendered.should contain "Places"
+      rendered.should contain "Community Map"
     end
 
     it 'has a Community section' do
@@ -33,7 +33,7 @@ describe 'layouts/_header.html.haml', :type => "view" do
     end
 
     it 'links to members' do
-      assert_select("a[href=#{members_path}]", 'Members')
+      assert_select("a[href=#{members_path}]", 'Browse Members')
     end
 
     it 'links to posts' do
