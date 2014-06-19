@@ -66,7 +66,4 @@
 
         = form_tag crops_search_path, :method => :get, :class => 'navbar-search pull-right' do
           .input-append
-            = text_field_tag 'search', nil, :placeholder => 'Search crops'
-            = button_tag :class => 'btn' do
-              %i.icon-search
-            
+            = text_field_tag 'search', nil, :class => 'search-query input-medium', :placeholder => 'Search crops'
