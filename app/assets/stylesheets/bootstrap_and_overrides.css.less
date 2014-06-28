@@ -164,6 +164,33 @@ p.stats {
   color: @brown;
 }
 
+.crop-thumbnail {
+  position:relative;
+  padding:0;
+  img {
+    width:100%;
+  }
+  .text {
+    display:none;
+    color:#000;
+    position:absolute;
+    bottom:0;
+    background:rgba(0, 0, 0, 0.8);
+    width:100%;
+    margin:0;
+  }
+  p {
+    padding:5px;
+    margin:0;
+    color:#fff;
+  }
+  &:hover {
+    .text {
+      display:block;
+    }
+  }
+} 
+
 // Overrides applying only to mobile view
 
 @media only screen and (max-width: 767px) {

@@ -1,9 +1,10 @@
-.thumbnail(style='height: 220px')
+.thumbnail.crop-thumbnail
   = link_to image_tag(photo.thumbnail_url, :alt => photo.title, :class => 'img-rounded'), photo
-  %p
-    = link_to photo.title, photo
-    %br/
-    %small
-      %i
-        by
-        = link_to photo.owner, photo.owner
+  .text
+    %p
+      = link_to photo.title, photo
+      %br/
+      %small
+        %i
+          by
+          = link_to photo.owner, photo.owner

@@ -180,7 +180,7 @@ GEM
     omniauth (1.2.1)
       hashie (>= 1.2, < 3)
       rack (~> 1.0)
-    omniauth-flickr (0.0.13)
+    omniauth-flickr (0.0.15)
       omniauth-oauth (~> 1.0)
     omniauth-oauth (1.0.1)
       oauth
@@ -318,7 +318,7 @@ DEPENDENCIES
   memcachier
   newrelic_rpm
   omniauth
-  omniauth-flickr
+  omniauth-flickr (>= 0.0.15)
   omniauth-twitter
   pg
   rack (~> 1.4.5)

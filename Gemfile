@@ -113,7 +113,7 @@ gem 'bootstrap-datepicker-rails'
 # For connecting to other services (eg Twitter)
 gem 'omniauth'
 gem 'omniauth-twitter'
-gem 'omniauth-flickr'
+gem 'omniauth-flickr', '>= 0.0.15'
 
 gem 'rake', '>= 10.0.0'
 
