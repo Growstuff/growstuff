@@ -143,8 +143,8 @@ class Member < ActiveRecord::Base
     if @flickr.nil?
       flickr_auth = auth('flickr')
       if flickr_auth
-        FlickRaw.api_key = ENV['FLICKR_KEY']
-        FlickRaw.shared_secret = ENV['FLICKR_SECRET']
+        FlickRaw.api_key = ENV['GROWSTUFF_FLICKR_KEY']
+        FlickRaw.shared_secret = ENV['GROWSTUFF_FLICKR_SECRET']
         @flickr = FlickRaw::Flickr.new
         @flickr.access_token = flickr_auth.token
         @flickr.access_secret = flickr_auth.secret
