@@ -63,7 +63,9 @@ class CropsController < ApplicationController
     respond_to do |format|
       format.html # show.html.haml
       format.json do
-        render :json => @crop.to_json(:include => [:plantings, :seeds, :harvests])
+        render :json => @crop.to_json(:include => {
+          :plantings => { :include => { :owner => { :only => [:id, :login_name, :location, :latitude, :longitude] }}}
+        })
       end
     end
   end
