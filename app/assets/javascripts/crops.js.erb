@@ -1,0 +1,48 @@
+things_to_map = location.pathname + '.json';
+mapbox_map_id = "<%= Growstuff::Application.config.mapbox_map_id %>";
+base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
+nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
+nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email %>";
+
+L.Icon.Default.imagePath = '/assets'
+
+map = L.map('map').setView([0.0, -0.0], 2);
+showMap(map);
+
+function showMap(map) {
+  L.tileLayer(base_url, {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18
+  }).addTo(map);
+  markers = new L.MarkerClusterGroup({showCoverageOnHover: false});
+
+  $.getJSON(things_to_map, function(crop) {
+    $.each(crop.plantings, function(i, planting) {
+      owner = planting.owner;
+      if (owner.latitude && owner.longitude) {
+        marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude));
+
+        planting_url = "/plantings/" + planting.id;
+        planting_link = "<a href='" + planting_url + "'>" + owner.login_name + "'s " + crop.name + "</a>";
+
+        where = "<p><i>" + owner.location + "</i></p>";
+
+        details = "<p>";
+        if (planting.quantity) {
+          details = details + "Quantity: " + planting.quantity + "<br/>";
+        }
+        if (planting.planted_from) {
+          details = details + "Planted from: " + planting.planted_from + "<br/>";
+        }
+        if (planting.sunniness) {
+          details = details + "Planted in: " + planting.sunniness+ "<br/>";
+        }
+        details = details + "</p>";
+        marker.bindPopup(planting_link + where + details).openPopup();
+        markers.addLayer(marker);
+      }
+    });
+  });
+
+  map.addLayer(markers);
+}
