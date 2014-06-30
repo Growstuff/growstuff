@@ -33,6 +33,35 @@ describe "crops/show" do
     end
   end
 
+  context "map" do
+    it "has a map" do
+      render
+      assert_select("div#map")
+    end
+
+    it "explains what's shown on the map" do
+      render
+      rendered.should contain "Only plantings by members who have set their locations are shown on this map"
+    end
+
+    it "shows a 'set your location' link to people who need to" do
+      @nowhere = FactoryGirl.create(:member)
+      sign_in @nowhere
+      controller.stub(:current_user) { @nowhere }
+      render
+      rendered.should contain "Set your location"
+    end
+
+    it "doesn't show 'set your location' to people who have one" do
+      @somewhere = FactoryGirl.create(:london_member)
+      sign_in @somewhere
+      controller.stub(:current_user) { @somewhere }
+      render
+      rendered.should_not contain "Set your location"
+    end
+
+  end
+
   it "shows the wikipedia URL" do
     render
     assert_select("a[href=#{@crop.en_wikipedia_url}]", 'Wikipedia (English)')
