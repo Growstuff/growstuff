@@ -30,7 +30,7 @@ function showMap(map) {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(map);
-  markers = new L.MarkerClusterGroup({showCoverageOnHover: false});
+  markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
   $.getJSON(things_to_map, function(members) {
     $.each(members, function(i, m) {
