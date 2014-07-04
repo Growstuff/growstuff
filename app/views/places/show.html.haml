@@ -1,4 +1,4 @@
--content_for :title, @place
+-content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} members near #{@place}"
 
 = form_tag(search_places_path, :method => :get, :class => 'form-inline') do
   = label_tag :place, "Change location:", :class => 'control-label'
