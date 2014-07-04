@@ -6,14 +6,15 @@ nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email
 
 L.Icon.Default.imagePath = '/assets'
 
-map = L.map('map').setView([0.0, -0.0], 2);
-showMap(map);
+cropmap = L.map('cropmap').setView([0.0, -0.0], 2);
+showCropMap(cropmap);
 
-function showMap(map) {
+function showCropMap(cropmap) {
+
   L.tileLayer(base_url, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
-  }).addTo(map);
+  }).addTo(cropmap);
   markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
   $.getJSON(things_to_map, function(crop) {
@@ -44,5 +45,5 @@ function showMap(map) {
     });
   });
 
-  map.addLayer(markers);
+  cropmap.addLayer(markers);
 }
