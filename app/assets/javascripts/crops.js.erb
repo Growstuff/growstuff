@@ -1,8 +1,5 @@
-things_to_map = location.pathname + '.json';
 mapbox_map_id = "<%= Growstuff::Application.config.mapbox_map_id %>";
-base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
-nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
-nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email %>";
+mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
 
 L.Icon.Default.imagePath = '/assets'
 
@@ -11,12 +8,13 @@ showCropMap(cropmap);
 
 function showCropMap(cropmap) {
 
-  L.tileLayer(base_url, {
+  L.tileLayer(mapbox_base_url, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(cropmap);
   markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
+  things_to_map = location.pathname + '.json';
   $.getJSON(things_to_map, function(crop) {
     $.each(crop.plantings, function(i, planting) {
       owner = planting.owner;
