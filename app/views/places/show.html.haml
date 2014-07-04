@@ -5,11 +5,9 @@
   = text_field_tag :new_place
   = submit_tag "Search", :class => 'btn btn-primary'
 
-%div#map{ :style => "height:300px"}
+%div#placesmap{ :style => "height:300px"}
 
-%h3
-  = ENV['GROWSTUFF_SITE_NAME']
-  members near #{@place}
+%h3 Nearby members
 
 - if !@nearby_members.empty?
   %ul.thumbnails

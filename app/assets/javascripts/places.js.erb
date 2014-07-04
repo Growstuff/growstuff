@@ -20,7 +20,7 @@ if (document.getElementById("placesmap") !== null) {
       email: nominatim_user_agent_email
     };
     $.getJSON(nominatim_query_url, nominatim_options, function(data) {
-      placesmap = L.map('map').setView([data[0].lat, data[0].lon], 5);
+      placesmap = L.map('placesmap').setView([data[0].lat, data[0].lon], 5);
       showMap(placesmap);
     })
   }
