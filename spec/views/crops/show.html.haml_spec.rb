@@ -35,7 +35,7 @@ describe "crops/show" do
   context "map" do
     it "has a map" do
       render
-      assert_select("div#map")
+      assert_select("div#cropmap")
     end
 
     it "explains what's shown on the map" do
