@@ -1,7 +1,7 @@
 ---
 language: ruby
 env: GROWSTUFF_SITE_NAME="Growstuff (travis)"
-bundler_args: --without development assets
+bundler_args: --without development assets production staging
 rvm:
   - 2.1.1
 script:
