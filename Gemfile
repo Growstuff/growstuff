@@ -12,6 +12,8 @@ gem 'leaflet-rails'
 gem 'leaflet-markercluster-rails'
 gem 'unicorn' # http server
 
+gem 'pg'
+
 gem 'figaro' # for handling config via ENV variables
 
 gem 'cancan' # for checking member privileges
@@ -29,7 +31,6 @@ gem 'active_utils', '1.0.5',
   :path => 'vendor/gems/active_utils-1.0.5'
 
 group :production, :staging do
-  gem 'pg'
   gem 'newrelic_rpm'
   gem 'dalli'
   gem 'memcachier'
