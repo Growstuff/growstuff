@@ -8,12 +8,6 @@ test:
   database: growstuff_test
   host: localhost
 
-# should be identical to test apart from running on postgres
-travis:
-  adapter: postgresql
-  database: growstuff_test
-  username: postgres
-
 production:
   adapter: postgresql
   database: growstuff_prod
