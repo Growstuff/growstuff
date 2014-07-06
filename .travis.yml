@@ -1,10 +1,9 @@
 ---
 language: ruby
-bundler_args: --without development assets
 env: GROWSTUFF_SITE_NAME="Growstuff (travis)"
+bundler_args: --without development assets
 rvm:
   - 2.1.1
 script:
-  - psql -c 'create database growstuff_test;'
   - bundle exec rake db:migrate --trace
   - bundle exec rspec spec/
