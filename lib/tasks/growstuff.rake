@@ -4,10 +4,18 @@ namespace :growstuff do
   # usage: rake growstuff:admin_user name=skud
 
   task :admin_user => :environment do
-
     member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:admin_user name=whoever (login name is case-sensitive)"
-    admin  = Role.find_or_create_by_name!('admin')
+    admin  = Role.find('admin')
     member.roles << admin
+  end
+
+  desc "Add a crop wrangler user, by name"
+  # usage: rake growstuff:cropwrangler_user name=skud
+
+  task :cropwrangler_user => :environment do
+    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:cropwrangler_user name=whoever (login name is case-sensitive)"
+    cw = Role.find('crop-wrangler')
+    member.roles << cw
   end
 
   desc "Upload crops from a CSV file"
