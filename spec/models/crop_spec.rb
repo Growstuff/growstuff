@@ -321,6 +321,9 @@ describe Crop do
     it "doesn't find non-matches" do
       Crop.search('mush').should_not include @crop
     end
+    it "searches case insensitively" do
+      Crop.search('mUsH').should include @mushroom
+    end
   end
 
 end
