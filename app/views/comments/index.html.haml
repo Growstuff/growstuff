@@ -13,3 +13,8 @@
 %div.pagination
   = page_entries_info @comments, :model => "comments"
   = will_paginate @comments
+
+%p
+  Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
+  = succeed "." do
+    = link_to "comments RSS feed", comments_path(:format => 'rss')

@@ -5,30 +5,65 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.brand(href=root_path)= Growstuff::Application.config.site_name
+      %a.brand(href=root_path)= ENV['GROWSTUFF_SITE_NAME']
       .nav-collapse.collapse
         %ul.nav
-          %li= link_to "Crops", crops_path
-          %li= link_to "Members", members_path
-          %li= link_to "Posts", posts_path
-          %li= link_to "Forums", forums_path
-          %li.divider-vertical
+          %li.dropdown<
+            %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => crops_path}
+              Crops
+              %b.caret
+            %ul.dropdown-menu
+              %li= link_to "Browse Crops", crops_path
+              %li= link_to "Seeds", seeds_path
+              %li= link_to "Plantings", plantings_path
+              %li= link_to "Harvests", harvests_path
+          %li.dropdown<
+            %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => members_path}
+              Community
+              %b.caret
+            %ul.dropdown-menu
+              %li= link_to "Community Map", places_path
+              %li= link_to "Browse Members", members_path
+              %li= link_to "Posts", posts_path
+              %li= link_to "Forums", forums_path
+
+
           - if member_signed_in?
             %li.dropdown<
-              %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => member_path(current_member)}
-                = current_member.login_name
+              %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => root_path}
+                - if current_member.notifications.unread_count > 0
+                  Your Stuff (#{current_member.notifications.unread_count})
+                - else
+                  Your Stuff
                 %b.caret
               %ul.dropdown-menu
                 %li= link_to "Profile", member_path(current_member)
-                %li= link_to "Settings", edit_member_registration_path
-                %li= link_to "Sign out", destroy_member_session_path, :method => :delete
-            %li
-              - if current_member.notifications.unread_count > 0
-                = link_to("Inbox (#{current_member.notifications.unread_count})", notifications_path)
-              - else
-                = link_to("Inbox", notifications_path)
+                %li= link_to "Gardens", gardens_by_owner_path(:owner => current_member.slug)
+                %li= link_to "Plantings", plantings_by_owner_path(:owner => current_member.slug)
+                %li= link_to "Harvests", harvests_by_owner_path(:owner => current_member.slug)
+                %li= link_to "Seeds", seeds_by_owner_path(:owner => current_member.slug)
+                %li= link_to "Posts", posts_by_author_path(:author => current_member.slug)
+                %li= link_to "Account", orders_path
+                %li
+                  - if current_member.notifications.unread_count > 0
+                    = link_to("Inbox (#{current_member.notifications.unread_count})", notifications_path)
+                  - else
+                    = link_to("Inbox", notifications_path)
+                - if current_member.has_role?(:crop_wrangler) || current_member.has_role?(:admin)
+                  %li{:class => 'divider', :role => 'presentation'}
+                  - if current_member.has_role?(:crop_wrangler)
+                    %li= link_to "Crop Wrangling", wrangle_crops_path
+                  - if current_member.has_role?(:admin)
+                    %li= link_to "Admin", admin_path
+              %li= link_to "Support Growstuff", shop_path
+
+
+            %li= link_to "Sign out", destroy_member_session_path, :method => :delete
 
           - else
-            %li.pull-right= link_to 'Sign in', new_member_session_path
-            %li.pull-right= link_to 'Sign up', new_member_registration_path
+            %li= link_to 'Sign in', new_member_session_path
+            %li= link_to 'Sign up', new_member_registration_path
 
+        = form_tag crops_search_path, :method => :get, :class => 'navbar-search pull-right' do
+          .input
+            = text_field_tag 'search', nil, :class => 'search-query input-medium', :placeholder => 'Search crops'

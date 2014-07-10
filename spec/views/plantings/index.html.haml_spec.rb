@@ -14,7 +14,8 @@ describe "plantings/index" do
       pager.replace([
         FactoryGirl.create(:planting,
           :garden => @garden,
-          :crop => @tomato
+          :crop => @tomato,
+          :owner => @member
         ),
         FactoryGirl.create(:planting,
           :garden => @garden,
@@ -29,9 +30,10 @@ describe "plantings/index" do
   end
 
   it "renders a list of plantings" do
-    rendered.should contain 'Tomato'
-    rendered.should contain 'Maize'
-    rendered.should contain /member\d+'s Springfield Community Garden/
+    rendered.should contain @tomato.name
+    rendered.should contain @maize.name
+    rendered.should contain @member.login_name
+    rendered.should contain @garden.name
   end
 
   it "shows descriptions where they exist" do
@@ -42,8 +44,12 @@ describe "plantings/index" do
     rendered.should contain 'January 13, 2013'
   end
 
-  it "renders markdown in the description" do
-    assert_select "em", "really"
+  it "provides data links" do
+    render
+    rendered.should contain "The data on this page is available in the following formats:"
+    assert_select "a", :href => plantings_path(:format => 'csv')
+    assert_select "a", :href => plantings_path(:format => 'json')
+    assert_select "a", :href => plantings_path(:format => 'rss')
   end
 
 end

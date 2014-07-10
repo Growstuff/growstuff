@@ -1,5 +1,8 @@
 class PhotosController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :photo_sweeper
+
   # GET /photos
   # GET /photos.json
   def index
@@ -28,9 +31,17 @@ class PhotosController < ApplicationController
     @photo = Photo.new
     @planting_id = params[:planting_id]
 
+    page = params[:page] || 1
+
     @flickr_auth = current_member.auth('flickr')
+    @current_set = params[:set]
     if @flickr_auth
-      @photos = current_member.flickr_photos
+      @sets = current_member.flickr_sets
+      photos, total = current_member.flickr_photos(page, @current_set)
+
+      @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
+        pager.replace photos
+      end
     end
 
     respond_to do |format|

@@ -11,7 +11,10 @@ Growstuff::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+
+  # cache for testing/experimentation - turn off for normal dev use
+  config.action_controller.perform_caching = true
+  config.cache_store = :memory_store
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
@@ -36,20 +39,33 @@ Growstuff::Application.configure do
   config.assets.debug = true
 
   # Growstuff config
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.new_crops_request_link = "http://example.com/not-a-real-url"
+  config.action_mailer.default_url_options = { :host => 'localhost:8080' }
 
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.smtp_settings = {
       :port =>           '587',
       :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['MANDRILL_USERNAME'],
-      :password =>       ENV['MANDRILL_APIKEY'],
+      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
+      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
       :authentication => :login
   }
-  config.action_mailer.delivery_method = :smtp
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff (dev)"
-    config.analytics_code = ''
+  config.host = 'localhost:8080'
+  config.analytics_code = ''
+
+  # this config variable cannot be put in application.yml as it is needed
+  # by the assets pipeline, which doesn't have access to ENV.
+  config.mapbox_map_id = 'growstuff.i3n2il6a'
+
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :test
+    paypal_options = {
+      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'] || 'dummy',
+      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'] || 'dummy',
+      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE'] || 'dummy'
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 end

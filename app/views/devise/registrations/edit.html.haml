@@ -13,8 +13,20 @@
 
   .control-group
     .controls
+      = f.check_box :show_email
+      Show email publicly on your profile page
+
+  .control-group
+    .controls
       = f.check_box :send_notification_email
       Receive emailed copies of Inbox notifications.
+
+  .control-group
+    .controls
+      = f.check_box :newsletter
+      Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
+      .help-inline
+        = render :partial => 'newsletter_blurb'
 
   %h2 Profile details
   .control-group
@@ -31,13 +43,13 @@
   .control-group
     =f.label :location, 'Your location', :class => 'control-label'
     .controls
-      =f.text_field :location
-      %span.help-inline Be as detailed or vague as you like.
+      =f.text_field :location, :autocomplete => "off"
+      %span.help-inline This will be displayed on a map. You can be as detailed or vague as you like.
 
   .control-group
+    =f.label :bio, :class => 'control-label'
     .controls
-      = f.check_box :show_email
-      Show email publicly on your profile page
+      =f.text_area :bio, :rows => 6, :class => 'input-block-level'
 
   %h2 Linked accounts
 

@@ -1,0 +1,10 @@
+- if crop.parent
+  %p
+    = crop.name
+    is a variety of
+    = succeed "." do
+      = link_to crop.parent, crop.parent
+- if crop.varieties.count > 0
+  %p
+    Varieties:
+  = render :partial => 'hierarchy', :locals => { :display_crops => [ crop ] }

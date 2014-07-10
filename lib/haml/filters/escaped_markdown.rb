@@ -1,12 +1,11 @@
 require 'bluecloth'
+require 'haml/filters/growstuff_markdown'
 
 module Haml::Filters
   module EscapedMarkdown
     include Haml::Filters::Base
-
     def render(text)
-      bc = BlueCloth.new(text)
-      return Haml::Helpers.html_escape bc.to_html
+      return Haml::Helpers.html_escape Haml::Filters::GrowstuffMarkdown.render(text)
     end
   end
 

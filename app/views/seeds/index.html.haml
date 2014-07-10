@@ -1,0 +1,69 @@
+- content_for :title, @owner ? "#{@owner}'s seeds" : "Everyone's seeds"
+
+%p
+  #{ENV['GROWSTUFF_SITE_NAME']} helps you track your seed
+  stash or trade seeds with other members.
+
+%p
+  - if can? :create, Seed
+    - if @owner
+      %p
+        - if @owner == current_member
+          = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+        = link_to "View everyone's seeds", seeds_path, :class => 'btn'
+    - else # everyone's seeds
+      = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+      - if current_member
+        = link_to 'View your seeds', seeds_by_owner_path(:owner => current_member.slug), :class => 'btn'
+  - else
+    = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
+
+%div.pagination
+  = page_entries_info @seeds, :model => "seeds"
+  = will_paginate @seeds
+
+- if @seeds.length > 0
+
+  %table.table.table-striped
+    %tr
+      - unless @owner
+        %th Owner
+      %th Crop
+      %th Description
+      %th Quantity
+      %th Plant before
+      %th Will trade to
+      %th From location
+      %th
+
+    - @seeds.each do |seed|
+      %tr
+        - unless @owner
+          %td= link_to seed.owner.login_name, seed.owner
+        %td= link_to seed.crop.name, seed.crop
+        %td= seed.description
+        %td= seed.quantity
+        %td= seed.plant_before
+        %td= seed.tradable? ? seed.tradable_to : ''
+        %td
+          - if seed.tradable?
+            - if seed.owner.location.blank?
+              unspecified
+            - else
+              = link_to seed.owner.location, place_path(seed.owner.location)
+        %td= link_to 'Details', seed, :class => 'btn btn-mini'
+
+  %div.pagination
+    = page_entries_info @seeds, :model => "seeds"
+    = will_paginate @seeds
+
+  %ul.inline
+    %li The data on this page is available in the following formats:
+    - if @owner
+      %li= link_to "CSV", seeds_by_owner_path(@owner, :format => 'csv')
+      %li= link_to "JSON", seeds_by_owner_path(@owner, :format => 'json')
+      %li= link_to "RSS", seeds_by_owner_path(@owner, :format => 'rss')
+    - else
+      %li= link_to "CSV", seeds_path(:format => 'csv')
+      %li= link_to "JSON", seeds_path(:format => 'json')
+      %li= link_to "RSS", seeds_path(:format => 'rss')

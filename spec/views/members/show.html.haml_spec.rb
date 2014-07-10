@@ -12,14 +12,34 @@ describe "members/show" do
       render
     end
 
+    it "shows the bio" do
+      assert_select "h2", "Bio"
+      rendered.should contain @member.bio
+    end
+
     it "shows account creation date" do
       @time = @member.created_at
       rendered.should contain "Member since"
       rendered.should contain @time.strftime("%B %d, %Y")
     end
 
+    it "shows account type" do
+      rendered.should contain "Free account"
+    end
+
     it "contains a gravatar icon" do
       assert_select "img", :src => /gravatar\.com\/avatar/
+    end
+  end
+
+  context 'no bio' do
+    before(:each) do
+      @member = FactoryGirl.create(:no_bio_member)
+      render
+    end
+
+    it "doesn't show the bio" do
+      rendered.should_not contain "Bio"
     end
   end
 
@@ -74,7 +94,7 @@ describe "members/show" do
     end
 
     it "shows the plantings in the garden" do
-      rendered.should contain @planting.crop.system_name
+      rendered.should contain @planting.crop.name
     end
 
     it "doesn't show the note about random plantings" do
@@ -106,7 +126,11 @@ describe "members/show" do
     end
 
     it "contains an edit settings button" do
-      rendered.should contain "Edit Settings"
+      rendered.should contain "Edit your profile"
+    end
+
+    it "asks you to upgrade your account" do
+      rendered.should contain "Upgrade"
     end
 
     it "contains no send message button" do
@@ -164,6 +188,10 @@ describe "members/show" do
     end
     it "shows a map" do
       assert_select "img", :src => /maps\.google\.com/
+    end
+
+    it 'includes a link to places page' do
+      assert_select 'a', :href => place_path(@member.location)
     end
   end
 

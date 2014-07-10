@@ -11,7 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130601011725) do
+ActiveRecord::Schema.define(:version => 20131031000655) do
+
+  create_table "account_types", :force => true do |t|
+    t.string   "name",              :null => false
+    t.boolean  "is_paid"
+    t.boolean  "is_permanent_paid"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "accounts", :force => true do |t|
+    t.integer  "member_id",       :null => false
+    t.integer  "account_type_id"
+    t.datetime "paid_until"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "authentications", :force => true do |t|
     t.integer  "member_id",  :null => false
@@ -35,16 +51,18 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
   end
 
   create_table "crops", :force => true do |t|
-    t.string   "system_name",      :null => false
+    t.string   "name",             :null => false
     t.string   "en_wikipedia_url"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
     t.string   "slug"
     t.integer  "parent_id"
+    t.integer  "plantings_count"
+    t.integer  "creator_id"
   end
 
+  add_index "crops", ["name"], :name => "index_crops_on_name"
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
-  add_index "crops", ["system_name"], :name => "index_crops_on_system_name"
 
   create_table "forums", :force => true do |t|
     t.string   "name",        :null => false
@@ -58,16 +76,37 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
   add_index "forums", ["slug"], :name => "index_forums_on_slug", :unique => true
 
   create_table "gardens", :force => true do |t|
-    t.string   "name",        :null => false
+    t.string   "name",                          :null => false
     t.integer  "owner_id"
-    t.string   "slug",        :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "slug",                          :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.text     "description"
+    t.boolean  "active",      :default => true
+    t.string   "location"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.decimal  "area"
+    t.string   "area_unit"
   end
 
   add_index "gardens", ["owner_id"], :name => "index_gardens_on_user_id"
   add_index "gardens", ["slug"], :name => "index_gardens_on_slug", :unique => true
+
+  create_table "harvests", :force => true do |t|
+    t.integer  "crop_id",         :null => false
+    t.integer  "owner_id",        :null => false
+    t.date     "harvested_at"
+    t.decimal  "quantity"
+    t.string   "unit"
+    t.text     "description"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "slug"
+    t.decimal  "weight_quantity"
+    t.string   "weight_unit"
+    t.integer  "plant_part_id"
+  end
 
   create_table "members", :force => true do |t|
     t.string   "email",                   :default => "",   :null => false
@@ -97,6 +136,9 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "send_notification_email", :default => true
+    t.text     "bio"
+    t.integer  "plantings_count"
+    t.boolean  "newsletter"
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
@@ -121,9 +163,32 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
     t.datetime "updated_at",                      :null => false
   end
 
+  create_table "order_items", :force => true do |t|
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.integer  "price"
+    t.integer  "quantity"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "orders", :force => true do |t|
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.datetime "completed_at"
+    t.integer  "member_id"
+    t.string   "paypal_express_token"
+    t.string   "paypal_express_payer_id"
+    t.string   "referral_code"
+  end
+
+  create_table "orders_products", :id => false, :force => true do |t|
+    t.integer "order_id"
+    t.integer "product_id"
+  end
+
   create_table "photos", :force => true do |t|
     t.integer  "owner_id",        :null => false
-    t.string   "flickr_photo_id", :null => false
     t.string   "thumbnail_url",   :null => false
     t.string   "fullsize_url",    :null => false
     t.datetime "created_at",      :null => false
@@ -132,6 +197,7 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
     t.string   "license_name",    :null => false
     t.string   "license_url"
     t.string   "link_url",        :null => false
+    t.string   "flickr_photo_id"
   end
 
   create_table "photos_plantings", :id => false, :force => true do |t|
@@ -139,16 +205,25 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
     t.integer "planting_id"
   end
 
+  create_table "plant_parts", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "slug"
+  end
+
   create_table "plantings", :force => true do |t|
-    t.integer  "garden_id",   :null => false
-    t.integer  "crop_id",     :null => false
+    t.integer  "garden_id",    :null => false
+    t.integer  "crop_id",      :null => false
     t.date     "planted_at"
     t.integer  "quantity"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "slug"
     t.string   "sunniness"
+    t.string   "planted_from"
+    t.integer  "owner_id"
   end
 
   add_index "plantings", ["slug"], :name => "index_plantings_on_slug", :unique => true
@@ -166,6 +241,17 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
   add_index "posts", ["created_at", "author_id"], :name => "index_updates_on_created_at_and_user_id"
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
 
+  create_table "products", :force => true do |t|
+    t.string   "name",                             :null => false
+    t.text     "description",       :limit => 255, :null => false
+    t.integer  "min_price",                        :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.integer  "account_type_id"
+    t.integer  "paid_months"
+    t.integer  "recommended_price"
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "name",        :null => false
     t.text     "description"
@@ -181,6 +267,21 @@ ActiveRecord::Schema.define(:version => 20130601011725) do
     t.integer  "crop_id",         :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "creator_id"
   end
+
+  create_table "seeds", :force => true do |t|
+    t.integer  "owner_id",                            :null => false
+    t.integer  "crop_id",                             :null => false
+    t.text     "description"
+    t.integer  "quantity"
+    t.date     "plant_before"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.string   "tradable_to",  :default => "nowhere"
+    t.string   "slug"
+  end
+
+  add_index "seeds", ["slug"], :name => "index_seeds_on_slug", :unique => true
 
 end

@@ -1,4 +1,4 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-  provider :flickr, ENV['FLICKR_KEY'], ENV['FLICKR_SECRET']
+  provider :twitter, ENV['GROWSTUFF_TWITTER_KEY'], ENV['GROWSTUFF_TWITTER_SECRET']
+  provider :flickr, ENV['GROWSTUFF_FLICKR_KEY'], ENV['GROWSTUFF_FLICKR_SECRET']
 end

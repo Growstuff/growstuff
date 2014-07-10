@@ -18,12 +18,12 @@ describe "plantings/_form" do
   end
 
   it "has a free-form text field containing the planting date in ISO format" do
-    assert_select 'input#planting_planted_at_string[type=text][value=2013-03-01]'
+    assert_select 'input#planting_planted_at[type=text][value=2013-03-01]'
   end
 
   context "logged in" do
     it "orders crops alphabetically" do
-      rendered.should =~ /#{@lowercase.system_name}.*#{@uppercase.system_name}/m
+      rendered.should =~ /#{@lowercase.name}.*#{@uppercase.name}/m
     end
   end
 end

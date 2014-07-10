@@ -1,0 +1,39 @@
+- content_for :title, "Crop Wrangling"
+
+
+%ul
+  %li= link_to "Requests for new crops", 'http://growstuff.org/posts/skud-20130319-requests-for-new-crops'
+  %li= link_to "Crop wrangler guidelines", "http://wiki.growstuff.org/index.php/Crop_wrangling"
+  %li= link_to "crop-wranglers mailing list", "http://lists.growstuff.org/listinfo/crop-wranglers"
+  %li= link_to "Full crop hierarchy", crops_hierarchy_path
+  %li= link_to "Add Crop", new_crop_path
+
+%h2 Recently added crops
+
+%div.pagination
+  = page_entries_info @crops, :model => "crops"
+  = will_paginate @crops
+
+%table.table.table-striped
+  %tr
+    %th System name
+    %th English Wikipedia URL
+    %th Scientific names
+    %th Added by
+    %th When
+  - @crops.each do |c|
+    %tr
+      %td= link_to c.name, c
+      %td= link_to c.en_wikipedia_url, c.en_wikipedia_url
+      %td
+        - c.scientific_names.each do |s|
+          = link_to s.scientific_name, s
+          %br/
+      %td= link_to c.creator, c.creator
+      %td
+        = distance_of_time_in_words(c.created_at, Time.zone.now)
+        ago.
+
+%div.pagination
+  = page_entries_info @crops, :model => "crops"
+  = will_paginate @crops

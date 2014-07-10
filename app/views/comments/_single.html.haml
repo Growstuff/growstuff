@@ -1,9 +1,9 @@
 .well
   .comment
-    .row
+    .row-fluid
       .span1
         = render :partial => "members/avatar", :locals => { :member => comment.author }
-      .span7
+      .span11
         .comment-meta
           Posted by
           = link_to comment.author.login_name, member_path(comment.author)
@@ -11,7 +11,7 @@
           = comment.created_at
 
         .comment-body
-          :markdown
+          :growstuff_markdown
             #{ strip_tags comment.body }
 
         - if can? :edit, comment or can? :destroy, comment

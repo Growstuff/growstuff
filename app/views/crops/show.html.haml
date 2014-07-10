@@ -1,33 +1,43 @@
-- content_for :title, @crop.system_name
+- content_for :title, @crop.name
 
-.row
+.row-fluid
   .span9
-    - if @crop.parent
-      %p
-        = @crop.system_name 
-        is a variety of
-        = succeed "." do
-          = link_to @crop.parent, @crop.parent
-    - if @crop.varieties.count > 0
-      %p
-        Varieties of
-        = succeed ":" do
-          = @crop.system_name
-        != @crop.varieties.map{ |c| link_to c, c }.join(", ")
+    %p
+      - if can? :create, Planting
+        = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+      - else
+        = render :partial => 'shared/signin_signup', :locals => { :to => 'plant this crop' }
 
-    - if @crop.plantings_count > 0
-      %p
-        Planted
-        = pluralize(@crop.plantings_count, "time")
-        by #{Growstuff::Application.config.site_name} members
-      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
+      - if can? :create, Harvest
+        = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-primary'
 
+      - if can? :create, Seed
+        = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-primary'
+
+    = render :partial => 'photos', :locals => { :crop => @crop }
+
+    = render :partial => 'varieties', :locals => { :crop => @crop }
+
+    = render :partial => 'grown_for', :locals => { :crop => @crop }
+    
+    = render :partial => 'planting_advice', :locals => { :crop => @crop }
+
+
+    %h2 Who's planted this crop?
+
+    %p
+      - if @crop.plantings.size > 0
+        = @crop.name.titleize
+        has been planted
+        = pluralize(@crop.plantings.size, "time")
+        by #{ENV['GROWSTUFF_SITE_NAME']} members.
+      - else
+        Nobody is growing this yet. You could be the first!
+
+
+    - if @crop.plantings.size > 0
       - @crop.plantings.each do |p|
         = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
-
-    - else
-      %p Nobody is growing this yet. You could be the first!
-      %p= link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
 
   .span3
     - if can? :edit, @crop or can? :destroy, @crop
@@ -42,7 +52,7 @@
         - if can? :destroy, @crop
           = link_to 'Delete crop', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
-    %h4 Scientific names:
+    %h4 Scientific names
     %ul
       - @crop.scientific_names.each do |sn|
         %li
@@ -54,6 +64,10 @@
     %p
     - if can? :edit, @crop
       = link_to 'Add', new_scientific_name_path( :crop_id => @crop.id ), { :class => 'btn btn-mini' }
-    %h4 More information:
+
+    %h4 More information
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+
+    = render :partial => 'harvests', :locals => { :crop => @crop }
+    = render :partial => 'find_seeds', :locals => { :crop => @crop }

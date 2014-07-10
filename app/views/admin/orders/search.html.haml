@@ -1,0 +1,39 @@
+-content_for :title, 'Search Orders'
+
+=render "admin/orders/searchform"
+
+- unless @orders.empty?
+  %h2
+    Found
+    = pluralize(@orders.count, "result")
+
+  %table.table.table-striped
+    %tr
+      %th Member
+      %th Order number
+      %th Date completed
+      %th Referral code
+      %th Items
+      %th
+
+    - @orders.each do |order|
+      %tr
+        %td= link_to order.member.login_name, order.member
+        %td= order.id
+        %td
+          - if order.completed_at
+            = order.completed_at.to_s
+          - else
+            In progress
+        %td
+          = order.referral_code
+        %td
+          - if order.order_items.count > 0
+            - order.order_items.each do |o|
+              = o.quantity
+              x
+              = o.product.name
+              @
+              = price_with_currency(o.price)
+              %br/
+        %td= link_to 'Details', order, :class => 'btn btn-mini'

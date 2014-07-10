@@ -1,25 +1,28 @@
 =content_for :title, "#{@garden.owner}'s #{@garden}"
 
-.row
-  .span3
-    = render :partial => "members/avatar", :locals => { :member => @garden.owner }
-
-    %h4= "#{@garden.owner}'s gardens"
-    %ul
-      - @garden.owner.gardens.each do |othergarden|
-        %li
-          - if @garden == othergarden
-            = @garden
-          - else
-            = link_to "#{othergarden}", garden_path(othergarden)
-
-    - if can? :create, @garden
-      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-mini'
-
+.row-fluid
   .span9
+    - if ! @garden.active
+      .alert.alert-notice
+        NOTE: This garden is inactive.
+        - if can? :edit, @garden
+          = link_to 'Set it to active', edit_garden_path(@garden)
+          to plant something in this garden.
+    %p
+      %strong Owner:
+      = link_to @garden.owner, @garden.owner
+    - if ! @garden.location.blank?
+      %p
+        %strong Location:
+        = @garden.location
+    - if ! @garden.area.blank?
+      %p
+        %strong Area:
+        = pluralize(@garden.area, @garden.area_unit)
+
     %div
-      :markdown
-        #{@garden.description}
+      :growstuff_markdown
+        #{strip_tags @garden.description}
     - if can? :edit, @garden
       = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-mini'
     - if can? :destroy, @garden
@@ -28,9 +31,30 @@
 
     %h3
       What's planted here?
-      - if can? :edit, @garden
+      - if can? :edit, @garden and @garden.active
         = link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-primary'
 
     - @garden.plantings.each do |p|
       = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
+  .span3
+    %h4= "#{@garden.owner}'s gardens"
+    %ul
+      - @garden.owner.gardens.active.each do |othergarden|
+        %li
+          - if @garden == othergarden
+            = @garden
+          - else
+            = link_to "#{othergarden}", garden_path(othergarden)
+
+    %h4= "Inactive gardens"
+    %ul
+      - @garden.owner.gardens.inactive.each do |othergarden|
+        %li
+          - if @garden == othergarden
+            = @garden
+          - else
+            = link_to "#{othergarden}", garden_path(othergarden)
+
+    - if can? :create, @garden
+      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-mini'

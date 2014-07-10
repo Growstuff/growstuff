@@ -1,23 +1,20 @@
 - content_for :title, "Photos"
 
+%p Most recent photos added to #{ENV['GROWSTUFF_SITE_NAME']}.
+
 %div.pagination
   = page_entries_info @photos, :model => "photos"
   = will_paginate @photos
 
-- c = 0
 %ul.thumbnails
-  .row
   - @photos.each do |p|
-    - c += 1
-    %li.span2
+    %li.span2.six-across
       .thumbnail(style='height: 220px')
         = link_to image_tag(p.thumbnail_url, :alt => p.title, :class => 'img-rounded'), p
         %p
           = link_to p.title, p
           by
           = link_to p.owner, p.owner
-    - if (c % 6) == 0
-      .row
 
 %div.pagination
   = page_entries_info @photos, :model => "photos"

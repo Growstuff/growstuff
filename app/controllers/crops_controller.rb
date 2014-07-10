@@ -1,22 +1,64 @@
 class CropsController < ApplicationController
   load_and_authorize_resource
+  skip_authorize_resource :only => [:hierarchy, :search]
+
+  cache_sweeper :crop_sweeper
 
   # GET /crops
   # GET /crops.json
   def index
-    @crops = Crop.paginate(:page => params[:page])
+    @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
 
     respond_to do |format|
-      format.html # index.html.haml
-      format.json { render json: @crops }
-      format.rss { render :layout => false }
+      format.html 
+      format.json { render :json => @crops }
+      format.rss do
+        @crops = Crop.recent.includes(:scientific_names, :creator)
+        render :rss => @crops
+      end
+      format.csv do
+        @filename = "Growstuff-Crops-#{Time.zone.now.to_s(:number)}.csv"
+        @crops = Crop.includes(:scientific_names, :plantings, :seeds, :creator)
+        render :csv => @crops
+      end
+    end
+  end
+
+  # GET /crops/wrangle
+  def wrangle
+    @crops = Crop.recent.paginate(:page => params[:page])
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  # GET /crops/hierarchy
+  def hierarchy
+    @crops = Crop.toplevel
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  # GET /crops/search
+  def search
+    @search = params[:search]
+    @exact_match = Crop.find_by_name(params[:search])
+
+    @partial_matches = Crop.search(params[:search])
+    # exclude exact match from partial match list
+    @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
+
+    respond_to do |format|
+      format.html
     end
   end
 
   # GET /crops/1
   # GET /crops/1.json
   def show
-    @crop = Crop.find(params[:id])
+    @crop = Crop.includes(:scientific_names, {:plantings => :photos}).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.haml
@@ -43,6 +85,7 @@ class CropsController < ApplicationController
   # POST /crops
   # POST /crops.json
   def create
+    params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(params[:crop])
 
     respond_to do |format|

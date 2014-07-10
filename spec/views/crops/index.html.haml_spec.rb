@@ -6,19 +6,26 @@ describe "crops/index" do
     page = 1
     per_page = 2
     total_entries = 2
+    @tomato = FactoryGirl.create(:tomato)
+    @maize  = FactoryGirl.create(:maize)
     crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([
-        FactoryGirl.create(:tomato),
-        FactoryGirl.create(:maize)
-      ])
+      pager.replace([ @tomato, @maize ])
     end
     assign(:crops, crops)
   end
 
   it "renders a list of crops" do
     render
-    assert_select "a", :text => "Maize"
-    assert_select "a", :text => "Tomato"
+    assert_select "a", :text => @maize.name
+    assert_select "a", :text => @tomato.name
+  end
+
+  it "shows photos where available" do
+    @planting = FactoryGirl.create(:planting, :crop => @tomato)
+    @photo = FactoryGirl.create(:photo)
+    @planting.photos << @photo
+    render
+    assert_select "img", :src => @photo.thumbnail_url
   end
 
   it "linkifies crop images" do
@@ -36,6 +43,16 @@ describe "crops/index" do
 
     it "shows a new crop link" do
       rendered.should contain "New Crop"
+    end
+  end
+
+  context "downloads" do
+    it "offers data downloads" do
+      render
+      rendered.should contain "The data on this page is available in the following formats:"
+      assert_select "a", :href => crops_path(:format => 'csv')
+      assert_select "a", :href => crops_path(:format => 'json')
+      assert_select "a", :href => crops_path(:format => 'rss')
     end
   end
 end

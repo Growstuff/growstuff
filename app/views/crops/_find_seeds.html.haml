@@ -1,0 +1,14 @@
+%h4 Find seeds
+- if crop.seeds.empty?
+  %p
+    There are no seeds available to trade.
+- else
+  %ul
+    - crop.seeds.tradable.each do |seed|
+      %li
+        = link_to "#{seed.owner} will trade #{seed.tradable_to}.", seed_path(seed)
+        = render :partial => 'members/location', :locals => { :member => seed.owner }
+- if current_member
+  = link_to "List your seeds to trade.", new_seed_path()
+- else
+  = render :partial => 'shared/signin_signup', :locals => { :to => 'list your seeds to trade' }

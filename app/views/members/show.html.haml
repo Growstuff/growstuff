@@ -2,7 +2,7 @@
 - content_for :member_rss_login_name, "#{@member.login_name}"
 - content_for :member_rss_slug, "#{@member.slug}"
 
-.row
+.row-fluid
   .span3
     = render :partial => "members/avatar", :locals => { :member => @member }
 
@@ -14,6 +14,14 @@
     %p
       %strong Member since:
       = @member.created_at.to_s(:date)
+
+    %p
+      %strong Account type:
+      = @member.account_type
+      account
+
+      - if @member == current_member && !@member.is_paid?
+        = link_to "Upgrade", shop_path, :class => 'btn btn-primary btn-mini'
 
     - if @twitter_auth || @flickr_auth || @member.show_email
       %h4 Contact
@@ -36,18 +44,20 @@
     - if @member.location.to_s != ''
       %h4 Location
       %p
-        = image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 )
+        = link_to image_tag("http://maps.google.com/maps/api/staticmap?size=200x200&maptype=roadmap&sensor=false&markers=color:green|label:A|#{@member.latitude},#{@member.longitude}&zoom=12", :alt => "Map showing #{@member.location}", :width => 200, :height => 200 ), place_path(@member.location)
         %br/
-        Location:
-        = @member.location
-        %br/
-        = link_to 'Find members near here', nearby_members_path(:location => @member.location)
-    %p
-    - if current_member == @member
-      %p
-        = link_to 'Edit Settings', "edit", :class => 'btn btn-mini'
+        = link_to @member.location, place_path(@member.location)
 
   .span9
+    %p
+    - if can? :update, @member
+      %p
+        = link_to 'Edit your profile', "edit", :class => 'btn btn-primary'
+    - if @member.bio
+      %h2 Bio
+      :growstuff_markdown
+        #{ strip_tags @member.bio }
+    %h2 Gardens
     .tabbable
       %ul.nav.nav-tabs
         - first_garden = true
@@ -65,7 +75,7 @@
             - first_garden = false
 
             %div
-              :markdown
+              :growstuff_markdown
                 #{ strip_tags g.description }
 
             %h3 What's planted here?
@@ -79,6 +89,13 @@
           %div{:class => 'tab-pane', :id => "garden_new"}
             %h3 Create a new garden
             = render 'gardens/form'
+
+    %h3 Seeds
+    %p
+      - if @member.seeds.count > 0
+        = link_to pluralize(@member.seeds.count, "variety"), seeds_path(:owner_id => @member.id)
+      - else
+        No seeds yet.
 
     %h3 Posts
     - if @member.posts.count > 0

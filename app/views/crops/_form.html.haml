@@ -13,9 +13,9 @@
       on the Growstuff wiki.
 
   .control-group
-    = f.label :system_name, :class => 'control-label'
+    = f.label :name, :class => 'control-label'
     .controls
-      = f.text_field :system_name
+      = f.text_field :name
       %span.help-inline Name in US English; singular; capitalize proper nouns only.
   .control-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', :class => 'control-label'
@@ -25,7 +25,7 @@
   .control-group
     = f.label :parent_id, 'Parent crop', :class => 'control-label'
     .controls
-      = collection_select(:crop, :parent_id, Crop.all, :id, :system_name, {:include_blank => true})
+      = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true})
       %span.help-inline Optional. For setting up crop hierarchies for varieties etc.
   .form-actions
     = f.submit 'Save', :class => 'btn btn-primary'

@@ -1,8 +1,17 @@
-.thumbnail(style="height: 220px")
-  = render :partial => "members/avatar", :locals => { :member => member }
-  %p
-    = link_to member.to_s, member
-    - if member.location
-      %br/
-      %i
-        %small= member.location
+- cache "member_thumbnail_#{member.id}" do
+  .row-fluid
+    .member-thumbnail
+      .span3
+        = render :partial => "members/image_with_popover", :locals => { :member => member }
+      .span9
+        %p
+          = link_to member.login_name, member
+          - if ! member.location.blank?
+            %small
+              %br/
+              %i= member.location
+          - if ! member.plantings.empty?
+            %small
+              %br/
+              Recently planted:
+              != member.plantings.first(3).map{|p| link_to p.crop_name, p }.join(", ")

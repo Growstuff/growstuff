@@ -5,22 +5,30 @@
     Connected to Flickr as
     = succeed "." do
       = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
+    Please select a photo from your recent uploads.
 
-  %p Select a photo from your recent uploads:
+  - if @sets and @current_set
+    %h2= @sets.key(@current_set)
 
-  - c = 0
+  - if @sets and @sets.length > 0
+    %p
+      = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
+        = label_tag :set, "Choose a photo set:", :class => 'control-label'
+        = select_tag :set, options_for_select(@sets, @current_set), :class => 'input-large'
+        = submit_tag "Search", :class => 'btn btn-primary'
+
+  %div.pagination
+    = page_entries_info @photos, :model => "photos"
+    = will_paginate @photos
+
   %ul.thumbnails
-    .row
+    .row-fluid
     - @photos.each do |p|
-      - c += 1
-      %li.span2
+      %li.span2.six-across
         .thumbnail(style='height: 220px')
           = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img-rounded'), photos_path(:photo => { :flickr_photo_id => p.id }, :planting_id => @planting_id), :method => :post
           %p
             =p.title
-      - if (c % 6) == 0
-        .row
-
 
 - else
   .alert

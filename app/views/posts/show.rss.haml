@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 %rss{:version => 2.0}
   %channel
-    %title #{Growstuff::Application.config.site_name} - Recent comments on #{@post.subject}
+    %title #{ENV['GROWSTUFF_SITE_NAME']} - Recent comments on #{@post.subject}
     %link= post_url(@post)
     - @post.comments.each do |comment|
       %item
         %title Comment by #{comment.author.login_name} on #{comment.created_at.to_s}
-        %author= comment.author.login_name
         %description
 
           :escaped
@@ -20,4 +19,4 @@
 
         %pubDate= comment.created_at.to_s(:rfc822)
         %link= post_url(@post)
-        %guid= post_url(@post)
+        %guid= comment_url(comment)

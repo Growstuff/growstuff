@@ -40,7 +40,7 @@ Growstuff::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -66,25 +66,39 @@ Growstuff::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Growstuff configuration
+  config.new_crops_request_link = "http://growstuff.org/posts/skud-20130319-requests-for-new-crops"
   config.action_mailer.default_url_options = { :host => 'growstuff.org' }
 
   config.action_mailer.smtp_settings = {
       :port =>           '587',
       :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['MANDRILL_USERNAME'],
-      :password =>       ENV['MANDRILL_APIKEY'],
+      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
+      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
       :domain =>         'heroku.com',
       :authentication => :plain
   }
   config.action_mailer.delivery_method = :smtp
 
-  Growstuff::Application.configure do
-    config.site_name = "Growstuff"
-    config.analytics_code = <<-eos
-      <script src="//static.getclicky.com/js" type="text/javascript"></script>
-      <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
-      <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
-    eos
+  config.host = 'growstuff.org'
+  config.analytics_code = <<-eos
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+    <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
+  eos
+
+  # this config variable cannot be put in application.yml as it is needed
+  # by the assets pipeline, which doesn't have access to ENV.
+  config.mapbox_map_id = 'growstuff.i3n2c4ie'
+
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :production
+    paypal_options = {
+      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'],
+      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'],
+      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE']
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 
 end

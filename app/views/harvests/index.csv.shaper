@@ -1,0 +1,46 @@
+csv.headers :id,
+  :growstuff_url,
+  :owner_id,
+  :owner_name,
+  :crop_id,
+  :crop_name,
+  :plant_part_id,
+  :plant_part_name,
+  :quantity,
+  :unit,
+  :weight_quantity,
+  :weight_unit,
+  :date_harvested,
+  :description,
+  :date_added,
+  :last_modified,
+  :license
+
+@harvests.each do |h|
+  csv.row h do |csv, harvest|
+
+    csv.cell :id
+    csv.cell :growstuff_url, harvest_url(h)
+
+    csv.cell :owner_id, h.owner.id
+    csv.cell :owner_name, h.owner.to_s
+
+    csv.cell :crop_id, h.crop.id
+    csv.cell :crop_name, h.crop.to_s
+
+    csv.cell :plant_part_id, h.plant_part ? h.plant_part.id : ''
+    csv.cell :plant_part_name, h.plant_part ? h.plant_part.to_s : ''
+
+    csv.cells :quantity, :unit, :weight_quantity, :weight_unit
+
+    csv.cell :date_harvested, h.created_at.to_s(:db)
+
+    csv.cell :description
+
+    csv.cell :date_added, h.created_at.to_s(:db)
+    csv.cell :last_modified, h.updated_at.to_s(:db)
+
+    csv.cell :license, "CC-BY-SA Growstuff http://growstuff.org/"
+
+  end
+end

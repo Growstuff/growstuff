@@ -1,22 +1,39 @@
 class PlantingsController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :planting_sweeper
+
   # GET /plantings
   # GET /plantings.json
   def index
-    @plantings = Planting.paginate(:page => params[:page])
+    @owner = Member.find_by_slug(params[:owner])
+    if @owner
+      @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(:page => params[:page])
+    else
+      @plantings = Planting.includes(:owner, :crop, :garden).paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @plantings }
       format.rss { render :layout => false } #index.rss.builder
-
+      format.csv do
+        if @owner
+          @filename = "Growstuff-#{@owner}-Plantings-#{Time.zone.now.to_s(:number)}.csv"
+          @plantings = @owner.plantings.includes(:owner, :crop, :garden)
+        else
+          @filename = "Growstuff-Plantings-#{Time.zone.now.to_s(:number)}.csv"
+          @plantings = Planting.includes(:owner, :crop, :garden)
+        end
+        render :csv => @plantings
+      end
     end
   end
 
   # GET /plantings/1
   # GET /plantings/1.json
   def show
-    @planting = Planting.find(params[:id])
+    @planting = Planting.includes(:owner, :crop, :garden, :photos).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,8 +44,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/new
   # GET /plantings/new.json
   def new
-    @planting = Planting.new
-    @planting.planted_at = Date.today
+    @planting = Planting.new('planted_at' => Date.today)
 
     # using find_by_id here because it returns nil, unlike find
     @crop     = Crop.find_by_id(params[:crop_id])     || Crop.new
@@ -43,6 +59,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/1/edit
   def edit
     @planting = Planting.find(params[:id])
+
     # the following are needed to display the form but aren't used
     @crop     = Crop.new
     @garden   = Garden.new
@@ -51,6 +68,8 @@ class PlantingsController < ApplicationController
   # POST /plantings
   # POST /plantings.json
   def create
+    params[:planting][:owner_id] = current_member.id
+    params[:planted_at] = parse_date(params[:planted_at])
     @planting = Planting.new(params[:planting])
 
     respond_to do |format|
@@ -68,6 +87,7 @@ class PlantingsController < ApplicationController
   # PUT /plantings/1.json
   def update
     @planting = Planting.find(params[:id])
+    params[:planted_at] = parse_date(params[:planted_at])
 
     respond_to do |format|
       if @planting.update_attributes(params[:planting])

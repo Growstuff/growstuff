@@ -2,11 +2,14 @@
 /doc
 /db/*.sqlite3
 /tmp/*
+coverage
 .pt
 .*.sw*
 *~
 *.DS_Store
-credentials.sh
+config/application.yml
+credentials*.sh
 Pathogen:
 custom_plan.rb
 zeus.json
+.bundle

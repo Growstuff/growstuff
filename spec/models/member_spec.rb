@@ -4,15 +4,10 @@ describe 'member' do
 
   context 'valid member' do
     before(:each) do
-      @member = FactoryGirl.build(:member)
-    end
-
-    it 'should save a basic member' do
-      @member.save.should be_true
+      @member = FactoryGirl.create(:member)
     end
 
     it 'should be fetchable from the database' do
-      @member.save
       @member2 = Member.find(@member.id)
       @member2.should be_an_instance_of Member
       @member2.login_name.should match(/member\d+/)
@@ -20,22 +15,32 @@ describe 'member' do
     end
 
     it 'should have a friendly slug' do
-      @member.save
       @member.slug.should match(/member\d+/)
     end
 
+    it 'has a bio' do
+      @member.bio = 'I love seeds'
+      @member.bio.should eq 'I love seeds'
+    end
+
     it 'should have a default garden' do
-      @member.save
       @member.gardens.count.should == 1
     end
 
+    it 'should have a accounts entry' do
+      @member.account.should be_an_instance_of Account
+    end
+
+    it "should have a default-type account by default" do
+      @member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
+      @member.is_paid?.should be_false
+    end
+
     it "doesn't show email by default" do
-      @member.save
       @member.show_email.should be_false
     end
 
     it 'should stringify as the login_name' do
-      @member.save
       @member.to_s.should match(/member\d+/)
       "#{@member}".should match(/member\d+/)
     end
@@ -46,27 +51,21 @@ describe 'member' do
     end
 
     it 'should be able to fetch gardens' do
-      @member.save
       @member.gardens.first.name.should eq "Garden"
     end
 
-    it 'has many plantings through gardens' do
-      @member.save
-      @planting = FactoryGirl.create(:planting,
-        :garden => @member.gardens.first
-      )
-      @member.plantings.count.should eq 1
+    it 'has many plantings' do
+      @planting = FactoryGirl.create(:planting, :owner => @member)
+      @member.plantings.size.should eq 1
     end
 
     it "has many comments" do
-      @member.save
       @comment1 = FactoryGirl.create(:comment, :author => @member)
       @comment2 = FactoryGirl.create(:comment, :author => @member)
       @member.comments.length.should == 2
     end
 
     it "has many forums" do
-      @member.save
       @forum1 = FactoryGirl.create(:forum, :owner => @member)
       @forum2 = FactoryGirl.create(:forum, :owner => @member)
       @member.forums.length.should == 2
@@ -87,6 +86,13 @@ describe 'member' do
       @member.longitude.should be_nil
     end
 
+    it 'fails gracefully for unfound locations' do
+      @member.update_attributes(:location => 'Tatooine')
+      @member.location.should eq 'Tatooine'
+      @member.latitude.should be_nil
+      @member.longitude.should be_nil
+    end
+
   end
 
   context 'no TOS agreement' do
@@ -96,6 +102,15 @@ describe 'member' do
 
     it "should refuse to save a member who hasn't agreed to the TOS" do
       @member.save.should_not be_true
+    end
+  end
+
+  context 'newsletter scope' do
+    it 'finds newsletter recipients' do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:newsletter_recipient_member)
+      Member.wants_newsletter.should include @member2
+      Member.wants_newsletter.should_not include @member1
     end
   end
 
@@ -215,16 +230,51 @@ describe 'member' do
     end
   end
 
-  context 'interesting scope' do
+  context 'located scope' do
+    # located members must have location, lat, long
+    it 'finds members who have locations' do
+      @london_member = FactoryGirl.create(:london_member)
+      Member.located.should include @london_member
+    end
 
-    # active members are defined as:
+    it 'ignores members with blank locations' do
+      @nowhere_member = FactoryGirl.create(:member)
+      Member.located.should_not include @nowhere_member
+    end
+
+    it 'ignores members with blank lat/long' do
+      @london_member = FactoryGirl.create(:london_member)
+      @london_member.latitude = nil
+      @london_member.longitude = nil
+      @london_member.save(:validate => false)
+      Member.located.should_not include @london_member
+    end
+  end
+
+  context 'near location' do
+    it 'finds nearby members and sorts them' do
+      @edinburgh_member = FactoryGirl.create(:edinburgh_member)
+      @london_member = FactoryGirl.create(:london_member)
+      Member.nearest_to('Greenwich, UK').should eq [@london_member, @edinburgh_member]
+    end
+  end
+
+  context 'interesting scope' do
+    # interesting members are defined as:
     # 1) confirmed
-    # 2) ordered by the most recent sign in
+    # 2) have a location
+    # 3) have at least one planting
+    # 4) ordered by the most recent sign in
+
     it 'finds interesting members' do
       @member1 = FactoryGirl.create(:london_member)
       @member2 = FactoryGirl.create(:london_member)
       @member3 = FactoryGirl.create(:london_member)
       @member4 = FactoryGirl.create(:unconfirmed_member)
+
+      [@member1, @member2, @member3, @member4].each do |m|
+        FactoryGirl.create(:planting, :owner => m)
+      end
 
       @member1.updated_at = 3.days.ago
       @member2.updated_at = 2.days.ago
@@ -232,6 +282,102 @@ describe 'member' do
 
       Member.interesting.should eq [ @member3, @member2, @member1 ]
 
+    end
+
+  end
+
+  context 'orders' do
+    it 'finds the current order' do
+      @member = FactoryGirl.create(:member)
+      @order1 = FactoryGirl.create(:completed_order, :member => @member)
+      @order2 = FactoryGirl.create(:order, :member => @member)
+      @member.current_order.should eq @order2
+    end
+
+    it "copes if there's no current order" do
+      @member = FactoryGirl.create(:member)
+      @order1 = FactoryGirl.create(:completed_order, :member => @member)
+      @order2 = FactoryGirl.create(:completed_order, :member => @member)
+      @member.current_order.should be_nil
+    end
+  end
+
+  context "paid accounts" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+    end
+
+    it "recognises a permanent paid account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => true, :is_permanent_paid => true)
+      @member.account.account_type = @account_type
+      @member.is_paid?.should be_true
+    end
+
+    it "recognises a current paid account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => true, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.account.paid_until = Time.zone.now + 1.month
+      @member.is_paid?.should be_true
+    end
+
+    it "recognises an expired paid account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => true, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.account.paid_until = Time.zone.now - 1.minute
+      @member.is_paid?.should be_false
+    end
+
+    it "recognises a free account" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => false, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.is_paid?.should be_false
+    end
+
+    it "recognises a free account even with paid_until set" do
+      @account_type = FactoryGirl.create(:account_type,
+          :is_paid => false, :is_permanent_paid => false)
+      @member.account.account_type = @account_type
+      @member.account.paid_until = Time.zone.now + 1.month
+      @member.is_paid?.should be_false
+    end
+
+  end
+
+  context "update account" do
+    before(:each) do
+      @product = FactoryGirl.create(:product,
+        :paid_months => 3
+      )
+      @member = FactoryGirl.create(:member)
+    end
+
+    it "sets account_type" do
+      @member.update_account_after_purchase(@product)
+      @member.account.account_type.should eq @product.account_type
+    end
+
+    it "sets paid_until" do
+      @member.account.paid_until = nil # blank for now, as if never paid before
+      @member.update_account_after_purchase(@product)
+
+      # stringify to avoid millisecond problems...
+      @member.account.paid_until.to_s.should eq (Time.zone.now + 3.months).to_s
+
+      # and again to make sure it works for currently paid accounts
+      @member.update_account_after_purchase(@product)
+      @member.account.paid_until.to_s.should eq (Time.zone.now + 6.months).to_s
+    end
+  end
+
+  context 'harvests' do
+    it 'has harvests' do
+      member = FactoryGirl.create(:member)
+      harvest = FactoryGirl.create(:harvest, :owner => member)
+      member.harvests.should eq [harvest]
     end
   end
 

@@ -25,10 +25,14 @@ class Post < ActiveRecord::Base
     self.comments.count
   end
 
+  # return the timestamp of the most recent activity on this post
+  # i.e. the time of the most recent comment, or of the post itself if
+  # there are no comments.
   def recent_activity
-    self.comments.last ? self.comments.last.created_at : self.created_at
+    self.comments.present? ? self.comments.reorder('created_at DESC').first.created_at : self.created_at
   end
 
+  # return posts sorted by recent activity
   def Post.recently_active
     Post.all.sort do |a,b|
       b.recent_activity <=> a.recent_activity

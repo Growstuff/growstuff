@@ -27,4 +27,9 @@ describe "posts/index" do
   it "contains two gravatar icons" do
     assert_select "img", :src => /gravatar\.com\/avatar/, :count => 2
   end
+
+  it "contains RSS feed links for posts and comments" do
+    assert_select "a", :href => posts_path(:format => 'rss')
+    assert_select "a", :href => comments_path(:format => 'rss')
+  end
 end

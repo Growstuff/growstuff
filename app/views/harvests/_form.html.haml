@@ -1,0 +1,43 @@
+= form_for(@harvest, :html => {:class => "form-horizontal"}) do |f|
+  - if @harvest.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@harvest.errors.count, "error")} prohibited this harvest from being saved:"
+      %ul
+        - @harvest.errors.full_messages.each do |msg|
+          %li= msg
+
+  .control-group
+    = f.label 'What did you harvest?', :class => 'control-label'
+    .controls
+      = collection_select(:harvest, :crop_id, Crop.all, :id, :name, :selected => @harvest.crop_id || @crop.id)
+      = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, :selected => @harvest.plant_part_id)
+      %span.help-block
+        Can't find what you're looking for?
+        = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
+
+  .control-group
+    = f.label 'When?', :class => 'control-label'
+    .controls= f.text_field :harvested_at, :value => @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '', :class => 'add-datepicker'
+
+  .control-group
+    = f.label 'How many?', :class => 'control-label'
+    .controls
+      -# Some browsers (eg Firefox for Android) assume "number" means
+      -# "integer" unless you specify step="any":
+      -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
+      = f.number_field :quantity, :class => 'input-small', :step => 'any'
+      = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
+
+  .control-group
+    = f.label 'Weighing:', :class => 'control-label'
+    .controls
+      = f.number_field :weight_quantity, :class => 'input-small', :step => 'any'
+      = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
+      in total
+  .control-group
+    = f.label 'Notes', :class => 'control-label'
+    .controls= f.text_area :description, :rows => 6
+
+    .form-actions
+      = f.submit 'Save', :class => 'btn btn-primary'
+

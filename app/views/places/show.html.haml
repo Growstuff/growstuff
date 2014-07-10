@@ -1,0 +1,20 @@
+-content_for :title, @place
+
+= form_tag(search_places_path, :method => :get, :class => 'form-inline') do
+  = label_tag :place, "Change location:", :class => 'control-label'
+  = text_field_tag :new_place
+  = submit_tag "Search", :class => 'btn btn-primary'
+
+%div#map{ :style => "height:300px"}
+
+%h3
+  = ENV['GROWSTUFF_SITE_NAME']
+  members near #{@place}
+
+- if !@nearby_members.empty?
+  %ul.thumbnails
+    - @nearby_members.first(30).each do |member|
+      %li.span4.three-across
+        = render :partial => "members/thumbnail", :locals => { :member => member }
+- elsif @place
+  %p No results found

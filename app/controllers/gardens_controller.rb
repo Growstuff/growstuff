@@ -1,9 +1,16 @@
 class GardensController < ApplicationController
   load_and_authorize_resource
+
+  cache_sweeper :garden_sweeper
+
   # GET /gardens
   # GET /gardens.json
   def index
-    @gardens = Garden.all
+    @gardens = Garden.paginate(:page => params[:page])
+    @owner = Member.find_by_slug(params[:owner])
+    if @owner
+      @gardens = @owner.gardens.paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

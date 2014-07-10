@@ -1,10 +1,4 @@
-= content_for :title, "#{Growstuff::Application.config.site_name} members"
-
-%p
-  - if member_signed_in? && current_member.location
-    = link_to "Find members near you", nearby_members_path
-  - else
-    = link_to "Find members by location", nearby_members_path
+= content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} members"
 
 %div.pagination
   = page_entries_info @members, :model => "members"
@@ -12,7 +6,7 @@
 
 %ul.thumbnails
   - @members.each do |m|
-    %li.span2
+    %li.span4.three-across
       = render :partial => "members/thumbnail", :locals => { :member => m }
 
 %div.pagination

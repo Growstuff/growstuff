@@ -1,70 +1,33 @@
-- if member_signed_in?
-
-  %h1= "Welcome, #{current_member.login_name}"
-
-  .row
-    .visible-desktop.visible-tablet
-      .span2
-        = render :partial => "members/avatar", :locals => { :member => current_member }
-    .span6
+.row-fluid
+  .span12
+    - if member_signed_in?
+      %h1
+        Welcome to
+        = succeed "," do
+          = ENV['GROWSTUFF_SITE_NAME']
+        = current_member
+      = render :partial => 'stats'
       %p
-        %b Your profile:
-        =link_to current_member, current_member
-        = link_to "Edit", edit_registration_path(current_member), :class => 'btn btn-mini'
+        .btn-group
+          = link_to "Plant", new_planting_path, :class => 'btn'
+          = link_to "Harvest", new_harvest_path, :class => 'btn'
+          = link_to "Add seeds", new_seed_path, :class => 'btn'
+          = link_to "Post", new_post_path, :class => 'btn'
+          = link_to "Edit profile", edit_member_registration_path, :class => 'btn'
 
-      %p
-        %b Your location:
-        = current_member.location ? current_member.location : 'Not set'
-        = link_to "Edit", edit_registration_path(current_member), :class => 'btn btn-mini'
+    - else
+      .visible-desktop.visible-tablet
+        .hero-unit
+          = render :partial => 'blurb'
+      .visible-phone
+        = render :partial => 'blurb'
+.row-fluid
+  .span8.main
+    = render :partial => 'crops'
+    = render :partial => 'seeds'
+    = render :partial => 'members'
+    = render :partial => 'discuss'
 
-      %ul.inline
-        %li.first
-          %b Your gardens:
-        - current_member.gardens.each do |g|
-          %li= link_to g.name, g
-        - if can? :create, Garden
-          %li
-            = link_to 'Add', new_garden_path, :class => 'btn btn-mini'
-
-    .span4
-      - if current_member.has_role?(:admin)
-        %p
-          %b You are an ADMIN USER.
-
-      - if current_member.forums.count > 0
-        %p
-          %b Forums you administer:
-        %ul
-          - current_member.forums.each do |f|
-            %li= link_to f.name, f
-
-  .row
-    .span6
-      %h2 Your recent plantings
-      = render :partial => 'shared/recent_plantings'
-
-    .span6
-      %h2 Your recent posts
-      = render :partial => 'shared/recent_posts'
-
-- else
-  .visible-desktop.visible-tablet
-    .hero-unit
-      = render :partial => 'blurb'
-  .visible-phone
-    = render :partial => 'blurb'
-
-  - if @interesting_members
-    %h2 Some of our members
-    %ul.thumbnails
-      - @interesting_members.each do |m|
-        %li.span2
-          = render :partial => "members/thumbnail", :locals => { :member => m }
-
-  .row
-    .span6
-      %h2 Recent plantings
-      = render :partial => 'shared/recent_plantings'
-    .span6
-      %h2 Recent posts
-      = render :partial => 'shared/recent_posts'
+  .span4.sidebar
+    = render :partial => 'keep_in_touch'
+    = render :partial => 'open'

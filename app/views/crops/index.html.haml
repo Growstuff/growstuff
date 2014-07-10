@@ -1,18 +1,18 @@
 - content_for :title, "Crops"
-- c = 0
+
+%p
+  #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
+  View any crop page to see which of our members have planted it and find
+  information on how to grow it yourself.
 
 %div.pagination
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
 
 %ul.thumbnails
-  .row
   - @crops.each do |crop|
-    - c += 1
-    %li.span2
+    %li.span2.six-across
       = render :partial => "thumbnail", :locals => { :crop => crop }
-    - if (c % 6) == 0
-      .row
 
 - if can? :create, Crop
   %div
@@ -22,3 +22,9 @@
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
 
+
+%ul.inline
+  %li The data on this page is available in the following formats:
+  %li= link_to "CSV", crops_path(:format => 'csv')
+  %li= link_to "JSON", crops_path(:format => 'json')
+  %li= link_to "RSS", crops_path(:format => 'rss')

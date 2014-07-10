@@ -1,10 +1,14 @@
 ---
 language: ruby
+bundler_args: --without development assets
+env: RAILS_ENV=travis GROWSTUFF_SITE_NAME="Growstuff (travis)"
 rvm:
-- 1.9.3
+  - 2.1.1
+before_script:
+  - psql -c 'create database growstuff_test;' -U postgres
 script:
-- bundle exec rake db:migrate --trace
-- bundle exec rspec spec/
+  - bundle exec rake db:migrate --trace
+  - bundle exec rspec spec/
 
 # after_success:
 # - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then git remote add heroku git@heroku.com:growstuff-dev.git
@@ -20,6 +24,6 @@ script:
 # - heroku restart
 # - fi
 
-env:
-  global:
-    secure: "QFQbCdNGyjeatp/H0j0y0oGiue45fpG2w6eA2QAbq2RmvhabgXbd5WIobN90\ndrae3S7TRxPDpMpus90icykX6EzOTLXCEvaC4rh9pCcRktj3SZqq5b9rVTvs\n1MvlS6HhtsVqsrKjQUb0WmPpnganIzTs0RtGaQspo2joPJO18A4="
+# env:
+# global:
+# secure: "QFQbCdNGyjeatp/H0j0y0oGiue45fpG2w6eA2QAbq2RmvhabgXbd5WIobN90\ndrae3S7TRxPDpMpus90icykX6EzOTLXCEvaC4rh9pCcRktj3SZqq5b9rVTvs\n1MvlS6HhtsVqsrKjQUb0WmPpnganIzTs0RtGaQspo2joPJO18A4="

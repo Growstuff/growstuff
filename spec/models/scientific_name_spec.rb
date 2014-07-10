@@ -14,7 +14,12 @@ describe ScientificName do
     it 'should be fetchable from the database' do
       @sn.save
       @sn2 = ScientificName.find_by_scientific_name('Zea mays')
-      @sn2.crop.system_name.should == "Maize"
+      @sn2.crop.name.should == 'maize'
+    end
+
+    it 'has a creator' do
+      @sn.save
+      @sn.creator.should be_an_instance_of Member
     end
   end
 

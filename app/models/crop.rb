@@ -1,15 +1,23 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :system_name, use: :slugged
-  attr_accessible :en_wikipedia_url, :system_name, :parent_id
+  friendly_id :name, use: :slugged
+  attr_accessible :en_wikipedia_url, :name, :parent_id, :creator_id
 
   has_many :scientific_names
   has_many :plantings
+  has_many :photos, :through => :plantings
+  has_many :seeds
+  has_many :harvests
+  has_many :plant_parts, :through => :harvests, :uniq => :true
+  belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
 
-  default_scope order("lower(system_name) asc")
+  default_scope order("lower(name) asc")
+  scope :recent, reorder("created_at desc")
+  scope :toplevel, where(:parent_id => nil)
+  scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
 
   validates :en_wikipedia_url,
     :format => {
@@ -23,7 +31,7 @@ class Crop < ActiveRecord::Base
   end
 
   def to_s
-    return system_name
+    return name
   end
 
   def default_scientific_name
@@ -34,8 +42,139 @@ class Crop < ActiveRecord::Base
     end
   end
 
-  def plantings_count
-    return plantings.count
+  # crop.default_photo
+  # currently returns the first available photo, but exists so that
+  # later we can choose a default photo based on different criteria,
+  # eg. popularity
+  def default_photo
+    return photos.first
+  end
+
+  # crop.sunniness
+  # returns hash indicating whether this crop is grown in
+  # sun/semi-shade/shade
+  # key: sunniness (eg. 'sun')
+  # value: count of how many times it's been used by plantings
+  def sunniness
+    sunniness = Hash.new(0)
+    plantings.each do |p|
+      if !p.sunniness.blank?
+        sunniness[p.sunniness] += 1
+      end
+    end
+    return sunniness
+  end
+
+  # crop.planted_from
+  # returns a hash of propagation methods (seed, seedling, etc),
+  # key: propagation method (eg. 'seed')
+  # value: count of how many times it's been used by plantings
+  def planted_from
+    planted_from = Hash.new(0)
+    plantings.each do |p|
+      if !p.planted_from.blank?
+        planted_from[p.planted_from] += 1
+      end
+    end
+    return planted_from
+  end
+
+  # crop.popular_plant_parts
+  # returns a hash of most harvested plant parts (fruit, seed, etc)
+  # key: plant part (eg. 'fruit')
+  # value: count of how many times it's been used by harvests
+  def popular_plant_parts
+    popular_plant_parts = Hash.new(0)
+    harvests.each do |h|
+      if h.plant_part
+        popular_plant_parts[h.plant_part] += 1
+      end
+    end
+    return popular_plant_parts
+  end
+
+  def interesting?
+    min_plantings = 3 # needs this many plantings to be interesting
+    min_photos    = 3 # needs this many photos to be interesting
+    return false unless photos.count >= min_photos
+    return false unless plantings_count >= min_plantings
+    return true
+  end
+
+  # Crop.interesting
+  # returns a list of interesting crops, for use on the homepage etc
+  def Crop.interesting
+  howmany = 12 # max number to find
+  interesting_crops = Array.new
+    Crop.randomized.each do |c|
+      break if interesting_crops.length == howmany
+      next unless c.interesting?
+      interesting_crops.push(c)
+    end
+    return interesting_crops
+  end
+
+# Crop.create_from_csv(row)
+# used by db/seeds.rb and rake growstuff:import_crops
+# CSV fields:
+# - name (required)
+# - scientific name (optional, can be picked up from parent if it has one)
+# - en_wikipedia_url (required)
+# - parent (name, optional)
+
+  def Crop.create_from_csv(row, definitely_new=false)
+    name,scientific_name,en_wikipedia_url,parent = row
+
+    @cropbot = Member.find_by_login_name('cropbot')
+    raise "cropbot account not found: run rake db:seed" unless @cropbot
+
+    if definitely_new then
+      @crop = Crop.create(
+        :name => name,
+        :en_wikipedia_url => en_wikipedia_url,
+        :creator_id => @cropbot.id
+      )
+    else
+      @crop = Crop.find_or_create_by_name(name)
+      @crop.update_attributes(
+        :en_wikipedia_url => en_wikipedia_url,
+        :creator_id => @cropbot.id
+      )
+    end
+    if parent
+      @parent = Crop.find_by_name(parent)
+      if @parent
+        @crop.update_attributes(:parent_id => @parent.id)
+      else
+        logger.warn("Warning: parent crop #{parent} not found")
+      end
+    end
+
+    unless @crop.scientific_names.exists?(:scientific_name => scientific_name)
+      @sn = ''
+      if scientific_name
+        @sn = scientific_name
+      elsif @crop.parent
+        @sn = @crop.parent.scientific_names.first.scientific_name
+      end
+
+      if @sn
+        @crop.scientific_names.create(
+          :scientific_name => @sn,
+          :creator_id => @cropbot.id
+        )
+      else
+        logger.warn("Warning: no scientific name (not even on parent crop) for #{@crop}")
+      end
+
+    end
+  end
+
+  # Crop.search(string)
+  # searches for crops whose names match the string given
+  # just uses SQL LIKE for now, but can be made fancier later
+  def self.search(query)
+    where("name LIKE ?", "%#{query}%")
   end
 
 end

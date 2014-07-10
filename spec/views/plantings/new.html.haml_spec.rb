@@ -34,7 +34,13 @@ describe "plantings/new" do
         assert_select "input#planting_quantity", :name => "planting[quantity]"
         assert_select "textarea#planting_description", :name => "planting[description]"
         assert_select "select#planting_sunniness", :name => "planting[sunniness]"
+        assert_select "select#planting_planted_from", :name => "planting[planted_from]"
       end
+    end
+
+    it 'includes helpful links for crops and gardens' do
+      assert_select "a[href=#{new_garden_path}]", :text => "Add a garden."
+      assert_select "a[href=#{Growstuff::Application.config.new_crops_request_link}]", :text => "Request new crops."
     end
 
     it "selects a crop given in a param" do

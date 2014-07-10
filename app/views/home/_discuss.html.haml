@@ -1,0 +1,18 @@
+%h2 Discussion
+
+- cache "recent_posts" do
+  - posts = Post.limit(6)
+  - if posts
+    =render :partial => "posts/summary", :locals => { :posts => posts, :howmany => 6 }
+
+- cache "homepage_forums" do
+  - forums = Forum.all
+  - if forums
+    %ul.inline
+      %li
+        %strong Forums:
+      - forums.each do |f|
+        %li= link_to f.name, f
+
+%p.text-right
+  = link_to "View all posts »", posts_path

@@ -24,10 +24,6 @@ describe MembersController do
   end
 
   describe "GET show" do
-    it "assigns the requested member as @member" do
-      get :show, {:id => @member.id}
-      assigns(:member).should eq(@member)
-    end
 
     it "does NOT provide JSON for member profile" do
       get :show, { :id => @member.id , :format => 'json' }
@@ -66,107 +62,6 @@ describe MembersController do
       response.should be_success
       response.should render_template("members/show")
       response.content_type.should eq("application/rss+xml")
-    end
-  end
-
-  describe "GET nearby members" do
-    before(:each) do
-      @member_london = FactoryGirl.create(:london_member)
-      @member_south_pole = FactoryGirl.create(:south_pole_member)
-    end
-
-    context "when the user is logged in and has set their location" do
-      before(:each) do
-        @member = FactoryGirl.create(:london_member)
-        controller.stub(:current_member) { @member }
-      end
-
-      it "assigns the current member as nearby" do
-        get :nearby
-        assigns(:nearby_members).should include @member
-      end
-
-      it "assigns nearby members as nearby" do
-        get :nearby
-        assigns(:nearby_members).should include @member_london
-      end
-
-      it "doesn't assign far-off members as nearby" do
-        get :nearby
-        assigns(:nearby_members).should_not include @member_south_pole
-      end
-
-      it "gets members near the specified location if one is set" do
-        get :nearby, { :location => @member_south_pole.location }
-        assigns(:nearby_members).should include @member_south_pole
-      end
-
-      it "does not assign members near current_member if a location is set" do
-        get :nearby, { :location => @member_south_pole.location }
-        assigns(:nearby_members).should_not include @member_london
-      end
-
-      it "finds faraway members if you increase the distance" do
-        get :nearby, { :distance => "50000" }
-        assigns(:nearby_members).should include @member_south_pole
-      end
-
-      # Edinburgh and London are approximately 330mi/530km apart
-      it "finds London members within 350 miles of Edinburgh" do 
-        get :nearby, { :distance => "350", :units => :mi, :location => "Edinburgh" }
-        assigns(:nearby_members).should include @member_london
-      end
-
-      it "doesn't find London members within 350 km of Edinburgh" do
-        get :nearby, { :distance => "350", :units => :km, :location => "Edinburgh" }
-        assigns(:nearby_members).should_not include @member_london
-      end
-
-    end
-
-    context "when the user is logged in but hasn't set their location" do
-      before(:each) do
-        @member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { @member }
-      end
-
-      it "doesn't assign any members as nearby if no location is set" do
-        get :nearby
-        assigns(:nearby_members).should == []
-      end
-
-      it "assigns nearby members if a location is set" do
-        get :nearby, { :location => @member_london.location }
-        assigns(:nearby_members).should include @member_london
-      end
-
-      it "does not assign far members if a location is set" do
-        get :nearby, { :location => @member_london.location }
-        assigns(:nearby_members).should_not include @member_south_pole
-      end
-
-    end
-
-    context "when the user is not logged in" do
-      before(:each) do
-        controller.stub(:current_member) { nil }
-        get :nearby
-      end
-
-      it "doesn't assign any members as nearby if no location is set" do
-        get :nearby
-        assigns(:nearby_members).should == []
-      end
-
-      it "assigns nearby members if a location is set" do
-        get :nearby, { :location => @member_london.location }
-        assigns(:nearby_members).should include @member_london
-      end
-
-      it "does not assign far members if a location is set" do
-        get :nearby, { :location => @member_london.location }
-        assigns(:nearby_members).should_not include @member_south_pole
-      end
     end
   end
 

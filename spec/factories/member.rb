@@ -2,16 +2,25 @@ FactoryGirl.define do
   sequence(:email) { |n| "member#{n}@example.com" }
   sequence(:login_name) { |n| "member#{n}" }
 
-  factory :member, aliases: [:author, :owner, :sender, :recipient] do
+  factory :member, aliases: [:author, :owner, :sender, :recipient, :creator] do
     login_name { generate(:login_name) }
     password 'password1'
     email { generate(:email) }
     tos_agreement true
     confirmed_at Time.now
     show_email false
+    bio 'I love seeds'
 
     factory :no_tos_member do
       tos_agreement false
+    end
+
+    factory :newsletter_recipient_member do
+      newsletter true
+    end
+
+    factory :no_bio_member do
+      bio nil
     end
 
     factory :unconfirmed_member do
@@ -30,6 +39,12 @@ FactoryGirl.define do
       # including lat/long explicitly because geocoder doesn't work with FG
       latitude 51.483
       longitude 0.004
+    end
+
+    factory :edinburgh_member do
+      location 'Edinburgh'
+      latitude 55.953252
+      longitude -3.188267
     end
 
     factory :south_pole_member do

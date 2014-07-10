@@ -5,9 +5,9 @@
     = render :partial => "layouts/header"
 
     .container
-      .row
+      .row-fluid
         .span12
-          - if content_for?(:title) 
+          - if content_for?(:title)
             %h1= yield(:title)
           - if notice
             .alert.alert-success
@@ -17,8 +17,8 @@
               = alert
           = yield
 
-      %footer
-        = render :partial => "layouts/footer"
+    %footer
+      = render :partial => "layouts/footer"
     /
       Javascripts
       \==================================================

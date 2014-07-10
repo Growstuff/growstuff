@@ -5,34 +5,60 @@ describe "plantings/show" do
     @garden = FactoryGirl.create(:garden, :owner => @member)
     @crop = FactoryGirl.create(:tomato)
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop)
+      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop,
+        :planted_from => 'cutting')
     )
   end
 
-  it "shows the sunniness" do
-    controller.stub(:current_user) { nil }
-    @member = FactoryGirl.create(:member)
-    create_planting_for(@member)
-    render
-    rendered.should contain 'Sun or shade?'
-    rendered.should contain 'sun'
-  end
-
-  it "doesn't show sunniness if blank" do
-    controller.stub(:current_user) { nil }
-    @member = FactoryGirl.create(:member)
-    @p = create_planting_for(@member)
-    @p.sunniness = ''
-    @p.save
-    render
-    rendered.should_not contain 'Sun or shade?'
-    rendered.should_not contain 'sun'
-  end
-
-  it "shows photos" do
+  before (:each) do
     @member = FactoryGirl.create(:member)
     controller.stub(:current_user) { @member }
     @p = create_planting_for(@member)
+  end
+
+  context 'sunniness' do
+    before(:each) do
+      @p = assign(:planting,
+        FactoryGirl.create(:sunny_planting)
+      )
+    end
+
+    it "shows the sunniness" do
+      render
+      rendered.should contain 'Sun or shade?'
+      rendered.should contain 'sun'
+    end
+
+    it "doesn't show sunniness if blank" do
+      @p.sunniness = ''
+      @p.save
+      render
+      rendered.should_not contain 'Sun or shade?'
+      rendered.should_not contain 'sun'
+    end
+  end
+
+  context 'planted from' do
+    before(:each) do
+      @p = assign(:planting, FactoryGirl.create(:cutting_planting))
+    end
+
+    it "shows planted_from" do
+      render
+      rendered.should contain 'Planted from:'
+      rendered.should contain 'cutting'
+    end
+
+    it "doesn't show planted_from if blank" do
+      @p.planted_from = ''
+      @p.save
+      render
+      rendered.should_not contain 'Planted from:'
+      rendered.should_not contain 'cutting'
+    end
+  end
+
+  it "shows photos" do
     @photo = FactoryGirl.create(:photo, :owner => @member)
     @p.photos << @photo
     render
@@ -40,18 +66,12 @@ describe "plantings/show" do
   end
 
   it "shows a link to add photos" do
-    @member = FactoryGirl.create(:member)
-    controller.stub(:current_user) { @member }
-    @p = create_planting_for(@member)
     render
     rendered.should contain "Add photo"
   end
 
   context "no location set" do
     before(:each) do
-      controller.stub(:current_user) { nil }
-      @member = FactoryGirl.create(:member)
-      create_planting_for(@member)
       render
     end
 
@@ -74,14 +94,13 @@ describe "plantings/show" do
 
   context "location set" do
     before(:each) do
-      controller.stub(:current_user) { nil }
-      @member = FactoryGirl.create(:london_member)
-      create_planting_for(@member)
+      @p.owner.location = 'Greenwich, UK'
+      @p.owner.save
       render
     end
 
     it "shows the member's location in parentheses" do
-      rendered.should contain "(#{@member.location})"
+      rendered.should contain "(#{@p.owner.location})"
     end
   end
 end
