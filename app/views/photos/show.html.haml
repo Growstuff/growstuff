@@ -1,6 +1,6 @@
 -content_for :title, @photo.title
 
-.row-fluid
+.row
   .span6
     %p
       %strong Posted by:
@@ -25,7 +25,7 @@
         - @photo.plantings.each do |p|
           %li= link_to p, p
 
-.row-fluid
+.row
   .span12
     %p= image_tag(@photo.fullsize_url, :alt => @photo.title, :class => 'img-rounded')
 

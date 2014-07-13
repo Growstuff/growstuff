@@ -4,7 +4,7 @@
     - if members.present?
       %h2 Some of our members
 
-      .row-fluid
+      .row
         - members.each do |m|
           .span6.homepage-members
             = render :partial => "members/thumbnail", :locals => { :member => m }

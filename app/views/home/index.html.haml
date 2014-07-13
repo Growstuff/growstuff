@@ -1,4 +1,4 @@
-.row-fluid
+.row
   .span12
     - if member_signed_in?
       %h1
@@ -21,7 +21,7 @@
           = render :partial => 'blurb'
       .visible-phone
         = render :partial => 'blurb'
-.row-fluid
+.row
   .span8.main
     = render :partial => 'crops'
     = render :partial => 'seeds'

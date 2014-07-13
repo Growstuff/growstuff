@@ -1,4 +1,4 @@
-.row-fluid
+.row
   .span6.hidden-phone
     - cache "interesting_crops", :expires_in => 1.day do
       %h2 Some of our crops
@@ -11,7 +11,7 @@
       %h2 Recently planted
       = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting.first(4) }
 
-.row-fluid
+.row
   .span12
     - cache "recent_crops" do
       %p{ :style => 'margin-top: 11.25px' }

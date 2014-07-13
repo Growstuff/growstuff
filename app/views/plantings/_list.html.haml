@@ -1,6 +1,6 @@
 - plantings.each do |p|
   - cache "plantings_listitem_#{p.id}" do
-    .row-fluid
+    .row
       .span2{:style => 'padding-bottom: 6px'}
         = render :partial => 'plantings/image_with_popover', :locals => { :planting => p }
       .span10
