@@ -1,9 +1,9 @@
-.span12
+.col-md-12
 
 %h1= ENV['GROWSTUFF_SITE_NAME']
 
 .row
-  .span8.info
+  .col-md-8.info
     %p
       #{ENV['GROWSTUFF_SITE_NAME']} is a community of food gardeners.
       We're building an open source platform to help you learn about
@@ -11,7 +11,7 @@
       seeds and produce with other gardeners near you.
 
     = render :partial => 'stats'
-  .span4.signup
+  .col-md-4.signup
     %p Join now for your free garden journal, seed sharing, forums, and more.
     %p= link_to 'Sign up', new_member_registration_path, :class => 'btn btn-primary btn-large'
     %p

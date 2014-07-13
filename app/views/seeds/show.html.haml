@@ -1,7 +1,7 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
 
 .row
-  .span6
+  .col-md-6
     %p
       %b Owner:
       = link_to @seed.owner, @seed.owner
@@ -43,5 +43,5 @@
       - if can? :destroy, @seed
         =link_to 'Delete', @seed, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
-  .span6
+  .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @seed.crop }

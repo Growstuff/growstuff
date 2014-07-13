@@ -3,7 +3,7 @@
 - content_for :member_rss_slug, "#{@member.slug}"
 
 .row
-  .span3
+  .col-md-3
     = render :partial => "members/avatar", :locals => { :member => @member }
 
     -if can? :create, Notification and current_member != @member
@@ -48,7 +48,7 @@
         %br/
         = link_to @member.location, place_path(@member.location)
 
-  .span9
+  .col-md-9
     %p
     - if can? :update, @member
       %p

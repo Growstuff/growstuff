@@ -1,5 +1,5 @@
 .row
-  .span12
+  .col-md-12
     - if member_signed_in?
       %h1
         Welcome to
@@ -22,12 +22,12 @@
       .visible-phone
         = render :partial => 'blurb'
 .row
-  .span8.main
+  .col-md-8.main
     = render :partial => 'crops'
     = render :partial => 'seeds'
     = render :partial => 'members'
     = render :partial => 'discuss'
 
-  .span4.sidebar
+  .col-md-4.sidebar
     = render :partial => 'keep_in_touch'
     = render :partial => 'open'

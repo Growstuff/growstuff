@@ -1,9 +1,9 @@
 - cache "member_thumbnail_#{member.id}" do
   .row
     .member-thumbnail
-      .span3
+      .col-md-3
         = render :partial => "members/image_with_popover", :locals => { :member => member }
-      .span9
+      .col-md-9
         %p
           = link_to member.login_name, member
           - if ! member.location.blank?

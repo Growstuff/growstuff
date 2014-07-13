@@ -24,7 +24,7 @@
   %ul.thumbnails
     .row
     - @photos.each do |p|
-      %li.span2.six-across
+      %li.col-md-2.six-across
         .thumbnail(style='height: 220px')
           = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img-rounded'), photos_path(:photo => { :flickr_photo_id => p.id }, :planting_id => @planting_id), :method => :post
           %p

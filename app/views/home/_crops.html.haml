@@ -1,18 +1,18 @@
 .row
-  .span6.hidden-phone
+  .col-md-6.hidden-phone
     - cache "interesting_crops", :expires_in => 1.day do
       %h2 Some of our crops
       - Crop.interesting.each do |c|
-        .span3{:style => 'margin:0px; padding: 3px'}
+        .col-md-3{:style => 'margin:0px; padding: 3px'}
           = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
 
-  .span6
+  .col-md-6
     - cache "interesting_plantings" do
       %h2 Recently planted
       = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting.first(4) }
 
 .row
-  .span12
+  .col-md-12
     - cache "recent_crops" do
       %p{ :style => 'margin-top: 11.25px' }
         %strong

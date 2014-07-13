@@ -14,7 +14,7 @@
     %h2 Exact match
 
     %ul.thumbnails
-      %li.span2.six-across
+      %li.col-md-2.six-across
         = render :partial => "thumbnail", :locals => { :crop => @exact_match }
 
 - if ! @partial_matches.empty?
@@ -22,5 +22,5 @@
     %h2 Partial matches
     %ul.thumbnails
       - @partial_matches.each do |c|
-        %li.span2.six-across
+        %li.col-md-2.six-across
           = render :partial => "thumbnail", :locals => { :crop => c }

@@ -11,7 +11,7 @@
 
 %ul.thumbnails
   - @crops.each do |crop|
-    %li.span2.six-across
+    %li.col-md-2.six-across
       = render :partial => "thumbnail", :locals => { :crop => crop }
 
 - if can? :create, Crop

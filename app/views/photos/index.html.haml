@@ -8,7 +8,7 @@
 
 %ul.thumbnails
   - @photos.each do |p|
-    %li.span2.six-across
+    %li.col-md-2.six-across
       .thumbnail(style='height: 220px')
         = link_to image_tag(p.thumbnail_url, :alt => p.title, :class => 'img-rounded'), p
         %p

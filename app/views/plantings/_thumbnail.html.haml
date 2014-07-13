@@ -1,9 +1,9 @@
 .well
   .row
-    .span3
+    .col-md-3
       = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img-rounded'), planting
       
-    .span9
+    .col-md-9
       %h4
         - if defined?(title) && title == 'owner'
           = link_to planting.owner, planting.owner

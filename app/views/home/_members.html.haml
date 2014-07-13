@@ -6,7 +6,7 @@
 
       .row
         - members.each do |m|
-          .span6.homepage-members
+          .col-md-6.homepage-members
             = render :partial => "members/thumbnail", :locals => { :member => m }
 
       %p.text-right

@@ -6,7 +6,7 @@
 
 %ul.thumbnails
   - @members.each do |m|
-    %li.span4.three-across
+    %li.col-md-4.three-across
       = render :partial => "members/thumbnail", :locals => { :member => m }
 
 %div.pagination
