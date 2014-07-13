@@ -1,5 +1,5 @@
 .row
-  .col-md-6.hidden-phone
+  .col-md-6.hidden-xs
     - cache "interesting_crops", :expires_in => 1.day do
       %h2 Some of our crops
       - Crop.interesting.each do |c|

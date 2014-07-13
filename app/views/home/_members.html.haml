@@ -1,5 +1,5 @@
 - cache "interesting_members" do
-  .visible-desktop.visible-tablet
+  .visible-md.visible-sm
     - members = Member.interesting.first(6)
     - if members.present?
       %h2 Some of our members

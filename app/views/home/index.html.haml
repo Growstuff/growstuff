@@ -16,10 +16,10 @@
           = link_to "Edit profile", edit_member_registration_path, :class => 'btn'
 
     - else
-      .visible-desktop.visible-tablet
+      .visible-md.visible-sm
         .jumbotron
           = render :partial => 'blurb'
-      .visible-phone
+      .visible-xs
         = render :partial => 'blurb'
 .row
   .col-md-8.main
