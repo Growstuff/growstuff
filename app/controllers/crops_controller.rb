@@ -92,7 +92,6 @@ class CropsController < ApplicationController
   # POST /crops.json
   def create
     params[:crop][:creator_id] = current_member.id
-    puts params.to_yaml
     @crop = Crop.new(params[:crop])
 
 
