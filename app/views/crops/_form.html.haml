@@ -27,13 +27,17 @@
     .controls
       = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true})
       %span.help-inline Optional. For setting up crop hierarchies for varieties etc.
-  .control-group
-    = fields_for :scientific_names do |sn|
+  %p
+    %span.help-block
+      You may enter up to 3 scientific names for a crop. Most crops will have only one.
+  = f.fields_for :scientific_names do |sn|
+    .control-group
       = sn.label :scientific_name, "Scientific name", :class => 'control-label'
       .controls
         = sn.text_field :scientific_name
         - if sn.object && sn.object.persisted?
-          = sn.check_box :_destroy
-          = sn.label :_destroy, "Delete"
+          %label.checkbox
+            = sn.check_box :_destroy
+            = sn.label :_destroy, "Delete"
   .form-actions
     = f.submit 'Save', :class => 'btn btn-primary'

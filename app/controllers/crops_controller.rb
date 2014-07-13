@@ -74,7 +74,9 @@ class CropsController < ApplicationController
   # GET /crops/new.json
   def new
     @crop = Crop.new
-
+    3.times do
+      @crop.scientific_names.build
+    end
     respond_to do |format|
       format.html # new.html.haml
       format.json { render json: @crop }
@@ -90,7 +92,9 @@ class CropsController < ApplicationController
   # POST /crops.json
   def create
     params[:crop][:creator_id] = current_member.id
+    puts params.to_yaml
     @crop = Crop.new(params[:crop])
+
 
     respond_to do |format|
       if @crop.save

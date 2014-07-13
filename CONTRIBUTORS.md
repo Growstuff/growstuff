@@ -38,3 +38,4 @@ submit the change with your pull request.
 - Yaw Boakye / [yawboakye](https://github.com/yawboakye)
 - Ryan Clark / [IAMRYO](https://github.com/IAMRYO)
 - Marty Hines / [martyhines](https://github.com/martyhines)
+- Taylor Griffin / [tygriffin](https://github.com/tygriffin)
