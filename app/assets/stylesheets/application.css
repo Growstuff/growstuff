@@ -8,6 +8,7 @@
  *= require leaflet.markercluster
  *= require leaflet.markercluster.default
  *= require_tree .
+ *= require custom_bootstrap/custom_bootstrap
 */
 
 
