@@ -3,16 +3,16 @@
 = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-horizontal"}) do |f|
   = devise_error_messages!
 
-  .control-group
+  .form-group
     = f.label :login, :class => "control-label"
     .controls= f.text_field :login
 
-  .control-group
+  .form-group
     = f.label :password, :class => "control-label"
     .controls= f.password_field :password
 
   - if devise_mapping.rememberable?
-    .control-group
+    .form-group
       .controls
         = f.check_box :remember_me
         Remember me

@@ -6,13 +6,13 @@
         - @forum.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
+  .form-group
     = f.label :name, :class => 'control-label'
     .controls= f.text_field :name, :class => 'input-block-level'
-  .control-group
+  .form-group
     = f.label :description, :class => 'control-label'
     .controls= f.text_area :description, :rows => 6, :class => 'input-block-level'
-  .control-group
+  .form-group
     = f.label :owner_id, :class => 'control-label'
     .controls= collection_select(:forum, :owner_id, Member.all, :id, :login_name)
   .form-actions

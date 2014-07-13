@@ -12,17 +12,17 @@
       =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
       on the Growstuff wiki.
 
-  .control-group
+  .form-group
     = f.label :name, :class => 'control-label'
     .controls
       = f.text_field :name
       %span.help-inline Name in US English; singular; capitalize proper nouns only.
-  .control-group
+  .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', :class => 'control-label'
     .controls
       = f.text_field :en_wikipedia_url
       %span.help-inline Link to this crop's page on the English language Wikipedia.
-  .control-group
+  .form-group
     = f.label :parent_id, 'Parent crop', :class => 'control-label'
     .controls
       = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true})

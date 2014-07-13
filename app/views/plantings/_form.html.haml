@@ -6,35 +6,35 @@
         - @planting.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
+  .form-group
     = f.label 'What did you plant?', :class => 'control-label'
     .controls
       = collection_select(:planting, :crop_id, Crop.all, :id, :name, :selected => @planting.crop_id || @crop.id)
       %span.help-inline
         Can't find what you're looking for?
         = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
-  .control-group
+  .form-group
     = f.label 'Where did you plant it?', :class => 'control-label'
     .controls
       = collection_select(:planting, :garden_id, Garden.active.where(:owner_id => current_member), :id, :name, :selected => @planting.garden_id || @garden.id)
       %span.help-inline
         = link_to "Add a garden.", new_garden_path
-  .control-group
+  .form-group
     = f.label 'When?', :class => 'control-label'
     .controls= f.text_field :planted_at, :value => @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '', :class => 'add-datepicker'
-  .control-group
+  .form-group
     = f.label 'How many?', :class => 'control-label'
     .controls
       = f.number_field :quantity, :class => 'input-small'
-  .control-group
+  .form-group
     = f.label 'Planted from:', :class => 'control-label'
     .controls
       = f.select(:planted_from, Planting::PLANTED_FROM_VALUES, {:include_blank => true})
-  .control-group
+  .form-group
     = f.label 'Sun or shade?', :class => 'control-label'
     .controls
       = f.select(:sunniness, Planting::SUNNINESS_VALUES, {:include_blank => true})
-  .control-group
+  .form-group
     = f.label 'Tell us more about it', :class => 'control-label'
     .controls= f.text_area :description, :rows => 6
 
