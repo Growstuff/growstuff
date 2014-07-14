@@ -4,7 +4,8 @@
         options = { |
           :size => defined?(size) ?  size : 150, |
           :default => :identicon }), |
-      :alt => member.login_name, |
+        :alt => member.login_name, |
+        :class => 'img-responsive' |
   ), |
   member, |
   :rel => "popover", |

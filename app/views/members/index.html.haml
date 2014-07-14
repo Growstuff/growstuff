@@ -4,10 +4,11 @@
   = page_entries_info @members, :model => "members"
   = will_paginate @members
 
-%ul.thumbnails
+.row
   - @members.each do |m|
-    %li.col-md-4.three-across
-      = render :partial => "members/thumbnail", :locals => { :member => m }
+    .col-md-4.three-across
+      .thumbnail
+        = render :partial => "members/thumbnail", :locals => { :member => m }
 
 %div.pagination
   = page_entries_info @members, :model => "members"
