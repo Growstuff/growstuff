@@ -1,5 +1,5 @@
-.navbar.navbar-fixed-top(role="navigation")
-  .container-fluid
+.navbar.navbar-default.navbar-fixed-top(role="navigation")
+  .container
     .navbar-header
       %button.navbar-toggle(data-target="#navbar-collapse" data-toggle="collapse")
         %span.sr-only Toggle Navigation
@@ -65,6 +65,6 @@
           %li= link_to 'Sign in', new_member_session_path
           %li= link_to 'Sign up', new_member_registration_path
 
-      = form_tag crops_search_path, :method => :get, :class => 'navbar-search pull-right' do
+      = form_tag crops_search_path, :method => :get, :class => 'navbar-form pull-right' do
         .input
-          = text_field_tag 'search', nil, :class => 'search-query input-medium', :placeholder => 'Search crops'
+          = text_field_tag 'search', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
