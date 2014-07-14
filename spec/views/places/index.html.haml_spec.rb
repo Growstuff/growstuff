@@ -6,6 +6,6 @@ describe "places/index" do
   end
 
   it "shows a map" do
-    assert_select "div#map"
+    assert_select "div#placesmap"
   end
 end

@@ -5,6 +5,6 @@
     = succeed "." do
       = link_to crop.parent, crop.parent
 - if crop.varieties.count > 0
-  %p
+  %h3
     Varieties:
   = render :partial => 'hierarchy', :locals => { :display_crops => [ crop ] }

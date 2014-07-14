@@ -2,8 +2,7 @@
 
 // this padding needs to be done before the responsive stuff is imported
 body {
-  padding-top: @navbarHeight + 10px;
-  padding-bottom: @navbarHeight + 10px;
+  padding-top: @navbarHeight + 15px;
 }
 
 @import "twitter/bootstrap/responsive";
@@ -151,7 +150,7 @@ p.stats {
   margin-left: 0px;
 }
 
-#map {
+#placesmap, #cropmap {
   height: 500px;
 }
 
@@ -162,6 +161,86 @@ p.stats {
 
 .member-location a {
   color: @brown;
+}
+
+.crop-thumbnail {
+  position:relative;
+  padding:0;
+  img {
+    width:100%;
+  }
+  .text {
+    display:none;
+    color:#000;
+    position:absolute;
+    bottom:0;
+    background:rgba(0, 0, 0, 0.8);
+    width:100%;
+    margin:0;
+  }
+  p {
+    padding:5px;
+    margin:0;
+    color:#fff;
+  }
+  &:hover {
+    .text {
+      display:block;
+    }
+  }
+} 
+
+
+li.crop-hierarchy {
+  list-style-type: disc;
+}
+
+.navbar-inner {
+    border-width: 0px !important; 
+}
+
+.navbar-bottom {
+    margin: 40px 0px 0px 0px !important;
+}
+
+// navbar centering
+.navbar .nav {
+  float: none;
+  display: inline-block;
+  *display: inline;
+  /* ie7 fix */
+  *zoom: 1;
+  /* hasLayout ie7 trigger */
+  vertical-align: top;
+  > li {
+    float: none;
+    display: inline-block;
+    *display: inline;
+    /* ie7 fix */
+    *zoom: 1;
+    /* hasLayout ie7 trigger */
+    vertical-align: top;
+  }
+}
+
+.navbar-inner {
+  border: none !important;
+  background-image: none !important;
+  -webkit-border-radius: 0px; 
+  -moz-border-radius: 0px;
+  border-radius: 0px; 
+}
+
+.navbar-bottom .navbar-inner {
+  text-align: center;
+}
+
+.navbar-bottom .container{
+    padding: 20px 0px 40px 0px;
+}
+
+.navbar-search{
+    padding-bottom: 7px;
 }
 
 // Overrides applying only to mobile view
@@ -176,8 +255,10 @@ p.stats {
   #map {
     height: 300px;
   }
-}
 
-li.crop-hierarchy {
-  list-style-type: disc;
+  .navbar .nav {
+    >li {
+      display: block;
+    }
+  }
 }
