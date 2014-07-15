@@ -1,7 +1,7 @@
 =content_for :title, "#{@garden.owner}'s #{@garden}"
 
-.row-fluid
-  .span9
+.row
+  .col-md-9
     - if ! @garden.active
       .alert.alert-notice
         NOTE: This garden is inactive.
@@ -37,7 +37,7 @@
     - @garden.plantings.each do |p|
       = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
-  .span3
+  .col-md-3
     %h4= "#{@garden.owner}'s gardens"
     %ul
       - @garden.owner.gardens.active.each do |othergarden|

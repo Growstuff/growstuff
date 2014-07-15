@@ -57,7 +57,7 @@
     = page_entries_info @seeds, :model => "seeds"
     = will_paginate @seeds
 
-  %ul.inline
+  %ul.list-inline
     %li The data on this page is available in the following formats:
     - if @owner
       %li= link_to "CSV", seeds_by_owner_path(@owner, :format => 'csv')

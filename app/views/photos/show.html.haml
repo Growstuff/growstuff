@@ -1,7 +1,7 @@
 -content_for :title, @photo.title
 
-.row-fluid
-  .span6
+.row
+  .col-md-6
     %p
       %strong Posted by:
       = link_to @photo.owner, @photo.owner
@@ -18,14 +18,14 @@
     - if can? :destroy, @photo
       %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
-  .span6
+  .col-md-6
     - if @photo.plantings.count > 0
       %p This photo depicts:
       %ul
         - @photo.plantings.each do |p|
           %li= link_to p, p
 
-.row-fluid
-  .span12
+.row
+  .col-md-12
     %p= image_tag(@photo.fullsize_url, :alt => @photo.title, :class => 'img-rounded')
 

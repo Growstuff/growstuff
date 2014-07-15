@@ -52,7 +52,7 @@
     = page_entries_info @harvests, :model => "harvests"
     = will_paginate @harvests
 
-  %ul.inline
+  %ul.list-inline
     %li The data on this page is available in the following formats:
     - if @owner
       %li= link_to "CSV", harvests_by_owner_path(@owner, :format => 'csv')

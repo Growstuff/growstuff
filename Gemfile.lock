@@ -5,17 +5,6 @@ GIT
   specs:
     geocoder (1.1.8)
 
-GIT
-  remote: https://github.com/seyhunak/twitter-bootstrap-rails.git
-  revision: 2c7c527c354d9068ce49346d4fd8389328d32ce6
-  ref: 2c7c52
-  specs:
-    twitter-bootstrap-rails (2.2.7)
-      actionpack (>= 3.1)
-      execjs
-      rails (>= 3.1)
-      railties (>= 3.1)
-
 PATH
   remote: vendor/gems/active_utils-1.0.5
   specs:
@@ -162,6 +151,8 @@ GEM
     less-rails (2.3.3)
       actionpack (>= 3.1)
       less (~> 2.3.1)
+    less-rails-bootstrap (3.0.2)
+      less-rails (~> 2.3.1)
     letter_opener (1.2.0)
       launchy (~> 2.2)
     libv8 (3.16.14.3)
@@ -312,6 +303,7 @@ DEPENDENCIES
   leaflet-rails
   less (~> 2.3.2)
   less-rails (~> 2.3.3)
+  less-rails-bootstrap
   letter_opener
   libv8 (= 3.16.14.3)
   memcachier
@@ -327,7 +319,6 @@ DEPENDENCIES
   rspec-rails (~> 2.12.1)
   sass-rails (~> 3.2.3)
   therubyracer (~> 0.12)
-  twitter-bootstrap-rails!
   uglifier (>= 1.0.3)
   unicorn
   webrat

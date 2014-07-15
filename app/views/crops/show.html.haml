@@ -1,7 +1,7 @@
 - content_for :title, @crop.name
 
-.row-fluid
-  .span9
+.row
+  .col-md-9
     %p
       - if can? :create, Planting
         = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
@@ -40,7 +40,7 @@
       - @crop.plantings.each do |p|
         = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
 
-  .span3
+  .col-md-3
     - if can? :edit, @crop or can? :destroy, @crop
       %h4 Crop wrangling
       %p

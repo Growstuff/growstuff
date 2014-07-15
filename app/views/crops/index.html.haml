@@ -9,9 +9,9 @@
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
 
-%ul.thumbnails
+.row
   - @crops.each do |crop|
-    %li.span2.six-across
+    .col-md-2.six-across
       = render :partial => "thumbnail", :locals => { :crop => crop }
 
 - if can? :create, Crop
@@ -23,7 +23,7 @@
   = will_paginate @crops
 
 
-%ul.inline
+%ul.list-inline
   %li The data on this page is available in the following formats:
   %li= link_to "CSV", crops_path(:format => 'csv')
   %li= link_to "JSON", crops_path(:format => 'json')

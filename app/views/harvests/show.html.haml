@@ -1,7 +1,7 @@
 =content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
 
-.row-fluid
-  .span6
+.row
+  .col-md-6
     %p
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
@@ -27,7 +27,7 @@
       - if can? :destroy, @harvest
         =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
 
-  .span6
+  .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @harvest.crop}
 
 %h2 Notes

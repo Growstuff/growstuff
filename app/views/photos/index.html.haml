@@ -6,9 +6,9 @@
   = page_entries_info @photos, :model => "photos"
   = will_paginate @photos
 
-%ul.thumbnails
+.row
   - @photos.each do |p|
-    %li.span2.six-across
+    .col-md-2.six-across
       .thumbnail(style='height: 220px')
         = link_to image_tag(p.thumbnail_url, :alt => p.title, :class => 'img-rounded'), p
         %p

@@ -10,7 +10,7 @@
         %tr
           %th Owner
           %th Crop
-          %th.hidden-phone.hidden-tablet Description
+          %th.hidden-xs.hidden-sm Description
           %th Will trade to
           %th From location
           %th
@@ -19,7 +19,7 @@
           %tr
             %td= link_to seed.owner.login_name, seed.owner
             %td= link_to seed.crop.name, seed.crop
-            %td.hidden-phone.hidden-tablet= truncate(seed.description, :length => 40, :separator => ' ')
+            %td.hidden-xs.hidden-sm= truncate(seed.description, :length => 40, :separator => ' ')
             %td= seed.tradable? ? seed.tradable_to : ''
             %td
               - if seed.tradable?
