@@ -13,14 +13,14 @@
   %div#exact_match
     %h2 Exact match
 
-    %ul.thumbnails
-      %li.col-md-2.six-across
+    .row
+      .col-md-2.six-across
         = render :partial => "thumbnail", :locals => { :crop => @exact_match }
 
 - if ! @partial_matches.empty?
   %div#partial_matches
     %h2 Partial matches
-    %ul.thumbnails
+    .row
       - @partial_matches.each do |c|
-        %li.col-md-2.six-across
+        .col-md-2.six-across
           = render :partial => "thumbnail", :locals => { :crop => c }

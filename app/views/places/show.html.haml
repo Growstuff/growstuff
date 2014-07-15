@@ -10,9 +10,9 @@
 %h3 Nearby members
 
 - if !@nearby_members.empty?
-  %ul.thumbnails
+  .row
     - @nearby_members.first(30).each do |member|
-      %li.col-md-4.three-across
+      .col-md-4.three-across
         = render :partial => "members/thumbnail", :locals => { :member => member }
 - elsif @place
   %p No results found

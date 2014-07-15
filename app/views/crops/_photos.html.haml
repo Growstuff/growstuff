@@ -1,6 +1,5 @@
 .row
 - if !crop.photos.empty?
-  %ul.thumbnails
-    - crop.photos.first(3).each do |p|
-      %li.col-md-4
-        = render :partial => "photos/thumbnail", :locals => { :photo => p }
+  - crop.photos.first(3).each do |p|
+    .col-md-4
+      = render :partial => "photos/thumbnail", :locals => { :photo => p }
