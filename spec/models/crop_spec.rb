@@ -73,10 +73,6 @@ describe Crop do
       Crop.popular.first.should eq @tomato
     end
 
-    it "finds unpopular crops" do
-      Crop.unpopular.should eq [@cucumber]
-    end
-
   end
 
   it 'finds a default scientific name' do

@@ -18,7 +18,6 @@ class Crop < ActiveRecord::Base
   scope :recent, reorder("created_at desc")
   scope :toplevel, where(:parent_id => nil)
   scope :popular, reorder("plantings_count desc, lower(name) asc")
-  scope :unpopular, where(:plantings_count => nil)
   scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
 
   validates :en_wikipedia_url,
