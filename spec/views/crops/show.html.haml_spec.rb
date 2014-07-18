@@ -19,7 +19,7 @@ describe "crops/show" do
       render
     end
 
-    it 'shows 4 photos across the top of the page' do
+    it 'shows 3 photos across the top of the page' do
       assert_select "div.thumbnail>a>img", :count => 3
     end
 
@@ -131,12 +131,13 @@ describe "crops/show" do
         :garden => @garden,
         :crop => @crop
       )
+      @crop.reload # to pick up latest plantings_count
     end
 
     it "links to people who are growing this crop" do
       render
-      rendered.should contain /member\d+/
-      rendered.should contain "Springfield Community Garden"
+      rendered.should contain @owner.login_name
+      rendered.should contain @garden.name
     end
 
     it "shows photos where available" do
