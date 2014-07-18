@@ -56,6 +56,7 @@ describe Crop do
     before (:each) do
       @tomato = FactoryGirl.create(:tomato)
       @maize = FactoryGirl.create(:maize)
+      @cucumber = FactoryGirl.create(:crop, :name => 'cucumber')
       (1..10).each do
         FactoryGirl.create(:planting, :crop => @maize)
       end
@@ -70,6 +71,10 @@ describe Crop do
         FactoryGirl.create(:planting, :crop => @tomato)
       end
       Crop.popular.first.should eq @tomato
+    end
+
+    it "finds unpopular crops" do
+      Crop.unpopular.should eq [@cucumber]
     end
 
   end

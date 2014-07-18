@@ -7,7 +7,7 @@ class CropsController < ApplicationController
   # GET /crops
   # GET /crops.json
   def index
-    @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html
