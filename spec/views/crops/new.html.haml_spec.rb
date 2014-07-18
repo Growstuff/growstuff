@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe "crops/new" do
   before(:each) do
-    assign(:crop, FactoryGirl.create(:maize))
+    @crop = FactoryGirl.create(:maize)
+    3.times do
+      @crop.scientific_names.build
+    end
+    assign(:crop, @crop)
     @member = FactoryGirl.create(:crop_wrangling_member)
     sign_in @member
     controller.stub(:current_user) { @member }
@@ -23,9 +27,9 @@ describe "crops/new" do
   end
 
   it "shows three fields for scientific_name" do
-    assert_select "input#crop_scientific_names_attributes_0_scientific_name"
-    assert_select "input#crop_scientific_names_attributes_1_scientific_name"
-    assert_select "input#crop_scientific_names_attributes_2_scientific_name"
+    assert_select "input#crop_scientific_names_attributes_0_scientific_name", :count => 1
+    assert_select "input#crop_scientific_names_attributes_1_scientific_name", :count => 1
+    assert_select "input#crop_scientific_names_attributes_2_scientific_name", :count => 1
   end
 
 end
