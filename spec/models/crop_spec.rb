@@ -52,6 +52,28 @@ describe Crop do
     end
   end
 
+  context 'popularity' do
+    before (:each) do
+      @tomato = FactoryGirl.create(:tomato)
+      @maize = FactoryGirl.create(:maize)
+      (1..10).each do
+        FactoryGirl.create(:planting, :crop => @maize)
+      end
+      (1..3).each do
+        FactoryGirl.create(:planting, :crop => @tomato)
+      end
+    end
+
+    it "sorts by most plantings" do
+      Crop.popular.first.should eq @maize
+      (1..10).each do
+        FactoryGirl.create(:planting, :crop => @tomato)
+      end
+      Crop.popular.first.should eq @tomato
+    end
+
+  end
+
   it 'finds a default scientific name' do
     @crop = FactoryGirl.create(:tomato)
     @crop.default_scientific_name.should eq nil
