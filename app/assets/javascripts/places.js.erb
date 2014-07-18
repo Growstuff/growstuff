@@ -1,37 +1,39 @@
-places_base_path = "/places";
-things_to_map = location.pathname + '.json';
-mapbox_map_id = "<%= Growstuff::Application.config.mapbox_map_id %>";
-base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
-nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
-nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email %>";
+if (document.getElementById("placesmap") !== null) {
+  places_base_path = "/places";
+  mapbox_map_id = "<%= Growstuff::Application.config.mapbox_map_id %>";
+  mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
+  nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
+  nominatim_user_agent_email = "<%= Growstuff::Application.config.user_agent_email %>";
 
-L.Icon.Default.imagePath = '/assets'
+  L.Icon.Default.imagePath = '/assets'
 
-if (location.pathname === places_base_path) { //places index page
-  map = L.map('map').setView([0.0, -0.0], 2);
-  showMap(map);
-} else { // specific place page
-  place = location.pathname.replace(places_base_path + "/", '');
-  nominatim_query_url = nominatim_base_url + place;
-  nominatim_options = {
-    format: "json",
-    callback: "placeholder",
-    limit: 1,
-    email: nominatim_user_agent_email
-  };
-  $.getJSON(nominatim_query_url, nominatim_options, function(data) {
-    map = L.map('map').setView([data[0].lat, data[0].lon], 5);
-    showMap(map);
-  })
+  if (location.pathname === places_base_path) { //places index page
+    placesmap = L.map('placesmap').setView([0.0, -0.0], 2);
+    showMap(placesmap);
+  } else { // specific place page
+    place = location.pathname.replace(places_base_path + "/", '');
+    nominatim_query_url = nominatim_base_url + place;
+    nominatim_options = {
+      format: "json",
+      callback: "placeholder",
+      limit: 1,
+      email: nominatim_user_agent_email
+    };
+    $.getJSON(nominatim_query_url, nominatim_options, function(data) {
+      placesmap = L.map('placesmap').setView([data[0].lat, data[0].lon], 5);
+      showMap(placesmap);
+    })
+  }
 }
 
-function showMap(map) {
-  L.tileLayer(base_url, {
+function showMap(placesmap) {
+  L.tileLayer(mapbox_base_url, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
-  }).addTo(map);
-  markers = new L.MarkerClusterGroup({showCoverageOnHover: false});
+  }).addTo(placesmap);
+  markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
+  things_to_map = location.pathname + '.json';
   $.getJSON(things_to_map, function(members) {
     $.each(members, function(i, m) {
       if (m.latitude && m.longitude) {
@@ -44,5 +46,5 @@ function showMap(map) {
     });
   });
 
-  map.addLayer(markers);
+  placesmap.addLayer(markers);
 }

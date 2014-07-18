@@ -1,20 +1,14 @@
 development:
-  adapter: sqlite3
-  database: db/growstuff_dev.sqlite3
-  pool: 5
-  timeout: 5000
+  adapter: postgresql
+  database: growstuff_dev
+  host: localhost
+  user: postgres
 
 test:
-  adapter: sqlite3
-  database: db/growstuff_test.sqlite3
-  pool: 5
-  timeout: 5000
-
-# should be identical to test apart from running on postgres
-travis:
   adapter: postgresql
   database: growstuff_test
-  username: postgres
+  host: localhost
+  user: postgres
 
 production:
   adapter: postgresql

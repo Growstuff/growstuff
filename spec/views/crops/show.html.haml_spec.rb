@@ -15,13 +15,12 @@ describe "crops/show" do
       @photo1 = FactoryGirl.create(:photo)
       @photo2 = FactoryGirl.create(:photo)
       @photo3 = FactoryGirl.create(:photo)
-      @photo4 = FactoryGirl.create(:photo)
-      @planting.photos << [@photo1, @photo2, @photo3, @photo4]
+      @planting.photos << [@photo1, @photo2, @photo3]
       render
     end
 
     it 'shows 4 photos across the top of the page' do
-      assert_select "div.thumbnail>a>img", :count => 4
+      assert_select "div.thumbnail>a>img", :count => 3
     end
 
     it 'links to the photo detail page' do
@@ -31,6 +30,35 @@ describe "crops/show" do
     it 'links to the photo owner' do
       assert_select "a[href=#{member_path(@photo1.owner)}]"
     end
+  end
+
+  context "map" do
+    it "has a map" do
+      render
+      assert_select("div#cropmap")
+    end
+
+    it "explains what's shown on the map" do
+      render
+      rendered.should contain "Only plantings by members who have set their locations are shown on this map"
+    end
+
+    it "shows a 'set your location' link to people who need to" do
+      @nowhere = FactoryGirl.create(:member)
+      sign_in @nowhere
+      controller.stub(:current_user) { @nowhere }
+      render
+      rendered.should contain "Set your location"
+    end
+
+    it "doesn't show 'set your location' to people who have one" do
+      @somewhere = FactoryGirl.create(:london_member)
+      sign_in @somewhere
+      controller.stub(:current_user) { @somewhere }
+      render
+      rendered.should_not contain "Set your location"
+    end
+
   end
 
   it "shows the wikipedia URL" do

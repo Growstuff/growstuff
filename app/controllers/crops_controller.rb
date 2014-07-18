@@ -10,7 +10,7 @@ class CropsController < ApplicationController
     @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render :json => @crops }
       format.rss do
         @crops = Crop.recent.includes(:scientific_names, :creator)
@@ -62,7 +62,11 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.haml
-      format.json { render json: @crop }
+      format.json do
+        render :json => @crop.to_json(:include => {
+          :plantings => { :include => { :owner => { :only => [:id, :login_name, :location, :latitude, :longitude] }}}
+        })
+      end
     end
   end
 
