@@ -23,7 +23,7 @@ class Ability
 
       # managing your own user settings
       can :update, Member, :id => member.id
-      can :send_email, Member
+      can :send_planting_reminder, Member
 
       # can read/delete notifications that were sent to them
       can :read, Notification, :recipient_id => member.id

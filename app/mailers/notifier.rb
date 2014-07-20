@@ -10,14 +10,14 @@ class Notifier < ActionMailer::Base
          :subject => @notification.subject)
   end
 
-  def regular_email(member)
+  def planting_reminder(member)
     @member = member
 
     @plantings = member.plantings.reorder.last(5)
     @harvests = member.harvests.reorder.last(5)
 
     mail(:to => @member.email,
-         :subject => "This is your regular contact email")
+         :subject => "What have you planted lately?")
   end
 
 end

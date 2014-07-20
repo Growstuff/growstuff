@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "regular email" do
+feature "planting reminder" do
   before :each do
     @member = FactoryGirl.create(:member)
     visit root_path
@@ -14,7 +14,7 @@ feature "regular email" do
   scenario "sends email" do
     expect {
       # stub for while we're working on this. remove!
-      visit send_email_path
+      visit send_planting_reminder_path
     }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 end
