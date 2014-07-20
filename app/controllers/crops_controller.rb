@@ -7,7 +7,14 @@ class CropsController < ApplicationController
   # GET /crops
   # GET /crops.json
   def index
-    @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    @sort = params[:sort]
+    if @sort == 'alpha'
+      # alphabetical order
+      @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    else
+      # default to sorting by popularity
+      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html
