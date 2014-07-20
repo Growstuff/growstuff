@@ -12,6 +12,10 @@ class Notifier < ActionMailer::Base
 
   def regular_email(member)
     @member = member
+
+    @plantings = member.plantings.reorder.last(5)
+    @harvests = member.harvests.reorder.last(5)
+
     mail(:to => @member.email,
          :subject => "This is your regular contact email")
   end

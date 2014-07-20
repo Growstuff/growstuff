@@ -1,19 +1,41 @@
 - site_name = ENV['GROWSTUFF_SITE_NAME']
 %p Hello #{@member.login_name},
 
-%p
-  This is your regular weekly email.
+%h2 What's new in your garden?
 
-%p Stuff to include:
+Have you planted anything recently?  The most recent plantings you've
+told us about are:
 
 %ul
-  %li Recent plantings (yours, people near you)
-  %li Recent harvests (yours, people near you)
-  %li Seeds available near you
-  %li New members near you
-  %li New discussion posts
+- @plantings.each do |p|
+  %li
+    = link_to p, planting_url(p)
+    planted
+    = distance_of_time_in_words(p.created_at, Time.zone.now)
+    ago.
 
 %p
+  Planted anything new?
+  = link_to "Track your plantings here.", new_planting_url
+
+%h2 Your recent harvests
+
+According to our records, the last few things you harvested were:
+
+%ul
+- @harvests.each do |h|
+  %li
+    = link_to h, harvest_url(h)
+    harvested
+    = distance_of_time_in_words(h.created_at, Time.zone.now)
+    ago.
+
+%p
+  Harvested anything else lately?
+  = link_to "Track your harvests here.", new_harvest_url
+
+%p
+  Don't want to get these emails any more?
   = link_to "Turn off these notifications", edit_member_registration_url
 
 %p
