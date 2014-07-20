@@ -32,4 +32,8 @@ class MembersController < ApplicationController
     end
   end
 
+  def send_email
+    Notifier.regular_email(current_member).deliver!
+  end
+
 end

@@ -2,7 +2,7 @@ Growstuff::Application.routes.draw do
 
   resources :plant_parts
 
-
+  get '/members/send_email' => 'members#send_email', :as => 'send_email'
   devise_for :members, :controllers => { :registrations => "registrations" }
   resources :members
 

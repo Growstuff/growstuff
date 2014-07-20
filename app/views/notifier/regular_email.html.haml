@@ -1,0 +1,22 @@
+- site_name = ENV['GROWSTUFF_SITE_NAME']
+%p Hello #{@member.login_name},
+
+%p
+  This is your regular weekly email.
+
+%p Stuff to include:
+
+%ul
+  %li Recent plantings (yours, people near you)
+  %li Recent harvests (yours, people near you)
+  %li Seeds available near you
+  %li New members near you
+  %li New discussion posts
+
+%p
+  = link_to "Turn off these notifications", edit_member_registration_url
+
+%p
+  The #{site_name} team.
+  %br/
+  =link_to root_url, root_url
