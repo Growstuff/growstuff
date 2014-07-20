@@ -16,16 +16,31 @@
       = f.check_box :show_email
       Show email publicly on your profile page
 
+  %h2
+    Receive emails
   .control-group
     .controls
       = f.check_box :send_notification_email
-      Receive emailed copies of Inbox notifications.
+      Copies of messages from your Inbox
+      .help-block
+        Private messages from other members, comments on your posts, etc.
+  .control-group
+    .controls
+      = f.check_box :send_planting_reminder
+      Regular planting/harvest reminders
+      .help-block
+        We'll help you track your planting and harvesting more accurately.
+        %strong
+          This feature is in beta test.
+        Email will not be sent automatically.
+        = link_to "Click here to send one.", send_planting_reminder_path
+
 
   .control-group
     .controls
       = f.check_box :newsletter
       Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
-      .help-inline
+      .help-block
         = render :partial => 'newsletter_blurb'
 
   %h2 Profile details

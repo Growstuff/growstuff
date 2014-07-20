@@ -1,7 +1,11 @@
-- content_for :title, "Sent planting reminder"
+- content_for :title, "Planting reminder email (beta)"
 
-%p
-  We just sent you a planting reminder email.
+- if current_member.send_planting_reminder
+  %p
+    We just sent you a planting reminder email.
+- else
+  %p
+    Your profile settings say not to send you this email, so we haven't.
 
 %p
   = link_to "Back to your profile", edit_member_registration_path
