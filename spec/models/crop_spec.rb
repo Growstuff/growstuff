@@ -57,19 +57,13 @@ describe Crop do
       @tomato = FactoryGirl.create(:tomato)
       @maize = FactoryGirl.create(:maize)
       @cucumber = FactoryGirl.create(:crop, :name => 'cucumber')
-      (1..10).each do
-        FactoryGirl.create(:planting, :crop => @maize)
-      end
-      (1..3).each do
-        FactoryGirl.create(:planting, :crop => @tomato)
-      end
+      FactoryGirl.create_list(:planting, 10, :crop => @maize)
+      FactoryGirl.create_list(:planting, 3, :crop => @tomato)
     end
 
     it "sorts by most plantings" do
       Crop.popular.first.should eq @maize
-      (1..10).each do
-        FactoryGirl.create(:planting, :crop => @tomato)
-      end
+      FactoryGirl.create_list(:planting, 10, :crop => @tomato)
       Crop.popular.first.should eq @tomato
     end
 
