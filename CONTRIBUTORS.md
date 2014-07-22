@@ -41,3 +41,4 @@ submit the change with your pull request.
 - Mackenzie "Maco" King / [maco](https://github.com/maco)
 - Amelia Greenhall / [ameliagreenhall](https://github.com/ameliagreenhall)
 - Barb Natali / [barbnatali](https://github.com/barbnatali)
+- Taylor Griffin / [tygriffin](https://github.com/tygriffin)
