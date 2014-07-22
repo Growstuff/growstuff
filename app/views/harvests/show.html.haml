@@ -23,9 +23,9 @@
     - if can? :edit, @harvest or can? :destroy, @harvest
       %p
       - if can? :edit, @harvest
-        =link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-xs'
+        =link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-default btn-xs'
       - if can? :destroy, @harvest
-        =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-xs'
+        =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
   .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @harvest.crop}

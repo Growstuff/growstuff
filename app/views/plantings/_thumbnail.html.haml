@@ -32,6 +32,6 @@
       - if can? :edit, planting or can? :destroy, planting
         %p
           - if can? :edit, planting
-            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-xs'
+            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
           - if can? :destroy, planting
-            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-xs'
+            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
