@@ -21,7 +21,7 @@
       account
 
       - if @member == current_member && !@member.is_paid?
-        = link_to "Upgrade", shop_path, :class => 'btn btn-primary btn-mini'
+        = link_to "Upgrade", shop_path, :class => 'btn btn-primary btn-xs'
 
     - if @twitter_auth || @flickr_auth || @member.show_email
       %h4 Contact

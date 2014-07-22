@@ -24,7 +24,7 @@
             %td
               - if seed.tradable?
                 = seed.owner.location.blank? ? "unspecified" : truncate(seed.owner.location, :length => 25, :separator => ', ')
-            %td= link_to 'Details', seed, :class => 'btn btn-mini'
+            %td= link_to 'Details', seed, :class => 'btn btn-xs'
 
   %p.text-right
     = link_to "View all seeds »", seeds_path

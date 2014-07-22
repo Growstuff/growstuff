@@ -51,7 +51,7 @@
               unspecified
             - else
               = link_to seed.owner.location, place_path(seed.owner.location)
-        %td= link_to 'Details', seed, :class => 'btn btn-mini'
+        %td= link_to 'Details', seed, :class => 'btn btn-xs'
 
   %div.pagination
     = page_entries_info @seeds, :model => "seeds"

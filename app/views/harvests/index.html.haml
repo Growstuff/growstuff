@@ -46,7 +46,7 @@
         %td= harvest.harvested_at
         %td= display_quantity(harvest)
         %td= harvest.description
-        %td= link_to 'Details', harvest, :class => 'btn btn-mini'
+        %td= link_to 'Details', harvest, :class => 'btn btn-xs'
 
   %div.pagination
     = page_entries_info @harvests, :model => "harvests"
