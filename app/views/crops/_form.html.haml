@@ -31,7 +31,7 @@
     %span.help-block
       You may enter up to 3 scientific names for a crop. Most crops will have only one.
   = f.fields_for :scientific_names do |sn|
-    .control-group
+    .form-group
       = sn.label :scientific_name, "Scientific name", :class => 'control-label'
       .controls
         = sn.text_field :scientific_name
