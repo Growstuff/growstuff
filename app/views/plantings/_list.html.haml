@@ -1,9 +1,9 @@
 - plantings.each do |p|
   - cache "plantings_listitem_#{p.id}" do
-    .row-fluid
-      .span2{:style => 'padding-bottom: 6px'}
+    .row
+      .col-md-2{:style => 'padding-bottom: 6px'}
         = render :partial => 'plantings/image_with_popover', :locals => { :planting => p }
-      .span10
+      .col-md-10
         = link_to p.crop, p.crop
         in
         = succeed "'s" do

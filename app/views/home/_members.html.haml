@@ -1,12 +1,12 @@
 - cache "interesting_members" do
-  .visible-desktop.visible-tablet
+  .hidden-xs
     - members = Member.interesting.first(6)
     - if members.present?
       %h2 Some of our members
 
-      .row-fluid
+      .row
         - members.each do |m|
-          .span6.homepage-members
+          .col-md-6.homepage-members
             = render :partial => "members/thumbnail", :locals => { :member => m }
 
       %p.text-right
