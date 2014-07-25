@@ -5,6 +5,8 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'coveralls'
 require 'simplecov'
+require 'capybara'
+
 SimpleCov.configure do
   add_filter 'spec/'
 end
