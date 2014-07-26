@@ -121,9 +121,11 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'rake', '>= 10.0.0'
 
 group :development, :test do
-  gem 'haml-rails' # HTML templating language
-  gem 'rspec-rails', '~> 2.12.1' # unit testing framework
-  gem 'webrat' # provides HTML matchers for view tests
-  gem 'factory_girl_rails', '~> 4.0' # for creating test data
-  gem 'coveralls', require: false # coverage analysis
+  gem 'haml-rails'                      # HTML templating language
+  gem 'rspec-rails', '~> 2.12.1'        # unit testing framework
+  gem 'webrat'                          # provides HTML matchers for view tests
+  gem 'capybara', '~> 2.4.1'            # for feature tests
+  gem 'selenium-webdriver', '~> 2.42.0' # for testing in the browser
+  gem 'factory_girl_rails', '~> 4.0'    # for creating test data
+  gem 'coveralls', require: false       # coverage analysis
 end
