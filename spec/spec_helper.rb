@@ -5,9 +5,6 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'coveralls'
 require 'simplecov'
-require 'capybara'
-
-include Warden::Test::Helpers
 
 SimpleCov.configure do
   add_filter 'spec/'
