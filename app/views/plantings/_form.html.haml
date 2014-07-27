@@ -9,7 +9,7 @@
   .control-group
     = f.label 'What did you plant?', :class => 'control-label'
     .controls
-      = text_field_tag(:crop)
+      = text_field_tag(:crop, @planting.crop.nil? ? "" : @planting.crop.name)
       = f.hidden_field(:crop_id)
       %span.help-inline
         Can't find what you're looking for?
