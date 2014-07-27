@@ -1,7 +1,9 @@
 module FeatureHelpers
 
   def fill_autocomplete(field, options = {})
-    fill_in field, with: options[:with]
+    fill_in field, :with => options[:with]
+
+    sleep 3
 
     page.execute_script %Q{ $('##{field}').trigger('focus') }
     page.execute_script %Q{ $('##{field}').trigger('keydown') }
@@ -15,5 +17,5 @@ module FeatureHelpers
 end
 
 RSpec.configure do |config|
-  config.include FeatureHelpers, type: :feature
+  config.include FeatureHelpers, :type => :feature
 end

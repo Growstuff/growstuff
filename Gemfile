@@ -128,4 +128,6 @@ group :development, :test do
   gem 'selenium-webdriver', '~> 2.42.0' # for testing in the browser
   gem 'factory_girl_rails', '~> 4.0'    # for creating test data
   gem 'coveralls', require: false       # coverage analysis
+
+  gem 'pry', '~> 0.10.0'                # for debugging
 end
