@@ -124,6 +124,7 @@ group :development, :test do
   gem 'haml-rails'                      # HTML templating language
   gem 'rspec-rails', '~> 2.12.1'        # unit testing framework
   gem 'webrat'                          # provides HTML matchers for view tests
+  gem 'database_cleaner', '~> 1.3.0'
   gem 'capybara', '~> 2.4.1'            # for feature tests
   gem 'selenium-webdriver', '~> 2.42.0' # for testing in the browser
   gem 'factory_girl_rails', '~> 4.0'    # for creating test data
