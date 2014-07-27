@@ -11,17 +11,12 @@ feature "Planting a crop", :js => true do
 
   scenario "Typing in the crop name displays suggestions" do
     within "form#new_planting" do
-      # fill_autocomplete 'crop', with: 'm'
-      fill_in 'crop', :with => "m"
-
-      binding.pry
-
-      sleep 1000
-
-      page.execute_script %Q{ $('#crop').trigger('focus') }
-      page.execute_script %Q{ $('#crop').trigger('keydown') }
-      expect(page).to have_content("maize")
+      fill_autocomplete "crop", with: "m"
     end
+
+    expect(page).to have_content("maize")
+    select_from_autocomplete("maize")
+    expect(page).to have_selector("input#planting_crop_id[value='#{maize.id}']", :visible => false)
   end
 
 end

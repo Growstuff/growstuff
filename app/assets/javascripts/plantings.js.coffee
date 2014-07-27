@@ -17,6 +17,8 @@ jQuery ->
         el.val( ui.item.name )
         $( '#planting_crop_id' ).val( ui.item.id )
         false
+      change: ( event, ui ) ->
+        console.log( event, ui )
     .data( 'uiAutocomplete' )._renderItem = ( ul, item ) ->
       $( '<li></li>' )
         .data( 'item.autocomplete', item )
