@@ -1,49 +1,49 @@
-// if (document.getElementById("cropmap") !== null) {
-//   mapbox_map_id = "<%= Growstuff::Application.config.mapbox_map_id %>";
-//   mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
+if (document.getElementById("cropmap") !== null) {
+  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
+  mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
 
-//   L.Icon.Default.imagePath = '/assets'
+  L.Icon.Default.imagePath = '/assets'
 
-//   cropmap = L.map('cropmap').setView([0.0, -0.0], 2);
-//   showCropMap(cropmap);
-// }
+  cropmap = L.map('cropmap').setView([0.0, -0.0], 2);
+  showCropMap(cropmap);
+}
 
-// function showCropMap(cropmap) {
+function showCropMap(cropmap) {
 
-//   L.tileLayer(mapbox_base_url, {
-//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
-//     maxZoom: 18
-//   }).addTo(cropmap);
-//   markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
+  L.tileLayer(mapbox_base_url, {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18
+  }).addTo(cropmap);
+  markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
-//   things_to_map = location.pathname + '.json';
-//   $.getJSON(things_to_map, function(crop) {
-//     $.each(crop.plantings, function(i, planting) {
-//       owner = planting.owner;
-//       if (owner.latitude && owner.longitude) {
-//         marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude));
+  things_to_map = location.pathname + '.json';
+  $.getJSON(things_to_map, function(crop) {
+    $.each(crop.plantings, function(i, planting) {
+      owner = planting.owner;
+      if (owner.latitude && owner.longitude) {
+        marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude));
 
-//         planting_url = "/plantings/" + planting.id;
-//         planting_link = "<a href='" + planting_url + "'>" + owner.login_name + "'s " + crop.name + "</a>";
+        planting_url = "/plantings/" + planting.id;
+        planting_link = "<a href='" + planting_url + "'>" + owner.login_name + "'s " + crop.name + "</a>";
 
-//         where = "<p><i>" + owner.location + "</i></p>";
+        where = "<p><i>" + owner.location + "</i></p>";
 
-//         details = "<p>";
-//         if (planting.quantity) {
-//           details = details + "Quantity: " + planting.quantity + "<br/>";
-//         }
-//         if (planting.planted_from) {
-//           details = details + "Planted from: " + planting.planted_from + "<br/>";
-//         }
-//         if (planting.sunniness) {
-//           details = details + "Planted in: " + planting.sunniness+ "<br/>";
-//         }
-//         details = details + "</p>";
-//         marker.bindPopup(planting_link + where + details).openPopup();
-//         markers.addLayer(marker);
-//       }
-//     });
-//   });
+        details = "<p>";
+        if (planting.quantity) {
+          details = details + "Quantity: " + planting.quantity + "<br/>";
+        }
+        if (planting.planted_from) {
+          details = details + "Planted from: " + planting.planted_from + "<br/>";
+        }
+        if (planting.sunniness) {
+          details = details + "Planted in: " + planting.sunniness+ "<br/>";
+        }
+        details = details + "</p>";
+        marker.bindPopup(planting_link + where + details).openPopup();
+        markers.addLayer(marker);
+      }
+    });
+  });
 
-//   cropmap.addLayer(markers);
-// }
+  cropmap.addLayer(markers);
+}
