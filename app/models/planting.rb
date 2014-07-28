@@ -23,6 +23,8 @@ class Planting < ActiveRecord::Base
 
   default_scope order("created_at desc")
 
+  validates :crop_id, :presence => true
+
   validates :quantity,
     :numericality => { :only_integer => true },
     :allow_nil => true
