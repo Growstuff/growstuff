@@ -12,6 +12,7 @@ jQuery ->
       source: Routes.crops_search_path(),
       focus: ( event, ui ) ->
         el.val( ui.item.name )
+        $( '#planting_crop_id' ).val( ui.item.id )
         false
       select: ( event, ui ) ->
         el.val( ui.item.name )

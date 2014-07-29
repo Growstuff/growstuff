@@ -21,10 +21,5 @@ describe "plantings/_form" do
     assert_select 'input#planting_planted_at[type=text][value=2013-03-01]'
   end
 
-  context "logged in" do
-    it "orders crops alphabetically" do
-      rendered.should =~ /#{@lowercase.name}.*#{@uppercase.name}/m
-    end
-  end
 end
 

@@ -44,11 +44,6 @@ describe "plantings/new" do
       assert_select "a[href=#{Growstuff::Application.config.new_crops_request_link}]", :text => "Request new crops."
     end
 
-    # it "selects a crop given in a param" do
-    #   assert_select "select#planting_crop_id",
-    #     :html => /option value="#{@crop2.id}" selected="selected"/
-    # end
-
     it "selects a garden given in a param" do
       assert_select "select#planting_garden_id",
         :html => /option value="#{@garden_z.id}" selected="selected"/
