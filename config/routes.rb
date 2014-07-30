@@ -17,7 +17,7 @@ Growstuff::Application.routes.draw do
   match '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
 
   resources :seeds
-  match '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner'
+  match '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner', :via => :get
 
   resources :harvests
   match '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
