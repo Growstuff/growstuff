@@ -1,5 +1,8 @@
 - content_for :title, @owner ? "#{@owner}'s plantings" : "Everyone's plantings"
 
+- if @owner 
+  %p
+    = link_to "Back to member profile", member_path(@owner)
 %p
   - if can? :create, Planting
     - if @owner

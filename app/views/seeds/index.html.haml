@@ -1,5 +1,9 @@
 - content_for :title, @owner ? "#{@owner}'s seeds" : "Everyone's seeds"
 
+- if @owner 
+  %p
+    = link_to "Back to member profile", member_path(@owner)
+
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track your seed
   stash or trade seeds with other members.
