@@ -99,7 +99,7 @@ describe Harvest do
 
   context 'weight units' do
     it 'all valid units should work' do
-      ['kg', 'lb', nil, ''].each do |s|
+      ['kg', 'lb', 'oz', nil, ''].each do |s|
         @harvest = FactoryGirl.build(:harvest, :weight_unit => s)
         @harvest.should be_valid
       end
