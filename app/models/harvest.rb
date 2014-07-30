@@ -21,7 +21,7 @@ class Harvest < ActiveRecord::Base
     "sprigs" => "sprig",
     "handfuls" => "handful",
     "litres" => "litre",
-    "pints" => "ping",
+    "pints" => "pint",
     "quarts" => "quart",
     "buckets" => "bucket",
     "baskets" => "basket",
