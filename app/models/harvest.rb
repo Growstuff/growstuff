@@ -21,7 +21,7 @@ class Harvest < ActiveRecord::Base
     "sprigs" => "sprig",
     "handfuls" => "handful",
     "litres" => "litre",
-    "pints" => "ping",
+    "pints" => "pint",
     "quarts" => "quart",
     "buckets" => "bucket",
     "baskets" => "basket",
@@ -38,7 +38,8 @@ class Harvest < ActiveRecord::Base
 
   WEIGHT_UNITS_VALUES = {
     "kg" => "kg",
-    "lb" => "lb"
+    "lb" => "lb",
+    "oz" => "oz"
   }
   validates :weight_unit, :inclusion => { :in => WEIGHT_UNITS_VALUES.values,
     :message => "%{value} is not a valid unit" },
