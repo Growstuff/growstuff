@@ -6,6 +6,8 @@ require 'rspec/autorun'
 require 'coveralls'
 require 'simplecov'
 require 'capybara'
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
 
 include Warden::Test::Helpers
 

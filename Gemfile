@@ -126,7 +126,7 @@ group :development, :test do
   gem 'webrat'                          # provides HTML matchers for view tests
   gem 'database_cleaner', '~> 1.3.0'
   gem 'capybara', '~> 2.4.1'            # for feature tests
-  gem 'selenium-webdriver', '~> 2.42.0' # for testing in the browser
+  gem 'poltergeist', '~> 1.5.1'         # for headless JS testing
   gem 'factory_girl_rails', '~> 4.0'    # for creating test data
   gem 'coveralls', require: false       # coverage analysis
 

@@ -19,9 +19,10 @@ jQuery ->
         $( '#planting_crop_id' ).val( ui.item.id )
         false
       autoFocus: true
-    .data( 'uiAutocomplete' )._renderItem = ( ul, item ) ->
-      $( '<li></li>' )
-        .data( 'item.autocomplete', item )
-        .append( "<a>#{item.name}</a>" )
-        .appendTo( ul )
+    if el.data( 'uiAutocomplete' )
+      el.data( 'uiAutocomplete' )._renderItem = ( ul, item ) ->
+        $( '<li></li>' )
+          .data( 'item.autocomplete', item )
+          .append( "<a>#{item.name}</a>" )
+          .appendTo( ul )
 
