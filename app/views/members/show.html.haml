@@ -93,7 +93,7 @@
     %h3 Seeds
     %p
       - if @member.seeds.count > 0
-        = link_to pluralize(@member.seeds.count, "variety"), seeds_path(:owner_id => @member.id)
+        = link_to pluralize(@member.seeds.count, "variety"), seeds_by_owner_path(@member)
       - else
         No seeds yet.
 

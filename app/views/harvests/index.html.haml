@@ -1,5 +1,8 @@
 - content_for :title, @owner ? "#{@owner}'s harvests" : "Everyone's harvests"
 
+- if @owner 
+  %p
+    = link_to "Back to member profile", member_path(@owner)
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
   harvesting from your home garden and see how productive it is.
