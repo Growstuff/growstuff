@@ -1,3 +1,10 @@
+# Uses JQuery's autocomplete to suggest a crop name in lieu of a
+# preposterously long select dropdown. To implement add code to
+# the view like this:
+#
+# = text_field_tag(:crop, @resource.crop.nil? ? "" : @resource.crop.name, :class => 'crop-suggest')
+# = f.hidden_field(:crop_id)
+
 jQuery ->
   if el = $( '.crop-suggest' )
     el.autocomplete
