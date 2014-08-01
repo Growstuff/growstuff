@@ -9,7 +9,8 @@
   .control-group
     = f.label 'What did you harvest?', :class => 'control-label'
     .controls
-      = collection_select(:harvest, :crop_id, Crop.all, :id, :name, :selected => @harvest.crop_id || @crop.id)
+      = text_field_tag(:crop, @harvest.crop.nil? ? "" : @harvest.crop.name, :class => 'crop-suggest')
+      = f.hidden_field(:crop_id)
       = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, :selected => @harvest.plant_part_id)
       %span.help-block
         Can't find what you're looking for?
