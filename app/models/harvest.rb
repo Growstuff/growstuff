@@ -11,6 +11,8 @@ class Harvest < ActiveRecord::Base
 
   default_scope order('created_at DESC')
 
+  validates :crop, :presence => true
+
   validates :quantity,
     :numericality => { :only_integer => false },
     :allow_nil => true
