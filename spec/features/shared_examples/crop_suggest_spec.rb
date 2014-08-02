@@ -18,6 +18,9 @@ shared_examples "crop suggest" do |resource|
 
     expect(page).to have_content("pear")
     expect(page).to_not have_content("popcorn")
+
+    select_from_autocomplete("pear")
+
     expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", :visible => false)
   end
 

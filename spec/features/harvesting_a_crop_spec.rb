@@ -12,10 +12,8 @@ feature "Harvesting a crop", :js => true do
   it_behaves_like "crop suggest", "harvest"
 
   scenario "Creating a new harvest", :js => true do
-    within "form#new_harvest" do
-      fill_autocomplete "crop", :with => "m"
-    end
-    expect(page).to have_content("maize")
+    fill_autocomplete "crop", :with => "m"
+    select_from_autocomplete "maize"
     within "form#new_harvest" do
       fill_in "When?", :with => "2014-06-15"
       fill_in "How many?", :with => 42

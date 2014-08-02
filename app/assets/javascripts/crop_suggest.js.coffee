@@ -18,7 +18,10 @@ jQuery ->
         el.val( ui.item.name )
         $( "[id$='_crop_id']" ).val( ui.item.id )
         false
-      autoFocus: true
+      response: ( event, ui ) ->
+        for item in ui.content
+          if item.name == el.val()
+            $( "[id$='_crop_id']" ).val( item.id )
     if el.data( 'uiAutocomplete' )
       el.data( 'uiAutocomplete' )._renderItem = ( ul, item ) ->
         $( '<li></li>' )
