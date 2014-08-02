@@ -57,11 +57,11 @@ class CropsController < ApplicationController
     # exclude exact match from partial match list
     @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
 
-    @starts_with = Crop.where("name LIKE :prefix", prefix: "#{params[:term]}%")
+    @fuzzy = Crop.search(params[:term])
 
     respond_to do |format|
       format.html
-      format.json { render :json => @starts_with }
+      format.json { render :json => @fuzzy }
     end
   end
 

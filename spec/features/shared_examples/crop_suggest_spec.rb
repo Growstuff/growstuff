@@ -13,7 +13,7 @@ shared_examples "crop suggest" do |resource|
     expect(page).to have_content("popcorn")
 
     within "form#new_#{resource}" do
-      fill_autocomplete "crop", :with => "pe"
+      fill_autocomplete "crop", :with => "pear"
     end
 
     expect(page).to have_content("pear")
