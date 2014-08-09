@@ -60,6 +60,7 @@ FactoryGirl.define do
 
     factory :crop_wrangling_member do
       roles { [ FactoryGirl.create(:crop_wrangler) ] }
+      sequence(:login_name) {|n| "wrangler#{n}"}
     end
 
     factory :invalid_member_shortname do

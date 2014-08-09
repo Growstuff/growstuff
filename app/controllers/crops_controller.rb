@@ -31,10 +31,17 @@ class CropsController < ApplicationController
     end
   end
 
+  def wrangler_index
+    @crop_wranglers = Role.crop_wranglers
+    respond_to do |format|
+      format.html
+    end
+  end
+
   # GET /crops/wrangle
   def wrangle
     @crops = Crop.recent.paginate(:page => params[:page])
-
+    @crop_wranglers = Role.crop_wranglers
     respond_to do |format|
       format.html
     end

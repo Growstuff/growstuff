@@ -10,7 +10,7 @@ FactoryGirl.define do
     end
 
     factory :crop_wrangler do
-      name "crop wrangler"
+      name "Crop Wrangler"
       description "they wrangle crops"
     end
   end
