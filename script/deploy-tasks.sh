@@ -12,3 +12,6 @@
 
 echo "2013-07-18 - zero crop plantings_count"
 rake growstuff:oneoff:zero_plantings_count
+
+echo "2014-08-10 - replace ping with pint in db"
+rake growstuff:oneoff:ping_to_pint

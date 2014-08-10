@@ -246,6 +246,16 @@ namespace :growstuff do
       end
     end
 
+    desc "August 2014: fix ping to pint in database"
+    task :ping_to_pint => :environment do
+      Harvest.find_each do |h|
+        if h.unit == "ping" 
+          h.unit = "pint"
+          h.save
+        end
+      end
+    end
+
   end # end oneoff section
 
 end
