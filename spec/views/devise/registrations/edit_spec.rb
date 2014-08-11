@@ -23,10 +23,6 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
         render
       end
 
-      it 'has a heading' do
-        assert_select "h2", "Email settings"
-      end
-
       it 'has a checkbox for email notifications' do
         assert_select "input[id=member_send_notification_email][type=checkbox]"
       end
@@ -39,10 +35,6 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
     context 'profile section' do
       before(:each) do
         render
-      end
-
-      it 'has a heading' do
-        assert_select "h2", "Profile details"
       end
 
       it 'shows show_email checkbox' do
@@ -67,10 +59,6 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
     end
 
     context 'other sites section' do
-      it 'has a heading' do
-        render
-        assert_select "h2", "Linked accounts"
-      end
 
       context 'not connected to twitter' do
         it 'has a link to connect' do
@@ -112,11 +100,6 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
         end
       end
 
-    end
-
-    it 'should have a password section' do
-      render
-      assert_select "h2", "Change password"
     end
 
   end
