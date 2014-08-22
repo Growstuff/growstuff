@@ -2,8 +2,7 @@ require 'spec_helper'
 
 feature "crop wranglers" do
   context "signed in user" do
-    let(:crop_wrangler_role) { FactoryGirl.create :crop_wrangler }
-    let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3, roles: [crop_wrangler_role]) }
+    let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
     let(:user){crop_wranglers.first}
     before :each do
       visit root_path

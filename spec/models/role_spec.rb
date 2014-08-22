@@ -18,8 +18,7 @@ describe Role do
   end
 
   describe '.crop_wranglers' do
-    let(:crop_wrangler_role) { FactoryGirl.create :crop_wrangler }
-    let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3, roles: [crop_wrangler_role]) }
+    let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
     it 'return the crop wranglers that are members of that role' do
       expect(Role.crop_wranglers).to eq(crop_wranglers)
     end
