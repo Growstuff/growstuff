@@ -10,7 +10,7 @@ class RegistrationsController < Devise::RegistrationsController
 
 # we need this subclassed method so that Devise doesn't force people to
 # change their password every time they want to edit their settings.
-# we also check that they give their current password to chang their password.
+# we also check that they give their current password to change their password.
 # Code copied from
 # https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
 
