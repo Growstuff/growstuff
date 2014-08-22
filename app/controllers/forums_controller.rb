@@ -80,7 +80,7 @@ class ForumsController < ApplicationController
     @forum.destroy
 
     respond_to do |format|
-      format.html { redirect_to forums_url }
+      format.html { redirect_to forums_url, notice: 'Forum was successfully deleted' }
       format.json { head :no_content }
     end
   end

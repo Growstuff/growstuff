@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe "forums/index" do
   before(:each) do
+    @admin = FactoryGirl.create(:admin_member)
+    controller.stub(:current_user) { @admin }
     @forum1 = FactoryGirl.create(:forum)
     @forum2 = FactoryGirl.create(:forum)
     assign(:forums, [ @forum1, @forum2 ])
