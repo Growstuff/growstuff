@@ -12,6 +12,8 @@
 
 - if can? :edit, @forum
   =link_to "Edit", edit_forum_path(@forum), :class => 'btn btn-default btn-xs'
+- if can? :delete, @forum
+  = link_to 'Delete', @forum, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %h2
   Posts

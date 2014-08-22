@@ -17,8 +17,8 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   Coveralls::SimpleCov::Formatter
 ]
 
-# fail if changes make overall coverage drop
-SimpleCov.refuse_coverage_drop
+# fail if there's a significant test coverage drop
+SimpleCov.maximum_coverage_drop 1
 
 SimpleCov.start :rails do
   add_filter 'spec/'
