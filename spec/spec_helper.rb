@@ -1,20 +1,33 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
-require 'rspec/autorun'
-require 'coveralls'
-require 'simplecov'
+
 require 'capybara'
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 
 include Warden::Test::Helpers
 
+require 'simplecov'
 SimpleCov.configure do
+require 'coveralls'
+
+# output coverage locally AND send it to coveralls
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+
+# fail if changes make overall coverage drop
+SimpleCov.refuse_coverage_drop
+
+SimpleCov.start :rails do
   add_filter 'spec/'
+  add_filter 'vendor/'
 end
-Coveralls.wear!('rails')
+
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'rspec/autorun'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
