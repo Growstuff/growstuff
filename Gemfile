@@ -121,5 +121,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
   gem 'webrat'                       # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
+  gem 'capybara'
   gem 'coveralls', require: false    # coverage analysis
 end
