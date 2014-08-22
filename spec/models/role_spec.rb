@@ -23,4 +23,11 @@ describe Role do
       expect(Role.crop_wranglers).to eq(crop_wranglers)
     end
   end
+
+  describe '.admins' do
+    let!(:admins) { FactoryGirl.create_list(:admin_member, 3) }
+    it 'return the members that have the role of admin' do
+      expect(Role.admins).to eq(admins)
+    end
+  end
 end
