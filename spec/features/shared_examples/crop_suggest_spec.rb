@@ -24,4 +24,13 @@ shared_examples "crop suggest" do |resource|
     expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", :visible => false)
   end
 
+  scenario "Typing and pausing does not affect input" do
+    within "form#new_#{resource}" do
+      fill_autocomplete "crop", :with => "p"
+    end
+
+    expect(page).to have_content("pear")
+    expect(find_field("crop").value).to eq("p")
+  end
+
 end
