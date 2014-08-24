@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 feature "Harvesting a crop", :js => true do
-  let(:member) { FactoryGirl.create(:member) }
-  let!(:maize) { FactoryGirl.create(:maize) }
+  let(:member)   { FactoryGirl.create(:member) }
+  let!(:maize)   { FactoryGirl.create(:maize) }
 
   background do
     login_as(member)
     visit '/harvests/new'
   end
 
-  it_behaves_like "crop suggest", "harvest"
+  it_behaves_like "crop suggest", "harvest", "crop"
 
   scenario "Creating a new harvest", :js => true do
     fill_autocomplete "crop", :with => "m"

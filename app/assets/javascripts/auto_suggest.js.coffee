@@ -16,7 +16,6 @@ jQuery ->
     el.autocomplete
       minLength: 1,
       source: el.attr( 'data-source-url' ),
-      autoFocus: true,
       focus: ( event, ui ) ->
         el.val( ui.item.name )
         id.val( ui.item.id )
