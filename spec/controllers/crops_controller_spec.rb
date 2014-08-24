@@ -16,6 +16,7 @@ describe CropsController do
       get :wrangle
       response.should be_success
       response.should render_template("crops/wrangle")
+      expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers)
     end
   end
 
