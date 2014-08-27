@@ -1,9 +1,9 @@
 .well
   .post
-    .row-fluid
-      .span1
+    .row
+      .col-md-1
         = render :partial => "members/avatar", :locals => { :member => post.author }
-      .span11
+      .col-md-11
         - if defined?(subject)
           %h3= link_to strip_tags(post.subject), post
 
@@ -23,7 +23,7 @@
 
         - unless defined?(hide_comments)
           .post-comments
-            %ul.inline
+            %ul.list-inline
               %li.first= link_to pluralize(post.comments.count, "comment"),
                 post_path(post, :anchor => 'comments')
               -if can? :create, Comment

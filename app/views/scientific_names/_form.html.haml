@@ -12,11 +12,11 @@
       =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
       on the Growstuff wiki.
 
-  .control-group
+  .form-group
     = f.label :crop_id, :class => 'control-label'
     .controls
       = collection_select(:scientific_name, :crop_id, Crop.all, :id, :name, :selected => @scientific_name.crop_id || @crop.id)
-  .control-group
+  .form-group
     = f.label :scientific_name, :class => 'control-label'
     .controls
       = f.text_field :scientific_name

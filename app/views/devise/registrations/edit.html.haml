@@ -5,23 +5,23 @@
 
   %h2 Email settings
 
-  .control-group
+  .form-group
     = f.label :email, :class => 'control-label'
     .controls
       = f.email_field :email
       %span.help-inline If you change your email address you will have to reconfirm.
 
-  .control-group
+  .form-group
     .controls
       = f.check_box :show_email
       Show email publicly on your profile page
 
-  .control-group
+  .form-group
     .controls
       = f.check_box :send_notification_email
       Receive emailed copies of Inbox notifications.
 
-  .control-group
+  .form-group
     .controls
       = f.check_box :newsletter
       Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
@@ -29,7 +29,7 @@
         = render :partial => 'newsletter_blurb'
 
   %h2 Profile details
-  .control-group
+  .form-group
     %label.control-label
       Profile picture
     .controls
@@ -40,20 +40,20 @@
         = succeed "." do
           = link_to 'gravatar.com', "http://gravatar.com/"
 
-  .control-group
+  .form-group
     =f.label :location, 'Your location', :class => 'control-label'
     .controls
       =f.text_field :location, :autocomplete => "off"
       %span.help-inline This will be displayed on a map. You can be as detailed or vague as you like.
 
-  .control-group
+  .form-group
     =f.label :bio, :class => 'control-label'
     .controls
-      =f.text_area :bio, :rows => 6, :class => 'input-block-level'
+      =f.text_area :bio, :rows => 6, :class => 'form-control'
 
   %h2 Linked accounts
 
-  .control-group
+  .form-group
     .controls
       %p
         = image_tag "twitter_32.png", :size => "32x32", :alt => 'Twitter logo'
@@ -78,17 +78,17 @@
   %p
     %span.help-block Leave blank if you don't want to change your password.
 
-  .control-group
+  .form-group
     = f.label :current_password, :class => 'control-label'
     .controls
       = f.password_field :current_password
 
-  .control-group
+  .form-group
     = f.label :password, "New password", :class => 'control-label'
     .controls
       = f.password_field :password, :autocomplete => "off"
 
-  .control-group
+  .form-group
     = f.label :password_confirmation, :class => 'control-label'
     .controls= f.password_field :password_confirmation
 

@@ -6,7 +6,7 @@
         - @harvest.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
+  .form-group
     = f.label 'What did you harvest?', :class => 'control-label'
     .controls
       = collection_select(:harvest, :crop_id, Crop.all, :id, :name, :selected => @harvest.crop_id || @crop.id)
@@ -15,11 +15,11 @@
         Can't find what you're looking for?
         = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
 
-  .control-group
+  .form-group
     = f.label 'When?', :class => 'control-label'
     .controls= f.text_field :harvested_at, :value => @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '', :class => 'add-datepicker'
 
-  .control-group
+  .form-group
     = f.label 'How many?', :class => 'control-label'
     .controls
       -# Some browsers (eg Firefox for Android) assume "number" means
@@ -28,13 +28,13 @@
       = f.number_field :quantity, :class => 'input-small', :step => 'any'
       = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
 
-  .control-group
+  .form-group
     = f.label 'Weighing:', :class => 'control-label'
     .controls
       = f.number_field :weight_quantity, :class => 'input-small', :step => 'any'
       = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
       in total
-  .control-group
+  .form-group
     = f.label 'Notes', :class => 'control-label'
     .controls= f.text_area :description, :rows => 6
 

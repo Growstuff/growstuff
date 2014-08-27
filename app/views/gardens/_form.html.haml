@@ -6,17 +6,17 @@
         - @garden.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
+  .form-group
     = f.label :name, :class => 'control-label'
     .controls
       = f.text_field :name
 
-  .control-group
+  .form-group
     = f.label :description, :class => 'control-label'
     .controls
       = f.text_area :description, :rows => 6
 
-  .control-group
+  .form-group
     = f.label :location, :class => 'control-label'
     .controls
       = f.text_field :location, :value => @garden.location || current_member.location
@@ -28,13 +28,13 @@
         - else
           =link_to "Change your location.", edit_member_registration_path
 
-  .control-group
+  .form-group
     = f.label :area, :class => 'control-label'
     .controls
       = f.number_field :area, :class => 'input-small'
       = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
 
-  .control-group
+  .form-group
     = f.label 'Active? ', :class => 'control-label'
     .controls
       = f.check_box :active

@@ -1,7 +1,7 @@
 =content_for :title, "#{@garden.owner}'s #{@garden}"
 
-.row-fluid
-  .span9
+.row
+  .col-md-9
     - if ! @garden.active
       .alert.alert-notice
         NOTE: This garden is inactive.
@@ -24,10 +24,10 @@
       :growstuff_markdown
         #{strip_tags @garden.description}
     - if can? :edit, @garden
-      = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-mini'
+      = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-default btn-xs'
     - if can? :destroy, @garden
       = link_to 'Delete garden', @garden, method: :delete, |
-        data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' }, :class => 'btn btn-mini'
+        data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' }, :class => 'btn btn-default btn-xs'
 
     %h3
       What's planted here?
@@ -37,7 +37,7 @@
     - @garden.plantings.each do |p|
       = render :partial => "plantings/thumbnail", :locals => { :planting => p }
 
-  .span3
+  .col-md-3
     %h4= "#{@garden.owner}'s gardens"
     %ul
       - @garden.owner.gardens.active.each do |othergarden|
@@ -57,4 +57,4 @@
             = link_to "#{othergarden}", garden_path(othergarden)
 
     - if can? :create, @garden
-      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-mini'
+      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-default btn-xs'

@@ -6,20 +6,20 @@
         - @seed.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
+  .form-group
     = f.label 'Crop:', :class => 'control-label'
     .controls= collection_select(:seed, :crop_id, Crop.all, :id, :name, :selected => @seed.crop_id || @crop.id)
-  .control-group
+  .form-group
     = f.label 'Quantity:', :class => 'control-label'
     .controls
       = f.number_field :quantity, :class => 'input-small'
-  .control-group
+  .form-group
     = f.label 'Plant before:', :class => 'control-label'
     .controls= f.text_field :plant_before, :value => @seed.plant_before ? @seed.plant_before.to_s(:ymd) : '', :class => 'add-datepicker'
-  .control-group
+  .form-group
     = f.label 'Description:', :class => 'control-label'
     .controls= f.text_area :description, :rows => 6
-  .control-group
+  .form-group
     = f.label 'Will trade:', :class => 'control-label'
     .controls
       = f.select(:tradable_to,

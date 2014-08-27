@@ -57,9 +57,7 @@ group :assets do
   gem "less", '~>2.3.2'
   gem "less-rails", '~> 2.3.3'
   # CSS framework
-  gem "twitter-bootstrap-rails",
-    :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',
-    :ref => '2c7c52'
+  gem "less-rails-bootstrap"
 
   gem 'uglifier', '>= 1.0.3' # JavaScript compressor
 
