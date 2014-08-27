@@ -35,7 +35,7 @@
       = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
 
   .form-group
-    = f.label 'Active? ', :class => 'control-label'
+    = f.label :active, 'Active? ', :class => 'control-label'
     .controls
       = f.check_box :active
       %span.help-inline
