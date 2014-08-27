@@ -37,6 +37,7 @@ feature "account types" do
       click_button 'Save'
       current_path.should eq account_type_path(a)
       page.should have_content 'Account type was successfully updated'
+      page.should have_content 'Something else'
     end
 
     scenario 'deleting account type' do
