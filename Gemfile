@@ -93,7 +93,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.0.0'
+gem 'devise', '~> 3.2.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 4.0.10'
@@ -122,4 +122,5 @@ group :development, :test do
   gem 'webrat'                       # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
   gem 'coveralls', require: false    # coverage analysis
+  gem 'capybara'                     # integration tests
 end
