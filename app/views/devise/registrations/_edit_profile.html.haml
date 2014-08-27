@@ -1,0 +1,30 @@
+= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-horizontal' }) do |f|
+  = devise_error_messages!
+
+  .form-group
+    =f.label :location, 'Your location', :class => 'control-label col-md-2'
+    .col-md-8
+      =f.text_field :location, :autocomplete => "off", :class => 'form-control'
+      %span.help-block This will be displayed on a map. You can be as detailed or vague as you like.
+
+  .form-group
+    =f.label :bio, :class => 'control-label col-md-2'
+    .col-md-8
+      =f.text_area :bio, :rows => 6, :class => 'form-control'
+
+  .form-group
+    %label.control-label.col-md-2
+      Profile picture
+    .col-md-8
+      = render :partial => "members/avatar", :locals => { :member => @member }
+      %p
+        %br/
+        To change your profile picture, visit
+        = succeed "." do
+          = link_to 'gravatar.com', "http://gravatar.com/"
+
+  .form-group
+    .form-actions.col-md-offset-2.col-md-8
+      = f.submit "Save", :class => 'btn btn-primary'
+
+      =f.hidden_field(:tos_agreement, :value => true)
