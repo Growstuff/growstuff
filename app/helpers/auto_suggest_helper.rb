@@ -8,6 +8,7 @@ module AutoSuggestHelper
 
     %Q{
       <input id="#{source}" class="auto-suggest" type="text" value="#{default}" data-source-url="#{source_path}">
+      <noscript>Warning: Javascript must be available to search and match crops</noscript>
       <input id="#{resource}_#{source}_id" class="auto-suggest-id" type="hidden" name="#{resource}[#{source}_id]">
     }.html_safe
   end
