@@ -56,6 +56,6 @@ class Seed < ActiveRecord::Base
   end
 
   def seed_slug
-    "#{owner.login_name}-#{crop.name}".downcase.gsub(' ', '-')
+    "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
   end
 end
