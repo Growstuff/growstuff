@@ -23,7 +23,7 @@ class Planting < ActiveRecord::Base
 
   default_scope order("created_at desc")
 
-  validates :crop_id, :presence => true
+  validates :crop_id, :presence => {:message => "must be present and exist in our database"}
 
   validates :quantity,
     :numericality => { :only_integer => true },

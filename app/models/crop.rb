@@ -24,7 +24,6 @@ class Crop < ActiveRecord::Base
   scope :popular, reorder("plantings_count desc, lower(name) asc")
   scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
 
-  validates :presence => {:message => "must be present and exist in our database"}
   validates :en_wikipedia_url,
     :format => {
       :with => /^https?:\/\/en\.wikipedia\.org\/wiki/,
