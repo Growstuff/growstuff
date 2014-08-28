@@ -23,7 +23,7 @@
     = f.label :planted_at, 'When?', :class => 'control-label col-md-2'
     .col-md-2= f.text_field :planted_at, :value => @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '', :class => 'add-datepicker form-control'
   .form-group
-    = f.label :qantity, 'How many?', :class => 'control-label col-md-2'
+    = f.label :quantity, 'How many?', :class => 'control-label col-md-2'
     .col-md-2
       = f.number_field :quantity, :class => 'form-control'
   .form-group

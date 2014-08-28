@@ -19,7 +19,7 @@
     .col-md-2
       = f.text_field :plant_before, :class => 'add-datepicker form-control', :value => @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
   .form-group
-    = f.label :desciption, 'Description:', :class => 'control-label col-md-2'
+    = f.label :description, 'Description:', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_area :description, :rows => 6, :class => 'form-control'
   .form-group

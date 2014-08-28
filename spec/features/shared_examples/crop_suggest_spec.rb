@@ -50,7 +50,7 @@ shared_examples "crop suggest" do |resource|
       click_button "Save"
     end
 
-    expect(page).to have_content("That's not in our database.")
+    expect(page).to have_content("Crop must be present and exist in our database")
   end
 
 end

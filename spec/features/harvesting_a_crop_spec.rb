@@ -17,7 +17,7 @@ feature "Harvesting a crop", :js => true do
     within "form#new_harvest" do
       fill_in "When?", :with => "2014-06-15"
       fill_in "How many?", :with => 42
-      fill_in "Weighing?", :with => 42
+      fill_in "Weighing (in total):", :with => 42
       fill_in "Notes", :with => "It's killer."
       click_button "Save"
     end
