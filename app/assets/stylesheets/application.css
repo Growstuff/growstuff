@@ -8,7 +8,7 @@
  *= require leaflet
  *= require leaflet.markercluster
  *= require leaflet.markercluster.default
+ *= require custom_bootstrap/custom_bootstrap
+ *= require overrides.css
  *= require_tree .
 */
-
-

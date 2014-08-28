@@ -57,9 +57,7 @@ group :assets do
   gem "less", '~>2.3.2'
   gem "less-rails", '~> 2.3.3'
   # CSS framework
-  gem "twitter-bootstrap-rails",
-    :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',
-    :ref => '2c7c52'
+  gem "less-rails-bootstrap"
 
   gem 'uglifier', '>= 1.0.3' # JavaScript compressor
 
@@ -97,7 +95,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.0.0'
+gem 'devise', '~> 3.2.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 4.0.10'
@@ -121,14 +119,12 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'rake', '>= 10.0.0'
 
 group :development, :test do
-  gem 'haml-rails'                      # HTML templating language
-  gem 'rspec-rails', '~> 2.12.1'        # unit testing framework
-  gem 'webrat'                          # provides HTML matchers for view tests
+  gem 'haml-rails'                   # HTML templating language
+  gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
   gem 'database_cleaner', '~> 1.3.0'
-  gem 'capybara', '~> 2.4.1'            # for feature tests
-  gem 'poltergeist', '~> 1.5.1'         # for headless JS testing
-  gem 'factory_girl_rails', '~> 4.0'    # for creating test data
-  gem 'coveralls', require: false       # coverage analysis
-
-  gem 'pry', '~> 0.10.0'                # for debugging
+  gem 'webrat'                       # provides HTML matchers for view tests
+  gem 'factory_girl_rails', '~> 4.0' # for creating test data
+  gem 'coveralls', require: false    # coverage analysis
+  gem 'capybara'                     # integration tests
+  gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
 end

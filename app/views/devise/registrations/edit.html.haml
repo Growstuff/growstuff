@@ -1,98 +1,25 @@
 - content_for :title, "Settings for #{current_member.login_name}"
 
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-horizontal' }) do |f|
-  = devise_error_messages!
+%ul.nav.nav-tabs{:role => 'tablist'}
+  %li.active
+    %a{:href => '#profile', :role => 'tab', 'data-toggle' => 'tab'}
+      Profile
+  %li
+    %a{:href => '#email', :role => 'tab', 'data-toggle' => 'tab'}
+      Email
+  %li
+    %a{:href => '#apps', :role => 'tab', 'data-toggle' => 'tab'}
+      Apps
+  %li
+    %a{:href => '#password', :role => 'tab', 'data-toggle' => 'tab'}
+      Password
 
-  %h2 Email settings
-
-  .control-group
-    = f.label :email, :class => 'control-label'
-    .controls
-      = f.email_field :email
-      %span.help-inline If you change your email address you will have to reconfirm.
-
-  .control-group
-    .controls
-      = f.check_box :show_email
-      Show email publicly on your profile page
-
-  .control-group
-    .controls
-      = f.check_box :send_notification_email
-      Receive emailed copies of Inbox notifications.
-
-  .control-group
-    .controls
-      = f.check_box :newsletter
-      Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
-      .help-inline
-        = render :partial => 'newsletter_blurb'
-
-  %h2 Profile details
-  .control-group
-    %label.control-label
-      Profile picture
-    .controls
-      = render :partial => "members/avatar", :locals => { :member => @member }
-      %p
-        %br/
-        To change your profile picture, visit
-        = succeed "." do
-          = link_to 'gravatar.com', "http://gravatar.com/"
-
-  .control-group
-    =f.label :location, 'Your location', :class => 'control-label'
-    .controls
-      =f.text_field :location, :autocomplete => "off"
-      %span.help-inline This will be displayed on a map. You can be as detailed or vague as you like.
-
-  .control-group
-    =f.label :bio, :class => 'control-label'
-    .controls
-      =f.text_area :bio, :rows => 6, :class => 'input-block-level'
-
-  %h2 Linked accounts
-
-  .control-group
-    .controls
-      %p
-        = image_tag "twitter_32.png", :size => "32x32", :alt => 'Twitter logo'
-        - if @twitter_auth
-          You are connected to Twitter as
-          = succeed "." do
-            =link_to @twitter_auth.name, "http://twitter.com/#{@twitter_auth.name}"
-          = link_to "Disconnect", @twitter_auth, :confirm => "Are you sure you want to remove this connection?", :method => :delete, :class => "remove"
-        - else
-          =link_to 'Connect to Twitter', '/auth/twitter'
-      %p
-        = image_tag "flickr_32.png", :size => "32x32", :alt => 'Flickr logo'
-        - if @flickr_auth
-          You are connected to Flickr as
-          = succeed "." do
-            =link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
-          = link_to "Disconnect", @flickr_auth, :confirm => "Are you sure you want to remove this connection?", :method => :delete, :class => "remove"
-        - else
-          =link_to 'Connect to Flickr', '/auth/flickr'
-
-  %h2 Change password
-  %p
-    %span.help-block Leave blank if you don't want to change your password.
-
-  .control-group
-    = f.label :current_password, :class => 'control-label'
-    .controls
-      = f.password_field :current_password
-
-  .control-group
-    = f.label :password, "New password", :class => 'control-label'
-    .controls
-      = f.password_field :password, :autocomplete => "off"
-
-  .control-group
-    = f.label :password_confirmation, :class => 'control-label'
-    .controls= f.password_field :password_confirmation
-
-  .form-actions
-    = f.submit "Save", :class => 'btn btn-primary'
-
-  =f.hidden_field(:tos_agreement, :value => true)
+.tab-content
+  .tab-pane.active#profile
+    = render :partial => 'edit_profile'
+  .tab-pane#email
+    = render :partial => 'edit_email'
+  .tab-pane#apps
+    = render :partial => 'edit_apps'
+  .tab-pane#password
+    = render :partial => 'edit_password'
