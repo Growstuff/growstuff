@@ -10,8 +10,6 @@ jQuery ->
   if el = $( '.auto-suggest' )
 
     id = $( '.auto-suggest-id' )
-    submit = $( '[name="commit"]' )
-    errorContainer = $( '<span></span>' ).insertAfter(el)
 
     el.autocomplete
       minLength: 1,
@@ -36,18 +34,3 @@ jQuery ->
           .data( 'item.autocomplete', item )
           .append( "<a>#{item.name}</a>" )
           .appendTo( ul )
-
-    submit.on( 'click', (e) ->
-      if el.val() != '' && id.val() == ''
-        e.preventDefault()
-        errorContainer.prepend( '<p><em>That\'s not in our database.</em></p>' )
-        el.css( 'background-color', '#ffe6e6' )
-        $( 'html, body' ).animate({
-          scrollTop: ( el.offset().top ) - 200
-        }, 200)
-    )
-
-    el.focus( ->
-      el.css( 'background-color', '#fff' )
-      errorContainer.find( 'p' ).remove()
-    )
