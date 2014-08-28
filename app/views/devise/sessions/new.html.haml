@@ -4,21 +4,25 @@
   = devise_error_messages!
 
   .form-group
-    = f.label :login, :class => "control-label"
-    .controls= f.text_field :login
+    = f.label :login, :class => "control-label col-md-2"
+    .col-md-8
+      = f.text_field :login, :class => 'form-control'
 
   .form-group
-    = f.label :password, :class => "control-label"
-    .controls= f.password_field :password
+    = f.label :password, :class => "control-label col-md-2"
+    .col-md-8
+      = f.password_field :password, :class => 'form-control'
 
   - if devise_mapping.rememberable?
     .form-group
-      .controls
+      .col-md-8.col-md-offset-2
         = f.check_box :remember_me
         Remember me
 
-  .form-actions
-    = f.submit "Sign in", :class => 'btn btn-primary'
+  .form-group
+    .form-actions.col-md-8.col-md-offset-2
+      = f.submit "Sign in", :class => 'btn btn-primary'
 
-
-= render "devise/shared/links"
+  .form-group
+    .col-md-8.col-md-offset-2
+      = render "devise/shared/links"

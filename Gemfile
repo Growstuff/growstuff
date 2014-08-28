@@ -93,7 +93,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.0.0'
+gem 'devise', '~> 3.2.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 4.0.10'

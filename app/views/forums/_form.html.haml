@@ -1,4 +1,4 @@
-= form_for @forum, :html => { :class => 'form-horizontal' } do |f|
+= form_for @forum, :html => { :class => 'form-horizontal', :role => "form" } do |f|
   - if @forum.errors.any?
     #error_explanation
       %h2= "#{pluralize(@forum.errors.count, "error")} prohibited this forum from being saved:"
@@ -7,13 +7,17 @@
           %li= msg
 
   .form-group
-    = f.label :name, :class => 'control-label'
-    .controls= f.text_field :name, :class => 'form-control'
+    = f.label :name, :class => 'control-label col-md-2'
+    .col-md-8
+      = f.text_field :name, :class => 'form-control'
   .form-group
-    = f.label :description, :class => 'control-label'
-    .controls= f.text_area :description, :rows => 6, :class => 'form-control'
+    = f.label :description, :class => 'control-label col-md-2'
+    .col-md-8
+      = f.text_area :description, :rows => 6, :class => 'form-control'
   .form-group
-    = f.label :owner_id, :class => 'control-label'
-    .controls= collection_select(:forum, :owner_id, Member.all, :id, :login_name)
-  .form-actions
-    = f.submit 'Save', :class => 'btn btn-primary'
+    = f.label :owner_id, :class => 'control-label col-md-2'
+    .col-md-8
+      = collection_select(:forum, :owner_id, Member.all, :id, :login_name, {}, :class => 'form-control')
+  .form-group
+    .form-actions.col-md-offset-2.col-md-8
+      = f.submit 'Save', :class => 'btn btn-primary'
