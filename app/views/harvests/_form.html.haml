@@ -9,7 +9,7 @@
   .form-group
     = f.label :crop, 'What did you harvest?', :class => 'control-label col-md-2'
     .col-md-4
-      = auto_suggest @harvest, :crop
+      = auto_suggest @harvest, :crop, :class => 'form-control col-md-2'
     .col-md-4
       = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, { :selected => @harvest.plant_part_id }, { :class => 'form-control' })
     %span.help-block.col-md-8

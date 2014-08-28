@@ -9,7 +9,7 @@
   .form-group
     = f.label :crop, 'Crop:', :class => 'control-label col-md-2'
     .col-md-8
-      = auto_suggest @seed, :crop
+      = auto_suggest @seed, :crop, :class => 'form-control'
   .form-group
     = f.label :quantity, 'Quantity:', :class => 'control-label col-md-2'
     .col-md-2
