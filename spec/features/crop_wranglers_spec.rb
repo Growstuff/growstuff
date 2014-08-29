@@ -18,10 +18,8 @@ feature "crop wranglers" do
 
       within '.crop_wranglers' do
         expect(page).to have_content 'Crop Wranglers:'
-        crop_wranglers.each_with_index do |crop_wrangler, index|
-          link = find(".crop_wrangler:nth-child(#{index + 1}) a")
-          expect(link.text).to eq(crop_wrangler.login_name)
-          expect(link['href']).to eq(member_path(crop_wrangler))
+        crop_wranglers.each do |crop_wrangler|
+          page.should have_link crop_wrangler.login_name, :href => member_path(crop_wrangler)
         end
       end
     end
