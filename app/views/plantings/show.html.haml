@@ -10,6 +10,15 @@
     %p
       %b Planted:
       = @planting.planted_at ? @planting.planted_at : "not specified"
+    - if @planting.finished
+      %p
+        %b Finished:
+      - if @planting.finished_at
+        = @planting.finished_at
+      - else
+        Yes (no date specified)
+      %p
+        %b
     %p
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
