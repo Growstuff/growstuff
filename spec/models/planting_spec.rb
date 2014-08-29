@@ -209,6 +209,12 @@ describe Planting do
       Planting.interesting.should_not include @planting1
     end
 
+    it 'has finished fields' do
+      @planting = FactoryGirl.create(:finished_planting)
+      @planting.finished.should be true
+      @planting.finished_at.should be_an_instance_of Date
+    end
+
   end
 
 end

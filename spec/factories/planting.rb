@@ -30,5 +30,10 @@ FactoryGirl.define do
     factory :shady_planting do
       sunniness 'shade'
     end
+
+    factory :finished_planting do
+      finished true
+      finished_at '2014-08-30'
+    end
   end
 end
