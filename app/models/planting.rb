@@ -14,6 +14,8 @@ class Planting < ActiveRecord::Base
   before_destroy {|planting| planting.photos.clear}
 
   default_scope order("created_at desc")
+  scope :finished, where(:finished => true)
+  scope :current, where(:finished => false)
 
   delegate :name,
     :en_wikipedia_url,
