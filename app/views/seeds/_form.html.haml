@@ -7,19 +7,22 @@
           %li= msg
 
   .form-group
-    = f.label 'Crop:', :class => 'control-label col-md-2'
+    = f.label :crop, 'Crop:', :class => 'control-label col-md-2'
     .col-md-8
-      = collection_select(:seed, :crop_id, Crop.all, :id, :name, { :selected => @seed.crop_id || @crop.id }, { :class => 'form-control' })
+      = auto_suggest @seed, :crop, :class => 'form-control'
+      %span.help-inline
+        Can't find what you're looking for?
+        = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
   .form-group
-    = f.label 'Quantity:', :class => 'control-label col-md-2'
+    = f.label :quantity, 'Quantity:', :class => 'control-label col-md-2'
     .col-md-2
       = f.number_field :quantity, :class => 'form-control'
   .form-group
-    = f.label 'Plant before:', :class => 'control-label col-md-2'
+    = f.label :plant_before, 'Plant before:', :class => 'control-label col-md-2'
     .col-md-2
       = f.text_field :plant_before, :class => 'add-datepicker form-control', :value => @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
   .form-group
-    = f.label 'Description:', :class => 'control-label col-md-2'
+    = f.label :description, 'Description:', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_area :description, :rows => 6, :class => 'form-control'
   .form-group
@@ -31,7 +34,7 @@
         contact you to request seeds.  You can list any conditions or
         other information in the description, above.
   .form-group
-    = f.label 'Will trade:', :class => 'control-label col-md-2'
+    = f.label :tradable_to, 'Will trade:', :class => 'control-label col-md-2'
     .col-md-8
       = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {}, :class => 'form-control')
       %span.help_inline

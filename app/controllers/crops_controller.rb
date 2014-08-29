@@ -57,8 +57,11 @@ class CropsController < ApplicationController
     # exclude exact match from partial match list
     @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
 
+    @fuzzy = Crop.search(params[:term])
+
     respond_to do |format|
       format.html
+      format.json { render :json => @fuzzy }
     end
   end
 
@@ -100,7 +103,6 @@ class CropsController < ApplicationController
   def create
     params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(params[:crop])
-
 
     respond_to do |format|
       if @crop.save

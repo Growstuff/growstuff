@@ -13,7 +13,8 @@ describe "seeds/edit" do
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => seeds_path(@seed), :method => "post" do
-      assert_select "select#seed_crop_id", :name => "seed[crop_id]"
+      assert_select "input#crop", :class => "ui-autocomplete-input"
+      assert_select "input#seed_crop_id", :name => "seed[crop_id]"
       assert_select "textarea#seed_description", :name => "seed[description]"
       assert_select "input#seed_quantity", :name => "seed[quantity]"
       assert_select "select#seed_tradable_to", :name => "seed[tradable_to]"

@@ -65,6 +65,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'js-routes'  # provides access to Rails routes in Javascript
 gem 'flickraw'
 
 # To use ActiveModel has_secure_password
@@ -119,8 +121,10 @@ gem 'rake', '>= 10.0.0'
 group :development, :test do
   gem 'haml-rails'                   # HTML templating language
   gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
+  gem 'database_cleaner', '~> 1.3.0'
   gem 'webrat'                       # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
   gem 'coveralls', require: false    # coverage analysis
   gem 'capybara'                     # integration tests
+  gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
 end

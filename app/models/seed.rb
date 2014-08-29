@@ -2,7 +2,7 @@ class Seed < ActiveRecord::Base
   extend FriendlyId
   friendly_id :seed_slug, use: :slugged
 
-  attr_accessible :owner_id, :crop_id, :description, :quantity, :plant_before, 
+  attr_accessible :owner_id, :crop_id, :description, :quantity, :plant_before,
     :tradable_to, :slug
 
   belongs_to :crop
@@ -10,6 +10,7 @@ class Seed < ActiveRecord::Base
 
   default_scope order("created_at desc")
 
+  validates :crop, :presence => {:message => "must be present and exist in our database"}
   validates :quantity,
     :numericality => { :only_integer => true },
     :allow_nil => true
@@ -55,6 +56,6 @@ class Seed < ActiveRecord::Base
   end
 
   def seed_slug
-    "#{owner.login_name}-#{crop.name}".downcase.gsub(' ', '-')
+    "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
   end
 end
