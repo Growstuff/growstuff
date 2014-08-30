@@ -19,24 +19,14 @@ feature "seeds" do
       page.should have_content 'Add seeds'
     end
 
-    scenario "add seeds" do
-      visit new_seed_path
-      page.should have_content 'Add seeds'
-      select @crop.name, :from => 'seed_crop_id'
-      fill_in 'seed_quantity', :with => 3
-      fill_in 'seed_plant_before', :with => '2020-01-01'
-      fill_in 'seed_description', :with => "these are some seeds I harvested"
-      select "nowhere", :from => 'seed_tradable_to'
-      click_button 'Save'
-      current_path.should eq seed_path(Seed.last)
-    end
+    # actually adding seeds is in spec/features/seeds_new_spec.rb
 
     scenario "edit seeds" do
       seed = FactoryGirl.create(:seed, :owner => @member)
       visit seed_path(seed)
       click_link 'Edit'
       current_path.should eq edit_seed_path(seed)
-      fill_in 'seed_quantity', :with => seed.quantity * 2
+      fill_in 'Quantity:', :with => seed.quantity * 2
       click_button 'Save'
       current_path.should eq seed_path(seed)
     end
