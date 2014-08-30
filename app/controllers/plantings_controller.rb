@@ -86,8 +86,10 @@ class PlantingsController < ApplicationController
   # PUT /plantings/1
   # PUT /plantings/1.json
   def update
+    puts "I'm in the controller!"
     @planting = Planting.find(params[:id])
     params[:planted_at] = parse_date(params[:planted_at])
+    puts params.to_yaml
 
     respond_to do |format|
       if @planting.update_attributes(params[:planting])

@@ -10,15 +10,15 @@
     %p
       %b Planted:
       = @planting.planted_at ? @planting.planted_at : "not specified"
+
     - if @planting.finished
       %p
         %b Finished:
-      - if @planting.finished_at
-        = @planting.finished_at
-      - else
-        Yes (no date specified)
-      %p
-        %b
+        - if @planting.finished_at
+          = @planting.finished_at
+        - else
+          Yes (no date specified)
+
     %p
       %b Where:
       =link_to "#{@planting.owner}'s", @planting.owner
@@ -44,6 +44,8 @@
       %p
       - if can? :edit, @planting
         =link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-default btn-xs'
+        - if ! @planting.finished
+          = link_to "Mark as finished", planting_path(@planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs'
       - if can? :destroy, @planting
         =link_to 'Delete', @planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
