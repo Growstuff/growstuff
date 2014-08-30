@@ -8,7 +8,9 @@
         - if can? :edit, @garden
           - if @garden.active
             = link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-primary'
-            = link_to "Mark as inactive", garden_path(@garden, :garden => {:active => 0}),  :method => :put, :class => 'btn btn-default'
+            = link_to "Mark as inactive", garden_path(@garden, :garden => {:active => 0}), |
+              :method => :put, :class => 'btn btn-default', |
+              data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
           - else
             = link_to "Mark as active", garden_path(@garden, :garden => {:active => 1}),  :method => :put, :class => 'btn btn-default'
           = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-default'

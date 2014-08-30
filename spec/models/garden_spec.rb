@@ -165,4 +165,22 @@ describe Garden do
     end
   end
 
+  it "marks plantings as finished when garden is inactive" do
+    garden = FactoryGirl.create(:garden)
+    p1 = FactoryGirl.create(:planting, :garden => garden)
+    p2 = FactoryGirl.create(:planting, :garden => garden)
+
+    p1.finished.should eq false
+    p2.finished.should eq false
+
+    garden.active = false
+    garden.save
+
+    p1.reload
+    p1.finished.should eq true
+    p2.reload
+    p2.finished.should eq true
+
+  end
+
 end

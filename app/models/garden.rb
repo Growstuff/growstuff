@@ -14,6 +14,7 @@ class Garden < ActiveRecord::Base
   geocoded_by :location
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
+  after_save :mark_inactive_garden_plantings_as_finished
 
   default_scope order("lower(name) asc")
   scope :active, where(:active => true)
@@ -72,6 +73,17 @@ class Garden < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+  # When you mark a garden as inactive, all the plantings in it should be
+  # marked as finished.  This automates that.
+  def mark_inactive_garden_plantings_as_finished
+    if (active == false)
+      plantings.current.each do |p|
+        p.finished = true
+        p.save
+      end
+    end
   end
 
 end
