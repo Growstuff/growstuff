@@ -124,6 +124,7 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.3.0'
   gem 'webrat'                       # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
+  gem 'capybara'
   gem 'coveralls', require: false    # coverage analysis
   gem 'capybara'                     # integration tests
   gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
