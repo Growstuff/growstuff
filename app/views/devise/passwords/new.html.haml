@@ -1,14 +1,14 @@
 - content_for :title, "Forgot your password?"
 
-= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| 
-  = devise_error_messages! 
+= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :class => 'form-horizontal', :role => 'form' }) do |f|
+  = devise_error_messages!
 
-  %div
-    = f.label :login
-    %br
-    = f.text_field :login
+  .form-group
+    = f.label :login, :class => 'control-label col-md-2'
+    .col-md-8
+      = f.text_field :login, :class => 'form-control'
+  .form-group
+    .form-actions.col-md-offset-2.col-md-8
+      = f.submit "Send me reset password instructions", :class => 'btn btn-primary'
 
-  %div
-    = f.submit "Send me reset password instructions"
-
-= render "devise/shared/links" 
+= render "devise/shared/links"
