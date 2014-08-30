@@ -25,4 +25,22 @@ feature "Harvesting a crop", :js => true do
     expect(page).to have_content "Harvest was successfully created"
   end
 
+  context "Editing a harvest" do
+    let(:existing_harvest) { FactoryGirl.create(:harvest, :crop => maize, :owner => member) }
+
+    background do
+      visit harvest_path(existing_harvest)
+      click_link "Edit"
+    end
+
+    scenario "Saving wihout edits" do
+      # Check that the autosuggest helper properly fills inputs with
+      # existing resource's data
+      click_button "Save"
+      expect(page).to have_content "Harvest was successfully updated"
+      expect(page).to have_content "maize"
+    end
+
+  end
+
 end

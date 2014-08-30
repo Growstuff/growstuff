@@ -2,8 +2,8 @@ module AutoSuggestHelper
 
   def auto_suggest(resource, source, options={})
     default = resource.send(source)
-    default_name = default.name || ""
-    default_id = default.id || ""
+    default_name = default.try(:name)
+    default_id = default.try(:id)
 
     resource = resource.class.name.downcase
     source_path = Rails.application.routes.url_helpers.send("#{source}s_search_path")
