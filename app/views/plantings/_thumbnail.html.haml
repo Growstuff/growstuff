@@ -2,7 +2,7 @@
   .row
     .col-md-3
       = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img-rounded'), planting
-      
+
     .col-md-9
       %h4
         - if defined?(title) && title == 'owner'
@@ -16,6 +16,14 @@
           = planting.planted_at
         in
         = link_to planting.location, planting.garden
+
+      - if planting.finished
+        %p
+          Finished:
+          - if planting.finished_at
+            = planting.finished_at
+          - else
+            Yes (no date specified)
 
       %p
         - if planting.quantity
@@ -33,5 +41,7 @@
         %p
           - if can? :edit, planting
             =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
+            - if ! planting.finished
+              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs'
           - if can? :destroy, planting
             =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'

@@ -93,7 +93,7 @@ class PlantingsController < ApplicationController
 
     respond_to do |format|
       if @planting.update_attributes(params[:planting])
-        format.html { redirect_to @planting, notice: 'Planting was successfully updated.' }
+        format.html { redirect_to request.referer, notice: 'Planting was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
