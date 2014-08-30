@@ -2,8 +2,8 @@
 - content_for :member_rss_login_name, "#{@member.login_name}"
 - content_for :member_rss_slug, "#{@member.slug}"
 
-.row-fluid
-  .span3
+.row
+  .col-md-3
     = render :partial => "members/avatar", :locals => { :member => @member }
 
     -if can? :create, Notification and current_member != @member
@@ -21,7 +21,7 @@
       account
 
       - if @member == current_member && !@member.is_paid?
-        = link_to "Upgrade", shop_path, :class => 'btn btn-primary btn-mini'
+        = link_to "Upgrade", shop_path, :class => 'btn btn-primary btn-xs'
 
     - if @twitter_auth || @flickr_auth || @member.show_email
       %h4 Contact
@@ -48,7 +48,7 @@
         %br/
         = link_to @member.location, place_path(@member.location)
 
-  .span9
+  .col-md-9
     %p
     - if can? :update, @member
       %p

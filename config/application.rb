@@ -64,7 +64,7 @@ module Growstuff
     config.assets.version = '1.0'
 
     # Don't try to connect to the database when precompiling assets
-    config.assets.initialize_on_precompile = false
+    config.assets.initialize_on_precompile = true
 
     config.generators do |g|
       g.template_engine :haml

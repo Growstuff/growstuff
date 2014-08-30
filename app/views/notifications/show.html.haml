@@ -15,5 +15,5 @@
     #{ strip_tags(@notification.body) }
 
 %p
-  =link_to 'Delete', @notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn'
+  =link_to 'Delete', @notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default'
   =link_to 'Reply', @reply_link, :class => 'btn btn-primary'

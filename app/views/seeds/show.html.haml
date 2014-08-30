@@ -1,7 +1,7 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
 
-.row-fluid
-  .span6
+.row
+  .col-md-6
     %p
       %b Owner:
       = link_to @seed.owner, @seed.owner
@@ -19,7 +19,7 @@
       - if @seed.owner.location.blank?
         (from unspecified location)
         - if current_member == @seed.owner
-          = link_to "Set Location", edit_registration_path(current_member), :class => 'btn btn-mini'
+          = link_to "Set Location", edit_registration_path(current_member), :class => 'btn btn-default btn-xs'
       - else
         (from
         = succeed ")" do
@@ -39,9 +39,9 @@
     - if can? :edit, @seed or can? :destroy, @seed
       %p
       - if can? :edit, @seed
-        =link_to 'Edit', edit_seed_path(@seed), :class => 'btn btn-mini'
+        =link_to 'Edit', edit_seed_path(@seed), :class => 'btn btn-default btn-xs'
       - if can? :destroy, @seed
-        =link_to 'Delete', @seed, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+        =link_to 'Delete', @seed, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
-  .span6
+  .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @seed.crop }

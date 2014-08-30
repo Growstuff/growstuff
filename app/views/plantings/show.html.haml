@@ -1,7 +1,7 @@
 =content_for :title, "#{@planting.crop} in #{@planting.location}"
 
-.row-fluid
-  .span6
+.row
+  .col-md-6
     %p
       %b Owner:
       = link_to @planting.owner, @planting.owner
@@ -34,11 +34,11 @@
     - if can? :edit, @planting or can? :destroy, @planting
       %p
       - if can? :edit, @planting
-        =link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-mini'
+        =link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-default btn-xs'
       - if can? :destroy, @planting
-        =link_to 'Delete', @planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+        =link_to 'Delete', @planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
-  .span6
+  .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @planting.crop}
 
 %h2 Notes
@@ -49,12 +49,12 @@
 - if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
 
-  %ul.thumbnails
+  .row
     - @planting.photos.each do |p|
-      %li.span2.six-across
+      .col-md-2.six-across
         = render :partial => 'photos/thumbnail', :locals => { :photo => p }
     - if can? :create, Photo and can? :edit, @planting
-      %li.span2
+      .col-md-2
         .thumbnail(style='height: 220px')
           %p{:style => 'text-align: center; padding-top: 50px'}
             = link_to "Add photo", new_photo_path(:planting_id => @planting.id), :class => 'btn btn-primary'

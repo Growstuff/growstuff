@@ -1,5 +1,5 @@
 if (document.getElementById("cropmap") !== null) {
-  mapbox_map_id = "<%= Growstuff::Application.config.mapbox_map_id %>";
+  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
   mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
 
   L.Icon.Default.imagePath = '/assets'

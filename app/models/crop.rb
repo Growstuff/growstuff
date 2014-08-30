@@ -1,9 +1,13 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
-  attr_accessible :en_wikipedia_url, :name, :parent_id, :creator_id
+  attr_accessible :en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes
 
   has_many :scientific_names
+  accepts_nested_attributes_for :scientific_names,
+    :allow_destroy => true,
+    :reject_if     => :all_blank
+
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
