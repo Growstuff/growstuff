@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 feature "crop wranglers" do
-  context "signed in user" do
+  context "signed in member" do
     let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
-    let(:user){crop_wranglers.first}
+    let(:member){crop_wranglers.first}
     before :each do
       visit root_path
       click_link 'Sign in'
-      fill_in 'Login', with: user.login_name
-      fill_in 'Password', with: user.password
+      fill_in 'Login', with: member.login_name
+      fill_in 'Password', with: member.password
       click_button 'Sign in'
-      page.should have_content user.login_name
+      page.should have_content member.login_name
     end
 
     scenario "crop wranglers are listed on the crop wrangler page" do
