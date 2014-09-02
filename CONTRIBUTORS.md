@@ -42,3 +42,4 @@ submit the change with your pull request.
 - Amelia Greenhall / [ameliagreenhall](https://github.com/ameliagreenhall)
 - Barb Natali / [barbnatali](https://github.com/barbnatali)
 - Taylor Griffin / [tygriffin](https://github.com/tygriffin)
+- Marlena Compton / [Marlena](https://github.com/marlena)
