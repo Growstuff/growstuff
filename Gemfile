@@ -54,10 +54,10 @@ group :assets do
   gem 'libv8', '3.16.14.3'
 
   # Another CSS preprocessor, used for Bootstrap overrides
-  gem "less", '~>2.3.2'
-  gem "less-rails", '~> 2.3.3'
+  gem "less", '~>2.5.0'
+  gem "less-rails", '~> 2.5.0'
   # CSS framework
-  gem "less-rails-bootstrap"
+  gem "less-rails-bootstrap", '~> 3.2.0'
 
   gem 'uglifier', '>= 1.0.3' # JavaScript compressor
 
@@ -124,7 +124,6 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.3.0'
   gem 'webrat'                       # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
-  gem 'capybara'
   gem 'coveralls', require: false    # coverage analysis
   gem 'capybara'                     # integration tests
   gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
