@@ -1,5 +1,5 @@
 This is a list of contributors to Growstuff's codebase.  We maintain
-this list because we work in pairs, but Github only knows about the
+this list because we often work in pairs, but Github only knows about the
 person who actually does the commits. This gives credit to both members
 of the pair.
 
