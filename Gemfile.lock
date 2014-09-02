@@ -159,13 +159,13 @@ GEM
     leaflet-markercluster-rails (0.7.0)
       railties (>= 3.1)
     leaflet-rails (0.7.3)
-    less (2.3.3)
-      commonjs (~> 0.2.6)
-    less-rails (2.3.3)
+    less (2.5.1)
+      commonjs (~> 0.2.7)
+    less-rails (2.5.0)
       actionpack (>= 3.1)
-      less (~> 2.3.1)
-    less-rails-bootstrap (3.0.2)
-      less-rails (~> 2.3.1)
+      less (~> 2.5.0)
+    less-rails-bootstrap (3.2.0)
+      less-rails (~> 2.5.0)
     letter_opener (1.2.0)
       launchy (~> 2.2)
     libv8 (3.16.14.3)
@@ -331,9 +331,9 @@ DEPENDENCIES
   json (~> 1.7.7)
   leaflet-markercluster-rails
   leaflet-rails
-  less (~> 2.3.2)
-  less-rails (~> 2.3.3)
-  less-rails-bootstrap
+  less (~> 2.5.0)
+  less-rails (~> 2.5.0)
+  less-rails-bootstrap (~> 3.2.0)
   letter_opener
   libv8 (= 3.16.14.3)
   memcachier
