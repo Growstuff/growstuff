@@ -8,6 +8,13 @@
   %li= link_to "Full crop hierarchy", crops_hierarchy_path
   %li= link_to "Add Crop", new_crop_path
 
+%div.crop_wranglers
+  %h2 Crop Wranglers:
+  %ul
+    - @crop_wranglers.each do |crop_wrangler|
+      %li.crop_wrangler
+        = link_to crop_wrangler.login_name, crop_wrangler
+
 %h2 Recently added crops
 
 %div.pagination

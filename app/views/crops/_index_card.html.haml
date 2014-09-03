@@ -1,8 +1,8 @@
 .well
-  .row-fluid
-    .span4
-      = link_to image_tag((crop.default_photo ? crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img-rounded'), crop
-    .span8
+  .row
+    .col-md-4
+      = link_to image_tag((crop.default_photo ? crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img-rounded crop-image'), crop
+    .col-md-8
       %h3{:style => 'padding-top: 0px; margin-top: 0px'}
         = link_to crop, crop
 

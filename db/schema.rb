@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131031000655) do
+ActiveRecord::Schema.define(:version => 20140720085713) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -51,13 +51,13 @@ ActiveRecord::Schema.define(:version => 20131031000655) do
   end
 
   create_table "crops", :force => true do |t|
-    t.string   "name",             :null => false
+    t.string   "name",                            :null => false
     t.string   "en_wikipedia_url"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.string   "slug"
     t.integer  "parent_id"
-    t.integer  "plantings_count"
+    t.integer  "plantings_count",  :default => 0
     t.integer  "creator_id"
   end
 
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20131031000655) do
     t.text     "bio"
     t.integer  "plantings_count"
     t.boolean  "newsletter"
+    t.boolean  "send_planting_reminder",  :default => true
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
@@ -242,11 +243,11 @@ ActiveRecord::Schema.define(:version => 20131031000655) do
   add_index "posts", ["slug"], :name => "index_updates_on_slug", :unique => true
 
   create_table "products", :force => true do |t|
-    t.string   "name",                             :null => false
-    t.text     "description",       :limit => 255, :null => false
-    t.integer  "min_price",                        :null => false
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.string   "name",              :null => false
+    t.text     "description",       :null => false
+    t.integer  "min_price",         :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.integer  "account_type_id"
     t.integer  "paid_months"
     t.integer  "recommended_price"

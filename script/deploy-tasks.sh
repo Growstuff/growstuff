@@ -10,11 +10,8 @@
 # echo "YYYY-MM-DD - do something or other"
 # rake growstuff:oneoff:something
 
-echo "2013-10-24 - fix zeroed geolocations"
-rake growstuff:depopulate_null_island
+echo "2013-07-18 - zero crop plantings_count"
+rake growstuff:oneoff:zero_plantings_count
 
-echo "2013-10-24 - initialize garden locations"
-rake growstuff:oneoff:initialize_garden_locations
-
-echo "2013-10-31 - import plant parts"
-rake growstuff:oneoff:import_plant_parts
+echo "2014-08-10 - replace ping with pint in db"
+rake growstuff:oneoff:ping_to_pint

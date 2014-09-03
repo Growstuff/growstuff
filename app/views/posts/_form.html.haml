@@ -1,4 +1,4 @@
-= form_for @post do |f|
+= form_for(@post, :html => {:role => "form"}) do |f|
   - if @post.errors.any?
     #error_explanation
       %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
@@ -6,16 +6,18 @@
         - @post.errors.full_messages.each do |msg|
           %li= msg
 
+  .form-group
+    = label_tag :post, "Subject", :class => 'control-label'
+    = f.text_field :subject, :class => 'form-control'
 
-  = label_tag :post, "Subject"
-  = f.text_field :subject, :class => 'input-block-level'
-  - if @post.forum || @forum
-    = label_tag :body, "What's up?"
-  - else
-    = label_tag :body, "What's going on in your food garden?"
-  = f.text_area :body, :rows => 12, :class => 'input-block-level'
-  %span.help-block
-    = render :partial => "shared/markdown_help"
+  .form-group
+    - if @post.forum || @forum
+      = label_tag :body, "What's up?", :class => 'control-label'
+    - else
+      = label_tag :body, "What's going on in your food garden?"
+    = f.text_area :body, :rows => 12, :class => 'form-control'
+    %span.help-block
+      = render :partial => "shared/markdown_help"
 
   - if @post.forum || @forum
     - forum = @post.forum || @forum

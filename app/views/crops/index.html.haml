@@ -5,13 +5,19 @@
   View any crop page to see which of our members have planted it and find
   information on how to grow it yourself.
 
+= form_tag(crops_path, :method => :get, :class => 'form-inline', :role => 'form') do
+  .form-group
+    = label_tag :sort, "Sort by:", :class => 'sr-only'
+    = select_tag "sort", options_for_select({"Sort by popularity" => 'popular', "Sort alphabetically" => 'alpha'}, @sort || 'popular'), :class => 'form-control'
+  = submit_tag "Show", :class => 'btn btn-primary'
+
 %div.pagination
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
 
-%ul.thumbnails
+.row
   - @crops.each do |crop|
-    %li.span2.six-across
+    .col-md-2.six-across
       = render :partial => "thumbnail", :locals => { :crop => crop }
 
 - if can? :create, Crop
@@ -23,7 +29,7 @@
   = will_paginate @crops
 
 
-%ul.inline
+%ul.list-inline
   %li The data on this page is available in the following formats:
   %li= link_to "CSV", crops_path(:format => 'csv')
   %li= link_to "JSON", crops_path(:format => 'json')

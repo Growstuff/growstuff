@@ -1,7 +1,8 @@
 ---
 language: ruby
-env: GROWSTUFF_SITE_NAME="Growstuff (travis)"
-bundler_args: --without development assets production staging
+
+env: GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+bundler_args: --without development production staging
 rvm:
   - 2.1.1
 before_script:

@@ -235,6 +235,27 @@ namespace :growstuff do
         PlantPart.find_or_create_by_name!(pp)
       end
     end
-  end
+
+    desc "July 2014: set planting_count to 0 by default, not nil"
+    task :zero_plantings_count => :environment do
+      Crop.find_each do |c|
+        if c.plantings_count.nil?
+          c.plantings_count = 0
+          c.save
+        end
+      end
+    end
+
+    desc "August 2014: fix ping to pint in database"
+    task :ping_to_pint => :environment do
+      Harvest.find_each do |h|
+        if h.unit == "ping" 
+          h.unit = "pint"
+          h.save
+        end
+      end
+    end
+
+  end # end oneoff section
 
 end

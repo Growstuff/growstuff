@@ -1,4 +1,4 @@
-= form_for(@harvest, :html => {:class => "form-horizontal"}) do |f|
+= form_for(@harvest, :html => {:class => "form-horizontal", :role => :form}) do |f|
   - if @harvest.errors.any?
     #error_explanation
       %h2= "#{pluralize(@harvest.errors.count, "error")} prohibited this harvest from being saved:"
@@ -6,38 +6,43 @@
         - @harvest.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
-    = f.label 'What did you harvest?', :class => 'control-label'
-    .controls
-      = collection_select(:harvest, :crop_id, Crop.all, :id, :name, :selected => @harvest.crop_id || @crop.id)
-      = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, :selected => @harvest.plant_part_id)
-      %span.help-block
-        Can't find what you're looking for?
-        = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
+  .form-group
+    = f.label :crop, 'What did you harvest?', :class => 'control-label col-md-2'
+    .col-md-4
+      = auto_suggest @harvest, :crop, :class => 'form-control col-md-2'
+    .col-md-4
+      = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, { :selected => @harvest.plant_part_id }, { :class => 'form-control' })
+    %span.help-block.col-md-8
+      Can't find what you're looking for?
+      = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
 
-  .control-group
-    = f.label 'When?', :class => 'control-label'
-    .controls= f.text_field :harvested_at, :value => @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '', :class => 'add-datepicker'
+  .form-group
+    = f.label :harvested_at, 'When?', :class => 'control-label col-md-2'
+    .col-md-2
+      = f.text_field :harvested_at, :value => @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '', :class => 'add-datepicker form-control'
 
-  .control-group
-    = f.label 'How many?', :class => 'control-label'
-    .controls
+  .form-group
+    = f.label :quantity, 'How many?', :class => 'control-label col-md-2'
+    .col-md-2
       -# Some browsers (eg Firefox for Android) assume "number" means
       -# "integer" unless you specify step="any":
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
-      = f.number_field :quantity, :class => 'input-small', :step => 'any'
-      = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
+      = f.number_field :quantity, :class => 'input-small', :step => 'any', :class => 'form-control'
+    .col-md-2
+      = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium form-control')
 
-  .control-group
-    = f.label 'Weighing:', :class => 'control-label'
-    .controls
-      = f.number_field :weight_quantity, :class => 'input-small', :step => 'any'
-      = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'input-medium')
-      in total
-  .control-group
-    = f.label 'Notes', :class => 'control-label'
-    .controls= f.text_area :description, :rows => 6
+  .form-group
+    = f.label :weight_quantity, 'Weighing (in total):', :class => 'control-label col-md-2'
+    .col-md-2
+      = f.number_field :weight_quantity, :class => 'input-small', :step => 'any', :class => 'form-control'
+    .col-md-2
+      = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
+  .form-group
+    = f.label :description, 'Notes', :class => 'control-label col-md-2'
+    .col-md-8
+      = f.text_area :description, :rows => 6, :class => 'form-control'
 
-    .form-actions
+  .form-group
+    .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', :class => 'btn btn-primary'
 

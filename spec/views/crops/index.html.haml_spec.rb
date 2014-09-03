@@ -14,6 +14,14 @@ describe "crops/index" do
     assign(:crops, crops)
   end
 
+  it "has a form for sorting by" do
+    render
+    assert_select "form"
+    assert_select "select#sort"
+    assert_select "option[value=alpha]"
+    assert_select "option[value=popular]"
+  end
+
   it "renders a list of crops" do
     render
     assert_select "a", :text => @maize.name

@@ -75,7 +75,7 @@
         = submit_tag "Checkout with PayPal", :class => 'btn btn-primary'
       - if can? :destroy, @order
         = link_to 'Delete this order', @order, method: :delete, |
-          data: { confirm: 'Are you sure?' }, :class => 'btn'
-      = link_to "View other orders/order history", orders_path, :class => 'btn'
+          data: { confirm: 'Are you sure?' }, :class => 'btn btn-default'
+      = link_to "View other orders/order history", orders_path, :class => 'btn btn-default'
 
 %p

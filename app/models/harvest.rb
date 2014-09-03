@@ -11,6 +11,8 @@ class Harvest < ActiveRecord::Base
 
   default_scope order('created_at DESC')
 
+  validates :crop, :presence => {:message => "must be present and exist in our database"}
+
   validates :quantity,
     :numericality => { :only_integer => false },
     :allow_nil => true
@@ -21,7 +23,7 @@ class Harvest < ActiveRecord::Base
     "sprigs" => "sprig",
     "handfuls" => "handful",
     "litres" => "litre",
-    "pints" => "ping",
+    "pints" => "pint",
     "quarts" => "quart",
     "buckets" => "bucket",
     "baskets" => "basket",
@@ -38,7 +40,8 @@ class Harvest < ActiveRecord::Base
 
   WEIGHT_UNITS_VALUES = {
     "kg" => "kg",
-    "lb" => "lb"
+    "lb" => "lb",
+    "oz" => "oz"
   }
   validates :weight_unit, :inclusion => { :in => WEIGHT_UNITS_VALUES.values,
     :message => "%{value} is not a valid unit" },

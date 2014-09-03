@@ -2,7 +2,8 @@
   = link_to |
     image_tag( |
       planting.photos.present? ? planting.photos.first.thumbnail_url : 'placeholder_150.png', |
-      :alt => planting.to_s |
+      :alt => planting.to_s, |
+      :class => 'image-responsive crop-image' |
     ), |
     planting, |
     :rel => "popover", |

@@ -54,12 +54,10 @@ group :assets do
   gem 'libv8', '3.16.14.3'
 
   # Another CSS preprocessor, used for Bootstrap overrides
-  gem "less", '~>2.3.2'
-  gem "less-rails", '~> 2.3.3'
+  gem "less", '~>2.5.0'
+  gem "less-rails", '~> 2.5.0'
   # CSS framework
-  gem "twitter-bootstrap-rails",
-    :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git',
-    :ref => '2c7c52'
+  gem "less-rails-bootstrap", '~> 3.2.0'
 
   gem 'uglifier', '>= 1.0.3' # JavaScript compressor
 
@@ -67,6 +65,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'js-routes'  # provides access to Rails routes in Javascript
 gem 'flickraw'
 
 # To use ActiveModel has_secure_password
@@ -95,7 +95,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.0.0'
+gem 'devise', '~> 3.2.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 4.0.10'
@@ -121,7 +121,10 @@ gem 'rake', '>= 10.0.0'
 group :development, :test do
   gem 'haml-rails'                   # HTML templating language
   gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
+  gem 'database_cleaner', '~> 1.3.0'
   gem 'webrat'                       # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
   gem 'coveralls', require: false    # coverage analysis
+  gem 'capybara'                     # integration tests
+  gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
 end

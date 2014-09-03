@@ -1,9 +1,9 @@
 .well
   .comment
-    .row-fluid
-      .span1
+    .row
+      .col-md-1
         = render :partial => "members/avatar", :locals => { :member => comment.author }
-      .span11
+      .col-md-11
         .comment-meta
           Posted by
           = link_to comment.author.login_name, member_path(comment.author)
@@ -17,8 +17,8 @@
         - if can? :edit, comment or can? :destroy, comment
           .comment-actions
             - if can? :edit, comment
-              = link_to 'Edit', edit_comment_path(comment), :class => 'btn btn-mini'
+              = link_to 'Edit', edit_comment_path(comment), :class => 'btn btn-default btn-xs'
             - if can? :destroy, comment
               = link_to 'Delete', comment, method: :delete, |
-                data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+                data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 

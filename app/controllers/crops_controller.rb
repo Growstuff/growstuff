@@ -7,7 +7,14 @@ class CropsController < ApplicationController
   # GET /crops
   # GET /crops.json
   def index
-    @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    @sort = params[:sort]
+    if @sort == 'alpha'
+      # alphabetical order
+      @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    else
+      # default to sorting by popularity
+      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html
@@ -27,7 +34,7 @@ class CropsController < ApplicationController
   # GET /crops/wrangle
   def wrangle
     @crops = Crop.recent.paginate(:page => params[:page])
-
+    @crop_wranglers = Role.crop_wranglers
     respond_to do |format|
       format.html
     end
@@ -50,8 +57,11 @@ class CropsController < ApplicationController
     # exclude exact match from partial match list
     @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
 
+    @fuzzy = Crop.search(params[:term])
+
     respond_to do |format|
       format.html
+      format.json { render :json => @fuzzy }
     end
   end
 
@@ -74,7 +84,9 @@ class CropsController < ApplicationController
   # GET /crops/new.json
   def new
     @crop = Crop.new
-
+    3.times do
+      @crop.scientific_names.build
+    end
     respond_to do |format|
       format.html # new.html.haml
       format.json { render json: @crop }
