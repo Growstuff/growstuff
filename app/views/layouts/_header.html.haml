@@ -1,3 +1,5 @@
+.sr-only
+  =link_to "Skip navigation menu", "#skipnav"
 .navbar.navbar-default.navbar-fixed-top(role="navigation")
   .container
     .navbar-header
@@ -69,3 +71,6 @@
       = form_tag crops_search_path, :method => :get, :class => 'navbar-form pull-right' do
         .input
           = text_field_tag 'search', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
+
+- # anchor tag for accessibility link to skip the navigation menu
+%a{:name => 'skipnav'}
