@@ -7,6 +7,7 @@
   = auto_discovery_link_tag(:rss, { :controller => "/posts", :format => "rss" }, { :title => "#{ ENV['GROWSTUFF_SITE_NAME'] } - Recent posts from all members" })
   = auto_discovery_link_tag(:rss, { :controller => "/crops", :format => "rss" }, { :title => "#{ ENV['GROWSTUFF_SITE_NAME'] } - Recently added crops" })
   = auto_discovery_link_tag(:rss, { :controller => "/plantings", :format => "rss" }, { :title => "#{ ENV['GROWSTUFF_SITE_NAME'] } - Recent plantings from all members" })
+  = favicon_link_tag '/assets/favicon.ico'
 
   %title
     = content_for?(:title) ? yield(:title) + " - #{ ENV['GROWSTUFF_SITE_NAME']} " : ENV['GROWSTUFF_SITE_NAME']
