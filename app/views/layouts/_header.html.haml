@@ -6,7 +6,8 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand(href=root_path)= ENV['GROWSTUFF_SITE_NAME']
+      %a.navbar-brand(href=root_path)
+        = image_tag("/assets/growstuff-brand.png", :size => "200x50", :alt => ENV['GROWSTUFF_SITE_NAME'])
     .navbar-collapse.collapse#navbar-collapse
       %ul.nav.navbar-nav
         %li.dropdown<
