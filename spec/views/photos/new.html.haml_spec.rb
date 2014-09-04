@@ -14,11 +14,6 @@ describe "photos/new" do
     assign(:flickr_auth, FactoryGirl.create(:flickr_authentication, :member => @member))
   end
 
-  it "shows a list of photos" do
-    render
-    assert_select "ul.thumbnails"
-  end
-
   context "user has no photosets" do
     it "doesn't show a dropdown with sets from Flickr" do
       assert_select "select#set", false
