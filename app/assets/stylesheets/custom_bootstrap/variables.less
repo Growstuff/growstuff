@@ -20,18 +20,16 @@
 
 @brand-primary: @green;
 
-// Typography (with help from bootswatch.com's "readable" theme)
-@import url('//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic');
 @font-family-sans-serif:        "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 @font-family-mono:        Monaco, Menlo, Consolas, "Courier New", monospace;
 
-@font-size-base:          15px;
-@font-family-base:        @font-family-serif;
+@font-size-base:          14px;
+@font-family-base:        @font-family-sans-serif;
 @line-height-base:        1.5;
-@alt-font-family:         @font-family-sans-serif;
+@alt-font-family:         @font-family-serif;
 
-@headings-font-family:    "Lora", Georgia, "Times New Roman", Times, serif;
+@headings-font-family:    @font-family-sans-serif;
 @headings-font-weight:    bold;    // instead of browser default, bold
 @headings-color:         inherit; // empty to use BS default, @textColor
 

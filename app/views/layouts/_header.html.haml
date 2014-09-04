@@ -1,3 +1,5 @@
+.sr-only
+  =link_to "Skip navigation menu", "#skipnav"
 .navbar.navbar-default.navbar-fixed-top(role="navigation")
   .container
     .navbar-header
@@ -6,7 +8,8 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand(href=root_path)= ENV['GROWSTUFF_SITE_NAME']
+      %a.navbar-brand(href=root_path)
+        = image_tag("/assets/growstuff-brand.png", :size => "200x50", :alt => ENV['GROWSTUFF_SITE_NAME'])
     .navbar-collapse.collapse#navbar-collapse
       %ul.nav.navbar-nav
         %li.dropdown<
@@ -68,3 +71,6 @@
       = form_tag crops_search_path, :method => :get, :class => 'navbar-form pull-right' do
         .input
           = text_field_tag 'search', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
+
+- # anchor tag for accessibility link to skip the navigation menu
+%a{:name => 'skipnav'}
