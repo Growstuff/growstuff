@@ -7,8 +7,8 @@ describe 'layouts/_header.html.haml', :type => "view" do
       render
     end
 
-    it 'shows the title' do
-      rendered.should contain ENV['GROWSTUFF_SITE_NAME']
+    it 'shows the brand logo in the navbar' do
+      assert_select("img[src='/assets/growstuff-brand.png']", :href => root_path)
     end
 
     it 'should have signup/signin links' do
