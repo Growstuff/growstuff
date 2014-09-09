@@ -6,7 +6,8 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
   config.mailer_sender = "Growstuff <noreply@growstuff.org>"
 
-  config.secret_key = ENV['RAILS_SECRET_TOKEN']
+  #config.secret_key = ENV['RAILS_SECRET_TOKEN']
+  config.secret_key = '6ccb49df7c02ce710c37ec3eadd81ec65e732708bd859ce6076f42593f0cff186b7c35be2fd195f46c9e923296ee07bf309eb33866fe1ea7d9ffeb88f367489c'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

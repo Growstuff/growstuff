@@ -125,4 +125,32 @@ describe Harvest do
       Harvest.all.should eq [@h2, @h1]
     end
   end
+
+  context 'photos' do
+	before(:each) do
+	  @harvest = FactoryGirl.create(:harvest)
+	  @photo = FactoryGirl.create(:photo)
+	  @harvest.photos << @photo
+	end
+
+	it 'has a photo' do
+	  @harvest.photos.first.should eq @photo
+	end
+
+	it 'deletes association with photos when photo is deleted' do
+	  @photo.destroy
+	  @harvest.reload
+      @harvest.photos.should be_empty
+	end
+
+	it 'has a default photo' do
+      @harvest.default_photo.should eq @photo
+	end
+
+	it 'chooses the most recent photo' do
+      @photo2 = FactoryGirl.create(:photo)
+	  @harvest.photos << @photo2
+	  @harvest.default_photo.should eq @photo2
+	end
+  end	
 end
