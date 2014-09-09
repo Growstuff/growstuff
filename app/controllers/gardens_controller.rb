@@ -85,7 +85,7 @@ class GardensController < ApplicationController
     @garden.destroy
 
     respond_to do |format|
-      format.html { redirect_to @garden.owner, notice: 'Garden was successfully deleted.' }
+      format.html { redirect_to gardens_by_owner_path(:owner => @garden.owner), notice: 'Garden was successfully deleted.' }
       format.json { head :no_content }
     end
   end
