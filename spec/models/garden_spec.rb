@@ -180,7 +180,25 @@ describe Garden do
     p1.finished.should eq true
     p2.reload
     p2.finished.should eq true
+  end
 
+  it "doesn't mark the wrong plantings as finished" do
+    g1 = FactoryGirl.create(:garden)
+    g2 = FactoryGirl.create(:garden)
+    p1 = FactoryGirl.create(:planting, :garden => g1)
+    p2 = FactoryGirl.create(:planting, :garden => g2)
+
+    # mark the garden as inactive
+    g1.active = false
+    g1.save
+
+    # plantings in that garden should be "finished"
+    p1.reload
+    p1.finished.should eq true
+
+    # plantings in other gardens should not be.
+    p2.reload
+    p2.finished.should eq false
   end
 
 end
