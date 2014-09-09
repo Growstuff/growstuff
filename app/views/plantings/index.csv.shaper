@@ -10,6 +10,8 @@ csv.headers :id,
   :planted_from,
   :sunniness,
   :date_planted,
+  :finished,
+  :date_finished,
   :description,
   :date_added,
   :last_modified,
@@ -33,6 +35,9 @@ csv.headers :id,
     csv.cells :quantity, :planted_from, :sunniness
 
     csv.cell :date_planted, p.planted_at ? p.planted_at.to_s(:db) : ''
+
+    csv.cell :finished
+    csv.cell :date_finished, p.finished_at ? p.finished_at.to_s(:db) : ''
 
     csv.cell :description
 

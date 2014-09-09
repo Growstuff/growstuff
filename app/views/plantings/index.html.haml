@@ -26,9 +26,9 @@
         %th Owner
       %th Crop
       %th Garden
-      %th Description
       %th Quantity
       %th Planted on
+      %th Finished
       %th Sun/shade?
       %th Planted from
       %th
@@ -39,14 +39,23 @@
           %td= link_to planting.owner.login_name, planting.owner
         %td= link_to planting.crop.name, planting.crop
         %td= link_to planting.garden.name, planting.garden
-        %td
-          :growstuff_markdown
-            #{ strip_tags planting.description }
         %td= planting.quantity
         %td= planting.planted_at
+        %td
+          - if planting.finished and planting.finished_at
+            = planting.planted_at
+          - elsif planting.finished
+            Yes (no date specified)
         %td= planting.sunniness
         %td= planting.planted_from
-        %td= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
+        %td
+          = link_to 'Details', planting, :class => 'btn btn-default btn-xs'
+          - if can? :edit, planting
+            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
+            - if ! planting.finished
+              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs'
+          - if can? :destroy, planting
+            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
   %div.pagination
     = page_entries_info @plantings, :model => "plantings"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140718075753) do
+ActiveRecord::Schema.define(:version => 20140829230600) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -213,17 +213,19 @@ ActiveRecord::Schema.define(:version => 20140718075753) do
   end
 
   create_table "plantings", :force => true do |t|
-    t.integer  "garden_id",    :null => false
-    t.integer  "crop_id",      :null => false
+    t.integer  "garden_id",                       :null => false
+    t.integer  "crop_id",                         :null => false
     t.date     "planted_at"
     t.integer  "quantity"
     t.text     "description"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.string   "slug"
     t.string   "sunniness"
     t.string   "planted_from"
     t.integer  "owner_id"
+    t.boolean  "finished",     :default => false
+    t.date     "finished_at"
   end
 
   add_index "plantings", ["slug"], :name => "index_plantings_on_slug", :unique => true
