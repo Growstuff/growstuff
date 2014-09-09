@@ -1,12 +1,12 @@
 module AutoSuggestHelper
 
   def auto_suggest(resource, source, options={})
-    if options[:default].blank?
-      default = resource.send(source)
-      default_id = default.try(:id)
-    else
+    if options[:default] && !options[:default].new_record?
       default = options[:default]
       default_id = options[:default].try(:id)
+    else
+      default = resource.send(source)
+      default_id = default.try(:id)
     end
 
     resource = resource.class.name.downcase

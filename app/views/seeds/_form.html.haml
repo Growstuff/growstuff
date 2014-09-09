@@ -9,7 +9,7 @@
   .form-group
     = f.label :crop, 'Crop:', :class => 'control-label col-md-2'
     .col-md-8
-      = auto_suggest @seed, :crop, :class => 'form-control'
+      = auto_suggest @seed, :crop, :class => 'form-control', :default => @crop
       %span.help-inline
         Can't find what you're looking for?
         = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
