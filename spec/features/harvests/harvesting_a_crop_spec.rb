@@ -25,6 +25,18 @@ feature "Harvesting a crop", :js => true do
     expect(page).to have_content "Harvest was successfully created"
   end
 
+  scenario "Harvesting from crop page" do
+    visit "/crops/maize"
+    click_link "Harvest this"
+    within "form#new_harvest" do
+      expect(page).to have_selector "input[value='maize']"
+      click_button "Save"
+    end
+
+    expect(page).to have_content "Harvest was successfully created"
+    expect(page).to have_content "maize"
+  end
+
   context "Editing a harvest" do
     let(:existing_harvest) { FactoryGirl.create(:harvest, :crop => maize, :owner => member) }
 

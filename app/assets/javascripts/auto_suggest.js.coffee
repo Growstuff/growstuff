@@ -7,6 +7,7 @@
 # You must also add a search method to the resource's controller.
 
 jQuery ->
+
   if el = $( '.auto-suggest' )
 
     id = $( '.auto-suggest-id' )
