@@ -1,0 +1,37 @@
+.well
+  .row-fluid
+    .span3
+      = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img-rounded'), planting
+      
+    .span9
+      %h4
+        - if defined?(title) && title == 'owner'
+          = link_to planting.owner, planting.owner
+        - else
+          = link_to planting.crop.name, planting
+
+      %p
+        Planted
+        - if planting.planted_at
+          = planting.planted_at
+        in
+        = link_to planting.location, planting.garden
+
+      %p
+        - if planting.quantity
+          Quantity:
+          = planting.quantity
+        - else
+          &nbsp;
+
+      - if planting.description && ! defined?(hide_description)
+        %div
+          :growstuff_markdown
+            #{ planting.description }
+
+      - if can? :edit, planting or can? :destroy, planting
+        %p
+          - if can? :edit, planting
+            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-mini'
+          - if can? :destroy, planting
+            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
