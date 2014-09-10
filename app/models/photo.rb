@@ -6,8 +6,8 @@ class Photo < ActiveRecord::Base
   has_and_belongs_to_many :plantings
   has_and_belongs_to_many :harvests
   before_destroy do |photo| 
-	photo.plantings.clear
-	photo.harvests.clear
+    photo.plantings.clear
+    photo.harvests.clear
   end
 
   default_scope order("created_at desc")
