@@ -36,10 +36,6 @@ describe "plantings/index" do
     rendered.should contain @garden.name
   end
 
-  it "shows descriptions where they exist" do
-    rendered.should contain "This is a"
-  end
-
   it "displays planting time" do
     rendered.should contain 'January 13, 2013'
   end

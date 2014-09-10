@@ -40,10 +40,10 @@
 
   %ul.thumbnails
     - @harvest.photos.each do |p|
-      %li.span2.six-across
+      .col-md-2.six-across
         = render :partial => 'photos/thumbnail', :locals => { :photo => p }
     - if can? :create, Photo and can? :edit, @harvest
-      %li.span2
+      .col-md-2
         .thumbnail(style='height: 220px')
           %p{:style => 'text-align: center; padding-top: 50px'}
             = link_to "Add photo", new_photo_path(:type => "harvest", :id => @harvest.id), :class => 'btn btn-primary'

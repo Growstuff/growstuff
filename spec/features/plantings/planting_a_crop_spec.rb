@@ -11,7 +11,7 @@ feature "Planting a crop", :js => true do
 
   it_behaves_like "crop suggest", "planting", "crop"
 
-  scenario "Creating a new planting", :js => true do
+  scenario "Creating a new planting" do
     fill_autocomplete "crop", :with => "m"
     select_from_autocomplete "maize"
     within "form#new_planting" do
@@ -26,4 +26,40 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "Planting was successfully created"
   end
 
+  scenario "Planting from crop page" do
+    visit "/crops/maize"
+    click_link "Plant this"
+    within "form#new_planting" do
+      expect(page).to have_selector "input[value='maize']"
+      click_button "Save"
+    end
+
+    expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "maize"
+  end
+
+  scenario "Marking a planting as finished", :js => true do
+    fill_autocomplete "crop", :with => "m"
+    select_from_autocomplete "maize"
+    within "form#new_planting" do
+      check 'Mark as finished'
+      fill_in "Finished date", :with => '2014-08-30'
+      click_button "Save"
+    end
+    expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "Finished: August 30, 2014"
+  end
+
+  scenario "Marking a planting as finished without a date", :js => true do
+    fill_autocomplete "crop", :with => "m"
+    select_from_autocomplete "maize"
+    within "form#new_planting" do
+      check 'Mark as finished'
+      click_button "Save"
+    end
+    expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "Finished: Yes (no date specified)"
+  end
+
 end
+

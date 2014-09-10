@@ -6,6 +6,10 @@ shared_examples "crop suggest" do |resource|
   let!(:tomato)  { FactoryGirl.create(:tomato) }
   let!(:roma)    { FactoryGirl.create(:roma) }
 
+  scenario "See text in crop auto suggest field" do
+    expect(page).to have_selector("input[placeholder='e.g. lettuce']")
+  end
+
   scenario "Typing in the crop name displays suggestions" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", :with => "p"

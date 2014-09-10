@@ -25,4 +25,16 @@ feature "Harvesting a crop", :js => true do
     expect(page).to have_content "Successfully added maize seed to your stash"
   end
 
+  scenario "Adding a seed from crop page" do
+    visit "/crops/maize"
+    click_link "Add seeds to stash"
+    within "form#new_seed" do
+      expect(page).to have_selector "input[value='maize']"
+      click_button "Save"
+    end
+
+    expect(page).to have_content "Successfully added maize seed to your stash"
+    expect(page).to have_content "maize"
+  end
+
 end

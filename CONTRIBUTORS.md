@@ -43,3 +43,5 @@ submit the change with your pull request.
 - Barb Natali / [barbnatali](https://github.com/barbnatali)
 - Taylor Griffin / [tygriffin](https://github.com/tygriffin)
 - Marlena Compton / [Marlena](https://github.com/marlena)
+- Elizabeth A. Kari / [catfriend](https://github.com/catfriend)
+- Cheri Allen / [cherimarie](https://github.com/cherimarie)
