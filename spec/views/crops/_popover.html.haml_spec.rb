@@ -5,6 +5,7 @@ describe "crops/_popover" do
     @tomato = FactoryGirl.create(:tomato)
     @sn = FactoryGirl.create(:solanum_lycopersicum, :crop => @tomato)
     @planting = FactoryGirl.create(:planting, :crop => @tomato)
+    @tomato.reload # to pick up latest plantings_count
     render :partial => 'crops/popover', :locals => { :crop => @tomato }
   end
 

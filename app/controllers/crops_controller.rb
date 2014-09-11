@@ -7,7 +7,14 @@ class CropsController < ApplicationController
   # GET /crops
   # GET /crops.json
   def index
-    @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    @sort = params[:sort]
+    if @sort == 'alpha'
+      # alphabetical order
+      @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    else
+      # default to sorting by popularity
+      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html
@@ -74,7 +81,9 @@ class CropsController < ApplicationController
   # GET /crops/new.json
   def new
     @crop = Crop.new
-
+    3.times do
+      @crop.scientific_names.build
+    end
     respond_to do |format|
       format.html # new.html.haml
       format.json { render json: @crop }
@@ -91,6 +100,7 @@ class CropsController < ApplicationController
   def create
     params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(params[:crop])
+
 
     respond_to do |format|
       if @crop.save

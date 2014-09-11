@@ -1,9 +1,13 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
-  attr_accessible :en_wikipedia_url, :name, :parent_id, :creator_id
+  attr_accessible :en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes
 
   has_many :scientific_names
+  accepts_nested_attributes_for :scientific_names,
+    :allow_destroy => true,
+    :reject_if     => :all_blank
+
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
@@ -17,6 +21,7 @@ class Crop < ActiveRecord::Base
   default_scope order("lower(name) asc")
   scope :recent, reorder("created_at desc")
   scope :toplevel, where(:parent_id => nil)
+  scope :popular, reorder("plantings_count desc, lower(name) asc")
   scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
 
   validates :en_wikipedia_url,
