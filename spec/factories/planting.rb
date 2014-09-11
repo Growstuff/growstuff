@@ -33,6 +33,7 @@ FactoryGirl.define do
 
     factory :finished_planting do
       finished true
+      planted_at '2014-07-30'
       finished_at '2014-08-30'
     end
   end
