@@ -30,6 +30,7 @@ feature "Planting a crop", :js => true do
     fill_autocomplete "crop", :with => "m"
     select_from_autocomplete "maize"
     within "form#new_planting" do
+      fill_in "When?", :with => '2014-07-01'
       check 'Mark as finished'
       fill_in "Finished date", :with => '2014-08-30'
       click_button "Save"
