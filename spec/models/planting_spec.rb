@@ -229,6 +229,24 @@ describe Planting do
       Planting.current.should_not include @f
     end
 
+    context "finished date validation" do
+      it 'requires finished date after planting date' do
+        @f = FactoryGirl.build(:finished_planting, :planted_at =>
+            '2014-01-01', :finished_at => '2013-01-01')
+        @f.should_not be_valid
+      end
+
+      it 'allows just the planted date' do
+        @f = FactoryGirl.build(:planting, :planted_at => '2013-01-01', :finished_at => nil)
+        @f.should be_valid
+      end
+      it 'allows just the finished date' do
+        @f = FactoryGirl.build(:planting, :finished_at => '2013-01-01', :planted_at => nil)
+        @f.should be_valid
+      end
+
+    end
+
   end
 
 end
