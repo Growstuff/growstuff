@@ -3,7 +3,8 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: :slugged
 
   attr_accessible :crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from, :owner_id
+    :quantity, :sunniness, :planted_from, :owner_id, :finished,
+    :finished_at
 
   belongs_to :garden
   belongs_to :owner, :class_name => 'Member', :counter_cache => true
@@ -13,6 +14,8 @@ class Planting < ActiveRecord::Base
   before_destroy {|planting| planting.photos.clear}
 
   default_scope order("created_at desc")
+  scope :finished, where(:finished => true)
+  scope :current, where(:finished => false)
 
   delegate :name,
     :en_wikipedia_url,
@@ -52,6 +55,14 @@ class Planting < ActiveRecord::Base
         :message => "%{value} is not a valid planting method" },
         :allow_nil => true,
         :allow_blank => true
+
+  validate :finished_must_be_after_planted
+
+  # check that any finished_at date occurs after planted_at
+  def finished_must_be_after_planted
+    return unless planted_at and finished_at # only check if we have both
+    errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
+  end
 
   def planting_slug
     "#{owner.login_name}-#{garden}-#{crop}".downcase.gsub(' ', '-')

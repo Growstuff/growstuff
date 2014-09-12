@@ -9,7 +9,7 @@
   .form-group
     = f.label :crop, 'What did you plant?', :class => 'control-label col-md-2'
     .col-md-8
-      = auto_suggest @planting, :crop, :class => 'form-control'
+      = auto_suggest @planting, :crop, :class => 'form-control', :default => @crop
       %span.help-inline
         Can't find what you're looking for?
         = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
@@ -37,6 +37,16 @@
   .form-group
     = f.label :description, 'Tell us more about it', :class => 'control-label col-md-2'
     .col-md-8= f.text_area :description, :rows => 6, :class => 'form-control'
+  .form-group
+    = f.label :finished, 'Mark as finished', :class => 'control-label col-md-2'
+    .col-md-8
+      = f.check_box :finished
+      %span.help-block
+        A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise no longer growing in your garden.
+  .form-group
+    = f.label :finished_at, 'Finished date', { :class => 'control-label col-md-2' }
+    .col-md-2
+      = f.text_field :finished_at, :value => @planting.finished_at ? @planting.finished_at.to_s(:ymd) : '', :class => 'add-datepicker form-control'
   .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', :class => 'btn btn-primary'
