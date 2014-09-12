@@ -78,15 +78,15 @@ class Planting < ActiveRecord::Base
   # return a list of interesting plantings, for the homepage etc.
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
-  def Planting.interesting
-    howmany = 12 # max amount to collect
-
+  def Planting.interesting(howmany=12, require_photo=true)
     interesting_plantings = Array.new
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 
     Planting.all.each do |p|
       break if interesting_plantings.count == howmany # got enough yet?
-      next unless p.interesting?    # skip those that don't have photos
+      if require_photo
+        next unless p.photos.present? # skip those without photos, if required
+      end
       next if seen_owners[p.owner]  # skip if we already have one from this owner
       seen_owners[p.owner] = true   # we've seen this owner
       interesting_plantings.push(p)
