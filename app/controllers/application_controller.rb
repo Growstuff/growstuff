@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   after_filter :store_location
+  before_filter :set_locale
 
   def store_location
     if (request.path != "/members/sign_in" &&
@@ -31,6 +32,15 @@ class ApplicationController < ActionController::Base
   # CanCan error handling
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to request.referer || root_url, :alert => exception.message
+  end
+   
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def default_url_options(options={})
+    logger.debug "default_url_options is passed options: #{options.inspect}\n"
+    { locale: I18n.locale }
   end
 
 end

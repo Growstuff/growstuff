@@ -5,10 +5,7 @@
 .row
   .col-md-8.info
     %p
-      #{ENV['GROWSTUFF_SITE_NAME']} is a community of food gardeners.
-      We're building an open source platform to help you learn about
-      growing food, track what you plant and harvest, and swap
-      seeds and produce with other gardeners near you.
+      #{ENV['GROWSTUFF_SITE_NAME']} #{t 'blurb'}
 
     = render :partial => 'stats'
   .col-md-4.signup
