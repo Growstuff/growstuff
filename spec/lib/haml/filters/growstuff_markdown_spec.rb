@@ -52,4 +52,14 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /#{output_link(@crop, 'ToMaTo')}/
   end
 
+
+  it "doesn't convert when it's not followed by '(crop)'" do
+    tomato = FactoryGirl.create(:tomato)
+    maize = FactoryGirl.create(:maize)
+    string = "[maize](http://example.com) #{input_link(tomato)}"
+    rendered = Haml::Filters::GrowstuffMarkdown.render(string)
+    rendered.should match /#{output_link(tomato)}/
+    rendered.should_not match /#{output_link(maize)}/
+    rendered.should match "<a href=\"http://example.com\">maize</a>"
+  end
 end
