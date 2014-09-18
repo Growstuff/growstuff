@@ -38,8 +38,8 @@ class ApplicationController < ActionController::Base
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
+  # Adds locale query parameter to every path / url helper
   def default_url_options(options={})
-    logger.debug "default_url_options is passed options: #{options.inspect}\n"
     { locale: I18n.locale }
   end
 
