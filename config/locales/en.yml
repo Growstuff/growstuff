@@ -13,4 +13,11 @@ en:
       all: "Please sign in or sign up to create a %{subject}."
     manage:
       all: "Not authorized to %{action} %{subject}."
-  blurb: "is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you."
+
+  home:
+    blurb: 
+      intro: "is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you."
+      perks: "Join now for your free garden journal, seed sharing, forums, and more."
+      sign_up: "Sign up"
+      sign_in: "Sign in"
+      already: "Already have an account?"
