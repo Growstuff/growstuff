@@ -52,4 +52,12 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /#{output_link(@crop, 'ToMaTo')}/
   end
 
+  it "fixes PT bug #78615258 (Markdown rendering bug with URLs and crops in same text)" do
+    tomato = FactoryGirl.create(:tomato)
+    string = "[test](http://example.com) [tomato](crop)"
+    rendered = Haml::Filters::GrowstuffMarkdown.render(string)
+    rendered.should match /#{output_link(tomato)}/
+    rendered.should match "<a href=\"http://example.com\">test</a>"
+  end
+
 end
