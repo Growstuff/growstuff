@@ -4,15 +4,13 @@
 
 .row
   .col-md-8.info
-    %p
-      #{ENV['GROWSTUFF_SITE_NAME']} #{t('.intro')}
+    %p= t('.intro', site_name: ENV['GROWSTUFF_SITE_NAME'])
 
     = render :partial => 'stats'
   .col-md-4.signup
     %p= t('.perks')
-    %p= link_to "#{t('.sign_up')}", new_member_registration_path, :class => 'btn btn-primary btn-lg'
+    %p= link_to(t('.sign_up'), new_member_registration_path, :class => 'btn btn-primary btn-lg')
     %p
       %small
-        = t('.already')
-        = link_to "#{t('.sign_in')}", new_member_session_path
+        = t('.already_html', sign_in: link_to(t('.sign_in_linktext'), new_member_session_path))
 
