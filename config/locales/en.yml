@@ -60,6 +60,10 @@ en:
       get_involved_body_html: "We believe in collaboration, and work closely with our members and the wider food-growing community. Our team includes volunteers from all walks of life and all skill levels. To get involved, visit %{talk_link} or find more information on the %{wiki_link}."
       talk_linktext: "Growstuff Talk"
       wiki_linktext: "Growstuff Wiki"
+      support_title: "Support Growstuff"
+      support_body_html: "Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}."
+      ad_free_linktext: "ad-free"
+      buy_account_linktext: "buying a paid account"
 
     seeds:
       title: "Seeds available to trade"

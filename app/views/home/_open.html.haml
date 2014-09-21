@@ -22,12 +22,8 @@
                                  wiki_link: link_to(t('.wiki_linktext'), 'http://wiki.growstuff.org/'))
 
 
-%h2 Support Growstuff
+%h2= t('.support_title')
 
 %p
-  Growstuff is independent,
-  =succeed "," do
-    =link_to 'ad-free', 'http://wiki.growstuff.org/index.php/Why_no_ads%3F'
-  and we have no outside investment.  You can support our work by
-  =succeed "." do
-    =link_to 'buying a paid account', shop_path
+  = t('.support_body_html', ad_free: link_to(t('.ad_free_linktext'), 'http://wiki.growstuff.org/index.php/Why_no_ads%3F'),
+                            buy_account: link_to(t('.buy_account_linktext'), shop_path))
