@@ -1,20 +1,25 @@
 %h2= t('.open_source_title')
 
 %p
-  #{ENV['GROWSTUFF_SITE_NAME']} #{t('.open_source_body_html', why: link_to(t('.why_linktext'), "http://blog.growstuff.org/2013/02/20/why-growstuff-is-open-source/"), github: link_to(t('.github_linktext'), 'http://github.com/Growstuff/growstuff'))}
+  = ENV['GROWSTUFF_SITE_NAME']
+  = t('.open_source_body_html', why: link_to(t('.why_linktext'), 'http://blog.growstuff.org/2013/02/20/why-growstuff-is-open-source/'), 
+                                github: link_to(t('.github_linktext'), 'http://github.com/Growstuff/growstuff') )
 
 
 %h2= t('.open_data_title')
 
 %p
-  = t('.open_data_body_html', creative_commons_link: link_to(t('.creative_commons_linktext'), 'http://creativecommons.org/licenses/by-sa/3.0/'), wiki_link: link_to(t('.wiki_linktext'), 'http://wiki.growstuff.org/index.php/Open_data'), api_docs_link: link_to(t('.api_docs_linktext'), 'http://wiki.growstuff.org/index.php/API'))
+  = t('.open_data_body_html', creative_commons_link: link_to(t('.creative_commons_linktext'), 'http://creativecommons.org/licenses/by-sa/3.0/'), 
+                              wiki_link: link_to(t('.wiki_linktext'), 'http://wiki.growstuff.org/index.php/Open_data'), 
+                              api_docs_link: link_to(t('.api_docs_linktext'), 'http://wiki.growstuff.org/index.php/API'))
 
 
 
 %h2= t('.get_involved_title')
 
 %p
-  = t('.get_involved_body_html', talk_link: link_to(t('.talk_linktext'), 'http://talk.growstuff.org/'), wiki_link: link_to(t('.wiki_linktext'), 'http://wiki.growstuff.org/'))
+  = t('.get_involved_body_html', talk_link: link_to(t('.talk_linktext'), 'http://talk.growstuff.org/'), 
+                                 wiki_link: link_to(t('.wiki_linktext'), 'http://wiki.growstuff.org/'))
 
 
 %h2 Support Growstuff
