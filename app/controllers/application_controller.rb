@@ -40,7 +40,11 @@ class ApplicationController < ActionController::Base
 
   # Adds locale query parameter to every path / url helper
   def default_url_options(options={})
-    { locale: I18n.locale }
+    if I18n.locale == :en
+      {}
+    else
+      { locale: I18n.locale }
+    end
   end
 
 end
