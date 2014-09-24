@@ -1,9 +1,9 @@
 %h2= t('.open_source_title')
 
 %p
-  = ENV['GROWSTUFF_SITE_NAME']
   = t('.open_source_body_html', why: link_to(t('.why_linktext'), 'http://blog.growstuff.org/2013/02/20/why-growstuff-is-open-source/'), 
-                                github: link_to(t('.github_linktext'), 'http://github.com/Growstuff/growstuff') )
+                                github: link_to(t('.github_linktext'), 'http://github.com/Growstuff/growstuff'),
+                                site_name: ENV['GROWSTUFF_SITE_NAME'] )
 
 
 %h2= t('.open_data_title')
