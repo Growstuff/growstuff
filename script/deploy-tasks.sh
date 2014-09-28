@@ -10,8 +10,5 @@
 # echo "YYYY-MM-DD - do something or other"
 # rake growstuff:oneoff:something
 
-echo "2013-07-18 - zero crop plantings_count"
-rake growstuff:oneoff:zero_plantings_count
-
-echo "2014-08-10 - replace ping with pint in db"
-rake growstuff:oneoff:ping_to_pint
+echo "2014-09-28 - upload tomatoes"
+rake growstuff:import_crops file=db/seeds/crops-11-tomatoes.csv
