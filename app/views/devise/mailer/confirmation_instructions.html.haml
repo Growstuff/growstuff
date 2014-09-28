@@ -5,7 +5,7 @@
   Your account on #{site_name} has been created.  You just need to confirm
   your email address through the link below:
 
-%p= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)
+%p= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token)
 
 %p
   Once you're confirmed, you can sign in with your login name

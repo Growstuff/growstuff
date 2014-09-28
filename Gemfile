@@ -54,10 +54,10 @@ group :assets do
   gem 'libv8', '3.16.14.3'
 
   # Another CSS preprocessor, used for Bootstrap overrides
-  gem "less", '~>2.3.2'
-  gem "less-rails", '~> 2.3.3'
+  gem "less", '~>2.5.0'
+  gem "less-rails", '~> 2.5.0'
   # CSS framework
-  gem "less-rails-bootstrap"
+  gem "less-rails-bootstrap", '~> 3.2.0'
 
   gem 'uglifier', '>= 1.0.3' # JavaScript compressor
 

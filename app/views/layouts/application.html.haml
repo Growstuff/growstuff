@@ -3,6 +3,7 @@
   = render :partial => "layouts/meta"
   %body
     = render :partial => "layouts/header"
+    = render :partial => "layouts/crowdfunding"
 
     .container
       .row
@@ -13,7 +14,7 @@
             .alert.alert-success
               = notice
           - if alert
-            .alert
+            .alert.alert-warning
               = alert
           = yield
 

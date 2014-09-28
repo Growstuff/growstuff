@@ -7,7 +7,7 @@ module Haml::Filters
     def render(text)
 
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
-      expanded = text.gsub(/\[(.*?)\]\(crop\)/) do |m|
+      expanded = text.gsub(/\[([^\[\]]+?)\]\(crop\)/) do |m|
         crop_str = $1
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', crop_str.downcase).first

@@ -5,9 +5,32 @@
 
 Welcome to the Growstuff project.
 
-Growstuff is an open source/open data project to create a website for food gardeners.
+Growstuff is an open source/open data project to create a website for
+food gardeners.  We crowdsource information on what our members are
+growing and harvesting, aggregate it, and make it available as open data
+via our API.
 
-You can find most of our documentation at: http://wiki.growstuff.org/
+Growstuff was founded in 2012 and has been built by dozens of
+[contributors](CONTRIBUTORS.md).  We are an inclusive, welcoming project, and
+encourage participation from people of all backgrounds and skill levels.
 
-Our development uses Extreme Programming practices, which means we pair on all our work.  Feel free to fork our code and explore, but if you would like to contribute back to us,
-please read http://wiki.growstuff.org/index.php/Development_process_overview before sending us a pull request.
+## Important links
+
+* [Wiki](http://wiki.growstuff.org/) (general documentation)
+* [Task tracker](http://tracker.growstuff.org/) (recent and upcoming work, bugs, etc)
+* [Discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) (mailing lists, IRC, etc)
+
+## For developers
+
+* Start by looking at our [task tracker](http://tracker.growstuff.org/) for something to work on.
+* Drop in to one of our [discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) to talk to our team about it.
+* To set up your development environment, see [Getting started](http://wiki.growstuff.org/index.php/Development/Getting_Started).
+* We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers.
+* You may also be interested in our [API](http://wiki.growstuff.org/index.php/API).
+
+## Contact
+
+For more information about this project, contact [info@growstuff.org](mailto:info@growstuff.org).
+
+You can also contact us on [Twitter](http://twitter.com/growstufforg/) or
+[Facebook](https://www.facebook.com/pages/Growstuff/1531133417099494).

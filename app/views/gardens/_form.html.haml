@@ -36,10 +36,11 @@
       = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
 
   .form-group
-    = f.label 'Active? ', :class => 'control-label col-md-2'
+    = f.label :active, 'Active? ', :class => 'control-label col-md-2'
     .col-md-8
       = f.check_box :active
-      You can mark a garden as inactive if you no longer use it.
+      You can mark a garden as inactive if you no longer use it.  Note:
+      this will mark all plantings in the garden as "finished".
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8

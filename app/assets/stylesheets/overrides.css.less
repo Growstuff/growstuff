@@ -2,7 +2,10 @@
 @import "custom_bootstrap/variables";
 // this padding needs to be done before the responsive stuff is imported
 body {
-  padding-top: @navbar-height + 15px;
+  // modifying this for our promotional banner. can be replaced after if
+  // needed.
+  // padding-top: @navbar-height + 15px;
+  padding-top: @navbar-height;
 }
 
 //@import "twitter/bootstrap/responsive";
@@ -75,7 +78,7 @@ h3 {
   border-radius: 6px;
   padding: 15px;
   text-align: center;
-  line-height: 110%;
+  line-height: 200%;
 }
 
 // stats shown on homepage. eg. "999 members..."
@@ -147,6 +150,11 @@ li.crop-hierarchy {
   list-style-type: disc;
 }
 
+.navbar-brand {
+  margin: 0px;
+  padding: 0px;
+}
+
 .navbar-bottom {
   margin: 40px 0px 0px 0px !important;
 }
@@ -179,6 +187,28 @@ footer .navbar .nav {
 .crop-image, .member-image {
   width: 100%;
   height: 100%;
+}
+
+// Autosuggest
+
+.ui-autocomplete {
+  z-index: @zindex-tooltip;
+}
+
+// Crowdfunding campaign, Sep-Oct 2014
+
+.crowdfunding-banner {
+  text-align: center;
+  font-weight: bold;
+  background-color: lighten(@green, 30%);
+  margin-top: 0px;
+  margin-bottom: 5px;
+  padding: 15px;
+}
+
+.crowdfunding-banner a {
+  color: @brown;
+  text-decoration: underline;
 }
 
 // Overrides applying only to mobile view. This must be at the end of the overrides file.

@@ -236,4 +236,45 @@ describe Planting do
 
   end # interesting plantings
 
+  context "finished" do
+    it 'has finished fields' do
+      @planting = FactoryGirl.create(:finished_planting)
+      @planting.finished.should be true
+      @planting.finished_at.should be_an_instance_of Date
+    end
+
+    it 'has finished scope' do
+      @p = FactoryGirl.create(:planting)
+      @f = FactoryGirl.create(:finished_planting)
+      Planting.finished.should include @f
+      Planting.finished.should_not include @p
+    end
+
+    it 'has current scope' do
+      @p = FactoryGirl.create(:planting)
+      @f = FactoryGirl.create(:finished_planting)
+      Planting.current.should include @p
+      Planting.current.should_not include @f
+    end
+
+    context "finished date validation" do
+      it 'requires finished date after planting date' do
+        @f = FactoryGirl.build(:finished_planting, :planted_at =>
+            '2014-01-01', :finished_at => '2013-01-01')
+        @f.should_not be_valid
+      end
+
+      it 'allows just the planted date' do
+        @f = FactoryGirl.build(:planting, :planted_at => '2013-01-01', :finished_at => nil)
+        @f.should be_valid
+      end
+      it 'allows just the finished date' do
+        @f = FactoryGirl.build(:planting, :finished_at => '2013-01-01', :planted_at => nil)
+        @f.should be_valid
+      end
+
+    end
+
+  end
+
 end

@@ -1,5 +1,9 @@
 - content_for :title, "Forums"
 
+- if can? :create, Forum
+  %p
+    = link_to "New forum", new_forum_path, :class => 'btn btn-default'
+
 - @forums.each do |forum|
   %h2= forum
   %p
