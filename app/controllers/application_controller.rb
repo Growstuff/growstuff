@@ -35,16 +35,21 @@ class ApplicationController < ActionController::Base
   end
    
   def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
+    I18n.locale = extract_locale_tld || I18n.default_locale
+  end
+
+  def extract_locale_tld
+    parsed_locale = request.subdomains.first
+    I18n.available_locales.map(&:to_s).include?(parsed_locale) ? parsed_locale : nil
   end
 
   # Adds locale query parameter to every path / url helper
-  def default_url_options(options={})
-    if I18n.locale == :en
-      {}
-    else
-      { locale: I18n.locale }
-    end
-  end
+  # def default_url_options(options={})
+  #   if I18n.locale == :en
+  #     {}
+  #   else
+  #     { locale: I18n.locale }
+  #   end
+  # end
 
 end
