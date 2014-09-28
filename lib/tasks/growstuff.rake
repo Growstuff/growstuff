@@ -34,6 +34,26 @@ namespace :growstuff do
 
   end
 
+  desc "Send planting reminder email"
+  # usage: rake growstuff:send_planting_reminder
+
+  task :send_planting_reminder => :environment do
+    # Heroku scheduler only lets us run things daily, so this checks
+    # whether it's the right day to actually do the deed.
+    # Note that Heroku scheduler runs on UTC.
+    # We'd like to send on Wednesday mornings, US time, which will be
+    # very early Wednesday morning UTC.
+    send_on_day = 3 # wednesday
+    every_n_weeks = 2 # send fortnightly
+
+    if Date.today.cwday == send_on_day and Date.today.cw_week % every_n_weeks == 0
+      puts "We're going to send email because it's the right day"
+      Member.find_each do |m|
+        Notifier.planting_reminder(m).deliver!
+      end
+    end
+  end
+
   desc "Depopulate Null Island"
   # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
   task :depopulate_null_island => :environment do

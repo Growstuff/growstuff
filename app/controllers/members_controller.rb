@@ -32,8 +32,5 @@ class MembersController < ApplicationController
     end
   end
 
-  def send_planting_reminder
-    Notifier.planting_reminder(current_member).deliver!
-  end
 
 end

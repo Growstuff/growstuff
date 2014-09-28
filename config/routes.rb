@@ -2,7 +2,6 @@ Growstuff::Application.routes.draw do
 
   resources :plant_parts
 
-  get '/members/send_planting_reminder' => 'members#send_planting_reminder', :as => 'send_planting_reminder'
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
 
   resources :members
