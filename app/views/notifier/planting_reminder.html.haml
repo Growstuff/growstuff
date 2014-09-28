@@ -4,14 +4,14 @@
 %h2 What's new in your garden?
 
 %p
-  Have you planted anything recently?
 
 - if @member.plantings.size == 0
   %p
     #{ENV['GROWSTUFF_SITE_NAME']} lets you track what food you're growing
-    in your garden.
+    in your garden and see what other people near you are planting too.
   %p
-    = link_to "Get started now.", new_planting_url
+    = link_to "Get started now", new_planting_url
+    by planting your first crop.
 
 - else
   %p
@@ -26,18 +26,20 @@
       ago.
 
   %p
-    Planted anything new?
-    = link_to "Track your plantings here.", new_planting_url
+    = link_to "Plant something new", new_planting_url
+    to keep your garden records up to date.
 
 %h2 Your recent harvests
 
 - if @member.harvests.size == 0
   %p
-    With #{ENV['GROWSTUFF_SITE_NAME']} you can keep track of what you
-    harvest from your garden.
+    #{ENV['GROWSTUFF_SITE_NAME']} helps you keep track of what you
+    harvest from your garden.  Record what food you've grown
+    and see what other people near you are harvesting, too.
 
   %p
-    = link_to "Get started now.", new_harvest_url
+    = link_to "Get started now", new_harvest_url
+    by tracking your first harvest.
 
 - else
   According to our records, the last few things you harvested were:
@@ -54,11 +56,16 @@
     Harvested anything else lately?
     = link_to "Track your harvests here.", new_harvest_url
 
-%p
-Don't want to get these emails any more?
-= link_to "Turn off these notifications", edit_member_registration_url
+%h2
+  See you soon on #{ENV['GROWSTUFF_SITE_NAME']}!
 
 %p
   The #{site_name} team.
   %br/
   =link_to root_url, root_url
+
+%hr/
+%p
+  Don't want to get these emails any more?
+  = link_to "Turn off these notifications", edit_member_registration_url
+
