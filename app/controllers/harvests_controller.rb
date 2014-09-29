@@ -6,23 +6,21 @@ class HarvestsController < ApplicationController
   # GET /harvests.json
   def index
     @owner = Member.find_by_slug(params[:owner])
+    @crop = Crop.find_by_slug(params[:crop])
     if @owner
-      @harvests = @owner.harvests.includes(:owner, :crop).paginate(:page => params[:page])
+      @harvests = @owner.harvests.includes(:owner, :crop)
+    elsif @crop
+      @harvests = @crop.harvests.includes(:owner, :crop)
     else
-      @harvests = Harvest.includes(:owner, :crop).paginate(:page => params[:page])
+      @harvests = Harvest.includes(:owner, :crop)
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { @harvests = @harvests.paginate(:page => params[:page]) }
       format.json { render json: @harvests }
       format.csv do
-        if @owner
-          @filename = "Growstuff-#{@owner}-Harvests-#{Time.zone.now.to_s(:number)}.csv"
-          @harvests = @owner.harvests.includes(:owner, :crop)
-        else
-          @filename = "Growstuff-Harvests-#{Time.zone.now.to_s(:number)}.csv"
-          @harvests = Harvest.includes(:owner, :crop)
-        end
+        specifics = (@owner ? "#{@owner.name}-" : @crop ? "#{@crop.name}-" : nil)
+        @filename = "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
         render :csv => @harvests
       end
     end

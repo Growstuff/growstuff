@@ -95,4 +95,41 @@ describe Post do
     end
   end
 
+  context "crop-post association" do
+    before {
+      @tomato = FactoryGirl.create(:tomato)
+      @maize = FactoryGirl.create(:maize)
+      @chard = FactoryGirl.create(:chard)
+      @post = FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)")
+    }
+
+    it "should be generated without duplicate" do
+      @post.crops.should =~ [@tomato, @maize]
+      @tomato.posts.should eq [@post]
+      @maize.posts.should eq [@post]
+    end
+
+    it "should be updated when post was modified" do
+      @post.update_attributes(:body => "[chard](crop)")
+
+      @post.crops.should eq [@chard]
+      @chard.posts.should eq [@post]
+      @tomato.posts.should eq []
+      @maize.posts.should eq []
+    end
+
+    describe "destroying the post" do
+      before do
+        @crops = @post.crops
+        @post.destroy
+      end
+
+      it "shouod delete the association but not the crops" do
+        Crop.find_by_id(@tomato.id).should_not eq nil
+        Crop.find_by_id(@maize.id).should_not eq nil
+        Crop.find_by_id(@tomato.id).posts.should eq []
+        Crop.find_by_id(@maize.id).posts.should eq []
+      end
+    end
+  end
 end

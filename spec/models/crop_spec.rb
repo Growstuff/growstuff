@@ -343,4 +343,22 @@ describe Crop do
     end
   end
 
+  context "crop-post association" do
+    before {
+      @tomato = FactoryGirl.create(:tomato)
+      @maize = FactoryGirl.create(:maize)
+      @post = FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)")
+    }
+
+    describe "destroying a crop" do
+      before do
+        @tomato.destroy
+      end
+
+      it "shouod delete the association but not the posts" do
+        Post.find_by_id(@post.id).should_not eq nil
+        Post.find_by_id(@post.id).crops.should eq [@maize]
+      end
+    end
+  end
 end

@@ -12,6 +12,7 @@ Growstuff::Application.routes.draw do
 
   resources :plantings
   match '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
+  match '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
 
   resources :gardens
   match '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
@@ -21,6 +22,7 @@ Growstuff::Application.routes.draw do
 
   resources :harvests
   match '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
+  match '/harvests/crop/:crop' => 'harvests#index', :as => 'harvests_by_crop'
 
   resources :posts
   match '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
