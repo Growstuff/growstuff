@@ -47,7 +47,6 @@ namespace :growstuff do
     every_n_weeks = 2 # send fortnightly
 
     if Date.today.cwday == send_on_day and Date.today.cw_week % every_n_weeks == 0
-      puts "We're going to send email because it's the right day"
       Member.find_each do |m|
         Notifier.planting_reminder(m).deliver!
       end
