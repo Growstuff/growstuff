@@ -7,7 +7,7 @@
 
 - if @member.plantings.size == 0
   %p
-    #{ENV['GROWSTUFF_SITE_NAME']} lets you track what food you're growing
+    #{site_name} lets you track what food you're growing
     in your garden and see what other people near you are planting too.
   %p
     = link_to "Get started now", new_planting_url
@@ -33,7 +33,7 @@
 
 - if @member.harvests.size == 0
   %p
-    #{ENV['GROWSTUFF_SITE_NAME']} helps you keep track of what you
+    #{site_name} helps you keep track of what you
     harvest from your garden.  Record what food you've grown
     and see what other people near you are harvesting, too.
 
@@ -57,7 +57,7 @@
     = link_to "Track your harvests here.", new_harvest_url
 
 %h2
-  See you soon on #{ENV['GROWSTUFF_SITE_NAME']}!
+  See you soon on #{site_name}!
 
 %p
   The #{site_name} team.
