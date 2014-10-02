@@ -91,7 +91,7 @@ class PhotosController < ApplicationController
       end
     else    
       flash[:alert] = "Missing type parameter"
-	end
+    end
   
     respond_to do |format|
       if @photo.save
