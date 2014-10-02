@@ -12,3 +12,6 @@
 
 echo "2014-09-28 - upload tomatoes"
 rake growstuff:import_crops file=db/seeds/crops-11-tomatoes.csv
+
+echo "2014-10-02 - remove unused photos"
+rake growstuff:oneoff:remove_unused_photos
