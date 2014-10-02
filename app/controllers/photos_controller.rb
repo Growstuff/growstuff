@@ -67,31 +67,31 @@ class PhotosController < ApplicationController
     # several models can have photos. we need to know what model and the id
     # for the entry to attach the photo to
     valid_models = ["planting", "harvest"]
-    if ! params[:type]
+    if params[:type]
+      if valid_models.include?(params[:type])
+        if params[:id]
+          item = params[:type].camelcase.constantize.find_by_id(params[:id])
+          if item
+            if item.owner.id == current_member.id
+              #  This syntax is weird, so just know that it means this:
+              #  @photo.harvests << item unless @photo.harvests.include?(item)
+              #  but with the correct many-to-many relationship automatically referenced
+              (@photo.send "#{params[:type]}s") << item unless (@photo.send "#{params[:type]}s").include?(item)
+            else
+              flash[:alert] = "You must own both the #{params[:type]} and the photo."
+            end
+          else
+            flash[:alert] = "Couldn't find #{params[:type]} to connect to photo."
+          end
+        else
+          flash[:alert] = "Missing id parameter"
+        end
+      else
+        flash[:alert] = "Cannot attach photos to #{params[:type]}"
+      end
+    else    
       flash[:alert] = "Missing type parameter"
-  	return 1
-    end
-    if ! valid_models.include?(params[:type])
-      flash[:alert] = "Cannot attach photos to #{params[:type]}"
-      return 1
-    end
-    if ! params[:id]
-      flash[:alert] = "Missing id parameter"
-      return 1
-    end
-    item = params[:type].camelcase.constantize.find_by_id(params[:id])
-    if ! item
-      flash[:alert] = "Couldn't find #{params[:type]} to connect to photo."
-      return 1
-    end
-    if item.owner.id != current_member.id
-      flash[:alert] = "You must own both the #{params[:type]} and the photo."
-      return 1
-    end
-    #  This syntax is weird, so just know that it means this:
-    #  @photo.harvests << item unless @photo.harvests.include?(item)
-    #  but with the correct many-to-many relationship automatically referenced
-    (@photo.send "#{params[:type]}s") << item unless (@photo.send "#{params[:type]}s").include?(item)
+	end
   
     respond_to do |format|
       if @photo.save
