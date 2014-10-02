@@ -5,4 +5,6 @@ class AddHarvestsPhotosTable < ActiveRecord::Migration
       t.integer :harvest_id
     end
   end
+
+  add_index(:harvests_photos, [:harvest_id, :photo_id])
 end
