@@ -9,6 +9,17 @@ class Harvest < ActiveRecord::Base
   belongs_to :owner, :class_name => 'Member'
   belongs_to :plant_part
 
+  has_and_belongs_to_many :photos
+
+  before_destroy do |harvest|
+    photolist = harvest.photos.to_a # save a temp copy of the photo list
+    harvest.photos.clear # clear relationship b/w harvest and photo
+
+    photolist.each do |photo|
+      photo.destroy_if_unused
+    end
+  end
+
   default_scope order('created_at DESC')
 
   validates :crop, :presence => {:message => "must be present and exist in our database"}
@@ -70,6 +81,10 @@ class Harvest < ActiveRecord::Base
 
   def harvest_slug
     "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
+  end
+
+  def default_photo
+    return photos.first
   end
 
 end

@@ -67,8 +67,12 @@ module Growstuff
     config.assets.initialize_on_precompile = true
 
     config.generators do |g|
-      g.template_engine :haml
-      g.stylesheets false
+      g.template_engine  :haml
+      g.view_specs       false
+      g.controller_specs false
+      g.helper           false
+      g.stylesheets      false
+      g.javascripts      false
     end
 
     config.action_mailer.delivery_method = :sendmail

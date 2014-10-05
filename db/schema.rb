@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140928053257) do
+
+ActiveRecord::Schema.define(:version => 20141002022459) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -115,6 +116,13 @@ ActiveRecord::Schema.define(:version => 20140928053257) do
     t.string   "weight_unit"
     t.integer  "plant_part_id"
   end
+
+  create_table "harvests_photos", :id => false, :force => true do |t|
+    t.integer "photo_id"
+    t.integer "harvest_id"
+  end
+
+  add_index "harvests_photos", ["harvest_id", "photo_id"], :name => "index_harvests_photos_on_harvest_id_and_photo_id"
 
   create_table "members", :force => true do |t|
     t.string   "email",                   :default => "",   :null => false

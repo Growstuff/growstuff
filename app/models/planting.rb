@@ -11,7 +11,15 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, :counter_cache => true
 
   has_and_belongs_to_many :photos
-  before_destroy {|planting| planting.photos.clear}
+
+  before_destroy do |planting|
+    photolist = planting.photos.to_a # save a temp copy of the photo list
+    planting.photos.clear # clear relationship b/w planting and photo
+
+    photolist.each do |photo|
+      photo.destroy_if_unused
+    end
+  end
 
   default_scope order("created_at desc")
   scope :finished, where(:finished => true)
