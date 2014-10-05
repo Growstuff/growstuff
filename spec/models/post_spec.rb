@@ -96,39 +96,42 @@ describe Post do
   end
 
   context "crop-post association" do
-    before {
-      @tomato = FactoryGirl.create(:tomato)
-      @maize = FactoryGirl.create(:maize)
-      @chard = FactoryGirl.create(:chard)
-      @post = FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)")
-    }
+    let!(:tomato) { FactoryGirl.create(:tomato) }
+    let!(:maize) { FactoryGirl.create(:maize) }
+    let!(:chard) { FactoryGirl.create(:chard) }
+    let!(:post) { FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)") }
 
-    it "should be generated without duplicate" do
-      @post.crops.should =~ [@tomato, @maize]
-      @tomato.posts.should eq [@post]
-      @maize.posts.should eq [@post]
+    it "should be generated" do
+      expect(tomato.posts).to eq [post]
+      expect(maize.posts).to eq [post]
+    end
+
+    it "should not duplicate" do
+      expect(post.crops) =~ [tomato, maize]
     end
 
     it "should be updated when post was modified" do
-      @post.update_attributes(:body => "[chard](crop)")
+      post.update_attributes(:body => "[chard](crop)")
 
-      @post.crops.should eq [@chard]
-      @chard.posts.should eq [@post]
-      @tomato.posts.should eq []
-      @maize.posts.should eq []
+      expect(post.crops).to eq [chard]
+      expect(chard.posts).to eq [post]
+      expect(tomato.posts).to eq []
+      expect(maize.posts).to eq []
     end
 
     describe "destroying the post" do
       before do
-        @crops = @post.crops
-        @post.destroy
+        post.destroy
       end
 
-      it "shouod delete the association but not the crops" do
-        Crop.find_by_id(@tomato.id).should_not eq nil
-        Crop.find_by_id(@maize.id).should_not eq nil
-        Crop.find_by_id(@tomato.id).posts.should eq []
-        Crop.find_by_id(@maize.id).posts.should eq []
+      it "should delete the association" do
+        expect(Crop.find(tomato).posts).to eq []
+        expect(Crop.find(maize).posts).to eq []
+      end
+
+      it "should not delete the crops" do
+        expect(Crop.find(tomato)).to_not eq nil
+        expect(Crop.find(maize)).to_not eq nil
       end
     end
   end

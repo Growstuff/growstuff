@@ -267,7 +267,7 @@ namespace :growstuff do
     desc "October 2014: generate crops_posts records for existing posts"
     task :generate_crops_posts_records => :environment do
       Post.find_each do |p|
-        p.send :update_crops_posts_association
+        p.save
       end
     end
   end # end oneoff section

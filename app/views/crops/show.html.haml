@@ -33,9 +33,10 @@
 
     %div#cropmap
 
+    %a{:name => 'posts'}
     %div.pagination
       = page_entries_info @posts, :model => "posts"
-      = will_paginate @posts
+      = will_paginate @posts, :params => {:anchor => "posts"}
 
     - unless @posts.empty?
       - @posts.each do |post|
@@ -43,7 +44,7 @@
 
     %div.pagination
       = page_entries_info @posts, :model => "posts"
-      = will_paginate @posts
+      = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3
     - if can? :edit, @crop or can? :destroy, @crop

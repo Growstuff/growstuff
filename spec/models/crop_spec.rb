@@ -344,20 +344,21 @@ describe Crop do
   end
 
   context "crop-post association" do
-    before {
-      @tomato = FactoryGirl.create(:tomato)
-      @maize = FactoryGirl.create(:maize)
-      @post = FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)")
-    }
+    let!(:tomato) { FactoryGirl.create(:tomato) }
+    let!(:maize) { FactoryGirl.create(:maize) }
+    let!(:post) { FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)") }
 
     describe "destroying a crop" do
       before do
-        @tomato.destroy
+        tomato.destroy
       end
 
-      it "shouod delete the association but not the posts" do
-        Post.find_by_id(@post.id).should_not eq nil
-        Post.find_by_id(@post.id).crops.should eq [@maize]
+      it "should delete the association between post and the crop(tomato)" do
+        expect(Post.find(post).crops).to eq [maize]
+      end
+
+      it "should not delete the posts" do
+        expect(Post.find(post)).to_not eq nil
       end
     end
   end
