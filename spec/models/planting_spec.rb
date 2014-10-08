@@ -185,10 +185,10 @@ describe Planting do
         @planting.save
 
         # this one doesn't have a photo
-        @boring_planting = FactoryGirl.create(:planting)
+        @no_photo_planting = FactoryGirl.create(:planting)
 
         Planting.interesting.should include @planting
-        Planting.interesting.should_not include @boring_planting
+        Planting.interesting.should_not include @no_photo_planting
       end
 
       it 'ignores plantings with the same owner' do
@@ -219,11 +219,11 @@ describe Planting do
         @planting.save
 
         # this one doesn't have a photo
-        @boring_planting = FactoryGirl.create(:planting)
+        @no_photo_planting = FactoryGirl.create(:planting)
 
         interesting = Planting.interesting(10, false)
         interesting.should include @planting
-        interesting.should include @boring_planting
+        interesting.should include @no_photo_planting
       end
     end
 
