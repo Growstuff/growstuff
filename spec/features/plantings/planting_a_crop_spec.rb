@@ -3,6 +3,8 @@ require "spec_helper"
 feature "Planting a crop", :js => true do
   let(:member)   { FactoryGirl.create(:member) }
   let!(:maize)   { FactoryGirl.create(:maize) }
+  let(:garden)   { FactoryGirl.create(:garden, owner: member) }
+  let(:planting) { FactoryGirl.create(:planting, garden: garden, planted_at: Date.parse("2013-3-10")) }
 
   background do
     login_as(member)
@@ -80,6 +82,18 @@ feature "Planting a crop", :js => true do
     end
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: Yes (no date specified)"
+  end
+
+  scenario "Marking a planting as finished from the show page" do
+    this_month = Date.today.strftime("%B")
+    this_year  = Date.today.strftime("%Y")
+    visit planting_path(planting)
+    click_link "Mark as finished"
+    within "div.datepicker" do
+      expect(page).to have_content "#{this_month}"
+      page.find(".datepicker-days td.day", text: "21").click
+    end
+    expect(page).to have_content "Finished: #{this_month} 21, #{this_year}"
   end
 
 end
