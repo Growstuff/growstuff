@@ -3,7 +3,7 @@ jQuery ->
   $('#planting_finished').on('click', ->
     finished = $('#planting_finished_at')
     if @checked
-      if previousValue.length > 0
+      if previousValue.length
         date = previousValue 
       finished.val(date)
     else
