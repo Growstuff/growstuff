@@ -1,12 +1,18 @@
-jQuery ->
-  
-  $('.append-date').datepicker({'format': 'yyyy-mm-dd'})
+# Displays datepicker to finished at date
+# when marking a planting finished using a
+# button. The button must have class 'append-date'.
 
-  $('.append-date').click (e) ->
+jQuery ->
+
+  el = $('.append-date')
+  
+  el.datepicker({'format': 'yyyy-mm-dd'})
+
+  el.click (e) ->
     e.stopPropagation()
     e.preventDefault()
 
-  $('.append-date').one 'changeDate', ->
+  el.one 'changeDate', ->
     href = $(this).attr('href')
     date = $(this).datepicker('getDate')
     url  = "#{href}&planting[finished_at]=#{date}"

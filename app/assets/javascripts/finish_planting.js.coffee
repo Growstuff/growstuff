@@ -1,3 +1,8 @@
+# Clears the finished at date field when
+# a planting is marked unfinished, and
+# repopulates the field with a cached value
+# marking unfinshed is undone.
+
 jQuery ->
   previousValue = ''
   $('#planting_finished').on('click', ->
