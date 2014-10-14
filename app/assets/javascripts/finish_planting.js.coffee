@@ -1,7 +1,7 @@
 # Clears the finished at date field when
 # a planting is marked unfinished, and
 # repopulates the field with a cached value
-# marking unfinshed is undone.
+# marking unfinished is undone.
 
 jQuery ->
   previousValue = ''
@@ -10,7 +10,9 @@ jQuery ->
     if @checked
       if previousValue.length
         date = previousValue 
-      finished.val(date)
+        finished.val(date)
+      else
+        finished.trigger('focus')
     else
       previousValue = finished.val()
       finished.val('')
