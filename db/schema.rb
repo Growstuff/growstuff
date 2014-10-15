@@ -64,6 +64,14 @@ ActiveRecord::Schema.define(:version => 20141002022459) do
   add_index "crops", ["name"], :name => "index_crops_on_name"
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
 
+  create_table "crops_posts", :id => false, :force => true do |t|
+    t.integer "crop_id"
+    t.integer "post_id"
+  end
+
+  add_index "crops_posts", ["crop_id", "post_id"], :name => "index_crops_posts_on_crop_id_and_post_id"
+  add_index "crops_posts", ["crop_id"], :name => "index_crops_posts_on_crop_id"
+
   create_table "forums", :force => true do |t|
     t.string   "name",        :null => false
     t.text     "description", :null => false

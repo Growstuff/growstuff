@@ -69,6 +69,7 @@ class CropsController < ApplicationController
   # GET /crops/1.json
   def show
     @crop = Crop.includes(:scientific_names, {:plantings => :photos}).find(params[:id])
+    @posts = @crop.posts.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # show.html.haml

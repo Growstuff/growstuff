@@ -5,6 +5,9 @@ class Post < ActiveRecord::Base
   belongs_to :author, :class_name => 'Member'
   belongs_to :forum
   has_many :comments, :dependent => :destroy
+  has_and_belongs_to_many :crops
+  before_destroy {|post| post.crops.clear}
+  after_save :update_crops_posts_association
   # also has_many notifications, but kinda meaningless to get at them
   # from this direction, so we won't set up an association for now.
 
@@ -39,4 +42,15 @@ class Post < ActiveRecord::Base
     end
   end
 
+  private
+    def update_crops_posts_association
+      self.crops.destroy_all
+      # look for crops mentioned in the post. eg. [tomato](crop)
+      self.body.scan(Haml::Filters::GrowstuffMarkdown::CROP_REGEX) do |m|
+        # find crop case-insensitively
+        crop = Crop.where('lower(name) = ?', $1.downcase).first
+        # create association
+        self.crops << crop if crop and not self.crops.include?(crop) 
+      end
+    end
 end
