@@ -30,6 +30,7 @@ namespace :growstuff do
     CSV.foreach(@file) do |row|
       Crop.create_from_csv(row)
     end
+    Rails.cache.delete('full_crop_hierarchy')
     puts "Finished loading crops"
 
   end
@@ -268,13 +269,26 @@ namespace :growstuff do
     desc "August 2014: fix ping to pint in database"
     task :ping_to_pint => :environment do
       Harvest.find_each do |h|
-        if h.unit == "ping" 
+        if h.unit == "ping"
           h.unit = "pint"
           h.save
         end
       end
     end
 
+    desc "October 2014: remove unused photos"
+    task :remove_unused_photos => :environment do
+      Photo.find_each do |p|
+        p.destroy_if_unused
+      end
+    end
+
+    desc "October 2014: generate crops_posts records for existing posts"
+    task :generate_crops_posts_records => :environment do
+      Post.find_each do |p|
+        p.save
+      end
+    end
   end # end oneoff section
 
 end

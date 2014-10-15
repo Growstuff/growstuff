@@ -34,3 +34,16 @@
 
 :growstuff_markdown
   #{ @harvest.description != "" ? @harvest.description : "No description given." }
+
+- if @harvest.photos.count > 0 or (can? :edit, @harvest and can? :create, Photo)
+  %h2 Pictures
+
+  %ul.thumbnails
+    - @harvest.photos.each do |p|
+      .col-md-2.six-across
+        = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+    - if can? :create, Photo and can? :edit, @harvest
+      .col-md-2
+        .thumbnail(style='height: 220px')
+          %p{:style => 'text-align: center; padding-top: 50px'}
+            = link_to "Add photo", new_photo_path(:type => "harvest", :id => @harvest.id), :class => 'btn btn-primary'

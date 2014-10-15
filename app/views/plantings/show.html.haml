@@ -68,4 +68,4 @@
       .col-md-2
         .thumbnail(style='height: 220px')
           %p{:style => 'text-align: center; padding-top: 50px'}
-            = link_to "Add photo", new_photo_path(:planting_id => @planting.id), :class => 'btn btn-primary'
+            = link_to "Add photo", new_photo_path(:type => "planting", :id => @planting.id), :class => 'btn btn-primary'

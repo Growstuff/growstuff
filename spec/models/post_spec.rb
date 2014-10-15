@@ -95,4 +95,44 @@ describe Post do
     end
   end
 
+  context "crop-post association" do
+    let!(:tomato) { FactoryGirl.create(:tomato) }
+    let!(:maize) { FactoryGirl.create(:maize) }
+    let!(:chard) { FactoryGirl.create(:chard) }
+    let!(:post) { FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)") }
+
+    it "should be generated" do
+      expect(tomato.posts).to eq [post]
+      expect(maize.posts).to eq [post]
+    end
+
+    it "should not duplicate" do
+      expect(post.crops) =~ [tomato, maize]
+    end
+
+    it "should be updated when post was modified" do
+      post.update_attributes(:body => "[chard](crop)")
+
+      expect(post.crops).to eq [chard]
+      expect(chard.posts).to eq [post]
+      expect(tomato.posts).to eq []
+      expect(maize.posts).to eq []
+    end
+
+    describe "destroying the post" do
+      before do
+        post.destroy
+      end
+
+      it "should delete the association" do
+        expect(Crop.find(tomato).posts).to eq []
+        expect(Crop.find(maize).posts).to eq []
+      end
+
+      it "should not delete the crops" do
+        expect(Crop.find(tomato)).to_not eq nil
+        expect(Crop.find(maize)).to_not eq nil
+      end
+    end
+  end
 end

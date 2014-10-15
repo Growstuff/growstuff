@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140928085713) do
+ActiveRecord::Schema.define(:version => 20141002022459) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -64,6 +64,14 @@ ActiveRecord::Schema.define(:version => 20140928085713) do
   add_index "crops", ["name"], :name => "index_crops_on_name"
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
 
+  create_table "crops_posts", :id => false, :force => true do |t|
+    t.integer "crop_id"
+    t.integer "post_id"
+  end
+
+  add_index "crops_posts", ["crop_id", "post_id"], :name => "index_crops_posts_on_crop_id_and_post_id"
+  add_index "crops_posts", ["crop_id"], :name => "index_crops_posts_on_crop_id"
+
   create_table "forums", :force => true do |t|
     t.string   "name",        :null => false
     t.text     "description", :null => false
@@ -107,6 +115,13 @@ ActiveRecord::Schema.define(:version => 20140928085713) do
     t.string   "weight_unit"
     t.integer  "plant_part_id"
   end
+
+  create_table "harvests_photos", :id => false, :force => true do |t|
+    t.integer "photo_id"
+    t.integer "harvest_id"
+  end
+
+  add_index "harvests_photos", ["harvest_id", "photo_id"], :name => "index_harvests_photos_on_harvest_id_and_photo_id"
 
   create_table "members", :force => true do |t|
     t.string   "email",                   :default => "",   :null => false
