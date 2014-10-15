@@ -33,11 +33,6 @@ class Crop < ActiveRecord::Base
       :message => 'is not a valid English Wikipedia URL'
     }
 
-# def Crop.random
-# @crop = Crop.offset(rand(Crop.count)).first
-# return @crop
-#aend
-
   def to_s
     return name
   end
