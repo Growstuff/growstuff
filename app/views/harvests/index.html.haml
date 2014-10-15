@@ -1,4 +1,4 @@
-- content_for :title, @owner ? "#{@owner}'s harvests" : "Everyone's harvests"
+- content_for :title, @owner ? "#{@owner}'s harvests" : @crop ? "Everyone's #{@crop.name} harvests" : "Everyone's harvests"
 
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're

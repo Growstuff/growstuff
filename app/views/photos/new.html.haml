@@ -15,6 +15,8 @@
       = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
         = label_tag :set, "Choose a photo set:", :class => 'control-label'
         = select_tag :set, options_for_select(@sets, @current_set), :class => 'input-large'
+        = hidden_field_tag :type, @type
+        = hidden_field_tag :id, @id
         = submit_tag "Search", :class => 'btn btn-primary'
 
   %div.pagination
@@ -25,7 +27,7 @@
   - @photos.each do |p|
     .col-md-2.six-across
       .thumbnail(style='height: 220px')
-        = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img-rounded'), photos_path(:photo => { :flickr_photo_id => p.id }, :planting_id => @planting_id), :method => :post
+        = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img-rounded'), photos_path(:photo => { :flickr_photo_id => p.id }, :type => @type, :id => @id), :method => :post
         %p
           =p.title
 

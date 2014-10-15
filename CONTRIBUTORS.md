@@ -45,3 +45,4 @@ submit the change with your pull request.
 - Marlena Compton / [Marlena](https://github.com/marlena)
 - Elizabeth A. Kari / [catfriend](https://github.com/catfriend)
 - Cheri Allen / [cherimarie](https://github.com/cherimarie)
+- Shiho Takagi / [oshiho3](https://github.com/oshiho3)
