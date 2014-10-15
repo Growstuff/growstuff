@@ -7,6 +7,16 @@ describe "crops/show" do
       :scientific_names => [ FactoryGirl.create(:zea_mays) ]
     )
     assign(:crop, @crop)
+    @author = FactoryGirl.create(:member)
+    page = 1
+    per_page = 2
+    total_entries = 2
+    @posts = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+      pager.replace([
+        @post1 = FactoryGirl.create(:post, :author => @author, :body => "Post it!" ),
+        @post2 = FactoryGirl.create(:post, :author => @author, :body => "Done!" )
+      ])
+    end
   end
 
   context 'photos' do
@@ -125,11 +135,10 @@ describe "crops/show" do
 
   context "has plantings" do
     before(:each) do
-      @owner    = FactoryGirl.create(:member)
-      @garden   = FactoryGirl.create(:garden, :owner => @owner)
+      @owner    = FactoryGirl.create(:london_member)
       @planting = FactoryGirl.create(:planting,
-        :garden => @garden,
-        :crop => @crop
+        :crop => @crop,
+        :owner => @owner
       )
       @crop.reload # to pick up latest plantings_count
     end
@@ -137,16 +146,24 @@ describe "crops/show" do
     it "links to people who are growing this crop" do
       render
       rendered.should contain @owner.login_name
-      rendered.should contain @garden.name
+      rendered.should contain @owner.location
     end
+  end
 
-    it "shows photos where available" do
-      @photo = FactoryGirl.create(:photo)
-      @planting.photos << @photo
+  context "has posts" do
+    it "links to posts" do
       render
-      assert_select "img", :src => @photo.thumbnail_url
+      @posts.each do |p|
+        rendered.should contain p.author.login_name
+        rendered.should contain p.subject
+        rendered.should contain p.body
+      end
     end
 
+    it "contains two gravatar icons" do
+      render
+      assert_select "img", :src => /gravatar\.com\/avatar/, :count => 2
+    end
   end
 
   context 'varieties' do
@@ -189,9 +206,36 @@ describe "crops/show" do
       rendered.should contain "Harvest this"
     end
 
-    it "links to the right crop in the planting link" do
+    it "links to the right crop in the new planting link" do
       assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
     end
+
+    it "links to the right crop in the new harvest link" do
+      assert_select("a[href=#{new_harvest_path}?crop_id=#{@crop.id}]")
+    end
+
+    it { rendered.should contain "Nobody has planted this crop yet" }
+    it { rendered.should contain "Nobody has harvested this crop yet" }
+
+    context "should have a link to" do
+      before do
+        FactoryGirl.create(:planting, :crop => @crop)
+        FactoryGirl.create(:harvest, :crop => @crop)
+        @crop.reload
+        render
+      end
+
+      it "show all plantings by the crop link" do
+        assert_select("a[href=#{plantings_by_crop_path @crop}]")
+      end    
+
+      it "show all harvests by the crop link" do
+        assert_select("a[href=#{harvests_by_crop_path @crop}]")
+      end
+    end
+
+
+
   end
 
   context "logged in and crop wrangler" do

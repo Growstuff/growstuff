@@ -37,8 +37,15 @@ describe PhotosController do
     end
 
     it "assigns a planting id" do
-      get :new, { :planting_id => 5 }
-      assigns(:planting_id).should eq "5"
+      get :new, { :type => "planting", :id => 5 }
+      assigns(:id).should eq "5"
+      assigns(:type).should eq "planting"
+    end
+
+    it "assigns a harvest id" do
+      get :new, { :type => "harvest", :id => 5 }
+      assigns(:id).should eq "5"
+      assigns(:type).should eq "harvest"
     end
 
     it "assigns the current set as @current_set" do
@@ -69,7 +76,8 @@ describe PhotosController do
         planting = FactoryGirl.create(:planting, :garden => garden, :owner => member)
         photo = FactoryGirl.create(:photo, :owner => member)
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
-          :planting_id => planting.id }
+          :type => "planting",
+          :id => planting.id }
         Photo.last.plantings.first.should eq planting
       end
 
@@ -80,12 +88,39 @@ describe PhotosController do
         planting = FactoryGirl.create(:planting, :garden => garden, :owner => member)
         photo = FactoryGirl.create(:photo, :owner => member)
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
-          :planting_id => planting.id }
+          :type => "planting",
+          :id => planting.id }
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
-          :planting_id => planting.id }
+          :type => "planting",
+          :id => planting.id }
         Photo.last.plantings.count.should eq 1
       end
+
+      it "attaches the photo to a harvest" do
+        member = FactoryGirl.create(:member)
+        controller.stub(:current_member) { member }
+        harvest = FactoryGirl.create(:harvest, :owner => member)
+        photo = FactoryGirl.create(:photo, :owner => member)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :type => "harvest",
+          :id => harvest.id }
+        Photo.last.harvests.first.should eq harvest
+      end
+
+      it "doesn't attach a photo to a harvest twice" do
+        member = FactoryGirl.create(:member)
+        controller.stub(:current_member) { member }
+        harvest = FactoryGirl.create(:harvest, :owner => member)
+        photo = FactoryGirl.create(:photo, :owner => member)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :type => "harvest",
+          :id => harvest.id }
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :type => "harvest",
+          :id => harvest.id }
+        Photo.last.harvests.count.should eq 1
     end
+  end
 
     describe "for the second time" do
       it "does not add a photo twice" do
@@ -106,8 +141,20 @@ describe PhotosController do
         planting = FactoryGirl.create(:planting, :garden => garden, :owner => member)
         photo = FactoryGirl.create(:photo, :owner => member)
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
-          :planting_id => planting.id }
+          :type => "planting",
+          :id => planting.id }
         Photo.last.plantings.first.should eq planting
+      end
+
+      it "creates the harvest/photo link" do
+        member = FactoryGirl.create(:member)
+        controller.stub(:current_member) { member }
+        harvest = FactoryGirl.create(:harvest, :owner => member)
+        photo = FactoryGirl.create(:photo, :owner => member)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :type => "harvest",
+          :id => harvest.id }
+        Photo.last.harvests.first.should eq harvest
       end
     end
 
@@ -117,8 +164,19 @@ describe PhotosController do
         planting = FactoryGirl.create(:planting)
         photo = FactoryGirl.create(:photo)
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
-          :planting_id => planting.id }
+          :type => "planting",
+          :id => planting.id }
         Photo.last.plantings.first.should_not eq planting
+      end
+
+      it "creates the harvest/photo link" do
+        # members will be auto-created, and different
+        harvest = FactoryGirl.create(:harvest)
+        photo = FactoryGirl.create(:photo)
+        post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
+          :type => "harvest",
+          :id => harvest.id }
+        Photo.last.harvests.first.should_not eq harvest
       end
     end
   end

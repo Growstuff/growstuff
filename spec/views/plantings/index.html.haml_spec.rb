@@ -48,4 +48,15 @@ describe "plantings/index" do
     assert_select "a", :href => plantings_path(:format => 'rss')
   end
 
+  it "displays member's name in title" do
+    assign(:owner, @member)
+    render
+    view.content_for(:title).should contain @member.login_name
+  end
+
+  it "displays crop's name in title" do
+    assign(:crop, @tomato)
+    render
+    view.content_for(:title).should contain @tomato.name
+  end
 end

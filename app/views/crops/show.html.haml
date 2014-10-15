@@ -33,12 +33,18 @@
 
     %div#cropmap
 
-    - if @crop.plantings.size > 0
+    %a{:name => 'posts'}
+    %div.pagination
+      = page_entries_info @posts, :model => "posts"
+      = will_paginate @posts, :params => {:anchor => "posts"}
 
-      %h2 All plantings
+    - unless @posts.empty?
+      - @posts.each do |post|
+        = render :partial => "posts/single", :locals => { :post => post, :subject => true }
 
-      - @crop.plantings.each do |p|
-        = render :partial => "plantings/thumbnail", :locals => { :planting => p, :title => 'owner' }
+    %div.pagination
+      = page_entries_info @posts, :model => "posts"
+      = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3
     - if can? :edit, @crop or can? :destroy, @crop
@@ -76,5 +82,6 @@
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
 
+    = render :partial => 'plantings', :locals => { :crop => @crop }
     = render :partial => 'harvests', :locals => { :crop => @crop }
     = render :partial => 'find_seeds', :locals => { :crop => @crop }

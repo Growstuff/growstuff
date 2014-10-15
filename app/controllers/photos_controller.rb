@@ -29,7 +29,8 @@ class PhotosController < ApplicationController
   # GET /photos/new.json
   def new
     @photo = Photo.new
-    @planting_id = params[:planting_id]
+    @type = params[:type]
+    @id = params[:id]
 
     page = params[:page] || 1
 
@@ -63,19 +64,35 @@ class PhotosController < ApplicationController
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
 
-    if params[:planting_id]
-      planting = Planting.find_by_id(params[:planting_id])
-      if planting
-        if planting.owner.id == current_member.id
-          @photo.plantings << planting unless @photo.plantings.include?(planting)
+    # several models can have photos. we need to know what model and the id
+    # for the entry to attach the photo to
+    valid_models = ["planting", "harvest"]
+    if params[:type]
+      if valid_models.include?(params[:type])
+        if params[:id]
+          item = params[:type].camelcase.constantize.find_by_id(params[:id])
+          if item
+            if item.owner.id == current_member.id
+              #  This syntax is weird, so just know that it means this:
+              #  @photo.harvests << item unless @photo.harvests.include?(item)
+              #  but with the correct many-to-many relationship automatically referenced
+              (@photo.send "#{params[:type]}s") << item unless (@photo.send "#{params[:type]}s").include?(item)
+            else
+              flash[:alert] = "You must own both the #{params[:type]} and the photo."
+            end
+          else
+            flash[:alert] = "Couldn't find #{params[:type]} to connect to photo."
+          end
         else
-          flash[:alert] = "You must own both the planting and the photo."
+          flash[:alert] = "Missing id parameter"
         end
       else
-        flash[:alert] = "Couldn't find planting to connect to photo."
+        flash[:alert] = "Cannot attach photos to #{params[:type]}"
       end
+    else    
+      flash[:alert] = "Missing type parameter"
     end
-
+  
     respond_to do |format|
       if @photo.save
         format.html { redirect_to @photo, notice: 'Photo was successfully added.' }
