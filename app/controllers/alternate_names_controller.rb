@@ -1,9 +1,15 @@
 class AlternateNamesController < ApplicationController
   load_and_authorize_resource
 
-  # GET /alternate_names/1/edit
-  def edit
-    @alternate_name = AlternateName.find(params[:id])
+  # GET /scientific_names
+  # GET /scientific_names.json
+  def index
+    @scientific_names = ScientificName.all
+
+    respond_to do |format|
+      format.html # index.html.haml
+      format.json { render json: @scientific_names }
+    end
   end
 
   # GET /alternate_names/1
@@ -27,6 +33,11 @@ class AlternateNamesController < ApplicationController
       format.html # new.html.haml
       format.json { render json: @alternate_name }
     end
+  end
+
+  # GET /alternate_names/1/edit
+  def edit
+    @alternate_name = AlternateName.find(params[:id])
   end
 
   # POST /alternate_names
