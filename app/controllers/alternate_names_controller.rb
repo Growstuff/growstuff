@@ -1,14 +1,14 @@
 class AlternateNamesController < ApplicationController
   load_and_authorize_resource
 
-  # GET /scientific_names
-  # GET /scientific_names.json
+  # GET /alternate_names
+  # GET /alternate_names.json
   def index
-    @scientific_names = ScientificName.all
+    @alternate_names = AlternateName.all
 
     respond_to do |format|
       format.html # index.html.haml
-      format.json { render json: @scientific_names }
+      format.json { render json: @alternate_names }
     end
   end
 
