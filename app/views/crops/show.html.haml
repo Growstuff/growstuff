@@ -79,6 +79,8 @@
           = an.name
           - if can? :edit, an
             = link_to 'Edit', edit_alternate_name_path(an), { :class => 'btn btn-default btn-xs' }
+          - if can? :destroy, an
+            = link_to 'Delete', an, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
     = render :partial => 'varieties', :locals => { :crop => @crop }
 

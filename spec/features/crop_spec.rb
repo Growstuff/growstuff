@@ -28,6 +28,12 @@ feature "Alternate names" do
       expect(page).to have_link "Edit", :href => edit_alternate_name_path(alternate_eggplant)
     end
 
+    scenario "Crop wranglers can delete alternate names" do
+      visit crop_path(alternate_eggplant.crop)
+      expect(page).to have_link "Delete",
+        href: alternate_name_path(alternate_eggplant)
+    end
+
   end
 
 end
