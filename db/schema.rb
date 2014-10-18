@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(:version => 20141002022459) do
     t.text     "bio"
     t.integer  "plantings_count"
     t.boolean  "newsletter"
+    t.boolean  "send_planting_reminder",  :default => true
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

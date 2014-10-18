@@ -83,6 +83,10 @@ group :development do
   # Installation of the debugger gem fails on Travis CI,
   # so we don't use it in the test environment
   gem 'debugger'
+  # A debugger and irb alternative. Pry doesn't play nice
+  # with unicorn, so start a Webrick server when debugging
+  # with Pry
+  gem 'pry'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
