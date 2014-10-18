@@ -46,19 +46,16 @@ feature "Alternate names" do
       visit crop_path(crop)
       expect(page).to have_link "Add",
         href: new_alternate_name_path(crop_id: crop.id)
+      within('.alternate_names') { click_on "Add" }
+      expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
+      fill_in 'Name', with: "not an aubergine"
+      click_on "Save"
+      expect(page).to have_content "not an aubergine"
     end
 
     scenario "The show-alternate-name page works" do
       visit alternate_name_path(alternate_eggplant)
       expect(page).to have_content alternate_eggplant.crop.name
-    end
-
-    scenario "The add-alternate-name page works" do
-      visit new_alternate_name_path(crop_id: crop.id)
-      expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'Name', with: "not an aubergine"
-      click_on "Save"
-      expect(page).to have_content "not an aubergine"
     end
 
   end
