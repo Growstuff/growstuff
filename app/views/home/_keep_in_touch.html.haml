@@ -1,17 +1,14 @@
-%h2 Keep in touch
+%h2= t('.keep_in_touch')
 
 %p
   =image_tag("twitter_32.png", :alt => '')
-  Follow
-  =link_to '@growstufforg', 'http://twitter.com/growstufforg'
-  on Twitter.
+  = t('.twitter_html', link: link_to(t('.twitter_linktext'), 'http://twitter.com/growstufforg'))
 
 %p
   =image_tag("blog_32.png", :alt => '')
-  Subscribe to the
-  =link_to 'Growstuff Blog', 'http://blog.growstuff.org/'
+  = t('.blog_html', link: link_to(t('.blog_linktext'), 'http://blog.growstuff.org/'))
 
 %p
   =image_tag("email_32.png", :alt => '')
-  Subscribe to our
-  =link_to 'email newsletter', 'http://blog.growstuff.org/newsletter'
+  = t('.newsletter_html', link: link_to(t('.newsletter_linktext'), 'http://blog.growstuff.org/newsletter'))
+

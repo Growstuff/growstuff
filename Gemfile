@@ -131,4 +131,5 @@ group :development, :test do
   gem 'coveralls', require: false    # coverage analysis
   gem 'capybara'                     # integration tests
   gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
+  gem 'i18n-tasks'                   # adds tests for finding missing and unused translations
 end
