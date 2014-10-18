@@ -28,4 +28,20 @@ class AlternateNamesController < ApplicationController
       format.json { render json: @alternate_name }
     end
   end
+
+  # PUT /alternate_names/1
+  # PUT /alternate_names/1.json
+  def update
+    @alternate_name = AlternateName.find(params[:id])
+
+    respond_to do |format|
+      if @alternate_name.update_attributes(params[:alternate_name])
+        format.html { redirect_to @alternate_name.crop, notice: 'Alternate name was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @alternate_name.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 end

@@ -56,6 +56,9 @@ feature "Alternate names" do
       crop = alternate_eggplant.crop
       visit edit_alternate_name_path(alternate_eggplant)
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
+      fill_in 'Name', with: "alternative aubergine"
+      click_on "Save"
+      expect(page).to have_content "alternative aubergine"
     end
 
   end
