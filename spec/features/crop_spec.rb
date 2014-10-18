@@ -13,11 +13,7 @@ feature "Alternate names" do
     let(:member){crop_wranglers.first}
 
     before :each do
-      visit root_path
-      click_link 'Sign in'
-      fill_in 'Login', with: member.login_name
-      fill_in 'Password', with: member.password
-      click_button 'Sign in'
+      login_as(member)
     end
 
     scenario "Crop wranglers can edit alternate names" do
