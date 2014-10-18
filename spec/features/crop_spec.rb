@@ -18,7 +18,6 @@ feature "Alternate names" do
       fill_in 'Login', with: member.login_name
       fill_in 'Password', with: member.password
       click_button 'Sign in'
-      page.should have_content member.login_name
     end
 
     scenario "Crop wranglers can edit alternate names" do
