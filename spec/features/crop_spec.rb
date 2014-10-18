@@ -38,6 +38,8 @@ feature "Alternate names" do
       visit crop_path(alternate_eggplant.crop)
       expect(page).to have_link "Delete",
         href: alternate_name_path(alternate_eggplant)
+      within('.alternate_names') { click_on "Delete" }
+      expect(page).to_not have_content alternate_eggplant.name
     end
 
     scenario "Crop wranglers can add alternate names" do
