@@ -50,6 +50,9 @@ feature "Alternate names" do
       crop = alternate_eggplant.crop
       visit new_alternate_name_path(crop_id: crop.id)
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
+      fill_in 'Name', with: "not an aubergine"
+      click_on "Save"
+      expect(page).to have_content "not an aubergine"
     end
 
     scenario "The edit-alternate-name page works" do

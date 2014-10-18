@@ -29,6 +29,23 @@ class AlternateNamesController < ApplicationController
     end
   end
 
+  # POST /alternate_names
+  # POST /alternate_names.json
+  def create
+    params[:alternate_name][:creator_id] = current_member.id
+    @alternate_name = AlternateName.new(params[:alternate_name])
+
+    respond_to do |format|
+      if @alternate_name.save
+        format.html { redirect_to @alternate_name.crop, notice: 'Alternate name was successfully created.' }
+        format.json { render json: @alternate_name, status: :created, location: @alternate_name }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @alternate_name.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PUT /alternate_names/1
   # PUT /alternate_names/1.json
   def update
@@ -42,6 +59,19 @@ class AlternateNamesController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @alternate_name.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # DELETE /alternate_names/1
+  # DELETE /alternate_names/1.json
+  def destroy
+    @alternate_name = AlternateName.find(params[:id])
+    @crop = @alternate_name.crop
+    @alternate_name.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @crop }
+      format.json { head :no_content }
     end
   end
 end
