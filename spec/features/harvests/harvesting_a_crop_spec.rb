@@ -56,3 +56,4 @@ feature "Harvesting a crop", :js => true do
   end
 
 end
+

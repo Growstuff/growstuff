@@ -65,7 +65,7 @@ feature "Planting a crop", :js => true do
     # The finished at date was cached in Javascript in 
     # case the user clicks unfinished accidentally.
     expect(page.find("#planting_finished_at").value).to eq("2014-08-30")
-    
+
     within "form#new_planting" do
       click_button "Save"
     end
