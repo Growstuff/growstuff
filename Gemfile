@@ -83,6 +83,10 @@ group :development do
   # Installation of the debugger gem fails on Travis CI,
   # so we don't use it in the test environment
   gem 'debugger'
+  # A debugger and irb alternative. Pry doesn't play nice
+  # with unicorn, so start a Webrick server when debugging
+  # with Pry
+  gem 'pry'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
@@ -128,4 +132,5 @@ group :development, :test do
   gem 'capybara'                     # integration tests
   gem 'capybara-email'               # integration tests for email
   gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
+  gem 'i18n-tasks'                   # adds tests for finding missing and unused translations
 end

@@ -4,19 +4,13 @@
 
 .row
   .col-md-8.info
-    %p
-      #{ENV['GROWSTUFF_SITE_NAME']} is a community of food gardeners.
-      We're building an open source platform to help you learn about
-      growing food, track what you plant and harvest, and swap
-      seeds and produce with other gardeners near you.
+    %p= t('.intro', site_name: ENV['GROWSTUFF_SITE_NAME'])
 
     = render :partial => 'stats'
   .col-md-4.signup
-    %p Join now for your free garden journal, seed sharing, forums, and more.
-    %p= link_to 'Sign up', new_member_registration_path, :class => 'btn btn-primary btn-lg'
+    %p= t('.perks')
+    %p= link_to(t('.sign_up'), new_member_registration_path, :class => 'btn btn-primary btn-lg')
     %p
       %small
-        Or
-        = link_to "sign in", new_member_session_path
-        if you already have an account.
+        = t('.already_html', sign_in: link_to(t('.sign_in_linktext'), new_member_session_path))
 

@@ -1,4 +1,4 @@
-%h2 Discussion
+%h2= t('.discussion')
 
 - cache "recent_posts" do
   - posts = Post.limit(6)
@@ -10,9 +10,9 @@
   - if forums
     %ul.list-inline
       %li
-        %strong Forums:
+        %strong #{t('.forums')}:
       - forums.each do |f|
         %li= link_to f.name, f
 
 %p.text-right
-  = link_to "View all posts »", posts_path
+  = link_to "#{t('.view_all')} »", posts_path
