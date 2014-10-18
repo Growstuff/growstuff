@@ -7,10 +7,10 @@ feature "Changing locales" do
   end
 
   scenario "Locale can be set with a query param" do
-    visit "/"
+    visit root_path
     expect(page).to have_content("a community of food gardeners.")
-    visit "/?locale=ja"
-    expect(page).to have_content("はガーデナーのコミュニティです。")    
+    visit root_path(:locale => 'ja')
+    expect(page).to have_content("はガーデナーのコミュニティです。")
   end
 
 end

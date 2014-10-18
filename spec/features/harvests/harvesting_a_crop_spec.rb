@@ -6,7 +6,7 @@ feature "Harvesting a crop", :js => true do
 
   background do
     login_as(member)
-    visit '/harvests/new'
+    visit new_harvest_path
   end
 
   it_behaves_like "crop suggest", "harvest", "crop"
@@ -26,7 +26,7 @@ feature "Harvesting a crop", :js => true do
   end
 
   scenario "Harvesting from crop page" do
-    visit "/crops/maize"
+    visit crop_path(maize)
     click_link "Harvest this"
     within "form#new_harvest" do
       expect(page).to have_selector "input[value='maize']"

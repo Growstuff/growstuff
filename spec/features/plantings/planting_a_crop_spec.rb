@@ -8,7 +8,7 @@ feature "Planting a crop", :js => true do
 
   background do
     login_as(member)
-    visit "/plantings/new"
+    visit new_planting_path
   end
 
   it_behaves_like "crop suggest", "planting", "crop"
@@ -29,7 +29,7 @@ feature "Planting a crop", :js => true do
   end
 
   scenario "Planting from crop page" do
-    visit "/crops/maize"
+    visit crop_path(maize)
     click_link "Plant this"
     within "form#new_planting" do
       expect(page).to have_selector "input[value='maize']"
