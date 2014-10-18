@@ -2,13 +2,13 @@
 
 FactoryGirl.define do
   factory :alternate_name do
-    association :crop, factory: :crop
     name "alternate name"
+    crop
     creator
 
-    factory :alternate_tomato do
-      association :crop, factory: :tomato
-      name "alternative tomato"
+    factory :alternate_eggplant do
+      association :crop, factory: :eggplant
+      name "aubergine"
     end
   end
 end

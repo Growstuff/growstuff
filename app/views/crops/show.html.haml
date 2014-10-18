@@ -72,6 +72,12 @@
     - if can? :edit, @crop
       = link_to 'Add', new_scientific_name_path( :crop_id => @crop.id ), { :class => 'btn btn-default btn-xs' }
 
+    %h4 Alternate names
+    %ul
+      - @crop.alternate_names.each do |an|
+        %li
+          = an.name
+
     = render :partial => 'varieties', :locals => { :crop => @crop }
 
     = render :partial => 'grown_for', :locals => { :crop => @crop }
