@@ -77,6 +77,8 @@
       - @crop.alternate_names.each do |an|
         %li
           = an.name
+          - if can? :edit, an
+            = link_to 'Edit', edit_alternate_name_path(an), { :class => 'btn btn-default btn-xs' }
 
     = render :partial => 'varieties', :locals => { :crop => @crop }
 
