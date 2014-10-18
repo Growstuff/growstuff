@@ -34,6 +34,12 @@ feature "Alternate names" do
         href: alternate_name_path(alternate_eggplant)
     end
 
+    scenario "Crop wranglers can add alternate names" do
+      crop = alternate_eggplant.crop
+      visit crop_path(crop)
+      expect(page).to have_link "Add",
+        href: new_alternate_name_path(crop_id: crop.id)
+    end
   end
 
 end
