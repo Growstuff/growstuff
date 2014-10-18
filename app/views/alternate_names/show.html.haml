@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%p
+  %b Alternate name:
+  = @alternate_name.name
+%p
+  %b Crop:
+  = link_to @alternate_name.crop
+
+- if can? :edit, @alternate_name
+  = link_to 'Edit', edit_alternate_name_path(@alternate_name), :class => 'btn btn-default btn-xs'
+\|
+= link_to 'Back', alternate_names_path

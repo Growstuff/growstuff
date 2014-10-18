@@ -6,6 +6,17 @@ class AlternateNamesController < ApplicationController
     @alternate_name = AlternateName.find(params[:id])
   end
 
+  # GET /alternate_names/1
+  # GET /alternate_names/1.json
+  def show
+    @alternate_name = AlternateName.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.haml
+      format.json { render json: @alternate_name }
+    end
+  end
+
   # GET /alternate_names/new
   # GET /alternate_names/new.json
   def new

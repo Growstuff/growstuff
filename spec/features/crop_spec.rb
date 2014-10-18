@@ -41,6 +41,11 @@ feature "Alternate names" do
         href: new_alternate_name_path(crop_id: crop.id)
     end
 
+    scenario "The show-alternate-name page works" do
+      visit alternate_name_path(alternate_eggplant)
+      expect(page).to have_content alternate_eggplant.crop.name
+    end
+
     scenario "The add-alternate-name page works" do
       crop = alternate_eggplant.crop
       visit new_alternate_name_path(crop_id: crop.id)
