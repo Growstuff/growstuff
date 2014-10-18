@@ -5,4 +5,16 @@ class AlternateNamesController < ApplicationController
   def edit
     @alternate_name = AlternateName.find(params[:id])
   end
+
+  # GET /alternate_names/new
+  # GET /alternate_names/new.json
+  def new
+    @alternate_name = AlternateName.new
+    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
+
+    respond_to do |format|
+      format.html # new.html.haml
+      format.json { render json: @alternate_name }
+    end
+  end
 end
