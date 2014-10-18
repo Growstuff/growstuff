@@ -8,6 +8,7 @@ class Crop < ActiveRecord::Base
     :allow_destroy => true,
     :reject_if     => :all_blank
 
+  has_many :alternate_names
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
