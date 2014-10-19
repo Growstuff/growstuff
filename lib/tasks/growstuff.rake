@@ -270,6 +270,36 @@ namespace :growstuff do
         p.save
       end
     end
+
+    desc "October 2014: add alternate names for crops"
+    task :add_alternate_names_for_crops => :environment do
+      require 'csv'
+      @file = ENV['file'] or raise "Usage: rake growstuff:oneoff:add_alternate_names_for_crops file=file.csv"
+      puts "Loading alternate names from #{@file}..."
+      cropbot = Member.find_by_login_name("cropbot")
+      CSV.foreach(@file) do |row|
+        crop_id, crop_name, alternate_names = row
+        if crop_name.blank? or alternate_names.blank? then
+          next
+        end
+        crop = Crop.find_by_name(crop_name)
+        if crop.nil? then
+          puts "Couldn't find crop #{crop_name}"
+          next
+        end
+        if crop.id.to_s != crop_id then
+          puts "crop #{crop} has ID #{crop.id}, expected #{crop_id}"
+        end
+        alternate_names.split(/,\s*/).each do |an|
+          puts "Adding alternate name '#{an}' to #{crop}"
+          AlternateName.create(
+            name: an,
+            crop_id: crop.id,
+            creator_id: cropbot.id
+          )
+        end
+      end
+    end
   end # end oneoff section
 
 end
