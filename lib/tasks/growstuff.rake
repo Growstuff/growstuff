@@ -283,8 +283,7 @@ namespace :growstuff do
           next
         end
         alternate_names.split(/,\s*/).each do |an|
-          puts "Adding alternate name '#{an}' to #{crop}"
-          AlternateName.create(
+          AlternateName.find_or_create(
             name: an,
             crop_id: crop_id,
             creator_id: cropbot.id
