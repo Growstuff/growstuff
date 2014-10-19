@@ -272,9 +272,9 @@ namespace :growstuff do
     end
 
     desc "October 2014: add alternate names for crops"
-    task :add_alternate_names_for_crops => :environment do
+    task :add_alternate_names => :environment do
       require 'csv'
-      @file = ENV['file'] or raise "Usage: rake growstuff:oneoff:add_alternate_names_for_crops file=file.csv"
+      @file = ENV['file'] or raise "Usage: rake growstuff:oneoff:add_alternate_names file=file.csv"
       puts "Loading alternate names from #{@file}..."
       cropbot = Member.find_by_login_name("cropbot")
       CSV.foreach(@file) do |row|
