@@ -40,6 +40,7 @@ class Ability
         can :wrangle, Crop
         can :manage, Crop
         can :manage, ScientificName
+        can :manage, AlternateName
       end
 
       # can create & destroy their own authentications against other sites.
