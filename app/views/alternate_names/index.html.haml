@@ -1,7 +1,7 @@
-%h1 Listing alternate_names
+- content_for :title, "Listing alternate names"
 
 - if can? :create, AlternateName
-  %p= link_to 'New Alternate name', new_alternate_name_path, :class => 'btn btn-primary'
+  %p= link_to 'New alternate name', new_alternate_name_path, :class => 'btn btn-primary'
 
 %table
   %tr
