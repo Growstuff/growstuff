@@ -6,11 +6,13 @@ feature "Scientific names" do
 
   scenario "Display scientific names on crop page" do
     visit crop_path(zea_mays.crop)
+    expect(page.status_code).to equal 200
     expect(page).to have_content zea_mays.scientific_name
   end
 
   scenario "Index page for scientific names" do
     visit scientific_names_path
+    expect(page.status_code).to equal 200
     expect(page).to have_content zea_mays.scientific_name
   end
 
@@ -24,10 +26,12 @@ feature "Scientific names" do
 
     scenario "Crop wranglers can edit scientific names" do
       visit crop_path(crop)
+      expect(page.status_code).to equal 200
       expect(page).to have_content "CROP WRANGLER"
       expect(page).to have_content zea_mays.scientific_name
       expect(page).to have_link "Edit", :href => edit_scientific_name_path(zea_mays)
       within('.scientific_names') { click_on "Edit" }
+      expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
       fill_in 'Scientific name', with: "Zea mirabila"
       click_on "Save"
@@ -40,6 +44,7 @@ feature "Scientific names" do
       expect(page).to have_link "Delete",
         href: scientific_name_path(zea_mays)
       within('.scientific_names') { click_on "Delete" }
+      expect(page.status_code).to equal 200
       expect(page).to_not have_content zea_mays.scientific_name
       expect(page).to have_content 'Scientific name was successfully deleted'
     end
@@ -49,15 +54,18 @@ feature "Scientific names" do
       expect(page).to have_link "Add",
         href: new_scientific_name_path(crop_id: crop.id)
       within('.scientific_names') { click_on "Add" }
+      expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
       fill_in 'Scientific name', with: "Zea mirabila"
       click_on "Save"
+      expect(page.status_code).to equal 200
       expect(page).to have_content "Zea mirabila"
       expect(page).to have_content 'Scientific name was successfully created'
     end
 
     scenario "The show-scientific-name page works" do
       visit scientific_name_path(zea_mays)
+      expect(page.status_code).to equal 200
       expect(page).to have_link zea_mays.crop.name,
         href: crop_path(zea_mays.crop)
     end
