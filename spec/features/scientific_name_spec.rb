@@ -58,7 +58,8 @@ feature "Scientific names" do
 
     scenario "The show-scientific-name page works" do
       visit scientific_name_path(zea_mays)
-      expect(page).to have_content zea_mays.crop.name
+      expect(page).to have_link zea_mays.crop.name,
+        href: crop_path(zea_mays.crop)
     end
 
   end
