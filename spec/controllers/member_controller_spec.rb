@@ -17,17 +17,17 @@ describe MembersController do
   end
 
   describe "GET JSON index" do
-    it "does NOT provide JSON for members" do
+    it "provides JSON for members" do
       get :index, :format => 'json'
-      response.should_not be_success
+      response.should be_success
     end
   end
 
   describe "GET show" do
 
-    it "does NOT provide JSON for member profile" do
+    it "provides JSON for member profile" do
       get :show, { :id => @member.id , :format => 'json' }
-      response.should_not be_success
+      response.should be_success
     end
 
     it "assigns @posts with the member's posts" do

@@ -7,8 +7,11 @@ class SeedsController < ApplicationController
   # GET /seeds.json
   def index
     @owner = Member.find_by_slug(params[:owner])
+    @crop = Crop.find_by_slug(params[:crop])
     if @owner
       @seeds = @owner.seeds.includes(:owner, :crop).paginate(:page => params[:page])
+    elsif @crop
+      @seeds = @crop.seeds.includes(:owner, :crop).paginate(:page => params[:page])
     else
       @seeds = Seed.includes(:owner, :crop).paginate(:page => params[:page])
     end
