@@ -1,0 +1,30 @@
+if (document.getElementById("membermap") !== null) {
+  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
+  mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
+
+  L.Icon.Default.imagePath = '/assets'
+
+
+  $.getJSON(location.pathname + '.json', function(member) {
+    console.log(JSON.stringify(member.latitude));
+    if (member.latitude && member.longitude) {
+      membermap = L.map('membermap').setView([member.latitude, member.longitude], 4);
+
+      L.tileLayer(mapbox_base_url, {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18
+      }).addTo(membermap);
+      console.log("found lat and long")
+      marker = new L.Marker(new L.LatLng(member.latitude, member.longitude));
+
+      member_url = "/members/" + member.slug;
+      member_link = "<a href='" + member_url + "'>" + member.login_name + "</a>";
+
+      where = "<p><i>" + member.location + "</i></p>";
+
+      marker.bindPopup(member_link + where).openPopup();
+      marker.addTo(membermap);
+    }
+  });
+
+}

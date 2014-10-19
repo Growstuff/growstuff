@@ -15,24 +15,12 @@
 
   .col-md-9
 
+    = render :partial => "map", :locals => { :member => @member }
     = render :partial => "bio", :locals => { :member => @member }
-
     = render :partial => "gardens", :locals => { :member => @member }
 
   .col-md-3
     = render :partial => "avatar", :locals => { :member => @member }
-
-    %h3 Account details
-
-    %p
-      %strong Member since:
-      = @member.created_at.to_s(:date)
-
-    %p
-      %strong Account type:
-      = @member.account_type
-      account
-
+    = render :partial => "account", :locals => { :member => @member }
     = render :partial => "contact", :locals => { :member => @member, :twitter_auth => @twitter_auth, :flickr_auth => @flickr_auth }
-
     = render :partial => "stats", :locals => { :member => @member }
