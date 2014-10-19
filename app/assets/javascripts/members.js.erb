@@ -6,7 +6,6 @@ if (document.getElementById("membermap") !== null) {
 
 
   $.getJSON(location.pathname + '.json', function(member) {
-    console.log(JSON.stringify(member.latitude));
     if (member.latitude && member.longitude) {
       membermap = L.map('membermap').setView([member.latitude, member.longitude], 4);
 
@@ -14,7 +13,6 @@ if (document.getElementById("membermap") !== null) {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18
       }).addTo(membermap);
-      console.log("found lat and long")
       marker = new L.Marker(new L.LatLng(member.latitude, member.longitude));
 
       member_url = "/members/" + member.slug;
