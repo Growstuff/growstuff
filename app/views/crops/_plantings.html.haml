@@ -11,11 +11,11 @@
         %small
           = distance_of_time_in_words(planting.created_at, Time.zone.now)
           ago.
-  %p.col-md-offset-1
-    = link_to "See all #{crop.name} plantings", plantings_by_crop_path(crop)
+  %p
+    = link_to "View all #{crop.name} plantings", plantings_by_crop_path(crop)
 - if current_member
-  %p.col-md-offset-1
-    = link_to "Track your #{crop.name} plantings.", new_planting_path(:crop_id => crop.id)
+  %p
+    = link_to "Plant #{crop.name}", new_planting_path(:crop_id => crop.id)
 - else
   = render :partial => 'shared/signin_signup', :locals => { :to => "track your #{crop.name} plantings" }
 
