@@ -279,22 +279,14 @@ namespace :growstuff do
       cropbot = Member.find_by_login_name("cropbot")
       CSV.foreach(file) do |row|
         crop_id, crop_name, alternate_names = row
-        if crop_name.blank? or alternate_names.blank? then
+        if alternate_names.blank? then
           next
-        end
-        crop = Crop.find_by_name(crop_name)
-        if crop.nil? then
-          puts "Couldn't find crop #{crop_name}"
-          next
-        end
-        if crop.id.to_s != crop_id then
-          puts "crop #{crop} has ID #{crop.id}, expected #{crop_id}"
         end
         alternate_names.split(/,\s*/).each do |an|
           puts "Adding alternate name '#{an}' to #{crop}"
           AlternateName.create(
             name: an,
-            crop_id: crop.id,
+            crop_id: crop_id,
             creator_id: cropbot.id
           )
         end
