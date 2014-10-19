@@ -13,7 +13,7 @@
   - if @sets and @sets.length > 0
     %p
       = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
-        = label_tag :set, "Choose a photo set:", :class => 'control-label'
+        = label_tag :set, "Choose a photo album:", :class => 'control-label'
         = select_tag :set, options_for_select(@sets, @current_set), :class => 'input-large'
         = hidden_field_tag :type, @type
         = hidden_field_tag :id, @id
@@ -36,4 +36,3 @@
     You must
     =link_to "connect your account to Flickr", '/auth/flickr'
     to add photos.
-
