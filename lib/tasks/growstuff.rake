@@ -274,10 +274,10 @@ namespace :growstuff do
     desc "October 2014: add alternate names for crops"
     task :add_alternate_names => :environment do
       require 'csv'
-      @file = ENV['file'] or raise "Usage: rake growstuff:oneoff:add_alternate_names file=file.csv"
-      puts "Loading alternate names from #{@file}..."
+      file = "db/seeds/alternate_names_201410.csv"
+      puts "Loading alternate names from #{file}..."
       cropbot = Member.find_by_login_name("cropbot")
-      CSV.foreach(@file) do |row|
+      CSV.foreach(file) do |row|
         crop_id, crop_name, alternate_names = row
         if crop_name.blank? or alternate_names.blank? then
           next

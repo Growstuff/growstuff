@@ -20,4 +20,4 @@ echo "2014-10-05 - generate crops_posts records for existing posts"
 rake growstuff:oneoff:generate_crops_posts_records
 
 echo "2014-10-19 - load alternate names for crops"
-rake growstuff:oneoff:add_alternate_names file=db/seeds/alternate_names_201410.csv
+rake growstuff:oneoff:add_alternate_names
