@@ -185,33 +185,12 @@ describe "crops/show" do
 
   end
 
-  it 'tells you to sign in/sign up' do
-    render
-    rendered.should contain 'Sign in or sign up to plant'
-  end
-
   context 'logged in' do
     before(:each) do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
       render
-    end
-
-    it "shows a plant this button" do
-      rendered.should contain "Plant this"
-    end
-
-    it "shows a harvest this button" do
-      rendered.should contain "Harvest this"
-    end
-
-    it "links to the right crop in the new planting link" do
-      assert_select("a[href=#{new_planting_path}?crop_id=#{@crop.id}]")
-    end
-
-    it "links to the right crop in the new harvest link" do
-      assert_select("a[href=#{new_harvest_path}?crop_id=#{@crop.id}]")
     end
 
     it { rendered.should contain "Nobody has planted this crop yet" }

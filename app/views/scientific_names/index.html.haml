@@ -1,4 +1,4 @@
-%h1 Listing scientific_names
+-content_for :title, "Listing scientific_names"
 
 - if can? :create, ScientificName
   %p= link_to 'New Scientific name', new_scientific_name_path, :class => 'btn btn-primary'

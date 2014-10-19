@@ -8,8 +8,17 @@
     .container
       .row
         .col-md-12
-          - if content_for?(:title)
-            %h1= yield(:title)
+          #headingarea
+            - if content_for?(:title)
+              %h1#title
+                = yield(:title)
+                - if content_for?(:subtitle)
+                  %small= yield(:subtitle)
+
+          - if content_for?(:buttonbar)
+            %p
+              .btn-group
+                = yield(:buttonbar)
           - if notice
             .alert.alert-success
               = notice
