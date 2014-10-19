@@ -32,6 +32,7 @@ feature "Alternate names" do
       fill_in 'Name', with: "alternative aubergine"
       click_on "Save"
       expect(page).to have_content "alternative aubergine"
+      expect(page).to have_content 'Alternate name was successfully updated'
     end
 
     scenario "Crop wranglers can delete alternate names" do
@@ -40,6 +41,7 @@ feature "Alternate names" do
         href: alternate_name_path(alternate_eggplant)
       within('.alternate_names') { click_on "Delete" }
       expect(page).to_not have_content alternate_eggplant.name
+      expect(page).to have_content 'Alternate name was successfully deleted'
     end
 
     scenario "Crop wranglers can add alternate names" do
@@ -51,6 +53,7 @@ feature "Alternate names" do
       fill_in 'Name', with: "not an aubergine"
       click_on "Save"
       expect(page).to have_content "not an aubergine"
+      expect(page).to have_content 'Alternate name was successfully created'
     end
 
     scenario "The show-alternate-name page works" do

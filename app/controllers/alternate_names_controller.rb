@@ -81,7 +81,9 @@ class AlternateNamesController < ApplicationController
     @alternate_name.destroy
 
     respond_to do |format|
-      format.html { redirect_to @crop }
+      format.html {
+        redirect_to @crop, notice: 'Alternate name was successfully deleted.'
+      }
       format.json { head :no_content }
     end
   end
