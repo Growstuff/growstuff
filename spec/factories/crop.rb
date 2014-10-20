@@ -40,6 +40,9 @@ FactoryGirl.define do
       name "popcorn"
     end
 
+    factory :eggplant do
+      name "eggplant"
+    end
 
     # This should have a name that is alphabetically earlier than :uppercase
     # crop to ensure that the ordering tests work.

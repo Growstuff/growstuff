@@ -47,3 +47,4 @@ submit the change with your pull request.
 - Cheri Allen / [cherimarie](https://github.com/cherimarie)
 - Maki Sugita / [macckii](https:://github.com/macckii)
 - Shiho Takagi / [oshiho3](https://github.com/oshiho3)
+- Emma Winston / [emmawinston](https://github.com/emmawinston)

@@ -4,7 +4,7 @@ language: ruby
 env: GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 bundler_args: --without development production staging
 rvm:
-  - 2.1.1
+  - 2.1.2
 before_script:
   - psql -c 'create database growstuff_test;' -U postgres
 script:
