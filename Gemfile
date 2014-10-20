@@ -80,9 +80,6 @@ gem 'flickraw'
 
 # To use debugger
 group :development do
-  # Installation of the debugger gem fails on Travis CI,
-  # so we don't use it in the test environment
-  gem 'debugger'
   # A debugger and irb alternative. Pry doesn't play nice
   # with unicorn, so start a Webrick server when debugging
   # with Pry
@@ -123,6 +120,7 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'rake', '>= 10.0.0'
 
 group :development, :test do
+  gem 'byebug'                       # debugging
   gem 'haml-rails'                   # HTML templating language
   gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
   gem 'database_cleaner', '~> 1.3.0'
