@@ -80,10 +80,6 @@ gem 'flickraw'
 
 # To use debugger
 group :development do
-  # A debugger and irb alternative. Pry doesn't play nice
-  # with unicorn, so start a Webrick server when debugging
-  # with Pry
-  gem 'pry'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
