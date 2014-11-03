@@ -77,4 +77,14 @@ Growstuff::Application.routes.draw do
   match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match '/admin/:action' => 'admin#:action'
 
+  namespace :api, :defaults => {:format => :json}  do
+    namespace :v1 do
+      resources :crops
+      resources :gardens
+      resources :harvests
+      resources :plantings
+      resources :seeds
+    end
+  end
+
 end

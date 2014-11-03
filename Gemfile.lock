@@ -143,6 +143,9 @@ GEM
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
     i18n (0.6.1)
+    jbuilder (2.2.4)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     journey (1.0.4)
     jquery-rails (3.1.1)
       railties (>= 3.0, < 5.0)
@@ -325,6 +328,7 @@ DEPENDENCIES
   gravatar-ultimate
   haml
   haml-rails
+  jbuilder
   jquery-rails
   jquery-ui-rails
   js-routes
