@@ -9,13 +9,13 @@ class Api::V1::CropsController < ApplicationController
       @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.all
     end
   end
 
   # GET /crops/1
   def show
-    @crop = Crop.includes(:scientific_names, {:plantings => :photos}).find(params[:id])
+    @crop = Crop.find(params[:id])
     # @posts = @crop.posts.paginate(:page => params[:page])
   end
 end
