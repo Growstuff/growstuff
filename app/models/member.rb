@@ -42,8 +42,13 @@ class Member < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login_name, :email, :password, :password_confirmation,
-    :remember_me, :login, :tos_agreement, :show_email, :newsletter,
-    :location, :latitude, :longitude, :send_notification_email, :bio
+    :remember_me, :login,
+    # terms of service
+    :tos_agreement,
+    # profile stuff
+    :bio, :location, :latitude, :longitude,
+    # email settings
+    :show_email, :newsletter, :send_notification_email, :send_planting_reminder
 
   # set up geocoding
   geocoded_by :location

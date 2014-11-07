@@ -153,7 +153,7 @@ describe Planting do
     end
   end
 
-  context 'interesting crops' do
+  context 'interesting plantings' do
     it 'picks up interesting plantings' do
       # plantings have members created implicitly for them
       # each member is different, hence these are all interesting
@@ -177,38 +177,66 @@ describe Planting do
       ]
     end
 
-    it 'ignores plantings without photos' do
-      # first, an interesting planting
-      @planting = FactoryGirl.create(:planting)
-      @planting.photos << FactoryGirl.create(:photo)
-      @planting.save
+    context "default arguments" do
+      it 'ignores plantings without photos' do
+        # first, an interesting planting
+        @planting = FactoryGirl.create(:planting)
+        @planting.photos << FactoryGirl.create(:photo)
+        @planting.save
 
-      # this one doesn't have a photo
-      @boring_planting = FactoryGirl.create(:planting)
+        # this one doesn't have a photo
+        @no_photo_planting = FactoryGirl.create(:planting)
 
-      Planting.interesting.should include @planting
-      Planting.interesting.should_not include @boring_planting
+        Planting.interesting.should include @planting
+        Planting.interesting.should_not include @no_photo_planting
+      end
+
+      it 'ignores plantings with the same owner' do
+        # this planting is older
+        @planting1 = FactoryGirl.create(:planting, :created_at => 1.day.ago)
+        @planting1.photos << FactoryGirl.create(:photo)
+        @planting1.save
+
+        # this one is newer, and has the same owner, through the garden
+        @planting2 = FactoryGirl.create(:planting,
+          :created_at => 1.minute.ago,
+          :owner_id => @planting1.owner.id
+        )
+        @planting2.photos << FactoryGirl.create(:photo)
+        @planting2.save
+
+        # result: the newer one is interesting, the older one isn't
+        Planting.interesting.should include @planting2
+        Planting.interesting.should_not include @planting1
+      end
     end
 
-    it 'ignores plantings with the same owner' do
-      # this planting is older
-      @planting1 = FactoryGirl.create(:planting, :created_at => 1.day.ago)
-      @planting1.photos << FactoryGirl.create(:photo)
-      @planting1.save
+    context "with require_photo = false" do
+      it "returns plantings without photos" do
+        # first, a planting with a photo
+        @planting = FactoryGirl.create(:planting)
+        @planting.photos << FactoryGirl.create(:photo)
+        @planting.save
 
-      # this one is newer, and has the same owner, through the garden
-      @planting2 = FactoryGirl.create(:planting,
-        :created_at => 1.minute.ago,
-        :owner_id => @planting1.owner.id
-      )
-      @planting2.photos << FactoryGirl.create(:photo)
-      @planting2.save
+        # this one doesn't have a photo
+        @no_photo_planting = FactoryGirl.create(:planting)
 
-      # result: the newer one is interesting, the older one isn't
-      Planting.interesting.should include @planting2
-      Planting.interesting.should_not include @planting1
+        interesting = Planting.interesting(10, false)
+        interesting.should include @planting
+        interesting.should include @no_photo_planting
+      end
     end
 
+    context "with howmany argument" do
+      it "only returns the number asked for" do
+        @plantings = FactoryGirl.create_list(:planting, 10)
+        Planting.interesting(3, false).length.should eq 3
+      end
+    end
+
+  end # interesting plantings
+
+  context "finished" do
     it 'has finished fields' do
       @planting = FactoryGirl.create(:finished_planting)
       @planting.finished.should be true
