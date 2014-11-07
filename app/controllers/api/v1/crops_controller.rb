@@ -1,5 +1,4 @@
 class Api::V1::CropsController < ApplicationController
-  respond_to :json
 
   # GET /api/v1/crops
   def index
@@ -18,4 +17,5 @@ class Api::V1::CropsController < ApplicationController
     @crop = Crop.find(params[:id])
     # @posts = @crop.posts.paginate(:page => params[:page])
   end
+
 end
