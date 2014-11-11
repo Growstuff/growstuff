@@ -17,14 +17,6 @@
         in
         = link_to planting.location, planting.garden
 
-      - if planting.finished
-        %p
-          Finished:
-          - if planting.finished_at
-            = planting.finished_at
-          - else
-            Yes (no date specified)
-
       %p
         - if planting.quantity
           Quantity:
@@ -36,6 +28,14 @@
         %div
           :growstuff_markdown
             #{ planting.description }
+
+      - if planting.finished
+        %p
+          Finished:
+          - if planting.finished_at
+            = planting.finished_at
+          - else
+            Yes (no date specified)
 
       - if can? :edit, planting or can? :destroy, planting
         %p
