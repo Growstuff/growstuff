@@ -127,6 +127,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
   gem 'coveralls', require: false    # coverage analysis
   gem 'capybara'                     # integration tests
+  gem 'capybara-email'               # integration tests for email
   gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
   gem 'i18n-tasks'                   # adds tests for finding missing and unused translations
 end
