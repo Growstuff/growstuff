@@ -81,4 +81,6 @@ Growstuff::Application.routes.draw do
   match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match '/admin/:action' => 'admin#:action'
 
+  
+
 end

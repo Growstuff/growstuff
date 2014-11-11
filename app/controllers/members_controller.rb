@@ -23,7 +23,7 @@ class MembersController < ApplicationController
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.
     @garden = Garden.new
-
+    
     respond_to do |format|
       format.html # show.html.haml
       format.json { render :json => @member.to_json(:only => [:id, :login_name, :bio, :created_at, :slug, :location, :latitude, :longitude]) }

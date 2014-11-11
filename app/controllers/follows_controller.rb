@@ -2,10 +2,10 @@ class FollowsController < ApplicationController
 
   # POST /follows
   def create
-    @follow = current_user.follows.build(followed_id: params[:followed_id])
+    @follow = current_member.follows.build(:followed_id => params[:followed_id])
 
     if @follow.save
-      flash[:notice] = "Followed #{@follow.followed.name}."
+      flash[:notice] = "Followed #{ @follow.followed.login_name }"
       redirect_to :back
     else
       flash[:error] = "Already following or error while following."
@@ -17,11 +17,10 @@ class FollowsController < ApplicationController
   # DELETE /follows/1
   # DELETE /follows/1.json
   def destroy
-    @follow = current_user.follows.find(params[:id])
-    name = @follow.followed.name
+    @follow = current_member.follows.find(params[:id])
     @follow.destroy
 
-    flash[:notice] = "Unfollowed #{name}"
+    flash[:notice] = "Unfollowed #{ @follow.followed.login_name }"
     redirect_to root_path
   end
 end
