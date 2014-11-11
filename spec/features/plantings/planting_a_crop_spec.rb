@@ -71,6 +71,9 @@ feature "Planting a crop", :js => true do
     end
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: August 30, 2014"
+
+    visit plantings_path
+    expect(page).to have_content "August 30, 2014"
   end
 
   scenario "Marking a planting as finished without a date" do

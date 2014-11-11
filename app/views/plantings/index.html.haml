@@ -43,7 +43,7 @@
         %td= planting.planted_at
         %td
           - if planting.finished and planting.finished_at
-            = planting.planted_at
+            = planting.finished_at
           - elsif planting.finished
             Yes (no date specified)
         %td= planting.sunniness
