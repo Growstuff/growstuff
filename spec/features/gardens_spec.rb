@@ -2,6 +2,8 @@ require 'spec_helper'
 
 feature "Planting a crop", :js => true do
   let!(:garden)   { FactoryGirl.create(:garden) }
+  let!(:planting) { FactoryGirl.create(:planting, garden: garden, planted_at: Date.parse("2013-3-10")) }
+
 
   background do
     login_as(garden.owner)
@@ -52,6 +54,13 @@ feature "Planting a crop", :js => true do
     click_link "Delete garden"
     expect(page).to have_content "Garden was successfully deleted"
     expect(page).to have_content "#{garden.owner}'s gardens"
+  end
+
+  describe "Making a planting inactive from garden show" do
+    let(:path) { garden_path(garden) }
+    let(:link_text) { "Mark as finished" }
+
+    it_behaves_like "append date"
   end
 
 end
