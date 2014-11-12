@@ -48,3 +48,4 @@ submit the change with your pull request.
 - Maki Sugita / [macckii](https:://github.com/macckii)
 - Shiho Takagi / [oshiho3](https://github.com/oshiho3)
 - Emma Winston / [emmawinston](https://github.com/emmawinston)
+- Kevin Rio / [krio](https://github.com/krio)
