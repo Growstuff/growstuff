@@ -7,10 +7,10 @@
     = link_to "Upgrade account", shop_path, :class => 'btn btn-default'
   -if can? :create, Notification and current_member != @member
     =link_to 'Send message', new_notification_path(:recipient_id => @member.id), :class => 'btn btn-default'
-  - if current_member != @member && !current_member.already_following?(@member)
+  - if member_signed_in? && current_member != @member && !current_member.already_following?(@member)
     = link_to 'Follow', follows_path(:followed_id => @member.id), :method => :post, :class => 'btn btn-default'
-  - if current_member.already_following?(@member)
-    - follow = current_member.follow_id(@member)
+  - if member_signed_in? && current_member.already_following?(@member)
+    - follow = current_member.get_follow_id(@member)
     = link_to 'Unfollow', follow_path(follow), :method => :delete, :class => 'btn btn-default'
 - content_for :member_rss_login_name, @member.login_name
 - content_for :member_rss_slug, @member.slug

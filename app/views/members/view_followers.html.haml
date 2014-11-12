@@ -1,0 +1,11 @@
+- content_for :title, @member.login_name
+
+%p Followed by: 
+
+.row
+  .col-md-12
+    - @followers.each do |f|
+      .col-md-4.three-across      
+        .thumbnail 
+          = render :partial => "members/thumbnail", :locals => { :member => f }
+          

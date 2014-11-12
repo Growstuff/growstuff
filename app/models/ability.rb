@@ -6,6 +6,8 @@ class Ability
 
     # everyone can do these things, even non-logged in
     can :read, :all
+    can :view_follows, Member
+    can :view_followers, Member
 
     # except these, which don't make sense if you're not logged in
     cannot :read, Notification

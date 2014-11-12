@@ -143,6 +143,33 @@ feature "member profile" do
       scenario "has a private message button" do
         expect(page).to have_link "Send message", :href => new_notification_path(:recipient_id => other_member.id)
       end
+
+      scenario "has a follow button" do
+        expect(page).to have_link "Follow", :href => follows_path(:followed_id => other_member.id)
+      end
+
+      scenario "following and unfollowing" do
+        click_link 'Follow'
+        expect(page).to have_content "Followed #{other_member.login_name}"
+        expect(page).to have_link "Unfollow", :href => follow_path(member.get_follow_id(other_member))
+
+        visit member_follows_path(member)
+        expect(page).to have_content "#{other_member.login_name}"
+
+        visit member_followers_path(other_member)
+        expect(page).to have_content "#{member.login_name}"
+
+        visit member_path(other_member)
+        click_link 'Unfollow'
+        expect(page).to have_content "Unfollowed #{other_member.login_name}"
+
+        visit member_follows_path(member)
+        expect(page).to_not have_content "#{other_member.login_name}"
+
+        visit member_followers_path(other_member)
+        expect(page).to_not have_content "#{member.login_name}"
+      end
+
     end
 
   end

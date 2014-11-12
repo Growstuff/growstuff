@@ -9,4 +9,10 @@
   = member.account_type
   account
 
+%p
+  %strong Following:
+  = link_to member.follows.count, member_follows_path(member)
 
+%p
+  %strong Followed by:
+  = link_to member.followers.count, member_followers_path(member)

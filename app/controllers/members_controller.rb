@@ -34,4 +34,14 @@ class MembersController < ApplicationController
     end
   end
 
+  def view_follows
+    @member = Member.confirmed.find(params[:login_name])
+    @follows = @member.followed
+  end
+
+  def view_followers
+    @member = Member.confirmed.find(params[:login_name])
+    @followers = @member.followers
+  end
+
 end
