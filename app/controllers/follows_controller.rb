@@ -13,14 +13,13 @@ class FollowsController < ApplicationController
     end
   end
 
-
   # DELETE /follows/1
-  # DELETE /follows/1.json
   def destroy
     @follow = current_member.follows.find(params[:id])
+    unfollowed_name = @follow.followed.login_name
     @follow.destroy
 
-    flash[:notice] = "Unfollowed #{ @follow.followed.login_name }"
+    flash[:notice] = "Unfollowed #{ unfollowed_name }"
     redirect_to root_path
   end
 end
