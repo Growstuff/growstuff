@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 shared_examples "crop suggest" do |resource|
   let!(:popcorn) { FactoryGirl.create(:popcorn) }
   let!(:pear)    { FactoryGirl.create(:pear) }
