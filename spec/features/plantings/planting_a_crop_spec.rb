@@ -4,14 +4,14 @@ feature "Planting a crop", :js => true do
   let(:member)   { FactoryGirl.create(:member) }
   let!(:maize)   { FactoryGirl.create(:maize) }
   let(:garden)   { FactoryGirl.create(:garden, owner: member) }
-  let(:planting) { FactoryGirl.create(:planting, garden: garden, planted_at: Date.parse("2013-3-10")) }
+  let!(:planting) { FactoryGirl.create(:planting, garden: garden, planted_at: Date.parse("2013-3-10")) }
 
   background do
     login_as(member)
     visit new_planting_path
   end
 
-  it_behaves_like "crop suggest", "planting", "crop"
+  it_behaves_like "crop suggest", "planting"
 
   scenario "Creating a new planting" do
     fill_autocomplete "crop", :with => "m"
@@ -71,6 +71,9 @@ feature "Planting a crop", :js => true do
     end
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: August 30, 2014"
+
+    visit plantings_path
+    expect(page).to have_content "August 30, 2014"
   end
 
   scenario "Marking a planting as finished without a date" do
@@ -84,16 +87,16 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "Finished: Yes (no date specified)"
   end
 
-  scenario "Marking a planting as finished from the show page" do
-    this_month = Date.today.strftime("%B")
-    this_year  = Date.today.strftime("%Y")
-    visit planting_path(planting)
-    click_link "Mark as finished"
-    within "div.datepicker" do
-      expect(page).to have_content "#{this_month}"
-      page.find(".datepicker-days td.day", text: "21").click
-    end
-    expect(page).to have_content "Finished: #{this_month} 21, #{this_year}"
+  describe "Marking a planting as finished from the show page" do
+    let(:path)      { planting_path(planting) }
+    let(:link_text) { "Mark as finished" }
+    it_behaves_like "append date"
+  end
+
+  describe "Marking a planting as finished from the list page" do
+    let(:path)      { plantings_path }
+    let(:link_text) { "Mark as finished" }
+    it_behaves_like "append date"
   end
 
 end
