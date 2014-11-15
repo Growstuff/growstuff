@@ -132,7 +132,7 @@ class Crop < ActiveRecord::Base
     cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
 
-    crop = Crop.find_or_create_by_name(name)
+    crop = Crop.find_or_create_by(name: name)
     crop.update_attributes(
       :en_wikipedia_url => en_wikipedia_url,
       :creator_id => cropbot.id

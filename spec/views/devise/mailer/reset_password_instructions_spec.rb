@@ -5,8 +5,8 @@ describe 'devise/mailer/reset_password_instructions.html.haml', :type => "view" 
   context "logged in" do
     before(:each) do
       @resource = mock_model(Member)
-      @resource.stub!(:email).and_return("example@example.com")
-      @resource.stub!(:reset_password_token).and_return("joe")
+      @resource.stub(:email).and_return("example@example.com")
+      @resource.stub(:reset_password_token).and_return("joe")
       render
     end
 

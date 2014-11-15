@@ -107,7 +107,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'devise', '~> 3.2.0'
 
 # nicely formatted URLs
-gem 'friendly_id', '~> 4.0.10'
+gem 'friendly_id', '~> 5.0.4'
 
 # gravatars
 gem 'gravatar-ultimate'
@@ -129,10 +129,10 @@ gem 'rake', '>= 10.0.0'
 
 group :development, :test do
   gem 'haml-rails'                   # HTML templating language
-  gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
+  gem 'rspec-rails', '~> 3.1.0'      # unit testing framework
   gem 'database_cleaner', '~> 1.3.0'
   gem 'webrat'                       # provides HTML matchers for view tests
-  gem 'factory_girl_rails', '~> 4.0' # for creating test data
+  gem 'factory_girl_rails', '~> 4.5.0' # for creating test data
   gem 'coveralls', require: false    # coverage analysis
   gem 'capybara'                     # integration tests
   gem 'capybara-email'               # integration tests for email
