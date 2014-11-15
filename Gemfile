@@ -2,11 +2,23 @@ source 'https://rubygems.org'
 
 ruby "2.1.2"
 
+# gems for Rails 4 upgrade
+gem 'rails4_upgrade'
+gem 'actionpack-action_caching', '~>1.0.0'
+gem 'actionpack-page_caching', '~>1.0.0'
+gem 'actionpack-xml_parser', '~>1.0.0'
+gem 'actionview-encoded_mail_to', '~>1.0.4'
+gem 'activerecord-session_store', '~>0.0.1'
+gem 'activeresource', '~>4.0.0.beta1'
+gem 'protected_attributes', '~>1.0.1'
+gem 'rails-observers', '~>0.1.1'
+gem 'rails-perftest', '~>0.0.2'
+
 gem 'bundler', '>=1.1.5'
 
-gem 'rails', '3.2.13'
-gem 'rack', '~>1.4.5'
-gem 'json', '~>1.7.7'
+gem 'rails', '4.1.7'
+# gem 'rack', '~>1.4.5'
+# gem 'json', '~>1.7.7'
 gem 'haml'
 gem 'leaflet-rails'
 gem 'leaflet-markercluster-rails'
@@ -37,32 +49,28 @@ group :production, :staging do
   gem 'rails_12factor' # supresses heroku plugin injection
 end
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  # CSS preprocessor, used for app/assets/stylesheets/application.css
-  gem 'sass-rails',   '~> 3.2.3'
-  # CoffeeScript is a Python-like language that compiles to JavaScript
-  gem 'coffee-rails', '~> 3.2.1'
+# CSS preprocessor, used for app/assets/stylesheets/application.css
+gem 'sass-rails',   '~> 4.0.4'
+# CoffeeScript is a Python-like language that compiles to JavaScript
+gem 'coffee-rails', '~> 4.1.0'
 
-  # less-rails depends on a JavaScript engine; we use therubyracer.
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # long term, we'll probably want node.js for performance, but this will do
-  # for now as it's easier for new people to install
-  gem "therubyracer", "~> 0.12", :platforms => :ruby
-  # libv8 is needed by therubyracer and is a bit finicky
-  gem 'libv8', '3.16.14.3'
+# less-rails depends on a JavaScript engine; we use therubyracer.
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+# long term, we'll probably want node.js for performance, but this will do
+# for now as it's easier for new people to install
+gem "therubyracer", "~> 0.12", :platforms => :ruby
+# libv8 is needed by therubyracer and is a bit finicky
+gem 'libv8', '3.16.14.3'
 
-  # Another CSS preprocessor, used for Bootstrap overrides
-  gem "less", '~>2.5.0'
-  gem "less-rails", '~> 2.5.0'
-  # CSS framework
-  gem "less-rails-bootstrap", '~> 3.2.0'
+# Another CSS preprocessor, used for Bootstrap overrides
+gem "less", '~>2.5.0'
+gem "less-rails", '~> 2.5.0'
+# CSS framework
+gem "less-rails-bootstrap", '~> 3.2.0'
 
-  gem 'uglifier', '>= 1.0.3' # JavaScript compressor
+gem 'uglifier', '~> 2.5.3' # JavaScript compressor
 
-  gem 'compass-rails', '~> 1.0.3' # Yet Another CSS framework
-end
+# gem 'compass-rails', '~> 1.0.3' # Yet Another CSS framework
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'

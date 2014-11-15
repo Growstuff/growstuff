@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   # also has_many notifications, but kinda meaningless to get at them
   # from this direction, so we won't set up an association for now.
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
   validates :subject,
     :format => {

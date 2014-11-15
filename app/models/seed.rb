@@ -8,7 +8,7 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
   validates :crop, :presence => {:message => "must be present and exist in our database"}
   validates :quantity,

@@ -13,7 +13,7 @@ class Crop < ActiveRecord::Base
   has_many :photos, :through => :plantings
   has_many :seeds
   has_many :harvests
-  has_many :plant_parts, :through => :harvests, :uniq => :true
+  has_many :plant_parts, -> { uniq }, :through => :harvests
   belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
@@ -22,7 +22,7 @@ class Crop < ActiveRecord::Base
   before_destroy {|crop| crop.posts.clear}
 
 
-  default_scope order("lower(name) asc")
+  default_scope { order("lower(name) asc") }
   scope :recent, reorder("created_at desc")
   scope :toplevel, where(:parent_id => nil)
   scope :popular, reorder("plantings_count desc, lower(name) asc")
@@ -30,7 +30,7 @@ class Crop < ActiveRecord::Base
 
   validates :en_wikipedia_url,
     :format => {
-      :with => /^https?:\/\/en\.wikipedia\.org\/wiki/,
+      :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
     }
 

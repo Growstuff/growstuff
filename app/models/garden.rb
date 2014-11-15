@@ -7,7 +7,7 @@ class Garden < ActiveRecord::Base
     :location, :latitude, :longitude, :area, :area_unit
 
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
-  has_many :plantings, :order => 'created_at DESC', :dependent => :destroy
+  has_many :plantings, -> { order(created_at: :desc) }, :dependent => :destroy
   has_many :crops, :through => :plantings
 
   # set up geocoding
@@ -16,7 +16,7 @@ class Garden < ActiveRecord::Base
   after_validation :empty_unwanted_geocodes
   after_save :mark_inactive_garden_plantings_as_finished
 
-  default_scope order("lower(name) asc")
+  default_scope { order("lower(name) asc") }
   scope :active, where(:active => true)
   scope :inactive, where(:active => false)
 

@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
 
   has_many :order_items, :dependent => :destroy
 
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
 
   validates :referral_code, :format => {
     :with => /\A[a-zA-Z0-9 ]*\z/,

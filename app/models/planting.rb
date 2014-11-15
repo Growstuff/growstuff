@@ -21,7 +21,7 @@ class Planting < ActiveRecord::Base
     end
   end
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
   scope :finished, where(:finished => true)
   scope :current, where(:finished => false)
 
@@ -32,7 +32,7 @@ class Planting < ActiveRecord::Base
     :to => :crop,
     :prefix => true
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
   validates :crop_id, :presence => {:message => "must be present and exist in our database"}
 

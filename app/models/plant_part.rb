@@ -3,7 +3,7 @@ class PlantPart < ActiveRecord::Base
   friendly_id :name, :use => :slugged
 
   has_many :harvests
-  has_many :crops, :through => :harvests, :uniq => true
+  has_many :crops, -> { uniq }, :through => :harvests
 
   attr_accessible :name, :slug
 

@@ -10,7 +10,7 @@ class Photo < ActiveRecord::Base
     photo.harvests.clear
   end
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
   # remove photos that aren't used by anything
   def destroy_if_unused
