@@ -45,7 +45,7 @@ describe "seeds/index" do
 
   it "provides data links" do
     render
-    rendered.should contain "The data on this page is available in the following formats:"
+    rendered.should have_content "The data on this page is available in the following formats:"
     assert_select "a", :href => seeds_path(:format => 'csv')
     assert_select "a", :href => seeds_path(:format => 'json')
     assert_select "a", :href => seeds_path(:format => 'rss')

@@ -25,7 +25,7 @@ describe "posts/edit" do
     end
 
     it 'no forum mentioned' do
-      rendered.should_not contain "This post will be posted in the forum"
+      rendered.should_not have_content "This post will be posted in the forum"
     end
 
     context "forum specified" do
@@ -43,7 +43,7 @@ describe "posts/edit" do
       end
 
       it 'tells the user what forum it will be posted in' do
-        rendered.should contain "This post will be posted in the forum #{@forum.name}"
+        rendered.should have_content "This post will be posted in the forum #{@forum.name}"
       end
     end
 

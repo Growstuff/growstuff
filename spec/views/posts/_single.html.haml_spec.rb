@@ -101,7 +101,7 @@ describe "posts/_single" do
     end
 
     it "renders no value of comments" do
-      rendered.should_not contain "1 comment"
+      rendered.should_not have_content "1 comment"
     end
 
     it "does not contain link to post" do

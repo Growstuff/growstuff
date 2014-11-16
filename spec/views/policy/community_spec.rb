@@ -7,6 +7,6 @@ describe 'policy/community.html.haml', :type => "view" do
 
   it 'should show community guidelines' do
     render
-    rendered.should contain 'is a community by and for food-gardeners.'
+    rendered.should have_content 'is a community by and for food-gardeners.'
   end
 end

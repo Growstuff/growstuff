@@ -15,7 +15,7 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
 
     it 'should have some fields' do
       render
-      rendered.should contain 'Email'
+      rendered.should have_content 'Email'
     end
 
     context 'email section' do

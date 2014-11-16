@@ -9,7 +9,7 @@ describe 'layouts/application.html.haml', :type => "view" do
     Growstuff::Application.config.analytics_code = '<script>alert("foo!")</script>'
     render
     assert_select "script", :text => 'alert("foo!")'
-    rendered.should_not contain 'script'
+    rendered.should_not have_content 'script'
   end
 
 end

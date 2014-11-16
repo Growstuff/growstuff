@@ -9,8 +9,8 @@ describe "accounts/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should contain @account.member_id.to_s
-    rendered.should contain 'Free'
-    rendered.should contain @account.paid_until.to_s
+    rendered.should have_content @account.member_id.to_s
+    rendered.should have_content 'Free'
+    rendered.should have_content @account.paid_until.to_s
   end
 end

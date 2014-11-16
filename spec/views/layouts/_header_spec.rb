@@ -12,24 +12,24 @@ describe 'layouts/_header.html.haml', :type => "view" do
     end
 
     it 'should have signup/signin links' do
-      rendered.should contain 'Sign up'
-      rendered.should contain 'Sign in'
+      rendered.should have_content 'Sign up'
+      rendered.should have_content 'Sign in'
     end
 
     it 'has a Crops link' do
-      rendered.should contain "Crops"
+      rendered.should have_content "Crops"
     end
 
     it 'has a Seeds link' do
-      rendered.should contain "Seeds"
+      rendered.should have_content "Seeds"
     end
 
     it 'has a Places link' do
-      rendered.should contain "Community Map"
+      rendered.should have_content "Community Map"
     end
 
     it 'has a Community section' do
-      rendered.should contain "Community"
+      rendered.should have_content "Community"
     end
 
     it 'links to members' do
@@ -62,7 +62,7 @@ describe 'layouts/_header.html.haml', :type => "view" do
 
     context "your stuff" do
       it 'should have a Your Stuff section' do
-        rendered.should contain "Your Stuff"
+        rendered.should have_content "Your Stuff"
       end
       it "should show link to member's gardens" do
         assert_select("a[href=#{gardens_by_owner_path(:owner => @member.slug)}]", "Gardens")
@@ -79,11 +79,11 @@ describe 'layouts/_header.html.haml', :type => "view" do
     end
 
     it 'should show signout link' do
-      rendered.should contain 'Sign out'
+      rendered.should have_content 'Sign out'
     end
 
     it 'should show inbox link' do
-      rendered.should contain 'Inbox'
+      rendered.should have_content 'Inbox'
       rendered.should_not match(/Inbox \(\d+\)/)
     end
 
@@ -91,7 +91,7 @@ describe 'layouts/_header.html.haml', :type => "view" do
       it 'should show inbox count' do
         FactoryGirl.create(:notification, :recipient => @member)
         render
-        rendered.should contain 'Inbox (1)'
+        rendered.should have_content 'Inbox (1)'
       end
     end
 

@@ -8,7 +8,7 @@ describe "members/_location" do
     end
 
     it 'shows location if available' do
-      rendered.should contain @member.location
+      rendered.should have_content @member.location
     end
 
     it "links to the places page" do
@@ -23,7 +23,7 @@ describe "members/_location" do
     end
 
     it 'shows unknown location' do
-      rendered.should contain "unknown location"
+      rendered.should have_content "unknown location"
     end
 
     it "doesn't link anywhere" do

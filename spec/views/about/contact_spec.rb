@@ -7,6 +7,6 @@ describe 'about/contact.html.haml', :type => "view" do
 
   it 'should show support faq' do
     render
-    rendered.should contain 'General contact email'
+    rendered.should have_content 'General contact email'
   end
 end

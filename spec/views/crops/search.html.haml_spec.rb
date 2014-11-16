@@ -38,12 +38,12 @@ describe "crops/search" do
     end
 
     it "tells you there are no matches" do
-      rendered.should contain "No results found"
+      rendered.should have_content "No results found"
     end
 
     it "links to browse crops" do
       assert_select "a", :href => crops_path
-      rendered.should contain "Try browsing our crop database instead"
+      rendered.should have_content "Try browsing our crop database instead"
     end
   end
 

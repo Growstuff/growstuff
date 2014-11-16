@@ -20,7 +20,7 @@ describe "orders/show" do
     end
 
     it "displays order number" do
-      rendered.should contain "Order number"
+      rendered.should have_content "Order number"
     end
 
     it "shows order items in a table" do
@@ -28,7 +28,7 @@ describe "orders/show" do
     end
 
     it "shows the total" do
-      rendered.should contain "Total:"
+      rendered.should have_content "Total:"
       assert_select "strong", /198.00/
     end
 

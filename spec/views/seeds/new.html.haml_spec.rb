@@ -22,7 +22,7 @@ describe "seeds/new" do
 
   it 'reminds you to set your location' do
     render
-    rendered.should contain "Don't forget to set your location."
+    rendered.should have_content "Don't forget to set your location."
     assert_select "a", :text => "set your location"
   end
 
@@ -37,7 +37,7 @@ describe "seeds/new" do
 
     it 'shows the location' do
       render
-      rendered.should contain "from #{@member.location}."
+      rendered.should have_content "from #{@member.location}."
       assert_select 'a', :href => place_path(@member.location)
     end
 

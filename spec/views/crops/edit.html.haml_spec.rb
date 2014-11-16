@@ -14,7 +14,7 @@ describe "crops/edit" do
   end
 
   it "shows the creator" do
-    rendered.should contain "Added by #{@crop.creator} less than a minute ago."
+    rendered.should have_content "Added by #{@crop.creator} less than a minute ago."
   end
 
   it "renders the edit crop form" do

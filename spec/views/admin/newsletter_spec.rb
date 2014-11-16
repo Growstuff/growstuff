@@ -11,6 +11,6 @@ describe 'admin/newsletter.html.haml', :type => "view" do
   end
 
   it "lists newsletter subscribers by email" do
-    rendered.should contain @subscriber.email
+    rendered.should have_content @subscriber.email
   end
 end

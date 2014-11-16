@@ -8,7 +8,7 @@ describe "comments/show" do
   end
 
   it "renders the comment" do
-    rendered.should contain @comment.author.login_name
-    rendered.should contain @comment.body
+    rendered.should have_content @comment.author.login_name
+    rendered.should have_content @comment.body
   end
 end

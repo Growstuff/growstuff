@@ -13,20 +13,20 @@ describe 'comments/index.rss.haml' do
   end
 
   it 'shows RSS feed title' do
-    rendered.should contain "Recent comments on all posts"
+    rendered.should have_content "Recent comments on all posts"
   end
 
   it 'shows item title' do
-    rendered.should contain "Comment by #{@author.login_name}"
+    rendered.should have_content "Comment by #{@author.login_name}"
   end
 
   it 'escapes html for link to post' do
     # it's then unescaped by 'render' so we don't actually look for &lt;
-    rendered.should contain '<a href='
+    rendered.should have_content '<a href='
   end
 
   it 'shows content of comments' do
-    rendered.should contain "OMG LOL"
+    rendered.should have_content "OMG LOL"
   end
 
 end

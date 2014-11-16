@@ -11,8 +11,8 @@ describe 'devise/mailer/reset_password_instructions.html.haml', :type => "view" 
     end
 
     it 'should have some of the right text' do
-      rendered.should contain 'Change my password'
-      rendered.should contain 'Someone has requested a link to reset your password'
+      rendered.should have_content 'Change my password'
+      rendered.should have_content 'Someone has requested a link to reset your password'
     end
   end
 end

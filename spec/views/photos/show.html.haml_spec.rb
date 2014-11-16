@@ -41,7 +41,7 @@ describe "photos/show" do
     end
 
     it "contains the phrase 'All rights reserved'" do
-      rendered.should contain "All rights reserved"
+      rendered.should have_content "All rights reserved"
     end
 
   end

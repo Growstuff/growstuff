@@ -8,8 +8,8 @@ describe "products/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should contain @product.name
-    rendered.should contain @product.min_price.to_s
-    rendered.should contain @product.recommended_price.to_s
+    rendered.should have_content @product.name
+    rendered.should have_content @product.min_price.to_s
+    rendered.should have_content @product.recommended_price.to_s
   end
 end

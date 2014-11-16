@@ -20,7 +20,7 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it 'shows prices in AUD' do
-      rendered.should contain '9.99 AUD'
+      rendered.should have_content '9.99 AUD'
     end
 
     it 'should contain an exchange rate link' do
@@ -29,7 +29,7 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it 'shows recommended price for products that have it' do
-      rendered.should contain '12.00 AUD'
+      rendered.should have_content '12.00 AUD'
     end
 
     it 'should contain an exchange rate link for recommended price' do
@@ -60,7 +60,7 @@ describe 'shop/index.html.haml', :type => "view" do
 
     it "tells you you have a paid membership" do
       render
-      rendered.should contain "You currently have a paid"
+      rendered.should have_content "You currently have a paid"
     end
 
     it "doesn't show shop" do
@@ -77,7 +77,7 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it "tells you to sign up/sign in" do
-      rendered.should contain "sign in or sign up"
+      rendered.should have_content "sign in or sign up"
     end
   end
 

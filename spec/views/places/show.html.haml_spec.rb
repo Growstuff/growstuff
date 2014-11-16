@@ -20,7 +20,7 @@ describe "places/show" do
 
   it "shows the names of nearby members" do
     @nearby_members.each do |m|
-      rendered.should contain m.login_name
+      rendered.should have_content m.login_name
     end
   end
 

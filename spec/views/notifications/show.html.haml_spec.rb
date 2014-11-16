@@ -11,8 +11,8 @@ describe "notifications/show" do
   end
 
   it "renders attributes" do
-    rendered.should contain @notification.sender.to_s
-    rendered.should contain @notification.body.to_s
+    rendered.should have_content @notification.sender.to_s
+    rendered.should have_content @notification.body.to_s
   end
 
   it "includes a delete button" do

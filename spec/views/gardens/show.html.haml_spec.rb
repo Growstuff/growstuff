@@ -11,15 +11,15 @@ describe "gardens/show" do
   end
 
   it 'should show the location' do
-    rendered.should contain @garden.location
+    rendered.should have_content @garden.location
   end
 
   it 'should show the area' do
-    rendered.should contain pluralize(@garden.area, @garden.area_unit)
+    rendered.should have_content pluralize(@garden.area, @garden.area_unit)
   end
 
   it 'should show the description' do
-    rendered.should contain "totally cool garden"
+    rendered.should have_content "totally cool garden"
   end
 
   it 'renders markdown in the description' do
@@ -27,11 +27,11 @@ describe "gardens/show" do
   end
 
   it 'should show plantings on the garden page' do
-    rendered.should contain @planting.crop.name
+    rendered.should have_content @planting.crop.name
   end
 
   it "doesn't show the note about random plantings" do
-    rendered.should_not contain "Note: these are a random selection"
+    rendered.should_not have_content "Note: these are a random selection"
   end
 
   context 'signed in' do
@@ -42,11 +42,11 @@ describe "gardens/show" do
     end
 
     it 'should have an edit button' do
-      rendered.should contain 'Edit'
+      rendered.should have_content 'Edit'
     end
 
     it "shows a 'plant something' button" do
-      rendered.should contain "Plant something"
+      rendered.should have_content "Plant something"
     end
 
     it "links to the right crop in the planting link" do

@@ -21,19 +21,19 @@ describe "plantings/_thumbnail" do
     end
 
     it "renders the quantity planted" do
-      rendered.should contain "33"
+      rendered.should have_content "33"
     end
 
     it "renders the date planted" do
-      rendered.should contain @planting.planted_at.to_s(:default)
+      rendered.should have_content @planting.planted_at.to_s(:default)
     end
 
     it "shows the name of the crop" do
-      rendered.should contain @crop.name
+      rendered.should have_content @crop.name
     end
 
     it "shows the description by default" do
-      rendered.should contain "This is a"
+      rendered.should have_content "This is a"
     end
   end
 
@@ -46,7 +46,7 @@ describe "plantings/_thumbnail" do
     end
 
     it "hides the description if asked" do
-      rendered.should_not contain "This is a"
+      rendered.should_not have_content "This is a"
     end
   end
 

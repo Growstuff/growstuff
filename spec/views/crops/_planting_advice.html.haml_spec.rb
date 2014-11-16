@@ -14,14 +14,14 @@ describe "crops/_planting_advice" do
   context "sunniness" do
     it "doesn't show sunniness if none are set" do
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should_not contain "Plant in:"
+      rendered.should_not have_content "Plant in:"
     end
 
     it "shows sunniness frequencies" do
       FactoryGirl.create(:sunny_planting, :crop => @crop)
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should contain "Plant in:"
-      rendered.should contain "sun (1)"
+      rendered.should have_content "Plant in:"
+      rendered.should have_content "sun (1)"
     end
 
     it "shows multiple sunniness frequencies" do
@@ -29,8 +29,8 @@ describe "crops/_planting_advice" do
       FactoryGirl.create(:sunny_planting, :crop => @crop)
       FactoryGirl.create(:shady_planting, :crop => @crop)
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should contain "Plant in:"
-      rendered.should contain "sun (2), shade (1)"
+      rendered.should have_content "Plant in:"
+      rendered.should have_content "sun (2), shade (1)"
     end
 
   end
@@ -39,14 +39,14 @@ describe "crops/_planting_advice" do
 
     it "doesn't show planted_from if none are set" do
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should_not contain "Plant from:"
+      rendered.should_not have_content "Plant from:"
     end
 
     it "shows planted_from frequencies" do
       FactoryGirl.create(:seed_planting, :crop => @crop)
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should contain "Plant from:"
-      rendered.should contain "seed (1)"
+      rendered.should have_content "Plant from:"
+      rendered.should have_content "seed (1)"
     end
 
     it "shows multiple planted_from frequencies" do
@@ -54,8 +54,8 @@ describe "crops/_planting_advice" do
       FactoryGirl.create(:seed_planting, :crop => @crop)
       FactoryGirl.create(:cutting_planting, :crop => @crop)
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should contain "Plant from:"
-      rendered.should contain "seed (2), cutting (1)"
+      rendered.should have_content "Plant from:"
+      rendered.should have_content "seed (2), cutting (1)"
     end
   end
 
