@@ -31,7 +31,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/1
   # GET /plantings/1.json
   def show
-    @planting = Planting.includes(:owner, :crop, :garden, :photos).find(params[:id])
+    @planting = Planting.includes(:owner, :crop, :garden, :photos).friendly.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

@@ -13,8 +13,8 @@ class Notifier < ActionMailer::Base
   def planting_reminder(member)
     @member = member
 
-    @plantings = @member.plantings.reorder.last(5)
-    @harvests = @member.harvests.reorder.last(5)
+    @plantings = @member.plantings.last(5)
+    @harvests = @member.harvests.last(5)
 
     if @member.send_planting_reminder
       mail(:to => @member.email,

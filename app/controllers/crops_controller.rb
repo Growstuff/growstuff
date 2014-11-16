@@ -55,7 +55,7 @@ class CropsController < ApplicationController
 
     @partial_matches = Crop.search(params[:search])
     # exclude exact match from partial match list
-    @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
+    @partial_matches = @partial_matches.reject{ |r| @exact_match && r.eql?(@exact_match) }
 
     @fuzzy = Crop.search(params[:term])
 

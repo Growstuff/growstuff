@@ -14,6 +14,8 @@ gem 'protected_attributes', '~>1.0.1'
 gem 'rails-observers', '~>0.1.1'
 gem 'rails-perftest', '~>0.0.2'
 
+gem 'byebug'
+
 gem 'bundler', '>=1.1.5'
 
 gem 'rails', '4.1.7'
@@ -130,6 +132,7 @@ gem 'rake', '>= 10.0.0'
 group :development, :test do
   gem 'haml-rails'                   # HTML templating language
   gem 'rspec-rails', '~> 3.1.0'      # unit testing framework
+  gem 'rspec-activemodel-mocks'
   gem 'database_cleaner', '~> 1.3.0'
   gem 'webrat'                       # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.5.0' # for creating test data

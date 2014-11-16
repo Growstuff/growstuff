@@ -1,7 +1,7 @@
 class Garden < ActiveRecord::Base
   include Geocodable
   extend FriendlyId
-  friendly_id :garden_slug, use: :slugged
+  friendly_id :garden_slug, use: [:slugged, :finders]
 
   attr_accessible :name, :slug, :owner_id, :description, :active,
     :location, :latitude, :longitude, :area, :area_unit
