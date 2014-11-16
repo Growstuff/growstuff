@@ -3,7 +3,7 @@ class NotificationsController < ApplicationController
   load_and_authorize_resource
   # GET /notifications
   def index
-    @notifications = Notification.find_all_by_recipient_id(current_member)
+    @notifications = Notification.where(recipient_id: current_member)
 
     respond_to do |format|
       format.html # index.html.erb

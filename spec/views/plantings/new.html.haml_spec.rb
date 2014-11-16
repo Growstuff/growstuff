@@ -46,7 +46,7 @@ describe "plantings/new" do
 
     it "selects a garden given in a param" do
       assert_select "select#planting_garden_id",
-        :html => /option value="#{@garden_z.id}" selected="selected"/
+        :html => /option selected="selected" value="#{@garden_z.id}"/
     end
   end
 end

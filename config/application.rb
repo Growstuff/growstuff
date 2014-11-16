@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'openssl'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -37,6 +38,8 @@ module Growstuff
     config.i18n.fallbacks = true
     # rails will fallback to en, no matter what is set as config.i18n.default_locale
     config.i18n.fallbacks = [:en]
+
+    config.i18n.enforce_available_locales = true
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

@@ -43,4 +43,12 @@ class ApplicationController < ActionController::Base
     I18n.available_locales.map(&:to_s).include?(parsed_locale) ? parsed_locale : nil
   end
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:login_name, :email, :password, :password_confirmation, :tos_agreement, :newsletter) }
+  end
+
 end

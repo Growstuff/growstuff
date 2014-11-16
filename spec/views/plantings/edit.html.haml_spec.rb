@@ -49,7 +49,7 @@ describe "plantings/edit" do
 
     it "chooses the right garden" do
       assert_select "select#planting_garden_id",
-        :html => /option value="#{@garden.id}" selected="selected"/
+        :html => /option selected="selected" value="#{@garden.id}"/
     end
 
   end
