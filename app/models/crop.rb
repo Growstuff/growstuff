@@ -23,10 +23,10 @@ class Crop < ActiveRecord::Base
 
 
   default_scope { order("lower(name) asc") }
-  scope :recent, reorder("created_at desc")
-  scope :toplevel, where(:parent_id => nil)
-  scope :popular, reorder("plantings_count desc, lower(name) asc")
-  scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
+  scope :recent, -> { reorder("created_at desc") }
+  scope :toplevel, -> { where(:parent_id => nil) }
+  scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
+  scope :randomized, -> { reorder('random()') } # ok on sqlite and psql, but not on mysql
 
   validates :en_wikipedia_url,
     :format => {

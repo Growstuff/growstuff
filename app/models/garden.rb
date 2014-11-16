@@ -17,8 +17,8 @@ class Garden < ActiveRecord::Base
   after_save :mark_inactive_garden_plantings_as_finished
 
   default_scope { order("lower(name) asc") }
-  scope :active, where(:active => true)
-  scope :inactive, where(:active => false)
+  scope :active, -> { where(:active => true) }
+  scope :inactive, -> { where(:active => false) }
 
   validates :name,
     :format => {

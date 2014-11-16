@@ -7,7 +7,7 @@ class Notification < ActiveRecord::Base
   belongs_to :post
 
   default_scope { order('created_at DESC') }
-  scope :unread, where(:read => false)
+  scope :unread, -> { where(:read => false) }
 
   before_create :replace_blank_subject
   after_create :send_email
