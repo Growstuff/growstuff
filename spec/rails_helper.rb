@@ -7,7 +7,6 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'simplecov'
 require 'coveralls'
-require 'rails-observers'
 
 # output coverage locally AND send it to coveralls
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[

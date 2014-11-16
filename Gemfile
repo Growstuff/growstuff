@@ -73,7 +73,7 @@ gem 'uglifier', '~> 2.5.3' # JavaScript compressor
 # gem 'compass-rails', '~> 1.0.3' # Yet Another CSS framework
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '~> 5.0.2'
 gem 'js-routes'  # provides access to Rails routes in Javascript
 gem 'flickraw'
 
@@ -104,7 +104,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.2.0'
+gem 'devise', '~> 3.4.1'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 5.0.4'
