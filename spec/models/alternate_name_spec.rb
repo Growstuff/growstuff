@@ -4,7 +4,7 @@ describe AlternateName do
   let(:an) { FactoryGirl.create(:alternate_eggplant) }
 
   it 'should save a basic alternate name' do
-    expect(an.save).to be_true
+    expect(an.save).to be(true)
   end
 
   it 'should be possible to add multiple alternate names to a crop' do

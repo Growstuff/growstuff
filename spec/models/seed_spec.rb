@@ -7,7 +7,7 @@ describe Seed do
   end
 
   it 'should save a basic seed' do
-    @seed.save.should be_true
+    @seed.save.should be(true)
   end
 
   it "should have a slug" do

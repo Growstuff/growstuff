@@ -8,7 +8,7 @@ describe Crop do
     end
 
     it 'should save a basic crop' do
-      @crop.save.should be_true
+      @crop.save.should be(true)
     end
 
     it 'should be fetchable from the database' do
