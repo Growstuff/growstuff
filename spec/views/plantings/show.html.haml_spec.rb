@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "plantings/show" do
   def create_planting_for(member)

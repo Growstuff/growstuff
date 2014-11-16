@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'layouts/_footer.html.haml', :type => "view" do
 

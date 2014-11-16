@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'devise/sessions/new.html.haml', :type => "view" do
 

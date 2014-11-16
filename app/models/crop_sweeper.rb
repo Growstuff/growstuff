@@ -1,4 +1,4 @@
-class CropSweeper < ActionController::Caching::Sweeper
+class CropSweeper < Sweeper
   observe Crop
 
   def after_create(crop)

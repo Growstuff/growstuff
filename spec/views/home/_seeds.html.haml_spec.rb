@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'home/_seeds.html.haml', :type => "view" do
   before(:each) do

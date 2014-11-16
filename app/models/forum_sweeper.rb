@@ -1,4 +1,4 @@
-class ForumSweeper < ActionController::Caching::Sweeper
+class ForumSweeper < Sweeper
   observe Forum
 
   def after_create(forum)

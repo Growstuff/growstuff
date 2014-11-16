@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'layouts/_header.html.haml', :type => "view" do
   context "when not logged in" do

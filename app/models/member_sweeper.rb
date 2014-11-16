@@ -1,4 +1,4 @@
-class MemberSweeper < ActionController::Caching::Sweeper
+class MemberSweeper < Sweeper
   observe Member
 
   def after_create(member)

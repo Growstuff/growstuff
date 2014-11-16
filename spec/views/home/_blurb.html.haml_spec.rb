@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'home/_blurb.html.haml', :type => "view" do
   context 'signed out' do

@@ -1,4 +1,4 @@
-class CommentSweeper < ActionController::Caching::Sweeper
+class CommentSweeper < Sweeper
   observe Comment
 
   def after_create(comment)

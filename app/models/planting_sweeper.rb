@@ -1,4 +1,4 @@
-class PlantingSweeper < ActionController::Caching::Sweeper
+class PlantingSweeper < Sweeper
   observe Planting
 
   def after_create(planting)

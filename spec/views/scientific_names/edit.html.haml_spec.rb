@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "scientific_names/edit" do
   context "logged in" do

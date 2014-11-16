@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'members/show.rss.haml', :type => "view" do
   before(:each) do

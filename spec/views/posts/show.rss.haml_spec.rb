@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'posts/show.rss.haml' do
   before(:each) do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'posts/index.rss.haml', :type => "view" do
   before(:each) do

@@ -1,4 +1,4 @@
-class ScientificNameSweeper < ActionController::Caching::Sweeper
+class ScientificNameSweeper < Sweeper
   observe ScientificName
 
   def after_create(scientific_name)

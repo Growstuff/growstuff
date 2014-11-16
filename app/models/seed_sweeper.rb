@@ -1,4 +1,4 @@
-class SeedSweeper < ActionController::Caching::Sweeper
+class SeedSweeper < Sweeper
   observe Seed
 
   def after_create(seed)

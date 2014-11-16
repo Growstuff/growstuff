@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'devise/mailer/confirmation_instructions.html.haml', :type => "view" do
 

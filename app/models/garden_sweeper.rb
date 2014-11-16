@@ -1,4 +1,4 @@
-class GardenSweeper < ActionController::Caching::Sweeper
+class GardenSweeper < Sweeper
   observe Garden
 
   def after_create(garden)
