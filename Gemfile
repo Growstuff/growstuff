@@ -101,6 +101,7 @@ group :development, :test do
   gem 'haml-rails'                      # HTML templating language
   gem 'rspec-rails', '~> 3.1.0'         # unit testing framework
   gem 'rspec-activemodel-mocks'
+  gem 'byebug'                          # debugging
   gem 'database_cleaner', '~> 1.3.0'
   gem 'webrat'                          # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.5.0'  # for creating test data
