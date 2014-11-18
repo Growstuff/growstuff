@@ -1,7 +1,6 @@
 class Post < ActiveRecord::Base
   extend FriendlyId
   friendly_id :author_date_subject, use: [:slugged, :finders]
-  attr_accessible :body, :subject, :author_id, :forum_id
   belongs_to :author, :class_name => 'Member'
   belongs_to :forum
   has_many :comments, :dependent => :destroy

@@ -44,7 +44,7 @@ class ForumsController < ApplicationController
   # POST /forums
   # POST /forums.json
   def create
-    @forum = Forum.new(params[:forum])
+    @forum = Forum.new(forum_params)
 
     respond_to do |format|
       if @forum.save
@@ -63,7 +63,7 @@ class ForumsController < ApplicationController
     @forum = Forum.find(params[:id])
 
     respond_to do |format|
-      if @forum.update_attributes(params[:forum])
+      if @forum.update(forum_params)
         format.html { redirect_to @forum, notice: 'Forum was successfully updated.' }
         format.json { head :no_content }
       else
@@ -83,5 +83,11 @@ class ForumsController < ApplicationController
       format.html { redirect_to forums_url, notice: 'Forum was successfully deleted' }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def forum_params
+    params.require(:forum).permit(:description, :name, :owner_id, :slug)
   end
 end

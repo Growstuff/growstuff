@@ -46,7 +46,7 @@ class ScientificNamesController < ApplicationController
   # POST /scientific_names.json
   def create
     params[:scientific_name][:creator_id] = current_member.id
-    @scientific_name = ScientificName.new(params[:scientific_name])
+    @scientific_name = ScientificName.new(scientific_name_params)
 
     respond_to do |format|
       if @scientific_name.save
@@ -65,7 +65,7 @@ class ScientificNamesController < ApplicationController
     @scientific_name = ScientificName.find(params[:id])
 
     respond_to do |format|
-      if @scientific_name.update_attributes(params[:scientific_name])
+      if @scientific_name.update(scientific_name_params)
         format.html { redirect_to @scientific_name.crop, notice: 'Scientific name was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,5 +88,11 @@ class ScientificNamesController < ApplicationController
       }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def scientific_name_params
+    params.require(:scientific_name).permit(:crop_id, :scientific_name, :creator_id)
   end
 end

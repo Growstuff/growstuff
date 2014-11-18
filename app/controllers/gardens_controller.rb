@@ -49,7 +49,7 @@ class GardensController < ApplicationController
   # POST /gardens.json
   def create
     params[:garden][:owner_id] = current_member.id
-    @garden = Garden.new(params[:garden])
+    @garden = Garden.new(garden_params)
 
     respond_to do |format|
       if @garden.save
@@ -68,7 +68,7 @@ class GardensController < ApplicationController
     @garden = Garden.find(params[:id])
 
     respond_to do |format|
-      if @garden.update_attributes(params[:garden])
+      if @garden.update(garden_params)
         format.html { redirect_to @garden, notice: 'Garden was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,5 +88,12 @@ class GardensController < ApplicationController
       format.html { redirect_to gardens_by_owner_path(:owner => @garden.owner), notice: 'Garden was successfully deleted.' }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def garden_params
+    params.require(:garden).permit(:name, :slug, :owner_id, :description, :active,
+    :location, :latitude, :longitude, :area, :area_unit)
   end
 end

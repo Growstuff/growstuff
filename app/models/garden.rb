@@ -3,9 +3,6 @@ class Garden < ActiveRecord::Base
   extend FriendlyId
   friendly_id :garden_slug, use: [:slugged, :finders]
 
-  attr_accessible :name, :slug, :owner_id, :description, :active,
-    :location, :latitude, :longitude, :area, :area_unit
-
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
   has_many :plantings, -> { order(created_at: :desc) }, :dependent => :destroy
   has_many :crops, :through => :plantings

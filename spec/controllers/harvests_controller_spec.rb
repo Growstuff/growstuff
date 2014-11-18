@@ -105,9 +105,9 @@ describe HarvestsController do
         harvest = Harvest.create! valid_attributes
         # Assuming there are no other harvests in the database, this
         # specifies that the Harvest created on the previous line
-        # receives the :update_attributes message with whatever params are
+        # receives the :update message with whatever params are
         # submitted in the request.
-        Harvest.any_instance.should_receive(:update_attributes).with({ "crop_id" => "1" })
+        Harvest.any_instance.should_receive(:update).with({ "crop_id" => "1" })
         put :update, {:id => harvest.to_param, :harvest => { "crop_id" => "1" }}
       end
 

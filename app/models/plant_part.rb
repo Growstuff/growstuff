@@ -5,8 +5,6 @@ class PlantPart < ActiveRecord::Base
   has_many :harvests
   has_many :crops, -> { uniq }, :through => :harvests
 
-  attr_accessible :name, :slug
-
   def to_s
     return name
   end

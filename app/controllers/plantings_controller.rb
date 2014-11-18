@@ -66,9 +66,11 @@ class PlantingsController < ApplicationController
   # POST /plantings
   # POST /plantings.json
   def create
-    params[:planting][:owner_id] = current_member.id
-    params[:planted_at] = parse_date(params[:planted_at])
-    @planting = Planting.new(params[:planting])
+    # params[:planting][:owner_id] = current_member.id
+    # params[:planted_at] = parse_date(params[:planted_at])
+    @planting = Planting.new(planting_params)
+    @planting.owner = current_member
+    @planting.planted_at = parse_date(params[:planted_at])
 
     respond_to do |format|
       if @planting.save
@@ -88,7 +90,7 @@ class PlantingsController < ApplicationController
     params[:planted_at] = parse_date(params[:planted_at])
 
     respond_to do |format|
-      if @planting.update_attributes(params[:planting])
+      if @planting.update(planting_params)
         format.html { redirect_to @planting, notice: 'Planting was successfully updated.' }
         format.json { head :no_content }
       else
@@ -109,5 +111,13 @@ class PlantingsController < ApplicationController
       format.html { redirect_to @garden }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def planting_params
+    params.require(:planting).permit(:crop_id, :description, :garden_id, :planted_at,
+    :quantity, :sunniness, :planted_from, :owner_id, :finished,
+    :finished_at)
   end
 end

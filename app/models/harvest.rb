@@ -3,9 +3,6 @@ class Harvest < ActiveRecord::Base
   extend FriendlyId
   friendly_id :harvest_slug, use: [:slugged, :finders]
 
-  attr_accessible :crop_id, :harvested_at, :description, :owner_id,
-    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug
-
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
   belongs_to :plant_part

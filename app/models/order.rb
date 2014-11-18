@@ -1,5 +1,4 @@
 class Order < ActiveRecord::Base
-  attr_accessible :member_id, :completed_at, :referral_code
   belongs_to :member
 
   has_many :order_items, :dependent => :destroy

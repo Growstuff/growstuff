@@ -34,7 +34,7 @@ class AccountTypesController < ApplicationController
 
   # POST /account_types
   def create
-    @account_type = AccountType.new(params[:account_type])
+    @account_type = AccountType.new(account_type_params)
 
     respond_to do |format|
       if @account_type.save
@@ -50,7 +50,7 @@ class AccountTypesController < ApplicationController
     @account_type = AccountType.find(params[:id])
 
     respond_to do |format|
-      if @account_type.update_attributes(params[:account_type])
+      if @account_type.update(account_type_params)
         format.html { redirect_to @account_type, notice: 'Account type was successfully updated.' }
       else
         format.html { render action: "edit" }
@@ -66,5 +66,11 @@ class AccountTypesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to account_types_url, notice: 'Account type was successfully deleted.' }
     end
+  end
+
+  private 
+
+  def account_type_params
+    params.require(:account_type).permit(:is_paid, :is_permanent_paid, :name)
   end
 end

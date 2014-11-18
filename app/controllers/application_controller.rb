@@ -48,7 +48,17 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:login_name, :email, :password, :password_confirmation, :tos_agreement, :newsletter) }
+    devise_parameter_sanitizer.for(:sign_up) do |u| 
+      u.permit(:login_name, :email, :password, :password_confirmation,
+        :remember_me, :login,
+        # terms of service
+        :tos_agreement,
+        # profile stuff
+        :bio, :location, :latitude, :longitude,
+        # email settings
+        :show_email, :newsletter, :send_notification_email, :send_planting_reminder
+      )
+    end
   end
 
 end

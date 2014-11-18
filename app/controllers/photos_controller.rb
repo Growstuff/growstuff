@@ -60,7 +60,7 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = Photo.find_by_flickr_photo_id(params[:photo][:flickr_photo_id]) ||
-      Photo.new(params[:photo])
+      Photo.new(photo_params)
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
 
@@ -110,7 +110,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
 
     respond_to do |format|
-      if @photo.update_attributes(params[:photo])
+      if @photo.update(photo_params)
         format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
       else
@@ -130,5 +130,12 @@ class PhotosController < ApplicationController
       format.html { redirect_to photos_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def photo_params
+    params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,
+    :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 end

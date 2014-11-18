@@ -2,9 +2,6 @@ class Seed < ActiveRecord::Base
   extend FriendlyId
   friendly_id :seed_slug, use: [:slugged, :finders]
 
-  attr_accessible :owner_id, :crop_id, :description, :quantity, :plant_before,
-    :tradable_to, :slug
-
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
 

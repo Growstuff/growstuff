@@ -42,7 +42,7 @@ class PlantPartsController < ApplicationController
   # POST /plant_parts
   # POST /plant_parts.json
   def create
-    @plant_part = PlantPart.new(params[:plant_part])
+    @plant_part = PlantPart.new(plant_part_params)
 
     respond_to do |format|
       if @plant_part.save
@@ -61,7 +61,7 @@ class PlantPartsController < ApplicationController
     @plant_part = PlantPart.find(params[:id])
 
     respond_to do |format|
-      if @plant_part.update_attributes(params[:plant_part])
+      if @plant_part.update(plant_part_params)
         format.html { redirect_to @plant_part, notice: 'Plant part was successfully updated.' }
         format.json { head :no_content }
       else
@@ -81,5 +81,11 @@ class PlantPartsController < ApplicationController
       format.html { redirect_to plant_parts_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def plant_part_params
+    params.require(:plant_part).permit(:name, :slug)
   end
 end

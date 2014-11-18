@@ -34,7 +34,7 @@ class ProductsController < ApplicationController
 
   # POST /products
   def create
-    @product = Product.new(params[:product])
+    @product = Product.new(product_params)
 
     respond_to do |format|
       if @product.save
@@ -50,7 +50,7 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
 
     respond_to do |format|
-      if @product.update_attributes(params[:product])
+      if @product.update(product_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
       else
         format.html { render action: "edit" }
@@ -66,5 +66,12 @@ class ProductsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to products_url }
     end
+  end
+
+  private
+
+  def product_params
+    params.require(:product).permit(:description, :min_price, :recommended_price, :name,
+    :account_type_id, :paid_months)
   end
 end

@@ -2,10 +2,6 @@ class Planting < ActiveRecord::Base
   extend FriendlyId
   friendly_id :planting_slug, use: [:slugged, :finders]
 
-  attr_accessible :crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from, :owner_id, :finished,
-    :finished_at
-
   belongs_to :garden
   belongs_to :owner, :class_name => 'Member', :counter_cache => true
   belongs_to :crop, :counter_cache => true

@@ -25,7 +25,7 @@ Growstuff::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  # config.active_record.mass_assignment_sanitizer = :strict
 
   # Do not compress assets
   config.assets.compress = false
@@ -63,4 +63,6 @@ Growstuff::Application.configure do
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
+
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end
