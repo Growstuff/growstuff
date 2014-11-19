@@ -343,4 +343,133 @@ describe Crop do
     end
   end
 
+  context "csv loading" do
+
+    before(:each) do
+      # don't use 'let' for this -- we need to actually create it,
+      # regardless of whether it's used.
+      @cropbot = FactoryGirl.create(:cropbot)
+    end
+
+    it "adds a scientific name to a crop that has none" do
+      tomato = FactoryGirl.create(:tomato)
+      expect(tomato.scientific_names.size).to eq 0
+      tomato.add_scientific_name_from_csv("Foo bar")
+      expect(tomato.scientific_names.size).to eq 1
+      expect(tomato.default_scientific_name).to eq "Foo bar"
+    end
+
+    it "picks up scientific name from parent crop if available" do
+      parent = FactoryGirl.create(:crop, :name => 'parent crop')
+      parent.add_scientific_name_from_csv("Parentis cropis")
+      parent.save
+      parent.reload
+
+      tomato = FactoryGirl.create(:tomato, :parent => parent)
+      expect(tomato.parent).to eq parent
+      expect(tomato.parent.default_scientific_name).to eq "Parentis cropis"
+
+      tomato.add_scientific_name_from_csv('')
+      expect(tomato.default_scientific_name).to eq "Parentis cropis"
+    end
+
+    it "doesn't add a duplicate scientific name" do
+      tomato = FactoryGirl.create(:tomato)
+      expect(tomato.scientific_names.size).to eq 0
+      tomato.add_scientific_name_from_csv("Foo bar")
+      expect(tomato.scientific_names.size).to eq 1
+      tomato.add_scientific_name_from_csv("Foo bar")
+      expect(tomato.scientific_names.size).to eq 1 # shouldn't increase
+      tomato.add_scientific_name_from_csv("Baz quux")
+      expect(tomato.scientific_names.size).to eq 2
+    end
+
+    it "doesn't add a duplicate scientific name from parent" do
+      parent = FactoryGirl.create(:crop, :name => 'parent')
+      parent.add_scientific_name_from_csv("Parentis cropis")
+      parent.save
+      parent.reload
+
+      tomato = FactoryGirl.create(:tomato, :parent => parent)
+      expect(tomato.scientific_names.size).to eq 0
+      tomato.add_scientific_name_from_csv('')
+      expect(tomato.scientific_names.size).to eq 1 # picks up parent SN
+      tomato.add_scientific_name_from_csv('')
+      expect(tomato.scientific_names.size).to eq 1 # shouldn't increase now
+    end
+
+
+    it "loads the simplest possible crop" do
+      tomato_row = "tomato,,http://en.wikipedia.org/wiki/Tomato"
+
+      CSV.parse(tomato_row) do |row|
+        Crop.create_from_csv(row)
+      end
+
+      loaded = Crop.last
+      expect(loaded.name).to eq "tomato"
+      expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
+      expect(loaded.creator).to eq @cropbot
+    end
+
+    it "loads a crop with a scientific name" do
+      tomato_row = "tomato,Solanum lycopersicum,http://en.wikipedia.org/wiki/Tomato"
+
+      CSV.parse(tomato_row) do |row|
+        Crop.create_from_csv(row)
+      end
+
+      loaded = Crop.last
+      expect(loaded.name).to eq "tomato"
+      expect(loaded.scientific_names.size).to eq 1
+      expect(loaded.scientific_names.last.scientific_name).to eq "Solanum lycopersicum"
+    end
+
+    it "loads a crop with a parent" do
+      parent = FactoryGirl.create(:crop, :name => 'parent')
+      tomato_row = "tomato,,http://en.wikipedia.org/wiki/Tomato,parent"
+
+      CSV.parse(tomato_row) do |row|
+        Crop.create_from_csv(row)
+      end
+
+      loaded = Crop.last
+      expect(loaded.parent).to eq parent
+    end
+
+    it "doesn't add unnecessary duplicate crops" do
+      tomato_row = "tomato,Solanum lycopersicum,http://en.wikipedia.org/wiki/Tomato"
+
+      CSV.parse(tomato_row) do |row|
+        Crop.create_from_csv(row)
+      end
+
+      loaded = Crop.last
+      expect(loaded.name).to eq "tomato"
+      expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
+      expect(loaded.creator).to eq @cropbot
+
+    end
+
+  end
+
+  context "crop-post association" do
+    let!(:tomato) { FactoryGirl.create(:tomato) }
+    let!(:maize) { FactoryGirl.create(:maize) }
+    let!(:post) { FactoryGirl.create(:post, :body => "[maize](crop)[tomato](crop)[tomato](crop)") }
+
+    describe "destroying a crop" do
+      before do
+        tomato.destroy
+      end
+
+      it "should delete the association between post and the crop(tomato)" do
+        expect(Post.find(post).crops).to eq [maize]
+      end
+
+      it "should not delete the posts" do
+        expect(Post.find(post)).to_not eq nil
+      end
+    end
+  end
 end

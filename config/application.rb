@@ -31,8 +31,12 @@ module Growstuff
     config.active_record.default_timezone = :local
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    I18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}')]
+    I18n.default_locale = :en
+    # rails will fallback to config.i18n.default_locale translation
+    config.i18n.fallbacks = true
+    # rails will fallback to en, no matter what is set as config.i18n.default_locale
+    config.i18n.fallbacks = [:en]
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -67,8 +71,12 @@ module Growstuff
     config.assets.initialize_on_precompile = true
 
     config.generators do |g|
-      g.template_engine :haml
-      g.stylesheets false
+      g.template_engine  :haml
+      g.view_specs       false
+      g.controller_specs false
+      g.helper           false
+      g.stylesheets      false
+      g.javascripts      false
     end
 
     config.action_mailer.delivery_method = :sendmail

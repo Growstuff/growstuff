@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140829230600) do
+ActiveRecord::Schema.define(:version => 20141018111015) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(:version => 20140829230600) do
     t.datetime "paid_until"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "alternate_names", :force => true do |t|
+    t.string   "name",       :null => false
+    t.integer  "crop_id",    :null => false
+    t.integer  "creator_id", :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "authentications", :force => true do |t|
@@ -63,6 +71,14 @@ ActiveRecord::Schema.define(:version => 20140829230600) do
 
   add_index "crops", ["name"], :name => "index_crops_on_name"
   add_index "crops", ["slug"], :name => "index_crops_on_slug", :unique => true
+
+  create_table "crops_posts", :id => false, :force => true do |t|
+    t.integer "crop_id"
+    t.integer "post_id"
+  end
+
+  add_index "crops_posts", ["crop_id", "post_id"], :name => "index_crops_posts_on_crop_id_and_post_id"
+  add_index "crops_posts", ["crop_id"], :name => "index_crops_posts_on_crop_id"
 
   create_table "forums", :force => true do |t|
     t.string   "name",        :null => false
@@ -108,6 +124,13 @@ ActiveRecord::Schema.define(:version => 20140829230600) do
     t.integer  "plant_part_id"
   end
 
+  create_table "harvests_photos", :id => false, :force => true do |t|
+    t.integer "photo_id"
+    t.integer "harvest_id"
+  end
+
+  add_index "harvests_photos", ["harvest_id", "photo_id"], :name => "index_harvests_photos_on_harvest_id_and_photo_id"
+
   create_table "members", :force => true do |t|
     t.string   "email",                   :default => "",   :null => false
     t.string   "encrypted_password",      :default => "",   :null => false
@@ -139,6 +162,7 @@ ActiveRecord::Schema.define(:version => 20140829230600) do
     t.text     "bio"
     t.integer  "plantings_count"
     t.boolean  "newsletter"
+    t.boolean  "send_planting_reminder",  :default => true
   end
 
   add_index "members", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

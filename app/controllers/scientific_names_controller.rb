@@ -83,7 +83,9 @@ class ScientificNamesController < ApplicationController
     @scientific_name.destroy
 
     respond_to do |format|
-      format.html { redirect_to @crop }
+      format.html {
+        redirect_to @crop, notice: 'Scientific name was successfully deleted.'
+      }
       format.json { head :no_content }
     end
   end

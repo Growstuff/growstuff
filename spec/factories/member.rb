@@ -11,6 +11,11 @@ FactoryGirl.define do
     show_email false
     bio 'I love seeds'
 
+    # cropbot is needed for certain tests, eg. Crop.create_from_csv
+    factory :cropbot do
+      login_name 'cropbot'
+    end
+
     factory :no_tos_member do
       tos_agreement false
     end

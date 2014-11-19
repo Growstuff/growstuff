@@ -1,4 +1,5 @@
 class Harvest < ActiveRecord::Base
+  include ActionView::Helpers::NumberHelper
   extend FriendlyId
   friendly_id :harvest_slug, use: :slugged
 
@@ -8,6 +9,17 @@ class Harvest < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
   belongs_to :plant_part
+
+  has_and_belongs_to_many :photos
+
+  before_destroy do |harvest|
+    photolist = harvest.photos.to_a # save a temp copy of the photo list
+    harvest.photos.clear # clear relationship b/w harvest and photo
+
+    photolist.each do |photo|
+      photo.destroy_if_unused
+    end
+  end
 
   default_scope order('created_at DESC')
 
@@ -70,6 +82,43 @@ class Harvest < ActiveRecord::Base
 
   def harvest_slug
     "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
+  end
+
+  # stringify as "beet in Skud's backyard" or similar
+  def to_s
+    # 50 individual apples, weighing 3lb
+    # 2 buckets of apricots, weighing 10kg
+    string = ''
+    if self.quantity
+      string += "#{number_to_human(self.quantity.to_s, :strip_insignificant_zeros => true)} "
+      if self.unit == 'individual'
+        string += 'individual '
+      else
+        if self.quantity == 1
+          string += "#{self.unit} of "
+        else
+          string += "#{self.unit.pluralize} of "
+        end
+      end
+    end
+
+    if self.unit != 'individual' # buckets of apricot*s*
+      string += "#{self.crop.name.pluralize}"
+    elsif self.quantity == 1
+      string += "#{self.crop.name}"
+    else
+      string += "#{self.crop.name.pluralize}"
+    end
+
+    if self.weight_quantity
+      string += " weighing #{number_to_human(self.weight_quantity, :strip_insignificant_zeros => true)} #{self.weight_unit}"
+    end
+
+    return string
+  end
+
+  def default_photo
+    return photos.first
   end
 
 end

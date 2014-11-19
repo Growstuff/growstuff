@@ -7,24 +7,22 @@ class PlantingsController < ApplicationController
   # GET /plantings.json
   def index
     @owner = Member.find_by_slug(params[:owner])
+    @crop = Crop.find_by_slug(params[:crop])
     if @owner
       @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(:page => params[:page])
+    elsif @crop
+      @plantings = @crop.plantings.includes(:owner, :crop, :garden).paginate(:page => params[:page])
     else
       @plantings = Planting.includes(:owner, :crop, :garden).paginate(:page => params[:page])
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { @plantings = @plantings.paginate(:page => params[:page]) }
       format.json { render json: @plantings }
       format.rss { render :layout => false } #index.rss.builder
       format.csv do
-        if @owner
-          @filename = "Growstuff-#{@owner}-Plantings-#{Time.zone.now.to_s(:number)}.csv"
-          @plantings = @owner.plantings.includes(:owner, :crop, :garden)
-        else
-          @filename = "Growstuff-Plantings-#{Time.zone.now.to_s(:number)}.csv"
-          @plantings = Planting.includes(:owner, :crop, :garden)
-        end
+        specifics = (@owner ? "#{@owner.name}-" : @crop ? "#{@crop.name}-" : nil)
+        @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
         render :csv => @plantings
       end
     end

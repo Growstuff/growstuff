@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.1.1"
+ruby "2.1.2"
 
 gem 'bundler', '>=1.1.5'
 
@@ -78,11 +78,11 @@ gem 'flickraw'
 # Use unicorn as the app server
 # gem 'unicorn'
 
-# To use debugger
 group :development do
-  # Installation of the debugger gem fails on Travis CI,
-  # so we don't use it in the test environment
-  gem 'debugger'
+  # A debugger and irb alternative. Pry doesn't play nice
+  # with unicorn, so start a Webrick server when debugging
+  # with Pry
+  gem 'pry'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
@@ -119,6 +119,7 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'rake', '>= 10.0.0'
 
 group :development, :test do
+  gem 'byebug'                       # debugging
   gem 'haml-rails'                   # HTML templating language
   gem 'rspec-rails', '~> 2.12.1'     # unit testing framework
   gem 'database_cleaner', '~> 1.3.0'
@@ -126,5 +127,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0' # for creating test data
   gem 'coveralls', require: false    # coverage analysis
   gem 'capybara'                     # integration tests
+  gem 'capybara-email'               # integration tests for email
   gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
+  gem 'i18n-tasks'                   # adds tests for finding missing and unused translations
 end

@@ -8,6 +8,7 @@ class Crop < ActiveRecord::Base
     :allow_destroy => true,
     :reject_if     => :all_blank
 
+  has_many :alternate_names
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
@@ -17,6 +18,9 @@ class Crop < ActiveRecord::Base
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
+  has_and_belongs_to_many :posts
+  before_destroy {|crop| crop.posts.clear}
+
 
   default_scope order("lower(name) asc")
   scope :recent, reorder("created_at desc")
@@ -29,11 +33,6 @@ class Crop < ActiveRecord::Base
       :with => /^https?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
     }
-
-  def Crop.random
-    @crop = Crop.offset(rand(Crop.count)).first
-    return @crop
-  end
 
   def to_s
     return name
@@ -127,52 +126,55 @@ class Crop < ActiveRecord::Base
 # - en_wikipedia_url (required)
 # - parent (name, optional)
 
-  def Crop.create_from_csv(row, definitely_new=false)
+  def Crop.create_from_csv(row)
     name,scientific_name,en_wikipedia_url,parent = row
 
-    @cropbot = Member.find_by_login_name('cropbot')
-    raise "cropbot account not found: run rake db:seed" unless @cropbot
+    cropbot = Member.find_by_login_name('cropbot')
+    raise "cropbot account not found: run rake db:seed" unless cropbot
 
-    if definitely_new then
-      @crop = Crop.create(
-        :name => name,
-        :en_wikipedia_url => en_wikipedia_url,
-        :creator_id => @cropbot.id
-      )
-    else
-      @crop = Crop.find_or_create_by_name(name)
-      @crop.update_attributes(
-        :en_wikipedia_url => en_wikipedia_url,
-        :creator_id => @cropbot.id
-      )
-    end
+    crop = Crop.find_or_create_by_name(name)
+    crop.update_attributes(
+      :en_wikipedia_url => en_wikipedia_url,
+      :creator_id => cropbot.id
+    )
+
     if parent
-      @parent = Crop.find_by_name(parent)
-      if @parent
-        @crop.update_attributes(:parent_id => @parent.id)
+      parent = Crop.find_by_name(parent)
+      if parent
+        crop.update_attributes(:parent_id => parent.id)
       else
         logger.warn("Warning: parent crop #{parent} not found")
       end
     end
 
-    unless @crop.scientific_names.exists?(:scientific_name => scientific_name)
-      @sn = ''
-      if scientific_name
-        @sn = scientific_name
-      elsif @crop.parent
-        @sn = @crop.parent.scientific_names.first.scientific_name
-      end
+    crop.add_scientific_name_from_csv(scientific_name)
 
-      if @sn
-        @crop.scientific_names.create(
-          :scientific_name => @sn,
-          :creator_id => @cropbot.id
-        )
-      else
-        logger.warn("Warning: no scientific name (not even on parent crop) for #{@crop}")
-      end
+  end
 
+  def add_scientific_name_from_csv(scientific_name)
+    name_to_add = nil
+    if ! scientific_name.blank? # i.e. we actually passed one in, which isn't a given
+      name_to_add = scientific_name
+    elsif parent && parent.default_scientific_name
+      name_to_add = parent.default_scientific_name
+    else
+      logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
+
+    if name_to_add
+      if scientific_names.exists?(:scientific_name => name_to_add)
+        logger.warn("Warning: skipping duplicate scientific name #{name_to_add} for #{self}")
+      else
+        cropbot = Member.find_by_login_name('cropbot')
+        raise "cropbot account not found: run rake db:seed" unless cropbot
+
+        scientific_names.create(
+          :scientific_name => name_to_add,
+          :creator_id => cropbot.id
+        )
+      end
+    end
+
   end
 
   # Crop.search(string)

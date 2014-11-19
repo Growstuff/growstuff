@@ -1,18 +1,18 @@
 - seeds = Seed.interesting.first(6)
 - if seeds.present?
 
-  %h2 Seeds available to trade
+  %h2= t('.title')
 
   - cache "interesting_seeds" do
     - if seeds.length > 0
 
       %table.table.table-striped
         %tr
-          %th Owner
-          %th Crop
-          %th.hidden-xs.hidden-sm Description
-          %th Will trade to
-          %th From location
+          %th= t('.owner')
+          %th= t('.crop')
+          %th.hidden-xs.hidden-sm= t('.description')
+          %th= t('.trade_to')
+          %th= t('.from')
           %th
 
         - seeds.each do |seed|
@@ -23,8 +23,8 @@
             %td= seed.tradable? ? seed.tradable_to : ''
             %td
               - if seed.tradable?
-                = seed.owner.location.blank? ? "unspecified" : truncate(seed.owner.location, :length => 25, :separator => ', ')
-            %td= link_to 'Details', seed, :class => 'btn btn-default btn-xs'
+                = seed.owner.location.blank? ? t('.unspecified') : truncate(seed.owner.location, :length => 25, :separator => ', ')
+            %td= link_to t('.details'), seed, :class => 'btn btn-default btn-xs'
 
   %p.text-right
-    = link_to "View all seeds »", seeds_path
+    = link_to "#{t('.view_all')} »", seeds_path

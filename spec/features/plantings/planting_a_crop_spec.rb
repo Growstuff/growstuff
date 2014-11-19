@@ -1,15 +1,17 @@
-require 'spec_helper'
+require "spec_helper"
 
 feature "Planting a crop", :js => true do
   let(:member)   { FactoryGirl.create(:member) }
   let!(:maize)   { FactoryGirl.create(:maize) }
+  let(:garden)   { FactoryGirl.create(:garden, owner: member) }
+  let!(:planting) { FactoryGirl.create(:planting, garden: garden, planted_at: Date.parse("2013-3-10")) }
 
   background do
     login_as(member)
-    visit '/plantings/new'
+    visit new_planting_path
   end
 
-  it_behaves_like "crop suggest", "planting", "crop"
+  it_behaves_like "crop suggest", "planting"
 
   scenario "Creating a new planting" do
     fill_autocomplete "crop", :with => "m"
@@ -27,7 +29,7 @@ feature "Planting a crop", :js => true do
   end
 
   scenario "Planting from crop page" do
-    visit "/crops/maize"
+    visit crop_path(maize)
     click_link "Plant this"
     within "form#new_planting" do
       expect(page).to have_selector "input[value='maize']"
@@ -38,28 +40,63 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "maize"
   end
 
-  scenario "Marking a planting as finished", :js => true do
+  scenario "Marking a planting as finished" do
     fill_autocomplete "crop", :with => "m"
     select_from_autocomplete "maize"
     within "form#new_planting" do
-      fill_in "When?", :with => '2014-07-01'
-      check 'Mark as finished'
-      fill_in "Finished date", :with => '2014-08-30'
+      fill_in "When?", :with => "2014-07-01"
+      check "Mark as finished"
+      fill_in "Finished date", :with => "2014-08-30"
+
+      # Trigger click instead of using Capybara"s uncheck
+      # because a date selection widget is overlapping 
+      # the checkbox preventing interaction.
+      page.find("#planting_finished").trigger("click")
+    end
+
+    # Javascript removes the finished at date when the 
+    # planting is marked unfinished.
+    expect(page.find("#planting_finished_at").value).to eq("")
+
+    within "form#new_planting" do
+      page.find("#planting_finished").trigger("click")
+    end
+
+    # The finished at date was cached in Javascript in 
+    # case the user clicks unfinished accidentally.
+    expect(page.find("#planting_finished_at").value).to eq("2014-08-30")
+
+    within "form#new_planting" do
       click_button "Save"
     end
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: August 30, 2014"
+
+    visit plantings_path
+    expect(page).to have_content "August 30, 2014"
   end
 
-  scenario "Marking a planting as finished without a date", :js => true do
+  scenario "Marking a planting as finished without a date" do
     fill_autocomplete "crop", :with => "m"
     select_from_autocomplete "maize"
     within "form#new_planting" do
-      check 'Mark as finished'
+      check "Mark as finished"
       click_button "Save"
     end
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: Yes (no date specified)"
+  end
+
+  describe "Marking a planting as finished from the show page" do
+    let(:path)      { planting_path(planting) }
+    let(:link_text) { "Mark as finished" }
+    it_behaves_like "append date"
+  end
+
+  describe "Marking a planting as finished from the list page" do
+    let(:path)      { plantings_path }
+    let(:link_text) { "Mark as finished" }
+    it_behaves_like "append date"
   end
 
 end

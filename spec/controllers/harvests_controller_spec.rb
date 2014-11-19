@@ -12,10 +12,30 @@ describe HarvestsController do
   end
 
   describe "GET index" do
+    before do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:member)
+      @tomato = FactoryGirl.create(:tomato)
+      @maize = FactoryGirl.create(:maize)
+      @harvest1 = FactoryGirl.create(:harvest, :owner_id => @member1.id, :crop_id => @tomato.id)
+      @harvest2 = FactoryGirl.create(:harvest, :owner_id => @member2.id, :crop_id => @maize.id)
+    end    
+
     it "assigns all harvests as @harvests" do
-      harvest = Harvest.create! valid_attributes
       get :index, {}
-      assigns(:harvests).should eq([harvest])
+      assigns(:harvests).should =~ [@harvest1, @harvest2]
+    end
+
+    it "picks up owner from params and shows owner's harvests only" do
+      get :index, {:owner => @member1.slug}
+      assigns(:owner).should eq @member1
+      assigns(:harvests).should eq [@harvest1]
+    end
+
+    it "picks up crop from params and shows the harvests for the crop only" do
+      get :index, {:crop => @maize.name}
+      assigns(:crop).should eq @maize
+      assigns(:harvests).should eq [@harvest2]
     end
   end
 

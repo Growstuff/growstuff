@@ -4,16 +4,13 @@ feature "crop wranglers" do
   context "signed in member" do
     let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
     let(:member){crop_wranglers.first}
-    before :each do
-      visit root_path
-      click_link 'Sign in'
-      fill_in 'Login', with: member.login_name
-      fill_in 'Password', with: member.password
-      click_button 'Sign in'
-      page.should have_content member.login_name
+
+    background do
+      login_as(member)
     end
 
     scenario "crop wranglers are listed on the crop wrangler page" do
+      visit root_path
       click_link 'Crop Wrangling'
 
       within '.crop_wranglers' do

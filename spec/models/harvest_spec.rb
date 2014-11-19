@@ -125,4 +125,118 @@ describe Harvest do
       Harvest.all.should eq [@h2, @h1]
     end
   end
+
+  context "stringification" do
+    before :each do
+      @crop = FactoryGirl.create(:crop, :name => "apricot")
+    end
+
+    it "apricots" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop,
+        :quantity => nil,
+        :unit => nil,
+        :weight_quantity => nil,
+        :weight_unit => nil
+      )
+      @h.to_s.should eq "apricots"
+    end
+
+    it "1 individual apricot" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop, 
+        :quantity => 1,
+        :unit => 'individual',
+        :weight_quantity => nil,
+        :weight_unit => nil
+      )
+      @h.to_s.should eq "1 individual apricot"
+    end
+
+    it "10 individual apricots" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop, 
+        :quantity => 10,
+        :unit => 'individual',
+        :weight_quantity => nil,
+        :weight_unit => nil
+      )
+      @h.to_s.should eq "10 individual apricots"
+    end
+
+    it "1 bushel of apricots" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop, 
+        :quantity => 1,
+        :unit => 'bushel',
+        :weight_quantity => nil,
+        :weight_unit => nil
+      )
+      @h.to_s.should eq "1 bushel of apricots"
+    end
+
+    it "1.5 bushels of apricots" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop, 
+        :quantity => 1.5,
+        :unit => 'bushel',
+        :weight_quantity => nil,
+        :weight_unit => nil
+      )
+      @h.to_s.should eq "1.5 bushels of apricots"
+    end
+
+    it "10 bushels of apricots" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop, 
+        :quantity => 10,
+        :unit => 'bushel',
+        :weight_quantity => nil,
+        :weight_unit => nil
+      )
+      @h.to_s.should eq "10 bushels of apricots"
+    end
+
+    it "apricots weighing 1.2 kg" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop, 
+        :quantity => nil,
+        :unit => nil,
+        :weight_quantity => 1.2,
+        :weight_unit => 'kg'
+      )
+      @h.to_s.should eq "apricots weighing 1.2 kg"
+    end
+
+    it "10 bushels of apricots weighing 100 kg" do
+      @h = FactoryGirl.create(:harvest, :crop => @crop, 
+          :quantity => 10,
+          :unit => 'bushel',
+          :weight_quantity => 100,
+          :weight_unit => 'kg')
+      @h.to_s.should eq "10 bushels of apricots weighing 100 kg"
+    end
+
+  end
+
+  context 'photos' do
+    before(:each) do
+      @harvest = FactoryGirl.create(:harvest)
+      @photo = FactoryGirl.create(:photo)
+      @harvest.photos << @photo
+    end
+
+    it 'has a photo' do
+      @harvest.photos.first.should eq @photo
+    end
+
+    it 'deletes association with photos when photo is deleted' do
+      @photo.destroy
+      @harvest.reload
+        @harvest.photos.should be_empty
+    end
+
+    it 'has a default photo' do
+        @harvest.default_photo.should eq @photo
+    end
+
+    it 'chooses the most recent photo' do
+        @photo2 = FactoryGirl.create(:photo)
+      @harvest.photos << @photo2
+      @harvest.default_photo.should eq @photo2
+    end
+  end
 end

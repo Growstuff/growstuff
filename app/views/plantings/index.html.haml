@@ -1,4 +1,4 @@
-- content_for :title, @owner ? "#{@owner}'s plantings" : "Everyone's plantings"
+- content_for :title, @owner ? "#{@owner}'s plantings" : @crop ? "Everyone's #{@crop.name} plantings" : "Everyone's plantings"
 
 %p
   - if can? :create, Planting
@@ -43,7 +43,7 @@
         %td= planting.planted_at
         %td
           - if planting.finished and planting.finished_at
-            = planting.planted_at
+            = planting.finished_at
           - elsif planting.finished
             Yes (no date specified)
         %td= planting.sunniness
@@ -53,7 +53,7 @@
           - if can? :edit, planting
             =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
             - if ! planting.finished
-              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs'
+              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
           - if can? :destroy, planting
             =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 

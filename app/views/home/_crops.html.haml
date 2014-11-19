@@ -1,14 +1,14 @@
 .row
   .col-md-6.hidden-xs
     - cache "interesting_crops", :expires_in => 1.day do
-      %h2 Some of our crops
+      %h2= t('.our_crops')
       - Crop.interesting.each do |c|
         .col-md-3{:style => 'margin:0px; padding: 3px'}
           = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
 
   .col-md-6
     - cache "interesting_plantings" do
-      %h2 Recently planted
+      %h2= t('.recently_planted')
       = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting.first(4) }
 
 .row
@@ -16,8 +16,8 @@
     - cache "recent_crops" do
       %p{ :style => 'margin-top: 11.25px' }
         %strong
-          Recently added crops:
+          #{t('.recently_added')}:
         != Crop.recent.limit(12).map {|c| link_to(c, c) }.join(", ")
 
     %p.text-right
-      =link_to "View all crops »", crops_path
+      =link_to "#{t('.view_all')} »", crops_path
