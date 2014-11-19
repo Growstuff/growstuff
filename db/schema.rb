@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141111130849) do
+ActiveRecord::Schema.define(:version => 20141119130555) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(:version => 20141111130849) do
   add_index "crops_posts", ["crop_id"], :name => "index_crops_posts_on_crop_id"
 
   create_table "follows", :force => true do |t|
-    t.integer  "member_id"
+    t.integer  "follower_id"
     t.integer  "followed_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false

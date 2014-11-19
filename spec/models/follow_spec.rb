@@ -10,7 +10,7 @@ describe Follow do
 
   	it "sends a notification when a follow is created" do
       expect {
-        Follow.create(:member_id => @member1.id, :followed_id => @member2.id)
+        Follow.create(:follower_id => @member1.id, :followed_id => @member2.id)
       }.to change(Notification, :count).by(1)
     end
   end
