@@ -402,7 +402,7 @@ describe 'member' do
     end
 
     it 'returns nil for a member that is not followed' do
-      expect(@member1.get_follow(@member3).nil?).to eq true
+      expect(@member1.get_follow(@member3)).to be_nil
     end
 
   end
