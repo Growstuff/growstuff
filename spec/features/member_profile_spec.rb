@@ -151,7 +151,7 @@ feature "member profile" do
       scenario "following and unfollowing" do
         click_link 'Follow'
         expect(page).to have_content "Followed #{other_member.login_name}"
-        expect(page).to have_link "Unfollow", :href => follow_path(member.get_follow_id(other_member))
+        expect(page).to have_link "Unfollow", :href => follow_path(member.get_follow(other_member))
 
         visit member_follows_path(member)
         expect(page).to have_content "#{other_member.login_name}"

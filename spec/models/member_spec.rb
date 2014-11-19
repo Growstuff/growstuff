@@ -381,4 +381,30 @@ describe 'member' do
     end
   end
 
+  context 'member who followed another member' do
+    before(:each) do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:member)
+      @member3 = FactoryGirl.create(:member)
+      @follow = @member1.follows.create(:follower_id => @member1.id, :followed_id => @member2.id)
+    end
+
+    it 'detects that member is already following a member' do
+      expect(@member1.already_following?(@member2)).to eq true
+    end
+
+    it 'detects that member is not already following a member' do
+      expect(@member1.already_following?(@member3)).to eq false
+    end
+
+    it 'gets the correct follow for a followed member' do
+      expect(@member1.get_follow(@member2).id).to eq @follow.id
+    end
+
+    it 'returns nil for a member that is not followed' do
+      expect(@member1.get_follow(@member3).nil?).to eq true
+    end
+
+  end
+
 end
