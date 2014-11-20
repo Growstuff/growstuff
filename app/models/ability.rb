@@ -93,6 +93,11 @@ class Ability
       cannot :update,  OrderItem, :order => { :member_id => member.id, :completed_at => nil }
       cannot :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
 
+      # following/unfollowing permissions
+      can :create, Follow do |f|
+        !member.already_following?(f.followed) && f.followed_id != member.id
+      end
+
       if member.has_role? :admin
 
         can :read, :all
