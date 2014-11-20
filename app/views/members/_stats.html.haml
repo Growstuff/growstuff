@@ -21,3 +21,16 @@
       = link_to pluralize(member.posts.count, "post"), posts_by_author_path(:author => member)
     - else
       0 posts
+
+  %li
+    - if member.followed.count > 0
+      = link_to pluralize(member.followed.count, "follow"), member_follows_path(member)
+    - else
+      0 following
+
+  %li
+    - if member.followers.count > 0
+      = link_to pluralize(member.followers.count, "follower"), member_followers_path(member)
+    - else
+      0 followers
+

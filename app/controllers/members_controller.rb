@@ -36,12 +36,12 @@ class MembersController < ApplicationController
 
   def view_follows
     @member = Member.confirmed.find(params[:login_name])
-    @follows = @member.followed
+    @follows = @member.followed.paginate(:page => params[:page])
   end
 
   def view_followers
     @member = Member.confirmed.find(params[:login_name])
-    @followers = @member.followers
+    @followers = @member.followers.paginate(:page => params[:page])
   end
 
 end
