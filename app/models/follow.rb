@@ -8,8 +8,8 @@ class Follow < ActiveRecord::Base
     Notification.create(
       :recipient_id => self.followed_id,
       :sender_id => self.follower_id,
-      :subject => "#{self.follower.login_name} has followed you",
-      :body => "#{self.follower.login_name} has followed you"
+      :subject => "#{self.follower.login_name} is now following you",
+      :body => "#{self.follower.login_name} just followed you on Growstuff. "
     )
   end
 
