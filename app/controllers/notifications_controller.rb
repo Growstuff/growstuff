@@ -1,6 +1,8 @@
 class NotificationsController < ApplicationController
   include NotificationsHelper
+  before_filter :authenticate_member!
   load_and_authorize_resource
+
   # GET /notifications
   def index
     @notifications = Notification.find_all_by_recipient_id(current_member)

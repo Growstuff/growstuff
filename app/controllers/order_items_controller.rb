@@ -1,4 +1,5 @@
 class OrderItemsController < ApplicationController
+  before_filter :authenticate_member!
   load_and_authorize_resource
 
   # POST /order_items

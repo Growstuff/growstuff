@@ -2,6 +2,7 @@ require 'spec_helper'
 
 feature "signin" do
   let(:member){FactoryGirl.create(:member)}
+  let(:notification){FactoryGirl.create(:notification)}
 
   scenario "redirect to previous page after signin" do
     visit crops_path # some random page
@@ -19,6 +20,11 @@ feature "signin" do
     fill_in 'Password', with: member.password
     click_button 'Sign in'
     current_path.should eq root_path
+  end
+
+  scenario "redirect to signin page for if not authenticated to view notification" do
+    visit notification_path(notification)
+    current_path.should eq new_member_session_path
   end
 
 end
