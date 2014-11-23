@@ -1,50 +1,29 @@
-%h2 Open Source
+%h2= t('.open_source_title')
 
 %p
-  #{ENV['GROWSTUFF_SITE_NAME']} is open source software,
-  which means that we share this website's code for free with our
-  community and the world.  We believe that openness,
-  sustainability, and social good go hand in hand.  You can read more
-  about
-  =link_to "why Growstuff is open source", "http://blog.growstuff.org/2013/02/20/why-growstuff-is-open-source/"
-  or check out our code on
-  =succeed '.' do
-    = link_to 'Github', 'http://github.com/Growstuff/growstuff'
+  = t('.open_source_body_html', why: link_to(t('.why_linktext'), 'http://blog.growstuff.org/2013/02/20/why-growstuff-is-open-source/'), 
+                                github: link_to(t('.github_linktext'), 'http://github.com/Growstuff/growstuff'),
+                                site_name: ENV['GROWSTUFF_SITE_NAME'] )
 
-%h2 Open Data and APIs
+
+%h2= t('.open_data_title')
 
 %p
-  We're building a database
-  of crops, planting advice, seed sources, and other information
-  that anyone can use for free, under a
-  = succeed '.' do
-    = link_to 'Creative Commons license', 'http://creativecommons.org/licenses/by-sa/3.0/'
-  You can use this data for research, to build apps, or for any
-  purpose at all.  Read more about our
+  = t('.open_data_body_html', creative_commons_link: link_to(t('.creative_commons_linktext'), 'http://creativecommons.org/licenses/by-sa/3.0/'), 
+                              wiki_link: link_to(t('.wiki_linktext'), 'http://wiki.growstuff.org/index.php/Open_data'), 
+                              api_docs_link: link_to(t('.api_docs_linktext'), 'http://wiki.growstuff.org/index.php/API'))
 
-  = link_to 'open data', 'http://wiki.growstuff.org/index.php/Open_data'
-  and
-  = succeed '.' do
-    = link_to 'API documentation', 'http://wiki.growstuff.org/index.php/API'
 
-%h2 Get Involved
+
+%h2= t('.get_involved_title')
 
 %p
-  We believe in collaboration, and work closely with our members
-  and the wider food-growing community.
-  Our team includes volunteers from all walks of life
-  and all skills levels. To get involved,
-  = link_to 'join our discussion mailing list', 'http://lists.growstuff.org/mailman/listinfo/discuss'
-  or find more information on the
-  = succeed "." do
-    = link_to 'Growstuff Wiki', 'http://wiki.growstuff.org/'
+  = t('.get_involved_body_html', talk_link: link_to(t('.talk_linktext'), 'http://talk.growstuff.org/'), 
+                                 wiki_link: link_to(t('.wiki_linktext'), 'http://wiki.growstuff.org/'))
 
-%h2 Support Growstuff
+
+%h2= t('.support_title')
 
 %p
-  Growstuff is independent,
-  =succeed "," do
-    =link_to 'ad-free', 'http://wiki.growstuff.org/index.php/Why_no_ads%3F'
-  and we have no outside investment.  You can support our work by
-  =succeed "." do
-    =link_to 'buying a paid account', shop_path
+  = t('.support_body_html', ad_free: link_to(t('.ad_free_linktext'), 'http://wiki.growstuff.org/index.php/Why_no_ads%3F'),
+                            buy_account: link_to(t('.buy_account_linktext'), shop_path))

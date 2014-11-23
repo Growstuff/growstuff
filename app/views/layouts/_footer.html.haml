@@ -1,11 +1,10 @@
-.navbar.navbar-bottom
-  .navbar-inner
-    .container.center
-      %ul.nav.text-center
-        %li= link_to "About", "http://wiki.growstuff.org/index.php/About%20Growstuff"
-        %li= link_to "Contact", url_for(:controller => '/about', :action => 'contact')
-        %li= link_to "Terms of Service", url_for(:controller => '/policy', :action => 'tos')
-        %li= link_to "Privacy Policy", url_for(:controller => %'/policy', :action => 'privacy')
-        %li= link_to "Community Guidelines", url_for(:controller => '/policy', :action => 'community')
-        %li= link_to "Support/FAQ", url_for(:controller => '/support')
-        %li= link_to "Open Source", "https://github.com/Growstuff/growstuff"
+.navbar.navbar-default.navbar-bottom
+  .container
+    %ul.nav.navbar-nav.text-center
+      %li= link_to "About", "http://wiki.growstuff.org/index.php/About%20Growstuff"
+      %li= link_to "Contact", url_for(:controller => '/about', :action => 'contact')
+      %li= link_to "Terms of Service", url_for(:controller => '/policy', :action => 'tos')
+      %li= link_to "Privacy Policy", url_for(:controller => %'/policy', :action => 'privacy')
+      %li= link_to "Community Guidelines", url_for(:controller => '/policy', :action => 'community')
+      %li= link_to "Support/FAQ", url_for(:controller => '/support')
+      %li= link_to "Open Source", "https://github.com/Growstuff/growstuff"

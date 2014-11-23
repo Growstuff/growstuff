@@ -1,0 +1,9 @@
+- content_for :title, "Edit alternate name"
+
+%p
+  Added by
+  = @alternate_name.creator
+  = distance_of_time_in_words(@alternate_name.created_at, Time.zone.now)
+  ago.
+
+= render 'form'

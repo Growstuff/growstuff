@@ -34,7 +34,7 @@ class CropsController < ApplicationController
   # GET /crops/wrangle
   def wrangle
     @crops = Crop.recent.paginate(:page => params[:page])
-
+    @crop_wranglers = Role.crop_wranglers
     respond_to do |format|
       format.html
     end
@@ -57,8 +57,11 @@ class CropsController < ApplicationController
     # exclude exact match from partial match list
     @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
 
+    @fuzzy = Crop.search(params[:term])
+
     respond_to do |format|
       format.html
+      format.json { render :json => @fuzzy }
     end
   end
 
@@ -66,6 +69,7 @@ class CropsController < ApplicationController
   # GET /crops/1.json
   def show
     @crop = Crop.includes(:scientific_names, {:plantings => :photos}).find(params[:id])
+    @posts = @crop.posts.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # show.html.haml
@@ -100,7 +104,6 @@ class CropsController < ApplicationController
   def create
     params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(params[:crop])
-
 
     respond_to do |format|
       if @crop.save

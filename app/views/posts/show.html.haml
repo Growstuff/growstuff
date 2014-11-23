@@ -5,10 +5,10 @@
 - if can? :edit, @post or can? :destroy, @post
   .post-actions
     - if can? :edit, @post
-      = link_to 'Edit Post', edit_post_path(@post), :class => 'btn btn-mini'
+      = link_to 'Edit Post', edit_post_path(@post), :class => 'btn btn-default btn-xs'
     - if can? :destroy, @post
       = link_to 'Delete Post', @post, method: :delete, |
-        data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini'
+        data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
 = render :partial => "comments", :locals => { :post => @post }
 

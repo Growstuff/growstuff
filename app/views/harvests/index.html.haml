@@ -1,4 +1,4 @@
-- content_for :title, @owner ? "#{@owner}'s harvests" : "Everyone's harvests"
+- content_for :title, @owner ? "#{@owner}'s harvests" : @crop ? "Everyone's #{@crop.name} harvests" : "Everyone's harvests"
 
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
@@ -10,11 +10,11 @@
       %p
         - if @owner == current_member
           = link_to 'Add harvest', new_harvest_path, :class => 'btn btn-primary'
-        = link_to "View everyone's harvests", harvests_path, :class => 'btn'
+        = link_to "View everyone's harvests", harvests_path, :class => 'btn btn-default'
     - else # everyone's harvests
       = link_to 'Add harvest', new_harvest_path, :class => 'btn btn-primary'
       - if current_member
-        = link_to 'View your harvests', harvests_by_owner_path(:owner => current_member.slug), :class => 'btn'
+        = link_to 'View your harvests', harvests_by_owner_path(:owner => current_member.slug), :class => 'btn btn-default'
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'track your harvests' }
 
@@ -46,13 +46,13 @@
         %td= harvest.harvested_at
         %td= display_quantity(harvest)
         %td= harvest.description
-        %td= link_to 'Details', harvest, :class => 'btn btn-mini'
+        %td= link_to 'Details', harvest, :class => 'btn btn-default btn-xs'
 
   %div.pagination
     = page_entries_info @harvests, :model => "harvests"
     = will_paginate @harvests
 
-  %ul.inline
+  %ul.list-inline
     %li The data on this page is available in the following formats:
     - if @owner
       %li= link_to "CSV", harvests_by_owner_path(@owner, :format => 'csv')

@@ -8,8 +8,8 @@ describe "plantings/index" do
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
     page = 1
-    per_page = 2
-    total_entries = 2
+    per_page = 3
+    total_entries = 3
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
         FactoryGirl.create(:planting,
@@ -22,6 +22,13 @@ describe "plantings/index" do
           :crop => @maize,
           :description => '',
           :planted_at => Time.local(2013, 1, 13)
+        ),
+        FactoryGirl.create(:planting,
+          :garden => @garden,
+          :crop => @tomato,
+          :planted_at => Time.local(2013, 1, 13),
+          :finished_at => Time.local(2013, 1, 20),
+          :finished => true
         )
       ])
     end
@@ -36,12 +43,12 @@ describe "plantings/index" do
     rendered.should contain @garden.name
   end
 
-  it "shows descriptions where they exist" do
-    rendered.should contain "This is a"
-  end
-
   it "displays planting time" do
     rendered.should contain 'January 13, 2013'
+  end
+
+  it "displays finished time" do
+    rendered.should contain 'January 20, 2013'
   end
 
   it "provides data links" do
@@ -52,4 +59,15 @@ describe "plantings/index" do
     assert_select "a", :href => plantings_path(:format => 'rss')
   end
 
+  it "displays member's name in title" do
+    assign(:owner, @member)
+    render
+    view.content_for(:title).should contain @member.login_name
+  end
+
+  it "displays crop's name in title" do
+    assign(:crop, @tomato)
+    render
+    view.content_for(:title).should contain @tomato.name
+  end
 end

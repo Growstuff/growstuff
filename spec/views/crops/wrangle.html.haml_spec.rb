@@ -13,6 +13,7 @@ describe "crops/wrangle" do
       pager.replace([ @tomato, @maize ])
     end
     assign(:crops, crops)
+    assign(:crop_wranglers, Role.crop_wranglers)
   end
 
   it 'contains handy links for wranglers' do

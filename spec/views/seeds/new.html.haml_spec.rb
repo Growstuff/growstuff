@@ -12,7 +12,8 @@ describe "seeds/new" do
   it "renders new seed form" do
     render
     assert_select "form", :action => seeds_path, :method => "post" do
-      assert_select "select#seed_crop_id", :name => "seed[crop_id]"
+      assert_select "input#crop", :class => "ui-autocomplete-input"
+      assert_select "input#seed_crop_id", :name => "seed[crop_id]"
       assert_select "textarea#seed_description", :name => "seed[description]"
       assert_select "input#seed_quantity", :name => "seed[quantity]"
       assert_select "select#seed_tradable_to", :name => "seed[tradable_to]"

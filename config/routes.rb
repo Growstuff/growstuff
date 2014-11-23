@@ -2,8 +2,8 @@ Growstuff::Application.routes.draw do
 
   resources :plant_parts
 
-
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
+
   resources :members
 
   resources :photos
@@ -12,20 +12,24 @@ Growstuff::Application.routes.draw do
 
   resources :plantings
   match '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
+  match '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
 
   resources :gardens
   match '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
 
   resources :seeds
   match '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner'
+  match '/seeds/crop/:crop' => 'seeds#index', :as => 'seeds_by_crop'
 
   resources :harvests
   match '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
+  match '/harvests/crop/:crop' => 'harvests#index', :as => 'harvests_by_crop'
 
   resources :posts
   match '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
 
   resources :scientific_names
+  resources :alternate_names
 
   match 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
   match 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'

@@ -12,10 +12,30 @@ describe PlantingsController do
   end
 
   describe "GET index" do
-    it "picks up owner from params" do
-      owner = FactoryGirl.create(:member)
-      get :index, {:owner => owner.slug}
-      assigns(:owner).should eq(owner)
+    before do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:member)
+      @tomato = FactoryGirl.create(:tomato)
+      @maize = FactoryGirl.create(:maize)      
+      @planting1 = FactoryGirl.create(:planting, :crop => @tomato, :owner => @member1)
+      @planting2 = FactoryGirl.create(:planting, :crop => @maize, :owner => @member2)
+    end
+    
+    it "assigns all plantings as @plantings" do
+      get :index, {}
+      assigns(:plantings).should =~ [@planting1, @planting2]
+    end
+
+    it "picks up owner from params and shows owner's plantings only" do
+      get :index, {:owner => @member1.slug}
+      assigns(:owner).should eq @member1
+      assigns(:plantings).should eq [@planting1]
+    end
+
+    it "picks up crop from params and shows the plantings for the crop only" do
+      get :index, {:crop => @maize.name}
+      assigns(:crop).should eq @maize
+      assigns(:plantings).should eq [@planting2]    
     end
   end
 

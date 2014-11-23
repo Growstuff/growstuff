@@ -44,8 +44,7 @@ describe "plantings/edit" do
     end
 
     it "chooses the right crop" do
-      assert_select "select#planting_crop_id",
-        :html => /option value="#{@tomato.id}" selected="selected"/
+      assert_select "input#crop[value=?]", "tomato"
     end
 
     it "chooses the right garden" do

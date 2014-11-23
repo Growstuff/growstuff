@@ -30,8 +30,28 @@ namespace :growstuff do
     CSV.foreach(@file) do |row|
       Crop.create_from_csv(row)
     end
+    Rails.cache.delete('full_crop_hierarchy')
     puts "Finished loading crops"
 
+  end
+
+  desc "Send planting reminder email"
+  # usage: rake growstuff:send_planting_reminder
+
+  task :send_planting_reminder => :environment do
+    # Heroku scheduler only lets us run things daily, so this checks
+    # whether it's the right day to actually do the deed.
+    # Note that Heroku scheduler runs on UTC.
+    # We'd like to send on Wednesday mornings, US time, which will be
+    # very early Wednesday morning UTC.
+    send_on_day = 3 # wednesday
+    every_n_weeks = 2 # send fortnightly
+
+    if Date.today.cwday == send_on_day and Date.today.cweek % every_n_weeks == 0
+      Member.confirmed.find_each do |m|
+        Notifier.planting_reminder(m).deliver!
+      end
+    end
   end
 
   desc "Depopulate Null Island"
@@ -246,6 +266,29 @@ namespace :growstuff do
       end
     end
 
+    desc "August 2014: fix ping to pint in database"
+    task :ping_to_pint => :environment do
+      Harvest.find_each do |h|
+        if h.unit == "ping"
+          h.unit = "pint"
+          h.save
+        end
+      end
+    end
+
+    desc "October 2014: remove unused photos"
+    task :remove_unused_photos => :environment do
+      Photo.find_each do |p|
+        p.destroy_if_unused
+      end
+    end
+
+    desc "October 2014: generate crops_posts records for existing posts"
+    task :generate_crops_posts_records => :environment do
+      Post.find_each do |p|
+        p.save
+      end
+    end
   end # end oneoff section
 
 end

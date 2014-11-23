@@ -1,18 +1,39 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
+
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
-require 'coveralls'
+
 require 'simplecov'
-SimpleCov.configure do
+require 'coveralls'
+
+# output coverage locally AND send it to coveralls
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+
+# fail if there's a significant test coverage drop
+SimpleCov.maximum_coverage_drop 1
+
+SimpleCov.start :rails do
   add_filter 'spec/'
+  add_filter 'vendor/'
 end
-Coveralls.wear!('rails')
+
+require 'capybara'
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+Capybara.app_host = 'http://localhost'
+Capybara.server_port = 8080
+
+include Warden::Test::Helpers
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/features/shared_examples/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -29,7 +50,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
