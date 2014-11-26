@@ -1,10 +1,11 @@
 //= require d3
 //= require graphs/bar_group
 //= require graphs/bar_label_group
+
 (function() {
   'use strict';
 
-  var growstuff = (window.growtuff = window.growstuff || {});
+  var growstuff = (window.growstuff = window.growstuff || {});
   var BarGroup = growstuff.BarGroup;
   var BarLabelGroup = growstuff.BarLabelGroup;
 

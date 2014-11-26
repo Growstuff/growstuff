@@ -2,6 +2,7 @@
 
   describe('BarGroup', function() {
   var BarGroup, subject;
+
   beforeEach(function() {
     BarGroup = growstuff.BarGroup;
     var bars = [

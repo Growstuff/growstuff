@@ -3,7 +3,7 @@
 
 
 
-  var growstuff = (window.growtuff = window.growstuff || {});
+  var growstuff = (window.growstuff = window.growstuff || {});
 
   function BarLabelGroup(bars) {
     this._bars = bars;
