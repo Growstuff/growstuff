@@ -145,5 +145,15 @@ feature "member profile" do
       end
     end
 
+    context "home page" do
+      background do
+        visit root_path
+      end
+
+      scenario "does not have a button to edit profile" do
+        expect(page).to_not have_link "Edit profile", :href => edit_member_registration_path
+      end
+    end
+
   end
 end
