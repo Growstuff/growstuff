@@ -8,12 +8,28 @@ jQuery ->
   
   el.datepicker({'format': 'yyyy-mm-dd'})
 
+  href = el.attr('href')
+
+  originalText = el.text()
+
   el.click (e) ->
     e.stopPropagation()
     e.preventDefault()
 
+    $(this).text('Confirm without date')
+
+    $(this).bind('click.confirm', (e) ->
+      link = $("<a href='#{href}' data-method='put'></a>")
+      $('body').append(link)
+      $(link).click()
+    )
+
+    $(this).blur (e) ->
+      $(this).text(originalText)
+      $(this).unbind('click.confirm')
+
+
   el.one 'changeDate', ->
-    href = $(this).attr('href')
     date = $(this).datepicker('getDate')
     url  = "#{href}&planting[finished_at]=#{date}"
 

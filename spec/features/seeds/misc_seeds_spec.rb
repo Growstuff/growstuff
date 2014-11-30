@@ -12,6 +12,14 @@ feature "seeds" do
       click_button 'Sign in'
     end
 
+    scenario "button on index to edit seed" do
+      seed = FactoryGirl.create(:seed, :owner => @member)
+      visit seeds_path
+      click_link "Edit"
+      current_path.should eq edit_seed_path(seed)
+      page.should have_content 'Editing seeds'
+    end
+
     scenario "button on front page to add seeds" do
       visit root_path
       click_link "Add seeds"

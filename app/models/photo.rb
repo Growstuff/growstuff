@@ -14,7 +14,7 @@ class Photo < ActiveRecord::Base
 
   # remove photos that aren't used by anything
   def destroy_if_unused
-    unless plantings.size > 0 and harvests.size > 0
+    unless plantings.size > 0 or harvests.size > 0
       self.destroy
     end
   end
