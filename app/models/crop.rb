@@ -122,12 +122,12 @@ class Crop < ActiveRecord::Base
 # used by db/seeds.rb and rake growstuff:import_crops
 # CSV fields:
 # - name (required)
-# - scientific name (optional, can be picked up from parent if it has one)
 # - en_wikipedia_url (required)
 # - parent (name, optional)
+# - scientific name (optional, can be picked up from parent if it has one)
 
   def Crop.create_from_csv(row)
-    name,scientific_name,en_wikipedia_url,parent = row
+    name,en_wikipedia_url,parent,scientific_name = row
 
     cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot

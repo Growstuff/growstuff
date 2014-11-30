@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(:version => 20141018111015) do
     t.datetime "updated_at", :null => false
     t.string   "slug"
     t.integer  "forum_id"
+    t.integer  "parent_id"
   end
 
   add_index "posts", ["created_at", "author_id"], :name => "index_updates_on_created_at_and_user_id"

@@ -398,9 +398,8 @@ describe Crop do
       expect(tomato.scientific_names.size).to eq 1 # shouldn't increase now
     end
 
-
     it "loads the simplest possible crop" do
-      tomato_row = "tomato,,http://en.wikipedia.org/wiki/Tomato"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)
@@ -413,7 +412,7 @@ describe Crop do
     end
 
     it "loads a crop with a scientific name" do
-      tomato_row = "tomato,Solanum lycopersicum,http://en.wikipedia.org/wiki/Tomato"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)
@@ -427,7 +426,7 @@ describe Crop do
 
     it "loads a crop with a parent" do
       parent = FactoryGirl.create(:crop, :name => 'parent')
-      tomato_row = "tomato,,http://en.wikipedia.org/wiki/Tomato,parent"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)
@@ -438,7 +437,7 @@ describe Crop do
     end
 
     it "doesn't add unnecessary duplicate crops" do
-      tomato_row = "tomato,Solanum lycopersicum,http://en.wikipedia.org/wiki/Tomato"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)
