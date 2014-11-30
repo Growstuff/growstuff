@@ -389,20 +389,24 @@ describe 'member' do
       @follow = @member1.follows.create(:follower_id => @member1.id, :followed_id => @member2.id)
     end
 
-    it 'detects that member is already following a member' do
-      expect(@member1.already_following?(@member2)).to eq true
+    context 'already_following' do
+      it 'detects that member is already following a member' do
+        expect(@member1.already_following?(@member2)).to eq true
+      end
+
+      it 'detects that member is not already following a member' do
+        expect(@member1.already_following?(@member3)).to eq false
+      end
     end
 
-    it 'detects that member is not already following a member' do
-      expect(@member1.already_following?(@member3)).to eq false
-    end
+    context 'get_follow' do
+      it 'gets the correct follow for a followed member' do
+        expect(@member1.get_follow(@member2).id).to eq @follow.id
+      end
 
-    it 'gets the correct follow for a followed member' do
-      expect(@member1.get_follow(@member2).id).to eq @follow.id
-    end
-
-    it 'returns nil for a member that is not followed' do
-      expect(@member1.get_follow(@member3)).to be_nil
+      it 'returns nil for a member that is not followed' do
+        expect(@member1.get_follow(@member3)).to be_nil
+      end
     end
 
   end
