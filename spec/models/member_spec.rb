@@ -369,7 +369,7 @@ describe 'member' do
 
       # and again to make sure it works for currently paid accounts
       @member.update_account_after_purchase(@product)
-      @member.account.paid_until.to_s.should eq (Time.zone.now + 6.months).to_s
+      @member.account.paid_until.to_s.should eq (Time.zone.now + 3.months + 3.months).to_s
     end
   end
 
