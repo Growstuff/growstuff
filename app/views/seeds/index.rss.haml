@@ -2,7 +2,7 @@
 %rss{:version => 2.0}
   %channel
     %title
-      #{ENV['GROWSTUFF_SITE_NAME']} - Recent seeds from #{ @owner ? @owner : 'all members' }
+      Recent seeds from #{ @owner ? @owner : 'all members' } (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= seeds_url
     - @seeds.each do |seed|
       %item
