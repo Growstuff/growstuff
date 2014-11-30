@@ -9,7 +9,7 @@ class Follow < ActiveRecord::Base
       :recipient_id => self.followed_id,
       :sender_id => self.follower_id,
       :subject => "#{self.follower.login_name} is now following you",
-      :body => "#{self.follower.login_name} just followed you on Growstuff. "
+      :body => "#{self.follower.login_name} just followed you on #{ENV["GROWSTUFF_SITE_NAME"]}. "
     )
   end
 
