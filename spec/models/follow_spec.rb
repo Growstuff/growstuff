@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Follow do
   
-	before(:each) do
-	  @member1 = FactoryGirl.create(:member)
-	  @member2 = FactoryGirl.create(:member)
-	end
+  before(:each) do
+    @member1 = FactoryGirl.create(:member)
+    @member2 = FactoryGirl.create(:member)
+  end
 
   it "sends a notification when a follow is created" do
     expect {
