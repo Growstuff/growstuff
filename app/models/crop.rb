@@ -127,7 +127,7 @@ class Crop < ActiveRecord::Base
 # - scientific name (optional, can be picked up from parent if it has one)
 
   def Crop.create_from_csv(row)
-    name,en_wikipedia_url,parent,scientific_names = row
+    name,en_wikipedia_url,parent,scientific_names,alternate_names = row
 
     cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -148,6 +148,7 @@ class Crop < ActiveRecord::Base
     end
 
     crop.add_scientific_names_from_csv(scientific_names)
+    crop.add_alternate_names_from_csv(alternate_names)
 
   end
 
@@ -162,12 +163,13 @@ class Crop < ActiveRecord::Base
     end
 
     if names_to_add.size > 0
+      cropbot = Member.find_by_login_name('cropbot')
+      raise "cropbot account not found: run rake db:seed" unless cropbot
+
       names_to_add.each do |n|
         if self.scientific_names.exists?(:scientific_name => n)
           logger.warn("Warning: skipping duplicate scientific name #{n} for #{self}")
         else
-          cropbot = Member.find_by_login_name('cropbot')
-          raise "cropbot account not found: run rake db:seed" unless cropbot
 
           self.scientific_names.create(
             :scientific_name => n,
@@ -176,7 +178,28 @@ class Crop < ActiveRecord::Base
         end
       end
     end
+  end
 
+  def add_alternate_names_from_csv(alternate_names)
+    names_to_add = []
+    if ! alternate_names.blank? # i.e. we actually passed something in, which isn't a given
+      cropbot = Member.find_by_login_name('cropbot')
+      raise "cropbot account not found: run rake db:seed" unless cropbot
+
+      names_to_add = alternate_names.split(%r{,\s*})
+
+      names_to_add.each do |n|
+        if self.alternate_names.exists?(:name => n)
+          logger.warn("Warning: skipping duplicate alternate name #{n} for #{self}")
+        else
+          self.alternate_names.create(
+            :name => n,
+            :creator_id => cropbot.id
+          )
+        end
+      end
+
+    end
   end
 
   # Crop.search(string)
