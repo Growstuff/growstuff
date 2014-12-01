@@ -39,16 +39,20 @@ describe Photo do
         expect(lambda { photo.reload }).to raise_error ActiveRecord::RecordNotFound
       end
 
-      it 'they are no longer used by plantings' do
+      it 'they are used by plantings but not harvests' do
+        harvest.photos << photo
         planting.photos << photo
-        planting.destroy # photo is now no longer used by anything
-        expect(lambda { photo.reload }).to raise_error ActiveRecord::RecordNotFound
+        harvest.destroy # photo is now used by harvest but not planting
+        photo.destroy_if_unused
+        expect(lambda { photo.reload }).not_to raise_error ActiveRecord::RecordNotFound
       end
 
-      it 'they are no longer used by harvests' do
+      it 'they are used by harvests but not plantings' do
         harvest.photos << photo
-        harvest.destroy # photo is now no longer used by anything
-        expect(lambda { photo.reload }).to raise_error ActiveRecord::RecordNotFound
+        planting.photos << photo
+        planting.destroy # photo is now used by harvest but not planting
+        photo.destroy_if_unused
+        expect(lambda { photo.reload }).not_to raise_error ActiveRecord::RecordNotFound
       end
 
       it 'they are no longer used by anything' do
@@ -59,11 +63,14 @@ describe Photo do
 
         planting.destroy # photo is still used by harvest
         photo.reload
-        expect(photo).to be_an_instance_of Photo
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 1
 
         harvest.destroy # photo is now no longer used by anything
+        photo.reload
+        expect(photo.plantings.size).to eq 0
+        expect(photo.harvests.size).to eq 0
+        photo.destroy_if_unused
         expect(lambda { photo.reload }).to raise_error ActiveRecord::RecordNotFound
       end
 

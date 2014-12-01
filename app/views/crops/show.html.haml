@@ -1,18 +1,18 @@
 - content_for :title, @crop.name
+- content_for :subtitle, @crop.default_scientific_name
+- content_for :buttonbar do
+  - if can? :create, Planting
+    = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-default'
+
+  - if can? :create, Harvest
+    = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-default'
+
+  - if can? :create, Seed
+    = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
+
 
 .row
   .col-md-9
-    %p
-      - if can? :create, Planting
-        = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-primary'
-      - else
-        = render :partial => 'shared/signin_signup', :locals => { :to => 'plant this crop' }
-
-      - if can? :create, Harvest
-        = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-primary'
-
-      - if can? :create, Seed
-        = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-primary'
 
     = render :partial => 'photos', :locals => { :crop => @crop }
 
@@ -47,51 +47,19 @@
       = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3
-    - if can? :edit, @crop or can? :destroy, @crop
-      %h4 Crop wrangling
-      %p
-        You are a
-        = succeed "." do
-          %strong CROP WRANGLER
-      %p
-        - if can? :edit, @crop
-          = link_to 'Edit crop', edit_crop_path(@crop), { :class => 'btn btn-default btn-xs' }
-        - if can? :destroy, @crop
-          = link_to 'Delete crop', @crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
-    .scientific_names
-      %h4 Scientific names
-      %ul
-        - @crop.scientific_names.each do |sn|
-          %li
-            = sn.scientific_name
-            - if can? :edit, sn
-              = link_to 'Edit', edit_scientific_name_path(sn), { :class => 'btn btn-default btn-xs' }
-            - if can? :destroy, sn
-              = link_to 'Delete', sn, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
-      %p
-      - if can? :edit, @crop
-        = link_to 'Add', new_scientific_name_path( :crop_id => @crop.id ), { :class => 'btn btn-default btn-xs' }
+    = render :partial => 'wrangle', :locals => { :crop => @crop }
+    = render :partial => 'scientific_names', :locals => { :crop => @crop }
+    = render :partial => 'alternate_names', :locals => { :crop => @crop }
 
-    .alternate_names
-      %h4 Alternate names
-      %ul
-        - @crop.alternate_names.each do |an|
-          %li
-            = an.name
-            - if can? :edit, an
-              = link_to 'Edit', edit_alternate_name_path(an), { :class => 'btn btn-default btn-xs' }
-            - if can? :destroy, an
-              = link_to 'Delete', an, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
-      %p
-      - if can? :edit, @crop
-        = link_to 'Add', new_alternate_name_path( :crop_id => @crop.id ), { :class => 'btn btn-default btn-xs' }
-
-    = render :partial => 'varieties', :locals => { :crop => @crop }
+    %h4 Planting advice
 
     = render :partial => 'grown_for', :locals => { :crop => @crop }
-
     = render :partial => 'planting_advice', :locals => { :crop => @crop }
+
+    %h4 Varieties
+    = render :partial => 'varieties', :locals => { :crop => @crop }
+
 
     %h4 More information
     %ul

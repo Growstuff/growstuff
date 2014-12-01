@@ -351,56 +351,114 @@ describe Crop do
       @cropbot = FactoryGirl.create(:cropbot)
     end
 
-    it "adds a scientific name to a crop that has none" do
-      tomato = FactoryGirl.create(:tomato)
-      expect(tomato.scientific_names.size).to eq 0
-      tomato.add_scientific_name_from_csv("Foo bar")
-      expect(tomato.scientific_names.size).to eq 1
-      expect(tomato.default_scientific_name).to eq "Foo bar"
-    end
+    context "scientific names" do
 
-    it "picks up scientific name from parent crop if available" do
-      parent = FactoryGirl.create(:crop, :name => 'parent crop')
-      parent.add_scientific_name_from_csv("Parentis cropis")
-      parent.save
-      parent.reload
+      it "adds a scientific name to a crop that has none" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.scientific_names.size).to eq 0
+        tomato.add_scientific_names_from_csv("Foo bar")
+        expect(tomato.scientific_names.size).to eq 1
+        expect(tomato.default_scientific_name).to eq "Foo bar"
+      end
 
-      tomato = FactoryGirl.create(:tomato, :parent => parent)
-      expect(tomato.parent).to eq parent
-      expect(tomato.parent.default_scientific_name).to eq "Parentis cropis"
+      it "picks up scientific name from parent crop if available" do
+        parent = FactoryGirl.create(:crop, :name => 'parent crop')
+        parent.add_scientific_names_from_csv("Parentis cropis")
+        parent.save
+        parent.reload
 
-      tomato.add_scientific_name_from_csv('')
-      expect(tomato.default_scientific_name).to eq "Parentis cropis"
-    end
+        tomato = FactoryGirl.create(:tomato, :parent => parent)
+        expect(tomato.parent).to eq parent
+        expect(tomato.parent.default_scientific_name).to eq "Parentis cropis"
 
-    it "doesn't add a duplicate scientific name" do
-      tomato = FactoryGirl.create(:tomato)
-      expect(tomato.scientific_names.size).to eq 0
-      tomato.add_scientific_name_from_csv("Foo bar")
-      expect(tomato.scientific_names.size).to eq 1
-      tomato.add_scientific_name_from_csv("Foo bar")
-      expect(tomato.scientific_names.size).to eq 1 # shouldn't increase
-      tomato.add_scientific_name_from_csv("Baz quux")
-      expect(tomato.scientific_names.size).to eq 2
-    end
+        tomato.add_scientific_names_from_csv('')
+        expect(tomato.default_scientific_name).to eq "Parentis cropis"
+      end
 
-    it "doesn't add a duplicate scientific name from parent" do
-      parent = FactoryGirl.create(:crop, :name => 'parent')
-      parent.add_scientific_name_from_csv("Parentis cropis")
-      parent.save
-      parent.reload
+      it "doesn't add a duplicate scientific name" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.scientific_names.size).to eq 0
+        tomato.add_scientific_names_from_csv("Foo bar")
+        expect(tomato.scientific_names.size).to eq 1
+        tomato.add_scientific_names_from_csv("Foo bar")
+        expect(tomato.scientific_names.size).to eq 1 # shouldn't increase
+        tomato.add_scientific_names_from_csv("Baz quux")
+        expect(tomato.scientific_names.size).to eq 2
+      end
 
-      tomato = FactoryGirl.create(:tomato, :parent => parent)
-      expect(tomato.scientific_names.size).to eq 0
-      tomato.add_scientific_name_from_csv('')
-      expect(tomato.scientific_names.size).to eq 1 # picks up parent SN
-      tomato.add_scientific_name_from_csv('')
-      expect(tomato.scientific_names.size).to eq 1 # shouldn't increase now
-    end
+      it "doesn't add a duplicate scientific name from parent" do
+        parent = FactoryGirl.create(:crop, :name => 'parent')
+        parent.add_scientific_names_from_csv("Parentis cropis")
+        parent.save
+        parent.reload
 
+        tomato = FactoryGirl.create(:tomato, :parent => parent)
+        expect(tomato.scientific_names.size).to eq 0
+        tomato.add_scientific_names_from_csv('')
+        expect(tomato.scientific_names.size).to eq 1 # picks up parent SN
+        tomato.add_scientific_names_from_csv('')
+        expect(tomato.scientific_names.size).to eq 1 # shouldn't increase now
+      end
+
+      it "loads a crop with multiple scientific names" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.scientific_names.size).to eq 0
+        tomato.add_scientific_names_from_csv("Foo, Bar")
+        expect(tomato.scientific_names.size).to eq 2
+        expect(tomato.scientific_names[0].scientific_name).to eq "Foo"
+        expect(tomato.scientific_names[1].scientific_name).to eq "Bar"
+      end
+
+      it "loads multiple scientific names with variant spacing" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.scientific_names.size).to eq 0
+        tomato.add_scientific_names_from_csv("Foo,Bar") # no space
+        expect(tomato.scientific_names.size).to eq 2
+        tomato.add_scientific_names_from_csv("Baz,   Quux") # multiple spaces
+        expect(tomato.scientific_names.size).to eq 4
+      end
+
+    end # scientific names
+
+    context "alternate names" do
+      it "loads an alternate name" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.alternate_names.size).to eq 0
+        tomato.add_alternate_names_from_csv("Foo")
+        expect(tomato.alternate_names.size).to eq 1
+        expect(tomato.alternate_names.last.name).to eq "Foo"
+      end
+
+      it "doesn't load duplicate alternate names" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.alternate_names.size).to eq 0
+        tomato.add_alternate_names_from_csv("Foo")
+        expect(tomato.alternate_names.size).to eq 1
+        tomato.add_alternate_names_from_csv("Foo")
+        expect(tomato.alternate_names.size).to eq 1 # still 1, doesn't add another
+      end
+
+      it "adds multiple alternate names" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.alternate_names.size).to eq 0
+        tomato.add_alternate_names_from_csv("Foo, Bar")
+        expect(tomato.alternate_names.size).to eq 2
+        expect(tomato.alternate_names[0].name).to eq "Foo"
+        expect(tomato.alternate_names[1].name).to eq "Bar"
+      end
+
+      it "adds multiple alt names with variant spacing" do
+        tomato = FactoryGirl.create(:tomato)
+        expect(tomato.alternate_names.size).to eq 0
+        tomato.add_alternate_names_from_csv("Foo,Bar") # no space
+        expect(tomato.alternate_names.size).to eq 2
+        tomato.add_alternate_names_from_csv("Baz,   Quux") # mutliple spaces
+        expect(tomato.alternate_names.size).to eq 4
+      end
+    end # alternate names
 
     it "loads the simplest possible crop" do
-      tomato_row = "tomato,,http://en.wikipedia.org/wiki/Tomato"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)
@@ -413,7 +471,7 @@ describe Crop do
     end
 
     it "loads a crop with a scientific name" do
-      tomato_row = "tomato,Solanum lycopersicum,http://en.wikipedia.org/wiki/Tomato"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)
@@ -425,9 +483,22 @@ describe Crop do
       expect(loaded.scientific_names.last.scientific_name).to eq "Solanum lycopersicum"
     end
 
+    it "loads a crop with an alternate name" do
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,,Foo"
+
+      CSV.parse(tomato_row) do |row|
+        Crop.create_from_csv(row)
+      end
+
+      loaded = Crop.last
+      expect(loaded.name).to eq "tomato"
+      expect(loaded.alternate_names.size).to eq 1
+      expect(loaded.alternate_names.last.name).to eq "Foo"
+    end
+
     it "loads a crop with a parent" do
       parent = FactoryGirl.create(:crop, :name => 'parent')
-      tomato_row = "tomato,,http://en.wikipedia.org/wiki/Tomato,parent"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)
@@ -438,7 +509,7 @@ describe Crop do
     end
 
     it "doesn't add unnecessary duplicate crops" do
-      tomato_row = "tomato,Solanum lycopersicum,http://en.wikipedia.org/wiki/Tomato"
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
       CSV.parse(tomato_row) do |row|
         Crop.create_from_csv(row)

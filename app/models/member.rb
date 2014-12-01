@@ -27,6 +27,12 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
+  has_many :follows, :class_name => "Follow", :foreign_key => "follower_id"
+  has_many :followed, :through => :follows
+
+  has_many :inverse_follows, :class_name => "Follow", :foreign_key => "followed_id"
+  has_many :followers, :through => :inverse_follows, :source => :follower
+
   default_scope order("lower(login_name) asc")
   scope :confirmed, where('confirmed_at IS NOT NULL')
   scope :located, where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL")
@@ -42,8 +48,13 @@ class Member < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login_name, :email, :password, :password_confirmation,
-    :remember_me, :login, :tos_agreement, :show_email, :newsletter,
-    :location, :latitude, :longitude, :send_notification_email, :bio
+    :remember_me, :login,
+    # terms of service
+    :tos_agreement,
+    # profile stuff
+    :bio, :location, :latitude, :longitude,
+    # email settings
+    :show_email, :newsletter, :send_notification_email, :send_planting_reminder
 
   # set up geocoding
   geocoded_by :location
@@ -248,6 +259,14 @@ class Member < ActiveRecord::Base
       :id => ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID'],
       :email => { :email => email }
     })
+  end
+
+  def already_following?(member)
+    self.follows.exists?(:followed_id => member.id)
+  end
+
+  def get_follow(member)
+    self.follows.where(:followed_id => member.id).first if already_following?(member)
   end
 
 end

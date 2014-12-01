@@ -86,3 +86,7 @@ Geocoder::Lookup::Test.add_stub(
 
 # Unknown location
 Geocoder::Lookup::Test.add_stub( "Tatooine", [])
+
+Capybara.configure do |config|
+  config.always_include_port = true
+end

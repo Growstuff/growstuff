@@ -102,6 +102,11 @@ describe Garden do
       @garden.should be_valid
     end
 
+    it "doesn't allow negative area" do
+      @garden = FactoryGirl.build(:garden, :area => -5)
+      @garden.should_not be_valid
+    end
+
     it 'allows decimal quantities' do
       @garden = FactoryGirl.build(:garden, :area => 3.3)
       @garden.should be_valid

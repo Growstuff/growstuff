@@ -1,0 +1,27 @@
+%h2 #{member.login_name}'s gardens
+.tabbable
+  %ul.nav.nav-tabs
+    - first_garden = true
+    - member.gardens.each do |g|
+      %li{:class => first_garden ? 'active' : '' }
+        - first_garden = false
+        = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
+    - if current_member == member
+      %li= link_to 'New Garden', new_garden_path
+  .tab-content
+    - first_garden = true
+    - member.gardens.each do |g|
+
+      %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
+        - first_garden = false
+
+        %div
+          :growstuff_markdown
+            #{ strip_tags g.description }
+
+        %h3 What's planted here?
+        - g.featured_plantings.each do |p|
+          = render :partial => "plantings/thumbnail", :locals => { :planting => p, :hide_description => true }
+
+        %p
+          = link_to "More about this garden...", url_for(g)

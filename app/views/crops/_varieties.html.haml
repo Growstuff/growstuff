@@ -4,7 +4,12 @@
     is a variety of
     = succeed "." do
       = link_to crop.parent, crop.parent
-- if crop.varieties.count > 0
-  %h3
-    Varieties:
+
+- unless crop.varieties.empty?
+  %p
+    Varieties of #{crop.name}:
+
   = render :partial => 'hierarchy', :locals => { :display_crops => [ crop ] }
+
+- if ! crop.parent and crop.varieties.empty?
+  %p None known.
