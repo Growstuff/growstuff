@@ -14,7 +14,7 @@ describe "crops/_planting_advice" do
   context "sunniness" do
     it "doesn't show sunniness if none are set" do
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should_not contain "Plant in:"
+      rendered.should contain "Plant in: not known."
     end
 
     it "shows sunniness frequencies" do
@@ -39,7 +39,7 @@ describe "crops/_planting_advice" do
 
     it "doesn't show planted_from if none are set" do
       render :partial => 'crops/planting_advice', :locals => { :crop => @crop }
-      rendered.should_not contain "Plant from:"
+      rendered.should contain "Plant from: not known."
     end
 
     it "shows planted_from frequencies" do
