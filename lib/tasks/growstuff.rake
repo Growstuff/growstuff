@@ -301,12 +301,16 @@ namespace :growstuff do
         if alternate_names.blank? then
           next
         end
-        alternate_names.split(/,\s*/).each do |an|
-          AlternateName.find_or_create(
-            name: an,
-            crop_id: crop_id,
-            creator_id: cropbot.id
-          )
+        crop = Crop.find_by_name(crop_name)
+        if crop
+          alternate_names.split(/,\s*/).each do |an|
+            AlternateName.where(
+              name: an,
+              crop_id: crop.id,
+            ).first_or_create do |x|
+              x.creator = cropbot
+            end
+          end
         end
       end
     end
