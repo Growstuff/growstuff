@@ -15,3 +15,6 @@ rake growstuff:import_crops file=db/seeds/crops-12-mint.csv
 rake growstuff:import_crops file=db/seeds/crops-13-brassicas.csv
 rake growstuff:import_crops file=db/seeds/crops-14-london-workingbee.csv
 rake growstuff:import_crops file=db/seeds/crops-15-squashes.csv
+
+echo "2014-12-01 - load alternate names for crops"
+rake growstuff:oneoff:add_alternate_names
