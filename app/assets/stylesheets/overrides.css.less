@@ -159,6 +159,21 @@ p.stats {
 
 .thumbnail {
   margin-bottom: 1.5em;
+  i small, p a {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1em;
+    padding-bottom: 2px;
+  }
+  p a {
+    padding-top: 2px;
+  }
+  p small {
+    padding-bottom: 2px;
+  }
 }
 
 li.crop-hierarchy {
