@@ -1,3 +1,5 @@
+(function(){
+  'use strict';
 
 
   describe('BarGroup', function() {
@@ -21,3 +23,5 @@
     expect($('g.bar rect')).toHaveLength(2);
   });
 });
+
+})();

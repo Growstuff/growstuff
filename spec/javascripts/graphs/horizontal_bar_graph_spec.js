@@ -1,3 +1,5 @@
+(function(){
+  'use strict';
 
 
     describe('HorizontalBarGraph', function() {
@@ -16,7 +18,7 @@
       };
       subject = new HorizontalBarGraph(data);
       BarGroup = growstuff.BarGroup;
-      BarLabelGroup = growstuff.BarLabelGroup;
+      BarLabelGroup = growstuff.BarLabelGroup(data);
       spyOn(BarGroup.prototype, 'render').and.callThrough();
       spyOn(BarLabelGroup.prototype, 'render').and.callThrough();
       subject.render(d3.select($('#jasmine_content')[0]));
@@ -30,7 +32,7 @@
       expect(BarGroup.prototype.render).toHaveBeenCalled();
     });
 
-    it('draws a bar label', function() {
+    it('draws a group of bar labels', function() {
       expect(BarLabelGroup.prototype.render).toHaveBeenCalled();
     });
 
@@ -42,3 +44,4 @@
     });
   });
 
+})();
