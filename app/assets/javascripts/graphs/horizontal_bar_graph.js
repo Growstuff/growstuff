@@ -19,7 +19,7 @@
     var height = this._data.height;
     var margin = this._data.margin;
     var barGroup = new BarGroup(bars);
-    var barLabelGroup = new BarLabelGroup(data);
+    var barLabelGroup = new BarLabelGroup(this._data);
     var margin = this._data.margin;
     var svg = d3
       .append("svg")

@@ -17,7 +17,7 @@
       .data(bars.map(function(bar){ return bar.name;}))
       .enter()
       .append("text")
-      .text(function(d) {return d});
+      .text(function(d){return d});
 
   };
 

@@ -18,7 +18,8 @@
       };
       subject = new HorizontalBarGraph(data);
       BarGroup = growstuff.BarGroup;
-      BarLabelGroup = growstuff.BarLabelGroup(data);
+      BarLabelGroup = growstuff.BarLabelGroup;
+      expect(BarLabelGroup).toExist();
       spyOn(BarGroup.prototype, 'render').and.callThrough();
       spyOn(BarLabelGroup.prototype, 'render').and.callThrough();
       subject.render(d3.select($('#jasmine_content')[0]));
