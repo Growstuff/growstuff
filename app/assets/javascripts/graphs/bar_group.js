@@ -3,12 +3,12 @@
 
 var growstuff = (window.growstuff = window.growstuff || {});
 
-function BarGroup(bars) {
-  this._bars = bars;
+function BarGroup(data) {
+  this._data = data
 }
 
 BarGroup.prototype.render = function(d3){
-  var bars = this._bars;
+  var bars = this._data.bars;
   return d3.append('g')
     .attr("class", "bar")
     .selectAll("rect")

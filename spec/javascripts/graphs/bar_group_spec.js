@@ -11,7 +11,10 @@
       {name: 'Shade', value: 0.2},
       {name: 'Half Shade', value: 0.5}
     ];
-    subject = new BarGroup(bars);
+    var data = {
+      bars:bars
+    };
+    subject = new BarGroup(data);
     subject.render(d3.select('#jasmine_content').append('svg'));
   })
 
