@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
-  load_and_authorize_resource
   before_filter :authenticate_member!
+  load_and_authorize_resource
 
   # GET /products
   def index
