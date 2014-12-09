@@ -1,6 +1,6 @@
 class GardensController < ApplicationController
-  load_and_authorize_resource
   before_filter :authenticate_member!, :except => [:index, :show]
+  load_and_authorize_resource
   
   cache_sweeper :garden_sweeper
 

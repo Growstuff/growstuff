@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
-  load_and_authorize_resource
   before_filter :authenticate_member!, :except => [:index, :show]
-
+  load_and_authorize_resource
+  
   cache_sweeper :photo_sweeper
 
   # GET /photos
