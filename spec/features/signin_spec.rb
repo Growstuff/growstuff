@@ -31,12 +31,12 @@ feature "signin" do
 
   scenario "after signin, redirect to what you were trying to do" do
     MODELS.each do |model|
-      visit "/#{model.to_s}/new"
+      visit "/#{model}/new"
       current_path.should eq new_member_session_path
       fill_in 'Login', with: member.login_name
       fill_in 'Password', with: member.password
       click_button 'Sign in'
-      current_path.should eq "/#{model.to_s}/new"
+      current_path.should eq "/#{model}/new"
       click_link 'Sign out'
     end
   end
