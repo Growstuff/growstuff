@@ -1,5 +1,7 @@
 class AccountTypesController < ApplicationController
   load_and_authorize_resource
+  before_filter :authenticate_member!
+  
   # GET /account_types
   def index
     @account_types = AccountType.all

@@ -1,5 +1,6 @@
 class PlantingsController < ApplicationController
   load_and_authorize_resource
+  before_filter :authenticate_member!, :except => [:index, :show]
 
   cache_sweeper :planting_sweeper
 
