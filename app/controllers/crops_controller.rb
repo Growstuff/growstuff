@@ -1,6 +1,7 @@
 class CropsController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:hierarchy, :search]
+  before_filter :authenticate_member!, :except => [:index, :hierarchy, :search, :show]
 
   cache_sweeper :crop_sweeper
 

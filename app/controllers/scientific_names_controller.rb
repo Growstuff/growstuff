@@ -1,5 +1,6 @@
 class ScientificNamesController < ApplicationController
   load_and_authorize_resource
+  before_filter :authenticate_member!, :except => [:index, :show]
 
   cache_sweeper :scientific_name_sweeper
 
