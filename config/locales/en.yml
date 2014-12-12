@@ -42,6 +42,7 @@ en:
       newsletter_html: "Subscribe to our %{link}"
       newsletter_linktext: "email newsletter"
       facebook_html: "Check us out on %{link}"
+      facebook_linktext: "facebook"
 
     members:
       title: "Some of our members"
