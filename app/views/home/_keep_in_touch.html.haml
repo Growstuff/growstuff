@@ -1,14 +1,17 @@
 %h2= t('.keep_in_touch')
 
 %p
-  =image_tag("twitter_32.png", :alt => '')
-  = t('.twitter_html', link: link_to(t('.twitter_linktext'), 'http://twitter.com/growstufforg'))
+  = link_to(image_tag("twitter_32.png", :alt => ''), 'http://twitter.com/growstufforg', :target => "_blank")
+  = t('.twitter_html', link: link_to(t('.twitter_linktext'), 'http://twitter.com/growstufforg', :target => "_blank"))
 
 %p
-  =image_tag("blog_32.png", :alt => '')
-  = t('.blog_html', link: link_to(t('.blog_linktext'), 'http://blog.growstuff.org/'))
+  = link_to(image_tag("facebook_32.png", :alt => ''), 'https://www.facebook.com/Growstufforg', :target => "_blank")
+  = t('.facebook_html', link: link_to(t('.facebook_linktext'), 'https://www.facebook.com/Growstufforg', :target => "_blank"))
 
 %p
-  =image_tag("email_32.png", :alt => '')
-  = t('.newsletter_html', link: link_to(t('.newsletter_linktext'), 'http://blog.growstuff.org/newsletter'))
+  = link_to(image_tag("blog_32.png", :alt => ''), 'http://blog.growstuff.org/', :target => "_blank")
+  = t('.blog_html', link: link_to(t('.blog_linktext'), 'http://blog.growstuff.org/', :target => "_blank"))
 
+%p
+  = link_to(image_tag("email_32.png", :alt => ''), 'http://blog.growstuff.org/newsletter', :target => "_blank")
+  = t('.newsletter_html', link: link_to(t('.newsletter_linktext'), 'http://blog.growstuff.org/newsletter', :target => "_blank"))
