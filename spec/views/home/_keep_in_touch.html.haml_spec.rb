@@ -13,6 +13,10 @@ describe 'home/_keep_in_touch.html.haml', :type => "view" do
     assert_select 'a', :href => 'http://twitter.com/growstufforg'
   end
 
+  it 'links to facebook' do
+    assert_select 'a', :href =>'https://www.facebook.com/Growstufforg'
+  end  
+
   it 'links to the blog' do
     assert_select 'a', :href => 'http://blog.growstuff.org'
   end
@@ -20,9 +24,5 @@ describe 'home/_keep_in_touch.html.haml', :type => "view" do
   it 'links to the newsletter' do
     assert_select 'a', :href => 'http://blog.growstuff.org/newsletter'
   end
-
-  it 'links to facebook' do
-    assert_select 'a', :href =>'https://www.facebook.com/Growstufforg'
-  end  
 
 end
