@@ -25,6 +25,10 @@
   it('draws 2 bars', function() {
     expect($('g.bar rect')).toHaveLength(2);
   });
+
+  it('draws bars with the expected height', function(){
+    expect($('g.bar rect'))//how to query for the height???
+  })
 });
 
 })();
