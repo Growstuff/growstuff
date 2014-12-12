@@ -21,4 +21,8 @@ describe 'home/_keep_in_touch.html.haml', :type => "view" do
     assert_select 'a', :href => 'http://blog.growstuff.org/newsletter'
   end
 
+  it 'links to facebook' do
+    assert_select 'a', :href =>'https://www.facebook.com/Growstufforg'
+  end  
+
 end

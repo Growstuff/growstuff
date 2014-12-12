@@ -41,6 +41,7 @@ en:
       blog_linktext: "Growstuff Blog" 
       newsletter_html: "Subscribe to our %{link}"
       newsletter_linktext: "email newsletter"
+      facebook_html: "Check us out on %{link}"
 
     members:
       title: "Some of our members"
