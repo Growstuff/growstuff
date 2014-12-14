@@ -144,7 +144,7 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
-    hashie (3.3.1)
+    hashie (3.3.2)
     highline (1.6.21)
     hike (1.2.3)
     httparty (0.11.0)
@@ -191,7 +191,7 @@ GEM
       less-rails (~> 2.5.0)
     letter_opener (1.2.0)
       launchy (~> 2.2)
-    libv8 (3.16.14.3)
+    libv8 (3.16.14.7)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -202,8 +202,8 @@ GEM
     multi_json (1.10.1)
     multi_xml (0.5.5)
     netrc (0.8.0)
-    newrelic_rpm (3.9.6.257)
-    nokogiri (1.6.4.1)
+    newrelic_rpm (3.9.7.266)
+    nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
     omniauth (1.2.2)
@@ -258,7 +258,7 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     raindrops (0.13.0)
-    rake (10.3.2)
+    rake (10.4.0)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
@@ -371,7 +371,7 @@ DEPENDENCIES
   less-rails (~> 2.5.0)
   less-rails-bootstrap (~> 3.2.0)
   letter_opener
-  libv8 (= 3.16.14.3)
+  libv8 (= 3.16.14.7)
   memcachier
   newrelic_rpm
   omniauth

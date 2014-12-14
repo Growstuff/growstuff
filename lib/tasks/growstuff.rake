@@ -289,6 +289,31 @@ namespace :growstuff do
         p.save
       end
     end
+
+    desc "October 2014: add alternate names for crops"
+    task :add_alternate_names => :environment do
+      require 'csv'
+      file = "db/seeds/alternate_names_201410.csv"
+      puts "Loading alternate names from #{file}..."
+      cropbot = Member.find_by_login_name("cropbot")
+      CSV.foreach(file) do |row|
+        crop_id, crop_name, alternate_names = row
+        if alternate_names.blank? then
+          next
+        end
+        crop = Crop.find_by_name(crop_name)
+        if crop
+          alternate_names.split(/,\s*/).each do |an|
+            AlternateName.where(
+              name: an,
+              crop_id: crop.id,
+            ).first_or_create do |x|
+              x.creator = cropbot
+            end
+          end
+        end
+      end
+    end
   end # end oneoff section
 
 end

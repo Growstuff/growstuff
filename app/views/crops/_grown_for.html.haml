@@ -1,5 +1,7 @@
-- if ! crop.harvests.empty?
-  %p
-    %strong Grown for:
+%p
+  %strong Grown for:
+  - if crop.harvests.empty?
+    not known.
+  - else
     - popular_plant_parts = crop.popular_plant_parts.sort_by {|s, freq| freq }.reverse
     != popular_plant_parts.map {|p, freq| link_to(p, p) + " (#{freq})" }.join(", ")

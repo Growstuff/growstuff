@@ -1,5 +1,7 @@
 class RolesController < ApplicationController
+  before_filter :authenticate_member!
   load_and_authorize_resource
+  
   # GET /roles
   def index
     @roles = Role.all

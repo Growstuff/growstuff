@@ -37,11 +37,12 @@ en:
       keep_in_touch: "Keep in touch"
       twitter_html: "Follow %{link} on Twitter"
       twitter_linktext: "@growstufforg"
+      facebook_html: "Like us on %{link}"
+      facebook_linktext: "Facebook"
       blog_html: "Subscribe to the %{link}"
       blog_linktext: "Growstuff Blog" 
       newsletter_html: "Subscribe to our %{link}"
       newsletter_linktext: "email newsletter"
-
     members:
       title: "Some of our members"
       view_all: "View all members"

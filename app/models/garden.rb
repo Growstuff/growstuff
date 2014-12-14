@@ -26,7 +26,7 @@ class Garden < ActiveRecord::Base
     }
 
   validates :area,
-    :numericality => { :only_integer => false },
+    :numericality => { :only_integer => false, :greater_than_or_equal_to => 0 },
     :allow_nil => true
 
   AREA_UNITS_VALUES = {

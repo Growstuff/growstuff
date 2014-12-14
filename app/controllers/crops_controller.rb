@@ -1,4 +1,5 @@
 class CropsController < ApplicationController
+  before_filter :authenticate_member!, :except => [:index, :hierarchy, :search, :show]
   load_and_authorize_resource
   skip_authorize_resource :only => [:hierarchy, :search]
 

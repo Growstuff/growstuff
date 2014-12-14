@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141018111015) do
+ActiveRecord::Schema.define(:version => 20141119130555) do
 
   create_table "account_types", :force => true do |t|
     t.string   "name",              :null => false
@@ -79,6 +79,13 @@ ActiveRecord::Schema.define(:version => 20141018111015) do
 
   add_index "crops_posts", ["crop_id", "post_id"], :name => "index_crops_posts_on_crop_id_and_post_id"
   add_index "crops_posts", ["crop_id"], :name => "index_crops_posts_on_crop_id"
+
+  create_table "follows", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "forums", :force => true do |t|
     t.string   "name",        :null => false
@@ -262,6 +269,7 @@ ActiveRecord::Schema.define(:version => 20141018111015) do
     t.datetime "updated_at", :null => false
     t.string   "slug"
     t.integer  "forum_id"
+    t.integer  "parent_id"
   end
 
   add_index "posts", ["created_at", "author_id"], :name => "index_updates_on_created_at_and_user_id"
