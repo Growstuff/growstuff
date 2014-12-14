@@ -68,7 +68,7 @@ Growstuff::Application.configure do
 
   # Growstuff configuration
   config.new_crops_request_link = "http://example.com/not-a-real-url"
-  config.action_mailer.default_url_options = { :host => 'dev.growstuff.org' }
+  config.action_mailer.default_url_options = { :host => 'staging.growstuff.org' }
 
   config.action_mailer.smtp_settings = {
       :port =>           '587',
@@ -80,7 +80,7 @@ Growstuff::Application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  config.host = 'dev.growstuff.org'
+  config.host = 'staging.growstuff.org'
   config.analytics_code = ''
 
   # this config variable cannot be put in application.yml as it is needed

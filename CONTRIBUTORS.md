@@ -38,7 +38,6 @@ submit the change with your pull request.
 - Yaw Boakye / [yawboakye](https://github.com/yawboakye)
 - Ryan Clark / [IAMRYO](https://github.com/IAMRYO)
 - Marty Hines / [martyhines](https://github.com/martyhines)
-- Mackenzie "Maco" King / [maco](https://github.com/maco)
 - Amelia Greenhall / [ameliagreenhall](https://github.com/ameliagreenhall)
 - Barb Natali / [barbnatali](https://github.com/barbnatali)
 - Taylor Griffin / [tygriffin](https://github.com/tygriffin)
@@ -49,3 +48,7 @@ submit the change with your pull request.
 - Shiho Takagi / [oshiho3](https://github.com/oshiho3)
 - Emma Winston / [emmawinston](https://github.com/emmawinston)
 - Kevin Rio / [krio](https://github.com/krio)
+- Yoong Kang Lim / [yoongkang](https://github.com/yoongkang)
+- Kevin Yang / [kevieyang](https://github.com/kevieyang)
+- Justin Hamman / [juzham](https://github.com/juzham)
+

@@ -4,7 +4,7 @@ Growstuff::Application.routes.draw do
 
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
 
-  resources :members
+  resources :members 
 
   resources :photos
 
@@ -40,6 +40,11 @@ Growstuff::Application.routes.draw do
   resources :roles
   resources :forums
   resources :notifications
+
+  resources :follows, :only => [:create, :destroy]
+  get '/members/:login_name/follows' => 'members#view_follows', :as => 'member_follows'
+  get '/members/:login_name/followers' => 'members#view_followers', :as => 'member_followers'
+
 
   get '/places' => 'places#index'
   get '/places/search' => 'places#search', :as => 'search_places'
@@ -78,5 +83,7 @@ Growstuff::Application.routes.draw do
   get '/admin' => 'admin#index'
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
+
+
 
 end

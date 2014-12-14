@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 %rss{:version => 2.0}
   %channel
-    %title #{ENV['GROWSTUFF_SITE_NAME']} - Recently added crops
+    %title Recently added crops (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= crops_url
     - @crops.each do |crop|
       %item

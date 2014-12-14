@@ -1,5 +1,7 @@
 class ProductsController < ApplicationController
+  before_filter :authenticate_member!
   load_and_authorize_resource
+
   # GET /products
   def index
     @products = Product.all

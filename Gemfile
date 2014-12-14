@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.1.5'
 
 gem 'rails', '4.1.7'
 
@@ -48,7 +48,7 @@ gem 'active_utils', '1.0.5',
 # for now as it's easier for new people to install
 gem 'therubyracer', '~> 0.12', :platforms => :ruby
 # libv8 is needed by therubyracer and is a bit finicky
-gem 'libv8', '3.16.14.3'
+gem 'libv8', '3.16.14.7'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'

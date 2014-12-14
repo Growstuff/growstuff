@@ -1,4 +1,5 @@
 class CropsController < ApplicationController
+  before_filter :authenticate_member!, :except => [:index, :hierarchy, :search, :show]
   load_and_authorize_resource
   skip_authorize_resource :only => [:hierarchy, :search]
 
@@ -147,6 +148,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes)
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes)
   end
 end
