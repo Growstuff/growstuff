@@ -75,7 +75,7 @@ Growstuff::Application.configure do
       :address =>        'smtp.mandrillapp.com',
       :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
       :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
-      :domain =>         'herokuapp.com',
+      :domain =>         'heroku.com',
       :authentication => :plain
   }
   config.action_mailer.delivery_method = :smtp
