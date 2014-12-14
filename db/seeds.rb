@@ -156,7 +156,7 @@ def load_plant_parts
     'other'
   ]
   plant_parts.each do |pp|
-    PlantPart.find_or_create_by_name!(pp)
+    PlantPart.find_or_create_by!(name: pp)
   end
 end
 
