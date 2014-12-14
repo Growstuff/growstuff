@@ -10,11 +10,11 @@
 # echo "YYYY-MM-DD - do something or other"
 # rake growstuff:oneoff:something
 
-echo "2014-09-28 - upload tomatoes"
-rake growstuff:import_crops file=db/seeds/crops-11-tomatoes.csv
+echo "2014-12-01 - load lots of new crops"
+rake growstuff:import_crops file=db/seeds/crops-12-mint.csv
+rake growstuff:import_crops file=db/seeds/crops-13-brassicas.csv
+rake growstuff:import_crops file=db/seeds/crops-14-london-workingbee.csv
+rake growstuff:import_crops file=db/seeds/crops-15-squashes.csv
 
-echo "2014-10-02 - remove unused photos"
-rake growstuff:oneoff:remove_unused_photos
-
-echo "2014-10-05 - generate crops_posts records for existing posts"
-rake growstuff:oneoff:generate_crops_posts_records
+echo "2014-12-01 - load alternate names for crops"
+rake growstuff:oneoff:add_alternate_names

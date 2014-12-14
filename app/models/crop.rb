@@ -121,12 +121,12 @@ class Crop < ActiveRecord::Base
 # used by db/seeds.rb and rake growstuff:import_crops
 # CSV fields:
 # - name (required)
-# - scientific name (optional, can be picked up from parent if it has one)
 # - en_wikipedia_url (required)
 # - parent (name, optional)
+# - scientific name (optional, can be picked up from parent if it has one)
 
   def Crop.create_from_csv(row)
-    name,scientific_name,en_wikipedia_url,parent = row
+    name,en_wikipedia_url,parent,scientific_names,alternate_names = row
 
     cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -146,34 +146,59 @@ class Crop < ActiveRecord::Base
       end
     end
 
-    crop.add_scientific_name_from_csv(scientific_name)
+    crop.add_scientific_names_from_csv(scientific_names)
+    crop.add_alternate_names_from_csv(alternate_names)
 
   end
 
-  def add_scientific_name_from_csv(scientific_name)
-    name_to_add = nil
-    if ! scientific_name.blank? # i.e. we actually passed one in, which isn't a given
-      name_to_add = scientific_name
-    elsif parent && parent.default_scientific_name
-      name_to_add = parent.default_scientific_name
+  def add_scientific_names_from_csv(scientific_names)
+    names_to_add = []
+    if ! scientific_names.blank? # i.e. we actually passed something in, which isn't a given
+      names_to_add = scientific_names.split(%r{,\s*})
+    elsif parent && parent.scientific_names.size > 0 # pick up from parent
+      names_to_add = parent.scientific_names.map{|s| s.scientific_name}
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
 
-    if name_to_add
-      if scientific_names.exists?(:scientific_name => name_to_add)
-        logger.warn("Warning: skipping duplicate scientific name #{name_to_add} for #{self}")
-      else
-        cropbot = Member.find_by_login_name('cropbot')
-        raise "cropbot account not found: run rake db:seed" unless cropbot
+    if names_to_add.size > 0
+      cropbot = Member.find_by_login_name('cropbot')
+      raise "cropbot account not found: run rake db:seed" unless cropbot
 
-        scientific_names.create(
-          :scientific_name => name_to_add,
-          :creator_id => cropbot.id
-        )
+      names_to_add.each do |n|
+        if self.scientific_names.exists?(:scientific_name => n)
+          logger.warn("Warning: skipping duplicate scientific name #{n} for #{self}")
+        else
+
+          self.scientific_names.create(
+            :scientific_name => n,
+            :creator_id => cropbot.id
+          )
+        end
       end
     end
+  end
 
+  def add_alternate_names_from_csv(alternate_names)
+    names_to_add = []
+    if ! alternate_names.blank? # i.e. we actually passed something in, which isn't a given
+      cropbot = Member.find_by_login_name('cropbot')
+      raise "cropbot account not found: run rake db:seed" unless cropbot
+
+      names_to_add = alternate_names.split(%r{,\s*})
+
+      names_to_add.each do |n|
+        if self.alternate_names.exists?(:name => n)
+          logger.warn("Warning: skipping duplicate alternate name #{n} for #{self}")
+        else
+          self.alternate_names.create(
+            :name => n,
+            :creator_id => cropbot.id
+          )
+        end
+      end
+
+    end
   end
 
   # Crop.search(string)

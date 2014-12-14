@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
 
   cache_sweeper :post_sweeper

@@ -35,6 +35,15 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "New garden"
   end
 
+  scenario "Refuse to create new garden with negative area" do
+    visit new_garden_path
+    fill_in "Name", :with => "Negative Garden"
+    fill_in "Area", :with => -5
+    click_button "Save"
+    expect(page).not_to have_content "Garden was successfully created"
+    expect(page).to have_content "Area must be greater than or equal to 0"
+  end
+
   scenario "Edit garden" do
     visit new_garden_path
     fill_in "Name", :with => "New garden"
