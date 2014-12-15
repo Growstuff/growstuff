@@ -1,5 +1,5 @@
 class Sweeper < ActionController::Caching::Sweeper
-  include ActionController::Caching
+  include ActionController::Caching::Fragments
 
 
 end
