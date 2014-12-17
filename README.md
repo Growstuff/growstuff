@@ -16,16 +16,17 @@ encourage participation from people of all backgrounds and skill levels.
 
 ## Important links
 
-* [Wiki](http://wiki.growstuff.org/) (general documentation)
-* [Task tracker](http://tracker.growstuff.org/) (recent and upcoming work, bugs, etc)
+* [Issues](http://github.com/Growstuff/growstuff/issues) (features we're
+  working on, known bugs, etc)
 * [Discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) (mailing lists, IRC, etc)
+* [Wiki](http://wiki.growstuff.org/) (general documentation)
 
 ## For developers
 
-* Start by looking at our [task tracker](http://tracker.growstuff.org/) for something to work on.
-* Drop in to one of our [discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) to talk to our team about it.
+* Start by looking at our [issues](http://github.com/Growstuff/growstuff/issues) for something to work on.
 * To set up your development environment, see [Getting started](http://wiki.growstuff.org/index.php/Development/Getting_Started).
 * We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers.
+* Drop in to one of our [discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) to chat to other developers, get help, etc.
 * You may also be interested in our [API](http://wiki.growstuff.org/index.php/API).
 
 ## Contact
