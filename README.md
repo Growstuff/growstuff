@@ -21,13 +21,36 @@ encourage participation from people of all backgrounds and skill levels.
 * [Discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) (mailing lists, IRC, etc)
 * [Wiki](http://wiki.growstuff.org/) (general documentation)
 
-## For developers
+## For coders
 
-* Start by looking at our [issues](http://github.com/Growstuff/growstuff/issues) for something to work on.
+Growstuff is built in Ruby on Rails and also uses JavaScript for
+frontend features. We welcome contributions -- see
+[CONTRIBUTING](CONTRIBUTING.md) for details.
+
 * To set up your development environment, see [Getting started](http://wiki.growstuff.org/index.php/Development/Getting_Started).
-* We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers.
+* We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers. [Find a pair programming partner.](http://talk.growstuff.org/t/find-a-pair-programming-partner/13)
 * Drop in to one of our [discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) to chat to other developers, get help, etc.
 * You may also be interested in our [API](http://wiki.growstuff.org/index.php/API).
+
+## For designers, writers, researchers, data wranglers, and other contributors
+
+There are heaps of ways to get involved and contribute no matter what
+your skills and interests.
+
+You might like to check out:
+
+* The [Get Involved](http://wiki.growstuff.org/index.php/Get_involved)
+  page on our wiki, which has lots of detail for different areas
+* [Growstuff Talk](http://talk.growstuff.org/) especially the [Idea category](http://talk.growstuff.org/c/idea)
+
+Here on Github, you might find these useful:
+
+* [needs: design](https://github.com/Growstuff/growstuff/labels/needs:%20design) - tasks requiring high-level design
+* [needs: visual design](https://github.com/Growstuff/growstuff/labels/needs:%20visual design) - tasks requiring visual/graphical design
+* [needs: documentation](https://github.com/Growstuff/growstuff/labels/needs:%20documentation)
+* [needs: data](https://github.com/Growstuff/growstuff/labels/needs:%20data) - tasks requiring data entry, data design, data import, or similar
+
+Feel free to comment on any of the issues you find there, or open up a broader conversation on [Growstuff Talk](http://talk.growstuff.org).
 
 ## Contact
 
