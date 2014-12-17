@@ -183,7 +183,7 @@ GEM
       less-rails (~> 2.5.0)
     letter_opener (1.2.0)
       launchy (~> 2.2)
-    libv8 (3.16.14.3)
+    libv8 (3.16.14.7)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -360,7 +360,7 @@ DEPENDENCIES
   less-rails (~> 2.5.0)
   less-rails-bootstrap (~> 3.2.0)
   letter_opener
-  libv8 (= 3.16.14.3)
+  libv8 (= 3.16.14.7)
   memcachier
   newrelic_rpm
   omniauth

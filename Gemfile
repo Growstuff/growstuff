@@ -51,7 +51,7 @@ group :assets do
   # for now as it's easier for new people to install
   gem "therubyracer", "~> 0.12", :platforms => :ruby
   # libv8 is needed by therubyracer and is a bit finicky
-  gem 'libv8', '3.16.14.3'
+  gem 'libv8', '3.16.14.7'
 
   # Another CSS preprocessor, used for Bootstrap overrides
   gem "less", '~>2.5.0'
