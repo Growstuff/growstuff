@@ -1,9 +1,6 @@
 class PlantingsController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
-  
-
-  cache_sweeper :planting_sweeper
 
   # GET /plantings
   # GET /plantings.json
@@ -78,6 +75,7 @@ class PlantingsController < ApplicationController
       if @planting.save
         format.html { redirect_to @planting, notice: 'Planting was successfully created.' }
         format.json { render json: @planting, status: :created, location: @planting }
+        expire_fragment("homepage_stats")
       else
         format.html { render action: "new" }
         format.json { render json: @planting.errors, status: :unprocessable_entity }
@@ -108,6 +106,7 @@ class PlantingsController < ApplicationController
     @planting = Planting.find(params[:id])
     @garden = @planting.garden
     @planting.destroy
+    expire_fragment("homepage_stats")
 
     respond_to do |format|
       format.html { redirect_to @garden }

@@ -3,8 +3,6 @@ class CropsController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:hierarchy, :search]
 
-  cache_sweeper :crop_sweeper
-
   # GET /crops
   # GET /crops.json
   def index

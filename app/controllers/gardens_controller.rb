@@ -1,8 +1,7 @@
 class GardensController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
-  
-  cache_sweeper :garden_sweeper
+
 
   # GET /gardens
   # GET /gardens.json
@@ -56,6 +55,7 @@ class GardensController < ApplicationController
       if @garden.save
         format.html { redirect_to @garden, notice: 'Garden was successfully created.' }
         format.json { render json: @garden, status: :created, location: @garden }
+        expire_fragment("homepage_stats")
       else
         format.html { render action: "new" }
         format.json { render json: @garden.errors, status: :unprocessable_entity }
@@ -84,6 +84,7 @@ class GardensController < ApplicationController
   def destroy
     @garden = Garden.find(params[:id])
     @garden.destroy
+    expire_fragment("homepage_stats")
 
     respond_to do |format|
       format.html { redirect_to gardens_by_owner_path(:owner => @garden.owner), notice: 'Garden was successfully deleted.' }

@@ -1,4 +1,4 @@
-- cache "crop_image_#{crop.id}" do
+- cache crop do
   = link_to |
     image_tag( |
       crop.default_photo ?  crop.default_photo.thumbnail_url : 'placeholder_150.png', |

@@ -1,8 +1,6 @@
 class ForumsController < ApplicationController
   load_and_authorize_resource
 
-  cache_sweeper :forum_sweeper
-
   # GET /forums
   # GET /forums.json
   def index

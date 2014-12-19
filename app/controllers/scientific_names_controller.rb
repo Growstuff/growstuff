@@ -2,8 +2,6 @@ class ScientificNamesController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
 
-  cache_sweeper :scientific_name_sweeper
-
   # GET /scientific_names
   # GET /scientific_names.json
   def index

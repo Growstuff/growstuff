@@ -1,11 +1,10 @@
 %h2= t('.discussion')
 
-- cache "recent_posts" do
-  - posts = Post.limit(6)
-  - if posts
-    =render :partial => "posts/summary", :locals => { :posts => posts, :howmany => 6 }
+- posts = Post.limit(6)
+- if posts
+  =render :partial => "posts/summary", :locals => { :posts => posts, :howmany => 6 }
 
-- cache "homepage_forums" do
+- cache cache_key_for(Forum) do
   - forums = Forum.all
   - if forums
     %ul.list-inline

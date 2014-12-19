@@ -1,9 +1,9 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
 
-  cache_sweeper :member_sweeper
-
   skip_authorize_resource :only => :nearby
+
+  after_action :expire_cache_fragments, :only => :create
 
   def index
     @members = Member.confirmed.paginate(:page => params[:page])
@@ -42,6 +42,12 @@ class MembersController < ApplicationController
   def view_followers
     @member = Member.confirmed.find(params[:login_name])
     @followers = @member.followers.paginate(:page => params[:page])
+  end
+
+  private
+
+  def expire_cache_fragments
+    expire_fragment("homepage_stats")
   end
 
 end

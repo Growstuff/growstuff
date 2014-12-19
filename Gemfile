@@ -4,8 +4,6 @@ ruby '2.1.5'
 
 gem 'rails', '4.1.7'
 
-gem 'rails-observers', '~>0.1.1'
-
 gem 'bundler', '>=1.1.5'
 
 gem 'sass-rails',   '~> 4.0.4'
