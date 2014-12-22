@@ -14,7 +14,9 @@
         bars: bars,
         width: 300,
         height: 400,
-        margin: {top: 30, right: 0, bottom: 0, left: 100}
+        //left is used to shift the bars over so that there is
+        //room for the labels
+        margin: {top: 0, right: 0, bottom: 0, left: 100}
       };
       subject = new HorizontalBarGraph(data);
       BarGroup = growstuff.BarGroup;
@@ -27,6 +29,10 @@
 
     it('draws a graph', function() {
       expect($('#jasmine_content svg')).toExist();
+    });
+
+    it('draws a group for the whole graph', function(){
+      expect($('g.bar-graph')).toExist();
     });
 
     it('draws a bar group', function(){
@@ -43,6 +49,13 @@
       expect($svg).toHaveAttr('width', (data.width + margin.left + margin.right) + '');
       expect($svg).toHaveAttr('height', (data.height + margin.top + margin.bottom) + '');
     });
+
+    it('draws the graph shifted to the right to accommodate for labels', function(){
+      //covers the transform of the graph level group
+      //line 45 in horizontal_bar_graph.html
+      //<g class='bar-graph' transform="translate(100,30)">
+      expect('g.bar-graph').toHaveAttr('transform', 'translate(100,0)');
+    })
   });
 
 })();

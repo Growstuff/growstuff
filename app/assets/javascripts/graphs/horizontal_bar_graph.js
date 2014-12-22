@@ -23,8 +23,12 @@
     var margin = this._data.margin;
     var svg = d3
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom);
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("class","bar-graph")
+        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
     barGroup.render(svg);
     barLabelGroup.render(svg);
     return svg;
