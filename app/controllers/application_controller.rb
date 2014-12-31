@@ -48,8 +48,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) do |u| 
-      u.permit(:login_name, :email, :password, :password_confirmation,
+    devise_parameter_sanitizer.for(:sign_up) do |member| 
+      member.permit(:login_name, :email, :password, :password_confirmation,
         :remember_me, :login,
         # terms of service
         :tos_agreement,
@@ -58,6 +58,10 @@ class ApplicationController < ActionController::Base
         # email settings
         :show_email, :newsletter, :send_notification_email, :send_planting_reminder
       )
+    end
+
+    devise_parameter_sanitizer.for(:account_update) do |member|
+      member.permit(:location, :bio, :tos_agreement)
     end
   end
 
