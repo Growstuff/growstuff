@@ -158,6 +158,9 @@ GEM
       slop (>= 3.5.0)
       term-ansicolor
       terminal-table
+    jbuilder (2.2.6)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     journey (1.0.4)
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
@@ -350,6 +353,7 @@ DEPENDENCIES
   haml
   haml-rails
   i18n-tasks
+  jbuilder
   jquery-rails
   jquery-ui-rails
   js-routes
