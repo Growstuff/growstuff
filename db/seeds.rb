@@ -12,8 +12,8 @@ def load_data
     load_crops
     load_plant_parts
 
-    # for development environments only
-    if Rails.env.development?
+    # for development and staging environments only
+    if Rails.env.development? || Rails.env.staging?
       load_test_users
       load_admin_users
       load_paid_account_types
