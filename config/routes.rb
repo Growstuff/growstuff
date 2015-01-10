@@ -64,7 +64,7 @@ Growstuff::Application.routes.draw do
   get "home/index"
   root :to => 'home#index'
 
-  post 'auth/:provider/callback' => 'authentications#create'
+  get 'auth/:provider/callback' => 'authentications#create'
 
 
   get '/policy/:action' => 'policy#:action'
