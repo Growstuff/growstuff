@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'layouts/_footer.html.haml', :type => "view" do
 
@@ -7,16 +7,16 @@ describe 'layouts/_footer.html.haml', :type => "view" do
     end
 
     it 'should have links in footer' do
-        rendered.should contain 'About'
-        rendered.should contain 'Contact'
+        rendered.should have_content 'About'
+        rendered.should have_content 'Contact'
         assert_select("a[href=/policy/tos]", 'Terms of Service')
         assert_select("a[href=/policy/privacy]", 'Privacy Policy')
         assert_select("a[href=/policy/community]", 'Community Guidelines')
-        rendered.should contain 'Open Source'
+        rendered.should have_content 'Open Source'
         assert_select("a[href=/support]", 'Support/FAQ')
     end
 
     it 'should not have an explicit wiki link' do
-        rendered.should_not contain 'Wiki'
+        rendered.should_not have_content 'Wiki'
     end
 end

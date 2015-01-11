@@ -27,12 +27,17 @@ class AuthenticationsController < ApplicationController
         name = auth['info']['name']
       end
 
-      @authentication = current_member.authentications.find_or_create_by_provider_and_uid(
-        :provider => auth['provider'],
-        :uid => auth['uid'],
+      @authentication = current_member.authentications
+      .create_with(
         :name => name,
         :token => auth['credentials']['token'],
-        :secret => auth['credentials']['secret'])
+        :secret => auth['credentials']['secret']
+      )
+      .find_or_create_by(
+        :provider => auth['provider'],
+        :uid => auth['uid'],
+        :name => name)
+
       flash[:notice] = "Authentication successful."
     else
       flash[:notice] = "Authentication failed."

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "posts/new" do
   before(:each) do
@@ -24,12 +24,12 @@ describe "posts/new" do
 
   it 'no forum mentioned' do
     render
-    rendered.should_not contain "This post will be posted in the forum"
+    rendered.should_not have_content "This post will be posted in the forum"
   end
 
   it "asks what's going on in your garden" do
     render
-    rendered.should contain "What's going on in your food garden?"
+    rendered.should have_content "What's going on in your food garden?"
   end
 
   context "forum specified" do
@@ -44,19 +44,19 @@ describe "posts/new" do
     end
 
     it 'tells the user what forum it will be posted in' do
-      rendered.should contain "This post will be posted in the forum #{@forum.name}"
+      rendered.should have_content "This post will be posted in the forum #{@forum.name}"
     end
 
     it "asks what's going on generally" do
       render
-      rendered.should_not contain "What's going on in your food garden?"
-      rendered.should contain "What's up?"
+      rendered.should_not have_content "What's going on in your food garden?"
+      rendered.should have_content "What's up?"
     end
   end
 
   it 'shows markdown help' do
     render
-    rendered.should contain 'Markdown'
+    rendered.should have_content 'Markdown'
   end
 
 end

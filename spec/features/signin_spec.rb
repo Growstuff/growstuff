@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "signin" do
   let(:member){FactoryGirl.create(:member)}

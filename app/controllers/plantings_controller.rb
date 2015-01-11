@@ -1,9 +1,6 @@
 class PlantingsController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
-  
-
-  cache_sweeper :planting_sweeper
 
   # GET /plantings
   # GET /plantings.json
@@ -33,7 +30,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/1
   # GET /plantings/1.json
   def show
-    @planting = Planting.includes(:owner, :crop, :garden, :photos).find(params[:id])
+    @planting = Planting.includes(:owner, :crop, :garden, :photos).friendly.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -68,14 +65,15 @@ class PlantingsController < ApplicationController
   # POST /plantings
   # POST /plantings.json
   def create
-    params[:planting][:owner_id] = current_member.id
     params[:planted_at] = parse_date(params[:planted_at])
-    @planting = Planting.new(params[:planting])
+    @planting = Planting.new(planting_params)
+    @planting.owner = current_member
 
     respond_to do |format|
       if @planting.save
         format.html { redirect_to @planting, notice: 'Planting was successfully created.' }
         format.json { render json: @planting, status: :created, location: @planting }
+        expire_fragment("homepage_stats")
       else
         format.html { render action: "new" }
         format.json { render json: @planting.errors, status: :unprocessable_entity }
@@ -90,7 +88,7 @@ class PlantingsController < ApplicationController
     params[:planted_at] = parse_date(params[:planted_at])
 
     respond_to do |format|
-      if @planting.update_attributes(params[:planting])
+      if @planting.update(planting_params)
         format.html { redirect_to @planting, notice: 'Planting was successfully updated.' }
         format.json { head :no_content }
       else
@@ -106,10 +104,19 @@ class PlantingsController < ApplicationController
     @planting = Planting.find(params[:id])
     @garden = @planting.garden
     @planting.destroy
+    expire_fragment("homepage_stats")
 
     respond_to do |format|
       format.html { redirect_to @garden }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def planting_params
+    params.require(:planting).permit(:crop_id, :description, :garden_id, :planted_at,
+    :quantity, :sunniness, :planted_from, :owner_id, :finished,
+    :finished_at)
   end
 end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'policy/tos.html.haml', :type => "view" do
   before(:each) do
@@ -7,6 +7,6 @@ describe 'policy/tos.html.haml', :type => "view" do
 
   it 'should show terms of service' do
     render
-    rendered.should contain 'Terms of Service'
+    rendered.should have_content 'Terms of Service'
   end
 end

@@ -3,8 +3,6 @@ class CropsController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:hierarchy, :search]
 
-  cache_sweeper :crop_sweeper
-
   # GET /crops
   # GET /crops.json
   def index
@@ -56,7 +54,7 @@ class CropsController < ApplicationController
 
     @partial_matches = Crop.search(params[:search])
     # exclude exact match from partial match list
-    @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
+    @partial_matches = @partial_matches.reject{ |r| @exact_match && r.eql?(@exact_match) }
 
     @fuzzy = Crop.search(params[:term])
 
@@ -104,7 +102,7 @@ class CropsController < ApplicationController
   # POST /crops.json
   def create
     params[:crop][:creator_id] = current_member.id
-    @crop = Crop.new(params[:crop])
+    @crop = Crop.new(crop_params)
 
     respond_to do |format|
       if @crop.save
@@ -123,7 +121,7 @@ class CropsController < ApplicationController
     @crop = Crop.find(params[:id])
 
     respond_to do |format|
-      if @crop.update_attributes(params[:crop])
+      if @crop.update(crop_params)
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }
       else
@@ -143,5 +141,11 @@ class CropsController < ApplicationController
       format.html { redirect_to crops_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def crop_params
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes)
   end
 end

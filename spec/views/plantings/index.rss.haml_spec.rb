@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'plantings/index.rss.haml' do
   before(:each) do
@@ -15,23 +15,23 @@ describe 'plantings/index.rss.haml' do
     end
 
     it 'shows RSS feed title' do
-      rendered.should contain "Recent plantings from all members"
+      rendered.should have_content "Recent plantings from all members"
     end
 
     it 'item title shows owner and location' do
-      rendered.should contain "#{@planting.crop} in #{@planting.location}"
+      rendered.should have_content "#{@planting.crop} in #{@planting.location}"
     end
 
     it 'shows formatted content of posts' do
-      rendered.should contain "This is a <em>really</em> good plant."
+      rendered.should have_content "This is a <em>really</em> good plant."
     end
 
     it 'shows sunniness' do
-      rendered.should contain 'Sunniness: sun'
+      rendered.should have_content 'Sunniness: sun'
     end
 
     it 'shows propagation method' do
-      rendered.should contain 'Planted from: seedling'
+      rendered.should have_content 'Planted from: seedling'
     end
   end
 
@@ -44,7 +44,7 @@ describe 'plantings/index.rss.haml' do
     end
 
     it 'shows title for single member' do
-      rendered.should contain "Recent plantings from #{@planting.owner}"
+      rendered.should have_content "Recent plantings from #{@planting.owner}"
     end
   end
 end

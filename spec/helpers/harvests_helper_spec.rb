@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe HarvestsHelper do
   describe "display_quantity" do

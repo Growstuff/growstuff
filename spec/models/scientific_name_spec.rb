@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ScientificName do
   context 'all fields present' do
@@ -8,7 +8,7 @@ describe ScientificName do
     end
 
     it 'should save a basic scientific name' do
-      @sn.save.should be_true
+      @sn.save.should be(true)
     end
 
     it 'should be fetchable from the database' do

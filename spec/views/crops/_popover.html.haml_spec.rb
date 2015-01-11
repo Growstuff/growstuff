@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "crops/_popover" do
   before(:each) do
@@ -10,11 +10,11 @@ describe "crops/_popover" do
   end
 
   it 'has a scientific name' do
-    rendered.should contain 'Solanum lycopersicum'
+    rendered.should have_content 'Solanum lycopersicum'
   end
 
   it 'shows count of plantings' do
-    rendered.should contain '1 time'
+    rendered.should have_content '1 time'
   end
 
 end

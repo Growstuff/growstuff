@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "forums/index" do
   before(:each) do
@@ -28,8 +28,8 @@ describe "forums/index" do
 
     it "displays posts" do
       assert_select "table"
-      rendered.should contain @post.subject
-      rendered.should contain "less than a minute ago"
+      rendered.should have_content @post.subject
+      rendered.should have_content "less than a minute ago"
     end
 
     it "displays comment count" do

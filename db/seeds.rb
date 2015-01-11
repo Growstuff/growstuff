@@ -12,8 +12,8 @@ def load_data
     load_crops
     load_plant_parts
 
-    # for development environments only
-    if Rails.env.development?
+    # for development and staging environments only
+    if Rails.env.development? || Rails.env.staging?
       load_test_users
       load_admin_users
       load_paid_account_types
@@ -156,7 +156,7 @@ def load_plant_parts
     'other'
   ]
   plant_parts.each do |pp|
-    PlantPart.find_or_create_by_name!(pp)
+    PlantPart.find_or_create_by!(name: pp)
   end
 end
 

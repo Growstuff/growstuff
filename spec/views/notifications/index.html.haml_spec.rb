@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "notifications/index" do
   before(:each) do
@@ -31,7 +31,7 @@ describe "notifications/index" do
          :sender => @member, :recipient => @member, :subject => nil)
       assign(:notifications, [@notification])
       render
-      rendered.should contain "(no subject)"
+      rendered.should have_content "(no subject)"
     end
   end
 
@@ -41,7 +41,7 @@ describe "notifications/index" do
          :sender => @member, :recipient => @member, :subject => "   ")
       assign(:notifications, [@notification])
       render
-      rendered.should contain "(no subject)"
+      rendered.should have_content "(no subject)"
     end
   end
 

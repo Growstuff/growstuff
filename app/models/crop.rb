@@ -1,7 +1,6 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: :slugged
-  attr_accessible :en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes
+  friendly_id :name, use: [:slugged, :finders]
 
   has_many :scientific_names
   accepts_nested_attributes_for :scientific_names,
@@ -13,7 +12,7 @@ class Crop < ActiveRecord::Base
   has_many :photos, :through => :plantings
   has_many :seeds
   has_many :harvests
-  has_many :plant_parts, :through => :harvests, :uniq => :true
+  has_many :plant_parts, -> { uniq }, :through => :harvests
   belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
@@ -21,16 +20,15 @@ class Crop < ActiveRecord::Base
   has_and_belongs_to_many :posts
   before_destroy {|crop| crop.posts.clear}
 
-
-  default_scope order("lower(name) asc")
-  scope :recent, reorder("created_at desc")
-  scope :toplevel, where(:parent_id => nil)
-  scope :popular, reorder("plantings_count desc, lower(name) asc")
-  scope :randomized, reorder('random()') # ok on sqlite and psql, but not on mysql
+  default_scope { order("lower(name) asc") }
+  scope :recent, -> { reorder("created_at desc") }
+  scope :toplevel, -> { where(:parent_id => nil) }
+  scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
+  scope :randomized, -> { reorder('random()') } # ok on sqlite and psql, but not on mysql
 
   validates :en_wikipedia_url,
     :format => {
-      :with => /^https?:\/\/en\.wikipedia\.org\/wiki/,
+      :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
     }
 
@@ -132,7 +130,7 @@ class Crop < ActiveRecord::Base
     cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
 
-    crop = Crop.find_or_create_by_name(name)
+    crop = Crop.find_or_create_by(name: name)
     crop.update_attributes(
       :en_wikipedia_url => en_wikipedia_url,
       :creator_id => cropbot.id

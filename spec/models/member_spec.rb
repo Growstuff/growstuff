@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'member' do
 
@@ -33,11 +33,11 @@ describe 'member' do
 
     it "should have a default-type account by default" do
       @member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
-      @member.is_paid?.should be_false
+      @member.is_paid?.should be(false)
     end
 
     it "doesn't show email by default" do
-      @member.show_email.should be_false
+      @member.show_email.should be(false)
     end
 
     it 'should stringify as the login_name' do
@@ -101,7 +101,7 @@ describe 'member' do
     end
 
     it "should refuse to save a member who hasn't agreed to the TOS" do
-      @member.save.should_not be_true
+      @member.save.should_not be(true)
     end
   end
 
@@ -311,7 +311,7 @@ describe 'member' do
       @account_type = FactoryGirl.create(:account_type,
           :is_paid => true, :is_permanent_paid => true)
       @member.account.account_type = @account_type
-      @member.is_paid?.should be_true
+      @member.is_paid?.should be(true)
     end
 
     it "recognises a current paid account" do
@@ -319,7 +319,7 @@ describe 'member' do
           :is_paid => true, :is_permanent_paid => false)
       @member.account.account_type = @account_type
       @member.account.paid_until = Time.zone.now + 1.month
-      @member.is_paid?.should be_true
+      @member.is_paid?.should be(true)
     end
 
     it "recognises an expired paid account" do
@@ -327,14 +327,14 @@ describe 'member' do
           :is_paid => true, :is_permanent_paid => false)
       @member.account.account_type = @account_type
       @member.account.paid_until = Time.zone.now - 1.minute
-      @member.is_paid?.should be_false
+      @member.is_paid?.should be(false)
     end
 
     it "recognises a free account" do
       @account_type = FactoryGirl.create(:account_type,
           :is_paid => false, :is_permanent_paid => false)
       @member.account.account_type = @account_type
-      @member.is_paid?.should be_false
+      @member.is_paid?.should be(false)
     end
 
     it "recognises a free account even with paid_until set" do
@@ -342,7 +342,7 @@ describe 'member' do
           :is_paid => false, :is_permanent_paid => false)
       @member.account.account_type = @account_type
       @member.account.paid_until = Time.zone.now + 1.month
-      @member.is_paid?.should be_false
+      @member.is_paid?.should be(false)
     end
 
   end

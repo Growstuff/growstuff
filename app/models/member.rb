@@ -2,7 +2,7 @@ class Member < ActiveRecord::Base
   include Geocodable
   extend FriendlyId
 
-  friendly_id :login_name, use: :slugged
+  friendly_id :login_name, use: [:slugged, :finders]
 
   has_many :posts,   :foreign_key => 'author_id'
   has_many :comments, :foreign_key => 'author_id'
@@ -27,17 +27,18 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
+
+  default_scope { order("lower(login_name) asc") }
+  scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
+  scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
+  scope :recently_signed_in, -> { reorder('updated_at DESC') }
+  scope :wants_newsletter, -> { where(:newsletter => true) }
+
   has_many :follows, :class_name => "Follow", :foreign_key => "follower_id"
   has_many :followed, :through => :follows
 
   has_many :inverse_follows, :class_name => "Follow", :foreign_key => "followed_id"
   has_many :followers, :through => :inverse_follows, :source => :follower
-
-  default_scope order("lower(login_name) asc")
-  scope :confirmed, where('confirmed_at IS NOT NULL')
-  scope :located, where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL")
-  scope :recently_signed_in, reorder('updated_at DESC')
-  scope :wants_newsletter, where(:newsletter => true)
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -45,16 +46,6 @@ class Member < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable
-
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :login_name, :email, :password, :password_confirmation,
-    :remember_me, :login,
-    # terms of service
-    :tos_agreement,
-    # profile stuff
-    :bio, :location, :latitude, :longitude,
-    # email settings
-    :show_email, :newsletter, :send_notification_email, :send_planting_reminder
 
   # set up geocoding
   geocoded_by :location
@@ -80,7 +71,7 @@ class Member < ActiveRecord::Base
       :message => "name is reserved"
     },
     :format => {
-      :with => /^\w+$/,
+      :with => /\A\w+\z/,
       :message => "may only include letters, numbers, or underscores"
     },
     :uniqueness => {
@@ -93,7 +84,7 @@ class Member < ActiveRecord::Base
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryGirl associations
-  after_create {|member| Account.find_or_create_by_member_id(:member_id => member.id) }
+  after_create {|member| Account.find_or_create_by(:member_id => member.id) }
 
   after_save :update_newsletter_subscription
 
@@ -243,17 +234,19 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def newsletter_subscribe
+  def newsletter_subscribe(testing=false)
+    return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.subscribe({
       :id => Gibbon::API.api_key,
       :email => { :email => email },
       :merge_vars => { :login_name => login_name },
-      :double_optin => false # they alredy confirmed their email with us
+      :double_optin => false # they already confirmed their email with us
     })
   end
 
-  def newsletter_unsubscribe
+  def newsletter_unsubscribe(testing=false)
+    return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({
       :id => ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID'],

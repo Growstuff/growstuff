@@ -1,7 +1,7 @@
 describe 'devise/shared/_links.haml', :type => "view" do
 
   def devise_mapping(register, recover, confirm, lock, oauth)
-    dm = mock("mappings")
+    dm = double("mappings")
     dm.stub(:registerable? => register)
     dm.stub(:recoverable? => recover)
     dm.stub(:confirmable? => confirm)

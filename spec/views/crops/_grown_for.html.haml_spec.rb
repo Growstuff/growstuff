@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "crops/_grown_for" do
   before(:each) do
@@ -12,7 +12,7 @@ describe "crops/_grown_for" do
 
   it 'shows plant parts' do
     render :partial => 'crops/grown_for', :locals => { :crop => @crop }
-    rendered.should contain @pp.name
+    rendered.should have_content @pp.name
     assert_select "a", :href => plant_part_path(@pp)
   end
 end
