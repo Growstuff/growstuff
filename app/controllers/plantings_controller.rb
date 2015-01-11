@@ -65,11 +65,9 @@ class PlantingsController < ApplicationController
   # POST /plantings
   # POST /plantings.json
   def create
-    # params[:planting][:owner_id] = current_member.id
-    # params[:planted_at] = parse_date(params[:planted_at])
+    params[:planted_at] = parse_date(params[:planted_at])
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
-    @planting.planted_at = parse_date(params[:planted_at])
 
     respond_to do |format|
       if @planting.save
