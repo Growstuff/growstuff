@@ -61,7 +61,15 @@ class ApplicationController < ActionController::Base
     end
 
     devise_parameter_sanitizer.for(:account_update) do |member|
-      member.permit(:location, :bio, :tos_agreement)
+      member.permit(:login_name, :email, :password, :password_confirmation,
+        :remember_me, :login,
+        # terms of service
+        :tos_agreement,
+        # profile stuff
+        :bio, :location, :latitude, :longitude,
+        # email settings
+        :show_email, :newsletter, :send_notification_email, :send_planting_reminder
+      )
     end
   end
 
