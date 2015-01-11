@@ -11,13 +11,13 @@ def load_data
     create_cropbot
     load_crops
     load_plant_parts
+    load_paid_account_types
+    load_products
 
     # for development and staging environments only
-    if Rails.env.development? || Rails.env.staging?
+    if Rails.env.development?
       load_test_users
       load_admin_users
-      load_paid_account_types
-      load_products
     end
   end
 
