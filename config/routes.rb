@@ -8,7 +8,7 @@ Growstuff::Application.routes.draw do
 
   resources :photos
 
-  resources :authentications
+  resources :authentications, :only => [:create, :destroy]
 
   resources :plantings
   get '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
