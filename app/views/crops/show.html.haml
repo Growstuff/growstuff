@@ -13,6 +13,8 @@
 
 .row
   .col-md-9
+    - unless current_member
+      Learn how to grow #{ @crop.name.pluralize } from growers around the world. #{ ENV['GROWSTUFF_SITE_NAME'] } has tips and advice from real-life growers, including when to plant #{ @crop.name.pluralize }, how to harvest #{ @crop.name.pluralize }, and more.
 
     = render :partial => 'photos', :locals => { :crop => @crop }
 
@@ -49,22 +51,22 @@
   .col-md-3
 
     = render :partial => 'wrangle', :locals => { :crop => @crop }
-    = render :partial => 'scientific_names', :locals => { :crop => @crop }
-    = render :partial => 'alternate_names', :locals => { :crop => @crop }
 
-    %h4 Planting advice
+    %h4 How to grow #{ @crop.name.pluralize }
 
     = render :partial => 'grown_for', :locals => { :crop => @crop }
     = render :partial => 'planting_advice', :locals => { :crop => @crop }
 
-    %h4 Varieties
+    = render :partial => 'scientific_names', :locals => { :crop => @crop }
+    = render :partial => 'alternate_names', :locals => { :crop => @crop }
+
+    %h4 #{ @crop.name.capitalize } varieties
     = render :partial => 'varieties', :locals => { :crop => @crop }
-
-
-    %h4 More information
-    %ul
-      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
 
     = render :partial => 'plantings', :locals => { :crop => @crop }
     = render :partial => 'harvests', :locals => { :crop => @crop }
     = render :partial => 'find_seeds', :locals => { :crop => @crop }
+
+    %h4 Learn more about #{ @crop.name.pluralize }
+    %ul
+      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
