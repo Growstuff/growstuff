@@ -16,4 +16,11 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural 'square foot', 'square feet'
+  inflect.plural 'broccoli', 'broccoli'
+  inflect.plural 'kale', 'kale'
+  inflect.plural 'squash', 'squash'
+  inflect.plural 'bok choy', 'bok choy'
+  inflect.plural 'achiote', 'achiote'
+  inflect.plural 'alfalfa', 'alfalfa'
+  inflect.plural 'allspice', 'allspice'
 end
