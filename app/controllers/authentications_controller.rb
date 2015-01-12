@@ -2,15 +2,6 @@ class AuthenticationsController < ApplicationController
   before_filter :authenticate_member!
   load_and_authorize_resource
 
-  # GET /authentications
-  def index
-    @authentications = current_member.authentications if member_signed_in?
-
-    respond_to do |format|
-      format.html # index.html.erb
-    end
-  end
-
   # POST /authentications
   def create
     auth = request.env['omniauth.auth']
