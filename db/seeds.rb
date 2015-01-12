@@ -14,7 +14,9 @@ def load_data
     load_paid_account_types
     load_products
 
-    # for development and staging environments only
+    # We don't load these in an environment except development to
+    # prevent creating users in the wile - especially admins - with
+    # known passwords.
     if Rails.env.development?
       load_test_users
       load_admin_users
