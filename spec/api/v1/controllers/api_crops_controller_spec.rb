@@ -6,13 +6,13 @@ describe Api::V1::CropsController do
 
   def check_license(response)
     json = JSON.parse response.body
-    json['license'].should_not == nil
-    json['license']['name'].should == "Creative Commons Attribution ShareAlike 3.0 Unported"
-    json['license']['short_name'].should == "CC-BY-SA"
-    json['license']['url'].should == "http://creativecommons.org/licenses/by-sa/3.0/"
-    json['license']['credit'].should == "Growstuff"
-    json['license']['link'].should == "http://growstuff.org/"
-    json['license']['easy_link'].should == '<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> <a href="http://growstuff.org/">Growstuff</a>'
+    expect(json['license']).to_not eq(nil)
+    expect(json['license']['name']).to eq("Creative Commons Attribution ShareAlike 3.0 Unported")
+    expect(json['license']['short_name']).to eq("CC-BY-SA")
+    expect(json['license']['url']).to eq("http://creativecommons.org/licenses/by-sa/3.0/")
+    expect(json['license']['credit']).to eq("Growstuff")
+    expect(json['license']['link']).to eq("http://growstuff.org/")
+    expect(json['license']['easy_link']).to eq('<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> <a href="http://growstuff.org/">Growstuff</a>')
   end
 
   context "GET crops" do
