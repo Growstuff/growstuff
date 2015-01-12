@@ -73,7 +73,7 @@ gem 'flickraw'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'jbuilder'
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -130,4 +130,5 @@ group :development, :test do
   gem 'capybara-email'               # integration tests for email
   gem 'poltergeist', '~> 1.5.1'      # for headless JS testing
   gem 'i18n-tasks'                   # adds tests for finding missing and unused translations
+  gem 'json_spec'                    # extra ways to test JSON data
 end

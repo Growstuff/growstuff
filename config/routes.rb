@@ -4,7 +4,7 @@ Growstuff::Application.routes.draw do
 
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
 
-  resources :members 
+  resources :members
 
   resources :photos
 
@@ -84,6 +84,10 @@ Growstuff::Application.routes.draw do
   match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match '/admin/:action' => 'admin#:action'
 
-
+  namespace :api, :defaults => {:format => :json}  do
+    namespace :v1 do
+      resources :crops
+    end
+  end
 
 end
