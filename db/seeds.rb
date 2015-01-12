@@ -15,7 +15,7 @@ def load_data
     load_products
 
     # We don't load these in an environment except development to
-    # prevent creating users in the wile - especially admins - with
+    # prevent creating users in the wild - especially admins - with
     # known passwords.
     if Rails.env.development?
       load_test_users
