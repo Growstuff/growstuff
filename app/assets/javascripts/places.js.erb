@@ -7,7 +7,7 @@ if (document.getElementById("placesmap") !== null) {
 
   L.Icon.Default.imagePath = '/assets'
 
-  if (location.pathname === places_base_path) { //places index page
+  if (location.pathname === places_base_path || location.pathname === "/") { 
     placesmap = L.map('placesmap').setView([0.0, -0.0], 2);
     showMap(placesmap);
   } else { // specific place page
