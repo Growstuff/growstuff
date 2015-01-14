@@ -2,10 +2,15 @@
   'use strict';
 
 
+
+
   describe('BarGroup', function() {
-  var BarGroup, subject;
+  var BarGroup, subject, xScale;
 
   beforeEach(function() {
+
+    var GraphScale = growstuff.GraphScale;
+
     BarGroup = growstuff.BarGroup;
     var bars = [
       {name: 'Shade', value: 0.2},
@@ -14,7 +19,8 @@
     var data = {
       bars:bars
     };
-    subject = new BarGroup(data);
+    xScale = new GraphScale(data, 'linear');
+    subject = new BarGroup(data, xScale.render());
     subject.render(d3.select('#jasmine_content').append('svg'));
   })
 
@@ -26,7 +32,17 @@
     expect($('g.bar rect')).toHaveLength(2);
   });
 
+  it('fills the bars with color', function(){
+    expect($('g.bar rect')).toHaveAttr('fill', 'rebeccapurple');
+  });
 
-});
+  it ('gets the values of all the bars', function(){
+    expect(subject.getBarValues()).toEqual([0.2, 0.5]);
+  });
+
+
+
+
+  });
 
 })();
