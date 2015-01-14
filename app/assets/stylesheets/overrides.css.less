@@ -194,30 +194,34 @@ li.crop-hierarchy {
   margin: 40px 0px 0px 0px !important;
 }
 
-// navbar centering
-footer .navbar .nav {
-  float: none;
-  display: inline-block;
-  *display: inline;
-  /* ie7 fix */
-  *zoom: 1;
-  /* hasLayout ie7 trigger */
-  vertical-align: top;
-  > li {
-    float: none;
-    display: inline-block;
-    *display: inline;
-    /* ie7 fix */
-    *zoom: 1;
-    /* hasLayout ie7 trigger */
-    vertical-align: top;
+footer {
+  #contact, #about-growstuff, #policies {
+    text-align: left;
+    padding-top: 1em;
+    padding-bottom: 2em;
+    ul {
+      list-style-type: none;
+      list-style-position: outside;
+      padding-left: 0px;
+      margin-left: 0px;
+    }
+    a {
+      color: @navbar-default-link-color;
+      text-decoration: none;
+    }
+    a:hover {
+      color: @navbar-default-link-hover-color;
+    }
+    a:active {
+      color: @navbar-default-link-active-color;
+    }
+  }
+
+  .navbar-bottom.navbar {
+    border-radius: 0;
   }
 }
 
-.navbar-bottom.navbar {
-  text-align: center;
-  border-radius: 0;
-}
 
 .crop-image, .member-image {
   width: 100%;
