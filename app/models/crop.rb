@@ -40,7 +40,7 @@ class Crop < ActiveRecord::Base
   settings index: { number_of_shards: 1},
     analysis: {
       tokenizer: {
-        my_ngram_tokenizer: {
+        gs_edgeNGram_tokenizer: {
           type: "edgeNGram",
           min_gram: 1,
           max_gram: 20,
@@ -48,17 +48,17 @@ class Crop < ActiveRecord::Base
         }
       },
       analyzer: {
-        my_lowercase_analyzer: {
-          tokenizer: "my_ngram_tokenizer",
+        gs_edgeNGram_analyzer: {
+          tokenizer: "gs_edgeNGram_tokenizer",
           filter: ["lowercase"]
         }
       },
     } do
     mappings dynamic: 'false' do
       indexes :id, type: 'long'
-      indexes :name, type: 'string', analyzer: 'my_lowercase_analyzer'
+      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
       indexes :scientific_names do
-        indexes :scientific_name, type: 'string', analyzer: 'my_lowercase_analyzer'
+        indexes :scientific_name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
       end
     end
   end
