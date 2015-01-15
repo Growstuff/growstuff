@@ -242,7 +242,6 @@ class Crop < ActiveRecord::Base
   # searches for crops whose names match the string given
   # just uses SQL LIKE for now, but can be made fancier later
   def self.search(query)
-
     response = __elasticsearch__.search(
       {
         query: {
@@ -262,7 +261,6 @@ class Crop < ActiveRecord::Base
         size: 50
       }
     )
-    end
     response.records.to_a
   end
 end
