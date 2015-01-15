@@ -116,6 +116,11 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-flickr', '>= 0.0.15'
 
+# client for elastic search
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
+gem 'bonsai-elasticsearch-rails'
+
 gem 'rake', '>= 10.0.0'
 
 group :development, :test do

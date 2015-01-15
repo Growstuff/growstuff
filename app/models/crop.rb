@@ -33,6 +33,42 @@ class Crop < ActiveRecord::Base
       :with => /^https?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
     }
+  
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  index_name [Rails.env, "growstuff"].join('_')
+  settings index: { number_of_shards: 1},
+    analysis: {
+      tokenizer: {
+        my_ngram_tokenizer: {
+          type: "edgeNGram",
+          min_gram: 1,
+          max_gram: 20,
+          token_chars: [ "letter", "digit" ]
+        }
+      },
+      analyzer: {
+        my_lowercase_analyzer: {
+          tokenizer: "my_ngram_tokenizer",
+          filter: ["lowercase"]
+        }
+      },
+    } do
+    mappings dynamic: 'false' do
+      indexes :id, type: 'long'
+      indexes :name, type: 'string', analyzer: 'my_lowercase_analyzer'
+      indexes :scientific_names do
+        indexes :scientific_name, type: 'string', analyzer: 'my_lowercase_analyzer'
+      end
+    end
+  end
+
+  def as_indexed_json(options={})
+    self.as_json(
+      only: [:id, :name],
+      include: { scientific_names: { only: :scientific_name }
+             })
+  end
 
   def to_s
     return name
@@ -206,7 +242,27 @@ class Crop < ActiveRecord::Base
   # searches for crops whose names match the string given
   # just uses SQL LIKE for now, but can be made fancier later
   def self.search(query)
-    where("name ILIKE ?", "%#{query}%")
-  end
 
+    response = __elasticsearch__.search(
+      {
+        query: {
+          bool: {
+            should: [
+              { match: {
+                  name: "#{query}"
+                }
+              },
+              { match: {
+                  scientific_name: "#{query}"
+                }
+              }
+            ]
+          }
+        },
+        size: 50
+      }
+    )
+    end
+    response.records.to_a
+  end
 end
