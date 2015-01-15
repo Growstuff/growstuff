@@ -251,21 +251,9 @@ class Crop < ActiveRecord::Base
     response = __elasticsearch__.search(
       {
         query: {
-          bool: {
-            should: [
-              { match: {
-                  name: search_str
-                }
-              },
-              { match: {
-                  "scientific_names.scientific_name" => search_str
-                }
-              },
-              { match: {
-                  "alternate_names.name" => search_str
-                }
-              }
-            ]
+          multi_match: {
+            query: search_str,
+            fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
           }
         },
         size: 50
