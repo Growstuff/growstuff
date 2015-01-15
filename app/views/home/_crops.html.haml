@@ -1,6 +1,6 @@
 .row
   .col-md-6.hidden-xs
-    - cache cache_key_for(Crop), :expires_in => 1.day do
+    - cache cache_key_for(Crop, 'interesting'), :expires_in => 1.day do
       %h2= t('.our_crops')
       - Crop.interesting.each do |c|
         .col-md-3{:style => 'margin:0px; padding: 3px'}
@@ -13,7 +13,7 @@
 
 .row
   .col-md-12
-    - cache cache_key_for(Crop) do
+    - cache cache_key_for(Crop, 'recent') do
       %p{ :style => 'margin-top: 11.25px' }
         %strong
           #{t('.recently_added')}:
