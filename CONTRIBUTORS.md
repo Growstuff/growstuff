@@ -51,4 +51,5 @@ submit the change with your pull request.
 - Yoong Kang Lim / [yoongkang](https://github.com/yoongkang)
 - Kevin Yang / [kevieyang](https://github.com/kevieyang)
 - Justin Hamman / [juzham](https://github.com/juzham)
+- Rocky Jaiswal / [rocky-jaiswal](https://github.com/rocky-jaiswal)
 
