@@ -56,9 +56,12 @@ class Crop < ActiveRecord::Base
     } do
     mappings dynamic: 'false' do
       indexes :id, type: 'long'
-      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer', norms: { enabled: false }
       indexes :scientific_names do
-        indexes :scientific_name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+        indexes :scientific_name, type: 'string', analyzer: 'gs_edgeNGram_analyzer', norms: { enabled: false }
+      end
+      indexes :alternate_names do
+        indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer', norms: { enabled: false }
       end
     end
   end
@@ -66,7 +69,9 @@ class Crop < ActiveRecord::Base
   def as_indexed_json(options={})
     self.as_json(
       only: [:id, :name],
-      include: { scientific_names: { only: :scientific_name }
+      include: {
+        scientific_names: { only: :scientific_name },
+        alternate_names: { only: :name }
              })
   end
 
@@ -242,17 +247,22 @@ class Crop < ActiveRecord::Base
   # searches for crops whose names match the string given
   # just uses SQL LIKE for now, but can be made fancier later
   def self.search(query)
+    search_str = query.nil? ? "" : "#{query.downcase}"
     response = __elasticsearch__.search(
       {
         query: {
           bool: {
             should: [
               { match: {
-                  name: "#{query}"
+                  name: search_str
                 }
               },
               { match: {
-                  scientific_name: "#{query}"
+                  "scientific_names.scientific_name" => search_str
+                }
+              },
+              { match: {
+                  "alternate_names.name" => search_str
                 }
               }
             ]
