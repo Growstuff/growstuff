@@ -54,11 +54,11 @@ class CropsController < ApplicationController
     @search = params[:search]
     @exact_match = Crop.find_by_name(params[:search])
 
-    @partial_matches = Crop.search(params[:search])
+    @partial_matches = Crop.search(params[:search], true)
     # exclude exact match from partial match list
     @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
 
-    @fuzzy = Crop.search(params[:term])
+    @fuzzy = Crop.search(params[:term], false)
 
     respond_to do |format|
       format.html
