@@ -56,12 +56,12 @@ class Crop < ActiveRecord::Base
     } do
     mappings dynamic: 'false' do
       indexes :id, type: 'long'
-      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer', norms: { enabled: false }
+      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
       indexes :scientific_names do
         indexes :scientific_name, type: 'string', analyzer: 'gs_edgeNGram_analyzer', norms: { enabled: false }
       end
       indexes :alternate_names do
-        indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer', norms: { enabled: false }
+        indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
       end
     end
   end
