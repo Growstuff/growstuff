@@ -1,4 +1,4 @@
-.thumbnail(style='height: 220px')
+.thumbnail.crop-thumbnail
   - if crop
     = link_to image_tag((crop.default_photo ?  crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => crop.name, :class => 'img'), crop
     %p.crop-name
