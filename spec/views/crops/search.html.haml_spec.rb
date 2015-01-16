@@ -16,7 +16,7 @@ describe "crops/search" do
     end
 
     it "shows exact matches" do
-      assert_select "div#exact_match" do
+      assert_select "div#all_matches" do
         assert_select "a[href=#{crop_path(@tomato)}]"
       end
     end
