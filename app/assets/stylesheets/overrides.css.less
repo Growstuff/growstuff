@@ -124,7 +124,7 @@ p.stats {
   color: @brown;
 }
 
-.crop-thumbnail {
+.photo-thumbnail {
   position:relative;
   padding:0;
   img {
@@ -151,33 +151,40 @@ p.stats {
   }
 }
 
-.member-thumbnail {
-  img {
-    height: 85px;
-    width: 85px;
-    max-width: 85px
-  }
-}
 
 .thumbnail {
+  border: none;
+  text-align: center;
   margin-bottom: 1.5em;
-  
-  .scientific-name small, .crop-name a {
-    display: inline-block;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1em;
-    padding-bottom: 2px;
+
+  .member-thumbnail {
+    text-align: left;
+    img {
+      height: 85px;
+      width: 85px;
+      max-width: 85px
+    }
   }
 
-  .crop-name a {
-    padding-top: 2px;
-  }
+  .crop-thumbnail {
+    height: 220px;
+    .scientific-name small, .crop-name a {
+      display: inline-block;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1em;
+      padding-bottom: 2px;
+    }
 
-  .scientific-name small {
-    margin-bottom: -2px;
+    .crop-name a {
+      padding-top: 2px;
+    }
+
+    .scientific-name small {
+      margin-bottom: -2px;
+    }
   }
 }
 
