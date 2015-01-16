@@ -1,6 +1,6 @@
 - content_for :title, "Crops matching #{@search}"
 
-- unless (@exact_match || @partial_matches.length > 0)
+- unless (@all_matches.length > 0)
   %h2 No results found
   %p
     Sorry, we couldn't find any crops that matched your search for "#{@search}".
@@ -9,18 +9,9 @@
     = link_to "browsing our crop database", crops_path
     instead.
 
-- if @exact_match
-  %div#exact_match
-    %h2 Exact match
-
+- if ! @all_matches.empty?
+  %div#all_matches
     .row
-      .col-md-2.six-across
-        = render :partial => "thumbnail", :locals => { :crop => @exact_match }
-
-- if ! @partial_matches.empty?
-  %div#partial_matches
-    %h2 Partial matches
-    .row
-      - @partial_matches.each do |c|
+      - @all_matches.each do |c|
         .col-md-2.six-across
           = render :partial => "thumbnail", :locals => { :crop => c }

@@ -51,18 +51,19 @@ class CropsController < ApplicationController
 
   # GET /crops/search
   def search
-    @search = params[:search]
-    @exact_match = Crop.find_by_name(params[:search])
+    query = params[:term] || params[:search]
+    @all_matches = Crop.search(query)
 
-    @partial_matches = Crop.search(params[:search])
-    # exclude exact match from partial match list
-    @partial_matches.reject!{ |r| @exact_match && r.eql?(@exact_match) }
-
-    @fuzzy = Crop.search(params[:term])
+    if exact_match = Crop.find_by_name(query)
+      @all_matches.delete(exact_match)
+      @all_matches.unshift(exact_match)
+    end
 
     respond_to do |format|
       format.html
-      format.json { render :json => @fuzzy }
+      format.json { 
+        render :json => @all_matches
+      }
     end
   end
 
