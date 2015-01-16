@@ -62,7 +62,7 @@ class CropsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { 
-        render :json => @all_matches
+        render :json => Crop.autosuggest(params[:term])
       }
     end
   end

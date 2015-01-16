@@ -42,7 +42,7 @@ class Crop < ActiveRecord::Base
       tokenizer: {
         gs_edgeNGram_tokenizer: {
           type: "edgeNGram",
-          min_gram: 1,
+          min_gram: 2,
           max_gram: 20,
           token_chars: [ "letter", "digit" ]
         }
@@ -260,5 +260,9 @@ class Crop < ActiveRecord::Base
       }
     )
     response.records.to_a
+  end
+
+  def self.autosuggest(term)
+    where("name ILIKE ?", "%#{term}%")
   end
 end
