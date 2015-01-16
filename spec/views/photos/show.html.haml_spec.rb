@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "photos/show" do
   before(:each) do
@@ -41,7 +41,7 @@ describe "photos/show" do
     end
 
     it "contains the phrase 'All rights reserved'" do
-      rendered.should contain "All rights reserved"
+      rendered.should have_content "All rights reserved"
     end
 
   end

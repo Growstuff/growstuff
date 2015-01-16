@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Photo do
 
@@ -44,7 +44,7 @@ describe Photo do
         planting.photos << photo
         harvest.destroy # photo is now used by harvest but not planting
         photo.destroy_if_unused
-        expect(lambda { photo.reload }).not_to raise_error ActiveRecord::RecordNotFound
+        expect(lambda { photo.reload }).not_to raise_error
       end
 
       it 'they are used by harvests but not plantings' do
@@ -52,7 +52,7 @@ describe Photo do
         planting.photos << photo
         planting.destroy # photo is now used by harvest but not planting
         photo.destroy_if_unused
-        expect(lambda { photo.reload }).not_to raise_error ActiveRecord::RecordNotFound
+        expect(lambda { photo.reload }).not_to raise_error
       end
 
       it 'they are no longer used by anything' do
@@ -67,7 +67,7 @@ describe Photo do
         expect(photo.harvests.size).to eq 1
 
         harvest.destroy # photo is now no longer used by anything
-        photo.reload
+
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 0
         photo.destroy_if_unused

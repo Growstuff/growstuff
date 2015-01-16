@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "seeds" do
   context "signed in user" do
@@ -10,6 +10,14 @@ feature "seeds" do
       fill_in 'Login', :with => @member.login_name
       fill_in 'Password', :with => @member.password
       click_button 'Sign in'
+    end
+
+    scenario "button on index to edit seed" do
+      seed = FactoryGirl.create(:seed, :owner => @member)
+      visit seeds_path
+      click_link "Edit"
+      current_path.should eq edit_seed_path(seed)
+      page.should have_content 'Editing seeds'
     end
 
     scenario "button on front page to add seeds" do

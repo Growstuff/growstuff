@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Garden do
   before :each do
@@ -100,6 +100,11 @@ describe Garden do
     it 'allows numeric area' do
       @garden = FactoryGirl.build(:garden, :area => 33)
       @garden.should be_valid
+    end
+
+    it "doesn't allow negative area" do
+      @garden = FactoryGirl.build(:garden, :area => -5)
+      @garden.should_not be_valid
     end
 
     it 'allows decimal quantities' do

@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 shared_examples "crop suggest" do |resource|
   let!(:popcorn) { FactoryGirl.create(:popcorn) }
   let!(:pear)    { FactoryGirl.create(:pear) }

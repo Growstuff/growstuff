@@ -1,6 +1,7 @@
 class HarvestsController < ApplicationController
-
+  before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
+  
 
   # GET /harvests
   # GET /harvests.json
@@ -61,7 +62,7 @@ class HarvestsController < ApplicationController
   def create
     params[:harvest][:owner_id] = current_member.id
     params[:harvested_at] = parse_date(params[:harvested_at])
-    @harvest = Harvest.new(params[:harvest])
+    @harvest = Harvest.new(harvest_params)
 
     respond_to do |format|
       if @harvest.save
@@ -80,7 +81,7 @@ class HarvestsController < ApplicationController
     @harvest = Harvest.find(params[:id])
 
     respond_to do |format|
-      if @harvest.update_attributes(params[:harvest])
+      if @harvest.update(harvest_params)
         format.html { redirect_to @harvest, notice: 'Harvest was successfully updated.' }
         format.json { head :no_content }
       else
@@ -100,5 +101,12 @@ class HarvestsController < ApplicationController
       format.html { redirect_to harvests_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def harvest_params
+    params.require(:harvest).permit(:crop_id, :harvested_at, :description, :owner_id,
+    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug)
   end
 end

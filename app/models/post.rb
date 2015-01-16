@@ -1,7 +1,6 @@
 class Post < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :author_date_subject, use: :slugged
-  attr_accessible :body, :subject, :author_id, :forum_id
+  friendly_id :author_date_subject, use: [:slugged, :finders]
   belongs_to :author, :class_name => 'Member'
   belongs_to :forum
   has_many :comments, :dependent => :destroy
@@ -11,7 +10,7 @@ class Post < ActiveRecord::Base
   # also has_many notifications, but kinda meaningless to get at them
   # from this direction, so we won't set up an association for now.
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
   validates :subject,
     :format => {

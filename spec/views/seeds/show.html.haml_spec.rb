@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "seeds/show" do
   before(:each) do
@@ -9,7 +9,7 @@ describe "seeds/show" do
 
   it "renders attributes in <p>" do
     render
-    rendered.should contain @seed.crop.name
+    rendered.should have_content @seed.crop.name
   end
 
   context "tradable" do
@@ -25,12 +25,12 @@ describe "seeds/show" do
 
     it "shows tradable attributes" do
       render
-      rendered.should contain "Will trade: locally"
+      rendered.should have_content "Will trade: locally"
     end
 
     it "shows location of seed owner" do
       render
-      rendered.should contain @owner.location
+      rendered.should have_content @owner.location
       assert_select 'a', :href => place_path(@owner.location)
     end
 
@@ -44,7 +44,7 @@ describe "seeds/show" do
 
       it 'says "from unspecified location"' do
         render
-        rendered.should contain "(from unspecified location)"
+        rendered.should have_content "(from unspecified location)"
       end
 
       it "links to profile to set location" do
@@ -55,7 +55,7 @@ describe "seeds/show" do
 
     it "shows button to send message" do
       render
-      rendered.should contain "Request seeds"
+      rendered.should have_content "Request seeds"
     end
 
   end

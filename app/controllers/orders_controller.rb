@@ -1,9 +1,10 @@
 class OrdersController < ApplicationController
+  before_filter :authenticate_member!
   load_and_authorize_resource
 
   # GET /orders
   def index
-    @orders = Order.find_all_by_member_id(current_member.id)
+    @orders = Order.where(member_id: current_member.id)
 
     respond_to do |format|
       format.html # index.html.erb

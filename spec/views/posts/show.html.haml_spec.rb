@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "posts/show" do
   before(:each) do
@@ -55,7 +55,7 @@ describe "posts/show" do
     end
 
     it "shows comments" do
-      rendered.should contain @comment.body
+      rendered.should have_content @comment.body
     end
 
     it 'has an anchor to the comments' do
@@ -79,7 +79,7 @@ describe "posts/show" do
     end
 
     it "shows the oldest comments first" do
-      rendered.should contain /#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m
+      rendered.should have_content /#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m
     end
   end
 
@@ -88,7 +88,7 @@ describe "posts/show" do
       @post = assign(:post,
         FactoryGirl.create(:forum_post, :author => @author))
       render
-      rendered.should contain "in #{@post.forum.name}"
+      rendered.should have_content "in #{@post.forum.name}"
     end
   end
   

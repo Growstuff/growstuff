@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "Scientific names" do
   let!(:zea_mays) { FactoryGirl.create(:zea_mays) }

@@ -1,21 +1,18 @@
 class Seed < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :seed_slug, use: :slugged
-
-  attr_accessible :owner_id, :crop_id, :description, :quantity, :plant_before,
-    :tradable_to, :slug
+  friendly_id :seed_slug, use: [:slugged, :finders]
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
   validates :crop, :presence => {:message => "must be present and exist in our database"}
   validates :quantity,
     :numericality => { :only_integer => true },
     :allow_nil => true
 
-  scope :tradable, where("tradable_to != 'nowhere'")
+  scope :tradable, -> { where("tradable_to != 'nowhere'") }
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally)
   validates :tradable_to, :inclusion => { :in => TRADABLE_TO_VALUES,

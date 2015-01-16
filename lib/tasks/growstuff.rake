@@ -98,36 +98,36 @@ namespace :growstuff do
     desc "June 2013: create account types and products."
     task :setup_shop => :environment do
       puts "Adding account types..."
-      AccountType.find_or_create_by_name(
+      AccountType.find_or_create_by(
         :name => "Free",
         :is_paid => false,
         :is_permanent_paid => false
       )
-      @paid_account = AccountType.find_or_create_by_name(
+      @paid_account = AccountType.find_or_create_by( 
         :name => "Paid",
         :is_paid => true,
         :is_permanent_paid => false
       )
-      @seed_account = AccountType.find_or_create_by_name(
+      @seed_account = AccountType.find_or_create_by( 
         :name => "Seed",
         :is_paid => true,
         :is_permanent_paid => true
       )
-      @staff_account = AccountType.find_or_create_by_name(
+      @staff_account = AccountType.find_or_create_by( 
         :name => "Staff",
         :is_paid => true,
         :is_permanent_paid => true
       )
 
       puts "Adding products..."
-      Product.find_or_create_by_name(
+      Product.find_or_create_by( 
         :name => "Annual subscription",
         :description => "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
         :min_price => 3000,
         :account_type_id => @paid_account.id,
         :paid_months => 12
       )
-      Product.find_or_create_by_name(
+      Product.find_or_create_by( 
         :name => "Seed account",
         :description => "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
         :min_price => 15000,
@@ -252,7 +252,7 @@ namespace :growstuff do
         'other'
       ]
       plant_parts.each do |pp|
-        PlantPart.find_or_create_by_name!(pp)
+        PlantPart.find_or_create_by!(name: pp)
       end
     end
 
@@ -287,6 +287,31 @@ namespace :growstuff do
     task :generate_crops_posts_records => :environment do
       Post.find_each do |p|
         p.save
+      end
+    end
+
+    desc "October 2014: add alternate names for crops"
+    task :add_alternate_names => :environment do
+      require 'csv'
+      file = "db/seeds/alternate_names_201410.csv"
+      puts "Loading alternate names from #{file}..."
+      cropbot = Member.find_by_login_name("cropbot")
+      CSV.foreach(file) do |row|
+        crop_id, crop_name, alternate_names = row
+        if alternate_names.blank? then
+          next
+        end
+        crop = Crop.find_by_name(crop_name)
+        if crop
+          alternate_names.split(/,\s*/).each do |an|
+            AlternateName.where(
+              name: an,
+              crop_id: crop.id,
+            ).first_or_create do |x|
+              x.creator = cropbot
+            end
+          end
+        end
       end
     end
   end # end oneoff section

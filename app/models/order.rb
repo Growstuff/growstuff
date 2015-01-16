@@ -1,10 +1,9 @@
 class Order < ActiveRecord::Base
-  attr_accessible :member_id, :completed_at, :referral_code
   belongs_to :member
 
   has_many :order_items, :dependent => :destroy
 
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
 
   validates :referral_code, :format => {
     :with => /\A[a-zA-Z0-9 ]*\z/,

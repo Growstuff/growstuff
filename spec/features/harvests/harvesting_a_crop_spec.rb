@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "Harvesting a crop", :js => true do
   let(:member)   { FactoryGirl.create(:member) }

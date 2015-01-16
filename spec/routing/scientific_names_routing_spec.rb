@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe ScientificNamesController do
   describe "routing" do

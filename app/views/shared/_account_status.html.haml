@@ -9,5 +9,5 @@
     %strong Paid until:
     = current_member.account.paid_until_string
 
-- if ! current_member.is_paid?
+- if !current_member.is_paid?
   = link_to "Upgrade and support #{ENV['GROWSTUFF_SITE_NAME']}", shop_path, :class => 'btn btn-primary'

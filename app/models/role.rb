@@ -1,7 +1,7 @@
 class Role < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: :slugged
-  attr_accessible :description, :name, :members, :slug
+  friendly_id :name, use: [:slugged, :finders]
+
   has_and_belongs_to_many :members
 
   class << self

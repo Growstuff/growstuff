@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'home/index.html.haml', :type => "view" do
   before(:each) do
@@ -25,8 +25,8 @@ describe 'home/index.html.haml', :type => "view" do
     end
 
     it 'show interesting members' do
-      rendered.should contain @member.login_name
-      rendered.should contain @member.location
+      rendered.should have_content @member.login_name
+      rendered.should have_content @member.location
     end
   end
 
@@ -38,7 +38,7 @@ describe 'home/index.html.haml', :type => "view" do
     end
 
     it 'should say welcome' do
-      rendered.should contain "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{@member.login_name}"
+      rendered.should have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{@member.login_name}"
     end
   end
 

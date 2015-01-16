@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "plantings/show" do
   def create_planting_for(member)
@@ -25,16 +25,16 @@ describe "plantings/show" do
 
     it "shows the sunniness" do
       render
-      rendered.should contain 'Sun or shade?'
-      rendered.should contain 'sun'
+      rendered.should have_content 'Sun or shade?'
+      rendered.should have_content 'sun'
     end
 
     it "doesn't show sunniness if blank" do
       @p.sunniness = ''
       @p.save
       render
-      rendered.should_not contain 'Sun or shade?'
-      rendered.should_not contain 'sun'
+      rendered.should_not have_content 'Sun or shade?'
+      rendered.should_not have_content 'sun'
     end
   end
 
@@ -45,16 +45,16 @@ describe "plantings/show" do
 
     it "shows planted_from" do
       render
-      rendered.should contain 'Planted from:'
-      rendered.should contain 'cutting'
+      rendered.should have_content 'Planted from:'
+      rendered.should have_content 'cutting'
     end
 
     it "doesn't show planted_from if blank" do
       @p.planted_from = ''
       @p.save
       render
-      rendered.should_not contain 'Planted from:'
-      rendered.should_not contain 'cutting'
+      rendered.should_not have_content 'Planted from:'
+      rendered.should_not have_content 'cutting'
     end
   end
 
@@ -67,7 +67,7 @@ describe "plantings/show" do
 
   it "shows a link to add photos" do
     render
-    rendered.should contain "Add photo"
+    rendered.should have_content "Add photo"
   end
 
   context "no location set" do
@@ -88,7 +88,7 @@ describe "plantings/show" do
     end
 
     it "doesn't contain a () if no location is set" do
-      rendered.should_not contain "()"
+      rendered.should_not have_content "()"
     end
   end
 
@@ -100,7 +100,7 @@ describe "plantings/show" do
     end
 
     it "shows the member's location in parentheses" do
-      rendered.should contain "(#{@p.owner.location})"
+      rendered.should have_content "(#{@p.owner.location})"
     end
   end
 end
