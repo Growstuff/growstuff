@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "harvests/show" do
   before(:each) do
@@ -9,9 +9,9 @@ describe "harvests/show" do
   end
 
   it "renders attributes" do
-    rendered.should contain @crop.name
-    rendered.should contain @harvest.harvested_at.to_s
-    rendered.should contain @harvest.plant_part.to_s
+    rendered.should have_content @crop.name
+    rendered.should have_content @harvest.harvested_at.to_s
+    rendered.should have_content @harvest.plant_part.to_s
   end
 
 end

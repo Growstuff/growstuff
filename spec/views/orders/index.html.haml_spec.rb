@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "orders/index" do
   before(:each) do
@@ -11,7 +11,7 @@ describe "orders/index" do
 
   it "shows your current account status" do
     render
-    rendered.should contain "Your current account status"
+    rendered.should have_content "Your current account status"
   end
 
   it "renders a list of orders" do

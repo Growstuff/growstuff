@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'home/_crops.html.haml', :type => "view" do
   before(:each) do
@@ -21,7 +21,7 @@ describe 'home/_crops.html.haml', :type => "view" do
 
   it 'shows plantings section' do
     assert_select 'h2', :text => 'Recently planted'
-    rendered.should contain @planting.location
+    rendered.should have_content @planting.location
   end
 
   it 'shows recently added crops' do

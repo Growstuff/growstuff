@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'capybara/email/rspec'
 
 feature "Planting reminder email", :js => true do

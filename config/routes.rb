@@ -8,32 +8,32 @@ Growstuff::Application.routes.draw do
 
   resources :photos
 
-  resources :authentications
+  resources :authentications, :only => [:create, :destroy]
 
   resources :plantings
-  match '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
-  match '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
+  get '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
+  get '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
 
   resources :gardens
-  match '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
+  get '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
 
   resources :seeds
-  match '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner'
-  match '/seeds/crop/:crop' => 'seeds#index', :as => 'seeds_by_crop'
+  get '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner'
+  get '/seeds/crop/:crop' => 'seeds#index', :as => 'seeds_by_crop'
 
   resources :harvests
-  match '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
-  match '/harvests/crop/:crop' => 'harvests#index', :as => 'harvests_by_crop'
+  get '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
+  get '/harvests/crop/:crop' => 'harvests#index', :as => 'harvests_by_crop'
 
   resources :posts
-  match '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
+  get '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
 
   resources :scientific_names
   resources :alternate_names
 
-  match 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
-  match 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'
-  match 'crops/search' => 'crops#search', :as => 'crops_search'
+  get 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
+  get 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'
+  get 'crops/search' => 'crops#search', :as => 'crops_search'
   resources :crops
 
   resources :comments
@@ -54,9 +54,9 @@ Growstuff::Application.routes.draw do
   resources :account_types
   resources :accounts
   resources :orders
-  match 'orders/:id/checkout' => 'orders#checkout', :as => 'checkout_order'
-  match 'orders/:id/complete' => 'orders#complete', :as => 'complete_order'
-  match 'orders/:id/cancel' => 'orders#cancel', :as => 'cancel_order'
+  get 'orders/:id/checkout' => 'orders#checkout', :as => 'checkout_order'
+  get 'orders/:id/complete' => 'orders#complete', :as => 'complete_order'
+  get 'orders/:id/cancel' => 'orders#cancel', :as => 'cancel_order'
 
   resources :order_items
   resources :products
@@ -64,25 +64,25 @@ Growstuff::Application.routes.draw do
   get "home/index"
   root :to => 'home#index'
 
-  match 'auth/:provider/callback' => 'authentications#create'
+  get 'auth/:provider/callback' => 'authentications#create'
 
 
-  match '/policy/:action' => 'policy#:action'
+  get '/policy/:action' => 'policy#:action'
 
-  match '/support' => 'support#index'
-  match '/support/:action' => 'support#:action'
+  get '/support' => 'support#index'
+  get '/support/:action' => 'support#:action'
 
-  match '/about' => 'about#index'
-  match '/about/:action' => 'about#:action'
+  get '/about' => 'about#index'
+  get '/about/:action' => 'about#:action'
 
-  match '/shop' => 'shop#index'
-  match '/shop/:action' => 'shop#:action'
+  get '/shop' => 'shop#index'
+  get '/shop/:action' => 'shop#:action'
 
-  match '/admin/orders' => 'admin/orders#index'
-  match '/admin/orders/:action' => 'admin/orders#:action'
-  match '/admin' => 'admin#index'
-  match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
-  match '/admin/:action' => 'admin#:action'
+  get '/admin/orders' => 'admin/orders#index'
+  get '/admin/orders/:action' => 'admin/orders#:action'
+  get '/admin' => 'admin#index'
+  get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
+  get '/admin/:action' => 'admin#:action'
 
 
 

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "ScientificNames" do
   describe "GET /scientific_names" do

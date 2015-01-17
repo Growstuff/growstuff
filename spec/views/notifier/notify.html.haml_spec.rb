@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'notifier/notify.html.haml', :type => "view" do
 
@@ -10,12 +10,12 @@ describe 'notifier/notify.html.haml', :type => "view" do
   end
 
   it 'should say that you have a message' do
-    rendered.should contain 'You have received a message'
+    rendered.should have_content 'You have received a message'
   end
 
   it 'should include notification metadata' do
-    rendered.should contain @notification.sender.login_name
-    rendered.should contain @notification.post.subject
+    rendered.should have_content @notification.sender.login_name
+    rendered.should have_content @notification.post.subject
   end
 
   it 'should include a reply link' do

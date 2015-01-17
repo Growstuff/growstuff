@@ -1,5 +1,4 @@
 class Account < ActiveRecord::Base
-  attr_accessible :account_type_id, :member_id, :paid_until
   belongs_to :member
   belongs_to :account_type
 
@@ -9,7 +8,7 @@ class Account < ActiveRecord::Base
 
   before_create do |account|
     unless account.account_type
-      account.account_type = AccountType.find_or_create_by_name(
+      account.account_type = AccountType.find_or_create_by(name: 
         Growstuff::Application.config.default_account_type
       )
     end

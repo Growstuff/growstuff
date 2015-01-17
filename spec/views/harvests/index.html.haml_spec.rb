@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "harvests/index" do
   before(:each) do
@@ -37,7 +37,7 @@ describe "harvests/index" do
 
   it "provides data links" do
     render
-    rendered.should contain "The data on this page is available in the following formats:"
+    rendered.should have_content "The data on this page is available in the following formats:"
     assert_select "a", :href => harvests_path(:format => 'csv')
     assert_select "a", :href => harvests_path(:format => 'json')
   end
@@ -45,13 +45,13 @@ describe "harvests/index" do
   it "displays member's name in title" do
     assign(:owner, @member)
     render
-    view.content_for(:title).should contain @member.login_name
+    view.content_for(:title).should have_content @member.login_name
   end
 
   it "displays crop's name in title" do
     assign(:crop, @tomato)
     render
-    view.content_for(:title).should contain @tomato.name
+    view.content_for(:title).should have_content @tomato.name
   end
 
 end

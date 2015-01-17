@@ -1,4 +1,4 @@
-- cache "planting_image_#{planting.id}" do
+- cache planting do
   = link_to |
     image_tag( |
       planting.photos.present? ? planting.photos.first.thumbnail_url : 'placeholder_150.png', |
