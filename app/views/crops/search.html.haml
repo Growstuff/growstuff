@@ -1,6 +1,6 @@
 - content_for :title, "Crops matching #{@search}"
 
-- unless (@all_matches.length > 0)
+- if @all_matches.empty?
   %h2 No results found
   %p
     Sorry, we couldn't find any crops that matched your search for "#{@search}".
@@ -9,9 +9,10 @@
     = link_to "browsing our crop database", crops_path
     instead.
 
-- if ! @all_matches.empty?
+- else 
   %div#all_matches
     .row
       - @all_matches.each do |c|
         .col-md-2.six-across
           = render :partial => "thumbnail", :locals => { :crop => c }
+

@@ -21,7 +21,7 @@ describe "crops/search" do
       end
     end
 
-    it "shows all matches" do
+    it "shows partial matches" do
       assert_select "div#all_matches" do
         assert_select "a[href=#{crop_path(@roma)}]"
       end
