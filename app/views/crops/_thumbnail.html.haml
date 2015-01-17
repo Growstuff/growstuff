@@ -1,14 +1,13 @@
-.thumbnail.crop-thumbnail
-  - if crop
-    = link_to image_tag((crop.default_photo ?  crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => crop.name, :class => 'img'), crop
-    %p.crop-name
-      = link_to crop.name, crop
-      - if crop.scientific_names.count > 0
-        %br/
-        %i.scientific-name
-          %small
+.thumbnail
+  .crop-thumbnail
+    - if crop
+      = link_to image_tag((crop.default_photo ?  crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => crop.name, :class => 'img'), crop
+      .cropinfo
+        .cropname
+          = link_to crop.name, crop
+        - if crop.scientific_names.count > 0
+          .scientificname
             = crop.scientific_names.first.scientific_name
-        %br/
-        %small
+        .plantingcount
           Planted
           = pluralize(crop.plantings.size, "time")

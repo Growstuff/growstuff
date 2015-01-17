@@ -168,15 +168,30 @@ p.stats {
 
   .crop-thumbnail {
     height: 220px;
-    .scientific-name small, .crop-name a {
+    .cropinfo {
       display: inline-block;
       max-width: 100%;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       line-height: 1em;
       padding-bottom: 2px;
+
+      .cropname {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .scientificname {
+        font-size: small;
+        font-style: italic;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .plantingcount {
+        font-size: small;
+      }
     }
+
 
     .crop-name a {
       padding-top: 2px;
