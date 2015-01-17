@@ -245,19 +245,18 @@ class Crop < ActiveRecord::Base
   # searches for crops whose names match the string given
   # just uses SQL LIKE for now, but can be made fancier later
   def self.search(query)
-    search_str = query.nil? ? "" : "#{query.downcase}"
-    response = __elasticsearch__.search(
-      {
+    search_str = query.nil? ? "" : query.downcase
+    response = __elasticsearch__.search( {
         query: {
           multi_match: {
-            query: search_str,
+            query: "#{search_str}",
             fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
           }
         },
         size: 50
       }
     )
-    response.records.to_a
+    return response.records.to_a
   end
 
   def self.autosuggest(term)
