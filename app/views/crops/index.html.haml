@@ -1,5 +1,5 @@
 - content_for :title, "Crops"
-- if current_member.has_role?(:crop_wrangler)
+  - if can? :wrangle, Crop
   = link_to 'Wrangle Crops', wrangle_crops_path, :class => 'btn btn-primary'
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
