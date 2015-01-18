@@ -50,8 +50,8 @@ class CropsController < ApplicationController
   # GET /crops/search
   def search
     @all_matches = Crop.search(params[:search])
-
-    if exact_match = Crop.find_by_name(params[:search])
+    exact_match = Crop.find_by_name(params[:search])
+    if exact_match
       @all_matches.delete(exact_match)
       @all_matches.unshift(exact_match)
     end
