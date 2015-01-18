@@ -1,5 +1,8 @@
 = content_for :title, @post.subject
 
+- unless current_member
+  = render :partial => "message", :locals => { :post => @post }
+
 = render :partial => "single", :locals => { :post => @post, :subject => false, :hide_comments => true }
 
 - if can? :edit, @post or can? :destroy, @post
