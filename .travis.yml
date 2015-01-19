@@ -16,7 +16,6 @@ deploy:
   on:
     repo: Growstuff/growstuff
   app:
-    master: growstuff-prod
     dev: growstuff-staging
     travis_deploy: tranquil-basin-3130
   run:
