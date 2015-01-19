@@ -4,20 +4,28 @@
 
     describe('HorizontalBarGraph', function() {
       var BarLabelGroup, BarGroup, subject, data;
+
       beforeEach(function() {
         var HorizontalBarGraph = growstuff.HorizontalBarGraph;
         var bars = [
           {name: 'Shade', value: 0.2},
           {name: 'Half Shade', value: 0.5}
         ];
+        var axis = {
+          x: {attr_name: 'width', scale: 'linear'},
+          y: {attr_name: 'height', scale: 'ordinal'}
+        };
+
         data = {
           bars: bars,
           width: 300,
           height: 400,
           //left is used to shift the bars over so that there is
           //room for the labels
-          margin: {top: 0, right: 0, bottom: 0, left: 100}
+          margin: {top: 0, right: 0, bottom: 0, left: 100},
+          axis: axis
         };
+
         subject = new HorizontalBarGraph(data);
         BarGroup = growstuff.BarGroup;
         BarLabelGroup = growstuff.BarLabelGroup;
@@ -54,9 +62,13 @@
         expect('g.bar-graph').toHaveAttr('transform', 'translate(100,0)');
       });
 
-      it ('draws at least one bar at max width less margin width because of domain and range mapping', function(){
-        console.log($('g.bar rect').attr('width'))
+      it ('on the x axis, draws at least one bar at max width less margin width because of domain and range mapping', function(){
         expect('g.bar rect:eq(1)').toHaveAttr('width', '300' );
+      });
+
+      it ('on the y axis, all bars are the same height', function(){
+        expect('g.bar rect:eq(0)').toHaveAttr('height', 100);
+        expect('g.bar rect:eq(0)').toHaveAttr('height', 100);
       });
 
   });

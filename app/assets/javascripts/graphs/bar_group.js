@@ -1,18 +1,21 @@
+//= require graphs/graph_scale
+
 (function(){
   'use strict';
 
-var growstuff = (window.growstuff = window.growstuff || {});
 
-function BarGroup(data, xScale) {
+  var growstuff = (window.growstuff = window.growstuff || {});
+  var GraphScale = growstuff.GraphScale;
+
+function BarGroup(data) {
   this._data = data;
-  this._xScale = xScale;
 }
 
 BarGroup.prototype.render = function(root){
 
+  var data = this._data;
   var bars = this._data.bars;
-  var xScale = this._xScale;
-  console.log(xScale);
+  var xScale = new GraphScale(data, 'x').render();
   return root.append('g')
     .attr("class", "bar")
     .selectAll("rect")
@@ -39,6 +42,5 @@ BarGroup.prototype.getBarValues = function () {
   }
 
 growstuff.BarGroup = BarGroup;
-
 
 })();

@@ -26,6 +26,8 @@
     var margin = this._data.margin;
 
     var xScale = new GraphScale(this._data,'linear');
+    var yScale = new GraphScale(this._data, 'ordinal');
+
     var barGroup = new BarGroup(this._data, xScale.render());
 
     var svg = root

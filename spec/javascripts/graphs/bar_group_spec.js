@@ -1,9 +1,6 @@
 (function(){
   'use strict';
 
-
-
-
   describe('BarGroup', function() {
   var BarGroup, subject, xScale;
 
@@ -16,11 +13,18 @@
       {name: 'Shade', value: 0.2},
       {name: 'Half Shade', value: 0.5}
     ];
-    var data = {
-      bars:bars
+    var axis = {
+      x: {attr_name: 'width', scale: 'linear'},
+      y: {attr_name: 'height', scale: 'ordinal'}
     };
+    var data = {
+      bars: bars,
+      axis: axis
+    };
+
+
     xScale = new GraphScale(data, 'linear');
-    subject = new BarGroup(data, xScale.render());
+    subject = new BarGroup(data);
     subject.render(d3.select('#jasmine_content').append('svg'));
   })
 

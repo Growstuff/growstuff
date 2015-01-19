@@ -1,28 +1,32 @@
+//=require d3
+
 (function(){
   'use strict';
 
   var growstuff = (window.growstuff = window.growstuff || {});
 
-  function GraphScale (data, scaleType){
+  function GraphScale (data, axisName){
     this._data = data;
-    this._scaleType = scaleType;
+    this._axisName = axisName;
   };
 
   GraphScale.prototype.render = function() {
     var data = this._data;
-    var scaleType = this._scaleType;
+    var axisName = this._axisName;
+    console.log(data.axis[axisName]);
+    var scaleType = data.axis[axisName].scale + '';
 
     return d3.scale[scaleType]()
     .domain([0, d3.max(this.getBarValues())])
-      .range([0, data.width]);
+      .range([0, data.axis.attr_name]);
 
   };
 
   GraphScale.prototype.getBarValues = function(){
-    var barValues = [];
     var bars = this._data.bars;
-    var i = 0;
+    var barValues = [];
     var data = this._data;
+    var i = 0;
 
     for (i; i < data.bars.length; i++){
       barValues.push(data.bars[i].value)
