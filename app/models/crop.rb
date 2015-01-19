@@ -40,8 +40,8 @@ class Crop < ActiveRecord::Base
       tokenizer: {
         gs_edgeNGram_tokenizer: {
           type: "edgeNGram",
-          min_gram: 2,
-          max_gram: 20,
+          min_gram: 4,
+          max_gram: 10,
           token_chars: [ "letter", "digit" ]
         }
       },
@@ -255,14 +255,5 @@ class Crop < ActiveRecord::Base
       }
     )
     return response.records.to_a
-  end
-
-  # Crop.autosuggest(string)
-  # ActiveRecord search is used for auto-suggest instead of Elasticsearch.
-  # This is to avoid confusing users since the drop-down list for auto-suggest
-  # only caters for crop names at this time, not including scientific names or 
-  # alternative names.
-  def self.autosuggest(term)
-    where("name ILIKE ?", "%#{term}%")
   end
 end
