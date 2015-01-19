@@ -10,3 +10,5 @@ before_script:
 script:
   - bundle exec rake db:migrate --trace
   - bundle exec rspec spec/
+services:
+  - elasticsearch
