@@ -16,3 +16,7 @@ deploy:
   on:
     repo: Growstuff/growstuff
     branch: travis_deploy
+  run:
+    - "rake db:migrate"
+    - "script/deploy-tasks.sh"
+    - restart
