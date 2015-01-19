@@ -40,8 +40,8 @@ class Crop < ActiveRecord::Base
       tokenizer: {
         gs_edgeNGram_tokenizer: {
           type: "edgeNGram",
-          min_gram: 2,
-          max_gram: 20,
+          min_gram: 4,
+          max_gram: 10,
           token_chars: [ "letter", "digit" ]
         }
       },
