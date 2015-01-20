@@ -7,6 +7,9 @@ feature "member deletion" do
     let(:other_member) { FactoryGirl.create(:member) }
     let(:memberpost) { FactoryGirl.create(:post, :author => member) }
     let(:othermemberpost) { FactoryGirl.create(:post, :author => other_member) }
+    let(:planting) { FactoryGirl.create(:planting, :owner => member) }
+    let(:harvest) { FactoryGirl.create(:harvest, :owner => member) }
+    let(:seed) { FactoryGirl.create(:seed, :owner => member) }
     background do
       login_as(member)
       visit member_path(other_member)
@@ -17,10 +20,6 @@ feature "member deletion" do
       click_link 'Follow'
       logout
       login_as(member)
-      FactoryGirl.create_list(:planting, 2, :owner => member)
-      FactoryGirl.create_list(:harvest, 3, :owner => member)
-      FactoryGirl.create_list(:seed, 4, :owner => member)
-      FactoryGirl.create_list(:post, 5, :author => member)
       FactoryGirl.create(:comment, :author => member, :post => othermemberpost)
       FactoryGirl.create(:comment, :author => other_member, :post => memberpost)
     end
@@ -31,6 +30,7 @@ feature "member deletion" do
     end
     
     scenario "requests confirmation for deletion"
+    # need to figure out how to test javascript if we want to bother
 
     scenario "deletes and removes bio" do
       visit member_path(member)
@@ -46,7 +46,12 @@ feature "member deletion" do
         member.delete
       end
     
-      scenario "removes plantings, gardens, harvests and seeds"
+      scenario "removes plantings, gardens, harvests and seeds" do
+        visit member_gardens_path(member)
+        expect(page).not_to have_content "Garden"
+        visit member_plantings_path(member)
+        expect(page).not_to have_content "#{planting.name}"
+      end
 
       scenario "removes members from following" #do
         #visit member_follows_path(other_member)
