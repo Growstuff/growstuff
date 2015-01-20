@@ -2,11 +2,11 @@
 # Install the Heroku toolbelt
 wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 
-if [ $TRAVIS_BRANCH == "dev" ]; then
+if [ "$TRAVIS_BRANCH" = "dev" ]; then
         APP_NAME=growstuff-staging
-elif [ $TRAVIS_BRANCH == "master" ]; then
+elif [ "$TRAVIS_BRANCH" = "master" ]; then
         APP_NAME=growstuff-prod
-elif [ $TRAVIS_BRANCH == "travis_deploy" ]; then
+elif [ "$TRAVIS_BRANCH" = "travis_deploy" ]; then
         APP_NAME=tranquil-basin-3130
 else
         echo "Couldn't find app corresponding to branch $TRAVIS_BRANCH"
