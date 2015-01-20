@@ -1,5 +1,6 @@
 sudo: false
 language: ruby
+cache: bundler
 env: GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 bundler_args: "--without development production staging"
 rvm:
