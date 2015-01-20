@@ -1,3 +1,4 @@
+sudo: false
 language: ruby
 env: GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 bundler_args: "--without development production staging"
@@ -8,8 +9,6 @@ before_script:
 script:
 - bundle exec rake db:migrate --trace
 - bundle exec rspec spec/
-before_deploy:
-  - heroku maintenance:on
 deploy:
   provider: heroku
   api_key:
@@ -23,5 +22,3 @@ deploy:
     - "rake db:migrate"
     - "script/deploy-tasks.sh"
     - restart
-after_deploy:
-  - heroku maintenance:on
