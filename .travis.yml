@@ -8,6 +8,8 @@ before_script:
 script:
 - bundle exec rake db:migrate --trace
 - bundle exec rspec spec/
+before_deploy:
+  - heroku maintenance:on
 deploy:
   provider: heroku
   api_key:
@@ -21,3 +23,5 @@ deploy:
     - "rake db:migrate"
     - "script/deploy-tasks.sh"
     - restart
+after_deploy:
+  - heroku maintenance:on
