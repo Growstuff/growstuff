@@ -10,6 +10,7 @@ feature "member deletion" do
     let(:planting) { FactoryGirl.create(:planting, :owner => member) }
     let(:harvest) { FactoryGirl.create(:harvest, :owner => member) }
     let(:seed) { FactoryGirl.create(:seed, :owner => member) }
+    let(:secondgarden) { FactoryGirl.create(:garden, :owner => member) }
     background do
       login_as(member)
       visit member_path(other_member)
@@ -47,18 +48,29 @@ feature "member deletion" do
       end
     
       scenario "removes plantings, gardens, harvests and seeds" do
-        visit member_gardens_path(member)
+        visit garden_path(secondgarden)
         expect(page).not_to have_content "Garden"
-        visit member_plantings_path(member)
-        expect(page).not_to have_content "#{planting.name}"
+        expect(page).to have_content "RuntimeError"
+        visit planting_path(planting)
+        expect(page).to have_content "NoMethodError"
+        # uncomment this when we get proper 404s
+        # expect(page).not_to have_content "#{planting.owner}"
+        visit harvest_path(harvest)
+        expect(page).to have_content "NoMethodError"
+        # uncomment this when we get proper 404s
+        #expect(page).not_to have_content "#{harvest.owner}"
+        visit seed_path(seed)
+        expect(page).to have_content "NoMethodError"
+        # uncomment this when we get proper 404s
+        #expect(page).not_to have_content "#{seed.owner}"
       end
 
-      scenario "removes members from following" #do
-        #visit member_follows_path(other_member)
-        #expect(page).not_to have_content "#{member.login_name}"
-        #visit member_followers_path(other_member)
-        #expect(page).not_to have_content "#{member.login_name}"
-      #end
+      scenario "removes members from following" do
+        visit member_follows_path(other_member)
+        expect(page).not_to have_content "#{member.login_name}"
+        visit member_followers_path(other_member)
+        expect(page).not_to have_content "#{member.login_name}"
+      end
     
       scenario "replaces posts with deletion note"
       
