@@ -94,9 +94,11 @@ class Ability
       cannot :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
 
       # following/unfollowing permissions
-      can :create, Follow do |f|
-        !member.already_following?(f.followed) && f.followed_id != member.id
-      end
+      can :create, Follow
+      cannot :create, Follow, :followed_id => member.id # can't follow yourself
+
+      can :destroy, Follow
+      cannot :destroy, Follow, :followed_id => member.id # can't unfollow yourself
 
       if member.has_role? :admin
 
