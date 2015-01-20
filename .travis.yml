@@ -1,12 +1,27 @@
----
 language: ruby
-
 env: GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-bundler_args: --without development production staging
+bundler_args: "--without development production staging"
 rvm:
-  - 2.1.5
+- 2.1.5
 before_script:
-  - psql -c 'create database growstuff_test;' -U postgres
+- psql -c 'create database growstuff_test;' -U postgres
 script:
-  - bundle exec rake db:migrate --trace
-  - bundle exec rspec spec/
+- bundle exec rake db:migrate --trace
+- bundle exec rspec spec/
+before_deploy:
+  - heroku maintenance:on
+deploy:
+  provider: heroku
+  api_key:
+    secure: WrQxf0fEKkCdXrjcejurobOnNNz3he4dDwjBbToXbQTQNDObPp7NetJrLsfM8FiUFEeOuvhIHHiDQtMvY720zGGAGxDptvgFS+0QHCUqoTRZA/yFfUmHlG2jROXTzk5uVK0AE4k6Ion5kX8+mM0EnMT/7u+MTFiukrJctSiEXfg=
+  on:
+    repo: Growstuff/growstuff
+  app:
+    dev: growstuff-staging
+    travis_deploy: tranquil-basin-3130
+  run:
+    - "rake db:migrate"
+    - "script/deploy-tasks.sh"
+    - restart
+after_deploy:
+  - heroku maintenance:on
