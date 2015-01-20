@@ -16,6 +16,7 @@ feature "member deletion" do
       visit member_path(member)
       click_link 'Follow'
       logout
+      login_as(member)
       FactoryGirl.create_list(:planting, 2, :owner => member)
       FactoryGirl.create_list(:harvest, 3, :owner => member)
       FactoryGirl.create_list(:seed, 4, :owner => member)
@@ -24,18 +25,21 @@ feature "member deletion" do
       FactoryGirl.create(:comment, :author => other_member, :post => memberpost)
     end
 
-    scenario "has option to delete on member profile page" # do
-      # visit member_path(member)
-      # expect(page).to have_link "Delete account", :href => member_delete_path(member)
-    # end
+    scenario "has option to delete on member profile page" do
+      visit member_path(member)
+      expect(page).to have_link "Delete account"
+    end
     
     scenario "requests confirmation for deletion"
 
-    scenario "deletes and removes bio" # do
-      # member.delete
-      # visit member_path(member)
-      # expect(page).to have_content "no longer exists"
-    # end
+    scenario "deletes and removes bio" do
+      visit member_path(member)
+      click_link 'Delete account'
+      visit member_path(member)
+      # Once we get proper 404s, this will change to something friendlier
+      # Currently it is the ActiveRecord error page
+      expect(page).to have_content "NotFound"
+    end
     
     context "deletes and" do
       background do
@@ -74,6 +78,8 @@ feature "member deletion" do
     let(:crop) { FactoryGirl.create(:crop, :creator => member) }
     
     scenario "leaves crops behind, reassigned to cropbot"
+    
+    scenario "leaves forums behind, reassigned to ex_admin"
     
   end
   

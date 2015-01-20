@@ -84,6 +84,14 @@ class MembersController < ApplicationController
       end
     end
   end
+  
+  def destroy
+    @member = Member.find(params[:id])
+
+    if @member.destroy
+      redirect_to root_url, notice: "Member deleted."
+    end
+  end
 
   private
 
