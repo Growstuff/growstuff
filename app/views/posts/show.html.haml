@@ -1,7 +1,14 @@
 = content_for :title, @post.subject
 
 - unless current_member
-  = render :partial => "message", :locals => { :post => @post }
+  .row.alert.alert-info
+    .col-md-12
+      #{ @post.author.login_name } is using #{ENV["GROWSTUFF_SITE_NAME"]} to |
+      discuss #{ @post.subject } with a community of food gardeners worldwide. |
+      We have advice on growing hundreds of different #{link_to 'crops', crops_url}, |
+      and a community from all around the world. | 
+      = render :partial => "shared/signin_signup", 
+        :locals => { :to => "or to start using #{ENV["GROWSTUFF_SITE_NAME"]} to track what you're planting and harvesting" }
 
 = render :partial => "single", :locals => { :post => @post, :subject => false, :hide_comments => true }
 
