@@ -87,6 +87,20 @@ class MembersController < ApplicationController
   
   def destroy
     @member = Member.find(params[:id])
+    
+    # move any of their crops to cropbot
+    # assuming that cropbot exists - is this safe? can we assume a wrangler exists?
+    if Role.crop_wranglers && (Role.crop_wranglers.include? @member)
+    #if Role.crop_wranglers.include? @member
+      cropbot = Member.find_by_login_name('ex_wrangler')
+      if Crop.find_by(creator: @member)
+        # this is ugly, need to make it more efficient
+        Crop.find_by(creator: @member).each do |crop|
+          Crop.update(crop, creator: cropbot)
+          crop.save
+        end
+      end
+    end
 
     if @member.destroy
       redirect_to root_url, notice: "Member deleted."

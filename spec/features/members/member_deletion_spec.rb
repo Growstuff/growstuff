@@ -23,6 +23,8 @@ feature "member deletion" do
       login_as(member)
       FactoryGirl.create(:comment, :author => member, :post => othermemberpost)
       FactoryGirl.create(:comment, :author => other_member, :post => memberpost)
+      # deletion breaks if no wranglers exist
+      FactoryGirl.create(:cropbot)
     end
 
     scenario "has option to delete on member profile page" do
@@ -36,6 +38,7 @@ feature "member deletion" do
     scenario "deletes and removes bio" do
       visit member_path(member)
       click_link 'Delete account'
+      expect(page).to have_content "Member deleted"
       visit member_path(member)
       # Once we get proper 404s, this will change to something friendlier
       # Currently it is the ActiveRecord error page
@@ -83,15 +86,28 @@ feature "member deletion" do
   end
   
   context "for a crop wrangler" do
-    let(:member) { FactoryGirl.create(:member, :crop_wrangler => true) }
-    let(:crop) { FactoryGirl.create(:crop, 1, :creator => member) }
+    let(:member) { FactoryGirl.create(:crop_wrangling_member) }
+    let(:otherwrangler) { FactoryGirl.create(:crop_wrangling_member) }
+    let(:crop) { FactoryGirl.create(:crop, :creator => member) }
+    FactoryGirl.create(:cropbot)
+    let(:ex_wrangler) { FactoryGirl.create(:crop_wrangling_member, :login_name => "ex_wrangler") }
     
-    scenario "leaves crops behind, reassigned to cropbot"
+    scenario "leaves crops behind, reassigned to ex_wrangler" do
+      login_as(otherwrangler)
+      visit edit_crop_path(crop)
+      expect(page).to have_content "#{member.login_name}"
+      expect(page).not_to have_content "cropbot"
+      expect(page).not_to have_content "ex_wrangler"
+      member.delete
+      visit edit_crop_path(crop)
+      expect(page).not_to have_content "#{member.login_name}"
+      expect(page).to have_content "ex_wrangler"
+    end
     
   end
   
   context "for an admin" do
-    let(:member) { FactoryGirl.create(:member, :admin => true) }
+    let(:member) { FactoryGirl.create(:admin_member) }
     let(:crop) { FactoryGirl.create(:crop, :creator => member) }
     
     scenario "leaves crops behind, reassigned to cropbot"
