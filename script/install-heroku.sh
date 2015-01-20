@@ -2,6 +2,7 @@
 # Install the Heroku toolbelt
 wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 
+# Create a heroku branch pointing to the correct app
 if [ "$TRAVIS_BRANCH" = "dev" ]; then
         APP_NAME=growstuff-staging
 elif [ "$TRAVIS_BRANCH" = "master" ]; then
@@ -14,11 +15,3 @@ else
 fi
 
 git remote add heroku git@heroku.com:$APP_NAME.git
-echo >> ~/.ssh_config <<END_SSH_CONFIG
-Host heroku.com
-  StrictHostKeyChecking no
-  CheckHostIP no
-  UserKnownHostsFile=/dev/null
-END_SSH_CONFIG
-
-yes | heroku keys:add
