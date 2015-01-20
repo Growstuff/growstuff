@@ -12,7 +12,7 @@ feature "crop wrangling button" do
       end
 
       scenario "has a link to crop wrangling page" do
-        expect(page).to have_link "Wrangle Crops", wrangle_crops_path
+        expect(page).to have_link "Wrangle Crops", :href => wrangle_crops_path
       end
 
     end
@@ -27,7 +27,7 @@ feature "crop wrangling button" do
       end
 
       scenario "has no link to crop wrangling page" do
-        expect(page).to have_no_link "Wrangle Crops", wrangle_crops_path
+        expect(page).to have_no_link "Wrangle Crops", :href => wrangle_crops_path
       end
     end
   end
