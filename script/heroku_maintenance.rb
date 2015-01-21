@@ -1,16 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'heroku-api'
+require 'yaml'
 
 heroku = Heroku::API.new(:api_key => ENV['HEROKU_API_KEY'])
 branch = ENV['TRAVIS_BRANCH']
-case branch
-when 'master'
-  app = 'growstuff-prod'
-when 'dev'
-  app = 'growstuff-staging'
-when 'travis_deploy', 'travis_containers'
-  app = 'tranquil-basin-3130'
+travis_config = YAML.load_file('.travis.yml')
+if travis_config['deploy']['app'].has_key? branch
+  app = travis_config['deploy']['app'][branch]
 else
   abort "No Heroku app found for branch #{branch}"
 end
@@ -24,4 +21,5 @@ else
   abort "usage: #{$0} (on|off)"
 end
 
+puts "Turning #{maintenance_state} maintenance mode on app #{app}"
 heroku.post_app_maintenance(app, maintenance_state)
