@@ -328,8 +328,7 @@ describe Crop do
   context "search" do
     before :each do
       @mushroom = FactoryGirl.create(:crop, :name => 'mushroom')
-      @mushroom.__elasticsearch__.index_document
-      Crop.__elasticsearch__.refresh_index!
+      sync_elasticsearch([@mushroom])
     end
     it "finds exact matches" do
       Crop.search('mushroom').should eq [@mushroom]

@@ -40,7 +40,7 @@ class Crop < ActiveRecord::Base
       tokenizer: {
         gs_edgeNGram_tokenizer: {
           type: "edgeNGram",
-          min_gram: 4,
+          min_gram: 3,
           max_gram: 10,
           token_chars: [ "letter", "digit" ]
         }
@@ -243,17 +243,21 @@ class Crop < ActiveRecord::Base
 
   # Crop.search(string)
   def self.search(query)
-    search_str = query.nil? ? "" : query.downcase
-    response = __elasticsearch__.search( {
-        query: {
-          multi_match: {
-            query: "#{search_str}",
-            fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
-          }
-        },
-        size: 50
-      }
-    )
-    return response.records.to_a
+    if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
+      search_str = query.nil? ? "" : query.downcase
+      response = __elasticsearch__.search( {
+          query: {
+            multi_match: {
+              query: "#{search_str}",
+              fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
+            }
+          },
+          size: 50
+        }
+      )
+      return response.records.to_a
+    else
+      where("name ILIKE ?", "%#{query}%") 
+    end
   end
 end

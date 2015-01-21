@@ -14,7 +14,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
-    Crop.__elasticsearch__.create_index! force: true
   end
 
   config.after(:each) do
