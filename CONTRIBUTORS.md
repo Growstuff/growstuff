@@ -11,10 +11,11 @@ submit the change with your pull request.
 - Alex Bayley / [Skud](https://github.com/Skud)
 - Cesy / [cesy](https://github.com/cesy)
 - Miles Gould / [pozorvlak](https://github.com/pozorvlak)
-- Joseph Caudle / [jcaudle](https://github.com/jcaudle)
+- Taylor Griffin / [tygriffin](https://github.com/tygriffin)
 
 ## Contributors
 
+- Joseph Caudle / [jcaudle](https://github.com/jcaudle)
 - Ricky Amianym / [amianym](https://github.com/amianym)
 - Juliet Kemp / [julietk](https://github.com/julietk)
 - Federico Mena Quintero / [federicomenaquintero](https://github.com/federicomenaquintero)
@@ -40,7 +41,6 @@ submit the change with your pull request.
 - Marty Hines / [martyhines](https://github.com/martyhines)
 - Amelia Greenhall / [ameliagreenhall](https://github.com/ameliagreenhall)
 - Barb Natali / [barbnatali](https://github.com/barbnatali)
-- Taylor Griffin / [tygriffin](https://github.com/tygriffin)
 - Marlena Compton / [Marlena](https://github.com/marlena)
 - Elizabeth A. Kari / [catfriend](https://github.com/catfriend)
 - Cheri Allen / [cherimarie](https://github.com/cherimarie)
@@ -51,4 +51,5 @@ submit the change with your pull request.
 - Yoong Kang Lim / [yoongkang](https://github.com/yoongkang)
 - Kevin Yang / [kevieyang](https://github.com/kevieyang)
 - Justin Hamman / [juzham](https://github.com/juzham)
+- Rocky Jaiswal / [rocky-jaiswal](https://github.com/rocky-jaiswal)
 

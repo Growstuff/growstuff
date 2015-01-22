@@ -10,5 +10,6 @@
  *= require leaflet.markercluster.default
  *= require custom_bootstrap/custom_bootstrap
  *= require overrides.css
+ *= require homepage.css
  *= require_tree .
 */

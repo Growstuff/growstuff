@@ -24,10 +24,11 @@ module ApplicationHelper
       :target => "_blank"
   end 
 
-  def cache_key_for(klass)
+  # Produces a cache key for uniquely identifying cached fragments.
+  def cache_key_for(klass, identifier="all")
     count          = klass.count
     max_updated_at = klass.maximum(:updated_at).try(:utc).try(:to_s, :number)
-    "#{klass.name.downcase.pluralize}/all-#{count}-#{max_updated_at}"
+    "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
   end
 
 end

@@ -1,19 +1,24 @@
 .row
-  .col-md-6.hidden-xs
-    - cache cache_key_for(Crop), :expires_in => 1.day do
+  .col-md-8
+    - cache cache_key_for(Crop, 'interesting'), :expires_in => 1.day do
       %h2= t('.our_crops')
-      - Crop.interesting.each do |c|
-        .col-md-3{:style => 'margin:0px; padding: 3px'}
-          = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
+      .hidden-xs
+        - Crop.interesting.first(8).each do |c|
+          .col-md-3
+            = render :partial => 'crops/thumbnail', :locals => { :crop => c }
+      .visible-xs
+        - Crop.interesting.first(3).each do |c|
+          .col-md-3
+            = render :partial => 'crops/thumbnail', :locals => { :crop => c }
 
-  .col-md-6
+  .col-md-4.hidden-xs
     - cache cache_key_for(Planting) do
       %h2= t('.recently_planted')
-      = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting.first(4) }
+      = render :partial => 'plantings/list', :locals => { :plantings => Planting.interesting.first(6) }
 
 .row
   .col-md-12
-    - cache cache_key_for(Crop) do
+    - cache cache_key_for(Crop, 'recent') do
       %p{ :style => 'margin-top: 11.25px' }
         %strong
           #{t('.recently_added')}:

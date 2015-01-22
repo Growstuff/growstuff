@@ -124,7 +124,7 @@ p.stats {
   color: @brown;
 }
 
-.crop-thumbnail {
+.photo-thumbnail {
   position:relative;
   padding:0;
   img {
@@ -151,33 +151,55 @@ p.stats {
   }
 }
 
-.member-thumbnail {
-  img {
-    height: 85px;
-    width: 85px;
-    max-width: 85px
-  }
-}
 
 .thumbnail {
+  border: none;
+  text-align: center;
   margin-bottom: 1.5em;
-  
-  .scientific-name small, .crop-name a {
-    display: inline-block;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1em;
-    padding-bottom: 2px;
+
+  .member-thumbnail {
+    text-align: left;
+    img {
+      height: 85px;
+      width: 85px;
+      max-width: 85px
+    }
   }
 
-  .crop-name a {
-    padding-top: 2px;
-  }
+  .crop-thumbnail {
+    height: 220px;
+    .cropinfo {
+      display: inline-block;
+      max-width: 100%;
+      white-space: nowrap;
+      line-height: 1em;
+      padding-bottom: 2px;
 
-  .scientific-name small {
-    margin-bottom: -2px;
+      .cropname {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .scientificname {
+        font-size: small;
+        font-style: italic;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .plantingcount {
+        font-size: small;
+      }
+    }
+
+
+    .crop-name a {
+      padding-top: 2px;
+    }
+
+    .scientific-name small {
+      margin-bottom: -2px;
+    }
   }
 }
 
@@ -194,30 +216,47 @@ li.crop-hierarchy {
   margin: 40px 0px 0px 0px !important;
 }
 
-// navbar centering
-footer .navbar .nav {
-  float: none;
-  display: inline-block;
-  *display: inline;
-  /* ie7 fix */
-  *zoom: 1;
-  /* hasLayout ie7 trigger */
-  vertical-align: top;
-  > li {
-    float: none;
-    display: inline-block;
-    *display: inline;
-    /* ie7 fix */
-    *zoom: 1;
-    /* hasLayout ie7 trigger */
-    vertical-align: top;
+// footer
+
+footer {
+  #contact, #about-growstuff, #policies {
+    text-align: left;
+    padding-top: 1em;
+    padding-bottom: 2em;
+    ul {
+      list-style-type: none;
+      list-style-position: outside;
+      padding-left: 0px;
+      margin-left: 0px;
+    }
+    a {
+      color: @navbar-default-link-color;
+      text-decoration: none;
+    }
+    a:hover {
+      color: @navbar-default-link-hover-color;
+    }
+    a:active {
+      color: @navbar-default-link-active-color;
+    }
+  }
+
+  .navbar-bottom.navbar {
+    border-radius: 0;
   }
 }
 
-.navbar-bottom.navbar {
-  text-align: center;
-  border-radius: 0;
+// ensure footer is pushed to bottom of browser window
+
+#maincontainer {
+  min-height: 80%;
 }
+
+html, body {
+  height: 100%;
+}
+
+//
 
 .crop-image, .member-image {
   width: 100%;
