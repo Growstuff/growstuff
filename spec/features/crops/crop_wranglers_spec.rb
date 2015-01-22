@@ -37,6 +37,16 @@ feature "crop wranglers" do
       expect(page).to have_link 'Delete crop'
     end
     
+    scenario "can create a new crop" do
+      visit root_path
+      click_link 'Crop Wrangling'
+      click_link 'Add Crop'
+      fill_in 'Name', with: "aubergine"
+      fill_in 'Wikipedia URL', with: "http://en.wikipedia.org/wiki/Maize"
+      click_on 'Save'
+      expect(page).to have_content 'Crop was successfully created'
+    end
+    
   end
   
   context "signed in non-wrangler" do
