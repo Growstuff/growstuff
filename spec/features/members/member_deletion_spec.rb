@@ -32,8 +32,12 @@ feature "member deletion" do
       expect(page).to have_link "Delete account"
     end
     
-    scenario "requests confirmation for deletion"
-    # need to figure out how to test javascript if we want to bother
+    scenario "requests confirmation for deletion", :js => true do
+      visit member_path(member)
+      Capybara.current_driver = :selenium
+      click_link 'Delete account'
+      expect(page.driver.browser.switch_to.alert.text).to eq("Are you sure?")
+    end
 
     scenario "deletes and removes bio" do
       visit member_path(member)
