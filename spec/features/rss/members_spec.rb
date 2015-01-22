@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Members RSS feed' do
+feature 'Members RSS feed', :js => true do
   let(:member)   { FactoryGirl.create(:member) }
 
   scenario 'The show action exists' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Scientific names" do
+feature "Scientific names", :js => true do
   let!(:zea_mays) { FactoryGirl.create(:zea_mays) }
   let(:crop) { zea_mays.crop }
 

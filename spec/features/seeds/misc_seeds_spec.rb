@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "seeds" do
+feature "seeds", :js => true do
   context "signed in user" do
     before(:each) do
       @crop = FactoryGirl.create(:crop)

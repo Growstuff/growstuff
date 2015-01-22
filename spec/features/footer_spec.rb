@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "footer" do
+feature "footer", :js => true do
 
   scenario "has three columns" do
     visit root_path

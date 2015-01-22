@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "forums" do
+feature "forums", :js => true do
   context "admin user" do
     before(:each) do
       @member = FactoryGirl.create(:admin_member)
