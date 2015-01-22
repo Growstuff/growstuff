@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "follows" do
+feature "follows", :js => true do
 
   context "when signed out" do
     let(:member) { FactoryGirl.create(:member) }
