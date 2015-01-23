@@ -7,8 +7,8 @@
   beforeEach(function() {
 
     var GraphScale = growstuff.GraphScale;
-
     BarGroup = growstuff.BarGroup;
+
     var bars = [
       {name: 'Shade', value: 0.2},
       {name: 'Half Shade', value: 0.5}
@@ -23,7 +23,7 @@
     };
 
 
-    xScale = new GraphScale(data, 'linear');
+    xScale = new GraphScale(data, 'x');
     subject = new BarGroup(data);
     subject.render(d3.select('#jasmine_content').append('svg'));
   })

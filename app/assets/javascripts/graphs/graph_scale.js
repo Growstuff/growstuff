@@ -13,7 +13,6 @@
   GraphScale.prototype.render = function() {
     var data = this._data;
     var axisName = this._axisName;
-    console.log(data.axis[axisName]);
     var scaleType = data.axis[axisName].scale + '';
 
     return d3.scale[scaleType]()
