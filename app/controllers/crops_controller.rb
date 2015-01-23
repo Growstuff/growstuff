@@ -146,6 +146,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes => [:scientific_name])
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes)
   end
 end
