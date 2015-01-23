@@ -1,12 +1,11 @@
-.search-crops.home-banner.full-width
+.search-crops.home-banner.container
 
   %label 
-    What do you want to grow?<br />
+    What do you want to grow? 
     %input.form-control
 
-  / .row
-  /   .col-md-12
-  /     - cache cache_key_for(Crop), :expires_in => 1.day do
-  /       - Crop.last(6).each do |c|
-  /         .col-md-2{:style => 'margin:0px; padding: 3px'}
-  /           = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
+  .row
+    - cache cache_key_for(Crop), :expires_in => 1.day do
+      - Crop.last(4).each do |c|
+        .col-md-3{:style => 'margin:0px; padding: 3px'}
+          = render :partial => 'crops/thumbnail', :locals => { :crop => c }
