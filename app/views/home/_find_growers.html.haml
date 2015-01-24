@@ -1,7 +1,8 @@
-.find-growers.home-banner.full-width
+.find-growers.home-banner
 
   #placesmap
 
-  %label 
-    Find growers near you 
-    %input.form-control
+  = form_tag(search_places_path, :method => 'get', :class => 'form-inline', :role => 'form') do
+    .form-group
+      = label_tag :new_place, 'Find growers near you' 
+      = text_field_tag :new_place, '', :class => 'form-control', :placeholder => 'eg. Ballarat'
