@@ -1,8 +1,9 @@
-.search-crops.home-banner.container
+.search-crops.home-banner
 
-  %label 
-    What do you want to grow? 
-    %input.form-control
+  = form_tag(crops_search_path, :method => 'get', :class => 'form-inline', :role => 'form') do
+    .form-group
+      = label_tag :search, 'What do you want to grow?' 
+      = text_field_tag :search, '', :class => 'form-control', :placeholder => 'eg. lettuce'
 
   .row
     - cache cache_key_for(Crop), :expires_in => 1.day do
