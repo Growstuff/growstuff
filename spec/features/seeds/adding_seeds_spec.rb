@@ -27,6 +27,12 @@ feature "Harvesting a crop", :js => true do
     end
 
     expect(page).to have_content "Successfully added maize seed to your stash"
+    expect(page).to have_content "Quantity: 42"
+    expect(page).to have_content "Days until maturity: 999"
+    expect(page).to have_content "certified organic"
+    expect(page).to have_content "non-certified GMO-free"
+    expect(page).to have_content "Heirloom? heirloom"
+    expect(page).to have_content "It's killer."
   end
 
   scenario "Adding a seed from crop page" do
