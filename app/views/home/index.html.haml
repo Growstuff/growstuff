@@ -12,11 +12,17 @@
           = link_to t('.post'), new_post_path, :class => 'btn btn-default'
 
     - else
-      .hidden-xs
-        .jumbotron
-          = render :partial => 'blurb'
-      .visible-xs
-        = render :partial => 'blurb'
+      .row
+        .col-md-12
+          = render :partial => 'home_title'
+
+      .row
+        .col-md-12
+          = render :partial => 'search_crops'
+
+      .row
+        .col-md-12
+          = render :partial => 'find_growers'
 
     = render :partial => 'crops'
     = render :partial => 'seeds'

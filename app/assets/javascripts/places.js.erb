@@ -1,23 +1,40 @@
 if (document.getElementById("placesmap") !== null) {
-  places_base_path = "/places";
-  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
-  mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
-  nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
-  nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.user_agent_email %>";
+  var places_base_path           = "/places";
+  var mapbox_map_id              = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
+  var mapbox_base_url            = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
+  var nominatim_base_url         = 'http://nominatim.openstreetmap.org/search/';
+  var nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.user_agent_email %>";
 
   L.Icon.Default.imagePath = '/assets'
 
-  if (location.pathname === places_base_path) { //places index page
-    placesmap = L.map('placesmap').setView([0.0, -0.0], 2);
+  var options = {};
+  var map_endpoint,
+      place,
+      nominatim_query_url,
+      nominatim_options
+      ;
+
+  if (location.pathname === "/") {
+    options = {
+      touchZoom       : false,
+      scrollWheelZoom : false,
+    };
+  }
+
+  if (location.pathname ===  "/" || location.pathname === places_base_path) {
+    map_endpoint = places_base_path;
+    placesmap = L.map('placesmap', options).setView([0.0, -0.0], 2);
     showMap(placesmap);
-  } else { // specific place page
+  } else { 
+    // specific place page
+    map_endpoint = location.pathname;
     place = location.pathname.replace(places_base_path + "/", '');
     nominatim_query_url = nominatim_base_url + place;
     nominatim_options = {
-      format: "json",
-      callback: "placeholder",
-      limit: 1,
-      email: nominatim_user_agent_email
+      format    : "json",
+      callback  : "placeholder",
+      limit     : 1,
+      email     : nominatim_user_agent_email
     };
     $.getJSON(nominatim_query_url, nominatim_options, function(data) {
       placesmap = L.map('placesmap').setView([data[0].lat, data[0].lon], 5);
@@ -27,19 +44,28 @@ if (document.getElementById("placesmap") !== null) {
 }
 
 function showMap(placesmap) {
+  var markers,
+      things_to_map
+      ;
+
   L.tileLayer(mapbox_base_url, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(placesmap);
+  
   markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
+  things_to_map = map_endpoint + '.json';
 
-  things_to_map = location.pathname + '.json';
   $.getJSON(things_to_map, function(members) {
     $.each(members, function(i, m) {
+      var marker,
+          link,
+          where
+          ;
       if (m.latitude && m.longitude) {
         marker = new L.Marker(new L.LatLng(m.latitude, m.longitude));
-        link = "<p><a href='/members/" + m.slug + "'>" + m.login_name + "</a></p>";
-        where = "<p><i>" + m.location + "</i></p>";
+        link   = "<p><a href='/members/" + m.slug + "'>" + m.login_name + "</a></p>";
+        where  = "<p><i>" + m.location + "</i></p>";
         marker.bindPopup(link + where).openPopup();
         markers.addLayer(marker);
       }
