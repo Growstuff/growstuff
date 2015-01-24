@@ -9,7 +9,14 @@ class Seed < ActiveRecord::Base
 
   validates :crop, :presence => {:message => "must be present and exist in our database"}
   validates :quantity,
-    :numericality => { :only_integer => true },
+    :numericality => {
+      :only_integer => true,
+      :greater_than_or_equal_to => 0 },
+    :allow_nil => true
+  validates :days_until_maturity,
+    :numericality => {
+      :only_integer => true,
+      :greater_than_or_equal_to => 0 },
     :allow_nil => true
 
   scope :tradable, -> { where("tradable_to != 'nowhere'") }
