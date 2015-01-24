@@ -1,14 +1,18 @@
 = content_for :title, @post.subject
 
 - unless current_member
-  .row.alert.alert-info
-    .col-md-12
-      #{ @post.author.login_name } is using #{ENV["GROWSTUFF_SITE_NAME"]} to |
-      discuss #{ @post.subject } with a community of food gardeners worldwide. |
-      We have advice on growing hundreds of different #{link_to 'crops', crops_url}, |
-      and a community from all around the world. | 
-      = render :partial => "shared/signin_signup", 
-        :locals => { :to => "or to start using #{ENV["GROWSTUFF_SITE_NAME"]} to track what you're planting and harvesting" }
+  .alert.alert-info
+    = link_to @post.author.login_name, member_path(@post.author)
+    is using
+    = link_to ENV["GROWSTUFF_SITE_NAME"], root_path
+    to discuss #{ @post.subject } with a community of food gardeners worldwide.
+    We have advice on growing
+    = succeed "," do
+      = link_to 'hundreds of different crops', crops_url
+    and a community from all around the world.
+
+    = render :partial => "shared/signin_signup", 
+      :locals => { :to => "or to start using #{ENV["GROWSTUFF_SITE_NAME"]} to track what you're planting and harvesting" }
 
 = render :partial => "single", :locals => { :post => @post, :subject => false, :hide_comments => true }
 
