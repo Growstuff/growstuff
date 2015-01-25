@@ -15,7 +15,7 @@ BarGroup.prototype.render = function(root){
 
   var data = this._data;
   var bars = this._data.bars;
-  var xScale = new GraphScale(data, 'x').render();
+  var xScale = new GraphScale(data, 'width').render();
   return root.append('g')
     .attr("class", "bar")
     .selectAll("rect")

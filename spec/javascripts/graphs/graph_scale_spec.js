@@ -10,17 +10,14 @@
         {name: 'Shade', value: 0.2},
         {name: 'Half Shade', value: 0.5}
       ];
-      var axis = {
-        x: {attr_name: 'width', scale: 'linear'},
-        y: {attr_name: 'height', scale: 'ordinal'}
-      };
       var data = {
         bars: bars,
-        axis: axis
+        width: {size: 300, scale: 'linear'},
+        height: {size: 400, scale: 'ordinal'}
       };
 
 
-      subject = new GraphScale(data, 'x');
+      subject = new GraphScale(data, 'width');
       subject.render(d3.select('#jasmine_content').append('svg'));
     });
 

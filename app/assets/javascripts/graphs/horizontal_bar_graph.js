@@ -25,7 +25,7 @@
     var barLabelGroup = new BarLabelGroup(this._data);
     var margin = this._data.margin;
 
-    var xScale = new GraphScale(this._data,'x');
+    var xScale = new GraphScale(this._data, 'width');
     var yScale = new GraphScale(this._data, 'y');
 
     var barGroup = new BarGroup(this._data);

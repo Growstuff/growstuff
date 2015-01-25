@@ -11,19 +11,13 @@
           {name: 'Shade', value: 0.2},
           {name: 'Half Shade', value: 0.5}
         ];
-        var axis = {
-          x: {attr_name: 'width', scale: 'linear'},
-          y: {attr_name: 'height', scale: 'ordinal'}
-        };
-
         data = {
           bars: bars,
-          width: 300,
-          height: 400,
+          width: {size: 300, scale: 'linear'},
+          height: {size: 400, scale: 'ordinal'},
           //left is used to shift the bars over so that there is
           //room for the labels
-          margin: {top: 0, right: 0, bottom: 0, left: 100},
-          axis: axis
+          margin: {top: 0, right: 0, bottom: 0, left: 100}
         };
 
         subject = new HorizontalBarGraph(data);

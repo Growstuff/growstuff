@@ -13,11 +13,12 @@
   GraphScale.prototype.render = function() {
     var data = this._data;
     var axisName = this._axisName;
-    var scaleType = data.axis[axisName].scale + '';
-
+    var scaleType = data[axisName].scale;
+    var axisSize = data[axisName].size;
+    console.log(axisSize);
     return d3.scale[scaleType]()
     .domain([0, d3.max(this.getBarValues())])
-      .range([0, data.axis.attr_name]);
+      .range([0, axisSize]);
 
   };
 
