@@ -7,6 +7,6 @@
 
   .row
     - cache cache_key_for(Crop), :expires_in => 1.day do
-      - Crop.interesting.each do |c|
+      - Crop.last(4).each do |c|
         .col-md-3{:style => 'margin:0px; padding: 3px'}
           = render :partial => 'crops/thumbnail', :locals => { :crop => c }
