@@ -320,7 +320,6 @@ namespace :growstuff do
       Crop.__elasticsearch__.create_index! force: true
       Crop.import
     end
-
   end # end oneoff section
 
 end
