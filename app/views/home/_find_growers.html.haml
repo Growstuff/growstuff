@@ -1,8 +1,9 @@
-.find-growers.home-banner
+.find-growers.home-banner.full-width
 
   #placesmap
 
-  = form_tag(search_places_path, :method => 'get', :class => 'form-inline', :role => 'form') do
-    .form-group
-      = label_tag :new_place, t('.label') 
-      = text_field_tag :new_place, '', :class => 'form-control', :placeholder => t('.placeholder')
+  .centered-relative
+    = form_tag(search_places_path, :method => 'get', :class => 'form-inline', :role => 'form') do
+      .form-group
+        = label_tag :new_place, t('.label'), :class => 'against-image-text' 
+        = text_field_tag :new_place, '', :class => 'form-control', :placeholder => t('.placeholder')

@@ -29,9 +29,6 @@ en:
       contact: "Contact"
 
   home:
-    home_title:
-      tagline: "Open data for small-scale food growers"
-
     crops:
       our_crops: "Some of our crops"
       recently_planted: "Recently planted"

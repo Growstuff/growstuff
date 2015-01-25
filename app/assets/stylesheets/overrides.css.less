@@ -304,42 +304,54 @@ html, body {
 }
 
 .home-title {
-  margin: 0 -15px 0 -15px;
   background-image: image-url('veggies.jpg');
   background-repeat: no-repeat;
   background-size: 100%;
-  height: 260px;
-  color: #fff;
+  @media (max-width: @screen-md-min) {
+    background-size: @screen-md-min;
+    min-height: 410px;
+  }
+  min-height: 360px;
+  padding: 30px;
 }
 
 .home-title h1 {
-  font-size: 60px;
-  padding: 60px 0 20px 0;
-  margin: 0;
-  text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000;
+  font-size: 50px;
+  margin: 60px;
+}
+
+.against-image-text {
   color: #fff;
-}
-
-.tagline {
-  font-size: 30px;
+  font-weight: bold;
   text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000;
 }
 
-.search-crops label {
-  margin: 50px 0 40px 0;
+.full-width {
+  margin: 0 -15px 0 -15px;
+}
+
+.centered-relative {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 35px;
 }
 
 .home-banner {
   text-align: center;
 
   label {
-    font-size: 42px;
-    font-weight: bold;
+    font-size: 36px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    line-height: 100%;
   }
 
   input {
-    margin: 0 0 15px 20px;
     padding: 15px;
+    display: inline;
   }
 }
 
@@ -347,13 +359,6 @@ html, body {
   position: relative;
 
   label {
-    padding: 80px 0 40px 0;
-    color: #fff;
-    text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000;
-  }
-
-  form {
-    position: absolute;
-    top: 0; left: 16%;
+    padding-top: 80px;
   }
 }
