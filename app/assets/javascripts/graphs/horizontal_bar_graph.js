@@ -32,8 +32,8 @@
 
     var svg = root
       .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", width.size + margin.left + margin.right)
+        .attr("height", height.size + margin.top + margin.bottom)
       .append("g")
         .attr("class","bar-graph")
         .attr("transform","translate(" + margin.left + "," + margin.top + ")");

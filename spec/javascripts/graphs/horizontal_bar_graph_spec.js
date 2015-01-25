@@ -48,8 +48,8 @@
       it('has the expected width and height', function() {
         var $svg = $('svg');
         var margin = data.margin;
-        expect($svg).toHaveAttr('width', (data.width + margin.left + margin.right) + '');
-        expect($svg).toHaveAttr('height', (data.height + margin.top + margin.bottom) + '');
+        expect($svg).toHaveAttr('width', (data.width.size + margin.left + margin.right) + '');
+        expect($svg).toHaveAttr('height', (data.height.size + margin.top + margin.bottom) + '');
       });
 
       it('draws the graph shifted to the right to accommodate for labels', function(){
@@ -62,7 +62,7 @@
 
       it ('on the y axis, all bars are the same height', function(){
         expect('g.bar rect:eq(0)').toHaveAttr('height', 100);
-        expect('g.bar rect:eq(0)').toHaveAttr('height', 100);
+        expect('g.bar rect:eq(1)').toHaveAttr('height', 100);
       });
 
   });
