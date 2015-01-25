@@ -23,7 +23,7 @@ if (document.getElementById("placesmap") !== null) {
 
   if (location.pathname ===  "/" || location.pathname === places_base_path) {
     map_endpoint = places_base_path;
-    placesmap = L.map('placesmap', options).setView([0.0, -0.0], 2);
+    placesmap = L.map('placesmap', options).setView([14, -0.0], 2);
     showMap(placesmap);
   } else { 
     // specific place page
