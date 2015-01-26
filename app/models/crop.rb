@@ -32,17 +32,23 @@ class Crop < ActiveRecord::Base
       :message => 'is not a valid English Wikipedia URL'
     }
   
+  ####################################
+  # Elastic search configuration
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  # In order to avoid clashing between different environments,
+  # use Rails.env as a part of index name (eg. development_growstuff)
   index_name [Rails.env, "growstuff"].join('_')
-  settings index: { number_of_shards: 1},
+  settings index: { number_of_shards: 1 },
     analysis: {
       tokenizer: {
         gs_edgeNGram_tokenizer: {
-          type: "edgeNGram",
+          type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
           min_gram: 3,
           max_gram: 10,
-          token_chars: [ "letter", "digit" ]
+          # token_chars: Elasticsearch will split on characters
+          # that don’t belong to any of these classes
+          token_chars: [ "letter", "digit" ] 
         }
       },
       analyzer: {
@@ -56,7 +62,12 @@ class Crop < ActiveRecord::Base
       indexes :id, type: 'long'
       indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
       indexes :scientific_names do
-        indexes :scientific_name, type: 'string', analyzer: 'gs_edgeNGram_analyzer', norms: { enabled: false }
+        indexes :scientific_name,
+          type: 'string',
+          analyzer: 'gs_edgeNGram_analyzer',
+          # Disabling field-length norm (norm). If the norm option is turned on(by default), 
+          # higher weigh would be given for shorter fields, which in our case is irrelevant.
+          norms: { enabled: false }
       end
       indexes :alternate_names do
         indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
@@ -72,6 +83,7 @@ class Crop < ActiveRecord::Base
         alternate_names: { only: :name }
              })
   end
+  ####################################
 
   def to_s
     return name
@@ -246,6 +258,8 @@ class Crop < ActiveRecord::Base
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
       response = __elasticsearch__.search( {
+          # Finds documents which match any field, but uses the _score from 
+          # the best field insead of adding up _score from each field.
           query: {
             multi_match: {
               query: "#{search_str}",
