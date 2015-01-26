@@ -4,3 +4,4 @@
     .form-group
       = label_tag :search, t('.label'), :class => 'against-image-text' 
       = text_field_tag :search, '', :class => 'form-control', :placeholder => t('.placeholder')
+      = hidden_field_tag :exact_search, :value => true
