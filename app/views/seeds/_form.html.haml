@@ -22,9 +22,12 @@
     .col-md-2
       = f.text_field :plant_before, :class => 'add-datepicker form-control', :value => @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
   .form-group
-    = f.label :days_until_maturity, 'Days until maturity:', :class => 'control-label col-md-2'
+    = f.label :days_until_maturity_min, 'Days until maturity, min:', :class => 'control-label col-md-2'
     .col-md-2
-      = f.number_field :days_until_maturity, :class => 'form-control'
+      = f.number_field :days_until_maturity_min, :class => 'form-control'
+    = f.label :days_until_maturity_max, 'Days until maturity, max:', :class => 'control-label col-md-2'
+    .col-md-2
+      = f.number_field :days_until_maturity_max, :class => 'form-control'
   .form-group
     = f.label :organic, 'Organic?', :class => 'control-label col-md-2'
     .col-md-8

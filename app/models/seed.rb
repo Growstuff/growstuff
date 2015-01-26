@@ -13,7 +13,12 @@ class Seed < ActiveRecord::Base
       :only_integer => true,
       :greater_than_or_equal_to => 0 },
     :allow_nil => true
-  validates :days_until_maturity,
+  validates :days_until_maturity_min,
+    :numericality => {
+      :only_integer => true,
+      :greater_than_or_equal_to => 0 },
+    :allow_nil => true
+  validates :days_until_maturity_max,
     :numericality => {
       :only_integer => true,
       :greater_than_or_equal_to => 0 },

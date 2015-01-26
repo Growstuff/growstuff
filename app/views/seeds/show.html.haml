@@ -15,7 +15,7 @@
       = @seed.plant_before.to_s
     %p
       %b Days until maturity:
-      = @seed.days_until_maturity.to_s
+      = render :partial => 'days_until_maturity', :locals => { :seed => @seed }
     %p
       %b Organic?
       = @seed.organic
