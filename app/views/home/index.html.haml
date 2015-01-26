@@ -18,12 +18,14 @@
           = render :partial => 'search_crops'
           %p.image-attribution= t('.image_attribution')
 
-      .row
-        .col-md-12
-          = render :partial => 'find_growers'
+      .container
+        .row
+          .col-md-12
+            = render :partial => 'find_growers'
 
-    = render :partial => 'crops'
-    = render :partial => 'seeds'
-    = render :partial => 'members'
-    = render :partial => 'discuss'
+    .container
+      = render :partial => 'crops'
+      = render :partial => 'seeds'
+      = render :partial => 'members'
+      = render :partial => 'discuss'
 
