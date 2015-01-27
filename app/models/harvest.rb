@@ -4,7 +4,7 @@ class Harvest < ActiveRecord::Base
   friendly_id :harvest_slug, use: :slugged
 
   attr_accessible :crop_id, :harvested_at, :description, :owner_id,
-    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug
+    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug, :si_weight
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
@@ -61,6 +61,15 @@ class Harvest < ActiveRecord::Base
     :allow_blank => true
 
   after_validation :cleanup_quantities
+
+  before_save {
+    if :weight_unit == "kg"
+      :si_weight = :weight_quantity
+    elsif :weight_unit == "lb"
+      :si_weight = :weight_quantity * 0.45
+    elsif :weight_unit == "oz"
+      :si_weight = 0.028 
+  }
 
   def cleanup_quantities
     if quantity == 0
