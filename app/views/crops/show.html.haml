@@ -30,6 +30,7 @@
       - if current_member && current_member.location.blank?
         = link_to "Set your location.", edit_member_registration_path
 
+    %div#sunchart
 
     %div#cropmap
 
@@ -68,3 +69,4 @@
     = render :partial => 'plantings', :locals => { :crop => @crop }
     = render :partial => 'harvests', :locals => { :crop => @crop }
     = render :partial => 'find_seeds', :locals => { :crop => @crop }
+

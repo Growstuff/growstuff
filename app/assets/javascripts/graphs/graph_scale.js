@@ -15,9 +15,18 @@
     var axisName = this._axisName;
     var scaleType = data[axisName].scale;
     var axisSize = data[axisName].size;
-    return d3.scale[scaleType]()
-    .domain([0, d3.max(this.getBarValues())])
-      .range([0, axisSize]);
+
+    if (axisName === 'width'){
+      return d3.scale[scaleType]()
+        .domain([0, d3.max(this.getBarValues())])
+        .range([0, axisSize]);
+    }
+    else{
+      return d3.scale[scaleType]()
+        .domain(d3.range(data.bars.length))
+        .rangeRoundBands([0, data.height.size], 0.05, 0);
+    }
+
 
   };
 

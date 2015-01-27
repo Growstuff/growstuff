@@ -16,12 +16,19 @@ BarGroup.prototype.render = function(root){
   var data = this._data;
   var bars = this._data.bars;
   var xScale = new GraphScale(data, 'width').render();
+  var yScale = new GraphScale(data, 'height').render();
+
   return root.append('g')
     .attr("class", "bar")
     .selectAll("rect")
     .data(bars.map(function(bar) { return bar.value; }))
     .enter()
     .append("rect")
+    .attr("y", function(d, i){
+      return yScale(i);
+
+    })
+    .attr("height", yScale.rangeBand())
       .attr("fill", "rebeccapurple")
       .attr("width", function(d){
         return xScale(d);

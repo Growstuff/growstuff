@@ -61,8 +61,8 @@
       });
 
       it ('on the y axis, all bars are the same height', function(){
-        expect('g.bar rect:eq(0)').toHaveAttr('height', 100);
-        expect('g.bar rect:eq(1)').toHaveAttr('height', 100);
+        expect('g.bar rect:eq(0)').toHaveAttr('height', 195);
+        expect('g.bar rect:eq(1)').toHaveAttr('height', 195);
       });
 
   });
