@@ -48,7 +48,7 @@
         subject.render();
       });
       it ('calls the d3 range round bands function to draw the height', function(){
-        expect(mockD3.rangeRoundBands).toHaveBeenCalledWith([0, 200], 0.05, 0);
+        expect(mockD3.rangeRoundBands).toHaveBeenCalledWith([0, 400], 0.05, 0);
       });
     });
   });
