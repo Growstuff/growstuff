@@ -1,9 +1,11 @@
 class NotificationsController < ApplicationController
   include NotificationsHelper
+  before_filter :authenticate_member!
   load_and_authorize_resource
+
   # GET /notifications
   def index
-    @notifications = Notification.find_all_by_recipient_id(current_member)
+    @notifications = Notification.where(recipient_id: current_member)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -47,7 +49,7 @@ class NotificationsController < ApplicationController
   # POST /notifications
   def create
     params[:notification][:sender_id] = current_member.id
-    @notification = Notification.new(params[:notification])
+    @notification = Notification.new(notification_params)
     @recipient = Member.find_by_id(params[:notification][:recipient_id])
 
     respond_to do |format|
@@ -57,5 +59,11 @@ class NotificationsController < ApplicationController
         format.html { render action: "new" }
       end
     end
+  end
+
+  private
+
+  def notification_params
+    params.require(:notification).permit(:sender_id, :recipient_id, :subject, :body, :post_id, :read)
   end
 end

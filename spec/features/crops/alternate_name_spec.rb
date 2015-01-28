@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "Alternate names" do
   let!(:alternate_eggplant) { FactoryGirl.create(:alternate_eggplant) }

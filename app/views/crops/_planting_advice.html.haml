@@ -1,10 +1,15 @@
-- if crop.planted_from.length > 0
-  %p
-    %strong Plant from:
+%p
+  %strong Plant from:
+  - if crop.planted_from.empty?
+    not known.
+  - else
     - planted_from = crop.planted_from.sort_by {|s, freq| freq }.reverse
     = planted_from.map {|s, freq| "#{s} (#{freq})" }.join(", ")
-- if crop.sunniness.length > 0
-  %p
-    %strong Plant in:
+
+%p
+  %strong Plant in:
+  - if crop.sunniness.empty?
+    not known.
+  - else
     - sunniness = crop.sunniness.sort_by {|s, freq| freq }.reverse
     = sunniness.map {|s, freq| "#{s} (#{freq})" }.join(", ")

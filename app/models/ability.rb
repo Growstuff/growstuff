@@ -6,6 +6,8 @@ class Ability
 
     # everyone can do these things, even non-logged in
     can :read, :all
+    can :view_follows, Member
+    can :view_followers, Member
 
     # except these, which don't make sense if you're not logged in
     cannot :read, Notification
@@ -90,6 +92,13 @@ class Ability
       cannot :read,    OrderItem, :order => { :member_id => member.id }
       cannot :update,  OrderItem, :order => { :member_id => member.id, :completed_at => nil }
       cannot :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
+
+      # following/unfollowing permissions
+      can :create, Follow
+      cannot :create, Follow, :followed_id => member.id # can't follow yourself
+
+      can :destroy, Follow
+      cannot :destroy, Follow, :followed_id => member.id # can't unfollow yourself
 
       if member.has_role? :admin
 

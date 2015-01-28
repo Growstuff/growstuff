@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "crops/wrangle" do
   before(:each) do
@@ -18,8 +18,8 @@ describe "crops/wrangle" do
 
   it 'contains handy links for wranglers' do
     render
-    rendered.should contain "Crop wrangler guidelines"
-    rendered.should contain "mailing list"
+    rendered.should have_content "Crop wrangler guidelines"
+    rendered.should have_content "mailing list"
   end
 
   it 'has a link to add a crop' do

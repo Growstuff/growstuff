@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'admin/orders/index.html.haml', :type => "view" do
   before(:each) do

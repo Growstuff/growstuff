@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'devise/mailer/confirmation_instructions.html.haml', :type => "view" do
 
@@ -9,11 +9,11 @@ describe 'devise/mailer/confirmation_instructions.html.haml', :type => "view" do
     end
 
     it 'should have a confirmation link' do
-      rendered.should contain 'Confirm my account'
+      rendered.should have_content 'Confirm my account'
     end
 
     it 'should have a link to the homepage' do
-      rendered.should contain root_url
+      rendered.should have_content root_url
     end
   end
 end

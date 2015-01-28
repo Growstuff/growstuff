@@ -1,10 +1,7 @@
 class Harvest < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
-  friendly_id :harvest_slug, use: :slugged
-
-  attr_accessible :crop_id, :harvested_at, :description, :owner_id,
-    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug, :si_weight
+  friendly_id :harvest_slug, use: [:slugged, :finders]
 
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member'
@@ -21,7 +18,7 @@ class Harvest < ActiveRecord::Base
     end
   end
 
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
 
   validates :crop, :presence => {:message => "must be present and exist in our database"}
 

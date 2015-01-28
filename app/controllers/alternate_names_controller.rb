@@ -1,4 +1,5 @@
 class AlternateNamesController < ApplicationController
+  before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
 
   # GET /alternate_names
@@ -44,7 +45,7 @@ class AlternateNamesController < ApplicationController
   # POST /alternate_names.json
   def create
     params[:alternate_name][:creator_id] = current_member.id
-    @alternate_name = AlternateName.new(params[:alternate_name])
+    @alternate_name = AlternateName.new(alternate_name_params)
 
     respond_to do |format|
       if @alternate_name.save
@@ -63,7 +64,7 @@ class AlternateNamesController < ApplicationController
     @alternate_name = AlternateName.find(params[:id])
 
     respond_to do |format|
-      if @alternate_name.update_attributes(params[:alternate_name])
+      if @alternate_name.update(alternate_name_params)
         format.html { redirect_to @alternate_name.crop, notice: 'Alternate name was successfully updated.' }
         format.json { head :no_content }
       else
@@ -86,5 +87,11 @@ class AlternateNamesController < ApplicationController
       }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def alternate_name_params
+    params.require(:alternate_name).permit(:crop_id, :name, :creator_id)
   end
 end

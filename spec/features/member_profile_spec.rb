@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "member profile" do
 
@@ -143,6 +143,7 @@ feature "member profile" do
       scenario "has a private message button" do
         expect(page).to have_link "Send message", :href => new_notification_path(:recipient_id => other_member.id)
       end
+
     end
 
     context "home page" do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "members/index" do
   before(:each) do
@@ -19,7 +19,7 @@ describe "members/index" do
   end
 
   it 'contains member locations' do
-    rendered.should contain @member.location
+    rendered.should have_content @member.location
   end
 
 end

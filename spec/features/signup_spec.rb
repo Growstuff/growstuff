@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "signup" do
 
@@ -11,7 +11,6 @@ feature "signup" do
     fill_in 'Password confirmation', with: 'abc123'
     check 'member_tos_agreement'
     click_button 'Sign up'
-    page.has_content? 'A message with a confirmation link has been sent to your email address. Please open the link to activate your account.'
     current_path.should eq root_path
   end
 

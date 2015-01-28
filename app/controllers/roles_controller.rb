@@ -1,5 +1,7 @@
 class RolesController < ApplicationController
+  before_filter :authenticate_member!
   load_and_authorize_resource
+  
   # GET /roles
   def index
     @roles = Role.all
@@ -34,7 +36,7 @@ class RolesController < ApplicationController
 
   # POST /roles
   def create
-    @role = Role.new(params[:role])
+    @role = Role.new(role_params)
 
     respond_to do |format|
       if @role.save
@@ -50,7 +52,7 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
 
     respond_to do |format|
-      if @role.update_attributes(params[:role])
+      if @role.update(role_params)
         format.html { redirect_to @role, notice: 'Role was successfully updated.' }
       else
         format.html { render action: "edit" }
@@ -66,5 +68,11 @@ class RolesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to roles_url }
     end
+  end
+
+  private
+
+  def role_params
+    params.require(:role).permit(:description, :name, :members, :slug)
   end
 end

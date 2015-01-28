@@ -14,8 +14,22 @@ en:
     manage:
       all: "Not authorized to %{action} %{subject}."
 
+  layouts:
+    footer:
+      about: "About"
+      our_values: "Our Values"
+      open_source: "Open Source"
+      growstuff_team: "Growstuff Team"
+      get_involved: "Get Involved"
+      terms_of_service: "Terms of Service"
+      privacy_policy: "Privacy Policy"
+      data_use_policy: "Data Use Policy"
+      community_guidelines: "Community Guidelines"
+      support_: "Support" # for some reason 'support' seems to be a reserved word
+      contact: "Contact"
+
   home:
-    blurb: 
+    blurb:
       intro: "%{site_name} is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you."
       perks: "Join now for your free garden journal, seed sharing, forums, and more."
       sign_up: "Sign up"
@@ -32,15 +46,6 @@ en:
       discussion: "Discussion"
       forums: "Forums"
       view_all: "View all posts"
-
-    keep_in_touch:
-      keep_in_touch: "Keep in touch"
-      twitter_html: "Follow %{link} on Twitter"
-      twitter_linktext: "@growstufforg"
-      blog_html: "Subscribe to the %{link}"
-      blog_linktext: "Growstuff Blog" 
-      newsletter_html: "Subscribe to our %{link}"
-      newsletter_linktext: "email newsletter"
 
     members:
       title: "Some of our members"
