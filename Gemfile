@@ -93,6 +93,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
+  gem 'quiet_assets'
 end
 
 group :development, :test do
@@ -108,4 +109,8 @@ group :development, :test do
   gem 'capybara-email'                  # integration tests for email
   gem 'poltergeist', '~> 1.5.1'         # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+end
+
+group :travis do
+  gem 'heroku-api'
 end
