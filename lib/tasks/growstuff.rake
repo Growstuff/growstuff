@@ -319,9 +319,9 @@ namespace :growstuff do
     task :populate_si_weight => :environment do
       Harvest.find_each do |h|
         if h.weight_unit == "lb"
-          h.si_weight = h.weight_quantity * 0.453592
+          h.si_weight = h.weight_quantity * 0.45
         elsif h.weight_unit == "oz"
-          h.si_weight = h.weight_quantity * 0.0283495
+          h.si_weight = h.weight_quantity * 0.028
         else # kg is all that's left, and that's SI
           h.si_weight = h.weight_quantity
         end

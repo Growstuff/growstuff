@@ -59,14 +59,17 @@ class Harvest < ActiveRecord::Base
 
   after_validation :cleanup_quantities
 
-  before_save {
-    if :weight_unit == "kg"
-      :si_weight = :weight_quantity
-    elsif :weight_unit == "lb"
-      :si_weight = :weight_quantity * 0.45
-    elsif :weight_unit == "oz"
-      :si_weight = 0.028 
-  }
+  before_save :set_si_weight
+
+  def set_si_weight
+    if self.weight_unit == "kg"
+      self.si_weight = self.weight_quantity
+    elsif self.weight_unit == "lb"
+      self.si_weight = self.weight_quantity * 0.45
+    elsif self.weight_unit == "oz"
+      self.si_weight = self.weight_quantity * 0.028 
+    end
+  end
 
   def cleanup_quantities
     if quantity == 0

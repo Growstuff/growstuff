@@ -118,6 +118,26 @@ describe Harvest do
     end
   end
 
+  context "standardized weights" do
+    it 'converts from pounds' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 2, :weight_unit => "lb")
+      @harvest.should be_valid
+      @harvest.reload.si_weight.should eq 0.9
+    end
+
+    it 'converts from ounces' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 16, :weight_unit => "oz")
+      @harvest.should be_valid
+      @harvest.reload.si_weight.should eq 0.9
+    end
+
+    it 'leaves kg alone' do
+      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 2, :weight_unit => "kg")
+      @harvest.should be_valid
+      @harvest.reload.si_weight.should eq 2
+    end
+  end
+
   context 'ordering' do
     it 'lists most recent harvests first' do
       @h1 = FactoryGirl.create(:harvest, :created_at => 1.day.ago)
