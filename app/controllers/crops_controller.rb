@@ -49,6 +49,7 @@ class CropsController < ApplicationController
 
   # GET /crops/search
   def search
+    exact_search = params[:exact_search] || false
     @search = params[:search]
     @exact_match = Crop.find_by_name(params[:search])
 
@@ -59,7 +60,11 @@ class CropsController < ApplicationController
     @fuzzy = Crop.search(params[:term])
 
     respond_to do |format|
-      format.html
+      if exact_search && @exact_match.present?
+        format.html { redirect_to @exact_match }
+      else
+        format.html
+      end
       format.json { render :json => @fuzzy }
     end
   end

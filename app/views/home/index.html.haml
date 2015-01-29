@@ -12,11 +12,15 @@
           = link_to t('.post'), new_post_path, :class => 'btn btn-default'
 
     - else
-      .hidden-xs
-        .jumbotron
-          = render :partial => 'blurb'
-      .visible-xs
-        = render :partial => 'blurb'
+      .row
+        .col-md-12.home-title.home-banner
+          %h1.against-image-text.text-center= ENV['GROWSTUFF_SITE_NAME']
+          = render :partial => 'search_crops'
+          %p.image-attribution= t('.image_attribution')
+
+      .row
+        .col-md-12
+          = render :partial => 'find_growers'
 
     = render :partial => 'crops'
     = render :partial => 'seeds'
