@@ -14,6 +14,7 @@ class Crop < ActiveRecord::Base
   has_many :harvests
   has_many :plant_parts, -> { uniq }, :through => :harvests
   belongs_to :creator, :class_name => 'Member'
+  belongs_to :creator, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
