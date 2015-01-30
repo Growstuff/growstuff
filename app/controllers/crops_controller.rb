@@ -101,8 +101,14 @@ class CropsController < ApplicationController
   # POST /crops
   # POST /crops.json
   def create
-    params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(crop_params)
+
+    if current_member.has_role? :crop_wrangler
+      @crop.creator = current_member
+    else
+      @crop.requester = current_member
+      @crop.approved = false
+    end
 
     respond_to do |format|
       if @crop.save

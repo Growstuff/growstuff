@@ -45,6 +45,9 @@ class Ability
         can :manage, AlternateName
       end
 
+      # any member can create a crop provisionally
+      can :create, Crop
+
       # can create & destroy their own authentications against other sites.
       can :create, Authentication
       can :destroy, Authentication, :member_id => member.id
