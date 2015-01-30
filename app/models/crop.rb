@@ -21,7 +21,7 @@ class Crop < ActiveRecord::Base
   has_and_belongs_to_many :posts
   before_destroy {|crop| crop.posts.clear}
 
-  default_scope { order("lower(name) asc") }
+  default_scope { where(:approved => true).order("lower(name) asc") }
   scope :recent, -> { reorder("created_at desc") }
   scope :toplevel, -> { where(:parent_id => nil) }
   scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
