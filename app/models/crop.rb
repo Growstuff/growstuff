@@ -26,6 +26,7 @@ class Crop < ActiveRecord::Base
   scope :toplevel, -> { where(:parent_id => nil) }
   scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
   scope :randomized, -> { reorder('random()') } # ok on sqlite and psql, but not on mysql
+  scope :pending_approval, -> { where(:approved => false) }
 
   validates :en_wikipedia_url,
     :format => {

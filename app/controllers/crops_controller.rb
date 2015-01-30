@@ -32,7 +32,8 @@ class CropsController < ApplicationController
 
   # GET /crops/wrangle
   def wrangle
-    @crops = Crop.recent.paginate(:page => params[:page])
+    @recent_crops = Crop.recent.paginate(:page => params[:page])
+    @pending_approval = Crop.pending_approval
     @crop_wranglers = Role.crop_wranglers
     respond_to do |format|
       format.html
