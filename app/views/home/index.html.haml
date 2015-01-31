@@ -13,12 +13,10 @@
 
     - else
       .row
-        .col-md-12
-          = render :partial => 'home_title'
-
-      .row
-        .col-md-12
+        .col-md-12.home-title.home-banner
+          %h1.against-image-text.text-center= ENV['GROWSTUFF_SITE_NAME']
           = render :partial => 'search_crops'
+          %p.image-attribution= t('.image_attribution')
 
       .row
         .col-md-12

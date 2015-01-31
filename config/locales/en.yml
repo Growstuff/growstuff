@@ -29,9 +29,6 @@ en:
       contact: "Contact"
 
   home:
-    home_title:
-      tagline: "A community of food growers"
-
     crops:
       our_crops: "Some of our crops"
       recently_planted: "Recently planted"
@@ -99,4 +96,5 @@ en:
       add_seeds: "Add seeds"
       post: "Post"
       edit_profile: "Edit profile"
+      image_attribution: "CC-BY thebittenword.com"
 

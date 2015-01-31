@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   skip_authorize_resource
 
+  layout 'home'
+
   def index
 
     # we were previously generating a lot of instance variables like

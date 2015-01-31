@@ -1,12 +1,7 @@
-.search-crops.home-banner
+.search-crops
 
   = form_tag(crops_search_path, :method => 'get', :class => 'form-inline', :role => 'form') do
     .form-group
-      = label_tag :search, t('.label') 
+      = label_tag :search, t('.label'), :class => 'against-image-text' 
       = text_field_tag :search, '', :class => 'form-control', :placeholder => t('.placeholder')
-
-  .row
-    - cache cache_key_for(Crop), :expires_in => 1.day do
-      - Crop.interesting.each do |c|
-        .col-md-3{:style => 'margin:0px; padding: 3px'}
-          = render :partial => 'crops/thumbnail', :locals => { :crop => c }
+      = hidden_field_tag :exact_search, :value => true
