@@ -1,8 +1,8 @@
-.find-growers.home-banner.full-width
+#find-growers
 
   #placesmap
 
-  .find-growers-form
+  #find-growers-form.full-width
     = form_tag(search_places_path, :method => 'get', :class => 'form-inline', :role => 'form') do
       .form-group.contrast-screen-dark
         = label_tag :new_place, t('.label'), :class => 'against-image-text' 

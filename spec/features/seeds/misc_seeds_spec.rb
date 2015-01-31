@@ -20,13 +20,6 @@ feature "seeds" do
       page.should have_content 'Editing seeds'
     end
 
-    scenario "button on front page to add seeds" do
-      visit root_path
-      click_link "Add seeds"
-      current_path.should eq new_seed_path
-      page.should have_content 'Add seeds'
-    end
-
     # actually adding seeds is in spec/features/seeds_new_spec.rb
 
     scenario "edit seeds" do
