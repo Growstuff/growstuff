@@ -2,12 +2,12 @@ class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
-  has_many :scientific_names
+  has_many :scientific_names, after_add: :update_index, after_remove: :update_index
   accepts_nested_attributes_for :scientific_names,
     :allow_destroy => true,
     :reject_if     => :all_blank
 
-  has_many :alternate_names
+  has_many :alternate_names, after_add: :update_index, after_remove: :update_index
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
@@ -82,6 +82,10 @@ class Crop < ActiveRecord::Base
         scientific_names: { only: :scientific_name },
         alternate_names: { only: :name }
              })
+  end
+
+  def update_index(name_obj)
+    __elasticsearch__.index_document
   end
   ####################################
 
