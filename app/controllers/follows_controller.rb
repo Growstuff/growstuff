@@ -1,8 +1,11 @@
 class FollowsController < ApplicationController
+  before_filter :authenticate_member!
+  load_and_authorize_resource
+  skip_load_resource :only => :create
 
   # POST /follows
   def create
-    
+
     @follow = current_member.follows.build(:followed_id => follow_params[:followed_id])
 
     if @follow.save
