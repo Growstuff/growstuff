@@ -11,6 +11,8 @@ FactoryGirl.define do
     organic 'unknown'
     gmo 'unknown'
     heirloom 'unknown'
+    days_until_maturity_min nil
+    days_until_maturity_max nil
 
     factory :tradable_seed do
       tradable_to "locally"

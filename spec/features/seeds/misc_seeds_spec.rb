@@ -45,5 +45,30 @@ feature "seeds" do
       click_link 'Delete'
       current_path.should eq seeds_path
     end
+
+    scenario "view seeds with max and min days until harvest" do
+      seed = FactoryGirl.create(:seed, :days_until_harvest_min => 5, :days_until_harvest_max => 7)
+      visit seed_path(seed)
+      expect(page).to have_content "Days until maturity: 5–7"
+    end
+
+    scenario "view seeds with only max days until harvest" do
+      seed = FactoryGirl.create(:seed, :days_until_harvest_max => 7)
+      visit seed_path(seed)
+      expect(page).to have_content "Days until maturity: 7"
+    end
+
+    scenario "view seeds with only min days until harvest" do
+      seed = FactoryGirl.create(:seed, :days_until_harvest_min => 5)
+      visit seed_path(seed)
+      expect(page).to have_content "Days until maturity: 5"
+    end
+
+    scenario "view seeds with neither max nor min days until harvest" do
+      seed = FactoryGirl.create(:seed)
+      visit seed_path(seed)
+      expect(page).to have_content "Days until maturity: unknown"
+    end
+
   end
 end
