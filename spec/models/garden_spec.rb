@@ -206,4 +206,32 @@ describe Garden do
     p2.finished.should eq false
   end
 
+  context 'photos' do
+    before(:each) do
+      @garden = FactoryGirl.create(:garden)
+      @photo = FactoryGirl.create(:photo)
+      @garden.photos << @photo
+    end
+
+    it 'has a photo' do
+      @garden.photos.first.should eq @photo
+    end
+
+    it 'deletes association with photos when photo is deleted' do
+      @photo.destroy
+      @garden.reload
+        @garden.photos.should be_empty
+    end
+
+    it 'has a default photo' do
+        @garden.default_photo.should eq @photo
+    end
+
+    it 'chooses the most recent photo' do
+        @photo2 = FactoryGirl.create(:photo)
+      @garden.photos << @photo2
+      @garden.default_photo.should eq @photo2
+    end
+  end
+
 end
