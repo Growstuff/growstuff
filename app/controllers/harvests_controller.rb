@@ -20,7 +20,7 @@ class HarvestsController < ApplicationController
       format.html { @harvests = @harvests.paginate(:page => params[:page]) }
       format.json { render json: @harvests }
       format.csv do
-        specifics = (@owner ? "#{@owner.name}-" : @crop ? "#{@crop.name}-" : nil)
+        specifics = (@owner ? "#{@owner.login_name}-" : @crop ? "#{@crop.name}-" : nil)
         @filename = "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
         render :csv => @harvests
       end
