@@ -22,4 +22,9 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  def new_crop_request(member, request)
+    @member, @request = member, request
+    mail(:to => @member.email, :subject => "New crop request")    
+  end
+
 end

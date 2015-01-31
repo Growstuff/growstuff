@@ -54,6 +54,11 @@ FactoryGirl.define do
       name "Swiss chard"
     end
 
+    #for testing crop request
+    factory :crop_request do
+      name "Ultra berry"
+    end
+
   end
 
 end
