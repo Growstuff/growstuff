@@ -31,6 +31,7 @@ gem 'figaro'                       # for handling config via ENV variables
 gem 'cancancan', '~> 1.9'          # for checking member privileges
 gem 'gibbon'                       # for Mailchimp newsletter subscriptions
 gem 'csv_shaper'                   # CSV export
+gem 'ruby-units'                   # for unit conversion
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch

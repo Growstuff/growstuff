@@ -61,14 +61,11 @@ class Harvest < ActiveRecord::Base
 
   before_save :set_si_weight
 
+  # we're storing the harvest weight in grams in the db too 
+  # to make data manipulation easier
   def set_si_weight
-    if self.weight_unit == "kg"
-      self.si_weight = self.weight_quantity
-    elsif self.weight_unit == "lb"
-      self.si_weight = self.weight_quantity * 0.45
-    elsif self.weight_unit == "oz"
-      self.si_weight = self.weight_quantity * 0.028 
-    end
+    weight_string = "#{self.weight_quantity} #{self.weight_unit}"
+    self.si_weight = Unit(weight_string).convert_to("g").to_s("%0.2f").delete(" g").to_f
   end
 
   def cleanup_quantities

@@ -318,13 +318,9 @@ namespace :growstuff do
     desc "January 2015: fill in si_weight column"
     task :populate_si_weight => :environment do
       Harvest.find_each do |h|
-        if h.weight_unit == "lb"
-          h.si_weight = h.weight_quantity * 0.45
-        elsif h.weight_unit == "oz"
-          h.si_weight = h.weight_quantity * 0.028
-        else # kg is all that's left, and that's SI
-          h.si_weight = h.weight_quantity
-        end
+        weight_string = "#{h.weight_quantity} #{h.weight_unit}"
+        print weight_string
+        h.si_weight = Unit(weight_string).convert_to("g").to_s("%0.2f").delete(" g").to_f
         h.save
       end
     end
