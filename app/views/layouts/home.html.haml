@@ -1,0 +1,24 @@
+!!! 5
+%html(lang="en")
+  = render :partial => "layouts/meta"
+  %body
+    = render :partial => "layouts/header"
+
+    #maincontainer.container-fluid.homepage-container
+      - if notice
+        .alert.alert-success
+          = notice
+      - if alert
+        .alert.alert-warning
+          = alert
+      = yield
+
+    %footer
+      = render :partial => "layouts/footer"
+    /
+      Javascripts
+      \==================================================
+    / Placed at the end of the document so the pages load faster
+    = javascript_include_tag "application"
+
+    != Growstuff::Application.config.analytics_code

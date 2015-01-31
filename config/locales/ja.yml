@@ -1,5 +1,5 @@
 ja:
   home:
-    blurb: 
-      intro: "%{site_name}はガーデナーのコミュニティです。"
-      
+    crops:
+      label: "何を植えたいですか"
+

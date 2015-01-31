@@ -29,64 +29,13 @@ en:
       contact: "Contact"
 
   home:
-    blurb:
-      intro: "%{site_name} is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you."
-      perks: "Join now for your free garden journal, seed sharing, forums, and more."
-      sign_up: "Sign up"
-      already_html: "Or %{sign_in} if you already have an account"
-      sign_in_linktext: "sign in"
-
     crops:
-      our_crops: "Some of our crops"
-      recently_planted: "Recently planted"
-      recently_added: "Recently added crops"
-      view_all: "View all crops"
+      label: "What do you want to grow?"
+      placeholder: "eg. lettuce"
 
-    discuss:
-      discussion: "Discussion"
-      forums: "Forums"
-      view_all: "View all posts"
-
-    members:
-      title: "Some of our members"
-      view_all: "View all members"
-
-    open:
-      open_source_title: "Open Source"
-      open_source_body_html: "%{site_name} is open source software, which means that we share this website's code for free with our community and the world.  We believe that openness, sustainability, and social good go hand in hand.  You can read more about %{why} or check out our code on %{github}."
-      why_linktext: "why Growstuff is open source"
-      github_linktext: "Github"
-      open_data_title: "Open Data and APIs"
-      open_data_body_html: "We're building a database of crops, planting advice, seed sources, and other information that anyone can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps, or for any purpose at all.  Read more about our %{wiki_link} and %{api_docs_link}."
-      creative_commons_linktext: "Creative Commons license"
-      wiki_linktext: "open data"
-      api_docs_linktext: "API documentation"
-      get_involved_title: "Get Involved"
-      get_involved_body_html: "We believe in collaboration, and work closely with our members and the wider food-growing community. Our team includes volunteers from all walks of life and all skill levels. To get involved, visit %{talk_link} or find more information on the %{wiki_link}."
-      talk_linktext: "Growstuff Talk"
-      wiki_linktext: "Growstuff Wiki"
-      support_title: "Support Growstuff"
-      support_body_html: "Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}."
-      ad_free_linktext: "ad-free"
-      buy_account_linktext: "buying a paid account"
-
-    seeds:
-      title: "Seeds available to trade"
-      owner: "Owner"
-      crop: "Crop"
-      description: "Description"
-      trade_to: "Will trade to"
-      from: "From location"
-      unspecified: "unspecified"
-      details: "Details"
-      view_all: "View all seeds"
-
-    stats:
-      message_html: "So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}."
-      member_linktext: "%{count} members"
-      number_crops_linktext: "%{count} crops"
-      number_plantings_linktext: "%{count} times"
-      number_gardens_linktext: "%{count} gardens"
+    find_growers:
+      label: "Find growers near you"
+      placeholder: "eg. Ballarat"
 
     index:
       welcome: "Welcome to %{site_name}, %{member_name}"
@@ -95,4 +44,5 @@ en:
       add_seeds: "Add seeds"
       post: "Post"
       edit_profile: "Edit profile"
+      image_attribution: "CC-BY thebittenword.com"
 
