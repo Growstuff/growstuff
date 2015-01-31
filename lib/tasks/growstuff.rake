@@ -320,7 +320,7 @@ namespace :growstuff do
       Harvest.find_each do |h|
         if h.weight_unit != nil
           weight_string = "#{h.weight_quantity} #{h.weight_unit}"
-          h.si_weight = Unit(weight_string).convert_to("g").to_s("%0.2f").delete(" g").to_f
+          h.si_weight = Unit(weight_string).convert_to("kg").to_s("%0.2f").delete(" kg").to_f
           h.save
         end
       end
