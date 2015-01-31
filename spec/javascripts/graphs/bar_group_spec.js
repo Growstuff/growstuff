@@ -35,7 +35,7 @@
   });
 
   it('fills the bars with color', function(){
-    expect($('g.bar rect')).toHaveAttr('fill', 'rebeccapurple');
+    expect($('g.bar rect')).toHaveAttr('fill', 'steelblue');
   });
 
   it ('gets the values of all the bars', function(){

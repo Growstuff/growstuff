@@ -29,7 +29,7 @@ BarGroup.prototype.render = function(root){
 
     })
     .attr("height", yScale.rangeBand())
-      .attr("fill", "rebeccapurple")
+      .attr("fill", "steelblue")
       .attr("width", function(d){
         return xScale(d);
       });
