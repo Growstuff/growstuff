@@ -120,21 +120,21 @@ describe Harvest do
 
   context "standardized weights" do
     it 'converts from pounds' do
-      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 2, :weight_unit => "lb")
+      @harvest = FactoryGirl.create(:harvest, :weight_quantity => 2, :weight_unit => "lb")
       @harvest.should be_valid
-      @harvest.reload.si_weight.should eq 0.9
+      @harvest.reload.si_weight.should eq 907.18
     end
 
     it 'converts from ounces' do
-      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 16, :weight_unit => "oz")
+      @harvest = FactoryGirl.create(:harvest, :weight_quantity => 16, :weight_unit => "oz")
       @harvest.should be_valid
-      @harvest.reload.si_weight.should eq 0.9
+      @harvest.reload.si_weight.should eq 453.59
     end
 
     it 'leaves kg alone' do
-      @harvest = FactoryGirl.build(:harvest, :weight_quantity => 2, :weight_unit => "kg")
+      @harvest = FactoryGirl.create(:harvest, :weight_quantity => 2, :weight_unit => "kg")
       @harvest.should be_valid
-      @harvest.reload.si_weight.should eq 2
+      @harvest.reload.si_weight.should eq 2000
     end
   end
 

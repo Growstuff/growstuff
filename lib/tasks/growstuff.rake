@@ -318,10 +318,11 @@ namespace :growstuff do
     desc "January 2015: fill in si_weight column"
     task :populate_si_weight => :environment do
       Harvest.find_each do |h|
-        weight_string = "#{h.weight_quantity} #{h.weight_unit}"
-        print weight_string
-        h.si_weight = Unit(weight_string).convert_to("g").to_s("%0.2f").delete(" g").to_f
-        h.save
+        if h.weight_unit != nil
+          weight_string = "#{h.weight_quantity} #{h.weight_unit}"
+          h.si_weight = Unit(weight_string).convert_to("g").to_s("%0.2f").delete(" g").to_f
+          h.save
+        end
       end
     end
 
