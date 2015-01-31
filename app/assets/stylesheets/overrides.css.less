@@ -289,25 +289,6 @@ html, body {
   }
 }
 
-// Overrides applying only to mobile view. This must be at the end of the overrides file.
-
-@media only screen and (max-width: 767px) {
-  .sidebar {
-    margin-left: 0;
-    border-left: none;
-    padding-left: 0;
-  }
-
-  #map {
-    height: 300px;
-  }
-
-  .navbar .nav > li {
-    display: block;
-  }
-}
-
-<<<<<<< HEAD
 .home-title {
   position: relative;
   background-image: image-url('veggies.jpg');
@@ -391,3 +372,21 @@ html, body {
  * from ours */
 @state-success-text: darken(@green, 10%);
 @state-success-bg: lighten(@green, 50%);
+
+// Overrides applying only to mobile view. This must be at the end of the overrides file.
+
+@media only screen and (max-width: 767px) {
+  .sidebar {
+    margin-left: 0;
+    border-left: none;
+    padding-left: 0;
+  }
+
+  #map {
+    height: 300px;
+  }
+
+  .navbar .nav > li {
+    display: block;
+  }
+}
