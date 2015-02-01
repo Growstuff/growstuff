@@ -12,7 +12,7 @@ describe "crops/wrangle" do
     crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([ @tomato, @maize ])
     end
-    assign(:crops, crops)
+    assign(:recent_crops, crops)
     assign(:crop_wranglers, Role.crop_wranglers)
   end
 

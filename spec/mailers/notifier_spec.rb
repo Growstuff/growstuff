@@ -90,9 +90,9 @@ describe Notifier do
     end
 
     it 'includes links to plant, harvest and stash seeds for the new crop' do
-      expect(mail.body.encoded).to match new_planting_url(crop_id: crop.id)
-      expect(mail.body.encoded).to match new_harvest_url(crop_id: crop.id)
-      expect(mail.body.encoded).to match new_seed_url(crop_id: crop.id)
+      expect(mail.body.encoded).to match new_planting_url
+      expect(mail.body.encoded).to match new_harvest_url
+      expect(mail.body.encoded).to match new_seed_url
     end
 
   end

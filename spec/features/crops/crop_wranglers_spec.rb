@@ -25,7 +25,7 @@ feature "crop wranglers" do
     scenario "can see list of crops with extra detail of who created a crop" do
       visit root_path
       click_link 'Crop Wrangling'
-      within '.table' do
+      within '#recently-added' do
         expect(page).to have_content "#{crops.first.creator.login_name}"
       end
     end

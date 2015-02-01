@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :crop do
     name "magic bean"
     en_wikipedia_url "http://en.wikipedia.org/wiki/Magic_bean"
+    approval_status "approved"
     creator
 
     factory :tomato do

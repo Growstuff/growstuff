@@ -17,27 +17,30 @@
 
 %h2 Requested crops
 
-%table#requested-crops.table.table-striped
-  %thead
-    %tr
-      %th System name
-      %th English Wikipedia URL
-      %th Scientific names
-      %th Requested by
-      %th When requested
-  %tbody
-    - @pending_approval.each do |c| 
+- if @pending_approval
+  %table#requested-crops.table.table-striped
+    %thead
       %tr
-        %td= link_to c.name, c
-        %td= link_to c.en_wikipedia_url, c.en_wikipedia_url
-        %td
-          - c.scientific_names.each do |s|
-            = link_to s.scientific_name, s
-            %br/
-        %td= link_to c.requester, c.requester
-        %td
-          = distance_of_time_in_words(c.created_at, Time.zone.now)
-          ago.
+        %th System name
+        %th English Wikipedia URL
+        %th Scientific names
+        %th Requested by
+        %th When requested
+    %tbody
+      - @pending_approval.each do |c| 
+        %tr
+          %td= link_to c.name, c
+          %td= link_to c.en_wikipedia_url, c.en_wikipedia_url
+          %td
+            - c.scientific_names.each do |s|
+              = link_to s.scientific_name, s
+              %br/
+          %td= link_to c.requester, c.requester
+          %td
+            = distance_of_time_in_words(c.created_at, Time.zone.now)
+            ago.
+- else
+  %p There are no crops pending approval.
 
 %h2 Recently added crops
 
@@ -45,7 +48,7 @@
   = page_entries_info @recent_crops, :model => "crops"
   = will_paginate @recent_crops
 
-%table.table.table-striped
+%table#recently-added.table.table-striped
   %tr
     %th System name
     %th English Wikipedia URL
