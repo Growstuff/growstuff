@@ -32,7 +32,8 @@ class Crop < ActiveRecord::Base
     :format => {
       :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
-    }
+    },
+    :if => :approved?
 
   def to_s
     return name
@@ -107,6 +108,10 @@ class Crop < ActiveRecord::Base
 
   def pending?
     approval_status == "pending"
+  end
+
+  def approved?
+    approval_status == "approved"
   end
 
   # Crop.interesting
