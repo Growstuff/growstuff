@@ -1,5 +1,14 @@
 - content_for :title, @crop.name
 - content_for :subtitle, @crop.default_scientific_name
+
+- if can?(:wrangle, @crop) && @crop.pending?
+  .alert.alert-warning
+    %b This crop is currently pending approval.
+    - if @crop.request_notes
+      %p
+        Request notes: #{@crop.request_notes}
+  
+
 - content_for :buttonbar do
   - if can? :create, Planting
     = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-default'

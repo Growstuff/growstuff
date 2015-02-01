@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150201062506) do
+ActiveRecord::Schema.define(version: 20150201064502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20150201062506) do
     t.integer  "requester_id"
     t.string   "approval_status",      default: "approved"
     t.text     "reason_for_rejection"
+    t.text     "request_notes"
   end
 
   add_index "crops", ["name"], name: "index_crops_on_name", using: :btree

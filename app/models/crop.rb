@@ -105,6 +105,10 @@ class Crop < ActiveRecord::Base
     return true
   end
 
+  def pending?
+    approval_status == "pending"
+  end
+
   # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting

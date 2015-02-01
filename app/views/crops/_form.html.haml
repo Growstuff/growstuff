@@ -6,11 +6,13 @@
         - @crop.errors.full_messages.each do |msg|
           %li= msg
 
-  %p
-    %span.help-block
-      For detailed crop wrangling guidelines, please consult the
-      =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
-      on the Growstuff wiki.
+  - if can? :wrangle, @crop
+    %p
+      %span.help-block
+        For detailed crop wrangling guidelines, please consult the
+
+        =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
+        on the Growstuff wiki.
 
   .form-group
     = f.label :name, :class => 'control-label col-md-2'
@@ -22,13 +24,15 @@
     .col-md-8
       = f.text_field :en_wikipedia_url, :class => 'form-control'
       %span.help-block Link to this crop's page on the English language Wikipedia.
-  .form-group
-    = f.label :parent_id, 'Parent crop', :class => 'control-label col-md-2'
-    .col-md-8
-      = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true}, :class => 'form-control')
-      %span.help-block Optional. For setting up crop hierarchies for varieties etc.
 
   - if can? :wrangle, @crop 
+
+    .form-group
+      = f.label :parent_id, 'Parent crop', :class => 'control-label col-md-2'
+      .col-md-8
+        = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true}, :class => 'form-control')
+        %span.help-block Optional. For setting up crop hierarchies for varieties etc.
+
     %p
       %span.help-block
         You may enter up to 3 scientific names for a crop. Most crops will have only one.
@@ -52,6 +56,16 @@
       .form-group
         = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'
         .col-md-8= f.text_area :reason_for_rejection, :rows => 6, :class => 'form-control'
+
+  - else
+    %p
+      %span.help-block
+        Provide any additional information that might help us assess your request.
+
+    .form-group
+      = f.label :request_notes, 'Comments', :class => 'control-label col-md-2'
+      .col-md-8= f.text_area :request_notes, :rows => 6, :class => 'form-control'
+
 
 
   .form-group
