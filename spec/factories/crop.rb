@@ -57,6 +57,10 @@ FactoryGirl.define do
     #for testing crop request
     factory :crop_request do
       name "Ultra berry"
+      en_wikipedia_url ""
+      approval_status "pending"
+      association :requester, factory: :member
+      request_notes "Please approve this even though it's fake."
     end
 
     factory :rejected_crop do

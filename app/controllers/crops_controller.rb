@@ -106,9 +106,11 @@ class CropsController < ApplicationController
 
     if current_member.has_role? :crop_wrangler
       @crop.creator = current_member
+      success_msg = "Crop was successfully created."
     else
       @crop.requester = current_member
       @crop.approval_status = "pending"
+      success_msg = "Crop was successfully requested."
     end
 
     respond_to do |format|
@@ -119,7 +121,7 @@ class CropsController < ApplicationController
           end
         end
 
-        format.html { redirect_to @crop, notice: 'Crop was successfully created.' }
+        format.html { redirect_to @crop, notice: success_msg }
         format.json { render json: @crop, status: :created, location: @crop }
       else
         format.html { render action: "new" }
