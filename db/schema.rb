@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150201053200) do
+ActiveRecord::Schema.define(version: 20150201062506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,16 +62,17 @@ ActiveRecord::Schema.define(version: 20150201053200) do
   end
 
   create_table "crops", force: true do |t|
-    t.string   "name",                                  null: false
+    t.string   "name",                                      null: false
     t.string   "en_wikipedia_url"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "slug"
     t.integer  "parent_id"
-    t.integer  "plantings_count",  default: 0
+    t.integer  "plantings_count",      default: 0
     t.integer  "creator_id"
     t.integer  "requester_id"
-    t.string   "approval_status",  default: "approved"
+    t.string   "approval_status",      default: "approved"
+    t.text     "reason_for_rejection"
   end
 
   add_index "crops", ["name"], name: "index_crops_on_name", using: :btree

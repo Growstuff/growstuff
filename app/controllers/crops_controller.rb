@@ -141,6 +141,7 @@ class CropsController < ApplicationController
           requester = @crop.requester
           new_status = @crop.approval_status
           Notifier.crop_request_approved(requester, @crop).deliver! if new_status == "approved"
+          Notifier.crop_request_rejected(requester, @crop).deliver! if new_status == "rejected"
         end
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }
@@ -166,6 +167,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :scientific_names_attributes => [:scientific_name])
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :reason_for_rejection, :scientific_names_attributes => [:scientific_name])
   end
 end

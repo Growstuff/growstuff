@@ -32,4 +32,9 @@ class Notifier < ActionMailer::Base
     mail(:to => @member.email, :subject => "#{crop.name.capitalize} has been approved")
   end
 
+  def crop_request_rejected(member, crop)
+    @member, @crop = member, crop
+    mail(:to => @member.email, :subject => "#{crop.name.capitalize} has been rejected")
+  end
+
 end

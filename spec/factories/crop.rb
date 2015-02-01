@@ -59,6 +59,11 @@ FactoryGirl.define do
       name "Ultra berry"
     end
 
+    factory :rejected_crop do
+      name "Fail bean"
+      reason_for_rejection "Totally fake"
+    end
+
   end
 
 end

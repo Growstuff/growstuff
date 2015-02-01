@@ -97,5 +97,31 @@ describe Notifier do
 
   end
 
+  describe "crop rejected" do
+    let(:member) { FactoryGirl.create(:member) }
+    let(:crop) { FactoryGirl.create(:rejected_crop) }
+    let(:mail) { Notifier.crop_request_rejected(member, crop) }
+
+    it 'sets the subject correctly' do
+      expect(mail.subject).to eq "Fail bean has been rejected"
+    end
+
+    it 'comes from noreply@growstuff.org' do
+      expect(mail.from).to eq ['noreply@growstuff.org']
+    end
+
+    it 'sends the mail to the recipient of the notification' do
+      expect(mail.to).to eq [member.email]
+    end
+
+    it 'includes the rejected crop URL' do
+      expect(mail.body.encoded).to match crop_url(crop)
+    end
+
+    it 'includes the reason for rejection' do
+      expect(mail.body.encoded).to match "Totally fake"
+    end
+  end
+
 
 end
