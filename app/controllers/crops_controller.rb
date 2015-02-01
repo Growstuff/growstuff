@@ -133,8 +133,15 @@ class CropsController < ApplicationController
   def update
     @crop = Crop.find(params[:id])
 
+    previous_status = @crop.approval_status
+
     respond_to do |format|
       if @crop.update(crop_params)
+        if previous_status == "pending"
+          requester = @crop.requester
+          new_status = @crop.approval_status
+          Notifier.crop_request_approved(requester, @crop).deliver! if new_status == "approved"
+        end
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }
       else

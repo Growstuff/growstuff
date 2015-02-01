@@ -66,7 +66,36 @@ describe Notifier do
     it 'includes the requested crop URL' do
       mail.body.encoded.should match crop_url(crop)
     end
+  end
+
+  describe "crop approved" do
+    let(:member) { FactoryGirl.create(:member) }
+    let(:crop) { FactoryGirl.create(:crop) }
+    let(:mail) { Notifier.crop_request_approved(member, crop) }
+
+    it 'sets the subject correctly' do
+      expect(mail.subject).to eq "Magic bean has been approved"
+    end
+
+    it 'comes from noreply@growstuff.org' do
+      expect(mail.from).to eq ['noreply@growstuff.org']
+    end
+
+    it 'sends the mail to the recipient of the notification' do
+      expect(mail.to).to eq [member.email]
+    end
+
+    it 'includes the approved crop URL' do
+      expect(mail.body.encoded).to match crop_url(crop)
+    end
+
+    it 'includes links to plant, harvest and stash seeds for the new crop' do
+      expect(mail.body.encoded).to match new_planting_url(crop_id: crop.id)
+      expect(mail.body.encoded).to match new_harvest_url(crop_id: crop.id)
+      expect(mail.body.encoded).to match new_seed_url(crop_id: crop.id)
+    end
 
   end
+
 
 end
