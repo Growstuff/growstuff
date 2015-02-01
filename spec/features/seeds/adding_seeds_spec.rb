@@ -17,8 +17,8 @@ feature "Seeds", :js => true do
     within "form#new_seed" do
       fill_in "Quantity:", :with => 42
       fill_in "Plant before:", :with => "2014-06-15"
-      fill_in "Days until maturity, min:", :with => 999
-      fill_in "Days until maturity, max:", :with => 1999
+      fill_in "Days until maturity:", :with => 999
+      fill_in "to", :with => 1999
       select "certified organic", :from => "Organic?"
       select "non-certified GMO-free", :from => "GMO?"
       select "heirloom", :from => "Heirloom?"
