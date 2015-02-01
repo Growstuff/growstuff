@@ -7,6 +7,7 @@ describe Photo do
     let(:planting) { FactoryGirl.create(:planting) }
     let(:harvest) { FactoryGirl.create(:harvest) }
     let(:garden) { FactoryGirl.create(:garden) }
+    let(:seed) { FactoryGirl.create(:seed) }
 
     context "adds photos" do
       it 'to a planting' do
@@ -25,6 +26,12 @@ describe Photo do
         garden.photos << photo
         expect(garden.photos.count).to eq 1
         expect(garden.photos.first).to eq photo
+      end
+
+      it 'to a seed' do
+        seed.photos << photo
+        expect(seed.photos.count).to eq 1
+        expect(seed.photos.first).to eq photo
       end
     end
 
@@ -45,6 +52,12 @@ describe Photo do
         garden.photos << photo
         photo.destroy
         expect(garden.photos.count).to eq 0
+      end
+
+      it 'from a seed' do
+        seed.photos << photo
+        photo.destroy
+        expect(seed.photos.count).to eq 0
       end
 
       it "automatically if unused" do
@@ -76,25 +89,37 @@ describe Photo do
         expect(lambda { photo.reload }).not_to raise_error
       end
 
+      it 'they are used by gardens but not plantings' do
+        garden.photos << photo
+        planting.photos << photo
+        planting.destroy # photo is now used by garden but not planting
+        photo.destroy_if_unused
+        expect(lambda { photo.reload }).not_to raise_error
+      end
+
       it 'they are no longer used by anything' do
         planting.photos << photo
         harvest.photos << photo
         garden.photos << photo
+        seed.photos << photo
         expect(photo.plantings.size).to eq 1
         expect(photo.harvests.size).to eq 1
         expect(photo.gardens.size).to eq 1
+        expect(photo.seeds.size).to eq 1
 
-        planting.destroy # photo is still used by harvest and garden
+        planting.destroy # photo is still used by harvest, garden, and seed
         photo.reload
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 1
 
         harvest.destroy
-        garden.destroy # photo is now no longer used by anything
+        garden.destroy 
+        seed.destroy # photo is now no longer used by anything
 
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 0
         expect(photo.gardens.size).to eq 0
+        expect(photo.seeds.size).to eq 0
         photo.destroy_if_unused
         expect(lambda { photo.reload }).to raise_error ActiveRecord::RecordNotFound
       end
