@@ -108,7 +108,7 @@ class CropsController < ApplicationController
       @crop.creator = current_member
     else
       @crop.requester = current_member
-      @crop.approved = false
+      @crop.approval_status = "pending"
     end
 
     respond_to do |format|
@@ -159,6 +159,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes => [:scientific_name])
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :scientific_names_attributes => [:scientific_name])
   end
 end
