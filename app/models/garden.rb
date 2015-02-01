@@ -7,6 +7,17 @@ class Garden < ActiveRecord::Base
   has_many :plantings, -> { order(created_at: :desc) }, :dependent => :destroy
   has_many :crops, :through => :plantings
 
+  has_and_belongs_to_many :photos
+
+   before_destroy do |garden|
+     photolist = garden.photos.to_a # save a temp copy of the photo list
+     garden.photos.clear # clear relationship b/w garden and photo
+
+     photolist.each do |photo|
+       photo.destroy_if_unused
+     end
+   end
+
   # set up geocoding
   geocoded_by :location
   after_validation :geocode
@@ -83,6 +94,10 @@ class Garden < ActiveRecord::Base
         p.save
       end
     end
+  end
+
+  def default_photo
+    return photos.first
   end
 
 end
