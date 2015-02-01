@@ -27,28 +27,31 @@
     .col-md-8
       = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true}, :class => 'form-control')
       %span.help-block Optional. For setting up crop hierarchies for varieties etc.
-  %p
-    %span.help-block
-      You may enter up to 3 scientific names for a crop. Most crops will have only one.
-  = f.fields_for :scientific_names do |sn|
-    .form-group
-      = sn.label :scientific_name, "Scientific name", :class => 'control-label col-md-2'
-      .col-md-8
-        = sn.text_field :scientific_name, :class => 'form-control'
-      .col-md-2
-        - if sn.object && sn.object.persisted?
-          %label.checkbox
-            = sn.check_box :_destroy
-            = sn.label :_destroy, "Delete"
 
-  .form-group
-    = f.label :approval_status, 'Approval Status', :class=> 'control-label col-md-2'
-    .col-md-8
-      = f.select(:approval_status, ['rejected', 'pending', 'approved'], {}, {:class => 'form-control'})
+  - if can? :wrangle, @crop 
+    %p
+      %span.help-block
+        You may enter up to 3 scientific names for a crop. Most crops will have only one.
+    = f.fields_for :scientific_names do |sn|
+      .form-group
+        = sn.label :scientific_name, "Scientific name", :class => 'control-label col-md-2'
+        .col-md-8
+          = sn.text_field :scientific_name, :class => 'form-control'
+        .col-md-2
+          - if sn.object && sn.object.persisted?
+            %label.checkbox
+              = sn.check_box :_destroy
+              = sn.label :_destroy, "Delete"
 
-  .form-group
-    = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'
-    .col-md-8= f.text_area :reason_for_rejection, :rows => 6, :class => 'form-control'
+    - unless @crop.new_record?
+      .form-group
+        = f.label :approval_status, 'Approval Status', :class=> 'control-label col-md-2'
+        .col-md-8
+          = f.select(:approval_status, ['rejected', 'pending', 'approved'], {}, {:class => 'form-control'})
+
+      .form-group
+        = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'
+        .col-md-8= f.text_area :reason_for_rejection, :rows => 6, :class => 'form-control'
 
 
   .form-group
