@@ -314,6 +314,12 @@ namespace :growstuff do
         end
       end
     end
+
+    desc "January 2015: build Elasticsearch index"
+    task :elasticsearch_create_index => :environment do
+      Crop.__elasticsearch__.create_index! force: true
+      Crop.import
+    end
   end # end oneoff section
 
 end

@@ -18,3 +18,8 @@ rake growstuff:import_crops file=db/seeds/crops-15-squashes.csv
 
 echo "2014-12-01 - load alternate names for crops"
 rake growstuff:oneoff:add_alternate_names
+
+echo "2015-01-30 - build Elasticsearch index"
+rake growstuff:oneoff:elasticsearch_create_index
+
+
