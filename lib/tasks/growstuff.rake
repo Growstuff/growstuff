@@ -314,6 +314,19 @@ namespace :growstuff do
         end
       end
     end
+
+    desc "January 2015: fill in si_weight column"
+    task :populate_si_weight => :environment do
+      Harvest.find_each do |h|
+        h.set_si_weight
+      end
+    end
+
+    desc "January 2015: build Elasticsearch index"
+    task :elasticsearch_create_index => :environment do
+      Crop.__elasticsearch__.create_index! force: true
+      Crop.import
+    end
   end # end oneoff section
 
 end
