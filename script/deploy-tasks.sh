@@ -21,3 +21,6 @@ rake growstuff:oneoff:add_alternate_names
 
 echo "2015-01-28 - populate the harvest si_weight field"
 rake growstuff:oneoff:populate_si_weight
+
+echo "2015-01-30 - build Elasticsearch index"
+rake growstuff:oneoff:elasticsearch_create_index

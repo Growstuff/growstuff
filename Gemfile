@@ -77,6 +77,12 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-flickr', '>= 0.0.15'
 
+# client for Elasticsearch. Elasticsearch is a flexible
+# and powerful, distributed, real-time search and analytics engine. 
+# An example of the use in the project is fuzzy crop search.
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
+
 gem 'rake', '>= 10.0.0'
 
 group :production, :staging do
@@ -84,6 +90,7 @@ group :production, :staging do
   gem 'dalli'
   gem 'memcachier'
   gem 'rails_12factor' # supresses heroku plugin injection
+  gem 'bonsai-elasticsearch-rails'  # Integration with Bonsa-Elasticsearch on heroku
 end
 
 group :development do
