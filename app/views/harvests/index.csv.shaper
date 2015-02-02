@@ -10,6 +10,7 @@ csv.headers :id,
   :unit,
   :weight_quantity,
   :weight_unit,
+  :si_weight,
   :date_harvested,
   :description,
   :date_added,
@@ -31,7 +32,7 @@ csv.headers :id,
     csv.cell :plant_part_id, h.plant_part ? h.plant_part.id : ''
     csv.cell :plant_part_name, h.plant_part ? h.plant_part.to_s : ''
 
-    csv.cells :quantity, :unit, :weight_quantity, :weight_unit
+    csv.cells :quantity, :unit, :weight_quantity, :weight_unit, :si_weight
 
     csv.cell :date_harvested, h.created_at.to_s(:db)
 
