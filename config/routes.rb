@@ -1,9 +1,5 @@
 Growstuff::Application.routes.draw do
 
-  comfy_route :cms_admin, :path => '/admin'
-
-  # Make sure this routeset is defined last
-  comfy_route :cms, :path => '/', :sitemap => false
 
   resources :plant_parts
 
@@ -89,6 +85,8 @@ Growstuff::Application.routes.draw do
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
 
-
+# CMS stuff  -- must remain LAST
+  comfy_route :cms_admin, :path => '/cms'
+  comfy_route :cms, :path => '/', :sitemap => false
 
 end
