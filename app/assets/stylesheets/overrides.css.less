@@ -316,3 +316,77 @@ html, body {
  * from ours */
 @state-success-text: darken(@green, 10%);
 @state-success-bg: lighten(@green, 50%);
+
+.home-title {
+  position: relative;
+  background-image: image-url('veggies.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  @media (max-width: @screen-md-min) {
+    background-size: @screen-md-min;
+    min-height: 410px;
+  }
+  min-height: 360px;
+  padding: 30px;
+}
+
+.home-title h1 {
+  font-size: 50px;
+  margin: 60px;
+}
+
+.image-attribution {
+  position: absolute;
+  bottom: 0; right: 5px;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.against-image-text {
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000;
+}
+
+.full-width {
+  margin: 0 -15px 0 -15px;
+}
+
+.centered-relative {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 35px;
+}
+
+.home-banner {
+  text-align: center;
+
+  label {
+    font-size: 36px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    line-height: 100%;
+  }
+
+  input {
+    padding: 15px;
+    display: inline;
+    margin-top: -10px;
+  }
+}
+
+.find-growers {
+  position: relative;
+
+  form {
+    padding-top: 80px;
+  }
+}
+
+.contrast-screen-dark {
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+}

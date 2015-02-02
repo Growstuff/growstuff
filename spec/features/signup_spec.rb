@@ -25,7 +25,7 @@ feature "signup" do
     click_button 'Sign up'
     page.has_content? 'A message with a confirmation link has been sent to your email address. Please open the link to activate your account.'
     current_path.should eq root_path
-    first('.signup a').click # click the 'Sign up' button in the middle of the page
+    click_link 'Sign up'    
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'
@@ -37,7 +37,7 @@ feature "signup" do
 
   scenario "sign up for new account without accepting TOS" do
     visit root_path 
-    first('.signup a').click # click the 'Sign up' button in the middle of the page
+    click_link 'Sign up'    
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'

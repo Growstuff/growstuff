@@ -1,0 +1,7 @@
+.search-crops
+
+  = form_tag(crops_search_path, :method => 'get', :class => 'form-inline', :role => 'form') do
+    .form-group
+      = label_tag :search, t('.label'), :class => 'against-image-text' 
+      = text_field_tag :search, '', :class => 'form-control', :placeholder => t('.placeholder')
+      = hidden_field_tag :exact_search, :value => true
