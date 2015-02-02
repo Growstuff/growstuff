@@ -31,7 +31,7 @@ class Crop < ActiveRecord::Base
       :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
     }
-  
+
   ####################################
   # Elastic search configuration
   include Elasticsearch::Model
@@ -81,13 +81,18 @@ class Crop < ActiveRecord::Base
       include: {
         scientific_names: { only: :scientific_name },
         alternate_names: { only: :name }
-             })
+    })
   end
 
+  # update the Elasticsearch index (only if we're using it in this
+  # environment)
   def update_index(name_obj)
-    __elasticsearch__.index_document
+    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+      __elasticsearch__.index_document
+    end
   end
-  ####################################
+
+  # End Elasticsearch section
 
   def to_s
     return name
