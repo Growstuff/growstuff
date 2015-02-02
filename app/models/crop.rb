@@ -85,7 +85,7 @@ class Crop < ActiveRecord::Base
   end
 
   def update_index(name_obj)
-    __elasticsearch__.index_document
+    __elasticsearch__.index_document if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
   end
   ####################################
 
