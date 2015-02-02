@@ -66,7 +66,7 @@ class Harvest < ActiveRecord::Base
   def set_si_weight
     if self.weight_unit != nil
       weight_string = "#{self.weight_quantity} #{self.weight_unit}"
-      self.si_weight = Unit(weight_string).convert_to("kg").to_s("%0.2f").delete(" kg").to_f
+      self.si_weight = Unit(weight_string).convert_to("kg").to_s("%0.3f").delete(" kg").to_f
     end
   end
 

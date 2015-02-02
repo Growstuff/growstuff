@@ -122,13 +122,13 @@ describe Harvest do
     it 'converts from pounds' do
       @harvest = FactoryGirl.create(:harvest, :weight_quantity => 2, :weight_unit => "lb")
       @harvest.should be_valid
-      @harvest.reload.si_weight.should eq 0.91
+      @harvest.reload.si_weight.should eq 0.907
     end
 
     it 'converts from ounces' do
       @harvest = FactoryGirl.create(:harvest, :weight_quantity => 16, :weight_unit => "oz")
       @harvest.should be_valid
-      @harvest.reload.si_weight.should eq 0.45
+      @harvest.reload.si_weight.should eq 0.454
     end
 
     it 'leaves kg alone' do
