@@ -51,7 +51,7 @@
       .form-group
         = f.label :approval_status, 'Approval Status', :class=> 'control-label col-md-2'
         .col-md-8
-          = f.select(:approval_status, ['rejected', 'pending', 'approved'], {}, {:class => 'form-control'})
+          = f.select(:approval_status, @crop.approval_statuses, {}, {:class => 'form-control'})
 
       .form-group
         = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'

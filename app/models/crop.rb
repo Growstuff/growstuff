@@ -120,6 +120,10 @@ class Crop < ActiveRecord::Base
     approval_status == "rejected"
   end
 
+  def approval_statuses
+    [ 'rejected', 'pending', 'approved' ]
+  end
+
   def reasons_for_rejection
     [ "already in database", "not edible", "not enough information", "other" ]
   end
