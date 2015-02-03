@@ -8,7 +8,10 @@
     - unless @crop.request_notes.blank?
       %p
         Request notes: #{@crop.request_notes}
-  
+
+- if @crop.rejected?
+  .alert.alert-warning
+    %b This crop was rejected for the following reason: #{@crop.reason_for_rejection}.
 
 - content_for :buttonbar do
   - if can? :create, Planting
