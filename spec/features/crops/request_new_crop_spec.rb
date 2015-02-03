@@ -22,6 +22,7 @@ feature "Requesting a new crop" do
 
     let(:wrangler) { FactoryGirl.create(:crop_wrangling_member) }
     let!(:crop) { FactoryGirl.create(:crop_request) }
+    let!(:already_approved) { FactoryGirl.create(:crop) }
 
     before { login_as wrangler }
 

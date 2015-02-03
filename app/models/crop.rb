@@ -37,6 +37,8 @@ class Crop < ActiveRecord::Base
 
   validates :reason_for_rejection, :presence => true, :if => :rejected?
 
+  validate :approval_status_cannot_be_changed_again
+
   def to_s
     return name
   end
@@ -230,6 +232,15 @@ class Crop < ActiveRecord::Base
   # just uses SQL LIKE for now, but can be made fancier later
   def self.search(query)
     where("name ILIKE ?", "%#{query}%")
+  end
+
+  # Custom validations
+
+  # This validation addresses a race condition
+  def approval_status_cannot_be_changed_again
+    if rejected? || approved?
+      errors.add(:approval_status, "has already been set to #{approval_status}")
+    end
   end
 
 end
