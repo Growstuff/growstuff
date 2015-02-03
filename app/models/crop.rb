@@ -35,6 +35,8 @@ class Crop < ActiveRecord::Base
     },
     :if => :approved?
 
+  validates :reason_for_rejection, :presence => true, :if => :rejected?
+
   def to_s
     return name
   end
@@ -112,6 +114,10 @@ class Crop < ActiveRecord::Base
 
   def approved?
     approval_status == "approved"
+  end
+
+  def rejected?
+    approval_status == "rejected"
   end
 
   # Crop.interesting
