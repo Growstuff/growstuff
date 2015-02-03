@@ -4,7 +4,8 @@
 - if can?(:wrangle, @crop) && @crop.pending?
   .alert.alert-warning
     %b This crop is currently pending approval.
-    - if @crop.request_notes
+    %p This crop was requested by #{@crop.requester} on #{@crop.created_at}.
+    - unless @crop.request_notes.blank?
       %p
         Request notes: #{@crop.request_notes}
   
