@@ -55,7 +55,8 @@
 
       .form-group
         = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'
-        .col-md-8= f.text_area :reason_for_rejection, :rows => 6, :class => 'form-control'
+        .col-md-8
+          = f.select(:reason_for_rejection, @crop.reasons_for_rejection, {:include_blank => true}, {:class => 'form-control'})
 
   - else
     %p

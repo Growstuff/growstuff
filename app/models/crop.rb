@@ -120,6 +120,10 @@ class Crop < ActiveRecord::Base
     approval_status == "rejected"
   end
 
+  def reasons_for_rejection
+    [ "already in database", "not edible", "not enough information", "other" ]
+  end
+
   # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
