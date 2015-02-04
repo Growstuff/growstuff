@@ -21,11 +21,11 @@ class Crop < ActiveRecord::Base
   has_and_belongs_to_many :posts
   before_destroy {|crop| crop.posts.clear}
 
-  default_scope { order("lower(name) asc") }
-  scope :recent, -> { where(:approval_status => "approved").reorder("created_at desc") }
-  scope :toplevel, -> { where(:approval_status => "approved", :parent_id => nil) }
-  scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
-  scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
+  default_scope { where(:approval_status => "approved").order("lower(name) asc") }
+  scope :recent, -> { reorder("created_at desc") }
+  scope :toplevel, -> { where(:parent_id => nil) }
+  scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
+  scope :randomized, -> { reorder('random()') } # ok on sqlite and psql, but not on mysql
   scope :pending_approval, -> { where(:approval_status => "pending") }
   scope :rejected, -> { where(:approval_status => "rejected") }
 
