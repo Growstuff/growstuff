@@ -27,6 +27,7 @@ class Crop < ActiveRecord::Base
   scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
   scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
   scope :pending_approval, -> { where(:approval_status => "pending") }
+  scope :rejected, -> { where(:approval_status => "rejected") }
 
   validates :en_wikipedia_url,
     :format => {
@@ -238,7 +239,8 @@ class Crop < ActiveRecord::Base
 
   # This validation addresses a race condition
   def approval_status_cannot_be_changed_again
-    if rejected? || approved?
+    previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
+    if previous.include?(:rejected) || previous.include?(:approved)
       errors.add(:approval_status, "has already been set to #{approval_status}")
     end
   end

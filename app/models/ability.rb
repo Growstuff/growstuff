@@ -21,6 +21,9 @@ class Ability
     cannot :read, Account
     cannot :read, AccountType
 
+    # and nobody should be able to view these expect admins and crop wranglers
+    cannot :read, Crop, :approval_status => "rejected"
+
     if member
 
       # managing your own user settings
