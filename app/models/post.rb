@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
   extend FriendlyId
+  include Likeable
   friendly_id :author_date_subject, use: [:slugged, :finders]
   belongs_to :author, :class_name => 'Member'
   belongs_to :forum

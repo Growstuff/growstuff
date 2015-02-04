@@ -61,6 +61,8 @@ Growstuff::Application.routes.draw do
   resources :order_items
   resources :products
 
+  resources :likes, :only => [:create, :destroy]
+
   get "home/index"
   root :to => 'home#index'
 
