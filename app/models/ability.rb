@@ -23,6 +23,9 @@ class Ability
 
     # and nobody should be able to view these expect admins and crop wranglers
     cannot :read, Crop, :approval_status => ["rejected", "pending"]
+    # # ... unless the current member is also the requester
+    # can :read, Crop, :requester_id => member.id
+    # can :read, Crop, :approval_status => "approved"
 
     if member
 

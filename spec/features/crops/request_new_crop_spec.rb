@@ -26,16 +26,6 @@ feature "Requesting a new crop" do
 
     before { login_as wrangler }
 
-    scenario "View pending crops" do
-      visit wrangle_crops_path
-      within "#requested-crops" do
-        expect(page).to have_content "Ultra berry"
-      end
-      click_link "Ultra berry"
-      expect(page).to have_content "This crop is currently pending approval."
-      expect(page).to have_content "Please approve this even though it's fake."
-    end
-
     scenario "Approve a request" do
       visit edit_crop_path(crop)
       select "approved", from: "Approval Status"
@@ -49,6 +39,7 @@ feature "Requesting a new crop" do
     scenario "Rejecting a crop" do
       visit edit_crop_path(crop)
       select "rejected", from: "Approval Status"
+      select "not edible", from: "Reason for rejection"
       click_button "Save"
       expect(page).to have_content "Crop was successfully updated."
     end

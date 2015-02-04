@@ -5,6 +5,8 @@ feature "crop wranglers" do
     let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
     let(:wrangler){crop_wranglers.first}
     let!(:crops) { FactoryGirl.create_list(:crop, 2) }
+    let!(:requested_crop) { FactoryGirl.create(:crop_request) }
+    let!(:rejected_crop) { FactoryGirl.create(:rejected_crop) }
 
     background do
       login_as(wrangler)
@@ -25,7 +27,7 @@ feature "crop wranglers" do
     scenario "can see list of crops with extra detail of who created a crop" do
       visit root_path
       click_link 'Crop Wrangling'
-      within '#recently-added' do
+      within '#recently-added-crops' do
         expect(page).to have_content "#{crops.first.creator.login_name}"
       end
     end
@@ -48,6 +50,24 @@ feature "crop wranglers" do
       expect(page).to have_content 'Crop was successfully created'
       expect(page).to have_content 'planticus maximus'
     end
+
+    scenario "View pending crops" do
+      visit wrangle_crops_path(:approval_status => "pending")
+      within "#pending-crops" do
+        click_link "Ultra berry"
+      end
+      expect(page).to have_content "This crop is currently pending approval."
+      expect(page).to have_content "Please approve this even though it's fake."
+    end
+
+    scenario "View rejected crops" do
+      visit wrangle_crops_path(:approval_status => "rejected")
+      within "#rejected-crops" do
+        click_link "Fail bean"
+      end
+      expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
+    end
+
     
   end
   
