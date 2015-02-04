@@ -7,12 +7,13 @@ feature "Seeds", :js => true do
   background do
     login_as(member)
     visit new_seed_path
+    sync_elasticsearch([maize])
   end
 
   it_behaves_like "crop suggest", "seed", "crop"
 
   scenario "Adding a new seed", :js => true do
-    fill_autocomplete "crop", :with => "m"
+    fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_seed" do
       fill_in "Quantity:", :with => 42

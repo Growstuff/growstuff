@@ -21,13 +21,14 @@ class Ability
     cannot :read, Account
     cannot :read, AccountType
 
-    # and nobody should be able to view these expect admins and crop wranglers
-    cannot :read, Crop, :approval_status => ["rejected", "pending"]
-    # # ... unless the current member is also the requester
-    # can :read, Crop, :requester_id => member.id
-    # can :read, Crop, :approval_status => "approved"
+    # nobody should be able to view unapproved crops unless they
+    # are wranglers or admins 
+    cannot :read, Crop
+    can :read, Crop, :approval_status => "approved"
 
     if member
+      # members can see even rejected or pending crops if they requested it
+      can :read, Crop, :requester_id => member.id
 
       # managing your own user settings
       can :update, Member, :id => member.id

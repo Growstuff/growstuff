@@ -11,7 +11,7 @@ feature "Requesting a new crop" do
     scenario "Submit request" do
       visit new_crop_path
       fill_in "Name", with: "Couch potato"
-      fill_in "Comments", with: "Couch are real for real."
+      fill_in "Comments", with: "Couch potatoes are real for real."
       click_button "Save"
       expect(page).to have_content "Crop was successfully requested."
     end
