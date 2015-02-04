@@ -22,7 +22,7 @@ class Ability
     cannot :read, AccountType
 
     # and nobody should be able to view these expect admins and crop wranglers
-    cannot :read, Crop, :approval_status => "rejected"
+    cannot :read, Crop, :approval_status => ["rejected", "pending"]
 
     if member
 

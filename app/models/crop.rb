@@ -21,14 +21,15 @@ class Crop < ActiveRecord::Base
   has_and_belongs_to_many :posts
   before_destroy {|crop| crop.posts.clear}
 
-  default_scope { where(:approval_status => "approved").order("lower(name) asc") }
-  scope :recent, -> { reorder("created_at desc") }
-  scope :toplevel, -> { where(:parent_id => nil) }
-  scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
-  scope :randomized, -> { reorder('random()') } # ok on sqlite and psql, but not on mysql
+  default_scope { order("lower(name) asc") }
+  scope :recent, -> { where(:approval_status => "approved").reorder("created_at desc") }
+  scope :toplevel, -> { where(:approval_status => "approved", :parent_id => nil) }
+  scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
+  scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
   scope :pending_approval, -> { where(:approval_status => "pending") }
   scope :rejected, -> { where(:approval_status => "rejected") }
 
+  ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     :format => {
       :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
@@ -36,8 +37,10 @@ class Crop < ActiveRecord::Base
     },
     :if => :approved?
 
+  ## Reasons are only necessary when rejecting
   validates :reason_for_rejection, :presence => true, :if => :rejected?
 
+  ## This validation addresses a race condition
   validate :approval_status_cannot_be_changed_again
 
   def to_s
@@ -237,7 +240,6 @@ class Crop < ActiveRecord::Base
 
   # Custom validations
 
-  # This validation addresses a race condition
   def approval_status_cannot_be_changed_again
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
     if previous.include?(:rejected) || previous.include?(:approved)

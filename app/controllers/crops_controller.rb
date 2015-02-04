@@ -147,6 +147,8 @@ class CropsController < ApplicationController
 
     previous_status = @crop.approval_status
 
+    @crop.creator = current_member if previous_status == "pending"
+
     respond_to do |format|
       if @crop.update(crop_params)
         if previous_status == "pending"
