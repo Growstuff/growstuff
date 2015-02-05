@@ -18,12 +18,21 @@
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, :class => 'form-control'
-      %span.help-block Name in US English; singular; capitalize proper nouns only.
+      %span.help-block 
+        - if can? :wrangle, @crop 
+          Name in US English; singular; capitalize proper nouns only.
+        - else 
+          Please provide the common name for the crop, in English, if you know it.
+
   .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :en_wikipedia_url, :class => 'form-control'
-      %span.help-block Link to this crop's page on the English language Wikipedia.
+      %span.help-block 
+        - if can? :wrangle, @crop
+          Link to this crop's page on the English language Wikipedia.
+        - else
+          Please provide a link to the crop's page on the English language Wikipedia. Crops without Wikipedia pages cannot be added to our database at this time.
 
   - if can? :wrangle, @crop 
 
@@ -67,7 +76,9 @@
       = f.label :request_notes, 'Comments', :class => 'control-label col-md-2'
       .col-md-8= f.text_area :request_notes, :rows => 6, :class => 'form-control'
 
-
+    %p
+      %span.help-block
+        When you submit this form, your suggestion will be sent to our team of #{link_to 'volunteer crop wranglers', 'http://talk.growstuff.org/c/crop-wrangling'} for review. We'll let you know the outcome as soon as we can.
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8

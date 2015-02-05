@@ -1,7 +1,7 @@
 - content_for :title, @crop.name
 - content_for :subtitle, @crop.default_scientific_name
 
-- if can?(:wrangle, @crop) && @crop.pending?
+- if @crop.pending?
   .alert.alert-warning
     %b This crop is currently pending approval.
     %p This crop was requested by #{@crop.requester} on #{@crop.created_at}.
