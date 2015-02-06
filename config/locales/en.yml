@@ -81,7 +81,7 @@ en:
       number_plantings_linktext: "%{count} times"
       number_gardens_linktext: "%{count} gardens"
 
-    search_crops:
+    crops:
       label: "What do you want to grow?"
       placeholder: "eg. lettuce"
 
