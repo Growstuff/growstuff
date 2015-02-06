@@ -64,11 +64,10 @@ class CropsController < ApplicationController
     exact_match = Crop.find_by(name: params[:search])
     exact_search = params[:exact_search] || false
 
-    byebug
-    # if exact_match
-    #   # @all_matches.delete(exact_match)
-    #   @all_matches.unshift(exact_match)
-    # end
+    if exact_match
+      @all_matches.delete(exact_match)
+      @all_matches.unshift(exact_match)
+    end
 
     respond_to do |format|
       if exact_match.present? && exact_search
