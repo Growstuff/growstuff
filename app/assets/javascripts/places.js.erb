@@ -43,6 +43,16 @@ if (document.getElementById("placesmap") !== null) {
         });
       }, delay);
     });
+
+    newPlaceInput.keyup(function(event) {
+      if (event.keyCode == 13) {
+        fetchPlace(place)
+        .done(function(data) {
+          var firstMatch = data[0];
+          placesmap.setView([firstMatch.lat, firstMatch.lon], 5);
+        });
+      }
+    });
   }
 
   if (currentPath ===  "/" || currentPath === placesBasePath) {
