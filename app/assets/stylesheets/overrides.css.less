@@ -303,21 +303,23 @@ html, body {
   }
 }
 
-.home-title {
+.title-banner {
   position: relative;
   background-image: image-url('veggies.jpg');
   background-repeat: no-repeat;
   background-size: 100%;
+  min-height: 280px;
+  padding: 30px;
+  margin: 0 -15px 0 -15px;
+
   @media (max-width: @screen-md-min) {
     background-size: @screen-md-min;
   }
-  min-height: 300px;
-  padding: 30px;
-}
 
-.home-title h1 {
-  font-size: 60px;
-  margin: 60px;
+  h1 {
+    font-size: 60px;
+    margin: 60px;
+  }
 }
 
 .image-attribution {
@@ -333,8 +335,9 @@ html, body {
   text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000;
 }
 
-.full-width {
-  margin: 0 -15px 0 -15px;
+.contrast-screen-dark {
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
 }
 
 .centered-relative {
@@ -346,25 +349,23 @@ html, body {
   padding: 35px;
 }
 
-.home-banner {
-  text-align: center;
-
+.banner-form-group:extend(.form-group) {
   label {
     font-size: 36px;
     margin-right: 20px;
     margin-bottom: 20px;
     line-height: 100%;
+    text-align: center;
   }
 
   input {
-    padding: 18px;
     display: inline;
     margin-top: -10px;
   }
 }
 
-.search-crops label {
-  padding: 60px 0 40px 0;
+.search-crops {
+  padding-top: 60px;
 }
 
 .find-growers {
@@ -374,9 +375,4 @@ html, body {
   form {
     padding-top: 80px;
   }
-}
-
-.contrast-screen-dark {
-  background: rgba(0,0,0,0.2);
-  padding: 10px;
 }
