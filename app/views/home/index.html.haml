@@ -1,33 +1,13 @@
-.row
-  .col-md-12
-    - if member_signed_in?
-      %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+.title-banner.home-banner
+  %h1.against-image-text.text-center= ENV['GROWSTUFF_SITE_NAME']
+  %p.image-attribution= t('.image_attribution')
 
-      = render :partial => 'stats'
-      %p
-        .btn-group
-          = link_to t('.plant'), new_planting_path, :class => 'btn btn-default'
-          = link_to t('.harvest'), new_harvest_path, :class => 'btn btn-default'
-          = link_to t('.add_seeds'), new_seed_path, :class => 'btn btn-default'
-          = link_to t('.post'), new_post_path, :class => 'btn btn-default'
-
-    - else
-      .row
-        .col-md-12.home-title.home-banner
-          %h1.against-image-text.text-center= ENV['GROWSTUFF_SITE_NAME']
-          %p.image-attribution= t('.image_attribution')
-
-      .container
-        .row
-          .col-md-12
-            = render :partial => 'search_crops'
-        .row
-          .col-md-12
-            = render :partial => 'find_growers'
-
-    .container
+.container
+  .row
+    .col-md-12
       = render :partial => 'crops'
-      = render :partial => 'seeds'
-      = render :partial => 'members'
-      = render :partial => 'discuss'
+  .row
+    .col-md-12
+      = render :partial => 'find_growers'
+
 
