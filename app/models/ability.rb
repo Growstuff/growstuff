@@ -21,7 +21,14 @@ class Ability
     cannot :read, Account
     cannot :read, AccountType
 
+    # nobody should be able to view unapproved crops unless they
+    # are wranglers or admins 
+    cannot :read, Crop
+    can :read, Crop, :approval_status => "approved"
+
     if member
+      # members can see even rejected or pending crops if they requested it
+      can :read, Crop, :requester_id => member.id
 
       # managing your own user settings
       can :update, Member, :id => member.id
@@ -44,6 +51,9 @@ class Ability
         can :manage, ScientificName
         can :manage, AlternateName
       end
+
+      # any member can create a crop provisionally
+      can :create, Crop
 
       # can create & destroy their own authentications against other sites.
       can :create, Authentication

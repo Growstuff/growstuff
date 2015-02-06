@@ -14,6 +14,7 @@ class Crop < ActiveRecord::Base
   has_many :harvests
   has_many :plant_parts, -> { uniq }, :through => :harvests
   belongs_to :creator, :class_name => 'Member'
+  belongs_to :requester, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
@@ -21,16 +22,26 @@ class Crop < ActiveRecord::Base
   before_destroy {|crop| crop.posts.clear}
 
   default_scope { order("lower(name) asc") }
-  scope :recent, -> { reorder("created_at desc") }
-  scope :toplevel, -> { where(:parent_id => nil) }
-  scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
-  scope :randomized, -> { reorder('random()') } # ok on sqlite and psql, but not on mysql
+  scope :recent, -> { where(:approval_status => "approved").reorder("created_at desc") }
+  scope :toplevel, -> { where(:approval_status => "approved", :parent_id => nil) }
+  scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
+  scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
+  scope :pending_approval, -> { where(:approval_status => "pending") }
+  scope :rejected, -> { where(:approval_status => "rejected") }
 
+  ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     :format => {
       :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
-    }
+    },
+    :if => :approved?
+
+  ## Reasons are only necessary when rejecting
+  validates :reason_for_rejection, :presence => true, :if => :rejected?
+
+  ## This validation addresses a race condition
+  validate :approval_status_cannot_be_changed_again
 
   ####################################
   # Elastic search configuration
@@ -165,6 +176,26 @@ class Crop < ActiveRecord::Base
     return true
   end
 
+  def pending?
+    approval_status == "pending"
+  end
+
+  def approved?
+    approval_status == "approved"
+  end
+
+  def rejected?
+    approval_status == "rejected"
+  end
+
+  def approval_statuses
+    [ 'rejected', 'pending', 'approved' ]
+  end
+
+  def reasons_for_rejection
+    [ "already in database", "not edible", "not enough information", "other" ]
+  end
+
   # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
@@ -283,4 +314,14 @@ class Crop < ActiveRecord::Base
       where("name ILIKE ?", "%#{query}%") 
     end
   end
+
+  # Custom validations
+
+  def approval_status_cannot_be_changed_again
+    previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
+    if previous.include?(:rejected) || previous.include?(:approved)
+      errors.add(:approval_status, "has already been set to #{approval_status}")
+    end
+  end
+
 end

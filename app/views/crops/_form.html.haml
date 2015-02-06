@@ -6,40 +6,80 @@
         - @crop.errors.full_messages.each do |msg|
           %li= msg
 
-  %p
-    %span.help-block
-      For detailed crop wrangling guidelines, please consult the
-      =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
-      on the Growstuff wiki.
+  - if can? :wrangle, @crop
+    %p
+      %span.help-block
+        For detailed crop wrangling guidelines, please consult the
+
+        =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
+        on the Growstuff wiki.
 
   .form-group
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, :class => 'form-control'
-      %span.help-block Name in US English; singular; capitalize proper nouns only.
+      %span.help-block 
+        - if can? :wrangle, @crop 
+          Name in US English; singular; capitalize proper nouns only.
+        - else 
+          Please provide the common name for the crop, in English, if you know it.
+
   .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :en_wikipedia_url, :class => 'form-control'
-      %span.help-block Link to this crop's page on the English language Wikipedia.
-  .form-group
-    = f.label :parent_id, 'Parent crop', :class => 'control-label col-md-2'
-    .col-md-8
-      = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true}, :class => 'form-control')
-      %span.help-block Optional. For setting up crop hierarchies for varieties etc.
-  %p
-    %span.help-block
-      You may enter up to 3 scientific names for a crop. Most crops will have only one.
-  = f.fields_for :scientific_names do |sn|
+      %span.help-block 
+        - if can? :wrangle, @crop
+          Link to this crop's page on the English language Wikipedia.
+        - else
+          Please provide a link to the crop's page on the English language Wikipedia. Crops without Wikipedia pages cannot be added to our database at this time.
+
+  - if can? :wrangle, @crop 
+
     .form-group
-      = sn.label :scientific_name, "Scientific name", :class => 'control-label col-md-2'
+      = f.label :parent_id, 'Parent crop', :class => 'control-label col-md-2'
       .col-md-8
-        = sn.text_field :scientific_name, :class => 'form-control'
-      .col-md-2
-        - if sn.object && sn.object.persisted?
-          %label.checkbox
-            = sn.check_box :_destroy
-            = sn.label :_destroy, "Delete"
+        = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true}, :class => 'form-control')
+        %span.help-block Optional. For setting up crop hierarchies for varieties etc.
+
+    %p
+      %span.help-block
+        You may enter up to 3 scientific names for a crop. Most crops will have only one.
+    = f.fields_for :scientific_names do |sn|
+      .form-group
+        = sn.label :scientific_name, "Scientific name", :class => 'control-label col-md-2'
+        .col-md-8
+          = sn.text_field :scientific_name, :class => 'form-control'
+        .col-md-2
+          - if sn.object && sn.object.persisted?
+            %label.checkbox
+              = sn.check_box :_destroy
+              = sn.label :_destroy, "Delete"
+
+    - unless @crop.new_record?
+      .form-group
+        = f.label :approval_status, 'Approval Status', :class=> 'control-label col-md-2'
+        .col-md-8
+          = f.select(:approval_status, @crop.approval_statuses, {}, {:class => 'form-control'})
+
+      .form-group
+        = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'
+        .col-md-8
+          = f.select(:reason_for_rejection, @crop.reasons_for_rejection, {:include_blank => true}, {:class => 'form-control'})
+
+  - else
+    %p
+      %span.help-block
+        Provide any additional information that might help us assess your request.
+
+    .form-group
+      = f.label :request_notes, 'Comments', :class => 'control-label col-md-2'
+      .col-md-8= f.text_area :request_notes, :rows => 6, :class => 'form-control'
+
+    %p
+      %span.help-block
+        When you submit this form, your suggestion will be sent to our team of #{link_to 'volunteer crop wranglers', 'http://talk.growstuff.org/c/crop-wrangling'} for review. We'll let you know the outcome as soon as we can.
+
   .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', :class => 'btn btn-primary'
