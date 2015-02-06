@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "follows" do
+feature "follows", :js => true do
 
   context "when signed out" do
     let(:member) { FactoryGirl.create(:member) }
@@ -45,6 +45,13 @@ feature "follows" do
         click_link 'Follow'
         visit member_follows_path(member)
         expect(page).to have_content "#{other_member.login_name}"
+      end
+
+      scenario "does not die when passed an authenticity_token" do
+        visit member_follows_path(
+          member,
+          :params => {:authenticity_token => "Ultima ratio regum"})
+        expect(page.status_code).to equal 200
       end
 
       scenario "has correct message and follow button after unfollow" do

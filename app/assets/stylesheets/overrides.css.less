@@ -1,5 +1,3 @@
-
-
 @import "twitter/bootstrap/bootstrap";
 @import "custom_bootstrap/variables";
 // this padding needs to be done before the responsive stuff is imported
@@ -97,14 +95,6 @@ h3 {
 // stats shown on homepage. eg. "999 members..."
 p.stats {
   font-weight: bold;
-}
-
-.homepage-members {
-  height: 100px;
-}
-
-.homepage-members:nth-child(odd) {
-  margin-left: 0px;
 }
 
 #placesmap, #cropmap {
@@ -216,6 +206,78 @@ li.crop-hierarchy {
   margin: 40px 0px 0px 0px !important;
 }
 
+.search-crops {
+  padding-top: 60px;
+}
+
+.find-growers {
+  position: relative;
+  margin-top: 20px;
+}
+
+.title-banner {
+  position: relative;
+  background-image: image-url('veggies.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  min-height: 280px;
+  padding: 30px;
+  margin: 0 -15px 0 -15px;
+
+  @media (max-width: @screen-md-min) {
+    background-size: @screen-md-min;
+  }
+
+  h1 {
+    font-size: 60px;
+    margin: 60px;
+  }
+}
+
+.image-attribution {
+  position: absolute;
+  bottom: 0; right: 5px;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.against-image-text {
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000;
+}
+
+.contrast-screen-dark {
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+}
+
+.centered-relative {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 35px;
+}
+
+.banner-form-group:extend(.form-group) {
+  label {
+    font-size: 36px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    line-height: 100%;
+    text-align: center;
+  }
+
+  input {
+    display: inline;
+    margin-top: -10px;
+    width: auto;
+  }
+}
+
+
 // footer
 
 footer {
@@ -285,6 +347,12 @@ html, body {
   text-decoration: underline;
 }
 
+.alert {
+  a {
+    font-weight: 800;
+  }
+}
+
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
 
 @media only screen and (max-width: 767px) {
@@ -303,73 +371,13 @@ html, body {
   }
 }
 
-.title-banner {
-  position: relative;
-  background-image: image-url('veggies.jpg');
-  background-repeat: no-repeat;
-  background-size: 100%;
-  min-height: 280px;
-  padding: 30px;
-  margin: 0 -15px 0 -15px;
 
-  @media (max-width: @screen-md-min) {
-    background-size: @screen-md-min;
-  }
+/* override "info" alert boxes to be green, not blue, on Growstuff */
+@state-info-text: darken(@green, 10%);
+@state-info-bg: lighten(@green, 50%);
 
-  h1 {
-    font-size: 60px;
-    margin: 60px;
-  }
-}
-
-.image-attribution {
-  position: absolute;
-  bottom: 0; right: 5px;
-  font-size: 12px;
-  color: #ccc;
-}
-
-.against-image-text {
-  color: #fff;
-  font-weight: bold;
-  text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000;
-}
-
-.contrast-screen-dark {
-  background: rgba(0,0,0,0.2);
-  padding: 10px;
-}
-
-.centered-relative {
-  position: absolute;
-  top: 0;
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 35px;
-}
-
-.banner-form-group:extend(.form-group) {
-  label {
-    font-size: 36px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    line-height: 100%;
-    text-align: center;
-  }
-
-  input {
-    display: inline;
-    margin-top: -10px;
-    width: auto;
-  }
-}
-
-.search-crops {
-  padding-top: 60px;
-}
-
-.find-growers {
-  position: relative;
-  margin-top: 20px;
-}
+/* and set "success" to be the same, as it was just very slightly
+ * different because the default bootstrap green is slightly different
+ * from ours */
+@state-success-text: darken(@green, 10%);
+@state-success-bg: lighten(@green, 50%);

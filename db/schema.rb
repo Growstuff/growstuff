@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119130555) do
+ActiveRecord::Schema.define(version: 20150201064502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,17 +62,22 @@ ActiveRecord::Schema.define(version: 20141119130555) do
   end
 
   create_table "crops", force: true do |t|
-    t.string   "name",                         null: false
+    t.string   "name",                                      null: false
     t.string   "en_wikipedia_url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
     t.integer  "parent_id"
-    t.integer  "plantings_count",  default: 0
+    t.integer  "plantings_count",      default: 0
     t.integer  "creator_id"
+    t.integer  "requester_id"
+    t.string   "approval_status",      default: "approved"
+    t.text     "reason_for_rejection"
+    t.text     "request_notes"
   end
 
   add_index "crops", ["name"], name: "index_crops_on_name", using: :btree
+  add_index "crops", ["requester_id"], name: "index_crops_on_requester_id", using: :btree
   add_index "crops", ["slug"], name: "index_crops_on_slug", unique: true, using: :btree
 
   create_table "crops_posts", id: false, force: true do |t|
@@ -119,6 +124,13 @@ ActiveRecord::Schema.define(version: 20141119130555) do
   add_index "gardens", ["owner_id"], name: "index_gardens_on_owner_id", using: :btree
   add_index "gardens", ["slug"], name: "index_gardens_on_slug", unique: true, using: :btree
 
+  create_table "gardens_photos", id: false, force: true do |t|
+    t.integer "photo_id"
+    t.integer "garden_id"
+  end
+
+  add_index "gardens_photos", ["garden_id", "photo_id"], name: "index_gardens_photos_on_garden_id_and_photo_id", using: :btree
+
   create_table "harvests", force: true do |t|
     t.integer  "crop_id",         null: false
     t.integer  "owner_id",        null: false
@@ -132,6 +144,7 @@ ActiveRecord::Schema.define(version: 20141119130555) do
     t.decimal  "weight_quantity"
     t.string   "weight_unit"
     t.integer  "plant_part_id"
+    t.float    "si_weight"
   end
 
   create_table "harvests_photos", id: false, force: true do |t|
@@ -272,6 +285,7 @@ ActiveRecord::Schema.define(version: 20141119130555) do
     t.datetime "updated_at"
     t.string   "slug"
     t.integer  "forum_id"
+    t.integer  "parent_id"
   end
 
   add_index "posts", ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id", using: :btree

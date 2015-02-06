@@ -37,6 +37,11 @@ describe HarvestsController do
       assigns(:crop).should eq @maize
       assigns(:harvests).should eq [@harvest2]
     end
+
+    it "generates a csv" do
+        get :index, {:format => "csv"}
+        response.status.should eq 200
+    end
   end
 
   describe "GET show" do
