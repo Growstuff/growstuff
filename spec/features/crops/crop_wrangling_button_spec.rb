@@ -2,12 +2,12 @@ require 'rails_helper'
 
 feature "crop wrangling button" do
 
-  let(:crop_wrangling_member) { FactoryGirl.create(:crop_wrangler) }
+  let(:crop_wrangler) { FactoryGirl.create(:crop_wrangling_member) }
 
     context "crop wrangling button" do
 
       background do
-        login_as(:crop_wrangler)
+        login_as(crop_wrangler)
         visit crops_path
       end
 
@@ -22,7 +22,7 @@ feature "crop wrangling button" do
     context "crop wrangling button" do
 
       background do
-        login_as(:member)
+        login_as(member)
         visit crops_path
       end
 

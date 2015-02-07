@@ -1,7 +1,7 @@
 - content_for :title, "Crops"
 
-  - if can? :wrangle, Crop
-    = link_to 'Wrangle Crops', wrangle_crops_path, :class => 'btn btn-primary'
+- if can? :wrangle, Crop
+  = link_to 'Wrangle Crops', wrangle_crops_path, :class => 'btn btn-primary'
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
   View any crop page to see which of our members have planted it and find
