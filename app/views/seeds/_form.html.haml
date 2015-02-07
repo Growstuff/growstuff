@@ -23,7 +23,7 @@
       = f.text_field :plant_before, :class => 'add-datepicker form-control', :value => @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
   .form-group
     = f.label :days_until_maturity_min, 'Days until maturity:', :class => 'control-label col-md-2'
-    .input-group
+    %fieldset
       .col-md-2
         = f.number_field :days_until_maturity_min, :class => 'form-control'
       .col-md-1
