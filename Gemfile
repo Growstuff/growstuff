@@ -31,6 +31,7 @@ gem 'figaro'                       # for handling config via ENV variables
 gem 'cancancan', '~> 1.9'          # for checking member privileges
 gem 'gibbon'                       # for Mailchimp newsletter subscriptions
 gem 'csv_shaper'                   # CSV export
+gem 'ruby-units'                   # for unit conversion
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
@@ -76,6 +77,12 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-flickr', '>= 0.0.15'
 
+# client for Elasticsearch. Elasticsearch is a flexible
+# and powerful, distributed, real-time search and analytics engine. 
+# An example of the use in the project is fuzzy crop search.
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
+
 gem 'rake', '>= 10.0.0'
 
 group :production, :staging do
@@ -83,6 +90,7 @@ group :production, :staging do
   gem 'dalli'
   gem 'memcachier'
   gem 'rails_12factor' # supresses heroku plugin injection
+  gem 'bonsai-elasticsearch-rails'  # Integration with Bonsa-Elasticsearch on heroku
 end
 
 group :development do
@@ -93,6 +101,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
+  gem 'quiet_assets'
 end
 
 group :development, :test do
@@ -108,4 +117,8 @@ group :development, :test do
   gem 'capybara-email'                  # integration tests for email
   gem 'poltergeist', '~> 1.5.1'         # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+end
+
+group :travis do
+  gem 'heroku-api'
 end

@@ -2,18 +2,19 @@ class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
-  has_many :scientific_names
+  has_many :scientific_names, after_add: :update_index, after_remove: :update_index
   accepts_nested_attributes_for :scientific_names,
     :allow_destroy => true,
     :reject_if     => :all_blank
 
-  has_many :alternate_names
+  has_many :alternate_names, after_add: :update_index, after_remove: :update_index
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
   has_many :harvests
   has_many :plant_parts, -> { uniq }, :through => :harvests
   belongs_to :creator, :class_name => 'Member'
+  belongs_to :requester, :class_name => 'Member'
 
   belongs_to :parent, :class_name => 'Crop'
   has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
@@ -21,16 +22,88 @@ class Crop < ActiveRecord::Base
   before_destroy {|crop| crop.posts.clear}
 
   default_scope { order("lower(name) asc") }
-  scope :recent, -> { reorder("created_at desc") }
-  scope :toplevel, -> { where(:parent_id => nil) }
-  scope :popular, -> { reorder("plantings_count desc, lower(name) asc") }
-  scope :randomized, -> { reorder('random()') } # ok on sqlite and psql, but not on mysql
+  scope :recent, -> { where(:approval_status => "approved").reorder("created_at desc") }
+  scope :toplevel, -> { where(:approval_status => "approved", :parent_id => nil) }
+  scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
+  scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
+  scope :pending_approval, -> { where(:approval_status => "pending") }
+  scope :rejected, -> { where(:approval_status => "rejected") }
 
+  ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     :format => {
       :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
       :message => 'is not a valid English Wikipedia URL'
-    }
+    },
+    :if => :approved?
+
+  ## Reasons are only necessary when rejecting
+  validates :reason_for_rejection, :presence => true, :if => :rejected?
+
+  ## This validation addresses a race condition
+  validate :approval_status_cannot_be_changed_again
+
+  ####################################
+  # Elastic search configuration
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  # In order to avoid clashing between different environments,
+  # use Rails.env as a part of index name (eg. development_growstuff)
+  index_name [Rails.env, "growstuff"].join('_')
+  settings index: { number_of_shards: 1 },
+    analysis: {
+      tokenizer: {
+        gs_edgeNGram_tokenizer: {
+          type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
+          min_gram: 3,
+          max_gram: 10,
+          # token_chars: Elasticsearch will split on characters
+          # that don’t belong to any of these classes
+          token_chars: [ "letter", "digit" ] 
+        }
+      },
+      analyzer: {
+        gs_edgeNGram_analyzer: {
+          tokenizer: "gs_edgeNGram_tokenizer",
+          filter: ["lowercase"]
+        }
+      },
+    } do
+    mappings dynamic: 'false' do
+      indexes :id, type: 'long'
+      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+      indexes :scientific_names do
+        indexes :scientific_name,
+          type: 'string',
+          analyzer: 'gs_edgeNGram_analyzer',
+          # Disabling field-length norm (norm). If the norm option is turned on(by default), 
+          # higher weigh would be given for shorter fields, which in our case is irrelevant.
+          norms: { enabled: false }
+      end
+      indexes :alternate_names do
+        indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+      end
+    end
+  end
+
+  def as_indexed_json(options={})
+    self.as_json(
+      only: [:id, :name],
+      include: {
+        scientific_names: { only: :scientific_name },
+        alternate_names: { only: :name }
+    })
+  end
+
+  # update the Elasticsearch index (only if we're using it in this
+  # environment)
+  def update_index(name_obj)
+    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+      __elasticsearch__.index_document
+    end
+  end
+
+  # End Elasticsearch section
 
   def to_s
     return name
@@ -101,6 +174,26 @@ class Crop < ActiveRecord::Base
     return false unless photos.count >= min_photos
     return false unless plantings_count >= min_plantings
     return true
+  end
+
+  def pending?
+    approval_status == "pending"
+  end
+
+  def approved?
+    approval_status == "approved"
+  end
+
+  def rejected?
+    approval_status == "rejected"
+  end
+
+  def approval_statuses
+    [ 'rejected', 'pending', 'approved' ]
+  end
+
+  def reasons_for_rejection
+    [ "already in database", "not edible", "not enough information", "other" ]
   end
 
   # Crop.interesting
@@ -201,10 +294,34 @@ class Crop < ActiveRecord::Base
   end
 
   # Crop.search(string)
-  # searches for crops whose names match the string given
-  # just uses SQL LIKE for now, but can be made fancier later
   def self.search(query)
-    where("name ILIKE ?", "%#{query}%")
+    if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
+      search_str = query.nil? ? "" : query.downcase
+      response = __elasticsearch__.search( {
+          # Finds documents which match any field, but uses the _score from 
+          # the best field insead of adding up _score from each field.
+          query: {
+            multi_match: {
+              query: "#{search_str}",
+              fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
+            }
+          },
+          size: 50
+        }
+      )
+      return response.records.to_a
+    else
+      where("name ILIKE ?", "%#{query}%") 
+    end
+  end
+
+  # Custom validations
+
+  def approval_status_cannot_be_changed_again
+    previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
+    if previous.include?(:rejected) || previous.include?(:approved)
+      errors.add(:approval_status, "has already been set to #{approval_status}")
+    end
   end
 
 end

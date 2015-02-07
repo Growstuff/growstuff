@@ -22,4 +22,19 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  def new_crop_request(member, request)
+    @member, @request = member, request
+    mail(:to => @member.email, :subject => "New crop request")    
+  end
+
+  def crop_request_approved(member, crop)
+    @member, @crop = member, crop
+    mail(:to => @member.email, :subject => "#{crop.name.capitalize} has been approved")
+  end
+
+  def crop_request_rejected(member, crop)
+    @member, @crop = member, crop
+    mail(:to => @member.email, :subject => "#{crop.name.capitalize} has been rejected")
+  end
+
 end
