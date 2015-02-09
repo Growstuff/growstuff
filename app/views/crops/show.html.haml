@@ -4,14 +4,14 @@
 - if @crop.pending?
   .alert.alert-danger
     %b This crop is currently pending approval.
-    %p This crop was requested by #{@crop.requester} on #{@crop.created_at}.
+    %p This crop was requested by #{@crop.requester} #{time_ago_in_words(@crop.created_at)} ago.
     - unless @crop.request_notes.blank?
       %p
         Request notes: #{@crop.request_notes}
 
 - if @crop.rejected?
   .alert.alert-danger
-    %b This crop was rejected for the following reason: #{@crop.reason_for_rejection}.
+    %b This crop was rejected for the following reason: #{@crop.reason_for_rejection == "other" ? @crop.rejection_notes : @crop.reason_for_rejection}.
 
 - if @crop.approved?
   - content_for :buttonbar do
