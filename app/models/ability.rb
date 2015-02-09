@@ -25,6 +25,11 @@ class Ability
     # are wranglers or admins 
     cannot :read, Crop
     can :read, Crop, :approval_status => "approved"
+    # scientific names should only be viewable if associated crop is approved
+    cannot :read, ScientificName
+    can :read, ScientificName do |sn|
+      sn.crop.approved?
+    end
 
     if member
       # members can see even rejected or pending crops if they requested it
