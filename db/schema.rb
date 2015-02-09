@@ -285,7 +285,6 @@ ActiveRecord::Schema.define(version: 20150201064502) do
     t.datetime "updated_at"
     t.string   "slug"
     t.integer  "forum_id"
-    t.integer  "parent_id"
   end
 
   add_index "posts", ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id", using: :btree
