@@ -56,8 +56,6 @@
               = sn.check_box :_destroy
               = sn.label :_destroy, "Delete"
 
-    %hr /
-
     - unless @crop.new_record?
       .form-group
         = f.label :approval_status, 'Approval Status', :class=> 'control-label col-md-2'
