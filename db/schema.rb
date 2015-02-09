@@ -320,15 +320,20 @@ ActiveRecord::Schema.define(version: 20150201064502) do
   end
 
   create_table "seeds", force: true do |t|
-    t.integer  "owner_id",                         null: false
-    t.integer  "crop_id",                          null: false
+    t.integer  "owner_id",                                    null: false
+    t.integer  "crop_id",                                     null: false
     t.text     "description"
     t.integer  "quantity"
     t.date     "plant_before"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "tradable_to",  default: "nowhere"
+    t.string   "tradable_to",             default: "nowhere"
     t.string   "slug"
+    t.integer  "days_until_maturity_min"
+    t.integer  "days_until_maturity_max"
+    t.text     "organic",                 default: "unknown"
+    t.text     "gmo",                     default: "unknown"
+    t.text     "heirloom",                default: "unknown"
   end
 
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree
