@@ -33,7 +33,9 @@ class Planting < ActiveRecord::Base
   validates :crop_id, :presence => {:message => "must be present and exist in our database"}
 
   validates :quantity,
-    :numericality => { :only_integer => true },
+    :numericality => {
+      :only_integer => true,
+      :greater_than_or_equal_to => 0 },
     :allow_nil => true
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)

@@ -7,7 +7,8 @@ describe CropsController do
   def valid_attributes
     {
       :name => "Tomato",
-      :en_wikipedia_url => 'http://en.wikipedia.org/wiki/Tomato'
+      :en_wikipedia_url => 'http://en.wikipedia.org/wiki/Tomato',
+      :approval_status => 'approved'
     }
   end
 

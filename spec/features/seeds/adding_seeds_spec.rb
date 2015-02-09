@@ -18,12 +18,23 @@ feature "Seeds", :js => true do
     within "form#new_seed" do
       fill_in "Quantity:", :with => 42
       fill_in "Plant before:", :with => "2014-06-15"
+      fill_in "Days until maturity:", :with => 999
+      fill_in "to", :with => 1999
+      select "certified organic", :from => "Organic?"
+      select "non-certified GMO-free", :from => "GMO?"
+      select "heirloom", :from => "Heirloom?"
       fill_in "Description", :with => "It's killer."
       select "internationally", :from => "Will trade:"
       click_button "Save"
     end
 
     expect(page).to have_content "Successfully added maize seed to your stash"
+    expect(page).to have_content "Quantity: 42"
+    expect(page).to have_content "Days until maturity: 999–1999"
+    expect(page).to have_content "certified organic"
+    expect(page).to have_content "non-certified GMO-free"
+    expect(page).to have_content "Heirloom? heirloom"
+    expect(page).to have_content "It's killer."
   end
 
   scenario "Adding a seed from crop page" do
