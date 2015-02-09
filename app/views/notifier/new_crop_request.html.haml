@@ -1,7 +1,24 @@
 - site_name = ENV['GROWSTUFF_SITE_NAME']
+
 %p Hello #{@member.login_name},
 
-%p
-  A new crop has been requested. View, edit, approve or reject the request:
+%p 
+  #{@request.requester.login_name} has requested a new crop on #{site_name}.
 
-  = link_to "Request for #{@request}", crop_url(@request)
+%ul
+  %li Name: #{@request.name}
+  %li Wikipedia URL: #{@request.en_wikipedia_url.present? ? @request.en_wikipedia_url : "not specified"}
+
+%p
+  As a crop wrangler, you can #{link_to "approve or reject this request", edit_crop_url(@request)}.
+
+%p
+  Or, discuss this and other crop wrangling issues in our #{link_to "crop wrangling forum", "http://talk.growstuff.org/c/crop-wrangling"}.
+
+%p
+  Thanks for your help!
+
+%p
+  The Growstuff (staging) team
+  %br/
+  =link_to root_url, root_url

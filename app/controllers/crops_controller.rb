@@ -123,7 +123,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.save
-        if current_member.has_role? :crop_wrangler
+        unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
             Notifier.new_crop_request(w, @crop).deliver!
           end
