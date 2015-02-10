@@ -315,7 +315,7 @@ class Crop < ActiveRecord::Base
       )
       return response.records.to_a
     else
-      where("name ILIKE ?", "%#{query}%") 
+      where("name ILIKE ?", "%#{query}%").load
     end
   end
 
