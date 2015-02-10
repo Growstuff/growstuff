@@ -33,6 +33,8 @@ gem 'gibbon'                       # for Mailchimp newsletter subscriptions
 gem 'csv_shaper'                   # CSV export
 gem 'ruby-units'                   # for unit conversion
 
+gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
+
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
 gem 'activemerchant', '1.33.0',

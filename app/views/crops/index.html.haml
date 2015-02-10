@@ -1,4 +1,5 @@
-- content_for :title, "Crops"
+- content_for :title, "Browse crops"
+- content_for :subtitle, "#{@crops.size} total"
 
 - if can? :wrangle, Crop
   = link_to 'Wrangle Crops', wrangle_crops_path, :class => 'btn btn-primary'
@@ -14,11 +15,10 @@
   = submit_tag "Show", :class => 'btn btn-primary'
 
 %div.pagination
-  = page_entries_info @crops, :model => "crops"
-  = will_paginate @crops
+  = will_paginate @paginated_crops
 
 .row
-  - @crops.each do |crop|
+  - @paginated_crops.each do |crop|
     .col-md-2.six-across
       = render :partial => "thumbnail", :locals => { :crop => crop }
 
@@ -27,8 +27,7 @@
     = link_to 'New Crop', new_crop_path, {:class => 'btn btn-primary'}
 
 %div.pagination
-  = page_entries_info @crops, :model => "crops"
-  = will_paginate @crops
+  = will_paginate @paginated_crops
 
 
 %ul.list-inline

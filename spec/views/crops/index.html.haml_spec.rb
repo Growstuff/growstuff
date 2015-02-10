@@ -8,24 +8,11 @@ describe "crops/index" do
     total_entries = 2
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
-    crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+    assign(:crops, [@tomato, @maize])
+    paginated_crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([ @tomato, @maize ])
     end
-    assign(:crops, crops)
-  end
-
-  it "has a form for sorting by" do
-    render
-    assert_select "form"
-    assert_select "select#sort"
-    assert_select "option[value=alpha]"
-    assert_select "option[value=popular]"
-  end
-
-  it "renders a list of crops" do
-    render
-    assert_select "a", :text => @maize.name
-    assert_select "a", :text => @tomato.name
+    assign(:paginated_crops, paginated_crops)
   end
 
   it "shows photos where available" do
