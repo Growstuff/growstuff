@@ -5,6 +5,12 @@ feature "Planting reminder email", :js => true do
   let(:member) { FactoryGirl.create(:member) }
   let(:mail) { Notifier.planting_reminder(member) }
 
+  # Unfortunately, we can't use the default url options for ActionMailer as configured in 
+  # test.rb, since this isn't a mailer spec.
+  def self.default_url_options
+    { host: 'localhost', port: 8080 }
+  end
+
   scenario "has a greeting" do
     expect(mail).to have_content "Hello"
   end
@@ -34,10 +40,8 @@ feature "Planting reminder email", :js => true do
 
     scenario "lists plantings" do
       expect(mail).to have_content "most recent plantings you've told us about"
-      expect(mail).to have_content @p1.to_s
-      expect(mail).to have_content @p2.to_s
-      # can't test for links to your plantings due to this weirdness:
-      # https://github.com/Skud/growstuff/commit/8e6a57c4429eac88ab934f422ab11bf16b0a7663
+      expect(mail).to have_link @p1.to_s, planting_url(@p1)
+      expect(mail).to have_link @p2.to_s, planting_url(@p2)
       expect(mail).to have_content "keep your garden records up to date"
     end
   end
@@ -65,10 +69,8 @@ feature "Planting reminder email", :js => true do
 
     scenario "lists harvests" do
       expect(mail).to have_content "the last few things you harvested were"
-      expect(mail).to have_content @h1.to_s
-      expect(mail).to have_content @h2.to_s
-      # can't test for links to your harvests due to this weirdness:
-      # https://github.com/Skud/growstuff/commit/8e6a57c4429eac88ab934f422ab11bf16b0a7663
+      expect(mail).to have_link @h1.to_s, harvest_url(@h1)
+      expect(mail).to have_link @h2.to_s, harvest_url(@h2)
       expect(mail).to have_content "Harvested anything else lately?"
     end
 

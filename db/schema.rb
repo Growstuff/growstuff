@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20150203080226) do
 
   # These are extensions that must be enabled in order to support this database
@@ -62,17 +63,22 @@ ActiveRecord::Schema.define(version: 20150203080226) do
   end
 
   create_table "crops", force: true do |t|
-    t.string   "name",                         null: false
+    t.string   "name",                                      null: false
     t.string   "en_wikipedia_url"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.string   "slug"
     t.integer  "parent_id"
-    t.integer  "plantings_count",  default: 0
+    t.integer  "plantings_count",      default: 0
     t.integer  "creator_id"
+    t.integer  "requester_id"
+    t.string   "approval_status",      default: "approved"
+    t.text     "reason_for_rejection"
+    t.text     "request_notes"
   end
 
   add_index "crops", ["name"], name: "index_crops_on_name", using: :btree
+  add_index "crops", ["requester_id"], name: "index_crops_on_requester_id", using: :btree
   add_index "crops", ["slug"], name: "index_crops_on_slug", unique: true, using: :btree
 
   create_table "crops_posts", id: false, force: true do |t|
@@ -328,15 +334,26 @@ ActiveRecord::Schema.define(version: 20150203080226) do
   end
 
   create_table "seeds", force: true do |t|
-    t.integer  "owner_id",                         null: false
-    t.integer  "crop_id",                          null: false
+    t.integer  "owner_id",                                    null: false
+    t.integer  "crop_id",                                     null: false
     t.text     "description"
     t.integer  "quantity"
     t.date     "plant_before"
+<<<<<<< HEAD
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.string   "tradable_to",  default: "nowhere"
+=======
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "tradable_to",             default: "nowhere"
+>>>>>>> dev
     t.string   "slug"
+    t.integer  "days_until_maturity_min"
+    t.integer  "days_until_maturity_max"
+    t.text     "organic",                 default: "unknown"
+    t.text     "gmo",                     default: "unknown"
+    t.text     "heirloom",                default: "unknown"
   end
 
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree

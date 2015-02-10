@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :crop do
     name "magic bean"
     en_wikipedia_url "http://en.wikipedia.org/wiki/Magic_bean"
+    approval_status "approved"
     creator
 
     factory :tomato do
@@ -52,6 +53,21 @@ FactoryGirl.define do
 
     factory :uppercasecrop do
       name "Swiss chard"
+    end
+
+    #for testing crop request
+    factory :crop_request do
+      name "Ultra berry"
+      en_wikipedia_url ""
+      approval_status "pending"
+      association :requester, factory: :member
+      request_notes "Please approve this even though it's fake."
+    end
+
+    factory :rejected_crop do
+      name "Fail bean"
+      approval_status "rejected"
+      reason_for_rejection "Totally fake"
     end
 
   end

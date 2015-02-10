@@ -1,0 +1,7 @@
+- site_name = ENV['GROWSTUFF_SITE_NAME']
+%p Hello #{@member.login_name},
+
+%p
+  A new crop has been requested. View, edit, approve or reject the request:
+
+  = link_to "Request for #{@request}", crop_url(@request)

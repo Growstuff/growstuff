@@ -45,9 +45,12 @@ describe Ability do
 
     context "standard member" do
       it "can't manage crops" do
-        @ability.should_not be_able_to(:create, Crop)
         @ability.should_not be_able_to(:update, @crop)
         @ability.should_not be_able_to(:destroy, @crop)
+      end
+
+      it "can request crops" do
+        @ability.should be_able_to(:create, Crop)
       end
 
       it "can read crops" do
