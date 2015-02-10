@@ -5,6 +5,8 @@ describe Post do
     @member = FactoryGirl.create(:member)
   end
 
+  it_behaves_like "it is likeable"
+
   it "should be sorted in reverse order" do
     FactoryGirl.create(:post,
       :subject => 'first entry',
