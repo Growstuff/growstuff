@@ -14,4 +14,9 @@ feature "crop search" do
     visit crops_search_path
     expect(page).to have_css "h1", text: "Crop search"
   end
+
+  scenario "search page has a search form on it" do
+    visit crops_search_path
+    expect(page).to have_css "form#crop-search"
+  end
 end
