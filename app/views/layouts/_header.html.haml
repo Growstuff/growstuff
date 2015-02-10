@@ -65,8 +65,8 @@
           %li= link_to "Sign out", destroy_member_session_path, :method => :delete
 
         - else
-          %li= link_to 'Sign in', new_member_session_path
-          %li= link_to 'Sign up', new_member_registration_path
+          %li= link_to 'Sign in', new_member_session_path, :id => 'navbar-signin'
+          %li= link_to 'Sign up', new_member_registration_path, :id => 'navbar-signup'
 
       = form_tag crops_search_path, :method => :get, :class => 'navbar-form pull-right' do
         .input
