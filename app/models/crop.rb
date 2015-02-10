@@ -43,6 +43,10 @@ class Crop < ActiveRecord::Base
   ## This validation addresses a race condition
   validate :approval_status_cannot_be_changed_again
 
+  validate :must_be_rejected_if_rejected_reasons_present
+
+  validate :must_have_meaningful_reason_for_rejection
+
   ####################################
   # Elastic search configuration
   include Elasticsearch::Model
@@ -311,7 +315,7 @@ class Crop < ActiveRecord::Base
       )
       return response.records.to_a
     else
-      where("name ILIKE ?", "%#{query}%") 
+      where("name ILIKE ?", "%#{query}%").load
     end
   end
 
@@ -321,6 +325,20 @@ class Crop < ActiveRecord::Base
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
     if previous.include?(:rejected) || previous.include?(:approved)
       errors.add(:approval_status, "has already been set to #{approval_status}")
+    end
+  end
+
+  def must_be_rejected_if_rejected_reasons_present
+    unless rejected?
+      if reason_for_rejection.present? || rejection_notes.present?
+        errors.add(:approval_status, "must be rejected if a reason for rejection is present")
+      end
+    end
+  end
+
+  def must_have_meaningful_reason_for_rejection
+    if reason_for_rejection == "other" && rejection_notes.blank?
+      errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
     end
   end
 

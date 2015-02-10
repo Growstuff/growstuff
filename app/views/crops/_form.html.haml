@@ -66,6 +66,13 @@
         = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'
         .col-md-8
           = f.select(:reason_for_rejection, @crop.reasons_for_rejection, {:include_blank => true}, {:class => 'form-control'})
+      %p
+        %span.help-block
+          Please provide additional notes why this crop request was rejected if the above reasons do not apply.
+
+      .form-group
+        = f.label :rejection_notes, 'Rejection Notes', :class => 'control-label col-md-2'
+        .col-md-8= f.text_area :rejection_notes, :rows => 6, :class => 'form-control'
 
   - else
     %p

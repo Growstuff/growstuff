@@ -9,10 +9,12 @@ class CropsController < ApplicationController
     @sort = params[:sort]
     if @sort == 'alpha'
       # alphabetical order
-      @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.paginate(:page => params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.paginate(:page => params[:page])
     end
 
     respond_to do |format|
@@ -60,8 +62,10 @@ class CropsController < ApplicationController
 
   # GET /crops/search
   def search
-    @all_matches = Crop.search(params[:search])
-    exact_match = Crop.find_by_name(params[:search])
+    @search = params[:search]
+    @all_matches = Crop.search(@search)
+    @paginated_matches = @all_matches.paginate(:page => params[:page])
+    exact_match = Crop.find_by_name(@search)
     if exact_match
       @all_matches.delete(exact_match)
       @all_matches.unshift(exact_match)
@@ -69,7 +73,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => Crop.search(params[:term]) }
+      format.json { render :json => Crop.search(@search) }
     end
   end
 
@@ -105,6 +109,10 @@ class CropsController < ApplicationController
   # GET /crops/1/edit
   def edit
     @crop = Crop.find(params[:id])
+
+    (3 - @crop.scientific_names.length).times do
+      @crop.scientific_names.build
+    end
   end
 
   # POST /crops
@@ -123,7 +131,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.save
-        if current_member.has_role? :crop_wrangler
+        unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
             Notifier.new_crop_request(w, @crop).deliver!
           end
@@ -179,6 +187,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :rejection_notes, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
   end
 end
