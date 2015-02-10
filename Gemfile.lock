@@ -209,16 +209,12 @@ GEM
       slop (>= 3.5.0)
       term-ansicolor
       terminal-table
-<<<<<<< HEAD
     jasmine (2.1.0)
       jasmine-core (~> 2.1.0)
       phantomjs
       rack (>= 1.2.1)
       rake
     jasmine-core (2.1.2)
-    journey (1.0.4)
-=======
->>>>>>> dev
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -278,12 +274,9 @@ GEM
       cocaine (~> 0.5.3)
       mime-types
     pg (0.17.1)
-<<<<<<< HEAD
     phantomjs (1.9.7.1)
-=======
     plupload-rails (1.2.1)
       rails (>= 3.1)
->>>>>>> dev
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
