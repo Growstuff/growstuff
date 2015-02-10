@@ -62,6 +62,7 @@ class CropsController < ApplicationController
   def search
     @search = params[:search]
     @all_matches = Crop.search(@search)
+    @paginated_matches = @all_matches.paginate(:page => params[:page])
     exact_match = Crop.find_by_name(@search)
     if exact_match
       @all_matches.delete(exact_match)
