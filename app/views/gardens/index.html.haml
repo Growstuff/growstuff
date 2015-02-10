@@ -50,14 +50,14 @@
             None
           - else
             %ul
-            - garden.plantings.each do |p|
+            - garden.plantings.current.each do |p|
               %li
                 = p.quantity
                 = link_to p.crop.name, p
                 - if p.planted_at
                   planted on
                   = p.planted_at
-              
+
         %td= link_to 'Details', garden, :class => 'btn btn-default btn-xs'
 
   %div.pagination
