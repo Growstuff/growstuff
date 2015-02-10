@@ -69,7 +69,6 @@ Growstuff::Application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Growstuff configuration
-  config.new_crops_request_link = "http://example.com/not-a-real-url"
   config.action_mailer.default_url_options = { :host => 'staging.growstuff.org' }
 
   config.action_mailer.smtp_settings = {

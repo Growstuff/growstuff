@@ -44,7 +44,6 @@ Growstuff::Application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Growstuff config
-  config.new_crops_request_link = "http://example.com/not-a-real-url"
   config.action_mailer.default_url_options = { :host => 'localhost:8080' }
 
   config.action_mailer.delivery_method = :letter_opener
