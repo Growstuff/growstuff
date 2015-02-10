@@ -23,6 +23,7 @@ describe "posts/_single" do
     it "doesn't contain a link to new comment" do
       assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", false
     end
+
   end
 
   context "when logged in" do
@@ -113,8 +114,40 @@ describe "posts/_single" do
     end
 
   end
+
+  context "when post has been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @post.update(body: "I am updated")
+      render_post
+    end
+
+    it "shows edited at time after user has edited" do
+      rendered.should have_content "edited at"
+    end
+  end
+
+  context "when comment has been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment.update(body: "I've been updated")
+      render_post
+    end
+
+    it "shows edited at time after user has edited the comment" do
+      rendered.should have_content "edited at"
+    end
+  end
+
 end
 
 
 
- 
+
