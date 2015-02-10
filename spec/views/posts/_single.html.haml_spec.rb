@@ -142,7 +142,7 @@ describe "posts/_single" do
       @post = FactoryGirl.create(:post, :author => @member)
       @comment = FactoryGirl.create(:comment, :post => @post)
       @comment.update(body: "I've been updated")
-      render_post
+      render :partial => "comments/single", :locals => { :comment => @comment }
     end
 
     it "shows edited at time" do
@@ -175,11 +175,9 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryGirl.create(:post, :author => @member)
-      rightnow = Timecop.freeze(Time.now)
       @comment = FactoryGirl.create(:comment, :post => @post)
-      @comment.update(created_at: rightnow)
-      @comment.update(updated_at: rightnow)
-      render_post
+      @comment.update(updated_at: @comment.created_at)
+      render :partial => "comments/single", :locals => { :comment => @comment }
     end
 
     it "does not show edited at" do
