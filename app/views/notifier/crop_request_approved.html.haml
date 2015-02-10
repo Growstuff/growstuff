@@ -12,5 +12,5 @@
   %li
     = link_to "Stash seeds for #{@crop.name}", new_seed_url(crop_id: @crop.id)
 
-= render :partial => 'signature'
+= render :partial => 'signature', :locals => { :site_name => site_name }
 
