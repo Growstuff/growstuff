@@ -80,7 +80,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-flickr', '>= 0.0.15'
 
 # client for Elasticsearch. Elasticsearch is a flexible
-# and powerful, distributed, real-time search and analytics engine. 
+# and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
@@ -119,6 +119,7 @@ group :development, :test do
   gem 'capybara-email'                  # integration tests for email
   gem 'poltergeist', '~> 1.5.1'         # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+  gem 'timecop'                         # freezes time to set created_at and updated_at for testing environment
 end
 
 group :travis do

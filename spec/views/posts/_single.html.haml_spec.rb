@@ -160,7 +160,7 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryGirl.create(:post, :author => @member)
-      @post.stub(updated_at: @post.created_at)
+      Timecop.freeze(@post.created_at = @post.updated_at)
       render_post
     end
 
@@ -175,12 +175,14 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryGirl.create(:post, :author => @member)
+      rightnow = Timecop.freeze(Time.now)
       @comment = FactoryGirl.create(:comment, :post => @post)
-      @comment.stub(updated_at: @comment.created_at)
+      @comment.update(created_at: rightnow)
+      @comment.update(updated_at: rightnow)
       render_post
     end
 
-    it "does not show edited at time" do
+    it "does not show edited at" do
       rendered.should_not have_content "edited at #{@comment.updated_at}"
     end
   end
