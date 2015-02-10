@@ -30,6 +30,11 @@ class Ability
     can :read, ScientificName do |sn|
       sn.crop.approved?
     end
+    # ... same for alternate names
+    cannot :read, AlternateName
+    can :read, AlternateName do |an|
+      an.crop.approved?
+    end
 
     if member
       # members can see even rejected or pending crops if they requested it
