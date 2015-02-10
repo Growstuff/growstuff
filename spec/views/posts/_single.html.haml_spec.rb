@@ -23,6 +23,7 @@ describe "posts/_single" do
     it "doesn't contain a link to new comment" do
       assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", false
     end
+
   end
 
   context "when logged in" do
@@ -113,8 +114,79 @@ describe "posts/_single" do
     end
 
   end
+
+  context "when post has been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @post.update(body: "I am updated")
+      render_post
+    end
+
+    it "shows edited at" do
+      rendered.should have_content "edited at"
+    end
+
+    it "shows the updated time" do
+      rendered.should have_content @post.updated_at
+    end
+  end
+
+  context "when comment has been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment.update(body: "I've been updated")
+      render :partial => "comments/single", :locals => { :comment => @comment }
+    end
+
+    it "shows edited at time" do
+      rendered.should have_content "edited at"
+    end
+
+    it "shows updated time" do
+      rendered.should have_content @comment.updated_at
+    end
+  end
+
+  context "when post has not been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      Timecop.freeze(@post.created_at = @post.updated_at)
+      render_post
+    end
+
+    it "does not show edited at" do
+      rendered.should_not have_content "edited at #{@post.updated_at}"
+    end
+  end
+
+  context "when comment has not been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment.update(updated_at: @comment.created_at)
+      render :partial => "comments/single", :locals => { :comment => @comment }
+    end
+
+    it "does not show edited at" do
+      rendered.should_not have_content "edited at #{@comment.updated_at}"
+    end
+  end
+
 end
 
 
 
- 
+

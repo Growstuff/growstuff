@@ -6,6 +6,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'simplecov'
 require 'coveralls'
+require 'byebug'
 
 # output coverage locally AND send it to coveralls
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
