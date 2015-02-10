@@ -160,7 +160,7 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryGirl.create(:post, :author => @member)
-      Timecop.freeze(@post.created_at = @post.updated_at)
+      @post.update(updated_at: @post.created_at)
       render_post
     end
 
