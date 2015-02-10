@@ -1,4 +1,7 @@
-- content_for :title, "Crops matching #{@search}"
+- if @search
+  - content_for :title, "Crops matching \"#{@search}\""
+- else
+  - content_for :title, "Crop search"
 
 - if @all_matches.empty?
   %h2 No results found
