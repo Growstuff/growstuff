@@ -9,6 +9,10 @@
           = link_to comment.author.login_name, member_path(comment.author)
           at
           = comment.created_at
+          %br
+          - if comment.updated_at > comment.created_at
+            edited at
+            = comment.updated_at
 
         .comment-body
           :growstuff_markdown
