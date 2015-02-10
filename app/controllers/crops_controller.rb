@@ -105,6 +105,10 @@ class CropsController < ApplicationController
   # GET /crops/1/edit
   def edit
     @crop = Crop.find(params[:id])
+
+    (3 - @crop.scientific_names.length).times do
+      @crop.scientific_names.build
+    end
   end
 
   # POST /crops
@@ -123,7 +127,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.save
-        if current_member.has_role? :crop_wrangler
+        unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
             Notifier.new_crop_request(w, @crop).deliver!
           end
@@ -179,6 +183,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :rejection_notes, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
   end
 end

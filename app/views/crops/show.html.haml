@@ -2,26 +2,27 @@
 - content_for :subtitle, @crop.default_scientific_name
 
 - if @crop.pending?
-  .alert.alert-warning
+  .alert.alert-danger
     %b This crop is currently pending approval.
-    %p This crop was requested by #{@crop.requester} on #{@crop.created_at}.
+    %p This crop was requested by #{@crop.requester} #{time_ago_in_words(@crop.created_at)} ago.
     - unless @crop.request_notes.blank?
       %p
         Request notes: #{@crop.request_notes}
 
 - if @crop.rejected?
-  .alert.alert-warning
-    %b This crop was rejected for the following reason: #{@crop.reason_for_rejection}.
+  .alert.alert-danger
+    %b This crop was rejected for the following reason: #{@crop.reason_for_rejection == "other" ? @crop.rejection_notes : @crop.reason_for_rejection}.
 
-- content_for :buttonbar do
-  - if can? :create, Planting
-    = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-default'
+- if @crop.approved?
+  - content_for :buttonbar do
+    - if can? :create, Planting
+      = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-default'
 
-  - if can? :create, Harvest
-    = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-default'
+    - if can? :create, Harvest
+      = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-default'
 
-  - if can? :create, Seed
-    = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
+    - if can? :create, Seed
+      = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
 
 
 .row

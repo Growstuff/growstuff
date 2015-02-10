@@ -5,6 +5,7 @@ feature "Requesting a new crop" do
   context "As a regular member" do
 
     let(:member) { FactoryGirl.create(:member) }
+    let!(:wrangler) { FactoryGirl.create(:crop_wrangling_member) }
 
     before { login_as member }
 
