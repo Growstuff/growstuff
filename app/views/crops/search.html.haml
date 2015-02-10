@@ -1,4 +1,16 @@
-- content_for :title, "Crops matching #{@search}"
+- if @search
+  - content_for :title, "Crops matching \"#{@search}\""
+  - if @all_matches
+    - content_for :subtitle, "#{@all_matches.size} total"
+- else
+  - content_for :title, "Crop search"
+
+%div
+  = form_tag crops_search_path, :method => :get, :id => 'crop-search', :class => 'form-inline' do
+    .form-group
+      = label_tag :search, "Search crops:", :class => 'sr-only'
+      = text_field_tag 'search', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops', :value => @search
+    = submit_tag "Search", :class => 'btn btn-primary'
 
 - if @all_matches.empty?
   %h2 No results found
@@ -9,10 +21,15 @@
     = link_to "browsing our crop database", crops_path
     instead.
 
-- else 
-  %div#all_matches
+- else
+  %div.pagination
+    = will_paginate @paginated_matches
+
+  %div#paginated_matches
     .row
-      - @all_matches.each do |c|
+      - @paginated_matches.each do |c|
         .col-md-2.six-across
           = render :partial => "thumbnail", :locals => { :crop => c }
 
+  %div.pagination
+    = will_paginate @paginated_matches

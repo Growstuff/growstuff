@@ -9,10 +9,12 @@ class CropsController < ApplicationController
     @sort = params[:sort]
     if @sort == 'alpha'
       # alphabetical order
-      @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.paginate(:page => params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.paginate(:page => params[:page])
     end
 
     respond_to do |format|
@@ -60,8 +62,10 @@ class CropsController < ApplicationController
 
   # GET /crops/search
   def search
-    @all_matches = Crop.search(params[:search])
-    exact_match = Crop.find_by_name(params[:search])
+    @search = params[:search]
+    @all_matches = Crop.search(@search)
+    @paginated_matches = @all_matches.paginate(:page => params[:page])
+    exact_match = Crop.find_by_name(@search)
     if exact_match
       @all_matches.delete(exact_match)
       @all_matches.unshift(exact_match)
@@ -69,7 +73,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => Crop.search(params[:term]) }
+      format.json { render :json => Crop.search(@search) }
     end
   end
 
