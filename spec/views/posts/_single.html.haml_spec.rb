@@ -125,8 +125,12 @@ describe "posts/_single" do
       render_post
     end
 
-    it "shows edited at time after user has edited" do
+    it "shows edited at" do
       rendered.should have_content "edited at"
+    end
+
+    it "shows the updated time" do
+      rendered.should have_content @post.updated_at
     end
   end
 
@@ -143,6 +147,10 @@ describe "posts/_single" do
 
     it "shows edited at time after user has edited the comment" do
       rendered.should have_content "edited at"
+    end
+
+    it "shows updated time" do
+      rendered.should have_content @comment.updated_at
     end
   end
 
