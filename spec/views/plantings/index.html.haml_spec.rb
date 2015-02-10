@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "plantings/index" do
   before(:each) do
@@ -37,23 +37,23 @@ describe "plantings/index" do
   end
 
   it "renders a list of plantings" do
-    rendered.should contain @tomato.name
-    rendered.should contain @maize.name
-    rendered.should contain @member.login_name
-    rendered.should contain @garden.name
+    rendered.should have_content @tomato.name
+    rendered.should have_content @maize.name
+    rendered.should have_content @member.login_name
+    rendered.should have_content @garden.name
   end
 
   it "displays planting time" do
-    rendered.should contain 'January 13, 2013'
+    rendered.should have_content 'January 13, 2013'
   end
 
   it "displays finished time" do
-    rendered.should contain 'January 20, 2013'
+    rendered.should have_content 'January 20, 2013'
   end
 
   it "provides data links" do
     render
-    rendered.should contain "The data on this page is available in the following formats:"
+    rendered.should have_content "The data on this page is available in the following formats:"
     assert_select "a", :href => plantings_path(:format => 'csv')
     assert_select "a", :href => plantings_path(:format => 'json')
     assert_select "a", :href => plantings_path(:format => 'rss')
@@ -62,12 +62,12 @@ describe "plantings/index" do
   it "displays member's name in title" do
     assign(:owner, @member)
     render
-    view.content_for(:title).should contain @member.login_name
+    view.content_for(:title).should have_content @member.login_name
   end
 
   it "displays crop's name in title" do
     assign(:crop, @tomato)
     render
-    view.content_for(:title).should contain @tomato.name
+    view.content_for(:title).should have_content @tomato.name
   end
 end

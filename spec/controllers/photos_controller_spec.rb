@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PhotosController do
 
@@ -46,6 +46,12 @@ describe PhotosController do
       get :new, { :type => "harvest", :id => 5 }
       assigns(:id).should eq "5"
       assigns(:type).should eq "harvest"
+    end
+
+    it "assigns a garden id" do
+      get :new, { :type => "garden", :id => 5 }
+      assigns(:id).should eq "5"
+      assigns(:type).should eq "garden"
     end
 
     it "assigns the current set as @current_set" do

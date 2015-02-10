@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Crop do
   context 'all fields present' do
@@ -8,7 +8,7 @@ describe Crop do
     end
 
     it 'should save a basic crop' do
-      @crop.save.should be_true
+      @crop.save.should be(true)
     end
 
     it 'should be fetchable from the database' do
@@ -328,6 +328,7 @@ describe Crop do
   context "search" do
     before :each do
       @mushroom = FactoryGirl.create(:crop, :name => 'mushroom')
+      sync_elasticsearch([@mushroom])
     end
     it "finds exact matches" do
       Crop.search('mushroom').should eq [@mushroom]

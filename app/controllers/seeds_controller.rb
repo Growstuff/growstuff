@@ -2,8 +2,6 @@ class SeedsController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :show]
   load_and_authorize_resource
 
-  cache_sweeper :seed_sweeper
-
   # GET /seeds
   # GET /seeds.json
   def index
@@ -68,7 +66,7 @@ class SeedsController < ApplicationController
   # POST /seeds.json
   def create
     params[:seed][:owner_id] = current_member.id
-    @seed = Seed.new(params[:seed])
+    @seed = Seed.new(seed_params)
 
     respond_to do |format|
       if @seed.save
@@ -87,7 +85,7 @@ class SeedsController < ApplicationController
     @seed = Seed.find(params[:id])
 
     respond_to do |format|
-      if @seed.update_attributes(params[:seed])
+      if @seed.update(seed_params)
         format.html { redirect_to @seed, notice: 'Seed was successfully updated.' }
         format.json { head :no_content }
       else
@@ -107,5 +105,14 @@ class SeedsController < ApplicationController
       format.html { redirect_to seeds_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def seed_params
+    params.require(:seed).permit(
+      :owner_id, :crop_id, :description, :quantity, :plant_before,
+      :days_until_maturity_min, :days_until_maturity_max, :organic, :gmo,
+      :heirloom, :tradable_to, :slug)
   end
 end

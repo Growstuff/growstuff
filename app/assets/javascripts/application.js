@@ -15,7 +15,7 @@
 //= require js-routes
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.autocomplete
+//= require jquery-ui/autocomplete
 //= require twitter/bootstrap
 //= require_tree .
 //= require bootstrap-datepicker

@@ -15,18 +15,38 @@
       %li.crop_wrangler
         = link_to crop_wrangler.login_name, crop_wrangler
 
-%h2 Recently added crops
+.tabbable
+  %ul.nav.nav-tabs
+    %li{:class => @approval_status.blank? ? 'active' : ''}
+      = link_to "Recently added", wrangle_crops_path
+    %li{:class => @approval_status == "pending" ? 'active' : ''}
+      = link_to "Pending approval", wrangle_crops_path(:approval_status => "pending")
+    %li{:class => @approval_status == "rejected" ? 'active' : ''}
+      = link_to "Rejected", wrangle_crops_path(:approval_status => "rejected")
+
+%h2 
+  - if @approval_status == "pending"
+    Requested Crops
+  - elsif @approval_status == "rejected"
+    Rejected Crops
+  - else
+    Recently added crops
+
 
 %div.pagination
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
 
-%table.table.table-striped
+%table{:class => "table table-striped", :id => @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops"}
   %tr
     %th System name
     %th English Wikipedia URL
     %th Scientific names
-    %th Added by
+    %th Requested by
+    - if @approval_status == "rejected"
+      %th Rejected by
+    - if @approval_status != "rejected" && @approval_status != "pending"
+      %th Added by
     %th When
   - @crops.each do |c|
     %tr
@@ -36,7 +56,9 @@
         - c.scientific_names.each do |s|
           = link_to s.scientific_name, s
           %br/
-      %td= link_to c.creator, c.creator
+      %td= c.requester.present? ? (link_to c.requester, c.requester) : "N/A"
+      - unless @approval_status == "pending"
+        %td= c.creator.present? ? (link_to c.creator, c.creator) : "N/A"
       %td
         = distance_of_time_in_words(c.created_at, Time.zone.now)
         ago.
@@ -44,3 +66,5 @@
 %div.pagination
   = page_entries_info @crops, :model => "crops"
   = will_paginate @crops
+
+

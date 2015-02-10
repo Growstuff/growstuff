@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'members/show.rss.haml', :type => "view" do
   before(:each) do
@@ -10,21 +10,21 @@ describe 'members/show.rss.haml', :type => "view" do
   end
 
   it 'shows RSS feed title' do
-    rendered.should contain /member\d+'s recent posts/
+    rendered.should have_content /member\d+'s recent posts/
   end
 
   it 'shows content of posts' do
-    rendered.should contain "This is some text."
+    rendered.should have_content "This is some text."
   end
 
   it 'renders post bodies to HTML and XML-escapes them' do
 # The variable "rendered" has been entity-replaced and tag-stripped
 # The literal string output contains "&lt;strong&gt;" etc.
-    rendered.should contain "<strong>strong</strong>"
+    rendered.should have_content "<strong>strong</strong>"
   end
 
   it 'gives the author in the item title' do
-    rendered.should contain "#{@post1.subject} by #{@post1.author}"
+    rendered.should have_content "#{@post1.subject} by #{@post1.author}"
   end
 
 end

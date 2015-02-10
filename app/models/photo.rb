@@ -1,20 +1,20 @@
 class Photo < ActiveRecord::Base
-  attr_accessible :flickr_photo_id, :owner_id, :title, :license_name,
-    :license_url, :thumbnail_url, :fullsize_url, :link_url
   belongs_to :owner, :class_name => 'Member'
 
   has_and_belongs_to_many :plantings
   has_and_belongs_to_many :harvests
+  has_and_belongs_to_many :gardens
   before_destroy do |photo|
     photo.plantings.clear
     photo.harvests.clear
+    photo.gardens.clear
   end
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
   # remove photos that aren't used by anything
   def destroy_if_unused
-    unless plantings.size > 0 or harvests.size > 0
+    unless plantings.size > 0 or harvests.size > 0 or gardens.size > 0
       self.destroy
     end
   end

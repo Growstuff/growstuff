@@ -13,13 +13,28 @@ class Notifier < ActionMailer::Base
   def planting_reminder(member)
     @member = member
 
-    @plantings = @member.plantings.reorder.last(5)
-    @harvests = @member.harvests.reorder.last(5)
+    @plantings = @member.plantings.first(5)
+    @harvests = @member.harvests.first(5)
 
     if @member.send_planting_reminder
       mail(:to => @member.email,
           :subject => "What have you planted lately?")
     end
+  end
+
+  def new_crop_request(member, request)
+    @member, @request = member, request
+    mail(:to => @member.email, :subject => "#{@request.requester.login_name} has requested #{@request.name} as a new crop")    
+  end
+
+  def crop_request_approved(member, crop)
+    @member, @crop = member, crop
+    mail(:to => @member.email, :subject => "#{crop.name.capitalize} has been approved")
+  end
+
+  def crop_request_rejected(member, crop)
+    @member, @crop = member, crop
+    mail(:to => @member.email, :subject => "#{crop.name.capitalize} has been rejected")
   end
 
 end

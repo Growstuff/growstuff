@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'haml/filters'
 require 'haml/filters/escaped_markdown'
 require 'haml/helpers'

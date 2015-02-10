@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 feature "Planting a crop", :js => true do
   let(:member)   { FactoryGirl.create(:member) }
@@ -9,12 +9,13 @@ feature "Planting a crop", :js => true do
   background do
     login_as(member)
     visit new_planting_path
+    sync_elasticsearch([maize])
   end
 
   it_behaves_like "crop suggest", "planting"
 
   scenario "Creating a new planting" do
-    fill_autocomplete "crop", :with => "m"
+    fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
       fill_in "When", :with => "2014-06-15"
@@ -41,7 +42,7 @@ feature "Planting a crop", :js => true do
   end
 
   scenario "Marking a planting as finished" do
-    fill_autocomplete "crop", :with => "m"
+    fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
       fill_in "When?", :with => "2014-07-01"
@@ -77,7 +78,7 @@ feature "Planting a crop", :js => true do
   end
 
   scenario "Marking a planting as finished without a date" do
-    fill_autocomplete "crop", :with => "m"
+    fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
       check "Mark as finished"

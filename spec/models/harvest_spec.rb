@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Harvest do
 
@@ -115,6 +115,26 @@ describe Harvest do
       @harvest = FactoryGirl.build(:harvest, :weight_quantity => '', :weight_unit => 'kg')
       @harvest.should be_valid
       @harvest.weight_unit.should eq nil
+    end
+  end
+
+  context "standardized weights" do
+    it 'converts from pounds' do
+      @harvest = FactoryGirl.create(:harvest, :weight_quantity => 2, :weight_unit => "lb")
+      @harvest.should be_valid
+      @harvest.reload.si_weight.should eq 0.907
+    end
+
+    it 'converts from ounces' do
+      @harvest = FactoryGirl.create(:harvest, :weight_quantity => 16, :weight_unit => "oz")
+      @harvest.should be_valid
+      @harvest.reload.si_weight.should eq 0.454
+    end
+
+    it 'leaves kg alone' do
+      @harvest = FactoryGirl.create(:harvest, :weight_quantity => 2, :weight_unit => "kg")
+      @harvest.should be_valid
+      @harvest.reload.si_weight.should eq 2.0
     end
   end
 

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "scientific_names/edit" do
   context "logged in" do
@@ -13,7 +13,7 @@ describe "scientific_names/edit" do
     end
 
   it "shows the creator" do
-    rendered.should contain "Added by #{@scientific_name.creator} less than a minute ago."
+    rendered.should have_content "Added by #{@scientific_name.creator} less than a minute ago."
   end
 
     it "renders the edit scientific_name form" do

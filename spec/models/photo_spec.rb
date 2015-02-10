@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Photo do
 
@@ -6,6 +6,7 @@ describe Photo do
     let(:photo) { FactoryGirl.create(:photo) }
     let(:planting) { FactoryGirl.create(:planting) }
     let(:harvest) { FactoryGirl.create(:harvest) }
+    let(:garden) { FactoryGirl.create(:garden) }
 
     context "adds photos" do
       it 'to a planting' do
@@ -18,6 +19,12 @@ describe Photo do
         harvest.photos << photo
         expect(harvest.photos.count).to eq 1
         expect(harvest.photos.first).to eq photo
+      end
+
+      it 'to a garden' do
+        garden.photos << photo
+        expect(garden.photos.count).to eq 1
+        expect(garden.photos.first).to eq photo
       end
     end
 
@@ -34,6 +41,12 @@ describe Photo do
         expect(harvest.photos.count).to eq 0
       end
 
+      it 'from a garden' do
+        garden.photos << photo
+        photo.destroy
+        expect(garden.photos.count).to eq 0
+      end
+
       it "automatically if unused" do
         photo.destroy_if_unused
         expect(lambda { photo.reload }).to raise_error ActiveRecord::RecordNotFound
@@ -44,7 +57,7 @@ describe Photo do
         planting.photos << photo
         harvest.destroy # photo is now used by harvest but not planting
         photo.destroy_if_unused
-        expect(lambda { photo.reload }).not_to raise_error ActiveRecord::RecordNotFound
+        expect(lambda { photo.reload }).not_to raise_error
       end
 
       it 'they are used by harvests but not plantings' do
@@ -52,24 +65,36 @@ describe Photo do
         planting.photos << photo
         planting.destroy # photo is now used by harvest but not planting
         photo.destroy_if_unused
-        expect(lambda { photo.reload }).not_to raise_error ActiveRecord::RecordNotFound
+        expect(lambda { photo.reload }).not_to raise_error
+      end
+
+      it 'they are used by gardens but not plantings' do
+        garden.photos << photo
+        planting.photos << photo
+        planting.destroy # photo is now used by garden but not planting
+        photo.destroy_if_unused
+        expect(lambda { photo.reload }).not_to raise_error
       end
 
       it 'they are no longer used by anything' do
         planting.photos << photo
         harvest.photos << photo
+        garden.photos << photo
         expect(photo.plantings.size).to eq 1
         expect(photo.harvests.size).to eq 1
+        expect(photo.gardens.size).to eq 1
 
-        planting.destroy # photo is still used by harvest
+        planting.destroy # photo is still used by harvest and garden
         photo.reload
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 1
 
-        harvest.destroy # photo is now no longer used by anything
-        photo.reload
+        harvest.destroy
+        garden.destroy # photo is now no longer used by anything
+
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 0
+        expect(photo.gardens.size).to eq 0
         photo.destroy_if_unused
         expect(lambda { photo.reload }).to raise_error ActiveRecord::RecordNotFound
       end

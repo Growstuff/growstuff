@@ -1,9 +1,12 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "footer" do
-  scenario "contact page has Twitter link" do
+
+  scenario "footer is on home page" do
     visit root_path
-    click_link 'Contact'
-    page.should have_link '@growstufforg', :href => 'http://twitter.com/growstufforg'
+    expect(page).to have_css 'footer'
   end
+
+# NB: not testing specific content in the footer since I'm going to put them
+# in the CMS and they'll be variable.
 end

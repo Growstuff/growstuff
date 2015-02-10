@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "comments/index" do
   before(:each) do
@@ -18,8 +18,8 @@ describe "comments/index" do
 
   it "renders a list of comments" do
     render
-    rendered.should contain 'OMG LOL'
-    rendered.should contain 'ROFL'
+    rendered.should have_content 'OMG LOL'
+    rendered.should have_content 'ROFL'
   end
 
   it "contains an RSS feed link" do

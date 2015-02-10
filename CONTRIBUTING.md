@@ -1,8 +1,8 @@
 Thanks for contributing to Growstuff!
 
-Please include the following information in your pull request:
+When you create a pull request, please include the following:
 
-* A link to the [Pivotal Tracker](http://tracker.growstuff.org/) task to which it relates.
+* Mention the issue it solves (eg. #123)
 * Your code should follow our [Coding style guide](http://wiki.growstuff.org/index.php/Coding_style_guide)
 * Make sure you have automated tests for your work, where possible.
 * Add your name (and that of your pair partner, if any) to [CONTRIBUTORS.md](CONTRIBUTORS.md).

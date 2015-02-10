@@ -1,7 +1,7 @@
 class Forum < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: :slugged
-  attr_accessible :description, :name, :owner_id, :slug
+  friendly_id :name, use: [:slugged, :finders]
+
   has_many :posts
   belongs_to :owner, :class_name => "Member"
 

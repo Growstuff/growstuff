@@ -1,10 +1,6 @@
 class Planting < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :planting_slug, use: :slugged
-
-  attr_accessible :crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from, :owner_id, :finished,
-    :finished_at
+  friendly_id :planting_slug, use: [:slugged, :finders]
 
   belongs_to :garden
   belongs_to :owner, :class_name => 'Member', :counter_cache => true
@@ -21,9 +17,9 @@ class Planting < ActiveRecord::Base
     end
   end
 
-  default_scope order("created_at desc")
-  scope :finished, where(:finished => true)
-  scope :current, where(:finished => false)
+  default_scope { order("created_at desc") }
+  scope :finished, -> { where(:finished => true) }
+  scope :current, -> { where(:finished => false) }
 
   delegate :name,
     :en_wikipedia_url,
@@ -32,12 +28,16 @@ class Planting < ActiveRecord::Base
     :to => :crop,
     :prefix => true
 
-  default_scope order("created_at desc")
+  default_scope { order("created_at desc") }
 
-  validates :crop_id, :presence => {:message => "must be present and exist in our database"}
+  validates :crop, :approved => true
+
+  validates :crop, :presence => {:message => "must be present and exist in our database"}
 
   validates :quantity,
-    :numericality => { :only_integer => true },
+    :numericality => {
+      :only_integer => true,
+      :greater_than_or_equal_to => 0 },
     :allow_nil => true
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)

@@ -11,13 +11,15 @@ def load_data
     create_cropbot
     load_crops
     load_plant_parts
+    load_paid_account_types
+    load_products
 
-    # for development environments only
+    # We don't load these in an environment except development to
+    # prevent creating users in the wild - especially admins - with
+    # known passwords.
     if Rails.env.development?
       load_test_users
       load_admin_users
-      load_paid_account_types
-      load_products
     end
   end
 
@@ -156,7 +158,7 @@ def load_plant_parts
     'other'
   ]
   plant_parts.each do |pp|
-    PlantPart.find_or_create_by_name!(pp)
+    PlantPart.find_or_create_by!(name: pp)
   end
 end
 

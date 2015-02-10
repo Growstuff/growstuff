@@ -1,11 +1,9 @@
 class PlantPart < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, :use => :slugged
+  friendly_id :name, :use => [:slugged, :finders]
 
   has_many :harvests
-  has_many :crops, :through => :harvests, :uniq => true
-
-  attr_accessible :name, :slug
+  has_many :crops, -> { uniq }, :through => :harvests
 
   def to_s
     return name

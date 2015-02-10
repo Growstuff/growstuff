@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'home/_members.html.haml', :type => "view" do
   before(:each) do
@@ -11,13 +11,13 @@ describe 'home/_members.html.haml', :type => "view" do
   end
 
   it 'Has a heading' do
-    rendered.should contain "Some of our members"
+    rendered.should have_content "Some of our members"
   end
 
   it 'Shows members' do
-    rendered.should contain @member.login_name
-    rendered.should contain @member.location
-    rendered.should contain @planting.crop_name
+    rendered.should have_content @member.login_name
+    rendered.should have_content @member.location
+    rendered.should have_content @planting.crop_name
   end
 
 end

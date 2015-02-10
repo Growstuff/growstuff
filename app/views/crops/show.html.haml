@@ -1,18 +1,34 @@
 - content_for :title, @crop.name
 - content_for :subtitle, @crop.default_scientific_name
-- content_for :buttonbar do
-  - if can? :create, Planting
-    = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-default'
 
-  - if can? :create, Harvest
-    = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-default'
+- if @crop.pending?
+  .alert.alert-danger
+    %b This crop is currently pending approval.
+    %p This crop was requested by #{@crop.requester} #{time_ago_in_words(@crop.created_at)} ago.
+    - unless @crop.request_notes.blank?
+      %p
+        Request notes: #{@crop.request_notes}
 
-  - if can? :create, Seed
-    = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
+- if @crop.rejected?
+  .alert.alert-danger
+    %b This crop was rejected for the following reason: #{@crop.reason_for_rejection == "other" ? @crop.rejection_notes : @crop.reason_for_rejection}.
+
+- if @crop.approved?
+  - content_for :buttonbar do
+    - if can? :create, Planting
+      = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-default'
+
+    - if can? :create, Harvest
+      = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-default'
+
+    - if can? :create, Seed
+      = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
 
 
 .row
   .col-md-9
+    - unless current_member
+      Learn how to grow #{ @crop.name.pluralize } from growers around the world. #{ ENV['GROWSTUFF_SITE_NAME'] } has tips and advice from real-life growers, including when to plant #{ @crop.name.pluralize }, how to harvest #{ @crop.name.pluralize }, and more.
 
     = render :partial => 'photos', :locals => { :crop => @crop }
 
@@ -35,38 +51,48 @@
     %div#cropmap
 
     %a{:name => 'posts'}
-    %div.pagination
-      = page_entries_info @posts, :model => "posts"
-      = will_paginate @posts, :params => {:anchor => "posts"}
+    %h2 What people are saying about #{ @crop.name.pluralize }
 
-    - unless @posts.empty?
+    - if @posts.empty?
+      %p
+        Nobody has posted about #{ @crop.name.pluralize } yet.
+      %p
+        - if can? :create, Post
+          = link_to "Post something", new_post_path, :class => 'btn btn-default'
+        - else
+          = render :partial => "shared/signin_signup", :locals => { :to => "post your tips and experiences growing #{ @crop.name.pluralize }" }
+    - else
+      %div.pagination
+        = page_entries_info @posts, :model => "posts"
+        = will_paginate @posts, :params => {:anchor => "posts"}
       - @posts.each do |post|
         = render :partial => "posts/single", :locals => { :post => post, :subject => true }
 
-    %div.pagination
-      = page_entries_info @posts, :model => "posts"
-      = will_paginate @posts, :params => {:anchor => "posts"}
+      %div.pagination
+        = page_entries_info @posts, :model => "posts"
+        = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3
 
     = render :partial => 'wrangle', :locals => { :crop => @crop }
-    = render :partial => 'scientific_names', :locals => { :crop => @crop }
-    = render :partial => 'alternate_names', :locals => { :crop => @crop }
 
-    %h4 Planting advice
+    %h4 How to grow #{ @crop.name.pluralize }
 
     = render :partial => 'grown_for', :locals => { :crop => @crop }
     = render :partial => 'planting_advice', :locals => { :crop => @crop }
 
-    %h4 Varieties
+    = render :partial => 'scientific_names', :locals => { :crop => @crop }
+    = render :partial => 'alternate_names', :locals => { :crop => @crop }
+
+    %h4 #{ @crop.name.capitalize } varieties
     = render :partial => 'varieties', :locals => { :crop => @crop }
-
-
-    %h4 More information
-    %ul
-      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
 
     = render :partial => 'plantings', :locals => { :crop => @crop }
     = render :partial => 'harvests', :locals => { :crop => @crop }
     = render :partial => 'find_seeds', :locals => { :crop => @crop }
+
+
+    %h4 Learn more about #{ @crop.name.pluralize }
+    %ul
+      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
 

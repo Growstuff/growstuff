@@ -1,10 +1,9 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :author_id, :body, :post_id
   belongs_to :author, :class_name => 'Member'
   belongs_to :post
 
-  default_scope order("created_at DESC")
-  scope :post_order, reorder("created_at ASC") # for display on post page
+  default_scope { order("created_at DESC") }
+  scope :post_order, -> { reorder("created_at ASC") } # for display on post page
 
   after_create do
     recipient = self.post.author.id

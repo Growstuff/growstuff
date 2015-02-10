@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "crops/index" do
   before(:each) do
@@ -8,24 +8,11 @@ describe "crops/index" do
     total_entries = 2
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
-    crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+    assign(:crops, [@tomato, @maize])
+    paginated_crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([ @tomato, @maize ])
     end
-    assign(:crops, crops)
-  end
-
-  it "has a form for sorting by" do
-    render
-    assert_select "form"
-    assert_select "select#sort"
-    assert_select "option[value=alpha]"
-    assert_select "option[value=popular]"
-  end
-
-  it "renders a list of crops" do
-    render
-    assert_select "a", :text => @maize.name
-    assert_select "a", :text => @tomato.name
+    assign(:paginated_crops, paginated_crops)
   end
 
   it "shows photos where available" do
@@ -50,14 +37,14 @@ describe "crops/index" do
     end
 
     it "shows a new crop link" do
-      rendered.should contain "New Crop"
+      rendered.should have_content "New Crop"
     end
   end
 
   context "downloads" do
     it "offers data downloads" do
       render
-      rendered.should contain "The data on this page is available in the following formats:"
+      rendered.should have_content "The data on this page is available in the following formats:"
       assert_select "a", :href => crops_path(:format => 'csv')
       assert_select "a", :href => crops_path(:format => 'json')
       assert_select "a", :href => crops_path(:format => 'rss')

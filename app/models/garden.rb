@@ -1,14 +1,22 @@
 class Garden < ActiveRecord::Base
   include Geocodable
   extend FriendlyId
-  friendly_id :garden_slug, use: :slugged
-
-  attr_accessible :name, :slug, :owner_id, :description, :active,
-    :location, :latitude, :longitude, :area, :area_unit
+  friendly_id :garden_slug, use: [:slugged, :finders]
 
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
-  has_many :plantings, :order => 'created_at DESC', :dependent => :destroy
+  has_many :plantings, -> { order(created_at: :desc) }, :dependent => :destroy
   has_many :crops, :through => :plantings
+
+  has_and_belongs_to_many :photos
+
+   before_destroy do |garden|
+     photolist = garden.photos.to_a # save a temp copy of the photo list
+     garden.photos.clear # clear relationship b/w garden and photo
+
+     photolist.each do |photo|
+       photo.destroy_if_unused
+     end
+   end
 
   # set up geocoding
   geocoded_by :location
@@ -16,9 +24,9 @@ class Garden < ActiveRecord::Base
   after_validation :empty_unwanted_geocodes
   after_save :mark_inactive_garden_plantings_as_finished
 
-  default_scope order("lower(name) asc")
-  scope :active, where(:active => true)
-  scope :inactive, where(:active => false)
+  default_scope { order("lower(name) asc") }
+  scope :active, -> { where(:active => true) }
+  scope :inactive, -> { where(:active => false) }
 
   validates :name,
     :format => {
@@ -26,7 +34,9 @@ class Garden < ActiveRecord::Base
     }
 
   validates :area,
-    :numericality => { :only_integer => false, :greater_than_or_equal_to => 0 },
+    :numericality => {
+      :only_integer => false,
+      :greater_than_or_equal_to => 0 },
     :allow_nil => true
 
   AREA_UNITS_VALUES = {
@@ -84,6 +94,10 @@ class Garden < ActiveRecord::Base
         p.save
       end
     end
+  end
+
+  def default_photo
+    return photos.first
   end
 
 end

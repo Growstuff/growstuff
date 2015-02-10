@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'seeds/index.rss.haml' do
   before(:each) do
@@ -14,23 +14,23 @@ describe 'seeds/index.rss.haml' do
     end
 
     it 'shows RSS feed title' do
-      rendered.should contain "Recent seeds from all members"
+      rendered.should have_content "Recent seeds from all members"
     end
 
     it 'has a useful item title' do
-      rendered.should contain "#{@seed.owner}'s #{@seed.crop} seeds"
+      rendered.should have_content "#{@seed.owner}'s #{@seed.crop} seeds"
     end
 
     it 'shows the seed count' do
-      rendered.should contain "Quantity: #{@seed.quantity}"
+      rendered.should have_content "Quantity: #{@seed.quantity}"
     end
 
     it 'shows the plant_before date' do
-      rendered.should contain "Plant before: #{@seed.plant_before.to_s}"
+      rendered.should have_content "Plant before: #{@seed.plant_before.to_s}"
     end
 
     it 'mentions that one seed is tradable' do
-      rendered.should contain "Will trade #{@tradable.tradable_to} from #{@tradable.owner.location}"
+      rendered.should have_content "Will trade #{@tradable.tradable_to} from #{@tradable.owner.location}"
     end
 
   end
@@ -44,7 +44,7 @@ describe 'seeds/index.rss.haml' do
     end
 
     it 'shows RSS feed title' do
-      rendered.should contain "Recent seeds from #{@seed.owner}"
+      rendered.should have_content "Recent seeds from #{@seed.owner}"
     end
   end
 end

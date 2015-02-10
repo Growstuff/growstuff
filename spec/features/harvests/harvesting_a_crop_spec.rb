@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "Harvesting a crop", :js => true do
   let(:member)   { FactoryGirl.create(:member) }
@@ -7,12 +7,13 @@ feature "Harvesting a crop", :js => true do
   background do
     login_as(member)
     visit new_harvest_path
+    sync_elasticsearch([maize])
   end
 
   it_behaves_like "crop suggest", "harvest", "crop"
 
   scenario "Creating a new harvest", :js => true do
-    fill_autocomplete "crop", :with => "m"
+    fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_harvest" do
       fill_in "When?", :with => "2014-06-15"

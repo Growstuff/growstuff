@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'admin/index.html.haml', :type => "view" do
   before(:each) do
@@ -16,6 +16,6 @@ describe 'admin/index.html.haml', :type => "view" do
   end
 
   it "has a link to newsletter subscribers" do
-    rendered.should contain "Newsletter subscribers"
+    rendered.should have_content "Newsletter subscribers"
   end
 end

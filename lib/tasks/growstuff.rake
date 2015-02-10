@@ -98,36 +98,36 @@ namespace :growstuff do
     desc "June 2013: create account types and products."
     task :setup_shop => :environment do
       puts "Adding account types..."
-      AccountType.find_or_create_by_name(
+      AccountType.find_or_create_by(
         :name => "Free",
         :is_paid => false,
         :is_permanent_paid => false
       )
-      @paid_account = AccountType.find_or_create_by_name(
+      @paid_account = AccountType.find_or_create_by( 
         :name => "Paid",
         :is_paid => true,
         :is_permanent_paid => false
       )
-      @seed_account = AccountType.find_or_create_by_name(
+      @seed_account = AccountType.find_or_create_by( 
         :name => "Seed",
         :is_paid => true,
         :is_permanent_paid => true
       )
-      @staff_account = AccountType.find_or_create_by_name(
+      @staff_account = AccountType.find_or_create_by( 
         :name => "Staff",
         :is_paid => true,
         :is_permanent_paid => true
       )
 
       puts "Adding products..."
-      Product.find_or_create_by_name(
+      Product.find_or_create_by( 
         :name => "Annual subscription",
         :description => "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
         :min_price => 3000,
         :account_type_id => @paid_account.id,
         :paid_months => 12
       )
-      Product.find_or_create_by_name(
+      Product.find_or_create_by( 
         :name => "Seed account",
         :description => "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
         :min_price => 15000,
@@ -252,7 +252,7 @@ namespace :growstuff do
         'other'
       ]
       plant_parts.each do |pp|
-        PlantPart.find_or_create_by_name!(pp)
+        PlantPart.find_or_create_by!(name: pp)
       end
     end
 
@@ -313,6 +313,20 @@ namespace :growstuff do
           end
         end
       end
+    end
+
+    desc "January 2015: fill in si_weight column"
+    task :populate_si_weight => :environment do
+      Harvest.find_each do |h|
+        h.set_si_weight
+        h.save
+      end
+    end
+
+    desc "January 2015: build Elasticsearch index"
+    task :elasticsearch_create_index => :environment do
+      Crop.__elasticsearch__.create_index! force: true
+      Crop.import
     end
   end # end oneoff section
 

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe HarvestsController do
 
@@ -36,6 +36,11 @@ describe HarvestsController do
       get :index, {:crop => @maize.name}
       assigns(:crop).should eq @maize
       assigns(:harvests).should eq [@harvest2]
+    end
+
+    it "generates a csv" do
+        get :index, {:format => "csv"}
+        response.status.should eq 200
     end
   end
 
@@ -105,9 +110,9 @@ describe HarvestsController do
         harvest = Harvest.create! valid_attributes
         # Assuming there are no other harvests in the database, this
         # specifies that the Harvest created on the previous line
-        # receives the :update_attributes message with whatever params are
+        # receives the :update message with whatever params are
         # submitted in the request.
-        Harvest.any_instance.should_receive(:update_attributes).with({ "crop_id" => "1" })
+        Harvest.any_instance.should_receive(:update).with({ "crop_id" => "1" })
         put :update, {:id => harvest.to_param, :harvest => { "crop_id" => "1" }}
       end
 

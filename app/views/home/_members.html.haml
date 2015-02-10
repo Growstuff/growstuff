@@ -1,4 +1,4 @@
-- cache "interesting_members" do
+- cache cache_key_for(Member) do
   .hidden-xs
     - members = Member.interesting.first(6)
     - if members.present?
@@ -6,7 +6,7 @@
 
       .row
         - members.each do |m|
-          .col-md-6.homepage-members
+          .col-md-4.homepage-members
             = render :partial => "members/thumbnail", :locals => { :member => m }
 
       %p.text-right
