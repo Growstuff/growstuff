@@ -145,12 +145,43 @@ describe "posts/_single" do
       render_post
     end
 
-    it "shows edited at time after user has edited the comment" do
+    it "shows edited at time" do
       rendered.should have_content "edited at"
     end
 
     it "shows updated time" do
       rendered.should have_content @comment.updated_at
+    end
+  end
+
+  context "when post has not been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @post.stub(updated_at: @post.created_at)
+      render_post
+    end
+
+    it "does not show edited at" do
+      rendered.should_not have_content "edited at #{@post.updated_at}"
+    end
+  end
+
+  context "when comment has not been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment.stub(updated_at: @comment.created_at)
+      render_post
+    end
+
+    it "does not show edited at time" do
+      rendered.should_not have_content "edited at #{@comment.updated_at}"
     end
   end
 
