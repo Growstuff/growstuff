@@ -1,0 +1,9 @@
+- if seed.days_until_maturity_min.blank?
+  - if seed.days_until_maturity_max.blank?
+    unknown
+  - else
+    = seed.days_until_maturity_max.to_s
+- elsif seed.days_until_maturity_max.blank?
+  = seed.days_until_maturity_min.to_s
+- else
+  != "#{seed.days_until_maturity_min}&ndash;#{seed.days_until_maturity_max}"

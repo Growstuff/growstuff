@@ -319,6 +319,7 @@ namespace :growstuff do
     task :populate_si_weight => :environment do
       Harvest.find_each do |h|
         h.set_si_weight
+        h.save
       end
     end
 

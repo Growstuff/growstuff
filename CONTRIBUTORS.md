@@ -52,4 +52,6 @@ submit the change with your pull request.
 - Kevin Yang / [kevieyang](https://github.com/kevieyang)
 - Justin Hamman / [juzham](https://github.com/juzham)
 - Rocky Jaiswal / [rocky-jaiswal](https://github.com/rocky-jaiswal)
+- Robert Landreaux / [robertlandreaux](https://github.com/robertlandreaux)
+- Savant Krishna / [sksavant](https://github.com/sksavant)
 
