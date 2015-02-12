@@ -307,6 +307,7 @@ class Crop < ActiveRecord::Base
           query: {
             multi_match: {
               query: "#{search_str}",
+              analyzer: "standard",
               fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
             }
           },
