@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class CropsController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :hierarchy, :search, :show]
   load_and_authorize_resource
@@ -73,7 +75,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => Crop.search(@search) }
+      format.json { render :json => Crop.search(params[:term]) }
     end
   end
 
