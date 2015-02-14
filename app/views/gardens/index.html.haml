@@ -1,12 +1,11 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
-%p
+%div.buttons-bar
   - if can? :create, Garden
     - if @owner
-      %p
-        - if @owner == current_member
-          = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
-        = link_to "View everyone's gardens", gardens_path, :class => 'btn btn-default'
+      - if @owner == current_member
+        = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
+      = link_to "View everyone's gardens", gardens_path, :class => 'btn btn-default'
     - else # everyone's gardens
       = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
       - if current_member
@@ -22,43 +21,38 @@
 
   %table.table.table-striped
     %tr
+      %th 
       - unless @owner
         %th Owner
       %th Garden name
-      %th Description
-      %th Location
       %th Area
-      %th Active?
+      %th Location
       %th Plantings
-      %th
 
     - @gardens.each do |garden|
       %tr
+        
+        %td.status
+          - if garden.active 
+            %spam.label.label-success Active
+          - else
+            %spam.label.label-danger Inactive
+        
         - unless @owner
           %td= link_to garden.owner.login_name, garden.owner
-        %td= link_to garden.name, garden
-        %td= garden.description
+        
+        %td.name
+          = link_to garden.name, garden
+
+        %td.area
+          = render :partial => 'area' , locals: {:garden => garden} 
+            
         %td
           - if ! garden.location.blank?
             = link_to garden.location, place_path(garden.location)
+
         %td
-          - if garden.area
-            = pluralize(garden.area, garden.area_unit)
-        %td= garden.active ? "Yes" : "No"
-        %td
-          - if garden.plantings.empty?
-            None
-          - else
-            %ul
-            - garden.plantings.each do |p|
-              %li
-                = p.quantity
-                = link_to p.crop.name, p
-                - if p.planted_at
-                  planted on
-                  = p.planted_at
-              
-        %td= link_to 'Details', garden, :class => 'btn btn-default btn-xs'
+          = render :partial => 'plantings' , locals: {:plantings => garden.plantings}
 
   %div.pagination
     = page_entries_info @gardens, :model => "gardens"

@@ -1,0 +1,3 @@
+- if !plantings.empty?
+  - plantings.each do |p|
+    = link_to p.crop.name, p, :class => "label label-info", :title => "#{p.quantity} #{p.crop.name} #{p.planted_at}"
