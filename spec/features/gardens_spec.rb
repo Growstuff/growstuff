@@ -72,4 +72,35 @@ feature "Planting a crop", :js => true do
     it_behaves_like "append date"
   end
 
+  describe "Inspect partial gardens/_area" , :type => :view  do
+    it "Check unit of measurement SQUARE METER" do
+      garden = FactoryGirl.create(:garden_square_metre)
+      render(:partial => "gardens/area", locals: {:garden => garden})
+      expect(response).to match(/m\n<sup>2<\/sup>/i)
+    end
+
+    it "Check unit of measurement NO AREA" do
+      garden = FactoryGirl.create(:garden_no_area)
+      render(:partial => "gardens/area", locals: {:garden => garden})
+      expect(response).to eq('')
+    end
+
+    it "Check unit of measurement SQUARE FOOT" do
+      garden = FactoryGirl.create(:garden_square_foot)
+      render(:partial => "gardens/area", locals: {:garden => garden})
+      expect(response).to match(/ft\n<sup>2<\/sup>/i)
+    end
+
+    it "Check unit of measurement HECTARE" do
+      garden = FactoryGirl.create(:garden_hectare)
+      render(:partial => "gardens/area", locals: {:garden => garden})
+      expect(response).to match(/HA/i)
+    end
+
+    it "Check unit of measurement ACRE" do
+      garden = FactoryGirl.create(:garden_acre)
+      render(:partial => "gardens/area", locals: {:garden => garden})
+      expect(response).to match(/A/i)
+    end
+  end
 end
