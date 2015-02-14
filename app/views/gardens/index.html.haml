@@ -48,7 +48,7 @@
           = render :partial => 'area' , locals: {:garden => garden} 
             
         %td
-          - if ! garden.location.blank?
+          - unless garden.location.blank?
             = link_to garden.location, place_path(garden.location)
 
         %td
