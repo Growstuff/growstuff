@@ -34,9 +34,9 @@
         
         %td.status
           - if garden.active 
-            %spam.label.label-success Active
+            %span.label.label-success Active
           - else
-            %spam.label.label-danger Inactive
+            %span.label.label-danger Inactive
         
         - unless @owner
           %td= link_to garden.owner.login_name, garden.owner
