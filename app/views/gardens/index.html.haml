@@ -32,7 +32,7 @@
     - @gardens.each do |garden|
       %tr
         
-        %td.status
+        %td.garden-status
           - if garden.active 
             %span.label.label-success Active
           - else
@@ -41,10 +41,10 @@
         - unless @owner
           %td= link_to garden.owner.login_name, garden.owner
         
-        %td.name
+        %td.garden-name
           = link_to garden.name, garden
 
-        %td.area
+        %td.garden-area
           = render :partial => 'area' , locals: {:garden => garden} 
             
         %td

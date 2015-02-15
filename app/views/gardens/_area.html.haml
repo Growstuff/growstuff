@@ -1,15 +1,5 @@
 - if garden.area
   %span.area
     = "#{garden.area} "
-    - if garden.area_unit === 'square metre'
-      %span{:title => 'square metre'}
-        m
-        %sup 2
-    - elsif garden.area_unit === 'square foot'
-      %span{:title => 'square foot'}
-        ft
-        %sup 2
-    - elsif garden.area_unit === 'hectare'
-      %span{:title => 'hectare'} HA
-    - elsif garden.area_unit === 'acre'
-      %span{:title => 'acre'} A
+    %span{:title => garden.area_unit} 
+      = area_abbreviations(garden.area_unit)
