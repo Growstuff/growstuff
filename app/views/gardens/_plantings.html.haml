@@ -1,5 +1,10 @@
 - unless plantings.empty?
-  - plantings.each_with_index do |p, index|
-    - unless index == 0
-      = " ,"
-    = link_to p.crop.name, p, :title => "#{p.quantity} #{p.crop.name} #{p.planted_at}"
+  
+  - list = []
+  - plantings.each do |p|
+    - unless p.finished
+      - a =  link_to(p.crop.name, p, :title => "#{p.quantity} #{p.crop.name} #{p.planted_at}", "data-toggle" => "tooltip", "data-placement" => "top")
+      - list.push(a)
+
+  - unless list.empty?
+    = list.join(', ').html_safe
