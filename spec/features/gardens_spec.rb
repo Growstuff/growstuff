@@ -88,19 +88,19 @@ feature "Planting a crop", :js => true do
     it "Check unit of measurement SQUARE FOOT" do
       garden = FactoryGirl.create(:garden_square_foot)
       render(:partial => "gardens/area", locals: {:garden => garden})
-      expect(response).to match(/ft<sup>2<\/sup>/i)
+      expect(response).to match(/sqft/i)
     end
 
     it "Check unit of measurement HECTARE" do
       garden = FactoryGirl.create(:garden_hectare)
       render(:partial => "gardens/area", locals: {:garden => garden})
-      expect(response).to match(/HA/i)
+      expect(response).to match(/ha/i)
     end
 
     it "Check unit of measurement ACRE" do
       garden = FactoryGirl.create(:garden_acre)
       render(:partial => "gardens/area", locals: {:garden => garden})
-      expect(response).to match(/A/i)
+      expect(response).to match(/acre/i)
     end
   end
 end
