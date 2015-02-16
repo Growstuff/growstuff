@@ -1,6 +1,7 @@
 class FollowsController < ApplicationController
   before_filter :authenticate_member!
   load_and_authorize_resource
+  skip_load_resource :only => :create
 
   # POST /follows
   def create

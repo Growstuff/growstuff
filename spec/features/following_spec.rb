@@ -47,6 +47,13 @@ feature "follows", :js => true do
         expect(page).to have_content "#{other_member.login_name}"
       end
 
+      scenario "does not die when passed an authenticity_token" do
+        visit member_follows_path(
+          member,
+          :params => {:authenticity_token => "Ultima ratio regum"})
+        expect(page.status_code).to equal 200
+      end
+
       scenario "has correct message and follow button after unfollow" do
         click_link 'Follow'
         click_link 'Unfollow'

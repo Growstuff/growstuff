@@ -29,6 +29,21 @@
       :growstuff_markdown
         #{strip_tags @garden.description}
 
+    - if @garden.photos.count > 0 or (can? :edit, @garden and can? :create, Photo)
+      .row
+        %h2 Photos
+
+        %ul.thumbnails
+          - @garden.photos.each do |p|
+            .col-md-2.six-across
+              = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+          - if can? :create, Photo and can? :edit, @garden
+            .col-md-2
+              .thumbnail(style='height: 220px')
+                %p{:style => 'text-align: center; padding-top: 50px'}
+                  = link_to "Add photo", new_photo_path(:type => "garden", :id => @garden.id), :class => 'btn btn-primary'
+
+
     %h3
       What's planted here?
 

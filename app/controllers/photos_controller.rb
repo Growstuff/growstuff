@@ -65,7 +65,7 @@ class PhotosController < ApplicationController
 
     # several models can have photos. we need to know what model and the id
     # for the entry to attach the photo to
-    valid_models = ["planting", "harvest"]
+    valid_models = ["planting", "harvest", "garden"]
     if params[:type]
       if valid_models.include?(params[:type])
         if params[:id]

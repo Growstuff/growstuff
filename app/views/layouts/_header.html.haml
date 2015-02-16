@@ -65,12 +65,14 @@
           %li= link_to "Sign out", destroy_member_session_path, :method => :delete
 
         - else
-          %li= link_to 'Sign in', new_member_session_path
-          %li= link_to 'Sign up', new_member_registration_path
+          %li= link_to 'Sign in', new_member_session_path, :id => 'navbar-signin'
+          %li= link_to 'Sign up', new_member_registration_path, :id => 'navbar-signup'
 
-      = form_tag crops_search_path, :method => :get, :class => 'navbar-form pull-right' do
+      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
         .input
+          = label_tag :search, "Search crop database:", :class => 'sr-only'
           = text_field_tag 'search', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
+          = submit_tag "Search", :class => 'btn sr-only'
 
 - # anchor tag for accessibility link to skip the navigation menu
 %a{:name => 'skipnav'}
