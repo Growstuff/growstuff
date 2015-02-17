@@ -76,6 +76,7 @@ class Crop < ActiveRecord::Base
     mappings dynamic: 'false' do
       indexes :id, type: 'long'
       indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+      indexes :approval_status, type: 'string'
       indexes :scientific_names do
         indexes :scientific_name,
           type: 'string',
@@ -92,7 +93,7 @@ class Crop < ActiveRecord::Base
 
   def as_indexed_json(options={})
     self.as_json(
-      only: [:id, :name],
+      only: [:id, :name, :approval_status],
       include: {
         scientific_names: { only: :scientific_name },
         alternate_names: { only: :name }
@@ -310,6 +311,9 @@ class Crop < ActiveRecord::Base
               analyzer: "standard",
               fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
             }
+          },
+          filter: {
+            term: {approval_status: "approved"}
           },
           size: 50
         }
