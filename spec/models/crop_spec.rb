@@ -342,6 +342,16 @@ describe Crop do
     it "searches case insensitively" do
       Crop.search('mUsH').should include @mushroom
     end
+    it "doesn't find 'rejected' crop" do
+      @mushroom.approval_status = "rejected"
+      sync_elasticsearch([@mushroom])
+      Crop.search('mushroom').should_not include @mushroom
+    end
+    it "doesn't find 'pending' crop" do
+      @mushroom.approval_status = "pending"
+      sync_elasticsearch([@mushroom])
+      Crop.search('mushroom').should_not include @mushroom
+    end
   end
 
   context "csv loading" do
