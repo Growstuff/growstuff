@@ -8,6 +8,11 @@ FactoryGirl.define do
     quantity 1
     plant_before "2013-07-15"
     tradable_to 'nowhere'
+    organic 'unknown'
+    gmo 'unknown'
+    heirloom 'unknown'
+    days_until_maturity_min nil
+    days_until_maturity_max nil
 
     factory :tradable_seed do
       tradable_to "locally"

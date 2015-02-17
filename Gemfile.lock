@@ -33,6 +33,8 @@ GEM
       activesupport (= 4.1.9)
       builder (~> 3.1)
       erubis (~> 2.7.0)
+    active_link_to (1.0.2)
+      actionpack
     activemodel (4.1.9)
       activesupport (= 4.1.9)
       builder (~> 3.1)
@@ -48,6 +50,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.6)
     arel (5.0.1.20140414130214)
+    autoprefixer-rails (5.1.1)
+      execjs
+      json
     bcrypt (3.1.9)
     better_errors (2.0.0)
       coderay (>= 1.0.0)
@@ -56,8 +61,13 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bluecloth (2.2.0)
+    bonsai-elasticsearch-rails (0.0.4)
     bootstrap-datepicker-rails (1.3.0.2)
       railties (>= 3.0)
+    bootstrap-sass (3.3.3)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
+    bootstrap_form (2.2.0)
     builder (3.2.2)
     byebug (3.5.1)
       columnize (~> 0.8)
@@ -73,7 +83,13 @@ GEM
     capybara-email (2.4.0)
       capybara (~> 2.4)
       mail
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
     cliver (0.3.2)
+    cocaine (0.5.5)
+      climate_control (>= 0.0.3, < 1.0)
+    codemirror-rails (4.8)
+      railties (>= 3.0, < 5)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -83,6 +99,21 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     columnize (0.9.0)
+    comfortable_mexican_sofa (1.12.7)
+      active_link_to (>= 1.0.0)
+      bootstrap-sass (>= 3.2.0)
+      bootstrap_form (>= 2.2.0)
+      codemirror-rails (>= 3.0.0)
+      coffee-rails (>= 3.1.0)
+      haml-rails (>= 0.3.0)
+      jquery-rails (>= 3.0.0)
+      jquery-ui-rails (>= 5.0.0)
+      kramdown (>= 1.0.0)
+      paperclip (>= 4.0.0)
+      plupload-rails (>= 1.2.1)
+      rails (>= 4.0.0, < 5)
+      rails-i18n (>= 4.0.0)
+      sass-rails (>= 4.0.3)
     commonjs (0.2.7)
     coveralls (0.7.1)
       multi_json (~> 1.3)
@@ -109,6 +140,19 @@ GEM
       json
       thread
       thread_safe
+    elasticsearch (1.0.6)
+      elasticsearch-api (= 1.0.6)
+      elasticsearch-transport (= 1.0.6)
+    elasticsearch-api (1.0.6)
+      multi_json
+    elasticsearch-model (0.1.6)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      hashie
+    elasticsearch-rails (0.1.6)
+    elasticsearch-transport (1.0.6)
+      faraday
+      multi_json
     erubis (2.7.0)
     excon (0.43.0)
     execjs (2.2.2)
@@ -117,6 +161,8 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
     figaro (1.0.0)
       thor (~> 0.14)
     flickraw (0.9.8)
@@ -171,6 +217,7 @@ GEM
       sprockets-rails
     json (1.8.2)
     kgio (2.9.2)
+    kramdown (1.5.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     leaflet-markercluster-rails (0.7.0)
@@ -195,6 +242,7 @@ GEM
     minitest (5.5.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    multipart-post (2.0.0)
     netrc (0.10.0)
     newrelic_rpm (3.9.8.273)
     nokogiri (1.6.5)
@@ -212,7 +260,14 @@ GEM
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
     orm_adapter (0.5.0)
+    paperclip (4.2.1)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (~> 0.5.3)
+      mime-types
     pg (0.17.1)
+    plupload-rails (1.2.1)
+      rails (>= 3.1)
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -237,6 +292,9 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.1.9)
       sprockets-rails (~> 2.0)
+    rails-i18n (4.0.3)
+      i18n (~> 0.6)
+      railties (~> 4.0)
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
@@ -275,6 +333,7 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
+    ruby-units (1.4.5)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
     sass (3.2.19)
@@ -341,6 +400,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bluecloth
+  bonsai-elasticsearch-rails
   bootstrap-datepicker-rails
   bundler (>= 1.1.5)
   byebug
@@ -348,11 +408,14 @@ DEPENDENCIES
   capybara
   capybara-email
   coffee-rails (~> 4.1.0)
+  comfortable_mexican_sofa (~> 1.12.0)
   coveralls
   csv_shaper
   dalli
   database_cleaner (~> 1.3.0)
   devise (~> 3.4.1)
+  elasticsearch-model
+  elasticsearch-rails
   factory_girl_rails (~> 4.5.0)
   figaro
   flickraw
@@ -388,6 +451,7 @@ DEPENDENCIES
   rake (>= 10.0.0)
   rspec-activemodel-mocks
   rspec-rails (~> 3.1.0)
+  ruby-units
   sass-rails (~> 4.0.4)
   therubyracer (~> 0.12)
   uglifier (~> 2.5.3)

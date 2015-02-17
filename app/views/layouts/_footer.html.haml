@@ -2,28 +2,8 @@
   .container
     .row
       .col-md-4#about-growstuff
-        %ul
-          %li= link_to t('about'), "http://wiki.growstuff.org/index.php/About%20Growstuff"
-          %li= link_to t('our_values'), "http://wiki.growstuff.org/index.php/Values"
-          %li= link_to t('open_source'), "https://github.com/Growstuff/growstuff"
-          %li= link_to t('growstuff_team'), "http://wiki.growstuff.org/index.php/Team"
-          %li= link_to t('get_involved'), "http://wiki.growstuff.org/index.php/Get_involved"
+        != cms_snippet_content(:footer1)
       .col-md-4#policies
-        %ul
-          %li= link_to t('terms_of_service'), url_for(:controller => '/policy', :action => 'tos')
-          %li= link_to t('privacy_policy'), url_for(:controller => '/policy', :action => 'privacy')
-          %li= link_to t('data_use_policy'), url_for(:controller => '/policy', :action => 'api')
-          %li= link_to t('community_guidelines'), url_for(:controller => '/policy', :action => 'community')
+        != cms_snippet_content(:footer2)
       .col-md-4#contact
-        %ul
-          %li= link_to t('support_'), url_for(:controller => '/support')
-          %li= link_to t('contact'), url_for(:controller => '/about', :action => 'contact')
-        %p
-          = link_to('http://twitter.com/growstufforg', :target => "_blank") do
-            = image_tag("twitter_32.png", :alt => 'Twitter: @growstufforg')
-          &nbsp;
-          = link_to('https://www.facebook.com/Growstufforg', :target => "_blank") do
-            = image_tag("facebook_32.png", :alt => 'Facebook')
-          &nbsp;
-          = link_to('http://blog.growstuff.org/', :target => "_blank") do
-            = image_tag("blog_32.png", :alt => 'Growstuff Blog')
+        != cms_snippet_content(:footer3)

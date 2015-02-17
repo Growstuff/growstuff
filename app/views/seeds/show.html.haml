@@ -14,6 +14,18 @@
       %b Plant before:
       = @seed.plant_before.to_s
     %p
+      %b Days until maturity:
+      = render :partial => 'days_until_maturity', :locals => { :seed => @seed }
+    %p
+      %b Organic?
+      = @seed.organic
+    %p
+      %b GMO?
+      = @seed.gmo
+    %p
+      %b Heirloom?
+      = @seed.heirloom
+    %p
       %b Will trade:
       = @seed.tradable_to
       - if @seed.owner.location.blank?

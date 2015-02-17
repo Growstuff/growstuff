@@ -88,6 +88,49 @@ describe Seed do
     end
   end
 
+  context 'organic, gmo, heirloom' do
+    it 'all valid organic values should work' do
+    ['certified organic', 'non-certified organic',
+     'conventional/non-organic', 'unknown'].each do |t|
+        @seed = FactoryGirl.build(:seed, :organic => t)
+        @seed.should be_valid
+      end
+    end
+
+    it 'all valid GMO values should work' do
+      ['certified GMO-free', 'non-certified GMO-free',
+       'GMO', 'unknown'].each do |t|
+        @seed = FactoryGirl.build(:seed, :gmo => t)
+        @seed.should be_valid
+      end
+    end
+
+    it 'all valid heirloom values should work' do
+    %w(heirloom hybrid unknown).each do |t|
+        @seed = FactoryGirl.build(:seed, :heirloom => t)
+        @seed.should be_valid
+      end
+    end
+
+    it 'should refuse invalid organic/GMO/heirloom values' do
+      [:organic, :gmo, :heirloom].each do |field|
+        @seed = FactoryGirl.build(:seed, field => 'not valid')
+        @seed.should_not be_valid
+        @seed.errors[field].should_not be_empty
+      end
+    end
+
+    it 'should not allow nil or blank values' do
+      [:organic, :gmo, :heirloom].each do |field|
+        @seed = FactoryGirl.build(:seed, field => nil)
+        @seed.should_not be_valid
+        @seed = FactoryGirl.build(:seed, field => '')
+        @seed.should_not be_valid
+      end
+    end
+  end
+
+
   context 'interesting' do
     it 'lists interesting seeds' do
 

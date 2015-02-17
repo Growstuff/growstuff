@@ -1,5 +1,6 @@
 Growstuff::Application.routes.draw do
 
+
   resources :plant_parts
 
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
@@ -84,6 +85,8 @@ Growstuff::Application.routes.draw do
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
 
-
+# CMS stuff  -- must remain LAST
+  comfy_route :cms_admin, :path => '/cms/admin'
+  comfy_route :cms, :path => '/', :sitemap => false
 
 end
