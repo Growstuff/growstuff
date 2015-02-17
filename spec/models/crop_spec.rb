@@ -343,14 +343,14 @@ describe Crop do
       Crop.search('mUsH').should include @mushroom
     end
     it "doesn't find 'rejected' crop" do
-      @mushroom.update_attributes(approval_status: "rejected")
-      sync_elasticsearch([@mushroom])
-      Crop.search('mushroom').should_not include @mushroom
+      @rejected_crop = FactoryGirl.create(:rejected_crop, :name => 'mushroom')
+      sync_elasticsearch([@rejected_crop])
+      Crop.search('mushroom').should_not include @rejected_crop
     end
     it "doesn't find 'pending' crop" do
-      @mushroom.update_attributes(approval_status: "pending")
-      sync_elasticsearch([@mushroom])
-      Crop.search('mushroom').should_not include @mushroom
+      @crop_request = FactoryGirl.create(:crop_request, :name => 'mushroom')
+      sync_elasticsearch([@crop_request])
+      Crop.search('mushroom').should_not include @crop_request
     end
   end
 
