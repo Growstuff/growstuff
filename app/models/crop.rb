@@ -320,7 +320,21 @@ class Crop < ActiveRecord::Base
       )
       return response.records.to_a
     else
-      where("name ILIKE ?", "%#{query}%").load
+      # if we don't have elasticsearch, just do a basic SQL query.
+      # also, make sure it's an actual array not an activerecord
+      # collection, so it matches what we get from elasticsearch and we can
+      # manipulate it in the same ways (eg. deleting elements without deleting
+      # the whole record from the db)
+      matches = where("name ILIKE ?", "%#{query}%").to_a
+
+      # we want to make sure that exact matches come first, even if not
+      # using elasticsearch (eg. in development)
+      exact_match = Crop.find_by_name(query)
+      if exact_match
+        matches.delete(exact_match)
+        matches.unshift(exact_match)
+      end
+      return matches
     end
   end
 
