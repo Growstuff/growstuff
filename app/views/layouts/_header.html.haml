@@ -70,8 +70,8 @@
 
       = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
         .input
-          = label_tag :search, "Search crop database:", :class => 'sr-only'
-          = text_field_tag 'search', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
+          = label_tag :term, "Search crop database:", :class => 'sr-only'
+          = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
           = submit_tag "Search", :class => 'btn sr-only'
 
 - # anchor tag for accessibility link to skip the navigation menu
