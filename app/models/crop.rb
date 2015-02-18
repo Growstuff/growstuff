@@ -334,6 +334,8 @@ class Crop < ActiveRecord::Base
         matches.delete(exact_match)
         matches.unshift(exact_match)
       end
+
+      matches = matches.select {|c| c.approval_status == 'approved'}
       return matches
     end
   end

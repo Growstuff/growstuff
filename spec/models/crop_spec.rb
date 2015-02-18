@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 describe Crop do
   context 'all fields present' do
