@@ -27,6 +27,7 @@ class Crop < ActiveRecord::Base
   scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
   scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
   scope :pending_approval, -> { where(:approval_status => "pending") }
+  scope :approved, -> { where(:approval_status => "approved") }
   scope :rejected, -> { where(:approval_status => "rejected") }
 
   ## Wikipedia urls are only necessary when approving a crop
@@ -325,17 +326,16 @@ class Crop < ActiveRecord::Base
       # collection, so it matches what we get from elasticsearch and we can
       # manipulate it in the same ways (eg. deleting elements without deleting
       # the whole record from the db)
-      matches = where("name ILIKE ?", "%#{query}%").to_a
+      matches = Crop.approved.where("name ILIKE ?", "%#{query}%").to_a
 
       # we want to make sure that exact matches come first, even if not
       # using elasticsearch (eg. in development)
-      exact_match = Crop.find_by_name(query)
+      exact_match = Crop.approved.find_by_name(query)
       if exact_match
         matches.delete(exact_match)
         matches.unshift(exact_match)
       end
 
-      matches = matches.select {|c| c.approval_status == 'approved'}
       return matches
     end
   end
