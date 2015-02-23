@@ -21,14 +21,6 @@
           :growstuff_markdown
             #{ strip_tags post.body }
 
-        - unless post.crops.empty?
-          .hidden-xs
-            %h3 Crops mentioned in this post
-            - post.crops.each do |c|
-              - unless c.photos.empty?
-                .col-md-2{:style => 'padding-bottom: 6px'}
-                  = render :partial => 'crops/image_with_popover', :locals => { :crop => c }
-      .col-md-11
         - unless defined?(hide_comments)
           .post-comments
             %ul.list-inline
