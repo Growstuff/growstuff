@@ -10,11 +10,11 @@ shared_examples "crop suggest" do |resource|
     sync_elasticsearch([pea, pear, maize, tomato])
   end
 
-  scenario "See text in crop auto suggest field" do
+  scenario "placeholder text in crop auto suggest field" do
     expect(page).to have_selector("input[placeholder='e.g. lettuce']")
   end
 
-  scenario "Typing in the crop name displays suggestions" do
+  scenario "typing in the crop name displays suggestions" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", :with => "pe"
     end
@@ -34,6 +34,12 @@ shared_examples "crop suggest" do |resource|
     end
 
     expect(page).to have_content("pear")
+  end
+
+  scenario "selecting crop from dropdown" do
+    within "form#new_#{resource}" do
+      fill_autocomplete "crop", :with => "pear"
+    end
 
     select_from_autocomplete("pear")
 

@@ -4,7 +4,7 @@ feature "crop search" do
   scenario "search results show the search term in title" do
     visit root_path
     within "form#navbar-search" do
-      fill_in "search", with: "tomato"
+      fill_in "term", with: "tomato"
       click_button "Search"
     end
     expect(page).to have_css "h1", text: "Crops matching \"tomato\""
