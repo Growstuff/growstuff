@@ -144,6 +144,17 @@ def create_cropbot
   @cropbot_user.save!
   @cropbot_user.account.account_type = AccountType.find_by_name("Staff")
   @cropbot_user.account.save
+  @ex_wrangler_user = Member.create(
+    :login_name => "ex_wrangler",
+    :email => "wrangler1@growstuff.org",
+    :password => SecureRandom.urlsafe_base64(64),
+    :tos_agreement => true
+  )
+  @ex_wrangler_user.confirm!
+  @ex_wrangler_user.roles << @wrangler
+  @ex_wrangler_user.save!
+  @ex_wrangler_user.account.account_type = AccountType.find_by_name("Staff")
+  @ex_wrangler_user.account.save
 end
 
 def load_paid_account_types

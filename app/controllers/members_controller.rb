@@ -95,7 +95,7 @@ class MembersController < ApplicationController
       cropbot = Member.find_by_login_name('ex_wrangler')
       if Crop.find_by(creator: @member)
         # this is ugly, need to make it more efficient
-        Crop.find_by(creator: @member).each do |crop|
+        Crop.where(creator: @member).each do |crop|
           Crop.update(crop, creator: cropbot)
           crop.save
         end
