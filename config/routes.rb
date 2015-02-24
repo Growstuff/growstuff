@@ -4,6 +4,9 @@ Growstuff::Application.routes.draw do
   resources :plant_parts
 
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
+  devise_scope :member do 
+    get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
+  end
 
   resources :members 
 
