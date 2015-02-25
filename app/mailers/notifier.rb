@@ -45,7 +45,4 @@ class Notifier < ActionMailer::Base
     mail(:to => @member.email, :subject => "#{crop.name.capitalize} has been rejected")
   end
 
-  def encrypt_message(message)
-
-  end
 end

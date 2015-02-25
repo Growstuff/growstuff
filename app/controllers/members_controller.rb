@@ -49,18 +49,25 @@ class MembersController < ApplicationController
     @followers = @member.followers.paginate(:page => params[:page])
   end
 
+  EMAIL_TYPE_STRING = {
+        send_notification_email: "Inbox Notification",
+        send_planting_reminder: "Planting Reminder"
+  }
+
   def unsubscribe
-    verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
-    decrypted_message = verifier.verify(params[:message])
+#    begin
+      verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+      decrypted_message = verifier.verify(params[:message])
 
-    @member = Member.find(decrypted_message[:member_id])
-    @type = decrypted_message[:email_type]
-    @member.update_attributes(@type => false)
+      @member = Member.find(decrypted_message[:member_id])
+      @type = decrypted_message[:email_type]
+      @member.update_attributes(@type => false)
 
-    case @type
-    when :send_notification_email; @text = "Inbox Notification"
-    when :send_planting_reminder; @text = "Planting Reminder"
-    end
+      flash.now[:notice] = "You have been unsubscribed from #{EMAIL_TYPE_STRING[@type]} emails."
+
+#    rescue ActiveSupport::MessageVerifier::InvalidSignature
+#      flash.now[:alert] = "Sorry. There was an error unsubscribing."
+#    end
   end
 
   private
