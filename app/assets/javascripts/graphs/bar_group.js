@@ -29,10 +29,14 @@ BarGroup.prototype.render = function(root){
 
     })
     .attr("height", yScale.rangeBand())
-      .attr("fill", "steelblue")
-      .attr("width", function(d){
-        return xScale(d);
-      });
+    .attr("fill", "steelblue")
+    .attr("width", function(d){
+      return xScale(d);
+    })
+    .append("title")
+    .text(function(d){
+      return 'This value is ' + d + '.';
+    });
 };
 
 BarGroup.prototype.getBarValues = function () {
