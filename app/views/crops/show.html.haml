@@ -41,12 +41,19 @@
       - else
         Nobody is growing this yet. You could be the first!
 
+    %h2
+      Sunniness Chart
+
+    %div#sunchart
+
+    %h2
+      Crop Map
     %p
       Only plantings by members who have set their locations are shown on this map.
       - if current_member && current_member.location.blank?
         = link_to "Set your location.", edit_member_registration_path
 
-    %div#sunchart
+
 
     %div#cropmap
 
