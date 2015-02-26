@@ -39,6 +39,14 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "maize"
   end
+  
+  scenario "Editing a planting to add details" do
+    visit planting_path(planting)
+    click_link "Edit"
+    fill_in "Tell us more about it", :with => "Some extra notes"
+    click_button "Save"
+    expect(page).to have_content "Planting was successfully updated"
+  end
 
   scenario "Marking a planting as finished" do
     fill_autocomplete "crop", :with => "m"
