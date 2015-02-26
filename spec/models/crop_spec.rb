@@ -342,6 +342,16 @@ describe Crop do
     it "searches case insensitively" do
       Crop.search('mUsH').should include @mushroom
     end
+    it "doesn't find 'rejected' crop" do
+      @rejected_crop = FactoryGirl.create(:rejected_crop, :name => 'tomato')
+      sync_elasticsearch([@rejected_crop])
+      Crop.search('tomato').should_not include @rejected_crop
+    end
+    it "doesn't find 'pending' crop" do
+      @crop_request = FactoryGirl.create(:crop_request, :name => 'tomato')
+      sync_elasticsearch([@crop_request])
+      Crop.search('tomato').should_not include @crop_request
+    end
   end
 
   context "csv loading" do

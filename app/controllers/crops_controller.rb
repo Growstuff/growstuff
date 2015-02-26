@@ -12,11 +12,11 @@ class CropsController < ApplicationController
     if @sort == 'alpha'
       # alphabetical order
       @crops = Crop.includes(:scientific_names, {:plantings => :photos})
-      @paginated_crops = @crops.paginate(:page => params[:page])
+      @paginated_crops = @crops.approved.paginate(:page => params[:page])
     else
       # default to sorting by popularity
       @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos})
-      @paginated_crops = @crops.paginate(:page => params[:page])
+      @paginated_crops = @crops.approved.paginate(:page => params[:page])
     end
 
     respond_to do |format|

@@ -13,9 +13,9 @@
           ago.
   %p
     = link_to "View all #{crop.name} harvests", harvests_by_crop_path(crop)
-- if current_member
-  %p
-    = link_to "Harvest #{crop.name}", new_harvest_path(:crop_id => crop.id)
-- else
-  = render :partial => 'shared/signin_signup', :locals => { :to => "track your #{crop.name} harvests" }
+- if crop.approved?
+  - if current_member
+    %p= link_to "Harvest #{crop.name}", new_harvest_path(:crop_id => crop.id)
+  - else
+    = render :partial => 'shared/signin_signup', :locals => { :to => "track your #{crop.name} harvests" }
 

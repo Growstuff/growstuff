@@ -52,19 +52,13 @@ feature "crop wranglers" do
     end
 
     scenario "View pending crops" do
-      visit wrangle_crops_path(:approval_status => "pending")
-      within "#pending-crops" do
-        click_link "Ultra berry"
-      end
+      visit crop_path(requested_crop)
       expect(page).to have_content "This crop is currently pending approval."
       expect(page).to have_content "Please approve this even though it's fake."
     end
 
     scenario "View rejected crops" do
-      visit wrangle_crops_path(:approval_status => "rejected")
-      within "#rejected-crops" do
-        click_link "Fail bean"
-      end
+      visit crop_path(rejected_crop)
       expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
     end
 
