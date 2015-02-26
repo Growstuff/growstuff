@@ -69,6 +69,18 @@ feature "Alternate names" do
       expect(page).to have_content alternate_eggplant.crop.name
     end
 
+    context "When alternate name is rejected" do
+      let(:rejected_crop) { FactoryGirl.create(:rejected_crop) }
+      let(:pending_alt_name) { FactoryGirl.create(:alternate_name, :crop => rejected_crop) }
+
+      scenario "Displays crop rejection message" do
+        visit alternate_name_path(pending_alt_name)
+        expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
+      end
+
+    end
+
+
   end
 
 end
