@@ -37,7 +37,7 @@ feature "member deletion" do
     #  Capybara.current_driver = :selenium
     #  click_link 'Delete account'
     #  expect(page.driver.browser.switch_to.alert.text).to eq("Are you sure?")
-    #  Capybara.current_drive = :default
+    #  Capybara.current_driver = :default
     #end
 
     scenario "deletes and removes bio" do
