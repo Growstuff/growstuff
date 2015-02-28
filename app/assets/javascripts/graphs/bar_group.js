@@ -1,11 +1,13 @@
-//= require graphs/graph_scale
+//= require graphs/width_scale
+//= require graphs/height_scale
 
 (function(){
   'use strict';
 
 
   var growstuff = (window.growstuff = window.growstuff || {});
-  var GraphScale = growstuff.GraphScale;
+  var WidthScale = growstuff.WidthScale;
+  var HeightScale = growstuff.HeightScale;
 
 function BarGroup(data) {
   this._data = data;
@@ -15,8 +17,8 @@ BarGroup.prototype.render = function(root){
 
   var data = this._data;
   var bars = this._data.bars;
-  var xScale = new GraphScale(data, 'width').render();
-  var yScale = new GraphScale(data, 'height').render();
+  var widthScale = new WidthScale(data).render();
+  var heightScale = new HeightScale(data).render();
 
   return root.append('g')
     .attr("class", "bar")
@@ -25,13 +27,13 @@ BarGroup.prototype.render = function(root){
     .enter()
     .append("rect")
     .attr("y", function(d, i){
-      return yScale(i);
+      return heightScale(i);
 
     })
-    .attr("height", yScale.rangeBand())
+    .attr("height", heightScale.rangeBand())
     .attr("fill", "steelblue")
     .attr("width", function(d){
-      return xScale(d);
+      return widthScale(d);
     })
     .append("title")
     .text(function(d){
@@ -50,7 +52,7 @@ BarGroup.prototype.getBarValues = function () {
   };
 
   return barValues;
-  }
+  };
 
 growstuff.BarGroup = BarGroup;
 

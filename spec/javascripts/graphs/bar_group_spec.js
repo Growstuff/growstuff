@@ -2,11 +2,11 @@
   'use strict';
 
   describe('BarGroup', function() {
-  var BarGroup, subject, xScale;
+  var BarGroup, subject, widthScale;
 
   beforeEach(function() {
 
-    var GraphScale = growstuff.GraphScale;
+    var WidthScale = growstuff.WidthScale;
     BarGroup = growstuff.BarGroup;
 
     var bars = [
@@ -20,11 +20,10 @@
       height: {size: 400, scale: 'ordinal'}
     };
 
-
-    xScale = new GraphScale(data, 'x');
+    widthScale = new WidthScale(data);
     subject = new BarGroup(data);
     subject.render(d3.select('#jasmine_content').append('svg'));
-  })
+  });
 
   it('draws a group', function(){
     expect($('g.bar')).toExist()
@@ -41,8 +40,6 @@
   it ('gets the values of all the bars', function(){
     expect(subject.getBarValues()).toEqual([0.2, 0.5]);
   });
-
-
 
 
   });
