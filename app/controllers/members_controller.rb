@@ -6,7 +6,12 @@ class MembersController < ApplicationController
   after_action :expire_cache_fragments, :only => :create
 
   def index
-    @members = Member.confirmed.paginate(:page => params[:page])
+    @sort = params[:sort]
+    if @sort == 'recently_joined'
+      @members = Member.confirmed.recently_joined.paginate(:page => params[:page])
+    else
+      @members = Member.confirmed.paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.haml

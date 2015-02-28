@@ -1,5 +1,6 @@
 Growstuff::Application.routes.draw do
 
+
   resources :plant_parts
 
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
@@ -78,12 +79,14 @@ Growstuff::Application.routes.draw do
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
 
+  comfy_route :cms_admin, :path => '/admin/cms'
   get '/admin/orders' => 'admin/orders#index'
   get '/admin/orders/:action' => 'admin/orders#:action'
   get '/admin' => 'admin#index'
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
 
-
+# CMS stuff  -- must remain LAST
+  comfy_route :cms, :path => '/', :sitemap => false
 
 end

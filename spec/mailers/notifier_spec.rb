@@ -52,7 +52,7 @@ describe Notifier do
     let(:mail) { Notifier.new_crop_request(member, crop) }
 
     it 'sets the subject correctly' do
-      mail.subject.should == "New crop request"
+      mail.subject.should == "#{crop.requester.login_name} has requested Ultra berry as a new crop"
     end
 
     it 'comes from noreply@growstuff.org' do

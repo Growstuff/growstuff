@@ -27,6 +27,7 @@ class Crop < ActiveRecord::Base
   scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
   scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
   scope :pending_approval, -> { where(:approval_status => "pending") }
+  scope :approved, -> { where(:approval_status => "approved") }
   scope :rejected, -> { where(:approval_status => "rejected") }
 
   ## Wikipedia urls are only necessary when approving a crop
@@ -42,6 +43,10 @@ class Crop < ActiveRecord::Base
 
   ## This validation addresses a race condition
   validate :approval_status_cannot_be_changed_again
+
+  validate :must_be_rejected_if_rejected_reasons_present
+
+  validate :must_have_meaningful_reason_for_rejection
 
   ####################################
   # Elastic search configuration
@@ -72,6 +77,7 @@ class Crop < ActiveRecord::Base
     mappings dynamic: 'false' do
       indexes :id, type: 'long'
       indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+      indexes :approval_status, type: 'string'
       indexes :scientific_names do
         indexes :scientific_name,
           type: 'string',
@@ -88,7 +94,7 @@ class Crop < ActiveRecord::Base
 
   def as_indexed_json(options={})
     self.as_json(
-      only: [:id, :name],
+      only: [:id, :name, :approval_status],
       include: {
         scientific_names: { only: :scientific_name },
         alternate_names: { only: :name }
@@ -303,15 +309,34 @@ class Crop < ActiveRecord::Base
           query: {
             multi_match: {
               query: "#{search_str}",
+              analyzer: "standard",
               fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
             }
+          },
+          filter: {
+            term: {approval_status: "approved"}
           },
           size: 50
         }
       )
       return response.records.to_a
     else
-      where("name ILIKE ?", "%#{query}%") 
+      # if we don't have elasticsearch, just do a basic SQL query.
+      # also, make sure it's an actual array not an activerecord
+      # collection, so it matches what we get from elasticsearch and we can
+      # manipulate it in the same ways (eg. deleting elements without deleting
+      # the whole record from the db)
+      matches = Crop.approved.where("name ILIKE ?", "%#{query}%").to_a
+
+      # we want to make sure that exact matches come first, even if not
+      # using elasticsearch (eg. in development)
+      exact_match = Crop.approved.find_by_name(query)
+      if exact_match
+        matches.delete(exact_match)
+        matches.unshift(exact_match)
+      end
+
+      return matches
     end
   end
 
@@ -321,6 +346,20 @@ class Crop < ActiveRecord::Base
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
     if previous.include?(:rejected) || previous.include?(:approved)
       errors.add(:approval_status, "has already been set to #{approval_status}")
+    end
+  end
+
+  def must_be_rejected_if_rejected_reasons_present
+    unless rejected?
+      if reason_for_rejection.present? || rejection_notes.present?
+        errors.add(:approval_status, "must be rejected if a reason for rejection is present")
+      end
+    end
+  end
+
+  def must_have_meaningful_reason_for_rejection
+    if reason_for_rejection == "other" && rejection_notes.blank?
+      errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
     end
   end
 

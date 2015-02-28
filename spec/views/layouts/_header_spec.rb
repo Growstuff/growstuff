@@ -46,7 +46,7 @@ describe 'layouts/_header.html.haml', :type => "view" do
 
     it 'has a crop search' do
       assert_select("form[action=#{crops_search_path}]")
-      assert_select("input#search")
+      assert_select("input#term")
     end
 
   end

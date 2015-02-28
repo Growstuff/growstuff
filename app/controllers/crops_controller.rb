@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class CropsController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :hierarchy, :search, :show]
   load_and_authorize_resource
@@ -9,10 +11,12 @@ class CropsController < ApplicationController
     @sort = params[:sort]
     if @sort == 'alpha'
       # alphabetical order
-      @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.approved.paginate(:page => params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.approved.paginate(:page => params[:page])
     end
 
     respond_to do |format|
@@ -60,22 +64,13 @@ class CropsController < ApplicationController
 
   # GET /crops/search
   def search
-    @all_matches = Crop.search(params[:search])
-    exact_match = Crop.find_by(name: params[:search])
-    exact_search = params[:exact_search] || false
-
-    if exact_match
-      @all_matches.delete(exact_match)
-      @all_matches.unshift(exact_match)
-    end
+    @term = params[:term]
+    @matches = Crop.search(@term)
+    @paginated_matches = @matches.paginate(:page => params[:page])
 
     respond_to do |format|
-      if exact_match.present? && exact_search
-        format.html { redirect_to exact_match }
-      else
-        format.html
-      end
-      format.json { render :json => Crop.search(params[:term]) }
+      format.html
+      format.json { render :json => @matches }
     end
   end
 
@@ -111,6 +106,10 @@ class CropsController < ApplicationController
   # GET /crops/1/edit
   def edit
     @crop = Crop.find(params[:id])
+
+    (3 - @crop.scientific_names.length).times do
+      @crop.scientific_names.build
+    end
   end
 
   # POST /crops
@@ -129,7 +128,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.save
-        if current_member.has_role? :crop_wrangler
+        unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
             Notifier.new_crop_request(w, @crop).deliver!
           end
@@ -185,6 +184,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :rejection_notes, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
   end
 end

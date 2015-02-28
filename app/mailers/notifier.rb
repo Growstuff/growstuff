@@ -24,7 +24,7 @@ class Notifier < ActionMailer::Base
 
   def new_crop_request(member, request)
     @member, @request = member, request
-    mail(:to => @member.email, :subject => "New crop request")    
+    mail(:to => @member.email, :subject => "#{@request.requester.login_name} has requested #{@request.name} as a new crop")    
   end
 
   def crop_request_approved(member, crop)

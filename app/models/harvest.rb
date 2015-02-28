@@ -20,10 +20,14 @@ class Harvest < ActiveRecord::Base
 
   default_scope { order('created_at DESC') }
 
+  validates :crop, :approved => true
+
   validates :crop, :presence => {:message => "must be present and exist in our database"}
 
   validates :quantity,
-    :numericality => { :only_integer => false },
+    :numericality => {
+      :only_integer => false,
+      :greater_than_or_equal_to => 0 },
     :allow_nil => true
 
   UNITS_VALUES = {

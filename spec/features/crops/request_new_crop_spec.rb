@@ -5,6 +5,7 @@ feature "Requesting a new crop" do
   context "As a regular member" do
 
     let(:member) { FactoryGirl.create(:member) }
+    let!(:wrangler) { FactoryGirl.create(:crop_wrangling_member) }
 
     before { login_as member }
 
@@ -28,7 +29,7 @@ feature "Requesting a new crop" do
 
     scenario "Approve a request" do
       visit edit_crop_path(crop)
-      select "approved", from: "Approval Status"
+      select "approved", from: "Approval status"
       click_button "Save"
       expect(page).to have_content "En wikipedia url is not a valid English Wikipedia URL"
       fill_in "Wikipedia URL", with: "http://en.wikipedia.org/wiki/Aung_San_Suu_Kyi"
@@ -38,7 +39,7 @@ feature "Requesting a new crop" do
 
     scenario "Rejecting a crop" do
       visit edit_crop_path(crop)
-      select "rejected", from: "Approval Status"
+      select "rejected", from: "Approval status"
       select "not edible", from: "Reason for rejection"
       click_button "Save"
       expect(page).to have_content "Crop was successfully updated."
