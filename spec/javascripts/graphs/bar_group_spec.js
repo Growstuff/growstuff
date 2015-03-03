@@ -16,6 +16,7 @@
 
     var data = {
       bars: bars,
+      bar_color: 'steelblue',
       width: {size: 300, scale: 'linear'},
       height: {size: 400, scale: 'ordinal'}
     };

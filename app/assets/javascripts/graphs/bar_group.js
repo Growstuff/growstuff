@@ -19,6 +19,7 @@ BarGroup.prototype.render = function(root){
   var bars = this._data.bars;
   var widthScale = new WidthScale(data).render();
   var heightScale = new HeightScale(data).render();
+  console.log(data.bar_color);
 
   return root.append('g')
     .attr("class", "bar")
@@ -31,7 +32,7 @@ BarGroup.prototype.render = function(root){
 
     })
     .attr("height", heightScale.rangeBand())
-    .attr("fill", "steelblue")
+    .attr("fill", data.bar_color)
     .attr("width", function(d){
       return widthScale(d);
     })
