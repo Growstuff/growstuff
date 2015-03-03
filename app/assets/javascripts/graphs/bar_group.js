@@ -19,7 +19,6 @@ BarGroup.prototype.render = function(root){
   var bars = this._data.bars;
   var widthScale = new WidthScale(data).render();
   var heightScale = new HeightScale(data).render();
-  console.log(data.bar_color);
 
   return root.append('g')
     .attr("class", "bar")
