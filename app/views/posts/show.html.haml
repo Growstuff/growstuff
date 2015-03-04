@@ -19,9 +19,8 @@
 - unless @post.crops.empty?
   %h3 Crops mentioned in this post
   - @post.crops.each do |c|
-    - unless c.photos.empty?
-      .col-md-2
-        = render :partial => 'crops/thumbnail', :locals => { :crop => c }
+    .col-md-2
+      = render :partial => 'crops/thumbnail', :locals => { :crop => c }
 
 .col-md-11
   - if can? :edit, @post or can? :destroy, @post
