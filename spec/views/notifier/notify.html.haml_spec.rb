@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 describe 'notifier/notify.html.haml', :type => "view" do
 

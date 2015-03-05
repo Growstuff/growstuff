@@ -18,7 +18,7 @@
   %br/
   = link_to "View this message in your inbox", notification_url(@notification)
   %br/
-  = link_to "Unsubscribe", unsubscribe_member_url(@signed_message)
+  = link_to "Turn off these notifications", unsubscribe_member_url(@signed_message)
   from these notifications
 
 = render :partial => 'signature'

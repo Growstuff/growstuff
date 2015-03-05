@@ -55,7 +55,7 @@ class MembersController < ApplicationController
   }
 
   def unsubscribe
-#    begin
+    begin
       verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
       decrypted_message = verifier.verify(params[:message])
 
@@ -65,9 +65,9 @@ class MembersController < ApplicationController
 
       flash.now[:notice] = "You have been unsubscribed from #{EMAIL_TYPE_STRING[@type]} emails."
 
-#    rescue ActiveSupport::MessageVerifier::InvalidSignature
-#      flash.now[:alert] = "Sorry. There was an error unsubscribing."
-#    end
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      flash.now[:alert] = "We're sorry, there was an error updating your settings."
+    end
   end
 
   private
