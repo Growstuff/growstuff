@@ -70,6 +70,14 @@ feature "Scientific names" do
         href: crop_path(zea_mays.crop)
     end
 
-  end
+    context "When scientific name is pending" do
+      let(:pending_crop) { FactoryGirl.create(:crop_request) }
+      let(:pending_sci_name) { FactoryGirl.create(:scientific_name, :crop => pending_crop) }
 
+      scenario "Displays crop pending message" do
+        visit scientific_name_path(pending_sci_name)
+        expect(page).to have_content "This crop is currently pending approval"
+      end
+    end
+  end
 end
