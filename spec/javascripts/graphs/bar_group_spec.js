@@ -1,6 +1,10 @@
 (function(){
   'use strict';
 
+  /*
+  These tests are for the BarGroup object.
+   */
+
   describe('when drawing the group of bars', function() {
   var BarGroup, subject, widthScale, bars, data;
 

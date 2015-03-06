@@ -1,5 +1,10 @@
 //=require d3
 
+/*
+Width scale is used to map the value for the length of each bar
+to the display size of the svg
+ */
+
 (function(){
   'use strict';
 

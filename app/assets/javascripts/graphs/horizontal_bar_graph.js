@@ -2,13 +2,20 @@
 //= require graphs/bar_group
 //= require graphs/bar_label_group
 
+/*
+Horizontal Bar Graph represents sum total of the graph including all of the parts:
+Bars
+Bar Labels
+
+The main dimensions of the graph are rendered here.
+ */
+
 (function() {
   'use strict';
 
   var growstuff = (window.growstuff = window.growstuff || {});
   var BarGroup = growstuff.BarGroup;
   var BarLabelGroup = growstuff.BarLabelGroup;
-  var GraphScale = growstuff.GraphScale;
 
   function HorizontalBarGraph(data) {
     this._data = data;

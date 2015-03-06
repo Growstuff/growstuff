@@ -1,6 +1,11 @@
 (function(){
   'use strict';
 
+  /*
+  This file contains tests for the mapping the data values to
+  the length of a bar so that it is the correct size for the screen
+   */
+
   describe('GraphScale, when specifying width', function(){
     var data, WidthScale, subject, mockD3;
 

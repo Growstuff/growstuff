@@ -4,6 +4,11 @@
 (function(){
   'use strict';
 
+  /*
+  This represents bars for a bar graph.
+  Currently these are used for HorizontalBarGraph.
+   */
+
 
   var growstuff = (window.growstuff = window.growstuff || {});
   var WidthScale = growstuff.WidthScale;

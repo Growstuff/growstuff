@@ -1,7 +1,9 @@
 (function() {
   'use strict';
 
-
+/*
+This file draws the labels to the left of each bar.
+ */
 
   var growstuff = (window.growstuff = window.growstuff || {});
 

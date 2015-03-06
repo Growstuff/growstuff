@@ -1,6 +1,10 @@
 (function(){
   'use strict';
 
+  /*
+  Tests in this file are for the pieces of HorizontalBarGraph or
+  are more integration-y type tests that require the full graph.
+   */
 
     describe('HorizontalBarGraph', function() {
       var BarLabelGroup, BarGroup, subject, data;

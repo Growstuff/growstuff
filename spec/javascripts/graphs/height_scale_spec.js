@@ -1,6 +1,10 @@
 (function(){
   'use strict';
 
+  /*
+  Tests for mapping the number of bars to the size of the svg
+   */
+
   describe('HeightScale when specifying height', function() {
     var data, bars, HeightScale, subject, mockD3;
 

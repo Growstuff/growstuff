@@ -1,6 +1,10 @@
 (function(){
   'use strict';
 
+  /*
+  This file contains tests for the labels that get rendered next to each bar
+   */
+
   describe('BarLabelGroup', function(){
 
     var BarLabelGroup, subject, data;
