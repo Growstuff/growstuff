@@ -1,6 +1,5 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
-require 'pry'
 
 feature "unsubscribe" do
   let(:member) { FactoryGirl.create(:member) }
@@ -11,7 +10,7 @@ feature "unsubscribe" do
   end
 
   scenario "from planting reminder mailing list" do
-    # verifying the initial subscription status fo the member
+    # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)
 
@@ -20,14 +19,15 @@ feature "unsubscribe" do
     open_email(member.email)
 
     # clicking 'Unsubscribe' link will unsubscribe the member
-    current_email.click_link 'Unsubscribe'
+    current_email.click_link 'Turn off these notifications'
+    expect(page).to have_content "You have been unsubscribed from Planting Reminder"    
     updated_member = Member.find(member.id) # reload the member
     expect(updated_member.send_planting_reminder).to eq(false)
     expect(updated_member.send_notification_email).to eq(true)
   end
 
   scenario "from inbox notification mailing list" do
-    # verifying the initial subscription status fo the member
+    # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)
 
@@ -37,18 +37,23 @@ feature "unsubscribe" do
     open_email(member.email)
 
     # clicking 'Unsubscribe' link will unsubscribe the member
-    current_email.click_link 'Unsubscribe'
+    current_email.click_link 'Turn off these notifications'
+    expect(page).to have_content "You have been unsubscribed from Inbox Notification"    
     updated_member = Member.find(member.id) # reload the member
     expect(updated_member.send_planting_reminder).to eq(true)
     expect(updated_member.send_notification_email).to eq(false)
   end
 
-  scenario "visiting /members/unsubscribe/somestring" do
-    visit unsubscribe_member_url('somestring')
-  end
+  scenario "visit unsubscribe page with a non-encrypted parameter" do
+    # verifying the initial subscription status of the member
+    expect(member.send_planting_reminder).to eq(true)
+    expect(member.send_notification_email).to eq(true)
 
-  scenario "visiting /members/unsubscribe/" do
-    visit unsubscribe_member_url('')
+    # visit /members/unsubscribe/somestring ie.parameter to the URL is a random string
+    visit unsubscribe_member_url("type=send_planting_reminder&member_id=#{member.id}")
+    expect(page).to have_content "We're sorry, there was an error"
+    updated_member = Member.find(member.id) # reload the member
+    expect(member.send_planting_reminder).to eq(true)
+    expect(member.send_notification_email).to eq(true)
   end
-
 end

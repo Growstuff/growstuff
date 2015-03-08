@@ -50,8 +50,8 @@ class MembersController < ApplicationController
   end
 
   EMAIL_TYPE_STRING = {
-        send_notification_email: "Inbox Notification",
-        send_planting_reminder: "Planting Reminder"
+    send_notification_email: "Inbox Notification",
+    send_planting_reminder: "Planting Reminder"
   }
 
   def unsubscribe
@@ -60,7 +60,7 @@ class MembersController < ApplicationController
       decrypted_message = verifier.verify(params[:message])
 
       @member = Member.find(decrypted_message[:member_id])
-      @type = decrypted_message[:email_type]
+      @type = decrypted_message[:type]
       @member.update_attributes(@type => false)
 
       flash.now[:notice] = "You have been unsubscribed from #{EMAIL_TYPE_STRING[@type]} emails."
