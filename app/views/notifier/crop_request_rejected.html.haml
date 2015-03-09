@@ -2,11 +2,6 @@
 %p Hello #{@member.login_name},
 
 %p
-  We're sorry, but your request for the new crop: #{link_to @crop.name, crop_url(@crop)} has been rejected for the following reason:
-
-  - if @crop.reason_for_rejection != "other"
-    = @crop.reason_for_rejection
-  - else
-    = @crop.rejection_notes
+  We're sorry, but your request for the new crop: #{link_to @crop.name, crop_url(@crop)} has been rejected for the following reason: #{@crop.rejection_explanation}
 
 = render :partial => 'signature'

@@ -8,4 +8,4 @@
 
 - if crop.rejected?
   .alert.alert-danger
-    %b This crop was rejected for the following reason: #{crop.reason_for_rejection == "other" ? crop.rejection_notes : crop.reason_for_rejection}.
+    %b This crop was rejected for the following reason: #{crop.rejection_explanation}
