@@ -61,7 +61,7 @@ class MembersController < ApplicationController
 
       @member = Member.find(decrypted_message[:member_id])
       @type = decrypted_message[:type]
-      @member.update_attributes(@type => false)
+      @member.update(@type => false)
 
       flash.now[:notice] = "You have been unsubscribed from #{EMAIL_TYPE_STRING[@type]} emails."
 
