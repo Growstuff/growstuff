@@ -1,7 +1,9 @@
 %ul
+  - @count ||= 5
   - display_crops.each do |c|
-    %li.crop-hierarchy
+    %li.crop-hierarchy{:class => @count <= 0 ? ['hide', 'toggle'] : []}
       = link_to c, c
+      - @count -= 1
       - if c.varieties.present?
         - c.varieties.each do |v|
           = render :partial => 'hierarchy', :locals => { :display_crops => [ v ] }

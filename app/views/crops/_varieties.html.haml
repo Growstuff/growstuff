@@ -10,6 +10,9 @@
     Varieties of #{crop.name}:
 
   = render :partial => 'hierarchy', :locals => { :display_crops => [ crop ] }
+  - if @count < 0
+    = button_tag "Show all #{crop.varieties.size} varieties", :class => 'btn btn-link toggle'
+    = button_tag "Show less varieties", :class => 'btn btn-link toggle hide'
 
 - if ! crop.parent and crop.varieties.empty?
   %p None known.
