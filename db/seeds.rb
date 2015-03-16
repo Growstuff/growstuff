@@ -60,16 +60,50 @@ end
 
 def load_test_users
   puts "Loading test users..."
-  (1..3).each do |i|
-    @user = Member.create(
+
+  # Open suburb csv
+  source_path = Rails.root.join('db', 'seeds')
+  begin
+    suburb_file = File.open("#{source_path}/suburbs.csv")
+  rescue
+    puts "Warning: unable to open suburbs.csv"
+  end
+
+
+  # rake parameter (eg. 'rake db:seed member_size=10')
+  member_size = ENV['member_size'] ? ENV['member_size'].to_i : 3
+
+  (1..member_size).each do |i|
+    @user = Member.new(
         :login_name => "test#{i}",
         :email => "test#{i}@example.com",
         :password => "password#{i}",
         :tos_agreement => true
     )
-    @user.confirm!
+    @user.skip_confirmation!
     @user.save!
+
+    # Populate member location and garden location
+    if suburb_file
+      suburb_file.pos = 0 if suburb_file.eof?
+      row = CSV.parse(suburb_file.readline)
+
+      suburb,country,state,latitude,longitude = row[0]
+      # Using 'update_column' method instead of 'update' so that 
+      # it avoids accessing Geocoding service for faster processing
+      @user.gardens.first.update_columns(location: suburb, latitude: latitude, longitude: longitude)
+      @user.update_columns(location: suburb, latitude: latitude, longitude: longitude)
+    end
+
+    # Create a planting by the member
+    Planting.create(
+      owner_id: @user.id,
+      garden_id: @user.gardens.first.id,
+      planted_at: Date.today,
+      crop_id: Crop.find(i % Crop.all.size + 1).id
+    )
   end
+
   puts "Finished loading test users"
 end
 
