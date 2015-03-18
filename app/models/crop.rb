@@ -299,6 +299,14 @@ class Crop < ActiveRecord::Base
     end
   end
 
+  def rejection_explanation
+    if reason_for_rejection == "other"
+      return rejection_notes
+    else
+      return reason_for_rejection
+    end
+  end
+
   # Crop.search(string)
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
