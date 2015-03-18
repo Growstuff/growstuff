@@ -300,10 +300,10 @@ class Crop < ActiveRecord::Base
   end
 
   def rejection_explanation
-    if reason_for_rejection != "other"
-      return reason_for_rejection
-    else
+    if reason_for_rejection == "other"
       return rejection_notes
+    else
+      return reason_for_rejection
     end
   end
 
