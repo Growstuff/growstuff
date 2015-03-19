@@ -1,3 +1,5 @@
+//= require graphs/horizontal_bar_graph
+
 if (document.getElementById("cropmap") !== null) {
   mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
   mapbox_base_url = "https://c.tiles.mapbox.com/v3/" + mapbox_map_id + "/{z}/{x}/{y}.png";
@@ -46,4 +48,26 @@ function showCropMap(cropmap) {
   });
 
   cropmap.addLayer(markers);
+}
+
+if ($("#sunchart")[0] !== null) {
+  var HorizontalBarGraph = growstuff.HorizontalBarGraph;
+  var bars = [
+    {name: 'Empty', value: 3},
+    {name: 'Sun', value: 8},
+    {name: 'Semi-shade', value: 4},
+    {name: 'Shade', value: 2}
+  ];
+  data = {
+    bars: bars,
+    bar_color: 'steelblue',
+    width: {size: 300, scale: 'linear'},
+    height: {size: 100, scale: 'ordinal'},
+    //left is used to shift the bars over so that there is
+    //room for the labels
+    margin: {top: 0, right: 0, bottom: 0, left: 100}
+  };
+
+  var graph = new HorizontalBarGraph(data);
+  graph.render(d3.select($('#sunchart')[0]));
 }

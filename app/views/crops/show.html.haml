@@ -31,10 +31,18 @@
       - else
         Nobody is growing this yet. You could be the first!
 
+    %h2
+      Sunniness Chart
+
+    %div#sunchart
+
+    %h2
+      Crop Map
     %p
       Only plantings by members who have set their locations are shown on this map.
       - if current_member && current_member.location.blank?
         = link_to "Set your location.", edit_member_registration_path
+
 
 
     %div#cropmap
@@ -80,6 +88,8 @@
     = render :partial => 'harvests', :locals => { :crop => @crop }
     = render :partial => 'find_seeds', :locals => { :crop => @crop }
 
+
     %h4 Learn more about #{ @crop.name.pluralize }
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+
