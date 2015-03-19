@@ -21,5 +21,26 @@ FactoryGirl.define do
       name 'Zzzz this garden makes me sleepy'
     end
 
+    # the following are used to test the partial _area
+    factory :garden_square_metre do 
+      area_unit "square metre"
+    end
+
+    factory :garden_square_foot do 
+      area_unit "square foot"
+    end
+
+    factory :garden_hectare do 
+      area_unit "hectare"
+    end
+
+    factory :garden_acre do 
+      area_unit "acre"
+    end
+
+    factory :garden_no_area do 
+      area nil
+    end
+
   end
 end

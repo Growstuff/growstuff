@@ -1,0 +1,5 @@
+- if garden.area
+  %span.area
+    = "#{garden.area} "
+    %span{:title => garden.area_unit} 
+      = area_abbreviations(garden.area_unit)
