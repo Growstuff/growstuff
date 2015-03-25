@@ -25,6 +25,8 @@ feature "member deletion" do
       FactoryGirl.create(:comment, :author => other_member, :post => memberpost)
       # deletion breaks if no wranglers exist
       FactoryGirl.create(:cropbot)
+      # deletion breaks if ex_member doesn't exist
+      FactoryGirl.create(:member, :login_name => "ex_member")
     end
 
     scenario "has option to delete on member profile page" do
@@ -82,9 +84,19 @@ feature "member deletion" do
     
       scenario "replaces posts with deletion note"
       
-      scenario "leaves comments from other members on deleted post"
+      scenario "leaves comments from other members on deleted post" do
+        visit post_path(memberpost)
+        expect(page).to have_content "#{other_member.login_name}"
+        expect(page).not_to have_content "#{member.login_name}"
+        expect(page).to have_content "This post was removed as the author deleted their account."
+      end
       
-      scenario "replaces comments on others' posts with deletion note, leaving post intact"
+      scenario "replaces comments on others' posts with deletion note, leaving post intact" do
+        visit post_path(othermemberpost)
+        expect(page).to have_content "#{other_member.login_name}"
+        expect(page).not_to have_content "#{member.login_name}"
+        expect(page).to have_content "This comment was removed as the author deleted their account."
+      end
 
     end
     
