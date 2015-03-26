@@ -34,13 +34,15 @@ feature "member deletion" do
       expect(page).to have_link "Delete account"
     end
     
-    #scenario "requests confirmation for deletion", :js => true do
-    #  visit member_path(member)
-    #  Capybara.current_driver = :selenium
-    #  click_link 'Delete account'
-    #  expect(page.driver.browser.switch_to.alert.text).to eq("Are you sure?")
-    #  Capybara.current_driver = :default
-    #end
+    scenario "requests confirmation for deletion", :js => true do
+      visit member_path(member)
+      Capybara.current_driver = :selenium
+      click_link 'Delete account'
+      expect(page.driver.browser.switch_to.alert.text).to eq("Are you sure?")
+      Capybara.current_driver = :default
+    end
+    
+    scenario "asks for password before deletion"
 
     scenario "deletes and removes bio" do
       visit member_path(member)
@@ -105,6 +107,8 @@ feature "member deletion" do
         expect(page).not_to have_content "#{member.login_name}"
         expect(page).to have_content "This comment was removed as the author deleted their account."
       end
+      
+      scenario "leaves a record of orders and payments intact"
 
     end
     
