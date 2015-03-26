@@ -22,7 +22,7 @@ feature "member deletion" do
       logout
       login_as(member)
       FactoryGirl.create(:comment, :author => member, :post => othermemberpost)
-      FactoryGirl.create(:comment, :author => other_member, :post => memberpost)
+      FactoryGirl.create(:comment, :author => other_member, :post => memberpost, :body => "Fun comment-y thing")
       # deletion breaks if no wranglers exist
       FactoryGirl.create(:cropbot)
       # deletion breaks if ex_member doesn't exist
@@ -87,13 +87,16 @@ feature "member deletion" do
         expect(page).not_to have_content "#{member.login_name}"
       end
     
-      scenario "replaces posts with deletion note"
+      scenario "replaces posts with deletion note" do
+        visit post_path(memberpost)
+        expect(page).not_to have_content "#{member.login_name}"
+        expect(page).to have_content "This post was removed as the author deleted their account."
+      end
       
       scenario "leaves comments from other members on deleted post" do
         visit post_path(memberpost)
         expect(page).to have_content "#{other_member.login_name}"
-        expect(page).not_to have_content "#{member.login_name}"
-        expect(page).to have_content "This post was removed as the author deleted their account."
+        expect(page).to have_content "Fun comment-y thing"
       end
       
       scenario "replaces comments on others' posts with deletion note, leaving post intact" do
