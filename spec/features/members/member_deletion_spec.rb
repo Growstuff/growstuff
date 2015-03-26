@@ -54,13 +54,18 @@ feature "member deletion" do
     
     context "deletes and" do
       background do
-        member.delete
+        logout
+        login_as(member)
+        visit member_path(member)
+        click_link 'Delete account'
+        logout
       end
     
       scenario "removes plantings, gardens, harvests and seeds" do
         visit garden_path(secondgarden)
-        expect(page).not_to have_content "Garden"
-        expect(page).to have_content "RuntimeError"
+        expect(page).to have_content "NoMethodError"
+        # uncomment this when we get proper 404s
+        # expect(page).not_to have_content "#{garden.owner}"
         visit planting_path(planting)
         expect(page).to have_content "NoMethodError"
         # uncomment this when we get proper 404s
@@ -107,7 +112,7 @@ feature "member deletion" do
     let(:otherwrangler) { FactoryGirl.create(:crop_wrangling_member) }
     let(:crop) { FactoryGirl.create(:crop, :creator => member) }
     FactoryGirl.create(:cropbot)
-    let(:ex_wrangler) { FactoryGirl.create(:crop_wrangling_member, :login_name => "ex_wrangler") }
+    let!(:ex_wrangler) { FactoryGirl.create(:crop_wrangling_member, :login_name => "ex_wrangler") }
     
     scenario "leaves crops behind, reassigned to ex_wrangler" do
       login_as(otherwrangler)
@@ -115,7 +120,12 @@ feature "member deletion" do
       expect(page).to have_content "#{member.login_name}"
       expect(page).not_to have_content "cropbot"
       expect(page).not_to have_content "ex_wrangler"
-      member.delete
+      logout
+      login_as(member)
+      visit member_path(member)
+      click_link 'Delete account'
+      logout
+      login_as(otherwrangler)
       visit edit_crop_path(crop)
       expect(page).not_to have_content "#{member.login_name}"
       expect(page).to have_content "ex_wrangler"
