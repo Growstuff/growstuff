@@ -1,4 +1,5 @@
-- content_for :title, @member.login_name
+%h1= @member.login_name
+%p= @member.list_roles
 - content_for :subtitle, @member.location
 - content_for :buttonbar do
   - if can? :update, @member
