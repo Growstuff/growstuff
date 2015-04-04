@@ -1,8 +1,5 @@
 - content_for :title, @member.login_name
-- content_for :subtitle do
-  = @member.location |
-  %br
-  = @member.list_roles
+- content_for :subtitle, @member.location
 - content_for :buttonbar do
   - if can? :update, @member
     = link_to 'Edit profile', edit_member_registration_path, :class => 'btn btn-default'
