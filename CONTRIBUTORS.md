@@ -54,4 +54,5 @@ submit the change with your pull request.
 - Rocky Jaiswal / [rocky-jaiswal](https://github.com/rocky-jaiswal)
 - Robert Landreaux / [robertlandreaux](https://github.com/robertlandreaux)
 - Savant Krishna / [sksavant](https://github.com/sksavant)
+- Gabrielle DeWitt / [gabrielle27](https://github.com/gabrielle27)
 
