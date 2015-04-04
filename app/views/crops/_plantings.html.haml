@@ -6,7 +6,7 @@
   %ul
     - crop.plantings.take(3).each do |planting|
       %li
-        = link_to "#{planting.owner} planted #{planting.quantity} #{planting.planted_from}.", planting_path(planting)
+        = link_to display_planting(planting), planting_path(planting)
         = render :partial => 'members/location', :locals => { :member => planting.owner }
         %small
           = distance_of_time_in_words(planting.created_at, Time.zone.now)
