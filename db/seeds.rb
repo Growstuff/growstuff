@@ -111,35 +111,35 @@ end
 
 def load_admin_users
   puts "Adding admin and crop wrangler members..."
-  @admin_user = Member.create(
+  @admin_user = Member.new(
     :login_name => "admin1",
     :email => "admin1@example.com",
     :password => "password1",
     :tos_agreement => true
   )
-  @admin_user.confirm!
+  @admin_user.skip_confirmation!
   @admin_user.roles << @admin
   @admin_user.save!
 
-  @wrangler_user = Member.create(
+  @wrangler_user = Member.new(
     :login_name => "wrangler1",
     :email => "wrangler1@example.com",
     :password => "password1",
     :tos_agreement => true
   )
-  @wrangler_user.confirm!
+  @wrangler_user.skip_confirmation!
   @wrangler_user.roles << @wrangler
   @wrangler_user.save!
 end
 
 def create_cropbot
-  @cropbot_user = Member.create(
+  @cropbot_user = Member.new(
     :login_name => "cropbot",
     :email => Growstuff::Application.config.bot_email,
     :password => SecureRandom.urlsafe_base64(64),
     :tos_agreement => true
   )
-  @cropbot_user.confirm!
+  @cropbot_user.skip_confirmation!
   @cropbot_user.roles << @wrangler
   @cropbot_user.save!
   @cropbot_user.account.account_type = AccountType.find_by_name("Staff")
