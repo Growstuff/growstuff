@@ -3,6 +3,8 @@ require 'pry'
 
 describe RobotsController do
   describe '#robots' do
+    let(:production_filename) { 'config/robots.txt' }
+    let(:staging_filename)    { 'config/robots.staging.txt' }
 
     before do
       @request.host = "#{ subdomain }.localhost.com"
@@ -15,7 +17,7 @@ describe RobotsController do
         get :robots
 
         expect(response).to be_success
-        expect(response.body).to eq(File.read('config/robots.staging.txt'))
+        expect(response.body).to eq(File.read(staging_filename))
       end
     end
 
@@ -26,7 +28,7 @@ describe RobotsController do
         get :robots
 
         expect(response).to be_success
-        expect(response.body).to eq(File.read('config/robots.txt'))
+        expect(response.body).to eq(File.read(production_filename))
       end
     end
 
@@ -37,7 +39,18 @@ describe RobotsController do
         get :robots
 
         expect(response).to be_success
-        expect(response.body).to eq(File.read('config/robots.txt'))
+        expect(response.body).to eq(File.read(production_filename))
+      end
+    end
+
+    context 'subdomain is nonsense' do
+      let(:subdomain) { '1874ajnfien' }
+
+      it 'loads the production robots.txt file' do
+        get :robots
+
+        expect(response).to be_success
+        expect(response.body).to eq(File.read(production_filename))
       end
     end
   end
