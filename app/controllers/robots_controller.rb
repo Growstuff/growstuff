@@ -1,13 +1,17 @@
 class RobotsController < ApplicationController
   def robots
-    subdomain = request.subdomain
-
-    filename = if subdomain.present? && subdomain != 'www'
-      "robots.#{ subdomain }.txt"
-    else
-      "robots.txt"
+    filename = if subdomain && subdomain != 'www'
+      "config/robots.#{ subdomain }.txt"
     end
 
-    render file: "config/#{ filename }", layout: false, content_type: 'text/plain'
+    file_to_render = File.exists?(filename.to_s) ? filename : 'config/robots.txt'
+
+    render file: file_to_render, layout: false, content_type: 'text/plain'
+  end
+
+  private
+
+  def subdomain
+    request.subdomain.present? ? request.subdomain : nil
   end
 end
