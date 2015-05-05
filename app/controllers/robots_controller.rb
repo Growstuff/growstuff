@@ -8,10 +8,6 @@ class RobotsController < ApplicationController
       "robots.txt"
     end
 
-    robots_text = File.read(Rails.root.join('config', filename))
-
-    respond_to do |format|
-      format.text { render text: robots_text, layout: false }
-    end
+    render file: "config/#{ filename }", layout: false, content_type: 'text/plain'
   end
 end
