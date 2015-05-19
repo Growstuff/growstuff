@@ -1,6 +1,8 @@
 Growstuff::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.action_controller.action_on_unpermitted_parameters = :raise
+  
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.
@@ -67,7 +69,6 @@ Growstuff::Application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Growstuff configuration
-  config.new_crops_request_link = "http://example.com/not-a-real-url"
   config.action_mailer.default_url_options = { :host => 'staging.growstuff.org' }
 
   config.action_mailer.smtp_settings = {

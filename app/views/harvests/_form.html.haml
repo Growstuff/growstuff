@@ -14,7 +14,7 @@
       = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, { :selected => @harvest.plant_part_id }, { :class => 'form-control' })
     %span.help-block.col-md-8
       Can't find what you're looking for?
-      = link_to "Request new crops.", Growstuff::Application.config.new_crops_request_link
+      = link_to "Request new crops.", new_crop_path
 
   .form-group
     = f.label :harvested_at, 'When?', :class => 'control-label col-md-2'

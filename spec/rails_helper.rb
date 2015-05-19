@@ -25,7 +25,7 @@ require 'capybara'
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 Capybara.app_host = 'http://localhost'
-Capybara.server_port = 8080
+Capybara.server_port = 8081
 
 include Warden::Test::Helpers
 

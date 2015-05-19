@@ -21,7 +21,24 @@ class Ability
     cannot :read, Account
     cannot :read, AccountType
 
+    # nobody should be able to view unapproved crops unless they
+    # are wranglers or admins 
+    cannot :read, Crop
+    can :read, Crop, :approval_status => "approved"
+    # scientific names should only be viewable if associated crop is approved
+    cannot :read, ScientificName
+    can :read, ScientificName do |sn|
+      sn.crop.approved?
+    end
+    # ... same for alternate names
+    cannot :read, AlternateName
+    can :read, AlternateName do |an|
+      an.crop.approved?
+    end
+
     if member
+      # members can see even rejected or pending crops if they requested it
+      can :read, Crop, :requester_id => member.id
 
       # managing your own user settings
       can :update, Member, :id => member.id
@@ -44,6 +61,9 @@ class Ability
         can :manage, ScientificName
         can :manage, AlternateName
       end
+
+      # any member can create a crop provisionally
+      can :create, Crop
 
       # can create & destroy their own authentications against other sites.
       can :create, Authentication
@@ -94,9 +114,11 @@ class Ability
       cannot :destroy, OrderItem, :order => { :member_id => member.id, :completed_at => nil }
 
       # following/unfollowing permissions
-      can :create, Follow do |f|
-        !member.already_following?(f.followed) && f.followed_id != member.id
-      end
+      can :create, Follow
+      cannot :create, Follow, :followed_id => member.id # can't follow yourself
+
+      can :destroy, Follow
+      cannot :destroy, Follow, :followed_id => member.id # can't unfollow yourself
 
       if member.has_role? :admin
 

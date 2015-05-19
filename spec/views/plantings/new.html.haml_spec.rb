@@ -41,7 +41,6 @@ describe "plantings/new" do
 
     it 'includes helpful links for crops and gardens' do
       assert_select "a[href=#{new_garden_path}]", :text => "Add a garden."
-      assert_select "a[href=#{Growstuff::Application.config.new_crops_request_link}]", :text => "Request new crops."
     end
 
     it "selects a garden given in a param" do

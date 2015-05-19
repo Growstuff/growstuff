@@ -1,5 +1,3 @@
-
-
 @import "twitter/bootstrap/bootstrap";
 @import "custom_bootstrap/variables";
 // this padding needs to be done before the responsive stuff is imported
@@ -216,8 +214,10 @@ li.crop-hierarchy {
   margin: 40px 0px 0px 0px !important;
 }
 
+// footer
+
 footer {
-  #contact, #about-growstuff, #policies {
+  #footer1, #footer2, #footer3 {
     text-align: left;
     padding-top: 1em;
     padding-bottom: 2em;
@@ -244,6 +244,17 @@ footer {
   }
 }
 
+// ensure footer is pushed to bottom of browser window
+
+#maincontainer {
+  min-height: 80%;
+}
+
+html, body {
+  height: 100%;
+}
+
+//
 
 .crop-image, .member-image {
   width: 100%;
@@ -272,6 +283,12 @@ footer {
   text-decoration: underline;
 }
 
+.alert {
+  a {
+    font-weight: 800;
+  }
+}
+
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
 
 @media only screen and (max-width: 767px) {
@@ -289,3 +306,13 @@ footer {
     display: block;
   }
 }
+
+/* override "info" alert boxes to be green, not blue, on Growstuff */
+@state-info-text: darken(@green, 10%);
+@state-info-bg: lighten(@green, 50%);
+
+/* and set "success" to be the same, as it was just very slightly
+ * different because the default bootstrap green is slightly different
+ * from ours */
+@state-success-text: darken(@green, 10%);
+@state-success-bg: lighten(@green, 50%);

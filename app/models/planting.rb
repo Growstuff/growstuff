@@ -30,10 +30,14 @@ class Planting < ActiveRecord::Base
 
   default_scope { order("created_at desc") }
 
-  validates :crop_id, :presence => {:message => "must be present and exist in our database"}
+  validates :crop, :approved => true
+
+  validates :crop, :presence => {:message => "must be present and exist in our database"}
 
   validates :quantity,
-    :numericality => { :only_integer => true },
+    :numericality => {
+      :only_integer => true,
+      :greater_than_or_equal_to => 0 },
     :allow_nil => true
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)

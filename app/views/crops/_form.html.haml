@@ -6,30 +6,47 @@
         - @crop.errors.full_messages.each do |msg|
           %li= msg
 
-  %p
-    %span.help-block
-      For detailed crop wrangling guidelines, please consult the
-      =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
-      on the Growstuff wiki.
+  -# Handy link to crop wrangling policy/style guide, shown to wranglers only
+  - if can? :wrangle, @crop
+    %p
+      %span.help-block
+        For detailed crop wrangling guidelines, please consult the
+        =link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
+        on the Growstuff wiki.
+
+  -# Everyone (wranglers and requesters) sees the basic info section
+  %h2 Basic information
 
   .form-group
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, :class => 'form-control'
-      %span.help-block Name in US English; singular; capitalize proper nouns only.
+      %span.help-block
+        The common name for the crop, in English (required).
+        - if can? :wrangle, @crop
+          Wranglers: please ensure this is singular, and capitalize
+          proper nouns only.
+
   .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :en_wikipedia_url, :class => 'form-control'
-      %span.help-block Link to this crop's page on the English language Wikipedia.
-  .form-group
-    = f.label :parent_id, 'Parent crop', :class => 'control-label col-md-2'
-    .col-md-8
-      = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true}, :class => 'form-control')
-      %span.help-block Optional. For setting up crop hierarchies for varieties etc.
-  %p
-    %span.help-block
-      You may enter up to 3 scientific names for a crop. Most crops will have only one.
+      %span.help-block
+        Link to the crop's page on the English language Wikipedia (required).
+
+  -# Only crop wranglers see the crop hierarchy (for now)
+  - if can? :wrangle, @crop
+    .form-group
+      = f.label :parent_id, 'Parent crop', :class => 'control-label col-md-2'
+      .col-md-8
+        = collection_select(:crop, :parent_id, Crop.all, :id, :name, {:include_blank => true}, :class => 'form-control')
+        %span.help-block Optional. For setting up crop hierarchies for varieties etc.
+
+
+  -# Everyone (wranglers and requesters) gets to add scientific names
+  %h2 Scientific names
+  %p You may enter up to 3 scientific names for a crop. Most crops will have only one.
+
   = f.fields_for :scientific_names do |sn|
     .form-group
       = sn.label :scientific_name, "Scientific name", :class => 'control-label col-md-2'
@@ -40,6 +57,42 @@
           %label.checkbox
             = sn.check_box :_destroy
             = sn.label :_destroy, "Delete"
+
+  -# This is used for comments from crop requesters.  We need to show it
+  -# to everyone, but we don't include it on new crops from wranglers.
+
+  - if (can? :wrangle, @crop and @crop.requester) or (cannot? :wrangle, @crop and @crop.new_record?)
+    %h2 Crop request notes
+    .form-group
+      = f.label :request_notes, 'Comments', :class => 'control-label col-md-2'
+      .col-md-8
+        = f.text_area :request_notes, :rows => 3, :class => 'form-control'
+
+  -# A final explanation of what's going to happen next, for crop requesters
+  - unless can? :wrangle, @crop
+    %p When you submit this form, your suggestion will be sent to our team of #{link_to 'volunteer crop wranglers', 'http://talk.growstuff.org/c/crop-wrangling'} for review. We'll let you know the outcome as soon as we can.
+
+  -# Now, for crop wranglers, let's have approval/rejection at the bottom of the page
+  - if can? :wrangle, @crop and @crop.requester
+    %h2 Approve or reject pending crops
+    .form-group
+      = f.label :approval_status, 'Approval status', :class=> 'control-label col-md-2'
+      .col-md-8
+        = f.select(:approval_status, @crop.approval_statuses, {}, {:class => 'form-control'})
+
+    .form-group
+      = f.label :reason_for_rejection, 'Reason for rejection', :class => 'control-label col-md-2'
+      .col-md-8
+        = f.select(:reason_for_rejection, @crop.reasons_for_rejection, {:include_blank => true}, {:class => 'form-control'})
+
+    .form-group
+      = f.label :rejection_notes, 'Rejection notes', :class => 'control-label col-md-2'
+      .col-md-8
+        = f.text_area :rejection_notes, :rows => 3, :class => 'form-control'
+        %span.help-block
+          Please provide additional notes why this crop request was rejected if the above reasons do not apply.
+
+
   .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', :class => 'btn btn-primary'

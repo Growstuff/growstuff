@@ -32,6 +32,7 @@ class Member < ActiveRecord::Base
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
+  scope :recently_joined, -> { reorder("confirmed_at desc") }
   scope :wants_newsletter, -> { where(:newsletter => true) }
 
   has_many :follows, :class_name => "Follow", :foreign_key => "follower_id"

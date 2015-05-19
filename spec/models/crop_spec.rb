@@ -328,6 +328,7 @@ describe Crop do
   context "search" do
     before :each do
       @mushroom = FactoryGirl.create(:crop, :name => 'mushroom')
+      sync_elasticsearch([@mushroom])
     end
     it "finds exact matches" do
       Crop.search('mushroom').should eq [@mushroom]
@@ -340,6 +341,16 @@ describe Crop do
     end
     it "searches case insensitively" do
       Crop.search('mUsH').should include @mushroom
+    end
+    it "doesn't find 'rejected' crop" do
+      @rejected_crop = FactoryGirl.create(:rejected_crop, :name => 'tomato')
+      sync_elasticsearch([@rejected_crop])
+      Crop.search('tomato').should_not include @rejected_crop
+    end
+    it "doesn't find 'pending' crop" do
+      @crop_request = FactoryGirl.create(:crop_request, :name => 'tomato')
+      sync_elasticsearch([@crop_request])
+      Crop.search('tomato').should_not include @crop_request
     end
   end
 
@@ -540,6 +551,21 @@ describe Crop do
 
       it "should not delete the posts" do
         expect(Post.find(post)).to_not eq nil
+      end
+    end
+  end
+
+  context "crop rejections" do
+    let!(:rejected_reason) { FactoryGirl.create(:crop, :name => 'tomato', :approval_status => 'rejected', :reason_for_rejection => 'not edible') }
+    let!(:rejected_other) { FactoryGirl.create(:crop, :name => 'tomato', :approval_status => 'rejected', :reason_for_rejection => 'other', :rejection_notes => 'blah blah blah') }
+
+    describe "rejecting a crop" do
+      it "should give reason if a default option" do
+        expect(rejected_reason.rejection_explanation).to eq "not edible"
+      end
+
+      it "should show rejection notes if reason was other" do
+        expect(rejected_other.rejection_explanation).to eq "blah blah blah"
       end
     end
   end

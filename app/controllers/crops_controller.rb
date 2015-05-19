@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class CropsController < ApplicationController
   before_filter :authenticate_member!, :except => [:index, :hierarchy, :search, :show]
   load_and_authorize_resource
@@ -9,10 +11,12 @@ class CropsController < ApplicationController
     @sort = params[:sort]
     if @sort == 'alpha'
       # alphabetical order
-      @crops = Crop.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.approved.paginate(:page => params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos}).paginate(:page => params[:page])
+      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos})
+      @paginated_crops = @crops.approved.paginate(:page => params[:page])
     end
 
     respond_to do |format|
@@ -32,7 +36,18 @@ class CropsController < ApplicationController
 
   # GET /crops/wrangle
   def wrangle
-    @crops = Crop.recent.paginate(:page => params[:page])
+    @approval_status = params[:approval_status]
+    case @approval_status
+    when "pending"
+      @crops = Crop.pending_approval
+    when "rejected"
+      @crops = Crop.rejected
+    else
+      @crops = Crop.recent
+    end
+
+    @crops = @crops.paginate(:page => params[:page])
+
     @crop_wranglers = Role.crop_wranglers
     respond_to do |format|
       format.html
@@ -49,18 +64,13 @@ class CropsController < ApplicationController
 
   # GET /crops/search
   def search
-    @search = params[:search]
-    @exact_match = Crop.find_by_name(params[:search])
-
-    @partial_matches = Crop.search(params[:search])
-    # exclude exact match from partial match list
-    @partial_matches = @partial_matches.reject{ |r| @exact_match && r.eql?(@exact_match) }
-
-    @fuzzy = Crop.search(params[:term])
+    @term = params[:term]
+    @matches = Crop.search(@term)
+    @paginated_matches = @matches.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html
-      format.json { render :json => @fuzzy }
+      format.json { render :json => @matches }
     end
   end
 
@@ -96,17 +106,35 @@ class CropsController < ApplicationController
   # GET /crops/1/edit
   def edit
     @crop = Crop.find(params[:id])
+
+    (3 - @crop.scientific_names.length).times do
+      @crop.scientific_names.build
+    end
   end
 
   # POST /crops
   # POST /crops.json
   def create
-    params[:crop][:creator_id] = current_member.id
     @crop = Crop.new(crop_params)
+
+    if current_member.has_role? :crop_wrangler
+      @crop.creator = current_member
+      success_msg = "Crop was successfully created."
+    else
+      @crop.requester = current_member
+      @crop.approval_status = "pending"
+      success_msg = "Crop was successfully requested."
+    end
 
     respond_to do |format|
       if @crop.save
-        format.html { redirect_to @crop, notice: 'Crop was successfully created.' }
+        unless current_member.has_role? :crop_wrangler
+          Role.crop_wranglers.each do |w|
+            Notifier.new_crop_request(w, @crop).deliver!
+          end
+        end
+
+        format.html { redirect_to @crop, notice: success_msg }
         format.json { render json: @crop, status: :created, location: @crop }
       else
         format.html { render action: "new" }
@@ -120,8 +148,18 @@ class CropsController < ApplicationController
   def update
     @crop = Crop.find(params[:id])
 
+    previous_status = @crop.approval_status
+
+    @crop.creator = current_member if previous_status == "pending"
+
     respond_to do |format|
       if @crop.update(crop_params)
+        if previous_status == "pending"
+          requester = @crop.requester
+          new_status = @crop.approval_status
+          Notifier.crop_request_approved(requester, @crop).deliver! if new_status == "approved"
+          Notifier.crop_request_rejected(requester, @crop).deliver! if new_status == "rejected"
+        end
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }
       else
@@ -146,6 +184,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :scientific_names_attributes)
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :rejection_notes, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
   end
 end
