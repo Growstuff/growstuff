@@ -60,50 +60,86 @@ end
 
 def load_test_users
   puts "Loading test users..."
-  (1..3).each do |i|
-    @user = Member.create(
+
+  # Open suburb csv
+  source_path = Rails.root.join('db', 'seeds')
+  begin
+    suburb_file = File.open("#{source_path}/suburbs.csv")
+  rescue
+    puts "Warning: unable to open suburbs.csv"
+  end
+
+
+  # rake parameter (eg. 'rake db:seed member_size=10')
+  member_size = ENV['member_size'] ? ENV['member_size'].to_i : 3
+
+  (1..member_size).each do |i|
+    @user = Member.new(
         :login_name => "test#{i}",
         :email => "test#{i}@example.com",
         :password => "password#{i}",
         :tos_agreement => true
     )
-    @user.confirm!
+    @user.skip_confirmation!
     @user.save!
+
+    # Populate member location and garden location
+    if suburb_file
+      suburb_file.pos = 0 if suburb_file.eof?
+      row = CSV.parse(suburb_file.readline)
+
+      suburb,country,state,latitude,longitude = row[0]
+      # Using 'update_column' method instead of 'update' so that 
+      # it avoids accessing Geocoding service for faster processing
+      @user.gardens.first.update_columns(location: suburb, latitude: latitude, longitude: longitude)
+      @user.update_columns(location: suburb, latitude: latitude, longitude: longitude)
+    end
+
+    # Create a planting by the member
+    Planting.create(
+      owner_id: @user.id,
+      garden_id: @user.gardens.first.id,
+      planted_at: Date.today,
+      crop_id: Crop.find(i % Crop.all.size + 1).id,
+      sunniness: select_random_item(Planting::SUNNINESS_VALUES),
+      planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
+    )
   end
+
   puts "Finished loading test users"
 end
 
 def load_admin_users
   puts "Adding admin and crop wrangler members..."
-  @admin_user = Member.create(
+  @admin_user = Member.new(
     :login_name => "admin1",
     :email => "admin1@example.com",
     :password => "password1",
     :tos_agreement => true
   )
-  @admin_user.confirm!
+  @admin_user.skip_confirmation!
   @admin_user.roles << @admin
   @admin_user.save!
 
-  @wrangler_user = Member.create(
+  @wrangler_user = Member.new(
     :login_name => "wrangler1",
     :email => "wrangler1@example.com",
     :password => "password1",
     :tos_agreement => true
   )
-  @wrangler_user.confirm!
+  @wrangler_user.skip_confirmation!
   @wrangler_user.roles << @wrangler
   @wrangler_user.save!
 end
 
 def create_cropbot
-  @cropbot_user = Member.create(
+  @cropbot_user = Member.new(
     :login_name => "cropbot",
     :email => Growstuff::Application.config.bot_email,
     :password => SecureRandom.urlsafe_base64(64),
     :tos_agreement => true
   )
-  @cropbot_user.confirm!
+  @cropbot_user.skip_confirmation!
   @cropbot_user.roles << @wrangler
   @cropbot_user.save!
   @cropbot_user.account.account_type = AccountType.find_by_name("Staff")
@@ -162,6 +198,8 @@ def load_plant_parts
   end
 end
 
-
+def select_random_item(array)
+  array[rand(0..array.size-1) % array.size]
+end
 
 load_data
