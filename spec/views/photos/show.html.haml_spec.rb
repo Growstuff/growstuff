@@ -46,19 +46,4 @@ describe "photos/show" do
 
   end
 
-  context "linked to a planting" do
-    before(:each) do
-      @photo = FactoryGirl.create(:photo)
-      @planting = FactoryGirl.create(:planting)
-      @planting.photos << @photo
-      @photo = assign(:photo, @photo)
-      render
-    end
-
-    it "shows link to planting" do
-      assert_select "a[href=#{planting_path(@planting)}]"
-    end
-
-  end
-
 end
