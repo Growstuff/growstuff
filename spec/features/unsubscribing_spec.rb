@@ -19,8 +19,8 @@ feature "unsubscribe" do
     open_email(member.email)
 
     # clicking 'Unsubscribe' link will unsubscribe the member
-    current_email.click_link 'Turn off these notifications'
-    expect(page).to have_content "You have been unsubscribed from Planting Reminder"    
+    current_email.click_link 'Unsubscribe from planting reminders'
+    expect(page).to have_content "You have been unsubscribed from planting reminders"
     updated_member = Member.find(member.id) # reload the member
     expect(updated_member.send_planting_reminder).to eq(false)
     expect(updated_member.send_notification_email).to eq(true)
@@ -37,8 +37,8 @@ feature "unsubscribe" do
     open_email(member.email)
 
     # clicking 'Unsubscribe' link will unsubscribe the member
-    current_email.click_link 'Turn off these notifications'
-    expect(page).to have_content "You have been unsubscribed from Inbox Notification"    
+    current_email.click_link 'Unsubscribe from direct message notifications'
+    expect(page).to have_content "You have been unsubscribed from direct message notifications"
     updated_member = Member.find(member.id) # reload the member
     expect(updated_member.send_planting_reminder).to eq(true)
     expect(updated_member.send_notification_email).to eq(false)

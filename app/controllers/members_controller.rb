@@ -50,8 +50,8 @@ class MembersController < ApplicationController
   end
 
   EMAIL_TYPE_STRING = {
-    send_notification_email: "Inbox Notification",
-    send_planting_reminder: "Planting Reminder"
+    send_notification_email: "direct message notifications",
+    send_planting_reminder: "planting reminders"
   }
 
   def unsubscribe
