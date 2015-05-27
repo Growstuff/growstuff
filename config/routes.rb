@@ -41,7 +41,9 @@ Growstuff::Application.routes.draw do
   resources :comments
   resources :roles
   resources :forums
-  resources :notifications
+  resources :notifications do
+    get 'reply', on: :member
+  end
 
   resources :follows, :only => [:create, :destroy]
   get '/members/:login_name/follows' => 'members#view_follows', :as => 'member_follows'
