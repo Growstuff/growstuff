@@ -36,6 +36,21 @@ class NotificationsController < ApplicationController
     end
   end
 
+  # GET /notifications/1/reply
+  def reply
+    @notification = Notification.new
+    @sender_notification = Notification.find(params[:id])
+    @recipient = @sender_notification.sender
+    @subject   = @sender_notification.subject =~ /^Re: / ?
+      @sender_notification.subject :
+      "Re: " + @sender_notification.subject
+    
+
+    respond_to do |format|
+      format.html # reply.html.haml
+    end
+  end
+
   # DELETE /notifications/1
   def destroy
     @notification = Notification.find(params[:id])
