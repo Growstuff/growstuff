@@ -55,4 +55,5 @@ submit the change with your pull request.
 - Robert Landreaux / [robertlandreaux](https://github.com/robertlandreaux)
 - Savant Krishna / [sksavant](https://github.com/sksavant)
 - Jake Yesbeck / [yez](https://github.com/yez)
+- Andrey Bazhutkin / [andrba](https://github.com/andrba)
 
