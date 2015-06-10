@@ -7,6 +7,7 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, :counter_cache => true
 
   has_and_belongs_to_many :photos
+  has_one :sensor
 
   before_destroy do |planting|
     photolist = planting.photos.to_a # save a temp copy of the photo list

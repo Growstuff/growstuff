@@ -30,6 +30,11 @@ Growstuff::Application.routes.draw do
   get '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
   get '/harvests/crop/:crop' => 'harvests#index', :as => 'harvests_by_crop'
 
+
+  resources :measurements
+
+  resources :sensors
+
   resources :posts
   get '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
 
