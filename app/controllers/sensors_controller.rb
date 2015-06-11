@@ -4,6 +4,14 @@ class SensorsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+  end
+
+  # GET /sensors/new
+  def new
+    @sensor = Sensor.new
+
+    respond_to do |format|
+      format.html # new.html.erb
     end
   end
 end
