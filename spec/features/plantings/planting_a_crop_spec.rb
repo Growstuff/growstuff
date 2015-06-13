@@ -13,12 +13,12 @@ feature "Planting a crop", :js => true do
   end
 
   it_behaves_like "crop suggest", "planting"
-  click_button "Show Optional Fields"
 
   scenario "Creating a new planting" do
     fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
+      click_button "Show Optional Fields"
       fill_in "When", :with => "2014-06-15"
       fill_in "How many?", :with => 42
       select "cutting", :from => "Planted from:"

@@ -11,12 +11,12 @@ feature "Seeds", :js => true do
   end
 
   it_behaves_like "crop suggest", "seed", "crop"
-  click_button "Show Optional Fields"
-  
+
   scenario "Adding a new seed", :js => true do
     fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_seed" do
+      click_button "Show Optional Fields"
       fill_in "Quantity:", :with => 42
       fill_in "Plant before:", :with => "2014-06-15"
       fill_in "Days until maturity:", :with => 999
