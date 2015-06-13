@@ -27,6 +27,7 @@ class Crop < ActiveRecord::Base
   scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
   scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
   scope :pending_approval, -> { where(:approval_status => "pending") }
+  scope :approved, -> { where(:approval_status => "approved") }
   scope :rejected, -> { where(:approval_status => "rejected") }
 
   ## Wikipedia urls are only necessary when approving a crop
@@ -76,6 +77,7 @@ class Crop < ActiveRecord::Base
     mappings dynamic: 'false' do
       indexes :id, type: 'long'
       indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+      indexes :approval_status, type: 'string'
       indexes :scientific_names do
         indexes :scientific_name,
           type: 'string',
@@ -92,7 +94,7 @@ class Crop < ActiveRecord::Base
 
   def as_indexed_json(options={})
     self.as_json(
-      only: [:id, :name],
+      only: [:id, :name, :approval_status],
       include: {
         scientific_names: { only: :scientific_name },
         alternate_names: { only: :name }
@@ -297,6 +299,14 @@ class Crop < ActiveRecord::Base
     end
   end
 
+  def rejection_explanation
+    if reason_for_rejection == "other"
+      return rejection_notes
+    else
+      return reason_for_rejection
+    end
+  end
+
   # Crop.search(string)
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
@@ -311,12 +321,30 @@ class Crop < ActiveRecord::Base
               fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
             }
           },
+          filter: {
+            term: {approval_status: "approved"}
+          },
           size: 50
         }
       )
       return response.records.to_a
     else
-      where("name ILIKE ?", "%#{query}%").load
+      # if we don't have elasticsearch, just do a basic SQL query.
+      # also, make sure it's an actual array not an activerecord
+      # collection, so it matches what we get from elasticsearch and we can
+      # manipulate it in the same ways (eg. deleting elements without deleting
+      # the whole record from the db)
+      matches = Crop.approved.where("name ILIKE ?", "%#{query}%").to_a
+
+      # we want to make sure that exact matches come first, even if not
+      # using elasticsearch (eg. in development)
+      exact_match = Crop.approved.find_by_name(query)
+      if exact_match
+        matches.delete(exact_match)
+        matches.unshift(exact_match)
+      end
+
+      return matches
     end
   end
 

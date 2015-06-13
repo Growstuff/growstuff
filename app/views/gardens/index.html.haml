@@ -50,7 +50,7 @@
             None
           - else
             %ul
-            - garden.plantings.each do |p|
+            - garden.plantings.current.each do |p|
               %li
                 = p.quantity
                 = link_to p.crop.name, p

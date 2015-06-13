@@ -19,11 +19,19 @@
       %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
   .col-md-6
-    - if @photo.plantings.count > 0
+    - if @photo.plantings.size > 0 or @photo.harvests.size > 0 or @photo.gardens.size > 0
       %p This photo depicts:
       %ul
-        - @photo.plantings.each do |p|
-          %li= link_to p, p
+        - if @photo.plantings.size > 0
+          - @photo.plantings.each do |p|
+            %li= link_to p, p
+        - if @photo.harvests.size > 0
+          - @photo.harvests.each do |h|
+            %li= link_to h, h
+        - if @photo.gardens.size > 0
+          - @photo.gardens.each do |g|
+            %li= link_to g, g
+
 
 .row
   .col-md-12

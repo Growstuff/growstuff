@@ -8,7 +8,7 @@
 
   .form-group
     = label_tag :post, "Subject", :class => 'control-label'
-    = f.text_field :subject, :class => 'form-control'
+    = f.text_field :subject, :class => 'form-control', :autofocus => true
 
   .form-group
     - if @post.forum || @forum

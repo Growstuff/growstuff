@@ -8,6 +8,7 @@
 %ul
   %li Name: #{@request.name}
   %li Wikipedia URL: #{@request.en_wikipedia_url.present? ? @request.en_wikipedia_url : "not specified"}
+  %li Notes: #{@request.request_notes}
 
 %p
   As a crop wrangler, you can #{link_to "approve or reject this request", edit_crop_url(@request)}.

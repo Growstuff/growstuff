@@ -1,5 +1,7 @@
 %p#notice= notice
 
+= render :partial => 'crops/approval_status_message', :locals => { :crop => @alternate_name.crop }
+
 %p
   %b Alternate name:
   = @alternate_name.name

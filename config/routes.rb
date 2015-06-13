@@ -1,5 +1,6 @@
 Growstuff::Application.routes.draw do
 
+  get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
 
@@ -79,6 +80,7 @@ Growstuff::Application.routes.draw do
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
 
+  comfy_route :cms_admin, :path => '/admin/cms'
   get '/admin/orders' => 'admin/orders#index'
   get '/admin/orders/:action' => 'admin/orders#:action'
   get '/admin' => 'admin#index'
@@ -86,7 +88,6 @@ Growstuff::Application.routes.draw do
   get '/admin/:action' => 'admin#:action'
 
 # CMS stuff  -- must remain LAST
-  comfy_route :cms_admin, :path => '/cms/admin'
   comfy_route :cms, :path => '/', :sitemap => false
 
 end

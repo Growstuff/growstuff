@@ -12,6 +12,7 @@ submit the change with your pull request.
 - Cesy / [cesy](https://github.com/cesy)
 - Miles Gould / [pozorvlak](https://github.com/pozorvlak)
 - Taylor Griffin / [tygriffin](https://github.com/tygriffin)
+- Mackenzie Morgan / [maco](https://github.com/maco)
 
 ## Contributors
 
@@ -23,7 +24,6 @@ submit the change with your pull request.
 - Maia Sauren / [sauramaia](https://github.com/sauramaia)
 - Norman Ancajas / [nbancajas](https://github.com/nbancajas)
 - Jonathan "Duke" Leto / [leto](https://github.com/leto)
-- Mackenzie Morgan / [maco](https://github.com/maco)
 - Amy Hendrix / [sabreuse](https://github.com/sabreuse)
 - CephLPod / [cephLpod](https://github.com/cephLpod/)
 - Gemma Mason / [gemmaellen](https://github.com/gemmaellen)
@@ -54,4 +54,6 @@ submit the change with your pull request.
 - Rocky Jaiswal / [rocky-jaiswal](https://github.com/rocky-jaiswal)
 - Robert Landreaux / [robertlandreaux](https://github.com/robertlandreaux)
 - Savant Krishna / [sksavant](https://github.com/sksavant)
+- Jake Yesbeck / [yez](https://github.com/yez)
+- Mauricio Gonzalez / [mauricio-gonzalez](https://github.com/mauricio-gonzalez)
 

@@ -3,7 +3,8 @@ require 'rails_helper'
 feature "Planting a crop", :js => true do
   let!(:garden)   { FactoryGirl.create(:garden) }
   let!(:planting) { FactoryGirl.create(:planting, garden: garden, planted_at: Date.parse("2013-3-10")) }
-
+  let!(:tomato) { FactoryGirl.create(:tomato) }
+  let!(:finished_planting) { FactoryGirl.create(:finished_planting, garden: garden, crop: tomato) }
 
   background do
     login_as(garden.owner)
@@ -70,6 +71,11 @@ feature "Planting a crop", :js => true do
     let(:link_text) { "Mark as finished" }
 
     it_behaves_like "append date"
+  end
+
+  scenario "List only active plantings on a garden" do
+    visit gardens_path
+    expect(page).not_to have_content finished_planting.crop_name
   end
 
 end

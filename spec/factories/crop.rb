@@ -54,6 +54,10 @@ FactoryGirl.define do
     factory :uppercasecrop do
       name "Swiss chard"
     end
+    
+    factory :autoloaded_crop do
+      creator "cropbot"
+    end
 
     #for testing crop request
     factory :crop_request do
