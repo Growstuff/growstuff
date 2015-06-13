@@ -1,4 +1,5 @@
 = form_for(@harvest, :html => {:class => "form-horizontal", :role => :form}) do |f|
+  %p= "* Denotes Required Field"
   - if @harvest.errors.any?
     #error_explanation
       %h2= "#{pluralize(@harvest.errors.count, "error")} prohibited this harvest from being saved:"
@@ -7,7 +8,7 @@
           %li= msg
 
   .form-group
-    = f.label :crop, 'What did you harvest?', :class => 'control-label col-md-2'
+    = f.label :crop, 'What did you harvest?*', :class => 'control-label col-md-2'
     .col-md-4
       = auto_suggest @harvest, :crop, :class => 'form-control col-md-2', :default => @crop
     .col-md-4
