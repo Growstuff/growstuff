@@ -1,6 +1,9 @@
 %head
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:image" content="images/growstuff-apple-touch-icon-precomposed.png"/>
+  <meta property="og:image:secure_url" content="images/growstuff-apple-touch-icon-precomposed.png"/>
+
 
   - if (content_for?(:member_rss_login_name) && content_for(:member_rss_slug))
     = auto_discovery_link_tag(:rss, { :controller => "/members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "#{ ENV['GROWSTUFF_SITE_NAME'] }- #{yield(:member_rss_login_name)}'s posts" })
