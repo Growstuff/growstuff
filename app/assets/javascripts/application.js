@@ -20,3 +20,7 @@
 //= require_tree .
 //= require bootstrap-datepicker
 
+$(document).on("click", "#optional", function(){
+  	$(".additional-fields").show();
+  	$("#optional").hide();
+ });
