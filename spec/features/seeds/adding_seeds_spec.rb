@@ -11,7 +11,8 @@ feature "Seeds", :js => true do
   end
 
   it_behaves_like "crop suggest", "seed", "crop"
-
+  click_button "Show Optional Fields"
+  
   scenario "Adding a new seed", :js => true do
     fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"

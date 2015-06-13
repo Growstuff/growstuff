@@ -13,6 +13,7 @@ feature "Planting a crop", :js => true do
   end
 
   it_behaves_like "crop suggest", "planting"
+  click_button "Show Optional Fields"
 
   scenario "Creating a new planting" do
     fill_autocomplete "crop", :with => "mai"
