@@ -18,7 +18,7 @@ feature "Planting a crop", :js => true do
     fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
-      click_button "Show Optional Fields"
+      click_button "#optional"
       fill_in "When", :with => "2014-06-15"
       fill_in "How many?", :with => 42
       select "cutting", :from => "Planted from:"
