@@ -1,4 +1,5 @@
 = form_for(@planting, :html => {:class => "form-horizontal", :role => "form"}) do |f|
+  %p= "* Denotes Required Field"
   - if @planting.errors.any?
     #error_explanation
       %h2= "#{pluralize(@planting.errors.count, "error")} prohibited this planting from being saved:"
@@ -21,6 +22,9 @@
         = link_to "Add a garden.", new_garden_path
   .additional-fields
     .form-group
+      = f.label :description, 'Tell us more about it', :class => 'control-label col-md-2'
+      .col-md-8= f.text_area :description, :rows => 6, :class => 'form-control'
+    .form-group
       = f.label :planted_at, 'When?', :class => 'control-label col-md-2'
       .col-md-2= f.text_field :planted_at, :value => @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '', :class => 'add-datepicker form-control'
     .form-group
@@ -35,9 +39,6 @@
       = f.label :sunniness, 'Sun or shade?', :class => 'control-label col-md-2'
       .col-md-8
         = f.select(:sunniness, Planting::SUNNINESS_VALUES, {:include_blank => true}, :class => 'form-control')
-    .form-group
-      = f.label :description, 'Tell us more about it', :class => 'control-label col-md-2'
-      .col-md-8= f.text_area :description, :rows => 6, :class => 'form-control'
     .form-group
       = f.label :finished, 'Mark as finished', :class => 'control-label col-md-2'
       .col-md-8
