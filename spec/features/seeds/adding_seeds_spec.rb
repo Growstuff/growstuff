@@ -17,7 +17,7 @@ feature "Seeds", :js => true do
     select_from_autocomplete "maize"
     within "form#new_seed" do
       click_link "Show Optional Fields"
-      sleep 5
+      sleep 1
       fill_in "Quantity:", :with => 42
       fill_in "Plant before:", :with => "2014-06-15"
       fill_in "Days until maturity:", :with => 999

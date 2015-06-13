@@ -39,7 +39,7 @@ feature "Planting a crop", :js => true do
   scenario "Refuse to create new garden with negative area" do
     visit new_garden_path
     click_link "Show Optional Fields"
-    sleep 5
+    sleep 1
     fill_in "Name", :with => "Negative Garden"
     fill_in "Area", :with => -5
     click_button "Save"
