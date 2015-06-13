@@ -160,13 +160,13 @@ describe Seed do
     end
 
     it 'has a photo' do
-      @seed.photos.first.should eq @photo
+      expect(@seed.photos.first).to eq @photo
     end
 
     it 'deletes association with photos when photo is deleted' do
       @photo.destroy
       @seed.reload
-        @seed.photos.should be_empty
+      @seed.photos.should be_empty
     end
 
     it 'has a default photo' do
