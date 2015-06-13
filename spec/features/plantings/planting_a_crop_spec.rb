@@ -19,7 +19,7 @@ feature "Planting a crop", :js => true do
     select_from_autocomplete "maize"
     within "form#new_planting" do
       click_link "Show Optional Fields"
-      sleep 5
+      sleep 1
       fill_in "When", :with => "2014-06-15"
       fill_in "How many?", :with => 42
       select "cutting", :from => "Planted from:"
@@ -46,12 +46,16 @@ feature "Planting a crop", :js => true do
   scenario "Editing a planting to add details" do
     visit planting_path(planting)
     click_link "Edit"
+    click_link "Show Optional Fields"
+    sleep 1
     fill_in "Tell us more about it", :with => "Some extra notes"
     click_button "Save"
     expect(page).to have_content "Planting was successfully updated"
   end
 
   scenario "Marking a planting as finished" do
+    click_link "Show Optional Fields"
+    sleep 1
     fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
@@ -91,6 +95,8 @@ feature "Planting a crop", :js => true do
     fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
+      click_link "Show Optional Fields"
+      sleep 1
       check "Mark as finished"
       click_button "Save"
     end
