@@ -1,4 +1,5 @@
 = form_for(@garden, :html => {:class => "form-horizontal", :role => "form"}) do |f|
+  %p= "* Denotes Required Field"
   - if @garden.errors.any?
     #error_explanation
       %h2= "#{pluralize(@garden.errors.count, "error")} prohibited this garden from being saved:"
@@ -7,7 +8,7 @@
           %li= msg
 
   .form-group
-    = f.label :name, :class => 'control-label col-md-2'
+    = f.label :name, "Name *", :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, :class => 'form-control'
 
@@ -27,21 +28,22 @@
           =link_to "Set your location now.", edit_member_registration_path
         - else
           =link_to "Change your location.", edit_member_registration_path
+  .additional-fields
+    .form-group
+      = f.label :area, :class => 'control-label col-md-2'
+      .col-md-2
+        = f.number_field :area, :class => 'input-small form-control'
+      .col-md-2
+        = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
 
-  .form-group
-    = f.label :area, :class => 'control-label col-md-2'
-    .col-md-2
-      = f.number_field :area, :class => 'input-small form-control'
-    .col-md-2
-      = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
-
-  .form-group
-    = f.label :active, 'Active? ', :class => 'control-label col-md-2'
-    .col-md-8
-      = f.check_box :active
-      You can mark a garden as inactive if you no longer use it.  Note:
-      this will mark all plantings in the garden as "finished".
+    .form-group
+      = f.label :active, 'Active? ', :class => 'control-label col-md-2'
+      .col-md-8
+        = f.check_box :active
+        You can mark a garden as inactive if you no longer use it.  Note:
+        this will mark all plantings in the garden as "finished".
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save Garden', :class => 'btn btn-primary'
+      = link_to "Show Optional Fields", "#", :class => 'btn btn-primary', :id => 'optional'
