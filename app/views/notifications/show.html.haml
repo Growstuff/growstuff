@@ -1,18 +1,6 @@
 = content_for :title, @notification.subject
 
-%p
-  From
-  = link_to @notification.sender, @notification.sender
-  on
-  = @notification.created_at
-
-  - if @notification.post_id
-    in response to:
-    = link_to @notification.post.subject, @notification.post
-
-.well
-  :growstuff_markdown
-    #{ strip_tags(@notification.body) }
+= render @notification
 
 %p
   =link_to 'Delete', @notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default'
