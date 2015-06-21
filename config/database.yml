@@ -3,6 +3,7 @@ development:
   database: growstuff_dev
   host: localhost
   user: postgres
+  password: password
 
 test:
   adapter: postgresql
