@@ -1,6 +1,9 @@
 %h3 Account details
 
 %p
+  %strong= member.list_roles
+
+%p
   %strong Member since:
   = member.created_at.to_s(:date)
 
@@ -8,4 +11,3 @@
   %strong Account type:
   = member.account_type
   account
-

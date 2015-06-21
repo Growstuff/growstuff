@@ -107,6 +107,15 @@ class Member < ActiveRecord::Base
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
   end
 
+  def list_roles
+    roles = ""
+    self.roles.each do |role|
+      roles += role.name + ", "
+    end
+    roles.slice!(-2..-1)
+    roles
+  end
+
   def current_order
     orders.where(:completed_at => nil).first
   end
