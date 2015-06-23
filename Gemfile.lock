@@ -458,6 +458,3 @@ DEPENDENCIES
   unicorn
   webrat
   will_paginate (~> 3.0)
-
-BUNDLED WITH
-   1.10.3

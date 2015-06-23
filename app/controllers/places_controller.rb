@@ -21,9 +21,17 @@ class PlacesController < ApplicationController
   end
 
   def search
-    respond_to do |format|
-      format.html do
-        redirect_to place_path(params[:new_place])
+    if params[:new_place].empty?
+      respond_to do |format|
+        format.html do
+          redirect_to places_path, alert: 'Please enter a valid location'
+        end
+      end
+    else
+      respond_to do |format|
+        format.html do
+          redirect_to place_path(params[:new_place])
+        end
       end
     end
   end
