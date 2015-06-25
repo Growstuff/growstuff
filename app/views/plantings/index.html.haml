@@ -22,40 +22,69 @@
 
   %table.table.table-striped
     %tr
-      - unless @owner
-        %th Owner
-      %th Crop
-      %th Garden
-      %th Quantity
-      %th Planted on
-      %th Finished
-      %th Sun/shade?
-      %th Planted from
-      %th
-
-    - @plantings.each do |planting|
+      %th #
+      %th Photo
+      %th{:colspan => "3"} Planting details
+    
+    - @plantings.each.with_index do |planting, index|
       %tr
-        - unless @owner
-          %td= link_to planting.owner.login_name, planting.owner
-        %td= link_to planting.crop.name, planting.crop
-        %td= link_to planting.garden.name, planting.garden
-        %td= planting.quantity
-        %td= planting.planted_at
+        %td= "##{index+1}"
+        %td= link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
         %td
-          - if planting.finished and planting.finished_at
-            = planting.finished_at
-          - elsif planting.finished
-            Yes (no date specified)
-        %td= planting.sunniness
-        %td= planting.planted_from
+          %ul{:style => "list-style-type:none"}
+            %li Owner :
+            %li Garden :
+            %li Planted on :
+            %li Finished on :
+            %li Sun/shade? :
+            %li Planted from :
         %td
-          = link_to 'Details', planting, :class => 'btn btn-default btn-xs'
-          - if can? :edit, planting
-            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
-            - if ! planting.finished
-              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
-          - if can? :destroy, planting
-            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+          %ul{:style => "list-style-type:none"}
+            %li= link_to planting.owner.login_name, planting.owner
+            %li= link_to planting.garden.name, planting.garden
+            %li= planting.planted_at
+            - if planting.finished and planting.finished_at?
+              %li= planting.finished_at
+            - elsif planting.finished
+              %li= "Yes (no date specified)"
+            - else
+              %li= "(no date specified)"
+            - if planting.sunniness?
+              %li= planting.sunniness
+            - else
+              %li= "n/a"
+            %li= planting.planted_from
+        %td
+          %ul{:style => "list-style-type:none"}
+            %li= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
+            - if can? :edit, planting
+              %li= link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
+            - if can? :destroy, planting
+              %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+          %tr
+        %td
+        %td
+          %ul{:style => "list-style-type:none"}
+            %li
+              Crop name:
+              =link_to planting.crop.name, planting.crop
+            - if planting.finished and !planting.finished_at.nil?
+              - if ((p = planting.finished_at - DateTime.now).to_i) <= 0
+                %li= "Days until maturity: 0"
+              - else
+                %li= "Days until maturity: #{p.to_i}"
+
+            - elsif planting.days_before_maturity.nil?
+              %li= "Days until maturity: unknown"
+            - else
+              - if ((p = (planting.planted_at + planting.days_before_maturity) - DateTime.now).to_i) <= 0
+                %li= "Days until maturity: 0"
+              - else
+                %li= "Days until maturity: #{p.to_i}"
+
+        %td{:colspan => "3"}
+          %ul{:style => "list-style-type:none"}
+            %li= render 'planting_progress', planting: planting
 
   %div.pagination
     = page_entries_info @plantings, :model => "plantings"

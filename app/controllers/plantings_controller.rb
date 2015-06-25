@@ -67,6 +67,7 @@ class PlantingsController < ApplicationController
   def create
     params[:planted_at] = parse_date(params[:planted_at])
     @planting = Planting.new(planting_params)
+    @planting.days_before_maturity = update_days_before_maturity(@planting, planting_params[:crop_id])
     @planting.owner = current_member
 
     respond_to do |format|
@@ -86,6 +87,8 @@ class PlantingsController < ApplicationController
   def update
     @planting = Planting.find(params[:id])
     params[:planted_at] = parse_date(params[:planted_at])
+
+    @planting.days_before_maturity = update_days_before_maturity(@planting, planting_params[:crop_id])
 
     respond_to do |format|
       if @planting.update(planting_params)
@@ -118,5 +121,13 @@ class PlantingsController < ApplicationController
     params.require(:planting).permit(:crop_id, :description, :garden_id, :planted_at,
     :quantity, :sunniness, :planted_from, :owner_id, :finished,
     :finished_at)
+  end
+
+  def update_days_before_maturity(planting, crop_id)
+    if planting.finished_at.nil?
+      planting.calculate_days_before_maturity(crop_id)
+    else
+      (planting.finished_at - planting.planted_at).to_i
+    end
   end
 end

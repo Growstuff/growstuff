@@ -38,6 +38,16 @@
           = @planting.finished_at
         - else
           Yes (no date specified)
+    %p
+      %b Days until maturity:
+      - if @planting.finished and @planting.finished_at?
+        = "#{(@planting.finished_at - DateTime.now).to_i}"
+      - elsif @planting.days_before_maturity.nil?
+        = "unknown"
+      - else
+        = "#{((@planting.planted_at + @planting.days_before_maturity) - DateTime.now).to_i}"
+    %p
+      %b= render 'planting_progress', planting: @planting
 
 
 
