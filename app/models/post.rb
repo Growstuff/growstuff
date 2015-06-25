@@ -24,7 +24,7 @@ class Post < ActiveRecord::Base
   end
 
   def comment_count
-    self.comments.count
+    self.comments.size
   end
 
   # return the timestamp of the most recent activity on this post

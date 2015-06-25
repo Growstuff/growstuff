@@ -202,7 +202,7 @@ class Member < ActiveRecord::Base
     howmany = 12 # max number to find
     interesting_members = Array.new
     Member.confirmed.located.recently_signed_in.each do |m|
-      break if interesting_members.length == howmany
+      break if interesting_members.size == howmany
       if m.interesting?
         interesting_members.push(m)
       end

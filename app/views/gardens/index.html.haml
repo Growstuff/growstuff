@@ -14,7 +14,7 @@
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add a new garden' }
 
-- if @gardens.length > 0
+- if @gardens.size > 0
 
   %div.pagination
     = page_entries_info @gardens, :model => "gardens"

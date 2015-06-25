@@ -107,7 +107,7 @@ class CropsController < ApplicationController
   def edit
     @crop = Crop.find(params[:id])
 
-    (3 - @crop.scientific_names.length).times do
+    (3 - @crop.scientific_names.size).times do
       @crop.scientific_names.build
     end
   end

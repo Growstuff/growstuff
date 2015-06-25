@@ -49,7 +49,7 @@ csv.headers *all_headers
 
     if c.scientific_names.any?
       csv.cell :default_scientific_name, c.default_scientific_name
-      csv.cell :scientific_name_count, c.scientific_names.count
+      csv.cell :scientific_name_count, c.scientific_names.size
     end
 
     if c.parent
@@ -58,8 +58,8 @@ csv.headers *all_headers
     end
 
     csv.cell :plantings_count, c.plantings_count || 0
-    csv.cell :seeds_count, c.seeds.count
-    csv.cell :harvests_count, c.harvests.count
+    csv.cell :seeds_count, c.seeds.size
+    csv.cell :harvests_count, c.harvests.size
 
     # Sunniness
 

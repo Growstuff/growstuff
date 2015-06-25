@@ -1,7 +1,7 @@
 = form_for @crop, :html => {:class => 'form-horizontal', :role => "form"} do |f|
   - if @crop.errors.any?
     #error_explanation
-      %h3= "#{pluralize(@crop.errors.count, "error")} prohibited this crop from being saved:"
+      %h3= "#{pluralize(@crop.errors.size, "error")} prohibited this crop from being saved:"
       %ul
         - @crop.errors.full_messages.each do |msg|
           %li= msg

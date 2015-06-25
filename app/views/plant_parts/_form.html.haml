@@ -1,7 +1,7 @@
 = form_for @plant_part do |f|
   - if @plant_part.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@plant_part.errors.count, "error")} prohibited this plant_part from being saved:"
+      %h2= "#{pluralize(@plant_part.errors.size, "error")} prohibited this plant_part from being saved:"
       %ul
         - @plant_part.errors.full_messages.each do |msg|
           %li= msg

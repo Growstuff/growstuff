@@ -35,7 +35,7 @@
 :growstuff_markdown
   #{ @harvest.description != "" ? @harvest.description : "No description given." }
 
-- if @harvest.photos.count > 0 or (can? :edit, @harvest and can? :create, Photo)
+- if @harvest.photos.size > 0 or (can? :edit, @harvest and can? :create, Photo)
   %h2 Pictures
 
   %ul.thumbnails
