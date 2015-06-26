@@ -15,3 +15,16 @@ if Geocoder.config.lookup != :test
   Geocoder.configure(:lookup => :nominatim)
 end
 
+Geocoder::Lookup::Test.add_stub(
+  "Philippines", [
+    {
+      'latitude'     => 12.7503486,
+      'longitude'    => 122.7312101,
+      'address'      => 'Manila, Mnl, Philippines',
+      'state'        => 'Manila',
+      'state_code'   => 'Mnl',
+      'country'      => 'Philippines',
+      'country_code' => 'PH'
+    }
+  ]
+)
