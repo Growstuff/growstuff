@@ -35,8 +35,8 @@ describe 'shop/index.html.haml', :type => "view" do
       assert_select("h2", :text => @product1.name)
     end
 
-    it 'shows prices in AUD' do
-      rendered.should have_content '9.99 AUD'
+    it 'shows prices in configured currency' do
+      rendered.should have_content '9.99 %s' % Growstuff::Application.config.currency
     end
 
     it 'should contain an exchange rate link' do
@@ -45,7 +45,7 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it 'shows recommended price for products that have it' do
-      rendered.should have_content '12.00 AUD'
+      rendered.should have_content '12.00 %s' % Growstuff::Application.config.currency
     end
 
     it 'should contain an exchange rate link for recommended price' do
