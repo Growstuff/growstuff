@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209105410) do
+ActiveRecord::Schema.define(version: 20150625224805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -380,8 +380,8 @@ ActiveRecord::Schema.define(version: 20150209105410) do
   end
 
   create_table "plantings", force: true do |t|
-    t.integer  "garden_id",                    null: false
-    t.integer  "crop_id",                      null: false
+    t.integer  "garden_id",                            null: false
+    t.integer  "crop_id",                              null: false
     t.date     "planted_at"
     t.integer  "quantity"
     t.text     "description"
@@ -391,8 +391,9 @@ ActiveRecord::Schema.define(version: 20150209105410) do
     t.string   "sunniness"
     t.string   "planted_from"
     t.integer  "owner_id"
-    t.boolean  "finished",     default: false
+    t.boolean  "finished",             default: false
     t.date     "finished_at"
+    t.integer  "days_before_maturity"
   end
 
   add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree
