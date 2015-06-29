@@ -44,19 +44,19 @@
 
 
   -# Everyone (wranglers and requesters) gets to add scientific names
-  %h2 Scientific names
-  %p You may enter up to 3 scientific names for a crop. Most crops will have only one.
+  %h2
+    Scientific names
+    = button_tag "+", :id => "add-crop-row", :type => "button"
+    = button_tag "-", :id => "remove-crop-row", :type => "button"
+  
+  .form-group
+    = label_tag :alternate_names, "Alternate name 1:", :class => 'control-label col-md-2'
+    .col-md-8
+      .form-group
+        = text_field_tag :name, nil, :id => 'alt_name[1]', :class => 'form-control'
+        %span.help-block Alternate name of crop.
 
-  = f.fields_for :scientific_names do |sn|
-    .form-group
-      = sn.label :scientific_name, "Scientific name", :class => 'control-label col-md-2'
-      .col-md-8
-        = sn.text_field :scientific_name, :class => 'form-control'
-      .col-md-2
-        - if sn.object && sn.object.persisted?
-          %label.checkbox
-            = sn.check_box :_destroy
-            = sn.label :_destroy, "Delete"
+  .form-group#someform
 
   -# This is used for comments from crop requesters.  We need to show it
   -# to everyone, but we don't include it on new crops from wranglers.
