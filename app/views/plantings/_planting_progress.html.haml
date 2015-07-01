@@ -1,17 +1,18 @@
 - if DateTime.now.to_date < planting.planted_at
-	= "Progress: #{percent=0}% - "
-	= "not planted yet"
+	= "Progress: 0% - not planted yet"
 	.progress
 		.progress-bar.progress-bar-warning{"aria-valuemax" => "planting.days_before_maturity", "aria-valuemin" => "0", "aria-valuenow" => "100%", :role => "progressbar", :style => "width: 100%"}
+- elsif planting.finished?
+	= "Progress: 100%"
+	.progress
+		.progress-bar.progress-bar-success{"aria-valuemax" => "planting.days_before_maturity", "aria-valuemin" => "0", "aria-valuenow" => "100", :role => "progressbar", :style => "width: 100%"}
 - elsif planting.days_before_maturity.nil?
-	= "Progress: #{percent=0}% - "
-	= "Days before maturity unknown"
+	= "Progress: 0% - Days before maturity unknown"
 	.progress
 		.progress-bar.progress-bar-danger{"aria-valuemax" => "planting.days_before_maturity", "aria-valuemin" => "0", "aria-valuenow" => "100%", :role => "progressbar", :style => "width: 100%"}
 - else
 	- if (percent = (((DateTime.now - planting.planted_at)/planting.days_before_maturity*100).to_i)) >= 100
 		- percent = 100
-
-	= "Progress: #{percent}" + "%"
+	= "Progress: #{percent}%"
 	.progress
 		.progress-bar.progress-bar-success{"aria-valuemax" => "planting.days_before_maturity", "aria-valuemin" => "0", "aria-valuenow" => "#{percent}", :role => "progressbar", :style => "width: #{percent}%"}
