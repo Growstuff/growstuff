@@ -59,8 +59,8 @@
             %li= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
             - if can? :edit, planting
               %li= link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
-            - if ! planting.finished
-              %li= link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
+              - if ! planting.finished
+                %li= link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
             - if can? :destroy, planting
               %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
           %tr

@@ -67,11 +67,11 @@ class PlantingsController < ApplicationController
   def create
     params[:planted_at] = parse_date(params[:planted_at])
     @planting = Planting.new(planting_params)
-    @planting.days_before_maturity = update_days_before_maturity(@planting, planting_params[:crop_id])
     @planting.owner = current_member
 
     respond_to do |format|
       if @planting.save
+        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully created.' }
         format.json { render json: @planting, status: :created, location: @planting }
         expire_fragment("homepage_stats")
@@ -88,10 +88,9 @@ class PlantingsController < ApplicationController
     @planting = Planting.find(params[:id])
     params[:planted_at] = parse_date(params[:planted_at])
 
-    @planting.days_before_maturity = update_days_before_maturity(@planting, planting_params[:crop_id])
-
     respond_to do |format|
       if @planting.update(planting_params)
+        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully updated.' }
         format.json { head :no_content }
       else
@@ -125,7 +124,7 @@ class PlantingsController < ApplicationController
 
   def update_days_before_maturity(planting, crop_id)
     if planting.finished_at.nil?
-      planting.calculate_days_before_maturity(crop_id)
+      planting.calculate_days_before_maturity(planting, crop_id)
     else
       (planting.finished_at - planting.planted_at).to_i
     end
