@@ -68,6 +68,20 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
+  "Philippines", [
+    {
+      'latitude'     => 12.7503486,
+      'longitude'    => 122.7312101,
+      'address'      => 'Manila, Mnl, Philippines',
+      'state'        => 'Manila',
+      'state_code'   => 'Mnl',
+      'country'      => 'Philippines',
+      'country_code' => 'PH'
+    }
+  ]
+)
+
+Geocoder::Lookup::Test.add_stub(
   "Greenwich, UK", [
     {
       'latitude' =>         51.483061,

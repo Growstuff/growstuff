@@ -57,3 +57,4 @@ submit the change with your pull request.
 - Jake Yesbeck / [yez](https://github.com/yez)
 - Mauricio Gonzalez / [mauricio-gonzalez](https://github.com/mauricio-gonzalez)
 - Andrey Bazhutkin / [andrba](https://github.com/andrba)
+- Gabriel Sandoval / [gabrielsandoval](https://github.com/gabrielsandoval)

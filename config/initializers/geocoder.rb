@@ -14,4 +14,3 @@ Geocoder.configure(
 if Geocoder.config.lookup != :test
   Geocoder.configure(:lookup => :nominatim)
 end
-
