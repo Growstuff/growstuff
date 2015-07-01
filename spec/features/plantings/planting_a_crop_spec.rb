@@ -27,6 +27,25 @@ feature "Planting a crop", :js => true do
     end
 
     expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+  end
+
+  scenario "Creating a new planting with known days before maturity" do
+    fill_autocomplete "crop", :with => "mai"
+    select_from_autocomplete "maize"
+    within "form#new_planting" do
+      fill_in "When", :with => "2015-06-15"
+      fill_in "How many?", :with => 42
+      select "cutting", :from => "Planted from:"
+      select "semi-shade", :from => "Sun or shade?"
+      check "finished"
+      fill_in "Finished date", :with => "2015-06-25"
+      fill_in "Tell us more about it", :with => "It's rad."
+      click_button "Save"
+    end
+
+    expect(page).to have_content "Planting was successfully created"
+    expect(page).to_not have_content "Progress: 0% - Days before maturity unknown"
   end
 
   scenario "Planting from crop page" do
@@ -47,6 +66,17 @@ feature "Planting a crop", :js => true do
     fill_in "Tell us more about it", :with => "Some extra notes"
     click_button "Save"
     expect(page).to have_content "Planting was successfully updated"
+  end
+
+  scenario "Editing a planting to fill in the finished date" do
+    visit planting_path(planting)
+    expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+    click_link "Edit"
+    check "finished"
+    fill_in "Finished date", :with => "2015-06-25"
+    click_button "Save"
+    expect(page).to have_content "Planting was successfully updated"
+    expect(page).to_not have_content "Progress: 0% - Days before maturity unknown"
   end
 
   scenario "Marking a planting as finished" do
@@ -94,6 +124,7 @@ feature "Planting a crop", :js => true do
     end
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: Yes (no date specified)"
+    expect(page).to have_content "Progress: 0% - Days before maturity unknown"
   end
 
   describe "Marking a planting as finished from the show page" do
