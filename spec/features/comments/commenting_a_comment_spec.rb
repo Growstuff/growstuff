@@ -13,7 +13,7 @@ feature 'Commenting on a post' do
     fill_in "comment_body", :with => "This is a sample test for comment"
     click_button "Post comment"
     expect(page).to have_content "Comment was successfully created"
-    expect(page).to have_content "Commented by"
+    expect(page).to have_content "Posted by"
   end
 
   context "editing a comment" do
