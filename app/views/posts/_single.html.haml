@@ -32,4 +32,10 @@
               -if can? :edit, post
                 %li= link_to "Edit", edit_post_path(post)
 
-
+        - if member_signed_in?
+          - if !post.members.include? current_member
+            = link_to 'Like', likes_path(Like.new, :post_id => post.id), :method => :post
+          - else
+            - like = post.likes.find_by(:member => current_member)
+            = link_to 'Unlike', like_path(like), method: :delete
+        = pluralize(post.likes.count, "like") unless post.likes.empty?
