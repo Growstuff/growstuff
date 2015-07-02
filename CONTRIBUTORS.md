@@ -58,3 +58,4 @@ submit the change with your pull request.
 - Mauricio Gonzalez / [mauricio-gonzalez](https://github.com/mauricio-gonzalez)
 - Andrey Bazhutkin / [andrba](https://github.com/andrba)
 - Gabriel Sandoval / [gabrielsandoval](https://github.com/gabrielsandoval)
+- Cjay Billones / [CjayBillones](https://github.com/CjayBillones)
