@@ -40,16 +40,24 @@
           Yes (no date specified)
     %p
       %b Days until maturity:
-      - if @planting.finished and @planting.finished_at?
-        = "#{(@planting.finished_at - DateTime.now).to_i}"
+      - if @planting.finished?
+        %b
+        = " 0"
+      - elsif !@planting.finished_at.nil?
+        - if ((p = @planting.finished_at - DateTime.now).to_i) <= 0
+          - p = 0
+        %b
+        = " #{p.to_i}"
       - elsif @planting.days_before_maturity.nil?
-        = "unknown"
+        %b
+        = " unknown"
       - else
-        = "#{((@planting.planted_at + @planting.days_before_maturity) - DateTime.now).to_i}"
+        - if ((p = (@planting.planted_at + @planting.days_before_maturity) - DateTime.now).to_i) <= 0
+          - p = 0
+        %b
+        = " #{p.to_i}"
     %p
       %b= render 'planting_progress', planting: @planting
-
-
 
     - if can? :edit, @planting or can? :destroy, @planting
       %p

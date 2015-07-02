@@ -74,14 +74,14 @@
               %li= "Days until maturity: 0"
             - elsif !planting.finished_at.nil?
               - if ((p = planting.finished_at - DateTime.now).to_i) <= 0
-                p = 0
+                - p = 0
               %li= "Days until maturity: #{p.to_i}"
 
             - elsif planting.days_before_maturity.nil?
               %li= "Days until maturity: unknown"
             - else
               - if ((p = (planting.planted_at + planting.days_before_maturity) - DateTime.now).to_i) <= 0
-                p = 0
+                - p = 0
               %li= "Days until maturity: #{p.to_i}"
 
         %td{:colspan => "3"}
