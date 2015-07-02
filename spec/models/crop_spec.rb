@@ -73,6 +73,7 @@ describe Crop do
     @crop = FactoryGirl.create(:tomato)
     @crop.default_scientific_name.should eq nil
     @sn = FactoryGirl.create(:solanum_lycopersicum, :crop => @crop)
+    @crop.reload
     @crop.default_scientific_name.should eq @sn.scientific_name
   end
 
