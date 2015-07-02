@@ -1,7 +1,7 @@
 = form_for(@garden, :html => {:class => "form-horizontal", :role => "form"}) do |f|
   - if @garden.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@garden.errors.count, "error")} prohibited this garden from being saved:"
+      %h2= "#{pluralize(@garden.errors.size, "error")} prohibited this garden from being saved:"
       %ul
         - @garden.errors.full_messages.each do |msg|
           %li= msg

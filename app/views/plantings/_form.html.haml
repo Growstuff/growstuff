@@ -1,7 +1,7 @@
 = form_for(@planting, :html => {:class => "form-horizontal", :role => "form"}) do |f|
   - if @planting.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@planting.errors.count, "error")} prohibited this planting from being saved:"
+      %h2= "#{pluralize(@planting.errors.size, "error")} prohibited this planting from being saved:"
       %ul
         - @planting.errors.full_messages.each do |msg|
           %li= msg

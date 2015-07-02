@@ -18,7 +18,7 @@
     = page_entries_info @plantings, :model => "plantings"
     = will_paginate @plantings
 
-- if @plantings.length > 0
+- if @plantings.size > 0
 
   %table.table.table-striped
     %tr

@@ -1,7 +1,7 @@
 = form_for @account_type do |f|
   - if @account_type.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@account_type.errors.count, "error")} prohibited this account_type from being saved:"
+      %h2= "#{pluralize(@account_type.errors.size, "error")} prohibited this account_type from being saved:"
       %ul
         - @account_type.errors.full_messages.each do |msg|
           %li= msg

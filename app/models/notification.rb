@@ -10,7 +10,7 @@ class Notification < ActiveRecord::Base
   after_create :send_email
 
   def self.unread_count
-    self.unread.count
+    self.unread.size
   end
 
   def replace_blank_subject

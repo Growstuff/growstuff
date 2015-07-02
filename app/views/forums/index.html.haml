@@ -7,7 +7,7 @@
 - @forums.each do |forum|
   %h2= forum
   %p
-    = pluralize(forum.posts.count, "post")
+    = pluralize(forum.posts.size, "post")
     |
     =link_to "Visit forum", forum
     |

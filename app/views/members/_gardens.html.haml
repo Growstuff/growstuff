@@ -19,7 +19,7 @@
           :growstuff_markdown
             #{ strip_tags g.description }
 
-          - if g.photos.count > 0 or (can? :edit, g and can? :create, Photo)
+          - if g.photos.size > 0 or (can? :edit, g and can? :create, Photo)
             .row
               %h2 Photos
 

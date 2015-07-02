@@ -5,7 +5,7 @@
       .cropinfo
         .cropname
           = link_to crop.name, crop
-        - if crop.scientific_names.count > 0
+        - if crop.scientific_names.size > 0
           .scientificname
             = crop.scientific_names.first.scientific_name
         .plantingcount

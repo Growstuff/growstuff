@@ -5,7 +5,7 @@
 - unless @orders.empty?
   %h2
     Found
-    = pluralize(@orders.count, "result")
+    = pluralize(@orders.size, "result")
 
   %table.table.table-striped
     %tr
@@ -28,7 +28,7 @@
         %td
           = order.referral_code
         %td
-          - if order.order_items.count > 0
+          - if order.order_items.size > 0
             - order.order_items.each do |o|
               = o.quantity
               x

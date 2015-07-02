@@ -1,5 +1,5 @@
 - howmany ||= 100
-- if posts.length > 0
+- if posts.size > 0
   %table.table.table-striped
     %tr
       %th Subject
@@ -18,4 +18,4 @@
             = distance_of_time_in_words(post.recent_activity, Time.zone.now)
             ago
           %td.hidden-xs
-            = post.comments.count.to_s
+            = post.comments.size.to_s

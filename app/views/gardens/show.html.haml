@@ -29,7 +29,7 @@
       :growstuff_markdown
         #{strip_tags @garden.description}
 
-    - if @garden.photos.count > 0 or (can? :edit, @garden and can? :create, Photo)
+    - if @garden.photos.size > 0 or (can? :edit, @garden and can? :create, Photo)
       .row
         %h2 Photos
 
@@ -47,14 +47,14 @@
     %h3
       What's planted here?
 
-    - if @garden.plantings.current.count > 0
+    - if @garden.plantings.current.size > 0
       - @garden.plantings.current.each do |p|
         = render :partial => "plantings/thumbnail", :locals => { :planting => p }
     - else
       %p
         Nothing is currently planted here.
 
-    - if @garden.plantings.finished.count > 0
+    - if @garden.plantings.finished.size > 0
       %h3 Previously planted in this garden
       - @garden.plantings.finished.each do |p|
         = render :partial => "plantings/thumbnail", :locals => { :planting => p }
@@ -82,7 +82,7 @@
           - else
             = link_to "#{othergarden}", garden_path(othergarden)
 
-    - if @garden.owner.gardens.inactive.count > 0
+    - if @garden.owner.gardens.inactive.size > 0
       %h4= "Inactive gardens"
       %ul
         - @garden.owner.gardens.inactive.each do |othergarden|

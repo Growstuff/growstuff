@@ -2,34 +2,34 @@
 
 %ul
   %li
-    - if member.plantings.count > 0
+    - if member.plantings.size > 0
       = link_to pluralize(member.plantings.size, "planting"), plantings_by_owner_path(:owner => member)
     - else
       0 plantings
   %li
-    - if member.harvests.count > 0
+    - if member.harvests.size > 0
       = link_to pluralize(member.harvests.size, "harvest"), harvests_by_owner_path(:owner => member)
     - else
       0 harvests
   %li
-    - if member.seeds.count > 0
+    - if member.seeds.size > 0
       = link_to pluralize(member.seeds.size, "seeds"), seeds_by_owner_path(:owner => member)
     - else
       0 seeds
   %li
-    - if member.posts.count > 0
+    - if member.posts.size > 0
       = link_to pluralize(member.posts.size, "post"), posts_by_author_path(:author => member)
     - else
       0 posts
 
   %li
-    - if member.followed.count > 0
+    - if member.followed.size > 0
       = link_to pluralize(member.followed.size, "follow"), member_follows_path(member)
     - else
       0 following
 
   %li
-    - if member.followers.count > 0
+    - if member.followers.size > 0
       = link_to pluralize(member.followers.size, "follower"), member_followers_path(member)
     - else
       0 followers
