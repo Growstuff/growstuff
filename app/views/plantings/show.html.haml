@@ -8,7 +8,7 @@
       &mdash;
       = link_to "view all #{@planting.owner}'s plantings", plantings_by_owner_path(:owner => @planting.owner.slug)
     %p
-      %b Planted:
+      %b Planted on:
       = @planting.planted_at ? @planting.planted_at : "not specified"
 
     %p
@@ -18,44 +18,30 @@
       - if ! @planting.owner.location.blank?
         = "(#{@planting.owner.location})"
     %p
-      %b Quantity:
-      = @planting.quantity.blank? ? "not specified" : @planting.quantity
-
-    - if ! @planting.planted_from.blank?
+      %b 
+        = "Quantity: "
+      = "#{display_planting_quantity(@planting)}"
+    
+    - if !@planting.planted_from.blank?
       %p
-        %b Planted from:
-        = @planting.planted_from
-
-    - if ! @planting.sunniness.blank?
+        %b 
+          = "Planted from: "
+        = "#{display_planted_from(@planting)}"
+    
+    - if !@planting.sunniness.blank?
       %p
-        %b Sun or shade?
-        = @planting.sunniness
-
-    - if @planting.finished
-      %p
-        %b Finished:
-        - if @planting.finished_at
-          = @planting.finished_at
-        - else
-          Yes (no date specified)
+        %b 
+          = "Sun or shade?: "
+        = "#{display_sunniness(@planting)}"
     %p
-      %b Days until maturity:
-      - if @planting.finished?
-        %b
-        = " 0"
-      - elsif !@planting.finished_at.nil?
-        - if ((p = @planting.finished_at - DateTime.now).to_i) <= 0
-          - p = 0
-        %b
-        = " #{p.to_i}"
-      - elsif @planting.days_before_maturity.nil?
-        %b
-        = " unknown"
-      - else
-        - if ((p = (@planting.planted_at + @planting.days_before_maturity) - DateTime.now).to_i) <= 0
-          - p = 0
-        %b
-        = " #{p.to_i}"
+      %b 
+        = "Days until maturity: "
+      = "#{display_days_before_maturity(@planting)}"
+    %p
+      %b 
+        = "Finished: "
+      = "#{display_finished(@planting)}"
+
     %p
       %b= render 'planting_progress', planting: @planting
 

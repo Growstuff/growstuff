@@ -13,19 +13,11 @@ module PlantingsHelper
     if planting.finished?
       0
     elsif !planting.finished_at.nil?
-      if ((p = planting.finished_at - DateTime.now).to_i) <= 0
-        0
-      else
-      	p.to_i
-      end
+      ((p = planting.finished_at - DateTime.now).to_i) <= 0 ? 0 : p.to_i
     elsif planting.days_before_maturity.nil?
       "unknown"
     else
-      if ((p = (planting.planted_at + planting.days_before_maturity) - DateTime.now).to_i) <= 0
-        0
-      else
-      	p.to_i
-      end
+      ((p = (planting.planted_at + planting.days_before_maturity) - DateTime.now).to_i <= 0) ? 0 : p.to_i
     end
   end
 
@@ -40,18 +32,14 @@ module PlantingsHelper
   end
   
   def display_sunniness(planting)
-    if !planting.sunniness.blank?
-      planting.sunniness
-    else
-      "n/a"
-    end
+    !planting.sunniness.blank? ? planting.sunniness : "not specified"
   end
 
   def display_planted_from(planting)
-    if !planting.planted_from.blank?
-      planting.planted_from
-    else
-      "n/a"
-    end
+    !planting.planted_from.blank? ? planting.planted_from : "not specified"
+  end
+
+  def display_planting_quantity(planting)
+    !planting.quantity.blank? ? planting.quantity : "not specified"
   end
 end

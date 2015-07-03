@@ -9,17 +9,19 @@
       %td= link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
       %td
         %ul{:style => "list-style-type:none"}
-          %li Owner :
-          %li Garden :
-          %li Planted on :
-          %li Finished on :
-          %li Sun/shade? :
-          %li Planted from :
+          %li Owner:
+          %li Garden:
+          %li Planted on:
+          %li Quantity: 
+          %li Finished on:
+          %li Sun/shade?:
+          %li Planted from:
       %td
         %ul{:style => "list-style-type:none"}
           %li= link_to planting.owner.login_name, planting.owner
           %li= link_to planting.garden.name, planting.garden
           %li= planting.planted_at
+          %li= "#{display_planting_quantity(planting)}"
           %li= "#{display_finished(planting)}"
           %li= "#{display_sunniness(planting)}"
           %li= "#{display_planted_from(planting)}"
