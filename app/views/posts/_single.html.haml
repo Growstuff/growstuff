@@ -16,6 +16,10 @@
               = link_to post.forum, post.forum
             at
             = post.created_at
+            %br
+            - if post.updated_at > post.created_at
+              edited at
+              = post.updated_at
 
         .post-body
           :growstuff_markdown

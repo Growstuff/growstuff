@@ -80,7 +80,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-flickr', '>= 0.0.15'
 
 # client for Elasticsearch. Elasticsearch is a flexible
-# and powerful, distributed, real-time search and analytics engine. 
+# and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
