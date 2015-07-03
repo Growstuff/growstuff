@@ -48,17 +48,15 @@
       What's planted here?
 
     - if @garden.plantings.current.size > 0
-      - @garden.plantings.current.each do |p|
-        = render :partial => "plantings/thumbnail", :locals => { :planting => p }
+      = render :partial => "plantings/thumbnail", :locals => { :plantings => @garden.plantings.current}
     - else
       %p
         Nothing is currently planted here.
 
     - if @garden.plantings.finished.size > 0
       %h3 Previously planted in this garden
-      - @garden.plantings.finished.each do |p|
-        = render :partial => "plantings/thumbnail", :locals => { :planting => p }
-
+      = render :partial => "plantings/thumbnail", :locals => { :plantings => @garden.plantings.finished}
+      
   .col-md-3
     %h4 About this garden
     %p

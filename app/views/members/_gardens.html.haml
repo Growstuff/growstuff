@@ -34,8 +34,7 @@
                         = link_to "Add photo", new_photo_path(:type => "garden", :id => g.id), :class => 'btn btn-primary'
 
         %h3 What's planted here?
-        - g.featured_plantings.each do |p|
-          = render :partial => "plantings/thumbnail", :locals => { :planting => p, :hide_description => true }
+        = render :partial => "plantings/thumbnail", :locals => { :plantings => g.featured_plantings}
 
         %p
           = link_to "More about this garden...", url_for(g)

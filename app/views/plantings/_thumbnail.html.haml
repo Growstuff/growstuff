@@ -1,47 +1,46 @@
-.well
-  .row
-    .col-md-3
-      = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img'), planting
-
-    .col-md-9
-      %h4
-        - if defined?(title) && title == 'owner'
-          = link_to planting.owner, planting.owner
-        - else
-          = link_to planting.crop.name, planting
-
-      %p
-        Planted
-        - if planting.planted_at
-          = planting.planted_at
-        in
-        = link_to planting.location, planting.garden
-
-      %p
-        - if planting.quantity
-          Quantity:
-          = planting.quantity
-        - else
-          &nbsp;
-
-      - if planting.description && ! defined?(hide_description)
-        %div
-          :growstuff_markdown
-            #{ planting.description }
-
-      - if planting.finished
-        %p
-          Finished:
-          - if planting.finished_at
-            = planting.finished_at
-          - else
-            Yes (no date specified)
-
-      - if can? :edit, planting or can? :destroy, planting
-        %p
+%table.table.table-striped
+  %tr
+    %th #
+    %th Photo
+    %th{:colspan => "3"} Planting details
+  - plantings.each.with_index do |planting, index|
+    %tr
+      %td= "##{index+1}"
+      %td= link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
+      %td
+        %ul{:style => "list-style-type:none"}
+          %li Owner :
+          %li Garden :
+          %li Planted on :
+          %li Finished on :
+          %li Sun/shade? :
+          %li Planted from :
+      %td
+        %ul{:style => "list-style-type:none"}
+          %li= link_to planting.owner.login_name, planting.owner
+          %li= link_to planting.garden.name, planting.garden
+          %li= planting.planted_at
+          %li= "#{display_finished(planting)}"
+          %li= "#{display_sunniness(planting)}"
+          %li= "#{display_planted_from(planting)}"
+      %td
+        %ul{:style => "list-style-type:none"}
+          %li= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
           - if can? :edit, planting
-            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
+            %li= link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
             - if ! planting.finished
-              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
+              %li= link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
           - if can? :destroy, planting
-            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+            %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+        %tr
+      %td
+      %td
+        %ul{:style => "list-style-type:none"}
+          %li
+            Crop name:
+            =link_to planting.crop.name, planting.crop
+            %li= "Days until maturity: #{display_days_before_maturity(planting)}"
+
+      %td{:colspan => "3"}
+        %ul{:style => "list-style-type:none"}
+          %li= render partial: 'plantings/planting_progress', locals: {:planting => planting}
