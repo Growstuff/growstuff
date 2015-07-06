@@ -7,7 +7,7 @@ feature "Planting a crop", :js => true do
   let!(:planting) { FactoryGirl.create(:planting, garden: garden, planted_at: Date.parse("2013-3-10")) }
 
   background do
-    login_as(member)
+    login_as member
     visit new_planting_path
     sync_elasticsearch([maize])
   end

@@ -7,7 +7,9 @@ feature "Requesting a new crop" do
     let(:member) { FactoryGirl.create(:member) }
     let!(:wrangler) { FactoryGirl.create(:crop_wrangling_member) }
 
-    before { login_as member }
+    background do
+      login_as member
+    end
 
     scenario "Submit request" do
       visit new_crop_path
@@ -25,7 +27,9 @@ feature "Requesting a new crop" do
     let!(:crop) { FactoryGirl.create(:crop_request) }
     let!(:already_approved) { FactoryGirl.create(:crop) }
 
-    before { login_as wrangler }
+    background do
+     login_as wrangler
+    end
 
     scenario "Approve a request" do
       visit edit_crop_path(crop)

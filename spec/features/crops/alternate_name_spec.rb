@@ -19,8 +19,8 @@ feature "Alternate names" do
     let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
     let(:member){crop_wranglers.first}
 
-    before :each do
-      login_as(member)
+    background do
+      login_as member
     end
 
     scenario "Crop wranglers can edit alternate names" do

@@ -2,13 +2,10 @@ require 'rails_helper'
 
 feature "account types" do
   context "admin user" do
-    before(:each) do
-      @member = FactoryGirl.create(:admin_member)
-      visit root_path
-      click_link 'Sign in'
-      fill_in 'Login', :with => @member.login_name
-      fill_in 'Password', :with => @member.password
-      click_button 'Sign in'
+    let(:member) { FactoryGirl.create(:admin_member) }
+
+    background do
+      login_as member
     end
 
     scenario "navigating to account type admin" do

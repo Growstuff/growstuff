@@ -8,7 +8,7 @@ feature "show photo page" do
     let (:member) { FactoryGirl.create(:member) }
 
     background do
-      login_as(member)
+      login_as member
     end
 
     context "linked to planting" do
