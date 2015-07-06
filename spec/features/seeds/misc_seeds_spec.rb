@@ -2,14 +2,12 @@ require 'rails_helper'
 
 feature "seeds" do
   context "signed in user" do
-    before(:each) do
-      @crop = FactoryGirl.create(:crop)
-      @member = FactoryGirl.create(:member)
-      visit root_path
-      click_link 'Sign in'
-      fill_in 'Login', :with => @member.login_name
-      fill_in 'Password', :with => @member.password
-      click_button 'Sign in'
+    
+    let(:member) { @member = FactoryGirl.create(:member) }
+    let(:crop) { FactoryGirl.create(:crop) }
+
+    background do
+      login_as member
     end
 
     scenario "button on index to edit seed" do

@@ -5,7 +5,7 @@ feature "Harvesting a crop", :js => true do
   let!(:maize)   { FactoryGirl.create(:maize) }
 
   background do
-    login_as(member)
+    login_as member
     visit new_harvest_path
     sync_elasticsearch([maize])
   end

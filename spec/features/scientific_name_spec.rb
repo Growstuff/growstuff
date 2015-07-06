@@ -20,7 +20,7 @@ feature "Scientific names" do
     let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
     let(:member){crop_wranglers.first}
 
-    before :each do
+    background do
       login_as(member)
     end
 

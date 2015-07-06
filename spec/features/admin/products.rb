@@ -3,8 +3,9 @@ require 'rails_helper'
 feature "products" do
   context "admin user" do
     let(:member) { FactoryGirl.create(:admin_member) }
+    
     background do
-      login_as(member)
+      login_as member
     end
 
     scenario "navigating to product admin" do
