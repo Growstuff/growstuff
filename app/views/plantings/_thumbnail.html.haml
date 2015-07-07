@@ -2,23 +2,21 @@
   %td= "##{index+1}"
   %td= link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
   %td
-    %ul{:style => "list-style-type:none"}
-      %li Owner:
-      %li Garden:
-      %li Planted on:
-      %li Quantity: 
-      %li Finished on:
-      %li Sun/shade?:
-      %li Planted from:
-  %td
-    %ul{:style => "list-style-type:none"}
-      %li= link_to planting.owner.login_name, planting.owner
-      %li= link_to planting.garden.name, planting.garden
-      %li= planting.planted_at
-      %li= "#{display_planting_quantity(planting)}"
-      %li= "#{display_finished(planting)}"
-      %li= "#{display_sunniness(planting)}"
-      %li= "#{display_planted_from(planting)}"
+    %dl.dl-horizontal
+      %dt Owner:
+      %dd= link_to planting.owner.login_name, planting.owner
+      %dt Garden:
+      %dd= link_to planting.garden.name, planting.garden
+      %dt Planted on:
+      %dd= planting.planted_at
+      %dt Quantity: 
+      %dd= "#{display_planting_quantity(planting)}"
+      %dt Finished on:
+      %dd= "#{display_finished(planting)}"
+      %dt Sun/shade?:
+      %dd= "#{display_sunniness(planting)}"
+      %dt Planted from:
+      %dd= "#{display_planted_from(planting)}"
   %td
     %ul{:style => "list-style-type:none"}
       %li= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
@@ -31,11 +29,11 @@
     %tr
   %td
   %td
-    %ul{:style => "list-style-type:none"}
-      %li
-        Crop name:
-        =link_to planting.crop.name, planting.crop
-        %li= "Days until maturity: #{display_days_before_maturity(planting)}"
+    %dl.dl-horizontal
+      %dt Crop name:
+      %dd= link_to planting.crop.name, planting.crop
+      %dt Days until maturity:
+      %dd= "#{display_days_before_maturity(planting)}"
 
   %td{:colspan => "3"}
     %ul{:style => "list-style-type:none"}

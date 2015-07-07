@@ -23,7 +23,7 @@
     %tr
       %th #
       %th Photo
-      %th{:colspan => "3"} Planting details
+      %th{:colspan => "2"} Planting details
     - @plantings.each.with_index do |planting, index|
       = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
 
