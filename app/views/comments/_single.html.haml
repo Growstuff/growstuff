@@ -5,10 +5,10 @@
         = render :partial => "members/avatar", :locals => { :member => comment.author }
       .col-md-11
         .comment-meta
-          Posted by
+          = (comment.created_at == comment.updated_at) ? 'Posted by' : 'Edited by'
           = link_to comment.author.login_name, member_path(comment.author)
-          at
-          = comment.created_at
+          on
+          = (comment.created_at == comment.updated_at) ? comment.created_at : comment.updated_at
 
         .comment-body
           :growstuff_markdown
