@@ -9,3 +9,17 @@
   = member.account_type
   account
 
+%p
+<<<<<<< HEAD
+  %strong Administrator:
+  = member.has_role? :admin
+=======
+  %strong Member Role:
+  - if member.has_role? :admin
+    Administrator
+  - else
+    Crop Wrangler
+%p
+  %strong Last login:
+  #{member.last_sign_in_at}
+>>>>>>> 5a94502... added last sign in
