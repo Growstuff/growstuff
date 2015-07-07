@@ -69,7 +69,6 @@ feature "Planting a crop", :js => true do
   describe "Making a planting inactive from garden show" do
     let(:path) { garden_path(garden) }
     let(:link_text) { "Mark as finished" }
-
     it_behaves_like "append date"
   end
 

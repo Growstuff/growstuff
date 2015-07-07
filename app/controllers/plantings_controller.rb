@@ -71,6 +71,7 @@ class PlantingsController < ApplicationController
 
     respond_to do |format|
       if @planting.save
+        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully created.' }
         format.json { render json: @planting, status: :created, location: @planting }
         expire_fragment("homepage_stats")
@@ -89,6 +90,7 @@ class PlantingsController < ApplicationController
 
     respond_to do |format|
       if @planting.update(planting_params)
+        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully updated.' }
         format.json { head :no_content }
       else
@@ -118,5 +120,13 @@ class PlantingsController < ApplicationController
     params.require(:planting).permit(:crop_id, :description, :garden_id, :planted_at,
     :quantity, :sunniness, :planted_from, :owner_id, :finished,
     :finished_at)
+  end
+
+  def update_days_before_maturity(planting, crop_id)
+    if planting.finished_at.nil?
+      planting.calculate_days_before_maturity(planting, crop_id)
+    else
+      (planting.finished_at - planting.planted_at).to_i
+    end
   end
 end

@@ -27,6 +27,104 @@ feature "Planting a crop", :js => true do
     end
 
     expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+  end
+
+  describe "Progress bar status on planting creation" do
+    before(:each) do
+      DateTime.stub(:now){DateTime.new(2015, 10, 20, 10, 34)}
+      login_as(member)
+      visit new_planting_path
+      sync_elasticsearch([maize])
+    end
+
+    it "should show that it is not planted yet" do
+      fill_autocomplete "crop", :with => "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", :with => "2015-12-15"
+        fill_in "How many?", :with => 42
+        select "cutting", :from => "Planted from:"
+        select "semi-shade", :from => "Sun or shade?"
+        fill_in "Tell us more about it", :with => "It's rad."
+        click_button "Save"
+      end
+
+      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "Progress: 0% - not planted yet"
+    end
+
+    it "should show that days before maturity is unknown" do
+      fill_autocomplete "crop", :with => "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", :with => "2015-9-15"
+        fill_in "How many?", :with => 42
+        select "cutting", :from => "Planted from:"
+        select "semi-shade", :from => "Sun or shade?"
+        fill_in "Tell us more about it", :with => "It's rad."
+        click_button "Save"
+      end
+
+      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+      expect(page).to have_content "Days until maturity: unknown"
+    end
+
+    it "should show that planting is in progress" do
+      fill_autocomplete "crop", :with => "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", :with => "2015-10-15"
+        fill_in "How many?", :with => 42
+        select "cutting", :from => "Planted from:"
+        select "semi-shade", :from => "Sun or shade?"
+        fill_in "Tell us more about it", :with => "It's rad."
+        fill_in "Finished date", :with => "2015-10-30"
+        click_button "Save"
+      end
+
+      expect(page).to have_content "Planting was successfully created"
+      expect(page).to_not have_content "Progress: 0% - not planted yet"
+      expect(page).to_not have_content "Progress: 0% - Days before maturity unknown"
+    end
+
+    it "should show that planting is 100% complete (no date specified)" do
+      fill_autocomplete "crop", :with => "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", :with => "2015-10-15"
+        fill_in "How many?", :with => 42
+        select "cutting", :from => "Planted from:"
+        select "semi-shade", :from => "Sun or shade?"
+        fill_in "Tell us more about it", :with => "It's rad."
+        check "Mark as finished"
+        click_button "Save"
+      end
+
+      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "Progress: 100%"
+      expect(page).to have_content "Yes (no date specified)"
+      expect(page).to have_content "Days until maturity: 0"
+    end
+
+    it "should show that planting is 100% complete (date specified)" do
+      fill_autocomplete "crop", :with => "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", :with => "2015-10-15"
+        fill_in "How many?", :with => 42
+        select "cutting", :from => "Planted from:"
+        select "semi-shade", :from => "Sun or shade?"
+        fill_in "Tell us more about it", :with => "It's rad."
+        fill_in "Finished date", :with => "2015-10-19"
+        click_button "Save"
+      end
+
+      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "Progress: 100%"
+      expect(page).to have_content "Days until maturity: 0"
+    end
   end
 
   scenario "Planting from crop page" do
@@ -47,6 +145,17 @@ feature "Planting a crop", :js => true do
     fill_in "Tell us more about it", :with => "Some extra notes"
     click_button "Save"
     expect(page).to have_content "Planting was successfully updated"
+  end
+
+  scenario "Editing a planting to fill in the finished date" do
+    visit planting_path(planting)
+    expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+    click_link "Edit"
+    check "finished"
+    fill_in "Finished date", :with => "2015-06-25"
+    click_button "Save"
+    expect(page).to have_content "Planting was successfully updated"
+    expect(page).to_not have_content "Progress: 0% - Days before maturity unknown"
   end
 
   scenario "Marking a planting as finished" do
@@ -94,6 +203,7 @@ feature "Planting a crop", :js => true do
     end
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: Yes (no date specified)"
+    expect(page).to have_content "Progress: 100%"
   end
 
   describe "Marking a planting as finished from the show page" do

@@ -19,43 +19,16 @@
     = will_paginate @plantings
 
 - if @plantings.size > 0
-
-  %table.table.table-striped
-    %tr
-      - unless @owner
-        %th Owner
-      %th Crop
-      %th Garden
-      %th Quantity
-      %th Planted on
-      %th Finished
-      %th Sun/shade?
-      %th Planted from
-      %th
-
-    - @plantings.each do |planting|
-      %tr
-        - unless @owner
-          %td= link_to planting.owner.login_name, planting.owner
-        %td= link_to planting.crop.name, planting.crop
-        %td= link_to planting.garden.name, planting.garden
-        %td= planting.quantity
-        %td= planting.planted_at
-        %td
-          - if planting.finished and planting.finished_at
-            = planting.finished_at
-          - elsif planting.finished
-            Yes (no date specified)
-        %td= planting.sunniness
-        %td= planting.planted_from
-        %td
-          = link_to 'Details', planting, :class => 'btn btn-default btn-xs'
-          - if can? :edit, planting
-            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
-            - if ! planting.finished
-              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
-          - if can? :destroy, planting
-            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+  .row
+    .col-md-1
+      %b #
+    .col-md-3
+      %b Photo
+    .col-md-6
+      %b Planting Details
+    .col-md-2
+  - @plantings.each.with_index do |planting, index|
+    = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
 
   %div.pagination
     = page_entries_info @plantings, :model => "plantings"
