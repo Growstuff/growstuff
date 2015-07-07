@@ -11,5 +11,46 @@
     - @nearby_members.first(30).each do |member|
       .col-md-4.three-across
         = render :partial => "members/thumbnail", :locals => { :member => member }
+  = link_to "View all members >>", members_path
+- elsif @place
+  %p No results found
+
+%h3
+  = "Seeds available for trade near #{@place}"
+%br
+- if !@nearby_members.empty?
+  .row
+    - crop_id = []
+    - @nearby_members.first(10).each do |member|
+      - member.seeds.first(5).each do |seed|
+        - crop_id.push seed.crop.id
+    - crop_id.uniq.first(20).each do |crop|
+      .col-md-2.six-across
+        = render :partial => "crops/thumbnail", :locals => { :crop => Crop.find(crop) }
+  = link_to "View all seeds >>", seeds_path
+
+- elsif @place
+  %p No results found
+
+%h3
+  = "Recent plantings near #{@place}"
+%br
+- if !@nearby_members.empty?
+  - plantings = []
+  - @nearby_members.first(10).each do |member|
+    - member.plantings.first(5).each do |planting|
+      - plantings << planting
+  .row
+    .col-md-1
+      %b #
+    .col-md-3
+      %b Photo
+    .col-md-6
+      %b Planting Details
+    .col-md-2
+  - plantings.first(10).each.with_index do |planting, index|
+    = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
+  = link_to "View all plantings >>", plantings_path
+
 - elsif @place
   %p No results found
