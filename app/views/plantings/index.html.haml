@@ -19,7 +19,13 @@
     = will_paginate @plantings
 
 - if @plantings.size > 0
-  = render partial: "plantings/thumbnail", locals: {:plantings => @plantings}
+  %table.table.table-striped
+    %tr
+      %th #
+      %th Photo
+      %th{:colspan => "3"} Planting details
+    - @plantings.each.with_index do |planting, index|
+      = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
 
   %div.pagination
     = page_entries_info @plantings, :model => "plantings"

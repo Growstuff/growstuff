@@ -43,19 +43,28 @@
                 %p{:style => 'text-align: center; padding-top: 50px'}
                   = link_to "Add photo", new_photo_path(:type => "garden", :id => @garden.id), :class => 'btn btn-primary'
 
-
-    %h3
-      What's planted here?
-
+    %h3 What's planted here?
     - if @garden.plantings.current.size > 0
-      = render :partial => "plantings/thumbnail", :locals => { :plantings => @garden.plantings.current}
+      %table.table.table-striped
+        %tr
+          %th #
+          %th Photo
+          %th{:colspan => "3"} Planting details
+        - @garden.plantings.current.each.with_index do |planting_current, index_current|
+          = render partial: "plantings/thumbnail", locals: {:planting => planting_current, :index => index_current}
     - else
       %p
         Nothing is currently planted here.
 
+    %h3 Previously planted in this garden
     - if @garden.plantings.finished.size > 0
-      %h3 Previously planted in this garden
-      = render :partial => "plantings/thumbnail", :locals => { :plantings => @garden.plantings.finished}
+      %table.table.table-striped
+        %tr
+          %th #
+          %th Photo
+          %th{:colspan => "3"} Planting details
+        - @garden.plantings.finished.each.with_index do |planting_finished, index_finished|
+          = render partial: "plantings/thumbnail", locals: {:planting => planting_finished, :index => index_finished}
       
   .col-md-3
     %h4 About this garden
