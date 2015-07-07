@@ -45,11 +45,15 @@
 
     %h3 What's planted here?
     - if @garden.plantings.current.size > 0
-      %table.table.table-striped
-        %tr
-          %th #
-          %th Photo
-          %th{:colspan => "2"} Planting details
+      .container
+        .row
+          .col-md-1
+            %b #
+          .col-md-3
+            %b Photo
+          .col-md-6
+            %b Planting Details
+          .col-md-2
         - @garden.plantings.current.each.with_index do |planting_current, index_current|
           = render partial: "plantings/thumbnail", locals: {:planting => planting_current, :index => index_current}
     - else
@@ -58,11 +62,15 @@
 
     %h3 Previously planted in this garden
     - if @garden.plantings.finished.size > 0
-      %table.table.table-striped
-        %tr
-          %th #
-          %th Photo
-          %th{:colspan => "2"} Planting details
+      .container
+        .row
+          .col-md-1
+            %b #
+          .col-md-3
+            %b Photo
+          .col-md-6
+            %b Planting Details
+          .col-md-2
         - @garden.plantings.finished.each.with_index do |planting_finished, index_finished|
           = render partial: "plantings/thumbnail", locals: {:planting => planting_finished, :index => index_finished}
       

@@ -1,7 +1,9 @@
-%tr
-  %td= "##{index+1}"
-  %td= link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
-  %td
+.row
+  .col-md-1
+    = "##{index+1}"
+  .col-md-3
+    = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
+  .col-md-6
     %dl.dl-horizontal
       %dt Owner:
       %dd= link_to planting.owner.login_name, planting.owner
@@ -17,7 +19,7 @@
       %dd= "#{display_sunniness(planting)}"
       %dt Planted from:
       %dd= "#{display_planted_from(planting)}"
-  %td
+  .col-md-2
     %ul{:style => "list-style-type:none"}
       %li= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
       - if can? :edit, planting
@@ -26,15 +28,17 @@
           %li= link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
       - if can? :destroy, planting
         %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
-    %tr
-  %td
-  %td
-    %dl.dl-horizontal
-      %dt Crop name:
-      %dd= link_to planting.crop.name, planting.crop
-      %dt Days until maturity:
-      %dd= "#{display_days_before_maturity(planting)}"
+.row
+  .col-md-1
+  .col-md-3
+    %ul{:style => "list-style-type:none"}
+      %li
+        %b Crop name:
+        = link_to planting.crop.name, planting.crop
+      %li
+        %b Days until maturity:
+        = "#{display_days_before_maturity(planting)}"
 
-  %td{:colspan => "3"}
+  .col-md-8
     %ul{:style => "list-style-type:none"}
       %li= render partial: 'plantings/planting_progress', locals: {:planting => planting}
