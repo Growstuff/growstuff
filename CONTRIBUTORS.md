@@ -59,3 +59,4 @@ submit the change with your pull request.
 - Andrey Bazhutkin / [andrba](https://github.com/andrba)
 - Gabriel Sandoval / [gabrielsandoval](https://github.com/gabrielsandoval)
 - Cjay Billones / [CjayBillones](https://github.com/CjayBillones)
+- Katy Ereira / [maccath](https://github.com/maccath)
