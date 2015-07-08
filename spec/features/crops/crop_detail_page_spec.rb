@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 feature "crop detail page" do
 
