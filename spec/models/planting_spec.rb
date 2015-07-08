@@ -2,26 +2,24 @@ require 'rails_helper'
 
 describe Planting do
 
-  before(:each) do
-    @crop     = FactoryGirl.create(:tomato)
-    @garden_owner   = FactoryGirl.create(:member)
-    @garden   = FactoryGirl.create(:garden, :owner => @garden_owner)
-    @planting = FactoryGirl.create(:planting,
-        :crop => @crop, :garden => @garden)
-  end
+  let(:crop) { FactoryGirl.create(:tomato) }
+  let(:garden_owner) { FactoryGirl.create(:member) }
+  let(:garden) { FactoryGirl.create(:garden, :owner => garden_owner) }
+  let(:planting) { FactoryGirl.create(:planting,
+      :crop => crop, :garden => garden)}
 
   it 'has an owner' do
-    @planting.owner.should be_an_instance_of Member
+    planting.owner.should be_an_instance_of Member
   end
 
   it "owner isn't necessarily the garden owner" do
     # a new owner should be created automatically by FactoryGirl
     # note that formerly, the planting belonged to an owner through the garden
-    @planting.owner.should_not eq @garden_owner
+    planting.owner.should_not eq garden_owner
   end
 
   it "generates a location" do
-    @planting.location.should eq "#{@garden_owner.login_name}'s #{@garden.name}"
+    planting.location.should eq "#{garden_owner.login_name}'s #{garden.name}"
   end
 
   it "sorts plantings in descending order of creation" do
@@ -31,7 +29,7 @@ describe Planting do
   end
 
   it "should have a slug" do
-    @planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
+    planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
   end
 
   it 'should sort in reverse creation order' do
@@ -41,16 +39,16 @@ describe Planting do
 
   context 'delegation' do
     it 'system name' do
-      @planting.crop_name.should eq @planting.crop.name
+      planting.crop_name.should eq planting.crop.name
     end
     it 'wikipedia url' do
-      @planting.crop_en_wikipedia_url.should eq @planting.crop.en_wikipedia_url
+      planting.crop_en_wikipedia_url.should eq planting.crop.en_wikipedia_url
     end
     it 'default scientific name' do
-      @planting.crop_default_scientific_name.should eq @planting.crop.default_scientific_name
+      planting.crop_default_scientific_name.should eq planting.crop.default_scientific_name
     end
     it 'plantings count' do
-      @planting.crop_plantings_count.should eq @planting.crop.plantings_count
+      planting.crop_plantings_count.should eq planting.crop.plantings_count
     end
   end
 
@@ -79,12 +77,11 @@ describe Planting do
   end
 
   context 'sunniness' do
-    before(:each) do
-      @planting = FactoryGirl.create(:sunny_planting)
-    end
+
+    let(:planting) { FactoryGirl.create(:sunny_planting) }
 
     it 'should have a sunniness value' do
-      @planting.sunniness.should eq 'sun'
+      planting.sunniness.should eq 'sun'
     end
 
     it 'all three valid sunniness values should work' do
@@ -126,30 +123,32 @@ describe Planting do
   # we decided that all the tests for the planting/photo association would
   # be done on this side, not on the photos side
   context 'photos' do
-    before(:each) do
-      @planting = FactoryGirl.create(:planting)
-      @photo = FactoryGirl.create(:photo)
-      @planting.photos << @photo
+
+    let(:planting) { FactoryGirl.create(:planting) }
+    let(:photo) { FactoryGirl.create(:photo) }
+
+    before do
+      planting.photos << photo
     end
 
     it 'has a photo' do
-      @planting.photos.first.should eq @photo
+      planting.photos.first.should eq photo
     end
 
     it 'deletes association with photos when photo is deleted' do
-      @photo.destroy
-      @planting.reload
-      @planting.photos.should be_empty
+      photo.destroy
+      planting.reload
+      planting.photos.should be_empty
     end
 
     it 'has a default photo' do
-      @planting.default_photo.should eq @photo
+      planting.default_photo.should eq photo
     end
 
     it 'chooses the most recent photo' do
       @photo2 = FactoryGirl.create(:photo)
-      @planting.photos << @photo2
-      @planting.default_photo.should eq @photo2
+      planting.photos << @photo2
+      planting.default_photo.should eq @photo2
     end
   end
 

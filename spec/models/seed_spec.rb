@@ -2,17 +2,15 @@ require 'rails_helper'
 
 describe Seed do
 
-  before(:each) do
-    @seed = FactoryGirl.build(:seed)
-  end
+  let(:seed) { FactoryGirl.build(:seed) }
 
   it 'should save a basic seed' do
-    @seed.save.should be(true)
+    seed.save.should be(true)
   end
 
   it "should have a slug" do
-    @seed.save
-    @seed.slug.should match(/member\d+-magic-bean/)
+    seed.save
+    seed.slug.should match(/member\d+-magic-bean/)
   end
 
   context 'quantity' do
