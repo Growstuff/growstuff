@@ -1,7 +1,5 @@
 .row
-  .col-md-1
-    = "##{index+1}"
-  .col-md-3
+  .col-md-4
     = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
   .col-md-6
     %dl.dl-horizontal
@@ -29,8 +27,7 @@
       - if can? :destroy, planting
         %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 .row
-  .col-md-1
-  .col-md-3
+  .col-md-4
     %ul{:style => "list-style-type:none"}
       %li
         %b Crop name:

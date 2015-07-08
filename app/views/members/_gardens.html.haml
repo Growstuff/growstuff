@@ -37,15 +37,13 @@
         - if g.featured_plantings.size > 0
           .container
             .row
-              .col-md-1
-                %b #
-              .col-md-3
+              .col-md-4
                 %b Photo
               .col-md-6
                 %b Planting Details
               .col-md-2
-            - g.featured_plantings.each.with_index do |planting, index|
-              = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
+            - g.featured_plantings.each.with_index do |planting|
+              = render partial: "plantings/thumbnail", locals: {:planting => planting}
 
         %p
           = link_to "More about this garden...", url_for(g)
