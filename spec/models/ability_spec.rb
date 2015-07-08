@@ -8,9 +8,8 @@ describe Ability do
 
   context "notifications" do
 
-    let(:notification) { FactoryGirl.create(:notification, :recipient => member) }
-
     it 'member can view their own notifications' do
+      notification = FactoryGirl.create(:notification, :recipient => member)
       ability.should be_able_to(:read, notification)
     end
 
@@ -65,8 +64,6 @@ describe Ability do
         member.roles << role
       end
 
-      let(:ability) { Ability.new(member) }
-
       it "has crop_wrangler role" do
         member.has_role?(:crop_wrangler).should be true
       end
@@ -104,8 +101,6 @@ describe Ability do
       before do
         member.roles << role
       end
-
-      let(:ability) { Ability.new(member) }
 
       it "has admin role" do
         member.has_role?(:admin).should be true
@@ -225,8 +220,6 @@ describe Ability do
         member.roles << role
       end
 
-      let(:ability) { Ability.new(member) }
-
       it "has admin role" do
         member.has_role?(:admin).should be true
       end
@@ -273,8 +266,6 @@ describe Ability do
         member.roles << role
       end
 
-      let(:ability) { Ability.new(member) }
-
       it "can read account details" do
         ability.should be_able_to(:read, account)
       end
@@ -310,8 +301,6 @@ describe Ability do
       before do
         member.roles << role
       end
-
-      let(:ability) { Ability.new(member) }
 
       it "can read plant_part details" do
         ability.should be_able_to(:read, plant_part)
