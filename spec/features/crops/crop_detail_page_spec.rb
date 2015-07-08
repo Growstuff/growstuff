@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 feature "crop detail page" do
 
@@ -141,6 +142,32 @@ feature "crop detail page" do
         expect(page).to have_link "Wikipedia (English)", crop.en_wikipedia_url
       end
 
+    end
+  end
+
+  context "seed quantity for a crop" do
+    let(:member) { FactoryGirl.create(:member) }
+    let(:seed)   { FactoryGirl.create(:seed, :crop => crop, :quantity => 20, :owner => member)}
+
+    scenario "User not signed in" do
+      visit crop_path(seed.crop)
+      expect(page).to_not have_content "You have 20 seeds of this crop"
+      expect(page).to_not have_content "You don't have any seeds of this crop"
+      expect(page).to_not have_link "View your seeds"
+    end
+
+    scenario "User signed in" do
+      login_as(member)
+      visit crop_path(seed.crop)
+      expect(page).to have_content "You have 20 seeds of this crop."
+      expect(page).to have_link "View your seeds"
+    end
+
+    scenario "click link to your owned seeds" do
+      login_as(member)
+      visit crop_path(seed.crop)
+      click_link "View your seeds"
+      current_path.should == seeds_by_owner_path(:owner => member.slug)
     end
   end
 end
