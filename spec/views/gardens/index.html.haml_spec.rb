@@ -21,6 +21,7 @@ describe "gardens/index" do
     controller.stub(:current_user) { nil }
     @owner = FactoryGirl.create(:member)
     @garden = FactoryGirl.create(:garden, :owner => @owner)
+    @finished_planting = FactoryGirl.create(:finished_planting, :garden => @garden)
     page = 1
     per_page = 2
     total_entries = 2
@@ -38,4 +39,8 @@ describe "gardens/index" do
     assert_select "tr>td", :text => pluralize(@garden.area, @garden.area_unit), :count => 2
   end
 
+  it "does not show finished plantings" do
+    render
+    expect(rendered).to_not have_content(@finished_planting.crop_name)
+  end
 end
