@@ -28,11 +28,13 @@
           = "Planted from: "
         = "#{display_planted_from(@planting)}"
     
-    - if !@planting.sunniness.blank?
-      %p
-        %b 
-          = "Sun or shade?: "
-        = "#{display_sunniness(@planting)}"
+    %p
+      %b 
+        = "Sun or shade?: "
+      - sunniness = @planting.sunniness.blank? ? "not specified" : @planting.sunniness
+      = image_tag("sunniness_#{sunniness}.png", :size => "25x25", :alt => "#{sunniness}", :title => "#{sunniness}")
+      = " (#{sunniness})"
+
     %p
       %b 
         = "Days until maturity: "
