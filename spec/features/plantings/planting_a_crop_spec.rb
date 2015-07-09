@@ -206,6 +206,41 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "Progress: 100%"
   end
 
+  describe "Planting sunniness" do
+    it "should show the image sunniness_sun.png" do
+      fill_autocomplete "crop", :with => "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", :with => "2015-10-15"
+        fill_in "How many?", :with => 42
+        select "cutting", :from => "Planted from:"
+        select "sun", :from => "Sun or shade?"
+        fill_in "Tell us more about it", :with => "It's rad."
+        check "Mark as finished"
+        click_button "Save"
+      end
+
+      expect(page).to have_css("img[src*='sunniness_sun.png']")
+      page.should have_css("img[alt=sun]")
+    end
+
+    it "should show the image 'not specified.png'" do
+      fill_autocomplete "crop", :with => "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", :with => "2015-10-15"
+        fill_in "How many?", :with => 42
+        select "cutting", :from => "Planted from:"
+        fill_in "Tell us more about it", :with => "It's rad."
+        check "Mark as finished"
+        click_button "Save"
+      end
+
+      expect(page).to have_css("img[src*='sunniness_not specified.png']")
+      page.should have_css("img[alt='not specified']")
+    end
+  end
+
   describe "Marking a planting as finished from the show page" do
     let(:path)      { planting_path(planting) }
     let(:link_text) { "Mark as finished" }
