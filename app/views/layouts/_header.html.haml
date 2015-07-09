@@ -10,8 +10,14 @@
         %span.icon-bar
       %a.navbar-brand(href=root_path)
         = image_tag("growstuff-brand.png", :size => "200x50", :alt => ENV['GROWSTUFF_SITE_NAME'])
+      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
+        .input
+          = label_tag :term, "Search crop database:", :class => 'sr-only'
+          = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
+          = submit_tag "Search", :class => 'btn sr-only'
+
     .navbar-collapse.collapse#navbar-collapse
-      %ul.nav.navbar-nav
+      %ul.nav.navbar-nav.pull-right
         %li.dropdown<
           %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => crops_path}
             Crops
@@ -30,7 +36,7 @@
             %li= link_to "Browse Members", members_path
             %li= link_to "Posts", posts_path
             %li= link_to "Forums", forums_path
-
+            %li= link_to "Support Growstuff", shop_path
 
         - if member_signed_in?
           %li.dropdown<
@@ -38,7 +44,7 @@
               - if current_member.notifications.unread_count > 0
                 Your Stuff (#{current_member.notifications.unread_count})
               - else
-                Your Stuff
+                #{current_member.login_name}
               %b.caret
             %ul.dropdown-menu
               %li= link_to "Profile", member_path(current_member)
@@ -59,7 +65,6 @@
                   %li= link_to "Crop Wrangling", wrangle_crops_path
                 - if current_member.has_role?(:admin)
                   %li= link_to "Admin", admin_path
-            %li= link_to "Support Growstuff", shop_path
 
 
           %li= link_to "Sign out", destroy_member_session_path, :method => :delete
@@ -68,11 +73,6 @@
           %li= link_to 'Sign in', new_member_session_path, :id => 'navbar-signin'
           %li= link_to 'Sign up', new_member_registration_path, :id => 'navbar-signup'
 
-      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
-        .input
-          = label_tag :term, "Search crop database:", :class => 'sr-only'
-          = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
-          = submit_tag "Search", :class => 'btn sr-only'
 
 - # anchor tag for accessibility link to skip the navigation menu
 %a{:name => 'skipnav'}

@@ -80,7 +80,7 @@ feature "follows", :js => true do
         visit member_follows_path(member)
         expect(page).not_to have_content "#{other_member.login_name}"
         visit member_followers_path(other_member)
-        expect(page).not_to have_content "#{member.login_name}"
+        expect(page).to have_content "#{member.login_name}"
       end
 
     end
