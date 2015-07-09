@@ -20,4 +20,5 @@
           %dd= harvest.harvested_at
   .panel-footer
     %dt Description
-    %dd= harvest.description
+    %dd
+      = display_harvest_description(harvest)
