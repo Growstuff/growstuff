@@ -38,9 +38,13 @@ module HarvestsHelper
   end
 
   def display_harvest_description(harvest)
-    output = truncate(harvest.description, length: 120, omission: '... ')
-    output += link_to('[Read more]', harvest_path(harvest)) if harvest.description.size > 100
-    output.html_safe
+    if harvest.description.nil?
+      "no description provided."
+    else
+      output = truncate(harvest.description, length: 130, omission: '... ')
+      output += link_to('[Read more]', harvest_path(harvest)) if harvest.description.size > 130
+      output.html_safe
+    end
   end
 
 end

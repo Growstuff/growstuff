@@ -6,10 +6,10 @@
         %span.glyphicon.glyphicon-pencil{:title => "Edit"}
   .panel-body
     .row
-      .col-md-6
+      .col-md-4
         = link_to image_tag((harvest.crop.default_photo ?  harvest.crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => harvest.crop.name, :class => 'img'), harvest.crop
-      .col-md-6
-        %dl
+      .col-md-8
+        %dl.dl-horizontal
           %dt Crop
           %dd= link_to harvest.crop.name, harvest.crop
           %dt Plant part

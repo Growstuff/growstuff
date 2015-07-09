@@ -1,0 +1,27 @@
+.panel.panel-success
+  .panel-heading
+    %h3.panel-title
+      = link_to "#{garden.owner.login_name}'s garden", garden.owner
+      %a.pull-right{:href => edit_garden_path(garden), :role => "button"}
+        %span.glyphicon.glyphicon-pencil{:title => "Edit"}
+  .panel-body
+    .row
+      .col-md-4
+        = link_to image_tag((garden.default_photo ?  garden.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => garden.name, :class => 'img'), garden
+      .col-md-8
+        %dl.dl-horizontal
+          %dt Name
+          %dd= link_to garden.name, garden
+          %dt Location
+          %dd= link_to garden.location, place_path(garden.location)
+          %dt Area
+          %dd= garden.area.nil? ? "not specified" : pluralize(garden.area, garden.area_unit)
+          %dt Active?      
+          %dd= garden.active ? "Yes" : "No"
+          %dt Plantings
+          %dd
+            = display_garden_plantings(garden)
+  .panel-footer
+    %dt Description
+    %dd
+      = display_garden_description(garden)
