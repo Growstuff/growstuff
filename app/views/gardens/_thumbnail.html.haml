@@ -26,7 +26,7 @@
       .col-md-12
         %b
           = "#{pluralize(garden.plantings.count, "Planting")} : "
-        = display_garden_plantings(garden.plantings)
+        = display_garden_plantings(garden.plantings.current)
         - if garden.plantings.count > 2
           %br
           = link_to "See more plantings >>", garden_path(garden)

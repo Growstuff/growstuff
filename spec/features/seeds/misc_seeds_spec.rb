@@ -13,7 +13,7 @@ feature "seeds" do
     scenario "button on index to edit seed" do
       seed = FactoryGirl.create(:seed, :owner => @member)
       visit seeds_path
-      click_link "Edit"
+      click_link "edit_seed_glyphicon"
       current_path.should eq edit_seed_path(seed)
       page.should have_content 'Editing seeds'
     end
