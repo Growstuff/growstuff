@@ -113,21 +113,15 @@ class Planting < ActiveRecord::Base
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
   def Planting.interesting(howmany=12, require_photo=true)
-    interesting_plantings = Array.new
-    seen_owners = Hash.new(false) # keep track of which owners we've seen already
-
     if require_photo then
       candidates = Planting.joins(:photos).uniq
     else
       candidates = Planting
     end
-    candidates.each do |p|
-      break if interesting_plantings.size == howmany # got enough yet?
-      next if seen_owners[p.owner]  # skip if we already have one from this owner
-      seen_owners[p.owner] = true   # we've seen this owner
-      interesting_plantings.push(p)
-    end
-
-    return interesting_plantings
+    # Find the most recent acceptable planting for each member
+    most_recent_ids = candidates.select("max(plantings.id)")
+                                .unscope(:order)
+                                .group("plantings.owner_id")
+    return candidates.where(id: most_recent_ids).limit(howmany)
   end
 end
