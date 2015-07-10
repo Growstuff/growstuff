@@ -20,7 +20,8 @@
 
 - if @plantings.size > 0
   - @plantings.each.with_index do |planting|
-    = render partial: "plantings/thumbnail", locals: {:planting => planting}
+    .col-xs-12.col-lg-6
+      = render partial: "plantings/thumbnail", locals: {:planting => planting}
 
   %div.pagination
     = page_entries_info @plantings, :model => "plantings"
