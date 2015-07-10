@@ -2,8 +2,9 @@
   .panel-heading
     %h3.panel-title
       = link_to "#{garden.owner.login_name}'s garden", garden.owner
-      %a.pull-right{:href => edit_garden_path(garden), :role => "button"}
-        %span.glyphicon.glyphicon-pencil{:title => "Edit"}
+      - if can? :edit, garden
+        %a.pull-right{:href => edit_garden_path(garden), :role => "button"}
+          %span.glyphicon.glyphicon-pencil{:title => "Edit"}
   .panel-body{:id => "gardens_panel_body"}
     .row
       .col-md-4

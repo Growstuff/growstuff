@@ -2,8 +2,9 @@
   .panel-heading
     %h3.panel-title
       = link_to "#{harvest.owner.login_name}'s harvest", harvest.owner
-      %a.pull-right{:href => edit_harvest_path(harvest), :role => "button"}
-        %span.glyphicon.glyphicon-pencil{:title => "Edit"}
+      - if can? :edit, harvest
+        %a.pull-right{:href => edit_harvest_path(harvest), :role => "button"}
+          %span.glyphicon.glyphicon-pencil{:title => "Edit"}
   .panel-body
     .row
       .col-md-4
