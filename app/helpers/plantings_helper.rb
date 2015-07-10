@@ -22,10 +22,6 @@ module PlantingsHelper
     end
   end
 
-  def display_sunniness(planting)
-    !planting.sunniness.blank? ? planting.sunniness : "not specified"
-  end
-
   def display_planted_from(planting)
     !planting.planted_from.blank? ? planting.planted_from : "not specified"
   end
