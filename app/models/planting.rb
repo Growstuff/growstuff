@@ -90,10 +90,6 @@ class Planting < ActiveRecord::Base
     return photos.first
   end
 
-  def interesting?
-    return photos.present?
-  end
-
   def calculate_days_before_maturity(planting, crop)
     p_crop = Planting.where(:crop_id => crop).where.not(:id => planting)
     differences = p_crop.collect do |p|
