@@ -36,7 +36,8 @@
         - plantings << planting
     - if !plantings.blank?
       - plantings.first(10).each.with_index do |planting, index|
-        = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
+        .col-xs-12.col-lg-6
+          = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
       = link_to "View all plantings >>", plantings_path
     - else
       %p No nearby plantings found
