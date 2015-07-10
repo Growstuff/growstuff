@@ -116,11 +116,13 @@ class Planting < ActiveRecord::Base
     interesting_plantings = Array.new
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 
-    Planting.all.each do |p|
+    if require_photo then
+      candidates = Planting.joins(:photos).uniq
+    else
+      candidates = Planting
+    end
+    candidates.each do |p|
       break if interesting_plantings.size == howmany # got enough yet?
-      if require_photo
-        next unless p.photos.present? # skip those without photos, if required
-      end
       next if seen_owners[p.owner]  # skip if we already have one from this owner
       seen_owners[p.owner] = true   # we've seen this owner
       interesting_plantings.push(p)
