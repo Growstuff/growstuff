@@ -4,9 +4,7 @@ module SeedsHelper
   	if seed.description.nil?
   		"no description provided."
     else
-    	output = truncate(seed.description, length: 130, omission: '... ')
-		output += link_to('[Read more]', seed_path(seed)) if seed.description.size > 130
-		output.html_safe
+    	truncate(seed.description, length: 130, separator: ' ', omission: '... ') { link_to "Read more", seed_path(seed) }
     end
   end
   

@@ -10,15 +10,15 @@
         = link_to image_tag((seed.crop.default_photo ?  seed.crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => seed.crop.name, :class => 'img'), seed.crop
       .col-md-8
         %dl.dl-horizontal
-          %dt Crop
+          %dt Crop : 
           %dd= link_to seed.crop.name, seed.crop
-          %dt Plant before
+          %dt Plant before : 
           %dd= seed.plant_before
-          %dt Quantity
+          %dt Quantity : 
           %dd= seed.quantity
-          %dt Will trade to     
+          %dt Will trade to :     
           %dd= seed.tradable_to
-          %dt From location     
+          %dt From location :   
           %dd= seed.owner.location
   .panel-footer
     %dt Description

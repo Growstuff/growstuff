@@ -41,9 +41,7 @@ module HarvestsHelper
     if harvest.description.nil?
       "no description provided."
     else
-      output = truncate(harvest.description, length: 130, omission: '... ')
-      output += link_to('[Read more]', harvest_path(harvest)) if harvest.description.size > 130
-      output.html_safe
+      truncate(harvest.description, length: 130, separator: ' ', omission: '... ') { link_to "Read more", harvest_path(harvest) }
     end
   end
 

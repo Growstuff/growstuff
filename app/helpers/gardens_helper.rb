@@ -4,29 +4,22 @@ module GardensHelper
   	if garden.description.nil?
   		"no description provided."
     else
-    	output = truncate(garden.description, length: 130, omission: '... ')
-    	output += link_to('[Read more]', garden_path(garden)) if garden.description.size > 130
-    	output.html_safe
+      truncate(garden.description, length: 130, separator: ' ', omission: '... ') { link_to "Read more", garden_path(garden) }
     end
   end
 
-  def display_garden_plantings(garden)
-  	if garden.plantings.empty?
-      None
+  def display_garden_plantings(plantings)
+    if plantings.blank?
+      "None"
     else
-    	output = ""
-    	garden.plantings.current.each do |p|
-    		output = p.quantity.nil? ? "0 " : "#{p.quantity} "
-    		output += link_to p.crop.name, p
-    		output = output.html_safe
-            if p.planted_at
-            	output += ", planted on #{p.planted_at}"
-            end
-        end
-
-        output = truncate(output, length: 100, omission: '... ')
-        output += link_to('[View more plantings]', garden_path(garden)) if output.size > 100
-        output.html_safe
+      output = ""
+      plantings.first(2).each do |planting|
+        output += "<li>"
+        output += planting.quantity.nil? ? "0 " : "#{planting.quantity} "
+        output += link_to planting.crop.name, planting.crop
+        output += ", planted on #{planting.planted_at}</li>"
+      end
+      output.html_safe
     end
   end
 end
