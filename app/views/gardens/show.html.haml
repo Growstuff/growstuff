@@ -44,8 +44,8 @@
                   = link_to "Add photo", new_photo_path(:type => "garden", :id => @garden.id), :class => 'btn btn-primary'
 
     %h3 What's planted here?
-    .row
-      - if @garden.plantings.current.size > 0
+    - if @garden.plantings.current.size > 0
+      .row
         - @garden.plantings.current.each.with_index do |planting_current, index_current|
           = render partial: "plantings/thumbnail", locals: {:planting => planting_current}
     - else
@@ -53,8 +53,8 @@
         Nothing is currently planted here.
 
     %h3 Previously planted in this garden
-    .row
-      - if @garden.plantings.finished.size > 0
+    - if @garden.plantings.finished.size > 0
+      .row
         - @garden.plantings.finished.each.with_index do |planting_finished|
           = render partial: "plantings/thumbnail", locals: {:planting => planting_finished}
       
