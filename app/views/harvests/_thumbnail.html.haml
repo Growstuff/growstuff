@@ -3,7 +3,7 @@
     %h3.panel-title
       = link_to "#{harvest.owner.login_name}'s harvest", harvest.owner
       - if can? :edit, harvest
-        %a.pull-right{:href => edit_harvest_path(harvest), :role => "button"}
+        %a.pull-right{:href => edit_harvest_path(harvest), :role => "button", :id => "edit_harvest_glyphicon"}
           %span.glyphicon.glyphicon-pencil{:title => "Edit"}
   .panel-body
     .row

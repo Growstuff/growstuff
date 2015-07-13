@@ -45,6 +45,18 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "Area must be greater than or equal to 0"
   end
 
+  context "Clicking edit from the index page" do
+    
+    background do
+      visit gardens_path
+    end
+      
+    scenario "button on index to edit garden" do
+      first(".panel-title").click_link("edit_garden_glyphicon")
+      page.should have_content 'Edit garden'
+    end
+  end
+
   scenario "Edit garden" do
     visit new_garden_path
     fill_in "Name", :with => "New garden"
