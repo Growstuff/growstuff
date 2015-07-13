@@ -1,4 +1,6 @@
 - content_for :title, @owner ? "#{@owner}'s harvests" : @crop ? "Everyone's #{@crop.name} harvests" : "Everyone's harvests"
+- if @owner
+  = link_to "View #{@owner}'s profile >>", member_path(@owner)
 
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're

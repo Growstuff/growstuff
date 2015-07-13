@@ -1,4 +1,6 @@
 - content_for :title, @owner ? "#{@owner}'s seeds" : @crop ? "Everyone's #{@crop.name} seeds" : "Everyone's seeds"
+- if @owner
+  = link_to "View #{@owner}'s profile >>", member_path(@owner)
 
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track your seed
