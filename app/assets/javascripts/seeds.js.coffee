@@ -6,20 +6,35 @@ jQuery ->
   $('.add-datepicker').datepicker('format' : 'yyyy-mm-dd')
 
 $ ->
-  template = "<div id='template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Alternate name INDEX:</label></div><div class='col-md-8'><input class='form-control', id='alt_name[INDEX]')'></input><span class='help-block'>Alternate name of crop.</span></div><div class='col-md-2'></div></div>"
+  sci_template = "<div id='sci_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Scientific name INDEX:</label></div><div class='col-md-8'><input name='sci_name[INDEX]' class='form-control', id='sci_name[INDEX]')'></input><span class='help-block'>Scientific name of crop.</span></div><div class='col-md-2'></div></div>"
 
-  index = 2
+  sci_index = $('#scientific_names .template').length + 1
 
-  $('#add-crop-row').click ->
-    compiled_input = $(template.split("INDEX").join(index))
-    $('#someform').append(compiled_input)
-    console.log("Added %d", index)
-    index = index + 1
+  $('#add-sci_name-row').click ->
+    compiled_input = $(sci_template.split("INDEX").join(sci_index))
+    $('#scientific_names').append(compiled_input)
+    sci_index = sci_index + 1
 
-  $('#remove-crop-row').click ->
-    if (index > 2)
-    	index = index - 1
-    	tmp = 'template[' + index + ']'
+  $('#remove-sci_name-row').click ->
+    if (sci_index > 2)
+    	sci_index = sci_index - 1
+    	tmp = 'sci_template[' + sci_index + ']'
     	element = document.getElementById(tmp)
     	element.remove()
-    	console.log("Removed %s", tmp)
+
+  alt_template = "<div id='alt_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Alternate name INDEX:</label></div><div class='col-md-8'><input name='alt_name[INDEX]' class='form-control', id='alt_name[INDEX]')'></input><span class='help-block'>Alternate name of crop.</span></div><div class='col-md-2'></div></div>"
+
+  alt_index = $('#alternate_names .template').length + 1
+
+  $('#add-alt_name-row').click ->
+    compiled_input = $(alt_template.split("INDEX").join(alt_index))
+    $('#alternate_names').append(compiled_input)
+    alt_index = alt_index + 1
+
+  $('#remove-alt_name-row').click ->
+    if (alt_index > 2)
+      alt_index = alt_index - 1
+      tmp = 'alt_template[' + alt_index + ']'
+      element = document.getElementById(tmp)
+      console.log("%s",tmp)
+      element.remove()
