@@ -6,7 +6,7 @@ jQuery ->
   $('.add-datepicker').datepicker('format' : 'yyyy-mm-dd')
 
 $ ->
-  template = "<div id='template[INDEX]', class='form-group'><label class='control-label col-md-2'>Alternate name INDEX:</label><div class='col-md-8'><input class='form-control', id='alt_name[INDEX]')'></input><span class='help-block'>Alternate name of crop.</span></div></div>"
+  template = "<div id='template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Alternate name INDEX:</label></div><div class='col-md-8'><input class='form-control', id='alt_name[INDEX]')'></input><span class='help-block'>Alternate name of crop.</span></div><div class='col-md-2'></div></div>"
 
   index = 2
 
@@ -17,7 +17,7 @@ $ ->
     index = index + 1
 
   $('#remove-crop-row').click ->
-    if (index != 0)
+    if (index > 2)
     	index = index - 1
     	tmp = 'template[' + index + ']'
     	element = document.getElementById(tmp)

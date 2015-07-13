@@ -49,14 +49,14 @@
     = button_tag "+", :id => "add-crop-row", :type => "button"
     = button_tag "-", :id => "remove-crop-row", :type => "button"
   
-  .form-group
-    = label_tag :alternate_names, "Alternate name 1:", :class => 'control-label col-md-2'
-    .col-md-8
-      .form-group
+  .form-group#someform
+    .template.col-md-12
+      .col-md-2
+        = label_tag :alternate_names, "Alternate name 1:", :class => 'control-label'
+      .col-md-8
         = text_field_tag :name, nil, :id => 'alt_name[1]', :class => 'form-control'
         %span.help-block Alternate name of crop.
-
-  .form-group#someform
+      .col-md-2
 
   -# This is used for comments from crop requesters.  We need to show it
   -# to everyone, but we don't include it on new crops from wranglers.
