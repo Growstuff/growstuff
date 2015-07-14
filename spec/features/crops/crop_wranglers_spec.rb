@@ -44,7 +44,7 @@ feature "crop wranglers" do
       click_link 'Crop Wrangling'
       click_link 'Add Crop'
       fill_in 'Name', with: "aubergine"
-      fill_in 'Wikipedia URL', with: "http://en.wikipedia.org/wiki/Maize"
+      fill_in 'en_wikipedia_url', with: "http://en.wikipedia.org/wiki/Maize"
       fill_in 'sci_name[1]', with: "planticus maximus"
       click_on 'Save'
       expect(page).to have_content 'Crop was successfully created'
