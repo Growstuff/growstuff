@@ -17,7 +17,7 @@
   -# Everyone (wranglers and requesters) sees the basic info section
   %h2 Basic information
 
-  .form-group
+  .form-group#new_crop
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, :class => 'form-control'
@@ -30,7 +30,7 @@
   .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :en_wikipedia_url, :class => 'form-control'
+      = f.text_field :en_wikipedia_url, :class => 'form-control', :id => "en_wikipedia_url"
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
 
@@ -82,7 +82,7 @@
     .form-group
       = f.label :request_notes, 'Comments', :class => 'control-label col-md-2'
       .col-md-8
-        = f.text_area :request_notes, :rows => 3, :class => 'form-control'
+        = f.text_area :request_notes, :rows => 3, :class => 'form-control', :id => 'request_notes'
 
   -# A final explanation of what's going to happen next, for crop requesters
   - unless can? :wrangle, @crop
