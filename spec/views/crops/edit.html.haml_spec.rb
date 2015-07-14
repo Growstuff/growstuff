@@ -40,9 +40,4 @@ describe "crops/edit" do
     end
   end
 
-  it "shows three fields for scientific_name" do
-    assert_select "input#crop_scientific_names_attributes_0_scientific_name", :count => 1
-    assert_select "input#crop_scientific_names_attributes_1_scientific_name", :count => 1
-    assert_select "input#crop_scientific_names_attributes_2_scientific_name", :count => 1
-  end
 end

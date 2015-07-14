@@ -160,18 +160,21 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.update(crop_params)
-        @crop.alternate_names.each do |alt_name|
-          alt_name.destroy
-        end
-        params[:alt_name].each do |index, value|
-          alt_name = @crop.alternate_names.create(name: value, creator_id: current_member.id)
-        end
+        if !params[:alt_name].nil?
+          @crop.alternate_names.each do |alt_name|
+            alt_name.destroy
+          end
 
-        @crop.scientific_names.each do |sci_name|
-          sci_name.destroy
-        end
-        params[:sci_name].each do |index, value|
-          sci_name = @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
+          params[:alt_name].each do |index, value|
+            alt_name = @crop.alternate_names.create(name: value, creator_id: current_member.id)
+          end
+
+          @crop.scientific_names.each do |sci_name|
+            sci_name.destroy
+          end
+          params[:sci_name].each do |index, value|
+            sci_name = @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
+          end
         end
         
         if previous_status == "pending"
