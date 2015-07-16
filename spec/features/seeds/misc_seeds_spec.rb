@@ -25,6 +25,12 @@ feature "seeds" do
       page.should have_content 'Add seeds'
     end
 
+    scenario "Clicking link to owner's profile" do
+      visit seeds_by_owner_path(member)
+      click_link "View #{member}'s profile >>"
+      current_path.should eq member_path(member)
+    end
+    
     # actually adding seeds is in spec/features/seeds_new_spec.rb
 
     scenario "edit seeds" do

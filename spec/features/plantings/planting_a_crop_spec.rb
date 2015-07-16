@@ -30,6 +30,12 @@ feature "Planting a crop", :js => true do
     expect(page).to have_content "Progress: 0% - Days before maturity unknown"
   end
 
+  scenario "Clicking link to owner's profile" do
+    visit plantings_by_owner_path(member)
+    click_link "View #{member}'s profile >>"
+    current_path.should eq member_path(member)
+  end
+
   describe "Progress bar status on planting creation" do
     before(:each) do
       DateTime.stub(:now){DateTime.new(2015, 10, 20, 10, 34)}
