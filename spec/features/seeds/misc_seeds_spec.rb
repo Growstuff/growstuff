@@ -26,7 +26,7 @@ feature "seeds" do
     end
 
     scenario "Clicking link to owner's profile" do
-      visit plantings_by_owner_path(member)
+      visit seeds_by_owner_path(member)
       click_link "View #{member}'s profile >>"
       current_path.should eq member_path(member)
     end
