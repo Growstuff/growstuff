@@ -4,6 +4,10 @@
 
 jQuery ->
   $('.add-datepicker').datepicker('format' : 'yyyy-mm-dd')
+  $('#add-sci_name-row').css("display", "inline-block")
+  $('#remove-sci_name-row').css("display", "inline-block")
+  $("#add-alt_name-row").css("display", "inline-block")
+  $("#remove-alt_name-row").css("display", "inline-block")
 
 $ ->
   sci_template = "<div id='sci_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Scientific name INDEX:</label></div><div class='col-md-8'><input name='sci_name[INDEX]' class='form-control', id='sci_name[INDEX]')'></input><span class='help-block'>Scientific name of crop.</span></div><div class='col-md-2'></div></div>"
@@ -38,3 +42,4 @@ $ ->
       element = document.getElementById(tmp)
       console.log("%s",tmp)
       element.remove()
+    
