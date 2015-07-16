@@ -61,3 +61,4 @@ submit the change with your pull request.
 - Cjay Billones / [CjayBillones](https://github.com/CjayBillones)
 - Katy Ereira / [maccath](https://github.com/maccath)
 - Gabrielle DeWitt / [gabrielle27](https://github.com/gabrielle27)
+- Manmeet Singh / [manmeetsingh](https://github.com/manmeetsingh)
