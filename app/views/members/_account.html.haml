@@ -18,5 +18,7 @@
   %br
   - if member.has_role? :admin
     Administrator
-  - if member.has_role? :crop_wrangler
-    Crop Wrangler
+    - if member.has_role? :crop_wrangler
+      Crop Wrangler
+  - else
+    Member
