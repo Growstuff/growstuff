@@ -62,3 +62,4 @@ submit the change with your pull request.
 - Katy Ereira / [maccath](https://github.com/maccath)
 - Gabrielle DeWitt / [gabrielle27](https://github.com/gabrielle27)
 - Manmeet Singh / [manmeetsingh](https://github.com/manmeetsingh)
+- Jym Paul Carandang / [jacarandang](https://github.com/jacarandang)
