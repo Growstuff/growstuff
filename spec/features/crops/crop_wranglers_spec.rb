@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "crop wranglers" do
+feature "crop wranglers", :js => true do
   context "signed in wrangler" do
     let!(:crop_wranglers) { FactoryGirl.create_list(:crop_wrangling_member, 3) }
     let(:wrangler){crop_wranglers.first}

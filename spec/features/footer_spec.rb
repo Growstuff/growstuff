@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "footer" do
+feature "footer", :js => true do
 
   scenario "footer is on home page" do
     visit root_path

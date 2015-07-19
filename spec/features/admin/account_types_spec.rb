@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "account types" do
+feature "account types", :js => true do
   context "admin user" do
     let(:member) { FactoryGirl.create(:admin_member) }
 

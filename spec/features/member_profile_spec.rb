@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "member profile" do
+feature "member profile", :js => true do
 
   context "signed out member" do
     let(:member) { FactoryGirl.create(:member) }

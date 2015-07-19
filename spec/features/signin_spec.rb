@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "signin" do
+feature "signin", :js => true do
   let(:member){FactoryGirl.create(:member)}
   let(:recipient){FactoryGirl.create(:member)}
   let(:notification){FactoryGirl.create(:notification)}

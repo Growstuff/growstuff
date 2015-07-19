@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Plantings RSS feed' do
+feature 'Plantings RSS feed', :js => true do
   scenario 'The index feed exists' do
     visit plantings_path(:format => 'rss')
     expect(page.status_code).to equal 200
