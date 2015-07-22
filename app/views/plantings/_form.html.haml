@@ -1,6 +1,4 @@
-.margin-bottom
-  %span.red *
-  %em denotes a required field.
+= required_field_help_text
 
 = form_for(@planting, :html => {:class => "form-horizontal", :role => "form"}) do |f|
   - if @planting.errors.any?
