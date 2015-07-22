@@ -1,25 +1,25 @@
 require 'rails_helper'
 
-feature "Harvesting a crop", :js => true do
-  let(:member)   { FactoryGirl.create(:member) }
-  let!(:maize)   { FactoryGirl.create(:maize) }
+feature "Harvesting a crop", :js do
+  let(:member) { create :member }
+  let!(:maize) { create :maize }
 
   background do
     login_as member
     visit new_harvest_path
-    sync_elasticsearch([maize])
+    sync_elasticsearch [maize]
   end
 
   it_behaves_like "crop suggest", "harvest", "crop"
 
-  scenario "Creating a new harvest", :js => true do
-    fill_autocomplete "crop", :with => "mai"
+  scenario "Creating a new harvest" do
+    fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
     within "form#new_harvest" do
-      fill_in "When?", :with => "2014-06-15"
-      fill_in "How many?", :with => 42
-      fill_in "Weighing (in total):", :with => 42
-      fill_in "Notes", :with => "It's killer."
+      fill_in "When?", with: "2014-06-15"
+      fill_in "How many?", with: 42
+      fill_in "Weighing (in total):", with: 42
+      fill_in "Notes", with: "It's killer."
       click_button "Save"
     end
 
@@ -29,7 +29,7 @@ feature "Harvesting a crop", :js => true do
   scenario "Clicking link to owner's profile" do
     visit harvests_by_owner_path(member)
     click_link "View #{member}'s profile >>"
-    current_path.should eq member_path(member)
+    expect(current_path).to eq member_path member
   end
 
   scenario "Harvesting from crop page" do
@@ -45,7 +45,7 @@ feature "Harvesting a crop", :js => true do
   end
 
   context "Editing a harvest" do
-    let(:existing_harvest) { FactoryGirl.create(:harvest, :crop => maize, :owner => member) }
+    let(:existing_harvest) { create :harvest, crop: maize, owner: member }
 
     background do
       visit harvest_path(existing_harvest)
@@ -59,8 +59,6 @@ feature "Harvesting a crop", :js => true do
       expect(page).to have_content "Harvest was successfully updated"
       expect(page).to have_content "maize"
     end
-
   end
-
 end
 

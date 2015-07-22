@@ -2,10 +2,10 @@ require 'rails_helper'
 
 feature "browse crops" do
 
-  let(:tomato) { FactoryGirl.create(:tomato) }
-  let(:maize)  { FactoryGirl.create(:maize) }
-  let(:pending_crop)  { FactoryGirl.create(:crop_request) }
-  let(:rejected_crop)  { FactoryGirl.create(:rejected_crop) }
+  let(:tomato) { create :tomato }
+  let(:maize)  { create :maize }
+  let(:pending_crop)  { create :crop_request }
+  let(:rejected_crop)  { create :rejected_crop }
 
   scenario "has a form for sorting by" do
     visit crops_path
