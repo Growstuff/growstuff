@@ -27,7 +27,7 @@ feature "Planting reminder email", :js do
 
   context "when member has some plantings" do
     # Bangs are used on the following 2 let blocks in order to ensure that the plantings are present
-    # in the database before the spec is run.
+    # in the database before the email is generated: otherwise, they won't be present in the email.
     let!(:p1) { create :planting, garden: member.gardens.first, owner: member }
     let!(:p2) { create :planting, garden: member.gardens.first, owner: member }
 
