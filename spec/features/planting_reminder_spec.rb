@@ -26,6 +26,8 @@ feature "Planting reminder email", :js do
   end
 
   context "when member has some plantings" do
+    # Bangs are used on the following 2 let blocks in order to ensure that the plantings are present
+    # in the database before the spec is run.
     let!(:p1) { create :planting, garden: member.gardens.first, owner: member }
     let!(:p2) { create :planting, garden: member.gardens.first, owner: member }
 
@@ -48,6 +50,8 @@ feature "Planting reminder email", :js do
   end
 
   context "when member has some harvests" do
+    # Bangs are used on the following 2 let blocks in order to ensure that the plantings are present
+    # in the database before the spec is run.
     let!(:h1) { create :harvest, owner: member }
     let!(:h2) { create :harvest, owner: member }
 
