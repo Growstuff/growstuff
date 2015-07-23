@@ -23,7 +23,7 @@ describe 'member' do
     end
 
     it 'should have a default garden' do
-      member.gardens.count.should == 1
+      member.gardens.size.should == 1
     end
 
     it 'should have a accounts entry' do
@@ -221,12 +221,12 @@ describe 'member' do
     end
 
     it 'sees confirmed members' do
-      Member.confirmed.count.should == 2
+      Member.confirmed.size.should == 2
     end
 
     it 'ignores unconfirmed members' do
       @member3 = FactoryGirl.create(:unconfirmed_member)
-      Member.confirmed.count.should == 2
+      Member.confirmed.size.should == 2
     end
   end
 

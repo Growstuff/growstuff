@@ -115,7 +115,7 @@ describe PhotosController do
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
           :type => "planting",
           :id => planting.id }
-        Photo.last.plantings.count.should eq 1
+        Photo.last.plantings.size.should eq 1
       end
 
       it "attaches the photo to a harvest" do
@@ -140,7 +140,7 @@ describe PhotosController do
         post :create, {:photo => { :flickr_photo_id => photo.flickr_photo_id },
           :type => "harvest",
           :id => harvest.id }
-        Photo.last.harvests.count.should eq 1
+        Photo.last.harvests.size.should eq 1
     end
   end
 
