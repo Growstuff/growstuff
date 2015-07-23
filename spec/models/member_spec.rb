@@ -61,13 +61,13 @@ describe 'member' do
     it "has many comments" do
       @comment1 = FactoryGirl.create(:comment, :author => member)
       @comment2 = FactoryGirl.create(:comment, :author => member)
-      member.comments.length.should == 2
+      member.comments.size.should == 2
     end
 
     it "has many forums" do
       @forum1 = FactoryGirl.create(:forum, :owner => member)
       @forum2 = FactoryGirl.create(:forum, :owner => member)
-      member.forums.length.should == 2
+      member.forums.size.should == 2
     end
 
     it 'has location and lat/long fields' do
