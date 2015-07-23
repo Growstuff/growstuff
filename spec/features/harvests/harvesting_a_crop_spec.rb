@@ -35,8 +35,8 @@ feature "Harvesting a crop", :js do
 
     scenario "button on index to edit harvest" do
       click_link "edit_harvest_glyphicon"
-      current_path.should eq edit_harvest_path(harvest)
-      page.should have_content 'Editing harvest'
+      expect(current_path).to eq edit_harvest_path(harvest)
+      expect(page).to have_content 'Editing harvest'
     end
   end
 

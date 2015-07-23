@@ -161,7 +161,7 @@ feature "crop detail page" do
       login_as(member)
       visit crop_path(seed.crop)
       click_link "View your seeds"
-      current_path.should == seeds_by_owner_path(owner: member.slug)
+      expect(current_path).to eq seeds_by_owner_path(owner: member.slug)
     end
   end
 end

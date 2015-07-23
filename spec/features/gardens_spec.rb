@@ -46,14 +46,14 @@ feature "Planting a crop", :js => true do
   end
 
   context "Clicking edit from the index page" do
-    
+
     background do
       visit gardens_path
     end
-      
+
     scenario "button on index to edit garden" do
       first(".panel-title").click_link("edit_garden_glyphicon")
-      page.should have_content 'Edit garden'
+      expect(page).to have_content 'Edit garden'
     end
   end
 
