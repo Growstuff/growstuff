@@ -26,10 +26,18 @@ feature "Harvesting a crop", :js => true do
     expect(page).to have_content "Harvest was successfully created"
   end
 
-  scenario "Clicking link to owner's profile" do
-    visit harvests_by_owner_path(member)
-    click_link "View #{member}'s profile >>"
-    current_path.should eq member_path(member)
+  context "Clicking edit from the index page" do
+  let!(:harvest) { FactoryGirl.create(:harvest, :crop => maize, :owner => member) }
+    
+    background do
+      visit harvests_path
+    end
+      
+    scenario "button on index to edit harvest" do
+      click_link "edit_harvest_glyphicon"
+      current_path.should eq edit_harvest_path(harvest)
+      page.should have_content 'Editing harvest'
+    end
   end
 
   scenario "Harvesting from crop page" do
@@ -63,4 +71,3 @@ feature "Harvesting a crop", :js => true do
   end
 
 end
-
