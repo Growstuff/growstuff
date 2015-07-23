@@ -26,8 +26,8 @@ feature "Planting reminder email", :js do
   end
 
   context "when member has some plantings" do
-    let(:p1) { create :planting, garden: member.gardens.first, owner: member }
-    let(:p2) { create :planting, garden: member.gardens.first, owner: member }
+    let!(:p1) { create :planting, garden: member.gardens.first, owner: member }
+    let!(:p2) { create :planting, garden: member.gardens.first, owner: member }
 
     scenario "lists plantings" do
       expect(mail).to have_content "most recent plantings you've told us about"
@@ -48,8 +48,8 @@ feature "Planting reminder email", :js do
   end
 
   context "when member has some harvests" do
-    let(:h1) { create :harvest, owner: member }
-    let(:h2) { create :harvest, owner: member }
+    let!(:h1) { create :harvest, owner: member }
+    let!(:h2) { create :harvest, owner: member }
 
     scenario "lists harvests" do
       expect(mail).to have_content "the last few things you harvested were"
