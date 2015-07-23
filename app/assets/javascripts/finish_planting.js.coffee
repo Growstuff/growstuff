@@ -9,7 +9,7 @@ jQuery ->
     finished = $('#planting_finished_at')
     if @checked
       if previousValue.length
-        date = previousValue 
+        date = previousValue
         finished.val(date)
       else
         finished.trigger('focus')
