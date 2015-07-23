@@ -12,6 +12,23 @@ feature "Seeds", :js => true do
 
   it_behaves_like "crop suggest", "seed", "crop"
 
+  it "has the required fields help text" do
+    expect(page).to have_content "* denotes a required field"
+  end
+
+  it "displays required and optional fields properly" do
+    expect(page).to have_selector ".form-group.required", text: "Crop:"
+    expect(page).to have_selector 'input#seed_quantity[placeholder="optional"]'
+    expect(page).to have_selector 'input#seed_plant_before[placeholder="optional"]'
+    expect(page).to have_selector 'input#seed_days_until_maturity_min[placeholder="optional"]'
+    expect(page).to have_selector 'input#seed_days_until_maturity_max[placeholder="optional"]'
+    expect(page).to have_selector '.form-group.required', text: 'Organic?'
+    expect(page).to have_selector '.form-group.required', text: 'GMO?'
+    expect(page).to have_selector '.form-group.required', text: 'Heirloom?'
+    expect(page).to have_selector 'textarea#seed_description[placeholder="optional"]'
+    expect(page).to have_selector '.form-group.required', text: 'Will trade:'
+  end
+
   scenario "Adding a new seed", :js => true do
     fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
