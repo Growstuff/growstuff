@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 feature "Requesting a new crop" do
-
   context "As a regular member" do
-
-    let(:member) { FactoryGirl.create(:member) }
-    let!(:wrangler) { FactoryGirl.create(:crop_wrangling_member) }
+    let(:member) { create :member }
+    let!(:wrangler) { create :crop_wrangling_member }
 
     background do
       login_as member
@@ -18,23 +16,18 @@ feature "Requesting a new crop" do
       click_button "Save"
       expect(page).to have_content "Crop was successfully requested."
     end
-
   end
 
   context "As a crop wrangler" do
+    let(:wrangler) { create :crop_wrangling_member }
+    let!(:crop) { create :crop_request }
+    let!(:already_approved) { create :crop }
 
-    let(:wrangler) { FactoryGirl.create(:crop_wrangling_member) }
-    let!(:crop) { FactoryGirl.create(:crop_request) }
-    let!(:already_approved) { FactoryGirl.create(:crop) }
-
-    background do
-     login_as wrangler
-    end
+    background { login_as wrangler }
 
     scenario "Approve a request" do
       visit edit_crop_path(crop)
       select "approved", from: "Approval status"
-      save_and_open_page
       click_button "Save"
       expect(page).to have_content "En wikipedia url is not a valid English Wikipedia URL"
       fill_in "en_wikipedia_url", with: "http://en.wikipedia.org/wiki/Aung_San_Suu_Kyi"
@@ -49,7 +42,5 @@ feature "Requesting a new crop" do
       click_button "Save"
       expect(page).to have_content "Crop was successfully updated."
     end
-
   end
-
 end

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 feature "crop detail page" do
-
-  let(:crop) { FactoryGirl.create(:crop) }
+  let(:crop) { create :crop }
+  
+  subject { visit crop_path(crop) }
 
   context "varieties" do
-
     scenario "The crop DOES NOT have varieties" do
       visit crop_path(crop)
 
@@ -16,28 +16,27 @@ feature "crop detail page" do
     end
 
     scenario "The crop has one variety" do
-      roma1 = FactoryGirl.create(:crop, :name => 'Roma tomato 1', :parent => crop)
+      create :crop, name: 'Roma tomato 1', parent: crop
 
-      visit crop_path(crop)
+      subject
 
       within ".varieties" do
         # It lists all 2 items (note: including the top level item.)
-        expect(page).to have_selector('li', text: /tomato/i, count: 2)  
+        expect(page).to have_selector('li', text: /tomato/i, count: 2)
         # It DOES NOT have "Show all/less" toggle link
         expect(page).to have_no_selector('button', text: /Show+/i)
       end
     end
 
     context "many" do
-
-      let!(:roma1) { FactoryGirl.create(:crop, :name => 'Roma tomato 1', :parent => crop) }
-      let!(:roma2) { FactoryGirl.create(:crop, :name => 'Roma tomato 2', :parent => crop) }
-      let!(:roma3) { FactoryGirl.create(:crop, :name => 'Roma tomato 3', :parent => crop) }
-      let!(:roma4) { FactoryGirl.create(:crop, :name => 'Roma tomato 4', :parent => crop) }
+      let!(:roma1) { create :crop, name: 'Roma tomato 1', parent: crop }
+      let!(:roma2) { create :crop, name: 'Roma tomato 2', parent: crop }
+      let!(:roma3) { create :crop, name: 'Roma tomato 3', parent: crop }
+      let!(:roma4) { create :crop, name: 'Roma tomato 4', parent: crop }
 
       scenario "The crop has 4 varieties" do
 
-        visit crop_path(crop)
+        subject
 
         within ".varieties" do
           # It lists all 5 items (note: including the top level item.)
@@ -48,9 +47,9 @@ feature "crop detail page" do
       end
 
       scenario "The crop has 5 varieties, including grandchild", :js => true do
-        roma_child1 = FactoryGirl.create(:crop, :name => 'Roma tomato child 1', :parent => roma4)
+        create :crop, name: 'Roma tomato child 1', parent: roma4
 
-        visit crop_path(crop)
+        subject
 
         within ".varieties" do
 
@@ -64,7 +63,7 @@ feature "crop detail page" do
           expect(page).to have_no_selector('button', text: /Show less+/i)
 
           # Clik "Show all" link
-          page.find('button', :text => /Show all+/).click
+          page.find('button', text: /Show all+/).click
 
           # It lists all 6 items (note: including the top level item.)
           # It HAS have "Show less" toggle link but not "Show all" link
@@ -75,7 +74,7 @@ feature "crop detail page" do
           expect(page).to have_selector('button', text: /Show less+/i)
 
           # Clik "Show less" link
-          page.find('button', :text => /Show less+/).click
+          page.find('button', text: /Show less+/).click
 
           # It lists 5 items (note: including the top level item.)
           # It HAS have "Show all" toggle link but not "Show less" link
@@ -90,7 +89,7 @@ feature "crop detail page" do
   end
 
   context "signed in member" do
-    let(:member) { FactoryGirl.create(:member) }
+    let(:member) { create :member }
 
     background do
       login_as(member)
@@ -98,27 +97,23 @@ feature "crop detail page" do
 
     context "action buttons" do
 
-      background do
-        visit crop_path(crop)
-      end
+      background { subject }
 
       scenario "has a link to plant the crop" do
-        expect(page).to have_link "Plant this", :href => new_planting_path(:crop_id => crop.id)
+        expect(page).to have_link "Plant this", href: new_planting_path(crop_id: crop.id)
       end
       scenario "has a link to harvest the crop" do
-        expect(page).to have_link "Harvest this", :href => new_harvest_path(:crop_id => crop.id)
+        expect(page).to have_link "Harvest this", href: new_harvest_path(crop_id: crop.id)
       end
       scenario "has a link to add seeds" do
-        expect(page).to have_link "Add seeds to stash", :href => new_seed_path(:crop_id => crop.id)
+        expect(page).to have_link "Add seeds to stash", href: new_seed_path(crop_id: crop.id)
       end
 
     end
 
     context "SEO" do
 
-      background do
-        visit crop_path(crop)
-      end
+      background { subject }
 
       scenario "has seed heading with SEO" do
         expect(page).to have_content "Find #{ crop.name } seeds"
@@ -145,8 +140,8 @@ feature "crop detail page" do
   end
 
   context "seed quantity for a crop" do
-    let(:member) { FactoryGirl.create(:member) }
-    let(:seed)   { FactoryGirl.create(:seed, :crop => crop, :quantity => 20, :owner => member)}
+    let(:member) { create :member }
+    let(:seed) { create :seed, crop: crop, quantity: 20, owner: member }
 
     scenario "User not signed in" do
       visit crop_path(seed.crop)
@@ -166,7 +161,7 @@ feature "crop detail page" do
       login_as(member)
       visit crop_path(seed.crop)
       click_link "View your seeds"
-      current_path.should == seeds_by_owner_path(:owner => member.slug)
+      current_path.should == seeds_by_owner_path(owner: member.slug)
     end
   end
 end
