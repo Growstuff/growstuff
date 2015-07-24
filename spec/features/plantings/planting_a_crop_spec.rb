@@ -14,6 +14,21 @@ feature "Planting a crop", :js do
 
   it_behaves_like "crop suggest", "planting"
 
+  it "has the required fields help text" do
+    expect(page).to have_content "* denotes a required field"
+  end
+
+  it "displays required and optional fields properly" do
+    expect(page).to have_selector ".form-group.required", text: "What did you plant?"
+    expect(page).to have_selector ".form-group.required", text: "Where did you plant it?"
+    expect(page).to have_selector 'input#planting_planted_at[placeholder="optional"]'
+    expect(page).to have_selector 'input#planting_quantity[placeholder="optional"]'
+    expect(page).to have_selector 'select#planting_planted_from option', text: 'optional'
+    expect(page).to have_selector 'select#planting_sunniness option', text: 'optional'
+    expect(page).to have_selector 'textarea#planting_description[placeholder="optional"]'
+    expect(page).to have_selector 'input#planting_finished_at[placeholder="optional"]'
+  end
+
   scenario "Creating a new planting" do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"

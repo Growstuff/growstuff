@@ -12,8 +12,19 @@ feature "Harvesting a crop", :js do
 
   it_behaves_like "crop suggest", "harvest", "crop"
 
-  scenario "Creating a new harvest" do
-    fill_autocomplete "crop", with: "mai"
+  it "has the required fields help text" do
+    expect(page).to have_content "* denotes a required field"
+  end
+
+  it "displays required and optional fields properly" do
+    expect(page).to have_selector ".form-group.required", text: "What did you harvest?"
+    expect(page).to have_selector 'input#harvest_quantity[placeholder="optional"]'
+    expect(page).to have_selector 'input#harvest_weight_quantity[placeholder="optional"]'
+    expect(page).to have_selector 'textarea#harvest_description[placeholder="optional"]'
+  end
+
+  scenario "Creating a new harvest", :js => true do
+    fill_autocomplete "crop", :with => "mai"
     select_from_autocomplete "maize"
     within "form#new_harvest" do
       fill_in "When?", with: "2014-06-15"
