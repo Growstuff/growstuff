@@ -97,12 +97,25 @@ p.stats {
   font-weight: bold;
 }
 
-.homepage-members {
-  height: 100px;
+.member-cards {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
+.member-thumbnail {
+  padding: .25em;
 
-.homepage-members:nth-child(odd) {
-  margin-left: 0px;
+  div {
+    width: 5em;
+    display: inline-block;
+	vertical-align: top;
+  }
+
+  div ~ div {
+    width: 15em;
+	padding-left: 1em;
+  }
 }
 
 #placesmap, #cropmap {
