@@ -22,4 +22,25 @@ feature "Notifications", :js => true do
       expect(page).to have_content "Message was successfully sent"
     end
   end
+
+  describe 'pagination' do
+    before do
+      34.times { FactoryGirl.create :notification, recipient: recipient }
+      login_as recipient
+      visit notifications_path
+    end
+
+    it 'has page navigation' do
+      expect(page).to have_selector 'a[rel="next"]'
+    end
+
+    it 'paginates at 30 notifications per page' do
+      expect(page).to have_selector 'tr', count: 31
+    end
+
+    it 'navigates pages' do
+      first('a[rel="next"]').click
+      expect(page).to have_selector 'tr', count: 5
+    end
+  end
 end
