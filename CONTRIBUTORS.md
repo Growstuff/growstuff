@@ -64,3 +64,4 @@ submit the change with your pull request.
 - Manmeet Singh / [manmeetsingh](https://github.com/manmeetsingh)
 - Jym Paul Carandang / [jacarandang](https://github.com/jacarandang)
 - Anthony Atkinson / [sha1sum](https://github.com/sha1sum)
+- Terence Conquest / [twconquest](https://github.com/twconquest)
