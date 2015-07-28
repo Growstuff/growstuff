@@ -38,13 +38,4 @@ describe "members/index" do
     rendered.should have_content @member.location
   end
 
-  it 'should not be admin' do
-    rendered.should_not have_content "Administrator"
-  end
-
-  it 'should not be crop_wrangler' do
-    rendered.should_not have_content "Crop Wrangler"
-  end
-
-
 end
