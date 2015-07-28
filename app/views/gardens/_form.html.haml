@@ -1,3 +1,5 @@
+= required_field_help_text
+
 = form_for(@garden, :html => {:class => "form-horizontal", :role => "form"}) do |f|
   - if @garden.errors.any?
     #error_explanation
@@ -6,7 +8,7 @@
         - @garden.errors.full_messages.each do |msg|
           %li= msg
 
-  .form-group
+  .form-group.required
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, :class => 'form-control'
@@ -14,12 +16,12 @@
   .form-group
     = f.label :description, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_area :description, :rows => 6, :class => 'form-control'
+      = f.text_area :description, :rows => 6, :class => 'form-control', :placeholder => 'optional'
 
   .form-group
     = f.label :location, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control'
+      = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control', :placeholder => 'optional'
       %span.help-block
         If you have a location set in your profile, it will be used when
         you create a new garden.
@@ -31,7 +33,7 @@
   .form-group
     = f.label :area, :class => 'control-label col-md-2'
     .col-md-2
-      = f.number_field :area, :class => 'input-small form-control'
+      = f.number_field :area, :class => 'input-small form-control', :placeholder => 'optional'
     .col-md-2
       = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
 

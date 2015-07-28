@@ -33,16 +33,4 @@ describe "crops/edit" do
     rendered.should have_content "Added by #{@crop.creator} less than a minute ago."
   end
 
-  it "renders the edit crop form" do
-    assert_select "form", :action => crops_path(@crop), :method => "post" do
-      assert_select "input#crop_name", :name => "crop[name]"
-      assert_select "input#crop_en_wikipedia_url", :name => "crop[en_wikipedia_url]"
-    end
-  end
-
-  it "shows three fields for scientific_name" do
-    assert_select "input#crop_scientific_names_attributes_0_scientific_name", :count => 1
-    assert_select "input#crop_scientific_names_attributes_1_scientific_name", :count => 1
-    assert_select "input#crop_scientific_names_attributes_2_scientific_name", :count => 1
-  end
 end

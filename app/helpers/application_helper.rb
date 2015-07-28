@@ -31,5 +31,11 @@ module ApplicationHelper
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
   end
 
+  def required_field_help_text
+    asterisk = content_tag :span, '*', class: ['red']
+    text = content_tag :em, 'denotes a required field'
+    content_tag :div, asterisk + ' '.html_safe + text, class: ['margin-bottom']
+  end
+
 end
 

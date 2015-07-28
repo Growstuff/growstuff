@@ -3,42 +3,40 @@ require 'rails_helper'
 describe Crop do
   context 'all fields present' do
 
-    before(:each) do
-      @crop = FactoryGirl.create(:tomato)
-    end
+    let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'should save a basic crop' do
-      @crop.save.should be(true)
+      crop.save.should be(true)
     end
 
     it 'should be fetchable from the database' do
-      @crop.save
+      crop.save
       @crop2 = Crop.find_by_name('tomato')
       @crop2.en_wikipedia_url.should == "http://en.wikipedia.org/wiki/Tomato"
       @crop2.slug.should == "tomato"
     end
 
     it 'should stringify as the system name' do
-      @crop.save
-      @crop.to_s.should == 'tomato'
-      "#{@crop}".should == 'tomato'
+      crop.save
+      crop.to_s.should == 'tomato'
+      "#{crop}".should == 'tomato'
     end
 
     it 'has a creator' do
-      @crop.save
-      @crop.creator.should be_an_instance_of Member
+      crop.save
+      crop.creator.should be_an_instance_of Member
     end
   end
 
   context 'invalid data' do
     it 'should not save a crop without a system name' do
-      @crop = FactoryGirl.build(:crop, :name => nil)
-      expect { @crop.save }.to raise_error ActiveRecord::StatementInvalid
+      crop = FactoryGirl.build(:crop, :name => nil)
+      expect { crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
   end
 
   context 'ordering' do
-    before(:each) do
+    before do
       @uppercase = FactoryGirl.create(:uppercasecrop, :created_at => 1.minute.ago)
       @lowercase = FactoryGirl.create(:lowercasecrop, :created_at => 2.days.ago)
     end
@@ -53,18 +51,20 @@ describe Crop do
   end
 
   context 'popularity' do
-    before (:each) do
-      @tomato = FactoryGirl.create(:tomato)
-      @maize = FactoryGirl.create(:maize)
-      @cucumber = FactoryGirl.create(:crop, :name => 'cucumber')
-      FactoryGirl.create_list(:planting, 10, :crop => @maize)
-      FactoryGirl.create_list(:planting, 3, :crop => @tomato)
+
+    let(:tomato) { FactoryGirl.create(:tomato) }
+    let(:maize) { FactoryGirl.create(:maize) }
+    let(:cucumber) { FactoryGirl.create(:crop, :name => 'cucumber') }
+
+    before do
+      FactoryGirl.create_list(:planting, 10, :crop => maize)
+      FactoryGirl.create_list(:planting, 3, :crop => tomato)
     end
 
     it "sorts by most plantings" do
-      Crop.popular.first.should eq @maize
-      FactoryGirl.create_list(:planting, 10, :crop => @tomato)
-      Crop.popular.first.should eq @tomato
+      Crop.popular.first.should eq maize
+      FactoryGirl.create_list(:planting, 10, :crop => tomato)
+      Crop.popular.first.should eq tomato
     end
 
   end
@@ -118,70 +118,67 @@ describe Crop do
   end
 
   context 'sunniness' do
-    before(:each) do
-      @crop = FactoryGirl.create(:tomato)
-    end
+
+    let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      planting1 = FactoryGirl.create(:sunny_planting, :crop => @crop)
-      planting2 = FactoryGirl.create(:sunny_planting, :crop => @crop)
-      planting3 = FactoryGirl.create(:semi_shady_planting, :crop => @crop)
-      planting4 = FactoryGirl.create(:shady_planting, :crop => @crop)
-      @crop.sunniness.should be_an_instance_of Hash
+      planting1 = FactoryGirl.create(:sunny_planting, :crop => crop)
+      planting2 = FactoryGirl.create(:sunny_planting, :crop => crop)
+      planting3 = FactoryGirl.create(:semi_shady_planting, :crop => crop)
+      planting4 = FactoryGirl.create(:shady_planting, :crop => crop)
+      crop.sunniness.should be_an_instance_of Hash
     end
 
     it 'counts each sunniness value' do
-      planting1 = FactoryGirl.create(:sunny_planting, :crop => @crop)
-      planting2 = FactoryGirl.create(:sunny_planting, :crop => @crop)
-      planting3 = FactoryGirl.create(:semi_shady_planting, :crop => @crop)
-      planting4 = FactoryGirl.create(:shady_planting, :crop => @crop)
-      @crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
+      planting1 = FactoryGirl.create(:sunny_planting, :crop => crop)
+      planting2 = FactoryGirl.create(:sunny_planting, :crop => crop)
+      planting3 = FactoryGirl.create(:semi_shady_planting, :crop => crop)
+      planting4 = FactoryGirl.create(:shady_planting, :crop => crop)
+      crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
     end
 
     it 'ignores unused sunniness values' do
-      planting1 = FactoryGirl.create(:sunny_planting, :crop => @crop)
-      planting2 = FactoryGirl.create(:sunny_planting, :crop => @crop)
-      planting3 = FactoryGirl.create(:semi_shady_planting, :crop => @crop)
-      @crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
+      planting1 = FactoryGirl.create(:sunny_planting, :crop => crop)
+      planting2 = FactoryGirl.create(:sunny_planting, :crop => crop)
+      planting3 = FactoryGirl.create(:semi_shady_planting, :crop => crop)
+      crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
     end
   end
 
   context 'planted_from' do
-    before(:each) do
-      @crop = FactoryGirl.create(:tomato)
-    end
+
+    let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      planting1 = FactoryGirl.create(:seed_planting, :crop => @crop)
-      planting2 = FactoryGirl.create(:seed_planting, :crop => @crop)
-      planting3 = FactoryGirl.create(:seedling_planting, :crop => @crop)
-      planting4 = FactoryGirl.create(:cutting_planting, :crop => @crop)
-      @crop.planted_from.should be_an_instance_of Hash
+      planting1 = FactoryGirl.create(:seed_planting, :crop => crop)
+      planting2 = FactoryGirl.create(:seed_planting, :crop => crop)
+      planting3 = FactoryGirl.create(:seedling_planting, :crop => crop)
+      planting4 = FactoryGirl.create(:cutting_planting, :crop => crop)
+      crop.planted_from.should be_an_instance_of Hash
     end
 
     it 'counts each planted_from value' do
-      planting1 = FactoryGirl.create(:seed_planting, :crop => @crop)
-      planting2 = FactoryGirl.create(:seed_planting, :crop => @crop)
-      planting3 = FactoryGirl.create(:seedling_planting, :crop => @crop)
-      planting4 = FactoryGirl.create(:cutting_planting, :crop => @crop)
-      @crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
+      planting1 = FactoryGirl.create(:seed_planting, :crop => crop)
+      planting2 = FactoryGirl.create(:seed_planting, :crop => crop)
+      planting3 = FactoryGirl.create(:seedling_planting, :crop => crop)
+      planting4 = FactoryGirl.create(:cutting_planting, :crop => crop)
+      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
     end
 
     it 'ignores unused planted_from values' do
-      planting1 = FactoryGirl.create(:seed_planting, :crop => @crop)
-      planting2 = FactoryGirl.create(:seed_planting, :crop => @crop)
-      planting3 = FactoryGirl.create(:seedling_planting, :crop => @crop)
-      @crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
+      planting1 = FactoryGirl.create(:seed_planting, :crop => crop)
+      planting2 = FactoryGirl.create(:seed_planting, :crop => crop)
+      planting3 = FactoryGirl.create(:seedling_planting, :crop => crop)
+      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
     end
   end
 
   context 'popular plant parts' do
-    before(:each) do
-      @crop = FactoryGirl.create(:tomato)
-    end
+
+    let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of plant_part values' do
-      @crop.popular_plant_parts.should be_an_instance_of Hash
+      crop.popular_plant_parts.should be_an_instance_of Hash
     end
 
     it 'counts each plant_part value' do
@@ -190,22 +187,22 @@ describe Crop do
       @root = FactoryGirl.create(:plant_part)
       @bulb = FactoryGirl.create(:plant_part)
       @harvest1 = FactoryGirl.create(:harvest,
-        :crop => @crop,
+        :crop => crop,
         :plant_part => @fruit
       )
       @harvest2 = FactoryGirl.create(:harvest,
-        :crop => @crop,
+        :crop => crop,
         :plant_part => @fruit
       )
       @harvest3 = FactoryGirl.create(:harvest,
-        :crop => @crop,
+        :crop => crop,
         :plant_part => @seed
       )
       @harvest4 = FactoryGirl.create(:harvest,
-        :crop => @crop,
+        :crop => crop,
         :plant_part => @root
       )
-      @crop.popular_plant_parts.should == { @fruit => 2, @seed => 1, @root => 1 }
+      crop.popular_plant_parts.should == { @fruit => 2, @seed => 1, @root => 1 }
     end
 
   end
@@ -327,21 +324,24 @@ describe Crop do
   end
 
   context "search" do
-    before :each do
-      @mushroom = FactoryGirl.create(:crop, :name => 'mushroom')
-      sync_elasticsearch([@mushroom])
+    
+    let(:mushroom) { FactoryGirl.create(:crop, :name => 'mushroom') }
+
+    before do
+      sync_elasticsearch([mushroom])
     end
+
     it "finds exact matches" do
-      Crop.search('mushroom').should eq [@mushroom]
+      Crop.search('mushroom').should eq [mushroom]
     end
     it "finds approximate matches" do
-      Crop.search('mush').should eq [@mushroom]
+      Crop.search('mush').should eq [mushroom]
     end
     it "doesn't find non-matches" do
       Crop.search('mush').should_not include @crop
     end
     it "searches case insensitively" do
-      Crop.search('mUsH').should include @mushroom
+      Crop.search('mUsH').should include mushroom
     end
     it "doesn't find 'rejected' crop" do
       @rejected_crop = FactoryGirl.create(:rejected_crop, :name => 'tomato')

@@ -44,14 +44,6 @@ describe "plantings/show" do
       rendered.should have_content 'Sun or shade?'
       rendered.should have_content 'sun'
     end
-
-    it "doesn't show sunniness if blank" do
-      @p.sunniness = ''
-      @p.save
-      render
-      rendered.should_not have_content 'Sun or shade?'
-      rendered.should_not have_content 'sun'
-    end
   end
 
   context 'planted from' do

@@ -45,34 +45,18 @@
 
     %h3 What's planted here?
     - if @garden.plantings.current.size > 0
-      .container
-        .row
-          .col-md-1
-            %b #
-          .col-md-3
-            %b Photo
-          .col-md-6
-            %b Planting Details
-          .col-md-2
+      .row
         - @garden.plantings.current.each.with_index do |planting_current, index_current|
-          = render partial: "plantings/thumbnail", locals: {:planting => planting_current, :index => index_current}
+          = render partial: "plantings/thumbnail", locals: {:planting => planting_current}
     - else
       %p
         Nothing is currently planted here.
 
     %h3 Previously planted in this garden
     - if @garden.plantings.finished.size > 0
-      .container
-        .row
-          .col-md-1
-            %b #
-          .col-md-3
-            %b Photo
-          .col-md-6
-            %b Planting Details
-          .col-md-2
-        - @garden.plantings.finished.each.with_index do |planting_finished, index_finished|
-          = render partial: "plantings/thumbnail", locals: {:planting => planting_finished, :index => index_finished}
+      .row
+        - @garden.plantings.finished.each.with_index do |planting_finished|
+          = render partial: "plantings/thumbnail", locals: {:planting => planting_finished}
       
   .col-md-3
     %h4 About this garden

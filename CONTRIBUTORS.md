@@ -60,3 +60,7 @@ submit the change with your pull request.
 - Gabriel Sandoval / [gabrielsandoval](https://github.com/gabrielsandoval)
 - Cjay Billones / [CjayBillones](https://github.com/CjayBillones)
 - Katy Ereira / [maccath](https://github.com/maccath)
+- Gabrielle DeWitt / [gabrielle27](https://github.com/gabrielle27)
+- Manmeet Singh / [manmeetsingh](https://github.com/manmeetsingh)
+- Jym Paul Carandang / [jacarandang](https://github.com/jacarandang)
+- Anthony Atkinson / [sha1sum](https://github.com/sha1sum)

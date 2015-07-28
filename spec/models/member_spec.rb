@@ -3,105 +3,103 @@ require 'rails_helper'
 describe 'member' do
 
   context 'valid member' do
-    before(:each) do
-      @member = FactoryGirl.create(:member)
-    end
+
+    let(:member) { FactoryGirl.create(:member) }
 
     it 'should be fetchable from the database' do
-      @member2 = Member.find(@member.id)
+      @member2 = Member.find(member.id)
       @member2.should be_an_instance_of Member
       @member2.login_name.should match(/member\d+/)
       @member2.encrypted_password.should_not be_nil
     end
 
     it 'should have a friendly slug' do
-      @member.slug.should match(/member\d+/)
+      member.slug.should match(/member\d+/)
     end
 
     it 'has a bio' do
-      @member.bio = 'I love seeds'
-      @member.bio.should eq 'I love seeds'
+      member.bio = 'I love seeds'
+      member.bio.should eq 'I love seeds'
     end
 
     it 'should have a default garden' do
-      @member.gardens.count.should == 1
+      member.gardens.count.should == 1
     end
 
     it 'should have a accounts entry' do
-      @member.account.should be_an_instance_of Account
+      member.account.should be_an_instance_of Account
     end
 
     it "should have a default-type account by default" do
-      @member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
-      @member.is_paid?.should be(false)
+      member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
+      member.is_paid?.should be(false)
     end
 
     it "doesn't show email by default" do
-      @member.show_email.should be(false)
+      member.show_email.should be(false)
     end
 
     it 'should stringify as the login_name' do
-      @member.to_s.should match(/member\d+/)
-      "#{@member}".should match(/member\d+/)
+      member.to_s.should match(/member\d+/)
+      "#{member}".should match(/member\d+/)
     end
 
     it 'should be able to fetch posts' do
-      @post = FactoryGirl.create(:post, :author => @member)
-      @member.posts.should eq [@post]
+      @post = FactoryGirl.create(:post, :author => member)
+      member.posts.should eq [@post]
     end
 
     it 'should be able to fetch gardens' do
-      @member.gardens.first.name.should eq "Garden"
+      member.gardens.first.name.should eq "Garden"
     end
 
     it 'has many plantings' do
-      @planting = FactoryGirl.create(:planting, :owner => @member)
-      @member.plantings.size.should eq 1
+      @planting = FactoryGirl.create(:planting, :owner => member)
+      member.plantings.size.should eq 1
     end
 
     it "has many comments" do
-      @comment1 = FactoryGirl.create(:comment, :author => @member)
-      @comment2 = FactoryGirl.create(:comment, :author => @member)
-      @member.comments.length.should == 2
+      @comment1 = FactoryGirl.create(:comment, :author => member)
+      @comment2 = FactoryGirl.create(:comment, :author => member)
+      member.comments.length.should == 2
     end
 
     it "has many forums" do
-      @forum1 = FactoryGirl.create(:forum, :owner => @member)
-      @forum2 = FactoryGirl.create(:forum, :owner => @member)
-      @member.forums.length.should == 2
+      @forum1 = FactoryGirl.create(:forum, :owner => member)
+      @forum2 = FactoryGirl.create(:forum, :owner => member)
+      member.forums.length.should == 2
     end
 
     it 'has location and lat/long fields' do
-      @member.update_attributes(:location => 'Greenwich, UK')
-      @member.location.should eq 'Greenwich, UK'
-      @member.latitude.round(2).should eq 51.48
-      @member.longitude.round(2).should eq 0.00
+      member.update_attributes(:location => 'Greenwich, UK')
+      member.location.should eq 'Greenwich, UK'
+      member.latitude.round(2).should eq 51.48
+      member.longitude.round(2).should eq 0.00
     end
 
     it 'empties the lat/long if location removed' do
-      @member.update_attributes(:location => 'Greenwich, UK')
-      @member.update_attributes(:location => '')
-      @member.location.should eq ''
-      @member.latitude.should be_nil
-      @member.longitude.should be_nil
+      member.update_attributes(:location => 'Greenwich, UK')
+      member.update_attributes(:location => '')
+      member.location.should eq ''
+      member.latitude.should be_nil
+      member.longitude.should be_nil
     end
 
     it 'fails gracefully for unfound locations' do
-      @member.update_attributes(:location => 'Tatooine')
-      @member.location.should eq 'Tatooine'
-      @member.latitude.should be_nil
-      @member.longitude.should be_nil
+      member.update_attributes(:location => 'Tatooine')
+      member.location.should eq 'Tatooine'
+      member.latitude.should be_nil
+      member.longitude.should be_nil
     end
 
   end
 
   context 'no TOS agreement' do
-    before(:each) do
-      @member = FactoryGirl.build(:no_tos_member)
-    end
+
+    let(:member) { FactoryGirl.build(:no_tos_member) }
 
     it "should refuse to save a member who hasn't agreed to the TOS" do
-      @member.save.should_not be(true)
+      member.save.should_not be(true)
     end
   end
 
@@ -190,15 +188,17 @@ describe 'member' do
   end
 
   context 'roles' do
-    before(:each) do
-      @member = FactoryGirl.create(:member)
-      @role = FactoryGirl.create(:role)
-      @member.roles << @role
+
+    let(:member) { FactoryGirl.create(:member) }
+    let(:role) { FactoryGirl.create(:role) }
+
+    before do
+      member.roles << role
     end
 
     it 'has a role' do
-      @member.roles.first.should eq @role
-      @member.has_role?(:moderator).should eq true
+      member.roles.first.should eq role
+      member.has_role?(:moderator).should eq true
     end
 
     it 'sets up roles in factories' do
@@ -209,8 +209,8 @@ describe 'member' do
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
       @role = FactoryGirl.create(:role, :name => "a b c")
-      @member.roles << @role
-      @member.has_role?(:a_b_c).should eq true
+      member.roles << @role
+      member.has_role?(:a_b_c).should eq true
     end
   end
 
@@ -303,73 +303,71 @@ describe 'member' do
   end
 
   context "paid accounts" do
-    before(:each) do
-      @member = FactoryGirl.create(:member)
-    end
+
+    let(:member) { FactoryGirl.create(:member) }
 
     it "recognises a permanent paid account" do
       @account_type = FactoryGirl.create(:account_type,
           :is_paid => true, :is_permanent_paid => true)
-      @member.account.account_type = @account_type
-      @member.is_paid?.should be(true)
+      member.account.account_type = @account_type
+      member.is_paid?.should be(true)
     end
 
     it "recognises a current paid account" do
       @account_type = FactoryGirl.create(:account_type,
           :is_paid => true, :is_permanent_paid => false)
-      @member.account.account_type = @account_type
-      @member.account.paid_until = Time.zone.now + 1.month
-      @member.is_paid?.should be(true)
+      member.account.account_type = @account_type
+      member.account.paid_until = Time.zone.now + 1.month
+      member.is_paid?.should be(true)
     end
 
     it "recognises an expired paid account" do
       @account_type = FactoryGirl.create(:account_type,
           :is_paid => true, :is_permanent_paid => false)
-      @member.account.account_type = @account_type
-      @member.account.paid_until = Time.zone.now - 1.minute
-      @member.is_paid?.should be(false)
+      member.account.account_type = @account_type
+      member.account.paid_until = Time.zone.now - 1.minute
+      member.is_paid?.should be(false)
     end
 
     it "recognises a free account" do
       @account_type = FactoryGirl.create(:account_type,
           :is_paid => false, :is_permanent_paid => false)
-      @member.account.account_type = @account_type
-      @member.is_paid?.should be(false)
+      member.account.account_type = @account_type
+      member.is_paid?.should be(false)
     end
 
     it "recognises a free account even with paid_until set" do
       @account_type = FactoryGirl.create(:account_type,
           :is_paid => false, :is_permanent_paid => false)
-      @member.account.account_type = @account_type
-      @member.account.paid_until = Time.zone.now + 1.month
-      @member.is_paid?.should be(false)
+      member.account.account_type = @account_type
+      member.account.paid_until = Time.zone.now + 1.month
+      member.is_paid?.should be(false)
     end
 
   end
 
   context "update account" do
-    before(:each) do
-      @product = FactoryGirl.create(:product,
-        :paid_months => 3
-      )
-      @member = FactoryGirl.create(:member)
-    end
+
+    let(:product) { FactoryGirl.create(:product,
+      :paid_months => 3
+    )}
+    let(:member) { FactoryGirl.create(:member) }
 
     it "sets account_type" do
-      @member.update_account_after_purchase(@product)
-      @member.account.account_type.should eq @product.account_type
+      member.update_account_after_purchase(product)
+      member.account.account_type.should eq product.account_type
     end
 
     it "sets paid_until" do
-      @member.account.paid_until = nil # blank for now, as if never paid before
-      @member.update_account_after_purchase(@product)
+      member.account.paid_until = nil # blank for now, as if never paid before
+      member.update_account_after_purchase(product)
 
       # stringify to avoid millisecond problems...
-      @member.account.paid_until.to_s.should eq (Time.zone.now + 3.months).to_s
+      member.account.paid_until.to_s.should eq (Time.zone.now + 3.months).to_s
 
       # and again to make sure it works for currently paid accounts
-      @member.update_account_after_purchase(@product)
-      @member.account.paid_until.to_s.should eq (Time.zone.now + 3.months + 3.months).to_s
+      member.update_account_after_purchase(product)
+      member.account.paid_until.to_s.should eq (Time.zone.now + 3.months + 3.months).to_s
     end
   end
 
@@ -382,30 +380,33 @@ describe 'member' do
   end
 
   context 'member who followed another member' do
-    before(:each) do
-      @member1 = FactoryGirl.create(:member)
-      @member2 = FactoryGirl.create(:member)
-      @member3 = FactoryGirl.create(:member)
-      @follow = @member1.follows.create(:follower_id => @member1.id, :followed_id => @member2.id)
+    
+
+    let(:member1) { FactoryGirl.create(:member) }
+    let(:member2) { FactoryGirl.create(:member) }
+    let(:member3) { FactoryGirl.create(:member) }    
+
+    before do
+      @follow = member1.follows.create(:follower_id => member1.id, :followed_id => member2.id)
     end
 
     context 'already_following' do
       it 'detects that member is already following a member' do
-        expect(@member1.already_following?(@member2)).to eq true
+        expect(member1.already_following?(member2)).to eq true
       end
 
       it 'detects that member is not already following a member' do
-        expect(@member1.already_following?(@member3)).to eq false
+        expect(member1.already_following?(member3)).to eq false
       end
     end
 
     context 'get_follow' do
       it 'gets the correct follow for a followed member' do
-        expect(@member1.get_follow(@member2).id).to eq @follow.id
+        expect(member1.get_follow(member2).id).to eq @follow.id
       end
 
       it 'returns nil for a member that is not followed' do
-        expect(@member1.get_follow(@member3)).to be_nil
+        expect(member1.get_follow(member3)).to be_nil
       end
     end
 

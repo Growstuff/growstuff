@@ -1,43 +1,42 @@
 require 'rails_helper'
 
 describe Post do
-  before(:each) do
-    @member = FactoryGirl.create(:member)
-  end
+
+  let(:member) { FactoryGirl.create(:member) }
 
   it "should be sorted in reverse order" do
     FactoryGirl.create(:post,
       :subject => 'first entry',
-      :author => @member,
+      :author => member,
       :created_at => 2.days.ago
     )
     FactoryGirl.create(:post,
       :subject => 'second entry',
-      :author => @member,
+      :author => member,
       :created_at => 1.day.ago
     )
     Post.first.subject.should == "second entry"
   end
 
   it "should have a slug" do
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, :author => member)
     @time = @post.created_at
     @datestr = @time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years
     # Counting digits using Math.log is not precise enough!
     @datestr.length.should == 4 + @time.year.to_s.size
-    @post.slug.should == "#{@member.login_name}-#{@datestr}-a-post"
+    @post.slug.should == "#{member.login_name}-#{@datestr}-a-post"
   end
 
   it "has many comments" do
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, :author => member)
     @comment1 = FactoryGirl.create(:comment, :post => @post)
     @comment2 = FactoryGirl.create(:comment, :post => @post)
     @post.comments.length.should == 2
   end
 
   it "destroys comments when deleted" do
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, :author => member)
     @comment1 = FactoryGirl.create(:comment, :post => @post)
     @comment2 = FactoryGirl.create(:comment, :post => @post)
     @post.comments.length.should == 2
@@ -67,19 +66,21 @@ describe Post do
   end
 
   context "recent activity" do
-    before(:each) do
+
+    before do
       Time.stub(:now => Time.now)
-      @post = FactoryGirl.create(:post, :created_at => 1.day.ago)
     end
+    
+    let(:post) { FactoryGirl.create(:post, :created_at => 1.day.ago) }
 
     it "sets recent activity to post time" do
-      @post.recent_activity.to_i.should eq @post.created_at.to_i
+      post.recent_activity.to_i.should eq post.created_at.to_i
     end
 
     it "sets recent activity to comment time" do
-      @comment = FactoryGirl.create(:comment, :post => @post,
+      @comment = FactoryGirl.create(:comment, :post => post,
           :created_at => 1.hour.ago)
-      @post.recent_activity.to_i.should eq @comment.created_at.to_i
+      post.recent_activity.to_i.should eq @comment.created_at.to_i
     end
 
     it "shiny new post is recently active" do
@@ -90,8 +91,8 @@ describe Post do
 
     it "new comment on old post is recently active" do
       # now comment on an older post
-      @comment2 = FactoryGirl.create(:comment, :post => @post, :created_at => 1.second.ago)
-      Post.recently_active.first.should eq @post
+      @comment2 = FactoryGirl.create(:comment, :post => post, :created_at => 1.second.ago)
+      Post.recently_active.first.should eq post
     end
   end
 

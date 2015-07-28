@@ -13,7 +13,9 @@
 
     - if can? :create, Seed
       = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
-
+  - if member_signed_in?
+    = display_seed_availability(@current_member, @crop)
+    = link_to "View your seeds", seeds_by_owner_path(:owner => current_member.slug)
 
 .row
   .col-md-9
