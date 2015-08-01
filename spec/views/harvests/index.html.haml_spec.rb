@@ -43,14 +43,6 @@ describe "harvests/index" do
     render
   end
 
-  it "renders a list of harvests" do
-    render
-    assert_select "tr>td", :text => @member.login_name
-    assert_select "tr>td", :text => @tomato.name
-    assert_select "tr>td", :text => @maize.name
-    assert_select "tr>td", :text => @pp.name
-  end
-
   it "provides data links" do
     render
     rendered.should have_content "The data on this page is available in the following formats:"

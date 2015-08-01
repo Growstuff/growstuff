@@ -1,14 +1,20 @@
 require 'rails_helper'
 
-feature "Notifications", :js => true do
-  let(:sender) { FactoryGirl.create(:member) }
-  let(:recipient) { FactoryGirl.create(:member) }
-  
+feature "Notifications", :js do
+  let(:sender) { create :member }
+  let(:recipient) { create :member }
+
   context "On existing notification" do
-    let!(:notification) { FactoryGirl.create(:notification, sender: sender, recipient: recipient, body: "Notification body", :post_id => nil) }
+    let!(:notification) {
+      create :notification,
+             sender: sender,
+             recipient: recipient,
+             body: "Notification body",
+             post_id: nil
+    }
 
     background do
-      login_as(recipient)
+      login_as recipient
       visit notification_path(notification)
     end
 
