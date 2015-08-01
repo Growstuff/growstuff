@@ -63,3 +63,4 @@ submit the change with your pull request.
 - Gabrielle DeWitt / [gabrielle27](https://github.com/gabrielle27)
 - Manmeet Singh / [manmeetsingh](https://github.com/manmeetsingh)
 - Jym Paul Carandang / [jacarandang](https://github.com/jacarandang)
+- Anthony Atkinson / [sha1sum](https://github.com/sha1sum)

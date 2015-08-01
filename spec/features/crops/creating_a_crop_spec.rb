@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 feature "Crop - " do
-  let!(:crop_wrangler) { FactoryGirl.create(:crop_wrangling_member)}
-  let!(:member) { FactoryGirl.create(:member)}
+  let!(:crop_wrangler) { create :crop_wrangling_member }
+  let!(:member) { create :member }
 
   background do
     login_as member
     visit new_crop_path
   end
 
-  scenario "creating a crop with multiple scientific and alternate name", :js => true do
+  scenario "creating a crop with multiple scientific and alternate name", :js do
     within "form#new_crop" do
       fill_in "crop_name", with: "Philippine flower"
       fill_in "en_wikipedia_url", with: "https://en.wikipedia.org/wiki/Jasminum_sambac"
@@ -27,10 +27,8 @@ feature "Crop - " do
       click_button "Save"
     end
 
-    save_and_open_page
     expect(page).to have_content "Crop was successfully requested."
     expect(page).to have_content "Jasminum sambac 2"
     expect(page).to have_content "Matsurika"
   end
-
 end

@@ -14,3 +14,4 @@ custom_plan.rb
 zeus.json
 .bundle
 config/application.yml
+.idea/**
