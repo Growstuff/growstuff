@@ -25,9 +25,9 @@
           %dd= garden.active ? "Yes" : "No"
       .col-md-12
         %b
-          = "#{pluralize(garden.plantings.count, "Planting")} : "
+          = "#{pluralize(garden.plantings.size, "Planting")} : "
         = display_garden_plantings(garden.plantings.current)
-        - if garden.plantings.count > 2
+        - if garden.plantings.size > 2
           %br
           = link_to "See more plantings >>", garden_path(garden)
   .panel-footer

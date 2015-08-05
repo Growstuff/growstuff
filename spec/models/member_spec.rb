@@ -23,7 +23,7 @@ describe 'member' do
     end
 
     it 'should have a default garden' do
-      member.gardens.count.should == 1
+      member.gardens.size.should == 1
     end
 
     it 'should have a accounts entry' do
@@ -61,13 +61,13 @@ describe 'member' do
     it "has many comments" do
       @comment1 = FactoryGirl.create(:comment, :author => member)
       @comment2 = FactoryGirl.create(:comment, :author => member)
-      member.comments.length.should == 2
+      member.comments.size.should == 2
     end
 
     it "has many forums" do
       @forum1 = FactoryGirl.create(:forum, :owner => member)
       @forum2 = FactoryGirl.create(:forum, :owner => member)
-      member.forums.length.should == 2
+      member.forums.size.should == 2
     end
 
     it 'has location and lat/long fields' do
@@ -221,12 +221,12 @@ describe 'member' do
     end
 
     it 'sees confirmed members' do
-      Member.confirmed.count.should == 2
+      Member.confirmed.size.should == 2
     end
 
     it 'ignores unconfirmed members' do
       @member3 = FactoryGirl.create(:unconfirmed_member)
-      Member.confirmed.count.should == 2
+      Member.confirmed.size.should == 2
     end
   end
 

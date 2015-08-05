@@ -232,7 +232,7 @@ describe Crop do
 
       Crop.interesting.should include @crop1
       Crop.interesting.should include @crop2
-      Crop.interesting.length.should == 2
+      Crop.interesting.size.should == 2
     end
 
     it 'ignores crops without plantings' do
@@ -254,7 +254,7 @@ describe Crop do
 
       Crop.interesting.should include @crop1
       Crop.interesting.should_not include @crop2
-      Crop.interesting.length.should == 1
+      Crop.interesting.size.should == 1
 
     end
 
@@ -280,7 +280,7 @@ describe Crop do
 
       Crop.interesting.should include @crop1
       Crop.interesting.should_not include @crop2
-      Crop.interesting.length.should == 1
+      Crop.interesting.size.should == 1
     end
 
   end

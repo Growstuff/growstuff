@@ -19,7 +19,7 @@ describe Forum do
   it "has many posts" do
     @post1 = FactoryGirl.create(:forum_post, :forum => forum)
     @post2 = FactoryGirl.create(:forum_post, :forum => forum)
-    forum.posts.length.should == 2
+    forum.posts.size.should == 2
   end
 
   it "orders posts in reverse chron order" do

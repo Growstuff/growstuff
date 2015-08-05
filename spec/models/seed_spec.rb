@@ -146,7 +146,7 @@ describe Seed do
       Seed.interesting.should_not include @seed2
       Seed.interesting.should_not include @seed3
       Seed.interesting.should_not include @seed4
-      Seed.interesting.length.should == 1
+      Seed.interesting.size.should == 1
     end
   end
 

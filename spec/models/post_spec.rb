@@ -24,7 +24,7 @@ describe Post do
     @datestr = @time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years
     # Counting digits using Math.log is not precise enough!
-    @datestr.length.should == 4 + @time.year.to_s.size
+    @datestr.size.should == 4 + @time.year.to_s.size
     @post.slug.should == "#{member.login_name}-#{@datestr}-a-post"
   end
 
@@ -32,14 +32,14 @@ describe Post do
     @post = FactoryGirl.create(:post, :author => member)
     @comment1 = FactoryGirl.create(:comment, :post => @post)
     @comment2 = FactoryGirl.create(:comment, :post => @post)
-    @post.comments.length.should == 2
+    @post.comments.size.should == 2
   end
 
   it "destroys comments when deleted" do
     @post = FactoryGirl.create(:post, :author => member)
     @comment1 = FactoryGirl.create(:comment, :post => @post)
     @comment2 = FactoryGirl.create(:comment, :post => @post)
-    @post.comments.length.should == 2
+    @post.comments.size.should == 2
     all = Comment.count
     @post.destroy
     Comment.count.should == all - 2

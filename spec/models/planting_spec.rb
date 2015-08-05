@@ -229,7 +229,7 @@ describe Planting do
     context "with howmany argument" do
       it "only returns the number asked for" do
         @plantings = FactoryGirl.create_list(:planting, 10)
-        Planting.interesting(3, false).length.should eq 3
+        Planting.interesting(3, false).size.should eq 3
       end
     end
 
