@@ -23,8 +23,8 @@ feature "Harvesting a crop", :js do
     expect(page).to have_selector 'textarea#harvest_description[placeholder="optional"]'
   end
 
-  scenario "Creating a new harvest", :js => true do
-    fill_autocomplete "crop", :with => "mai"
+  scenario "Creating a new harvest", :js do
+    fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
     within "form#new_harvest" do
       fill_in "When?", with: "2014-06-15"
@@ -38,7 +38,7 @@ feature "Harvesting a crop", :js do
   end
 
   context "Clicking edit from the index page" do
-    let!(:harvest) { FactoryGirl.create(:harvest, :crop => maize, :owner => member) }
+    let!(:harvest) { create :harvest, crop: maize, owner: member }
 
     background do
       visit harvests_path
