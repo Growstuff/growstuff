@@ -29,12 +29,6 @@ class Crop < ActiveRecord::Base
   scope :pending_approval, -> { where(:approval_status => "pending") }
   scope :approved, -> { where(:approval_status => "approved") }
   scope :rejected, -> { where(:approval_status => "rejected") }
-  # Crops with enough plantings and photos
-  # ActiveRecord wizardry copied from
-  # http://stackoverflow.com/questions/13226913/how-do-i-select-all-records-with-more-than-n-child-records
-  scope :has_plantings, ->(min_plantings) { select("crops.*").joins(:plantings).group("crops.id").having("count(crops.id) >= ?", min_plantings) }
-  scope :has_photos, ->(min_photos) { select("crops.*").joins(:photos).group("crops.id").having("count(crops.id) >= ?", min_photos) }
-  scope :interesting, -> { has_plantings(3).has_photos(3).randomized.limit(12) }
 
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
@@ -180,6 +174,14 @@ class Crop < ActiveRecord::Base
     return popular_plant_parts
   end
 
+  def interesting?
+    min_plantings = 3 # needs this many plantings to be interesting
+    min_photos    = 3 # needs this many photos to be interesting
+    return false unless photos.size >= min_photos
+    return false unless plantings_count >= min_plantings
+    return true
+  end
+
   def pending?
     approval_status == "pending"
   end
@@ -198,6 +200,19 @@ class Crop < ActiveRecord::Base
 
   def reasons_for_rejection
     [ "already in database", "not edible", "not enough information", "other" ]
+  end
+
+  # Crop.interesting
+  # returns a list of interesting crops, for use on the homepage etc
+  def Crop.interesting
+  howmany = 12 # max number to find
+  interesting_crops = Array.new
+    Crop.randomized.each do |c|
+      break if interesting_crops.size == howmany
+      next unless c.interesting?
+      interesting_crops.push(c)
+    end
+    return interesting_crops
   end
 
 # Crop.create_from_csv(row)
