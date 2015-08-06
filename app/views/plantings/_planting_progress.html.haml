@@ -1,4 +1,4 @@
-- if DateTime.now.to_date < planting.planted_at
+- if (planting.planted_at.nil? || DateTime.now.to_date < planting.planted_at)
 	= "Progress: 0% - not planted yet"
 	= render partial: "plantings/progress_bar", locals: {status: "warning", progress: "100%"}
 - elsif planting.finished?
