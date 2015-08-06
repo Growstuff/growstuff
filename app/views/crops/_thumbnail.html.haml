@@ -1,7 +1,7 @@
-- cache cache_key_for(Crop) do
-  .thumbnail
-    .crop-thumbnail
-      - if crop
+.thumbnail
+  .crop-thumbnail
+    - if crop
+      - cache cache_key_for(crop) do
         = link_to image_tag((crop.default_photo ?  crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => crop.name, :class => 'img'), crop
         .cropinfo
           .cropname
