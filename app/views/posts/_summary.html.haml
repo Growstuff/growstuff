@@ -15,8 +15,7 @@
           %td.hidden-xs
             =link_to post.author, post.author
           %td
-            = post.recent_activity.to_date.to_formatted_s(:short)
-            // once the site gets more active, can change this to include time as well
-            // can't make it relative (distance_of_time_in_words) as it's cached
+            = distance_of_time_in_words(post.recent_activity, Time.zone.now)
+            ago
           %td.hidden-xs
             = post.comments.size.to_s
