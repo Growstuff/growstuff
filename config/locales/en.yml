@@ -17,18 +17,6 @@ en:
   layouts:
     header:
       skip: "Skip navigation menu"
-    footer:
-      about: "About"
-      our_values: "Our Values"
-      open_source: "Open Source"
-      growstuff_team: "Growstuff Team"
-      get_involved: "Get Involved"
-      terms_of_service: "Terms of Service"
-      privacy_policy: "Privacy Policy"
-      data_use_policy: "Data Use Policy"
-      community_guidelines: "Community Guidelines"
-      support_: "Support" # for some reason 'support' seems to be a reserved word
-      contact: "Contact"
 
   home:
     blurb:
