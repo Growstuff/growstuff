@@ -29,7 +29,9 @@ gem 'unicorn'                      # http server
 gem 'pg'
 gem 'figaro'                       # for handling config via ENV variables
 gem 'cancancan', '~> 1.9'          # for checking member privileges
-gem 'gibbon'                       # for Mailchimp newsletter subscriptions
+gem 'gibbon', '=0.4.6'             # for Mailchimp newsletter subscriptions
+# Gibbon >0.5.0 targets MailChimp API 2.0, which is substantially different from API 1.3.
+# Please use Gibbon 0.4.6 if you need to use API 1.3.
 gem 'csv_shaper'                   # CSV export
 gem 'ruby-units'                   # for unit conversion
 
