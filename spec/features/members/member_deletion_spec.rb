@@ -36,9 +36,12 @@ feature "member deletion" do
     
     scenario "requests confirmation for deletion", :js => true do
       visit member_path(member)
-      Capybara.current_driver = :selenium
+      Capybara.current_driver = :poltergeist
+      page.execute_script "
+        window.confirmMsg = null;
+        window.confirm = function(msg) { window.confirmMsg = msg; return true; };"
       click_link 'Delete account'
-      expect(page.driver.browser.switch_to.alert.text).to eq("Are you sure?")
+      expect(page.evaluate_script('window.confirmMsg')).to eq('Are you sure?')
       Capybara.current_driver = :default
     end
     
