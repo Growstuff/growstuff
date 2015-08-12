@@ -73,9 +73,6 @@ Growstuff::Application.routes.draw do
 
   get 'auth/:provider/callback' => 'authentications#create'
 
-  get '/about' => 'about#index'
-  get '/about/:action' => 'about#:action'
-
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
 
