@@ -126,6 +126,12 @@ feature "member profile" do
       expect(page).to have_text "Crop Wrangler"
     end
 
+    scenario "ordinary user's page" do
+      visit member_path(other_member)
+      expect(page).to_not have_text "Crop Wrangler"
+      expect(page).to_not have_text "Admin"
+    end
+
     context "your own profile page" do
       background do
         visit member_path(member)
