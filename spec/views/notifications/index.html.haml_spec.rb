@@ -26,9 +26,10 @@ describe "notifications/index" do
     before(:each) do
       @notification = FactoryGirl.create(:notification, :sender => @member,
                                          :recipient => @member)
-      assign(:notifications, [ @notification, @notification ])
+      assign(:notifications, Kaminari.paginate_array([ @notification, @notification ]).page(1))
       render
     end
+
 
     it "renders a list of notifications" do
       assert_select "table"
@@ -45,7 +46,7 @@ describe "notifications/index" do
     it "shows (no subject)" do
       @notification = FactoryGirl.create(:notification,
          :sender => @member, :recipient => @member, :subject => nil)
-      assign(:notifications, [@notification])
+      assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
       rendered.should have_content "(no subject)"
     end
@@ -55,7 +56,7 @@ describe "notifications/index" do
     it "shows (no subject)" do
       @notification = FactoryGirl.create(:notification,
          :sender => @member, :recipient => @member, :subject => "   ")
-      assign(:notifications, [@notification])
+      assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
       rendered.should have_content "(no subject)"
     end

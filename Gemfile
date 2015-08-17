@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.1.6'
 
-gem 'rails', '4.1.9'
+gem 'rails', '4.1.11'
 
 gem 'bundler', '>=1.1.5'
 
@@ -34,6 +34,9 @@ gem 'csv_shaper'                   # CSV export
 gem 'ruby-units'                   # for unit conversion
 
 gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
+
+gem 'kaminari'                     # pagination
+gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch

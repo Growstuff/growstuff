@@ -11,6 +11,9 @@ csv.headers :id,
   :latitude,
   :longitude,
   :description,
+  :organic,
+  :gmo,
+  :heirloom,
   :date_added,
   :last_modified,
   :license
@@ -37,6 +40,9 @@ csv.headers :id,
     csv.cell :longitude, s.owner.longitude
 
     csv.cell :description
+    csv.cell :organic
+    csv.cell :gmo
+    csv.cell :heirloom
 
     csv.cell :date_added, s.created_at.to_s(:db)
     csv.cell :last_modified, s.updated_at.to_s(:db)

@@ -65,3 +65,4 @@ submit the change with your pull request.
 - Jym Paul Carandang / [jacarandang](https://github.com/jacarandang)
 - Anthony Atkinson / [sha1sum](https://github.com/sha1sum)
 - Terence Conquest / [twconquest](https://github.com/twconquest)
+- Daniel O'Connor / [CloCkWeRX](https://github.com/CloCkWeRX)

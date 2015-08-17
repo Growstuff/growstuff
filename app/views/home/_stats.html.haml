@@ -1,7 +1,7 @@
 - cache("homepage_stats") do
   %p.stats
-    = t('.message_html', { member: link_to(t('.member_linktext', count: Member.confirmed.count.to_i), members_path), 
-                           number_crops: link_to(t('.number_crops_linktext', count: Crop.count.to_i), crops_path), 
+    = t('.message_html', { member: link_to(t('.member_linktext', count: Member.confirmed.size.to_i), members_path),
+                           number_crops: link_to(t('.number_crops_linktext', count: Crop.count.to_i), crops_path),
                            number_plantings: link_to(t('.number_plantings_linktext', count: Planting.count.to_i), plantings_path), 
                            number_gardens: link_to(t('.number_gardens_linktext', count: Garden.count.to_i), gardens_path) })
 
