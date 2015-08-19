@@ -109,9 +109,27 @@ feature "member profile" do
   context "signed in member" do
     let(:member) { create :member }
     let(:other_member) { create :member }
+    let(:admin_member) { create :admin_member }
+    let(:crop_wrangler) { create :crop_wrangling_member }
 
     background do
       login_as(member)
+    end
+
+    scenario "admin user's page" do
+      visit member_path(admin_member)
+      expect(page).to have_text "Admin"
+    end
+
+    scenario "crop wrangler's page" do
+      visit member_path(crop_wrangler)
+      expect(page).to have_text "Crop Wrangler"
+    end
+
+    scenario "ordinary user's page" do
+      visit member_path(other_member)
+      expect(page).to_not have_text "Crop Wrangler"
+      expect(page).to_not have_text "Admin"
     end
 
     context "your own profile page" do
