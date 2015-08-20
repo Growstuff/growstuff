@@ -123,7 +123,7 @@ class MembersController < ApplicationController
       end
     end
     
-    Member.update(@member, deleted?: true)
+    Member.update(@member, deleted: true)
     if @member.save!
       redirect_to root_url, notice: "Member deleted."
     end

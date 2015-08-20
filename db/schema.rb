@@ -307,7 +307,7 @@ ActiveRecord::Schema.define(version: 20150824145414) do
     t.boolean  "newsletter"
     t.boolean  "send_planting_reminder",  default: true
     t.string   "preferred_avatar_uri"
-    t.boolean  "deleted?",                default: false
+    t.boolean  "deleted",                 default: false
   end
 
   add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree

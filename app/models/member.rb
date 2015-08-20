@@ -34,8 +34,8 @@ class Member < ActiveRecord::Base
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
   scope :recently_joined, -> { reorder("confirmed_at desc") }
   scope :wants_newsletter, -> { where(newsletter: true) }
-  scope :deleted, -> { where(:deleted? => true) }
-  scope :undeleted, -> { where(:deleted? => false) }
+  scope :deleted, -> { where(:deleted => true) }
+  scope :undeleted, -> { where(:deleted => false) }
 
   has_many :follows, class_name: "Follow", foreign_key: "follower_id"
   has_many :followed, through: :follows
