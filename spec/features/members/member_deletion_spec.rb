@@ -36,7 +36,7 @@ feature "member deletion" do
     
     scenario "requests confirmation for deletion", :js => true do
       visit member_path(member)
-      delete_link = find_link 'Delete', href: member_path(member)
+      delete_link = find_link 'Delete account'
       expect(delete_link['data-confirm']).to eq 'Are you sure?'
     end
     
