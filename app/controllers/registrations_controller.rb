@@ -29,6 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     if successfully_updated
       if @member.deleted
+        sign_out @member
         redirect_to root_url, notice: "Member deleted."
       else
         set_flash_message :notice, :updated

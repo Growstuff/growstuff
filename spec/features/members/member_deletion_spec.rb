@@ -114,6 +114,8 @@ feature "member deletion" do
 
       scenario "removed from newsletter"
 
+      scenario "can no longer sign in"
+
     end
     
   end
