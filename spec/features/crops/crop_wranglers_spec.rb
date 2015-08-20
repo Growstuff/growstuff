@@ -12,6 +12,7 @@ feature "crop wranglers", :js => true do
 
     scenario "sees crop wranglers listed on the crop wrangler page" do
       visit root_path
+      click_link member.login_name
       click_link 'Crop Wrangling'
 
       within '.crop_wranglers' do
@@ -24,6 +25,7 @@ feature "crop wranglers", :js => true do
 
     scenario "can see list of crops with extra detail of who created a crop" do
       visit root_path
+      click_link member.login_name
       click_link 'Crop Wrangling'
       within '#recently-added-crops' do
         expect(page).to have_content "#{crops.first.creator.login_name}"
@@ -39,6 +41,7 @@ feature "crop wranglers", :js => true do
 
     scenario "can create a new crop" do
       visit root_path
+      click_link member.login_name
       click_link 'Crop Wrangling'
       click_link 'Add Crop'
       fill_in 'Name', with: "aubergine"
@@ -69,8 +72,14 @@ feature "crop wranglers", :js => true do
 
     background { login_as member }
 
-    scenario "can't see wrangling page" do
+    scenario "can't see wrangling page without js", :js => false do
       visit root_path
+      expect(page).not_to have_link "Crop Wrangling"
+    end
+
+    scenario "can't see wrangling page with js" do
+      visit root_path
+      click_link member.login_name
       expect(page).not_to have_link "Crop Wrangling"
     end
   end

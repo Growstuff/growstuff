@@ -11,6 +11,15 @@ feature "account types", :js => true do
 
     scenario "navigating to account type admin" do
       visit root_path
+      click_link member.login_name
+      click_link "Admin"
+      expect(current_path).to eq admin_path
+      click_link "Account types"
+      expect(current_path).to eq account_types_path
+    end
+
+    scenario "navigating to account type admin without js", :js => false do
+      visit root_path
       click_link "Admin"
       expect(current_path).to eq admin_path
       click_link "Account types"
