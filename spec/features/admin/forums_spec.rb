@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "forums" do
+feature "forums", :js => true do
   context "as an admin user" do
     let(:member) { create :admin_member }
     let(:forum) { create :forum }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Members RSS feed' do
+feature 'Members RSS feed', :js => true do
   let(:member) { create :member }
 
   scenario 'The show action exists' do

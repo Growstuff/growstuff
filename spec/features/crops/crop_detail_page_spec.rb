@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "crop detail page" do
+feature "crop detail page", :js => true do
   let(:crop) { create :crop }
   
   subject { visit crop_path(crop) }
