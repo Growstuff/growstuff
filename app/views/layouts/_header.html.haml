@@ -18,7 +18,7 @@
 
     .navbar-collapse.collapse#navbar-collapse
       %ul.nav.navbar-nav.pull-right
-        %li.dropdown<
+        %li.dropdown#crops-menu<
           %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => crops_path}
             Crops
             %b.caret
@@ -27,7 +27,7 @@
             %li= link_to "Seeds", seeds_path
             %li= link_to "Plantings", plantings_path
             %li= link_to "Harvests", harvests_path
-        %li.dropdown<
+        %li.dropdown#community-menu<
           %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => members_path}
             Community
             %b.caret
@@ -39,7 +39,7 @@
             %li= link_to "Support Growstuff", shop_path
 
         - if member_signed_in?
-          %li.dropdown<
+          %li.dropdown#yourstuff-menu<
             %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => root_path}
               - if current_member.notifications.unread_count > 0
                 Your Stuff (#{current_member.notifications.unread_count})
