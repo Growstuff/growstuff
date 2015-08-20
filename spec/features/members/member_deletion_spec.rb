@@ -33,18 +33,30 @@ feature "member deletion" do
       visit member_path(member)
       expect(page).to have_link "Delete account"
     end
-    
-    scenario "requests confirmation for deletion", :js => true do
+
+    scenario "asks for password before deletion" do
       visit member_path(member)
-      delete_link = find_link 'Delete account'
-      expect(delete_link['data-confirm']).to eq 'Are you sure?'
+      click_link 'Delete account'
+      click_link 'Delete your account'
+      click_button "Delete"
+      expect(page).to have_content "Current password can't be blank"
     end
     
-    scenario "asks for password before deletion"
+    scenario "password must be correct" do
+      visit member_path(member)
+      click_link 'Delete account'
+      click_link 'Delete your account'
+      fill_in "Password required to delete", :with => "wrongpassword", :match => :prefer_exact
+      click_button "Delete"
+      expect(page).to have_content "Current password is invalid"
+    end
 
     scenario "deletes and removes bio" do
       visit member_path(member)
       click_link 'Delete account'
+      click_link 'Delete your account'
+      fill_in "Password required to delete", :with => "password1", :match => :prefer_exact
+      click_button "Delete"
       expect(page).to have_content "Member deleted"
       visit member_path(member)
       # Once we get proper 404s, this will change to something friendlier

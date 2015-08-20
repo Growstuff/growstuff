@@ -3,7 +3,7 @@
   = devise_error_messages!
 
   .form-group
-    = f.label :current_password, :class => 'control-label col-md-2'
+    = f.label :current_password, "Password required to delete", :class => 'control-label col-md-2'
     .col-md-4
       = f.password_field :current_password, :class => 'form-control'
 
