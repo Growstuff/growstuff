@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Posts RSS feed', :js => true do
+feature 'Posts RSS feed' do
   scenario 'The index feed exists' do
     visit posts_path(format: 'rss')
     expect(page.status_code).to equal 200
