@@ -4,7 +4,6 @@ class MembersController < ApplicationController
   skip_authorize_resource only: [:nearby, :unsubscribe, :finish_signup]
 
   after_action :expire_cache_fragments, only: :create
-  before_action :check_password, only: :delete
 
   def index
     @sort = params[:sort]
@@ -83,49 +82,6 @@ class MembersController < ApplicationController
         flash[:alert] = 'Failed to complete signup'
         @show_errors = true
       end
-    end
-  end
-  
-  def check_password
-      validates :current_password, :presence => TRUE
-  end
-  
-  def delete
-    @member = Member.find(params[:id])
-    
-    # move any of their crops to cropbot
-    if Role.crop_wranglers && (Role.crop_wranglers.include? @member)
-      cropbot = Member.find_by_login_name('ex_wrangler')
-      if Crop.find_by(creator: @member)
-        # this is ugly, need to make it more efficient
-        Crop.where(creator: @member).each do |crop|
-          Crop.update(crop, creator: cropbot)
-          crop.save!
-        end
-      end
-    end
-    
-    # mark their comments as deleted
-    ex_member = Member.find_by_login_name('ex_member')
-    if Comment.find_by(author: @member)
-      Comment.where(author: @member).each do |comment|
-        Comment.update(comment, author: ex_member, body: "This comment was removed as the author deleted their account.")
-        comment.save!
-      end
-    end
-    
-    # mark their posts as deleted
-    ex_member = Member.find_by_login_name('ex_member')
-    if Post.find_by(author: @member)
-      Post.where(author: @member).each do |post|
-        Post.update(post, author: ex_member, body: "This post was removed as the author deleted their account.")
-        post.save!
-      end
-    end
-    
-    Member.update(@member, deleted: true)
-    if @member.save!
-      redirect_to root_url, notice: "Member deleted."
     end
   end
 
