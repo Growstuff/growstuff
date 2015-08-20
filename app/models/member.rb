@@ -28,7 +28,7 @@ class Member < ActiveRecord::Base
   has_many :photos
 
 
-  default_scope { where(:deleted? => false) order("lower(login_name) asc") }
+  default_scope { order("lower(login_name) asc") }
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
@@ -196,7 +196,7 @@ class Member < ActiveRecord::Base
     # we assume we're being passed something from
     # Member.confirmed.located as those are required for
     # interestingness, as well.
-    return true if plantings.present?
+    return true if plantings.present? && !deleted?
     return false
   end
 

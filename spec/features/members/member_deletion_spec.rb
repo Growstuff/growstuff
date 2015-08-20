@@ -36,7 +36,7 @@ feature "member deletion" do
     
     scenario "requests confirmation for deletion", :js => true do
       visit member_path(member)
-      delete_link = find_link 'Delete', href: user_path(user)
+      delete_link = find_link 'Delete', href: member_path(member)
       expect(delete_link['data-confirm']).to eq 'Are you sure?'
     end
     
@@ -105,8 +105,14 @@ feature "member deletion" do
         expect(page).not_to have_content "#{member.login_name}"
         expect(page).to have_content "This comment was removed as the author deleted their account."
       end
-      
+
       scenario "leaves a record of orders and payments intact"
+
+      scenario "can't be interesting"
+
+      scenario "doesn't show in nearby"
+
+      scenario "removed from newsletter"
 
     end
     
