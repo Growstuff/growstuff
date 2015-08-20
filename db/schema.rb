@@ -275,8 +275,8 @@ ActiveRecord::Schema.define(version: 20150824145414) do
   add_index "harvests_photos", ["harvest_id", "photo_id"], name: "index_harvests_photos_on_harvest_id_and_photo_id", using: :btree
 
   create_table "members", force: true do |t|
-    t.string   "email",                   default: "",   null: false
-    t.string   "encrypted_password",      default: "",   null: false
+    t.string   "email",                   default: "",    null: false
+    t.string   "encrypted_password",      default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -307,6 +307,7 @@ ActiveRecord::Schema.define(version: 20150824145414) do
     t.boolean  "newsletter"
     t.boolean  "send_planting_reminder",  default: true
     t.string   "preferred_avatar_uri"
+    t.boolean  "deleted?",                default: false
   end
 
   add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree

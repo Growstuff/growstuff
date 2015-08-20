@@ -28,12 +28,14 @@ class Member < ActiveRecord::Base
   has_many :photos
 
 
-  default_scope { order("lower(login_name) asc") }
+  default_scope { where(:deleted? => false) order("lower(login_name) asc") }
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
   scope :recently_joined, -> { reorder("confirmed_at desc") }
   scope :wants_newsletter, -> { where(newsletter: true) }
+  scope :deleted, -> { where(:deleted? => true) }
+  scope :undeleted, -> { where(:deleted? => false) }
 
   has_many :follows, class_name: "Follow", foreign_key: "follower_id"
   has_many :followed, through: :follows

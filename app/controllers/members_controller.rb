@@ -4,7 +4,7 @@ class MembersController < ApplicationController
   skip_authorize_resource only: [:nearby, :unsubscribe, :finish_signup]
 
   after_action :expire_cache_fragments, only: :create
-  before_action :check_password, only: :destroy
+  before_action :check_password, only: :delete
 
   def index
     @sort = params[:sort]
@@ -90,7 +90,7 @@ class MembersController < ApplicationController
       validates :current_password, :presence => TRUE
   end
   
-  def mark_destroy
+  def delete
     @member = Member.find(params[:id])
     
     # move any of their crops to cropbot
