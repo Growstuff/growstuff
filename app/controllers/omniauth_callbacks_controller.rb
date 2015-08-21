@@ -9,7 +9,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     create
   end
   def failure
-    redirect_to request.env['omniauth.origin'] || "/", :flash => {:error => ":("}
+    flash[:error] = "Authentication failed."
+    redirect_to request.env['omniauth.origin'] || "/"
   end
 
   private
@@ -33,16 +34,21 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       member = authentication.member
     end
 
-    Member.where(email: auth.info.email).first_or_create do |m|
+    member = Member.where(email: auth.info.email).first_or_create do |m|
       m.email = auth.info.email
       m.password = Devise.friendly_token[0,20]
       m.tos_agreement = true
-      m.login_name = Devise.friendly_token[0,20] # TODO: A better login name to generate
+      # TODO This has a reasonable chance of collision
+      m.login_name = auth.info.nickname || auth.info.email.split("@").first.gsub(/[^A-Za-z]+/, '_').underscore
 
-      # m.name = auth.info.name   # assuming the user model has a name
+      m.skip_confirmation!
+
+      # TODO Assess this later, if we introduce separate modelling for user photos
       # m.image = auth.info.image # assuming the user model has an image
+
       @member_created = true
     end
+    member.save!
     
     member
   end
@@ -83,7 +89,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         redirect_to new_member_registration_url
       end
     else
-      flash[:notice] = "Authentication failed."
       redirect_to request.env['omniauth.origin'] || edit_member_registration_path
     end
   end
