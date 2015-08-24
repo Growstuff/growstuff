@@ -9,7 +9,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     create
   end
   def failure
-    flash[:error] = "Authentication failed."
+    flash[:alert] = "Authentication failed."
     redirect_to request.env['omniauth.origin'] || "/"
   end
 
@@ -30,14 +30,14 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     auth = request.env['omniauth.auth']
 
     authentication = Authentication.where(provider: auth.provider, uid: auth.uid).first
-    if authentication && authentication.member.id.present?
+    if authentication && authentication.member && authentication.member.id.present?
       member = authentication.member
     end
 
     member ||= Member.where(email: auth.info.email).first_or_create do |m|
       m.email = auth.info.email
       m.password = Devise.friendly_token[0,20]
-      m.tos_agreement = true
+
       # TODO This has a reasonable chance of collision
       m.login_name = auth.info.nickname || auth.info.email.split("@").first.gsub(/[^A-Za-z]+/, '_').underscore
 
@@ -94,7 +94,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def after_sign_in_path_for(resource)
-    if resource.email_verified?
+    if resource.tos_agreement
       super resource
     else
       finish_signup_path(resource)
