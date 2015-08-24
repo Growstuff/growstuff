@@ -34,7 +34,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       member = authentication.member
     end
 
-    member = Member.where(email: auth.info.email).first_or_create do |m|
+    member ||= Member.where(email: auth.info.email).first_or_create do |m|
       m.email = auth.info.email
       m.password = Devise.friendly_token[0,20]
       m.tos_agreement = true
