@@ -38,8 +38,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       m.email = auth.info.email
       m.password = Devise.friendly_token[0,20]
 
-      # TODO This has a reasonable chance of collision
+      # First, try the nickname or friendly generate from the email
       m.login_name = auth.info.nickname || auth.info.email.split("@").first.gsub(/[^A-Za-z]+/, '_').underscore
+
+      # Do we have a collision with an existing account? Generate a 20 character long random name
+      # so the user can update it later
+      m.login_name = Devise.friendly_token[0,20] if Member.where(login_name: m.login_name).any?
 
       m.skip_confirmation!
 
