@@ -70,10 +70,22 @@ class MembersController < ApplicationController
     end
   end
 
+  def finish_signup   
+    @member = current_member
+    if request.patch? && params[:member]
+      if @member.update(params[:member])
+        @member.skip_reconfirmation!
+        sign_in(@member, :bypass => true)
+        redirect_to @member, notice: 'Your profile was successfully updated.'
+      else
+        @show_errors = true
+      end
+    end
+  end
+
   private
 
   def expire_cache_fragments
     expire_fragment("homepage_stats")
   end
-
 end
