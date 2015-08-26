@@ -29,8 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     if successfully_updated
       if @member.deleted
-        sign_out @member
-        redirect_to root_url, notice: "Member deleted."
+        markdelete
       else
         set_flash_message :notice, :updated
         # Sign in the member bypassing validation in case their password changed
@@ -52,8 +51,7 @@ def needs_password?(member, params)
 end
 
 # marking someone as deleted has various effects
-def delete
-  @member = Member.find(params[:id])
+def markdelete
 
     # move any of their crops to cropbot
     if Role.crop_wranglers && (Role.crop_wranglers.include? @member)
@@ -84,5 +82,8 @@ def delete
         post.save!
       end
     end
+
+    sign_out @member
+    redirect_to root_url, notice: "Member marked as deleted."
 
 end
