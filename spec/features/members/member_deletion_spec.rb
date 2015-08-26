@@ -57,7 +57,7 @@ feature "member deletion" do
       click_link 'Delete your account'
       fill_in "current_pw_for_delete", :with => "password1", :match => :prefer_exact
       click_button "Delete"
-      expect(page).to have_content "Member deleted"
+      expect(page).to have_content "Member marked as deleted"
       visit member_path(member)
       # Once we get proper 404s, this will change to something friendlier
       # Currently it is the ActiveRecord error page
@@ -75,16 +75,21 @@ feature "member deletion" do
         click_button "Delete"
         logout
       end
-    
-      scenario "removes plantings, gardens, harvests and seeds" do
-        visit garden_path(secondgarden)
-        expect(page).to have_content "NoMethodError"
-        # uncomment this when we get proper 404s
-        # expect(page).not_to have_content "#{garden.owner}"
+
+      scenario "removes plantings" do
         visit planting_path(planting)
         expect(page).to have_content "NoMethodError"
         # uncomment this when we get proper 404s
         # expect(page).not_to have_content "#{planting.owner}"
+      end
+
+      scenario "removes gardens" do
+        visit garden_path(secondgarden)
+        expect(page).to have_content "ex_member"
+        expect(page).not_to have_content "#{member.login_name}"
+      end
+
+      scenario "removes harvests and seeds" do
         visit harvest_path(harvest)
         expect(page).to have_content "NoMethodError"
         # uncomment this when we get proper 404s
@@ -107,13 +112,13 @@ feature "member deletion" do
         expect(page).not_to have_content "#{member.login_name}"
         expect(page).to have_content "This post was removed as the author deleted their account."
       end
-      
+
       scenario "leaves comments from other members on deleted post" do
         visit post_path(memberpost)
         expect(page).to have_content "#{other_member.login_name}"
         expect(page).to have_content "Fun comment-y thing"
       end
-      
+
       scenario "replaces comments on others' posts with deletion note, leaving post intact" do
         visit post_path(othermemberpost)
         expect(page).to have_content "#{other_member.login_name}"
@@ -141,7 +146,7 @@ feature "member deletion" do
     let(:crop) { FactoryGirl.create(:crop, :creator => member) }
     FactoryGirl.create(:cropbot)
     let!(:ex_wrangler) { FactoryGirl.create(:crop_wrangling_member, :login_name => "ex_wrangler") }
-    
+
     scenario "leaves crops behind, reassigned to ex_wrangler" do
       login_as(otherwrangler)
       visit edit_crop_path(crop)
@@ -152,7 +157,9 @@ feature "member deletion" do
       login_as(member)
       visit member_path(member)
       click_link 'Delete account'
-      logout
+      click_link 'Delete your account'
+      fill_in "current_pw_for_delete", :with => "password1", :match => :prefer_exact
+      click_button "Delete"
       login_as(otherwrangler)
       visit edit_crop_path(crop)
       expect(page).not_to have_content "#{member.login_name}"

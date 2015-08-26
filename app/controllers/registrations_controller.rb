@@ -75,7 +75,6 @@ def markdelete
     end
 
     # mark their posts as deleted
-    ex_member = Member.find_by_login_name('ex_member')
     if Post.find_by(author: @member)
       Post.where(author: @member).each do |post|
         Post.update(post, author: ex_member, body: "This post was removed as the author deleted their account.")
@@ -83,7 +82,29 @@ def markdelete
       end
     end
 
+  # remove gardens
+  if Garden.find_by(owner: @member)
+    Garden.where(owner: @member).each do |garden|
+      Garden.update(garden, owner: ex_member)
+      garden.save!
+    end
+  end
+
+  # remove follows
+  if Follow.find_by(follower: @member)
+    Follow.where(follower: @member).each do |follow|
+      Follow.destroy(follow)
+    end
+  end
+
+  if Follow.find_by(followed: @member)
+    Follow.where(followed: @member).each do |follow|
+      Follow.destroy(follow)
+    end
+  end
+
     sign_out @member
+  # TODO: change this to "Member deleted" once all the other variants are ironed out
     redirect_to root_url, notice: "Member marked as deleted."
 
 end
