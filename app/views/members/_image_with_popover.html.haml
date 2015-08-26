@@ -1,9 +1,6 @@
 = link_to |
   image_tag( |
-      Gravatar.new(member.email).image_url( |
-        options = { |
-          :size => defined?(size) ?  size : 150, |
-          :default => :identicon }), |
+      avatar_uri(member, 150), |
         :alt => member.login_name, |
         :class => 'img-responsive member-image' |
   ), |
