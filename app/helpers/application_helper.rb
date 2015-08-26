@@ -37,5 +37,18 @@ module ApplicationHelper
     content_tag :div, asterisk + ' '.html_safe + text, class: ['margin-bottom']
   end
 
+  #
+  # Returns an image uri for a given member.
+  #
+  # Falls back to Gravatar
+  #
+  def avatar_uri(member, size = 150)
+    return member.preferred_avatar_uri if member.preferred_avatar_uri.present?
+
+    Gravatar.new(member.email).image_url({
+      :size => size,
+      :default => :identicon
+    })
+  end
 end
 
