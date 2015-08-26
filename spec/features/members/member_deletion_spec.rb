@@ -46,7 +46,7 @@ feature "member deletion" do
       visit member_path(member)
       click_link 'Delete account'
       click_link 'Delete your account'
-      fill_in "Password required to delete", :with => "wrongpassword", :match => :prefer_exact
+      fill_in "current_pw_for_delete", :with => "wrongpassword"
       click_button "Delete"
       expect(page).to have_content "Current password is invalid"
     end
@@ -55,7 +55,7 @@ feature "member deletion" do
       visit member_path(member)
       click_link 'Delete account'
       click_link 'Delete your account'
-      fill_in "Password required to delete", :with => "password1", :match => :prefer_exact
+      fill_in "current_pw_for_delete", :with => "password1", :match => :prefer_exact
       click_button "Delete"
       expect(page).to have_content "Member deleted"
       visit member_path(member)
@@ -70,6 +70,9 @@ feature "member deletion" do
         login_as(member)
         visit member_path(member)
         click_link 'Delete account'
+        click_link 'Delete your account'
+        fill_in "current_pw_for_delete", :with => "password1", :match => :prefer_exact
+        click_button "Delete"
         logout
       end
     
