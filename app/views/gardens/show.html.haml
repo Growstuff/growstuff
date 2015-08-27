@@ -64,7 +64,9 @@
       - if @garden.plantings.finished.size > 0
         - @garden.plantings.finished.each.with_index do |planting_finished|
           = render partial: "plantings/thumbnail", locals: {:planting => planting_finished}
-      
+      - else
+        %p
+          Nothing has been planted here.
   .col-md-3
     %h4 About this garden
     %p
