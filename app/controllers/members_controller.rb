@@ -20,10 +20,11 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member       = Member.confirmed.find(params[:id])
-    @twitter_auth = @member.auth('twitter')
-    @flickr_auth  = @member.auth('flickr')
-    @posts        = @member.posts
+    @member        = Member.confirmed.find(params[:id])
+    @twitter_auth  = @member.auth('twitter')
+    @flickr_auth   = @member.auth('flickr')
+    @facebook_auth = @member.auth('facebook')
+    @posts         = @member.posts
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.
