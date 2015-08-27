@@ -12,7 +12,7 @@ class AuthenticationsController < ApplicationController
       case auth['provider']
       when 'twitter'
         name = auth['info']['nickname']
-      when 'flickr'
+      when 'flickr', 'facebook'
         name = auth['info']['name']
       else
         name = auth['info']['name']

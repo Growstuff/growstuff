@@ -1,0 +1,40 @@
+- content_for :title, "Join Growstuff"
+
+%p Sign up for a Growstuff account to track your veggie garden and connect with other local growers.
+
+= form_for(current_member, :as => 'member', :url => finish_signup_path(current_member), :html => { role: 'form'}) do |f|
+  - if @show_errors && current_member.errors.any?
+    %div.alert.alert-danger
+      - current_member.errors.full_messages.each do |msg|
+        = msg
+        %br
+
+  .form-group
+    = f.label :login_name
+    .controls
+      = f.text_field :login_name, :autofocus => true, class: 'form-control input-lg'
+      %p.help-block Choose a login name
+
+  .form-group
+    = f.label :email
+    .controls
+      = f.text_field :email, class: 'form-control input-lg', placeholder: 'Example: email@me.com'
+      %p.help-block Please confirm your email address.
+
+  .form-group
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :tos_agreement
+        I agree to the
+        = succeed "." do
+          = link_to 'Terms of Service', url_for(:action => 'tos', :controller => '/policy')
+  .form-group
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :newsletter, :checked => true
+        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
+      .help-inline
+        = render :partial => 'devise/registrations/newsletter_blurb'
+
+  %div.actions
+    = f.submit 'Continue', :class => 'btn btn-primary'

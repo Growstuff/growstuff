@@ -1,7 +1,7 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
 
-  skip_authorize_resource :only => [:nearby, :unsubscribe]
+  skip_authorize_resource :only => [:nearby, :unsubscribe, :finish_signup]
 
   after_action :expire_cache_fragments, :only => :create
 
@@ -70,10 +70,27 @@ class MembersController < ApplicationController
     end
   end
 
+  def finish_signup   
+    @member = current_member
+    if request.patch? && params[:member]
+      if @member.update(member_params)
+        @member.skip_reconfirmation!
+        sign_in(@member, :bypass => true)
+        redirect_to root_path, notice: 'Welcome.'
+      else
+        flash[:alert] = 'Failed to complete signup'
+        @show_errors = true
+      end
+    end
+  end
+
   private
 
   def expire_cache_fragments
     expire_fragment("homepage_stats")
   end
 
+  def member_params
+    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter)
+  end
 end
