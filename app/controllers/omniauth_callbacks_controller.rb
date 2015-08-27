@@ -44,11 +44,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # Do we have a collision with an existing account? Generate a 20 character long random name
       # so the user can update it later
       m.login_name = Devise.friendly_token[0,20] if Member.where(login_name: m.login_name).any?
-
+      m.preferred_avatar_uri = auth.info.image # assuming the user model has an image
       m.skip_confirmation!
 
-      # TODO Assess this later, if we introduce separate modelling for user photos
-      # m.image = auth.info.image # assuming the user model has an image
 
       @member_created = true
     end
