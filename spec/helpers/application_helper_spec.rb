@@ -19,4 +19,28 @@ describe ApplicationHelper do
     expect(output).to have_selector '.red', text: '*'
     expect(output).to have_selector 'em', text: 'denotes a required field'
   end
+
+  describe '#avatar_uri' do
+    context 'with a normal user' do
+      before :each do
+        @member = FactoryGirl.build(:member, email: 'example@example.com', preferred_avatar_uri: nil)
+      end
+      it 'should render a gravatar uri' do
+        expect(avatar_uri(@member)).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=150&default=identicon'
+      end
+
+      it 'should render a gravatar uri for a given size' do
+        expect(avatar_uri(@member, 456)).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=456&default=identicon'
+      end
+    end
+
+    context 'with a user who specified a preferred avatar uri' do
+      before :each do
+        @member = FactoryGirl.build(:member, email: 'example@example.com', preferred_avatar_uri: 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg')
+      end
+      it 'should render a the specified uri' do
+        expect(avatar_uri(@member)).to eq 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg'
+      end
+    end
+  end
 end

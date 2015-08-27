@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Alternate names" do
+feature "Alternate names", :js => true do
   let!(:alternate_eggplant) { create :alternate_eggplant }
   let(:crop) { alternate_eggplant.crop }
 
