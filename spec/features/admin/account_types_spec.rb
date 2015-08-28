@@ -9,8 +9,9 @@ feature "account types", :js => true do
       login_as member
     end
 
-    scenario "navigating to account type admin" do
+    scenario "navigating to account type admin with JavaScript on" do
       visit root_path
+      # Extra click for the expandable login menu
       click_link member.login_name
       click_link "Admin"
       expect(current_path).to eq admin_path
@@ -18,8 +19,9 @@ feature "account types", :js => true do
       expect(current_path).to eq account_types_path
     end
 
-    scenario "navigating to account type admin without js", :js => false do
+    scenario "navigating to account type admin without JavaScript - Accessility version", :js => false do
       visit root_path
+      # Extra link not needed as menu is already expanded
       click_link "Admin"
       expect(current_path).to eq admin_path
       click_link "Account types"
