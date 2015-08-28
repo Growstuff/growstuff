@@ -21,8 +21,4 @@
           ago.
       %p
         %small
-          = pluralize(member.gardens.size, "garden")
-          %br/
-          = pluralize(member.plantings.size, "planting")
-          %br/
-          = pluralize(member.seeds.size, "seed")
+          = [pluralize(member.gardens.size, "garden"), pluralize(member.plantings.size, "planting"), pluralize(member.seeds.size, "seed")].join(", ")
