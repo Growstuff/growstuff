@@ -11,6 +11,8 @@ feature "member deletion" do
     let(:harvest) { FactoryGirl.create(:harvest, :owner => member) }
     let(:seed) { FactoryGirl.create(:seed, :owner => member) }
     let(:secondgarden) { FactoryGirl.create(:garden, :owner => member) }
+    let(:order) { FactoryGirl.create(:order, :belongs_to => member) }
+    let(:admin) { FactoryGirl.create(:admin_member) }
     background do
       login_as(member)
       visit member_path(other_member)
@@ -78,9 +80,8 @@ feature "member deletion" do
 
       scenario "removes plantings" do
         visit planting_path(planting)
-        expect(page).to have_content "NoMethodError"
-        # uncomment this when we get proper 404s
-        # expect(page).not_to have_content "#{planting.owner}"
+        expect(page).not_to have_content "#{member.login_name}"
+        expect(page).to have_content "ex_member"
       end
 
       scenario "removes gardens" do
@@ -91,13 +92,11 @@ feature "member deletion" do
 
       scenario "removes harvests and seeds" do
         visit harvest_path(harvest)
-        expect(page).to have_content "NoMethodError"
-        # uncomment this when we get proper 404s
-        #expect(page).not_to have_content "#{harvest.owner}"
+        expect(page).not_to have_content "#{member.login_name}"
+        expect(page).to have_content "ex_member"
         visit seed_path(seed)
-        expect(page).to have_content "NoMethodError"
-        # uncomment this when we get proper 404s
-        #expect(page).not_to have_content "#{seed.owner}"
+        expect(page).not_to have_content "#{member.login_name}"
+        expect(page).to have_content "ex_member"
       end
 
       scenario "removes members from following" do
@@ -126,7 +125,15 @@ feature "member deletion" do
         expect(page).to have_content "This comment was removed as the author deleted their account."
       end
 
-      scenario "leaves a record of orders and payments intact"
+      scenario "leaves a record of orders and payments intact" do
+        login_as(admin)
+        visit admin_path
+        fill_in "search_text", :with => "#{member.login_name}"
+        find("#maincontainer").click_button("Search", exact: true)
+        expect(page).to have_content "#{member.login_name}"
+        expect(page).to have_content "Found 1 result"
+        logout
+      end
 
       scenario "can't be interesting"
 
