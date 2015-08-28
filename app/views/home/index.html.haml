@@ -2,6 +2,9 @@
   .col-md-12
     - if member_signed_in?
       %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+      // TODO: remove this change before going live, just makes it easier to spot issues while testing
+      - if current_member.deleted?
+        %h1= "You are deleted and something is wrong"
 
       = render :partial => 'stats'
       %p
