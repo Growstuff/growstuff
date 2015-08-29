@@ -1,4 +1,4 @@
-- content_for :title, @author ? "#{@author}'s posts" : "Everyone's posts"
+- content_for :title, @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
 %p
   - if can? :create, Post
