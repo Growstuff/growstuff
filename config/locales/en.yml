@@ -17,14 +17,14 @@ en:
   layouts:
     header:
       skip: "Skip navigation menu"
-      browse_crops: "Browse Crops"
+      browse_crops: &browse_crops "Browse Crops"
       seeds: "Seeds"
       plantings: "Plantings"
       harvests: "Harvests"
       community_map: "Community Map"
       browse_members: "Browse Members"
       posts: "Posts"
-      forums: "Forums"
+      forums: &forums "Forums"
       support_growstuff: "Support Growstuff"
       profile: "Profile"
       gardens: "Gardens"
@@ -37,7 +37,7 @@ en:
 
   crops:
     index:
-      title: "Browse Crops"
+      title: *browse_crops
       subtitle: "%{crops_size} total"
 
   seeds:
@@ -81,7 +81,7 @@ en:
 
   forums:
     index:
-      title: "Forums"
+      title: *forums
 
   home:
     blurb:
