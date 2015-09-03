@@ -1,4 +1,4 @@
--content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} Community Map"
+-content_for :title, t(".title", site_name: "#{ENV['GROWSTUFF_SITE_NAME']}")
 = render partial: 'search_form'
 %div#placesmap
 
