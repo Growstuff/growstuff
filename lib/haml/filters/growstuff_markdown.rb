@@ -4,7 +4,7 @@ module Haml::Filters
   module GrowstuffMarkdown
     CROP_REGEX = /\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /\[([^\[\]]+?)\]\(member\)/
-    MEMBER_AT_REGEX = /\@([^\[ \n]+)/
+    MEMBER_AT_REGEX = /(\@[^\[ \n]+)/
     include Haml::Filters::Base
 
     def render(text)
@@ -39,10 +39,10 @@ module Haml::Filters
       expanded = expanded.gsub(MEMBER_AT_REGEX) do |m|
         member_str = $1
         # find crop case-insensitively
-        member = Member.where('lower(login_name) = ?', member_str.downcase).first
+        member = Member.where('lower(login_name) = ?', member_str[1..-1].downcase).first
         if member
           url = Rails.application.routes.url_helpers.member_url(member, :only_path => true)
-          "[#{"@"+member_str}](#{url})"
+          "[#{member_str}](#{url})"
         else
           member_str
         end
