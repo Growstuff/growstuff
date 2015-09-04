@@ -15,6 +15,20 @@ def output_link(crop, name=nil)
   end
 end
 
+def input_member_link(name)
+  return "[#{name}](member)"
+end
+
+def output_member_link(member, name=nil)
+  url = Rails.application.routes.url_helpers.member_url(member, :only_path => true)
+  if name
+    return "<a href=\"#{url}\">#{name}</a>"
+  else
+    return "<a href=\"#{url}\">#{member.login_name}</a>"
+  end
+end
+
+
 describe 'Haml::Filters::Growstuff_Markdown' do
    it 'is registered as the handler for :growstuff_markdown' do
      Haml::Filters::defined['growstuff_markdown'].should ==
@@ -59,5 +73,28 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /#{output_link(tomato)}/
     rendered.should match "<a href=\"http://example.com\">test</a>"
   end
+
+  it 'converts quick member links' do
+    @member = FactoryGirl.create(:member)
+    rendered = Haml::Filters::GrowstuffMarkdown.render(input_member_link(@member.login_name))
+    rendered.should match /#{output_member_link(@member)}/
+  end
+
+  it "doesn't convert nonexistent members" do
+    rendered = Haml::Filters::GrowstuffMarkdown.render(input_member_link("not a member"))
+    rendered.should match /not a member/
+  end
+
+  it 'converts @ member links' do
+    @member = FactoryGirl.create(:member)
+    rendered = Haml::Filters::GrowstuffMarkdown.render("@#{@member.login_name}")
+    rendered.should match /#{output_member_link(@member, "@#{@member.login_name}")}/
+  end
+
+  it "doesn't convert nonexistent @ members" do
+    rendered = Haml::Filters::GrowstuffMarkdown.render("@not-a-member")
+    rendered.should match /@not-a-member/
+  end
+
 
 end
