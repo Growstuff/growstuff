@@ -3,6 +3,8 @@ require 'bluecloth'
 module Haml::Filters
   module GrowstuffMarkdown
     CROP_REGEX = /\[([^\[\]]+?)\]\(crop\)/
+    MEMBER_REGEX = /\[([^\[\]]+?)\]\(member\)/
+    MEMBER_AT_REGEX = /\@([^\[ \n]+)/
     include Haml::Filters::Base
 
     def render(text)
@@ -17,6 +19,32 @@ module Haml::Filters
           "[#{crop_str}](#{url})"
         else
           crop_str
+        end
+      end
+
+      # turn [jane](member) into [jane](http://growstuff.org/members/jane)
+      expanded = expanded.gsub(MEMBER_REGEX) do |m|
+        member_str = $1
+        # find crop case-insensitively
+        member = Member.where('lower(login_name) = ?', member_str.downcase).first
+        if member
+          url = Rails.application.routes.url_helpers.member_url(member, :only_path => true)
+          "[#{member_str}](#{url})"
+        else
+          member_str
+        end
+      end
+
+      # turn @jane into [@jane](http://growstuff.org/members/jane)
+      expanded = expanded.gsub(MEMBER_AT_REGEX) do |m|
+        member_str = $1
+        # find crop case-insensitively
+        member = Member.where('lower(login_name) = ?', member_str.downcase).first
+        if member
+          url = Rails.application.routes.url_helpers.member_url(member, :only_path => true)
+          "[#{"@"+member_str}](#{url})"
+        else
+          member_str
         end
       end
 
