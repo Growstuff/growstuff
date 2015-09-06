@@ -4,7 +4,7 @@ module Haml::Filters
   module GrowstuffMarkdown
     CROP_REGEX = /\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /\[([^\[\]]+?)\]\(member\)/
-    MEMBER_AT_REGEX = /(\@[^\[ \n]+)/
+    MEMBER_AT_REGEX = /(\@\w+)/
     include Haml::Filters::Base
 
     def render(text)
