@@ -96,6 +96,38 @@ describe Post do
     end
   end
 
+  context "notifications" do
+    let(:member2) { FactoryGirl.create(:member) }
+
+    it "sends a notification when a member is mentioned" do
+      expect {
+        FactoryGirl.create(:post, :author => member, :body => "Hey @" << member2.login_name)
+      }.to change(Notification, :count).by(1)
+    end
+
+    it "sets the notification field" do
+      @p = FactoryGirl.create(:post, :author => member, :body => "Hey @" << member2.login_name)
+      @n = Notification.first
+      @n.sender.should eq member
+      @n.recipient.should eq member2
+      @n.subject.should match /mentioned you in their post/
+      @n.body.should eq @p.body
+    end
+
+    it "sends notifications to all members mentioned" do
+      @member3 = FactoryGirl.create(:member)
+      expect {
+        FactoryGirl.create(:post, :author => member, :body => "Hey @" << member2.login_name << " & @" << @member3.login_name)
+      }.to change(Notification, :count).by(2)
+    end
+
+    it "doesn't send notifications if you mention yourself" do
+      expect {
+        FactoryGirl.create(:post, :author => member, :body => "@" << member.login_name)
+      }.to change(Notification, :count).by(0)
+    end
+  end
+
   context "crop-post association" do
     let!(:tomato) { FactoryGirl.create(:tomato) }
     let!(:maize) { FactoryGirl.create(:maize) }
