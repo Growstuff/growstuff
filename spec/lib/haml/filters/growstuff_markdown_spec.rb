@@ -85,6 +85,13 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /not a member/
   end
 
+  it "doesn't convert escaped members" do
+    @member = FactoryGirl.create(:member)
+    rendered = Haml::Filters::GrowstuffMarkdown.render("\\" << input_member_link(@member.login_name))
+    rendered.should match /\[#{@member.login_name}\]\(member\)/
+  end
+
+
   it 'converts @ member links' do
     @member = FactoryGirl.create(:member)
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey @#{@member.login_name}! What's up")
@@ -96,5 +103,10 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /@not-a-member/
   end
 
+  it "doesn't convert escaped @ members" do
+    @member = FactoryGirl.create(:member)
+    rendered = Haml::Filters::GrowstuffMarkdown.render("Hey \\@#{@member.login_name}! What's up")
+    rendered.should match /Hey @#{@member.login_name}!/
+  end
 
 end
