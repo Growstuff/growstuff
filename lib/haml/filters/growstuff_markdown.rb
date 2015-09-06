@@ -2,7 +2,7 @@ require 'bluecloth'
 
 module Haml::Filters
   module GrowstuffMarkdown
-    CROP_REGEX = /\[([^\[\]]+?)\]\(crop\)/
+    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
     include Haml::Filters::Base
 
     def render(text)
