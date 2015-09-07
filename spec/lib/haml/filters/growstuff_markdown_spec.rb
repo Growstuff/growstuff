@@ -32,6 +32,12 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /not a crop/
   end
 
+  it "doesn't convert escaped crop links" do
+    @crop = FactoryGirl.create(:crop)
+    rendered = Haml::Filters::GrowstuffMarkdown.render( "\\" << input_link(@crop.name))
+    rendered.should match /\[#{@crop.name}\]\(crop\)/
+  end
+
   it "handles multiple crop links" do
     tomato = FactoryGirl.create(:tomato)
     maize = FactoryGirl.create(:maize)
