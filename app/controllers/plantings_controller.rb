@@ -20,7 +20,7 @@ class PlantingsController < ApplicationController
       format.json { render json: @plantings }
       format.rss { render :layout => false } #index.rss.builder
       format.csv do
-        specifics = (@owner ? "#{@owner.name}-" : @crop ? "#{@crop.name}-" : nil)
+        specifics = (@owner ? "#{@owner.login_name}-" : @crop ? "#{@crop.name}-" : nil)
         @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
         render :csv => @plantings
       end
