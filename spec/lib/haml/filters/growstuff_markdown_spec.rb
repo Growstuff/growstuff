@@ -98,9 +98,17 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /#{output_member_link(@member, "@#{@member.login_name}")}/
   end
 
-  it "doesn't convert nonexistent @ members" do
+  it "doesn't convert invalid @ members" do
     rendered = Haml::Filters::GrowstuffMarkdown.render("@not-a-member")
     rendered.should match /@not-a-member/
+  end
+
+  it "doesn't convert nonexistent @ members" do
+    @member = FactoryGirl.create(:member)
+    @member_name = @member.login_name
+    @member.destroy
+    rendered = Haml::Filters::GrowstuffMarkdown.render("Hey @#{@member_name}")
+    rendered.should match /Hey @#{@member_name}/
   end
 
   it "doesn't convert escaped @ members" do
