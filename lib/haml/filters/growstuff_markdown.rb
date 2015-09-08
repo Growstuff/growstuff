@@ -2,7 +2,7 @@ require 'bluecloth'
 
 module Haml::Filters
   module GrowstuffMarkdown
-    CROP_REGEX = /\[([^\[\]]+?)\]\(crop\)/
+    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/
