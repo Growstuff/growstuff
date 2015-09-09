@@ -2,7 +2,6 @@
 
 .row
   .col-md-9
-
     - if can? :edit, @garden or can? :delete, @garden
       %p.btn-group
         - if can? :edit, @garden
@@ -28,36 +27,46 @@
     %div
       :growstuff_markdown
         #{strip_tags @garden.description}
+      - unless @garden.description
+        .row-fluid
+          %p No description available yet.
+
+          - if can? :edit, @garden
+            %p 
+              Why not 
+              = link_to 'tell us more.', edit_garden_path(@garden)
 
     - if @garden.photos.size > 0 or (can? :edit, @garden and can? :create, Photo)
-      .row
-        %h2 Photos
-
-        %ul.thumbnails
-          - @garden.photos.each do |p|
-            .col-md-2.six-across
-              = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+      .row-fluid
+        %h3 Photos
+        %p= pluralize(@garden.photos.length, "photo")
+        .row-fluid
+          %ul.thumbnails
+            - @garden.photos.each do |p|
+              .col-md-2.six-across
+                = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+        .row-fluid
           - if can? :create, Photo and can? :edit, @garden
-            .col-md-2
-              .thumbnail(style='height: 220px')
-                %p{:style => 'text-align: center; padding-top: 50px'}
-                  = link_to "Add photo", new_photo_path(:type => "garden", :id => @garden.id), :class => 'btn btn-primary'
+            %p
+              = link_to "Add photo", new_photo_path(:type => "garden", :id => @garden.id), :class => 'btn btn-primary'
 
-    %h3 What's planted here?
-    - if @garden.plantings.current.size > 0
-      .row
+    .row-fluid
+      %h3 What's planted here?
+      - if @garden.plantings.current.size > 0
         - @garden.plantings.current.each.with_index do |planting_current, index_current|
           = render partial: "plantings/thumbnail", locals: {:planting => planting_current}
-    - else
-      %p
-        Nothing is currently planted here.
+      - else
+        %p
+          Nothing is currently planted here.
 
-    %h3 Previously planted in this garden
-    - if @garden.plantings.finished.size > 0
-      .row
+    .row-fluid
+      %h3 Previously planted in this garden
+      - if @garden.plantings.finished.size > 0
         - @garden.plantings.finished.each.with_index do |planting_finished|
           = render partial: "plantings/thumbnail", locals: {:planting => planting_finished}
-      
+      - else
+        %p
+          Nothing has been planted here.
   .col-md-3
     %h4 About this garden
     %p
