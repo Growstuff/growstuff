@@ -7,31 +7,42 @@
         - first_garden = false
         = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
     - if current_member == member
-      %li= link_to 'New Garden', new_garden_path
-  .tab-content
+      %li.navbar-right 
+        = link_to new_garden_path, class: 'btn' do
+          Add New Garden
+  .tab-content{style: "padding-top: 1em"}
     - first_garden = true
     - member.gardens.each do |g|
 
       %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
         - first_garden = false
 
-        %div
+        .container
           :growstuff_markdown
             #{ strip_tags g.description }
+          - unless g.description
+            .row
+              %p No description available yet.
+
+              - if can? :edit, g
+                %p 
+                  Why not 
+                  = link_to 'tell us more.', edit_garden_path(g)
+
 
           - if g.photos.size > 0 or (can? :edit, g and can? :create, Photo)
             .row
-              %h2 Photos
-
-              %ul.thumbnails
-                - g.photos.each do |p|
-                  .col-md-2.six-across
-                    = render :partial => 'photos/thumbnail', :locals => { :photo => p }
-                - if can? :create, Photo and can? :edit, g
-                  .col-md-2
-                    .thumbnail(style='height: 220px')
-                      %p{:style => 'text-align: center; padding-top: 50px'}
-                        = link_to "Add photo", new_photo_path(:type => "garden", :id => g.id), :class => 'btn btn-primary'
+              %h3 Photos
+              %p= pluralize(g.photos.length, "photo")
+              .row
+                %ul.thumbnails
+                  - g.photos.each do |p|
+                    .col-md-2.six-across
+                      = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+              .row
+              - if can? :create, Photo and can? :edit, g
+                %p
+                  = link_to "Add photo", new_photo_path(:type => "garden", :id => g.id), :class => 'btn btn-primary'
 
         %h3 What's planted here?
         .row
