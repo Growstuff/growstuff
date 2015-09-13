@@ -52,6 +52,7 @@
               %li= link_to t('.plantings'), plantings_by_owner_path(:owner => current_member.slug)
               %li= link_to t('.harvest'), harvests_by_owner_path(:owner => current_member.slug)
               %li= link_to t('.seeds'), seeds_by_owner_path(:owner => current_member.slug)
+              %li= link_to t('.my_seed_trades'), member_seed_trades_path(member_id: current_member.id)
               %li= link_to t('.posts'), posts_by_author_path(:author => current_member.slug)
               %li= link_to t('.account'), orders_path
               %li

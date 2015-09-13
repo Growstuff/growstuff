@@ -1,0 +1,40 @@
+- content_for :title, t(".title")
+
+- if @seed_trades.size > 0
+  = paginate @seed_trades, theme: 'twitter-bootstrap-3'
+  %table.table.table-striped
+    %tr
+      %th From
+      %th Request
+      %th Date
+      %th
+
+    - @seed_trades.each do |trade|
+      - if can? :read, trade
+        %tr
+          %td
+            - if trade.replyed?
+              = link_to trade.requester, member_path(trade.requester)
+            - else
+              %strong= link_to trade.requester, member_path(trade.requester)
+          %td
+            - if trade.replyed?
+              =  link_to t(".trade_link", member_name: trade.requester.login_name,
+              crop_name: trade.seed.crop.name),
+              member_seed_trade_path(current_member.id, trade.id)
+            - else
+              %strong= link_to t(".trade_link", member_name: trade.requester.login_name,
+              crop_name: trade.seed.crop.name),
+              member_seed_trade_path(current_member.id, trade.id)
+          %td
+            - if trade.replyed?
+              = trade.created_at
+            - else
+              %strong= trade.created_at
+          %td
+            = link_to 'Delete',  member_seed_trade_path(current_member.id, trade.id),
+             method: :delete, data: { confirm: 'Are you sure?' },
+             :class => 'btn btn-default btn-xs'
+  = paginate @seed_trades, theme: 'twitter-bootstrap-3'
+- else
+  You have no trades.

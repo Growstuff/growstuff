@@ -14,6 +14,7 @@ class Ability
     cannot :read, Authentication
     cannot :read, Order
     cannot :read, OrderItem
+    cannot :read, SeedTrade
 
     # and nobody should be able to view this except admins
     cannot :read, Role
@@ -22,7 +23,7 @@ class Ability
     cannot :read, AccountType
 
     # nobody should be able to view unapproved crops unless they
-    # are wranglers or admins 
+    # are wranglers or admins
     cannot :read, Crop
     can :read, Crop, :approval_status => "approved"
     # scientific names should only be viewable if associated crop is approved
@@ -54,6 +55,14 @@ class Ability
         n.recipient_id != member.id
       end
       # note we don't support update for notifications
+
+      # can read seed requests that were sent to them
+      can :read,    SeedTrade, requester_id: member.id
+      can :reply,   SeedTrade, requester_id: member.id
+      # can send a private request to anyone but themselves
+      can :create,  SeedTrade do |trade|
+        trade.requester_id != member.id
+      end
 
       # only crop wranglers can create/edit/destroy crops
       if member.has_role? :crop_wrangler

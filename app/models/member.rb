@@ -15,7 +15,8 @@ class Member < ActiveRecord::Base
   has_many :harvests, :foreign_key => 'owner_id'
 
   has_and_belongs_to_many :roles
-
+  
+  has_many :seed_trades, :foreign_key => 'requester_id'
   has_many :notifications, :foreign_key => 'recipient_id'
   has_many :sent_notifications, :foreign_key => 'sender_id'
 
@@ -183,7 +184,7 @@ class Member < ActiveRecord::Base
 
   # Returns a hash of Flickr photosets' ids and titles
   def flickr_sets
-    sets = Hash.new 
+    sets = Hash.new
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end
