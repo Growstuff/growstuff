@@ -33,6 +33,12 @@ describe 'Growstuff::OauthSignupAction' do
         @member = @action.find_or_create_from_authorization(@auth)
         @authentication = @action.establish_authentication(@auth, @member)
       end
+
+      after :each do
+        @member.delete
+        @authentication.delete
+      end
+
       it 'should create a new user' do
         expect(@action.member_created?).to eq true
       end
@@ -42,7 +48,7 @@ describe 'Growstuff::OauthSignupAction' do
       end
 
       it 'should generate a login_name' do
-        expect(@member.login_name).to eq 'JohnnyT'
+        expect(@member.login_name).to eq 'JohnnyB'
       end
 
       it 'should set an avatar' do
@@ -78,6 +84,12 @@ describe 'Growstuff::OauthSignupAction' do
 
           @member = @action.find_or_create_from_authorization(@auth)
           @authentication = @action.establish_authentication(@auth, @member)
+        end
+
+        after :each do
+          @existing_member.delete
+          @member.delete
+          @authentication.delete
         end
 
         it 'should not create a new user' do
@@ -119,12 +131,19 @@ describe 'Growstuff::OauthSignupAction' do
           @existing_authentication = @existing_member.authentications.create({
             provider: 'facebook',
             uid: '123545',
-            name: 'John Testerson',
+            name: "John Testerson's Brother",
             member_id: @existing_member.id
           })
 
           @member = @action.find_or_create_from_authorization(@auth)
           @authentication = @action.establish_authentication(@auth, @member)
+        end
+
+        after :each do
+          @existing_member.delete
+          @member.delete
+          @existing_authentication.delete
+          @authentication.delete
         end
 
         it 'should not create a new user' do
