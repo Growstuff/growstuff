@@ -12,8 +12,8 @@ describe 'Growstuff::OauthSignupAction' do
         'provider' => 'facebook',
         'uid' => '123545',
         'info' => {
-          'name' => "John Testerson",
-          'nickname' => 'JohnnyT',
+          'name' => "John Testerson's Brother",
+          'nickname' => 'JohnnyB',
           'email' => 'example.oauth.facebook@example.com',
           'image' => 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
         },
