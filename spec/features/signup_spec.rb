@@ -71,7 +71,7 @@ feature "signup", :js => true do
 
       # Signed up and logged in
       expect(current_path).to eq root_path
-      expect(page.text).to include("Welcome to Growstuff (test), tdawg")
+      expect(page.text).to include("Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, tdawg")
     end
   end
 end
