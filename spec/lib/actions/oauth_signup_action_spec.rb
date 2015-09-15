@@ -106,6 +106,7 @@ describe 'Growstuff::OauthSignupAction' do
           @auth['info']['email'] = 'i.used.oauth.once@coolemail.com'
 
           Member.where(email: @auth['info']['email']).delete_all
+          Authentication.delete_all
 
           @existing_member = create :member, {
             email: @auth['info']['email'], 
@@ -116,6 +117,7 @@ describe 'Growstuff::OauthSignupAction' do
           @existing_authentication = @existing_member.authentications.create({
             provider: 'facebook',
             uid: '123545',
+            name: 'John Testerson',
             member_id: @existing_member.id
           })
 
