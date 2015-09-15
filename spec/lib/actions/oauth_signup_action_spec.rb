@@ -64,8 +64,84 @@ describe 'Growstuff::OauthSignupAction' do
 
     context 'an existing user' do
       context 'who has never used oauth' do
+        before :each do
+          @auth['info']['email'] = 'never.used.oauth@yahoo.com'
+
+          Member.where(email: @auth['info']['email']).delete_all
+          @existing_member = create :member, {
+            email: @auth['info']['email'], 
+            login_name: 'existing',
+            preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+          }
+
+          @member = @action.find_or_create_from_authorization(@auth)
+          @authentication = @action.establish_authentication(@auth, @member)
+        end
+
+        it 'should not create a new user' do
+          expect(@action.member_created?).to eq nil
+        end
+
+        it 'should locate the existing member by email' do
+          expect(@member.id).to eq @existing_member.id
+        end
+
+        it 'should not generate a login_name' do
+          expect(@member.login_name).to eq 'existing'
+        end
+
+        it 'should not change the avatar' do
+          expect(@member.preferred_avatar_uri).to eq 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+        end
+
+        it 'should store the uid and provider for the member' do
+          expect(@authentication.member.id).to eq @member.id
+          expect(@authentication.provider).to eq 'facebook'
+          expect(@authentication.uid).to eq '123545' 
+        end
       end
+
       context 'who has used oauth' do
+        before :each do
+          @auth['info']['email'] = 'i.used.oauth.once@coolemail.com'
+
+          Member.where(email: @auth['info']['email']).delete_all
+
+          @existing_member = create :member, {
+            email: @auth['info']['email'], 
+            login_name: 'schrodingerscat',
+            preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+          }
+
+          @existing_authentication = @existing_member.authentications.create({
+            provider: 'facebook',
+            uid: '123545',
+            member_id: @existing_member.id
+          })
+
+          @member = @action.find_or_create_from_authorization(@auth)
+          @authentication = @action.establish_authentication(@auth, @member)
+        end
+
+        it 'should not create a new user' do
+          expect(@action.member_created?).to eq nil
+        end
+
+        it 'should locate the existing member by uid and provider' do
+          expect(@member.id).to eq @existing_member.id
+        end
+
+        it 'should not generate a login_name' do
+          expect(@member.login_name).to eq 'schrodingerscat'
+        end
+
+        it 'should not change the avatar' do
+          expect(@member.preferred_avatar_uri).to eq 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+        end
+
+        it 'should locate the existing uid and provider for the member' do
+          expect(@authentication.id).to eq @existing_authentication.id
+        end
       end
     end
   end
