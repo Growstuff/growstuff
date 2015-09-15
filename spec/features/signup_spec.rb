@@ -51,6 +51,7 @@ feature "signup", :js => true do
       Member.where(login_name: 'tdawg').delete_all
       Member.where(email: 'tdawg@hotmail.com').delete_all
       Member.where(email: 'example.oauth.facebook@example.com').delete_all
+      Authentication.where(provider: 'facebook', uid: '123545').delete_all
 
       # Start the test
       visit root_path 
