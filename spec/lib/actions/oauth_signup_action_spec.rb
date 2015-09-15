@@ -53,7 +53,9 @@ describe 'Growstuff::OauthSignupAction' do
         expect(@member.password).not_to eq nil
       end
 
-      it 'should not agree to the tos'
+      it 'should not agree to the tos' do
+        expect(@member.tos_agreement).to eq nil
+      end
 
       it 'should store the uid and provider for the member' do
         expect(@authentication.member.id).to eq @member.id
