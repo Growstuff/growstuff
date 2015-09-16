@@ -22,7 +22,7 @@ describe PlantPart do
     @pp1.crops.should include @maize
   end
 
-  it "doesn't dupliate crops" do
+  it "doesn't duplicate crops" do
     @maize = FactoryGirl.create(:maize)
     @pp1 = FactoryGirl.create(:plant_part)
     @h1 = FactoryGirl.create(:harvest,
