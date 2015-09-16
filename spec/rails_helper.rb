@@ -23,7 +23,15 @@ end
 
 require 'capybara'
 require 'capybara/poltergeist'
+
 Capybara.javascript_driver = :poltergeist
+if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
+  case ENV['GROWSTUFF_CAPYBARA_DRIVER']
+  when 'selenium'
+    require 'selenium-webdriver'
+  end
+  Capybara.javascript_driver = ENV['GROWSTUFF_CAPYBARA_DRIVER'].to_sym
+end
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
 
