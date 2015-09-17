@@ -20,9 +20,8 @@ class SeedTradesController < ApplicationController
 
   # GET /notifications/new
   def new
-    @seed_trade = SeedTrade.new
-    @recipient  = Member.find_by_id(params[:recipient_id])
     @seed       = Seed.find(params[:seed_id])
+    @seed_trade = @seed.seed_trades.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -33,12 +32,53 @@ class SeedTradesController < ApplicationController
     @seed_trade = current_member.seed_trades.build(seed_trade_params)
 
     respond_to do |format|
-      if @seed_trade.seed && @seed_trade.save
+      if @seed_trade.save
         format.html { redirect_to member_seed_trades_path,
           notice: 'A seed trade request was successfully sent.' }
       else
         format.html { render :new }
       end
+    end
+  end
+
+  # GET /notifications/1/reply
+  def decline
+    @seed_trade = SeedTrade.find(params[:id])
+
+    respond_to do |format|
+      @seed_trade.update_columns(declined_date: Time.zone.now)
+      format.html { redirect_to member_seed_trades_path,
+        notice: 'You have successfully declined to this request.' }
+    end
+  end
+
+  def accept
+    @seed_trade = SeedTrade.find(params[:id])
+
+    respond_to do |format|
+      @seed_trade.update_columns(accepted_date: Time.zone.now)
+      format.html { redirect_to member_seed_trades_path,
+        notice: 'You have successfully accepted this request.' }
+    end
+  end
+
+  def send_seed
+    @seed_trade = SeedTrade.find(params[:id])
+
+    respond_to do |format|
+      @seed_trade.update_columns(sent_date: Time.zone.now)
+      format.html { redirect_to member_seed_trades_path,
+        notice: 'You have successfully marked this request.' }
+    end
+  end
+
+  def receive
+    @seed_trade = SeedTrade.find(params[:id])
+
+    respond_to do |format|
+      @seed_trade.update_columns(received_date: Time.zone.now)
+      format.html { redirect_to member_seed_trades_path,
+        notice: 'You have successfully marked this request.' }
     end
   end
 

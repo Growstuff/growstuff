@@ -10,7 +10,12 @@ Growstuff::Application.routes.draw do
   end
 
   resources :members do
-    resources :seed_trades, :only => [:index, :show, :new, :create]
+    resources :seed_trades, :only => [:index, :show, :new, :create] do
+      patch 'decline',   on: :member
+      patch 'accept',    on: :member
+      patch 'receive',   on: :member
+      patch 'send_seed', on: :member
+    end
   end
 
   resources :photos

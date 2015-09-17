@@ -57,11 +57,26 @@ class Ability
       # note we don't support update for notifications
 
       # can read seed requests that were sent to them
-      can :read,    SeedTrade, requester_id: member.id
-      can :reply,   SeedTrade, requester_id: member.id
-      # can send a private request to anyone but themselves
-      can :create,  SeedTrade do |trade|
-        trade.requester_id != member.id
+      can    :read,   SeedTrade, requester_id: member.id
+      can    :read,   SeedTrade, seed: { :owner_id => member.id }
+      can    :create, SeedTrade, requester_id: member.id
+      cannot :create, SeedTrade, seed: { :owner_id => member.id }
+
+      can :decline,  SeedTrade do |trade|
+        trade.seed.owner_id == member.id && !trade.replyed?
+      end
+
+      can :accept,  SeedTrade do |trade|
+        trade.seed.owner_id == member.id && !trade.replyed?
+      end
+
+      can :send_seed,  SeedTrade do |trade|
+        trade.seed.owner_id == member.id && trade.replyed?
+      end
+
+      can :receive,  SeedTrade do |trade|
+        trade.requester_id == member.id && trade.replyed? &&
+        trade.sent? && !trade.received?
       end
 
       # only crop wranglers can create/edit/destroy crops

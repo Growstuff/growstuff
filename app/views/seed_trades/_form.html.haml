@@ -6,11 +6,11 @@
         - @seed_trade.errors.full_messages.each do |msg|
           %li= msg
 
-  = f.hidden_field :seed_id, :value => @seed.id
+  = f.hidden_field :seed_id, :value => @seed_trade.seed.id
   %p
     To:
-    = link_to @recipient, @recipient
-  = label_tag :notification, "Requesting: #{@seed.crop.name} seeds"
+    = link_to @seed_trade.seed.owner.login_name, @seed_trade.seed.owner
+  = label_tag :notification, "Requesting: #{@seed_trade.seed.crop.name} seeds"
   %br
   = label_tag :full_address, "Inform your full address:"
   = f.text_field :address, :class => 'form-control'

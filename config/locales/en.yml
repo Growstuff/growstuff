@@ -51,7 +51,6 @@ en:
   seed_trades:
     index:
       title: "My Seed Trades"
-      trade_link: "%{member_name} requested %{crop_name} seeds from you"
 
   plantings:
     index:

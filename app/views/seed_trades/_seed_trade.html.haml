@@ -1,0 +1,15 @@
+%p
+  From
+  = link_to seed_trade.requester, seed_trade.requester
+  on
+  = seed_trade.created_at
+
+%strong Message:
+.well
+  :growstuff_markdown
+    #{ strip_tags(seed_trade.message) }
+
+%strong Adress to send:
+.well
+  :growstuff_markdown
+    #{ strip_tags(seed_trade.address) }

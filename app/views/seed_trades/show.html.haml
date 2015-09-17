@@ -1,0 +1,24 @@
+= content_for :title, @seed_trade.message
+
+= render @seed_trade
+
+- if can?(:accept, @seed_trade) || can?(:decline, @seed_trade)
+  .form
+    .decline.col-sm-1
+      = form_for [Member, @seed_trade], url: decline_member_seed_trade_path, action: :patch do |f|
+        = f.submit "Decline", data: { confirm: 'Are you sure?' },:class => 'btn btn-primary'
+    .accept.col-sm-11
+      = form_for [Member, @seed_trade], url: accept_member_seed_trade_path, action: :patch do |f|
+        = f.submit "Accept",  data: { confirm: 'Are you sure?' },:class => 'btn btn-primary'
+
+- if can? :send_seed, @seed_trade
+  .form
+    .decline.col-sm-1
+      = form_for [Member, @seed_trade], url: send_seed_member_seed_trade_path, action: :patch do |f|
+        = f.submit "Sent", data: { confirm: 'Are you sure?' },:class => 'btn btn-primary'
+
+- if can? :receive, @seed_trade
+  .form
+    .decline.col-sm-1
+      = form_for [Member, @seed_trade], url: receive_member_seed_trade_path, action: :patch do |f|
+        = f.submit "Received", data: { confirm: 'Are you sure?' },:class => 'btn btn-primary'
