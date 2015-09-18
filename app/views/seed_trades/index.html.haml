@@ -7,6 +7,7 @@
       %th From
       %th Request
       %th Date
+      %th Status
 
     - @seed_trades.each do |trade|
       - if can? :read, trade
@@ -18,16 +19,21 @@
               %strong= link_to trade.requester, member_path(trade.requester)
           %td
             - if trade.replyed?
-              =  link_to link_to_show_trade(current_member, trade),
+              =  link_to seed_trade_request_description(current_member, trade),
               member_seed_trade_path(current_member.id, trade.id)
             - else
-              %strong= link_to link_to_show_trade(current_member, trade),
+              %strong= link_to seed_trade_request_description(current_member, trade),
               member_seed_trade_path(current_member.id, trade.id)
           %td
             - if trade.replyed?
               = trade.created_at
             - else
               %strong= trade.created_at
+          %td
+            - if trade.replyed?
+              = trade.status
+            - else
+              %strong= trade.status
   = paginate @seed_trades, theme: 'twitter-bootstrap-3'
 - else
   You have no trades.

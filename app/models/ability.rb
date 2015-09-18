@@ -56,26 +56,32 @@ class Ability
       end
       # note we don't support update for notifications
 
-      # can read seed requests that were sent to them
+      # can read seed requests if you are requester or seed owner
       can    :read,   SeedTrade, requester_id: member.id
       can    :read,   SeedTrade, seed: { :owner_id => member.id }
       can    :create, SeedTrade, requester_id: member.id
+
+      # you can't create a request for yourself
       cannot :create, SeedTrade, seed: { :owner_id => member.id }
 
+      # you can decline if the trade was not accepted or declined
       can :decline,  SeedTrade do |trade|
         trade.seed.owner_id == member.id && !trade.replyed?
       end
 
+      # you can accept if the trade was not accepted or declined
       can :accept,  SeedTrade do |trade|
         trade.seed.owner_id == member.id && !trade.replyed?
       end
 
+      # you can mark as sent if you has already accepted
       can :send_seed,  SeedTrade do |trade|
-        trade.seed.owner_id == member.id && trade.replyed?
+        trade.seed.owner_id == member.id && trade.accepted? && !trade.sent?
       end
 
+      # you can mark as received if the seed owner has already sent
       can :receive,  SeedTrade do |trade|
-        trade.requester_id == member.id && trade.replyed? &&
+        trade.requester_id == member.id && trade.accepted? &&
         trade.sent? && !trade.received?
       end
 

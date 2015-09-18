@@ -1,4 +1,4 @@
-- content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
+- content_for :title, t('.title', owner: @seed.owner.login_name, crop: @seed.crop.name )
 
 .row
   .col-md-6
@@ -45,9 +45,8 @@
     - if current_member
       - if @seed.tradable? && current_member != @seed.owner
         %p= link_to "Request seeds",
-              new_member_seed_trade_path(:recipient_id => @seed.owner.id,
-              :seed_id => @seed.id, member_id: current_member.id ),
-              :class => 'btn btn-primary'
+              new_member_seed_trade_path(:seed_id => @seed.id,
+              member_id: current_member.id ), :class => 'btn btn-primary'
     - else
       = render :partial => 'shared/signin_signup', :locals => { :to => 'request seeds' }
 

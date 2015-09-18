@@ -47,10 +47,14 @@ en:
         default: "Everyone's seeds"
         crop_seeds: "Everyone's %{crop} seeds"
         owner_seeds: "%{owner} seeds"
+    show:
+      title: "%{owner}'s %{crop} seeds"
 
   seed_trades:
     index:
       title: "My Seed Trades"
+    new:
+      title: "Request %{crop} seeds from %{owner}"
 
   plantings:
     index:

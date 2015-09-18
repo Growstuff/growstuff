@@ -5,11 +5,11 @@
   = seed_trade.created_at
 
 %strong Message:
-.well
+.well.well-lg
   :growstuff_markdown
     #{ strip_tags(seed_trade.message) }
 
 %strong Adress to send:
-.well
+.well.well-sm
   :growstuff_markdown
     #{ strip_tags(seed_trade.address) }
