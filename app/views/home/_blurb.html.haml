@@ -9,7 +9,7 @@
     = render :partial => 'stats'
   .col-md-4.signup
     %p= t('.perks')
-    %p= link_to(t('.sign_up'), new_member_registration_path, :class => 'btn btn-primary btn-lg')
+    %p= link_to(t('common.sign_up'), new_member_registration_path, :class => 'btn btn-primary btn-lg')
     %p
       %small
         = t('.already_html', sign_in: link_to(t('.sign_in_linktext'), new_member_session_path))

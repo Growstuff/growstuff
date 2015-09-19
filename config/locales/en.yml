@@ -2,6 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  common:
+    community: "Community"
+    crops: "Crops"
+    sign_in: "Sign in"
+    sign_out: "Sign out"
+    sign_up: "Sign up"
+
   unauthorized:
     read:
       notification: "You must be signed in to view notifications."
@@ -87,7 +94,6 @@ en:
     blurb:
       intro: "%{site_name} is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you."
       perks: "Join now for your free garden journal, seed sharing, forums, and more."
-      sign_up: "Sign up"
       already_html: "Or %{sign_in} if you already have an account"
       sign_in_linktext: "sign in"
 
