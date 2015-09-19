@@ -16,7 +16,9 @@ en:
   home:
     blurb:
       already_html: Or %{sign_in} if you already have an account
-      intro: "%{site_name} is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you."
+      intro: "%{site_name} is a community of food gardeners. We're building an open
+        source platform to help you learn about growing food, track what you plant
+        and harvest, and swap seeds and produce with other gardeners near you."
       perks: Join now for your free garden journal, seed sharing, forums, and more.
       sign_in_linktext: sign in
       sign_up: Sign up
@@ -44,14 +46,24 @@ en:
       api_docs_linktext: API documentation
       buy_account_linktext: buying a paid account
       creative_commons_linktext: Creative Commons license
-      get_involved_body_html: We believe in collaboration, and work closely with our members and the wider food-growing community. Our team includes volunteers from all walks of life and all skill levels. To get involved, visit %{talk_link} or find more information on the %{wiki_link}.
+      get_involved_body_html: We believe in collaboration, and work closely with our
+        members and the wider food-growing community. Our team includes volunteers
+        from all walks of life and all skill levels. To get involved, visit %{talk_link}
+        or find more information on the %{wiki_link}.
       get_involved_title: Get Involved
       github_linktext: Github
-      open_data_body_html: We're building a database of crops, planting advice, seed sources, and other information that anyone can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps, or for any purpose at all.  Read more about our %{wiki_link} and %{api_docs_link}.
+      open_data_body_html: We're building a database of crops, planting advice, seed
+        sources, and other information that anyone can use for free, under a %{creative_commons_link}.
+        You can use this data for research, to build apps, or for any purpose at all.  Read
+        more about our %{wiki_link} and %{api_docs_link}.
       open_data_title: Open Data and APIs
-      open_source_body_html: "%{site_name} is open source software, which means that we share this website's code for free with our community and the world.  We believe that openness, sustainability, and social good go hand in hand.  You can read more about %{why} or check out our code on %{github}."
+      open_source_body_html: "%{site_name} is open source software, which means that
+        we share this website's code for free with our community and the world.  We
+        believe that openness, sustainability, and social good go hand in hand.  You
+        can read more about %{why} or check out our code on %{github}."
       open_source_title: Open Source
-      support_body_html: Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}.
+      support_body_html: Growstuff is independent, %{ad_free} and we have no outside
+        investment.  You can support our work by %{buy_account}.
       support_title: Support Growstuff
       talk_linktext: Growstuff Talk
       why_linktext: why Growstuff is open source
@@ -68,7 +80,8 @@ en:
       view_all: View all seeds
     stats:
       member_linktext: "%{count} members"
-      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}.
+      message_html: So far, %{member} have planted %{number_crops} %{number_plantings}
+        in %{number_gardens}.
       number_crops_linktext: "%{count} crops"
       number_gardens_linktext: "%{count} gardens"
       number_plantings_linktext: "%{count} times"
@@ -92,6 +105,13 @@ en:
       skip: Skip navigation menu
       support_growstuff: Support Growstuff
       your_stuff: Your Stuff (%{unread_count})
+      toggle_navigation: Toggle Navigation
+      crops: Crops
+      community: Community
+      current_memberlogin_name: '"%{current_memberlogin_name}"'
+      sign_out: Sign out
+      sign_in: Sign in
+      sign_up: Sign up
   members:
     index:
       title: "%{site_name} members"
