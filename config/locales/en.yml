@@ -44,6 +44,9 @@ en:
   gardens:
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+  forums:
+    index:
+      title: Forums
   harvests:
     index:
       title:
