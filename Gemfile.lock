@@ -524,6 +524,7 @@ DEPENDENCIES
   guard
   guard-rspec
   haml
+  haml-i18n-extractor
   haml-rails
   heroku-api
   i18n-tasks
