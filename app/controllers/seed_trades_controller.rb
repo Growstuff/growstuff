@@ -26,8 +26,9 @@ class SeedTradesController < ApplicationController
     @seed_trade = current_member.seed_trades.build(seed_trade_params)
 
     if @seed_trade.save
+      send_new_seed_request_email(@seed_trade)
       redirect_to member_seed_trades_path,
-        notice: 'A seed trade request was successfully sent.'
+        notice: 'A seed trade request was successfully created.'
     end
   end
 
@@ -35,7 +36,7 @@ class SeedTradesController < ApplicationController
   def decline
     @seed_trade.update_columns(declined_date: Time.zone.now)
     redirect_to member_seed_trades_path,
-      notice: 'You have successfully declined to this request.'
+      notice: 'You have successfully declined this request.'
   end
 
   # PATCH /seed_trades/1/accept
@@ -56,13 +57,19 @@ class SeedTradesController < ApplicationController
   def receive
     @seed_trade.update_columns(received_date: Time.zone.now)
     redirect_to member_seed_trades_path,
-      notice: 'You have successfully marked this request.'
+      notice: 'You have successfully marked this request as received.'
   end
 
   private
 
   def set_seed_trade
     @seed_trade = SeedTrade.find(params[:id])
+  end
+
+  def send_new_seed_request_email(seed_trade)
+    if seed_trade.seed.owner.send_notification_email
+      Notifier.new_seed_trade_request(seed_trade).deliver!
+    end
   end
 
   def seed_trade_params

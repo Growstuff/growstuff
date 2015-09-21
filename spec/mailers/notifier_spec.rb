@@ -42,7 +42,6 @@ describe Notifier do
     it 'includes the new harvest URL' do
       mail.body.encoded.should match new_harvest_path
     end
-
   end
 
 
@@ -65,6 +64,35 @@ describe Notifier do
 
     it 'includes the requested crop URL' do
       mail.body.encoded.should match crop_url(crop)
+    end
+  end
+
+  describe "new seed trade" do
+    let(:seed_trade) { FactoryGirl.create(:seed_trade) }
+    let(:mail) { Notifier.new_seed_trade_request(seed_trade) }
+
+    it 'sets the subject correctly' do
+      subject  = "#{seed_trade.requester.login_name} has requested "
+      subject += "#{seed_trade.seed.crop.name} seeds from you"
+      expect(mail.subject).to eq subject
+    end
+
+    it { expect(mail.from).to eq ["noreply@growstuff.org"] }
+
+    it { expect(mail.to).to eq [seed_trade.seed.owner.email] }
+
+    it { expect(mail.body).to match seed_trade.message }
+
+    it { expect(mail.body.encoded).to match member_seed_trades_url(seed_trade.seed.owner.id) }
+
+    it { expect(mail.body.encoded).to match member_seed_trade_url(seed_trade.seed.owner.id, seed_trade.id) }
+
+    it 'has unsubscribe url' do
+      verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+      member_id = seed_trade.seed.owner.id
+      signed_message = verifier.generate ({ member_id: member_id,
+        type: :send_notification_email })
+      expect(mail.body.encoded).to match unsubscribe_member_url(signed_message)
     end
   end
 
@@ -122,6 +150,5 @@ describe Notifier do
       expect(mail.body.encoded).to match "Totally fake"
     end
   end
-
 
 end

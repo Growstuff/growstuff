@@ -10,8 +10,8 @@ class SeedTrade < ActiveRecord::Base
                  'seeds.owner_id = ? or requester_id = ?',
                  member.id, member.id).references(:seeds) }
 
-  validates :message, presence: true
-  validates :address, presence: true
+  validates :message, presence: true, allow_blank: false
+  validates :address, presence: true, allow_blank: false
 
   def replyed?
     self.accepted? || self.declined?

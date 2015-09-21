@@ -57,9 +57,9 @@ class Ability
       # note we don't support update for notifications
 
       # can read seed requests if you are requester or seed owner
-      can    :read,   SeedTrade, requester_id: member.id
-      can    :read,   SeedTrade, seed: { :owner_id => member.id }
-      can    :create, SeedTrade, requester_id: member.id
+      can :read,   SeedTrade, requester_id: member.id
+      can :read,   SeedTrade, seed: { :owner_id => member.id }
+      can :create, SeedTrade, requester_id: member.id
 
       # you can't create a request for yourself
       cannot :create, SeedTrade, seed: { :owner_id => member.id }
