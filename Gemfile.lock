@@ -129,7 +129,7 @@ GEM
     csv_shaper (1.1.1)
       activesupport (>= 3.0.0)
     dalli (2.7.2)
-    database_cleaner (1.3.0)
+    database_cleaner (1.5.0)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     devise (3.4.1)
@@ -470,7 +470,7 @@ DEPENDENCIES
   coveralls
   csv_shaper
   dalli
-  database_cleaner (~> 1.3.0)
+  database_cleaner (~> 1.5.0)
   devise (~> 3.4.1)
   elasticsearch-model
   elasticsearch-rails
