@@ -9,7 +9,7 @@ env:
     secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
 bundler_args: "--without development production staging"
 rvm:
-- 2.1.6
+- 2.1.7
 before_script:
 - psql -c 'create database growstuff_test;' -U postgres
 script:
