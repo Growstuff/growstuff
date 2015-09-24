@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.6'
+ruby '2.1.7'
 
 gem 'rails', '4.1.11'
 
@@ -116,7 +116,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'         # unit testing framework
   gem 'rspec-activemodel-mocks'
   gem 'byebug'                          # debugging
-  gem 'database_cleaner', '~> 1.3.0'
+  gem 'database_cleaner', '~> 1.5.0'
   gem 'webrat'                          # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.5.0'  # for creating test data
   gem 'coveralls', require: false       # coverage analysis
@@ -124,6 +124,7 @@ group :development, :test do
   gem 'capybara-email'                  # integration tests for email
   gem 'poltergeist', '~> 1.6'           # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+  gem 'selenium-webdriver'
 end
 
 group :travis do

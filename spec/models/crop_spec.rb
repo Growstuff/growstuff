@@ -309,7 +309,7 @@ describe Crop do
     @maize.plant_parts.should include @pp2
   end
 
-  it "doesn't dupliate plant_parts" do
+  it "doesn't duplicate plant_parts" do
     @maize = FactoryGirl.create(:maize)
     @pp1 = FactoryGirl.create(:plant_part)
     @h1 = FactoryGirl.create(:harvest,
