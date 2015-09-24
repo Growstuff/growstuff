@@ -151,3 +151,10 @@ en:
       post: "Post"
       edit_profile: "Edit profile"
 
+  about:
+    contact:
+      title: "Contact"
+      general_email: "General contact email"
+      support_accounts_enquiries_html: "Support and accounts enquiries (not covered by the %{FAQ_link})"
+      faq: "FAQ"
+      media_press_enquiries: "Media/Press enquiries"

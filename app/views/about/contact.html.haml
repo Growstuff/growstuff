@@ -1,16 +1,13 @@
--content_for :title, 'Contact'
+-content_for :title, t('.title')
 
 %dl
-  %dt General contact email
+  %dt= t('.general_email')
   %dd= link_to 'info@growstuff.org', 'mailto:info@growstuff.org'
 %dl
-  %dt
-    Support and accounts enquiries (not covered by the
-    =succeed ")" do
-      =link_to 'FAQ', url_for(:controller => '/support')
+  %dt= t('.support_accounts_enquiries_html', FAQ_link: (link_to t('.faq'), url_for(:controller => '/support')))
   %dd= link_to 'support@growstuff.org', 'mailto:support@growstuff.org'
 %dl
-  %dt Media/Press enquiries
+  %dt= t('.media_press_enquiries')
   %dd= link_to 'media@growstuff.org', 'mailto:media@growstuff.org'
 %dl
   %dt Twitter
