@@ -66,12 +66,12 @@ class Ability
 
       # you can decline if the trade was not accepted or declined
       can :decline,  SeedTrade do |trade|
-        trade.seed.owner_id == member.id && !trade.replyed?
+        trade.seed.owner_id == member.id && !trade.replied?
       end
 
       # you can accept if the trade was not accepted or declined
       can :accept,  SeedTrade do |trade|
-        trade.seed.owner_id == member.id && !trade.replyed?
+        trade.seed.owner_id == member.id && !trade.replied?
       end
 
       # you can mark as sent if you has already accepted

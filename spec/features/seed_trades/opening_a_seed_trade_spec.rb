@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "request seeds", :js => true do
-  context "signed in user" do
+  context "signed in user trader" do
     let(:member)              { create :member }
 
     after :each do
@@ -17,7 +17,6 @@ feature "request seeds", :js => true do
         expect(page).not_to have_button "Decline"
         expect(page).not_to have_button "Mark as Sent"
       end
-
 
       scenario "open a seed request just created" do
         seed_trade = FactoryGirl.create(:seed_trade, requester: member)
@@ -184,6 +183,37 @@ feature "request seeds", :js => true do
       end
 
     end
+  end
 
+  context "signed in user acting as a third party" do
+    let(:member) { create :member}
+    let(:seed_trade) { create :seed_trade}
+
+    background { login_as member }
+
+    scenario "do not access another member's seed trades dashboard" do
+      visit member_seed_trades_path(seed_trade.seed.owner.id)
+      expect(page).to have_content "You have no trades."
+    end
+
+    scenario "do not access another member's trades" do
+      visit member_seed_trade_path(seed_trade.requester.id, seed_trade.id)
+      expect(current_path).to eq root_path
+      expect(page).to have_content "Not authorized to show seed trade."
+    end
+  end
+
+  context "NOT signed in user" do
+    let(:seed_trade) { create :seed_trade}
+
+    scenario "do not access another member's seed trades dashboard" do
+      visit member_seed_trades_path(seed_trade.requester.id)
+      expect(current_path).to eq member_session_path
+    end
+
+    scenario "do not access another member's trades" do
+      visit member_seed_trade_path(seed_trade.requester.id, seed_trade.id)
+      expect(current_path).to eq member_session_path
+    end
   end
 end

@@ -35,6 +35,7 @@ en:
       admin: "Admin"
       your_stuff: "Your Stuff (%{unread_count})"
       my_seed_trades: "My Seed Trades"
+      my_seed_trades_unread: "My Seed Trades (%{unread_count})"
 
   crops:
     index:

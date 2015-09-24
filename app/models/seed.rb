@@ -6,7 +6,7 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
 
-  default_scope { order("created_at desc") }
+  default_scope { order(created_at: :desc) }
 
   validates :crop, :approved => true
 
@@ -95,5 +95,9 @@ class Seed < ActiveRecord::Base
 
   def seed_slug
     "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
+  end
+
+  def self.count_not_replied_requests
+    joins(:seed_trades).merge(SeedTrade.not_replied).size
   end
 end

@@ -2,18 +2,21 @@ class SeedTrade < ActiveRecord::Base
   belongs_to :seed
   belongs_to :requester, class_name: 'Member'
 
-  default_scope { order("seed_trades.created_at desc") }
+  default_scope { order(created_at: :desc) }
 
   # List seed trades both when member is requester and seed owner
   scope :by_member,
                  ->(member) { includes(:seed).where(
-                 'seeds.owner_id = ? or requester_id = ?',
+                 'seeds.owner_id = ? OR requester_id = ?',
                  member.id, member.id).references(:seeds) }
+
+  scope :not_replied,
+                 ->{where("accepted_date IS NULL AND declined_date IS NULL")}
 
   validates :message, presence: true, allow_blank: false
   validates :address, presence: true, allow_blank: false
 
-  def replyed?
+  def replied?
     self.accepted? || self.declined?
   end
 

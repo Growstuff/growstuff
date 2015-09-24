@@ -26,12 +26,12 @@ describe SeedTrade do
     expect(seed_trade).not_to be_valid
   end
 
-  it "shows if is replyed" do
-    expect(seed_trade.replyed?).to be_falsy
+  it "shows if is replied" do
+    expect(seed_trade.replied?).to be_falsy
     accepted_seed_trade = FactoryGirl.build(:accepted_seed_trade)
-    expect(accepted_seed_trade.replyed?).to be_truthy
+    expect(accepted_seed_trade.replied?).to be_truthy
     declined_seed_trade = FactoryGirl.build(:declined_seed_trade)
-    expect(accepted_seed_trade.replyed?).to be_truthy
+    expect(accepted_seed_trade.replied?).to be_truthy
   end
 
   it "filter by member being requester" do

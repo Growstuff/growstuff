@@ -13,24 +13,24 @@
       - if can? :read, trade
         %tr
           %td
-            - if trade.replyed?
+            - if trade.replied? || trade.requester == current_member
               = link_to trade.requester, member_path(trade.requester)
             - else
               %strong= link_to trade.requester, member_path(trade.requester)
           %td
-            - if trade.replyed?
+            - if trade.replied? || trade.requester == current_member
               =  link_to seed_trade_request_description(current_member, trade),
               member_seed_trade_path(current_member.id, trade.id)
             - else
               %strong= link_to seed_trade_request_description(current_member, trade),
               member_seed_trade_path(current_member.id, trade.id)
           %td
-            - if trade.replyed?
+            - if trade.replied? || trade.requester == current_member
               = trade.created_at
             - else
               %strong= trade.created_at
           %td
-            - if trade.replyed?
+            - if trade.replied? || trade.requester == current_member
               = trade.status
             - else
               %strong= trade.status

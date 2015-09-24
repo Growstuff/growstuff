@@ -39,6 +39,16 @@ feature "request seeds", :js => true do
         expect(page).not_to have_link "Request seeds"
       end
     end
-
   end
+
+  context "NOT signed in user" do
+    let(:seed_trade) { create :seed_trade}
+
+    scenario "do not request seeds" do
+      visit new_member_seed_trade_path(seed_id: seed_trade.seed.id,
+      member_id: seed_trade.seed.owner.id)
+      expect(current_path).to eq member_session_path
+    end
+  end
+
 end
