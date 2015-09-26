@@ -1,7 +1,7 @@
 = form_for [Member, @seed_trade] do |f|
   - if @seed_trade.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@post.errors.size, "error")} prohibited this request from being sent:"
+      %h2= "#{pluralize(@seed_trade.errors.size, "error")} prohibited this request from being sent:"
       %ul
         - @seed_trade.errors.full_messages.each do |msg|
           %li= msg

@@ -29,6 +29,9 @@ class SeedTradesController < ApplicationController
       send_new_seed_request_email(@seed_trade)
       redirect_to member_seed_trades_path,
         notice: 'A seed trade request was successfully created.'
+    else
+      @seed = @seed_trade.seed
+      render :new
     end
   end
 

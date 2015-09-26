@@ -14,6 +14,25 @@ feature "request seeds", :js => true do
         expect(page).not_to have_link "Request seeds"
       end
 
+      scenario "do invalid requests" do
+        visit seed_path(tradable_seed)
+        click_link "Request seeds"
+        expect(current_path).to eq new_member_seed_trade_path(member.id)
+        within "form#new_seed_trade" do
+          fill_in :seed_trade_address, with: "P. Sherman. 42 Wallaby Way, Sydney."
+          click_button "Send"
+        end
+        expect(page).to have_content "1 error prohibited this request from being sent:"
+        expect(page).to have_content "Message can't be blank"
+        within "form#new_seed_trade" do
+          fill_in :seed_trade_address, with: ""
+          fill_in :seed_trade_message, with: "My message"
+          click_button "Send"
+        end
+        expect(page).to have_content "1 error prohibited this request from being sent:"
+        expect(page).to have_content "Address can't be blank"
+      end
+
       scenario "request seeds" do
         visit seed_path(tradable_seed)
         click_link "Request seeds"
