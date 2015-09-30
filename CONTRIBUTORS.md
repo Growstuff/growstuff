@@ -66,3 +66,4 @@ submit the change with your pull request.
 - Anthony Atkinson / [sha1sum](https://github.com/sha1sum)
 - Terence Conquest / [twconquest](https://github.com/twconquest)
 - Daniel O'Connor / [CloCkWeRX](https://github.com/CloCkWeRX)
+- Gustavo Souza / [Gustavor-Souza](https://github.com/gustavor-souza)
