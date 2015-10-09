@@ -45,7 +45,7 @@ describe "forums/index" do
     it "displays posts" do
       assert_select "table"
       rendered.should have_content @post.subject
-      rendered.should have_content Date.today.to_s(:short)
+      rendered.should have_content Time.zone.today.to_s(:short)
     end
 
     it "displays comment count" do
