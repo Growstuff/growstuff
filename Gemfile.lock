@@ -171,8 +171,6 @@ GEM
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.10)
-    figaro (1.0.0)
-      thor (~> 0.14)
     flickraw (0.9.8)
     formatador (0.2.5)
     friendly_id (5.0.4)
@@ -475,7 +473,6 @@ DEPENDENCIES
   elasticsearch-model
   elasticsearch-rails
   factory_girl_rails (~> 4.5.0)
-  figaro
   flickraw
   friendly_id (~> 5.0.4)
   geocoder!
@@ -520,3 +517,6 @@ DEPENDENCIES
   unicorn
   webrat
   will_paginate (~> 3.0)
+
+BUNDLED WITH
+   1.11.2
