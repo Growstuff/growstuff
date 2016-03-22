@@ -33,7 +33,7 @@
       = link_to "#{@author}'s posts RSS feed", posts_path(:format => 'rss')
 
   - else
-    Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
+    Subscribe to the #{SECRETS.GROWSTUFF_SITE_NAME}
     = link_to "posts RSS feed", posts_path(:format => 'rss')
     or
     = succeed "." do

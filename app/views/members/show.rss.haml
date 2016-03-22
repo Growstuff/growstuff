@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 %rss{:version => 2.0}
   %channel
-    %title #{@member.login_name}'s recent posts (#{ENV['GROWSTUFF_SITE_NAME']})
+    %title #{@member.login_name}'s recent posts (#{SECRETS.GROWSTUFF_SITE_NAME})
     %link= member_url(@member)
     - @posts.each do |post|
       %item

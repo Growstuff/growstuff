@@ -1,4 +1,4 @@
-= content_for :title, t(".title", site_name: "#{ENV['GROWSTUFF_SITE_NAME']}")
+= content_for :title, t(".title", site_name: "#{SECRETS.GROWSTUFF_SITE_NAME}")
 
 = form_tag(members_path, :method => :get, :class => 'form-inline', :role => 'form') do
   .form-group

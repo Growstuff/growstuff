@@ -64,7 +64,7 @@ class Crop < ActiveRecord::Base
           max_gram: 10,
           # token_chars: Elasticsearch will split on characters
           # that don’t belong to any of these classes
-          token_chars: [ "letter", "digit" ] 
+          token_chars: [ "letter", "digit" ]
         }
       },
       analyzer: {
@@ -82,7 +82,7 @@ class Crop < ActiveRecord::Base
         indexes :scientific_name,
           type: 'string',
           analyzer: 'gs_edgeNGram_analyzer',
-          # Disabling field-length norm (norm). If the norm option is turned on(by default), 
+          # Disabling field-length norm (norm). If the norm option is turned on(by default),
           # higher weigh would be given for shorter fields, which in our case is irrelevant.
           norms: { enabled: false }
       end
@@ -309,10 +309,10 @@ class Crop < ActiveRecord::Base
 
   # Crop.search(string)
   def self.search(query)
-    if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
+    if SECRETS.GROWSTUFF_ELASTICSEARCH == "true"
       search_str = query.nil? ? "" : query.downcase
       response = __elasticsearch__.search( {
-          # Finds documents which match any field, but uses the _score from 
+          # Finds documents which match any field, but uses the _score from
           # the best field insead of adding up _score from each field.
           query: {
             multi_match: {
