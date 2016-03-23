@@ -6,7 +6,7 @@ class Notifier < ActionMailer::Base
     if SECRETS.secret_key_base
       return ActiveSupport::MessageVerifier.new(SECRETS.secret_key_base)
     else
-      raise "secret_key_base environment variable not set - have you created config/application.yml?"
+      raise "secret_key_base environment variable not set - have you created config/secrets.yml?"
     end
   end
 
