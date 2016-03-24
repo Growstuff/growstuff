@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/alexpeattie/heroku_secrets.git
+  revision: 717af8e0acf399bc88d2c8c1a7e230023942af0f
+  specs:
+    heroku_secrets (0.0.2)
+
+GIT
   remote: https://github.com/alexreisner/geocoder.git
   revision: 104d466ba7097b7dce5ba19f8e4091b7f69ccdf6
   ref: 104d46
@@ -483,6 +489,7 @@ DEPENDENCIES
   haml
   haml-rails
   heroku-api
+  heroku_secrets!
   i18n-tasks
   jquery-rails
   jquery-ui-rails (~> 5.0.2)

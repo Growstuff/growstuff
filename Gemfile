@@ -95,7 +95,7 @@ group :production, :staging do
   gem 'memcachier'
   gem 'rails_12factor' # supresses heroku plugin injection
   gem 'bonsai-elasticsearch-rails'  # Integration with Bonsa-Elasticsearch on heroku
-  gem 'heroku_secrets'
+  gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 end
 
 group :development do
