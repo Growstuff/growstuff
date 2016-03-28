@@ -2,6 +2,7 @@
 - content_for :subtitle, @member.location
 - content_for :opengraph do
     <meta property="og:image" content="#{avatar_uri(@member, 150)}"/>
+    <meta property="og:image:user_generated" content="true" />
     <meta property="og:title" content="#{@member.login_name}" />
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="#{request.original_url}" />
