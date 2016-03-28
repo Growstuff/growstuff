@@ -1,3 +1,11 @@
+- content_for :opengraph do
+  - if @scientific_name.crop.photos.any?
+    <meta property="og:image" content="#{@scientific_name.crop.photos.first.thumbnail_url}"/>
+  <meta property="og:title" content="#{@scientific_name.scientific_name}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="#{request.original_uri}" />
+  <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
+
 %p#notice= notice
 
 = render :partial => 'crops/approval_status_message', :locals => { :crop => @scientific_name.crop }
