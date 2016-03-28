@@ -28,6 +28,19 @@ describe "scientific_names/show" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     rendered.should match(/Zea mays/)
-    rendered.should match(@scientific_name.id.to_s)
+  end
+
+  context 'signed in' do
+
+    before :each do
+      @wrangler = FactoryGirl.create(:crop_wrangling_member)
+      sign_in @wrangler
+      controller.stub(:current_user) { @wrangler }
+      render
+    end
+
+    it 'should have an edit button' do
+      rendered.should have_content 'Edit'
+    end
   end
 end
