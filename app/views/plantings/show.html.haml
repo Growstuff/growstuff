@@ -1,7 +1,7 @@
 =content_for :title, "#{@planting.crop} in #{@planting.location}"
 - content_for :opengraph do
-  - if @planting.crop.photos.any?
-    <meta property="og:image" content="#{@planting.crop.photos.first.thumbnail_url}"/>
+  = @planting.crop.photos.each do |photo|
+    <meta property="og:image" content="#{photo.thumbnail_url}"/>
   <meta property="og:title" content="#{@planting.crop} in #{@planting.location}" />
   - if @planting.description
     <meta property="og:description" content="#{@planting.description}" />
