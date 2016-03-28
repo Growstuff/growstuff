@@ -271,7 +271,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.6.1)
     mimemagic (0.3.0)
-    mini_portile (0.6.1)
+    mini_portile2 (2.0.0)
     minitest (5.8.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
@@ -279,8 +279,8 @@ GEM
     nenv (0.2.0)
     netrc (0.10.3)
     newrelic_rpm (3.9.8.273)
-    nokogiri (1.6.5)
-      mini_portile (~> 0.6.0)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -520,3 +520,6 @@ DEPENDENCIES
   unicorn
   webrat
   will_paginate (~> 3.0)
+
+BUNDLED WITH
+   1.11.2
