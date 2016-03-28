@@ -1,4 +1,12 @@
 =content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
+- content_for :opengraph do
+  = @harvest.photos.each do |photo|
+    <meta property="og:image" content="#{photo.thumbnail_uri}"/>
+  <meta property="og:image:user_generated" content="true" />
+  <meta property="og:title" content="#{@harvest.crop} harvested by #{@harvest.owner}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="#{request.original_url}" />
+  <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
 
 .row
   .col-md-6
