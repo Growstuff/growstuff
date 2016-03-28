@@ -16,7 +16,7 @@ gem 'less-rails', '~> 2.5.0'
 # CSS framework
 gem 'less-rails-bootstrap', '~> 3.2.0'
 
-gem 'uglifier', '~> 2.5.3'         # JavaScript compressor
+gem 'uglifier', '~> 2.7.2'         # JavaScript compressor
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '~> 5.0.2'
