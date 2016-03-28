@@ -35,6 +35,7 @@ describe "scientific_names/show" do
     before :each do
       @wrangler = FactoryGirl.create(:crop_wrangling_member)
       sign_in @wrangler
+      controller.stub(:current_user) { @wrangler }
       render
     end
 
