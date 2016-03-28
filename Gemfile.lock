@@ -53,7 +53,7 @@ GEM
     autoprefixer-rails (5.1.1)
       execjs
       json
-    bcrypt (3.1.9)
+    bcrypt (3.1.11)
     better_errors (2.0.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -272,7 +272,7 @@ GEM
     mime-types (2.6.1)
     mimemagic (0.3.0)
     mini_portile2 (2.0.0)
-    minitest (5.8.0)
+    minitest (5.8.4)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -344,7 +344,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
-    rake (10.4.2)
+    rake (11.1.2)
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -434,7 +434,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    warden (1.2.3)
+    warden (1.2.6)
       rack (>= 1.0)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
