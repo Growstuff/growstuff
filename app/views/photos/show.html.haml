@@ -1,4 +1,11 @@
--content_for :title, @photo.title
+- content_for :title, @photo.title
+- content_for :opengraph do
+  <meta property="og:title" content="#{@photo.title}" />
+  <meta property="og:image" content="#{@photo.fullsize_url}" />
+  <meta property="og:image:user_generated" content="true" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="#{request.original_url}" />
+  <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
 
 .row
   .col-md-6
