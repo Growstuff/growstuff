@@ -1,5 +1,13 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
-
+- content_for :opengraph do
+  - if @seed.crop.photos.any?
+    <meta property="og:image" content="#{@seed.crop.photos.first.thumbnail_url}"/>
+  - if @seed.description
+    <meta property="og:description" content="#{@seed.description}" />
+  <meta property="og:title" content="#{@seed.owner}'s #{@seed.crop} seeds" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="#{request.original_uri}" />
+  <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
 .row
   .col-md-6
     %p

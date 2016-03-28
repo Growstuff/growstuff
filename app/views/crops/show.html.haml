@@ -2,7 +2,7 @@
 - content_for :subtitle, @crop.default_scientific_name
 - content_for :opengraph do
   - if @crop.photos.any?
-    <meta property="og:image" content="#{@crop.photo.first.thumbnail_url"/>
+    <meta property="og:image" content="#{@crop.photos.first.thumbnail_url}"/>
   <meta property="og:title" content="#{@crop.name}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="#{request.original_uri}" />
