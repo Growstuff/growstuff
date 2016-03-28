@@ -1,4 +1,9 @@
 -content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} members near #{@place}"
+- content_for :opengraph do
+  <meta property="og:title" content="#{ENV['GROWSTUFF_SITE_NAME']} members near #{@place}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="#{request.original_url}" />
+  <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
 
 = render partial: 'search_form'
 
