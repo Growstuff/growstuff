@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.7'
 
-gem 'rails', '4.1.11'
+gem 'rails', '~> 4.1.11'
 
 gem 'bundler', '>=1.1.5'
 
@@ -61,7 +61,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.4.1'
+gem 'devise', '~> 3.5.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 5.0.4'
