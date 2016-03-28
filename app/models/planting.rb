@@ -116,7 +116,7 @@ class Planting < ActiveRecord::Base
     interesting_plantings = Array.new
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 
-    Planting.all.each do |p|
+    Planting.includes(:photos).each do |p|
       break if interesting_plantings.size == howmany # got enough yet?
       if require_photo
         next unless p.photos.present? # skip those without photos, if required
