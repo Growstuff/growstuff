@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.7'
 
-gem 'rails', '4.1.11'
+gem 'rails', '~> 4.1.11'
 
 gem 'bundler', '>=1.1.5'
 
@@ -16,7 +16,7 @@ gem 'less-rails', '~> 2.5.0'
 # CSS framework
 gem 'less-rails-bootstrap', '~> 3.2.0'
 
-gem 'uglifier', '~> 2.5.3'         # JavaScript compressor
+gem 'uglifier', '~> 2.7.2'         # JavaScript compressor
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '~> 5.0.2'
@@ -61,7 +61,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.4.1'
+gem 'devise', '~> 3.5.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 5.0.4'
@@ -113,7 +113,7 @@ end
 
 group :development, :test do
   gem 'haml-rails'                      # HTML templating language
-  gem 'rspec-rails', '~> 3.1.0'         # unit testing framework
+  gem 'rspec-rails', '~> 3.4.0'         # unit testing framework
   gem 'rspec-activemodel-mocks'
   gem 'byebug'                          # debugging
   gem 'database_cleaner', '~> 1.5.0'
