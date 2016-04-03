@@ -41,7 +41,9 @@ class Post < ActiveRecord::Base
   validates :subject,
     :format => {
       :with => /\S/
-    }
+    },
+    :length => { :maximum => 255 }
+
 
   def author_date_subject
     # slugs are created before created_at is set
