@@ -3,6 +3,7 @@ require 'rails_helper'
 feature "Harvesting a crop", :js do
   let(:member) { create :member }
   let!(:maize) { create :maize }
+  let!(:plant_part) { create :plant_part }
 
   background do
     login_as member
@@ -28,7 +29,7 @@ feature "Harvesting a crop", :js do
     select_from_autocomplete "maize"
 
     within "form#new_harvest" do
-      select "whole plant", from: 'harvest[plant_part_id]'
+      select plant_part.name, from: 'harvest[plant_part_id]'
       fill_in "When?", with: "2014-06-15"
       fill_in "How many?", with: 42
       fill_in "Weighing (in total):", with: 42
@@ -63,7 +64,7 @@ feature "Harvesting a crop", :js do
     visit crop_path(maize)
     click_link "Harvest this"
     within "form#new_harvest" do
-      select "whole plant", from: 'harvest[plant_part_id]'
+      select plant_part.name, from: 'harvest[plant_part_id]'
       expect(page).to have_selector "input[value='maize']"
       click_button "Save"
     end
