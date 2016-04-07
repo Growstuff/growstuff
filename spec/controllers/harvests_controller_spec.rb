@@ -23,7 +23,8 @@ describe HarvestsController do
   def valid_attributes
     {
       :owner_id => subject.current_member.id,
-      :crop_id => FactoryGirl.create(:crop).id
+      :crop_id => FactoryGirl.create(:crop).id,
+      :plant_part_id => FactoryGirl.create(:plant_part).id
     }
   end
 
