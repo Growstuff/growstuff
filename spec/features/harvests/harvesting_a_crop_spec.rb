@@ -26,7 +26,9 @@ feature "Harvesting a crop", :js do
   scenario "Creating a new harvest", :js do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
+
     within "form#new_harvest" do
+      select "whole plant", from: '#harvest_plant_part_id'
       fill_in "When?", with: "2014-06-15"
       fill_in "How many?", with: 42
       fill_in "Weighing (in total):", with: 42
