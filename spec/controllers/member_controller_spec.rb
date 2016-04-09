@@ -62,12 +62,12 @@ describe MembersController do
     end
 
     it "doesn't show completely nonsense members" do
-      lambda { get :show, {:id => 9999} }.should raise_error
+      lambda { get :show, {:id => 9999} }.should raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "doesn't show unconfirmed members" do
       @member2 = FactoryGirl.create(:unconfirmed_member)
-      lambda { get :show, {:id => @member2.id} }.should raise_error
+      lambda { get :show, {:id => @member2.id} }.should raise_error(ActiveRecord::RecordNotFound)
     end
 
   end
