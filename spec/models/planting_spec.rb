@@ -57,13 +57,13 @@ describe Planting do
 
       now_earlier_than_planting = 2.days.ago
 
-      @planting.percentage_grown(now_earlier_than_planting).should be 0
+      @planting.percentage_grown(now_earlier_than_planting).should be nil
     end
 
     it 'should reflect the current growth' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: 10, planted_at: 4.days.ago)
 
-      @planting.percentage_grown.should be 40
+      @planting.percentage_grown(Date.today).should be 40
     end
 
     it 'should not be calculated for unplanted plantings' do
