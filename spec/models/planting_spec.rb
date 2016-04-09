@@ -37,6 +37,48 @@ describe Planting do
     Planting.first.should eq @planting2
   end
 
+  describe '#planted?' do
+    it "should be false for future plantings"
+    it "should be false for never planted"
+    it "should be false for future plantings"
+  end
+
+  describe '#percentage_grown' do
+    it 'should not be more than 100%' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
+
+      now_later_than_planting = 2.days.from_now
+
+      @planting.percentage_grown(now_later_than_planting).should be 100
+    end
+
+    it 'should not be less than 0%' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
+
+      now_earlier_than_planting = 2.days.ago
+
+      @planting.percentage_grown(now_earlier_than_planting).should be 0
+    end
+
+    it 'should reflect the current growth' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: 10, planted_at: 4.days.ago)
+
+      @planting.percentage_grown.should be 40
+    end
+
+    it 'should not be calculated for unplanted plantings' do
+      @planting = FactoryGirl.build(:planting, planted_at: nil)
+
+      @planting.planted?.should be false
+      @planting.percentage_grown.should be nil
+    end
+    it 'should not be calculated for plantings with an unknown days before maturity' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: nil)
+
+      @planting.percentage_grown.should be nil    
+    end
+  end
+
   context 'delegation' do
     it 'system name' do
       planting.crop_name.should eq planting.crop.name
