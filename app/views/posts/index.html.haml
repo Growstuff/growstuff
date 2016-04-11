@@ -34,7 +34,7 @@
 
   - else
     Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
-    = link_to "posts RSS feed", posts_by_author(:format => 'rss')
+    = link_to "posts RSS feed", posts_path(:format => 'rss')
     or
     = succeed "." do
       = link_to "comments RSS feed", comments_path(:format => 'rss')
