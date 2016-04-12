@@ -72,6 +72,7 @@ describe Planting do
       @planting.planted?.should be false
       @planting.percentage_grown.should be nil
     end
+
     it 'should not be calculated for plantings with an unknown days before maturity' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: nil)
 
@@ -83,12 +84,15 @@ describe Planting do
     it 'system name' do
       planting.crop_name.should eq planting.crop.name
     end
+
     it 'wikipedia url' do
       planting.crop_en_wikipedia_url.should eq planting.crop.en_wikipedia_url
     end
+
     it 'default scientific name' do
       planting.crop_default_scientific_name.should eq planting.crop.default_scientific_name
     end
+
     it 'plantings count' do
       planting.crop_plantings_count.should eq planting.crop.plantings_count
     end
@@ -309,13 +313,11 @@ describe Planting do
         @f = FactoryGirl.build(:planting, :planted_at => '2013-01-01', :finished_at => nil)
         @f.should be_valid
       end
+
       it 'allows just the finished date' do
         @f = FactoryGirl.build(:planting, :finished_at => '2013-01-01', :planted_at => nil)
         @f.should be_valid
       end
-
     end
-
   end
-
 end
