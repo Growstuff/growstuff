@@ -1,13 +1,13 @@
 class Order < ActiveRecord::Base
   belongs_to :member
 
-  has_many :order_items, :dependent => :destroy
+  has_many :order_items, dependent: :destroy
 
   default_scope { order('created_at DESC') }
 
-  validates :referral_code, :format => {
-    :with => /\A[a-zA-Z0-9 ]*\z/,
-    :message => "may only include letters and numbers"
+  validates :referral_code, format: {
+    with: /\A[a-zA-Z0-9 ]*\z/,
+    message: "may only include letters and numbers"
   }
 
   before_save :standardize_referral_code
@@ -27,9 +27,9 @@ class Order < ActiveRecord::Base
     items = []
     order_items.each do |i|
       items.push({
-        :name => i.product.name,
-        :quantity => i.quantity,
-        :amount => i.price
+        name: i.product.name,
+        quantity: i.quantity,
+        amount: i.price
       })
     end
     return items
@@ -87,7 +87,7 @@ class Order < ActiveRecord::Base
           end
         when "referral_code"
           # coerce to uppercase
-          return Order.where(:referral_code => args[:for].upcase)
+          return Order.where(referral_code: args[:for].upcase)
       end
     end
     return []

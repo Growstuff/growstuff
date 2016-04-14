@@ -1,5 +1,5 @@
 class PlantingsController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :show]
+  before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /plantings
@@ -8,21 +8,21 @@ class PlantingsController < ApplicationController
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])
     if @owner
-      @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(:page => params[:page])
+      @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
     elsif @crop
-      @plantings = @crop.plantings.includes(:owner, :crop, :garden).paginate(:page => params[:page])
+      @plantings = @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
     else
-      @plantings = Planting.includes(:owner, :crop, :garden).paginate(:page => params[:page])
+      @plantings = Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
     end
 
     respond_to do |format|
-      format.html { @plantings = @plantings.paginate(:page => params[:page]) }
+      format.html { @plantings = @plantings.paginate(page: params[:page]) }
       format.json { render json: @plantings }
-      format.rss { render :layout => false } #index.rss.builder
+      format.rss { render layout: false } #index.rss.builder
       format.csv do
         specifics = (@owner ? "#{@owner.login_name}-" : @crop ? "#{@crop.name}-" : nil)
         @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
-        render :csv => @plantings
+        render csv: @plantings
       end
     end
   end

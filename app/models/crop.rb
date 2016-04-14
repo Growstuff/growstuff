@@ -4,42 +4,42 @@ class Crop < ActiveRecord::Base
 
   has_many :scientific_names, after_add: :update_index, after_remove: :update_index
   accepts_nested_attributes_for :scientific_names,
-    :allow_destroy => true,
-    :reject_if     => :all_blank
+    allow_destroy: true,
+    reject_if: :all_blank
 
   has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   has_many :plantings
-  has_many :photos, :through => :plantings
+  has_many :photos, through: :plantings
   has_many :seeds
   has_many :harvests
-  has_many :plant_parts, -> { uniq }, :through => :harvests
-  belongs_to :creator, :class_name => 'Member'
-  belongs_to :requester, :class_name => 'Member'
+  has_many :plant_parts, -> { uniq }, through: :harvests
+  belongs_to :creator, class_name: 'Member'
+  belongs_to :requester, class_name: 'Member'
 
-  belongs_to :parent, :class_name => 'Crop'
-  has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
+  belongs_to :parent, class_name: 'Crop'
+  has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
   has_and_belongs_to_many :posts
   before_destroy {|crop| crop.posts.clear}
 
   default_scope { order("lower(name) asc") }
-  scope :recent, -> { where(:approval_status => "approved").reorder("created_at desc") }
-  scope :toplevel, -> { where(:approval_status => "approved", :parent_id => nil) }
-  scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
-  scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
-  scope :pending_approval, -> { where(:approval_status => "pending") }
-  scope :approved, -> { where(:approval_status => "approved") }
-  scope :rejected, -> { where(:approval_status => "rejected") }
+  scope :recent, -> { where(approval_status: "approved").reorder("created_at desc") }
+  scope :toplevel, -> { where(approval_status: "approved", parent_id: nil) }
+  scope :popular, -> { where(approval_status: "approved").reorder("plantings_count desc, lower(name) asc") }
+  scope :randomized, -> { where(approval_status: "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
+  scope :pending_approval, -> { where(approval_status: "pending") }
+  scope :approved, -> { where(approval_status: "approved") }
+  scope :rejected, -> { where(approval_status: "rejected") }
 
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
-    :format => {
-      :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
-      :message => 'is not a valid English Wikipedia URL'
+    format: {
+      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
+      message: 'is not a valid English Wikipedia URL'
     },
-    :if => :approved?
+    if: :approved?
 
   ## Reasons are only necessary when rejecting
-  validates :reason_for_rejection, :presence => true, :if => :rejected?
+  validates :reason_for_rejection, presence: true, if: :rejected?
 
   ## This validation addresses a race condition
   validate :approval_status_cannot_be_changed_again
@@ -231,14 +231,14 @@ class Crop < ActiveRecord::Base
 
     crop = Crop.find_or_create_by(name: name)
     crop.update_attributes(
-      :en_wikipedia_url => en_wikipedia_url,
-      :creator_id => cropbot.id
+      en_wikipedia_url: en_wikipedia_url,
+      creator_id: cropbot.id
     )
 
     if parent
       parent = Crop.find_by_name(parent)
       if parent
-        crop.update_attributes(:parent_id => parent.id)
+        crop.update_attributes(parent_id: parent.id)
       else
         logger.warn("Warning: parent crop #{parent} not found")
       end
@@ -264,13 +264,13 @@ class Crop < ActiveRecord::Base
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
       names_to_add.each do |n|
-        if self.scientific_names.exists?(:scientific_name => n)
+        if self.scientific_names.exists?(scientific_name: n)
           logger.warn("Warning: skipping duplicate scientific name #{n} for #{self}")
         else
 
           self.scientific_names.create(
-            :scientific_name => n,
-            :creator_id => cropbot.id
+            scientific_name: n,
+            creator_id: cropbot.id
           )
         end
       end
@@ -286,12 +286,12 @@ class Crop < ActiveRecord::Base
       names_to_add = alternate_names.split(%r{,\s*})
 
       names_to_add.each do |n|
-        if self.alternate_names.exists?(:name => n)
+        if self.alternate_names.exists?(name: n)
           logger.warn("Warning: skipping duplicate alternate name #{n} for #{self}")
         else
           self.alternate_names.create(
-            :name => n,
-            :creator_id => cropbot.id
+            name: n,
+            creator_id: cropbot.id
           )
         end
       end

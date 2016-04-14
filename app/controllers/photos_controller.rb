@@ -1,11 +1,11 @@
 class PhotosController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :show]
+  before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /photos
   # GET /photos.json
   def index
-    @photos = Photo.paginate(:page => params[:page])
+    @photos = Photo.paginate(page: params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

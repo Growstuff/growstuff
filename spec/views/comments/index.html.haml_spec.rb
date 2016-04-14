@@ -25,7 +25,7 @@ describe "comments/index" do
     comments = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
         FactoryGirl.create(:comment),
-        FactoryGirl.create(:comment, :body => 'ROFL')
+        FactoryGirl.create(:comment, body: 'ROFL')
       ])
     end
     assign(:comments, comments)
@@ -39,6 +39,6 @@ describe "comments/index" do
   end
 
   it "contains an RSS feed link" do
-    assert_select "a", :href => comments_path(:format => 'rss')
+    assert_select "a", href: comments_path(format: 'rss')
   end
 end

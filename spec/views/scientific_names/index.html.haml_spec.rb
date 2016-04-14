@@ -27,8 +27,8 @@ describe "scientific_names/index" do
 
   it "renders a list of scientific_names" do
     render
-    assert_select "tr>td", :text => "Zea mays".to_s
-    assert_select "tr>td", :text => "Solanum lycopersicum".to_s
+    assert_select "tr>td", text: "Zea mays".to_s
+    assert_select "tr>td", text: "Solanum lycopersicum".to_s
   end
 
   it "doesn't show edit/destroy links" do

@@ -1,5 +1,5 @@
 class Photo < ActiveRecord::Base
-  belongs_to :owner, :class_name => 'Member'
+  belongs_to :owner, class_name: 'Member'
 
   has_and_belongs_to_many :plantings
   has_and_belongs_to_many :harvests
@@ -23,16 +23,16 @@ class Photo < ActiveRecord::Base
   # for easier stubbing and testing.
   def flickr_metadata
     flickr = owner.flickr
-    info = flickr.photos.getInfo(:photo_id => flickr_photo_id)
+    info = flickr.photos.getInfo(photo_id: flickr_photo_id)
     licenses = flickr.photos.licenses.getInfo()
     license = licenses.find { |l| l.id == info.license }
     return {
-      :title => info.title || "Untitled",
-      :license_name => license.name,
-      :license_url => license.url,
-      :thumbnail_url => FlickRaw.url_q(info),
-      :fullsize_url => FlickRaw.url_z(info),
-      :link_url => FlickRaw.url_photopage(info)
+      title: info.title || "Untitled",
+      license_name: license.name,
+      license_url: license.url,
+      thumbnail_url: FlickRaw.url_q(info),
+      fullsize_url: FlickRaw.url_z(info),
+      link_url: FlickRaw.url_photopage(info)
     }
 
   end

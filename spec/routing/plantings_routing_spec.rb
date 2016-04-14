@@ -12,11 +12,11 @@ describe PlantingsController do
     end
 
     it "routes to #show" do
-      get("/plantings/1").should route_to("plantings#show", :id => "1")
+      get("/plantings/1").should route_to("plantings#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/plantings/1/edit").should route_to("plantings#edit", :id => "1")
+      get("/plantings/1/edit").should route_to("plantings#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe PlantingsController do
     end
 
     it "routes to #update" do
-      put("/plantings/1").should route_to("plantings#update", :id => "1")
+      put("/plantings/1").should route_to("plantings#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/plantings/1").should route_to("plantings#destroy", :id => "1")
+      delete("/plantings/1").should route_to("plantings#destroy", id: "1")
     end
 
   end

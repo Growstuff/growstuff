@@ -40,7 +40,7 @@ Growstuff::Application.configure do
   # config.action_view.raise_on_missing_translations = true
   
   # Growstuff config
-  config.action_mailer.default_url_options = { :host => 'localhost:8080' }
+  config.action_mailer.default_url_options = { host: 'localhost:8080' }
 
   Growstuff::Application.configure do
     config.host = 'test.example.com'
@@ -56,7 +56,7 @@ Growstuff::Application.configure do
 
 end
 
-Geocoder.configure(:lookup => :test)
+Geocoder.configure(lookup: :test)
 
 Geocoder::Lookup::Test.add_stub(
   "Amundsen-Scott Base, Antarctica", [

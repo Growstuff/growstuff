@@ -22,9 +22,9 @@ describe CropsController do
 
   def valid_attributes
     {
-      :name => "Tomato",
-      :en_wikipedia_url => 'http://en.wikipedia.org/wiki/Tomato',
-      :approval_status => 'approved'
+      name: "Tomato",
+      en_wikipedia_url: 'http://en.wikipedia.org/wiki/Tomato',
+      approval_status: 'approved'
     }
   end
 
@@ -55,7 +55,7 @@ describe CropsController do
 
   describe "GET RSS feed" do
     it "returns an RSS feed" do
-      get :index, :format => "rss"
+      get :index, format: "rss"
       response.should be_success
       response.should render_template("crops/index")
       response.content_type.should eq("application/rss+xml")

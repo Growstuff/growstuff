@@ -1,4 +1,4 @@
-describe 'devise/confirmations/new.html.haml', :type => "view" do
+describe 'devise/confirmations/new.html.haml', type: "view" do
 
   before(:each) do
     @view.stub(:resource).and_return(Member.new)

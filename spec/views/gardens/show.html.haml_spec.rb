@@ -20,8 +20,8 @@ describe "gardens/show" do
   before(:each) do
     @owner    = FactoryGirl.create(:member)
     controller.stub(:current_user) { @owner }
-    @garden   = FactoryGirl.create(:garden, :owner => @owner)
-    @planting = FactoryGirl.create(:planting, :garden => @garden)
+    @garden   = FactoryGirl.create(:garden, owner: @owner)
+    @planting = FactoryGirl.create(:planting, garden: @garden)
     assign(:garden, @garden)
     render
   end

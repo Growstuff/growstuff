@@ -12,11 +12,11 @@ describe NotificationsController do
     end
 
     it "routes to #show" do
-      get("/notifications/1").should route_to("notifications#show", :id => "1")
+      get("/notifications/1").should route_to("notifications#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/notifications/1/edit").should route_to("notifications#edit", :id => "1")
+      get("/notifications/1/edit").should route_to("notifications#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe NotificationsController do
     end
 
     it "routes to #update" do
-      put("/notifications/1").should route_to("notifications#update", :id => "1")
+      put("/notifications/1").should route_to("notifications#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/notifications/1").should route_to("notifications#destroy", :id => "1")
+      delete("/notifications/1").should route_to("notifications#destroy", id: "1")
     end
 
   end

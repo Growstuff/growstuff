@@ -19,8 +19,8 @@ require 'rails_helper'
 describe "plantings/edit" do
   before(:each) do
     @member = FactoryGirl.create(:member,
-      :login_name => 'right',
-      :email => 'right@example.com'
+      login_name: 'right',
+      email: 'right@example.com'
     )
 
     # creating two crops to make sure that the correct one is selected
@@ -29,11 +29,11 @@ describe "plantings/edit" do
     @maize = FactoryGirl.create(:maize)
 
     # and likewise for gardens
-    @garden =  FactoryGirl.create(:garden_z, :owner => @member)
-    @garden2 = FactoryGirl.create(:garden_a, :owner => @member)
+    @garden =  FactoryGirl.create(:garden_z, owner: @member)
+    @garden2 = FactoryGirl.create(:garden_a, owner: @member)
 
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, :garden => @garden, :crop => @tomato)
+      FactoryGirl.create(:planting, garden: @garden, crop: @tomato)
     )
 
   end
@@ -46,16 +46,16 @@ describe "plantings/edit" do
     end
 
     it "renders the edit planting form" do
-      assert_select "form", :action => plantings_path(@planting), :method => "post" do
-        assert_select "input#planting_quantity", :name => "planting[quantity]"
-        assert_select "textarea#planting_description", :name => "planting[description]"
-        assert_select "select#planting_sunniness", :name => "planting[sunniness]"
-        assert_select "select#planting_planted_from", :name => "planting[planted_from]"
+      assert_select "form", action: plantings_path(@planting), method: "post" do
+        assert_select "input#planting_quantity", name: "planting[quantity]"
+        assert_select "textarea#planting_description", name: "planting[description]"
+        assert_select "select#planting_sunniness", name: "planting[sunniness]"
+        assert_select "select#planting_planted_from", name: "planting[planted_from]"
       end
     end
 
     it 'includes helpful links for crops and gardens' do
-      assert_select "a[href=#{new_garden_path}]", :text => "Add a garden."
+      assert_select "a[href=#{new_garden_path}]", text: "Add a garden."
     end
 
     it "chooses the right crop" do
@@ -64,7 +64,7 @@ describe "plantings/edit" do
 
     it "chooses the right garden" do
       assert_select "select#planting_garden_id",
-        :html => /option selected="selected" value="#{@garden.id}"/
+        html: /option selected="selected" value="#{@garden.id}"/
     end
 
   end

@@ -3,7 +3,7 @@ namespace :growstuff do
   desc "Add an admin user, by name"
   # usage: rake growstuff:admin_user name=skud
 
-  task :admin_user => :environment do
+  task admin_user: :environment do
     member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:admin_user name=whoever (login name is case-sensitive)"
     admin  = Role.find('admin')
     member.roles << admin
@@ -12,7 +12,7 @@ namespace :growstuff do
   desc "Add a crop wrangler user, by name"
   # usage: rake growstuff:cropwrangler_user name=skud
 
-  task :cropwrangler_user => :environment do
+  task cropwrangler_user: :environment do
     member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:cropwrangler_user name=whoever (login name is case-sensitive)"
     cw = Role.find('crop-wrangler')
     member.roles << cw
@@ -21,7 +21,7 @@ namespace :growstuff do
   desc "Upload crops from a CSV file"
   # usage: rake growstuff:import_crops file=filename.csv
 
-  task :import_crops => :environment do
+  task import_crops: :environment do
     require 'csv'
 
     @file = ENV['file'] or raise "Usage: rake growstuff:import_crops file=file.csv"
@@ -38,7 +38,7 @@ namespace :growstuff do
   desc "Send planting reminder email"
   # usage: rake growstuff:send_planting_reminder
 
-  task :send_planting_reminder => :environment do
+  task send_planting_reminder: :environment do
     # Heroku scheduler only lets us run things daily, so this checks
     # whether it's the right day to actually do the deed.
     # Note that Heroku scheduler runs on UTC.
@@ -56,7 +56,7 @@ namespace :growstuff do
 
   desc "Depopulate Null Island"
   # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
-  task :depopulate_null_island => :environment do
+  task depopulate_null_island: :environment do
     Member.find_each do |m|
       if m.location and (m.latitude == nil and m.longitude == nil)
         m.geocode
@@ -69,7 +69,7 @@ namespace :growstuff do
   namespace :oneoff do
 
     desc "May 2013: replace any empty notification subjects with (no subject)"
-    task :empty_subjects => :environment do
+    task empty_subjects: :environment do
 
       # this is inefficient as it checks every Notification, but the
       # site is small and there aren't many of them, so it shouldn't matter
@@ -81,7 +81,7 @@ namespace :growstuff do
     end
 
     desc "May 2013: replace any empty garden names with Garden"
-    task :empty_garden_names => :environment do
+    task empty_garden_names: :environment do
 
       # this is inefficient as it checks every Garden, but the
       # site is small and there aren't many of them, so it shouldn't matter
@@ -96,48 +96,48 @@ namespace :growstuff do
 
 
     desc "June 2013: create account types and products."
-    task :setup_shop => :environment do
+    task setup_shop: :environment do
       puts "Adding account types..."
       AccountType.find_or_create_by(
-        :name => "Free",
-        :is_paid => false,
-        :is_permanent_paid => false
+        name: "Free",
+        is_paid: false,
+        is_permanent_paid: false
       )
       @paid_account = AccountType.find_or_create_by( 
-        :name => "Paid",
-        :is_paid => true,
-        :is_permanent_paid => false
+        name: "Paid",
+        is_paid: true,
+        is_permanent_paid: false
       )
       @seed_account = AccountType.find_or_create_by( 
-        :name => "Seed",
-        :is_paid => true,
-        :is_permanent_paid => true
+        name: "Seed",
+        is_paid: true,
+        is_permanent_paid: true
       )
       @staff_account = AccountType.find_or_create_by( 
-        :name => "Staff",
-        :is_paid => true,
-        :is_permanent_paid => true
+        name: "Staff",
+        is_paid: true,
+        is_permanent_paid: true
       )
 
       puts "Adding products..."
       Product.find_or_create_by( 
-        :name => "Annual subscription",
-        :description => "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
-        :min_price => 3000,
-        :account_type_id => @paid_account.id,
-        :paid_months => 12
+        name: "Annual subscription",
+        description: "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
+        min_price: 3000,
+        account_type_id: @paid_account.id,
+        paid_months: 12
       )
       Product.find_or_create_by( 
-        :name => "Seed account",
-        :description => "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
-        :min_price => 15000,
-        :account_type_id => @seed_account.id,
+        name: "Seed account",
+        description: "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
+        min_price: 15000,
+        account_type_id: @seed_account.id,
       )
 
       puts "Giving each member an account record..."
       Member.all.each do |m|
         unless m.account
-          Account.create(:member_id => m.id)
+          Account.create(member_id: m.id)
         end
       end
 
@@ -152,7 +152,7 @@ namespace :growstuff do
     end
 
     desc "June 2013: replace nil account_types with free accounts"
-    task :nil_account_type => :environment do
+    task nil_account_type: :environment do
 
       free = AccountType.find_by_name("Free")
       raise "Free account type not found: run rake growstuff:oneoff:setup_shop"\
@@ -166,7 +166,7 @@ namespace :growstuff do
     end
 
     desc "July 2013: replace nil seed.tradable_to with nowhere"
-    task :tradable_to_nowhere => :environment do
+    task tradable_to_nowhere: :environment do
 
       Seed.all.each do |s|
         unless s.tradable_to
@@ -177,7 +177,7 @@ namespace :growstuff do
     end
 
     desc "August 2013: set up plantings_count cache on crop"
-    task :reset_crop_plantings_count => :environment do
+    task reset_crop_plantings_count: :environment do
 
       Crop.find_each do |c|
         Crop.reset_counters c.id, :plantings
@@ -185,7 +185,7 @@ namespace :growstuff do
     end
 
     desc "August 2013: set default creator on existing crops"
-    task :set_default_crop_creator => :environment do
+    task set_default_crop_creator: :environment do
 
       cropbot = Member.find_by_login_name("cropbot")
       raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
@@ -207,7 +207,7 @@ namespace :growstuff do
     end
 
     desc "August 2013: set planting owner"
-    task :set_planting_owner => :environment do
+    task set_planting_owner: :environment do
       Planting.find_each do |p|
         p.owner = p.garden.owner
         p.save
@@ -215,14 +215,14 @@ namespace :growstuff do
     end
 
     desc "August 2013: initialize member planting counter"
-    task :initialize_member_planting_count => :environment do
+    task initialize_member_planting_count: :environment do
       Member.find_each do |m|
         Member.reset_counters m.id, :plantings
       end
     end
 
     desc "October 2013: set garden locations to member locations"
-    task :initialize_garden_locations => :environment do
+    task initialize_garden_locations: :environment do
       Member.located.find_each do |m|
         m.gardens.each do |g|
           if g.location.blank?
@@ -236,7 +236,7 @@ namespace :growstuff do
     end
 
     desc "October 2013: import initial plant parts"
-    task :import_plant_parts => :environment do
+    task import_plant_parts: :environment do
       plant_parts = [
         'fruit',
         'flower',
@@ -257,7 +257,7 @@ namespace :growstuff do
     end
 
     desc "July 2014: set planting_count to 0 by default, not nil"
-    task :zero_plantings_count => :environment do
+    task zero_plantings_count: :environment do
       Crop.find_each do |c|
         if c.plantings_count.nil?
           c.plantings_count = 0
@@ -267,7 +267,7 @@ namespace :growstuff do
     end
 
     desc "August 2014: fix ping to pint in database"
-    task :ping_to_pint => :environment do
+    task ping_to_pint: :environment do
       Harvest.find_each do |h|
         if h.unit == "ping"
           h.unit = "pint"
@@ -277,21 +277,21 @@ namespace :growstuff do
     end
 
     desc "October 2014: remove unused photos"
-    task :remove_unused_photos => :environment do
+    task remove_unused_photos: :environment do
       Photo.find_each do |p|
         p.destroy_if_unused
       end
     end
 
     desc "October 2014: generate crops_posts records for existing posts"
-    task :generate_crops_posts_records => :environment do
+    task generate_crops_posts_records: :environment do
       Post.find_each do |p|
         p.save
       end
     end
 
     desc "October 2014: add alternate names for crops"
-    task :add_alternate_names => :environment do
+    task add_alternate_names: :environment do
       require 'csv'
       file = "db/seeds/alternate_names_201410.csv"
       puts "Loading alternate names from #{file}..."
@@ -316,7 +316,7 @@ namespace :growstuff do
     end
 
     desc "January 2015: fill in si_weight column"
-    task :populate_si_weight => :environment do
+    task populate_si_weight: :environment do
       Harvest.find_each do |h|
         h.set_si_weight
         h.save
@@ -324,7 +324,7 @@ namespace :growstuff do
     end
 
     desc "January 2015: build Elasticsearch index"
-    task :elasticsearch_create_index => :environment do
+    task elasticsearch_create_index: :environment do
       Crop.__elasticsearch__.create_index! force: true
       Crop.import
     end

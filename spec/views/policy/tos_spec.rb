@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'policy/tos.html.haml', :type => "view" do
+describe 'policy/tos.html.haml', type: "view" do
   before(:each) do
     render
   end

@@ -12,11 +12,11 @@ describe SeedsController do
     end
 
     it "routes to #show" do
-      get("/seeds/1").should route_to("seeds#show", :id => "1")
+      get("/seeds/1").should route_to("seeds#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/seeds/1/edit").should route_to("seeds#edit", :id => "1")
+      get("/seeds/1/edit").should route_to("seeds#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe SeedsController do
     end
 
     it "routes to #update" do
-      put("/seeds/1").should route_to("seeds#update", :id => "1")
+      put("/seeds/1").should route_to("seeds#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/seeds/1").should route_to("seeds#destroy", :id => "1")
+      delete("/seeds/1").should route_to("seeds#destroy", id: "1")
     end
 
   end

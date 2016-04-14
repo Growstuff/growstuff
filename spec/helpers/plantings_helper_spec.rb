@@ -3,13 +3,13 @@ require 'rails_helper'
 describe PlantingsHelper do
   describe "display_planting" do
 
-    let!(:member) { FactoryGirl.build(:member, :login_name => 'crop_lady') }
+    let!(:member) { FactoryGirl.build(:member, login_name: 'crop_lady') }
 
     it "does not have a quantity nor a planted from value provided" do
       planting = FactoryGirl.build(:planting,
-        :quantity => nil,
-        :planted_from => '',
-        :owner => member
+        quantity: nil,
+        planted_from: '',
+        owner: member
       )
       result = helper.display_planting(planting)
       expect(result).to eq "crop_lady."
@@ -17,9 +17,9 @@ describe PlantingsHelper do
 
     it "does not have a quantity provided" do
       planting = FactoryGirl.build(:planting,
-        :quantity => nil,
-        :planted_from => 'seed',
-        :owner => member
+        quantity: nil,
+        planted_from: 'seed',
+        owner: member
       )
       result = helper.display_planting(planting)
       expect(result).to eq "crop_lady planted seeds."
@@ -28,9 +28,9 @@ describe PlantingsHelper do
     context "when quantity is greater than 1" do
       it "does not have a planted from value provided" do
         planting = FactoryGirl.build(:planting,
-          :quantity => 10,
-          :planted_from => '',
-          :owner => member
+          quantity: 10,
+          planted_from: '',
+          owner: member
         )
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 10 units."
@@ -38,9 +38,9 @@ describe PlantingsHelper do
 
       it "does have a planted from value provided" do
         planting = FactoryGirl.build(:planting,
-          :quantity => 5,
-          :planted_from => 'seed',
-          :owner => member
+          quantity: 5,
+          planted_from: 'seed',
+          owner: member
         )
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 5 seeds."
@@ -50,9 +50,9 @@ describe PlantingsHelper do
     context "when quantity is 1" do
       it "does not have a planted from value provided" do
         planting = FactoryGirl.build(:planting,
-          :quantity => 1,
-          :planted_from => '',
-          :owner => member
+          quantity: 1,
+          planted_from: '',
+          owner: member
         )
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 1 unit."
@@ -60,9 +60,9 @@ describe PlantingsHelper do
 
       it "does have a planted from value provided" do
         planting = FactoryGirl.build(:planting,
-          :quantity => 1,
-          :planted_from => 'seed',
-          :owner => member
+          quantity: 1,
+          planted_from: 'seed',
+          owner: member
         )
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 1 seed."

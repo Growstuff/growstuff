@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'devise/unlocks/new.html.haml', :type => "view" do
+describe 'devise/unlocks/new.html.haml', type: "view" do
 
   context "logged in" do
     before(:each) do
