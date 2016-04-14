@@ -3,8 +3,8 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: [:slugged, :finders]
 
   belongs_to :garden
-  belongs_to :owner, :class_name => 'Member', :counter_cache => true
-  belongs_to :crop, :counter_cache => true
+  belongs_to :owner, class_name: 'Member', counter_cache: true
+  belongs_to :crop, counter_cache: true
 
   has_and_belongs_to_many :photos
 
@@ -18,33 +18,33 @@ class Planting < ActiveRecord::Base
   end
 
   default_scope { order("created_at desc") }
-  scope :finished, -> { where(:finished => true) }
-  scope :current, -> { where(:finished => false) }
+  scope :finished, -> { where(finished: true) }
+  scope :current, -> { where(finished: false) }
 
   delegate :name,
     :en_wikipedia_url,
     :default_scientific_name,
     :plantings_count,
-    :to => :crop,
-    :prefix => true
+    to: :crop,
+    prefix: true
 
   default_scope { order("created_at desc") }
 
-  validates :crop, :approved => true
+  validates :crop, approved: true
 
-  validates :crop, :presence => {:message => "must be present and exist in our database"}
+  validates :crop, presence: {message: "must be present and exist in our database"}
 
   validates :quantity,
-    :numericality => {
-      :only_integer => true,
-      :greater_than_or_equal_to => 0 },
-    :allow_nil => true
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 0 },
+    allow_nil: true
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)
-  validates :sunniness, :inclusion => { :in => SUNNINESS_VALUES,
-        :message => "%{value} is not a valid sunniness value" },
-        :allow_nil => true,
-        :allow_blank => true
+  validates :sunniness, inclusion: { in: SUNNINESS_VALUES,
+        message: "%{value} is not a valid sunniness value" },
+        allow_nil: true,
+        allow_blank: true
 
   PLANTED_FROM_VALUES = [
     'seed',
@@ -59,10 +59,10 @@ class Planting < ActiveRecord::Base
     'graft',
     'layering'
   ]
-  validates :planted_from, :inclusion => { :in => PLANTED_FROM_VALUES,
-        :message => "%{value} is not a valid planting method" },
-        :allow_nil => true,
-        :allow_blank => true
+  validates :planted_from, inclusion: { in: PLANTED_FROM_VALUES,
+        message: "%{value} is not a valid planting method" },
+        allow_nil: true,
+        allow_blank: true
 
   validate :finished_must_be_after_planted
 
@@ -95,7 +95,7 @@ class Planting < ActiveRecord::Base
   end
 
   def calculate_days_before_maturity(planting, crop)
-    p_crop = Planting.where(:crop_id => crop).where.not(:id => planting)
+    p_crop = Planting.where(crop_id: crop).where.not(id: planting)
     differences = p_crop.collect do |p|
       if p.finished and !p.finished_at.nil?
         (p.finished_at - p.planted_at).to_i

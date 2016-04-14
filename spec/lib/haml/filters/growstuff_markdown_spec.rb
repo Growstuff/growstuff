@@ -7,7 +7,7 @@ def input_link(name)
 end
 
 def output_link(crop, name=nil)
-  url = Rails.application.routes.url_helpers.crop_url(crop, :host => Growstuff::Application.config.host)
+  url = Rails.application.routes.url_helpers.crop_url(crop, host: Growstuff::Application.config.host)
   if name
     return "<a href=\"#{url}\">#{name}</a>"
   else
@@ -20,7 +20,7 @@ def input_member_link(name)
 end
 
 def output_member_link(member, name=nil)
-  url = Rails.application.routes.url_helpers.member_url(member, :only_path => true)
+  url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
   if name
     return "<a href=\"#{url}\">#{name}</a>"
   else
@@ -67,7 +67,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it "finds crops case insensitively" do
-    @crop = FactoryGirl.create(:crop, :name => 'tomato')
+    @crop = FactoryGirl.create(:crop, name: 'tomato')
     rendered = Haml::Filters::GrowstuffMarkdown.render(input_link('ToMaTo'))
     rendered.should match /#{output_link(@crop, 'ToMaTo')}/
   end

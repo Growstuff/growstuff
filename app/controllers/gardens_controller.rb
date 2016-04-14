@@ -1,15 +1,15 @@
 class GardensController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :show]
+  before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
 
   # GET /gardens
   # GET /gardens.json
   def index
-    @gardens = Garden.paginate(:page => params[:page])
+    @gardens = Garden.paginate(page: params[:page])
     @owner = Member.find_by_slug(params[:owner])
     if @owner
-      @gardens = @owner.gardens.paginate(:page => params[:page])
+      @gardens = @owner.gardens.paginate(page: params[:page])
     end
 
     respond_to do |format|
@@ -87,7 +87,7 @@ class GardensController < ApplicationController
     expire_fragment("homepage_stats")
 
     respond_to do |format|
-      format.html { redirect_to gardens_by_owner_path(:owner => @garden.owner), notice: 'Garden was successfully deleted.' }
+      format.html { redirect_to gardens_by_owner_path(owner: @garden.owner), notice: 'Garden was successfully deleted.' }
       format.json { head :no_content }
     end
   end

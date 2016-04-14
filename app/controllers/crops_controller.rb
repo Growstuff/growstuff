@@ -1,9 +1,9 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :hierarchy, :search, :show]
+  before_filter :authenticate_member!, except: [:index, :hierarchy, :search, :show]
   load_and_authorize_resource
-  skip_authorize_resource :only => [:hierarchy, :search]
+  skip_authorize_resource only: [:hierarchy, :search]
 
   # GET /crops
   # GET /crops.json
@@ -11,25 +11,25 @@ class CropsController < ApplicationController
     @sort = params[:sort]
     if @sort == 'alpha'
       # alphabetical order
-      @crops = Crop.includes(:scientific_names, {:plantings => :photos})
-      @paginated_crops = @crops.approved.paginate(:page => params[:page])
+      @crops = Crop.includes(:scientific_names, {plantings: :photos})
+      @paginated_crops = @crops.approved.paginate(page: params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {:plantings => :photos})
-      @paginated_crops = @crops.approved.paginate(:page => params[:page])
+      @crops = Crop.popular.includes(:scientific_names, {plantings: :photos})
+      @paginated_crops = @crops.approved.paginate(page: params[:page])
     end
 
     respond_to do |format|
       format.html
-      format.json { render :json => @crops }
+      format.json { render json: @crops }
       format.rss do
         @crops = Crop.recent.includes(:scientific_names, :creator)
-        render :rss => @crops
+        render rss: @crops
       end
       format.csv do
         @filename = "Growstuff-Crops-#{Time.zone.now.to_s(:number)}.csv"
         @crops = Crop.includes(:scientific_names, :plantings, :seeds, :creator)
-        render :csv => @crops
+        render csv: @crops
       end
     end
   end
@@ -46,7 +46,7 @@ class CropsController < ApplicationController
       @crops = Crop.recent
     end
 
-    @crops = @crops.paginate(:page => params[:page])
+    @crops = @crops.paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
     respond_to do |format|
@@ -66,25 +66,25 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
     @matches = Crop.search(@term)
-    @paginated_matches = @matches.paginate(:page => params[:page])
+    @paginated_matches = @matches.paginate(page: params[:page])
 
     respond_to do |format|
       format.html
-      format.json { render :json => @matches }
+      format.json { render json: @matches }
     end
   end
 
   # GET /crops/1
   # GET /crops/1.json
   def show
-    @crop = Crop.includes(:scientific_names, {:plantings => :photos}).find(params[:id])
-    @posts = @crop.posts.paginate(:page => params[:page])
+    @crop = Crop.includes(:scientific_names, {plantings: :photos}).find(params[:id])
+    @posts = @crop.posts.paginate(page: params[:page])
 
     respond_to do |format|
       format.html # show.html.haml
       format.json do
-        render :json => @crop.to_json(:include => {
-          :plantings => { :include => { :owner => { :only => [:id, :login_name, :location, :latitude, :longitude] }}}
+        render json: @crop.to_json(include: {
+          plantings: { include: { owner: { only: [:id, :login_name, :location, :latitude, :longitude] }}}
         })
       end
     end
@@ -207,6 +207,6 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :rejection_notes, :scientific_names_attributes => [:scientific_name, :_destroy, :id])
+    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :rejection_notes, scientific_names_attributes: [:scientific_name, :_destroy, :id])
   end
 end

@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'about/contact.html.haml', :type => "view" do
+describe 'about/contact.html.haml', type: "view" do
   before(:each) do
     render
   end

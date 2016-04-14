@@ -41,7 +41,7 @@ shared_examples "crop suggest" do |resource|
 
     select_from_autocomplete("pear")
 
-    expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", :visible => false)
+    expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", visible: false)
   end
 
   scenario "Typing and pausing does not affect input" do
