@@ -79,6 +79,16 @@ describe NotificationsController do
     end
   end
 
+  describe "GET reply" do
+    it "marks notifications as read" do
+      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
+      get :reply, {:id => notification.to_param}
+      # we need to fetch it from the db again, can't test against the old one
+      n = Notification.find(notification.id)
+      n.read.should eq true
+    end
+  end
+
   describe "GET new" do
     it "assigns a recipient" do
       @recipient = FactoryGirl.create(:member)
