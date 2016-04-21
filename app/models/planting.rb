@@ -109,6 +109,26 @@ class Planting < ActiveRecord::Base
     end
   end
 
+  def planted?(current_date = Date.today)
+    planted_at.present? && current_date.to_date >= planted_at
+  end
+
+  def percentage_grown(current_date = Date.today)
+    return nil unless days_before_maturity && planted?(current_date)
+
+    days = (current_date.to_date - planted_at.to_date).to_i
+
+    return 0 if current_date < planted_at
+    return 100 if days > days_before_maturity
+    percent = (days/days_before_maturity*100).to_i
+
+    if percent >= 100
+      percent = 100
+    end
+
+    percent
+  end
+
   # return a list of interesting plantings, for the homepage etc.
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
