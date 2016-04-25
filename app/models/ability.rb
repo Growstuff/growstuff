@@ -14,6 +14,7 @@ class Ability
     cannot :read, Authentication
     cannot :read, Order
     cannot :read, OrderItem
+    cannot :read, SeedTrade
 
     # and nobody should be able to view this except admins
     cannot :read, Role
@@ -22,7 +23,7 @@ class Ability
     cannot :read, AccountType
 
     # nobody should be able to view unapproved crops unless they
-    # are wranglers or admins 
+    # are wranglers or admins
     cannot :read, Crop
     can :read, Crop, :approval_status => "approved"
     # scientific names should only be viewable if associated crop is approved
@@ -54,6 +55,35 @@ class Ability
         n.recipient_id != member.id
       end
       # note we don't support update for notifications
+
+      # can read seed requests if you are requester or seed owner
+      can :read,   SeedTrade, requester_id: member.id
+      can :read,   SeedTrade, seed: { :owner_id => member.id }
+      can :create, SeedTrade, requester_id: member.id
+
+      # you can't create a request for yourself
+      cannot :create, SeedTrade, seed: { :owner_id => member.id }
+
+      # you can decline if the trade was not accepted or declined
+      can :decline,  SeedTrade do |trade|
+        trade.seed.owner_id == member.id && !trade.replied?
+      end
+
+      # you can accept if the trade was not accepted or declined
+      can :accept,  SeedTrade do |trade|
+        trade.seed.owner_id == member.id && !trade.replied?
+      end
+
+      # you can mark as sent if you has already accepted
+      can :send_seed,  SeedTrade do |trade|
+        trade.seed.owner_id == member.id && trade.accepted? && !trade.sent?
+      end
+
+      # you can mark as received if the seed owner has already sent
+      can :receive,  SeedTrade do |trade|
+        trade.requester_id == member.id && trade.accepted? &&
+        trade.sent? && !trade.received?
+      end
 
       # only crop wranglers can create/edit/destroy crops
       if member.has_role? :crop_wrangler
