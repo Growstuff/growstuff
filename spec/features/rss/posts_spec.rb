@@ -8,6 +8,6 @@ feature 'Posts RSS feed' do
 
   scenario 'The index title is what we expect' do
     visit posts_path(format: 'rss')
-    expect(page).to have_content "Recent posts from #{ @author ? @author : 'all members' } (#{ENV['GROWSTUFF_SITE_NAME']})"
+    expect(page).to have_content "Recent posts from #{ @author ? @author : 'all members' } (#{SECRETS.GROWSTUFF_SITE_NAME})"
   end
 end

@@ -3,10 +3,10 @@ class Notifier < ActionMailer::Base
   default from: "Growstuff <noreply@growstuff.org>"
 
   def verifier()
-    if ENV['RAILS_SECRET_TOKEN']
-      return ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+    if SECRETS.secret_key_base
+      return ActiveSupport::MessageVerifier.new(SECRETS.secret_key_base)
     else
-      raise "RAILS_SECRET_TOKEN environment variable not set - have you created config/application.yml?"
+      raise "secret_key_base environment variable not set - have you created config/secrets.yml?"
     end
   end
 
@@ -14,7 +14,7 @@ class Notifier < ActionMailer::Base
     @notification = notification
     @reply_link = reply_link(@notification)
 
-    # Encrypting 
+    # Encrypting
     @signed_message = verifier.generate ({ member_id: @notification.recipient.id, type: :send_notification_email })
 
     mail(:to => @notification.recipient.email,
@@ -27,7 +27,7 @@ class Notifier < ActionMailer::Base
     @plantings = @member.plantings.first(5)
     @harvests = @member.harvests.first(5)
 
-    # Encrypting 
+    # Encrypting
     @signed_message = verifier.generate ({ member_id: @member.id, type: :send_planting_reminder })
 
     if @member.send_planting_reminder
@@ -38,7 +38,7 @@ class Notifier < ActionMailer::Base
 
   def new_crop_request(member, request)
     @member, @request = member, request
-    mail(:to => @member.email, :subject => "#{@request.requester.login_name} has requested #{@request.name} as a new crop")    
+    mail(:to => @member.email, :subject => "#{@request.requester.login_name} has requested #{@request.name} as a new crop")
   end
 
   def crop_request_approved(member, crop)

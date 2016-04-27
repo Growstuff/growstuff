@@ -66,19 +66,6 @@ Growstuff::Application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # Growstuff configuration
-  config.action_mailer.default_url_options = { :host => 'growstuff.org' }
-
-  config.action_mailer.smtp_settings = {
-      :port =>           '587',
-      :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
-      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
-      :domain =>         'heroku.com',
-      :authentication => :plain
-  }
-  config.action_mailer.delivery_method = :smtp
-
   config.host = 'growstuff.org'
   config.analytics_code = <<-eos
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
@@ -86,16 +73,29 @@ Growstuff::Application.configure do
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
   eos
 
-  # this config variable cannot be put in application.yml as it is needed
-  # by the assets pipeline, which doesn't have access to ENV.
+  # this config variable cannot be put in secrets.yml as it is needed
+  # by the assets pipeline.
   config.mapbox_map_id = 'growstuff.i3n2c4ie'
 
   config.after_initialize do
+    # Growstuff configuration
+    config.action_mailer.default_url_options = { :host => 'growstuff.org' }
+
+    config.action_mailer.smtp_settings = {
+        :port =>           '587',
+        :address =>        'smtp.mandrillapp.com',
+        :user_name =>      SECRETS.GROWSTUFF_MANDRILL_USERNAME,
+        :password =>       SECRETS.GROWSTUFF_MANDRILL_APIKEY,
+        :domain =>         'heroku.com',
+        :authentication => :plain
+    }
+    config.action_mailer.delivery_method = :smtp
+
     ActiveMerchant::Billing::Base.mode = :production
     paypal_options = {
-      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'],
-      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'],
-      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE']
+      :login =>     SECRETS.GROWSTUFF_PAYPAL_USERNAME,
+      :password =>  SECRETS.GROWSTUFF_PAYPAL_PASSWORD,
+      :signature => SECRETS.GROWSTUFF_PAYPAL_SIGNATURE
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)

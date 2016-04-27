@@ -27,7 +27,6 @@ gem 'leaflet-rails'
 gem 'leaflet-markercluster-rails'
 gem 'unicorn'                      # http server
 gem 'pg'
-gem 'figaro'                       # for handling config via ENV variables
 gem 'cancancan', '~> 1.9'          # for checking member privileges
 gem 'gibbon'                       # for Mailchimp newsletter subscriptions
 gem 'csv_shaper'                   # CSV export
@@ -83,7 +82,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-flickr', '>= 0.0.15'
 
 # client for Elasticsearch. Elasticsearch is a flexible
-# and powerful, distributed, real-time search and analytics engine. 
+# and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
@@ -96,6 +95,7 @@ group :production, :staging do
   gem 'memcachier'
   gem 'rails_12factor' # supresses heroku plugin injection
   gem 'bonsai-elasticsearch-rails'  # Integration with Bonsa-Elasticsearch on heroku
+  gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 end
 
 group :development do

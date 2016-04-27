@@ -28,7 +28,7 @@ class MembersController < ApplicationController
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.
     @garden = Garden.new
-    
+
     respond_to do |format|
       format.html # show.html.haml
       format.json { render :json => @member.to_json(:only => [:id, :login_name, :bio, :created_at, :slug, :location, :latitude, :longitude]) }
@@ -56,7 +56,7 @@ class MembersController < ApplicationController
 
   def unsubscribe
     begin
-      verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+      verifier = ActiveSupport::MessageVerifier.new(SECRETS.secret_key_base)
       decrypted_message = verifier.verify(params[:message])
 
       @member = Member.find(decrypted_message[:member_id])

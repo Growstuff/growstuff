@@ -20,7 +20,7 @@
 .row
   .col-md-9
     - unless current_member
-      Learn how to grow #{ @crop.name.pluralize } from growers around the world. #{ ENV['GROWSTUFF_SITE_NAME'] } has tips and advice from real-life growers, including when to plant #{ @crop.name.pluralize }, how to harvest #{ @crop.name.pluralize }, and more.
+      Learn how to grow #{ @crop.name.pluralize } from growers around the world. #{ SECRETS.GROWSTUFF_SITE_NAME } has tips and advice from real-life growers, including when to plant #{ @crop.name.pluralize }, how to harvest #{ @crop.name.pluralize }, and more.
 
     = render :partial => 'photos', :locals => { :crop => @crop }
 
@@ -29,7 +29,7 @@
         = @crop.name.titleize
         has been planted
         = pluralize(@crop.plantings.size, "time")
-        by #{ENV['GROWSTUFF_SITE_NAME']} members.
+        by #{SECRETS.GROWSTUFF_SITE_NAME} members.
       - else
         Nobody is growing this yet. You could be the first!
 

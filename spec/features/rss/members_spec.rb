@@ -10,6 +10,6 @@ feature 'Members RSS feed' do
 
   scenario 'The show action title is what we expect' do
     visit member_path(member, format: 'rss')
-    expect(page).to have_content "#{member.login_name}'s recent posts (#{ENV['GROWSTUFF_SITE_NAME']})"
+    expect(page).to have_content "#{member.login_name}'s recent posts (#{SECRETS.GROWSTUFF_SITE_NAME})"
   end
 end

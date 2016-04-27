@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 %rss{:version => 2.0}
   %channel
-    %title Recent comments on #{@post.subject} (#{ENV['GROWSTUFF_SITE_NAME']})
+    %title Recent comments on #{@post.subject} (#{SECRETS.GROWSTUFF_SITE_NAME})
     %link= post_url(@post)
     - @post.comments.each do |comment|
       %item

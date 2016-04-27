@@ -146,8 +146,8 @@ class Member < ActiveRecord::Base
     if @flickr.nil?
       flickr_auth = auth('flickr')
       if flickr_auth
-        FlickRaw.api_key = ENV['GROWSTUFF_FLICKR_KEY']
-        FlickRaw.shared_secret = ENV['GROWSTUFF_FLICKR_SECRET']
+        FlickRaw.api_key = SECRETS.GROWSTUFF_FLICKR_KEY
+        FlickRaw.shared_secret = SECRETS.GROWSTUFF_FLICKR_SECRET
         @flickr = FlickRaw::Flickr.new
         @flickr.access_token = flickr_auth.token
         @flickr.access_secret = flickr_auth.secret
@@ -183,7 +183,7 @@ class Member < ActiveRecord::Base
 
   # Returns a hash of Flickr photosets' ids and titles
   def flickr_sets
-    sets = Hash.new 
+    sets = Hash.new
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end
@@ -250,7 +250,7 @@ class Member < ActiveRecord::Base
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({
-      :id => ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID'],
+      :id => SECRETS.GROWSTUFF_MAILCHIMP_NEWSLETTER_ID,
       :email => { :email => email }
     })
   end

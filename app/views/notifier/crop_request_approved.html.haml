@@ -1,4 +1,4 @@
-- site_name = ENV['GROWSTUFF_SITE_NAME']
+- site_name = SECRETS.GROWSTUFF_SITE_NAME
 %p Hello #{@member.login_name},
 
 %p
@@ -13,4 +13,3 @@
     = link_to "Stash seeds for #{@crop.name}", new_seed_url(crop_id: @crop.id)
 
 = render :partial => 'signature'
-

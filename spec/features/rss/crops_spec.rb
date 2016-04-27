@@ -8,6 +8,6 @@ feature 'Crops RSS feed' do
 
   scenario 'The index title is what we expect' do
     visit crops_path(format: 'rss')
-    expect(page).to have_content "Recently added crops (#{ENV['GROWSTUFF_SITE_NAME']})"
+    expect(page).to have_content "Recently added crops (#{SECRETS.GROWSTUFF_SITE_NAME})"
   end
 end
