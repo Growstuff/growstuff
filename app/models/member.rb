@@ -239,7 +239,7 @@ class Member < ActiveRecord::Base
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.subscribe({
-      :id => Gibbon::API.api_key,
+      :id => Growstuff::Application.config.newsletter_list_id,
       :email => { :email => email },
       :merge_vars => { :login_name => login_name },
       :double_optin => false # they already confirmed their email with us
@@ -250,7 +250,7 @@ class Member < ActiveRecord::Base
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({
-      :id => ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID'],
+      :id => Growstuff::Application.config.newsletter_list_id,
       :email => { :email => email }
     })
   end
