@@ -1,9 +1,13 @@
 Growstuff::Application.routes.draw do
 
+  get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
 
   devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
+  devise_scope :member do 
+    get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
+  end
 
   resources :members 
 
@@ -40,7 +44,9 @@ Growstuff::Application.routes.draw do
   resources :comments
   resources :roles
   resources :forums
-  resources :notifications
+  resources :notifications do
+    get 'reply', on: :member
+  end
 
   resources :follows, :only => [:create, :destroy]
   get '/members/:login_name/follows' => 'members#view_follows', :as => 'member_follows'

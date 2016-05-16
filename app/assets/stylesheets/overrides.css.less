@@ -97,12 +97,25 @@ p.stats {
   font-weight: bold;
 }
 
-.homepage-members {
-  height: 100px;
+.member-cards {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
+.member-thumbnail {
+  padding: .25em;
 
-.homepage-members:nth-child(odd) {
-  margin-left: 0px;
+  div {
+    width: 5em;
+    display: inline-block;
+	vertical-align: top;
+  }
+
+  div ~ div {
+    width: 15em;
+	padding-left: 1em;
+  }
 }
 
 #placesmap, #cropmap {
@@ -316,3 +329,32 @@ html, body {
  * from ours */
 @state-success-text: darken(@green, 10%);
 @state-success-bg: lighten(@green, 50%);
+
+.hide {
+  display: none;
+}
+
+#add-sci_name-row, #remove-sci_name-row, #add-alt_name-row, #remove-alt_name-row{
+  display: none;
+}
+
+.panel-footer{
+  height: 6em;
+}
+
+#gardens_panel_body{
+  height: 20em;
+}
+
+.form-group.required .control-label:before {
+  content: "* ";
+  color: red;
+}
+
+.margin-bottom {
+  margin-bottom: 1em;
+}
+
+.red {
+  color: red;
+}

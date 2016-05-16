@@ -82,7 +82,7 @@ class Seed < ActiveRecord::Base
     interesting_seeds = Array.new
 
     Seed.tradable.each do |s|
-      break if interesting_seeds.length == howmany
+      break if interesting_seeds.size == howmany
       if s.interesting?
         interesting_seeds.push(s)
       end

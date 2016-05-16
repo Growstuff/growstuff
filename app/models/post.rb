@@ -10,12 +10,40 @@ class Post < ActiveRecord::Base
   # also has_many notifications, but kinda meaningless to get at them
   # from this direction, so we won't set up an association for now.
 
+  after_create do
+    recipients = Array.new
+    sender    = self.author.id
+    self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |m|
+      # find member case-insensitively and add to list of recipients
+      member = Member.where('lower(login_name) = ?', $1.downcase).first
+      recipients << member if member and not recipients.include?(member)
+    end
+    self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_AT_REGEX) do |m|
+      # find member case-insensitively and add to list of recipients
+      member = Member.where('lower(login_name) = ?', $1[1..-1].downcase).first
+      recipients << member if member and not recipients.include?(member)
+    end
+    # don't send notifications to yourself
+    recipients.map{ |r| r.id }.each do |recipient|
+      if recipient != sender
+        Notification.create(
+          :recipient_id => recipient,
+          :sender_id => sender,
+          :subject => "#{self.author} mentioned you in their post #{self.subject}",
+          :body => self.body,
+        )
+      end
+    end
+  end
+
   default_scope { order("created_at desc") }
 
   validates :subject,
     :format => {
       :with => /\S/
-    }
+    },
+    :length => { :maximum => 255 }
+
 
   def author_date_subject
     # slugs are created before created_at is set
@@ -24,7 +52,7 @@ class Post < ActiveRecord::Base
   end
 
   def comment_count
-    self.comments.count
+    self.comments.size
   end
 
   # return the timestamp of the most recent activity on this post

@@ -1,7 +1,7 @@
 = form_for @crop, :html => {:class => 'form-horizontal', :role => "form"} do |f|
   - if @crop.errors.any?
     #error_explanation
-      %h3= "#{pluralize(@crop.errors.count, "error")} prohibited this crop from being saved:"
+      %h3= "#{pluralize(@crop.errors.size, "error")} prohibited this crop from being saved:"
       %ul
         - @crop.errors.full_messages.each do |msg|
           %li= msg
@@ -17,7 +17,7 @@
   -# Everyone (wranglers and requesters) sees the basic info section
   %h2 Basic information
 
-  .form-group
+  .form-group#new_crop
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, :class => 'form-control'
@@ -30,7 +30,7 @@
   .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :en_wikipedia_url, :class => 'form-control'
+      = f.text_field :en_wikipedia_url, :class => 'form-control', :id => "en_wikipedia_url"
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
 
@@ -44,19 +44,35 @@
 
 
   -# Everyone (wranglers and requesters) gets to add scientific names
-  %h2 Scientific names
-  %p You may enter up to 3 scientific names for a crop. Most crops will have only one.
+  %h2
+    Scientific names
+    = button_tag "+", :id => "add-sci_name-row", :type => "button"
+    = button_tag "-", :id => "remove-sci_name-row", :type => "button"
+    
+  .form-group#scientific_names
+    - @crop.scientific_names.each.with_index do |sci, index|
+      .template.col-md-12{ :id => "sci_template[#{index+1}]" }
+        .col-md-2
+          = label_tag :scientific_names, "Scientific name #{index+1}:", :class => 'control-label'
+        .col-md-8
+          = text_field_tag "sci_name[#{index+1}]", sci.scientific_name, :id => "sci_name[#{index+1}]", :class => 'form-control'
+          %span.help-block Scientific name of crop.
+        .col-md-2
 
-  = f.fields_for :scientific_names do |sn|
-    .form-group
-      = sn.label :scientific_name, "Scientific name", :class => 'control-label col-md-2'
-      .col-md-8
-        = sn.text_field :scientific_name, :class => 'form-control'
-      .col-md-2
-        - if sn.object && sn.object.persisted?
-          %label.checkbox
-            = sn.check_box :_destroy
-            = sn.label :_destroy, "Delete"
+  %h2
+    Alternate names
+    = button_tag "+", :id => "add-alt_name-row", :type => "button"
+    = button_tag "-", :id => "remove-alt_name-row", :type => "button"
+
+  .form-group#alternate_names 
+    - @crop.alternate_names.each.with_index do |alt, index|
+      .template.col-md-12{ :id => "alt_template[#{index+1}]" }
+        .col-md-2
+          = label_tag :alternate_names, "Alternate name #{index+1}:", :class => 'control-label'
+        .col-md-8
+          = text_field_tag "alt_name[#{index+1}]", alt.name, :id => "alt_name[#{index+1}]", :class => 'form-control'
+          %span.help-block Alternate name of crop.
+        .col-md-2
 
   -# This is used for comments from crop requesters.  We need to show it
   -# to everyone, but we don't include it on new crops from wranglers.
@@ -66,7 +82,7 @@
     .form-group
       = f.label :request_notes, 'Comments', :class => 'control-label col-md-2'
       .col-md-8
-        = f.text_area :request_notes, :rows => 3, :class => 'form-control'
+        = f.text_area :request_notes, :rows => 3, :class => 'form-control', :id => 'request_notes'
 
   -# A final explanation of what's going to happen next, for crop requesters
   - unless can? :wrangle, @crop

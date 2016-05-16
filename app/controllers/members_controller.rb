@@ -1,7 +1,7 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
 
-  skip_authorize_resource :only => :nearby
+  skip_authorize_resource :only => [:nearby, :unsubscribe]
 
   after_action :expire_cache_fragments, :only => :create
 
@@ -47,6 +47,27 @@ class MembersController < ApplicationController
   def view_followers
     @member = Member.confirmed.find(params[:login_name])
     @followers = @member.followers.paginate(:page => params[:page])
+  end
+
+  EMAIL_TYPE_STRING = {
+    send_notification_email: "direct message notifications",
+    send_planting_reminder: "planting reminders"
+  }
+
+  def unsubscribe
+    begin
+      verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+      decrypted_message = verifier.verify(params[:message])
+
+      @member = Member.find(decrypted_message[:member_id])
+      @type = decrypted_message[:type]
+      @member.update(@type => false)
+
+      flash.now[:notice] = "You have been unsubscribed from #{EMAIL_TYPE_STRING[@type]} emails."
+
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      flash.now[:alert] = "We're sorry, there was an error updating your settings."
+    end
   end
 
   private

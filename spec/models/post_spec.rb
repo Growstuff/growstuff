@@ -1,46 +1,45 @@
 require 'rails_helper'
 
 describe Post do
-  before(:each) do
-    @member = FactoryGirl.create(:member)
-  end
+
+  let(:member) { FactoryGirl.create(:member) }
 
   it "should be sorted in reverse order" do
     FactoryGirl.create(:post,
       :subject => 'first entry',
-      :author => @member,
+      :author => member,
       :created_at => 2.days.ago
     )
     FactoryGirl.create(:post,
       :subject => 'second entry',
-      :author => @member,
+      :author => member,
       :created_at => 1.day.ago
     )
     Post.first.subject.should == "second entry"
   end
 
   it "should have a slug" do
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, :author => member)
     @time = @post.created_at
     @datestr = @time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years
     # Counting digits using Math.log is not precise enough!
-    @datestr.length.should == 4 + @time.year.to_s.size
-    @post.slug.should == "#{@member.login_name}-#{@datestr}-a-post"
+    @datestr.size.should == 4 + @time.year.to_s.size
+    @post.slug.should == "#{member.login_name}-#{@datestr}-a-post"
   end
 
   it "has many comments" do
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, :author => member)
     @comment1 = FactoryGirl.create(:comment, :post => @post)
     @comment2 = FactoryGirl.create(:comment, :post => @post)
-    @post.comments.length.should == 2
+    @post.comments.size.should == 2
   end
 
   it "destroys comments when deleted" do
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, :author => member)
     @comment1 = FactoryGirl.create(:comment, :post => @post)
     @comment2 = FactoryGirl.create(:comment, :post => @post)
-    @post.comments.length.should == 2
+    @post.comments.size.should == 2
     all = Comment.count
     @post.destroy
     Comment.count.should == all - 2
@@ -67,19 +66,21 @@ describe Post do
   end
 
   context "recent activity" do
-    before(:each) do
+
+    before do
       Time.stub(:now => Time.now)
-      @post = FactoryGirl.create(:post, :created_at => 1.day.ago)
     end
+    
+    let(:post) { FactoryGirl.create(:post, :created_at => 1.day.ago) }
 
     it "sets recent activity to post time" do
-      @post.recent_activity.to_i.should eq @post.created_at.to_i
+      post.recent_activity.to_i.should eq post.created_at.to_i
     end
 
     it "sets recent activity to comment time" do
-      @comment = FactoryGirl.create(:comment, :post => @post,
+      @comment = FactoryGirl.create(:comment, :post => post,
           :created_at => 1.hour.ago)
-      @post.recent_activity.to_i.should eq @comment.created_at.to_i
+      post.recent_activity.to_i.should eq @comment.created_at.to_i
     end
 
     it "shiny new post is recently active" do
@@ -90,8 +91,40 @@ describe Post do
 
     it "new comment on old post is recently active" do
       # now comment on an older post
-      @comment2 = FactoryGirl.create(:comment, :post => @post, :created_at => 1.second.ago)
-      Post.recently_active.first.should eq @post
+      @comment2 = FactoryGirl.create(:comment, :post => post, :created_at => 1.second.ago)
+      Post.recently_active.first.should eq post
+    end
+  end
+
+  context "notifications" do
+    let(:member2) { FactoryGirl.create(:member) }
+
+    it "sends a notification when a member is mentioned" do
+      expect {
+        FactoryGirl.create(:post, :author => member, :body => "Hey @" << member2.login_name)
+      }.to change(Notification, :count).by(1)
+    end
+
+    it "sets the notification field" do
+      @p = FactoryGirl.create(:post, :author => member, :body => "Hey @" << member2.login_name)
+      @n = Notification.first
+      @n.sender.should eq member
+      @n.recipient.should eq member2
+      @n.subject.should match /mentioned you in their post/
+      @n.body.should eq @p.body
+    end
+
+    it "sends notifications to all members mentioned" do
+      @member3 = FactoryGirl.create(:member)
+      expect {
+        FactoryGirl.create(:post, :author => member, :body => "Hey @" << member2.login_name << " & @" << @member3.login_name)
+      }.to change(Notification, :count).by(2)
+    end
+
+    it "doesn't send notifications if you mention yourself" do
+      expect {
+        FactoryGirl.create(:post, :author => member, :body => "@" << member.login_name)
+      }.to change(Notification, :count).by(0)
     end
   end
 

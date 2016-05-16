@@ -2,9 +2,20 @@ class Notifier < ActionMailer::Base
   include NotificationsHelper
   default from: "Growstuff <noreply@growstuff.org>"
 
+  def verifier()
+    if ENV['RAILS_SECRET_TOKEN']
+      return ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+    else
+      raise "RAILS_SECRET_TOKEN environment variable not set - have you created config/application.yml?"
+    end
+  end
+
   def notify(notification)
     @notification = notification
     @reply_link = reply_link(@notification)
+
+    # Encrypting 
+    @signed_message = verifier.generate ({ member_id: @notification.recipient.id, type: :send_notification_email })
 
     mail(:to => @notification.recipient.email,
          :subject => @notification.subject)
@@ -15,6 +26,9 @@ class Notifier < ActionMailer::Base
 
     @plantings = @member.plantings.first(5)
     @harvests = @member.harvests.first(5)
+
+    # Encrypting 
+    @signed_message = verifier.generate ({ member_id: @member.id, type: :send_planting_reminder })
 
     if @member.send_planting_reminder
       mail(:to => @member.email,

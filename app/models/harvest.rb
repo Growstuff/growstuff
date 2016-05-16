@@ -24,6 +24,8 @@ class Harvest < ActiveRecord::Base
 
   validates :crop, :presence => {:message => "must be present and exist in our database"}
 
+  validates :plant_part, :presence => {:message => "must be present and exist in our database"}
+
   validates :quantity,
     :numericality => {
       :only_integer => false,

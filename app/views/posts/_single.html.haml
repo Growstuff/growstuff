@@ -9,13 +9,13 @@
 
         .post-meta
           %p
-            Posted by
+            = (post.created_at == post.updated_at) ? 'Posted by' : 'Edited by'
             = link_to post.author.login_name, member_path(post.author)
             - if post.forum
               in
               = link_to post.forum, post.forum
-            at
-            = post.created_at
+            on
+            = (post.created_at == post.updated_at) ? post.created_at : post.updated_at
 
         .post-body
           :growstuff_markdown
@@ -24,7 +24,7 @@
         - unless defined?(hide_comments)
           .post-comments
             %ul.list-inline
-              %li.first= link_to pluralize(post.comments.count, "comment"),
+              %li.first= link_to pluralize(post.comments.size, "comment"),
                 post_path(post, :anchor => 'comments')
               -if can? :create, Comment
                 %li= link_to "Reply", new_comment_path(:post_id => post.id)

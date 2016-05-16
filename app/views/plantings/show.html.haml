@@ -8,7 +8,7 @@
       &mdash;
       = link_to "view all #{@planting.owner}'s plantings", plantings_by_owner_path(:owner => @planting.owner.slug)
     %p
-      %b Planted:
+      %b Planted on:
       = @planting.planted_at ? @planting.planted_at : "not specified"
 
     %p
@@ -18,28 +18,34 @@
       - if ! @planting.owner.location.blank?
         = "(#{@planting.owner.location})"
     %p
-      %b Quantity:
-      = @planting.quantity.blank? ? "not specified" : @planting.quantity
-
-    - if ! @planting.planted_from.blank?
+      %b 
+        = "Quantity: "
+      = "#{display_planting_quantity(@planting)}"
+    
+    - if !@planting.planted_from.blank?
       %p
-        %b Planted from:
-        = @planting.planted_from
+        %b 
+          = "Planted from: "
+        = "#{display_planted_from(@planting)}"
+    
+    %p
+      %b 
+        = "Sun or shade?: "
+      - sunniness = @planting.sunniness.blank? ? "not specified" : @planting.sunniness
+      = image_tag("sunniness_#{sunniness}.png", :size => "25x25", :alt => "#{sunniness}", :title => "#{sunniness}")
+      = " (#{sunniness})"
 
-    - if ! @planting.sunniness.blank?
-      %p
-        %b Sun or shade?
-        = @planting.sunniness
+    %p
+      %b 
+        = "Days until maturity: "
+      = "#{display_days_before_maturity(@planting)}"
+    %p
+      %b 
+        = "Finished: "
+      = "#{display_finished(@planting)}"
 
-    - if @planting.finished
-      %p
-        %b Finished:
-        - if @planting.finished_at
-          = @planting.finished_at
-        - else
-          Yes (no date specified)
-
-
+    %p
+      %b= render 'planting_progress', planting: @planting
 
     - if can? :edit, @planting or can? :destroy, @planting
       %p
@@ -58,7 +64,7 @@
 :growstuff_markdown
   #{ @planting.description != "" ? @planting.description : "No description given." }
 
-- if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
+- if @planting.photos.size > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
 
   .row

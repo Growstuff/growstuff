@@ -14,56 +14,19 @@
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add a new garden' }
 
-- if @gardens.length > 0
+%div.pagination
+  = page_entries_info @gardens, :model => "gardens"
+  = will_paginate @gardens
 
-  %div.pagination
-    = page_entries_info @gardens, :model => "gardens"
-    = will_paginate @gardens
-
-  %table.table.table-striped
-    %tr
-      - unless @owner
-        %th Owner
-      %th Garden name
-      %th Description
-      %th Location
-      %th Area
-      %th Active?
-      %th Plantings
-      %th
-
+.row
+  - if @gardens.size > 0
     - @gardens.each do |garden|
-      %tr
-        - unless @owner
-          %td= link_to garden.owner.login_name, garden.owner
-        %td= link_to garden.name, garden
-        %td= garden.description
-        %td
-          - if ! garden.location.blank?
-            = link_to garden.location, place_path(garden.location)
-        %td
-          - if garden.area
-            = pluralize(garden.area, garden.area_unit)
-        %td= garden.active ? "Yes" : "No"
-        %td
-          - if garden.plantings.empty?
-            None
-          - else
-            %ul
-            - garden.plantings.each do |p|
-              %li
-                = p.quantity
-                = link_to p.crop.name, p
-                - if p.planted_at
-                  planted on
-                  = p.planted_at
-              
-        %td= link_to 'Details', garden, :class => 'btn btn-default btn-xs'
+      .col-md-6
+        =render :partial => 'gardens/thumbnail', :locals => {:garden => garden}
+  - else
+    %p There are no gardens to display.
 
-  %div.pagination
-    = page_entries_info @gardens, :model => "gardens"
-    = will_paginate @gardens
-
-- else
-  %p There are no gardens to display.
+%div.pagination
+  = page_entries_info @gardens, :model => "gardens"
+  = will_paginate @gardens
 

@@ -7,7 +7,7 @@ class Crop < ActiveRecord::Base
     :allow_destroy => true,
     :reject_if     => :all_blank
 
-  has_many :alternate_names, after_add: :update_index, after_remove: :update_index
+  has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   has_many :plantings
   has_many :photos, :through => :plantings
   has_many :seeds
@@ -116,7 +116,7 @@ class Crop < ActiveRecord::Base
   end
 
   def default_scientific_name
-    if scientific_names.count > 0
+    if scientific_names.size > 0
       return scientific_names.first.scientific_name
     else
       return nil
@@ -177,7 +177,7 @@ class Crop < ActiveRecord::Base
   def interesting?
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
-    return false unless photos.count >= min_photos
+    return false unless photos.size >= min_photos
     return false unless plantings_count >= min_plantings
     return true
   end
@@ -207,8 +207,8 @@ class Crop < ActiveRecord::Base
   def Crop.interesting
   howmany = 12 # max number to find
   interesting_crops = Array.new
-    Crop.randomized.each do |c|
-      break if interesting_crops.length == howmany
+    Crop.includes(:photos).randomized.each do |c|
+      break if interesting_crops.size == howmany
       next unless c.interesting?
       interesting_crops.push(c)
     end

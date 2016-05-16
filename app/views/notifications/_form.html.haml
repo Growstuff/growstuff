@@ -1,7 +1,7 @@
 = form_for @notification do |f|
   - if @notification.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this message from being sent:"
+      %h2= "#{pluralize(@post.errors.size, "error")} prohibited this message from being sent:"
       %ul
         - @notification.errors.full_messages.each do |msg|
           %li= msg
@@ -13,7 +13,7 @@
     To:
     = link_to @recipient, @recipient
   = label_tag :notification, "Subject:"
-  = f.text_field :subject, :value => @subject, :class => 'form-control'
+  = f.text_field :subject, :value => @subject, :class => 'form-control', :maxlength => 255
   = label_tag :body, "Type your message here:"
   = f.text_area :body, :rows => 12, :class => 'form-control'
   %span.help-block

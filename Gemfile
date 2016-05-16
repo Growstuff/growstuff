@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.1.8'
 
-gem 'rails', '4.1.9'
+gem 'rails', '~> 4.1.11'
 
 gem 'bundler', '>=1.1.5'
 
@@ -16,7 +16,7 @@ gem 'less-rails', '~> 2.5.0'
 # CSS framework
 gem 'less-rails-bootstrap', '~> 3.2.0'
 
-gem 'uglifier', '~> 2.5.3'         # JavaScript compressor
+gem 'uglifier', '~> 2.7.2'         # JavaScript compressor
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '~> 5.0.2'
@@ -34,6 +34,9 @@ gem 'csv_shaper'                   # CSV export
 gem 'ruby-units'                   # for unit conversion
 
 gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
+
+gem 'kaminari'                     # pagination
+gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
@@ -58,7 +61,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.4.1'
+gem 'devise', '~> 3.5.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 5.0.4'
@@ -104,21 +107,24 @@ group :development do
   gem 'binding_of_caller'
   gem 'letter_opener'
   gem 'quiet_assets'
+  gem 'guard'
+  gem 'guard-rspec'
 end
 
 group :development, :test do
   gem 'haml-rails'                      # HTML templating language
-  gem 'rspec-rails', '~> 3.1.0'         # unit testing framework
+  gem 'rspec-rails', '~> 3.4.0'         # unit testing framework
   gem 'rspec-activemodel-mocks'
   gem 'byebug'                          # debugging
-  gem 'database_cleaner', '~> 1.3.0'
+  gem 'database_cleaner', '~> 1.5.0'
   gem 'webrat'                          # provides HTML matchers for view tests
   gem 'factory_girl_rails', '~> 4.5.0'  # for creating test data
   gem 'coveralls', require: false       # coverage analysis
   gem 'capybara'                        # integration tests
   gem 'capybara-email'                  # integration tests for email
-  gem 'poltergeist', '~> 1.5.1'         # for headless JS testing
+  gem 'poltergeist', '~> 1.6'           # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+  gem 'selenium-webdriver'
 end
 
 group :travis do

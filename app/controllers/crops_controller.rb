@@ -94,9 +94,9 @@ class CropsController < ApplicationController
   # GET /crops/new.json
   def new
     @crop = Crop.new
-    3.times do
-      @crop.scientific_names.build
-    end
+    @crop.alternate_names.build
+    @crop.scientific_names.build
+
     respond_to do |format|
       format.html # new.html.haml
       format.json { render json: @crop }
@@ -106,15 +106,15 @@ class CropsController < ApplicationController
   # GET /crops/1/edit
   def edit
     @crop = Crop.find(params[:id])
+    @crop.alternate_names.build if @crop.alternate_names.blank?
+    @crop.scientific_names.build if @crop.scientific_names.blank?
 
-    (3 - @crop.scientific_names.length).times do
-      @crop.scientific_names.build
-    end
   end
 
   # POST /crops
   # POST /crops.json
   def create
+
     @crop = Crop.new(crop_params)
 
     if current_member.has_role? :crop_wrangler
@@ -128,6 +128,12 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.save
+        params[:alt_name].each do |index, value|
+        @crop.alternate_names.create(name: value, creator_id: current_member.id)
+        end
+        params[:sci_name].each do |index, value|
+        @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
+        end
         unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
             Notifier.new_crop_request(w, @crop).deliver!
@@ -154,6 +160,23 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.update(crop_params)
+        if !params[:alt_name].nil?
+          @crop.alternate_names.each do |alt_name|
+            alt_name.destroy
+          end
+
+          params[:alt_name].each do |index, value|
+            alt_name = @crop.alternate_names.create(name: value, creator_id: current_member.id)
+          end
+
+          @crop.scientific_names.each do |sci_name|
+            sci_name.destroy
+          end
+          params[:sci_name].each do |index, value|
+            sci_name = @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
+          end
+        end
+        
         if previous_status == "pending"
           requester = @crop.requester
           new_status = @crop.approval_status
