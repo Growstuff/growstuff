@@ -125,6 +125,7 @@ group :development, :test do
   gem 'poltergeist', '~> 1.6'           # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
+  gem "codeclimate-test-reporter", group: :test, require: nil
 end
 
 group :travis do
