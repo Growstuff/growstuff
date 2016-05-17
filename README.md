@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Growstuff/growstuff.png)](https://travis-ci.org/Growstuff/growstuff)
 [![Coverage Status](https://coveralls.io/repos/Growstuff/growstuff/badge.png)](https://coveralls.io/r/Growstuff/growstuff)
+[![Code Climate](https://codeclimate.com/github/Growstuff/growstuff/badges/gpa.svg)](https://codeclimate.com/github/Growstuff/growstuff)
 
 Welcome to the Growstuff project.
 
