@@ -2,14 +2,15 @@ development:
   adapter: postgresql
   database: growstuff_dev
   host: localhost
-  user: postgres
-  password: password
+  user: growstuff
+  password: growstuff
 
 test:
   adapter: postgresql
   database: growstuff_test
   host: localhost
-  user: postgres
+  user: growstuff
+  password: growstuff
 
 production:
   adapter: postgresql
