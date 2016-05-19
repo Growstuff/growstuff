@@ -207,7 +207,7 @@ class Crop < ActiveRecord::Base
   def Crop.interesting
   howmany = 12 # max number to find
   interesting_crops = Array.new
-    Crop.randomized.each do |c|
+    Crop.includes(:photos).randomized.each do |c|
       break if interesting_crops.size == howmany
       next unless c.interesting?
       interesting_crops.push(c)

@@ -11,7 +11,7 @@
   .form-group.required
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :name, :class => 'form-control'
+      = f.text_field :name, :class => 'form-control', :maxlength => 255, :required => "required"
 
   .form-group
     = f.label :description, :class => 'control-label col-md-2'
@@ -21,7 +21,7 @@
   .form-group
     = f.label :location, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control', :placeholder => 'optional'
+      = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control', :placeholder => 'optional', :maxlength => 255
       %span.help-block
         If you have a location set in your profile, it will be used when
         you create a new garden.

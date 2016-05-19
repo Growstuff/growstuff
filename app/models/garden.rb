@@ -28,10 +28,14 @@ class Garden < ActiveRecord::Base
   scope :active, -> { where(:active => true) }
   scope :inactive, -> { where(:active => false) }
 
+  validates :location,
+    :length => { :maximum => 255 }
+
   validates :name,
     :format => {
       :with => /\S/
-    }
+    },
+    :length => { :maximum => 255 }
 
   validates :area,
     :numericality => {

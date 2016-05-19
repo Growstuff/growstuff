@@ -9,6 +9,8 @@
   %b Crop:
   = link_to @scientific_name.crop, @scientific_name.crop
 
-= link_to 'Edit', edit_scientific_name_path(@scientific_name), :class => 'btn btn-default btn-xs'
-\|
+
+- if can? :edit, @scientific_name
+  = link_to 'Edit', edit_scientific_name_path(@scientific_name), :class => 'btn btn-default btn-xs'
+  \|
 = link_to 'Back', scientific_names_path
