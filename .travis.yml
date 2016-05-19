@@ -10,7 +10,8 @@ env:
 rvm:
 - 2.2.4
 before_script:
-- psql -c 'create database growstuff_test;' -U postgres
+  - psql -c "create user growstuff with createdb password 'growstuff';" -U postgres
+  - psql -c "create database growstuff_test owner growstuff;" -U postgres
 script:
 - bundle exec rake db:migrate --trace
 - bundle exec rspec spec/
