@@ -36,7 +36,7 @@
   .form-group
     = f.label :weight_quantity, 'Weighing (in total):', :class => 'control-label col-md-2'
     .col-md-2
-      = f.number_field :weight_quantity, :class => 'input-small', :step => 'any', :class => 'form-control', :placeholder => 'optional'
+      = f.number_field :weight_quantity, :class => 'input-small form-control', :step => 'any', :placeholder => 'optional'
     .col-md-2
       = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
   .form-group
