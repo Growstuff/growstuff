@@ -36,7 +36,7 @@ The wiki is down right now, so here's what you need to do on Mac OS X to get set
 
 ```
 gem install bundle
-gem install pg -v '0.17.1' -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/latest/bin/pg_config
+gem install pg -v '0.18.4' -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/latest/bin/pg_config
 bundle install
 ```
 
