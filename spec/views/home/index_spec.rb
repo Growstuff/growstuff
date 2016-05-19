@@ -16,16 +16,16 @@
 
 require 'rails_helper'
 
-describe 'home/index.html.haml', :type => "view" do
+describe 'home/index.html.haml', type: "view" do
   before(:each) do
     @member = FactoryGirl.create(:london_member)
     @member.updated_at = 2.days.ago
     assign(:interesting_members, [@member])
 
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, author: @member)
     assign(:posts, [@post])
 
-    @planting = FactoryGirl.create(:planting, :owner => @member)
+    @planting = FactoryGirl.create(:planting, owner: @member)
     assign(:plantings, [@planting])
 
     @crop = FactoryGirl.create(:crop)

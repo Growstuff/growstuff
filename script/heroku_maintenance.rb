@@ -3,7 +3,7 @@
 require 'heroku-api'
 require 'yaml'
 
-heroku = Heroku::API.new(:api_key => ENV['HEROKU_API_KEY'])
+heroku = Heroku::API.new(api_key: ENV['HEROKU_API_KEY'])
 branch = ENV['TRAVIS_BRANCH']
 travis_config = YAML.load_file('.travis.yml')
 if travis_config['deploy']['app'].has_key? branch

@@ -27,7 +27,7 @@ describe "forums/index" do
 
   it "renders a list of forums" do
     render
-    assert_select "h2", :text => @forum1.name, :count => 2
+    assert_select "h2", text: @forum1.name, count: 2
   end
 
   it "doesn't display posts for empty forums" do
@@ -37,8 +37,8 @@ describe "forums/index" do
 
   context "posts" do
     before(:each) do
-      @post = FactoryGirl.create(:forum_post, :forum => @forum1)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:forum_post, forum: @forum1)
+      @comment = FactoryGirl.create(:comment, post: @post)
       render
     end
 
@@ -49,7 +49,7 @@ describe "forums/index" do
     end
 
     it "displays comment count" do
-      assert_select "td", :text => "1"
+      assert_select "td", text: "1"
     end
 
   end

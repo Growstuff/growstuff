@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'devise/sessions/new.html.haml', :type => "view" do
+describe 'devise/sessions/new.html.haml', type: "view" do
 
   context "logged in" do
     before(:each) do

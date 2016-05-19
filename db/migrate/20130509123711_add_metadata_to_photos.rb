@@ -5,9 +5,9 @@ class AddMetadataToPhotos < ActiveRecord::Migration
       t.string :license_name
       t.string :license_url
       t.string :link_url
-      t.change :title, :string, :null => false
-      t.change :license_name, :string, :null => false
-      t.change :link_url, :string, :null => false
+      t.change :title, :string, null: false
+      t.change :license_name, :string, null: false
+      t.change :link_url, :string, null: false
     end
   end
 

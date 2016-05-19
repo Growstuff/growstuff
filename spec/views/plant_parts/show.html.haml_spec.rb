@@ -20,7 +20,7 @@ describe "plant_parts/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @pp = FactoryGirl.create(:plant_part)
-    @harvest = FactoryGirl.create(:harvest, :plant_part => @pp)
+    @harvest = FactoryGirl.create(:harvest, plant_part: @pp)
     assign(:plant_part, @pp)
   end
 
@@ -28,7 +28,7 @@ describe "plant_parts/show" do
     render
     @pp.crops.each do |c|
       rendered.should have_content c.name
-      assert_select "a", :href => crop_path(c)
+      assert_select "a", href: crop_path(c)
     end
   end
 end

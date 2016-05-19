@@ -97,7 +97,7 @@ end
 module CmsDeviseAuth
   def authenticate
     unless current_member && current_member.has_role?(:admin)
-      redirect_to root_path, :alert => 'Permission denied. Please sign in as an admin user to use the CMS admin area.'
+      redirect_to root_path, alert: 'Permission denied. Please sign in as an admin user to use the CMS admin area.'
     end
   end
 end

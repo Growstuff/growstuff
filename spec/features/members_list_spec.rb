@@ -20,7 +20,7 @@ feature "members list" do
       visit members_path
       expect(page).to have_css "#sort"
       expect(page).to have_selector "form"
-      select("recently", :from => 'sort')
+      select("recently", from: 'sort')
       click_button('Show')
       all_links = page.all("#maincontainer p.login-name")
       expect(all_links.first).to have_text member3.login_name

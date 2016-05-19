@@ -9,13 +9,13 @@ describe Follow do
 
   it "sends a notification when a follow is created" do
     expect {
-      Follow.create(:follower_id => @member1.id, :followed_id => @member2.id)
+      Follow.create(follower_id: @member1.id, followed_id: @member2.id)
     }.to change(Notification, :count).by(1)
   end
 
   it "does not delete any members when follow is deleted" do
     expect {
-      follow = Follow.create(:follower_id => @member1.id, :followed_id => @member2.id)
+      follow = Follow.create(follower_id: @member1.id, followed_id: @member2.id)
       follow.destroy
     }.not_to change(Member, :count)
   end
@@ -23,11 +23,11 @@ describe Follow do
   context "when follow is created" do
 
     before (:each) do
-      @follow = Follow.create(:follower_id => @member1.id, :followed_id => @member2.id)
+      @follow = Follow.create(follower_id: @member1.id, followed_id: @member2.id)
     end
 
     it "should not duplicate follows" do
-      expect(Follow.create(:follower_id => @member1.id, :followed_id => @member2.id)).not_to be_valid
+      expect(Follow.create(follower_id: @member1.id, followed_id: @member2.id)).not_to be_valid
     end
 
     it "should list users in following/follower collections when follow is created" do

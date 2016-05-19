@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
   # CanCan error handling
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to request.referer || root_url, :alert => exception.message
+    redirect_to request.referer || root_url, alert: exception.message
   end
 
   def set_locale

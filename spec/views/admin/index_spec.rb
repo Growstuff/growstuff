@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'admin/index.html.haml', :type => "view" do
+describe 'admin/index.html.haml', type: "view" do
   before(:each) do
     @member = FactoryGirl.create(:admin_member)
     sign_in @member
@@ -25,10 +25,10 @@ describe 'admin/index.html.haml', :type => "view" do
   end
 
   it "includes links to manage various things" do
-    assert_select "a", :href => account_types_path
-    assert_select "a", :href => products_path
-    assert_select "a", :href => roles_path
-    assert_select "a", :href => forums_path
+    assert_select "a", href: account_types_path
+    assert_select "a", href: products_path
+    assert_select "a", href: roles_path
+    assert_select "a", href: forums_path
   end
 
   it "has a link to newsletter subscribers" do

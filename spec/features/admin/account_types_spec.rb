@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "account types", :js => true do
+feature "account types", js: true do
   context "admin user" do
     let(:member) { create :admin_member }
     let(:account_type) { create :account_type }
@@ -19,7 +19,7 @@ feature "account types", :js => true do
       expect(current_path).to eq account_types_path
     end
 
-    scenario "navigating to account type admin without JavaScript - Accessility version", :js => false do
+    scenario "navigating to account type admin without JavaScript - Accessility version", js: false do
       visit root_path
       # Extra link not needed as menu is already expanded
       click_link "Admin"

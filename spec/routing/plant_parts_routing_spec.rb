@@ -12,11 +12,11 @@ describe PlantPartsController do
     end
 
     it "routes to #show" do
-      get("/plant_parts/1").should route_to("plant_parts#show", :id => "1")
+      get("/plant_parts/1").should route_to("plant_parts#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/plant_parts/1/edit").should route_to("plant_parts#edit", :id => "1")
+      get("/plant_parts/1/edit").should route_to("plant_parts#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe PlantPartsController do
     end
 
     it "routes to #update" do
-      put("/plant_parts/1").should route_to("plant_parts#update", :id => "1")
+      put("/plant_parts/1").should route_to("plant_parts#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/plant_parts/1").should route_to("plant_parts#destroy", :id => "1")
+      delete("/plant_parts/1").should route_to("plant_parts#destroy", id: "1")
     end
 
   end

@@ -8,7 +8,7 @@ class OrderItemsController < ApplicationController
       params[:order_item][:price] = params[:order_item][:price].to_f * 100 # convert to cents
     end
     @order_item = OrderItem.new(order_item_params)
-    @order_item.order = current_member.current_order || Order.create(:member_id => current_member.id)
+    @order_item.order = current_member.current_order || Order.create(member_id: current_member.id)
 
     respond_to do |format|
       if @order_item.save

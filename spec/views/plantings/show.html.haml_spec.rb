@@ -18,11 +18,11 @@ require 'rails_helper'
 
 describe "plantings/show" do
   def create_planting_for(member)
-    @garden = FactoryGirl.create(:garden, :owner => @member)
+    @garden = FactoryGirl.create(:garden, owner: @member)
     @crop = FactoryGirl.create(:tomato)
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, :garden => @garden, :crop => @crop,
-        :planted_from => 'cutting')
+      FactoryGirl.create(:planting, garden: @garden, crop: @crop,
+        planted_from: 'cutting')
     )
   end
 
@@ -67,7 +67,7 @@ describe "plantings/show" do
   end
 
   it "shows photos" do
-    @photo = FactoryGirl.create(:photo, :owner => @member)
+    @photo = FactoryGirl.create(:photo, owner: @member)
     @p.photos << @photo
     render
     assert_select "img[src=#{@photo.thumbnail_url}]"

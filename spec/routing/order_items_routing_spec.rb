@@ -12,11 +12,11 @@ describe OrderItemsController do
     end
 
     it "routes to #show" do
-      get("/order_items/1").should route_to("order_items#show", :id => "1")
+      get("/order_items/1").should route_to("order_items#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/order_items/1/edit").should route_to("order_items#edit", :id => "1")
+      get("/order_items/1/edit").should route_to("order_items#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe OrderItemsController do
     end
 
     it "routes to #update" do
-      put("/order_items/1").should route_to("order_items#update", :id => "1")
+      put("/order_items/1").should route_to("order_items#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/order_items/1").should route_to("order_items#destroy", :id => "1")
+      delete("/order_items/1").should route_to("order_items#destroy", id: "1")
     end
 
   end
