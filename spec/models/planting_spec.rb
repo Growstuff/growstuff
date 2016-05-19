@@ -63,7 +63,7 @@ describe Planting do
     it 'should reflect the current growth' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: 10, planted_at: 4.days.ago)
 
-      @planting.percentage_grown(Date.today).should be 40
+      expect(@planting.percentage_grown(Date.current)).to eq 40
     end
 
     it 'should not be calculated for unplanted plantings' do
