@@ -29,7 +29,7 @@
       -# Some browsers (eg Firefox for Android) assume "number" means
       -# "integer" unless you specify step="any":
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
-      = f.number_field :quantity, :class => 'input-small', :step => 'any', :class => 'form-control', :placeholder => 'optional'
+      = f.number_field :quantity, :class => 'input-small form-control', :step => 'any', :placeholder => 'optional'
     .col-md-2
       = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium form-control')
 
