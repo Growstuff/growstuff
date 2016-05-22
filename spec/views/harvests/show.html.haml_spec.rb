@@ -20,7 +20,7 @@ describe "harvests/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @crop = FactoryGirl.create(:tomato)
-    @harvest = assign(:harvest, FactoryGirl.create(:harvest, :crop => @crop))
+    @harvest = assign(:harvest, FactoryGirl.create(:harvest, crop: @crop))
     render
   end
 

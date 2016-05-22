@@ -18,15 +18,15 @@ describe Notification do
 
   it "has a scope for unread" do
     Notification.unread.should eq [notification]
-    @n2 = FactoryGirl.create(:notification, :read => true)
+    @n2 = FactoryGirl.create(:notification, read: true)
     Notification.unread.should eq [notification]
-    @n3 = FactoryGirl.create(:notification, :read => false)
+    @n3 = FactoryGirl.create(:notification, read: false)
     Notification.unread.should eq [@n3, notification]
   end
 
   it "counts unread" do
     @who = notification.recipient
-    @n2 = FactoryGirl.create(:notification, :recipient => @who, :read => false)
+    @n2 = FactoryGirl.create(:notification, recipient: @who, read: false)
     @who.notifications.unread_count.should eq 2
   end
 
@@ -48,12 +48,12 @@ describe Notification do
   end
 
   it "replaces missing subjects with (no subject)" do
-    notification = FactoryGirl.create(:notification, :subject => nil)
+    notification = FactoryGirl.create(:notification, subject: nil)
     notification.subject.should == "(no subject)"
   end
 
   it "replaces whitespace-only subjects with (no subject)" do
-    notification = FactoryGirl.create(:notification, :subject => "    ")
+    notification = FactoryGirl.create(:notification, subject: "    ")
     notification.subject.should == "(no subject)"
   end
 

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-feature "signup" do
+feature "signup", js: true do
+
   scenario "sign up for new account from top menubar" do
     visit crops_path # something other than front page, which has multiple signup links
     click_link 'Sign up'

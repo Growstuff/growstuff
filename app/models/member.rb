@@ -4,26 +4,26 @@ class Member < ActiveRecord::Base
 
   friendly_id :login_name, use: [:slugged, :finders]
 
-  has_many :posts,   :foreign_key => 'author_id'
-  has_many :comments, :foreign_key => 'author_id'
-  has_many :forums, :foreign_key => 'owner_id'
+  has_many :posts,   foreign_key: 'author_id'
+  has_many :comments, foreign_key: 'author_id'
+  has_many :forums, foreign_key: 'owner_id'
 
-  has_many :gardens, :foreign_key => 'owner_id'
-  has_many :plantings, :foreign_key => 'owner_id'
+  has_many :gardens, foreign_key: 'owner_id'
+  has_many :plantings, foreign_key: 'owner_id'
 
-  has_many :seeds, :foreign_key => 'owner_id'
-  has_many :harvests, :foreign_key => 'owner_id'
+  has_many :seeds, foreign_key: 'owner_id'
+  has_many :harvests, foreign_key: 'owner_id'
 
   has_and_belongs_to_many :roles
 
-  has_many :notifications, :foreign_key => 'recipient_id'
-  has_many :sent_notifications, :foreign_key => 'sender_id'
+  has_many :notifications, foreign_key: 'recipient_id'
+  has_many :sent_notifications, foreign_key: 'sender_id'
 
   has_many :authentications
 
   has_many :orders
   has_one  :account
-  has_one  :account_type, :through => :account
+  has_one  :account_type, through: :account
 
   has_many :photos
 
@@ -33,13 +33,13 @@ class Member < ActiveRecord::Base
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
   scope :recently_joined, -> { reorder("confirmed_at desc") }
-  scope :wants_newsletter, -> { where(:newsletter => true) }
+  scope :wants_newsletter, -> { where(newsletter: true) }
 
-  has_many :follows, :class_name => "Follow", :foreign_key => "follower_id"
-  has_many :followed, :through => :follows
+  has_many :follows, class_name: "Follow", foreign_key: "follower_id"
+  has_many :followed, through: :follows
 
-  has_many :inverse_follows, :class_name => "Follow", :foreign_key => "followed_id"
-  has_many :followers, :through => :inverse_follows, :source => :follower
+  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id"
+  has_many :followers, through: :inverse_follows, source: :follower
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -58,34 +58,34 @@ class Member < ActiveRecord::Base
   attr_accessor :login
 
   # Requires acceptance of the Terms of Service
-  validates_acceptance_of :tos_agreement, :allow_nil => false,
-    :accept => true
+  validates_acceptance_of :tos_agreement, allow_nil: false,
+    accept: true
 
   validates :login_name,
-    :length => {
-      :minimum => 2,
-      :maximum => 25,
-      :message => "should be between 2 and 25 characters long"
+    length: {
+      minimum: 2,
+      maximum: 25,
+      message: "should be between 2 and 25 characters long"
     },
-    :exclusion => {
-      :in => %w(growstuff admin moderator staff nearby),
-      :message => "name is reserved"
+    exclusion: {
+      in: %w(growstuff admin moderator staff nearby),
+      message: "name is reserved"
     },
-    :format => {
-      :with => /\A\w+\z/,
-      :message => "may only include letters, numbers, or underscores"
+    format: {
+      with: /\A\w+\z/,
+      message: "may only include letters, numbers, or underscores"
     },
-    :uniqueness => {
-      :case_sensitive => false
+    uniqueness: {
+      case_sensitive: false
     }
 
   # Give each new member a default garden
-  after_create {|member| Garden.create(:name => "Garden", :owner_id => member.id) }
+  after_create {|member| Garden.create(name: "Garden", owner_id: member.id) }
 
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryGirl associations
-  after_create {|member| Account.find_or_create_by(:member_id => member.id) }
+  after_create {|member| Account.find_or_create_by(member_id: member.id) }
 
   after_save :update_newsletter_subscription
 
@@ -93,7 +93,7 @@ class Member < ActiveRecord::Base
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(login_name) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions).where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }]).first
     else
       where(conditions).first
     end
@@ -108,7 +108,7 @@ class Member < ActiveRecord::Base
   end
 
   def current_order
-    orders.where(:completed_at => nil).first
+    orders.where(completed_at: nil).first
   end
 
   # when purchasing a product that gives you a paid account, this method
@@ -163,15 +163,15 @@ class Member < ActiveRecord::Base
     result = false
     if set
       result = flickr.photosets.getPhotos(
-        :photoset_id => set,
-        :page => page_num,
-        :per_page => 30
+        photoset_id: set,
+        page: page_num,
+        per_page: 30
       )
     else
       result = flickr.people.getPhotos(
-        :user_id => 'me',
-        :page => page_num,
-        :per_page => 30
+        user_id: 'me',
+        page: page_num,
+        per_page: 30
       )
     end
     if result
@@ -239,10 +239,10 @@ class Member < ActiveRecord::Base
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.subscribe({
-      :id => Growstuff::Application.config.newsletter_list_id,
-      :email => { :email => email },
-      :merge_vars => { :login_name => login_name },
-      :double_optin => false # they already confirmed their email with us
+      id: Growstuff::Application.config.newsletter_list_id,
+      email: { email: email },
+      merge_vars: { login_name: login_name },
+      double_optin: false # they already confirmed their email with us
     })
   end
 
@@ -250,17 +250,17 @@ class Member < ActiveRecord::Base
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({
-      :id => Growstuff::Application.config.newsletter_list_id,
-      :email => { :email => email }
+      id: Growstuff::Application.config.newsletter_list_id,
+      email: { email: email }
     })
   end
 
   def already_following?(member)
-    self.follows.exists?(:followed_id => member.id)
+    self.follows.exists?(followed_id: member.id)
   end
 
   def get_follow(member)
-    self.follows.where(:followed_id => member.id).first if already_following?(member)
+    self.follows.where(followed_id: member.id).first if already_following?(member)
   end
 
 end

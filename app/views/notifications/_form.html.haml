@@ -13,7 +13,7 @@
     To:
     = link_to @recipient, @recipient
   = label_tag :notification, "Subject:"
-  = f.text_field :subject, :value => @subject, :class => 'form-control'
+  = f.text_field :subject, :value => @subject, :class => 'form-control', :maxlength => 255
   = label_tag :body, "Type your message here:"
   = f.text_area :body, :rows => 12, :class => 'form-control'
   %span.help-block

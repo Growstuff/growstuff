@@ -17,6 +17,71 @@ en:
   layouts:
     header:
       skip: "Skip navigation menu"
+      browse_crops: &browse_crops "Browse Crops"
+      seeds: "Seeds"
+      plantings: "Plantings"
+      harvests: "Harvests"
+      community_map: "Community Map"
+      browse_members: "Browse Members"
+      posts: "Posts"
+      forums: &forums "Forums"
+      support_growstuff: "Support Growstuff"
+      profile: "Profile"
+      gardens: "Gardens"
+      account: "Account"
+      inbox_unread: "Inbox (%{unread_count})"
+      inbox: "Inbox"
+      crop_wrangling: "Crop Wrangling"
+      admin: "Admin"
+      your_stuff: "Your Stuff (%{unread_count})"
+
+  crops:
+    index:
+      title: *browse_crops
+      subtitle: "%{crops_size} total"
+
+  seeds:
+    index:
+      title: 
+        default: "Everyone's seeds"
+        crop_seeds: "Everyone's %{crop} seeds"
+        owner_seeds: "%{owner} seeds"
+
+  plantings:
+    index:
+      title: 
+        default: "Everyone's plantings"
+        crop_plantings: "Everyone's %{crop} plantings"
+        owner_plantings: "%{owner} plantings"
+
+  harvests:
+    index:
+      title:
+        default: "Everyone's harvests"
+        crop_harvests: "Everyone's %{crop} harvests"
+        owner_harvests: "%{owner} harvests"
+
+  places:
+    index: 
+      title: "%{site_name} Community Map" 
+
+  members:
+    index: 
+      title: "%{site_name} members" 
+
+  posts:
+    index: 
+      title:
+        default: "Everyone's posts" 
+        author_posts: "%{author} posts"
+
+  shop:
+    index:
+      title: "Shop" 
+
+  forums:
+    index:
+      title: *forums
 
   home:
     blurb:

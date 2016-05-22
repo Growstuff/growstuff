@@ -42,7 +42,7 @@ feature "Planting a crop", :js do
     end
 
     expect(page).to have_content "Planting was successfully created"
-    expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+    expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
   end
 
   scenario "Clicking link to owner's profile" do
@@ -53,16 +53,19 @@ feature "Planting a crop", :js do
 
   describe "Progress bar status on planting creation" do
     before do
-      DateTime.stub(:now) { DateTime.new(2015, 10, 20, 10, 34) }
       login_as member
       visit new_planting_path
+
+      @a_past_date = 15.days.ago.strftime("%Y-%m-%d")
+      @right_now = Date.today.strftime("%Y-%m-%d")
+      @a_future_date = 1.years.from_now.strftime("%Y-%m-%d")
     end
 
     it "should show that it is not planted yet" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
-        fill_in "When", with: "2015-12-15"
+        fill_in "When", with: @a_future_date
         fill_in "How many?", with: 42
         select "cutting", from: "Planted from:"
         select "semi-shade", from: "Sun or shade?"
@@ -78,7 +81,7 @@ feature "Planting a crop", :js do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
-        fill_in "When", with: "2015-9-15"
+        fill_in "When", with: @a_past_date
         fill_in "How many?", with: 42
         select "cutting", from: "Planted from:"
         select "semi-shade", from: "Sun or shade?"
@@ -87,7 +90,7 @@ feature "Planting a crop", :js do
       end
 
       expect(page).to have_content "Planting was successfully created"
-      expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+      expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
       expect(page).to have_content "Days until maturity: unknown"
     end
 
@@ -95,25 +98,25 @@ feature "Planting a crop", :js do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
-        fill_in "When", with: "2015-10-15"
+        fill_in "When", with: @right_now
         fill_in "How many?", with: 42
         select "cutting", from: "Planted from:"
         select "semi-shade", from: "Sun or shade?"
         fill_in "Tell us more about it", with: "It's rad."
-        fill_in "Finished date", with: "2015-10-30"
+        fill_in "Finished date", with: @a_future_date
         click_button "Save"
       end
 
       expect(page).to have_content "Planting was successfully created"
       expect(page).to_not have_content "Progress: 0% - not planted yet"
-      expect(page).to_not have_content "Progress: 0% - Days before maturity unknown"
+      expect(page).to_not have_content "Progress: Not calculated, days before maturity unknown"
     end
 
     it "should show that planting is 100% complete (no date specified)" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
-        fill_in "When", with: "2015-10-15"
+        fill_in "When", with: @right_now
         fill_in "How many?", with: 42
         select "cutting", from: "Planted from:"
         select "semi-shade", from: "Sun or shade?"
@@ -132,12 +135,12 @@ feature "Planting a crop", :js do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
-        fill_in "When", with: "2015-10-15"
+        fill_in "When", with: @a_past_date
         fill_in "How many?", with: 42
         select "cutting", from: "Planted from:"
         select "semi-shade", from: "Sun or shade?"
         fill_in "Tell us more about it", with: "It's rad."
-        fill_in "Finished date", with: "2015-10-19"
+        fill_in "Finished date", with: @right_now
         click_button "Save"
       end
 
@@ -169,13 +172,13 @@ feature "Planting a crop", :js do
 
   scenario "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
-    expect(page).to have_content "Progress: 0% - Days before maturity unknown"
+    expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
     click_link "Edit"
     check "finished"
     fill_in "Finished date", with: "2015-06-25"
     click_button "Save"
     expect(page).to have_content "Planting was successfully updated"
-    expect(page).to_not have_content "Progress: 0% - Days before maturity unknown"
+    expect(page).to_not have_content "Progress: Not calculated, days before maturity unknown"
   end
 
   scenario "Marking a planting as finished" do

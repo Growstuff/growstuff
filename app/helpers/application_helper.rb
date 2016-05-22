@@ -21,7 +21,7 @@ module ApplicationHelper
     link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
     return link_to "(convert)",
       link,
-      :target => "_blank"
+      target: "_blank"
   end 
 
   # Produces a cache key for uniquely identifying cached fragments.
@@ -37,5 +37,18 @@ module ApplicationHelper
     content_tag :div, asterisk + ' '.html_safe + text, class: ['margin-bottom']
   end
 
+  #
+  # Returns an image uri for a given member.
+  #
+  # Falls back to Gravatar
+  #
+  def avatar_uri(member, size = 150)
+    return member.preferred_avatar_uri if member.preferred_avatar_uri.present?
+
+    Gravatar.new(member.email).image_url({
+      size: size,
+      default: :identicon
+    })
+  end
 end
 

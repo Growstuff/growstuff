@@ -1,5 +1,5 @@
 class ScientificNamesController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :show]
+  before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /scientific_names
