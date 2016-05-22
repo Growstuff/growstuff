@@ -31,7 +31,7 @@ describe "places/show" do
   end
 
   it "shows the selected place in the textbox" do
-    assert_select "#new_place", :value => @place
+    assert_select "#new_place", value: @place
   end
 
   it "shows the names of nearby members" do

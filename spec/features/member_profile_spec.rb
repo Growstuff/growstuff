@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "member profile", :js => true do
+feature "member profile", js: true do
 
   context "signed out member" do
     let(:member) { create :member }
@@ -157,7 +157,7 @@ feature "member profile", :js => true do
       end
 
       scenario "has a private message button" do
-        expect(page).to have_link "Send message", href: new_notification_path(:recipient_id => other_member.id)
+        expect(page).to have_link "Send message", href: new_notification_path(recipient_id: other_member.id)
       end
     end
 

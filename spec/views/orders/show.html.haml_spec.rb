@@ -26,11 +26,11 @@ describe "orders/show" do
 
   context "current order" do
     before(:each) do
-      @order = assign(:order, FactoryGirl.create(:order, :member => @member))
+      @order = assign(:order, FactoryGirl.create(:order, member: @member))
       @order_item = FactoryGirl.create(:order_item,
-        :order => @order,
-        :quantity => 2,
-        :price => 9900
+        order: @order,
+        quantity: 2,
+        price: 9900
       )
       render
     end
@@ -40,7 +40,7 @@ describe "orders/show" do
     end
 
     it "shows order items in a table" do
-      assert_select "table>tr>th", :text => "Product"
+      assert_select "table>tr>th", text: "Product"
     end
 
     it "shows the total" do
@@ -62,27 +62,27 @@ describe "orders/show" do
     end
 
     it "shows a delete order button" do
-      assert_select "a", :text => "Delete this order"
+      assert_select "a", text: "Delete this order"
     end
   end
 
   context "completed order" do
     before(:each) do
-      @order = assign(:order, FactoryGirl.create(:completed_order, :member => @member))
+      @order = assign(:order, FactoryGirl.create(:completed_order, member: @member))
       @order_item = FactoryGirl.create(:order_item,
-        :order => @order,
-        :quantity => 2,
-        :price => 9900
+        order: @order,
+        quantity: 2,
+        price: 9900
       )
       render
     end
 
     it "doesn't show a checkout button" do
-      assert_select "a", :text => "Checkout", :count => 0
+      assert_select "a", text: "Checkout", count: 0
     end
 
     it "doesn't show delete order button" do
-      assert_select "a", :text => "Delete this order", :count => 0
+      assert_select "a", text: "Delete this order", count: 0
     end
 
   end

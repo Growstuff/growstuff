@@ -12,11 +12,11 @@ describe CommentsController do
     end
 
     it "routes to #show" do
-      get("/comments/1").should route_to("comments#show", :id => "1")
+      get("/comments/1").should route_to("comments#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/comments/1/edit").should route_to("comments#edit", :id => "1")
+      get("/comments/1/edit").should route_to("comments#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe CommentsController do
     end
 
     it "routes to #update" do
-      put("/comments/1").should route_to("comments#update", :id => "1")
+      put("/comments/1").should route_to("comments#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/comments/1").should route_to("comments#destroy", :id => "1")
+      delete("/comments/1").should route_to("comments#destroy", id: "1")
     end
 
   end

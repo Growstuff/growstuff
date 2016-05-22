@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'policy/community.html.haml', :type => "view" do
+describe 'policy/community.html.haml', type: "view" do
   before(:each) do
     render
   end

@@ -12,11 +12,11 @@ describe ProductsController do
     end
 
     it "routes to #show" do
-      get("/products/1").should route_to("products#show", :id => "1")
+      get("/products/1").should route_to("products#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/products/1/edit").should route_to("products#edit", :id => "1")
+      get("/products/1/edit").should route_to("products#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe ProductsController do
     end
 
     it "routes to #update" do
-      put("/products/1").should route_to("products#update", :id => "1")
+      put("/products/1").should route_to("products#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/products/1").should route_to("products#destroy", :id => "1")
+      delete("/products/1").should route_to("products#destroy", id: "1")
     end
 
   end

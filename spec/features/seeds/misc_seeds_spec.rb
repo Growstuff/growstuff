@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "seeds", :js => true do
+feature "seeds", js: true do
   context "signed in user" do
     let(:member) { create :member }
     let(:crop) { create :crop }

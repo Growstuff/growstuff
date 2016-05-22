@@ -34,15 +34,15 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
 
     respond_to do |format|
-      if @order.update_attributes(:referral_code => params[:referral_code])
+      if @order.update_attributes(referral_code: params[:referral_code])
         response = EXPRESS_GATEWAY.setup_purchase(
           @order.total,
-          :items             => @order.activemerchant_items,
-          :currency          => Growstuff::Application.config.currency,
-          :no_shipping       => true,
-          :ip                => request.remote_ip,
-          :return_url        => complete_order_url,
-          :cancel_return_url => shop_url
+          items: @order.activemerchant_items,
+          currency: Growstuff::Application.config.currency,
+          no_shipping: true,
+          ip: request.remote_ip,
+          return_url: complete_order_url,
+          cancel_return_url: shop_url
         )
         format.html { redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token) }
       else
@@ -58,10 +58,10 @@ class OrdersController < ApplicationController
     if (params[:token] && params['PayerID'])
       purchase = EXPRESS_GATEWAY.purchase(
         @order.total,
-        :currency          => Growstuff::Application.config.currency,
-        :ip       => request.remote_ip,
-        :payer_id => params['PayerID'],
-        :token    => params[:token]
+        currency: Growstuff::Application.config.currency,
+        ip: request.remote_ip,
+        payer_id: params['PayerID'],
+        token: params[:token]
       )
       if purchase.success?
         @order.completed_at = Time.zone.now

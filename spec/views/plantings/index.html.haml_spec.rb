@@ -20,7 +20,7 @@ describe "plantings/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @member   = FactoryGirl.create(:member)
-    @garden = FactoryGirl.create(:garden, :owner => @member)
+    @garden = FactoryGirl.create(:garden, owner: @member)
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
     page = 1
@@ -29,22 +29,22 @@ describe "plantings/index" do
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
         FactoryGirl.create(:planting,
-          :garden => @garden,
-          :crop => @tomato,
-          :owner => @member
+          garden: @garden,
+          crop: @tomato,
+          owner: @member
         ),
         FactoryGirl.create(:planting,
-          :garden => @garden,
-          :crop => @maize,
-          :description => '',
-          :planted_at => Time.local(2013, 1, 13)
+          garden: @garden,
+          crop: @maize,
+          description: '',
+          planted_at: Time.local(2013, 1, 13)
         ),
         FactoryGirl.create(:planting,
-          :garden => @garden,
-          :crop => @tomato,
-          :planted_at => Time.local(2013, 1, 13),
-          :finished_at => Time.local(2013, 1, 20),
-          :finished => true
+          garden: @garden,
+          crop: @tomato,
+          planted_at: Time.local(2013, 1, 13),
+          finished_at: Time.local(2013, 1, 20),
+          finished: true
         )
       ])
     end
@@ -70,9 +70,9 @@ describe "plantings/index" do
   it "provides data links" do
     render
     rendered.should have_content "The data on this page is available in the following formats:"
-    assert_select "a", :href => plantings_path(:format => 'csv')
-    assert_select "a", :href => plantings_path(:format => 'json')
-    assert_select "a", :href => plantings_path(:format => 'rss')
+    assert_select "a", href: plantings_path(format: 'csv')
+    assert_select "a", href: plantings_path(format: 'json')
+    assert_select "a", href: plantings_path(format: 'rss')
   end
 
   it "displays member's name in title" do

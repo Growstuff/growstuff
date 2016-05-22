@@ -19,7 +19,7 @@ require 'rails_helper'
 describe "posts/_single" do
 
   def render_post()
-      render :partial => "single", :locals => { :post => @post }
+      render partial: "single", locals: { post: @post }
   end
 
   before(:each) do
@@ -37,7 +37,7 @@ describe "posts/_single" do
     end
 
     it "doesn't contain a link to new comment" do
-      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", false
+      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
     end
   end
 
@@ -50,7 +50,7 @@ describe "posts/_single" do
     end
 
     it "contains link to new comment" do
-      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", "Reply"
+      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", "Reply"
     end
 
     it "does not contain an edit link" do
@@ -63,7 +63,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       render_post
     end
 
@@ -84,7 +84,7 @@ describe "posts/_single" do
 
   context "when there is 1 comment" do
     before(:each) do
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment = FactoryGirl.create(:comment, post: @post)
       render_post
     end
 
@@ -95,8 +95,8 @@ describe "posts/_single" do
 
   context "when there are 2 comments" do
     before(:each) do
-      @comment = FactoryGirl.create(:comment, :post => @post)
-      @comment2 = FactoryGirl.create(:comment, :post => @post)
+      @comment = FactoryGirl.create(:comment, post: @post)
+      @comment2 = FactoryGirl.create(:comment, post: @post)
       render_post
     end
 
@@ -110,9 +110,9 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @comment = FactoryGirl.create(:comment, :post => @post)
-      render :partial => "single", :locals => {
-        :post => @post, :hide_comments => true
+      @comment = FactoryGirl.create(:comment, post: @post)
+      render partial: "single", locals: {
+        post: @post, hide_comments: true
       }
     end
 
@@ -125,7 +125,7 @@ describe "posts/_single" do
     end
 
     it "does not contain link to new comment" do
-      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", false
+      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
     end
 
   end

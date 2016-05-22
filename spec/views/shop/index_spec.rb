@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'shop/index.html.haml', :type => "view" do
+describe 'shop/index.html.haml', type: "view" do
   before(:each) do
     @product1 = FactoryGirl.create(:product)
     @product2 = FactoryGirl.create(:product_with_recommended_price)
@@ -32,7 +32,7 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it 'shows products' do
-      assert_select("h2", :text => @product1.name)
+      assert_select("h2", text: @product1.name)
     end
 
     it 'shows prices in configured currency' do
@@ -54,11 +54,11 @@ describe 'shop/index.html.haml', :type => "view" do
     end
 
     it 'displays the order form' do
-      assert_select "form", :count => 2
+      assert_select "form", count: 2
     end
 
     it 'renders markdown in product descriptions' do
-      assert_select "em", :text => 'hurrah', :count => 2
+      assert_select "em", text: 'hurrah', count: 2
     end
   end
 

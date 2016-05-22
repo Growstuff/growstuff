@@ -9,29 +9,29 @@ describe Ability do
   context "notifications" do
 
     it 'member can view their own notifications' do
-      notification = FactoryGirl.create(:notification, :recipient => member)
+      notification = FactoryGirl.create(:notification, recipient: member)
       ability.should be_able_to(:read, notification)
     end
 
     it "member can't view someone else's notifications" do
       notification = FactoryGirl.create(:notification,
-        :recipient => FactoryGirl.create(:member)
+        recipient: FactoryGirl.create(:member)
       )
       ability.should_not be_able_to(:read, notification)
     end
     it "member can't send messages to themself" do
       ability.should_not be_able_to(:create,
         FactoryGirl.create(:notification,
-          :recipient => member,
-          :sender => member
+          recipient: member,
+          sender: member
         )
       )
     end
     it "member can send messages to someone else" do
       ability.should be_able_to(:create,
         FactoryGirl.create(:notification,
-          :recipient => FactoryGirl.create(:member),
-          :sender => member
+          recipient: FactoryGirl.create(:member),
+          sender: member
         )
       )
     end
@@ -123,16 +123,16 @@ describe Ability do
 
   context "orders" do
 
-    let(:order) { FactoryGirl.create(:order, :member => member) }
+    let(:order) { FactoryGirl.create(:order, member: member) }
     let(:strangers_order) { FactoryGirl.create(:order,
-        :member => FactoryGirl.create(:member)) }
+        member: FactoryGirl.create(:member)) }
     let(:completed_order) { FactoryGirl.create(:completed_order,
-        :member => member) }
-    let(:order_item) { FactoryGirl.create(:order_item, :order => order) }
+        member: member) }
+    let(:order_item) { FactoryGirl.create(:order_item, order: order) }
     let(:strangers_order_item) { FactoryGirl.create(:order_item,
-        :order => strangers_order) }
+        order: strangers_order) }
     let(:completed_order_item) { FactoryGirl.create(:order_item,
-        :order => completed_order) }
+        order: completed_order) }
 
     context "standard member" do
       it "can read their own orders" do
@@ -315,7 +315,7 @@ describe Ability do
       end
 
       it "can't delete a plant part that has harvests" do
-        @harvest = FactoryGirl.create(:harvest, :plant_part => plant_part)
+        @harvest = FactoryGirl.create(:harvest, plant_part: plant_part)
         ability.should_not be_able_to(:destroy, plant_part)
       end
 

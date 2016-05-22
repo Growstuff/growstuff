@@ -32,6 +32,14 @@ frontend features. We welcome contributions -- see
 * Drop in to one of our [discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) to chat to other developers, get help, etc.
 * You may also be interested in our [API](http://wiki.growstuff.org/index.php/API).
 
+The wiki is down right now, so here's what you need to do on Mac OS X to get set up.
+
+```
+gem install bundle
+gem install pg -v '0.18.4' -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/latest/bin/pg_config
+bundle install
+```
+
 ## For designers, writers, researchers, data wranglers, and other contributors
 
 There are heaps of ways to get involved and contribute no matter what

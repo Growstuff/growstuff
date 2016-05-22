@@ -26,7 +26,7 @@ describe "plant_parts/index" do
   it "renders a list of plant_parts" do
     render
     rendered.should have_content @pp.name
-    assert_select "a", :href => plant_part_path(@pp)
+    assert_select "a", href: plant_part_path(@pp)
   end
 
 end

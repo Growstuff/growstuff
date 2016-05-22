@@ -1,20 +1,18 @@
 source 'https://rubygems.org'
 
-ruby '2.1.8'
+ruby '2.2.4'
 
 gem 'rails', '~> 4.1.11'
 
 gem 'bundler', '>=1.1.5'
 
-gem 'sass-rails',   '~> 4.0.4'
+gem 'sass-rails',   '~> 5.0.4'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'haml'
 
-# Another CSS preprocessor, used for Bootstrap overrides
-gem 'less', '~>2.5.0'
-gem 'less-rails', '~> 2.5.0'
 # CSS framework
-gem 'less-rails-bootstrap', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'font-awesome-sass'
 
 gem 'uglifier', '~> 2.7.2'         # JavaScript compressor
 
@@ -29,7 +27,7 @@ gem 'unicorn'                      # http server
 gem 'pg'
 gem 'figaro'                       # for handling config via ENV variables
 gem 'cancancan', '~> 1.9'          # for checking member privileges
-gem 'gibbon'                       # for Mailchimp newsletter subscriptions
+gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 gem 'csv_shaper'                   # CSV export
 gem 'ruby-units'                   # for unit conversion
 
@@ -45,14 +43,6 @@ gem 'activemerchant', '1.33.0',
   :require => 'active_merchant'
 gem 'active_utils', '1.0.5',
   :path    => 'vendor/gems/active_utils-1.0.5'
-
-# less-rails depends on a JavaScript engine; we use therubyracer.
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# long term, we'll probably want node.js for performance, but this will do
-# for now as it's easier for new people to install
-gem 'therubyracer', '~> 0.12', :platforms => :ruby
-# libv8 is needed by therubyracer and is a bit finicky
-gem 'libv8', '3.16.14.7'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'

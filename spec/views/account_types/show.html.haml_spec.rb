@@ -19,9 +19,9 @@ require 'rails_helper'
 describe "account_types/show" do
   before(:each) do
     @account_type = assign(:account_type, stub_model(AccountType,
-      :name => "Name",
-      :is_paid => false,
-      :is_permanent_paid => false
+      name: "Name",
+      is_paid: false,
+      is_permanent_paid: false
     ))
   end
 

@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'devise/registrations/edit.html.haml', :type => "view" do
+describe 'devise/registrations/edit.html.haml', type: "view" do
 
   context "logged in" do
     before(:each) do
@@ -58,11 +58,11 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       end
 
       it "contains a gravatar icon" do
-        assert_select "img", :src => /gravatar\.com\/avatar/
+        assert_select "img", src: /gravatar\.com\/avatar/
       end
 
       it 'contains a link to gravatar.com' do
-        assert_select "a", :href => /gravatar\.com/
+        assert_select "a", href: /gravatar\.com/
       end
 
       it 'shows bio field' do
@@ -84,15 +84,15 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       end
       context 'connected to twitter' do
         before(:each) do
-          @twitter_auth = FactoryGirl.create(:authentication, :member => @member)
+          @twitter_auth = FactoryGirl.create(:authentication, member: @member)
           render
         end
         it 'has a link to twitter profile' do
-          assert_select "a", :href => "http://twitter.com/#{@twitter_auth.name}"
+          assert_select "a", href: "http://twitter.com/#{@twitter_auth.name}"
         end
         it 'has a link to disconnect' do
           render
-          assert_select "a", :href => @twitter_auth, :text => "Disconnect"
+          assert_select "a", href: @twitter_auth, text: "Disconnect"
         end
       end
 
@@ -104,15 +104,15 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       end
       context 'connected to flickr' do
         before(:each) do
-          @flickr_auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+          @flickr_auth = FactoryGirl.create(:flickr_authentication, member: @member)
           render
         end
         it 'has a link to flickr photostream' do
-          assert_select "a", :href => "http://flickr.com/photos/#{@flickr_auth.uid}"
+          assert_select "a", href: "http://flickr.com/photos/#{@flickr_auth.uid}"
         end
         it 'has a link to disconnect' do
           render
-          assert_select "a", :href => @flickr_auth, :text => "Disconnect"
+          assert_select "a", href: @flickr_auth, text: "Disconnect"
         end
       end
 

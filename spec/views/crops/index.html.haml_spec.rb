@@ -32,16 +32,16 @@ describe "crops/index" do
   end
 
   it "shows photos where available" do
-    @planting = FactoryGirl.create(:planting, :crop => @tomato)
+    @planting = FactoryGirl.create(:planting, crop: @tomato)
     @photo = FactoryGirl.create(:photo)
     @planting.photos << @photo
     render
-    assert_select "img", :src => @photo.thumbnail_url
+    assert_select "img", src: @photo.thumbnail_url
   end
 
   it "linkifies crop images" do
    render
-   assert_select "img", :src => :tomato
+   assert_select "img", src: :tomato
   end
 
   context "logged in and crop wrangler" do
@@ -61,9 +61,9 @@ describe "crops/index" do
     it "offers data downloads" do
       render
       rendered.should have_content "The data on this page is available in the following formats:"
-      assert_select "a", :href => crops_path(:format => 'csv')
-      assert_select "a", :href => crops_path(:format => 'json')
-      assert_select "a", :href => crops_path(:format => 'rss')
+      assert_select "a", href: crops_path(format: 'csv')
+      assert_select "a", href: crops_path(format: 'json')
+      assert_select "a", href: crops_path(format: 'rss')
     end
   end
 end

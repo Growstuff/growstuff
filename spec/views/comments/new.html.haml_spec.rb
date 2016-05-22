@@ -20,7 +20,7 @@ describe "comments/new" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @post = FactoryGirl.create(:post)
-    @comment = FactoryGirl.create(:comment, :post => @post)
+    @comment = FactoryGirl.create(:comment, post: @post)
     assign(:comment, @comment)
     assign(:comments, [@comment])
     render
@@ -39,8 +39,8 @@ describe "comments/new" do
   end
 
   it "renders new comment form" do
-    assert_select "form", :action => comments_path, :method => "post" do
-      assert_select "textarea#comment_body", :name => "comment[body]"
+    assert_select "form", action: comments_path, method: "post" do
+      assert_select "textarea#comment_body", name: "comment[body]"
     end
   end
 
