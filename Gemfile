@@ -27,7 +27,7 @@ gem 'unicorn'                      # http server
 gem 'pg'
 gem 'figaro'                       # for handling config via ENV variables
 gem 'cancancan', '~> 1.9'          # for checking member privileges
-gem 'gibbon'                       # for Mailchimp newsletter subscriptions
+gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 gem 'csv_shaper'                   # CSV export
 gem 'ruby-units'                   # for unit conversion
 
