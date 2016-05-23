@@ -58,7 +58,11 @@
 
   .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @planting.crop}
-
+    - if @planting.owner.location
+      %p
+        %small
+          View other plantings, members and more near
+          = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
 %h2 Notes
 
 :growstuff_markdown

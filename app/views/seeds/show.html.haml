@@ -35,7 +35,7 @@
       - else
         (from
         = succeed ")" do
-          = link_to @seed.owner.location, place_path(@seed.owner.location)
+          = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
 
     %p
       %b Description:
@@ -57,3 +57,8 @@
 
   .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @seed.crop }
+    - if @seed.owner.location
+      %p
+        %small
+          View other seeds, members and more near
+          = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
