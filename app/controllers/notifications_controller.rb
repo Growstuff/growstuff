@@ -40,6 +40,8 @@ class NotificationsController < ApplicationController
   def reply
     @notification = Notification.new
     @sender_notification = Notification.find(params[:id])
+    @sender_notification.read = true
+    @sender_notification.save
     @recipient = @sender_notification.sender
     @subject   = @sender_notification.subject =~ /^Re: / ?
       @sender_notification.subject :

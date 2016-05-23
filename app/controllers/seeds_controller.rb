@@ -1,5 +1,5 @@
 class SeedsController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :show]
+  before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /seeds
@@ -8,17 +8,17 @@ class SeedsController < ApplicationController
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])
     if @owner
-      @seeds = @owner.seeds.includes(:owner, :crop).paginate(:page => params[:page])
+      @seeds = @owner.seeds.includes(:owner, :crop).paginate(page: params[:page])
     elsif @crop
-      @seeds = @crop.seeds.includes(:owner, :crop).paginate(:page => params[:page])
+      @seeds = @crop.seeds.includes(:owner, :crop).paginate(page: params[:page])
     else
-      @seeds = Seed.includes(:owner, :crop).paginate(:page => params[:page])
+      @seeds = Seed.includes(:owner, :crop).paginate(page: params[:page])
     end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @seeds }
-      format.rss { render :layout => false } #index.rss.builder
+      format.rss { render layout: false } #index.rss.builder
       format.csv do
         if @owner
           @filename = "Growstuff-#{@owner}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
@@ -27,7 +27,7 @@ class SeedsController < ApplicationController
           @filename = "Growstuff-Seeds-#{Time.zone.now.to_s(:number)}.csv"
           @seeds = Seed.includes(:owner, :crop)
         end
-        render :csv => @seeds
+        render csv: @seeds
       end
     end
   end

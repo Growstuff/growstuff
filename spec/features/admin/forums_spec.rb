@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "forums", :js => true do
+feature "forums", js: true do
   context "as an admin user" do
     let(:member) { create :admin_member }
     let(:forum) { create :forum }
@@ -9,7 +9,7 @@ feature "forums", :js => true do
       login_as member
     end
 
-    scenario "navigating to forum admin without js", :js => false do
+    scenario "navigating to forum admin without js", js: false do
       visit root_path
       click_link "Admin"
       expect(current_path).to eq admin_path

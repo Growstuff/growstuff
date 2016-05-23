@@ -42,7 +42,7 @@ describe ShopController do
     it "assigns @order as current_order if there is one" do
       @member = FactoryGirl.create(:member)
       sign_in @member
-      @order = FactoryGirl.create(:order, :member => @member)
+      @order = FactoryGirl.create(:order, member: @member)
       get :index, {}
       assigns(:order).should eq @order
     end

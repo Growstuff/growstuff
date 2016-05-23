@@ -21,7 +21,7 @@ module ApplicationHelper
     link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
     return link_to "(convert)",
       link,
-      :target => "_blank"
+      target: "_blank"
   end 
 
   # Produces a cache key for uniquely identifying cached fragments.
@@ -59,8 +59,8 @@ module ApplicationHelper
     end
 
     Gravatar.new(member.email).image_url({
-      :size => size,
-      :default => :identicon
+      size: size,
+      default: :identicon
     })
   end
 end

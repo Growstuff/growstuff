@@ -20,7 +20,7 @@ describe "posts/edit" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @author = FactoryGirl.create(:member)
-    @post = assign(:post, FactoryGirl.create(:post, :author => @author))
+    @post = assign(:post, FactoryGirl.create(:post, author: @author))
   end
 
   context "logged in" do
@@ -30,9 +30,9 @@ describe "posts/edit" do
     end
 
     it "renders the edit post form" do
-      assert_select "form", :action => posts_path(@post), :method => "post" do
-        assert_select "input#post_subject", :name => "post[subject]"
-        assert_select "textarea#post_body", :name => "post[body]"
+      assert_select "form", action: posts_path(@post), method: "post" do
+        assert_select "input#post_subject", name: "post[subject]"
+        assert_select "textarea#post_body", name: "post[body]"
       end
     end
 
@@ -48,8 +48,8 @@ describe "posts/edit" do
       before(:each) do
         @forum = assign(:forum, FactoryGirl.create(:forum))
         assign(:post, FactoryGirl.create( :post,
-          :forum => @forum,
-          :author => @author
+          forum: @forum,
+          author: @author
         ))
         render
       end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "crop wranglers", :js => true do
+feature "crop wranglers", js: true do
   context "signed in wrangler" do
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
     let(:wrangler) { crop_wranglers.first }
@@ -72,7 +72,7 @@ feature "crop wranglers", :js => true do
 
     background { login_as member }
 
-    scenario "can't see wrangling page without js", :js => false do
+    scenario "can't see wrangling page without js", js: false do
       visit root_path
       expect(page).not_to have_link "Crop Wrangling"
     end

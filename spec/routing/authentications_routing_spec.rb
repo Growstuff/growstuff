@@ -7,7 +7,7 @@ describe AuthenticationsController do
     end
 
     it "routes to #destroy" do
-      delete("/authentications/1").should route_to("authentications#destroy", :id => "1")
+      delete("/authentications/1").should route_to("authentications#destroy", id: "1")
     end
 
   end

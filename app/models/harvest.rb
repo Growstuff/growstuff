@@ -4,7 +4,7 @@ class Harvest < ActiveRecord::Base
   friendly_id :harvest_slug, use: [:slugged, :finders]
 
   belongs_to :crop
-  belongs_to :owner, :class_name => 'Member'
+  belongs_to :owner, class_name: 'Member'
   belongs_to :plant_part
 
   has_and_belongs_to_many :photos
@@ -20,15 +20,17 @@ class Harvest < ActiveRecord::Base
 
   default_scope { order('created_at DESC') }
 
-  validates :crop, :approved => true
+  validates :crop, approved: true
 
-  validates :crop, :presence => {:message => "must be present and exist in our database"}
+  validates :crop, presence: {message: "must be present and exist in our database"}
+
+  validates :plant_part, presence: {message: "must be present and exist in our database"}
 
   validates :quantity,
-    :numericality => {
-      :only_integer => false,
-      :greater_than_or_equal_to => 0 },
-    :allow_nil => true
+    numericality: {
+      only_integer: false,
+      greater_than_or_equal_to: 0 },
+    allow_nil: true
 
   UNITS_VALUES = {
     "individual" => "individual",
@@ -42,24 +44,24 @@ class Harvest < ActiveRecord::Base
     "baskets" => "basket",
     "bushels" => "bushel"
   }
-  validates :unit, :inclusion => { :in => UNITS_VALUES.values,
-    :message => "%{value} is not a valid unit" },
-    :allow_nil => true,
-    :allow_blank => true
+  validates :unit, inclusion: { in: UNITS_VALUES.values,
+    message: "%{value} is not a valid unit" },
+    allow_nil: true,
+    allow_blank: true
 
   validates :weight_quantity,
-    :numericality => { :only_integer => false },
-    :allow_nil => true
+    numericality: { only_integer: false },
+    allow_nil: true
 
   WEIGHT_UNITS_VALUES = {
     "kg" => "kg",
     "lb" => "lb",
     "oz" => "oz"
   }
-  validates :weight_unit, :inclusion => { :in => WEIGHT_UNITS_VALUES.values,
-    :message => "%{value} is not a valid unit" },
-    :allow_nil => true,
-    :allow_blank => true
+  validates :weight_unit, inclusion: { in: WEIGHT_UNITS_VALUES.values,
+    message: "%{value} is not a valid unit" },
+    allow_nil: true,
+    allow_blank: true
 
   after_validation :cleanup_quantities
 
@@ -70,7 +72,7 @@ class Harvest < ActiveRecord::Base
   def set_si_weight
     if self.weight_unit != nil
       weight_string = "#{self.weight_quantity} #{self.weight_unit}"
-      self.si_weight = Unit(weight_string).convert_to("kg").to_s("%0.3f").delete(" kg").to_f
+      self.si_weight = Unit.new(weight_string).convert_to("kg").to_s("%0.3f").delete(" kg").to_f
     end
   end
 
@@ -102,7 +104,7 @@ class Harvest < ActiveRecord::Base
     # 2 buckets of apricots, weighing 10kg
     string = ''
     if self.quantity
-      string += "#{number_to_human(self.quantity.to_s, :strip_insignificant_zeros => true)} "
+      string += "#{number_to_human(self.quantity.to_s, strip_insignificant_zeros: true)} "
       if self.unit == 'individual'
         string += 'individual '
       else
@@ -123,7 +125,7 @@ class Harvest < ActiveRecord::Base
     end
 
     if self.weight_quantity
-      string += " weighing #{number_to_human(self.weight_quantity, :strip_insignificant_zeros => true)} #{self.weight_unit}"
+      string += " weighing #{number_to_human(self.weight_quantity, strip_insignificant_zeros: true)} #{self.weight_unit}"
     end
 
     return string

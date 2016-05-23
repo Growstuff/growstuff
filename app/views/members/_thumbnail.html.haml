@@ -1,16 +1,24 @@
 - cache member do
   .member-thumbnail.panel
     %div
-      = render :partial => "members/image_with_popover", :locals => { :member => member }
+      = render :partial => "members/avatar", :locals => { :member => member }
     %div
-      %p
+      %p.login-name
         = link_to member.login_name, member
-        - if ! member.location.blank?
+        - if !member.location.blank?
           %small
             %br/
             %i= member.location
-        - if ! member.plantings.empty?
+        - if !member.plantings.empty?
           %small
             %br/
             Recently planted:
             != member.plantings.first(3).map{|p| link_to p.crop_name, p }.join(", ")
+      %p
+        %small
+          Joined
+          = distance_of_time_in_words(member.created_at, Time.zone.now)
+          ago.
+      %p
+        %small
+          = [pluralize(member.gardens.size, "garden"), pluralize(member.plantings.size, "planting"), pluralize(member.seeds.size, "seed")].join(", ")

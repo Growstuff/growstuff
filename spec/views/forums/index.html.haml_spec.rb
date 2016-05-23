@@ -27,7 +27,7 @@ describe "forums/index" do
 
   it "renders a list of forums" do
     render
-    assert_select "h2", :text => @forum1.name, :count => 2
+    assert_select "h2", text: @forum1.name, count: 2
   end
 
   it "doesn't display posts for empty forums" do
@@ -37,19 +37,19 @@ describe "forums/index" do
 
   context "posts" do
     before(:each) do
-      @post = FactoryGirl.create(:forum_post, :forum => @forum1)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:forum_post, forum: @forum1)
+      @comment = FactoryGirl.create(:comment, post: @post)
       render
     end
 
     it "displays posts" do
       assert_select "table"
       rendered.should have_content @post.subject
-      rendered.should have_content Date.today.to_s(:short)
+      rendered.should have_content Time.zone.today.to_s(:short)
     end
 
     it "displays comment count" do
-      assert_select "td", :text => "1"
+      assert_select "td", text: "1"
     end
 
   end

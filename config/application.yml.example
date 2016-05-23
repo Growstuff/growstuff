@@ -82,6 +82,7 @@ GROWSTUFF_ELASTICSEARCH: "false"
 
 test:
   GROWSTUFF_SITE_NAME: Growstuff (test)
+  GROWSTUFF_CAPYBARA_DRIVER: poltergeist
 
 # Note: there is no good way to deploy settings from Figaro to
 # Travis-CI.  If you need env vars set there in order for tests to pass,

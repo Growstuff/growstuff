@@ -3,10 +3,10 @@ class Product < ActiveRecord::Base
   belongs_to :account_type
 
   validates :paid_months,
-    :numericality => {
-      :only_integer => true,
-      :greater_than_or_equal_to => 0 },
-    :allow_nil => true
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 0 },
+    allow_nil: true
 
   def to_s
     name

@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'devise/mailer/reset_password_instructions.html.haml', :type => "view" do
+describe 'devise/mailer/reset_password_instructions.html.haml', type: "view" do
 
   context "logged in" do
     before(:each) do

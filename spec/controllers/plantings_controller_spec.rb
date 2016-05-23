@@ -22,8 +22,8 @@ describe PlantingsController do
 
   def valid_attributes
     {
-      :garden_id => FactoryGirl.create(:garden, :owner => subject.current_member).id,
-      :crop_id => FactoryGirl.create(:crop).id
+      garden_id: FactoryGirl.create(:garden, owner: subject.current_member).id,
+      crop_id: FactoryGirl.create(:crop).id
     }
   end
 
@@ -33,8 +33,8 @@ describe PlantingsController do
       @member2 = FactoryGirl.create(:member)
       @tomato = FactoryGirl.create(:tomato)
       @maize = FactoryGirl.create(:maize)      
-      @planting1 = FactoryGirl.create(:planting, :crop => @tomato, :owner => @member1)
-      @planting2 = FactoryGirl.create(:planting, :crop => @maize, :owner => @member2)
+      @planting1 = FactoryGirl.create(:planting, crop: @tomato, owner: @member1)
+      @planting2 = FactoryGirl.create(:planting, crop: @maize, owner: @member2)
     end
     
     it "assigns all plantings as @plantings" do
@@ -43,13 +43,13 @@ describe PlantingsController do
     end
 
     it "picks up owner from params and shows owner's plantings only" do
-      get :index, {:owner => @member1.slug}
+      get :index, {owner: @member1.slug}
       assigns(:owner).should eq @member1
       assigns(:plantings).should eq [@planting1]
     end
 
     it "picks up crop from params and shows the plantings for the crop only" do
-      get :index, {:crop => @maize.name}
+      get :index, {crop: @maize.name}
       assigns(:crop).should eq @maize
       assigns(:plantings).should eq [@planting2]    
     end
@@ -59,7 +59,7 @@ describe PlantingsController do
 
     it "picks up crop from params" do
       crop = FactoryGirl.create(:crop)
-      get :new, {:crop_id => crop.id}
+      get :new, {crop_id: crop.id}
       assigns(:crop).should eq(crop)
     end
 
@@ -70,8 +70,8 @@ describe PlantingsController do
 
     it "picks up garden from params" do
       member = FactoryGirl.create(:member)
-      garden = FactoryGirl.create(:garden, :owner => member)
-      get :new, {:garden_id => garden.id}
+      garden = FactoryGirl.create(:garden, owner: member)
+      get :new, {garden_id: garden.id}
       assigns(:garden).should eq(garden)
     end
 
@@ -86,7 +86,7 @@ describe PlantingsController do
     end
 
     it "sets the owner automatically" do
-      post :create, { :planting => valid_attributes }
+      post :create, { planting: valid_attributes }
       assigns(:planting).owner.should eq subject.current_member
     end
 

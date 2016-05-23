@@ -5,7 +5,7 @@ require 'openssl'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  Bundler.require(*Rails.groups(assets: %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
@@ -84,9 +84,9 @@ module Growstuff
 
     config.action_mailer.delivery_method = :sendmail
       config.action_mailer.sendmail_settings = {
-        :location       => '/usr/sbin/sendmail',
-        :arguments      => '-i -t',
-        :openssl_verify_mode  => 'none'
+        location: '/usr/sbin/sendmail',
+        arguments: '-i -t',
+        openssl_verify_mode: 'none'
       }
 
     # Growstuff-specific configuration variables

@@ -22,8 +22,8 @@ describe 'comments/index.rss.haml' do
     @author = FactoryGirl.create(:member)
     @post = FactoryGirl.create(:post)
     assign(:comments, [
-      FactoryGirl.create(:comment, :author => @author, :post => @post),
-      FactoryGirl.create(:comment, :author => @author, :post => @post)
+      FactoryGirl.create(:comment, author: @author, post: @post),
+      FactoryGirl.create(:comment, author: @author, post: @post)
     ])
     render
   end

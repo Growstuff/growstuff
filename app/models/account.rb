@@ -2,8 +2,8 @@ class Account < ActiveRecord::Base
   belongs_to :member
   belongs_to :account_type
 
-  validates :member_id, :uniqueness => {
-    :message => 'already has account details associated with it'
+  validates :member_id, uniqueness: {
+    message: 'already has account details associated with it'
   }
 
   before_create do |account|

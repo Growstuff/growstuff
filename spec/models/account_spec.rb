@@ -9,7 +9,7 @@ describe Account do
   end
 
   it "won't let you create two account details for the same member" do
-    @details = Account.new(:member_id => member.id)
+    @details = Account.new(member_id: member.id)
     @details.should_not be_valid
   end
 
