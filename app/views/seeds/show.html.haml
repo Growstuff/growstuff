@@ -60,4 +60,4 @@
     %p
       %small
         View other seeds, members and more near
-        = link_to @seed.owner.location, place_path(@seed.owner.location)
+        = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")

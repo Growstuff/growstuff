@@ -18,7 +18,7 @@
             - if garden.location.blank?
               not specified
             - else
-              = link_to garden.location, place_path(garden.location)
+              = link_to garden.location, place_path(garden.location, anchor: "gardens")
           %dt Area : 
           %dd= garden.area.nil? ? "not specified" : pluralize(garden.area, garden.area_unit)
           %dt Active? :       

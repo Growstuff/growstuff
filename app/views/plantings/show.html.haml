@@ -61,7 +61,7 @@
     %p
       %small
         View other plantings, members and more near
-        = link_to @planting.owner.location, place_path(@planting.owner.location)
+        = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
 %h2 Notes
 
 :growstuff_markdown

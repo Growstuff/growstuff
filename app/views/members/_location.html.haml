@@ -2,4 +2,4 @@
   - if member.location.blank?
     unknown location
   - else
-    = link_to member.location, place_path(:place => member.location)
+    = link_to member.location, place_path(:place => member.location, anchor: "members")
