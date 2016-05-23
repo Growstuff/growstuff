@@ -1,2 +1,0 @@
-class PolicyController < ApplicationController
-end
