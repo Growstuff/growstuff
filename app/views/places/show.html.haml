@@ -29,17 +29,20 @@
 
   %h3= "Recent plantings near #{@place}"
   
-  .row
-    - plantings = []
-    - @nearby_members.first(10).each do |member|
-      - member.plantings.first(5).each do |planting|
-        - plantings << planting
-    - if !plantings.blank?
+
+  - plantings = []
+  - @nearby_members.first(10).each do |member|
+    - member.plantings.first(5).each do |planting|
+      - plantings << planting
+  - if !plantings.blank?
+    .row
       - plantings.first(10).each.with_index do |planting, index|
         .col-xs-12.col-lg-6
           = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
+    .row
       = link_to "View all plantings >>", plantings_path
-    - else
+  - else
+    .row
       %p No nearby plantings found
 - else
   %p No results found
