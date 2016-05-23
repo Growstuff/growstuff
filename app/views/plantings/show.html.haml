@@ -59,10 +59,11 @@
   .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @planting.crop}
 
-%h2 Notes
+- if @planting.description
+  %h2 Notes
 
-:growstuff_markdown
-  #{ @planting.description != "" ? @planting.description : "No description given." }
+  :growstuff_markdown
+    #{ @planting.description != "" ? @planting.description : "No description given." }
 
 - if @planting.photos.size > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
