@@ -1,10 +1,10 @@
--content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} members near #{@place}"
+-content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}"
 
 = render partial: 'search_form'
 
 %div#placesmap{ :style => "height:300px"}
 
-%h3= "Nearby members"
+%h3#members= "Nearby members"
 
 - if !@nearby_members.empty?
   .row
@@ -13,7 +13,7 @@
         = render :partial => "members/thumbnail", :locals => { :member => member }
   = link_to "View all members >>", members_path
 
-  %h3= "Seeds available for trade near #{@place}"
+  %h3#seeds= "Seeds available for trade near #{@place}"
   - crop_id = []
   - @nearby_members.first(10).each do |member|
     - member.seeds.first(5).each do |seed|
@@ -27,6 +27,7 @@
   - else
     %p No nearby seeds found
 
+  #plantings
   %h3= "Recent plantings near #{@place}"
   
 

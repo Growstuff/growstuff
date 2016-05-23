@@ -33,14 +33,14 @@ feature "member profile", js: true do
         visit member_path(london_member)
         expect(page).to have_css("h1>small", text: london_member.location)
         expect(page).to have_css("#membermap")
-        expect(page).to have_content "See other members near #{london_member.location}"
+        expect(page).to have_content "See other members, plantings, seeds and more near #{london_member.location}"
       end
 
       scenario "member has not set location" do
         visit member_path(member)
         expect(page).not_to have_css("h1>small")
         expect(page).not_to have_css("#membermap")
-        expect(page).not_to have_content "See other members near"
+        expect(page).not_to have_content "See other members"
       end
 
     end
