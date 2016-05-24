@@ -70,6 +70,12 @@ describe PhotosController do
       assigns(:type).should eq "garden"
     end
 
+    it "assigns a seed id" do
+      get :new, { :type => "seed", :id => 5 }
+      assigns(:id).should eq "5"
+      assigns(:type).should eq "seed"
+    end
+
     it "assigns the current set as @current_set" do
       get :new, { set: 'foo' }
       assigns(:current_set).should eq "foo"

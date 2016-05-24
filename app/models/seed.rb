@@ -5,6 +5,17 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id'
 
+  has_and_belongs_to_many :photos
+
+  before_destroy do |seed|
+    photolist = seed.photos.to_a # save a temp copy of the photo list
+    seed.photos.clear # clear relationship b/w seed and photo
+
+    photolist.each do |photo|
+      photo.destroy_if_unused
+    end
+  end
+
   default_scope { order("created_at desc") }
 
   validates :crop, approved: true
@@ -94,5 +105,8 @@ class Seed < ActiveRecord::Base
 
   def seed_slug
     "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
+  end
+  def default_photo
+    return photos.first
   end
 end

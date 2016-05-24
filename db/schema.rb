@@ -373,6 +373,13 @@ ActiveRecord::Schema.define(version: 20150824145414) do
     t.integer "planting_id"
   end
 
+  create_table "photos_seeds", id: false, force: true do |t|
+    t.integer "photo_id"
+    t.integer "seed_id"
+  end
+
+  add_index "photos_seeds", ["seed_id", "photo_id"], name: "index_photos_seeds_on_seed_id_and_photo_id", using: :btree
+
   create_table "plant_parts", force: true do |t|
     t.string   "name"
     t.datetime "created_at"

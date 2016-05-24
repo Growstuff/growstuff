@@ -150,4 +150,32 @@ describe Seed do
     end
   end
 
+  context 'photos' do
+    before(:each) do
+      @seed = FactoryGirl.create(:seed)
+      @photo = FactoryGirl.create(:photo)
+      @seed.photos << @photo
+    end
+
+    it 'has a photo' do
+      expect(@seed.photos.first).to eq @photo
+    end
+
+    it 'deletes association with photos when photo is deleted' do
+      @photo.destroy
+      @seed.reload
+      @seed.photos.should be_empty
+    end
+
+    it 'has a default photo' do
+        @seed.default_photo.should eq @photo
+    end
+
+    it 'chooses the most recent photo' do
+        @photo2 = FactoryGirl.create(:photo)
+      @seed.photos << @photo2
+      @seed.default_photo.should eq @photo2
+    end
+  end
+
 end
