@@ -1,4 +1,5 @@
 class GardensController < ApplicationController
+  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
@@ -15,17 +16,6 @@ class GardensController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @gardens }
-    end
-  end
-
-  # GET /gardens/1
-  # GET /gardens/1.json
-  def show
-    @garden = Garden.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @garden }
     end
   end
 
