@@ -63,13 +63,22 @@ class PhotosController < ApplicationController
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
 
-    if has_valid_key && has_item_id
+
+    collection = case params[:type]
+                   when 'garden'
+                     @photo.gardens
+                   when 'planting'
+                     @photo.plantings
+                   when 'harvest'
+                     @photo.harvests
+                   else
+                     nil
+                 end
+
+    if collection && has_item_id
       item = params[:type].camelcase.constantize.find_by_id(params[:id])
       if item && member_owns_item(item)
-        #  This syntax is weird, so just know that it means this:
-        #  @photo.harvests << item unless @photo.harvests.include?(item)
-        #  but with the correct many-to-many relationship automatically referenced
-        (@photo.send "#{params[:type]}s") << item unless (@photo.send "#{params[:type]}s").include?(item)
+        collection << item unless collection.include?(item)
       else
         flash[:alert] = "Could not find this item owned by you"
       end
@@ -118,14 +127,6 @@ class PhotosController < ApplicationController
   end
 
   private
-
-  def valid_models
-    ["planting", "harvest", "garden"]
-  end
-
-  def has_valid_key
-    (params.key? :type) && valid_models.include?(params[:type])
-  end
 
   def has_item_id
     params.key? :id
