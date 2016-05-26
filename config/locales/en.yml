@@ -54,6 +54,10 @@ en:
         crop_plantings: "Everyone's %{crop} plantings"
         owner_plantings: "%{owner} plantings"
 
+  photos:
+    show:
+      thing_by: "A %{thing} by %{owner}"
+
   harvests:
     index:
       title:

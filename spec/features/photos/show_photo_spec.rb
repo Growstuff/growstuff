@@ -14,7 +14,7 @@ feature "show photo page" do
       scenario "shows linkback to planting" do
         planting.photos << photo
         visit photo_path(photo)
-        expect(page).to have_link planting, href: planting_path(planting)
+        expect(page).to have_link "A planting by #{planting.owner}", href: planting_path(planting)
       end
     end
 
@@ -24,7 +24,7 @@ feature "show photo page" do
       scenario "shows linkback to harvest" do
         harvest.photos << photo
         visit photo_path(photo)
-        expect(page).to have_link harvest, href: harvest_path(harvest)
+        expect(page).to have_link "A harvest by #{harvest.owner}", href: harvest_path(harvest)
       end
     end
 
@@ -34,7 +34,7 @@ feature "show photo page" do
       scenario "shows linkback to garden" do
         garden.photos << photo
         visit photo_path(photo)
-        expect(page).to have_link garden, href: garden_path(garden)
+        expect(page).to have_link "A garden by #{garden.owner}", href: garden_path(garden)
       end
     end
   end
