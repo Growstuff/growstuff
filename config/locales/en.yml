@@ -151,3 +151,32 @@ en:
       post: "Post"
       edit_profile: "Edit profile"
 
+  activerecord:
+    models:
+      comment:
+        one: "comment"
+        other: "comments"
+      crop:
+        one: "crop"
+        other: "crops"
+      garden:
+        one: "garden"
+        other: "gardens"
+      harvest:
+        one: "harvest"
+        other: "harvests"
+      member:
+        one: "member"
+        other: "members"
+      photo:
+        one: "photo"
+        other: "photos"
+      planting:
+        one: "planting"
+        other: "plantings"
+      post:
+        one: "post"
+        other: "posts"
+      seed:
+        one: "seed"
+        other: "seeds"

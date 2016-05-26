@@ -15,7 +15,7 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add a new garden' }
 
 %div.pagination
-  = page_entries_info @gardens, :model => "gardens"
+  = page_entries_info @gardens
   = will_paginate @gardens
 
 .row
@@ -27,6 +27,6 @@
     %p There are no gardens to display.
 
 %div.pagination
-  = page_entries_info @gardens, :model => "gardens"
+  = page_entries_info @gardens
   = will_paginate @gardens
 
