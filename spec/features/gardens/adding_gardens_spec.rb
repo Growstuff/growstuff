@@ -14,9 +14,9 @@ feature "Gardens", :js do
 
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "Name"
-    expect(page).to have_selector 'textarea#garden_description[placeholder="optional"]'
-    expect(page).to have_selector 'input#garden_location[placeholder="optional"]'
-    expect(page).to have_selector 'input#garden_area[placeholder="optional"]'
+    expect(page).to have_selector 'textarea#garden_description + .optional'
+    expect(page).to have_selector 'input#garden_location + .optional'
+    expect(page).to have_selector 'input#garden_area + .optional'
   end
 
   scenario "Create new garden" do

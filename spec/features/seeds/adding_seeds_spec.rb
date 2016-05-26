@@ -18,14 +18,14 @@ feature "Seeds", :js do
 
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "Crop:"
-    expect(page).to have_selector 'input#seed_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'input#seed_plant_before[placeholder="optional"]'
-    expect(page).to have_selector 'input#seed_days_until_maturity_min[placeholder="optional"]'
-    expect(page).to have_selector 'input#seed_days_until_maturity_max[placeholder="optional"]'
+    expect(page).to have_selector 'input#seed_quantity + .optional'
+    expect(page).to have_selector 'input#seed_plant_before + .optional'
+    expect(page).to have_selector 'input#seed_days_until_maturity_min + .optional'
+    expect(page).to have_selector 'input#seed_days_until_maturity_max + .optional'
     expect(page).to have_selector '.form-group.required', text: 'Organic?'
     expect(page).to have_selector '.form-group.required', text: 'GMO?'
     expect(page).to have_selector '.form-group.required', text: 'Heirloom?'
-    expect(page).to have_selector 'textarea#seed_description[placeholder="optional"]'
+    expect(page).to have_selector 'textarea#seed_description + .optional'
     expect(page).to have_selector '.form-group.required', text: 'Will trade:'
   end
 

@@ -19,9 +19,9 @@ feature "Harvesting a crop", :js do
 
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "What did you harvest?"
-    expect(page).to have_selector 'input#harvest_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'input#harvest_weight_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'textarea#harvest_description[placeholder="optional"]'
+    expect(page).to have_selector 'input#harvest_quantity + .optional'
+    expect(page).to have_selector 'input#harvest_weight_quantity + .optional'
+    expect(page).to have_selector 'textarea#harvest_description + .optional'
   end
 
   scenario "Creating a new harvest", :js do

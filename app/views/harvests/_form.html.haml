@@ -19,9 +19,11 @@
       = link_to "Request new crops.", new_crop_path
 
   .form-group
-    = f.label :harvested_at, 'When?', :class => 'control-label col-md-2', :placeholder => 'optional'
+    = f.label :harvested_at, 'When?', :class => 'control-label col-md-2'
     .col-md-2
       = f.text_field :harvested_at, :value => @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '', :class => 'add-datepicker form-control'
+      %span.help-block.optional
+        = I18n.t 'optional', :scope => 'forms'
 
   .form-group
     = f.label :quantity, 'How many?', :class => 'control-label col-md-2'
@@ -29,20 +31,26 @@
       -# Some browsers (eg Firefox for Android) assume "number" means
       -# "integer" unless you specify step="any":
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
-      = f.number_field :quantity, :class => 'input-small form-control', :step => 'any', :placeholder => 'optional'
+      = f.number_field :quantity, :class => 'input-small form-control', :step => 'any'
+      %span.help-block.optional
+        = I18n.t 'optional', :scope => 'forms'
     .col-md-2
       = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium form-control')
 
   .form-group
     = f.label :weight_quantity, 'Weighing (in total):', :class => 'control-label col-md-2'
     .col-md-2
-      = f.number_field :weight_quantity, :class => 'input-small form-control', :step => 'any', :placeholder => 'optional'
+      = f.number_field :weight_quantity, :class => 'input-small form-control', :step => 'any'
+      %span.help-block.optional
+        = I18n.t 'optional', :scope => 'forms'
     .col-md-2
       = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
   .form-group
     = f.label :description, 'Notes', :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_area :description, :rows => 6, :class => 'form-control', :placeholder => 'optional'
+      = f.text_area :description, :rows => 6, :class => 'form-control'
+      %span.help-block.optional
+        = I18n.t 'optional', :scope => 'forms'
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8

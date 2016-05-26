@@ -21,12 +21,12 @@ feature "Planting a crop", :js do
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "What did you plant?"
     expect(page).to have_selector ".form-group.required", text: "Where did you plant it?"
-    expect(page).to have_selector 'input#planting_planted_at[placeholder="optional"]'
-    expect(page).to have_selector 'input#planting_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'select#planting_planted_from option', text: 'optional'
-    expect(page).to have_selector 'select#planting_sunniness option', text: 'optional'
-    expect(page).to have_selector 'textarea#planting_description[placeholder="optional"]'
-    expect(page).to have_selector 'input#planting_finished_at[placeholder="optional"]'
+    expect(page).to have_selector 'input#planting_planted_at + .optional'
+    expect(page).to have_selector 'input#planting_quantity + .optional'
+    expect(page).to have_selector 'select#planting_planted_from + .optional'
+    expect(page).to have_selector 'select#planting_sunniness + .optional'
+    expect(page).to have_selector 'textarea#planting_description + .optional'
+    expect(page).to have_selector 'input#planting_finished_at + .optional'
   end
 
   scenario "Creating a new planting" do
