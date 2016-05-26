@@ -54,13 +54,13 @@
           = render :partial => "shared/signin_signup", :locals => { :to => "post your tips and experiences growing #{ @crop.name.pluralize }" }
     - else
       %div.pagination
-        = page_entries_info @posts, :model => "posts"
+        = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
       - @posts.each do |post|
         = render :partial => "posts/single", :locals => { :post => post, :subject => true }
 
       %div.pagination
-        = page_entries_info @posts, :model => "posts"
+        = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3
