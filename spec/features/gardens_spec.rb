@@ -12,7 +12,6 @@ feature "Planting a crop", js: true do
 
   scenario "View gardens" do
     visit gardens_path
-    puts page.body
     expect(page).to have_content "Everyone's gardens"
     click_link "View your gardens"
     expect(page).to have_content "#{garden.owner.login_name}'s gardens"
