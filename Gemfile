@@ -117,6 +117,7 @@ group :development, :test do
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
   gem "codeclimate-test-reporter", group: :test, require: nil
+  gem 'haml-lint'
 end
 
 group :travis do

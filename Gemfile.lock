@@ -200,12 +200,19 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     haml (4.0.7)
       tilt
+    haml-lint (0.999.999)
+      haml_lint
     haml-rails (0.9.0)
       actionpack (>= 4.0.1)
       activesupport (>= 4.0.1)
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
+    haml_lint (0.17.1)
+      haml (~> 4.0)
+      rake (>= 10, < 12)
+      rubocop (>= 0.36.0)
+      sysexits (~> 1.1)
     hashie (3.4.4)
     heroku-api (0.4.2)
       excon (~> 0.45)
@@ -306,6 +313,7 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
+    powerpack (0.1.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -338,6 +346,7 @@ GEM
       activesupport (= 4.1.15)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
+    rainbow (2.1.0)
     raindrops (0.16.0)
     rake (11.1.2)
     rb-fsevent (0.9.7)
@@ -370,6 +379,13 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    rubocop (0.40.0)
+      parser (>= 2.3.1.0, < 3.0)
+      powerpack (~> 0.1)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-progressbar (1.8.1)
     ruby-units (2.0.0)
     ruby_dep (1.3.1)
     ruby_parser (3.8.2)
@@ -401,6 +417,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sysexits (1.2.0)
     term-ansicolor (1.3.2)
       tins (~> 1.0)
     terminal-table (1.5.2)
@@ -414,6 +431,7 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unicode-display_width (1.0.5)
     unicorn (5.1.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
@@ -471,6 +489,7 @@ DEPENDENCIES
   guard
   guard-rspec
   haml
+  haml-lint
   haml-rails
   heroku-api
   i18n-tasks
