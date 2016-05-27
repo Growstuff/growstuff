@@ -10,12 +10,11 @@ jQuery ->
 
   href = el.attr('href')
 
-  originalText = el.text()
-
   el.click (e) ->
     e.stopPropagation()
     e.preventDefault()
 
+    originalText = $(this).text()
     $(this).text('Confirm without date')
 
     $(this).bind('click.confirm', (e) ->
