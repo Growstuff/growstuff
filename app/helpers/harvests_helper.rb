@@ -41,7 +41,7 @@ module HarvestsHelper
     if harvest.description.empty?
       "No description provided."
     else
-      truncate(harvest.description, length: 130, separator: ' ', omission: '... ') { link_to "Read more", harvest_path(harvest) }
+      harvest.description
     end
   end
 
