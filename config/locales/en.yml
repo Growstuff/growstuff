@@ -2,6 +2,8 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  forms:
+    optional: "(Optional)"
   unauthorized:
     read:
       notification: "You must be signed in to view notifications."
@@ -40,12 +42,23 @@ en:
       title: *browse_crops
       subtitle: "%{crops_size} total"
 
+  gardens:
+    form:
+      location_helper: "If you have a location set in your profile, it will be used when
+                        you create a new garden."
+
   seeds:
     index:
       title: 
         default: "Everyone's seeds"
         crop_seeds: "Everyone's %{crop} seeds"
         owner_seeds: "%{owner} seeds"
+    form:
+      trade_help: "Are you interested in trading or swapping seeds with other
+                   %{site_name} members?  If you
+                   list your seeds as available for trade, other members can
+                   contact you to request seeds.  You can list any conditions or
+                   other information in the description, above."
 
   plantings:
     index:
@@ -53,6 +66,9 @@ en:
         default: "Everyone's plantings"
         crop_plantings: "Everyone's %{crop} plantings"
         owner_plantings: "%{owner} plantings"
+    form:
+      finish_helper: "A planting is finished when you've harvested all of the crop, or
+                      it dies, or it's otherwise no longer growing in your garden."
 
   photos:
     show:

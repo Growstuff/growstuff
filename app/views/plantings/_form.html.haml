@@ -23,32 +23,42 @@
         = link_to "Add a garden.", new_garden_path
   .form-group
     = f.label :planted_at, 'When?', :class => 'control-label col-md-2'
-    .col-md-2= f.text_field :planted_at, :value => @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '', :class => 'add-datepicker form-control', :placeholder => 'optional'
+    .col-md-2
+      = f.text_field :planted_at, :value => @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '', :class => 'add-datepicker form-control'
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :quantity, 'How many?', :class => 'control-label col-md-2'
     .col-md-2
-      = f.number_field :quantity, :class => 'form-control', :placeholder => 'optional'
+      = f.number_field :quantity, :class => 'form-control'
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :planted_from, 'Planted from:', :class => 'control-label col-md-2'
     .col-md-8
-      = f.select(:planted_from, Planting::PLANTED_FROM_VALUES, {:include_blank => 'optional'}, :class => 'form-control')
+      = f.select(:planted_from, Planting::PLANTED_FROM_VALUES, {:include_blank => ''}, :class => 'form-control')
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :sunniness, 'Sun or shade?', :class => 'control-label col-md-2'
     .col-md-8
-      = f.select(:sunniness, Planting::SUNNINESS_VALUES, {:include_blank => 'optional'}, :class => 'form-control')
+      = f.select(:sunniness, Planting::SUNNINESS_VALUES, {:include_blank => ''}, :class => 'form-control')
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :description, 'Tell us more about it', :class => 'control-label col-md-2'
-    .col-md-8= f.text_area :description, :rows => 6, :class => 'form-control', :placeholder => 'optional'
+    .col-md-8
+      = f.text_area :description, :rows => 6, :class => 'form-control'
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :finished, 'Mark as finished', :class => 'control-label col-md-2'
     .col-md-8
       = f.check_box :finished
+      = render :partial => 'shared/form_optional'
       %span.help-block
-        A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise no longer growing in your garden.
+        = t('.finish_helper')
+
   .form-group
-    = f.label :finished_at, 'Finished date', { :class => 'control-label col-md-2', :placeholder => 'optional' }
+    = f.label :finished_at, 'Finished date', { :class => 'control-label col-md-2' }
     .col-md-2
       = f.text_field :finished_at, :value => @planting.finished_at ? @planting.finished_at.to_s(:ymd) : '', :class => 'add-datepicker form-control', :placeholder => 'optional'
+      = render :partial => 'shared/form_optional'
   .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', :class => 'btn btn-primary'
