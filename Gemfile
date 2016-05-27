@@ -39,10 +39,10 @@ gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
 gem 'activemerchant', '1.33.0',
-  :path    => 'vendor/gems/activemerchant-1.33.0',
-  :require => 'active_merchant'
+  path: 'vendor/gems/activemerchant-1.33.0',
+  require: 'active_merchant'
 gem 'active_utils', '1.0.5',
-  :path    => 'vendor/gems/active_utils-1.0.5'
+  path: 'vendor/gems/active_utils-1.0.5'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
@@ -61,8 +61,8 @@ gem 'gravatar-ultimate'
 
 # For geolocation
 gem 'geocoder',
-  :git => 'https://github.com/alexreisner/geocoder.git',
-  :ref => '104d46'
+  git: 'https://github.com/alexreisner/geocoder.git',
+  ref: '104d46'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
