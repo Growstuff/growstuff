@@ -3,3 +3,5 @@
   %p
     See other members, plantings, seeds and more near
     = link_to member.location, place_path(member.location, anchor: "members")
+- else
+  %div.location-not-set

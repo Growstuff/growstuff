@@ -121,6 +121,13 @@ p.stats
 #membermap 
   height: 250px
 
+.location-not-set
+  height: 250px
+  width: 100%
+  background-image: image-url('location-not-set.en.png')
+  background-repeat: no-repeat
+  background-position: center
+
 .member-location 
   font-size: small
   font-style: italic
@@ -297,6 +304,11 @@ $state-success-bg: lighten($green, 50%)
 
 .panel-footer
   height: 6em
+  .truncated
+    text-overflow: ellipsis
+    overflow: hidden   
+    width: 100%
+    height: 1.5em
 
 .panel
   .dl-horizontal
@@ -315,3 +327,4 @@ $state-success-bg: lighten($green, 50%)
 
 .red 
   color: red
+
