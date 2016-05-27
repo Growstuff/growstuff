@@ -8,7 +8,7 @@
     - @plant_part.crops.each do |c|
       %li= link_to c, c
 
-%p= link_to "View other plant parts", plant_parts_path
+%p= link_to 'View other plant parts', plant_parts_path
 
 %p
 - if can? :edit, @plant_part

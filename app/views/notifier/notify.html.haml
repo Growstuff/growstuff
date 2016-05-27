@@ -14,11 +14,11 @@
     #{strip_tags @notification.body}
 
 %p
-  = link_to "Reply to this message", @reply_link
+  = link_to 'Reply to this message', @reply_link
   %br/
-  = link_to "View this message in your inbox", notification_url(@notification)
+  = link_to 'View this message in your inbox', notification_url(@notification)
   %br/
-  = link_to "Unsubscribe from direct message notifications", unsubscribe_member_url(@signed_message)
+  = link_to 'Unsubscribe from direct message notifications', unsubscribe_member_url(@signed_message)
   from these notifications
 
 = render partial: 'signature'

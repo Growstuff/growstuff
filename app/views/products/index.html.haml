@@ -1,4 +1,4 @@
-- content_for :title, "Listing products"
+- content_for :title, 'Listing products'
 
 %table
   %tr
@@ -18,7 +18,7 @@
       %td= product.description
       %td= product.min_price
       %td= product.recommended_price
-      %td= product.account_type ? product.account_type.name : ""
+      %td= product.account_type ? product.account_type.name : ''
       %td= product.paid_months
       %td= link_to 'Show', product
       %td= link_to 'Edit', edit_product_path(product)

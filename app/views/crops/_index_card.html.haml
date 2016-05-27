@@ -12,7 +12,7 @@
       %p
         %b
           Planted
-          = pluralize(crop.plantings.size, "time")
+          = pluralize(crop.plantings.size, 'time')
         by #{ENV['GROWSTUFF_SITE_NAME']} members
 
       - if can? :create, Planting

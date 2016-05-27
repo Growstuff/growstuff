@@ -1,11 +1,11 @@
 -content_for :title, 'Search Orders'
 
-=render "admin/orders/searchform"
+=render 'admin/orders/searchform'
 
 - unless @orders.empty?
   %h2
     Found
-    = pluralize(@orders.size, "result")
+    = pluralize(@orders.size, 'result')
 
   %table.table.table-striped
     %tr

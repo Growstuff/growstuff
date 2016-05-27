@@ -6,16 +6,16 @@
 - if @crop.approved?
   - content_for :buttonbar do
     - if can? :create, Planting
-      = link_to "Plant this", new_planting_path(crop_id: @crop.id), class: 'btn btn-default'
+      = link_to 'Plant this', new_planting_path(crop_id: @crop.id), class: 'btn btn-default'
 
     - if can? :create, Harvest
-      = link_to "Harvest this", new_harvest_path(crop_id: @crop.id), class: 'btn btn-default'
+      = link_to 'Harvest this', new_harvest_path(crop_id: @crop.id), class: 'btn btn-default'
 
     - if can? :create, Seed
       = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: @crop.id }), class: 'btn btn-default'
   - if member_signed_in?
     = display_seed_availability(@current_member, @crop)
-    = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
+    = link_to 'View your seeds', seeds_by_owner_path(owner: current_member.slug)
 
 .row
   .col-md-9
@@ -28,7 +28,7 @@
       - if @crop.plantings.size > 0
         = @crop.name.titleize
         has been planted
-        = pluralize(@crop.plantings.size, "time")
+        = pluralize(@crop.plantings.size, 'time')
         by #{ENV['GROWSTUFF_SITE_NAME']} members.
       - else
         Nobody is growing this yet. You could be the first!
@@ -36,7 +36,7 @@
     %p
       Only plantings by members who have set their locations are shown on this map.
       - if current_member && current_member.location.blank?
-        = link_to "Set your location.", edit_member_registration_path
+        = link_to 'Set your location.', edit_member_registration_path
 
 
     %div#cropmap
@@ -49,19 +49,19 @@
         Nobody has posted about #{ @crop.name.pluralize } yet.
       %p
         - if can? :create, Post
-          = link_to "Post something", new_post_path, class: 'btn btn-default'
+          = link_to 'Post something', new_post_path, class: 'btn btn-default'
         - else
           = render partial: "shared/signin_signup", locals: { to: "post your tips and experiences growing #{ @crop.name.pluralize }" }
     - else
       %div.pagination
         = page_entries_info @posts
-        = will_paginate @posts, params: {anchor: "posts"}
+        = will_paginate @posts, params: {anchor: 'posts'}
       - @posts.each do |post|
-        = render partial: "posts/single", locals: { post: post, subject: true }
+        = render partial: 'posts/single', locals: { post: post, subject: true }
 
       %div.pagination
         = page_entries_info @posts
-        = will_paginate @posts, params: {anchor: "posts"}
+        = will_paginate @posts, params: {anchor: 'posts'}
 
   .col-md-3
 

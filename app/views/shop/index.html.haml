@@ -24,7 +24,7 @@
 
   %p You currently have a paid membership, and can't buy another one at this time.
 
-  = render "shared/account_status"
+  = render 'shared/account_status'
 
 - elsif @order and @order.order_items.size > 0
   %h2 Your current order
@@ -37,9 +37,9 @@
       = price_with_currency(@most_recent_item.price)
 
   %p
-    = link_to "View order and checkout", order_path(@order)
+    = link_to 'View order and checkout', order_path(@order)
     or
-    =succeed "." do
+    =succeed '.' do
       = link_to 'delete this order', @order, method: :delete, |
         data: { confirm: 'Are you sure?' }
 
@@ -53,12 +53,12 @@
 
     %p
       Pay what you want, starting at
-      =succeed "." do
+      =succeed '.' do
         =price_with_currency(p.min_price)
         =forex_link(p.min_price)
       - if p.recommended_price
         Recommended price:
-        =succeed "." do
+        =succeed '.' do
           =price_with_currency(p.recommended_price)
           =forex_link(p.recommended_price)
 
@@ -77,9 +77,9 @@
 
       - else
         Please
-        =link_to "sign in", new_member_session_path
+        =link_to 'sign in', new_member_session_path
         or
-        =link_to "sign up", new_member_registration_path
+        =link_to 'sign up', new_member_registration_path
         to purchase.
 
 

@@ -6,12 +6,12 @@
       %p.btn-group
         - if can? :edit, @garden
           - if @garden.active
-            = link_to "Plant something", new_planting_path(garden_id: @garden.id), class: 'btn btn-primary'
-            = link_to "Mark as inactive", garden_path(@garden, garden: {active: 0}), |
+            = link_to 'Plant something', new_planting_path(garden_id: @garden.id), class: 'btn btn-primary'
+            = link_to 'Mark as inactive', garden_path(@garden, garden: {active: 0}), |
               method: :put, class: 'btn btn-default', |
               data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
           - else
-            = link_to "Mark as active", garden_path(@garden, garden: {active: 1}),  method: :put, class: 'btn btn-default'
+            = link_to 'Mark as active', garden_path(@garden, garden: {active: 1}),  method: :put, class: 'btn btn-default'
           = link_to 'Edit garden', edit_garden_path(@garden), class: 'btn btn-default'
         - if can? :destroy, @garden
           = link_to 'Delete garden', @garden, method: :delete, |
@@ -39,7 +39,7 @@
     - if @garden.photos.size > 0 or (can? :edit, @garden and can? :create, Photo)
       .row-fluid
         %h3 Photos
-        %p= pluralize(@garden.photos.length, "photo")
+        %p= pluralize(@garden.photos.length, 'photo')
         .row-fluid
           %ul.thumbnails
             - @garden.photos.each do |p|
@@ -54,7 +54,7 @@
       %h3 What's planted here?
       - if @garden.plantings.current.size > 0
         - @garden.plantings.current.each.with_index do |planting_current, index_current|
-          = render partial: "plantings/thumbnail", locals: {planting: planting_current}
+          = render partial: 'plantings/thumbnail', locals: {planting: planting_current}
       - else
         %p
           Nothing is currently planted here.
@@ -63,7 +63,7 @@
       %h3 Previously planted in this garden
       - if @garden.plantings.finished.size > 0
         - @garden.plantings.finished.each.with_index do |planting_finished|
-          = render partial: "plantings/thumbnail", locals: {planting: planting_finished}
+          = render partial: 'plantings/thumbnail', locals: {planting: planting_finished}
       - else
         %p
           Nothing has been planted here.
@@ -91,7 +91,7 @@
             = link_to "#{othergarden}", garden_path(othergarden)
 
     - if @garden.owner.gardens.inactive.size > 0
-      %h4= "Inactive gardens"
+      %h4= 'Inactive gardens'
       %ul
         - @garden.owner.gardens.inactive.each do |othergarden|
           %li

@@ -1,7 +1,7 @@
-= content_for :title, "New comment"
+= content_for :title, 'New comment'
 
-= render partial: "posts/single", locals: { post: @post || @comment.post, subject: true }
+= render partial: 'posts/single', locals: { post: @post || @comment.post, subject: true }
 
-= render partial: "posts/comments", locals: {post: @post || @comment.post}
+= render partial: 'posts/comments', locals: {post: @post || @comment.post}
 
 = render 'form'

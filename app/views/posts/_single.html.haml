@@ -2,7 +2,7 @@
   .post
     .row
       .col-md-1
-        = render partial: "members/avatar", locals: { member: post.author }
+        = render partial: 'members/avatar', locals: { member: post.author }
       .col-md-11
         - if defined?(subject)
           %h3= link_to strip_tags(post.subject), post
@@ -24,12 +24,12 @@
         - unless defined?(hide_comments)
           .post-comments
             %ul.list-inline
-              %li.first= link_to pluralize(post.comments.size, "comment"),
+              %li.first= link_to pluralize(post.comments.size, 'comment'),
                 post_path(post, anchor: 'comments')
               -if can? :create, Comment
-                %li= link_to "Reply", new_comment_path(post_id: post.id)
-              %li= link_to "Permalink", post
+                %li= link_to 'Reply', new_comment_path(post_id: post.id)
+              %li= link_to 'Permalink', post
               -if can? :edit, post
-                %li= link_to "Edit", edit_post_path(post)
+                %li= link_to 'Edit', edit_post_path(post)
 
 

@@ -1,7 +1,7 @@
 - cache member do
   .member-thumbnail.panel
     %div
-      = render partial: "members/avatar", locals: { member: member }
+      = render partial: 'members/avatar', locals: { member: member }
     %div
       %p.login-name
         = link_to member.login_name, member
@@ -13,7 +13,7 @@
           %small
             %br/
             Recently planted:
-            != member.plantings.first(3).map{|p| link_to p.crop_name, p }.join(", ")
+            != member.plantings.first(3).map{|p| link_to p.crop_name, p }.join(', ')
       %p
         %small
           Joined

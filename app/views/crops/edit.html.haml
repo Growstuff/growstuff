@@ -1,16 +1,16 @@
 - content_for :title, "Edit crop: #{@crop.name}"
 
-- if @crop.approval_status == "approved"
+- if @crop.approval_status == 'approved'
   - if @crop.requester
     %p Requested by #{link_to @crop.requester, @crop.requester} #{distance_of_time_in_words(@crop.created_at, Time.zone.now)} ago.
     %p Approved by #{link_to @crop.creator, @crop.creator}.
   - else
     %p Added by #{link_to @crop.creator, @crop.creator} #{distance_of_time_in_words(@crop.created_at, Time.zone.now)} ago.
-- elsif @crop.approval_status == "pending"
+- elsif @crop.approval_status == 'pending'
   .alert.alert-danger
     %p Requested by #{link_to @crop.requester, @crop.requester} #{distance_of_time_in_words(@crop.created_at, Time.zone.now)} ago.
     %p Status: #{@crop.approval_status}.
-- elsif @crop.approval_status == "rejected"
+- elsif @crop.approval_status == 'rejected'
   .alert.alert-danger
     %p Requested by #{link_to @crop.requester, @crop.requester} #{distance_of_time_in_words(@crop.created_at, Time.zone.now)} ago.
     %p Status: #{@crop.approval_status} by #{link_to @crop.creator, @crop.creator}.

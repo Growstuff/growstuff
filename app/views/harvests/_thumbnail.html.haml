@@ -4,7 +4,7 @@
       = link_to "#{harvest.owner.login_name}'s harvest", harvest.owner
       - if can? :edit, harvest
         %a.pull-right{href: edit_harvest_path(harvest), role: "button", id: "edit_harvest_glyphicon"}
-          %span.glyphicon.glyphicon-pencil{title: "Edit"}
+          %span.glyphicon.glyphicon-pencil{title: 'Edit'}
   .panel-body
     .row
       .col-md-4
@@ -24,4 +24,4 @@
     %dd.truncate
       = display_harvest_description(harvest)
     = if not harvest.description.empty?
-      - link_to "Read more", harvest_path(harvest)
+      - link_to 'Read more', harvest_path(harvest)

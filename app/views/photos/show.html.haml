@@ -10,10 +10,10 @@
       - if @photo.license_url
         = link_to @photo.license_name, @photo.license_url
       - else
-        = succeed "." do
+        = succeed '.' do
           = @photo.license_name
     %p
-      = link_to "View on Flickr", @photo.link_url
+      = link_to 'View on Flickr', @photo.link_url
 
     - if can? :destroy, @photo
       %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'

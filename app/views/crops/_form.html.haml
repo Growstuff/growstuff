@@ -1,4 +1,4 @@
-= form_for @crop, html: {class: 'form-horizontal', role: "form"} do |f|
+= form_for @crop, html: {class: 'form-horizontal', role: 'form'} do |f|
   - if @crop.errors.any?
     #error_explanation
       %h3= "#{pluralize(@crop.errors.size, "error")} prohibited this crop from being saved:"
@@ -30,7 +30,7 @@
   .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', class: 'control-label col-md-2'
     .col-md-8
-      = f.text_field :en_wikipedia_url, class: 'form-control', id: "en_wikipedia_url"
+      = f.text_field :en_wikipedia_url, class: 'form-control', id: 'en_wikipedia_url'
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
 

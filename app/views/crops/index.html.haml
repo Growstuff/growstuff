@@ -10,9 +10,9 @@
 
 = form_tag(crops_path, method: :get, class: 'form-inline', role: 'form') do
   .form-group
-    = label_tag :sort, "Sort by:", class: 'sr-only'
+    = label_tag :sort, 'Sort by:', class: 'sr-only'
     = select_tag "sort", options_for_select({"Sort by popularity" => 'popular', "Sort alphabetically" => 'alpha'}, @sort || 'popular'), class: 'form-control'
-  = submit_tag "Show", class: 'btn btn-primary'
+  = submit_tag 'Show', class: 'btn btn-primary'
 
 %div.pagination
   = will_paginate @paginated_crops
@@ -20,7 +20,7 @@
 .row
   - @paginated_crops.each do |crop|
     .col-md-2.six-across
-      = render partial: "thumbnail", locals: { crop: crop }
+      = render partial: 'thumbnail', locals: { crop: crop }
 
 - if can? :create, Crop
   %div
@@ -32,6 +32,6 @@
 
 %ul.list-inline
   %li The data on this page is available in the following formats:
-  %li= link_to "CSV", crops_path(format: 'csv')
-  %li= link_to "JSON", crops_path(format: 'json')
-  %li= link_to "RSS", crops_path(format: 'rss')
+  %li= link_to 'CSV', crops_path(format: 'csv')
+  %li= link_to 'JSON', crops_path(format: 'json')
+  %li= link_to 'RSS', crops_path(format: 'rss')

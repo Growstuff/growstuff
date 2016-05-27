@@ -4,17 +4,17 @@
   .alert.alert-info
     = link_to @post.author.login_name, member_path(@post.author)
     is using
-    = link_to ENV["GROWSTUFF_SITE_NAME"], root_path
+    = link_to ENV['GROWSTUFF_SITE_NAME'], root_path
     to discuss #{ @post.subject } with a community of food gardeners worldwide.
     We have advice on growing
-    = succeed "," do
+    = succeed ',' do
       = link_to 'hundreds of different crops', crops_url
     and a community from all around the world.
 
-    = render partial: "shared/signin_signup", 
+    = render partial: 'shared/signin_signup', 
       locals: { to: "or to start using #{ENV["GROWSTUFF_SITE_NAME"]} to track what you're planting and harvesting" }
 
-= render partial: "single", locals: { post: @post, subject: false, hide_comments: true }
+= render partial: 'single', locals: { post: @post, subject: false, hide_comments: true }
 
 - unless @post.crops.empty?
   %h3 Crops mentioned in this post
@@ -31,7 +31,7 @@
         = link_to 'Delete Post', @post, method: :delete, |
           data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
 
-  = render partial: "comments", locals: { post: @post }
+  = render partial: 'comments', locals: { post: @post }
 
   - if can? :create, Comment
     .post-actions

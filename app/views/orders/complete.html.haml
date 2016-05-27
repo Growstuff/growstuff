@@ -1,4 +1,4 @@
--content_for :title, "Completed order"
+-content_for :title, 'Completed order'
 
 %p Thank you for your order.
 
@@ -10,7 +10,7 @@
   %strong Order number:
   = @order.id
 
-= render "shared/account_status"
+= render 'shared/account_status'
 
 %h2 Order items
 
@@ -42,4 +42,4 @@
         = price_with_currency(total)
 
 %p
-  = link_to "View other orders/order history", orders_path
+  = link_to 'View other orders/order history', orders_path

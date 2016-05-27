@@ -1,6 +1,6 @@
-- content_for :title, "Your Account"
+- content_for :title, 'Your Account'
 
-= render "shared/account_status"
+= render 'shared/account_status'
 
 
 %h2 Orders
@@ -10,8 +10,8 @@
 
   %p
     Your order history shows what you have bought via our
-    =succeed "." do
-      =link_to "shop", shop_path
+    =succeed '.' do
+      =link_to 'shop', shop_path
 
   %table.table.table-striped
     %tr
@@ -40,5 +40,5 @@
 - else
   %p
     You have not made any orders.  You can place an order via our
-    =succeed "." do
-      =link_to "shop", shop_path
+    =succeed '.' do
+      =link_to 'shop', shop_path

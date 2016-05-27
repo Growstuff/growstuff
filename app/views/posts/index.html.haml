@@ -20,7 +20,7 @@
 
 - unless @posts.empty?
   - @posts.each do |post|
-    = render partial: "single", locals: { post: post, subject: true }
+    = render partial: 'single', locals: { post: post, subject: true }
 
   %div.pagination
     = page_entries_info @posts
@@ -29,12 +29,12 @@
 %p
   - if @author
     Subscribe to
-    = succeed "." do
+    = succeed '.' do
       = link_to "#{@author}'s posts RSS feed", posts_by_author_path(format: 'rss', author: @author)
 
   - else
     Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
-    = link_to "posts RSS feed", posts_path(format: 'rss')
+    = link_to 'posts RSS feed', posts_path(format: 'rss')
     or
-    = succeed "." do
-      = link_to "comments RSS feed", comments_path(format: 'rss')
+    = succeed '.' do
+      = link_to 'comments RSS feed', comments_path(format: 'rss')

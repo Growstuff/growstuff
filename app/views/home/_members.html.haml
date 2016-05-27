@@ -7,7 +7,7 @@
 
       .member-cards
         - members.each do |m|
-          = render partial: "members/thumbnail", locals: { member: m }
+          = render partial: 'members/thumbnail', locals: { member: m }
 
       %p.text-right
         = link_to "#{t('.view_all')} »", members_path

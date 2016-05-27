@@ -11,7 +11,7 @@
   .form-group.required
     = f.label :name, class: 'control-label col-md-2'
     .col-md-8
-      = f.text_field :name, class: 'form-control', maxlength: 255, required: "required"
+      = f.text_field :name, class: 'form-control', maxlength: 255, required: 'required'
 
   .form-group
     = f.label :description, class: 'control-label col-md-2'
@@ -26,9 +26,9 @@
         If you have a location set in your profile, it will be used when
         you create a new garden.
         - if current_member.location.blank?
-          =link_to "Set your location now.", edit_member_registration_path
+          =link_to 'Set your location now.', edit_member_registration_path
         - else
-          =link_to "Change your location.", edit_member_registration_path
+          =link_to 'Change your location.', edit_member_registration_path
 
   .form-group
     = f.label :area, class: 'control-label col-md-2'

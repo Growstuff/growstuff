@@ -15,7 +15,7 @@
         not specified
     %p
       %b Harvested:
-      = @harvest.harvested_at ? @harvest.harvested_at : "not specified"
+      = @harvest.harvested_at ? @harvest.harvested_at : 'not specified'
     %p
       %b Quantity:
       = display_quantity(@harvest)
@@ -28,7 +28,7 @@
         =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
 
   .col-md-6
-    = render partial: "crops/index_card", locals: { crop: @harvest.crop}
+    = render partial: 'crops/index_card', locals: { crop: @harvest.crop}
 
 %h2 Notes
 

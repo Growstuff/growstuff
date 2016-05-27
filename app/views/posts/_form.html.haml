@@ -1,4 +1,4 @@
-= form_for(@post, html: {role: "form"}) do |f|
+= form_for(@post, html: {role: 'form'}) do |f|
   - if @post.errors.any?
     #error_explanation
       %h2= "#{pluralize(@post.errors.size, "error")} prohibited this post from being saved:"
@@ -7,7 +7,7 @@
           %li= msg
 
   .form-group
-    = label_tag :post, "Subject", class: 'control-label'
+    = label_tag :post, 'Subject', class: 'control-label'
     = f.text_field :subject, class: 'form-control', autofocus: 'autofocus', maxlength: 255
 
   .form-group
@@ -17,7 +17,7 @@
       = label_tag :body, "What's going on in your food garden?"
     = f.text_area :body, rows: 12, class: 'form-control'
     %span.help-block
-      = render partial: "shared/markdown_help"
+      = render partial: 'shared/markdown_help'
 
   - if @post.forum || @forum
     - forum = @post.forum || @forum
@@ -27,4 +27,4 @@
     .field
       = f.hidden_field :forum_id, value: forum.id
 
-  = f.submit "Post", class: 'btn btn-primary'
+  = f.submit 'Post', class: 'btn btn-primary'

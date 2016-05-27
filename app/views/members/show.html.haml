@@ -4,7 +4,7 @@
   - if can? :update, @member
     = link_to 'Edit profile', edit_member_registration_path, class: 'btn btn-default'
   - if @member == current_member && !@member.is_paid?
-    = link_to "Upgrade account", shop_path, class: 'btn btn-default'
+    = link_to 'Upgrade account', shop_path, class: 'btn btn-default'
   - if can? :create, Notification and current_member != @member
     = link_to 'Send message', new_notification_path(recipient_id: @member.id), class: 'btn btn-default'
 
@@ -22,12 +22,12 @@
 
   .col-md-9
 
-    = render partial: "map", locals: { member: @member }
-    = render partial: "bio", locals: { member: @member }
-    = render partial: "gardens", locals: { member: @member }
+    = render partial: 'map', locals: { member: @member }
+    = render partial: 'bio', locals: { member: @member }
+    = render partial: 'gardens', locals: { member: @member }
 
   .col-md-3
-    = render partial: "avatar", locals: { member: @member }
-    = render partial: "account", locals: { member: @member }
-    = render partial: "stats", locals: { member: @member }
-    = render partial: "contact", locals: { member: @member, twitter_auth: @twitter_auth, flickr_auth: @flickr_auth }
+    = render partial: 'avatar', locals: { member: @member }
+    = render partial: 'account', locals: { member: @member }
+    = render partial: 'stats', locals: { member: @member }
+    = render partial: 'contact', locals: { member: @member, twitter_auth: @twitter_auth, flickr_auth: @flickr_auth }

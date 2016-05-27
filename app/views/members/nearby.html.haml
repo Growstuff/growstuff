@@ -1,25 +1,25 @@
 - if @location
   - content_for :title, "Members near #{@location}"
-- else content_for :title, "Find nearby members"
+- else content_for :title, 'Find nearby members'
 
 %p
   = form_tag(nearby_members_path, method: :get, class: 'form-inline') do
-    = label_tag :distance, "Find members within", class: 'control-label'
+    = label_tag :distance, 'Find members within', class: 'control-label'
     = text_field_tag :distance, @distance, class: 'input-mini'
     = select_tag :units, options_for_select({"miles" => :mi, "km" => :km}, @units), class: 'input-small'
-    = label_tag :location, "of", class: 'control-label'
+    = label_tag :location, 'of', class: 'control-label'
     = text_field_tag :location, @location
-    = submit_tag "Search", class: 'btn btn-primary'
+    = submit_tag 'Search', class: 'btn btn-primary'
 
 - if can? :update, current_member
   %p
-    = link_to "Edit your location", edit_member_registration_path(current_member)
+    = link_to 'Edit your location', edit_member_registration_path(current_member)
 
 - if !@nearby_members.empty?
   %h3 Results found
   .row
     - @nearby_members.each do |member|
       .col-md-4.three-across
-        = render partial: "members/thumbnail", locals: { member: member }
+        = render partial: 'members/thumbnail', locals: { member: member }
 - elsif @location
   %h3 No results found

@@ -12,9 +12,9 @@
         = image_tag("growstuff-brand.png", size: "200x50", alt: ENV['GROWSTUFF_SITE_NAME'])
       = form_tag crops_search_path, method: :get, id: 'navbar-search', class: 'navbar-form pull-right' do
         .input
-          = label_tag :term, "Search crop database:", class: 'sr-only'
+          = label_tag :term, 'Search crop database:', class: 'sr-only'
           = text_field_tag 'term', nil, class: 'search-query input-medium form-control', placeholder: 'Search crops'
-          = submit_tag "Search", class: 'btn sr-only'
+          = submit_tag 'Search', class: 'btn sr-only'
 
     .navbar-collapse.collapse#navbar-collapse
       %ul.nav.navbar-nav.pull-right
@@ -67,7 +67,7 @@
                   %li= link_to t('.admin'), admin_path
 
 
-          %li= link_to "Sign out", destroy_member_session_path, method: :delete
+          %li= link_to 'Sign out', destroy_member_session_path, method: :delete
 
         - else
           %li= link_to 'Sign in', new_member_session_path, id: 'navbar-signin'

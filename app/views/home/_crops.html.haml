@@ -22,7 +22,7 @@
       %p{ style: 'margin-top: 11.25px' }
         %strong
           #{t('.recently_added')}:
-        != Crop.recent.limit(12).map {|c| link_to(c, c) }.join(", ")
+        != Crop.recent.limit(12).map {|c| link_to(c, c) }.join(', ')
 
     %p.text-right
       =link_to "#{t('.view_all')} »", crops_path

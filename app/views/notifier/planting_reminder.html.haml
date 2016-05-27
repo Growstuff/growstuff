@@ -10,7 +10,7 @@
     #{site_name} lets you track what food you're growing
     in your garden and see what other people near you are planting too.
   %p
-    = link_to "Get started now", new_planting_url
+    = link_to 'Get started now', new_planting_url
     by planting your first crop.
 
 - else
@@ -26,7 +26,7 @@
       ago.
 
   %p
-    = link_to "Plant something new", new_planting_url
+    = link_to 'Plant something new', new_planting_url
     to keep your garden records up to date.
 
 %h2 Your recent harvests
@@ -38,7 +38,7 @@
     and see what other people near you are harvesting, too.
 
   %p
-    = link_to "Get started now", new_harvest_url
+    = link_to 'Get started now', new_harvest_url
     by tracking your first harvest.
 
 - else
@@ -54,7 +54,7 @@
 
   %p
     Harvested anything else lately?
-    = link_to "Track your harvests here.", new_harvest_url
+    = link_to 'Track your harvests here.', new_harvest_url
 
 %h2
   See you soon on #{site_name}!
@@ -64,5 +64,5 @@
 %hr/
 %p
   Don't want to get these emails any more?
-  = link_to "Unsubscribe from planting reminders", unsubscribe_member_url(@signed_message)
+  = link_to 'Unsubscribe from planting reminders', unsubscribe_member_url(@signed_message)
 

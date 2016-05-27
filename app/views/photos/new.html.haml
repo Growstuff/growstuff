@@ -1,9 +1,9 @@
-- content_for :title, "New Photo"
+- content_for :title, 'New Photo'
 
 - if @flickr_auth
   %p
     Connected to Flickr as
-    = succeed "." do
+    = succeed '.' do
       = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
     Please select a photo from your recent uploads.
 
@@ -13,11 +13,11 @@
   - if @sets and @sets.size > 0
     %p
       = form_tag(new_photo_path, method: :get, class: 'form-inline') do
-        = label_tag :set, "Choose a photo album:", class: 'control-label'
+        = label_tag :set, 'Choose a photo album:', class: 'control-label'
         = select_tag :set, options_for_select(@sets, @current_set), class: 'input-large'
         = hidden_field_tag :type, @type
         = hidden_field_tag :id, @id
-        = submit_tag "Search", class: 'btn btn-primary'
+        = submit_tag 'Search', class: 'btn btn-primary'
 
   %div.pagination
     = page_entries_info @photos
@@ -34,5 +34,5 @@
 - else
   .alert
     You must
-    =link_to "connect your account to Flickr", '/auth/flickr'
+    =link_to 'connect your account to Flickr', '/auth/flickr'
     to add photos.

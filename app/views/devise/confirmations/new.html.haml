@@ -1,4 +1,4 @@
-- content_for :title, "Resend confirmation instructions"
+- content_for :title, 'Resend confirmation instructions'
 
 = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: 'form-horizontal', role: 'form' }) do |f|
   = devise_error_messages!
@@ -11,6 +11,6 @@
       = f.text_field :login, class: 'form-control'
   .form-group
     .form-actions.col-md-offset-2.col-md-8
-      = f.submit "Resend confirmation instructions", class: 'btn btn-primary'
+      = f.submit 'Resend confirmation instructions', class: 'btn btn-primary'
 
-= render "devise/shared/links"
+= render 'devise/shared/links'

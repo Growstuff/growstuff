@@ -2,7 +2,7 @@
   .comment
     .row
       .col-md-1
-        = render partial: "members/avatar", locals: { member: comment.author }
+        = render partial: 'members/avatar', locals: { member: comment.author }
       .col-md-11
         .comment-meta
           = (comment.created_at == comment.updated_at) ? 'Posted by' : 'Edited by'
