@@ -92,7 +92,7 @@
   - if can? :wrangle, @crop and @crop.requester
     %h2 Approve or reject pending crops
     .form-group
-      = f.label :approval_status, 'Approval status', :class=> 'control-label col-md-2'
+      = f.label :approval_status, 'Approval status', class: 'control-label col-md-2'
       .col-md-8
         = f.select(:approval_status, @crop.approval_statuses, {}, {class: 'form-control'})
 
