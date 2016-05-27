@@ -20,7 +20,7 @@
           %dt Sun/shade?:
           %dd
             - sunniness = planting.sunniness.blank? ? 'not specified' : planting.sunniness
-            = image_tag("sunniness_#{sunniness}.png", size: "25x25", alt: "#{sunniness}", title: "#{sunniness}")
+            = image_tag("sunniness_#{sunniness}.png", size: '25x25', alt: "#{sunniness}", title: "#{sunniness}")
             = " (#{sunniness})"
           %dt Planted from:
           %dd= "#{display_planted_from(planting)}"

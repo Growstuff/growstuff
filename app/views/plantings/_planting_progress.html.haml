@@ -7,4 +7,4 @@
 	= 'Progress: Not calculated, days before maturity unknown'
 - else
 	= "Progress: #{planting.percentage_grown}%"
-	= render partial: "plantings/progress_bar", locals: {status: "success", progress: "#{planting.percentage_grown}%"}
+	= render partial: 'plantings/progress_bar', locals: {status: 'success', progress: "#{planting.percentage_grown}%"}

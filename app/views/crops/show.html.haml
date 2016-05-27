@@ -51,7 +51,7 @@
         - if can? :create, Post
           = link_to 'Post something', new_post_path, class: 'btn btn-default'
         - else
-          = render partial: "shared/signin_signup", locals: { to: "post your tips and experiences growing #{ @crop.name.pluralize }" }
+          = render partial: 'shared/signin_signup', locals: { to: "post your tips and experiences growing #{ @crop.name.pluralize }" }
     - else
       %div.pagination
         = page_entries_info @posts
