@@ -23,6 +23,8 @@ end
 
 require 'capybara'
 require 'capybara/poltergeist'
+require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 
 Capybara.javascript_driver = :poltergeist
 if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
