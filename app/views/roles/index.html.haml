@@ -1,7 +1,7 @@
 - content_for :title, "Listing roles"
 
 - if can? :create, Role
-  %p= link_to 'New Role', new_role_path, :class => 'btn btn-primary'
+  %p= link_to 'New Role', new_role_path, class: 'btn btn-primary'
 
 %table
   %tr
@@ -16,6 +16,6 @@
       %td= link_to role.name, role
       %td= role.description
       - if can? :edit, role
-        %td= link_to 'Edit', edit_role_path(role), :class => 'btn btn-default btn-xs'
+        %td= link_to 'Edit', edit_role_path(role), class: 'btn btn-default btn-xs'
       - if can? :destroy, role
-        %td= link_to 'Delete', role, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+        %td= link_to 'Delete', role, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'

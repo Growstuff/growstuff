@@ -67,15 +67,15 @@
           %li= msg
 
 - if can? :complete, @order or can? :destroy, @order
-  = form_tag(checkout_order_path(@order), :method => :get, :class => 'form-inline') do
+  = form_tag(checkout_order_path(@order), method: :get, class: 'form-inline') do
     %p
       - if can? :complete, @order
         = label_tag :referral_code, "Do you have a referral code?"
-        = text_field_tag :referral_code, @order.referral_code, :class => 'input-medium'
-        = submit_tag "Checkout with PayPal", :class => 'btn btn-primary'
+        = text_field_tag :referral_code, @order.referral_code, class: 'input-medium'
+        = submit_tag "Checkout with PayPal", class: 'btn btn-primary'
       - if can? :destroy, @order
         = link_to 'Delete this order', @order, method: :delete, |
-          data: { confirm: 'Are you sure?' }, :class => 'btn btn-default'
-      = link_to "View other orders/order history", orders_path, :class => 'btn btn-default'
+          data: { confirm: 'Are you sure?' }, class: 'btn btn-default'
+      = link_to "View other orders/order history", orders_path, class: 'btn btn-default'
 
 %p

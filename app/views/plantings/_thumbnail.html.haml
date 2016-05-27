@@ -4,7 +4,7 @@
   .panel-body
     .row
       .col-xs-12.col-md-4
-        = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
+        = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), alt: planting.crop_id, class: 'img'), planting
       .col-xs-7.col-md-5
         %dl.dl-horizontal.planting-attributes
           %dt Owner:
@@ -20,19 +20,19 @@
           %dt Sun/shade?:
           %dd
             - sunniness = planting.sunniness.blank? ? "not specified" : planting.sunniness
-            = image_tag("sunniness_#{sunniness}.png", :size => "25x25", :alt => "#{sunniness}", :title => "#{sunniness}")
+            = image_tag("sunniness_#{sunniness}.png", size: "25x25", alt: "#{sunniness}", title: "#{sunniness}")
             = " (#{sunniness})"
           %dt Planted from:
           %dd= "#{display_planted_from(planting)}"
       .col-xs-1.col-md-3
-        %ul{:style => "list-style-type:none; text-align:right"}
-          %li= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
+        %ul{style: "list-style-type:none; text-align:right"}
+          %li= link_to 'Details', planting, class: 'btn btn-default btn-xs'
           - if can? :edit, planting
-            %li= link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
+            %li= link_to 'Edit', edit_planting_path(planting), class: 'btn btn-default btn-xs'
             - if ! planting.finished
-              %li= link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
+              %li= link_to "Mark as finished", planting_path(planting, planting: {finished: 1}),  method: :put, class: 'btn btn-default btn-xs append-date'
           - if can? :destroy, planting
-            %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+            %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
 
     .row
       .col-xs-12.col-md-4

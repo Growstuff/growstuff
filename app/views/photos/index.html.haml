@@ -10,7 +10,7 @@
   - @photos.each do |p|
     .col-md-2.six-across
       .thumbnail(style='height: 220px')
-        = link_to image_tag(p.thumbnail_url, :alt => p.title, :class => 'img'), p
+        = link_to image_tag(p.thumbnail_url, alt: p.title, class: 'img'), p
         %p
           = link_to p.title, p
           by

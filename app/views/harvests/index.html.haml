@@ -11,14 +11,14 @@
     - if @owner
       %p
         - if @owner == current_member
-          = link_to 'Add harvest', new_harvest_path, :class => 'btn btn-primary'
-        = link_to "View everyone's harvests", harvests_path, :class => 'btn btn-default'
+          = link_to 'Add harvest', new_harvest_path, class: 'btn btn-primary'
+        = link_to "View everyone's harvests", harvests_path, class: 'btn btn-default'
     - else # everyone's harvests
-      = link_to 'Add harvest', new_harvest_path, :class => 'btn btn-primary'
+      = link_to 'Add harvest', new_harvest_path, class: 'btn btn-primary'
       - if current_member
-        = link_to 'View your harvests', harvests_by_owner_path(:owner => current_member.slug), :class => 'btn btn-default'
+        = link_to 'View your harvests', harvests_by_owner_path(owner: current_member.slug), class: 'btn btn-default'
   - else
-    = render :partial => 'shared/signin_signup', :locals => { :to => 'track your harvests' }
+    = render partial: 'shared/signin_signup', locals: { to: 'track your harvests' }
 
 %div.pagination
   = page_entries_info @harvests
@@ -27,7 +27,7 @@
   - if @harvests.size > 0
     - @harvests.each do |harvest|
       .col-md-6
-        =render :partial => 'harvests/thumbnail', :locals => {:harvest => harvest}
+        =render partial: 'harvests/thumbnail', locals: {harvest: harvest}
 
 %div.pagination
   = page_entries_info @harvests
@@ -36,8 +36,8 @@
   %ul.list-inline
     %li The data on this page is available in the following formats:
     - if @owner
-      %li= link_to "CSV", harvests_by_owner_path(@owner, :format => 'csv')
-      %li= link_to "JSON", harvests_by_owner_path(@owner, :format => 'json')
+      %li= link_to "CSV", harvests_by_owner_path(@owner, format: 'csv')
+      %li= link_to "JSON", harvests_by_owner_path(@owner, format: 'json')
     - else
-      %li= link_to "CSV", harvests_path(:format => 'csv')
-      %li= link_to "JSON", harvests_path(:format => 'json')
+      %li= link_to "CSV", harvests_path(format: 'csv')
+      %li= link_to "JSON", harvests_path(format: 'json')

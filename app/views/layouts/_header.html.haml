@@ -9,17 +9,17 @@
         %span.icon-bar
         %span.icon-bar
       %a.navbar-brand(href=root_path)
-        = image_tag("growstuff-brand.png", :size => "200x50", :alt => ENV['GROWSTUFF_SITE_NAME'])
-      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
+        = image_tag("growstuff-brand.png", size: "200x50", alt: ENV['GROWSTUFF_SITE_NAME'])
+      = form_tag crops_search_path, method: :get, id: 'navbar-search', class: 'navbar-form pull-right' do
         .input
-          = label_tag :term, "Search crop database:", :class => 'sr-only'
-          = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
-          = submit_tag "Search", :class => 'btn sr-only'
+          = label_tag :term, "Search crop database:", class: 'sr-only'
+          = text_field_tag 'term', nil, class: 'search-query input-medium form-control', placeholder: 'Search crops'
+          = submit_tag "Search", class: 'btn sr-only'
 
     .navbar-collapse.collapse#navbar-collapse
       %ul.nav.navbar-nav.pull-right
         %li.dropdown<
-          %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => crops_path}
+          %a.dropdown-toggle{'data-toggle' => 'dropdown', href: crops_path}
             Crops
             %b.caret
           %ul.dropdown-menu
@@ -28,7 +28,7 @@
             %li= link_to t('.plantings'), plantings_path
             %li= link_to t('.harvests'), harvests_path
         %li.dropdown<
-          %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => members_path}
+          %a.dropdown-toggle{'data-toggle' => 'dropdown', href: members_path}
             Community
             %b.caret
           %ul.dropdown-menu
@@ -40,7 +40,7 @@
 
         - if member_signed_in?
           %li.dropdown<
-            %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => root_path}
+            %a.dropdown-toggle{'data-toggle' => 'dropdown', href: root_path}
               - if current_member.notifications.unread_count > 0
                 = t('.your_stuff', unread_count: current_member.notifications.unread_count)
               - else
@@ -48,11 +48,11 @@
               %b.caret
             %ul.dropdown-menu
               %li= link_to t('.profile'), member_path(current_member)
-              %li= link_to t('.gardens'), gardens_by_owner_path(:owner => current_member.slug)
-              %li= link_to t('.plantings'), plantings_by_owner_path(:owner => current_member.slug)
-              %li= link_to t('.harvest'), harvests_by_owner_path(:owner => current_member.slug)
-              %li= link_to t('.seeds'), seeds_by_owner_path(:owner => current_member.slug)
-              %li= link_to t('.posts'), posts_by_author_path(:author => current_member.slug)
+              %li= link_to t('.gardens'), gardens_by_owner_path(owner: current_member.slug)
+              %li= link_to t('.plantings'), plantings_by_owner_path(owner: current_member.slug)
+              %li= link_to t('.harvest'), harvests_by_owner_path(owner: current_member.slug)
+              %li= link_to t('.seeds'), seeds_by_owner_path(owner: current_member.slug)
+              %li= link_to t('.posts'), posts_by_author_path(author: current_member.slug)
               %li= link_to t('.account'), orders_path
               %li
                 - if current_member.notifications.unread_count > 0
@@ -60,19 +60,19 @@
                 - else
                   = link_to(t('.inbox'), notifications_path)
               - if current_member.has_role?(:crop_wrangler) || current_member.has_role?(:admin)
-                %li{:class => 'divider', :role => 'presentation'}
+                %li{class: 'divider', role: 'presentation'}
                 - if current_member.has_role?(:crop_wrangler)
                   %li= link_to t('.crop_wrangling'), wrangle_crops_path
                 - if current_member.has_role?(:admin)
                   %li= link_to t('.admin'), admin_path
 
 
-          %li= link_to "Sign out", destroy_member_session_path, :method => :delete
+          %li= link_to "Sign out", destroy_member_session_path, method: :delete
 
         - else
-          %li= link_to 'Sign in', new_member_session_path, :id => 'navbar-signin'
-          %li= link_to 'Sign up', new_member_registration_path, :id => 'navbar-signup'
+          %li= link_to 'Sign in', new_member_session_path, id: 'navbar-signin'
+          %li= link_to 'Sign up', new_member_registration_path, id: 'navbar-signup'
 
 
 - # anchor tag for accessibility link to skip the navigation menu
-%a{:name => 'skipnav'}
+%a{name: 'skipnav'}

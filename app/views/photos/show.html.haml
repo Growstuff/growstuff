@@ -16,7 +16,7 @@
       = link_to "View on Flickr", @photo.link_url
 
     - if can? :destroy, @photo
-      %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+      %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
 
   .col-md-6
     - if @photo.plantings.size > 0 or @photo.harvests.size > 0 or @photo.gardens.size > 0
@@ -35,5 +35,5 @@
 
 .row
   .col-md-12
-    %p= image_tag(@photo.fullsize_url, :alt => @photo.title, :class => 'img')
+    %p= image_tag(@photo.fullsize_url, alt: @photo.title, class: 'img')
 

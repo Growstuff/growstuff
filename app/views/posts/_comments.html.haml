@@ -1,9 +1,9 @@
-%a{:name => "comments"}
+%a{name: "comments"}
 - if post.comments
   %h2
     =pluralize(post.comments.size, "comment")
   - post.comments.post_order.each do |c|
-    = render :partial => "comments/single", :locals => { :comment => c }
+    = render partial: "comments/single", locals: { comment: c }
 
 - else
   %h2 There are no comments yet

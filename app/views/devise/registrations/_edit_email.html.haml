@@ -1,11 +1,11 @@
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-horizontal' }) do |f|
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal' }) do |f|
   %br/
   = devise_error_messages!
 
   .form-group
-    = f.label :email, :class => 'control-label col-md-2'
+    = f.label :email, class: 'control-label col-md-2'
     .col-md-8
-      = f.email_field :email, :class => 'form-control'
+      = f.email_field :email, class: 'form-control'
       %span.help-block If you change your email address you will have to reconfirm.
 
   .form-group
@@ -32,10 +32,10 @@
         = f.check_box :newsletter
         Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
       .help-block
-        = render :partial => 'newsletter_blurb'
+        = render partial: 'newsletter_blurb'
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8
-      = f.submit "Save", :class => 'btn btn-primary'
+      = f.submit "Save", class: 'btn btn-primary'
 
-      =f.hidden_field(:tos_agreement, :value => true)
+      =f.hidden_field(:tos_agreement, value: true)

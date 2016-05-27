@@ -1,25 +1,25 @@
 - content_for :title, "Settings for #{current_member.login_name}"
 
-%ul.nav.nav-tabs{:role => 'tablist'}
+%ul.nav.nav-tabs{role: 'tablist'}
   %li.active
-    %a{:href => '#profile', :role => 'tab', 'data-toggle' => 'tab'}
+    %a{href: '#profile', role: 'tab', 'data-toggle' => 'tab'}
       Profile
   %li
-    %a{:href => '#email', :role => 'tab', 'data-toggle' => 'tab'}
+    %a{href: '#email', role: 'tab', 'data-toggle' => 'tab'}
       Email
   %li
-    %a{:href => '#apps', :role => 'tab', 'data-toggle' => 'tab'}
+    %a{href: '#apps', role: 'tab', 'data-toggle' => 'tab'}
       Apps
   %li
-    %a{:href => '#password', :role => 'tab', 'data-toggle' => 'tab'}
+    %a{href: '#password', role: 'tab', 'data-toggle' => 'tab'}
       Password
 
 .tab-content
   .tab-pane.active#profile
-    = render :partial => 'edit_profile'
+    = render partial: 'edit_profile'
   .tab-pane#email
-    = render :partial => 'edit_email'
+    = render partial: 'edit_email'
   .tab-pane#apps
-    = render :partial => 'edit_apps'
+    = render partial: 'edit_apps'
   .tab-pane#password
-    = render :partial => 'edit_password'
+    = render partial: 'edit_password'

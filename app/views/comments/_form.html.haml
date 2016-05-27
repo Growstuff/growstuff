@@ -1,4 +1,4 @@
-= form_for(@comment, :html => {:class => "form-horizontal", :role => "form"}) do |f|
+= form_for(@comment, html: {class: "form-horizontal", role: "form"}) do |f|
   - if @comment.errors.any?
     #error_explanation
       %h2= "#{pluralize(@comment.errors.size, "error")} prohibited this comment from being saved:"
@@ -8,11 +8,11 @@
 
   .form-group
     = f.label :body, "Your comment:"
-    = f.text_area :body, :rows => 6, :class => 'form-control', :autofocus => 'autofocus'
+    = f.text_area :body, rows: 6, class: 'form-control', autofocus: 'autofocus'
   %span.help-block
-    = render :partial => "shared/markdown_help"
+    = render partial: "shared/markdown_help"
   .actions
-    = f.submit 'Post comment', :class => 'btn btn-primary'
+    = f.submit 'Post comment', class: 'btn btn-primary'
   - if defined?(@post)
     .field
-      = f.hidden_field :post_id, :value => @post.id
+      = f.hidden_field :post_id, value: @post.id

@@ -2,28 +2,28 @@
 
 %p Sign up for a Growstuff account to track your veggie garden and connect with other local growers.
 
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => "form-horizontal"}) do |f|
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-horizontal"}) do |f|
   = devise_error_messages!
 
   .form-group
-    = f.label :login_name, :class => "control-label col-md-2"
+    = f.label :login_name, class: "control-label col-md-2"
     .col-md-8
-      = f.text_field :login_name, :class => 'form-control'
+      = f.text_field :login_name, class: 'form-control'
       %span.help-inline This is the name that will show on the website.
 
   .form-group
-    = f.label :email, :class => "control-label col-md-2"
+    = f.label :email, class: "control-label col-md-2"
     .col-md-8
-      = f.email_field :email, :class => 'form-control'
+      = f.email_field :email, class: 'form-control'
       %span.help-inline We'll use this address to contact you (we never spam!)
 
   .form-group
-    = f.label :password, :class => "control-label col-md-2"
-    .col-md-8= f.password_field :password, :class => 'form-control'
+    = f.label :password, class: "control-label col-md-2"
+    .col-md-8= f.password_field :password, class: 'form-control'
 
   .form-group
-    = f.label :password_confirmation, :class => "control-label col-md-2"
-    .col-md-8= f.password_field :password_confirmation, :class => 'form-control'
+    = f.label :password_confirmation, class: "control-label col-md-2"
+    .col-md-8= f.password_field :password_confirmation, class: 'form-control'
 
   .form-group
     .col-md-offset-2.col-md-8.checkbox
@@ -35,14 +35,14 @@
   .form-group
     .col-md-offset-2.col-md-8.checkbox
       %label
-        = f.check_box :newsletter, :checked => true
+        = f.check_box :newsletter, checked: true
         Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
       .help-inline
-        = render :partial => 'newsletter_blurb'
+        = render partial: 'newsletter_blurb'
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8
-      = f.submit "Sign up", :class => 'btn btn-primary'
+      = f.submit "Sign up", class: 'btn btn-primary'
 
   .form-group
     .col-md-offset-2.col-md-8

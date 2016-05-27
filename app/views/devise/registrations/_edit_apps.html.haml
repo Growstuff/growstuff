@@ -1,27 +1,27 @@
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-horizontal' }) do |f|
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal' }) do |f|
   %br/
   = devise_error_messages!
 
   .row
     .col-md-12
       %p
-        = image_tag "twitter_32.png", :size => "32x32", :alt => 'Twitter logo'
+        = image_tag "twitter_32.png", size: "32x32", alt: 'Twitter logo'
         - if @twitter_auth
           You are connected to Twitter as
           = succeed "." do
             =link_to @twitter_auth.name, "http://twitter.com/#{@twitter_auth.name}"
-          = link_to "Disconnect", @twitter_auth, :confirm => "Are you sure you want to remove this connection?", :method => :delete, :class => "remove"
+          = link_to "Disconnect", @twitter_auth, confirm: "Are you sure you want to remove this connection?", method: :delete, class: "remove"
         - else
           =link_to 'Connect to Twitter', '/auth/twitter'
 
   .row
     .col-md-12
       %p
-        = image_tag "flickr_32.png", :size => "32x32", :alt => 'Flickr logo'
+        = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
         - if @flickr_auth
           You are connected to Flickr as
           = succeed "." do
             =link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
-          = link_to "Disconnect", @flickr_auth, :confirm => "Are you sure you want to remove this connection?", :method => :delete, :class => "remove"
+          = link_to "Disconnect", @flickr_auth, confirm: "Are you sure you want to remove this connection?", method: :delete, class: "remove"
         - else
           =link_to 'Connect to Flickr', '/auth/flickr'

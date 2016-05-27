@@ -6,7 +6,7 @@
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
       &mdash;
-      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(:owner => @harvest.owner.slug)
+      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(owner: @harvest.owner.slug)
     %p
       %b Plant part:
       - if @harvest.plant_part 
@@ -23,12 +23,12 @@
     - if can? :edit, @harvest or can? :destroy, @harvest
       %p
       - if can? :edit, @harvest
-        =link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-default btn-xs'
+        =link_to 'Edit', edit_harvest_path(@harvest), class: 'btn btn-default btn-xs'
       - if can? :destroy, @harvest
-        =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+        =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
 
   .col-md-6
-    = render :partial => "crops/index_card", :locals => { :crop => @harvest.crop}
+    = render partial: "crops/index_card", locals: { crop: @harvest.crop}
 
 %h2 Notes
 
@@ -41,9 +41,9 @@
   %ul.thumbnails
     - @harvest.photos.each do |p|
       .col-md-2.six-across
-        = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+        = render partial: 'photos/thumbnail', locals: { photo: p }
     - if can? :create, Photo and can? :edit, @harvest
       .col-md-2
         .thumbnail(style='height: 220px')
-          %p{:style => 'text-align: center; padding-top: 50px'}
-            = link_to "Add photo", new_photo_path(:type => "harvest", :id => @harvest.id), :class => 'btn btn-primary'
+          %p{style: 'text-align: center; padding-top: 50px'}
+            = link_to "Add photo", new_photo_path(type: "harvest", id: @harvest.id), class: 'btn btn-primary'

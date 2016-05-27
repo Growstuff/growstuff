@@ -2,7 +2,7 @@
 
 = render partial: 'search_form'
 
-%div#placesmap{ :style => "height:300px"}
+%div#placesmap{ style: "height:300px"}
 
 %h3#members= "Nearby members"
 
@@ -10,7 +10,7 @@
   .row
     - @nearby_members.first(30).each do |member|
       .col-md-4.three-across
-        = render :partial => "members/thumbnail", :locals => { :member => member }
+        = render partial: "members/thumbnail", locals: { member: member }
   = link_to "View all members >>", members_path
 
   %h3#seeds= "Seeds available for trade near #{@place}"
@@ -22,7 +22,7 @@
     .row
       - crop_id.uniq.first(20).each do |crop|
         .col-md-2.six-across
-          = render :partial => "crops/thumbnail", :locals => { :crop => Crop.find(crop) }
+          = render partial: "crops/thumbnail", locals: { crop: Crop.find(crop) }
     = link_to "View all seeds >>", seeds_path
   - else
     %p No nearby seeds found
@@ -39,7 +39,7 @@
     .row
       - plantings.first(10).each.with_index do |planting, index|
         .col-xs-12.col-lg-6
-          = render partial: "plantings/thumbnail", locals: {:planting => planting, :index => index}
+          = render partial: "plantings/thumbnail", locals: {planting: planting, index: index}
     .row
       = link_to "View all plantings >>", plantings_path
   - else

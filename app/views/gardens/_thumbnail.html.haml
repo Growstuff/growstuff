@@ -3,12 +3,12 @@
     %h3.panel-title
       = link_to "#{garden.owner.login_name}'s garden", garden.owner
       - if can? :edit, garden
-        %a.pull-right{:href => edit_garden_path(garden), :role => "button", :id => "edit_garden_glyphicon"}
-          %span.glyphicon.glyphicon-pencil{:title => "Edit"}
-  .panel-body{:id => "gardens_panel_body"}
+        %a.pull-right{href: edit_garden_path(garden), role: "button", id: "edit_garden_glyphicon"}
+          %span.glyphicon.glyphicon-pencil{title: "Edit"}
+  .panel-body{id: "gardens_panel_body"}
     .row
       .col-md-4
-        = link_to image_tag((garden.default_photo ?  garden.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => garden.name, :class => 'img'), garden
+        = link_to image_tag((garden.default_photo ?  garden.default_photo.thumbnail_url : 'placeholder_150.png'), alt: garden.name, class: 'img'), garden
       .col-md-8
         %dl.dl-horizontal
           %dt Name : 

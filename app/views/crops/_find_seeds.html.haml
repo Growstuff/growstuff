@@ -7,11 +7,11 @@
     - crop.seeds.tradable.each do |seed|
       %li
         = link_to "#{seed.owner} will trade #{seed.tradable_to}.", seed_path(seed)
-        = render :partial => 'members/location', :locals => { :member => seed.owner }
+        = render partial: 'members/location', locals: { member: seed.owner }
   %p
     = link_to "View all #{crop.name} seeds", seeds_by_crop_path(crop)
 - if crop.approved?
   - if current_member
-    %p= link_to "List #{crop.name} seeds to trade", new_seed_path(:crop_id => crop.id)
+    %p= link_to "List #{crop.name} seeds to trade", new_seed_path(crop_id: crop.id)
   - else
-    = render :partial => 'shared/signin_signup', :locals => { :to => 'list your seeds to trade' }
+    = render partial: 'shared/signin_signup', locals: { to: 'list your seeds to trade' }

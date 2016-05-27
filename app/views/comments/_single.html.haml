@@ -2,7 +2,7 @@
   .comment
     .row
       .col-md-1
-        = render :partial => "members/avatar", :locals => { :member => comment.author }
+        = render partial: "members/avatar", locals: { member: comment.author }
       .col-md-11
         .comment-meta
           = (comment.created_at == comment.updated_at) ? 'Posted by' : 'Edited by'
@@ -17,8 +17,8 @@
         - if can? :edit, comment or can? :destroy, comment
           .comment-actions
             - if can? :edit, comment
-              = link_to 'Edit', edit_comment_path(comment), :class => 'btn btn-default btn-xs'
+              = link_to 'Edit', edit_comment_path(comment), class: 'btn btn-default btn-xs'
             - if can? :destroy, comment
               = link_to 'Delete', comment, method: :delete, |
-                data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+                data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
 

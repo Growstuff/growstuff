@@ -3,12 +3,12 @@
     %h3.panel-title
       = link_to "#{harvest.owner.login_name}'s harvest", harvest.owner
       - if can? :edit, harvest
-        %a.pull-right{:href => edit_harvest_path(harvest), :role => "button", :id => "edit_harvest_glyphicon"}
-          %span.glyphicon.glyphicon-pencil{:title => "Edit"}
+        %a.pull-right{href: edit_harvest_path(harvest), role: "button", id: "edit_harvest_glyphicon"}
+          %span.glyphicon.glyphicon-pencil{title: "Edit"}
   .panel-body
     .row
       .col-md-4
-        = link_to image_tag((harvest.crop.default_photo ?  harvest.crop.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => harvest.crop.name, :class => 'img'), harvest.crop
+        = link_to image_tag((harvest.crop.default_photo ?  harvest.crop.default_photo.thumbnail_url : 'placeholder_150.png'), alt: harvest.crop.name, class: 'img'), harvest.crop
       .col-md-8
         %dl.dl-horizontal
           %dt Crop : 

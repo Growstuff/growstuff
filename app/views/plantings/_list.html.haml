@@ -1,8 +1,8 @@
 - plantings.each do |p|
   - cache p do
     .row
-      .col-md-3{:style => 'padding-bottom: 6px'}
-        = render :partial => 'plantings/image_with_popover', :locals => { :planting => p }
+      .col-md-3{style: 'padding-bottom: 6px'}
+        = render partial: 'plantings/image_with_popover', locals: { planting: p }
       .col-md-9
         = link_to p.crop, p.crop
         in

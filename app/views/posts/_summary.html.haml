@@ -11,7 +11,7 @@
       - cache post do
         %tr
           %td
-            = link_to truncate(strip_tags(post.subject), :length => 40, :separator => ' '), post
+            = link_to truncate(strip_tags(post.subject), length: 40, separator: ' '), post
           %td.hidden-xs
             =link_to post.author, post.author
           %td

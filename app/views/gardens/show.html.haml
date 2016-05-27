@@ -6,16 +6,16 @@
       %p.btn-group
         - if can? :edit, @garden
           - if @garden.active
-            = link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-primary'
-            = link_to "Mark as inactive", garden_path(@garden, :garden => {:active => 0}), |
-              :method => :put, :class => 'btn btn-default', |
+            = link_to "Plant something", new_planting_path(garden_id: @garden.id), class: 'btn btn-primary'
+            = link_to "Mark as inactive", garden_path(@garden, garden: {active: 0}), |
+              method: :put, class: 'btn btn-default', |
               data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
           - else
-            = link_to "Mark as active", garden_path(@garden, :garden => {:active => 1}),  :method => :put, :class => 'btn btn-default'
-          = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-default'
+            = link_to "Mark as active", garden_path(@garden, garden: {active: 1}),  method: :put, class: 'btn btn-default'
+          = link_to 'Edit garden', edit_garden_path(@garden), class: 'btn btn-default'
         - if can? :destroy, @garden
           = link_to 'Delete garden', @garden, method: :delete, |
-            data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' }, :class => 'btn btn-default'
+            data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' }, class: 'btn btn-default'
 
     - if ! @garden.active
       .alert.alert-warning
@@ -44,17 +44,17 @@
           %ul.thumbnails
             - @garden.photos.each do |p|
               .col-md-2.six-across
-                = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+                = render partial: 'photos/thumbnail', locals: { photo: p }
         .row-fluid
           - if can? :create, Photo and can? :edit, @garden
             %p
-              = link_to "Add photo", new_photo_path(:type => "garden", :id => @garden.id), :class => 'btn btn-primary'
+              = link_to "Add photo", new_photo_path(type: "garden", id: @garden.id), class: 'btn btn-primary'
 
     .row-fluid
       %h3 What's planted here?
       - if @garden.plantings.current.size > 0
         - @garden.plantings.current.each.with_index do |planting_current, index_current|
-          = render partial: "plantings/thumbnail", locals: {:planting => planting_current}
+          = render partial: "plantings/thumbnail", locals: {planting: planting_current}
       - else
         %p
           Nothing is currently planted here.
@@ -63,7 +63,7 @@
       %h3 Previously planted in this garden
       - if @garden.plantings.finished.size > 0
         - @garden.plantings.finished.each.with_index do |planting_finished|
-          = render partial: "plantings/thumbnail", locals: {:planting => planting_finished}
+          = render partial: "plantings/thumbnail", locals: {planting: planting_finished}
       - else
         %p
           Nothing has been planted here.
@@ -101,4 +101,4 @@
               = link_to "#{othergarden}", garden_path(othergarden)
 
     - if can? :create, @garden
-      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-default btn-xs'
+      = link_to 'Add New Garden', new_garden_path, class: 'btn btn-default btn-xs'

@@ -28,7 +28,7 @@
             - else
               %strong= n.created_at
           %td
-            = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+            = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
   = paginate @notifications, theme: 'twitter-bootstrap-3'
 - else
   You have no messages.

@@ -2,7 +2,7 @@
 
 - posts = Post.limit(6)
 - if posts
-  =render :partial => "posts/summary", :locals => { :posts => posts, :howmany => 6 }
+  =render partial: "posts/summary", locals: { posts: posts, howmany: 6 }
 
 - cache cache_key_for(Forum) do
   - forums = Forum.all
