@@ -1,6 +1,6 @@
 = required_field_help_text
 
-= form_for(@garden, html: {class: "form-horizontal", role: "form"}) do |f|
+= form_for(@garden, html: {class: 'form-horizontal', role: 'form'}) do |f|
   - if @garden.errors.any?
     #error_explanation
       %h2= "#{pluralize(@garden.errors.size, "error")} prohibited this garden from being saved:"

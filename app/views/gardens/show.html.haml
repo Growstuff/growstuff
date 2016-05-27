@@ -48,7 +48,7 @@
         .row-fluid
           - if can? :create, Photo and can? :edit, @garden
             %p
-              = link_to "Add photo", new_photo_path(type: "garden", id: @garden.id), class: 'btn btn-primary'
+              = link_to 'Add photo', new_photo_path(type: 'garden', id: @garden.id), class: 'btn btn-primary'
 
     .row-fluid
       %h3 What's planted here?

@@ -62,7 +62,7 @@
   %h2 Notes
 
   :growstuff_markdown
-    #{ @planting.description != "" ? @planting.description : "No description given." }
+    #{ @planting.description != '' ? @planting.description : 'No description given.' }
 
 - if @planting.photos.size > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
@@ -75,4 +75,4 @@
       .col-md-2
         .thumbnail(style='height: 220px')
           %p{style: 'text-align: center; padding-top: 50px'}
-            = link_to "Add photo", new_photo_path(type: "planting", id: @planting.id), class: 'btn btn-primary'
+            = link_to 'Add photo', new_photo_path(type: 'planting', id: @planting.id), class: 'btn btn-primary'

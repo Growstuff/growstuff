@@ -1,6 +1,6 @@
 = required_field_help_text
 
-= form_for(@seed, html: {class: "form-horizontal", role: "form"}) do |f|
+= form_for(@seed, html: {class: 'form-horizontal', role: 'form'}) do |f|
   - if @seed.errors.any?
     #error_explanation
       %h2= "#{pluralize(@seed.errors.size, "error")} prohibited this seed from being saved:"

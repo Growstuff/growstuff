@@ -33,7 +33,7 @@
 %h2 Notes
 
 :growstuff_markdown
-  #{ @harvest.description != "" ? @harvest.description : "No description given." }
+  #{ @harvest.description != '' ? @harvest.description : 'No description given.' }
 
 - if @harvest.photos.size > 0 or (can? :edit, @harvest and can? :create, Photo)
   %h2 Pictures
@@ -46,4 +46,4 @@
       .col-md-2
         .thumbnail(style='height: 220px')
           %p{style: 'text-align: center; padding-top: 50px'}
-            = link_to "Add photo", new_photo_path(type: "harvest", id: @harvest.id), class: 'btn btn-primary'
+            = link_to 'Add photo', new_photo_path(type: 'harvest', id: @harvest.id), class: 'btn btn-primary'

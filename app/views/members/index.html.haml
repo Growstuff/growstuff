@@ -3,7 +3,7 @@
 = form_tag(members_path, method: :get, class: 'form-inline', role: 'form') do
   .form-group
     = label_tag :sort, 'Sort by:', class: 'sr-only'
-    = select_tag "sort", options_for_select({"Sort alphabetically" => 'alpha', "Sort by recently joined" => "recently_joined"}, @sort || 'alpha'), class: 'form-control'
+    = select_tag 'sort', options_for_select({'Sort alphabetically' => 'alpha', 'Sort by recently joined' => 'recently_joined'}, @sort || 'alpha'), class: 'form-control'
   = submit_tag 'Show', class: 'btn btn-primary'
 
 %div.pagination

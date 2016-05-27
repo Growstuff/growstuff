@@ -1,4 +1,4 @@
-= form_for(@comment, html: {class: "form-horizontal", role: "form"}) do |f|
+= form_for(@comment, html: {class: 'form-horizontal', role: 'form'}) do |f|
   - if @comment.errors.any?
     #error_explanation
       %h2= "#{pluralize(@comment.errors.size, "error")} prohibited this comment from being saved:"
