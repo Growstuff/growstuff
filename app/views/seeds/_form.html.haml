@@ -19,27 +19,23 @@
     = f.label :quantity, 'Quantity:', :class => 'control-label col-md-2'
     .col-md-2
       = f.number_field :quantity, :class => 'form-control'
-      %span.help-block.optional
-        = I18n.t 'optional', :scope => 'forms'
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :plant_before, 'Plant before:', :class => 'control-label col-md-2'
     .col-md-2
       = f.text_field :plant_before, :class => 'add-datepicker form-control', :value => @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
-      %span.help-block.optional
-        = I18n.t 'optional', :scope => 'forms'
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :days_until_maturity_min, 'Days until maturity:', :class => 'control-label col-md-2'
     %fieldset
       .col-md-2
         = f.number_field :days_until_maturity_min, :class => 'form-control'
-        %span.help-block.optional
-          = I18n.t 'optional', :scope => 'forms'
+        = render :partial => 'shared/form_optional'
       .col-md-1
         = f.label :days_until_maturity_max, 'to', :class => 'control-label'
       .col-md-2
         = f.number_field :days_until_maturity_max, :class => 'form-control'
-        %span.help-block.optional
-          = I18n.t 'optional', :scope => 'forms'
+        = render :partial => 'shared/form_optional'
       .col-md-1
         = f.label :dummy, 'days', :class => 'control-label'
 
@@ -59,8 +55,7 @@
     = f.label :description, 'Description:', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_area :description, :rows => 6, :class => 'form-control'
-      %span.help-block.optional
-        = I18n.t 'optional', :scope => 'forms'
+      = render :partial => 'shared/form_optional'
   .form-group
     .col-md-offset-2.col-md-8
       %span.help-block

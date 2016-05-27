@@ -17,15 +17,13 @@
     = f.label :description, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_area :description, :rows => 6, :class => 'form-control'
-      %span.help-block.optional
-        = I18n.t 'optional', :scope => 'forms'
+      = render :partial => 'shared/form_optional'
 
   .form-group
     = f.label :location, :class => 'control-label col-md-2'
     .col-md-8
       = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control', :maxlength => 255
-      %span.help-block.optional
-        = I18n.t 'optional', :scope => 'forms'
+      = render :partial => 'shared/form_optional'
       %span.help-block
         = t('.location_helper')
         - if current_member.location.blank?
@@ -37,8 +35,7 @@
     = f.label :area, :class => 'control-label col-md-2'
     .col-md-2
       = f.number_field :area, :class => 'input-small form-control'
-      %span.help-block.optional
-        = I18n.t 'optional', :scope => 'forms'
+      = render :partial => 'shared/form_optional'
     .col-md-2
       = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
 
