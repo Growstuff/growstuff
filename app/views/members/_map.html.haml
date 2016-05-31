@@ -3,3 +3,7 @@
   %p
     See other members, plantings, seeds and more near
     = link_to member.location, place_path(member.location, anchor: "members")
+- else
+  %div.location-not-set
+    %div.sr-only Location not known
+    %div.sr-only We can't show you what's nearby
