@@ -4,7 +4,7 @@
     <meta property="og:description" content="#{strip_tags(@forum.description).split(' ')[0..20].join(' ')}"/>
   <meta property="og:title" content="#{@forum.name}" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="#{request.original_uri}" />
+  <meta property="og:url" content="#{request.original_url}" />
   <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
 %p#notice= notice
 
