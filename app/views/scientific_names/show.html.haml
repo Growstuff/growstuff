@@ -1,8 +1,8 @@
 - content_for :opengraph do
   = @scientific_name.crop.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.thumbnail_url 
+    = tag("meta", property: "og:image", content: photo.thumbnail_url)
 
-  = tag("meta", property: "og:title", content: @scientific_name.scientific_name  
+  = tag("meta", property: "og:title", content: @scientific_name.scientific_name)  
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
