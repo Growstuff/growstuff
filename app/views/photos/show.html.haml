@@ -31,13 +31,13 @@
       %ul
         - if @photo.plantings.size > 0
           - @photo.plantings.each do |p|
-            %li= link_to p, p
+            %li= link_to t('.thing_by', thing: Planting.model_name.singular, owner: p.owner), p
         - if @photo.harvests.size > 0
           - @photo.harvests.each do |h|
-            %li= link_to h, h
+            %li= link_to t('.thing_by', thing: Harvest.model_name.singular, owner: h.owner), h
         - if @photo.gardens.size > 0
           - @photo.gardens.each do |g|
-            %li= link_to g, g
+            %li= link_to t('.thing_by', thing: Garden.model_name.singular, owner: g.owner), g
 
 
 .row

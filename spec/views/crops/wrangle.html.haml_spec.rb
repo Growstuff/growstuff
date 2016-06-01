@@ -40,13 +40,13 @@ describe "crops/wrangle" do
 
   it 'has a link to add a crop' do
     render
-    assert_select "a", :href => new_crop_path
+    assert_select "a", href: new_crop_path
   end
 
   it "renders a list of crops" do
     render
-    assert_select "a", :text => @maize.name
-    assert_select "a", :text => @tomato.name
+    assert_select "a", text: @maize.name
+    assert_select "a", text: @tomato.name
   end
 
 end

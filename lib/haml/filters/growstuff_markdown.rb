@@ -16,7 +16,7 @@ module Haml::Filters
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', crop_str.downcase).first
         if crop
-          url = Rails.application.routes.url_helpers.crop_url(crop, :host => Growstuff::Application.config.host)
+          url = Rails.application.routes.url_helpers.crop_url(crop, host: Growstuff::Application.config.host)
           "[#{crop_str}](#{url})"
         else
           crop_str
@@ -29,7 +29,7 @@ module Haml::Filters
         # find member case-insensitively
         member = Member.where('lower(login_name) = ?', member_str.downcase).first
         if member
-          url = Rails.application.routes.url_helpers.member_url(member, :only_path => true)
+          url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
           "[#{member_str}](#{url})"
         else
           member_str
@@ -42,7 +42,7 @@ module Haml::Filters
         # find member case-insensitively
         member = Member.where('lower(login_name) = ?', member_str[1..-1].downcase).first
         if member
-          url = Rails.application.routes.url_helpers.member_url(member, :only_path => true)
+          url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
           "[#{member_str}](#{url})"
         else
           member_str

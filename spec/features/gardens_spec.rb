@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Planting a crop", :js => true do
+feature "Planting a crop", js: true do
   let!(:garden) { create :garden }
   let!(:planting) { create :planting, garden: garden, planted_at: Date.parse("2013-3-10") }
   let!(:tomato) { create :tomato }

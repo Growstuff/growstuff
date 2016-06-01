@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Growstuff/growstuff.png)](https://travis-ci.org/Growstuff/growstuff)
 [![Coverage Status](https://coveralls.io/repos/Growstuff/growstuff/badge.png)](https://coveralls.io/r/Growstuff/growstuff)
+[![Code Climate](https://codeclimate.com/github/Growstuff/growstuff/badges/gpa.svg)](https://codeclimate.com/github/Growstuff/growstuff)
 
 Welcome to the Growstuff project.
 
@@ -31,6 +32,14 @@ frontend features. We welcome contributions -- see
 * We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers. [Find a pair programming partner.](http://talk.growstuff.org/t/find-a-pair-programming-partner/13)
 * Drop in to one of our [discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) to chat to other developers, get help, etc.
 * You may also be interested in our [API](http://wiki.growstuff.org/index.php/API).
+
+The wiki is down right now, so here's what you need to do on Mac OS X to get set up.
+
+```
+gem install bundle
+gem install pg -v '0.18.4' -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/latest/bin/pg_config
+bundle install
+```
 
 ## For designers, writers, researchers, data wranglers, and other contributors
 

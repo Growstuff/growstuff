@@ -22,9 +22,9 @@ describe ProductsController do
 
   def valid_attributes
     {
-      :name => "product name",
-      :description => 'some description',
-      :min_price => 9.99
+      name: "product name",
+      description: 'some description',
+      min_price: 9.99
     }
   end
 

@@ -21,8 +21,8 @@ describe 'posts/show.rss.haml' do
     controller.stub(:current_user) { nil }
     @author = FactoryGirl.create(:member)
     @post = FactoryGirl.create(:post)
-    FactoryGirl.create(:comment, :author => @author, :post => @post)
-    FactoryGirl.create(:comment, :author => @author, :post => @post)
+    FactoryGirl.create(:comment, author: @author, post: @post)
+    FactoryGirl.create(:comment, author: @author, post: @post)
     assign(:post, @post)
     render
   end

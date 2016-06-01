@@ -10,7 +10,7 @@ feature "User searches" do
   scenario "with a valid place" do
     visit places_path
     search_with "Philippines"
-    expect(page).to have_content "members near Philippines"
+    expect(page).to have_content "community near Philippines"
     expect(page).to have_button "search_button"
     expect(page).to have_content "Nearby members"
     expect(page).to_not have_content "No results found"

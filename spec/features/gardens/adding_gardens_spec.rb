@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'custom_matchers'
 
 feature "Gardens", :js do
   let(:member) { FactoryGirl.create :member }
@@ -14,9 +15,9 @@ feature "Gardens", :js do
 
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "Name"
-    expect(page).to have_selector 'textarea#garden_description[placeholder="optional"]'
-    expect(page).to have_selector 'input#garden_location[placeholder="optional"]'
-    expect(page).to have_selector 'input#garden_area[placeholder="optional"]'
+    expect(page).to have_optional 'textarea#garden_description'
+    expect(page).to have_optional 'input#garden_location'
+    expect(page).to have_optional 'input#garden_area'
   end
 
   scenario "Create new garden" do

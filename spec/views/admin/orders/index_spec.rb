@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-describe 'admin/orders/index.html.haml', :type => "view" do
+describe 'admin/orders/index.html.haml', type: "view" do
   before(:each) do
     @member = FactoryGirl.create(:admin_member)
     sign_in @member
@@ -31,6 +31,6 @@ describe 'admin/orders/index.html.haml', :type => "view" do
   end
 
   it "lets you search by referral code" do
-    assert_select "option[value=referral_code]", :text => "Referral code"
+    assert_select "option[value=referral_code]", text: "Referral code"
   end
 end

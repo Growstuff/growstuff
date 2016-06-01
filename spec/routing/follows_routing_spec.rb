@@ -8,7 +8,7 @@ describe FollowsController do
     end
 
     it "routes to #destroy" do
-      delete("/follows/1").should route_to("follows#destroy", :id => "1")
+      delete("/follows/1").should route_to("follows#destroy", id: "1")
     end
 
   end

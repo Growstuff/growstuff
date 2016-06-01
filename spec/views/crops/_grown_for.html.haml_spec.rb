@@ -21,14 +21,14 @@ describe "crops/_grown_for" do
     @crop = FactoryGirl.create(:crop)
     @pp = FactoryGirl.create(:plant_part)
     @harvest = FactoryGirl.create(:harvest,
-      :crop => @crop,
-      :plant_part => @pp
+      crop: @crop,
+      plant_part: @pp
     )
   end
 
   it 'shows plant parts' do
-    render :partial => 'crops/grown_for', :locals => { :crop => @crop }
+    render partial: 'crops/grown_for', locals: { crop: @crop }
     rendered.should have_content @pp.name
-    assert_select "a", :href => plant_part_path(@pp)
+    assert_select "a", href: plant_part_path(@pp)
   end
 end

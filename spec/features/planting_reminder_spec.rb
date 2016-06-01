@@ -33,8 +33,8 @@ feature "Planting reminder email", :js do
 
     scenario "lists plantings" do
       expect(mail).to have_content "most recent plantings you've told us about"
-      expect(mail).to have_link p1.to_s, planting_url(p1)
-      expect(mail).to have_link p2.to_s, planting_url(p2)
+      expect(mail).to have_link p1.to_s, href: planting_url(p1)
+      expect(mail).to have_link p2.to_s, href: planting_url(p2)
       expect(mail).to have_content "keep your garden records up to date"
     end
   end
@@ -57,8 +57,8 @@ feature "Planting reminder email", :js do
 
     scenario "lists harvests" do
       expect(mail).to have_content "the last few things you harvested were"
-      expect(mail).to have_link h1.to_s, harvest_url(h1)
-      expect(mail).to have_link h2.to_s, harvest_url(h2)
+      expect(mail).to have_link h1.to_s, href: harvest_url(h1)
+      expect(mail).to have_link h2.to_s, href: harvest_url(h2)
       expect(mail).to have_content "Harvested anything else lately?"
     end
   end

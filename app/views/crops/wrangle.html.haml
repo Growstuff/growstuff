@@ -34,7 +34,7 @@
 
 
 %div.pagination
-  = page_entries_info @crops, :model => "crops"
+  = page_entries_info @crops
   = will_paginate @crops
 
 %table{:class => "table table-striped", :id => @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops"}
@@ -64,7 +64,7 @@
         ago.
 
 %div.pagination
-  = page_entries_info @crops, :model => "crops"
+  = page_entries_info @crops
   = will_paginate @crops
 
 

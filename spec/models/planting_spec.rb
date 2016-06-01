@@ -4,9 +4,9 @@ describe Planting do
 
   let(:crop) { FactoryGirl.create(:tomato) }
   let(:garden_owner) { FactoryGirl.create(:member) }
-  let(:garden) { FactoryGirl.create(:garden, :owner => garden_owner) }
+  let(:garden) { FactoryGirl.create(:garden, owner: garden_owner) }
   let(:planting) { FactoryGirl.create(:planting,
-      :crop => crop, :garden => garden)}
+      crop: crop, garden: garden)}
 
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
@@ -37,16 +37,62 @@ describe Planting do
     Planting.first.should eq @planting2
   end
 
+  describe '#planted?' do
+    it "should be false for future plantings"
+    it "should be false for never planted"
+    it "should be false for future plantings"
+  end
+
+  describe '#percentage_grown' do
+    it 'should not be more than 100%' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
+
+      now_later_than_planting = 2.days.from_now
+
+      @planting.percentage_grown(now_later_than_planting).should be 100
+    end
+
+    it 'should not be less than 0%' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
+
+      now_earlier_than_planting = 2.days.ago
+
+      @planting.percentage_grown(now_earlier_than_planting).should be nil
+    end
+
+    it 'should reflect the current growth' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: 10, planted_at: 4.days.ago)
+
+      expect(@planting.percentage_grown(Date.current)).to eq 40
+    end
+
+    it 'should not be calculated for unplanted plantings' do
+      @planting = FactoryGirl.build(:planting, planted_at: nil)
+
+      @planting.planted?.should be false
+      @planting.percentage_grown.should be nil
+    end
+
+    it 'should not be calculated for plantings with an unknown days before maturity' do
+      @planting = FactoryGirl.build(:planting, days_before_maturity: nil)
+
+      @planting.percentage_grown.should be nil    
+    end
+  end
+
   context 'delegation' do
     it 'system name' do
       planting.crop_name.should eq planting.crop.name
     end
+
     it 'wikipedia url' do
       planting.crop_en_wikipedia_url.should eq planting.crop.en_wikipedia_url
     end
+
     it 'default scientific name' do
       planting.crop_default_scientific_name.should eq planting.crop.default_scientific_name
     end
+
     it 'plantings count' do
       planting.crop_plantings_count.should eq planting.crop.plantings_count
     end
@@ -54,24 +100,24 @@ describe Planting do
 
   context 'quantity' do
     it 'allows integer quantities' do
-      @planting = FactoryGirl.build(:planting, :quantity => 99)
+      @planting = FactoryGirl.build(:planting, quantity: 99)
       @planting.should be_valid
     end
 
     it "doesn't allow decimal quantities" do
-      @planting = FactoryGirl.build(:planting, :quantity => 99.9)
+      @planting = FactoryGirl.build(:planting, quantity: 99.9)
       @planting.should_not be_valid
     end
 
     it "doesn't allow non-numeric quantities" do
-      @planting = FactoryGirl.build(:planting, :quantity => 'foo')
+      @planting = FactoryGirl.build(:planting, quantity: 'foo')
       @planting.should_not be_valid
     end
 
     it "allows blank quantities" do
-      @planting = FactoryGirl.build(:planting, :quantity => nil)
+      @planting = FactoryGirl.build(:planting, quantity: nil)
       @planting.should be_valid
-      @planting = FactoryGirl.build(:planting, :quantity => '')
+      @planting = FactoryGirl.build(:planting, quantity: '')
       @planting.should be_valid
     end
   end
@@ -86,13 +132,13 @@ describe Planting do
 
     it 'all three valid sunniness values should work' do
       ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
-        @planting = FactoryGirl.build(:planting, :sunniness => s)
+        @planting = FactoryGirl.build(:planting, sunniness: s)
         @planting.should be_valid
       end
     end
 
     it 'should refuse invalid sunniness values' do
-      @planting = FactoryGirl.build(:planting, :sunniness => 'not valid')
+      @planting = FactoryGirl.build(:planting, sunniness: 'not valid')
       @planting.should_not be_valid
       @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
     end
@@ -108,13 +154,13 @@ describe Planting do
       ['seed', 'seedling', 'cutting', 'root division',
         'runner', 'bare root plant', 'advanced plant',
         'graft', 'layering', 'bulb', 'root/tuber', nil, ''].each do |p|
-        @planting = FactoryGirl.build(:planting, :planted_from => p)
+        @planting = FactoryGirl.build(:planting, planted_from: p)
         @planting.should be_valid
       end
     end
 
     it 'should refuse invalid planted_from values' do
-      @planting = FactoryGirl.build(:planting, :planted_from => 'not valid')
+      @planting = FactoryGirl.build(:planting, planted_from: 'not valid')
       @planting.should_not be_valid
       @planting.errors[:planted_from].should include("not valid is not a valid planting method")
     end
@@ -156,10 +202,10 @@ describe Planting do
     it 'picks up interesting plantings' do
       # plantings have members created implicitly for them
       # each member is different, hence these are all interesting
-      @planting1 = FactoryGirl.create(:planting, :created_at => 5.days.ago)
-      @planting2 = FactoryGirl.create(:planting, :created_at => 4.days.ago)
-      @planting3 = FactoryGirl.create(:planting, :created_at => 3.days.ago)
-      @planting4 = FactoryGirl.create(:planting, :created_at => 2.days.ago)
+      @planting1 = FactoryGirl.create(:planting, created_at: 5.days.ago)
+      @planting2 = FactoryGirl.create(:planting, created_at: 4.days.ago)
+      @planting3 = FactoryGirl.create(:planting, created_at: 3.days.ago)
+      @planting4 = FactoryGirl.create(:planting, created_at: 2.days.ago)
 
       # plantings need photos to be interesting
       @photo = FactoryGirl.create(:photo)
@@ -192,14 +238,14 @@ describe Planting do
 
       it 'ignores plantings with the same owner' do
         # this planting is older
-        @planting1 = FactoryGirl.create(:planting, :created_at => 1.day.ago)
+        @planting1 = FactoryGirl.create(:planting, created_at: 1.day.ago)
         @planting1.photos << FactoryGirl.create(:photo)
         @planting1.save
 
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryGirl.create(:planting,
-          :created_at => 1.minute.ago,
-          :owner_id => @planting1.owner.id
+          created_at: 1.minute.ago,
+          owner_id: @planting1.owner.id
         )
         @planting2.photos << FactoryGirl.create(:photo)
         @planting2.save
@@ -258,22 +304,19 @@ describe Planting do
 
     context "finished date validation" do
       it 'requires finished date after planting date' do
-        @f = FactoryGirl.build(:finished_planting, :planted_at =>
-            '2014-01-01', :finished_at => '2013-01-01')
+        @f = FactoryGirl.build(:finished_planting, planted_at:             '2014-01-01', finished_at: '2013-01-01')
         @f.should_not be_valid
       end
 
       it 'allows just the planted date' do
-        @f = FactoryGirl.build(:planting, :planted_at => '2013-01-01', :finished_at => nil)
+        @f = FactoryGirl.build(:planting, planted_at: '2013-01-01', finished_at: nil)
         @f.should be_valid
       end
+
       it 'allows just the finished date' do
-        @f = FactoryGirl.build(:planting, :finished_at => '2013-01-01', :planted_at => nil)
+        @f = FactoryGirl.build(:planting, finished_at: '2013-01-01', planted_at: nil)
         @f.should be_valid
       end
-
     end
-
   end
-
 end

@@ -32,7 +32,7 @@ describe "photos/index" do
 
   it "renders a gallery of photos" do
     render
-    assert_select ".thumbnail", :count => 2
-    assert_select "img", :count => 2
+    assert_select ".thumbnail", count: 2
+    assert_select "img", count: 2
   end
 end

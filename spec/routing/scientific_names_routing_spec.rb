@@ -12,11 +12,11 @@ describe ScientificNamesController do
     end
 
     it "routes to #show" do
-      get("/scientific_names/1").should route_to("scientific_names#show", :id => "1")
+      get("/scientific_names/1").should route_to("scientific_names#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/scientific_names/1/edit").should route_to("scientific_names#edit", :id => "1")
+      get("/scientific_names/1/edit").should route_to("scientific_names#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,11 +24,11 @@ describe ScientificNamesController do
     end
 
     it "routes to #update" do
-      put("/scientific_names/1").should route_to("scientific_names#update", :id => "1")
+      put("/scientific_names/1").should route_to("scientific_names#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/scientific_names/1").should route_to("scientific_names#destroy", :id => "1")
+      delete("/scientific_names/1").should route_to("scientific_names#destroy", id: "1")
     end
 
   end

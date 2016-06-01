@@ -11,20 +11,21 @@
   .form-group.required
     = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :name, :class => 'form-control'
+      = f.text_field :name, :class => 'form-control', :maxlength => 255, :required => "required"
 
   .form-group
     = f.label :description, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_area :description, :rows => 6, :class => 'form-control', :placeholder => 'optional'
+      = f.text_area :description, :rows => 6, :class => 'form-control'
+      = render :partial => 'shared/form_optional'
 
   .form-group
     = f.label :location, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control', :placeholder => 'optional'
+      = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control', :maxlength => 255
+      = render :partial => 'shared/form_optional'
       %span.help-block
-        If you have a location set in your profile, it will be used when
-        you create a new garden.
+        = t('.location_helper')
         - if current_member.location.blank?
           =link_to "Set your location now.", edit_member_registration_path
         - else
@@ -33,7 +34,8 @@
   .form-group
     = f.label :area, :class => 'control-label col-md-2'
     .col-md-2
-      = f.number_field :area, :class => 'input-small form-control', :placeholder => 'optional'
+      = f.number_field :area, :class => 'input-small form-control'
+      = render :partial => 'shared/form_optional'
     .col-md-2
       = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
 

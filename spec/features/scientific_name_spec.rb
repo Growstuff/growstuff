@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Scientific names", :js => true do
+feature "Scientific names", js: true do
   let!(:zea_mays) { create :zea_mays }
   let(:crop) { zea_mays.crop }
 

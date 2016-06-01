@@ -3,7 +3,7 @@ class Forum < ActiveRecord::Base
   friendly_id :name, use: [:slugged, :finders]
 
   has_many :posts
-  belongs_to :owner, :class_name => "Member"
+  belongs_to :owner, class_name: "Member"
 
   def to_s
     return name

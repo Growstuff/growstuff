@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Changing locales", :js => true do
+feature "Changing locales", js: true do
 
   after { I18n.locale = :en }
 

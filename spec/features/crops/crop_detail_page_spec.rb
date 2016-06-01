@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "crop detail page", :js => true do
+feature "crop detail page", js: true do
   let(:crop) { create :crop }
   
   subject { visit crop_path(crop) }
@@ -46,7 +46,7 @@ feature "crop detail page", :js => true do
         end
       end
 
-      scenario "The crop has 5 varieties, including grandchild", :js => true do
+      scenario "The crop has 5 varieties, including grandchild", js: true do
         create :crop, name: 'Roma tomato child 1', parent: roma4
 
         subject
@@ -133,7 +133,7 @@ feature "crop detail page", :js => true do
 
       scenario "has a link to Wikipedia with SEO" do
         expect(page).to have_content "Learn more about #{ crop.name }"
-        expect(page).to have_link "Wikipedia (English)", crop.en_wikipedia_url
+        expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
 
     end

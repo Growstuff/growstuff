@@ -1,17 +1,17 @@
 class RequireFieldsForComments < ActiveRecord::Migration
   def up
     change_table :comments do |t|
-      t.change :post_id, :integer, :null => false
-      t.change :author_id, :integer, :null => false
-      t.change :body, :text, :null => false
+      t.change :post_id, :integer, null: false
+      t.change :author_id, :integer, null: false
+      t.change :body, :text, null: false
     end
   end
 
   def down
     change_table :comments do |t|
-      t.change :post_id, :integer, :null => true
-      t.change :author_id, :integer, :null => true
-      t.change :body, :text, :null => true
+      t.change :post_id, :integer, null: true
+      t.change :author_id, :integer, null: true
+      t.change :body, :text, null: true
     end
   end
 end

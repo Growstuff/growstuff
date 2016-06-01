@@ -7,7 +7,7 @@
   = submit_tag "Show", :class => 'btn btn-primary'
 
 %div.pagination
-  = page_entries_info @members, :model => "members"
+  = page_entries_info @members
   = will_paginate @members
 
 .member-cards
@@ -15,5 +15,5 @@
     = render :partial => "members/thumbnail", :locals => { :member => m }
 
 %div.pagination
-  = page_entries_info @members, :model => "members"
+  = page_entries_info @members
   = will_paginate @members

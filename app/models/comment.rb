@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  belongs_to :author, :class_name => 'Member'
+  belongs_to :author, class_name: 'Member'
   belongs_to :post
 
   default_scope { order("created_at DESC") }
@@ -11,11 +11,11 @@ class Comment < ActiveRecord::Base
     # don't send notifications to yourself
     if recipient != sender
       Notification.create(
-        :recipient_id => recipient,
-        :sender_id => sender,
-        :subject => "#{self.author} commented on #{self.post.subject}",
-        :body => self.body,
-        :post_id => self.post.id
+        recipient_id: recipient,
+        sender_id: sender,
+        subject: "#{self.author} commented on #{self.post.subject}",
+        body: self.body,
+        post_id: self.post.id
       )
     end
   end
