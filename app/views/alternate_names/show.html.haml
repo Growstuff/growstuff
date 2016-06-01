@@ -1,9 +1,9 @@
 = content_for :title, @alternate_name.name
 - content_for :opengraph do
-  <meta property="og:title" content="#{@alternate_name.name}" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="#{request.original_url}" />
-  <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
+  = tag("meta", property: "og:title", content: @alternate_name.name)
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 %p#notice= notice
 

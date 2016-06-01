@@ -1,13 +1,13 @@
 =content_for :title, "#{@garden.owner}'s #{@garden}"
 - content_for :opengraph do
   = @garden.photos.each do |photo|
-    <meta property="og:image" content="#{photo.thumbnail_url}"/>
+    = tag("meta", property: "og:image", content: photo.thumbnail_url)
   - if @garden.description
-    <meta property="og:description" content="#{@garden.description}"/>
-  <meta property="og:title" content="#{@garden.owner}'s #{@garden}" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="#{request.original_url}" />
-  <meta property="og:site_name" content="#{ENV['GROWSTUFF_SITE_NAME']}" />
+    = tag("meta", property: "og:description", content: @garden.description)
+  = tag("meta", property: "og:title", content: "#{@garden.owner}'s #{@garden}")
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 .row
   .col-md-9
     - if can? :edit, @garden or can? :delete, @garden
