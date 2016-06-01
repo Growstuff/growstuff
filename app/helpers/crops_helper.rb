@@ -2,7 +2,7 @@ module CropsHelper
   def display_seed_availability(member, crop)
     total_quantity = 0
     member.seeds.each do |seed|
-      if seed.crop.name == crop.name
+      if seed.crop.name == crop.name && seed.quantity
         total_quantity = total_quantity + seed.quantity
       end
     end
