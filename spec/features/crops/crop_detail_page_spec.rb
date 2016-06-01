@@ -133,7 +133,7 @@ feature "crop detail page", js: true do
 
       scenario "has a link to Wikipedia with SEO" do
         expect(page).to have_content "Learn more about #{ crop.name }"
-        expect(page).to have_link "Wikipedia (English)", crop.en_wikipedia_url
+        expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
 
     end

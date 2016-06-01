@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'custom_matchers'
 
 feature "Harvesting a crop", :js do
   let(:member) { create :member }
@@ -19,9 +20,9 @@ feature "Harvesting a crop", :js do
 
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "What did you harvest?"
-    expect(page).to have_selector 'input#harvest_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'input#harvest_weight_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'textarea#harvest_description[placeholder="optional"]'
+    expect(page).to have_optional 'input#harvest_quantity'
+    expect(page).to have_optional 'input#harvest_weight_quantity'
+    expect(page).to have_optional 'textarea#harvest_description'
   end
 
   scenario "Creating a new harvest", :js do

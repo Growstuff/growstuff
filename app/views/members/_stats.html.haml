@@ -1,6 +1,6 @@
 %h3 Activity
 
-%ul
+%ul.list-inline
   %li
     - if member.plantings.size > 0
       = link_to pluralize(member.plantings.size, "planting"), plantings_by_owner_path(:owner => member)

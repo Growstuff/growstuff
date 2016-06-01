@@ -21,5 +21,7 @@
           %dd= harvest.harvested_at
   .panel-footer
     %dt Description
-    %dd
+    %dd.truncate
       = display_harvest_description(harvest)
+    = if not harvest.description.empty?
+      - link_to "Read more", harvest_path(harvest)

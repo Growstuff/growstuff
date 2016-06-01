@@ -1,4 +1,5 @@
 require "rails_helper"
+require 'custom_matchers'
 
 feature "Planting a crop", :js do
   let(:member) { create :member }
@@ -21,12 +22,12 @@ feature "Planting a crop", :js do
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "What did you plant?"
     expect(page).to have_selector ".form-group.required", text: "Where did you plant it?"
-    expect(page).to have_selector 'input#planting_planted_at[placeholder="optional"]'
-    expect(page).to have_selector 'input#planting_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'select#planting_planted_from option', text: 'optional'
-    expect(page).to have_selector 'select#planting_sunniness option', text: 'optional'
-    expect(page).to have_selector 'textarea#planting_description[placeholder="optional"]'
-    expect(page).to have_selector 'input#planting_finished_at[placeholder="optional"]'
+    expect(page).to have_optional 'input#planting_planted_at'
+    expect(page).to have_optional 'input#planting_quantity'
+    expect(page).to have_optional 'select#planting_planted_from'
+    expect(page).to have_optional 'select#planting_sunniness'
+    expect(page).to have_optional 'textarea#planting_description'
+    expect(page).to have_optional 'input#planting_finished_at'
   end
 
   scenario "Creating a new planting" do

@@ -23,6 +23,8 @@ end
 
 require 'capybara'
 require 'capybara/poltergeist'
+require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 
 Capybara.javascript_driver = :poltergeist
 if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
@@ -32,6 +34,11 @@ if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
   end
   Capybara.javascript_driver = ENV['GROWSTUFF_CAPYBARA_DRIVER'].to_sym
 end
+
+Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
+  "screenshot_#{example.description.gsub(' ', '-').gsub(/^.*\/spec\//,'')}"
+end
+
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
 

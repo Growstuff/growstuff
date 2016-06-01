@@ -4,12 +4,12 @@ Growstuff::Application.routes.draw do
 
   resources :plant_parts
 
-  devise_for :members, controllers: { registrations: "registrations", passwords: "passwords" }
-  devise_scope :member do 
+  devise_for :members, controllers: { registrations: "registrations", passwords: "passwords", sessions: "sessions" }
+  devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
   end
 
-  resources :members 
+  resources :members
 
   resources :photos
 
@@ -72,15 +72,6 @@ Growstuff::Application.routes.draw do
   root to: 'home#index'
 
   get 'auth/:provider/callback' => 'authentications#create'
-
-
-  get '/policy/:action' => 'policy#:action'
-
-  get '/support' => 'support#index'
-  get '/support/:action' => 'support#:action'
-
-  get '/about' => 'about#index'
-  get '/about/:action' => 'about#:action'
 
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'

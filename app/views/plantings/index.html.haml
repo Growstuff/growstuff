@@ -17,7 +17,7 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => "track what you've planted" }
 
 %div.pagination
-  = page_entries_info @plantings, :model => "plantings"
+  = page_entries_info @plantings
   = will_paginate @plantings
 
 .row
@@ -27,7 +27,7 @@
         = render partial: "plantings/thumbnail", locals: {:planting => planting}
 
 %div.pagination
-  = page_entries_info @plantings, :model => "plantings"
+  = page_entries_info @plantings
   = will_paginate @plantings
 
   %ul.list-inline

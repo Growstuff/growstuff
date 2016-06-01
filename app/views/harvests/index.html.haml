@@ -21,7 +21,7 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'track your harvests' }
 
 %div.pagination
-  = page_entries_info @harvests, :model => "harvests"
+  = page_entries_info @harvests
   = will_paginate @harvests
 .row
   - if @harvests.size > 0
@@ -30,7 +30,7 @@
         =render :partial => 'harvests/thumbnail', :locals => {:harvest => harvest}
 
 %div.pagination
-  = page_entries_info @harvests, :model => "harvests"
+  = page_entries_info @harvests
   = will_paginate @harvests
 
   %ul.list-inline
