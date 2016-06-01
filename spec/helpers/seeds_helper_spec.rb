@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe SeedsHelper do
-  describe "display_seed_description" do
-    it "no description" do
+  describe "seed description" do
+    it "is missing" do
       seed = FactoryGirl.create(:seed,
         description: nil
       )
@@ -10,7 +10,7 @@ describe SeedsHelper do
       expect(result).to eq "no description provided."
     end
 
-    it "description is less than 130 chars" do
+    it "is less than 130 characters long" do
       seed = FactoryGirl.create(:seed,
         description: 'a' * 20
       )
@@ -18,7 +18,7 @@ describe SeedsHelper do
       expect(result).to eq 'a' * 20
     end
 
-    it "description is 130 chars" do
+    it "is 130 characters long" do
       seed = FactoryGirl.create(:seed,
         description: 'a' * 130
       )
@@ -27,7 +27,7 @@ describe SeedsHelper do
       expect(result).to eq 'a' * 130
     end
 
-    it "description is more than 130 chars" do
+    it "is more than 130 characters long" do
       seed = FactoryGirl.create(:seed,
         description: 'a' * 140
       )
