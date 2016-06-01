@@ -14,7 +14,7 @@ class Notifier < ActionMailer::Base
     @notification = notification
     @reply_link = reply_link(@notification)
 
-    # Encrypting 
+    # Encrypting
     @signed_message = verifier.generate ({ member_id: @notification.recipient.id, type: :send_notification_email })
 
     mail(to: @notification.recipient.email,
@@ -27,7 +27,7 @@ class Notifier < ActionMailer::Base
     @plantings = @member.plantings.first(5)
     @harvests = @member.harvests.first(5)
 
-    # Encrypting 
+    # Encrypting
     @signed_message = verifier.generate ({ member_id: @member.id, type: :send_planting_reminder })
 
     if @member.send_planting_reminder
@@ -36,9 +36,17 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  def new_seed_trade_request(seed_trade)
+    @seed_trade = seed_trade
+    @signed_message = verifier.generate ({ member_id: @seed_trade.seed.owner.id, type: :send_notification_email })
+    subject  = "#{@seed_trade.requester.login_name} has requested "
+    subject += "#{@seed_trade.seed.crop.name} seeds from you"
+    mail(:to => @seed_trade.seed.owner.email, subject: subject)
+  end
+
   def new_crop_request(member, request)
     @member, @request = member, request
-    mail(to: @member.email, subject: "#{@request.requester.login_name} has requested #{@request.name} as a new crop")    
+    mail(to: @member.email, subject: "#{@request.requester.login_name} has requested #{@request.name} as a new crop")
   end
 
   def crop_request_approved(member, crop)

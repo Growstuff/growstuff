@@ -9,7 +9,14 @@ Growstuff::Application.routes.draw do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
   end
 
-  resources :members
+  resources :members do
+    resources :seed_trades, :only => [:index, :show, :new, :create] do
+      patch 'decline',   on: :member
+      patch 'accept',    on: :member
+      patch 'receive',   on: :member
+      patch 'send_seed', on: :member
+    end
+  end
 
   resources :photos
 

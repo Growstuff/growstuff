@@ -36,6 +36,8 @@ en:
       crop_wrangling: "Crop Wrangling"
       admin: "Admin"
       your_stuff: "Your Stuff (%{unread_count})"
+      my_seed_trades: "My Seed Trades"
+      my_seed_trades_unread: "My Seed Trades (%{unread_count})"
 
   crops:
     index:
@@ -49,7 +51,7 @@ en:
 
   seeds:
     index:
-      title: 
+      title:
         default: "Everyone's seeds"
         crop_seeds: "Everyone's %{crop} seeds"
         owner_seeds: "%{owner} seeds"
@@ -59,10 +61,18 @@ en:
                    list your seeds as available for trade, other members can
                    contact you to request seeds.  You can list any conditions or
                    other information in the description, above."
+    show:
+      title: "%{owner}'s %{crop} seeds"
+
+  seed_trades:
+    index:
+      title: "My Seed Trades"
+    new:
+      title: "Request %{crop} seeds from %{owner}"
 
   plantings:
     index:
-      title: 
+      title:
         default: "Everyone's plantings"
         crop_plantings: "Everyone's %{crop} plantings"
         owner_plantings: "%{owner} plantings"
@@ -82,22 +92,22 @@ en:
         owner_harvests: "%{owner} harvests"
 
   places:
-    index: 
-      title: "%{site_name} Community Map" 
+    index:
+      title: "%{site_name} Community Map"
 
   members:
-    index: 
-      title: "%{site_name} members" 
+    index:
+      title: "%{site_name} members"
 
   posts:
-    index: 
+    index:
       title:
-        default: "Everyone's posts" 
+        default: "Everyone's posts"
         author_posts: "%{author} posts"
 
   shop:
     index:
-      title: "Shop" 
+      title: "Shop"
 
   forums:
     index:
