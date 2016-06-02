@@ -1,16 +1,18 @@
-development:
+default: &default
   adapter: postgresql
-  database: growstuff_dev
-  host: localhost
+  encoding: unicode
+  host: db
+  port: 5432
   user: postgres
-  password: postgres
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+
+development:
+  <<: *default
+  database: growstuff_dev
 
 test:
-  adapter: postgresql
+  <<: *default
   database: growstuff_test
-  host: localhost
-  user: postgres
-  password: postgres
 
 production:
   adapter: postgresql
