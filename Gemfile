@@ -51,7 +51,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.5.0'
+gem 'devise', '~> 4.0.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 5.0.4'
