@@ -9,13 +9,16 @@
 
         .post-meta
           %p
-            = (post.created_at == post.updated_at) ? 'Posted by' : 'Edited by'
+            Posted by
             = link_to post.author.login_name, member_path(post.author)
             - if post.forum
               in
               = link_to post.forum, post.forum
             on
-            = (post.created_at == post.updated_at) ? post.created_at : post.updated_at
+            = post.created_at
+            - if post.updated_at > post.created_at
+              and edited at
+              = post.updated_at
 
         .post-body
           :growstuff_markdown
