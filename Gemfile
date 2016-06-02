@@ -101,7 +101,7 @@ end
 
 group :development, :test do
   gem 'haml-rails'                      # HTML templating language
-  gem 'rspec-rails', '~> 3.4.0'         # unit testing framework
+  gem 'rspec-rails'                     # unit testing framework
   gem 'rspec-activemodel-mocks'
   gem 'byebug'                          # debugging
   gem 'database_cleaner', '~> 1.5.0'
