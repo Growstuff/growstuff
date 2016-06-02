@@ -60,7 +60,7 @@ gem 'friendly_id', '~> 5.0.4'
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder', '1.1.9'
+gem 'geocoder'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
