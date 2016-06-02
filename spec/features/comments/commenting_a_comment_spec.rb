@@ -27,7 +27,7 @@ feature 'Commenting on a post' do
       fill_in "comment_body", with: "Testing edit for comment"
       click_button "Post comment"
       expect(page).to have_content "Comment was successfully updated"
-      expect(page).to have_content "Edited by"
+      expect(page).to have_content "edited at"
     end
   end
 end

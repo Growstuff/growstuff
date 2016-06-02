@@ -27,7 +27,7 @@ feature 'Post a post' do
       fill_in "post_subject", with: "Testing Edit"
       click_button "Post"
       expect(page).to have_content "Post was successfully updated"
-      expect(page).to have_content "Edited by"
+      expect(page).to have_content "edited at"
     end
   end
 end
