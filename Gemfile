@@ -51,7 +51,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 4.0.0'
+gem 'devise', '>= 4.0.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 5.0.4'
@@ -60,7 +60,7 @@ gem 'friendly_id', '~> 5.0.4'
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder', '1.1.9'
+gem 'geocoder'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
@@ -101,12 +101,12 @@ end
 
 group :development, :test do
   gem 'haml-rails'                      # HTML templating language
-  gem 'rspec-rails', '~> 3.4.0'         # unit testing framework
+  gem 'rspec-rails'                     # unit testing framework
   gem 'rspec-activemodel-mocks'
   gem 'byebug'                          # debugging
   gem 'database_cleaner', '~> 1.5.0'
   gem 'webrat'                          # provides HTML matchers for view tests
-  gem 'factory_girl_rails', '~> 4.5.0'  # for creating test data
+  gem 'factory_girl_rails'              # for creating test data
   gem 'coveralls', require: false       # coverage analysis
   gem 'capybara'                        # integration tests
   gem 'capybara-email'                  # integration tests for email
