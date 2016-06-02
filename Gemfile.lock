@@ -44,7 +44,7 @@ GEM
     addressable (2.4.0)
     arel (5.0.1.20140414130214)
     ast (2.2.0)
-    autoprefixer-rails (6.3.6.1)
+    autoprefixer-rails (6.3.6.2)
       execjs
     bcrypt (3.1.11)
     better_errors (2.1.1)
