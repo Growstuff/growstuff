@@ -16,7 +16,7 @@
             =link_to post.author, post.author
           %td
             - if post.updated_at > post.recent_activity
-              = post.update_at_to_date.to_formatted_s(:short)
+              = post.updated_at.to_date.to_formatted_s(:short)
             - else
               = post.recent_activity.to_date.to_formatted_s(:short)
             // once the site gets more active, can change this to include time as well
