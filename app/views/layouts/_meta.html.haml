@@ -4,7 +4,7 @@
   - if content_for?(:opengraph)
     = yield(:opengraph)
   - else
-    = tag("meta", property: "og:image", content: image_url('growstuff-apple-touch-icon-precomposed.png'))
+    = tag("meta", property: "og:image", content: image_url('facebook-thumbnail.png'))
     = tag("meta", property: "og:title", content: "#{content_for?(:title) ? yield(:title) + " - #{ ENV['GROWSTUFF_SITE_NAME']} " : ENV['GROWSTUFF_SITE_NAME']}")
     = tag("meta", property: "og:type", content: "website")
     = tag("meta", property: "og:url", content: root_url)
