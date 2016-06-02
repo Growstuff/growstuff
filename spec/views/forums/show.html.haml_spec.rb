@@ -35,7 +35,7 @@ describe "forums/show" do
 
   it 'links to new post with the forum id' do
     render
-    assert_select "a[href=#{new_post_path(forum_id: @forum.id)}]"
+    assert_select "a[href='#{new_post_path(forum_id: @forum.id)}']"
   end
 
   it 'has no posts' do

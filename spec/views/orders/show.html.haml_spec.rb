@@ -50,7 +50,7 @@ describe "orders/show" do
 
     it "shows a foreign exchange link for the total" do
       currency = Growstuff::Application.config.currency
-      assert_select("a[href=http://www.wolframalpha.com/input/?i=198.00+#{currency}]")
+      assert_select("a[href='http://www.wolframalpha.com/input/?i=198.00+#{currency}']")
     end
 
     it "asks for a referral code" do

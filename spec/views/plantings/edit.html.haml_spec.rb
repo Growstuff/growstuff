@@ -55,7 +55,7 @@ describe "plantings/edit" do
     end
 
     it 'includes helpful links for crops and gardens' do
-      assert_select "a[href=#{new_garden_path}]", text: "Add a garden."
+      assert_select "a[href='#{new_garden_path}']", text: "Add a garden."
     end
 
     it "chooses the right crop" do
