@@ -65,7 +65,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap_form (2.3.0)
     builder (3.2.2)
-    byebug (9.0.4)
+    byebug (9.0.5)
     cancancan (1.14.0)
     capybara (2.7.1)
       addressable
