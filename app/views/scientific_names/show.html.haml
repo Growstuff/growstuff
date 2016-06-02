@@ -1,5 +1,5 @@
 - content_for :opengraph do
-  = @scientific_name.crop.photos.each do |photo|
+  - @scientific_name.crop.photos.each do |photo|
     = tag("meta", property: "og:image", content: photo.thumbnail_url)
 
   = tag("meta", property: "og:title", content: @scientific_name.scientific_name)  
