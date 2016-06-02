@@ -1,4 +1,11 @@
 - content_for :title, @forum.name
+- content_for :opengraph do
+  - if @forum.description
+    = tag("meta", property: "og:description", content: strip_tags(@forum.description).split(' ')[0..20].join(' '))
+  = tag("meta", property: "og:title", content: @forum.name)
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 %p#notice= notice
 
