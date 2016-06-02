@@ -106,7 +106,7 @@ group :development, :test do
   gem 'byebug'                          # debugging
   gem 'database_cleaner', '~> 1.5.0'
   gem 'webrat'                          # provides HTML matchers for view tests
-  gem 'factory_girl_rails', '~> 4.5.0'  # for creating test data
+  gem 'factory_girl_rails'              # for creating test data
   gem 'coveralls', require: false       # coverage analysis
   gem 'capybara'                        # integration tests
   gem 'capybara-email'                  # integration tests for email
