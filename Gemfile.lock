@@ -253,7 +253,7 @@ GEM
       mime-types (>= 1.16, < 4)
     memcachier (0.0.2)
     method_source (0.8.2)
-    mime-types (3.0)
+    mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mimemagic (0.3.0)
