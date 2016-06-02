@@ -1,7 +1,7 @@
 - content_for :title, @member.login_name
 - content_for :subtitle, @member.location
 - content_for :opengraph do
-  = tag("meta", property: "og:image", content: avatar_uri(@member, 150))  
+  = tag("meta", property: "og:image", content: avatar_uri(@member, 200))  
   = tag("meta", property: "og:image:user_generated", content: "true")  
   = tag("meta", property: "og:title", content: @member.login_name)  
   = tag("meta", property: "og:type", content: "profile")
