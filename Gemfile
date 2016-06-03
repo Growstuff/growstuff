@@ -38,8 +38,8 @@ gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
-gem 'activemerchant', '1.33.0', require: 'active_merchant'
-gem 'active_utils', '1.0.5'
+gem 'activemerchant', '>= 1.33.0', require: 'active_merchant'
+gem 'active_utils', '>= 1.0.5'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
