@@ -460,7 +460,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_utils (= 1.0.5)!
+  active_utils (= 1.0.5)
   activemerchant (= 1.33.0)
   better_errors
   binding_of_caller
