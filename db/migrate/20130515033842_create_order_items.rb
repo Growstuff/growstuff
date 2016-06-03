@@ -6,7 +6,7 @@ class CreateOrderItems < ActiveRecord::Migration
       t.decimal :price
       t.integer :quantity
 
-      t.timestamps null: true null: true
+      t.timestamps null: true
     end
   end
 end

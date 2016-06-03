@@ -4,7 +4,7 @@ class CreateFollows < ActiveRecord::Migration
       t.integer :member_id
       t.integer :followed_id
 
-      t.timestamps null: true null: true
+      t.timestamps null: true
     end
   end
 end

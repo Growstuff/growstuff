@@ -3,7 +3,7 @@ class CreatePlantParts < ActiveRecord::Migration
     create_table :plant_parts do |t|
       t.string :name
 
-      t.timestamps null: true null: true
+      t.timestamps null: true
     end
   end
 end
