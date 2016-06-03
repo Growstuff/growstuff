@@ -180,8 +180,8 @@ class CropsController < ApplicationController
         if previous_status == "pending"
           requester = @crop.requester
           new_status = @crop.approval_status
-          Notifier.crop_request_approved(requester, @crop).deliver! if new_status == "approved"
-          Notifier.crop_request_rejected(requester, @crop).deliver! if new_status == "rejected"
+          Notifier.crop_request_approved(requester, @crop).deliver_now! if new_status == "approved"
+          Notifier.crop_request_rejected(requester, @crop).deliver_now! if new_status == "rejected"
         end
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }
