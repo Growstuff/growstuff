@@ -6,7 +6,7 @@ class CreatePhotos < ActiveRecord::Migration
       t.string :thumbnail_url, null: false
       t.string :fullsize_url, null: false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end
