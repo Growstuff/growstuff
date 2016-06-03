@@ -58,7 +58,7 @@ describe GardensHelper do
       expect(result).to eq output
     end
 
-    it "has 2 planting" do
+    it "has 2 plantings" do
       garden = FactoryGirl.create(:garden)
       plantings = []
 
@@ -81,7 +81,7 @@ describe GardensHelper do
       expect(result).to eq output
     end
 
-    it "has 3 planting" do
+    it "has 3 plantings" do
       garden = FactoryGirl.create(:garden)
       plantings = []
 
