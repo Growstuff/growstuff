@@ -49,6 +49,7 @@ Growstuff::Application.configure do
   end
 
   config.after_initialize do
+    require './lib/active_merchant/billing/gateways/paypal_bogus'
     ActiveMerchant::Billing::Base.mode = :test
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
