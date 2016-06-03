@@ -1,3 +1,5 @@
+require 'active_merchant/billing/gateways/paypal'
+
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class PaypalBogusGateway < BogusGateway
