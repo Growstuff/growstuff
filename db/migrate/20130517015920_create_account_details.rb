@@ -5,7 +5,7 @@ class CreateAccountDetails < ActiveRecord::Migration
       t.integer :account_type_id
       t.datetime :paid_until
 
-      t.timestamps null: true
+      t.timestamps null: true null: true
     end
   end
 end

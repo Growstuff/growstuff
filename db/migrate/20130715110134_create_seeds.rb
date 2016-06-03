@@ -7,7 +7,7 @@ class CreateSeeds < ActiveRecord::Migration
       t.integer :quantity
       t.date :use_by
 
-      t.timestamps null: true
+      t.timestamps null: true null: true
     end
   end
 end
