@@ -2,13 +2,13 @@ class RequireSystemNameForCrops < ActiveRecord::Migration
   def up
     change_table :crops do |t|
       t.index :system_name
-      t.change :system_name, :string, :null => false
+      t.change :system_name, :string, null: false
     end
   end
 
   def down
     change_table :crops do |t|
-      t.change :system_name, :string, :null => true
+      t.change :system_name, :string, null: true
       t.remove_index :system_name
     end
   end

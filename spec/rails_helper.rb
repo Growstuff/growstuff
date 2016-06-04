@@ -1,9 +1,5 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
-require 'spec_helper'
-require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
-# Add additional requires below this line. Rails is not loaded until this point!
 require 'simplecov'
 require 'coveralls'
 
@@ -21,9 +17,30 @@ SimpleCov.start :rails do
   add_filter 'vendor/'
 end
 
+require 'spec_helper'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+# Add additional requires below this line. Rails is not loaded until this point!
+Rails.application.eager_load!
+
 require 'capybara'
 require 'capybara/poltergeist'
+require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
+
 Capybara.javascript_driver = :poltergeist
+if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
+  case ENV['GROWSTUFF_CAPYBARA_DRIVER']
+  when 'selenium'
+    require 'selenium-webdriver'
+  end
+  Capybara.javascript_driver = ENV['GROWSTUFF_CAPYBARA_DRIVER'].to_sym
+end
+
+Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
+  "screenshot_#{example.description.gsub(' ', '-').gsub(/^.*\/spec\//,'')}"
+end
+
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
 
@@ -80,6 +97,9 @@ RSpec.configure do |config|
 
   # controller specs require this to work with Devise
   # see https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29
-  config.include Devise::TestHelpers, :type => :controller
-  config.extend ControllerMacros, :type => :controller
+  config.include Devise::TestHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
+
+  # Allow just create(:factory) instead of needing to specify FactoryGirl.create(:factory)
+  config.include FactoryGirl::Syntax::Methods
 end

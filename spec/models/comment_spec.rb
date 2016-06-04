@@ -3,23 +3,21 @@ require 'rails_helper'
 describe Comment do
 
   context "basic" do
-    before(:each) do
-      @comment = FactoryGirl.create(:comment)
-    end
+    
+    let(:comment) { FactoryGirl.create(:comment) }
 
     it "belongs to a post" do
-      @comment.post.should be_an_instance_of Post
+      comment.post.should be_an_instance_of Post
     end
 
     it "belongs to an author" do
-      @comment.author.should be_an_instance_of Member
+      comment.author.should be_an_instance_of Member
     end
   end
 
   context "notifications" do
-    before(:each) do
-      @comment = FactoryGirl.create(:comment)
-    end
+    
+    let(:comment) { FactoryGirl.create(:comment) }
 
     it "sends a notification when a comment is posted" do
       expect {
@@ -39,9 +37,9 @@ describe Comment do
 
     it "doesn't send notifications to yourself" do
       @m = FactoryGirl.create(:member)
-      @p = FactoryGirl.create(:post, :author => @m)
+      @p = FactoryGirl.create(:post, author: @m)
       expect {
-        FactoryGirl.create(:comment, :post => @p, :author => @m)
+        FactoryGirl.create(:comment, post: @p, author: @m)
       }.to change(Notification, :count).by(0)
     end
   end
@@ -49,9 +47,9 @@ describe Comment do
   context "ordering" do
     before(:each) do
       @m = FactoryGirl.create(:member)
-      @p = FactoryGirl.create(:post, :author => @m)
-      @c1 = FactoryGirl.create(:comment, :post => @p, :author => @m)
-      @c2 = FactoryGirl.create(:comment, :post => @p, :author => @m)
+      @p = FactoryGirl.create(:post, author: @m)
+      @c1 = FactoryGirl.create(:comment, post: @p, author: @m)
+      @c2 = FactoryGirl.create(:comment, post: @p, author: @m)
     end
 
     it 'is in DESC order by default' do

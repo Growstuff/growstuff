@@ -1,4 +1,6 @@
-- content_for :title, @owner ? "#{@owner}'s plantings" : @crop ? "Everyone's #{@crop.name} plantings" : "Everyone's plantings"
+- content_for :title, @owner ? t('.title.owner_plantings', owner: @owner) : @crop ? t('.title.crop_plantings', crop: @crop.name) : t('.title.default') 
+- if @owner
+  = link_to "View #{@owner}'s profile >>", member_path(@owner)
 
 %p
   - if can? :create, Planting
@@ -14,52 +16,19 @@
   - else
     = render :partial => 'shared/signin_signup', :locals => { :to => "track what you've planted" }
 
-  %div.pagination
-    = page_entries_info @plantings, :model => "plantings"
-    = will_paginate @plantings
+%div.pagination
+  = page_entries_info @plantings
+  = will_paginate @plantings
 
-- if @plantings.length > 0
+.row
+  - if @plantings.size > 0
+    - @plantings.each.with_index do |planting|
+      .col-xs-12.col-lg-6
+        = render partial: "plantings/thumbnail", locals: {:planting => planting}
 
-  %table.table.table-striped
-    %tr
-      - unless @owner
-        %th Owner
-      %th Crop
-      %th Garden
-      %th Quantity
-      %th Planted on
-      %th Finished
-      %th Sun/shade?
-      %th Planted from
-      %th
-
-    - @plantings.each do |planting|
-      %tr
-        - unless @owner
-          %td= link_to planting.owner.login_name, planting.owner
-        %td= link_to planting.crop.name, planting.crop
-        %td= link_to planting.garden.name, planting.garden
-        %td= planting.quantity
-        %td= planting.planted_at
-        %td
-          - if planting.finished and planting.finished_at
-            = planting.finished_at
-          - elsif planting.finished
-            Yes (no date specified)
-        %td= planting.sunniness
-        %td= planting.planted_from
-        %td
-          = link_to 'Details', planting, :class => 'btn btn-default btn-xs'
-          - if can? :edit, planting
-            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
-            - if ! planting.finished
-              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
-          - if can? :destroy, planting
-            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
-
-  %div.pagination
-    = page_entries_info @plantings, :model => "plantings"
-    = will_paginate @plantings
+%div.pagination
+  = page_entries_info @plantings
+  = will_paginate @plantings
 
   %ul.list-inline
     %li The data on this page is available in the following formats:

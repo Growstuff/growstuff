@@ -1,4 +1,12 @@
 =content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
+- content_for :opengraph do
+  - @harvest.photos.each do |photo|
+    = tag("meta", property: "og:image", content: photo.fullsize_url) 
+  = tag("meta", property: "og:image:user_generated", content: "true")
+  = tag("meta", property: "og:title", content: "#{@harvest.crop} harvested by #{@harvest.owner}")
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 .row
   .col-md-6
@@ -35,7 +43,7 @@
 :growstuff_markdown
   #{ @harvest.description != "" ? @harvest.description : "No description given." }
 
-- if @harvest.photos.count > 0 or (can? :edit, @harvest and can? :create, Photo)
+- if @harvest.photos.size > 0 or (can? :edit, @harvest and can? :create, Photo)
   %h2 Pictures
 
   %ul.thumbnails

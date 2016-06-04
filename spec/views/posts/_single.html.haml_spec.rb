@@ -1,9 +1,25 @@
+## DEPRECATION NOTICE: Do not add new tests to this file!
+##
+## View and controller tests are deprecated in the Growstuff project. 
+## We no longer write new view and controller tests, but instead write 
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara). 
+## These test the full stack, behaving as a browser, and require less complicated setup 
+## to run. Please feel free to delete old view/controller tests as they are reimplemented 
+## in feature tests. 
+##
+## If you submit a pull request containing new view or controller tests, it will not be 
+## merged.
+
+
+
+
+
 require 'rails_helper'
 
 describe "posts/_single" do
 
   def render_post()
-      render :partial => "single", :locals => { :post => @post }
+      render partial: "single", locals: { post: @post }
   end
 
   before(:each) do
@@ -21,7 +37,7 @@ describe "posts/_single" do
     end
 
     it "doesn't contain a link to new comment" do
-      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", false
+      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
     end
   end
 
@@ -34,7 +50,7 @@ describe "posts/_single" do
     end
 
     it "contains link to new comment" do
-      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", "Reply"
+      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", "Reply"
     end
 
     it "does not contain an edit link" do
@@ -47,7 +63,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       render_post
     end
 
@@ -68,7 +84,7 @@ describe "posts/_single" do
 
   context "when there is 1 comment" do
     before(:each) do
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment = FactoryGirl.create(:comment, post: @post)
       render_post
     end
 
@@ -79,8 +95,8 @@ describe "posts/_single" do
 
   context "when there are 2 comments" do
     before(:each) do
-      @comment = FactoryGirl.create(:comment, :post => @post)
-      @comment2 = FactoryGirl.create(:comment, :post => @post)
+      @comment = FactoryGirl.create(:comment, post: @post)
+      @comment2 = FactoryGirl.create(:comment, post: @post)
       render_post
     end
 
@@ -94,9 +110,9 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @comment = FactoryGirl.create(:comment, :post => @post)
-      render :partial => "single", :locals => {
-        :post => @post, :hide_comments => true
+      @comment = FactoryGirl.create(:comment, post: @post)
+      render partial: "single", locals: {
+        post: @post, hide_comments: true
       }
     end
 
@@ -109,12 +125,79 @@ describe "posts/_single" do
     end
 
     it "does not contain link to new comment" do
-      assert_select "a[href=#{new_comment_path(:post_id => @post.id)}]", false
+      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
     end
 
   end
+
+  context "when post has been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @post.update(body: "I am updated")
+      render_post
+    end
+
+    it "shows edited at" do
+      rendered.should have_content "edited at"
+    end
+
+    it "shows the updated time" do
+      rendered.should have_content @post.updated_at
+    end
+  end
+
+  context "when comment has been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment.update(body: "I've been updated")
+      render :partial => "comments/single", :locals => { :comment => @comment }
+    end
+
+    it "shows edited at time" do
+      rendered.should have_content "edited at"
+    end
+
+    it "shows updated time" do
+      rendered.should have_content @comment.updated_at
+    end
+  end
+
+  context "when post has not been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @post.update(updated_at: @post.created_at)
+      render_post
+    end
+
+    it "does not show edited at" do
+      rendered.should_not have_content "edited at #{@post.updated_at}"
+    end
+  end
+
+  context "when comment has not been edited" do
+    before(:each) do
+      @member = FactoryGirl.create(:member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+      @post = FactoryGirl.create(:post, :author => @member)
+      @comment = FactoryGirl.create(:comment, :post => @post)
+      @comment.update(updated_at: @comment.created_at)
+      render :partial => "comments/single", :locals => { :comment => @comment }
+    end
+
+    it "does not show edited at" do
+      rendered.should_not have_content "edited at #{@comment.updated_at}"
+    end
+  end
+
 end
-
-
-
- 

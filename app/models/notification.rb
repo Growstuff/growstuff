@@ -1,16 +1,18 @@
 class Notification < ActiveRecord::Base
-  belongs_to :sender, :class_name => 'Member'
-  belongs_to :recipient, :class_name => 'Member'
+  belongs_to :sender, class_name: 'Member'
+  belongs_to :recipient, class_name: 'Member'
   belongs_to :post
 
+  validates :subject, length: { maximum: 255 }
+
   default_scope { order('created_at DESC') }
-  scope :unread, -> { where(:read => false) }
+  scope :unread, -> { where(read: false) }
 
   before_create :replace_blank_subject
   after_create :send_email
 
   def self.unread_count
-    self.unread.count
+    self.unread.size
   end
 
   def replace_blank_subject

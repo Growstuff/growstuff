@@ -8,8 +8,10 @@ coverage
 *~
 *.DS_Store
 config/application.yml
+config/database.yml
 credentials*.sh
 Pathogen:
 custom_plan.rb
 zeus.json
 .bundle
+.idea/**

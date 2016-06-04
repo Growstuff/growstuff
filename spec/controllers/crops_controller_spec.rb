@@ -1,3 +1,19 @@
+## DEPRECATION NOTICE: Do not add new tests to this file!
+##
+## View and controller tests are deprecated in the Growstuff project. 
+## We no longer write new view and controller tests, but instead write 
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara). 
+## These test the full stack, behaving as a browser, and require less complicated setup 
+## to run. Please feel free to delete old view/controller tests as they are reimplemented 
+## in feature tests. 
+##
+## If you submit a pull request containing new view or controller tests, it will not be 
+## merged.
+
+
+
+
+
 require 'rails_helper'
 
 describe CropsController do
@@ -6,9 +22,9 @@ describe CropsController do
 
   def valid_attributes
     {
-      :name => "Tomato",
-      :en_wikipedia_url => 'http://en.wikipedia.org/wiki/Tomato',
-      :approval_status => 'approved'
+      name: "Tomato",
+      en_wikipedia_url: 'http://en.wikipedia.org/wiki/Tomato',
+      approval_status: 'approved'
     }
   end
 
@@ -39,7 +55,7 @@ describe CropsController do
 
   describe "GET RSS feed" do
     it "returns an RSS feed" do
-      get :index, :format => "rss"
+      get :index, format: "rss"
       response.should be_success
       response.should render_template("crops/index")
       response.content_type.should eq("application/rss+xml")

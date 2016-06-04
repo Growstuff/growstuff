@@ -16,7 +16,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
-//= require twitter/bootstrap
-//= require_tree .
+//= require bootstrap-sprockets
 //= require bootstrap-datepicker
-
+//= require_tree .

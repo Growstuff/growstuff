@@ -1,4 +1,11 @@
--content_for :title, @photo.title
+- content_for :title, @photo.title
+- content_for :opengraph do
+  = tag("meta", property: "og:title", content: @photo.title)
+  = tag("meta", property: "og:image", content: @photo.fullsize_url)
+  = tag("meta", property: "og:image:user_generated", content: "true")
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 .row
   .col-md-6
@@ -19,11 +26,19 @@
       %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
   .col-md-6
-    - if @photo.plantings.count > 0
+    - if @photo.plantings.size > 0 or @photo.harvests.size > 0 or @photo.gardens.size > 0
       %p This photo depicts:
       %ul
-        - @photo.plantings.each do |p|
-          %li= link_to p, p
+        - if @photo.plantings.size > 0
+          - @photo.plantings.each do |p|
+            %li= link_to t('.thing_by', thing: Planting.model_name.singular, owner: p.owner), p
+        - if @photo.harvests.size > 0
+          - @photo.harvests.each do |h|
+            %li= link_to t('.thing_by', thing: Harvest.model_name.singular, owner: h.owner), h
+        - if @photo.gardens.size > 0
+          - @photo.gardens.each do |g|
+            %li= link_to t('.thing_by', thing: Garden.model_name.singular, owner: g.owner), g
+
 
 .row
   .col-md-12

@@ -40,8 +40,7 @@ Growstuff::Application.configure do
   # config.action_view.raise_on_missing_translations = true
   
   # Growstuff config
-  config.new_crops_request_link = "http://example.com/not-a-real-url"
-  config.action_mailer.default_url_options = { :host => 'localhost:8080' }
+  config.action_mailer.default_url_options = { host: 'localhost:8080' }
 
   Growstuff::Application.configure do
     config.host = 'test.example.com'
@@ -57,13 +56,27 @@ Growstuff::Application.configure do
 
 end
 
-Geocoder.configure(:lookup => :test)
+Geocoder.configure(lookup: :test)
 
 Geocoder::Lookup::Test.add_stub(
   "Amundsen-Scott Base, Antarctica", [
     {
       'latitude' =>         -90.0,
       'longitude' =>        0.0,
+    }
+  ]
+)
+
+Geocoder::Lookup::Test.add_stub(
+  "Philippines", [
+    {
+      'latitude'     => 12.7503486,
+      'longitude'    => 122.7312101,
+      'address'      => 'Manila, Mnl, Philippines',
+      'state'        => 'Manila',
+      'state_code'   => 'Mnl',
+      'country'      => 'Philippines',
+      'country_code' => 'PH'
     }
   ]
 )

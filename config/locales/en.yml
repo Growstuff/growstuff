@@ -2,6 +2,8 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  forms:
+    optional: "(Optional)"
   unauthorized:
     read:
       notification: "You must be signed in to view notifications."
@@ -15,18 +17,91 @@ en:
       all: "Not authorized to %{action} %{subject}."
 
   layouts:
-    footer:
-      about: "About"
-      our_values: "Our Values"
-      open_source: "Open Source"
-      growstuff_team: "Growstuff Team"
-      get_involved: "Get Involved"
-      terms_of_service: "Terms of Service"
-      privacy_policy: "Privacy Policy"
-      data_use_policy: "Data Use Policy"
-      community_guidelines: "Community Guidelines"
-      support_: "Support" # for some reason 'support' seems to be a reserved word
-      contact: "Contact"
+    header:
+      skip: "Skip navigation menu"
+      browse_crops: &browse_crops "Browse Crops"
+      seeds: "Seeds"
+      plantings: "Plantings"
+      harvests: "Harvests"
+      community_map: "Community Map"
+      browse_members: "Browse Members"
+      posts: "Posts"
+      forums: &forums "Forums"
+      support_growstuff: "Support Growstuff"
+      profile: "Profile"
+      gardens: "Gardens"
+      account: "Account"
+      inbox_unread: "Inbox (%{unread_count})"
+      inbox: "Inbox"
+      crop_wrangling: "Crop Wrangling"
+      admin: "Admin"
+      your_stuff: "Your Stuff (%{unread_count})"
+
+  crops:
+    index:
+      title: *browse_crops
+      subtitle: "%{crops_size} total"
+
+  gardens:
+    form:
+      location_helper: "If you have a location set in your profile, it will be used when
+                        you create a new garden."
+
+  seeds:
+    index:
+      title: 
+        default: "Everyone's seeds"
+        crop_seeds: "Everyone's %{crop} seeds"
+        owner_seeds: "%{owner} seeds"
+    form:
+      trade_help: "Are you interested in trading or swapping seeds with other
+                   %{site_name} members?  If you
+                   list your seeds as available for trade, other members can
+                   contact you to request seeds.  You can list any conditions or
+                   other information in the description, above."
+
+  plantings:
+    index:
+      title: 
+        default: "Everyone's plantings"
+        crop_plantings: "Everyone's %{crop} plantings"
+        owner_plantings: "%{owner} plantings"
+    form:
+      finish_helper: "A planting is finished when you've harvested all of the crop, or
+                      it dies, or it's otherwise no longer growing in your garden."
+
+  photos:
+    show:
+      thing_by: "A %{thing} by %{owner}"
+
+  harvests:
+    index:
+      title:
+        default: "Everyone's harvests"
+        crop_harvests: "Everyone's %{crop} harvests"
+        owner_harvests: "%{owner} harvests"
+
+  places:
+    index: 
+      title: "%{site_name} Community Map" 
+
+  members:
+    index: 
+      title: "%{site_name} members" 
+
+  posts:
+    index: 
+      title:
+        default: "Everyone's posts" 
+        author_posts: "%{author} posts"
+
+  shop:
+    index:
+      title: "Shop" 
+
+  forums:
+    index:
+      title: *forums
 
   home:
     blurb:
@@ -96,3 +171,32 @@ en:
       post: "Post"
       edit_profile: "Edit profile"
 
+  activerecord:
+    models:
+      comment:
+        one: "comment"
+        other: "comments"
+      crop:
+        one: "crop"
+        other: "crops"
+      garden:
+        one: "garden"
+        other: "gardens"
+      harvest:
+        one: "harvest"
+        other: "harvests"
+      member:
+        one: "member"
+        other: "members"
+      photo:
+        one: "photo"
+        other: "photos"
+      planting:
+        one: "planting"
+        other: "plantings"
+      post:
+        one: "post"
+        other: "posts"
+      seed:
+        one: "seed"
+        other: "seeds"

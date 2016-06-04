@@ -1,51 +1,58 @@
 require 'rails_helper'
 
-feature "account types" do
+feature "account types", js: true do
   context "admin user" do
-    before(:each) do
-      @member = FactoryGirl.create(:admin_member)
-      visit root_path
-      click_link 'Sign in'
-      fill_in 'Login', :with => @member.login_name
-      fill_in 'Password', :with => @member.password
-      click_button 'Sign in'
+    let(:member) { create :admin_member }
+    let(:account_type) { create :account_type }
+
+    background do
+      login_as member
     end
 
-    scenario "navigating to account type admin" do
+    scenario "navigating to account type admin with JavaScript on" do
       visit root_path
+      # Extra click for the expandable login menu
+      click_link member.login_name
       click_link "Admin"
-      current_path.should eq admin_path
+      expect(current_path).to eq admin_path
       click_link "Account types"
-      current_path.should eq account_types_path
+      expect(current_path).to eq account_types_path
+    end
+
+    scenario "navigating to account type admin without JavaScript - Accessility version", js: false do
+      visit root_path
+      # Extra link not needed as menu is already expanded
+      click_link "Admin"
+      expect(current_path).to eq admin_path
+      click_link "Account types"
+      expect(current_path).to eq account_types_path
     end
 
     scenario "adding an account type" do
       visit account_types_path
       click_link "New Account type"
-      current_path.should eq new_account_type_path
-      fill_in 'Name', :with => 'Guest'
+      expect(current_path).to eq new_account_type_path
+      fill_in 'Name', with: 'Guest'
       click_button 'Save'
-      current_path.should eq account_type_path(AccountType.last)
-      page.should have_content 'Account type was successfully created'
+      expect(current_path).to eq account_type_path(AccountType.last)
+      expect(page).to have_content 'Account type was successfully created'
     end
 
     scenario 'editing account type' do
-      a = FactoryGirl.create(:account_type)
-      visit account_type_path(a)
+      visit account_type_path account_type
       click_link 'Edit'
-      fill_in 'Name', :with => 'Something else'
+      fill_in 'Name', with: 'Something else'
       click_button 'Save'
-      current_path.should eq account_type_path(a)
-      page.should have_content 'Account type was successfully updated'
-      page.should have_content 'Something else'
+      expect(current_path).to eq account_type_path(account_type)
+      expect(page).to have_content 'Account type was successfully updated'
+      expect(page).to have_content 'Something else'
     end
 
     scenario 'deleting account type' do
-      a = FactoryGirl.create(:account_type)
-      visit account_type_path(a)
+      visit account_type_path account_type
       click_link 'Delete'
-      current_path.should eq account_types_path
-      page.should have_content 'Account type was successfully deleted'
+      expect(current_path).to eq account_types_path
+      expect(page).to have_content 'Account type was successfully deleted'
     end
   end
 end

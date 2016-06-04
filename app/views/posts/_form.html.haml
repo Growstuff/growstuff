@@ -1,14 +1,14 @@
 = form_for(@post, :html => {:role => "form"}) do |f|
   - if @post.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
+      %h2= "#{pluralize(@post.errors.size, "error")} prohibited this post from being saved:"
       %ul
         - @post.errors.full_messages.each do |msg|
           %li= msg
 
   .form-group
     = label_tag :post, "Subject", :class => 'control-label'
-    = f.text_field :subject, :class => 'form-control'
+    = f.text_field :subject, :class => 'form-control', :autofocus => 'autofocus', :maxlength => 255
 
   .form-group
     - if @post.forum || @forum

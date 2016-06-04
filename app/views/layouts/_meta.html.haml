@@ -1,6 +1,14 @@
 %head
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  - if content_for?(:opengraph)
+    = yield(:opengraph)
+  - else
+    = tag("meta", property: "og:image", content: image_url('facebook-thumbnail.png'))
+    = tag("meta", property: "og:title", content: "#{content_for?(:title) ? yield(:title) + " - #{ ENV['GROWSTUFF_SITE_NAME']} " : ENV['GROWSTUFF_SITE_NAME']}")
+    = tag("meta", property: "og:type", content: "website")
+    = tag("meta", property: "og:url", content: root_url)
+    = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
   - if (content_for?(:member_rss_login_name) && content_for(:member_rss_slug))
     = auto_discovery_link_tag(:rss, { :controller => "/members", :action => 'show', :format => "rss", :id => yield(:member_rss_slug) }, { :title => "#{ ENV['GROWSTUFF_SITE_NAME'] }- #{yield(:member_rss_login_name)}'s posts" })

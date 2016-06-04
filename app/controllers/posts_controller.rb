@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :show]
+  before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /posts
@@ -8,29 +8,29 @@ class PostsController < ApplicationController
   def index
     @author = Member.find_by_slug(params[:author])
     if @author
-      @posts = @author.posts.includes(:author, { :comments => :author }).paginate(:page => params[:page])
+      @posts = @author.posts.includes(:author, { comments: :author }).paginate(page: params[:page])
     else
-      @posts = Post.includes(:author, { :comments => :author }).paginate(:page => params[:page])
+      @posts = Post.includes(:author, { comments: :author }).paginate(page: params[:page])
     end
 
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @posts }
-      format.rss { render :layout => false } #index.rss.builder
+      format.rss { render layout: false } #index.rss.builder
     end
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @post = Post.includes(:author, { :comments => :author }).find(params[:id])
+    @post = Post.includes(:author, { comments: :author }).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.haml
       format.json { render json: @post }
       format.rss { render(
-        :layout => false,
-        :locals => { :post => @post }
+        layout: false,
+        locals: { post: @post }
       )}
     end
   end

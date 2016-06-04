@@ -10,7 +10,7 @@ class SSLVerify
   def test_gateways
     success, failed, missing, errored, disabled = [], [], [], [], []
 
-    puts "Verifying #{@gateways.count} SSL certificates\n\n"
+    puts "Verifying #{@gateways.size} SSL certificates\n\n"
 
     @gateways.each do |g|
       if !g.live_url

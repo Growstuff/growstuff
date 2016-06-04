@@ -11,19 +11,19 @@ describe Photo do
     context "adds photos" do
       it 'to a planting' do
         planting.photos << photo
-        expect(planting.photos.count).to eq 1
+        expect(planting.photos.size).to eq 1
         expect(planting.photos.first).to eq photo
       end
 
       it 'to a harvest' do
         harvest.photos << photo
-        expect(harvest.photos.count).to eq 1
+        expect(harvest.photos.size).to eq 1
         expect(harvest.photos.first).to eq photo
       end
 
       it 'to a garden' do
         garden.photos << photo
-        expect(garden.photos.count).to eq 1
+        expect(garden.photos.size).to eq 1
         expect(garden.photos.first).to eq photo
       end
     end
@@ -32,19 +32,19 @@ describe Photo do
       it 'from a planting' do
         planting.photos << photo
         photo.destroy
-        expect(planting.photos.count).to eq 0
+        expect(planting.photos.size).to eq 0
       end
 
       it 'from a harvest' do
         harvest.photos << photo
         photo.destroy
-        expect(harvest.photos.count).to eq 0
+        expect(harvest.photos.size).to eq 0
       end
 
       it 'from a garden' do
         garden.photos << photo
         photo.destroy
-        expect(garden.photos.count).to eq 0
+        expect(garden.photos.size).to eq 0
       end
 
       it "automatically if unused" do
@@ -115,7 +115,7 @@ describe Photo do
     # which was epistemologically unsatisfactory.
     # So we're just going to test that the method exists.
     it 'exists' do
-      photo = Photo.new(:owner_id => 1)
+      photo = Photo.new(owner_id: 1)
       photo.should.respond_to? :flickr_metadata
     end
   end

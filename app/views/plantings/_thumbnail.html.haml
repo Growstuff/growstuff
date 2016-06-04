@@ -1,47 +1,44 @@
-.well
-  .row
-    .col-md-3
-      = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => '', :class => 'img'), planting
-
-    .col-md-9
-      %h4
-        - if defined?(title) && title == 'owner'
-          = link_to planting.owner, planting.owner
-        - else
-          = link_to planting.crop.name, planting
-
-      %p
-        Planted
-        - if planting.planted_at
-          = planting.planted_at
-        in
-        = link_to planting.location, planting.garden
-
-      %p
-        - if planting.quantity
-          Quantity:
-          = planting.quantity
-        - else
-          &nbsp;
-
-      - if planting.description && ! defined?(hide_description)
-        %div
-          :growstuff_markdown
-            #{ planting.description }
-
-      - if planting.finished
-        %p
-          Finished:
-          - if planting.finished_at
-            = planting.finished_at
-          - else
-            Yes (no date specified)
-
-      - if can? :edit, planting or can? :destroy, planting
-        %p
+.panel.panel-success.planting-thumbnail
+  .panel-heading
+    %h3.panel-title= link_to planting.crop.name, planting.crop
+  .panel-body
+    .row
+      .col-xs-12.col-md-4
+        = link_to image_tag((planting.default_photo ?  planting.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => planting.crop_id, :class => 'img'), planting
+      .col-xs-7.col-md-5
+        %dl.dl-horizontal.planting-attributes
+          %dt Owner:
+          %dd= link_to planting.owner.login_name, planting.owner
+          %dt Garden:
+          %dd= link_to planting.garden.name, planting.garden
+          %dt Planted on:
+          %dd= planting.planted_at
+          %dt Quantity: 
+          %dd= "#{display_planting_quantity(planting)}"
+          %dt Finished on:
+          %dd= "#{display_finished(planting)}"
+          %dt Sun/shade?:
+          %dd
+            - sunniness = planting.sunniness.blank? ? "not specified" : planting.sunniness
+            = image_tag("sunniness_#{sunniness}.png", :size => "25x25", :alt => "#{sunniness}", :title => "#{sunniness}")
+            = " (#{sunniness})"
+          %dt Planted from:
+          %dd= "#{display_planted_from(planting)}"
+      .col-xs-1.col-md-3
+        %ul{:style => "list-style-type:none; text-align:right"}
+          %li= link_to 'Details', planting, :class => 'btn btn-default btn-xs'
           - if can? :edit, planting
-            =link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
+            %li= link_to 'Edit', edit_planting_path(planting), :class => 'btn btn-default btn-xs'
             - if ! planting.finished
-              = link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
+              %li= link_to "Mark as finished", planting_path(planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
           - if can? :destroy, planting
-            =link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+            %li= link_to 'Delete', planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+
+    .row
+      .col-xs-12.col-md-4
+        %dl
+          %dt Days until maturity:
+          %dd= "#{display_days_before_maturity(planting)}"
+
+      .col-xs-12.col-md-8
+        = render partial: 'plantings/planting_progress', locals: {planting: planting}

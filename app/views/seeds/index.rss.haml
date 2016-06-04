@@ -12,6 +12,9 @@
           :escaped
             <p>Quantity: #{seed.quantity ? seed.quantity : 'unknown' }</p>
             <p>Plant before: #{seed.plant_before ? seed.plant_before : 'unknown' }</p>
+            <p>Organic? #{seed.organic}</p>
+            <p>GMO? #{seed.gmo}</p>
+            <p>Heirloom? #{seed.heirloom}</p>
           - if seed.tradable?
             :escaped
               <p>Will trade #{seed.tradable_to} from #{seed.owner.location ? seed.owner.location : 'unknown location'}</p>

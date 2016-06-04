@@ -1,3 +1,19 @@
+## DEPRECATION NOTICE: Do not add new tests to this file!
+##
+## View and controller tests are deprecated in the Growstuff project. 
+## We no longer write new view and controller tests, but instead write 
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara). 
+## These test the full stack, behaving as a browser, and require less complicated setup 
+## to run. Please feel free to delete old view/controller tests as they are reimplemented 
+## in feature tests. 
+##
+## If you submit a pull request containing new view or controller tests, it will not be 
+## merged.
+
+
+
+
+
 require 'rails_helper'
 
 describe RegistrationsController do
@@ -16,13 +32,13 @@ describe RegistrationsController do
     end
 
     it "picks up the twitter auth" do
-      @auth = FactoryGirl.create(:authentication, :member => @member)
+      @auth = FactoryGirl.create(:authentication, member: @member)
       get :edit
       assigns(:twitter_auth).should eq @auth
     end
 
     it "picks up the flickr auth" do
-      @auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+      @auth = FactoryGirl.create(:flickr_authentication, member: @member)
       get :edit
       assigns(:flickr_auth).should eq @auth
     end

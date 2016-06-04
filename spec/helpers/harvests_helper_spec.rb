@@ -5,8 +5,8 @@ describe HarvestsHelper do
 
     it "blank" do
       harvest = FactoryGirl.create(:harvest,
-        :quantity => nil,
-        :weight_quantity => nil
+        quantity: nil,
+        weight_quantity: nil
       )
       result = helper.display_quantity(harvest)
       result.should eq 'not specified'
@@ -14,9 +14,9 @@ describe HarvestsHelper do
 
     it '3 individual' do
       harvest = FactoryGirl.create(:harvest,
-        :quantity => 3,
-        :unit => 'individual',
-        :weight_quantity => nil
+        quantity: 3,
+        unit: 'individual',
+        weight_quantity: nil
       )
       result = helper.display_quantity(harvest)
       result.should eq '3'
@@ -24,9 +24,9 @@ describe HarvestsHelper do
 
     it '1 bunch' do
       harvest = FactoryGirl.create(:harvest,
-        :quantity => 1,
-        :unit => 'bunch',
-        :weight_quantity => nil
+        quantity: 1,
+        unit: 'bunch',
+        weight_quantity: nil
       )
       result = helper.display_quantity(harvest)
       result.should eq '1 bunch'
@@ -34,9 +34,9 @@ describe HarvestsHelper do
 
     it '3 bunches' do
       harvest = FactoryGirl.create(:harvest,
-        :quantity => 3,
-        :unit => 'bunch',
-        :weight_quantity => nil
+        quantity: 3,
+        unit: 'bunch',
+        weight_quantity: nil
       )
       result = helper.display_quantity(harvest)
       result.should eq '3 bunches'
@@ -44,10 +44,10 @@ describe HarvestsHelper do
 
     it '3 kg' do
       harvest = FactoryGirl.create(:harvest,
-        :quantity => nil,
-        :unit => nil,
-        :weight_quantity => 3,
-        :weight_unit => 'kg'
+        quantity: nil,
+        unit: nil,
+        weight_quantity: 3,
+        weight_unit: 'kg'
       )
       result = helper.display_quantity(harvest)
       result.should eq '3 kg'
@@ -55,10 +55,10 @@ describe HarvestsHelper do
 
     it '3 individual weighing 3 kg' do
       harvest = FactoryGirl.create(:harvest,
-        :quantity => 3,
-        :unit => 'individual',
-        :weight_quantity => 3,
-        :weight_unit => 'kg'
+        quantity: 3,
+        unit: 'individual',
+        weight_quantity: 3,
+        weight_unit: 'kg'
       )
       result = helper.display_quantity(harvest)
       result.should eq '3, weighing 3 kg'
@@ -66,10 +66,10 @@ describe HarvestsHelper do
 
     it '3 bunches weighing 3 kg' do
       harvest = FactoryGirl.create(:harvest,
-        :quantity => 3,
-        :unit => 'bunch',
-        :weight_quantity => 3,
-        :weight_unit => 'kg'
+        quantity: 3,
+        unit: 'bunch',
+        weight_quantity: 3,
+        weight_unit: 'kg'
       )
       result = helper.display_quantity(harvest)
       result.should eq '3 bunches, weighing 3 kg'

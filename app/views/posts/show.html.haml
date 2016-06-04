@@ -1,4 +1,11 @@
 = content_for :title, @post.subject
+- content_for :opengraph do
+  = tag("meta", property: "og:image", content: avatar_uri(@post.author, 200))  
+  = tag("meta", property: "og:description", content: "#{strip_tags(@post.body).split(' ')[0..20].join(' ')}...")  
+  = tag("meta", property: "og:title", content: @post.subject)  
+  = tag("meta", property: "og:type", content: "article")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 - unless current_member
   .alert.alert-info
@@ -16,16 +23,23 @@
 
 = render :partial => "single", :locals => { :post => @post, :subject => false, :hide_comments => true }
 
-- if can? :edit, @post or can? :destroy, @post
-  .post-actions
-    - if can? :edit, @post
-      = link_to 'Edit Post', edit_post_path(@post), :class => 'btn btn-default btn-xs'
-    - if can? :destroy, @post
-      = link_to 'Delete Post', @post, method: :delete, |
-        data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+- unless @post.crops.empty?
+  %h3 Crops mentioned in this post
+  - @post.crops.each do |c|
+    .col-md-2
+      = render :partial => 'crops/thumbnail', :locals => { :crop => c }
 
-= render :partial => "comments", :locals => { :post => @post }
+.col-md-11
+  - if can? :edit, @post or can? :destroy, @post
+    .post-actions
+      - if can? :edit, @post
+        = link_to 'Edit Post', edit_post_path(@post), :class => 'btn btn-default btn-xs'
+      - if can? :destroy, @post
+        = link_to 'Delete Post', @post, method: :delete, |
+          data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
-- if can? :create, Comment
-  .post-actions
-    =link_to 'Comment', new_comment_path(:post_id => @post.id), :class => 'btn btn-primary'
+  = render :partial => "comments", :locals => { :post => @post }
+
+  - if can? :create, Comment
+    .post-actions
+      =link_to 'Comment', new_comment_path(:post_id => @post.id), :class => 'btn btn-primary'

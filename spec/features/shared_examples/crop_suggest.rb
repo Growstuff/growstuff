@@ -1,48 +1,52 @@
 require 'rails_helper'
 
 shared_examples "crop suggest" do |resource|
-  let!(:pea)     { FactoryGirl.create(:crop, :name => 'pea') }
-  let!(:pear)    { FactoryGirl.create(:pear) }
-  let!(:tomato)  { FactoryGirl.create(:tomato) }
-  let!(:roma)    { FactoryGirl.create(:roma) }
+  let!(:pea) { create :crop, name: 'pea' }
+  let!(:pear) { create :pear }
+  let!(:tomato) { create :tomato }
+  let!(:roma) { create :roma }
 
-  background do
-    sync_elasticsearch([pea, pear, maize, tomato])
-  end
+  background { sync_elasticsearch [pea, pear, maize, tomato] }
 
-  scenario "See text in crop auto suggest field" do
+  scenario "placeholder text in crop auto suggest field" do
     expect(page).to have_selector("input[placeholder='e.g. lettuce']")
   end
 
-  scenario "Typing in the crop name displays suggestions" do
+  scenario "typing in the crop name displays suggestions" do
     within "form#new_#{resource}" do
-      fill_autocomplete "crop", :with => "pe"
+      fill_autocomplete "crop", with: "pe"
     end
 
     expect(page).to_not have_content("pear")
     expect(page).to_not have_content("pea")
 
     within "form#new_#{resource}" do
-      fill_autocomplete "crop", :with => "pea"
+      fill_autocomplete "crop", with: "pea"
     end
 
     expect(page).to have_content("pear")
     expect(page).to have_content("pea")
 
     within "form#new_#{resource}" do
-      fill_autocomplete "crop", :with => "pear"
+      fill_autocomplete "crop", with: "pear"
     end
 
     expect(page).to have_content("pear")
+  end
+
+  scenario "selecting crop from dropdown" do
+    within "form#new_#{resource}" do
+      fill_autocomplete "crop", with: "pear"
+    end
 
     select_from_autocomplete("pear")
 
-    expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", :visible => false)
+    expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", visible: false)
   end
 
   scenario "Typing and pausing does not affect input" do
     within "form#new_#{resource}" do
-      fill_autocomplete "crop", :with => "pea"
+      fill_autocomplete "crop", with: "pea"
     end
 
     expect(page).to have_content("pear")
@@ -51,7 +55,7 @@ shared_examples "crop suggest" do |resource|
 
   scenario "Searching for a crop casts a wide net on results" do
     within "form#new_#{resource}" do
-      fill_autocomplete "crop", :with => "tom"
+      fill_autocomplete "crop", with: "tom"
     end
 
     expect(page).to have_content("tomato")
@@ -60,11 +64,10 @@ shared_examples "crop suggest" do |resource|
 
   scenario "Submitting a crop that doesn't exist in the database produces a meaningful error" do
     within "form#new_#{resource}" do
-      fill_autocomplete "crop", :with => "Ryan Gosling"
+      fill_autocomplete "crop", with: "Ryan Gosling"
       click_button "Save"
     end
 
     expect(page).to have_content("Crop must be present and exist in our database")
   end
-
 end

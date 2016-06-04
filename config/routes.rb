@@ -1,15 +1,19 @@
 Growstuff::Application.routes.draw do
 
+  get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
 
-  devise_for :members, :controllers => { :registrations => "registrations", :passwords => "passwords" }
+  devise_for :members, controllers: { registrations: "registrations", passwords: "passwords", sessions: "sessions" }
+  devise_scope :member do
+    get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
+  end
 
-  resources :members 
+  resources :members
 
   resources :photos
 
-  resources :authentications, :only => [:create, :destroy]
+  resources :authentications, only: [:create, :destroy]
 
   resources :plantings
   get '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
@@ -40,9 +44,11 @@ Growstuff::Application.routes.draw do
   resources :comments
   resources :roles
   resources :forums
-  resources :notifications
+  resources :notifications do
+    get 'reply', on: :member
+  end
 
-  resources :follows, :only => [:create, :destroy]
+  resources :follows, only: [:create, :destroy]
   get '/members/:login_name/follows' => 'members#view_follows', :as => 'member_follows'
   get '/members/:login_name/followers' => 'members#view_followers', :as => 'member_followers'
 
@@ -65,22 +71,14 @@ Growstuff::Application.routes.draw do
   resources :likes, :only => [:create, :destroy]
 
   get "home/index"
-  root :to => 'home#index'
+  root to: 'home#index'
 
   get 'auth/:provider/callback' => 'authentications#create'
-
-
-  get '/policy/:action' => 'policy#:action'
-
-  get '/support' => 'support#index'
-  get '/support/:action' => 'support#:action'
-
-  get '/about' => 'about#index'
-  get '/about/:action' => 'about#:action'
 
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
 
+  comfy_route :cms_admin, path: '/admin/cms'
   get '/admin/orders' => 'admin/orders#index'
   get '/admin/orders/:action' => 'admin/orders#:action'
   get '/admin' => 'admin#index'
@@ -88,7 +86,6 @@ Growstuff::Application.routes.draw do
   get '/admin/:action' => 'admin#:action'
 
 # CMS stuff  -- must remain LAST
-  comfy_route :cms_admin, :path => '/cms/admin'
-  comfy_route :cms, :path => '/', :sitemap => false
+  comfy_route :cms, path: '/', sitemap: false
 
 end

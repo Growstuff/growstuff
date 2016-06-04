@@ -69,16 +69,15 @@ Growstuff::Application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Growstuff configuration
-  config.new_crops_request_link = "http://example.com/not-a-real-url"
-  config.action_mailer.default_url_options = { :host => 'staging.growstuff.org' }
+  config.action_mailer.default_url_options = { host: 'staging.growstuff.org' }
 
   config.action_mailer.smtp_settings = {
-      :port =>           '587',
-      :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
-      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
-      :domain =>         'heroku.com',
-      :authentication => :plain
+      port: '587',
+      address: 'smtp.mandrillapp.com',
+      user_name: ENV['GROWSTUFF_MANDRILL_USERNAME'],
+      password: ENV['GROWSTUFF_MANDRILL_APIKEY'],
+      domain: 'heroku.com',
+      authentication: :plain
   }
   config.action_mailer.delivery_method = :smtp
 
@@ -92,9 +91,9 @@ Growstuff::Application.configure do
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
-      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'],
-      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'],
-      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE']
+      login: ENV['GROWSTUFF_PAYPAL_USERNAME'],
+      password: ENV['GROWSTUFF_PAYPAL_PASSWORD'],
+      signature: ENV['GROWSTUFF_PAYPAL_SIGNATURE']
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)

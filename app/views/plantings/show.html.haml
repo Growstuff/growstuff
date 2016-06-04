@@ -1,45 +1,55 @@
 =content_for :title, "#{@planting.crop} in #{@planting.location}"
+- content_for :opengraph do
+  - @planting.crop.photos.each do |photo|
+    = tag("meta", property: "og:image", content: photo.fullsize_url)  
+  = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")  
+  - if @planting.description
+    = tag("meta", property: "og:description", content: @planting.description)  
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-.row
+.row.planting
   .col-md-6
-    %p
-      %b Owner:
-      = link_to @planting.owner, @planting.owner
-      &mdash;
-      = link_to "view all #{@planting.owner}'s plantings", plantings_by_owner_path(:owner => @planting.owner.slug)
-    %p
-      %b Planted:
-      = @planting.planted_at ? @planting.planted_at : "not specified"
+    %dl.dl-horizontal.planting-attributes
+      %dt Owner:
+      %dd
+        = link_to @planting.owner, @planting.owner
+        &mdash;
+        = link_to "view all #{@planting.owner}'s plantings", plantings_by_owner_path(:owner => @planting.owner.slug)
+
+      %dt Planted on:
+      %dd= @planting.planted_at ? @planting.planted_at : "not specified"
+
+      %dt Where:
+      %dd
+        =link_to "#{@planting.owner}'s", @planting.owner
+        =link_to @planting.garden, @planting.garden
+        - if ! @planting.owner.location.blank?
+          = "(#{@planting.owner.location})"
+
+      %dt Quantity:
+      %dd
+        ="#{display_planting_quantity(@planting)}"
+    
+      - if !@planting.planted_from.blank?
+        %dt Planted from:
+        %dd= "#{display_planted_from(@planting)}"
+    
+      %dt Sun or shade?
+      %dd
+        - sunniness = @planting.sunniness.blank? ? "not specified" : @planting.sunniness
+        = image_tag("sunniness_#{sunniness}.png", :size => "25x25", :alt => "#{sunniness}", :title => "#{sunniness}")
+        = " (#{sunniness})"
+
+      %dt Days until maturity:
+      %dd= "#{display_days_before_maturity(@planting)}"
+
+      %dt Finished:
+      %dd= "#{display_finished(@planting)}"
 
     %p
-      %b Where:
-      =link_to "#{@planting.owner}'s", @planting.owner
-      =link_to @planting.garden, @planting.garden
-      - if ! @planting.owner.location.blank?
-        = "(#{@planting.owner.location})"
-    %p
-      %b Quantity:
-      = @planting.quantity.blank? ? "not specified" : @planting.quantity
-
-    - if ! @planting.planted_from.blank?
-      %p
-        %b Planted from:
-        = @planting.planted_from
-
-    - if ! @planting.sunniness.blank?
-      %p
-        %b Sun or shade?
-        = @planting.sunniness
-
-    - if @planting.finished
-      %p
-        %b Finished:
-        - if @planting.finished_at
-          = @planting.finished_at
-        - else
-          Yes (no date specified)
-
-
+      = render 'planting_progress', planting: @planting
 
     - if can? :edit, @planting or can? :destroy, @planting
       %p
@@ -52,13 +62,18 @@
 
   .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @planting.crop}
+    - if @planting.owner.location
+      %p
+        %small
+          View other plantings, members and more near
+          = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
+- if @planting.description
+  %h2 Notes
 
-%h2 Notes
+  :growstuff_markdown
+    #{ @planting.description != "" ? @planting.description : "No description given." }
 
-:growstuff_markdown
-  #{ @planting.description != "" ? @planting.description : "No description given." }
-
-- if @planting.photos.count > 0 or (can? :edit, @planting and can? :create, Photo)
+- if @planting.photos.size > 0 or (can? :edit, @planting and can? :create, Photo)
   %h2 Pictures
 
   .row
