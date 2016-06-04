@@ -71,11 +71,12 @@ describe 'member' do
     end
 
     it "has many likes" do
-      @post1 = FactoryGirl.create(:post, :author => @member)
-      @post2 = FactoryGirl.create(:post, :author => @member)
-      @like1 = FactoryGirl.create(:like, :member => @member, :likeable => @post1)
-      @like2 = FactoryGirl.create(:like, :member => @member, :likeable => @post2)
-      expect(@member.likes.length).to eq 2
+      @post1 = FactoryGirl.create(:post, author: member)
+      @post2 = FactoryGirl.create(:post, author: member)
+      @like1 = FactoryGirl.create(:like, member: member, likeable: @post1)
+      @like2 = FactoryGirl.create(:like, member: member, likeable: @post2)
+
+      expect(member.likes.length).to eq 2
     end
 
     it 'has location and lat/long fields' do
