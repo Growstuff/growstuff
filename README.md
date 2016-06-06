@@ -65,7 +65,7 @@ Feel free to comment on any of the issues you find there, or open up a broader c
 
 ## Contact
 
-For more information about this project, contact one of the active committers - the email [info@growstuff.org](mailto:info@growstuff.org) is down right now.
+For more information about this project, contact [info@growstuff.org](mailto:info@growstuff.org).
 
 You can also contact us on [Twitter](http://twitter.com/growstufforg/) or
 [Facebook](https://www.facebook.com/pages/Growstuff/1531133417099494).
