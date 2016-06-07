@@ -1,4 +1,5 @@
 class PlantingsController < ApplicationController
+  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
@@ -24,17 +25,6 @@ class PlantingsController < ApplicationController
         @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
         render csv: @plantings
       end
-    end
-  end
-
-  # GET /plantings/1
-  # GET /plantings/1.json
-  def show
-    @planting = Planting.includes(:owner, :crop, :garden, :photos).friendly.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @planting }
     end
   end
 

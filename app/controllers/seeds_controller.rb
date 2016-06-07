@@ -1,4 +1,5 @@
 class SeedsController < ApplicationController
+  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
@@ -29,17 +30,6 @@ class SeedsController < ApplicationController
         end
         render csv: @seeds
       end
-    end
-  end
-
-  # GET /seeds/1
-  # GET /seeds/1.json
-  def show
-    @seed = Seed.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @seed }
     end
   end
 
