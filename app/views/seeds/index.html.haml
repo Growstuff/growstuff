@@ -21,7 +21,7 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
 
 %div.pagination
-  = page_entries_info @seeds, :model => "seeds"
+  = page_entries_info @seeds
   = will_paginate @seeds
 .row
   - if @seeds.size > 0
@@ -30,7 +30,7 @@
         =render :partial => 'seeds/thumbnail', :locals => {:seed => seed}
 
 %div.pagination
-  = page_entries_info @seeds, :model => "seeds"
+  = page_entries_info @seeds
   = will_paginate @seeds
 
 %ul.list-inline

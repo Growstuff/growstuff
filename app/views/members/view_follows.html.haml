@@ -1,7 +1,7 @@
 - content_for :title, "#{@member.login_name}'s follows"
 
 %div.pagination
-  = page_entries_info @follows, :model => "members"
+  = page_entries_info @follows
   = will_paginate @follows
 
 .row
@@ -12,5 +12,5 @@
           = render :partial => "members/thumbnail", :locals => { :member => f }
 
 %div.pagination
-  = page_entries_info @follows, :model => "members"
+  = page_entries_info @follows
   = will_paginate @follows

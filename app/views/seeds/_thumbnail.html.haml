@@ -1,7 +1,7 @@
 .panel.panel-success
   .panel-heading
     %h3.panel-title
-      = link_to "#{seed.owner.login_name}'s seed", seed.owner
+      = link_to "#{seed.owner.login_name}'s seed", seed
       - if can? :edit, seed
         %a.pull-right{:href => edit_seed_path(seed), :role => "button", :id => "edit_seed_glyphicon"}
           %span.glyphicon.glyphicon-pencil{:title => "Edit"}
@@ -21,6 +21,8 @@
           %dd= seed.tradable_to
           %dt From location :   
           %dd= seed.owner.location
+          %dt Owner :
+          %dd= link_to seed.owner.login_name, seed.owner
   .panel-footer
     %dt Description
     %dd

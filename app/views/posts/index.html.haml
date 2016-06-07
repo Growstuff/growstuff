@@ -15,7 +15,7 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'write a post' }
 
 %div.pagination
-  = page_entries_info @posts, :model => "posts"
+  = page_entries_info @posts
   = will_paginate @posts
 
 - unless @posts.empty?
@@ -23,7 +23,7 @@
     = render :partial => "single", :locals => { :post => post, :subject => true }
 
   %div.pagination
-    = page_entries_info @posts, :model => "posts"
+    = page_entries_info @posts
     = will_paginate @posts
 
 %p

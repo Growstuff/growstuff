@@ -53,35 +53,29 @@ class PhotosController < ApplicationController
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
 
-    # several models can have photos. we need to know what model and the id
-    # for the entry to attach the photo to
-    valid_models = ["planting", "harvest", "garden"]
-    if params[:type]
-      if valid_models.include?(params[:type])
-        if params[:id]
-          item = params[:type].camelcase.constantize.find_by_id(params[:id])
-          if item
-            if item.owner.id == current_member.id
-              #  This syntax is weird, so just know that it means this:
-              #  @photo.harvests << item unless @photo.harvests.include?(item)
-              #  but with the correct many-to-many relationship automatically referenced
-              (@photo.send "#{params[:type]}s") << item unless (@photo.send "#{params[:type]}s").include?(item)
-            else
-              flash[:alert] = "You must own both the #{params[:type]} and the photo."
-            end
-          else
-            flash[:alert] = "Couldn't find #{params[:type]} to connect to photo."
-          end
-        else
-          flash[:alert] = "Missing id parameter"
-        end
+
+    collection = case params[:type]
+                   when 'garden'
+                     @photo.gardens
+                   when 'planting'
+                     @photo.plantings
+                   when 'harvest'
+                     @photo.harvests
+                   else
+                     nil
+                 end
+
+    if collection && has_item_id
+      item = params[:type].camelcase.constantize.find_by_id(params[:id])
+      if item && member_owns_item(item)
+        collection << item unless collection.include?(item)
       else
-        flash[:alert] = "Cannot attach photos to #{params[:type]}"
+        flash[:alert] = "Could not find this item owned by you"
       end
-    else    
-      flash[:alert] = "Missing type parameter"
+    else
+      flash[:alert] = "Missing or invalid type or id parameter"
     end
-  
+
     respond_to do |format|
       if @photo.save
         format.html { redirect_to @photo, notice: 'Photo was successfully added.' }
@@ -123,6 +117,14 @@ class PhotosController < ApplicationController
   end
 
   private
+
+  def has_item_id
+    params.key? :id
+  end
+
+  def member_owns_item(item)
+    item.owner.id == current_member.id
+  end
 
   def photo_params
     params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,

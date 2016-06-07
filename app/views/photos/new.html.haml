@@ -20,7 +20,7 @@
         = submit_tag "Search", :class => 'btn btn-primary'
 
   %div.pagination
-    = page_entries_info @photos, :model => "photos"
+    = page_entries_info @photos
     = will_paginate @photos
 
   .row

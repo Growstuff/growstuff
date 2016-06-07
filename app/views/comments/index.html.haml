@@ -1,7 +1,7 @@
 = content_for :title, "Recent comments"
 
 %div.pagination
-  = page_entries_info @comments, :model => "comments"
+  = page_entries_info @comments
   = will_paginate @comments
 
 - @comments.each do |comment|
@@ -11,7 +11,7 @@
   = render :partial => "single", :locals => { :comment => comment }
 
 %div.pagination
-  = page_entries_info @comments, :model => "comments"
+  = page_entries_info @comments
   = will_paginate @comments
 
 %p
