@@ -19,8 +19,37 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake')
   s.add_development_dependency('mocha')
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  # Originally the file lists were generated from git, but we hard-code them so
+  # we don't need to install git in the container.
+  # s.files         = `git ls-files`.split("\n")
+  # s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  # s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.files         = [".gitignore", "Gemfile", "MIT-LICENSE", "README.md",
+                     "Rakefile", "active_utils.gemspec", "lib/active_utils.rb",
+                     "lib/active_utils/common/connection.rb",
+                     "lib/active_utils/common/country.rb",
+                     "lib/active_utils/common/error.rb",
+                     "lib/active_utils/common/network_connection_retries.rb",
+                     "lib/active_utils/common/post_data.rb",
+                     "lib/active_utils/common/posts_data.rb",
+                     "lib/active_utils/common/requires_parameters.rb",
+                     "lib/active_utils/common/utils.rb",
+                     "lib/active_utils/common/validateable.rb",
+                     "lib/active_utils/version.rb", "lib/certs/cacert.pem",
+                     "test/test_helper.rb", "test/unit/connection_test.rb",
+                     "test/unit/country_code_test.rb",
+                     "test/unit/country_test.rb",
+                     "test/unit/network_connection_retries_test.rb",
+                     "test/unit/post_data_test.rb",
+                     "test/unit/posts_data_test.rb", "test/unit/utils_test.rb",
+                     "test/unit/validateable_test.rb"]
+  s.test_files    = ["test/test_helper.rb", "test/unit/connection_test.rb",
+                     "test/unit/country_code_test.rb",
+                     "test/unit/country_test.rb",
+                     "test/unit/network_connection_retries_test.rb",
+                     "test/unit/post_data_test.rb",
+                     "test/unit/posts_data_test.rb", "test/unit/utils_test.rb",
+                     "test/unit/validateable_test.rb"]
+  s.executables   = []
   s.require_paths = ["lib"]
 end
