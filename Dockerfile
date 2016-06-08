@@ -3,10 +3,15 @@ FROM ruby:2.3.1-slim
 
 # Install essential Linux packages
 # We need nodejs for coffee-rails :-(
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client nodejs
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client nodejs wget
+
+# Install phantomjs for feature testing
+RUN wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2
+RUN tar xjf phantomjs-2.1.1-linux-x86_64.tar.bz2
+RUN cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
 
 # Define where our application will live inside the image
-ENV RAILS_ROOT /var/www/docker_example
+ENV RAILS_ROOT /var/www/growstuff
 
 # Create application home. App server will need the pids dir so just create everything in one shot
 RUN mkdir -p $RAILS_ROOT/tmp/pids
