@@ -10,6 +10,7 @@ app:
   # makes the app container aware of the DB container
   links:
     - db
+    - elasticsearch
   # expose the port we configured Unicorn to bind to
   ports:
     - "3000:3000"
@@ -21,4 +22,10 @@ db:
   image: postgres:9.4.5
   # persist the database between containers by storing it in a volume
   volumes:
-    - growstuff-postgres:/var/lib/postgresql/data
+    - postgres-data:/var/lib/postgresql/data
+
+# Elasticsearch full-text search engine
+elasticsearch:
+  image: elasticsearch:1.4.5
+  volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
