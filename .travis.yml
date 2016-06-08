@@ -10,6 +10,7 @@ env:
 rvm:
 - 2.3.1
 before_script:
+- phantomjs --version
 - psql -c 'create database growstuff_test;' -U postgres
 script:
 - bundle exec rake db:migrate --trace
