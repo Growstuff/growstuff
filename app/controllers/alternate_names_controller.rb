@@ -1,5 +1,4 @@
 class AlternateNamesController < ApplicationController
-  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
@@ -11,6 +10,17 @@ class AlternateNamesController < ApplicationController
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @alternate_names }
+    end
+  end
+
+  # GET /alternate_names/1
+  # GET /alternate_names/1.json
+  def show
+    @alternate_name = AlternateName.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.haml
+      format.json { render json: @alternate_name }
     end
   end
 

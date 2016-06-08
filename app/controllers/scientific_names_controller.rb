@@ -1,5 +1,4 @@
 class ScientificNamesController < ApplicationController
-  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
@@ -11,6 +10,17 @@ class ScientificNamesController < ApplicationController
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @scientific_names }
+    end
+  end
+
+  # GET /scientific_names/1
+  # GET /scientific_names/1.json
+  def show
+    @scientific_name = ScientificName.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.haml
+      format.json { render json: @scientific_name }
     end
   end
 

@@ -1,5 +1,4 @@
 class HarvestsController < ApplicationController
-  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
   
@@ -25,6 +24,17 @@ class HarvestsController < ApplicationController
         @filename = "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
         render csv: @harvests
       end
+    end
+  end
+
+  # GET /harvests/1
+  # GET /harvests/1.json
+  def show
+    @harvest = Harvest.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @harvest }
     end
   end
 
