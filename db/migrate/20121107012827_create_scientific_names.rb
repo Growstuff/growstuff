@@ -4,7 +4,7 @@ class CreateScientificNames < ActiveRecord::Migration
       t.string :scientific_name, null: false
       t.integer :crop_id, null: false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'rails', '~> 4.1.11'
+gem 'rails', '~> 4.2.0'
 
 gem 'bundler', '>=1.1.5'
 
@@ -38,11 +38,8 @@ gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 
 # vendored activemerchant for testing- needed for bogus paypal
 # gateway monkeypatch
-gem 'activemerchant', '1.33.0',
-  :path    => 'vendor/gems/activemerchant-1.33.0',
-  :require => 'active_merchant'
-gem 'active_utils', '1.0.5',
-  :path    => 'vendor/gems/active_utils-1.0.5'
+gem 'activemerchant', '>= 1.33.0', require: 'active_merchant'
+gem 'active_utils', '>= 1.0.5'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'

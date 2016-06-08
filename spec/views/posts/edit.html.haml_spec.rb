@@ -55,7 +55,7 @@ describe "posts/edit" do
       end
 
       it 'creates a hidden field' do
-        assert_select "input#post_forum_id[type=hidden][value=#{@forum.id}]"
+        assert_select "input#post_forum_id[type='hidden'][value='#{@forum.id}']"
       end
 
       it 'tells the user what forum it will be posted in' do

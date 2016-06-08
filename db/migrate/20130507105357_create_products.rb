@@ -5,7 +5,7 @@ class CreateProducts < ActiveRecord::Migration
       t.string :description, null: false
       t.decimal :min_price, null: false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

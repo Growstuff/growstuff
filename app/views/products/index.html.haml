@@ -14,9 +14,9 @@
 
   - @products.each do |product|
     %tr
-      %td= product.name
-      %td= product.description
-      %td= product.min_price
+      %td.product-name= product.name
+      %td.product-description= product.description
+      %td.product-min-price= product.min_price
       %td= product.recommended_price
       %td= product.account_type ? product.account_type.name : ""
       %td= product.paid_months

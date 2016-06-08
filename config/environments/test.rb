@@ -15,7 +15,7 @@ Growstuff::Application.configure do
   config.cache_classes = false
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
+  config.serve_static_files = true
   config.static_cache_control = "public, max-age=3600"
 
   # Show full error reports and disable caching
@@ -49,6 +49,7 @@ Growstuff::Application.configure do
   end
 
   config.after_initialize do
+    require './lib/active_merchant/billing/gateways/paypal_bogus'
     ActiveMerchant::Billing::Base.mode = :test
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new

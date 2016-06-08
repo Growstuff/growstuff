@@ -4,7 +4,7 @@ class CreateRoles < ActiveRecord::Migration
       t.string :name, null: false
       t.text :description
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end
