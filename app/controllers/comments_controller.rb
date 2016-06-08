@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
@@ -12,6 +11,17 @@ class CommentsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @comments }
       format.rss { render layout: false }
+    end
+  end
+
+  # GET /comments/1
+  # GET /comments/1.json
+  def show
+    @comment = Comment.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @comment }
     end
   end
 

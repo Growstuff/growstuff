@@ -1,5 +1,4 @@
 class PhotosController < ApplicationController
-  include SimpleShow
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
@@ -11,6 +10,17 @@ class PhotosController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @photos }
+    end
+  end
+
+  # GET /photos/1
+  # GET /photos/1.json
+  def show
+    @photo = Photo.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @photo }
     end
   end
 
