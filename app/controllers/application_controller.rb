@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) do |member|
+    devise_parameter_sanitizer.permit(:sign_up) do |member|
       member.permit(:login_name, :email, :password, :password_confirmation,
         :remember_me, :login,
         # terms of service
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
       )
     end
 
-    devise_parameter_sanitizer.for(:account_update) do |member|
+    devise_parameter_sanitizer.permit(:account_update) do |member|
       member.permit(:login_name, :email, :password, :password_confirmation,
         :remember_me, :login,
         # terms of service
