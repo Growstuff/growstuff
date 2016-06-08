@@ -14,7 +14,6 @@ SimpleCov.maximum_coverage_drop 1
 
 SimpleCov.start :rails do
   add_filter 'spec/'
-  add_filter 'vendor/'
 end
 
 require 'spec_helper'
