@@ -13,7 +13,7 @@ module CropsHelper
     end
 
     if (total_quantity != 0)
-      "You have #{total_quantity} #{Seed.model_name.human(:count => total_quantity)} of this crop."
+      "You have #{total_quantity} #{Seed.model_name.human(count: total_quantity)} of this crop."
     else
       "You have an unknown quantity of seeds of this crop."
     end
