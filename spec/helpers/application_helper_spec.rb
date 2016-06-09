@@ -43,4 +43,32 @@ describe ApplicationHelper do
       end
     end
   end
+
+  describe '#localize_plural' do
+    let(:post) { create(:post) }
+
+    context 'with a populated collection' do
+      context 'with one element' do
+        before { create(:comment, post: post) }
+
+        it 'returns a string with the quantity and the plural of the model' do
+          expect(localize_plural(post.comments, Comment)).to eq '1 comment'
+        end
+      end
+
+      context 'with more than one element' do
+        before { create_list(:comment, 2, post: post) }
+
+        it 'returns a string with the quantity and the plural of the model' do
+          expect(localize_plural(post.comments, Comment)).to eq '2 comments'
+        end
+      end
+    end
+
+    context 'without a populated collection' do
+      it 'returns a string with the quantity and the plural of the model' do
+        expect(localize_plural(post.comments, Comment)).to eq '0 comments'
+      end
+    end
+  end
 end

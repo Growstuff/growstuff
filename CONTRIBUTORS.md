@@ -68,3 +68,4 @@ submit the change with your pull request.
 - Daniel O'Connor / [CloCkWeRX](https://github.com/CloCkWeRX)
 - DV Dasari / [dv2](https://github.com/dv2)
 - Eric Tillberg / [Thrillberg](https://github.com/Thrillberg)
+- Lucas Nogueira / [lucasnogueira](https://github.com/lucasnogueira)

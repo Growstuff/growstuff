@@ -22,7 +22,7 @@ module ApplicationHelper
     return link_to "(convert)",
       link,
       target: "_blank"
-  end 
+  end
 
   # Produces a cache key for uniquely identifying cached fragments.
   def cache_key_for(klass, identifier="all")
@@ -49,6 +49,14 @@ module ApplicationHelper
       size: size,
       default: :identicon
     })
+  end
+
+  # Returns a string with the quantity and the right pluralization for a
+  # given collection and model.
+  def localize_plural(collection, model)
+    size       = collection.size
+    model_name = model.model_name.human(count: size)
+    "#{size} #{model_name}"
   end
 end
 
