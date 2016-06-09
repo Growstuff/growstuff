@@ -47,7 +47,7 @@ describe ApplicationHelper do
   describe '#localize_plural' do
     let(:post) { create(:post) }
 
-    context 'with a popullated colection' do
+    context 'with a populated collection' do
       context 'with one element' do
         before { create(:comment, post: post) }
 
@@ -65,7 +65,7 @@ describe ApplicationHelper do
       end
     end
 
-    context 'without a popullated colection' do
+    context 'without a populated collection' do
       it 'returns a string with the quantity and the plural of the model' do
         expect(localize_plural(post.comments, Comment)).to eq '0 comments'
       end
