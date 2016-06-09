@@ -4,10 +4,10 @@ require 'simplecov'
 require 'coveralls'
 
 # output coverage locally AND send it to coveralls
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
-]
+])
 
 # fail if there's a significant test coverage drop
 SimpleCov.maximum_coverage_drop 1
