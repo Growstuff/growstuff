@@ -158,13 +158,13 @@ describe Post do
       end
 
       it "should delete the association" do
-        expect(Crop.find(tomato).posts).to eq []
-        expect(Crop.find(maize).posts).to eq []
+        expect(Crop.find(tomato.id).posts).to eq []
+        expect(Crop.find(maize.id).posts).to eq []
       end
 
       it "should not delete the crops" do
-        expect(Crop.find(tomato)).to_not eq nil
-        expect(Crop.find(maize)).to_not eq nil
+        expect(Crop.find(tomato.id)).to_not eq nil
+        expect(Crop.find(maize.id)).to_not eq nil
       end
     end
   end

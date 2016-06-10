@@ -33,11 +33,11 @@ describe "posts/_single" do
     end
 
     it "contains a permanent link to post" do
-      assert_select "a[href=#{post_path @post}]", "Permalink"
+      assert_select "a[href='#{post_path @post}']", "Permalink"
     end
 
     it "doesn't contain a link to new comment" do
-      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
+      assert_select("a", {href: new_comment_path(post_id: @post.id)}, false)
     end
   end
 
@@ -50,11 +50,11 @@ describe "posts/_single" do
     end
 
     it "contains link to new comment" do
-      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", "Reply"
+      assert_select("a", {href: new_comment_path(post_id: @post.id)}, "Reply")
     end
 
     it "does not contain an edit link" do
-      assert_select "a[href=#{edit_post_path(@post)}]", false
+      assert_select "a[href='#{edit_post_path(@post)}']", false
     end
   end
 
@@ -68,7 +68,7 @@ describe "posts/_single" do
     end
 
     it "contains an edit link" do
-      assert_select "a[href=#{edit_post_path(@post)}]", "Edit"
+      assert_select "a[href='#{edit_post_path(@post)}']", "Edit"
     end
   end
 
@@ -78,7 +78,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      assert_select "a[href=#{post_path(@post)}\#comments]", "0 comments"
+      assert_select "a[href='#{post_path(@post)}\#comments']", "0 comments"
     end
   end
 
@@ -89,7 +89,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      assert_select "a[href=#{post_path(@post)}\#comments]", "1 comment"
+      assert_select "a[href='#{post_path(@post)}\#comments']", "1 comment"
     end
   end
 
@@ -101,7 +101,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      assert_select "a[href=#{post_path(@post)}\#comments]", "2 comments"
+      assert_select "a[href='#{post_path(@post)}\#comments']", "2 comments"
     end
   end
 
@@ -121,11 +121,11 @@ describe "posts/_single" do
     end
 
     it "does not contain link to post" do
-     assert_select "a[href=#{post_path @post}]", false
+     assert_select "a[href='#{post_path @post}']", false
     end
 
     it "does not contain link to new comment" do
-      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
+      assert_select "a[href='#{new_comment_path(post_id: @post.id)}']", false
     end
 
   end
