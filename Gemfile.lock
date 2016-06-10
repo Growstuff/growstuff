@@ -24,20 +24,17 @@ GEM
       actionpack
     active_merchant-paypal-bogus-gateway (0.1.0)
       activemerchant
-    active_utils (1.0.5)
-      activesupport (>= 2.3.11)
+    active_utils (3.2.0)
+      activesupport (>= 3.2)
       i18n
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
-    activemerchant (1.33.0)
-      active_utils (>= 1.0.2)
-      activesupport (>= 2.3.14)
-      builder (>= 2.0.0)
-      i18n
-      json (>= 1.5.1)
-      money
-      nokogiri
+    activemerchant (1.59.0)
+      activesupport (>= 3.2.14, < 5.1)
+      builder (>= 2.1.2, < 4.0.0)
+      i18n (>= 0.6.9)
+      nokogiri (~> 1.4)
     activemodel (4.2.6)
       activesupport (= 4.2.6)
       builder (~> 3.1)
@@ -274,9 +271,6 @@ GEM
     mimemagic (0.3.0)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
-    money (6.7.1)
-      i18n (>= 0.6.4, <= 0.7.0)
-      sixarm_ruby_unaccent (>= 1.1.1, < 2)
     multi_json (1.11.3)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -415,7 +409,6 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
-    sixarm_ruby_unaccent (1.1.1)
     slop (3.6.0)
     sprockets (3.6.0)
       concurrent-ruby (~> 1.0)
@@ -459,8 +452,8 @@ PLATFORMS
 
 DEPENDENCIES
   active_merchant-paypal-bogus-gateway
-  active_utils (= 1.0.5)
-  activemerchant (= 1.33.0)
+  active_utils
+  activemerchant
   better_errors
   binding_of_caller
   bluecloth
