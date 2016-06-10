@@ -44,7 +44,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (5.0.1.20140414130214)
-    ast (2.2.0)
+    ast (2.3.0)
     autoprefixer-rails (6.3.6.2)
       execjs
     bcrypt (3.1.11)
@@ -294,7 +294,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
-    parser (2.3.1.0)
+    parser (2.3.1.2)
       ast (~> 2.2)
     pg (0.18.4)
     pkg-config (1.1.7)
