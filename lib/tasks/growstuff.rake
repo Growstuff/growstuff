@@ -49,7 +49,7 @@ namespace :growstuff do
 
     if Date.today.cwday == send_on_day and Date.today.cweek % every_n_weeks == 0
       Member.confirmed.find_each do |m|
-        Notifier.planting_reminder(m).deliver!
+        Notifier.planting_reminder(m).deliver_now!
       end
     end
   end
