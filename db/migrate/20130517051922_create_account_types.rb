@@ -5,7 +5,7 @@ class CreateAccountTypes < ActiveRecord::Migration
       t.boolean :is_paid
       t.boolean :is_permanent_paid
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end
