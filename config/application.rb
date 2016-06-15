@@ -82,12 +82,6 @@ module Growstuff
       g.javascripts      false
     end
 
-    config.action_mailer.delivery_method = :sendmail
-      config.action_mailer.sendmail_settings = {
-        location: '/usr/sbin/sendmail',
-        arguments: '-i -t',
-        openssl_verify_mode: 'none'
-      }
 
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
