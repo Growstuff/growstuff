@@ -76,6 +76,10 @@ Growstuff::Application.routes.draw do
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
 
+  %w( 404 422 500 ).each do |code|
+    get code, :to => "errors#show_#{code}"
+  end
+
   comfy_route :cms_admin, path: '/admin/cms'
   get '/admin/orders' => 'admin/orders#index'
   get '/admin/orders/:action' => 'admin/orders#:action'

@@ -66,6 +66,9 @@ Growstuff::Application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Route exceptions to the application router vs. default
+  config.exceptions_app = self.routes
+
   # Growstuff configuration
   config.action_mailer.default_url_options = { host: 'growstuff.org' }
 
