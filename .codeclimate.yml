@@ -8,7 +8,7 @@ engines:
   eslint:
     enabled: true
   coffeelint:
-    enabled: true 
+    enabled: true
   brakeman:
     enabled: true
   bundler-audit:
@@ -25,7 +25,7 @@ ratings:
   paths:
   - "**.rb"
   - "**.js"
-  - "**.coffee" 
+  - "**.coffee"
   - "**.sass"
   - "**.haml"
   - Gemfile.lock

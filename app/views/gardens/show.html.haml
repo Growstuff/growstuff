@@ -1,5 +1,13 @@
 =content_for :title, "#{@garden.owner}'s #{@garden}"
-
+- content_for :opengraph do
+  - @garden.photos.each do |photo|
+    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  - if @garden.description
+    = tag("meta", property: "og:description", content: @garden.description)
+  = tag("meta", property: "og:title", content: "#{@garden.owner}'s #{@garden}")
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 .row
   .col-md-9
     - if can? :edit, @garden or can? :delete, @garden
@@ -39,7 +47,7 @@
     - if @garden.photos.size > 0 or (can? :edit, @garden and can? :create, Photo)
       .row-fluid
         %h3 Photos
-        %p= pluralize(@garden.photos.length, "photo")
+        %p= localize_plural(@garden.photos, Photo)
         .row-fluid
           %ul.thumbnails
             - @garden.photos.each do |p|
