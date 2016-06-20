@@ -179,6 +179,9 @@ en:
       crop:
         one: "crop"
         other: "crops"
+      follow:
+        one: "follow"
+        other: "follows"
       garden:
         one: "garden"
         other: "gardens"

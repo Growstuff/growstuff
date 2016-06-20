@@ -19,8 +19,9 @@ encourage participation from people of all backgrounds and skill levels.
 
 * [Issues](http://github.com/Growstuff/growstuff/issues) (features we're
   working on, known bugs, etc)
-* [Discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) (mailing lists, IRC, etc)
-* [Wiki](http://wiki.growstuff.org/) (general documentation)
+* [Discussion forums](http://talk.growstuff.org/) (design ideas, planning releases)
+* IRC: #growstuff on Freenode (general chat, brainstorming and troubleshooting) or [Gitter](https://gitter.im/Growstuff/growstuff)
+* [Wiki](http://wiki.growstuff.org/) (general documentation, currently down but should be fixed soon)
 
 ## For coders
 
@@ -30,7 +31,7 @@ frontend features. We welcome contributions -- see
 
 * To set up your development environment, see [Getting started](http://wiki.growstuff.org/index.php/Development/Getting_Started).
 * We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers. [Find a pair programming partner.](http://talk.growstuff.org/t/find-a-pair-programming-partner/13)
-* Drop in to one of our [discussion forums](http://wiki.growstuff.org/index.php/Discussion_forums) to chat to other developers, get help, etc.
+* Drop in to our [discussion forums](http://talk.growstuff.org/), IRC or Gitter to chat to other developers, get help, etc.
 * You may also be interested in our [API](http://wiki.growstuff.org/index.php/API).
 
 The wiki is down right now, so here's what you need to do on Mac OS X to get set up.
@@ -58,6 +59,7 @@ Here on Github, you might find these useful:
 * [needs: visual design](https://github.com/Growstuff/growstuff/labels/needs:%20visual design) - tasks requiring visual/graphical design
 * [needs: documentation](https://github.com/Growstuff/growstuff/labels/needs:%20documentation)
 * [needs: data](https://github.com/Growstuff/growstuff/labels/needs:%20data) - tasks requiring data entry, data design, data import, or similar
+* [curated:beginner](https://github.com/Growstuff/growstuff/labels/curated:%20beginner) - tasks that are ideal for beginner programmers or people new to the project
 
 Feel free to comment on any of the issues you find there, or open up a broader conversation on [Growstuff Talk](http://talk.growstuff.org).
 
