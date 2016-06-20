@@ -83,6 +83,8 @@ Growstuff::Application.routes.draw do
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
 
+  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
+
 # CMS stuff  -- must remain LAST
   comfy_route :cms, path: '/', sitemap: false
 
