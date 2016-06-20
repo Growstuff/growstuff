@@ -233,13 +233,13 @@ Metrics/CyclomaticComplexity:
 Metrics/LineLength:
   Description: 'Limit lines to 80 characters.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#80-character-limits'
-  Enabled: true
+  Enabled: false
 
 Metrics/MethodLength:
-  Description: 'Avoid methods longer than 10 lines of code.'
+  Description: 'Avoid methods longer than 30 lines of code.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
   Enabled: true
-  Max: 10
+  Max: 30
 
 Metrics/ModuleLength:
   Description: 'Avoid modules longer than 250 lines of code.'
@@ -535,7 +535,7 @@ Style/DeprecatedHashMethods:
 
 Style/Documentation:
   Description: 'Document classes and non-namespace modules.'
-  Enabled: true
+  Enabled: false
 
 Style/DotPosition:
   Description: 'Checks the position of the dot in multi-line method calls.'
