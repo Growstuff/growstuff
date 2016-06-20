@@ -70,5 +70,67 @@ describe ApplicationHelper do
         expect(localize_plural(post.comments, Comment)).to eq '0 comments'
       end
     end
+
+    describe '#build_alert_classes' do
+      context 'danger' do
+        it 'works when :alert' do
+          expect(build_alert_classes(:alert)).to include 'alert-danger'
+        end
+        it 'works when :danger' do
+          expect(build_alert_classes(:danger)).to include 'alert-danger'
+        end
+        it 'works when :error' do
+          expect(build_alert_classes(:error)).to include 'alert-danger'
+        end
+        it 'works when :validation_errors' do
+          expect(build_alert_classes(:validation_errors)).to include 'alert-danger'
+        end
+        it 'includes base classes' do
+          expect(build_alert_classes(:danger)).to include 'alert alert-dismissable'
+        end
+        it 'does not include danger when info' do
+          expect(build_alert_classes(:info)).not_to include ' alert-danger'
+        end
+      end
+      context 'warning' do
+        it 'works when :warning' do
+          expect(build_alert_classes(:warning)).to include 'alert-warning'
+        end
+        it 'works when :todo' do
+          expect(build_alert_classes(:todo)).to include 'alert-warning'
+        end
+        it 'includes base classes' do
+          expect(build_alert_classes(:warning)).to include 'alert alert-dismissable'
+        end
+        it 'does not include warning when info' do
+          expect(build_alert_classes(:info)).not_to include ' alert-warning'
+        end
+      end
+      context 'success' do
+        it 'works when :notice' do
+          expect(build_alert_classes(:notice)).to include 'alert-success'
+        end
+        it 'works when :success' do
+          expect(build_alert_classes(:success)).to include 'alert-success'
+        end
+        it 'includes base classes' do
+          expect(build_alert_classes(:success)).to include 'alert alert-dismissable'
+        end
+        it 'does not include success when info' do
+          expect(build_alert_classes(:info)).not_to include ' alert-success'
+        end
+      end
+      context 'info' do
+        it 'works when :info' do
+          expect(build_alert_classes(:info)).to include 'alert-info'
+        end
+        it 'includes base classes' do
+          expect(build_alert_classes(:info)).to include 'alert alert-dismissable'
+        end
+        it 'does not include info when danger' do
+          expect(build_alert_classes(:danger)).not_to include ' alert-info'
+        end
+      end
+    end
   end
 end
