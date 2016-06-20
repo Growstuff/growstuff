@@ -124,6 +124,9 @@ describe ApplicationHelper do
         it 'works when :info' do
           expect(build_alert_classes(:info)).to include 'alert-info'
         end
+        it 'works when blank' do
+          expect(build_alert_classes()).to include 'alert-info'
+        end
         it 'includes base classes' do
           expect(build_alert_classes(:info)).to include 'alert alert-dismissable'
         end
