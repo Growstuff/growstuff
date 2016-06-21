@@ -113,6 +113,7 @@ group :development, :test do
   gem "active_merchant-paypal-bogus-gateway"
 end
 
+# test of the Gemfile-but-not-Gemfile.lock checker
 group :travis do
   gem 'heroku-api'
 end
