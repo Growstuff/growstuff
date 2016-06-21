@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   # from this direction, so we won't set up an association for now.
 
   after_create do
-    recipients = Array.new
+    recipients = []
     sender    = self.author.id
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
