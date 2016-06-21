@@ -20,7 +20,7 @@ encourage participation from people of all backgrounds and skill levels.
 * [Issues](http://github.com/Growstuff/growstuff/issues) (features we're
   working on, known bugs, etc)
 * [Discussion forums](http://talk.growstuff.org/) (design ideas, planning releases)
-* IRC: #growstuff on irc.freenode.net (general chat, brainstorming and troubleshooting) or [Gitter](https://gitter.im/Growstuff/growstuff)
+* [IRC](https://webchat.freenode.net/) growstuff channel (general chat, brainstorming and troubleshooting) or [Gitter](https://gitter.im/Growstuff/growstuff)
 * [Wiki](http://wiki.growstuff.org/) (general documentation, currently down but should be fixed soon)
 
 ## For coders
