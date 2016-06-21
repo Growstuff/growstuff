@@ -27,18 +27,17 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
-
-  default_scope { order("lower(login_name) asc") }
+  default_scope { order('lower(login_name) asc') }
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
-  scope :recently_joined, -> { reorder("confirmed_at desc") }
+  scope :recently_joined, -> { reorder('confirmed_at desc') }
   scope :wants_newsletter, -> { where(newsletter: true) }
 
-  has_many :follows, class_name: "Follow", foreign_key: "follower_id"
+  has_many :follows, class_name: 'Follow', foreign_key: 'follower_id'
   has_many :followed, through: :follows
 
-  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id"
+  has_many :inverse_follows, class_name: 'Follow', foreign_key: 'followed_id'
   has_many :followers, through: :inverse_follows, source: :follower
 
   # Include default devise modules. Others available are:
@@ -58,34 +57,33 @@ class Member < ActiveRecord::Base
   attr_accessor :login
 
   # Requires acceptance of the Terms of Service
-  validates_acceptance_of :tos_agreement, allow_nil: false,
-    accept: true
+  validates_acceptance_of :tos_agreement, allow_nil: false, accept: true
 
   validates :login_name,
-    length: {
-      minimum: 2,
-      maximum: 25,
-      message: "should be between 2 and 25 characters long"
-    },
-    exclusion: {
-      in: %w(growstuff admin moderator staff nearby),
-      message: "name is reserved"
-    },
-    format: {
-      with: /\A\w+\z/,
-      message: "may only include letters, numbers, or underscores"
-    },
-    uniqueness: {
-      case_sensitive: false
-    }
+            length: {
+              minimum: 2,
+              maximum: 25,
+              message: 'should be between 2 and 25 characters long'
+            },
+            exclusion: {
+              in: %w(growstuff admin moderator staff nearby),
+              message: 'name is reserved'
+            },
+            format: {
+              with: /\A\w+\z/,
+              message: 'may only include letters, numbers, or underscores'
+            },
+            uniqueness: {
+              case_sensitive: false
+            }
 
   # Give each new member a default garden
-  after_create {|member| Garden.create(name: "Garden", owner_id: member.id) }
+  after_create { |member| Garden.create(name: 'Garden', owner_id: member.id) }
 
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryGirl associations
-  after_create {|member| Account.find_or_create_by(member_id: member.id) }
+  after_create { |member| Account.find_or_create_by(member_id: member.id) }
 
   after_save :update_newsletter_subscription
 
@@ -93,7 +91,7 @@ class Member < ActiveRecord::Base
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }]).first
+      where(conditions).where(['lower(login_name) = :value OR lower(email) = :value', { value: login.downcase }]).first
     else
       where(conditions).first
     end
@@ -117,9 +115,7 @@ class Member < ActiveRecord::Base
   # called by order.update_account, which loops through all order items
   # and does this for each one.
   def update_account_after_purchase(product)
-    if product.account_type
-      account.account_type = product.account_type
-    end
+    account.account_type = product.account_type if product.account_type
     if product.paid_months
       start_date = account.paid_until || Time.zone.now
       account.paid_until = start_date + product.paid_months.months
@@ -159,7 +155,7 @@ class Member < ActiveRecord::Base
   # Fetches a collection of photos from Flickr
   # Returns a [[page of photos], total] pair.
   # Total is needed for pagination.
-  def flickr_photos(page_num=1, set=nil)
+  def flickr_photos(page_num = 1, set=nil)
     result = false
     if set
       result = flickr.photosets.getPhotos(
@@ -183,7 +179,7 @@ class Member < ActiveRecord::Base
 
   # Returns a hash of Flickr photosets' ids and titles
   def flickr_sets
-    sets = Hash.new 
+    sets = {}
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end
@@ -198,22 +194,20 @@ class Member < ActiveRecord::Base
     false
   end
 
-  def Member.interesting
+  def self.interesting
     howmany = 12 # max number to find
     interesting_members = []
     Member.confirmed.located.recently_signed_in.each do |m|
       break if interesting_members.size == howmany
-      if m.interesting?
-        interesting_members.push(m)
-      end
+      interesting_members.push(m) if m.interesting?
     end
     interesting_members
   end
 
-  def Member.nearest_to(place)
+  def self.nearest_to(place)
     nearby_members = []
     if place
-      latitude, longitude = Geocoder.coordinates(place, params: {limit: 1})
+      latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
       if latitude && longitude
         nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
       end
@@ -235,32 +229,31 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def newsletter_subscribe(testing=false)
-    return true if (Rails.env.test? && !testing)
+  def newsletter_subscribe(testing = false)
+    return true if Rails.env.test? && !testing
     gb = Gibbon::API.new
-    res = gb.lists.subscribe({
-      id: Growstuff::Application.config.newsletter_list_id,
-      email: { email: email },
-      merge_vars: { login_name: login_name },
-      double_optin: false # they already confirmed their email with us
-    })
+    gb.lists.subscribe({
+                          id: Growstuff::Application.config.newsletter_list_id,
+                          email: { email: email },
+                          merge_vars: { login_name: login_name },
+                          double_optin: false # they already confirmed their email with us
+                       })
   end
 
-  def newsletter_unsubscribe(testing=false)
-    return true if (Rails.env.test? && !testing)
+  def newsletter_unsubscribe(testing = false)
+    return true if Rails.env.test? && !testing
     gb = Gibbon::API.new
-    res = gb.lists.unsubscribe({
-      id: Growstuff::Application.config.newsletter_list_id,
-      email: { email: email }
-    })
+    gb.lists.unsubscribe({
+                            id: Growstuff::Application.config.newsletter_list_id,
+                            email: { email: email }
+                         })
   end
 
   def already_following?(member)
-    self.follows.exists?(followed_id: member.id)
+    follows.exists?(followed_id: member.id)
   end
 
   def get_follow(member)
-    self.follows.where(followed_id: member.id).first if already_following?(member)
+    follows.where(followed_id: member.id).first if already_following?(member)
   end
-
 end
