@@ -59,31 +59,28 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = Photo.find_by_flickr_photo_id(params[:photo][:flickr_photo_id]) ||
-      Photo.new(photo_params)
+             Photo.new(photo_params)
     @photo.owner_id = current_member.id
     @photo.set_flickr_metadata
 
-
     collection = case params[:type]
-                   when 'garden'
-                     @photo.gardens
-                   when 'planting'
-                     @photo.plantings
-                   when 'harvest'
-                     @photo.harvests
-                   else
-                     nil
+                 when 'garden'
+                   @photo.gardens
+                 when 'planting'
+                   @photo.plantings
+                 when 'harvest'
+                   @photo.harvests
                  end
 
-    if collection && has_item_id
+    if collection && item_id?
       item = params[:type].camelcase.constantize.find_by_id(params[:id])
       if item && member_owns_item(item)
         collection << item unless collection.include?(item)
       else
-        flash[:alert] = "Could not find this item owned by you"
+        flash[:alert] = 'Could not find this item owned by you'
       end
     else
-      flash[:alert] = "Missing or invalid type or id parameter"
+      flash[:alert] = 'Missing or invalid type or id parameter'
     end
 
     respond_to do |format|
@@ -91,7 +88,7 @@ class PhotosController < ApplicationController
         format.html { redirect_to @photo, notice: 'Photo was successfully added.' }
         format.json { render json: @photo, status: :created, location: @photo }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @photo.errors, status: :unprocessable_entity }
       end
     end
@@ -107,7 +104,7 @@ class PhotosController < ApplicationController
         format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @photo.errors, status: :unprocessable_entity }
       end
     end
@@ -118,8 +115,8 @@ class PhotosController < ApplicationController
   def destroy
     @photo = Photo.find(params[:id])
     @photo.destroy
-    flash[:alert] = "Photo successfully deleted."
-    
+    flash[:alert] = 'Photo successfully deleted.'
+
     respond_to do |format|
       format.html { redirect_to photos_url }
       format.json { head :no_content }
@@ -128,7 +125,7 @@ class PhotosController < ApplicationController
 
   private
 
-  def has_item_id
+  def item_id?
     params.key? :id
   end
 
@@ -138,6 +135,6 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,
-    :license_url, :thumbnail_url, :fullsize_url, :link_url)
+                                  :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 end
