@@ -19,7 +19,7 @@ class Crop < ActiveRecord::Base
   belongs_to :parent, class_name: 'Crop'
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
   has_and_belongs_to_many :posts
-  before_destroy {|crop| crop.posts.clear}
+  before_destroy { |crop| crop.posts.clear }
 
   default_scope { order("lower(name) asc") }
   scope :recent, -> { where(approval_status: "approved").reorder("created_at desc") }
@@ -254,7 +254,7 @@ class Crop < ActiveRecord::Base
     if ! scientific_names.blank? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(%r{,\s*})
     elsif parent && parent.scientific_names.size > 0 # pick up from parent
-      names_to_add = parent.scientific_names.map{|s| s.scientific_name}
+      names_to_add = parent.scientific_names.map { |s| s.scientific_name }
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end

@@ -11,11 +11,11 @@ class CropsController < ApplicationController
     @sort = params[:sort]
     if @sort == 'alpha'
       # alphabetical order
-      @crops = Crop.includes(:scientific_names, {plantings: :photos})
+      @crops = Crop.includes(:scientific_names, { plantings: :photos })
       @paginated_crops = @crops.approved.paginate(page: params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {plantings: :photos})
+      @crops = Crop.popular.includes(:scientific_names, { plantings: :photos })
       @paginated_crops = @crops.approved.paginate(page: params[:page])
     end
 
@@ -77,14 +77,14 @@ class CropsController < ApplicationController
   # GET /crops/1
   # GET /crops/1.json
   def show
-    @crop = Crop.includes(:scientific_names, {plantings: :photos}).find(params[:id])
+    @crop = Crop.includes(:scientific_names, { plantings: :photos }).find(params[:id])
     @posts = @crop.posts.paginate(page: params[:page])
 
     respond_to do |format|
       format.html # show.html.haml
       format.json do
         render json: @crop.to_json(include: {
-          plantings: { include: { owner: { only: [:id, :login_name, :location, :latitude, :longitude] }}}
+          plantings: { include: { owner: { only: [:id, :login_name, :location, :latitude, :longitude] } } }
         })
       end
     end

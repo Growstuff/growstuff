@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
   belongs_to :forum
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :crops
-  before_destroy {|post| post.crops.clear}
+  before_destroy { |post| post.crops.clear }
   after_save :update_crops_posts_association
   # also has_many notifications, but kinda meaningless to get at them
   # from this direction, so we won't set up an association for now.
@@ -24,7 +24,7 @@ class Post < ActiveRecord::Base
       recipients << member if member && ! recipients.include?(member)
     end
     # don't send notifications to yourself
-    recipients.map{ |r| r.id }.each do |recipient|
+    recipients.map { |r| r.id }.each do |recipient|
       if recipient != sender
         Notification.create(
           recipient_id: recipient,
