@@ -133,7 +133,7 @@ class Planting < ActiveRecord::Base
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
   def Planting.interesting(howmany=12, require_photo=true)
-    interesting_plantings = Array.new
+    interesting_plantings = []
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 
     Planting.includes(:photos).each do |p|
