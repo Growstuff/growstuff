@@ -4,7 +4,7 @@ class Notifier < ActionMailer::Base
 
   def verifier()
     if ENV['RAILS_SECRET_TOKEN']
-      return ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+      ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
     else
       raise "RAILS_SECRET_TOKEN environment variable not set - have you created config/application.yml?"
     end

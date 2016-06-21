@@ -6,7 +6,7 @@ class Forum < ActiveRecord::Base
   belongs_to :owner, class_name: "Member"
 
   def to_s
-    return name
+    name
   end
 
 end

@@ -19,7 +19,7 @@ class Order < ActiveRecord::Base
       subtotal = i.price * i.quantity
       sum += subtotal 
     end
-    return sum
+    sum
   end
 
   # return items in the format ActiveMerchant/PayPal want them
@@ -32,7 +32,7 @@ class Order < ActiveRecord::Base
         amount: i.price
       })
     end
-    return items
+    items
   end
 
   # record the paypal details for reference
@@ -90,7 +90,7 @@ class Order < ActiveRecord::Base
           return Order.where(referral_code: args[:for].upcase)
       end
     end
-    return []
+    []
   end
 
 end

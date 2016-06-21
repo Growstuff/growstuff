@@ -100,7 +100,7 @@ class Member < ActiveRecord::Base
   end
 
   def to_s
-    return login_name
+    login_name
   end
 
   def has_role?(role_sym)
@@ -129,16 +129,16 @@ class Member < ActiveRecord::Base
 
   def is_paid?
     if account.account_type.is_permanent_paid
-      return true
+      true
     elsif account.account_type.is_paid && account.paid_until >= Time.zone.now
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
   def auth(provider)
-    return authentications.find_by_provider(provider)
+    authentications.find_by_provider(provider)
   end
 
   # Authenticates against Flickr and returns an object we can use for subsequent api calls
@@ -153,7 +153,7 @@ class Member < ActiveRecord::Base
         @flickr.access_secret = flickr_auth.secret
       end
     end
-    return @flickr
+    @flickr
   end
 
   # Fetches a collection of photos from Flickr
@@ -175,9 +175,9 @@ class Member < ActiveRecord::Base
       )
     end
     if result
-      return [result.photo, result.total]
+      [result.photo, result.total]
     else
-      return [[], 0]
+      [[], 0]
     end
   end
 
@@ -187,7 +187,7 @@ class Member < ActiveRecord::Base
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end
-    return sets
+    sets
   end
 
   def interesting?
@@ -195,7 +195,7 @@ class Member < ActiveRecord::Base
     # Member.confirmed.located as those are required for
     # interestingness, as well.
     return true if plantings.present?
-    return false
+    false
   end
 
   def Member.interesting
@@ -207,7 +207,7 @@ class Member < ActiveRecord::Base
         interesting_members.push(m)
       end
     end
-    return interesting_members
+    interesting_members
   end
 
   def Member.nearest_to(place)
@@ -218,7 +218,7 @@ class Member < ActiveRecord::Base
         nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
       end
     end
-    return nearby_members
+    nearby_members
   end
 
   def update_newsletter_subscription

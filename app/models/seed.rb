@@ -62,9 +62,9 @@ class Seed < ActiveRecord::Base
 
   def tradable?
     if self.tradable_to == 'nowhere'
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
@@ -72,7 +72,7 @@ class Seed < ActiveRecord::Base
     # assuming we're passed something that's already known to be tradable
     # eg. from Seed.tradable scope
     return false if owner.location.blank? # don't want unspecified locations
-    return true
+    true
   end
 
   # Seed.interesting
@@ -88,8 +88,7 @@ class Seed < ActiveRecord::Base
       end
     end
 
-    return interesting_seeds
-
+    interesting_seeds
   end
 
   def seed_slug
