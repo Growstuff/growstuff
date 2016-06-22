@@ -13,6 +13,7 @@ before_script:
 - psql -c 'create database growstuff_test;' -U postgres
 script:
 - script/gemfile_check
+- bundle exec script/check_contributors_md
 - bundle exec rake db:migrate --trace
 - bundle exec rspec spec/
 services:
