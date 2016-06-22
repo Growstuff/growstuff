@@ -7,8 +7,11 @@ if ENV['TRAVIS'] then
     repo = ENV['TRAVIS_REPO_SLUG']
     pr = ENV['TRAVIS_PULL_REQUEST']
     url = "https://api.github.com/repos/#{repo}/pulls/#{pr}"
-    response = HTTParty.get(url)
-    author = response.parsed_response['user']['login']
+    response = HTTParty.get(url).parsed_response
+    author = response['user']['login'] if response && response['user']
+
+    # Could not determine author
+    exit unless author
   else
     # We're in a Travis branch build; nothing to check
     exit
