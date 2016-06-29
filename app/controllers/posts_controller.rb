@@ -31,7 +31,7 @@ class PostsController < ApplicationController
       format.rss { render(
         layout: false,
         locals: { post: @post }
-      )}
+      ) }
     end
   end
 

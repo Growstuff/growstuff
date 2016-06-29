@@ -19,7 +19,7 @@ class Crop < ActiveRecord::Base
   belongs_to :parent, class_name: 'Crop'
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
   has_and_belongs_to_many :posts
-  before_destroy {|crop| crop.posts.clear}
+  before_destroy { |crop| crop.posts.clear }
 
   default_scope { order("lower(name) asc") }
   scope :recent, -> { where(approval_status: "approved").reorder("created_at desc") }
@@ -112,14 +112,14 @@ class Crop < ActiveRecord::Base
   # End Elasticsearch section
 
   def to_s
-    return name
+    name
   end
 
   def default_scientific_name
     if scientific_names.size > 0
-      return scientific_names.first.scientific_name
+      scientific_names.first.scientific_name
     else
-      return nil
+      nil
     end
   end
 
@@ -128,7 +128,7 @@ class Crop < ActiveRecord::Base
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    return photos.first
+    photos.first
   end
 
   # crop.sunniness
@@ -143,7 +143,7 @@ class Crop < ActiveRecord::Base
         sunniness[p.sunniness] += 1
       end
     end
-    return sunniness
+    sunniness
   end
 
   # crop.planted_from
@@ -157,7 +157,7 @@ class Crop < ActiveRecord::Base
         planted_from[p.planted_from] += 1
       end
     end
-    return planted_from
+    planted_from
   end
 
   # crop.popular_plant_parts
@@ -171,7 +171,7 @@ class Crop < ActiveRecord::Base
         popular_plant_parts[h.plant_part] += 1
       end
     end
-    return popular_plant_parts
+    popular_plant_parts
   end
 
   def interesting?
@@ -179,7 +179,7 @@ class Crop < ActiveRecord::Base
     min_photos    = 3 # needs this many photos to be interesting
     return false unless photos.size >= min_photos
     return false unless plantings_count >= min_plantings
-    return true
+    true
   end
 
   def pending?
@@ -206,13 +206,13 @@ class Crop < ActiveRecord::Base
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
   howmany = 12 # max number to find
-  interesting_crops = Array.new
+  interesting_crops = []
     Crop.includes(:photos).randomized.each do |c|
       break if interesting_crops.size == howmany
       next unless c.interesting?
       interesting_crops.push(c)
     end
-    return interesting_crops
+    interesting_crops
   end
 
 # Crop.create_from_csv(row)
@@ -254,7 +254,7 @@ class Crop < ActiveRecord::Base
     if ! scientific_names.blank? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(%r{,\s*})
     elsif parent && parent.scientific_names.size > 0 # pick up from parent
-      names_to_add = parent.scientific_names.map{|s| s.scientific_name}
+      names_to_add = parent.scientific_names.map { |s| s.scientific_name }
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
@@ -301,9 +301,9 @@ class Crop < ActiveRecord::Base
 
   def rejection_explanation
     if reason_for_rejection == "other"
-      return rejection_notes
+      rejection_notes
     else
-      return reason_for_rejection
+      reason_for_rejection
     end
   end
 
@@ -327,7 +327,7 @@ class Crop < ActiveRecord::Base
           size: 50
         }
       )
-      return response.records.to_a
+      response.records.to_a
     else
       # if we don't have elasticsearch, just do a basic SQL query.
       # also, make sure it's an actual array not an activerecord
@@ -344,7 +344,7 @@ class Crop < ActiveRecord::Base
         matches.unshift(exact_match)
       end
 
-      return matches
+      matches
     end
   end
 

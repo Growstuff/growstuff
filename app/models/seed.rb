@@ -62,9 +62,9 @@ class Seed < ActiveRecord::Base
 
   def tradable?
     if self.tradable_to == 'nowhere'
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
@@ -72,14 +72,14 @@ class Seed < ActiveRecord::Base
     # assuming we're passed something that's already known to be tradable
     # eg. from Seed.tradable scope
     return false if owner.location.blank? # don't want unspecified locations
-    return true
+    true
   end
 
   # Seed.interesting
   # returns a list of interesting seeds, for use on the homepage etc
   def Seed.interesting
     howmany = 12 # max number to find
-    interesting_seeds = Array.new
+    interesting_seeds = []
 
     Seed.tradable.each do |s|
       break if interesting_seeds.size == howmany
@@ -88,8 +88,7 @@ class Seed < ActiveRecord::Base
       end
     end
 
-    return interesting_seeds
-
+    interesting_seeds
   end
 
   def seed_slug

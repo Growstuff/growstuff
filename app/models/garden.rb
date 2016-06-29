@@ -82,7 +82,7 @@ class Garden < ActiveRecord::Base
       end
     end
 
-    return unique_plantings[0..3]
+    unique_plantings[0..3]
   end
 
   def to_s
@@ -101,7 +101,7 @@ class Garden < ActiveRecord::Base
   end
 
   def default_photo
-    return photos.first
+    photos.first
   end
 
 end

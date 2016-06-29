@@ -128,11 +128,11 @@ class Harvest < ActiveRecord::Base
       string += " weighing #{number_to_human(self.weight_quantity, strip_insignificant_zeros: true)} #{self.weight_unit}"
     end
 
-    return string
+    string
   end
 
   def default_photo
-    return photos.first
+    photos.first
   end
 
 end
