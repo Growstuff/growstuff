@@ -23,7 +23,7 @@ class Notification < ActiveRecord::Base
 
   def send_email
     if self.recipient.send_notification_email
-      Notifier.notify(self).deliver
+      Notifier.notify(self).deliver_now
     end
   end
 
