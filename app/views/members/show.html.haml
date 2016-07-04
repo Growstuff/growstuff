@@ -1,5 +1,12 @@
 - content_for :title, @member.login_name
 - content_for :subtitle, @member.location
+- content_for :opengraph do
+  = tag("meta", property: "og:image", content: avatar_uri(@member, 200))  
+  = tag("meta", property: "og:image:user_generated", content: "true")  
+  = tag("meta", property: "og:title", content: @member.login_name)  
+  = tag("meta", property: "og:type", content: "profile")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 - content_for :buttonbar do
   - if can? :update, @member
     = link_to 'Edit profile', edit_member_registration_path, :class => 'btn btn-default'

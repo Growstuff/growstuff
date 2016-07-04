@@ -118,7 +118,7 @@ describe "posts/show" do
     end
 
     it 'shows a comment button' do
-      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", "Comment"
+      assert_select "a", {href: new_comment_path(post_id: @post.id)}, "Comment"
     end 
 
   end

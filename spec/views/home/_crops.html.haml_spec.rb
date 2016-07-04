@@ -32,7 +32,7 @@ describe 'home/_crops.html.haml', type: "view" do
 
   it 'shows crops section' do
     assert_select 'h2', text: 'Some of our crops'
-    assert_select "a[href=#{crop_path(@crop)}]"
+    assert_select "a[href='#{crop_path(@crop)}']"
   end
 
   it 'shows plantings section' do
@@ -45,6 +45,6 @@ describe 'home/_crops.html.haml', type: "view" do
   end
 
   it 'includes a link to all crops' do
-    assert_select "a[href=#{crops_path}]", text: /View all crops/
+    assert_select "a[href='#{crops_path}']", text: /View all crops/
   end
 end

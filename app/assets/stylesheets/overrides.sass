@@ -93,11 +93,40 @@ p.stats
   padding-left: 1em
   width: 15em
 
+.planting
+  dl.planting-attributes
+    font-size: 85%
+
+    dt
+      text-align: left
+    dd
+      margin-left: auto
+
+@media (min-width: $screen-md-min)
+  .planting-thumbnail 
+    dl.planting-attributes
+      font-size: 85%
+      width: 100%
+
+      dt
+        text-align: left
+        width: 80px
+      dd
+        padding-left: 80px
+        margin-left: auto
+
 #placesmap, #cropmap 
   height: 500px
 
 #membermap 
   height: 250px
+
+.location-not-set
+  height: 250px
+  width: 100%
+  background-image: image-url('location-not-set.en.png')
+  background-repeat: no-repeat
+  background-position: center
 
 .member-location 
   font-size: small
@@ -222,22 +251,9 @@ html, body
 
 // Autosuggest
 
-.ui-autocomplete 
+.ui-autocomplete
+  background: white
   z-index: $zindex-tooltip
-
-// Crowdfunding campaign, Sep-Oct 2014
-
-.crowdfunding-banner 
-  text-align: center
-  font-weight: bold
-  background-color: lighten($green, 30%)
-  margin-top: 0px
-  margin-bottom: 5px
-  padding: 15px
-
-.crowdfunding-banner a 
-  color: $brown
-  text-decoration: underline
 
 .alert 
   a 
@@ -276,6 +292,11 @@ $state-success-bg: lighten($green, 50%)
 .panel-footer
   height: 6em
 
+.panel
+  .dl-horizontal
+    text-overflow: ellipsis
+    overflow: hidden
+
 #gardens_panel_body
   height: 20em
 
@@ -288,3 +309,8 @@ $state-success-bg: lighten($green, 50%)
 
 .red 
   color: red
+
+.truncate
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap

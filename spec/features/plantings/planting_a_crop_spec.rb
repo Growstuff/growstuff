@@ -1,4 +1,5 @@
 require "rails_helper"
+require 'custom_matchers'
 
 feature "Planting a crop", :js do
   let(:member) { create :member }
@@ -21,12 +22,12 @@ feature "Planting a crop", :js do
   it "displays required and optional fields properly" do
     expect(page).to have_selector ".form-group.required", text: "What did you plant?"
     expect(page).to have_selector ".form-group.required", text: "Where did you plant it?"
-    expect(page).to have_selector 'input#planting_planted_at[placeholder="optional"]'
-    expect(page).to have_selector 'input#planting_quantity[placeholder="optional"]'
-    expect(page).to have_selector 'select#planting_planted_from option', text: 'optional'
-    expect(page).to have_selector 'select#planting_sunniness option', text: 'optional'
-    expect(page).to have_selector 'textarea#planting_description[placeholder="optional"]'
-    expect(page).to have_selector 'input#planting_finished_at[placeholder="optional"]'
+    expect(page).to have_optional 'input#planting_planted_at'
+    expect(page).to have_optional 'input#planting_quantity'
+    expect(page).to have_optional 'select#planting_planted_from'
+    expect(page).to have_optional 'select#planting_sunniness'
+    expect(page).to have_optional 'textarea#planting_description'
+    expect(page).to have_optional 'input#planting_finished_at'
   end
 
   scenario "Creating a new planting" do
@@ -230,7 +231,7 @@ feature "Planting a crop", :js do
   end
 
   describe "Planting sunniness" do
-    it "should show the image sunniness_sun.png" do
+    it "should show the a sunny image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -243,11 +244,10 @@ feature "Planting a crop", :js do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[src*='sunniness_sun.png']")
-      expect(page).to have_css("img[alt=sun]")
+      expect(page).to have_css("img[alt='sun']")
     end
 
-    it "should show the image 'not specified.png'" do
+    it "should show a sunniness not specified image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -259,7 +259,6 @@ feature "Planting a crop", :js do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[src*='sunniness_not specified.png']")
       expect(page).to have_css("img[alt='not specified']")
     end
   end

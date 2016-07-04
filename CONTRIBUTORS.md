@@ -66,3 +66,7 @@ submit the change with your pull request.
 - Anthony Atkinson / [sha1sum](https://github.com/sha1sum)
 - Terence Conquest / [twconquest](https://github.com/twconquest)
 - Daniel O'Connor / [CloCkWeRX](https://github.com/CloCkWeRX)
+- DV Dasari / [dv2](https://github.com/dv2)
+- Eric Tillberg / [Thrillberg](https://github.com/Thrillberg)
+- Lucas Nogueira / [lucasnogueira](https://github.com/lucasnogueira)
+- Charley Lewittes / [ctlewitt](https://github.com/ctlewitt)

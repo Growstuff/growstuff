@@ -30,7 +30,7 @@ describe "crops/new" do
   end
 
   it "shows a link to crop wrangling guidelines" do
-    assert_select "a[href^=http://wiki.growstuff.org]", "crop wrangling guide"
+    assert_select "a[href^='http://wiki.growstuff.org']", "crop wrangling guide"
   end
 
 end

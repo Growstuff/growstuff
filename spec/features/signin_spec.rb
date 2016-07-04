@@ -4,6 +4,7 @@ require 'rails_helper'
 feature "signin", js: true do
   let(:member) { create :member }
   let(:recipient) { create :member }
+  let(:wrangler) { create :crop_wrangling_member }
   let(:notification) { create :notification }
 
   scenario "redirect to previous page after signin" do
@@ -49,6 +50,16 @@ feature "signin", js: true do
     fill_in 'Password', with: member.password
     click_button 'Sign in'
     expect(current_path).to eq new_notification_path
+  end
+
+  scenario "after crop wrangler signs in and crops await wrangling, show alert" do
+    create :crop_request
+    visit crops_path # some random page
+    click_link 'Sign in'
+    fill_in 'Login', with: wrangler.login_name
+    fill_in 'Password', with: wrangler.password
+    click_button 'Sign in'
+    expect(page).to have_content("There are crops waiting to be wrangled.")
   end
 
   context "with facebook" do

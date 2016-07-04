@@ -4,13 +4,13 @@ Growstuff::Application.routes.draw do
 
   resources :plant_parts
 
-  devise_for :members, controllers: { registrations: "registrations", passwords: "passwords", omniauth_callbacks: "omniauth_callbacks" }
-  devise_scope :member do 
+  devise_for :members, controllers: { registrations: "registrations", passwords: "passwords", sessions: "sessions", omniauth_callbacks: "omniauth_callbacks" }
+  devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: [:get, :patch], :as => :finish_signup
 
-  resources :members 
+  resources :members
 
   resources :photos
 
@@ -74,15 +74,6 @@ Growstuff::Application.routes.draw do
 
   get 'auth/:provider/callback' => 'authentications#create'
 
-
-  get '/policy/:action' => 'policy#:action'
-
-  get '/support' => 'support#index'
-  get '/support/:action' => 'support#:action'
-
-  get '/about' => 'about#index'
-  get '/about/:action' => 'about#:action'
-
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
 
@@ -92,6 +83,8 @@ Growstuff::Application.routes.draw do
   get '/admin' => 'admin#index'
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
+
+  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 
 # CMS stuff  -- must remain LAST
   comfy_route :cms, path: '/', sitemap: false

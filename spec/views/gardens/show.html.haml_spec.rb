@@ -66,7 +66,7 @@ describe "gardens/show" do
     end
 
     it "links to the right crop in the planting link" do
-      assert_select("a[href=#{new_planting_path}?garden_id=#{@garden.id}]")
+      assert_select("a[href='#{new_planting_path}?garden_id=#{@garden.id}']")
     end
   end
 

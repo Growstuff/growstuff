@@ -1,5 +1,12 @@
 - content_for :title, @crop.name
 - content_for :subtitle, @crop.default_scientific_name
+- content_for :opengraph do
+  - @crop.photos.each do |photo|
+    = tag("meta", property: "og:image", content: photo.fullsize_url) 
+  = tag("meta", property: "og:title", content: @crop.name)
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 = render :partial => 'approval_status_message', :locals => { :crop => @crop }
 
@@ -54,13 +61,13 @@
           = render :partial => "shared/signin_signup", :locals => { :to => "post your tips and experiences growing #{ @crop.name.pluralize }" }
     - else
       %div.pagination
-        = page_entries_info @posts, :model => "posts"
+        = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
       - @posts.each do |post|
         = render :partial => "posts/single", :locals => { :post => post, :subject => true }
 
       %div.pagination
-        = page_entries_info @posts, :model => "posts"
+        = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3

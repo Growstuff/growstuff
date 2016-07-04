@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.2.4'
+ruby '2.3.1'
 
-gem 'rails', '~> 4.1.11'
+gem 'rails', '~> 4.2.0'
 
 gem 'bundler', '>=1.1.5'
 
@@ -36,13 +36,8 @@ gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
 gem 'kaminari'                     # pagination
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 
-# vendored activemerchant for testing- needed for bogus paypal
-# gateway monkeypatch
-gem 'activemerchant', '1.33.0',
-  :path    => 'vendor/gems/activemerchant-1.33.0',
-  :require => 'active_merchant'
-gem 'active_utils', '1.0.5',
-  :path    => 'vendor/gems/active_utils-1.0.5'
+gem 'activemerchant'
+gem 'active_utils'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
@@ -51,7 +46,7 @@ gem 'bluecloth'
 gem 'will_paginate', '~> 3.0'
 
 # user signup/login/etc
-gem 'devise', '~> 3.5.0'
+gem 'devise', '>= 4.0.0'
 
 # nicely formatted URLs
 gem 'friendly_id', '~> 5.0.4'
@@ -60,9 +55,7 @@ gem 'friendly_id', '~> 5.0.4'
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder',
-  :git => 'https://github.com/alexreisner/geocoder.git',
-  :ref => '104d46'
+gem 'geocoder'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
@@ -104,18 +97,21 @@ end
 
 group :development, :test do
   gem 'haml-rails'                      # HTML templating language
-  gem 'rspec-rails', '~> 3.4.0'         # unit testing framework
+  gem 'rspec-rails'                     # unit testing framework
   gem 'rspec-activemodel-mocks'
   gem 'byebug'                          # debugging
   gem 'database_cleaner', '~> 1.5.0'
   gem 'webrat'                          # provides HTML matchers for view tests
-  gem 'factory_girl_rails', '~> 4.5.0'  # for creating test data
+  gem 'factory_girl_rails'              # for creating test data
   gem 'coveralls', require: false       # coverage analysis
   gem 'capybara'                        # integration tests
   gem 'capybara-email'                  # integration tests for email
+  gem 'capybara-screenshot'             # for test debugging
   gem 'poltergeist', '~> 1.6'           # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
+  gem "codeclimate-test-reporter", group: :test, require: nil
+  gem "active_merchant-paypal-bogus-gateway"
 end
 
 group :travis do

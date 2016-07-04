@@ -21,4 +21,4 @@
           ago.
       %p
         %small
-          = [pluralize(member.gardens.size, "garden"), pluralize(member.plantings.size, "planting"), pluralize(member.seeds.size, "seed")].join(", ")
+          = [localize_plural(member.gardens, Garden), localize_plural(member.plantings, Planting), localize_plural(member.seeds, Seed)].join(", ")
