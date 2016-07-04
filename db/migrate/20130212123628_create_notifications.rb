@@ -8,7 +8,7 @@ class CreateNotifications < ActiveRecord::Migration
       t.boolean :read
       t.integer :post_id
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

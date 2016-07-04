@@ -8,7 +8,7 @@ class CreateHarvests < ActiveRecord::Migration
       t.string :units
       t.text :notes
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

@@ -69,3 +69,5 @@ submit the change with your pull request.
 - DV Dasari / [dv2](https://github.com/dv2)
 - Eric Tillberg / [Thrillberg](https://github.com/Thrillberg)
 - Gustavo Souza / [Gustavor-Souza](https://github.com/gustavor-souza)
+- Lucas Nogueira / [lucasnogueira](https://github.com/lucasnogueira)
+- Charley Lewittes / [ctlewitt](https://github.com/ctlewitt)

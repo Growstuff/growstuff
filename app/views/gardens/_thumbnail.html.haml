@@ -25,7 +25,7 @@
           %dd= garden.active ? "Yes" : "No"
       .col-md-12
         %b
-          = "#{pluralize(garden.plantings.size, "Planting")} : "
+          = "#{localize_plural(garden.plantings, Planting)} : "
         = display_garden_plantings(garden.plantings.current)
         - if garden.plantings.size > 2
           %br

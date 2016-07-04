@@ -3,7 +3,7 @@ class CreateCrops < ActiveRecord::Migration
     create_table :crops do |t|
       t.string :system_name
       t.string :en_wikipedia_url
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

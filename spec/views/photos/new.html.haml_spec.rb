@@ -32,6 +32,7 @@ describe "photos/new" do
 
   context "user has no photosets" do
     it "doesn't show a dropdown with sets from Flickr" do
+      render
       assert_select "select#set", false
     end
   end

@@ -29,7 +29,7 @@ describe "photos/show" do
     end
 
     it "shows the image" do
-      assert_select "img[src=#{@photo.fullsize_url}]"
+      assert_select "img[src='#{@photo.fullsize_url}']"
     end
 
     it "links to the owner's profile" do
@@ -46,7 +46,7 @@ describe "photos/show" do
     end
 
     it "has a delete button" do
-      assert_select "a[href=#{photo_path(@photo)}]", 'Delete Photo'
+      assert_select "a[href='#{photo_path(@photo)}']", 'Delete Photo'
     end
   end
 

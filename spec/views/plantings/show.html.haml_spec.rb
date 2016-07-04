@@ -70,7 +70,7 @@ describe "plantings/show" do
     @photo = FactoryGirl.create(:photo, owner: @member)
     @p.photos << @photo
     render
-    assert_select "img[src=#{@photo.thumbnail_url}]"
+    assert_select "img[src='#{@photo.thumbnail_url}']"
   end
 
   it "shows a link to add photos" do
