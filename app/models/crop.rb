@@ -128,7 +128,11 @@ class Crop < ActiveRecord::Base
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    return photos.first
+    return photos.first if photos.any?
+
+    # Crop has no photos? Look for the msot recent harvest with a photo.
+    harvest_with_photo = Harvests.where(crop_id: id).joins(:harvest_photos).order('harvests.id DESC'),limit(1).first
+    return harvest_with_photo.photos.first if harvest_with_photo
   end
 
   # crop.sunniness
