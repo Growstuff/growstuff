@@ -19,9 +19,8 @@ module ApplicationHelper
     pid = price_in_dollars(price)
     currency = Growstuff::Application.config.currency
     link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
-    return link_to "(convert)",
-      link,
-      target: "_blank"
+
+    link_to "(convert)", link, target: "_blank"
   end
 
   def build_alert_classes(alert_type = :info)
