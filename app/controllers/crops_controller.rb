@@ -83,8 +83,16 @@ class CropsController < ApplicationController
     respond_to do |format|
       format.html # show.html.haml
       format.json do
+        # TODO RABL or similar one day to avoid presentation logic here
+        owner_structure = {
+          owner: {
+            only: [:id, :login_name, :location, :latitude, :longitude] 
+          }
+        }
         render json: @crop.to_json(include: {
-          plantings: { include: { owner: { only: [:id, :login_name, :location, :latitude, :longitude] }}}
+          plantings: {
+            include: owner_structure
+          }
         })
       end
     end
