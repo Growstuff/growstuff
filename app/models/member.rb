@@ -130,7 +130,7 @@ class Member < ActiveRecord::Base
   def is_paid?
     if account.account_type.is_permanent_paid
       return true
-    elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
+    elsif account.account_type.is_paid && account.paid_until >= Time.zone.now
       return true
     else
       return false
@@ -222,7 +222,7 @@ class Member < ActiveRecord::Base
   end
 
   def update_newsletter_subscription
-    if confirmed_at_changed? and newsletter # just signed up
+    if confirmed_at_changed? && newsletter # just signed up
       newsletter_subscribe
     elsif confirmed_at # i.e. after member's confirmed their account
       if newsletter_changed? # edited member settings
