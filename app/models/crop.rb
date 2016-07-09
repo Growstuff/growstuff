@@ -206,7 +206,7 @@ class Crop < ActiveRecord::Base
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
   howmany = 12 # max number to find
-  interesting_crops = Array.new
+  interesting_crops = []
     Crop.includes(:photos).randomized.each do |c|
       break if interesting_crops.size == howmany
       next unless c.interesting?

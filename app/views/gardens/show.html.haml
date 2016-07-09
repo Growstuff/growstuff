@@ -47,7 +47,7 @@
     - if @garden.photos.size > 0 or (can? :edit, @garden and can? :create, Photo)
       .row-fluid
         %h3 Photos
-        %p= pluralize(@garden.photos.length, "photo")
+        %p= localize_plural(@garden.photos, Photo)
         .row-fluid
           %ul.thumbnails
             - @garden.photos.each do |p|

@@ -33,7 +33,7 @@ class CreateCms < ActiveRecord::Migration
       t.text    :js,          text_limit
       t.integer :position,    null: false, default: 0
       t.boolean :is_shared,   null: false, default: false
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :comfy_cms_layouts, [:parent_id, :position]
     add_index :comfy_cms_layouts, [:site_id, :identifier], unique: true
@@ -52,7 +52,7 @@ class CreateCms < ActiveRecord::Migration
       t.integer :children_count,  null: false, default: 0
       t.boolean :is_published,    null: false, default: true
       t.boolean :is_shared,       null: false, default: false
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :comfy_cms_pages, [:site_id, :full_path]
     add_index :comfy_cms_pages, [:parent_id, :position]
@@ -62,7 +62,7 @@ class CreateCms < ActiveRecord::Migration
       t.string     :identifier,  null: false
       t.text       :content,     text_limit
       t.references :blockable, polymorphic: true
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :comfy_cms_blocks, [:identifier]
     add_index :comfy_cms_blocks, [:blockable_id, :blockable_type]
@@ -75,7 +75,7 @@ class CreateCms < ActiveRecord::Migration
       t.text    :content,     text_limit
       t.integer :position,    null: false, default: 0
       t.boolean :is_shared,   null: false, default: false
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :comfy_cms_snippets, [:site_id, :identifier], unique: true
     add_index :comfy_cms_snippets, [:site_id, :position]
@@ -90,7 +90,7 @@ class CreateCms < ActiveRecord::Migration
       t.integer :file_file_size,    null: false
       t.string  :description,       limit: 2048
       t.integer :position,          null: false, default: 0
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :comfy_cms_files, [:site_id, :label]
     add_index :comfy_cms_files, [:site_id, :file_file_name]

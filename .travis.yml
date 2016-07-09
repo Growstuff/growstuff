@@ -12,6 +12,8 @@ rvm:
 before_script:
 - psql -c 'create database growstuff_test;' -U postgres
 script:
+- script/gemfile_check
+- bundle exec script/check_contributors_md
 - bundle exec rake db:migrate --trace
 - bundle exec rspec spec/
 services:
@@ -34,4 +36,6 @@ deploy:
     - restart
 after_deploy:
   - bundle exec script/heroku_maintenance.rb off
-
+addons:
+  code_climate:
+    repo_token: 462e015bbdaabfb20910fc07f2fea253410ecb131444e00f97dbf32dc6789ca6

@@ -231,7 +231,7 @@ feature "Planting a crop", :js do
   end
 
   describe "Planting sunniness" do
-    it "should show the image sunniness_sun.png" do
+    it "should show the a sunny image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -244,11 +244,10 @@ feature "Planting a crop", :js do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[src*='sunniness_sun.png']")
-      expect(page).to have_css("img[alt=sun]")
+      expect(page).to have_css("img[alt='sun']")
     end
 
-    it "should show the image 'not specified.png'" do
+    it "should show a sunniness not specified image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -260,7 +259,6 @@ feature "Planting a crop", :js do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[src*='sunniness_not specified.png']")
       expect(page).to have_css("img[alt='not specified']")
     end
   end

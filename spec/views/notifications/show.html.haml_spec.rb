@@ -36,7 +36,7 @@ describe "notifications/show" do
   end
 
   it "includes a reply button" do
-    assert_select "a[href=#{@reply_link}]", "Reply"
+    assert_select "a", {href: @reply_link}, "Reply"
   end
 
 end

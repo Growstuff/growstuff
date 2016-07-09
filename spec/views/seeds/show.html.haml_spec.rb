@@ -65,7 +65,7 @@ describe "seeds/show" do
 
       it "links to profile to set location" do
         render
-        assert_select "a[href=#{url_for(edit_member_registration_path)}]", text: "Set Location"
+        assert_select "a[href='#{url_for(edit_member_registration_path)}']", text: "Set Location"
       end
     end
 

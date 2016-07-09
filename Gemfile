@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'rails', '~> 4.1.11'
+gem 'rails', '~> 4.2.0'
 
 gem 'bundler', '>=1.1.5'
 
@@ -36,13 +36,8 @@ gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
 gem 'kaminari'                     # pagination
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 
-# vendored activemerchant for testing- needed for bogus paypal
-# gateway monkeypatch
-gem 'activemerchant', '1.33.0',
-  :path    => 'vendor/gems/activemerchant-1.33.0',
-  :require => 'active_merchant'
-gem 'active_utils', '1.0.5',
-  :path    => 'vendor/gems/active_utils-1.0.5'
+gem 'activemerchant'
+gem 'active_utils'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
@@ -115,6 +110,7 @@ group :development, :test do
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
   gem "codeclimate-test-reporter", group: :test, require: nil
+  gem "active_merchant-paypal-bogus-gateway"
 end
 
 group :travis do

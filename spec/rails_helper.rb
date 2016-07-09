@@ -4,17 +4,16 @@ require 'simplecov'
 require 'coveralls'
 
 # output coverage locally AND send it to coveralls
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
-]
+])
 
 # fail if there's a significant test coverage drop
 SimpleCov.maximum_coverage_drop 1
 
 SimpleCov.start :rails do
   add_filter 'spec/'
-  add_filter 'vendor/'
 end
 
 require 'spec_helper'
@@ -102,4 +101,14 @@ RSpec.configure do |config|
 
   # Allow just create(:factory) instead of needing to specify FactoryGirl.create(:factory)
   config.include FactoryGirl::Syntax::Methods
+
+  # Prevent Poltergeist from fetching external URLs during feature tests
+  config.before(:each, js: true) do
+    page.driver.browser.url_blacklist = [
+      'gravatar.com',
+      'mapbox.com',
+      'okfn.org',
+      'googlecode.com',
+    ]
+  end
 end

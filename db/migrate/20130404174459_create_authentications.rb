@@ -6,7 +6,7 @@ class CreateAuthentications < ActiveRecord::Migration
       t.string :uid
       t.string :token
       t.string :secret
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :authentications, :member_id
   end

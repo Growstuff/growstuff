@@ -82,12 +82,6 @@ module Growstuff
       g.javascripts      false
     end
 
-    config.action_mailer.delivery_method = :sendmail
-      config.action_mailer.sendmail_settings = {
-        location: '/usr/sbin/sendmail',
-        arguments: '-i -t',
-        openssl_verify_mode: 'none'
-      }
 
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
@@ -112,5 +106,6 @@ module Growstuff
     # didn't work for us.
     config.cloudmade_key = '29a2d9e3cb3d429490a8f338b2388b1d'
 
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end
