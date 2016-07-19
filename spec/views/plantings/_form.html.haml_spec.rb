@@ -34,7 +34,7 @@ describe "plantings/_form" do
   end
 
   it "has a free-form text field containing the planting date in ISO format" do
-    assert_select 'input#planting_planted_at[type=text][value=2013-03-01]'
+    assert_select "input#planting_planted_at[type='text'][value='2013-03-01']"
   end
 
 end

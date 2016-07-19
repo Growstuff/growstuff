@@ -5,7 +5,7 @@ class CreateAlternateNames < ActiveRecord::Migration
       t.integer :crop_id, null: false
       t.integer :creator_id, null: false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

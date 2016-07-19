@@ -5,7 +5,7 @@ class CreateUpdates < ActiveRecord::Migration
       t.string :subject, null: false
       t.text :body, null: false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

@@ -5,7 +5,7 @@ class CreateForums < ActiveRecord::Migration
       t.text :description, null: false
       t.integer :owner_id, null: false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

@@ -7,7 +7,7 @@ class CreatePlantings < ActiveRecord::Migration
       t.integer :quantity
       t.text :description
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

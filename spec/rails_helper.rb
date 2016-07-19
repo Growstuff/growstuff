@@ -101,4 +101,14 @@ RSpec.configure do |config|
 
   # Allow just create(:factory) instead of needing to specify FactoryGirl.create(:factory)
   config.include FactoryGirl::Syntax::Methods
+
+  # Prevent Poltergeist from fetching external URLs during feature tests
+  config.before(:each, js: true) do
+    page.driver.browser.url_blacklist = [
+      'gravatar.com',
+      'mapbox.com',
+      'okfn.org',
+      'googlecode.com',
+    ]
+  end
 end
