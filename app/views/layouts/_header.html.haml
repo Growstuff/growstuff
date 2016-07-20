@@ -10,14 +10,15 @@
         %span.icon-bar
       %a.navbar-brand(href=root_path)
         = image_tag("growstuff-brand.png", :size => "200x50", :alt => ENV['GROWSTUFF_SITE_NAME'])
-      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
+
+    .navbar-collapse.collapse#navbar-collapse
+      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form navbar-left' do
         .input
           = label_tag :term, "Search crop database:", :class => 'sr-only'
           = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
           = submit_tag "Search", :class => 'btn sr-only'
 
-    .navbar-collapse.collapse#navbar-collapse
-      %ul.nav.navbar-nav.pull-right
+      %ul.nav.navbar-nav.navbar-right
         %li.dropdown<
           %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => crops_path}
             Crops
