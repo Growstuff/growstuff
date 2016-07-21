@@ -130,7 +130,7 @@ class Crop < ActiveRecord::Base
   def default_photo
     return photos.first if photos.any?
 
-    # Crop has no photos? Look for the msot recent harvest with a photo.
+    # Crop has no photos? Look for the most recent harvest with a photo.
     harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
     return harvest_with_photo.photos.first if harvest_with_photo
   end
