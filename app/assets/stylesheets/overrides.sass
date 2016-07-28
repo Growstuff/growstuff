@@ -40,6 +40,19 @@ h3
 .main 
   padding-right: 1em
 
+.navbar .navbar-form
+  padding-top: 0
+  padding-bottom: 0
+  margin-right: 0
+  margin-left: 3px
+  border: 0
+  -webkit-box-shadow: none
+  box-shadow: none
+
+.img-responsive
+  max-width: 100%
+  height: auto
+
 .sidebar
   border-left: 1px solid darken($beige, 10%)
   margin-left: -1px
@@ -114,6 +127,10 @@ p.stats
       dd
         padding-left: 80px
         margin-left: auto
+
+  .navbar .navbar-form
+    width: 250px
+
 
 #placesmap, #cropmap 
   height: 500px
@@ -272,6 +289,11 @@ html, body
 
   .navbar .nav > li 
     display: block
+
+  .navbar .navbar-form
+    width: 185px
+    padding-left: 0
+    padding-right: 0
 
 /* override "info" alert boxes to be green, not blue, on Growstuff */
 $state-info-text: darken($green, 10%)
