@@ -61,6 +61,7 @@ Growstuff::Application.configure do
   # this config variable cannot be put in application.yml as it is needed
   # by the assets pipeline, which doesn't have access to ENV.
   config.mapbox_map_id = 'growstuff.i3n2il6a'
+  config.mapbox_access_token = 'pk.eyJ1IjoiZG9jb25ub3IiLCJhIjoiY2lyNXVoZzM3MDA5eGcxbm5hc3MxbHVsaSJ9.WMxl50FaD29gWKURbdcBCw'
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
