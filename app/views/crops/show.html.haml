@@ -96,4 +96,4 @@
         = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{URI.escape @crop.name}", target: "_blank"
       %li
         - if current_member && current_member.location
-          = link_to "Google", "http://www.google.com/search?q=#{URI.escape ["Growing", @crop.name, current_member.location].join(" ")}", target: "_blank"
+          = link_to "Google", "http://www.google.com/search?q=#{URI.escape ["Growing", @crop.name, current_member.location].join(" ")}", target: "_blank", rel: "noopener noreferrer"
