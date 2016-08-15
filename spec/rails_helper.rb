@@ -96,7 +96,7 @@ RSpec.configure do |config|
 
   # controller specs require this to work with Devise
   # see https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
 
   # Allow just create(:factory) instead of needing to specify FactoryGirl.create(:factory)
