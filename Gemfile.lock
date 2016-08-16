@@ -122,6 +122,7 @@ GEM
       rails-i18n (>= 4.0.0)
       sass-rails (>= 4.0.3)
     concurrent-ruby (1.0.2)
+    connection_pool (2.2.0)
     coveralls (0.8.15)
       json (>= 1.8, < 3)
       simplecov (~> 0.12.0)
