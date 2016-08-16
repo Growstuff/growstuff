@@ -39,7 +39,6 @@ gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'activemerchant'
 gem 'active_utils'
 gem 'sidekiq'
-gem 'sidekiq-web'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
