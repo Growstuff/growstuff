@@ -31,7 +31,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         set_flash_message(:notice, :success, :kind => auth['provider']) if is_navigational_format?
       else
         session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
-        redirect_to new_member_registration_url
+        sign_in member
+        redirect_to finish_signup_url(member)
       end
     else
       redirect_to request.env['omniauth.origin'] || edit_member_registration_path
