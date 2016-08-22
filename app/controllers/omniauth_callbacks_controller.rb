@@ -27,8 +27,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @authentication = action.establish_authentication(auth, member)
 
       unless action.member_created?
-        sign_in_and_redirect member, :event => :authentication #this will throw if @user is not activated
-        set_flash_message(:notice, :success, :kind => auth['provider']) if is_navigational_format?
+        sign_in_and_redirect member, event: :authentication #this will throw if @user is not activated
+        set_flash_message(:notice, :success, kind: auth['provider']) if is_navigational_format?
       else
         session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
         sign_in member
