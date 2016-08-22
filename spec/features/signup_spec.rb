@@ -46,7 +46,7 @@ feature "signup", js: true do
   end
 
   context "with facebook" do
-     scenario "sign up" do
+    scenario "sign up" do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
       Member.where(email: 'tdawg@hotmail.com').delete_all
