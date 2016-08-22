@@ -38,15 +38,7 @@ class Growstuff::OauthSignupAction
   # - We need to create it
   #
   def establish_authentication(auth, member)
-    name = ''
-    case auth['provider']
-    when 'twitter'
-      name = auth['info']['nickname']
-    when 'flickr', 'facebook'
-      name = auth['info']['name']
-    else
-      name = auth['info']['name']
-    end
+    name = determine_name(auth)
 
     authentication = member.authentications
       .create_with(
@@ -66,5 +58,19 @@ class Growstuff::OauthSignupAction
 
   def member_created?
     @member_created
+  end
+
+  def determine_name(auth)
+    name = ''
+    case auth['provider']
+    when 'twitter'
+      name = auth['info']['nickname']
+    when 'flickr', 'facebook'
+      name = auth['info']['name']
+    else
+      name = auth['info']['name']
+    end
+
+    name
   end
 end
