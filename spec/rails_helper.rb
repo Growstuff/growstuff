@@ -111,6 +111,6 @@ RSpec.configure do |config|
       'googlecode.com',
     ] if page.driver.browser.respond_to?(:url_blacklist)
 
-    page.driver.browser.manage.window.maximize
+    page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)
   end
 end
