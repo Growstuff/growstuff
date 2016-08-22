@@ -76,7 +76,7 @@ class MembersController < ApplicationController
     if request.patch? && params[:member]
       if @member.update(member_params)
         @member.skip_reconfirmation!
-        sign_in(@member, :bypass => true)
+        bypass_sign_in(@member)
         redirect_to root_path, notice: 'Welcome.'
       else
         flash[:alert] = 'Failed to complete signup'
