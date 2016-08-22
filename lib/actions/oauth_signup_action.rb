@@ -42,15 +42,15 @@ class Growstuff::OauthSignupAction
 
     authentication = member.authentications
       .create_with(
-        :name => name,
-        :token => auth['credentials']['token'],
-        :secret => auth['credentials']['secret'],
+        name: name,
+        token: auth['credentials']['token'],
+        secret: auth['credentials']['secret'],
       )
       .find_or_create_by(
-        :provider => auth['provider'],
-        :uid => auth['uid'],
-        :name => name,
-        :member_id => member.id
+        provider: auth['provider'],
+        uid: auth['uid'],
+        name: name,
+        member_id: member.id
       )
 
     authentication

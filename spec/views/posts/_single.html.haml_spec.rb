@@ -135,7 +135,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       @post.update(body: "I am updated")
       render_post
     end
@@ -154,10 +154,10 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:post, author: @member)
+      @comment = FactoryGirl.create(:comment, post: @post)
       @comment.update(body: "I've been updated")
-      render :partial => "comments/single", :locals => { :comment => @comment }
+      render partial: "comments/single", locals: { comment: @comment }
     end
 
     it "shows edited at time" do
@@ -174,7 +174,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       @post.update(updated_at: @post.created_at)
       render_post
     end
@@ -189,10 +189,10 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:post, author: @member)
+      @comment = FactoryGirl.create(:comment, post: @post)
       @comment.update(updated_at: @comment.created_at)
-      render :partial => "comments/single", :locals => { :comment => @comment }
+      render partial: "comments/single", locals: { comment: @comment }
     end
 
     it "does not show edited at" do
