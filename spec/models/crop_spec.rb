@@ -108,12 +108,52 @@ describe Crop do
   end
 
   context 'photos' do
-    it 'has a default photo' do
+    before :each do
       @crop = FactoryGirl.create(:tomato)
-      @planting = FactoryGirl.create(:planting, crop: @crop)
-      @photo = FactoryGirl.create(:photo)
-      @planting.photos << @photo
-      @crop.default_photo.should be_an_instance_of Photo
+    end
+    context 'with a planting photo' do
+      before :each do
+        @planting = FactoryGirl.create(:planting, crop: @crop)
+        @photo = FactoryGirl.create(:photo)
+        @planting.photos << @photo
+      end
+
+      it 'has a default photo' do
+        @crop.default_photo.should be_an_instance_of Photo
+        @crop.default_photo.id.should eq @photo.id
+      end
+    end
+
+    context 'with a harvest photo' do
+      before :each do
+        @harvest = FactoryGirl.create(:harvest, crop: @crop)
+        @photo = FactoryGirl.create(:photo)
+        @harvest.photos << @photo
+      end
+
+      it 'has a default photo' do
+        @crop.default_photo.should be_an_instance_of Photo
+        @crop.default_photo.id.should eq @photo.id
+      end
+
+      context 'and planting photo' do
+        before :each do
+          @planting = FactoryGirl.create(:planting, crop: @crop)
+          @planting_photo = FactoryGirl.create(:photo)
+          @planting.photos << @planting_photo
+        end
+
+        it 'should prefer the planting photo' do
+          @crop.default_photo.id.should eq @planting_photo.id
+        end
+      end
+    end
+
+
+    context 'with no plantings or harvests' do
+      it 'has no default photo' do
+        @crop.default_photo.should eq nil
+      end
     end
   end
 

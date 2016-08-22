@@ -233,31 +233,72 @@ describe Harvest do
 
   context 'photos' do
 
-    let(:harvest) { FactoryGirl.create(:harvest) }
-    let(:photo) { FactoryGirl.create(:photo) }
-
-    before do
-      harvest.photos << photo
+    before :each do
+      @harvest = FactoryGirl.create(:harvest)
     end
 
-    it 'has a photo' do
-      harvest.photos.first.should eq photo
+    context 'without a photo' do
+      it 'should have no default photo' do
+        @harvest.default_photo.should eq nil
+      end
+
+      context 'and with a crop(planting) photo' do
+        before :each do
+          @photo = FactoryGirl.create(:photo)
+          @planting = FactoryGirl.create(:planting, crop: @harvest.crop)
+          @planting.photos << @photo
+        end
+
+        it 'should have a default photo' do
+          @harvest.default_photo.should eq @photo
+        end
+      end
     end
 
-    it 'deletes association with photos when photo is deleted' do
-      photo.destroy
-      harvest.reload
-        harvest.photos.should be_empty
-    end
+    context 'with a photo' do
+      before do
+        @photo = FactoryGirl.create(:photo)
 
-    it 'has a default photo' do
-        harvest.default_photo.should eq photo
-    end
+        @harvest.photos << @photo
+      end
 
-    it 'chooses the most recent photo' do
-        @photo2 = FactoryGirl.create(:photo)
-      harvest.photos << @photo2
-      harvest.default_photo.should eq @photo2
+      it 'has a photo' do
+        @harvest.photos.first.should eq @photo
+      end
+
+      it 'deletes association with photos when photo is deleted' do
+        @photo.destroy
+        @harvest.reload
+        @harvest.photos.should be_empty
+      end
+
+      it 'has a default photo' do
+        @harvest.default_photo.should eq @photo
+      end
+
+      context 'and with a crop(planting) photo' do
+        before :each do
+          @crop_photo = FactoryGirl.create(:photo)
+          @planting = FactoryGirl.create(:planting, crop: @harvest.crop)
+          @planting.photos << @crop_photo
+        end
+
+        it 'should prefer the harvest photo' do
+          @harvest.default_photo.should eq @photo
+        end
+      end
+
+
+      context 'and a second photo' do
+        before :each do
+          @photo2 = FactoryGirl.create(:photo)
+          @harvest.photos << @photo2
+        end
+
+        it 'chooses the most recent photo' do
+          @harvest.default_photo.should eq @photo2
+        end
+      end
     end
   end
 end

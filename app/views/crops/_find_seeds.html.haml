@@ -1,7 +1,7 @@
 %h4 Find #{ crop.name } seeds
 - if crop.seeds.empty?
   %p
-    There are no seeds available to trade.
+    There are no seeds available to trade on Growstuff right now.
 - else
   %ul
     - crop.seeds.tradable.each do |seed|
@@ -10,6 +10,8 @@
         = render :partial => 'members/location', :locals => { :member => seed.owner }
   %p
     = link_to "View all #{crop.name} seeds", seeds_by_crop_path(crop)
+%p
+  = link_to "Purchase seeds via Ebay", "http://rover.ebay.com/rover/1/705-53470-19255-0/1?icep_ff3=9&pub=5575213277&toolid=10001&campid=5337940151&customid=&icep_uq=#{URI.escape crop.name}&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=181003&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229515&kwid=902099&mtid=824&kw=lg", target: "_blank", rel: "noopener noreferrer"
 - if crop.approved?
   - if current_member
     %p= link_to "List #{crop.name} seeds to trade", new_seed_path(:crop_id => crop.id)
