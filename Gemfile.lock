@@ -505,7 +505,7 @@ DEPENDENCIES
   poltergeist (~> 1.6)
   pry
   quiet_assets
-  rails (~> 4.2.0)
+  rails (~> 4.2.1)
   rails_12factor
   rake (>= 10.0.0)
   rspec-activemodel-mocks
