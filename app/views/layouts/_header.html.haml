@@ -8,16 +8,24 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand(href=root_path)
+      %a.navbar-brand.hidden-xs(href=root_path)
         = image_tag("growstuff-brand.png", :size => "200x50", :alt => ENV['GROWSTUFF_SITE_NAME'])
-      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
-        .input
+      %a.navbar-brand.visible-xs(href=root_path)
+        = image_tag("growstuff-apple-touch-icon-precomposed.png", :size => "50x50", :class=>"img-responsive", :alt => ENV['GROWSTUFF_SITE_NAME'])
+
+      .form.navbar-form.pull-left
+        = form_tag crops_search_path, :method => :get, :id => 'navbar-search' do
           = label_tag :term, "Search crop database:", :class => 'sr-only'
-          = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
-          = submit_tag "Search", :class => 'btn sr-only'
+          .input
+            .input-group
+              = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
+              .input-group-btn
+                %button.btn.btn-default{:style => "height: 34px;"}
+                  = submit_tag "Search", :class => 'btn sr-only'
+                  %span.glyphicon.glyphicon-search
 
     .navbar-collapse.collapse#navbar-collapse
-      %ul.nav.navbar-nav.pull-right
+      %ul.nav.navbar-nav.navbar-right
         %li.dropdown<
           %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => crops_path}
             Crops

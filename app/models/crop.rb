@@ -128,7 +128,11 @@ class Crop < ActiveRecord::Base
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    return photos.first
+    return photos.first if photos.any?
+
+    # Crop has no photos? Look for the most recent harvest with a photo.
+    harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
+    return harvest_with_photo.photos.first if harvest_with_photo
   end
 
   # crop.sunniness
@@ -206,7 +210,7 @@ class Crop < ActiveRecord::Base
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
   howmany = 12 # max number to find
-  interesting_crops = Array.new
+  interesting_crops = []
     Crop.includes(:photos).randomized.each do |c|
       break if interesting_crops.size == howmany
       next unless c.interesting?

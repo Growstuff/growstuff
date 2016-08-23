@@ -13,17 +13,6 @@ class PhotosController < ApplicationController
     end
   end
 
-  # GET /photos/1
-  # GET /photos/1.json
-  def show
-    @photo = Photo.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @photo }
-    end
-  end
-
   # GET /photos/new
   # GET /photos/new.json
   def new
