@@ -64,6 +64,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-flickr', '>= 0.0.15'
+gem 'omniauth-facebook'
 
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine. 

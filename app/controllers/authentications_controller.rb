@@ -7,16 +7,7 @@ class AuthenticationsController < ApplicationController
     auth = request.env['omniauth.auth']
     @authentication = nil
     if auth
-
-      name = ''
-      case auth['provider']
-      when 'twitter'
-        name = auth['info']['nickname']
-      when 'flickr'
-        name = auth['info']['name']
-      else
-        name = auth['info']['name']
-      end
+      name = Growstuff::OauthSignupAction.new.determine_name(auth)
 
       @authentication = current_member.authentications
       .create_with(

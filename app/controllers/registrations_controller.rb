@@ -1,8 +1,9 @@
 class RegistrationsController < Devise::RegistrationsController
 
   def edit
-    @twitter_auth = current_member.auth('twitter')
-    @flickr_auth  = current_member.auth('flickr')
+    @twitter_auth  = current_member.auth('twitter')
+    @flickr_auth   = current_member.auth('flickr')
+    @facebook_auth = current_member.auth('facebook')
     render "edit"
   end
 

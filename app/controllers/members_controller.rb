@@ -1,7 +1,7 @@
 class MembersController < ApplicationController
   load_and_authorize_resource
 
-  skip_authorize_resource only: [:nearby, :unsubscribe]
+  skip_authorize_resource only: [:nearby, :unsubscribe, :finish_signup]
 
   after_action :expire_cache_fragments, only: :create
 
@@ -20,10 +20,11 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member       = Member.confirmed.find(params[:id])
-    @twitter_auth = @member.auth('twitter')
-    @flickr_auth  = @member.auth('flickr')
-    @posts        = @member.posts
+    @member        = Member.confirmed.find(params[:id])
+    @twitter_auth  = @member.auth('twitter')
+    @flickr_auth   = @member.auth('flickr')
+    @facebook_auth = @member.auth('facebook')
+    @posts         = @member.posts
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.
@@ -70,10 +71,27 @@ class MembersController < ApplicationController
     end
   end
 
+  def finish_signup   
+    @member = current_member
+    if request.patch? && params[:member]
+      if @member.update(member_params)
+        @member.skip_reconfirmation!
+        bypass_sign_in(@member)
+        redirect_to root_path, notice: 'Welcome.'
+      else
+        flash[:alert] = 'Failed to complete signup'
+        @show_errors = true
+      end
+    end
+  end
+
   private
 
   def expire_cache_fragments
     expire_fragment("homepage_stats")
   end
 
+  def member_params
+    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter)
+  end
 end
