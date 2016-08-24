@@ -100,4 +100,5 @@ Growstuff::Application.configure do
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 
+  config.active_job.queue_adapter = :sidekiq
 end
