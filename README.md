@@ -32,7 +32,7 @@ frontend features. We welcome contributions -- see
 * To set up your development environment, see [Getting started](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide).
 * We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers. [Find a pair programming partner.](http://talk.growstuff.org/t/find-a-pair-programming-partner/13)
 * Drop in to our [discussion forums](http://talk.growstuff.org/), IRC or Gitter to chat to other developers, get help, etc.
-* You may also be interested in our [API](http://wiki.growstuff.org/index.php/API).
+* You may also be interested in our [API](https://github.com/Growstuff/growstuff/wiki/API).
 
 ## For designers, writers, researchers, data wranglers, and other contributors
 
