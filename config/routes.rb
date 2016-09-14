@@ -1,4 +1,5 @@
 Growstuff::Application.routes.draw do
+  apipie
 
   get '/robots.txt' => 'robots#robots'
 
@@ -83,6 +84,19 @@ Growstuff::Application.routes.draw do
   get '/admin' => 'admin#index'
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
+
+  namespace 'api' do
+    namespace 'v1' do
+      resources :crops
+      resources :gardens
+      resources :plantings
+      resources :seeds
+      resources :posts
+      resources :comments
+      resources :photos
+      resources :places
+    end
+  end
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 
