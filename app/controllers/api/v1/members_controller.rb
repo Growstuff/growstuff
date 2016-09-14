@@ -1,4 +1,5 @@
 class Api::V1::MembersController < ApplicationController
+  api!
   def show
     @member = Member.confirmed.find(params[:id])
    
