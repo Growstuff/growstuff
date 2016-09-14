@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  respond_to :json
 
   def edit
     @twitter_auth  = current_member.auth('twitter')
