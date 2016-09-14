@@ -4,6 +4,8 @@ class Api::V1::SeedsController < ApplicationController
 
   # GET /seeds.json
   api!
+  api :GET, '/seeds/owner/:owner'
+  api :GET, '/seeds/crop/:crop'
   def index
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])

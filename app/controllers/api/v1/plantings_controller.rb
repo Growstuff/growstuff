@@ -2,8 +2,9 @@ class Api::V1::PlantingsController < ApplicationController
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
-  # GET /plantings.json
   api!
+  api :GET, '/plantings/owner/:owner'
+  api :GET, '/plantings/crop/:crop'
   def index
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])

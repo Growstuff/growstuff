@@ -2,9 +2,8 @@ class Api::V1::GardensController < ApplicationController
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
-
-  # GET /gardens.json
   api!
+  api :GET, '/gardens/owner/:owner'
   param :page, :number
   param :owner, String
   def index

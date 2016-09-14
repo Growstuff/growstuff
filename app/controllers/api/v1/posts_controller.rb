@@ -4,6 +4,7 @@ class Api::V1::PostsController < ApplicationController
 
   # GET /posts.json
   api!
+  api :GET, '/posts/author/:author'
   def index
     @author = Member.find_by_slug(params[:author])
     if @author
