@@ -75,6 +75,8 @@ gem "elasticsearch-rails"
 
 gem 'rake', '>= 10.0.0'
 
+gem 'apipie-rails'
+
 group :production, :staging do
   gem 'newrelic_rpm'
   gem 'dalli'
