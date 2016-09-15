@@ -93,6 +93,8 @@
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer"
       %li 
+        = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{URI.escape @crop.name}", target: "_blank", rel: "noopener noreferrer"
+      %li 
         = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{URI.escape @crop.name}", target: "_blank", rel: "noopener noreferrer"
       - if current_member && current_member.location
         %li
