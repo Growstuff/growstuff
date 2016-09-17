@@ -244,6 +244,9 @@ GEM
       railties (>= 3.2)
       sprockets-rails
     json (1.8.3)
+    jsonapi-resources (0.8.0)
+      concurrent-ruby
+      rails (>= 4.0)
     jwt (1.5.4)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
@@ -520,6 +523,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails (~> 5.0.2)
   js-routes
+  jsonapi-resources
   kaminari
   leaflet-markercluster-rails
   leaflet-rails

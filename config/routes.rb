@@ -1,6 +1,4 @@
 Growstuff::Application.routes.draw do
-  apipie
-
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
@@ -87,31 +85,15 @@ Growstuff::Application.routes.draw do
 
   namespace 'api' do
     namespace 'v1' do
-      resources :crops
-      get 'crops/search' => 'crops#search', :as => 'crops_search'
-
-      resources :gardens
-      get '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
-
-      resources :plantings
-      get '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
-      get '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
-
-      resources :seeds
-      get '/seeds/owner/:owner' => 'seeds#index', :as => 'seeds_by_owner'
-      get '/seeds/crop/:crop' => 'seeds#index', :as => 'seeds_by_crop'
-
-      resources :posts
-      get '/posts/author/:author' => 'posts#index', :as => 'posts_by_author'
-
-      resources :comments
-      resources :photos
-      resources :places
-      resources :members, only: [:show]
-
-      resources :harvests
-      get '/harvests/owner/:owner' => 'harvests#index', :as => 'harvests_by_owner'
-      get '/harvests/crop/:crop' => 'harvests#index', :as => 'harvests_by_crop'
+      jsonapi_resources :crops, only: [:index, :show]
+      jsonapi_resources :gardens, only: [:index, :show]
+      jsonapi_resources :plantings, only: [:index, :show]
+      jsonapi_resources :seeds, only: [:index, :show]
+      jsonapi_resources :posts, only: [:index, :show]
+      jsonapi_resources :comments, only: [:index, :show]
+      jsonapi_resources :photos, only: [:index, :show]
+      jsonapi_resources :harvests, only: [:index, :show]
+      jsonapi_resources :members, only: [:show]
     end
   end
 
