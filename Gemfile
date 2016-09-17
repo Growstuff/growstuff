@@ -75,6 +75,9 @@ gem "elasticsearch-rails"
 
 gem 'rake', '>= 10.0.0'
 
+# API gem
+gem 'jsonapi-resources'
+# Docs for the api
 gem 'apipie-rails'
 
 group :production, :staging do
