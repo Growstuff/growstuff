@@ -1,4 +1,4 @@
-class Api::V1::GardensController < ApplicationController
+class Api::V1::GardensController < Api::ApiController
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
