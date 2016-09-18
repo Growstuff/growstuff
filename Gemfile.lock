@@ -49,8 +49,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    apipie-rails (0.3.6)
-      json
     arel (6.0.3)
     ast (2.3.0)
     autoprefixer-rails (6.4.0.2)
@@ -482,7 +480,6 @@ DEPENDENCIES
   active_merchant-paypal-bogus-gateway
   active_utils
   activemerchant
-  apipie-rails
   better_errors
   binding_of_caller
   bluecloth
