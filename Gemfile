@@ -78,6 +78,9 @@ gem 'rake', '>= 10.0.0'
 # API gem
 gem 'jsonapi-resources'
 
+# OAuth
+gem 'doorkeeper'
+
 group :production, :staging do
   gem 'newrelic_rpm'
   gem 'dalli'

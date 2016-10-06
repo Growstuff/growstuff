@@ -1,4 +1,5 @@
 Growstuff::Application.routes.draw do
+  use_doorkeeper
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
