@@ -433,6 +433,8 @@ GEM
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
+    sparkpost_rails (1.4.0)
+      rails (>= 4.0, < 5.1)
     sprockets (3.7.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -540,6 +542,7 @@ DEPENDENCIES
   sass-rails (~> 5.0.4)
   selenium-webdriver
   sidekiq
+  sparkpost_rails
   uglifier (~> 2.7.2)
   unicorn
   webrat
