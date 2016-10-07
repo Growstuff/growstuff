@@ -15,7 +15,7 @@ Growstuff::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_files = false
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -69,15 +69,15 @@ Growstuff::Application.configure do
   # Growstuff configuration
   config.action_mailer.default_url_options = { host: 'growstuff.org' }
 
-  config.action_mailer.smtp_settings = {
-      port: '587',
-      address: 'smtp.mandrillapp.com',
-      user_name: ENV['GROWSTUFF_MANDRILL_USERNAME'],
-      password: ENV['GROWSTUFF_MANDRILL_APIKEY'],
-      domain: 'heroku.com',
-      authentication: :plain
+  ActionMailer::Base.smtp_settings = {
+      port:                 ENV['SPARKPOST_SMTP_PORT'],
+      address:              ENV['SPARKPOST_SMTP_HOST'],
+      user_name:            ENV['SPARKPOST_SMTP_USERNAME'],
+      password:             ENV['SPARKPOST_SMTP_PASSWORD'],
+      authentication:       :login,
+      enable_starttls_auto: true
   }
-  config.action_mailer.delivery_method = :smtp
+  ActionMailer::Base.delivery_method = :smtp
 
   config.host = 'growstuff.org'
   config.analytics_code = <<-eos
@@ -89,6 +89,7 @@ Growstuff::Application.configure do
   # this config variable cannot be put in application.yml as it is needed
   # by the assets pipeline, which doesn't have access to ENV.
   config.mapbox_map_id = 'growstuff.i3n2c4ie'
+  config.mapbox_access_token = 'pk.eyJ1IjoiZ3Jvd3N0dWZmIiwiYSI6IkdxMkx4alUifQ.n0igaBsw97s14zMa0lwKCA'
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :production
@@ -101,4 +102,5 @@ Growstuff::Application.configure do
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 
+  config.active_job.queue_adapter = :sidekiq
 end

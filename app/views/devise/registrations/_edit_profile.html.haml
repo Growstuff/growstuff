@@ -18,11 +18,12 @@
       Profile picture
     .col-md-8
       = render :partial => "members/avatar", :locals => { :member => @member }
-      %p
-        %br/
-        To change your profile picture, visit
-        = succeed "." do
-          = link_to 'gravatar.com', "http://gravatar.com/"
+      - unless @member.preferred_avatar_uri.present?
+        %p
+          %br/
+          To change your profile picture, visit
+          = succeed "." do
+            = link_to 'gravatar.com', "http://gravatar.com/"
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8

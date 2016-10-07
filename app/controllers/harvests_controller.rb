@@ -27,17 +27,6 @@ class HarvestsController < ApplicationController
     end
   end
 
-  # GET /harvests/1
-  # GET /harvests/1.json
-  def show
-    @harvest = Harvest.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @harvest }
-    end
-  end
-
   # GET /harvests/new
   # GET /harvests/new.json
   def new

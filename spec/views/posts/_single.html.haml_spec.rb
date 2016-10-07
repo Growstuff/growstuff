@@ -33,11 +33,11 @@ describe "posts/_single" do
     end
 
     it "contains a permanent link to post" do
-      assert_select "a[href=#{post_path @post}]", "Permalink"
+      assert_select "a[href='#{post_path @post}']", "Permalink"
     end
 
     it "doesn't contain a link to new comment" do
-      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
+      assert_select("a", {href: new_comment_path(post_id: @post.id)}, false)
     end
   end
 
@@ -50,11 +50,11 @@ describe "posts/_single" do
     end
 
     it "contains link to new comment" do
-      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", "Reply"
+      assert_select("a", {href: new_comment_path(post_id: @post.id)}, "Reply")
     end
 
     it "does not contain an edit link" do
-      assert_select "a[href=#{edit_post_path(@post)}]", false
+      assert_select "a[href='#{edit_post_path(@post)}']", false
     end
   end
 
@@ -68,7 +68,7 @@ describe "posts/_single" do
     end
 
     it "contains an edit link" do
-      assert_select "a[href=#{edit_post_path(@post)}]", "Edit"
+      assert_select "a[href='#{edit_post_path(@post)}']", "Edit"
     end
   end
 
@@ -78,7 +78,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      assert_select "a[href=#{post_path(@post)}\#comments]", "0 comments"
+      assert_select "a[href='#{post_path(@post)}\#comments']", "0 comments"
     end
   end
 
@@ -89,7 +89,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      assert_select "a[href=#{post_path(@post)}\#comments]", "1 comment"
+      assert_select "a[href='#{post_path(@post)}\#comments']", "1 comment"
     end
   end
 
@@ -101,7 +101,7 @@ describe "posts/_single" do
     end
 
     it "renders the number of comments" do
-      assert_select "a[href=#{post_path(@post)}\#comments]", "2 comments"
+      assert_select "a[href='#{post_path(@post)}\#comments']", "2 comments"
     end
   end
 
@@ -121,11 +121,11 @@ describe "posts/_single" do
     end
 
     it "does not contain link to post" do
-     assert_select "a[href=#{post_path @post}]", false
+     assert_select "a[href='#{post_path @post}']", false
     end
 
     it "does not contain link to new comment" do
-      assert_select "a[href=#{new_comment_path(post_id: @post.id)}]", false
+      assert_select "a[href='#{new_comment_path(post_id: @post.id)}']", false
     end
 
   end
@@ -135,7 +135,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       @post.update(body: "I am updated")
       render_post
     end
@@ -154,10 +154,10 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:post, author: @member)
+      @comment = FactoryGirl.create(:comment, post: @post)
       @comment.update(body: "I've been updated")
-      render :partial => "comments/single", :locals => { :comment => @comment }
+      render partial: "comments/single", locals: { comment: @comment }
     end
 
     it "shows edited at time" do
@@ -174,7 +174,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       @post.update(updated_at: @post.created_at)
       render_post
     end
@@ -189,10 +189,10 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:post, author: @member)
+      @comment = FactoryGirl.create(:comment, post: @post)
       @comment.update(updated_at: @comment.created_at)
-      render :partial => "comments/single", :locals => { :comment => @comment }
+      render partial: "comments/single", locals: { comment: @comment }
     end
 
     it "does not show edited at" do

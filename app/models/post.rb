@@ -11,17 +11,17 @@ class Post < ActiveRecord::Base
   # from this direction, so we won't set up an association for now.
 
   after_create do
-    recipients = Array.new
+    recipients = []
     sender    = self.author.id
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
       member = Member.where('lower(login_name) = ?', $1.downcase).first
-      recipients << member if member and not recipients.include?(member)
+      recipients << member if member && !recipients.include?(member)
     end
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_AT_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
       member = Member.where('lower(login_name) = ?', $1[1..-1].downcase).first
-      recipients << member if member and not recipients.include?(member)
+      recipients << member if member && !recipients.include?(member)
     end
     # don't send notifications to yourself
     recipients.map{ |r| r.id }.each do |recipient|
@@ -64,7 +64,7 @@ class Post < ActiveRecord::Base
 
   # return posts sorted by recent activity
   def Post.recently_active
-    Post.all.sort do |a,b|
+    Post.all.sort do |a, b|
       b.recent_activity <=> a.recent_activity
     end
   end
@@ -77,7 +77,7 @@ class Post < ActiveRecord::Base
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', $1.downcase).first
         # create association
-        self.crops << crop if crop and not self.crops.include?(crop) 
+        self.crops << crop if crop && !self.crops.include?(crop) 
       end
     end
 end

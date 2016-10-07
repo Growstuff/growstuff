@@ -83,8 +83,16 @@ class CropsController < ApplicationController
     respond_to do |format|
       format.html # show.html.haml
       format.json do
+        # TODO RABL or similar one day to avoid presentation logic here
+        owner_structure = {
+          owner: {
+            only: [:id, :login_name, :location, :latitude, :longitude] 
+          }
+        }
         render json: @crop.to_json(include: {
-          plantings: { include: { owner: { only: [:id, :login_name, :location, :latitude, :longitude] }}}
+          plantings: {
+            include: owner_structure
+          }
         })
       end
     end
@@ -136,7 +144,7 @@ class CropsController < ApplicationController
         end
         unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
-            Notifier.new_crop_request(w, @crop).deliver!
+            Notifier.new_crop_request(w, @crop).deliver_later!
           end
         end
 
@@ -180,8 +188,8 @@ class CropsController < ApplicationController
         if previous_status == "pending"
           requester = @crop.requester
           new_status = @crop.approval_status
-          Notifier.crop_request_approved(requester, @crop).deliver! if new_status == "approved"
-          Notifier.crop_request_rejected(requester, @crop).deliver! if new_status == "rejected"
+          Notifier.crop_request_approved(requester, @crop).deliver_later! if new_status == "approved"
+          Notifier.crop_request_rejected(requester, @crop).deliver_later! if new_status == "rejected"
         end
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }

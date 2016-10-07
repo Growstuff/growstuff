@@ -79,7 +79,7 @@ class Seed < ActiveRecord::Base
   # returns a list of interesting seeds, for use on the homepage etc
   def Seed.interesting
     howmany = 12 # max number to find
-    interesting_seeds = Array.new
+    interesting_seeds = []
 
     Seed.tradable.each do |s|
       break if interesting_seeds.size == howmany

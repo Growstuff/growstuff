@@ -4,10 +4,10 @@ require 'simplecov'
 require 'coveralls'
 
 # output coverage locally AND send it to coveralls
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
-]
+])
 
 # fail if there's a significant test coverage drop
 SimpleCov.maximum_coverage_drop 1
@@ -96,9 +96,21 @@ RSpec.configure do |config|
 
   # controller specs require this to work with Devise
   # see https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
 
   # Allow just create(:factory) instead of needing to specify FactoryGirl.create(:factory)
   config.include FactoryGirl::Syntax::Methods
+
+  # Prevent Poltergeist from fetching external URLs during feature tests
+  config.before(:each, js: true) do
+    page.driver.browser.url_blacklist = [
+      'gravatar.com',
+      'mapbox.com',
+      'okfn.org',
+      'googlecode.com',
+    ] if page.driver.browser.respond_to?(:url_blacklist)
+
+    page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)
+  end
 end

@@ -19,9 +19,23 @@ module ApplicationHelper
     pid = price_in_dollars(price)
     currency = Growstuff::Application.config.currency
     link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
-    return link_to "(convert)",
-      link,
-      target: "_blank"
+
+    link_to "(convert)", link, target: "_blank", rel: "noopener noreferrer"
+  end
+
+  def build_alert_classes(alert_type = :info)
+    classes = 'alert alert-dismissable '
+    case alert_type.to_sym
+      when :alert, :danger, :error, :validation_errors
+        classes += 'alert-danger'
+      when :warning, :todo
+        classes += 'alert-warning'
+      when :notice, :success
+        classes += 'alert-success'
+      when :info
+        classes += 'alert-info'
+    end
+    classes
   end
 
   # Produces a cache key for uniquely identifying cached fragments.
@@ -43,7 +57,20 @@ module ApplicationHelper
   # Falls back to Gravatar
   #
   def avatar_uri(member, size = 150)
-    return member.preferred_avatar_uri if member.preferred_avatar_uri.present?
+    if member.preferred_avatar_uri.present?
+      # Some avatars support different sizes
+      # http://graph.facebook.com/12345678/picture?width=150&height=150
+      uri = URI.parse(member.preferred_avatar_uri)
+
+      if uri.host == 'graph.facebook.com'
+        uri.query = "&width=#{size}&height=#{size}"
+      end
+
+      # TODO: Assess twitter - https://dev.twitter.com/overview/general/user-profile-images-and-banners
+      # TODO: Assess flickr  - https://www.flickr.com/services/api/misc.buddyicons.html
+
+      return uri.to_s
+    end
 
     Gravatar.new(member.email).image_url({
       size: size,

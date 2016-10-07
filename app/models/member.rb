@@ -46,7 +46,7 @@ class Member < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable
+         :confirmable, :lockable, :timeoutable, :omniauthable
 
   # set up geocoding
   geocoded_by :location
@@ -58,7 +58,7 @@ class Member < ActiveRecord::Base
   attr_accessor :login
 
   # Requires acceptance of the Terms of Service
-  validates_acceptance_of :tos_agreement, allow_nil: false,
+  validates_acceptance_of :tos_agreement, allow_nil: true,
     accept: true
 
   validates :login_name,
@@ -130,7 +130,7 @@ class Member < ActiveRecord::Base
   def is_paid?
     if account.account_type.is_permanent_paid
       return true
-    elsif account.account_type.is_paid and account.paid_until >= Time.zone.now
+    elsif account.account_type.is_paid && account.paid_until >= Time.zone.now
       return true
     else
       return false
@@ -200,7 +200,7 @@ class Member < ActiveRecord::Base
 
   def Member.interesting
     howmany = 12 # max number to find
-    interesting_members = Array.new
+    interesting_members = []
     Member.confirmed.located.recently_signed_in.each do |m|
       break if interesting_members.size == howmany
       if m.interesting?
@@ -222,7 +222,7 @@ class Member < ActiveRecord::Base
   end
 
   def update_newsletter_subscription
-    if confirmed_at_changed? and newsletter # just signed up
+    if confirmed_at_changed? && newsletter # just signed up
       newsletter_subscribe
     elsif confirmed_at # i.e. after member's confirmed their account
       if newsletter_changed? # edited member settings
@@ -262,5 +262,4 @@ class Member < ActiveRecord::Base
   def get_follow(member)
     self.follows.where(followed_id: member.id).first if already_following?(member)
   end
-
 end

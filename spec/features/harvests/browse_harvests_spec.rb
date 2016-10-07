@@ -2,6 +2,7 @@ require 'rails_helper'
 
 feature "browse harvests" do
   let!(:member) { create :member }
+  let!(:harvest) { create :harvest, owner: member }
 
   background do
     login_as member
@@ -31,5 +32,8 @@ feature "browse harvests" do
       expect(page).to have_link "Read more"
     end
 
+    it 'links to #show' do
+      expect(page).to have_link harvest.crop.name, href: harvest_path(harvest)
+    end
   end
 end

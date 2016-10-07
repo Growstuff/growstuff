@@ -68,7 +68,7 @@ class Planting < ActiveRecord::Base
 
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
-    return unless planted_at and finished_at # only check if we have both
+    return unless planted_at && finished_at # only check if we have both
     errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
   end
 
@@ -97,7 +97,7 @@ class Planting < ActiveRecord::Base
   def calculate_days_before_maturity(planting, crop)
     p_crop = Planting.where(crop_id: crop).where.not(id: planting)
     differences = p_crop.collect do |p|
-      if p.finished and !p.finished_at.nil?
+      if p.finished && !p.finished_at.nil?
         (p.finished_at - p.planted_at).to_i
       end
     end
@@ -133,7 +133,7 @@ class Planting < ActiveRecord::Base
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
   def Planting.interesting(howmany=12, require_photo=true)
-    interesting_plantings = Array.new
+    interesting_plantings = []
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 
     Planting.includes(:photos).each do |p|

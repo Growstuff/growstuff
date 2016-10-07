@@ -132,7 +132,7 @@ class Harvest < ActiveRecord::Base
   end
 
   def default_photo
-    return photos.first
+    return photos.first || crop.default_photo
   end
 
 end
