@@ -12,6 +12,10 @@ class Order < ActiveRecord::Base
 
   before_save :standardize_referral_code
 
+  def by_member_id(member_id)
+    where(member_id: member_id)
+  end
+
   # total price of an order
   def total
     sum = 0
