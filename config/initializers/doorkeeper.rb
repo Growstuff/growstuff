@@ -1,20 +1,17 @@
 Doorkeeper.configure do
-  # Change the ORM that doorkeeper will use (needs plugins)
+  # The ORM that doorkeeper will use
   orm :active_record
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    # Put your resource owner authentication logic here.
-    # Example implementation:
-    Member.find_by_id(session[:user_id]) || redirect_to(new_member_session_url)
+    current_member || redirect_to(new_member_session_url)
   end
 
-  # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
-  # admin_authenticator do
-  #   # Put your admin authentication logic here.
-  #   # Example implementation:
-  #   Admin.find_by_id(session[:admin_id]) || redirect_to(new_admin_session_url)
-  # end
+  # Restrict access to the web interface for adding oauth authorized applications.
+  admin_authenticator do
+    # You must be a member to create an application
+    current_member || redirect_to(new_member_session_url)
+  end
 
   # Authorization Code expiration time (default 10 minutes).
   # authorization_code_expires_in 10.minutes
