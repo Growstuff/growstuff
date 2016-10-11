@@ -12,7 +12,7 @@ class Order < ActiveRecord::Base
 
   before_save :standardize_referral_code
 
-  def by_member_id(member_id)
+  def self.by_member_id(member_id)
     where(member_id: member_id)
   end
 
