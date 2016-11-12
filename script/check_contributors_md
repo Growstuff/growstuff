@@ -28,7 +28,7 @@ Please set it using
   end
 end
 
-if !system("grep -i #{author} CONTRIBUTORS.md") then
+if !system("grep", "-i", author, "CONTRIBUTORS.md") then
   abort %{
 Thanks for your contribution, #{author}!
 Please add your name and GitHub handle to the file CONTRIBUTORS.md,
