@@ -42,6 +42,7 @@ class Ability
 
       # managing your own user settings
       can :update, Member, id: member.id
+      can :destroy, Member, id: member.id
 
       # can read/delete notifications that were sent to them
       can :read, Notification, recipient_id: member.id

@@ -12,7 +12,9 @@ FactoryGirl.define do
     bio 'I love seeds'
 
     # cropbot is needed for certain tests, eg. Crop.create_from_csv
+    # some tests require them to be a wrangler e.g. member deletion
     factory :cropbot do
+      roles { [ FactoryGirl.create(:crop_wrangler) ] }
       login_name 'cropbot'
     end
 

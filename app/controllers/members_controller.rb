@@ -8,9 +8,9 @@ class MembersController < ApplicationController
   def index
     @sort = params[:sort]
     if @sort == 'recently_joined'
-      @members = Member.confirmed.recently_joined.paginate(page: params[:page])
+      @members = Member.confirmed.undeleted.recently_joined.paginate(page: params[:page])
     else
-      @members = Member.confirmed.paginate(page: params[:page])
+      @members = Member.confirmed.undeleted.paginate(page: params[:page])
     end
 
     respond_to do |format|
@@ -20,7 +20,7 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member        = Member.confirmed.find(params[:id])
+    @member        = Member.confirmed.undeleted.find(params[:id])
     @twitter_auth  = @member.auth('twitter')
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
@@ -41,12 +41,12 @@ class MembersController < ApplicationController
   end
 
   def view_follows
-    @member = Member.confirmed.find(params[:login_name])
+    @member = Member.confirmed.undeleted.find(params[:login_name])
     @follows = @member.followed.paginate(page: params[:page])
   end
 
   def view_followers
-    @member = Member.confirmed.find(params[:login_name])
+    @member = Member.confirmed.undeleted.find(params[:login_name])
     @followers = @member.followers.paginate(page: params[:page])
   end
 

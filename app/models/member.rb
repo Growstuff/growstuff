@@ -34,6 +34,8 @@ class Member < ActiveRecord::Base
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
   scope :recently_joined, -> { reorder("confirmed_at desc") }
   scope :wants_newsletter, -> { where(newsletter: true) }
+  scope :deleted, -> { where(:deleted => true) }
+  scope :undeleted, -> { where(:deleted => false) }
 
   has_many :follows, class_name: "Follow", foreign_key: "follower_id"
   has_many :followed, through: :follows
@@ -194,7 +196,7 @@ class Member < ActiveRecord::Base
     # we assume we're being passed something from
     # Member.confirmed.located as those are required for
     # interestingness, as well.
-    return true if plantings.present?
+    return true if plantings.present? && !deleted?
     return false
   end
 

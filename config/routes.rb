@@ -9,6 +9,7 @@ Growstuff::Application.routes.draw do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match 'members/:id' => 'members#delete', :via => :delete
 
   resources :members
 
