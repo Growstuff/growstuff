@@ -7,5 +7,4 @@ module SeedsHelper
     	truncate(seed.description, length: 130, separator: ' ', omission: '... ') { link_to "Read more", seed_path(seed) }
     end
   end
-
 end
