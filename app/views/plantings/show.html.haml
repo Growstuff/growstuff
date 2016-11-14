@@ -1,10 +1,10 @@
 =content_for :title, "#{@planting.crop} in #{@planting.location}"
 - content_for :opengraph do
   - @planting.crop.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)  
-  = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")  
+    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")
   - if @planting.description
-    = tag("meta", property: "og:description", content: @planting.description)  
+    = tag("meta", property: "og:description", content: @planting.description)
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
@@ -31,11 +31,11 @@
       %dt Quantity:
       %dd
         ="#{display_planting_quantity(@planting)}"
-    
+
       - if !@planting.planted_from.blank?
         %dt Planted from:
         %dd= "#{display_planted_from(@planting)}"
-    
+
       %dt Sun or shade?
       %dd
         - sunniness = @planting.sunniness.blank? ? "not specified" : @planting.sunniness

@@ -70,13 +70,13 @@ feature "signin", js: true do
       member = create :member, login_name: 'tdawg', email: 'example.oauth.facebook@example.com'
 
       # Start the test
-      visit root_path 
+      visit root_path
       first('.signup a').click
 
       # Click the signup with facebook link
 
       first('a[href="/members/auth/facebook"]').click
-      # Magic happens! 
+      # Magic happens!
       # See config/environments/test.rb for the fake user
       # that we pretended to auth as
 

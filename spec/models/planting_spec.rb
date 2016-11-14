@@ -76,7 +76,7 @@ describe Planting do
     it 'should not be calculated for plantings with an unknown days before maturity' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: nil)
 
-      @planting.percentage_grown.should be nil    
+      @planting.percentage_grown.should be nil
     end
   end
 

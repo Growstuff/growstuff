@@ -66,7 +66,7 @@ describe 'Growstuff::OauthSignupAction' do
       it 'should store the uid and provider for the member' do
         expect(@authentication.member.id).to eq @member.id
         expect(@authentication.provider).to eq 'facebook'
-        expect(@authentication.uid).to eq '123545' 
+        expect(@authentication.uid).to eq '123545'
       end
     end
 
@@ -77,7 +77,7 @@ describe 'Growstuff::OauthSignupAction' do
 
           Member.where(email: @auth['info']['email']).delete_all
           @existing_member = create :member, {
-            email: @auth['info']['email'], 
+            email: @auth['info']['email'],
             login_name: 'existing',
             preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
           }
@@ -111,7 +111,7 @@ describe 'Growstuff::OauthSignupAction' do
         it 'should store the uid and provider for the member' do
           expect(@authentication.member.id).to eq @member.id
           expect(@authentication.provider).to eq 'facebook'
-          expect(@authentication.uid).to eq '123545' 
+          expect(@authentication.uid).to eq '123545'
         end
       end
 
@@ -123,7 +123,7 @@ describe 'Growstuff::OauthSignupAction' do
           Authentication.delete_all
 
           @existing_member = create :member, {
-            email: @auth['info']['email'], 
+            email: @auth['info']['email'],
             login_name: 'schrodingerscat',
             preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
           }

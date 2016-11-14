@@ -77,7 +77,7 @@ class Post < ActiveRecord::Base
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', $1.downcase).first
         # create association
-        self.crops << crop if crop && !self.crops.include?(crop) 
+        self.crops << crop if crop && !self.crops.include?(crop)
       end
     end
 end

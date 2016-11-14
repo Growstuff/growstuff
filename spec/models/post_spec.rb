@@ -70,7 +70,7 @@ describe Post do
     before do
       Time.stub(now: Time.now)
     end
-    
+
     let(:post) { FactoryGirl.create(:post, created_at: 1.day.ago) }
 
     it "sets recent activity to post time" do

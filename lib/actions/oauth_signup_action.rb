@@ -2,7 +2,7 @@ class Growstuff::OauthSignupAction
 
   #
   # Inspects the omniauth information
-  # and determines if we have an existing member 
+  # and determines if we have an existing member
   # (to add authentication to)
   # or if this is a new signup
   #
@@ -27,7 +27,7 @@ class Growstuff::OauthSignupAction
     end
 
     member.save!
-    
+
     member
   end
 

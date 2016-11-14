@@ -191,12 +191,12 @@ feature "Planting a crop", :js do
       fill_in "Finished date", with: "2014-08-30"
 
       # Trigger click instead of using Capybara"s uncheck
-      # because a date selection widget is overlapping 
+      # because a date selection widget is overlapping
       # the checkbox preventing interaction.
       find("#planting_finished").trigger 'click'
     end
 
-    # Javascript removes the finished at date when the 
+    # Javascript removes the finished at date when the
     # planting is marked unfinished.
     expect(find("#planting_finished_at").value).to eq("")
 
@@ -204,7 +204,7 @@ feature "Planting a crop", :js do
       find("#planting_finished").trigger 'click'
     end
 
-    # The finished at date was cached in Javascript in 
+    # The finished at date was cached in Javascript in
     # case the user clicks unfinished accidentally.
     expect(find("#planting_finished_at").value).to eq("2014-08-30")
 
@@ -272,7 +272,7 @@ feature "Planting a crop", :js do
   describe "Marking a planting as finished from the list page" do
     let(:path) { plantings_path }
     let(:link_text) { "Mark as finished" }
-    
+
     it_behaves_like "append date"
   end
 end

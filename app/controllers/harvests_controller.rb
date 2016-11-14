@@ -1,7 +1,7 @@
 class HarvestsController < ApplicationController
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
-  
+
 
   # GET /harvests
   # GET /harvests.json
