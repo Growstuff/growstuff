@@ -7,3 +7,6 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
+
+Style/StringLiterals:
+  Enabled: false
