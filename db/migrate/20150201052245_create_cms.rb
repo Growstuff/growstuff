@@ -1,7 +1,5 @@
 class CreateCms < ActiveRecord::Migration
-
   def self.up
-
     text_limit = case ActiveRecord::Base.connection.adapter_name
       when 'PostgreSQL'
         { }
