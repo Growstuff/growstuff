@@ -114,6 +114,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem "codeclimate-test-reporter", group: :test, require: nil
   gem "active_merchant-paypal-bogus-gateway"
+  gem 'rubocop', require: false
 end
 
 group :travis do
