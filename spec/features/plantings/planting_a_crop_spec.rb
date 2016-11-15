@@ -276,4 +276,3 @@ feature "Planting a crop", :js do
     it_behaves_like "append date"
   end
 end
-

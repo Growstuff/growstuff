@@ -135,4 +135,3 @@ class CreateCms < ActiveRecord::Migration
     drop_table :comfy_cms_categorizations
   end
 end
-

@@ -38,4 +38,3 @@ describe "plantings/_form" do
   end
 
 end
-

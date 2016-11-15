@@ -31,4 +31,3 @@ describe 'devise/mailer/unlock_instructions.html.haml', type: "view" do
     end
   end
 end
-

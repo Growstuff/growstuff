@@ -2446,44 +2446,6 @@ Style/TernaryParentheses:
   Exclude:
     - 'app/helpers/plantings_helper.rb'
 
-# Offense count: 31
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: final_newline, final_blank_line
-Style/TrailingBlankLines:
-  Exclude:
-    - 'app/controllers/omniauth_callbacks_controller.rb'
-    - 'app/controllers/passwords_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/seeds_helper.rb'
-    - 'config.rb'
-    - 'config/application.rb'
-    - 'config/environments/test.rb'
-    - 'config/initializers/geocoder.rb'
-    - 'config/initializers/sidekiq.rb'
-    - 'db/migrate/20140928044231_add_crops_posts_table.rb'
-    - 'db/migrate/20150201052245_create_cms.rb'
-    - 'lib/actions/oauth_signup_action.rb'
-    - 'script/check_contributors_md'
-    - 'spec/features/cms_spec.rb'
-    - 'spec/features/comments/commenting_a_comment_spec.rb'
-    - 'spec/features/crops/creating_a_crop_spec.rb'
-    - 'spec/features/members_list_spec.rb'
-    - 'spec/features/notifications_spec.rb'
-    - 'spec/features/photos/show_photo_spec.rb'
-    - 'spec/features/places/searching_a_place_spec.rb'
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/shared_examples/append_date.rb'
-    - 'spec/features/unsubscribing_spec.rb'
-    - 'spec/helpers/plantings_helper_spec.rb'
-    - 'spec/lib/actions/oauth_signup_action_spec.rb'
-    - 'spec/models/follow_spec.rb'
-    - 'spec/support/database_cleaner.rb'
-    - 'spec/support/feature_helpers.rb'
-    - 'spec/views/devise/mailer/unlock_instructions_spec.rb'
-    - 'spec/views/plant_parts/show.html.haml_spec.rb'
-    - 'spec/views/plantings/_form.html.haml_spec.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.

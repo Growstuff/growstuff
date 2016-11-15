@@ -32,4 +32,3 @@ describe "plant_parts/show" do
     end
   end
 end
-
