@@ -48,7 +48,7 @@
     Scientific names
     = button_tag "+", :id => "add-sci_name-row", :type => "button"
     = button_tag "-", :id => "remove-sci_name-row", :type => "button"
-    
+
   .form-group#scientific_names
     - @crop.scientific_names.each.with_index do |sci, index|
       .template.col-md-12{ :id => "sci_template[#{index+1}]" }
@@ -64,7 +64,7 @@
     = button_tag "+", :id => "add-alt_name-row", :type => "button"
     = button_tag "-", :id => "remove-alt_name-row", :type => "button"
 
-  .form-group#alternate_names 
+  .form-group#alternate_names
     - @crop.alternate_names.each.with_index do |alt, index|
       .template.col-md-12{ :id => "alt_template[#{index+1}]" }
         .col-md-2

@@ -49,7 +49,7 @@ en:
 
   seeds:
     index:
-      title: 
+      title:
         default: "Everyone's seeds"
         crop_seeds: "Everyone's %{crop} seeds"
         owner_seeds: "%{owner} seeds"
@@ -62,7 +62,7 @@ en:
 
   plantings:
     index:
-      title: 
+      title:
         default: "Everyone's plantings"
         crop_plantings: "Everyone's %{crop} plantings"
         owner_plantings: "%{owner} plantings"
@@ -82,22 +82,22 @@ en:
         owner_harvests: "%{owner} harvests"
 
   places:
-    index: 
-      title: "%{site_name} Community Map" 
+    index:
+      title: "%{site_name} Community Map"
 
   members:
-    index: 
-      title: "%{site_name} members" 
+    index:
+      title: "%{site_name} members"
 
   posts:
-    index: 
+    index:
       title:
-        default: "Everyone's posts" 
+        default: "Everyone's posts"
         author_posts: "%{author} posts"
 
   shop:
     index:
-      title: "Shop" 
+      title: "Shop"
 
   forums:
     index:

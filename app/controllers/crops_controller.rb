@@ -86,7 +86,7 @@ class CropsController < ApplicationController
         # TODO RABL or similar one day to avoid presentation logic here
         owner_structure = {
           owner: {
-            only: [:id, :login_name, :location, :latitude, :longitude] 
+            only: [:id, :login_name, :location, :latitude, :longitude]
           }
         }
         render json: @crop.to_json(include: {
@@ -184,7 +184,7 @@ class CropsController < ApplicationController
             sci_name = @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
           end
         end
-        
+
         if previous_status == "pending"
           requester = @crop.requester
           new_status = @crop.approval_status

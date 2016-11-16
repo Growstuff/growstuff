@@ -26,7 +26,7 @@ describe CropsHelper do
     context "with an quantity of seeds" do
       before do
         a_different_crop = create :apple
-        
+
         create :seed, crop: @crop, quantity: 20, owner: @member
         create :seed, crop: @crop, quantity: 13, owner: @member
 

@@ -34,7 +34,7 @@ feature "signup", js: true do
   end
 
   scenario "sign up for new account without accepting TOS" do
-    visit root_path 
+    visit root_path
     first('.signup a').click # click the 'Sign up' button in the middle of the page
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
@@ -54,13 +54,13 @@ feature "signup", js: true do
       Authentication.where(provider: 'facebook', uid: '123545').delete_all
 
       # Start the test
-      visit root_path 
+      visit root_path
       first('.signup a').click
 
       # Click the signup with facebook link
 
       first('a[href="/members/auth/facebook"]').click
-      # Magic happens! 
+      # Magic happens!
       # See config/environments/test.rb for the fake user
       # that we pretended to auth as
 

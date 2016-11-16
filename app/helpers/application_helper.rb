@@ -86,4 +86,3 @@ module ApplicationHelper
     "#{size} #{model_name}"
   end
 end
-
