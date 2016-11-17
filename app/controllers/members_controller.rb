@@ -29,7 +29,7 @@ class MembersController < ApplicationController
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.
     @garden = Garden.new
-    
+
     respond_to do |format|
       format.html # show.html.haml
       format.json { render json: @member.to_json(only: [:id, :login_name, :bio, :created_at, :slug, :location, :latitude, :longitude]) }
@@ -71,7 +71,7 @@ class MembersController < ApplicationController
     end
   end
 
-  def finish_signup   
+  def finish_signup
     @member = current_member
     if request.patch? && params[:member]
       if @member.update(member_params)

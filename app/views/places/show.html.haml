@@ -1,6 +1,6 @@
 -content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}"
 - content_for :opengraph do
-  = tag("meta", property: "og:title", content: "#{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}")  
+  = tag("meta", property: "og:title", content: "#{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}")
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
@@ -34,7 +34,7 @@
 
   #plantings
   %h3= "Recent plantings near #{@place}"
-  
+
 
   - plantings = []
   - @nearby_members.first(10).each do |member|

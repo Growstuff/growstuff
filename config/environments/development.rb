@@ -31,7 +31,7 @@ Growstuff::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  # Asset digests allow you to set far-future HTTP expiration dates on all assets, 
+  # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 

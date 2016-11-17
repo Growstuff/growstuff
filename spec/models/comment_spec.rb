@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Comment do
 
   context "basic" do
-    
+
     let(:comment) { FactoryGirl.create(:comment) }
 
     it "belongs to a post" do
@@ -16,7 +16,7 @@ describe Comment do
   end
 
   context "notifications" do
-    
+
     let(:comment) { FactoryGirl.create(:comment) }
 
     it "sends a notification when a comment is posted" do

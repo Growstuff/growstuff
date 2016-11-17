@@ -183,7 +183,7 @@ class Member < ActiveRecord::Base
 
   # Returns a hash of Flickr photosets' ids and titles
   def flickr_sets
-    sets = Hash.new 
+    sets = Hash.new
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end

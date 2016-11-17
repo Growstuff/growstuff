@@ -1,13 +1,13 @@
 ## DEPRECATION NOTICE: Do not add new tests to this file!
 ##
-## View and controller tests are deprecated in the Growstuff project. 
-## We no longer write new view and controller tests, but instead write 
-## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara). 
-## These test the full stack, behaving as a browser, and require less complicated setup 
-## to run. Please feel free to delete old view/controller tests as they are reimplemented 
-## in feature tests. 
+## View and controller tests are deprecated in the Growstuff project.
+## We no longer write new view and controller tests, but instead write
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara).
+## These test the full stack, behaving as a browser, and require less complicated setup
+## to run. Please feel free to delete old view/controller tests as they are reimplemented
+## in feature tests.
 ##
-## If you submit a pull request containing new view or controller tests, it will not be 
+## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
 
@@ -32,11 +32,11 @@ describe PlantingsController do
       @member1 = FactoryGirl.create(:member)
       @member2 = FactoryGirl.create(:member)
       @tomato = FactoryGirl.create(:tomato)
-      @maize = FactoryGirl.create(:maize)      
+      @maize = FactoryGirl.create(:maize)
       @planting1 = FactoryGirl.create(:planting, crop: @tomato, owner: @member1)
       @planting2 = FactoryGirl.create(:planting, crop: @maize, owner: @member2)
     end
-    
+
     it "assigns all plantings as @plantings" do
       get :index, {}
       assigns(:plantings).should =~ [@planting1, @planting2]
@@ -51,7 +51,7 @@ describe PlantingsController do
     it "picks up crop from params and shows the plantings for the crop only" do
       get :index, {crop: @maize.name}
       assigns(:crop).should eq @maize
-      assigns(:plantings).should eq [@planting2]    
+      assigns(:plantings).should eq [@planting2]
     end
   end
 

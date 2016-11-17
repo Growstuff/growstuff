@@ -262,7 +262,7 @@ describe Ability do
 
       let(:role) { FactoryGirl.create(:admin) }
 
-      before do 
+      before do
         member.roles << role
       end
 
@@ -297,7 +297,7 @@ describe Ability do
     context 'admin' do
 
       let(:role) { FactoryGirl.create(:admin) }
-      
+
       before do
         member.roles << role
       end

@@ -89,7 +89,7 @@ def load_test_users
       row = CSV.parse(suburb_file.readline)
 
       suburb,country,state,latitude,longitude = row[0]
-      # Using 'update_column' method instead of 'update' so that 
+      # Using 'update_column' method instead of 'update' so that
       # it avoids accessing Geocoding service for faster processing
       @user.gardens.first.update_columns(location: suburb, latitude: latitude, longitude: longitude)
       @user.update_columns(location: suburb, latitude: latitude, longitude: longitude)

@@ -2,7 +2,6 @@
 module ControllerMacros
   def login_member(member_factory=:member)
     let(:member) { member = FactoryGirl.create(member_factory || :member) }
-
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:member]
       sign_in member

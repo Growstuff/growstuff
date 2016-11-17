@@ -47,7 +47,7 @@ describe Order do
     @order_item1 = FactoryGirl.create(:order_item,
       order_id: @order.id, product_id: @product.id, price: 1111, quantity: 1)
 
-    @order.total.should eq 1111 
+    @order.total.should eq 1111
   end
 
   it "gives the correct total for quantities more than 1" do
@@ -61,7 +61,7 @@ describe Order do
     @order_item1 = FactoryGirl.create(:order_item,
       order_id: @order.id, product_id: @product.id, price: 1111, quantity: 2)
 
-    @order.total.should eq 2222 
+    @order.total.should eq 2222
   end
 
   it "formats order items for activemerchant" do

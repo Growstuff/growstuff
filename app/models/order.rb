@@ -17,7 +17,7 @@ class Order < ActiveRecord::Base
     sum = 0
     for i in order_items do
       subtotal = i.price * i.quantity
-      sum += subtotal 
+      sum += subtotal
     end
     return sum
   end

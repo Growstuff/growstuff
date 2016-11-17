@@ -24,7 +24,7 @@
     %li{:class => @approval_status == "rejected" ? 'active' : ''}
       = link_to "Rejected", wrangle_crops_path(:approval_status => "rejected")
 
-%h2 
+%h2
   - if @approval_status == "pending"
     Requested Crops
   - elsif @approval_status == "rejected"
