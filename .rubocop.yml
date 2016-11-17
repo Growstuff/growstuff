@@ -46,7 +46,7 @@ Metrics/CyclomaticComplexity:
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 223
+  Max: 120
 
 # Offense count: 8
 Metrics/PerceivedComplexity:

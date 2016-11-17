@@ -3,7 +3,10 @@ class Notifier < ActionMailer::Base
   default from: "Growstuff <noreply@growstuff.org>"
 
   def verifier
-    raise "RAILS_SECRET_TOKEN environment variable not set - have you created config/application.yml?" unless ENV['RAILS_SECRET_TOKEN']
+    unless ENV['RAILS_SECRET_TOKEN']
+      raise "RAILS_SECRET_TOKEN environment variable"\
+        "not set - have you created config/application.yml?"
+    end
 
     return ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
   end

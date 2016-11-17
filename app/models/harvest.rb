@@ -125,7 +125,8 @@ class Harvest < ActiveRecord::Base
     end
 
     if self.weight_quantity
-      string += " weighing #{number_to_human(self.weight_quantity, strip_insignificant_zeros: true)} #{self.weight_unit}"
+      string += " weighing #{number_to_human(self.weight_quantity, strip_insignificant_zeros: true)}"\
+        " #{self.weight_unit}"
     end
 
     return string

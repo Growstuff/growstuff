@@ -597,8 +597,17 @@ describe Crop do
   end
 
   context "crop rejections" do
-    let!(:rejected_reason) { FactoryGirl.create(:crop, name: 'tomato', approval_status: 'rejected', reason_for_rejection: 'not edible') }
-    let!(:rejected_other) { FactoryGirl.create(:crop, name: 'tomato', approval_status: 'rejected', reason_for_rejection: 'other', rejection_notes: 'blah blah blah') }
+    let!(:rejected_reason) do
+      FactoryGirl.create(:crop, name: 'tomato',
+                                approval_status: 'rejected',
+                                reason_for_rejection: 'not edible')
+    end
+    let!(:rejected_other) do
+      FactoryGirl.create(:crop, name: 'tomato',
+                                approval_status: 'rejected',
+                                reason_for_rejection: 'other',
+                                rejection_notes: 'blah blah blah')
+    end
 
     describe "rejecting a crop" do
       it "should give reason if a default option" do

@@ -48,7 +48,10 @@ describe Seed do
     it 'should refuse invalid tradable_to values' do
       @seed = FactoryGirl.build(:seed, tradable_to: 'not valid')
       @seed.should_not be_valid
-      @seed.errors[:tradable_to].should include("You may only trade seed nowhere, locally, nationally, or internationally")
+      @seed.errors[:tradable_to].should include(
+        "You may only trade seed nowhere, locally, "\
+        "nationally, or internationally"
+      )
     end
 
     it 'should not allow nil or blank values' do
