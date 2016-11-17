@@ -42,4 +42,3 @@ $ ->
       element = document.getElementById(tmp)
       console.log("%s",tmp)
       element.remove()
-    

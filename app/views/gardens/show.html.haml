@@ -40,8 +40,8 @@
           %p No description available yet.
 
           - if can? :edit, @garden
-            %p 
-              Why not 
+            %p
+              Why not
               = link_to 'tell us more.', edit_garden_path(@garden)
 
     - if @garden.photos.size > 0 or (can? :edit, @garden and can? :create, Photo)

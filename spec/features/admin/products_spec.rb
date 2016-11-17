@@ -4,7 +4,7 @@ feature "products" do
   context "admin user" do
     let(:member) { create :admin_member }
     let(:product) { create :product }
-    
+
     background do
       login_as member
     end

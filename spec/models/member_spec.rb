@@ -380,11 +380,9 @@ describe 'member' do
   end
 
   context 'member who followed another member' do
-    
-
     let(:member1) { FactoryGirl.create(:member) }
     let(:member2) { FactoryGirl.create(:member) }
-    let(:member3) { FactoryGirl.create(:member) }    
+    let(:member3) { FactoryGirl.create(:member) }
 
     before do
       @follow = member1.follows.create(follower_id: member1.id, followed_id: member2.id)

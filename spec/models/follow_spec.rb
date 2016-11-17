@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Follow do
-  
+
   before(:each) do
     @member1 = FactoryGirl.create(:member)
     @member2 = FactoryGirl.create(:member)

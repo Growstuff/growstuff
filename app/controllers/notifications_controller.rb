@@ -46,7 +46,6 @@ class NotificationsController < ApplicationController
     @subject   = @sender_notification.subject =~ /^Re: / ?
       @sender_notification.subject :
       "Re: " + @sender_notification.subject
-    
 
     respond_to do |format|
       format.html # reply.html.haml

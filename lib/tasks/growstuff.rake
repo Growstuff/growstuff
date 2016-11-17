@@ -103,31 +103,31 @@ namespace :growstuff do
         is_paid: false,
         is_permanent_paid: false
       )
-      @paid_account = AccountType.find_or_create_by( 
+      @paid_account = AccountType.find_or_create_by(
         name: "Paid",
         is_paid: true,
         is_permanent_paid: false
       )
-      @seed_account = AccountType.find_or_create_by( 
+      @seed_account = AccountType.find_or_create_by(
         name: "Seed",
         is_paid: true,
         is_permanent_paid: true
       )
-      @staff_account = AccountType.find_or_create_by( 
+      @staff_account = AccountType.find_or_create_by(
         name: "Staff",
         is_paid: true,
         is_permanent_paid: true
       )
 
       puts "Adding products..."
-      Product.find_or_create_by( 
+      Product.find_or_create_by(
         name: "Annual subscription",
         description: "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
         min_price: 3000,
         account_type_id: @paid_account.id,
         paid_months: 12
       )
-      Product.find_or_create_by( 
+      Product.find_or_create_by(
         name: "Seed account",
         description: "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
         min_price: 15000,

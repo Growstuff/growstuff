@@ -364,7 +364,7 @@ describe Crop do
   end
 
   context "search" do
-    
+
     let(:mushroom) { FactoryGirl.create(:crop, name: 'mushroom') }
 
     before do
