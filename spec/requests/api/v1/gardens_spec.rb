@@ -9,7 +9,7 @@ RSpec.describe 'Gardens' do
   let(:links)  { data['links'] }
 
   context '#index' do
-    before { get '/api/v1/gardens', {}, jsonapi_request_headers }
+    before { get '/api/v1/gardens', headers: jsonapi_request_headers }
     it 'responds with HTTP 200 status' do
       expect(response).to have_http_status(:ok)
     end
@@ -29,7 +29,7 @@ RSpec.describe 'Gardens' do
 
   context '#show' do
     before do
-      get  "/api/v1/gardens/#{garden.id}", {}, jsonapi_request_headers
+      get "/api/v1/gardens/#{garden.id}", headers: jsonapi_request_headers
     end
 
     it 'responds with HTTP 200 status' do
@@ -47,15 +47,15 @@ RSpec.describe 'Gardens' do
 
   context 'modifying data' do
     it 'does not allow post' do
-      post "/api/v1/gardens/#{garden.id}", {}, jsonapi_request_headers
+      post "/api/v1/gardens/#{garden.id}", headers: jsonapi_request_headers
       expect(response).to have_http_status(:not_found)
     end
     it 'does not allow put' do
-      put "/api/v1/gardens/#{garden.id}", {}, jsonapi_request_headers
+      put "/api/v1/gardens/#{garden.id}", headers: jsonapi_request_headers
       expect(response).to have_http_status(:not_found)
     end
     it 'does not allow delete' do
-      delete "/api/v1/gardens/#{garden.id}", {}, jsonapi_request_headers
+      delete "/api/v1/gardens/#{garden.id}", headers: jsonapi_request_headers
       expect(response).to have_http_status(:not_found)
     end
   end
