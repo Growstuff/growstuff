@@ -10,6 +10,10 @@ AllCops:
 
 Style/StringLiterals:
   Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
 
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 30 lines of code.'
