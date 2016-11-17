@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::V1::CropResource < JSONAPI::Resource
   attributes :name, :en_wikipedia_url, :seeds
   has_many :plantings

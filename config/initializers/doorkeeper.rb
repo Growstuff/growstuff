@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Doorkeeper.configure do
   # The ORM that doorkeeper will use
   orm :active_record
