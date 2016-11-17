@@ -8,6 +8,11 @@ AllCops:
     - 'db/schema.rb'
     - 'vendor/**/*'
 
+Style/FileName:
+  Exclude:
+    - 'Gemfile'
+    - 'Gemfile.lock'
+
 Style/StringLiterals:
   Enabled: false
 
