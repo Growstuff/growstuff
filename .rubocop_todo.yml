@@ -2430,14 +2430,6 @@ Style/SymbolProc:
     - 'app/models/post.rb'
     - 'lib/tasks/growstuff.rake'
 
-# Offense count: 5
-# Cop supports --auto-correct.
-Style/Tab:
-  Exclude:
-    - 'app/helpers/seeds_helper.rb'
-    - 'db/migrate/20141119130555_change_follows_member_id_to_follower_id.rb'
-    - 'spec/support/controller_macros.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowSafeAssignment.
