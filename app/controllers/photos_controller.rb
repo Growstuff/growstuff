@@ -47,11 +47,7 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
-    @photo = Photo.find_by_flickr_photo_id(params[:photo][:flickr_photo_id]) ||
-      Photo.new(photo_params)
-    @photo.owner_id = current_member.id
-    @photo.set_flickr_metadata
-
+    @photo = find_or_create_from_flickr_photo params[:photo][:flickr_photo_id]
 
     collection = case params[:type]
                    when 'garden'
@@ -128,5 +124,13 @@ class PhotosController < ApplicationController
   def photo_params
     params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,
     :license_url, :thumbnail_url, :fullsize_url, :link_url)
+  end
+
+  def find_or_create_from_flickr_photo(flickr_photo_id)
+    photo = Photo.find_by(flickr_photo_id: flickr_photo_id)
+    photo = Photo.new(photo_params) unless photo
+    photo.owner_id = current_member.id
+    photo.set_flickr_metadata
+    photo
   end
 end
