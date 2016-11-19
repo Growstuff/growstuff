@@ -45,4 +45,4 @@ Metrics/LineLength:
 
 # Offense count: 8
 Metrics/PerceivedComplexity:
-  Max: 11
+  Max: 10
