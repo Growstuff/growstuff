@@ -48,17 +48,7 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = find_or_create_from_flickr_photo params[:photo][:flickr_photo_id]
-
-    collection = case params[:type]
-                   when 'garden'
-                     @photo.gardens
-                   when 'planting'
-                     @photo.plantings
-                   when 'harvest'
-                     @photo.harvests
-                   else
-                     nil
-                 end
+    collection = which_collection?
 
     if collection && has_item_id
       item = params[:type].camelcase.constantize.find_by_id(params[:id])
@@ -132,5 +122,16 @@ class PhotosController < ApplicationController
     photo.owner_id = current_member.id
     photo.set_flickr_metadata
     photo
+  end
+
+  def which_collection?
+    case params[:type]
+    when 'garden'
+      @photo.gardens
+    when 'planting'
+      @photo.plantings
+    when 'harvest'
+      @photo.harvests
+    end
   end
 end
