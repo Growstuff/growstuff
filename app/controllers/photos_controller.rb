@@ -50,7 +50,7 @@ class PhotosController < ApplicationController
     @photo = find_or_create_from_flickr_photo params[:photo][:flickr_photo_id]
     collection = which_collection?
 
-    if collection && has_item_id
+    if collection && item_id?
       item = params[:type].camelcase.constantize.find_by_id(params[:id])
       if item && member_owns_item(item)
         collection << item unless collection.include?(item)
@@ -103,7 +103,7 @@ class PhotosController < ApplicationController
 
   private
 
-  def has_item_id
+  def item_id?
     params.key? :id
   end
 
