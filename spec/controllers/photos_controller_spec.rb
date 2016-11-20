@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ## DEPRECATION NOTICE: Do not add new tests to this file!
 ##
 ## View and controller tests are deprecated in the Growstuff project.
@@ -85,13 +86,12 @@ describe PhotosController do
                                                            link_url: "http://example.com")
     end
 
+    let(:member) { FactoryGirl.create(:member) }
+    let(:garden) { FactoryGirl.create(:garden, owner: member) }
+    let(:planting) { FactoryGirl.create(:planting, garden: garden, owner: member) }
+    let(:harvest) { FactoryGirl.create(:harvest, owner: member) }
+    let(:photo) { FactoryGirl.create(:photo, owner: member) }
     describe "with valid params" do
-      let(:member) { FactoryGirl.create(:member) }
-      let(:garden) { FactoryGirl.create(:garden, owner: member) }
-      let(:planting) { FactoryGirl.create(:planting, garden: garden, owner: member) }
-      let(:harvest) { FactoryGirl.create(:harvest, owner: member) }
-      let(:photo) { FactoryGirl.create(:photo, owner: member) }
-
       before { controller.stub(:current_member) { member } }
       it "attaches the photo to a planting" do
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
@@ -138,10 +138,8 @@ describe PhotosController do
     end
 
     describe "with matching owners" do
+      before { controller.stub(:current_member) { member } }
       it "creates the planting/photo link" do
-        member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { member }
-        garden = FactoryGirl.create(:garden, owner: member)
         planting = FactoryGirl.create(:planting, garden: garden, owner: member)
         photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
@@ -150,10 +148,6 @@ describe PhotosController do
       end
 
       it "creates the harvest/photo link" do
-        member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { member }
-        harvest = FactoryGirl.create(:harvest, owner: member)
-        photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         expect(flash[:alert]).not_to be_present
         Photo.last.harvests.first.should eq harvest
@@ -164,18 +158,18 @@ describe PhotosController do
       let(:photo) { FactoryGirl.create(:photo) }
       it "does not create the planting/photo link" do
         # members will be auto-created, and different
-        planting = FactoryGirl.create(:planting)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+        another_planting = FactoryGirl.create(:planting)
+        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
         expect(flash[:alert]).to be_present
-        Photo.last.plantings.first.should_not eq planting
+        Photo.last.plantings.first.should_not eq another_planting
       end
 
       it "does not create the harvest/photo link" do
         # members will be auto-created, and different
-        harvest = FactoryGirl.create(:harvest)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+        another_harvest = FactoryGirl.create(:harvest)
+        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
         expect(flash[:alert]).to be_present
-        Photo.last.harvests.first.should_not eq harvest
+        Photo.last.harvests.first.should_not eq another_harvest
       end
     end
   end
