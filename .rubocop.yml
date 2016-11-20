@@ -46,3 +46,10 @@ Metrics/LineLength:
 # Offense count: 8
 Metrics/PerceivedComplexity:
   Max: 10
+
+# See https://github.com/bbatsov/rubocop/issues/3629
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false

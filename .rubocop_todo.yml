@@ -38,7 +38,6 @@ Lint/AssignmentInCondition:
 # SupportedStyles: either, start_of_block, start_of_line
 Lint/BlockAlignment:
   Exclude:
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/features/signin_spec.rb'
     - 'spec/models/seed_spec.rb'
 
@@ -162,7 +161,6 @@ Rails/ActionFilter:
     - 'app/controllers/notifications_controller.rb'
     - 'app/controllers/order_items_controller.rb'
     - 'app/controllers/orders_controller.rb'
-    - 'app/controllers/photos_controller.rb'
     - 'app/controllers/plantings_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/controllers/products_controller.rb'
@@ -195,7 +193,6 @@ Rails/DynamicFindBy:
     - 'app/controllers/gardens_controller.rb'
     - 'app/controllers/harvests_controller.rb'
     - 'app/controllers/notifications_controller.rb'
-    - 'app/controllers/photos_controller.rb'
     - 'app/controllers/plantings_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/controllers/scientific_names_controller.rb'
@@ -247,7 +244,6 @@ Rails/HttpPositionalArguments:
     - 'spec/controllers/notifications_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/controllers/places_controller_spec.rb'
     - 'spec/controllers/plantings_controller_spec.rb'
     - 'spec/controllers/posts_controller_spec.rb'
@@ -335,7 +331,6 @@ Style/AlignHash:
     - 'app/models/planting.rb'
     - 'app/models/seed.rb'
     - 'db/migrate/20150201052245_create_cms.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/models/harvest_spec.rb'
     - 'spec/models/post_spec.rb'
     - 'spec/views/notifications/index.html.haml_spec.rb'
@@ -354,7 +349,6 @@ Style/AlignParameters:
     - 'app/controllers/comments_controller.rb'
     - 'app/controllers/gardens_controller.rb'
     - 'app/controllers/harvests_controller.rb'
-    - 'app/controllers/photos_controller.rb'
     - 'app/controllers/plantings_controller.rb'
     - 'app/controllers/products_controller.rb'
     - 'app/helpers/application_helper.rb'
@@ -451,7 +445,6 @@ Style/BlockDelimiters:
     - 'app/controllers/scientific_names_controller.rb'
     - 'spec/controllers/harvests_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/features/notifications_spec.rb'
     - 'spec/models/ability_spec.rb'
     - 'spec/models/comment_spec.rb'
@@ -492,7 +485,6 @@ Style/BracesAroundHashParameters:
     - 'spec/controllers/notifications_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/controllers/places_controller_spec.rb'
     - 'spec/controllers/plantings_controller_spec.rb'
     - 'spec/controllers/posts_controller_spec.rb'
@@ -508,7 +500,6 @@ Style/BracesAroundHashParameters:
 # SupportedStyles: case, end
 Style/CaseIndentation:
   Exclude:
-    - 'app/controllers/photos_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/order.rb'
     - 'db/migrate/20150201052245_create_cms.rb'
@@ -834,7 +825,6 @@ Style/ElseAlignment:
 # SupportedStyles: empty, nil, both
 Style/EmptyElse:
   Exclude:
-    - 'app/controllers/photos_controller.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -849,7 +839,6 @@ Style/EmptyLineBetweenDefs:
 Style/EmptyLines:
   Exclude:
     - 'app/controllers/gardens_controller.rb'
-    - 'app/controllers/photos_controller.rb'
     - 'app/models/follow.rb'
     - 'app/models/member.rb'
     - 'app/models/post.rb'
@@ -874,7 +863,6 @@ Style/EmptyLines:
     - 'spec/controllers/notifications_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/controllers/places_controller_spec.rb'
     - 'spec/controllers/plant_parts_controller_spec.rb'
     - 'spec/controllers/plantings_controller_spec.rb'
@@ -1030,7 +1018,6 @@ Style/EmptyLinesAroundBlockBody:
     - 'spec/controllers/notifications_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/controllers/places_controller_spec.rb'
     - 'spec/controllers/plant_parts_controller_spec.rb'
     - 'spec/controllers/plantings_controller_spec.rb'
@@ -1305,7 +1292,6 @@ Style/FrozenStringLiteralComment:
     - 'app/controllers/orders_controller.rb'
     - 'app/controllers/pages_controller.rb'
     - 'app/controllers/passwords_controller.rb'
-    - 'app/controllers/photos_controller.rb'
     - 'app/controllers/places_controller.rb'
     - 'app/controllers/plant_parts_controller.rb'
     - 'app/controllers/plantings_controller.rb'
@@ -1513,7 +1499,6 @@ Style/FrozenStringLiteralComment:
     - 'spec/controllers/notifications_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/controllers/places_controller_spec.rb'
     - 'spec/controllers/plant_parts_controller_spec.rb'
     - 'spec/controllers/plantings_controller_spec.rb'
@@ -1845,7 +1830,6 @@ Style/IndentHash:
     - 'config/environments/production.rb'
     - 'config/environments/staging.rb'
     - 'config/environments/test.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/lib/actions/oauth_signup_action_spec.rb'
 
 # Offense count: 25
@@ -1880,7 +1864,6 @@ Style/IndentationWidth:
     - 'db/migrate/20141119130555_change_follows_member_id_to_follower_id.rb'
     - 'lib/tasks/hooks.rake'
     - 'spec/controllers/harvests_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/features/signin_spec.rb'
     - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
     - 'spec/models/garden_spec.rb'
@@ -2029,7 +2012,6 @@ Style/MultilineMethodCallIndentation:
 # SupportedStyles: aligned, indented
 Style/MultilineOperationIndentation:
   Exclude:
-    - 'app/controllers/photos_controller.rb'
     - 'app/controllers/registrations_controller.rb'
 
 # Offense count: 2
@@ -2159,7 +2141,6 @@ Style/PerlBackrefs:
 Style/PredicateName:
   Exclude:
     - 'spec/**/*'
-    - 'app/controllers/photos_controller.rb'
     - 'app/models/member.rb'
 
 # Offense count: 1
@@ -2368,7 +2349,6 @@ Style/SpaceInsideHashLiteralBraces:
     - 'spec/controllers/notifications_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/controllers/plantings_controller_spec.rb'
     - 'spec/controllers/seeds_controller_spec.rb'
     - 'spec/views/notifications/show.html.haml_spec.rb'
@@ -2382,7 +2362,6 @@ Style/SpaceInsideParens:
   Exclude:
     - 'app/models/crop.rb'
     - 'config/environments/test.rb'
-    - 'spec/controllers/photos_controller_spec.rb'
     - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
     - 'spec/views/posts/edit.html.haml_spec.rb'
 
