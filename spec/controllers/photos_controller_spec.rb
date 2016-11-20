@@ -121,6 +121,15 @@ describe PhotosController do
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         Photo.last.harvests.size.should eq 1
       end
+
+      it "doesn't attach photo to a comment" do
+        member = FactoryGirl.create(:member)
+        controller.stub(:current_member) { member }
+        comment = FactoryGirl.create(:comment)
+        photo = FactoryGirl.create(:photo, owner: member)
+        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
+        expect(flash[:alert]).to be_present
+      end
     end
 
     describe "for the second time" do
