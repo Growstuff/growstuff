@@ -136,11 +136,17 @@ class PhotosController < ApplicationController
       return
     end
 
-    item = params[:type].camelcase.constantize.find(params[:id])
+    item = which_item?
     if item && member_owns_item(item)
       collection << item unless collection.include?(item)
     else
       flash[:alert] = "Could not find this item owned by you"
     end
+  end
+
+  def which_item?
+    allowed_types = %w(planting garden harvest)
+    item_type = params[:type]
+    item_type.camelcase.constantize.find(params[:id]) if allowed_types.include? item_type
   end
 end
