@@ -155,6 +155,7 @@ describe PhotosController do
         harvest = FactoryGirl.create(:harvest, owner: member)
         photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+        expect(flash[:alert]).not_to be_present
         Photo.last.harvests.first.should eq harvest
       end
     end
