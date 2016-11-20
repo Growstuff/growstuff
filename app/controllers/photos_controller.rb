@@ -117,15 +117,13 @@ class PhotosController < ApplicationController
     @photo
   end
 
+  def allowed_types
+    %w(garden harvest planting)
+  end
+
   def which_collection?
-    case params[:type]
-    when 'garden'
-      @photo.gardens
-    when 'planting'
-      @photo.plantings
-    when 'harvest'
-      @photo.harvests
-    end
+    return unless allowed_types.include?(params[:type])
+    @photo.send(params[:type].pluralize.to_sym)
   end
 
   def add_photo_to_collection
@@ -145,7 +143,6 @@ class PhotosController < ApplicationController
   end
 
   def which_item?
-    allowed_types = %w(planting garden harvest)
     item_type = params[:type]
     item_type.camelcase.constantize.find(params[:id]) if allowed_types.include? item_type
   end
