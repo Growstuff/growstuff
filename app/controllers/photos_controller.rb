@@ -47,23 +47,12 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
-    @photo = find_or_create_from_flickr_photo params[:photo][:flickr_photo_id]
-    collection = which_collection?
-
-    if collection && item_id?
-      item = params[:type].camelcase.constantize.find_by_id(params[:id])
-      if item && member_owns_item(item)
-        collection << item unless collection.include?(item)
-      else
-        flash[:alert] = "Could not find this item owned by you"
-      end
-    else
-      flash[:alert] = "Missing or invalid type or id parameter"
-    end
+    find_or_create_photo_from_flickr_photo
+    add_photo_to_collection
 
     respond_to do |format|
-      if @photo.save
-        format.html { redirect_to @photo, notice: 'Photo was successfully added.' }
+      if @photo.present? && @photo.save
+        format.html { redirect_to photo_path(@photo), notice: 'Photo was successfully added.' }
         format.json { render json: @photo, status: :created, location: @photo }
       else
         format.html { render action: "new" }
@@ -111,17 +100,21 @@ class PhotosController < ApplicationController
     item.owner.id == current_member.id
   end
 
+  def flickr_photo_id_param
+    params[:photo][:flickr_photo_id]
+  end
+
   def photo_params
     params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,
     :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
-  def find_or_create_from_flickr_photo(flickr_photo_id)
-    photo = Photo.find_by(flickr_photo_id: flickr_photo_id)
-    photo = Photo.new(photo_params) unless photo
-    photo.owner_id = current_member.id
-    photo.set_flickr_metadata
-    photo
+  def find_or_create_photo_from_flickr_photo
+    @photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
+    @photo = Photo.new(photo_params) unless @photo
+    @photo.owner_id = current_member.id
+    @photo.set_flickr_metadata
+    @photo
   end
 
   def which_collection?
@@ -132,6 +125,22 @@ class PhotosController < ApplicationController
       @photo.plantings
     when 'harvest'
       @photo.harvests
+    end
+  end
+
+  def add_photo_to_collection
+    collection = which_collection?
+
+    unless collection && item_id?
+      flash[:alert] = "Missing or invalid type or id parameter"
+      return
+    end
+
+    item = params[:type].camelcase.constantize.find(params[:id])
+    if item && member_owns_item(item)
+      collection << item unless collection.include?(item)
+    else
+      flash[:alert] = "Could not find this item owned by you"
     end
   end
 end
