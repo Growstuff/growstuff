@@ -125,12 +125,12 @@ describe PhotosController do
 
     describe "for the second time" do
       it "does not add a photo twice" do
-        expect {
-          post :create, {photo: { flickr_photo_id: 1 } }
-        }.to change(Photo, :count).by(1)
-        expect {
-          post :create, {photo: { flickr_photo_id: 1 } }
-        }.to change(Photo, :count).by(0)
+        expect do
+          post :create, photo: { flickr_photo_id: 1 }
+        end.to change(Photo, :count).by(1)
+        expect do
+          post :create, photo: { flickr_photo_id: 1 }
+        end.to change(Photo, :count).by(0)
       end
     end
 
