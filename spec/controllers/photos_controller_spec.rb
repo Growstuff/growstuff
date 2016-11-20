@@ -86,23 +86,20 @@ describe PhotosController do
     end
 
     describe "with valid params" do
+      let(:member) { FactoryGirl.create(:member) }
+      let(:garden) { FactoryGirl.create(:garden, owner: member) }
+      let(:planting) { FactoryGirl.create(:planting, garden: garden, owner: member) }
+      let(:harvest) { FactoryGirl.create(:harvest, owner: member) }
+      let(:photo) { FactoryGirl.create(:photo, owner: member) }
+
+      before { controller.stub(:current_member) { member } }
       it "attaches the photo to a planting" do
-        member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { member }
-        garden = FactoryGirl.create(:garden, owner: member)
-        planting = FactoryGirl.create(:planting, garden: garden, owner: member)
-        photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
         expect(flash[:alert]).not_to be_present
         Photo.last.plantings.first.should eq planting
       end
 
       it "doesn't attach a photo to a planting twice" do
-        member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { member }
-        garden = FactoryGirl.create(:garden, owner: member)
-        planting = FactoryGirl.create(:planting, garden: garden, owner: member)
-        photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
         expect(flash[:alert]).not_to be_present
@@ -110,20 +107,12 @@ describe PhotosController do
       end
 
       it "attaches the photo to a harvest" do
-        member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { member }
-        harvest = FactoryGirl.create(:harvest, owner: member)
-        photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         expect(flash[:alert]).not_to be_present
         Photo.last.harvests.first.should eq harvest
       end
 
       it "doesn't attach a photo to a harvest twice" do
-        member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { member }
-        harvest = FactoryGirl.create(:harvest, owner: member)
-        photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         expect(flash[:alert]).not_to be_present
@@ -131,10 +120,7 @@ describe PhotosController do
       end
 
       it "doesn't attach photo to a comment" do
-        member = FactoryGirl.create(:member)
-        controller.stub(:current_member) { member }
         comment = FactoryGirl.create(:comment)
-        photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
         expect(flash[:alert]).to be_present
       end
