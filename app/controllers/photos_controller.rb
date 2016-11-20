@@ -96,10 +96,6 @@ class PhotosController < ApplicationController
     params.key? :id
   end
 
-  def member_owns_item(item)
-    item.owner.id == current_member.id
-  end
-
   def flickr_photo_id_param
     params[:photo][:flickr_photo_id]
   end
@@ -117,13 +113,13 @@ class PhotosController < ApplicationController
     @photo
   end
 
-  def allowed_types
-    %w(garden harvest planting)
-  end
-
   def which_collection?
-    return unless allowed_types.include?(params[:type])
-    @photo.send(params[:type].pluralize.to_sym)
+    case params[:type]
+    when "garden" then @photo.gardens
+    when "harvest" then @photo.harvests
+    when "planting" then @photo.plantings
+    else raise "Invalid type"
+    end
   end
 
   def add_photo_to_collection
@@ -134,16 +130,19 @@ class PhotosController < ApplicationController
       return
     end
 
-    item = which_item?
-    if item && member_owns_item(item)
-      collection << item unless collection.include?(item)
-    else
-      flash[:alert] = "Could not find this item owned by you"
-    end
+    item = find_item_for_photo!
+    collection << item unless collection.include?(item)
+  rescue
+    flash[:alert] = "Could not find this item owned by you"
   end
 
-  def which_item?
-    item_type = params[:type]
-    item_type.camelcase.constantize.find(params[:id]) if allowed_types.include? item_type
+  def find_item_for_photo!
+    item_class = case params[:type]
+                 when "garden" then Garden
+                 when "harvest" then Harvest
+                 when "planting" then Planting
+                 else raise "Invalid type"
+                 end
+    item_class.find_by!(id: params[:id], owner_id: current_member.id)
   end
 end
