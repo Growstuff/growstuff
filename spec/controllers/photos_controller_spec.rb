@@ -51,23 +51,27 @@ describe PhotosController do
       get :new, type: "planting", id: 5
       assigns(:id).should eq "5"
       assigns(:type).should eq "planting"
+      expect(flash[:alert]).not_to be_present
     end
 
     it "assigns a harvest id" do
       get :new, type: "harvest", id: 5
       assigns(:id).should eq "5"
       assigns(:type).should eq "harvest"
+      expect(flash[:alert]).not_to be_present
     end
 
     it "assigns a garden id" do
       get :new, type: "garden", id: 5
       assigns(:id).should eq "5"
       assigns(:type).should eq "garden"
+      expect(flash[:alert]).not_to be_present
     end
 
     it "assigns the current set as @current_set" do
       get :new, set: 'foo'
       assigns(:current_set).should eq "foo"
+      expect(flash[:alert]).not_to be_present
     end
   end
 
@@ -89,6 +93,7 @@ describe PhotosController do
         planting = FactoryGirl.create(:planting, garden: garden, owner: member)
         photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+        expect(flash[:alert]).not_to be_present
         Photo.last.plantings.first.should eq planting
       end
 
@@ -100,6 +105,7 @@ describe PhotosController do
         photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+        expect(flash[:alert]).not_to be_present
         Photo.last.plantings.size.should eq 1
       end
 
@@ -109,6 +115,7 @@ describe PhotosController do
         harvest = FactoryGirl.create(:harvest, owner: member)
         photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+        expect(flash[:alert]).not_to be_present
         Photo.last.harvests.first.should eq harvest
       end
 
@@ -119,6 +126,7 @@ describe PhotosController do
         photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+        expect(flash[:alert]).not_to be_present
         Photo.last.harvests.size.should eq 1
       end
 
@@ -151,6 +159,7 @@ describe PhotosController do
         planting = FactoryGirl.create(:planting, garden: garden, owner: member)
         photo = FactoryGirl.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+        expect(flash[:alert]).not_to be_present
         Photo.last.plantings.first.should eq planting
       end
 
@@ -170,6 +179,7 @@ describe PhotosController do
         planting = FactoryGirl.create(:planting)
         photo = FactoryGirl.create(:photo)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+        expect(flash[:alert]).to be_present
         Photo.last.plantings.first.should_not eq planting
       end
 
@@ -178,6 +188,7 @@ describe PhotosController do
         harvest = FactoryGirl.create(:harvest)
         photo = FactoryGirl.create(:photo)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+        expect(flash[:alert]).to be_present
         Photo.last.harvests.first.should_not eq harvest
       end
     end
