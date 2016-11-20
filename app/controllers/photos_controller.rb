@@ -106,7 +106,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,
-    :license_url, :thumbnail_url, :fullsize_url, :link_url)
+                                  :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
   def find_or_create_photo_from_flickr_photo
