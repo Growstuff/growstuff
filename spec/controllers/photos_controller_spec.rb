@@ -73,18 +73,15 @@ describe PhotosController do
 
   describe "POST create" do
     before(:each) do
-      Photo.any_instance.stub(:flickr_metadata).and_return( {
-        title: "A Heartbreaking work of staggering genius",
-        license_name: "CC-BY",
-        license_url: "http://example.com/aybpl",
-        thumbnail_url: "http://example.com/thumb.jpg",
-        fullsize_url: "http://example.com/full.jpg",
-        link_url: "http://example.com"
-      })
+      Photo.any_instance.stub(:flickr_metadata).and_return(title: "A Heartbreaking work of staggering genius",
+                                                           license_name: "CC-BY",
+                                                           license_url: "http://example.com/aybpl",
+                                                           thumbnail_url: "http://example.com/thumb.jpg",
+                                                           fullsize_url: "http://example.com/full.jpg",
+                                                           link_url: "http://example.com")
     end
 
     describe "with valid params" do
-
       it "attaches the photo to a planting" do
         member = FactoryGirl.create(:member)
         controller.stub(:current_member) { member }
@@ -123,8 +120,8 @@ describe PhotosController do
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
         Photo.last.harvests.size.should eq 1
+      end
     end
-  end
 
     describe "for the second time" do
       it "does not add a photo twice" do
