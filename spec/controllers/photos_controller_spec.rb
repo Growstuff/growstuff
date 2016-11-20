@@ -161,7 +161,7 @@ describe PhotosController do
     end
 
     describe "with mismatched owners" do
-      it "creates the planting/photo link" do
+      it "does not create the planting/photo link" do
         # members will be auto-created, and different
         planting = FactoryGirl.create(:planting)
         photo = FactoryGirl.create(:photo)
@@ -170,7 +170,7 @@ describe PhotosController do
         Photo.last.plantings.first.should_not eq planting
       end
 
-      it "creates the harvest/photo link" do
+      it "does not create the harvest/photo link" do
         # members will be auto-created, and different
         harvest = FactoryGirl.create(:harvest)
         photo = FactoryGirl.create(:photo)
