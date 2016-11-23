@@ -4,18 +4,24 @@ namespace :growstuff do
   # usage: rake growstuff:admin_user name=skud
 
   task admin_user: :environment do
-    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:admin_user name=whoever (login name is case-sensitive)"
-    admin  = Role.find('admin')
-    member.roles << admin
+    add_role_to_member! ENV['name'], 'admin'
   end
 
   desc "Add a crop wrangler user, by name"
   # usage: rake growstuff:cropwrangler_user name=skud
 
   task cropwrangler_user: :environment do
-    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:cropwrangler_user name=whoever (login name is case-sensitive)"
-    cw = Role.find('crop-wrangler')
-    member.roles << cw
+    add_role_to_member! ENV['name'], 'crop-wrangler'
+  end
+
+  def add_role_to_member!(login_name, role_name)
+    unless login_name && role_name
+      raise "Usage: rake growstuff:[rolename] name=[username] "\
+        "\n (login name is case-sensitive)\n"
+    end
+    member = Member.find_by!(login_name: login_name)
+    role = Role.find_by!(name: role_name)
+    member.roles << role
   end
 
   desc "Upload crops from a CSV file"
