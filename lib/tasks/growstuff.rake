@@ -4,18 +4,24 @@ namespace :growstuff do
   # usage: rake growstuff:admin_user name=skud
 
   task admin_user: :environment do
-    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:admin_user name=whoever (login name is case-sensitive)"
-    admin  = Role.find('admin')
-    member.roles << admin
+    add_role_to_member! ENV['name'], 'admin'
   end
 
   desc "Add a crop wrangler user, by name"
   # usage: rake growstuff:cropwrangler_user name=skud
 
   task cropwrangler_user: :environment do
-    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:cropwrangler_user name=whoever (login name is case-sensitive)"
-    cw = Role.find('crop-wrangler')
-    member.roles << cw
+    add_role_to_member! ENV['name'], 'crop-wrangler'
+  end
+
+  def add_role_to_member!(login_name, role_name)
+    unless login_name && role_name
+      raise "Usage: rake growstuff:[rolename] name=[username] "\
+        "\n (login name is case-sensitive)\n"
+    end
+    member = Member.find_by!(login_name: login_name)
+    role = Role.find_by!(name: role_name)
+    member.roles << role
   end
 
   desc "Upload crops from a CSV file"
@@ -49,7 +55,7 @@ namespace :growstuff do
 
     if Date.today.cwday == send_on_day and Date.today.cweek % every_n_weeks == 0
       Member.confirmed.find_each do |m|
-        Notifier.planting_reminder(m).deliver_now!
+        Notifier.planting_reminder(m).deliver_later!
       end
     end
   end
@@ -103,31 +109,31 @@ namespace :growstuff do
         is_paid: false,
         is_permanent_paid: false
       )
-      @paid_account = AccountType.find_or_create_by( 
+      @paid_account = AccountType.find_or_create_by(
         name: "Paid",
         is_paid: true,
         is_permanent_paid: false
       )
-      @seed_account = AccountType.find_or_create_by( 
+      @seed_account = AccountType.find_or_create_by(
         name: "Seed",
         is_paid: true,
         is_permanent_paid: true
       )
-      @staff_account = AccountType.find_or_create_by( 
+      @staff_account = AccountType.find_or_create_by(
         name: "Staff",
         is_paid: true,
         is_permanent_paid: true
       )
 
       puts "Adding products..."
-      Product.find_or_create_by( 
+      Product.find_or_create_by(
         name: "Annual subscription",
         description: "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
         min_price: 3000,
         account_type_id: @paid_account.id,
         paid_months: 12
       )
-      Product.find_or_create_by( 
+      Product.find_or_create_by(
         name: "Seed account",
         description: "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
         min_price: 15000,

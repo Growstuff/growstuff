@@ -108,7 +108,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     @photo.destroy
     flash[:alert] = "Photo successfully deleted."
-    
+
     respond_to do |format|
       format.html { redirect_to photos_url }
       format.json { head :no_content }

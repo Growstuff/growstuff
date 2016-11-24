@@ -1,13 +1,13 @@
 ## DEPRECATION NOTICE: Do not add new tests to this file!
 ##
-## View and controller tests are deprecated in the Growstuff project. 
-## We no longer write new view and controller tests, but instead write 
-## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara). 
-## These test the full stack, behaving as a browser, and require less complicated setup 
-## to run. Please feel free to delete old view/controller tests as they are reimplemented 
-## in feature tests. 
+## View and controller tests are deprecated in the Growstuff project.
+## We no longer write new view and controller tests, but instead write
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara).
+## These test the full stack, behaving as a browser, and require less complicated setup
+## to run. Please feel free to delete old view/controller tests as they are reimplemented
+## in feature tests.
 ##
-## If you submit a pull request containing new view or controller tests, it will not be 
+## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
 
@@ -81,8 +81,8 @@ describe NotificationsController do
 
   describe "GET reply" do
     it "marks notifications as read" do
-      notification = FactoryGirl.create(:notification, :recipient_id => subject.current_member.id)
-      get :reply, {:id => notification.to_param}
+      notification = FactoryGirl.create(:notification, recipient_id: subject.current_member.id)
+      get :reply, {id: notification.to_param}
       # we need to fetch it from the db again, can't test against the old one
       n = Notification.find(notification.id)
       n.read.should eq true

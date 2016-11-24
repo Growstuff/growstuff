@@ -1,7 +1,7 @@
 .panel.panel-success
   .panel-heading
     %h3.panel-title
-      = link_to "#{harvest.owner.login_name}'s harvest", harvest.owner
+      = link_to "#{harvest.owner.login_name}'s #{harvest.crop.name} harvest", harvest
       - if can? :edit, harvest
         %a.pull-right{:href => edit_harvest_path(harvest), :role => "button", :id => "edit_harvest_glyphicon"}
           %span.glyphicon.glyphicon-pencil{:title => "Edit"}
@@ -11,13 +11,13 @@
         = link_to image_tag((harvest.default_photo ?  harvest.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => harvest.crop.name, :class => 'img'), harvest.crop
       .col-md-8
         %dl.dl-horizontal
-          %dt Crop : 
+          %dt Crop :
           %dd= link_to harvest.crop.name, harvest.crop
-          %dt Plant part : 
+          %dt Plant part :
           %dd= link_to harvest.plant_part, harvest.plant_part
-          %dt Quantity : 
+          %dt Quantity :
           %dd= display_quantity(harvest)
-          %dt Harvest date :      
+          %dt Harvest date :
           %dd= harvest.harvested_at
   .panel-footer
     %dt Description

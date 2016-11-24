@@ -71,3 +71,4 @@ submit the change with your pull request.
 - Lucas Nogueira / [lucasnogueira](https://github.com/lucasnogueira)
 - Charley Lewittes / [ctlewitt](https://github.com/ctlewitt)
 - Kristine Nicole Polvoriza / [polveenomials](https://github.com/polveenomials)
+- Brenda Wallace / [br3nda](https://github.com/br3nda)

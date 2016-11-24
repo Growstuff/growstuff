@@ -5,7 +5,7 @@
 jQuery ->
 
   el = $('.append-date')
-  
+
   el.datepicker({'format': 'yyyy-mm-dd'})
 
   el.click (e) ->

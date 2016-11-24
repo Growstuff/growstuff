@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :follow do
-    follower 
+    follower
     followed
   end
 

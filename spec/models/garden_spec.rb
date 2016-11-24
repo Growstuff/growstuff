@@ -37,7 +37,7 @@ describe Garden do
   end
 
   context "featured plantings" do
-    
+
     let(:tomato) { FactoryGirl.create(:tomato) }
     let(:maize) { FactoryGirl.create(:maize) }
     let(:chard) { FactoryGirl.create(:chard) }

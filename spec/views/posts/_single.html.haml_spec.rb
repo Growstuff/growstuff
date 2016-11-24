@@ -1,13 +1,13 @@
 ## DEPRECATION NOTICE: Do not add new tests to this file!
 ##
-## View and controller tests are deprecated in the Growstuff project. 
-## We no longer write new view and controller tests, but instead write 
-## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara). 
-## These test the full stack, behaving as a browser, and require less complicated setup 
-## to run. Please feel free to delete old view/controller tests as they are reimplemented 
-## in feature tests. 
+## View and controller tests are deprecated in the Growstuff project.
+## We no longer write new view and controller tests, but instead write
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara).
+## These test the full stack, behaving as a browser, and require less complicated setup
+## to run. Please feel free to delete old view/controller tests as they are reimplemented
+## in feature tests.
 ##
-## If you submit a pull request containing new view or controller tests, it will not be 
+## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
 
@@ -135,7 +135,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       @post.update(body: "I am updated")
       render_post
     end
@@ -154,10 +154,10 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:post, author: @member)
+      @comment = FactoryGirl.create(:comment, post: @post)
       @comment.update(body: "I've been updated")
-      render :partial => "comments/single", :locals => { :comment => @comment }
+      render partial: "comments/single", locals: { comment: @comment }
     end
 
     it "shows edited at time" do
@@ -174,7 +174,7 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
+      @post = FactoryGirl.create(:post, author: @member)
       @post.update(updated_at: @post.created_at)
       render_post
     end
@@ -189,10 +189,10 @@ describe "posts/_single" do
       @member = FactoryGirl.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @post = FactoryGirl.create(:post, :author => @member)
-      @comment = FactoryGirl.create(:comment, :post => @post)
+      @post = FactoryGirl.create(:post, author: @member)
+      @comment = FactoryGirl.create(:comment, post: @post)
       @comment.update(updated_at: @comment.created_at)
-      render :partial => "comments/single", :locals => { :comment => @comment }
+      render partial: "comments/single", locals: { comment: @comment }
     end
 
     it "does not show edited at" do

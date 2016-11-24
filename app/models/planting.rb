@@ -104,7 +104,7 @@ class Planting < ActiveRecord::Base
 
     if differences.compact.empty?
       nil
-    else  
+    else
       differences.compact.sum/differences.compact.size
     end
   end
