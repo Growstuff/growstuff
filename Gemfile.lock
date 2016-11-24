@@ -49,6 +49,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    apipie-rails (0.3.6)
+      json
     arel (6.0.3)
     ast (2.3.0)
     autoprefixer-rails (6.4.0.2)
@@ -242,6 +244,9 @@ GEM
       railties (>= 3.2)
       sprockets-rails
     json (1.8.3)
+    jsonapi-resources (0.8.0)
+      concurrent-ruby
+      rails (>= 4.0)
     jwt (1.5.4)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
@@ -489,6 +494,7 @@ DEPENDENCIES
   active_merchant-paypal-bogus-gateway
   active_utils
   activemerchant
+  apipie-rails
   better_errors
   binding_of_caller
   bluecloth
@@ -529,6 +535,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails (~> 5.0.2)
   js-routes
+  jsonapi-resources
   kaminari
   leaflet-markercluster-rails
   leaflet-rails

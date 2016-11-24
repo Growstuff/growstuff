@@ -1,5 +1,4 @@
 Growstuff::Application.routes.draw do
-
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
@@ -83,6 +82,20 @@ Growstuff::Application.routes.draw do
   get '/admin' => 'admin#index'
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
+
+  namespace 'api' do
+    namespace 'v1' do
+      jsonapi_resources :crops, only: [:index, :show]
+      jsonapi_resources :gardens, only: [:index, :show]
+      jsonapi_resources :plantings, only: [:index, :show]
+      jsonapi_resources :seeds, only: [:index, :show]
+      jsonapi_resources :posts, only: [:index, :show]
+      jsonapi_resources :comments, only: [:index, :show]
+      jsonapi_resources :photos, only: [:index, :show]
+      jsonapi_resources :harvests, only: [:index, :show]
+      jsonapi_resources :members, only: [:show]
+    end
+  end
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 
