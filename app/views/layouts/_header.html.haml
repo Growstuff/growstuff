@@ -49,8 +49,8 @@
         - if member_signed_in?
           %li.dropdown<
             %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => root_path}
-              - if current_member.notifications.unread_count > 0
-                = t('.your_stuff', unread_count: current_member.notifications.unread_count)
+              - if current_member.notifications.unread_count + current_member.seeds.count_not_replied_requests > 0
+                = t('.your_stuff', unread_count: current_member.notifications.unread_count + current_member.seeds.count_not_replied_requests)
               - else
                 #{current_member.login_name}
               %b.caret
@@ -60,6 +60,12 @@
               %li= link_to t('.plantings'), plantings_by_owner_path(:owner => current_member.slug)
               %li= link_to t('.harvest'), harvests_by_owner_path(:owner => current_member.slug)
               %li= link_to t('.seeds'), seeds_by_owner_path(:owner => current_member.slug)
+              %li
+                - if current_member.seeds.count_not_replied_requests > 0
+                  = link_to t('.my_seed_trades_unread', unread_count: current_member.seeds.count_not_replied_requests), member_seed_trades_path(current_member.id)
+                - else
+                  = link_to t('.my_seed_trades'), member_seed_trades_path(current_member.id)
+
               %li= link_to t('.posts'), posts_by_author_path(:author => current_member.slug)
               %li= link_to t('.account'), orders_path
               %li

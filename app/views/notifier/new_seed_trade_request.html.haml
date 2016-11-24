@@ -1,0 +1,21 @@
+- site_name = ENV['GROWSTUFF_SITE_NAME']
+%p Hello #{@seed_trade.seed.owner.login_name},
+
+%p
+  You have received a seed trade request from
+  = link_to @seed_trade.requester.login_name, member_url(@seed_trade.requester)
+  on #{site_name} at #{@seed_trade.created_at}
+  \.
+%blockquote
+  :growstuff_markdown
+    #{strip_tags @seed_trade.message}
+
+%p
+  = link_to "Reply to this request", member_seed_trades_url(member_id: @seed_trade.seed.owner.id)
+  %br/
+  = link_to "View this request in your inbox", member_seed_trade_url(@seed_trade.seed.owner.id, @seed_trade.id)
+  %br/
+  = link_to "Unsubscribe from direct message notifications", unsubscribe_member_url(@signed_message)
+  from these notifications
+
+= render :partial => 'signature'

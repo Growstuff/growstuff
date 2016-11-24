@@ -1,0 +1,21 @@
+= form_for [Member, @seed_trade] do |f|
+  - if @seed_trade.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@seed_trade.errors.size, "error")} prohibited this request from being sent:"
+      %ul
+        - @seed_trade.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.hidden_field :seed_id, :value => @seed_trade.seed.id
+  %p
+    To:
+    = link_to @seed_trade.seed.owner.login_name, @seed_trade.seed.owner
+
+  = label_tag :full_address, "Inform your full address:"
+  = f.text_field :address, :class => 'form-control'
+  = label_tag :message, "Type a message here:"
+  = f.text_area :message, :rows => 12, :class => 'form-control'
+  %span.help-block
+    = render :partial => "shared/markdown_help"
+
+  = f.submit "Send", :class => 'btn btn-primary'

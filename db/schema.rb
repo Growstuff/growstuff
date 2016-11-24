@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824145414) do
+ActiveRecord::Schema.define(version: 20150912205745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -440,6 +440,23 @@ ActiveRecord::Schema.define(version: 20150824145414) do
     t.datetime "updated_at"
     t.integer  "creator_id"
   end
+
+  create_table "seed_trades", force: true do |t|
+    t.text     "message"
+    t.text     "address"
+    t.datetime "requested_date"
+    t.datetime "accepted_date"
+    t.datetime "declined_date"
+    t.datetime "sent_date"
+    t.datetime "received_date"
+    t.integer  "seed_id"
+    t.integer  "requester_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "seed_trades", ["requester_id"], name: "index_seed_trades_on_requester_id", using: :btree
+  add_index "seed_trades", ["seed_id"], name: "index_seed_trades_on_seed_id", using: :btree
 
   create_table "seeds", force: true do |t|
     t.integer  "owner_id",                                    null: false

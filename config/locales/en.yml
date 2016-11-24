@@ -36,6 +36,8 @@ en:
       crop_wrangling: "Crop Wrangling"
       admin: "Admin"
       your_stuff: "Your Stuff (%{unread_count})"
+      my_seed_trades: "My Seed Trades"
+      my_seed_trades_unread: "My Seed Trades (%{unread_count})"
 
   crops:
     index:
@@ -59,6 +61,14 @@ en:
                    list your seeds as available for trade, other members can
                    contact you to request seeds.  You can list any conditions or
                    other information in the description, above."
+    show:
+      title: "%{owner}'s %{crop} seeds"
+
+  seed_trades:
+    index:
+      title: "My Seed Trades"
+    new:
+      title: "Request %{crop} seeds from %{owner}"
 
   plantings:
     index:

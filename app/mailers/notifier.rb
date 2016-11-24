@@ -34,6 +34,14 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  def new_seed_trade_request(seed_trade)
+    @seed_trade = seed_trade
+    @signed_message = verifier.generate ({ member_id: @seed_trade.seed.owner.id, type: :send_notification_email })
+    subject  = "#{@seed_trade.requester.login_name} has requested "
+    subject += "#{@seed_trade.seed.crop.name} seeds from you"
+    mail(:to => @seed_trade.seed.owner.email, subject: subject)
+  end
+
   def new_crop_request(member, request)
     @member, @request = member, request
     mail(to: @member.email, subject: "#{@request.requester.login_name} has requested #{@request.name} as a new crop")

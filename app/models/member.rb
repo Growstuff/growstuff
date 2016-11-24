@@ -16,6 +16,7 @@ class Member < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
 
+  has_many :seed_trades, foreign_key: 'requester_id'
   has_many :notifications, foreign_key: 'recipient_id'
   has_many :sent_notifications, foreign_key: 'sender_id'
 
