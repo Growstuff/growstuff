@@ -303,14 +303,6 @@ Rails/Validation:
     - 'app/models/member.rb'
     - 'app/models/order_item.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: outdent, indent
-Style/AccessModifierIndentation:
-  Exclude:
-    - 'app/controllers/passwords_controller.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Style/AlignArray:
