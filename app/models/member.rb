@@ -239,20 +239,20 @@ class Member < ActiveRecord::Base
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.subscribe({
-      id: Growstuff::Application.config.newsletter_list_id,
-      email: { email: email },
-      merge_vars: { login_name: login_name },
-      double_optin: false # they already confirmed their email with us
-    })
+                               id: Growstuff::Application.config.newsletter_list_id,
+                               email: { email: email },
+                               merge_vars: { login_name: login_name },
+                               double_optin: false # they already confirmed their email with us
+                             })
   end
 
   def newsletter_unsubscribe(testing=false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({
-      id: Growstuff::Application.config.newsletter_list_id,
-      email: { email: email }
-    })
+                                 id: Growstuff::Application.config.newsletter_list_id,
+                                 email: { email: email }
+                               })
   end
 
   def already_following?(member)

@@ -67,23 +67,23 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     index_name [Rails.env, "growstuff"].join('_')
     settings index: { number_of_shards: 1 },
              analysis: {
-        tokenizer: {
-          gs_edgeNGram_tokenizer: {
-            type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
-            min_gram: 3,
-            max_gram: 10,
-            # token_chars: Elasticsearch will split on characters
-            # that don’t belong to any of these classes
-            token_chars: [ "letter", "digit" ]
-          }
-        },
-        analyzer: {
-          gs_edgeNGram_analyzer: {
-            tokenizer: "gs_edgeNGram_tokenizer",
-            filter: ["lowercase"]
-          }
-        },
-      } do
+               tokenizer: {
+                 gs_edgeNGram_tokenizer: {
+                   type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
+                   min_gram: 3,
+                   max_gram: 10,
+                   # token_chars: Elasticsearch will split on characters
+                   # that don’t belong to any of these classes
+                   token_chars: [ "letter", "digit" ]
+                 }
+               },
+               analyzer: {
+                 gs_edgeNGram_analyzer: {
+                   tokenizer: "gs_edgeNGram_tokenizer",
+                   filter: ["lowercase"]
+                 }
+               },
+             } do
       mappings dynamic: 'false' do
         indexes :id, type: 'long'
         indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
@@ -109,7 +109,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       include: {
         scientific_names: { only: :scientific_name },
         alternate_names: { only: :name }
-    })
+      })
   end
 
   # update the Elasticsearch index (only if we're using it in this
@@ -327,20 +327,22 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
       response = __elasticsearch__.search( {
-          # Finds documents which match any field, but uses the _score from
-          # the best field insead of adding up _score from each field.
-          query: {
-            multi_match: {
-              query: "#{search_str}",
-              analyzer: "standard",
-              fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
-            }
-          },
-          filter: {
-            term: {approval_status: "approved"}
-          },
-          size: 50
-        }
+                                            # Finds documents which match any field, but uses the _score from
+                                            # the best field insead of adding up _score from each field.
+                                            query: {
+                                              multi_match: {
+                                                query: "#{search_str}",
+                                                analyzer: "standard",
+                                                fields: ["name",
+                                                         "scientific_names.scientific_name",
+                                                         "alternate_names.name"]
+                                              }
+                                            },
+                                            filter: {
+                                              term: {approval_status: "approved"}
+                                            },
+                                            size: 50
+                                          }
       )
       return response.records.to_a
     else

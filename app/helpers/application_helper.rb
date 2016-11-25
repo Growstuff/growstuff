@@ -73,9 +73,9 @@ module ApplicationHelper
     end
 
     Gravatar.new(member.email).image_url({
-      size: size,
-      default: :identicon
-    })
+                                           size: size,
+                                           default: :identicon
+                                         })
   end
 
   # Returns a string with the quantity and the right pluralization for a

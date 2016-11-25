@@ -90,10 +90,10 @@ class CropsController < ApplicationController
           }
         }
         render json: @crop.to_json(include: {
-          plantings: {
-            include: owner_structure
-          }
-        })
+                                     plantings: {
+                                       include: owner_structure
+                                     }
+                                   })
       end
     end
   end

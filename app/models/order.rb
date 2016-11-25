@@ -27,10 +27,10 @@ class Order < ActiveRecord::Base
     items = []
     order_items.each do |i|
       items.push({
-        name: i.product.name,
-        quantity: i.quantity,
-        amount: i.price
-      })
+                   name: i.product.name,
+                   quantity: i.quantity,
+                   amount: i.price
+                 })
     end
     return items
   end

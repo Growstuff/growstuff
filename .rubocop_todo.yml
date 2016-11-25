@@ -1122,23 +1122,6 @@ Style/IfUnlessModifier:
     - 'config/initializers/geocoder.rb'
     - 'lib/tasks/growstuff.rake'
 
-# Offense count: 24
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: special_inside_parentheses, consistent, align_braces
-Style/IndentHash:
-  Exclude:
-    - 'app/controllers/crops_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'app/models/crop.rb'
-    - 'app/models/member.rb'
-    - 'app/models/order.rb'
-    - 'config/environments/development.rb'
-    - 'config/environments/production.rb'
-    - 'config/environments/staging.rb'
-    - 'config/environments/test.rb'
-    - 'spec/lib/actions/oauth_signup_action_spec.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
