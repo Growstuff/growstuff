@@ -119,6 +119,7 @@ en:
       crop_wrangling: Crop Wrangling
       forums: Forums
       gardens: Gardens
+      harvest: Harvest
       harvests: Harvests
       inbox: Inbox
       inbox_unread: Inbox (%{unread_count})
