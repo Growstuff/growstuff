@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "photos/new" do
@@ -53,5 +49,4 @@ describe "photos/new" do
       assert_select "h2", "foo" # the name of the set
     end
   end
-
 end

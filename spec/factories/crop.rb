@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   factory :crop do
     name "magic bean"
     en_wikipedia_url "http://en.wikipedia.org/wiki/Magic_bean"
@@ -73,7 +72,5 @@ FactoryGirl.define do
       approval_status "rejected"
       reason_for_rejection "Totally fake"
     end
-
   end
-
 end

@@ -10,6 +10,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     create
   end
+
   def failure
     flash[:alert] = "Authentication failed."
     redirect_to request.env['omniauth.origin'] || "/"

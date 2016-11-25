@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe CommentsController do
-
   before(:each) do
     @member = FactoryGirl.create(:member)
     sign_in @member
@@ -86,5 +81,4 @@ describe CommentsController do
       response.should redirect_to(post)
     end
   end
-
 end

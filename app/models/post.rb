@@ -44,7 +44,6 @@ class Post < ActiveRecord::Base
     },
     length: { maximum: 255 }
 
-
   def author_date_subject
     # slugs are created before created_at is set
     time = created_at || Time.zone.now
@@ -70,6 +69,7 @@ class Post < ActiveRecord::Base
   end
 
   private
+
   def update_crops_posts_association
     self.crops.destroy_all
     # look for crops mentioned in the post. eg. [tomato](crop)

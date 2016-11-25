@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "notifications/new" do
@@ -63,5 +59,4 @@ describe "notifications/new" do
     render
     rendered.should have_content 'Markdown'
   end
-
 end

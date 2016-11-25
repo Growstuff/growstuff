@@ -18,5 +18,4 @@ module Geocodable
       self.longitude = nil
     end
   end
-
 end

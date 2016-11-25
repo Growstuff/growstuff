@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "notifications/show" do
@@ -38,5 +34,4 @@ describe "notifications/show" do
   it "includes a reply button" do
     assert_select "a", {href: @reply_link}, "Reply"
   end
-
 end

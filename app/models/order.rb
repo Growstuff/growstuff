@@ -92,5 +92,4 @@ class Order < ActiveRecord::Base
     end
     return []
   end
-
 end

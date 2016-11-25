@@ -1,5 +1,4 @@
 class RobotsController < ApplicationController
-
   DEFAULT_FILENAME = 'config/robots.txt'.freeze
 
   def robots

@@ -1,5 +1,4 @@
 module AutoSuggestHelper
-
   def auto_suggest(resource, source, options={})
     if options[:default] && !options[:default].new_record?
       default = options[:default]
@@ -23,5 +22,4 @@ module AutoSuggestHelper
         type="hidden" name="#{resource}[#{source}_id]" value="#{default_id}">
     }.html_safe
   end
-
 end

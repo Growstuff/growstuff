@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def price_in_dollars(price)
     return sprintf('%.2f', price / 100.0)
   end

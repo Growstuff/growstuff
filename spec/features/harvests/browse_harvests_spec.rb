@@ -18,7 +18,6 @@ feature "browse harvests" do
     scenario 'read more' do
       expect(page).not_to have_link "Read more"
     end
-
   end
 
   feature "filled in optional fields" do

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Planting do
-
   let(:crop) { FactoryGirl.create(:tomato) }
   let(:garden_owner) { FactoryGirl.create(:member) }
   let(:garden) { FactoryGirl.create(:garden, owner: garden_owner) }
@@ -123,7 +122,6 @@ describe Planting do
   end
 
   context 'sunniness' do
-
     let(:planting) { FactoryGirl.create(:sunny_planting) }
 
     it 'should have a sunniness value' do
@@ -169,7 +167,6 @@ describe Planting do
   # we decided that all the tests for the planting/photo association would
   # be done on this side, not on the photos side
   context 'photos' do
-
     let(:planting) { FactoryGirl.create(:planting) }
     let(:photo) { FactoryGirl.create(:photo) }
 
@@ -278,7 +275,6 @@ describe Planting do
         Planting.interesting(3, false).size.should eq 3
       end
     end
-
   end # interesting plantings
 
   context "finished" do

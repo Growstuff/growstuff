@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "forums/index" do
@@ -51,6 +47,5 @@ describe "forums/index" do
     it "displays comment count" do
       assert_select "td", text: "1"
     end
-
   end
 end

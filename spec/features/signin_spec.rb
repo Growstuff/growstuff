@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 feature "signin", js: true do
   let(:member) { create :member }
   let(:recipient) { create :member }

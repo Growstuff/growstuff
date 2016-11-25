@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "photos/show" do
@@ -59,7 +55,5 @@ describe "photos/show" do
     it "contains the phrase 'All rights reserved'" do
       rendered.should have_content "All rights reserved"
     end
-
   end
-
 end

@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe PhotosController do
   describe "routing" do
-
     it "routes to #index" do
       get("/photos").should route_to("photos#index")
     end
@@ -30,6 +29,5 @@ describe PhotosController do
     it "routes to #destroy" do
       delete("/photos/1").should route_to("photos#destroy", id: "1")
     end
-
   end
 end

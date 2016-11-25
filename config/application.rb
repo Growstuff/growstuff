@@ -82,7 +82,6 @@ module Growstuff
       g.javascripts      false
     end
 
-
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
     config.bot_email = "noreply@growstuff.org"

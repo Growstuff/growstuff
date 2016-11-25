@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe 'member' do
-
   context 'valid member' do
-
     let(:member) { FactoryGirl.create(:member) }
 
     it 'should be fetchable from the database' do
@@ -91,11 +89,9 @@ describe 'member' do
       member.latitude.should be_nil
       member.longitude.should be_nil
     end
-
   end
 
   context 'no TOS agreement' do
-
     let(:member) { FactoryGirl.build(:no_tos_member) }
 
     it "should refuse to save a member who hasn't agreed to the TOS" do
@@ -188,7 +184,6 @@ describe 'member' do
   end
 
   context 'roles' do
-
     let(:member) { FactoryGirl.create(:member) }
     let(:role) { FactoryGirl.create(:role) }
 
@@ -281,9 +276,7 @@ describe 'member' do
       @member3.updated_at = 1.days.ago
 
       Member.interesting.should eq [ @member3, @member2, @member1 ]
-
     end
-
   end
 
   context 'orders' do
@@ -303,7 +296,6 @@ describe 'member' do
   end
 
   context "paid accounts" do
-
     let(:member) { FactoryGirl.create(:member) }
 
     it "recognises a permanent paid account" do
@@ -343,11 +335,9 @@ describe 'member' do
       member.account.paid_until = Time.zone.now + 1.month
       member.is_paid?.should be(false)
     end
-
   end
 
   context "update account" do
-
     let(:product) { FactoryGirl.create(:product,
       paid_months: 3
     )}
@@ -407,7 +397,5 @@ describe 'member' do
         expect(member1.get_follow(member3)).to be_nil
       end
     end
-
   end
-
 end

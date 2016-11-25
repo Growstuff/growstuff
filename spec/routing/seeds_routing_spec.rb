@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe SeedsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/seeds").should route_to("seeds#index")
     end
@@ -30,6 +29,5 @@ describe SeedsController do
     it "routes to #destroy" do
       delete("/seeds/1").should route_to("seeds#destroy", id: "1")
     end
-
   end
 end

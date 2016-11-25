@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Harvest do
-
   it "has an owner" do
     harvest = FactoryGirl.create(:harvest)
     harvest.owner.should be_an_instance_of Member
@@ -147,7 +146,6 @@ describe Harvest do
   end
 
   context "stringification" do
-
     let(:crop) { FactoryGirl.create(:crop, name: "apricot") }
 
     it "apricots" do
@@ -228,11 +226,9 @@ describe Harvest do
                                         weight_unit: 'kg')
       @h.to_s.should eq "10 bushels of apricots weighing 100 kg"
     end
-
   end
 
   context 'photos' do
-
     before :each do
       @harvest = FactoryGirl.create(:harvest)
     end
@@ -287,7 +283,6 @@ describe Harvest do
           @harvest.default_photo.should eq @photo
         end
       end
-
 
       context 'and a second photo' do
         before :each do

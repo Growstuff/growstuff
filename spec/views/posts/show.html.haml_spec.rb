@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "posts/show" do
@@ -120,7 +116,5 @@ describe "posts/show" do
     it 'shows a comment button' do
       assert_select "a", {href: new_comment_path(post_id: @post.id)}, "Comment"
     end
-
   end
-
 end

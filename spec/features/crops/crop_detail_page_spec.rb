@@ -35,7 +35,6 @@ feature "crop detail page", js: true do
       let!(:roma4) { create :crop, name: 'Roma tomato 4', parent: crop }
 
       scenario "The crop has 4 varieties" do
-
         subject
 
         within ".varieties" do
@@ -52,7 +51,6 @@ feature "crop detail page", js: true do
         subject
 
         within ".varieties" do
-
           # It lists the first 5 items (note: including the top level item.)
           # It HAS have "Show all" toggle link but not "Show less" link
           expect(page).to have_selector('li', text: /tomato/i, count: 5)
@@ -96,7 +94,6 @@ feature "crop detail page", js: true do
     end
 
     context "action buttons" do
-
       background { subject }
 
       scenario "has a link to plant the crop" do
@@ -108,11 +105,9 @@ feature "crop detail page", js: true do
       scenario "has a link to add seeds" do
         expect(page).to have_link "Add seeds to stash", href: new_seed_path(crop_id: crop.id)
       end
-
     end
 
     context "SEO" do
-
       background { subject }
 
       scenario "has seed heading with SEO" do

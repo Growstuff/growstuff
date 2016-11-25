@@ -54,7 +54,6 @@ Growstuff::Application.configure do
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
   end
-
 end
 
 Geocoder.configure(lookup: :test)

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature "browse crops" do
-
   let(:tomato) { create :tomato }
   let(:maize)  { create :maize }
   let(:pending_crop)  { create :crop_request }

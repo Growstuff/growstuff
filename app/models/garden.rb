@@ -103,5 +103,4 @@ class Garden < ActiveRecord::Base
   def default_photo
     return photos.first
   end
-
 end

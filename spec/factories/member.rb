@@ -103,7 +103,5 @@ FactoryGirl.define do
     factory :no_email_notifications_member do
       send_notification_email false
     end
-
   end
-
 end

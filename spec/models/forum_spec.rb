@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Forum do
-
   let(:forum) { FactoryGirl.create(:forum) }
 
   it "belongs to an owner" do
@@ -27,5 +26,4 @@ describe Forum do
     @post2 = FactoryGirl.create(:forum_post, forum: forum, created_at: 1.day.ago)
     forum.posts.first.should eq @post2
   end
-
 end

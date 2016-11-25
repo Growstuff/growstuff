@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe ScientificNamesController do
   describe "routing" do
-
     it "routes to #index" do
       get("/scientific_names").should route_to("scientific_names#index")
     end
@@ -30,6 +29,5 @@ describe ScientificNamesController do
     it "routes to #destroy" do
       delete("/scientific_names/1").should route_to("scientific_names#destroy", id: "1")
     end
-
   end
 end

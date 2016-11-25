@@ -20,5 +20,4 @@ class PlantPart < ActiveRecord::Base
   def crops
     return super.reorder('name')
   end
-
 end

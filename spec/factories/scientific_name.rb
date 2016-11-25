@@ -13,6 +13,5 @@ FactoryGirl.define do
       association :crop, factory: :tomato
       scientific_name "Solanum lycopersicum"
     end
-
   end
 end

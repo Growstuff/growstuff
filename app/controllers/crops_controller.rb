@@ -116,13 +116,11 @@ class CropsController < ApplicationController
     @crop = Crop.find(params[:id])
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
-
   end
 
   # POST /crops
   # POST /crops.json
   def create
-
     @crop = Crop.new(crop_params)
 
     if current_member.has_role? :crop_wrangler

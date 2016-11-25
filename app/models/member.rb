@@ -27,7 +27,6 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
-
   default_scope { order("lower(login_name) asc") }
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }

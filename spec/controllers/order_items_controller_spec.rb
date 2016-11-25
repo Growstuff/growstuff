@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe OrderItemsController do
-
   login_member(:admin_member)
 
   before(:each) do
@@ -33,7 +28,6 @@ describe OrderItemsController do
   end
 
   describe "POST create" do
-
     it "redirects to order" do
       @order = FactoryGirl.create(:order, member: @member)
       post :create, {order_item: {

@@ -5,7 +5,6 @@ class FollowsController < ApplicationController
 
   # POST /follows
   def create
-
     @follow = current_member.follows.build(followed_id: follow_params[:followed_id])
 
     if @follow.save

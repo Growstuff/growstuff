@@ -49,7 +49,6 @@ class OrdersController < ApplicationController
         format.html { render action: "show" }
       end
     end
-
   end
 
   def complete
@@ -78,7 +77,6 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
     end
-
   end
 
   def cancel

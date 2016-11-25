@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "harvests/index" do
@@ -61,5 +57,4 @@ describe "harvests/index" do
     render
     view.content_for(:title).should have_content @tomato.name
   end
-
 end

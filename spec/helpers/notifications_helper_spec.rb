@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe NotificationsHelper do
   describe "reply_link" do
-
     let(:member) { FactoryGirl.create(:member) }
 
     it "replies to PMs with PMs" do
@@ -23,7 +22,5 @@ describe NotificationsHelper do
         post_id: notification.post.id
       )
     end
-
-
   end
 end

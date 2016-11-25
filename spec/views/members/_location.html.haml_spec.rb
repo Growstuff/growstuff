@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "members/_location" do
@@ -45,7 +41,5 @@ describe "members/_location" do
     it "doesn't link anywhere" do
       assert_select "a", false
     end
-
   end
-
 end

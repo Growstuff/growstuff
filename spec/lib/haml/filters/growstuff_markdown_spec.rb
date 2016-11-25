@@ -28,7 +28,6 @@ def output_member_link(member, name=nil)
   end
 end
 
-
 describe 'Haml::Filters::Growstuff_Markdown' do
   it 'is registered as the handler for :growstuff_markdown' do
     Haml::Filters::defined['growstuff_markdown'].should ==
@@ -97,7 +96,6 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /\[#{@member.login_name}\]\(member\)/
   end
 
-
   it 'converts @ member links' do
     @member = FactoryGirl.create(:member)
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey @#{@member.login_name}! What's up")
@@ -122,5 +120,4 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey \\@#{@member.login_name}! What's up")
     rendered.should match /Hey @#{@member.login_name}!/
   end
-
 end

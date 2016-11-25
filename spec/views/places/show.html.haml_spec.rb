@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "places/show" do
@@ -39,5 +35,4 @@ describe "places/show" do
       rendered.should have_content m.login_name
     end
   end
-
 end

@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe PlantingsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/plantings").should route_to("plantings#index")
     end
@@ -30,6 +29,5 @@ describe PlantingsController do
     it "routes to #destroy" do
       delete("/plantings/1").should route_to("plantings#destroy", id: "1")
     end
-
   end
 end

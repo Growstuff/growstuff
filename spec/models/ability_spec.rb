@@ -2,12 +2,10 @@ require 'rails_helper'
 require 'cancan/matchers'
 
 describe Ability do
-
   let(:member) { FactoryGirl.create(:member) }
   let(:ability) { Ability.new(member) }
 
   context "notifications" do
-
     it 'member can view their own notifications' do
       notification = FactoryGirl.create(:notification, recipient: member)
       ability.should be_able_to(:read, notification)
@@ -38,7 +36,6 @@ describe Ability do
   end
 
   context "crop wrangling" do
-
     let(:crop) { FactoryGirl.create(:crop) }
 
     context "standard member" do
@@ -57,7 +54,6 @@ describe Ability do
     end
 
     context "crop wrangler" do
-
       let(:role) { FactoryGirl.create(:crop_wrangler) }
 
       before(:each) do
@@ -81,7 +77,6 @@ describe Ability do
   end
 
   context "products" do
-
     let(:product) { FactoryGirl.create(:product) }
 
     context "standard member" do
@@ -91,11 +86,9 @@ describe Ability do
         ability.should_not be_able_to(:update, product)
         ability.should_not be_able_to(:destroy, product)
       end
-
     end
 
     context "admin" do
-
       let(:role) { FactoryGirl.create(:admin) }
 
       before do
@@ -122,7 +115,6 @@ describe Ability do
   end
 
   context "orders" do
-
     let(:order) { FactoryGirl.create(:order, member: member) }
     let(:strangers_order) { FactoryGirl.create(:order,
       member: FactoryGirl.create(:member)) }
@@ -208,12 +200,9 @@ describe Ability do
       it "can't delete items from completed orders" do
         ability.should_not be_able_to(:destroy, completed_order_item)
       end
-
-
     end
 
     context "admin" do
-
       let(:role) { FactoryGirl.create(:admin) }
 
       before do
@@ -239,12 +228,10 @@ describe Ability do
       it "cannot delete orders" do
         ability.should_not be_able_to(:destroy, order)
       end
-
     end
   end
 
   context 'account details' do
-
     let(:account) { member.account }
 
     context 'ordinary member' do
@@ -259,7 +246,6 @@ describe Ability do
     end
 
     context 'admin' do
-
       let(:role) { FactoryGirl.create(:admin) }
 
       before do
@@ -274,13 +260,10 @@ describe Ability do
         ability.should be_able_to(:update, account)
         ability.should be_able_to(:destroy, account)
       end
-
     end
-
   end
 
   context 'plant parts' do
-
     let(:plant_part) { FactoryGirl.create(:plant_part) }
 
     context 'ordinary member' do
@@ -295,7 +278,6 @@ describe Ability do
     end
 
     context 'admin' do
-
       let(:role) { FactoryGirl.create(:admin) }
 
       before do
@@ -318,8 +300,6 @@ describe Ability do
         @harvest = FactoryGirl.create(:harvest, plant_part: plant_part)
         ability.should_not be_able_to(:destroy, plant_part)
       end
-
     end
   end
-
 end

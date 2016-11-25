@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'seeds/index.rss.haml' do
@@ -48,7 +44,6 @@ describe 'seeds/index.rss.haml' do
     it 'mentions that one seed is tradable' do
       rendered.should have_content "Will trade #{@tradable.tradable_to} from #{@tradable.owner.location}"
     end
-
   end
 
   context "one member's seeds" do

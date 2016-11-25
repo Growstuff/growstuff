@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe HarvestsController do
-
   login_member
 
   def valid_attributes
@@ -179,5 +174,4 @@ describe HarvestsController do
       response.should redirect_to(harvests_url)
     end
   end
-
 end

@@ -10,15 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
-
 require 'rails_helper'
 
 describe Admin::OrdersController do
-
   login_member(:admin_member)
 
   describe "GET search" do
@@ -34,5 +28,4 @@ describe Admin::OrdersController do
       flash[:alert].should match /Couldn't find order with/
     end
   end
-
 end

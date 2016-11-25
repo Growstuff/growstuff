@@ -15,7 +15,6 @@ class RegistrationsController < Devise::RegistrationsController
   # https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
 
   def update
-
     @member = Member.find(current_member.id)
 
     if needs_password?(@member, params)
@@ -35,7 +34,6 @@ class RegistrationsController < Devise::RegistrationsController
     else
       render "edit"
     end
-
   end
 end
 

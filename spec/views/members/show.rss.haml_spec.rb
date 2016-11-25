@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'members/show.rss.haml', type: "view" do
@@ -42,5 +38,4 @@ describe 'members/show.rss.haml', type: "view" do
   it 'gives the author in the item title' do
     rendered.should have_content "#{@post1.subject} by #{@post1.author}"
   end
-
 end

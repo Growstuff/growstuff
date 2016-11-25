@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Seed do
-
   let(:seed) { FactoryGirl.build(:seed) }
 
   it 'should save a basic seed' do
@@ -85,7 +84,6 @@ describe Seed do
       @untradable = FactoryGirl.create(:untradable_seed)
       Seed.tradable.should include @tradable
       Seed.tradable.should_not include @untradable
-
     end
   end
 
@@ -131,10 +129,8 @@ describe Seed do
     end
   end
 
-
   context 'interesting' do
     it 'lists interesting seeds' do
-
       # to be interesting a seed must:
       # 1) be tradable
       # 2) the owner must have a location set
@@ -152,5 +148,4 @@ describe Seed do
       Seed.interesting.size.should == 1
     end
   end
-
 end

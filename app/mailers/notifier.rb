@@ -51,5 +51,4 @@ class Notifier < ActionMailer::Base
     @member, @crop = member, crop
     mail(to: @member.email, subject: "#{crop.name.capitalize} has been rejected")
   end
-
 end

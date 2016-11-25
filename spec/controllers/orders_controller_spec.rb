@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe OrdersController do
-
   login_member(:admin_member)
 
   def valid_attributes
@@ -67,5 +62,4 @@ describe OrdersController do
       response.should redirect_to(shop_url)
     end
   end
-
 end

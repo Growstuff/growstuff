@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'devise/registrations/edit.html.haml', type: "view" do
-
   context "logged in" do
     before(:each) do
       controller.stub(:current_user) { nil }
@@ -75,7 +70,6 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
     end
 
     context 'other sites section' do
-
       context 'not connected to twitter' do
         it 'has a link to connect' do
           render
@@ -115,9 +109,6 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
           assert_select "a", href: @flickr_auth, text: "Disconnect"
         end
       end
-
     end
-
   end
-
 end

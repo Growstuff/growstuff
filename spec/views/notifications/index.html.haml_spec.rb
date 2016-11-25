@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "notifications/index" do
@@ -29,7 +25,6 @@ describe "notifications/index" do
       assign(:notifications, Kaminari.paginate_array([ @notification, @notification ]).page(1))
       render
     end
-
 
     it "renders a list of notifications" do
       assert_select "table"
@@ -61,5 +56,4 @@ describe "notifications/index" do
       rendered.should have_content "(no subject)"
     end
   end
-
 end

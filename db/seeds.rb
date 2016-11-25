@@ -69,7 +69,6 @@ def load_test_users
     puts "Warning: unable to open suburbs.csv"
   end
 
-
   # rake parameter (eg. 'rake db:seed member_size=10')
   member_size = ENV['member_size'] ? ENV['member_size'].to_i : 3
 

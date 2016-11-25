@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Post do
-
   let(:member) { FactoryGirl.create(:member) }
 
   it "should be sorted in reverse order" do
@@ -66,7 +65,6 @@ describe Post do
   end
 
   context "recent activity" do
-
     before do
       Time.stub(now: Time.now)
     end

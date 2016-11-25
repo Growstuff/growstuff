@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature "footer", js: true do
-
   before { visit root_path }
 
   scenario "footer is on home page" do

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "crops/wrangle" do
@@ -48,5 +44,4 @@ describe "crops/wrangle" do
     assert_select "a", text: @maize.name
     assert_select "a", text: @tomato.name
   end
-
 end

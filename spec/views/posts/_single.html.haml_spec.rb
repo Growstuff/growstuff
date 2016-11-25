@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "posts/_single" do
-
   def render_post()
     render partial: "single", locals: { post: @post }
   end
@@ -127,7 +122,6 @@ describe "posts/_single" do
     it "does not contain link to new comment" do
       assert_select "a[href='#{new_comment_path(post_id: @post.id)}']", false
     end
-
   end
 
   context "when post has been edited" do
@@ -199,5 +193,4 @@ describe "posts/_single" do
       rendered.should_not have_content "edited at #{@comment.updated_at}"
     end
   end
-
 end

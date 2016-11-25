@@ -46,7 +46,6 @@ feature "Planting a crop", js: true do
   end
 
   context "Clicking edit from the index page" do
-
     background do
       visit gardens_path
     end

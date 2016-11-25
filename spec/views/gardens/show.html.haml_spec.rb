@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "gardens/show" do
@@ -51,7 +47,6 @@ describe "gardens/show" do
   end
 
   context 'signed in' do
-
     before :each do
       sign_in @owner
       render
@@ -69,5 +64,4 @@ describe "gardens/show" do
       assert_select("a[href='#{new_planting_path}?garden_id=#{@garden.id}']")
     end
   end
-
 end

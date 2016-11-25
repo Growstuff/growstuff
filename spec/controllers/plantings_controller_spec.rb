@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe PlantingsController do
-
   login_member
 
   def valid_attributes
@@ -56,7 +51,6 @@ describe PlantingsController do
   end
 
   describe "GET new" do
-
     it "picks up crop from params" do
       crop = FactoryGirl.create(:crop)
       get :new, {crop_id: crop.id}
@@ -89,7 +83,5 @@ describe PlantingsController do
       post :create, { planting: valid_attributes }
       assigns(:planting).owner.should eq subject.current_member
     end
-
   end
-
 end

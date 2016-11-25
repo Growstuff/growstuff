@@ -1,5 +1,4 @@
 module HarvestsHelper
-
   def display_quantity(harvest)
     human_quantity = display_human_quantity(harvest)
     weight = display_weight(harvest)
@@ -44,5 +43,4 @@ module HarvestsHelper
       harvest.description
     end
   end
-
 end

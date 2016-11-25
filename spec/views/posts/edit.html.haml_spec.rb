@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "posts/edit" do
@@ -62,6 +58,5 @@ describe "posts/edit" do
         rendered.should have_content "This post will be posted in the forum #{@forum.name}"
       end
     end
-
   end
 end

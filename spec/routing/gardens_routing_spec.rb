@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe GardensController do
   describe "routing" do
-
     it "routes to #index" do
       get("/gardens").should route_to("gardens#index")
     end
@@ -30,6 +29,5 @@ describe GardensController do
     it "routes to #destroy" do
       delete("/gardens/1").should route_to("gardens#destroy", id: "1")
     end
-
   end
 end

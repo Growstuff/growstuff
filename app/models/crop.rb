@@ -261,7 +261,6 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
     crop.add_scientific_names_from_csv(scientific_names)
     crop.add_alternate_names_from_csv(alternate_names)
-
   end
 
   def add_scientific_names_from_csv(scientific_names)
@@ -387,5 +386,4 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
     end
   end
-
 end

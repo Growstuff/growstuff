@@ -1,5 +1,4 @@
 class Growstuff::OauthSignupAction
-
   #
   # Inspects the omniauth information
   # and determines if we have an existing member

@@ -1,5 +1,4 @@
 module FeatureHelpers
-
   def fill_autocomplete(field, options={})
     fill_in field, with: options[:with]
 
@@ -12,7 +11,6 @@ module FeatureHelpers
     selector = %Q{ul.ui-autocomplete li.ui-menu-item a:contains("#{select}")}
     page.execute_script %Q{ $('#{selector}').mouseenter().click() }
   end
-
 end
 
 RSpec.configure do |config|

@@ -91,7 +91,6 @@ ComfortableMexicanSofa.configure do |config|
   # Reveal partials that can be overwritten in the admin area.
   # Default is false.
   #   config.reveal_cms_partials = false
-
 end
 
 module CmsDeviseAuth

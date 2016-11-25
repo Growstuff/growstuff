@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe NotificationsController do
-
   login_member
 
   def valid_attributes
@@ -105,6 +100,5 @@ describe NotificationsController do
         response.should redirect_to(notifications_path)
       end
     end
-
   end
 end

@@ -20,6 +20,5 @@ FactoryGirl.define do
     factory :garden_z do
       name 'Zzzz this garden makes me sleepy'
     end
-
   end
 end

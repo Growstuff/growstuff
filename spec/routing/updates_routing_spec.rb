@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe PostsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/posts").should route_to("posts#index")
     end
@@ -30,6 +29,5 @@ describe PostsController do
     it "routes to #destroy" do
       delete("/posts/1").should route_to("posts#destroy", id: "1")
     end
-
   end
 end

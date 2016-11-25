@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe CropsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/crops").should route_to("crops#index")
     end
@@ -30,6 +29,5 @@ describe CropsController do
     it "routes to #destroy" do
       delete("/crops/1").should route_to("crops#destroy", id: "1")
     end
-
   end
 end
