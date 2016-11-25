@@ -1,4 +1,115 @@
+---
 ja:
+  crops:
+    index:
+      subtitle: "%{crops_size} total"
+      title: Browse Crops
+  forms:
+    optional: "(Optional)"
+  forums:
+    index:
+      title: Forums
+  gardens:
+    form:
+      location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+  harvests:
+    index:
+      title:
+        crop_harvests: Everyone's %{crop} harvests
+        default: Everyone's harvests
+        owner_harvests: "%{owner} harvests"
   home:
     blurb:
+      already_html: Or %{sign_in} if you already have an account
       intro: "%{site_name}はガーデナーのコミュニティです。"
+      perks: Join now for your free garden journal, seed sharing, forums, and more.
+      sign_in_linktext: sign in
+      sign_up: Sign up
+    crops:
+      our_crops: Some of our crops
+      recently_added: Recently added crops
+      recently_planted: Recently planted
+      view_all: View all crops
+    discuss:
+      discussion: Discussion
+      forums: Forums
+      view_all: View all posts
+    index:
+      add_seeds: Add seeds
+      harvest: Harvest
+      plant: Plant
+      post: Post
+      welcome: Welcome to %{site_name}, %{member_name}
+    members:
+      title: Some of our members
+      view_all: View all members
+    seeds:
+      crop: Crop
+      description: Description
+      details: Details
+      from: From location
+      owner: Owner
+      title: Seeds available to trade
+      trade_to: Will trade to
+      unspecified: unspecified
+      view_all: View all seeds
+    stats:
+      member_linktext: "%{count} members"
+      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}.
+      number_crops_linktext: "%{count} crops"
+      number_gardens_linktext: "%{count} gardens"
+      number_plantings_linktext: "%{count} times"
+  layouts:
+    header:
+      account: Account
+      admin: Admin
+      browse_crops: Browse Crops
+      browse_members: Browse Members
+      community_map: Community Map
+      crop_wrangling: Crop Wrangling
+      forums: Forums
+      gardens: Gardens
+      harvest: Harvest
+      harvests: Harvests
+      inbox: Inbox
+      inbox_unread: Inbox (%{unread_count})
+      plantings: Plantings
+      posts: Posts
+      profile: Profile
+      seeds: Seeds
+      skip: Skip navigation menu
+      support_growstuff: Support Growstuff
+      your_stuff: Your Stuff (%{unread_count})
+  members:
+    index:
+      title: "%{site_name} members"
+  photos:
+    show:
+      thing_by: A %{thing} by %{owner}
+  places:
+    index:
+      title: "%{site_name} Community Map"
+  plantings:
+    form:
+      finish_helper: A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise no longer growing in your garden.
+    index:
+      title:
+        crop_plantings: Everyone's %{crop} plantings
+        default: Everyone's plantings
+        owner_plantings: "%{owner} plantings"
+  posts:
+    index:
+      title:
+        author_posts: "%{author} posts"
+        default: Everyone's posts
+  seeds:
+    form:
+      trade_help: Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
+    index:
+      title:
+        crop_seeds: Everyone's %{crop} seeds
+        default: Everyone's seeds
+        owner_seeds: "%{owner} seeds"
+  shop:
+    index:
+      title: Shop
