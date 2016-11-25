@@ -107,12 +107,10 @@ class Harvest < ActiveRecord::Base
       string += "#{number_to_human(self.quantity.to_s, strip_insignificant_zeros: true)} "
       string += if self.unit == 'individual'
                   'individual '
+                elsif self.quantity == 1
+                  "#{self.unit} of "
                 else
-                  string += if self.quantity == 1
-                              "#{self.unit} of "
-                            else
-                              "#{self.unit.pluralize} of "
-                            end
+                  "#{self.unit.pluralize} of "
                 end
     end
 
