@@ -75,10 +75,10 @@ def load_test_users
 
   (1..member_size).each do |i|
     @user = Member.new(
-        login_name: "test#{i}",
-        email: "test#{i}@example.com",
-        password: "password#{i}",
-        tos_agreement: true
+      login_name: "test#{i}",
+      email: "test#{i}@example.com",
+      password: "password#{i}",
+      tos_agreement: true
     )
     @user.skip_confirmation!
     @user.save!
