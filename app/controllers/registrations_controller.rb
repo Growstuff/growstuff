@@ -42,5 +42,5 @@ end
 # check if we need the current password to update fields
 def needs_password?(member, params)
   params[:member][:password].present? ||
-  params[:member][:password_confirmation].present?
+    params[:member][:password_confirmation].present?
 end

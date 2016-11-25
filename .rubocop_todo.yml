@@ -1464,15 +1464,6 @@ Style/MultilineMethodCallBraceLayout:
     - 'spec/views/scientific_names/edit.html.haml_spec.rb'
     - 'spec/views/scientific_names/show.html.haml_spec.rb'
 
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: aligned, indented
-Style/MultilineOperationIndentation:
-  Exclude:
-    - 'app/controllers/registrations_controller.rb'
-
 # Offense count: 2
 Style/MultilineTernaryOperator:
   Exclude:
