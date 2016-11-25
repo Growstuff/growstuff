@@ -45,7 +45,7 @@ describe "notifications/index" do
   context "no subject" do
     it "shows (no subject)" do
       @notification = FactoryGirl.create(:notification,
-         sender: @member, recipient: @member, subject: nil)
+        sender: @member, recipient: @member, subject: nil)
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
       rendered.should have_content "(no subject)"
@@ -55,7 +55,7 @@ describe "notifications/index" do
   context "whitespace-only subject" do
     it "shows (no subject)" do
       @notification = FactoryGirl.create(:notification,
-         sender: @member, recipient: @member, subject: "   ")
+        sender: @member, recipient: @member, subject: "   ")
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
       rendered.should have_content "(no subject)"

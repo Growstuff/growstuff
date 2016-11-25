@@ -6,7 +6,7 @@ describe Planting do
   let(:garden_owner) { FactoryGirl.create(:member) }
   let(:garden) { FactoryGirl.create(:garden, owner: garden_owner) }
   let(:planting) { FactoryGirl.create(:planting,
-      crop: crop, garden: garden)}
+    crop: crop, garden: garden)}
 
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member

@@ -7,7 +7,7 @@ module ApplicationHelper
   # 999 cents becomes 9.99 AUD -- for products/orders/etc
   def price_with_currency(price)
     return sprintf('%.2f %s', price / 100.0,
-        Growstuff::Application.config.currency)
+      Growstuff::Application.config.currency)
   end
 
   def parse_date(str)

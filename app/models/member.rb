@@ -45,8 +45,8 @@ class Member < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable, :omniauthable
+    :recoverable, :rememberable, :trackable, :validatable,
+    :confirmable, :lockable, :timeoutable, :omniauthable
 
   # set up geocoding
   geocoded_by :location

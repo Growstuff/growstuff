@@ -17,7 +17,12 @@ Style/StringLiterals:
   Enabled: false
 
 Style/MultilineMethodCallIndentation:
-    EnforcedStyle: indented
+  EnforcedStyle: indented
+
+# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
+# SupportedStyles: with_first_parameter, with_fixed_indentation
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
 
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 30 lines of code.'

@@ -308,14 +308,14 @@ describe 'member' do
 
     it "recognises a permanent paid account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: true, is_permanent_paid: true)
+        is_paid: true, is_permanent_paid: true)
       member.account.account_type = @account_type
       member.is_paid?.should be(true)
     end
 
     it "recognises a current paid account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: true, is_permanent_paid: false)
+        is_paid: true, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.account.paid_until = Time.zone.now + 1.month
       member.is_paid?.should be(true)
@@ -323,7 +323,7 @@ describe 'member' do
 
     it "recognises an expired paid account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: true, is_permanent_paid: false)
+        is_paid: true, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.account.paid_until = Time.zone.now - 1.minute
       member.is_paid?.should be(false)
@@ -331,14 +331,14 @@ describe 'member' do
 
     it "recognises a free account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: false, is_permanent_paid: false)
+        is_paid: false, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.is_paid?.should be(false)
     end
 
     it "recognises a free account even with paid_until set" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: false, is_permanent_paid: false)
+        is_paid: false, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.account.paid_until = Time.zone.now + 1.month
       member.is_paid?.should be(false)

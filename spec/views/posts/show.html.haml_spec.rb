@@ -52,7 +52,7 @@ describe "posts/show" do
 
   it 'has an anchor to the comments' do
     @post = assign(:post,
-                   FactoryGirl.create(:post, author: @author))
+      FactoryGirl.create(:post, author: @author))
     render
     assert_select 'a[name=comments]'
   end
@@ -60,7 +60,7 @@ describe "posts/show" do
   context "when there is one comment" do
     before(:each) do
       @post = assign(:post,
-                     FactoryGirl.create(:html_post, author: @author))
+        FactoryGirl.create(:html_post, author: @author))
       @comment = FactoryGirl.create(:comment, post: @post)
       @comments = @post.comments
       render
@@ -82,7 +82,7 @@ describe "posts/show" do
   context "when there is more than one comment" do
     before(:each) do
       @post = assign(:post,
-                     FactoryGirl.create(:html_post, author: @author))
+        FactoryGirl.create(:html_post, author: @author))
       @comment1 = FactoryGirl.create(:comment, post: @post, body: "F1rst!!!",
                                                created_at: Date.new(2010, 5, 17))
       @comment3 = FactoryGirl.create(:comment, post: @post, body: "Th1rd!!!",

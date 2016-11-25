@@ -120,8 +120,8 @@ class PlantingsController < ApplicationController
 
   def planting_params
     params.require(:planting).permit(:crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from, :owner_id, :finished,
-    :finished_at)
+      :quantity, :sunniness, :planted_from, :owner_id, :finished,
+      :finished_at)
   end
 
   def update_days_before_maturity(planting, crop_id)
