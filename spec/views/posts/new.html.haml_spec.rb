@@ -20,7 +20,7 @@ describe "posts/new" do
   before(:each) do
     @author = FactoryGirl.create(:member)
     assign(:post, FactoryGirl.create(:post, author: @author))
-# assign(:forum, Forum.new)
+    # assign(:forum, Forum.new)
     sign_in @author
     controller.stub(:current_user) { @author }
   end

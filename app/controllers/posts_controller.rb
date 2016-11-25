@@ -7,11 +7,11 @@ class PostsController < ApplicationController
 
   def index
     @author = Member.find_by_slug(params[:author])
-    if @author
-      @posts = @author.posts.includes(:author, { comments: :author }).paginate(page: params[:page])
-    else
-      @posts = Post.includes(:author, { comments: :author }).paginate(page: params[:page])
-    end
+    @posts = if @author
+               @author.posts.includes(:author, { comments: :author }).paginate(page: params[:page])
+             else
+               Post.includes(:author, { comments: :author }).paginate(page: params[:page])
+             end
 
     respond_to do |format|
       format.html # index.html.haml

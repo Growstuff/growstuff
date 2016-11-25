@@ -429,37 +429,6 @@ Style/CommentAnnotation:
   Exclude:
     - 'app/controllers/crops_controller.rb'
 
-# Offense count: 11
-# Cop supports --auto-correct.
-Style/CommentIndentation:
-  Exclude:
-    - 'app/controllers/registrations_controller.rb'
-    - 'app/models/crop.rb'
-    - 'config/application.rb'
-    - 'config/initializers/comfortable_mexican_sofa.rb'
-    - 'config/routes.rb'
-    - 'spec/factories/comments.rb'
-    - 'spec/features/footer_spec.rb'
-    - 'spec/spec_helper.rb'
-    - 'spec/views/harvests/new.html.haml_spec.rb'
-    - 'spec/views/members/show.rss.haml_spec.rb'
-    - 'spec/views/posts/new.html.haml_spec.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, SingleLineConditionsOnly.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - 'app/controllers/crops_controller.rb'
-    - 'app/controllers/harvests_controller.rb'
-    - 'app/models/harvest.rb'
-    - 'app/models/member.rb'
-    - 'app/controllers/posts_controller.rb'
-    - 'app/controllers/plantings_controller.rb'
-    - 'app/controllers/members_controller.rb'
-    - 'app/controllers/seeds_controller.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/DefWithParentheses:

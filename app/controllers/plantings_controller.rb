@@ -7,13 +7,13 @@ class PlantingsController < ApplicationController
   def index
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])
-    if @owner
-      @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    elsif @crop
-      @plantings = @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    else
-      @plantings = Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    end
+    @plantings = if @owner
+                   @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 elsif @crop
+                   @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 else
+                   Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 end
 
     respond_to do |format|
       format.html { @plantings = @plantings.paginate(page: params[:page]) }

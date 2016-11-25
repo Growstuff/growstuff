@@ -161,19 +161,19 @@ class Member < ActiveRecord::Base
   # Total is needed for pagination.
   def flickr_photos(page_num=1, set=nil)
     result = false
-    if set
-      result = flickr.photosets.getPhotos(
-        photoset_id: set,
-        page: page_num,
-        per_page: 30
-      )
-    else
-      result = flickr.people.getPhotos(
-        user_id: 'me',
-        page: page_num,
-        per_page: 30
-      )
-    end
+    result = if set
+               flickr.photosets.getPhotos(
+                 photoset_id: set,
+                 page: page_num,
+                 per_page: 30
+               )
+             else
+               flickr.people.getPhotos(
+                 user_id: 'me',
+                 page: page_num,
+                 per_page: 30
+               )
+             end
     if result
       return [result.photo, result.total]
     else

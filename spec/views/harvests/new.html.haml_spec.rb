@@ -27,7 +27,7 @@ describe "harvests/new" do
       assert_select "input#crop", class: "ui-autocomplete-input"
       assert_select "input#harvest_crop_id", name: "harvest[crop_id]"
       assert_select "select#harvest_plant_part_id", name: "harvest[plant_part_id]"
-# some browsers interpret <input type="number"> without a step as "integer"
+      # some browsers interpret <input type="number"> without a step as "integer"
       assert_select "input#harvest_quantity[step=any]", name: "harvest[quantity]"
       assert_select "input#harvest_weight_quantity[step=any]", name: "harvest[quantity]"
       assert_select "select#harvest_unit", name: "harvest[unit]"

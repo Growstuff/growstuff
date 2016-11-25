@@ -91,7 +91,7 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 
-# CMS stuff  -- must remain LAST
+  # CMS stuff  -- must remain LAST
   comfy_route :cms, path: '/', sitemap: false
 
 end

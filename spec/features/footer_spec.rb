@@ -12,6 +12,6 @@ feature "footer", js: true do
     expect(page).to have_selector 'a[href="http://opendefinition.org/ossd/"]'
   end
 
-# NB: not testing specific content in the footer since I'm going to put them
-# in the CMS and they'll be variable.
+  # NB: not testing specific content in the footer since I'm going to put them
+  # in the CMS and they'll be variable.
 end

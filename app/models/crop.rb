@@ -230,13 +230,13 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     return interesting_crops
   end
 
-# Crop.create_from_csv(row)
-# used by db/seeds.rb and rake growstuff:import_crops
-# CSV fields:
-# - name (required)
-# - en_wikipedia_url (required)
-# - parent (name, optional)
-# - scientific name (optional, can be picked up from parent if it has one)
+  # Crop.create_from_csv(row)
+  # used by db/seeds.rb and rake growstuff:import_crops
+  # CSV fields:
+  # - name (required)
+  # - en_wikipedia_url (required)
+  # - parent (name, optional)
+  # - scientific name (optional, can be picked up from parent if it has one)
 
   def Crop.create_from_csv(row)
     name,en_wikipedia_url,parent,scientific_names,alternate_names = row

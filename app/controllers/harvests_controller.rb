@@ -7,13 +7,13 @@ class HarvestsController < ApplicationController
   def index
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])
-    if @owner
-      @harvests = @owner.harvests.includes(:owner, :crop)
-    elsif @crop
-      @harvests = @crop.harvests.includes(:owner, :crop)
-    else
-      @harvests = Harvest.includes(:owner, :crop)
-    end
+    @harvests = if @owner
+                  @owner.harvests.includes(:owner, :crop)
+                elsif @crop
+                  @crop.harvests.includes(:owner, :crop)
+                else
+                  Harvest.includes(:owner, :crop)
+                end
 
     respond_to do |format|
       format.html { @harvests = @harvests.paginate(page: params[:page]) }
