@@ -45,9 +45,9 @@ class Harvest < ActiveRecord::Base
     "bushels" => "bushel"
   }
   validates :unit, inclusion: { in: UNITS_VALUES.values,
-    message: "%{value} is not a valid unit" },
-    allow_nil: true,
-    allow_blank: true
+                                message: "%{value} is not a valid unit" },
+                   allow_nil: true,
+                   allow_blank: true
 
   validates :weight_quantity,
     numericality: { only_integer: false },
@@ -59,9 +59,9 @@ class Harvest < ActiveRecord::Base
     "oz" => "oz"
   }
   validates :weight_unit, inclusion: { in: WEIGHT_UNITS_VALUES.values,
-    message: "%{value} is not a valid unit" },
-    allow_nil: true,
-    allow_blank: true
+                                       message: "%{value} is not a valid unit" },
+                          allow_nil: true,
+                          allow_blank: true
 
   after_validation :cleanup_quantities
 

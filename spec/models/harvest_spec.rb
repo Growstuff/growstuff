@@ -152,80 +152,80 @@ describe Harvest do
 
     it "apricots" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: nil,
-        unit: nil,
-        weight_quantity: nil,
-        weight_unit: nil
+                                        quantity: nil,
+                                        unit: nil,
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "apricots"
     end
 
     it "1 individual apricot" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: 1,
-        unit: 'individual',
-        weight_quantity: nil,
-        weight_unit: nil
+                                        quantity: 1,
+                                        unit: 'individual',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "1 individual apricot"
     end
 
     it "10 individual apricots" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: 10,
-        unit: 'individual',
-        weight_quantity: nil,
-        weight_unit: nil
+                                        quantity: 10,
+                                        unit: 'individual',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "10 individual apricots"
     end
 
     it "1 bushel of apricots" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: 1,
-        unit: 'bushel',
-        weight_quantity: nil,
-        weight_unit: nil
+                                        quantity: 1,
+                                        unit: 'bushel',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "1 bushel of apricots"
     end
 
     it "1.5 bushels of apricots" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: 1.5,
-        unit: 'bushel',
-        weight_quantity: nil,
-        weight_unit: nil
+                                        quantity: 1.5,
+                                        unit: 'bushel',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "1.5 bushels of apricots"
     end
 
     it "10 bushels of apricots" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: 10,
-        unit: 'bushel',
-        weight_quantity: nil,
-        weight_unit: nil
+                                        quantity: 10,
+                                        unit: 'bushel',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "10 bushels of apricots"
     end
 
     it "apricots weighing 1.2 kg" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: nil,
-        unit: nil,
-        weight_quantity: 1.2,
-        weight_unit: 'kg'
+                                        quantity: nil,
+                                        unit: nil,
+                                        weight_quantity: 1.2,
+                                        weight_unit: 'kg'
       )
       @h.to_s.should eq "apricots weighing 1.2 kg"
     end
 
     it "10 bushels of apricots weighing 100 kg" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-          quantity: 10,
-          unit: 'bushel',
-          weight_quantity: 100,
-          weight_unit: 'kg')
+                                        quantity: 10,
+                                        unit: 'bushel',
+                                        weight_quantity: 100,
+                                        weight_unit: 'kg')
       @h.to_s.should eq "10 bushels of apricots weighing 100 kg"
     end
 

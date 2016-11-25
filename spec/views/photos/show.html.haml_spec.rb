@@ -38,7 +38,7 @@ describe "photos/show" do
 
     it "links to the CC license" do
       assert_select "a", href: @photo.license_url,
-        text: @photo.license_name
+                         text: @photo.license_name
     end
 
     it "shows a link to the original image" do

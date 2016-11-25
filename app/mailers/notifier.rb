@@ -33,7 +33,7 @@ class Notifier < ActionMailer::Base
 
     if @member.send_planting_reminder
       mail(to: @member.email,
-          subject: "What have you planted lately?")
+           subject: "What have you planted lately?")
     end
   end
 

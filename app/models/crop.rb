@@ -66,7 +66,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     # use Rails.env as a part of index name (eg. development_growstuff)
     index_name [Rails.env, "growstuff"].join('_')
     settings index: { number_of_shards: 1 },
-      analysis: {
+             analysis: {
         tokenizer: {
           gs_edgeNGram_tokenizer: {
             type: "edgeNGram",  # edgeNGram: NGram match from the start of a token

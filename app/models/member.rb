@@ -59,7 +59,7 @@ class Member < ActiveRecord::Base
 
   # Requires acceptance of the Terms of Service
   validates_acceptance_of :tos_agreement, allow_nil: true,
-    accept: true
+                                          accept: true
 
   validates :login_name,
     length: {

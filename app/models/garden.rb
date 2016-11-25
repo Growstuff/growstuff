@@ -50,9 +50,9 @@ class Garden < ActiveRecord::Base
     "acres" => "acre"
   }
   validates :area_unit, inclusion: { in: AREA_UNITS_VALUES.values,
-        message: "%{value} is not a valid area unit" },
-        allow_nil: true,
-        allow_blank: true
+                                     message: "%{value} is not a valid area unit" },
+                        allow_nil: true,
+                        allow_blank: true
 
   after_validation :cleanup_area
 

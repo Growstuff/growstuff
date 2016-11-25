@@ -25,7 +25,7 @@ describe "notifications/index" do
   context "ordinary notifications" do
     before(:each) do
       @notification = FactoryGirl.create(:notification, sender: @member,
-                                         recipient: @member)
+                                                        recipient: @member)
       assign(:notifications, Kaminari.paginate_array([ @notification, @notification ]).page(1))
       render
     end

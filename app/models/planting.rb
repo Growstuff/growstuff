@@ -42,9 +42,9 @@ class Planting < ActiveRecord::Base
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)
   validates :sunniness, inclusion: { in: SUNNINESS_VALUES,
-        message: "%{value} is not a valid sunniness value" },
-        allow_nil: true,
-        allow_blank: true
+                                     message: "%{value} is not a valid sunniness value" },
+                        allow_nil: true,
+                        allow_blank: true
 
   PLANTED_FROM_VALUES = [
     'seed',
@@ -60,9 +60,9 @@ class Planting < ActiveRecord::Base
     'layering'
   ]
   validates :planted_from, inclusion: { in: PLANTED_FROM_VALUES,
-        message: "%{value} is not a valid planting method" },
-        allow_nil: true,
-        allow_blank: true
+                                        message: "%{value} is not a valid planting method" },
+                           allow_nil: true,
+                           allow_blank: true
 
   validate :finished_must_be_after_planted
 

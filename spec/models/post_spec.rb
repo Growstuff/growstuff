@@ -79,7 +79,7 @@ describe Post do
 
     it "sets recent activity to comment time" do
       @comment = FactoryGirl.create(:comment, post: post,
-          created_at: 1.hour.ago)
+                                              created_at: 1.hour.ago)
       post.recent_activity.to_i.should eq @comment.created_at.to_i
     end
 
