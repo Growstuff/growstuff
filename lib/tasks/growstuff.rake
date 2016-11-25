@@ -128,14 +128,18 @@ namespace :growstuff do
       puts "Adding products..."
       Product.find_or_create_by(
         name: "Annual subscription",
-        description: "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
+        description: "An annual subscription gives you access "\
+                     "to paid account features for one year.  Does not auto-renew.",
         min_price: 3000,
         account_type_id: @paid_account.id,
         paid_months: 12
       )
       Product.find_or_create_by(
         name: "Seed account",
-        description: "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
+        description: "A seed account helps Growstuff grow in its "\
+                     "early days.  It gives you all the features of "\
+                     "a paid account, in perpetuity.  This account "\
+                     "type never expires.",
         min_price: 15000,
         account_type_id: @seed_account.id,
       )

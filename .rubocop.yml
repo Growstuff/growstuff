@@ -8,6 +8,11 @@ AllCops:
     - 'db/schema.rb'
     - 'vendor/**/*'
 
+Style/FileName:
+  Exclude:
+    - 'Gemfile'
+    - 'Gemfile.lock'
+
 Style/StringLiterals:
   Enabled: false
 
@@ -37,11 +42,8 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 11
 
-# Offense count: 1108
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives.
-# URISchemes: http, https
 Metrics/LineLength:
-  Max: 223
+  Max: 120
 
 # Offense count: 8
 Metrics/PerceivedComplexity:

@@ -1,4 +1,4 @@
-class Crop < ActiveRecord::Base
+class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
@@ -22,10 +22,19 @@ class Crop < ActiveRecord::Base
   before_destroy {|crop| crop.posts.clear}
 
   default_scope { order("lower(name) asc") }
-  scope :recent, -> { where(approval_status: "approved").reorder("created_at desc") }
-  scope :toplevel, -> { where(approval_status: "approved", parent_id: nil) }
-  scope :popular, -> { where(approval_status: "approved").reorder("plantings_count desc, lower(name) asc") }
-  scope :randomized, -> { where(approval_status: "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
+  scope :recent, lambda {
+    where(approval_status: "approved").reorder("created_at desc")
+  }
+  scope :toplevel, lambda {
+    where(approval_status: "approved", parent_id: nil)
+  }
+  scope :popular, lambda {
+    where(approval_status: "approved").reorder("plantings_count desc, lower(name) asc")
+  }
+  scope :randomized,  lambda {
+    # ok on sqlite and psql, but not on mysql
+    where(approval_status: "approved").reorder('random()')
+  }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }

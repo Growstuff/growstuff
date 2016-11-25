@@ -19,7 +19,9 @@ describe CropsHelper do
       end
 
       it 'should render' do
-        expect(helper.display_seed_availability(@member, @crop)).to eq "You have an unknown quantity of seeds of this crop."
+        expect(
+          helper.display_seed_availability(@member, @crop)
+        ).to eq "You have an unknown quantity of seeds of this crop."
       end
     end
 
