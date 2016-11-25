@@ -393,16 +393,6 @@ Style/BracesAroundHashParameters:
     - 'spec/views/notifier/notify.html.haml_spec.rb'
     - 'spec/views/photos/new.html.haml_spec.rb'
 
-# Offense count: 13
-# Cop supports --auto-correct.
-# Configuration parameters: IndentWhenRelativeTo, SupportedStyles, IndentOneStep, IndentationWidth.
-# SupportedStyles: case, end
-Style/CaseIndentation:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/models/order.rb'
-    - 'db/migrate/20150201052245_create_cms.rb'
-
 # Offense count: 4
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: nested, compact
