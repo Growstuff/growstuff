@@ -28,16 +28,16 @@ describe "harvests/index" do
     total_entries = 2
     harvests = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-        FactoryGirl.create(:harvest,
-          crop: @tomato,
-          owner: @member
-        ),
-        FactoryGirl.create(:harvest,
-          crop: @maize,
-          plant_part: @pp,
-          owner: @member
-        )
-      ])
+                      FactoryGirl.create(:harvest,
+                        crop: @tomato,
+                        owner: @member
+                      ),
+                      FactoryGirl.create(:harvest,
+                        crop: @maize,
+                        plant_part: @pp,
+                        owner: @member
+                      )
+                    ])
     end
     assign(:harvests, harvests)
     render

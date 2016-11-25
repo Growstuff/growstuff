@@ -28,25 +28,25 @@ describe "plantings/index" do
     total_entries = 3
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-        FactoryGirl.create(:planting,
-          garden: @garden,
-          crop: @tomato,
-          owner: @member
-        ),
-        FactoryGirl.create(:planting,
-          garden: @garden,
-          crop: @maize,
-          description: '',
-          planted_at: Time.local(2013, 1, 13)
-        ),
-        FactoryGirl.create(:planting,
-          garden: @garden,
-          crop: @tomato,
-          planted_at: Time.local(2013, 1, 13),
-          finished_at: Time.local(2013, 1, 20),
-          finished: true
-        )
-      ])
+                      FactoryGirl.create(:planting,
+                        garden: @garden,
+                        crop: @tomato,
+                        owner: @member
+                      ),
+                      FactoryGirl.create(:planting,
+                        garden: @garden,
+                        crop: @maize,
+                        description: '',
+                        planted_at: Time.local(2013, 1, 13)
+                      ),
+                      FactoryGirl.create(:planting,
+                        garden: @garden,
+                        crop: @tomato,
+                        planted_at: Time.local(2013, 1, 13),
+                        finished_at: Time.local(2013, 1, 20),
+                        finished: true
+                      )
+                    ])
     end
     assign(:plantings, plantings)
     render

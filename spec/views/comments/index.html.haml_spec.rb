@@ -24,9 +24,9 @@ describe "comments/index" do
     total_entries = 2
     comments = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-        FactoryGirl.create(:comment),
-        FactoryGirl.create(:comment, body: 'ROFL')
-      ])
+                      FactoryGirl.create(:comment),
+                      FactoryGirl.create(:comment, body: 'ROFL')
+                    ])
     end
     assign(:comments, comments)
     render
