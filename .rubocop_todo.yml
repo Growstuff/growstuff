@@ -48,17 +48,6 @@ Lint/DeprecatedClassMethods:
     - 'app/controllers/robots_controller.rb'
     - 'config/boot.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
-# SupportedStyles: keyword, variable, start_of_line
-Lint/EndAlignment:
-  Exclude:
-    - 'app/controllers/registrations_controller.rb'
-    - 'app/controllers/robots_controller.rb'
-    - 'app/helpers/seeds_helper.rb'
-    - 'db/migrate/20150201052245_create_cms.rb'
-
 # Offense count: 1
 Lint/HandleExceptions:
   Exclude:

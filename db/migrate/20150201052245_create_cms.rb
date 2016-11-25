@@ -5,7 +5,7 @@ class CreateCms < ActiveRecord::Migration
                    { }
                  else
                    { limit: 16777215 }
-      end
+                 end
 
     # -- Sites --------------------------------------------------------------
     create_table :comfy_cms_sites do |t|
