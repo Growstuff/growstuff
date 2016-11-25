@@ -32,7 +32,7 @@ describe "posts/_single" do
     end
 
     it "doesn't contain a link to new comment" do
-      assert_select("a", {href: new_comment_path(post_id: @post.id)}, false)
+      assert_select("a", { href: new_comment_path(post_id: @post.id) }, false)
     end
   end
 
@@ -45,7 +45,7 @@ describe "posts/_single" do
     end
 
     it "contains link to new comment" do
-      assert_select("a", {href: new_comment_path(post_id: @post.id)}, "Reply")
+      assert_select("a", { href: new_comment_path(post_id: @post.id) }, "Reply")
     end
 
     it "does not contain an edit link" do

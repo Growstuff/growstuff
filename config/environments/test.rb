@@ -26,7 +26,7 @@ Growstuff::Application.configure do
   config.action_dispatch.show_exceptions = true
 
   # Disable request forgery protection in test environment
-  config.action_controller.allow_forgery_protection    = false
+  config.action_controller.allow_forgery_protection = false
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -100,7 +100,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 # Unknown location
-Geocoder::Lookup::Test.add_stub( "Tatooine", [])
+Geocoder::Lookup::Test.add_stub("Tatooine", [])
 
 Capybara.configure do |config|
   config.always_include_port = true

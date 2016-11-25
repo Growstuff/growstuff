@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "crops/_planting_advice" do
   before(:each) do
-    @owner    = FactoryGirl.create(:member)
+    @owner = FactoryGirl.create(:member)
     @crop = FactoryGirl.create(:crop)
     @garden   = FactoryGirl.create(:garden, owner: @owner)
     @planting = FactoryGirl.create(:planting,

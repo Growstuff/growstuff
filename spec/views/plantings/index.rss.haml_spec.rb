@@ -50,7 +50,7 @@ describe 'plantings/index.rss.haml' do
   context "one person's plantings" do
     before :each do
       @planting = FactoryGirl.create(:planting)
-      assign(:plantings, [@planting ])
+      assign(:plantings, [@planting])
       assign(:owner, @planting.owner)
       render
     end

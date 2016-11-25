@@ -100,7 +100,7 @@ describe Crop do
     it 'toplevel scope works' do
       @tomato = FactoryGirl.create(:tomato)
       @roma = FactoryGirl.create(:roma, parent_id: @tomato.id)
-      Crop.toplevel.should eq [ @tomato ]
+      Crop.toplevel.should eq [@tomato]
     end
   end
 

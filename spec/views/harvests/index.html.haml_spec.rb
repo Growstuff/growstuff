@@ -15,7 +15,7 @@ require 'rails_helper'
 describe "harvests/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @member   = FactoryGirl.create(:member)
+    @member = FactoryGirl.create(:member)
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
     @pp = FactoryGirl.create(:plant_part)

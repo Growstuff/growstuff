@@ -22,9 +22,9 @@ class Harvest < ActiveRecord::Base
 
   validates :crop, approved: true
 
-  validates :crop, presence: {message: "must be present and exist in our database"}
+  validates :crop, presence: { message: "must be present and exist in our database" }
 
-  validates :plant_part, presence: {message: "must be present and exist in our database"}
+  validates :plant_part, presence: { message: "must be present and exist in our database" }
 
   validates :quantity,
     numericality: {

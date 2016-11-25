@@ -22,7 +22,7 @@ describe "crops/wrangle" do
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
     crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([ @tomato, @maize ])
+      pager.replace([@tomato, @maize])
     end
     assign(:crops, crops)
     assign(:crop_wranglers, Role.crop_wranglers)

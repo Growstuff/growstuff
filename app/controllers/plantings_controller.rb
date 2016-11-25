@@ -18,7 +18,7 @@ class PlantingsController < ApplicationController
     respond_to do |format|
       format.html { @plantings = @plantings.paginate(page: params[:page]) }
       format.json { render json: @plantings }
-      format.rss { render layout: false } #index.rss.builder
+      format.rss { render layout: false } # index.rss.builder
       format.csv do
         specifics = (@owner ? "#{@owner.login_name}-" : @crop ? "#{@crop.name}-" : nil)
         @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"

@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
 
   friendly_id :login_name, use: [:slugged, :finders]
 
-  has_many :posts,   foreign_key: 'author_id'
+  has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :forums, foreign_key: 'owner_id'
 
@@ -79,12 +79,12 @@ class Member < ActiveRecord::Base
     }
 
   # Give each new member a default garden
-  after_create {|member| Garden.create(name: "Garden", owner_id: member.id) }
+  after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
 
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryGirl associations
-  after_create {|member| Account.find_or_create_by(member_id: member.id) }
+  after_create { |member| Account.find_or_create_by(member_id: member.id) }
 
   after_save :update_newsletter_subscription
 
@@ -158,7 +158,7 @@ class Member < ActiveRecord::Base
   # Fetches a collection of photos from Flickr
   # Returns a [[page of photos], total] pair.
   # Total is needed for pagination.
-  def flickr_photos(page_num=1, set=nil)
+  def flickr_photos(page_num = 1, set = nil)
     result = false
     result = if set
                flickr.photosets.getPhotos(
@@ -212,7 +212,7 @@ class Member < ActiveRecord::Base
   def Member.nearest_to(place)
     nearby_members = []
     if place
-      latitude, longitude = Geocoder.coordinates(place, params: {limit: 1})
+      latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
       if latitude && longitude
         nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
       end
@@ -234,7 +234,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def newsletter_subscribe(testing=false)
+  def newsletter_subscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.subscribe({
@@ -245,7 +245,7 @@ class Member < ActiveRecord::Base
                              })
   end
 
-  def newsletter_unsubscribe(testing=false)
+  def newsletter_unsubscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({

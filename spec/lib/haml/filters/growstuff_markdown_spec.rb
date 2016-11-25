@@ -6,7 +6,7 @@ def input_link(name)
   return "[#{name}](crop)"
 end
 
-def output_link(crop, name=nil)
+def output_link(crop, name = nil)
   url = Rails.application.routes.url_helpers.crop_url(crop, host: Growstuff::Application.config.host)
   if name
     return "<a href=\"#{url}\">#{name}</a>"
@@ -19,7 +19,7 @@ def input_member_link(name)
   return "[#{name}](member)"
 end
 
-def output_member_link(member, name=nil)
+def output_member_link(member, name = nil)
   url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
   if name
     return "<a href=\"#{url}\">#{name}</a>"
@@ -47,7 +47,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
 
   it "doesn't convert escaped crop links" do
     @crop = FactoryGirl.create(:crop)
-    rendered = Haml::Filters::GrowstuffMarkdown.render( "\\" << input_link(@crop.name))
+    rendered = Haml::Filters::GrowstuffMarkdown.render("\\" << input_link(@crop.name))
     rendered.should match /\[#{@crop.name}\]\(crop\)/
   end
 

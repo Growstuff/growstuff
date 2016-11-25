@@ -18,7 +18,7 @@ describe "notifications/new" do
     @sender = FactoryGirl.create(:member)
     assign(:notification, FactoryGirl.create(:notification, recipient_id: @recipient.id, sender_id: @sender.id))
     sign_in @sender
-    controller.stub(:current_user) { @sender}
+    controller.stub(:current_user) { @sender }
   end
 
   it "renders new message form" do

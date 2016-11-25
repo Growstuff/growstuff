@@ -62,7 +62,7 @@ class Order < ActiveRecord::Base
   # search orders (used by admin/orders)
   # usage: Order.search({ :by => 'member', :for => 'Skud' })
   # can search by: member, order_id, paypal_token, paypal_payer_id,
-  def Order.search(args={})
+  def Order.search(args = {})
     if args[:for]
       case args[:by]
       when "member"

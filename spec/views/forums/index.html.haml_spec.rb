@@ -18,7 +18,7 @@ describe "forums/index" do
     controller.stub(:current_user) { @admin }
     @forum1 = FactoryGirl.create(:forum)
     @forum2 = FactoryGirl.create(:forum)
-    assign(:forums, [ @forum1, @forum2 ])
+    assign(:forums, [@forum1, @forum2])
   end
 
   it "renders a list of forums" do

@@ -111,23 +111,23 @@ feature "crop detail page", js: true do
       background { subject }
 
       scenario "has seed heading with SEO" do
-        expect(page).to have_content "Find #{ crop.name } seeds"
+        expect(page).to have_content "Find #{crop.name} seeds"
       end
 
       scenario "has harvest heading with SEO" do
-        expect(page).to have_content "#{ crop.name.capitalize } harvests"
+        expect(page).to have_content "#{crop.name.capitalize} harvests"
       end
 
       scenario "has planting heading with SEO" do
-        expect(page).to have_content "See who's planted #{ crop.name.pluralize }"
+        expect(page).to have_content "See who's planted #{crop.name.pluralize}"
       end
 
       scenario "has planting advice with SEO" do
-        expect(page).to have_content "How to grow #{ crop.name }"
+        expect(page).to have_content "How to grow #{crop.name}"
       end
 
       scenario "has a link to Wikipedia with SEO" do
-        expect(page).to have_content "Learn more about #{ crop.name }"
+        expect(page).to have_content "Learn more about #{crop.name}"
         expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
 

@@ -22,7 +22,7 @@ describe "crops/index" do
     @maize  = FactoryGirl.create(:maize)
     assign(:crops, [@tomato, @maize])
     paginated_crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([ @tomato, @maize ])
+      pager.replace([@tomato, @maize])
     end
     assign(:paginated_crops, paginated_crops)
   end

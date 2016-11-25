@@ -108,7 +108,7 @@ class Ability
       can :cancel,   Order, member_id: member.id, completed_at: nil
       can :destroy,  Order, member_id: member.id, completed_at: nil
 
-      can :create,  OrderItem
+      can :create, OrderItem
       # for now, let's not let people mess with individual order items
       cannot :read,    OrderItem, order: { member_id: member.id }
       cannot :update,  OrderItem, order: { member_id: member.id, completed_at: nil }

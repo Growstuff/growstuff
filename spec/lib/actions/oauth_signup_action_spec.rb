@@ -28,7 +28,7 @@ describe 'Growstuff::OauthSignupAction' do
       before :each do
         @auth['info']['email'] = 'no.existing.user@gmail.com'
 
-        Member.where(email:  @auth['info']['email']).delete_all
+        Member.where(email: @auth['info']['email']).delete_all
 
         @member = @action.find_or_create_from_authorization(@auth)
         @authentication = @action.establish_authentication(@auth, @member)

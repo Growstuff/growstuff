@@ -21,7 +21,7 @@ describe 'seeds/index.rss.haml' do
     before(:each) do
       @seed = FactoryGirl.create(:seed)
       @tradable = FactoryGirl.create(:tradable_seed)
-      assign(:seeds, [ @seed, @tradable ])
+      assign(:seeds, [@seed, @tradable])
       render
     end
 
@@ -49,7 +49,7 @@ describe 'seeds/index.rss.haml' do
   context "one member's seeds" do
     before(:each) do
       @seed = FactoryGirl.create(:seed)
-      assign(:seeds, [ @seed ])
+      assign(:seeds, [@seed])
       assign(:owner, @seed.owner)
       render
     end

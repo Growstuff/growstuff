@@ -18,7 +18,7 @@ class SeedsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @seeds }
-      format.rss { render layout: false } #index.rss.builder
+      format.rss { render layout: false } # index.rss.builder
       format.csv do
         if @owner
           @filename = "Growstuff-#{@owner}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
@@ -49,7 +49,7 @@ class SeedsController < ApplicationController
     @seed = Seed.new
 
     # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.find_by_id(params[:crop_id])     || Crop.new
+    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
 
     respond_to do |format|
       format.html # new.html.erb

@@ -1,5 +1,5 @@
 module FeatureHelpers
-  def fill_autocomplete(field, options={})
+  def fill_autocomplete(field, options = {})
     fill_in field, with: options[:with]
 
     page.execute_script %Q{ $('##{field}').trigger('focus'); }

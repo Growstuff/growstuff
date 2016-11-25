@@ -45,7 +45,8 @@ describe Harvest do
 
   context 'units' do
     it 'all valid units should work' do
-      ['individual','bunch','sprig','handful','litre','pint','quart','bucket','basket','bushel', nil, ''].each do |s|
+      ['individual', 'bunch', 'sprig', 'handful', 'litre',
+       'pint', 'quart', 'bucket', 'basket', 'bushel', nil, ''].each do |s|
         @harvest = FactoryGirl.build(:harvest, unit: s)
         @harvest.should be_valid
       end

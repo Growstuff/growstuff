@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @posts }
-      format.rss { render layout: false } #index.rss.builder
+      format.rss { render layout: false } # index.rss.builder
     end
   end
 

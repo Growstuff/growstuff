@@ -2,7 +2,7 @@ class CreateCms < ActiveRecord::Migration
   def self.up # rubocop:disable Metrics/MethodLength
     text_limit = case ActiveRecord::Base.connection.adapter_name
                  when 'PostgreSQL'
-                   { }
+                   {}
                  else
                    { limit: 16777215 }
                  end
@@ -42,7 +42,7 @@ class CreateCms < ActiveRecord::Migration
       t.integer :layout_id
       t.integer :parent_id
       t.integer :target_page_id
-      t.string  :label,           null: false
+      t.string  :label, null: false
       t.string  :slug
       t.string  :full_path,       null: false
       t.text    :content_cache,   text_limit
@@ -80,7 +80,7 @@ class CreateCms < ActiveRecord::Migration
 
     # -- Files --------------------------------------------------------------
     create_table :comfy_cms_files do |t|
-      t.integer :site_id,           null: false
+      t.integer :site_id, null: false
       t.integer :block_id
       t.string  :label,             null: false
       t.string  :file_file_name,    null: false

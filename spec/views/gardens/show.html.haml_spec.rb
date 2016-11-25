@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "gardens/show" do
   before(:each) do
-    @owner    = FactoryGirl.create(:member)
+    @owner = FactoryGirl.create(:member)
     controller.stub(:current_user) { @owner }
     @garden   = FactoryGirl.create(:garden, owner: @owner)
     @planting = FactoryGirl.create(:planting, garden: @garden)

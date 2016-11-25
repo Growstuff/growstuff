@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
         :bio, :location, :latitude, :longitude,
         # email settings
         :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
-        #update password
+        # update password
         :current_password
       )
     end

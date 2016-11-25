@@ -43,7 +43,7 @@ describe "posts/edit" do
     context "forum specified" do
       before(:each) do
         @forum = assign(:forum, FactoryGirl.create(:forum))
-        assign(:post, FactoryGirl.create( :post,
+        assign(:post, FactoryGirl.create(:post,
           forum: @forum,
           author: @author
         ))

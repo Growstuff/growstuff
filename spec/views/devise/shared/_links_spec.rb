@@ -12,14 +12,14 @@ describe 'devise/shared/_links.haml', type: "view" do
   it 'should have a sign-in link if not in sessions' do
     @view.stub(:controller_name).and_return("anything but sessions")
     @view.stub(:resource_name).and_return("member")
-    @view.stub(devise_mapping:                devise_mapping(false, false, false, false, false))
+    @view.stub(devise_mapping: devise_mapping(false, false, false, false, false))
     render
   end
 
   it "shouldn't have a sign-in link if in sessions" do
     @view.stub(:controller_name).and_return("sessions")
     @view.stub(:resource_name).and_return("member")
-    @view.stub(devise_mapping:                devise_mapping(false, false, false, false, false))
+    @view.stub(devise_mapping: devise_mapping(false, false, false, false, false))
     render
   end
 end

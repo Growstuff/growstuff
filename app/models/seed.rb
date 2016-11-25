@@ -9,7 +9,7 @@ class Seed < ActiveRecord::Base
 
   validates :crop, approved: true
 
-  validates :crop, presence: {message: "must be present and exist in our database"}
+  validates :crop, presence: { message: "must be present and exist in our database" }
   validates :quantity,
     numericality: {
       only_integer: true,

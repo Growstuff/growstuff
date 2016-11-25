@@ -38,7 +38,7 @@ module ApplicationHelper
   end
 
   # Produces a cache key for uniquely identifying cached fragments.
-  def cache_key_for(klass, identifier="all")
+  def cache_key_for(klass, identifier = "all")
     count          = klass.count
     max_updated_at = klass.maximum(:updated_at).try(:utc).try(:to_s, :number)
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"

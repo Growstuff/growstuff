@@ -275,7 +275,7 @@ describe 'member' do
       @member2.updated_at = 2.days.ago
       @member3.updated_at = 1.days.ago
 
-      Member.interesting.should eq [ @member3, @member2, @member1 ]
+      Member.interesting.should eq [@member3, @member2, @member1]
     end
   end
 

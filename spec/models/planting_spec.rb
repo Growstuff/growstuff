@@ -300,7 +300,7 @@ describe Planting do
 
     context "finished date validation" do
       it 'requires finished date after planting date' do
-        @f = FactoryGirl.build(:finished_planting, planted_at:             '2014-01-01', finished_at: '2013-01-01')
+        @f = FactoryGirl.build(:finished_planting, planted_at: '2014-01-01', finished_at: '2013-01-01')
         @f.should_not be_valid
       end
 

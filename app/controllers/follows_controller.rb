@@ -8,7 +8,7 @@ class FollowsController < ApplicationController
     @follow = current_member.follows.build(followed_id: follow_params[:followed_id])
 
     if @follow.save
-      flash[:notice] = "Followed #{ @follow.followed.login_name }"
+      flash[:notice] = "Followed #{@follow.followed.login_name}"
       redirect_to :back
     else
       flash[:error] = "Already following or error while following."
@@ -22,7 +22,7 @@ class FollowsController < ApplicationController
     unfollowed_name = @follow.followed.login_name
     @follow.destroy
 
-    flash[:notice] = "Unfollowed #{ unfollowed_name }"
+    flash[:notice] = "Unfollowed #{unfollowed_name}"
     redirect_to root_path
   end
 
