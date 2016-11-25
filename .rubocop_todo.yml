@@ -613,13 +613,6 @@ Style/EachForSimpleLoop:
     - 'spec/models/crop_spec.rb'
     - 'spec/views/home/_crops.html.haml_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/ElseAlignment:
-  Exclude:
-    - 'app/controllers/registrations_controller.rb'
-    - 'app/helpers/seeds_helper.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
