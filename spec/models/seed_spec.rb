@@ -93,9 +93,9 @@ describe Seed do
     it 'all valid organic values should work' do
       ['certified organic', 'non-certified organic',
        'conventional/non-organic', 'unknown'].each do |t|
-          @seed = FactoryGirl.build(:seed, organic: t)
-          @seed.should be_valid
-        end
+        @seed = FactoryGirl.build(:seed, organic: t)
+        @seed.should be_valid
+      end
     end
 
     it 'all valid GMO values should work' do
@@ -108,9 +108,9 @@ describe Seed do
 
     it 'all valid heirloom values should work' do
       %w(heirloom hybrid unknown).each do |t|
-          @seed = FactoryGirl.build(:seed, heirloom: t)
-          @seed.should be_valid
-        end
+        @seed = FactoryGirl.build(:seed, heirloom: t)
+        @seed.should be_valid
+      end
     end
 
     it 'should refuse invalid organic/GMO/heirloom values' do
