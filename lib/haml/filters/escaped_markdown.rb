@@ -9,8 +9,8 @@ module Haml::Filters
     end
   end
 
-# Register it as the handler for the :escaped_markdown HAML command.
-# The automatic system gives us :escapedmarkdown, which is ugly.
-defined['escaped_markdown'] = EscapedMarkdown
+  # Register it as the handler for the :escaped_markdown HAML command.
+  # The automatic system gives us :escapedmarkdown, which is ugly.
+  defined['escaped_markdown'] = EscapedMarkdown
 
 end

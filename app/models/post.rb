@@ -70,14 +70,14 @@ class Post < ActiveRecord::Base
   end
 
   private
-    def update_crops_posts_association
-      self.crops.destroy_all
-      # look for crops mentioned in the post. eg. [tomato](crop)
-      self.body.scan(Haml::Filters::GrowstuffMarkdown::CROP_REGEX) do |m|
-        # find crop case-insensitively
-        crop = Crop.where('lower(name) = ?', $1.downcase).first
-        # create association
-        self.crops << crop if crop && !self.crops.include?(crop)
-      end
+  def update_crops_posts_association
+    self.crops.destroy_all
+    # look for crops mentioned in the post. eg. [tomato](crop)
+    self.body.scan(Haml::Filters::GrowstuffMarkdown::CROP_REGEX) do |m|
+      # find crop case-insensitively
+      crop = Crop.where('lower(name) = ?', $1.downcase).first
+      # create association
+      self.crops << crop if crop && !self.crops.include?(crop)
     end
+  end
 end

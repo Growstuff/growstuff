@@ -56,8 +56,8 @@ module Haml::Filters
     end
   end
 
-# Register it as the handler for the :growstuff_markdown HAML command.
-# The automatic system gives us :growstuffmarkdown, which is ugly.
-defined['growstuff_markdown'] = GrowstuffMarkdown
+  # Register it as the handler for the :growstuff_markdown HAML command.
+  # The automatic system gives us :growstuffmarkdown, which is ugly.
+  defined['growstuff_markdown'] = GrowstuffMarkdown
 
 end

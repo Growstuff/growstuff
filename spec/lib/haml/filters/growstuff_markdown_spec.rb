@@ -30,10 +30,10 @@ end
 
 
 describe 'Haml::Filters::Growstuff_Markdown' do
-   it 'is registered as the handler for :growstuff_markdown' do
-     Haml::Filters::defined['growstuff_markdown'].should ==
-       Haml::Filters::GrowstuffMarkdown
-   end
+  it 'is registered as the handler for :growstuff_markdown' do
+    Haml::Filters::defined['growstuff_markdown'].should ==
+      Haml::Filters::GrowstuffMarkdown
+  end
 
   it 'converts quick crop links' do
     @crop = FactoryGirl.create(:crop)

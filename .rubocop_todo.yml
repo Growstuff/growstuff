@@ -1342,49 +1342,6 @@ Style/IndentHash:
     - 'config/environments/test.rb'
     - 'spec/lib/actions/oauth_signup_action_spec.rb'
 
-# Offense count: 25
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: normal, rails
-Style/IndentationConsistency:
-  Exclude:
-    - 'app/models/crop.rb'
-    - 'app/models/garden.rb'
-    - 'app/models/post.rb'
-    - 'lib/haml/filters/escaped_markdown.rb'
-    - 'lib/haml/filters/growstuff_markdown.rb'
-    - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
-    - 'spec/models/garden_spec.rb'
-    - 'spec/support/controller_macros.rb'
-    - 'spec/views/scientific_names/edit.html.haml_spec.rb'
-
-# Offense count: 29
-# Cop supports --auto-correct.
-# Configuration parameters: Width.
-Style/IndentationWidth:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/crops_controller.rb'
-    - 'app/controllers/registrations_controller.rb'
-    - 'app/controllers/robots_controller.rb'
-    - 'app/helpers/seeds_helper.rb'
-    - 'app/models/crop.rb'
-    - 'config/initializers/comfortable_mexican_sofa.rb'
-    - 'db/migrate/20121109130033_add_creation_index_to_updates.rb'
-    - 'db/migrate/20141119130555_change_follows_member_id_to_follower_id.rb'
-    - 'lib/tasks/hooks.rake'
-    - 'spec/controllers/harvests_controller_spec.rb'
-    - 'spec/features/signin_spec.rb'
-    - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
-    - 'spec/models/garden_spec.rb'
-    - 'spec/models/seed_spec.rb'
-    - 'spec/support/controller_macros.rb'
-    - 'spec/views/crops/index.html.haml_spec.rb'
-    - 'spec/views/devise/registrations/new_spec.rb'
-    - 'spec/views/devise/sessions/new_spec.rb'
-    - 'spec/views/devise/unlocks/new_spec.rb'
-    - 'spec/views/posts/_single.html.haml_spec.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.

@@ -19,7 +19,7 @@ require 'rails_helper'
 describe "posts/_single" do
 
   def render_post()
-      render partial: "single", locals: { post: @post }
+    render partial: "single", locals: { post: @post }
   end
 
   before(:each) do
@@ -121,7 +121,7 @@ describe "posts/_single" do
     end
 
     it "does not contain link to post" do
-     assert_select "a[href='#{post_path @post}']", false
+      assert_select "a[href='#{post_path @post}']", false
     end
 
     it "does not contain link to new comment" do

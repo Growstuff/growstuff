@@ -28,7 +28,7 @@ describe 'devise/unlocks/new.html.haml', type: "view" do
     end
 
     it 'should have some fields' do
-        rendered.should have_content 'Email'
+      rendered.should have_content 'Email'
     end
   end
 end

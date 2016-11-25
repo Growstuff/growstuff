@@ -9,7 +9,7 @@ ComfortableMexicanSofa.configure do |config|
 
   # Module responsible for authentication. You can replace it with your own.
   # It simply needs to have #authenticate method. See http_auth.rb for reference.
-     config.admin_auth = 'CmsDeviseAuth'
+  config.admin_auth = 'CmsDeviseAuth'
 
   # Module responsible for authorization on admin side. It should have #authorize
   # method that returns true or false based on params and loaded instance

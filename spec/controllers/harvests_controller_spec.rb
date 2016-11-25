@@ -56,8 +56,8 @@ describe HarvestsController do
     end
 
     it "generates a csv" do
-        get :index, {format: "csv"}
-        response.status.should eq 200
+      get :index, {format: "csv"}
+      response.status.should eq 200
     end
   end
 

@@ -137,10 +137,10 @@ class CropsController < ApplicationController
     respond_to do |format|
       if @crop.save
         params[:alt_name].each do |index, value|
-        @crop.alternate_names.create(name: value, creator_id: current_member.id)
+          @crop.alternate_names.create(name: value, creator_id: current_member.id)
         end
         params[:sci_name].each do |index, value|
-        @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
+          @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
         end
         unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|

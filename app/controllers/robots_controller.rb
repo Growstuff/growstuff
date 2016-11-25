@@ -4,7 +4,7 @@ class RobotsController < ApplicationController
 
   def robots
     filename = if subdomain && subdomain != 'www'
-      "config/robots.#{ subdomain }.txt"
+                 "config/robots.#{ subdomain }.txt"
     end
 
     file_to_render = File.exists?(filename.to_s) ? filename : DEFAULT_FILENAME

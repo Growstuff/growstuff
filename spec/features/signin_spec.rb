@@ -63,26 +63,26 @@ feature "signin", js: true do
   end
 
   context "with facebook" do
-     scenario "sign in" do
-      # Ordinarily done by database_cleaner
-      Member.where(login_name: 'tdawg').delete_all
+    scenario "sign in" do
+     # Ordinarily done by database_cleaner
+     Member.where(login_name: 'tdawg').delete_all
 
-      member = create :member, login_name: 'tdawg', email: 'example.oauth.facebook@example.com'
+     member = create :member, login_name: 'tdawg', email: 'example.oauth.facebook@example.com'
 
-      # Start the test
-      visit root_path
-      first('.signup a').click
+     # Start the test
+     visit root_path
+     first('.signup a').click
 
-      # Click the signup with facebook link
+     # Click the signup with facebook link
 
-      first('a[href="/members/auth/facebook"]').click
-      # Magic happens!
-      # See config/environments/test.rb for the fake user
-      # that we pretended to auth as
+     first('a[href="/members/auth/facebook"]').click
+     # Magic happens!
+     # See config/environments/test.rb for the fake user
+     # that we pretended to auth as
 
-      # Signed up and logged in
-      expect(current_path).to eq root_path
-      expect(page.text).to include("Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, tdawg")
-    end
+     # Signed up and logged in
+     expect(current_path).to eq root_path
+     expect(page.text).to include("Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, tdawg")
+   end
   end
 end

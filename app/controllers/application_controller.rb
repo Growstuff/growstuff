@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
         request.path != "/members/confirmation" &&
         request.path != "/members/sign_out" &&
         !request.xhr?)
-        store_location_for(:member, request.fullpath)
+      store_location_for(:member, request.fullpath)
     end
   end
 

@@ -40,8 +40,8 @@ describe "crops/index" do
   end
 
   it "linkifies crop images" do
-   render
-   assert_select "img", src: :tomato
+    render
+    assert_select "img", src: :tomato
   end
 
   context "logged in and crop wrangler" do

@@ -28,9 +28,9 @@ describe "scientific_names/edit" do
       render
     end
 
-  it "shows the creator" do
-    rendered.should have_content "Added by #{@scientific_name.creator} less than a minute ago."
-  end
+    it "shows the creator" do
+      rendered.should have_content "Added by #{@scientific_name.creator} less than a minute ago."
+    end
 
     it "renders the edit scientific_name form" do
       assert_select "form", action: scientific_names_path(@scientific_name), method: "post" do

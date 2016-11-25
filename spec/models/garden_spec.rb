@@ -219,15 +219,15 @@ describe Garden do
     it 'deletes association with photos when photo is deleted' do
       photo.destroy
       garden.reload
-        garden.photos.should be_empty
+      garden.photos.should be_empty
     end
 
     it 'has a default photo' do
-        garden.default_photo.should eq photo
+      garden.default_photo.should eq photo
     end
 
     it 'chooses the most recent photo' do
-        @photo2 = FactoryGirl.create(:photo)
+      @photo2 = FactoryGirl.create(:photo)
       garden.photos << @photo2
       garden.default_photo.should eq @photo2
     end
