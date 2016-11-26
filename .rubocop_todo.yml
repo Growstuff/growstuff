@@ -159,28 +159,6 @@ Rails/HasAndBelongsToMany:
     - 'app/models/product.rb'
     - 'app/models/role.rb'
 
-# Offense count: 89
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: spec/**/*, test/**/*
-Rails/HttpPositionalArguments:
-  Exclude:
-    - 'spec/controllers/admin/orders_controller_spec.rb'
-    - 'spec/controllers/comments_controller_spec.rb'
-    - 'spec/controllers/crops_controller_spec.rb'
-    - 'spec/controllers/harvests_controller_spec.rb'
-    - 'spec/controllers/member_controller_spec.rb'
-    - 'spec/controllers/notifications_controller_spec.rb'
-    - 'spec/controllers/order_items_controller_spec.rb'
-    - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/places_controller_spec.rb'
-    - 'spec/controllers/plantings_controller_spec.rb'
-    - 'spec/controllers/posts_controller_spec.rb'
-    - 'spec/controllers/roles_controller_spec.rb'
-    - 'spec/controllers/scientific_names_controller_spec.rb'
-    - 'spec/controllers/seeds_controller_spec.rb'
-    - 'spec/controllers/shop_controller_spec.rb'
-
 # Offense count: 15
 # Configuration parameters: Include.
 # Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
