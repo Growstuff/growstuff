@@ -162,30 +162,6 @@ Rails/Date:
     - 'spec/features/plantings/planting_a_crop_spec.rb'
     - 'spec/features/shared_examples/append_date.rb'
 
-# Offense count: 42
-# Cop supports --auto-correct.
-# Configuration parameters: Whitelist.
-# Whitelist: find_by_sql
-Rails/DynamicFindBy:
-  Exclude:
-    - 'app/controllers/alternate_names_controller.rb'
-    - 'app/controllers/comments_controller.rb'
-    - 'app/controllers/gardens_controller.rb'
-    - 'app/controllers/harvests_controller.rb'
-    - 'app/controllers/notifications_controller.rb'
-    - 'app/controllers/plantings_controller.rb'
-    - 'app/controllers/posts_controller.rb'
-    - 'app/controllers/scientific_names_controller.rb'
-    - 'app/controllers/seeds_controller.rb'
-    - 'app/models/crop.rb'
-    - 'app/models/member.rb'
-    - 'app/models/order.rb'
-    - 'db/seeds.rb'
-    - 'lib/tasks/growstuff.rake'
-    - 'spec/controllers/roles_controller_spec.rb'
-    - 'spec/models/crop_spec.rb'
-    - 'spec/models/scientific_name_spec.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: Include.

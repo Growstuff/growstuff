@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   # GET /posts.json
 
   def index
-    @author = Member.find_by_slug(params[:author])
+    @author = Member.find_by(slug: params[:author])
     @posts = if @author
                @author.posts.includes(:author, { comments: :author }).paginate(page: params[:page])
              else
@@ -39,7 +39,7 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
-    @forum = Forum.find_by_id(params[:forum_id])
+    @forum = Forum.find_by(id: params[:forum_id])
 
     respond_to do |format|
       format.html # new.html.haml

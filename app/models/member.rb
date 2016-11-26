@@ -137,7 +137,7 @@ class Member < ActiveRecord::Base
   end
 
   def auth(provider)
-    return authentications.find_by_provider(provider)
+    return authentications.find_by(provider: provider)
   end
 
   # Authenticates against Flickr and returns an object we can use for subsequent api calls

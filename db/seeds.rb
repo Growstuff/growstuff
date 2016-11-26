@@ -141,7 +141,7 @@ def create_cropbot
   @cropbot_user.skip_confirmation!
   @cropbot_user.roles << @wrangler
   @cropbot_user.save!
-  @cropbot_user.account.account_type = AccountType.find_by_name("Staff")
+  @cropbot_user.account.account_type = AccountType.find_by(name: "Staff")
   @cropbot_user.account.save
 end
 

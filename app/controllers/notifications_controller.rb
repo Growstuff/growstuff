@@ -28,7 +28,7 @@ class NotificationsController < ApplicationController
 
   def new
     @notification = Notification.new
-    @recipient = Member.find_by_id(params[:recipient_id])
+    @recipient = Member.find_by(id: params[:recipient_id])
     @subject   = params[:subject] || ""
 
     respond_to do |format|
@@ -66,7 +66,7 @@ class NotificationsController < ApplicationController
   def create
     params[:notification][:sender_id] = current_member.id
     @notification = Notification.new(notification_params)
-    @recipient = Member.find_by_id(params[:notification][:recipient_id])
+    @recipient = Member.find_by(id: params[:notification][:recipient_id])
 
     respond_to do |format|
       if @notification.save

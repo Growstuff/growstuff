@@ -66,22 +66,22 @@ class Order < ActiveRecord::Base
     if args[:for]
       case args[:by]
       when "member"
-        member = Member.find_by_login_name(args[:for])
+        member = Member.find_by(login_name: args[:for])
         if member
           return member.orders
         end
       when "order_id"
-        order = Order.find_by_id(args[:for])
+        order = Order.find_by(id: args[:for])
         if order
           return [order]
         end
       when "paypal_token"
-        order = Order.find_by_paypal_express_token(args[:for])
+        order = Order.find_by(paypal_express_token: args[:for])
         if order
           return [order]
         end
       when "paypal_payer_id"
-        order = Order.find_by_paypal_express_payer_id(args[:for])
+        order = Order.find_by(paypal_express_payer_id: args[:for])
         if order
           return [order]
         end

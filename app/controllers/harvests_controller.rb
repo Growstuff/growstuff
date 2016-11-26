@@ -5,8 +5,8 @@ class HarvestsController < ApplicationController
   # GET /harvests
   # GET /harvests.json
   def index
-    @owner = Member.find_by_slug(params[:owner])
-    @crop = Crop.find_by_slug(params[:crop])
+    @owner = Member.find_by(slug: params[:owner])
+    @crop = Crop.find_by(slug: params[:crop])
     @harvests = if @owner
                   @owner.harvests.includes(:owner, :crop)
                 elsif @crop
@@ -32,7 +32,7 @@ class HarvestsController < ApplicationController
     @harvest = Harvest.new('harvested_at' => Date.today)
 
     # using find_by_id here because it returns nil, unlike find
-    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
+    @crop = Crop.find_by(id: params[:crop_id]) || Crop.new
 
     respond_to do |format|
       format.html # new.html.erb

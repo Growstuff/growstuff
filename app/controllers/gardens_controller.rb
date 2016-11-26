@@ -6,7 +6,7 @@ class GardensController < ApplicationController
   # GET /gardens.json
   def index
     @gardens = Garden.paginate(page: params[:page])
-    @owner = Member.find_by_slug(params[:owner])
+    @owner = Member.find_by(slug: params[:owner])
     if @owner
       @gardens = @owner.gardens.paginate(page: params[:page])
     end
