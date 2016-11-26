@@ -1,7 +1,7 @@
 .panel.panel-success
   .panel-heading
     %h3.panel-title
-      = link_to "#{garden.owner.login_name}'s garden", garden.owner
+      = link_to "#{garden.owner.login_name}'s garden", garden
       - if can? :edit, garden
         %a.pull-right{:href => edit_garden_path(garden), :role => "button", :id => "edit_garden_glyphicon"}
           %span.glyphicon.glyphicon-pencil{:title => "Edit"}
