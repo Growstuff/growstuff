@@ -173,14 +173,6 @@ Rails/PluralizationGrammar:
     - 'spec/features/plantings/planting_a_crop_spec.rb'
     - 'spec/models/member_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: referer, referrer
-Rails/RequestReferer:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-
 # Offense count: 9
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: strict, flexible

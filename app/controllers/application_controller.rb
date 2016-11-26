@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource_or_scope)
-    request.referrer
+    request.referer
   end
 
   # tweak CanCan defaults because we don't have a "current_user" method
