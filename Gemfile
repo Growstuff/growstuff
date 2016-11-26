@@ -110,12 +110,15 @@ group :development, :test do
   gem 'capybara'                        # integration tests
   gem 'capybara-email'                  # integration tests for email
   gem 'capybara-screenshot'             # for test debugging
-  gem 'poltergeist', '~> 1.6'           # for headless JS testing
+  gem 'poltergeist'                     # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
-  gem "codeclimate-test-reporter", group: :test, require: nil
   gem "active_merchant-paypal-bogus-gateway"
   gem 'rubocop', require: false
+end
+
+group :test do
+  gem 'codeclimate-test-reporter', require: false
 end
 
 group :travis do
