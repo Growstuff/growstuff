@@ -296,10 +296,8 @@ namespace :growstuff do
       puts "Loading alternate names from #{file}..."
       cropbot = Member.find_by(login_name: "cropbot")
       CSV.foreach(file) do |row|
-        crop_id, crop_name, alternate_names = row
-        if alternate_names.blank? then
-          next
-        end
+        _crop_id, crop_name, alternate_names = row
+        next if alternate_names.blank?
         crop = Crop.find_by(name: crop_name)
         if crop
           alternate_names.split(/,\s*/).each do |an|

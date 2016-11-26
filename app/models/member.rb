@@ -159,7 +159,6 @@ class Member < ActiveRecord::Base
   # Returns a [[page of photos], total] pair.
   # Total is needed for pagination.
   def flickr_photos(page_num = 1, set = nil)
-    result = false
     result = if set
                flickr.photosets.getPhotos(
                  photoset_id: set,
@@ -237,21 +236,21 @@ class Member < ActiveRecord::Base
   def newsletter_subscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
-    res = gb.lists.subscribe({
-                               id: Growstuff::Application.config.newsletter_list_id,
-                               email: { email: email },
-                               merge_vars: { login_name: login_name },
-                               double_optin: false # they already confirmed their email with us
-                             })
+    gb.lists.subscribe({
+                         id: Growstuff::Application.config.newsletter_list_id,
+                         email: { email: email },
+                         merge_vars: { login_name: login_name },
+                         double_optin: false # they already confirmed their email with us
+                       })
   end
 
   def newsletter_unsubscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
-    res = gb.lists.unsubscribe({
-                                 id: Growstuff::Application.config.newsletter_list_id,
-                                 email: { email: email }
-                               })
+    gb.lists.unsubscribe({
+                           id: Growstuff::Application.config.newsletter_list_id,
+                           email: { email: email }
+                         })
   end
 
   def already_following?(member)

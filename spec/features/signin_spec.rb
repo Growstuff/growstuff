@@ -66,7 +66,7 @@ feature "signin", js: true do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
 
-      member = create :member, login_name: 'tdawg', email: 'example.oauth.facebook@example.com'
+      create :member, login_name: 'tdawg', email: 'example.oauth.facebook@example.com'
 
       # Start the test
       visit root_path

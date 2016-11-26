@@ -52,7 +52,7 @@ feature "unsubscribe" do
     # visit /members/unsubscribe/somestring ie.parameter to the URL is a random string
     visit unsubscribe_member_url("type=send_planting_reminder&member_id=#{member.id}")
     expect(page).to have_content "We're sorry, there was an error"
-    updated_member = Member.find(member.id) # reload the member
+    Member.find(member.id) # reload the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)
   end

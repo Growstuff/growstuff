@@ -292,7 +292,6 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def add_alternate_names_from_csv(alternate_names)
-    names_to_add = []
     if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
       cropbot = Member.find_by(login_name: 'cropbot')
       raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -309,7 +308,6 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
           )
         end
       end
-
     end
   end
 
