@@ -121,33 +121,6 @@ Performance/StringReplacement:
     - 'app/models/seed.rb'
     - 'spec/rails_helper.rb'
 
-# Offense count: 21
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, Include.
-# SupportedStyles: action, filter
-# Include: app/controllers/**/*.rb
-Rails/ActionFilter:
-  Exclude:
-    - 'app/controllers/account_types_controller.rb'
-    - 'app/controllers/accounts_controller.rb'
-    - 'app/controllers/alternate_names_controller.rb'
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/authentications_controller.rb'
-    - 'app/controllers/comments_controller.rb'
-    - 'app/controllers/crops_controller.rb'
-    - 'app/controllers/follows_controller.rb'
-    - 'app/controllers/gardens_controller.rb'
-    - 'app/controllers/harvests_controller.rb'
-    - 'app/controllers/notifications_controller.rb'
-    - 'app/controllers/order_items_controller.rb'
-    - 'app/controllers/orders_controller.rb'
-    - 'app/controllers/plantings_controller.rb'
-    - 'app/controllers/posts_controller.rb'
-    - 'app/controllers/products_controller.rb'
-    - 'app/controllers/roles_controller.rb'
-    - 'app/controllers/scientific_names_controller.rb'
-    - 'app/controllers/seeds_controller.rb'
-
 # Offense count: 10
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: strict, flexible

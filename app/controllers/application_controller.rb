@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
 
-  after_filter :store_location
-  before_filter :set_locale
+  after_action :store_location
+  before_action :set_locale
 
   def store_location
     if (request.path != "/members/sign_in" &&
