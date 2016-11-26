@@ -42,7 +42,7 @@ describe 'seeds/index.rss.haml' do
     end
 
     it 'shows the plant_before date' do
-      rendered.should have_content "Plant before: #{@seed.plant_before.to_s}"
+      rendered.should have_content "Plant before: #{@seed.plant_before}"
     end
 
     it 'mentions that one seed is tradable' do
