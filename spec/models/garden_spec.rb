@@ -23,8 +23,23 @@ describe Garden do
     garden.should_not be_valid
   end
 
+  it "allows numbers" do
+    garden = FactoryGirl.build(:garden, name: "100 vines of 2 kamo-kamo")
+    garden.should_not be_valid
+  end
+
+  it "allows macrons" do
+    garden = FactoryGirl.build(:garden, name: "Kūmara and pūha patch")
+    garden.should_not be_valid
+  end
+
   it "doesn't allow a name with only spaces" do
     garden = FactoryGirl.build(:garden, name: "    ")
+    garden.should_not be_valid
+  end
+
+  it "doesn't allow a new lines in garden names" do
+    garden = FactoryGirl.build(:garden, name: "My garden\nI am a 1337 hacker")
     garden.should_not be_valid
   end
 
