@@ -24,7 +24,7 @@ before_install:
     fi
   - phantomjs --version
 before_script:
-  - psql -c 'create database growstuff_test;' -U postgres
+  - bundle exec rake db:create db:migrate db:test:prepare
 script:
   - bundle exec rubocop --display-cop-names --rails
   - script/gemfile_check
