@@ -73,7 +73,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap_form (2.5.0)
     builder (3.2.2)
-    byebug (9.0.5)
+    byebug (9.0.6)
     cancancan (1.15.0)
     capybara (2.10.1)
       addressable
@@ -277,7 +277,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nenv (0.3.0)
-    newrelic_rpm (3.16.1.320)
+    newrelic_rpm (3.17.1.326)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
