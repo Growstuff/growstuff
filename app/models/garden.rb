@@ -33,7 +33,7 @@ class Garden < ActiveRecord::Base
 
   validates :name,
     format: {
-      with: /\S/
+      with: /\A\w+[\w ]+\z/
     },
     length: { maximum: 255 }
 
