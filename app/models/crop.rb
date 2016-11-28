@@ -274,43 +274,24 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
 
+    cropbot = Member.find_by_login_name('cropbot')
+
     if names_to_add.size > 0
-      cropbot = Member.find_by_login_name('cropbot')
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
-      names_to_add.each do |n|
-        if self.scientific_names.exists?(scientific_name: n)
-          logger.warn("Warning: skipping duplicate scientific name #{n} for #{self}")
-        else
-
-          self.scientific_names.create(
-            scientific_name: n,
-            creator_id: cropbot.id
-          )
-        end
-      end
+      add_names_to_list(names_to_add, 'scientific', 'scientific_name')
     end
   end
 
   def add_alternate_names_from_csv(alternate_names)
+    cropbot = Member.find_by_login_name('cropbot')
+
     names_to_add = []
     if ! alternate_names.blank? # i.e. we actually passed something in, which isn't a given
-      cropbot = Member.find_by_login_name('cropbot')
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
       names_to_add = alternate_names.split(%r{,\s*})
-
-      names_to_add.each do |n|
-        if self.alternate_names.exists?(name: n)
-          logger.warn("Warning: skipping duplicate alternate name #{n} for #{self}")
-        else
-          self.alternate_names.create(
-            name: n,
-            creator_id: cropbot.id
-          )
-        end
-      end
-
+      add_names_to_list(names_to_add, 'alternate', 'name')
     end
   end
 
@@ -360,6 +341,23 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       end
 
       return matches
+    end
+  end
+
+  private
+
+  def add_names_to_list(names_to_add, list_name, col_name)
+    cropbot = Member.find_by_login_name('cropbot')
+    names_to_add.each do |n|
+      if self.send("#{list_name}_names").exists?(["#{col_name} LIKE ?", n])
+        logger.warn("Warning: skipping duplicate #{list_name} name #{n} for #{self}")
+      else
+        create_hash = {
+          creator_id: "#{cropbot.id}"
+        }
+        create_hash["#{col_name}"] = n
+        self.send("#{list_name}_names").create(create_hash)
+      end
     end
   end
 
