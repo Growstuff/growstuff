@@ -71,7 +71,7 @@ GEM
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
-    bootstrap_form (2.5.0)
+    bootstrap_form (2.5.2)
     builder (3.2.2)
     byebug (9.0.6)
     cancancan (1.15.0)
