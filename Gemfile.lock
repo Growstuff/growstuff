@@ -223,7 +223,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
-    i18n-tasks (0.9.5)
+    i18n-tasks (0.9.6)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
       easy_translate (>= 0.5.0)
@@ -314,7 +314,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
-    parser (2.3.1.2)
+    parser (2.3.2.0)
       ast (~> 2.2)
     pg (0.19.0)
     plupload-rails (1.2.1)
