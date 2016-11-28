@@ -161,7 +161,7 @@ GEM
       faraday
       multi_json
     erubis (2.7.0)
-    excon (0.51.0)
+    excon (0.54.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
       activesupport (>= 3.0.0)
@@ -243,12 +243,12 @@ GEM
       railties (>= 3.2)
       sprockets-rails
     json (1.8.3)
-    jwt (1.5.4)
+    jwt (1.5.6)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     kgio (2.10.0)
-    kramdown (1.12.0)
+    kramdown (1.13.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     leaflet-markercluster-rails (0.7.0)
