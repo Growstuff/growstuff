@@ -7,13 +7,13 @@ feature "Scientific names", js: true do
   scenario "Display scientific names on crop page" do
     visit crop_path(zea_mays.crop)
     expect(page.status_code).to equal 200
-    expect(page).to have_content zea_mays.scientific_name
+    expect(page).to have_content zea_mays.name
   end
 
   scenario "Index page for scientific names" do
     visit scientific_names_path
     expect(page.status_code).to equal 200
-    expect(page).to have_content zea_mays.scientific_name
+    expect(page).to have_content zea_mays.name
   end
 
   context "User is a crop wrangler" do
@@ -28,7 +28,7 @@ feature "Scientific names", js: true do
       visit crop_path(crop)
       expect(page.status_code).to equal 200
       expect(page).to have_content "CROP WRANGLER"
-      expect(page).to have_content zea_mays.scientific_name
+      expect(page).to have_content zea_mays.name
       expect(page).to have_link "Edit", href: edit_scientific_name_path(zea_mays)
       within('.scientific_names') { click_on "Edit" }
       expect(page.status_code).to equal 200
@@ -45,7 +45,7 @@ feature "Scientific names", js: true do
                                 href: scientific_name_path(zea_mays)
       within('.scientific_names') { click_on "Delete" }
       expect(page.status_code).to equal 200
-      expect(page).to_not have_content zea_mays.scientific_name
+      expect(page).to_not have_content zea_mays.name
       expect(page).to have_content 'Scientific name was successfully deleted'
     end
 
@@ -56,7 +56,7 @@ feature "Scientific names", js: true do
       within('.scientific_names') { click_on "Add" }
       expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'Scientific name', with: "Zea mirabila"
+      fill_in 'name', with: "Zea mirabila"
       click_on "Save"
       expect(page.status_code).to equal 200
       expect(page).to have_content "Zea mirabila"

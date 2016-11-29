@@ -11,7 +11,7 @@ describe ScientificName do
 
     it 'should be fetchable from the database' do
       sn.save
-      @sn2 = ScientificName.find_by_scientific_name('Zea mays')
+      @sn2 = ScientificName.find_by_name('Zea mays')
       @sn2.crop.name.should == 'maize'
     end
 
