@@ -9,11 +9,11 @@ class CropsController < ApplicationController
   # GET /crops.json
   def index
     @sort = params[:sort]
-    if @sort == 'alpha'
-      @crops = Crop.includes(:scientific_names, { plantings: :photos })
-    else
-      @crops = popular_crops
-    end
+    @crops = if @sort == 'alpha'
+               Crop.includes(:scientific_names, { plantings: :photos })
+             else
+               popular_crops
+             end
     @paginated_crops = @crops.approved.paginate(page: params[:page])
 
     respond_to do |format|
