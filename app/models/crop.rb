@@ -254,7 +254,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     if !scientific_names.blank? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(%r{,\s*})
     elsif parent && parent.scientific_names.size > 0 # pick up from parent
-      names_to_add = parent.scientific_names.map{|s| s.name}
+      names_to_add = parent.scientific_names.map { |s| s.name }
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
