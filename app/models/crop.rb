@@ -137,7 +137,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    photos.first if photos.any?
+    return photos.first if photos.any?
 
     # Crop has no photos? Look for the most recent harvest with a photo.
     harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
