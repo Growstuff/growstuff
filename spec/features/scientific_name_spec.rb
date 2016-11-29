@@ -33,7 +33,7 @@ feature "Scientific names", js: true do
       within('.scientific_names') { click_on "Edit" }
       expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'Scientific name', with: "Zea mirabila"
+      fill_in 'Name', with: "Zea mirabila"
       click_on "Save"
       expect(page).to have_content "Zea mirabila"
       expect(page).to have_content 'Scientific name was successfully updated'
@@ -56,7 +56,7 @@ feature "Scientific names", js: true do
       within('.scientific_names') { click_on "Add" }
       expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'name', with: "Zea mirabila"
+      fill_in 'Name', with: "Zea mirabila"
       click_on "Save"
       expect(page.status_code).to equal 200
       expect(page).to have_content "Zea mirabila"
