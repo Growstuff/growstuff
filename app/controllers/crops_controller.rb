@@ -201,11 +201,10 @@ class CropsController < ApplicationController
   private
 
   def recreate_names(param_name, name_type)
-    if params[param_name].present?
-      destroy_names(name_type)
-      params[param_name].each do |index, value|
-        create_name(name_type, value)
-      end
+    return unless params[param_name].present?
+    destroy_names(name_type)
+    params[param_name].each do |index, value|
+      create_name(name_type, value)
     end
   end
 
