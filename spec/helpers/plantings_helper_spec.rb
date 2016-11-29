@@ -21,7 +21,7 @@ describe PlantingsHelper do
         days_before_maturity: 17
       )
       result = helper.display_days_before_maturity(planting)
-      expect(result).to eq 16
+      expect(result).to eq 17
     end
 
     it "handles completed plantings" do
@@ -60,7 +60,7 @@ describe PlantingsHelper do
         days_before_maturity: nil
       )
       result = helper.display_days_before_maturity(planting)
-      expect(result).to eq 4
+      expect(result).to eq 5
     end
   end
 
