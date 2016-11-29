@@ -123,14 +123,12 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # End Elasticsearch section
 
   def to_s
-    return name
+    name
   end
 
   def default_scientific_name
     if scientific_names.size > 0
       scientific_names.first.name
-    else
-      nil
     end
   end
 
@@ -139,11 +137,11 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    return photos.first if photos.any?
+    photos.first if photos.any?
 
     # Crop has no photos? Look for the most recent harvest with a photo.
     harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
-    return harvest_with_photo.photos.first if harvest_with_photo
+    harvest_with_photo.photos.first if harvest_with_photo
   end
 
   # crop.sunniness
