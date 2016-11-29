@@ -17,7 +17,7 @@ describe Order do
     end
 
     it "only returns orders belonging to member" do
-      Order.by_member_id(@member1.id).should eq [@order1]
+      Order.by_member(@member1).should eq [@order1]
     end
   end
 
