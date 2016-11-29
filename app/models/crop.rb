@@ -50,44 +50,46 @@ class Crop < ActiveRecord::Base
 
   ####################################
   # Elastic search configuration
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-  # In order to avoid clashing between different environments,
-  # use Rails.env as a part of index name (eg. development_growstuff)
-  index_name [Rails.env, "growstuff"].join('_')
-  settings index: { number_of_shards: 1 },
-    analysis: {
-      tokenizer: {
-        gs_edgeNGram_tokenizer: {
-          type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
-          min_gram: 3,
-          max_gram: 10,
-          # token_chars: Elasticsearch will split on characters
-          # that don’t belong to any of these classes
-          token_chars: [ "letter", "digit" ] 
-        }
-      },
-      analyzer: {
-        gs_edgeNGram_analyzer: {
-          tokenizer: "gs_edgeNGram_tokenizer",
-          filter: ["lowercase"]
-        }
-      },
-    } do
-    mappings dynamic: 'false' do
-      indexes :id, type: 'long'
-      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
-      indexes :approval_status, type: 'string'
-      indexes :scientific_names do
-        indexes :scientific_name,
-          type: 'string',
-          analyzer: 'gs_edgeNGram_analyzer',
-          # Disabling field-length norm (norm). If the norm option is turned on(by default), 
-          # higher weigh would be given for shorter fields, which in our case is irrelevant.
-          norms: { enabled: false }
-      end
-      indexes :alternate_names do
+  if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+    include Elasticsearch::Model
+    include Elasticsearch::Model::Callbacks
+    # In order to avoid clashing between different environments,
+    # use Rails.env as a part of index name (eg. development_growstuff)
+    index_name [Rails.env, "growstuff"].join('_')
+    settings index: { number_of_shards: 1 },
+      analysis: {
+        tokenizer: {
+          gs_edgeNGram_tokenizer: {
+            type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
+            min_gram: 3,
+            max_gram: 10,
+            # token_chars: Elasticsearch will split on characters
+            # that don’t belong to any of these classes
+            token_chars: [ "letter", "digit" ]
+          }
+        },
+        analyzer: {
+          gs_edgeNGram_analyzer: {
+            tokenizer: "gs_edgeNGram_tokenizer",
+            filter: ["lowercase"]
+          }
+        },
+      } do
+      mappings dynamic: 'false' do
+        indexes :id, type: 'long'
         indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+        indexes :approval_status, type: 'string'
+        indexes :scientific_names do
+          indexes :scientific_name,
+            type: 'string',
+            analyzer: 'gs_edgeNGram_analyzer',
+            # Disabling field-length norm (norm). If the norm option is turned on(by default),
+            # higher weigh would be given for shorter fields, which in our case is irrelevant.
+            norms: { enabled: false }
+        end
+        indexes :alternate_names do
+          indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+        end
       end
     end
   end
@@ -297,7 +299,7 @@ class Crop < ActiveRecord::Base
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
       response = __elasticsearch__.search( {
-          # Finds documents which match any field, but uses the _score from 
+          # Finds documents which match any field, but uses the _score from
           # the best field insead of adding up _score from each field.
           query: {
             multi_match: {
@@ -336,18 +338,25 @@ class Crop < ActiveRecord::Base
   private
 
   def add_names_to_list(names_to_add, list_name, col_name)
-    cropbot = Member.find_by_login_name('cropbot')
     names_to_add.each do |n|
-      if self.send("#{list_name}_names").exists?(["#{col_name} LIKE ?", n])
+      if name_already_exists(list_name, col_name, n)
         logger.warn("Warning: skipping duplicate #{list_name} name #{n} for #{self}")
       else
-        create_hash = {
-          creator_id: "#{cropbot.id}"
-        }
-        create_hash["#{col_name}"] = n
-        self.send("#{list_name}_names").create(create_hash)
+        create_crop_in_list(list_name, col_name, n)
       end
     end
+  end
+
+  def create_crop_in_list(list_name, col_name, name)
+    cropbot = Member.find_by_login_name('cropbot')
+    create_hash = {}
+    create_hash['creator_id'] = "#{cropbot.id}"
+    create_hash["#{col_name}"] = name
+    self.send("#{list_name}_names").create(create_hash)
+  end
+
+  def name_already_exists(list_name, col_name, name)
+    self.send("#{list_name}_names").exists?(["#{col_name} LIKE ?", name])
   end
 
   # Custom validations
