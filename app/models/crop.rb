@@ -259,7 +259,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
 
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
 
     if names_to_add.size > 0
       raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -269,7 +269,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def add_alternate_names_from_csv(alternate_names)
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
 
     if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
       raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -343,7 +343,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def create_crop_in_list(list_name, name)
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
     create_hash = {
       creator_id: "#{cropbot.id}",
       name: name
