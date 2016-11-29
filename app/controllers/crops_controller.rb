@@ -197,6 +197,8 @@ class CropsController < ApplicationController
 
   def popular_crops
     Crop.popular.includes(:scientific_names, { plantings: :photos })
+  end
+
   def recreate_names(param_name, name_type)
     return unless params[param_name].present?
     destroy_names(name_type)

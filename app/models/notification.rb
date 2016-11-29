@@ -7,11 +7,10 @@ class Notification < ActiveRecord::Base
 
   default_scope { order('created_at DESC') }
   scope :unread, -> { where(read: false) }
-  scope :by_recipient, ->(recipient) {where(recipient_id: recipient)}
+  scope :by_recipient, ->(recipient) { where(recipient_id: recipient) }
 
   before_create :replace_blank_subject
   after_create :send_email
-
 
   def self.unread_count
     self.unread.size
