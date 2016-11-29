@@ -10,14 +10,11 @@ class CropsController < ApplicationController
   def index
     @sort = params[:sort]
     if @sort == 'alpha'
-      # alphabetical order
       @crops = Crop.includes(:scientific_names, { plantings: :photos })
-      @paginated_crops = @crops.approved.paginate(page: params[:page])
     else
-      # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, { plantings: :photos })
-      @paginated_crops = @crops.approved.paginate(page: params[:page])
+      @crops = popular_crops
     end
+    @paginated_crops = @crops.approved.paginate(page: params[:page])
 
     respond_to do |format|
       format.html
@@ -211,6 +208,10 @@ class CropsController < ApplicationController
   end
 
   private
+
+  def popular_crops
+    Crop.popular.includes(:scientific_names, { plantings: :photos })
+  end
 
   def crop_params
     params.require(:crop).permit(:en_wikipedia_url,

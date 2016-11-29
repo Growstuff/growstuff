@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = Order.by_member_id(current_member.id)
+    @orders = Order.by_member(current_member)
 
     respond_to do |format|
       format.html # index.html.erb

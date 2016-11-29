@@ -12,9 +12,7 @@ class Order < ActiveRecord::Base
 
   before_save :standardize_referral_code
 
-  def self.by_member_id(member_id)
-    where(member_id: member_id)
-  end
+  scope :by_member, ->(member) { where(member: member) }
 
   # total price of an order
   def total

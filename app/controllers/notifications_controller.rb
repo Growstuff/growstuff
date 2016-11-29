@@ -5,7 +5,7 @@ class NotificationsController < ApplicationController
 
   # GET /notifications
   def index
-    @notifications = Notification.find_by_recipient(current_member).page(params[:page])
+    @notifications = Notification.by_recipient(current_member).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
