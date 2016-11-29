@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe PlantingsHelper do
   describe "display_planting" do
-
     let!(:member) { FactoryGirl.build(:member, login_name: 'crop_lady') }
 
     it "does not have a quantity nor a planted from value provided" do
@@ -67,8 +66,6 @@ describe PlantingsHelper do
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 1 seed."
       end
-
     end
-
   end
 end

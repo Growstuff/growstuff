@@ -7,10 +7,10 @@ feature "Notifications", :js do
   context "On existing notification" do
     let!(:notification) {
       create :notification,
-             sender: sender,
-             recipient: recipient,
-             body: "Notification body",
-             post_id: nil
+        sender: sender,
+        recipient: recipient,
+        body: "Notification body",
+        post_id: nil
     }
 
     background do

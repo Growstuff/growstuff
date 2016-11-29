@@ -19,14 +19,16 @@ describe CropsHelper do
       end
 
       it 'should render' do
-        expect(helper.display_seed_availability(@member, @crop)).to eq "You have an unknown quantity of seeds of this crop."
+        expect(
+          helper.display_seed_availability(@member, @crop)
+        ).to eq "You have an unknown quantity of seeds of this crop."
       end
     end
 
     context "with an quantity of seeds" do
       before do
         a_different_crop = create :apple
-        
+
         create :seed, crop: @crop, quantity: 20, owner: @member
         create :seed, crop: @crop, quantity: 13, owner: @member
 

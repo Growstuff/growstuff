@@ -11,11 +11,11 @@ class CropsController < ApplicationController
     @sort = params[:sort]
     if @sort == 'alpha'
       # alphabetical order
-      @crops = Crop.includes(:scientific_names, {plantings: :photos})
+      @crops = Crop.includes(:scientific_names, { plantings: :photos })
       @paginated_crops = @crops.approved.paginate(page: params[:page])
     else
       # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, {plantings: :photos})
+      @crops = Crop.popular.includes(:scientific_names, { plantings: :photos })
       @paginated_crops = @crops.approved.paginate(page: params[:page])
     end
 
@@ -37,14 +37,14 @@ class CropsController < ApplicationController
   # GET /crops/wrangle
   def wrangle
     @approval_status = params[:approval_status]
-    case @approval_status
-    when "pending"
-      @crops = Crop.pending_approval
-    when "rejected"
-      @crops = Crop.rejected
-    else
-      @crops = Crop.recent
-    end
+    @crops = case @approval_status
+             when "pending"
+               Crop.pending_approval
+             when "rejected"
+               Crop.rejected
+             else
+               Crop.recent
+             end
 
     @crops = @crops.paginate(page: params[:page])
 
@@ -77,7 +77,7 @@ class CropsController < ApplicationController
   # GET /crops/1
   # GET /crops/1.json
   def show
-    @crop = Crop.includes(:scientific_names, {plantings: :photos}).find(params[:id])
+    @crop = Crop.includes(:scientific_names, { plantings: :photos }).find(params[:id])
     @posts = @crop.posts.paginate(page: params[:page])
 
     respond_to do |format|
@@ -86,14 +86,14 @@ class CropsController < ApplicationController
         # TODO RABL or similar one day to avoid presentation logic here
         owner_structure = {
           owner: {
-            only: [:id, :login_name, :location, :latitude, :longitude] 
+            only: [:id, :login_name, :location, :latitude, :longitude]
           }
         }
         render json: @crop.to_json(include: {
-          plantings: {
-            include: owner_structure
-          }
-        })
+                                     plantings: {
+                                       include: owner_structure
+                                     }
+                                   })
       end
     end
   end
@@ -116,13 +116,11 @@ class CropsController < ApplicationController
     @crop = Crop.find(params[:id])
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
-
   end
 
   # POST /crops
   # POST /crops.json
   def create
-
     @crop = Crop.new(crop_params)
 
     if current_member.has_role? :crop_wrangler
@@ -137,10 +135,10 @@ class CropsController < ApplicationController
     respond_to do |format|
       if @crop.save
         params[:alt_name].each do |index, value|
-        @crop.alternate_names.create(name: value, creator_id: current_member.id)
+          @crop.alternate_names.create(name: value, creator_id: current_member.id)
         end
         params[:sci_name].each do |index, value|
-        @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
+          @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
         end
         unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
@@ -184,7 +182,7 @@ class CropsController < ApplicationController
             sci_name = @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
           end
         end
-        
+
         if previous_status == "pending"
           requester = @crop.requester
           new_status = @crop.approval_status
@@ -215,6 +213,15 @@ class CropsController < ApplicationController
   private
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url, :name, :parent_id, :creator_id, :approval_status, :request_notes, :reason_for_rejection, :rejection_notes, scientific_names_attributes: [:scientific_name, :_destroy, :id])
+    params.require(:crop).permit(:en_wikipedia_url,
+      :name,
+      :parent_id,
+      :creator_id,
+      :approval_status,
+      :request_notes,
+      :reason_for_rejection,
+      :rejection_notes, scientific_names_attributes: [:scientific_name,
+                                                      :_destroy,
+                                                      :id])
   end
 end

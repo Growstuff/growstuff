@@ -5,9 +5,9 @@ require 'coveralls'
 
 # output coverage locally AND send it to coveralls
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-])
+                                                                 SimpleCov::Formatter::HTMLFormatter,
+                                                                 Coveralls::SimpleCov::Formatter
+                                                               ])
 
 # fail if there's a significant test coverage drop
 SimpleCov.maximum_coverage_drop 1
@@ -37,7 +37,7 @@ if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
 end
 
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
-  "screenshot_#{example.description.gsub(' ', '-').gsub(/^.*\/spec\//,'')}"
+  "screenshot_#{example.description.gsub(' ', '-').gsub(/^.*\/spec\//, '')}"
 end
 
 Capybara.app_host = 'http://localhost'
@@ -59,7 +59,7 @@ include Warden::Test::Helpers
 # require only the support files necessary.
 #
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
-Dir[Rails.root.join("spec/features/shared_examples/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/features/shared_examples/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.

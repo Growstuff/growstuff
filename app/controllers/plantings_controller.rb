@@ -7,18 +7,18 @@ class PlantingsController < ApplicationController
   def index
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])
-    if @owner
-      @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    elsif @crop
-      @plantings = @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    else
-      @plantings = Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    end
+    @plantings = if @owner
+                   @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 elsif @crop
+                   @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 else
+                   Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 end
 
     respond_to do |format|
       format.html { @plantings = @plantings.paginate(page: params[:page]) }
       format.json { render json: @plantings }
-      format.rss { render layout: false } #index.rss.builder
+      format.rss { render layout: false } # index.rss.builder
       format.csv do
         specifics = (@owner ? "#{@owner.login_name}-" : @crop ? "#{@crop.name}-" : nil)
         @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
@@ -71,7 +71,8 @@ class PlantingsController < ApplicationController
 
     respond_to do |format|
       if @planting.save
-        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
+        @planting.update_attribute(:days_before_maturity,
+          update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully created.' }
         format.json { render json: @planting, status: :created, location: @planting }
         expire_fragment("homepage_stats")
@@ -90,7 +91,8 @@ class PlantingsController < ApplicationController
 
     respond_to do |format|
       if @planting.update(planting_params)
-        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
+        @planting.update_attribute(:days_before_maturity,
+          update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully updated.' }
         format.json { head :no_content }
       else
@@ -118,8 +120,8 @@ class PlantingsController < ApplicationController
 
   def planting_params
     params.require(:planting).permit(:crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from, :owner_id, :finished,
-    :finished_at)
+      :quantity, :sunniness, :planted_from, :owner_id, :finished,
+      :finished_at)
   end
 
   def update_days_before_maturity(planting, crop_id)

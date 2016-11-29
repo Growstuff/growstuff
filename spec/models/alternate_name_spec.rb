@@ -18,5 +18,4 @@ describe AlternateName do
     expect(crop.alternate_names).to include an
     expect(crop.alternate_names).to include an2
   end
-
 end

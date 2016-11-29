@@ -5,14 +5,14 @@ class Post < ActiveRecord::Base
   belongs_to :forum
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :crops
-  before_destroy {|post| post.crops.clear}
+  before_destroy { |post| post.crops.clear }
   after_save :update_crops_posts_association
   # also has_many notifications, but kinda meaningless to get at them
   # from this direction, so we won't set up an association for now.
 
   after_create do
     recipients = []
-    sender    = self.author.id
+    sender = self.author.id
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
       member = Member.where('lower(login_name) = ?', $1.downcase).first
@@ -24,7 +24,7 @@ class Post < ActiveRecord::Base
       recipients << member if member && !recipients.include?(member)
     end
     # don't send notifications to yourself
-    recipients.map{ |r| r.id }.each do |recipient|
+    recipients.map { |r| r.id }.each do |recipient|
       if recipient != sender
         Notification.create(
           recipient_id: recipient,
@@ -43,7 +43,6 @@ class Post < ActiveRecord::Base
       with: /\S/
     },
     length: { maximum: 255 }
-
 
   def author_date_subject
     # slugs are created before created_at is set
@@ -70,14 +69,15 @@ class Post < ActiveRecord::Base
   end
 
   private
-    def update_crops_posts_association
-      self.crops.destroy_all
-      # look for crops mentioned in the post. eg. [tomato](crop)
-      self.body.scan(Haml::Filters::GrowstuffMarkdown::CROP_REGEX) do |m|
-        # find crop case-insensitively
-        crop = Crop.where('lower(name) = ?', $1.downcase).first
-        # create association
-        self.crops << crop if crop && !self.crops.include?(crop) 
-      end
+
+  def update_crops_posts_association
+    self.crops.destroy_all
+    # look for crops mentioned in the post. eg. [tomato](crop)
+    self.body.scan(Haml::Filters::GrowstuffMarkdown::CROP_REGEX) do |m|
+      # find crop case-insensitively
+      crop = Crop.where('lower(name) = ?', $1.downcase).first
+      # create association
+      self.crops << crop if crop && !self.crops.include?(crop)
     end
+  end
 end

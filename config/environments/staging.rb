@@ -2,7 +2,7 @@ Growstuff::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   config.action_controller.action_on_unpermitted_parameters = :raise
-  
+
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.
@@ -72,12 +72,12 @@ Growstuff::Application.configure do
   config.action_mailer.default_url_options = { host: 'staging.growstuff.org' }
 
   ActionMailer::Base.smtp_settings = {
-      port:                 ENV['SPARKPOST_SMTP_PORT'],
-      address:              ENV['SPARKPOST_SMTP_HOST'],
-      user_name:            ENV['SPARKPOST_SMTP_USERNAME'],
-      password:             ENV['SPARKPOST_SMTP_PASSWORD'],
-      authentication:       :login,
-      enable_starttls_auto: true
+    port:                 ENV['SPARKPOST_SMTP_PORT'],
+    address:              ENV['SPARKPOST_SMTP_HOST'],
+    user_name:            ENV['SPARKPOST_SMTP_USERNAME'],
+    password:             ENV['SPARKPOST_SMTP_PASSWORD'],
+    authentication:       :login,
+    enable_starttls_auto: true
   }
   ActionMailer::Base.delivery_method = :smtp
 

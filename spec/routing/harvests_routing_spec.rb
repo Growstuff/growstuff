@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe HarvestsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/harvests").should route_to("harvests#index")
     end
@@ -30,6 +29,5 @@ describe HarvestsController do
     it "routes to #destroy" do
       delete("/harvests/1").should route_to("harvests#destroy", id: "1")
     end
-
   end
 end

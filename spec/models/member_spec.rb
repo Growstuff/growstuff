@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe 'member' do
-
   context 'valid member' do
-
     let(:member) { FactoryGirl.create(:member) }
 
     it 'should be fetchable from the database' do
@@ -91,11 +89,9 @@ describe 'member' do
       member.latitude.should be_nil
       member.longitude.should be_nil
     end
-
   end
 
   context 'no TOS agreement' do
-
     let(:member) { FactoryGirl.build(:no_tos_member) }
 
     it "should refuse to save a member who hasn't agreed to the TOS" do
@@ -188,7 +184,6 @@ describe 'member' do
   end
 
   context 'roles' do
-
     let(:member) { FactoryGirl.create(:member) }
     let(:role) { FactoryGirl.create(:role) }
 
@@ -280,10 +275,8 @@ describe 'member' do
       @member2.updated_at = 2.days.ago
       @member3.updated_at = 1.days.ago
 
-      Member.interesting.should eq [ @member3, @member2, @member1 ]
-
+      Member.interesting.should eq [@member3, @member2, @member1]
     end
-
   end
 
   context 'orders' do
@@ -303,19 +296,18 @@ describe 'member' do
   end
 
   context "paid accounts" do
-
     let(:member) { FactoryGirl.create(:member) }
 
     it "recognises a permanent paid account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: true, is_permanent_paid: true)
+        is_paid: true, is_permanent_paid: true)
       member.account.account_type = @account_type
       member.is_paid?.should be(true)
     end
 
     it "recognises a current paid account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: true, is_permanent_paid: false)
+        is_paid: true, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.account.paid_until = Time.zone.now + 1.month
       member.is_paid?.should be(true)
@@ -323,7 +315,7 @@ describe 'member' do
 
     it "recognises an expired paid account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: true, is_permanent_paid: false)
+        is_paid: true, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.account.paid_until = Time.zone.now - 1.minute
       member.is_paid?.should be(false)
@@ -331,23 +323,21 @@ describe 'member' do
 
     it "recognises a free account" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: false, is_permanent_paid: false)
+        is_paid: false, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.is_paid?.should be(false)
     end
 
     it "recognises a free account even with paid_until set" do
       @account_type = FactoryGirl.create(:account_type,
-          is_paid: false, is_permanent_paid: false)
+        is_paid: false, is_permanent_paid: false)
       member.account.account_type = @account_type
       member.account.paid_until = Time.zone.now + 1.month
       member.is_paid?.should be(false)
     end
-
   end
 
   context "update account" do
-
     let(:product) { FactoryGirl.create(:product,
       paid_months: 3
     )}
@@ -380,11 +370,9 @@ describe 'member' do
   end
 
   context 'member who followed another member' do
-    
-
     let(:member1) { FactoryGirl.create(:member) }
     let(:member2) { FactoryGirl.create(:member) }
-    let(:member3) { FactoryGirl.create(:member) }    
+    let(:member3) { FactoryGirl.create(:member) }
 
     before do
       @follow = member1.follows.create(follower_id: member1.id, followed_id: member2.id)
@@ -409,7 +397,5 @@ describe 'member' do
         expect(member1.get_follow(member3)).to be_nil
       end
     end
-
   end
-
 end

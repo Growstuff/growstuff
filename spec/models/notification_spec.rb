@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Notification do
-
   let(:notification) { FactoryGirl.create(:notification) }
 
   it "belongs to a post" do
@@ -56,5 +55,4 @@ describe Notification do
     notification = FactoryGirl.create(:notification, subject: "    ")
     notification.subject.should == "(no subject)"
   end
-
 end

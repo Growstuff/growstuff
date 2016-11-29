@@ -30,5 +30,4 @@ class Notification < ActiveRecord::Base
       Notifier.notify(self).deliver_later
     end
   end
-
 end

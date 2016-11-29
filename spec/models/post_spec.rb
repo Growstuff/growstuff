@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Post do
-
   let(:member) { FactoryGirl.create(:member) }
 
   it "should be sorted in reverse order" do
@@ -66,11 +65,10 @@ describe Post do
   end
 
   context "recent activity" do
-
     before do
       Time.stub(now: Time.now)
     end
-    
+
     let(:post) { FactoryGirl.create(:post, created_at: 1.day.ago) }
 
     it "sets recent activity to post time" do
@@ -79,7 +77,7 @@ describe Post do
 
     it "sets recent activity to comment time" do
       @comment = FactoryGirl.create(:comment, post: post,
-          created_at: 1.hour.ago)
+                                              created_at: 1.hour.ago)
       post.recent_activity.to_i.should eq @comment.created_at.to_i
     end
 
