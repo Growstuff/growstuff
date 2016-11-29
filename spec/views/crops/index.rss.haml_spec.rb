@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'crops/index.rss.haml' do
@@ -34,5 +30,4 @@ describe 'crops/index.rss.haml' do
     rendered.should have_content @tomato.name
     rendered.should have_content @maize.name
   end
-
 end

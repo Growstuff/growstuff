@@ -81,7 +81,6 @@ describe Order do
       quantity: 1,
       amount: 1111
     }]
-
   end
 
   context "referral codes" do
@@ -126,7 +125,5 @@ describe Order do
       order = FactoryGirl.create(:order, referral_code: 'baz')
       Order.search(by: 'referral_code', for: 'baz').should eq [order]
     end
-
   end
-
 end

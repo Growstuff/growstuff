@@ -1,5 +1,4 @@
 module PlantingsHelper
-
   def display_days_before_maturity(planting)
     if planting.finished?
       0
@@ -41,5 +40,4 @@ module PlantingsHelper
       return "#{planting.owner}."
     end
   end
-
 end

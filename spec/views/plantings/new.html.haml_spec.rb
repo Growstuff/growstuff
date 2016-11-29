@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "plantings/new" do
@@ -31,7 +27,6 @@ describe "plantings/new" do
       garden: @garden_a,
       crop: @crop2
     ))
-
   end
 
   context "logged in" do

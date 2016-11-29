@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "posts/edit" do
@@ -47,7 +43,7 @@ describe "posts/edit" do
     context "forum specified" do
       before(:each) do
         @forum = assign(:forum, FactoryGirl.create(:forum))
-        assign(:post, FactoryGirl.create( :post,
+        assign(:post, FactoryGirl.create(:post,
           forum: @forum,
           author: @author
         ))
@@ -62,6 +58,5 @@ describe "posts/edit" do
         rendered.should have_content "This post will be posted in the forum #{@forum.name}"
       end
     end
-
   end
 end

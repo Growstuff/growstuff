@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Role do
-  let(:member)  { FactoryGirl.create(:member) }
+  let(:member) { FactoryGirl.create(:member) }
 
   subject do
     role = FactoryGirl.create(:role, name: 'Crop Wrangler')

@@ -33,7 +33,7 @@ class Notifier < ActionMailer::Base
 
     if @member.send_planting_reminder
       mail(to: @member.email,
-          subject: "What have you planted lately?")
+           subject: "What have you planted lately?")
     end
   end
 
@@ -51,5 +51,4 @@ class Notifier < ActionMailer::Base
     @member, @crop = member, crop
     mail(to: @member.email, subject: "#{crop.name.capitalize} has been rejected")
   end
-
 end

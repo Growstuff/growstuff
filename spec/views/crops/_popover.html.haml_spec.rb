@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "crops/_popover" do
@@ -32,5 +28,4 @@ describe "crops/_popover" do
   it 'shows count of plantings' do
     rendered.should have_content '1 time'
   end
-
 end

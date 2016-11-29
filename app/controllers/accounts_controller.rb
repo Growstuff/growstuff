@@ -43,5 +43,4 @@ class AccountsController < ApplicationController
   def account_params
     params.require(:account).permit(:account_type_id, :member_id, :paid_until)
   end
-
 end

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'shop/index.html.haml', type: "view" do
@@ -83,7 +79,6 @@ describe 'shop/index.html.haml', type: "view" do
       render
       assert_select "form", false
     end
-
   end
 
   context "signed out" do
@@ -96,5 +91,4 @@ describe 'shop/index.html.haml', type: "view" do
       rendered.should have_content "sign in or sign up"
     end
   end
-
 end

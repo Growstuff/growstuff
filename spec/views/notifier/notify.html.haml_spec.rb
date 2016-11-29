@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'notifier/notify.html.haml', type: "view" do
-
   before(:each) do
     @notification = FactoryGirl.create(:notification)
     @reply_link = "http://example.com"

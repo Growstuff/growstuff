@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe PlacesController do
@@ -36,7 +32,6 @@ describe PlacesController do
       get :show, { place: @member_london.location }
       assigns(:nearby_members).should eq [@member_london, @member_south_pole]
     end
-
   end
 
   describe "GET search" do

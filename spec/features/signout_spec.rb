@@ -26,5 +26,4 @@ feature "signout" do
       expect(current_path).to eq new_member_session_path
     end
   end
-
 end

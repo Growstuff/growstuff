@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature "Changing locales", js: true do
-
   after { I18n.locale = :en }
 
   scenario "Locale can be set with a query param" do

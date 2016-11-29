@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "harvests/show" do
@@ -29,5 +25,4 @@ describe "harvests/show" do
     rendered.should have_content @harvest.harvested_at.to_s
     rendered.should have_content @harvest.plant_part.to_s
   end
-
 end

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'home/_members.html.haml', type: "view" do
@@ -35,5 +31,4 @@ describe 'home/_members.html.haml', type: "view" do
     rendered.should have_content @member.location
     rendered.should have_content @planting.crop_name
   end
-
 end

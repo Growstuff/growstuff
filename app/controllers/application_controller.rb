@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
         request.path != "/members/confirmation" &&
         request.path != "/members/sign_out" &&
         !request.xhr?)
-        store_location_for(:member, request.fullpath)
+      store_location_for(:member, request.fullpath)
     end
   end
 
@@ -73,10 +73,9 @@ class ApplicationController < ActionController::Base
         :bio, :location, :latitude, :longitude,
         # email settings
         :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
-        #update password
+        # update password
         :current_password
       )
     end
   end
-
 end

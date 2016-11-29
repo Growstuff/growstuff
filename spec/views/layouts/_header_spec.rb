@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'layouts/_header.html.haml', type: "view" do
@@ -64,11 +60,9 @@ describe 'layouts/_header.html.haml', type: "view" do
       assert_select("form[action='#{crops_search_path}']")
       assert_select("input#term")
     end
-
   end
 
   context "logged in" do
-
     before(:each) do
       @member = FactoryGirl.create(:member)
       sign_in @member
@@ -110,6 +104,5 @@ describe 'layouts/_header.html.haml', type: "view" do
         rendered.should have_content 'Inbox (1)'
       end
     end
-
   end
 end

@@ -1,5 +1,4 @@
 Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
-
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
@@ -58,7 +57,6 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
   get '/members/:login_name/follows' => 'members#view_follows', :as => 'member_follows'
   get '/members/:login_name/followers' => 'members#view_followers', :as => 'member_followers'
 
-
   get '/places' => 'places#index'
   get '/places/search' => 'places#search', :as => 'search_places'
   get '/places/:place' => 'places#show', :as => 'place'
@@ -91,7 +89,6 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 
-# CMS stuff  -- must remain LAST
+  # CMS stuff  -- must remain LAST
   comfy_route :cms, path: '/', sitemap: false
-
 end

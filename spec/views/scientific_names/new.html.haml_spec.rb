@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "scientific_names/new" do
@@ -37,7 +33,5 @@ describe "scientific_names/new" do
         assert_select "select#scientific_name_crop_id", name: "scientific_name[crop_id]"
       end
     end
-
   end
-
 end

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "crops/index" do
@@ -26,7 +22,7 @@ describe "crops/index" do
     @maize  = FactoryGirl.create(:maize)
     assign(:crops, [@tomato, @maize])
     paginated_crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([ @tomato, @maize ])
+      pager.replace([@tomato, @maize])
     end
     assign(:paginated_crops, paginated_crops)
   end
@@ -40,8 +36,8 @@ describe "crops/index" do
   end
 
   it "linkifies crop images" do
-   render
-   assert_select "img", src: :tomato
+    render
+    assert_select "img", src: :tomato
   end
 
   context "logged in and crop wrangler" do

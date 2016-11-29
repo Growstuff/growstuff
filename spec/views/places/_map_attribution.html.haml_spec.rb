@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "places/_map_attribution.html.haml", type: :view do
@@ -23,12 +19,12 @@ describe "places/_map_attribution.html.haml", type: :view do
 
   it "links to OpenStreetMap" do
     assert_select "a", href: "http://openstreetmap.org",
-      text: "OpenStreetMap"
+                       text: "OpenStreetMap"
   end
 
   it "links to the ODbL" do
     assert_select "a", href: "http://www.openstreetmap.org/copyright",
-      text: "ODbL"
+                       text: "ODbL"
   end
 
   it "links to CloudMade" do

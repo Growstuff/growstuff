@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe CropsController do
-
   login_member(:crop_wrangling_member)
 
   def valid_attributes
@@ -61,5 +56,4 @@ describe CropsController do
       response.content_type.should eq("application/rss+xml")
     end
   end
-
 end

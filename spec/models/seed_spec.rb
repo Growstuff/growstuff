@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Seed do
-
   let(:seed) { FactoryGirl.build(:seed) }
 
   it 'should save a basic seed' do
@@ -85,14 +84,13 @@ describe Seed do
       @untradable = FactoryGirl.create(:untradable_seed)
       Seed.tradable.should include @tradable
       Seed.tradable.should_not include @untradable
-
     end
   end
 
   context 'organic, gmo, heirloom' do
     it 'all valid organic values should work' do
-    ['certified organic', 'non-certified organic',
-     'conventional/non-organic', 'unknown'].each do |t|
+      ['certified organic', 'non-certified organic',
+       'conventional/non-organic', 'unknown'].each do |t|
         @seed = FactoryGirl.build(:seed, organic: t)
         @seed.should be_valid
       end
@@ -107,7 +105,7 @@ describe Seed do
     end
 
     it 'all valid heirloom values should work' do
-    %w(heirloom hybrid unknown).each do |t|
+      %w(heirloom hybrid unknown).each do |t|
         @seed = FactoryGirl.build(:seed, heirloom: t)
         @seed.should be_valid
       end
@@ -131,10 +129,8 @@ describe Seed do
     end
   end
 
-
   context 'interesting' do
     it 'lists interesting seeds' do
-
       # to be interesting a seed must:
       # 1) be tradable
       # 2) the owner must have a location set
@@ -152,5 +148,4 @@ describe Seed do
       Seed.interesting.size.should == 1
     end
   end
-
 end

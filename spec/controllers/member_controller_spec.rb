@@ -10,17 +10,12 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe MembersController do
-
   before :each do
     @member = FactoryGirl.create(:member)
-    @posts = [ FactoryGirl.create(:post, author: @member) ]
+    @posts = [FactoryGirl.create(:post, author: @member)]
     @twitter_auth = FactoryGirl.create(:authentication, member: @member)
     @flickr_auth = FactoryGirl.create(:flickr_authentication, member: @member)
   end
@@ -40,36 +35,34 @@ describe MembersController do
   end
 
   describe "GET show" do
-
     it "provides JSON for member profile" do
-      get :show, { id: @member.id , format: 'json' }
+      get :show, { id: @member.id, format: 'json' }
       response.should be_success
     end
 
     it "assigns @posts with the member's posts" do
-      get :show, {id: @member.id}
+      get :show, { id: @member.id }
       assigns(:posts).should eq(@posts)
     end
 
     it "assigns @twitter_auth" do
-      get :show, {id: @member.id}
+      get :show, { id: @member.id }
       assigns(:twitter_auth).should eq(@twitter_auth)
     end
 
     it "assigns @flickr_auth" do
-      get :show, {id: @member.id}
+      get :show, { id: @member.id }
       assigns(:flickr_auth).should eq(@flickr_auth)
     end
 
     it "doesn't show completely nonsense members" do
-      lambda { get :show, {id: 9999} }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda { get :show, { id: 9999 } }.should raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "doesn't show unconfirmed members" do
       @member2 = FactoryGirl.create(:unconfirmed_member)
-      lambda { get :show, {id: @member2.id} }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda { get :show, { id: @member2.id } }.should raise_error(ActiveRecord::RecordNotFound)
     end
-
   end
 
   describe "GET member's RSS feed" do
@@ -80,5 +73,4 @@ describe MembersController do
       response.content_type.should eq("application/rss+xml")
     end
   end
-
 end
