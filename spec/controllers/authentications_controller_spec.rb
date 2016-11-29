@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe AuthenticationsController do
-
   before(:each) do
     @member = FactoryGirl.create(:member)
     sign_in @member
@@ -30,5 +25,4 @@ describe AuthenticationsController do
       'credentials' => { 'token' => 'blah', 'secret' => 'blah' }
     }
   end
-
 end

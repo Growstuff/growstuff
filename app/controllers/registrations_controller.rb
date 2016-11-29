@@ -8,23 +8,22 @@ class RegistrationsController < Devise::RegistrationsController
     render "edit"
   end
 
-# we need this subclassed method so that Devise doesn't force people to
-# change their password every time they want to edit their settings.
-# we also check that they give their current password to change their password.
-# Code copied from
-# https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
+  # we need this subclassed method so that Devise doesn't force people to
+  # change their password every time they want to edit their settings.
+  # we also check that they give their current password to change their password.
+  # Code copied from
+  # https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
 
   def update
-
     @member = Member.find(current_member.id)
 
-    successfully_updated = if needs_password?(@member, params)
-      @member.update_with_password(devise_parameter_sanitizer.sanitize(:account_update))
+    if needs_password?(@member, params)
+      successfully_updated = @member.update_with_password(devise_parameter_sanitizer.sanitize(:account_update))
     else
       # remove the virtual current_password attribute
       # update_without_password doesn't know how to ignore it
       params[:member].delete(:current_password)
-      @member.update_without_password(devise_parameter_sanitizer.sanitize(:account_update))
+      successfully_updated = @member.update_without_password(devise_parameter_sanitizer.sanitize(:account_update))
     end
 
     if successfully_updated
@@ -35,12 +34,11 @@ class RegistrationsController < Devise::RegistrationsController
     else
       render "edit"
     end
-
   end
 end
 
 # check if we need the current password to update fields
 def needs_password?(member, params)
   params[:member][:password].present? ||
-  params[:member][:password_confirmation].present?
+    params[:member][:password_confirmation].present?
 end

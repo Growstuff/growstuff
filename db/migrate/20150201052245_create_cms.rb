@@ -1,11 +1,11 @@
 class CreateCms < ActiveRecord::Migration
-  def self.up
+  def self.up # rubocop:disable Metrics/MethodLength
     text_limit = case ActiveRecord::Base.connection.adapter_name
-      when 'PostgreSQL'
-        { }
-      else
-        { limit: 16777215 }
-      end
+                 when 'PostgreSQL'
+                   {}
+                 else
+                   { limit: 16777215 }
+                 end
 
     # -- Sites --------------------------------------------------------------
     create_table :comfy_cms_sites do |t|
@@ -42,7 +42,7 @@ class CreateCms < ActiveRecord::Migration
       t.integer :layout_id
       t.integer :parent_id
       t.integer :target_page_id
-      t.string  :label,           null: false
+      t.string  :label, null: false
       t.string  :slug
       t.string  :full_path,       null: false
       t.text    :content_cache,   text_limit
@@ -80,7 +80,7 @@ class CreateCms < ActiveRecord::Migration
 
     # -- Files --------------------------------------------------------------
     create_table :comfy_cms_files do |t|
-      t.integer :site_id,           null: false
+      t.integer :site_id, null: false
       t.integer :block_id
       t.string  :label,             null: false
       t.string  :file_file_name,    null: false
@@ -111,7 +111,8 @@ class CreateCms < ActiveRecord::Migration
       t.string  :label,            null: false
       t.string  :categorized_type, null: false
     end
-    add_index :comfy_cms_categories, [:site_id, :categorized_type, :label], unique: true,
+    add_index :comfy_cms_categories, [:site_id, :categorized_type, :label],
+      unique: true,
       name: 'index_cms_categories_on_site_id_and_cat_type_and_label'
 
     create_table :comfy_cms_categorizations, force: true do |t|
@@ -119,7 +120,8 @@ class CreateCms < ActiveRecord::Migration
       t.string  :categorized_type,  null: false
       t.integer :categorized_id,    null: false
     end
-    add_index :comfy_cms_categorizations, [:category_id, :categorized_type, :categorized_id], unique: true,
+    add_index :comfy_cms_categorizations, [:category_id, :categorized_type, :categorized_id],
+      unique: true,
       name: 'index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id'
   end
 

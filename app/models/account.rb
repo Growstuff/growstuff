@@ -21,5 +21,4 @@ class Account < ActiveRecord::Base
       return paid_until.to_s
     end
   end
-
 end

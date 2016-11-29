@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe Notifier do
-
   describe "notifications" do
     let(:notification) { FactoryGirl.create(:notification) }
     let(:mail) { Notifier.notify(notification) }
@@ -42,9 +41,7 @@ describe Notifier do
     it 'includes the new harvest URL' do
       mail.body.encoded.should match new_harvest_path
     end
-
   end
-
 
   describe "new crop request" do
     let(:member) { FactoryGirl.create(:crop_wrangling_member) }
@@ -94,7 +91,6 @@ describe Notifier do
       expect(mail.body.encoded).to match "#{new_harvest_url}\\?crop_id=#{crop.id}"
       expect(mail.body.encoded).to match "#{new_seed_url}\\?crop_id=#{crop.id}"
     end
-
   end
 
   describe "crop rejected" do
@@ -122,6 +118,4 @@ describe Notifier do
       expect(mail.body.encoded).to match "Totally fake"
     end
   end
-
-
 end

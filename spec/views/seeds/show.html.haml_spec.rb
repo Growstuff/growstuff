@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "seeds/show" do
@@ -73,6 +69,5 @@ describe "seeds/show" do
       render
       rendered.should have_content "Request seeds"
     end
-
   end
 end

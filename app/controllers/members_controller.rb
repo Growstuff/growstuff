@@ -7,18 +7,18 @@ class MembersController < ApplicationController
 
   def index
     @sort = params[:sort]
-    if @sort == 'recently_joined'
-      @members = Member.confirmed.recently_joined.paginate(page: params[:page])
-    else
-      @members = Member.confirmed.paginate(page: params[:page])
-    end
+    @members = if @sort == 'recently_joined'
+                 Member.confirmed.recently_joined.paginate(page: params[:page])
+               else
+                 Member.confirmed.paginate(page: params[:page])
+               end
 
     respond_to do |format|
       format.html # index.html.haml
       format.json {
         render json: @members.to_json(only: [
-          :id, :login_name, :slug, :bio, :created_at, :location, :latitude, :longitude
-        ])
+                                        :id, :login_name, :slug, :bio, :created_at, :location, :latitude, :longitude
+                                      ])
       }
     end
   end
@@ -38,8 +38,8 @@ class MembersController < ApplicationController
       format.html # show.html.haml
       format.json {
         render json: @member.to_json(only: [
-          :id, :login_name, :bio, :created_at, :slug, :location, :latitude, :longitude
-        ])
+                                       :id, :login_name, :bio, :created_at, :slug, :location, :latitude, :longitude
+                                     ])
       }
       format.rss { render(
         layout: false,

@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 feature "signin", js: true do
   let(:member) { create :member }
   let(:recipient) { create :member }
@@ -63,7 +62,7 @@ feature "signin", js: true do
   end
 
   context "with facebook" do
-     scenario "sign in" do
+    scenario "sign in" do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
 

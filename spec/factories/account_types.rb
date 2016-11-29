@@ -24,5 +24,4 @@ FactoryGirl.define do
       is_permanent_paid true
     end
   end
-
 end

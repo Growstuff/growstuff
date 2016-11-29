@@ -2,7 +2,6 @@ class GardensController < ApplicationController
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
-
   # GET /gardens
   # GET /gardens.json
   def index
@@ -98,6 +97,6 @@ class GardensController < ApplicationController
 
   def garden_params
     params.require(:garden).permit(:name, :slug, :owner_id, :description, :active,
-    :location, :latitude, :longitude, :area, :area_unit)
+      :location, :latitude, :longitude, :area, :area_unit)
   end
 end

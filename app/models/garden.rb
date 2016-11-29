@@ -9,14 +9,14 @@ class Garden < ActiveRecord::Base
 
   has_and_belongs_to_many :photos
 
-   before_destroy do |garden|
-     photolist = garden.photos.to_a # save a temp copy of the photo list
-     garden.photos.clear # clear relationship b/w garden and photo
+  before_destroy do |garden|
+    photolist = garden.photos.to_a # save a temp copy of the photo list
+    garden.photos.clear # clear relationship b/w garden and photo
 
-     photolist.each do |photo|
-       photo.destroy_if_unused
-     end
-   end
+    photolist.each do |photo|
+      photo.destroy_if_unused
+    end
+  end
 
   # set up geocoding
   geocoded_by :location
@@ -50,9 +50,9 @@ class Garden < ActiveRecord::Base
     "acres" => "acre"
   }
   validates :area_unit, inclusion: { in: AREA_UNITS_VALUES.values,
-        message: "%{value} is not a valid area unit" },
-        allow_nil: true,
-        allow_blank: true
+                                     message: "%{value} is not a valid area unit" },
+                        allow_nil: true,
+                        allow_blank: true
 
   after_validation :cleanup_area
 
@@ -76,7 +76,7 @@ class Garden < ActiveRecord::Base
     seen_crops = []
 
     plantings.each do |p|
-      if (! seen_crops.include?(p.crop))
+      if (!seen_crops.include?(p.crop))
         unique_plantings.push(p)
         seen_crops.push(p.crop)
       end
@@ -103,5 +103,4 @@ class Garden < ActiveRecord::Base
   def default_photo
     return photos.first
   end
-
 end

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 describe 'devise/mailer/unlock_instructions.html.haml', type: "view" do
   context "logged in" do

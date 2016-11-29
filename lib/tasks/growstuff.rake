@@ -1,5 +1,4 @@
 namespace :growstuff do
-
   desc "Add an admin user, by name"
   # usage: rake growstuff:admin_user name=skud
 
@@ -38,7 +37,6 @@ namespace :growstuff do
     end
     Rails.cache.delete('full_crop_hierarchy')
     puts "Finished loading crops"
-
   end
 
   desc "Send planting reminder email"
@@ -73,10 +71,8 @@ namespace :growstuff do
 
   desc "One-off tasks needed at various times and kept for posterity"
   namespace :oneoff do
-
     desc "May 2013: replace any empty notification subjects with (no subject)"
     task empty_subjects: :environment do
-
       # this is inefficient as it checks every Notification, but the
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
@@ -88,7 +84,6 @@ namespace :growstuff do
 
     desc "May 2013: replace any empty garden names with Garden"
     task empty_garden_names: :environment do
-
       # this is inefficient as it checks every Garden, but the
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
@@ -99,7 +94,6 @@ namespace :growstuff do
         end
       end
     end
-
 
     desc "June 2013: create account types and products."
     task setup_shop: :environment do
@@ -163,7 +157,6 @@ namespace :growstuff do
 
     desc "June 2013: replace nil account_types with free accounts"
     task nil_account_type: :environment do
-
       free = AccountType.find_by_name("Free")
       raise "Free account type not found: run rake growstuff:oneoff:setup_shop"\
         unless free
@@ -177,7 +170,6 @@ namespace :growstuff do
 
     desc "July 2013: replace nil seed.tradable_to with nowhere"
     task tradable_to_nowhere: :environment do
-
       Seed.all.each do |s|
         unless s.tradable_to
           s.tradable_to = 'nowhere'
@@ -188,7 +180,6 @@ namespace :growstuff do
 
     desc "August 2013: set up plantings_count cache on crop"
     task reset_crop_plantings_count: :environment do
-
       Crop.find_each do |c|
         Crop.reset_counters c.id, :plantings
       end
@@ -196,7 +187,6 @@ namespace :growstuff do
 
     desc "August 2013: set default creator on existing crops"
     task set_default_crop_creator: :environment do
-
       cropbot = Member.find_by_login_name("cropbot")
       raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
       cropbot.account.account_type = AccountType.find_by_name("Staff") # set this just because it's nice
@@ -213,7 +203,6 @@ namespace :growstuff do
           sn.save
         end
       end
-
     end
 
     desc "August 2013: set planting owner"
@@ -339,5 +328,4 @@ namespace :growstuff do
       Crop.import
     end
   end # end oneoff section
-
 end

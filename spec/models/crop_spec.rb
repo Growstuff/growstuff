@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe Crop do
   context 'all fields present' do
-
     let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'should save a basic crop' do
@@ -51,7 +50,6 @@ describe Crop do
   end
 
   context 'popularity' do
-
     let(:tomato) { FactoryGirl.create(:tomato) }
     let(:maize) { FactoryGirl.create(:maize) }
     let(:cucumber) { FactoryGirl.create(:crop, name: 'cucumber') }
@@ -66,7 +64,6 @@ describe Crop do
       FactoryGirl.create_list(:planting, 10, crop: tomato)
       Crop.popular.first.should eq tomato
     end
-
   end
 
   it 'finds a default scientific name' do
@@ -135,7 +132,7 @@ describe Crop do
     it 'toplevel scope works' do
       @tomato = FactoryGirl.create(:tomato)
       @roma = FactoryGirl.create(:roma, parent_id: @tomato.id)
-      Crop.toplevel.should eq [ @tomato ]
+      Crop.toplevel.should eq [@tomato]
     end
   end
 
@@ -181,7 +178,6 @@ describe Crop do
       end
     end
 
-
     context 'with no plantings or harvests' do
       it 'has no default photo' do
         @crop.default_photo.should eq nil
@@ -190,7 +186,6 @@ describe Crop do
   end
 
   context 'sunniness' do
-
     let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
@@ -218,7 +213,6 @@ describe Crop do
   end
 
   context 'planted_from' do
-
     let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
@@ -246,7 +240,6 @@ describe Crop do
   end
 
   context 'popular plant parts' do
-
     let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of plant_part values' do
@@ -276,7 +269,6 @@ describe Crop do
       )
       crop.popular_plant_parts.should == { @fruit => 2, @seed => 1, @root => 1 }
     end
-
   end
 
   context 'interesting' do
@@ -327,7 +319,6 @@ describe Crop do
       Crop.interesting.should include @crop1
       Crop.interesting.should_not include @crop2
       Crop.interesting.size.should == 1
-
     end
 
     it 'ignores crops without photos' do
@@ -354,7 +345,6 @@ describe Crop do
       Crop.interesting.should_not include @crop2
       Crop.interesting.size.should == 1
     end
-
   end
 
   context "harvests" do
@@ -396,7 +386,6 @@ describe Crop do
   end
 
   context "search" do
-
     let(:mushroom) { FactoryGirl.create(:crop, name: 'mushroom') }
 
     before do
@@ -428,7 +417,6 @@ describe Crop do
   end
 
   context "csv loading" do
-
     before(:each) do
       # don't use 'let' for this -- we need to actually create it,
       # regardless of whether it's used.
@@ -436,7 +424,6 @@ describe Crop do
     end
 
     context "scientific names" do
-
       it "adds a scientific name to a crop that has none" do
         tomato = FactoryGirl.create(:tomato)
         expect(tomato.scientific_names.size).to eq 0
@@ -501,7 +488,6 @@ describe Crop do
         tomato.add_scientific_names_from_csv("Baz,   Quux") # multiple spaces
         expect(tomato.scientific_names.size).to eq 4
       end
-
     end # scientific names
 
     context "alternate names" do
@@ -603,9 +589,7 @@ describe Crop do
       expect(loaded.name).to eq "tomato"
       expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
       expect(loaded.creator).to eq @cropbot
-
     end
-
   end
 
   context "crop-post association" do

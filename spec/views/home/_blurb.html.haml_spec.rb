@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'home/_blurb.html.haml', type: "view" do
@@ -37,5 +33,4 @@ describe 'home/_blurb.html.haml', type: "view" do
       assert_select "a", href: new_member_session_path
     end
   end
-
 end

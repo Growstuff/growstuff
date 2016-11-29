@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'layouts/application.html.haml', type: "view" do
@@ -27,5 +23,4 @@ describe 'layouts/application.html.haml', type: "view" do
     assert_select "script", text: 'alert("foo!")'
     rendered.should_not have_content 'script'
   end
-
 end

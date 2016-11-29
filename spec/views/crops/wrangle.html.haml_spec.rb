@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "crops/wrangle" do
@@ -26,7 +22,7 @@ describe "crops/wrangle" do
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
     crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([ @tomato, @maize ])
+      pager.replace([@tomato, @maize])
     end
     assign(:crops, crops)
     assign(:crop_wranglers, Role.crop_wranglers)
@@ -48,5 +44,4 @@ describe "crops/wrangle" do
     assert_select "a", text: @maize.name
     assert_select "a", text: @tomato.name
   end
-
 end

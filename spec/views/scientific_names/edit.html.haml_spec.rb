@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "scientific_names/edit" do
@@ -28,9 +24,9 @@ describe "scientific_names/edit" do
       render
     end
 
-  it "shows the creator" do
-    rendered.should have_content "Added by #{@scientific_name.creator} less than a minute ago."
-  end
+    it "shows the creator" do
+      rendered.should have_content "Added by #{@scientific_name.creator} less than a minute ago."
+    end
 
     it "renders the edit scientific_name form" do
       assert_select "form", action: scientific_names_path(@scientific_name), method: "post" do
@@ -39,5 +35,4 @@ describe "scientific_names/edit" do
       end
     end
   end
-
 end

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'posts/show.rss.haml' do
@@ -43,5 +39,4 @@ describe 'posts/show.rss.haml' do
   it 'shows content of comments' do
     rendered.should have_content "OMG LOL"
   end
-
 end

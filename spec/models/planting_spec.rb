@@ -1,12 +1,11 @@
 require 'rails_helper'
 
 describe Planting do
-
   let(:crop) { FactoryGirl.create(:tomato) }
   let(:garden_owner) { FactoryGirl.create(:member) }
   let(:garden) { FactoryGirl.create(:garden, owner: garden_owner) }
   let(:planting) { FactoryGirl.create(:planting,
-      crop: crop, garden: garden)}
+    crop: crop, garden: garden)}
 
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
@@ -123,7 +122,6 @@ describe Planting do
   end
 
   context 'sunniness' do
-
     let(:planting) { FactoryGirl.create(:sunny_planting) }
 
     it 'should have a sunniness value' do
@@ -152,8 +150,8 @@ describe Planting do
 
     it 'all valid planted_from values should work' do
       ['seed', 'seedling', 'cutting', 'root division',
-        'runner', 'bare root plant', 'advanced plant',
-        'graft', 'layering', 'bulb', 'root/tuber', nil, ''].each do |p|
+       'runner', 'bare root plant', 'advanced plant',
+       'graft', 'layering', 'bulb', 'root/tuber', nil, ''].each do |p|
         @planting = FactoryGirl.build(:planting, planted_from: p)
         @planting.should be_valid
       end
@@ -169,7 +167,6 @@ describe Planting do
   # we decided that all the tests for the planting/photo association would
   # be done on this side, not on the photos side
   context 'photos' do
-
     let(:planting) { FactoryGirl.create(:planting) }
     let(:photo) { FactoryGirl.create(:photo) }
 
@@ -278,7 +275,6 @@ describe Planting do
         Planting.interesting(3, false).size.should eq 3
       end
     end
-
   end # interesting plantings
 
   context "finished" do
@@ -304,7 +300,7 @@ describe Planting do
 
     context "finished date validation" do
       it 'requires finished date after planting date' do
-        @f = FactoryGirl.build(:finished_planting, planted_at:             '2014-01-01', finished_at: '2013-01-01')
+        @f = FactoryGirl.build(:finished_planting, planted_at: '2014-01-01', finished_at: '2013-01-01')
         @f.should_not be_valid
       end
 

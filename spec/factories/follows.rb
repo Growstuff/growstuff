@@ -3,5 +3,4 @@ FactoryGirl.define do
     follower
     followed
   end
-
 end

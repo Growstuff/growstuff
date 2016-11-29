@@ -3,6 +3,6 @@ FactoryGirl.define do
     post
     author
     sequence(:body) { |n| "OMG LOL #{n}" } # because our commenters are more
-                                           # polite than YouTube's
+    # polite than YouTube's
   end
 end

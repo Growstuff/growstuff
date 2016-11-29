@@ -19,7 +19,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   belongs_to :parent, class_name: 'Crop'
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
   has_and_belongs_to_many :posts
-  before_destroy {|crop| crop.posts.clear}
+  before_destroy { |crop| crop.posts.clear }
 
   default_scope { order("lower(name) asc") }
   scope :recent, lambda {
@@ -31,7 +31,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   scope :popular, lambda {
     where(approval_status: "approved").reorder("plantings_count desc, lower(name) asc")
   }
-  scope :randomized,  lambda {
+  scope :randomized, lambda {
     # ok on sqlite and psql, but not on mysql
     where(approval_status: "approved").reorder('random()')
   }
@@ -66,24 +66,24 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     # use Rails.env as a part of index name (eg. development_growstuff)
     index_name [Rails.env, "growstuff"].join('_')
     settings index: { number_of_shards: 1 },
-      analysis: {
-        tokenizer: {
-          gs_edgeNGram_tokenizer: {
-            type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
-            min_gram: 3,
-            max_gram: 10,
-            # token_chars: Elasticsearch will split on characters
-            # that don’t belong to any of these classes
-            token_chars: [ "letter", "digit" ]
-          }
-        },
-        analyzer: {
-          gs_edgeNGram_analyzer: {
-            tokenizer: "gs_edgeNGram_tokenizer",
-            filter: ["lowercase"]
-          }
-        },
-      } do
+             analysis: {
+               tokenizer: {
+                 gs_edgeNGram_tokenizer: {
+                   type: "edgeNGram", # edgeNGram: NGram match from the start of a token
+                   min_gram: 3,
+                   max_gram: 10,
+                   # token_chars: Elasticsearch will split on characters
+                   # that don’t belong to any of these classes
+                   token_chars: ["letter", "digit"]
+                 }
+               },
+               analyzer: {
+                 gs_edgeNGram_analyzer: {
+                   tokenizer: "gs_edgeNGram_tokenizer",
+                   filter: ["lowercase"]
+                 }
+               },
+             } do
       mappings dynamic: 'false' do
         indexes :id, type: 'long'
         indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
@@ -103,13 +103,13 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def as_indexed_json(options={})
+  def as_indexed_json(options = {})
     self.as_json(
       only: [:id, :name, :approval_status],
       include: {
         scientific_names: { only: :scientific_name },
         alternate_names: { only: :name }
-    })
+      })
   end
 
   # update the Elasticsearch index (only if we're using it in this
@@ -198,18 +198,18 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def approval_statuses
-    [ 'rejected', 'pending', 'approved' ]
+    ['rejected', 'pending', 'approved']
   end
 
   def reasons_for_rejection
-    [ "already in database", "not edible", "not enough information", "other" ]
+    ["already in database", "not edible", "not enough information", "other"]
   end
 
   # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
-  howmany = 12 # max number to find
-  interesting_crops = []
+    howmany = 12 # max number to find
+    interesting_crops = []
     Crop.includes(:photos).randomized.each do |c|
       break if interesting_crops.size == howmany
       next unless c.interesting?
@@ -218,16 +218,16 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     return interesting_crops
   end
 
-# Crop.create_from_csv(row)
-# used by db/seeds.rb and rake growstuff:import_crops
-# CSV fields:
-# - name (required)
-# - en_wikipedia_url (required)
-# - parent (name, optional)
-# - scientific name (optional, can be picked up from parent if it has one)
+  # Crop.create_from_csv(row)
+  # used by db/seeds.rb and rake growstuff:import_crops
+  # CSV fields:
+  # - name (required)
+  # - en_wikipedia_url (required)
+  # - parent (name, optional)
+  # - scientific name (optional, can be picked up from parent if it has one)
 
   def Crop.create_from_csv(row)
-    name,en_wikipedia_url,parent,scientific_names,alternate_names = row
+    name, en_wikipedia_url, parent, scientific_names, alternate_names = row
 
     cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -249,15 +249,14 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
     crop.add_scientific_names_from_csv(scientific_names)
     crop.add_alternate_names_from_csv(alternate_names)
-
   end
 
   def add_scientific_names_from_csv(scientific_names)
     names_to_add = []
-    if ! scientific_names.blank? # i.e. we actually passed something in, which isn't a given
+    if !scientific_names.blank? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(%r{,\s*})
     elsif parent && parent.scientific_names.size > 0 # pick up from parent
-      names_to_add = parent.scientific_names.map{|s| s.scientific_name}
+      names_to_add = parent.scientific_names.map { |s| s.scientific_name }
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
@@ -275,7 +274,8 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     cropbot = Member.find_by_login_name('cropbot')
 
     names_to_add = []
-    if ! alternate_names.blank? # i.e. we actually passed something in, which isn't a given
+
+    if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
       names_to_add = alternate_names.split(%r{,\s*})
@@ -295,21 +295,23 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
-      response = __elasticsearch__.search( {
-          # Finds documents which match any field, but uses the _score from
-          # the best field insead of adding up _score from each field.
-          query: {
-            multi_match: {
-              query: "#{search_str}",
-              analyzer: "standard",
-              fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
-            }
-          },
-          filter: {
-            term: {approval_status: "approved"}
-          },
-          size: 50
-        }
+      response = __elasticsearch__.search({
+                                            # Finds documents which match any field, but uses the _score from
+                                            # the best field insead of adding up _score from each field.
+                                            query: {
+                                              multi_match: {
+                                                query: "#{search_str}",
+                                                analyzer: "standard",
+                                                fields: ["name",
+                                                         "scientific_names.scientific_name",
+                                                         "alternate_names.name"]
+                                              }
+                                            },
+                                            filter: {
+                                              term: { approval_status: "approved" }
+                                            },
+                                            size: 50
+                                          }
       )
       return response.records.to_a
     else
@@ -388,5 +390,4 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
     end
   end
-
 end

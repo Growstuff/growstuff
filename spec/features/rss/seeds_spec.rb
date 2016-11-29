@@ -9,6 +9,6 @@ feature 'Seeds RSS feed' do
   scenario 'The index title is what we expect' do
     visit seeds_path(format: 'rss')
     expect(page).to have_content "Recent seeds from "\
-      "#{ @owner ? @owner : 'all members' } (#{ENV['GROWSTUFF_SITE_NAME']})"
+      "#{@owner ? @owner : 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})"
   end
 end

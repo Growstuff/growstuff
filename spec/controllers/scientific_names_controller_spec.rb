@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe ScientificNamesController do
-
   login_member(:crop_wrangling_member)
 
   before(:each) do
@@ -33,6 +28,5 @@ describe ScientificNamesController do
       get :new, { crop_id: 1 }
       assigns(:crop).should be_an_instance_of Crop
     end
-
   end
 end
