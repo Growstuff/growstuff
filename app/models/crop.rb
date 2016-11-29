@@ -89,7 +89,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
         indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
         indexes :approval_status, type: 'string'
         indexes :scientific_names do
-          indexes :scientific_name,
+          indexes :name,
             type: 'string',
             analyzer: 'gs_edgeNGram_analyzer',
             # Disabling field-length norm (norm). If the norm option is turned on(by default),
@@ -107,7 +107,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     self.as_json(
       only: [:id, :name, :approval_status],
       include: {
-        scientific_names: { only: :scientific_name },
+        scientific_names: { only: :name },
         alternate_names: { only: :name }
       })
   end
@@ -123,14 +123,12 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # End Elasticsearch section
 
   def to_s
-    return name
+    name
   end
 
   def default_scientific_name
     if scientific_names.size > 0
-      return scientific_names.first.scientific_name
-    else
-      return nil
+      scientific_names.first.name
     end
   end
 
@@ -143,7 +141,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
     # Crop has no photos? Look for the most recent harvest with a photo.
     harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
-    return harvest_with_photo.photos.first if harvest_with_photo
+    harvest_with_photo.photos.first if harvest_with_photo
   end
 
   # crop.sunniness
@@ -256,7 +254,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     if !scientific_names.blank? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(%r{,\s*})
     elsif parent && parent.scientific_names.size > 0 # pick up from parent
-      names_to_add = parent.scientific_names.map { |s| s.scientific_name }
+      names_to_add = parent.scientific_names.map { |s| s.name }
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
@@ -266,7 +264,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     if names_to_add.size > 0
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
-      add_names_to_list(names_to_add, 'scientific', 'scientific_name')
+      add_names_to_list(names_to_add, 'scientific')
     end
   end
 
@@ -279,7 +277,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
       names_to_add = alternate_names.split(%r{,\s*})
-      add_names_to_list(names_to_add, 'alternate', 'name')
+      add_names_to_list(names_to_add, 'alternate')
     end
   end
 
@@ -336,26 +334,27 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   private
 
-  def add_names_to_list(names_to_add, list_name, col_name)
+  def add_names_to_list(names_to_add, list_name)
     names_to_add.each do |n|
-      if name_already_exists(list_name, col_name, n)
+      if name_already_exists(list_name, n)
         logger.warn("Warning: skipping duplicate #{list_name} name #{n} for #{self}")
       else
-        create_crop_in_list(list_name, col_name, n)
+        create_crop_in_list(list_name, n)
       end
     end
   end
 
-  def create_crop_in_list(list_name, col_name, name)
+  def create_crop_in_list(list_name, name)
     cropbot = Member.find_by_login_name('cropbot')
-    create_hash = {}
-    create_hash['creator_id'] = "#{cropbot.id}"
-    create_hash["#{col_name}"] = name
+    create_hash = {
+      creator_id: "#{cropbot.id}",
+      name: name
+    }
     self.send("#{list_name}_names").create(create_hash)
   end
 
-  def name_already_exists(list_name, col_name, name)
-    self.send("#{list_name}_names").exists?(["#{col_name} LIKE ?", name])
+  def name_already_exists(list_name, name)
+    self.send("#{list_name}_names").exists?(name: name)
   end
 
   def count_uses_of_property(col_name)

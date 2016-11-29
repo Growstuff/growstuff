@@ -8,7 +8,7 @@
             = link_to crop.name, crop
           - if crop.scientific_names.size > 0
             .scientificname
-              = crop.scientific_names.first.scientific_name
+              = crop.scientific_names.first.name
           .plantingcount
             Planted
             = pluralize(crop.plantings.size, "time")

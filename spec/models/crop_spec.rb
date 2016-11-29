@@ -71,7 +71,7 @@ describe Crop do
     @crop.default_scientific_name.should eq nil
     @sn = FactoryGirl.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
-    @crop.default_scientific_name.should eq @sn.scientific_name
+    @crop.default_scientific_name.should eq @sn.name
   end
 
   it 'counts plantings' do
@@ -476,8 +476,8 @@ describe Crop do
         expect(tomato.scientific_names.size).to eq 0
         tomato.add_scientific_names_from_csv("Foo, Bar")
         expect(tomato.scientific_names.size).to eq 2
-        expect(tomato.scientific_names[0].scientific_name).to eq "Foo"
-        expect(tomato.scientific_names[1].scientific_name).to eq "Bar"
+        expect(tomato.scientific_names[0].name).to eq "Foo"
+        expect(tomato.scientific_names[1].name).to eq "Bar"
       end
 
       it "loads multiple scientific names with variant spacing" do
@@ -550,7 +550,7 @@ describe Crop do
       loaded = Crop.last
       expect(loaded.name).to eq "tomato"
       expect(loaded.scientific_names.size).to eq 1
-      expect(loaded.scientific_names.last.scientific_name).to eq "Solanum lycopersicum"
+      expect(loaded.scientific_names.last.name).to eq "Solanum lycopersicum"
     end
 
     it "loads a crop with an alternate name" do
