@@ -20,7 +20,7 @@ describe ScientificNamesController do
   end
 
   def valid_attributes
-    { scientific_name: 'Solanum lycopersicum', crop_id: @crop.id }
+    { name: 'Solanum lycopersicum', crop_id: @crop.id }
   end
 
   describe "GET new" do

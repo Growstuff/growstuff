@@ -2,7 +2,7 @@
   %small
     - if crop.scientific_names.size > 0
       %i
-        = crop.scientific_names.first.scientific_name
+        = crop.scientific_names.first.name
     %br/
     Planted
     = pluralize(crop.plantings.size, "time")
