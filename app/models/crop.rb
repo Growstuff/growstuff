@@ -152,13 +152,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # key: sunniness (eg. 'sun')
   # value: count of how many times it's been used by plantings
   def sunniness
-    sunniness = Hash.new(0)
-    plantings.each do |p|
-      if !p.sunniness.blank?
-        sunniness[p.sunniness] += 1
-      end
-    end
-    return sunniness
+    count_uses_of_property 'sunniness'
   end
 
   # crop.planted_from
@@ -166,13 +160,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # key: propagation method (eg. 'seed')
   # value: count of how many times it's been used by plantings
   def planted_from
-    planted_from = Hash.new(0)
-    plantings.each do |p|
-      if !p.planted_from.blank?
-        planted_from[p.planted_from] += 1
-      end
-    end
-    return planted_from
+    count_uses_of_property 'planted_from'
   end
 
   # crop.popular_plant_parts
@@ -366,6 +354,16 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def name_already_exists(list_name, col_name, name)
     self.send("#{list_name}_names").exists?(["#{col_name} LIKE ?", name])
+  end
+
+  def count_uses_of_property(col_name)
+    data = Hash.new(0)
+    plantings.each do |p|
+      if !p.send("#{col_name}").blank?
+        data[p.send("#{col_name}")] += 1
+      end
+    end
+    data
   end
 
   # Custom validations
