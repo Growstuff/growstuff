@@ -168,18 +168,8 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.update(crop_params)
-        if !params[:alt_name].nil?
-          destroy_names('alternate')
-          params[:alt_name].each do |index, value|
-            create_name('alternate', value)
-          end
-        end
-        if !params[:sci_name].nil?
-          destroy_names('scientific')
-          params[:sci_name].each do |index, value|
-            create_name('scientific', value)
-          end
-        end
+        recreate_names('alt_name', 'alternate')
+        recreate_names('sci_name', 'scientific')
 
         if previous_status == "pending"
           requester = @crop.requester
@@ -209,6 +199,15 @@ class CropsController < ApplicationController
   end
 
   private
+
+  def recreate_names(param_name, name_type)
+    if params[param_name].present?
+      destroy_names(name_type)
+      params[param_name].each do |index, value|
+        create_name(name_type, value)
+      end
+    end
+  end
 
   def destroy_names(name_type)
     @crop.send("#{name_type}_names").each do |alt_name|
