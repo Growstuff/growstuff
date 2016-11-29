@@ -135,10 +135,10 @@ class CropsController < ApplicationController
     respond_to do |format|
       if @crop.save
         params[:alt_name].each do |index, value|
-          @crop.alternate_names.create(name: value, creator_id: current_member.id)
+          create_name('alternate', value)
         end
         params[:sci_name].each do |index, value|
-          @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
+          create_name('scientific', value)
         end
         unless current_member.has_role? :crop_wrangler
           Role.crop_wranglers.each do |w|
@@ -166,22 +166,8 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       if @crop.update(crop_params)
-        if !params[:alt_name].nil?
-          @crop.alternate_names.each do |alt_name|
-            alt_name.destroy
-          end
-
-          params[:alt_name].each do |index, value|
-            @crop.alternate_names.create(name: value, creator_id: current_member.id)
-          end
-
-          @crop.scientific_names.each do |sci_name|
-            sci_name.destroy
-          end
-          params[:sci_name].each do |index, value|
-            @crop.scientific_names.create(scientific_name: value, creator_id: current_member.id)
-          end
-        end
+        recreate_names('alt_name', 'alternate')
+        recreate_names('sci_name', 'scientific')
 
         if previous_status == "pending"
           requester = @crop.requester
@@ -211,6 +197,24 @@ class CropsController < ApplicationController
   end
 
   private
+
+  def recreate_names(param_name, name_type)
+    return unless params[param_name].present?
+    destroy_names(name_type)
+    params[param_name].each do |index, value|
+      create_name(name_type, value)
+    end
+  end
+
+  def destroy_names(name_type)
+    @crop.send("#{name_type}_names").each do |alt_name|
+      alt_name.destroy
+    end
+  end
+
+  def create_name(name_type, value)
+    @crop.send("#{name_type}_names").create(name: value, creator_id: current_member.id)
+  end
 
   def crop_params
     params.require(:crop).permit(:en_wikipedia_url,

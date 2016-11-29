@@ -92,6 +92,6 @@ class ScientificNamesController < ApplicationController
   private
 
   def scientific_name_params
-    params.require(:scientific_name).permit(:crop_id, :scientific_name, :creator_id)
+    params.require(:scientific_name).permit(:crop_id, :name, :creator_id)
   end
 end

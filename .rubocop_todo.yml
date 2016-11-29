@@ -53,12 +53,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'spec/models/member_spec.rb'
     - 'spec/views/plantings/show.html.haml_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/StringConversionInInterpolation:
-  Exclude:
-    - 'spec/views/seeds/index.rss.haml_spec.rb'
-
 # Offense count: 15
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.

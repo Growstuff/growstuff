@@ -71,7 +71,7 @@ describe Crop do
     @crop.default_scientific_name.should eq nil
     @sn = FactoryGirl.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
-    @crop.default_scientific_name.should eq @sn.scientific_name
+    @crop.default_scientific_name.should eq @sn.name
   end
 
   it 'counts plantings' do
@@ -82,11 +82,43 @@ describe Crop do
     @crop.plantings.size.should eq 1
   end
 
-  it 'validates en_wikipedia_url' do
-    @crop = FactoryGirl.build(:tomato, en_wikipedia_url: 'this is not valid')
-    @crop.should_not be_valid
-    @crop = FactoryGirl.build(:tomato, en_wikipedia_url: 'http://en.wikipedia.org/wiki/SomePage')
-    @crop.should be_valid
+  context "wikipedia url" do
+    subject { FactoryGirl.build(:tomato, en_wikipedia_url: wikipedia_url) }
+
+    context 'not a url' do
+      let(:wikipedia_url) { 'this is not valid' }
+      it { expect(subject).not_to be_valid }
+    end
+
+    context 'http url' do
+      let(:wikipedia_url) { 'http://en.wikipedia.org/wiki/SomePage' }
+      it { expect(subject).to be_valid }
+    end
+
+    context 'with ssl' do
+      let(:wikipedia_url) { 'https://en.wikipedia.org/wiki/SomePage' }
+      it { expect(subject).to be_valid }
+    end
+
+    context 'with utf8 macrons' do
+      let(:wikipedia_url) { 'https://en.wikipedia.org/wiki/Māori' }
+      it { expect(subject).to be_valid }
+    end
+
+    context 'urlencoded' do
+      let(:wikipedia_url) { 'https://en.wikipedia.org/wiki/M%C4%81ori' }
+      it { expect(subject).to be_valid }
+    end
+
+    context 'with new lines in url' do
+      let(:wikipedia_url) { 'http://en.wikipedia.org/wiki/SomePage\n\nBrendaRocks' }
+      it { expect(subject).not_to be_valid }
+    end
+
+    context "with script tags in url" do
+      let(:wikipedia_url) { 'http://en.wikipedia.org/wiki/SomePage<script>alert(\'BrendaRocks\')</script>' }
+      it { expect(subject).not_to be_valid }
+    end
   end
 
   context 'varieties' do
@@ -444,8 +476,8 @@ describe Crop do
         expect(tomato.scientific_names.size).to eq 0
         tomato.add_scientific_names_from_csv("Foo, Bar")
         expect(tomato.scientific_names.size).to eq 2
-        expect(tomato.scientific_names[0].scientific_name).to eq "Foo"
-        expect(tomato.scientific_names[1].scientific_name).to eq "Bar"
+        expect(tomato.scientific_names[0].name).to eq "Foo"
+        expect(tomato.scientific_names[1].name).to eq "Bar"
       end
 
       it "loads multiple scientific names with variant spacing" do
@@ -518,7 +550,7 @@ describe Crop do
       loaded = Crop.last
       expect(loaded.name).to eq "tomato"
       expect(loaded.scientific_names.size).to eq 1
-      expect(loaded.scientific_names.last.scientific_name).to eq "Solanum lycopersicum"
+      expect(loaded.scientific_names.last.name).to eq "Solanum lycopersicum"
     end
 
     it "loads a crop with an alternate name" do

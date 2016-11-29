@@ -42,7 +42,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     format: {
-      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
+      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_]+\z/,
       message: 'is not a valid English Wikipedia URL'
     },
     if: :approved?
@@ -89,7 +89,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
         indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
         indexes :approval_status, type: 'string'
         indexes :scientific_names do
-          indexes :scientific_name,
+          indexes :name,
             type: 'string',
             analyzer: 'gs_edgeNGram_analyzer',
             # Disabling field-length norm (norm). If the norm option is turned on(by default),
@@ -107,7 +107,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     self.as_json(
       only: [:id, :name, :approval_status],
       include: {
-        scientific_names: { only: :scientific_name },
+        scientific_names: { only: :name },
         alternate_names: { only: :name }
       })
   end
@@ -123,14 +123,12 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # End Elasticsearch section
 
   def to_s
-    return name
+    name
   end
 
   def default_scientific_name
     if scientific_names.size > 0
-      return scientific_names.first.scientific_name
-    else
-      return nil
+      scientific_names.first.name
     end
   end
 
@@ -143,7 +141,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
     # Crop has no photos? Look for the most recent harvest with a photo.
     harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
-    return harvest_with_photo.photos.first if harvest_with_photo
+    harvest_with_photo.photos.first if harvest_with_photo
   end
 
   # crop.sunniness
@@ -152,13 +150,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # key: sunniness (eg. 'sun')
   # value: count of how many times it's been used by plantings
   def sunniness
-    sunniness = Hash.new(0)
-    plantings.each do |p|
-      if !p.sunniness.blank?
-        sunniness[p.sunniness] += 1
-      end
-    end
-    return sunniness
+    count_uses_of_property 'sunniness'
   end
 
   # crop.planted_from
@@ -166,13 +158,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # key: propagation method (eg. 'seed')
   # value: count of how many times it's been used by plantings
   def planted_from
-    planted_from = Hash.new(0)
-    plantings.each do |p|
-      if !p.planted_from.blank?
-        planted_from[p.planted_from] += 1
-      end
-    end
-    return planted_from
+    count_uses_of_property 'planted_from'
   end
 
   # crop.popular_plant_parts
@@ -268,46 +254,28 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     if !scientific_names.blank? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(%r{,\s*})
     elsif parent && parent.scientific_names.size > 0 # pick up from parent
-      names_to_add = parent.scientific_names.map { |s| s.scientific_name }
+      names_to_add = parent.scientific_names.map { |s| s.name }
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
 
+    cropbot = Member.find_by_login_name('cropbot')
+
     if names_to_add.size > 0
-      cropbot = Member.find_by(login_name: 'cropbot')
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
-      names_to_add.each do |n|
-        if self.scientific_names.exists?(scientific_name: n)
-          logger.warn("Warning: skipping duplicate scientific name #{n} for #{self}")
-        else
-
-          self.scientific_names.create(
-            scientific_name: n,
-            creator_id: cropbot.id
-          )
-        end
-      end
+      add_names_to_list(names_to_add, 'scientific')
     end
   end
 
   def add_alternate_names_from_csv(alternate_names)
+    cropbot = Member.find_by_login_name('cropbot')
+
     if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
-      cropbot = Member.find_by(login_name: 'cropbot')
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
       names_to_add = alternate_names.split(%r{,\s*})
-
-      names_to_add.each do |n|
-        if self.alternate_names.exists?(name: n)
-          logger.warn("Warning: skipping duplicate alternate name #{n} for #{self}")
-        else
-          self.alternate_names.create(
-            name: n,
-            creator_id: cropbot.id
-          )
-        end
-      end
+      add_names_to_list(names_to_add, 'alternate')
     end
   end
 
@@ -360,6 +328,41 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
       return matches
     end
+  end
+
+  private
+
+  def add_names_to_list(names_to_add, list_name)
+    names_to_add.each do |n|
+      if name_already_exists(list_name, n)
+        logger.warn("Warning: skipping duplicate #{list_name} name #{n} for #{self}")
+      else
+        create_crop_in_list(list_name, n)
+      end
+    end
+  end
+
+  def create_crop_in_list(list_name, name)
+    cropbot = Member.find_by_login_name('cropbot')
+    create_hash = {
+      creator_id: "#{cropbot.id}",
+      name: name
+    }
+    self.send("#{list_name}_names").create(create_hash)
+  end
+
+  def name_already_exists(list_name, name)
+    self.send("#{list_name}_names").exists?(name: name)
+  end
+
+  def count_uses_of_property(col_name)
+    data = Hash.new(0)
+    plantings.each do |p|
+      if !p.send("#{col_name}").blank?
+        data[p.send("#{col_name}")] += 1
+      end
+    end
+    data
   end
 
   # Custom validations
