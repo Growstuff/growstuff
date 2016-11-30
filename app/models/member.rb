@@ -107,7 +107,7 @@ class Member < ActiveRecord::Base
   end
 
   def current_order
-    orders.where(completed_at: nil).first
+    orders.find_by(completed_at: nil)
   end
 
   # when purchasing a product that gives you a paid account, this method
