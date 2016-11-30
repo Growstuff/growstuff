@@ -12,6 +12,8 @@ class Order < ActiveRecord::Base
 
   before_save :standardize_referral_code
 
+  scope :by_member, ->(member) { where(member: member) }
+
   # total price of an order
   def total
     sum = 0
