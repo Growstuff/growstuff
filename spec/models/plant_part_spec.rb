@@ -35,5 +35,4 @@ describe PlantPart do
     )
     @pp1.crops.should eq [@maize]
   end
-
 end

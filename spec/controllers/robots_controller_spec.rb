@@ -6,7 +6,7 @@ describe RobotsController do
     let(:staging_filename)    { 'config/robots.staging.txt' }
 
     before do
-      @request.host = "#{ subdomain }.localhost.com"
+      @request.host = "#{subdomain}.localhost.com"
     end
 
     context 'subdomain is staging' do

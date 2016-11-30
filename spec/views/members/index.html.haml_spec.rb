@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "members/index" do
@@ -24,7 +20,7 @@ describe "members/index" do
     total_entries = 2
     @member = FactoryGirl.create(:london_member)
     members = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([ @member, @member ])
+      pager.replace([@member, @member])
     end
     assign(:members, members)
     render
@@ -37,5 +33,4 @@ describe "members/index" do
   it 'contains member locations' do
     rendered.should have_content @member.location
   end
-
 end

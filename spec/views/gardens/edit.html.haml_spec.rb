@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "gardens/edit" do
-
   context "logged in" do
     before(:each) do
       @owner = FactoryGirl.create(:member)
@@ -41,5 +36,4 @@ describe "gardens/edit" do
       end
     end
   end
-
 end

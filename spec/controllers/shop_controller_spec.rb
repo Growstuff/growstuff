@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe ShopController do
-
   before :each do
     @product1 = FactoryGirl.create(:product)
     @product2 = FactoryGirl.create(:product)
@@ -46,7 +41,5 @@ describe ShopController do
       get :index, {}
       assigns(:order).should eq @order
     end
-
   end
-
 end

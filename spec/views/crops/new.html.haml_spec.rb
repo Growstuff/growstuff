@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "crops/new" do
@@ -32,5 +28,4 @@ describe "crops/new" do
   it "shows a link to crop wrangling guidelines" do
     assert_select "a[href^='http://wiki.growstuff.org']", "crop wrangling guide"
   end
-
 end

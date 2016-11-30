@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "scientific_names/show" do
@@ -31,7 +27,6 @@ describe "scientific_names/show" do
   end
 
   context 'signed in' do
-
     before :each do
       @wrangler = FactoryGirl.create(:crop_wrangling_member)
       sign_in @wrangler

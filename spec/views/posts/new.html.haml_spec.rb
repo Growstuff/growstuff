@@ -10,17 +10,13 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "posts/new" do
   before(:each) do
     @author = FactoryGirl.create(:member)
     assign(:post, FactoryGirl.create(:post, author: @author))
-# assign(:forum, Forum.new)
+    # assign(:forum, Forum.new)
     sign_in @author
     controller.stub(:current_user) { @author }
   end
@@ -74,5 +70,4 @@ describe "posts/new" do
     render
     rendered.should have_content 'Markdown'
   end
-
 end

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "posts/index" do
@@ -25,9 +21,9 @@ describe "posts/index" do
     total_entries = 2
     posts = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-        FactoryGirl.create(:post, author: @author),
-        FactoryGirl.create(:post, author: @author)
-      ])
+                      FactoryGirl.create(:post, author: @author),
+                      FactoryGirl.create(:post, author: @author)
+                    ])
     end
     assign(:posts, posts)
     render

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "plantings/show" do
@@ -22,7 +18,7 @@ describe "plantings/show" do
     @crop = FactoryGirl.create(:tomato)
     @planting = assign(:planting,
       FactoryGirl.create(:planting, garden: @garden, crop: @crop,
-        planted_from: 'cutting')
+                                    planted_from: 'cutting')
     )
   end
 

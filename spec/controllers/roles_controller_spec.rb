@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe RolesController do
-
   def valid_attributes
     { "name" => "MyString" }
   end
@@ -32,5 +27,4 @@ describe RolesController do
       assigns(:roles).should eq([Role.find_by_name('admin'), role])
     end
   end
-
 end

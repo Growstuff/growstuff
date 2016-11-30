@@ -55,7 +55,7 @@
         .col-md-2
           = label_tag :scientific_names, "Scientific name #{index+1}:", :class => 'control-label'
         .col-md-8
-          = text_field_tag "sci_name[#{index+1}]", sci.scientific_name, :id => "sci_name[#{index+1}]", :class => 'form-control'
+          = text_field_tag "sci_name[#{index+1}]", sci.name, :id => "sci_name[#{index+1}]", :class => 'form-control'
           %span.help-block Scientific name of crop.
         .col-md-2
 

@@ -60,12 +60,12 @@ FactoryGirl.define do
     end
 
     factory :admin_member do
-      roles { [ FactoryGirl.create(:admin) ] }
+      roles { [FactoryGirl.create(:admin)] }
     end
 
     factory :crop_wrangling_member do
-      roles { [ FactoryGirl.create(:crop_wrangler) ] }
-      sequence(:login_name) {|n| "wrangler#{n}"}
+      roles { [FactoryGirl.create(:crop_wrangler)] }
+      sequence(:login_name) { |n| "wrangler#{n}" }
     end
 
     factory :invalid_member_shortname do
@@ -103,7 +103,5 @@ FactoryGirl.define do
     factory :no_email_notifications_member do
       send_notification_email false
     end
-
   end
-
 end

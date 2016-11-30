@@ -22,9 +22,9 @@ class Harvest < ActiveRecord::Base
 
   validates :crop, approved: true
 
-  validates :crop, presence: {message: "must be present and exist in our database"}
+  validates :crop, presence: { message: "must be present and exist in our database" }
 
-  validates :plant_part, presence: {message: "must be present and exist in our database"}
+  validates :plant_part, presence: { message: "must be present and exist in our database" }
 
   validates :quantity,
     numericality: {
@@ -45,9 +45,9 @@ class Harvest < ActiveRecord::Base
     "bushels" => "bushel"
   }
   validates :unit, inclusion: { in: UNITS_VALUES.values,
-    message: "%{value} is not a valid unit" },
-    allow_nil: true,
-    allow_blank: true
+                                message: "%{value} is not a valid unit" },
+                   allow_nil: true,
+                   allow_blank: true
 
   validates :weight_quantity,
     numericality: { only_integer: false },
@@ -59,9 +59,9 @@ class Harvest < ActiveRecord::Base
     "oz" => "oz"
   }
   validates :weight_unit, inclusion: { in: WEIGHT_UNITS_VALUES.values,
-    message: "%{value} is not a valid unit" },
-    allow_nil: true,
-    allow_blank: true
+                                       message: "%{value} is not a valid unit" },
+                          allow_nil: true,
+                          allow_blank: true
 
   after_validation :cleanup_quantities
 
@@ -105,27 +105,26 @@ class Harvest < ActiveRecord::Base
     string = ''
     if self.quantity
       string += "#{number_to_human(self.quantity.to_s, strip_insignificant_zeros: true)} "
-      if self.unit == 'individual'
-        string += 'individual '
-      else
-        if self.quantity == 1
-          string += "#{self.unit} of "
-        else
-          string += "#{self.unit.pluralize} of "
-        end
-      end
+      string += if self.unit == 'individual'
+                  'individual '
+                elsif self.quantity == 1
+                  "#{self.unit} of "
+                else
+                  "#{self.unit.pluralize} of "
+                end
     end
 
-    if self.unit != 'individual' # buckets of apricot*s*
-      string += "#{self.crop.name.pluralize}"
-    elsif self.quantity == 1
-      string += "#{self.crop.name}"
-    else
-      string += "#{self.crop.name.pluralize}"
-    end
+    string += if self.unit != 'individual' # buckets of apricot*s*
+                "#{self.crop.name.pluralize}"
+              elsif self.quantity == 1
+                "#{self.crop.name}"
+              else
+                "#{self.crop.name.pluralize}"
+              end
 
     if self.weight_quantity
-      string += " weighing #{number_to_human(self.weight_quantity, strip_insignificant_zeros: true)} #{self.weight_unit}"
+      string += " weighing #{number_to_human(self.weight_quantity, strip_insignificant_zeros: true)}"\
+        " #{self.weight_unit}"
     end
 
     return string
@@ -134,5 +133,4 @@ class Harvest < ActiveRecord::Base
   def default_photo
     return photos.first || crop.default_photo
   end
-
 end

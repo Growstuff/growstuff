@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "photos/new" do
@@ -39,7 +35,7 @@ describe "photos/new" do
 
   context "user has photosets" do
     before(:each) do
-      assign(:sets, {"foo" => "bar"}) # Hash of names => IDs
+      assign(:sets, { "foo" => "bar" }) # Hash of names => IDs
     end
 
     it "shows a dropdown with sets from Flickr" do
@@ -48,10 +44,9 @@ describe "photos/new" do
     end
 
     it "shows the current photoset" do
-      assign(:current_set, "bar")   # the ID of the set
+      assign(:current_set, "bar") # the ID of the set
       render
       assert_select "h2", "foo" # the name of the set
     end
   end
-
 end

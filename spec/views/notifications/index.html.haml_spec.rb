@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "notifications/index" do
@@ -25,11 +21,10 @@ describe "notifications/index" do
   context "ordinary notifications" do
     before(:each) do
       @notification = FactoryGirl.create(:notification, sender: @member,
-                                         recipient: @member)
-      assign(:notifications, Kaminari.paginate_array([ @notification, @notification ]).page(1))
+                                                        recipient: @member)
+      assign(:notifications, Kaminari.paginate_array([@notification, @notification]).page(1))
       render
     end
-
 
     it "renders a list of notifications" do
       assert_select "table"
@@ -45,7 +40,7 @@ describe "notifications/index" do
   context "no subject" do
     it "shows (no subject)" do
       @notification = FactoryGirl.create(:notification,
-         sender: @member, recipient: @member, subject: nil)
+        sender: @member, recipient: @member, subject: nil)
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
       rendered.should have_content "(no subject)"
@@ -55,11 +50,10 @@ describe "notifications/index" do
   context "whitespace-only subject" do
     it "shows (no subject)" do
       @notification = FactoryGirl.create(:notification,
-         sender: @member, recipient: @member, subject: "   ")
+        sender: @member, recipient: @member, subject: "   ")
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
       rendered.should have_content "(no subject)"
     end
   end
-
 end

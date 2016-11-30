@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe OrdersController do
-
   login_member(:admin_member)
 
   def valid_attributes
@@ -33,7 +28,7 @@ describe OrdersController do
       member = FactoryGirl.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
-      get :checkout, {id: order.to_param, referral_code: 'FOOBAR'}
+      get :checkout, { id: order.to_param, referral_code: 'FOOBAR' }
       order.reload
       order.referral_code.should eq 'FOOBAR'
     end
@@ -42,7 +37,7 @@ describe OrdersController do
       member = FactoryGirl.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
-      get :checkout, {id: order.to_param}
+      get :checkout, { id: order.to_param }
       response.status.should eq 302
       response.redirect_url.should match /paypal\.com/
     end
@@ -53,7 +48,7 @@ describe OrdersController do
       member = FactoryGirl.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
-      get :complete, {id: order.to_param}
+      get :complete, { id: order.to_param }
       assigns(:order).should eq(order)
     end
   end
@@ -63,9 +58,8 @@ describe OrdersController do
       member = FactoryGirl.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
-      delete :destroy, {id: order.id}
+      delete :destroy, { id: order.id }
       response.should redirect_to(shop_url)
     end
   end
-
 end

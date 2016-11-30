@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe AdminController do
-
   login_member(:admin_member)
 
   describe "GET admin/newsletter" do

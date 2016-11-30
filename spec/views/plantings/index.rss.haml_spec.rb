@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'plantings/index.rss.haml' do
@@ -54,7 +50,7 @@ describe 'plantings/index.rss.haml' do
   context "one person's plantings" do
     before :each do
       @planting = FactoryGirl.create(:planting)
-      assign(:plantings, [@planting ])
+      assign(:plantings, [@planting])
       assign(:owner, @planting.owner)
       render
     end

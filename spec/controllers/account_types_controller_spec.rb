@@ -10,19 +10,13 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe AccountTypesController do
-
   # This automatically creates a "Free" account type
   login_member(:admin_member)
 
   def valid_attributes
     { "name" => "MyString" }
   end
-
 end

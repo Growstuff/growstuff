@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'seeds/index.rss.haml' do
@@ -25,7 +21,7 @@ describe 'seeds/index.rss.haml' do
     before(:each) do
       @seed = FactoryGirl.create(:seed)
       @tradable = FactoryGirl.create(:tradable_seed)
-      assign(:seeds, [ @seed, @tradable ])
+      assign(:seeds, [@seed, @tradable])
       render
     end
 
@@ -42,19 +38,18 @@ describe 'seeds/index.rss.haml' do
     end
 
     it 'shows the plant_before date' do
-      rendered.should have_content "Plant before: #{@seed.plant_before.to_s}"
+      rendered.should have_content "Plant before: #{@seed.plant_before}"
     end
 
     it 'mentions that one seed is tradable' do
       rendered.should have_content "Will trade #{@tradable.tradable_to} from #{@tradable.owner.location}"
     end
-
   end
 
   context "one member's seeds" do
     before(:each) do
       @seed = FactoryGirl.create(:seed)
-      assign(:seeds, [ @seed ])
+      assign(:seeds, [@seed])
       assign(:owner, @seed.owner)
       render
     end

@@ -1,5 +1,5 @@
 class PhotosController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /photos
@@ -47,37 +47,12 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
-    @photo = Photo.find_by_flickr_photo_id(params[:photo][:flickr_photo_id]) ||
-      Photo.new(photo_params)
-    @photo.owner_id = current_member.id
-    @photo.set_flickr_metadata
-
-
-    collection = case params[:type]
-                   when 'garden'
-                     @photo.gardens
-                   when 'planting'
-                     @photo.plantings
-                   when 'harvest'
-                     @photo.harvests
-                   else
-                     nil
-                 end
-
-    if collection && has_item_id
-      item = params[:type].camelcase.constantize.find_by_id(params[:id])
-      if item && member_owns_item(item)
-        collection << item unless collection.include?(item)
-      else
-        flash[:alert] = "Could not find this item owned by you"
-      end
-    else
-      flash[:alert] = "Missing or invalid type or id parameter"
-    end
+    find_or_create_photo_from_flickr_photo
+    add_photo_to_collection
 
     respond_to do |format|
-      if @photo.save
-        format.html { redirect_to @photo, notice: 'Photo was successfully added.' }
+      if @photo.present? && @photo.save
+        format.html { redirect_to photo_path(@photo), notice: 'Photo was successfully added.' }
         format.json { render json: @photo, status: :created, location: @photo }
       else
         format.html { render action: "new" }
@@ -117,16 +92,57 @@ class PhotosController < ApplicationController
 
   private
 
-  def has_item_id
+  def item_id?
     params.key? :id
   end
 
-  def member_owns_item(item)
-    item.owner.id == current_member.id
+  def flickr_photo_id_param
+    params[:photo][:flickr_photo_id]
   end
 
   def photo_params
     params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,
-    :license_url, :thumbnail_url, :fullsize_url, :link_url)
+      :license_url, :thumbnail_url, :fullsize_url, :link_url)
+  end
+
+  def find_or_create_photo_from_flickr_photo
+    @photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
+    @photo = Photo.new(photo_params) unless @photo
+    @photo.owner_id = current_member.id
+    @photo.set_flickr_metadata
+    @photo
+  end
+
+  def which_collection?
+    case params[:type]
+    when "garden" then @photo.gardens
+    when "harvest" then @photo.harvests
+    when "planting" then @photo.plantings
+    else raise "Invalid type"
+    end
+  end
+
+  def add_photo_to_collection
+    collection = which_collection?
+
+    unless collection && item_id?
+      flash[:alert] = "Missing or invalid type or id parameter"
+      return
+    end
+
+    item = find_item_for_photo!
+    collection << item unless collection.include?(item)
+  rescue
+    flash[:alert] = "Could not find this item owned by you"
+  end
+
+  def find_item_for_photo!
+    item_class = case params[:type]
+                 when "garden" then Garden
+                 when "harvest" then Harvest
+                 when "planting" then Planting
+                 else raise "Invalid type"
+                 end
+    item_class.find_by!(id: params[:id], owner_id: current_member.id)
   end
 end

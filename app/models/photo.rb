@@ -34,11 +34,9 @@ class Photo < ActiveRecord::Base
       fullsize_url: FlickRaw.url_z(info),
       link_url: FlickRaw.url_photopage(info)
     }
-
   end
 
   def set_flickr_metadata
     self.update_attributes(flickr_metadata)
   end
-
 end

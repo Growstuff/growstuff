@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'home/index.html.haml', type: "view" do
@@ -57,5 +53,4 @@ describe 'home/index.html.haml', type: "view" do
       rendered.should have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{@member.login_name}"
     end
   end
-
 end

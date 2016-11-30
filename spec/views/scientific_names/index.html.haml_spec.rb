@@ -10,19 +10,15 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "scientific_names/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
     assign(:scientific_names, [
-      FactoryGirl.create(:zea_mays),
-      FactoryGirl.create(:solanum_lycopersicum)
-    ])
+             FactoryGirl.create(:zea_mays),
+             FactoryGirl.create(:solanum_lycopersicum)
+           ])
   end
 
   it "renders a list of scientific_names" do

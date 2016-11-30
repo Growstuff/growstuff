@@ -62,8 +62,6 @@ feature "crop wranglers", js: true do
       visit crop_path(rejected_crop)
       expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
     end
-
-
   end
 
   context "signed in non-wrangler" do

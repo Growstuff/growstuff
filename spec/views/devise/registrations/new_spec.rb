@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'devise/registrations/new.html.haml', type: "view" do
-
   context "logged in" do
     before(:each) do
       @view.stub(:resource).and_return(Member.new)
@@ -28,7 +23,7 @@ describe 'devise/registrations/new.html.haml', type: "view" do
     end
 
     it 'should have some fields' do
-        rendered.should have_content 'Email'
+      rendered.should have_content 'Email'
     end
 
     it 'has a checkbox for newsletter subscription' do
