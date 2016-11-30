@@ -8,11 +8,9 @@ module PhotoCapable
   end
 
   def remove_from_list
-    photolist = self.photos.to_a # save a temp copy of the photo list
-    self.photos.clear # clear relationship b/w object and photo
+    photolist = photos.to_a # save a temp copy of the photo list
+    photos.clear # clear relationship b/w object and photo
 
-    photolist.each do |photo|
-      photo.destroy_if_unused
-    end
+    photolist.each(&:destroy_if_unused)
   end
 end

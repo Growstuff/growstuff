@@ -8,7 +8,6 @@ class Harvest < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member'
   belongs_to :plant_part
 
-
   default_scope { order('created_at DESC') }
 
   validates :crop, approved: true

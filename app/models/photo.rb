@@ -1,5 +1,5 @@
 class Photo < ActiveRecord::Base
-  ON_MODELS = %w(plantings harvests gardens)
+  ON_MODELS = %w(plantings harvests gardens).freeze
   belongs_to :owner, class_name: 'Member'
 
   ON_MODELS.each do |relation|
@@ -13,7 +13,7 @@ class Photo < ActiveRecord::Base
   def relationships
     associations = []
     ON_MODELS.each do |association_name, _reflection|
-      associations << self.send("#{association_name}").to_a
+      associations << self.send(association_name.to_s).to_a
     end
     associations.flatten!
   end
