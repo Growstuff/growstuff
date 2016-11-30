@@ -2,7 +2,7 @@ module PhotoCapable
   extend ActiveSupport::Concern
 
   included do
-    has_and_belongs_to_many :photos
+    has_and_belongs_to_many :photos # rubocop:disable Rails/HasAndBelongsToMany
 
     before_destroy :remove_from_list
   end
