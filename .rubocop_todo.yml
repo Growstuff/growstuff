@@ -32,13 +32,6 @@ Lint/AssignmentInCondition:
   Exclude:
     - 'app/models/member.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Lint/DeprecatedClassMethods:
-  Exclude:
-    - 'app/controllers/robots_controller.rb'
-    - 'config/boot.rb'
-
 # Offense count: 1
 Lint/HandleExceptions:
   Exclude:

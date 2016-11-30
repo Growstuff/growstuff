@@ -25,6 +25,7 @@ before_install:
   - phantomjs --version
 before_script:
   - bundle exec rake db:create db:migrate db:test:prepare
+  - bundle exec rake assets:precompile
 script:
   - bundle exec rubocop --display-cop-names --rails
   - script/gemfile_check
