@@ -9,15 +9,12 @@ class CropsController < ApplicationController
   # GET /crops.json
   def index
     @sort = params[:sort]
-    if @sort == 'alpha'
-      # alphabetical order
-      @crops = Crop.includes(:scientific_names, { plantings: :photos })
-      @paginated_crops = @crops.approved.paginate(page: params[:page])
-    else
-      # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, { plantings: :photos })
-      @paginated_crops = @crops.approved.paginate(page: params[:page])
-    end
+    @crops = if @sort == 'alpha'
+               Crop.includes(:scientific_names, { plantings: :photos })
+             else
+               popular_crops
+             end
+    @paginated_crops = @crops.approved.paginate(page: params[:page])
 
     respond_to do |format|
       format.html
@@ -197,6 +194,10 @@ class CropsController < ApplicationController
   end
 
   private
+
+  def popular_crops
+    Crop.popular.includes(:scientific_names, { plantings: :photos })
+  end
 
   def recreate_names(param_name, name_type)
     return unless params[param_name].present?
