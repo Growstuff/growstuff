@@ -1,22 +1,13 @@
 class Harvest < ActiveRecord::Base
-  include ActionView::Helpers::NumberHelper
   extend FriendlyId
+  include ActionView::Helpers::NumberHelper
+  include PhotoCapable
   friendly_id :harvest_slug, use: [:slugged, :finders]
 
   belongs_to :crop
   belongs_to :owner, class_name: 'Member'
   belongs_to :plant_part
 
-  has_and_belongs_to_many :photos
-
-  before_destroy do |harvest|
-    photolist = harvest.photos.to_a # save a temp copy of the photo list
-    harvest.photos.clear # clear relationship b/w harvest and photo
-
-    photolist.each do |photo|
-      photo.destroy_if_unused
-    end
-  end
 
   default_scope { order('created_at DESC') }
 

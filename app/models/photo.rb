@@ -1,22 +1,26 @@
 class Photo < ActiveRecord::Base
+  ON_MODELS = %w(plantings harvests gardens)
   belongs_to :owner, class_name: 'Member'
 
-  has_and_belongs_to_many :plantings
-  has_and_belongs_to_many :harvests
-  has_and_belongs_to_many :gardens
-  before_destroy do |photo|
-    photo.plantings.clear
-    photo.harvests.clear
-    photo.gardens.clear
+  ON_MODELS.each do |relation|
+    has_and_belongs_to_many relation.to_sym
   end
+
+  before_destroy { relationships.clear }
 
   default_scope { order("created_at desc") }
 
+  def relationships
+    associations = []
+    ON_MODELS.each do |association_name, _reflection|
+      associations << self.send("#{association_name}").to_a
+    end
+    associations.flatten!
+  end
+
   # remove photos that aren't used by anything
   def destroy_if_unused
-    unless plantings.size > 0 or harvests.size > 0 or gardens.size > 0
-      self.destroy
-    end
+    self.destroy unless relationships.size > 0
   end
 
   # This is split into a side-effect free method and a side-effecting method
