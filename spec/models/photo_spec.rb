@@ -85,11 +85,13 @@ describe Photo do
 
         planting.destroy # photo is still used by harvest and garden
         photo.reload
+
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 1
 
         harvest.destroy
         garden.destroy # photo is now no longer used by anything
+        photo.reload
 
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 0
