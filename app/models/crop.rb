@@ -42,7 +42,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     format: {
-      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:][:punct:]]+\z/,
+      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_()-]+\z/,
       message: 'is not a valid English Wikipedia URL'
     },
     if: :approved?
