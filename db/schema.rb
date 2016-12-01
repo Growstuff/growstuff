@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161129021533) do
+ActiveRecord::Schema.define(version: 20161201154922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -355,6 +355,14 @@ ActiveRecord::Schema.define(version: 20161129021533) do
     t.integer "product_id"
   end
 
+  create_table "photo_mappings", force: :cascade do |t|
+    t.integer "photo_id"
+    t.integer "object_id"
+    t.string  "object_type"
+  end
+
+  add_index "photo_mappings", ["object_id", "photo_id"], name: "index_photo_mappings_on_object_id_and_photo_id", using: :btree
+
   create_table "photos", force: :cascade do |t|
     t.integer  "owner_id",        null: false
     t.string   "thumbnail_url",   null: false
@@ -371,6 +379,11 @@ ActiveRecord::Schema.define(version: 20161129021533) do
   create_table "photos_plantings", id: false, force: :cascade do |t|
     t.integer "photo_id"
     t.integer "planting_id"
+  end
+
+  create_table "photos_seeds", id: false, force: :cascade do |t|
+    t.integer "photo_id"
+    t.integer "seed_id"
   end
 
   create_table "plant_parts", force: :cascade do |t|
