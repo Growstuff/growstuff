@@ -94,7 +94,7 @@ class Member < ActiveRecord::Base
     if login = conditions.delete(:login)
       where(conditions).login_name_or_email(login).first
     else
-      where(conditions).first
+      find_by(conditions)
     end
   end
 
