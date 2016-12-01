@@ -330,6 +330,10 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     end
   end
 
+  def Crop.case_insensitive_name(name)
+    where(["lower(name) = :value", { value: name.downcase }])
+  end
+
   private
 
   def add_names_to_list(names_to_add, list_name)

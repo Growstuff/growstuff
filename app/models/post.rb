@@ -75,7 +75,7 @@ class Post < ActiveRecord::Base
     # look for crops mentioned in the post. eg. [tomato](crop)
     self.body.scan(Haml::Filters::GrowstuffMarkdown::CROP_REGEX) do |m|
       # find crop case-insensitively
-      crop = Crop.where('lower(name) = ?', $1.downcase).first
+      crop = Crop.case_insensitive_name($1).first
       # create association
       self.crops << crop if crop && !self.crops.include?(crop)
     end
