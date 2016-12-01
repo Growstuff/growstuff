@@ -266,6 +266,6 @@ class Member < ActiveRecord::Base
   end
 
   def get_follow(member)
-    self.follows.where(followed_id: member.id).first if already_following?(member)
+    self.follows.find_by(followed_id: member.id) if already_following?(member)
   end
 end
