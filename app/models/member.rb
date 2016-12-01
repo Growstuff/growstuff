@@ -200,6 +200,10 @@ class Member < ActiveRecord::Base
     where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }])
   end
 
+  def Member.case_insensitive_login_name(login)
+    where(["lower(login_name) = :value", { value: login.downcase }])
+  end
+
   def Member.interesting
     howmany = 12 # max number to find
     interesting_members = []
