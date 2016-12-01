@@ -92,7 +92,7 @@ class Member < ActiveRecord::Base
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }]).first
+      where(conditions).login_name_or_email(login).first
     else
       where(conditions).first
     end
@@ -194,6 +194,10 @@ class Member < ActiveRecord::Base
     # interestingness, as well.
     return true if plantings.present?
     return false
+  end
+
+  def Member.login_name_or_email(login)
+    where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }])
   end
 
   def Member.interesting
