@@ -8,6 +8,9 @@ AllCops:
     - 'db/schema.rb'
     - 'vendor/**/*'
 
+Rails:
+  Enabled: true
+
 Style/FileName:
   Exclude:
     - 'Gemfile'
