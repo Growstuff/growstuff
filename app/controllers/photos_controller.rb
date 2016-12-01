@@ -113,36 +113,17 @@ class PhotosController < ApplicationController
     @photo
   end
 
-  def which_collection?
-    case params[:type]
-    when "garden" then @photo.gardens
-    when "harvest" then @photo.harvests
-    when "planting" then @photo.plantings
-    else raise "Invalid type"
-    end
-  end
-
   def add_photo_to_collection
-    collection = which_collection?
+    raise "Missing or invalid type provided" unless Growstuff::Constants::PhotoModels::types.include?(params[:type])
+    raise "No item id provided" unless item_id?
+    collection = Growstuff::Constants::PhotoModels::get_relation(@photo, params[:type])
 
-    unless collection && item_id?
-      flash[:alert] = "Missing or invalid type or id parameter"
-      return
-    end
+    item_class = Growstuff::Constants::PhotoModels::get_item(params[:type])
+    item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
+    raise "Could not find this item owned by you" unless item
 
-    item = find_item_for_photo!
     collection << item unless collection.include?(item)
-  rescue
-    flash[:alert] = "Could not find this item owned by you"
-  end
-
-  def find_item_for_photo!
-    item_class = case params[:type]
-                 when "garden" then Garden
-                 when "harvest" then Harvest
-                 when "planting" then Planting
-                 else raise "Invalid type"
-                 end
-    item_class.find_by!(id: params[:id], owner_id: current_member.id)
+  rescue => e
+    flash[:alert] = e.message
   end
 end
