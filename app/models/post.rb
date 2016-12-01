@@ -15,12 +15,12 @@ class Post < ActiveRecord::Base
     sender = self.author.id
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
-      member = Member.where('lower(login_name) = ?', $1.downcase).first
+      member = Member.case_insensitive_login_name($1).first
       recipients << member if member && !recipients.include?(member)
     end
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_AT_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
-      member = Member.where('lower(login_name) = ?', $1[1..-1].downcase).first
+      member = Member.case_insensitive_login_name($1[1..-1]).first
       recipients << member if member && !recipients.include?(member)
     end
     # don't send notifications to yourself
