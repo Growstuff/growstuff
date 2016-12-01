@@ -1,7 +1,7 @@
 class Photo < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member'
 
-  Growstuff::Constants::PhotoModels::relations.each do |relation|
+  Growstuff::Constants::PhotoModels.relations.each do |relation|
     has_and_belongs_to_many relation.to_sym
   end
 
@@ -11,7 +11,7 @@ class Photo < ActiveRecord::Base
 
   def all_associations
     associations = []
-    Growstuff::Constants::PhotoModels::relations.each do |association_name|
+    Growstuff::Constants::PhotoModels.relations.each do |association_name|
       associations << self.send(association_name.to_s).to_a
     end
     associations.flatten!

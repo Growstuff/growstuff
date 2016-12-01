@@ -114,11 +114,11 @@ class PhotosController < ApplicationController
   end
 
   def add_photo_to_collection
-    raise "Missing or invalid type provided" unless Growstuff::Constants::PhotoModels::types.include?(params[:type])
+    raise "Missing or invalid type provided" unless Growstuff::Constants::PhotoModels.types.include?(params[:type])
     raise "No item id provided" unless item_id?
-    collection = Growstuff::Constants::PhotoModels::get_relation(@photo, params[:type])
+    collection = Growstuff::Constants::PhotoModels.get_relation(@photo, params[:type])
 
-    item_class = Growstuff::Constants::PhotoModels::get_item(params[:type])
+    item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
     item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
     raise "Could not find this item owned by you" unless item
 
