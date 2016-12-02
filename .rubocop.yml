@@ -34,7 +34,7 @@ Metrics/MethodLength:
 # Remove the following once the code style matches
 # Offense count: 59
 Metrics/AbcSize:
-  Max: 115
+  Max: 88
 
 # Offense count: 5
 # Configuration parameters: CountComments.
