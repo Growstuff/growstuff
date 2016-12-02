@@ -1,5 +1,5 @@
 class CreateCms < ActiveRecord::Migration
-  def self.up # rubocop:disable Metrics/MethodLength
+  def self.up # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     text_limit = case ActiveRecord::Base.connection.adapter_name
                  when 'PostgreSQL'
                    {}
