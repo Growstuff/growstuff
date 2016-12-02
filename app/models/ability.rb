@@ -1,7 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(member)
+  def initialize(member) # rubocop:disable Metrics/AbcSize
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     # everyone can do these things, even non-logged in
