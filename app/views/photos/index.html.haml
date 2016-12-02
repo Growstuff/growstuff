@@ -3,7 +3,7 @@
 %p Most recent photos added to #{ENV['GROWSTUFF_SITE_NAME']}.
 
 %div.pagination
-  = page_entries_info @photos, :model => "photos"
+  = page_entries_info @photos
   = will_paginate @photos
 
 .row
@@ -17,7 +17,7 @@
           = link_to p.owner, p.owner
 
 %div.pagination
-  = page_entries_info @photos, :model => "photos"
+  = page_entries_info @photos
   = will_paginate @photos
 
 

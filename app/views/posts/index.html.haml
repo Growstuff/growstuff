@@ -1,4 +1,4 @@
-- content_for :title, @author ? "#{@author}'s posts" : "Everyone's posts"
+- content_for :title, @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
 %p
   - if can? :create, Post
@@ -15,7 +15,7 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'write a post' }
 
 %div.pagination
-  = page_entries_info @posts, :model => "posts"
+  = page_entries_info @posts
   = will_paginate @posts
 
 - unless @posts.empty?
@@ -23,14 +23,14 @@
     = render :partial => "single", :locals => { :post => post, :subject => true }
 
   %div.pagination
-    = page_entries_info @posts, :model => "posts"
+    = page_entries_info @posts
     = will_paginate @posts
 
 %p
   - if @author
     Subscribe to
     = succeed "." do
-      = link_to "#{@author}'s posts RSS feed", posts_path(:format => 'rss')
+      = link_to "#{@author}'s posts RSS feed", posts_by_author_path(format: 'rss', author: @author)
 
   - else
     Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}

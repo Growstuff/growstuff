@@ -15,9 +15,10 @@
 
   - if devise_mapping.rememberable?
     .form-group
-      .col-md-8.col-md-offset-2
-        = f.check_box :remember_me
-        Remember me
+      .col-md-8.col-md-offset-2.checkbox
+        %label
+          = f.check_box :remember_me
+          Remember me
 
   .form-group
     .form-actions.col-md-8.col-md-offset-2

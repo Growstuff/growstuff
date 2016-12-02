@@ -12,6 +12,7 @@ submit the change with your pull request.
 - Cesy / [cesy](https://github.com/cesy)
 - Miles Gould / [pozorvlak](https://github.com/pozorvlak)
 - Taylor Griffin / [tygriffin](https://github.com/tygriffin)
+- Mackenzie Morgan / [maco](https://github.com/maco)
 
 ## Contributors
 
@@ -23,7 +24,6 @@ submit the change with your pull request.
 - Maia Sauren / [sauramaia](https://github.com/sauramaia)
 - Norman Ancajas / [nbancajas](https://github.com/nbancajas)
 - Jonathan "Duke" Leto / [leto](https://github.com/leto)
-- Mackenzie Morgan / [maco](https://github.com/maco)
 - Amy Hendrix / [sabreuse](https://github.com/sabreuse)
 - CephLPod / [cephLpod](https://github.com/cephLpod/)
 - Gemma Mason / [gemmaellen](https://github.com/gemmaellen)
@@ -54,4 +54,21 @@ submit the change with your pull request.
 - Rocky Jaiswal / [rocky-jaiswal](https://github.com/rocky-jaiswal)
 - Robert Landreaux / [robertlandreaux](https://github.com/robertlandreaux)
 - Savant Krishna / [sksavant](https://github.com/sksavant)
-
+- Jake Yesbeck / [yez](https://github.com/yez)
+- Mauricio Gonzalez / [mauricio-gonzalez](https://github.com/mauricio-gonzalez)
+- Andrey Bazhutkin / [andrba](https://github.com/andrba)
+- Gabriel Sandoval / [gabrielsandoval](https://github.com/gabrielsandoval)
+- Cjay Billones / [CjayBillones](https://github.com/CjayBillones)
+- Katy Ereira / [maccath](https://github.com/maccath)
+- Gabrielle DeWitt / [gabrielle27](https://github.com/gabrielle27)
+- Manmeet Singh / [manmeetsingh](https://github.com/manmeetsingh)
+- Jym Paul Carandang / [jacarandang](https://github.com/jacarandang)
+- Anthony Atkinson / [sha1sum](https://github.com/sha1sum)
+- Terence Conquest / [twconquest](https://github.com/twconquest)
+- Daniel O'Connor / [CloCkWeRX](https://github.com/CloCkWeRX)
+- DV Dasari / [dv2](https://github.com/dv2)
+- Eric Tillberg / [Thrillberg](https://github.com/Thrillberg)
+- Lucas Nogueira / [lucasnogueira](https://github.com/lucasnogueira)
+- Charley Lewittes / [ctlewitt](https://github.com/ctlewitt)
+- Kristine Nicole Polvoriza / [polveenomials](https://github.com/polveenomials)
+- Brenda Wallace / [br3nda](https://github.com/br3nda)

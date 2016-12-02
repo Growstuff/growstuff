@@ -1,0 +1,31 @@
+development:
+  adapter: postgresql
+  database: growstuff_dev
+  host: localhost
+  user: postgres
+  password: postgres
+
+test:
+  adapter: postgresql
+  database: growstuff_test
+  host: localhost
+  user: postgres
+  password: postgres
+
+production:
+  adapter: postgresql
+  database: growstuff_prod
+  pool: 5
+  timeout: 5000
+  username: growstuff
+  host: localhost
+  password: thisisnottherealpassword
+
+staging:
+  adapter: postgresql
+  database: growstuff_prod
+  pool: 5
+  timeout: 5000
+  username: growstuff
+  host: localhost
+  password: thisisnottherealpassword

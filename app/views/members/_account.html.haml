@@ -9,3 +9,16 @@
   = member.account_type
   account
 
+%p
+  %strong Last Login:
+  = member.last_sign_in_at
+
+%p
+  %strong Member Roles:
+  %br
+  - if member.has_role? :admin
+    Administrator
+  - if member.has_role? :crop_wrangler
+    Crop Wrangler
+  - else
+    Member

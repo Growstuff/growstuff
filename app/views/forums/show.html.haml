@@ -1,4 +1,11 @@
 - content_for :title, @forum.name
+- content_for :opengraph do
+  - if @forum.description
+    = tag("meta", property: "og:description", content: strip_tags(@forum.description).split(' ')[0..20].join(' '))
+  = tag("meta", property: "og:title", content: @forum.name)
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 %p#notice= notice
 
@@ -19,7 +26,7 @@
   Posts
   =link_to "Post something", new_post_path(:forum_id => @forum.id), :class => 'btn btn-primary'
 
-- if @forum.posts.count > 0
+- if @forum.posts.size > 0
   =render :partial => "posts/summary", :locals => { :posts => @forum.posts }
 - else
   No posts yet.

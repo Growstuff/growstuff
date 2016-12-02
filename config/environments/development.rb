@@ -31,7 +31,7 @@ Growstuff::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  # Asset digests allow you to set far-future HTTP expiration dates on all assets, 
+  # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
@@ -44,15 +44,15 @@ Growstuff::Application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Growstuff config
-  config.action_mailer.default_url_options = { :host => 'localhost:8080' }
+  config.action_mailer.default_url_options = { host: 'localhost:8080' }
 
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.smtp_settings = {
-      :port =>           '587',
-      :address =>        'smtp.mandrillapp.com',
-      :user_name =>      ENV['GROWSTUFF_MANDRILL_USERNAME'],
-      :password =>       ENV['GROWSTUFF_MANDRILL_APIKEY'],
-      :authentication => :login
+    port: '587',
+    address: 'smtp.mandrillapp.com',
+    user_name: ENV['GROWSTUFF_MANDRILL_USERNAME'],
+    password: ENV['GROWSTUFF_MANDRILL_APIKEY'],
+    authentication: :login
   }
 
   config.host = 'localhost:8080'
@@ -61,17 +61,20 @@ Growstuff::Application.configure do
   # this config variable cannot be put in application.yml as it is needed
   # by the assets pipeline, which doesn't have access to ENV.
   config.mapbox_map_id = 'growstuff.i3n2il6a'
+  config.mapbox_access_token = 'pk.eyJ1IjoiZ3Jvd3N0dWZmIiwiYSI6IkdxMkx4alUifQ.n0igaBsw97s14zMa0lwKCA'
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
-      :login =>     ENV['GROWSTUFF_PAYPAL_USERNAME'] || 'dummy',
-      :password =>  ENV['GROWSTUFF_PAYPAL_PASSWORD'] || 'dummy',
-      :signature => ENV['GROWSTUFF_PAYPAL_SIGNATURE'] || 'dummy'
+      login: ENV['GROWSTUFF_PAYPAL_USERNAME'] || 'dummy',
+      password: ENV['GROWSTUFF_PAYPAL_PASSWORD'] || 'dummy',
+      signature: ENV['GROWSTUFF_PAYPAL_SIGNATURE'] || 'dummy'
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 
   config.action_controller.action_on_unpermitted_parameters = :raise
+
+  config.active_job.queue_adapter = :sidekiq
 end

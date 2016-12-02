@@ -28,7 +28,7 @@
           - else
             In progress
         %td
-          - if order.order_items.count > 0
+          - if order.order_items.size > 0
             - order.order_items.each do |o|
               = o.quantity
               x

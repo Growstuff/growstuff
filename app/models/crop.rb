@@ -1,45 +1,54 @@
-class Crop < ActiveRecord::Base
+class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
   has_many :scientific_names, after_add: :update_index, after_remove: :update_index
   accepts_nested_attributes_for :scientific_names,
-    :allow_destroy => true,
-    :reject_if     => :all_blank
+    allow_destroy: true,
+    reject_if: :all_blank
 
-  has_many :alternate_names, after_add: :update_index, after_remove: :update_index
+  has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   has_many :plantings
-  has_many :photos, :through => :plantings
+  has_many :photos, through: :plantings
   has_many :seeds
   has_many :harvests
-  has_many :plant_parts, -> { uniq }, :through => :harvests
-  belongs_to :creator, :class_name => 'Member'
-  belongs_to :requester, :class_name => 'Member'
+  has_many :plant_parts, -> { uniq }, through: :harvests
+  belongs_to :creator, class_name: 'Member'
+  belongs_to :requester, class_name: 'Member'
 
-  belongs_to :parent, :class_name => 'Crop'
-  has_many :varieties, :class_name => 'Crop', :foreign_key => 'parent_id'
+  belongs_to :parent, class_name: 'Crop'
+  has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
   has_and_belongs_to_many :posts
-  before_destroy {|crop| crop.posts.clear}
+  before_destroy { |crop| crop.posts.clear }
 
   default_scope { order("lower(name) asc") }
-  scope :recent, -> { where(:approval_status => "approved").reorder("created_at desc") }
-  scope :toplevel, -> { where(:approval_status => "approved", :parent_id => nil) }
-  scope :popular, -> { where(:approval_status => "approved").reorder("plantings_count desc, lower(name) asc") }
-  scope :randomized, -> { where(:approval_status => "approved").reorder('random()') } # ok on sqlite and psql, but not on mysql
-  scope :pending_approval, -> { where(:approval_status => "pending") }
-  scope :approved, -> { where(:approval_status => "approved") }
-  scope :rejected, -> { where(:approval_status => "rejected") }
+  scope :recent, lambda {
+    where(approval_status: "approved").reorder("created_at desc")
+  }
+  scope :toplevel, lambda {
+    where(approval_status: "approved", parent_id: nil)
+  }
+  scope :popular, lambda {
+    where(approval_status: "approved").reorder("plantings_count desc, lower(name) asc")
+  }
+  scope :randomized, lambda {
+    # ok on sqlite and psql, but not on mysql
+    where(approval_status: "approved").reorder('random()')
+  }
+  scope :pending_approval, -> { where(approval_status: "pending") }
+  scope :approved, -> { where(approval_status: "approved") }
+  scope :rejected, -> { where(approval_status: "rejected") }
 
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
-    :format => {
-      :with => /\Ahttps?:\/\/en\.wikipedia\.org\/wiki/,
-      :message => 'is not a valid English Wikipedia URL'
+    format: {
+      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_()-]+\z/,
+      message: 'is not a valid English Wikipedia URL'
     },
-    :if => :approved?
+    if: :approved?
 
   ## Reasons are only necessary when rejecting
-  validates :reason_for_rejection, :presence => true, :if => :rejected?
+  validates :reason_for_rejection, presence: true, if: :rejected?
 
   ## This validation addresses a race condition
   validate :approval_status_cannot_be_changed_again
@@ -50,55 +59,57 @@ class Crop < ActiveRecord::Base
 
   ####################################
   # Elastic search configuration
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-  # In order to avoid clashing between different environments,
-  # use Rails.env as a part of index name (eg. development_growstuff)
-  index_name [Rails.env, "growstuff"].join('_')
-  settings index: { number_of_shards: 1 },
-    analysis: {
-      tokenizer: {
-        gs_edgeNGram_tokenizer: {
-          type: "edgeNGram",  # edgeNGram: NGram match from the start of a token
-          min_gram: 3,
-          max_gram: 10,
-          # token_chars: Elasticsearch will split on characters
-          # that don’t belong to any of these classes
-          token_chars: [ "letter", "digit" ] 
-        }
-      },
-      analyzer: {
-        gs_edgeNGram_analyzer: {
-          tokenizer: "gs_edgeNGram_tokenizer",
-          filter: ["lowercase"]
-        }
-      },
-    } do
-    mappings dynamic: 'false' do
-      indexes :id, type: 'long'
-      indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
-      indexes :approval_status, type: 'string'
-      indexes :scientific_names do
-        indexes :scientific_name,
-          type: 'string',
-          analyzer: 'gs_edgeNGram_analyzer',
-          # Disabling field-length norm (norm). If the norm option is turned on(by default), 
-          # higher weigh would be given for shorter fields, which in our case is irrelevant.
-          norms: { enabled: false }
-      end
-      indexes :alternate_names do
+  if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+    include Elasticsearch::Model
+    include Elasticsearch::Model::Callbacks
+    # In order to avoid clashing between different environments,
+    # use Rails.env as a part of index name (eg. development_growstuff)
+    index_name [Rails.env, "growstuff"].join('_')
+    settings index: { number_of_shards: 1 },
+             analysis: {
+               tokenizer: {
+                 gs_edgeNGram_tokenizer: {
+                   type: "edgeNGram", # edgeNGram: NGram match from the start of a token
+                   min_gram: 3,
+                   max_gram: 10,
+                   # token_chars: Elasticsearch will split on characters
+                   # that don’t belong to any of these classes
+                   token_chars: ["letter", "digit"]
+                 }
+               },
+               analyzer: {
+                 gs_edgeNGram_analyzer: {
+                   tokenizer: "gs_edgeNGram_tokenizer",
+                   filter: ["lowercase"]
+                 }
+               },
+             } do
+      mappings dynamic: 'false' do
+        indexes :id, type: 'long'
         indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+        indexes :approval_status, type: 'string'
+        indexes :scientific_names do
+          indexes :name,
+            type: 'string',
+            analyzer: 'gs_edgeNGram_analyzer',
+            # Disabling field-length norm (norm). If the norm option is turned on(by default),
+            # higher weigh would be given for shorter fields, which in our case is irrelevant.
+            norms: { enabled: false }
+        end
+        indexes :alternate_names do
+          indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+        end
       end
     end
   end
 
-  def as_indexed_json(options={})
+  def as_indexed_json(options = {})
     self.as_json(
       only: [:id, :name, :approval_status],
       include: {
-        scientific_names: { only: :scientific_name },
+        scientific_names: { only: :name },
         alternate_names: { only: :name }
-    })
+      })
   end
 
   # update the Elasticsearch index (only if we're using it in this
@@ -112,14 +123,12 @@ class Crop < ActiveRecord::Base
   # End Elasticsearch section
 
   def to_s
-    return name
+    name
   end
 
   def default_scientific_name
-    if scientific_names.count > 0
-      return scientific_names.first.scientific_name
-    else
-      return nil
+    if scientific_names.size > 0
+      scientific_names.first.name
     end
   end
 
@@ -128,7 +137,11 @@ class Crop < ActiveRecord::Base
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    return photos.first
+    return photos.first if photos.any?
+
+    # Crop has no photos? Look for the most recent harvest with a photo.
+    harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
+    harvest_with_photo.photos.first if harvest_with_photo
   end
 
   # crop.sunniness
@@ -137,13 +150,7 @@ class Crop < ActiveRecord::Base
   # key: sunniness (eg. 'sun')
   # value: count of how many times it's been used by plantings
   def sunniness
-    sunniness = Hash.new(0)
-    plantings.each do |p|
-      if !p.sunniness.blank?
-        sunniness[p.sunniness] += 1
-      end
-    end
-    return sunniness
+    count_uses_of_property 'sunniness'
   end
 
   # crop.planted_from
@@ -151,13 +158,7 @@ class Crop < ActiveRecord::Base
   # key: propagation method (eg. 'seed')
   # value: count of how many times it's been used by plantings
   def planted_from
-    planted_from = Hash.new(0)
-    plantings.each do |p|
-      if !p.planted_from.blank?
-        planted_from[p.planted_from] += 1
-      end
-    end
-    return planted_from
+    count_uses_of_property 'planted_from'
   end
 
   # crop.popular_plant_parts
@@ -177,7 +178,7 @@ class Crop < ActiveRecord::Base
   def interesting?
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
-    return false unless photos.count >= min_photos
+    return false unless photos.size >= min_photos
     return false unless plantings_count >= min_plantings
     return true
   end
@@ -195,50 +196,50 @@ class Crop < ActiveRecord::Base
   end
 
   def approval_statuses
-    [ 'rejected', 'pending', 'approved' ]
+    ['rejected', 'pending', 'approved']
   end
 
   def reasons_for_rejection
-    [ "already in database", "not edible", "not enough information", "other" ]
+    ["already in database", "not edible", "not enough information", "other"]
   end
 
   # Crop.interesting
   # returns a list of interesting crops, for use on the homepage etc
   def Crop.interesting
-  howmany = 12 # max number to find
-  interesting_crops = Array.new
-    Crop.randomized.each do |c|
-      break if interesting_crops.length == howmany
+    howmany = 12 # max number to find
+    interesting_crops = []
+    Crop.includes(:photos).randomized.each do |c|
+      break if interesting_crops.size == howmany
       next unless c.interesting?
       interesting_crops.push(c)
     end
     return interesting_crops
   end
 
-# Crop.create_from_csv(row)
-# used by db/seeds.rb and rake growstuff:import_crops
-# CSV fields:
-# - name (required)
-# - en_wikipedia_url (required)
-# - parent (name, optional)
-# - scientific name (optional, can be picked up from parent if it has one)
+  # Crop.create_from_csv(row)
+  # used by db/seeds.rb and rake growstuff:import_crops
+  # CSV fields:
+  # - name (required)
+  # - en_wikipedia_url (required)
+  # - parent (name, optional)
+  # - scientific name (optional, can be picked up from parent if it has one)
 
   def Crop.create_from_csv(row)
-    name,en_wikipedia_url,parent,scientific_names,alternate_names = row
+    name, en_wikipedia_url, parent, scientific_names, alternate_names = row
 
     cropbot = Member.find_by_login_name('cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
 
     crop = Crop.find_or_create_by(name: name)
     crop.update_attributes(
-      :en_wikipedia_url => en_wikipedia_url,
-      :creator_id => cropbot.id
+      en_wikipedia_url: en_wikipedia_url,
+      creator_id: cropbot.id
     )
 
     if parent
       parent = Crop.find_by_name(parent)
       if parent
-        crop.update_attributes(:parent_id => parent.id)
+        crop.update_attributes(parent_id: parent.id)
       else
         logger.warn("Warning: parent crop #{parent} not found")
       end
@@ -246,56 +247,45 @@ class Crop < ActiveRecord::Base
 
     crop.add_scientific_names_from_csv(scientific_names)
     crop.add_alternate_names_from_csv(alternate_names)
-
   end
 
   def add_scientific_names_from_csv(scientific_names)
     names_to_add = []
-    if ! scientific_names.blank? # i.e. we actually passed something in, which isn't a given
+    if !scientific_names.blank? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(%r{,\s*})
     elsif parent && parent.scientific_names.size > 0 # pick up from parent
-      names_to_add = parent.scientific_names.map{|s| s.scientific_name}
+      names_to_add = parent.scientific_names.map { |s| s.name }
     else
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
 
+    cropbot = Member.find_by_login_name('cropbot')
+
     if names_to_add.size > 0
-      cropbot = Member.find_by_login_name('cropbot')
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
-      names_to_add.each do |n|
-        if self.scientific_names.exists?(:scientific_name => n)
-          logger.warn("Warning: skipping duplicate scientific name #{n} for #{self}")
-        else
-
-          self.scientific_names.create(
-            :scientific_name => n,
-            :creator_id => cropbot.id
-          )
-        end
-      end
+      add_names_to_list(names_to_add, 'scientific')
     end
   end
 
   def add_alternate_names_from_csv(alternate_names)
+    cropbot = Member.find_by_login_name('cropbot')
+
     names_to_add = []
-    if ! alternate_names.blank? # i.e. we actually passed something in, which isn't a given
-      cropbot = Member.find_by_login_name('cropbot')
+
+    if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
       raise "cropbot account not found: run rake db:seed" unless cropbot
 
       names_to_add = alternate_names.split(%r{,\s*})
+      add_names_to_list(names_to_add, 'alternate')
+    end
+  end
 
-      names_to_add.each do |n|
-        if self.alternate_names.exists?(:name => n)
-          logger.warn("Warning: skipping duplicate alternate name #{n} for #{self}")
-        else
-          self.alternate_names.create(
-            :name => n,
-            :creator_id => cropbot.id
-          )
-        end
-      end
-
+  def rejection_explanation
+    if reason_for_rejection == "other"
+      return rejection_notes
+    else
+      return reason_for_rejection
     end
   end
 
@@ -303,21 +293,23 @@ class Crop < ActiveRecord::Base
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
-      response = __elasticsearch__.search( {
-          # Finds documents which match any field, but uses the _score from 
-          # the best field insead of adding up _score from each field.
-          query: {
-            multi_match: {
-              query: "#{search_str}",
-              analyzer: "standard",
-              fields: ["name", "scientific_names.scientific_name", "alternate_names.name"]
-            }
-          },
-          filter: {
-            term: {approval_status: "approved"}
-          },
-          size: 50
-        }
+      response = __elasticsearch__.search({
+                                            # Finds documents which match any field, but uses the _score from
+                                            # the best field insead of adding up _score from each field.
+                                            query: {
+                                              multi_match: {
+                                                query: "#{search_str}",
+                                                analyzer: "standard",
+                                                fields: ["name",
+                                                         "scientific_names.scientific_name",
+                                                         "alternate_names.name"]
+                                              }
+                                            },
+                                            filter: {
+                                              term: { approval_status: "approved" }
+                                            },
+                                            size: 50
+                                          }
       )
       return response.records.to_a
     else
@@ -338,6 +330,41 @@ class Crop < ActiveRecord::Base
 
       return matches
     end
+  end
+
+  private
+
+  def add_names_to_list(names_to_add, list_name)
+    names_to_add.each do |n|
+      if name_already_exists(list_name, n)
+        logger.warn("Warning: skipping duplicate #{list_name} name #{n} for #{self}")
+      else
+        create_crop_in_list(list_name, n)
+      end
+    end
+  end
+
+  def create_crop_in_list(list_name, name)
+    cropbot = Member.find_by_login_name('cropbot')
+    create_hash = {
+      creator_id: "#{cropbot.id}",
+      name: name
+    }
+    self.send("#{list_name}_names").create(create_hash)
+  end
+
+  def name_already_exists(list_name, name)
+    self.send("#{list_name}_names").exists?(name: name)
+  end
+
+  def count_uses_of_property(col_name)
+    data = Hash.new(0)
+    plantings.each do |p|
+      if !p.send("#{col_name}").blank?
+        data[p.send("#{col_name}")] += 1
+      end
+    end
+    data
   end
 
   # Custom validations
@@ -362,5 +389,4 @@ class Crop < ActiveRecord::Base
       errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
     end
   end
-
 end

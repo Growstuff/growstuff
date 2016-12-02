@@ -1,17 +1,14 @@
 - content_for :title, @crop.name
 - content_for :subtitle, @crop.default_scientific_name
+- content_for :opengraph do
+  - @crop.photos.each do |photo|
+    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:title", content: @crop.name)
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- if @crop.pending?
-  .alert.alert-danger
-    %b This crop is currently pending approval.
-    %p This crop was requested by #{@crop.requester} #{time_ago_in_words(@crop.created_at)} ago.
-    - unless @crop.request_notes.blank?
-      %p
-        Request notes: #{@crop.request_notes}
-
-- if @crop.rejected?
-  .alert.alert-danger
-    %b This crop was rejected for the following reason: #{@crop.reason_for_rejection == "other" ? @crop.rejection_notes : @crop.reason_for_rejection}.
+= render :partial => 'approval_status_message', :locals => { :crop => @crop }
 
 - if @crop.approved?
   - content_for :buttonbar do
@@ -23,7 +20,9 @@
 
     - if can? :create, Seed
       = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
-
+  - if member_signed_in?
+    = display_seed_availability(@current_member, @crop)
+    = link_to "View your seeds", seeds_by_owner_path(:owner => current_member.slug)
 
 .row
   .col-md-9
@@ -62,13 +61,13 @@
           = render :partial => "shared/signin_signup", :locals => { :to => "post your tips and experiences growing #{ @crop.name.pluralize }" }
     - else
       %div.pagination
-        = page_entries_info @posts, :model => "posts"
+        = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
       - @posts.each do |post|
         = render :partial => "posts/single", :locals => { :post => post, :subject => true }
 
       %div.pagination
-        = page_entries_info @posts, :model => "posts"
+        = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3
@@ -92,4 +91,11 @@
 
     %h4 Learn more about #{ @crop.name.pluralize }
     %ul
-      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url
+      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer"
+      %li
+        = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{URI.escape @crop.name}", target: "_blank", rel: "noopener noreferrer"
+      %li
+        = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{URI.escape @crop.name}", target: "_blank", rel: "noopener noreferrer"
+      - if current_member && current_member.location
+        %li
+          = link_to "Google", "http://www.google.com/search?q=#{URI.escape ["Growing", @crop.name, current_member.location].join(" ")}", target: "_blank", rel: "noopener noreferrer"

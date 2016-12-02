@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe OrderItemsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/order_items").should route_to("order_items#index")
     end
@@ -12,11 +11,11 @@ describe OrderItemsController do
     end
 
     it "routes to #show" do
-      get("/order_items/1").should route_to("order_items#show", :id => "1")
+      get("/order_items/1").should route_to("order_items#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/order_items/1/edit").should route_to("order_items#edit", :id => "1")
+      get("/order_items/1/edit").should route_to("order_items#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,12 +23,11 @@ describe OrderItemsController do
     end
 
     it "routes to #update" do
-      put("/order_items/1").should route_to("order_items#update", :id => "1")
+      put("/order_items/1").should route_to("order_items#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/order_items/1").should route_to("order_items#destroy", :id => "1")
+      delete("/order_items/1").should route_to("order_items#destroy", id: "1")
     end
-
   end
 end

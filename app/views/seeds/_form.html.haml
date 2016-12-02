@@ -1,12 +1,14 @@
+= required_field_help_text
+
 = form_for(@seed, :html => {:class => "form-horizontal", :role => "form"}) do |f|
   - if @seed.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@seed.errors.count, "error")} prohibited this seed from being saved:"
+      %h2= "#{pluralize(@seed.errors.size, "error")} prohibited this seed from being saved:"
       %ul
         - @seed.errors.full_messages.each do |msg|
           %li= msg
 
-  .form-group
+  .form-group.required
     = f.label :crop, 'Crop:', :class => 'control-label col-md-2'
     .col-md-8
       = auto_suggest @seed, :crop, :class => 'form-control', :default => @crop
@@ -17,30 +19,35 @@
     = f.label :quantity, 'Quantity:', :class => 'control-label col-md-2'
     .col-md-2
       = f.number_field :quantity, :class => 'form-control'
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :plant_before, 'Plant before:', :class => 'control-label col-md-2'
     .col-md-2
       = f.text_field :plant_before, :class => 'add-datepicker form-control', :value => @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
+      = render :partial => 'shared/form_optional'
   .form-group
     = f.label :days_until_maturity_min, 'Days until maturity:', :class => 'control-label col-md-2'
     %fieldset
       .col-md-2
         = f.number_field :days_until_maturity_min, :class => 'form-control'
+        = render :partial => 'shared/form_optional'
       .col-md-1
         = f.label :days_until_maturity_max, 'to', :class => 'control-label'
       .col-md-2
         = f.number_field :days_until_maturity_max, :class => 'form-control'
+        = render :partial => 'shared/form_optional'
       .col-md-1
         = f.label :dummy, 'days', :class => 'control-label'
-  .form-group
+
+  .form-group.required
     = f.label :organic, 'Organic?', :class => 'control-label col-md-2'
     .col-md-8
       = f.select(:organic, Seed::ORGANIC_VALUES, {}, :class => 'form-control', :default => 'unknown')
-  .form-group
+  .form-group.required
     = f.label :gmo, 'GMO?', :class => 'control-label col-md-2'
     .col-md-8
       = f.select(:gmo, Seed::GMO_VALUES, {}, :class => 'form-control', :default => 'unknown')
-  .form-group
+  .form-group.required
     = f.label :heirloom, 'Heirloom?', :class => 'control-label col-md-2'
     .col-md-8
       = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {}, :class => 'form-control', :default => 'unknown')
@@ -48,15 +55,12 @@
     = f.label :description, 'Description:', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_area :description, :rows => 6, :class => 'form-control'
+      = render :partial => 'shared/form_optional'
   .form-group
     .col-md-offset-2.col-md-8
       %span.help-block
-        Are you interested in trading or swapping seeds with other
-        #{ENV['GROWSTUFF_SITE_NAME']} members?  If you
-        list your seeds as available for trade, other members can
-        contact you to request seeds.  You can list any conditions or
-        other information in the description, above.
-  .form-group
+        =  t('.trade_help', :site_name => ENV['GROWSTUFF_SITE_NAME'])
+  .form-group.required
     = f.label :tradable_to, 'Will trade:', :class => 'control-label col-md-2'
     .col-md-8
       = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {}, :class => 'form-control')

@@ -1,4 +1,13 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
+- content_for :opengraph do
+  - @seed.crop.photos.each do |photo|
+    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  - if @seed.description
+    = tag("meta", property: "og:description", content: @seed.description)
+  = tag("meta", property: "og:image", content: "#{@seed.owner}'s #{@seed.crop} seeds")
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 .row
   .col-md-6
@@ -35,7 +44,7 @@
       - else
         (from
         = succeed ")" do
-          = link_to @seed.owner.location, place_path(@seed.owner.location)
+          = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
 
     %p
       %b Description:
@@ -57,3 +66,12 @@
 
   .col-md-6
     = render :partial => "crops/index_card", :locals => { :crop => @seed.crop }
+    - if @seed.owner.location
+      %p
+        %small
+          View other seeds, members to trade with and more near
+          = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
+    %p
+      %small
+        Or
+        = link_to "purchase seeds via Ebay", "http://rover.ebay.com/rover/1/705-53470-19255-0/1?icep_ff3=9&pub=5575213277&toolid=10001&campid=5337940151&customid=&icep_uq=#{URI.escape @seed.crop.name}&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=181003&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229515&kwid=902099&mtid=824&kw=lg", target: "_blank", rel: "noopener noreferrer"

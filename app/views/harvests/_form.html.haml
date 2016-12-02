@@ -1,17 +1,19 @@
+= required_field_help_text
+
 = form_for(@harvest, :html => {:class => "form-horizontal", :role => :form}) do |f|
   - if @harvest.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@harvest.errors.count, "error")} prohibited this harvest from being saved:"
+      %h2= "#{pluralize(@harvest.errors.size, "error")} prohibited this harvest from being saved:"
       %ul
         - @harvest.errors.full_messages.each do |msg|
           %li= msg
 
-  .form-group
+  .form-group.required
     = f.label :crop, 'What did you harvest?', :class => 'control-label col-md-2'
     .col-md-4
       = auto_suggest @harvest, :crop, :class => 'form-control col-md-2', :default => @crop
     .col-md-4
-      = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, { :selected => @harvest.plant_part_id }, { :class => 'form-control' })
+      = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, { :selected => @harvest.plant_part_id }, { :class => 'form-control', :prompt => 'e.g. fruit', :required => "required" })
     %span.help-block.col-md-8
       Can't find what you're looking for?
       = link_to "Request new crops.", new_crop_path
@@ -20,6 +22,7 @@
     = f.label :harvested_at, 'When?', :class => 'control-label col-md-2'
     .col-md-2
       = f.text_field :harvested_at, :value => @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '', :class => 'add-datepicker form-control'
+      = render :partial => 'shared/form_optional'
 
   .form-group
     = f.label :quantity, 'How many?', :class => 'control-label col-md-2'
@@ -27,20 +30,23 @@
       -# Some browsers (eg Firefox for Android) assume "number" means
       -# "integer" unless you specify step="any":
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
-      = f.number_field :quantity, :class => 'input-small', :step => 'any', :class => 'form-control'
+      = f.number_field :quantity, :class => 'input-small form-control', :step => 'any'
+      = render :partial => 'shared/form_optional'
     .col-md-2
       = f.select(:unit, Harvest::UNITS_VALUES, {:include_blank => false}, :class => 'input-medium form-control')
 
   .form-group
     = f.label :weight_quantity, 'Weighing (in total):', :class => 'control-label col-md-2'
     .col-md-2
-      = f.number_field :weight_quantity, :class => 'input-small', :step => 'any', :class => 'form-control'
+      = f.number_field :weight_quantity, :class => 'input-small form-control', :step => 'any'
+      = render :partial => 'shared/form_optional'
     .col-md-2
       = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
   .form-group
     = f.label :description, 'Notes', :class => 'control-label col-md-2'
     .col-md-8
       = f.text_area :description, :rows => 6, :class => 'form-control'
+      = render :partial => 'shared/form_optional'
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8

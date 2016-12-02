@@ -1,50 +1,40 @@
 class Planting < ActiveRecord::Base
   extend FriendlyId
+  include PhotoCapable
   friendly_id :planting_slug, use: [:slugged, :finders]
 
   belongs_to :garden
-  belongs_to :owner, :class_name => 'Member', :counter_cache => true
-  belongs_to :crop, :counter_cache => true
-
-  has_and_belongs_to_many :photos
-
-  before_destroy do |planting|
-    photolist = planting.photos.to_a # save a temp copy of the photo list
-    planting.photos.clear # clear relationship b/w planting and photo
-
-    photolist.each do |photo|
-      photo.destroy_if_unused
-    end
-  end
+  belongs_to :owner, class_name: 'Member', counter_cache: true
+  belongs_to :crop, counter_cache: true
 
   default_scope { order("created_at desc") }
-  scope :finished, -> { where(:finished => true) }
-  scope :current, -> { where(:finished => false) }
+  scope :finished, -> { where(finished: true) }
+  scope :current, -> { where(finished: false) }
 
   delegate :name,
     :en_wikipedia_url,
     :default_scientific_name,
     :plantings_count,
-    :to => :crop,
-    :prefix => true
+    to: :crop,
+    prefix: true
 
   default_scope { order("created_at desc") }
 
-  validates :crop, :approved => true
+  validates :crop, approved: true
 
-  validates :crop, :presence => {:message => "must be present and exist in our database"}
+  validates :crop, presence: { message: "must be present and exist in our database" }
 
   validates :quantity,
-    :numericality => {
-      :only_integer => true,
-      :greater_than_or_equal_to => 0 },
-    :allow_nil => true
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 0 },
+    allow_nil: true
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)
-  validates :sunniness, :inclusion => { :in => SUNNINESS_VALUES,
-        :message => "%{value} is not a valid sunniness value" },
-        :allow_nil => true,
-        :allow_blank => true
+  validates :sunniness, inclusion: { in: SUNNINESS_VALUES,
+                                     message: "%{value} is not a valid sunniness value" },
+                        allow_nil: true,
+                        allow_blank: true
 
   PLANTED_FROM_VALUES = [
     'seed',
@@ -59,16 +49,16 @@ class Planting < ActiveRecord::Base
     'graft',
     'layering'
   ]
-  validates :planted_from, :inclusion => { :in => PLANTED_FROM_VALUES,
-        :message => "%{value} is not a valid planting method" },
-        :allow_nil => true,
-        :allow_blank => true
+  validates :planted_from, inclusion: { in: PLANTED_FROM_VALUES,
+                                        message: "%{value} is not a valid planting method" },
+                           allow_nil: true,
+                           allow_blank: true
 
   validate :finished_must_be_after_planted
 
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
-    return unless planted_at and finished_at # only check if we have both
+    return unless planted_at && finished_at # only check if we have both
     errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
   end
 
@@ -94,15 +84,50 @@ class Planting < ActiveRecord::Base
     return photos.present?
   end
 
+  def calculate_days_before_maturity(planting, crop)
+    p_crop = Planting.where(crop_id: crop).where.not(id: planting)
+    differences = p_crop.collect do |p|
+      if p.finished && !p.finished_at.nil?
+        (p.finished_at - p.planted_at).to_i
+      end
+    end
+
+    if differences.compact.empty?
+      nil
+    else
+      differences.compact.sum / differences.compact.size
+    end
+  end
+
+  def planted?(current_date = Date.current)
+    planted_at.present? && current_date.to_date >= planted_at
+  end
+
+  def percentage_grown(current_date = Date.current)
+    return nil unless days_before_maturity && planted?(current_date)
+
+    days = (current_date.to_date - planted_at.to_date).to_i
+
+    return 0 if current_date < planted_at
+    return 100 if days > days_before_maturity
+    percent = (days / days_before_maturity * 100).to_i
+
+    if percent >= 100
+      percent = 100
+    end
+
+    percent
+  end
+
   # return a list of interesting plantings, for the homepage etc.
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
-  def Planting.interesting(howmany=12, require_photo=true)
-    interesting_plantings = Array.new
+  def Planting.interesting(howmany = 12, require_photo = true)
+    interesting_plantings = []
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 
-    Planting.all.each do |p|
-      break if interesting_plantings.count == howmany # got enough yet?
+    Planting.includes(:photos).each do |p|
+      break if interesting_plantings.size == howmany # got enough yet?
       if require_photo
         next unless p.photos.present? # skip those without photos, if required
       end

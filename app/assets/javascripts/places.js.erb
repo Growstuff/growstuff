@@ -1,7 +1,8 @@
 if (document.getElementById("placesmap") !== null) {
   var placesBasePath           = "/places";
   var mapboxMapId              = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
-  var mapboxBaseUrl            = "https://c.tiles.mapbox.com/v3/" + mapboxMapId + "/{z}/{x}/{y}.png";
+  var mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_access_token %>";
+  var mapboxBaseUrl            = "http://a.tiles.mapbox.com/v4/" + mapboxMapId + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
   var nominatimBaseUrl         = 'http://nominatim.openstreetmap.org/search/';
   var nominatumUserAgentEmail  = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.user_agent_email %>";
 

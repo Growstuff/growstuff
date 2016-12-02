@@ -1,5 +1,5 @@
 - howmany ||= 100
-- if posts.length > 0
+- if posts.size > 0
   %table.table.table-striped
     %tr
       %th Subject
@@ -15,7 +15,11 @@
           %td.hidden-xs
             =link_to post.author, post.author
           %td
-            = distance_of_time_in_words(post.recent_activity, Time.zone.now)
-            ago
+            - if post.updated_at > post.recent_activity
+              = post.updated_at.to_date.to_formatted_s(:short)
+            - else
+              = post.recent_activity.to_date.to_formatted_s(:short)
+            // once the site gets more active, can change this to include time as well
+            // can't make it relative (distance_of_time_in_words) as it's cached
           %td.hidden-xs
-            = post.comments.count.to_s
+            = post.comments.size.to_s

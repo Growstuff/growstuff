@@ -1,5 +1,5 @@
-- content_for :title, "Browse crops"
-- content_for :subtitle, "#{@crops.size} total"
+- content_for :title, t('.title')
+- content_for :subtitle, t('.subtitle', crops_size: @crops.size)
 
 - if can? :wrangle, Crop
   = link_to 'Wrangle Crops', wrangle_crops_path, :class => 'btn btn-primary'

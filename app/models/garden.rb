@@ -1,22 +1,12 @@
 class Garden < ActiveRecord::Base
-  include Geocodable
   extend FriendlyId
+  include Geocodable
+  include PhotoCapable
   friendly_id :garden_slug, use: [:slugged, :finders]
 
-  belongs_to :owner, :class_name => 'Member', :foreign_key => 'owner_id'
-  has_many :plantings, -> { order(created_at: :desc) }, :dependent => :destroy
-  has_many :crops, :through => :plantings
-
-  has_and_belongs_to_many :photos
-
-   before_destroy do |garden|
-     photolist = garden.photos.to_a # save a temp copy of the photo list
-     garden.photos.clear # clear relationship b/w garden and photo
-
-     photolist.each do |photo|
-       photo.destroy_if_unused
-     end
-   end
+  belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id'
+  has_many :plantings, -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :crops, through: :plantings
 
   # set up geocoding
   geocoded_by :location
@@ -25,19 +15,23 @@ class Garden < ActiveRecord::Base
   after_save :mark_inactive_garden_plantings_as_finished
 
   default_scope { order("lower(name) asc") }
-  scope :active, -> { where(:active => true) }
-  scope :inactive, -> { where(:active => false) }
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
+
+  validates :location,
+    length: { maximum: 255 }
 
   validates :name,
-    :format => {
-      :with => /\S/
-    }
+    format: {
+      with: /\A\w+[\w ]+\z/
+    },
+    length: { maximum: 255 }
 
   validates :area,
-    :numericality => {
-      :only_integer => false,
-      :greater_than_or_equal_to => 0 },
-    :allow_nil => true
+    numericality: {
+      only_integer: false,
+      greater_than_or_equal_to: 0 },
+    allow_nil: true
 
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
@@ -45,10 +39,10 @@ class Garden < ActiveRecord::Base
     "hectares" => "hectare",
     "acres" => "acre"
   }
-  validates :area_unit, :inclusion => { :in => AREA_UNITS_VALUES.values,
-        :message => "%{value} is not a valid area unit" },
-        :allow_nil => true,
-        :allow_blank => true
+  validates :area_unit, inclusion: { in: AREA_UNITS_VALUES.values,
+                                     message: "%{value} is not a valid area unit" },
+                        allow_nil: true,
+                        allow_blank: true
 
   after_validation :cleanup_area
 
@@ -72,7 +66,7 @@ class Garden < ActiveRecord::Base
     seen_crops = []
 
     plantings.each do |p|
-      if (! seen_crops.include?(p.crop))
+      if (!seen_crops.include?(p.crop))
         unique_plantings.push(p)
         seen_crops.push(p.crop)
       end
@@ -99,5 +93,4 @@ class Garden < ActiveRecord::Base
   def default_photo
     return photos.first
   end
-
 end

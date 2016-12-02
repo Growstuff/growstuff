@@ -1,7 +1,6 @@
 module FeatureHelpers
-
-  def fill_autocomplete(field, options={})
-    fill_in field, :with => options[:with]
+  def fill_autocomplete(field, options = {})
+    fill_in field, with: options[:with]
 
     page.execute_script %Q{ $('##{field}').trigger('focus'); }
     page.execute_script %Q{ $('##{field}').trigger('keydown'); }
@@ -12,9 +11,8 @@ module FeatureHelpers
     selector = %Q{ul.ui-autocomplete li.ui-menu-item a:contains("#{select}")}
     page.execute_script %Q{ $('#{selector}').mouseenter().click() }
   end
-
 end
 
 RSpec.configure do |config|
-  config.include FeatureHelpers, :type => :feature
+  config.include FeatureHelpers, type: :feature
 end

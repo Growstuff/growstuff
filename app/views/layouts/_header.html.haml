@@ -1,5 +1,5 @@
 .sr-only
-  =link_to "Skip navigation menu", "#skipnav"
+  =link_to t(".skip"), "#skipnav"
 .navbar.navbar-default.navbar-fixed-top(role="navigation")
   .container
     .navbar-header
@@ -8,58 +8,71 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand(href=root_path)
+      %a.navbar-brand.hidden-xs(href=root_path)
         = image_tag("growstuff-brand.png", :size => "200x50", :alt => ENV['GROWSTUFF_SITE_NAME'])
+      %a.navbar-brand.visible-xs(href=root_path)
+        = image_tag("growstuff-apple-touch-icon-precomposed.png", :size => "50x50", :class=>"img-responsive", :alt => ENV['GROWSTUFF_SITE_NAME'])
+
+      .form.navbar-form.pull-left
+        = form_tag crops_search_path, :method => :get, :id => 'navbar-search' do
+          = label_tag :term, "Search crop database:", :class => 'sr-only'
+          .input
+            .input-group
+              = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
+              .input-group-btn
+                %button.btn.btn-default{:style => "height: 34px;"}
+                  = submit_tag "Search", :class => 'btn sr-only'
+                  %span.glyphicon.glyphicon-search
+
     .navbar-collapse.collapse#navbar-collapse
-      %ul.nav.navbar-nav
+      %ul.nav.navbar-nav.navbar-right
         %li.dropdown<
           %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => crops_path}
             Crops
             %b.caret
           %ul.dropdown-menu
-            %li= link_to "Browse Crops", crops_path
-            %li= link_to "Seeds", seeds_path
-            %li= link_to "Plantings", plantings_path
-            %li= link_to "Harvests", harvests_path
+            %li= link_to t('.browse_crops'), crops_path
+            %li= link_to t('.seeds'), seeds_path
+            %li= link_to t('.plantings'), plantings_path
+            %li= link_to t('.harvests'), harvests_path
         %li.dropdown<
           %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => members_path}
             Community
             %b.caret
           %ul.dropdown-menu
-            %li= link_to "Community Map", places_path
-            %li= link_to "Browse Members", members_path
-            %li= link_to "Posts", posts_path
-            %li= link_to "Forums", forums_path
-
+            %li= link_to t('.community_map'), places_path
+            %li= link_to t('.browse_members'), members_path
+            %li= link_to t('.posts'), posts_path
+            %li= link_to t('.forums'), forums_path
+            %li= link_to t('.support_growstuff'), shop_path
 
         - if member_signed_in?
           %li.dropdown<
             %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => root_path}
               - if current_member.notifications.unread_count > 0
-                Your Stuff (#{current_member.notifications.unread_count})
+                = t('.your_stuff', unread_count: current_member.notifications.unread_count)
               - else
-                Your Stuff
+                #{current_member.login_name}
               %b.caret
             %ul.dropdown-menu
-              %li= link_to "Profile", member_path(current_member)
-              %li= link_to "Gardens", gardens_by_owner_path(:owner => current_member.slug)
-              %li= link_to "Plantings", plantings_by_owner_path(:owner => current_member.slug)
-              %li= link_to "Harvests", harvests_by_owner_path(:owner => current_member.slug)
-              %li= link_to "Seeds", seeds_by_owner_path(:owner => current_member.slug)
-              %li= link_to "Posts", posts_by_author_path(:author => current_member.slug)
-              %li= link_to "Account", orders_path
+              %li= link_to t('.profile'), member_path(current_member)
+              %li= link_to t('.gardens'), gardens_by_owner_path(:owner => current_member.slug)
+              %li= link_to t('.plantings'), plantings_by_owner_path(:owner => current_member.slug)
+              %li= link_to t('.harvest'), harvests_by_owner_path(:owner => current_member.slug)
+              %li= link_to t('.seeds'), seeds_by_owner_path(:owner => current_member.slug)
+              %li= link_to t('.posts'), posts_by_author_path(:author => current_member.slug)
+              %li= link_to t('.account'), orders_path
               %li
                 - if current_member.notifications.unread_count > 0
-                  = link_to("Inbox (#{current_member.notifications.unread_count})", notifications_path)
+                  = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count), notifications_path)
                 - else
-                  = link_to("Inbox", notifications_path)
+                  = link_to(t('.inbox'), notifications_path)
               - if current_member.has_role?(:crop_wrangler) || current_member.has_role?(:admin)
                 %li{:class => 'divider', :role => 'presentation'}
                 - if current_member.has_role?(:crop_wrangler)
-                  %li= link_to "Crop Wrangling", wrangle_crops_path
+                  %li= link_to t('.crop_wrangling'), wrangle_crops_path
                 - if current_member.has_role?(:admin)
-                  %li= link_to "Admin", admin_path
-            %li= link_to "Support Growstuff", shop_path
+                  %li= link_to t('.admin'), admin_path
 
 
           %li= link_to "Sign out", destroy_member_session_path, :method => :delete
@@ -68,11 +81,6 @@
           %li= link_to 'Sign in', new_member_session_path, :id => 'navbar-signin'
           %li= link_to 'Sign up', new_member_registration_path, :id => 'navbar-signup'
 
-      = form_tag crops_search_path, :method => :get, :id => 'navbar-search', :class => 'navbar-form pull-right' do
-        .input
-          = label_tag :term, "Search crop database:", :class => 'sr-only'
-          = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops'
-          = submit_tag "Search", :class => 'btn sr-only'
 
 - # anchor tag for accessibility link to skip the navigation menu
 %a{:name => 'skipnav'}

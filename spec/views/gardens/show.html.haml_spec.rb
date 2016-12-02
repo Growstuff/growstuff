@@ -1,11 +1,23 @@
+## DEPRECATION NOTICE: Do not add new tests to this file!
+##
+## View and controller tests are deprecated in the Growstuff project
+## We no longer write new view and controller tests, but instead write
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara).
+## These test the full stack, behaving as a browser, and require less complicated setup
+## to run. Please feel free to delete old view/controller tests as they are reimplemented
+## in feature tests.
+##
+## If you submit a pull request containing new view or controller tests, it will not be
+## merged.
+
 require 'rails_helper'
 
 describe "gardens/show" do
   before(:each) do
-    @owner    = FactoryGirl.create(:member)
+    @owner = FactoryGirl.create(:member)
     controller.stub(:current_user) { @owner }
-    @garden   = FactoryGirl.create(:garden, :owner => @owner)
-    @planting = FactoryGirl.create(:planting, :garden => @garden)
+    @garden   = FactoryGirl.create(:garden, owner: @owner)
+    @planting = FactoryGirl.create(:planting, garden: @garden)
     assign(:garden, @garden)
     render
   end
@@ -35,7 +47,6 @@ describe "gardens/show" do
   end
 
   context 'signed in' do
-
     before :each do
       sign_in @owner
       render
@@ -50,8 +61,7 @@ describe "gardens/show" do
     end
 
     it "links to the right crop in the planting link" do
-      assert_select("a[href=#{new_planting_path}?garden_id=#{@garden.id}]")
+      assert_select("a[href='#{new_planting_path}?garden_id=#{@garden.id}']")
     end
   end
-
 end

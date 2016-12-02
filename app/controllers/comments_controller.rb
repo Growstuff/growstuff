@@ -1,27 +1,16 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate_member!, :except => [:index, :show]
+  before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.paginate(:page => params[:page])
+    @comments = Comment.paginate(page: params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @comments }
-      format.rss { render :layout => false }
-    end
-  end
-
-  # GET /comments/1
-  # GET /comments/1.json
-  def show
-    @comment = Comment.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @comment }
+      format.rss { render layout: false }
     end
   end
 
@@ -39,7 +28,7 @@ class CommentsController < ApplicationController
       end
     else
       redirect_to request.referer || root_url,
-        :alert => "Can't post a comment on a non-existent post"
+        alert: "Can't post a comment on a non-existent post"
     end
   end
 
@@ -100,7 +89,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def comment_params
     params.require(:comment).permit(:author_id, :body, :post_id)

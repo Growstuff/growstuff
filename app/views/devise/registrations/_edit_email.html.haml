@@ -9,24 +9,28 @@
       %span.help-block If you change your email address you will have to reconfirm.
 
   .form-group
-    .col-md-offset-2.col-md-8
-      = f.check_box :show_email
-      Show email publicly on your profile page.
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :show_email
+        Show email publicly on your profile page.
 
   .form-group
-    .col-md-offset-2.col-md-8
-      = f.check_box :send_notification_email
-      Receive emailed copies of Inbox notifications (eg. private messages).
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :send_notification_email
+        Receive emailed copies of Inbox notifications (eg. private messages).
 
   .form-group
-    .col-md-offset-2.col-md-8
-      = f.check_box :send_planting_reminder
-      Receive regular reminders to track your planting and harvesting.
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :send_planting_reminder
+        Receive regular reminders to track your planting and harvesting.
 
   .form-group
-    .col-md-offset-2.col-md-8
-      = f.check_box :newsletter
-      Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :newsletter
+        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
       .help-block
         = render :partial => 'newsletter_blurb'
 
