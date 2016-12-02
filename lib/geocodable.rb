@@ -8,7 +8,7 @@ module Geocodable
   def geocode
     unless self.location.blank?
       self.latitude, self.longitude =
-        Geocoder.coordinates(location, params: {limit: 1})
+        Geocoder.coordinates(location, params: { limit: 1 })
     end
   end
 
@@ -18,5 +18,4 @@ module Geocodable
       self.longitude = nil
     end
   end
-
 end

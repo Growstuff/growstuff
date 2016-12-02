@@ -11,6 +11,4 @@ class Follow < ActiveRecord::Base
       body: "#{self.follower.login_name} just followed you on #{ENV["GROWSTUFF_SITE_NAME"]}. "
     )
   end
-
-
 end

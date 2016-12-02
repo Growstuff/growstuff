@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Photo do
-
   describe 'add/delete functionality' do
     let(:photo) { FactoryGirl.create(:photo) }
     let(:planting) { FactoryGirl.create(:planting) }
@@ -86,11 +85,13 @@ describe Photo do
 
         planting.destroy # photo is still used by harvest and garden
         photo.reload
+
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 1
 
         harvest.destroy
         garden.destroy # photo is now no longer used by anything
+        photo.reload
 
         expect(photo.plantings.size).to eq 0
         expect(photo.harvests.size).to eq 0
@@ -105,9 +106,7 @@ describe Photo do
         planting.destroy # photo is still used by the harvest
         expect(photo).to be_an_instance_of Photo
       end
-
     end # removing photos
-
   end # add/delete functionality
 
   describe 'flickr_metadata' do

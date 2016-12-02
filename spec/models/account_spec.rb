@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Account do
-
   let(:member) { FactoryGirl.create(:member) }
 
   it "auto-creates an account detail record when a member is created" do
@@ -25,5 +24,4 @@ describe Account do
     member.account.paid_until = @time
     member.account.paid_until_string.should eq @time.to_s
   end
-
 end

@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = Order.where(member_id: current_member.id)
+    @orders = Order.by_member(current_member)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -49,7 +49,6 @@ class OrdersController < ApplicationController
         format.html { render action: "show" }
       end
     end
-
   end
 
   def complete
@@ -78,7 +77,6 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
     end
-
   end
 
   def cancel

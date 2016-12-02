@@ -1,7 +1,7 @@
 =content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
 - content_for :opengraph do
   - @harvest.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url) 
+    = tag("meta", property: "og:image", content: photo.fullsize_url)
   = tag("meta", property: "og:image:user_generated", content: "true")
   = tag("meta", property: "og:title", content: "#{@harvest.crop} harvested by #{@harvest.owner}")
   = tag("meta", property: "og:type", content: "website")
@@ -17,8 +17,8 @@
       = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(:owner => @harvest.owner.slug)
     %p
       %b Plant part:
-      - if @harvest.plant_part 
-        = link_to @harvest.plant_part, @harvest.plant_part 
+      - if @harvest.plant_part
+        = link_to @harvest.plant_part, @harvest.plant_part
       - else
         not specified
     %p

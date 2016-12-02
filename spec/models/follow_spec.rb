@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Follow do
-  
   before(:each) do
     @member1 = FactoryGirl.create(:member)
     @member2 = FactoryGirl.create(:member)
@@ -21,7 +20,6 @@ describe Follow do
   end
 
   context "when follow is created" do
-
     before (:each) do
       @follow = Follow.create(follower_id: @member1.id, followed_id: @member2.id)
     end
@@ -41,5 +39,4 @@ describe Follow do
       expect(@member2.followers).not_to include(@member1)
     end
   end
-
 end

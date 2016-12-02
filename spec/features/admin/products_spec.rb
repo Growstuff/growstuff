@@ -4,7 +4,7 @@ feature "products" do
   context "admin user" do
     let(:member) { create :admin_member }
     let(:product) { create :product }
-    
+
     background do
       login_as member
     end
@@ -20,7 +20,8 @@ feature "products" do
       click_link "New Product"
       expect(current_path).to eq new_product_path
       fill_in 'Name', with: 'Special offer'
-      # note that failing to fill in a mandatory field has a messy error. This is not a priority defect but should be raised at some point.
+      # note that failing to fill in a mandatory field has a messy error.
+      # This is not a priority defect but should be raised at some point.
       fill_in 'Minimum price', with: '150'
       click_button 'Save'
       expect(current_path).to eq product_path(Product.last)

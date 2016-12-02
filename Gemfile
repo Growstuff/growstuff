@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'rails', '~> 4.2.1'
+gem 'rails', '~> 4.2.7'
 
 gem 'bundler', '>=1.1.5'
 
@@ -14,11 +15,11 @@ gem 'haml'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'font-awesome-sass'
 
-gem 'uglifier', '~> 2.7.2'         # JavaScript compressor
+gem 'uglifier', '~> 2.7.2' # JavaScript compressor
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '~> 5.0.2'
-gem 'js-routes'  # provides access to Rails routes in Javascript
+gem 'js-routes' # provides access to Rails routes in Javascript
 gem 'flickraw'
 
 gem 'leaflet-rails'
@@ -68,7 +69,7 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-facebook'
 
 # client for Elasticsearch. Elasticsearch is a flexible
-# and powerful, distributed, real-time search and analytics engine. 
+# and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
@@ -86,7 +87,8 @@ group :production, :staging do
   gem 'dalli'
   gem 'memcachier'
   gem 'rails_12factor' # supresses heroku plugin injection
-  gem 'bonsai-elasticsearch-rails'  # Integration with Bonsa-Elasticsearch on heroku
+  gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
+  gem 'sparkpost_rails'
 end
 
 group :development do
@@ -114,11 +116,15 @@ group :development, :test do
   gem 'capybara'                        # integration tests
   gem 'capybara-email'                  # integration tests for email
   gem 'capybara-screenshot'             # for test debugging
-  gem 'poltergeist', '~> 1.6'           # for headless JS testing
+  gem 'poltergeist'                     # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
-  gem "codeclimate-test-reporter", group: :test, require: nil
   gem "active_merchant-paypal-bogus-gateway"
+  gem 'rubocop', require: false
+end
+
+group :test do
+  gem 'codeclimate-test-reporter', require: false
 end
 
 group :travis do

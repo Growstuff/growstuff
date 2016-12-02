@@ -1,6 +1,6 @@
 - content_for :title, @plant_part.name.titlecase
 - content_for :opengraph do
-  = tag("meta", property: "og:title", content: @plant_part.name.titlecase)  
+  = tag("meta", property: "og:title", content: @plant_part.name.titlecase)
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])

@@ -1,10 +1,11 @@
 module GardensHelper
-
   def display_garden_description(garden)
     if garden.description.nil?
       "no description provided."
     else
-      truncate(garden.description, length: 130, separator: ' ', omission: '... ') { link_to "Read more", garden_path(garden) }
+      truncate(garden.description, length: 130, separator: ' ', omission: '... ') do
+        link_to "Read more", garden_path(garden)
+      end
     end
   end
 

@@ -1,21 +1,11 @@
 class Planting < ActiveRecord::Base
   extend FriendlyId
+  include PhotoCapable
   friendly_id :planting_slug, use: [:slugged, :finders]
 
   belongs_to :garden
   belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :crop, counter_cache: true
-
-  has_and_belongs_to_many :photos
-
-  before_destroy do |planting|
-    photolist = planting.photos.to_a # save a temp copy of the photo list
-    planting.photos.clear # clear relationship b/w planting and photo
-
-    photolist.each do |photo|
-      photo.destroy_if_unused
-    end
-  end
 
   default_scope { order("created_at desc") }
   scope :finished, -> { where(finished: true) }
@@ -32,7 +22,7 @@ class Planting < ActiveRecord::Base
 
   validates :crop, approved: true
 
-  validates :crop, presence: {message: "must be present and exist in our database"}
+  validates :crop, presence: { message: "must be present and exist in our database" }
 
   validates :quantity,
     numericality: {
@@ -42,9 +32,9 @@ class Planting < ActiveRecord::Base
 
   SUNNINESS_VALUES = %w(sun semi-shade shade)
   validates :sunniness, inclusion: { in: SUNNINESS_VALUES,
-        message: "%{value} is not a valid sunniness value" },
-        allow_nil: true,
-        allow_blank: true
+                                     message: "%{value} is not a valid sunniness value" },
+                        allow_nil: true,
+                        allow_blank: true
 
   PLANTED_FROM_VALUES = [
     'seed',
@@ -60,9 +50,9 @@ class Planting < ActiveRecord::Base
     'layering'
   ]
   validates :planted_from, inclusion: { in: PLANTED_FROM_VALUES,
-        message: "%{value} is not a valid planting method" },
-        allow_nil: true,
-        allow_blank: true
+                                        message: "%{value} is not a valid planting method" },
+                           allow_nil: true,
+                           allow_blank: true
 
   validate :finished_must_be_after_planted
 
@@ -104,8 +94,8 @@ class Planting < ActiveRecord::Base
 
     if differences.compact.empty?
       nil
-    else  
-      differences.compact.sum/differences.compact.size
+    else
+      differences.compact.sum / differences.compact.size
     end
   end
 
@@ -120,7 +110,7 @@ class Planting < ActiveRecord::Base
 
     return 0 if current_date < planted_at
     return 100 if days > days_before_maturity
-    percent = (days/days_before_maturity*100).to_i
+    percent = (days / days_before_maturity * 100).to_i
 
     if percent >= 100
       percent = 100
@@ -132,7 +122,7 @@ class Planting < ActiveRecord::Base
   # return a list of interesting plantings, for the homepage etc.
   # we can't do this via a scope (as far as we know) so sadly we have to
   # do it this way.
-  def Planting.interesting(howmany=12, require_photo=true)
+  def Planting.interesting(howmany = 12, require_photo = true)
     interesting_plantings = []
     seen_owners = Hash.new(false) # keep track of which owners we've seen already
 

@@ -8,7 +8,7 @@ class Account < ActiveRecord::Base
 
   before_create do |account|
     unless account.account_type
-      account.account_type = AccountType.find_or_create_by(name: 
+      account.account_type = AccountType.find_or_create_by(name:
         Growstuff::Application.config.default_account_type
       )
     end
@@ -21,5 +21,4 @@ class Account < ActiveRecord::Base
       return paid_until.to_s
     end
   end
-
 end

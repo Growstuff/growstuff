@@ -12,7 +12,7 @@
 
   - @scientific_names.each do |scientific_name|
     %tr
-      %td= link_to scientific_name.scientific_name, scientific_name
+      %td= link_to scientific_name.name, scientific_name
       %td= scientific_name.crop_id
       %td= link_to 'Show', scientific_name
       %td

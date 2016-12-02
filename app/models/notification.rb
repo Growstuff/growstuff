@@ -7,6 +7,7 @@ class Notification < ActiveRecord::Base
 
   default_scope { order('created_at DESC') }
   scope :unread, -> { where(read: false) }
+  scope :by_recipient, ->(recipient) { where(recipient_id: recipient) }
 
   before_create :replace_blank_subject
   after_create :send_email
@@ -26,5 +27,4 @@ class Notification < ActiveRecord::Base
       Notifier.notify(self).deliver_later
     end
   end
-
 end

@@ -1,20 +1,19 @@
 class HarvestsController < ApplicationController
   before_filter :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
-  
 
   # GET /harvests
   # GET /harvests.json
   def index
     @owner = Member.find_by_slug(params[:owner])
     @crop = Crop.find_by_slug(params[:crop])
-    if @owner
-      @harvests = @owner.harvests.includes(:owner, :crop)
-    elsif @crop
-      @harvests = @crop.harvests.includes(:owner, :crop)
-    else
-      @harvests = Harvest.includes(:owner, :crop)
-    end
+    @harvests = if @owner
+                  @owner.harvests.includes(:owner, :crop)
+                elsif @crop
+                  @crop.harvests.includes(:owner, :crop)
+                else
+                  Harvest.includes(:owner, :crop)
+                end
 
     respond_to do |format|
       format.html { @harvests = @harvests.paginate(page: params[:page]) }
@@ -33,7 +32,7 @@ class HarvestsController < ApplicationController
     @harvest = Harvest.new('harvested_at' => Date.today)
 
     # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.find_by_id(params[:crop_id]) || Crop.new
+    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -96,6 +95,6 @@ class HarvestsController < ApplicationController
 
   def harvest_params
     params.require(:harvest).permit(:crop_id, :harvested_at, :description, :owner_id,
-    :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug, :si_weight)
+      :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug, :si_weight)
   end
 end

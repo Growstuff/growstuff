@@ -22,7 +22,7 @@ class Ability
     cannot :read, AccountType
 
     # nobody should be able to view unapproved crops unless they
-    # are wranglers or admins 
+    # are wranglers or admins
     cannot :read, Crop
     can :read, Crop, approval_status: "approved"
     # scientific names should only be viewable if associated crop is approved
@@ -108,7 +108,7 @@ class Ability
       can :cancel,   Order, member_id: member.id, completed_at: nil
       can :destroy,  Order, member_id: member.id, completed_at: nil
 
-      can :create,  OrderItem
+      can :create, OrderItem
       # for now, let's not let people mess with individual order items
       cannot :read,    OrderItem, order: { member_id: member.id }
       cannot :update,  OrderItem, order: { member_id: member.id, completed_at: nil }

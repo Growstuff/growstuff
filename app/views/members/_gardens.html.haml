@@ -7,7 +7,7 @@
         - first_garden = false
         = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
     - if current_member == member
-      %li.navbar-right 
+      %li.navbar-right
         = link_to new_garden_path, class: 'btn' do
           Add New Garden
   .tab-content{style: "padding-top: 1em"}
@@ -25,8 +25,8 @@
               %p No description available yet.
 
               - if can? :edit, g
-                %p 
-                  Why not 
+                %p
+                  Why not
                   = link_to 'tell us more.', edit_garden_path(g)
 
 

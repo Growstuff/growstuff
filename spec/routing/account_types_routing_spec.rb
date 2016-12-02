@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe AccountTypesController do
   describe "routing" do
-
     it "routes to #index" do
       get("/account_types").should route_to("account_types#index")
     end
@@ -30,6 +29,5 @@ describe AccountTypesController do
     it "routes to #destroy" do
       delete("/account_types/1").should route_to("account_types#destroy", id: "1")
     end
-
   end
 end

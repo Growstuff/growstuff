@@ -39,4 +39,3 @@ feature "show photo page" do
     end
   end
 end
-

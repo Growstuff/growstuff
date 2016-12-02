@@ -7,8 +7,8 @@
 .row
   .col-md-12
     - @follows.each do |f|
-      .col-md-4.three-across      
-        .thumbnail 
+      .col-md-4.three-across
+        .thumbnail
           = render :partial => "members/thumbnail", :locals => { :member => f }
 
 %div.pagination

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe OrderItem do
-
   let(:order_item) { FactoryGirl.create(:order_item) }
 
   it "has an order and a product" do
@@ -24,5 +23,4 @@ describe OrderItem do
     @order_item2 = FactoryGirl.build(:order_item, order: @order)
     @order_item2.should_not be_valid
   end
-
 end

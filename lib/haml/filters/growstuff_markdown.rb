@@ -9,7 +9,6 @@ module Haml::Filters
     include Haml::Filters::Base
 
     def render(text)
-
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
       expanded = text.gsub(CROP_REGEX) do |m|
         crop_str = $1
@@ -52,12 +51,10 @@ module Haml::Filters
       expanded = expanded.gsub(MEMBER_ESCAPE_AT_REGEX, "")
 
       return BlueCloth.new(expanded).to_html
-
     end
   end
 
-# Register it as the handler for the :growstuff_markdown HAML command.
-# The automatic system gives us :growstuffmarkdown, which is ugly.
-defined['growstuff_markdown'] = GrowstuffMarkdown
-
+  # Register it as the handler for the :growstuff_markdown HAML command.
+  # The automatic system gives us :growstuffmarkdown, which is ugly.
+  defined['growstuff_markdown'] = GrowstuffMarkdown
 end

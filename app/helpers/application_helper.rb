@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def price_in_dollars(price)
     return sprintf('%.2f', price / 100.0)
   end
@@ -7,7 +6,7 @@ module ApplicationHelper
   # 999 cents becomes 9.99 AUD -- for products/orders/etc
   def price_with_currency(price)
     return sprintf('%.2f %s', price / 100.0,
-        Growstuff::Application.config.currency)
+      Growstuff::Application.config.currency)
   end
 
   def parse_date(str)
@@ -26,20 +25,20 @@ module ApplicationHelper
   def build_alert_classes(alert_type = :info)
     classes = 'alert alert-dismissable '
     case alert_type.to_sym
-      when :alert, :danger, :error, :validation_errors
-        classes += 'alert-danger'
-      when :warning, :todo
-        classes += 'alert-warning'
-      when :notice, :success
-        classes += 'alert-success'
-      when :info
-        classes += 'alert-info'
+    when :alert, :danger, :error, :validation_errors
+      classes += 'alert-danger'
+    when :warning, :todo
+      classes += 'alert-warning'
+    when :notice, :success
+      classes += 'alert-success'
+    when :info
+      classes += 'alert-info'
     end
     classes
   end
 
   # Produces a cache key for uniquely identifying cached fragments.
-  def cache_key_for(klass, identifier="all")
+  def cache_key_for(klass, identifier = "all")
     count          = klass.count
     max_updated_at = klass.maximum(:updated_at).try(:utc).try(:to_s, :number)
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
@@ -73,9 +72,9 @@ module ApplicationHelper
     end
 
     Gravatar.new(member.email).image_url({
-      size: size,
-      default: :identicon
-    })
+                                           size: size,
+                                           default: :identicon
+                                         })
   end
 
   # Returns a string with the quantity and the right pluralization for a
@@ -86,4 +85,3 @@ module ApplicationHelper
     "#{size} #{model_name}"
   end
 end
-
