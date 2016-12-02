@@ -336,3 +336,298 @@ $state-success-bg: lighten($green, 50%)
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
+
+@import "custom_bootstrap/variables"
+// this padding needs to be done before the responsive stuff is imported
+body
+  // modifying this for our promotional banner. can be replaced after if
+  // needed.
+  // padding-top: @navbar-height + 15px
+  padding-top: 100px
+
+//@import "twitter/bootstrap/responsive"
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings")
+@iconWhiteSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings-white")
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+@fontAwesomeEotPath: asset-url("fontawesome-webfont.eot")
+@fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot#iefix")
+@fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff")
+@fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf")
+@fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular")
+
+// Font Awesome
+//@import "fontawesome/font-awesome"
+
+// Glyphicons
+//@import "twitter/bootstrap/sprites.less"
+
+
+.list-inline > li.first
+  padding-left: 0px
+
+h2
+  font-size: 150%
+
+
+h3
+  font-size: 120%
+
+.main
+  padding-right: 1em
+
+.sidebar
+  margin-left: -1px
+  border-left: 1px solid darken(#F5F5DC, 10%)
+  padding-left: 1em
+
+// this is used for eg. crops and members index pages
+.six-across:nth-child(6n+1)
+  margin-left: 0px
+
+.three-across:nth-child(3n+1)
+  margin-left: 0px
+  clear: both
+
+// let's condense the hero unit a little
+.jumbotron
+  padding-top: 30px
+  padding-bottom: 30px
+
+// info under the main heading on homepage
+.jumbotron .info
+  padding-top: 15px
+
+// signup widget on homepage
+.jumbotron .signup
+  background-color: lighten(#00ff00, 40%)
+  border: 1px solid lighten(#00ff00, 20%)
+  border-radius: 6px
+  padding: 15px
+  text-align: center
+  line-height: 200%
+
+// stats shown on homepage. eg. "999 members..."
+p.stats
+  font-weight: bold
+
+#placesmap, #cropmap
+  height: 500px
+
+#membermap
+  height: 250px
+
+.member-location
+  font-size: small
+  font-style: italic
+
+.member-location a
+  color: brown
+
+.photo-thumbnail
+  position:relative
+  padding: 0
+  img
+    width: 100%
+    .text
+    display: none
+    color: #000
+    position: absolute
+    bottom: 0
+    background: rgba(0, 0, 0, 0.8)
+    width: 100%
+    margin: 0
+    p
+    padding: 5px
+    margin: 0
+    color: #fff
+    &:hover
+    .text
+      display: block
+      
+
+.thumbnail
+  border: none
+  text-align: center
+  margin-bottom: 1.5em
+
+  .member-thumbnail
+    text-align: left
+    img
+      height: 85px
+      width: 85px
+      max-width: 85px
+      
+  .crop-thumbnail
+    height: 220px
+    .cropinfo
+      display: inline-block
+      max-width: 100%
+      white-space: nowrap
+      line-height: 1em
+      padding-bottom: 2px
+
+      .cropname
+        overflow: hidden
+        text-overflow: ellipsis
+      
+      .scientificname
+        font-size: small
+        font-style: italic
+        overflow: hidden
+        text-overflow: ellipsis
+      
+      .plantingcount
+        font-size: small
+          
+
+    .crop-name a
+      padding-top: 2px
+    
+    .scientific-name small
+      margin-bottom: -2px
+      
+li.crop-hierarchy
+  list-style-type: disc
+
+.navbar-brand
+  margin: 0px
+  padding: 0px
+
+.navbar-bottom
+  margin: 40px 0px 0px 0px !important
+
+.search-crops
+  padding: 80px 0 80px 0
+
+.find-growers
+  position: relative
+  margin-top: 20px
+
+.title-banner
+  position: relative
+  background-image: image-url('veggies.jpg')
+  background-repeat: no-repeat
+  background-size: 100%
+  min-height: 280px
+  padding: 30px
+  margin: 0 -15px 0 -15px
+ 
+  h1
+    font-size: 60px
+    margin: 60px
+  
+.image-attribution
+  position: absolute
+  bottom: 0 
+  right: 5px
+  font-size: 12px
+  color: #ccc
+
+.against-image-text
+  color: #fff
+  font-weight: bold
+  text-shadow: 0px 0px 7px #000, -1px -1px #000, 1px 1px #000
+
+.contrast-screen-dark
+  background: rgba(0,0,0,0.2)
+  padding: 30px
+
+.centered-relative
+  position: absolute
+  top: 0
+  display: block
+  width: 100%
+  text-align: center
+
+// .banner-form-group:extend(.form-group)
+//   label
+//     font-size: 38px
+//     margin-right: 20px
+//     margin-bottom: 20px
+//     line-height: 100%
+//     text-align: center
+//  
+//   input
+//     display: inline
+//     margin-top: -10px
+//     width: auto
+  
+
+// footer
+
+footer
+  #footer1, #footer2, #footer3
+    text-align: left
+    padding-top: 1em
+    padding-bottom: 2em
+    ul
+      list-style-type: none
+      list-style-position: outside
+      padding-left: 0px
+      margin-left: 0px
+
+      
+  .navbar-bottom.navbar
+    border-radius: 0
+
+// ensure footer is pushed to bottom of browser window
+
+#maincontainer
+  min-height: 80%
+
+html, body
+  height: 100%
+
+//
+
+.crop-image, .member-image
+  width: 100%
+  height: 100%
+
+// Autosuggest
+
+.ui-autocomplete
+  // z-index: @zindex-tooltip
+
+// Crowdfunding campaign, Sep-Oct 2014
+
+.crowdfunding-banner
+  text-align: center
+  font-weight: bold
+  background-color: lighten(#00ff00, 30%)
+  margin-top: 0px
+  margin-bottom: 5px
+  padding: 15px
+
+.crowdfunding-banner a
+  // color: @brown
+  text-decoration: underline
+
+.alert
+  a
+    font-weight: 800
+
+// Overrides applying only to mobile view. This must be at the end of the overrides file.
+
+@media only screen and (max-width: 767px)
+  .sidebar
+    margin-left: 0
+    border-left: none
+    padding-left: 0
+
+  #map
+    height: 300px
+
+  .navbar .nav > li
+    display: block
+
+
+
+@state-info-text: darken(#00ff00, 10%)
+@state-info-bg: lighten(#00ff00, 50%)
+
+@state-success-text: darken(#00ff00, 10%)
+@state-success-bg: lighten(#00ff00, 50%)
