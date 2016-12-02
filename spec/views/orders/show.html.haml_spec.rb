@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "orders/show" do
-
   before(:each) do
     @member = FactoryGirl.create(:member)
     sign_in @member
@@ -84,7 +79,5 @@ describe "orders/show" do
     it "doesn't show delete order button" do
       assert_select "a", text: "Delete this order", count: 0
     end
-
   end
-
 end

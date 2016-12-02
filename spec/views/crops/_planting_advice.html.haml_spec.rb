@@ -10,15 +10,11 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "crops/_planting_advice" do
   before(:each) do
-    @owner    = FactoryGirl.create(:member)
+    @owner = FactoryGirl.create(:member)
     @crop = FactoryGirl.create(:crop)
     @garden   = FactoryGirl.create(:garden, owner: @owner)
     @planting = FactoryGirl.create(:planting,
@@ -48,11 +44,9 @@ describe "crops/_planting_advice" do
       rendered.should have_content "Plant in:"
       rendered.should have_content "sun (2), shade (1)"
     end
-
   end
 
   context "planted from" do
-
     it "doesn't show planted_from if none are set" do
       render partial: 'crops/planting_advice', locals: { crop: @crop }
       rendered.should have_content "Plant from: not known."
@@ -74,5 +68,4 @@ describe "crops/_planting_advice" do
       rendered.should have_content "seed (2), cutting (1)"
     end
   end
-
 end

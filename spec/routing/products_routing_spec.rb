@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe ProductsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/products").should route_to("products#index")
     end
@@ -30,6 +29,5 @@ describe ProductsController do
     it "routes to #destroy" do
       delete("/products/1").should route_to("products#destroy", id: "1")
     end
-
   end
 end

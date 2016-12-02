@@ -8,6 +8,19 @@ describe Order do
       order_id: @order.id, product_id: @product.id)
   end
 
+  describe '#by_member_id' do
+    before do
+      @member1 = FactoryGirl.create(:member)
+      @member2 = FactoryGirl.create(:member)
+      @order1 = Order.create!(member_id: @member1.id)
+      @order2 = Order.create!(member_id: @member2.id)
+    end
+
+    it "only returns orders belonging to member" do
+      Order.by_member(@member1).should eq [@order1]
+    end
+  end
+
   it 'has order_items' do
     @order.order_items.first.should eq @order_item
   end
@@ -81,7 +94,6 @@ describe Order do
       quantity: 1,
       amount: 1111
     }]
-
   end
 
   context "referral codes" do
@@ -126,7 +138,5 @@ describe Order do
       order = FactoryGirl.create(:order, referral_code: 'baz')
       Order.search(by: 'referral_code', for: 'baz').should eq [order]
     end
-
   end
-
 end

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "seeds/new" do
@@ -62,5 +58,4 @@ describe "seeds/new" do
       assert_select "a", text: "Change your location."
     end
   end
-
 end

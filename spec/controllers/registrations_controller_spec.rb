@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe RegistrationsController do
-
   before :each do
     @member = FactoryGirl.create(:member)
     sign_in @member
@@ -43,5 +38,4 @@ describe RegistrationsController do
       assigns(:flickr_auth).should eq @auth
     end
   end
-
 end

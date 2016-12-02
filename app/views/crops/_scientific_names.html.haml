@@ -6,7 +6,7 @@
     %ul
       - crop.scientific_names.each do |sn|
         %li
-          = sn.scientific_name
+          = sn.name
           - if can? :edit, sn
             = link_to 'Edit', edit_scientific_name_path(sn), { :class => 'btn btn-default btn-xs' }
           - if can? :destroy, sn

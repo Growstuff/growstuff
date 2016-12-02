@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'layouts/_meta.html.haml', type: "view" do
@@ -39,5 +35,4 @@ describe 'layouts/_meta.html.haml', type: "view" do
   it 'should have a title' do
     assert_select "head>title"
   end
-
 end

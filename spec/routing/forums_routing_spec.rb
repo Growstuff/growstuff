@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe ForumsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/forums").should route_to("forums#index")
     end
@@ -30,6 +29,5 @@ describe ForumsController do
     it "routes to #destroy" do
       delete("/forums/1").should route_to("forums#destroy", id: "1")
     end
-
   end
 end

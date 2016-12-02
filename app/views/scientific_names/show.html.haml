@@ -2,7 +2,7 @@
   - @scientific_name.crop.photos.each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
 
-  = tag("meta", property: "og:title", content: @scientific_name.scientific_name)
+  = tag("meta", property: "og:title", content: @scientific_name.name)
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
@@ -13,7 +13,7 @@
 
 %p
   %b Scientific name:
-  = @scientific_name.scientific_name
+  = @scientific_name.name
 %p
   %b Crop:
   = link_to @scientific_name.crop, @scientific_name.crop

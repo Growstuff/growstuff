@@ -12,6 +12,8 @@ class Order < ActiveRecord::Base
 
   before_save :standardize_referral_code
 
+  scope :by_member, ->(member) { where(member: member) }
+
   # total price of an order
   def total
     sum = 0
@@ -27,10 +29,10 @@ class Order < ActiveRecord::Base
     items = []
     order_items.each do |i|
       items.push({
-        name: i.product.name,
-        quantity: i.quantity,
-        amount: i.price
-      })
+                   name: i.product.name,
+                   quantity: i.quantity,
+                   amount: i.price
+                 })
     end
     return items
   end
@@ -62,35 +64,34 @@ class Order < ActiveRecord::Base
   # search orders (used by admin/orders)
   # usage: Order.search({ :by => 'member', :for => 'Skud' })
   # can search by: member, order_id, paypal_token, paypal_payer_id,
-  def Order.search(args={})
+  def Order.search(args = {})
     if args[:for]
       case args[:by]
-        when "member"
-          member = Member.find_by_login_name(args[:for])
-          if member
-            return member.orders
-          end
-        when "order_id"
-          order = Order.find_by_id(args[:for])
-          if order
-            return [order]
-          end
-        when "paypal_token"
-          order = Order.find_by_paypal_express_token(args[:for])
-          if order
-            return [order]
-          end
-        when "paypal_payer_id"
-          order = Order.find_by_paypal_express_payer_id(args[:for])
-          if order
-            return [order]
-          end
-        when "referral_code"
-          # coerce to uppercase
-          return Order.where(referral_code: args[:for].upcase)
+      when "member"
+        member = Member.find_by_login_name(args[:for])
+        if member
+          return member.orders
+        end
+      when "order_id"
+        order = Order.find_by_id(args[:for])
+        if order
+          return [order]
+        end
+      when "paypal_token"
+        order = Order.find_by_paypal_express_token(args[:for])
+        if order
+          return [order]
+        end
+      when "paypal_payer_id"
+        order = Order.find_by_paypal_express_payer_id(args[:for])
+        if order
+          return [order]
+        end
+      when "referral_code"
+        # coerce to uppercase
+        return Order.where(referral_code: args[:for].upcase)
       end
     end
     return []
   end
-
 end

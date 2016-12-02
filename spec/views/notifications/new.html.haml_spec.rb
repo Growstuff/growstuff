@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "notifications/new" do
@@ -22,7 +18,7 @@ describe "notifications/new" do
     @sender = FactoryGirl.create(:member)
     assign(:notification, FactoryGirl.create(:notification, recipient_id: @recipient.id, sender_id: @sender.id))
     sign_in @sender
-    controller.stub(:current_user) { @sender}
+    controller.stub(:current_user) { @sender }
   end
 
   it "renders new message form" do
@@ -63,5 +59,4 @@ describe "notifications/new" do
     render
     rendered.should have_content 'Markdown'
   end
-
 end

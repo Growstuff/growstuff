@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe Comment do
-
   context "basic" do
-
     let(:comment) { FactoryGirl.create(:comment) }
 
     it "belongs to a post" do
@@ -16,7 +14,6 @@ describe Comment do
   end
 
   context "notifications" do
-
     let(:comment) { FactoryGirl.create(:comment) }
 
     it "sends a notification when a comment is posted" do
@@ -60,5 +57,4 @@ describe Comment do
       Comment.post_order.should eq [@c1, @c2]
     end
   end
-
 end

@@ -10,16 +10,12 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "plantings/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @member   = FactoryGirl.create(:member)
+    @member = FactoryGirl.create(:member)
     @garden = FactoryGirl.create(:garden, owner: @member)
     @tomato = FactoryGirl.create(:tomato)
     @maize  = FactoryGirl.create(:maize)
@@ -28,25 +24,25 @@ describe "plantings/index" do
     total_entries = 3
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-        FactoryGirl.create(:planting,
-          garden: @garden,
-          crop: @tomato,
-          owner: @member
-        ),
-        FactoryGirl.create(:planting,
-          garden: @garden,
-          crop: @maize,
-          description: '',
-          planted_at: Time.local(2013, 1, 13)
-        ),
-        FactoryGirl.create(:planting,
-          garden: @garden,
-          crop: @tomato,
-          planted_at: Time.local(2013, 1, 13),
-          finished_at: Time.local(2013, 1, 20),
-          finished: true
-        )
-      ])
+                      FactoryGirl.create(:planting,
+                        garden: @garden,
+                        crop: @tomato,
+                        owner: @member
+                      ),
+                      FactoryGirl.create(:planting,
+                        garden: @garden,
+                        crop: @maize,
+                        description: '',
+                        planted_at: Time.local(2013, 1, 13)
+                      ),
+                      FactoryGirl.create(:planting,
+                        garden: @garden,
+                        crop: @tomato,
+                        planted_at: Time.local(2013, 1, 13),
+                        finished_at: Time.local(2013, 1, 20),
+                        finished: true
+                      )
+                    ])
     end
     assign(:plantings, plantings)
     render

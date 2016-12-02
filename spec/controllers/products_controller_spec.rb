@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe ProductsController do
-
   login_member(:admin_member)
 
   def valid_attributes
@@ -31,5 +26,4 @@ describe ProductsController do
   def valid_session
     {}
   end
-
 end

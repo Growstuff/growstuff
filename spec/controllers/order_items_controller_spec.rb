@@ -10,14 +10,9 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe OrderItemsController do
-
   login_member(:admin_member)
 
   before(:each) do
@@ -33,14 +28,13 @@ describe OrderItemsController do
   end
 
   describe "POST create" do
-
     it "redirects to order" do
       @order = FactoryGirl.create(:order, member: @member)
-      post :create, {order_item: {
+      post :create, { order_item: {
         order_id: @order.id,
         product_id: @product.id,
         price: @product.min_price
-      }}
+      } }
       response.should redirect_to(OrderItem.last.order)
     end
 
@@ -49,10 +43,10 @@ describe OrderItemsController do
       sign_in @member
       @product = FactoryGirl.create(:product)
       expect {
-        post :create, {order_item: {
+        post :create, { order_item: {
           product_id: @product.id,
           price: @product.min_price
-        }}
+        } }
       }.to change(Order, :count).by(1)
       OrderItem.last.order.should be_an_instance_of Order
     end
@@ -62,11 +56,11 @@ describe OrderItemsController do
         @order = FactoryGirl.create(:order, member: @member)
         @product = FactoryGirl.create(:product, min_price: 1)
         expect {
-          post :create, {order_item: {
+          post :create, { order_item: {
             order_id: @order.id,
             product_id: @product.id,
             price: 3.33
-          }}
+          } }
         }.to change(OrderItem, :count).by(1)
         OrderItem.last.price.should eq 333
       end

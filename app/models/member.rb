@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
 
   friendly_id :login_name, use: [:slugged, :finders]
 
-  has_many :posts,   foreign_key: 'author_id'
+  has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :forums, foreign_key: 'owner_id'
 
@@ -27,7 +27,6 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
-
   default_scope { order("lower(login_name) asc") }
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
@@ -45,8 +44,8 @@ class Member < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable, :omniauthable
+    :recoverable, :rememberable, :trackable, :validatable,
+    :confirmable, :lockable, :timeoutable, :omniauthable
 
   # set up geocoding
   geocoded_by :location
@@ -59,7 +58,7 @@ class Member < ActiveRecord::Base
 
   # Requires acceptance of the Terms of Service
   validates_acceptance_of :tos_agreement, allow_nil: true,
-    accept: true
+                                          accept: true
 
   validates :login_name,
     length: {
@@ -80,12 +79,12 @@ class Member < ActiveRecord::Base
     }
 
   # Give each new member a default garden
-  after_create {|member| Garden.create(name: "Garden", owner_id: member.id) }
+  after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
 
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryGirl associations
-  after_create {|member| Account.find_or_create_by(member_id: member.id) }
+  after_create { |member| Account.find_or_create_by(member_id: member.id) }
 
   after_save :update_newsletter_subscription
 
@@ -159,21 +158,21 @@ class Member < ActiveRecord::Base
   # Fetches a collection of photos from Flickr
   # Returns a [[page of photos], total] pair.
   # Total is needed for pagination.
-  def flickr_photos(page_num=1, set=nil)
+  def flickr_photos(page_num = 1, set = nil)
     result = false
-    if set
-      result = flickr.photosets.getPhotos(
-        photoset_id: set,
-        page: page_num,
-        per_page: 30
-      )
-    else
-      result = flickr.people.getPhotos(
-        user_id: 'me',
-        page: page_num,
-        per_page: 30
-      )
-    end
+    result = if set
+               flickr.photosets.getPhotos(
+                 photoset_id: set,
+                 page: page_num,
+                 per_page: 30
+               )
+             else
+               flickr.people.getPhotos(
+                 user_id: 'me',
+                 page: page_num,
+                 per_page: 30
+               )
+             end
     if result
       return [result.photo, result.total]
     else
@@ -213,7 +212,7 @@ class Member < ActiveRecord::Base
   def Member.nearest_to(place)
     nearby_members = []
     if place
-      latitude, longitude = Geocoder.coordinates(place, params: {limit: 1})
+      latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
       if latitude && longitude
         nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
       end
@@ -235,24 +234,24 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def newsletter_subscribe(testing=false)
+  def newsletter_subscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.subscribe({
-      id: Growstuff::Application.config.newsletter_list_id,
-      email: { email: email },
-      merge_vars: { login_name: login_name },
-      double_optin: false # they already confirmed their email with us
-    })
+                               id: Growstuff::Application.config.newsletter_list_id,
+                               email: { email: email },
+                               merge_vars: { login_name: login_name },
+                               double_optin: false # they already confirmed their email with us
+                             })
   end
 
-  def newsletter_unsubscribe(testing=false)
+  def newsletter_unsubscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
     res = gb.lists.unsubscribe({
-      id: Growstuff::Application.config.newsletter_list_id,
-      email: { email: email }
-    })
+                                 id: Growstuff::Application.config.newsletter_list_id,
+                                 email: { email: email }
+                               })
   end
 
   def already_following?(member)

@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe 'members/show.rss.haml', type: "view" do
@@ -34,13 +30,12 @@ describe 'members/show.rss.haml', type: "view" do
   end
 
   it 'renders post bodies to HTML and XML-escapes them' do
-# The variable "rendered" has been entity-replaced and tag-stripped
-# The literal string output contains "&lt;strong&gt;" etc.
+    # The variable "rendered" has been entity-replaced and tag-stripped
+    # The literal string output contains "&lt;strong&gt;" etc.
     rendered.should have_content "<strong>strong</strong>"
   end
 
   it 'gives the author in the item title' do
     rendered.should have_content "#{@post1.subject} by #{@post1.author}"
   end
-
 end

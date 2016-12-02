@@ -10,10 +10,6 @@
 ## If you submit a pull request containing new view or controller tests, it will not be
 ## merged.
 
-
-
-
-
 require 'rails_helper'
 
 describe "photos/show" do
@@ -38,7 +34,7 @@ describe "photos/show" do
 
     it "links to the CC license" do
       assert_select "a", href: @photo.license_url,
-        text: @photo.license_name
+                         text: @photo.license_name
     end
 
     it "shows a link to the original image" do
@@ -59,7 +55,5 @@ describe "photos/show" do
     it "contains the phrase 'All rights reserved'" do
       rendered.should have_content "All rights reserved"
     end
-
   end
-
 end
