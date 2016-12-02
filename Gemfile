@@ -119,6 +119,7 @@ group :development, :test do
   gem 'poltergeist'                     # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
+  gem 'haml-i18n-extractor'
   gem "active_merchant-paypal-bogus-gateway"
   gem 'rubocop', require: false
 end
