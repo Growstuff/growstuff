@@ -17,7 +17,7 @@ class AlternateNamesController < ApplicationController
   # GET /alternate_names/new.json
   def new
     @alternate_name = AlternateName.new
-    @crop = Crop.find_by(id: params[:crop_id]) || Crop.new
+    @crop = Crop.find_or_initialize_by(id: params[:crop_id])
 
     respond_to do |format|
       format.html # new.html.haml
