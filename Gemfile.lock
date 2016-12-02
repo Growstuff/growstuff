@@ -206,6 +206,12 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     haml (4.0.7)
       tilt
+    haml-i18n-extractor (0.5.9)
+      activesupport
+      haml
+      highline
+      tilt
+      trollop (= 1.16.2)
     haml-rails (0.9.0)
       actionpack (>= 4.0.1)
       activesupport (>= 4.0.1)
@@ -458,6 +464,7 @@ GEM
     thread_safe (0.3.5)
     tilt (2.0.5)
     tins (1.13.0)
+    trollop (1.16.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -522,6 +529,7 @@ DEPENDENCIES
   guard
   guard-rspec
   haml
+  haml-i18n-extractor
   haml-rails
   heroku-api
   i18n-tasks
