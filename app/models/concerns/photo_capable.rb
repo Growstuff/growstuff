@@ -1,3 +1,4 @@
+require_relative '../../constants/photo_models.rb'
 module PhotoCapable
   extend ActiveSupport::Concern
 
