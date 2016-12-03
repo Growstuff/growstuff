@@ -38,3 +38,4 @@ exclude_paths:
 - db/
 - spec/
 - public/
+- app/assets/stylesheets/bootstrap-accessibility.css
