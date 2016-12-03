@@ -355,14 +355,6 @@ ActiveRecord::Schema.define(version: 20161201154922) do
     t.integer "product_id"
   end
 
-  create_table "photo_mappings", force: :cascade do |t|
-    t.integer "photo_id"
-    t.integer "object_id"
-    t.string  "object_type"
-  end
-
-  add_index "photo_mappings", ["object_id", "photo_id"], name: "index_photo_mappings_on_object_id_and_photo_id", using: :btree
-
   create_table "photos", force: :cascade do |t|
     t.integer  "owner_id",        null: false
     t.string   "thumbnail_url",   null: false
@@ -385,6 +377,8 @@ ActiveRecord::Schema.define(version: 20161201154922) do
     t.integer "photo_id"
     t.integer "seed_id"
   end
+
+  add_index "photos_seeds", ["seed_id", "photo_id"], name: "index_photos_seeds_on_seed_id_and_photo_id", using: :btree
 
   create_table "plant_parts", force: :cascade do |t|
     t.string   "name"
