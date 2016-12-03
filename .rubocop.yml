@@ -27,9 +27,6 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 11
 
-Metrics/LineLength:
-  Max: 120
-
 # Offense count: 8
 Metrics/PerceivedComplexity:
   Max: 10
