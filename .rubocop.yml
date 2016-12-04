@@ -1,28 +1,5 @@
-inherit_from: .rubocop_todo.yml
-AllCops:
-  Include:
-    - 'Rakefile'
-    - 'config.ru'
-    - 'lib/**/*.rake'
-  Exclude:
-    - 'db/schema.rb'
-    - 'vendor/**/*'
-
-Style/FileName:
-  Exclude:
-    - 'Gemfile'
-    - 'Gemfile.lock'
-
-Style/StringLiterals:
-  Enabled: false
-
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: with_first_parameter, with_fixed_indentation
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
+inherit_from: .rubocop_codeclimate.yml
+inherit_from: .rubocop_todo.yml<<<<<<< HEAD
 
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 30 lines of code.'
@@ -50,19 +27,6 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 11
 
-Metrics/LineLength:
-  Max: 120
-
 # Offense count: 8
 Metrics/PerceivedComplexity:
   Max: 10
-
-# See https://github.com/bbatsov/rubocop/issues/3629
-Rails/HttpPositionalArguments:
-  Enabled: false
-
-Style/Documentation:
-  Enabled: false
-
-Style/FrozenStringLiteralComment:
-  Enabled: false

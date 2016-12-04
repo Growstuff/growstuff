@@ -1,0 +1,38 @@
+AllCops:
+  Include:
+    - 'Rakefile'
+    - 'config.ru'
+    - 'lib/**/*.rake'
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+
+Style/FileName:
+  Exclude:
+    - 'Gemfile'
+    - 'Gemfile.lock'
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
+# SupportedStyles: with_first_parameter, with_fixed_indentation
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+
+# See https://github.com/bbatsov/rubocop/issues/3629
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
