@@ -6,7 +6,7 @@ describe 'devise/shared/_links.haml', type: "view" do
     dm.stub(confirmable?: confirm)
     dm.stub(lockable?: lock)
     dm.stub(omniauthable?: oauth)
-    return dm
+    dm
   end
 
   it 'should have a sign-in link if not in sessions' do

@@ -19,20 +19,16 @@ module HarvestsHelper
       if harvest.unit == 'individual' # just the number
         number_to_human(harvest.quantity, strip_insignificant_zeros: true)
       elsif !harvest.unit.blank? # pluralize anything else
-        return pluralize(number_to_human(harvest.quantity, strip_insignificant_zeros: true), harvest.unit)
+        pluralize(number_to_human(harvest.quantity, strip_insignificant_zeros: true), harvest.unit)
       else
-        return "#{number_to_human(harvest.quantity, strip_insignificant_zeros: true)} #{harvest.unit}"
+        "#{number_to_human(harvest.quantity, strip_insignificant_zeros: true)} #{harvest.unit}"
       end
-    else
-      return nil
     end
   end
 
   def display_weight(harvest)
     if !harvest.weight_quantity.blank? && harvest.weight_quantity > 0
-      return "#{number_to_human(harvest.weight_quantity, strip_insignificant_zeros: true)} #{harvest.weight_unit}"
-    else
-      return nil
+      "#{number_to_human(harvest.weight_quantity, strip_insignificant_zeros: true)} #{harvest.weight_unit}"
     end
   end
 

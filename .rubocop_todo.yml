@@ -612,32 +612,6 @@ Style/RedundantParentheses:
     - 'app/helpers/plantings_helper.rb'
     - 'app/models/garden.rb'
 
-# Offense count: 62
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/harvests_helper.rb'
-    - 'app/helpers/plantings_helper.rb'
-    - 'app/mailers/notifier.rb'
-    - 'app/models/account.rb'
-    - 'app/models/crop.rb'
-    - 'app/models/forum.rb'
-    - 'app/models/garden.rb'
-    - 'app/models/harvest.rb'
-    - 'app/models/member.rb'
-    - 'app/models/order.rb'
-    - 'app/models/photo.rb'
-    - 'app/models/plant_part.rb'
-    - 'app/models/planting.rb'
-    - 'app/models/seed.rb'
-    - 'lib/haml/filters/escaped_markdown.rb'
-    - 'lib/haml/filters/growstuff_markdown.rb'
-    - 'spec/controllers/accounts_controller_spec.rb'
-    - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
-    - 'spec/views/devise/shared/_links_spec.rb'
-
 # Offense count: 56
 # Cop supports --auto-correct.
 Style/RedundantSelf:

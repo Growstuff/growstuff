@@ -8,7 +8,7 @@ class Notifier < ActionMailer::Base
         "not set - have you created config/application.yml?"
     end
 
-    return ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+    ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
   end
 
   def notify(notification)

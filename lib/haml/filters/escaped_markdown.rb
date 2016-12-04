@@ -5,7 +5,7 @@ module Haml::Filters
   module EscapedMarkdown
     include Haml::Filters::Base
     def render(text)
-      return Haml::Helpers.html_escape Haml::Filters::GrowstuffMarkdown.render(text)
+      Haml::Helpers.html_escape Haml::Filters::GrowstuffMarkdown.render(text)
     end
   end
 
