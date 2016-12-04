@@ -15,12 +15,12 @@ class Post < ActiveRecord::Base
     sender = self.author.id
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
-      member = Member.where('lower(login_name) = ?', $1.downcase).first
+      member = Member.case_insensitive_login_name($1).first
       recipients << member if member && !recipients.include?(member)
     end
     self.body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_AT_REGEX) do |m|
       # find member case-insensitively and add to list of recipients
-      member = Member.where('lower(login_name) = ?', $1[1..-1].downcase).first
+      member = Member.case_insensitive_login_name($1[1..-1]).first
       recipients << member if member && !recipients.include?(member)
     end
     # don't send notifications to yourself
@@ -75,7 +75,7 @@ class Post < ActiveRecord::Base
     # look for crops mentioned in the post. eg. [tomato](crop)
     self.body.scan(Haml::Filters::GrowstuffMarkdown::CROP_REGEX) do |m|
       # find crop case-insensitively
-      crop = Crop.where('lower(name) = ?', $1.downcase).first
+      crop = Crop.case_insensitive_name($1).first
       # create association
       self.crops << crop if crop && !self.crops.include?(crop)
     end
