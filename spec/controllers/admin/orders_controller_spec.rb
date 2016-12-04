@@ -23,7 +23,6 @@ describe Admin::OrdersController do
     end
 
     it "sets an error message if nothing found" do
-      order = FactoryGirl.create(:order)
       get :search, { search_by: 'order_id', search_text: 'foo' }
       flash[:alert].should match /Couldn't find order with/
     end

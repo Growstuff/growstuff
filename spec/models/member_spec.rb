@@ -126,17 +126,18 @@ describe 'member' do
 
   context 'case sensitivity' do
     it 'preserves case of login name' do
-      member = FactoryGirl.create(:member, login_name: "BOB")
-      check = Member.find('bob')
-      check.login_name.should eq 'BOB'
+      FactoryGirl.create(:member, login_name: "BOB")
+      Member.find('bob').login_name.should eq 'BOB'
     end
   end
 
   context 'ordering' do
+    before do
+      FactoryGirl.create(:member, login_name: "Zoe")
+      FactoryGirl.create(:member, login_name: "Anna")
+    end
     it "should be sorted by name" do
-      z = FactoryGirl.create(:member, login_name: "Zoe")
-      a = FactoryGirl.create(:member, login_name: "Anna")
-      Member.first.should == a
+      expect(Member.first.login_name).to eq("Anna")
     end
   end
 
@@ -273,7 +274,7 @@ describe 'member' do
 
       @member1.updated_at = 3.days.ago
       @member2.updated_at = 2.days.ago
-      @member3.updated_at = 1.days.ago
+      @member3.updated_at = 1.day.ago
 
       Member.interesting.should eq [@member3, @member2, @member1]
     end

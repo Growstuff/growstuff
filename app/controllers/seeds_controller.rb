@@ -1,12 +1,12 @@
 class SeedsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /seeds
   # GET /seeds.json
   def index
-    @owner = Member.find_by_slug(params[:owner])
-    @crop = Crop.find_by_slug(params[:crop])
+    @owner = Member.find_by(slug: params[:owner])
+    @crop = Crop.find_by(slug: params[:crop])
     @seeds = if @owner
                @owner.seeds.includes(:owner, :crop).paginate(page: params[:page])
              elsif @crop
@@ -49,7 +49,7 @@ class SeedsController < ApplicationController
     @seed = Seed.new
 
     # using find_by_id here because it returns nil, unlike find
-    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
+    @crop = Crop.find_or_initialize_by(id: params[:crop_id])
 
     respond_to do |format|
       format.html # new.html.erb

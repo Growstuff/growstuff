@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /comments
@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
   # GET /comments/new.json
   def new
     @comment = Comment.new
-    @post = Post.find_by_id(params[:post_id])
+    @post = Post.find_by(id: params[:post_id])
 
     if @post
       @comments = @post.comments
