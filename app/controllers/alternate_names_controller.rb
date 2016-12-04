@@ -1,5 +1,5 @@
 class AlternateNamesController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /alternate_names
@@ -17,7 +17,7 @@ class AlternateNamesController < ApplicationController
   # GET /alternate_names/new.json
   def new
     @alternate_name = AlternateName.new
-    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
+    @crop = Crop.find_or_initialize_by(id: params[:crop_id])
 
     respond_to do |format|
       format.html # new.html.haml

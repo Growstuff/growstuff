@@ -87,7 +87,7 @@ def load_test_users
       suburb_file.pos = 0 if suburb_file.eof?
       row = CSV.parse(suburb_file.readline)
 
-      suburb, country, state, latitude, longitude = row[0]
+      suburb, _country, _state, latitude, longitude = row[0]
       # Using 'update_column' method instead of 'update' so that
       # it avoids accessing Geocoding service for faster processing
       @user.gardens.first.update_columns(location: suburb, latitude: latitude, longitude: longitude)
@@ -141,7 +141,7 @@ def create_cropbot
   @cropbot_user.skip_confirmation!
   @cropbot_user.roles << @wrangler
   @cropbot_user.save!
-  @cropbot_user.account.account_type = AccountType.find_by_name("Staff")
+  @cropbot_user.account.account_type = AccountType.find_by(name: "Staff")
   @cropbot_user.account.save
 end
 

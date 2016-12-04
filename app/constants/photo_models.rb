@@ -4,8 +4,9 @@ module Growstuff
       PLANTING = { type: 'planting', class: 'Planting', relation: 'plantings' }.freeze
       HARVEST = { type: 'harvest', class: 'Harvest', relation: 'harvests' }.freeze
       GARDEN = { type: 'garden', class: 'Garden', relation: 'gardens' }.freeze
+      SEED = { type: 'seed', class: 'Seed', relation: 'seeds' }.freeze
 
-      ALL = [PLANTING, HARVEST, GARDEN].freeze
+      ALL = [PLANTING, HARVEST, GARDEN, SEED].freeze
 
       def self.types
         ALL.map do |model|
