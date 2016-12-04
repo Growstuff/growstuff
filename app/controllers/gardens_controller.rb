@@ -1,12 +1,12 @@
 class GardensController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /gardens
   # GET /gardens.json
   def index
     @gardens = Garden.paginate(page: params[:page])
-    @owner = Member.find_by_slug(params[:owner])
+    @owner = Member.find_by(slug: params[:owner])
     if @owner
       @gardens = @owner.gardens.paginate(page: params[:page])
     end

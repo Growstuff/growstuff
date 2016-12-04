@@ -1,12 +1,12 @@
 class PlantingsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /plantings
   # GET /plantings.json
   def index
-    @owner = Member.find_by_slug(params[:owner])
-    @crop = Crop.find_by_slug(params[:crop])
+    @owner = Member.find_by(slug: params[:owner])
+    @crop = Crop.find_by(slug: params[:crop])
     @plantings = if @owner
                    @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
                  elsif @crop
@@ -44,8 +44,8 @@ class PlantingsController < ApplicationController
     @planting = Planting.new('planted_at' => Date.today)
 
     # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.find_by_id(params[:crop_id])     || Crop.new
-    @garden   = Garden.find_by_id(params[:garden_id]) || Garden.new
+    @crop     = Crop.find_by(id: params[:crop_id])     || Crop.new
+    @garden   = Garden.find_by(id: params[:garden_id]) || Garden.new
 
     respond_to do |format|
       format.html # new.html.erb

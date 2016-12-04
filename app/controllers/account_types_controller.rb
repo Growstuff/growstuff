@@ -1,5 +1,5 @@
 class AccountTypesController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
 
   # GET /account_types

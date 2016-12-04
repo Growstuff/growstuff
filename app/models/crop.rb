@@ -227,7 +227,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def Crop.create_from_csv(row)
     name, en_wikipedia_url, parent, scientific_names, alternate_names = row
 
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
 
     crop = Crop.find_or_create_by(name: name)
@@ -237,7 +237,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     )
 
     if parent
-      parent = Crop.find_by_name(parent)
+      parent = Crop.find_by(name: parent)
       if parent
         crop.update_attributes(parent_id: parent.id)
       else
@@ -259,7 +259,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
 
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
 
     if names_to_add.size > 0
       raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -269,9 +269,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def add_alternate_names_from_csv(alternate_names)
-    cropbot = Member.find_by_login_name('cropbot')
-
-    names_to_add = []
+    cropbot = Member.find_by(login_name: 'cropbot')
 
     if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
       raise "cropbot account not found: run rake db:seed" unless cropbot
@@ -322,7 +320,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
       # we want to make sure that exact matches come first, even if not
       # using elasticsearch (eg. in development)
-      exact_match = Crop.approved.find_by_name(query)
+      exact_match = Crop.approved.find_by(name: query)
       if exact_match
         matches.delete(exact_match)
         matches.unshift(exact_match)
@@ -330,6 +328,10 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
       return matches
     end
+  end
+
+  def Crop.case_insensitive_name(name)
+    where(["lower(name) = :value", { value: name.downcase }])
   end
 
   private
@@ -345,7 +347,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def create_crop_in_list(list_name, name)
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
     create_hash = {
       creator_id: "#{cropbot.id}",
       name: name
