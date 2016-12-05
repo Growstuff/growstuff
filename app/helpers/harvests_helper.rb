@@ -33,10 +33,7 @@ module HarvestsHelper
   end
 
   def display_harvest_description(harvest)
-    if harvest.description.empty?
-      "No description provided."
-    else
-      harvest.description
-    end
+    return "No description provided." if harvest.description.empty?
+    harvest.description
   end
 end
