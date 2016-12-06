@@ -12,7 +12,7 @@ the svg
 
   function HeightScale(data){
     this._data = data;
-  };
+  }
 
   HeightScale.prototype.render = function(){
     var data = this._data;
@@ -26,4 +26,4 @@ the svg
 
   growstuff.HeightScale = HeightScale;
 
-})();
+}());

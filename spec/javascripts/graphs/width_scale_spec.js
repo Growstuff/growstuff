@@ -36,10 +36,6 @@
       it ('calls the d3 range function to draw the width', function(){
         expect(mockD3.range).toHaveBeenCalledWith([0, 300]);
       });
-
-
-
-
   });
 
-})();
+}());

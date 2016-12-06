@@ -9,7 +9,6 @@
   Currently these are used for HorizontalBarGraph.
    */
 
-
   var growstuff = (window.growstuff = window.growstuff || {});
   var WidthScale = growstuff.WidthScale;
   var HeightScale = growstuff.HeightScale;
@@ -54,11 +53,11 @@ BarGroup.prototype.getBarValues = function () {
 
   for (i; i < data.bars.length; i++){
     barValues.push(data.bars[i].value)
-  };
+  }
 
   return barValues;
-  };
+};
 
 growstuff.BarGroup = BarGroup;
 
-})();
+}());

@@ -37,4 +37,4 @@ This file draws the labels to the left of each bar.
 
   growstuff.BarLabelGroup = BarLabelGroup;
 
-})();
+}())

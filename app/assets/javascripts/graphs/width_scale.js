@@ -12,19 +12,16 @@ to the display size of the svg
 
   function WidthScale (data){
     this._data = data;
-  };
+  }
 
   WidthScale.prototype.render = function() {
     var data = this._data;
     var scaleType = data.width.scale;
     var axisSize = data.width.size;
 
-
     return d3.scale[scaleType]()
         .domain([0, d3.max(this.getBarValues())])
         .range([0, axisSize]);
-
-
   };
 
   WidthScale.prototype.getBarValues = function(){
@@ -35,11 +32,11 @@ to the display size of the svg
 
     for (i; i < data.bars.length; i++){
       barValues.push(data.bars[i].value)
-    };
+    }
 
     return barValues;
   }
 
   growstuff.WidthScale = WidthScale;
 
-})();
+}());

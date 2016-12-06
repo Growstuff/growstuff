@@ -50,4 +50,4 @@ The main dimensions of the graph are rendered here.
   };
 
   growstuff.HorizontalBarGraph = HorizontalBarGraph;
-})();
+}());
