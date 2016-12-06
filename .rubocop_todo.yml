@@ -6,11 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 2
-Lint/AmbiguousOperator:
-  Exclude:
-    - 'spec/factories/member.rb'
-
 # Offense count: 24
 Lint/AmbiguousRegexpLiteral:
   Exclude:
@@ -25,12 +20,6 @@ Lint/AmbiguousRegexpLiteral:
     - 'spec/models/post_spec.rb'
     - 'spec/views/members/show.rss.haml_spec.rb'
     - 'spec/views/posts/show.html.haml_spec.rb'
-
-# Offense count: 1
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'app/models/member.rb'
 
 # Offense count: 1
 Lint/HandleExceptions:
