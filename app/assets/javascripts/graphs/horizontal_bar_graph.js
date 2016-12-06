@@ -27,8 +27,6 @@ The main dimensions of the graph are rendered here.
     var width = this._data.width;
     var height = this._data.height;
 
-    var margin = this._data.margin;
-
     var barLabelGroup = new BarLabelGroup(this._data);
     var margin = this._data.margin;
 
