@@ -27,9 +27,8 @@ module HarvestsHelper
   end
 
   def display_weight(harvest)
-    if !harvest.weight_quantity.blank? && harvest.weight_quantity > 0
-      "#{number_to_human(harvest.weight_quantity, strip_insignificant_zeros: true)} #{harvest.weight_unit}"
-    end
+    return if harvest.weight_quantity.blank? || harvest.weight_quantity <= 0
+    "#{number_to_human(harvest.weight_quantity, strip_insignificant_zeros: true)} #{harvest.weight_unit}"
   end
 
   def display_harvest_description(harvest)
