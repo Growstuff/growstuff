@@ -117,10 +117,10 @@ class Harvest < ActiveRecord::Base
         " #{self.weight_unit}"
     end
 
-    return string
+    string
   end
 
   def default_photo
-    return photos.first || crop.default_photo
+    photos.first || crop.default_photo
   end
 end

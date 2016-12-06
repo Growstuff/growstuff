@@ -50,7 +50,7 @@ module Haml::Filters
 
       expanded = expanded.gsub(MEMBER_ESCAPE_AT_REGEX, "")
 
-      return BlueCloth.new(expanded).to_html
+      BlueCloth.new(expanded).to_html
     end
   end
 
