@@ -91,11 +91,9 @@ class Member < ActiveRecord::Base
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions).login_name_or_email(login).first
-    else
-      find_by(conditions)
-    end
+    login = conditions.delete(:login)
+    return  where(conditions).login_name_or_email(login).first if login
+    find_by(conditions)
   end
 
   def to_s

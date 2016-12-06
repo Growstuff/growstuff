@@ -27,12 +27,6 @@ Lint/AmbiguousRegexpLiteral:
     - 'spec/views/posts/show.html.haml_spec.rb'
 
 # Offense count: 1
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'app/models/member.rb'
-
-# Offense count: 1
 Lint/HandleExceptions:
   Exclude:
     - 'lib/tasks/testing.rake'
