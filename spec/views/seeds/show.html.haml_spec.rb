@@ -1,3 +1,15 @@
+## DEPRECATION NOTICE: Do not add new tests to this file!
+##
+## View and controller tests are deprecated in the Growstuff project.
+## We no longer write new view and controller tests, but instead write
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara).
+## These test the full stack, behaving as a browser, and require less complicated setup
+## to run. Please feel free to delete old view/controller tests as they are reimplemented
+## in feature tests.
+##
+## If you submit a pull request containing new view or controller tests, it will not be
+## merged.
+
 require 'rails_helper'
 
 describe "seeds/show" do
@@ -16,7 +28,7 @@ describe "seeds/show" do
     before(:each) do
       @owner = FactoryGirl.create(:london_member)
       assign(:seed, FactoryGirl.create(:tradable_seed,
-        :owner => @owner))
+        owner: @owner))
       # note current_member is not the owner of this seed
       @member = FactoryGirl.create(:member)
       sign_in @member
@@ -31,7 +43,7 @@ describe "seeds/show" do
     it "shows location of seed owner" do
       render
       rendered.should have_content @owner.location
-      assert_select 'a', :href => place_path(@owner.location)
+      assert_select 'a', href: place_path(@owner.location)
     end
 
     context 'with no location' do
@@ -39,7 +51,7 @@ describe "seeds/show" do
         @owner = FactoryGirl.create(:member) # no location
         sign_in @owner
         controller.stub(:current_user) { @owner }
-        assign(:seed, FactoryGirl.create(:tradable_seed, :owner => @owner))
+        assign(:seed, FactoryGirl.create(:tradable_seed, owner: @owner))
       end
 
       it 'says "from unspecified location"' do
@@ -49,7 +61,7 @@ describe "seeds/show" do
 
       it "links to profile to set location" do
         render
-        assert_select "a[href=#{url_for(edit_member_registration_path)}]", :text => "Set Location"
+        assert_select "a[href='#{url_for(edit_member_registration_path)}']", text: "Set Location"
       end
     end
 
@@ -57,6 +69,5 @@ describe "seeds/show" do
       render
       rendered.should have_content "Request seeds"
     end
-
   end
 end

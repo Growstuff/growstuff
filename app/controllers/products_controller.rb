@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
 
   # GET /products
@@ -74,6 +74,6 @@ class ProductsController < ApplicationController
 
   def product_params
     params.require(:product).permit(:description, :min_price, :recommended_price, :name,
-    :account_type_id, :paid_months)
+      :account_type_id, :paid_months)
   end
 end

@@ -26,15 +26,17 @@
     .col-md-8= f.password_field :password_confirmation, :class => 'form-control'
 
   .form-group
-    .col-md-offset-2.col-md-8
-      = f.check_box :tos_agreement
-      I agree to the
-      = succeed "." do
-        = link_to 'Terms of Service', url_for(:action => 'tos', :controller => '/policy')
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :tos_agreement
+        I agree to the
+        = succeed "." do
+          = link_to 'Terms of Service', "#{root_url}/policy/tos"
   .form-group
-    .col-md-offset-2.col-md-8
-      = f.check_box :newsletter, :checked => true
-      Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
+    .col-md-offset-2.col-md-8.checkbox
+      %label
+        = f.check_box :newsletter, :checked => true
+        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
       .help-inline
         = render :partial => 'newsletter_blurb'
 

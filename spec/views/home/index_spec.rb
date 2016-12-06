@@ -1,15 +1,27 @@
+## DEPRECATION NOTICE: Do not add new tests to this file!
+##
+## View and controller tests are deprecated in the Growstuff project
+## We no longer write new view and controller tests, but instead write
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara).
+## These test the full stack, behaving as a browser, and require less complicated setup
+## to run. Please feel free to delete old view/controller tests as they are reimplemented
+## in feature tests.
+##
+## If you submit a pull request containing new view or controller tests, it will not be
+## merged.
+
 require 'rails_helper'
 
-describe 'home/index.html.haml', :type => "view" do
+describe 'home/index.html.haml', type: "view" do
   before(:each) do
     @member = FactoryGirl.create(:london_member)
     @member.updated_at = 2.days.ago
     assign(:interesting_members, [@member])
 
-    @post = FactoryGirl.create(:post, :author => @member)
+    @post = FactoryGirl.create(:post, author: @member)
     assign(:posts, [@post])
 
-    @planting = FactoryGirl.create(:planting, :owner => @member)
+    @planting = FactoryGirl.create(:planting, owner: @member)
     assign(:plantings, [@planting])
 
     @crop = FactoryGirl.create(:crop)
@@ -41,5 +53,4 @@ describe 'home/index.html.haml', :type => "view" do
       rendered.should have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{@member.login_name}"
     end
   end
-
 end

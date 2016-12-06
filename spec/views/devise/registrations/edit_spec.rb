@@ -1,7 +1,18 @@
+## DEPRECATION NOTICE: Do not add new tests to this file!
+##
+## View and controller tests are deprecated in the Growstuff project
+## We no longer write new view and controller tests, but instead write
+## feature tests (in spec/features) using Capybara (https://github.com/jnicklas/capybara).
+## These test the full stack, behaving as a browser, and require less complicated setup
+## to run. Please feel free to delete old view/controller tests as they are reimplemented
+## in feature tests.
+##
+## If you submit a pull request containing new view or controller tests, it will not be
+## merged.
+
 require 'rails_helper'
 
-describe 'devise/registrations/edit.html.haml', :type => "view" do
-
+describe 'devise/registrations/edit.html.haml', type: "view" do
   context "logged in" do
     before(:each) do
       controller.stub(:current_user) { nil }
@@ -42,11 +53,11 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       end
 
       it "contains a gravatar icon" do
-        assert_select "img", :src => /gravatar\.com\/avatar/
+        assert_select "img", src: /gravatar\.com\/avatar/
       end
 
       it 'contains a link to gravatar.com' do
-        assert_select "a", :href => /gravatar\.com/
+        assert_select "a", href: /gravatar\.com/
       end
 
       it 'shows bio field' do
@@ -59,7 +70,6 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
     end
 
     context 'other sites section' do
-
       context 'not connected to twitter' do
         it 'has a link to connect' do
           render
@@ -68,15 +78,15 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       end
       context 'connected to twitter' do
         before(:each) do
-          @twitter_auth = FactoryGirl.create(:authentication, :member => @member)
+          @twitter_auth = FactoryGirl.create(:authentication, member: @member)
           render
         end
         it 'has a link to twitter profile' do
-          assert_select "a", :href => "http://twitter.com/#{@twitter_auth.name}"
+          assert_select "a", href: "http://twitter.com/#{@twitter_auth.name}"
         end
         it 'has a link to disconnect' do
           render
-          assert_select "a", :href => @twitter_auth, :text => "Disconnect"
+          assert_select "a", href: @twitter_auth, text: "Disconnect"
         end
       end
 
@@ -88,20 +98,17 @@ describe 'devise/registrations/edit.html.haml', :type => "view" do
       end
       context 'connected to flickr' do
         before(:each) do
-          @flickr_auth = FactoryGirl.create(:flickr_authentication, :member => @member)
+          @flickr_auth = FactoryGirl.create(:flickr_authentication, member: @member)
           render
         end
         it 'has a link to flickr photostream' do
-          assert_select "a", :href => "http://flickr.com/photos/#{@flickr_auth.uid}"
+          assert_select "a", href: "http://flickr.com/photos/#{@flickr_auth.uid}"
         end
         it 'has a link to disconnect' do
           render
-          assert_select "a", :href => @flickr_auth, :text => "Disconnect"
+          assert_select "a", href: @flickr_auth, text: "Disconnect"
         end
       end
-
     end
-
   end
-
 end

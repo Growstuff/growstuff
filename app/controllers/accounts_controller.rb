@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
-  
+
   # GET /accounts
   def index
     @accounts = Account.all
@@ -43,5 +43,4 @@ class AccountsController < ApplicationController
   def account_params
     params.require(:account).permit(:account_type_id, :member_id, :paid_until)
   end
-
 end

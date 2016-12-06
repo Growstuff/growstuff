@@ -10,7 +10,7 @@
   - if @sets and @current_set
     %h2= @sets.key(@current_set)
 
-  - if @sets and @sets.length > 0
+  - if @sets and @sets.size > 0
     %p
       = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
         = label_tag :set, "Choose a photo album:", :class => 'control-label'
@@ -20,7 +20,7 @@
         = submit_tag "Search", :class => 'btn btn-primary'
 
   %div.pagination
-    = page_entries_info @photos, :model => "photos"
+    = page_entries_info @photos
     = will_paginate @photos
 
   .row

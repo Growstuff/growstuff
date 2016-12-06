@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe ForumsController do
   describe "routing" do
-
     it "routes to #index" do
       get("/forums").should route_to("forums#index")
     end
@@ -12,11 +11,11 @@ describe ForumsController do
     end
 
     it "routes to #show" do
-      get("/forums/1").should route_to("forums#show", :id => "1")
+      get("/forums/1").should route_to("forums#show", id: "1")
     end
 
     it "routes to #edit" do
-      get("/forums/1/edit").should route_to("forums#edit", :id => "1")
+      get("/forums/1/edit").should route_to("forums#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,12 +23,11 @@ describe ForumsController do
     end
 
     it "routes to #update" do
-      put("/forums/1").should route_to("forums#update", :id => "1")
+      put("/forums/1").should route_to("forums#update", id: "1")
     end
 
     it "routes to #destroy" do
-      delete("/forums/1").should route_to("forums#destroy", :id => "1")
+      delete("/forums/1").should route_to("forums#destroy", id: "1")
     end
-
   end
 end

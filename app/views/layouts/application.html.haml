@@ -1,9 +1,8 @@
 !!! 5
-%html(lang="en")
+%html(lang="en" prefix="og: http://ogp.me/ns#")
   = render :partial => "layouts/meta"
   %body
     = render :partial => "layouts/header"
-    = render :partial => "layouts/crowdfunding"
 
     #maincontainer.container
       .row
@@ -18,12 +17,7 @@
             %p
               .btn-group
                 = yield(:buttonbar)
-          - if notice
-            .alert.alert-success
-              = notice
-          - if alert
-            .alert.alert-warning
-              = alert
+          = render :partial => "shared/flash_messages", flash: flash
           = yield
 
     %footer

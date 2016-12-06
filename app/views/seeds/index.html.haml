@@ -1,4 +1,6 @@
-- content_for :title, @owner ? "#{@owner}'s seeds" : @crop ? "Everyone's #{@crop.name} seeds" : "Everyone's seeds"
+- content_for :title, @owner ? t('.title.owner_seeds', owner: @owner) : @crop ? t('.title.crop_seeds', crop: @crop.name) : t('.title.default')
+- if @owner
+  = link_to "View #{@owner}'s profile >>", member_path(@owner)
 
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track your seed
@@ -19,54 +21,25 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
 
 %div.pagination
-  = page_entries_info @seeds, :model => "seeds"
+  = page_entries_info @seeds
+  = will_paginate @seeds
+.row
+  - if @seeds.size > 0
+    - @seeds.each do |seed|
+      .col-md-6
+        =render :partial => 'seeds/thumbnail', :locals => {:seed => seed}
+
+%div.pagination
+  = page_entries_info @seeds
   = will_paginate @seeds
 
-- if @seeds.length > 0
-
-  %table.table.table-striped
-    %tr
-      - unless @owner
-        %th Owner
-      %th Crop
-      %th Description
-      %th Quantity
-      %th Plant before
-      %th Will trade to
-      %th From location
-      %th
-
-    - @seeds.each do |seed|
-      %tr
-        - unless @owner
-          %td= link_to seed.owner.login_name, seed.owner
-        %td= link_to seed.crop.name, seed.crop
-        %td= seed.description
-        %td= seed.quantity
-        %td= seed.plant_before
-        %td= seed.tradable? ? seed.tradable_to : ''
-        %td
-          - if seed.tradable?
-            - if seed.owner.location.blank?
-              unspecified
-            - else
-              = link_to seed.owner.location, place_path(seed.owner.location)
-        %td
-          = link_to 'Details', seed, :class => 'btn btn-default btn-xs'
-          - if can? :edit, seed
-            = link_to 'Edit', edit_seed_path(seed), :class => 'btn btn-default btn-xs'
-
-  %div.pagination
-    = page_entries_info @seeds, :model => "seeds"
-    = will_paginate @seeds
-
-  %ul.list-inline
-    %li The data on this page is available in the following formats:
-    - if @owner
-      %li= link_to "CSV", seeds_by_owner_path(@owner, :format => 'csv')
-      %li= link_to "JSON", seeds_by_owner_path(@owner, :format => 'json')
-      %li= link_to "RSS", seeds_by_owner_path(@owner, :format => 'rss')
-    - else
-      %li= link_to "CSV", seeds_path(:format => 'csv')
-      %li= link_to "JSON", seeds_path(:format => 'json')
-      %li= link_to "RSS", seeds_path(:format => 'rss')
+%ul.list-inline
+  %li The data on this page is available in the following formats:
+  - if @owner
+    %li= link_to "CSV", seeds_by_owner_path(@owner, :format => 'csv')
+    %li= link_to "JSON", seeds_by_owner_path(@owner, :format => 'json')
+    %li= link_to "RSS", seeds_by_owner_path(@owner, :format => 'rss')
+  - else
+    %li= link_to "CSV", seeds_path(:format => 'csv')
+    %li= link_to "JSON", seeds_path(:format => 'json')
+    %li= link_to "RSS", seeds_path(:format => 'rss')

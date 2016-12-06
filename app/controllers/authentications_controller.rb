@@ -1,5 +1,5 @@
 class AuthenticationsController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
 
   # POST /authentications
@@ -7,27 +7,18 @@ class AuthenticationsController < ApplicationController
     auth = request.env['omniauth.auth']
     @authentication = nil
     if auth
-
-      name = ''
-      case auth['provider']
-      when 'twitter'
-        name = auth['info']['nickname']
-      when 'flickr'
-        name = auth['info']['name']
-      else
-        name = auth['info']['name']
-      end
+      name = Growstuff::OauthSignupAction.new.determine_name(auth)
 
       @authentication = current_member.authentications
-      .create_with(
-        :name => name,
-        :token => auth['credentials']['token'],
-        :secret => auth['credentials']['secret']
-      )
-      .find_or_create_by(
-        :provider => auth['provider'],
-        :uid => auth['uid'],
-        :name => name)
+        .create_with(
+          name: name,
+          token: auth['credentials']['token'],
+          secret: auth['credentials']['secret']
+        )
+        .find_or_create_by(
+          provider: auth['provider'],
+          uid: auth['uid'],
+          name: name)
 
       flash[:notice] = "Authentication successful."
     else

@@ -1,19 +1,37 @@
 sudo: false
 language: ruby
-cache: bundler
+cache:
+  bundler: true
+  directories:
+    - travis_phantomjs
 env:
   matrix:
-    - GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    - GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' GROWSTUFF_ELASTICSEARCH='true'
+    - GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' GROWSTUFF_ELASTICSEARCH='false'
   global:
     secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
-bundler_args: "--without development production staging"
 rvm:
-- 2.1.5
+  - 2.3.1
+before_install:
+  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
+  - >
+    if [ $(phantomjs --version) != '2.1.1' ]; then
+    PHANTOM_URL=https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2;
+    rm -rf $PWD/travis_phantomjs;
+    mkdir -p $PWD/travis_phantomjs;
+    wget $PHANTOM_URL -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2;
+    tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs;
+    fi
+  - phantomjs --version
 before_script:
-- psql -c 'create database growstuff_test;' -U postgres
+  - bundle exec rake db:create db:migrate db:test:prepare
+  - bundle exec rake assets:precompile
 script:
-- bundle exec rake db:migrate --trace
-- bundle exec rspec spec/
+  - bundle exec rubocop --display-cop-names --rails
+  - script/gemfile_check
+  - bundle exec script/check_contributors_md
+  - bundle exec rake db:migrate --trace
+  - bundle exec rspec spec/
 services:
   - elasticsearch
 before_deploy:
@@ -26,6 +44,7 @@ deploy:
     repo: Growstuff/growstuff
   app:
     dev: growstuff-staging
+    master: growstuff-prod
     travis_deploy: tranquil-basin-3130
     travis_containers: tranquil-basin-3130
   run:
@@ -34,4 +53,6 @@ deploy:
     - restart
 after_deploy:
   - bundle exec script/heroku_maintenance.rb off
-
+addons:
+  code_climate:
+    repo_token: 462e015bbdaabfb20910fc07f2fea253410ecb131444e00f97dbf32dc6789ca6

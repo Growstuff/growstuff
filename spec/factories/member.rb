@@ -49,23 +49,23 @@ FactoryGirl.define do
     factory :edinburgh_member do
       location 'Edinburgh'
       latitude 55.953252
-      longitude -3.188267
+      longitude { -3.188267 }
     end
 
     factory :south_pole_member do
       sequence(:login_name) { |n| "ScottRF#{n}" }
       location 'Amundsen-Scott Base, Antarctica'
-      latitude -90
+      latitude { -90 }
       longitude 0
     end
 
     factory :admin_member do
-      roles { [ FactoryGirl.create(:admin) ] }
+      roles { [FactoryGirl.create(:admin)] }
     end
 
     factory :crop_wrangling_member do
-      roles { [ FactoryGirl.create(:crop_wrangler) ] }
-      sequence(:login_name) {|n| "wrangler#{n}"}
+      roles { [FactoryGirl.create(:crop_wrangler)] }
+      sequence(:login_name) { |n| "wrangler#{n}" }
     end
 
     factory :invalid_member_shortname do
@@ -103,7 +103,5 @@ FactoryGirl.define do
     factory :no_email_notifications_member do
       send_notification_email false
     end
-
   end
-
 end

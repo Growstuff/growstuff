@@ -1,7 +1,7 @@
 class AccountTypesController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
-  
+
   # GET /account_types
   def index
     @account_types = AccountType.all
@@ -70,7 +70,7 @@ class AccountTypesController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def account_type_params
     params.require(:account_type).permit(:is_paid, :is_permanent_paid, :name)

@@ -1,7 +1,7 @@
 = form_for @scientific_name, :html => {:class => 'form-horizontal', :role => "form"} do |f|
   - if @scientific_name.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@scientific_name.errors.count, "error")} prohibited this scientific_name from being saved:"
+      %h2= "#{pluralize(@scientific_name.errors.size, "error")} prohibited this scientific_name from being saved:"
       %ul
         - @scientific_name.errors.full_messages.each do |msg|
           %li= msg
@@ -17,9 +17,9 @@
     .col-md-8
       = collection_select(:scientific_name, :crop_id, Crop.all, :id, :name, { :selected => @scientific_name.crop_id || @crop.id }, :class => 'form-control')
   .form-group
-    = f.label :scientific_name, :class => 'control-label col-md-2'
+    = f.label :name, :class => 'control-label col-md-2'
     .col-md-8
-      = f.text_field :scientific_name, :class => 'form-control'
+      = f.text_field :name, :class => 'form-control'
   .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', :class => 'btn btn-primary'

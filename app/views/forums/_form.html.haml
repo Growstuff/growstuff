@@ -1,7 +1,7 @@
 = form_for @forum, :html => { :class => 'form-horizontal', :role => "form" } do |f|
   - if @forum.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@forum.errors.count, "error")} prohibited this forum from being saved:"
+      %h2= "#{pluralize(@forum.errors.size, "error")} prohibited this forum from being saved:"
       %ul
         - @forum.errors.full_messages.each do |msg|
           %li= msg

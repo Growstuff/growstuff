@@ -9,7 +9,7 @@ ComfortableMexicanSofa.configure do |config|
 
   # Module responsible for authentication. You can replace it with your own.
   # It simply needs to have #authenticate method. See http_auth.rb for reference.
-     config.admin_auth = 'CmsDeviseAuth'
+  config.admin_auth = 'CmsDeviseAuth'
 
   # Module responsible for authorization on admin side. It should have #authorize
   # method that returns true or false based on params and loaded instance
@@ -91,13 +91,12 @@ ComfortableMexicanSofa.configure do |config|
   # Reveal partials that can be overwritten in the admin area.
   # Default is false.
   #   config.reveal_cms_partials = false
-
 end
 
 module CmsDeviseAuth
   def authenticate
     unless current_member && current_member.has_role?(:admin)
-      redirect_to root_path, :alert => 'Permission denied. Please sign in as an admin user to use the CMS admin area.'
+      redirect_to root_path, alert: 'Permission denied. Please sign in as an admin user to use the CMS admin area.'
     end
   end
 end

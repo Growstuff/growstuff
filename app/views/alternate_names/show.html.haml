@@ -1,4 +1,13 @@
+= content_for :title, @alternate_name.name
+- content_for :opengraph do
+  = tag("meta", property: "og:title", content: @alternate_name.name)
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+
 %p#notice= notice
+
+= render :partial => 'crops/approval_status_message', :locals => { :crop => @alternate_name.crop }
 
 %p
   %b Alternate name:
@@ -9,5 +18,5 @@
 
 - if can? :edit, @alternate_name
   = link_to 'Edit', edit_alternate_name_path(@alternate_name), :class => 'btn btn-default btn-xs'
-\|
+  \|
 = link_to 'Back', alternate_names_path

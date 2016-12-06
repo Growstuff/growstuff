@@ -1,4 +1,6 @@
-- content_for :title, @owner ? "#{@owner}'s harvests" : @crop ? "Everyone's #{@crop.name} harvests" : "Everyone's harvests"
+- content_for :title, @owner ? t('.title.owner_harvests', owner: @owner) : @crop ? t('.title.crop_harvests', crop: @crop.name) : t('.title.default')
+- if @owner
+  = link_to "View #{@owner}'s profile >>", member_path(@owner)
 
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
@@ -19,38 +21,17 @@
     = render :partial => 'shared/signin_signup', :locals => { :to => 'track your harvests' }
 
 %div.pagination
-  = page_entries_info @harvests, :model => "harvests"
+  = page_entries_info @harvests
   = will_paginate @harvests
-
-- if @harvests.length > 0
-
-  %table.table.table-striped
-    %tr
-      - unless @owner
-        %th Owner
-      %th Crop
-      %th Plant part
-      %th Date
-      %th Quantity
-      %th Description
-      %th
-
+.row
+  - if @harvests.size > 0
     - @harvests.each do |harvest|
-      %tr
-        - unless @owner
-          %td= link_to harvest.owner.login_name, harvest.owner
-        %td= link_to harvest.crop.name, harvest.crop
-        %td
-          - if harvest.plant_part
-            = link_to harvest.plant_part.name, harvest.plant_part
-        %td= harvest.harvested_at
-        %td= display_quantity(harvest)
-        %td= harvest.description
-        %td= link_to 'Details', harvest, :class => 'btn btn-default btn-xs'
+      .col-md-6
+        =render :partial => 'harvests/thumbnail', :locals => {:harvest => harvest}
 
-  %div.pagination
-    = page_entries_info @harvests, :model => "harvests"
-    = will_paginate @harvests
+%div.pagination
+  = page_entries_info @harvests
+  = will_paginate @harvests
 
   %ul.list-inline
     %li The data on this page is available in the following formats:

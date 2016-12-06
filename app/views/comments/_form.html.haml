@@ -1,14 +1,14 @@
 = form_for(@comment, :html => {:class => "form-horizontal", :role => "form"}) do |f|
   - if @comment.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
+      %h2= "#{pluralize(@comment.errors.size, "error")} prohibited this comment from being saved:"
       %ul
         - @comment.errors.full_messages.each do |msg|
           %li= msg
 
   .form-group
     = f.label :body, "Your comment:"
-    = f.text_area :body, :rows => 6, :class => 'form-control'
+    = f.text_area :body, :rows => 6, :class => 'form-control', :autofocus => 'autofocus'
   %span.help-block
     = render :partial => "shared/markdown_help"
   .actions

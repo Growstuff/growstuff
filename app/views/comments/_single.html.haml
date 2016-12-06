@@ -7,8 +7,11 @@
         .comment-meta
           Posted by
           = link_to comment.author.login_name, member_path(comment.author)
-          at
+          on
           = comment.created_at
+          - if comment.updated_at > comment.created_at
+            and edited at
+            = comment.updated_at
 
         .comment-body
           :growstuff_markdown

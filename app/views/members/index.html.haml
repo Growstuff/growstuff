@@ -1,4 +1,4 @@
-= content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} members"
+= content_for :title, t(".title", site_name: "#{ENV['GROWSTUFF_SITE_NAME']}")
 
 = form_tag(members_path, :method => :get, :class => 'form-inline', :role => 'form') do
   .form-group
@@ -7,15 +7,13 @@
   = submit_tag "Show", :class => 'btn btn-primary'
 
 %div.pagination
-  = page_entries_info @members, :model => "members"
+  = page_entries_info @members
   = will_paginate @members
 
-.row
+.member-cards
   - @members.each do |m|
-    .col-md-4.three-across
-      .thumbnail
-        = render :partial => "members/thumbnail", :locals => { :member => m }
+    = render :partial => "members/thumbnail", :locals => { :member => m }
 
 %div.pagination
-  = page_entries_info @members, :model => "members"
+  = page_entries_info @members
   = will_paginate @members

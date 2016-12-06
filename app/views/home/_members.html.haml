@@ -2,12 +2,12 @@
   .hidden-xs
     - members = Member.interesting.first(6)
     - if members.present?
+      %section
       %h2= t('.title')
 
-      .row
+      .member-cards
         - members.each do |m|
-          .col-md-4.homepage-members
-            = render :partial => "members/thumbnail", :locals => { :member => m }
+          = render :partial => "members/thumbnail", :locals => { :member => m }
 
       %p.text-right
         = link_to "#{t('.view_all')} »", members_path

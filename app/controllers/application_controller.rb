@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
 
-  after_filter :store_location
-  before_filter :set_locale
+  after_action :store_location
+  before_action :set_locale
 
   def store_location
     if (request.path != "/members/sign_in" &&
@@ -14,12 +14,16 @@ class ApplicationController < ActionController::Base
         request.path != "/members/confirmation" &&
         request.path != "/members/sign_out" &&
         !request.xhr?)
-        store_location_for(:member, request.fullpath)
+      store_location_for(:member, request.fullpath)
     end
   end
 
   def after_sign_in_path_for(resource)
     stored_location_for(:member) || root_path
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    request.referer
   end
 
   # tweak CanCan defaults because we don't have a "current_user" method
@@ -31,9 +35,9 @@ class ApplicationController < ActionController::Base
 
   # CanCan error handling
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to request.referer || root_url, :alert => exception.message
+    redirect_to request.referer || root_url, alert: exception.message
   end
-   
+
   def set_locale
     I18n.locale = params[:locale] || extract_locale_from_subdomain || I18n.default_locale
   end
@@ -48,7 +52,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) do |member| 
+    devise_parameter_sanitizer.permit(:sign_up) do |member|
       member.permit(:login_name, :email, :password, :password_confirmation,
         :remember_me, :login,
         # terms of service
@@ -60,7 +64,7 @@ class ApplicationController < ActionController::Base
       )
     end
 
-    devise_parameter_sanitizer.for(:account_update) do |member|
+    devise_parameter_sanitizer.permit(:account_update) do |member|
       member.permit(:login_name, :email, :password, :password_confirmation,
         :remember_me, :login,
         # terms of service
@@ -69,10 +73,9 @@ class ApplicationController < ActionController::Base
         :bio, :location, :latitude, :longitude,
         # email settings
         :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
-        #update password
+        # update password
         :current_password
       )
     end
   end
-
 end

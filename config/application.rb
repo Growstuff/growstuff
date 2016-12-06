@@ -5,7 +5,7 @@ require 'openssl'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  Bundler.require(*Rails.groups(assets: %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
@@ -82,13 +82,6 @@ module Growstuff
       g.javascripts      false
     end
 
-    config.action_mailer.delivery_method = :sendmail
-      config.action_mailer.sendmail_settings = {
-        :location       => '/usr/sbin/sendmail',
-        :arguments      => '-i -t',
-        :openssl_verify_mode  => 'none'
-      }
-
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
     config.bot_email = "noreply@growstuff.org"
@@ -96,7 +89,7 @@ module Growstuff
     config.user_agent_email = "info@growstuff.org"
 
     Gibbon::API.api_key = ENV['GROWSTUFF_MAILCHIMP_APIKEY'] || 'notarealkey'
-      # API key can't be blank or tests fail
+    # API key can't be blank or tests fail
     Gibbon::API.timeout = 10
     Gibbon::API.throws_exceptions = false
     config.newsletter_list_id = ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID']
@@ -112,5 +105,6 @@ module Growstuff
     # didn't work for us.
     config.cloudmade_key = '29a2d9e3cb3d429490a8f338b2388b1d'
 
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end

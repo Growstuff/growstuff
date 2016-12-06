@@ -1,6 +1,6 @@
 class PasswordsController < Devise::PasswordsController
+  protected
 
-protected
   def after_resetting_password_path_for(resource)
     root_path
   end

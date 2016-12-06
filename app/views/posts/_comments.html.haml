@@ -1,7 +1,7 @@
 %a{:name => "comments"}
 - if post.comments
   %h2
-    =pluralize(post.comments.length, "comment")
+    =localize_plural(post.comments, Comment)
   - post.comments.post_order.each do |c|
     = render :partial => "comments/single", :locals => { :comment => c }
 
