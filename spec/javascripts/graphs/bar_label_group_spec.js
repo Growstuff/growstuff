@@ -1,4 +1,4 @@
-(function(){
+function(){
   'use strict';
 
   /*
@@ -39,5 +39,4 @@
 
   });
 
-
-})();
+}();
