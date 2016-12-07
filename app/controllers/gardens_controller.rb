@@ -5,11 +5,12 @@ class GardensController < ApplicationController
   # GET /gardens
   # GET /gardens.json
   def index
-    @gardens = Garden.paginate(page: params[:page])
     @owner = Member.find_by(slug: params[:owner])
-    if @owner
-      @gardens = @owner.gardens.paginate(page: params[:page])
-    end
+    @gardens = if @owner
+                 @owner.gardens.paginate(page: params[:page])
+               else
+                 Garden.paginate(page: params[:page])
+               end
 
     respond_to do |format|
       format.html # index.html.erb
