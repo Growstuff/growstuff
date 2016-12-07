@@ -42,7 +42,6 @@ class HarvestsController < ApplicationController
 
   # GET /harvests/1/edit
   def edit
-    @harvest = Harvest.find(params[:id])
   end
 
   # POST /harvests
@@ -66,8 +65,6 @@ class HarvestsController < ApplicationController
   # PUT /harvests/1
   # PUT /harvests/1.json
   def update
-    @harvest = Harvest.find(params[:id])
-
     respond_to do |format|
       if @harvest.update(harvest_params)
         format.html { redirect_to @harvest, notice: 'Harvest was successfully updated.' }
@@ -82,7 +79,6 @@ class HarvestsController < ApplicationController
   # DELETE /harvests/1
   # DELETE /harvests/1.json
   def destroy
-    @harvest = Harvest.find(params[:id])
     @harvest.destroy
 
     respond_to do |format|

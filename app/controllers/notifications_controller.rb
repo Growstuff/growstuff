@@ -14,7 +14,6 @@ class NotificationsController < ApplicationController
 
   # GET /notifications/1
   def show
-    @notification = Notification.find(params[:id])
     @notification.read = true
     @notification.save
     @reply_link = reply_link(@notification)
@@ -54,7 +53,6 @@ class NotificationsController < ApplicationController
 
   # DELETE /notifications/1
   def destroy
-    @notification = Notification.find(params[:id])
     @notification.destroy
 
     respond_to do |format|

@@ -21,8 +21,6 @@ class GardensController < ApplicationController
   # GET /gardens/1
   # GET /gardens/1.json
   def show
-    @garden = Garden.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @garden }
@@ -42,7 +40,6 @@ class GardensController < ApplicationController
 
   # GET /gardens/1/edit
   def edit
-    @garden = Garden.find(params[:id])
   end
 
   # POST /gardens
@@ -66,8 +63,6 @@ class GardensController < ApplicationController
   # PUT /gardens/1
   # PUT /gardens/1.json
   def update
-    @garden = Garden.find(params[:id])
-
     respond_to do |format|
       if @garden.update(garden_params)
         format.html { redirect_to @garden, notice: 'Garden was successfully updated.' }
@@ -82,7 +77,6 @@ class GardensController < ApplicationController
   # DELETE /gardens/1
   # DELETE /gardens/1.json
   def destroy
-    @garden = Garden.find(params[:id])
     @garden.destroy
     expire_fragment("homepage_stats")
 
