@@ -26,15 +26,6 @@ Lint/HandleExceptions:
   Exclude:
     - 'lib/tasks/testing.rake'
 
-# Offense count: 8
-Lint/ParenthesesAsGroupedExpression:
-  Exclude:
-    - 'app/mailers/notifier.rb'
-    - 'spec/features/harvests/browse_harvests_spec.rb'
-    - 'spec/models/follow_spec.rb'
-    - 'spec/models/member_spec.rb'
-    - 'spec/views/plantings/show.html.haml_spec.rb'
-
 # Offense count: 15
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
