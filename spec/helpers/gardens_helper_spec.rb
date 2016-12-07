@@ -7,7 +7,7 @@ describe GardensHelper do
         description: nil
       )
       result = helper.display_garden_description(garden)
-      expect(result).to eq "no description provided."
+      expect(result).to eq ""
     end
 
     it "is less than 130 characters long" do
@@ -38,7 +38,7 @@ describe GardensHelper do
   describe "garden plantings" do
     it "is missing" do
       result = helper.display_garden_plantings(nil)
-      expect(result).to eq "None"
+      expect(result).to eq ""
     end
 
     it "has 1 planting" do
@@ -46,10 +46,10 @@ describe GardensHelper do
       plantings = [FactoryGirl.create(:planting, quantity: 10, crop: crop)]
       result = helper.display_garden_plantings(plantings)
 
-      output = "<li>"
+      output = '<ul class="garden-plantings"><li>'
       output += "10 " + link_to(crop.name, crop)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
+      # output += ", planted on #{plantings.first.planted_at}"
+      output += "</li></ul>"
       expect(result).to eq output
     end
 
@@ -64,14 +64,14 @@ describe GardensHelper do
 
       result = helper.display_garden_plantings(plantings)
 
-      output = "<li>"
+      output = '<ul class="garden-plantings"><li>'
       output += "10 " + link_to(crop1.name, crop1)
-      output += ", planted on #{plantings.first.planted_at}"
+      # output += ", planted on #{plantings.first.planted_at}"
       output += "</li>"
       output += "<li>"
       output += "10 " + link_to(crop2.name, crop2)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
+      # output += ", planted on #{plantings.first.planted_at}"
+      output += "</li></ul>"
       expect(result).to eq output
     end
 
@@ -89,15 +89,14 @@ describe GardensHelper do
 
       result = helper.display_garden_plantings(plantings)
 
-      output = "<li>"
+      output = '<ul class="garden-plantings"><li>'
       output += "10 " + link_to(crop1.name, crop1)
-      output += ", planted on #{plantings.first.planted_at}"
       output += "</li>"
-      output += "<li>"
-      output += "10 " + link_to(crop2.name, crop2)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
-      expect(result).to eq output
+      output += "<li>10 " + link_to(crop2.name, crop2) + '</li>'
+      output += "<li>10 " + link_to(crop3.name, crop3) + '</li>'
+      output += "</ul>"
+
+      expect(result).to eq(output)
     end
   end
 end
