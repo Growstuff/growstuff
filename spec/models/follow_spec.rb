@@ -20,7 +20,7 @@ describe Follow do
   end
 
   context "when follow is created" do
-    before (:each) do
+    before(:each) do
       @follow = Follow.create(follower_id: @member1.id, followed_id: @member2.id)
     end
 
