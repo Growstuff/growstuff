@@ -35,8 +35,6 @@ class SeedsController < ApplicationController
   # GET /seeds/1
   # GET /seeds/1.json
   def show
-    @seed = Seed.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @seed }
@@ -59,7 +57,6 @@ class SeedsController < ApplicationController
 
   # GET /seeds/1/edit
   def edit
-    @seed = Seed.find(params[:id])
   end
 
   # POST /seeds
@@ -82,8 +79,6 @@ class SeedsController < ApplicationController
   # PUT /seeds/1
   # PUT /seeds/1.json
   def update
-    @seed = Seed.find(params[:id])
-
     respond_to do |format|
       if @seed.update(seed_params)
         format.html { redirect_to @seed, notice: 'Seed was successfully updated.' }
@@ -98,7 +93,6 @@ class SeedsController < ApplicationController
   # DELETE /seeds/1
   # DELETE /seeds/1.json
   def destroy
-    @seed = Seed.find(params[:id])
     @seed.destroy
 
     respond_to do |format|
