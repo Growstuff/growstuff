@@ -91,15 +91,13 @@ class Member < ActiveRecord::Base
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions).login_name_or_email(login).first
-    else
-      find_by(conditions)
-    end
+    login = conditions.delete(:login)
+    return  where(conditions).login_name_or_email(login).first if login
+    find_by(conditions)
   end
 
   def to_s
-    return login_name
+    login_name
   end
 
   def has_role?(role_sym)
@@ -128,16 +126,16 @@ class Member < ActiveRecord::Base
 
   def is_paid?
     if account.account_type.is_permanent_paid
-      return true
+      true
     elsif account.account_type.is_paid && account.paid_until >= Time.zone.now
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
   def auth(provider)
-    return authentications.find_by(provider: provider)
+    authentications.find_by(provider: provider)
   end
 
   # Authenticates against Flickr and returns an object we can use for subsequent api calls
@@ -152,7 +150,7 @@ class Member < ActiveRecord::Base
         @flickr.access_secret = flickr_auth.secret
       end
     end
-    return @flickr
+    @flickr
   end
 
   # Fetches a collection of photos from Flickr
@@ -185,7 +183,7 @@ class Member < ActiveRecord::Base
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end
-    return sets
+    sets
   end
 
   def interesting?
@@ -193,7 +191,7 @@ class Member < ActiveRecord::Base
     # Member.confirmed.located as those are required for
     # interestingness, as well.
     return true if plantings.present?
-    return false
+    false
   end
 
   def Member.login_name_or_email(login)
@@ -213,7 +211,7 @@ class Member < ActiveRecord::Base
         interesting_members.push(m)
       end
     end
-    return interesting_members
+    interesting_members
   end
 
   def Member.nearest_to(place)
@@ -224,7 +222,7 @@ class Member < ActiveRecord::Base
         nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
       end
     end
-    return nearby_members
+    nearby_members
   end
 
   def update_newsletter_subscription

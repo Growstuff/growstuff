@@ -42,7 +42,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     format: {
-      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_()-]+\z/,
+      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z/,
       message: 'is not a valid English Wikipedia URL'
     },
     if: :approved?
@@ -172,7 +172,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
         popular_plant_parts[h.plant_part] += 1
       end
     end
-    return popular_plant_parts
+    popular_plant_parts
   end
 
   def interesting?
@@ -180,7 +180,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     min_photos    = 3 # needs this many photos to be interesting
     return false unless photos.size >= min_photos
     return false unless plantings_count >= min_plantings
-    return true
+    true
   end
 
   def pending?
@@ -213,7 +213,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       next unless c.interesting?
       interesting_crops.push(c)
     end
-    return interesting_crops
+    interesting_crops
   end
 
   # Crop.create_from_csv(row)
@@ -281,9 +281,9 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def rejection_explanation
     if reason_for_rejection == "other"
-      return rejection_notes
+      rejection_notes
     else
-      return reason_for_rejection
+      reason_for_rejection
     end
   end
 
@@ -309,7 +309,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
                                             size: 50
                                           }
       )
-      return response.records.to_a
+      response.records.to_a
     else
       # if we don't have elasticsearch, just do a basic SQL query.
       # also, make sure it's an actual array not an activerecord
@@ -326,7 +326,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
         matches.unshift(exact_match)
       end
 
-      return matches
+      matches
     end
   end
 

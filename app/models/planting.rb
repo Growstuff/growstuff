@@ -68,7 +68,7 @@ class Planting < ActiveRecord::Base
 
   # location = garden owner + garden name, i.e. "Skud's backyard"
   def location
-    return "#{garden.owner.login_name}'s #{garden}"
+    "#{garden.owner.login_name}'s #{garden}"
   end
 
   # stringify as "beet in Skud's backyard" or similar
@@ -77,11 +77,11 @@ class Planting < ActiveRecord::Base
   end
 
   def default_photo
-    return photos.first
+    photos.first
   end
 
   def interesting?
-    return photos.present?
+    photos.present?
   end
 
   def calculate_days_before_maturity(planting, crop)
@@ -136,6 +136,6 @@ class Planting < ActiveRecord::Base
       interesting_plantings.push(p)
     end
 
-    return interesting_plantings
+    interesting_plantings
   end
 end

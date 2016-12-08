@@ -11,7 +11,7 @@ feature "browse harvests" do
   feature 'blank optional fields' do
     let!(:harvest) { create :harvest, :no_description }
 
-    before (:each) do
+    before(:each) do
       visit harvests_path
     end
 
@@ -23,7 +23,7 @@ feature "browse harvests" do
   feature "filled in optional fields" do
     let!(:harvest) { create :harvest, :long_description }
 
-    before (:each) do
+    before(:each) do
       visit harvests_path
     end
 

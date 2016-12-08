@@ -110,7 +110,6 @@ class CropsController < ApplicationController
 
   # GET /crops/1/edit
   def edit
-    @crop = Crop.find(params[:id])
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
   end
@@ -155,8 +154,6 @@ class CropsController < ApplicationController
   # PUT /crops/1
   # PUT /crops/1.json
   def update
-    @crop = Crop.find(params[:id])
-
     previous_status = @crop.approval_status
 
     @crop.creator = current_member if previous_status == "pending"
@@ -184,7 +181,6 @@ class CropsController < ApplicationController
   # DELETE /crops/1
   # DELETE /crops/1.json
   def destroy
-    @crop = Crop.find(params[:id])
     @crop.destroy
 
     respond_to do |format|

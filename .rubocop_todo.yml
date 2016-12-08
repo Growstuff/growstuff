@@ -6,11 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 2
-Lint/AmbiguousOperator:
-  Exclude:
-    - 'spec/factories/member.rb'
-
 # Offense count: 24
 Lint/AmbiguousRegexpLiteral:
   Exclude:
@@ -27,24 +22,9 @@ Lint/AmbiguousRegexpLiteral:
     - 'spec/views/posts/show.html.haml_spec.rb'
 
 # Offense count: 1
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'app/models/member.rb'
-
-# Offense count: 1
 Lint/HandleExceptions:
   Exclude:
     - 'lib/tasks/testing.rake'
-
-# Offense count: 8
-Lint/ParenthesesAsGroupedExpression:
-  Exclude:
-    - 'app/mailers/notifier.rb'
-    - 'spec/features/harvests/browse_harvests_spec.rb'
-    - 'spec/models/follow_spec.rb'
-    - 'spec/models/member_spec.rb'
-    - 'spec/views/plantings/show.html.haml_spec.rb'
 
 # Offense count: 15
 # Cop supports --auto-correct.
@@ -611,32 +591,6 @@ Style/RedundantParentheses:
   Exclude:
     - 'app/helpers/plantings_helper.rb'
     - 'app/models/garden.rb'
-
-# Offense count: 62
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/harvests_helper.rb'
-    - 'app/helpers/plantings_helper.rb'
-    - 'app/mailers/notifier.rb'
-    - 'app/models/account.rb'
-    - 'app/models/crop.rb'
-    - 'app/models/forum.rb'
-    - 'app/models/garden.rb'
-    - 'app/models/harvest.rb'
-    - 'app/models/member.rb'
-    - 'app/models/order.rb'
-    - 'app/models/photo.rb'
-    - 'app/models/plant_part.rb'
-    - 'app/models/planting.rb'
-    - 'app/models/seed.rb'
-    - 'lib/haml/filters/escaped_markdown.rb'
-    - 'lib/haml/filters/growstuff_markdown.rb'
-    - 'spec/controllers/accounts_controller_spec.rb'
-    - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
-    - 'spec/views/devise/shared/_links_spec.rb'
 
 # Offense count: 56
 # Cop supports --auto-correct.

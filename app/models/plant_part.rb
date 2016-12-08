@@ -6,7 +6,7 @@ class PlantPart < ActiveRecord::Base
   has_many :crops, -> { uniq }, through: :harvests
 
   def to_s
-    return name
+    name
   end
 
   # Postgres complains if the ORDER BY clause of a SELECT DISTINCT query is
@@ -18,6 +18,6 @@ class PlantPart < ActiveRecord::Base
   # associated to plant parts will not be sorted in the same order as crops
   # on the rest of the site.
   def crops
-    return super.reorder('name')
+    super.reorder('name')
   end
 end
