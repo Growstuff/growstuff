@@ -27,7 +27,6 @@ class AlternateNamesController < ApplicationController
 
   # GET /alternate_names/1/edit
   def edit
-    @alternate_name = AlternateName.find(params[:id])
   end
 
   # POST /alternate_names
@@ -50,8 +49,6 @@ class AlternateNamesController < ApplicationController
   # PUT /alternate_names/1
   # PUT /alternate_names/1.json
   def update
-    @alternate_name = AlternateName.find(params[:id])
-
     respond_to do |format|
       if @alternate_name.update(alternate_name_params)
         format.html { redirect_to @alternate_name.crop, notice: 'Alternate name was successfully updated.' }
@@ -66,7 +63,6 @@ class AlternateNamesController < ApplicationController
   # DELETE /alternate_names/1
   # DELETE /alternate_names/1.json
   def destroy
-    @alternate_name = AlternateName.find(params[:id])
     @crop = @alternate_name.crop
     @alternate_name.destroy
 
