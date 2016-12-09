@@ -76,3 +76,6 @@ Rails/Output:
   Exclude:
     - 'config/unicorn.rb'
     - 'db/seeds.rb'
+
+Style/EmptyMethod:
+  Enabled: false
