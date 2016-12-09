@@ -1,5 +1,5 @@
 class LikesController < ApplicationController
-  before_filter :authenticate_member!, :except => :index
+  before_action :authenticate_member!, :except => :index
  
   respond_to :html, :json
 
