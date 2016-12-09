@@ -518,6 +518,7 @@ DEPENDENCIES
   dalli
   database_cleaner (~> 1.5.0)
   devise (>= 4.0.0)
+  elasticsearch-api (~> 2.0.0)
   elasticsearch-model
   elasticsearch-rails
   factory_girl_rails
