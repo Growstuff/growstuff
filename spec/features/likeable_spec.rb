@@ -1,12 +1,11 @@
 require 'rails_helper'
 
-feature 'Likeable', :js => true do
+feature 'Likeable', js: true do
   let(:member) { FactoryGirl.create(:member) }
-  let(:another_member) { FactoryGirl.create(:london_member)}
+  let(:another_member) { FactoryGirl.create(:london_member) }
   let(:post) { FactoryGirl.create(:post) }
 
   context 'logged in member' do
-
     background do
       login_as member
       visit post_path(post)
@@ -37,7 +36,5 @@ feature 'Likeable', :js => true do
       click_link 'Like'
       expect(page).to have_content '2 likes'
     end
-
   end
-
 end

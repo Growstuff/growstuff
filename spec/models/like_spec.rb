@@ -6,7 +6,7 @@ describe 'like' do
 
   context 'existing like' do
     before(:each) do
-      @like = Like.create(:member => member, :likeable => post)
+      @like = Like.create(member: member, likeable: post)
     end
 
     it 'is valid' do
@@ -37,19 +37,19 @@ describe 'like' do
   end
 
   it 'does not allow duplicate likes by the same member' do
-    first_like = Like.create(:member => member, :likeable => post)
-    second_like = Like.new(:member => member, :likeable => post)
+    Like.create(member: member, likeable: post)
+    second_like = Like.new(member: member, likeable: post)
     expect(second_like).to_not be_valid
   end
 
   it 'destroys like if post no longer exists' do
-    like = Like.create(:member => member, :likeable => post)
+    like = Like.create(member: member, likeable: post)
     post.destroy
     expect(Like.all).to_not include like
   end
 
   it 'destroys like if member no longer exists' do
-    like = Like.create(:member => member, :likeable => post)
+    like = Like.create(member: member, likeable: post)
     member.destroy
     expect(Like.all).to_not include like
   end
