@@ -19,5 +19,4 @@ describe 'Haml::Filters::Escaped_Markdown' do
     rendered = Haml::Filters::EscapedMarkdown.render("[#{@crop.name}](crop)")
     rendered.should match /&lt;a href=&quot;/
   end
-
 end

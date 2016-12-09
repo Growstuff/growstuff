@@ -3,10 +3,10 @@ require 'haml/filters'
 require 'haml/filters/growstuff_markdown'
 
 def input_link(name)
-  return "[#{name}](crop)"
+  "[#{name}](crop)"
 end
 
-def output_link(crop, name=nil)
+def output_link(crop, name = nil)
   url = Rails.application.routes.url_helpers.crop_url(crop, host: Growstuff::Application.config.host)
   if name
     return "<a href=\"#{url}\">#{name}</a>"
@@ -16,10 +16,10 @@ def output_link(crop, name=nil)
 end
 
 def input_member_link(name)
-  return "[#{name}](member)"
+  "[#{name}](member)"
 end
 
-def output_member_link(member, name=nil)
+def output_member_link(member, name = nil)
   url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
   if name
     return "<a href=\"#{url}\">#{name}</a>"
@@ -28,12 +28,11 @@ def output_member_link(member, name=nil)
   end
 end
 
-
 describe 'Haml::Filters::Growstuff_Markdown' do
-   it 'is registered as the handler for :growstuff_markdown' do
-     Haml::Filters::defined['growstuff_markdown'].should ==
-       Haml::Filters::GrowstuffMarkdown
-   end
+  it 'is registered as the handler for :growstuff_markdown' do
+    Haml::Filters::defined['growstuff_markdown'].should ==
+      Haml::Filters::GrowstuffMarkdown
+  end
 
   it 'converts quick crop links' do
     @crop = FactoryGirl.create(:crop)
@@ -48,7 +47,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
 
   it "doesn't convert escaped crop links" do
     @crop = FactoryGirl.create(:crop)
-    rendered = Haml::Filters::GrowstuffMarkdown.render( "\\" << input_link(@crop.name))
+    rendered = Haml::Filters::GrowstuffMarkdown.render("\\" << input_link(@crop.name))
     rendered.should match /\[#{@crop.name}\]\(crop\)/
   end
 
@@ -97,7 +96,6 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered.should match /\[#{@member.login_name}\]\(member\)/
   end
 
-
   it 'converts @ member links' do
     @member = FactoryGirl.create(:member)
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey @#{@member.login_name}! What's up")
@@ -122,5 +120,4 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey \\@#{@member.login_name}! What's up")
     rendered.should match /Hey @#{@member.login_name}!/
   end
-
 end

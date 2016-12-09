@@ -1,13 +1,18 @@
-Growstuff::Application.routes.draw do
-
+Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
 
-  devise_for :members, controllers: { registrations: "registrations", passwords: "passwords", sessions: "sessions" }
+  devise_for :members, controllers: {
+    registrations: "registrations",
+    passwords: "passwords",
+    sessions: "sessions",
+    omniauth_callbacks: "omniauth_callbacks"
+  }
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', :as => 'unsubscribe_member'
   end
+  match '/members/:id/finish_signup' => 'members#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   resources :members
 
@@ -52,7 +57,6 @@ Growstuff::Application.routes.draw do
   get '/members/:login_name/follows' => 'members#view_follows', :as => 'member_follows'
   get '/members/:login_name/followers' => 'members#view_followers', :as => 'member_followers'
 
-
   get '/places' => 'places#index'
   get '/places/search' => 'places#search', :as => 'search_places'
   get '/places/:place' => 'places#show', :as => 'place'
@@ -87,7 +91,6 @@ Growstuff::Application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 
-# CMS stuff  -- must remain LAST
+  # CMS stuff  -- must remain LAST
   comfy_route :cms, path: '/', sitemap: false
-
 end

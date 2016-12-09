@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "crop detail page", js: true do
   let(:crop) { create :crop }
-  
+
   subject { visit crop_path(crop) }
 
   context "varieties" do
@@ -35,7 +35,6 @@ feature "crop detail page", js: true do
       let!(:roma4) { create :crop, name: 'Roma tomato 4', parent: crop }
 
       scenario "The crop has 4 varieties" do
-
         subject
 
         within ".varieties" do
@@ -52,7 +51,6 @@ feature "crop detail page", js: true do
         subject
 
         within ".varieties" do
-
           # It lists the first 5 items (note: including the top level item.)
           # It HAS have "Show all" toggle link but not "Show less" link
           expect(page).to have_selector('li', text: /tomato/i, count: 5)
@@ -96,7 +94,6 @@ feature "crop detail page", js: true do
     end
 
     context "action buttons" do
-
       background { subject }
 
       scenario "has a link to plant the crop" do
@@ -108,34 +105,41 @@ feature "crop detail page", js: true do
       scenario "has a link to add seeds" do
         expect(page).to have_link "Add seeds to stash", href: new_seed_path(crop_id: crop.id)
       end
-
     end
 
     context "SEO" do
-
       background { subject }
 
       scenario "has seed heading with SEO" do
-        expect(page).to have_content "Find #{ crop.name } seeds"
+        expect(page).to have_content "Find #{crop.name} seeds"
       end
 
       scenario "has harvest heading with SEO" do
-        expect(page).to have_content "#{ crop.name.capitalize } harvests"
+        expect(page).to have_content "#{crop.name.capitalize} harvests"
       end
 
       scenario "has planting heading with SEO" do
-        expect(page).to have_content "See who's planted #{ crop.name.pluralize }"
+        expect(page).to have_content "See who's planted #{crop.name.pluralize}"
       end
 
       scenario "has planting advice with SEO" do
-        expect(page).to have_content "How to grow #{ crop.name }"
+        expect(page).to have_content "How to grow #{crop.name}"
       end
 
       scenario "has a link to Wikipedia with SEO" do
-        expect(page).to have_content "Learn more about #{ crop.name }"
+        expect(page).to have_content "Learn more about #{crop.name}"
         expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
 
+      scenario "has a link to OpenFarm" do
+        expect(page).to have_link "OpenFarm - Growing guide",
+          href: "https://openfarm.cc/en/crops/#{URI.escape crop.name}"
+      end
+
+      scenario "has a link to gardenate" do
+        expect(page).to have_link "Gardenate - Planting reminders",
+          href: "http://www.gardenate.com/plant/#{URI.escape crop.name}"
+      end
     end
   end
 

@@ -1,11 +1,11 @@
 class NotificationsController < ApplicationController
   include NotificationsHelper
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
 
   # GET /notifications
   def index
-    @notifications = Notification.where(recipient_id: current_member).page(params[:page])
+    @notifications = Notification.by_recipient(current_member).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,7 +14,6 @@ class NotificationsController < ApplicationController
 
   # GET /notifications/1
   def show
-    @notification = Notification.find(params[:id])
     @notification.read = true
     @notification.save
     @reply_link = reply_link(@notification)
@@ -28,7 +27,7 @@ class NotificationsController < ApplicationController
 
   def new
     @notification = Notification.new
-    @recipient = Member.find_by_id(params[:recipient_id])
+    @recipient = Member.find_by(id: params[:recipient_id])
     @subject   = params[:subject] || ""
 
     respond_to do |format|
@@ -46,7 +45,6 @@ class NotificationsController < ApplicationController
     @subject   = @sender_notification.subject =~ /^Re: / ?
       @sender_notification.subject :
       "Re: " + @sender_notification.subject
-    
 
     respond_to do |format|
       format.html # reply.html.haml
@@ -55,7 +53,6 @@ class NotificationsController < ApplicationController
 
   # DELETE /notifications/1
   def destroy
-    @notification = Notification.find(params[:id])
     @notification.destroy
 
     respond_to do |format|
@@ -67,7 +64,7 @@ class NotificationsController < ApplicationController
   def create
     params[:notification][:sender_id] = current_member.id
     @notification = Notification.new(notification_params)
-    @recipient = Member.find_by_id(params[:notification][:recipient_id])
+    @recipient = Member.find_by(id: params[:notification][:recipient_id])
 
     respond_to do |format|
       if @notification.save

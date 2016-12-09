@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe HarvestsHelper do
   describe "display_quantity" do
-
     it "blank" do
       harvest = FactoryGirl.create(:harvest,
         quantity: nil,
@@ -74,6 +73,5 @@ describe HarvestsHelper do
       result = helper.display_quantity(harvest)
       result.should eq '3 bunches, weighing 3 kg'
     end
-
   end
 end

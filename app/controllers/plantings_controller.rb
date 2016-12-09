@@ -1,24 +1,24 @@
 class PlantingsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /plantings
   # GET /plantings.json
   def index
-    @owner = Member.find_by_slug(params[:owner])
-    @crop = Crop.find_by_slug(params[:crop])
-    if @owner
-      @plantings = @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    elsif @crop
-      @plantings = @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    else
-      @plantings = Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
-    end
+    @owner = Member.find_by(slug: params[:owner])
+    @crop = Crop.find_by(slug: params[:crop])
+    @plantings = if @owner
+                   @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 elsif @crop
+                   @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 else
+                   Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                 end
 
     respond_to do |format|
       format.html { @plantings = @plantings.paginate(page: params[:page]) }
       format.json { render json: @plantings }
-      format.rss { render layout: false } #index.rss.builder
+      format.rss { render layout: false } # index.rss.builder
       format.csv do
         specifics = (@owner ? "#{@owner.login_name}-" : @crop ? "#{@crop.name}-" : nil)
         @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
@@ -44,8 +44,8 @@ class PlantingsController < ApplicationController
     @planting = Planting.new('planted_at' => Date.today)
 
     # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.find_by_id(params[:crop_id])     || Crop.new
-    @garden   = Garden.find_by_id(params[:garden_id]) || Garden.new
+    @crop     = Crop.find_by(id: params[:crop_id])     || Crop.new
+    @garden   = Garden.find_by(id: params[:garden_id]) || Garden.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -55,8 +55,6 @@ class PlantingsController < ApplicationController
 
   # GET /plantings/1/edit
   def edit
-    @planting = Planting.find(params[:id])
-
     # the following are needed to display the form but aren't used
     @crop     = Crop.new
     @garden   = Garden.new
@@ -71,7 +69,8 @@ class PlantingsController < ApplicationController
 
     respond_to do |format|
       if @planting.save
-        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
+        @planting.update_attribute(:days_before_maturity,
+          update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully created.' }
         format.json { render json: @planting, status: :created, location: @planting }
         expire_fragment("homepage_stats")
@@ -85,12 +84,12 @@ class PlantingsController < ApplicationController
   # PUT /plantings/1
   # PUT /plantings/1.json
   def update
-    @planting = Planting.find(params[:id])
     params[:planted_at] = parse_date(params[:planted_at])
 
     respond_to do |format|
       if @planting.update(planting_params)
-        @planting.update_attribute(:days_before_maturity, update_days_before_maturity(@planting, planting_params[:crop_id]))
+        @planting.update_attribute(:days_before_maturity,
+          update_days_before_maturity(@planting, planting_params[:crop_id]))
         format.html { redirect_to @planting, notice: 'Planting was successfully updated.' }
         format.json { head :no_content }
       else
@@ -103,7 +102,6 @@ class PlantingsController < ApplicationController
   # DELETE /plantings/1
   # DELETE /plantings/1.json
   def destroy
-    @planting = Planting.find(params[:id])
     @garden = @planting.garden
     @planting.destroy
     expire_fragment("homepage_stats")
@@ -118,8 +116,8 @@ class PlantingsController < ApplicationController
 
   def planting_params
     params.require(:planting).permit(:crop_id, :description, :garden_id, :planted_at,
-    :quantity, :sunniness, :planted_from, :owner_id, :finished,
-    :finished_at)
+      :quantity, :sunniness, :planted_from, :owner_id, :finished,
+      :finished_at)
   end
 
   def update_days_before_maturity(planting, crop_id)

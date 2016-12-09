@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   factory :post do
     subject "A Post"
     body "This is some text."
@@ -20,5 +19,4 @@ FactoryGirl.define do
       forum
     end
   end
-
 end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Harvest do
-
   it "has an owner" do
     harvest = FactoryGirl.create(:harvest)
     harvest.owner.should be_an_instance_of Member
@@ -46,7 +45,8 @@ describe Harvest do
 
   context 'units' do
     it 'all valid units should work' do
-      ['individual','bunch','sprig','handful','litre','pint','quart','bucket','basket','bushel', nil, ''].each do |s|
+      ['individual', 'bunch', 'sprig', 'handful', 'litre',
+       'pint', 'quart', 'bucket', 'basket', 'bushel', nil, ''].each do |s|
         @harvest = FactoryGirl.build(:harvest, unit: s)
         @harvest.should be_valid
       end
@@ -147,117 +147,154 @@ describe Harvest do
   end
 
   context "stringification" do
-
     let(:crop) { FactoryGirl.create(:crop, name: "apricot") }
 
     it "apricots" do
       @h = FactoryGirl.create(:harvest, crop: crop,
-        quantity: nil,
-        unit: nil,
-        weight_quantity: nil,
-        weight_unit: nil
+                                        quantity: nil,
+                                        unit: nil,
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "apricots"
     end
 
     it "1 individual apricot" do
-      @h = FactoryGirl.create(:harvest, crop: crop, 
-        quantity: 1,
-        unit: 'individual',
-        weight_quantity: nil,
-        weight_unit: nil
+      @h = FactoryGirl.create(:harvest, crop: crop,
+                                        quantity: 1,
+                                        unit: 'individual',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "1 individual apricot"
     end
 
     it "10 individual apricots" do
-      @h = FactoryGirl.create(:harvest, crop: crop, 
-        quantity: 10,
-        unit: 'individual',
-        weight_quantity: nil,
-        weight_unit: nil
+      @h = FactoryGirl.create(:harvest, crop: crop,
+                                        quantity: 10,
+                                        unit: 'individual',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "10 individual apricots"
     end
 
     it "1 bushel of apricots" do
-      @h = FactoryGirl.create(:harvest, crop: crop, 
-        quantity: 1,
-        unit: 'bushel',
-        weight_quantity: nil,
-        weight_unit: nil
+      @h = FactoryGirl.create(:harvest, crop: crop,
+                                        quantity: 1,
+                                        unit: 'bushel',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "1 bushel of apricots"
     end
 
     it "1.5 bushels of apricots" do
-      @h = FactoryGirl.create(:harvest, crop: crop, 
-        quantity: 1.5,
-        unit: 'bushel',
-        weight_quantity: nil,
-        weight_unit: nil
+      @h = FactoryGirl.create(:harvest, crop: crop,
+                                        quantity: 1.5,
+                                        unit: 'bushel',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "1.5 bushels of apricots"
     end
 
     it "10 bushels of apricots" do
-      @h = FactoryGirl.create(:harvest, crop: crop, 
-        quantity: 10,
-        unit: 'bushel',
-        weight_quantity: nil,
-        weight_unit: nil
+      @h = FactoryGirl.create(:harvest, crop: crop,
+                                        quantity: 10,
+                                        unit: 'bushel',
+                                        weight_quantity: nil,
+                                        weight_unit: nil
       )
       @h.to_s.should eq "10 bushels of apricots"
     end
 
     it "apricots weighing 1.2 kg" do
-      @h = FactoryGirl.create(:harvest, crop: crop, 
-        quantity: nil,
-        unit: nil,
-        weight_quantity: 1.2,
-        weight_unit: 'kg'
+      @h = FactoryGirl.create(:harvest, crop: crop,
+                                        quantity: nil,
+                                        unit: nil,
+                                        weight_quantity: 1.2,
+                                        weight_unit: 'kg'
       )
       @h.to_s.should eq "apricots weighing 1.2 kg"
     end
 
     it "10 bushels of apricots weighing 100 kg" do
-      @h = FactoryGirl.create(:harvest, crop: crop, 
-          quantity: 10,
-          unit: 'bushel',
-          weight_quantity: 100,
-          weight_unit: 'kg')
+      @h = FactoryGirl.create(:harvest, crop: crop,
+                                        quantity: 10,
+                                        unit: 'bushel',
+                                        weight_quantity: 100,
+                                        weight_unit: 'kg')
       @h.to_s.should eq "10 bushels of apricots weighing 100 kg"
     end
-
   end
 
   context 'photos' do
-
-    let(:harvest) { FactoryGirl.create(:harvest) }
-    let(:photo) { FactoryGirl.create(:photo) }
-
-    before do
-      harvest.photos << photo
+    before :each do
+      @harvest = FactoryGirl.create(:harvest)
     end
 
-    it 'has a photo' do
-      harvest.photos.first.should eq photo
+    context 'without a photo' do
+      it 'should have no default photo' do
+        @harvest.default_photo.should eq nil
+      end
+
+      context 'and with a crop(planting) photo' do
+        before :each do
+          @photo = FactoryGirl.create(:photo)
+          @planting = FactoryGirl.create(:planting, crop: @harvest.crop)
+          @planting.photos << @photo
+        end
+
+        it 'should have a default photo' do
+          @harvest.default_photo.should eq @photo
+        end
+      end
     end
 
-    it 'deletes association with photos when photo is deleted' do
-      photo.destroy
-      harvest.reload
-        harvest.photos.should be_empty
-    end
+    context 'with a photo' do
+      before do
+        @photo = FactoryGirl.create(:photo)
 
-    it 'has a default photo' do
-        harvest.default_photo.should eq photo
-    end
+        @harvest.photos << @photo
+      end
 
-    it 'chooses the most recent photo' do
-        @photo2 = FactoryGirl.create(:photo)
-      harvest.photos << @photo2
-      harvest.default_photo.should eq @photo2
+      it 'has a photo' do
+        @harvest.photos.first.should eq @photo
+      end
+
+      it 'deletes association with photos when photo is deleted' do
+        @photo.destroy
+        @harvest.reload
+        @harvest.photos.should be_empty
+      end
+
+      it 'has a default photo' do
+        @harvest.default_photo.should eq @photo
+      end
+
+      context 'and with a crop(planting) photo' do
+        before :each do
+          @crop_photo = FactoryGirl.create(:photo)
+          @planting = FactoryGirl.create(:planting, crop: @harvest.crop)
+          @planting.photos << @crop_photo
+        end
+
+        it 'should prefer the harvest photo' do
+          @harvest.default_photo.should eq @photo
+        end
+      end
+
+      context 'and a second photo' do
+        before :each do
+          @photo2 = FactoryGirl.create(:photo)
+          @harvest.photos << @photo2
+        end
+
+        it 'chooses the most recent photo' do
+          @harvest.default_photo.should eq @photo2
+        end
+      end
     end
   end
 end

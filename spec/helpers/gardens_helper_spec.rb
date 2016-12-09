@@ -23,7 +23,6 @@ describe GardensHelper do
         description: 'a' * 130
       )
       result = helper.display_garden_description(garden)
-      link = link_to("Read more", garden_path(garden))
       expect(result).to eq 'a' * 130
     end
 
@@ -38,17 +37,13 @@ describe GardensHelper do
 
   describe "garden plantings" do
     it "is missing" do
-      garden = FactoryGirl.create(:garden)
-      plantings = nil
-      result = helper.display_garden_plantings(plantings)
+      result = helper.display_garden_plantings(nil)
       expect(result).to eq "None"
     end
 
     it "has 1 planting" do
-      garden = FactoryGirl.create(:garden)
-      plantings = []
       crop = FactoryGirl.create(:crop)
-      plantings << FactoryGirl.create(:planting, quantity: 10, crop: crop)
+      plantings = [FactoryGirl.create(:planting, quantity: 10, crop: crop)]
       result = helper.display_garden_plantings(plantings)
 
       output = "<li>"
@@ -59,7 +54,6 @@ describe GardensHelper do
     end
 
     it "has 2 plantings" do
-      garden = FactoryGirl.create(:garden)
       plantings = []
 
       crop1 = FactoryGirl.create(:crop)
@@ -82,7 +76,6 @@ describe GardensHelper do
     end
 
     it "has 3 plantings" do
-      garden = FactoryGirl.create(:garden)
       plantings = []
 
       crop1 = FactoryGirl.create(:crop)

@@ -1,0 +1,78 @@
+inherit_from: .rubocop_todo.yml
+AllCops:
+  Include:
+    - 'Rakefile'
+    - 'config.ru'
+    - 'lib/**/*.rake'
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+
+Rails:
+  Enabled: true
+
+Style/FileName:
+  Exclude:
+    - 'Gemfile'
+    - 'Gemfile.lock'
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
+# SupportedStyles: with_first_parameter, with_fixed_indentation
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Metrics/MethodLength:
+  Description: 'Avoid methods longer than 30 lines of code.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
+  # Set to 30 once all methods are fixed.
+  # Max: 30
+  Max: 104
+
+# Remove the following once the code style matches
+# Offense count: 59
+Metrics/AbcSize:
+  Max: 38
+
+# Offense count: 5
+# Configuration parameters: CountComments.
+Metrics/BlockLength:
+  Max: 62
+
+# Offense count: 6
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 275
+
+# Offense count: 6
+Metrics/CyclomaticComplexity:
+  Max: 11
+
+Metrics/LineLength:
+  Max: 120
+
+# Offense count: 8
+Metrics/PerceivedComplexity:
+  Max: 10
+
+# See https://github.com/bbatsov/rubocop/issues/3629
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Configuration parameters: Include.
+# Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
+Rails/Output:
+  Exclude:
+    - 'config/unicorn.rb'
+    - 'db/seeds.rb'

@@ -2,7 +2,7 @@ Growstuff::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   config.action_controller.action_on_unpermitted_parameters = :raise
-  
+
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.
@@ -72,12 +72,12 @@ Growstuff::Application.configure do
   config.action_mailer.default_url_options = { host: 'staging.growstuff.org' }
 
   ActionMailer::Base.smtp_settings = {
-      port:                 ENV['SPARKPOST_SMTP_PORT'],
-      address:              ENV['SPARKPOST_SMTP_HOST'],
-      user_name:            ENV['SPARKPOST_SMTP_USERNAME'],
-      password:             ENV['SPARKPOST_SMTP_PASSWORD'],
-      authentication:       :login,
-      enable_starttls_auto: true
+    port:                 ENV['SPARKPOST_SMTP_PORT'],
+    address:              ENV['SPARKPOST_SMTP_HOST'],
+    user_name:            ENV['SPARKPOST_SMTP_USERNAME'],
+    password:             ENV['SPARKPOST_SMTP_PASSWORD'],
+    authentication:       :login,
+    enable_starttls_auto: true
   }
   ActionMailer::Base.delivery_method = :smtp
 
@@ -87,6 +87,7 @@ Growstuff::Application.configure do
   # this config variable cannot be put in application.yml as it is needed
   # by the assets pipeline, which doesn't have access to ENV.
   config.mapbox_map_id = 'growstuff.i3n2hao7'
+  config.mapbox_access_token = 'pk.eyJ1IjoiZ3Jvd3N0dWZmIiwiYSI6IkdxMkx4alUifQ.n0igaBsw97s14zMa0lwKCA'
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
@@ -99,4 +100,5 @@ Growstuff::Application.configure do
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 
+  config.active_job.queue_adapter = :sidekiq
 end

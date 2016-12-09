@@ -21,6 +21,10 @@ engines:
       - javascript
   fixme:
     enabled: true
+    exclude_fingerprints:  # rubocop_todo filename
+    - 63b8552079d106832fbe281566b6d028
+    - d38afbaaea3ecaa9a4cf046b07a01cec
+    - 57ff3968fd371d3e1f75c237d6c78acf
 ratings:
   paths:
   - "**.rb"
@@ -34,3 +38,4 @@ exclude_paths:
 - db/
 - spec/
 - public/
+- app/assets/stylesheets/bootstrap-accessibility.css

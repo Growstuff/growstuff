@@ -42,7 +42,7 @@ feature "Alternate names", js: true do
     scenario "Crop wranglers can delete alternate names" do
       visit crop_path(alternate_eggplant.crop)
       expect(page).to have_link "Delete",
-                                href: alternate_name_path(alternate_eggplant)
+        href: alternate_name_path(alternate_eggplant)
       within('.alternate_names') { click_on "Delete" }
       expect(page.status_code).to equal 200
       expect(page).to_not have_content alternate_eggplant.name
@@ -52,7 +52,7 @@ feature "Alternate names", js: true do
     scenario "Crop wranglers can add alternate names" do
       visit crop_path(crop)
       expect(page).to have_link "Add",
-                                href: new_alternate_name_path(crop_id: crop.id)
+        href: new_alternate_name_path(crop_id: crop.id)
       within('.alternate_names') { click_on "Add" }
       expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"

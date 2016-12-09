@@ -1,21 +1,26 @@
 namespace :growstuff do
-
   desc "Add an admin user, by name"
   # usage: rake growstuff:admin_user name=skud
 
   task admin_user: :environment do
-    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:admin_user name=whoever (login name is case-sensitive)"
-    admin  = Role.find('admin')
-    member.roles << admin
+    add_role_to_member! ENV['name'], 'admin'
   end
 
   desc "Add a crop wrangler user, by name"
   # usage: rake growstuff:cropwrangler_user name=skud
 
   task cropwrangler_user: :environment do
-    member = Member.find_by_login_name(ENV['name']) or raise "Usage: rake growstuff:cropwrangler_user name=whoever (login name is case-sensitive)"
-    cw = Role.find('crop-wrangler')
-    member.roles << cw
+    add_role_to_member! ENV['name'], 'crop-wrangler'
+  end
+
+  def add_role_to_member!(login_name, role_name)
+    unless login_name && role_name
+      raise "Usage: rake growstuff:[rolename] name=[username] "\
+        "\n (login name is case-sensitive)\n"
+    end
+    member = Member.find_by!(login_name: login_name)
+    role = Role.find_by!(name: role_name)
+    member.roles << role
   end
 
   desc "Upload crops from a CSV file"
@@ -32,7 +37,6 @@ namespace :growstuff do
     end
     Rails.cache.delete('full_crop_hierarchy')
     puts "Finished loading crops"
-
   end
 
   desc "Send planting reminder email"
@@ -49,7 +53,7 @@ namespace :growstuff do
 
     if Date.today.cwday == send_on_day and Date.today.cweek % every_n_weeks == 0
       Member.confirmed.find_each do |m|
-        Notifier.planting_reminder(m).deliver_now!
+        Notifier.planting_reminder(m).deliver_later!
       end
     end
   end
@@ -67,10 +71,8 @@ namespace :growstuff do
 
   desc "One-off tasks needed at various times and kept for posterity"
   namespace :oneoff do
-
     desc "May 2013: replace any empty notification subjects with (no subject)"
     task empty_subjects: :environment do
-
       # this is inefficient as it checks every Notification, but the
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
@@ -82,7 +84,6 @@ namespace :growstuff do
 
     desc "May 2013: replace any empty garden names with Garden"
     task empty_garden_names: :environment do
-
       # this is inefficient as it checks every Garden, but the
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
@@ -94,7 +95,6 @@ namespace :growstuff do
       end
     end
 
-
     desc "June 2013: create account types and products."
     task setup_shop: :environment do
       puts "Adding account types..."
@@ -103,33 +103,37 @@ namespace :growstuff do
         is_paid: false,
         is_permanent_paid: false
       )
-      @paid_account = AccountType.find_or_create_by( 
+      @paid_account = AccountType.find_or_create_by(
         name: "Paid",
         is_paid: true,
         is_permanent_paid: false
       )
-      @seed_account = AccountType.find_or_create_by( 
+      @seed_account = AccountType.find_or_create_by(
         name: "Seed",
         is_paid: true,
         is_permanent_paid: true
       )
-      @staff_account = AccountType.find_or_create_by( 
+      @staff_account = AccountType.find_or_create_by(
         name: "Staff",
         is_paid: true,
         is_permanent_paid: true
       )
 
       puts "Adding products..."
-      Product.find_or_create_by( 
+      Product.find_or_create_by(
         name: "Annual subscription",
-        description: "An annual subscription gives you access to paid account features for one year.  Does not auto-renew.",
+        description: "An annual subscription gives you access "\
+                     "to paid account features for one year.  Does not auto-renew.",
         min_price: 3000,
         account_type_id: @paid_account.id,
         paid_months: 12
       )
-      Product.find_or_create_by( 
+      Product.find_or_create_by(
         name: "Seed account",
-        description: "A seed account helps Growstuff grow in its early days.  It gives you all the features of a paid account, in perpetuity.  This account type never expires.",
+        description: "A seed account helps Growstuff grow in its "\
+                     "early days.  It gives you all the features of "\
+                     "a paid account, in perpetuity.  This account "\
+                     "type never expires.",
         min_price: 15000,
         account_type_id: @seed_account.id,
       )
@@ -142,7 +146,7 @@ namespace :growstuff do
       end
 
       puts "Making Skud a staff account..."
-      @skud = Member.find_by_login_name('Skud')
+      @skud = Member.find_by(login_name: 'Skud')
       if @skud
         @skud.account.account_type = @staff_account
         @skud.account.save
@@ -153,8 +157,7 @@ namespace :growstuff do
 
     desc "June 2013: replace nil account_types with free accounts"
     task nil_account_type: :environment do
-
-      free = AccountType.find_by_name("Free")
+      free = AccountType.find_by(name: "Free")
       raise "Free account type not found: run rake growstuff:oneoff:setup_shop"\
         unless free
       Account.all.each do |a|
@@ -167,7 +170,6 @@ namespace :growstuff do
 
     desc "July 2013: replace nil seed.tradable_to with nowhere"
     task tradable_to_nowhere: :environment do
-
       Seed.all.each do |s|
         unless s.tradable_to
           s.tradable_to = 'nowhere'
@@ -178,7 +180,6 @@ namespace :growstuff do
 
     desc "August 2013: set up plantings_count cache on crop"
     task reset_crop_plantings_count: :environment do
-
       Crop.find_each do |c|
         Crop.reset_counters c.id, :plantings
       end
@@ -186,10 +187,9 @@ namespace :growstuff do
 
     desc "August 2013: set default creator on existing crops"
     task set_default_crop_creator: :environment do
-
-      cropbot = Member.find_by_login_name("cropbot")
+      cropbot = Member.find_by(login_name: "cropbot")
       raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
-      cropbot.account.account_type = AccountType.find_by_name("Staff") # set this just because it's nice
+      cropbot.account.account_type = AccountType.find_by(name: "Staff") # set this just because it's nice
       cropbot.account.save
       Crop.find_each do |crop|
         unless crop.creator
@@ -203,7 +203,6 @@ namespace :growstuff do
           sn.save
         end
       end
-
     end
 
     desc "August 2013: set planting owner"
@@ -295,13 +294,11 @@ namespace :growstuff do
       require 'csv'
       file = "db/seeds/alternate_names_201410.csv"
       puts "Loading alternate names from #{file}..."
-      cropbot = Member.find_by_login_name("cropbot")
+      cropbot = Member.find_by(login_name: "cropbot")
       CSV.foreach(file) do |row|
-        crop_id, crop_name, alternate_names = row
-        if alternate_names.blank? then
-          next
-        end
-        crop = Crop.find_by_name(crop_name)
+        _crop_id, crop_name, alternate_names = row
+        next if alternate_names.blank?
+        crop = Crop.find_by(name: crop_name)
         if crop
           alternate_names.split(/,\s*/).each do |an|
             AlternateName.where(
@@ -329,5 +326,4 @@ namespace :growstuff do
       Crop.import
     end
   end # end oneoff section
-
 end

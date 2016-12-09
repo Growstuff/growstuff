@@ -2,13 +2,10 @@ require 'rails_helper'
 
 describe NotificationsHelper do
   describe "reply_link" do
-
-    let(:member) { FactoryGirl.create(:member) } 
+    let(:member) { FactoryGirl.create(:member) }
 
     it "replies to PMs with PMs" do
       notification = FactoryGirl.create(:notification, recipient_id: member.id, post_id: nil)
-      subject = "Re: " + notification.subject
-
       link = helper.reply_link(notification)
       link.should_not be_nil
       link.should eq reply_notification_url(notification)
@@ -23,7 +20,5 @@ describe NotificationsHelper do
         post_id: notification.post.id
       )
     end
-
-
   end
 end

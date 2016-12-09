@@ -1,24 +1,24 @@
 class SeedsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /seeds
   # GET /seeds.json
   def index
-    @owner = Member.find_by_slug(params[:owner])
-    @crop = Crop.find_by_slug(params[:crop])
-    if @owner
-      @seeds = @owner.seeds.includes(:owner, :crop).paginate(page: params[:page])
-    elsif @crop
-      @seeds = @crop.seeds.includes(:owner, :crop).paginate(page: params[:page])
-    else
-      @seeds = Seed.includes(:owner, :crop).paginate(page: params[:page])
-    end
+    @owner = Member.find_by(slug: params[:owner])
+    @crop = Crop.find_by(slug: params[:crop])
+    @seeds = if @owner
+               @owner.seeds.includes(:owner, :crop).paginate(page: params[:page])
+             elsif @crop
+               @crop.seeds.includes(:owner, :crop).paginate(page: params[:page])
+             else
+               Seed.includes(:owner, :crop).paginate(page: params[:page])
+             end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @seeds }
-      format.rss { render layout: false } #index.rss.builder
+      format.rss { render layout: false } # index.rss.builder
       format.csv do
         if @owner
           @filename = "Growstuff-#{@owner}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
@@ -35,8 +35,6 @@ class SeedsController < ApplicationController
   # GET /seeds/1
   # GET /seeds/1.json
   def show
-    @seed = Seed.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @seed }
@@ -49,7 +47,7 @@ class SeedsController < ApplicationController
     @seed = Seed.new
 
     # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.find_by_id(params[:crop_id])     || Crop.new
+    @crop = Crop.find_or_initialize_by(id: params[:crop_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -59,7 +57,6 @@ class SeedsController < ApplicationController
 
   # GET /seeds/1/edit
   def edit
-    @seed = Seed.find(params[:id])
   end
 
   # POST /seeds
@@ -82,8 +79,6 @@ class SeedsController < ApplicationController
   # PUT /seeds/1
   # PUT /seeds/1.json
   def update
-    @seed = Seed.find(params[:id])
-
     respond_to do |format|
       if @seed.update(seed_params)
         format.html { redirect_to @seed, notice: 'Seed was successfully updated.' }
@@ -98,7 +93,6 @@ class SeedsController < ApplicationController
   # DELETE /seeds/1
   # DELETE /seeds/1.json
   def destroy
-    @seed = Seed.find(params[:id])
     @seed.destroy
 
     respond_to do |format|

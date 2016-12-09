@@ -1,5 +1,6 @@
 class Seed < ActiveRecord::Base
   extend FriendlyId
+  include PhotoCapable
   friendly_id :seed_slug, use: [:slugged, :finders]
 
   belongs_to :crop
@@ -9,7 +10,7 @@ class Seed < ActiveRecord::Base
 
   validates :crop, approved: true
 
-  validates :crop, presence: {message: "must be present and exist in our database"}
+  validates :crop, presence: { message: "must be present and exist in our database" }
   validates :quantity,
     numericality: {
       only_integer: true,
@@ -30,9 +31,10 @@ class Seed < ActiveRecord::Base
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally)
   validates :tradable_to, inclusion: { in: TRADABLE_TO_VALUES,
-        message: "You may only trade seed nowhere, locally, nationally, or internationally" },
-        allow_nil: false,
-        allow_blank: false
+                                       message: "You may only trade seed nowhere, "\
+                                                "locally, nationally, or internationally" },
+                          allow_nil: false,
+                          allow_blank: false
 
   ORGANIC_VALUES = [
     'certified organic',
@@ -40,9 +42,10 @@ class Seed < ActiveRecord::Base
     'conventional/non-organic',
     'unknown']
   validates :organic, inclusion: { in: ORGANIC_VALUES,
-        message: "You must say whether the seeds are organic or not, or that you don't know" },
-        allow_nil: false,
-        allow_blank: false
+                                   message: "You must say whether the seeds "\
+                                             "are organic or not, or that you don't know" },
+                      allow_nil: false,
+                      allow_blank: false
 
   GMO_VALUES = [
     'certified GMO-free',
@@ -50,21 +53,22 @@ class Seed < ActiveRecord::Base
     'GMO',
     'unknown']
   validates :gmo, inclusion: { in: GMO_VALUES,
-        message: "You must say whether the seeds are genetically modified or not, or that you don't know" },
-        allow_nil: false,
-        allow_blank: false
+                               message: "You must say whether the seeds are "\
+                                        "genetically modified or not, or that you don't know" },
+                  allow_nil: false,
+                  allow_blank: false
 
   HEIRLOOM_VALUES = %w(heirloom hybrid unknown)
   validates :heirloom, inclusion: { in: HEIRLOOM_VALUES,
-        message: "You must say whether the seeds are heirloom, hybrid, or unknown" },
-        allow_nil: false,
-        allow_blank: false
+                                    message: "You must say whether the seeds are heirloom, hybrid, or unknown" },
+                       allow_nil: false,
+                       allow_blank: false
 
   def tradable?
     if self.tradable_to == 'nowhere'
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
@@ -72,7 +76,7 @@ class Seed < ActiveRecord::Base
     # assuming we're passed something that's already known to be tradable
     # eg. from Seed.tradable scope
     return false if owner.location.blank? # don't want unspecified locations
-    return true
+    true
   end
 
   # Seed.interesting
@@ -88,8 +92,7 @@ class Seed < ActiveRecord::Base
       end
     end
 
-    return interesting_seeds
-
+    interesting_seeds
   end
 
   def seed_slug

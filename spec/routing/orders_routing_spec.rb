@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe OrdersController do
   describe "routing" do
-
     it "routes to #index" do
       get("/orders").should route_to("orders#index")
     end
@@ -30,6 +29,5 @@ describe OrdersController do
     it "routes to #destroy" do
       delete("/orders/1").should route_to("orders#destroy", id: "1")
     end
-
   end
 end

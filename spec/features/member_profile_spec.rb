@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature "member profile", js: true do
-
   context "signed out member" do
     let(:member) { create :member }
 
@@ -42,7 +41,6 @@ feature "member profile", js: true do
         expect(page).not_to have_css("#membermap")
         expect(page).not_to have_content "See other members"
       end
-
     end
 
     context "email privacy" do
@@ -70,7 +68,6 @@ feature "member profile", js: true do
     end
 
     context "activity stats" do
-
       scenario "with no activity" do
         visit member_path(member)
         expect(page).to have_content "Activity"
@@ -91,7 +88,6 @@ feature "member profile", js: true do
         expect(page).to have_link "4 seeds", href: seeds_by_owner_path(owner: member)
         expect(page).to have_link "5 posts", href: posts_by_author_path(author: member)
       end
-
     end
 
     scenario "twitter link" do

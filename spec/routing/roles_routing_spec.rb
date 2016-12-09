@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe RolesController do
   describe "routing" do
-
     it "routes to #index" do
       get("/roles").should route_to("roles#index")
     end
@@ -30,6 +29,5 @@ describe RolesController do
     it "routes to #destroy" do
       delete("/roles/1").should route_to("roles#destroy", id: "1")
     end
-
   end
 end

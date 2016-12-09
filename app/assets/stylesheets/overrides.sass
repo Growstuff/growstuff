@@ -2,7 +2,7 @@
 @import "bootstrap"
 @import "custom_bootstrap/variables"
 // this padding needs to be done before the responsive stuff is imported
-body 
+body
   // modifying this for our promotional banner. can be replaced after if
   // needed.
   // padding-top: $navbar-height + 15px
@@ -19,14 +19,14 @@ body
 //@import "bootstrap/glyphicons"
 
 
-.list-inline > li.first 
+.list-inline > li.first
   padding-left: 0px
 
-h2 
+h2
   font-size: 150%
 
 
-//#subtitle 
+//#subtitle
 //  color: lighten($brown, 30%)
 //  font-style: italic
 //  font-weight: normal
@@ -34,11 +34,24 @@ h2
 //  padding-left: 1em
 //  padding-top: 0px
 
-h3 
+h3
   font-size: 120%
 
-.main 
+.main
   padding-right: 1em
+
+.navbar .navbar-form
+  padding-top: 0
+  padding-bottom: 0
+  margin-right: 0
+  margin-left: 15px
+  border: 0
+  -webkit-box-shadow: none
+  box-shadow: none
+
+.img-responsive
+  max-width: 100%
+  height: auto
 
 .sidebar
   border-left: 1px solid darken($beige, 10%)
@@ -46,24 +59,24 @@ h3
   padding-left: 1em
 
 // this is used for eg. crops and members index pages
-.six-across:nth-child(6n+1) 
+.six-across:nth-child(6n+1)
   margin-left: 0px
 
-.three-across:nth-child(3n+1) 
+.three-across:nth-child(3n+1)
   margin-left: 0px
   clear: both
 
 // let's condense the hero unit a little
-.jumbotron 
+.jumbotron
   padding-top: 30px
   padding-bottom: 30px
 
 // info under the main heading on homepage
-.jumbotron .info 
+.jumbotron .info
   padding-top: 15px
 
 // signup widget on homepage
-.jumbotron .signup 
+.jumbotron .signup
   background-color: lighten($green, 40%)
   border: 1px solid lighten($green, 20%)
   border-radius: 6px
@@ -72,19 +85,19 @@ h3
   text-align: center
 
 // stats shown on homepage. eg. "999 members..."
-p.stats 
+p.stats
   font-weight: bold
 
-.member-cards 
+.member-cards
   display: flex
   flex: none
   flex-wrap: wrap
   justify-content: space-between
 
-.member-thumbnail 
+.member-thumbnail
   padding: .25em
 
-  div 
+  div
     width: 5em
     display: inline-block
     vertical-align: top
@@ -103,7 +116,7 @@ p.stats
       margin-left: auto
 
 @media (min-width: $screen-md-min)
-  .planting-thumbnail 
+  .planting-thumbnail
     dl.planting-attributes
       font-size: 85%
       width: 100%
@@ -115,10 +128,14 @@ p.stats
         padding-left: 80px
         margin-left: auto
 
-#placesmap, #cropmap 
+  .navbar .navbar-form
+    width: 250px
+
+
+#placesmap, #cropmap
   height: 500px
 
-#membermap 
+#membermap
   height: 250px
 
 .location-not-set
@@ -128,23 +145,23 @@ p.stats
   background-repeat: no-repeat
   background-position: center
 
-.member-location 
+.member-location
   font-size: small
   font-style: italic
 
 
-.member-location a 
+.member-location a
   color: $brown
 
 
-.photo-thumbnail 
+.photo-thumbnail
   padding: 0
   position: relative
 
   img
     width: 100%
-  
-  .text 
+
+  .text
     display: none
     color: #000
     position: absolute
@@ -152,100 +169,100 @@ p.stats
     background: rgba(0, 0, 0, 0.8)
     width: 100%
     margin: 0
-  
-  p 
+
+  p
     padding: 5px
     margin: 0
     color: #fff
-  
-  &:hover 
-    .text 
+
+  &:hover
+    .text
       display: block
 
-.thumbnail 
+.thumbnail
   border: none
   text-align: center
   margin-bottom: 1.5em
 
-  .member-thumbnail 
+  .member-thumbnail
     text-align: left
-    img 
+    img
       height: 85px
       width: 85px
       max-width: 85px
 
-  .crop-thumbnail 
+  .crop-thumbnail
     height: 220px
-    .cropinfo 
+    .cropinfo
       display: inline-block
       max-width: 100%
       white-space: nowrap
       line-height: 1em
       padding-bottom: 2px
 
-      .cropname 
+      .cropname
         overflow: hidden
         text-overflow: ellipsis
 
-      .scientificname 
+      .scientificname
         font-size: small
         font-style: italic
         overflow: hidden
         text-overflow: ellipsis
 
-      .plantingcount 
+      .plantingcount
         font-size: small
 
-    .crop-name a 
+    .crop-name a
       padding-top: 2px
 
-    .scientific-name small 
+    .scientific-name small
       margin-bottom: -2px
 
-li.crop-hierarchy 
+li.crop-hierarchy
   list-style-type: disc
 
-.navbar-brand 
+.navbar-brand
   margin: 0px
   padding: 0px
 
-.navbar-bottom 
+.navbar-bottom
   margin: 40px 0px 0px 0px !important
 
 // footer
-footer 
-  #footer1, #footer2, #footer3 
+footer
+  #footer1, #footer2, #footer3
     text-align: left
     padding-top: 1em
     padding-bottom: 2em
-    ul 
+    ul
       list-style-type: none
       list-style-position: outside
       padding-left: 0px
       margin-left: 0px
-    
-    a 
+
+    a
       color: $navbar-default-link-color
       text-decoration: none
-    
-    a:hover 
+
+    a:hover
       color: $navbar-default-link-hover-color
-    
-    a:active 
+
+    a:active
       color: $navbar-default-link-active-color
 
-  .navbar-bottom.navbar 
+  .navbar-bottom.navbar
     border-radius: 0
 
 // ensure footer is pushed to bottom of browser window
 
-#maincontainer 
+#maincontainer
   min-height: 80%
 
-html, body 
+html, body
   height: 100%
 
-.crop-image, .member-image 
+.crop-image, .member-image
   width: 100%
   height: 100%
 
@@ -255,23 +272,28 @@ html, body
   background: white
   z-index: $zindex-tooltip
 
-.alert 
-  a 
+.alert
+  a
     font-weight: 800
 
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
 
-@media only screen and (max-width: 767px) 
-  .sidebar 
+@media only screen and (max-width: 767px)
+  .sidebar
     margin-left: 0
     border-left: none
     padding-left: 0
 
-  #map 
+  #map
     height: 300px
 
-  .navbar .nav > li 
+  .navbar .nav > li
     display: block
+
+  .navbar .navbar-form
+    width: 185px
+    padding-left: 0
+    padding-right: 0
 
 /* override "info" alert boxes to be green, not blue, on Growstuff */
 $state-info-text: darken($green, 10%)
@@ -283,7 +305,7 @@ $state-info-bg: lighten($green, 50%)
 $state-success-text: darken($green, 10%)
 $state-success-bg: lighten($green, 50%)
 
-.hide 
+.hide
   display: none
 
 #add-sci_name-row, #remove-sci_name-row, #add-alt_name-row, #remove-alt_name-row
@@ -300,14 +322,14 @@ $state-success-bg: lighten($green, 50%)
 #gardens_panel_body
   height: 20em
 
-.form-group.required .control-label:before 
+.form-group.required .control-label:before
   content: "* "
   color: red
 
-.margin-bottom 
+.margin-bottom
   margin-bottom: 1em
 
-.red 
+.red
   color: red
 
 .truncate

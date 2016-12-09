@@ -69,16 +69,15 @@ def load_test_users
     puts "Warning: unable to open suburbs.csv"
   end
 
-
   # rake parameter (eg. 'rake db:seed member_size=10')
   member_size = ENV['member_size'] ? ENV['member_size'].to_i : 3
 
   (1..member_size).each do |i|
     @user = Member.new(
-        login_name: "test#{i}",
-        email: "test#{i}@example.com",
-        password: "password#{i}",
-        tos_agreement: true
+      login_name: "test#{i}",
+      email: "test#{i}@example.com",
+      password: "password#{i}",
+      tos_agreement: true
     )
     @user.skip_confirmation!
     @user.save!
@@ -88,8 +87,8 @@ def load_test_users
       suburb_file.pos = 0 if suburb_file.eof?
       row = CSV.parse(suburb_file.readline)
 
-      suburb,country,state,latitude,longitude = row[0]
-      # Using 'update_column' method instead of 'update' so that 
+      suburb, _country, _state, latitude, longitude = row[0]
+      # Using 'update_column' method instead of 'update' so that
       # it avoids accessing Geocoding service for faster processing
       @user.gardens.first.update_columns(location: suburb, latitude: latitude, longitude: longitude)
       @user.update_columns(location: suburb, latitude: latitude, longitude: longitude)
@@ -142,7 +141,7 @@ def create_cropbot
   @cropbot_user.skip_confirmation!
   @cropbot_user.roles << @wrangler
   @cropbot_user.save!
-  @cropbot_user.account.account_type = AccountType.find_by_name("Staff")
+  @cropbot_user.account.account_type = AccountType.find_by(name: "Staff")
   @cropbot_user.account.save
 end
 
@@ -199,7 +198,7 @@ def load_plant_parts
 end
 
 def select_random_item(array)
-  array[rand(0..array.size-1) % array.size]
+  array[rand(0..array.size - 1) % array.size]
 end
 
 load_data

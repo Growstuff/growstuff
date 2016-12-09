@@ -1,7 +1,7 @@
-- content_for :title, (can?(:wrangle, @crop) ? "New crop" : "Suggest a crop") 
+- content_for :title, (can?(:wrangle, @crop) ? "New crop" : "Suggest a crop")
 
 - unless can? :wrangler, @crop
-  
+
   %p Thanks for taking the time to suggest a crop! Our crop database is managed by volunteers, and we appreciate your help. Here are some things to consider when suggesting a new crop:
 
   %ul

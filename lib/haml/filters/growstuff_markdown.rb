@@ -9,7 +9,6 @@ module Haml::Filters
     include Haml::Filters::Base
 
     def render(text)
-
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
       expanded = text.gsub(CROP_REGEX) do |m|
         crop_str = $1
@@ -27,7 +26,7 @@ module Haml::Filters
       expanded = expanded.gsub(MEMBER_REGEX) do |m|
         member_str = $1
         # find member case-insensitively
-        member = Member.where('lower(login_name) = ?', member_str.downcase).first
+        member = Member.case_insensitive_login_name(member_str).first
         if member
           url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
           "[#{member_str}](#{url})"
@@ -40,7 +39,7 @@ module Haml::Filters
       expanded = expanded.gsub(MEMBER_AT_REGEX) do |m|
         member_str = $1
         # find member case-insensitively
-        member = Member.where('lower(login_name) = ?', member_str[1..-1].downcase).first
+        member = Member.case_insensitive_login_name(member_str[1..-1]).first
         if member
           url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
           "[#{member_str}](#{url})"
@@ -51,13 +50,11 @@ module Haml::Filters
 
       expanded = expanded.gsub(MEMBER_ESCAPE_AT_REGEX, "")
 
-      return BlueCloth.new(expanded).to_html
-
+      BlueCloth.new(expanded).to_html
     end
   end
 
-# Register it as the handler for the :growstuff_markdown HAML command.
-# The automatic system gives us :growstuffmarkdown, which is ugly.
-defined['growstuff_markdown'] = GrowstuffMarkdown
-
+  # Register it as the handler for the :growstuff_markdown HAML command.
+  # The automatic system gives us :growstuffmarkdown, which is ugly.
+  defined['growstuff_markdown'] = GrowstuffMarkdown
 end

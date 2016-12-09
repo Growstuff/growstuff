@@ -1,7 +1,7 @@
 class RolesController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
-  
+
   # GET /roles
   def index
     @roles = Role.all
@@ -13,8 +13,6 @@ class RolesController < ApplicationController
 
   # GET /roles/1
   def show
-    @role = Role.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -31,7 +29,6 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
-    @role = Role.find(params[:id])
   end
 
   # POST /roles
@@ -49,8 +46,6 @@ class RolesController < ApplicationController
 
   # PUT /roles/1
   def update
-    @role = Role.find(params[:id])
-
     respond_to do |format|
       if @role.update(role_params)
         format.html { redirect_to @role, notice: 'Role was successfully updated.' }
@@ -62,7 +57,6 @@ class RolesController < ApplicationController
 
   # DELETE /roles/1
   def destroy
-    @role = Role.find(params[:id])
     @role.destroy
 
     respond_to do |format|

@@ -8,7 +8,7 @@ class Admin::OrdersController < ApplicationController
 
   def search
     authorize! :manage, :all
-    @orders = Order.search({by: params[:search_by], for: params[:search_text]})
+    @orders = Order.search({ by: params[:search_by], for: params[:search_text] })
 
     if @orders.empty?
       flash[:alert] = "Couldn't find order with #{params[:search_by]} = #{params[:search_text]}"
@@ -17,6 +17,5 @@ class Admin::OrdersController < ApplicationController
     respond_to do |format|
       format.html # index.html.haml
     end
-
   end
 end

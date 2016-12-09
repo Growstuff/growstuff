@@ -1,16 +1,16 @@
 class GardensController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
-
 
   # GET /gardens
   # GET /gardens.json
   def index
-    @gardens = Garden.paginate(page: params[:page])
-    @owner = Member.find_by_slug(params[:owner])
-    if @owner
-      @gardens = @owner.gardens.paginate(page: params[:page])
-    end
+    @owner = Member.find_by(slug: params[:owner])
+    @gardens = if @owner
+                 @owner.gardens.paginate(page: params[:page])
+               else
+                 Garden.paginate(page: params[:page])
+               end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,8 +21,6 @@ class GardensController < ApplicationController
   # GET /gardens/1
   # GET /gardens/1.json
   def show
-    @garden = Garden.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @garden }
@@ -42,7 +40,6 @@ class GardensController < ApplicationController
 
   # GET /gardens/1/edit
   def edit
-    @garden = Garden.find(params[:id])
   end
 
   # POST /gardens
@@ -66,8 +63,6 @@ class GardensController < ApplicationController
   # PUT /gardens/1
   # PUT /gardens/1.json
   def update
-    @garden = Garden.find(params[:id])
-
     respond_to do |format|
       if @garden.update(garden_params)
         format.html { redirect_to @garden, notice: 'Garden was successfully updated.' }
@@ -82,12 +77,13 @@ class GardensController < ApplicationController
   # DELETE /gardens/1
   # DELETE /gardens/1.json
   def destroy
-    @garden = Garden.find(params[:id])
     @garden.destroy
     expire_fragment("homepage_stats")
 
     respond_to do |format|
-      format.html { redirect_to gardens_by_owner_path(owner: @garden.owner), notice: 'Garden was successfully deleted.' }
+      format.html do
+        redirect_to gardens_by_owner_path(owner: @garden.owner), notice: 'Garden was successfully deleted.'
+      end
       format.json { head :no_content }
     end
   end
@@ -96,6 +92,6 @@ class GardensController < ApplicationController
 
   def garden_params
     params.require(:garden).permit(:name, :slug, :owner_id, :description, :active,
-    :location, :latitude, :longitude, :area, :area_unit)
+      :location, :latitude, :longitude, :area, :area_unit)
   end
 end
