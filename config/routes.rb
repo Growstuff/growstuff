@@ -72,7 +72,7 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources :order_items
   resources :products
 
-  resources :likes, :only => [:create, :destroy]
+  resources :likes, only: [:create, :destroy]
 
   get "home/index"
   root to: 'home#index'
