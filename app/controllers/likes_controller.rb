@@ -61,7 +61,7 @@ class LikesController < ApplicationController
 
   def find_likeable
     params.each do |name, value|
-      return $1.classify.constantize.find(value) if name =~ /(.+)_id$/
+      return Regexp.last_match[1].classify.constantize.find(value) if name =~ /(.+)_id$/
     end
   end
 
