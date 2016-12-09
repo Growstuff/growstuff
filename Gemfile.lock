@@ -278,7 +278,7 @@ GEM
     mime-types-data (3.2016.0521)
     mimemagic (0.3.2)
     mini_portile2 (2.1.0)
-    minitest (5.9.1)
+    minitest (5.10.1)
     multi_json (1.11.3)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
