@@ -170,11 +170,8 @@ class Member < ActiveRecord::Base
                  per_page: 30
                )
              end
-    if result
-      return [result.photo, result.total]
-    else
-      return [[], 0]
-    end
+    return [result.photo, result.total] if result
+    [[], 0]
   end
 
   # Returns a hash of Flickr photosets' ids and titles
