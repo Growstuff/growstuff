@@ -3,7 +3,7 @@ require 'haml/filters'
 require 'haml/filters/growstuff_markdown'
 
 def input_link(name)
-  return "[#{name}](crop)"
+  "[#{name}](crop)"
 end
 
 def output_link(crop, name = nil)
@@ -16,7 +16,7 @@ def output_link(crop, name = nil)
 end
 
 def input_member_link(name)
-  return "[#{name}](member)"
+  "[#{name}](member)"
 end
 
 def output_member_link(member, name = nil)

@@ -22,7 +22,7 @@ describe "plantings/show" do
     )
   end
 
-  before (:each) do
+  before(:each) do
     @member = FactoryGirl.create(:member)
     controller.stub(:current_user) { @member }
     @p = create_planting_for(@member)

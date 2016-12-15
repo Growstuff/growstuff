@@ -55,8 +55,6 @@ class PlantingsController < ApplicationController
 
   # GET /plantings/1/edit
   def edit
-    @planting = Planting.find(params[:id])
-
     # the following are needed to display the form but aren't used
     @crop     = Crop.new
     @garden   = Garden.new
@@ -86,7 +84,6 @@ class PlantingsController < ApplicationController
   # PUT /plantings/1
   # PUT /plantings/1.json
   def update
-    @planting = Planting.find(params[:id])
     params[:planted_at] = parse_date(params[:planted_at])
 
     respond_to do |format|
@@ -105,7 +102,6 @@ class PlantingsController < ApplicationController
   # DELETE /plantings/1
   # DELETE /plantings/1.json
   def destroy
-    @planting = Planting.find(params[:id])
     @garden = @planting.garden
     @planting.destroy
     expire_fragment("homepage_stats")

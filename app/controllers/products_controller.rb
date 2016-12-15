@@ -13,8 +13,6 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
-    @product = Product.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -31,7 +29,6 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
   def edit
-    @product = Product.find(params[:id])
   end
 
   # POST /products
@@ -49,8 +46,6 @@ class ProductsController < ApplicationController
 
   # PUT /products/1
   def update
-    @product = Product.find(params[:id])
-
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
@@ -62,7 +57,6 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1
   def destroy
-    @product = Product.find(params[:id])
     @product.destroy
 
     respond_to do |format|
