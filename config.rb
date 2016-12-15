@@ -1,5 +1,5 @@
 # Require any additional compass plugins here.
-
+# rubocop:disable Lint/UselessAssignment
 # Set this to the root of your project when deployed:
 http_path = "/"
 css_dir         = "app/assets/stylesheets"

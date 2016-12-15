@@ -28,7 +28,7 @@ class Photo < ActiveRecord::Base
     info = flickr.photos.getInfo(photo_id: flickr_photo_id)
     licenses = flickr.photos.licenses.getInfo()
     license = licenses.find { |l| l.id == info.license }
-    return {
+    {
       title: info.title || "Untitled",
       license_name: license.name,
       license_url: license.url,

@@ -6,8 +6,6 @@ describe NotificationsHelper do
 
     it "replies to PMs with PMs" do
       notification = FactoryGirl.create(:notification, recipient_id: member.id, post_id: nil)
-      subject = "Re: " + notification.subject
-
       link = helper.reply_link(notification)
       link.should_not be_nil
       link.should eq reply_notification_url(notification)

@@ -49,13 +49,13 @@ FactoryGirl.define do
     factory :edinburgh_member do
       location 'Edinburgh'
       latitude 55.953252
-      longitude -3.188267
+      longitude { -3.188267 }
     end
 
     factory :south_pole_member do
       sequence(:login_name) { |n| "ScottRF#{n}" }
       location 'Amundsen-Scott Base, Antarctica'
-      latitude -90
+      latitude { -90 }
       longitude 0
     end
 

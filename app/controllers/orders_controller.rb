@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
 
   # GET /orders
@@ -13,8 +13,6 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @order = Order.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -31,8 +29,6 @@ class OrdersController < ApplicationController
 
   # checkout with PayPal
   def checkout
-    @order = Order.find(params[:id])
-
     respond_to do |format|
       if @order.update_attributes(referral_code: params[:referral_code])
         response = EXPRESS_GATEWAY.setup_purchase(
@@ -52,8 +48,6 @@ class OrdersController < ApplicationController
   end
 
   def complete
-    @order = Order.find(params[:id])
-
     if (params[:token] && params['PayerID'])
       purchase = EXPRESS_GATEWAY.purchase(
         @order.total,
@@ -80,7 +74,6 @@ class OrdersController < ApplicationController
   end
 
   def cancel
-    @order = Order.find(params[:id])
     respond_to do |format|
       format.html { redirect_to shop_url, notice: 'Order was cancelled.' }
     end
@@ -88,7 +81,6 @@ class OrdersController < ApplicationController
 
   # DELETE /orders/1
   def destroy
-    @order = Order.find(params[:id])
     @order.destroy
 
     respond_to do |format|

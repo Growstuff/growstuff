@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
   load_and_authorize_resource
 
   # GET /accounts
@@ -13,8 +13,6 @@ class AccountsController < ApplicationController
 
   # GET /accounts/1
   def show
-    @account = Account.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -22,13 +20,10 @@ class AccountsController < ApplicationController
 
   # GET /accounts/1/edit
   def edit
-    @account = Account.find(params[:id])
   end
 
   # PUT /accounts/1
   def update
-    @account = Account.find(params[:id])
-
     respond_to do |format|
       if @account.update(params[:account])
         format.html { redirect_to @account, notice: 'Account detail was successfully updated.' }

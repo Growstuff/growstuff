@@ -71,6 +71,11 @@ gem 'omniauth-facebook'
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
+
+# Project does not use semver, so we want to be in sync with the version of 
+# elasticsearch we use
+# See https://github.com/elastic/elasticsearch-ruby#compatibility
+gem "elasticsearch-api", "~> 2.0.0"
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
 
@@ -113,6 +118,7 @@ group :development, :test do
   gem 'poltergeist'                     # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'selenium-webdriver'
+  gem 'haml-i18n-extractor'
   gem "active_merchant-paypal-bogus-gateway"
   gem 'rubocop', require: false
 end

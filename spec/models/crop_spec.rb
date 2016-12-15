@@ -10,7 +10,7 @@ describe Crop do
 
     it 'should be fetchable from the database' do
       crop.save
-      @crop2 = Crop.find_by_name('tomato')
+      @crop2 = Crop.find_by(name: 'tomato')
       @crop2.en_wikipedia_url.should == "http://en.wikipedia.org/wiki/Tomato"
       @crop2.slug.should == "tomato"
     end
@@ -189,25 +189,25 @@ describe Crop do
     let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      planting1 = FactoryGirl.create(:sunny_planting, crop: crop)
-      planting2 = FactoryGirl.create(:sunny_planting, crop: crop)
-      planting3 = FactoryGirl.create(:semi_shady_planting, crop: crop)
-      planting4 = FactoryGirl.create(:shady_planting, crop: crop)
+      FactoryGirl.create(:sunny_planting, crop: crop)
+      FactoryGirl.create(:sunny_planting, crop: crop)
+      FactoryGirl.create(:semi_shady_planting, crop: crop)
+      FactoryGirl.create(:shady_planting, crop: crop)
       crop.sunniness.should be_an_instance_of Hash
     end
 
     it 'counts each sunniness value' do
-      planting1 = FactoryGirl.create(:sunny_planting, crop: crop)
-      planting2 = FactoryGirl.create(:sunny_planting, crop: crop)
-      planting3 = FactoryGirl.create(:semi_shady_planting, crop: crop)
-      planting4 = FactoryGirl.create(:shady_planting, crop: crop)
+      FactoryGirl.create(:sunny_planting, crop: crop)
+      FactoryGirl.create(:sunny_planting, crop: crop)
+      FactoryGirl.create(:semi_shady_planting, crop: crop)
+      FactoryGirl.create(:shady_planting, crop: crop)
       crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
     end
 
     it 'ignores unused sunniness values' do
-      planting1 = FactoryGirl.create(:sunny_planting, crop: crop)
-      planting2 = FactoryGirl.create(:sunny_planting, crop: crop)
-      planting3 = FactoryGirl.create(:semi_shady_planting, crop: crop)
+      FactoryGirl.create(:sunny_planting, crop: crop)
+      FactoryGirl.create(:sunny_planting, crop: crop)
+      FactoryGirl.create(:semi_shady_planting, crop: crop)
       crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
     end
   end
@@ -216,25 +216,25 @@ describe Crop do
     let(:crop) { FactoryGirl.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      planting1 = FactoryGirl.create(:seed_planting, crop: crop)
-      planting2 = FactoryGirl.create(:seed_planting, crop: crop)
-      planting3 = FactoryGirl.create(:seedling_planting, crop: crop)
-      planting4 = FactoryGirl.create(:cutting_planting, crop: crop)
+      FactoryGirl.create(:seed_planting, crop: crop)
+      FactoryGirl.create(:seed_planting, crop: crop)
+      FactoryGirl.create(:seedling_planting, crop: crop)
+      FactoryGirl.create(:cutting_planting, crop: crop)
       crop.planted_from.should be_an_instance_of Hash
     end
 
     it 'counts each planted_from value' do
-      planting1 = FactoryGirl.create(:seed_planting, crop: crop)
-      planting2 = FactoryGirl.create(:seed_planting, crop: crop)
-      planting3 = FactoryGirl.create(:seedling_planting, crop: crop)
-      planting4 = FactoryGirl.create(:cutting_planting, crop: crop)
+      FactoryGirl.create(:seed_planting, crop: crop)
+      FactoryGirl.create(:seed_planting, crop: crop)
+      FactoryGirl.create(:seedling_planting, crop: crop)
+      FactoryGirl.create(:cutting_planting, crop: crop)
       crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
     end
 
     it 'ignores unused planted_from values' do
-      planting1 = FactoryGirl.create(:seed_planting, crop: crop)
-      planting2 = FactoryGirl.create(:seed_planting, crop: crop)
-      planting3 = FactoryGirl.create(:seedling_planting, crop: crop)
+      FactoryGirl.create(:seed_planting, crop: crop)
+      FactoryGirl.create(:seed_planting, crop: crop)
+      FactoryGirl.create(:seedling_planting, crop: crop)
       crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
     end
   end

@@ -91,15 +91,13 @@ class Member < ActiveRecord::Base
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions).where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }]).first
-    else
-      where(conditions).first
-    end
+    login = conditions.delete(:login)
+    return  where(conditions).login_name_or_email(login).first if login
+    find_by(conditions)
   end
 
   def to_s
-    return login_name
+    login_name
   end
 
   def has_role?(role_sym)
@@ -107,7 +105,7 @@ class Member < ActiveRecord::Base
   end
 
   def current_order
-    orders.where(completed_at: nil).first
+    orders.find_by(completed_at: nil)
   end
 
   # when purchasing a product that gives you a paid account, this method
@@ -128,16 +126,16 @@ class Member < ActiveRecord::Base
 
   def is_paid?
     if account.account_type.is_permanent_paid
-      return true
+      true
     elsif account.account_type.is_paid && account.paid_until >= Time.zone.now
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
   def auth(provider)
-    return authentications.find_by_provider(provider)
+    authentications.find_by(provider: provider)
   end
 
   # Authenticates against Flickr and returns an object we can use for subsequent api calls
@@ -152,14 +150,13 @@ class Member < ActiveRecord::Base
         @flickr.access_secret = flickr_auth.secret
       end
     end
-    return @flickr
+    @flickr
   end
 
   # Fetches a collection of photos from Flickr
   # Returns a [[page of photos], total] pair.
   # Total is needed for pagination.
   def flickr_photos(page_num = 1, set = nil)
-    result = false
     result = if set
                flickr.photosets.getPhotos(
                  photoset_id: set,
@@ -186,7 +183,7 @@ class Member < ActiveRecord::Base
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end
-    return sets
+    sets
   end
 
   def interesting?
@@ -194,7 +191,15 @@ class Member < ActiveRecord::Base
     # Member.confirmed.located as those are required for
     # interestingness, as well.
     return true if plantings.present?
-    return false
+    false
+  end
+
+  def Member.login_name_or_email(login)
+    where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }])
+  end
+
+  def Member.case_insensitive_login_name(login)
+    where(["lower(login_name) = :value", { value: login.downcase }])
   end
 
   def Member.interesting
@@ -206,7 +211,7 @@ class Member < ActiveRecord::Base
         interesting_members.push(m)
       end
     end
-    return interesting_members
+    interesting_members
   end
 
   def Member.nearest_to(place)
@@ -217,7 +222,7 @@ class Member < ActiveRecord::Base
         nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
       end
     end
-    return nearby_members
+    nearby_members
   end
 
   def update_newsletter_subscription
@@ -237,21 +242,21 @@ class Member < ActiveRecord::Base
   def newsletter_subscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
-    res = gb.lists.subscribe({
-                               id: Growstuff::Application.config.newsletter_list_id,
-                               email: { email: email },
-                               merge_vars: { login_name: login_name },
-                               double_optin: false # they already confirmed their email with us
-                             })
+    gb.lists.subscribe({
+                         id: Growstuff::Application.config.newsletter_list_id,
+                         email: { email: email },
+                         merge_vars: { login_name: login_name },
+                         double_optin: false # they already confirmed their email with us
+                       })
   end
 
   def newsletter_unsubscribe(testing = false)
     return true if (Rails.env.test? && !testing)
     gb = Gibbon::API.new
-    res = gb.lists.unsubscribe({
-                                 id: Growstuff::Application.config.newsletter_list_id,
-                                 email: { email: email }
-                               })
+    gb.lists.unsubscribe({
+                           id: Growstuff::Application.config.newsletter_list_id,
+                           email: { email: email }
+                         })
   end
 
   def already_following?(member)
@@ -259,6 +264,6 @@ class Member < ActiveRecord::Base
   end
 
   def get_follow(member)
-    self.follows.where(followed_id: member.id).first if already_following?(member)
+    self.follows.find_by(followed_id: member.id) if already_following?(member)
   end
 end
