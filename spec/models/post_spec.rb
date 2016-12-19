@@ -29,22 +29,22 @@ describe Post do
 
   it "has many comments" do
     post = FactoryGirl.create(:post, author: member)
-    comment1 = FactoryGirl.create(:comment, post: post)
-    comment2 = FactoryGirl.create(:comment, post: post)
+    FactoryGirl.create(:comment, post: post)
+    FactoryGirl.create(:comment, post: post)
     post.comments.size.should == 2
   end
 
   it "supports counting comments" do
     post = FactoryGirl.create(:post, author: member)
-    comment1 = FactoryGirl.create(:comment, post: post)
-    comment2 = FactoryGirl.create(:comment, post: post)
+    FactoryGirl.create(:comment, post: post)
+    FactoryGirl.create(:comment, post: post)
     post.comment_count.should == 2
   end
 
   it "destroys comments when deleted" do
     post = FactoryGirl.create(:post, author: member)
-    comment1 = FactoryGirl.create(:comment, post: post)
-    comment2 = FactoryGirl.create(:comment, post: post)
+    FactoryGirl.create(:comment, post: post)
+    FactoryGirl.create(:comment, post: post)
     post.comments.size.should == 2
     all = Comment.count
     post.destroy
@@ -124,7 +124,7 @@ describe Post do
       n = Notification.first
       n.sender.should eq member
       n.recipient.should eq member2
-      n.subject.should match /mentioned you in their post/
+      n.subject.should match(/mentioned you in their post/)
       n.body.should eq p.body
     end
 
