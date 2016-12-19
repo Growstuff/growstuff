@@ -109,7 +109,7 @@ describe Post do
 
     it "sends a notification when a member is mentioned using @-syntax" do
       expect {
-        FactoryGirl.create(:post, author: member, body: "Hey @" << member2.login_name)
+        FactoryGirl.create(:post, author: member, body: "Hey @#{member2}")
       }.to change(Notification, :count).by(1)
     end
 
@@ -120,7 +120,7 @@ describe Post do
     end
 
     it "sets the notification field" do
-      @p = FactoryGirl.create(:post, author: member, body: "Hey @" << member2.login_name)
+      @p = FactoryGirl.create(:post, author: member, body: "Hey @#{member2}")
       @n = Notification.first
       @n.sender.should eq member
       @n.recipient.should eq member2
@@ -129,15 +129,15 @@ describe Post do
     end
 
     it "sends notifications to all members mentioned" do
-      @member3 = FactoryGirl.create(:member)
+      member3 = FactoryGirl.create(:member)
       expect {
-        FactoryGirl.create(:post, author: member, body: "Hey @" << member2.login_name << " & @" << @member3.login_name)
+        FactoryGirl.create(:post, author: member, body: "Hey @#{member2} & @#{member3}")
       }.to change(Notification, :count).by(2)
     end
 
     it "doesn't send notifications if you mention yourself" do
       expect {
-        FactoryGirl.create(:post, author: member, body: "@" << member.login_name)
+        FactoryGirl.create(:post, author: member, body: "@#{member}")
       }.to change(Notification, :count).by(0)
     end
   end
