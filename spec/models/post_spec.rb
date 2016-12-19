@@ -107,9 +107,15 @@ describe Post do
   context "notifications" do
     let(:member2) { FactoryGirl.create(:member) }
 
-    it "sends a notification when a member is mentioned" do
+    it "sends a notification when a member is mentioned using @-syntax" do
       expect {
         FactoryGirl.create(:post, author: member, body: "Hey @" << member2.login_name)
+      }.to change(Notification, :count).by(1)
+    end
+
+    it "sends a notification when a member is mentioned using [](member) syntax" do
+      expect {
+        FactoryGirl.create(:post, author: member, body: "Hey [#{member2}](member)")
       }.to change(Notification, :count).by(1)
     end
 
