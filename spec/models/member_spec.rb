@@ -401,4 +401,19 @@ describe 'member' do
       end
     end
   end
+
+  context 'subscriptions' do
+    let(:member) { FactoryGirl.create(:member) }
+    let(:gb) { instance_double("Gibbon::API.new") }
+
+    it 'subscribes to the newsletter' do
+      expect(gb).to receive_message_chain('lists.subscribe')
+      member.newsletter_subscribe(gb, true)
+    end
+
+    it 'unsubscribes from the newsletter' do
+      expect(gb).to receive_message_chain('lists.unsubscribe')
+      member.newsletter_unsubscribe(gb, true)
+    end
+  end
 end
