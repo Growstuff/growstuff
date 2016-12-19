@@ -76,7 +76,7 @@ describe Post do
       Time.stub(now: Time.now)
     end
 
-    let(:post) { FactoryGirl.create(:post, created_at: 1.day.ago) }
+    let!(:post) { FactoryGirl.create(:post, created_at: 1.day.ago) }
 
     it "sets recent activity to post time" do
       post.recent_activity.to_i.should eq post.created_at.to_i
@@ -90,14 +90,17 @@ describe Post do
 
     it "shiny new post is recently active" do
       # create a shiny new post
-      @post2 = FactoryGirl.create(:post, created_at: 1.minute.ago)
-      Post.recently_active.first.should eq @post2
+      post2 = FactoryGirl.create(:post, created_at: 1.minute.ago)
+      Post.recently_active.first.should eq post2
+      Post.recently_active.second.should eq post
     end
 
     it "new comment on old post is recently active" do
       # now comment on an older post
-      @comment2 = FactoryGirl.create(:comment, post: post, created_at: 1.second.ago)
+      post2 = FactoryGirl.create(:post, created_at: 1.minute.ago)
+      FactoryGirl.create(:comment, post: post, created_at: 1.second.ago)
       Post.recently_active.first.should eq post
+      Post.recently_active.second.should eq post2
     end
   end
 
