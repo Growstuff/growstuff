@@ -266,9 +266,11 @@ describe 'member' do
       @member1 = FactoryGirl.create(:london_member)
       @member2 = FactoryGirl.create(:london_member)
       @member3 = FactoryGirl.create(:london_member)
-      @member4 = FactoryGirl.create(:unconfirmed_member)
+      @member4 = FactoryGirl.create(:unconfirmed_member) # !1
+      @member5 = FactoryGirl.create(:london_member)  # 1, 2, !3
+      @member6 = FactoryGirl.create(:member)         # 1, !2, 3
 
-      [@member1, @member2, @member3, @member4].each do |m|
+      [@member1, @member2, @member3, @member4, @member6].each do |m|
         FactoryGirl.create(:planting, owner: m)
       end
 
