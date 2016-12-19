@@ -34,6 +34,13 @@ describe Post do
     @post.comments.size.should == 2
   end
 
+  it "supports counting comments" do
+    @post = FactoryGirl.create(:post, author: member)
+    @comment1 = FactoryGirl.create(:comment, post: @post)
+    @comment2 = FactoryGirl.create(:comment, post: @post)
+    @post.comment_count.should == 2
+  end
+
   it "destroys comments when deleted" do
     @post = FactoryGirl.create(:post, author: member)
     @comment1 = FactoryGirl.create(:comment, post: @post)
