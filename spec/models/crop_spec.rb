@@ -578,6 +578,17 @@ describe Crop do
       expect(loaded.parent).to eq parent
     end
 
+    it "loads a crop with a missing parent" do
+      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
+
+      CSV.parse(tomato_row) do |row|
+        Crop.create_from_csv(row)
+      end
+
+      loaded = Crop.last
+      expect(loaded.parent).to be_nil
+    end
+
     it "doesn't add unnecessary duplicate crops" do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
