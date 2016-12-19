@@ -52,19 +52,19 @@ describe 'member' do
     end
 
     it 'has many plantings' do
-      planting = FactoryGirl.create(:planting, owner: member)
+      FactoryGirl.create(:planting, owner: member)
       member.plantings.size.should eq 1
     end
 
     it "has many comments" do
-      comment1 = FactoryGirl.create(:comment, author: member)
-      comment2 = FactoryGirl.create(:comment, author: member)
+      FactoryGirl.create(:comment, author: member)
+      FactoryGirl.create(:comment, author: member)
       member.comments.size.should == 2
     end
 
     it "has many forums" do
-      forum1 = FactoryGirl.create(:forum, owner: member)
-      forum2 = FactoryGirl.create(:forum, owner: member)
+      FactoryGirl.create(:forum, owner: member)
+      FactoryGirl.create(:forum, owner: member)
       member.forums.size.should == 2
     end
 
@@ -263,37 +263,37 @@ describe 'member' do
     # 4) ordered by the most recent sign in
 
     it 'finds interesting members' do
-      member1 = FactoryGirl.create(:london_member)
-      member2 = FactoryGirl.create(:london_member)
-      member3 = FactoryGirl.create(:london_member)
-      member4 = FactoryGirl.create(:unconfirmed_member) # !1
-      member5 = FactoryGirl.create(:london_member)  # 1, 2, !3
-      member6 = FactoryGirl.create(:member)         # 1, !2, 3
+      members = [
+        :london_member, :london_member, :london_member,
+        :unconfirmed_member, # !1
+        :london_member,      # 1, 2, !3
+        :member              # 1, !2, 3
+      ].collect { |m| FactoryGirl.create(m) }
 
-      [member1, member2, member3, member4, member6].each do |m|
-        FactoryGirl.create(:planting, owner: m)
+      [0, 1, 2, 3, 5].each do |i|
+        FactoryGirl.create(:planting, owner: members[i])
       end
 
-      member1.updated_at = 3.days.ago
-      member2.updated_at = 2.days.ago
-      member3.updated_at = 1.day.ago
+      members[0].updated_at = 3.days.ago
+      members[1].updated_at = 2.days.ago
+      members[2].updated_at = 1.day.ago
 
-      Member.interesting.should eq [member3, member2, member1]
+      Member.interesting.should eq [members[2], members[1], members[0]]
     end
   end
 
   context 'orders' do
     it 'finds the current order' do
       member = FactoryGirl.create(:member)
-      order1 = FactoryGirl.create(:completed_order, member: member)
+      FactoryGirl.create(:completed_order, member: member)
       order2 = FactoryGirl.create(:order, member: member)
       member.current_order.should eq order2
     end
 
     it "copes if there's no current order" do
       member = FactoryGirl.create(:member)
-      order1 = FactoryGirl.create(:completed_order, member: member)
-      order2 = FactoryGirl.create(:completed_order, member: member)
+      FactoryGirl.create(:completed_order, member: member)
+      FactoryGirl.create(:completed_order, member: member)
       member.current_order.should be_nil
     end
   end
