@@ -8,6 +8,7 @@ env:
   matrix:
     - GROWSTUFF_ELASTICSEARCH='true'
     - GROWSTUFF_ELASTICSEARCH='false'
+    - STATIC_CHECKS='true'
   global:
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
     - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -26,12 +27,19 @@ before_install:
     fi
   - phantomjs --version
 before_script:
-  - bundle exec rake db:create db:migrate db:test:prepare
-  - bundle exec rake assets:precompile
+  - >
+    if [ "$STATIC_CHECKS" != 'true' ]; then
+      bundle exec rake db:create db:migrate db:test:prepare
+      bundle exec rake assets:precompile
+    fi
 script:
-  - bundle exec script/check_static
-  - bundle exec rake db:migrate --trace
-  - bundle exec rspec spec/
+  - >
+    if [ "$STATIC_CHECKS" = 'true' ]; then
+      bundle exec script/check_static
+    else
+      bundle exec rake db:migrate --trace
+      bundle exec rspec spec/
+    fi
 services:
   - elasticsearch
 before_deploy:
