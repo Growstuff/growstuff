@@ -239,9 +239,8 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def newsletter_subscribe(testing = false)
+  def newsletter_subscribe(gb = Gibbon::API.new, testing = false)
     return true if (Rails.env.test? && !testing)
-    gb = Gibbon::API.new
     gb.lists.subscribe({
                          id: Growstuff::Application.config.newsletter_list_id,
                          email: { email: email },
@@ -250,9 +249,8 @@ class Member < ActiveRecord::Base
                        })
   end
 
-  def newsletter_unsubscribe(testing = false)
+  def newsletter_unsubscribe(gb = Gibbon::API.new, testing = false)
     return true if (Rails.env.test? && !testing)
-    gb = Gibbon::API.new
     gb.lists.unsubscribe({
                            id: Growstuff::Application.config.newsletter_list_id,
                            email: { email: email }
