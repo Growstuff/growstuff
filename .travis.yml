@@ -6,10 +6,12 @@ cache:
     - travis_phantomjs
 env:
   matrix:
-    - GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' GROWSTUFF_ELASTICSEARCH='true'
-    - GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' GROWSTUFF_ELASTICSEARCH='false'
+    - GROWSTUFF_ELASTICSEARCH='true'
+    - GROWSTUFF_ELASTICSEARCH='false'
   global:
-    secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
+    - GROWSTUFF_SITE_NAME="Growstuff (travis)"
+    - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
 rvm:
   - 2.3.3
 before_install:
