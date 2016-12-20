@@ -29,10 +29,7 @@ before_script:
   - bundle exec rake db:create db:migrate db:test:prepare
   - bundle exec rake assets:precompile
 script:
-  - bundle exec rubocop --display-cop-names --rails
-  - bundle exec haml-lint app/views/account_types app/views/admin app/views/alternate_names app/views/account_types app/views/comments app/views/crops
-  - script/gemfile_check
-  - bundle exec script/check_contributors_md
+  - bundle exec script/check_static
   - bundle exec rake db:migrate --trace
   - bundle exec rspec spec/
 services:

@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+linted_dirs = %w(account_types admin alternate_names comments crops)
+  .map { |d| "app/views/#{d}" }.join(' ')
+checks = [
+  'script/check_gemfile',
+  'script/check_contributors_md',
+  'rubocop --display-cop-names --rails',
+  "haml-lint #{linted_dirs}"
+]
+
+return_values = checks.collect { |t| system(t) }
+failures = return_values.count(&:!)
+abort "#{failures} static check(s) failed" unless failures.zero?
