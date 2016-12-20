@@ -4,6 +4,7 @@ cache:
   bundler: true
   directories:
     - travis_phantomjs
+    - tmp/cache/assets/test/sprockets
 env:
   matrix:
     - GROWSTUFF_ELASTICSEARCH='true'
