@@ -7,3 +7,9 @@ begin
   end
 rescue LoadError
 end
+
+task :static do
+  system('script/check_static')
+end
+
+task default: [:static, :spec]
