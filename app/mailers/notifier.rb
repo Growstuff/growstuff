@@ -33,10 +33,7 @@ class Notifier < ActionMailer::Base
     message = { member_id: @member.id, type: :send_planting_reminder }
     @signed_message = verifier.generate(message)
 
-    if @member.send_planting_reminder
-      mail(to: @member.email,
-           subject: "What have you planted lately?")
-    end
+    mail(to: @member.email, subject: "What have you planted lately?") if @member.send_planting_reminder
   end
 
   def new_crop_request(member, request)

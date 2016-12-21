@@ -3,26 +3,22 @@ module HarvestsHelper
     human_quantity = display_human_quantity(harvest)
     weight = display_weight(harvest)
 
-    if human_quantity && weight
-      return "#{human_quantity}, weighing #{weight}"
-    elsif human_quantity
-      return human_quantity
-    elsif weight
-      return weight
-    else
-      return 'not specified'
-    end
+    return "#{human_quantity}, weighing #{weight}" if human_quantity && weight
+    return human_quantity if human_quantity
+    return weight if weight
+
+    'not specified'
   end
 
   def display_human_quantity(harvest)
-    if !harvest.quantity.blank? && harvest.quantity > 0
-      if harvest.unit == 'individual' # just the number
-        number_to_human(harvest.quantity, strip_insignificant_zeros: true)
-      elsif !harvest.unit.blank? # pluralize anything else
-        pluralize(number_to_human(harvest.quantity, strip_insignificant_zeros: true), harvest.unit)
-      else
-        "#{number_to_human(harvest.quantity, strip_insignificant_zeros: true)} #{harvest.unit}"
-      end
+    return unless harvest.quantity.present? && harvest.quantity > 0
+
+    if harvest.unit == 'individual' # just the number
+      number_to_human(harvest.quantity, strip_insignificant_zeros: true)
+    elsif !harvest.unit.blank? # pluralize anything else
+      pluralize(number_to_human(harvest.quantity, strip_insignificant_zeros: true), harvest.unit)
+    else
+      "#{number_to_human(harvest.quantity, strip_insignificant_zeros: true)} #{harvest.unit}"
     end
   end
 

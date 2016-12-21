@@ -8,8 +8,6 @@ class OrderItem < ActiveRecord::Base
 
   def price_must_be_greater_than_minimum
     @product = Product.find(product_id)
-    if price < @product.min_price
-      errors.add(:price, "must be greater than the product's minimum value")
-    end
+    errors.add(:price, "must be greater than the product's minimum value") if price < @product.min_price
   end
 end

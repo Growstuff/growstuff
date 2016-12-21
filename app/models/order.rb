@@ -56,9 +56,7 @@ class Order < ActiveRecord::Base
   # removes whitespace and forces to uppercase (we're somewhat liberal
   # in what we accept, but we clean it up anyway.)
   def standardize_referral_code
-    if referral_code
-      self.referral_code = referral_code.upcase.gsub /\s/, ''
-    end
+    self.referral_code = referral_code.upcase.gsub /\s/, '' if referral_code
   end
 
   # search orders (used by admin/orders)
