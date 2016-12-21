@@ -284,31 +284,6 @@ Style/FormatString:
     - 'spec/helpers/application_helper_spec.rb'
     - 'spec/views/shop/index_spec.rb'
 
-# Offense count: 35
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'app/controllers/members_controller.rb'
-    - 'app/helpers/harvests_helper.rb'
-    - 'app/helpers/plantings_helper.rb'
-    - 'app/mailers/notifier.rb'
-    - 'app/models/ability.rb'
-    - 'app/models/account.rb'
-    - 'app/models/crop.rb'
-    - 'app/models/garden.rb'
-    - 'app/models/harvest.rb'
-    - 'app/models/member.rb'
-    - 'app/models/notification.rb'
-    - 'app/models/order.rb'
-    - 'app/models/order_item.rb'
-    - 'app/models/photo.rb'
-    - 'app/models/seed.rb'
-    - 'app/validators/approved_validator.rb'
-    - 'config/initializers/comfortable_mexican_sofa.rb'
-    - 'lib/geocodable.rb'
-    - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
-    - 'spec/support/elasticsearch_helpers.rb'
-
 # Offense count: 4
 Style/IdenticalConditionalBranches:
   Exclude:
