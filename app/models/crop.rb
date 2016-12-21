@@ -1,4 +1,4 @@
-class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
+class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
@@ -115,9 +115,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # update the Elasticsearch index (only if we're using it in this
   # environment)
   def update_index(name_obj)
-    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-      __elasticsearch__.index_document
-    end
+    __elasticsearch__.index_document if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
   end
 
   # End Elasticsearch section
@@ -127,9 +125,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def default_scientific_name
-    if scientific_names.size > 0
-      scientific_names.first.name
-    end
+    scientific_names.first.name if scientific_names.size > 0
   end
 
   # crop.default_photo
@@ -168,9 +164,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def popular_plant_parts
     popular_plant_parts = Hash.new(0)
     harvests.each do |h|
-      if h.plant_part
-        popular_plant_parts[h.plant_part] += 1
-      end
+      popular_plant_parts[h.plant_part] += 1 if h.plant_part
     end
     popular_plant_parts
   end
@@ -261,30 +255,26 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
     cropbot = Member.find_by(login_name: 'cropbot')
 
-    if names_to_add.size > 0
-      raise "cropbot account not found: run rake db:seed" unless cropbot
+    return unless names_to_add.size > 0
+    raise "cropbot account not found: run rake db:seed" unless cropbot
 
-      add_names_to_list(names_to_add, 'scientific')
-    end
+    add_names_to_list(names_to_add, 'scientific')
   end
 
   def add_alternate_names_from_csv(alternate_names)
-    cropbot = Member.find_by(login_name: 'cropbot')
+    # i.e. we actually passed something in, which isn't a given
+    return if alternate_names.blank?
 
-    if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
-      raise "cropbot account not found: run rake db:seed" unless cropbot
-
-      names_to_add = alternate_names.split(%r{,\s*})
-      add_names_to_list(names_to_add, 'alternate')
-    end
+    cropbot = Member.find_by!(login_name: 'cropbot')
+    names_to_add = alternate_names.split(%r{,\s*})
+    add_names_to_list(names_to_add, 'alternate')
+  rescue
+    raise "cropbot account not found: run rake db:seed" unless cropbot
   end
 
   def rejection_explanation
-    if reason_for_rejection == "other"
-      rejection_notes
-    else
-      reason_for_rejection
-    end
+    return rejection_notes if reason_for_rejection == "other"
+    reason_for_rejection
   end
 
   # Crop.search(string)
@@ -362,9 +352,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def count_uses_of_property(col_name)
     data = Hash.new(0)
     plantings.each do |p|
-      if !p.send("#{col_name}").blank?
-        data[p.send("#{col_name}")] += 1
-      end
+      data[p.send("#{col_name}")] += 1 if !p.send("#{col_name}").blank?
     end
     data
   end
@@ -373,22 +361,18 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def approval_status_cannot_be_changed_again
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
-    if previous.include?(:rejected) || previous.include?(:approved)
-      errors.add(:approval_status, "has already been set to #{approval_status}")
-    end
+    return unless previous.include?(:rejected) || previous.include?(:approved)
+    errors.add(:approval_status, "has already been set to #{approval_status}")
   end
 
   def must_be_rejected_if_rejected_reasons_present
-    unless rejected?
-      if reason_for_rejection.present? || rejection_notes.present?
-        errors.add(:approval_status, "must be rejected if a reason for rejection is present")
-      end
-    end
+    return if rejected?
+    return unless reason_for_rejection.present? || rejection_notes.present?
+    errors.add(:approval_status, "must be rejected if a reason for rejection is present")
   end
 
   def must_have_meaningful_reason_for_rejection
-    if reason_for_rejection == "other" && rejection_notes.blank?
-      errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
-    end
+    return unless reason_for_rejection == "other" && rejection_notes.blank?
+    errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
   end
 end
