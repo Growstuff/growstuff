@@ -5,11 +5,6 @@ module Geocodable
 
   private
 
-  def geocode
-    return if self.location.blank?
-    self.latitude, self.longitude = Geocoder.coordinates(location, params: { limit: 1 })
-  end
-
   def empty_unwanted_geocodes
     return unless self.location.blank?
     self.latitude = nil
