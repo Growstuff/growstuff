@@ -8,7 +8,7 @@ class Notifier < ActionMailer::Base
         "not set - have you created config/application.yml?"
     end
 
-    return ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+    ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
   end
 
   def notify(notification)
@@ -16,7 +16,8 @@ class Notifier < ActionMailer::Base
     @reply_link = reply_link(@notification)
 
     # Encrypting
-    @signed_message = verifier.generate ({ member_id: @notification.recipient.id, type: :send_notification_email })
+    message = { member_id: @notification.recipient.id, type: :send_notification_email }
+    @signed_message = verifier.generate(message)
 
     mail(to: @notification.recipient.email,
          subject: @notification.subject)
@@ -29,12 +30,10 @@ class Notifier < ActionMailer::Base
     @harvests = @member.harvests.first(5)
 
     # Encrypting
-    @signed_message = verifier.generate ({ member_id: @member.id, type: :send_planting_reminder })
+    message = { member_id: @member.id, type: :send_planting_reminder }
+    @signed_message = verifier.generate(message)
 
-    if @member.send_planting_reminder
-      mail(to: @member.email,
-           subject: "What have you planted lately?")
-    end
+    mail(to: @member.email, subject: "What have you planted lately?") if @member.send_planting_reminder
   end
 
   def new_crop_request(member, request)

@@ -1,4 +1,4 @@
-class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
+class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
@@ -42,7 +42,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     format: {
-      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_]+\z/,
+      with: /\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z/,
       message: 'is not a valid English Wikipedia URL'
     },
     if: :approved?
@@ -115,9 +115,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # update the Elasticsearch index (only if we're using it in this
   # environment)
   def update_index(name_obj)
-    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-      __elasticsearch__.index_document
-    end
+    __elasticsearch__.index_document if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
   end
 
   # End Elasticsearch section
@@ -127,9 +125,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def default_scientific_name
-    if scientific_names.size > 0
-      scientific_names.first.name
-    end
+    scientific_names.first.name if scientific_names.size > 0
   end
 
   # crop.default_photo
@@ -168,11 +164,9 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def popular_plant_parts
     popular_plant_parts = Hash.new(0)
     harvests.each do |h|
-      if h.plant_part
-        popular_plant_parts[h.plant_part] += 1
-      end
+      popular_plant_parts[h.plant_part] += 1 if h.plant_part
     end
-    return popular_plant_parts
+    popular_plant_parts
   end
 
   def interesting?
@@ -180,7 +174,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     min_photos    = 3 # needs this many photos to be interesting
     return false unless photos.size >= min_photos
     return false unless plantings_count >= min_plantings
-    return true
+    true
   end
 
   def pending?
@@ -213,7 +207,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       next unless c.interesting?
       interesting_crops.push(c)
     end
-    return interesting_crops
+    interesting_crops
   end
 
   # Crop.create_from_csv(row)
@@ -227,7 +221,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def Crop.create_from_csv(row)
     name, en_wikipedia_url, parent, scientific_names, alternate_names = row
 
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
     raise "cropbot account not found: run rake db:seed" unless cropbot
 
     crop = Crop.find_or_create_by(name: name)
@@ -237,7 +231,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     )
 
     if parent
-      parent = Crop.find_by_name(parent)
+      parent = Crop.find_by(name: parent)
       if parent
         crop.update_attributes(parent_id: parent.id)
       else
@@ -259,34 +253,28 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
     end
 
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
 
-    if names_to_add.size > 0
-      raise "cropbot account not found: run rake db:seed" unless cropbot
+    return unless names_to_add.size > 0
+    raise "cropbot account not found: run rake db:seed" unless cropbot
 
-      add_names_to_list(names_to_add, 'scientific')
-    end
+    add_names_to_list(names_to_add, 'scientific')
   end
 
   def add_alternate_names_from_csv(alternate_names)
-    cropbot = Member.find_by_login_name('cropbot')
+    # i.e. we actually passed something in, which isn't a given
+    return if alternate_names.blank?
 
-    names_to_add = []
-
-    if !alternate_names.blank? # i.e. we actually passed something in, which isn't a given
-      raise "cropbot account not found: run rake db:seed" unless cropbot
-
-      names_to_add = alternate_names.split(%r{,\s*})
-      add_names_to_list(names_to_add, 'alternate')
-    end
+    cropbot = Member.find_by!(login_name: 'cropbot')
+    names_to_add = alternate_names.split(%r{,\s*})
+    add_names_to_list(names_to_add, 'alternate')
+  rescue
+    raise "cropbot account not found: run rake db:seed" unless cropbot
   end
 
   def rejection_explanation
-    if reason_for_rejection == "other"
-      return rejection_notes
-    else
-      return reason_for_rejection
-    end
+    return rejection_notes if reason_for_rejection == "other"
+    reason_for_rejection
   end
 
   # Crop.search(string)
@@ -311,7 +299,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
                                             size: 50
                                           }
       )
-      return response.records.to_a
+      response.records.to_a
     else
       # if we don't have elasticsearch, just do a basic SQL query.
       # also, make sure it's an actual array not an activerecord
@@ -322,14 +310,18 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
       # we want to make sure that exact matches come first, even if not
       # using elasticsearch (eg. in development)
-      exact_match = Crop.approved.find_by_name(query)
+      exact_match = Crop.approved.find_by(name: query)
       if exact_match
         matches.delete(exact_match)
         matches.unshift(exact_match)
       end
 
-      return matches
+      matches
     end
+  end
+
+  def Crop.case_insensitive_name(name)
+    where(["lower(name) = :value", { value: name.downcase }])
   end
 
   private
@@ -345,7 +337,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def create_crop_in_list(list_name, name)
-    cropbot = Member.find_by_login_name('cropbot')
+    cropbot = Member.find_by(login_name: 'cropbot')
     create_hash = {
       creator_id: "#{cropbot.id}",
       name: name
@@ -360,9 +352,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def count_uses_of_property(col_name)
     data = Hash.new(0)
     plantings.each do |p|
-      if !p.send("#{col_name}").blank?
-        data[p.send("#{col_name}")] += 1
-      end
+      data[p.send("#{col_name}")] += 1 if !p.send("#{col_name}").blank?
     end
     data
   end
@@ -371,22 +361,18 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def approval_status_cannot_be_changed_again
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
-    if previous.include?(:rejected) || previous.include?(:approved)
-      errors.add(:approval_status, "has already been set to #{approval_status}")
-    end
+    return unless previous.include?(:rejected) || previous.include?(:approved)
+    errors.add(:approval_status, "has already been set to #{approval_status}")
   end
 
   def must_be_rejected_if_rejected_reasons_present
-    unless rejected?
-      if reason_for_rejection.present? || rejection_notes.present?
-        errors.add(:approval_status, "must be rejected if a reason for rejection is present")
-      end
-    end
+    return if rejected?
+    return unless reason_for_rejection.present? || rejection_notes.present?
+    errors.add(:approval_status, "must be rejected if a reason for rejection is present")
   end
 
   def must_have_meaningful_reason_for_rejection
-    if reason_for_rejection == "other" && rejection_notes.blank?
-      errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
-    end
+    return unless reason_for_rejection == "other" && rejection_notes.blank?
+    errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
   end
 end

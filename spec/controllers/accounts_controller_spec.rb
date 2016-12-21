@@ -25,6 +25,6 @@ describe AccountsController do
     # allowed. This method has been left here in case it's useful in
     # future.
     member = FactoryGirl.create(:member)
-    return member.account
+    member.account
   end
 end

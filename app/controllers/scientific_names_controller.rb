@@ -1,5 +1,5 @@
 class ScientificNamesController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /scientific_names
@@ -16,8 +16,6 @@ class ScientificNamesController < ApplicationController
   # GET /scientific_names/1
   # GET /scientific_names/1.json
   def show
-    @scientific_name = ScientificName.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.haml
       format.json { render json: @scientific_name }
@@ -28,7 +26,7 @@ class ScientificNamesController < ApplicationController
   # GET /scientific_names/new.json
   def new
     @scientific_name = ScientificName.new
-    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
+    @crop = Crop.find_or_initialize_by(id: params[:crop_id])
 
     respond_to do |format|
       format.html # new.html.haml
@@ -38,7 +36,6 @@ class ScientificNamesController < ApplicationController
 
   # GET /scientific_names/1/edit
   def edit
-    @scientific_name = ScientificName.find(params[:id])
   end
 
   # POST /scientific_names
@@ -61,8 +58,6 @@ class ScientificNamesController < ApplicationController
   # PUT /scientific_names/1
   # PUT /scientific_names/1.json
   def update
-    @scientific_name = ScientificName.find(params[:id])
-
     respond_to do |format|
       if @scientific_name.update(scientific_name_params)
         format.html { redirect_to @scientific_name.crop, notice: 'Scientific name was successfully updated.' }
@@ -77,7 +72,6 @@ class ScientificNamesController < ApplicationController
   # DELETE /scientific_names/1
   # DELETE /scientific_names/1.json
   def destroy
-    @scientific_name = ScientificName.find(params[:id])
     @crop = @scientific_name.crop
     @scientific_name.destroy
 

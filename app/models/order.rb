@@ -12,6 +12,8 @@ class Order < ActiveRecord::Base
 
   before_save :standardize_referral_code
 
+  scope :by_member, ->(member) { where(member: member) }
+
   # total price of an order
   def total
     sum = 0
@@ -19,7 +21,7 @@ class Order < ActiveRecord::Base
       subtotal = i.price * i.quantity
       sum += subtotal
     end
-    return sum
+    sum
   end
 
   # return items in the format ActiveMerchant/PayPal want them
@@ -32,7 +34,7 @@ class Order < ActiveRecord::Base
                    amount: i.price
                  })
     end
-    return items
+    items
   end
 
   # record the paypal details for reference
@@ -54,9 +56,7 @@ class Order < ActiveRecord::Base
   # removes whitespace and forces to uppercase (we're somewhat liberal
   # in what we accept, but we clean it up anyway.)
   def standardize_referral_code
-    if referral_code
-      self.referral_code = referral_code.upcase.gsub /\s/, ''
-    end
+    self.referral_code = referral_code.upcase.gsub /\s/, '' if referral_code
   end
 
   # search orders (used by admin/orders)
@@ -66,22 +66,22 @@ class Order < ActiveRecord::Base
     if args[:for]
       case args[:by]
       when "member"
-        member = Member.find_by_login_name(args[:for])
+        member = Member.find_by(login_name: args[:for])
         if member
           return member.orders
         end
       when "order_id"
-        order = Order.find_by_id(args[:for])
+        order = Order.find_by(id: args[:for])
         if order
           return [order]
         end
       when "paypal_token"
-        order = Order.find_by_paypal_express_token(args[:for])
+        order = Order.find_by(paypal_express_token: args[:for])
         if order
           return [order]
         end
       when "paypal_payer_id"
-        order = Order.find_by_paypal_express_payer_id(args[:for])
+        order = Order.find_by(paypal_express_payer_id: args[:for])
         if order
           return [order]
         end
@@ -90,6 +90,6 @@ class Order < ActiveRecord::Base
         return Order.where(referral_code: args[:for].upcase)
       end
     end
-    return []
+    []
   end
 end

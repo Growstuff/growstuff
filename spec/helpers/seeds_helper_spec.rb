@@ -23,7 +23,6 @@ describe SeedsHelper do
         description: 'a' * 130
       )
       result = helper.display_seed_description(seed)
-      link = link_to("Read more", seed_path(seed))
       expect(result).to eq 'a' * 130
     end
 

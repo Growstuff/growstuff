@@ -3,29 +3,23 @@ require 'haml/filters'
 require 'haml/filters/growstuff_markdown'
 
 def input_link(name)
-  return "[#{name}](crop)"
+  "[#{name}](crop)"
 end
 
 def output_link(crop, name = nil)
   url = Rails.application.routes.url_helpers.crop_url(crop, host: Growstuff::Application.config.host)
-  if name
-    return "<a href=\"#{url}\">#{name}</a>"
-  else
-    return "<a href=\"#{url}\">#{crop.name}</a>"
-  end
+  return "<a href=\"#{url}\">#{name}</a>" if name
+  "<a href=\"#{url}\">#{crop.name}</a>"
 end
 
 def input_member_link(name)
-  return "[#{name}](member)"
+  "[#{name}](member)"
 end
 
 def output_member_link(member, name = nil)
   url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
-  if name
-    return "<a href=\"#{url}\">#{name}</a>"
-  else
-    return "<a href=\"#{url}\">#{member.login_name}</a>"
-  end
+  return "<a href=\"#{url}\">#{name}</a>" if name
+  "<a href=\"#{url}\">#{member.login_name}</a>"
 end
 
 describe 'Haml::Filters::Growstuff_Markdown' do

@@ -1,22 +1,24 @@
 class Photo < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member'
 
-  has_and_belongs_to_many :plantings
-  has_and_belongs_to_many :harvests
-  has_and_belongs_to_many :gardens
-  before_destroy do |photo|
-    photo.plantings.clear
-    photo.harvests.clear
-    photo.gardens.clear
+  Growstuff::Constants::PhotoModels.relations.each do |relation|
+    has_and_belongs_to_many relation.to_sym
   end
+
+  before_destroy { all_associations.clear }
 
   default_scope { order("created_at desc") }
 
-  # remove photos that aren't used by anything
-  def destroy_if_unused
-    unless plantings.size > 0 or harvests.size > 0 or gardens.size > 0
-      self.destroy
+  def all_associations
+    associations = []
+    Growstuff::Constants::PhotoModels.relations.each do |association_name|
+      associations << self.send(association_name.to_s).to_a
     end
+    associations.flatten!
+  end
+
+  def destroy_if_unused
+    self.destroy unless all_associations.size > 0
   end
 
   # This is split into a side-effect free method and a side-effecting method
@@ -26,7 +28,7 @@ class Photo < ActiveRecord::Base
     info = flickr.photos.getInfo(photo_id: flickr_photo_id)
     licenses = flickr.photos.licenses.getInfo()
     license = licenses.find { |l| l.id == info.license }
-    return {
+    {
       title: info.title || "Untitled",
       license_name: license.name,
       license_url: license.url,

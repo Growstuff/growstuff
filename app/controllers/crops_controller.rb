@@ -1,7 +1,7 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :hierarchy, :search, :show]
+  before_action :authenticate_member!, except: [:index, :hierarchy, :search, :show]
   load_and_authorize_resource
   skip_authorize_resource only: [:hierarchy, :search]
 
@@ -9,15 +9,12 @@ class CropsController < ApplicationController
   # GET /crops.json
   def index
     @sort = params[:sort]
-    if @sort == 'alpha'
-      # alphabetical order
-      @crops = Crop.includes(:scientific_names, { plantings: :photos })
-      @paginated_crops = @crops.approved.paginate(page: params[:page])
-    else
-      # default to sorting by popularity
-      @crops = Crop.popular.includes(:scientific_names, { plantings: :photos })
-      @paginated_crops = @crops.approved.paginate(page: params[:page])
-    end
+    @crops = if @sort == 'alpha'
+               Crop.includes(:scientific_names, { plantings: :photos })
+             else
+               popular_crops
+             end
+    @paginated_crops = @crops.approved.paginate(page: params[:page])
 
     respond_to do |format|
       format.html
@@ -113,7 +110,6 @@ class CropsController < ApplicationController
 
   # GET /crops/1/edit
   def edit
-    @crop = Crop.find(params[:id])
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
   end
@@ -158,8 +154,6 @@ class CropsController < ApplicationController
   # PUT /crops/1
   # PUT /crops/1.json
   def update
-    @crop = Crop.find(params[:id])
-
     previous_status = @crop.approval_status
 
     @crop.creator = current_member if previous_status == "pending"
@@ -187,7 +181,6 @@ class CropsController < ApplicationController
   # DELETE /crops/1
   # DELETE /crops/1.json
   def destroy
-    @crop = Crop.find(params[:id])
     @crop.destroy
 
     respond_to do |format|
@@ -197,6 +190,10 @@ class CropsController < ApplicationController
   end
 
   private
+
+  def popular_crops
+    Crop.popular.includes(:scientific_names, { plantings: :photos })
+  end
 
   def recreate_names(param_name, name_type)
     return unless params[param_name].present?

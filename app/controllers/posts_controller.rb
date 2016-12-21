@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /posts
   # GET /posts.json
 
   def index
-    @author = Member.find_by_slug(params[:author])
+    @author = Member.find_by(slug: params[:author])
     @posts = if @author
                @author.posts.includes(:author, { comments: :author }).paginate(page: params[:page])
              else
@@ -39,7 +39,7 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
-    @forum = Forum.find_by_id(params[:forum_id])
+    @forum = Forum.find_by(id: params[:forum_id])
 
     respond_to do |format|
       format.html # new.html.haml
@@ -49,7 +49,6 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
-    @post = Post.find(params[:id])
   end
 
   # POST /posts
@@ -72,8 +71,6 @@ class PostsController < ApplicationController
   # PUT /posts/1
   # PUT /posts/1.json
   def update
-    @post = Post.find(params[:id])
-
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
@@ -88,7 +85,6 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    @post = Post.find(params[:id])
     @post.destroy
 
     respond_to do |format|
