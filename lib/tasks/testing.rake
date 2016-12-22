@@ -14,10 +14,10 @@ end
 
 namespace :spec do
   desc "Run only unit tests"
-  task :unit do
+  task unit: ['jasmine:ci'] do
     suites = %w(controllers helpers lib mailers models requests routing views)
     system('rspec', *suites.collect { |s| "spec/#{s}" })
   end
 end
 
-task default: [:static, :spec]
+task default: [:static, :spec, 'jasmine:ci']
