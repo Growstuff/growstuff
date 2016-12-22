@@ -40,6 +40,7 @@ script:
     else
       bundle exec rake db:migrate --trace
       bundle exec rspec spec/
+      bundle exec rake jasmine:ci
     fi
 services:
   - elasticsearch
