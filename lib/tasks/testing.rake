@@ -12,4 +12,12 @@ task :static do
   system('script/check_static')
 end
 
+namespace :spec do
+  desc "Run only unit tests"
+  task :unit do
+    suites = %w(controllers helpers lib mailers models requests routing views)
+    system('rspec', *suites.collect { |s| "spec/#{s}" })
+  end
+end
+
 task default: [:static, :spec]
