@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-feature "Seeds", :js do
+feature "Seeds", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize }
 

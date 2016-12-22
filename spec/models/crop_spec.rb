@@ -387,7 +387,7 @@ describe Crop do
     @maize.plant_parts.should eq [@pp1]
   end
 
-  context "search" do
+  context "search", :elasticsearch do
     let(:mushroom) { FactoryGirl.create(:crop, name: 'mushroom') }
 
     before do

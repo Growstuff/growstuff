@@ -1,7 +1,7 @@
 require "rails_helper"
 require 'custom_matchers'
 
-feature "Planting a crop", :js do
+feature "Planting a crop", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize }
   let(:garden) { create :garden, owner: member }
