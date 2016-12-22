@@ -7,8 +7,8 @@ cache:
     - tmp/cache/assets/test/sprockets
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH='true'
-    - GROWSTUFF_ELASTICSEARCH='false'
+    - GROWSTUFF_ELASTICSEARCH='true' RSPEC_TAG=elasticsearch
+    - GROWSTUFF_ELASTICSEARCH='false' RSPEC_TAG=~elasticsearch
     - STATIC_CHECKS='true'
   global:
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
@@ -39,7 +39,7 @@ script:
       bundle exec script/check_static
     else
       bundle exec rake db:migrate --trace
-      bundle exec rspec spec/
+      bundle exec rspec --tag $RSPEC_TAG spec/
       bundle exec rake jasmine:ci
     fi
 services:
