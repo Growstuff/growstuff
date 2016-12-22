@@ -9,7 +9,7 @@ end
 RSpec.configure do |config|
   config.include ElasticsearchHelpers
 
-  config.before(:all) do
+  config.before(:all, elasticsearch: true) do
     Crop.__elasticsearch__.create_index! force: true if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
   end
 end
