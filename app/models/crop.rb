@@ -360,13 +360,7 @@ class Crop < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def count_uses_of_property(col_name)
-    data = Hash.new(0)
-    plantings.each do |p|
-      if !p.send("#{col_name}").blank?
-        data[p.send("#{col_name}")] += 1
-      end
-    end
-    data
+    plantings.unscoped.where('crop_id = ?', id).group(col_name).count
   end
 
   # Custom validations
