@@ -6,6 +6,15 @@ feature "signin", js: true do
   let(:wrangler) { create :crop_wrangling_member }
   let(:notification) { create :notification }
 
+  scenario "via email address" do
+    visit crops_path # some random page
+    click_link 'Sign in'
+    fill_in 'Login', with: member.email
+    fill_in 'Password', with: member.password
+    click_button 'Sign in'
+    expect(page).to have_content("Sign out")
+  end
+
   scenario "redirect to previous page after signin" do
     visit crops_path # some random page
     click_link 'Sign in'

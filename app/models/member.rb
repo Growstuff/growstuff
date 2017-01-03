@@ -170,11 +170,8 @@ class Member < ActiveRecord::Base
                  per_page: 30
                )
              end
-    if result
-      return [result.photo, result.total]
-    else
-      return [[], 0]
-    end
+    return [result.photo, result.total] if result
+    [[], 0]
   end
 
   # Returns a hash of Flickr photosets' ids and titles
@@ -239,9 +236,8 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def newsletter_subscribe(testing = false)
+  def newsletter_subscribe(gb = Gibbon::API.new, testing = false)
     return true if (Rails.env.test? && !testing)
-    gb = Gibbon::API.new
     gb.lists.subscribe({
                          id: Growstuff::Application.config.newsletter_list_id,
                          email: { email: email },
@@ -250,9 +246,8 @@ class Member < ActiveRecord::Base
                        })
   end
 
-  def newsletter_unsubscribe(testing = false)
+  def newsletter_unsubscribe(gb = Gibbon::API.new, testing = false)
     return true if (Rails.env.test? && !testing)
-    gb = Gibbon::API.new
     gb.lists.unsubscribe({
                            id: Growstuff::Application.config.newsletter_list_id,
                            email: { email: email }
