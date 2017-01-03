@@ -6,21 +6,23 @@ feature "signin", js: true do
   let(:wrangler) { create :crop_wrangling_member }
   let(:notification) { create :notification }
 
-  scenario "redirect to previous page after signin" do
-    visit crops_path # some random page
-    click_link 'Sign in'
+  def login
     fill_in 'Login', with: member.login_name
     fill_in 'Password', with: member.password
     click_button 'Sign in'
+  end
+
+  scenario "redirect to previous page after signin" do
+    visit crops_path # some random page
+    click_link 'Sign in'
+    login
     expect(current_path).to eq crops_path
   end
 
   scenario "don't redirect to devise pages after signin" do
     visit new_member_registration_path # devise signup page
     click_link 'Sign in'
-    fill_in 'Login', with: member.login_name
-    fill_in 'Password', with: member.password
-    click_button 'Sign in'
+    login
     expect(current_path).to eq root_path
   end
 
@@ -33,9 +35,7 @@ feature "signin", js: true do
     scenario do
       visit "/#{model_name}/new"
       expect(current_path).to eq new_member_session_path
-      fill_in 'Login', with: member.login_name
-      fill_in 'Password', with: member.password
-      click_button 'Sign in'
+      login
       expect(current_path).to eq "/#{model_name}/new"
     end
   end
@@ -51,9 +51,7 @@ feature "signin", js: true do
   scenario "after signin, redirect to new notifications page" do
     visit new_notification_path(recipient: recipient)
     expect(current_path).to eq new_member_session_path
-    fill_in 'Login', with: member.login_name
-    fill_in 'Password', with: member.password
-    click_button 'Sign in'
+    login
     expect(current_path).to eq new_notification_path
   end
 
