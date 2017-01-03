@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /comments
@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
   # GET /comments/new.json
   def new
     @comment = Comment.new
-    @post = Post.find_by_id(params[:post_id])
+    @post = Post.find_by(id: params[:post_id])
 
     if @post
       @comments = @post.comments
@@ -34,7 +34,6 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    @comment = Comment.find(params[:id])
     @comments = @comment.post.comments
   end
 
@@ -58,8 +57,6 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.json
   def update
-    @comment = Comment.find(params[:id])
-
     # you should never be able to change the author or post when
     # updating
     params[:comment].delete("post_id")
@@ -79,7 +76,6 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @comment = Comment.find(params[:id])
     @post = @comment.post
     @comment.destroy
 

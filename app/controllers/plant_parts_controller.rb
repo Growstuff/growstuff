@@ -15,8 +15,6 @@ class PlantPartsController < ApplicationController
   # GET /plant_parts/1
   # GET /plant_parts/1.json
   def show
-    @plant_part = PlantPart.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @plant_part }
@@ -36,7 +34,6 @@ class PlantPartsController < ApplicationController
 
   # GET /plant_parts/1/edit
   def edit
-    @plant_part = PlantPart.find(params[:id])
   end
 
   # POST /plant_parts
@@ -58,8 +55,6 @@ class PlantPartsController < ApplicationController
   # PUT /plant_parts/1
   # PUT /plant_parts/1.json
   def update
-    @plant_part = PlantPart.find(params[:id])
-
     respond_to do |format|
       if @plant_part.update(plant_part_params)
         format.html { redirect_to @plant_part, notice: 'Plant part was successfully updated.' }
@@ -74,7 +69,6 @@ class PlantPartsController < ApplicationController
   # DELETE /plant_parts/1
   # DELETE /plant_parts/1.json
   def destroy
-    @plant_part = PlantPart.find(params[:id])
     @plant_part.destroy
 
     respond_to do |format|

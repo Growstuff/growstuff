@@ -1,21 +1,11 @@
 class Planting < ActiveRecord::Base
   extend FriendlyId
+  include PhotoCapable
   friendly_id :planting_slug, use: [:slugged, :finders]
 
   belongs_to :garden
   belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :crop, counter_cache: true
-
-  has_and_belongs_to_many :photos
-
-  before_destroy do |planting|
-    photolist = planting.photos.to_a # save a temp copy of the photo list
-    planting.photos.clear # clear relationship b/w planting and photo
-
-    photolist.each do |photo|
-      photo.destroy_if_unused
-    end
-  end
 
   default_scope { order("created_at desc") }
   scope :finished, -> { where(finished: true) }
@@ -78,7 +68,7 @@ class Planting < ActiveRecord::Base
 
   # location = garden owner + garden name, i.e. "Skud's backyard"
   def location
-    return "#{garden.owner.login_name}'s #{garden}"
+    "#{garden.owner.login_name}'s #{garden}"
   end
 
   # stringify as "beet in Skud's backyard" or similar
@@ -87,11 +77,11 @@ class Planting < ActiveRecord::Base
   end
 
   def default_photo
-    return photos.first
+    photos.first
   end
 
   def interesting?
-    return photos.present?
+    photos.present?
   end
 
   def calculate_days_before_maturity(planting, crop)
@@ -146,6 +136,6 @@ class Planting < ActiveRecord::Base
       interesting_plantings.push(p)
     end
 
-    return interesting_plantings
+    interesting_plantings
   end
 end

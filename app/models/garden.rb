@@ -1,22 +1,12 @@
 class Garden < ActiveRecord::Base
-  include Geocodable
   extend FriendlyId
+  include Geocodable
+  include PhotoCapable
   friendly_id :garden_slug, use: [:slugged, :finders]
 
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id'
   has_many :plantings, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :crops, through: :plantings
-
-  has_and_belongs_to_many :photos
-
-  before_destroy do |garden|
-    photolist = garden.photos.to_a # save a temp copy of the photo list
-    garden.photos.clear # clear relationship b/w garden and photo
-
-    photolist.each do |photo|
-      photo.destroy_if_unused
-    end
-  end
 
   # set up geocoding
   geocoded_by :location
@@ -57,12 +47,8 @@ class Garden < ActiveRecord::Base
   after_validation :cleanup_area
 
   def cleanup_area
-    if area == 0
-      self.area = nil
-    end
-    if area.blank?
-      self.area_unit = nil
-    end
+    self.area = nil if area == 0
+    self.area_unit = nil if area.blank?
   end
 
   def garden_slug
@@ -82,7 +68,7 @@ class Garden < ActiveRecord::Base
       end
     end
 
-    return unique_plantings[0..3]
+    unique_plantings[0..3]
   end
 
   def to_s
@@ -92,15 +78,15 @@ class Garden < ActiveRecord::Base
   # When you mark a garden as inactive, all the plantings in it should be
   # marked as finished.  This automates that.
   def mark_inactive_garden_plantings_as_finished
-    if (active == false)
-      plantings.current.each do |p|
-        p.finished = true
-        p.save
-      end
+    return unless active == false
+
+    plantings.current.each do |p|
+      p.finished = true
+      p.save
     end
   end
 
   def default_photo
-    return photos.first
+    photos.first
   end
 end

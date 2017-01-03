@@ -1,12 +1,12 @@
 class HarvestsController < ApplicationController
-  before_filter :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /harvests
   # GET /harvests.json
   def index
-    @owner = Member.find_by_slug(params[:owner])
-    @crop = Crop.find_by_slug(params[:crop])
+    @owner = Member.find_by(slug: params[:owner])
+    @crop = Crop.find_by(slug: params[:crop])
     @harvests = if @owner
                   @owner.harvests.includes(:owner, :crop)
                 elsif @crop
@@ -32,7 +32,7 @@ class HarvestsController < ApplicationController
     @harvest = Harvest.new('harvested_at' => Date.today)
 
     # using find_by_id here because it returns nil, unlike find
-    @crop = Crop.find_by_id(params[:crop_id]) || Crop.new
+    @crop = Crop.find_or_initialize_by(id: params[:crop_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,7 +42,6 @@ class HarvestsController < ApplicationController
 
   # GET /harvests/1/edit
   def edit
-    @harvest = Harvest.find(params[:id])
   end
 
   # POST /harvests
@@ -66,8 +65,6 @@ class HarvestsController < ApplicationController
   # PUT /harvests/1
   # PUT /harvests/1.json
   def update
-    @harvest = Harvest.find(params[:id])
-
     respond_to do |format|
       if @harvest.update(harvest_params)
         format.html { redirect_to @harvest, notice: 'Harvest was successfully updated.' }
@@ -82,7 +79,6 @@ class HarvestsController < ApplicationController
   # DELETE /harvests/1
   # DELETE /harvests/1.json
   def destroy
-    @harvest = Harvest.find(params[:id])
     @harvest.destroy
 
     respond_to do |format|
