@@ -29,16 +29,22 @@ feature "signin", js: true do
     expect(current_path).to eq new_member_session_path
   end
 
-  scenario "after signin, redirect to what you were trying to do" do
-    models = %w[plantings harvests posts photos gardens seeds]
-    models.each do |model|
-      visit "/#{model}/new"
+  shared_examples "redirects to what you were trying to do" do
+    scenario do
+      visit "/#{model_name}/new"
       expect(current_path).to eq new_member_session_path
       fill_in 'Login', with: member.login_name
       fill_in 'Password', with: member.password
       click_button 'Sign in'
-      expect(current_path).to eq "/#{model}/new"
-      click_link 'Sign out'
+      expect(current_path).to eq "/#{model_name}/new"
+    end
+  end
+
+  describe "redirects to what you were trying to do" do
+    %w[plantings harvests posts photos gardens seeds].each do |m|
+      it_behaves_like "redirects to what you were trying to do" do
+        let(:model_name) { m }
+      end
     end
   end
 
