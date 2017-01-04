@@ -42,10 +42,6 @@
       expect($('g.bar rect')).toHaveAttr('fill', 'steelblue');
     });
 
-    it ('gets the values of all the bars', function(){
-      expect(subject.getBarValues()).toEqual([0.2, 0.5]);
-    });
-
     it('shows a tooltip on hover', function(){
       var i;
 

@@ -45,19 +45,6 @@ BarGroup.prototype.render = function(root){
     });
 };
 
-BarGroup.prototype.getBarValues = function () {
-  var barValues = [];
-  var bars = this._data.bars;
-  var i = 0;
-  var data = this._data;
-
-  for (i; i < data.bars.length; i++){
-    barValues.push(data.bars[i].value)
-  }
-
-  return barValues;
-};
-
 growstuff.BarGroup = BarGroup;
 
 }());

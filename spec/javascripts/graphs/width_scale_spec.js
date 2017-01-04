@@ -29,8 +29,8 @@
       subject.render();
       });
 
-      it ('gets the values of all the bars', function(){
-        expect(subject.getBarValues()).toEqual([0.2, 0.5]);
+      it ('gets the value of the longest bar', function(){
+        expect(subject.getMaxValue()).toEqual(0.5);
       });
 
       it ('calls the d3 range function to draw the width', function(){

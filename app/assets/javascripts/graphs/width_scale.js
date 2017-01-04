@@ -20,21 +20,12 @@ to the display size of the svg
     var axisSize = data.width.size;
 
     return d3.scale[scaleType]()
-        .domain([0, d3.max(this.getBarValues())])
+        .domain([0, this.getMaxValue()])
         .range([0, axisSize]);
   };
 
-  WidthScale.prototype.getBarValues = function(){
-    var bars = this._data.bars;
-    var barValues = [];
-    var data = this._data;
-    var i = 0;
-
-    for (i; i < data.bars.length; i++){
-      barValues.push(data.bars[i].value)
-    }
-
-    return barValues;
+  WidthScale.prototype.getMaxValue = function(){
+    return d3.max(this._data.bars.map(function(bar) { return bar.value; }));
   }
 
   growstuff.WidthScale = WidthScale;
