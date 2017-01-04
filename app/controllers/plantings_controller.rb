@@ -5,15 +5,18 @@ class PlantingsController < ApplicationController
   # GET /plantings
   # GET /plantings.json
   def index
-    @owner = Member.find_by(slug: params[:owner])
-    @crop = Crop.find_by(slug: params[:crop])
+    @owner = Member.find_by(slug: params[:owner]) if params[:owner]
+    @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
     @plantings = if @owner
-                   @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                   @owner.plantings
                  elsif @crop
-                   @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                   @crop.plantings
                  else
-                   Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
+                   Planting
                  end
+
+    @plantings = @plantings.current unless params[:all]
+    @plantings = @plantings.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
 
     respond_to do |format|
       format.html { @plantings = @plantings.paginate(page: params[:page]) }
@@ -41,7 +44,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/new
   # GET /plantings/new.json
   def new
-    @planting = Planting.new('planted_at' => Date.today)
+    @planting = Planting.new('planted_at' => Time.zone.today)
 
     # using find_by_id here because it returns nil, unlike find
     @crop     = Crop.find_by(id: params[:crop_id])     || Crop.new
