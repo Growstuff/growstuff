@@ -48,8 +48,8 @@
       %dt Finished:
       %dd= "#{display_finished(@planting)}"
 
-    %p
-      = render 'planting_progress', planting: @planting
+    %p= render 'plantings/planting_harvest', planting: @planting
+    %p= render 'planting_progress', planting: @planting
 
     - if can? :edit, @planting or can? :destroy, @planting
       %p
@@ -57,6 +57,8 @@
           =link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-default btn-xs'
           - if ! @planting.finished
             = link_to "Mark as finished", planting_path(@planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
+        - if can? :create, Harvest
+          = link_to 'Harvest', new_planting_harvest_path(@planting), :class => 'btn btn-default btn-xs'
         - if can? :destroy, @planting
           =link_to 'Delete', @planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
