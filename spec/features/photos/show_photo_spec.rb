@@ -38,5 +38,15 @@ feature "show photo page" do
         expect(page).to have_link "garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden)
       end
     end
+
+    context "linked to seed" do
+      let(:seed) { create :seed }
+
+      scenario "shows linkback to seed" do
+        seed.photos << photo
+        visit photo_path(photo)
+        expect(page).to have_link "#{seed.crop.name} seeds belonging to #{seed.owner}", href: seed_path(seed)
+      end
+    end
   end
 end
