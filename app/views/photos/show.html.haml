@@ -30,13 +30,13 @@
       %p This photo depicts:
       %ul
         - @photo.plantings.each do |p|
-          %li= link_to p
+          %li= link_to t('.planting', planting: p.to_s, owner: p.owner.to_s), planting_path(p)
         - @photo.harvests.each do |h|
-          %li= link_to "#{h} #{Harvest.model_name.singular} by #{h.owner}", h
+          %li= link_to t('.harvest', crop: h.crop.name, owner: h.owner.to_s), harvest_path(h)
         - @photo.gardens.each do |g|
-          %li= link_to "#{Garden.model_name.singular} named \"#{g}\" by #{g.owner}", g
+          %li= link_to t('.garden', garden: g.to_s, owner: g.owner.to_s), garden_path(g)
         - @photo.seeds.each do |s|
-          %li= link_to s
+          %li= link_to t('.seed', seed: s.to_s, owner: s.owner.to_s), seed_path(s)
 
 .row
   .col-md-12

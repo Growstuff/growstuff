@@ -53,6 +53,8 @@ en:
         crop_harvests: Everyone's %{crop} harvests
         default: Everyone's harvests
         owner_harvests: "%{owner} harvests"
+  gardens:
+    string: "garden named \"%{garden}\" by %{owner}"
   home:
     blurb:
       already_html: Or %{sign_in} if you already have an account
@@ -158,10 +160,15 @@ en:
   photos:
     show:
       thing_by: A %{thing} by %{owner}
+      garden:   "%{garden}"
+      harvest:  "%{crop} harvest by %{owner}"
+      planting: "%{planting}"
+      seed:     "%{seed}"
   places:
     index:
       title: "%{site_name} Community Map"
   plantings:
+    string: "%{crop} planting in %{garden} by %{owner}"
     form:
       finish_helper: A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise no longer growing in your garden.
     index:
@@ -175,6 +182,7 @@ en:
         author_posts: "%{author} posts"
         default: Everyone's posts
   seeds:
+    string: "%{crop} seeds belonging to %{owner}"
     form:
       trade_help: Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
     index:

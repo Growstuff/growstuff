@@ -73,7 +73,7 @@ class Planting < ActiveRecord::Base
 
   # stringify as "beet in Skud's backyard" or similar
   def to_s
-    self.crop_name + " in " + self.location
+    I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner: owner)
   end
 
   def default_photo
