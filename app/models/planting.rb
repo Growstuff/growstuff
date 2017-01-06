@@ -68,7 +68,7 @@ class Planting < ActiveRecord::Base
 
   # location = garden owner + garden name, i.e. "Skud's backyard"
   def location
-    "#{garden.owner.login_name}'s #{garden}"
+    I18n.t("gardens.location", garden: garden.name, owner: garden.owner.login_name)
   end
 
   # stringify as "beet in Skud's backyard" or similar
