@@ -7,6 +7,7 @@ class Harvest < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, class_name: 'Member'
   belongs_to :plant_part
+  belongs_to :planting
 
   default_scope { order('created_at DESC') }
 

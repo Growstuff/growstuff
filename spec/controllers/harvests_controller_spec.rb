@@ -97,6 +97,12 @@ describe HarvestsController do
         post :create, { harvest: valid_attributes }
         response.should redirect_to(Harvest.last)
       end
+
+      it "links to planting" do
+        planting = FactoryGirl.create(:planting, owner_id: member.id)
+        post :create, { harvest: valid_attributes.merge(planting_id: planting.id) }
+        expect(Harvest.last.planting.id).to eq(planting.id)
+      end
     end
 
     describe "with invalid params" do
@@ -114,6 +120,15 @@ describe HarvestsController do
         response.should render_template("new")
       end
     end
+    describe "not my planting" do
+      let(:not_my_planting) { FactoryGirl.create(:planting) }
+      let(:harvest) { FactoryGirl.create(:harvest) }
+      it "does not save planting_id" do
+        allow(Harvest).to receive(:new).and_return(harvest)
+        post :create, { harvest: valid_attributes.merge(planting_id: not_my_planting.id) }
+        expect(harvest.planting_id).to eq(nil)
+      end
+    end
   end
 
   describe "PUT update" do
@@ -124,7 +139,7 @@ describe HarvestsController do
         # specifies that the Harvest created on the previous line
         # receives the :update message with whatever params are
         # submitted in the request.
-        Harvest.any_instance.should_receive(:update).with({ "crop_id" => "1" })
+        Harvest.any_instance.should_receive(:update).with({ "crop_id" => "1", "owner_id": member.id })
         put :update, { id: harvest.to_param, harvest: { "crop_id" => "1" } }
       end
 
@@ -156,6 +171,15 @@ describe HarvestsController do
         Harvest.any_instance.stub(:save).and_return(false)
         put :update, { id: harvest.to_param, harvest: { "crop_id" => "invalid value" } }
         response.should render_template("edit")
+      end
+    end
+    describe "not my planting" do
+      let(:not_my_planting) { FactoryGirl.create(:planting) }
+      let(:harvest) { FactoryGirl.create(:harvest) }
+      it "does not save planting_id" do
+        allow(Harvest).to receive(:new).and_return(harvest)
+        put :update, { id: harvest.to_param, harvest: valid_attributes.merge(planting_id: not_my_planting.id) }
+        expect(harvest.planting_id).to eq(nil)
       end
     end
   end
