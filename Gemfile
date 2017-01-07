@@ -117,6 +117,8 @@ group :development, :test do
   gem 'capybara-screenshot'             # for test debugging
   gem 'poltergeist'                     # for headless JS testing
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+  gem 'jasmine'                         # javascript unit testing
+  gem 'd3-rails'                        # charting
   gem 'selenium-webdriver'
   gem 'haml-i18n-extractor'
   gem "active_merchant-paypal-bogus-gateway"
