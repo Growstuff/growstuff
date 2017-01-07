@@ -10,13 +10,22 @@
 
   .form-group.required
     = f.label :crop, 'What did you harvest?', :class => 'control-label col-md-2'
-    .col-md-4
-      = auto_suggest @harvest, :crop, :class => 'form-control col-md-2', :default => @crop
+    - if @planting
+      .col-md-8
+        = link_to @planting.crop.name, planting_path(@planting)
+        from
+        = link_to   @planting.garden.name, garden_path(@planting.garden)
+        = f.hidden_field :planting_id, value: @planting.id
+    - else
+      .col-md-4
+        = auto_suggest @harvest, :crop, :class => 'form-control col-md-2', :default => @crop
+
     .col-md-4
       = collection_select(:harvest, :plant_part_id, PlantPart.all, :id, :name, { :selected => @harvest.plant_part_id }, { :class => 'form-control', :prompt => 'e.g. fruit', :required => "required" })
-    %span.help-block.col-md-8
-      Can't find what you're looking for?
-      = link_to "Request new crops.", new_crop_path
+    - unless @planting
+      %span.help-block.col-md-8
+        Can't find what you're looking for?
+        = link_to "Request new crops.", new_crop_path
 
   .form-group
     = f.label :harvested_at, 'When?', :class => 'control-label col-md-2'
