@@ -72,7 +72,7 @@ class Garden < ActiveRecord::Base
   end
 
   def to_s
-    I18n.t('gardens.string', garden: name, owner: owner)
+    name
   end
 
   # When you mark a garden as inactive, all the plantings in it should be

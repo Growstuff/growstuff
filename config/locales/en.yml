@@ -42,7 +42,6 @@ en:
     index:
       title: Forums
   gardens:
-    string: "garden named \"%{garden}\" by %{owner}"
     location: "%{owner}'s %{garden}"
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
@@ -160,7 +159,7 @@ en:
   photos:
     show:
       thing_by: A %{thing} by %{owner}
-      garden:   "%{garden}"
+      garden:   "garden named \"%{garden}\" by %{owner}"
       harvest:  "%{crop} harvest by %{owner}"
       planting: "%{planting}"
       seed:     "%{seed}"
