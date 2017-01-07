@@ -92,6 +92,8 @@ class Ability
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
+    can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
+    can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
 
     can :create, Photo
     can :update, Photo, owner_id: member.id
