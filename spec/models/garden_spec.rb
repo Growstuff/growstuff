@@ -46,8 +46,8 @@ describe Garden do
     garden.owner.should be_an_instance_of Member
   end
 
-  it "should stringify" do
-    garden.to_s.should == "garden named \"#{garden.name}\" by #{garden.owner.login_name}"
+  it "should stringify as its name" do
+    garden.to_s.should == garden.name
   end
 
   context "featured plantings" do
