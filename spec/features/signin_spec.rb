@@ -6,30 +6,30 @@ feature "signin", js: true do
   let(:wrangler) { create :crop_wrangling_member }
   let(:notification) { create :notification }
 
+  def login
+    fill_in 'Login', with: member.login_name
+    fill_in 'Password', with: member.password
+    click_button 'Sign in'
+  end
+
   scenario "via email address" do
     visit crops_path # some random page
     click_link 'Sign in'
-    fill_in 'Login', with: member.email
-    fill_in 'Password', with: member.password
-    click_button 'Sign in'
+    login
     expect(page).to have_content("Sign out")
   end
 
   scenario "redirect to previous page after signin" do
     visit crops_path # some random page
     click_link 'Sign in'
-    fill_in 'Login', with: member.login_name
-    fill_in 'Password', with: member.password
-    click_button 'Sign in'
+    login
     expect(current_path).to eq crops_path
   end
 
   scenario "don't redirect to devise pages after signin" do
     visit new_member_registration_path # devise signup page
     click_link 'Sign in'
-    fill_in 'Login', with: member.login_name
-    fill_in 'Password', with: member.password
-    click_button 'Sign in'
+    login
     expect(current_path).to eq root_path
   end
 
@@ -38,25 +38,27 @@ feature "signin", js: true do
     expect(current_path).to eq new_member_session_path
   end
 
-  scenario "after signin, redirect to what you were trying to do" do
-    models = %w[plantings harvests posts photos gardens seeds]
-    models.each do |model|
-      visit "/#{model}/new"
+  shared_examples "redirects to what you were trying to do" do
+    scenario do
+      visit "/#{model_name}/new"
       expect(current_path).to eq new_member_session_path
-      fill_in 'Login', with: member.login_name
-      fill_in 'Password', with: member.password
-      click_button 'Sign in'
-      expect(current_path).to eq "/#{model}/new"
-      click_link 'Sign out'
+      login
+      expect(current_path).to eq "/#{model_name}/new"
+    end
+  end
+
+  describe "redirects to what you were trying to do" do
+    %w[plantings harvests posts photos gardens seeds].each do |m|
+      it_behaves_like "redirects to what you were trying to do" do
+        let(:model_name) { m }
+      end
     end
   end
 
   scenario "after signin, redirect to new notifications page" do
     visit new_notification_path(recipient: recipient)
     expect(current_path).to eq new_member_session_path
-    fill_in 'Login', with: member.login_name
-    fill_in 'Password', with: member.password
-    click_button 'Sign in'
+    login
     expect(current_path).to eq new_notification_path
   end
 

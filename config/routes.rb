@@ -20,7 +20,9 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   resources :authentications, only: [:create, :destroy]
 
-  resources :plantings
+  resources :plantings do
+    resources :harvests
+  end
   get '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
   get '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
 

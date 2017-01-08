@@ -1,7 +1,7 @@
 .panel.panel-success
   .panel-heading
     %h3.panel-title
-      = link_to "#{garden.owner.login_name}'s garden", garden
+      = link_to display_garden_name(garden), garden
       - if can? :edit, garden
         %a.pull-right{:href => edit_garden_path(garden), :role => "button", :id => "edit_garden_glyphicon"}
           %span.glyphicon.glyphicon-pencil{:title => "Edit"}
@@ -12,7 +12,7 @@
       .col-md-8
         %dl.dl-horizontal
           %dt Name :
-          %dd= link_to garden.name, garden
+          %dd= link_to display_garden_name(garden), garden
           %dt Location :
           %dd
             - if garden.location.blank?
