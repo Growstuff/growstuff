@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201154922) do
+ActiveRecord::Schema.define(version: 20170104035248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,7 +265,10 @@ ActiveRecord::Schema.define(version: 20161201154922) do
     t.string   "weight_unit",     limit: 255
     t.integer  "plant_part_id"
     t.float    "si_weight"
+    t.integer  "planting_id"
   end
+
+  add_index "harvests", ["planting_id"], name: "index_harvests_on_planting_id", using: :btree
 
   create_table "harvests_photos", id: false, force: :cascade do |t|
     t.integer "photo_id"
@@ -497,4 +500,5 @@ ActiveRecord::Schema.define(version: 20161201154922) do
 
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree
 
+  add_foreign_key "harvests", "plantings"
 end
