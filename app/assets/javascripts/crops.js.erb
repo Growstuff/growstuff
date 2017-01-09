@@ -51,27 +51,41 @@ function showCropMap(cropmap) {
   cropmap.addLayer(markers);
 }
 
+function plantingStats(crop) {
+  var sunniness_counts = { 'empty': 0, 'sun': 0, 'semi-shade': 0, 'shade': 0 };
+  $.each(crop.plantings, function(i, planting) {
+    if (planting.sunniness) {
+      sunniness_counts[planting.sunniness]++;
+    } else {
+      sunniness_counts['Empty']++;
+    }
+  });
+  return [
+    {name: 'Empty', value: sunniness_counts['empty']},
+    {name: 'Sun', value: sunniness_counts['sun']},
+    {name: 'Semi-shade', value: sunniness_counts['semi-shade']},
+    {name: 'Shade', value: sunniness_counts['shade']}
+  ];
+}
+
 if ($("#sunchart")[0] !== null) {
   var HorizontalBarGraph = growstuff.HorizontalBarGraph;
-  var bars = [
-    {name: 'Empty', value: 3},
-    {name: 'Sun', value: 8},
-    {name: 'Semi-shade', value: 4},
-    {name: 'Shade', value: 2}
-  ];
-  data = {
-    bars: bars,
-    bar_color: 'steelblue',
-    width: {size: 300, scale: 'linear'},
-    height: {size: 100, scale: 'ordinal'},
-    //left is used to shift the bars over so that there is
-    //room for the labels
-    margin: {top: 0, right: 0, bottom: 0, left: 100}
-  };
+  $.getJSON(location.pathname + '.json', function (crop) {
+    data = {
+      bars: plantingStats(crop),
+      bar_color: 'steelblue',
+      width: {size: 300, scale: 'linear'},
+      height: {size: 100, scale: 'ordinal'},
+      //left is used to shift the bars over so that there is
+      //room for the labels
+      margin: {top: 0, right: 0, bottom: 0, left: 100}
+    };
 
-  var graph = new HorizontalBarGraph(data);
-  graph.render(d3.select($('#sunchart')[0]));
+    var graph = new HorizontalBarGraph(data);
+    graph.render(d3.select($('#sunchart')[0]));
+  });
 }
+
 $('.btn.toggle.crop-hierarchy').click(function () {
   $('.toggle.crop-hierarchy').toggleClass('hide');
 });
