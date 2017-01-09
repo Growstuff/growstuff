@@ -26,10 +26,15 @@ class HarvestsController < ApplicationController
     end
   end
 
+  def show
+    @planting = @harvest.planting if @harvest.planting_id
+  end
+
   # GET /harvests/new
   # GET /harvests/new.json
   def new
     @harvest = Harvest.new('harvested_at' => Date.today)
+    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
 
     # using find_by_id here because it returns nil, unlike find
     @crop = Crop.find_or_initialize_by(id: params[:crop_id])
@@ -42,14 +47,13 @@ class HarvestsController < ApplicationController
 
   # GET /harvests/1/edit
   def edit
+    @planting = @harvest.planting if @harvest.planting_id
   end
 
   # POST /harvests
   # POST /harvests.json
   def create
-    params[:harvest][:owner_id] = current_member.id
-    params[:harvested_at] = parse_date(params[:harvested_at])
-    @harvest = Harvest.new(harvest_params)
+    @harvest.crop_id = @harvest.planting.crop_id if @harvest.planting_id
 
     respond_to do |format|
       if @harvest.save
@@ -90,7 +94,10 @@ class HarvestsController < ApplicationController
   private
 
   def harvest_params
-    params.require(:harvest).permit(:crop_id, :harvested_at, :description, :owner_id,
-      :quantity, :unit, :weight_quantity, :weight_unit, :plant_part_id, :slug, :si_weight)
+    params.require(:harvest)
+      .permit(:planting_id, :crop_id, :harvested_at, :description,
+        :quantity, :unit, :weight_quantity, :weight_unit,
+        :plant_part_id, :slug, :si_weight)
+      .merge(owner_id: current_member.id)
   end
 end
