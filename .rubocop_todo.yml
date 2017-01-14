@@ -100,13 +100,6 @@ Rails/TimeZone:
     - 'spec/models/post_spec.rb'
     - 'spec/views/plantings/index.html.haml_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/Validation:
-  Exclude:
-
 # Offense count: 12
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -235,17 +228,6 @@ Style/EachForSimpleLoop:
     - 'spec/models/crop_spec.rb'
     - 'spec/views/home/_crops.html.haml_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/EmptyLiteral:
-  Exclude:
-
-# Offense count: 1
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: for, each
-Style/For:
-  Exclude:
-
 # Offense count: 5
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: format, sprintf, percent
@@ -289,13 +271,6 @@ Style/MethodCallParentheses:
   Exclude:
     - 'spec/helpers/application_helper_spec.rb'
     - 'spec/views/plantings/new.html.haml_spec.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineArrayBraceLayout:
-  Exclude:
 
 # Offense count: 8
 # Cop supports --auto-correct.
@@ -417,12 +392,6 @@ Style/Next:
 Style/NilComparison:
   Exclude:
     - 'lib/tasks/growstuff.rake'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: IncludeSemanticChanges.
-Style/NonNilCheck:
-  Exclude:
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -606,8 +575,3 @@ Style/WordArray:
   Exclude:
     - 'app/controllers/omniauth_callbacks_controller.rb'
     - 'spec/models/seed_spec.rb'
-
-# Offense count: 6
-# Cop supports --auto-correct.
-Style/ZeroLengthPredicate:
-  Exclude:
