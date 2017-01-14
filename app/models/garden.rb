@@ -48,7 +48,7 @@ class Garden < ActiveRecord::Base
   after_validation :cleanup_area
 
   def cleanup_area
-    self.area = nil if area.zero?
+    self.area = nil if area && area.zero?
     self.area_unit = nil if area.blank?
   end
 

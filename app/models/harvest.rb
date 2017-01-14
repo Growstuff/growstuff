@@ -68,9 +68,9 @@ class Harvest < ActiveRecord::Base
   end
 
   def cleanup_quantities
-    self.quantity = nil if quantity.zero?
+    self.quantity = nil if quantity && quantity.zero?
     self.unit = nil if quantity.blank?
-    self.weight_quantity = nil if weight_quantity.zero?
+    self.weight_quantity = nil if weight_quantity && weight_quantity.zero?
     self.weight_unit = nil if weight_quantity.blank?
   end
 
