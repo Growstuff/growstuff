@@ -4,7 +4,7 @@ class Post < ActiveRecord::Base
   belongs_to :author, class_name: 'Member'
   belongs_to :forum
   has_many :comments, dependent: :destroy
-  has_and_belongs_to_many :crops
+  has_and_belongs_to_many :crops # rubocop:disable Rails/HasAndBelongsToMany
   before_destroy { |post| post.crops.clear }
   after_save :update_crops_posts_association
   # also has_many notifications, but kinda meaningless to get at them

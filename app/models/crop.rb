@@ -18,7 +18,7 @@ class Crop < ActiveRecord::Base
 
   belongs_to :parent, class_name: 'Crop'
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
-  has_and_belongs_to_many :posts
+  has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
   before_destroy { |crop| crop.posts.clear }
 
   default_scope { order("lower(name) asc") }
