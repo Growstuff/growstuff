@@ -124,7 +124,7 @@ class Member < ActiveRecord::Base
     account.save
   end
 
-  def is_paid?
+  def paid?
     if account.account_type.is_permanent_paid
       true
     elsif account.account_type.is_paid && account.paid_until >= Time.zone.now
