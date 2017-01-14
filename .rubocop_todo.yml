@@ -45,7 +45,6 @@ Lint/UnusedMethodArgument:
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/passwords_controller.rb'
     - 'app/controllers/registrations_controller.rb'
-    - 'app/models/crop.rb'
     - 'app/validators/approved_validator.rb'
     - 'spec/views/plantings/show.html.haml_spec.rb'
 
@@ -83,7 +82,6 @@ Rails/Date:
 # Include: app/models/**/*.rb
 Rails/HasAndBelongsToMany:
   Exclude:
-    - 'app/models/crop.rb'
     - 'app/models/member.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
@@ -133,7 +131,6 @@ Style/AndOr:
 # Offense count: 2
 Style/AsciiComments:
   Exclude:
-    - 'app/models/crop.rb'
     - 'config/initializers/comfortable_mexican_sofa.rb'
 
 # Offense count: 5
@@ -189,7 +186,6 @@ Style/BracesAroundHashParameters:
     - 'app/controllers/crops_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/helpers/application_helper.rb'
-    - 'app/models/crop.rb'
     - 'app/models/member.rb'
     - 'app/models/order.rb'
     - 'config/environments/test.rb'
@@ -223,7 +219,6 @@ Style/ClassAndModuleChildren:
 # Cop supports --auto-correct.
 Style/ClassMethods:
   Exclude:
-    - 'app/models/crop.rb'
     - 'app/models/member.rb'
     - 'app/models/order.rb'
     - 'app/models/planting.rb'
@@ -298,7 +293,6 @@ Style/IfUnlessModifier:
     - 'app/controllers/gardens_controller.rb'
     - 'app/controllers/shop_controller.rb'
     - 'app/helpers/crops_helper.rb'
-    - 'app/models/crop.rb'
     - 'app/models/member.rb'
     - 'app/models/order.rb'
     - 'app/models/planting.rb'
@@ -376,7 +370,6 @@ Style/MultilineMethodCallBraceLayout:
     - 'app/controllers/authentications_controller.rb'
     - 'app/controllers/seeds_controller.rb'
     - 'app/models/account.rb'
-    - 'app/models/crop.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/helpers/gardens_helper_spec.rb'
     - 'spec/helpers/harvests_helper_spec.rb'
@@ -436,7 +429,6 @@ Style/NegatedIf:
   Exclude:
     - 'app/controllers/crops_controller.rb'
     - 'app/helpers/crops_helper.rb'
-    - 'app/models/crop.rb'
     - 'script/check_contributors_md'
 
 # Offense count: 2
@@ -489,7 +481,6 @@ Style/NumericPredicate:
     - 'app/helpers/crops_helper.rb'
     - 'app/helpers/harvests_helper.rb'
     - 'app/helpers/plantings_helper.rb'
-    - 'app/models/crop.rb'
     - 'app/models/photo.rb'
     - 'lib/tasks/growstuff.rake'
     - 'script/check_contributors_md'
@@ -554,7 +545,6 @@ Style/RedundantParentheses:
 # Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
-    - 'app/models/crop.rb'
     - 'app/models/follow.rb'
     - 'app/models/member.rb'
     - 'app/models/notification.rb'
@@ -571,7 +561,6 @@ Style/RedundantSelf:
 # SupportedStyles: slashes, percent_r, mixed
 Style/RegexpLiteral:
   Exclude:
-    - 'app/models/crop.rb'
     - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
     - 'spec/rails_helper.rb'
     - 'spec/views/devise/registrations/edit_spec.rb'
@@ -608,7 +597,6 @@ Style/StringLiteralsInInterpolation:
 Style/SymbolProc:
   Exclude:
     - 'app/controllers/crops_controller.rb'
-    - 'app/models/crop.rb'
     - 'app/models/planting.rb'
     - 'app/models/post.rb'
     - 'lib/tasks/growstuff.rake'
@@ -638,7 +626,6 @@ Style/TrailingCommaInArguments:
 # SupportedStyles: comma, consistent_comma, no_comma
 Style/TrailingCommaInLiteral:
   Exclude:
-    - 'app/models/crop.rb'
     - 'config/environments/test.rb'
     - 'spec/rails_helper.rb'
 
@@ -652,7 +639,6 @@ Style/UnlessElse:
 # Cop supports --auto-correct.
 Style/UnneededInterpolation:
   Exclude:
-    - 'app/models/crop.rb'
     - 'spec/features/crops/crop_wranglers_spec.rb'
     - 'spec/features/following_spec.rb'
     - 'spec/features/shared_examples/append_date.rb'
@@ -675,12 +661,10 @@ Style/UnneededPercentQ:
 Style/WordArray:
   Exclude:
     - 'app/controllers/omniauth_callbacks_controller.rb'
-    - 'app/models/crop.rb'
     - 'spec/models/seed_spec.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.
 Style/ZeroLengthPredicate:
   Exclude:
-    - 'app/models/crop.rb'
     - 'app/models/photo.rb'
