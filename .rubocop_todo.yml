@@ -113,7 +113,6 @@ Rails/Validation:
 # SupportedStyles: always, conditionals
 Style/AndOr:
   Exclude:
-    - 'app/models/notification.rb'
     - 'config/unicorn.rb'
     - 'lib/tasks/growstuff.rake'
 
@@ -509,7 +508,6 @@ Style/RedundantParentheses:
 # Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
-    - 'app/models/notification.rb'
     - 'app/models/planting.rb'
     - 'lib/geocodable.rb'
 
