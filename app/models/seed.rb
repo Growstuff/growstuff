@@ -14,22 +14,25 @@ class Seed < ActiveRecord::Base
   validates :quantity,
     numericality: {
       only_integer: true,
-      greater_than_or_equal_to: 0 },
+      greater_than_or_equal_to: 0
+    },
     allow_nil: true
   validates :days_until_maturity_min,
     numericality: {
       only_integer: true,
-      greater_than_or_equal_to: 0 },
+      greater_than_or_equal_to: 0
+    },
     allow_nil: true
   validates :days_until_maturity_max,
     numericality: {
       only_integer: true,
-      greater_than_or_equal_to: 0 },
+      greater_than_or_equal_to: 0
+    },
     allow_nil: true
 
   scope :tradable, -> { where("tradable_to != 'nowhere'") }
 
-  TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally)
+  TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
   validates :tradable_to, inclusion: { in: TRADABLE_TO_VALUES,
                                        message: "You may only trade seed nowhere, "\
                                                 "locally, nationally, or internationally" },
@@ -40,7 +43,8 @@ class Seed < ActiveRecord::Base
     'certified organic',
     'non-certified organic',
     'conventional/non-organic',
-    'unknown']
+    'unknown'
+  ].freeze
   validates :organic, inclusion: { in: ORGANIC_VALUES,
                                    message: "You must say whether the seeds "\
                                              "are organic or not, or that you don't know" },
@@ -51,21 +55,22 @@ class Seed < ActiveRecord::Base
     'certified GMO-free',
     'non-certified GMO-free',
     'GMO',
-    'unknown']
+    'unknown'
+  ].freeze
   validates :gmo, inclusion: { in: GMO_VALUES,
                                message: "You must say whether the seeds are "\
                                         "genetically modified or not, or that you don't know" },
                   allow_nil: false,
                   allow_blank: false
 
-  HEIRLOOM_VALUES = %w(heirloom hybrid unknown)
+  HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
   validates :heirloom, inclusion: { in: HEIRLOOM_VALUES,
                                     message: "You must say whether the seeds are heirloom, hybrid, or unknown" },
                        allow_nil: false,
                        allow_blank: false
 
   def tradable?
-    if self.tradable_to == 'nowhere'
+    if tradable_to == 'nowhere'
       false
     else
       true
@@ -81,21 +86,19 @@ class Seed < ActiveRecord::Base
 
   # Seed.interesting
   # returns a list of interesting seeds, for use on the homepage etc
-  def Seed.interesting
+  def self.interesting
     howmany = 12 # max number to find
     interesting_seeds = []
 
     Seed.tradable.each do |s|
       break if interesting_seeds.size == howmany
-      if s.interesting?
-        interesting_seeds.push(s)
-      end
+      interesting_seeds.push(s) if s.interesting?
     end
 
     interesting_seeds
   end
 
   def seed_slug
-    "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
+    "#{owner.login_name}-#{crop}".downcase.tr(' ', '-')
   end
 end

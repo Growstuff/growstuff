@@ -58,7 +58,6 @@ Lint/Void:
 Performance/StringReplacement:
   Exclude:
     - 'app/models/planting.rb'
-    - 'app/models/seed.rb'
     - 'spec/rails_helper.rb'
 
 # Offense count: 10
@@ -217,7 +216,6 @@ Style/ClassMethods:
   Exclude:
     - 'app/models/member.rb'
     - 'app/models/planting.rb'
-    - 'app/models/seed.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -288,7 +286,6 @@ Style/IfUnlessModifier:
     - 'app/helpers/crops_helper.rb'
     - 'app/models/member.rb'
     - 'app/models/planting.rb'
-    - 'app/models/seed.rb'
     - 'config/initializers/geocoder.rb'
     - 'lib/tasks/growstuff.rake'
 
@@ -316,7 +313,6 @@ Style/MethodCallParentheses:
 # SupportedStyles: symmetrical, new_line, same_line
 Style/MultilineArrayBraceLayout:
   Exclude:
-    - 'app/models/seed.rb'
 
 # Offense count: 8
 # Cop supports --auto-correct.
@@ -336,7 +332,6 @@ Style/MultilineHashBraceLayout:
   Exclude:
     - 'app/models/planting.rb'
     - 'app/models/product.rb'
-    - 'app/models/seed.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -413,7 +408,6 @@ Style/MutableConstant:
   Exclude:
     - 'app/controllers/members_controller.rb'
     - 'app/models/planting.rb'
-    - 'app/models/seed.rb'
 
 # Offense count: 7
 # Cop supports --auto-correct.
@@ -539,7 +533,6 @@ Style/RedundantSelf:
     - 'app/models/notification.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
-    - 'app/models/seed.rb'
     - 'lib/geocodable.rb'
 
 # Offense count: 9
