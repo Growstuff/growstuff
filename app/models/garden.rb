@@ -30,7 +30,8 @@ class Garden < ActiveRecord::Base
   validates :area,
     numericality: {
       only_integer: false,
-      greater_than_or_equal_to: 0 },
+      greater_than_or_equal_to: 0
+    },
     allow_nil: true
 
   AREA_UNITS_VALUES = {
@@ -38,7 +39,7 @@ class Garden < ActiveRecord::Base
     "square feet" => "square foot",
     "hectares" => "hectare",
     "acres" => "acre"
-  }
+  }.freeze
   validates :area_unit, inclusion: { in: AREA_UNITS_VALUES.values,
                                      message: "%{value} is not a valid area unit" },
                         allow_nil: true,
@@ -47,12 +48,12 @@ class Garden < ActiveRecord::Base
   after_validation :cleanup_area
 
   def cleanup_area
-    self.area = nil if area == 0
+    self.area = nil if area.zero?
     self.area_unit = nil if area.blank?
   end
 
   def garden_slug
-    "#{owner.login_name}-#{name}".downcase.gsub(' ', '-')
+    "#{owner.login_name}-#{name}".downcase.tr(' ', '-')
   end
 
   # featured plantings returns the most recent 4 plantings for a garden,
@@ -62,7 +63,7 @@ class Garden < ActiveRecord::Base
     seen_crops = []
 
     plantings.each do |p|
-      if (!seen_crops.include?(p.crop))
+      unless seen_crops.include?(p.crop)
         unique_plantings.push(p)
         seen_crops.push(p.crop)
       end
