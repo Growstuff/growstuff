@@ -106,7 +106,6 @@ Rails/TimeZone:
 # Include: app/models/**/*.rb
 Rails/Validation:
   Exclude:
-    - 'app/models/order_item.rb'
 
 # Offense count: 12
 # Cop supports --auto-correct.
