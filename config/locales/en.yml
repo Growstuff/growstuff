@@ -148,7 +148,7 @@ en:
       toggle_navigation: Toggle Navigation
       crops: Crops
       community: Community
-      current_memberlogin_name: '"%{current_memberlogin_name}"'
+      current_memberlogin_name: '%{current_memberlogin_name}'
       sign_out: Sign out
       sign_in: Sign in
       sign_up: Sign up
