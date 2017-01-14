@@ -9,7 +9,6 @@
 # Offense count: 24
 Lint/AmbiguousRegexpLiteral:
   Exclude:
-    - 'app/models/order.rb'
     - 'spec/controllers/admin/orders_controller_spec.rb'
     - 'spec/controllers/orders_controller_spec.rb'
     - 'spec/features/cms_spec.rb'
@@ -185,7 +184,6 @@ Style/BracesAroundHashParameters:
     - 'app/controllers/posts_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/member.rb'
-    - 'app/models/order.rb'
     - 'config/environments/test.rb'
     - 'spec/controllers/admin/orders_controller_spec.rb'
     - 'spec/controllers/comments_controller_spec.rb'
@@ -218,7 +216,6 @@ Style/ClassAndModuleChildren:
 Style/ClassMethods:
   Exclude:
     - 'app/models/member.rb'
-    - 'app/models/order.rb'
     - 'app/models/planting.rb'
     - 'app/models/seed.rb'
 
@@ -261,7 +258,6 @@ Style/EmptyLiteral:
 # SupportedStyles: for, each
 Style/For:
   Exclude:
-    - 'app/models/order.rb'
 
 # Offense count: 5
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -291,7 +287,6 @@ Style/IfUnlessModifier:
     - 'app/controllers/shop_controller.rb'
     - 'app/helpers/crops_helper.rb'
     - 'app/models/member.rb'
-    - 'app/models/order.rb'
     - 'app/models/planting.rb'
     - 'app/models/seed.rb'
     - 'config/initializers/geocoder.rb'
@@ -543,7 +538,6 @@ Style/RedundantSelf:
     - 'app/models/follow.rb'
     - 'app/models/member.rb'
     - 'app/models/notification.rb'
-    - 'app/models/order.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
     - 'app/models/seed.rb'
