@@ -554,7 +554,6 @@ Style/RedundantParentheses:
 # Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
-    - 'app/models/comment.rb'
     - 'app/models/crop.rb'
     - 'app/models/follow.rb'
     - 'app/models/member.rb'
