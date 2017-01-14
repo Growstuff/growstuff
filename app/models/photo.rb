@@ -1,3 +1,4 @@
+require_relative '../constants/photo_models.rb'
 class Photo < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member'
 

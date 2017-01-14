@@ -98,4 +98,8 @@ class Seed < ActiveRecord::Base
   def seed_slug
     "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
   end
+
+  def to_s
+    I18n.t('seeds.string', crop: crop.name, owner: owner)
+  end
 end
