@@ -80,7 +80,6 @@ Rails/Date:
 Rails/HasAndBelongsToMany:
   Exclude:
     - 'app/models/planting.rb'
-    - 'app/models/product.rb'
     - 'app/models/role.rb'
 
 # Offense count: 3
@@ -318,7 +317,6 @@ Style/MultilineBlockLayout:
 Style/MultilineHashBraceLayout:
   Exclude:
     - 'app/models/planting.rb'
-    - 'app/models/product.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
