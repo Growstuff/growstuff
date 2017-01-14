@@ -79,7 +79,6 @@ Rails/Date:
 # Include: app/models/**/*.rb
 Rails/HasAndBelongsToMany:
   Exclude:
-    - 'app/models/photo.rb'
     - 'app/models/planting.rb'
     - 'app/models/product.rb'
     - 'app/models/role.rb'
@@ -118,7 +117,6 @@ Rails/Validation:
 Style/AndOr:
   Exclude:
     - 'app/models/notification.rb'
-    - 'app/models/photo.rb'
     - 'config/unicorn.rb'
     - 'lib/tasks/growstuff.rake'
 
@@ -293,7 +291,6 @@ Style/Lambda:
 # Cop supports --auto-correct.
 Style/MethodCallParentheses:
   Exclude:
-    - 'app/models/photo.rb'
     - 'spec/helpers/application_helper_spec.rb'
     - 'spec/views/plantings/new.html.haml_spec.rb'
 
@@ -456,7 +453,6 @@ Style/NumericPredicate:
     - 'app/helpers/crops_helper.rb'
     - 'app/helpers/harvests_helper.rb'
     - 'app/helpers/plantings_helper.rb'
-    - 'app/models/photo.rb'
     - 'lib/tasks/growstuff.rake'
     - 'script/check_contributors_md'
 
@@ -518,7 +514,6 @@ Style/RedundantParentheses:
 Style/RedundantSelf:
   Exclude:
     - 'app/models/notification.rb'
-    - 'app/models/photo.rb'
     - 'app/models/planting.rb'
     - 'lib/geocodable.rb'
 
@@ -623,4 +618,3 @@ Style/WordArray:
 # Cop supports --auto-correct.
 Style/ZeroLengthPredicate:
   Exclude:
-    - 'app/models/photo.rb'
