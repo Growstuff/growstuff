@@ -338,7 +338,6 @@ Style/MultilineMethodCallBraceLayout:
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/authentications_controller.rb'
     - 'app/controllers/seeds_controller.rb'
-    - 'app/models/account.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/helpers/gardens_helper_spec.rb'
     - 'spec/helpers/harvests_helper_spec.rb'
