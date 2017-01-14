@@ -14,8 +14,8 @@ class PlantingsController < ApplicationController
                  else
                    Planting
                  end
-
-    @plantings = @plantings.current unless params[:all]
+    @show_all = params[:all] == '1'
+    @plantings = @plantings.current unless @show_all
     @plantings = @plantings.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
 
     respond_to do |format|
