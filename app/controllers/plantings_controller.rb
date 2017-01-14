@@ -7,16 +7,8 @@ class PlantingsController < ApplicationController
   def index
     @owner = Member.find_by(slug: params[:owner]) if params[:owner]
     @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
-    @plantings = if @owner
-                   @owner.plantings
-                 elsif @crop
-                   @crop.plantings
-                 else
-                   Planting
-                 end
     @show_all = params[:all] == '1'
-    @plantings = @plantings.current unless @show_all
-    @plantings = @plantings.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
+    @plantings = plantings
 
     respond_to do |format|
       format.html { @plantings = @plantings.paginate(page: params[:page]) }
@@ -129,5 +121,19 @@ class PlantingsController < ApplicationController
     else
       (planting.finished_at - planting.planted_at).to_i
     end
+  end
+
+  def plantings
+    @plantings = if @owner
+                   @owner.plantings
+                 elsif @crop
+                   @crop.plantings
+                 else
+                   Planting
+                 end
+
+    @plantings = @plantings.current unless @show_all
+    @plantings = @plantings.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
+    @plantings
   end
 end
