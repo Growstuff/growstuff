@@ -194,19 +194,19 @@ describe 'member' do
 
     it 'has a role' do
       member.roles.first.should eq role
-      member.has_role?(:moderator).should eq true
+      member.role?(:moderator).should eq true
     end
 
     it 'sets up roles in factories' do
       admin = FactoryGirl.create(:admin_member)
-      admin.has_role?(:admin).should eq true
+      admin.role?(:admin).should eq true
     end
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
       role = FactoryGirl.create(:role, name: "a b c")
       member.roles << role
-      member.has_role?(:a_b_c).should eq true
+      member.role?(:a_b_c).should eq true
     end
   end
 

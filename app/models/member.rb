@@ -100,7 +100,7 @@ class Member < ActiveRecord::Base
     login_name
   end
 
-  def has_role?(role_sym)
+  def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
   end
 
