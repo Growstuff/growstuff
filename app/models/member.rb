@@ -14,7 +14,7 @@ class Member < ActiveRecord::Base
   has_many :seeds, foreign_key: 'owner_id'
   has_many :harvests, foreign_key: 'owner_id'
 
-  has_and_belongs_to_many :roles
+  has_and_belongs_to_many :roles # rubocop:disable Rails/HasAndBelongsToMany
 
   has_many :notifications, foreign_key: 'recipient_id'
   has_many :sent_notifications, foreign_key: 'sender_id'
@@ -57,8 +57,8 @@ class Member < ActiveRecord::Base
   attr_accessor :login
 
   # Requires acceptance of the Terms of Service
-  validates_acceptance_of :tos_agreement, allow_nil: true,
-                                          accept: true
+  validates :tos_agreement, acceptance: { allow_nil: true,
+                                          accept: true }
 
   validates :login_name,
     length: {
@@ -114,9 +114,7 @@ class Member < ActiveRecord::Base
   # called by order.update_account, which loops through all order items
   # and does this for each one.
   def update_account_after_purchase(product)
-    if product.account_type
-      account.account_type = product.account_type
-    end
+    account.account_type = product.account_type if product.account_type
     if product.paid_months
       start_date = account.paid_until || Time.zone.now
       account.paid_until = start_date + product.paid_months.months
@@ -176,7 +174,7 @@ class Member < ActiveRecord::Base
 
   # Returns a hash of Flickr photosets' ids and titles
   def flickr_sets
-    sets = Hash.new
+    sets = {}
     flickr.photosets.getList.each do |p|
       sets[p.title] = p.id
     end
@@ -191,27 +189,25 @@ class Member < ActiveRecord::Base
     false
   end
 
-  def Member.login_name_or_email(login)
+  def self.login_name_or_email(login)
     where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }])
   end
 
-  def Member.case_insensitive_login_name(login)
+  def self.case_insensitive_login_name(login)
     where(["lower(login_name) = :value", { value: login.downcase }])
   end
 
-  def Member.interesting
+  def self.interesting
     howmany = 12 # max number to find
     interesting_members = []
     Member.confirmed.located.recently_signed_in.each do |m|
       break if interesting_members.size == howmany
-      if m.interesting?
-        interesting_members.push(m)
-      end
+      interesting_members.push(m) if m.interesting?
     end
     interesting_members
   end
 
-  def Member.nearest_to(place)
+  def self.nearest_to(place)
     nearby_members = []
     if place
       latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
@@ -237,28 +233,26 @@ class Member < ActiveRecord::Base
   end
 
   def newsletter_subscribe(gb = Gibbon::API.new, testing = false)
-    return true if (Rails.env.test? && !testing)
-    gb.lists.subscribe({
-                         id: Growstuff::Application.config.newsletter_list_id,
-                         email: { email: email },
-                         merge_vars: { login_name: login_name },
-                         double_optin: false # they already confirmed their email with us
-                       })
+    return true if Rails.env.test? && !testing
+    gb.lists.subscribe(
+      id: Growstuff::Application.config.newsletter_list_id,
+      email: { email: email },
+      merge_vars: { login_name: login_name },
+      double_optin: false # they already confirmed their email with us
+    )
   end
 
   def newsletter_unsubscribe(gb = Gibbon::API.new, testing = false)
-    return true if (Rails.env.test? && !testing)
-    gb.lists.unsubscribe({
-                           id: Growstuff::Application.config.newsletter_list_id,
-                           email: { email: email }
-                         })
+    return true if Rails.env.test? && !testing
+    gb.lists.unsubscribe(id: Growstuff::Application.config.newsletter_list_id,
+                         email: { email: email })
   end
 
   def already_following?(member)
-    self.follows.exists?(followed_id: member.id)
+    follows.exists?(followed_id: member.id)
   end
 
   def get_follow(member)
-    self.follows.find_by(followed_id: member.id) if already_following?(member)
+    follows.find_by(followed_id: member.id) if already_following?(member)
   end
 end

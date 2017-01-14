@@ -79,7 +79,6 @@ Rails/Date:
 # Include: app/models/**/*.rb
 Rails/HasAndBelongsToMany:
   Exclude:
-    - 'app/models/member.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
     - 'app/models/product.rb'
@@ -110,7 +109,6 @@ Rails/TimeZone:
 # Include: app/models/**/*.rb
 Rails/Validation:
   Exclude:
-    - 'app/models/member.rb'
     - 'app/models/order_item.rb'
 
 # Offense count: 12
@@ -182,7 +180,6 @@ Style/BracesAroundHashParameters:
     - 'app/controllers/crops_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/helpers/application_helper.rb'
-    - 'app/models/member.rb'
     - 'config/environments/test.rb'
     - 'spec/controllers/admin/orders_controller_spec.rb'
     - 'spec/controllers/comments_controller_spec.rb'
@@ -214,7 +211,6 @@ Style/ClassAndModuleChildren:
 # Cop supports --auto-correct.
 Style/ClassMethods:
   Exclude:
-    - 'app/models/member.rb'
     - 'app/models/planting.rb'
 
 # Offense count: 2
@@ -249,7 +245,6 @@ Style/EachForSimpleLoop:
 # Cop supports --auto-correct.
 Style/EmptyLiteral:
   Exclude:
-    - 'app/models/member.rb'
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -272,10 +267,6 @@ Style/IdenticalConditionalBranches:
     - 'app/controllers/crops_controller.rb'
     - 'app/controllers/follows_controller.rb'
 
-# Offense count: 1
-Style/IfInsideElse:
-  Exclude:
-
 # Offense count: 26
 # Cop supports --auto-correct.
 # Configuration parameters: MaxLineLength.
@@ -284,7 +275,6 @@ Style/IfUnlessModifier:
     - 'app/controllers/gardens_controller.rb'
     - 'app/controllers/shop_controller.rb'
     - 'app/helpers/crops_helper.rb'
-    - 'app/models/member.rb'
     - 'app/models/planting.rb'
     - 'config/initializers/geocoder.rb'
     - 'lib/tasks/growstuff.rake'
@@ -484,7 +474,6 @@ Style/ParenthesesAroundCondition:
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/orders_controller.rb'
     - 'app/helpers/crops_helper.rb'
-    - 'app/models/member.rb'
     - 'config/factory_girl.rb'
 
 # Offense count: 5
@@ -511,7 +500,6 @@ Style/PerlBackrefs:
 Style/PredicateName:
   Exclude:
     - 'spec/**/*'
-    - 'app/models/member.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -529,7 +517,6 @@ Style/RedundantParentheses:
 # Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
-    - 'app/models/member.rb'
     - 'app/models/notification.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
