@@ -33,7 +33,6 @@ Lint/UnusedBlockArgument:
   Exclude:
     - 'app/controllers/crops_controller.rb'
     - 'app/controllers/sessions_controller.rb'
-    - 'app/models/post.rb'
     - 'config/unicorn.rb'
     - 'lib/haml/filters/growstuff_markdown.rb'
 
@@ -85,7 +84,6 @@ Rails/HasAndBelongsToMany:
     - 'app/models/member.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
-    - 'app/models/post.rb'
     - 'app/models/product.rb'
     - 'app/models/role.rb'
 
@@ -222,7 +220,6 @@ Style/ClassMethods:
     - 'app/models/member.rb'
     - 'app/models/order.rb'
     - 'app/models/planting.rb'
-    - 'app/models/post.rb'
     - 'app/models/seed.rb'
 
 # Offense count: 2
@@ -443,7 +440,6 @@ Style/NestedTernaryOperator:
 # SupportedStyles: skip_modifier_ifs, always
 Style/Next:
   Exclude:
-    - 'app/models/post.rb'
     - 'lib/tasks/growstuff.rake'
 
 # Offense count: 2
@@ -516,7 +512,6 @@ Style/PercentLiteralDelimiters:
 # Cop supports --auto-correct.
 Style/PerlBackrefs:
   Exclude:
-    - 'app/models/post.rb'
     - 'lib/haml/filters/growstuff_markdown.rb'
 
 # Offense count: 3
@@ -551,7 +546,6 @@ Style/RedundantSelf:
     - 'app/models/order.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
-    - 'app/models/post.rb'
     - 'app/models/seed.rb'
     - 'lib/geocodable.rb'
 
@@ -588,7 +582,6 @@ Style/SpecialGlobalVars:
 Style/StringLiteralsInInterpolation:
   Exclude:
     - 'app/models/follow.rb'
-    - 'app/models/post.rb'
 
 # Offense count: 9
 # Cop supports --auto-correct.
@@ -598,7 +591,6 @@ Style/SymbolProc:
   Exclude:
     - 'app/controllers/crops_controller.rb'
     - 'app/models/planting.rb'
-    - 'app/models/post.rb'
     - 'lib/tasks/growstuff.rake'
 
 # Offense count: 1
@@ -615,7 +607,6 @@ Style/TernaryParentheses:
 # SupportedStyles: comma, consistent_comma, no_comma
 Style/TrailingCommaInArguments:
   Exclude:
-    - 'app/models/post.rb'
     - 'db/seeds.rb'
     - 'lib/actions/oauth_signup_action.rb'
     - 'lib/tasks/growstuff.rake'
