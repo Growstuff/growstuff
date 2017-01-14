@@ -60,7 +60,6 @@ Lint/Void:
 # Cop supports --auto-correct.
 Performance/StringReplacement:
   Exclude:
-    - 'app/models/harvest.rb'
     - 'app/models/planting.rb'
     - 'app/models/seed.rb'
     - 'spec/rails_helper.rb'
@@ -85,7 +84,6 @@ Rails/Date:
 Rails/HasAndBelongsToMany:
   Exclude:
     - 'app/models/crop.rb'
-    - 'app/models/harvest.rb'
     - 'app/models/member.rb'
     - 'app/models/photo.rb'
     - 'app/models/planting.rb'
@@ -291,7 +289,6 @@ Style/IdenticalConditionalBranches:
 # Offense count: 1
 Style/IfInsideElse:
   Exclude:
-    - 'app/models/harvest.rb'
 
 # Offense count: 26
 # Cop supports --auto-correct.
@@ -302,7 +299,6 @@ Style/IfUnlessModifier:
     - 'app/controllers/shop_controller.rb'
     - 'app/helpers/crops_helper.rb'
     - 'app/models/crop.rb'
-    - 'app/models/harvest.rb'
     - 'app/models/member.rb'
     - 'app/models/order.rb'
     - 'app/models/planting.rb'
@@ -352,7 +348,6 @@ Style/MultilineBlockLayout:
 # SupportedStyles: symmetrical, new_line, same_line
 Style/MultilineHashBraceLayout:
   Exclude:
-    - 'app/models/harvest.rb'
     - 'app/models/planting.rb'
     - 'app/models/product.rb'
     - 'app/models/seed.rb'
@@ -432,7 +427,6 @@ Style/MultilineTernaryOperator:
 Style/MutableConstant:
   Exclude:
     - 'app/controllers/members_controller.rb'
-    - 'app/models/harvest.rb'
     - 'app/models/planting.rb'
     - 'app/models/seed.rb'
 
@@ -471,7 +465,6 @@ Style/NilComparison:
 # Configuration parameters: IncludeSemanticChanges.
 Style/NonNilCheck:
   Exclude:
-    - 'app/models/harvest.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -497,7 +490,6 @@ Style/NumericPredicate:
     - 'app/helpers/harvests_helper.rb'
     - 'app/helpers/plantings_helper.rb'
     - 'app/models/crop.rb'
-    - 'app/models/harvest.rb'
     - 'app/models/photo.rb'
     - 'lib/tasks/growstuff.rake'
     - 'script/check_contributors_md'
@@ -565,7 +557,6 @@ Style/RedundantSelf:
     - 'app/models/comment.rb'
     - 'app/models/crop.rb'
     - 'app/models/follow.rb'
-    - 'app/models/harvest.rb'
     - 'app/models/member.rb'
     - 'app/models/notification.rb'
     - 'app/models/order.rb'
@@ -619,7 +610,6 @@ Style/SymbolProc:
   Exclude:
     - 'app/controllers/crops_controller.rb'
     - 'app/models/crop.rb'
-    - 'app/models/harvest.rb'
     - 'app/models/planting.rb'
     - 'app/models/post.rb'
     - 'lib/tasks/growstuff.rake'
@@ -664,7 +654,6 @@ Style/UnlessElse:
 Style/UnneededInterpolation:
   Exclude:
     - 'app/models/crop.rb'
-    - 'app/models/harvest.rb'
     - 'spec/features/crops/crop_wranglers_spec.rb'
     - 'spec/features/following_spec.rb'
     - 'spec/features/shared_examples/append_date.rb'
