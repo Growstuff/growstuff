@@ -80,7 +80,6 @@ Rails/Date:
 Rails/HasAndBelongsToMany:
   Exclude:
     - 'app/models/planting.rb'
-    - 'app/models/role.rb'
 
 # Offense count: 3
 Rails/OutputSafety:
