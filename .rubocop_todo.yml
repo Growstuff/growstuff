@@ -535,7 +535,6 @@ Style/RedundantParentheses:
 # Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
-    - 'app/models/follow.rb'
     - 'app/models/member.rb'
     - 'app/models/notification.rb'
     - 'app/models/photo.rb'
@@ -568,14 +567,6 @@ Style/SelfAssignment:
 # SupportedStyles: use_perl_names, use_english_names
 Style/SpecialGlobalVars:
   EnforcedStyle: use_perl_names
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiteralsInInterpolation:
-  Exclude:
-    - 'app/models/follow.rb'
 
 # Offense count: 9
 # Cop supports --auto-correct.
