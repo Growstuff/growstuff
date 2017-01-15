@@ -42,6 +42,7 @@ en:
     index:
       title: Forums
   gardens:
+    location: "%{owner}'s %{garden}"
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
   forums:
@@ -158,10 +159,15 @@ en:
   photos:
     show:
       thing_by: A %{thing} by %{owner}
+      garden:   "garden named \"%{garden}\" by %{owner}"
+      harvest:  "%{crop} harvest by %{owner}"
+      planting: "%{planting}"
+      seed:     "%{seed}"
   places:
     index:
       title: "%{site_name} Community Map"
   plantings:
+    string: "%{crop} planting in %{garden} by %{owner}"
     form:
       finish_helper: A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise no longer growing in your garden.
     index:
@@ -175,6 +181,7 @@ en:
         author_posts: "%{author} posts"
         default: Everyone's posts
   seeds:
+    string: "%{crop} seeds belonging to %{owner}"
     form:
       trade_help: Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
     index:
