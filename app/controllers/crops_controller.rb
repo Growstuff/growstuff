@@ -119,7 +119,7 @@ class CropsController < ApplicationController
   def create
     @crop = Crop.new(crop_params)
 
-    if current_member.has_role? :crop_wrangler
+    if current_member.role? :crop_wrangler
       @crop.creator = current_member
       success_msg = "Crop was successfully created."
     else
@@ -136,7 +136,7 @@ class CropsController < ApplicationController
         params[:sci_name].each do |index, value|
           create_name('scientific', value)
         end
-        unless current_member.has_role? :crop_wrangler
+        unless current_member.role? :crop_wrangler
           Role.crop_wranglers.each do |w|
             Notifier.new_crop_request(w, @crop).deliver_later!
           end

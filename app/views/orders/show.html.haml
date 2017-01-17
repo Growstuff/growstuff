@@ -22,7 +22,7 @@
     %strong Referral code:
     = @order.referral_code
 
-- if current_member.has_role? :admin
+- if current_member.role? :admin
   %p
     %strong Paypal Express token:
     = @order.paypal_express_token

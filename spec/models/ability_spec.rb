@@ -61,7 +61,7 @@ describe Ability do
       end
 
       it "has crop_wrangler role" do
-        member.has_role?(:crop_wrangler).should be true
+        member.role?(:crop_wrangler).should be true
       end
 
       it "can create crops" do
@@ -96,7 +96,7 @@ describe Ability do
       end
 
       it "has admin role" do
-        member.has_role?(:admin).should be true
+        member.role?(:admin).should be true
       end
 
       it "can read products" do
@@ -210,7 +210,7 @@ describe Ability do
       end
 
       it "has admin role" do
-        member.has_role?(:admin).should be true
+        member.role?(:admin).should be true
       end
 
       it "can read orders" do
