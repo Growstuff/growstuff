@@ -3,7 +3,7 @@ class Photo < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member'
 
   Growstuff::Constants::PhotoModels.relations.each do |relation|
-    has_and_belongs_to_many relation.to_sym
+    has_and_belongs_to_many relation.to_sym # rubocop:disable Rails/HasAndBelongsToMany
   end
 
   before_destroy { all_associations.clear }
@@ -13,13 +13,13 @@ class Photo < ActiveRecord::Base
   def all_associations
     associations = []
     Growstuff::Constants::PhotoModels.relations.each do |association_name|
-      associations << self.send(association_name.to_s).to_a
+      associations << send(association_name.to_s).to_a
     end
     associations.flatten!
   end
 
   def destroy_if_unused
-    self.destroy unless all_associations.size > 0
+    destroy if all_associations.empty?
   end
 
   # This is split into a side-effect free method and a side-effecting method
@@ -27,7 +27,7 @@ class Photo < ActiveRecord::Base
   def flickr_metadata
     flickr = owner.flickr
     info = flickr.photos.getInfo(photo_id: flickr_photo_id)
-    licenses = flickr.photos.licenses.getInfo()
+    licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
       title: info.title || "Untitled",
@@ -40,6 +40,6 @@ class Photo < ActiveRecord::Base
   end
 
   def set_flickr_metadata
-    self.update_attributes(flickr_metadata)
+    update_attributes(flickr_metadata)
   end
 end
