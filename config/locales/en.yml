@@ -122,6 +122,7 @@ en:
       current_memberlogin_name: '"%{current_memberlogin_name}"'
       forums: Forums
       gardens: Gardens
+      harvest: Harvest
       harvests: Harvests
       inbox: Inbox
       inbox_unread: Inbox (%{unread_count})
