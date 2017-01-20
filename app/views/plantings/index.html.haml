@@ -1,20 +1,9 @@
 - content_for :title, @owner ? t('.title.owner_plantings', owner: @owner) : @crop ? t('.title.crop_plantings', crop: @crop.name) : t('.title.default')
+
+= render 'nav', owner: @owner, show_all: @show_all
+
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
-
-%p
-  - if can? :create, Planting
-    - if @owner
-      %p
-        - if @owner == current_member
-          = link_to 'Plant something', new_planting_path, :class => 'btn btn-primary'
-        = link_to "View everyone's plantings", plantings_path, :class => 'btn btn-default'
-    - else # everyone's plantings
-      = link_to 'Plant something', new_planting_path, :class => 'btn btn-primary'
-      - if current_member
-        = link_to 'View your plantings', plantings_by_owner_path(:owner => current_member.slug), :class => 'btn btn-default'
-  - else
-    = render :partial => 'shared/signin_signup', :locals => { :to => "track what you've planted" }
 
 %div.pagination
   = page_entries_info @plantings

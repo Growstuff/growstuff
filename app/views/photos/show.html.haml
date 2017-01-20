@@ -26,19 +26,17 @@
       %p= link_to 'Delete Photo', @photo, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
 
   .col-md-6
-    - if @photo.plantings.size > 0 or @photo.harvests.size > 0 or @photo.gardens.size > 0
+    - unless @photo.plantings.empty? && @photo.harvests.empty? && @photo.gardens.empty? && @photo.seeds.empty?
       %p This photo depicts:
       %ul
-        - if @photo.plantings.size > 0
-          - @photo.plantings.each do |p|
-            %li= link_to t('.thing_by', thing: Planting.model_name.singular, owner: p.owner), p
-        - if @photo.harvests.size > 0
-          - @photo.harvests.each do |h|
-            %li= link_to t('.thing_by', thing: Harvest.model_name.singular, owner: h.owner), h
-        - if @photo.gardens.size > 0
-          - @photo.gardens.each do |g|
-            %li= link_to t('.thing_by', thing: Garden.model_name.singular, owner: g.owner), g
-
+        - @photo.plantings.each do |p|
+          %li= link_to t('.planting', planting: p.to_s, owner: p.owner.to_s), planting_path(p)
+        - @photo.harvests.each do |h|
+          %li= link_to t('.harvest', crop: h.crop.name, owner: h.owner.to_s), harvest_path(h)
+        - @photo.gardens.each do |g|
+          %li= link_to t('.garden', garden: g.to_s, owner: g.owner.to_s), garden_path(g)
+        - @photo.seeds.each do |s|
+          %li= link_to t('.seed', seed: s.to_s, owner: s.owner.to_s), seed_path(s)
 
 .row
   .col-md-12

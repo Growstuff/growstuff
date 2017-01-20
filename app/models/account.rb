@@ -9,8 +9,7 @@ class Account < ActiveRecord::Base
   before_create do |account|
     unless account.account_type
       account.account_type = AccountType.find_or_create_by(name:
-        Growstuff::Application.config.default_account_type
-      )
+        Growstuff::Application.config.default_account_type)
     end
   end
 
