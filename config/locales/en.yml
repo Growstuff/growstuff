@@ -1,5 +1,7 @@
 ---
 en:
+  account:
+    update: Account detail was successfully updated.
   account_types:
     created: Account type was successfully created.
     deleted: Account type was successfully deleted.

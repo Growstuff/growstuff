@@ -26,7 +26,7 @@ class AccountsController < ApplicationController
   def update
     respond_to do |format|
       if @account.update(params[:account])
-        format.html { redirect_to @account, notice: 'Account detail was successfully updated.' }
+        format.html { redirect_to @account, notice: I18n.t('account.update') }
       else
         format.html { render action: "edit" }
       end
