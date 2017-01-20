@@ -1,5 +1,9 @@
 ---
 en:
+  account_types:
+    created: Account type was successfully created.
+    deleted: Account type was successfully deleted.
+    updated: Account type was successfully updated.
   activerecord:
     models:
       comment:
