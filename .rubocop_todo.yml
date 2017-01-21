@@ -267,7 +267,7 @@ Style/Lambda:
 
 # Offense count: 3
 # Cop supports --auto-correct.
-Style/MethodCallParentheses:
+Style/MethodCallWithoutArgsParentheses:
   Exclude:
     - 'spec/helpers/application_helper_spec.rb'
     - 'spec/views/plantings/new.html.haml_spec.rb'
