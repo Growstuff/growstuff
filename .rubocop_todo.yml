@@ -56,7 +56,7 @@ Lint/Void:
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
   Exclude: 
-    - '**/*.rb'
+    - '**/*'
 
 # Offense count: 2
 # Cop supports --auto-correct.
