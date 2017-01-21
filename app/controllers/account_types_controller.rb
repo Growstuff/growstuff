@@ -37,7 +37,7 @@ class AccountTypesController < ApplicationController
 
     respond_to do |format|
       if @account_type.save
-        format.html { redirect_to @account_type, notice: 'Account type was successfully created.' }
+        format.html { redirect_to @account_type, notice: I18n.t('account_types.created') }
       else
         format.html { render action: "new" }
       end
@@ -48,7 +48,7 @@ class AccountTypesController < ApplicationController
   def update
     respond_to do |format|
       if @account_type.update(account_type_params)
-        format.html { redirect_to @account_type, notice: 'Account type was successfully updated.' }
+        format.html { redirect_to @account_type, notice: I18n.t('account_types.updated') }
       else
         format.html { render action: "edit" }
       end
@@ -60,7 +60,7 @@ class AccountTypesController < ApplicationController
     @account_type.destroy
 
     respond_to do |format|
-      format.html { redirect_to account_types_url, notice: 'Account type was successfully deleted.' }
+      format.html { redirect_to account_types_url, notice: I18n.t('account_types.deleted') }
     end
   end
 
