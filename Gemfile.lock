@@ -228,7 +228,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
-    i18n-tasks (0.9.6)
+    i18n-tasks (0.9.9)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
       easy_translate (>= 0.5.0)
