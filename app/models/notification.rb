@@ -21,6 +21,6 @@ class Notification < ActiveRecord::Base
   end
 
   def send_email
-    Notifier.notify(self).deliver_later if recipient.send_notification_email
+    Notifier.notify(self).deliver_now! if recipient.send_notification_email
   end
 end
