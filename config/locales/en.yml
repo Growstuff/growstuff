@@ -48,9 +48,12 @@ en:
     index:
       title: Forums
   gardens:
-    location: "%{owner}'s %{garden}"
+    created: Garden was successfully created.
+    deleted: Garden was successfully deleted.
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    location: "%{owner}'s %{garden}"
+    updated: Garden was successfully updated.
   harvests:
     index:
       title:
