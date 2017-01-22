@@ -57,7 +57,7 @@ class HarvestsController < ApplicationController
 
     respond_to do |format|
       if @harvest.save
-        format.html { redirect_to @harvest, notice: 'Harvest was successfully created.' }
+        format.html { redirect_to @harvest, notice: I18n.t('harvests.created') }
         format.json { render json: @harvest, status: :created, location: @harvest }
       else
         format.html { render action: "new" }
@@ -71,7 +71,7 @@ class HarvestsController < ApplicationController
   def update
     respond_to do |format|
       if @harvest.update(harvest_params)
-        format.html { redirect_to @harvest, notice: 'Harvest was successfully updated.' }
+        format.html { redirect_to @harvest, notice: I18n.t('harvests.updated') }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
