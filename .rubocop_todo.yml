@@ -173,33 +173,6 @@ Style/BlockEndNewline:
     - 'spec/models/member_spec.rb'
     - 'spec/models/planting_spec.rb'
 
-# Offense count: 75
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'app/controllers/admin/orders_controller.rb'
-    - 'app/controllers/crops_controller.rb'
-    - 'app/controllers/posts_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'config/environments/test.rb'
-    - 'spec/controllers/admin/orders_controller_spec.rb'
-    - 'spec/controllers/comments_controller_spec.rb'
-    - 'spec/controllers/harvests_controller_spec.rb'
-    - 'spec/controllers/member_controller_spec.rb'
-    - 'spec/controllers/notifications_controller_spec.rb'
-    - 'spec/controllers/order_items_controller_spec.rb'
-    - 'spec/controllers/orders_controller_spec.rb'
-    - 'spec/controllers/places_controller_spec.rb'
-    - 'spec/controllers/plantings_controller_spec.rb'
-    - 'spec/controllers/posts_controller_spec.rb'
-    - 'spec/controllers/scientific_names_controller_spec.rb'
-    - 'spec/controllers/seeds_controller_spec.rb'
-    - 'spec/lib/actions/oauth_signup_action_spec.rb'
-    - 'spec/views/notifier/notify.html.haml_spec.rb'
-    - 'spec/views/photos/new.html.haml_spec.rb'
-
 # Offense count: 4
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: nested, compact
