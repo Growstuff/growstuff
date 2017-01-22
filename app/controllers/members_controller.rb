@@ -74,10 +74,10 @@ class MembersController < ApplicationController
     @type = decrypted_message[:type]
     @member.update(@type => false)
 
-    flash.now[:notice] = "You have been unsubscribed from #{EMAIL_TYPE_STRING[@type]} emails."
+    flash.now[:notice] = I18n.t('members.unsubscribed', email_type: EMAIL_TYPE_STRING[@type])
 
   rescue ActiveSupport::MessageVerifier::InvalidSignature
-    flash.now[:alert] = "We're sorry, there was an error updating your settings."
+    flash.now[:alert] = I18n.t('members.unsubscribe.error')
   end
 
   def finish_signup
@@ -87,9 +87,9 @@ class MembersController < ApplicationController
     if @member.update(member_params)
       @member.skip_reconfirmation!
       bypass_sign_in(@member)
-      redirect_to root_path, notice: 'Welcome.'
+      redirect_to root_path, notice: I18n.t('members.welcome')
     else
-      flash[:alert] = 'Failed to complete signup'
+      flash[:alert] = I18n.t('members.signup.error')
       @show_errors = true
     end
   end

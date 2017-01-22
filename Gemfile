@@ -124,6 +124,7 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'                     # unit testing framework
   gem 'rubocop', require: false
+  gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'selenium-webdriver'
   gem 'webrat'                          # provides HTML matchers for view tests
 end

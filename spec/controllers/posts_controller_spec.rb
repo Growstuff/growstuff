@@ -32,7 +32,7 @@ describe PostsController do
   describe "GET RSS feed for individual post" do
     it "returns an RSS feed" do
       post = Post.create! valid_attributes
-      get :show, { format: "rss", id: post.slug }
+      get :show, format: "rss", id: post.slug
       response.should be_success
       response.should render_template("posts/show")
       response.content_type.should eq("application/rss+xml")
