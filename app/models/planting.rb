@@ -6,6 +6,7 @@ class Planting < ActiveRecord::Base
   belongs_to :garden
   belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :crop, counter_cache: true
+  has_many :harvests, -> { order(harvested_at: :desc) }, dependent: :destroy
 
   default_scope { order("created_at desc") }
   scope :finished, -> { where(finished: true) }
@@ -63,17 +64,25 @@ class Planting < ActiveRecord::Base
   end
 
   def planting_slug
-    "#{owner.login_name}-#{garden}-#{crop}".downcase.gsub(' ', '-')
+    if garden.present? && crop.present?
+      "#{owner.login_name}-#{garden.name}-#{crop.name}"
+    elsif garden.present?
+      "#{owner.login_name}-#{garden.name}-null"
+    elsif crop.present?
+      "#{owner.login_name}-null-#{crop.name}"
+    else
+      "#{owner.login_name}-null-null"
+    end.downcase.gsub(' ', '-')
   end
 
   # location = garden owner + garden name, i.e. "Skud's backyard"
   def location
-    "#{garden.owner.login_name}'s #{garden}"
+    I18n.t("gardens.location", garden: garden.name, owner: garden.owner.login_name)
   end
 
   # stringify as "beet in Skud's backyard" or similar
   def to_s
-    self.crop_name + " in " + self.location
+    I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner: owner)
   end
 
   def default_photo

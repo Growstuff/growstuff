@@ -5,7 +5,7 @@
     - member.gardens.each do |g|
       %li{:class => first_garden ? 'active' : '' }
         - first_garden = false
-        = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
+        = link_to display_garden_name(g), "#garden#{g.id}", 'data-toggle' => 'tab'
     - if current_member == member
       %li.navbar-right
         = link_to new_garden_path, class: 'btn' do

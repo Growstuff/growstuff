@@ -45,12 +45,11 @@ class GardensController < ApplicationController
   # POST /gardens
   # POST /gardens.json
   def create
-    params[:garden][:owner_id] = current_member.id
-    @garden = Garden.new(garden_params)
+    @garden.owner_id = current_member.id
 
     respond_to do |format|
       if @garden.save
-        format.html { redirect_to @garden, notice: 'Garden was successfully created.' }
+        format.html { redirect_to @garden, notice: I18n.t('gardens.created') }
         format.json { render json: @garden, status: :created, location: @garden }
         expire_fragment("homepage_stats")
       else
@@ -65,7 +64,7 @@ class GardensController < ApplicationController
   def update
     respond_to do |format|
       if @garden.update(garden_params)
-        format.html { redirect_to @garden, notice: 'Garden was successfully updated.' }
+        format.html { redirect_to @garden, notice: I18n.t('gardens.updated') }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,7 +81,7 @@ class GardensController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to gardens_by_owner_path(owner: @garden.owner), notice: 'Garden was successfully deleted.'
+        redirect_to gardens_by_owner_path(owner: @garden.owner), notice: I18n.t('gardens.deleted')
       end
       format.json { head :no_content }
     end

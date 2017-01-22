@@ -214,7 +214,12 @@ feature "Planting a crop", :js do
     expect(page).to have_content "Planting was successfully created"
     expect(page).to have_content "Finished: August 30, 2014"
 
+    # shouldn't be on the page
     visit plantings_path
+    expect(page).not_to have_content "maize"
+
+    # show all plantings to see this finished planting
+    visit plantings_path(all: 1)
     expect(page).to have_content "August 30, 2014"
   end
 

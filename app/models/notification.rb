@@ -13,14 +13,14 @@ class Notification < ActiveRecord::Base
   after_create :send_email
 
   def self.unread_count
-    self.unread.size
+    unread.size
   end
 
   def replace_blank_subject
-    self.subject = "(no subject)" if self.subject.nil? or self.subject =~ /^\s*$/
+    self.subject = "(no subject)" if subject.nil? || subject =~ /^\s*$/
   end
 
   def send_email
-    Notifier.notify(self).deliver_later if self.recipient.send_notification_email
+    Notifier.notify(self).deliver_later if recipient.send_notification_email
   end
 end

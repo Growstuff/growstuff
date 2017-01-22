@@ -16,9 +16,9 @@
 %p
   %strong Member Roles:
   %br
-  - if member.has_role? :admin
+  - if member.role? :admin
     Administrator
-  - if member.has_role? :crop_wrangler
+  - if member.role? :crop_wrangler
     Crop Wrangler
   - else
     Member

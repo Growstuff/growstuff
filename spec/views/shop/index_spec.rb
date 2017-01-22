@@ -67,7 +67,7 @@ describe 'shop/index.html.haml', type: "view" do
     end
 
     it "recognises the paid member" do
-      @member.is_paid?.should be(true)
+      @member.paid?.should be(true)
     end
 
     it "tells you you have a paid membership" do

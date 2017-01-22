@@ -5,15 +5,10 @@ class PlantingsController < ApplicationController
   # GET /plantings
   # GET /plantings.json
   def index
-    @owner = Member.find_by(slug: params[:owner])
-    @crop = Crop.find_by(slug: params[:crop])
-    @plantings = if @owner
-                   @owner.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-                 elsif @crop
-                   @crop.plantings.includes(:owner, :crop, :garden).paginate(page: params[:page])
-                 else
-                   Planting.includes(:owner, :crop, :garden).paginate(page: params[:page])
-                 end
+    @owner = Member.find_by(slug: params[:owner]) if params[:owner]
+    @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
+    @show_all = params[:all] == '1'
+    @plantings = plantings
 
     respond_to do |format|
       format.html { @plantings = @plantings.paginate(page: params[:page]) }
@@ -41,7 +36,7 @@ class PlantingsController < ApplicationController
   # GET /plantings/new
   # GET /plantings/new.json
   def new
-    @planting = Planting.new('planted_at' => Date.today)
+    @planting = Planting.new('planted_at' => Time.zone.today)
 
     # using find_by_id here because it returns nil, unlike find
     @crop     = Crop.find_by(id: params[:crop_id])     || Crop.new
@@ -126,5 +121,19 @@ class PlantingsController < ApplicationController
     else
       (planting.finished_at - planting.planted_at).to_i
     end
+  end
+
+  def plantings
+    @plantings = if @owner
+                   @owner.plantings
+                 elsif @crop
+                   @crop.plantings
+                 else
+                   Planting
+                 end
+
+    @plantings = @plantings.current unless @show_all
+    @plantings = @plantings.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
+    @plantings
   end
 end
