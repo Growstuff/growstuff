@@ -48,15 +48,20 @@ en:
     index:
       title: Forums
   gardens:
-    location: "%{owner}'s %{garden}"
+    created: Garden was successfully created.
+    deleted: Garden was successfully deleted.
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    location: "%{owner}'s %{garden}"
+    updated: Garden was successfully updated.
   harvests:
+    created: Harvest was successfully created.
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests
         default: Everyone's harvests
         owner_harvests: "%{owner} harvests"
+    updated: Harvest was successfully updated.
   home:
     blurb:
       already_html: Or %{sign_in} if you already have an account
@@ -147,6 +152,12 @@ en:
   members:
     index:
       title: "%{site_name} members"
+    signup:
+      error: Failed to complete signup
+    unsubscribe:
+      error: We're sorry, there was an error updating your settings.
+    unsubscribed: You have been unsubscribed from %{email_type} emails.
+    welcome: Welcome
   photos:
     show:
       thing_by: A %{thing} by %{owner}
