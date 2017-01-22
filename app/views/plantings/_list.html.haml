@@ -8,7 +8,7 @@
         in
         = succeed "'s" do
           = link_to p.garden.owner, p.garden.owner
-        = link_to p.garden, p.garden
+        = link_to display_garden_name(p.garden), p.garden
         %br/
         %small
           %i

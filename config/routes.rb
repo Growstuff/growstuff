@@ -1,4 +1,4 @@
-Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
+Growstuff::Application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts

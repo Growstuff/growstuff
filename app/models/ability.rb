@@ -57,7 +57,7 @@ class Ability
     # note we don't support update for notifications
 
     # only crop wranglers can create/edit/destroy crops
-    if member.has_role? :crop_wrangler
+    if member.role? :crop_wrangler
       can :wrangle, Crop
       can :manage, Crop
       can :manage, ScientificName
@@ -124,7 +124,7 @@ class Ability
     can :destroy, Follow
     cannot :destroy, Follow, followed_id: member.id # can't unfollow yourself
 
-    return unless member.has_role? :admin
+    return unless member.role? :admin
 
     can :read, :all
     can :manage, :all

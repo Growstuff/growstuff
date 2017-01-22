@@ -70,10 +70,8 @@ module ApplicationHelper
       return uri.to_s
     end
 
-    Gravatar.new(member.email).image_url({
-                                           size: size,
-                                           default: :identicon
-                                         })
+    Gravatar.new(member.email).image_url(size: size,
+                                         default: :identicon)
   end
 
   # Returns a string with the quantity and the right pluralization for a
