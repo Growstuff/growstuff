@@ -152,6 +152,12 @@ en:
   members:
     index:
       title: "%{site_name} members"
+    signup:
+      error: Failed to complete signup
+    unsubscribe:
+      error: We're sorry, there was an error updating your settings.
+    unsubscribed: You have been unsubscribed from %{email_type} emails.
+    welcome: Welcome
   photos:
     show:
       thing_by: A %{thing} by %{owner}
