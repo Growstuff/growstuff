@@ -66,7 +66,7 @@ Geocoder::Lookup::Test.add_stub(
   "Amundsen-Scott Base, Antarctica", [
     {
       'latitude' =>         -90.0,
-      'longitude' =>        0.0,
+      'longitude' =>        0.0
     }
   ]
 )
@@ -89,7 +89,7 @@ Geocoder::Lookup::Test.add_stub(
   "Greenwich, UK", [
     {
       'latitude' =>         51.483061,
-      'longitude' =>        -0.004151,
+      'longitude' =>        -0.004151
     }
   ]
 )
@@ -98,7 +98,7 @@ Geocoder::Lookup::Test.add_stub(
   "Edinburgh", [
     {
       'latitude' =>         55.953252,
-      'longitude' =>        -3.188267,
+      'longitude' =>        -3.188267
     }
   ]
 )
@@ -112,17 +112,15 @@ end
 
 OmniAuth.config.test_mode = true
 # Fake the omniauth
-OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
-                                                                provider: 'facebook',
-                                                                uid: '123545',
-                                                                info: {
-                                                                  name: "John Testerson",
-                                                                  nickname: 'JohnnyT',
-                                                                  email: 'example.oauth.facebook@example.com',
-                                                                  image: 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
-                                                                },
-                                                                credentials: {
-                                                                  token: "token",
-                                                                  secret: "donttell"
-                                                                }
+OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(provider: 'facebook',
+                                                              uid: '123545',
+                                                              info: {
+                                                                name: "John Testerson",
+                                                                nickname: 'JohnnyT',
+                                                                email: 'example.oauth.facebook@example.com',
+                                                                image: 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
+                                                              },
+                                                              credentials: {
+                                                                token: "token",
+                                                                secret: "donttell"
                                                               })

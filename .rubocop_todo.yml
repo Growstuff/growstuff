@@ -31,7 +31,6 @@ Lint/UnusedBlockArgument:
   Exclude:
     - 'app/controllers/crops_controller.rb'
     - 'app/controllers/sessions_controller.rb'
-    - 'config/unicorn.rb'
     - 'lib/haml/filters/growstuff_markdown.rb'
 
 # Offense count: 6
@@ -55,7 +54,7 @@ Lint/Void:
 # Offense count: 55
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
-  Exclude: 
+  Exclude:
     - '**/*'
 
 # Offense count: 2
@@ -122,13 +121,7 @@ Rails/TimeZone:
 # SupportedStyles: always, conditionals
 Style/AndOr:
   Exclude:
-    - 'config/unicorn.rb'
     - 'lib/tasks/growstuff.rake'
-
-# Offense count: 1
-Style/AsciiComments:
-  Exclude:
-    - 'config/initializers/comfortable_mexican_sofa.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
@@ -183,7 +176,6 @@ Style/BracesAroundHashParameters:
     - 'app/controllers/crops_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/helpers/application_helper.rb'
-    - 'config/environments/test.rb'
     - 'spec/controllers/admin/orders_controller_spec.rb'
     - 'spec/controllers/comments_controller_spec.rb'
     - 'spec/controllers/harvests_controller_spec.rb'
@@ -284,7 +276,6 @@ Style/IfUnlessModifier:
     - 'app/controllers/shop_controller.rb'
     - 'app/helpers/crops_helper.rb'
     - 'app/models/planting.rb'
-    - 'config/initializers/geocoder.rb'
     - 'lib/tasks/growstuff.rake'
 
 # Offense count: 7
@@ -460,7 +451,6 @@ Style/ParenthesesAroundCondition:
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/orders_controller.rb'
     - 'app/helpers/crops_helper.rb'
-    - 'config/factory_girl.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
@@ -549,7 +539,6 @@ Style/TrailingCommaInArguments:
 # SupportedStylesForMultiline: comma, consistent_comma, no_comma
 Style/TrailingCommaInLiteral:
   Exclude:
-    - 'config/environments/test.rb'
     - 'spec/rails_helper.rb'
 
 # Offense count: 1
