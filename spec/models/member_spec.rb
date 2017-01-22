@@ -5,10 +5,10 @@ describe 'member' do
     let(:member) { FactoryGirl.create(:member) }
 
     it 'should be fetchable from the database' do
-      @member2 = Member.find(member.id)
-      @member2.should be_an_instance_of Member
-      @member2.login_name.should match(/member\d+/)
-      @member2.encrypted_password.should_not be_nil
+      member2 = Member.find(member.id)
+      member2.should be_an_instance_of Member
+      member2.login_name.should match(/member\d+/)
+      member2.encrypted_password.should_not be_nil
     end
 
     it 'should have a friendly slug' do
@@ -30,7 +30,7 @@ describe 'member' do
 
     it "should have a default-type account by default" do
       member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
-      member.is_paid?.should be(false)
+      member.paid?.should be(false)
     end
 
     it "doesn't show email by default" do
@@ -43,8 +43,8 @@ describe 'member' do
     end
 
     it 'should be able to fetch posts' do
-      @post = FactoryGirl.create(:post, author: member)
-      member.posts.should eq [@post]
+      post = FactoryGirl.create(:post, author: member)
+      member.posts.should eq [post]
     end
 
     it 'should be able to fetch gardens' do
@@ -52,19 +52,19 @@ describe 'member' do
     end
 
     it 'has many plantings' do
-      @planting = FactoryGirl.create(:planting, owner: member)
+      FactoryGirl.create(:planting, owner: member)
       member.plantings.size.should eq 1
     end
 
     it "has many comments" do
-      @comment1 = FactoryGirl.create(:comment, author: member)
-      @comment2 = FactoryGirl.create(:comment, author: member)
+      FactoryGirl.create(:comment, author: member)
+      FactoryGirl.create(:comment, author: member)
       member.comments.size.should == 2
     end
 
     it "has many forums" do
-      @forum1 = FactoryGirl.create(:forum, owner: member)
-      @forum2 = FactoryGirl.create(:forum, owner: member)
+      FactoryGirl.create(:forum, owner: member)
+      FactoryGirl.create(:forum, owner: member)
       member.forums.size.should == 2
     end
 
@@ -110,10 +110,10 @@ describe 'member' do
 
   context 'newsletter scope' do
     it 'finds newsletter recipients' do
-      @member1 = FactoryGirl.create(:member)
-      @member2 = FactoryGirl.create(:newsletter_recipient_member)
-      Member.wants_newsletter.should include @member2
-      Member.wants_newsletter.should_not include @member1
+      member1 = FactoryGirl.create(:member)
+      member2 = FactoryGirl.create(:newsletter_recipient_member)
+      Member.wants_newsletter.should include member2
+      Member.wants_newsletter.should_not include member1
     end
   end
 
@@ -203,26 +203,26 @@ describe 'member' do
 
     it 'has a role' do
       member.roles.first.should eq role
-      member.has_role?(:moderator).should eq true
+      member.role?(:moderator).should eq true
     end
 
     it 'sets up roles in factories' do
-      @admin = FactoryGirl.create(:admin_member)
-      @admin.has_role?(:admin).should eq true
+      admin = FactoryGirl.create(:admin_member)
+      admin.role?(:admin).should eq true
     end
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
-      @role = FactoryGirl.create(:role, name: "a b c")
-      member.roles << @role
-      member.has_role?(:a_b_c).should eq true
+      role = FactoryGirl.create(:role, name: "a b c")
+      member.roles << role
+      member.role?(:a_b_c).should eq true
     end
   end
 
   context 'confirmed scope' do
     before(:each) do
-      @member1 = FactoryGirl.create(:member)
-      @member2 = FactoryGirl.create(:member)
+      FactoryGirl.create(:member)
+      FactoryGirl.create(:member)
     end
 
     it 'sees confirmed members' do
@@ -230,7 +230,7 @@ describe 'member' do
     end
 
     it 'ignores unconfirmed members' do
-      @member3 = FactoryGirl.create(:unconfirmed_member)
+      FactoryGirl.create(:unconfirmed_member)
       Member.confirmed.size.should == 2
     end
   end
@@ -238,29 +238,29 @@ describe 'member' do
   context 'located scope' do
     # located members must have location, lat, long
     it 'finds members who have locations' do
-      @london_member = FactoryGirl.create(:london_member)
-      Member.located.should include @london_member
+      london_member = FactoryGirl.create(:london_member)
+      Member.located.should include london_member
     end
 
     it 'ignores members with blank locations' do
-      @nowhere_member = FactoryGirl.create(:member)
-      Member.located.should_not include @nowhere_member
+      nowhere_member = FactoryGirl.create(:member)
+      Member.located.should_not include nowhere_member
     end
 
     it 'ignores members with blank lat/long' do
-      @london_member = FactoryGirl.create(:london_member)
-      @london_member.latitude = nil
-      @london_member.longitude = nil
-      @london_member.save(validate: false)
-      Member.located.should_not include @london_member
+      london_member = FactoryGirl.create(:london_member)
+      london_member.latitude = nil
+      london_member.longitude = nil
+      london_member.save(validate: false)
+      Member.located.should_not include london_member
     end
   end
 
   context 'near location' do
     it 'finds nearby members and sorts them' do
-      @edinburgh_member = FactoryGirl.create(:edinburgh_member)
-      @london_member = FactoryGirl.create(:london_member)
-      Member.nearest_to('Greenwich, UK').should eq [@london_member, @edinburgh_member]
+      edinburgh_member = FactoryGirl.create(:edinburgh_member)
+      london_member = FactoryGirl.create(:london_member)
+      Member.nearest_to('Greenwich, UK').should eq [london_member, edinburgh_member]
     end
   end
 
@@ -272,36 +272,38 @@ describe 'member' do
     # 4) ordered by the most recent sign in
 
     it 'finds interesting members' do
-      @member1 = FactoryGirl.create(:london_member)
-      @member2 = FactoryGirl.create(:london_member)
-      @member3 = FactoryGirl.create(:london_member)
-      @member4 = FactoryGirl.create(:unconfirmed_member)
+      members = [
+        :london_member, :london_member, :london_member,
+        :unconfirmed_member, # !1
+        :london_member,      # 1, 2, !3
+        :member              # 1, !2, 3
+      ].collect { |m| FactoryGirl.create(m) }
 
-      [@member1, @member2, @member3, @member4].each do |m|
-        FactoryGirl.create(:planting, owner: m)
+      [0, 1, 2, 3, 5].each do |i|
+        FactoryGirl.create(:planting, owner: members[i])
       end
 
-      @member1.updated_at = 3.days.ago
-      @member2.updated_at = 2.days.ago
-      @member3.updated_at = 1.day.ago
+      members[0].updated_at = 3.days.ago
+      members[1].updated_at = 2.days.ago
+      members[2].updated_at = 1.day.ago
 
-      Member.interesting.should eq [@member3, @member2, @member1]
+      Member.interesting.should eq [members[2], members[1], members[0]]
     end
   end
 
   context 'orders' do
     it 'finds the current order' do
-      @member = FactoryGirl.create(:member)
-      @order1 = FactoryGirl.create(:completed_order, member: @member)
-      @order2 = FactoryGirl.create(:order, member: @member)
-      @member.current_order.should eq @order2
+      member = FactoryGirl.create(:member)
+      FactoryGirl.create(:completed_order, member: member)
+      order2 = FactoryGirl.create(:order, member: member)
+      member.current_order.should eq order2
     end
 
     it "copes if there's no current order" do
-      @member = FactoryGirl.create(:member)
-      @order1 = FactoryGirl.create(:completed_order, member: @member)
-      @order2 = FactoryGirl.create(:completed_order, member: @member)
-      @member.current_order.should be_nil
+      member = FactoryGirl.create(:member)
+      FactoryGirl.create(:completed_order, member: member)
+      FactoryGirl.create(:completed_order, member: member)
+      member.current_order.should be_nil
     end
   end
 
@@ -309,41 +311,41 @@ describe 'member' do
     let(:member) { FactoryGirl.create(:member) }
 
     it "recognises a permanent paid account" do
-      @account_type = FactoryGirl.create(:account_type,
+      account_type = FactoryGirl.create(:account_type,
         is_paid: true, is_permanent_paid: true)
-      member.account.account_type = @account_type
-      member.is_paid?.should be(true)
+      member.account.account_type = account_type
+      member.paid?.should be(true)
     end
 
     it "recognises a current paid account" do
-      @account_type = FactoryGirl.create(:account_type,
+      account_type = FactoryGirl.create(:account_type,
         is_paid: true, is_permanent_paid: false)
-      member.account.account_type = @account_type
+      member.account.account_type = account_type
       member.account.paid_until = Time.zone.now + 1.month
-      member.is_paid?.should be(true)
+      member.paid?.should be(true)
     end
 
     it "recognises an expired paid account" do
-      @account_type = FactoryGirl.create(:account_type,
+      account_type = FactoryGirl.create(:account_type,
         is_paid: true, is_permanent_paid: false)
-      member.account.account_type = @account_type
+      member.account.account_type = account_type
       member.account.paid_until = Time.zone.now - 1.minute
-      member.is_paid?.should be(false)
+      member.paid?.should be(false)
     end
 
     it "recognises a free account" do
-      @account_type = FactoryGirl.create(:account_type,
+      account_type = FactoryGirl.create(:account_type,
         is_paid: false, is_permanent_paid: false)
-      member.account.account_type = @account_type
-      member.is_paid?.should be(false)
+      member.account.account_type = account_type
+      member.paid?.should be(false)
     end
 
     it "recognises a free account even with paid_until set" do
-      @account_type = FactoryGirl.create(:account_type,
+      account_type = FactoryGirl.create(:account_type,
         is_paid: false, is_permanent_paid: false)
-      member.account.account_type = @account_type
+      member.account.account_type = account_type
       member.account.paid_until = Time.zone.now + 1.month
-      member.is_paid?.should be(false)
+      member.paid?.should be(false)
     end
   end
 
@@ -406,6 +408,21 @@ describe 'member' do
       it 'returns nil for a member that is not followed' do
         expect(member1.get_follow(member3)).to be_nil
       end
+    end
+  end
+
+  context 'subscriptions' do
+    let(:member) { FactoryGirl.create(:member) }
+    let(:gb) { instance_double("Gibbon::API.new") }
+
+    it 'subscribes to the newsletter' do
+      expect(gb).to receive_message_chain('lists.subscribe')
+      member.newsletter_subscribe(gb, true)
+    end
+
+    it 'unsubscribes from the newsletter' do
+      expect(gb).to receive_message_chain('lists.unsubscribe')
+      member.newsletter_unsubscribe(gb, true)
     end
   end
 end
