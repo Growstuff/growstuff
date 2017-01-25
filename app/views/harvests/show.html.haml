@@ -27,7 +27,9 @@
 
     - if @planting
       %p
-        %b Garden:
+        %b Planting:
+        = link_to "#{@planting.crop.name} planted on #{@planting.planted_at}", planting_path(@planting)
+        in
         = link_to @planting.garden, garden_path(@planting.garden)
     %p
       %b Quantity:
