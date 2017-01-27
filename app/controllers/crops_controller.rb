@@ -16,6 +16,8 @@ class CropsController < ApplicationController
              end
     @paginated_crops = @crops.approved.paginate(page: params[:page])
 
+    @has_requested_pending = Crop.pending_approval.where(requester: current_member).count if current_member
+
     respond_to do |format|
       format.html
       format.json { render json: @crops }
@@ -29,6 +31,10 @@ class CropsController < ApplicationController
         render csv: @crops
       end
     end
+  end
+
+  def requested
+    @requested = Crop.pending_approval.where(requester: current_member).paginate(page: params[:page])
   end
 
   # GET /crops/wrangle
@@ -150,7 +156,7 @@ class CropsController < ApplicationController
         end
         unless current_member.role? :crop_wrangler
           Role.crop_wranglers.each do |w|
-            Notifier.new_crop_request(w, @crop).deliver_later!
+            Notifier.new_crop_request(w, @crop).deliver_now!
           end
         end
 
@@ -178,8 +184,8 @@ class CropsController < ApplicationController
         if previous_status == "pending"
           requester = @crop.requester
           new_status = @crop.approval_status
-          Notifier.crop_request_approved(requester, @crop).deliver_later! if new_status == "approved"
-          Notifier.crop_request_rejected(requester, @crop).deliver_later! if new_status == "rejected"
+          Notifier.crop_request_approved(requester, @crop).deliver_now! if new_status == "approved"
+          Notifier.crop_request_rejected(requester, @crop).deliver_now! if new_status == "rejected"
         end
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }

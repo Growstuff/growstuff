@@ -113,11 +113,13 @@ group :development, :test do
   gem 'capybara-email'                  # integration tests for email
   gem 'capybara-screenshot'             # for test debugging
   gem 'coveralls', require: false       # coverage analysis
+  gem 'd3-rails'                        # charting
   gem 'database_cleaner', '~> 1.5.0'
   gem 'factory_girl_rails'              # for creating test data
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+  gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'                     # unit testing framework
