@@ -67,13 +67,25 @@ class CropsController < ApplicationController
 
   # GET /crops/search
   def search
+    exact_search = params[:exact_search] || false
     @term = params[:term]
-    @matches = Crop.search(@term)
-    @paginated_matches = @matches.paginate(page: params[:page])
+
+    if exact_search
+      @exact_match = Crop.find_by(:name => @term) || false
+    end
+
+    unless @exact_match
+      @matches = Crop.search(@term)
+      @paginated_matches = @matches.paginate(:page => params[:page])
+    end
 
     respond_to do |format|
-      format.html
-      format.json { render json: @matches }
+      if exact_search && @exact_match.present?
+        format.html { redirect_to @exact_match }
+      else
+        format.html
+      end
+      format.json { render :json => @matches }
     end
   end
 

@@ -1,0 +1,8 @@
+.find-growers
+
+  #placesmap
+
+  .centered-relative
+    .banner-form-group.contrast-screen-dark
+      = label_tag :new_place, t('.label'), :class => 'against-image-text' 
+      = text_field_tag :new_place, '', :class => 'form-control', :placeholder => t('.placeholder')

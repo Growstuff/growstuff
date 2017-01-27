@@ -124,6 +124,23 @@ en:
       message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}.
       number_crops_linktext: "%{count} crops"
       number_gardens_linktext: "%{count} gardens"
+    crops:
+      label: "What do you want to grow?"
+      placeholder: "eg. lettuce"
+
+    find_growers:
+      label: "Find growers near you"
+      placeholder: "eg. Ballarat"
+
+    index:
+      welcome: "Welcome to %{site_name}, %{member_name}"
+      plant: "Plant"
+      harvest: "Harvest"
+      add_seeds: "Add seeds"
+      post: "Post"
+      edit_profile: "Edit profile"
+      image_attribution: "CC-BY thebittenword.com"
+
       number_plantings_linktext: "%{count} times"
   layouts:
     header:

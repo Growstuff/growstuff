@@ -108,3 +108,4 @@ module Growstuff
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
+require './app/constants/photo_models'
