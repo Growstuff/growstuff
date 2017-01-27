@@ -40,6 +40,7 @@ class Ability
 
     # members can see even rejected or pending crops if they requested it
     can :read, Crop, requester_id: member.id
+    can :requested, Crop # see list of crops they've requested
 
     # managing your own user settings
     can :update, Member, id: member.id
