@@ -277,6 +277,19 @@ ActiveRecord::Schema.define(version: 20170104035248) do
 
   add_index "harvests_photos", ["harvest_id", "photo_id"], name: "index_harvests_photos_on_harvest_id_and_photo_id", using: :btree
 
+  create_table "likes", force: :cascade do |t|
+    t.integer  "member_id"
+    t.integer  "likeable_id"
+    t.string   "likeable_type"
+    t.string   "categories",    array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "likes", ["likeable_id"], name: "index_likes_on_likeable_id", using: :btree
+  add_index "likes", ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id", using: :btree
+  add_index "likes", ["member_id"], name: "index_likes_on_member_id", using: :btree
+
   create_table "members", force: :cascade do |t|
     t.string   "email",                   default: "",   null: false
     t.string   "encrypted_password",      default: "",   null: false
