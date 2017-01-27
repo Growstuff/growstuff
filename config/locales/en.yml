@@ -42,6 +42,10 @@ en:
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
+    requested:
+      link: You have %{number_crops} crops awaiting approval
+      subtitle: Pending approval
+      title: Requested crops
   forms:
     optional: "(Optional)"
   forums:
@@ -131,7 +135,7 @@ en:
       community_map: Community Map
       crop_wrangling: Crop Wrangling
       crops: Crops
-      current_memberlogin_name: '%{current_memberlogin_name}'
+      current_memberlogin_name: "%{current_memberlogin_name}"
       forums: Forums
       gardens: Gardens
       harvest: Harvest
@@ -160,16 +164,15 @@ en:
     welcome: Welcome
   photos:
     show:
-      thing_by: A %{thing} by %{owner}
-      garden:   "garden named \"%{garden}\" by %{owner}"
-      harvest:  "%{crop} harvest by %{owner}"
+      garden: garden named "%{garden}" by %{owner}
+      harvest: "%{crop} harvest by %{owner}"
       planting: "%{planting}"
-      seed:     "%{seed}"
+      seed: "%{seed}"
+      thing_by: A %{thing} by %{owner}
   places:
     index:
       title: "%{site_name} Community Map"
   plantings:
-    string: "%{crop} planting in %{garden} by %{owner}"
     form:
       finish_helper: A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise no longer growing in your garden.
     index:
@@ -177,13 +180,13 @@ en:
         crop_plantings: Everyone's %{crop} plantings
         default: Everyone's plantings
         owner_plantings: "%{owner} plantings"
+    string: "%{crop} planting in %{garden} by %{owner}"
   posts:
     index:
       title:
         author_posts: "%{author} posts"
         default: Everyone's posts
   seeds:
-    string: "%{crop} seeds belonging to %{owner}"
     form:
       trade_help: Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
     index:
@@ -191,6 +194,7 @@ en:
         crop_seeds: Everyone's %{crop} seeds
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
+    string: "%{crop} seeds belonging to %{owner}"
   shop:
     index:
       title: Shop
