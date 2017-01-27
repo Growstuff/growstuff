@@ -54,6 +54,8 @@ submit the change with your pull request.
 - Rocky Jaiswal / [rocky-jaiswal](https://github.com/rocky-jaiswal)
 - Robert Landreaux / [robertlandreaux](https://github.com/robertlandreaux)
 - Savant Krishna / [sksavant](https://github.com/sksavant)
+- Marlena Compton / [marlena](https://github/marlena)
+- Ryan Dy / [rdy](https://github/rdy)
 - Jake Yesbeck / [yez](https://github.com/yez)
 - Mauricio Gonzalez / [mauricio-gonzalez](https://github.com/mauricio-gonzalez)
 - Andrey Bazhutkin / [andrba](https://github.com/andrba)
@@ -73,3 +75,4 @@ submit the change with your pull request.
 - Kristine Nicole Polvoriza / [polveenomials](https://github.com/polveenomials)
 - Brenda Wallace / [br3nda](https://github.com/br3nda)
 - Jim Stallings / [jestallin](https://github.com/jestallin)
+
