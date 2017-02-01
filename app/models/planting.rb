@@ -112,6 +112,17 @@ class Planting < ActiveRecord::Base
     planted_at.present? && current_date.to_date >= planted_at
   end
 
+  def days_until_finished
+    return 0 if finished?
+    days = (finished_at - Date.current).to_i
+    days.positive? ? days : 0
+  end
+
+  def days_until_mature
+    days = ((planted_at + days_before_maturity) - Date.current).to_i
+    days.positive? ? days : 0
+  end
+
   def percentage_grown(current_date = Date.current)
     return nil unless days_before_maturity && planted?(current_date)
 
