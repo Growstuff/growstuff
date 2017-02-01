@@ -28,6 +28,13 @@ feature "Planting a crop", js: true do
     expect(page).not_to have_content "Mark as inactive"
   end
 
+  scenario "List only active gardens" do
+    visit garden_path(garden)
+    click_link "Mark as inactive"
+    visit gardens_path
+    expect(page).not_to have_link garden_path(garden)
+  end
+
   scenario "Create new garden" do
     visit new_garden_path
     fill_in "Name", with: "New garden"
