@@ -4,9 +4,10 @@ app:
   build: .
   # sources environment variable configuration for our app
   env_file: .env
-  # rely on the RAILS_ENV value of the host machine
+  # hard-code RAILS_ENV for testing
   environment:
-    RAILS_ENV: $RAILS_ENV
+    RAILS_ENV: development
+    POSTGRES_PASSWORD: docker
   # makes the app container aware of the DB container
   links:
     - db
@@ -23,6 +24,9 @@ db:
   # persist the database between containers by storing it in a volume
   volumes:
     - postgres-data:/var/lib/postgresql/data
+  environment:
+    POSTGRES_PASSWORD: docker
+    POSTGRES_USER: postgres
 
 # Elasticsearch full-text search engine
 elasticsearch:
