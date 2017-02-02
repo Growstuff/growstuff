@@ -82,32 +82,38 @@ class Harvest < ActiveRecord::Base
   def to_s
     # 50 individual apples, weighing 3lb
     # 2 buckets of apricots, weighing 10kg
-    string = ''
-    if quantity
-      string += "#{number_to_human(quantity.to_s, strip_insignificant_zeros: true)} "
-      string += if unit == 'individual'
-                  'individual '
-                elsif quantity == 1
-                  "#{unit} of "
-                else
-                  "#{unit.pluralize} of "
-                end
+    "#{quantity_to_human} #{unit_to_human} #{crop_name_to_human} #{weight_to_human}".strip
+  end
+
+  def quantity_to_human
+    return number_to_human(quantity.to_s, strip_insignificant_zeros: true) if quantity
+    ""
+  end
+
+  def unit_to_human
+    return "" unless quantity
+    if unit == 'individual'
+      'individual'
+    elsif quantity == 1
+      "#{unit} of"
+    else
+      "#{unit.pluralize} of"
     end
+  end
 
-    string += if unit != 'individual' # buckets of apricot*s*
-                crop.name.pluralize.to_s
-              elsif quantity == 1
-                crop.name.to_s
-              else
-                crop.name.pluralize.to_s
-              end
+  def weight_to_human
+    return "" unless weight_quantity
+    "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
+  end
 
-    if weight_quantity
-      string += " weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)}"\
-        " #{weight_unit}"
-    end
-
-    string
+  def crop_name_to_human
+    if unit != 'individual' # buckets of apricot*s*
+      crop.name.pluralize
+    elsif quantity == 1
+      crop.name
+    else
+      crop.name.pluralize
+    end.to_s
   end
 
   def default_photo
