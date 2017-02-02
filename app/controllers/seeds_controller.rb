@@ -7,7 +7,7 @@ class SeedsController < ApplicationController
   def index
     @owner = Member.find_by(slug: params[:owner])
     @crop = Crop.find_by(slug: params[:crop])
-    @seeds = seeds
+    @seeds = seeds(owner: @owner, crop: @crop)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -104,11 +104,11 @@ class SeedsController < ApplicationController
       :heirloom, :tradable_to, :slug)
   end
 
-  def seeds
-    if @owner
-      @owner.seeds
-    elsif @crop
-      @crop.seeds
+  def seeds(owner: nil, crop: nil)
+    if owner
+      owner.seeds
+    elsif crop
+      crop.seeds
     else
       Seed
     end.includes(:owner, :crop).paginate(page: params[:page])

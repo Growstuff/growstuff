@@ -6,11 +6,8 @@ class GardensController < ApplicationController
   # GET /gardens.json
   def index
     @owner = Member.find_by(slug: params[:owner])
-    @gardens = if @owner
-                 @owner.gardens.paginate(page: params[:page])
-               else
-                 Garden.paginate(page: params[:page])
-               end
+    @show_all = params[:all] == '1'
+    @gardens = gardens
 
     respond_to do |format|
       format.html # index.html.erb
@@ -92,5 +89,13 @@ class GardensController < ApplicationController
   def garden_params
     params.require(:garden).permit(:name, :slug, :owner_id, :description, :active,
       :location, :latitude, :longitude, :area, :area_unit)
+  end
+
+  def gardens
+    g = @owner ? @owner.gardens : Garden.all
+    g = g.active unless @show_all
+    g = g.includes(:owner).order(:name)
+    g = g.paginate(page: params[:page])
+    g
   end
 end
