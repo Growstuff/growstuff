@@ -124,16 +124,14 @@ class PlantingsController < ApplicationController
   end
 
   def plantings
-    @plantings = if @owner
-                   @owner.plantings
-                 elsif @crop
-                   @crop.plantings
-                 else
-                   Planting
-                 end
-
-    @plantings = @plantings.current unless @show_all
-    @plantings = @plantings.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
-    @plantings
+    p = if @owner
+          @owner.plantings
+        elsif @crop
+          @crop.plantings
+        else
+          Planting
+        end
+    p = p.current unless @show_all
+    p.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
   end
 end
