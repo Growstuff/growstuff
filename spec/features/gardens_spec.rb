@@ -13,9 +13,9 @@ feature "Planting a crop", js: true do
   scenario "View gardens" do
     visit gardens_path
     expect(page).to have_content "Everyone's gardens"
-    click_link "View your gardens"
+    click_link "My Gardens"
     expect(page).to have_content "#{garden.owner.login_name}'s gardens"
-    click_link "View everyone's gardens"
+    click_link "Everyone's gardens"
     expect(page).to have_content "Everyone's gardens"
   end
 
@@ -26,6 +26,13 @@ feature "Planting a crop", js: true do
     expect(page).to have_content "This garden is inactive"
     expect(page).to have_content "Mark as active"
     expect(page).not_to have_content "Mark as inactive"
+  end
+
+  scenario "List only active gardens" do
+    visit garden_path(garden)
+    click_link "Mark as inactive"
+    visit gardens_path
+    expect(page).not_to have_link garden_path(garden)
   end
 
   scenario "Create new garden" do
