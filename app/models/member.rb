@@ -221,10 +221,13 @@ class Member < ActiveRecord::Base
   end
 
   def update_newsletter_subscription
+    return unless confirmed_at_changed? || newsletter_changed?
+
     if newsletter
       newsletter_subscribe if confirmed_at_changed? || confirmed_at && newsletter_changed?
+    elsif confirmed_at
+      newsletter_unsubscribe
     end
-    newsletter_unsubscribe if confirmed_at && newsletter_changed? && !newsletter
   end
 
   def newsletter_subscribe(gb = Gibbon::API.new, testing = false)
