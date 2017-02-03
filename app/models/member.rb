@@ -222,7 +222,7 @@ class Member < ActiveRecord::Base
 
   def update_newsletter_subscription
     if newsletter
-      newsletter_subscribe confirmed_at_changed? || confirmed_at && newsletter_changed?
+      newsletter_subscribe if confirmed_at_changed? || confirmed_at && newsletter_changed?
     end
     newsletter_unsubscribe if confirmed_at && newsletter_changed? && !newsletter
   end
