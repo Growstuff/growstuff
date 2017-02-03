@@ -1,7 +1,7 @@
 - content_for :title, "Listing alternate names"
 
 - if can? :create, AlternateName
-  %p= link_to 'New alternate name', new_alternate_name_path, :class => 'btn btn-primary'
+  %p= link_to 'New alternate name', new_alternate_name_path, class: 'btn btn-primary'
 
 %table
   %tr
@@ -17,7 +17,10 @@
       %td= link_to 'Show', alternate_name
       %td
         - if can? :edit, alternate_name
-          = link_to 'Edit', edit_alternate_name_path(alternate_name), :class => 'btn btn-default btn-xs'
+          = link_to 'Edit', edit_alternate_name_path(alternate_name), class: 'btn btn-default btn-xs'
       %td
         - if can? :destroy, alternate_name
-          = link_to 'Delete', alternate_name, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+          = link_to 'Delete', alternate_name,
+                     method: :delete,
+                     data: { confirm: 'Are you sure?' },
+                     class: 'btn btn-default btn-xs'
