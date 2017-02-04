@@ -3,7 +3,7 @@
     #error_explanation
       %h2
         = pluralize(@account_type.errors.size, "error")
-        prohibited this account_type from being saved:"
+        prohibited this account_type from being saved:
       %ul
         - @account_type.errors.full_messages.each do |msg|
           %li= msg

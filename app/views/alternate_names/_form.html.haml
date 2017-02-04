@@ -3,7 +3,7 @@
     #error_explanation
       %h2
         = pluralize(@alternate_name.errors.size, "error")
-        prohibited this alternate_name from being saved:"
+        prohibited this alternate_name from being saved:
       %ul
         - @alternate_name.errors.full_messages.each do |msg|
           %li= msg

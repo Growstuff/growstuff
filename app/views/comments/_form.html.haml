@@ -3,7 +3,7 @@
     #error_explanation
       %h2
         = pluralize(@comment.errors.size, "error")
-        prohibited this comment from being saved:"
+        prohibited this comment from being saved:
       %ul
         - @comment.errors.full_messages.each do |msg|
           %li= msg
