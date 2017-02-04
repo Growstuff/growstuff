@@ -1,6 +1,6 @@
 = content_for :title, "Recent comments"
 
-%div.pagination
+.pagination
   = page_entries_info @comments
   = will_paginate @comments
 
@@ -8,13 +8,13 @@
   %h2
     Comment on
     = link_to comment.post.subject, comment.post
-  = render :partial => "single", :locals => { :comment => comment }
+  = render partial: "single", locals: { comment: comment }
 
-%div.pagination
+.pagination
   = page_entries_info @comments
   = will_paginate @comments
 
 %p
   Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
   = succeed "." do
-    = link_to "comments RSS feed", comments_path(:format => 'rss')
+    = link_to "comments RSS feed", comments_path(format: 'rss')
