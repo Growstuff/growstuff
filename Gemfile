@@ -119,6 +119,7 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.5.0'
   gem 'factory_girl_rails'              # for creating test data
   gem 'haml-i18n-extractor'
+  gem 'haml_lint'                       # Checks haml files for goodness
   gem 'haml-rails'                      # HTML templating language
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'jasmine'                         # javascript unit testing

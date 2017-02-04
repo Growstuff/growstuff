@@ -9,7 +9,7 @@
 .row
   - @requested.each do |crop|
     .col-md-2.six-across
-      = render :partial => "thumbnail", :locals => { :crop => crop }
+      = render partial: "thumbnail", locals: { crop: crop }
 
 %div.pagination
   = will_paginate @requested

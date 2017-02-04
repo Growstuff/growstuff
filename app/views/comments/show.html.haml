@@ -8,10 +8,10 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-= render :partial => "posts/single", :locals => { :post => @comment.post }
+= render partial: "posts/single", locals: { post: @comment.post }
 
 %h2 Showing 1 comment
 
-= render :partial => "single", :locals => { :comment => @comment }
+= render partial: "single", locals: { comment: @comment }
 
-=link_to "View all comments", post_path(@comment.post)
+= link_to "View all comments", post_path(@comment.post)

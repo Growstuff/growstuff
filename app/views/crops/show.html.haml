@@ -8,18 +8,18 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-= render :partial => 'approval_status_message', :locals => { :crop => @crop }
+= render partial: 'approval_status_message', locals: { crop: @crop }
 
 - if @crop.approved?
   - content_for :buttonbar do
     - if can? :create, Planting
-      = link_to "Plant this", new_planting_path(:crop_id => @crop.id), :class => 'btn btn-default'
+      = link_to "Plant this", new_planting_path(crop_id: @crop.id), class: 'btn btn-default'
 
     - if can? :create, Harvest
-      = link_to "Harvest this", new_harvest_path(:crop_id => @crop.id), :class => 'btn btn-default'
+      = link_to "Harvest this", new_harvest_path(crop_id: @crop.id), class: 'btn btn-default'
 
     - if can? :create, Seed
-      = link_to 'Add seeds to stash', new_seed_path(:params => { :crop_id => @crop.id }), :class => 'btn btn-default'
+      = link_to 'Add seeds to stash', new_seed_path(:params => { crop_id: @crop.id }), class: 'btn btn-default'
   - if member_signed_in?
     = display_seed_availability(@current_member, @crop)
     = link_to "View your seeds", seeds_by_owner_path(:owner => current_member.slug)
@@ -29,7 +29,7 @@
     - unless current_member
       Learn how to grow #{ @crop.name.pluralize } from growers around the world. #{ ENV['GROWSTUFF_SITE_NAME'] } has tips and advice from real-life growers, including when to plant #{ @crop.name.pluralize }, how to harvest #{ @crop.name.pluralize }, and more.
 
-    = render :partial => 'photos', :locals => { :crop => @crop }
+    = render partial: 'photos', locals: { crop: @crop }
 
     %h2
       - if @crop.plantings.size > 0
@@ -64,38 +64,38 @@
         Nobody has posted about #{ @crop.name.pluralize } yet.
       %p
         - if can? :create, Post
-          = link_to "Post something", new_post_path, :class => 'btn btn-default'
+          = link_to "Post something", new_post_path, class: 'btn btn-default'
         - else
-          = render :partial => "shared/signin_signup", :locals => { :to => "post your tips and experiences growing #{ @crop.name.pluralize }" }
+          = render partial: "shared/signin_signup", locals: {to: "post your tips and experiences growing #{ @crop.name.pluralize }" }
     - else
-      %div.pagination
+      .pagination
         = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
       - @posts.each do |post|
-        = render :partial => "posts/single", :locals => { :post => post, :subject => true }
+        = render partial: "posts/single", locals: { post: post, subject: true }
 
-      %div.pagination
+      .pagination
         = page_entries_info @posts
         = will_paginate @posts, :params => {:anchor => "posts"}
 
   .col-md-3
 
-    = render :partial => 'wrangle', :locals => { :crop => @crop }
+    = render partial: 'wrangle', locals: { crop: @crop }
 
     %h4 How to grow #{ @crop.name.pluralize }
 
-    = render :partial => 'grown_for', :locals => { :crop => @crop }
-    = render :partial => 'planting_advice', :locals => { :crop => @crop }
+    = render partial: 'grown_for', locals: { crop: @crop }
+    = render partial: 'planting_advice', locals: { crop: @crop }
 
-    = render :partial => 'scientific_names', :locals => { :crop => @crop }
-    = render :partial => 'alternate_names', :locals => { :crop => @crop }
+    = render partial: 'scientific_names', locals: { crop: @crop }
+    = render partial: 'alternate_names', locals: { crop: @crop }
 
     %h4 #{ @crop.name.capitalize } varieties
-    = render :partial => 'varieties', :locals => { :crop => @crop }
+    = render partial: 'varieties', locals: { crop: @crop }
 
-    = render :partial => 'plantings', :locals => { :crop => @crop }
-    = render :partial => 'harvests', :locals => { :crop => @crop }
-    = render :partial => 'find_seeds', :locals => { :crop => @crop }
+    = render partial: 'plantings', locals: { crop: @crop }
+    = render partial: 'harvests', locals: { crop: @crop }
+    = render partial: 'find_seeds', locals: { crop: @crop }
 
 
     %h4 Learn more about #{ @crop.name.pluralize }

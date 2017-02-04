@@ -7,7 +7,7 @@
 
 %p#notice= notice
 
-= render :partial => 'crops/approval_status_message', :locals => { :crop => @alternate_name.crop }
+= render partial: 'crops/approval_status_message', locals: { crop: @alternate_name.crop }
 
 %p
   %b Alternate name:
@@ -17,6 +17,6 @@
   = link_to @alternate_name.crop, @alternate_name.crop
 
 - if can? :edit, @alternate_name
-  = link_to 'Edit', edit_alternate_name_path(@alternate_name), :class => 'btn btn-default btn-xs'
+  = link_to 'Edit', edit_alternate_name_path(@alternate_name), class: 'btn btn-default btn-xs'
   \|
 = link_to 'Back', alternate_names_path
