@@ -16,7 +16,7 @@
       %td= account_type.is_permanent_paid
       %td= link_to 'Show', account_type
       %td= link_to 'Edit', edit_account_type_path(account_type)
-      %td= link_to 'Destroy', account_type, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td= link_to 'Destroy', account_type, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 

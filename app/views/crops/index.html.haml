@@ -2,7 +2,7 @@
 - content_for :subtitle, t('.subtitle', crops_size: @crops.size)
 
 - if can? :wrangle, Crop
-  = link_to 'Wrangle Crops', wrangle_crops_path, :class => 'btn btn-primary'
+  = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-primary'
 
 - if @has_requested_pending
   = link_to(I18n.t('crops.requested.link', number_crops: @has_requested_pending), requested_crops_path)
@@ -12,30 +12,30 @@
   View any crop page to see which of our members have planted it and find
   information on how to grow it yourself.
 
-= form_tag(crops_path, :method => :get, :class => 'form-inline', :role => 'form') do
+= form_tag(crops_path, method: :get, class: 'form-inline', role: 'form') do
   .form-group
-    = label_tag :sort, "Sort by:", :class => 'sr-only'
-    = select_tag "sort", options_for_select({"Sort by popularity" => 'popular', "Sort alphabetically" => 'alpha'}, @sort || 'popular'), :class => 'form-control'
-  = submit_tag "Show", :class => 'btn btn-primary'
+    = label_tag :sort, "Sort by:", class: 'sr-only'
+    = select_tag "sort", options_for_select({"Sort by popularity" => 'popular', "Sort alphabetically" => 'alpha'}, @sort || 'popular'), class: 'form-control'
+  = submit_tag "Show", class: 'btn btn-primary'
 
-%div.pagination
+.pagination
   = will_paginate @paginated_crops
 
 .row
   - @paginated_crops.each do |crop|
     .col-md-2.six-across
-      = render :partial => "thumbnail", :locals => { :crop => crop }
+      = render partial: "thumbnail", locals: { crop: crop }
 
 - if can? :create, Crop
   %div
-    = link_to 'New Crop', new_crop_path, {:class => 'btn btn-primary'}
+    = link_to 'New Crop', new_crop_path, { class: 'btn btn-primary'}
 
-%div.pagination
+.pagination
   = will_paginate @paginated_crops
 
 
 %ul.list-inline
   %li The data on this page is available in the following formats:
-  %li= link_to "CSV", crops_path(:format => 'csv')
-  %li= link_to "JSON", crops_path(:format => 'json')
-  %li= link_to "RSS", crops_path(:format => 'rss')
+  %li= link_to "CSV", crops_path(format: 'csv')
+  %li= link_to "JSON", crops_path(format: 'json')
+  %li= link_to "RSS", crops_path(format: 'rss')

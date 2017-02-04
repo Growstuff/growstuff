@@ -217,6 +217,11 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
+    haml_lint (0.20.0)
+      haml (~> 4.0)
+      rake (>= 10, < 13)
+      rubocop (>= 0.47.0)
+      sysexits (~> 1.1)
     hashie (3.4.6)
     heroku-api (0.4.2)
       excon (~> 0.45)
@@ -465,6 +470,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sysexits (1.2.0)
     term-ansicolor (1.4.0)
       tins (~> 1.0)
     terminal-table (1.7.3)
@@ -543,6 +549,7 @@ DEPENDENCIES
   haml
   haml-i18n-extractor
   haml-rails
+  haml_lint
   heroku-api
   i18n-tasks
   jasmine
