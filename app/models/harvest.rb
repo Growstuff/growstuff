@@ -7,6 +7,7 @@ class Harvest < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, class_name: 'Member'
   belongs_to :plant_part
+  belongs_to :planting
 
   default_scope { order('created_at DESC') }
 
@@ -19,7 +20,8 @@ class Harvest < ActiveRecord::Base
   validates :quantity,
     numericality: {
       only_integer: false,
-      greater_than_or_equal_to: 0 },
+      greater_than_or_equal_to: 0
+    },
     allow_nil: true
 
   UNITS_VALUES = {
@@ -33,7 +35,7 @@ class Harvest < ActiveRecord::Base
     "buckets" => "bucket",
     "baskets" => "basket",
     "bushels" => "bushel"
-  }
+  }.freeze
   validates :unit, inclusion: { in: UNITS_VALUES.values,
                                 message: "%{value} is not a valid unit" },
                    allow_nil: true,
@@ -47,7 +49,7 @@ class Harvest < ActiveRecord::Base
     "kg" => "kg",
     "lb" => "lb",
     "oz" => "oz"
-  }
+  }.freeze
   validates :weight_unit, inclusion: { in: WEIGHT_UNITS_VALUES.values,
                                        message: "%{value} is not a valid unit" },
                           allow_nil: true,
@@ -60,52 +62,58 @@ class Harvest < ActiveRecord::Base
   # we're storing the harvest weight in kilograms in the db too
   # to make data manipulation easier
   def set_si_weight
-    return if self.weight_unit.nil?
-    weight_string = "#{self.weight_quantity} #{self.weight_unit}"
+    return if weight_unit.nil?
+    weight_string = "#{weight_quantity} #{weight_unit}"
     self.si_weight = Unit.new(weight_string).convert_to("kg").to_s("%0.3f").delete(" kg").to_f
   end
 
   def cleanup_quantities
-    self.quantity = nil if quantity == 0
+    self.quantity = nil if quantity && quantity.zero?
     self.unit = nil if quantity.blank?
-    self.weight_quantity = nil if weight_quantity == 0
+    self.weight_quantity = nil if weight_quantity && weight_quantity.zero?
     self.weight_unit = nil if weight_quantity.blank?
   end
 
   def harvest_slug
-    "#{owner.login_name}-#{crop}".downcase.gsub(' ', '-')
+    "#{owner.login_name}-#{crop}".downcase.tr(' ', '-')
   end
 
   # stringify as "beet in Skud's backyard" or similar
   def to_s
     # 50 individual apples, weighing 3lb
     # 2 buckets of apricots, weighing 10kg
-    string = ''
-    if self.quantity
-      string += "#{number_to_human(self.quantity.to_s, strip_insignificant_zeros: true)} "
-      string += if self.unit == 'individual'
-                  'individual '
-                elsif self.quantity == 1
-                  "#{self.unit} of "
-                else
-                  "#{self.unit.pluralize} of "
-                end
+    "#{quantity_to_human} #{unit_to_human} #{crop_name_to_human} #{weight_to_human}".strip
+  end
+
+  def quantity_to_human
+    return number_to_human(quantity.to_s, strip_insignificant_zeros: true) if quantity
+    ""
+  end
+
+  def unit_to_human
+    return "" unless quantity
+    if unit == 'individual'
+      'individual'
+    elsif quantity == 1
+      "#{unit} of"
+    else
+      "#{unit.pluralize} of"
     end
+  end
 
-    string += if self.unit != 'individual' # buckets of apricot*s*
-                "#{self.crop.name.pluralize}"
-              elsif self.quantity == 1
-                "#{self.crop.name}"
-              else
-                "#{self.crop.name.pluralize}"
-              end
+  def weight_to_human
+    return "" unless weight_quantity
+    "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
+  end
 
-    if self.weight_quantity
-      string += " weighing #{number_to_human(self.weight_quantity, strip_insignificant_zeros: true)}"\
-        " #{self.weight_unit}"
-    end
-
-    string
+  def crop_name_to_human
+    if unit != 'individual' # buckets of apricot*s*
+      crop.name.pluralize
+    elsif quantity == 1
+      crop.name
+    else
+      crop.name.pluralize
+    end.to_s
   end
 
   def default_photo

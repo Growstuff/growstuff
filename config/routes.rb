@@ -1,4 +1,4 @@
-Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
+Growstuff::Application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
@@ -20,7 +20,9 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   resources :authentications, only: [:create, :destroy]
 
-  resources :plantings
+  resources :plantings do
+    resources :harvests
+  end
   get '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
   get '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
 
@@ -41,6 +43,7 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources :scientific_names
   resources :alternate_names
 
+  get 'crops/requested' => 'crops#requested', :as => 'requested_crops'
   get 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
   get 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'
   get 'crops/search' => 'crops#search', :as => 'crops_search'
@@ -71,6 +74,8 @@ Growstuff::Application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   resources :order_items
   resources :products
+
+  resources :likes, only: [:create, :destroy]
 
   get "home/index"
   root to: 'home#index'

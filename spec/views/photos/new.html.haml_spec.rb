@@ -35,7 +35,7 @@ describe "photos/new" do
 
   context "user has photosets" do
     before(:each) do
-      assign(:sets, { "foo" => "bar" }) # Hash of names => IDs
+      assign(:sets, "foo" => "bar") # Hash of names => IDs
     end
 
     it "shows a dropdown with sets from Flickr" do

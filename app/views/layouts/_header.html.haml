@@ -67,11 +67,11 @@
                   = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count), notifications_path)
                 - else
                   = link_to(t('.inbox'), notifications_path)
-              - if current_member.has_role?(:crop_wrangler) || current_member.has_role?(:admin)
+              - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
                 %li{:class => 'divider', :role => 'presentation'}
-                - if current_member.has_role?(:crop_wrangler)
+                - if current_member.role?(:crop_wrangler)
                   %li= link_to t('.crop_wrangling'), wrangle_crops_path
-                - if current_member.has_role?(:admin)
+                - if current_member.role?(:admin)
                   %li= link_to t('.admin'), admin_path
 
 

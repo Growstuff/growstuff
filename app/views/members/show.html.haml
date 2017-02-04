@@ -10,7 +10,7 @@
 - content_for :buttonbar do
   - if can? :update, @member
     = link_to 'Edit profile', edit_member_registration_path, :class => 'btn btn-default'
-  - if @member == current_member && !@member.is_paid?
+  - if @member == current_member && !@member.paid?
     = link_to "Upgrade account", shop_path, :class => 'btn btn-default'
   - if can? :create, Notification and current_member != @member
     = link_to 'Send message', new_notification_path(:recipient_id => @member.id), :class => 'btn btn-default'
@@ -28,11 +28,9 @@
 .row
 
   .col-md-9
-
-    = render :partial => "map", :locals => { :member => @member }
-    = render :partial => "bio", :locals => { :member => @member }
-    = render :partial => "gardens", :locals => { :member => @member }
-
+    = render partial: "map", locals: { member: @member }
+    = render partial: "bio", locals: { member: @member }
+    = render partial: "gardens", locals: { member: @member, gardens: @gardens }
   .col-md-3
     = render :partial => "avatar", :locals => { :member => @member }
     = render :partial => "account", :locals => { :member => @member }

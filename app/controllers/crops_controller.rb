@@ -10,11 +10,13 @@ class CropsController < ApplicationController
   def index
     @sort = params[:sort]
     @crops = if @sort == 'alpha'
-               Crop.includes(:scientific_names, { plantings: :photos })
+               Crop.includes(:scientific_names, plantings: :photos)
              else
                popular_crops
              end
     @paginated_crops = @crops.approved.paginate(page: params[:page])
+
+    @has_requested_pending = Crop.pending_approval.where(requester: current_member).count if current_member
 
     respond_to do |format|
       format.html
@@ -29,6 +31,10 @@ class CropsController < ApplicationController
         render csv: @crops
       end
     end
+  end
+
+  def requested
+    @requested = Crop.pending_approval.where(requester: current_member).paginate(page: params[:page])
   end
 
   # GET /crops/wrangle
@@ -74,7 +80,7 @@ class CropsController < ApplicationController
   # GET /crops/1
   # GET /crops/1.json
   def show
-    @crop = Crop.includes(:scientific_names, { plantings: :photos }).find(params[:id])
+    @crop = Crop.includes(:scientific_names, plantings: :photos).find(params[:id])
     @posts = @crop.posts.paginate(page: params[:page])
 
     respond_to do |format|
@@ -119,7 +125,7 @@ class CropsController < ApplicationController
   def create
     @crop = Crop.new(crop_params)
 
-    if current_member.has_role? :crop_wrangler
+    if current_member.role? :crop_wrangler
       @crop.creator = current_member
       success_msg = "Crop was successfully created."
     else
@@ -136,9 +142,9 @@ class CropsController < ApplicationController
         params[:sci_name].each do |index, value|
           create_name('scientific', value)
         end
-        unless current_member.has_role? :crop_wrangler
+        unless current_member.role? :crop_wrangler
           Role.crop_wranglers.each do |w|
-            Notifier.new_crop_request(w, @crop).deliver_later!
+            Notifier.new_crop_request(w, @crop).deliver_now!
           end
         end
 
@@ -166,8 +172,8 @@ class CropsController < ApplicationController
         if previous_status == "pending"
           requester = @crop.requester
           new_status = @crop.approval_status
-          Notifier.crop_request_approved(requester, @crop).deliver_later! if new_status == "approved"
-          Notifier.crop_request_rejected(requester, @crop).deliver_later! if new_status == "rejected"
+          Notifier.crop_request_approved(requester, @crop).deliver_now! if new_status == "approved"
+          Notifier.crop_request_rejected(requester, @crop).deliver_now! if new_status == "rejected"
         end
         format.html { redirect_to @crop, notice: 'Crop was successfully updated.' }
         format.json { head :no_content }
@@ -192,7 +198,7 @@ class CropsController < ApplicationController
   private
 
   def popular_crops
-    Crop.popular.includes(:scientific_names, { plantings: :photos })
+    Crop.popular.includes(:scientific_names, plantings: :photos)
   end
 
   def recreate_names(param_name, name_type)

@@ -3,6 +3,10 @@
 
 - if can? :wrangle, Crop
   = link_to 'Wrangle Crops', wrangle_crops_path, :class => 'btn btn-primary'
+
+- if @has_requested_pending
+  = link_to(I18n.t('crops.requested.link', number_crops: @has_requested_pending), requested_crops_path)
+
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
   View any crop page to see which of our members have planted it and find

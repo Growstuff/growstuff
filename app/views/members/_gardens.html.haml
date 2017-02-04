@@ -2,17 +2,17 @@
 .tabbable
   %ul.nav.nav-tabs
     - first_garden = true
-    - member.gardens.each do |g|
+    - gardens.each do |g|
       %li{:class => first_garden ? 'active' : '' }
         - first_garden = false
-        = link_to g.name, "#garden#{g.id}", 'data-toggle' => 'tab'
+        = link_to display_garden_name(g), "#garden#{g.id}", 'data-toggle' => 'tab'
     - if current_member == member
       %li.navbar-right
         = link_to new_garden_path, class: 'btn' do
           Add New Garden
   .tab-content{style: "padding-top: 1em"}
     - first_garden = true
-    - member.gardens.each do |g|
+    - gardens.each do |g|
 
       %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
         - first_garden = false

@@ -37,7 +37,7 @@ Metrics/MethodLength:
 # Remove the following once the code style matches
 # Offense count: 59
 Metrics/AbcSize:
-  Max: 38
+  Max: 32
 
 # Offense count: 5
 # Configuration parameters: CountComments.
@@ -47,7 +47,7 @@ Metrics/BlockLength:
 # Offense count: 6
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 275
+  Max: 269
 
 # Offense count: 6
 Metrics/CyclomaticComplexity:
@@ -58,7 +58,7 @@ Metrics/LineLength:
 
 # Offense count: 8
 Metrics/PerceivedComplexity:
-  Max: 10
+  Max: 9
 
 # See https://github.com/bbatsov/rubocop/issues/3629
 Rails/HttpPositionalArguments:

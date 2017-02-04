@@ -6,11 +6,8 @@ class GardensController < ApplicationController
   # GET /gardens.json
   def index
     @owner = Member.find_by(slug: params[:owner])
-    @gardens = if @owner
-                 @owner.gardens.paginate(page: params[:page])
-               else
-                 Garden.paginate(page: params[:page])
-               end
+    @show_all = params[:all] == '1'
+    @gardens = gardens
 
     respond_to do |format|
       format.html # index.html.erb
@@ -45,12 +42,11 @@ class GardensController < ApplicationController
   # POST /gardens
   # POST /gardens.json
   def create
-    params[:garden][:owner_id] = current_member.id
-    @garden = Garden.new(garden_params)
+    @garden.owner_id = current_member.id
 
     respond_to do |format|
       if @garden.save
-        format.html { redirect_to @garden, notice: 'Garden was successfully created.' }
+        format.html { redirect_to @garden, notice: I18n.t('gardens.created') }
         format.json { render json: @garden, status: :created, location: @garden }
         expire_fragment("homepage_stats")
       else
@@ -65,7 +61,7 @@ class GardensController < ApplicationController
   def update
     respond_to do |format|
       if @garden.update(garden_params)
-        format.html { redirect_to @garden, notice: 'Garden was successfully updated.' }
+        format.html { redirect_to @garden, notice: I18n.t('gardens.updated') }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,7 +78,7 @@ class GardensController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to gardens_by_owner_path(owner: @garden.owner), notice: 'Garden was successfully deleted.'
+        redirect_to gardens_by_owner_path(owner: @garden.owner), notice: I18n.t('gardens.deleted')
       end
       format.json { head :no_content }
     end
@@ -93,5 +89,13 @@ class GardensController < ApplicationController
   def garden_params
     params.require(:garden).permit(:name, :slug, :owner_id, :description, :active,
       :location, :latitude, :longitude, :area, :area_unit)
+  end
+
+  def gardens
+    g = @owner ? @owner.gardens : Garden.all
+    g = g.active unless @show_all
+    g = g.includes(:owner).order(:name)
+    g = g.paginate(page: params[:page])
+    g
   end
 end

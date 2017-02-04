@@ -1,13 +1,13 @@
 module PlantingsHelper
   def display_days_before_maturity(planting)
-    if planting.finished?
-      "0"
-    elsif !planting.finished_at.nil?
-      ((p = planting.finished_at - Date.current).to_i) <= 0 ? "0" : p.to_i.to_s
-    elsif planting.planted_at.nil? || planting.days_before_maturity.nil?
-      "unknown"
+    # First try to calc from finished/finished_at
+    if planting.finished? || planting.finished_at.present?
+      planting.days_until_finished.to_s
+    # then try to calc from planted at + maturity
+    elsif planting.planted_at.present? && planting.days_before_maturity.present?
+      planting.days_until_mature.to_s
     else
-      ((p = (planting.planted_at + planting.days_before_maturity) - Date.current).to_i <= 0) ? "0" : p.to_i.to_s
+      "unknown"
     end
   end
 

@@ -40,6 +40,7 @@ class Ability
 
     # members can see even rejected or pending crops if they requested it
     can :read, Crop, requester_id: member.id
+    can :requested, Crop # see list of crops they've requested
 
     # managing your own user settings
     can :update, Member, id: member.id
@@ -57,7 +58,7 @@ class Ability
     # note we don't support update for notifications
 
     # only crop wranglers can create/edit/destroy crops
-    if member.has_role? :crop_wrangler
+    if member.role? :crop_wrangler
       can :wrangle, Crop
       can :manage, Crop
       can :manage, ScientificName
@@ -92,6 +93,8 @@ class Ability
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
+    can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
+    can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
 
     can :create, Photo
     can :update, Photo, owner_id: member.id
@@ -122,7 +125,7 @@ class Ability
     can :destroy, Follow
     cannot :destroy, Follow, followed_id: member.id # can't unfollow yourself
 
-    return unless member.has_role? :admin
+    return unless member.role? :admin
 
     can :read, :all
     can :manage, :all

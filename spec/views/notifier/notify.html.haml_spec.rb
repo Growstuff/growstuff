@@ -40,8 +40,8 @@ describe 'notifier/notify.html.haml', type: "view" do
 
   it 'should have fully qualified URLs' do
     # lots of lovely fully qualified URLs
-    assert_select "a[href^='http']", { minimum: 4 }
+    assert_select "a[href^='http']", minimum: 4
     # no relative URLs starting with /
-    assert_select "a[href^='/']", { count: 0 }
+    assert_select "a[href^='/']", count: 0
   end
 end

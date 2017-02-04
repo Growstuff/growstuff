@@ -30,7 +30,7 @@ describe 'member' do
 
     it "should have a default-type account by default" do
       member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
-      member.is_paid?.should be(false)
+      member.paid?.should be(false)
     end
 
     it "doesn't show email by default" do
@@ -66,6 +66,15 @@ describe 'member' do
       FactoryGirl.create(:forum, owner: member)
       FactoryGirl.create(:forum, owner: member)
       member.forums.size.should == 2
+    end
+
+    it "has many likes" do
+      @post1 = FactoryGirl.create(:post, author: member)
+      @post2 = FactoryGirl.create(:post, author: member)
+      @like1 = FactoryGirl.create(:like, member: member, likeable: @post1)
+      @like2 = FactoryGirl.create(:like, member: member, likeable: @post2)
+
+      expect(member.likes.length).to eq 2
     end
 
     it 'has location and lat/long fields' do
@@ -194,19 +203,19 @@ describe 'member' do
 
     it 'has a role' do
       member.roles.first.should eq role
-      member.has_role?(:moderator).should eq true
+      member.role?(:moderator).should eq true
     end
 
     it 'sets up roles in factories' do
       admin = FactoryGirl.create(:admin_member)
-      admin.has_role?(:admin).should eq true
+      admin.role?(:admin).should eq true
     end
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
       role = FactoryGirl.create(:role, name: "a b c")
       member.roles << role
-      member.has_role?(:a_b_c).should eq true
+      member.role?(:a_b_c).should eq true
     end
   end
 
@@ -305,7 +314,7 @@ describe 'member' do
       account_type = FactoryGirl.create(:account_type,
         is_paid: true, is_permanent_paid: true)
       member.account.account_type = account_type
-      member.is_paid?.should be(true)
+      member.paid?.should be(true)
     end
 
     it "recognises a current paid account" do
@@ -313,7 +322,7 @@ describe 'member' do
         is_paid: true, is_permanent_paid: false)
       member.account.account_type = account_type
       member.account.paid_until = Time.zone.now + 1.month
-      member.is_paid?.should be(true)
+      member.paid?.should be(true)
     end
 
     it "recognises an expired paid account" do
@@ -321,14 +330,14 @@ describe 'member' do
         is_paid: true, is_permanent_paid: false)
       member.account.account_type = account_type
       member.account.paid_until = Time.zone.now - 1.minute
-      member.is_paid?.should be(false)
+      member.paid?.should be(false)
     end
 
     it "recognises a free account" do
       account_type = FactoryGirl.create(:account_type,
         is_paid: false, is_permanent_paid: false)
       member.account.account_type = account_type
-      member.is_paid?.should be(false)
+      member.paid?.should be(false)
     end
 
     it "recognises a free account even with paid_until set" do
@@ -336,7 +345,7 @@ describe 'member' do
         is_paid: false, is_permanent_paid: false)
       member.account.account_type = account_type
       member.account.paid_until = Time.zone.now + 1.month
-      member.is_paid?.should be(false)
+      member.paid?.should be(false)
     end
   end
 

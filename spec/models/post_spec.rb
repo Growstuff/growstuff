@@ -3,6 +3,8 @@ require 'rails_helper'
 describe Post do
   let(:member) { FactoryGirl.create(:member) }
 
+  it_behaves_like "it is likeable"
+
   it "should be sorted in reverse order" do
     FactoryGirl.create(:post,
       subject: 'first entry',
