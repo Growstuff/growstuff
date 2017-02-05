@@ -1,9 +1,12 @@
 .well
   .row
     .col-md-4
-      = link_to image_tag((crop.default_photo ? crop.default_photo.thumbnail_url : 'placeholder_150.png'), alt: '', class: 'img crop-image'), crop
+      = link_to image_tag((crop.default_photo ? crop.default_photo.thumbnail_url : 'placeholder_150.png'),
+                          alt: '',
+                          class: 'img crop-image'),
+                          crop
     .col-md-8
-      %h3{:style => 'padding-top: 0px; margin-top: 0px'}
+      %h3{ style: 'padding-top: 0px; margin-top: 0px' }
         = link_to crop, crop
 
       %p
@@ -16,6 +19,6 @@
         by #{ENV['GROWSTUFF_SITE_NAME']} members
 
       - if can? :create, Planting
-        = link_to 'Plant this', new_planting_path(:params => { crop_id: crop.id }), class: 'btn btn-primary'
+        = link_to 'Plant this', new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
       - if can? :create, Seed
-        = link_to 'Add seeds to stash', new_seed_path(:params => { crop_id: crop.id }), class: 'btn btn-primary'
+        = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-primary'

@@ -19,20 +19,23 @@
       = link_to "Harvest this", new_harvest_path(crop_id: @crop.id), class: 'btn btn-default'
 
     - if can? :create, Seed
-      = link_to 'Add seeds to stash', new_seed_path(:params => { crop_id: @crop.id }), class: 'btn btn-default'
+      = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: @crop.id }), class: 'btn btn-default'
   - if member_signed_in?
     = display_seed_availability(@current_member, @crop)
-    = link_to "View your seeds", seeds_by_owner_path(:owner => current_member.slug)
+    = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
 
 .row
   .col-md-9
     - unless current_member
-      Learn how to grow #{ @crop.name.pluralize } from growers around the world. #{ ENV['GROWSTUFF_SITE_NAME'] } has tips and advice from real-life growers, including when to plant #{ @crop.name.pluralize }, how to harvest #{ @crop.name.pluralize }, and more.
+      Learn how to grow #{@crop.name.pluralize} from growers around the world.
+      #{ENV['GROWSTUFF_SITE_NAME']} has tips and advice from real-life growers,
+      including when to plant #{@crop.name.pluralize}, how to harvest
+      #{@crop.name.pluralize}, and more.
 
     = render partial: 'photos', locals: { crop: @crop }
 
     %h2
-      - if @crop.plantings.size > 0
+      - if !@crop.plantings.empty?
         = @crop.name.titleize
         has been planted
         = pluralize(@crop.plantings.size, "time")
@@ -43,7 +46,7 @@
     %h2
       Sunniness Chart
 
-    %div#sunchart
+    #sunchart
 
     %h2
       Crop Map
@@ -52,37 +55,36 @@
       - if current_member && current_member.location.blank?
         = link_to "Set your location.", edit_member_registration_path
 
+    #cropmap
 
-
-    %div#cropmap
-
-    %a{:name => 'posts'}
-    %h2 What people are saying about #{ @crop.name.pluralize }
+    %a{ name: 'posts' }
+    %h2 What people are saying about #{@crop.name.pluralize}
 
     - if @posts.empty?
       %p
-        Nobody has posted about #{ @crop.name.pluralize } yet.
+        Nobody has posted about #{@crop.name.pluralize} yet.
       %p
         - if can? :create, Post
           = link_to "Post something", new_post_path, class: 'btn btn-default'
         - else
-          = render partial: "shared/signin_signup", locals: {to: "post your tips and experiences growing #{ @crop.name.pluralize }" }
+          = render partial: "shared/signin_signup",
+                  locals: { to: "post your tips and experiences growing #{@crop.name.pluralize}" }
     - else
       .pagination
         = page_entries_info @posts
-        = will_paginate @posts, :params => {:anchor => "posts"}
+        = will_paginate @posts, params: { anchor: "posts" }
       - @posts.each do |post|
         = render partial: "posts/single", locals: { post: post, subject: true }
 
       .pagination
         = page_entries_info @posts
-        = will_paginate @posts, :params => {:anchor => "posts"}
+        = will_paginate @posts, params: { anchor: "posts" }
 
   .col-md-3
 
     = render partial: 'wrangle', locals: { crop: @crop }
 
-    %h4 How to grow #{ @crop.name.pluralize }
+    %h4 How to grow #{@crop.name.pluralize}
 
     = render partial: 'grown_for', locals: { crop: @crop }
     = render partial: 'planting_advice', locals: { crop: @crop }
@@ -90,7 +92,7 @@
     = render partial: 'scientific_names', locals: { crop: @crop }
     = render partial: 'alternate_names', locals: { crop: @crop }
 
-    %h4 #{ @crop.name.capitalize } varieties
+    %h4 #{@crop.name.capitalize} varieties
     = render partial: 'varieties', locals: { crop: @crop }
 
     = render partial: 'plantings', locals: { crop: @crop }
@@ -98,13 +100,21 @@
     = render partial: 'find_seeds', locals: { crop: @crop }
 
 
-    %h4 Learn more about #{ @crop.name.pluralize }
+    %h4 Learn more about #{@crop.name.pluralize}
     %ul
       %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer"
       %li
-        = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{URI.escape @crop.name}", target: "_blank", rel: "noopener noreferrer"
+        = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{URI.escape @crop.name}",
+                  target: "_blank",
+                  rel: "noopener noreferrer"
       %li
-        = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{URI.escape @crop.name}", target: "_blank", rel: "noopener noreferrer"
+        = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{URI.escape @crop.name}",
+                  target: "_blank", rel: "noopener noreferrer"
       - if current_member && current_member.location
         %li
-          = link_to "Google", "http://www.google.com/search?q=#{URI.escape ["Growing", @crop.name, current_member.location].join(" ")}", target: "_blank", rel: "noopener noreferrer"
+          = link_to "Google",
+                    'http://www.google.com/search?q=' + URI.escape(['Growing',
+                                                                    @crop.name,
+                                                                    current_member.location].join(' ')),
+                    target: "_blank",
+                    rel: "noopener noreferrer"

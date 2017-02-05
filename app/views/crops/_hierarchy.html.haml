@@ -3,7 +3,7 @@
   - unless defined? max
     - max = 0 # list all without "show all" toggle button
   - display_crops.each do |c|
-    %li.crop-hierarchy{ class: max != 0 && @count >= max ? ['hide', 'toggle'] : []}
+    %li.crop-hierarchy{ class: max != 0 && @count >= max ? ['hide', 'toggle'] : [] }
       = link_to c, c
       - @count += 1
       - if c.varieties.present?
