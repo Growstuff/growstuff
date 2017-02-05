@@ -349,11 +349,11 @@ class Crop < ActiveRecord::Base
   end
 
   def count_uses_of_property(col_name)
-    data = Hash.new(0)
-    plantings.each do |p|
-      data[p.send(col_name.to_s)] += 1 unless p.send(col_name.to_s).blank?
-    end
-    data
+    plantings.unscoped
+      .where(crop_id: id)
+      .where.not(col_name => nil)
+      .group(col_name)
+      .count
   end
 
   # Custom validations
