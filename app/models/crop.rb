@@ -167,7 +167,7 @@ class Crop < ActiveRecord::Base
     harvests.each do |h|
       popular_plant_parts[h.plant_part] += 1 if h.plant_part
     end
-    popular_plant_parts
+    popular_plant_parts.sort_by { |_s, freq| freq }.reverse
   end
 
   def interesting?
