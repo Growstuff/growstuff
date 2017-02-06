@@ -1,4 +1,5 @@
-=content_for :title, "#{@garden.owner}'s #{@garden}"
+= content_for :title, "#{@garden.owner}'s #{@garden}"
+
 - content_for :opengraph do
   - @garden.photos.each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
@@ -10,22 +11,26 @@
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 .row
   .col-md-9
-    - if can? :edit, @garden or can? :delete, @garden
+    - if can?(:edit, @garden) || can?(:delete, @garden)
       %p.btn-group
         - if can? :edit, @garden
           - if @garden.active
-            = link_to "Plant something", new_planting_path(:garden_id => @garden.id), :class => 'btn btn-primary'
-            = link_to "Mark as inactive", garden_path(@garden, :garden => {:active => 0}), |
-              :method => :put, :class => 'btn btn-default', |
+            = link_to "Plant something", new_planting_path(garden_id: @garden.id), class: 'btn btn-primary'
+            = link_to "Mark as inactive", garden_path(@garden, garden: { active: 0 }),
+              method: :put, class: 'btn btn-default',
               data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
           - else
-            = link_to "Mark as active", garden_path(@garden, :garden => {:active => 1}),  :method => :put, :class => 'btn btn-default'
-          = link_to 'Edit garden', edit_garden_path(@garden), :class => 'btn btn-default'
-        - if can? :destroy, @garden
-          = link_to 'Delete garden', @garden, method: :delete, |
-            data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' }, :class => 'btn btn-default'
+            = link_to "Mark as active", garden_path(@garden, garden: { active: 1 }),
+                      method: :put,
+                      class: 'btn btn-default'
+          = link_to 'Edit garden', edit_garden_path(@garden), class: 'btn btn-default'
+        - if can?(:destroy, @garden)
+          = link_to 'Delete garden', @garden,
+                    method: :delete,
+                    data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' },
+                    class: 'btn btn-default'
 
-    - if ! @garden.active
+    - unless @garden.active
       .alert.alert-warning
         This garden is inactive.
         - if can? :edit, @garden
@@ -44,7 +49,7 @@
               Why not
               = link_to 'tell us more.', edit_garden_path(@garden)
 
-    - if @garden.photos.size > 0 or (can? :edit, @garden and can? :create, Photo)
+    - if !@garden.photos.empty? || (can?(:edit, @garden) && can?(:create, Photo))
       .row-fluid
         %h3 Photos
         %p= localize_plural(@garden.photos, Photo)
@@ -52,53 +57,51 @@
           %ul.thumbnails
             - @garden.photos.each do |p|
               .col-md-2.six-across
-                = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+                = render partial: 'photos/thumbnail', locals: { photo: p }
         .row-fluid
-          - if can? :create, Photo and can? :edit, @garden
+          - if can?(:create, Photo) && can?(:edit, @garden)
             %p
-              = link_to "Add photo", new_photo_path(:type => "garden", :id => @garden.id), :class => 'btn btn-primary'
+              = link_to "Add photo", new_photo_path(type: "garden", id: @garden.id), class: 'btn btn-primary'
 
     .row-fluid
       %h3 What's planted here?
-      - if @garden.plantings.current.size > 0
-        - @garden.plantings.current.each.with_index do |planting_current, index_current|
-          = render partial: "plantings/thumbnail", locals: {:planting => planting_current}
+      - if @garden.plantings.current.empty?
+        %p Nothing is currently planted here.
       - else
-        %p
-          Nothing is currently planted here.
+        - @garden.plantings.current.each.with_index do |planting_current, _|
+          = render partial: "plantings/thumbnail", locals: { planting: planting_current }
 
     .row-fluid
       %h3 Previously planted in this garden
-      - if @garden.plantings.finished.size > 0
-        - @garden.plantings.finished.each.with_index do |planting_finished|
-          = render partial: "plantings/thumbnail", locals: {:planting => planting_finished}
+      - if @garden.plantings.finished.empty?
+        %p Nothing has been planted here.
       - else
-        %p
-          Nothing has been planted here.
+        - @garden.plantings.finished.each.with_index do |planting_finished|
+          = render partial: "plantings/thumbnail", locals: { planting: planting_finished }
   .col-md-3
     %h4 About this garden
     %p
       %strong Owner:
       = link_to @garden.owner, @garden.owner
-    - if ! @garden.location.blank?
+    - unless @garden.location.blank?
       %p
         %strong Location:
         = @garden.location
-    - if ! @garden.area.blank?
+    - unless @garden.area.blank?
       %p
         %strong Area:
         = pluralize(@garden.area, @garden.area_unit)
 
-    %h4= "#{@garden.owner}'s gardens"
+    %h4 "#{@garden.owner}'s gardens"
     %ul
       - @garden.owner.gardens.active.each do |othergarden|
         %li
           - if @garden == othergarden
             = @garden
           - else
-            = link_to "#{othergarden}", garden_path(othergarden)
+            = link_to othergarden, garden_path(othergarden)
 
-    - if @garden.owner.gardens.inactive.size > 0
+    - unless @garden.owner.gardens.inactive.empty?
       %h4= "Inactive gardens"
       %ul
         - @garden.owner.gardens.inactive.each do |othergarden|
@@ -106,7 +109,7 @@
             - if @garden == othergarden
               = @garden
             - else
-              = link_to "#{othergarden}", garden_path(othergarden)
+              = link_to othergarden, garden_path(othergarden)
 
     - if can? :create, @garden
-      = link_to 'Add New Garden', new_garden_path, :class => 'btn btn-default btn-xs'
+      = link_to 'Add New Garden', new_garden_path, class: 'btn btn-default btn-xs'

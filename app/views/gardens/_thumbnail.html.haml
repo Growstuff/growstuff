@@ -3,12 +3,14 @@
     %h3.panel-title
       = link_to display_garden_name(garden), garden
       - if can? :edit, garden
-        %a.pull-right{:href => edit_garden_path(garden), :role => "button", :id => "edit_garden_glyphicon"}
-          %span.glyphicon.glyphicon-pencil{:title => "Edit"}
-  .panel-body{:id => "gardens_panel_body"}
+        %a.pull-right{ href: edit_garden_path(garden), role: "button", id: "edit_garden_glyphicon" }
+          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
+  .panel-body{ id: "gardens_panel_body" }
     .row
       .col-md-4
-        = link_to image_tag((garden.default_photo ?  garden.default_photo.thumbnail_url : 'placeholder_150.png'), :alt => garden.name, :class => 'img'), garden
+        = link_to image_tag((garden.default_photo ? garden.default_photo.thumbnail_url : 'placeholder_150.png'),
+                            alt: garden.name, class: 'img'),
+                  garden_path(garden)
       .col-md-8
         %dl.dl-horizontal
           %dt Name :
@@ -25,7 +27,8 @@
           %dd= garden.active ? "Yes" : "No"
       .col-md-12
         %b
-          = "#{localize_plural(garden.plantings, Planting)} : "
+          = localize_plural(garden.plantings, Planting)
+          = ":"
         = display_garden_plantings(garden.plantings.current)
         - if garden.plantings.size > 2
           %br
