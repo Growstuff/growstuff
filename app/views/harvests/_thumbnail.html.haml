@@ -25,5 +25,5 @@
     %dt Description
     %dd.truncate
       = display_harvest_description(harvest)
-    = unless harvest.description.nil?
+    = if harvest.description.present?
       - link_to "Read more", harvest_path(harvest)
