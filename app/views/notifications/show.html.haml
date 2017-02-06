@@ -3,5 +3,5 @@
 = render @notification
 
 %p
-  =link_to 'Delete', @notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default'
-  =link_to 'Reply', @reply_link, :class => 'btn btn-primary'
+  = link_to 'Delete', @notification, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default'
+  = link_to 'Reply', @reply_link, class: 'btn btn-primary'
