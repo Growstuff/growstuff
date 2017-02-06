@@ -1,11 +1,4 @@
-- title = if @owner
-  = t('.title.owner_harvests', owner: @owner)
-- elsif @crop
-  = t('.title.crop_harvests', crop: @crop.name)
-- else
-  = t('.title.default')
-
-- content_for :title, title
+- content_for :title, harvests_title(@owner, @crop)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)

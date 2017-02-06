@@ -60,6 +60,6 @@
         = render partial: 'photos/thumbnail', locals: { photo: p }
     - if can?(:create, Photo) && can?(:edit, @harvest)
       .col-md-2
-        .thumbnail{style: 'height: 220px'}
+        .thumbnail{ style: 'height: 220px' }
           %p{ style: 'text-align: center; padding-top: 50px' }
             = link_to "Add photo", new_photo_path(type: "harvest", id: @harvest.id), class: 'btn btn-primary'

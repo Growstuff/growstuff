@@ -31,4 +31,14 @@ module HarvestsHelper
     return "No description provided." if harvest.description.nil?
     harvest.description
   end
+
+  def harvests_title(owner, crop)
+    if @owner
+      t('.title.owner_harvests', owner: owner.login_name)
+    elsif crop
+      t('.title.crop_harvests', crop: crop.name)
+    else
+      t('.title.default')
+    end
+  end
 end
