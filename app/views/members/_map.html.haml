@@ -1,9 +1,9 @@
-- if member.latitude and member.longitude
-  %div#membermap
+- if member.latitude && member.longitude
+  #membermap
   %p
     See other members, plantings, seeds and more near
     = link_to member.location, place_path(member.location, anchor: "members")
 - else
-  %div.location-not-set
-    %div.sr-only Location not known
-    %div.sr-only We can't show you what's nearby
+  .location-not-set
+    .sr-only Location not known
+    .sr-only We can't show you what's nearby
