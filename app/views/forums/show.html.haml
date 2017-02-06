@@ -24,12 +24,12 @@
 
 %h2
   Posts
-  = link_to "Post something", new_post_path(:forum_id => @forum.id), class: 'btn btn-primary'
+  = link_to "Post something", new_post_path(forum_id: @forum.id), class: 'btn btn-primary'
 
-- if @forum.posts.size > 0
-  = render partial: "posts/summary", locals: { :posts => @forum.posts }
-- else
+- if @forum.posts.empty?
   No posts yet.
+- else
+  = render partial: "posts/summary", locals: { posts: @forum.posts }
 
 
 
