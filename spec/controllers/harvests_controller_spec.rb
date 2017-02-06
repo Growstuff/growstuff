@@ -72,7 +72,7 @@ describe HarvestsController do
 
     it "sets the date of the harvest to today" do
       get :new, {}
-      assigns(:harvest).planted_at.should == Time.zone.today
+      assigns(:harvest).harvested_at.should == Time.zone.today
     end
   end
 
