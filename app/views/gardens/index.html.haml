@@ -2,19 +2,19 @@
 
 = render 'nav', owner: @owner, show_all: @show_all
 
-%div.pagination
+.pagination
   = page_entries_info @gardens
   = will_paginate @gardens
 
 .row
-  - if @gardens.size > 0
+  - if @gardens.empty?
+    %p There are no gardens to display.
+  - else
     - @gardens.each do |garden|
       .col-md-6
-        =render :partial => 'gardens/thumbnail', :locals => {:garden => garden}
-  - else
-    %p There are no gardens to display.
+        = render partial: 'gardens/thumbnail', locals: { garden: garden }
 
-%div.pagination
+.pagination
   = page_entries_info @gardens
   = will_paginate @gardens
 

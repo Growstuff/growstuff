@@ -1,46 +1,50 @@
 = required_field_help_text
 
-= form_for(@garden, :html => {:class => "form-horizontal", :role => "form"}) do |f|
+= form_for(@garden, html: { class: "form-horizontal", role: "form" }) do |f|
   - if @garden.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@garden.errors.size, "error")} prohibited this garden from being saved:"
+      %h2
+        = pluralize(@garden.errors.size, "error")
+        prohibited this garden from being saved:
       %ul
         - @garden.errors.full_messages.each do |msg|
           %li= msg
 
   .form-group.required
-    = f.label :name, :class => 'control-label col-md-2'
+    = f.label :name, class: 'control-label col-md-2'
     .col-md-8
-      = f.text_field :name, :class => 'form-control', :maxlength => 255, :required => "required"
+      = f.text_field :name, class: 'form-control', maxlength: 255, required: "required"
 
   .form-group
-    = f.label :description, :class => 'control-label col-md-2'
+    = f.label :description, class: 'control-label col-md-2'
     .col-md-8
-      = f.text_area :description, :rows => 6, :class => 'form-control'
-      = render :partial => 'shared/form_optional'
+      = f.text_area :description, rows: 6, class: 'form-control'
+      = render partial: 'shared/form_optional'
 
   .form-group
-    = f.label :location, :class => 'control-label col-md-2'
+    = f.label :location, class: 'control-label col-md-2'
     .col-md-8
-      = f.text_field :location, :value => @garden.location || current_member.location, :class => 'form-control', :maxlength => 255
-      = render :partial => 'shared/form_optional'
+      = f.text_field :location,
+                      value: @garden.location || current_member.location,
+                      class: 'form-control', maxlength: 255
+      = render partial: 'shared/form_optional'
       %span.help-block
         = t('.location_helper')
         - if current_member.location.blank?
-          =link_to "Set your location now.", edit_member_registration_path
+          = link_to "Set your location now.", edit_member_registration_path
         - else
-          =link_to "Change your location.", edit_member_registration_path
+          = link_to "Change your location.", edit_member_registration_path
 
   .form-group
-    = f.label :area, :class => 'control-label col-md-2'
+    = f.label :area, class: 'control-label col-md-2'
     .col-md-2
-      = f.number_field :area, :class => 'input-small form-control'
-      = render :partial => 'shared/form_optional'
+      = f.number_field :area, class: 'input-small form-control'
+      = render partial: 'shared/form_optional'
     .col-md-2
-      = f.select(:area_unit, Garden::AREA_UNITS_VALUES, {:include_blank => false}, :class => 'form-control')
+      = f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false }, class: 'form-control')
 
   .form-group
-    = f.label :active, 'Active? ', :class => 'control-label col-md-2'
+    = f.label :active, 'Active? ', class: 'control-label col-md-2'
     .col-md-8
       = f.check_box :active
       You can mark a garden as inactive if you no longer use it.  Note:
@@ -48,4 +52,4 @@
 
   .form-group
     .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save Garden', :class => 'btn btn-primary'
+      = f.submit 'Save Garden', class: 'btn btn-primary'
