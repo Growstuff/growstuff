@@ -1,14 +1,23 @@
 - content_for :title, (can?(:wrangle, @crop) ? "New crop" : "Suggest a crop")
 
 - unless can? :wrangler, @crop
-
-  %p Thanks for taking the time to suggest a crop! Our crop database is managed by volunteers, and we appreciate your help. Here are some things to consider when suggesting a new crop:
-
+  %p
+    Thanks for taking the time to suggest a crop! Our crop database is
+    managed by volunteers, and we appreciate your help. Here are some
+    things to consider when suggesting a new crop:
   %ul
-    %li First, you might want to #{link_to 'search our crops', crops_search_path} to make sure we don't have it already, perhaps under an alternate name.
+    %li
+      First, you might want to #{link_to 'search our crops', crops_search_path}
+      to make sure we don't have it already, perhaps under an alternate name.
+    %li
+      The Growstuff database only contains edible crops. In future we hope to
+      support other crops, but for now, if your suggestion is not edible we
+      won't be able to add it.
 
-    %li The Growstuff database only contains edible crops. In future we hope to support other crops, but for now, if your suggestion is not edible we won't be able to add it.
-
-    %li At this time, we are only adding crops which have a Wikipedia page. If you want to add a specific variety of crop that doesn't have its own Wikipedia entry, please use the more general form of the crop instead and put the name of your variety in the notes/description.
+    %li
+      At this time, we are only adding crops which have a Wikipedia page. If you
+      want to add a specific variety of crop that doesn't have its own Wikipedia
+      entry, please use the more general form of the crop instead and put the name
+      of your variety in the notes/description.
 
 = render 'form'

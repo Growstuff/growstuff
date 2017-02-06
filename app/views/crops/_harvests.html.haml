@@ -1,4 +1,4 @@
-%h4 #{ crop.name.capitalize } harvests
+%h4 #{crop.name.capitalize} harvests
 - if crop.harvests.empty?
   %p
     Nobody has harvested this crop yet.
@@ -17,5 +17,4 @@
   - if current_member
     %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id)
   - else
-    = render partial: 'shared/signin_signup', locals: {to: "track your #{crop.name} harvests" }
-
+    = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} harvests" }

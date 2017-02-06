@@ -248,9 +248,9 @@ describe Crop do
 
     it 'counts each plant_part value' do
       @fruit = FactoryGirl.create(:plant_part)
-      @seed = FactoryGirl.create(:plant_part)
-      @root = FactoryGirl.create(:plant_part)
-      @bulb = FactoryGirl.create(:plant_part)
+      @seed = FactoryGirl.create(:plant_part, name: 'seed')
+      @root = FactoryGirl.create(:plant_part, name: 'root')
+      @bulb = FactoryGirl.create(:plant_part, name: 'bulb')
       @harvest1 = FactoryGirl.create(:harvest,
         crop: crop,
         plant_part: @fruit
@@ -267,7 +267,9 @@ describe Crop do
         crop: crop,
         plant_part: @root
       )
-      crop.popular_plant_parts.should == { @fruit => 2, @seed => 1, @root => 1 }
+      crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
+                                           [@seed.id, @seed.name] => 1,
+                                           [@root.id, @root.name] => 1 }
     end
   end
 

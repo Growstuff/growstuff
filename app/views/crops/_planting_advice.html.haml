@@ -3,13 +3,13 @@
   - if crop.planted_from.empty?
     not known.
   - else
-    - planted_from = crop.planted_from.sort_by {|s, freq| freq }.reverse
-    = planted_from.map {|s, freq| "#{s} (#{freq})" }.join(", ")
+    - planted_from = crop.planted_from.sort_by { |_, freq| freq }.reverse
+    = planted_from.map { |s, freq| "#{s} (#{freq})" }.join(", ")
 
 %p
   %strong Plant in:
   - if crop.sunniness.empty?
     not known.
   - else
-    - sunniness = crop.sunniness.sort_by {|s, freq| freq }.reverse
-    = sunniness.map {|s, freq| "#{s} (#{freq})" }.join(", ")
+    - sunniness = crop.sunniness.sort_by { |_, freq| freq }.reverse
+    = sunniness.map { |s, freq| "#{s} (#{freq})" }.join(", ")

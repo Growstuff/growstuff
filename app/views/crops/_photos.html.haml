@@ -1,5 +1,5 @@
 .row
-  - if !crop.photos.empty?
+  - unless crop.photos.empty?
     - crop.photos.first(3).each do |p|
       .col-md-4
-        = render partial: "photos/thumbnail", locals: { :photo => p }
+        = render partial: "photos/thumbnail", locals: { photo: p }

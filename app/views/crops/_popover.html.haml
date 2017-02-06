@@ -1,6 +1,6 @@
 %p
   %small
-    - if crop.scientific_names.size > 0
+    - unless crop.scientific_names.empty?
       %i
         = crop.scientific_names.first.name
     %br/

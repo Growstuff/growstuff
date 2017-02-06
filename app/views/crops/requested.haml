@@ -3,7 +3,7 @@
 
 %p Crops you have requested
 
-%div.pagination
+.pagination
   = will_paginate @requested
 
 .row
@@ -11,5 +11,5 @@
     .col-md-2.six-across
       = render partial: "thumbnail", locals: { crop: crop }
 
-%div.pagination
+.pagination
   = will_paginate @requested
