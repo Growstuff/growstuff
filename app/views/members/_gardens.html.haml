@@ -3,7 +3,7 @@
   %ul.nav.nav-tabs
     - first_garden = true
     - gardens.each do |g|
-      %li{:class => first_garden ? 'active' : '' }
+      %li{ class: first_garden ? 'active' : '' }
         - first_garden = false
         = link_to display_garden_name(g), "#garden#{g.id}", 'data-toggle' => 'tab'
     - if current_member == member
@@ -14,7 +14,7 @@
     - first_garden = true
     - gardens.each do |g|
 
-      %div{:class => ['tab-pane', first_garden ? 'active' : ''], :id => "garden#{g.id}"}
+      %div{ class: ['tab-pane', first_garden ? 'active' : ''], id: "garden#{g.id}"}
         - first_garden = false
 
         .container
@@ -38,11 +38,11 @@
                 %ul.thumbnails
                   - g.photos.each do |p|
                     .col-md-2.six-across
-                      = render :partial => 'photos/thumbnail', :locals => { :photo => p }
+                      = render partial: 'photos/thumbnail', locals: { photo: p }
               .row
               - if can? :create, Photo and can? :edit, g
                 %p
-                  = link_to "Add photo", new_photo_path(:type => "garden", :id => g.id), :class => 'btn btn-primary'
+                  = link_to "Add photo", new_photo_path(type: "garden", id: g.id), class: 'btn btn-primary'
 
           %h3 What's planted here?
           .row
