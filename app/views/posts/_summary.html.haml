@@ -1,5 +1,5 @@
 - howmany ||= 100
-- if posts.size > 0
+- unless posts.empty?
   %table.table.table-striped
     %tr
       %th Subject
@@ -7,13 +7,13 @@
       %th Most recent activity
       %th.hidden-xs Comments
 
-    - posts.recently_active[0..howmany-1].each do |post|
+    - posts.recently_active[0..howmany - 1].each do |post|
       - cache post do
         %tr
           %td
-            = link_to truncate(strip_tags(post.subject), :length => 40, :separator => ' '), post
+            = link_to truncate(strip_tags(post.subject), length: 40, separator: ' '), post
           %td.hidden-xs
-            =link_to post.author, post.author
+            = link_to post.author, post.author
           %td
             - if post.updated_at > post.recent_activity
               = post.updated_at.to_date.to_formatted_s(:short)
