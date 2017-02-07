@@ -1,4 +1,4 @@
-=content_for :title, "#{@planting.crop} in #{@planting.location}"
+= content_for :title, "#{@planting.crop} in #{@planting.location}"
 - content_for :opengraph do
   - @planting.crop.photos.each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
@@ -16,54 +16,58 @@
       %dd
         = link_to @planting.owner, @planting.owner
         &mdash;
-        = link_to "view all #{@planting.owner}'s plantings", plantings_by_owner_path(:owner => @planting.owner.slug)
+        = link_to "view all #{@planting.owner}'s plantings", plantings_by_owner_path(owner: @planting.owner.slug)
 
       %dt Planted on:
       %dd= @planting.planted_at ? @planting.planted_at : "not specified"
 
       %dt Where:
       %dd
-        =link_to "#{@planting.owner}'s", @planting.owner
-        =link_to @planting.garden, @planting.garden
-        - if ! @planting.owner.location.blank?
-          = "(#{@planting.owner.location})"
+        = link_to "#{@planting.owner}'s", @planting.owner
+        = link_to @planting.garden, @planting.garden
+        - unless  @planting.owner.location.blank?
+          (#{@planting.owner.location})
 
       %dt Quantity:
       %dd
-        ="#{display_planting_quantity(@planting)}"
+        = display_planting_quantity(@planting)
 
-      - if !@planting.planted_from.blank?
+      - unless @planting.planted_from.blank?
         %dt Planted from:
-        %dd= "#{display_planted_from(@planting)}"
+        %dd
+          = display_planted_from(@planting)
 
       %dt Sun or shade?
       %dd
         - sunniness = @planting.sunniness.blank? ? "not specified" : @planting.sunniness
-        = image_tag("sunniness_#{sunniness}.png", :size => "25x25", :alt => "#{sunniness}", :title => "#{sunniness}")
-        = " (#{sunniness})"
+        = image_tag("sunniness_#{sunniness}.png", size: "25x25", alt: sunniness, title: sunniness)
+        = sunniness
 
       %dt Days until maturity:
-      %dd= "#{display_days_before_maturity(@planting)}"
+      %dd= display_days_before_maturity(@planting)
 
       %dt Finished:
-      %dd= "#{display_finished(@planting)}"
+      %dd= display_finished(@planting)
 
     %p= render 'plantings/planting_harvest', planting: @planting
     %p= render 'planting_progress', planting: @planting
 
-    - if can? :edit, @planting or can? :destroy, @planting
+    - if can?(:edit, @planting) || can?(:destroy, @planting)
       %p
         - if can? :edit, @planting
-          =link_to 'Edit', edit_planting_path(@planting), :class => 'btn btn-default btn-xs'
-          - if ! @planting.finished
-            = link_to "Mark as finished", planting_path(@planting, :planting => {:finished => 1}),  :method => :put, :class => 'btn btn-default btn-xs append-date'
+          = link_to 'Edit', edit_planting_path(@planting), class: 'btn btn-default btn-xs'
+          - unless @planting.finished
+            = link_to "Mark as finished", planting_path(@planting, planting: { finished: 1 }),
+                      method: :put, class: 'btn btn-default btn-xs append-date'
         - if can? :create, Harvest
-          = link_to 'Harvest', new_planting_harvest_path(@planting), :class => 'btn btn-default btn-xs'
+          = link_to 'Harvest', new_planting_harvest_path(@planting), class: 'btn btn-default btn-xs'
         - if can? :destroy, @planting
-          =link_to 'Delete', @planting, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+          = link_to 'Delete', @planting, method: :delete,
+                    data: { confirm: 'Are you sure?' },
+                    class: 'btn btn-default btn-xs'
 
   .col-md-6
-    = render :partial => "crops/index_card", :locals => { :crop => @planting.crop}
+    = render partial: "crops/index_card", locals: { crop: @planting.crop }
     - if @planting.owner.location
       %p
         %small
@@ -75,15 +79,15 @@
   :growstuff_markdown
     #{ @planting.description != "" ? @planting.description : "No description given." }
 
-- if @planting.photos.size > 0 or (can? :edit, @planting and can? :create, Photo)
+- if !@planting.photos.empty? || (can?(:edit, @planting) && can?(:create, Photo))
   %h2 Pictures
 
   .row
     - @planting.photos.each do |p|
       .col-md-2.six-across
-        = render :partial => 'photos/thumbnail', :locals => { :photo => p }
-    - if can? :create, Photo and can? :edit, @planting
+        = render partial: 'photos/thumbnail', locals: { photo: p }
+    - if can?(:create, Photo) && can?(:edit, @planting)
       .col-md-2
-        .thumbnail(style='height: 220px')
-          %p{:style => 'text-align: center; padding-top: 50px'}
-            = link_to "Add photo", new_photo_path(:type => "planting", :id => @planting.id), :class => 'btn btn-primary'
+        .thumbnail{ style: 'height: 220px' }
+          %p{ style: 'text-align: center; padding-top: 50px' }
+            = link_to "Add photo", new_photo_path(type: "planting", id: @planting.id), class: 'btn btn-primary'
