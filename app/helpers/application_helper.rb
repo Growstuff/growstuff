@@ -81,4 +81,15 @@ module ApplicationHelper
     model_name = model.model_name.human(count: size)
     "#{size} #{model_name}"
   end
+
+  def show_inactive_tickbox_path(type, owner, show_all)
+    all = show_all ? '' : 1
+    if owner
+      plantings_by_owner_path(owner: owner.slug, all: all) if type == 'plantings'
+      gardens_by_owner_path(owner: owner.slug, all: all) if type == 'gardens'
+    else
+      plantings_path(all: all) if type == 'plantings'
+      gardens_path(all: all) if type == 'gardens'
+    end
+  end
 end
