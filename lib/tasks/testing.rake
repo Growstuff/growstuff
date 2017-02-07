@@ -10,6 +10,7 @@ begin
 rescue LoadError
 end
 
+desc "Run static code-quality checks"
 task :static do
   system('script/check_static')
 end
