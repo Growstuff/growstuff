@@ -11,35 +11,36 @@
     - if @owner
       %p
         - if @owner == current_member
-          = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
-        = link_to "View everyone's seeds", seeds_path, :class => 'btn btn-default'
+          = link_to 'Add seeds', new_seed_path, class: 'btn btn-primary'
+        = link_to "View everyone's seeds", seeds_path, class: 'btn btn-default'
     - else # everyone's seeds
-      = link_to 'Add seeds', new_seed_path, :class => 'btn btn-primary'
+      = link_to 'Add seeds', new_seed_path, class: 'btn btn-primary'
       - if current_member
-        = link_to 'View your seeds', seeds_by_owner_path(:owner => current_member.slug), :class => 'btn btn-default'
+        = link_to 'View your seeds', seeds_by_owner_path(owner: current_member.slug), class: 'btn btn-default'
   - else
-    = render :partial => 'shared/signin_signup', :locals => { :to => 'add seeds to your stash' }
+    = render partial: 'shared/signin_signup', locals: { to: 'add seeds to your stash' }
 
-%div.pagination
+.pagination
   = page_entries_info @seeds
   = will_paginate @seeds
+
 .row
-  - if @seeds.size > 0
+  - unless @seeds.empty?
     - @seeds.each do |seed|
       .col-md-6
-        =render :partial => 'seeds/thumbnail', :locals => {:seed => seed}
+        = render partial: 'seeds/thumbnail', locals: { seed: seed }
 
-%div.pagination
+.pagination
   = page_entries_info @seeds
   = will_paginate @seeds
 
 %ul.list-inline
   %li The data on this page is available in the following formats:
   - if @owner
-    %li= link_to "CSV", seeds_by_owner_path(@owner, :format => 'csv')
-    %li= link_to "JSON", seeds_by_owner_path(@owner, :format => 'json')
-    %li= link_to "RSS", seeds_by_owner_path(@owner, :format => 'rss')
+    %li= link_to "CSV", seeds_by_owner_path(@owner, format: 'csv')
+    %li= link_to "JSON", seeds_by_owner_path(@owner, format: 'json')
+    %li= link_to "RSS", seeds_by_owner_path(@owner, format: 'rss')
   - else
-    %li= link_to "CSV", seeds_path(:format => 'csv')
-    %li= link_to "JSON", seeds_path(:format => 'json')
-    %li= link_to "RSS", seeds_path(:format => 'rss')
+    %li= link_to "CSV", seeds_path(format: 'csv')
+    %li= link_to "JSON", seeds_path(format: 'json')
+    %li= link_to "RSS", seeds_path(format: 'rss')
