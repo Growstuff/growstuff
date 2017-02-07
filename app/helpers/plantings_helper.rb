@@ -40,4 +40,23 @@ module PlantingsHelper
       "#{planting.owner}."
     end
   end
+
+  def plantings_active_tickbox_path(owner, show_all)
+    all = show_all ? '' : 1
+    if owner
+      plantings_by_owner_path(owner: owner.slug, all: all)
+    else
+      plantings_path(all: all)
+    end
+  end
+
+  def plantings_title(owner, crop)
+    if owner
+      t('.title.owner_plantings', owner: owner.login_name)
+    elsif crop
+      t('.title.crop_plantings', crop: crop.name)
+    else
+      t('.title.default')
+    end
+  end
 end
