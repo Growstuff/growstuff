@@ -10,8 +10,8 @@
 
   %p
     Your order history shows what you have bought via our
-    =succeed "." do
-      =link_to "shop", shop_path
+    = succeed "." do
+      = link_to "shop", shop_path
 
   %table.table.table-striped
     %tr
@@ -28,7 +28,7 @@
           - else
             In progress
         %td
-          - if order.order_items.size > 0
+          - unless order.order_items.empty?
             - order.order_items.each do |o|
               = o.quantity
               x
@@ -36,9 +36,9 @@
               @
               = price_with_currency(o.price)
               %br/
-        %td= link_to 'Details', order, :class => 'btn btn-default btn-xs'
+        %td= link_to 'Details', order, class: 'btn btn-default btn-xs'
 - else
   %p
     You have not made any orders.  You can place an order via our
-    =succeed "." do
-      =link_to "shop", shop_path
+    = succeed "." do
+      = link_to "shop", shop_path
