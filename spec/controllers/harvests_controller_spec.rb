@@ -69,6 +69,11 @@ describe HarvestsController do
       get :new, {}
       assigns(:harvest).should be_a_new(Harvest)
     end
+
+    it "sets the date of the harvest to today" do
+      get :new, {}
+      assigns(:harvest).harvested_at.should == Time.zone.today
+    end
   end
 
   describe "GET edit" do

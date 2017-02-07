@@ -76,7 +76,7 @@ describe PlantingsController do
 
     it "sets the date of the planting to today" do
       get :new, {}
-      assigns(:planting).planted_at.should == Date.today
+      assigns(:planting).planted_at.should == Time.zone.today
     end
 
     it "sets the owner automatically" do
