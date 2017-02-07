@@ -102,4 +102,8 @@ module ApplicationHelper
       t(".title.default")
     end
   end
+
+  def og_description(description)
+    strip_tags(description).split(' ')[0..20].join(' ')
+  end
 end
