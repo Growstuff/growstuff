@@ -42,12 +42,7 @@ module PlantingsHelper
   end
 
   def plantings_active_tickbox_path(owner, show_all)
-    all = show_all ? '' : 1
-    if owner
-      plantings_by_owner_path(owner: owner.slug, all: all)
-    else
-      plantings_path(all: all)
-    end
+    show_inactive_tickbox_path('plantings', owner, show_all)
   end
 
   def plantings_title(owner, crop)
