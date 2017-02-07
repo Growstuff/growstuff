@@ -1,4 +1,4 @@
-- content_for :title, plantings_title(@owner, @crop)
+- content_for :title, title('plantings', @owner, @crop)
 
 = render 'nav', owner: @owner, show_all: @show_all
 

@@ -1,4 +1,4 @@
-- content_for :title, @owner ? t('.title.owner_seeds', owner: @owner) : @crop ? t('.title.crop_seeds', crop: @crop.name) : t('.title.default')
+- content_for :title, title('seeds', @owner, @crop)
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
 

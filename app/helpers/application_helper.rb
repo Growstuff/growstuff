@@ -92,4 +92,14 @@ module ApplicationHelper
       gardens_path(all: all) if type == 'gardens'
     end
   end
+
+  def title(type, owner, crop)
+    if owner
+      t(".title.owner_#{type}", owner: owner.login_name)
+    elsif crop
+      t(".title.crop_#{type}", crop: crop.name)
+    else
+      t(".title.default")
+    end
+  end
 end
