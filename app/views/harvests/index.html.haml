@@ -1,4 +1,4 @@
-- content_for :title, harvests_title(@owner, @crop)
+- content_for :title, title('harvests', @owner, @crop)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)

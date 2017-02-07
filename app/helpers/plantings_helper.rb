@@ -44,14 +44,4 @@ module PlantingsHelper
   def plantings_active_tickbox_path(owner, show_all)
     show_inactive_tickbox_path('plantings', owner, show_all)
   end
-
-  def plantings_title(owner, crop)
-    if owner
-      t('.title.owner_plantings', owner: owner.login_name)
-    elsif crop
-      t('.title.crop_plantings', crop: crop.name)
-    else
-      t('.title.default')
-    end
-  end
 end
