@@ -5,19 +5,19 @@
 
 - @plant_parts.each do |plant_part|
   %h2= plant_part
-  - if plant_part.crops.empty?
-    %p No crops are harvested for this plant part (yet).
-  - else
-    %p
-      != plant_part.crops.map {|c| link_to(c, c) }.join(", ")
+  %p
+    - if plant_part.crops.empty?
+      No crops are harvested for this plant part (yet).
+    - else
+      != plant_part.crops.map { |c| link_to(c, c) }.join(", ")
   %p
     = link_to "More detail", plant_part
 
   %p
   - if can? :edit, plant_part
-    = link_to 'Edit', edit_plant_part_path(plant_part), :class => 'btn btn-default btn-xs'
+    = link_to 'Edit', edit_plant_part_path(plant_part), class: 'btn btn-default btn-xs'
   - if can? :destroy, plant_part
-    = link_to 'Delete', plant_part, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+    = link_to 'Delete', plant_part, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
 
 
 
