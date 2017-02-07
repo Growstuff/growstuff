@@ -2,15 +2,15 @@
 
 - if can? :create, Forum
   %p
-    = link_to "New forum", new_forum_path, :class => 'btn btn-default'
+    = link_to "New forum", new_forum_path, class: 'btn btn-default'
 
 - @forums.each do |forum|
   %h2= forum
   %p
     = localize_plural(forum.posts, Post)
     |
-    =link_to "Visit forum", forum
+    = link_to "Visit forum", forum
     |
-    =link_to "Post", new_post_path(:forum_id => forum.id)
-  =render :partial => "posts/summary", :locals => { :posts => forum.posts, :howmany => 4 }
+    = link_to "Post", new_post_path(forum_id: forum.id)
+  = render partial: "posts/summary", locals: { posts: forum.posts, howmany: 4 }
 
