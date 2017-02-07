@@ -7,32 +7,34 @@
       = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
     Please select a photo from your recent uploads.
 
-  - if @sets and @current_set
+  - if @sets && @current_set
     %h2= @sets.key(@current_set)
 
-  - if @sets and @sets.size > 0
+  - if @sets && !@sets.empty?
     %p
-      = form_tag(new_photo_path, :method => :get, :class => 'form-inline') do
-        = label_tag :set, "Choose a photo album:", :class => 'control-label'
-        = select_tag :set, options_for_select(@sets, @current_set), :class => 'input-large'
+      = form_tag(new_photo_path, method: :get, class: 'form-inline') do
+        = label_tag :set, "Choose a photo album:", class: 'control-label'
+        = select_tag :set, options_for_select(@sets, @current_set), class: 'input-large'
         = hidden_field_tag :type, @type
         = hidden_field_tag :id, @id
-        = submit_tag "Search", :class => 'btn btn-primary'
+        = submit_tag "Search", class: 'btn btn-primary'
 
-  %div.pagination
+  .pagination
     = page_entries_info @photos
     = will_paginate @photos
 
   .row
   - @photos.each do |p|
     .col-md-2.six-across
-      .thumbnail(style='height: 220px')
-        = link_to image_tag(FlickRaw.url_q(p), :alt => '', :class => 'img'), photos_path(:photo => { :flickr_photo_id => p.id }, :type => @type, :id => @id), :method => :post
+      .thumbnail{ style: 'height: 220px' }
+        = link_to image_tag(FlickRaw.url_q(p), alt: '', class: 'img'),
+          photos_path(photo: { flickr_photo_id: p.id }, type: @type, id: @id),
+          method: :post
         %p
-          =p.title
+          = p.title
 
 - else
   .alert
     You must
-    =link_to "connect your account to Flickr", '/auth/flickr'
+    = link_to "connect your account to Flickr", '/auth/flickr'
     to add photos.
