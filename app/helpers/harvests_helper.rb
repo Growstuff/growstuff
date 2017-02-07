@@ -33,7 +33,7 @@ module HarvestsHelper
   end
 
   def harvests_title(owner, crop)
-    if @owner
+    if owner
       t('.title.owner_harvests', owner: owner.login_name)
     elsif crop
       t('.title.crop_harvests', crop: crop.name)
