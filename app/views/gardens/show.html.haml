@@ -4,7 +4,7 @@
   - @garden.photos.each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
   - if @garden.description
-    = tag("meta", property: "og:description", content: @garden.description)
+    = tag("meta", property: "og:description", content: og_description(@garden.description))
   = tag("meta", property: "og:title", content: "#{@garden.owner}'s #{@garden}")
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
