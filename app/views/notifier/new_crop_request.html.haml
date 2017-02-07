@@ -1,22 +1,28 @@
-- site_name = ENV['GROWSTUFF_SITE_NAME']
-
-%p Hello #{@member.login_name},
+%p
+  Hello
+  = @member.login_name
+  ,
 
 %p
-  #{@request.requester.login_name} has requested a new crop on #{site_name}.
+  = @request.requester.login_name
+  has requested a new crop on
+  = ENV['GROWSTUFF_SITE_NAME']
 
 %ul
   %li Name: #{@request.name}
-  %li Wikipedia URL: #{@request.en_wikipedia_url.present? ? @request.en_wikipedia_url : "not specified"}
+  %li Wikipedia URL: #{@request.en_wikipedia_url.present? ? @request.en_wikipedia_url : 'not specified'}
   %li Notes: #{@request.request_notes}
 
 %p
-  As a crop wrangler, you can #{link_to "approve or reject this request", edit_crop_url(@request)}.
+  As a crop wrangler, you can
+  = link_to "approve or reject this request", edit_crop_url(@request)
+  \.
 
 %p
-  Or, discuss this and other crop wrangling issues in our #{link_to "crop wrangling forum", "http://talk.growstuff.org/c/crop-wrangling"}.
+  Or, discuss this and other crop wrangling issues in our
+  = link_to "crop wrangling forum", "http://talk.growstuff.org/c/crop-wrangling"
 
 %p
   Thanks for your help!
 
-= render :partial => 'signature'
+= render partial: 'signature'

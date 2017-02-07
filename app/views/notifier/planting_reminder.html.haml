@@ -5,7 +5,7 @@
 
 %p
 
-- if @member.plantings.size == 0
+- if @member.plantings.empty?
   %p
     #{site_name} lets you track what food you're growing
     in your garden and see what other people near you are planting too.
@@ -31,7 +31,7 @@
 
 %h2 Your recent harvests
 
-- if @member.harvests.size == 0
+- if @member.harvests.empty?
   %p
     #{site_name} helps you keep track of what you
     harvest from your garden.  Record what food you've grown
@@ -59,7 +59,7 @@
 %h2
   See you soon on #{site_name}!
 
-= render :partial => 'signature'
+= render partial: 'signature'
 
 %hr/
 %p

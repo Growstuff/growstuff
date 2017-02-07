@@ -1,8 +1,8 @@
-- site_name = ENV['GROWSTUFF_SITE_NAME']
 %p Hello #{@member.login_name},
 
 %p
-  Your request for the new crop: #{link_to @crop.name, crop_url(@crop)} has been approved! Thank you for helping us make our listing ever more complete!
+  Your request for the new crop: #{link_to @crop.name, crop_url(@crop)} has
+  been approved! Thank you for helping us make our listing ever more complete!
 
 %ul
   %li
@@ -12,5 +12,5 @@
   %li
     = link_to "Stash seeds for #{@crop.name}", new_seed_url(crop_id: @crop.id)
 
-= render :partial => 'signature'
+= render partial: 'signature'
 

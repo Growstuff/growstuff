@@ -1,14 +1,16 @@
-- site_name = ENV['GROWSTUFF_SITE_NAME']
-%p Hello #{@notification.recipient.login_name},
+%p
+  Hello #{@notification.recipient.login_name},
 
 %p
   You have received a message from
   = link_to @notification.sender.login_name, member_url(@notification.sender)
-  on #{site_name} at #{@notification.created_at}
+  on #{ENV['GROWSTUFF_SITE_NAME']} at #{@notification.created_at}
+
   - if @notification.post
     in response to
     = link_to @notification.post.subject, post_url(@notification.post)
   \.
+
 %blockquote
   :growstuff_markdown
     #{strip_tags @notification.body}
@@ -21,4 +23,4 @@
   = link_to "Unsubscribe from direct message notifications", unsubscribe_member_url(@signed_message)
   from these notifications
 
-= render :partial => 'signature'
+= render partial: 'signature'
