@@ -2,7 +2,7 @@
 
 %p Sign up for a Growstuff account to track your veggie garden and connect with other local growers.
 
-= form_for(current_member, as: 'member', url: finish_signup_path(current_member), html: { role: 'form'}) do |f|
+= form_for(current_member, as: 'member', url: finish_signup_path(current_member), html: { role: 'form' }) do |f|
   - if @show_errors && current_member.errors.any?
     .alert.alert-danger
       - current_member.errors.full_messages.each do |msg|
@@ -31,7 +31,7 @@
   .form-group
     .col-md-offset-2.col-md-8.checkbox
       %label
-        = f.check_box :newsletter, :checked => true
+        = f.check_box :newsletter, checked: true
         Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
       .help-inline
         = render partial: 'devise/registrations/newsletter_blurb'
