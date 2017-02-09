@@ -49,7 +49,7 @@
 %h2 Notes
 
 :growstuff_markdown
-  #{ @harvest.description != "" ? @harvest.description : "No description given." }
+  #{ @harvest.description != "" ? strip_tags(@harvest.description) : "No description given." }
 
 - if !@harvest.photos.empty? || (can?(:edit, @harvest) && can?(:create, Photo))
   %h2 Pictures
