@@ -6,7 +6,7 @@
 %p
   %b Description:
   :growstuff_markdown
-    #{@product.description}
+    #{strip_tags(@product.description)}
 %p
   %b Min price:
   = @product.min_price

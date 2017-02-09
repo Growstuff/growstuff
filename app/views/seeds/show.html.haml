@@ -49,7 +49,7 @@
     %p
       %b Description:
       :growstuff_markdown
-        #{ @seed.description != "" ? @seed.description : "No description given." }
+        #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
 
     - if current_member
       - if @seed.tradable? && current_member != @seed.owner

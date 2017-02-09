@@ -77,7 +77,7 @@
   %h2 Notes
 
   :growstuff_markdown
-    #{ @planting.description != "" ? @planting.description : "No description given." }
+    #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
 
 - if !@planting.photos.empty? || (can?(:edit, @planting) && can?(:create, Photo))
   %h2 Pictures
