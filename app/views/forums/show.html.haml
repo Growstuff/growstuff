@@ -1,7 +1,7 @@
 - content_for :title, @forum.name
 - content_for :opengraph do
   - if @forum.description
-    = tag("meta", property: "og:description", content: strip_tags(@forum.description).split(' ')[0..20].join(' '))
+    = tag("meta", property: "og:description", content: og_description(@forum.description))
   = tag("meta", property: "og:title", content: @forum.name)
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
@@ -18,18 +18,18 @@
     #{ strip_tags(@forum.description) }
 
 - if can? :edit, @forum
-  =link_to "Edit", edit_forum_path(@forum), :class => 'btn btn-default btn-xs'
+  = link_to "Edit", edit_forum_path(@forum), class: 'btn btn-default btn-xs'
 - if can? :delete, @forum
-  = link_to 'Delete', @forum, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  = link_to 'Delete', @forum, method: :delete, data: { confirm: 'Are you sure?' }
 
 %h2
   Posts
-  =link_to "Post something", new_post_path(:forum_id => @forum.id), :class => 'btn btn-primary'
+  = link_to "Post something", new_post_path(forum_id: @forum.id), class: 'btn btn-primary'
 
-- if @forum.posts.size > 0
-  =render :partial => "posts/summary", :locals => { :posts => @forum.posts }
-- else
+- if @forum.posts.empty?
   No posts yet.
+- else
+  = render partial: "posts/summary", locals: { posts: @forum.posts }
 
 
 

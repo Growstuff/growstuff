@@ -1,4 +1,4 @@
-- if can? :edit, crop or can? :destroy, crop
+- if can?(:edit, crop) || can?(:destroy, crop)
   %h4 Crop wrangling
   %p
     You are a
@@ -6,6 +6,9 @@
       %strong CROP WRANGLER
   %p
     - if can? :edit, crop
-      = link_to 'Edit crop', edit_crop_path(crop), { :class => 'btn btn-default btn-xs' }
+      = link_to 'Edit crop', edit_crop_path(crop), class: 'btn btn-default btn-xs'
     - if can? :destroy, crop
-      = link_to 'Delete crop', crop, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+      = link_to 'Delete crop', crop,
+                 method: :delete,
+                 data: { confirm: 'Are you sure?' },
+                 class: 'btn btn-default btn-xs'

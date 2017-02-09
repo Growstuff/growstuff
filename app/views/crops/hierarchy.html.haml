@@ -6,4 +6,4 @@
     = link_to "crops database", crops_path
 
 - cache cache_key_for(Crop) do
-  = render :partial => "hierarchy", :locals => { :display_crops => @crops }
+  = render partial: "hierarchy", locals: { display_crops: @crops }

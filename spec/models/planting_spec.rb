@@ -37,9 +37,18 @@ describe Planting do
   end
 
   describe '#planted?' do
-    it "should be false for future plantings"
-    it "should be false for never planted"
-    it "should be false for future plantings"
+    it "should be false for future plantings" do
+      planting = FactoryGirl.create :planting, planted_at: Time.zone.today + 1
+      expect(planting.planted?).to eq(false)
+    end
+    it "should be false for never planted" do
+      planting = FactoryGirl.create :planting, planted_at: nil
+      expect(planting.planted?).to eq(false)
+    end
+    it "should be true for past plantings" do
+      planting = FactoryGirl.create :planting, planted_at: Time.zone.today - 1
+      expect(planting.planted?).to eq(true)
+    end
   end
 
   describe '#percentage_grown' do

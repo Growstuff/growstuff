@@ -81,4 +81,29 @@ module ApplicationHelper
     model_name = model.model_name.human(count: size)
     "#{size} #{model_name}"
   end
+
+  def show_inactive_tickbox_path(type, owner, show_all)
+    all = show_all ? '' : 1
+    if owner
+      plantings_by_owner_path(owner: owner.slug, all: all) if type == 'plantings'
+      gardens_by_owner_path(owner: owner.slug, all: all) if type == 'gardens'
+    else
+      plantings_path(all: all) if type == 'plantings'
+      gardens_path(all: all) if type == 'gardens'
+    end
+  end
+
+  def title(type, owner, crop)
+    if owner
+      t(".title.owner_#{type}", owner: owner.login_name)
+    elsif crop
+      t(".title.crop_#{type}", crop: crop.name)
+    else
+      t(".title.default")
+    end
+  end
+
+  def og_description(description)
+    strip_tags(description).split(' ')[0..20].join(' ')
+  end
 end

@@ -58,7 +58,7 @@ def load_basic_account_types
   )
 end
 
-def load_test_users
+def load_test_users # rubocop:disable Metrics/AbcSize
   puts "Loading test users..."
 
   # Open suburb csv

@@ -1,6 +1,6 @@
--content_for :title, 'Search Orders'
+- content_for :title, 'Search Orders'
 
-=render "admin/orders/searchform"
+= render "admin/orders/searchform"
 
 - unless @orders.empty?
   %h2
@@ -28,7 +28,7 @@
         %td
           = order.referral_code
         %td
-          - if order.order_items.size > 0
+          - unless order.order_items.empty?
             - order.order_items.each do |o|
               = o.quantity
               x
@@ -36,4 +36,4 @@
               @
               = price_with_currency(o.price)
               %br/
-        %td= link_to 'Details', order, :class => 'btn btn-default btn-xs'
+        %td= link_to 'Details', order, class: 'btn btn-default btn-xs'

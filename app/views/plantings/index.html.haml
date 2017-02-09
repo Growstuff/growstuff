@@ -1,31 +1,31 @@
-- content_for :title, @owner ? t('.title.owner_plantings', owner: @owner) : @crop ? t('.title.crop_plantings', crop: @crop.name) : t('.title.default')
+- content_for :title, title('plantings', @owner, @crop)
 
 = render 'nav', owner: @owner, show_all: @show_all
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
 
-%div.pagination
+.pagination
   = page_entries_info @plantings
   = will_paginate @plantings
 
 .row
-  - if @plantings.size > 0
+  - unless @plantings.empty?
     - @plantings.each.with_index do |planting|
       .col-xs-12.col-lg-6
-        = render partial: "plantings/thumbnail", locals: {:planting => planting}
+        = render partial: "plantings/thumbnail", locals: { planting: planting }
 
-%div.pagination
+.pagination
   = page_entries_info @plantings
   = will_paginate @plantings
 
   %ul.list-inline
     %li The data on this page is available in the following formats:
     - if @owner
-      %li= link_to "CSV", plantings_by_owner_path(@owner, :format => 'csv')
-      %li= link_to "JSON", plantings_by_owner_path(@owner, :format => 'json')
-      %li= link_to "RSS", plantings_by_owner_path(@owner, :format => 'rss')
+      %li= link_to "CSV", plantings_by_owner_path(@owner, format: 'csv')
+      %li= link_to "JSON", plantings_by_owner_path(@owner, format: 'json')
+      %li= link_to "RSS", plantings_by_owner_path(@owner, format: 'rss')
     - else
-      %li= link_to "CSV", plantings_path(:format => 'csv')
-      %li= link_to "JSON", plantings_path(:format => 'json')
-      %li= link_to "RSS", plantings_path(:format => 'rss')
+      %li= link_to "CSV", plantings_path(format: 'csv')
+      %li= link_to "JSON", plantings_path(format: 'json')
+      %li= link_to "RSS", plantings_path(format: 'rss')

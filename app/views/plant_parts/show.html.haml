@@ -17,6 +17,6 @@
 
 %p
 - if can? :edit, @plant_part
-  = link_to 'Edit', edit_plant_part_path(@plant_part), :class => 'btn btn-default btn-xs'
+  = link_to 'Edit', edit_plant_part_path(@plant_part), class: 'btn btn-default btn-xs'
 - if can? :destroy, @plant_part
-  = link_to 'Delete', @plant_part, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+  = link_to 'Delete', @plant_part, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'

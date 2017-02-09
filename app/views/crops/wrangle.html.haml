@@ -8,7 +8,7 @@
   %li= link_to "Full crop hierarchy", crops_hierarchy_path
   %li= link_to "Add Crop", new_crop_path
 
-%div.crop_wranglers
+.crop_wranglers
   %h2 Crop Wranglers:
   %ul
     - @crop_wranglers.each do |crop_wrangler|
@@ -17,12 +17,12 @@
 
 .tabbable
   %ul.nav.nav-tabs
-    %li{:class => @approval_status.blank? ? 'active' : ''}
+    %li{ class: @approval_status.blank? ? 'active' : '' }
       = link_to "Recently added", wrangle_crops_path
-    %li{:class => @approval_status == "pending" ? 'active' : ''}
-      = link_to "Pending approval", wrangle_crops_path(:approval_status => "pending")
-    %li{:class => @approval_status == "rejected" ? 'active' : ''}
-      = link_to "Rejected", wrangle_crops_path(:approval_status => "rejected")
+    %li{ class: @approval_status == "pending" ? 'active' : '' }
+      = link_to "Pending approval", wrangle_crops_path(approval_status: "pending")
+    %li{ class: @approval_status == "rejected" ? 'active' : '' }
+      = link_to "Rejected", wrangle_crops_path(approval_status: "rejected")
 
 %h2
   - if @approval_status == "pending"
@@ -33,11 +33,12 @@
     Recently added crops
 
 
-%div.pagination
+.pagination
   = page_entries_info @crops
   = will_paginate @crops
 
-%table{:class => "table table-striped", :id => @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops"}
+%table{ class: "table table-striped",
+        id: @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops" }
   %tr
     %th System name
     %th English Wikipedia URL
@@ -63,7 +64,7 @@
         = distance_of_time_in_words(c.created_at, Time.zone.now)
         ago.
 
-%div.pagination
+.pagination
   = page_entries_info @crops
   = will_paginate @crops
 

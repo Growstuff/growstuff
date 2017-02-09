@@ -6,11 +6,14 @@
   - content_for :title, "Crop search"
 
 %div
-  = form_tag crops_search_path, :method => :get, :id => 'crop-search', :class => 'form-inline' do
+  = form_tag crops_search_path, method: :get, id: 'crop-search', class: 'form-inline' do
     .form-group
-      = label_tag :term, "Search crops:", :class => 'sr-only'
-      = text_field_tag 'term', nil, :class => 'search-query input-medium form-control', :placeholder => 'Search crops', :value => @term
-    = submit_tag "Search", :class => 'btn btn-primary'
+      = label_tag :term, "Search crops:", class: 'sr-only'
+      = text_field_tag 'term', nil,
+                       class: 'search-query input-medium form-control',
+                       placeholder: 'Search crops',
+                       value: @term
+    = submit_tag "Search", class: 'btn btn-primary'
 
 - if @matches.empty?
   %h2 No results found
@@ -22,14 +25,14 @@
     instead.
 
 - else
-  %div.pagination
+  .pagination
     = will_paginate @paginated_matches
 
-  %div#paginated_matches
+  #paginated_matches
     .row
       - @paginated_matches.each do |c|
         .col-md-2.six-across
-          = render :partial => "thumbnail", :locals => { :crop => c }
+          = render partial: "thumbnail", locals: { crop: c }
 
-  %div.pagination
+  .pagination
     = will_paginate @paginated_matches

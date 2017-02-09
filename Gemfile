@@ -68,6 +68,9 @@ gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
+# For charting data
+gem 'd3-rails'
+
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
@@ -116,8 +119,10 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.5.0'
   gem 'factory_girl_rails'              # for creating test data
   gem 'haml-i18n-extractor'
+  gem 'haml_lint'                       # Checks haml files for goodness
   gem 'haml-rails'                      # HTML templating language
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+  gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'                     # unit testing framework

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-%rss{:version => 2.0}
+%rss{ version: 2.0 }
   %channel
     %title Recent comments on #{@post.subject} (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= post_url(@post)
     - @post.comments.each do |comment|
       %item
-        %title Comment by #{comment.author.login_name} on #{comment.created_at.to_s}
+        %title Comment by #{comment.author.login_name} on #{comment.created_at}
         %description
 
           :escaped
@@ -17,6 +17,6 @@
           :escaped_markdown
             #{ strip_tags comment.body }
 
-        %pubDate= comment.created_at.to_s(:rfc822)
+        %pubdate= comment.created_at.to_s(:rfc822)
         %link= post_url(@post)
         %guid= comment_url(comment)

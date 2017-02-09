@@ -30,6 +30,7 @@ class MembersController < ApplicationController
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
     @posts         = @member.posts
+    @gardens       = @member.gardens.active.order(:name)
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
     # The new garden is not persisted unless Garden#save is called.

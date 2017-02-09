@@ -16,6 +16,8 @@ class CropsController < ApplicationController
              end
     @paginated_crops = @crops.approved.paginate(page: params[:page])
 
+    @has_requested_pending = Crop.pending_approval.where(requester: current_member).count if current_member
+
     respond_to do |format|
       format.html
       format.json { render json: @crops }
@@ -29,6 +31,10 @@ class CropsController < ApplicationController
         render csv: @crops
       end
     end
+  end
+
+  def requested
+    @requested = Crop.pending_approval.where(requester: current_member).paginate(page: params[:page])
   end
 
   # GET /crops/wrangle

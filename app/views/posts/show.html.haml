@@ -1,7 +1,7 @@
 = content_for :title, @post.subject
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: avatar_uri(@post.author, 200))
-  = tag("meta", property: "og:description", content: "#{strip_tags(@post.body).split(' ')[0..20].join(' ')}...")
+  = tag("meta", property: "og:description", content: og_description(@post.body))
   = tag("meta", property: "og:title", content: @post.subject)
   = tag("meta", property: "og:type", content: "article")
   = tag("meta", property: "og:url", content: request.original_url)
@@ -12,34 +12,35 @@
     = link_to @post.author.login_name, member_path(@post.author)
     is using
     = link_to ENV["GROWSTUFF_SITE_NAME"], root_path
-    to discuss #{ @post.subject } with a community of food gardeners worldwide.
+    to discuss #{@post.subject} with a community of food gardeners worldwide.
     We have advice on growing
     = succeed "," do
       = link_to 'hundreds of different crops', crops_url
     and a community from all around the world.
 
-    = render :partial => "shared/signin_signup",
-      :locals => { :to => "or to start using #{ENV["GROWSTUFF_SITE_NAME"]} to track what you're planting and harvesting" }
+    = render partial: "shared/signin_signup",
+      locals: { to: "or to start using #{ENV['GROWSTUFF_SITE_NAME']} to track what you're planting and harvesting" }
 
-= render :partial => "single", :locals => { :post => @post, :subject => false, :hide_comments => true }
+= render partial: "single", locals: { post: @post, subject: false, hide_comments: true }
 
 - unless @post.crops.empty?
   %h3 Crops mentioned in this post
   - @post.crops.each do |c|
     .col-md-2
-      = render :partial => 'crops/thumbnail', :locals => { :crop => c }
+      = render partial: 'crops/thumbnail', locals: { crop: c }
 
 .col-md-11
-  - if can? :edit, @post or can? :destroy, @post
+  - if can?(:edit, @post) || can?(:destroy, @post)
     .post-actions
       - if can? :edit, @post
-        = link_to 'Edit Post', edit_post_path(@post), :class => 'btn btn-default btn-xs'
+        = link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-default btn-xs'
       - if can? :destroy, @post
-        = link_to 'Delete Post', @post, method: :delete, |
-          data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+        = link_to 'Delete Post', @post, method: :delete,
+                  data: { confirm: 'Are you sure?' },
+                  class: 'btn btn-default btn-xs'
 
-  = render :partial => "comments", :locals => { :post => @post }
+  = render partial: "comments", locals: { post: @post }
 
   - if can? :create, Comment
     .post-actions
-      =link_to 'Comment', new_comment_path(:post_id => @post.id), :class => 'btn btn-primary'
+      = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn btn-primary'

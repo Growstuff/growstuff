@@ -1,32 +1,20 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
-%p
-  - if can? :create, Garden
-    - if @owner
-      %p
-        - if @owner == current_member
-          = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
-        = link_to "View everyone's gardens", gardens_path, :class => 'btn btn-default'
-    - else # everyone's gardens
-      = link_to 'Add a garden', new_garden_path, :class => 'btn btn-primary'
-      - if current_member
-        = link_to 'View your gardens', gardens_by_owner_path(:owner => current_member.slug), :class => 'btn btn-default'
-  - else
-    = render :partial => 'shared/signin_signup', :locals => { :to => 'add a new garden' }
+= render 'nav', owner: @owner, show_all: @show_all
 
-%div.pagination
+.pagination
   = page_entries_info @gardens
   = will_paginate @gardens
 
 .row
-  - if @gardens.size > 0
+  - if @gardens.empty?
+    %p There are no gardens to display.
+  - else
     - @gardens.each do |garden|
       .col-md-6
-        =render :partial => 'gardens/thumbnail', :locals => {:garden => garden}
-  - else
-    %p There are no gardens to display.
+        = render partial: 'gardens/thumbnail', locals: { garden: garden }
 
-%div.pagination
+.pagination
   = page_entries_info @gardens
   = will_paginate @gardens
 

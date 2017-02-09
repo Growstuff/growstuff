@@ -27,6 +27,8 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
+  has_many :likes, dependent: :destroy
+
   default_scope { order("lower(login_name) asc") }
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
@@ -219,16 +221,12 @@ class Member < ActiveRecord::Base
   end
 
   def update_newsletter_subscription
-    if confirmed_at_changed? && newsletter # just signed up
-      newsletter_subscribe
-    elsif confirmed_at # i.e. after member's confirmed their account
-      if newsletter_changed? # edited member settings
-        if newsletter
-          newsletter_subscribe
-        else
-          newsletter_unsubscribe
-        end
-      end
+    return unless confirmed_at_changed? || newsletter_changed?
+
+    if newsletter
+      newsletter_subscribe if confirmed_at_changed? || confirmed_at && newsletter_changed?
+    elsif confirmed_at
+      newsletter_unsubscribe
     end
   end
 

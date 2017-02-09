@@ -163,11 +163,11 @@ class Crop < ActiveRecord::Base
   # key: plant part (eg. 'fruit')
   # value: count of how many times it's been used by harvests
   def popular_plant_parts
-    popular_plant_parts = Hash.new(0)
-    harvests.each do |h|
-      popular_plant_parts[h.plant_part] += 1 if h.plant_part
-    end
-    popular_plant_parts
+    PlantPart.joins(:harvests)
+      .where("crop_id = ?", id)
+      .order("count_harvests_id DESC")
+      .group("plant_parts.id", "plant_parts.name")
+      .count("harvests.id")
   end
 
   def interesting?
@@ -349,11 +349,11 @@ class Crop < ActiveRecord::Base
   end
 
   def count_uses_of_property(col_name)
-    data = Hash.new(0)
-    plantings.each do |p|
-      data[p.send(col_name.to_s)] += 1 unless p.send(col_name.to_s).blank?
-    end
-    data
+    plantings.unscoped
+      .where(crop_id: id)
+      .where.not(col_name => nil)
+      .group(col_name)
+      .count
   end
 
   # Custom validations

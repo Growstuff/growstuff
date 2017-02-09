@@ -43,6 +43,7 @@ Growstuff::Application.routes.draw do
   resources :scientific_names
   resources :alternate_names
 
+  get 'crops/requested' => 'crops#requested', :as => 'requested_crops'
   get 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
   get 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'
   get 'crops/search' => 'crops#search', :as => 'crops_search'
@@ -73,6 +74,8 @@ Growstuff::Application.routes.draw do
 
   resources :order_items
   resources :products
+
+  resources :likes, only: [:create, :destroy]
 
   get "home/index"
   root to: 'home#index'

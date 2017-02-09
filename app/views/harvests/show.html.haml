@@ -1,4 +1,4 @@
-=content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
+= content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
 - content_for :opengraph do
   - @harvest.photos.each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
@@ -14,7 +14,7 @@
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
       &mdash;
-      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(:owner => @harvest.owner.slug)
+      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(owner: @harvest.owner.slug)
     %p
       %b Plant part:
       - if @harvest.plant_part
@@ -27,36 +27,39 @@
 
     - if @planting
       %p
-        %b Garden:
+        %b Planting:
+        = link_to "#{@planting.crop.name} planted on #{@planting.planted_at}", planting_path(@planting)
+        in
         = link_to @planting.garden, garden_path(@planting.garden)
     %p
       %b Quantity:
       = display_quantity(@harvest)
 
-    - if can? :edit, @harvest or can? :destroy, @harvest
+    - if can?(:edit, @harvest) || can?(:destroy, @harvest)
       %p
       - if can? :edit, @harvest
-        =link_to 'Edit', edit_harvest_path(@harvest), :class => 'btn btn-default btn-xs'
+        = link_to 'Edit', edit_harvest_path(@harvest), class: 'btn btn-default btn-xs'
       - if can? :destroy, @harvest
-        =link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-xs'
+        = link_to 'Delete', @harvest, method: :delete, data: { confirm: 'Are you sure?' },
+                  class: 'btn btn-default btn-xs'
 
   .col-md-6
-    = render :partial => "crops/index_card", :locals => { :crop => @harvest.crop}
+    = render partial: "crops/index_card", locals: { crop: @harvest.crop }
 
 %h2 Notes
 
 :growstuff_markdown
-  #{ @harvest.description != "" ? @harvest.description : "No description given." }
+  #{ @harvest.description != "" ? strip_tags(@harvest.description) : "No description given." }
 
-- if @harvest.photos.size > 0 or (can? :edit, @harvest and can? :create, Photo)
+- if !@harvest.photos.empty? || (can?(:edit, @harvest) && can?(:create, Photo))
   %h2 Pictures
 
   %ul.thumbnails
     - @harvest.photos.each do |p|
       .col-md-2.six-across
-        = render :partial => 'photos/thumbnail', :locals => { :photo => p }
-    - if can? :create, Photo and can? :edit, @harvest
+        = render partial: 'photos/thumbnail', locals: { photo: p }
+    - if can?(:create, Photo) && can?(:edit, @harvest)
       .col-md-2
-        .thumbnail(style='height: 220px')
-          %p{:style => 'text-align: center; padding-top: 50px'}
-            = link_to "Add photo", new_photo_path(:type => "harvest", :id => @harvest.id), :class => 'btn btn-primary'
+        .thumbnail{ style: 'height: 220px' }
+          %p{ style: 'text-align: center; padding-top: 50px' }
+            = link_to "Add photo", new_photo_path(type: "harvest", id: @harvest.id), class: 'btn btn-primary'

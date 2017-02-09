@@ -1,4 +1,4 @@
-%h4 #{ crop.name.capitalize } harvests
+%h4 #{crop.name.capitalize} harvests
 - if crop.harvests.empty?
   %p
     Nobody has harvested this crop yet.
@@ -7,7 +7,7 @@
     - crop.harvests.take(3).each do |harvest|
       %li
         = link_to "#{harvest.owner} harvested #{display_quantity(harvest)}.", harvest_path(harvest)
-        = render :partial => 'members/location', :locals => { :member => harvest.owner }
+        = render partial: 'members/location', locals: { member: harvest.owner }
         %small
           = distance_of_time_in_words(harvest.created_at, Time.zone.now)
           ago.
@@ -15,7 +15,6 @@
     = link_to "View all #{crop.name} harvests", harvests_by_crop_path(crop)
 - if crop.approved?
   - if current_member
-    %p= link_to "Harvest #{crop.name}", new_harvest_path(:crop_id => crop.id)
+    %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id)
   - else
-    = render :partial => 'shared/signin_signup', :locals => { :to => "track your #{crop.name} harvests" }
-
+    = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} harvests" }
