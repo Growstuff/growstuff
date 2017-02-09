@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-%rss{:version => 2.0}
+%rss{ version: 2.0 }
   %channel
     %title
-      Recent seeds from #{ @owner ? @owner : 'all members' } (#{ENV['GROWSTUFF_SITE_NAME']})
+      Recent seeds from #{@owner ? @owner : 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= seeds_url
     - @seeds.each do |seed|
       %item
         %title #{seed.owner}'s #{seed.crop} seeds
-        %pubDate= seed.created_at.to_s(:rfc822)
+        %pubdate= seed.created_at.to_s(:rfc822)
         %description
           :escaped
             <p>Quantity: #{seed.quantity ? seed.quantity : 'unknown' }</p>
@@ -16,8 +16,9 @@
             <p>GMO? #{seed.gmo}</p>
             <p>Heirloom? #{seed.heirloom}</p>
           - if seed.tradable?
-            :escaped
-              <p>Will trade #{seed.tradable_to} from #{seed.owner.location ? seed.owner.location : 'unknown location'}</p>
+            %p
+              Will trade #{seed.tradable_to} from
+              = seed.owner.location ? seed.owner.location : 'unknown location'
 
           :escaped_markdown
             #{ strip_tags seed.description }
