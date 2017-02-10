@@ -98,7 +98,7 @@ def load_test_users # rubocop:disable Metrics/AbcSize
     Planting.create(
       owner_id: @user.id,
       garden_id: @user.gardens.first.id,
-      planted_at: Date.today,
+      planted_at: Time.zone.today,
       crop_id: Crop.find(i % Crop.all.size + 1).id,
       sunniness: select_random_item(Planting::SUNNINESS_VALUES),
       planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
