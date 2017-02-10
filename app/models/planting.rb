@@ -68,7 +68,7 @@ class Planting < ActiveRecord::Base
       owner.login_name,
       garden.present? ? garden.name : 'null',
       crop.present? ? crop.name : 'null'
-    ].downcase.tr(' ', '-')
+    ].tr(' ', '-').downcase
   end
 
   # location = garden owner + garden name, i.e. "Skud's backyard"
