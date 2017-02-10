@@ -30,7 +30,7 @@
                   = link_to 'tell us more.', edit_garden_path(g)
 
 
-          - if !g.photos.empyy? || (can?(:edit, g) && can?(:create, Photo))
+          - if !g.photos.empty? || (can?(:edit, g) && can?(:create, Photo))
             .row
               %h3 Photos
               %p= localize_plural(g.photos, Photo)
