@@ -5,7 +5,7 @@
   Your account on #{site_name} has been created.  You just need to confirm
   your email address through the link below:
 
-%p= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token)
+%p= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token)
 
 %p
   Once you're confirmed, you can sign in with your login name
@@ -17,9 +17,9 @@
   We're excited to have you as a member, and hope you'll enjoy
   what #{site_name} has to offer. Take a look around the site,
   = succeed "," do
-    = link_to('plant some things', url_for(:controller => '/crops', :only_path => false))
+    = link_to('plant some things', url_for(controller: '/crops', only_path: false))
   and feel free to drop in on the
-  = link_to 'forums', url_for(:controller => '/forums', :only_path => false)
+  = link_to 'forums', url_for(controller: '/forums', only_path: false)
   if you have any questions or feedback.
 
 %p

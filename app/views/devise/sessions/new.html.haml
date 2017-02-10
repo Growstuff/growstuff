@@ -1,17 +1,19 @@
 - content_for :title, "Sign in"
 
-= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-horizontal"}) do |f|
+= form_for(resource, as: resource_name,
+            url: session_path(resource_name),
+            html: { class: "form-horizontal" }) do |f|
   = devise_error_messages!
 
   .form-group
-    = f.label :login, :class => "control-label col-md-2"
+    = f.label :login, class: "control-label col-md-2"
     .col-md-8
-      = f.text_field :login, :class => 'form-control'
+      = f.text_field :login, class: 'form-control'
 
   .form-group
-    = f.label :password, :class => "control-label col-md-2"
+    = f.label :password, class: "control-label col-md-2"
     .col-md-8
-      = f.password_field :password, :class => 'form-control'
+      = f.password_field :password, class: 'form-control'
 
   - if devise_mapping.rememberable?
     .form-group
@@ -22,7 +24,7 @@
 
   .form-group
     .form-actions.col-md-8.col-md-offset-2
-      = f.submit "Sign in", :class => 'btn btn-primary'
+      = f.submit "Sign in", class: 'btn btn-primary'
 
   .form-group
     .col-md-8.col-md-offset-2
