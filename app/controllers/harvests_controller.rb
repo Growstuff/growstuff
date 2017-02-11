@@ -47,7 +47,6 @@ class HarvestsController < ApplicationController
 
   # GET /harvests/1/edit
   def edit
-    @planting = @harvest.planting if @harvest.planting_id
   end
 
   # POST /harvests
