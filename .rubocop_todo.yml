@@ -135,7 +135,6 @@ Style/BarePercentLiterals:
 # IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
   Exclude:
-    - 'app/controllers/alternate_names_controller.rb'
     - 'app/controllers/members_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/controllers/scientific_names_controller.rb'
@@ -212,7 +211,6 @@ Style/EmptyMethod:
   Exclude:
     - 'app/controllers/account_types_controller.rb'
     - 'app/controllers/accounts_controller.rb'
-    - 'app/controllers/alternate_names_controller.rb'
     - 'app/controllers/gardens_controller.rb'
     - 'app/controllers/photos_controller.rb'
     - 'app/controllers/plant_parts_controller.rb'
