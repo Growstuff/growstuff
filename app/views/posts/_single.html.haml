@@ -40,10 +40,13 @@
           = pluralize(post.likes.count, "like") unless post.likes.empty?
         - if member_signed_in?
           - if !post.members.include? current_member
-            = link_to 'Like', likes_path(Like.new, post_id: post.id, format: :json),
-                      method: :post, remote: true, class: 'post-like'
+            - if can?(:new, Like)
+              = link_to 'Like', likes_path(Like.new, post_id: post.id, format: :json),
+                        method: :post, remote: true, class: 'post-like'
           - else
             - like = post.likes.find_by(member: current_member)
-            - if like
+            - if like && can?(:destroy, like)
               = link_to 'Unlike', like_path(like, format: :json),
                         method: :delete, remote: true, class: 'post-like'
+
+
