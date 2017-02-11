@@ -27,7 +27,7 @@ class HarvestsController < ApplicationController
   end
 
   def show
-    @planting = @harvest.planting if @harvest.planting_id
+    @matching_plantings = matching_plantings if @harvest.owner == current_member
   end
 
   # GET /harvests/new
@@ -46,8 +46,7 @@ class HarvestsController < ApplicationController
   end
 
   # GET /harvests/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /harvests
   # POST /harvests.json
@@ -98,5 +97,9 @@ class HarvestsController < ApplicationController
         :quantity, :unit, :weight_quantity, :weight_unit,
         :plant_part_id, :slug, :si_weight)
       .merge(owner_id: current_member.id)
+  end
+
+  def matching_plantings
+    Planting.where(crop: @harvest.crop, owner: @harvest.owner)
   end
 end
