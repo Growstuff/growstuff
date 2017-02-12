@@ -550,6 +550,7 @@ DEPENDENCIES
   haml-i18n-extractor
   haml-rails
   haml_lint
+  hashie (~> 3.4.4)
   heroku-api
   i18n-tasks
   jasmine
