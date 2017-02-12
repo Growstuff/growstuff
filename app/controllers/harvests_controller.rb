@@ -33,7 +33,7 @@ class HarvestsController < ApplicationController
   # GET /harvests/new
   # GET /harvests/new.json
   def new
-    @harvest = Harvest.new('harvested_at' => Date.today)
+    @harvest = Harvest.new('harvested_at' => Time.zone.today)
     @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
 
     # using find_by_id here because it returns nil, unlike find
