@@ -64,15 +64,11 @@ class Planting < ActiveRecord::Base
   end
 
   def planting_slug
-    if garden.present? && crop.present?
-      "#{owner.login_name}-#{garden.name}-#{crop.name}"
-    elsif garden.present?
-      "#{owner.login_name}-#{garden.name}-null"
-    elsif crop.present?
-      "#{owner.login_name}-null-#{crop.name}"
-    else
-      "#{owner.login_name}-null-null"
-    end.downcase.gsub(' ', '-')
+    [
+      owner.login_name,
+      garden.present? ? garden.name : 'null',
+      crop.present? ? crop.name : 'null'
+    ].join('-').tr(' ', '-').downcase
   end
 
   # location = garden owner + garden name, i.e. "Skud's backyard"
