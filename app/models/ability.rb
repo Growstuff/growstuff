@@ -72,11 +72,13 @@ class Ability
     can :create, Authentication
     can :destroy, Authentication, member_id: member.id
 
-    # anyone can create a post, or comment on a post,
+    # anyone can create a post, like, or comment on a post,
     # but only the author can edit/destroy it.
     can :create,  Post
     can :update,  Post, author_id: member.id
     can :destroy, Post, author_id: member.id
+    can :create,  Like
+    can :destroy, Like, member_id: member.id
     can :create,  Comment
     can :update,  Comment, author_id: member.id
     can :destroy, Comment, author_id: member.id
