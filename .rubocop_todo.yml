@@ -55,7 +55,7 @@ Lint/Void:
 # Offense count: 55
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
-  Exclude: 
+  Exclude:
     - '**/*'
 
 # Offense count: 2
@@ -64,19 +64,6 @@ Performance/StringReplacement:
   Exclude:
     - 'app/models/planting.rb'
     - 'spec/rails_helper.rb'
-
-# Offense count: 9
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: strict, flexible
-Rails/Date:
-  Exclude:
-    - 'app/controllers/harvests_controller.rb'
-    - 'db/seeds.rb'
-    - 'lib/tasks/growstuff.rake'
-    - 'spec/controllers/plantings_controller_spec.rb'
-    - 'spec/factories/planting.rb'
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/shared_examples/append_date.rb'
 
 # Offense count: 4
 Rails/FilePath:

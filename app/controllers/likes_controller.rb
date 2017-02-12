@@ -1,58 +1,29 @@
 class LikesController < ApplicationController
-  before_action :authenticate_member!, except: :index
-
+  before_action :authenticate_member!
   respond_to :html, :json
 
   def create
-    @like = Like.new
-    @like.member = current_member
-    @like.likeable = find_likeable
+    @like = Like.new(member: current_member, likeable: find_likeable)
+    return failed(@like, message: 'Unable to like') unless @like.likeable && @like.save
 
     respond_to do |format|
-      if @like.save
-        format.html { redirect_to @like.likeable }
-        format.json do
-          render(
-            json: {
-              id: @like.likeable.id,
-              liked_by_member: true,
-              description: ActionController::Base.helpers.pluralize(@like.likeable.likes.count, "like"),
-              url: like_path(@like, format: :json)
-            },
-            status: 201
-          )
-        end
-      else
-        format.html do
-          flash[:error] = 'Unable to like'
-          redirect_to @like.likeable
-        end
+      format.html { redirect_to @like.likeable }
+      format.json do
+        render(json: render_json(@like, liked_by_member: true),
+               status: 201)
       end
     end
   end
 
   def destroy
-    like = Like.find(params[:id])
-    likeable = like.likeable
+    @like = Like.find_by(id: params[:id], member: current_member)
+    return failed(@like, message: 'Unable to unlike') unless @like && @like.destroy
+
     respond_to do |format|
-      if like.destroy
-        format.html { redirect_to likeable }
-        format.json do
-          render(
-            json: {
-              id: likeable.id,
-              liked_by_member: false,
-              description: ActionController::Base.helpers.pluralize(likeable.likes.count, "like"),
-              url: likes_path(Like.new, "#{likeable.class.name.underscore}_id", likeable.id, format: :json)
-            },
-            status: 200
-          )
-        end
-      else
-        format.html do
-          flash[:error] = 'Unable to unlike'
-          redirect_to likeable
-        end
+      format.html { redirect_to @like.likeable }
+      format.json do
+        render(json: render_json(@like, liked_by_member: false),
+               status: 200)
       end
     end
   end
@@ -60,12 +31,29 @@ class LikesController < ApplicationController
   private
 
   def find_likeable
-    params.each do |name, value|
-      return Regexp.last_match[1].classify.constantize.find(value) if name =~ /(.+)_id$/
-    end
+    Post.find(params[:post_id]) if params[:post_id]
   end
 
-  def like_params
-    params.require(:like).permit(:member, :likeable)
+  def render_json(like, liked_by_member: true)
+    {
+      id: like.likeable.id,
+      liked_by_member: liked_by_member,
+      description: ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like"),
+      url: like_path(like, format: :json)
+    }
+  end
+
+  def failed(like, message)
+    respond_to do |format|
+      format.json { render(json: { 'error': message }, status: 403) }
+      format.html do
+        flash[:error] = message
+        if like && like.likeable
+          redirect_to like.likeable
+        else
+          redirect_to root_path
+        end
+      end
+    end
   end
 end
