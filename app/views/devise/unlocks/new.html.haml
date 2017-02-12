@@ -1,10 +1,10 @@
 - content_for :title, "Resend unlock instructions"
 
 = form_for(resource, as: resource_name,
-                    url: unlock_path(resource_name),
-                    html: { method: :post,
-                    class: 'form-horizontal',
-                    role: 'form' }) do |f|
+    url: unlock_path(resource_name),
+    html: { method: :post,
+    class: 'form-horizontal',
+    role: 'form' }) do |f|
   = devise_error_messages!
 
   .form-group
