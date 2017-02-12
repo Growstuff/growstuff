@@ -3,7 +3,7 @@ FactoryGirl.define do
     garden
     owner
     crop
-    planted_at Date.today
+    planted_at Time.zone.today
     quantity 33
     description "This is a *really* good plant."
 
