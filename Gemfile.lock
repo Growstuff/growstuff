@@ -224,7 +224,7 @@ GEM
       rake (>= 10, < 13)
       rubocop (>= 0.47.0)
       sysexits (~> 1.1)
-    hashie (3.5.2)
+    hashie (3.4.6)
     heroku-api (0.4.2)
       excon (~> 0.45)
       multi_json (~> 1.8)
@@ -557,6 +557,7 @@ DEPENDENCIES
   haml-i18n-extractor
   haml-rails
   haml_lint
+  hashie (~> 3.4.4)
   heroku-api
   i18n-tasks
   jasmine
