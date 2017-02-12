@@ -17,21 +17,22 @@ describe LikesController do
   let(:member) { FactoryGirl.create(:member) }
   let(:blogpost) { FactoryGirl.create(:post) }
   let(:mypost) { FactoryGirl.create(:post, author: member) }
-  let(:valid_params) { { post_id: blogpost.id } }
 
-  before(:each) { sign_in member }
+  before { sign_in member }
+
+  describe "POST create" do
+    before { post :create, post_id: blogpost.id, format: :json }
+    it { expect(response.code).to eq('201') }
+    it { expect(response.content_type).to eq "application/json" }
+    it { expect(Like.last.likeable_id).to eq(blogpost.id) }
+    it { expect(Like.last.likeable_type).to eq('Post') }
+    it { JSON.parse(response.body)["description"] == "1 like" }
+  end
 
   describe "DELETE destroy" do
     before { delete :destroy, id: like.id, format: :json }
     it { expect(response.code).to eq('200') }
+    it { expect(response.content_type).to eq "application/json" }
     it { JSON.parse(response.body)["description"] == "0 likes" }
-  end
-
-  describe "POST create" do
-    before { post :create, valid_params, format: :json }
-    it { expect(response.code).to eq('201') }
-    it { expect(Like.last.likeable_id).to eq(blogpost.id) }
-    it { expect(Like.last.likeable_type).to eq('Post') }
-    it { JSON.parse(response.body)["description"] == "1 like" }
   end
 end
