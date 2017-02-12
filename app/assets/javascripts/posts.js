@@ -11,7 +11,7 @@ $(document).ready(function () {
       like_control.text("Unlike");
     } else {
       like_control.data("method", "post");
-      like_control.attr("href", '/likes.json?post_id=' + data.id);      
+      like_control.attr("href", '/likes.json?post_id=' + data.id);
       like_control.text("Like");
     }
   });
