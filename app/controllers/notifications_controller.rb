@@ -27,7 +27,7 @@ class NotificationsController < ApplicationController
   # GET /notifications/1/reply
   def reply
     @notification = Notification.new
-    @sender_notification = Notification.find(params[:id])
+    @sender_notification = Notification.find_by(id: params[:id], recipient: current_member)
     @sender_notification.read = true
     @sender_notification.save
     @recipient = @sender_notification.sender
