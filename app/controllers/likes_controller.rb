@@ -34,7 +34,7 @@ class LikesController < ApplicationController
     Post.find(params[:post_id]) if params[:post_id]
   end
 
-  def render_json(like, liked_by_member)
+  def render_json(like, liked_by_member: true)
     {
       id: like.likeable.id,
       liked_by_member: liked_by_member,
