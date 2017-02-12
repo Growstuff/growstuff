@@ -22,14 +22,16 @@ describe LikesController do
   before(:each) { sign_in member }
 
   describe "DELETE destroy" do
-    before { delete :destroy, id: like.id, format: 'json' }
+    before { delete :destroy, id: like.id, format: :json }
     it { expect(response.code).to eq('200') }
+    it { JSON.parse(response.body)["description"] == "0 likes" }
   end
 
   describe "POST create" do
-    before { post :create, valid_params, format: 'json' }
+    before { post :create, valid_params, format: :json }
     it { expect(response.code).to eq('201') }
     it { expect(Like.last.likeable_id).to eq(blogpost.id) }
     it { expect(Like.last.likeable_type).to eq('Post') }
+    it { JSON.parse(response.body)["description"] == "1 like" }
   end
 end
