@@ -4,7 +4,7 @@ class LikesController < ApplicationController
 
   def create
     @like = Like.new(member: current_member, likeable: find_likeable)
-    unable_to_like(@like) unless @like.likeable && @like.save
+    failed(@like, message: 'Unable to like') unless @like.likeable && @like.save
 
     respond_to do |format|
       format.html { redirect_to @like.likeable }
@@ -17,7 +17,7 @@ class LikesController < ApplicationController
 
   def destroy
     @like = Like.find_by(id: params[:id], member: current_member)
-    unable_to_unlike(@like) unless @like && @like.destroy
+    failed(@like, message: 'Unable to unlike') unless @like && @like.destroy
 
     respond_to do |format|
       format.html { redirect_to @like.likeable }
@@ -43,23 +43,10 @@ class LikesController < ApplicationController
     }
   end
 
-  def unable_to_unlike(like)
+  def failed(like, message)
     respond_to do |format|
       format.html do
-        flash[:error] = 'Unable to unlike'
-        if like.likeable
-          redirect_to like.likeable
-        else
-          redirect_to root_path
-        end
-      end
-    end
-  end
-
-  def unable_to_like(like)
-    respond_to do |format|
-      format.html do
-        flash[:error] = 'Unable to like'
+        flash[:error] = message
         if like.likeable
           redirect_to like.likeable
         else
