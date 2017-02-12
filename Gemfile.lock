@@ -490,7 +490,7 @@ GEM
     unicorn (5.2.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
-    warden (1.2.6)
+    warden (1.2.7)
       rack (>= 1.0)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
