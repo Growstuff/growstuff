@@ -46,7 +46,7 @@
           - else
             - like = post.likes.find_by(member: current_member)
             - if like && can?(:destroy, like)
-              = link_to 'Unlike', like_path(like, format: :json),
+              = link_to 'Unlike', like_path(id: like.id, format: :json),
                         method: :delete, remote: true, class: 'post-like'
 
 
