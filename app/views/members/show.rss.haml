@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-%rss{version: 2.0}
+%rss{ version: 2.0 }
   %channel
     %title #{@member.login_name}'s recent posts (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= member_url(@member)
     - @posts.each do |post|
       %item
         %title #{post.subject} by #{post.author.login_name}
-        %pubDate= post.created_at.to_s(:rfc822)
+        %pubdate= post.created_at.to_s(:rfc822)
         %link= post_url(post)
         %guid= post_url(post)
         %description
