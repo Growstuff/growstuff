@@ -7,9 +7,9 @@
   Is this from one of these plantings?
   = form_for(@harvest) do |f|
     - @matching_plantings.each do |planting|
-      = f.radio_button :planting_id, planting.id
-      = label_tag(:planting, planting)
-      %br/
+      .field
+        = f.radio_button :planting_id, planting.id
+        = label_tag(:planting, planting)
     = f.submit "save", class: 'btn btn-default btn-xs'
 - else
   Unknown
