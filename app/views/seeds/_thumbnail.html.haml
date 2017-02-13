@@ -9,7 +9,8 @@
     .row
       .col-md-4
         = link_to image_tag((seed.crop.default_photo ? seed.crop.default_photo.thumbnail_url : 'placeholder_150.png'),
-                            alt: seed.crop.name, class: 'img'), seed.crop
+                            alt: seed.crop.name, class: 'img'),
+                  seed.crop
       .col-md-8
         %dl.dl-horizontal
           %dt Crop :

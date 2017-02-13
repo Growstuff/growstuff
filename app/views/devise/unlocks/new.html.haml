@@ -1,15 +1,19 @@
 - content_for :title, "Resend unlock instructions"
 
-= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post, :class => 'form-horizontal', :role => 'form' }) do |f|
+= form_for(resource, as: resource_name,
+    url: unlock_path(resource_name),
+    html: { method: :post,
+    class: 'form-horizontal',
+    role: 'form' }) do |f|
   = devise_error_messages!
 
   .form-group
-    = f.label :email, :class => 'control-label col-md-2'
+    = f.label :email, class: 'control-label col-md-2'
     .col-md-8
-      = f.email_field :email, :class => 'form-control'
+      = f.email_field :email, class: 'form-control'
   .form-group
     .form-actions.col-md-offset-2.col-md-8
-      = f.submit "Resend unlock instructions", :class => 'btn btn-primary'
+      = f.submit "Resend unlock instructions", class: 'btn btn-primary'
 
   .form-group
     .col-md-offset-2.col-md-8
