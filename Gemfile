@@ -27,7 +27,7 @@ gem 'csv_shaper'                   # CSV export
 gem 'figaro'                       # for handling config via ENV variables
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 gem 'leaflet-markercluster-rails'
-gem 'leaflet-rails'
+gem 'leaflet-rails', '~> 0.7.7'    # Newer versions break tests - see https://travis-ci.org/CloCkWeRX/growstuff/builds/200984350
 gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
@@ -80,6 +80,7 @@ gem 'd3-rails'
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
 gem "elasticsearch-api", "~> 2.0.0"
 gem "elasticsearch-model"
+gem "hashie", "~> 3.4.4" # Required by elasticsearch-model, but needs to be pinned due to http://stackoverflow.com/questions/42170666/bundlergemrequireerror-there-was-an-error-while-trying-to-load-the-gem-omnia
 gem "elasticsearch-rails"
 
 gem 'rake', '>= 10.0.0'
