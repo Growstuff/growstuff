@@ -9,7 +9,7 @@
 
 %p#notice= notice
 
-= render :partial => 'crops/approval_status_message', :locals => { :crop => @scientific_name.crop }
+= render partial: 'crops/approval_status_message', locals: { crop: @scientific_name.crop }
 
 %p
   %b Scientific name:
@@ -20,6 +20,6 @@
 
 
 - if can? :edit, @scientific_name
-  = link_to 'Edit', edit_scientific_name_path(@scientific_name), :class => 'btn btn-default btn-xs'
+  = link_to 'Edit', edit_scientific_name_path(@scientific_name), class: 'btn btn-default btn-xs'
   \|
 = link_to 'Back', scientific_names_path

@@ -2,34 +2,34 @@
 
 %ul.list-inline
   %li
-    - unless member.plantings.empty?
+    - if !member.plantings.empty?
       = link_to localize_plural(member.plantings, Planting), plantings_by_owner_path(owner: member)
     - else
       0 plantings
   %li
-    - unless member.harvests.empty?
+    - if !member.harvests.empty?
       = link_to localize_plural(member.harvests, Harvest), harvests_by_owner_path(owner: member)
     - else
       0 harvests
   %li
-    - unless member.seeds.empty?
+    - if !member.seeds.empty?
       = link_to localize_plural(member.seeds, Seed), seeds_by_owner_path(owner: member)
     - else
       0 seeds
   %li
-    - unless member.posts.empty?
+    - if !member.posts.empty?
       = link_to localize_plural(member.posts, Post), posts_by_author_path(author: member)
     - else
       0 posts
 
   %li
-    - unless member.followed.empty?
+    - if !member.followed.empty?
       = link_to localize_plural(member.followed, Follow), member_follows_path(member)
     - else
       0 following
 
   %li
-    - unless member.followers.empty?
+    - if !member.followers.empty?
       = link_to pluralize(member.followers.size, "follower"), member_followers_path(member)
     - else
       0 followers

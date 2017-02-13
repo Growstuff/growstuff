@@ -1,6 +1,6 @@
 .row
   .col-md-8
-    - cache cache_key_for(Crop, 'interesting'), :expires_in => 1.day do
+    - cache cache_key_for(Crop, 'interesting'), expires_in: 1.day do
       %h2= t('.our_crops')
       .hidden-xs
         - Crop.interesting.first(8).each do |c|
@@ -14,7 +14,7 @@
   .col-md-4.hidden-xs
     - cache cache_key_for(Planting) do
       %h2= t('.recently_planted')
-      = render partial: 'plantings/list', locals: { :plantings => Planting.interesting.first(6) }
+      = render partial: 'plantings/list', locals: { plantings: Planting.interesting.first(6) }
 
 .row
   .col-md-12
@@ -22,7 +22,7 @@
       %p{ style: 'margin-top: 11.25px' }
         %strong
           #{t('.recently_added')}:
-        != Crop.recent.limit(12).map {|c| link_to(c, c) }.join(", ")
+        != Crop.recent.limit(12).map { |c| link_to(c, c) }.join(", ")
 
     %p.text-right
       = link_to "#{t('.view_all')} »", crops_path
