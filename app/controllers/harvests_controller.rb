@@ -103,5 +103,7 @@ class HarvestsController < ApplicationController
 
   def matching_plantings
     Planting.where(crop: @harvest.crop, owner: @harvest.owner)
+      .where('(planted_at IS NULL OR planted_at <= ?)', @harvest.harvested_at)
+      .where('(finished_at IS NULL OR finished_at >= ?)', @harvest.harvested_at)
   end
 end

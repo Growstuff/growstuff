@@ -114,8 +114,14 @@ feature "Harvesting a crop", :js do
   end
 
   context "Viewing a harvest" do
-    let(:existing_harvest) { create :harvest, crop: maize, owner: member }
-    let!(:existing_planting) { create :planting, crop: maize, owner: member }
+    let(:existing_harvest) do
+      create :harvest, crop: maize, owner: member,
+                       harvested_at: Time.zone.today
+    end
+    let!(:existing_planting) do
+      create :planting, crop: maize, owner: member,
+                        planted_at: Time.zone.yesterday
+    end
 
     background do
       visit harvest_path(existing_harvest)
