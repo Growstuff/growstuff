@@ -555,7 +555,7 @@ DEPENDENCIES
   js-routes
   kaminari
   leaflet-markercluster-rails
-  leaflet-rails
+  leaflet-rails (~> 0.7.7)
   letter_opener
   memcachier
   newrelic_rpm
