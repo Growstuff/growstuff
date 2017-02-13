@@ -180,7 +180,7 @@ GEM
     formatador (0.2.5)
     friendly_id (5.0.5)
       activerecord (>= 4.0.0)
-    geocoder (1.4.3)
+    geocoder (1.4.1)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
@@ -271,7 +271,7 @@ GEM
       addressable (~> 2.3)
     leaflet-markercluster-rails (0.7.0)
       railties (>= 3.1)
-    leaflet-rails (1.0.2)
+    leaflet-rails (0.7.7)
     letter_opener (1.4.1)
       launchy (~> 2.2)
     listen (3.1.5)
