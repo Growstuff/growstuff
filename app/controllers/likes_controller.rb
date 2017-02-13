@@ -10,7 +10,7 @@ class LikesController < ApplicationController
       format.html { redirect_to @like.likeable }
       format.json do
         render(json: render_json(@like, liked_by_member: true),
-               status: 201)
+               status: :created)
       end
     end
   end
@@ -23,7 +23,7 @@ class LikesController < ApplicationController
       format.html { redirect_to @like.likeable }
       format.json do
         render(json: render_json(@like, liked_by_member: false),
-               status: 200)
+               status: :ok)
       end
     end
   end
@@ -45,7 +45,7 @@ class LikesController < ApplicationController
 
   def failed(like, message)
     respond_to do |format|
-      format.json { render(json: { 'error': message }, status: 403) }
+      format.json { render(json: { 'error': message }, status: :forbidden) }
       format.html do
         flash[:error] = message
         if like && like.likeable
