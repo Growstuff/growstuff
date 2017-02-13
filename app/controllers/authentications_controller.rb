@@ -29,7 +29,6 @@ class AuthenticationsController < ApplicationController
 
   # DELETE /authentications/1
   def destroy
-    @authentication = Authentication.find_by(id: params[:id], member: current_member)
     @authentication.destroy
 
     respond_to do |format|
