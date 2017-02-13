@@ -27,7 +27,7 @@ gem 'csv_shaper'                   # CSV export
 gem 'figaro'                       # for handling config via ENV variables
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 gem 'leaflet-markercluster-rails'
-gem 'leaflet-rails'
+gem 'leaflet-rails', '~> 0.7.7'    # Newer versions break tests - see https://travis-ci.org/CloCkWeRX/growstuff/builds/200984350
 gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
