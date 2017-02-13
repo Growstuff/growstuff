@@ -180,7 +180,7 @@ GEM
     formatador (0.2.5)
     friendly_id (5.0.5)
       activerecord (>= 4.0.0)
-    geocoder (1.4.1)
+    geocoder (1.4.3)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
