@@ -18,7 +18,7 @@ class AccountsController < ApplicationController
 
   # PUT /accounts/1
   def update
-    if @account.update(params[:account])
+    if @account.update(account_params)
       redirect_to @account, notice: I18n.t('account.update')
     else
       render action: "edit"
