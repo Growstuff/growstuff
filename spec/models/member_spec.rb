@@ -39,7 +39,7 @@ describe 'member' do
 
     it 'should stringify as the login_name' do
       member.to_s.should match(/member\d+/)
-      "#{member}".should match(/member\d+/)
+      member.to_s.should match(/member\d+/)
     end
 
     it 'should be able to fetch posts' do
