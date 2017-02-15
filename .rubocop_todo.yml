@@ -273,14 +273,6 @@ Style/MultilineBlockLayout:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineHashBraceLayout:
-  Exclude:
-    - 'app/models/planting.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/MultilineIfModifier:
   Exclude:
     - 'spec/rails_helper.rb'
