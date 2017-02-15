@@ -491,25 +491,6 @@ Style/TernaryParentheses:
   Exclude:
     - 'app/helpers/plantings_helper.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline, SupportedStylesForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArguments:
-  Exclude:
-    - 'db/seeds.rb'
-    - 'lib/actions/oauth_signup_action.rb'
-    - 'lib/tasks/growstuff.rake'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline, SupportedStylesForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInLiteral:
-  Exclude:
-    - 'config/environments/test.rb'
-    - 'spec/rails_helper.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/UnlessElse:

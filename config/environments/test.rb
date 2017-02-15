@@ -66,7 +66,7 @@ Geocoder::Lookup::Test.add_stub(
   "Amundsen-Scott Base, Antarctica", [
     {
       'latitude' =>         -90.0,
-      'longitude' =>        0.0,
+      'longitude' =>        0.0
     }
   ]
 )
@@ -89,7 +89,7 @@ Geocoder::Lookup::Test.add_stub(
   "Greenwich, UK", [
     {
       'latitude' =>         51.483061,
-      'longitude' =>        -0.004151,
+      'longitude' =>        -0.004151
     }
   ]
 )
@@ -98,7 +98,7 @@ Geocoder::Lookup::Test.add_stub(
   "Edinburgh", [
     {
       'latitude' =>         55.953252,
-      'longitude' =>        -3.188267,
+      'longitude' =>        -3.188267
     }
   ]
 )
