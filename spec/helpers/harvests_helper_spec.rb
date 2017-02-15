@@ -5,8 +5,7 @@ describe HarvestsHelper do
     it "blank" do
       harvest = FactoryGirl.create(:harvest,
         quantity: nil,
-        weight_quantity: nil
-      )
+        weight_quantity: nil)
       result = helper.display_quantity(harvest)
       result.should eq 'not specified'
     end
@@ -15,8 +14,7 @@ describe HarvestsHelper do
       harvest = FactoryGirl.create(:harvest,
         quantity: 3,
         unit: 'individual',
-        weight_quantity: nil
-      )
+        weight_quantity: nil)
       result = helper.display_quantity(harvest)
       result.should eq '3'
     end
@@ -25,8 +23,7 @@ describe HarvestsHelper do
       harvest = FactoryGirl.create(:harvest,
         quantity: 1,
         unit: 'bunch',
-        weight_quantity: nil
-      )
+        weight_quantity: nil)
       result = helper.display_quantity(harvest)
       result.should eq '1 bunch'
     end
@@ -35,8 +32,7 @@ describe HarvestsHelper do
       harvest = FactoryGirl.create(:harvest,
         quantity: 3,
         unit: 'bunch',
-        weight_quantity: nil
-      )
+        weight_quantity: nil)
       result = helper.display_quantity(harvest)
       result.should eq '3 bunches'
     end
@@ -46,8 +42,7 @@ describe HarvestsHelper do
         quantity: nil,
         unit: nil,
         weight_quantity: 3,
-        weight_unit: 'kg'
-      )
+        weight_unit: 'kg')
       result = helper.display_quantity(harvest)
       result.should eq '3 kg'
     end
@@ -57,8 +52,7 @@ describe HarvestsHelper do
         quantity: 3,
         unit: 'individual',
         weight_quantity: 3,
-        weight_unit: 'kg'
-      )
+        weight_unit: 'kg')
       result = helper.display_quantity(harvest)
       result.should eq '3, weighing 3 kg'
     end
@@ -68,8 +62,7 @@ describe HarvestsHelper do
         quantity: 3,
         unit: 'bunch',
         weight_quantity: 3,
-        weight_unit: 'kg'
-      )
+        weight_unit: 'kg')
       result = helper.display_quantity(harvest)
       result.should eq '3 bunches, weighing 3 kg'
     end

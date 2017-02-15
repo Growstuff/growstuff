@@ -26,13 +26,11 @@ describe "harvests/index" do
       pager.replace([
                       FactoryGirl.create(:harvest,
                         crop: @tomato,
-                        owner: @member
-                      ),
+                        owner: @member),
                       FactoryGirl.create(:harvest,
                         crop: @maize,
                         plant_part: @pp,
-                        owner: @member
-                      )
+                        owner: @member)
                     ])
     end
     assign(:harvests, harvests)

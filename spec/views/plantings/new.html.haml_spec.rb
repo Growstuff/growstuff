@@ -25,8 +25,7 @@ describe "plantings/new" do
 
     assign(:planting, FactoryGirl.create(:planting,
       garden: @garden_a,
-      crop: @crop2
-    ))
+      crop: @crop2))
   end
 
   context "logged in" do

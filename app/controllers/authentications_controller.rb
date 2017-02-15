@@ -18,7 +18,8 @@ class AuthenticationsController < ApplicationController
         .find_or_create_by(
           provider: auth['provider'],
           uid: auth['uid'],
-          name: name)
+          name: name
+        )
 
       flash[:notice] = "Authentication successful."
     else

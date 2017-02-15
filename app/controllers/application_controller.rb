@@ -59,8 +59,7 @@ class ApplicationController < ActionController::Base
         # profile stuff
         :bio, :location, :latitude, :longitude,
         # email settings
-        :show_email, :newsletter, :send_notification_email, :send_planting_reminder
-      )
+        :show_email, :newsletter, :send_notification_email, :send_planting_reminder)
     end
 
     devise_parameter_sanitizer.permit(:account_update) do |member|
@@ -73,8 +72,7 @@ class ApplicationController < ActionController::Base
         # email settings
         :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
         # update password
-        :current_password
-      )
+        :current_password)
     end
   end
 end

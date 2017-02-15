@@ -251,8 +251,7 @@ describe Planting do
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryGirl.create(:planting,
           created_at: 1.minute.ago,
-          owner_id: @planting1.owner.id
-        )
+          owner_id: @planting1.owner.id)
         @planting2.photos << FactoryGirl.create(:photo)
         @planting2.save
 

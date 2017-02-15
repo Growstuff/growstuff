@@ -7,8 +7,7 @@ describe PlantingsHelper do
         quantity: 5,
         planted_at: nil,
         finished_at: nil,
-        days_before_maturity: 17
-      )
+        days_before_maturity: 17)
       result = helper.display_days_before_maturity(planting)
       expect(result).to eq "unknown"
     end
@@ -18,8 +17,7 @@ describe PlantingsHelper do
         quantity: 5,
         planted_at: Date.current,
         finished_at: nil,
-        days_before_maturity: 17
-      )
+        days_before_maturity: 17)
       result = helper.display_days_before_maturity(planting)
       expect(result).to eq "17"
     end
@@ -35,8 +33,7 @@ describe PlantingsHelper do
         quantity: 5,
         planted_at: Date.new(0, 1, 1),
         finished_at: nil,
-        days_before_maturity: "17"
-      )
+        days_before_maturity: "17")
       result = helper.display_days_before_maturity(planting)
       expect(result).to eq "0"
     end
@@ -46,8 +43,7 @@ describe PlantingsHelper do
         quantity: 5,
         planted_at: Date.new(2012, 5, 12),
         finished_at: nil,
-        days_before_maturity: nil
-      )
+        days_before_maturity: nil)
       result = helper.display_days_before_maturity(planting)
       expect(result).to eq "unknown"
     end
@@ -57,8 +53,7 @@ describe PlantingsHelper do
         quantity: 5,
         planted_at: Date.current,
         finished_at: Date.current + 5,
-        days_before_maturity: nil
-      )
+        days_before_maturity: nil)
       result = helper.display_days_before_maturity(planting)
       expect(result).to eq "5"
     end
@@ -71,8 +66,7 @@ describe PlantingsHelper do
       planting = FactoryGirl.build(:planting,
         quantity: nil,
         planted_from: '',
-        owner: member
-      )
+        owner: member)
       result = helper.display_planting(planting)
       expect(result).to eq "crop_lady."
     end
@@ -81,8 +75,7 @@ describe PlantingsHelper do
       planting = FactoryGirl.build(:planting,
         quantity: nil,
         planted_from: 'seed',
-        owner: member
-      )
+        owner: member)
       result = helper.display_planting(planting)
       expect(result).to eq "crop_lady planted seeds."
     end
@@ -92,8 +85,7 @@ describe PlantingsHelper do
         planting = FactoryGirl.build(:planting,
           quantity: 10,
           planted_from: '',
-          owner: member
-        )
+          owner: member)
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 10 units."
       end
@@ -102,8 +94,7 @@ describe PlantingsHelper do
         planting = FactoryGirl.build(:planting,
           quantity: 5,
           planted_from: 'seed',
-          owner: member
-        )
+          owner: member)
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 5 seeds."
       end
@@ -114,8 +105,7 @@ describe PlantingsHelper do
         planting = FactoryGirl.build(:planting,
           quantity: 1,
           planted_from: '',
-          owner: member
-        )
+          owner: member)
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 1 unit."
       end
@@ -124,8 +114,7 @@ describe PlantingsHelper do
         planting = FactoryGirl.build(:planting,
           quantity: 1,
           planted_from: 'seed',
-          owner: member
-        )
+          owner: member)
         result = helper.display_planting(planting)
         expect(result).to eq "crop_lady planted 1 seed."
       end
