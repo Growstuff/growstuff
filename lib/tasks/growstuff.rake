@@ -135,7 +135,7 @@ namespace :growstuff do
                      "a paid account, in perpetuity.  This account "\
                      "type never expires.",
         min_price: 15000,
-        account_type_id: @seed_account.id,
+        account_type_id: @seed_account.id
       )
 
       puts "Giving each member an account record..."
@@ -303,7 +303,7 @@ namespace :growstuff do
           alternate_names.split(/,\s*/).each do |an|
             AlternateName.where(
               name: an,
-              crop_id: crop.id,
+              crop_id: crop.id
             ).first_or_create do |x|
               x.creator = cropbot
             end

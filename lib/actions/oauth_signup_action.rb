@@ -43,7 +43,7 @@ class Growstuff::OauthSignupAction
       .create_with(
         name: name,
         token: auth['credentials']['token'],
-        secret: auth['credentials']['secret'],
+        secret: auth['credentials']['secret']
       )
       .find_or_create_by(
         provider: auth['provider'],

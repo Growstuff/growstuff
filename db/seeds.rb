@@ -172,7 +172,7 @@ def load_products
     name: "Seed account",
     description: "Paid account, in perpetuity",
     min_price: 15000,
-    account_type_id: @seed_account.id,
+    account_type_id: @seed_account.id
   )
 end
 
