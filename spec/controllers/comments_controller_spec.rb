@@ -86,6 +86,16 @@ describe CommentsController do
       let(:comment) { FactoryGirl.create :comment }
       it { expect(response).not_to be_success }
     end
+    describe "attempting to change post_id" do
+      let(:post) { FactoryGirl.create :post, subject: 'our post' }
+      let(:other_post) { FactoryGirl.create :post, subject: 'the other post' }
+      let(:valid_attributes) { { post_id: other_post.id, body: "korero" } }
+      let(:comment) { FactoryGirl.create :comment, author: @member, post: post }
+      it "does not change post_id" do
+        comment.reload
+        expect(comment.post_id).to eq(post.id)
+      end
+    end
   end
 
   describe "DELETE destroy" do

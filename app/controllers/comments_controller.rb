@@ -44,7 +44,10 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.json
   def update
-    flash[:notice] = 'Comment was successfully updated.' if @comment.update(comment_params)
+    # only body can be updated
+    if @comment.update(body: comment_params['body'])
+      flash[:notice] = 'Comment was successfully updated.'
+    end
     respond_with(@comment.post)
   end
 
