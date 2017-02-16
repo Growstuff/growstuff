@@ -80,7 +80,7 @@ gem 'd3-rails'
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
 gem "elasticsearch-api", "~> 2.0.0"
 gem "elasticsearch-model"
-gem "hashie", "~> 3.4.4" # Required by elasticsearch-model, but needs to be pinned due to http://stackoverflow.com/questions/42170666/bundlergemrequireerror-there-was-an-error-while-trying-to-load-the-gem-omnia
+gem "hashie", ">= 3.5.3"
 gem "elasticsearch-rails"
 
 gem 'rake', '>= 10.0.0'
