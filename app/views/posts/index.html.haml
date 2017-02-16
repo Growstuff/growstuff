@@ -5,24 +5,24 @@
     - if @author
       %p
         - if @author == current_member
-          = link_to 'Post something', new_post_path, :class => 'btn btn-primary'
-        = link_to "View everyone's posts", posts_path, :class => 'btn btn-default'
+          = link_to 'Post something', new_post_path, class: 'btn btn-primary'
+        = link_to "View everyone's posts", posts_path, class: 'btn btn-default'
     - else # everyone's posts
-      = link_to 'Post something', new_post_path, :class => 'btn btn-primary'
+      = link_to 'Post something', new_post_path, class: 'btn btn-primary'
       - if current_member
-        = link_to 'View your posts', posts_by_author_path(:author => current_member.slug), :class => 'btn btn-default'
+        = link_to 'View your posts', posts_by_author_path(author: current_member.slug), class: 'btn btn-default'
   - else
-    = render :partial => 'shared/signin_signup', :locals => { :to => 'write a post' }
+    = render partial: 'shared/signin_signup', locals: { to: 'write a post' }
 
-%div.pagination
+.pagination
   = page_entries_info @posts
   = will_paginate @posts
 
 - unless @posts.empty?
   - @posts.each do |post|
-    = render :partial => "single", :locals => { :post => post, :subject => true }
+    = render partial: "single", locals: { post: post, subject: true }
 
-  %div.pagination
+  .pagination
     = page_entries_info @posts
     = will_paginate @posts
 
@@ -34,7 +34,7 @@
 
   - else
     Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
-    = link_to "posts RSS feed", posts_path(:format => 'rss')
+    = link_to "posts RSS feed", posts_path(format: 'rss')
     or
     = succeed "." do
-      = link_to "comments RSS feed", comments_path(:format => 'rss')
+      = link_to "comments RSS feed", comments_path(format: 'rss')

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-%rss{:version => 2.0}
+%rss{ version: 2.0 }
   %channel
     %title
-      Recent plantings from #{ @owner ? @owner : 'all members' } (#{ENV['GROWSTUFF_SITE_NAME']})
+      Recent plantings from #{@owner ? @owner : 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= plantings_url
     - @plantings.each do |planting|
       %item
         %title #{planting.crop} in #{planting.location}
-        %pubDate= planting.created_at.to_s(:rfc822)
+        %pubdate= planting.created_at.to_s(:rfc822)
         %description
           :escaped
             <p>Quantity: #{planting.quantity ? planting.quantity : 'unknown' }</p>

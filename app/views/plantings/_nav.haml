@@ -4,18 +4,15 @@
     = link_to 'My Plantings', plantings_by_owner_path(owner: current_member.slug), class: 'btn btn-default'
   - if owner && owner != current_member
     = link_to "#{owner.login_name}'s Plantings", plantings_by_owner_path(owner: owner.slug), class: 'btn btn-default'
-  = link_to "Everyone's plantings", plantings_path, :class => 'btn btn-default'
+  = link_to "Everyone's plantings", plantings_path, class: 'btn btn-default'
 
-  - if owner
-    - path = plantings_by_owner_path(owner: @owner.slug, all: show_all ? '' : 1)
-  - else
-    - path = plantings_path(all: show_all ? '' : 1)
-  = link_to path do
+  = link_to plantings_active_tickbox_path(@owner, show_all) do
     = check_box_tag 'active', 'all', show_all
     include in-active
 
 - if current_member
   - if can? :create, Planting
-    = link_to 'Plant something', new_planting_path, :class => 'btn btn-primary'
+    = link_to 'Plant something', new_planting_path, class: 'btn btn-primary'
 - else
-  = render :partial => 'shared/signin_signup', :locals => { :to => "track what you've planted" }
+  = render partial: 'shared/signin_signup', locals: { to: "track what you've planted" }
+

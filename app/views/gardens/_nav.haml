@@ -4,11 +4,8 @@
 
   = link_to "Everyone's gardens", gardens_path, class: 'btn btn-default'
 
-  - if owner
-    - path = gardens_by_owner_path(owner: @owner.slug, all: show_all ? '' : 1)
-  - else
-    - path = gardens_path(all: show_all ? '' : 1)
-  = link_to path do
+
+  = link_to gardens_active_tickbox_path(@owner, show_all) do
     = check_box_tag 'active', 'all', show_all
     include in-active
 

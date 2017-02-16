@@ -8,7 +8,7 @@
   forgotten your password.  In either case, use the link below to unlock
   your account:
 
-%p= link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @token)
+%p= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token)
 
 %p
   If you have actually forgotten your password, you can
@@ -20,4 +20,4 @@
 %p
   The #{site_name} team.
   %br/
-  =link_to root_url, root_url
+  = link_to root_url, root_url

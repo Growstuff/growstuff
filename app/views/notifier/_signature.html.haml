@@ -1,6 +1,4 @@
-- site_name = ENV['GROWSTUFF_SITE_NAME']
-
 %p
-  The #{site_name} team.
+  The #{ENV['GROWSTUFF_SITE_NAME']} team.
   %br/
-  =link_to root_url, root_url
+  = link_to root_url, root_url

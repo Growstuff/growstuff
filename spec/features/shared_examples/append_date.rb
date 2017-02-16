@@ -1,13 +1,13 @@
 shared_examples "append date" do
-  let(:this_month) { Date.today.strftime("%B") }
-  let(:this_year) { Date.today.strftime("%Y") }
+  let(:this_month) { Time.zone.today.strftime("%B") }
+  let(:this_year) { Time.zone.today.strftime("%Y") }
 
   background { visit path }
 
   scenario "Selecting a date with datepicker" do
     click_link link_text
     within "div.datepicker" do
-      expect(page).to have_content "#{this_month}"
+      expect(page).to have_content this_month.to_s
       find(".datepicker-days td.day", text: "21").click
     end
     expect(page).to have_content "Finished: #{this_month} 21, #{this_year}"

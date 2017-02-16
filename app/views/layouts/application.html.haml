@@ -1,10 +1,10 @@
 !!! 5
-%html(lang="en" prefix="og: http://ogp.me/ns#")
-  = render :partial => "layouts/meta"
+%html{ lang: "en", prefix: "og: http://ogp.me/ns#" }
+  = render partial: "layouts/meta"
   %body
-    = render :partial => "layouts/header"
+    = render partial: "layouts/header"
 
-    #maincontainer.container
+    .container#maincontainer
       .row
         .col-md-12
           - if content_for?(:title)
@@ -17,11 +17,11 @@
             %p
               .btn-group
                 = yield(:buttonbar)
-          = render :partial => "shared/flash_messages", flash: flash
+          = render partial: "shared/flash_messages", flash: flash
           = yield
 
     %footer
-      = render :partial => "layouts/footer"
+      = render partial: "layouts/footer"
     /
       Javascripts
       \==================================================

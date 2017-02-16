@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PlantPart do
   it 'stringifies' do
     @pp = FactoryGirl.create(:plant_part)
-    "#{@pp}".should eq @pp.name
+    @pp.to_s.should eq @pp.name
   end
 
   it 'has crops' do

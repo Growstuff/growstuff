@@ -40,4 +40,8 @@ module PlantingsHelper
       "#{planting.owner}."
     end
   end
+
+  def plantings_active_tickbox_path(owner, show_all)
+    show_inactive_tickbox_path('plantings', owner, show_all)
+  end
 end

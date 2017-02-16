@@ -18,7 +18,7 @@ describe Crop do
     it 'should stringify as the system name' do
       crop.save
       crop.to_s.should == 'tomato'
-      "#{crop}".should == 'tomato'
+      crop.to_s.should == 'tomato'
     end
 
     it 'has a creator' do

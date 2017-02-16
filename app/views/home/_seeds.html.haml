@@ -1,30 +1,28 @@
 - seeds = Seed.interesting.first(6)
 - if seeds.present?
-
   %h2= t('.title')
-
   - cache cache_key_for(Seed) do
-    - if seeds.size > 0
+    %table.table.table-striped
+      %tr
+        %th= t('.owner')
+        %th= t('.crop')
+        %th.hidden-xs.hidden-sm= t('.description')
+        %th= t('.trade_to')
+        %th= t('.from')
+        %th
 
-      %table.table.table-striped
+      - seeds.each do |seed|
         %tr
-          %th= t('.owner')
-          %th= t('.crop')
-          %th.hidden-xs.hidden-sm= t('.description')
-          %th= t('.trade_to')
-          %th= t('.from')
-          %th
-
-        - seeds.each do |seed|
-          %tr
-            %td= link_to seed.owner.login_name, seed.owner
-            %td= link_to seed.crop.name, seed.crop
-            %td.hidden-xs.hidden-sm= truncate(seed.description, :length => 40, :separator => ' ')
-            %td= seed.tradable? ? seed.tradable_to : ''
-            %td
-              - if seed.tradable?
-                = seed.owner.location.blank? ? t('.unspecified') : truncate(seed.owner.location, :length => 25, :separator => ', ')
-            %td= link_to t('.details'), seed, :class => 'btn btn-default btn-xs'
+          %td= link_to seed.owner.login_name, seed.owner
+          %td= link_to seed.crop.name, seed.crop
+          %td.hidden-xs.hidden-sm= truncate(seed.description, length: 40, separator: ' ')
+          %td= seed.tradable? ? seed.tradable_to : ''
+          %td
+            - if seed.tradable? && seed.owner.location.blank?
+              = t('.unspecified')
+            - elsif seed.tradable?
+              = truncate(seed.owner.location, length: 25, separator: ', ')
+          %td= link_to t('.details'), seed, class: 'btn btn-default btn-xs'
 
   %p.text-right
     = link_to "#{t('.view_all')} »", seeds_path
