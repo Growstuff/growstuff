@@ -15,8 +15,6 @@ class ForumsController < ApplicationController
   # GET /forums/1
   # GET /forums/1.json
   def show
-    @forum = Forum.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @forum }
@@ -35,9 +33,7 @@ class ForumsController < ApplicationController
   end
 
   # GET /forums/1/edit
-  def edit
-    @forum = Forum.find(params[:id])
-  end
+  def edit; end
 
   # POST /forums
   # POST /forums.json
@@ -58,8 +54,6 @@ class ForumsController < ApplicationController
   # PUT /forums/1
   # PUT /forums/1.json
   def update
-    @forum = Forum.find(params[:id])
-
     respond_to do |format|
       if @forum.update(forum_params)
         format.html { redirect_to @forum, notice: 'Forum was successfully updated.' }
@@ -74,7 +68,6 @@ class ForumsController < ApplicationController
   # DELETE /forums/1
   # DELETE /forums/1.json
   def destroy
-    @forum = Forum.find(params[:id])
     @forum.destroy
 
     respond_to do |format|
