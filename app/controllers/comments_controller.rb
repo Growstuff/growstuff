@@ -1,17 +1,15 @@
 class CommentsController < ApplicationController
   before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
+  respond_to :html, :json
+  respond_to :rss, only: :index
 
   # GET /comments
   # GET /comments.json
+  # GET /comments.rss
   def index
     @comments = Comment.paginate(page: params[:page])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @comments }
-      format.rss { render layout: false }
-    end
+    respond_with(@comments)
   end
 
   # GET /comments/new
@@ -22,13 +20,10 @@ class CommentsController < ApplicationController
 
     if @post
       @comments = @post.comments
-      respond_to do |format|
-        format.html # new.html.erb
-        format.json { render json: @comment }
-      end
+      respond_with(@comment)
     else
-      redirect_to request.referer || root_url,
-        alert: "Can't post a comment on a non-existent post"
+      redirect_to(request.referer || root_url,
+        alert: "Can't post a comment on a non-existent post")
     end
   end
 
@@ -40,37 +35,17 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    params[:comment][:author_id] = current_member.id
     @comment = Comment.new(comment_params)
-
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @comment.post, notice: "Comment was successfully created." }
-        format.json { render json: @comment, status: :created, location: @comment }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
-    end
+    @comment.author = current_member
+    flash[:notice] = "Comment was successfully created." if @comment.save
+    respond_with(@comment.post)
   end
 
   # PUT /comments/1
   # PUT /comments/1.json
   def update
-    # you should never be able to change the author or post when
-    # updating
-    params[:comment].delete("post_id")
-    params[:comment].delete("author_id")
-
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to @comment.post, notice: 'Comment was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'Comment was successfully updated.' if @comment.update(comment_params)
+    respond_with(@comment.post)
   end
 
   # DELETE /comments/1
@@ -78,16 +53,12 @@ class CommentsController < ApplicationController
   def destroy
     @post = @comment.post
     @comment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to @post }
-      format.json { head :no_content }
-    end
+    respond_with(@post)
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit(:author_id, :body, :post_id)
+    params.require(:comment).permit(:body, :post_id)
   end
 end
