@@ -1,13 +1,11 @@
 #!/usr/bin/env ruby
 
-linted_dirs = %w(account_types admin alternate_names comments crops)
-  .map { |d| "app/views/#{d}" }.join(' ')
 checks = [
   'script/check_gemfile',
   'script/check_contributors_md',
   'script/check_conflicts',
   'rubocop --display-cop-names --rails',
-  "haml-lint #{linted_dirs}"
+  "haml-lint app/views"
 ]
 
 return_values = checks.collect { |t| system(t) }
