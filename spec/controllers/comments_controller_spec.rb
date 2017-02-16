@@ -89,7 +89,7 @@ describe CommentsController do
     describe "attempting to change post_id" do
       let(:post) { FactoryGirl.create :post, subject: 'our post' }
       let(:other_post) { FactoryGirl.create :post, subject: 'the other post' }
-      let(:valid_attributes) { { post_id: other_post.id, body: "korero" } }
+      let(:valid_attributes) { { post_id: other_post.id, body: "kōrero" } }
       let(:comment) { FactoryGirl.create :comment, author: @member, post: post }
       it "does not change post_id" do
         comment.reload
