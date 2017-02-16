@@ -32,7 +32,7 @@ Metrics/MethodLength:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
   # Set to 30 once all methods are fixed.
   # Max: 30
-  Max: 104
+  Max: 34
 
 # Remove the following once the code style matches
 # Offense count: 59
