@@ -28,7 +28,7 @@ feature "crop wranglers", js: true do
       click_link wrangler.login_name
       click_link 'Crop Wrangling'
       within '#recently-added-crops' do
-        expect(page).to have_content "#{crops.first.creator.login_name}"
+        expect(page).to have_content crops.first.creator.login_name.to_s
       end
     end
 

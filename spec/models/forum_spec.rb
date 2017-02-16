@@ -8,7 +8,7 @@ describe Forum do
   end
 
   it "stringifies nicely" do
-    "#{forum}".should eq forum.name
+    forum.to_s.should eq forum.name
   end
 
   it 'has a slug' do

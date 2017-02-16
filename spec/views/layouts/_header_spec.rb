@@ -72,7 +72,7 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     context "login name" do
       it 'should have member login name' do
-        rendered.should have_content "#{@member.login_name}"
+        rendered.should have_content @member.login_name.to_s
       end
       it "should show link to member's gardens" do
         assert_select("a[href='#{gardens_by_owner_path(owner: @member.slug)}']", "Gardens")
