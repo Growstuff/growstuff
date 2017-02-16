@@ -1,25 +1,19 @@
 class ScientificNamesController < ApplicationController
   before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
+  respond_to :html, :json
 
   # GET /scientific_names
   # GET /scientific_names.json
   def index
     @scientific_names = ScientificName.all
-
-    respond_to do |format|
-      format.html # index.html.haml
-      format.json { render json: @scientific_names }
-    end
+    respond_with(@scientific_names)
   end
 
   # GET /scientific_names/1
   # GET /scientific_names/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.haml
-      format.json { render json: @scientific_name }
-    end
+    respond_with(@scientific_name)
   end
 
   # GET /scientific_names/new
@@ -27,11 +21,7 @@ class ScientificNamesController < ApplicationController
   def new
     @scientific_name = ScientificName.new
     @crop = Crop.find_or_initialize_by(id: params[:crop_id])
-
-    respond_to do |format|
-      format.html # new.html.haml
-      format.json { render json: @scientific_name }
-    end
+    respond_with(@scientific_name)
   end
 
   # GET /scientific_names/1/edit
@@ -41,32 +31,18 @@ class ScientificNamesController < ApplicationController
   # POST /scientific_names
   # POST /scientific_names.json
   def create
-    params[:scientific_name][:creator_id] = current_member.id
     @scientific_name = ScientificName.new(scientific_name_params)
+    @scientific_name.creator = current_member
 
-    respond_to do |format|
-      if @scientific_name.save
-        format.html { redirect_to @scientific_name.crop, notice: 'Scientific name was successfully created.' }
-        format.json { render json: @scientific_name, status: :created, location: @scientific_name }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @scientific_name.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'Scientific name was successfully created.' if @scientific_name.save
+    respond_with(@scientific_name.crop)
   end
 
   # PUT /scientific_names/1
   # PUT /scientific_names/1.json
   def update
-    respond_to do |format|
-      if @scientific_name.update(scientific_name_params)
-        format.html { redirect_to @scientific_name.crop, notice: 'Scientific name was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @scientific_name.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'Scientific name was successfully updated.' if @scientific_name.update(scientific_name_params)
+    respond_with(@scientific_name.crop)
   end
 
   # DELETE /scientific_names/1
@@ -74,18 +50,13 @@ class ScientificNamesController < ApplicationController
   def destroy
     @crop = @scientific_name.crop
     @scientific_name.destroy
-
-    respond_to do |format|
-      format.html {
-        redirect_to @crop, notice: 'Scientific name was successfully deleted.'
-      }
-      format.json { head :no_content }
-    end
+    flash[:notice] = 'Scientific name was successfully deleted.'
+    respond_with(@crop)
   end
 
   private
 
   def scientific_name_params
-    params.require(:scientific_name).permit(:crop_id, :name, :creator_id)
+    params.require(:scientific_name).permit(:crop_id, :name)
   end
 end
