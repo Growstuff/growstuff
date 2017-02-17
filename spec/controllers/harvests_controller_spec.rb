@@ -87,9 +87,9 @@ describe HarvestsController do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Harvest" do
-        expect {
+        expect do
           post :create, harvest: valid_attributes
-        }.to change(Harvest, :count).by(1)
+        end.to change(Harvest, :count).by(1)
       end
 
       it "assigns a newly created harvest as @harvest" do
@@ -192,9 +192,9 @@ describe HarvestsController do
   describe "DELETE destroy" do
     it "destroys the requested harvest" do
       harvest = Harvest.create! valid_attributes
-      expect {
+      expect do
         delete :destroy, id: harvest.to_param
-      }.to change(Harvest, :count).by(-1)
+      end.to change(Harvest, :count).by(-1)
     end
 
     it "redirects to the harvests list" do
