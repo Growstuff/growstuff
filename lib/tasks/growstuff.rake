@@ -33,7 +33,7 @@ namespace :growstuff do
 
     puts "Loading crops from #{@file}..."
     CSV.foreach(@file) do |row|
-      CsvImporter::Crops.new.import(row)
+      CsvImporter.new.import_crop(row)
     end
     Rails.cache.delete('full_crop_hierarchy')
     puts "Finished loading crops"

@@ -31,7 +31,7 @@ def load_crops
   Dir.glob("#{source_path}/crops*.csv").each do |crop_file|
     puts "Loading crops from #{crop_file}..."
     CSV.foreach(crop_file) do |row|
-      CsvImporter::Crops.new.import(row)
+      CsvImporter.new.import_crop(row)
     end
   end
   puts "Finished loading crops"
