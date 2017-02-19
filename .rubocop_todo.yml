@@ -247,13 +247,6 @@ Style/Lambda:
     - 'spec/controllers/member_controller_spec.rb'
     - 'spec/models/photo_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/MethodCallWithoutArgsParentheses:
-  Exclude:
-    - 'spec/helpers/application_helper_spec.rb'
-    - 'spec/views/plantings/new.html.haml_spec.rb'
-
 # Offense count: 8
 # Cop supports --auto-correct.
 Style/MultilineBlockLayout:

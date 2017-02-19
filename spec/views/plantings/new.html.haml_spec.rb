@@ -31,7 +31,7 @@ describe "plantings/new" do
   context "logged in" do
     before(:each) do
       sign_in @member
-      assign(:planting, Planting.new())
+      assign(:planting, Planting.new)
       assign(:crop, @crop2)
       assign(:garden, @garden_z)
       render
