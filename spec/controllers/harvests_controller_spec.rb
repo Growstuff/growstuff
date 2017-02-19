@@ -120,11 +120,11 @@ describe HarvestsController do
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Harvest.any_instance.stub(:save).and_return(false)
         post :create, harvest: { "crop_id" => "invalid value" }
         response.should render_template("new")
       end
     end
+
     describe "not my planting" do
       let(:not_my_planting) { FactoryGirl.create(:planting) }
       let(:harvest) { FactoryGirl.create(:harvest) }
@@ -172,18 +172,17 @@ describe HarvestsController do
 
       it "re-renders the 'edit' template" do
         harvest = Harvest.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Harvest.any_instance.stub(:save).and_return(false)
         put :update, id: harvest.to_param, harvest: { "crop_id" => "invalid value" }
         response.should render_template("edit")
       end
     end
+
     describe "not my planting" do
       let(:not_my_planting) { FactoryGirl.create(:planting) }
       let(:harvest) { FactoryGirl.create(:harvest) }
       it "does not save planting_id" do
-        allow(Harvest).to receive(:new).and_return(harvest)
-        put :update, id: harvest.to_param, harvest: valid_attributes.merge(planting_id: not_my_planting.id)
+        put :update, id: harvest.to_param,
+                     harvest: valid_attributes.merge(planting_id: not_my_planting.id)
         expect(harvest.planting_id).to eq(nil)
       end
     end

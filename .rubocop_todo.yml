@@ -131,7 +131,6 @@ Style/BlockDelimiters:
     - 'app/controllers/members_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/controllers/scientific_names_controller.rb'
-    - 'spec/controllers/harvests_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/features/notifications_spec.rb'
     - 'spec/models/ability_spec.rb'
@@ -347,7 +346,6 @@ Style/NegatedIf:
 # Offense count: 2
 Style/NestedTernaryOperator:
   Exclude:
-    - 'app/controllers/harvests_controller.rb'
     - 'app/controllers/plantings_controller.rb'
 
 # Offense count: 1
