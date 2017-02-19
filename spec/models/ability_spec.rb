@@ -111,15 +111,19 @@ describe Ability do
 
   context "orders" do
     let(:order) { FactoryGirl.create(:order, member: member) }
-    let(:strangers_order) { FactoryGirl.create(:order,
-      member: FactoryGirl.create(:member)) }
-    let(:completed_order) { FactoryGirl.create(:completed_order,
-      member: member) }
+    let(:strangers_order) {
+      FactoryGirl.create(:order,
+        member: FactoryGirl.create(:member)) }
+    let(:completed_order) {
+      FactoryGirl.create(:completed_order,
+        member: member) }
     let(:order_item) { FactoryGirl.create(:order_item, order: order) }
-    let(:strangers_order_item) { FactoryGirl.create(:order_item,
-      order: strangers_order) }
-    let(:completed_order_item) { FactoryGirl.create(:order_item,
-      order: completed_order) }
+    let(:strangers_order_item) {
+      FactoryGirl.create(:order_item,
+        order: strangers_order) }
+    let(:completed_order_item) {
+      FactoryGirl.create(:order_item,
+        order: completed_order) }
 
     context "standard member" do
       it "can read their own orders" do

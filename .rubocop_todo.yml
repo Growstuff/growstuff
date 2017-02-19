@@ -247,16 +247,6 @@ Style/Lambda:
     - 'spec/controllers/member_controller_spec.rb'
     - 'spec/models/photo_spec.rb'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-Style/MultilineBlockLayout:
-  Exclude:
-    - 'app/controllers/members_controller.rb'
-    - 'app/controllers/posts_controller.rb'
-    - 'spec/models/ability_spec.rb'
-    - 'spec/models/member_spec.rb'
-    - 'spec/models/planting_spec.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/MultilineIfModifier:
