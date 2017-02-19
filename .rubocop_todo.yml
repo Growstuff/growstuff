@@ -183,12 +183,6 @@ Style/CommentAnnotation:
   Exclude:
     - 'app/controllers/crops_controller.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/DefWithParentheses:
-  Exclude:
-    - 'spec/views/posts/_single.html.haml_spec.rb'
-
 # Offense count: 10
 # Cop supports --auto-correct.
 Style/EachForSimpleLoop:
