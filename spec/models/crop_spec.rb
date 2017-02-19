@@ -525,7 +525,7 @@ describe Crop do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato"
 
       CSV.parse(tomato_row) do |row|
-        Crop.create_from_csv(row)
+        CsvImporter::Crops.new.import(row)
       end
 
       loaded = Crop.last
@@ -538,7 +538,7 @@ describe Crop do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
       CSV.parse(tomato_row) do |row|
-        Crop.create_from_csv(row)
+        CsvImporter::Crops.new.import(row)
       end
 
       loaded = Crop.last
@@ -551,7 +551,7 @@ describe Crop do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,,Foo"
 
       CSV.parse(tomato_row) do |row|
-        Crop.create_from_csv(row)
+        CsvImporter::Crops.new.import(row)
       end
 
       loaded = Crop.last
@@ -565,7 +565,7 @@ describe Crop do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
 
       CSV.parse(tomato_row) do |row|
-        Crop.create_from_csv(row)
+        CsvImporter::Crops.new.import(row)
       end
 
       loaded = Crop.last
@@ -576,7 +576,7 @@ describe Crop do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
 
       CSV.parse(tomato_row) do |row|
-        Crop.create_from_csv(row)
+        CsvImporter::Crops.new.import(row)
       end
 
       loaded = Crop.last
@@ -587,7 +587,7 @@ describe Crop do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
       CSV.parse(tomato_row) do |row|
-        Crop.create_from_csv(row)
+        CsvImporter::Crops.new.import(row)
       end
 
       loaded = Crop.last
