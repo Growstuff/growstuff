@@ -324,15 +324,6 @@ Style/ParallelAssignment:
   Exclude:
     - 'app/mailers/notifier.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: AllowSafeAssignment.
-Style/ParenthesesAroundCondition:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/orders_controller.rb'
-    - 'app/helpers/crops_helper.rb'
-    - 'config/factory_girl.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
