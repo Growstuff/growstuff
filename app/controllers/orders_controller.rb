@@ -48,7 +48,7 @@ class OrdersController < ApplicationController
   end
 
   def complete
-    if (params[:token] && params['PayerID'])
+    if params[:token] && params['PayerID']
       purchase = EXPRESS_GATEWAY.purchase(
         @order.total,
         currency: Growstuff::Application.config.currency,

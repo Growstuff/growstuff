@@ -19,8 +19,7 @@ describe "crops/_planting_advice" do
     @garden   = FactoryGirl.create(:garden, owner: @owner)
     @planting = FactoryGirl.create(:planting,
       garden: @garden,
-      crop: @crop
-    )
+      crop: @crop)
   end
 
   context "sunniness" do

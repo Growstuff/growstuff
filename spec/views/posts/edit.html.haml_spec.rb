@@ -45,8 +45,7 @@ describe "posts/edit" do
         @forum = assign(:forum, FactoryGirl.create(:forum))
         assign(:post, FactoryGirl.create(:post,
           forum: @forum,
-          author: @author
-        ))
+          author: @author))
         render
       end
 

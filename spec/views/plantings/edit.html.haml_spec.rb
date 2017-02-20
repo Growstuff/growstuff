@@ -16,8 +16,7 @@ describe "plantings/edit" do
   before(:each) do
     @member = FactoryGirl.create(:member,
       login_name: 'right',
-      email: 'right@example.com'
-    )
+      email: 'right@example.com')
 
     # creating two crops to make sure that the correct one is selected
     # in the form.
@@ -29,8 +28,7 @@ describe "plantings/edit" do
     @garden2 = FactoryGirl.create(:garden_a, owner: @member)
 
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, garden: @garden, crop: @tomato)
-    )
+      FactoryGirl.create(:planting, garden: @garden, crop: @tomato))
   end
 
   context "logged in" do

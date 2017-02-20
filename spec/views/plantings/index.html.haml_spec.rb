@@ -27,21 +27,18 @@ describe "plantings/index" do
                       FactoryGirl.create(:planting,
                         garden: @garden,
                         crop: @tomato,
-                        owner: @member
-                      ),
+                        owner: @member),
                       FactoryGirl.create(:planting,
                         garden: @garden,
                         crop: @maize,
                         description: '',
-                        planted_at: Time.local(2013, 1, 13)
-                      ),
+                        planted_at: Time.local(2013, 1, 13)),
                       FactoryGirl.create(:planting,
                         garden: @garden,
                         crop: @tomato,
                         planted_at: Time.local(2013, 1, 13),
                         finished_at: Time.local(2013, 1, 20),
-                        finished: true
-                      )
+                        finished: true)
                     ])
     end
     assign(:plantings, plantings)
