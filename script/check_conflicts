@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'open3'
+
+# We don't want to include the literal conflict marker here, or we'll match the
+# script itself!
+conflict_marker = '<' * 5
+
+# Search for checked-in files containing conflict markers
+# -l    List only matching files
+# -I    Ignore binary files
+_, stdout, _, wait_thr = Open3.popen3("git", "grep", "-Il", conflict_marker)
+exit_code = wait_thr.value.exitstatus
+
+if exit_code.zero?
+  puts "The following files appear to contain merge conflicts:"
+  puts stdout.gets(nil)
+end

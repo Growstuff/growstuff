@@ -6,9 +6,9 @@ Growstuff::Application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Do not compile assets on-demand. On-demand compilation slows down the test
-  # suite and causes random test failures.
-  config.assets.compile = false
+  # Allow lazy compilation of assets. Required for running Jasmine tests via
+  # `rake spec:javascript`.
+  config.assets.compile = true
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
