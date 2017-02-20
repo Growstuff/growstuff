@@ -77,4 +77,8 @@ class ApplicationController < ActionController::Base
       )
     end
   end
+
+  def expire_homepage
+    expire_fragment("homepage_stats")
+  end
 end
