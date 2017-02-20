@@ -253,20 +253,16 @@ describe Crop do
       @bulb = FactoryGirl.create(:plant_part, name: 'bulb')
       @harvest1 = FactoryGirl.create(:harvest,
         crop: crop,
-        plant_part: @fruit
-      )
+        plant_part: @fruit)
       @harvest2 = FactoryGirl.create(:harvest,
         crop: crop,
-        plant_part: @fruit
-      )
+        plant_part: @fruit)
       @harvest3 = FactoryGirl.create(:harvest,
         crop: crop,
-        plant_part: @seed
-      )
+        plant_part: @seed)
       @harvest4 = FactoryGirl.create(:harvest,
         crop: crop,
-        plant_part: @root
-      )
+        plant_part: @root)
       crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
                                            [@seed.id, @seed.name] => 1,
                                            [@root.id, @root.name] => 1 }
@@ -363,12 +359,10 @@ describe Crop do
     @pp2 = FactoryGirl.create(:plant_part)
     @h1 = FactoryGirl.create(:harvest,
       crop: @maize,
-      plant_part: @pp1
-    )
+      plant_part: @pp1)
     @h2 = FactoryGirl.create(:harvest,
       crop: @maize,
-      plant_part: @pp2
-    )
+      plant_part: @pp2)
     @maize.plant_parts.should include @pp1
     @maize.plant_parts.should include @pp2
   end
@@ -378,12 +372,10 @@ describe Crop do
     @pp1 = FactoryGirl.create(:plant_part)
     @h1 = FactoryGirl.create(:harvest,
       crop: @maize,
-      plant_part: @pp1
-    )
+      plant_part: @pp1)
     @h2 = FactoryGirl.create(:harvest,
       crop: @maize,
-      plant_part: @pp1
-    )
+      plant_part: @pp1)
     @maize.plant_parts.should eq [@pp1]
   end
 

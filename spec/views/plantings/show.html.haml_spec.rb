@@ -18,8 +18,7 @@ describe "plantings/show" do
     @crop = FactoryGirl.create(:tomato)
     @planting = assign(:planting,
       FactoryGirl.create(:planting, garden: @garden, crop: @crop,
-                                    planted_from: 'cutting')
-    )
+                                    planted_from: 'cutting'))
   end
 
   before(:each) do
@@ -31,8 +30,7 @@ describe "plantings/show" do
   context 'sunniness' do
     before(:each) do
       @p = assign(:planting,
-        FactoryGirl.create(:sunny_planting)
-      )
+        FactoryGirl.create(:sunny_planting))
     end
 
     it "shows the sunniness" do

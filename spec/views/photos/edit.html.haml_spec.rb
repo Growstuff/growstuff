@@ -18,7 +18,6 @@ describe "photos/edit" do
       owner_id: 1,
       flickr_photo_id: 1,
       thumbnail_url: "MyString",
-      fullsize_url: "MyString"
-    ))
+      fullsize_url: "MyString"))
   end
 end

@@ -45,10 +45,11 @@ class MembersController < ApplicationController
                                        :latitude, :longitude
                                      ])
       }
-      format.rss { render(
-        layout: false,
-        locals: { member: @member }
-      )}
+      format.rss {
+        render(
+          layout: false,
+          locals: { member: @member }
+        )}
     end
   end
 
