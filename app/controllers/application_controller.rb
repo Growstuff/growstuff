@@ -75,4 +75,8 @@ class ApplicationController < ActionController::Base
         :current_password)
     end
   end
+
+  def expire_homepage
+    expire_fragment("homepage_stats")
+  end
 end
