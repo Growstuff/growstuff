@@ -13,7 +13,7 @@
 require 'rails_helper'
 
 describe "posts/_single" do
-  def render_post()
+  def render_post
     render partial: "single", locals: { post: @post }
   end
 

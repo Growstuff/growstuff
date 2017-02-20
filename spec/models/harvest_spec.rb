@@ -154,8 +154,7 @@ describe Harvest do
                                         quantity: nil,
                                         unit: nil,
                                         weight_quantity: nil,
-                                        weight_unit: nil
-      )
+                                        weight_unit: nil)
       @h.to_s.should eq "apricots"
     end
 
@@ -164,8 +163,7 @@ describe Harvest do
                                         quantity: 1,
                                         unit: 'individual',
                                         weight_quantity: nil,
-                                        weight_unit: nil
-      )
+                                        weight_unit: nil)
       @h.to_s.should eq "1 individual apricot"
     end
 
@@ -174,8 +172,7 @@ describe Harvest do
                                         quantity: 10,
                                         unit: 'individual',
                                         weight_quantity: nil,
-                                        weight_unit: nil
-      )
+                                        weight_unit: nil)
       @h.to_s.should eq "10 individual apricots"
     end
 
@@ -184,8 +181,7 @@ describe Harvest do
                                         quantity: 1,
                                         unit: 'bushel',
                                         weight_quantity: nil,
-                                        weight_unit: nil
-      )
+                                        weight_unit: nil)
       @h.to_s.should eq "1 bushel of apricots"
     end
 
@@ -194,8 +190,7 @@ describe Harvest do
                                         quantity: 1.5,
                                         unit: 'bushel',
                                         weight_quantity: nil,
-                                        weight_unit: nil
-      )
+                                        weight_unit: nil)
       @h.to_s.should eq "1.5 bushels of apricots"
     end
 
@@ -204,8 +199,7 @@ describe Harvest do
                                         quantity: 10,
                                         unit: 'bushel',
                                         weight_quantity: nil,
-                                        weight_unit: nil
-      )
+                                        weight_unit: nil)
       @h.to_s.should eq "10 bushels of apricots"
     end
 
@@ -214,8 +208,7 @@ describe Harvest do
                                         quantity: nil,
                                         unit: nil,
                                         weight_quantity: 1.2,
-                                        weight_unit: 'kg'
-      )
+                                        weight_unit: 'kg')
       @h.to_s.should eq "apricots weighing 1.2 kg"
     end
 

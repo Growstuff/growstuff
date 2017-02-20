@@ -17,8 +17,7 @@ describe "account_types/show" do
     @account_type = assign(:account_type, stub_model(AccountType,
       name: "Name",
       is_paid: false,
-      is_permanent_paid: false
-    ))
+      is_permanent_paid: false))
   end
 
   it "renders attributes in <p>" do

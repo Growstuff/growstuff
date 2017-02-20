@@ -19,8 +19,7 @@ describe "scientific_names/edit" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @scientific_name = assign(:scientific_name,
-        FactoryGirl.create(:zea_mays)
-      )
+        FactoryGirl.create(:zea_mays))
       render
     end
 

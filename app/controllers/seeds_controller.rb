@@ -65,7 +65,8 @@ class SeedsController < ApplicationController
     params.require(:seed).permit(
       :crop_id, :description, :quantity, :plant_before,
       :days_until_maturity_min, :days_until_maturity_max, :organic, :gmo,
-      :heirloom, :tradable_to, :slug)
+      :heirloom, :tradable_to, :slug
+    )
   end
 
   def seeds(owner: nil, crop: nil)
