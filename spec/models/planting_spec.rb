@@ -4,8 +4,9 @@ describe Planting do
   let(:crop) { FactoryGirl.create(:tomato) }
   let(:garden_owner) { FactoryGirl.create(:member) }
   let(:garden) { FactoryGirl.create(:garden, owner: garden_owner) }
-  let(:planting) { FactoryGirl.create(:planting,
-    crop: crop, garden: garden)}
+  let(:planting) {
+    FactoryGirl.create(:planting,
+      crop: crop, garden: garden)}
 
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
@@ -251,8 +252,7 @@ describe Planting do
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryGirl.create(:planting,
           created_at: 1.minute.ago,
-          owner_id: @planting1.owner.id
-        )
+          owner_id: @planting1.owner.id)
         @planting2.photos << FactoryGirl.create(:photo)
         @planting2.save
 

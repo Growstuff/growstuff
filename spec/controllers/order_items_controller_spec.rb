@@ -23,8 +23,7 @@ describe OrderItemsController do
     @order_item = FactoryGirl.create(:order_item,
       order: @order,
       product: @product,
-      price: @product.min_price
-    )
+      price: @product.min_price)
   end
 
   describe "POST create" do

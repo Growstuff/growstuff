@@ -12,12 +12,10 @@ describe PlantPart do
     @pp1 = FactoryGirl.create(:plant_part)
     @h1 = FactoryGirl.create(:harvest,
       crop: @tomato,
-      plant_part: @pp1
-    )
+      plant_part: @pp1)
     @h2 = FactoryGirl.create(:harvest,
       crop: @maize,
-      plant_part: @pp1
-    )
+      plant_part: @pp1)
     @pp1.crops.should include @tomato
     @pp1.crops.should include @maize
   end
@@ -27,12 +25,10 @@ describe PlantPart do
     @pp1 = FactoryGirl.create(:plant_part)
     @h1 = FactoryGirl.create(:harvest,
       crop: @maize,
-      plant_part: @pp1
-    )
+      plant_part: @pp1)
     @h2 = FactoryGirl.create(:harvest,
       crop: @maize,
-      plant_part: @pp1
-    )
+      plant_part: @pp1)
     @pp1.crops.should eq [@maize]
   end
 end

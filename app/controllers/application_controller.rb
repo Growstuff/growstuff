@@ -7,12 +7,12 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def store_location
-    unless (request.path.in?(["/members/sign_in",
-                              "/members/sign_up",
-                              "/members/password/new",
-                              "/members/password/edit",
-                              "/members/confirmation",
-                              "/members/sign_out"]) || request.xhr?)
+    unless request.path.in?(["/members/sign_in",
+                             "/members/sign_up",
+                             "/members/password/new",
+                             "/members/password/edit",
+                             "/members/confirmation",
+                             "/members/sign_out"]) || request.xhr?
       store_location_for(:member, request.fullpath)
     end
   end
@@ -59,8 +59,7 @@ class ApplicationController < ActionController::Base
         # profile stuff
         :bio, :location, :latitude, :longitude,
         # email settings
-        :show_email, :newsletter, :send_notification_email, :send_planting_reminder
-      )
+        :show_email, :newsletter, :send_notification_email, :send_planting_reminder)
     end
 
     devise_parameter_sanitizer.permit(:account_update) do |member|
@@ -73,8 +72,7 @@ class ApplicationController < ActionController::Base
         # email settings
         :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
         # update password
-        :current_password
-      )
+        :current_password)
     end
   end
 

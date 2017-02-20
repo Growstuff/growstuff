@@ -18,8 +18,7 @@ describe "crops/_grown_for" do
     @pp = FactoryGirl.create(:plant_part)
     @harvest = FactoryGirl.create(:harvest,
       crop: @crop,
-      plant_part: @pp
-    )
+      plant_part: @pp)
   end
 
   it 'shows plant parts' do
