@@ -18,12 +18,10 @@ describe "roles/index" do
     assign(:roles, [
              stub_model(Role,
                name: "Name",
-               description: "MyText"
-             ),
+               description: "MyText"),
              stub_model(Role,
                name: "Name",
-               description: "MyText"
-             )
+               description: "MyText")
            ])
   end
 

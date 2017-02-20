@@ -36,8 +36,7 @@ describe Order do
     @account_type = FactoryGirl.create(:account_type, name: 'paid')
     @product = FactoryGirl.create(:product,
       account_type: @account_type,
-      paid_months: 3
-    )
+      paid_months: 3)
     @order_item = FactoryGirl.create(:order_item,
       order_id: @order.id, product_id: @product.id)
 
@@ -53,8 +52,7 @@ describe Order do
     @member = FactoryGirl.create(:member)
     @order = FactoryGirl.create(:order, member: @member)
     @product = FactoryGirl.create(:product,
-      min_price: 1000
-    )
+      min_price: 1000)
     # we force an order to only have one item at present. Add more if wanted
     # later.
     @order_item1 = FactoryGirl.create(:order_item,
@@ -67,8 +65,7 @@ describe Order do
     @member = FactoryGirl.create(:member)
     @order = FactoryGirl.create(:order, member: @member)
     @product = FactoryGirl.create(:product,
-      min_price: 1000
-    )
+      min_price: 1000)
     # we force an order to only have one item at present. Add more if wanted
     # later.
     @order_item1 = FactoryGirl.create(:order_item,
@@ -82,8 +79,7 @@ describe Order do
     @order = FactoryGirl.create(:order, member: @member)
     @product = FactoryGirl.create(:product,
       name: 'foo',
-      min_price: 1000
-    )
+      min_price: 1000)
     # we force an order to only have one item at present. Add more if wanted
     # later.
     @order_item1 = FactoryGirl.create(:order_item,

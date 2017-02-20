@@ -16,8 +16,7 @@ describe "roles/edit" do
   before(:each) do
     @role = assign(:role, stub_model(Role,
       name: "MyString",
-      description: "MyText"
-    ))
+      description: "MyText"))
   end
 
   it "renders the edit role form" do

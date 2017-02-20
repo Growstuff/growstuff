@@ -16,8 +16,7 @@ describe "scientific_names/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @scientific_name = assign(:scientific_name,
-      FactoryGirl.create(:zea_mays)
-    )
+      FactoryGirl.create(:zea_mays))
   end
 
   it "renders attributes in <p>" do

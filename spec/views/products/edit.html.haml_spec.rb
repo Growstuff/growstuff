@@ -17,8 +17,7 @@ describe "products/edit" do
     @product = assign(:product, stub_model(Product,
       name: "MyString",
       description: "MyString",
-      min_price: "9.99"
-    ))
+      min_price: "9.99"))
   end
 
   it "renders the edit product form" do

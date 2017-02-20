@@ -24,8 +24,7 @@ describe "plantings/_form" do
     @planting = FactoryGirl.create(:planting,
       garden: @garden,
       crop: @crop,
-      planted_at: Date.new(2013, 03, 01)
-    )
+      planted_at: Date.new(2013, 03, 01))
     render
   end
 

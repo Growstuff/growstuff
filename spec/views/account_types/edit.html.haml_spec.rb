@@ -17,8 +17,7 @@ describe "account_types/edit" do
     @account_type = assign(:account_type, stub_model(AccountType,
       name: "MyString",
       is_paid: false,
-      is_permanent_paid: false
-    ))
+      is_permanent_paid: false))
   end
 
   it "renders the edit account_type form" do
