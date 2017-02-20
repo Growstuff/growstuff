@@ -419,7 +419,7 @@ describe Crop do
 
     context "scientific names" do
       it "adds a scientific name to a crop that has none" do
-        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo Bar"]
+        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo bar"]
         tomato = CsvImporter.new.import_crop(row)
         expect(tomato.scientific_names.size).to eq 1
         expect(tomato.default_scientific_name).to eq "Foo bar"
