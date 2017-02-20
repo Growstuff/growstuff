@@ -23,7 +23,7 @@ describe ScientificName do
   context 'invalid data' do
     it 'should not save a scientific name without a name' do
       sn = ScientificName.new
-      expect { sn.save }.to raise_error ActiveRecord::StatementInvalid
+      expect { sn.save! }.to raise_error ActiveRecord::RecordInvalid
     end
   end
 end
