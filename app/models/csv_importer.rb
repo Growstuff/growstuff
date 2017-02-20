@@ -13,21 +13,23 @@ class CsvImporter
       en_wikipedia_url: en_wikipedia_url,
       creator_id: cropbot.id
     )
-    if parent_name
-      parent = Crop.find_by(name: parent_name)
-      if parent
-        @crop.update_attributes(parent_id: parent.id)
-      else
-        @crop.logger.warn("Warning: parent crop #{parent_name} not found")
-      end
-    end
 
+    add_parent(parent_name) if parent_name
     add_scientific_names(scientific_names)
     add_alternate_names(alternate_names)
     @crop
   end
 
   private
+
+  def add_parent(parent_name)
+    parent = Crop.find_by(name: parent_name)
+    if parent
+      @crop.update_attributes(parent_id: parent.id)
+    else
+      @crop.logger.warn("Warning: parent crop #{parent_name} not found")
+    end
+  end
 
   def add_scientific_names(scientific_names)
     names_to_add = []

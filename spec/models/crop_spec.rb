@@ -427,28 +427,15 @@ describe Crop do
       end
 
       it "picks up scientific name from parent crop if available" do
-        parent = FactoryGirl.create(:crop, name: 'parent crop')
-        parent.add_scientific_names_from_csv("Parentis cropis")
-        parent.save
-        parent.reload
+        parent = CsvImporter.new.import_crop(
+          ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Parentis cropis"])
 
-        tomato = FactoryGirl.create(:tomato, parent: parent)
+        tomato = CsvImporter.new.import_crop(
+          ["Tomato", "http://en.wikipedia.org/wiki/Parent", "parent"])
+
         expect(tomato.parent).to eq parent
         expect(tomato.parent.default_scientific_name).to eq "Parentis cropis"
-
-        tomato.add_scientific_names_from_csv('')
         expect(tomato.default_scientific_name).to eq "Parentis cropis"
-      end
-
-      it "doesn't add a duplicate scientific name" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.scientific_names.size).to eq 0
-        tomato.add_scientific_names_from_csv("Foo bar")
-        expect(tomato.scientific_names.size).to eq 1
-        tomato.add_scientific_names_from_csv("Foo bar")
-        expect(tomato.scientific_names.size).to eq 1 # shouldn't increase
-        tomato.add_scientific_names_from_csv("Baz quux")
-        expect(tomato.scientific_names.size).to eq 2
       end
 
       it "doesn't add a duplicate scientific name from parent" do
@@ -464,119 +451,88 @@ describe Crop do
         tomato.add_scientific_names_from_csv('')
         expect(tomato.scientific_names.size).to eq 1 # shouldn't increase now
       end
-
       it "loads a crop with multiple scientific names" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.scientific_names.size).to eq 0
-        tomato.add_scientific_names_from_csv("Foo, Bar")
-        expect(tomato.scientific_names.size).to eq 2
+        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo,Bar"]
+        tomato = CsvImporter.new.import_crop(row)
         expect(tomato.scientific_names[0].name).to eq "Foo"
         expect(tomato.scientific_names[1].name).to eq "Bar"
       end
 
       it "loads multiple scientific names with variant spacing" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.scientific_names.size).to eq 0
-        tomato.add_scientific_names_from_csv("Foo,Bar") # no space
+        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Baz,   Quux"]
+        tomato = CsvImporter.new.import_crop(row)
         expect(tomato.scientific_names.size).to eq 2
-        tomato.add_scientific_names_from_csv("Baz,   Quux") # multiple spaces
-        expect(tomato.scientific_names.size).to eq 4
+        expect(tomato.scientific_names[0].name).to eq "Baz"
+        expect(tomato.scientific_names[1].name).to eq "Quux"
       end
     end # scientific names
 
     context "alternate names" do
       it "loads an alternate name" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.alternate_names.size).to eq 0
-        tomato.add_alternate_names_from_csv("Foo")
+        row = ["tomato", "http://en.wikipedia.org/wiki/Parent", "", "", "Foo"]
+        tomato = CsvImporter.new.import_crop(row)
         expect(tomato.alternate_names.size).to eq 1
         expect(tomato.alternate_names.last.name).to eq "Foo"
       end
 
-      it "doesn't load duplicate alternate names" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.alternate_names.size).to eq 0
-        tomato.add_alternate_names_from_csv("Foo")
-        expect(tomato.alternate_names.size).to eq 1
-        tomato.add_alternate_names_from_csv("Foo")
-        expect(tomato.alternate_names.size).to eq 1 # still 1, doesn't add another
-      end
-
       it "adds multiple alternate names" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.alternate_names.size).to eq 0
-        tomato.add_alternate_names_from_csv("Foo, Bar")
+        row = ["tomato", "http://en.wikipedia.org/wiki/Parent", "", "", "Foo, Bar"]
+        tomato = CsvImporter.new.import_crop(row)
         expect(tomato.alternate_names.size).to eq 2
         expect(tomato.alternate_names[0].name).to eq "Foo"
         expect(tomato.alternate_names[1].name).to eq "Bar"
       end
 
       it "adds multiple alt names with variant spacing" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.alternate_names.size).to eq 0
-        tomato.add_alternate_names_from_csv("Foo,Bar") # no space
-        expect(tomato.alternate_names.size).to eq 2
-        tomato.add_alternate_names_from_csv("Baz,   Quux") # mutliple spaces
+        row = ["tomato", "http://en.wikipedia.org/wiki/Parent", "", "", "Foo,Bar,Baz,   Quux"]
+        tomato = CsvImporter.new.import_crop(row)
         expect(tomato.alternate_names.size).to eq 4
+        expect(tomato.alternate_names[0].name).to eq "Foo"
+        expect(tomato.alternate_names[1].name).to eq "Bar"
+        expect(tomato.alternate_names[2].name).to eq "Baz"
+        expect(tomato.alternate_names[3].name).to eq "Quux"
       end
     end # alternate names
 
     it "loads the simplest possible crop" do
-      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato"
+      tomato_row = ["tomato", "http://en.wikipedia.org/wiki/Tomato"]
+      tomato = CsvImporter.new.import_crop(tomato_row)
 
-      CSV.parse(tomato_row) do |row|
-        CsvImporter::Crops.new.import(row)
-      end
-
-      loaded = Crop.last
-      expect(loaded.name).to eq "tomato"
-      expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
-      expect(loaded.creator).to eq @cropbot
+      expect(tomato.name).to eq "tomato"
+      expect(tomato.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
+      expect(tomato.creator).to eq @cropbot
     end
 
     it "loads a crop with a scientific name" do
-      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
+      tomato_row = ["tomato", "http://en.wikipedia.org/wiki/Tomato", "", "Solanum lycopersicum"]
+      tomato = CsvImporter.new.import_crop(tomato_row)
 
-      CSV.parse(tomato_row) do |row|
-        CsvImporter::Crops.new.import(row)
-      end
-
-      loaded = Crop.last
-      expect(loaded.name).to eq "tomato"
-      expect(loaded.scientific_names.size).to eq 1
-      expect(loaded.scientific_names.last.name).to eq "Solanum lycopersicum"
+      expect(tomato.name).to eq "tomato"
+      expect(tomato.scientific_names.size).to eq 1
+      expect(tomato.scientific_names.last.name).to eq "Solanum lycopersicum"
     end
 
     it "loads a crop with an alternate name" do
-      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,,Foo"
+      crop = CsvImporter.new.import_crop(
+        ["tomato", "http://en.wikipedia.org/wiki/Tomato", nil, nil, "Foo"])
 
-      CSV.parse(tomato_row) do |row|
-        CsvImporter::Crops.new.import(row)
-      end
-
-      loaded = Crop.last
-      expect(loaded.name).to eq "tomato"
-      expect(loaded.alternate_names.size).to eq 1
-      expect(loaded.alternate_names.last.name).to eq "Foo"
+      expect(crop.name).to eq "tomato"
+      expect(crop.alternate_names.size).to eq 1
+      expect(crop.alternate_names.last.name).to eq "Foo"
     end
 
     it "loads a crop with a parent" do
       parent = FactoryGirl.create(:crop, name: 'parent')
-      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
-
-      CSV.parse(tomato_row) do |row|
-        CsvImporter::Crops.new.import(row)
-      end
-
-      loaded = Crop.last
-      expect(loaded.parent).to eq parent
+      crop = CsvImporter.new.import_crop(
+        ["tomato", "http://en.wikipedia.org/wiki/Tomato", "parent"])
+      expect(crop.parent).to eq parent
     end
 
     it "loads a crop with a missing parent" do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
 
       CSV.parse(tomato_row) do |row|
-        CsvImporter::Crops.new.import(row)
+        CsvImporter.new.import_crop(row)
       end
 
       loaded = Crop.last
@@ -587,7 +543,7 @@ describe Crop do
       tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
 
       CSV.parse(tomato_row) do |row|
-        CsvImporter::Crops.new.import(row)
+        CsvImporter.new.import_crop(row)
       end
 
       loaded = Crop.last
