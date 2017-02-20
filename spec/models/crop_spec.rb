@@ -419,9 +419,8 @@ describe Crop do
 
     context "scientific names" do
       it "adds a scientific name to a crop that has none" do
-        tomato = FactoryGirl.create(:tomato)
-        expect(tomato.scientific_names.size).to eq 0
-        tomato.add_scientific_names_from_csv("Foo bar")
+        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo Bar"]
+        tomato = CsvImporter.new.import_crop(row)
         expect(tomato.scientific_names.size).to eq 1
         expect(tomato.default_scientific_name).to eq "Foo bar"
       end
@@ -438,19 +437,6 @@ describe Crop do
         expect(tomato.default_scientific_name).to eq "Parentis cropis"
       end
 
-      it "doesn't add a duplicate scientific name from parent" do
-        parent = FactoryGirl.create(:crop, name: 'parent')
-        parent.add_scientific_names_from_csv("Parentis cropis")
-        parent.save
-        parent.reload
-
-        tomato = FactoryGirl.create(:tomato, parent: parent)
-        expect(tomato.scientific_names.size).to eq 0
-        tomato.add_scientific_names_from_csv('')
-        expect(tomato.scientific_names.size).to eq 1 # picks up parent SN
-        tomato.add_scientific_names_from_csv('')
-        expect(tomato.scientific_names.size).to eq 1 # shouldn't increase now
-      end
       it "loads a crop with multiple scientific names" do
         row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo,Bar"]
         tomato = CsvImporter.new.import_crop(row)
