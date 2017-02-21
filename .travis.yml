@@ -4,12 +4,16 @@ cache:
   bundler: true
   directories:
     - travis_phantomjs
+    - tmp/cache/assets/test/sprockets
 env:
   matrix:
-    - GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' GROWSTUFF_ELASTICSEARCH='true'
-    - GROWSTUFF_SITE_NAME="Growstuff (travis)" RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' GROWSTUFF_ELASTICSEARCH='false'
+    - GROWSTUFF_ELASTICSEARCH='true' RSPEC_TAG=elasticsearch
+    - GROWSTUFF_ELASTICSEARCH='false' RSPEC_TAG=~elasticsearch
+    - STATIC_CHECKS='true'
   global:
-    secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
+    - GROWSTUFF_SITE_NAME="Growstuff (travis)"
+    - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
 rvm:
   - 2.3.3
 before_install:
@@ -24,15 +28,20 @@ before_install:
     fi
   - phantomjs --version
 before_script:
-  - bundle exec rake db:create db:migrate db:test:prepare
-  - bundle exec rake assets:precompile
+  - >
+    if [ "$STATIC_CHECKS" != 'true' ]; then
+      bundle exec rake db:create db:migrate db:test:prepare
+      bundle exec rake assets:precompile
+    fi
 script:
-  - bundle exec rubocop --display-cop-names --rails
-  - bundle exec haml-lint app/views/account_types app/views/admin app/views/alternate_names app/views/account_types app/views/comments app/views/crops app/views/forums app/views/gardens app/views/harvests app/views/notifier app/views/orders app/views/photos
-  - script/gemfile_check
-  - bundle exec script/check_contributors_md
-  - bundle exec rake db:migrate --trace
-  - bundle exec rspec spec/
+  - >
+    if [ "$STATIC_CHECKS" = 'true' ]; then
+      bundle exec script/check_static
+    else
+      bundle exec rake db:migrate --trace
+      bundle exec rspec --tag $RSPEC_TAG spec/
+      bundle exec rake jasmine:ci
+    fi
 services:
   - elasticsearch
 before_deploy:

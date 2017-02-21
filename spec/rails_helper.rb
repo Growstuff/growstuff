@@ -108,7 +108,7 @@ RSpec.configure do |config|
       'gravatar.com',
       'mapbox.com',
       'okfn.org',
-      'googlecode.com',
+      'googlecode.com'
     ] if page.driver.browser.respond_to?(:url_blacklist)
 
     page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)

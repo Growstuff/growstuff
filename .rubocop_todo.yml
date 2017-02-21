@@ -55,7 +55,7 @@ Lint/Void:
 # Offense count: 55
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
-  Exclude: 
+  Exclude:
     - '**/*'
 
 # Offense count: 2
@@ -64,19 +64,6 @@ Performance/StringReplacement:
   Exclude:
     - 'app/models/planting.rb'
     - 'spec/rails_helper.rb'
-
-# Offense count: 9
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: strict, flexible
-Rails/Date:
-  Exclude:
-    - 'app/controllers/harvests_controller.rb'
-    - 'db/seeds.rb'
-    - 'lib/tasks/growstuff.rake'
-    - 'spec/controllers/plantings_controller_spec.rb'
-    - 'spec/factories/planting.rb'
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/shared_examples/append_date.rb'
 
 # Offense count: 4
 Rails/FilePath:
@@ -89,13 +76,6 @@ Rails/OutputSafety:
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/auto_suggest_helper.rb'
     - 'app/helpers/gardens_helper.rb'
-
-# Offense count: 1
-# Configuration parameters: Include.
-# Include: db/migrate/*.rb
-Rails/ReversibleMigration:
-  Exclude:
-    - 'db/migrate/20130215131921_rename_notification_fields.rb'
 
 # Offense count: 4
 # Configuration parameters: Blacklist.
@@ -148,11 +128,9 @@ Style/BarePercentLiterals:
 # IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
   Exclude:
-    - 'app/controllers/alternate_names_controller.rb'
     - 'app/controllers/members_controller.rb'
     - 'app/controllers/posts_controller.rb'
     - 'app/controllers/scientific_names_controller.rb'
-    - 'spec/controllers/harvests_controller_spec.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/features/notifications_spec.rb'
     - 'spec/models/ability_spec.rb'
@@ -204,12 +182,6 @@ Style/CommentAnnotation:
   Exclude:
     - 'app/controllers/crops_controller.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/DefWithParentheses:
-  Exclude:
-    - 'spec/views/posts/_single.html.haml_spec.rb'
-
 # Offense count: 10
 # Cop supports --auto-correct.
 Style/EachForSimpleLoop:
@@ -225,7 +197,6 @@ Style/EmptyMethod:
   Exclude:
     - 'app/controllers/account_types_controller.rb'
     - 'app/controllers/accounts_controller.rb'
-    - 'app/controllers/alternate_names_controller.rb'
     - 'app/controllers/gardens_controller.rb'
     - 'app/controllers/photos_controller.rb'
     - 'app/controllers/plant_parts_controller.rb'
@@ -269,31 +240,6 @@ Style/Lambda:
     - 'spec/controllers/member_controller_spec.rb'
     - 'spec/models/photo_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/MethodCallWithoutArgsParentheses:
-  Exclude:
-    - 'spec/helpers/application_helper_spec.rb'
-    - 'spec/views/plantings/new.html.haml_spec.rb'
-
-# Offense count: 8
-# Cop supports --auto-correct.
-Style/MultilineBlockLayout:
-  Exclude:
-    - 'app/controllers/members_controller.rb'
-    - 'app/controllers/posts_controller.rb'
-    - 'spec/models/ability_spec.rb'
-    - 'spec/models/member_spec.rb'
-    - 'spec/models/planting_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineHashBraceLayout:
-  Exclude:
-    - 'app/models/planting.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/MultilineIfModifier:
@@ -306,54 +252,6 @@ Style/MultilineIfThen:
   Exclude:
     - 'script/check_contributors_md'
     - 'script/gemfile_check'
-
-# Offense count: 95
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineMethodCallBraceLayout:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/authentications_controller.rb'
-    - 'app/controllers/seeds_controller.rb'
-    - 'spec/controllers/order_items_controller_spec.rb'
-    - 'spec/helpers/gardens_helper_spec.rb'
-    - 'spec/helpers/harvests_helper_spec.rb'
-    - 'spec/helpers/plantings_helper_spec.rb'
-    - 'spec/helpers/seeds_helper_spec.rb'
-    - 'spec/models/ability_spec.rb'
-    - 'spec/models/crop_spec.rb'
-    - 'spec/models/harvest_spec.rb'
-    - 'spec/models/member_spec.rb'
-    - 'spec/models/order_spec.rb'
-    - 'spec/models/plant_part_spec.rb'
-    - 'spec/models/planting_spec.rb'
-    - 'spec/models/post_spec.rb'
-    - 'spec/views/account_types/edit.html.haml_spec.rb'
-    - 'spec/views/account_types/new.html.haml_spec.rb'
-    - 'spec/views/account_types/show.html.haml_spec.rb'
-    - 'spec/views/crops/_grown_for.html.haml_spec.rb'
-    - 'spec/views/crops/_planting_advice.html.haml_spec.rb'
-    - 'spec/views/forums/edit.html.haml_spec.rb'
-    - 'spec/views/harvests/index.html.haml_spec.rb'
-    - 'spec/views/orders/show.html.haml_spec.rb'
-    - 'spec/views/photos/edit.html.haml_spec.rb'
-    - 'spec/views/plant_parts/edit.html.haml_spec.rb'
-    - 'spec/views/plant_parts/new.html.haml_spec.rb'
-    - 'spec/views/plantings/_form.html.haml_spec.rb'
-    - 'spec/views/plantings/edit.html.haml_spec.rb'
-    - 'spec/views/plantings/index.html.haml_spec.rb'
-    - 'spec/views/plantings/new.html.haml_spec.rb'
-    - 'spec/views/plantings/show.html.haml_spec.rb'
-    - 'spec/views/posts/edit.html.haml_spec.rb'
-    - 'spec/views/products/edit.html.haml_spec.rb'
-    - 'spec/views/products/new.html.haml_spec.rb'
-    - 'spec/views/roles/edit.html.haml_spec.rb'
-    - 'spec/views/roles/index.html.haml_spec.rb'
-    - 'spec/views/roles/new.html.haml_spec.rb'
-    - 'spec/views/roles/show.html.haml_spec.rb'
-    - 'spec/views/scientific_names/edit.html.haml_spec.rb'
-    - 'spec/views/scientific_names/show.html.haml_spec.rb'
 
 # Offense count: 2
 Style/MultilineTernaryOperator:
@@ -377,7 +275,6 @@ Style/NegatedIf:
 # Offense count: 2
 Style/NestedTernaryOperator:
   Exclude:
-    - 'app/controllers/harvests_controller.rb'
     - 'app/controllers/plantings_controller.rb'
 
 # Offense count: 1
@@ -425,15 +322,6 @@ Style/ParallelAssignment:
   Exclude:
     - 'app/mailers/notifier.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: AllowSafeAssignment.
-Style/ParenthesesAroundCondition:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/orders_controller.rb'
-    - 'app/helpers/crops_helper.rb'
-    - 'config/factory_girl.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
@@ -506,43 +394,11 @@ Style/TernaryParentheses:
   Exclude:
     - 'app/helpers/plantings_helper.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline, SupportedStylesForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArguments:
-  Exclude:
-    - 'db/seeds.rb'
-    - 'lib/actions/oauth_signup_action.rb'
-    - 'lib/tasks/growstuff.rake'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline, SupportedStylesForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInLiteral:
-  Exclude:
-    - 'config/environments/test.rb'
-    - 'spec/rails_helper.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/UnlessElse:
   Exclude:
     - 'app/controllers/omniauth_callbacks_controller.rb'
-
-# Offense count: 12
-# Cop supports --auto-correct.
-Style/UnneededInterpolation:
-  Exclude:
-    - 'spec/features/crops/crop_wranglers_spec.rb'
-    - 'spec/features/following_spec.rb'
-    - 'spec/features/shared_examples/append_date.rb'
-    - 'spec/models/crop_spec.rb'
-    - 'spec/models/forum_spec.rb'
-    - 'spec/models/member_spec.rb'
-    - 'spec/models/plant_part_spec.rb'
-    - 'spec/views/layouts/_header_spec.rb'
 
 # Offense count: 3
 # Cop supports --auto-correct.

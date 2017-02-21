@@ -27,7 +27,6 @@
         = link_to @planting.garden, @planting.garden
         - unless  @planting.owner.location.blank?
           (#{@planting.owner.location})
-
       %dt Quantity:
       %dd
         = display_planting_quantity(@planting)

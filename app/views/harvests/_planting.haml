@@ -1,0 +1,15 @@
+- if @harvest.planting
+  = link_to "#{@harvest.planting.crop.name} planted on #{@harvest.planting.planted_at}",
+    planting_path(@harvest.planting)
+  in
+  = link_to @harvest.planting.garden, garden_path(@harvest.planting.garden)
+- elsif @matching_plantings && @harvest.owner == current_member
+  Is this from one of these plantings?
+  = form_for(@harvest) do |f|
+    - @matching_plantings.each do |planting|
+      .field
+        = f.radio_button :planting_id, planting.id
+        = label_tag(:planting, planting)
+    = f.submit "save", class: 'btn btn-default btn-xs'
+- else
+  Unknown

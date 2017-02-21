@@ -39,7 +39,7 @@ describe 'member' do
 
     it 'should stringify as the login_name' do
       member.to_s.should match(/member\d+/)
-      "#{member}".should match(/member\d+/)
+      member.to_s.should match(/member\d+/)
     end
 
     it 'should be able to fetch posts' do
@@ -350,9 +350,9 @@ describe 'member' do
   end
 
   context "update account" do
-    let(:product) { FactoryGirl.create(:product,
-      paid_months: 3
-    )}
+    let(:product) {
+      FactoryGirl.create(:product,
+        paid_months: 3)}
     let(:member) { FactoryGirl.create(:member) }
 
     it "sets account_type" do

@@ -1,35 +1,25 @@
 class PlantPartsController < ApplicationController
   load_and_authorize_resource
+  respond_to :html, :json
 
   # GET /plant_parts
   # GET /plant_parts.json
   def index
     @plant_parts = PlantPart.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @plant_parts }
-    end
+    respond_with(@plant_parts)
   end
 
   # GET /plant_parts/1
   # GET /plant_parts/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @plant_part }
-    end
+    respond_with(@plant_part)
   end
 
   # GET /plant_parts/new
   # GET /plant_parts/new.json
   def new
     @plant_part = PlantPart.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @plant_part }
-    end
+    respond_with(@plant_part)
   end
 
   # GET /plant_parts/1/edit

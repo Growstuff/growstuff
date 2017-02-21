@@ -1,86 +1,51 @@
 class ForumsController < ApplicationController
   load_and_authorize_resource
+  respond_to :html, :json
 
   # GET /forums
   # GET /forums.json
   def index
     @forums = Forum.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @forums }
-    end
+    respond_with(@forums)
   end
 
   # GET /forums/1
   # GET /forums/1.json
   def show
-    @forum = Forum.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @forum }
-    end
+    respond_with(@forum)
   end
 
   # GET /forums/new
   # GET /forums/new.json
   def new
     @forum = Forum.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @forum }
-    end
+    respond_with(@forum)
   end
 
   # GET /forums/1/edit
-  def edit
-    @forum = Forum.find(params[:id])
-  end
+  def edit; end
 
   # POST /forums
   # POST /forums.json
   def create
     @forum = Forum.new(forum_params)
-
-    respond_to do |format|
-      if @forum.save
-        format.html { redirect_to @forum, notice: 'Forum was successfully created.' }
-        format.json { render json: @forum, status: :created, location: @forum }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @forum.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'Forum was successfully created.' if @forum.save
+    respond_with(@forum)
   end
 
   # PUT /forums/1
   # PUT /forums/1.json
   def update
-    @forum = Forum.find(params[:id])
-
-    respond_to do |format|
-      if @forum.update(forum_params)
-        format.html { redirect_to @forum, notice: 'Forum was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @forum.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'Forum was successfully updated.' if @forum.update(forum_params)
+    respond_with(@forum)
   end
 
   # DELETE /forums/1
   # DELETE /forums/1.json
   def destroy
-    @forum = Forum.find(params[:id])
     @forum.destroy
-
-    respond_to do |format|
-      format.html { redirect_to forums_url, notice: 'Forum was successfully deleted' }
-      format.json { head :no_content }
-    end
+    flash[:notice] = 'Forum was successfully deleted'
+    redirect_to forums_url
   end
 
   private

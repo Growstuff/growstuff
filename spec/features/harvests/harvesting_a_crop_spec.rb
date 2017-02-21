@@ -1,10 +1,11 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-feature "Harvesting a crop", :js do
+feature "Harvesting a crop", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize }
   let!(:plant_part) { create :plant_part }
+  let(:planting) { create :planting, crop: maize, owner: member }
 
   background do
     login_as member
@@ -74,20 +75,63 @@ feature "Harvesting a crop", :js do
     expect(page).to have_content "maize"
   end
 
+  scenario "Harvesting from planting page" do
+    planting = create :planting, crop: maize, owner: member, garden: member.gardens.first
+    visit planting_path(planting)
+    click_link "Harvest"
+
+    select plant_part.name, from: 'harvest[plant_part_id]'
+    click_button "Save"
+
+    expect(page).to have_content "Harvest was successfully created"
+    expect(page).to have_content planting.garden.name
+    expect(page).to have_content "maize"
+  end
+
   context "Editing a harvest" do
     let(:existing_harvest) { create :harvest, crop: maize, owner: member }
+    let!(:other_plant_part) { create :plant_part, name: 'chocolate' }
 
     background do
       visit harvest_path(existing_harvest)
       click_link "Edit"
     end
 
-    scenario "Saving wihout edits" do
+    scenario "Saving without edits" do
       # Check that the autosuggest helper properly fills inputs with
       # existing resource's data
       click_button "Save"
       expect(page).to have_content "Harvest was successfully updated"
       expect(page).to have_content "maize"
+    end
+
+    scenario "change plant part" do
+      select other_plant_part.name, from: 'harvest[plant_part_id]'
+      click_button "Save"
+      expect(page).to have_content "Harvest was successfully updated"
+      expect(page).to have_content other_plant_part.name
+    end
+  end
+
+  context "Viewing a harvest" do
+    let(:existing_harvest) do
+      create :harvest, crop: maize, owner: member,
+                       harvested_at: Time.zone.today
+    end
+    let!(:existing_planting) do
+      create :planting, crop: maize, owner: member,
+                        planted_at: Time.zone.yesterday
+    end
+
+    background do
+      visit harvest_path(existing_harvest)
+    end
+
+    scenario "linking to a planting" do
+      expect(page).to have_content planting.to_s
+      choose("harvest_planting_id_#{existing_planting.id}")
+      click_button "save"
+      expect(page).to have_link(href: planting_path(existing_planting))
     end
   end
 end

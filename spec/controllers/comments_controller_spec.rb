@@ -21,7 +21,7 @@ describe CommentsController do
 
   def valid_attributes
     @post = FactoryGirl.create(:post)
-    { post_id: @post.id, author_id: @member.id, body: "some text" }
+    { post_id: @post.id, body: "some text" }
   end
 
   describe "GET RSS feed" do
@@ -34,51 +34,83 @@ describe CommentsController do
   end
 
   describe "GET new" do
-    it "picks up post from params" do
-      post = FactoryGirl.create(:post)
-      get :new, post_id: post.id
-      assigns(:post).should eq(post)
-    end
+    let(:post) { FactoryGirl.create(:post) }
 
-    it "assigns the old comments as @comments" do
-      post = FactoryGirl.create(:post)
-      old_comment = FactoryGirl.create(:comment, post: post)
-      get :new, post_id: post.id
-      assigns(:comments).should eq [old_comment]
+    describe "with valid params" do
+      before { get :new, post_id: post.id }
+
+      it "picks up post from params" do
+        assigns(:post).should eq(post)
+      end
+
+      let(:old_comment) { FactoryGirl.create(:comment, post: post) }
+      it "assigns the old comments as @comments" do
+        assigns(:comments).should eq [old_comment]
+      end
     end
 
     it "dies if no post specified" do
       get :new
-      response.should redirect_to(root_url)
+      expect(response).not_to be_success
     end
   end
 
   describe "GET edit" do
-    it "assigns previous comments as @comments" do
-      post = FactoryGirl.create(:post)
-      old_comment = FactoryGirl.create(:comment, post: post)
-      comment = FactoryGirl.create(:comment, post: post, author: @member)
-      get :edit, id: comment.to_param
-      assigns(:comments).should eq([comment, old_comment])
+    let(:post) { FactoryGirl.create(:post) }
+    before { get :edit, id: comment.to_param }
+
+    describe "my comment" do
+      let!(:comment) { FactoryGirl.create :comment, author: @member, post: post }
+      let!(:old_comment) { FactoryGirl.create(:comment, post: post, created_at: Time.zone.yesterday) }
+      it "assigns previous comments as @comments" do
+        assigns(:comments).should eq([comment, old_comment])
+      end
+    end
+
+    describe "not my comment" do
+      let(:comment) { FactoryGirl.create :comment, post: post }
+      it { expect(response).not_to be_success }
     end
   end
 
   describe "PUT update" do
-    describe "with valid params" do
+    before { put :update, id: comment.to_param, comment: valid_attributes }
+
+    describe "my comment" do
+      let(:comment) { FactoryGirl.create :comment, author: @member }
       it "redirects to the comment's post" do
-        comment = Comment.create! valid_attributes
-        put :update, id: comment.to_param, comment: valid_attributes
-        response.should redirect_to(comment.post)
+        expect(response).to redirect_to(comment.post)
+      end
+    end
+    describe "not my comment" do
+      let(:comment) { FactoryGirl.create :comment }
+      it { expect(response).not_to be_success }
+    end
+    describe "attempting to change post_id" do
+      let(:post) { FactoryGirl.create :post, subject: 'our post' }
+      let(:other_post) { FactoryGirl.create :post, subject: 'the other post' }
+      let(:valid_attributes) { { post_id: other_post.id, body: "kōrero" } }
+      let(:comment) { FactoryGirl.create :comment, author: @member, post: post }
+      it "does not change post_id" do
+        comment.reload
+        expect(comment.post_id).to eq(post.id)
       end
     end
   end
 
   describe "DELETE destroy" do
-    it "redirects to the post the comment was on" do
-      comment = Comment.create! valid_attributes
-      post = comment.post
-      delete :destroy, id: comment.to_param
-      response.should redirect_to(post)
+    before { delete :destroy, id: comment.to_param }
+
+    describe "my comment" do
+      let(:comment) { FactoryGirl.create :comment, author: @member }
+      it "redirects to the post the comment was on" do
+        expect(response).to redirect_to(comment.post)
+      end
+    end
+
+    describe "not my comment" do
+      let(:comment) { FactoryGirl.create :comment }
+      it { expect(response).not_to be_success }
     end
   end
 end

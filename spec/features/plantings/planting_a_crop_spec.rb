@@ -1,7 +1,7 @@
 require "rails_helper"
 require 'custom_matchers'
 
-feature "Planting a crop", :js do
+feature "Planting a crop", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize }
   let(:garden) { create :garden, owner: member }
@@ -58,7 +58,7 @@ feature "Planting a crop", :js do
       visit new_planting_path
 
       @a_past_date = 15.days.ago.strftime("%Y-%m-%d")
-      @right_now = Date.today.strftime("%Y-%m-%d")
+      @right_now = Time.zone.today.strftime("%Y-%m-%d")
       @a_future_date = 1.year.from_now.strftime("%Y-%m-%d")
     end
 

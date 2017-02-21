@@ -6,9 +6,9 @@ Growstuff::Application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Do not compile assets on-demand. On-demand compilation slows down the test
-  # suite and causes random test failures.
-  config.assets.compile = false
+  # Allow lazy compilation of assets. Required for running Jasmine tests via
+  # `rake spec:javascript`.
+  config.assets.compile = true
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
@@ -66,7 +66,7 @@ Geocoder::Lookup::Test.add_stub(
   "Amundsen-Scott Base, Antarctica", [
     {
       'latitude' =>         -90.0,
-      'longitude' =>        0.0,
+      'longitude' =>        0.0
     }
   ]
 )
@@ -89,7 +89,7 @@ Geocoder::Lookup::Test.add_stub(
   "Greenwich, UK", [
     {
       'latitude' =>         51.483061,
-      'longitude' =>        -0.004151,
+      'longitude' =>        -0.004151
     }
   ]
 )
@@ -98,7 +98,7 @@ Geocoder::Lookup::Test.add_stub(
   "Edinburgh", [
     {
       'latitude' =>         55.953252,
-      'longitude' =>        -3.188267,
+      'longitude' =>        -3.188267
     }
   ]
 )

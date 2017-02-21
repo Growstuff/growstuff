@@ -49,9 +49,8 @@
       var barNodes = $('g.bar rect title');
 
       for (i = 0; i < bars.length; i++){
-        //this is ugly but how jquery wants to access this list of titles
-        expect($(barNodes[i]).html())
-            .toBe(('title', 'This value is ' + bars[i].value + '' + '.'));
+        expect(barNodes[i].textContent)
+            .toBe('This value is ' + bars[i].value + '' + '.');
       }
     });
 
