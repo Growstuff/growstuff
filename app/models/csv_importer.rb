@@ -45,8 +45,7 @@ class CsvImporter
 
     names_to_add.each do |name|
       sciname = ScientificName.find_by(name: name)
-      sciname = ScientificName.create! name: name, crop: @crop, creator: cropbot unless sciname
-      @crop.scientific_names << sciname
+      ScientificName.create!(name: name, crop: @crop, creator: cropbot) unless sciname
     end
   end
 
@@ -54,11 +53,8 @@ class CsvImporter
     # i.e. we actually passed something in, which isn't a given
     return if alternate_names.blank?
     alternate_names.split(/,\s*/).each do |name|
-      if AlternateName.find_by(name: name)
-        # raise "Name already exists: #{name}"
-      else
-        AlternateName.create! name: name, crop: @crop, creator: cropbot
-      end
+      altname = AlternateName.find_by(name: name)
+      AlternateName.create! name: name, crop: @crop, creator: cropbot unless altname
     end
   end
 
