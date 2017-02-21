@@ -439,6 +439,22 @@ describe Crop do
         expect(tomato.default_scientific_name).to eq "Parentis cropis"
       end
 
+      it "doesn't add a duplicate scientific name" do
+        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo bar, Foo bar"]
+        tomato = CsvImporter.new.import_crop(row)
+        expect(tomato.scientific_names.size).to eq 1
+      end
+
+      it "doesn't add a duplicate scientific name from parent" do
+        CsvImporter.new.import_crop(
+          ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Parentis cropis"]
+        )
+        tomato = CsvImporter.new.import_crop(
+          ["Tomato", "http://en.wikipedia.org/wiki/Parent", "parent", "Parentis cropis"]
+        )
+        expect(tomato.scientific_names.size).to eq 1
+      end
+
       it "loads a crop with multiple scientific names" do
         row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo,Bar"]
         tomato = CsvImporter.new.import_crop(row)
