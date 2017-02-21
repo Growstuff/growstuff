@@ -496,6 +496,15 @@ describe Crop do
         expect(tomato.alternate_names[2].name).to eq "Baz"
         expect(tomato.alternate_names[3].name).to eq "Quux"
       end
+
+      it "doesn't add a duplicate alternate name" do
+        row = ["tomato", "http://en.wikipedia.org/wiki/tomato", "", "", "Foo"]
+        tomato = CsvImporter.new.import_crop(row)
+        row = ["tomoto", "http://en.wikipedia.org/wiki/tomoto", "", "", "Foo"]
+        tomoto = CsvImporter.new.import_crop(row)
+        expect(tomato.alternate_names.size).to eq 1
+        expect(tomoto.alternate_names.size).to eq 0
+      end
     end # alternate names
 
     it "loads the simplest possible crop" do
