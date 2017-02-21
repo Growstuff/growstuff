@@ -427,10 +427,12 @@ describe Crop do
 
       it "picks up scientific name from parent crop if available" do
         parent = CsvImporter.new.import_crop(
-          ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Parentis cropis"])
+          ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Parentis cropis"]
+        )
 
         tomato = CsvImporter.new.import_crop(
-          ["Tomato", "http://en.wikipedia.org/wiki/Parent", "parent"])
+          ["Tomato", "http://en.wikipedia.org/wiki/Parent", "parent"]
+        )
 
         expect(tomato.parent).to eq parent
         expect(tomato.parent.default_scientific_name).to eq "Parentis cropis"
@@ -500,7 +502,8 @@ describe Crop do
 
     it "loads a crop with an alternate name" do
       crop = CsvImporter.new.import_crop(
-        ["tomato", "http://en.wikipedia.org/wiki/Tomato", nil, nil, "Foo"])
+        ["tomato", "http://en.wikipedia.org/wiki/Tomato", nil, nil, "Foo"]
+      )
 
       expect(crop.name).to eq "tomato"
       expect(crop.alternate_names.size).to eq 1
@@ -510,7 +513,8 @@ describe Crop do
     it "loads a crop with a parent" do
       parent = FactoryGirl.create(:crop, name: 'parent')
       crop = CsvImporter.new.import_crop(
-        ["tomato", "http://en.wikipedia.org/wiki/Tomato", "parent"])
+        ["tomato", "http://en.wikipedia.org/wiki/Tomato", "parent"]
+      )
       expect(crop.parent).to eq parent
     end
 
