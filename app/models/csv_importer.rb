@@ -17,6 +17,7 @@ class CsvImporter
     add_parent(parent_name) if parent_name
     add_scientific_names(scientific_names)
     add_alternate_names(alternate_names)
+    @crop.save!
     @crop
   end
 
@@ -45,7 +46,8 @@ class CsvImporter
 
     names_to_add.each do |name|
       sciname = ScientificName.find_by(name: name)
-      ScientificName.create!(name: name, crop: @crop, creator: cropbot) unless sciname
+      sciname = ScientificName.create!(name: name, crop: @crop, creator: cropbot) unless sciname
+      @crop.scientific_names << sciname
     end
   end
 
@@ -54,7 +56,8 @@ class CsvImporter
     return if alternate_names.blank?
     alternate_names.split(/,\s*/).each do |name|
       altname = AlternateName.find_by(name: name)
-      AlternateName.create! name: name, crop: @crop, creator: cropbot unless altname
+      altname = AlternateName.create! name: name, crop: @crop, creator: cropbot unless altname
+      @crop.alternate_names << altname
     end
   end
 
