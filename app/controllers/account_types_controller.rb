@@ -1,67 +1,48 @@
 class AccountTypesController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource
+  respond_to :html
 
   # GET /account_types
   def index
     @account_types = AccountType.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-    end
+    respond_with(@account_types)
   end
 
   # GET /account_types/1
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-    end
+    respond_with(@account_types)
   end
 
   # GET /account_types/new
   def new
     @account_type = AccountType.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
+    respond_with(@account_type)
   end
 
   # GET /account_types/1/edit
   def edit
+    respond_with(@account_type)
   end
 
   # POST /account_types
   def create
     @account_type = AccountType.new(account_type_params)
-
-    respond_to do |format|
-      if @account_type.save
-        format.html { redirect_to @account_type, notice: I18n.t('account_types.created') }
-      else
-        format.html { render action: "new" }
-      end
-    end
+    flash[:notice] = I18n.t('account_types.created') if @account_type.save
+    respond_with(@account_type)
   end
 
   # PUT /account_types/1
   def update
-    respond_to do |format|
-      if @account_type.update(account_type_params)
-        format.html { redirect_to @account_type, notice: I18n.t('account_types.updated') }
-      else
-        format.html { render action: "edit" }
-      end
-    end
+    flash[:notice] = I18n.t('account_types.updated') if @account_type.update(account_type_params)
+    respond_with(@account_type)
   end
 
   # DELETE /account_types/1
   def destroy
     @account_type.destroy
-
-    respond_to do |format|
-      format.html { redirect_to account_types_url, notice: I18n.t('account_types.deleted') }
-    end
+    flash[:notice] = I18n.t('account_types.deleted')
+    respond_with(@account_type)
   end
 
   private
