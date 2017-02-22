@@ -1,21 +1,17 @@
 class AccountsController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource
+  respond_to :html
 
   # GET /accounts
   def index
     @accounts = Account.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-    end
+    respond_with(@accounts)
   end
 
   # GET /accounts/1
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-    end
+    respond_with(@account)
   end
 
   # GET /accounts/1/edit
@@ -24,13 +20,8 @@ class AccountsController < ApplicationController
 
   # PUT /accounts/1
   def update
-    respond_to do |format|
-      if @account.update(params[:account])
-        format.html { redirect_to @account, notice: I18n.t('account.update') }
-      else
-        format.html { render action: "edit" }
-      end
-    end
+    flash[:notice] = I18n.t('account.update') if @account.update(params[:account])
+    respond_with(@account)
   end
 
   private
