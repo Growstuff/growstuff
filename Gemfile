@@ -69,7 +69,7 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
 # For charting data
-gem 'd3-rails'
+gem 'd3-rails', '~> 3.4' # Probably safe to upgrade faster, but pinning to follow https://github.com/d3/d3/releases
 
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
