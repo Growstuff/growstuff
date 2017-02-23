@@ -38,9 +38,7 @@ script:
     if [ "$STATIC_CHECKS" = 'true' ]; then
       bundle exec script/check_static
     else
-      bundle exec rake db:migrate --trace
-      bundle exec rspec --tag $RSPEC_TAG spec/
-      bundle exec rake jasmine:ci
+      bundle exec rake db:migrate --trace && bundle exec rspec --tag $RSPEC_TAG spec/ && bundle exec rake jasmine:ci
     fi
 services:
   - elasticsearch
