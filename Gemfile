@@ -69,7 +69,7 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter', '~> 1.2'
 
 # For charting data
-gem 'd3-rails', '~> 3.5' # Probably safe to upgrade faster, but pinning to follow https://github.com/d3/d3/releases
+gem 'd3-rails', '~> 3.5' # 4.* produces Error: <spyOn> : could not find an object to spy upon for linear() - see https://travis-ci.org/Growstuff/growstuff/jobs/204461482
 
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
