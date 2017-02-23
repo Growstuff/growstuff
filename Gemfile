@@ -63,10 +63,10 @@ gem 'geocoder'
 gem 'bootstrap-datepicker-rails'
 
 # For connecting to other services (eg Twitter)
-gem 'omniauth'
+gem 'omniauth', '~> 1.3' 
 gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
-gem 'omniauth-twitter'
+gem 'omniauth-twitter', '~> 1.2'
 
 # For charting data
 gem 'd3-rails', '~> 3.5' # Probably safe to upgrade faster, but pinning to follow https://github.com/d3/d3/releases
