@@ -35,7 +35,7 @@ gem 'unicorn'                      # http server
 gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
 
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
-gem 'kaminari'                     # pagination
+gem 'kaminari', '~> 0.17.0'        # pagination
 
 gem 'active_utils'
 gem 'activemerchant'

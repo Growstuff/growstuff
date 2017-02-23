@@ -552,7 +552,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails (~> 5.0.2)
   js-routes
-  kaminari
+  kaminari (~> 0.17.0)
   leaflet-markercluster-rails
   leaflet-rails (~> 0.7.7)
   letter_opener
