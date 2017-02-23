@@ -558,10 +558,10 @@ DEPENDENCIES
   letter_opener
   memcachier
   newrelic_rpm
-  omniauth
+  omniauth (~> 1.3)
   omniauth-facebook
   omniauth-flickr (>= 0.0.15)
-  omniauth-twitter
+  omniauth-twitter (~> 1.2)
   pg
   poltergeist
   pry
