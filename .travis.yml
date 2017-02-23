@@ -30,8 +30,7 @@ before_install:
 before_script:
   - >
     if [ "$STATIC_CHECKS" != 'true' ]; then
-      bundle exec rake db:create db:migrate db:test:prepare
-      bundle exec rake assets:precompile
+      bundle exec rake db:create db:migrate db:test:prepare && bundle exec rake assets:precompile
     fi
 script:
   - >
