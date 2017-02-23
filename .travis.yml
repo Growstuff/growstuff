@@ -7,9 +7,9 @@ cache:
     - tmp/cache/assets/test/sprockets
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH='true' RSPEC_TAG=elasticsearch
-    - GROWSTUFF_ELASTICSEARCH='false' RSPEC_TAG=~elasticsearch
-    - STATIC_CHECKS='true'
+    - GROWSTUFF_ELASTICSEARCH='true' RSPEC_TAG=elasticsearch STATIC_CHECKS=false
+    - GROWSTUFF_ELASTICSEARCH='false' RSPEC_TAG=~elasticsearch STATIC_CHECKS=false
+    - STATIC_CHECKS=true
   global:
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
     - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -17,31 +17,37 @@ env:
 rvm:
   - 2.3.3
 before_install:
-  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
   - >
-    if [ $(phantomjs --version) != '2.1.1' ]; then
-    PHANTOM_URL=https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2;
-    rm -rf $PWD/travis_phantomjs;
-    mkdir -p $PWD/travis_phantomjs;
-    wget $PHANTOM_URL -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2;
-    tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs;
-    fi
-  - phantomjs --version
+    ./script/install_phantomjs;
+    phantomjs --version
+  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
 before_script:
   - >
-    if [ "$STATIC_CHECKS" != 'true' ]; then
-      bundle exec rake db:create db:migrate db:test:prepare
-      bundle exec rake assets:precompile
-    fi
+    set -e;
+    if [ "${STATIC_CHECKS}" = "true" ]; then
+      gem install overcommit rubocop haml-lint;
+      overcommit --install;
+      overcommit --sign;
+      overcommit --sign pre-commit;
+      # pip install yamllint;
+      npm install -g eslint jshint coffeelint csslint;
+    else
+      bundle exec rake db:create db:migrate db:test:prepare;
+      bundle exec rake assets:precompile;
+    fi;
+    set +e
 script:
   - >
-    if [ "$STATIC_CHECKS" = 'true' ]; then
-      bundle exec script/check_static
+    set -e;
+    if [ "${STATIC_CHECKS}" = "true" ]; then
+      overcommit -r
+      bundle exec ./script/check_static
     else
       bundle exec rake db:migrate --trace
       bundle exec rspec --tag $RSPEC_TAG spec/
       bundle exec rake jasmine:ci
-    fi
+    fi;
+    set +e
 services:
   - elasticsearch
 before_deploy:
@@ -49,7 +55,7 @@ before_deploy:
 deploy:
   provider: heroku
   api_key:
-    secure: WrQxf0fEKkCdXrjcejurobOnNNz3he4dDwjBbToXbQTQNDObPp7NetJrLsfM8FiUFEeOuvhIHHiDQtMvY720zGGAGxDptvgFS+0QHCUqoTRZA/yFfUmHlG2jROXTzk5uVK0AE4k6Ion5kX8+mM0EnMT/7u+MTFiukrJctSiEXfg=
+    secure: "WrQxf0fEKkCdXrjcejurobOnNNz3he4dDwjBbToXbQTQNDObPp7NetJrLsfM8FiUFEeOuvhIHHiDQtMvY720zGGAGxDptvgFS+0QHCUqoTRZA/yFfUmHlG2jROXTzk5uVK0AE4k6Ion5kX8+mM0EnMT/7u+MTFiukrJctSiEXfg="
   on:
     repo: Growstuff/growstuff
   app:
