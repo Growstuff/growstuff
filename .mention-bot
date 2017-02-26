@@ -1,0 +1,10 @@
+{
+  "maxReviewers": 5,
+  "numFilesToCheck": 10,
+  "findPotentialReviewers": true,
+  "requiredOrgs": [],
+  "skipAlreadyAssignedPR": false,
+  "assignToReviewer": true,
+  "createReviewRequest": true,
+  "skipCollaboratorPR": false
+}
