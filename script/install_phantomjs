@@ -1,8 +1,8 @@
 #!/bin/bash
-if [ $(phantomjs --version) != '2.1.1' ]; then
-  PHANTOM_URL=https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2;
-  rm -rf $PWD/travis_phantomjs;
-  mkdir -p $PWD/travis_phantomjs;
-  wget $PHANTOM_URL -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2;
-  tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs;
+if [ "$(phantomjs --version)" != '2.1.1' ]; then
+  PHANTOM_URL="https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2"
+  rm -rf "$PWD/travis_phantomjs"
+  mkdir -p "$PWD/travis_phantomjs"
+  wget "$PHANTOM_URL" -O "$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2"
+  tar -xvf "$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs"
 fi
