@@ -2,7 +2,7 @@
   "maxReviewers": 5,
   "numFilesToCheck": 10,
   "findPotentialReviewers": true,
-  "requiredOrgs": [],
+  "requiredOrgs": ["Growstuff"],
   "skipAlreadyAssignedPR": false,
   "assignToReviewer": true,
   "createReviewRequest": true,
