@@ -35,7 +35,7 @@ gem 'unicorn'                      # http server
 gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
 
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
-gem 'kaminari'                     # pagination
+gem 'kaminari', '~> 0.17.0'        # pagination
 
 gem 'active_utils'
 gem 'activemerchant'
@@ -63,13 +63,13 @@ gem 'geocoder'
 gem 'bootstrap-datepicker-rails'
 
 # For connecting to other services (eg Twitter)
-gem 'omniauth'
+gem 'omniauth', '~> 1.3' 
 gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
-gem 'omniauth-twitter'
+gem 'omniauth-twitter', '~> 1.2'
 
 # For charting data
-gem 'd3-rails'
+gem 'd3-rails', '~> 3.5' # 4.* produces Error: <spyOn> : could not find an object to spy upon for linear() - see https://travis-ci.org/Growstuff/growstuff/jobs/204461482
 
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
