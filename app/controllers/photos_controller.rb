@@ -1,42 +1,24 @@
 class PhotosController < ApplicationController
   before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
+  respond_to :html, :json
 
   # GET /photos
   # GET /photos.json
   def index
     @photos = Photo.paginate(page: params[:page])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @photos }
-    end
+    respond_with(@photos)
   end
 
   # GET /photos/new
   # GET /photos/new.json
   def new
-    @photo = Photo.new
     @type = params[:type]
     @id = params[:id]
 
-    page = params[:page] || 1
-
-    @flickr_auth = current_member.auth('flickr')
-    @current_set = params[:set]
-    if @flickr_auth
-      @sets = current_member.flickr_sets
-      photos, total = current_member.flickr_photos(page, @current_set)
-
-      @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
-        pager.replace photos
-      end
-    end
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @photo }
-    end
+    @photo = Photo.new
+    retrieve_from_flickr
+    respond_with(@photo)
   end
 
   # GET /photos/1/edit
@@ -48,30 +30,15 @@ class PhotosController < ApplicationController
   def create
     find_or_create_photo_from_flickr_photo
     add_photo_to_collection
-
-    respond_to do |format|
-      if @photo.present? && @photo.save
-        format.html { redirect_to photo_path(@photo), notice: 'Photo was successfully added.' }
-        format.json { render json: @photo, status: :created, location: @photo }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'Photo was successfully added.' if @photo.present? && @photo.save
+    respond_with(@photo)
   end
 
   # PUT /photos/1
   # PUT /photos/1.json
   def update
-    respond_to do |format|
-      if @photo.update(photo_params)
-        format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'Photo was successfully updated.' if @photo.update(photo_params)
+    respond_with(@photo)
   end
 
   # DELETE /photos/1
@@ -79,11 +46,7 @@ class PhotosController < ApplicationController
   def destroy
     @photo.destroy
     flash[:alert] = "Photo successfully deleted."
-
-    respond_to do |format|
-      format.html { redirect_to photos_url }
-      format.json { head :no_content }
-    end
+    respond_with(@photo)
   end
 
   private
@@ -97,7 +60,7 @@ class PhotosController < ApplicationController
   end
 
   def photo_params
-    params.require(:photo).permit(:flickr_photo_id, :owner_id, :title, :license_name,
+    params.require(:photo).permit(:flickr_photo_id, :title, :license_name,
       :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
@@ -121,5 +84,20 @@ class PhotosController < ApplicationController
     collection << item unless collection.include?(item)
   rescue => e
     flash[:alert] = e.message
+  end
+
+  def retrieve_from_flickr
+    @flickr_auth = current_member.auth('flickr')
+    @current_set = params[:set]
+    return unless @flickr_auth
+
+    page = params[:page] || 1
+
+    @sets = current_member.flickr_sets
+    photos, total = current_member.flickr_photos(page, @current_set)
+
+    @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
+      pager.replace photos
+    end
   end
 end
