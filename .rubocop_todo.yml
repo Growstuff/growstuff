@@ -52,17 +52,11 @@ Lint/Void:
     - 'spec/models/garden_spec.rb'
     - 'spec/models/post_spec.rb'
 
-# Offense count: 55
-# Configuration parameters: CountComments, ExcludedMethods.
-Metrics/BlockLength:
-  Exclude:
-    - '**/*'
 
 # Offense count: 2
 # Cop supports --auto-correct.
 Performance/StringReplacement:
   Exclude:
-    - 'app/models/planting.rb'
     - 'spec/rails_helper.rb'
 
 # Offense count: 4
@@ -129,8 +123,6 @@ Style/BarePercentLiterals:
 Style/BlockDelimiters:
   Exclude:
     - 'app/controllers/members_controller.rb'
-    - 'app/controllers/posts_controller.rb'
-    - 'app/controllers/scientific_names_controller.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/features/notifications_spec.rb'
     - 'spec/models/ability_spec.rb'
@@ -146,7 +138,6 @@ Style/BlockDelimiters:
 Style/BlockEndNewline:
   Exclude:
     - 'app/controllers/members_controller.rb'
-    - 'app/controllers/posts_controller.rb'
     - 'spec/models/ability_spec.rb'
     - 'spec/models/member_spec.rb'
     - 'spec/models/planting_spec.rb'
@@ -195,9 +186,7 @@ Style/EachForSimpleLoop:
 # SupportedStyles: compact, expanded
 Style/EmptyMethod:
   Exclude:
-    - 'app/controllers/account_types_controller.rb'
     - 'app/controllers/accounts_controller.rb'
-    - 'app/controllers/gardens_controller.rb'
     - 'app/controllers/photos_controller.rb'
     - 'app/controllers/plant_parts_controller.rb'
     - 'app/controllers/posts_controller.rb'
@@ -341,12 +330,6 @@ Style/PerlBackrefs:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/RedundantParentheses:
-  Exclude:
-    - 'app/helpers/plantings_helper.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
     - 'lib/geocodable.rb'
@@ -385,14 +368,6 @@ Style/SymbolProc:
   Exclude:
     - 'app/controllers/crops_controller.rb'
     - 'lib/tasks/growstuff.rake'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, AllowSafeAssignment.
-# SupportedStyles: require_parentheses, require_no_parentheses, require_parentheses_when_complex
-Style/TernaryParentheses:
-  Exclude:
-    - 'app/helpers/plantings_helper.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
