@@ -345,12 +345,6 @@ Style/RedundantParentheses:
   Exclude:
     - 'app/helpers/plantings_helper.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/geocodable.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
