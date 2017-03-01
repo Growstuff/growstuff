@@ -299,11 +299,6 @@ Style/NumericLiteralPrefix:
   Exclude:
     - 'spec/views/plantings/_form.html.haml_spec.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/NumericLiterals:
-  MinDigits: 9
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, EnforcedStyle, SupportedStyles.
