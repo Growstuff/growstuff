@@ -54,10 +54,6 @@ GEM
     autoprefixer-rails (6.7.5)
       execjs
     bcrypt (3.1.11)
-    better_errors (2.1.1)
-      coderay (>= 1.0.0)
-      erubis (>= 2.6.6)
-      rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bluecloth (2.2.0)
@@ -508,7 +504,6 @@ DEPENDENCIES
   active_merchant-paypal-bogus-gateway
   active_utils
   activemerchant
-  better_errors
   binding_of_caller
   bluecloth
   bonsai-elasticsearch-rails
@@ -589,4 +584,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.7
+   1.14.5
