@@ -2,7 +2,7 @@
 
 checks = [
   'overcommit -r',
-  'script/check_contributors_md'
+  'bundle exec script/check_contributors_md'
 ]
 
 return_values = checks.collect { |t| system(t) }
