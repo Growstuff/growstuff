@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
 
 checks = [
-  'script/check_gemfile',
-  'script/check_contributors_md',
-  'script/check_conflicts',
-  'rubocop --display-cop-names --rails',
-  "haml-lint app/views"
+  'overcommit -r',
+  'bundle exec script/check_contributors_md.rb'
 ]
 
 return_values = checks.collect { |t| system(t) }
