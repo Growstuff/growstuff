@@ -33,7 +33,7 @@ script:
   - set -e
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
-      ./script/check_static
+      ./script/check_static.rb
     else
       bundle exec rake db:migrate --trace;
       bundle exec rspec --tag $RSPEC_TAG spec/;
