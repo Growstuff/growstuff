@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euv
+
+gem install overcommit rubocop haml-lint
+npm install -g eslint jshint coffeelint csslint
+
+overcommit --install
+overcommit --sign
+overcommit --sign pre-commit
