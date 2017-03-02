@@ -23,9 +23,9 @@ checks before being merged. You can run tests locally as follows:
    failing tests so you can easily re-run particular ones.
  - `rspec --only-failures` to re-run all Ruby tests that failed last time.
 
- Growstuff runs several linters and checkers before a change is merge. These run
- from overcommit. To automatically run the same linters yourself you can install
- overcommit too.
+Growstuff runs several linters and checkers before a change is merged. These
+run from overcommit. To automatically run the same linters yourself you can
+install overcommit too.
 
  - `./script/install_linters`
 
