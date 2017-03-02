@@ -17,9 +17,7 @@ env:
 rvm:
   - 2.3.3
 before_install:
-  - >
-    ./script/install_phantomjs;
-    phantomjs --version
+  - ./script/install_phantomjs;
   - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
 before_script:
   - >
