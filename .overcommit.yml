@@ -64,6 +64,8 @@ PreCommit:
     enabled: true
   RailsSchemaUpToDate:
     enabled: true
+  MergeConflicts:
+    enabled: true
 
 PostCommit:
   GitGuilt:
