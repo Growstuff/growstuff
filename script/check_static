@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 
 checks = [
-  'bundle exec overcommit -r'
+  'bundle exec overcommit -r',
   'script/check_gemfile',
-  'script/check_contributors_md',
-  'script/check_conflicts'
+  'script/check_contributors_md'
 ]
 
 return_values = checks.collect { |t| system(t) }
