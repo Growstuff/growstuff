@@ -52,6 +52,9 @@ PreCommit:
   BundleOutdated:
     enabled: true
     on_warn: warn
+  BundleAudit:
+    enabled: true
+    on_warn: warn
   JsHint:
     problem_on_unmodified_line: warn
     enabled: true
@@ -65,6 +68,8 @@ PreCommit:
   RailsSchemaUpToDate:
     enabled: true
   MergeConflicts:
+    enabled: true
+  RailsSchemaUpToDate:
     enabled: true
 
 PostCommit:
