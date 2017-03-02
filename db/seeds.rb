@@ -171,7 +171,7 @@ def load_products
   Product.create!(
     name: "Seed account",
     description: "Paid account, in perpetuity",
-    min_price: 15000,
+    min_price: 15_000,
     account_type_id: @seed_account.id
   )
 end
