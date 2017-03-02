@@ -246,17 +246,6 @@ Style/NilComparison:
     - 'lib/tasks/growstuff.rake'
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedOctalStyle, SupportedOctalStyles.
-# SupportedOctalStyles: zero_with_o, zero_only
-Style/NumericLiteralPrefix:
-  Exclude:
-    - 'spec/views/plantings/_form.html.haml_spec.rb'
-
-# Cop supports --auto-correct.
-Style/NumericLiterals:
-  MinDigits: 9
-
-# Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, EnforcedStyle, SupportedStyles.
 # SupportedStyles: predicate, comparison
 Style/NumericPredicate:
@@ -287,11 +276,6 @@ Style/PerlBackrefs:
     - 'lib/haml/filters/growstuff_markdown.rb'
 
 # Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/geocodable.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
 # SupportedStyles: slashes, percent_r, mixed
 Style/RegexpLiteral:
@@ -302,11 +286,6 @@ Style/RegexpLiteral:
     - 'spec/views/members/index.html.haml_spec.rb'
     - 'spec/views/posts/index.html.haml_spec.rb'
     - 'spec/views/posts/show.html.haml_spec.rb'
-
-# Cop supports --auto-correct.
-Style/SelfAssignment:
-  Exclude:
-    - 'app/helpers/crops_helper.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: SupportedStyles.
@@ -326,11 +305,6 @@ Style/SymbolProc:
 Style/UnlessElse:
   Exclude:
     - 'app/controllers/omniauth_callbacks_controller.rb'
-
-# Cop supports --auto-correct.
-Style/UnneededPercentQ:
-  Exclude:
-    - 'spec/support/feature_helpers.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: SupportedStyles, WordRegex.

@@ -5,7 +5,7 @@ module CropsHelper
     seeds = member.seeds.select { |seed| seed.crop.name == crop.name }
 
     seeds.each do |seed|
-      total_quantity = total_quantity + seed.quantity if seed.quantity
+      total_quantity += seed.quantity if seed.quantity
     end
 
     if !seeds.any?

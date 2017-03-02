@@ -134,7 +134,7 @@ namespace :growstuff do
                      "early days.  It gives you all the features of "\
                      "a paid account, in perpetuity.  This account "\
                      "type never expires.",
-        min_price: 15000,
+        min_price: 15_000,
         account_type_id: @seed_account.id
       )
 

@@ -4,7 +4,7 @@ class CreateCms < ActiveRecord::Migration
                  when 'PostgreSQL'
                    {}
                  else
-                   { limit: 16777215 }
+                   { limit: 16_777_215 }
                  end
 
     # -- Sites --------------------------------------------------------------
