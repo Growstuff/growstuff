@@ -375,12 +375,6 @@ Style/UnlessElse:
   Exclude:
     - 'app/controllers/omniauth_callbacks_controller.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/UnneededPercentQ:
-  Exclude:
-    - 'spec/support/feature_helpers.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: SupportedStyles, WordRegex.
