@@ -34,15 +34,10 @@ PreCommit:
     on_fail: warn
   HardTabs:
     enabled: true
-  # CommitPlease:
-  #   enabled: true
   AuthorEmail:
     enabled: false
   AuthorName:
     enabled: false
-  # YamlLint:
-  #   enabled: true
-  #   on_fail: warn
   CssLint:
     enabled: true
     exclude:
