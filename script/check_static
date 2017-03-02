@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 checks = [
-  'bundle exec overcommit -r',
-  'script/check_gemfile',
+  'overcommit -r',
   'script/check_contributors_md'
 ]
 
