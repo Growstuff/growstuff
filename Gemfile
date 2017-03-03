@@ -37,8 +37,8 @@ gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari', '~> 0.17.0'        # pagination
 
-gem 'active_utils'
 gem 'activemerchant'
+gem 'active_utils'
 gem 'sidekiq'
 
 # Markdown formatting for updates etc
@@ -80,8 +80,8 @@ gem 'd3-rails', '~> 3.5' # 4.* produces Error: <spyOn> : could not find an objec
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
 gem "elasticsearch-api", "~> 2.0.0"
 gem "elasticsearch-model"
-gem "hashie", ">= 3.5.3"
 gem "elasticsearch-rails"
+gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
 
@@ -120,17 +120,17 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.5.0'
   gem 'factory_girl_rails'              # for creating test data
   gem 'haml-i18n-extractor'
-  gem 'haml_lint'                       # Checks haml files for goodness
   gem 'haml-rails'                      # HTML templating language
+  gem 'haml_lint'                       # Checks haml files for goodness
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
-  gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails'                     # unit testing framework
-  gem 'rubocop', require: false
   gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
+  gem 'rspec-activemodel-mocks'
+  gem 'rspec-rails' # unit testing framework
+  gem 'rubocop', require: false
   gem 'selenium-webdriver'
-  gem 'webrat'                          # provides HTML matchers for view tests
+  gem 'webrat' # provides HTML matchers for view tests
 end
 
 group :test do

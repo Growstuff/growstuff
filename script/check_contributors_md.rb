@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 puts "Checking to see if you're in CONTRIBUTORS.md..."
-if ENV['TRAVIS'] then
-  if ENV['TRAVIS_PULL_REQUEST'] then
+if ENV['TRAVIS']
+  if ENV['TRAVIS_PULL_REQUEST']
     require 'httparty'
     repo = ENV['TRAVIS_REPO_SLUG']
     pr = ENV['TRAVIS_PULL_REQUEST']
@@ -18,20 +18,20 @@ if ENV['TRAVIS'] then
   end
 else
   author = `git config github.user`.chomp
-  if $?.exitstatus > 0 then
-    abort %{
+  if $?.exitstatus.positive?
+    abort %(
 Couldn't determine your GitHub username, and not in a Travis PR build
 Please set it using
 
     git config --add github.user [username]
-}
+)
   end
 end
 
-unless system('grep', '-i', author, 'CONTRIBUTORS.md') then
-  abort %{
+unless system('grep', '-i', author, 'CONTRIBUTORS.md')
+  abort %(
 Thanks for your contribution, #{author}!
 Please add your name and GitHub handle to the file CONTRIBUTORS.md,
 commit it, and update your PR.
-  }
+  )
 end
