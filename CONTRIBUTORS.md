@@ -76,3 +76,7 @@ submit the change with your pull request.
 - Brenda Wallace / [br3nda](https://github.com/br3nda)
 - Jim Stallings / [jestallin](https://github.com/jestallin)
 - Alyssa Ransbury / [alran](https://github.com/alran)
+
+## Bots
+
+- Security and Dependency Updates / [deppbot](https://github.com/deppbot)
