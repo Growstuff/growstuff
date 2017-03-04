@@ -170,9 +170,7 @@ class Crop < ActiveRecord::Base
   def interesting?
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
-    return false unless photos.size >= min_photos
-    return false unless plantings_count >= min_plantings
-    true
+    photos.size >= min_photos && plantings_count >= min_plantings
   end
 
   def pending?
