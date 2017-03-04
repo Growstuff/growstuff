@@ -8,3 +8,5 @@ pip install yamllint --user
 overcommit --install
 overcommit --sign
 overcommit --sign pre-commit
+
+bundle-audit update
