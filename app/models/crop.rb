@@ -57,7 +57,6 @@ class Crop < ActiveRecord::Base
 
   validate :must_have_meaningful_reason_for_rejection
 
-  ####################################
   # Elastic search configuration
   if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
     include Elasticsearch::Model
@@ -129,7 +128,6 @@ class Crop < ActiveRecord::Base
     scientific_names.first.name unless scientific_names.empty?
   end
 
-  # crop.default_photo
   # currently returns the first available photo, but exists so that
   # later we can choose a default photo based on different criteria,
   # eg. popularity
@@ -137,11 +135,12 @@ class Crop < ActiveRecord::Base
     return photos.first if photos.any?
 
     # Crop has no photos? Look for the most recent harvest with a photo.
-    harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
+    harvest_with_photo = Harvest.where(crop_id: id).joins(:photos)
+      .order('harvests.id DESC')
+      .limit(1).first
     harvest_with_photo.photos.first if harvest_with_photo
   end
 
-  # crop.sunniness
   # returns hash indicating whether this crop is grown in
   # sun/semi-shade/shade
   # key: sunniness (eg. 'sun')
@@ -150,7 +149,6 @@ class Crop < ActiveRecord::Base
     count_uses_of_property 'sunniness'
   end
 
-  # crop.planted_from
   # returns a hash of propagation methods (seed, seedling, etc),
   # key: propagation method (eg. 'seed')
   # value: count of how many times it's been used by plantings
@@ -158,7 +156,6 @@ class Crop < ActiveRecord::Base
     count_uses_of_property 'planted_from'
   end
 
-  # crop.popular_plant_parts
   # returns a hash of most harvested plant parts (fruit, seed, etc)
   # key: plant part (eg. 'fruit')
   # value: count of how many times it's been used by harvests
@@ -216,7 +213,6 @@ class Crop < ActiveRecord::Base
     reason_for_rejection
   end
 
-  # Crop.search(string)
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
