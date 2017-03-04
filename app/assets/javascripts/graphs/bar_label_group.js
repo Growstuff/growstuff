@@ -31,10 +31,10 @@ This file draws the labels to the left of each bar.
         var barLabelTopEdge = 17;
         return i * barHeight * (barLabelSpread) + barLabelTopEdge;
       })
-      .text(function(d){return d});
+      .text(function(d){return d;});
 
   };
 
   growstuff.BarLabelGroup = BarLabelGroup;
 
-}())
+}());

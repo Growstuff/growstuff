@@ -31,7 +31,7 @@
   });
 
     it('draws a group', function(){
-      expect($('g.bar')).toExist()
+      expect($('g.bar')).toExist();
     });
 
     it('draws 2 bars', function() {
