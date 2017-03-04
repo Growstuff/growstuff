@@ -121,7 +121,7 @@ class Crop < ActiveRecord::Base
   # value: count of how many times it's been used by harvests
   def popular_plant_parts
     PlantPart.joins(:harvests)
-      .where("crop_id = ?", id)
+      .find_by(crop_id: id)
       .order("count_harvests_id DESC")
       .group("plant_parts.id", "plant_parts.name")
       .count("harvests.id")
