@@ -56,9 +56,7 @@ PreCommit:
     enabled: true
     on_warn: warn
   JsHint:
-    problem_on_unmodified_line: warn
     enabled: true
-    on_fail: warn
     exclude:
       - 'app/assets/**'
       - 'spec/javascripts/support/vendor/**'

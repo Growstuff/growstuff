@@ -100,10 +100,10 @@ describe Garden do
     garden = FactoryGirl.create(:garden, owner: owner)
     @planting1 = FactoryGirl.create(:planting, garden: garden)
     @planting2 = FactoryGirl.create(:planting, garden: garden)
-    garden.plantings.size.should == 2
+    garden.plantings.size.should eq(2)
     all = Planting.count
     garden.destroy
-    Planting.count.should == all - 2
+    Planting.count.should eq(all - 2)
   end
 
   context 'area' do

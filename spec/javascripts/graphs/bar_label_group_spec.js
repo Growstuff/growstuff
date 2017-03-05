@@ -20,22 +20,22 @@
       };
       subject = new BarLabelGroup(data);
       subject.render(d3.select('#jasmine_content').append('svg'));
-    })
+    });
 
     it('draws a group for labels', function(){
-      expect($('g.bar-label')).toExist()
+      expect($('g.bar-label')).toExist();
     });
 
     it('draws 2 bar labels', function(){
       expect($('g.bar-label text')).toHaveLength(2);
-    })
+    });
 
     it ('has text for 2 bar labels', function(){
       //jquery jasmine appends text from all text elements
       // into one string
       expect($('g.bar-label text')).toHaveText('ShadeHalf Shade');
 
-    })
+    });
 
   });
 
