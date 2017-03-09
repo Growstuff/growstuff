@@ -121,7 +121,9 @@ group :development, :test do
   gem 'factory_girl_rails'              # for creating test data
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
-  gem 'haml_lint'                       # Checks haml files for goodness
+
+  # Pin until https://github.com/Growstuff/growstuff/issues/1270 / https://github.com/brigade/haml-lint/issues/186 is fixed
+  gem 'haml_lint', '0.21.0'                       # Checks haml files for goodness
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
