@@ -123,7 +123,7 @@ group :development, :test do
   gem 'haml-rails'                      # HTML templating language
 
   # Pin until https://github.com/Growstuff/growstuff/issues/1270 / https://github.com/brigade/haml-lint/issues/186 is fixed
-  gem 'haml_lint', '0.21.0'                       # Checks haml files for goodness
+  gem 'haml_lint', '~> 0.20.0'                       # Checks haml files for goodness
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
