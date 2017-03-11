@@ -67,10 +67,7 @@ PreCommit:
     enabled: true
   MergeConflicts:
     enabled: true
-  RailsSchemaUpToDate:
-    enabled: true
   YamlLint:
-    on_fail: warn
     enabled: true
 
 PostCommit:
