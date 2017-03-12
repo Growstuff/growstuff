@@ -1,4 +1,4 @@
-- content_for :title, title('harvests', @owner, @crop)
+- content_for :title, title('harvests', @owner, @crop, @planting)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
@@ -7,20 +7,7 @@
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
   harvesting from your home garden and see how productive it is.
 
-%p
-  - if can? :create, Harvest
-    - if @owner
-      %p
-        - if @owner == current_member
-          = link_to 'Add harvest', new_harvest_path, class: 'btn btn-primary'
-        = link_to "View everyone's harvests", harvests_path, class: 'btn btn-default'
-    - else # everyone's harvests
-      = link_to 'Add harvest', new_harvest_path, class: 'btn btn-primary'
-      - if current_member
-        = link_to 'View your harvests', harvests_by_owner_path(owner: current_member.slug), class: 'btn btn-default'
-  - else
-    = render partial: 'shared/signin_signup', locals: { to: 'track your harvests' }
-
+= render "nav"
 .pagination
   = page_entries_info @harvests
   = will_paginate @harvests

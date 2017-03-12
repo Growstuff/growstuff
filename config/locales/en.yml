@@ -63,6 +63,7 @@ en:
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests
+        planting_harvests: Harvests from %{planting}
         default: Everyone's harvests
         owner_harvests: "%{owner} harvests"
     updated: Harvest was successfully updated.

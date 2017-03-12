@@ -1,9 +1,8 @@
-Harvests:
 - if planting.harvests
+  Harvests:
   %ul
     - planting.harvests.each do |harvest|
       %li
         = harvest.harvested_at ? harvest.harvested_at : "undated"
         = link_to harvest, harvest_path(harvest)
-- else
-  none
+  = link_to "more harvests from this planting", planting_harvests_path(planting)
