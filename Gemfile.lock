@@ -24,7 +24,7 @@ GEM
       actionpack
     active_merchant-paypal-bogus-gateway (0.1.0)
       activemerchant
-    active_utils (3.2.5)
+    active_utils (3.3.0)
       activesupport (>= 3.2, < 5.1.0)
       i18n
     activejob (4.2.8)
@@ -51,7 +51,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     arel (6.0.4)
     ast (2.3.0)
-    autoprefixer-rails (6.7.6)
+    autoprefixer-rails (6.7.7)
       execjs
     bcrypt (3.1.11)
     better_errors (2.1.1)
@@ -335,7 +335,7 @@ GEM
       mimemagic (~> 0.3.0)
     parser (2.4.0.0)
       ast (~> 2.2)
-    pg (0.19.0)
+    pg (0.20.0)
     phantomjs (2.1.1.0)
     plupload-rails (1.2.1)
       rails (>= 3.1)
