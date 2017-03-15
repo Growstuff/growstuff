@@ -32,6 +32,7 @@ PreCommit:
   CoffeeLint:
     enabled: true
     on_fail: warn
+    command: ['npm', 'run', 'coffeelint']
   HardTabs:
     enabled: true
   AuthorEmail:
@@ -42,6 +43,7 @@ PreCommit:
     enabled: true
     exclude:
       - '**/bootstrap.min.css'
+    command: ['npm', 'run', 'csslint']
   HamlLint:
     enabled: true
     requires_files: true
@@ -61,21 +63,20 @@ PreCommit:
       - 'app/assets/**'
       - 'spec/javascripts/support/vendor/**'
       - '**/bootstrap*'
+    command: ['npm', 'run', 'jshint']
   ScssLint:
     enabled: true
   RailsSchemaUpToDate:
     enabled: true
   MergeConflicts:
     enabled: true
-  RailsSchemaUpToDate:
-    enabled: true
   YamlLint:
-    on_fail: warn
     enabled: true
 
 PostCommit:
   GitGuilt:
     enabled: true
+    command: ['npm', 'run', 'git-guilt']
 
 PostCheckout:
   ALL:

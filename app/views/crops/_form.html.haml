@@ -90,8 +90,7 @@
   - unless can? :wrangle, @crop
     %p
       When you submit this form, your suggestion will be sent to our team of
-      = link_to 'volunteer crop wranglers', 'http://talk.growstuff.org/c/crop-wrangling'
-      for review. We'll let you know the outcome as soon as we can.
+      volunteer crop wranglers for review. We'll let you know the outcome as soon as we can.
 
   -# Now, for crop wranglers, let's have approval/rejection at the bottom of the page
   - if can?(:wrangle, @crop) && @crop.requester
