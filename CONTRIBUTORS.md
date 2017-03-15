@@ -77,3 +77,4 @@ submit the change with your pull request.
 - Jim Stallings / [jestallin](https://github.com/jestallin)
 - Alyssa Ransbury / [alran](https://github.com/alran)
 - Thomas Countz / [thomascountz](https://github.com/thomascountz)
+- Security and Dependency Updates / [deppbot](https://github.com/deppbot)
