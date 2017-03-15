@@ -77,6 +77,7 @@ submit the change with your pull request.
 - Jim Stallings / [jestallin](https://github.com/jestallin)
 - Alyssa Ransbury / [alran](https://github.com/alran)
 - Thomas Countz / [thomascountz](https://github.com/thomascountz)
+- Arun Kumar / [arun1595](https://github.com/arun1595)
 
 ## Bots
 
