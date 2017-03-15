@@ -63,7 +63,9 @@ Rails/OutputSafety:
     - 'app/helpers/gardens_helper.rb'
 
 # Configuration parameters: Blacklist.
-# Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
+# Blacklist: decrement!, decrement_counter, increment!, increment_counter
+# toggle!, touch, update_all, update_attribute, update_column, update_columns,
+# update_counters
 Rails/SkipsModelValidations:
   Exclude:
     - 'app/controllers/plantings_controller.rb'
@@ -312,4 +314,3 @@ Style/UnlessElse:
 Style/WordArray:
   EnforcedStyle: percent
   MinSize: 5
-
