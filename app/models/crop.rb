@@ -23,13 +23,13 @@ class Crop < ActiveRecord::Base
 
   default_scope { order("lower(name) asc") }
   scope :recent, lambda {
-    where(approval_status: "approved").reorder("created_at desc")
+    approved.reorder("created_at desc")
   }
   scope :toplevel, lambda {
-    where(approval_status: "approved", parent_id: nil)
+    approved.where(parent_id: nil)
   }
   scope :popular, lambda {
-    where(approval_status: "approved").reorder("plantings_count desc, lower(name) asc")
+    approved.reorder("plantings_count desc, lower(name) asc")
   }
   scope :randomized, lambda {
     # ok on sqlite and psql, but not on mysql

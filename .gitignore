@@ -16,3 +16,4 @@ zeus.json
 .bundle
 .idea/**
 public/**
+node_modules
