@@ -39,9 +39,7 @@ class Post < ActiveRecord::Base
   default_scope { order("created_at desc") }
 
   validates :subject,
-    format: {
-      with: /\S/
-    },
+    presence: true,
     length: { maximum: 255 }
 
   def author_date_subject
