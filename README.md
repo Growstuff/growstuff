@@ -44,6 +44,7 @@ You might like to check out:
 
 Here on Github, you might find these useful:
 
+* [Waffle](http://waffle.io/Growstuff/growstuff) has stories in "ready" that can be worked on.
 * [needs: design](https://github.com/Growstuff/growstuff/labels/needs:%20design) - tasks requiring high-level design
 * [needs: visual design](https://github.com/Growstuff/growstuff/labels/needs:%20visual design) - tasks requiring visual/graphical design
 * [needs: documentation](https://github.com/Growstuff/growstuff/labels/needs:%20documentation)
