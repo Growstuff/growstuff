@@ -39,7 +39,7 @@ your skills and interests.
 
 You might like to check out:
 
-* The [Get Involved](http://wiki.growstuff.org/index.php/Get_involved)
+* The [New Contributor Guide](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide)
   page on our wiki, which has lots of detail for different areas
 
 Here on Github, you might find these useful:
