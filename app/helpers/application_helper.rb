@@ -93,11 +93,13 @@ module ApplicationHelper
     end
   end
 
-  def title(type, owner, crop)
+  def title(type, owner, crop, planting)
     if owner
       t(".title.owner_#{type}", owner: owner.login_name)
     elsif crop
       t(".title.crop_#{type}", crop: crop.name)
+    elsif planting
+      t(".title.planting_#{type}", planting: planting.to_s)
     else
       t(".title.default")
     end
