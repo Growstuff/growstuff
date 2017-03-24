@@ -10,7 +10,6 @@ When you create a pull request, please include the following:
 All pull requests should pass our automatic continuous integration and style
 checks before being merged. You can run tests locally as follows:
 
- - `rake` to run all tests and static checks
  - `rake spec` to run all Ruby tests
  - `rake spec:models` to run Ruby model tests (or `rake spec:views` for view tests, etc)
  - `rake static` to run all static checks (code style, unfixed Git conflicts, etc)
@@ -23,6 +22,12 @@ checks before being merged. You can run tests locally as follows:
    `my_spec.rb`. RSpec will output a list of command-lines in this form for all
    failing tests so you can easily re-run particular ones.
  - `rspec --only-failures` to re-run all Ruby tests that failed last time.
+
+Growstuff runs several linters and checkers before a change is merged. These
+run from overcommit. To automatically run the same linters yourself you can
+install overcommit too.
+
+ - `./script/install_linters`
 
 You can run `rake -T` to see a list of available Rake tasks. If you can't get
 some tests to pass, please submit a pull request anyway - we'll be happy to

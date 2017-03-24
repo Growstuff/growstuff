@@ -20,8 +20,8 @@ engines:
       - ruby
       - javascript
     exclude_fingerprints:
-      - 16dbcb58d6caa7ccfe241417831ecfa6
-      - 7d7dca4f27f50e3084f203280073cc74
+    - 16dbcb58d6caa7ccfe241417831ecfa6
+    - 7d7dca4f27f50e3084f203280073cc74
   fixme:
     enabled: true
     exclude_fingerprints:  # rubocop_todo filename

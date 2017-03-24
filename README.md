@@ -1,6 +1,6 @@
 # Growstuff
 
-[![Build Status](https://travis-ci.org/Growstuff/growstuff.png)](https://travis-ci.org/Growstuff/growstuff)
+[![Build Status](https://travis-ci.org/Growstuff/growstuff.svg?branch=dev)](https://travis-ci.org/Growstuff/growstuff)
 [![Coverage Status](https://coveralls.io/repos/Growstuff/growstuff/badge.png)](https://coveralls.io/r/Growstuff/growstuff)
 [![Code Climate](https://codeclimate.com/github/Growstuff/growstuff/badges/gpa.svg)](https://codeclimate.com/github/Growstuff/growstuff)
 
@@ -19,7 +19,6 @@ encourage participation from people of all backgrounds and skill levels.
 
 * [Issues](http://github.com/Growstuff/growstuff/issues) (features we're
   working on, known bugs, etc)
-* [Discussion forums](http://talk.growstuff.org/) (design ideas, planning releases)
 * [IRC](https://webchat.freenode.net/) growstuff channel (general chat, brainstorming and troubleshooting) or [Gitter](https://gitter.im/Growstuff/growstuff)
 * [Wiki](https://github.com/Growstuff/growstuff/wiki) (general documentation, etc. Help by migrating from the [old wiki](https://web.archive.org/web/*/wiki.growstuff.org))
 
@@ -30,8 +29,7 @@ frontend features. We welcome contributions -- see
 [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 * To set up your development environment, see [Getting started](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide).
-* We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers. [Find a pair programming partner.](http://talk.growstuff.org/t/find-a-pair-programming-partner/13)
-* Drop in to our [discussion forums](http://talk.growstuff.org/), IRC or Gitter to chat to other developers, get help, etc.
+* We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers.
 * You may also be interested in our [API](https://github.com/Growstuff/growstuff/wiki/API).
 
 ## For designers, writers, researchers, data wranglers, and other contributors
@@ -43,7 +41,6 @@ You might like to check out:
 
 * The [Get Involved](http://wiki.growstuff.org/index.php/Get_involved)
   page on our wiki, which has lots of detail for different areas
-* [Growstuff Talk](http://talk.growstuff.org/) especially the [Idea category](http://talk.growstuff.org/c/idea)
 
 Here on Github, you might find these useful:
 
@@ -53,11 +50,11 @@ Here on Github, you might find these useful:
 * [needs: data](https://github.com/Growstuff/growstuff/labels/needs:%20data) - tasks requiring data entry, data design, data import, or similar
 * [curated:beginner](https://github.com/Growstuff/growstuff/labels/curated:%20beginner) - tasks that are ideal for beginner programmers or people new to the project
 
-Feel free to comment on any of the issues you find there, or open up a broader conversation on [Growstuff Talk](http://talk.growstuff.org).
+Feel free to comment on any of the issues on [Github](https://github.com/Growstuff/growstuff/issues).
 
 ## Contact
 
 For more information about this project, contact [info@growstuff.org](mailto:info@growstuff.org).
 
 You can also contact us on [Twitter](http://twitter.com/growstufforg/) or
-[Facebook](https://www.facebook.com/pages/Growstuff/1531133417099494).
+[Facebook](https://www.facebook.com/pages/Growstuff/1531133417099494) or [Github](https://github.com/Growstuff/growstuff/issues)..

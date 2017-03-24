@@ -23,8 +23,8 @@ describe Post do
     datestr = time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years
     # Counting digits using Math.log is not precise enough!
-    datestr.size.should == 4 + time.year.to_s.size
-    post.slug.should == "#{member.login_name}-#{datestr}-a-post"
+    datestr.size.should eq(4 + time.year.to_s.size)
+    post.slug.should eq("#{member.login_name}-#{datestr}-a-post")
   end
 
   it "has many comments" do
@@ -45,10 +45,10 @@ describe Post do
     post = FactoryGirl.create(:post, author: member)
     FactoryGirl.create(:comment, post: post)
     FactoryGirl.create(:comment, post: post)
-    post.comments.size.should == 2
+    post.comments.size.should eq(2)
     all = Comment.count
     post.destroy
-    Comment.count.should == all - 2
+    Comment.count.should eq(all - 2)
   end
 
   it "belongs to a forum" do

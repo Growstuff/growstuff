@@ -1,0 +1,106 @@
+---
+# Use this file to configure the Overcommit hooks you wish to use. This will
+# extend the default configuration defined in:
+# https://github.com/brigade/overcommit/blob/master/config/default.yml
+#
+# At the topmost level of this YAML file is a key representing type of hook
+# being run (e.g. pre-commit, commit-msg, etc.). Within each type you can
+# customize each hook, such as whether to only run it on certain files (via
+# `include`), whether to only display output if it fails (via `quiet`), etc.
+#
+# For a complete list of hooks, see:
+# https://github.com/brigade/overcommit/tree/master/lib/overcommit/hook
+#
+# For a complete list of options that you can use to customize hooks, see:
+# https://github.com/brigade/overcommit#configuration
+#
+# Uncomment the following lines to make the configuration take effect.
+
+PreCommit:
+  ALL:
+    quiet: false
+    problem_on_unmodified_line: warn
+  EsLint:
+    enabled: true
+  RuboCop:
+    enabled: true
+    command: ['bundle', 'exec', 'rubocop', '-D', '--rails']
+  TrailingWhitespace:
+    enabled: true
+    exclude:
+      - '**/db/structure.sql'  # Ignore trailing whitespace in generated files
+  CoffeeLint:
+    enabled: true
+    on_fail: warn
+    command: ['npm', 'run', 'coffeelint']
+  HardTabs:
+    enabled: true
+  AuthorEmail:
+    enabled: false
+  AuthorName:
+    enabled: false
+  CssLint:
+    enabled: true
+    exclude:
+      - '**/bootstrap.min.css'
+    command: ['npm', 'run', 'csslint']
+  HamlLint:
+    enabled: true
+    requires_files: true
+    on_warn: fail
+    command: ['bundle', 'exec', 'haml-lint', 'app/views']
+  JsonSyntax:
+    enabled: true
+  BundleOutdated:
+    enabled: true
+    on_warn: warn
+  BundleAudit:
+    enabled: true
+    on_warn: warn
+  JsHint:
+    enabled: true
+    exclude:
+      - 'app/assets/**'
+      - 'spec/javascripts/support/vendor/**'
+      - '**/bootstrap*'
+    command: ['npm', 'run', 'jshint']
+  ScssLint:
+    enabled: true
+  RailsSchemaUpToDate:
+    enabled: true
+  MergeConflicts:
+    enabled: true
+  YamlLint:
+    enabled: true
+
+PostCommit:
+  GitGuilt:
+    enabled: true
+    command: ['npm', 'run', 'git-guilt']
+
+PostCheckout:
+  ALL:
+    quiet: false
+  BundleInstall:
+    enabled: true
+  RailsSchemaUpToDate:
+    enabled: true
+
+PostMerge:
+  BundleInstall:
+    enabled: true
+  RailsSchemaUpToDate:
+    enabled: true
+
+# PrePush:
+#   ALL:
+#     on_warn: fail  # Treat all warnings as failures
+#     quiet: false
+#   # Brakeman:
+#   #   enabled: true
+#   RSpec:
+#     enabled: true
+#     command: ['bundle', 'exec', 'rspec', '--fail-fast']
+#
+#  IndexTags:
+#    enabled: true # Generate a tags file with `ctags` each time HEAD changes

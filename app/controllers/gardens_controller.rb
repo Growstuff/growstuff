@@ -63,7 +63,6 @@ class GardensController < ApplicationController
   def gardens
     g = @owner ? @owner.gardens : Garden.all
     g = g.active unless @show_all
-    g = g.includes(:owner).order(:name)
-    g.paginate(page: params[:page])
+    g.includes(:owner).order(:updated_at).paginate(page: params[:page])
   end
 end
