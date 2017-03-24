@@ -36,6 +36,14 @@ class Member < ActiveRecord::Base
   scope :recently_joined, -> { reorder("confirmed_at desc") }
   scope :wants_newsletter, -> { where(newsletter: true) }
 
+  scope :interesting, -> {
+      confirmed
+      .located
+      .recently_signed_in
+      .has_plantings
+  }
+  scope :has_plantings, -> { joins(:plantings).where("plantings.id IS NOT NULL") }
+
   has_many :follows, class_name: "Follow", foreign_key: "follower_id"
   has_many :followed, through: :follows
 
@@ -183,16 +191,6 @@ class Member < ActiveRecord::Base
     sets
   end
 
-  scope :interesting, -> {
-      confirmed
-      .located
-      .recently_signed_in
-      .has_plantings
-  }
-
-  scope :has_plantings, -> {
-    joins(:plantings).where("plantings.id IS NOT NULL")
-  }
 
   def self.login_name_or_email(login)
     where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }])
