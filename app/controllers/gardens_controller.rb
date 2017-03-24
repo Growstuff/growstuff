@@ -17,6 +17,7 @@ class GardensController < ApplicationController
   # GET /gardens/1
   # GET /gardens/1.json
   def show
+    @plantings = @garden.plantings.includes(:crop, :garden, :owner, :harvests)
     respond_with(@garden)
   end
 
