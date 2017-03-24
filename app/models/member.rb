@@ -183,13 +183,16 @@ class Member < ActiveRecord::Base
     sets
   end
 
-  def interesting?
-    # we assume we're being passed something from
-    # Member.confirmed.located as those are required for
-    # interestingness, as well.
-    return true if plantings.present?
-    false
-  end
+  scope :interesting, -> {
+      confirmed
+      .located
+      .recently_signed_in
+      .has_plantings
+  }
+
+  scope :has_plantings, -> {
+    joins(:plantings).where("plantings.id IS NOT NULL")
+  }
 
   def self.login_name_or_email(login)
     where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }])
@@ -197,16 +200,6 @@ class Member < ActiveRecord::Base
 
   def self.case_insensitive_login_name(login)
     where(["lower(login_name) = :value", { value: login.downcase }])
-  end
-
-  def self.interesting
-    howmany = 12 # max number to find
-    interesting_members = []
-    Member.confirmed.located.recently_signed_in.each do |m|
-      break if interesting_members.size == howmany
-      interesting_members.push(m) if m.interesting?
-    end
-    interesting_members
   end
 
   def self.nearest_to(place)
