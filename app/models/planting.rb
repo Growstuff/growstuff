@@ -8,9 +8,12 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, counter_cache: true
   has_many :harvests, -> { order(harvested_at: :desc) }, dependent: :destroy
 
-  default_scope { order("created_at desc") }
+  default_scope { order("plantings.created_at desc") }
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
+
+  scope :interesting, -> { has_photos }
+  scope :has_photos, -> { joins(:photos).where("photos.id IS NOT NULL") }
 
   delegate :name,
     :en_wikipedia_url,
@@ -19,7 +22,6 @@ class Planting < ActiveRecord::Base
     to: :crop,
     prefix: true
 
-  default_scope { order("created_at desc") }
 
   validates :crop, approved: true
 
@@ -86,10 +88,6 @@ class Planting < ActiveRecord::Base
     photos.first
   end
 
-  def interesting?
-    photos.present?
-  end
-
   def calculate_days_before_maturity(planting, crop)
     p_crop = Planting.where(crop_id: crop).where.not(id: planting)
     differences = p_crop.collect do |p|
@@ -134,25 +132,5 @@ class Planting < ActiveRecord::Base
     end
 
     percent
-  end
-
-  # return a list of interesting plantings, for the homepage etc.
-  # we can't do this via a scope (as far as we know) so sadly we have to
-  # do it this way.
-  def Planting.interesting(howmany = 12, require_photo = true)
-    interesting_plantings = []
-    seen_owners = Hash.new(false) # keep track of which owners we've seen already
-
-    Planting.includes(:photos).each do |p|
-      break if interesting_plantings.size == howmany # got enough yet?
-      if require_photo
-        next unless p.photos.present? # skip those without photos, if required
-      end
-      next if seen_owners[p.owner]  # skip if we already have one from this owner
-      seen_owners[p.owner] = true   # we've seen this owner
-      interesting_plantings.push(p)
-    end
-
-    interesting_plantings
   end
 end
