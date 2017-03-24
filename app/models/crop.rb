@@ -21,7 +21,7 @@ class Crop < ActiveRecord::Base
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
   before_destroy { |crop| crop.posts.clear }
 
-  default_scope { order("lower(name) asc") }
+  default_scope { order("lower(crops.name) asc") }
   scope :recent, lambda {
     where(approval_status: "approved").reorder("created_at desc")
   }
@@ -38,6 +38,9 @@ class Crop < ActiveRecord::Base
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
+
+  scope :interesting, -> { has_photos }
+  scope :has_photos, -> { joins(:photos).where("photos.id IS NOT NULL") }
 
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
@@ -198,18 +201,7 @@ class Crop < ActiveRecord::Base
     ["already in database", "not edible", "not enough information", "other"]
   end
 
-  # Crop.interesting
-  # returns a list of interesting crops, for use on the homepage etc
-  def self.interesting
-    howmany = 12 # max number to find
-    interesting_crops = []
-    Crop.includes(:photos).randomized.each do |c|
-      break if interesting_crops.size == howmany
-      next unless c.interesting?
-      interesting_crops.push(c)
-    end
-    interesting_crops
-  end
+
 
   # Crop.create_from_csv(row)
   # used by db/seeds.rb and rake growstuff:import_crops
@@ -320,7 +312,7 @@ class Crop < ActiveRecord::Base
   end
 
   def self.case_insensitive_name(name)
-    where(["lower(name) = :value", { value: name.downcase }])
+    where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
   private
