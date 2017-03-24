@@ -7,6 +7,8 @@ class HomeController < ApplicationController
     # the relevant class methods directly in the view, so that fragment
     # caching will be effective.
 
+    @interesting_members = Member.interesting.includes(:gardens).first(3)
+
     respond_to do |format|
       format.html # index.html.haml
     end

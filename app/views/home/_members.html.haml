@@ -1,12 +1,11 @@
 - cache cache_key_for(Member) do
   .hidden-xs
-    - members = Member.interesting.first(6)
-    - if members.present?
+    - if @interesting_members.present?
       %section
       %h2= t('.title')
 
       .member-cards
-        - members.each do |m|
+        - @interesting_members.each do |m|
           = render partial: "members/thumbnail", locals: { member: m }
 
       %p.text-right
