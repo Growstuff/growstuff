@@ -22,7 +22,6 @@ class Planting < ActiveRecord::Base
     to: :crop,
     prefix: true
 
-
   validates :crop, approved: true
 
   validates :crop, presence: { message: "must be present and exist in our database" }

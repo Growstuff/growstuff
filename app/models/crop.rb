@@ -201,8 +201,6 @@ class Crop < ActiveRecord::Base
     ["already in database", "not edible", "not enough information", "other"]
   end
 
-
-
   # Crop.create_from_csv(row)
   # used by db/seeds.rb and rake growstuff:import_crops
   # CSV fields:
