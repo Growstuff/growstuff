@@ -73,6 +73,9 @@ GEM
       sass (>= 3.3.4)
     bootstrap_form (2.6.0)
     builder (3.2.3)
+    bullet (5.5.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (9.0.6)
     cancancan (1.16.0)
     capybara (2.12.0)
@@ -486,6 +489,7 @@ GEM
     unicorn (5.2.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
+    uniform_notifier (1.10.0)
     warden (1.2.7)
       rack (>= 1.0)
     webrat (0.7.3)
@@ -514,6 +518,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap-kaminari-views
   bootstrap-sass (~> 3.3.6)
+  bullet
   bundler (>= 1.1.5)
   byebug
   cancancan (~> 1.9)
@@ -588,4 +593,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.7
+   1.14.6
