@@ -39,11 +39,12 @@ your skills and interests.
 
 You might like to check out:
 
-* The [Get Involved](http://wiki.growstuff.org/index.php/Get_involved)
+* The [New Contributor Guide](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide)
   page on our wiki, which has lots of detail for different areas
 
 Here on Github, you might find these useful:
 
+* [Waffle](http://waffle.io/Growstuff/growstuff) has stories in "ready" that can be worked on.
 * [needs: design](https://github.com/Growstuff/growstuff/labels/needs:%20design) - tasks requiring high-level design
 * [needs: visual design](https://github.com/Growstuff/growstuff/labels/needs:%20visual design) - tasks requiring visual/graphical design
 * [needs: documentation](https://github.com/Growstuff/growstuff/labels/needs:%20documentation)
