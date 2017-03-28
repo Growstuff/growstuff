@@ -21,7 +21,7 @@ class Crop < ActiveRecord::Base
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
   before_destroy { |crop| crop.posts.clear }
 
-  default_scope { order("lower(name) asc") }
+  default_scope { order("lower(crops.name) asc") }
   scope :recent, lambda {
     approved.reorder("created_at desc")
   }
@@ -33,11 +33,14 @@ class Crop < ActiveRecord::Base
   }
   scope :randomized, lambda {
     # ok on sqlite and psql, but not on mysql
-    where(approval_status: "approved").reorder('random()')
+    approved.reorder('random()')
   }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
+
+  scope :interesting, -> { approved.has_photos }
+  scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
@@ -198,19 +201,6 @@ class Crop < ActiveRecord::Base
     ["already in database", "not edible", "not enough information", "other"]
   end
 
-  # Crop.interesting
-  # returns a list of interesting crops, for use on the homepage etc
-  def self.interesting
-    howmany = 12 # max number to find
-    interesting_crops = []
-    Crop.includes(:photos).randomized.each do |c|
-      break if interesting_crops.size == howmany
-      next unless c.interesting?
-      interesting_crops.push(c)
-    end
-    interesting_crops
-  end
-
   def rejection_explanation
     return rejection_notes if reason_for_rejection == "other"
     reason_for_rejection
@@ -258,7 +248,7 @@ class Crop < ActiveRecord::Base
   end
 
   def self.case_insensitive_name(name)
-    where(["lower(name) = :value", { value: name.downcase }])
+    where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
   private

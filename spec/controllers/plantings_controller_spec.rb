@@ -77,14 +77,14 @@ describe PlantingsController do
 
     it "Doesn't display un-approved crops on planting form" do
       crop = FactoryGirl.create(:crop, approval_status: 'pending')
-      garden = FactoryGirl.create(:garden, owner: member)
+      FactoryGirl.create(:garden, owner: member)
       get :new, crop_id: crop.id
       assigns(:crop).should_not eq(crop)
     end
 
     it "Doesn't display rejected crops on planting form" do
       crop = FactoryGirl.create(:crop, approval_status: 'rejected', reason_for_rejection: 'nope')
-      garden = FactoryGirl.create(:garden, owner: member)
+      FactoryGirl.create(:garden, owner: member)
       get :new, crop_id: crop.id
       assigns(:crop).should_not eq(crop)
     end

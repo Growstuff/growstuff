@@ -112,6 +112,7 @@ end
 
 group :development, :test do
   gem "active_merchant-paypal-bogus-gateway"
+  gem 'bullet'                          # performance tuning by finding unnecesary queries
   gem 'byebug'                          # debugging
   gem 'capybara'                        # integration tests
   gem 'capybara-email'                  # integration tests for email
