@@ -33,14 +33,14 @@ class Crop < ActiveRecord::Base
   }
   scope :randomized, lambda {
     # ok on sqlite and psql, but not on mysql
-    where(approval_status: "approved").reorder('random()')
+    approved.reorder('random()')
   }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
 
-  scope :interesting, -> { has_photos }
-  scope :has_photos, -> { joins(:photos).where("photos.id IS NOT NULL") }
+  scope :interesting, -> { approved.has_photos }
+  scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
