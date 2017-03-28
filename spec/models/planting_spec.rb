@@ -262,26 +262,10 @@ describe Planting do
       end
     end
 
-    context "with require_photo = false" do
-      it "returns plantings without photos" do
-        # first, a planting with a photo
-        @planting = FactoryGirl.create(:planting)
-        @planting.photos << FactoryGirl.create(:photo)
-        @planting.save
-
-        # this one doesn't have a photo
-        @no_photo_planting = FactoryGirl.create(:planting)
-
-        interesting = Planting.interesting(10, false)
-        interesting.should include @planting
-        interesting.should include @no_photo_planting
-      end
-    end
-
     context "with howmany argument" do
       it "only returns the number asked for" do
         @plantings = FactoryGirl.create_list(:planting, 10)
-        Planting.interesting(3, false).size.should eq 3
+        Planting.interesting.limit(3).count.should eq 3
       end
     end
   end # interesting plantings
