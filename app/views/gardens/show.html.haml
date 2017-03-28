@@ -65,18 +65,18 @@
 
     .row-fluid
       %h3 What's planted here?
-      - if @plantings.current.empty?
+      - if @garden.plantings.current.empty?
         %p Nothing is currently planted here.
       - else
-        - @plantings.current.each.with_index do |planting_current, _|
+        - @garden.plantings.current.each.with_index do |planting_current, _|
           = render partial: "plantings/thumbnail", locals: { planting: planting_current }
 
     .row-fluid
       %h3 Previously planted in this garden
-      - if @plantings.finished.empty?
+      - if @garden.plantings.finished.empty?
         %p Nothing has been planted here.
       - else
-        - @plantings.finished.each.with_index do |planting_finished|
+        - @garden.plantings.finished.each.with_index do |planting_finished|
           = render partial: "plantings/thumbnail", locals: { planting: planting_finished }
   .col-md-3
     %h4 About this garden
