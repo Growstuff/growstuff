@@ -265,6 +265,9 @@ describe Planting do
     context "with howmany argument" do
       it "only returns the number asked for" do
         @plantings = FactoryGirl.create_list(:planting, 10)
+        @plantings.each do |p|
+          p.photos << FactoryGirl.create(:photo, owner: planting.owner)
+        end
         Planting.interesting.limit(3).count.should eq 3
       end
     end
