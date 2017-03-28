@@ -12,8 +12,13 @@ class Planting < ActiveRecord::Base
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
 
-  scope :interesting, -> { has_photos }
-  scope :has_photos, -> { joins(:photos).where("photos.id IS NOT NULL") }
+  scope :interesting, -> { has_photos.one_per_owner }
+  scope :one_per_owner, lambda {
+    joins("JOIN members m ON (m.id=plantings.owner_id)
+          LEFT OUTER JOIN plantings p2
+          ON (m.id=p2.owner_id AND plantings.id < p2.id)").where("p2 IS NULL")
+  }
+  scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   delegate :name,
     :en_wikipedia_url,
