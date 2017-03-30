@@ -79,6 +79,7 @@ submit the change with your pull request.
 - Thomas Countz / [thomascountz](https://github.com/thomascountz)
 - Megan Talbot / [meganft](https://github.com/meganft)
 - Arun Kumar / [arun1595](https://github.com/arun1595)
+- Harry Brodsky / [hbrodsk1](https://github.com/hbrodsk1)
 
 ## Bots
 
