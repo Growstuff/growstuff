@@ -23,4 +23,8 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural 'achiote', 'achiote'
   inflect.plural 'alfalfa', 'alfalfa'
   inflect.plural 'allspice', 'allspice'
+  inflect.plural 'spinach', 'spinach'
+  inflect.plural 'garlic', 'garlic'
+  inflect.plural 'licorice', 'licorice'
+  inflect.plural 'lillipilli', 'lillipillies'
 end
