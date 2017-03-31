@@ -129,7 +129,7 @@ group :development, :test do
   gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
-  gem 'rubocop', require: false
+  gem 'rubocop', '<= 0.47.1', require: false # Pin to rubocop (0.47.1) as 0.48.0 is buggy
   gem 'selenium-webdriver'
   gem 'webrat' # provides HTML matchers for view tests
 end
