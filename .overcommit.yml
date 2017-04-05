@@ -20,8 +20,6 @@ PreCommit:
   ALL:
     quiet: false
     problem_on_unmodified_line: warn
-  EsLint:
-    enabled: true
   RuboCop:
     enabled: true
     command: ['bundle', 'exec', 'rubocop', '-D', '--rails']
