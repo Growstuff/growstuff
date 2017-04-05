@@ -31,7 +31,7 @@ def load_crops
   Dir.glob("#{source_path}/crops*.csv").each do |crop_file|
     puts "Loading crops from #{crop_file}..."
     CSV.foreach(crop_file) do |row|
-      Crop.create_from_csv(row)
+      CsvImporter.new.import_crop(row)
     end
   end
   puts "Finished loading crops"
@@ -171,7 +171,7 @@ def load_products
   Product.create!(
     name: "Seed account",
     description: "Paid account, in perpetuity",
-    min_price: 15000,
+    min_price: 15_000,
     account_type_id: @seed_account.id
   )
 end

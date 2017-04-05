@@ -21,10 +21,10 @@ $ ->
 
   $('#remove-sci_name-row').click ->
     if (sci_index > 2)
-    	sci_index = sci_index - 1
-    	tmp = 'sci_template[' + sci_index + ']'
-    	element = document.getElementById(tmp)
-    	element.remove()
+      sci_index = sci_index - 1
+      tmp = 'sci_template[' + sci_index + ']'
+      element = document.getElementById(tmp)
+      element.remove()
 
   alt_template = "<div id='alt_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Alternate name INDEX:</label></div><div class='col-md-8'><input name='alt_name[INDEX]' class='form-control', id='alt_name[INDEX]')'></input><span class='help-block'>Alternate name of crop.</span></div><div class='col-md-2'></div></div>"
 

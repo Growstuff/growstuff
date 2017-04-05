@@ -111,5 +111,5 @@
             - else
               = link_to othergarden, garden_path(othergarden)
 
-    - if can? :create, @garden
+    - if @garden.owner == current_member
       = link_to 'Add New Garden', new_garden_path, class: 'btn btn-default btn-xs'

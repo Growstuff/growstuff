@@ -39,8 +39,8 @@ class PlantingsController < ApplicationController
     @planting = Planting.new('planted_at' => Time.zone.today)
 
     # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.find_by(id: params[:crop_id])     || Crop.new
-    @garden   = Garden.find_by(id: params[:garden_id]) || Garden.new
+    @crop     = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
+    @garden   = Garden.find_by(owner: current_member, id: params[:garden_id]) || Garden.new
 
     respond_to do |format|
       format.html # new.html.erb

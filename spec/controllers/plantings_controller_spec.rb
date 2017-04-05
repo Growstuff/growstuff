@@ -62,11 +62,31 @@ describe PlantingsController do
       assigns(:crop).should be_a_new(Crop)
     end
 
-    it "picks up garden from params" do
-      member = FactoryGirl.create(:member)
+    it "picks up member's garden from params" do
       garden = FactoryGirl.create(:garden, owner: member)
       get :new, garden_id: garden.id
       assigns(:garden).should eq(garden)
+    end
+
+    it "Doesn't display another member's garden on planting form" do
+      member = FactoryGirl.create(:member) # over-riding member from login_member()
+      garden = FactoryGirl.create(:garden, owner: member)
+      get :new, garden_id: garden.id
+      assigns(:garden).should_not eq(garden)
+    end
+
+    it "Doesn't display un-approved crops on planting form" do
+      crop = FactoryGirl.create(:crop, approval_status: 'pending')
+      FactoryGirl.create(:garden, owner: member)
+      get :new, crop_id: crop.id
+      assigns(:crop).should_not eq(crop)
+    end
+
+    it "Doesn't display rejected crops on planting form" do
+      crop = FactoryGirl.create(:crop, approval_status: 'rejected', reason_for_rejection: 'nope')
+      FactoryGirl.create(:garden, owner: member)
+      get :new, crop_id: crop.id
+      assigns(:crop).should_not eq(crop)
     end
 
     it "doesn't die if no garden specified" do

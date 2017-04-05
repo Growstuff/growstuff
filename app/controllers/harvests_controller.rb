@@ -9,6 +9,8 @@ class HarvestsController < ApplicationController
   def index
     @owner = Member.find_by(slug: params[:owner])
     @crop = Crop.find_by(slug: params[:crop])
+    @planting = Planting.find_by(slug: params['planting_id'])
+
     @harvests = harvests
     @filename = csv_filename
     respond_with(@harvests)
@@ -79,6 +81,8 @@ class HarvestsController < ApplicationController
       @owner.harvests
     elsif @crop
       @crop.harvests
+    elsif @planting_id
+      @planting.harvests
     else
       Harvest
     end.includes(:owner, :crop).paginate(page: params[:page])

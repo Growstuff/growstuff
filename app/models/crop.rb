@@ -21,23 +21,26 @@ class Crop < ActiveRecord::Base
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
   before_destroy { |crop| crop.posts.clear }
 
-  default_scope { order("lower(name) asc") }
+  default_scope { order("lower(crops.name) asc") }
   scope :recent, lambda {
-    where(approval_status: "approved").reorder("created_at desc")
+    approved.reorder("created_at desc")
   }
   scope :toplevel, lambda {
-    where(approval_status: "approved", parent_id: nil)
+    approved.where(parent_id: nil)
   }
   scope :popular, lambda {
-    where(approval_status: "approved").reorder("plantings_count desc, lower(name) asc")
+    approved.reorder("plantings_count desc, lower(name) asc")
   }
   scope :randomized, lambda {
     # ok on sqlite and psql, but not on mysql
-    where(approval_status: "approved").reorder('random()')
+    approved.reorder('random()')
   }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
+
+  scope :interesting, -> { approved.has_photos }
+  scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
@@ -198,81 +201,6 @@ class Crop < ActiveRecord::Base
     ["already in database", "not edible", "not enough information", "other"]
   end
 
-  # Crop.interesting
-  # returns a list of interesting crops, for use on the homepage etc
-  def self.interesting
-    howmany = 12 # max number to find
-    interesting_crops = []
-    Crop.includes(:photos).randomized.each do |c|
-      break if interesting_crops.size == howmany
-      next unless c.interesting?
-      interesting_crops.push(c)
-    end
-    interesting_crops
-  end
-
-  # Crop.create_from_csv(row)
-  # used by db/seeds.rb and rake growstuff:import_crops
-  # CSV fields:
-  # - name (required)
-  # - en_wikipedia_url (required)
-  # - parent (name, optional)
-  # - scientific name (optional, can be picked up from parent if it has one)
-
-  def self.create_from_csv(row)
-    name, en_wikipedia_url, parent, scientific_names, alternate_names = row
-
-    cropbot = Member.find_by(login_name: 'cropbot')
-    raise "cropbot account not found: run rake db:seed" unless cropbot
-
-    crop = Crop.find_or_create_by(name: name)
-    crop.update_attributes(
-      en_wikipedia_url: en_wikipedia_url,
-      creator_id: cropbot.id
-    )
-
-    if parent
-      parent = Crop.find_by(name: parent)
-      if parent
-        crop.update_attributes(parent_id: parent.id)
-      else
-        logger.warn("Warning: parent crop #{parent} not found")
-      end
-    end
-
-    crop.add_scientific_names_from_csv(scientific_names)
-    crop.add_alternate_names_from_csv(alternate_names)
-  end
-
-  def add_scientific_names_from_csv(scientific_names)
-    names_to_add = []
-    if !scientific_names.blank? # i.e. we actually passed something in, which isn't a given
-      names_to_add = scientific_names.split(/,\s*/)
-    elsif parent && !parent.scientific_names.empty? # pick up from parent
-      names_to_add = parent.scientific_names.map(&:name)
-    else
-      logger.warn("Warning: no scientific name (not even on parent crop) for #{self}")
-    end
-
-    cropbot = Member.find_by(login_name: 'cropbot')
-
-    return if names_to_add.empty?
-    raise "cropbot account not found: run rake db:seed" unless cropbot
-
-    add_names_to_list(names_to_add, 'scientific')
-  end
-
-  def add_alternate_names_from_csv(alternate_names)
-    # i.e. we actually passed something in, which isn't a given
-    return if alternate_names.blank?
-
-    cropbot = Member.find_by!(login_name: 'cropbot')
-    names_to_add = alternate_names.split(/,\s*/)
-    add_names_to_list(names_to_add, 'alternate')
-  rescue
-    raise "cropbot account not found: run rake db:seed" unless cropbot
-  end
-
   def rejection_explanation
     return rejection_notes if reason_for_rejection == "other"
     reason_for_rejection
@@ -320,33 +248,10 @@ class Crop < ActiveRecord::Base
   end
 
   def self.case_insensitive_name(name)
-    where(["lower(name) = :value", { value: name.downcase }])
+    where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
   private
-
-  def add_names_to_list(names_to_add, list_name)
-    names_to_add.each do |n|
-      if name_already_exists(list_name, n)
-        logger.warn("Warning: skipping duplicate #{list_name} name #{n} for #{self}")
-      else
-        create_crop_in_list(list_name, n)
-      end
-    end
-  end
-
-  def create_crop_in_list(list_name, name)
-    cropbot = Member.find_by(login_name: 'cropbot')
-    create_hash = {
-      creator_id: cropbot.id.to_s,
-      name: name
-    }
-    send("#{list_name}_names").create(create_hash)
-  end
-
-  def name_already_exists(list_name, name)
-    send("#{list_name}_names").exists?(name: name)
-  end
 
   def count_uses_of_property(col_name)
     plantings.unscoped
@@ -357,7 +262,6 @@ class Crop < ActiveRecord::Base
   end
 
   # Custom validations
-
   def approval_status_cannot_be_changed_again
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
     return unless previous.include?(:rejected) || previous.include?(:approved)

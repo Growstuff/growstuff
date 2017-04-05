@@ -76,3 +76,11 @@ submit the change with your pull request.
 - Brenda Wallace / [br3nda](https://github.com/br3nda)
 - Jim Stallings / [jestallin](https://github.com/jestallin)
 - Alyssa Ransbury / [alran](https://github.com/alran)
+- Thomas Countz / [thomascountz](https://github.com/thomascountz)
+- Megan Talbot / [meganft](https://github.com/meganft)
+- Arun Kumar / [arun1595](https://github.com/arun1595)
+- Harry Brodsky / [hbrodsk1](https://github.com/hbrodsk1)
+
+## Bots
+
+- Security and Dependency Updates / [deppbot](https://github.com/deppbot)
