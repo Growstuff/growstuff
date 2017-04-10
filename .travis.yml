@@ -65,3 +65,4 @@ after_deploy:
 addons:
   code_climate:
     repo_token: 462e015bbdaabfb20910fc07f2fea253410ecb131444e00f97dbf32dc6789ca6
+  postgresql: "9.4"
