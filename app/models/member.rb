@@ -43,7 +43,7 @@ class Member < ActiveRecord::Base
       .has_plantings
   }
 
-  scope :has_plantings, -> { joins(:plantings).where("plantings.id IS NOT NULL") }
+  scope :has_plantings, -> { joins(:plantings).group(:member_id) }
 
   has_many :follows, class_name: "Follow", foreign_key: "follower_id"
   has_many :followed, through: :follows
