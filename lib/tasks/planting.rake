@@ -3,7 +3,12 @@ namespace :planting do
   task determine_current_weather: :environment do
     require 'open_weather'
 
-    plantings = Planting.current.joins(:garden).where('gardens.location IS NOT NULL').order('gardens.location').limit(1000)
+    plantings = Planting.current
+      .joins(:garden)
+      .where('gardens.location IS NOT NULL')
+      .order('gardens.location')
+      .limit(1000)
+
     locations = {}
     options = { units: "metric", APPID: ENV['GROWSTUFF_OPENWEATHER_KEY'] }
     plantings.each do |planting|
