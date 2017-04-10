@@ -281,12 +281,12 @@ describe 'member' do
         ].collect { |m| FactoryGirl.create(m) }
 
         [0, 1, 2, 3, 5].each do |i|
-          FactoryGirl.create(:planting, owner: members[i])
+          FactoryGirl.create(:planting, owner: @members[i])
         end
 
-        members[0].updated_at = 3.days.ago
-        members[1].updated_at = 2.days.ago
-        members[2].updated_at = 1.day.ago
+        @members[0].updated_at = 3.days.ago
+        @members[1].updated_at = 2.days.ago
+        @members[2].updated_at = 1.day.ago
 
         # TODO Shouldn't this save?
 
@@ -294,7 +294,7 @@ describe 'member' do
 
         # Some members have multiple plantings, but should only appear once
         3.times do
-          FactoryGirl.create(:planting, owner: members[2])
+          FactoryGirl.create(:planting, owner: @members[2])
         end
       end
 
