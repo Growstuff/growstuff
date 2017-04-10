@@ -16,8 +16,8 @@ namespace :planting do
 
       puts [
         "Weather for #{planting.garden.location} is",
-        "#{log.weather_data["main"]["temp"]} degree(s) celcius and",
-        "#{log.weather_data["weather"].first["main"]}"
+        "#{log.weather_data['main']['temp']} degree(s) celcius and",
+        log.weather_data['weather'].first['main'].to_s
       ].join(" ")
     end
   end

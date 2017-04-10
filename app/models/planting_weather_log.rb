@@ -3,13 +3,13 @@
 # See http://openweathermap.org/current for documentation
 
 # Example call: http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=df8abc00e3162fbd98bc48063cc6c4b5
-#  {  
-#   "coord":{  
+#  {
+#   "coord":{
 #     "lon":-0.13,
 #     "lat":51.51
 #   },
-#   "weather":[  
-#     {  
+#   "weather":[
+#     {
 #       "id":800,
 #       "main":"Clear",
 #       "description":"clear sky",
@@ -17,7 +17,7 @@
 #     }
 #   ],
 #   "base":"stations",
-#   "main":{  
+#   "main":{
 #     "temp":281.83,
 #     "pressure":1025,
 #     "humidity":61,
@@ -25,15 +25,15 @@
 #     "temp_max":283.15
 #   },
 #   "visibility":10000,
-#   "wind":{  
+#   "wind":{
 #     "speed":5.7,
 #     "deg":300
 #   },
-#   "clouds":{  
+#   "clouds":{
 #     "all":0
 #   },
 #   "dt":1491808800,
-#   "sys":{  
+#   "sys":{
 #     "type":1,
 #     "id":5091,
 #     "message":0.0097,
