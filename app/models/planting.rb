@@ -7,6 +7,7 @@ class Planting < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :crop, counter_cache: true
   has_many :harvests, -> { order(harvested_at: :desc) }, dependent: :destroy
+  has_many :planting_weather_logs
 
   default_scope { order("plantings.created_at desc") }
   scope :finished, -> { where(finished: true) }
