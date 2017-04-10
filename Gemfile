@@ -85,6 +85,9 @@ gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
 
+# For https://github.com/Growstuff/growstuff/issues/863
+gem 'open-weather'
+
 # # CMS
 # gem 'comfortable_mexican_sofa', '~> 1.12.0'
 
