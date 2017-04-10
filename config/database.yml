@@ -1,6 +1,5 @@
 development:
   adapter: postgresql
-  username: postgres
   database: growstuff_dev
 
 test:
