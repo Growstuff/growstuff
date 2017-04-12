@@ -288,7 +288,7 @@ describe 'member' do
         @members[1].updated_at = 2.days.ago
         @members[2].updated_at = 1.day.ago
 
-        # TODO Shouldn't this save?
+        # TODO: Shouldn't this save?
 
         @result = Member.interesting
 
