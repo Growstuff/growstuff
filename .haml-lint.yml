@@ -3,3 +3,7 @@ linters:
     max: 120
   InstanceVariables:
     enabled: false
+  IdNames:
+    enabled: false
+  ConsecutiveComments:
+    enabled: false
