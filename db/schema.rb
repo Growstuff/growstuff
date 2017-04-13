@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104035248) do
+ActiveRecord::Schema.define(version: 20170413221549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -323,6 +323,9 @@ ActiveRecord::Schema.define(version: 20170104035248) do
     t.boolean  "newsletter"
     t.boolean  "send_planting_reminder",  default: true
     t.string   "preferred_avatar_uri"
+    t.integer  "gardens_count"
+    t.integer  "harvests_count"
+    t.integer  "seeds_count"
   end
 
   add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree
