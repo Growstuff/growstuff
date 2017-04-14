@@ -66,6 +66,10 @@ GROWSTUFF_PAYPAL_SIGNATURE: "dummy"
 GROWSTUFF_FACEBOOK_KEY: ""
 GROWSTUFF_FACEBOOK_SECRET: ""
 
+# Used to log weather, see https://github.com/Growstuff/growstuff/issues/863
+# Generate by signing up to http://openweathermap.org/
+GROWSTUFF_OPENWEATHER_KEY: "dummy"
+
 # Elasticsearch is used for flexible search and it requires another component
 # to be installed. To make it easy for people who don't need to test this feature
 # it's been turned off for test and development environment as a default.

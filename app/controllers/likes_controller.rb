@@ -43,7 +43,7 @@ class LikesController < ApplicationController
 
   def failed(like, message)
     respond_to do |format|
-      format.json { render(json: { 'error': message }, status: :forbidden) }
+      format.json { render(json: { error: message }, status: :forbidden) }
       format.html do
         flash[:error] = message
         if like && like.likeable
