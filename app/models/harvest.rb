@@ -5,7 +5,7 @@ class Harvest < ActiveRecord::Base
   friendly_id :harvest_slug, use: [:slugged, :finders]
 
   belongs_to :crop
-  belongs_to :owner, class_name: 'Member'
+  belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :plant_part
   belongs_to :planting
 
