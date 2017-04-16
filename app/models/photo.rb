@@ -34,13 +34,23 @@ class Photo < ActiveRecord::Base
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
-      title: info.title || "Untitled",
+      title: calculate_title(info),
       license_name: license.name,
       license_url: license.url,
       thumbnail_url: FlickRaw.url_q(info),
       fullsize_url: FlickRaw.url_z(info),
       link_url: FlickRaw.url_photopage(info)
     }
+  end
+
+  def calculate_title(info)
+    if id && title # already has a title saved
+      title
+    elsif info.title # use title from flickr
+      info.title
+    else
+      'untitled'
+    end
   end
 
   def set_flickr_metadata
