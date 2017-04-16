@@ -17,6 +17,7 @@ Growstuff::Application.routes.draw do
   resources :members
 
   resources :photos
+  delete 'photo_associations' => 'photo_associations#destroy'
 
   resources :authentications, only: [:create, :destroy]
 
