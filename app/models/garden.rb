@@ -62,7 +62,7 @@ class Garden < ActiveRecord::Base
     unique_plantings = []
     seen_crops = []
 
-    plantings.each do |p|
+    plantings.includes(:garden, :crop, :owner, :harvests).each do |p|
       unless seen_crops.include?(p.crop)
         unique_plantings.push(p)
         seen_crops.push(p.crop)
