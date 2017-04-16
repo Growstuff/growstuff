@@ -1,2 +1,5 @@
 - content_for :title, "Edit Photo"
-
+= form_for(@photo) do |f|
+  = f.label :title
+  = f.text_field :title, placeholder: "title"
+  = f.submit
