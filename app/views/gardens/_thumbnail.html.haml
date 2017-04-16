@@ -1,7 +1,7 @@
 .panel.panel-success
   .panel-heading
     %h3.panel-title
-      = link_to display_garden_name(garden), garden
+      = link_to display_garden_name(garden), garden_path(garden)
       - if can? :edit, garden
         %a.pull-right{ href: edit_garden_path(garden), role: "button", id: "edit_garden_glyphicon" }
           %span.glyphicon.glyphicon-pencil{ title: "Edit" }
@@ -14,7 +14,7 @@
       .col-md-8
         %dl.dl-horizontal
           %dt Name :
-          %dd= link_to display_garden_name(garden), garden
+          %dd= link_to display_garden_name(garden), garden_path(garden)
           %dt Location :
           %dd
             - if garden.location.blank?
@@ -29,11 +29,9 @@
         %b
           = localize_plural(garden.plantings, Planting)
           = ":"
-        = display_garden_plantings(garden.plantings.current)
+        = display_garden_plantings(garden.plantings.current.includes(:crop).first(2))
         - if garden.plantings.size > 2
-          %br
           = link_to "See more plantings >>", garden_path(garden)
   .panel-footer
     %dt Description
-    %dd
-      = display_garden_description(garden)
+    %dd= display_garden_description(garden)
