@@ -8,7 +8,10 @@
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 .row
-  .col-md-6
+  .col-md-8
+    %p= image_tag(@photo.fullsize_url, alt: @photo.title, class: 'img')
+
+  .col-md-4
     %p
       %strong Posted by:
       = link_to @photo.owner, @photo.owner
@@ -19,19 +22,20 @@
       - else
         = succeed "." do
           = @photo.license_name
-    %p
-      = link_to "View on Flickr", @photo.link_url
+
+    %p= link_to "View on Flickr", @photo.link_url
 
     - if can? :destroy, @photo
-      %p= link_to 'Delete Photo',
-          @photo,
-          method: :delete,
+      = link_to 'delete',
+          @photo, method: :delete,
           data: { confirm: 'Are you sure?' },
           class: 'btn btn-default btn-xs'
+    - if can? :edit, @photo
+      = link_to 'edit', edit_photo_path(@photo), class: 'btn btn-default btn-xs'
 
-  .col-md-6
-    - unless @photo.plantings.empty? && @photo.harvests.empty? && @photo.gardens.empty? && @photo.seeds.empty?
-      %p This photo depicts:
+
+    - if @photo.associations?
+      %h4 This photo depicts:
       %ul
         - @photo.plantings.each do |p|
           %li= link_to t('.planting', planting: p.to_s, owner: p.owner.to_s), planting_path(p)
@@ -41,8 +45,4 @@
           %li= link_to t('.garden', garden: g.to_s, owner: g.owner.to_s), garden_path(g)
         - @photo.seeds.each do |s|
           %li= link_to t('.seed', seed: s.to_s, owner: s.owner.to_s), seed_path(s)
-
-.row
-  .col-md-12
-    %p= image_tag(@photo.fullsize_url, alt: @photo.title, class: 'img')
 
