@@ -36,7 +36,7 @@
               %p= localize_plural(g.photos, Photo)
               .row
                 %ul.thumbnails
-                  - g.photos.each do |p|
+                  - g.photos.includes(:owner).each do |p|
                     .col-md-2.six-across
                       = render partial: 'photos/thumbnail', locals: { photo: p }
               .row
