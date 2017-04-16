@@ -10,6 +10,10 @@ class Photo < ActiveRecord::Base
 
   default_scope { order("created_at desc") }
 
+  def associations?
+    plantings.any? || harvests.any? || gardens.any? || seeds.any?
+  end
+
   def all_associations
     associations = []
     Growstuff::Constants::PhotoModels.relations.each do |association_name|
