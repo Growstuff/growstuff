@@ -42,10 +42,10 @@ describe GardensHelper do
       plantings = [FactoryGirl.create(:planting, quantity: 10, crop: crop)]
       result = helper.display_garden_plantings(plantings)
 
-      output = "<li>"
+      output = '<ul class="plantings"><li>'
       output += "10 " + link_to(crop.name, crop)
       output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
+      output += "</li></ul>"
       expect(result).to eq output
     end
 
@@ -58,16 +58,16 @@ describe GardensHelper do
       crop2 = FactoryGirl.create(:crop)
       plantings << FactoryGirl.create(:planting, quantity: 10, crop: crop2)
 
-      result = helper.display_garden_plantings(plantings)
+      result = helper.display_garden_plantings(plantings.first(2))
 
-      output = "<li>"
+      output = '<ul class="plantings"><li>'
       output += "10 " + link_to(crop1.name, crop1)
       output += ", planted on #{plantings.first.planted_at}"
       output += "</li>"
       output += "<li>"
       output += "10 " + link_to(crop2.name, crop2)
       output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
+      output += "</li></ul>"
       expect(result).to eq output
     end
 
@@ -83,16 +83,16 @@ describe GardensHelper do
       crop3 = FactoryGirl.create(:crop)
       plantings << FactoryGirl.create(:planting, quantity: 10, crop: crop3)
 
-      result = helper.display_garden_plantings(plantings)
+      result = helper.display_garden_plantings(plantings.first(2))
 
-      output = "<li>"
+      output = '<ul class="plantings"><li>'
       output += "10 " + link_to(crop1.name, crop1)
       output += ", planted on #{plantings.first.planted_at}"
       output += "</li>"
       output += "<li>"
       output += "10 " + link_to(crop2.name, crop2)
       output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
+      output += "</li></ul>"
       expect(result).to eq output
     end
   end
