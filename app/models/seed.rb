@@ -4,7 +4,7 @@ class Seed < ActiveRecord::Base
   friendly_id :seed_slug, use: [:slugged, :finders]
 
   belongs_to :crop
-  belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id'
+  belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
 
   default_scope { order("created_at desc") }
 

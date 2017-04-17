@@ -4,7 +4,7 @@ class Garden < ActiveRecord::Base
   include PhotoCapable
   friendly_id :garden_slug, use: [:slugged, :finders]
 
-  belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id'
+  belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
   has_many :plantings, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :crops, through: :plantings
 
