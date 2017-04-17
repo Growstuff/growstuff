@@ -82,6 +82,7 @@ Growstuff::Application.routes.draw do
   root to: 'home#index'
 
   get 'auth/:provider/callback' => 'authentications#create'
+  get 'members/auth/:provider/callback' => 'authentications#create'
 
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
