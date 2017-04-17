@@ -109,7 +109,6 @@ Style/BarePercentLiterals:
 # IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
   Exclude:
-    - 'app/controllers/members_controller.rb'
     - 'spec/controllers/order_items_controller_spec.rb'
     - 'spec/features/notifications_spec.rb'
     - 'spec/models/ability_spec.rb'
@@ -123,7 +122,6 @@ Style/BlockDelimiters:
 # Cop supports --auto-correct.
 Style/BlockEndNewline:
   Exclude:
-    - 'app/controllers/members_controller.rb'
     - 'spec/models/ability_spec.rb'
     - 'spec/models/member_spec.rb'
     - 'spec/models/planting_spec.rb'
@@ -223,7 +221,6 @@ Style/MultilineTernaryOperator:
 # Cop supports --auto-correct.
 Style/MutableConstant:
   Exclude:
-    - 'app/controllers/members_controller.rb'
     - 'app/models/planting.rb'
 
 # Cop supports --auto-correct.
