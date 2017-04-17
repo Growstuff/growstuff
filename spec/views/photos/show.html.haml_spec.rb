@@ -18,9 +18,18 @@ describe "photos/show" do
     controller.stub(:current_user) { @member }
   end
 
+  let(:harvest) { FactoryGirl.create :harvest, owner: @member }
+  let(:planting) { FactoryGirl.create :planting, owner: @member }
+  let(:seed) { FactoryGirl.create :seed, owner: @member }
+  let(:garden) { FactoryGirl.create :garden, owner: @member }
+
   context "CC-licensed photo" do
     before(:each) do
       @photo = assign(:photo, FactoryGirl.create(:photo, owner: @member))
+      @photo.harvests << harvest
+      @photo.plantings << planting
+      @photo.seeds << seed
+      @photo.gardens << garden
       render
     end
 
@@ -43,6 +52,19 @@ describe "photos/show" do
 
     it "has a delete button" do
       assert_select "a[href='#{photo_path(@photo)}']"
+    end
+
+    it "links to harvest" do
+      assert_select "a", href: harvest_path(harvest)
+    end
+    it "links to planting" do
+      assert_select "a", href: planting_path(planting)
+    end
+    it "links to garden" do
+      assert_select "a", href: garden_path(garden)
+    end
+    it "links to seeds" do
+      assert_select "a", href: seed_path(seed)
     end
   end
 
