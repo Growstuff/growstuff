@@ -3,11 +3,11 @@ class PhotoAssociationsController < ApplicationController
   respond_to :json, :html
 
   def destroy
-    @photo = Photo.find(params[:photo_id])
+    @photo = Photo.find_by!(id: params[:photo_id], owner: current_member)
     collection = Growstuff::Constants::PhotoModels.get_relation(@photo, params[:type])
     item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
     @item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
-    collection.delete(@item) if owner_matches?
+    collection.delete(@item)
     respond_with(@photo)
   end
 
