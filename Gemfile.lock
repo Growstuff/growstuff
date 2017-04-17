@@ -189,8 +189,8 @@ GEM
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
-    globalid (0.3.7)
-      activesupport (>= 4.1.0)
+    globalid (0.4.0)
+      activesupport (>= 4.2.0)
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
