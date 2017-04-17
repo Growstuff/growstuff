@@ -42,7 +42,7 @@ describe "photos/show" do
     end
 
     it "has a delete button" do
-      assert_select "a[href='#{photo_path(@photo)}']", 'Delete Photo'
+      assert_select "a[href='#{photo_path(@photo)}']"
     end
   end
 
