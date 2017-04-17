@@ -33,24 +33,5 @@
           = @photo.license_name
 
     %p= link_to "View on Flickr", @photo.link_url
-
     - if @photo.associations?
-      %h4 This photo depicts:
-      %ul
-        - @photo.plantings.each do |p|
-          %li
-            = link_to t('.planting', planting: p.to_s, owner: p.owner.to_s), planting_path(p)
-            - if can? :edit, @photo
-              = link_to photo_associations_path(photo_id: @photo.id,
-                type: 'planting', planting_id: p.id), method: 'delete',
-                class: 'btn btn-default btn-xs' do
-                %span.glyphicon.glyphicon-remove{ title: "Remove link" }
-
-        - @photo.harvests.each do |h|
-          %li= link_to t('.harvest', crop: h.crop.name, owner: h.owner.to_s), harvest_path(h)
-
-        - @photo.gardens.each do |g|
-          %li= link_to t('.garden', garden: g.to_s, owner: g.owner.to_s), garden_path(g)
-
-        - @photo.seeds.each do |s|
-          %li= link_to t('.seed', seed: s.to_s, owner: s.owner.to_s), seed_path(s)
+      = render "photo_associations", locals: { photo: @photo }
