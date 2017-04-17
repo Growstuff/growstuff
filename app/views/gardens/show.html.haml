@@ -55,7 +55,7 @@
         %p= localize_plural(@garden.photos, Photo)
         .row-fluid
           %ul.thumbnails
-            - @garden.photos.each do |p|
+            - @garden.photos.includes(:owner).each do |p|
               .col-md-2.six-across
                 = render partial: 'photos/thumbnail', locals: { photo: p }
         .row-fluid
@@ -68,7 +68,7 @@
       - if @garden.plantings.current.empty?
         %p Nothing is currently planted here.
       - else
-        - @garden.plantings.current.each.with_index do |planting_current, _|
+        - @garden.plantings.current.includes(:crop, :owner, :harvests, :garden).each.with_index do |planting_current, _|
           = render partial: "plantings/thumbnail", locals: { planting: planting_current }
 
     .row-fluid
