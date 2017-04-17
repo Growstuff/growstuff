@@ -10,8 +10,4 @@ class PhotoAssociationsController < ApplicationController
     collection.delete(@item)
     respond_with(@photo)
   end
-
-  def owner_matches?
-    @photo.owner == current_member && @item.owner == current_member
-  end
 end
