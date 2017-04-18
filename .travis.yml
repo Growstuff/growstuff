@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 language: ruby
 cache:
   bundler: true
