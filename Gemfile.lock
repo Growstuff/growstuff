@@ -121,7 +121,7 @@ GEM
       jquery-rails (>= 3.0.0)
       jquery-ui-rails (>= 5.0.0)
       kramdown (>= 1.0.0)
-      paperclip (>= 4.0.0)
+      paperclip (>= 4.3.6)
       plupload-rails (>= 1.2.1)
       rails (>= 4.0.0, < 5.1)
       rails-i18n (>= 4.0.0)
