@@ -138,6 +138,7 @@ group :test do
   gem 'codeclimate-test-reporter', require: false
 end
 
+# test of the Gemfile-but-not-Gemfile.lock checker
 group :travis do
   gem 'heroku-api'
 end
