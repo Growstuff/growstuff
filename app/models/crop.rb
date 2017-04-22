@@ -60,50 +60,11 @@ class Crop < ActiveRecord::Base
 
   validate :must_have_meaningful_reason_for_rejection
 
-  ####################################
   # Elastic search configuration
   if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
     include Elasticsearch::Model
     include Elasticsearch::Model::Callbacks
-    # In order to avoid clashing between different environments,
-    # use Rails.env as a part of index name (eg. development_growstuff)
-    index_name [Rails.env, "growstuff"].join('_')
-    settings index: { number_of_shards: 1 },
-             analysis: {
-               tokenizer: {
-                 gs_edgeNGram_tokenizer: {
-                   type: "edgeNGram", # edgeNGram: NGram match from the start of a token
-                   min_gram: 3,
-                   max_gram: 10,
-                   # token_chars: Elasticsearch will split on characters
-                   # that don't belong to any of these classes
-                   token_chars: %w(letter digit)
-                 }
-               },
-               analyzer: {
-                 gs_edgeNGram_analyzer: {
-                   tokenizer: "gs_edgeNGram_tokenizer",
-                   filter: ["lowercase"]
-                 }
-               }
-             } do
-      mappings dynamic: 'false' do
-        indexes :id, type: 'long'
-        indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
-        indexes :approval_status, type: 'string'
-        indexes :scientific_names do
-          indexes :name,
-            type: 'string',
-            analyzer: 'gs_edgeNGram_analyzer',
-            # Disabling field-length norm (norm). If the norm option is turned on(by default),
-            # higher weigh would be given for shorter fields, which in our case is irrelevant.
-            norms: { enabled: false }
-        end
-        indexes :alternate_names do
-          indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
-        end
-      end
-    end
+    include CropElasticSearch
   end
 
   def as_indexed_json(_options = {})
@@ -132,7 +93,6 @@ class Crop < ActiveRecord::Base
     scientific_names.first.name unless scientific_names.empty?
   end
 
-  # crop.default_photo
   # currently returns the first available photo, but exists so that
   # later we can choose a default photo based on different criteria,
   # eg. popularity
@@ -144,7 +104,6 @@ class Crop < ActiveRecord::Base
     harvest_with_photo.photos.first if harvest_with_photo
   end
 
-  # crop.sunniness
   # returns hash indicating whether this crop is grown in
   # sun/semi-shade/shade
   # key: sunniness (eg. 'sun')
@@ -153,7 +112,6 @@ class Crop < ActiveRecord::Base
     count_uses_of_property 'sunniness'
   end
 
-  # crop.planted_from
   # returns a hash of propagation methods (seed, seedling, etc),
   # key: propagation method (eg. 'seed')
   # value: count of how many times it's been used by plantings
@@ -161,7 +119,6 @@ class Crop < ActiveRecord::Base
     count_uses_of_property 'planted_from'
   end
 
-  # crop.popular_plant_parts
   # returns a hash of most harvested plant parts (fruit, seed, etc)
   # key: plant part (eg. 'fruit')
   # value: count of how many times it's been used by harvests
@@ -176,9 +133,7 @@ class Crop < ActiveRecord::Base
   def interesting?
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
-    return false unless photos.size >= min_photos
-    return false unless plantings_count >= min_plantings
-    true
+    photos.size >= min_photos && plantings_count >= min_plantings
   end
 
   def pending?
@@ -206,7 +161,6 @@ class Crop < ActiveRecord::Base
     reason_for_rejection
   end
 
-  # Crop.search(string)
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
