@@ -11,7 +11,7 @@
 
 .row
   - unless @plantings.empty?
-    - @plantings.includes(:harvests).each.with_index do |planting|
+    - @plantings.each.with_index do |planting|
       .col-xs-12.col-lg-6
         = render partial: "plantings/thumbnail", locals: { planting: planting }
 
