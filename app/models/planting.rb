@@ -27,9 +27,9 @@ class Planting < ActiveRecord::Base
     to: :crop,
     prefix: true
 
-  validates :crop, approved: true
-
-  validates :crop, presence: { message: "must be present and exist in our database" }
+  validates :garden, presence: true
+  validates :crop, presence: true
+  validates :crop, approved: { message: "must be present and exist in our database" }
 
   validates :quantity,
     numericality: {
