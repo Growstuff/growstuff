@@ -85,8 +85,8 @@ gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
 
-# # CMS
-# gem 'comfortable_mexican_sofa', '~> 1.12.0'
+# locale based flash notices for controllers
+gem "responders"
 
 group :production, :staging do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
