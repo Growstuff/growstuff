@@ -138,6 +138,7 @@ class Planting < ActiveRecord::Base
   private
 
   def calc_and_set_days_before_maturity
+    # calculate the number of days, from planted_at, until maturity
     if planted_at && finished_at
       self.days_before_maturity = start_to_finish_diff
     else
