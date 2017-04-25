@@ -3,7 +3,9 @@ class PlantingsController < ApplicationController
   after_action :expire_homepage, only: [:create, :update, :destroy]
   load_and_authorize_resource
 
-  respond_to :html, :json, :csv, :rss
+  respond_to :html, :json
+  respond_to :csv, :rss, only: [:index]
+  responders :flash
 
   def index
     @owner = Member.find_by(slug: params[:owner]) if params[:owner]
@@ -44,12 +46,12 @@ class PlantingsController < ApplicationController
   def create
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
-    flash[:notice] = 'Planting was successfully created.' if @planting.save
+    @planting.save
     respond_with(@planting)
   end
 
   def update
-    flash[:notice] = 'Planting was successfully updated.' if @planting.update(planting_params)
+    @planting.update(planting_params)
     respond_with(@planting)
   end
 

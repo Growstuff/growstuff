@@ -579,6 +579,7 @@ DEPENDENCIES
   rails_12factor
   rainbow (< 2.2.0)
   rake (>= 10.0.0)
+  responders
   rspec-activemodel-mocks
   rspec-rails
   rubocop (<= 0.47.1)

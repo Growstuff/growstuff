@@ -42,7 +42,7 @@ feature "Planting a crop", :js, :elasticsearch do
       click_button "Save"
     end
 
-    expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "planting was successfully created"
     expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
   end
 
@@ -74,7 +74,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Progress: 0% - not planted yet"
     end
 
@@ -90,7 +90,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
       expect(page).to have_content "Days until maturity: unknown"
     end
@@ -108,7 +108,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "planting was successfully created"
       expect(page).to_not have_content "Progress: 0% - not planted yet"
       expect(page).to_not have_content "Progress: Not calculated, days before maturity unknown"
     end
@@ -126,7 +126,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Progress: 100%"
       expect(page).to have_content "Yes (no date specified)"
       expect(page).to have_content "Days until maturity: 0"
@@ -145,7 +145,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "Planting was successfully created"
+      expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Progress: 100%"
       expect(page).to have_content "Days until maturity: 0"
     end
@@ -159,7 +159,7 @@ feature "Planting a crop", :js, :elasticsearch do
       click_button "Save"
     end
 
-    expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "planting was successfully created"
     expect(page).to have_content "maize"
   end
 
@@ -168,7 +168,7 @@ feature "Planting a crop", :js, :elasticsearch do
     click_link "Edit"
     fill_in "Tell us more about it", with: "Some extra notes"
     click_button "Save"
-    expect(page).to have_content "Planting was successfully updated"
+    expect(page).to have_content "planting was successfully updated"
   end
 
   scenario "Editing a planting to fill in the finished date" do
@@ -178,7 +178,7 @@ feature "Planting a crop", :js, :elasticsearch do
     check "finished"
     fill_in "Finished date", with: "2015-06-25"
     click_button "Save"
-    expect(page).to have_content "Planting was successfully updated"
+    expect(page).to have_content "planting was successfully updated"
     expect(page).to_not have_content "Progress: Not calculated, days before maturity unknown"
   end
 
@@ -211,7 +211,7 @@ feature "Planting a crop", :js, :elasticsearch do
     within "form#new_planting" do
       click_button "Save"
     end
-    expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "planting was successfully created"
     expect(page).to have_content "Finished: August 30, 2014"
 
     # shouldn't be on the page
@@ -230,7 +230,7 @@ feature "Planting a crop", :js, :elasticsearch do
       check "Mark as finished"
       click_button "Save"
     end
-    expect(page).to have_content "Planting was successfully created"
+    expect(page).to have_content "planting was successfully created"
     expect(page).to have_content "Finished: Yes (no date specified)"
     expect(page).to have_content "Progress: 100%"
   end
