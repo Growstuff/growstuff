@@ -8,6 +8,8 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, counter_cache: true
   has_many :harvests, -> { order(harvested_at: :desc) }, dependent: :destroy
 
+  before_save :calc_and_set_days_before_maturity
+
   default_scope { order("plantings.created_at desc") }
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
@@ -92,21 +94,6 @@ class Planting < ActiveRecord::Base
     photos.first
   end
 
-  def calculate_days_before_maturity(planting, crop)
-    p_crop = Planting.where(crop_id: crop).where.not(id: planting)
-    differences = p_crop.collect do |p|
-      if p.finished && !p.finished_at.nil?
-        (p.finished_at - p.planted_at).to_i
-      end
-    end
-
-    if differences.compact.empty?
-      nil
-    else
-      differences.compact.sum / differences.compact.size
-    end
-  end
-
   def planted?(current_date = Date.current)
     planted_at.present? && current_date.to_date >= planted_at
   end
@@ -136,5 +123,29 @@ class Planting < ActiveRecord::Base
     end
 
     percent
+  end
+
+  def start_to_finish_diff
+    (finished_at - planted_at).to_i
+  end
+
+  def self.mean_days_until_maturity(plantings)
+    ## Given a set of finished plantings, calculate the average/mean time from start to finish
+    differences = plantings.collect(&:start_to_finish_diff)
+    differences.compact.sum / differences.compact.size unless differences.compact.empty?
+  end
+
+  private
+
+  def calc_and_set_days_before_maturity
+    if planted_at && finished_at
+      self.days_before_maturity = start_to_finish_diff
+    else
+      self.days_before_maturity = Planting.mean_days_until_maturity other_finished_plantings_same_crop
+    end
+  end
+
+  def other_finished_plantings_same_crop
+    Planting.where(crop_id: crop).where.not(id: id).where.not(finished_at: nil)
   end
 end
