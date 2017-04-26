@@ -14,7 +14,12 @@ class PlantingsController < ApplicationController
 
     @plantings = plantings.paginate(page: params[:page])
 
-    specifics = (@owner ? "#{@owner.login_name}-" : @crop ? "#{@crop.name}-" : nil)
+    specifics = if @owner
+                  "#{@owner.login_name}-"
+                elsif @crop
+                  "#{@crop.name}-"
+                end
+
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
     respond_with(@plantings)
