@@ -35,13 +35,8 @@ describe Planting do
 
     describe 'saving planting calculates days_before_maturity' do
       before { 5.times { FactoryGirl.create :planting, planted_at: 30.days.ago, finished_at: 9.days.ago, crop: crop } }
-      describe 'create' do
-        it { expect(FactoryGirl.create(:planting, crop: crop).days_before_maturity).to eq(21) }
-      end
-      describe 'update' do
-        before { planting.update(crop: crop, planted_at: 2.days.ago) }
-        it { expect(planting.days_before_maturity).to eq(21) }
-      end
+      before { crop.calc_and_set_days_before_maturity }
+      it { expect(crop.days_before_maturity).to eq(21) }
     end
   end
 
