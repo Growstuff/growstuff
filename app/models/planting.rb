@@ -8,8 +8,6 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, counter_cache: true
   has_many :harvests, -> { order(harvested_at: :desc) }, dependent: :destroy
 
-  before_save :calc_and_set_days_before_maturity
-
   default_scope { order("plantings.created_at desc") }
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
