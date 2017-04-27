@@ -133,8 +133,6 @@ class Planting < ActiveRecord::Base
     differences.compact.sum / differences.compact.size unless differences.compact.empty?
   end
 
-  private
-
   def calc_and_set_days_before_maturity
     # calculate the number of days, from planted_at, until maturity
     if planted_at && finished_at
@@ -143,6 +141,8 @@ class Planting < ActiveRecord::Base
       self.days_before_maturity = Planting.mean_days_until_maturity other_finished_plantings_same_crop
     end
   end
+
+  private
 
   def other_finished_plantings_same_crop
     Planting.where(crop_id: crop).where.not(id: id).where.not(finished_at: nil)
