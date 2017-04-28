@@ -44,8 +44,6 @@ PreCommit:
     command: ['npm', 'run', 'csslint']
   HamlLint:
     enabled: true
-    requires_files: true
-    on_warn: fail
     command: ['bundle', 'exec', 'haml-lint', 'app/views']
   JsonSyntax:
     enabled: true
