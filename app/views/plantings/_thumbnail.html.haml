@@ -1,6 +1,6 @@
 .panel.panel-success.planting-thumbnail
   .panel-heading
-    %h3.panel-title= link_to planting.crop.name, planting.crop
+    %h3.panel-title= link_to planting.crop.name, planting_path(planting)
   .panel-body
     .row
       .col-xs-12.col-md-5
@@ -36,7 +36,7 @@
 
     %p= render partial: 'plantings/planting_progress', locals: { planting: planting }
 
-    = link_to 'Details', planting, class: 'btn btn-default btn-xs'
+    = link_to 'Details', planting_path(planting), class: 'btn btn-default btn-xs'
     - if can? :edit, planting
       = link_to edit_planting_path(planting), class: 'btn btn-default btn-xs' do
         %span.glyphicon.glyphicon-pencil{ title: "Edit" }
