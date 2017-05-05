@@ -15,7 +15,9 @@
       %p.btn-group
         - if can? :edit, @garden
           - if @garden.active
-            = link_to "Plant something", new_planting_path(garden_id: @garden.id), class: 'btn btn-primary'
+            = link_to new_planting_path(garden_id: @garden.id), class: 'btn btn-primary' do
+              %span.glyphicon.glyphicon-grain{ title: "Plant" }
+              Plant something
             = link_to "Mark as inactive", garden_path(@garden, garden: { active: 0 }),
               method: :put, class: 'btn btn-default',
               data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
@@ -23,12 +25,14 @@
             = link_to "Mark as active", garden_path(@garden, garden: { active: 1 }),
                       method: :put,
                       class: 'btn btn-default'
-          = link_to 'Edit garden', edit_garden_path(@garden), class: 'btn btn-default'
+          = link_to edit_garden_path(@garden), class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-pencil{ title: "Edit" }
         - if can?(:destroy, @garden)
-          = link_to 'Delete garden', @garden,
+          = link_to @garden,
                     method: :delete,
                     data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' },
-                    class: 'btn btn-default'
+                    class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-trash{ title: "Delete" }
 
     - unless @garden.active
       .alert.alert-warning
@@ -59,7 +63,11 @@
     - if can?(:edit, @garden) && can?(:create, Photo)
       .row
         .col-md-12
-          %p= link_to "Add photo", new_photo_path(type: "garden", id: @garden.id), class: 'btn btn-primary'
+          %p
+            = link_to new_photo_path(type: "garden", id: @garden.id),
+            class: 'btn btn-primary' do
+              %span.glyphicon.glyphicon-camera{ title: "Add Photo" }
+              Add Photo
     %h3 What's planted here?
     .row
       - if @garden.plantings.size.positive?
