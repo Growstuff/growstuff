@@ -50,32 +50,34 @@
               = link_to 'tell us more.', edit_garden_path(@garden)
 
     - if @garden.photos.size.positive?
+      %h3= localize_plural(@garden.photos, Photo)
       .row
-        %h3 Photos
-        %p= localize_plural(@garden.photos, Photo)
-        %ul.thumbnails
-          - @garden.photos.includes(:owner).each do |p|
-            .col-xs-3.col-md-2.six-across
-              = render partial: 'photos/thumbnail', locals: { photo: p }
-    - if (can?(:edit, @garden) && can?(:create, Photo))
-      .row
-        %p= link_to "Add photo", new_photo_path(type: "garden", id: @garden.id), class: 'btn btn-primary'
+        - @garden.photos.includes(:owner).each do |photo|
+          .col-xs-4.col-md-2
+            = render partial: 'photos/thumbnail', locals: { photo: photo }
 
+    - if can?(:edit, @garden) && can?(:create, Photo)
+      .row
+        .col-md-12
+          %p= link_to "Add photo", new_photo_path(type: "garden", id: @garden.id), class: 'btn btn-primary'
+    %h3 What's planted here?
     .row
-      %h3 What's planted here?
       - if @garden.plantings.size.positive?
-        %p Nothing is currently planted here.
+        - @garden.plantings.current.includes(:crop, :owner, :harvests, :garden).each do |planting|
+          .col-xs-12.col-md-6
+            = render partial: "plantings/thumbnail", locals: { planting: planting }
       - else
-        - @garden.plantings.current.includes(:crop, :owner, :harvests, :garden).each do |planting_current|
-          = render partial: "plantings/thumbnail", locals: { planting: planting_current }
-
-    .row-fluid
-      %h3 Previously planted in this garden
-      - if @garden.plantings.finished.empty?
-        %p Nothing has been planted here.
+        .col-md-12
+          %p Nothing is currently planted here.
+    %h3 Previously planted in this garden
+    .row
+      - if @garden.plantings.finished.size.positive?
+        - @garden.plantings.finished.includes(:crop, :owner, :harvests, :garden).each do |planting|
+          .col-xs-12.col-md-6
+            = render partial: "plantings/thumbnail", locals: { planting: planting }
       - else
-        - @garden.plantings.finished.includes(:crop, :owner, :harvests, :garden).each do |planting_finished|
-          = render partial: "plantings/thumbnail", locals: { planting: planting_finished }
+        .col-md-12
+          %p Nothing has been planted here.
   .col-md-3
     %h4 About this garden
     %p
