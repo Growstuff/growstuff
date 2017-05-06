@@ -4,9 +4,41 @@ describe Planting do
   let(:crop) { FactoryGirl.create(:tomato) }
   let(:garden_owner) { FactoryGirl.create(:member) }
   let(:garden) { FactoryGirl.create(:garden, owner: garden_owner) }
-  let(:planting) {
-    FactoryGirl.create(:planting,
-      crop: crop, garden: garden)}
+  let(:planting) { FactoryGirl.create(:planting, crop: crop, garden: garden) }
+  let(:finished_planting) { FactoryGirl.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago }
+
+  describe 'maturity calculations' do
+    describe 'start_to_finish_diff' do
+      it { expect(finished_planting.start_to_finish_diff).to eq(2) }
+    end
+
+    describe 'other_finished_plantings_same_crop' do
+      before do
+        # eight finished plantings
+        8.times { FactoryGirl.create :planting, crop: crop, planted_at: 10.days.ago, finished_at: 2.days.ago }
+        # eight not finished plantings
+        8.times { FactoryGirl.create :planting, crop: crop, finished_at: nil }
+      end
+      let!(:planting_with_diff_crop) { FactoryGirl.create :planting, planted_at: 10.days.ago, finished_at: 2.days.ago }
+      it { expect(planting.send(:other_finished_plantings_same_crop).size).to eq(8) }
+      it { expect(planting.send(:other_finished_plantings_same_crop)).not_to include(planting) }
+      it { expect(planting.send(:other_finished_plantings_same_crop)).not_to include(planting_with_diff_crop) }
+    end
+
+    describe 'mean_days_until_maturity' do
+      let(:plantings) do
+        FactoryGirl.create_list(:planting, 10, crop: crop, planted_at: 12.days.ago, finished_at: 2.days.ago)
+      end
+      it { expect(plantings.size).to eq(10) }
+      it { expect(Planting.mean_days_until_maturity(plantings)).to eq(10) }
+    end
+
+    describe 'saving planting calculates days_before_maturity' do
+      before { 5.times { FactoryGirl.create :planting, planted_at: 30.days.ago, finished_at: 9.days.ago, crop: crop } }
+      before { planting.calc_and_set_days_before_maturity }
+      it { expect(planting.days_before_maturity).to eq(21) }
+    end
+  end
 
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
