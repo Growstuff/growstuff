@@ -53,21 +53,6 @@
               Why not
               = link_to 'tell us more.', edit_garden_path(@garden)
 
-    - if @garden.photos.size.positive?
-      %h3= localize_plural(@garden.photos, Photo)
-      .row
-        - @garden.photos.includes(:owner).each do |photo|
-          .col-xs-4.col-md-2
-            = render partial: 'photos/thumbnail', locals: { photo: photo }
-
-    - if can?(:edit, @garden) && can?(:create, Photo)
-      .row
-        .col-md-12
-          %p
-            = link_to new_photo_path(type: "garden", id: @garden.id),
-            class: 'btn btn-primary' do
-              %span.glyphicon.glyphicon-camera{ title: "Add Photo" }
-              Add Photo
     %h3 What's planted here?
     .row
       - if @garden.plantings.size.positive?
@@ -114,9 +99,24 @@
         - @garden.owner.gardens.inactive.each do |othergarden|
           %li
             - if @garden == othergarden
-              = @garden
+              = @garden.name
             - else
               = link_to othergarden, garden_path(othergarden)
 
     - if @garden.owner == current_member
-      = link_to 'Add New Garden', new_garden_path, class: 'btn btn-default btn-xs'
+      %p
+        = link_to new_garden_path, class: 'btn btn-default btn-xs' do
+          Add New Garden
+
+    - if can?(:edit, @garden) && can?(:create, Photo)
+      %p
+        = link_to new_photo_path(type: "garden", id: @garden.id),
+        class: 'btn btn-primary' do
+          %span.glyphicon.glyphicon-camera{ title: "Add Photo" }
+          Add Photo
+    - if @garden.photos.size.positive?
+      %h3= localize_plural(@garden.photos, Photo)
+      .row
+        - @garden.photos.includes(:owner).each do |photo|
+          .col-xs-6
+            = render partial: 'photos/thumbnail', locals: { photo: photo }
