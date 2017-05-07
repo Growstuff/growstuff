@@ -7,12 +7,7 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-    @photos = if params[:garden_id]
-                Photo.joins(:gardens)
-                  .where("gardens.slug": params[:garden_id])
-              else
-                Photo.all
-              end.order("created_at": :desc).paginate(page: params[:page])
+    @photos = Photo.paginate(page: params[:page])
     respond_with(@photos)
   end
 

@@ -27,9 +27,7 @@ Growstuff::Application.routes.draw do
   get '/plantings/owner/:owner' => 'plantings#index', :as => 'plantings_by_owner'
   get '/plantings/crop/:crop' => 'plantings#index', :as => 'plantings_by_crop'
 
-  resources :gardens do
-    resources :photos
-  end
+  resources :gardens
   get '/gardens/owner/:owner' => 'gardens#index', :as => 'gardens_by_owner'
 
   resources :seeds
