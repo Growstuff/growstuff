@@ -1,0 +1,19 @@
+- if @garden.photos.size.positive?
+  %h3= localize_plural(@garden.photos, Photo)
+  .row
+    - @garden.photos.includes(:owner).order(:created_at).limit(5).each do |photo|
+      .col-xs-4.col-sm-2
+        = render partial: 'photos/thumbnail', locals: { photo: photo }
+
+    - if @garden.photos.size >= 6
+      .col-xs-4.col-sm-2
+        = link_to garden_photos_path(@garden) do
+          %span.glyphicon.glyphicon-camera
+          More photos
+
+- if can?(:edit, @garden) && can?(:create, Photo)
+  %p
+    = link_to new_photo_path(type: "garden", id: @garden.id),
+    class: 'btn btn-primary' do
+      %span.glyphicon.glyphicon-camera{ title: "Add Photo" }
+      Add Photo
