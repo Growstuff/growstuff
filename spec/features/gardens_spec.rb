@@ -67,7 +67,7 @@ feature "Planting a crop", js: true do
     visit new_garden_path
     fill_in "Name", with: "New garden"
     click_button "Save"
-    click_link "Edit garden"
+    click_link 'edit_garden_link'
     fill_in "Name", with: "Different name"
     click_button "Save"
     expect(page).to have_content "Garden was successfully updated"
@@ -79,7 +79,7 @@ feature "Planting a crop", js: true do
     fill_in "Name", with: "New garden"
     click_button "Save"
     visit garden_path(Garden.last)
-    click_link "Delete garden"
+    click_link 'delete_garden_link'
     expect(page).to have_content "Garden was successfully deleted"
     expect(page).to have_content "#{garden.owner}'s gardens"
   end
