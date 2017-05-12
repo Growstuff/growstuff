@@ -208,8 +208,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (5.0.0)
-      temple (>= 0.8.0)
+    haml (4.0.7)
       tilt
     haml-i18n-extractor (0.5.9)
       activesupport
@@ -475,7 +474,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sysexits (1.2.0)
-    temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
     terminal-table (1.7.3)
@@ -553,7 +551,7 @@ DEPENDENCIES
   gravatar-ultimate
   guard
   guard-rspec
-  haml
+  haml (~> 4.0.7)
   haml-i18n-extractor
   haml-rails
   haml_lint
@@ -595,7 +593,6 @@ DEPENDENCIES
   unicorn
   webrat
   will_paginate (~> 3.0)
-
 
 RUBY VERSION
    ruby 2.3.4p301
