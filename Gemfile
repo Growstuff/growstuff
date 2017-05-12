@@ -8,7 +8,7 @@ gem 'rails', '~> 4.2.7'
 gem 'bundler', '>=1.1.5'
 
 gem 'coffee-rails', '~> 4.1.0'
-gem 'haml'
+gem 'haml', '~> 4.0.7'
 gem 'sass-rails', '~> 5.0.4'
 
 # CSS framework
