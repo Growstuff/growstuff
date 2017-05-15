@@ -220,6 +220,10 @@ describe Planting do
       planting.photos.first.should eq photo
     end
 
+    it 'is found in has_photos scope' do
+      Planting.has_photos.should include(planting)
+    end
+
     it 'deletes association with photos when photo is deleted' do
       photo.destroy
       planting.reload
