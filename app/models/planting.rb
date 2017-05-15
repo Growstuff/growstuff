@@ -18,7 +18,6 @@ class Planting < ActiveRecord::Base
           LEFT OUTER JOIN plantings p2
           ON (m.id=p2.owner_id AND plantings.id < p2.id)").where("p2 IS NULL")
   }
-  scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   delegate :name,
     :en_wikipedia_url,

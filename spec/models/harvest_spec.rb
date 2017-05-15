@@ -252,6 +252,10 @@ describe Harvest do
         @harvest.photos << @photo
       end
 
+      it 'is found in has_photos scope' do
+        Harvest.has_photos.should include(@harvest)
+      end
+
       it 'has a photo' do
         @harvest.photos.first.should eq @photo
       end

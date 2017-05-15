@@ -150,6 +150,10 @@ describe Crop do
         @crop.default_photo.should be_an_instance_of Photo
         @crop.default_photo.id.should eq @photo.id
       end
+
+      it 'is found in has_photos scope' do
+        Crop.has_photos.should include(@crop)
+      end
     end
 
     context 'with a harvest photo' do
