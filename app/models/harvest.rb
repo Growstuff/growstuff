@@ -9,7 +9,6 @@ class Harvest < ActiveRecord::Base
   belongs_to :plant_part
   belongs_to :planting
 
-
   validates :crop, approved: true
 
   validates :crop, presence: { message: "must be present and exist in our database" }
