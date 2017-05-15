@@ -6,7 +6,7 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
 
-  default_scope { order("created_at desc") }
+  default_scope { order(created_at: :desc) }
 
   validates :crop, approved: true
 
