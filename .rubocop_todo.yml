@@ -68,7 +68,6 @@ Rails/OutputSafety:
 # update_counters
 Rails/SkipsModelValidations:
   Exclude:
-    - 'app/controllers/plantings_controller.rb'
     - 'db/seeds.rb'
 
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -227,10 +226,6 @@ Style/MutableConstant:
 Style/NegatedIf:
   Exclude:
     - 'app/helpers/crops_helper.rb'
-
-Style/NestedTernaryOperator:
-  Exclude:
-    - 'app/controllers/plantings_controller.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, MinBodyLength, SupportedStyles.
