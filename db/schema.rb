@@ -293,8 +293,8 @@ ActiveRecord::Schema.define(version: 20170520060252) do
   add_index "likes", ["member_id"], name: "index_likes_on_member_id", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.string   "email",                   default: "",    null: false
-    t.string   "encrypted_password",      default: "",    null: false
+    t.string   "email",                   default: "",   null: false
+    t.string   "encrypted_password",      default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -328,10 +328,11 @@ ActiveRecord::Schema.define(version: 20170520060252) do
     t.integer  "gardens_count"
     t.integer  "harvests_count"
     t.integer  "seeds_count"
-    t.boolean  "deleted",                 default: false
+    t.datetime "deleted_at"
   end
 
   add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree
+  add_index "members", ["deleted_at"], name: "index_members_on_deleted_at", using: :btree
   add_index "members", ["email"], name: "index_members_on_email", unique: true, using: :btree
   add_index "members", ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true, using: :btree
   add_index "members", ["slug"], name: "index_members_on_slug", unique: true, using: :btree
