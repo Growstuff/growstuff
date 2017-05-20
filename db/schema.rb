@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413221549) do
+ActiveRecord::Schema.define(version: 20170520060252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -239,6 +239,8 @@ ActiveRecord::Schema.define(version: 20170413221549) do
     t.float    "longitude"
     t.decimal  "area"
     t.string   "area_unit"
+    t.integer  "width"
+    t.integer  "length"
   end
 
   add_index "gardens", ["owner_id"], name: "index_gardens_on_owner_id", using: :btree
@@ -291,8 +293,8 @@ ActiveRecord::Schema.define(version: 20170413221549) do
   add_index "likes", ["member_id"], name: "index_likes_on_member_id", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.string   "email",                   default: "",   null: false
-    t.string   "encrypted_password",      default: "",   null: false
+    t.string   "email",                   default: "",    null: false
+    t.string   "encrypted_password",      default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -326,6 +328,7 @@ ActiveRecord::Schema.define(version: 20170413221549) do
     t.integer  "gardens_count"
     t.integer  "harvests_count"
     t.integer  "seeds_count"
+    t.boolean  "deleted",                 default: false
   end
 
   add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree
@@ -485,6 +488,15 @@ ActiveRecord::Schema.define(version: 20170413221549) do
   end
 
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree
+
+  create_table "squares", force: :cascade do |t|
+    t.integer  "garden_id"
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "planting_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   add_foreign_key "harvests", "plantings"
 end
