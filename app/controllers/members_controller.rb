@@ -55,7 +55,7 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    @member.update!(deleted: true)
+    @member.destroy
     redirect_to root_path
   end
 
