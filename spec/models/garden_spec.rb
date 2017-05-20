@@ -242,4 +242,10 @@ describe Garden do
       garden.default_photo.should eq @photo2
     end
   end
+
+  it 'excludes deleted members' do
+    expect(Garden.all).to include(garden)
+    owner.update(deleted: true)
+    expect(Garden.all).not_to include(garden)
+  end
 end
