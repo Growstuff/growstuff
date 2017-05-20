@@ -9,6 +9,8 @@ class Seed < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   validates :crop, approved: true
+  delegate :name, to: :crop
+  delegate :default_photo, to: :crop
 
   validates :crop, presence: { message: "must be present and exist in our database" }
   validates :quantity,
