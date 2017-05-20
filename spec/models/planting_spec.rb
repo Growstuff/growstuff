@@ -347,4 +347,10 @@ describe Planting do
       end
     end
   end
+
+  it 'excludes deleted members' do
+    expect(Planting.all).to include(planting)
+    planting.owner.destroy
+    expect(Planting.all).not_to include(planting)
+  end
 end

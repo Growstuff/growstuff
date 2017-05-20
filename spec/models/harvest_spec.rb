@@ -294,4 +294,11 @@ describe Harvest do
       end
     end
   end
+
+  it 'excludes deleted members' do
+    member = FactoryGirl.create :member
+    harvest = FactoryGirl.create :harvest, owner: member
+    member.destroy
+    expect(Harvest.all).not_to include(harvest)
+  end
 end

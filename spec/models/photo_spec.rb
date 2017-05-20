@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe Photo do
+  let(:photo) { FactoryGirl.create(:photo, owner: member) }
+  let(:member) { FactoryGirl.create(:member) }
   describe 'add/delete functionality' do
-    let(:photo) { FactoryGirl.create(:photo) }
     let(:planting) { FactoryGirl.create(:planting) }
     let(:harvest) { FactoryGirl.create(:harvest) }
     let(:garden) { FactoryGirl.create(:garden) }
@@ -117,5 +118,11 @@ describe Photo do
       photo = Photo.new(owner_id: 1)
       photo.should.respond_to? :flickr_metadata
     end
+  end
+
+  it 'excludes deleted members' do
+    expect(Photo.all).to include(photo)
+    member.destroy
+    expect(Photo.all).not_to include(photo)
   end
 end

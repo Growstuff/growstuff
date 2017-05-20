@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe Post do
   let(:member) { FactoryGirl.create(:member) }
-
   it_behaves_like "it is likeable"
 
   it "should be sorted in reverse order" do
@@ -181,5 +180,12 @@ describe Post do
         expect(Crop.find(maize.id)).to_not eq nil
       end
     end
+  end
+
+  it 'excludes deleted members' do
+    post = FactoryGirl.create :post, author: member
+    expect(Post.all).to include(post)
+    member.destroy
+    expect(Post.all).not_to include(post)
   end
 end
