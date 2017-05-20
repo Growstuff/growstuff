@@ -1,4 +1,5 @@
 class Member < ActiveRecord::Base
+  acts_as_paranoid
   include Geocodable
   extend FriendlyId
 
@@ -28,7 +29,7 @@ class Member < ActiveRecord::Base
 
   has_many :likes, dependent: :destroy
 
-  default_scope { order("lower(login_name) asc").where.not(deleted: true) }
+  default_scope { order("lower(login_name) asc") }
 
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }

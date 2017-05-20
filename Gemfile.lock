@@ -48,6 +48,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    acts_as_paranoid (0.5.0)
+      activerecord (>= 4.0, < 5.1)
+      activesupport (>= 4.0, < 5.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
     arel (6.0.4)
@@ -515,6 +518,7 @@ DEPENDENCIES
   active_merchant-paypal-bogus-gateway
   active_utils
   activemerchant
+  acts_as_paranoid (~> 0.5.0)
   better_errors
   binding_of_caller
   bluecloth
@@ -593,7 +597,6 @@ DEPENDENCIES
   unicorn
   webrat
   will_paginate (~> 3.0)
-
 
 RUBY VERSION
    ruby 2.3.4p301
