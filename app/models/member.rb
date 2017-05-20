@@ -7,7 +7,6 @@ class Member < ActiveRecord::Base
   has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :forums, foreign_key: 'owner_id'
-
   has_many :gardens, foreign_key: 'owner_id'
   has_many :plantings, foreign_key: 'owner_id'
 
@@ -29,7 +28,8 @@ class Member < ActiveRecord::Base
 
   has_many :likes, dependent: :destroy
 
-  default_scope { order("lower(login_name) asc") }
+  default_scope { order("lower(login_name) asc").where.not(deleted: true) }
+
   scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
   scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
   scope :recently_signed_in, -> { reorder('updated_at DESC') }
