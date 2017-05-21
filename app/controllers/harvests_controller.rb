@@ -7,9 +7,9 @@ class HarvestsController < ApplicationController
   # GET /harvests
   # GET /harvests.json
   def index
-    @owner = Member.find_by(slug: params[:owner])
-    @crop = Crop.find_by(slug: params[:crop])
-    @planting = Planting.find_by(slug: params['planting_id'])
+    @owner = Member.find_by(slug: params[:owner]) if params[:owner]
+    @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
+    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
 
     @harvests = harvests
     @filename = csv_filename
@@ -81,11 +81,11 @@ class HarvestsController < ApplicationController
       @owner.harvests
     elsif @crop
       @crop.harvests
-    elsif @planting_id
+    elsif @planting
       @planting.harvests
     else
       Harvest
-    end.includes(:owner, :crop).paginate(page: params[:page])
+    end.joins(:owner, :crop).paginate(page: params[:page])
   end
 
   def csv_filename

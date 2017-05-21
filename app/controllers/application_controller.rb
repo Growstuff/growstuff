@@ -72,9 +72,7 @@ class ApplicationController < ActionController::Base
         # email settings
         :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
         # update password
-        :current_password,
-        # is the account deleted
-        :deleted)
+        :current_password)
     end
   end
 
