@@ -239,8 +239,6 @@ ActiveRecord::Schema.define(version: 20170520060252) do
     t.float    "longitude"
     t.decimal  "area"
     t.string   "area_unit"
-    t.integer  "width"
-    t.integer  "length"
   end
 
   add_index "gardens", ["owner_id"], name: "index_gardens_on_owner_id", using: :btree
@@ -489,15 +487,6 @@ ActiveRecord::Schema.define(version: 20170520060252) do
   end
 
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree
-
-  create_table "squares", force: :cascade do |t|
-    t.integer  "garden_id"
-    t.integer  "x"
-    t.integer  "y"
-    t.integer  "planting_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
 
   add_foreign_key "harvests", "plantings"
 end

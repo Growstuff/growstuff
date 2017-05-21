@@ -7,7 +7,7 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- unless current_member
+- if @post.author && !current_member
   .alert.alert-info
     = link_to @post.author.login_name, member_path(@post.author)
     is using
