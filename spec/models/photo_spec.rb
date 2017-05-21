@@ -121,8 +121,8 @@ describe Photo do
   end
 
   it 'excludes deleted members' do
-    expect(Photo.all).to include(photo)
+    expect(Photo.joins(:owner).all).to include(photo)
     member.destroy
-    expect(Photo.all).not_to include(photo)
+    expect(Photo.joins(:owner).all).not_to include(photo)
   end
 end

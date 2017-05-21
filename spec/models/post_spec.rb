@@ -184,8 +184,8 @@ describe Post do
 
   it 'excludes deleted members' do
     post = FactoryGirl.create :post, author: member
-    expect(Post.all).to include(post)
+    expect(Post.joins(:author).all).to include(post)
     member.destroy
-    expect(Post.all).not_to include(post)
+    expect(Post.joins(:author).all).not_to include(post)
   end
 end

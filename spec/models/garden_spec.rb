@@ -244,8 +244,8 @@ describe Garden do
   end
 
   it 'excludes deleted members' do
-    expect(Garden.all).to include(garden)
-    owner.update(deleted: true)
-    expect(Garden.all).not_to include(garden)
+    expect(Garden.joins(:owner).all).to include(garden)
+    owner.destroy
+    expect(Garden.joins(:owner).all).not_to include(garden)
   end
 end
