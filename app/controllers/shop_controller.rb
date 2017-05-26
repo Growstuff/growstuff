@@ -1,4 +1,5 @@
 class ShopController < ApplicationController
+  respond_to :html
   def index
     @products = Product.all
     @order_item = OrderItem.new
@@ -13,13 +14,7 @@ class ShopController < ApplicationController
     @most_recent_item = nil
     if current_member
       @order = current_member.current_order
-      if @order
-        @most_recent_item = @order.order_items.first
-      end
-    end
-
-    respond_to do |format|
-      format.html # index.html.haml
+      @most_recent_item = @order.order_items.first if @order
     end
   end
 end
