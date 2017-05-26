@@ -8,15 +8,16 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, counter_cache: true
   has_many :harvests, -> { order(harvested_at: :desc) }, dependent: :destroy
 
-  default_scope { order(created_at: :desc) }
+  default_scope { owner_exists.order(created_at: :desc) }
+  scope :owner_exists, -> { joins(:owner) }
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
 
   scope :interesting, -> { has_photos.one_per_owner }
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=plantings.owner_id)
-          LEFT OUTER JOIN plantings p2
-          ON (m.id=p2.owner_id AND plantings.id < p2.id)").where("p2 IS NULL")
+           LEFT OUTER JOIN plantings p2
+           ON (m.id=p2.owner_id AND plantings.id < p2.id)").where("p2 IS NULL")
   }
 
   delegate :name,

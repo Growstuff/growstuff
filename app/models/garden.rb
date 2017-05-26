@@ -14,7 +14,8 @@ class Garden < ActiveRecord::Base
   after_validation :empty_unwanted_geocodes
   after_save :mark_inactive_garden_plantings_as_finished
 
-  default_scope { order("lower(name) asc") }
+  default_scope { owner_exists.order("lower(name) asc") }
+  scope :owner_exists, -> { joins(:owner) }
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 

@@ -9,7 +9,8 @@ class Harvest < ActiveRecord::Base
   belongs_to :plant_part
   belongs_to :planting
 
-  default_scope { order(created_at: :desc) }
+  default_scope { owner_exists.order(created_at: :desc) }
+  scope :owner_exists, -> { joins(:owner) }
   validates :crop, approved: true
 
   validates :crop, presence: { message: "must be present and exist in our database" }
