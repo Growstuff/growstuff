@@ -7,10 +7,10 @@ class MembersController < ApplicationController
   def index
     @sort = params[:sort]
     @members = if @sort == 'recently_joined'
-                 Member.confirmed.recently_joined.paginate(page: params[:page])
+                 Member.confirmed.recently_joined
                else
-                 Member.confirmed.paginate(page: params[:page])
-               end
+                 Member.confirmed
+               end.paginate(page: params[:page])
 
     respond_to do |format|
       format.html # index.html.haml
