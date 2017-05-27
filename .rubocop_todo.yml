@@ -266,4 +266,4 @@ Style/UnlessElse:
 # SupportedStyles: percent, brackets
 Style/WordArray:
   EnforcedStyle: percent
-  MinSize: 4
+  MinSize: 5
