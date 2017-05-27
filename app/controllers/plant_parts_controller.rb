@@ -1,6 +1,7 @@
 class PlantPartsController < ApplicationController
   load_and_authorize_resource
   respond_to :html, :json
+  responders :flash
 
   # GET /plant_parts
   # GET /plant_parts.json
