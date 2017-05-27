@@ -130,11 +130,11 @@ class CropsController < ApplicationController
   end
 
   def save_crop_names
-    params[:alt_name]&.each do |_i, value|
-      create_name!('alternate', value)
+    params[:alt_name]&.values&.each do |value|
+      create_name!('alternate', value) unless value.empty?
     end
-    params[:sci_name]&.each do |_i, value|
-      create_name!('scientific', value)
+    params[:sci_name]&.values&.each do |value|
+      create_name!('scientific', value) unless value.empty?
     end
   end
 
