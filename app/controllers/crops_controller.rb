@@ -44,7 +44,7 @@ class CropsController < ApplicationController
   # GET /crops/search
   def search
     @term = params[:term]
-    @matches = Crop.approved.search(@term)
+    @matches = Crop.search(@term)
     @paginated_matches = @matches.paginate(page: params[:page])
 
     respond_with(@matches)
