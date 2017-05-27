@@ -31,9 +31,7 @@ class CropsController < ApplicationController
                Crop.rejected
              else
                Crop.recent
-             end
-
-    @crops = @crops.paginate(page: params[:page])
+             end.paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
   end
