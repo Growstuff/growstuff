@@ -59,11 +59,7 @@ class PlantPartsController < ApplicationController
   # DELETE /plant_parts/1.json
   def destroy
     @plant_part.destroy
-
-    respond_to do |format|
-      format.html { redirect_to plant_parts_url }
-      format.json { head :no_content }
-    end
+    respond_with(@plant_part)
   end
 
   private
