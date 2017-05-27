@@ -26,7 +26,7 @@
   = will_paginate @crops
 
 .row
-  - @crops.includes(:photos).each do |crop|
+  - @crops.each do |crop|
     .col-md-2.six-across
       = render partial: "thumbnail", locals: { crop: crop }
 
