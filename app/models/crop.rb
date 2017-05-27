@@ -47,8 +47,7 @@ class Crop < ActiveRecord::Base
     format: {
       with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
       message: 'is not a valid English Wikipedia URL'
-    },
-    if: :approved?
+    }, presence: true
 
   ## Reasons are only necessary when rejecting
   validates :reason_for_rejection, presence: true, if: :rejected?
