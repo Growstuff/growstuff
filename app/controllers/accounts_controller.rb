@@ -15,8 +15,7 @@ class AccountsController < ApplicationController
   end
 
   # GET /accounts/1/edit
-  def edit
-  end
+  def edit; end
 
   # PUT /accounts/1
   def update
