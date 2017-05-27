@@ -23,10 +23,10 @@
   = submit_tag "Show", class: 'btn btn-primary'
 
 .pagination
-  = will_paginate @paginated_crops
+  = will_paginate @crops
 
 .row
-  - @paginated_crops.each do |crop|
+  - @crops.each do |crop|
     .col-md-2.six-across
       = render partial: "thumbnail", locals: { crop: crop }
 
@@ -35,7 +35,7 @@
     = link_to 'New Crop', new_crop_path, class: 'btn btn-primary'
 
 .pagination
-  = will_paginate @paginated_crops
+  = will_paginate @crops
 
 
 %ul.list-inline
