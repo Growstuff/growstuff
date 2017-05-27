@@ -30,30 +30,15 @@ class PlantPartsController < ApplicationController
   # POST /plant_parts.json
   def create
     @plant_part = PlantPart.new(plant_part_params)
-
-    respond_to do |format|
-      if @plant_part.save
-        format.html { redirect_to @plant_part, notice: 'Plant part was successfully created.' }
-        format.json { render json: @plant_part, status: :created, location: @plant_part }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @plant_part.errors, status: :unprocessable_entity }
-      end
-    end
+    @plant_part.save
+    respond_with(@plant_part)
   end
 
   # PUT /plant_parts/1
   # PUT /plant_parts/1.json
   def update
-    respond_to do |format|
-      if @plant_part.update(plant_part_params)
-        format.html { redirect_to @plant_part, notice: 'Plant part was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @plant_part.errors, status: :unprocessable_entity }
-      end
-    end
+    @plant_part.update(plant_part_params)
+    respond_with(@plant_part)
   end
 
   # DELETE /plant_parts/1
