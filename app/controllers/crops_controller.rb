@@ -210,9 +210,7 @@ class CropsController < ApplicationController
   end
 
   def destroy_names(name_type)
-    @crop.send("#{name_type}_names").each do |alt_name|
-      alt_name.destroy
-    end
+    @crop.send("#{name_type}_names").each(&:destroy)
   end
 
   def create_name(name_type, value)
