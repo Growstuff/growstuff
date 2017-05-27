@@ -12,9 +12,8 @@ class ShopController < ApplicationController
 
     @order = nil
     @most_recent_item = nil
-    if current_member
-      @order = current_member.current_order
-      @most_recent_item = @order.order_items.first if @order
-    end
+    return unless current_member
+    @order = current_member.current_order
+    @most_recent_item = @order.order_items.first if @order
   end
 end
