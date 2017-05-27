@@ -4,7 +4,7 @@
 - if can? :wrangle, Crop
   = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-primary'
 
-- if @num_requested_crops.positive?
+- if @num_requested_crops && @num_requested_crops.positive?
   = link_to(I18n.t('crops.requested.link', number_crops: @num_requested_crops), requested_crops_path)
 
 %p
@@ -26,7 +26,7 @@
   = will_paginate @crops
 
 .row
-  - @crops.each do |crop|
+  - @crops.includes(:photos).each do |crop|
     .col-md-2.six-across
       = render partial: "thumbnail", locals: { crop: crop }
 
