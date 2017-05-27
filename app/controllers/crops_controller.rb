@@ -90,19 +90,8 @@ class CropsController < ApplicationController
       @crop.approval_status = "pending"
     end
 
-    if @crop.save
-      params[:alt_name].each do |_i, value|
-        create_name('alternate', value)
-      end
-      params[:sci_name].each do |_i, value|
-        create_name('scientific', value)
-      end
-      unless current_member.role? :crop_wrangler
-        Role.crop_wranglers.each do |w|
-          Notifier.new_crop_request(w, @crop).deliver_now!
-        end
-      end
-    end
+    notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
+
     respond_with @crop
   end
 
@@ -117,12 +106,7 @@ class CropsController < ApplicationController
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      if previous_status == "pending"
-        requester = @crop.requester
-        new_status = @crop.approval_status
-        Notifier.crop_request_approved(requester, @crop).deliver_now! if new_status == "approved"
-        Notifier.crop_request_rejected(requester, @crop).deliver_now! if new_status == "rejected"
-      end
+      notifier.deliver_now! if previous_status == "pending"
     end
     respond_with @crop
   end
@@ -136,11 +120,36 @@ class CropsController < ApplicationController
 
   private
 
+  def notifier
+    case @crop.approval_status
+    when "approved"
+      Notifier.crop_request_approved(@crop.requester, @crop)
+    when "rejected"
+      Notifier.crop_request_rejected(@crop.requester, @crop)
+    end
+  end
+
+  def save_crop_names
+    params[:alt_name]&.each do |_i, value|
+      create_name!('alternate', value)
+    end
+    params[:sci_name]&.each do |_i, value|
+      create_name!('scientific', value)
+    end
+  end
+
+  def notify_wranglers
+    return if current_member.role? :crop_wrangler
+    Role.crop_wranglers.each do |w|
+      Notifier.new_crop_request(w, @crop).deliver_now!
+    end
+  end
+
   def recreate_names(param_name, name_type)
     return unless params[param_name].present?
     destroy_names(name_type)
     params[param_name].each do |_i, value|
-      create_name(name_type, value)
+      create_name!(name_type, value)
     end
   end
 
@@ -148,8 +157,8 @@ class CropsController < ApplicationController
     @crop.send("#{name_type}_names").each(&:destroy)
   end
 
-  def create_name(name_type, value)
-    @crop.send("#{name_type}_names").create(name: value, creator_id: current_member.id)
+  def create_name!(name_type, value)
+    @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id)
   end
 
   def crop_params
@@ -160,9 +169,10 @@ class CropsController < ApplicationController
       :approval_status,
       :request_notes,
       :reason_for_rejection,
-      :rejection_notes, scientific_names_attributes: [:scientific_name,
-                                                      :_destroy,
-                                                      :id])
+      :rejection_notes,
+      scientific_names_attributes: [:scientific_name,
+                                    :_destroy,
+                                    :id])
   end
 
   def filename
