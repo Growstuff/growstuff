@@ -12,15 +12,13 @@ class CropsController < ApplicationController
   def index
     @sort = params[:sort]
     @crops = crops
-    @has_requested_pending = current_member.requested_crops.pending_approval.size if current_member
+    @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with(@crops)
   end
 
   def requested
-    @requested = Crop.pending_approval
-      .where(requester: current_member)
-      .paginate(page: params[:page])
+    @requested = requested_crops.paginate(page: params[:page])
   end
 
   # GET /crops/wrangle
@@ -191,5 +189,9 @@ class CropsController < ApplicationController
     q = Crop.approved.includes(:scientific_names, plantings: :photos)
     q = q.popular unless @sort == 'alpha'
     q.paginate(page: params[:page])
+  end
+
+  def requested_crops
+    current_member.requested_crops.pending_approval
   end
 end
