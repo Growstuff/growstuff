@@ -23,8 +23,7 @@ class PlantPartsController < ApplicationController
   end
 
   # GET /plant_parts/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /plant_parts
   # POST /plant_parts.json
