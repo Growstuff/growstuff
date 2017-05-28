@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
   load_and_authorize_resource
   respond_to :html, :json
   respond_to :rss, only: :index
+  responders :flash
 
   # GET /comments
   # GET /comments.json
@@ -20,7 +21,7 @@ class CommentsController < ApplicationController
 
     if @post
       @comments = @post.comments
-      respond_with(@comment)
+      respond_with(@comments)
     else
       redirect_to(request.referer || root_url,
         alert: "Can't post a comment on a non-existent post")
@@ -37,7 +38,7 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.author = current_member
-    flash[:notice] = "Comment was successfully created." if @comment.save
+    @comment.save
     respond_with(@comment.post)
   end
 
