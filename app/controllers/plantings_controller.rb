@@ -29,7 +29,7 @@ class PlantingsController < ApplicationController
     @planting = Planting.includes(:owner, :crop, :garden, :photos)
       .friendly
       .find(params[:id])
-    respond_with(@planting)
+    respond_with @planting
   end
 
   def new
@@ -39,7 +39,7 @@ class PlantingsController < ApplicationController
     @crop     = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
     @garden   = Garden.find_by(owner: current_member, id: params[:garden_id]) || Garden.new
 
-    respond_with(@planting)
+    respond_with @planting
   end
 
   def edit
@@ -53,18 +53,18 @@ class PlantingsController < ApplicationController
     @planting.owner = current_member
     @planting.calc_and_set_days_before_maturity
     @planting.save
-    respond_with(@planting)
+    respond_with @planting
   end
 
   def update
     @planting.calc_and_set_days_before_maturity
     @planting.update(planting_params)
-    respond_with(@planting)
+    respond_with @planting
   end
 
   def destroy
     @planting.destroy
-    respond_with(@planting.garden)
+    respond_with @planting, location: garden
   end
 
   private
