@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource
   respond_to :html
+  responders :flash
 
   def index
     @products = Product.all
