@@ -12,7 +12,7 @@ feature 'Commenting on a post' do
   scenario "creating a comment" do
     fill_in "comment_body", with: "This is a sample test for comment"
     click_button "Post comment"
-    expect(page).to have_content "Comment was successfully created"
+    expect(page).to have_content "comment was successfully created."
     expect(page).to have_content "Posted by"
   end
 
@@ -26,7 +26,7 @@ feature 'Commenting on a post' do
     scenario "saving edit" do
       fill_in "comment_body", with: "Testing edit for comment"
       click_button "Post comment"
-      expect(page).to have_content "Comment was successfully updated"
+      expect(page).to have_content "comment was successfully updated."
       expect(page).to have_content "edited at"
     end
   end
