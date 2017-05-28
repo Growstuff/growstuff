@@ -19,6 +19,8 @@ describe "gardens/show" do
     @garden   = FactoryGirl.create(:garden, owner: @owner)
     @planting = FactoryGirl.create(:planting, garden: @garden)
     assign(:garden, @garden)
+    assign(:current_plantings, [@planting])
+    assign(:finished_plantings, [])
     render
   end
 
