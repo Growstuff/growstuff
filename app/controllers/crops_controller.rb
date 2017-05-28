@@ -7,21 +7,19 @@ class CropsController < ApplicationController
   respond_to :html, :json, :rss, :csv
   responders :flash
 
-  # GET /crops
-  # GET /crops.json
   def index
     @sort = params[:sort]
     @crops = crops
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
-    respond_with(@crops)
+    respond_with @crops
   end
 
   def requested
     @requested = requested_crops.paginate(page: params[:page])
+    respond_with @requested
   end
 
-  # GET /crops/wrangle
   def wrangle
     @approval_status = params[:approval_status]
     @crops = case @approval_status
@@ -34,24 +32,22 @@ class CropsController < ApplicationController
              end.paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
+    respond_with @crops
   end
 
-  # GET /crops/hierarchy
   def hierarchy
     @crops = Crop.toplevel
+    respond_with @crops
   end
 
-  # GET /crops/search
   def search
     @term = params[:term]
     @matches = Crop.search(@term)
     @paginated_matches = @matches.paginate(page: params[:page])
 
-    respond_with(@matches)
+    respond_with @matches
   end
 
-  # GET /crops/1
-  # GET /crops/1.json
   def show
     @crop = Crop.includes(:scientific_names, plantings: :photos).find(params[:id])
     @posts = @crop.posts.paginate(page: params[:page])
@@ -62,8 +58,6 @@ class CropsController < ApplicationController
     end
   end
 
-  # GET /crops/new
-  # GET /crops/new.json
   def new
     @crop = Crop.new
     @crop.alternate_names.build
@@ -72,14 +66,11 @@ class CropsController < ApplicationController
     respond_with @crop
   end
 
-  # GET /crops/1/edit
   def edit
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
   end
 
-  # POST /crops
-  # POST /crops.json
   def create
     @crop = Crop.new(crop_params)
 
@@ -95,8 +86,6 @@ class CropsController < ApplicationController
     respond_with @crop
   end
 
-  # PUT /crops/1
-  # PUT /crops/1.json
   def update
     previous_status = @crop.approval_status
 
@@ -108,11 +97,10 @@ class CropsController < ApplicationController
 
       notifier.deliver_now! if previous_status == "pending"
     end
+
     respond_with @crop
   end
 
-  # DELETE /crops/1
-  # DELETE /crops/1.json
   def destroy
     @crop.destroy
     respond_with @crop
