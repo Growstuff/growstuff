@@ -11,7 +11,6 @@ class Planting < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
-  scope :with_dates, -> { where.not(planted_at: nil) }
 
   scope :interesting, -> { has_photos.one_per_owner }
   scope :one_per_owner, lambda {
