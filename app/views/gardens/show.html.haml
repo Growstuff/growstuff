@@ -63,13 +63,13 @@
         .col-md-12
           %p Nothing is currently planted here.
     %h3 Previously planted in this garden
-    - if @finished_plantings.size.positive?
-      .row
+    .row
+      - if @finished_plantings.size.positive?
         - @finished_plantings.each do |planting|
           .col-xs-6.col-md-2
             = render partial: "plantings/thumbnail", locals: { planting: planting }
-    - else
-      %p Nothing has been planted here.
+      - else
+        %p Nothing has been planted here.
   .col-md-3
     %h4 About this garden
     %p
