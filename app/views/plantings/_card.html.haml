@@ -1,6 +1,10 @@
 .panel.panel-success.planting-thumbnail
   .panel-heading
-    %h3.panel-title= link_to planting.crop.name, planting_path(planting)
+    %h3.panel-title
+      = link_to planting.crop.name, planting_path(planting)
+      - if can? :edit, planting
+        %a.pull-right{ href: edit_planting_path(planting), role: "button", id: "edit_garden_glyphicon" }
+          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
   .panel-body
     .row
       .col-xs-12.col-md-5
@@ -38,11 +42,6 @@
 
     = link_to 'Details', planting_path(planting),
       class: 'btn btn-default btn-xs'
-
-    - if can? :edit, planting
-      = link_to edit_planting_path(planting),
-        class: 'btn btn-default btn-xs' do
-        %span.glyphicon.glyphicon-pencil{ title: "Edit" }
 
     - if can?(:edit, planting) && can?(:create, Harvest)
       = link_to 'Harvest', new_planting_harvest_path(planting),
