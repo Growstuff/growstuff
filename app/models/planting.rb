@@ -124,7 +124,7 @@ class Planting < ActiveRecord::Base
   end
 
   def start_to_finish_diff
-    (finished_at - planted_at).to_i
+    (finished_at - planted_at).to_i if finished_at && planted_at
   end
 
   def self.mean_days_until_maturity(plantings)
