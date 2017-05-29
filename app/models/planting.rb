@@ -96,22 +96,28 @@ class Planting < ActiveRecord::Base
   end
 
   def days_until_finished
-    PlantingPredictions.new(self).days_until_finished
+    predict.days_until_finished
   end
 
   def days_until_mature
-    PlantingPredictions.new(self).days_until_mature
+    predict.days_until_mature
   end
 
   def percentage_grown
-    PlantingPredictions.new(self).percentage_grown
+    predict.percentage_grown
   end
 
   def start_to_finish_diff
-    PlantingPredictions.new(self).start_to_finish_diff
+    predict.start_to_finish_diff
   end
 
   def calc_and_set_days_before_maturity
-    PlantingPredictions.new(self).calc_and_set_days_before_maturity
+    self.days_before_maturity = predict.predict_days_before_maturity
+  end
+
+  private
+
+  def predict
+    PlantingPredictions.new(self)
   end
 end
