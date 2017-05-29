@@ -20,9 +20,13 @@ describe Planting do
         8.times { FactoryGirl.create :planting, crop: crop, finished_at: nil }
       end
       let!(:planting_with_diff_crop) { FactoryGirl.create :planting, planted_at: 10.days.ago, finished_at: 2.days.ago }
-      it { expect(planting.send(:other_finished_plantings_same_crop).size).to eq(8) }
-      it { expect(planting.send(:other_finished_plantings_same_crop)).not_to include(planting) }
-      it { expect(planting.send(:other_finished_plantings_same_crop)).not_to include(planting_with_diff_crop) }
+      let(:planting_predictions) { PlantingPredictions.new(planting) }
+      it { expect(planting_predictions.send(:other_finished_plantings_same_crop).size).to eq(8) }
+      it { expect(planting_predictions.send(:other_finished_plantings_same_crop)).not_to include(planting) }
+      it do
+        expect(planting_predictions.send(:other_finished_plantings_same_crop))
+          .not_to include(planting_with_diff_crop)
+      end
     end
 
     describe 'mean_days_until_maturity' do
@@ -30,7 +34,7 @@ describe Planting do
         FactoryGirl.create_list(:planting, 10, crop: crop, planted_at: 12.days.ago, finished_at: 2.days.ago)
       end
       it { expect(plantings.size).to eq(10) }
-      it { expect(Planting.mean_days_until_maturity(plantings)).to eq(10) }
+      it { expect(PlantingPredictions.mean_days_until_maturity(plantings)).to eq(10) }
     end
 
     describe 'saving planting calculates days_before_maturity' do
@@ -88,23 +92,22 @@ describe Planting do
     it 'should not be more than 100%' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
 
-      now_later_than_planting = 2.days.from_now
-
-      @planting.percentage_grown(now_later_than_planting).should be 100
+      Timecop.freeze(2.days.from_now) do
+        @planting.percentage_grown.should be 100
+      end
     end
 
     it 'should not be less than 0%' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
 
-      now_earlier_than_planting = 2.days.ago
-
-      @planting.percentage_grown(now_earlier_than_planting).should be nil
+      Timecop.freeze(2.days.ago) do
+        @planting.percentage_grown.should be nil
+      end
     end
 
     it 'should reflect the current growth' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: 10, planted_at: 4.days.ago)
-
-      expect(@planting.percentage_grown(Date.current)).to eq 40
+      expect(@planting.percentage_grown).to eq 40
     end
 
     it 'should not be calculated for unplanted plantings' do
@@ -116,7 +119,6 @@ describe Planting do
 
     it 'should not be calculated for plantings with an unknown days before maturity' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: nil)
-
       @planting.percentage_grown.should be nil
     end
   end
