@@ -49,7 +49,7 @@
             - unless g.featured_plantings.empty?
               - g.featured_plantings.each.with_index do |planting|
                 .col-xs-12.col-lg-6
-                  = render partial: "plantings/thumbnail", locals: { planting: planting }
+                  = render partial: "plantings/card", locals: { planting: planting }
 
           %p
             = link_to "More about this garden...", url_for(g)
