@@ -92,7 +92,7 @@ class Planting < ActiveRecord::Base
   end
 
   def planted?
-    planted_at.present? && planted_at < Date.current
+    planted_at.present? && planted_at <= Date.current
   end
 
   def days_until_finished
