@@ -63,6 +63,11 @@ class Planting < ActiveRecord::Base
 
   validate :finished_must_be_after_planted
 
+  delegate :days_until_finished, to: :predict
+  delegate :days_until_mature, to: :predict
+  delegate :percentage_grown, to: :predict
+  delegate :start_to_finish_diff, to: :predict
+
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
@@ -93,22 +98,6 @@ class Planting < ActiveRecord::Base
 
   def planted?
     planted_at.present? && planted_at <= Date.current
-  end
-
-  def days_until_finished
-    predict.days_until_finished
-  end
-
-  def days_until_mature
-    predict.days_until_mature
-  end
-
-  def percentage_grown
-    predict.percentage_grown
-  end
-
-  def start_to_finish_diff
-    predict.start_to_finish_diff
   end
 
   def calc_and_set_days_before_maturity
