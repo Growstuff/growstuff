@@ -55,21 +55,21 @@
 
     %h3 What's planted here?
     .row
-      - if @garden.plantings.size.positive?
-        - @garden.plantings.current.includes(:crop, :owner, :garden).each do |planting|
+      - if @current_plantings.size.positive?
+        - @current_plantings.each do |planting|
           .col-xs-12.col-md-6
-            = render partial: "plantings/thumbnail", locals: { planting: planting }
+            = render partial: "plantings/card", locals: { planting: planting }
       - else
         .col-md-12
           %p Nothing is currently planted here.
     %h3 Previously planted in this garden
-    - if @garden.plantings.finished.size.positive?
-      .row
-        - @garden.plantings.finished.includes(:crop, :owner, :garden).each do |planting|
-          .col-xs-12.col-md-6
+    .row
+      - if @finished_plantings.size.positive?
+        - @finished_plantings.each do |planting|
+          .col-xs-6.col-md-2
             = render partial: "plantings/thumbnail", locals: { planting: planting }
-    - else
-      %p Nothing has been planted here.
+      - else
+        %p Nothing has been planted here.
   .col-md-3
     %h4 About this garden
     %p

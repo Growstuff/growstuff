@@ -1,62 +1,11 @@
-.panel.panel-success.planting-thumbnail
-  .panel-heading
-    %h3.panel-title= link_to planting.crop.name, planting_path(planting)
-  .panel-body
-    .row
-      .col-xs-12.col-md-5
-        = link_to image_tag((planting.default_photo ? planting.default_photo.thumbnail_url : 'placeholder_150.png'),
-                  alt: planting.crop_id, class: 'img img-responsive'),
-                  planting
-      .col-xs-12.col-md-7
-        %dl.dl-horizontal.planting-attributes
-          %dt Owner:
-          %dd= link_to planting.owner.login_name, planting.owner
-          %dt Garden:
-          %dd= link_to planting.garden.name, planting.garden
-          %dt Planted on:
-          %dd= planting.planted_at
-          - if planting.quantity
-            %dt Quantity:
-            %dd= display_planting_quantity(planting)
-          - if planting.finished?
-            %dt Finished on:
-            %dd= display_finished(planting)
-          %dt Sun/shade?:
-          %dd
-            - sunniness = planting.sunniness.blank? ? "not specified" : planting.sunniness
-            = image_tag("sunniness_#{sunniness}.png", size: "25x25", alt: sunniness, title: sunniness)
-            = " (#{sunniness})"
-          %dt Planted from:
-          %dd= display_planted_from(planting)
-
-          %dt Mature in:
-          %dd
-            = display_days_before_maturity(planting)
-            days
-
-    %p= render partial: 'plantings/planting_progress', locals: { planting: planting }
-
-    = link_to 'Details', planting_path(planting),
-      class: 'btn btn-default btn-xs'
-
-    - if can? :edit, planting
-      = link_to edit_planting_path(planting),
-        class: 'btn btn-default btn-xs' do
-        %span.glyphicon.glyphicon-pencil{ title: "Edit" }
-
-    - if can?(:edit, planting) && can?(:create, Harvest)
-      = link_to 'Harvest', new_planting_harvest_path(planting),
-        class: 'btn btn-default btn-xs'
-
-    - if can?(:edit, planting) && !planting.finished
-      = link_to "Mark as finished",
-                    planting_path(planting, planting: { finished: 1 }),
-                    method: :put,
-                    class: 'btn btn-default btn-xs append-date'
-
-    - if can? :destroy, planting
-      = link_to planting, method: :delete,
-                  data: { confirm: 'Are you sure?' },
-                  class: 'btn btn-default btn-xs' do
-        %span.glyphicon.glyphicon-trash{ title: "Delete" }
-
+.thumbnail
+  .planting-thumbnail
+    - if planting
+      = link_to image_tag((planting.default_photo ? planting.default_photo.thumbnail_url : 'placeholder_150.png'),
+                          alt: planting.crop.name, class: 'img'),
+                          planting
+      .plantinginfo
+        .planting-name
+          = link_to planting.crop.name, planting
+        %small.planting-date
+          = display_finished(planting)
