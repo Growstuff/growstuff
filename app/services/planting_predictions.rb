@@ -36,7 +36,7 @@ class PlantingPredictions
     # calculate the number of days, from planted_at, until maturity
     if @planting.planted_at && @planting.finished_at
       start_to_finish_diff
-    else
+    elsif @planting.crop_id
       plantings = other_finished_plantings_same_crop
       PlantingPredictions.mean_days_until_maturity(plantings)
     end
@@ -51,7 +51,7 @@ class PlantingPredictions
   private
 
   def other_finished_plantings_same_crop
-    Planting.where(crop_id: @planting.crop.id)
+    Planting.where(crop_id: @planting.crop_id)
       .where.not(id: @planting.id)
       .where.not(finished_at: nil)
   end
