@@ -33,13 +33,13 @@ class PlantingPredictions
     (@planting.finished_at - @planting.planted_at).to_i if @planting.finished_at && @planting.planted_at
   end
 
-  def calc_and_set_days_before_maturity
+  def predict_days_before_maturity
     # calculate the number of days, from planted_at, until maturity
     if @planting.planted_at && @planting.finished_at
-      @planting.days_before_maturity = start_to_finish_diff
+      start_to_finish_diff
     else
       plantings = other_finished_plantings_same_crop
-      @planting.days_before_maturity = PlantingPredictions.mean_days_until_maturity(plantings)
+      PlantingPredictions.mean_days_until_maturity(plantings)
     end
   end
 
