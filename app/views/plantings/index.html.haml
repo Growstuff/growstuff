@@ -13,7 +13,7 @@
   - unless @plantings.empty?
     - @plantings.each.with_index do |planting|
       .col-xs-12.col-lg-6
-        = render partial: "plantings/thumbnail", locals: { planting: planting }
+        = render partial: "plantings/card", locals: { planting: planting }
 
 .pagination
   = page_entries_info @plantings

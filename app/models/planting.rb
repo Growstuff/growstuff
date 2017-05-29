@@ -6,7 +6,7 @@ class Planting < ActiveRecord::Base
   belongs_to :garden
   belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :crop, counter_cache: true
-  has_many :harvests, -> { order(harvested_at: :desc) }, dependent: :destroy
+  has_many :harvests, dependent: :destroy
 
   default_scope { order(created_at: :desc) }
   scope :finished, -> { where(finished: true) }
@@ -123,7 +123,7 @@ class Planting < ActiveRecord::Base
   end
 
   def start_to_finish_diff
-    (finished_at - planted_at).to_i
+    (finished_at - planted_at).to_i if finished_at && planted_at
   end
 
   def self.mean_days_until_maturity(plantings)
