@@ -33,8 +33,7 @@ class SeedsController < ApplicationController
   end
 
   # GET /seeds/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /seeds
   # POST /seeds.json

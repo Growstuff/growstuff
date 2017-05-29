@@ -3,9 +3,8 @@ class HarvestsController < ApplicationController
   load_and_authorize_resource
   respond_to :html, :json
   respond_to :csv, only: :index
+  responders :flash
 
-  # GET /harvests
-  # GET /harvests.json
   def index
     @owner = Member.find_by(slug: params[:owner]) if params[:owner]
     @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
@@ -16,45 +15,33 @@ class HarvestsController < ApplicationController
     respond_with(@harvests)
   end
 
-  # GET /harvests/1
-  # GET /harvests/1.json
   def show
     @matching_plantings = matching_plantings if @harvest.owner == current_member
     respond_with(@harvest)
   end
 
-  # GET /harvests/new
-  # GET /harvests/new.json
   def new
     @harvest = Harvest.new(harvested_at: Time.zone.today)
     @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
-    # using find_by_id here because it returns nil, unlike find
     @crop = Crop.find_by(id: params[:crop_id])
     respond_with(@harvest)
   end
 
-  # GET /harvests/1/edit
   def edit
     @planting = @harvest.planting if @harvest.planting_id
   end
 
-  # POST /harvests
-  # POST /harvests.json
   def create
     @harvest.crop_id = @harvest.planting.crop_id if @harvest.planting_id
-    flash[:notice] = I18n.t('harvests.created') if @harvest.save
+    @harvest.save
     respond_with(@harvest)
   end
 
-  # PUT /harvests/1
-  # PUT /harvests/1.json
   def update
-    flash[:notice] = I18n.t('harvests.updated') if @harvest.update(harvest_params)
+    @harvest.update(harvest_params)
     respond_with(@harvest)
   end
 
-  # DELETE /harvests/1
-  # DELETE /harvests/1.json
   def destroy
     @harvest.destroy
     respond_with(@harvest)

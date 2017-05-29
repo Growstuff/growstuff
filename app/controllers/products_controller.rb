@@ -1,67 +1,40 @@
 class ProductsController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource
+  respond_to :html
+  responders :flash
 
-  # GET /products
   def index
     @products = Product.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-    end
+    respond_with @products
   end
 
-  # GET /products/1
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-    end
+    respond_with @product
   end
 
-  # GET /products/new
   def new
     @product = Product.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
+    respond_with @product
   end
 
-  # GET /products/1/edit
   def edit
+    respond_with @product
   end
 
-  # POST /products
   def create
-    @product = Product.new(product_params)
-
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
-    end
+    @product = Product.create(product_params)
+    respond_with @product
   end
 
-  # PUT /products/1
   def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
-    end
+    @product.update(product_params)
+    respond_with @product
   end
 
-  # DELETE /products/1
   def destroy
     @product.destroy
-
-    respond_to do |format|
-      format.html { redirect_to products_url }
-    end
+    respond_with @product
   end
 
   private

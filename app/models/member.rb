@@ -27,6 +27,7 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
+  has_many :requested_crops, class_name: Crop, foreign_key: 'requester_id'
   has_many :likes, dependent: :destroy
 
   default_scope { order("lower(login_name) asc") }

@@ -8,6 +8,7 @@ class Product < ActiveRecord::Base
       greater_than_or_equal_to: 0
     },
     allow_nil: true
+  validates :min_price, presence: true
 
   def to_s
     name

@@ -4,8 +4,8 @@
 - if can? :wrangle, Crop
   = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-primary'
 
-- if @has_requested_pending
-  = link_to(I18n.t('crops.requested.link', number_crops: @has_requested_pending), requested_crops_path)
+- if @num_requested_crops && @num_requested_crops.positive?
+  = link_to(I18n.t('crops.requested.link', number_crops: @num_requested_crops), requested_crops_path)
 
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
@@ -23,10 +23,10 @@
   = submit_tag "Show", class: 'btn btn-primary'
 
 .pagination
-  = will_paginate @paginated_crops
+  = will_paginate @crops
 
 .row
-  - @paginated_crops.each do |crop|
+  - @crops.each do |crop|
     .col-md-2.six-across
       = render partial: "thumbnail", locals: { crop: crop }
 
@@ -35,7 +35,7 @@
     = link_to 'New Crop', new_crop_path, class: 'btn btn-primary'
 
 .pagination
-  = will_paginate @paginated_crops
+  = will_paginate @crops
 
 
 %ul.list-inline

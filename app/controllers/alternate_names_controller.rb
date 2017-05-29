@@ -2,6 +2,7 @@ class AlternateNamesController < ApplicationController
   before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
   respond_to :html, :json
+  responders :flash
 
   # GET /alternate_names
   # GET /alternate_names.json
