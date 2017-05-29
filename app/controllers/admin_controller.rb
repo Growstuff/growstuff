@@ -7,6 +7,6 @@ class AdminController < ApplicationController
   def newsletter
     authorize! :manage, :all
     @members = Member.confirmed.wants_newsletter.all
-    respond_with @member
+    respond_with @members
   end
 end
