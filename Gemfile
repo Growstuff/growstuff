@@ -136,6 +136,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
+  gem 'timecop'
 end
 
 group :travis do

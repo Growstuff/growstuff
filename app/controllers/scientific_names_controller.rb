@@ -2,6 +2,7 @@ class ScientificNamesController < ApplicationController
   before_action :authenticate_member!, except: [:index, :show]
   load_and_authorize_resource
   respond_to :html, :json
+  responders :flash
 
   # GET /scientific_names
   # GET /scientific_names.json
@@ -25,8 +26,7 @@ class ScientificNamesController < ApplicationController
   end
 
   # GET /scientific_names/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /scientific_names
   # POST /scientific_names.json
@@ -34,14 +34,14 @@ class ScientificNamesController < ApplicationController
     @scientific_name = ScientificName.new(scientific_name_params)
     @scientific_name.creator = current_member
 
-    flash[:notice] = 'Scientific name was successfully created.' if @scientific_name.save
+    @scientific_name.save
     respond_with(@scientific_name.crop)
   end
 
   # PUT /scientific_names/1
   # PUT /scientific_names/1.json
   def update
-    flash[:notice] = 'Scientific name was successfully updated.' if @scientific_name.update(scientific_name_params)
+    @scientific_name.update(scientific_name_params)
     respond_with(@scientific_name.crop)
   end
 

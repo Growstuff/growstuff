@@ -14,7 +14,8 @@ feature "Requesting a new crop" do
       fill_in "Name", with: "Couch potato"
       fill_in "request_notes", with: "Couch potatoes are real for real."
       click_button "Save"
-      expect(page).to have_content "Crop was successfully requested."
+      expect(page).to have_content 'crop was successfully created.'
+      expect(page).to have_content "This crop is currently pending approval."
     end
   end
 
@@ -32,7 +33,7 @@ feature "Requesting a new crop" do
       expect(page).to have_content "En wikipedia url is not a valid English Wikipedia URL"
       fill_in "en_wikipedia_url", with: "http://en.wikipedia.org/wiki/Aung_San_Suu_Kyi"
       click_button "Save"
-      expect(page).to have_content "Crop was successfully updated."
+      expect(page).to have_content "crop was successfully updated."
     end
 
     scenario "Rejecting a crop" do
@@ -40,7 +41,7 @@ feature "Requesting a new crop" do
       select "rejected", from: "Approval status"
       select "not edible", from: "Reason for rejection"
       click_button "Save"
-      expect(page).to have_content "Crop was successfully updated."
+      expect(page).to have_content "crop was successfully updated."
     end
   end
 end

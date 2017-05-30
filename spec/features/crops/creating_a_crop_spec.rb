@@ -27,7 +27,8 @@ feature "Crop - " do
       click_button "Save"
     end
 
-    expect(page).to have_content "Crop was successfully requested."
+    expect(page).to have_content 'crop was successfully created.'
+    expect(page).to have_content "This crop is currently pending approval."
     expect(page).to have_content "Jasminum sambac 2"
     expect(page).to have_content "Matsurika"
   end
