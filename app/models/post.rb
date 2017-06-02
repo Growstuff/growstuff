@@ -36,8 +36,7 @@ class Post < ActiveRecord::Base
     end
   end
 
-  default_scope { author_exists.order(created_at: :desc) }
-  scope :author_exists, -> { joins(:author) }
+  default_scope { joins(:author).order(created_at: :desc) }
 
   validates :subject,
     presence: true,
