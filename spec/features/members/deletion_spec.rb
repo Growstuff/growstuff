@@ -10,7 +10,7 @@ feature "member deletion" do
     let(:harvest) { FactoryGirl.create(:harvest, owner: member) }
     let(:seed) { FactoryGirl.create(:seed, owner: member) }
     let(:secondgarden) { FactoryGirl.create(:garden, owner: member) }
-    let(:order) { FactoryGirl.create(:order, belongs_to: member) }
+    let!(:order) { FactoryGirl.create(:order, member: member, completed_at: Time.zone.now) }
     let(:admin) { FactoryGirl.create(:admin_member) }
     background do
       login_as(member)
@@ -115,7 +115,7 @@ feature "member deletion" do
         # expect(page).to have_content "This comment was removed as the author deleted their account."
       end
 
-      pending "leaves a record of orders and payments intact" do
+      scenario "leaves a record of orders and payments intact" do
         login_as(admin)
         visit admin_path
         fill_in "search_text", with: member.login_name.to_s
@@ -125,13 +125,13 @@ feature "member deletion" do
         logout
       end
 
-      scenario "can't be interesting"
+      pending "can't be interesting"
 
-      scenario "doesn't show in nearby"
+      pending "doesn't show in nearby"
 
-      scenario "removed from newsletter"
+      pending "removed from newsletter"
 
-      scenario "can no longer sign in"
+      pending "can no longer sign in"
     end
   end
 

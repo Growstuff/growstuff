@@ -18,7 +18,9 @@
 
     - @orders.each do |order|
       %tr
-        %td= link_to order.member.login_name, order.member
+        %td
+          = link_to order.member.login_name, order.member
+          = "(deleted)" if order.member.deleted_at
         %td= order.id
         %td
           - if order.completed_at
