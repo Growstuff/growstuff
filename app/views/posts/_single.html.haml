@@ -13,7 +13,7 @@
             - if post.author
               = link_to post.author.login_name, member_path(post.author)
             - else
-              Deleted
+              Member Deleted
             - if post.forum
               in
               = link_to post.forum, post.forum
