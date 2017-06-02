@@ -1,5 +1,5 @@
 class Member < ActiveRecord::Base
-  acts_as_paranoid
+  acts_as_paranoid # implements soft deletion
   include Geocodable
   extend FriendlyId
 
