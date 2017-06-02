@@ -8,8 +8,7 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, counter_cache: true
   has_many :harvests, dependent: :destroy
 
-  default_scope { owner_exists.order(created_at: :desc) }
-  scope :owner_exists, -> { joins(:owner) }
+  default_scope { joins(:owner).order(created_at: :desc) }
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
 
