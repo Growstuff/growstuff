@@ -38,11 +38,6 @@ class MembersController < ApplicationController
     end
   end
 
-  def destroy
-    @member.destroy
-    redirect_to root_path
-  end
-
   def view_follows
     @member = Member.confirmed.find(params[:login_name])
     @follows = @member.followed.paginate(page: params[:page])
