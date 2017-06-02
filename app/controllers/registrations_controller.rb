@@ -35,6 +35,14 @@ class RegistrationsController < Devise::RegistrationsController
       render "edit"
     end
   end
+
+  def destroy
+    if @member.destroy_with_password(params.require(:member)[:current_password])
+      redirect_to root_path
+    else
+      render "edit"
+    end
+  end
 end
 
 # check if we need the current password to update fields
