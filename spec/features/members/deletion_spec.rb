@@ -131,7 +131,13 @@ feature "member deletion" do
 
       pending "removed from newsletter"
 
-      pending "can no longer sign in"
+      scenario "can no longer sign in" do
+        visit new_member_session_path
+        fill_in 'Login', with: member.login_name
+        fill_in 'Password', with: member.password
+        click_button 'Sign in'
+        expect(page).to have_content 'Invalid Login or password'
+      end
     end
   end
 
