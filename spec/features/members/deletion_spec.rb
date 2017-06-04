@@ -6,10 +6,10 @@ feature "member deletion" do
     let(:other_member) { FactoryGirl.create(:member) }
     let(:memberpost) { FactoryGirl.create(:post, author: member) }
     let(:othermemberpost) { FactoryGirl.create(:post, author: other_member) }
-    let(:planting) { FactoryGirl.create(:planting, owner: member) }
-    let(:harvest) { FactoryGirl.create(:harvest, owner: member) }
-    let(:seed) { FactoryGirl.create(:seed, owner: member) }
-    let(:secondgarden) { FactoryGirl.create(:garden, owner: member) }
+    let!(:planting) { FactoryGirl.create(:planting, owner: member) }
+    let!(:harvest) { FactoryGirl.create(:harvest, owner: member) }
+    let!(:seed) { FactoryGirl.create(:seed, owner: member) }
+    let!(:secondgarden) { FactoryGirl.create(:garden, owner: member) }
     let!(:order) { FactoryGirl.create(:order, member: member, completed_at: Time.zone.now) }
     let(:admin) { FactoryGirl.create(:admin_member) }
     background do
@@ -125,7 +125,11 @@ feature "member deletion" do
         logout
       end
 
-      pending "can't be interesting"
+      scenario "can't be interesting" do
+        expect(Member.interesting).not_to include(member)
+        expect(Planting.interesting).not_to include(planting)
+        expect(Seed.interesting).not_to include(seed)
+      end
 
       pending "doesn't show in nearby"
 
