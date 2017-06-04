@@ -170,7 +170,7 @@ GEM
       faraday
       multi_json
     erubis (2.7.0)
-    excon (0.55.0)
+    excon (0.56.0)
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
