@@ -19,7 +19,7 @@ gem 'uglifier' # JavaScript compressor
 
 gem 'flickraw'
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '~> 5.0.2'  # needs careful upgrade with change of location
 gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
