@@ -524,23 +524,23 @@ DEPENDENCIES
   bonsai-elasticsearch-rails
   bootstrap-datepicker-rails
   bootstrap-kaminari-views
-  bootstrap-sass (~> 3.3.6)
+  bootstrap-sass
   bullet
   bundler (>= 1.1.5)
   byebug
-  cancancan (~> 1.9)
+  cancancan
   capybara
   capybara-email
   capybara-screenshot
   codeclimate-test-reporter
-  coffee-rails (~> 4.1.0)
-  comfortable_mexican_sofa (~> 1.12.0)
+  coffee-rails
+  comfortable_mexican_sofa
   coveralls
   csv_shaper
   d3-rails (~> 3.5)
   dalli
-  database_cleaner (~> 1.5.0)
-  devise (>= 4.0.0)
+  database_cleaner
+  devise
   elasticsearch-api (~> 2.0.0)
   elasticsearch-model
   elasticsearch-rails
@@ -548,13 +548,13 @@ DEPENDENCIES
   figaro
   flickraw
   font-awesome-sass
-  friendly_id (~> 5.0.4)
+  friendly_id
   geocoder
   gibbon (~> 1.2.0)
   gravatar-ultimate
   guard
   guard-rspec
-  haml (~> 4.0.7)
+  haml
   haml-i18n-extractor
   haml-rails
   haml_lint
@@ -563,9 +563,9 @@ DEPENDENCIES
   i18n-tasks
   jasmine
   jquery-rails
-  jquery-ui-rails (~> 5.0.2)
+  jquery-ui-rails
   js-routes
-  kaminari (~> 0.17.0)
+  kaminari
   leaflet-markercluster-rails
   leaflet-rails (~> 0.7.7)
   letter_opener
@@ -574,7 +574,7 @@ DEPENDENCIES
   omniauth (~> 1.3)
   omniauth-facebook
   omniauth-flickr (>= 0.0.15)
-  omniauth-twitter (~> 1.2)
+  omniauth-twitter
   pg
   poltergeist
   pry
@@ -588,15 +588,15 @@ DEPENDENCIES
   rspec-rails
   rubocop (<= 0.47.1)
   ruby-units
-  sass-rails (~> 5.0.4)
+  sass-rails
   selenium-webdriver
   sidekiq
   sparkpost_rails
   timecop
-  uglifier (~> 2.7.2)
+  uglifier
   unicorn
   webrat
-  will_paginate (~> 3.0)
+  will_paginate
 
 
 RUBY VERSION
