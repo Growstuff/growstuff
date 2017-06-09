@@ -456,5 +456,24 @@ describe 'member' do
       expect(member).to receive(:newsletter_unsubscribe).and_return(true)
       member.destroy
     end
+
+    context "deleted admin member" do
+      let(:member) { FactoryGirl.create(:admin_member) }
+      before { member.destroy }
+
+      context 'crop creator' do
+        let!(:crop) { FactoryGirl.create(:crop, creator: member) }
+        it "leaves crops behind, reassigned to cropbot" do
+          expect(Crop.all).to include(crop)
+        end
+      end
+
+      context 'forum owners' do
+        let!(:forum) { FactoryGirl.create(:forum, owner: member) }
+        it "leaves forums behind, reassigned to ex_admin" do
+          expect(forum.owner).to eq(member)
+        end
+      end
+    end
   end
 end
