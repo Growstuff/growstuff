@@ -577,7 +577,7 @@ DEPENDENCIES
   poltergeist
   pry
   quiet_assets
-  rails (~> 4.2.7)
+  rails (~> 4.2.8)
   rails_12factor
   rainbow (< 2.2.0)
   rake (>= 10.0.0)
