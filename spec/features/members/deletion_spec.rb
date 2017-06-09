@@ -132,8 +132,6 @@ feature "member deletion" do
 
       pending "doesn't show in nearby"
 
-      pending "removed from newsletter"
-
       scenario "can no longer sign in" do
         visit new_member_session_path
         fill_in 'Login', with: member.login_name
