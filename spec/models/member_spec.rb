@@ -438,4 +438,17 @@ describe 'member' do
       member.newsletter_unsubscribe(gb, true)
     end
   end
+
+  context 'member deleted' do
+    let(:member) { FactoryGirl.create(:member) }
+    before { member.destroy }
+    it { expect(Member.all).not_to include(member) }
+    it { expect(Member.confirmed).not_to include(member) }
+    it { expect(Member.located).not_to include(member) }
+    it { expect(Member.recently_signed_in).not_to include(member) }
+    it { expect(Member.recently_joined).not_to include(member) }
+    it { expect(Member.wants_newsletter).not_to include(member) }
+    it { expect(Member.interesting).not_to include(member) }
+    it { expect(Member.has_plantings).not_to include(member) }
+  end
 end
