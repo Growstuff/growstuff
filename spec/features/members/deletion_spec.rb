@@ -30,11 +30,11 @@ feature "member deletion" do
       FactoryGirl.create(:member, login_name: "ex_member")
     end
 
-    # scenario "has option to delete on member profile page" do
-    #   visit member_path(member)
-    #   click_link 'Edit profile'
-    #   expect(page).to have_link "Delete account"
-    # end
+    scenario "has option to delete on member profile page" do
+      visit member_path(member)
+      click_link 'Edit profile'
+      expect(page).to have_link "Delete Account"
+    end
 
     scenario "asks for password before deletion" do
       visit member_path(member)
