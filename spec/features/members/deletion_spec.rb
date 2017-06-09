@@ -109,10 +109,9 @@ feature "member deletion" do
 
       scenario "replaces comments on others' posts with deletion note, leaving post intact" do
         visit post_path(othermemberpost)
-        expect(page).not_to have_content member.login_name.to_s
-        # TODO
-        # expect(page).to have_content other_member.login_name.to_s
-        # expect(page).to have_content "This comment was removed as the author deleted their account."
+        expect(page).not_to have_content member.login_name
+        expect(page).to have_content other_member.login_name
+        expect(page).to have_content "Member Deleted"
       end
 
       scenario "leaves a record of orders and payments intact" do
