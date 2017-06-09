@@ -171,8 +171,8 @@ feature "member deletion" do
     let(:member) { FactoryGirl.create(:admin_member) }
     let(:crop) { FactoryGirl.create(:crop, creator: member) }
 
-    scenario "leaves crops behind, reassigned to cropbot"
+    pending "leaves crops behind, reassigned to cropbot"
 
-    scenario "leaves forums behind, reassigned to ex_admin"
+    pending "leaves forums behind, reassigned to ex_admin"
   end
 end
