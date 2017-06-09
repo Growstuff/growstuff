@@ -149,10 +149,10 @@ feature "member deletion" do
     FactoryGirl.create(:cropbot)
     let!(:ex_wrangler) { FactoryGirl.create(:crop_wrangling_member, login_name: "ex_wrangler") }
 
-    scenario "leaves crops behind, reassigned to ex_wrangler" do
+    scenario "leaves crops behind" do
       login_as(otherwrangler)
       visit edit_crop_path(crop)
-      expect(page).to have_content member.login_name.to_s
+      expect(page).to have_content member.login_name
       expect(page).not_to have_content "cropbot"
       logout
       login_as(member)
@@ -163,16 +163,7 @@ feature "member deletion" do
       click_button "Delete"
       login_as(otherwrangler)
       visit edit_crop_path(crop)
-      expect(page).not_to have_content member.login_name.to_s
+      expect(page).not_to have_content member.login_name
     end
-  end
-
-  context "for an admin" do
-    let(:member) { FactoryGirl.create(:admin_member) }
-    let(:crop) { FactoryGirl.create(:crop, creator: member) }
-
-    pending "leaves crops behind, reassigned to cropbot"
-
-    pending "leaves forums behind, reassigned to ex_admin"
   end
 end
