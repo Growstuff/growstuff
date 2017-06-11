@@ -13,6 +13,9 @@
   %li
     %a{ href: '#password', role: 'tab', 'data-toggle': 'tab' }
       Password
+  %li
+    %a{ href: '#delete', role: 'tab', 'data-toggle': 'tab' }
+      Delete Account
 
 .tab-content
   .tab-pane.active#profile
@@ -23,3 +26,5 @@
     = render partial: 'edit_apps'
   .tab-pane#password
     = render partial: 'edit_password'
+  .tab-pane#delete
+    = render partial: 'delete'

@@ -6,7 +6,7 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
 
-  default_scope { order(created_at: :desc) }
+  default_scope { joins(:owner).order(created_at: :desc) }
 
   validates :crop, approved: true
   delegate :name, to: :crop
@@ -32,7 +32,7 @@ class Seed < ActiveRecord::Base
     },
     allow_nil: true
 
-  scope :tradable, -> { where("tradable_to != 'nowhere'") }
+  scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze

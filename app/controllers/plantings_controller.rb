@@ -12,7 +12,7 @@ class PlantingsController < ApplicationController
     @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
     @show_all = params[:all] == '1'
 
-    @plantings = plantings.paginate(page: params[:page])
+    @plantings = plantings
 
     specifics = if @owner
                   "#{@owner.login_name}-"
@@ -87,6 +87,6 @@ class PlantingsController < ApplicationController
           Planting
         end
     p = p.current unless @show_all
-    p.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
+    p.joins(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
   end
 end

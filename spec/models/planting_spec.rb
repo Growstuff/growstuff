@@ -349,4 +349,10 @@ describe Planting do
       end
     end
   end
+
+  it 'excludes deleted members' do
+    expect(Planting.joins(:owner).all).to include(planting)
+    planting.owner.destroy
+    expect(Planting.joins(:owner).all).not_to include(planting)
+  end
 end

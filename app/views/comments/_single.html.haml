@@ -6,7 +6,10 @@
       .col-md-11
         .comment-meta
           Posted by
-          = link_to comment.author.login_name, member_path(comment.author)
+          - if comment.author
+            = link_to comment.author.login_name, member_path(comment.author)
+          - else
+            Member Deleted
           on
           = comment.created_at
           - if comment.updated_at > comment.created_at

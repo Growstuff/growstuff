@@ -1,5 +1,5 @@
 class Order < ActiveRecord::Base
-  belongs_to :member
+  belongs_to :member, with_deleted: true
 
   has_many :order_items, dependent: :destroy
 
@@ -64,7 +64,7 @@ class Order < ActiveRecord::Base
     if args[:for]
       case args[:by]
       when "member"
-        member = Member.find_by(login_name: args[:for])
+        member = Member.with_deleted.find_by(login_name: args[:for])
         return member.orders if member
       when "order_id"
         order = Order.find_by(id: args[:for])

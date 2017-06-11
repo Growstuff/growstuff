@@ -88,6 +88,9 @@ gem 'rake', '>= 10.0.0'
 # locale based flash notices for controllers
 gem "responders"
 
+# allows soft delete. Used for members.
+gem 'acts_as_paranoid', '~> 0.5.0'
+
 group :production, :staging do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
