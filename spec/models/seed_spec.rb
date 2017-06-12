@@ -148,4 +148,12 @@ describe Seed do
       Seed.interesting.size.should == 1
     end
   end
+
+  context 'photos' do
+    let(:seed) { FactoryGirl.create :seed }
+    before { seed.photos << FactoryGirl.create(:photo) }
+    it 'is found in has_photos scope' do
+      Seed.has_photos.should include(seed)
+    end
+  end
 end

@@ -4,7 +4,7 @@ class CounterCaches < ActiveRecord::Migration
     add_column :members, :harvests_count, :integer
     add_column :members, :seeds_count, :integer
 
-    Member.find_each do |member|
+    Member.unscoped.find_each do |member|
       Member.reset_counters(member.id, :gardens)
       Member.reset_counters(member.id, :harvests)
       Member.reset_counters(member.id, :seeds)

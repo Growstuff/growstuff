@@ -6,9 +6,11 @@ class Seed < ActiveRecord::Base
   belongs_to :crop
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
 
-  default_scope { order("created_at desc") }
+  default_scope { joins(:owner).order(created_at: :desc) }
 
   validates :crop, approved: true
+  delegate :name, to: :crop
+  delegate :default_photo, to: :crop
 
   validates :crop, presence: { message: "must be present and exist in our database" }
   validates :quantity,
@@ -30,8 +32,9 @@ class Seed < ActiveRecord::Base
     },
     allow_nil: true
 
-  scope :tradable, -> { where("tradable_to != 'nowhere'") }
-
+  scope :tradable, -> { where.not(tradable_to: 'nowhere') }
+  scope :interesting, -> { tradable.has_location }
+  scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
   validates :tradable_to, inclusion: { in: TRADABLE_TO_VALUES,
                                        message: "You may only trade seed nowhere, "\
@@ -75,27 +78,6 @@ class Seed < ActiveRecord::Base
     else
       true
     end
-  end
-
-  def interesting?
-    # assuming we're passed something that's already known to be tradable
-    # eg. from Seed.tradable scope
-    return false if owner.location.blank? # don't want unspecified locations
-    true
-  end
-
-  # Seed.interesting
-  # returns a list of interesting seeds, for use on the homepage etc
-  def self.interesting
-    howmany = 12 # max number to find
-    interesting_seeds = []
-
-    Seed.tradable.each do |s|
-      break if interesting_seeds.size == howmany
-      interesting_seeds.push(s) if s.interesting?
-    end
-
-    interesting_seeds
   end
 
   def seed_slug

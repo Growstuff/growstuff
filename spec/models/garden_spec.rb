@@ -242,4 +242,10 @@ describe Garden do
       garden.default_photo.should eq @photo2
     end
   end
+
+  it 'excludes deleted members' do
+    expect(Garden.joins(:owner).all).to include(garden)
+    owner.destroy
+    expect(Garden.joins(:owner).all).not_to include(garden)
+  end
 end

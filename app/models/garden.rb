@@ -5,7 +5,7 @@ class Garden < ActiveRecord::Base
   friendly_id :garden_slug, use: [:slugged, :finders]
 
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
-  has_many :plantings, -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
 
   # set up geocoding
@@ -14,7 +14,7 @@ class Garden < ActiveRecord::Base
   after_validation :empty_unwanted_geocodes
   after_save :mark_inactive_garden_plantings_as_finished
 
-  default_scope { order("lower(name) asc") }
+  default_scope { joins(:owner).order("lower(name) asc") }
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 

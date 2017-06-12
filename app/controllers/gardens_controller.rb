@@ -10,13 +10,18 @@ class GardensController < ApplicationController
     @owner = Member.find_by(slug: params[:owner])
     @show_all = params[:all] == '1'
     @gardens = gardens
-
     respond_with(@gardens)
   end
 
   # GET /gardens/1
   # GET /gardens/1.json
   def show
+    @current_plantings = @garden.plantings.current
+      .includes(:crop, :owner)
+      .order(planted_at: :desc)
+    @finished_plantings = @garden.plantings.finished
+      .includes(:crop)
+      .order(finished_at: :desc)
     respond_with(@garden)
   end
 
@@ -63,6 +68,6 @@ class GardensController < ApplicationController
   def gardens
     g = @owner ? @owner.gardens : Garden.all
     g = g.active unless @show_all
-    g.includes(:owner).order(:updated_at).paginate(page: params[:page])
+    g.joins(:owner).order(:updated_at).paginate(page: params[:page])
   end
 end

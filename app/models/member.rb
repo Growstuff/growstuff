@@ -1,4 +1,6 @@
 class Member < ActiveRecord::Base
+  acts_as_paranoid # implements soft deletion
+  before_destroy :newsletter_unsubscribe
   include Geocodable
   extend FriendlyId
 
@@ -7,7 +9,6 @@ class Member < ActiveRecord::Base
   has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :forums, foreign_key: 'owner_id'
-
   has_many :gardens, foreign_key: 'owner_id'
   has_many :plantings, foreign_key: 'owner_id'
 
@@ -27,21 +28,17 @@ class Member < ActiveRecord::Base
 
   has_many :photos
 
+  has_many :requested_crops, class_name: Crop, foreign_key: 'requester_id'
   has_many :likes, dependent: :destroy
 
   default_scope { order("lower(login_name) asc") }
-  scope :confirmed, -> { where('confirmed_at IS NOT NULL') }
-  scope :located, -> { where("location <> '' and latitude IS NOT NULL and longitude IS NOT NULL") }
-  scope :recently_signed_in, -> { reorder('updated_at DESC') }
-  scope :recently_joined, -> { reorder("confirmed_at desc") }
-  scope :wants_newsletter, -> { where(newsletter: true) }
 
-  scope :interesting, lambda {
-    confirmed
-      .located
-      .recently_signed_in
-      .has_plantings
-  }
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
+  scope :located, -> { where.not(location: '').where.not(latitude: nil).where.not(longitude: nil) }
+  scope :recently_signed_in, -> { reorder(updated_at: :desc) }
+  scope :recently_joined, -> { reorder(confirmed_at: :desc) }
+  scope :wants_newsletter, -> { where(newsletter: true) }
+  scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
 
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
 

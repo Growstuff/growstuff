@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.4'
 
-gem 'rails', '~> 4.2.7'
+gem 'rails', '~> 4.2.8'
 
 gem 'bundler', '>=1.1.5'
 
@@ -88,6 +88,9 @@ gem 'rake', '>= 10.0.0'
 # locale based flash notices for controllers
 gem "responders"
 
+# allows soft delete. Used for members.
+gem 'acts_as_paranoid', '~> 0.5.0'
+
 group :production, :staging do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
@@ -136,6 +139,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
+  gem 'timecop'
 end
 
 group :travis do

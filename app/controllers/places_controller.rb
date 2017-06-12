@@ -1,5 +1,6 @@
 class PlacesController < ApplicationController
   skip_authorize_resource
+  respond_to :html, :json
 
   def index
     respond_to do |format|
@@ -30,17 +31,9 @@ class PlacesController < ApplicationController
 
   def search
     if params[:new_place].empty?
-      respond_to do |format|
-        format.html do
-          redirect_to places_path, alert: 'Please enter a valid location'
-        end
-      end
+      redirect_to places_path, alert: 'Please enter a valid location'
     else
-      respond_to do |format|
-        format.html do
-          redirect_to place_path(params[:new_place])
-        end
-      end
+      redirect_to place_path(params[:new_place])
     end
   end
 end

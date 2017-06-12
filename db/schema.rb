@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413221549) do
+ActiveRecord::Schema.define(version: 20170520060252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -326,9 +326,11 @@ ActiveRecord::Schema.define(version: 20170413221549) do
     t.integer  "gardens_count"
     t.integer  "harvests_count"
     t.integer  "seeds_count"
+    t.datetime "deleted_at"
   end
 
   add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree
+  add_index "members", ["deleted_at"], name: "index_members_on_deleted_at", using: :btree
   add_index "members", ["email"], name: "index_members_on_email", unique: true, using: :btree
   add_index "members", ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true, using: :btree
   add_index "members", ["slug"], name: "index_members_on_slug", unique: true, using: :btree

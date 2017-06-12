@@ -39,7 +39,7 @@ feature "Harvesting a crop", :js, :elasticsearch do
       click_button "Save"
     end
 
-    expect(page).to have_content "Harvest was successfully created"
+    expect(page).to have_content "harvest was successfully created."
   end
 
   context "Clicking edit from the index page" do
@@ -71,7 +71,7 @@ feature "Harvesting a crop", :js, :elasticsearch do
       click_button "Save"
     end
 
-    expect(page).to have_content "Harvest was successfully created"
+    expect(page).to have_content "harvest was successfully created."
     expect(page).to have_content "maize"
   end
 
@@ -83,7 +83,7 @@ feature "Harvesting a crop", :js, :elasticsearch do
     select plant_part.name, from: 'harvest[plant_part_id]'
     click_button "Save"
 
-    expect(page).to have_content "Harvest was successfully created"
+    expect(page).to have_content "harvest was successfully created."
     expect(page).to have_content planting.garden.name
     expect(page).to have_content "maize"
   end
@@ -101,14 +101,14 @@ feature "Harvesting a crop", :js, :elasticsearch do
       # Check that the autosuggest helper properly fills inputs with
       # existing resource's data
       click_button "Save"
-      expect(page).to have_content "Harvest was successfully updated"
+      expect(page).to have_content "harvest was successfully updated."
       expect(page).to have_content "maize"
     end
 
     scenario "change plant part" do
       select other_plant_part.name, from: 'harvest[plant_part_id]'
       click_button "Save"
-      expect(page).to have_content "Harvest was successfully updated"
+      expect(page).to have_content "harvest was successfully updated."
       expect(page).to have_content other_plant_part.name
     end
   end

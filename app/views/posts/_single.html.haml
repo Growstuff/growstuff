@@ -10,7 +10,10 @@
         .post-meta
           %p
             Posted by
-            = link_to post.author.login_name, member_path(post.author)
+            - if post.author
+              = link_to post.author.login_name, member_path(post.author)
+            - else
+              Member Deleted
             - if post.forum
               in
               = link_to post.forum, post.forum

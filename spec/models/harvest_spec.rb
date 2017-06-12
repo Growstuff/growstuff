@@ -252,6 +252,10 @@ describe Harvest do
         @harvest.photos << @photo
       end
 
+      it 'is found in has_photos scope' do
+        Harvest.has_photos.should include(@harvest)
+      end
+
       it 'has a photo' do
         @harvest.photos.first.should eq @photo
       end
@@ -289,5 +293,13 @@ describe Harvest do
         end
       end
     end
+  end
+
+  it 'excludes deleted members' do
+    member = FactoryGirl.create :member
+    harvest = FactoryGirl.create :harvest, owner: member
+    expect(Harvest.joins(:owner).all).to include(harvest)
+    member.destroy
+    expect(Harvest.joins(:owner).all).not_to include(harvest)
   end
 end
