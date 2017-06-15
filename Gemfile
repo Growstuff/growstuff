@@ -7,22 +7,22 @@ gem 'rails', '~> 4.2.8'
 
 gem 'bundler', '>=1.1.5'
 
-gem 'coffee-rails', '~> 4.1.0'
-gem 'haml', '~> 4.0.7'
-gem 'sass-rails', '~> 5.0.4'
+gem 'coffee-rails'
+gem 'haml'
+gem 'sass-rails'
 
 # CSS framework
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass'
 gem 'font-awesome-sass'
 
-gem 'uglifier', '~> 2.7.2' # JavaScript compressor
+gem 'uglifier' # JavaScript compressor
 
 gem 'flickraw'
 gem 'jquery-rails'
-gem 'jquery-ui-rails', '~> 5.0.2'
+gem 'jquery-ui-rails', '~> 5.0.2' # needs careful upgrade with change of location
 gem 'js-routes' # provides access to Rails routes in Javascript
 
-gem 'cancancan', '~> 1.9'          # for checking member privileges
+gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
 gem 'figaro'                       # for handling config via ENV variables
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
@@ -32,10 +32,10 @@ gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem 'comfortable_mexican_sofa', '~> 1.12.0' # content management system
+gem 'comfortable_mexican_sofa'     # content management system
 
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
-gem 'kaminari', '~> 0.17.0'        # pagination
+gem 'kaminari'                     # pagination
 
 gem 'activemerchant'
 gem 'active_utils'
@@ -45,13 +45,13 @@ gem 'sidekiq'
 gem 'bluecloth'
 
 # Pagination
-gem 'will_paginate', '~> 3.0'
+gem 'will_paginate'
 
 # user signup/login/etc
-gem 'devise', '>= 4.0.0'
+gem 'devise'
 
 # nicely formatted URLs
-gem 'friendly_id', '~> 5.0.4'
+gem 'friendly_id'
 
 # gravatars
 gem 'gravatar-ultimate'
@@ -66,7 +66,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'omniauth', '~> 1.3'
 gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
-gem 'omniauth-twitter', '~> 1.2'
+gem 'omniauth-twitter'
 
 # For charting data
 gem 'd3-rails', '~> 3.5' # 4.* produces Error: <spyOn> : could not find an object to spy upon for linear() - see https://travis-ci.org/Growstuff/growstuff/jobs/204461482
@@ -121,7 +121,7 @@ group :development, :test do
   gem 'capybara-email'                  # integration tests for email
   gem 'capybara-screenshot'             # for test debugging
   gem 'coveralls', require: false       # coverage analysis
-  gem 'database_cleaner', '~> 1.5.0'
+  gem 'database_cleaner'
   gem 'factory_girl_rails'              # for creating test data
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
