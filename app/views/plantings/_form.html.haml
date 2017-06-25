@@ -20,13 +20,14 @@
   .form-group.required
     = f.label :garden_id, 'Where did you plant it?', class: 'control-label col-md-2'
     .col-md-8
-      = collection_select(:planting, :garden_id,
-                          Garden.active.where(owner_id: current_member),
-                          :id, :name,
-                          selected: @planting.garden_id || @garden.id,
-                          class: 'form-control')
-      %span.help-inline
-        = link_to "Add a garden.", new_garden_path
+      - current_member.gardens.active.order(:name).each do |garden|
+        = f.radio_button("garden_id", garden.id, class: 'img-selector hidden')
+        = label_tag('planting_garden_id_' + garden.id.to_s) do
+          .thumbnail.photo-thumbnail
+            = render('gardens/photo', garden: garden)
+          = garden.name
+      .col-md-8
+        %span.help-inline= link_to "Add a garden.", new_garden_path
   .form-group
     = f.label :planted_at, 'When?', class: 'control-label col-md-2'
     .col-md-2
@@ -47,8 +48,11 @@
   .form-group
     = f.label :sunniness, 'Sun or shade?', class: 'control-label col-md-2'
     .col-md-8
-      = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '' }, class: 'form-control')
-      = render partial: 'shared/form_optional'
+      - Planting::SUNNINESS_VALUES.each do |s|
+        = f.radio_button(:sunniness, s, class: 'img-selector hidden')
+        = label_tag('planting_sunniness_' + s) do
+          = image_tag("sunniness_#{s}.png", size: "25x25", alt: s, title: s)
+          = s
   .form-group
     = f.label :description, 'Tell us more about it', class: 'control-label col-md-2'
     .col-md-8
