@@ -158,7 +158,7 @@ class PlantingsController < ApplicationController
     lines << planting.description
 
     event.dtstart     = Icalendar::Values::DateTime.new(planting.created_at)
-    # event.dtend       = Icalendar::Values::Date.new('20050429')
+    event.dtend       = Icalendar::Values::DateTime.new(planting.finished_at) if planting.finished_at
     event.summary     = "#{planting.crop} in #{planting.location}"
     event.description = lines.join("\n")
     event.ip_class    = "PRIVATE"
