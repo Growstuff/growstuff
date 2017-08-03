@@ -20,31 +20,16 @@ class PlantingsController < ApplicationController
         render csv: @plantings
       end
       format.ics do
-        cal = Icalendar::Calendar.new
         # TODO Refactor to a Planting <-> Ical view class?
+        cal = Icalendar::Calendar.new
         @plantings.each do |planting|
-          event = Icalendar::Event.new
-
-          lines = []
-          lines <<"Quantity: #{planting.quantity ? planting.quantity : 'unknown' }"
-          lines <<"Planted on: #{planting.planted_at ? planting.planted_at : 'unknown' }"
-          lines <<"Sunniness: #{planting.sunniness ? planting.sunniness : 'unknown' }"
-          lines <<"Planted from: #{planting.planted_from ? planting.planted_from : 'unknown' }"
-          lines << planting.description
-
-          event.dtstart     = Icalendar::Values::DateTime.new(planting.created_at.to_s(:rfc822))
-          # event.dtend       = Icalendar::Values::Date.new('20050429')
-          event.summary     = "#{planting.crop} in #{planting.location}"
-          event.description = lines.join("\n")
-          event.ip_class    = "PRIVATE"
-          # event.url = 
-          
+          event = planting_as_event(planting)
 
           cal.add_event(event)
         end
         cal.publish
 
-        render text: cal.to_ical
+        render text: cal.to_ical, mime_type: 'text/calendar'
       end
     end
   end
@@ -160,5 +145,25 @@ class PlantingsController < ApplicationController
         end
     p = p.current unless @show_all
     p.includes(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
+  end
+
+  def planting_as_event(planting)
+    event = Icalendar::Event.new
+
+    lines = []
+    lines <<"Quantity: #{planting.quantity ? planting.quantity : 'unknown' }"
+    lines <<"Planted on: #{planting.planted_at ? planting.planted_at : 'unknown' }"
+    lines <<"Sunniness: #{planting.sunniness ? planting.sunniness : 'unknown' }"
+    lines <<"Planted from: #{planting.planted_from ? planting.planted_from : 'unknown' }"
+    lines << planting.description
+
+    event.dtstart     = Icalendar::Values::DateTime.new(planting.created_at)
+    # event.dtend       = Icalendar::Values::Date.new('20050429')
+    event.summary     = "#{planting.crop} in #{planting.location}"
+    event.description = lines.join("\n")
+    event.ip_class    = "PRIVATE"
+    # event.url = 
+
+    event  
   end
 end
