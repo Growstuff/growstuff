@@ -250,6 +250,7 @@ GEM
       parser (>= 2.2.3.0)
       term-ansicolor (>= 1.3.2)
       terminal-table (>= 1.5.1)
+    icalendar (2.4.1)
     jasmine (2.5.2)
       jasmine-core (>= 2.5.1, < 3.0.0)
       phantomjs
@@ -556,6 +557,7 @@ DEPENDENCIES
   hashie (>= 3.5.3)
   heroku-api
   i18n-tasks
+  icalendar
   jasmine
   jquery-rails
   jquery-ui-rails (~> 5.0.2)
@@ -595,4 +597,4 @@ RUBY VERSION
    ruby 2.3.4p301
 
 BUNDLED WITH
-   1.14.6
+   1.15.3
