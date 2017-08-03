@@ -19,6 +19,33 @@ class PlantingsController < ApplicationController
         @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
         render csv: @plantings
       end
+      format.ics do
+        cal = Icalendar::Calendar.new
+        # TODO Refactor to a Planting <-> Ical view class?
+        @plantings.each do |planting|
+          event = Icalendar::Event.new
+
+          lines = []
+          lines <<"Quantity: #{planting.quantity ? planting.quantity : 'unknown' }"
+          lines <<"Planted on: #{planting.planted_at ? planting.planted_at : 'unknown' }"
+          lines <<"Sunniness: #{planting.sunniness ? planting.sunniness : 'unknown' }"
+          lines <<"Planted from: #{planting.planted_from ? planting.planted_from : 'unknown' }"
+          lines << planting.description
+
+          event.dtstart     = Icalendar::Values::DateTime.new(planting.created_at.to_s(:rfc822))
+          # event.dtend       = Icalendar::Values::Date.new('20050429')
+          event.summary     = "#{planting.crop} in #{planting.location}"
+          event.description = lines.join("\n")
+          event.ip_class    = "PRIVATE"
+          # event.url = 
+          
+
+          cal.add_event(event)
+        end
+        cal.publish
+
+        render text: cal.to_ical
+      end
     end
   end
 
