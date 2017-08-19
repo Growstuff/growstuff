@@ -80,6 +80,7 @@ submit the change with your pull request.
 - Megan Talbot / [meganft](https://github.com/meganft)
 - Arun Kumar / [arun1595](https://github.com/arun1595)
 - Harry Brodsky / [hbrodsk1](https://github.com/hbrodsk1)
+- Jeff Kingswood / [ancyentmariner](https://github.com/ancyentmariner)
 
 ## Bots
 
