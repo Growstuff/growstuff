@@ -31,9 +31,11 @@ class NotificationsController < ApplicationController
     @sender_notification.read = true
     @sender_notification.save
     @recipient = @sender_notification.sender
-    @subject   = @sender_notification.subject =~ /^Re: / ?
-      @sender_notification.subject :
-      "Re: " + @sender_notification.subject
+    @subject   = if @sender_notification.subject.matches?(/^Re: /)
+                   @sender_notification.subject
+                 else
+                   "Re: " + @sender_notification.subject
+                 end
   end
 
   # DELETE /notifications/1
