@@ -31,10 +31,10 @@ class NotificationsController < ApplicationController
     @sender_notification.read = true
     @sender_notification.save
     @recipient = @sender_notification.sender
-    @subject   = if @sender_notification.subject.matches?(/^Re: /)
+    @subject   = if @sender_notification.subject.start_with? 'Re: '
                    @sender_notification.subject
                  else
-                   "Re: " + @sender_notification.subject
+                   "Re: #{@sender_notification.subject}"
                  end
   end
 
