@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
 
-ruby '2.3.4'
+ruby '2.4.1'
 
 gem 'rails', '~> 4.2.8'
 
@@ -90,6 +90,8 @@ gem "responders"
 
 # allows soft delete. Used for members.
 gem 'acts_as_paranoid', '~> 0.5.0'
+
+gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 group :production, :staging do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
