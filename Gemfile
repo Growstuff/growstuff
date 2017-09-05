@@ -145,5 +145,5 @@ group :test do
 end
 
 group :travis do
-  gem 'heroku-api'
+  gem 'platform-api'
 end
