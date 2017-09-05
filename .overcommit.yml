@@ -71,12 +71,6 @@ PreCommit:
   YamlLint:
     enabled: true
 
-PostCommit:
-  GitGuilt:
-    enabled: true
-    command: ['npm', 'run', 'git-guilt']
-    required_executable: 'npm'
-
 PostCheckout:
   ALL:
     quiet: false
