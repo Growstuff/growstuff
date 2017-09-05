@@ -31,6 +31,7 @@ PreCommit:
     enabled: true
     on_fail: warn
     command: ['npm', 'run', 'coffeelint']
+    required_executable: '/usr/bin/npm'
   HardTabs:
     enabled: true
   AuthorEmail:
@@ -42,6 +43,7 @@ PreCommit:
     exclude:
       - '**/bootstrap.min.css'
     command: ['npm', 'run', 'csslint']
+    required_executable: '/usr/bin/npm'
   HamlLint:
     enabled: true
     command: ['bundle', 'exec', 'haml-lint', 'app/views']
@@ -73,6 +75,7 @@ PostCommit:
   GitGuilt:
     enabled: true
     command: ['npm', 'run', 'git-guilt']
+    required_executable: '/usr/bin/npm'
 
 PostCheckout:
   ALL:
