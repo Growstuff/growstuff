@@ -17,7 +17,7 @@ class PlantingPredictions
   def percentage_grown
     return nil unless @planting.days_before_maturity && @planting.planted?
 
-    days = (Date.current - @planting.planted_at.to_date).to_i
+    days = (Date.current - @planting.planted_at.to_date).to_f
 
     return 0 if Date.current < @planting.planted_at
     return 100 if days > @planting.days_before_maturity
