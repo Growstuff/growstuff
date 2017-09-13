@@ -106,7 +106,7 @@ group :development do
   # A debugger and irb alternative. Pry doesn't play nice
   # with unicorn, so start a Webrick server when debugging
   # with Pry
-  gem 'better_errors'
+  gem 'better_errors', '~> 2.2.0'
   gem 'binding_of_caller'
   gem 'guard'
   gem 'guard-rspec'
