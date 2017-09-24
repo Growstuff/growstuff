@@ -18,14 +18,16 @@ before_install:
   - ./script/install_phantomjs;
   - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
   # Force Travis to use Elastic Search 2.4.0
-  - sudo dpkg -r elasticsearch
-  - curl -O https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.0/elasticsearch-2.4.0.deb
-  - sudo dpkg -i --force-confnew elasticsearch-2.4.0.deb
-  - sudo service elasticsearch start
+  - >
+    if [ "${GROWSTUFF_ELASTICSEARCH}" = "true" ]; then
+      sudo dpkg -r elasticsearch;
+      curl -O https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.0/elasticsearch-2.4.0.deb;
+      sudo dpkg -i --force-confnew elasticsearch-2.4.0.deb;
+      sudo service elasticsearch start;
+      sleep 10;
+      curl localhost:9200;
+    fi
 before_script:
-  - sleep 10
-  # Outputs info about ES, including version number. Useful for debugging.
-  - curl localhost:9200
   - set -e
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
