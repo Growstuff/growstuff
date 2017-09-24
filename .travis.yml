@@ -24,6 +24,8 @@ before_install:
   - sudo service elasticsearch start
 before_script:
   - sleep 10
+  # Outputs info about ES, including version number. Useful for debugging.
+  - curl localhost:9200
   - set -e
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
@@ -44,9 +46,6 @@ script:
       bundle exec rake jasmine:ci;
     fi;
   - set +e
-
-services:
-  - elasticsearch
 before_deploy:
   - bundle exec script/heroku_maintenance.rb on
 deploy:
