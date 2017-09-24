@@ -96,7 +96,7 @@ GEM
     capybara-screenshot (1.0.17)
       capybara (>= 1.0, < 3)
       launchy
-    childprocess (0.7.1)
+    childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.2.0)
     cliver (0.3.2)
@@ -618,6 +618,7 @@ DEPENDENCIES
   webrat
   will_paginate
   xmlrpc
+
 
 RUBY VERSION
    ruby 2.4.1p111
