@@ -33,16 +33,14 @@ module Haml::Filters
       # turn [jane](member) into [jane](http://growstuff.org/members/jane)
       @expanded = @expanded.gsub(MEMBER_REGEX) do
         member_str = Regexp.last_match(1)
-        # find member case-insensitively
-        member = Member.case_insensitive_login_name(member_str).first
+        member = find_member(member_str)
         member_link(member, member_str)
       end
 
       # turn @jane into [@jane](http://growstuff.org/members/jane)
       @expanded = @expanded.gsub(MEMBER_AT_REGEX) do
         member_str = Regexp.last_match(1)
-        # find member case-insensitively
-        member = Member.case_insensitive_login_name(member_str[1..-1]).first
+        member = find_member(member_str)
         member_link(member, member_str)
       end
 
@@ -65,6 +63,12 @@ module Haml::Filters
       else
         link_text
       end
+    end
+
+    def find_member(login_name)
+      # Remove @ if present
+      login_name = login_name[1..-1] if login_name.start_with?('@')
+      Member.case_insensitive_login_name(login_name).first
     end
   end
 
