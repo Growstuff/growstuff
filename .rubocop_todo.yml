@@ -28,7 +28,6 @@ Lint/UnusedBlockArgument:
   Exclude:
     - 'app/controllers/sessions_controller.rb'
     - 'config/unicorn.rb'
-    - 'lib/haml/filters/growstuff_markdown.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
@@ -121,7 +120,6 @@ Style/ClassAndModuleChildren:
     - 'app/controllers/admin/orders_controller.rb'
     - 'lib/actions/oauth_signup_action.rb'
     - 'lib/haml/filters/escaped_markdown.rb'
-    - 'lib/haml/filters/growstuff_markdown.rb'
 
 # Cop supports --auto-correct.
 Style/ColonMethodCall:
