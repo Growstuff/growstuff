@@ -257,11 +257,6 @@ Style/SymbolProc:
     - 'lib/tasks/growstuff.rake'
 
 # Cop supports --auto-correct.
-Style/UnlessElse:
-  Exclude:
-    - 'app/controllers/omniauth_callbacks_controller.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: SupportedStyles, WordRegex.
 # SupportedStyles: percent, brackets
 Style/WordArray:
