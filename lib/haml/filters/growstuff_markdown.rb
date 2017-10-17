@@ -6,8 +6,8 @@ module Haml::Filters
 
     def render(text)
       @expanded = text
-      expand_crops
-      expand_members
+      expand_crops!
+      expand_members!
       BlueCloth.new(@expanded).to_html
     end
 
@@ -19,7 +19,7 @@ module Haml::Filters
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/
     HOST = Growstuff::Application.config.host
 
-    def expand_crops
+    def expand_crops!
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
       @expanded = @expanded.gsub(CROP_REGEX) do
         crop_str = Regexp.last_match(1)
@@ -29,7 +29,7 @@ module Haml::Filters
       end
     end
 
-    def expand_members
+    def expand_members!
       # turn [jane](member) into [jane](http://growstuff.org/members/jane)
       # turn @jane into [@jane](http://growstuff.org/members/jane)
       [MEMBER_REGEX, MEMBER_AT_REGEX].each do |re|
