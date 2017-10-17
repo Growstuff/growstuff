@@ -58,12 +58,12 @@ module Haml::Filters
       end
     end
 
-    def crop_link(crop, _link_text)
+    def crop_link(crop, link_text)
       if crop
         url = Rails.application.routes.url_helpers.crop_url(crop, host: HOST)
-        "[#{crop_str}](#{url})"
+        "[#{link_text}](#{url})"
       else
-        crop_str
+        link_text
       end
     end
   end
