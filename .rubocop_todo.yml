@@ -227,11 +227,6 @@ Style/PercentLiteralDelimiters:
     - 'spec/features/signout_spec.rb'
 
 # Cop supports --auto-correct.
-Style/PerlBackrefs:
-  Exclude:
-    - 'lib/haml/filters/growstuff_markdown.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
 # SupportedStyles: slashes, percent_r, mixed
 Style/RegexpLiteral:
