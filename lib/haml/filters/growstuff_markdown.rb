@@ -31,17 +31,13 @@ module Haml::Filters
 
     def expand_members
       # turn [jane](member) into [jane](http://growstuff.org/members/jane)
-      @expanded = @expanded.gsub(MEMBER_REGEX) do
-        member_str = Regexp.last_match(1)
-        member = find_member(member_str)
-        member_link(member, member_str)
-      end
-
       # turn @jane into [@jane](http://growstuff.org/members/jane)
-      @expanded = @expanded.gsub(MEMBER_AT_REGEX) do
-        member_str = Regexp.last_match(1)
-        member = find_member(member_str)
-        member_link(member, member_str)
+      [MEMBER_REGEX, MEMBER_AT_REGEX].each do |re|
+        @expanded = @expanded.gsub(re) do
+          member_str = Regexp.last_match(1)
+          member = find_member(member_str)
+          member_link(member, member_str)
+        end
       end
 
       @expanded = @expanded.gsub(MEMBER_ESCAPE_AT_REGEX, '')
