@@ -17,10 +17,11 @@ module Haml::Filters
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/
+    HOST = Growstuff::Application.config.host
 
     def expand_crops
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
-      @expanded = @expanded.gsub(CROP_REGEX) do |m|
+      @expanded = @expanded.gsub(CROP_REGEX) do
         crop_str = Regexp.last_match(1)
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', crop_str.downcase).first
@@ -30,7 +31,7 @@ module Haml::Filters
 
     def expand_members
       # turn [jane](member) into [jane](http://growstuff.org/members/jane)
-      @expanded = @expanded.gsub(MEMBER_REGEX) do |m|
+      @expanded = @expanded.gsub(MEMBER_REGEX) do
         member_str = Regexp.last_match(1)
         # find member case-insensitively
         member = Member.case_insensitive_login_name(member_str).first
@@ -38,14 +39,14 @@ module Haml::Filters
       end
 
       # turn @jane into [@jane](http://growstuff.org/members/jane)
-      @expanded = @expanded.gsub(MEMBER_AT_REGEX) do |m|
+      @expanded = @expanded.gsub(MEMBER_AT_REGEX) do
         member_str = Regexp.last_match(1)
         # find member case-insensitively
         member = Member.case_insensitive_login_name(member_str[1..-1]).first
         member_link(member, member_str)
       end
 
-      @expanded = @expanded.gsub(MEMBER_ESCAPE_AT_REGEX, "")
+      @expanded = @expanded.gsub(MEMBER_ESCAPE_AT_REGEX, '')
     end
 
     def member_link(member, link_text)
@@ -59,7 +60,7 @@ module Haml::Filters
 
     def crop_link(crop, _link_text)
       if crop
-        url = Rails.application.routes.url_helpers.crop_url(crop, host: Growstuff::Application.config.host)
+        url = Rails.application.routes.url_helpers.crop_url(crop, host: HOST)
         "[#{crop_str}](#{url})"
       else
         crop_str
