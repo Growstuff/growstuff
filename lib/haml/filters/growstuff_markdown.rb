@@ -54,7 +54,7 @@ module Haml::Filters
         url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
         "[#{link_text}](#{url})"
       else
-        member_str
+        link_text
       end
     end
 
