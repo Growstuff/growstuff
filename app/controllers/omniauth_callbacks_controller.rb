@@ -29,15 +29,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     member = action.find_or_create_from_authorization(auth)
     @authentication = action.establish_authentication(auth, member)
 
-    unless action.member_created?
-      sign_in_and_redirect member, event: :authentication # this will throw if @user is not activated
-      set_flash_message(:notice, :success, kind: auth['provider']) if is_navigational_format?
-    else
+    if action.member_created?
       raise "Invalid provider" unless ['facebook', 'twitter', 'flickr'].index(auth['provider'].to_s)
 
       session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
       sign_in member
       redirect_to finish_signup_url(member)
+    else
+      sign_in_and_redirect member, event: :authentication # this will throw if @user is not activated
+      set_flash_message(:notice, :success, kind: auth['provider']) if is_navigational_format?
     end
   end
 
