@@ -14,12 +14,12 @@ end
 
 case ARGV[0]
 when "on"
-  maintenance_state = 1
+  maintenance_state = true
 when "off"
-  maintenance_state = 0
+  maintenance_state = false
 else
   abort "usage: #{$0} (on|off)"
 end
 
 puts "Turning #{maintenance_state} maintenance mode on app #{app}"
-heroku.post_app_maintenance(app, maintenance_state)
+heroku.app.update app, maintenance: maintenance_state
