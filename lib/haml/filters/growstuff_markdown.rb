@@ -1,6 +1,6 @@
 require 'bluecloth'
 
-module Haml::Filters
+module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
   module GrowstuffMarkdown
     include Haml::Filters::Base
 
