@@ -65,7 +65,7 @@
     %h3 Previously planted in this garden
     .row
       - if @finished_plantings.size.positive?
-        - @finished_plantings.each do |planting|
+        - @finished_plantings.order(finished_at: :desc).each do |planting|
           .col-xs-6.col-md-2
             = render partial: "plantings/thumbnail", locals: { planting: planting }
       - else
