@@ -15,10 +15,13 @@
       - if can? :read, n
         %tr
           %td
-            - if n.read
-              = link_to n.sender, member_path(n.sender)
+            - if n.sender.present?
+              - if n.read
+                = link_to n.sender, member_path(n.sender)
+              - else
+                %strong= link_to n.sender, member_path(n.sender)
             - else
-              %strong= link_to n.sender, member_path(n.sender)
+              *deleted member*
           %td
             - if n.read
               = link_to n.subject, notification_path(n)
