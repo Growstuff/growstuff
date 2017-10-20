@@ -44,7 +44,7 @@ Growstuff::Application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Growstuff config
-  config.action_mailer.default_url_options = { host: 'localhost:8080' }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.smtp_settings = {
@@ -55,7 +55,7 @@ Growstuff::Application.configure do
     authentication: :login
   }
 
-  config.host = 'localhost:8080'
+  config.host = 'localhost:3000'
   config.analytics_code = ''
 
   # this config variable cannot be put in application.yml as it is needed
