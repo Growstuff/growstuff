@@ -21,6 +21,6 @@ feature "cms admin" do
   scenario "admin members can view CMS admin area" do
     login_as admin_member
     visit comfy_admin_cms_path
-    expect(current_path).to match /#{comfy_admin_cms_path}/ # match any CMS admin page
+    expect(current_path).to match(/#{comfy_admin_cms_path}/) # match any CMS admin page
   end
 end

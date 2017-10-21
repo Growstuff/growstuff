@@ -65,7 +65,7 @@ describe Planting do
   end
 
   it "should have a slug" do
-    planting.slug.should match /^member\d+-springfield-community-garden-tomato$/
+    planting.slug.should match(/^member\d+-springfield-community-garden-tomato$/)
   end
 
   it 'should sort in reverse creation order' do
