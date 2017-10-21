@@ -39,7 +39,7 @@ describe OrdersController do
       order = Order.create!(member_id: member.id)
       get :checkout, id: order.to_param
       response.status.should eq 302
-      response.redirect_url.should match /paypal\.com/
+      response.redirect_url.should match(/paypal\.com/)
     end
   end
 
