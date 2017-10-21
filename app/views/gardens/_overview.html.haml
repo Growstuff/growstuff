@@ -6,14 +6,14 @@
 
   .panel-body
     .row
-      .col-md-2.garden-info
+      .col-md-2.col-xs-12.garden-info
         = render 'gardens/photo', garden: garden
         = render 'gardens/actions', garden: garden
       .col-md-10
         .row
           - if garden.plantings.current.size.positive?
             - garden.plantings.current.includes(:crop).each do |planting|
-              .col-md-2
+              .col-md-2.col-sm-6.col-xs-6
                 .hover-wrapper
                   .text= render 'plantings/actions', planting: planting
                   = render partial: "plantings/thumbnail", locals: { planting: planting }
