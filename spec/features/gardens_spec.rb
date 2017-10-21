@@ -58,7 +58,7 @@ feature "Planting a crop", js: true do
     end
 
     scenario "button on index to edit garden" do
-      first(".panel-title").click_link("edit_garden_glyphicon")
+      first(".garden-info").click_link("Edit")
       expect(page).to have_content 'Edit garden'
     end
   end

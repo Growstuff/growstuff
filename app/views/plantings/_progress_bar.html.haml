@@ -1,3 +1,11 @@
 .progress
-  %div{ class: "progress-bar progress-bar-#{status}", role: "progressbar", style: "width: #{progress}" }
-
+  - if progress.nil?
+    = status
+  - else
+    -# haml-lint:disable InlineStyles
+    %div{ class: "progress-bar progress-bar-#{status}", role: "progressbar", style: "width: #{progress}%" }
+      - if progress >= 30
+        #{progress}%
+    - if progress < 30
+      #{progress}%
+    -# haml-lint:enable InlineStyles

@@ -16,7 +16,7 @@
           %dt Owner:
           %dd= link_to planting.owner.login_name, planting.owner
           %dt Garden:
-          %dd= link_to planting.garden.name, planting.garden
+          %dd= link_to planting.garden&.name, planting.garden
           %dt Planted on:
           %dd= planting.planted_at
           - if planting.quantity
@@ -38,7 +38,7 @@
             = display_days_before_maturity(planting)
             days
 
-    %p= render partial: 'plantings/planting_progress', locals: { planting: planting }
+    %p= render 'plantings/progress', planting: planting, show_explanation: true
 
     = link_to 'Details', planting_path(planting),
       class: 'btn btn-default btn-xs'
@@ -58,4 +58,3 @@
                   data: { confirm: 'Are you sure?' },
                   class: 'btn btn-default btn-xs' do
         %span.glyphicon.glyphicon-trash{ title: "Delete" }
-
