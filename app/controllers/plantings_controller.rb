@@ -64,7 +64,7 @@ class PlantingsController < ApplicationController
 
   def destroy
     @planting.destroy
-    respond_with @planting, location: garden
+    respond_with @planting, location: @planting.garden
   end
 
   private
