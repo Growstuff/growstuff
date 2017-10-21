@@ -6,15 +6,13 @@
   = page_entries_info @gardens
   = will_paginate @gardens
 
-.row
-  - if @gardens.empty?
-    %p There are no gardens to display.
-  - else
-    - @gardens.each do |garden|
-      .col-md-6
-        = render partial: 'gardens/thumbnail', locals: { garden: garden }
+
+- if @gardens.empty?
+  %p There are no gardens to display.
+- else
+  - @gardens.each do |garden|
+    = render 'overview', garden: garden
 
 .pagination
   = page_entries_info @gardens
   = will_paginate @gardens
-
