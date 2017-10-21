@@ -1,0 +1,25 @@
+
+.panel.panel-success
+  .panel-heading
+    %h3.panel-title
+      = link_to garden.name, garden_path(garden)
+
+  .panel-body
+    .row
+      .col-md-2.col-xs-12.garden-info
+        .row
+          .col-md-12.col-xs-6
+            = render 'gardens/photo', garden: garden
+          .col-md-12.col-xs-6
+            = render 'gardens/actions', garden: garden
+      .col-md-10
+        .row
+          - if garden.plantings.current.size.positive?
+            - garden.plantings.current.includes(:crop).each do |planting|
+              .col-md-2.col-sm-6.col-xs-6
+                .hover-wrapper
+                  .text= render 'plantings/actions', planting: planting
+                  = render partial: "plantings/thumbnail", locals: { planting: planting }
+          - else
+            no plantings
+  -# .panel-footer

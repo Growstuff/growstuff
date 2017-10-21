@@ -1,0 +1,16 @@
+- if can?(:edit, planting) || can?(:destroy, planting)
+  - if can? :edit, planting
+    = link_to edit_planting_path(planting), class: 'btn btn-default btn-xs' do
+      %span.glyphicon.glyphicon-pencil{ title: "Edit garden" }
+      Edit
+  - if can? :destroy, planting
+    = link_to planting, method: :delete,
+              data: { confirm: 'Are you sure?' },
+                  class: 'btn btn-default btn-xs' do
+      %span.glyphicon.glyphicon-trash{ title: "Delete" }
+      Delete
+    - unless planting.finished
+      = link_to "Mark as finished", planting_path(planting, planting: { finished: 1 }),
+                method: :put, class: 'btn btn-default btn-xs append-date'
+  - if can? :create, Harvest
+    = link_to 'Harvest', new_planting_harvest_path(planting), class: 'btn btn-default btn-xs'

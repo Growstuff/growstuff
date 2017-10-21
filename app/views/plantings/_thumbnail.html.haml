@@ -6,6 +6,5 @@
                           planting
       .plantinginfo
         .planting-name
+          = render 'plantings/progress', planting: planting, show_explanation: false
           = link_to planting.crop.name, planting
-        %small.planting-date
-          = display_finished(planting)
