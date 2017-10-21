@@ -7,8 +7,11 @@
   .panel-body
     .row
       .col-md-2.col-xs-12.garden-info
-        = render 'gardens/photo', garden: garden
-        = render 'gardens/actions', garden: garden
+        .row
+          .col-md-12.col-xs-6
+            = render 'gardens/photo', garden: garden
+          .col-md-12.col-xs-6
+            = render 'gardens/actions', garden: garden
       .col-md-10
         .row
           - if garden.plantings.current.size.positive?
