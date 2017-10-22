@@ -1,6 +1,8 @@
 module Api
   module V1
     class HarvestResource < BaseResource
+      immutable
+
       has_one :crop
       has_one :planting
       has_one :owner, class_name: 'Member'

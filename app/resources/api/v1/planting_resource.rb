@@ -1,6 +1,8 @@
 module Api
   module V1
     class PlantingResource < BaseResource
+      immutable
+
       has_one :garden
       has_one :crop
       has_one :owner, class_name: 'Member'

@@ -1,6 +1,8 @@
 module Api
   module V1
     class PhotoResource < BaseResource
+      immutable
+
       has_one :owner, class_name: 'Member'
 
       attribute :thumbnail_url

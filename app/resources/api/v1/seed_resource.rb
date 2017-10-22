@@ -1,6 +1,8 @@
 module Api
   module V1
     class SeedResource < BaseResource
+      immutable
+
       has_one :owner, class_name: 'Member'
       has_one :crop
 
