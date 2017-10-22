@@ -102,6 +102,8 @@ Growstuff::Application.routes.draw do
       jsonapi_resources :crops
       jsonapi_resources :plantings
       jsonapi_resources :gardens
+      jsonapi_resources :harvests
+      jsonapi_resources :seeds
       jsonapi_resources :members
     end
   end

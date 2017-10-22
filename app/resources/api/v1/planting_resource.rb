@@ -2,10 +2,9 @@ module Api
   module V1
     class PlantingResource < JSONAPI::Resource
       immutable
-      model_name 'Planting'
       has_one :garden
       has_one :crop
-      has_one :owner
+      has_one :owner, class_name: 'Member'
       has_many :photos
 
       attribute :planted_at
