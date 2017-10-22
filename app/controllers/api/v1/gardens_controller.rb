@@ -1,6 +1,6 @@
 module Api
   module V1
-    class GardensController < Api::V1::BaseController
+    class GardensController < BaseController
     end
   end
 end

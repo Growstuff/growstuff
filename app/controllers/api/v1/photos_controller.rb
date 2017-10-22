@@ -1,6 +1,6 @@
 module Api
   module V1
-    class PhotosController < Api::V1::BaseController
+    class PhotosController < BaseController
     end
   end
 end

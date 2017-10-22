@@ -1,6 +1,6 @@
 module Api
   module V1
-    class CropsController < Api::V1::BaseController
+    class CropsController < BaseController
     end
   end
 end

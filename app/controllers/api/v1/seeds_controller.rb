@@ -1,6 +1,6 @@
 module Api
   module V1
-    class SeedsController < JSONAPI::ResourceController
+    class SeedsController < BaseController
     end
   end
 end

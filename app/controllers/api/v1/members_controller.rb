@@ -1,6 +1,6 @@
 module Api
   module V1
-    class MembersController < Api::V1::BaseController
+    class MembersController < BaseController
     end
   end
 end

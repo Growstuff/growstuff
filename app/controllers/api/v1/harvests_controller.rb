@@ -1,6 +1,6 @@
 module Api
   module V1
-    class HarvestsController < JSONAPI::ResourceController
+    class HarvestsController < BaseController
     end
   end
 end
