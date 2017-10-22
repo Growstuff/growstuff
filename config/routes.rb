@@ -96,8 +96,17 @@ Growstuff::Application.routes.draw do
   get '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   get '/admin/:action' => 'admin#:action'
 
-  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
+  namespace :api do
+    namespace :v1 do
+      jsonapi_resources :photos
+      jsonapi_resources :crops
+      jsonapi_resources :plantings
+      jsonapi_resources :gardens
+      jsonapi_resources :members
+    end
+  end
 
+  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
   # CMS stuff  -- must remain LAST
   comfy_route :cms, path: '/', sitemap: false
 end

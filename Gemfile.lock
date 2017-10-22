@@ -277,6 +277,10 @@ GEM
       railties (>= 3.2)
       sprockets-rails
     json (2.1.0)
+    jsonapi-resources (0.9.0)
+      activerecord (>= 4.1)
+      concurrent-ruby
+      railties (>= 4.1)
     jwt (1.5.6)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
@@ -590,6 +594,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails (~> 5.0.2)
   js-routes
+  jsonapi-resources
   kaminari
   leaflet-markercluster-rails
   leaflet-rails (~> 0.7.7)
@@ -624,7 +629,6 @@ DEPENDENCIES
   webrat
   will_paginate
   xmlrpc
-
 
 RUBY VERSION
    ruby 2.4.1p111
