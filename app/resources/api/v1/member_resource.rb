@@ -1,8 +1,6 @@
 module Api
   module V1
-    class MemberResource < JSONAPI::Resource
-      immutable
-
+    class MemberResource < BaseResource
       has_many :gardens
 
       attribute :login_name

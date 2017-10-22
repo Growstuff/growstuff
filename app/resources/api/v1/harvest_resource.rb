@@ -1,8 +1,6 @@
 module Api
   module V1
-    class HarvestResource < JSONAPI::Resource
-      immutable
-
+    class HarvestResource < BaseResource
       has_one :crop
       has_one :planting
       has_one :owner, class_name: 'Member'

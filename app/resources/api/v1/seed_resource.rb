@@ -1,7 +1,6 @@
 module Api
   module V1
-    class SeedResource < JSONAPI::Resource
-      immutable
+    class SeedResource < BaseResource
       has_one :owner, class_name: 'Member'
       has_one :crop
 

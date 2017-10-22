@@ -1,7 +1,6 @@
 module Api
   module V1
-    class PlantingResource < JSONAPI::Resource
-      immutable
+    class PlantingResource < BaseResource
       has_one :garden
       has_one :crop
       has_one :owner, class_name: 'Member'

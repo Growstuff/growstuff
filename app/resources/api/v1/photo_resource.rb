@@ -1,8 +1,6 @@
 module Api
   module V1
-    class PhotoResource < JSONAPI::Resource
-      immutable
-
+    class PhotoResource < BaseResource
       has_one :owner, class_name: 'Member'
 
       attribute :thumbnail_url
