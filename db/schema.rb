@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520060252) do
+ActiveRecord::Schema.define(version: 20171022032108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -423,6 +423,8 @@ ActiveRecord::Schema.define(version: 20170520060252) do
     t.boolean  "finished",             default: false
     t.date     "finished_at"
     t.integer  "days_before_maturity"
+    t.datetime "harvest_predicted_at"
+    t.datetime "harvested_at"
   end
 
   add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree
