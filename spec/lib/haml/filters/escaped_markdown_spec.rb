@@ -17,6 +17,6 @@ describe 'Haml::Filters::Escaped_Markdown' do
   it 'converts quick crop links' do
     @crop = FactoryGirl.create(:crop)
     rendered = Haml::Filters::EscapedMarkdown.render("[#{@crop.name}](crop)")
-    rendered.should match /&lt;a href=&quot;/
+    rendered.should match(/&lt;a href=&quot;/)
   end
 end
