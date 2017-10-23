@@ -24,7 +24,7 @@ describe Admin::OrdersController do
 
     it "sets an error message if nothing found" do
       get :search, search_by: 'order_id', search_text: 'foo'
-      flash[:alert].should match /Couldn't find order with/
+      flash[:alert].should have_text "Couldn't find order with"
     end
   end
 end
