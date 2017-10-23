@@ -15,6 +15,19 @@ class Harvest < ActiveRecord::Base
   validates :crop, presence: { message: "must be present and exist in our database" }
 
   validates :plant_part, presence: { message: "must be present and exist in our database" }
+  validate :crop_must_match_planting
+  validate :harvest_must_be_after_planting
+
+  def crop_must_match_planting
+    return unless planting.present? # only check if we are linked to a planting
+    errors.add(:planting, "must be the same crop") unless crop == planting.crop
+  end
+
+  def harvest_must_be_after_planting
+    # only check if we are linked to a planting
+    return unless harvested_at.present? && planting.present? && planting.planted_at.present?
+    errors.add(:planting, "cannot be harvested before planting") unless harvested_at > planting.planted_at
+  end
 
   validates :quantity,
     numericality: {
