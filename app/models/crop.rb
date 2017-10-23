@@ -106,6 +106,10 @@ class Crop < ActiveRecord::Base
     end
   end
 
+  def harvest_photos
+    Photo.joins(:harvests).where("harvests.crop_id": id)
+  end
+
   def as_indexed_json(_options = {})
     as_json(
       only: [:id, :name, :approval_status],
