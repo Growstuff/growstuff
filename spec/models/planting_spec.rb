@@ -29,17 +29,17 @@ describe Planting do
       end
     end
 
-    describe 'mean_days_until_maturity' do
+    describe 'mean_days_before_finished' do
       let(:plantings) do
         FactoryGirl.create_list(:planting, 10, crop: crop, planted_at: 12.days.ago, finished_at: 2.days.ago)
       end
       it { expect(plantings.size).to eq(10) }
-      it { expect(PlantingPredictions.mean_days_until_maturity(plantings)).to eq(10) }
+      it { expect(PlantingPredictions.mean_days_before_finished(plantings)).to eq(10) }
     end
 
     describe 'saving planting calculates days_before_maturity' do
       before { 5.times { FactoryGirl.create :planting, planted_at: 30.days.ago, finished_at: 9.days.ago, crop: crop } }
-      before { planting.calc_and_set_days_before_maturity }
+      before { planting.update_predictions }
       it { expect(planting.days_before_maturity).to eq(21) }
     end
   end
@@ -354,5 +354,15 @@ describe Planting do
     expect(Planting.joins(:owner).all).to include(planting)
     planting.owner.destroy
     expect(Planting.joins(:owner).all).not_to include(planting)
+  end
+
+  it 'predicts harvest times' do
+    crop = FactoryGirl.create :crop
+    10.times do
+      planting = FactoryGirl.create :planting, crop: crop, planted_at: DateTime.new(2013, 1, 1).in_time_zone
+      FactoryGirl.create :harvest, crop: crop, planting: planting, harvested_at: DateTime.new(2013, 2, 1).in_time_zone
+    end
+    planting = FactoryGirl.create :planting, planted_at: DateTime.new(2017, 1, 1).in_time_zone, crop: crop
+    expect(planting.harvest_predicted_at).to eq DateTime.new(2017, 2, 1).in_time_zone
   end
 end

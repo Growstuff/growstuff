@@ -1,6 +1,9 @@
 class Planting < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
+
+  before_validation :update_predictions
+
   friendly_id :planting_slug, use: [:slugged, :finders]
 
   belongs_to :garden
@@ -63,15 +66,20 @@ class Planting < ActiveRecord::Base
 
   validate :finished_must_be_after_planted
 
-  delegate :days_until_finished, to: :predict
-  delegate :days_until_mature, to: :predict
+  delegate :days_before_finished, to: :predict
+  delegate :days_before_mature, to: :predict
   delegate :percentage_grown, to: :predict
   delegate :start_to_finish_diff, to: :predict
+  delegate :time_to_first_harvest, to: :predict
 
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
     errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
+  end
+
+  def first_harvest
+    harvests.order(:harvested_at).first
   end
 
   def planting_slug
@@ -100,8 +108,14 @@ class Planting < ActiveRecord::Base
     planted_at.present? && planted_at <= Date.current
   end
 
-  def calc_and_set_days_before_maturity
-    self.days_before_maturity = predict.predict_days_before_maturity
+  def update_predictions
+    # Note: this looks up days until finished, but the column is named
+    # maturity. TODO: Fix up names
+    self.days_before_maturity = predict.predict_days_before_finished
+    self.finish_predicted_at = Time.zone.now + days_before_maturity if days_before_maturity
+
+    self.harvest_predicted_at = predict.predict_harvest
+    self.harvested_at = harvests.order(:harvested_at).first.harvested_at if harvests.present?
   end
 
   private

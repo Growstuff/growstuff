@@ -2,6 +2,8 @@ class Harvest < ActiveRecord::Base
   extend FriendlyId
   include ActionView::Helpers::NumberHelper
   include PhotoCapable
+
+  after_save :update_predictions
   friendly_id :harvest_slug, use: [:slugged, :finders]
 
   belongs_to :crop
@@ -19,7 +21,7 @@ class Harvest < ActiveRecord::Base
   validate :harvest_must_be_after_planting
 
   def crop_must_match_planting
-    return unless planting.present? # only check if we are linked to a planting
+    return if planting.blank? # only check if we are linked to a planting
     errors.add(:planting, "must be the same crop") unless crop == planting.crop
   end
 
@@ -70,6 +72,11 @@ class Harvest < ActiveRecord::Base
   after_validation :cleanup_quantities
 
   before_save :set_si_weight
+
+  def time_from_planting_to_harvest
+    return if planting.blank?
+    harvested_at - plating.planted_at
+  end
 
   # we're storing the harvest weight in kilograms in the db too
   # to make data manipulation easier
@@ -130,5 +137,14 @@ class Harvest < ActiveRecord::Base
 
   def default_photo
     photos.first || crop.default_photo
+  end
+
+  def update_predictions
+    return if planting.blank?
+    # Set the actual harvest on the planting
+    planting.update(harvested_at: Harvest.where(planting: self).order(:harvested_at).first.harvested_at)
+
+    differences = Planting.where(crop: crop, finished: false).collect(&:time_to_first_harvest)
+    differences.compact.sum / differences.compact.size unless differences.compact.empty?
   end
 end

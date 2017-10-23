@@ -5,7 +5,7 @@ FactoryGirl.define do
     crop
     plant_part
     owner
-    harvested_at "2013-09-17"
+    harvested_at DateTime.new(2015, 9, 17).in_time_zone
     quantity "3"
     unit "individual"
     weight_quantity 6

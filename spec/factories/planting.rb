@@ -3,7 +3,7 @@ FactoryGirl.define do
     garden
     owner
     crop
-    planted_at Time.zone.today
+    planted_at DateTime.new(2014, 7, 30).in_time_zone
     quantity 33
     description "This is a *really* good plant."
 
@@ -33,8 +33,8 @@ FactoryGirl.define do
 
     factory :finished_planting do
       finished true
-      planted_at '2014-07-30'
-      finished_at '2014-08-30'
+      planted_at DateTime.new(2014, 7, 30).in_time_zone
+      finished_at DateTime.new(2014, 8, 30).in_time_zone
     end
   end
 end

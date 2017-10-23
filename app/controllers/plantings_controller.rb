@@ -51,13 +51,11 @@ class PlantingsController < ApplicationController
   def create
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
-    @planting.calc_and_set_days_before_maturity
     @planting.save
     respond_with @planting
   end
 
   def update
-    @planting.calc_and_set_days_before_maturity
     @planting.update(planting_params)
     respond_with @planting
   end
