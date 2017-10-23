@@ -7,6 +7,7 @@ module Api
       has_one :crop
       has_one :owner, class_name: 'Member'
       has_many :photos
+      has_many :harvests
 
       attribute :planted_at
       attribute :finished_at
