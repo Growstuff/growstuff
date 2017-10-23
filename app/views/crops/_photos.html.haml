@@ -1,5 +1,6 @@
 .row
   - unless crop.photos.empty?
-    - crop.photos.first(3).each do |p|
+    - crop.photos.includes(:owner).first(3).each do |p|
       .col-md-4
         = render partial: "photos/thumbnail", locals: { photo: p }
+    = link_to "more photos", crop_photos_path(crop_id: crop.id)

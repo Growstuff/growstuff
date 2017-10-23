@@ -6,7 +6,13 @@ class PhotosController < ApplicationController
   responders :flash
 
   def index
-    @photos = Photo.paginate(page: params[:page])
+    if params[:crop_id]
+      @crop = Crop.find params[:crop_id]
+      @photos = @crop.photos
+    else
+      @photos = Photo.all
+    end
+    @photos = @photos.order(:created_at).paginate(page: params[:page])
     respond_with(@photos)
   end
 

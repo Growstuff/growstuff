@@ -1,13 +1,17 @@
 - content_for :title, "Photos"
 
+- if @crop
+  %h2= @crop.name
+
 %p Most recent photos added to #{ENV['GROWSTUFF_SITE_NAME']}.
 
 .pagination
   = page_entries_info @photos
   = will_paginate @photos
 
+
 .row
-  - @photos.each do |p|
+  - @photos.includes(:owner).each do |p|
     .col-md-2.six-across
       .thumbnail{ style: 'height: 220px' }
         = link_to image_tag(p.thumbnail_url, alt: p.title, class: 'img'), p
@@ -19,5 +23,3 @@
 .pagination
   = page_entries_info @photos
   = will_paginate @photos
-
-
