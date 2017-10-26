@@ -39,7 +39,7 @@ class Crop < ActiveRecord::Base
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
 
-  scope :interesting, -> { approved.has_photos }
+  scope :interesting, -> { approved.has_photos.randomized }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   ## Wikipedia urls are only necessary when approving a crop
