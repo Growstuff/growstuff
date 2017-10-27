@@ -4,10 +4,22 @@ feature "crop detail page", js: true do
   let(:crop) { create :crop, plantings: [planting], harvests: [harvest] }
   let(:planting) { create :planting, owner: member, photos: [photo1, photo2] }
   let(:harvest) { create :harvest, owner: member, photos: [photo3, photo4] }
-  let(:photo1) { create(:photo, owner: member, title: 'photo 1', fullsize_url: 'photo1.jpg', thumbnail_url: 'thumb1.jpg') }
-  let(:photo2) { create(:photo, owner: member, title: 'photo 2', fullsize_url: 'photo2.jpg', thumbnail_url: 'thumb2.jpg') }
-  let(:photo3) { create(:photo, owner: member, title: 'photo 3', fullsize_url: 'photo3.jpg', thumbnail_url: 'thumb3.jpg') }
-  let(:photo4) { create(:photo, owner: member, title: 'photo 4', fullsize_url: 'photo4.jpg', thumbnail_url: 'thumb4.jpg') }
+  let(:photo1) do
+    create(:photo, owner: member, title: 'photo 1',
+                   fullsize_url: 'photo1.jpg', thumbnail_url: 'thumb1.jpg')
+  end
+  let(:photo2) do
+    create(:photo, owner: member, title: 'photo 2',
+                   fullsize_url: 'photo2.jpg', thumbnail_url: 'thumb2.jpg')
+  end
+  let(:photo3) do
+    create(:photo, owner: member, title: 'photo 3',
+                   fullsize_url: 'photo3.jpg', thumbnail_url: 'thumb3.jpg')
+  end
+  let(:photo4) do
+    create(:photo, owner: member, title: 'photo 4',
+                   fullsize_url: 'photo4.jpg', thumbnail_url: 'thumb4.jpg')
+  end
 
   before { visit crop_path(crop) }
 
