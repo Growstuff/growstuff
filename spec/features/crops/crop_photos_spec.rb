@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 feature "crop detail page", js: true do
+  let(:member) { create :member }
   let(:crop) { create :crop, plantings: [planting], harvests: [harvest] }
   let(:planting) { create :planting, owner: member, photos: [photo1, photo2] }
   let(:harvest) { create :harvest, owner: member, photos: [photo3, photo4] }
@@ -22,12 +23,9 @@ feature "crop detail page", js: true do
   end
 
   before { visit crop_path(crop) }
+  subject { page }
 
-  context "when signed in member" do
-    let(:member) { create :member }
-    background { login_as(member) }
-    subject { page }
-
+  shared_examples "shows photos" do
     describe "show planting photos" do
       it { is_expected.to have_xpath("//img[contains(@src,'#{photo1.thumbnail_url}')]") }
       it { is_expected.to have_xpath("//img[contains(@src,'#{photo2.thumbnail_url}')]") }
@@ -39,5 +37,17 @@ feature "crop detail page", js: true do
     describe "link to more photos" do
       it { is_expected.to have_link "more photos" }
     end
+  end
+
+  context "when signed in" do
+    background { login_as(create(:member)) }
+    include_examples "shows photos"
+  end
+  context "when signed in as photos owner" do
+    background { login_as(member) }
+    include_examples "shows photos"
+  end
+  context "when not signed in " do
+    include_examples "shows photos"
   end
 end
