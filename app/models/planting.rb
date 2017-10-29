@@ -106,6 +106,7 @@ class Planting < ActiveRecord::Base
   end
 
   def percentage_grown
+    return 100 if finished
     return if planted_at.blank? || expected_lifespan.blank?
     p = (days_since_planted / expected_lifespan.to_f) * 100
     return p if p <= 100
