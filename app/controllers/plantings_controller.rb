@@ -51,16 +51,19 @@ class PlantingsController < ApplicationController
   def create
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
-    @planting.save
+    @planting.save!
+    @planting.crop.update_medians
     respond_with @planting
   end
 
   def update
     @planting.update(planting_params)
+    @planting.crop.update_medians
     respond_with @planting
   end
 
   def destroy
+    @planting.crop.update_medians
     @planting.destroy
     respond_with @planting, location: @planting.garden
   end
