@@ -91,7 +91,7 @@ class Planting < ActiveRecord::Base
   end
 
   def calculate_lifespan
-    self.lifespan = planted_at.present? && finished_at.present? ? finished_at - planted_at : nil
+    self.lifespan = (planted_at.present? && finished_at.present? ? finished_at - planted_at : nil)
   end
 
   def expected_lifespan
@@ -102,7 +102,7 @@ class Planting < ActiveRecord::Base
   end
 
   def days_old
-    (Date.today - planted_at).to_i if planted_at.present?
+    (Time.zone.today - planted_at).to_i if planted_at.present?
   end
 
   def percentage_grown
