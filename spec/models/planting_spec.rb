@@ -5,42 +5,56 @@ describe Planting do
   let(:garden_owner) { FactoryGirl.create(:member) }
   let(:garden) { FactoryGirl.create(:garden, owner: garden_owner) }
   let(:planting) { FactoryGirl.create(:planting, crop: crop, garden: garden) }
-  let(:finished_planting) { FactoryGirl.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago }
+  let(:finished_planting) do
+    FactoryGirl.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago, finished: true
+  end
 
-  describe 'maturity calculations' do
-    describe 'start_to_finish_diff' do
-      it { expect(finished_planting.start_to_finish_diff).to eq(2) }
+  describe 'predictions' do
+    context 'no previous data' do
+      describe 'planting planted, not finished' do
+      end
+      describe 'planting not planted yet' do
+      end
+      describe 'planting finished, no planted_at' do
+      end
+      describe 'planing all finished' do
+      end
     end
-
-    describe 'other_finished_plantings_same_crop' do
+    context 'lots of data' do
       before do
-        # eight finished plantings
-        8.times { FactoryGirl.create :planting, crop: crop, planted_at: 10.days.ago, finished_at: 2.days.ago }
-        # eight not finished plantings
-        8.times { FactoryGirl.create :planting, crop: crop, finished_at: nil }
+        FactoryGirl.create :planting, crop: planting.crop, planted_at: 10.days.ago
+        FactoryGirl.create :planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 50.days.ago
+        FactoryGirl.create :planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 51.days.ago
+        FactoryGirl.create :planting, crop: planting.crop, planted_at: 2.years.ago, finished_at: 50.days.ago
+        FactoryGirl.create :planting, crop: planting.crop, planted_at: 150.days.ago, finished_at: 100.days.ago
+        planting.crop.update_medians
       end
-      let!(:planting_with_diff_crop) { FactoryGirl.create :planting, planted_at: 10.days.ago, finished_at: 2.days.ago }
-      let(:planting_predictions) { PlantingPredictions.new(planting) }
-      it { expect(planting_predictions.send(:other_finished_plantings_same_crop).size).to eq(8) }
-      it { expect(planting_predictions.send(:other_finished_plantings_same_crop)).not_to include(planting) }
-      it do
-        expect(planting_predictions.send(:other_finished_plantings_same_crop))
-          .not_to include(planting_with_diff_crop)
-      end
-    end
 
-    describe 'mean_days_before_finished' do
-      let(:plantings) do
-        FactoryGirl.create_list(:planting, 10, crop: crop, planted_at: 12.days.ago, finished_at: 2.days.ago)
-      end
-      it { expect(plantings.size).to eq(10) }
-      it { expect(PlantingPredictions.mean_days_before_finished(plantings)).to eq(10) }
-    end
+      it { expect(planting.crop.median_lifespan).to eq 50 }
 
-    describe 'saving planting calculates days_before_maturity' do
-      before { 5.times { FactoryGirl.create :planting, planted_at: 30.days.ago, finished_at: 9.days.ago, crop: crop } }
-      before { planting.update_predictions }
-      it { expect(planting.days_before_maturity).to eq(21) }
+      describe 'planting 30 days ago, not finished' do
+        let(:planting) { FactoryGirl.create :planting, planted_at: 30.days.ago }
+
+        # 30 / 50
+        it { expect(planting.percentage_grown).to eq 60.0 }
+        it { expect(planting.days_since_planted).to eq 30 }
+      end
+
+      describe 'planting not planted yet' do
+        let(:planting) { FactoryGirl.create :planting, planted_at: nil, finished_at: nil }
+        it { expect(planting.percentage_grown).to eq nil }
+      end
+
+      describe 'planting finished 10 days, but was never planted' do
+        let(:planting) { FactoryGirl.create :planting, planted_at: nil, finished_at: 10.days.ago }
+        it { expect(planting.percentage_grown).to eq nil }
+      end
+
+      describe 'planted 30 days ago, finished 10 days ago' do
+        let(:planting) { FactoryGirl.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago }
+        it { expect(planting.days_since_planted).to eq 30 }
+        it { expect(planting.percentage_grown).to eq 100 }
+      end
     end
   end
 
@@ -88,7 +102,7 @@ describe Planting do
     end
   end
 
-  describe '#percentage_grown' do
+  pending '#percentage_grown' do
     it 'should not be more than 100%' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
 
@@ -105,7 +119,7 @@ describe Planting do
       end
     end
 
-    it 'should reflect the current growth' do
+    pending 'should reflect the current growth' do
       @planting = FactoryGirl.build(:planting, days_before_maturity: 10, planted_at: 4.days.ago)
       expect(@planting.percentage_grown).to eq 40
     end
@@ -356,13 +370,13 @@ describe Planting do
     expect(Planting.joins(:owner).all).not_to include(planting)
   end
 
-  it 'predicts harvest times' do
-    crop = FactoryGirl.create :crop
-    10.times do
-      planting = FactoryGirl.create :planting, crop: crop, planted_at: DateTime.new(2013, 1, 1).in_time_zone
-      FactoryGirl.create :harvest, crop: crop, planting: planting, harvested_at: DateTime.new(2013, 2, 1).in_time_zone
-    end
-    planting = FactoryGirl.create :planting, planted_at: DateTime.new(2017, 1, 1).in_time_zone, crop: crop
-    expect(planting.harvest_predicted_at).to eq DateTime.new(2017, 2, 1).in_time_zone
-  end
+  # it 'predicts harvest times' do
+  #   crop = FactoryGirl.create :crop
+  #   10.times do
+  #     planting = FactoryGirl.create :planting, crop: crop, planted_at: DateTime.new(2013, 1, 1).in_time_zone
+  #     FactoryGirl.create :harvest, crop: crop, planting: planting, harvested_at: DateTime.new(2013, 2, 1).in_time_zone
+  #   end
+  #   planting = FactoryGirl.create :planting, planted_at: DateTime.new(2017, 1, 1).in_time_zone, crop: crop
+  #   expect(planting.harvest_predicted_at).to eq DateTime.new(2017, 2, 1).in_time_zone
+  # end
 end

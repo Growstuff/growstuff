@@ -101,12 +101,15 @@ class Planting < ActiveRecord::Base
     crop.median_lifespan
   end
 
-  def days_old
+  def days_since_planted
     (Time.zone.today - planted_at).to_i if planted_at.present?
   end
 
   def percentage_grown
-    (days_old / expected_lifespan.to_f) * 100
+    return if planted_at.blank? || expected_lifespan.blank?
+    p = (days_since_planted / expected_lifespan.to_f) * 100
+    return p if p <= 100
+    100
   end
 
   private
