@@ -29,7 +29,6 @@ class Harvest < ActiveRecord::Base
   ## Triggers
   after_validation :cleanup_quantities
   before_save :set_si_weight
-  after_save :update_predictions
 
   ##
   ## Relationships
@@ -126,15 +125,6 @@ class Harvest < ActiveRecord::Base
 
   def default_photo
     photos.first || crop.default_photo
-  end
-
-  def update_predictions
-    # return if planting.blank?
-    # # Set the actual harvest on the planting
-    # planting.update(harvested_at: Harvest.where(planting: self).order(:harvested_at).first.harvested_at)
-
-    # differences = Planting.where(crop: crop, finished: false).collect(&:time_to_first_harvest)
-    # differences.compact.sum / differences.compact.size unless differences.compact.empty?
   end
 
   def crop_must_match_planting
