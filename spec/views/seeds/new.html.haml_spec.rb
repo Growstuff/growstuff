@@ -14,10 +14,10 @@ require 'rails_helper'
 
 describe "seeds/new" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }
-    @seed1 = FactoryGirl.create(:seed, owner: @member)
+    @seed1 = FactoryBot.create(:seed, owner: @member)
     assign(:seed, @seed1)
   end
 
@@ -40,10 +40,10 @@ describe "seeds/new" do
 
   context 'member has location' do
     before(:each) do
-      @member = FactoryGirl.create(:london_member)
+      @member = FactoryBot.create(:london_member)
       sign_in @member
       controller.stub(:current_user) { @member }
-      @seed1 = FactoryGirl.create(:seed, owner: @member)
+      @seed1 = FactoryBot.create(:seed, owner: @member)
       assign(:seed, @seed1)
     end
 

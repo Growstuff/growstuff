@@ -16,11 +16,11 @@ describe OrderItemsController do
   login_member(:admin_member)
 
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
-    @product = FactoryGirl.create(:product)
-    @order = FactoryGirl.create(:order, member: @member)
-    @order_item = FactoryGirl.create(:order_item,
+    @product = FactoryBot.create(:product)
+    @order = FactoryBot.create(:order, member: @member)
+    @order_item = FactoryBot.create(:order_item,
       order: @order,
       product: @product,
       price: @product.min_price)
@@ -28,7 +28,7 @@ describe OrderItemsController do
 
   describe "POST create" do
     it "redirects to order" do
-      @order = FactoryGirl.create(:order, member: @member)
+      @order = FactoryBot.create(:order, member: @member)
       post :create, order_item: {
         order_id: @order.id,
         product_id: @product.id,
@@ -38,9 +38,9 @@ describe OrderItemsController do
     end
 
     it 'creates an order for you' do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       sign_in @member
-      @product = FactoryGirl.create(:product)
+      @product = FactoryBot.create(:product)
       expect {
         post :create, order_item: {
           product_id: @product.id,
@@ -52,8 +52,8 @@ describe OrderItemsController do
 
     describe "with non-int price" do
       it "converts 3.33 to 333 cents" do
-        @order = FactoryGirl.create(:order, member: @member)
-        @product = FactoryGirl.create(:product, min_price: 1)
+        @order = FactoryBot.create(:order, member: @member)
+        @product = FactoryBot.create(:product, min_price: 1)
         expect {
           post :create, order_item: {
             order_id: @order.id,

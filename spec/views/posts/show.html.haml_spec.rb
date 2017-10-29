@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "posts/show" do
-  let(:author) { FactoryGirl.create(:member) }
+  let(:author) { FactoryBot.create(:member) }
 
   before(:each) do
     controller.stub(:current_user) { nil }
@@ -12,7 +12,7 @@ describe "posts/show" do
   describe 'render post' do
     before { render }
     describe "basic post" do
-      let(:post) { FactoryGirl.create(:post, author: author) }
+      let(:post) { FactoryBot.create(:post, author: author) }
 
       # show the name of the member who posted the post
       it { is_expected.to match(/member\d+/) }
@@ -24,33 +24,33 @@ describe "posts/show" do
     end
 
     describe "should parse markdown into html" do
-      let(:post) { FactoryGirl.create(:markdown_post, author: author) }
+      let(:post) { FactoryBot.create(:markdown_post, author: author) }
       it { assert_select "strong", "strong" }
     end
 
     describe "shouldn't let html through in body" do
-      let(:post) { FactoryGirl.create(:post, author: author, body: '<a href="http://evil.com">EVIL</a>') }
+      let(:post) { FactoryBot.create(:post, author: author, body: '<a href="http://evil.com">EVIL</a>') }
       it { is_expected.to have_content('EVIL') }
       it { is_expected.not_to have_link("http://evil.com") }
     end
     describe 'script tag in post body' do
-      let(:post) { FactoryGirl.create(:post, author: author, body: "<script>alert('hakker!')</script>") }
+      let(:post) { FactoryBot.create(:post, author: author, body: "<script>alert('hakker!')</script>") }
       it { is_expected.not_to have_selector('script') }
     end
     describe 'script tag in post title' do
-      let(:post) { FactoryGirl.create(:post, author: author, subject: "<script>alert('hakker!')</script>") }
+      let(:post) { FactoryBot.create(:post, author: author, subject: "<script>alert('hakker!')</script>") }
       it { is_expected.not_to have_selector('script') }
     end
 
     describe 'has an anchor to the comments' do
-      let(:post) { FactoryGirl.create(:post, author: author) }
+      let(:post) { FactoryBot.create(:post, author: author) }
       it { is_expected.to have_selector('a[name=comments]') }
     end
   end
 
   context "when there is one comment" do
-    let(:post) { FactoryGirl.create(:html_post, author: author) }
-    let!(:comment) { FactoryGirl.create(:comment, post: post) }
+    let(:post) { FactoryBot.create(:html_post, author: author) }
+    let!(:comment) { FactoryBot.create(:comment, post: post) }
     before(:each) do
       @comments = post.comments
       render
@@ -70,14 +70,14 @@ describe "posts/show" do
   end
 
   context "when there is more than one comment" do
-    let(:post) { FactoryGirl.create(:html_post, author: author) }
+    let(:post) { FactoryBot.create(:html_post, author: author) }
     before(:each) do
-      @comment1 = FactoryGirl.create(:comment, post: post, body: "F1rst!!!",
+      @comment1 = FactoryBot.create(:comment, post: post, body: "F1rst!!!",
                                                created_at: Date.new(2010, 5, 17))
-      @comment3 = FactoryGirl.create(:comment, post: post, body: "Th1rd!!!",
+      @comment3 = FactoryBot.create(:comment, post: post, body: "Th1rd!!!",
                                                created_at: Date.new(2012, 5, 17))
-      @comment4 = FactoryGirl.create(:comment, post: post, body: "F0urth!!!")
-      @comment2 = FactoryGirl.create(:comment, post: post, body: "S3c0nd!!1!",
+      @comment4 = FactoryBot.create(:comment, post: post, body: "F0urth!!!")
+      @comment2 = FactoryBot.create(:comment, post: post, body: "S3c0nd!!1!",
                                                created_at: Date.new(2011, 5, 17))
       @comments = post.comments
       render
@@ -89,7 +89,7 @@ describe "posts/show" do
   end
 
   context "forum post" do
-    let(:post) { FactoryGirl.create(:forum_post, author: author) }
+    let(:post) { FactoryBot.create(:forum_post, author: author) }
     before { render }
     it "shows forum name" do
       is_expected.to have_content "in #{post.forum.name}"
@@ -97,7 +97,7 @@ describe "posts/show" do
   end
 
   context "signed in" do
-    let(:post) { FactoryGirl.create(:post, author: author) }
+    let(:post) { FactoryBot.create(:post, author: author) }
     before(:each) do
       sign_in author
       controller.stub(:current_user) { author }

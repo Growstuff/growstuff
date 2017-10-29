@@ -173,10 +173,10 @@ GEM
     erubis (2.7.0)
     excon (0.59.0)
     execjs (2.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.8.2)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.8.2)
+      factory_bot (~> 4.8.2)
       railties (>= 3.0.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -462,7 +462,7 @@ GEM
     ruby_parser (3.10.1)
       sexp_processor (~> 4.9)
     rubyzip (1.2.1)
-    sass (3.5.2)
+    sass (3.5.3)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -510,7 +510,7 @@ GEM
     timecop (0.9.1)
     tins (1.15.0)
     trollop (1.16.2)
-    tzinfo (1.2.3)
+    tzinfo (1.2.4)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
@@ -567,7 +567,7 @@ DEPENDENCIES
   elasticsearch-api (~> 2.0.0)
   elasticsearch-model
   elasticsearch-rails
-  factory_girl_rails
+  factory_bot_rails
   figaro
   flickraw
   font-awesome-sass
@@ -621,7 +621,6 @@ DEPENDENCIES
   webrat
   will_paginate
   xmlrpc
-
 
 RUBY VERSION
    ruby 2.4.1p111

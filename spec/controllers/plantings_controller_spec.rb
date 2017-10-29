@@ -17,19 +17,19 @@ describe PlantingsController do
 
   def valid_attributes
     {
-      garden_id: FactoryGirl.create(:garden, owner: subject.current_member).id,
-      crop_id: FactoryGirl.create(:crop).id
+      garden_id: FactoryBot.create(:garden, owner: subject.current_member).id,
+      crop_id: FactoryBot.create(:crop).id
     }
   end
 
   describe "GET index" do
     before do
-      @member1 = FactoryGirl.create(:member)
-      @member2 = FactoryGirl.create(:member)
-      @tomato = FactoryGirl.create(:tomato)
-      @maize = FactoryGirl.create(:maize)
-      @planting1 = FactoryGirl.create(:planting, crop: @tomato, owner: @member1)
-      @planting2 = FactoryGirl.create(:planting, crop: @maize, owner: @member2)
+      @member1 = FactoryBot.create(:member)
+      @member2 = FactoryBot.create(:member)
+      @tomato = FactoryBot.create(:tomato)
+      @maize = FactoryBot.create(:maize)
+      @planting1 = FactoryBot.create(:planting, crop: @tomato, owner: @member1)
+      @planting2 = FactoryBot.create(:planting, crop: @maize, owner: @member2)
     end
 
     it "assigns all plantings as @plantings" do
@@ -52,7 +52,7 @@ describe PlantingsController do
 
   describe "GET new" do
     it "picks up crop from params" do
-      crop = FactoryGirl.create(:crop)
+      crop = FactoryBot.create(:crop)
       get :new, crop_id: crop.id
       assigns(:crop).should eq(crop)
     end
@@ -63,28 +63,28 @@ describe PlantingsController do
     end
 
     it "picks up member's garden from params" do
-      garden = FactoryGirl.create(:garden, owner: member)
+      garden = FactoryBot.create(:garden, owner: member)
       get :new, garden_id: garden.id
       assigns(:garden).should eq(garden)
     end
 
     it "Doesn't display another member's garden on planting form" do
-      member = FactoryGirl.create(:member) # over-riding member from login_member()
-      garden = FactoryGirl.create(:garden, owner: member)
+      member = FactoryBot.create(:member) # over-riding member from login_member()
+      garden = FactoryBot.create(:garden, owner: member)
       get :new, garden_id: garden.id
       assigns(:garden).should_not eq(garden)
     end
 
     it "Doesn't display un-approved crops on planting form" do
-      crop = FactoryGirl.create(:crop, approval_status: 'pending')
-      FactoryGirl.create(:garden, owner: member)
+      crop = FactoryBot.create(:crop, approval_status: 'pending')
+      FactoryBot.create(:garden, owner: member)
       get :new, crop_id: crop.id
       assigns(:crop).should_not eq(crop)
     end
 
     it "Doesn't display rejected crops on planting form" do
-      crop = FactoryGirl.create(:crop, approval_status: 'rejected', reason_for_rejection: 'nope')
-      FactoryGirl.create(:garden, owner: member)
+      crop = FactoryBot.create(:crop, approval_status: 'rejected', reason_for_rejection: 'nope')
+      FactoryBot.create(:garden, owner: member)
       get :new, crop_id: crop.id
       assigns(:crop).should_not eq(crop)
     end

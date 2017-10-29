@@ -14,8 +14,8 @@ require 'rails_helper'
 
 describe "notifications/show" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
-    @notification = FactoryGirl.create(:notification, recipient: @member)
+    @member = FactoryBot.create(:member)
+    @notification = FactoryBot.create(:notification, recipient: @member)
     assign(:notification, @notification)
     @reply_link = assign(:reply_link, new_notification_path)
     controller.stub(:current_user) { @member }

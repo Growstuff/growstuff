@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ScientificName do
   context 'all fields present' do
-    let(:sn) { FactoryGirl.create(:zea_mays) }
+    let(:sn) { FactoryBot.create(:zea_mays) }
 
     it 'should save a basic scientific name' do
       sn.save.should be(true)

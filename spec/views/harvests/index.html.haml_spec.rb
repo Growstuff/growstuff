@@ -15,19 +15,19 @@ require 'rails_helper'
 describe "harvests/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @member = FactoryGirl.create(:member)
-    @tomato = FactoryGirl.create(:tomato)
-    @maize  = FactoryGirl.create(:maize)
-    @pp = FactoryGirl.create(:plant_part)
+    @member = FactoryBot.create(:member)
+    @tomato = FactoryBot.create(:tomato)
+    @maize  = FactoryBot.create(:maize)
+    @pp = FactoryBot.create(:plant_part)
     page = 1
     per_page = 2
     total_entries = 2
     harvests = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-                      FactoryGirl.create(:harvest,
+                      FactoryBot.create(:harvest,
                         crop: @tomato,
                         owner: @member),
-                      FactoryGirl.create(:harvest,
+                      FactoryBot.create(:harvest,
                         crop: @maize,
                         plant_part: @pp,
                         owner: @member)

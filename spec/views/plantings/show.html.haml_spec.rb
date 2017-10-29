@@ -14,15 +14,15 @@ require 'rails_helper'
 
 describe "plantings/show" do
   def create_planting_for(member)
-    @garden = FactoryGirl.create(:garden, owner: @member)
-    @crop = FactoryGirl.create(:tomato)
+    @garden = FactoryBot.create(:garden, owner: @member)
+    @crop = FactoryBot.create(:tomato)
     @planting = assign(:planting,
-      FactoryGirl.create(:planting, garden: @garden, crop: @crop,
+      FactoryBot.create(:planting, garden: @garden, crop: @crop,
                                     planted_from: 'cutting'))
   end
 
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
     @p = create_planting_for(@member)
   end
@@ -30,7 +30,7 @@ describe "plantings/show" do
   context 'sunniness' do
     before(:each) do
       @p = assign(:planting,
-        FactoryGirl.create(:sunny_planting))
+        FactoryBot.create(:sunny_planting))
     end
 
     it "shows the sunniness" do
@@ -42,7 +42,7 @@ describe "plantings/show" do
 
   context 'planted from' do
     before(:each) do
-      @p = assign(:planting, FactoryGirl.create(:cutting_planting))
+      @p = assign(:planting, FactoryBot.create(:cutting_planting))
     end
 
     it "shows planted_from" do
@@ -61,7 +61,7 @@ describe "plantings/show" do
   end
 
   it "shows photos" do
-    @photo = FactoryGirl.create(:photo, owner: @member)
+    @photo = FactoryBot.create(:photo, owner: @member)
     @p.photos << @photo
     render
     assert_select "img[src='#{@photo.thumbnail_url}']"

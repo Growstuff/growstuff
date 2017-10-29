@@ -16,7 +16,7 @@ describe "scientific_names/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @scientific_name = assign(:scientific_name,
-      FactoryGirl.create(:zea_mays))
+      FactoryBot.create(:zea_mays))
   end
 
   it "renders attributes in <p>" do
@@ -27,7 +27,7 @@ describe "scientific_names/show" do
 
   context 'signed in' do
     before :each do
-      @wrangler = FactoryGirl.create(:crop_wrangling_member)
+      @wrangler = FactoryBot.create(:crop_wrangling_member)
       sign_in @wrangler
       controller.stub(:current_user) { @wrangler }
       render

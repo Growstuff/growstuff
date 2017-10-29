@@ -15,8 +15,8 @@ require 'rails_helper'
 describe "comments/new" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @post = FactoryGirl.create(:post)
-    @comment = FactoryGirl.create(:comment, post: @post)
+    @post = FactoryBot.create(:post)
+    @comment = FactoryBot.create(:comment, post: @post)
     assign(:comment, @comment)
     assign(:comments, [@comment])
     render

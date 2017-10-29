@@ -18,8 +18,8 @@ describe "crops/index" do
     page = 1
     per_page = 2
     total_entries = 2
-    @tomato = FactoryGirl.create(:tomato)
-    @maize  = FactoryGirl.create(:maize)
+    @tomato = FactoryBot.create(:tomato)
+    @maize  = FactoryBot.create(:maize)
     assign(:crops, [@tomato, @maize])
     crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([@tomato, @maize])
@@ -28,8 +28,8 @@ describe "crops/index" do
   end
 
   it "shows photos where available" do
-    @planting = FactoryGirl.create(:planting, crop: @tomato)
-    @photo = FactoryGirl.create(:photo)
+    @planting = FactoryBot.create(:planting, crop: @tomato)
+    @photo = FactoryBot.create(:photo)
     @planting.photos << @photo
     render
     assert_select "img", src: @photo.thumbnail_url
@@ -42,7 +42,7 @@ describe "crops/index" do
 
   context "logged in and crop wrangler" do
     before(:each) do
-      @member = FactoryGirl.create(:crop_wrangling_member)
+      @member = FactoryBot.create(:crop_wrangling_member)
       sign_in @member
       controller.stub(:current_user) { @member }
       render
