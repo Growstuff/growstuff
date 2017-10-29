@@ -92,7 +92,6 @@ feature "Planting a crop", :js, :elasticsearch do
 
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Progress: Not enough data"
-      expect(page).to have_content "Days until maturity: unknown"
     end
 
     it "should show that planting is in progress" do
@@ -127,9 +126,8 @@ feature "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Progress: 100%"
+      expect(page).to have_content "100%"
       expect(page).to have_content "Yes (no date specified)"
-      expect(page).to have_content "Days until maturity: 0"
     end
 
     it "should show that planting is 100% complete (date specified)" do
@@ -146,8 +144,7 @@ feature "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Progress: 100%"
-      expect(page).to have_content "Days until maturity: 0"
+      expect(page).to have_content "100%"
     end
   end
 
@@ -232,7 +229,7 @@ feature "Planting a crop", :js, :elasticsearch do
     end
     expect(page).to have_content "planting was successfully created"
     expect(page).to have_content "Finished: Yes (no date specified)"
-    expect(page).to have_content "Progress: 100%"
+    expect(page).to have_content "100%"
   end
 
   describe "Planting sunniness" do

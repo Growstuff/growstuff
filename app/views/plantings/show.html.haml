@@ -41,16 +41,14 @@
         = sunniness
 
       - unless @planting.crop.perennial
-        - if @planting.finished_at.present?
-          %dt Finished:
-          %dd= display_finished(@planting)
-        -else
-          %dt Predicted finish:
-          %dd
-            - if @planting.planted_at.present?
-              =@planting.finish_predicted_at
-            - else
-              Set planted date to get predictions
+        %dt Finished:
+        %dd= display_finished(@planting)
+        %dt Predicted finish:
+        %dd
+          - if @planting.finish_predicted_at.present?
+            =@planting.finish_predicted_at
+          - else
+            Set planted date to get predictions
 
         - if @planting.lifespan.present?
           %dt Lifespan:

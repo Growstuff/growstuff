@@ -4,7 +4,6 @@
   = render "plantings/progress_bar", status: "not planted", progress: 0
 - elsif planting.finished?
   = render "plantings/progress_bar", status: 'finished', progress: 100
-
 - elsif planting.finish_predicted_at.nil?
   - if show_explanation == true
     Progress: Not enough data

@@ -1,6 +1,6 @@
 module PlantingsHelper
   def display_finished(planting)
-    if !planting.finished_at.nil?
+    if planting.finished_at.present?
       planting.finished_at
     elsif planting.finished
       "Yes (no date specified)"
