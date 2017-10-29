@@ -1,43 +1,11 @@
 class Harvest < ActiveRecord::Base
-  extend FriendlyId
   include ActionView::Helpers::NumberHelper
+  extend FriendlyId
   include PhotoCapable
 
-  after_save :update_predictions
   friendly_id :harvest_slug, use: [:slugged, :finders]
 
-  belongs_to :crop
-  belongs_to :owner, class_name: 'Member', counter_cache: true
-  belongs_to :plant_part
-  belongs_to :planting
-
-  default_scope { joins(:owner).order(created_at: :desc) }
-  validates :crop, approved: true
-
-  validates :crop, presence: { message: "must be present and exist in our database" }
-
-  validates :plant_part, presence: { message: "must be present and exist in our database" }
-  validate :crop_must_match_planting
-  validate :harvest_must_be_after_planting
-
-  def crop_must_match_planting
-    return if planting.blank? # only check if we are linked to a planting
-    errors.add(:planting, "must be the same crop") unless crop == planting.crop
-  end
-
-  def harvest_must_be_after_planting
-    # only check if we are linked to a planting
-    return unless harvested_at.present? && planting.present? && planting.planted_at.present?
-    errors.add(:planting, "cannot be harvested before planting") unless harvested_at > planting.planted_at
-  end
-
-  validates :quantity,
-    numericality: {
-      only_integer: false,
-      greater_than_or_equal_to: 0
-    },
-    allow_nil: true
-
+  # Constants
   UNITS_VALUES = {
     "individual" => "individual",
     "bunches" => "bunch",
@@ -50,32 +18,53 @@ class Harvest < ActiveRecord::Base
     "baskets" => "basket",
     "bushels" => "bushel"
   }.freeze
-  validates :unit, inclusion: { in: UNITS_VALUES.values,
-                                message: "%{value} is not a valid unit" },
-                   allow_nil: true,
-                   allow_blank: true
-
-  validates :weight_quantity,
-    numericality: { only_integer: false },
-    allow_nil: true
 
   WEIGHT_UNITS_VALUES = {
     "kg" => "kg",
     "lb" => "lb",
     "oz" => "oz"
   }.freeze
-  validates :weight_unit, inclusion: { in: WEIGHT_UNITS_VALUES.values,
-                                       message: "%{value} is not a valid unit" },
-                          allow_nil: true,
-                          allow_blank: true
 
+  ##
+  ## Triggers
   after_validation :cleanup_quantities
-
   before_save :set_si_weight
+  after_save :update_predictions
+
+  ##
+  ## Relationships
+  belongs_to :crop
+  belongs_to :owner, class_name: 'Member', counter_cache: true
+  belongs_to :plant_part
+  belongs_to :planting
+
+  ##
+  ## Scopes
+  default_scope { joins(:owner).order(created_at: :desc) }
+
+  ##
+  ## Validations
+  validates :crop, approved: true
+  validates :crop, presence: { message: "must be present and exist in our database" }
+  validates :plant_part, presence: { message: "must be present and exist in our database" }
+  validate :crop_must_match_planting
+  validate :harvest_must_be_after_planting
+  validates :quantity, numericality: {
+    only_integer: false, greater_than_or_equal_to: 0
+  }, allow_nil: true
+  validates :unit, inclusion: {
+    in: UNITS_VALUES.values,
+    message: "%{value} is not a valid unit"
+  }, allow_nil: true, allow_blank: true
+  validates :weight_quantity, numericality: { only_integer: false }, allow_nil: true
+  validates :weight_unit, inclusion: {
+    in: WEIGHT_UNITS_VALUES.values,
+    message: "%{value} is not a valid unit"
+  }, allow_nil: true, allow_blank: true
 
   def time_from_planting_to_harvest
     return if planting.blank?
-    harvested_at - plating.planted_at
+    harvested_at - planting.planted_at
   end
 
   # we're storing the harvest weight in kilograms in the db too
@@ -140,11 +129,22 @@ class Harvest < ActiveRecord::Base
   end
 
   def update_predictions
-    return if planting.blank?
-    # Set the actual harvest on the planting
-    planting.update(harvested_at: Harvest.where(planting: self).order(:harvested_at).first.harvested_at)
+    # return if planting.blank?
+    # # Set the actual harvest on the planting
+    # planting.update(harvested_at: Harvest.where(planting: self).order(:harvested_at).first.harvested_at)
 
-    differences = Planting.where(crop: crop, finished: false).collect(&:time_to_first_harvest)
-    differences.compact.sum / differences.compact.size unless differences.compact.empty?
+    # differences = Planting.where(crop: crop, finished: false).collect(&:time_to_first_harvest)
+    # differences.compact.sum / differences.compact.size unless differences.compact.empty?
+  end
+
+  def crop_must_match_planting
+    return if planting.blank? # only check if we are linked to a planting
+    errors.add(:planting, "must be the same crop") unless crop == planting.crop
+  end
+
+  def harvest_must_be_after_planting
+    # only check if we are linked to a planting
+    return unless harvested_at.present? && planting.present? && planting.planted_at.present?
+    errors.add(:planting, "cannot be harvested before planting") unless harvested_at > planting.planted_at
   end
 end
