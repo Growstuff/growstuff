@@ -33,7 +33,7 @@ before_script:
     if [ "${STATIC_CHECKS}" = "true" ]; then
       ./script/install_linters;
     else
-      bundle exec rake db:create db:migrate db:test:prepare;
+      RAILS_ENV=test bundle exec rake db:create db:migrate;
       bundle exec rake assets:precompile;
     fi
   - set +e
