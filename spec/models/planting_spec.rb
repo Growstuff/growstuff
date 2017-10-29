@@ -102,41 +102,6 @@ describe Planting do
     end
   end
 
-  pending '#percentage_grown' do
-    it 'should not be more than 100%' do
-      @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
-
-      Timecop.freeze(2.days.from_now) do
-        @planting.percentage_grown.should be 100
-      end
-    end
-
-    it 'should not be less than 0%' do
-      @planting = FactoryGirl.build(:planting, days_before_maturity: 1, planted_at: 1.day.ago)
-
-      Timecop.freeze(2.days.ago) do
-        @planting.percentage_grown.should be nil
-      end
-    end
-
-    pending 'should reflect the current growth' do
-      @planting = FactoryGirl.build(:planting, days_before_maturity: 10, planted_at: 4.days.ago)
-      expect(@planting.percentage_grown).to eq 40
-    end
-
-    it 'should not be calculated for unplanted plantings' do
-      @planting = FactoryGirl.build(:planting, planted_at: nil)
-
-      @planting.planted?.should be false
-      @planting.percentage_grown.should be nil
-    end
-
-    it 'should not be calculated for plantings with an unknown days before maturity' do
-      @planting = FactoryGirl.build(:planting, days_before_maturity: nil)
-      @planting.percentage_grown.should be nil
-    end
-  end
-
   context 'delegation' do
     it 'system name' do
       planting.crop_name.should eq planting.crop.name
