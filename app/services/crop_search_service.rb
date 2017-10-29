@@ -3,7 +3,7 @@ class CropSearchService
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
       search_str = query.nil? ? "" : query.downcase
-      response = __elasticsearch__.search( # Finds documents which match any field, but uses the _score from
+      response = Crop.__elasticsearch__.search( # Finds documents which match any field, but uses the _score from
         # the best field insead of adding up _score from each field.
         query: {
           multi_match: {

@@ -203,8 +203,8 @@ class Crop < ActiveRecord::Base
   end
 
   # # Crop.search(string)
-  def self.search(_query)
-    CropSearchService.search
+  def self.search(query)
+    CropSearchService.search(query)
   end
 
   def self.case_insensitive_name(name)
