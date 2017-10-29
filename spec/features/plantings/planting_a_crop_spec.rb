@@ -109,7 +109,7 @@ feature "Planting a crop", :js, :elasticsearch do
 
       expect(page).to have_content "planting was successfully created"
       expect(page).to_not have_content "Progress: 0% - not planted yet"
-      expect(page).to_not have_content "Progress: Not enough data"
+      expect(page).to_not have_content "Not enough data"
     end
 
     it "should show that planting is 100% complete (no date specified)" do
