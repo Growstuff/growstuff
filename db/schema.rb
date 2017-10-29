@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171022032108) do
+ActiveRecord::Schema.define(version: 20171028230429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,8 @@ ActiveRecord::Schema.define(version: 20171022032108) do
     t.text     "reason_for_rejection"
     t.text     "request_notes"
     t.text     "rejection_notes"
+    t.boolean  "perennial",            default: false
+    t.integer  "median_lifespan"
   end
 
   add_index "crops", ["name"], name: "index_crops_on_name", using: :btree
@@ -207,6 +209,28 @@ ActiveRecord::Schema.define(version: 20171022032108) do
 
   add_index "crops_posts", ["crop_id", "post_id"], name: "index_crops_posts_on_crop_id_and_post_id", using: :btree
   add_index "crops_posts", ["crop_id"], name: "index_crops_posts_on_crop_id", using: :btree
+
+  create_table "event_types", force: :cascade do |t|
+    t.text     "name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "event_types", ["name"], name: "index_event_types_on_name", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.datetime "planned_for"
+    t.datetime "occured_at"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "event_type_id", null: false
+    t.integer  "planting_id",   null: false
+  end
+
+  add_index "events", ["event_type_id"], name: "index_events_on_event_type_id", using: :btree
+  add_index "events", ["planned_for"], name: "index_events_on_planned_for", using: :btree
+  add_index "events", ["planting_id"], name: "index_events_on_planting_id", using: :btree
 
   create_table "follows", force: :cascade do |t|
     t.integer  "follower_id"
@@ -239,6 +263,8 @@ ActiveRecord::Schema.define(version: 20171022032108) do
     t.float    "longitude"
     t.decimal  "area"
     t.string   "area_unit"
+    t.integer  "width"
+    t.integer  "length"
   end
 
   add_index "gardens", ["owner_id"], name: "index_gardens_on_owner_id", using: :btree
@@ -289,6 +315,9 @@ ActiveRecord::Schema.define(version: 20171022032108) do
   add_index "likes", ["likeable_id"], name: "index_likes_on_likeable_id", using: :btree
   add_index "likes", ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id", using: :btree
   add_index "likes", ["member_id"], name: "index_likes_on_member_id", using: :btree
+
+  create_table "median_functions", force: :cascade do |t|
+  end
 
   create_table "members", force: :cascade do |t|
     t.string   "email",                   default: "",   null: false
@@ -423,8 +452,7 @@ ActiveRecord::Schema.define(version: 20171022032108) do
     t.boolean  "finished",             default: false
     t.date     "finished_at"
     t.integer  "days_before_maturity"
-    t.datetime "harvest_predicted_at"
-    t.datetime "harvested_at"
+    t.integer  "lifespan"
   end
 
   add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree
@@ -490,5 +518,16 @@ ActiveRecord::Schema.define(version: 20171022032108) do
 
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree
 
+  create_table "squares", force: :cascade do |t|
+    t.integer  "garden_id"
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "planting_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_foreign_key "events", "event_types"
+  add_foreign_key "events", "plantings"
   add_foreign_key "harvests", "plantings"
 end
