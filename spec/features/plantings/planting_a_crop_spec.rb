@@ -43,7 +43,7 @@ feature "Planting a crop", :js, :elasticsearch do
     end
 
     expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
+    expect(page).to have_content "Progress: Not enough data"
   end
 
   scenario "Clicking link to owner's profile" do
@@ -91,7 +91,7 @@ feature "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
+      expect(page).to have_content "Progress: Not enough data"
       expect(page).to have_content "Days until maturity: unknown"
     end
 
@@ -110,7 +110,7 @@ feature "Planting a crop", :js, :elasticsearch do
 
       expect(page).to have_content "planting was successfully created"
       expect(page).to_not have_content "Progress: 0% - not planted yet"
-      expect(page).to_not have_content "Progress: Not calculated, days before maturity unknown"
+      expect(page).to_not have_content "Progress: Not enough data"
     end
 
     it "should show that planting is 100% complete (no date specified)" do
@@ -173,13 +173,13 @@ feature "Planting a crop", :js, :elasticsearch do
 
   scenario "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
-    expect(page).to have_content "Progress: Not calculated, days before maturity unknown"
+    expect(page).to have_content "Progress: Not enough data"
     click_link "Edit"
     check "finished"
     fill_in "Finished date", with: "2015-06-25"
     click_button "Save"
     expect(page).to have_content "planting was successfully updated"
-    expect(page).to_not have_content "Progress: Not calculated, days before maturity unknown"
+    expect(page).to_not have_content "Progress: Not enough data"
   end
 
   scenario "Marking a planting as finished" do
