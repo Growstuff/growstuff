@@ -14,10 +14,10 @@ require 'rails_helper'
 
 describe "seeds/edit" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }
-    @seed = FactoryGirl.create(:seed, owner: @member)
+    @seed = FactoryBot.create(:seed, owner: @member)
   end
 
   it "renders the edit seed form" do
@@ -34,7 +34,7 @@ describe "seeds/edit" do
   end
 
   it "doesn't revert tradable_to to nowhere" do
-    @seed = FactoryGirl.create(:tradable_seed, owner: @member)
+    @seed = FactoryBot.create(:tradable_seed, owner: @member)
     @seed.tradable_to.should_not eq "nowhere"
     render
     assert_select "option[selected=selected]", text: @seed.tradable_to

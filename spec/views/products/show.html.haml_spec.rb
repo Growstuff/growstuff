@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "products/show" do
   before(:each) do
-    @product = assign(:product, FactoryGirl.create(:product))
+    @product = assign(:product, FactoryBot.create(:product))
   end
 
   it "renders attributes in <p>" do

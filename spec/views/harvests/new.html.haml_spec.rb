@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "harvests/new" do
   before(:each) do
-    assign(:harvest, FactoryGirl.create(:harvest))
+    assign(:harvest, FactoryBot.create(:harvest))
     render
   end
 

@@ -99,8 +99,8 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
 
-  # Allow just create(:factory) instead of needing to specify FactoryGirl.create(:factory)
-  config.include FactoryGirl::Syntax::Methods
+  # Allow just create(:factory) instead of needing to specify FactoryBot.create(:factory)
+  config.include FactoryBot::Syntax::Methods
 
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, js: true) do

@@ -15,7 +15,7 @@ require 'rails_helper'
 describe "seeds/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @seed = FactoryGirl.create(:seed)
+    @seed = FactoryBot.create(:seed)
     assign(:seed, @seed)
   end
 
@@ -26,11 +26,11 @@ describe "seeds/show" do
 
   context "tradable" do
     before(:each) do
-      @owner = FactoryGirl.create(:london_member)
-      assign(:seed, FactoryGirl.create(:tradable_seed,
+      @owner = FactoryBot.create(:london_member)
+      assign(:seed, FactoryBot.create(:tradable_seed,
         owner: @owner))
       # note current_member is not the owner of this seed
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
     end
@@ -48,10 +48,10 @@ describe "seeds/show" do
 
     context 'with no location' do
       before(:each) do
-        @owner = FactoryGirl.create(:member) # no location
+        @owner = FactoryBot.create(:member) # no location
         sign_in @owner
         controller.stub(:current_user) { @owner }
-        assign(:seed, FactoryGirl.create(:tradable_seed, owner: @owner))
+        assign(:seed, FactoryBot.create(:tradable_seed, owner: @owner))
       end
 
       it 'says "from unspecified location"' do

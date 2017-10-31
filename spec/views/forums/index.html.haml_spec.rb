@@ -14,10 +14,10 @@ require 'rails_helper'
 
 describe "forums/index" do
   before(:each) do
-    @admin = FactoryGirl.create(:admin_member)
+    @admin = FactoryBot.create(:admin_member)
     controller.stub(:current_user) { @admin }
-    @forum1 = FactoryGirl.create(:forum)
-    @forum2 = FactoryGirl.create(:forum)
+    @forum1 = FactoryBot.create(:forum)
+    @forum2 = FactoryBot.create(:forum)
     assign(:forums, [@forum1, @forum2])
   end
 
@@ -33,8 +33,8 @@ describe "forums/index" do
 
   context "posts" do
     before(:each) do
-      @post = FactoryGirl.create(:forum_post, forum: @forum1)
-      @comment = FactoryGirl.create(:comment, post: @post)
+      @post = FactoryBot.create(:forum_post, forum: @forum1)
+      @comment = FactoryBot.create(:comment, post: @post)
       render
     end
 

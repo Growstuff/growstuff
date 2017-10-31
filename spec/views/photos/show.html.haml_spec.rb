@@ -13,15 +13,15 @@
 require 'rails_helper'
 
 describe "photos/show" do
-  let(:photo) { FactoryGirl.create :photo, owner: member }
+  let(:photo) { FactoryBot.create :photo, owner: member }
   before { @photo = photo }
 
-  let(:member) { FactoryGirl.create :member }
+  let(:member) { FactoryBot.create :member }
 
-  let(:harvest) { FactoryGirl.create :harvest, owner: member }
-  let(:planting) { FactoryGirl.create :planting, owner: member }
-  let(:seed) { FactoryGirl.create :seed, owner: member }
-  let(:garden) { FactoryGirl.create :garden, owner: member }
+  let(:harvest) { FactoryBot.create :harvest, owner: member }
+  let(:planting) { FactoryBot.create :planting, owner: member }
+  let(:seed) { FactoryBot.create :seed, owner: member }
+  let(:garden) { FactoryBot.create :garden, owner: member }
 
   shared_examples "photo data renders" do
     it "shows the image" do
@@ -70,7 +70,7 @@ describe "photos/show" do
 
   context "signed in as another member" do
     before(:each) do
-      controller.stub(:current_user) { FactoryGirl.create :member }
+      controller.stub(:current_user) { FactoryBot.create :member }
       render
     end
     include_examples "photo data renders"
@@ -89,7 +89,7 @@ describe "photos/show" do
   context "CC-licensed photo" do
     before(:each) do
       controller.stub(:current_user) { nil }
-      # @photo = assign(:photo, FactoryGirl.create(:photo, owner: @member))
+      # @photo = assign(:photo, FactoryBot.create(:photo, owner: @member))
       @photo.harvests << harvest
       @photo.plantings << planting
       @photo.seeds << seed
@@ -105,7 +105,7 @@ describe "photos/show" do
   context "unlicensed photo" do
     before(:each) do
       controller.stub(:current_user) { nil }
-      @photo = assign(:photo, FactoryGirl.create(:unlicensed_photo))
+      @photo = assign(:photo, FactoryBot.create(:unlicensed_photo))
       render
     end
 

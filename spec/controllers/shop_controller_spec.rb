@@ -14,8 +14,8 @@ require 'rails_helper'
 
 describe ShopController do
   before :each do
-    @product1 = FactoryGirl.create(:product)
-    @product2 = FactoryGirl.create(:product)
+    @product1 = FactoryBot.create(:product)
+    @product2 = FactoryBot.create(:product)
   end
 
   describe "GET index" do
@@ -35,9 +35,9 @@ describe ShopController do
     end
 
     it "assigns @order as current_order if there is one" do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       sign_in @member
-      @order = FactoryGirl.create(:order, member: @member)
+      @order = FactoryBot.create(:order, member: @member)
       get :index, {}
       assigns(:order).should eq @order
     end
