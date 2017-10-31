@@ -15,11 +15,11 @@ require 'rails_helper'
 describe "scientific_names/edit" do
   context "logged in" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
       @scientific_name = assign(:scientific_name,
-        FactoryGirl.create(:zea_mays))
+        FactoryBot.create(:zea_mays))
       render
     end
 

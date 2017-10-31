@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "photos/new" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
     page = 1
     per_page = 2
@@ -23,7 +23,7 @@ describe "photos/new" do
       pager.replace([])
     end
     assign(:photos, photos)
-    assign(:flickr_auth, FactoryGirl.create(:flickr_authentication, member: @member))
+    assign(:flickr_auth, FactoryBot.create(:flickr_authentication, member: @member))
   end
 
   context "user has no photosets" do

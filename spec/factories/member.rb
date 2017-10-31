@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:email) { |n| "member#{n}@example.com" }
   sequence(:login_name) { |n| "member#{n}" }
 
@@ -60,11 +60,11 @@ FactoryGirl.define do
     end
 
     factory :admin_member do
-      roles { [FactoryGirl.create(:admin)] }
+      roles { [FactoryBot.create(:admin)] }
     end
 
     factory :crop_wrangling_member do
-      roles { [FactoryGirl.create(:crop_wrangler)] }
+      roles { [FactoryBot.create(:crop_wrangler)] }
       sequence(:login_name) { |n| "wrangler#{n}" }
     end
 

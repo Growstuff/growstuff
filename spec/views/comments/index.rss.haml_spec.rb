@@ -15,11 +15,11 @@ require 'rails_helper'
 describe 'comments/index.rss.haml' do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @author = FactoryGirl.create(:member)
-    @post = FactoryGirl.create(:post)
+    @author = FactoryBot.create(:member)
+    @post = FactoryBot.create(:post)
     assign(:comments, [
-             FactoryGirl.create(:comment, author: @author, post: @post),
-             FactoryGirl.create(:comment, author: @author, post: @post)
+             FactoryBot.create(:comment, author: @author, post: @post),
+             FactoryBot.create(:comment, author: @author, post: @post)
            ])
     render
   end

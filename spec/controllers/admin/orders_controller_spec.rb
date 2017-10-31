@@ -17,7 +17,7 @@ describe Admin::OrdersController do
 
   describe "GET search" do
     it "assigns @orders" do
-      order = FactoryGirl.create(:order)
+      order = FactoryBot.create(:order)
       get :search, search_by: 'order_id', search_text: order.id
       assigns(:orders).should eq([order])
     end

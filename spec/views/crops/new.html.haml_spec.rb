@@ -14,12 +14,12 @@ require 'rails_helper'
 
 describe "crops/new" do
   before(:each) do
-    @crop = FactoryGirl.create(:maize)
+    @crop = FactoryBot.create(:maize)
     3.times do
       @crop.scientific_names.build
     end
     assign(:crop, @crop)
-    @member = FactoryGirl.create(:crop_wrangling_member)
+    @member = FactoryBot.create(:crop_wrangling_member)
     sign_in @member
     controller.stub(:current_user) { @member }
     render

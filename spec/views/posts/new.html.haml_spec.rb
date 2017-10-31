@@ -14,8 +14,8 @@ require 'rails_helper'
 
 describe "posts/new" do
   before(:each) do
-    @author = FactoryGirl.create(:member)
-    assign(:post, FactoryGirl.create(:post, author: @author))
+    @author = FactoryBot.create(:member)
+    assign(:post, FactoryBot.create(:post, author: @author))
     # assign(:forum, Forum.new)
     sign_in @author
     controller.stub(:current_user) { @author }
@@ -46,8 +46,8 @@ describe "posts/new" do
 
   context "forum specified" do
     before(:each) do
-      @forum = assign(:forum, FactoryGirl.create(:forum))
-      assign(:post, FactoryGirl.create(:post, forum: @forum))
+      @forum = assign(:forum, FactoryBot.create(:forum))
+      assign(:post, FactoryBot.create(:post, forum: @forum))
       render
     end
 

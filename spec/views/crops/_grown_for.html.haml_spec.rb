@@ -14,9 +14,9 @@ require 'rails_helper'
 
 describe "crops/_grown_for" do
   before(:each) do
-    @crop = FactoryGirl.create(:crop)
-    @pp = FactoryGirl.create(:plant_part)
-    @harvest = FactoryGirl.create(:harvest,
+    @crop = FactoryBot.create(:crop)
+    @pp = FactoryBot.create(:plant_part)
+    @harvest = FactoryBot.create(:harvest,
       crop: @crop,
       plant_part: @pp)
   end

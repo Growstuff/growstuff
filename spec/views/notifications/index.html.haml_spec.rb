@@ -14,13 +14,13 @@ require 'rails_helper'
 
 describe "notifications/index" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
   end
 
   context "ordinary notifications" do
     before(:each) do
-      @notification = FactoryGirl.create(:notification, sender: @member,
+      @notification = FactoryBot.create(:notification, sender: @member,
                                                         recipient: @member)
       assign(:notifications, Kaminari.paginate_array([@notification, @notification]).page(1))
       render
@@ -39,7 +39,7 @@ describe "notifications/index" do
 
   context "no subject" do
     it "shows (no subject)" do
-      @notification = FactoryGirl.create(:notification,
+      @notification = FactoryBot.create(:notification,
         sender: @member, recipient: @member, subject: nil)
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
@@ -49,7 +49,7 @@ describe "notifications/index" do
 
   context "whitespace-only subject" do
     it "shows (no subject)" do
-      @notification = FactoryGirl.create(:notification,
+      @notification = FactoryBot.create(:notification,
         sender: @member, recipient: @member, subject: "   ")
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render

@@ -16,8 +16,8 @@ describe "scientific_names/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
     assign(:scientific_names, [
-             FactoryGirl.create(:zea_mays),
-             FactoryGirl.create(:solanum_lycopersicum)
+             FactoryBot.create(:zea_mays),
+             FactoryBot.create(:solanum_lycopersicum)
            ])
   end
 
@@ -35,7 +35,7 @@ describe "scientific_names/index" do
 
   context "logged in and crop wrangler" do
     before(:each) do
-      @member = FactoryGirl.create(:crop_wrangling_member)
+      @member = FactoryBot.create(:crop_wrangling_member)
       sign_in @member
       controller.stub(:current_user) { @member }
     end

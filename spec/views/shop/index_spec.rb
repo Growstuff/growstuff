@@ -14,15 +14,15 @@ require 'rails_helper'
 
 describe 'shop/index.html.haml', type: "view" do
   before(:each) do
-    @product1 = FactoryGirl.create(:product)
-    @product2 = FactoryGirl.create(:product_with_recommended_price)
+    @product1 = FactoryBot.create(:product)
+    @product2 = FactoryBot.create(:product_with_recommended_price)
     assign(:products, [@product1, @product2])
     assign(:order_item, OrderItem.new)
   end
 
   context "signed in" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       controller.stub(:current_user) { @member }
       render
     end
@@ -60,8 +60,8 @@ describe 'shop/index.html.haml', type: "view" do
 
   context "is paid" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
-      @member.account.account_type = FactoryGirl.create(:paid_account_type)
+      @member = FactoryBot.create(:member)
+      @member.account.account_type = FactoryBot.create(:paid_account_type)
       @member.account.paid_until = Time.zone.now + 1.year
       controller.stub(:current_member) { @member }
     end

@@ -64,7 +64,7 @@ describe 'layouts/_header.html.haml', type: "view" do
 
   context "logged in" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
       render
@@ -99,7 +99,7 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     context 'has notifications' do
       it 'should show inbox count' do
-        FactoryGirl.create(:notification, recipient: @member)
+        FactoryBot.create(:notification, recipient: @member)
         render
         rendered.should have_content 'Inbox (1)'
       end

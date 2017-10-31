@@ -17,7 +17,7 @@ describe PhotosController do
   login_member
 
   def valid_attributes
-    member = FactoryGirl.create(:member)
+    member = FactoryBot.create(:member)
     {
       "owner_id" => member.id,
       "flickr_photo_id" => 1,
@@ -35,7 +35,7 @@ describe PhotosController do
 
   describe "GET new" do
     before(:each) do
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       sign_in @member
       @member.stub(:flickr_photos) { [[], 0] }
       @member.stub(:flickr_sets) { { "foo" => "bar" } }
@@ -43,7 +43,7 @@ describe PhotosController do
     end
 
     it "assigns the flickr auth as @flickr_auth" do
-      @auth = FactoryGirl.create(:flickr_authentication, member: @member)
+      @auth = FactoryBot.create(:flickr_authentication, member: @member)
       get :new, {}
       assigns(:flickr_auth).should be_an_instance_of(Authentication)
     end
@@ -86,11 +86,11 @@ describe PhotosController do
                                                            link_url: "http://example.com")
     end
 
-    let(:member) { FactoryGirl.create(:member) }
-    let(:garden) { FactoryGirl.create(:garden, owner: member) }
-    let(:planting) { FactoryGirl.create(:planting, garden: garden, owner: member) }
-    let(:harvest) { FactoryGirl.create(:harvest, owner: member) }
-    let(:photo) { FactoryGirl.create(:photo, owner: member) }
+    let(:member) { FactoryBot.create(:member) }
+    let(:garden) { FactoryBot.create(:garden, owner: member) }
+    let(:planting) { FactoryBot.create(:planting, garden: garden, owner: member) }
+    let(:harvest) { FactoryBot.create(:harvest, owner: member) }
+    let(:photo) { FactoryBot.create(:photo, owner: member) }
     describe "with valid params" do
       before { controller.stub(:current_member) { member } }
       it "attaches the photo to a planting" do
@@ -120,7 +120,7 @@ describe PhotosController do
       end
 
       it "doesn't attach photo to a comment" do
-        comment = FactoryGirl.create(:comment)
+        comment = FactoryBot.create(:comment)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
         expect(flash[:alert]).to be_present
       end
@@ -140,8 +140,8 @@ describe PhotosController do
     describe "with matching owners" do
       before { controller.stub(:current_member) { member } }
       it "creates the planting/photo link" do
-        planting = FactoryGirl.create(:planting, garden: garden, owner: member)
-        photo = FactoryGirl.create(:photo, owner: member)
+        planting = FactoryBot.create(:planting, garden: garden, owner: member)
+        photo = FactoryBot.create(:photo, owner: member)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
         expect(flash[:alert]).not_to be_present
         Photo.last.plantings.first.should eq planting
@@ -155,10 +155,10 @@ describe PhotosController do
     end
 
     describe "with mismatched owners" do
-      let(:photo) { FactoryGirl.create(:photo) }
+      let(:photo) { FactoryBot.create(:photo) }
       it "does not create the planting/photo link" do
         # members will be auto-created, and different
-        another_planting = FactoryGirl.create(:planting)
+        another_planting = FactoryBot.create(:planting)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
         expect(flash[:alert]).to be_present
         Photo.last.plantings.first.should_not eq another_planting
@@ -166,7 +166,7 @@ describe PhotosController do
 
       it "does not create the harvest/photo link" do
         # members will be auto-created, and different
-        another_harvest = FactoryGirl.create(:harvest)
+        another_harvest = FactoryBot.create(:harvest)
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
         expect(flash[:alert]).to be_present
         Photo.last.harvests.first.should_not eq another_harvest

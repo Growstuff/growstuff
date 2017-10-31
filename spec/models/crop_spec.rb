@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Crop do
   context 'all fields present' do
-    let(:crop) { FactoryGirl.create(:tomato) }
+    let(:crop) { FactoryBot.create(:tomato) }
 
     it 'should save a basic crop' do
       crop.save.should be(true)
@@ -28,15 +28,15 @@ describe Crop do
 
   context 'invalid data' do
     it 'should not save a crop without a system name' do
-      crop = FactoryGirl.build(:crop, name: nil)
+      crop = FactoryBot.build(:crop, name: nil)
       expect { crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
   end
 
   context 'ordering' do
     before do
-      @uppercase = FactoryGirl.create(:uppercasecrop, created_at: 1.minute.ago)
-      @lowercase = FactoryGirl.create(:lowercasecrop, created_at: 2.days.ago)
+      @uppercase = FactoryBot.create(:uppercasecrop, created_at: 1.minute.ago)
+      @lowercase = FactoryBot.create(:lowercasecrop, created_at: 2.days.ago)
     end
 
     it "should be sorted case-insensitively" do
@@ -49,40 +49,40 @@ describe Crop do
   end
 
   context 'popularity' do
-    let(:tomato) { FactoryGirl.create(:tomato) }
-    let(:maize) { FactoryGirl.create(:maize) }
-    let(:cucumber) { FactoryGirl.create(:crop, name: 'cucumber') }
+    let(:tomato) { FactoryBot.create(:tomato) }
+    let(:maize) { FactoryBot.create(:maize) }
+    let(:cucumber) { FactoryBot.create(:crop, name: 'cucumber') }
 
     before do
-      FactoryGirl.create_list(:planting, 10, crop: maize)
-      FactoryGirl.create_list(:planting, 3, crop: tomato)
+      FactoryBot.create_list(:planting, 10, crop: maize)
+      FactoryBot.create_list(:planting, 3, crop: tomato)
     end
 
     it "sorts by most plantings" do
       Crop.popular.first.should eq maize
-      FactoryGirl.create_list(:planting, 10, crop: tomato)
+      FactoryBot.create_list(:planting, 10, crop: tomato)
       Crop.popular.first.should eq tomato
     end
   end
 
   it 'finds a default scientific name' do
-    @crop = FactoryGirl.create(:tomato)
+    @crop = FactoryBot.create(:tomato)
     @crop.default_scientific_name.should eq nil
-    @sn = FactoryGirl.create(:solanum_lycopersicum, crop: @crop)
+    @sn = FactoryBot.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
     @crop.default_scientific_name.should eq @sn.name
   end
 
   it 'counts plantings' do
-    @crop = FactoryGirl.create(:tomato)
+    @crop = FactoryBot.create(:tomato)
     @crop.plantings.size.should eq 0
-    @planting = FactoryGirl.create(:planting, crop: @crop)
+    @planting = FactoryBot.create(:planting, crop: @crop)
     @crop.reload
     @crop.plantings.size.should eq 1
   end
 
   context "wikipedia url" do
-    subject { FactoryGirl.build(:tomato, en_wikipedia_url: wikipedia_url) }
+    subject { FactoryBot.build(:tomato, en_wikipedia_url: wikipedia_url) }
 
     context 'not a url' do
       let(:wikipedia_url) { 'this is not valid' }
@@ -122,27 +122,27 @@ describe Crop do
 
   context 'varieties' do
     it 'has a crop hierarchy' do
-      @tomato = FactoryGirl.create(:tomato)
-      @roma = FactoryGirl.create(:roma, parent_id: @tomato.id)
+      @tomato = FactoryBot.create(:tomato)
+      @roma = FactoryBot.create(:roma, parent_id: @tomato.id)
       @roma.parent.should eq @tomato
       @tomato.varieties.should eq [@roma]
     end
 
     it 'toplevel scope works' do
-      @tomato = FactoryGirl.create(:tomato)
-      @roma = FactoryGirl.create(:roma, parent_id: @tomato.id)
+      @tomato = FactoryBot.create(:tomato)
+      @roma = FactoryBot.create(:roma, parent_id: @tomato.id)
       Crop.toplevel.should eq [@tomato]
     end
   end
 
   context 'photos' do
     before :each do
-      @crop = FactoryGirl.create(:tomato)
+      @crop = FactoryBot.create(:tomato)
     end
     context 'with a planting photo' do
       before :each do
-        @planting = FactoryGirl.create(:planting, crop: @crop)
-        @photo = FactoryGirl.create(:photo)
+        @planting = FactoryBot.create(:planting, crop: @crop)
+        @photo = FactoryBot.create(:photo)
         @planting.photos << @photo
       end
 
@@ -158,8 +158,8 @@ describe Crop do
 
     context 'with a harvest photo' do
       before :each do
-        @harvest = FactoryGirl.create(:harvest, crop: @crop)
-        @photo = FactoryGirl.create(:photo)
+        @harvest = FactoryBot.create(:harvest, crop: @crop)
+        @photo = FactoryBot.create(:photo)
         @harvest.photos << @photo
       end
 
@@ -170,8 +170,8 @@ describe Crop do
 
       context 'and planting photo' do
         before :each do
-          @planting = FactoryGirl.create(:planting, crop: @crop)
-          @planting_photo = FactoryGirl.create(:photo)
+          @planting = FactoryBot.create(:planting, crop: @crop)
+          @planting_photo = FactoryBot.create(:photo)
           @planting.photos << @planting_photo
         end
 
@@ -189,81 +189,81 @@ describe Crop do
   end
 
   context 'sunniness' do
-    let(:crop) { FactoryGirl.create(:tomato) }
+    let(:crop) { FactoryBot.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      FactoryGirl.create(:sunny_planting, crop: crop)
-      FactoryGirl.create(:sunny_planting, crop: crop)
-      FactoryGirl.create(:semi_shady_planting, crop: crop)
-      FactoryGirl.create(:shady_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop: crop)
+      FactoryBot.create(:semi_shady_planting, crop: crop)
+      FactoryBot.create(:shady_planting, crop: crop)
       crop.sunniness.should be_an_instance_of Hash
     end
 
     it 'counts each sunniness value' do
-      FactoryGirl.create(:sunny_planting, crop: crop)
-      FactoryGirl.create(:sunny_planting, crop: crop)
-      FactoryGirl.create(:semi_shady_planting, crop: crop)
-      FactoryGirl.create(:shady_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop: crop)
+      FactoryBot.create(:semi_shady_planting, crop: crop)
+      FactoryBot.create(:shady_planting, crop: crop)
       crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
     end
 
     it 'ignores unused sunniness values' do
-      FactoryGirl.create(:sunny_planting, crop: crop)
-      FactoryGirl.create(:sunny_planting, crop: crop)
-      FactoryGirl.create(:semi_shady_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop: crop)
+      FactoryBot.create(:semi_shady_planting, crop: crop)
       crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
     end
   end
 
   context 'planted_from' do
-    let(:crop) { FactoryGirl.create(:tomato) }
+    let(:crop) { FactoryBot.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      FactoryGirl.create(:seed_planting, crop: crop)
-      FactoryGirl.create(:seed_planting, crop: crop)
-      FactoryGirl.create(:seedling_planting, crop: crop)
-      FactoryGirl.create(:cutting_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop: crop)
+      FactoryBot.create(:seedling_planting, crop: crop)
+      FactoryBot.create(:cutting_planting, crop: crop)
       crop.planted_from.should be_an_instance_of Hash
     end
 
     it 'counts each planted_from value' do
-      FactoryGirl.create(:seed_planting, crop: crop)
-      FactoryGirl.create(:seed_planting, crop: crop)
-      FactoryGirl.create(:seedling_planting, crop: crop)
-      FactoryGirl.create(:cutting_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop: crop)
+      FactoryBot.create(:seedling_planting, crop: crop)
+      FactoryBot.create(:cutting_planting, crop: crop)
       crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
     end
 
     it 'ignores unused planted_from values' do
-      FactoryGirl.create(:seed_planting, crop: crop)
-      FactoryGirl.create(:seed_planting, crop: crop)
-      FactoryGirl.create(:seedling_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop: crop)
+      FactoryBot.create(:seedling_planting, crop: crop)
       crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
     end
   end
 
   context 'popular plant parts' do
-    let(:crop) { FactoryGirl.create(:tomato) }
+    let(:crop) { FactoryBot.create(:tomato) }
 
     it 'returns a hash of plant_part values' do
       crop.popular_plant_parts.should be_an_instance_of Hash
     end
 
     it 'counts each plant_part value' do
-      @fruit = FactoryGirl.create(:plant_part)
-      @seed = FactoryGirl.create(:plant_part, name: 'seed')
-      @root = FactoryGirl.create(:plant_part, name: 'root')
-      @bulb = FactoryGirl.create(:plant_part, name: 'bulb')
-      @harvest1 = FactoryGirl.create(:harvest,
+      @fruit = FactoryBot.create(:plant_part)
+      @seed = FactoryBot.create(:plant_part, name: 'seed')
+      @root = FactoryBot.create(:plant_part, name: 'root')
+      @bulb = FactoryBot.create(:plant_part, name: 'bulb')
+      @harvest1 = FactoryBot.create(:harvest,
         crop: crop,
         plant_part: @fruit)
-      @harvest2 = FactoryGirl.create(:harvest,
+      @harvest2 = FactoryBot.create(:harvest,
         crop: crop,
         plant_part: @fruit)
-      @harvest3 = FactoryGirl.create(:harvest,
+      @harvest3 = FactoryBot.create(:harvest,
         crop: crop,
         plant_part: @seed)
-      @harvest4 = FactoryGirl.create(:harvest,
+      @harvest4 = FactoryBot.create(:harvest,
         crop: crop,
         plant_part: @root)
       crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
@@ -275,19 +275,19 @@ describe Crop do
   context 'interesting' do
     it 'lists interesting crops' do
       # first, a couple of candidate crops
-      @crop1 = FactoryGirl.create(:crop)
-      @crop2 = FactoryGirl.create(:crop)
+      @crop1 = FactoryBot.create(:crop)
+      @crop2 = FactoryBot.create(:crop)
 
       # they need 3+ plantings each to be interesting
       (1..3).each do
-        FactoryGirl.create(:planting, crop: @crop1)
+        FactoryBot.create(:planting, crop: @crop1)
       end
       (1..3).each do
-        FactoryGirl.create(:planting, crop: @crop2)
+        FactoryBot.create(:planting, crop: @crop2)
       end
 
       # crops need 3+ photos to be interesting
-      @photo = FactoryGirl.create(:photo)
+      @photo = FactoryBot.create(:photo)
       [@crop1, @crop2].each do |c|
         (1..3).each do
           c.plantings.first.photos << @photo
@@ -302,16 +302,16 @@ describe Crop do
 
     it 'ignores crops without plantings' do
       # first, a couple of candidate crops
-      @crop1 = FactoryGirl.create(:crop)
-      @crop2 = FactoryGirl.create(:crop)
+      @crop1 = FactoryBot.create(:crop)
+      @crop2 = FactoryBot.create(:crop)
 
       # only crop1 has plantings
       (1..3).each do
-        FactoryGirl.create(:planting, crop: @crop1)
+        FactoryBot.create(:planting, crop: @crop1)
       end
 
       # ... and photos
-      @photo = FactoryGirl.create(:photo)
+      @photo = FactoryBot.create(:photo)
       (1..3).each do
         @crop1.plantings.first.photos << @photo
         @crop1.plantings.first.save
@@ -324,19 +324,19 @@ describe Crop do
 
     it 'ignores crops without photos' do
       # first, a couple of candidate crops
-      @crop1 = FactoryGirl.create(:crop)
-      @crop2 = FactoryGirl.create(:crop)
+      @crop1 = FactoryBot.create(:crop)
+      @crop2 = FactoryBot.create(:crop)
 
       # both crops have plantings
       (1..3).each do
-        FactoryGirl.create(:planting, crop: @crop1)
+        FactoryBot.create(:planting, crop: @crop1)
       end
       (1..3).each do
-        FactoryGirl.create(:planting, crop: @crop2)
+        FactoryBot.create(:planting, crop: @crop2)
       end
 
       # but only crop1 has photos
-      @photo = FactoryGirl.create(:photo)
+      @photo = FactoryBot.create(:photo)
       (1..3).each do
         @crop1.plantings.first.photos << @photo
         @crop1.plantings.first.save
@@ -350,20 +350,20 @@ describe Crop do
 
   context "harvests" do
     it "has harvests" do
-      crop = FactoryGirl.create(:crop)
-      harvest = FactoryGirl.create(:harvest, crop: crop)
+      crop = FactoryBot.create(:crop)
+      harvest = FactoryBot.create(:harvest, crop: crop)
       crop.harvests.should eq [harvest]
     end
   end
 
   it 'has plant_parts' do
-    @maize = FactoryGirl.create(:maize)
-    @pp1 = FactoryGirl.create(:plant_part)
-    @pp2 = FactoryGirl.create(:plant_part)
-    @h1 = FactoryGirl.create(:harvest,
+    @maize = FactoryBot.create(:maize)
+    @pp1 = FactoryBot.create(:plant_part)
+    @pp2 = FactoryBot.create(:plant_part)
+    @h1 = FactoryBot.create(:harvest,
       crop: @maize,
       plant_part: @pp1)
-    @h2 = FactoryGirl.create(:harvest,
+    @h2 = FactoryBot.create(:harvest,
       crop: @maize,
       plant_part: @pp2)
     @maize.plant_parts.should include @pp1
@@ -371,19 +371,19 @@ describe Crop do
   end
 
   it "doesn't duplicate plant_parts" do
-    @maize = FactoryGirl.create(:maize)
-    @pp1 = FactoryGirl.create(:plant_part)
-    @h1 = FactoryGirl.create(:harvest,
+    @maize = FactoryBot.create(:maize)
+    @pp1 = FactoryBot.create(:plant_part)
+    @h1 = FactoryBot.create(:harvest,
       crop: @maize,
       plant_part: @pp1)
-    @h2 = FactoryGirl.create(:harvest,
+    @h2 = FactoryBot.create(:harvest,
       crop: @maize,
       plant_part: @pp1)
     @maize.plant_parts.should eq [@pp1]
   end
 
   context "search", :elasticsearch do
-    let(:mushroom) { FactoryGirl.create(:crop, name: 'mushroom') }
+    let(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
 
     before do
       sync_elasticsearch([mushroom])
@@ -402,12 +402,12 @@ describe Crop do
       Crop.search('mUsH').should include mushroom
     end
     it "doesn't find 'rejected' crop" do
-      @rejected_crop = FactoryGirl.create(:rejected_crop, name: 'tomato')
+      @rejected_crop = FactoryBot.create(:rejected_crop, name: 'tomato')
       sync_elasticsearch([@rejected_crop])
       Crop.search('tomato').should_not include @rejected_crop
     end
     it "doesn't find 'pending' crop" do
-      @crop_request = FactoryGirl.create(:crop_request, name: 'tomato')
+      @crop_request = FactoryBot.create(:crop_request, name: 'tomato')
       sync_elasticsearch([@crop_request])
       Crop.search('tomato').should_not include @crop_request
     end
@@ -417,7 +417,7 @@ describe Crop do
     before(:each) do
       # don't use 'let' for this -- we need to actually create it,
       # regardless of whether it's used.
-      @cropbot = FactoryGirl.create(:cropbot)
+      @cropbot = FactoryBot.create(:cropbot)
     end
 
     context "scientific names" do
@@ -539,7 +539,7 @@ describe Crop do
     end
 
     it "loads a crop with a parent" do
-      parent = FactoryGirl.create(:crop, name: 'parent')
+      parent = FactoryBot.create(:crop, name: 'parent')
       crop = CsvImporter.new.import_crop(
         ["tomato", "http://en.wikipedia.org/wiki/Tomato", "parent"]
       )
@@ -572,9 +572,9 @@ describe Crop do
   end
 
   context "crop-post association" do
-    let!(:tomato) { FactoryGirl.create(:tomato) }
-    let!(:maize) { FactoryGirl.create(:maize) }
-    let!(:post) { FactoryGirl.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
+    let!(:tomato) { FactoryBot.create(:tomato) }
+    let!(:maize) { FactoryBot.create(:maize) }
+    let!(:post) { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
     describe "destroying a crop" do
       before do
@@ -593,12 +593,12 @@ describe Crop do
 
   context "crop rejections" do
     let!(:rejected_reason) do
-      FactoryGirl.create(:crop, name: 'tomato',
+      FactoryBot.create(:crop, name: 'tomato',
                                 approval_status: 'rejected',
                                 reason_for_rejection: 'not edible')
     end
     let!(:rejected_other) do
-      FactoryGirl.create(:crop, name: 'tomato',
+      FactoryBot.create(:crop, name: 'tomato',
                                 approval_status: 'rejected',
                                 reason_for_rejection: 'other',
                                 rejection_notes: 'blah blah blah')

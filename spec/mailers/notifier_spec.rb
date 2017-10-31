@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Notifier do
   describe "notifications" do
-    let(:notification) { FactoryGirl.create(:notification) }
+    let(:notification) { FactoryBot.create(:notification) }
     let(:mail) { Notifier.notify(notification) }
 
     it 'sets the subject correctly' do
@@ -19,7 +19,7 @@ describe Notifier do
   end
 
   describe "planting reminders" do
-    let(:member) { FactoryGirl.create(:member) }
+    let(:member) { FactoryBot.create(:member) }
     let(:mail) { Notifier.planting_reminder(member) }
 
     it 'sets the subject correctly' do
@@ -44,8 +44,8 @@ describe Notifier do
   end
 
   describe "new crop request" do
-    let(:member) { FactoryGirl.create(:crop_wrangling_member) }
-    let(:crop) { FactoryGirl.create(:crop_request) }
+    let(:member) { FactoryBot.create(:crop_wrangling_member) }
+    let(:crop) { FactoryBot.create(:crop_request) }
     let(:mail) { Notifier.new_crop_request(member, crop) }
 
     it 'sets the subject correctly' do
@@ -66,8 +66,8 @@ describe Notifier do
   end
 
   describe "crop approved" do
-    let(:member) { FactoryGirl.create(:member) }
-    let(:crop) { FactoryGirl.create(:crop) }
+    let(:member) { FactoryBot.create(:member) }
+    let(:crop) { FactoryBot.create(:crop) }
     let(:mail) { Notifier.crop_request_approved(member, crop) }
 
     it 'sets the subject correctly' do
@@ -94,8 +94,8 @@ describe Notifier do
   end
 
   describe "crop rejected" do
-    let(:member) { FactoryGirl.create(:member) }
-    let(:crop) { FactoryGirl.create(:rejected_crop) }
+    let(:member) { FactoryBot.create(:member) }
+    let(:crop) { FactoryBot.create(:rejected_crop) }
     let(:mail) { Notifier.crop_request_rejected(member, crop) }
 
     it 'sets the subject correctly' do

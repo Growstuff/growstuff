@@ -14,13 +14,13 @@ require 'rails_helper'
 
 describe CommentsController do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_member) { @member }
   end
 
   def valid_attributes
-    @post = FactoryGirl.create(:post)
+    @post = FactoryBot.create(:post)
     { post_id: @post.id, body: "some text" }
   end
 
@@ -34,7 +34,7 @@ describe CommentsController do
   end
 
   describe "GET new" do
-    let(:post) { FactoryGirl.create(:post) }
+    let(:post) { FactoryBot.create(:post) }
 
     describe "with valid params" do
       before { get :new, post_id: post.id }
@@ -43,7 +43,7 @@ describe CommentsController do
         assigns(:post).should eq(post)
       end
 
-      let(:old_comment) { FactoryGirl.create(:comment, post: post) }
+      let(:old_comment) { FactoryBot.create(:comment, post: post) }
       it "assigns the old comments as @comments" do
         assigns(:comments).should eq [old_comment]
       end
@@ -56,19 +56,19 @@ describe CommentsController do
   end
 
   describe "GET edit" do
-    let(:post) { FactoryGirl.create(:post) }
+    let(:post) { FactoryBot.create(:post) }
     before { get :edit, id: comment.to_param }
 
     describe "my comment" do
-      let!(:comment) { FactoryGirl.create :comment, author: @member, post: post }
-      let!(:old_comment) { FactoryGirl.create(:comment, post: post, created_at: Time.zone.yesterday) }
+      let!(:comment) { FactoryBot.create :comment, author: @member, post: post }
+      let!(:old_comment) { FactoryBot.create(:comment, post: post, created_at: Time.zone.yesterday) }
       it "assigns previous comments as @comments" do
         assigns(:comments).should eq([comment, old_comment])
       end
     end
 
     describe "not my comment" do
-      let(:comment) { FactoryGirl.create :comment, post: post }
+      let(:comment) { FactoryBot.create :comment, post: post }
       it { expect(response).not_to be_success }
     end
   end
@@ -77,20 +77,20 @@ describe CommentsController do
     before { put :update, id: comment.to_param, comment: valid_attributes }
 
     describe "my comment" do
-      let(:comment) { FactoryGirl.create :comment, author: @member }
+      let(:comment) { FactoryBot.create :comment, author: @member }
       it "redirects to the comment's post" do
         expect(response).to redirect_to(comment.post)
       end
     end
     describe "not my comment" do
-      let(:comment) { FactoryGirl.create :comment }
+      let(:comment) { FactoryBot.create :comment }
       it { expect(response).not_to be_success }
     end
     describe "attempting to change post_id" do
-      let(:post) { FactoryGirl.create :post, subject: 'our post' }
-      let(:other_post) { FactoryGirl.create :post, subject: 'the other post' }
+      let(:post) { FactoryBot.create :post, subject: 'our post' }
+      let(:other_post) { FactoryBot.create :post, subject: 'the other post' }
       let(:valid_attributes) { { post_id: other_post.id, body: "kōrero" } }
-      let(:comment) { FactoryGirl.create :comment, author: @member, post: post }
+      let(:comment) { FactoryBot.create :comment, author: @member, post: post }
       it "does not change post_id" do
         comment.reload
         expect(comment.post_id).to eq(post.id)
@@ -102,14 +102,14 @@ describe CommentsController do
     before { delete :destroy, id: comment.to_param }
 
     describe "my comment" do
-      let(:comment) { FactoryGirl.create :comment, author: @member }
+      let(:comment) { FactoryBot.create :comment, author: @member }
       it "redirects to the post the comment was on" do
         expect(response).to redirect_to(comment.post)
       end
     end
 
     describe "not my comment" do
-      let(:comment) { FactoryGirl.create :comment }
+      let(:comment) { FactoryBot.create :comment }
       it { expect(response).not_to be_success }
     end
   end
