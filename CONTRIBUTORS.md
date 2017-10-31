@@ -81,6 +81,7 @@ submit the change with your pull request.
 - Arun Kumar / [arun1595](https://github.com/arun1595)
 - Harry Brodsky / [hbrodsk1](https://github.com/hbrodsk1)
 - Jeff Kingswood / [ancyentmariner](https://github.com/ancyentmariner)
+- Rodrigo Castro / [roooodcastro](https://github.com/roooodcastro)
 
 ## Bots
 
