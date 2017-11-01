@@ -73,12 +73,12 @@ describe "posts/show" do
     let(:post) { FactoryBot.create(:html_post, author: author) }
     before(:each) do
       @comment1 = FactoryBot.create(:comment, post: post, body: "F1rst!!!",
-                                               created_at: Date.new(2010, 5, 17))
+                                              created_at: Date.new(2010, 5, 17))
       @comment3 = FactoryBot.create(:comment, post: post, body: "Th1rd!!!",
-                                               created_at: Date.new(2012, 5, 17))
+                                              created_at: Date.new(2012, 5, 17))
       @comment4 = FactoryBot.create(:comment, post: post, body: "F0urth!!!")
       @comment2 = FactoryBot.create(:comment, post: post, body: "S3c0nd!!1!",
-                                               created_at: Date.new(2011, 5, 17))
+                                              created_at: Date.new(2011, 5, 17))
       @comments = post.comments
       render
     end

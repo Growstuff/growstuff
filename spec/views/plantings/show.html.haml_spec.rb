@@ -18,7 +18,7 @@ describe "plantings/show" do
     @crop = FactoryBot.create(:tomato)
     @planting = assign(:planting,
       FactoryBot.create(:planting, garden: @garden, crop: @crop,
-                                    planted_from: 'cutting'))
+                                   planted_from: 'cutting'))
   end
 
   before(:each) do
