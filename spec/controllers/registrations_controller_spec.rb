@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe RegistrationsController do
   before :each do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }
     controller.stub(:devise_mapping).and_return(Devise.mappings[:member])
@@ -27,13 +27,13 @@ describe RegistrationsController do
     end
 
     it "picks up the twitter auth" do
-      @auth = FactoryGirl.create(:authentication, member: @member)
+      @auth = FactoryBot.create(:authentication, member: @member)
       get :edit
       assigns(:twitter_auth).should eq @auth
     end
 
     it "picks up the flickr auth" do
-      @auth = FactoryGirl.create(:flickr_authentication, member: @member)
+      @auth = FactoryBot.create(:flickr_authentication, member: @member)
       get :edit
       assigns(:flickr_auth).should eq @auth
     end

@@ -16,7 +16,7 @@ describe PostsController do
   login_member
 
   def valid_attributes
-    member = FactoryGirl.create(:member)
+    member = FactoryBot.create(:member)
     { author_id: member.id, subject: "blah", body: "blah blah" }
   end
 

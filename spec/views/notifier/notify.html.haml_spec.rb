@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe 'notifier/notify.html.haml', type: "view" do
   before(:each) do
-    @notification = FactoryGirl.create(:notification)
+    @notification = FactoryBot.create(:notification)
     @reply_link = "http://example.com"
     @signed_message = "EncryptedMessage"
     assign(:reply_link, @reply_link)

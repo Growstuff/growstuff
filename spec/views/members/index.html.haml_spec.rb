@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "members/index" do
-  let(:member) { FactoryGirl.create(:london_member) }
+  let(:member) { FactoryBot.create(:london_member) }
   before(:each) do
     controller.stub(:current_user) { nil }
     page = 1

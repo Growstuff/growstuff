@@ -15,11 +15,11 @@ require 'rails_helper'
 describe 'home/_crops.html.haml', type: "view" do
   before(:each) do
     # we need to set up an "interesting" crop
-    @crop = FactoryGirl.create(:crop)
+    @crop = FactoryBot.create(:crop)
     (1..3).each do
-      @planting = FactoryGirl.create(:planting, crop: @crop)
+      @planting = FactoryBot.create(:planting, crop: @crop)
     end
-    @photo = FactoryGirl.create(:photo)
+    @photo = FactoryBot.create(:photo)
     (1..3).each do
       @crop.plantings.first.photos << @photo
     end

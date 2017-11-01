@@ -15,8 +15,8 @@ require 'rails_helper'
 describe "crops/hierarchy" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @tomato = FactoryGirl.create(:tomato)
-    @roma = FactoryGirl.create(:crop, name: 'Roma tomato', parent: @tomato)
+    @tomato = FactoryBot.create(:tomato)
+    @roma = FactoryBot.create(:crop, name: 'Roma tomato', parent: @tomato)
     assign(:crops, [@tomato, @roma])
     render
   end
