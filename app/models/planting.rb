@@ -4,7 +4,7 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: [:slugged, :finders]
 
   # Constants
-  SUNNINESS_VALUES = %w[sun semi-shade shade]
+  SUNNINESS_VALUES = %w(sun semi-shade shade)
   PLANTED_FROM_VALUES = [
     'seed',
     'seedling',
