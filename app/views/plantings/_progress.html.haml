@@ -1,4 +1,6 @@
-- if !planting.planted?
+- if planting.crop.perennial
+  %p Perennial
+- elsif !planting.planted?
   - if show_explanation == true
     Progress: 0% - not planted yet
   = render "plantings/progress_bar", status: "not planted", progress: 0
