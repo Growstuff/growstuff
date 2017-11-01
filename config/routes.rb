@@ -48,7 +48,9 @@ Growstuff::Application.routes.draw do
   get 'crops/wrangle' => 'crops#wrangle', :as => 'wrangle_crops'
   get 'crops/hierarchy' => 'crops#hierarchy', :as => 'crops_hierarchy'
   get 'crops/search' => 'crops#search', :as => 'crops_search'
-  resources :crops
+  resources :crops do
+    get 'photos' => 'photos#index'
+  end
 
   resources :comments
   resources :roles
