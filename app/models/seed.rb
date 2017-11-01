@@ -35,7 +35,7 @@ class Seed < ActiveRecord::Base
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
-  TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
+  TRADABLE_TO_VALUES = %w[nowhere locally nationally internationally].freeze
   validates :tradable_to, inclusion: { in: TRADABLE_TO_VALUES,
                                        message: "You may only trade seed nowhere, "\
                                                 "locally, nationally, or internationally" },
@@ -66,7 +66,7 @@ class Seed < ActiveRecord::Base
                   allow_nil: false,
                   allow_blank: false
 
-  HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  HEIRLOOM_VALUES = %w[heirloom hybrid unknown].freeze
   validates :heirloom, inclusion: { in: HEIRLOOM_VALUES,
                                     message: "You must say whether the seeds are heirloom, hybrid, or unknown" },
                        allow_nil: false,

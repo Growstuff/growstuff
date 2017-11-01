@@ -1,10 +1,10 @@
 class Planting < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
-  friendly_id :planting_slug, use: [:slugged, :finders]
+  friendly_id :planting_slug, use: %i[slugged finders]
 
   # Constants
-  SUNNINESS_VALUES = %w(sun semi-shade shade)
+  SUNNINESS_VALUES = %w[sun semi-shade shade]
   PLANTED_FROM_VALUES = [
     'seed',
     'seedling',
