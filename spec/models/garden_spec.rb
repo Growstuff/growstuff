@@ -27,6 +27,11 @@ describe Garden do
     garden.should_not be_valid
   end
 
+  it "allows brackets" do
+    garden = FactoryGirl.build(:garden, name: "Garden (second)")
+    garden.should be_valid
+  end
+
   it "allows macrons" do
     garden = FactoryBot.build(:garden, name: "Kūmara and pūha patch")
     garden.should_not be_valid
