@@ -137,7 +137,7 @@ class CropsController < ApplicationController
     return unless params[param_name].present?
     destroy_names(name_type)
     params[param_name].each do |_i, value|
-      create_name!(name_type, value)
+      create_name!(name_type, value) unless value.blank?
     end
   end
 
@@ -154,6 +154,7 @@ class CropsController < ApplicationController
       :name,
       :parent_id,
       :creator_id,
+      :perennial,
       :approval_status,
       :request_notes,
       :reason_for_rejection,

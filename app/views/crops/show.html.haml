@@ -35,6 +35,14 @@
     = render partial: 'photos', locals: { crop: @crop }
 
     %h2
+      #{@crop.name} is
+      = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+        -if @crop.perennial
+          perennial (living more than two years)
+        - else
+          annual (living and reproducing in a single year or less)
+
+    %h2
       - if !@crop.plantings.empty?
         = @crop.name.titleize
         has been planted
