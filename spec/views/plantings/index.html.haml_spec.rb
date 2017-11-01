@@ -15,25 +15,25 @@ require 'rails_helper'
 describe "plantings/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @member = FactoryGirl.create(:member)
-    @garden = FactoryGirl.create(:garden, owner: @member)
-    @tomato = FactoryGirl.create(:tomato)
-    @maize  = FactoryGirl.create(:maize)
+    @member = FactoryBot.create(:member)
+    @garden = FactoryBot.create(:garden, owner: @member)
+    @tomato = FactoryBot.create(:tomato)
+    @maize  = FactoryBot.create(:maize)
     page = 1
     per_page = 3
     total_entries = 3
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-                      FactoryGirl.create(:planting,
+                      FactoryBot.create(:planting,
                         garden: @garden,
                         crop: @tomato,
                         owner: @member),
-                      FactoryGirl.create(:planting,
+                      FactoryBot.create(:planting,
                         garden: @garden,
                         crop: @maize,
                         description: '',
                         planted_at: Time.local(2013, 1, 13)),
-                      FactoryGirl.create(:planting,
+                      FactoryBot.create(:planting,
                         garden: @garden,
                         crop: @tomato,
                         planted_at: Time.local(2013, 1, 13),

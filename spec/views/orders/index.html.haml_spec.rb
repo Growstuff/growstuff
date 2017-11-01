@@ -14,10 +14,10 @@ require 'rails_helper'
 
 describe "orders/index" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
-    @order1 = FactoryGirl.create(:order, member: @member)
-    @order2 = FactoryGirl.create(:completed_order, member: @member)
+    @order1 = FactoryBot.create(:order, member: @member)
+    @order2 = FactoryBot.create(:completed_order, member: @member)
     assign(:orders, [@order1, @order2])
   end
 

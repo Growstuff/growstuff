@@ -14,15 +14,15 @@ require 'rails_helper'
 
 describe "orders/show" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }
   end
 
   context "current order" do
     before(:each) do
-      @order = assign(:order, FactoryGirl.create(:order, member: @member))
-      @order_item = FactoryGirl.create(:order_item,
+      @order = assign(:order, FactoryBot.create(:order, member: @member))
+      @order_item = FactoryBot.create(:order_item,
         order: @order,
         quantity: 2,
         price: 9900)
@@ -62,8 +62,8 @@ describe "orders/show" do
 
   context "completed order" do
     before(:each) do
-      @order = assign(:order, FactoryGirl.create(:completed_order, member: @member))
-      @order_item = FactoryGirl.create(:order_item,
+      @order = assign(:order, FactoryBot.create(:completed_order, member: @member))
+      @order_item = FactoryBot.create(:order_item,
         order: @order,
         quantity: 2,
         price: 9900)

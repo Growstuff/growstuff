@@ -53,7 +53,7 @@ RSpec.describe GardensController, type: :controller do
   context "when signed in" do
     before(:each) { sign_in member }
 
-    let!(:member) { FactoryGirl.create(:member) }
+    let!(:member) { FactoryBot.create(:member) }
 
     describe "for another member's garden" do
       let(:not_my_garden) { double('garden') }

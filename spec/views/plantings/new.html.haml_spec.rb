@@ -14,16 +14,16 @@ require 'rails_helper'
 
 describe "plantings/new" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
 
     # create gardens and crops to populate dropdowns
-    @garden_a = FactoryGirl.create(:garden, owner: @member)
-    @garden_z = FactoryGirl.create(:garden, owner: @member)
-    @crop1 = FactoryGirl.create(:tomato)
-    @crop2 = FactoryGirl.create(:maize)
+    @garden_a = FactoryBot.create(:garden, owner: @member)
+    @garden_z = FactoryBot.create(:garden, owner: @member)
+    @crop1 = FactoryBot.create(:tomato)
+    @crop2 = FactoryBot.create(:maize)
 
-    assign(:planting, FactoryGirl.create(:planting,
+    assign(:planting, FactoryBot.create(:planting,
       garden: @garden_a,
       crop: @crop2))
   end

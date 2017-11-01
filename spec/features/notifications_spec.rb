@@ -31,7 +31,7 @@ feature "Notifications", :js do
 
   describe 'pagination' do
     before do
-      34.times { FactoryGirl.create :notification, recipient: recipient }
+      34.times { FactoryBot.create :notification, recipient: recipient }
       login_as recipient
       visit notifications_path
     end

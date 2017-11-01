@@ -19,9 +19,9 @@ describe 'plantings/index.rss.haml' do
 
   context 'all plantings' do
     before :each do
-      @planting = FactoryGirl.create(:planting)
-      @sunny = FactoryGirl.create(:sunny_planting)
-      @seedling = FactoryGirl.create(:seedling_planting)
+      @planting = FactoryBot.create(:planting)
+      @sunny = FactoryBot.create(:sunny_planting)
+      @seedling = FactoryBot.create(:seedling_planting)
       assign(:plantings, [@planting, @sunny, @seedling])
       render
     end
@@ -49,7 +49,7 @@ describe 'plantings/index.rss.haml' do
 
   context "one person's plantings" do
     before :each do
-      @planting = FactoryGirl.create(:planting)
+      @planting = FactoryBot.create(:planting)
       assign(:plantings, [@planting])
       assign(:owner, @planting.owner)
       render

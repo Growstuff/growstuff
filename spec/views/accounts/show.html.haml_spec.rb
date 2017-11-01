@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "accounts/show" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     @account = assign(:account, @member.account)
   end
 

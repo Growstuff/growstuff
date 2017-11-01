@@ -15,13 +15,13 @@ require 'rails_helper'
 describe "plantings/_form" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @member = FactoryGirl.create(:member)
-    @garden = FactoryGirl.create(:garden, owner: @member)
-    @uppercase = FactoryGirl.create(:uppercasecrop)
-    @lowercase = FactoryGirl.create(:lowercasecrop)
+    @member = FactoryBot.create(:member)
+    @garden = FactoryBot.create(:garden, owner: @member)
+    @uppercase = FactoryBot.create(:uppercasecrop)
+    @lowercase = FactoryBot.create(:lowercasecrop)
     @crop = @lowercase # needed to render the form
 
-    @planting = FactoryGirl.create(:planting,
+    @planting = FactoryBot.create(:planting,
       garden: @garden,
       crop: @crop,
       planted_at: Date.new(2013, 3, 1))

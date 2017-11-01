@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 feature "Gardens", :js do
-  let(:member) { FactoryGirl.create :member }
+  let(:member) { FactoryBot.create :member }
 
   background do
     login_as member
