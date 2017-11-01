@@ -6,7 +6,9 @@ class CreateMedianFunction < ActiveRecord::Migration
     Planting.where.not(planted_at: nil, finished_at: nil).each do |planting|
       planting.calculate_lifespan
       planting.save!
-      say "#{planting.crop.name} median lifespan #{planting.crop.median_lifespan} days" if planting.crop.median_lifespan.present?
+      if planting.crop.median_lifespan.present?
+        say "#{planting.crop.name} median lifespan #{planting.crop.median_lifespan} days"
+      end
     end
 
     say 'Calculating median lifespan of crops'
