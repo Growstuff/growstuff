@@ -19,6 +19,13 @@ Style/FileName:
 Style/StringLiterals:
   Enabled: false
 
+# Stop hound and codeclimate fighting
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': ()
+    '%w': ()
+
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
