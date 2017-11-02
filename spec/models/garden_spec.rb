@@ -28,7 +28,7 @@ describe Garden do
   end
 
   it "allows brackets" do
-    garden = FactoryGirl.build(:garden, name: "Garden (second)")
+    garden = FactoryBot.build(:garden, name: "Garden (second)")
     garden.should be_valid
   end
 
