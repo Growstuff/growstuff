@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :garden do
     name 'Springfield Community Garden'
     description "This is a **totally** cool garden"

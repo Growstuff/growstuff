@@ -15,9 +15,9 @@ require 'rails_helper'
 describe 'posts/index.rss.haml', type: "view" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    author = FactoryGirl.create(:member)
-    @post1 = FactoryGirl.create(:post, id: 1, author: author)
-    @post2 = FactoryGirl.create(:post, id: 2, author: author)
+    author = FactoryBot.create(:member)
+    @post1 = FactoryBot.create(:post, id: 1, author: author)
+    @post2 = FactoryBot.create(:post, id: 2, author: author)
     assign(:posts, [@post1, @post2])
     render
   end

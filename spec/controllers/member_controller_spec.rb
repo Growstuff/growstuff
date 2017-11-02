@@ -14,10 +14,10 @@ require 'rails_helper'
 
 describe MembersController do
   before :each do
-    @member = FactoryGirl.create(:member)
-    @posts = [FactoryGirl.create(:post, author: @member)]
-    @twitter_auth = FactoryGirl.create(:authentication, member: @member)
-    @flickr_auth = FactoryGirl.create(:flickr_authentication, member: @member)
+    @member = FactoryBot.create(:member)
+    @posts = [FactoryBot.create(:post, author: @member)]
+    @twitter_auth = FactoryBot.create(:authentication, member: @member)
+    @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
   end
 
   describe "GET index" do
@@ -60,7 +60,7 @@ describe MembersController do
     end
 
     it "doesn't show unconfirmed members" do
-      @member2 = FactoryGirl.create(:unconfirmed_member)
+      @member2 = FactoryBot.create(:unconfirmed_member)
       lambda { get :show, id: @member2.id }.should raise_error(ActiveRecord::RecordNotFound)
     end
   end

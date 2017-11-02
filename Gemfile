@@ -124,7 +124,7 @@ group :development, :test do
   gem 'capybara-screenshot'             # for test debugging
   gem 'coveralls', require: false       # coverage analysis
   gem 'database_cleaner'
-  gem 'factory_girl_rails'              # for creating test data
+  gem 'factory_bot_rails'               # for creating test data
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
   gem 'haml_lint'                       # Checks haml files for goodness

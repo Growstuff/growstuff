@@ -29,7 +29,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it 'converts quick crop links' do
-    @crop = FactoryGirl.create(:crop)
+    @crop = FactoryBot.create(:crop)
     rendered = Haml::Filters::GrowstuffMarkdown.render(input_link(@crop.name))
     expect(rendered).to match(/#{output_link(@crop)}/)
   end
@@ -40,14 +40,14 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it "doesn't convert escaped crop links" do
-    @crop = FactoryGirl.create(:crop)
+    @crop = FactoryBot.create(:crop)
     rendered = Haml::Filters::GrowstuffMarkdown.render("\\" << input_link(@crop.name))
     expect(rendered).to match(/\[#{@crop.name}\]\(crop\)/)
   end
 
   it "handles multiple crop links" do
-    tomato = FactoryGirl.create(:tomato)
-    maize = FactoryGirl.create(:maize)
+    tomato = FactoryBot.create(:tomato)
+    maize = FactoryBot.create(:maize)
     string = "#{input_link(tomato)} #{input_link(maize)}"
     rendered = Haml::Filters::GrowstuffMarkdown.render(string)
     expect(rendered).to match(/#{output_link(tomato)} #{output_link(maize)}/)
@@ -60,13 +60,13 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it "finds crops case insensitively" do
-    @crop = FactoryGirl.create(:crop, name: 'tomato')
+    @crop = FactoryBot.create(:crop, name: 'tomato')
     rendered = Haml::Filters::GrowstuffMarkdown.render(input_link('ToMaTo'))
     expect(rendered).to match(/#{output_link(@crop, 'ToMaTo')}/)
   end
 
   it "fixes PT bug #78615258 (Markdown rendering bug with URLs and crops in same text)" do
-    tomato = FactoryGirl.create(:tomato)
+    tomato = FactoryBot.create(:tomato)
     string = "[test](http://example.com) [tomato](crop)"
     rendered = Haml::Filters::GrowstuffMarkdown.render(string)
     expect(rendered).to match(/#{output_link(tomato)}/)
@@ -74,7 +74,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it 'converts quick member links' do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     rendered = Haml::Filters::GrowstuffMarkdown.render(input_member_link(@member.login_name))
     expect(rendered).to match(/#{output_member_link(@member)}/)
   end
@@ -85,13 +85,13 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it "doesn't convert escaped members" do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     rendered = Haml::Filters::GrowstuffMarkdown.render("\\" << input_member_link(@member.login_name))
     expect(rendered).to match(/\[#{@member.login_name}\]\(member\)/)
   end
 
   it 'converts @ member links' do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey @#{@member.login_name}! What's up")
     expect(rendered).to match(/#{output_member_link(@member, "@#{@member.login_name}")}/)
   end
@@ -102,7 +102,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it "doesn't convert nonexistent @ members" do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     @member_name = @member.login_name
     @member.destroy
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey @#{@member_name}")
@@ -110,7 +110,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it "doesn't convert escaped @ members" do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     rendered = Haml::Filters::GrowstuffMarkdown.render("Hey \\@#{@member.login_name}! What's up")
     expect(rendered).to include("Hey @#{@member.login_name}!")
   end

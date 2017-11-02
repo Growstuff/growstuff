@@ -15,7 +15,7 @@ require 'rails_helper'
 describe "plant_parts/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @pp = FactoryGirl.create(:plant_part)
+    @pp = FactoryBot.create(:plant_part)
     assign(:plant_parts, [@pp])
   end
 

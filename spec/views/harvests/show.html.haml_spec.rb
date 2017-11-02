@@ -15,8 +15,8 @@ require 'rails_helper'
 describe "harvests/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @crop = FactoryGirl.create(:tomato)
-    @harvest = assign(:harvest, FactoryGirl.create(:harvest, crop: @crop))
+    @crop = FactoryBot.create(:tomato)
+    @harvest = assign(:harvest, FactoryBot.create(:harvest, crop: @crop))
     render
   end
 

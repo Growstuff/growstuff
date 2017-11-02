@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe Photo do
-  let(:photo) { FactoryGirl.create(:photo, owner: member) }
-  let(:member) { FactoryGirl.create(:member) }
+  let(:photo) { FactoryBot.create(:photo, owner: member) }
+  let(:member) { FactoryBot.create(:member) }
   describe 'add/delete functionality' do
-    let(:planting) { FactoryGirl.create(:planting) }
-    let(:harvest) { FactoryGirl.create(:harvest) }
-    let(:garden) { FactoryGirl.create(:garden) }
+    let(:planting) { FactoryBot.create(:planting) }
+    let(:harvest) { FactoryBot.create(:harvest) }
+    let(:garden) { FactoryBot.create(:garden) }
 
     context "adds photos" do
       it 'to a planting' do

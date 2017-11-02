@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :crop do
     name "magic bean"
     en_wikipedia_url "http://en.wikipedia.org/wiki/Magic_bean"

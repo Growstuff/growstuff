@@ -3,7 +3,7 @@ require 'rails_helper'
 describe HarvestsHelper do
   describe "display_quantity" do
     it "blank" do
-      harvest = FactoryGirl.create(:harvest,
+      harvest = FactoryBot.create(:harvest,
         quantity: nil,
         weight_quantity: nil)
       result = helper.display_quantity(harvest)
@@ -11,7 +11,7 @@ describe HarvestsHelper do
     end
 
     it '3 individual' do
-      harvest = FactoryGirl.create(:harvest,
+      harvest = FactoryBot.create(:harvest,
         quantity: 3,
         unit: 'individual',
         weight_quantity: nil)
@@ -20,7 +20,7 @@ describe HarvestsHelper do
     end
 
     it '1 bunch' do
-      harvest = FactoryGirl.create(:harvest,
+      harvest = FactoryBot.create(:harvest,
         quantity: 1,
         unit: 'bunch',
         weight_quantity: nil)
@@ -29,7 +29,7 @@ describe HarvestsHelper do
     end
 
     it '3 bunches' do
-      harvest = FactoryGirl.create(:harvest,
+      harvest = FactoryBot.create(:harvest,
         quantity: 3,
         unit: 'bunch',
         weight_quantity: nil)
@@ -38,7 +38,7 @@ describe HarvestsHelper do
     end
 
     it '3 kg' do
-      harvest = FactoryGirl.create(:harvest,
+      harvest = FactoryBot.create(:harvest,
         quantity: nil,
         unit: nil,
         weight_quantity: 3,
@@ -48,7 +48,7 @@ describe HarvestsHelper do
     end
 
     it '3 individual weighing 3 kg' do
-      harvest = FactoryGirl.create(:harvest,
+      harvest = FactoryBot.create(:harvest,
         quantity: 3,
         unit: 'individual',
         weight_quantity: 3,
@@ -58,7 +58,7 @@ describe HarvestsHelper do
     end
 
     it '3 bunches weighing 3 kg' do
-      harvest = FactoryGirl.create(:harvest,
+      harvest = FactoryBot.create(:harvest,
         quantity: 3,
         unit: 'bunch',
         weight_quantity: 3,

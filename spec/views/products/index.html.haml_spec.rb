@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "products/index" do
   before(:each) do
-    @product = FactoryGirl.create(:product)
+    @product = FactoryBot.create(:product)
     assign(:products, [@product, @product])
   end
 

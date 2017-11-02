@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "accounts/index" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     @account = @member.account
     assign(:accounts, [@account, @account])
   end
