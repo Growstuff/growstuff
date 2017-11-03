@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe "account_types/index" do
   before(:each) do
-    @type = FactoryGirl.create(:account_type)
+    @type = FactoryBot.create(:account_type)
     assign(:account_types, [@type, @type])
   end
 

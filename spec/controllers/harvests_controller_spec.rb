@@ -18,19 +18,19 @@ describe HarvestsController do
   def valid_attributes
     {
       owner_id: subject.current_member.id,
-      crop_id: FactoryGirl.create(:crop).id,
-      plant_part_id: FactoryGirl.create(:plant_part).id
+      crop_id: FactoryBot.create(:crop).id,
+      plant_part_id: FactoryBot.create(:plant_part).id
     }
   end
 
   describe "GET index" do
     before do
-      @member1 = FactoryGirl.create(:member)
-      @member2 = FactoryGirl.create(:member)
-      @tomato = FactoryGirl.create(:tomato)
-      @maize = FactoryGirl.create(:maize)
-      @harvest1 = FactoryGirl.create(:harvest, owner_id: @member1.id, crop_id: @tomato.id)
-      @harvest2 = FactoryGirl.create(:harvest, owner_id: @member2.id, crop_id: @maize.id)
+      @member1 = FactoryBot.create(:member)
+      @member2 = FactoryBot.create(:member)
+      @tomato = FactoryBot.create(:tomato)
+      @maize = FactoryBot.create(:maize)
+      @harvest1 = FactoryBot.create(:harvest, owner_id: @member1.id, crop_id: @tomato.id)
+      @harvest2 = FactoryBot.create(:harvest, owner_id: @member2.id, crop_id: @maize.id)
     end
 
     it "assigns all harvests as @harvests" do
@@ -104,7 +104,7 @@ describe HarvestsController do
       end
 
       it "links to planting" do
-        planting = FactoryGirl.create(:planting, owner_id: member.id)
+        planting = FactoryBot.create(:planting, owner_id: member.id)
         post :create, harvest: valid_attributes.merge(planting_id: planting.id)
         expect(Harvest.last.planting.id).to eq(planting.id)
       end
@@ -126,8 +126,8 @@ describe HarvestsController do
     end
 
     describe "not my planting" do
-      let(:not_my_planting) { FactoryGirl.create(:planting) }
-      let(:harvest) { FactoryGirl.create(:harvest) }
+      let(:not_my_planting) { FactoryBot.create(:planting) }
+      let(:harvest) { FactoryBot.create(:harvest) }
       it "does not save planting_id" do
         allow(Harvest).to receive(:new).and_return(harvest)
         post :create, harvest: valid_attributes.merge(planting_id: not_my_planting.id)
@@ -178,8 +178,8 @@ describe HarvestsController do
     end
 
     describe "not my planting" do
-      let(:not_my_planting) { FactoryGirl.create(:planting) }
-      let(:harvest) { FactoryGirl.create(:harvest) }
+      let(:not_my_planting) { FactoryBot.create(:planting) }
+      let(:harvest) { FactoryBot.create(:harvest) }
       it "does not save planting_id" do
         put :update, id: harvest.to_param,
                      harvest: valid_attributes.merge(planting_id: not_my_planting.id)

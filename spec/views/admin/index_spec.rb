@@ -14,7 +14,7 @@ require 'rails_helper'
 
 describe 'admin/index.html.haml', type: "view" do
   before(:each) do
-    @member = FactoryGirl.create(:admin_member)
+    @member = FactoryBot.create(:admin_member)
     sign_in @member
     controller.stub(:current_user) { @member }
     render

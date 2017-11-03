@@ -2,36 +2,36 @@ require 'rails_helper'
 require 'cancan/matchers'
 
 describe Ability do
-  let(:member) { FactoryGirl.create(:member) }
+  let(:member) { FactoryBot.create(:member) }
   let(:ability) { Ability.new(member) }
 
   context "notifications" do
     it 'member can view their own notifications' do
-      notification = FactoryGirl.create(:notification, recipient: member)
+      notification = FactoryBot.create(:notification, recipient: member)
       ability.should be_able_to(:read, notification)
     end
 
     it "member can't view someone else's notifications" do
-      notification = FactoryGirl.create(:notification,
-        recipient: FactoryGirl.create(:member))
+      notification = FactoryBot.create(:notification,
+        recipient: FactoryBot.create(:member))
       ability.should_not be_able_to(:read, notification)
     end
     it "member can't send messages to themself" do
       ability.should_not be_able_to(:create,
-        FactoryGirl.create(:notification,
+        FactoryBot.create(:notification,
           recipient: member,
           sender: member))
     end
     it "member can send messages to someone else" do
       ability.should be_able_to(:create,
-        FactoryGirl.create(:notification,
-          recipient: FactoryGirl.create(:member),
+        FactoryBot.create(:notification,
+          recipient: FactoryBot.create(:member),
           sender: member))
     end
   end
 
   context "crop wrangling" do
-    let(:crop) { FactoryGirl.create(:crop) }
+    let(:crop) { FactoryBot.create(:crop) }
 
     context "standard member" do
       it "can't manage crops" do
@@ -49,7 +49,7 @@ describe Ability do
     end
 
     context "crop wrangler" do
-      let(:role) { FactoryGirl.create(:crop_wrangler) }
+      let(:role) { FactoryBot.create(:crop_wrangler) }
 
       before(:each) do
         member.roles << role
@@ -72,7 +72,7 @@ describe Ability do
   end
 
   context "products" do
-    let(:product) { FactoryGirl.create(:product) }
+    let(:product) { FactoryBot.create(:product) }
 
     context "standard member" do
       it "can't read or manage products" do
@@ -84,7 +84,7 @@ describe Ability do
     end
 
     context "admin" do
-      let(:role) { FactoryGirl.create(:admin) }
+      let(:role) { FactoryBot.create(:admin) }
 
       before do
         member.roles << role
@@ -110,19 +110,19 @@ describe Ability do
   end
 
   context "orders" do
-    let(:order) { FactoryGirl.create(:order, member: member) }
+    let(:order) { FactoryBot.create(:order, member: member) }
     let(:strangers_order) {
-      FactoryGirl.create(:order,
-        member: FactoryGirl.create(:member)) }
+      FactoryBot.create(:order,
+        member: FactoryBot.create(:member)) }
     let(:completed_order) {
-      FactoryGirl.create(:completed_order,
+      FactoryBot.create(:completed_order,
         member: member) }
-    let(:order_item) { FactoryGirl.create(:order_item, order: order) }
+    let(:order_item) { FactoryBot.create(:order_item, order: order) }
     let(:strangers_order_item) {
-      FactoryGirl.create(:order_item,
+      FactoryBot.create(:order_item,
         order: strangers_order) }
     let(:completed_order_item) {
-      FactoryGirl.create(:order_item,
+      FactoryBot.create(:order_item,
         order: completed_order) }
 
     context "standard member" do
@@ -202,7 +202,7 @@ describe Ability do
     end
 
     context "admin" do
-      let(:role) { FactoryGirl.create(:admin) }
+      let(:role) { FactoryBot.create(:admin) }
 
       before do
         member.roles << role
@@ -245,7 +245,7 @@ describe Ability do
     end
 
     context 'admin' do
-      let(:role) { FactoryGirl.create(:admin) }
+      let(:role) { FactoryBot.create(:admin) }
 
       before do
         member.roles << role
@@ -263,7 +263,7 @@ describe Ability do
   end
 
   context 'plant parts' do
-    let(:plant_part) { FactoryGirl.create(:plant_part) }
+    let(:plant_part) { FactoryBot.create(:plant_part) }
 
     context 'ordinary member' do
       it "can read plant parts" do
@@ -277,7 +277,7 @@ describe Ability do
     end
 
     context 'admin' do
-      let(:role) { FactoryGirl.create(:admin) }
+      let(:role) { FactoryBot.create(:admin) }
 
       before do
         member.roles << role
@@ -296,7 +296,7 @@ describe Ability do
       end
 
       it "can't delete a plant part that has harvests" do
-        @harvest = FactoryGirl.create(:harvest, plant_part: plant_part)
+        @harvest = FactoryBot.create(:harvest, plant_part: plant_part)
         ability.should_not be_able_to(:destroy, plant_part)
       end
     end

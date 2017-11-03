@@ -15,7 +15,7 @@ require 'rails_helper'
 describe "forums/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @forum = assign(:forum, FactoryGirl.create(:forum))
+    @forum = assign(:forum, FactoryBot.create(:forum))
   end
 
   it "renders attributes" do
@@ -40,7 +40,7 @@ describe "forums/show" do
   end
 
   it 'shows posts' do
-    @post = FactoryGirl.create(:post, forum: @forum)
+    @post = FactoryBot.create(:post, forum: @forum)
     render
     assert_select "table"
     rendered.should have_content @post.subject

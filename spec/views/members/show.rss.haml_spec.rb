@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe 'members/show.rss.haml', type: "view" do
   before(:each) do
-    @member = assign(:member, FactoryGirl.create(:member))
-    @post1 = FactoryGirl.create(:post, id: 1, author: @member)
-    @post2 = FactoryGirl.create(:markdown_post, id: 2, author: @member)
+    @member = assign(:member, FactoryBot.create(:member))
+    @post1 = FactoryBot.create(:post, id: 1, author: @member)
+    @post2 = FactoryBot.create(:markdown_post, id: 2, author: @member)
     assign(:posts, [@post1, @post2])
     render
   end
