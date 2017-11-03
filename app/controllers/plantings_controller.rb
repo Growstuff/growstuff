@@ -63,8 +63,8 @@ class PlantingsController < ApplicationController
   end
 
   def destroy
-    @planting.crop.update_medians
     @planting.destroy
+    @planting.crop.update_medians
     respond_with @planting, location: @planting.garden
   end
 
