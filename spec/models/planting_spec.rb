@@ -338,10 +338,10 @@ describe Planting do
   # it 'predicts harvest times' do
   #   crop = FactoryBot.create :crop
   #   10.times do
-  #     planting = FactoryBot.create :planting, crop: crop, planted_at: DateTime.new(2013, 1, 1).in_time_zone
-  #     FactoryBot.create :harvest, crop: crop, planting: planting, harvested_at: DateTime.new(2013, 2, 1).in_time_zone
+  #     planting = FactoryBot.create :planting, crop: crop, planted_at: Time.zone.local(2013, 1, 1)
+  #     FactoryBot.create :harvest, crop: crop, planting: planting, harvested_at: Time.zone.local(2013, 2, 1)
   #   end
-  #   planting = FactoryBot.create :planting, planted_at: DateTime.new(2017, 1, 1).in_time_zone, crop: crop
-  #   expect(planting.harvest_predicted_at).to eq DateTime.new(2017, 2, 1).in_time_zone
+  #   planting = FactoryBot.create :planting, planted_at: Time.zone.local(2017, 1, 1), crop: crop
+  #   expect(planting.harvest_predicted_at).to eq Time.zone.local(2017, 2, 1)
   # end
 end

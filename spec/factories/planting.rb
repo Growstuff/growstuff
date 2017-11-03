@@ -3,7 +3,7 @@ FactoryBot.define do
     garden
     owner
     crop
-    planted_at DateTime.new(2014, 7, 30).in_time_zone
+    planted_at Time.zone.local(2014, 7, 30)
     quantity 33
     description "This is a *really* good plant."
 
@@ -33,8 +33,8 @@ FactoryBot.define do
 
     factory :finished_planting do
       finished true
-      planted_at DateTime.new(2014, 7, 30).in_time_zone
-      finished_at DateTime.new(2014, 8, 30).in_time_zone
+      planted_at Time.zone.local(2014, 7, 30)
+      finished_at Time.zone.local(2014, 8, 30)
     end
   end
 end

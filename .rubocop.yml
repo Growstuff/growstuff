@@ -38,8 +38,10 @@ Metrics/LineLength:
   Max: 120
 
 
-# See https://github.com/bbatsov/rubocop/issues/3629
-Rails/HttpPositionalArguments:
+# turn these back on in Rails 5
+Style/FormatStringToken:
+  Enabled: false
+Rails/HttpPositionalArguments: # See https://github.com/bbatsov/rubocop/issues/3629
   Enabled: false
 
 Style/Documentation:
