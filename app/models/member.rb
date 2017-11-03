@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
   include Geocodable
   extend FriendlyId
 
-  friendly_id :login_name, use: %i[slugged finders]
+  friendly_id :login_name, use: %i(slugged finders)
 
   has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
@@ -75,7 +75,7 @@ class Member < ActiveRecord::Base
       message: "should be between 2 and 25 characters long"
     },
     exclusion: {
-      in: %w[growstuff admin moderator staff nearby],
+      in: %w(growstuff admin moderator staff nearby),
       message: "name is reserved"
     },
     format: {

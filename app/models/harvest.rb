@@ -1,9 +1,9 @@
-class Harvest < ApplicationRecord
+class Harvest < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
   include PhotoCapable
 
-  friendly_id :harvest_slug, use: %i[slugged finders]
+  friendly_id :harvest_slug, use: %i(slugged finders)
 
   # Constants
   UNITS_VALUES = {
