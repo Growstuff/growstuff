@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 feature 'Likeable', js: true do
-  let(:member) { FactoryGirl.create(:member) }
-  let(:another_member) { FactoryGirl.create(:london_member) }
-  let(:post) { FactoryGirl.create(:post) }
+  let(:member) { FactoryBot.create(:member) }
+  let(:another_member) { FactoryBot.create(:london_member) }
+  let(:post) { FactoryBot.create(:post) }
 
   context 'logged in member' do
     background do

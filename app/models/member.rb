@@ -91,7 +91,7 @@ class Member < ActiveRecord::Base
 
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
-  # which can happen sometimes especially with FactoryGirl associations
+  # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Account.find_or_create_by(member_id: member.id) }
 
   after_save :update_newsletter_subscription

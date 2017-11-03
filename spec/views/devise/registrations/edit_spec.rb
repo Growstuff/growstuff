@@ -16,7 +16,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
   context "logged in" do
     before(:each) do
       controller.stub(:current_user) { nil }
-      @member = FactoryGirl.create(:member)
+      @member = FactoryBot.create(:member)
       controller.stub(:current_member) { @member }
       @view.stub(:resource).and_return(@member)
       @view.stub(:resource_name).and_return("member")
@@ -78,7 +78,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
       context 'connected to twitter' do
         before(:each) do
-          @twitter_auth = FactoryGirl.create(:authentication, member: @member)
+          @twitter_auth = FactoryBot.create(:authentication, member: @member)
           render
         end
         it 'has a link to twitter profile' do
@@ -98,7 +98,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
       context 'connected to flickr' do
         before(:each) do
-          @flickr_auth = FactoryGirl.create(:flickr_authentication, member: @member)
+          @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
           render
         end
         it 'has a link to flickr photostream' do

@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe PlantingsHelper do
   describe "display_planting" do
-    let!(:member) { FactoryGirl.build(:member, login_name: 'crop_lady') }
+    let!(:member) { FactoryBot.build(:member, login_name: 'crop_lady') }
 
     it "does not have a quantity nor a planted from value provided" do
-      planting = FactoryGirl.build(:planting,
+      planting = FactoryBot.build(:planting,
         quantity: nil,
         planted_from: '',
         owner: member)
@@ -14,7 +14,7 @@ describe PlantingsHelper do
     end
 
     it "does not have a quantity provided" do
-      planting = FactoryGirl.build(:planting,
+      planting = FactoryBot.build(:planting,
         quantity: nil,
         planted_from: 'seed',
         owner: member)
@@ -24,7 +24,7 @@ describe PlantingsHelper do
 
     context "when quantity is greater than 1" do
       it "does not have a planted from value provided" do
-        planting = FactoryGirl.build(:planting,
+        planting = FactoryBot.build(:planting,
           quantity: 10,
           planted_from: '',
           owner: member)
@@ -33,7 +33,7 @@ describe PlantingsHelper do
       end
 
       it "does have a planted from value provided" do
-        planting = FactoryGirl.build(:planting,
+        planting = FactoryBot.build(:planting,
           quantity: 5,
           planted_from: 'seed',
           owner: member)
@@ -44,7 +44,7 @@ describe PlantingsHelper do
 
     context "when quantity is 1" do
       it "does not have a planted from value provided" do
-        planting = FactoryGirl.build(:planting,
+        planting = FactoryBot.build(:planting,
           quantity: 1,
           planted_from: '',
           owner: member)
@@ -53,7 +53,7 @@ describe PlantingsHelper do
       end
 
       it "does have a planted from value provided" do
-        planting = FactoryGirl.build(:planting,
+        planting = FactoryBot.build(:planting,
           quantity: 1,
           planted_from: 'seed',
           owner: member)

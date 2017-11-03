@@ -15,8 +15,8 @@ require 'rails_helper'
 describe "posts/edit" do
   before(:each) do
     controller.stub(:current_user) { nil }
-    @author = FactoryGirl.create(:member)
-    @post = assign(:post, FactoryGirl.create(:post, author: @author))
+    @author = FactoryBot.create(:member)
+    @post = assign(:post, FactoryBot.create(:post, author: @author))
   end
 
   context "logged in" do
@@ -42,8 +42,8 @@ describe "posts/edit" do
 
     context "forum specified" do
       before(:each) do
-        @forum = assign(:forum, FactoryGirl.create(:forum))
-        assign(:post, FactoryGirl.create(:post,
+        @forum = assign(:forum, FactoryBot.create(:forum))
+        assign(:post, FactoryBot.create(:post,
           forum: @forum,
           author: @author))
         render

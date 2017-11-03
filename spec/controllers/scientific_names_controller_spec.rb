@@ -16,7 +16,7 @@ describe ScientificNamesController do
   login_member(:crop_wrangling_member)
 
   before(:each) do
-    @crop = FactoryGirl.create(:tomato)
+    @crop = FactoryBot.create(:tomato)
   end
 
   def valid_attributes

@@ -14,20 +14,20 @@ require 'rails_helper'
 
 describe 'home/index.html.haml', type: "view" do
   before(:each) do
-    @member = FactoryGirl.create(:london_member)
+    @member = FactoryBot.create(:london_member)
     @member.updated_at = 2.days.ago
     assign(:interesting_members, [@member])
 
-    @post = FactoryGirl.create(:post, author: @member)
+    @post = FactoryBot.create(:post, author: @member)
     assign(:posts, [@post])
 
-    @planting = FactoryGirl.create(:planting, owner: @member)
+    @planting = FactoryBot.create(:planting, owner: @member)
     assign(:plantings, [@planting])
 
-    @crop = FactoryGirl.create(:crop)
+    @crop = FactoryBot.create(:crop)
     assign(:crops, [@crop])
     assign(:recent_crops, [@crop])
-    assign(:seeds, [FactoryGirl.create(:tradable_seed)])
+    assign(:seeds, [FactoryBot.create(:tradable_seed)])
   end
 
   context 'logged out' do

@@ -23,7 +23,7 @@ describe AdminController do
     end
 
     it 'assigns @members' do
-      m = FactoryGirl.create(:newsletter_recipient_member)
+      m = FactoryBot.create(:newsletter_recipient_member)
       get :newsletter
       assigns(:members).should eq [m]
     end

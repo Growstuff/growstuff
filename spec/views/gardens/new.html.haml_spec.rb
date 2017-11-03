@@ -14,10 +14,10 @@ require 'rails_helper'
 
 describe "gardens/new" do
   before(:each) do
-    @member = FactoryGirl.create(:member)
+    @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }
-    @garden = FactoryGirl.create(:garden, owner: @member)
+    @garden = FactoryBot.create(:garden, owner: @member)
     assign(:garden, @garden)
     render
   end

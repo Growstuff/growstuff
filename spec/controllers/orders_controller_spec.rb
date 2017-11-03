@@ -25,7 +25,7 @@ describe OrdersController do
 
   describe "GET checkout" do
     it 'sets the referral_code' do
-      member = FactoryGirl.create(:member)
+      member = FactoryBot.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
       get :checkout, id: order.to_param, referral_code: 'FOOBAR'
@@ -34,7 +34,7 @@ describe OrdersController do
     end
 
     it "redirects to Paypal" do
-      member = FactoryGirl.create(:member)
+      member = FactoryBot.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
       get :checkout, id: order.to_param
@@ -45,7 +45,7 @@ describe OrdersController do
 
   describe "GET complete" do
     it "assigns the requested order as @order" do
-      member = FactoryGirl.create(:member)
+      member = FactoryBot.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
       get :complete, id: order.to_param
@@ -55,7 +55,7 @@ describe OrdersController do
 
   describe "DELETE destroy" do
     it "redirects to the shop" do
-      member = FactoryGirl.create(:member)
+      member = FactoryBot.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
       delete :destroy, id: order.id
