@@ -8,7 +8,7 @@ class Crop < ActiveRecord::Base
 
   ##
   ## Relationships
-  has_many :scientific_names, after_add: :update_index, after_remove: :update_index
+  has_many :scientific_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   has_many :plantings
