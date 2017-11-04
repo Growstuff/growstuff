@@ -1,6 +1,7 @@
 class PlantingsController < ApplicationController
   before_action :authenticate_member!, except: [:index, :show]
   after_action :expire_homepage, only: [:create, :update, :destroy]
+  after_action :update_crop_medians, only: [:create, :update, :destroy]
   load_and_authorize_resource
 
   respond_to :html, :json
@@ -52,23 +53,24 @@ class PlantingsController < ApplicationController
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
     @planting.save!
-    @planting.crop.update_medians
     respond_with @planting
   end
 
   def update
     @planting.update(planting_params)
-    @planting.crop.update_medians
     respond_with @planting
   end
 
   def destroy
     @planting.destroy
-    @planting.crop.update_medians
     respond_with @planting, location: @planting.garden
   end
 
   private
+
+  def update_crop_medians
+    @planting.crop.update_medians
+  end
 
   def planting_params
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
