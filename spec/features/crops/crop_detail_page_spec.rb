@@ -168,4 +168,23 @@ feature "crop detail page", js: true do
       expect(current_path).to eq seeds_by_owner_path(owner: member.slug)
     end
   end
+
+  context 'annual and perennial' do
+    before { visit crop_path(crop) }
+    context 'crop is an annual' do
+      let(:crop) { FactoryBot.create :annual_crop }
+      it { expect(page).to have_text 'annual (living and reproducing in a single year or less)' }
+      it { expect(page).not_to have_text 'perennial (living more than two years) ' }
+    end
+    context 'crop is perennial' do
+      let(:crop) { FactoryBot.create :perennial_crop }
+      it { expect(page).to have_text 'perennial (living more than two years) ' }
+      it { expect(page).not_to have_text 'annual (living and reproducing in a single year or less)' }
+    end
+    context 'crop perennial value is null' do
+      let(:crop) { FactoryBot.create :crop, perennial: nil }
+      it { expect(page).not_to have_text 'perennial (living more than two years) ' }
+      it { expect(page).not_to have_text 'annual (living and reproducing in a single year or less)' }
+    end
+  end
 end
