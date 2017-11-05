@@ -27,7 +27,7 @@ describe Planting do
         FactoryBot.create :planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 51.days.ago
         FactoryBot.create :planting, crop: planting.crop, planted_at: 2.years.ago, finished_at: 50.days.ago
         FactoryBot.create :planting, crop: planting.crop, planted_at: 150.days.ago, finished_at: 100.days.ago
-        planting.crop.update_medians
+        planting.crop.update_lifespan_medians
       end
 
       it { expect(planting.crop.median_lifespan).to eq 50 }
