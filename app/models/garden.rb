@@ -41,7 +41,7 @@ class Garden < ActiveRecord::Base
     "acres" => "acre"
   }.freeze
   validates :area_unit, inclusion: { in: AREA_UNITS_VALUES.values,
-                                     message: "%{value} is not a valid area unit" },
+                                     message: "%<value>s is not a valid area unit" },
                         allow_nil: true,
                         allow_blank: true
 

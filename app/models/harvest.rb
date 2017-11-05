@@ -47,20 +47,18 @@ class Harvest < ActiveRecord::Base
   validates :crop, presence: { message: "must be present and exist in our database" }
   validates :plant_part, presence: { message: "must be present and exist in our database" }
   validates :harvested_at, presence: true
+  validates :quantity, allow_nil: true, numericality: {
+    only_integer: false, greater_than_or_equal_to: 0
+  }
+  validates :unit, allow_nil: true, allow_blank: true, inclusion: {
+    in: UNITS_VALUES.values, message: "%<value>s is not a valid unit"
+  }
+  validates :weight_quantity, allow_nil: true, numericality: { only_integer: false }
+  validates :weight_unit, allow_nil: true, allow_blank: true, inclusion: {
+    in: WEIGHT_UNITS_VALUES.values, message: "%<value>s is not a valid unit"
+  }
   validate :crop_must_match_planting
   validate :harvest_must_be_after_planting
-  validates :quantity, numericality: {
-    only_integer: false, greater_than_or_equal_to: 0
-  }, allow_nil: true
-  validates :unit, inclusion: {
-    in: UNITS_VALUES.values,
-    message: "%{value} is not a valid unit"
-  }, allow_nil: true, allow_blank: true
-  validates :weight_quantity, numericality: { only_integer: false }, allow_nil: true
-  validates :weight_unit, inclusion: {
-    in: WEIGHT_UNITS_VALUES.values,
-    message: "%{value} is not a valid unit"
-  }, allow_nil: true, allow_blank: true
 
   def time_from_planting_to_harvest
     return if planting.blank?
