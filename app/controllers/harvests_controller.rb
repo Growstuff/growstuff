@@ -1,5 +1,6 @@
 class HarvestsController < ApplicationController
-  before_action :authenticate_member!, except: [:index, :show]
+  before_action :authenticate_member!, except: %i(index show)
+  after_action :update_crop_medians, only: %i(create update destroy)
   load_and_authorize_resource
   respond_to :html, :json
   respond_to :csv, only: :index
@@ -82,5 +83,14 @@ class HarvestsController < ApplicationController
                   "#{@crop.name}-"
                 end
     "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
+  end
+
+  def update_crop_medians
+    # We only update medians to predict plantings
+    # if this harvest is not linked to a planting, then do nothing
+    return if @harvest.planting.nil?
+
+    @harvest.planting.update_harvest_days
+    @harvest.crop.update_harvest_medians
   end
 end

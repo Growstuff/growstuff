@@ -69,7 +69,7 @@ class PlantingsController < ApplicationController
   private
 
   def update_crop_medians
-    @planting.crop.update_medians
+    @planting.crop.update_lifespan_medians
   end
 
   def planting_params

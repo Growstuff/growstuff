@@ -211,9 +211,13 @@ class Crop < ActiveRecord::Base
     where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
-  def update_medians
-    # byebug
+  def update_lifespan_medians
+    # Median lifespan of plantings
     update(median_lifespan: Planting.where(crop: self).median(:lifespan))
+  end
+
+  def update_harvest_medians
+    update(median_first_harvest: Planting.where(crop: self).median(:first_harvest))
   end
 
   private

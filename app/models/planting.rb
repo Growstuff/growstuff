@@ -113,6 +113,13 @@ class Planting < ActiveRecord::Base
     100
   end
 
+  def update_harvest_days
+    # how long ago was this planted
+    first_harvest = (harvests.first.harvested_at - planted_at).to_i
+    last_harvest = finished? ? (harvests.last.harvested_at - planted_at).to_i : nil
+    update(first_harvest: first_harvest, last_harvest: last_harvest)
+  end
+
   private
 
   # check that any finished_at date occurs after planted_at

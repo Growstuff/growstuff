@@ -196,6 +196,8 @@ ActiveRecord::Schema.define(version: 20171028230429) do
     t.text     "rejection_notes"
     t.boolean  "perennial",            default: false
     t.integer  "median_lifespan"
+    t.integer  "median_first_harvest"
+    t.integer  "median_last_harvest"
   end
 
   add_index "crops", ["name"], name: "index_crops_on_name", using: :btree
@@ -429,6 +431,8 @@ ActiveRecord::Schema.define(version: 20171028230429) do
     t.date     "finished_at"
     t.integer  "days_before_maturity"
     t.integer  "lifespan"
+    t.integer  "first_harvest"
+    t.integer  "last_harvest"
   end
 
   add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree
