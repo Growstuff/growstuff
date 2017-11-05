@@ -20,28 +20,48 @@
 
     - if can? :create, Seed
       = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: @crop.id }), class: 'btn btn-default'
-  - if member_signed_in?
-    = display_seed_availability(@current_member, @crop)
-    = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
 
 .row
   .col-md-9
+    - if member_signed_in?
+      = display_seed_availability(@current_member, @crop)
+      = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
+    %h2 Predictions
+    - unless @crop.perennial.nil?
+      %p
+        #{@crop.name} is
+        - if @crop.perennial == true
+          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+            a perennial crop
+          (living more than two years)
+        - elsif @crop.perennial == false
+          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+            an annual crop
+          (living and reproducing in a single year or less)
+    - unless @crop.median_lifespan.nil?
+      %p
+        Median Lifespan of #{@crop.name} plants is
+        %b= @crop.median_lifespan
+        days
+    - unless @crop.median_first_harvest.nil?
+      %p
+        First harvest expected after
+        %b= @crop.median_first_harvest
+        days
+
+    - if @crop.perennial == false && @crop.median_last_harvest.present?
+      %p
+        Last harvest expected after
+        %b= @crop.median_last_harvest
+        days
+
     - unless current_member
       Learn how to grow #{@crop.name.pluralize} from growers around the world.
       #{ENV['GROWSTUFF_SITE_NAME']} has tips and advice from real-life growers,
       including when to plant #{@crop.name.pluralize}, how to harvest
       #{@crop.name.pluralize}, and more.
 
-    = render partial: 'photos', locals: { crop: @crop }
-
-    - unless @crop.perennial.nil?
-      %h2
-        #{@crop.name} is
-        = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-          - if @crop.perennial == true
-            perennial (living more than two years)
-          - elsif @crop.perennial == false
-            annual (living and reproducing in a single year or less)
+    %p= render 'crops/photos', crop: @crop
 
     %h2
       - if !@crop.plantings.empty?

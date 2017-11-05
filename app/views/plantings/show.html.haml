@@ -41,18 +41,27 @@
         = sunniness
 
       - unless @planting.crop.perennial
-        %dt Finished:
-        %dd= display_finished(@planting)
         %dt Predicted finish:
         %dd
           - if @planting.finish_predicted_at.present?
             = @planting.finish_predicted_at
           - else
-            Set planted date to get predictions
+            %strong Set planted date to get predictions
+        %dt Finished:
+        %dd= display_finished(@planting)
 
+        - if @planting.crop.median_lifespan.present?
+          %dt Expected Lifespan:
+          %dd #{@planting.crop.median_lifespan} days
         - if @planting.lifespan.present?
           %dt Lifespan:
           %dd #{@planting.lifespan} days
+        - if @planting.first_harvest.present?
+          %dt First Harvest:
+          %dd #{@planting.first_harvest} days old
+        - if @planting.last_harvest.present?
+          %dt Last Harvest:
+          %dd #{@planting.last_harvest} days old
 
     %p= render 'plantings/harvests', planting: @planting
     %p= render 'plantings/progress', planting: @planting, show_explanation: true

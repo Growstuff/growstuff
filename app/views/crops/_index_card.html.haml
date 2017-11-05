@@ -17,10 +17,23 @@
           Planted
           = pluralize(crop.plantings.size, "time")
         by #{ENV['GROWSTUFF_SITE_NAME']} members
-      %p
-        Median Lifespan
-        %b= crop.median_lifespan
-        days
+
+      - unless crop.median_lifespan.nil?
+        %p
+          Median Lifespan
+          %b= crop.median_lifespan
+          days
+      - unless crop.median_first_harvest.nil?
+        %p
+          First harvest expected after
+          %b= crop.median_first_harvest
+          days
+
+      - if crop.perennial == false && crop.median_last_harvest.present?
+        %p
+          Last harvest expected after
+          %b= crop.median_last_harvest
+          days
 
       - if can? :create, Planting
         = link_to 'Plant this', new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
