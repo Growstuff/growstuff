@@ -114,10 +114,14 @@ class Planting < ActiveRecord::Base
   end
 
   def update_harvest_days
-    return unless harvests.size.positive?
-    # how long ago was this planted
-    first_harvest = (harvests.first.harvested_at - planted_at).to_i
-    last_harvest = finished? ? (harvests.last.harvested_at - planted_at).to_i : nil
+    if harvests.size.positive?
+      # how long ago was this planted
+      first_harvest = (harvests.first.harvested_at - planted_at).to_i
+      last_harvest = finished? ? (harvests.last.harvested_at - planted_at).to_i : nil
+    else
+      first_harvest = nil
+      last_harvest = nil
+    end
     update(first_harvest: first_harvest, last_harvest: last_harvest)
   end
 

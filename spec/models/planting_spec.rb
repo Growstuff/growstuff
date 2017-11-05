@@ -9,17 +9,38 @@ describe Planting do
     FactoryBot.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago, finished: true
   end
 
-  describe 'predictions' do
-    context 'no previous data' do
+  describe 'planting lifespan predictions' do
+    context 'no predications data yet' do
       describe 'planting planted, not finished' do
+        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: nil, finished: false }
+        it { expect(planting.crop.median_lifespan).to eq(nil) }
+        it { expect(planting.expected_lifespan).to eq(nil) }
+        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.percentage_grown).to eq(nil) }
       end
       describe 'planting not planted yet' do
+        let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil, finished: false }
+        it { expect(planting.crop.median_lifespan).to eq(nil) }
+        it { expect(planting.expected_lifespan).to eq(nil) }
+        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.percentage_grown).to eq(nil) }
       end
       describe 'planting finished, no planted_at' do
+        let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: 1.day.ago, finished: true }
+        it { expect(planting.crop.median_lifespan).to eq(nil) }
+        it { expect(planting.expected_lifespan).to eq(nil) }
+        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.percentage_grown).to eq(100) }
       end
-      describe 'planing all finished' do
+      describe 'planting all finished' do
+        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 1.day.ago, finished: true }
+        it { expect(planting.crop.median_lifespan).to eq(nil) }
+        it { expect(planting.expected_lifespan).to eq(29) }
+        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.percentage_grown).to eq(100) }
       end
     end
+
     context 'lots of data' do
       before do
         FactoryBot.create :planting, crop: planting.crop, planted_at: 10.days.ago
