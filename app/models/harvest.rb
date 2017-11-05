@@ -39,13 +39,14 @@ class Harvest < ActiveRecord::Base
 
   ##
   ## Scopes
-  default_scope { joins(:owner).order(created_at: :desc) }
+  default_scope { joins(:owner) }
 
   ##
   ## Validations
   validates :crop, approved: true
   validates :crop, presence: { message: "must be present and exist in our database" }
   validates :plant_part, presence: { message: "must be present and exist in our database" }
+  validates :harvested_at, presence: true
   validate :crop_must_match_planting
   validate :harvest_must_be_after_planting
   validates :quantity, numericality: {

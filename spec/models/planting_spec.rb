@@ -79,6 +79,59 @@ describe Planting do
     end
   end
 
+  describe 'planting first harvest preductions' do
+    context 'no data' do
+      let(:planting) { FactoryBot.create :planting }
+      it { expect(planting.crop.median_first_harvest).to eq(nil) }
+      it { expect(planting.first_harvest).to eq(nil) }
+      it { expect(planting.expected_lifespan).to eq(nil) }
+    end
+    context 'lots of data' do
+      def one_hundred_day_old_planting
+        FactoryBot.create(:planting, crop: planting.crop, planted_at: 100.days.ago)
+      end
+      before do
+        # 50 days to harvest
+        FactoryBot.create(:harvest, harvested_at: 50.days.ago, crop: planting.crop,
+                                    planting: one_hundred_day_old_planting)
+        # 20 days to harvest
+        FactoryBot.create(:harvest, harvested_at: 80.days.ago, crop: planting.crop,
+                                    planting: one_hundred_day_old_planting)
+        # 10 days to harvest
+        FactoryBot.create(:harvest, harvested_at: 90.days.ago, crop: planting.crop,
+                                    planting: one_hundred_day_old_planting)
+        planting.crop.plantings.each(&:update_harvest_days)
+        planting.crop.update_lifespan_medians
+        planting.crop.update_harvest_medians
+      end
+      it { expect(planting.crop.median_first_harvest).to eq(20) }
+    end
+    describe 'planting has no harvests' do
+      before { planting.update_harvest_days }
+      let(:planting) { FactoryBot.create :planting }
+      it { expect(planting.first_harvest).to eq(nil) }
+    end
+    describe 'planting has first harvest' do
+      let(:planting) { FactoryBot.create :planting, planted_at: 100.days.ago }
+      before do
+        FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 10.days.ago
+        planting.update_harvest_days
+      end
+      it { expect(planting.first_harvest).to eq(90) }
+      it { expect(planting.last_harvest).to eq(nil) }
+    end
+    describe 'planting has last harvest' do
+      let(:planting) { FactoryBot.create :planting, planted_at: 100.days.ago, finished_at: 1.day.ago, finished: true }
+      before do
+        FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 90.days.ago
+        FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 10.days.ago
+        planting.update_harvest_days
+      end
+      it { expect(planting.first_harvest).to eq(10) }
+      it { expect(planting.last_harvest).to eq(90) }
+    end
+  end
+
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
   end
