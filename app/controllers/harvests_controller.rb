@@ -34,6 +34,7 @@ class HarvestsController < ApplicationController
 
   def create
     @harvest.crop_id = @harvest.planting.crop_id if @harvest.planting_id
+    @harvest.harvested_at = Time.zone.now if @harvest.harvested_at.blank?
     @harvest.save
     respond_with(@harvest)
   end
@@ -72,8 +73,8 @@ class HarvestsController < ApplicationController
     elsif @planting
       @planting.harvests
     else
-      Harvest
-    end.joins(:owner, :crop).paginate(page: params[:page])
+      Harvest.all
+    end.order(harvested_at: :desc).joins(:owner, :crop).paginate(page: params[:page])
   end
 
   def csv_filename
