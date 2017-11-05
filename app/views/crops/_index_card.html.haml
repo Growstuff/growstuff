@@ -12,9 +12,6 @@
       %p
         %b Scientific name:
         = crop.default_scientific_name
-      %p
-        %b Planted #{pluralize(crop.plantings.size, "time")}
-        by #{ENV['GROWSTUFF_SITE_NAME']} members
 
       - unless crop.median_lifespan.nil?
         %p
