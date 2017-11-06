@@ -169,6 +169,10 @@ class Crop < ActiveRecord::Base
       .count("harvests.id")
   end
 
+  def annual?
+    !(perennial == true)
+  end
+
   def interesting?
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
