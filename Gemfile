@@ -17,6 +17,9 @@ gem 'font-awesome-sass'
 
 gem 'uglifier' # JavaScript compressor
 
+# planting and harvest predictions
+gem 'active_median'
+
 gem 'flickraw'
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '~> 5.0.2' # needs careful upgrade with change of location

@@ -30,6 +30,16 @@
           proper nouns only.
 
   .form-group
+    = f.label :perennial, 'Lifespan', class: 'control-label col-md-2'
+    .col-md-8
+      = f.radio_button(:perennial, false)
+      = f.label(:perennial_false, "Annual")
+      %span.help-block Living and reproducing in a single year or less
+      = f.radio_button(:perennial, true)
+      = f.label(:perennial_true, "Perennial")
+      %span.help-block Living more than two years
+
+  .form-group
     = f.label :en_wikipedia_url, 'Wikipedia URL', class: 'control-label col-md-2'
     .col-md-8
       = f.text_field :en_wikipedia_url, class: 'form-control', id: "en_wikipedia_url"

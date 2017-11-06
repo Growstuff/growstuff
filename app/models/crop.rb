@@ -2,11 +2,14 @@ class Crop < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
-  has_many :scientific_names, after_add: :update_index, after_remove: :update_index
-  accepts_nested_attributes_for :scientific_names,
-    allow_destroy: true,
-    reject_if: :all_blank
+  ##
+  ## Triggers
+  before_destroy { |crop| crop.posts.clear }
 
+  ##
+  ## Relationships
+  has_many :scientific_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
+  accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   has_many :plantings
   has_many :photos, through: :plantings
@@ -15,33 +18,32 @@ class Crop < ActiveRecord::Base
   has_many :plant_parts, -> { uniq.reorder("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member'
   belongs_to :requester, class_name: 'Member'
-
   belongs_to :parent, class_name: 'Crop'
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
-  before_destroy { |crop| crop.posts.clear }
 
+  ##
+  ## Scopes
   default_scope { order("lower(crops.name) asc") }
-  scope :recent, lambda {
-    approved.reorder("created_at desc")
-  }
-  scope :toplevel, lambda {
-    approved.where(parent_id: nil)
-  }
-  scope :popular, lambda {
-    approved.reorder("plantings_count desc, lower(name) asc")
-  }
-  scope :randomized, lambda {
-    # ok on sqlite and psql, but not on mysql
-    approved.reorder('random()')
-  }
+  scope :recent, -> { approved.reorder("created_at desc") }
+  scope :toplevel, -> { approved.where(parent_id: nil) }
+  scope :popular, -> { approved.reorder("plantings_count desc, lower(name) asc") }
+  # ok on sqlite and psql, but not on mysql
+  scope :randomized, -> { approved.reorder('random()') }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
-
   scope :interesting, -> { approved.has_photos.randomized }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
+  ##
+  ## Validations
+  # Reasons are only necessary when rejecting
+  validates :reason_for_rejection, presence: true, if: :rejected?
+  ## This validation addresses a race condition
+  validate :approval_status_cannot_be_changed_again
+  validate :must_be_rejected_if_rejected_reasons_present
+  validate :must_have_meaningful_reason_for_rejection
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     format: {
@@ -49,16 +51,6 @@ class Crop < ActiveRecord::Base
       message: 'is not a valid English Wikipedia URL'
     },
     if: :approved?
-
-  ## Reasons are only necessary when rejecting
-  validates :reason_for_rejection, presence: true, if: :rejected?
-
-  ## This validation addresses a race condition
-  validate :approval_status_cannot_be_changed_again
-
-  validate :must_be_rejected_if_rejected_reasons_present
-
-  validate :must_have_meaningful_reason_for_rejection
 
   ####################################
   # Elastic search configuration
@@ -177,6 +169,10 @@ class Crop < ActiveRecord::Base
       .count("harvests.id")
   end
 
+  def annual?
+    perennial != true
+  end
+
   def interesting?
     min_plantings = 3 # needs this many plantings to be interesting
     min_photos    = 3 # needs this many photos to be interesting
@@ -210,49 +206,23 @@ class Crop < ActiveRecord::Base
     reason_for_rejection
   end
 
-  # Crop.search(string)
+  # # Crop.search(string)
   def self.search(query)
-    if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
-      search_str = query.nil? ? "" : query.downcase
-      response = __elasticsearch__.search( # Finds documents which match any field, but uses the _score from
-        # the best field insead of adding up _score from each field.
-        query: {
-          multi_match: {
-            query: search_str.to_s,
-            analyzer: "standard",
-            fields: ["name",
-                     "scientific_names.scientific_name",
-                     "alternate_names.name"]
-          }
-        },
-        filter: {
-          term: { approval_status: "approved" }
-        },
-        size: 50
-      )
-      response.records.to_a
-    else
-      # if we don't have elasticsearch, just do a basic SQL query.
-      # also, make sure it's an actual array not an activerecord
-      # collection, so it matches what we get from elasticsearch and we can
-      # manipulate it in the same ways (eg. deleting elements without deleting
-      # the whole record from the db)
-      matches = Crop.approved.where("name ILIKE ?", "%#{query}%").to_a
-
-      # we want to make sure that exact matches come first, even if not
-      # using elasticsearch (eg. in development)
-      exact_match = Crop.approved.find_by(name: query)
-      if exact_match
-        matches.delete(exact_match)
-        matches.unshift(exact_match)
-      end
-
-      matches
-    end
+    CropSearchService.search(query)
   end
 
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
+  end
+
+  def update_lifespan_medians
+    # Median lifespan of plantings
+    update(median_lifespan: Planting.where(crop: self).median(:lifespan))
+  end
+
+  def update_harvest_medians
+    update(median_first_harvest: Planting.where(crop: self).median(:first_harvest))
+    update(median_last_harvest: Planting.where(crop: self).median(:last_harvest))
   end
 
   private

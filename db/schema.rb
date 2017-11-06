@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520060252) do
+ActiveRecord::Schema.define(version: 20171105011017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,10 @@ ActiveRecord::Schema.define(version: 20170520060252) do
     t.text     "reason_for_rejection"
     t.text     "request_notes"
     t.text     "rejection_notes"
+    t.boolean  "perennial",            default: false
+    t.integer  "median_lifespan"
+    t.integer  "median_first_harvest"
+    t.integer  "median_last_harvest"
   end
 
   add_index "crops", ["name"], name: "index_crops_on_name", using: :btree
@@ -289,6 +293,9 @@ ActiveRecord::Schema.define(version: 20170520060252) do
   add_index "likes", ["likeable_id"], name: "index_likes_on_likeable_id", using: :btree
   add_index "likes", ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id", using: :btree
   add_index "likes", ["member_id"], name: "index_likes_on_member_id", using: :btree
+
+  create_table "median_functions", force: :cascade do |t|
+  end
 
   create_table "members", force: :cascade do |t|
     t.string   "email",                   default: "",   null: false
@@ -423,6 +430,9 @@ ActiveRecord::Schema.define(version: 20170520060252) do
     t.boolean  "finished",             default: false
     t.date     "finished_at"
     t.integer  "days_before_maturity"
+    t.integer  "lifespan"
+    t.integer  "first_harvest"
+    t.integer  "last_harvest"
   end
 
   add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree

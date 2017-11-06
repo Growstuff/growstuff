@@ -20,19 +20,17 @@
 
     - if can? :create, Seed
       = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: @crop.id }), class: 'btn btn-default'
-  - if member_signed_in?
-    = display_seed_availability(@current_member, @crop)
-    = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
 
 .row
   .col-md-9
-    - unless current_member
-      Learn how to grow #{@crop.name.pluralize} from growers around the world.
-      #{ENV['GROWSTUFF_SITE_NAME']} has tips and advice from real-life growers,
-      including when to plant #{@crop.name.pluralize}, how to harvest
-      #{@crop.name.pluralize}, and more.
+    - if member_signed_in?
+      = display_seed_availability(@current_member, @crop)
+      = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
 
-    = render partial: 'photos', locals: { crop: @crop }
+    %h2 Predictions
+    = render 'predictions', crop: @crop
+
+    %p= render 'crops/photos', crop: @crop
 
     %h2
       - if !@crop.plantings.empty?
@@ -86,18 +84,18 @@
 
     %h4 How to grow #{@crop.name.pluralize}
 
-    = render partial: 'grown_for', locals: { crop: @crop }
-    = render partial: 'planting_advice', locals: { crop: @crop }
+    = render 'grown_for', crop: @crop
+    = render 'planting_advice', crop: @crop
 
-    = render partial: 'scientific_names', locals: { crop: @crop }
-    = render partial: 'alternate_names', locals: { crop: @crop }
+    = render 'scientific_names', crop: @crop
+    = render 'alternate_names', crop: @crop
 
     %h4 #{@crop.name.capitalize} varieties
-    = render partial: 'varieties', locals: { crop: @crop }
+    = render 'varieties', crop: @crop
 
-    = render partial: 'plantings', locals: { crop: @crop }
-    = render partial: 'harvests', locals: { crop: @crop }
-    = render partial: 'find_seeds', locals: { crop: @crop }
+    = render 'plantings', crop: @crop
+    = render 'harvests', crop: @crop
+    = render 'find_seeds', crop: @crop
 
 
     %h4 Learn more about #{@crop.name.pluralize}

@@ -1,0 +1,29 @@
+- unless crop.perennial.nil?
+  %p
+    #{crop.name} is
+    - if crop.perennial == true
+      = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+        a perennial crop
+      (living more than two years)
+    - elsif crop.perennial == false
+      = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+        an annual crop
+      (living and reproducing in a single year or less)
+
+- unless crop.median_lifespan.nil?
+  %p
+    Median lifespan of #{crop.name} plants is
+    %b= crop.median_lifespan
+    days
+
+- unless crop.median_first_harvest.nil?
+  %p
+    First harvest expected
+    %b= crop.median_first_harvest
+    days after planting
+
+- if crop.perennial == false && crop.median_last_harvest.present?
+  %p
+    Last harvest expected
+    %b= crop.median_last_harvest
+    days after planting

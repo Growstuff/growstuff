@@ -1,48 +1,10 @@
 class Planting < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
-  friendly_id :planting_slug, use: [:slugged, :finders]
+  friendly_id :planting_slug, use: %i(slugged finders)
 
-  belongs_to :garden
-  belongs_to :owner, class_name: 'Member', counter_cache: true
-  belongs_to :crop, counter_cache: true
-  has_many :harvests, dependent: :destroy
-
-  default_scope { joins(:owner).order(created_at: :desc) }
-  scope :finished, -> { where(finished: true) }
-  scope :current, -> { where(finished: false) }
-
-  scope :interesting, -> { has_photos.one_per_owner }
-  scope :one_per_owner, lambda {
-    joins("JOIN members m ON (m.id=plantings.owner_id)
-           LEFT OUTER JOIN plantings p2
-           ON (m.id=p2.owner_id AND plantings.id < p2.id)").where("p2 IS NULL")
-  }
-
-  delegate :name,
-    :en_wikipedia_url,
-    :default_scientific_name,
-    :plantings_count,
-    to: :crop,
-    prefix: true
-
-  validates :garden, presence: true
-  validates :crop, presence: true
-  validates :crop, approved: { message: "must be present and exist in our database" }
-
-  validates :quantity,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 0
-    },
-    allow_nil: true
-
+  # Constants
   SUNNINESS_VALUES = %w(sun semi-shade shade)
-  validates :sunniness, inclusion: { in: SUNNINESS_VALUES,
-                                     message: "%{value} is not a valid sunniness value" },
-                        allow_nil: true,
-                        allow_blank: true
-
   PLANTED_FROM_VALUES = [
     'seed',
     'seedling',
@@ -56,23 +18,47 @@ class Planting < ActiveRecord::Base
     'graft',
     'layering'
   ]
-  validates :planted_from, inclusion: { in: PLANTED_FROM_VALUES,
-                                        message: "%{value} is not a valid planting method" },
-                           allow_nil: true,
-                           allow_blank: true
 
+  ##
+  ## Triggers
+  before_save :calculate_lifespan
+
+  belongs_to :garden
+  belongs_to :owner, class_name: 'Member', counter_cache: true
+  belongs_to :crop, counter_cache: true
+  has_many :harvests, dependent: :destroy
+
+  ##
+  ## Scopes
+  default_scope { joins(:owner).order(created_at: :desc) }
+  scope :finished, -> { where(finished: true) }
+  scope :current, -> { where(finished: false) }
+  scope :interesting, -> { has_photos.one_per_owner }
+  scope :one_per_owner, lambda {
+    joins("JOIN members m ON (m.id=plantings.owner_id)
+           LEFT OUTER JOIN plantings p2
+           ON (m.id=p2.owner_id AND plantings.id < p2.id)").where("p2 IS NULL")
+  }
+
+  ##
+  ## Delegations
+  delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count,
+    to: :crop, prefix: true
+
+  ##
+  ## Validations
+  validates :garden, presence: true
+  validates :crop, presence: true, approved: { message: "must be present and exist in our database" }
   validate :finished_must_be_after_planted
-
-  delegate :days_until_finished, to: :predict
-  delegate :days_until_mature, to: :predict
-  delegate :percentage_grown, to: :predict
-  delegate :start_to_finish_diff, to: :predict
-
-  # check that any finished_at date occurs after planted_at
-  def finished_must_be_after_planted
-    return unless planted_at && finished_at # only check if we have both
-    errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
-  end
+  validates :quantity, allow_nil: true, numericality: {
+    only_integer: true, greater_than_or_equal_to: 0
+  }
+  validates :sunniness, allow_nil: true, allow_blank: true, inclusion: {
+    in: SUNNINESS_VALUES, message: "%<value>s is not a valid sunniness value"
+  }
+  validates :planted_from, allow_nil: true, allow_blank: true, inclusion: {
+    in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
+  }
 
   def planting_slug
     [
@@ -100,13 +86,52 @@ class Planting < ActiveRecord::Base
     planted_at.present? && planted_at <= Date.current
   end
 
-  def calc_and_set_days_before_maturity
-    self.days_before_maturity = predict.predict_days_before_maturity
+  def finish_predicted_at
+    planted_at + crop.median_lifespan.days if crop.median_lifespan.present? && planted_at.present?
+  end
+
+  def calculate_lifespan
+    self.lifespan = (planted_at.present? && finished_at.present? ? finished_at - planted_at : nil)
+  end
+
+  def expected_lifespan
+    if planted_at.present? && finished_at.present?
+      return (finished_at - planted_at).to_i
+    end
+    crop.median_lifespan
+  end
+
+  def days_since_planted
+    (Time.zone.today - planted_at).to_i if planted_at.present?
+  end
+
+  def percentage_grown
+    return 100 if finished
+    return if planted_at.blank? || expected_lifespan.blank?
+    p = (days_since_planted / expected_lifespan.to_f) * 100
+    return p if p <= 100
+    100
+  end
+
+  def update_harvest_days
+    harvests_with_dates = harvests.where.not(harvested_at: nil)
+    first_harvest = nil
+    last_harvest = nil
+    if planted_at.present? && harvests_with_dates.size.positive?
+      # how long ago was this planted
+      first_harvest = (harvests_with_dates.order(harvested_at: :asc).limit(1).first.harvested_at - planted_at).to_i
+      if finished?
+        last_harvest = (harvests_with_dates.order(harvested_at: :desc).limit(1).first.harvested_at - planted_at).to_i
+      end
+    end
+    update(first_harvest: first_harvest, last_harvest: last_harvest)
   end
 
   private
 
-  def predict
-    PlantingPredictions.new(self)
+  # check that any finished_at date occurs after planted_at
+  def finished_must_be_after_planted
+    return unless planted_at && finished_at # only check if we have both
+    errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
   end
 end

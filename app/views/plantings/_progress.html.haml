@@ -1,19 +1,15 @@
-- if !planting.planted?
+- if planting.crop.perennial == true
+  %p Perennial
+- elsif !planting.planted?
   - if show_explanation == true
     Progress: 0% - not planted yet
   = render "plantings/progress_bar", status: "not planted", progress: 0
-
 - elsif planting.finished?
-  - if show_explanation == true
-    Progress: 100%
   = render "plantings/progress_bar", status: 'finished', progress: 100
-
-- elsif planting.days_before_maturity.nil?
+- elsif planting.finish_predicted_at.nil?
   - if show_explanation == true
-    Progress: Not calculated, days before maturity unknown
+    Progress: Not enough data
   = render "plantings/progress_bar", status: "unknown", progress: nil
 
 - else
-  - if show_explanation == true
-    Progress: #{planting.percentage_grown}%
   = render "plantings/progress_bar", status: 'growing', progress: planting.percentage_grown

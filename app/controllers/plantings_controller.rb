@@ -1,6 +1,8 @@
 class PlantingsController < ApplicationController
-  before_action :authenticate_member!, except: [:index, :show]
-  after_action :expire_homepage, only: [:create, :update, :destroy]
+  before_action :authenticate_member!, except: %i(index show)
+  after_action :expire_homepage, only: %i(create update destroy)
+  after_action :update_crop_medians, only: %i(create update destroy)
+  after_action :update_planting_medians, only: :update
   load_and_authorize_resource
 
   respond_to :html, :json
@@ -51,13 +53,11 @@ class PlantingsController < ApplicationController
   def create
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
-    @planting.calc_and_set_days_before_maturity
-    @planting.save
+    @planting.save!
     respond_with @planting
   end
 
   def update
-    @planting.calc_and_set_days_before_maturity
     @planting.update(planting_params)
     respond_with @planting
   end
@@ -68,6 +68,14 @@ class PlantingsController < ApplicationController
   end
 
   private
+
+  def update_crop_medians
+    @planting.crop.update_lifespan_medians
+  end
+
+  def update_planting_medians
+    @planting.update_harvest_days
+  end
 
   def planting_params
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
@@ -87,6 +95,9 @@ class PlantingsController < ApplicationController
           Planting
         end
     p = p.current unless @show_all
-    p.joins(:owner, :crop, :garden).order(:created_at).paginate(page: params[:page])
+    p.joins(:owner, :crop, :garden)
+      .includes(:crop, :owner, :garden)
+      .order(:created_at)
+      .paginate(page: params[:page])
   end
 end
