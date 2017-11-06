@@ -85,7 +85,7 @@
   %h2 Photos
 
   .row
-    - @planting.photos.each do |p|
+    - @planting.photos.includes(:owner).each do |p|
       .col-md-2.six-across
         = render partial: 'photos/thumbnail', locals: { photo: p }
     - if can?(:create, Photo) && can?(:edit, @planting)
