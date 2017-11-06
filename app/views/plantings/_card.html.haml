@@ -34,7 +34,7 @@
           %dd= display_planted_from(planting)
 
           %dt Finish expected:
-          %dd=planting.finish_predicted_at if planting.finish_predicted_at.present?
+          %dd= planting.finish_predicted_at if planting.finish_predicted_at.present?
 
     %p= render 'plantings/progress', planting: planting, show_explanation: true
 
