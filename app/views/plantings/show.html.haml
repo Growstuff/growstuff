@@ -82,7 +82,7 @@
     #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
 
 - if !@planting.photos.empty? || (can?(:edit, @planting) && can?(:create, Photo))
-  %h2 Pictures
+  %h2 Photos
 
   .row
     - @planting.photos.each do |p|
