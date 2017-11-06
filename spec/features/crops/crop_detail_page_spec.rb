@@ -184,8 +184,8 @@ feature "crop detail page", js: true do
       planting.crop.update_lifespan_medians
       planting.crop.update_harvest_medians
     end
-    it { is_expected.to have_text("First harvest expected after 20 days") }
-    it { is_expected.to have_text "Median Lifespan of #{crop.name} plants is 99 days" }
+    it { is_expected.to have_text("First harvest expected 20 days after planting") }
+    it { is_expected.to have_text "Median lifespan of #{crop.name} plants is 99 days" }
   end
 
   subject do
