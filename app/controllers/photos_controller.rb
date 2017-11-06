@@ -19,9 +19,10 @@ class PhotosController < ApplicationController
   def new
     @type = params[:type]
     @id = params[:id]
+
     @photo = Photo.new
-    planting = Planting.find @id
-    @crop_name = Crop.find(planting.crop_id).name.capitalize
+    item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
+    @item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
     retrieve_from_flickr
     respond_with @photo
   end
