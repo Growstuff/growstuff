@@ -169,6 +169,71 @@ feature "crop detail page", js: true do
     end
   end
 
+  shared_examples "lots of harvests" do
+    def planting
+      FactoryBot.create :planting, crop: crop, planted_at: 100.days.ago, finished_at: 1.day.ago
+    end
+    before do
+      # 50 days to harvest
+      FactoryBot.create(:harvest, harvested_at: 50.days.ago, crop: crop, planting: planting)
+      # 20 days to harvest
+      FactoryBot.create(:harvest, harvested_at: 80.days.ago, crop: crop, planting: planting)
+      # 10 days to harvest
+      FactoryBot.create(:harvest, harvested_at: 90.days.ago, crop: crop, planting: planting)
+      planting.crop.plantings.each(&:update_harvest_days)
+      planting.crop.update_lifespan_medians
+      planting.crop.update_harvest_medians
+    end
+    it { is_expected.to have_text("First harvest expected after 20 days") }
+    it { is_expected.to have_text "Median Lifespan of #{crop.name} plants is 99 days" }
+  end
+
+  subject do
+    visit crop_path(crop)
+    page
+  end
+
+  context 'predictions' do
+    context 'crop is an annual' do
+      let(:crop) { FactoryBot.create :annual_crop }
+
+      describe 'with no harvests' do
+      end
+
+      describe 'with harvests' do
+        include_examples "lots of harvests"
+      end
+      it do
+        is_expected.to have_text(
+          "#{crop.name} is an annual crop (living and reproducing in a single year or less)"
+        )
+      end
+    end
+
+    context 'crop is perennial' do
+      let(:crop) { FactoryBot.create :perennial_crop }
+
+      describe 'with no harvests' do
+      end
+
+      describe 'with harvests' do
+        include_examples "lots of harvests"
+      end
+      it { is_expected.to have_text("#{crop.name} is a perennial crop (living more than two years)") }
+    end
+
+    context 'crop perennial value is null' do
+      let(:crop) { FactoryBot.create :crop, perennial: nil }
+
+      describe 'with no harvests' do
+      end
+
+      describe 'with harvests' do
+        include_examples "lots of harvests"
+      end
+    end
+  end
+
   context 'annual and perennial' do
     before { visit crop_path(crop) }
     context 'crop is an annual' do
