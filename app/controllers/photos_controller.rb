@@ -19,8 +19,9 @@ class PhotosController < ApplicationController
   def new
     @type = params[:type]
     @id = params[:id]
-
     @photo = Photo.new
+    planting = Planting.find @id
+    @crop_name = Crop.find(planting.crop_id).name.capitalize
     retrieve_from_flickr
     respond_with @photo
   end
