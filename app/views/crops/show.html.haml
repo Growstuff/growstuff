@@ -30,12 +30,6 @@
     %h2 Predictions
     = render 'predictions', crop: @crop
 
-    - if @crop.perennial == false && @crop.median_last_harvest.present?
-      %p
-        Last harvest expected after
-        %b= @crop.median_last_harvest
-        days
-
     %p= render 'crops/photos', crop: @crop
 
     %h2
