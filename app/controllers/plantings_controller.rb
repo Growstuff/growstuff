@@ -2,6 +2,7 @@ class PlantingsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   after_action :expire_homepage, only: %i(create update destroy)
   after_action :update_crop_medians, only: %i(create update destroy)
+  after_action :update_planting_medians, only: :update
   load_and_authorize_resource
 
   respond_to :html, :json
@@ -70,6 +71,10 @@ class PlantingsController < ApplicationController
 
   def update_crop_medians
     @planting.crop.update_lifespan_medians
+  end
+
+  def update_planting_medians
+    @planting.update_harvest_days
   end
 
   def planting_params
