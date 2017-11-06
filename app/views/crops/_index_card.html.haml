@@ -13,22 +13,22 @@
         %b Scientific name:
         = crop.default_scientific_name
 
-      - unless crop.median_lifespan.nil?
+      - if crop.annual? && crop.median_lifespan.present?
         %p
           Median Lifespan
           %b= crop.median_lifespan
           days
       - unless crop.median_first_harvest.nil?
         %p
-          First harvest expected after
+          First harvest expected
           %b= crop.median_first_harvest
-          days
+          days after planting
 
-      - if crop.perennial == false && crop.median_last_harvest.present?
+      - if crop.annual? && crop.median_last_harvest.present?
         %p
-          Last harvest expected after
+          Last harvest expected
           %b= crop.median_last_harvest
-          days
+          days after planting
 
       - if can? :create, Planting
         = link_to 'Plant this', new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'

@@ -54,14 +54,14 @@
           %dt Expected Lifespan:
           %dd #{@planting.crop.median_lifespan} days
         - if @planting.lifespan.present?
-          %dt Lifespan:
+          %dt Actual Lifespan:
           %dd #{@planting.lifespan} days
         - if @planting.first_harvest.present?
           %dt First Harvest:
-          %dd #{@planting.first_harvest} days old
+          %dd #{@planting.first_harvest} days after planting
         - if @planting.last_harvest.present?
           %dt Last Harvest:
-          %dd #{@planting.last_harvest} days old
+          %dd #{@planting.last_harvest} days after planting
 
     %p= render 'plantings/harvests', planting: @planting
     %p= render 'plantings/progress', planting: @planting, show_explanation: true
