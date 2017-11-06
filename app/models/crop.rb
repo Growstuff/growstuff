@@ -170,7 +170,7 @@ class Crop < ActiveRecord::Base
   end
 
   def annual?
-    !(perennial == true)
+    perennial != true
   end
 
   def interesting?
