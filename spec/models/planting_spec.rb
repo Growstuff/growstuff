@@ -82,9 +82,9 @@ describe Planting do
   describe 'planting first harvest preductions' do
     context 'no data' do
       let(:planting) { FactoryBot.create :planting }
-      it { expect(planting.crop.median_first_harvest).to eq(nil) }
+      it { expect(planting.crop.median_days_to_first_harvest).to eq(nil) }
       it { expect(planting.crop.median_last_harvest).to eq(nil) }
-      it { expect(planting.first_harvest).to eq(nil) }
+      it { expect(planting.days_to_first_harvest).to eq(nil) }
       it { expect(planting.last_harvest).to eq(nil) }
       it { expect(planting.expected_lifespan).to eq(nil) }
     end
@@ -106,7 +106,7 @@ describe Planting do
         planting.crop.update_lifespan_medians
         planting.crop.update_harvest_medians
       end
-      it { expect(planting.crop.median_first_harvest).to eq(20) }
+      it { expect(planting.crop.median_days_to_first_harvest).to eq(20) }
     end
     describe 'planting has no harvests' do
       before do
@@ -114,7 +114,7 @@ describe Planting do
         planting.crop.update_harvest_medians
       end
       let(:planting) { FactoryBot.create :planting }
-      it { expect(planting.first_harvest).to eq(nil) }
+      it { expect(planting.days_to_first_harvest).to eq(nil) }
       it { expect(planting.last_harvest).to eq(nil) }
     end
     describe 'planting has first harvest' do
@@ -124,9 +124,9 @@ describe Planting do
         planting.update_harvest_days
         planting.crop.update_harvest_medians
       end
-      it { expect(planting.first_harvest).to eq(90) }
+      it { expect(planting.days_to_first_harvest).to eq(90) }
       it { expect(planting.last_harvest).to eq(nil) }
-      it { expect(planting.crop.median_first_harvest).to eq(90) }
+      it { expect(planting.crop.median_days_to_first_harvest).to eq(90) }
       it { expect(planting.crop.median_last_harvest).to eq(nil) }
     end
     describe 'planting has last harvest' do
@@ -137,9 +137,9 @@ describe Planting do
         planting.update_harvest_days
         planting.crop.update_harvest_medians
       end
-      it { expect(planting.first_harvest).to eq(10) }
+      it { expect(planting.days_to_first_harvest).to eq(10) }
       it { expect(planting.last_harvest).to eq(90) }
-      it { expect(planting.crop.median_first_harvest).to eq(10) }
+      it { expect(planting.crop.median_days_to_first_harvest).to eq(10) }
       it { expect(planting.crop.median_last_harvest).to eq(90) }
     end
   end

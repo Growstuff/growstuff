@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 20171105011017) do
     t.text     "rejection_notes"
     t.boolean  "perennial",            default: false
     t.integer  "median_lifespan"
-    t.integer  "median_first_harvest"
+    t.integer  "median_days_to_first_harvest"
     t.integer  "median_last_harvest"
   end
 
@@ -431,7 +431,7 @@ ActiveRecord::Schema.define(version: 20171105011017) do
     t.date     "finished_at"
     t.integer  "days_before_maturity"
     t.integer  "lifespan"
-    t.integer  "first_harvest"
+    t.integer  "days_to_first_harvest"
     t.integer  "last_harvest"
   end
 

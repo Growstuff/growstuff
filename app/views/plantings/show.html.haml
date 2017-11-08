@@ -56,9 +56,9 @@
         - if @planting.lifespan.present?
           %dt Actual Lifespan:
           %dd #{@planting.lifespan} days
-        - if @planting.first_harvest.present?
+        - if @planting.days_to_first_harvest.present?
           %dt First Harvest:
-          %dd #{@planting.first_harvest} days after planting
+          %dd #{@planting.days_to_first_harvest} days after planting
         - if @planting.last_harvest.present?
           %dt Last Harvest:
           %dd #{@planting.last_harvest} days after planting

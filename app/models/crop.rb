@@ -221,7 +221,7 @@ class Crop < ActiveRecord::Base
   end
 
   def update_harvest_medians
-    update(median_first_harvest: Planting.where(crop: self).median(:first_harvest))
+    update(median_days_to_first_harvest: Planting.where(crop: self).median(:days_to_first_harvest))
     update(median_last_harvest: Planting.where(crop: self).median(:last_harvest))
   end
 

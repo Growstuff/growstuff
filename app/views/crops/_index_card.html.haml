@@ -18,10 +18,10 @@
           Median Lifespan
           %b= crop.median_lifespan
           days
-      - unless crop.median_first_harvest.nil?
+      - unless crop.median_days_to_first_harvest.nil?
         %p
           First harvest expected
-          %b= crop.median_first_harvest
+          %b= crop.median_days_to_first_harvest
           days after planting
 
       - if crop.annual? && crop.median_last_harvest.present?
