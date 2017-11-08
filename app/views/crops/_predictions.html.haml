@@ -22,8 +22,8 @@
     %b= crop.median_days_to_first_harvest
     days after planting
 
-- if crop.perennial == false && crop.median_last_harvest.present?
+- if crop.perennial == false && crop.median_days_to_last_harvest.present?
   %p
     Last harvest expected
-    %b= crop.median_last_harvest
+    %b= crop.median_days_to_last_harvest
     days after planting

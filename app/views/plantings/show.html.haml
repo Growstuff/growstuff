@@ -59,9 +59,9 @@
         - if @planting.days_to_first_harvest.present?
           %dt First Harvest:
           %dd #{@planting.days_to_first_harvest} days after planting
-        - if @planting.last_harvest.present?
+        - if @planting.days_to_last_harvest.present?
           %dt Last Harvest:
-          %dd #{@planting.last_harvest} days after planting
+          %dd #{@planting.days_to_last_harvest} days after planting
 
     %p= render 'plantings/harvests', planting: @planting
     %p= render 'plantings/progress', planting: @planting, show_explanation: true

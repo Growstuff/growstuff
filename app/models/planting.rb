@@ -116,14 +116,14 @@ class Planting < ActiveRecord::Base
   def update_harvest_days
     harvests_with_dates = harvests.where.not(harvested_at: nil)
     days_to_first_harvest = nil
-    last_harvest = nil
+    days_to_last_harvest = nil
     if planted_at.present? && harvests_with_dates.size.positive?
       days_to_first_harvest = (harvests_with_dates.order(harvested_at: :asc).first.harvested_at - planted_at).to_i
       if finished?
-        last_harvest = (harvests_with_dates.order(harvested_at: :desc).first.harvested_at - planted_at).to_i
+        days_to_last_harvest = (harvests_with_dates.order(harvested_at: :desc).first.harvested_at - planted_at).to_i
       end
     end
-    update(days_to_first_harvest: days_to_first_harvest, last_harvest: last_harvest)
+    update(days_to_first_harvest: days_to_first_harvest, days_to_last_harvest: days_to_last_harvest)
   end
 
   private

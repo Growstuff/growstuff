@@ -7,12 +7,12 @@ class AllThePredictions < ActiveRecord::Migration
 
     # how old was planting at first harvest
     add_column :plantings, :days_to_first_harvest, :integer
-    add_column :plantings, :last_harvest, :integer
+    add_column :plantings, :days_to_last_harvest, :integer
 
     # Keep the median values for the crop
     add_column :crops, :median_lifespan, :integer
     add_column :crops, :median_days_to_first_harvest, :integer
-    add_column :crops, :median_last_harvest, :integer
+    add_column :crops, :median_days_to_last_harvest, :integer
 
     create_table :median_functions do |t|
     end

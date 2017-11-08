@@ -24,10 +24,10 @@
           %b= crop.median_days_to_first_harvest
           days after planting
 
-      - if crop.annual? && crop.median_last_harvest.present?
+      - if crop.annual? && crop.median_days_to_last_harvest.present?
         %p
           Last harvest expected
-          %b= crop.median_last_harvest
+          %b= crop.median_days_to_last_harvest
           days after planting
 
       - if can? :create, Planting
