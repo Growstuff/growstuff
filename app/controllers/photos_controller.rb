@@ -21,8 +21,7 @@ class PhotosController < ApplicationController
     @id = params[:id]
 
     @photo = Photo.new
-    item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
-    @item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
+    find_item_name
     retrieve_from_flickr
     respond_with @photo
   end
@@ -76,13 +75,17 @@ class PhotosController < ApplicationController
     raise "No item id provided" unless item_id?
     collection = Growstuff::Constants::PhotoModels.get_relation(@photo, params[:type])
 
-    item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
-    item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
-    raise "Could not find this item owned by you" unless item
+    find_item_name
+    raise "Could not find this item owned by you" unless @item
 
-    collection << item unless collection.include?(item)
+    collection << @item unless collection.include?(@item)
   rescue => e
     flash[:alert] = e.message
+  end
+
+  def find_item_name
+    item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
+    @item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
   end
 
   def retrieve_from_flickr

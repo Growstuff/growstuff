@@ -29,37 +29,41 @@ describe PhotosController do
       @member.stub(:flickr_photos) { [[], 0] }
       @member.stub(:flickr_sets) { { "foo" => "bar" } }
       controller.stub(:current_member) { @member }
+      @tomato = FactoryBot.create(:tomato)
+      @planting1 = FactoryBot.create(:planting, crop: @tomato, owner: @member)
+      @garden1 = FactoryBot.create(:garden, owner: @member)
+      @harvest1 = FactoryBot.create(:harvest, owner: @member)
     end
 
     it "assigns the flickr auth as @flickr_auth" do
       @auth = FactoryBot.create(:flickr_authentication, member: @member)
-      get :new, {}
+      get :new, type: "planting", id: @planting1.id
       assigns(:flickr_auth).should be_an_instance_of(Authentication)
     end
 
     it "assigns a planting id" do
-      get :new, type: "planting", id: 5
-      assigns(:id).should eq "5"
+      get :new, type: "planting", id: @planting1.id
+      assigns(:id).should eq @planting1.id.to_s
       assigns(:type).should eq "planting"
       expect(flash[:alert]).not_to be_present
     end
 
     it "assigns a harvest id" do
-      get :new, type: "harvest", id: 5
-      assigns(:id).should eq "5"
+      get :new, type: "harvest", id: @harvest1.id
+      assigns(:id).should eq @harvest1.id.to_s
       assigns(:type).should eq "harvest"
       expect(flash[:alert]).not_to be_present
     end
 
     it "assigns a garden id" do
-      get :new, type: "garden", id: 5
-      assigns(:id).should eq "5"
+      get :new, type: "garden", id: @garden1.id
+      assigns(:id).should eq @garden1.id.to_s
       assigns(:type).should eq "garden"
       expect(flash[:alert]).not_to be_present
     end
 
     it "assigns the current set as @current_set" do
-      get :new, set: 'foo'
+      get :new, type: "planting", id: @planting1.id, set: 'foo'
       assigns(:current_set).should eq "foo"
       expect(flash[:alert]).not_to be_present
     end
