@@ -1,5 +1,5 @@
 class SetPredictionData < ActiveRecord::Migration
-  def change
+  def up
     say "Updating all plantings time to first harvest"
     Planting.all.each(&:update_harvest_days)
     say "Updating crop median time to first harvest, and lifespan"
@@ -8,4 +8,6 @@ class SetPredictionData < ActiveRecord::Migration
       crop.update_harvest_medians
     end
   end
+
+  def down; end
 end

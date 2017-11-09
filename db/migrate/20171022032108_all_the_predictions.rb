@@ -14,6 +14,8 @@ class AllThePredictions < ActiveRecord::Migration
     add_column :crops, :median_days_to_first_harvest, :integer
     add_column :crops, :median_days_to_last_harvest, :integer
 
+    remove_column :plantings, :days_before_maturity, :integer
+
     create_table :median_functions do |t|
     end
   end

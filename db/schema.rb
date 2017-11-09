@@ -429,7 +429,6 @@ ActiveRecord::Schema.define(version: 20171105011017) do
     t.integer  "owner_id"
     t.boolean  "finished",              default: false
     t.date     "finished_at"
-    t.integer  "days_before_maturity"
     t.integer  "lifespan"
     t.integer  "days_to_first_harvest"
     t.integer  "days_to_last_harvest"
