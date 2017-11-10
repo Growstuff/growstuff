@@ -5,6 +5,13 @@ FactoryBot.define do
     approval_status "approved"
     creator
 
+    factory :annual_crop, parent: :crop do
+      perennial false
+    end
+    factory :perennial_crop, parent: :crop do
+      perennial true
+    end
+
     factory :tomato do
       name "tomato"
       en_wikipedia_url "http://en.wikipedia.org/wiki/Tomato"

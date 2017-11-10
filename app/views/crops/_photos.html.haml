@@ -1,15 +1,15 @@
-%h2 Photos of #{crop.name} harvests
-.row
-  - unless crop.harvest_photos.empty?
-    - crop.harvest_photos.includes(:owner).first(3).each do |p|
-      .col-md-4
+- unless crop.harvest_photos.empty?
+  %h3 Photos of #{crop.name} harvests
+  .row
+    - crop.harvest_photos.first(6).each do |p|
+      .col-xs-6.col-md-2
         = render "photos/thumbnail", photo: p
 
-%h2 Photos of #{crop.name} plants
-.row
-  - unless crop.photos.empty?
-    - crop.photos.includes(:owner).first(3).each do |p|
-      .col-md-4
+- unless crop.photos.empty?
+  %h3 Photos of #{crop.name} plants
+  .row
+    - crop.photos.first(6).each do |p|
+      .col-xs-6.col-md-2
         = render "photos/thumbnail", photo: p
 .row
   = link_to "more photos", crop_photos_path(crop_id: crop.id)

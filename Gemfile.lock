@@ -23,6 +23,8 @@ GEM
     active_link_to (1.0.5)
       actionpack
       addressable
+    active_median (0.1.4)
+      activerecord
     active_merchant-paypal-bogus-gateway (0.1.0)
       activemerchant
     active_utils (3.3.9)
@@ -93,7 +95,7 @@ GEM
     capybara-email (2.5.0)
       capybara (~> 2.4)
       mail
-    capybara-screenshot (1.0.17)
+    capybara-screenshot (1.0.18)
       capybara (>= 1.0, < 3)
       launchy
     childprocess (0.8.0)
@@ -247,7 +249,7 @@ GEM
       ruby_parser (~> 3.5)
     httparty (0.15.6)
       multi_xml (>= 0.5.2)
-    i18n (0.9.0)
+    i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     i18n-tasks (0.9.12)
       activesupport (>= 4.0.2)
@@ -305,15 +307,15 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.12)
-    mail (2.6.6)
-      mime-types (>= 1.16, < 4)
+    mail (2.7.0)
+      mini_mime (>= 0.1.1)
     memcachier (0.0.2)
     method_source (0.9.0)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mimemagic (0.3.2)
-    mini_mime (0.1.4)
+    mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     moneta (0.8.1)
@@ -473,7 +475,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.6.0)
+    selenium-webdriver (3.7.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
     sexp_processor (4.10.0)
@@ -537,6 +539,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_median
   active_merchant-paypal-bogus-gateway
   active_utils
   activemerchant
@@ -621,6 +624,7 @@ DEPENDENCIES
   webrat
   will_paginate
   xmlrpc
+
 
 RUBY VERSION
    ruby 2.4.1p111

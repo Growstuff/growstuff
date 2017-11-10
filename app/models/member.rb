@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
   include Geocodable
   extend FriendlyId
 
-  friendly_id :login_name, use: [:slugged, :finders]
+  friendly_id :login_name, use: %i(slugged finders)
 
   has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'

@@ -142,7 +142,7 @@ describe Harvest do
     it 'lists most recent harvests first' do
       @h1 = FactoryBot.create(:harvest, created_at: 1.day.ago)
       @h2 = FactoryBot.create(:harvest, created_at: 1.hour.ago)
-      Harvest.all.should eq [@h2, @h1]
+      Harvest.all.order(created_at: :desc).should eq [@h2, @h1]
     end
   end
 
