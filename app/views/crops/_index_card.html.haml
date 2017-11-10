@@ -12,11 +12,23 @@
       %p
         %b Scientific name:
         = crop.default_scientific_name
-      %p
-        %b
-          Planted
-          = pluralize(crop.plantings.size, "time")
-        by #{ENV['GROWSTUFF_SITE_NAME']} members
+
+      - if crop.annual? && crop.median_lifespan.present?
+        %p
+          Median Lifespan
+          %b= crop.median_lifespan
+          days
+      - unless crop.median_days_to_first_harvest.nil?
+        %p
+          First harvest expected
+          %b= crop.median_days_to_first_harvest
+          days after planting
+
+      - if crop.annual? && crop.median_days_to_last_harvest.present?
+        %p
+          Last harvest expected
+          %b= crop.median_days_to_last_harvest
+          days after planting
 
       - if can? :create, Planting
         = link_to 'Plant this', new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'

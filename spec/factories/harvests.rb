@@ -5,7 +5,7 @@ FactoryBot.define do
     crop
     plant_part
     owner
-    harvested_at "2013-09-17"
+    harvested_at Time.zone.local(2015, 9, 17)
     quantity "3"
     unit "individual"
     weight_quantity 6

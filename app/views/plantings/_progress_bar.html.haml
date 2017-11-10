@@ -5,7 +5,7 @@
     -# haml-lint:disable InlineStyles
     %div{ class: "progress-bar progress-bar-#{status}", role: "progressbar", style: "width: #{progress}%" }
       - if progress >= 30
-        #{progress}%
+        #{sprintf '%.0f', progress}%
     - if progress < 30
-      #{progress}%
+      #{sprintf '%.0f', progress}%
     -# haml-lint:enable InlineStyles

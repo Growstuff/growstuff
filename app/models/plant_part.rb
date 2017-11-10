@@ -1,6 +1,6 @@
 class PlantPart < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :finders]
+  friendly_id :name, use: %i(slugged finders)
 
   has_many :harvests
   has_many :crops, -> { uniq }, through: :harvests

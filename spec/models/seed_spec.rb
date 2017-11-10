@@ -38,7 +38,7 @@ describe Seed do
 
   context 'tradable' do
     it 'all valid tradable_to values should work' do
-      ['nowhere', 'locally', 'nationally', 'internationally'].each do |t|
+      %w(nowhere locally nationally internationally).each do |t|
         @seed = FactoryBot.build(:seed, tradable_to: t)
         @seed.should be_valid
       end

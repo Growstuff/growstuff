@@ -32,12 +32,12 @@ describe "plantings/index" do
                         garden: @garden,
                         crop: @maize,
                         description: '',
-                        planted_at: Time.local(2013, 1, 13)),
+                        planted_at: Time.zone.local(2013, 1, 13)),
                       FactoryBot.create(:planting,
                         garden: @garden,
                         crop: @tomato,
-                        planted_at: Time.local(2013, 1, 13),
-                        finished_at: Time.local(2013, 1, 20),
+                        planted_at: Time.zone.local(2013, 1, 13),
+                        finished_at: Time.zone.local(2013, 1, 20),
                         finished: true)
                     ])
     end
