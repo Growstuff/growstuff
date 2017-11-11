@@ -46,7 +46,11 @@ RSpec.describe 'Plantings', type: :request do
   let(:attributes) do
     {
       "name" => crop.name,
-      "en-wikipedia-url" => "http://en.wikipedia.org/wiki/Magic_bean"
+      "en-wikipedia-url" => crop.en_wikipedia_url,
+      "perennial" => false,
+      "median-lifespan" => nil,
+      "median-days-to-first-harvest" => nil,
+      "median-days-to-last-harvest" => nil
     }
   end
 

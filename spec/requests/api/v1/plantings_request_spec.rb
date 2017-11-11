@@ -78,6 +78,7 @@ RSpec.describe 'Plantings', type: :request do
     expect(subject['data']['relationships']).to include("crop" => crop_as_json_api)
     expect(subject['data']['relationships']).to include("owner" => owner_as_json_api)
     expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api)
+    expect(subject['data']['relationships']).to include("photos" => photos_as_json_api)
     expect(subject['data']).to eq(planting_encoded_as_json_api)
   end
 
