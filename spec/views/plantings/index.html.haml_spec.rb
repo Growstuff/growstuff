@@ -13,29 +13,31 @@
 require 'rails_helper'
 
 describe "plantings/index" do
+  let(:member) { FactoryBot.create(:member) }
+  let(:garden) { FactoryBot.create(:garden, owner: member) }
+  let(:tomato) { FactoryBot.create(:tomato) }
+  let(:maize)  { FactoryBot.create(:maize) }
   before(:each) do
     controller.stub(:current_user) { nil }
-    @member = FactoryBot.create(:member)
-    @garden = FactoryBot.create(:garden, owner: @member)
-    @tomato = FactoryBot.create(:tomato)
-    @maize  = FactoryBot.create(:maize)
     page = 1
     per_page = 3
     total_entries = 3
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
                       FactoryBot.create(:planting,
-                        garden: @garden,
-                        crop: @tomato,
-                        owner: @member),
+                        garden: garden,
+                        crop: tomato,
+                        owner: member),
                       FactoryBot.create(:planting,
-                        garden: @garden,
-                        crop: @maize,
+                        garden: garden,
+                        crop: maize,
+                        owner: garden.owner,
                         description: '',
                         planted_at: Time.zone.local(2013, 1, 13)),
                       FactoryBot.create(:planting,
-                        garden: @garden,
-                        crop: @tomato,
+                        garden: garden,
+                        owner: garden.owner,
+                        crop: tomato,
                         planted_at: Time.zone.local(2013, 1, 13),
                         finished_at: Time.zone.local(2013, 1, 20),
                         finished: true)
@@ -46,10 +48,10 @@ describe "plantings/index" do
   end
 
   it "renders a list of plantings" do
-    rendered.should have_content @tomato.name
-    rendered.should have_content @maize.name
-    rendered.should have_content @member.login_name
-    rendered.should have_content @garden.name
+    rendered.should have_content tomato.name
+    rendered.should have_content maize.name
+    rendered.should have_content member.login_name
+    rendered.should have_content garden.name
   end
 
   it "displays planting time" do
@@ -69,14 +71,14 @@ describe "plantings/index" do
   end
 
   it "displays member's name in title" do
-    assign(:owner, @member)
+    assign(:owner, member)
     render
-    view.content_for(:title).should have_content @member.login_name
+    view.content_for(:title).should have_content member.login_name
   end
 
   it "displays crop's name in title" do
-    assign(:crop, @tomato)
+    assign(:crop, tomato)
     render
-    view.content_for(:title).should have_content @tomato.name
+    view.content_for(:title).should have_content tomato.name
   end
 end

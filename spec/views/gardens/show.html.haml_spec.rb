@@ -17,7 +17,7 @@ describe "gardens/show" do
     @owner = FactoryBot.create(:member)
     controller.stub(:current_user) { @owner }
     @garden   = FactoryBot.create(:garden, owner: @owner)
-    @planting = FactoryBot.create(:planting, garden: @garden)
+    @planting = FactoryBot.create(:planting, garden: @garden, owner: @garden.owner)
     assign(:garden, @garden)
     assign(:current_plantings, [@planting])
     assign(:finished_plantings, [])

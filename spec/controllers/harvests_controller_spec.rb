@@ -25,63 +25,61 @@ describe HarvestsController do
   end
 
   describe "GET index" do
-    before do
-      @member1 = FactoryBot.create(:member)
-      @member2 = FactoryBot.create(:member)
-      @tomato = FactoryBot.create(:tomato)
-      @maize = FactoryBot.create(:maize)
-      @harvest1 = FactoryBot.create(:harvest, owner_id: @member1.id, crop_id: @tomato.id)
-      @harvest2 = FactoryBot.create(:harvest, owner_id: @member2.id, crop_id: @maize.id)
+    let(:member1) { FactoryBot.create(:member) }
+    let(:member2) { FactoryBot.create(:member) }
+    let(:tomato) { FactoryBot.create(:tomato) }
+    let(:maize) { FactoryBot.create(:maize) }
+    let(:harvest1) { FactoryBot.create(:harvest, owner_id: member1.id, crop_id: tomato.id) }
+    let(:harvest2) { FactoryBot.create(:harvest, owner_id: member2.id, crop_id: maize.id) }
+
+    describe "assigns all harvests as @harvests" do
+      before { get :index, {} }
+      it { assigns(:harvests).should =~ [harvest1, harvest2] }
     end
 
-    it "assigns all harvests as @harvests" do
-      get :index, {}
-      assigns(:harvests).should =~ [@harvest1, @harvest2]
+    describe "picks up owner from params and shows owner's harvests only" do
+      before { get :index, owner: member1.slug }
+      it { expect(assigns(:owner)).to eq member1 }
+      it { expect(assigns(:harvests)).to eq [harvest1] }
     end
 
-    it "picks up owner from params and shows owner's harvests only" do
-      get :index, owner: @member1.slug
-      assigns(:owner).should eq @member1
-      assigns(:harvests).should eq [@harvest1]
+    describe "picks up crop from params and shows the harvests for the crop only" do
+      before { get :index, crop: maize.name }
+      it { expect(assigns(:crop)).to eq maize }
+      it { expect(assigns(:harvests)).to eq [harvest2] }
     end
 
-    it "picks up crop from params and shows the harvests for the crop only" do
-      get :index, crop: @maize.name
-      assigns(:crop).should eq @maize
-      assigns(:harvests).should eq [@harvest2]
-    end
-
-    it "generates a csv" do
-      get :index, format: "csv"
-      response.status.should eq 200
+    describe "generates a csv" do
+      before { get :index, format: "csv" }
+      it { expect(response.status).to eq 200 }
     end
   end
 
   describe "GET show" do
-    it "assigns the requested harvest as @harvest" do
-      harvest = Harvest.create! valid_attributes
-      get :show, id: harvest.to_param
-      assigns(:harvest).should eq(harvest)
+    let(:harvest) { Harvest.create! valid_attributes }
+    describe "assigns the requested harvest as @harvest" do
+      before { get :show, id: harvest.to_param }
+      it { expect(assigns(:harvest)).to eq(harvest) }
     end
   end
 
   describe "GET new" do
-    it "assigns a new harvest as @harvest" do
-      get :new, {}
-      assigns(:harvest).should be_a_new(Harvest)
+    before { get :new, {} }
+
+    describe "assigns a new harvest as @harvest" do
+      it { expect(assigns(:harvest)).to be_a_new(Harvest) }
     end
 
-    it "sets the date of the harvest to today" do
-      get :new, {}
-      assigns(:harvest).harvested_at.should == Time.zone.today
+    describe "sets the date of the harvest to today" do
+      it { expect(assigns(:harvest).harvested_at).to eq(Time.zone.today) }
     end
   end
 
   describe "GET edit" do
-    it "assigns the requested harvest as @harvest" do
-      harvest = Harvest.create! valid_attributes
-      get :edit, id: harvest.to_param
-      assigns(:harvest).should eq(harvest)
+    let(:harvest) { Harvest.create! valid_attributes }
+    describe "assigns the requested harvest as @harvest" do
+      before { get :edit, id: harvest.to_param }
+      it { expect(assigns(:harvest)).to eq(harvest) }
     end
   end
 
@@ -104,10 +102,10 @@ describe HarvestsController do
         response.should redirect_to(Harvest.last)
       end
 
-      it "links to planting" do
-        planting = FactoryBot.create(:planting, owner_id: member.id)
-        post :create, harvest: valid_attributes.merge(planting_id: planting.id)
-        expect(Harvest.last.planting.id).to eq(planting.id)
+      describe "links to planting" do
+        let(:planting) { FactoryBot.create(:planting, owner_id: member.id, garden: member.gardens.first) }
+        before { post :create, harvest: valid_attributes.merge(planting_id: planting.id) }
+        it { expect(Harvest.last.planting.id).to eq(planting.id) }
       end
     end
 
@@ -129,10 +127,13 @@ describe HarvestsController do
     describe "not my planting" do
       let(:not_my_planting) { FactoryBot.create(:planting) }
       let(:harvest) { FactoryBot.create(:harvest) }
-      it "does not save planting_id" do
-        allow(Harvest).to receive(:new).and_return(harvest)
-        post :create, harvest: valid_attributes.merge(planting_id: not_my_planting.id)
-        expect(harvest.planting_id).to eq(nil)
+
+      describe "does not save planting_id" do
+        before do
+          allow(Harvest).to receive(:new).and_return(harvest)
+          post :create, harvest: valid_attributes.merge(planting_id: not_my_planting.id)
+        end
+        it { expect(harvest.planting_id).not_to eq(not_my_planting.id) }
       end
     end
   end
@@ -181,10 +182,12 @@ describe HarvestsController do
     describe "not my planting" do
       let(:not_my_planting) { FactoryBot.create(:planting) }
       let(:harvest) { FactoryBot.create(:harvest) }
-      it "does not save planting_id" do
-        put :update, id: harvest.to_param,
-                     harvest: valid_attributes.merge(planting_id: not_my_planting.id)
-        expect(harvest.planting_id).to eq(nil)
+      describe "does not save planting_id" do
+        before do
+          put :update, id: harvest.to_param,
+                       harvest: valid_attributes.merge(planting_id: not_my_planting.id)
+        end
+        it { expect(harvest.planting_id).to eq(nil) }
       end
     end
   end
