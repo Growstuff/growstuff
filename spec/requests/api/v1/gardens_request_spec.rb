@@ -6,22 +6,34 @@ RSpec.describe 'Gardens', type: :request do
   let(:garden_encoded_as_json_api) do
     { "id" => garden.id.to_s,
       "type" => "gardens",
-      "links" => { "self" => "http://www.example.com/api/v1/gardens/#{garden.id}" },
+      "links" => { "self" => resource_url },
       "attributes" => { "name" => garden.name },
       "relationships" =>
-     { "owner" =>
-       { "links" =>
-         { "self" => "http://www.example.com/api/v1/gardens/#{garden.id}/relationships/owner",
-           "related" => "http://www.example.com/api/v1/gardens/#{garden.id}/owner" } },
-       "plantings" =>
-       { "links" =>
-         { "self" =>
-           "http://www.example.com/api/v1/gardens/#{garden.id}/relationships/plantings",
-           "related" => "http://www.example.com/api/v1/gardens/#{garden.id}/plantings" } },
-       "photos" =>
-       { "links" =>
-         { "self" => "http://www.example.com/api/v1/gardens/#{garden.id}/relationships/photos",
-           "related" => "http://www.example.com/api/v1/gardens/#{garden.id}/photos" } } } }
+      {
+        "owner" => owner_as_json_api,
+        "plantings" => plantings_as_json_api,
+        "photos" => photos_as_json_api
+      } }
+  end
+  let(:resource_url) { "http://www.example.com/api/v1/gardens/#{garden.id}" }
+
+  let(:plantings_as_json_api) do
+    { "links" =>
+      { "self" =>
+        "#{resource_url}/relationships/plantings",
+        "related" => "#{resource_url}/plantings" } }
+  end
+
+  let(:owner_as_json_api) do
+    { "links" =>
+         { "self" => "#{resource_url}/relationships/owner",
+           "related" => "#{resource_url}/owner" } }
+  end
+
+  let(:photos_as_json_api) do
+    { "links" =>
+         { "self" => "#{resource_url}/relationships/photos",
+           "related" => "#{resource_url}/photos" } }
   end
 
   subject { JSON.parse response.body }
