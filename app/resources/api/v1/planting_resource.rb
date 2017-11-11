@@ -11,11 +11,18 @@ module Api
 
       attribute :planted_at
       attribute :finished_at
+      attribute :finished
       attribute :quantity
       attribute :description
       attribute :sunniness
       attribute :planted_from
-      attribute :days_before_maturity
+
+      # Predictions
+      attribute :expected_lifespan
+      attribute :finish_predicted_at
+      attribute :percentage_grown
+      attribute :first_harvest_date
+      attribute :last_harvest_date
     end
   end
 end
