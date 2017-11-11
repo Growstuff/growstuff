@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Gardens', type: :request do
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:garden) { FactoryGirl.create :garden }
+  let!(:garden) { FactoryBot.create :garden }
   let(:garden_encoded_as_json_api) do
     { "id" => garden.id.to_s,
       "type" => "gardens",
