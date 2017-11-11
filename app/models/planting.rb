@@ -50,6 +50,7 @@ class Planting < ActiveRecord::Base
   validates :garden, presence: true
   validates :crop, presence: true, approved: { message: "must be present and exist in our database" }
   validate :finished_must_be_after_planted
+  validate :owner_must_match_garden_owner
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
@@ -141,5 +142,9 @@ class Planting < ActiveRecord::Base
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
     errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
+  end
+
+  def owner_must_match_garden_owner
+    errors.add(:owner, "must be the same as garden") unless owner == garden.owner
   end
 end
