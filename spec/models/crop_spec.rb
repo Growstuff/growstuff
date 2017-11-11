@@ -348,26 +348,28 @@ describe Crop do
     end
   end
 
+  let(:maize) { FactoryBot.create(:maize) }
+  let(:pp1) { FactoryBot.create(:plant_part) }
+  let(:pp2) { FactoryBot.create(:plant_part) }
+
   context "harvests" do
+    let(:h1) do
+      FactoryBot.create(:harvest,
+        crop: maize,
+        plant_part: pp1)
+    end
+
+    let(:h2) do
+      FactoryBot.create(:harvest,
+        crop: maize,
+        plant_part: pp2)
+    end
+
     it "has harvests" do
       crop = FactoryBot.create(:crop)
       harvest = FactoryBot.create(:harvest, crop: crop)
       crop.harvests.should eq [harvest]
     end
-  end
-
-  it 'has plant_parts' do
-    @maize = FactoryBot.create(:maize)
-    @pp1 = FactoryBot.create(:plant_part)
-    @pp2 = FactoryBot.create(:plant_part)
-    @h1 = FactoryBot.create(:harvest,
-      crop: @maize,
-      plant_part: @pp1)
-    @h2 = FactoryBot.create(:harvest,
-      crop: @maize,
-      plant_part: @pp2)
-    @maize.plant_parts.should include @pp1
-    @maize.plant_parts.should include @pp2
   end
 
   it "doesn't duplicate plant_parts" do
@@ -385,9 +387,7 @@ describe Crop do
   context "search", :elasticsearch do
     let(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
 
-    before do
-      sync_elasticsearch([mushroom])
-    end
+    before { sync_elasticsearch([mushroom]) }
 
     it "finds exact matches" do
       Crop.search('mushroom').should eq [mushroom]
