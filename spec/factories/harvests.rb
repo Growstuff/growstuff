@@ -4,7 +4,8 @@ FactoryBot.define do
   factory :harvest do
     crop
     plant_part
-    owner
+    planting
+    owner { planting.owner }
     harvested_at Time.zone.local(2015, 9, 17)
     quantity "3"
     unit "individual"
