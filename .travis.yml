@@ -17,6 +17,7 @@ env:
 before_install:
   - ./script/install_phantomjs;
   - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
+  - which phantomjs
   # Force Travis to use Elastic Search 2.4.0
   - >
     if [ "${GROWSTUFF_ELASTICSEARCH}" = "true" ]; then
