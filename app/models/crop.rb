@@ -170,7 +170,7 @@ class Crop < ActiveRecord::Base
   end
 
   def annual?
-    perennial != true
+    !perennial
   end
 
   def interesting?
@@ -213,6 +213,12 @@ class Crop < ActiveRecord::Base
 
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
+  end
+
+  def update_medians
+    plantings.each(&:update_harvest_days)
+    update_lifespan_medians
+    update_harvest_medians
   end
 
   def update_lifespan_medians
