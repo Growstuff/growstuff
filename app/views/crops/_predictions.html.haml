@@ -10,19 +10,19 @@
         an annual crop
       (living and reproducing in a single year or less)
 
-- unless crop.median_lifespan.nil?
+- if crop.annual? && crop.median_lifespan.present?
   %p
     Median lifespan of #{crop.name} plants is
     %b= crop.median_lifespan
     days
 
-- unless crop.median_days_to_first_harvest.nil?
+- if crop.median_days_to_first_harvest.present?
   %p
     First harvest expected
     %b= crop.median_days_to_first_harvest
     days after planting
 
-- if crop.perennial == false && crop.median_days_to_last_harvest.present?
+- if crop.annual? && crop.median_days_to_last_harvest.present?
   %p
     Last harvest expected
     %b= crop.median_days_to_last_harvest
