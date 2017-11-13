@@ -296,7 +296,8 @@ GEM
       addressable (~> 2.3)
     leaflet-markercluster-rails (0.7.0)
       railties (>= 3.1)
-    leaflet-rails (0.7.7)
+    leaflet-rails (1.2.0)
+      rails (>= 4.2.0)
     letter_opener (1.4.1)
       launchy (~> 2.2)
     listen (3.1.5)
@@ -592,7 +593,7 @@ DEPENDENCIES
   js-routes
   kaminari
   leaflet-markercluster-rails
-  leaflet-rails (~> 0.7.7)
+  leaflet-rails
   letter_opener
   memcachier
   newrelic_rpm
@@ -625,9 +626,8 @@ DEPENDENCIES
   will_paginate
   xmlrpc
 
-
 RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
