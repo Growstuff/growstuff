@@ -11,13 +11,6 @@ Lint/HandleExceptions:
     - 'lib/tasks/testing.rake'
 
 # Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'app/controllers/sessions_controller.rb'
-    - 'config/unicorn.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
 Lint/UnusedMethodArgument:
   Exclude:
