@@ -117,7 +117,6 @@ class Crop < ActiveRecord::Base
   def update_index(_name_obj)
     __elasticsearch__.index_document if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
   end
-
   # End Elasticsearch section
 
   def to_s
@@ -128,7 +127,6 @@ class Crop < ActiveRecord::Base
     scientific_names.first.name unless scientific_names.empty?
   end
 
-  # crop.default_photo
   # currently returns the first available photo, but exists so that
   # later we can choose a default photo based on different criteria,
   # eg. popularity
@@ -140,7 +138,6 @@ class Crop < ActiveRecord::Base
     harvest_with_photo.photos.first if harvest_with_photo
   end
 
-  # crop.sunniness
   # returns hash indicating whether this crop is grown in
   # sun/semi-shade/shade
   # key: sunniness (eg. 'sun')
@@ -149,7 +146,6 @@ class Crop < ActiveRecord::Base
     count_uses_of_property 'sunniness'
   end
 
-  # crop.planted_from
   # returns a hash of propagation methods (seed, seedling, etc),
   # key: propagation method (eg. 'seed')
   # value: count of how many times it's been used by plantings
@@ -157,7 +153,6 @@ class Crop < ActiveRecord::Base
     count_uses_of_property 'planted_from'
   end
 
-  # crop.popular_plant_parts
   # returns a hash of most harvested plant parts (fruit, seed, etc)
   # key: plant part (eg. 'fruit')
   # value: count of how many times it's been used by harvests
@@ -206,15 +201,6 @@ class Crop < ActiveRecord::Base
     reason_for_rejection
   end
 
-  # # Crop.search(string)
-  def self.search(query)
-    CropSearchService.search(query)
-  end
-
-  def self.case_insensitive_name(name)
-    where(["lower(crops.name) = :value", { value: name.downcase }])
-  end
-
   def update_medians
     plantings.each(&:update_harvest_days)
     update_lifespan_medians
@@ -229,6 +215,14 @@ class Crop < ActiveRecord::Base
   def update_harvest_medians
     update(median_days_to_first_harvest: Planting.where(crop: self).median(:days_to_first_harvest))
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
+  end
+
+  def self.search(query)
+    CropSearchService.search(query)
+  end
+
+  def self.case_insensitive_name(name)
+    where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
   private
