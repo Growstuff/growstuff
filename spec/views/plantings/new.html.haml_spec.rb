@@ -25,7 +25,8 @@ describe "plantings/new" do
 
     assign(:planting, FactoryBot.create(:planting,
       garden: @garden_a,
-      crop: @crop2))
+      crop: @crop2,
+      owner: @member))
   end
 
   context "logged in" do
