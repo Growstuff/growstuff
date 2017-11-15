@@ -6,17 +6,9 @@ class Planting < ActiveRecord::Base
   # Constants
   SUNNINESS_VALUES = %w(sun semi-shade shade)
   PLANTED_FROM_VALUES = [
-    'seed',
-    'seedling',
-    'cutting',
-    'root division',
-    'runner',
-    'bulb',
-    'root/tuber',
-    'bare root plant',
-    'advanced plant',
-    'graft',
-    'layering'
+    'seed', 'seedling', 'cutting', 'root division', 'runner',
+    'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
+    'graft', 'layering'
   ]
 
   ##
