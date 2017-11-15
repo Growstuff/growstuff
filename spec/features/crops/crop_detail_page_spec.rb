@@ -172,17 +172,19 @@ feature "crop detail page", js: true do
   shared_examples "predicts harvest" do
     describe 'with harvest history data' do
       before do
-        other_planting = FactoryBot.create :planting, crop: planting.crop, planted_at: 200.days.ago
         # 50 days to harvest
-        FactoryBot.create(:harvest, planting: other_planting, harvested_at: 150.days.ago, crop: planting.crop)
+        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop: planting.crop,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
         # 20 days to harvest
-        FactoryBot.create(:harvest, planting: other_planting, harvested_at: 180.days.ago, crop: planting.crop)
+        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop: planting.crop,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
         # 10 days to harvest
-        FactoryBot.create(:harvest, planting: other_planting, harvested_at: 190.days.ago, crop: planting.crop)
+        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: planting.crop,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
       end
-      # it "predicts harvest" do
-      #   is_expected.to have_text("First harvest expected 20 days after planting")
-      # end
+      it "predicts harvest" do
+        is_expected.to have_text("First harvest expected 20 days after planting")
+      end
     end
   end
 
