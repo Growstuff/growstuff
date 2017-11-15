@@ -64,30 +64,30 @@ describe Garden do
     let(:walnut) { FactoryBot.create(:walnut) }
 
     it "should fetch < 4 featured plantings if insufficient exist" do
-      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden)
-      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden)
+      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden, owner: garden.owner)
+      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden, owner: garden.owner)
 
       garden.featured_plantings.should eq [@p2, @p1]
     end
 
     it "should fetch most recent 4 featured plantings" do
-      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden)
-      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden)
-      @p3 = FactoryBot.create(:planting, crop: chard, garden: garden)
-      @p4 = FactoryBot.create(:planting, crop: apple, garden: garden)
-      @p5 = FactoryBot.create(:planting, crop: walnut, garden: garden)
+      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden, owner: garden.owner)
+      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden, owner: garden.owner)
+      @p3 = FactoryBot.create(:planting, crop: chard, garden: garden, owner: garden.owner)
+      @p4 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
+      @p5 = FactoryBot.create(:planting, crop: walnut, garden: garden, owner: garden.owner)
 
       garden.featured_plantings.should eq [@p5, @p4, @p3, @p2]
     end
 
     it "should skip repeated plantings" do
-      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden)
-      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden)
-      @p3 = FactoryBot.create(:planting, crop: chard, garden: garden)
-      @p4 = FactoryBot.create(:planting, crop: apple, garden: garden)
-      @p5 = FactoryBot.create(:planting, crop: walnut, garden: garden)
-      @p6 = FactoryBot.create(:planting, crop: apple, garden: garden)
-      @p7 = FactoryBot.create(:planting, crop: pear, garden: garden)
+      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden, owner: garden.owner)
+      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden, owner: garden.owner)
+      @p3 = FactoryBot.create(:planting, crop: chard, garden: garden, owner: garden.owner)
+      @p4 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
+      @p5 = FactoryBot.create(:planting, crop: walnut, garden: garden, owner: garden.owner)
+      @p6 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
+      @p7 = FactoryBot.create(:planting, crop: pear, garden: garden, owner: garden.owner)
 
       garden.featured_plantings.should eq [@p7, @p6, @p5, @p3]
     end
@@ -103,8 +103,8 @@ describe Garden do
 
   it "destroys plantings when deleted" do
     garden = FactoryBot.create(:garden, owner: owner)
-    @planting1 = FactoryBot.create(:planting, garden: garden)
-    @planting2 = FactoryBot.create(:planting, garden: garden)
+    @planting1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
+    @planting2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
     garden.plantings.size.should eq(2)
     all = Planting.count
     garden.destroy
@@ -185,8 +185,8 @@ describe Garden do
 
   it "marks plantings as finished when garden is inactive" do
     garden = FactoryBot.create(:garden)
-    p1 = FactoryBot.create(:planting, garden: garden)
-    p2 = FactoryBot.create(:planting, garden: garden)
+    p1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
+    p2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
 
     p1.finished.should eq false
     p2.finished.should eq false
@@ -203,8 +203,8 @@ describe Garden do
   it "doesn't mark the wrong plantings as finished" do
     g1 = FactoryBot.create(:garden)
     g2 = FactoryBot.create(:garden)
-    p1 = FactoryBot.create(:planting, garden: g1)
-    p2 = FactoryBot.create(:planting, garden: g2)
+    p1 = FactoryBot.create(:planting, garden: g1, owner: g1.owner)
+    p2 = FactoryBot.create(:planting, garden: g2, owner: g2.owner)
 
     # mark the garden as inactive
     g1.active = false
