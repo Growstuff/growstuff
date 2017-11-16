@@ -4,7 +4,7 @@ describe Planting do
   let(:crop) { FactoryBot.create(:tomato) }
   let(:garden_owner) { FactoryBot.create(:member) }
   let(:garden) { FactoryBot.create(:garden, owner: garden_owner) }
-  let(:planting) { FactoryBot.create(:planting, crop: crop, garden: garden) }
+  let(:planting) { FactoryBot.create(:planting, crop: crop, garden: garden, owner: garden.owner) }
   let(:finished_planting) do
     FactoryBot.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago, finished: true
   end
@@ -120,7 +120,10 @@ describe Planting do
     describe 'planting has first harvest' do
       let(:planting) { FactoryBot.create :planting, planted_at: 100.days.ago }
       before do
-        FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 10.days.ago
+        FactoryBot.create(:harvest,
+          planting: planting,
+          crop: planting.crop,
+          harvested_at: 10.days.ago)
         planting.update_harvest_days
         planting.crop.update_harvest_medians
       end
@@ -146,12 +149,6 @@ describe Planting do
 
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
-  end
-
-  it "owner isn't necessarily the garden owner" do
-    # a new owner should be created automatically by FactoryBot
-    # note that formerly, the planting belonged to an owner through the garden
-    planting.owner.should_not eq garden_owner
   end
 
   it "generates a location" do
@@ -355,7 +352,8 @@ describe Planting do
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryBot.create(:planting,
           created_at: 1.minute.ago,
-          owner_id: @planting1.owner.id)
+          garden: @planting1.garden,
+          owner: @planting1.owner)
         @planting2.photos << FactoryBot.create(:photo)
         @planting2.save
 
