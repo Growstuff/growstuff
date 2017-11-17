@@ -116,18 +116,18 @@ class Planting < ActiveRecord::Base
     update(days_to_first_harvest: days_to_first_harvest, days_to_last_harvest: days_to_last_harvest)
   end
 
-  private
-
-  def harvests_with_dates
-    harvests.where.not(harvested_at: nil)
-  end
-
   def first_harvest_date
     harvests_with_dates.minimum(:harvested_at)
   end
 
   def last_harvest_date
     harvests_with_dates.maximum(:harvested_at)
+  end
+
+  private
+
+  def harvests_with_dates
+    harvests.where.not(harvested_at: nil)
   end
 
   # check that any finished_at date occurs after planted_at
