@@ -13,16 +13,19 @@
 require 'rails_helper'
 
 describe "harvests/show" do
-  before(:each) do
+  let!(:harvest) { FactoryBot.create(:harvest) }
+
+  before do
     controller.stub(:current_user) { nil }
-    @crop = FactoryBot.create(:tomato)
-    @harvest = assign(:harvest, FactoryBot.create(:harvest, crop: @crop))
+    assign(:harvest, harvest)
     render
   end
 
-  it "renders attributes" do
-    rendered.should have_content @crop.name
-    rendered.should have_content @harvest.harvested_at.to_s
-    rendered.should have_content @harvest.plant_part.to_s
+  subject { render }
+
+  describe "renders attributes" do
+    it { is_expected.to have_content harvest.crop.name }
+    it { is_expected.to have_content harvest.harvested_at.to_s }
+    it { is_expected.to have_content harvest.plant_part.to_s }
   end
 end
