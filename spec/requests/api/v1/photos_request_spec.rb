@@ -64,7 +64,7 @@ RSpec.describe 'Photos', type: :request do
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
+    it { expect(subject['data']['relationships']).to include("owner" => owner_as_json_api) }
     it { expect(subject['data']).to eq(photo_encoded_as_json_api) }
   end
 
