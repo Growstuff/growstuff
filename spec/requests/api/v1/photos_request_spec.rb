@@ -49,7 +49,6 @@ RSpec.describe 'Photos', type: :request do
       "fullsize-url" => photo.fullsize_url,
       "link-url" => photo.link_url,
       "license-name" => photo.license_name,
-      "link-url" => photo.link_url,
       "title" => photo.title
     }
   end
