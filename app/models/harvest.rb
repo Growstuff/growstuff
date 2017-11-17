@@ -58,6 +58,7 @@ class Harvest < ActiveRecord::Base
     in: WEIGHT_UNITS_VALUES.values, message: "%<value>s is not a valid unit"
   }
   validate :crop_must_match_planting
+  validate :owner_must_match_planting
   validate :harvest_must_be_after_planting
 
   def time_from_planting_to_harvest
@@ -129,6 +130,11 @@ class Harvest < ActiveRecord::Base
   def crop_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
     errors.add(:planting, "must be the same crop") unless crop == planting.crop
+  end
+
+  def owner_must_match_planting
+    return if planting.blank? # only check if we are linked to a planting
+    errors.add(:owner, "of harvest must be the same as planting") unless owner == planting.owner
   end
 
   def harvest_must_be_after_planting

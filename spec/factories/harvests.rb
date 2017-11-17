@@ -2,15 +2,20 @@
 
 FactoryBot.define do
   factory :harvest do
-    crop
+    crop { planting.present? ? planting.crop : FactoryBot.create(:crop) }
     plant_part
-    owner
+    planting nil
+    owner { planting.present? ? planting.owner : FactoryBot.create(:member) }
     harvested_at Time.zone.local(2015, 9, 17)
     quantity "3"
     unit "individual"
     weight_quantity 6
     weight_unit "kg"
     description "A lovely harvest"
+
+    factory :harvest_with_planting do
+      planting
+    end
   end
 
   trait :long_description do
