@@ -37,9 +37,6 @@ class PhotosController < ApplicationController
     raise "Could not find this item owned by you" unless @item
     collection << @item unless collection.include?(@item)
     @photo.save! if @photo.present?
-  rescue => e
-    flash[:alert] = e.message
-  ensure
     respond_with @photo
   end
 
