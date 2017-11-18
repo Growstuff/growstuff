@@ -67,9 +67,8 @@
     %p= render 'plantings/progress', planting: @planting, show_explanation: true
 
     = render 'plantings/actions', planting: @planting
-    - if !@planting.photos.empty? || (can?(:edit, @planting) && can?(:create, Photo))
-      - if can?(:create, Photo) && can?(:edit, @planting)
-        = link_to "Add photo", new_photo_path(type: "planting", id: @planting.id), class: 'btn btn-primary btn-xs'
+    - if can?(:create, Photo) && can?(:edit, @planting)
+      = link_to "Add photo", new_photo_path(type: "planting", id: @planting.id), class: 'btn btn-primary btn-xs'
 
   .col-md-6
     = render partial: "crops/index_card", locals: { crop: @planting.crop }
