@@ -74,7 +74,7 @@ class PhotosController < ApplicationController
 
   def find_or_create_photo_from_flickr_photo
     photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
-    photo = Photo.new(photo_params) unless photo
+    photo ||= Photo.new(photo_params)
     photo.owner_id = current_member.id
     photo.set_flickr_metadata
     photo
