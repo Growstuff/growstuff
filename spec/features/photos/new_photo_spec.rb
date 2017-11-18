@@ -13,7 +13,7 @@ feature "new photo page" do
 
       scenario "add photo" do
         visit planting_path(planting)
-        click_link "Add photo"
+        click_link('Add photo', match: :first)
         expect(page).to have_text planting.crop.name
       end
     end
