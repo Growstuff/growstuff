@@ -22,8 +22,7 @@ feature "signout" do
       fill_in 'Password', with: member.password
       click_button 'Sign in'
       expect(page).to have_http_status(200)
-      # path has params removed after signin
-      expect(current_path).to eq path.split('?')[0]
+      expect(current_path).to eq path
       click_link 'Sign out'
       expect(page).to have_http_status(200)
       expect(current_path).to eq new_member_session_path
