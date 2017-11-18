@@ -6,17 +6,9 @@ class Planting < ActiveRecord::Base
   # Constants
   SUNNINESS_VALUES = %w(sun semi-shade shade)
   PLANTED_FROM_VALUES = [
-    'seed',
-    'seedling',
-    'cutting',
-    'root division',
-    'runner',
-    'bulb',
-    'root/tuber',
-    'bare root plant',
-    'advanced plant',
-    'graft',
-    'layering'
+    'seed', 'seedling', 'cutting', 'root division', 'runner',
+    'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
+    'graft', 'layering'
   ]
 
   ##
@@ -50,6 +42,7 @@ class Planting < ActiveRecord::Base
   validates :garden, presence: true
   validates :crop, presence: true, approved: { message: "must be present and exist in our database" }
   validate :finished_must_be_after_planted
+  validate :owner_must_match_garden_owner
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
@@ -123,12 +116,6 @@ class Planting < ActiveRecord::Base
     update(days_to_first_harvest: days_to_first_harvest, days_to_last_harvest: days_to_last_harvest)
   end
 
-  private
-
-  def harvests_with_dates
-    harvests.where.not(harvested_at: nil)
-  end
-
   def first_harvest_date
     harvests_with_dates.minimum(:harvested_at)
   end
@@ -137,9 +124,19 @@ class Planting < ActiveRecord::Base
     harvests_with_dates.maximum(:harvested_at)
   end
 
+  private
+
+  def harvests_with_dates
+    harvests.where.not(harvested_at: nil)
+  end
+
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
     errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
+  end
+
+  def owner_must_match_garden_owner
+    errors.add(:owner, "must be the same as garden") unless owner == garden.owner
   end
 end

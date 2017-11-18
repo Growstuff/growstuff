@@ -11,6 +11,9 @@ gem 'coffee-rails'
 gem 'haml'
 gem 'sass-rails'
 
+# API data
+gem 'jsonapi-resources'
+
 # CSS framework
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'

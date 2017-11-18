@@ -2,9 +2,9 @@ require 'rails_helper'
 
 feature "Planting a crop", js: true do
   let!(:garden) { create :garden }
-  let!(:planting) { create :planting, garden: garden, planted_at: Date.parse("2013-3-10") }
+  let!(:planting) { create :planting, garden: garden, owner: garden.owner, planted_at: Date.parse("2013-3-10") }
   let!(:tomato) { create :tomato }
-  let!(:finished_planting) { create :finished_planting, garden: garden, crop: tomato }
+  let!(:finished_planting) { create :finished_planting, owner: garden.owner, garden: garden, crop: tomato }
 
   background do
     login_as garden.owner
