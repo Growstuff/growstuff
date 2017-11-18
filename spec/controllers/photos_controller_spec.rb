@@ -34,49 +34,41 @@ describe PhotosController do
   end
 
   describe "GET new" do
+    let(:tomato) { FactoryBot.create(:tomato) }
+    let(:planting) { FactoryBot.create(:planting, crop: tomato, owner: member) }
+    let(:garden) { FactoryBot.create(:garden, owner: member) }
+    let(:harvest) { FactoryBot.create(:harvest, owner: member) }
+    let(:member) { FactoryBot.create(:member) }
+    let!(:auth) { FactoryBot.create(:flickr_authentication, member: member) }
+
     before(:each) do
-      @member = FactoryBot.create(:member)
-      sign_in @member
-      @member.stub(:flickr_photos) { [[], 0] }
-      @member.stub(:flickr_sets) { { "foo" => "bar" } }
-      controller.stub(:current_member) { @member }
-      @tomato = FactoryBot.create(:tomato)
-      @planting1 = FactoryBot.create(:planting, crop: @tomato, owner: @member)
-      @garden1 = FactoryBot.create(:garden, owner: @member)
-      @harvest1 = FactoryBot.create(:harvest, owner: @member)
+      sign_in member
+      member.stub(:flickr_photos) { [[], 0] }
+      member.stub(:flickr_sets) { { "foo" => "bar" } }
+      controller.stub(:current_member) { member }
     end
 
-    it "assigns the flickr auth as @flickr_auth" do
-      @auth = FactoryBot.create(:flickr_authentication, member: @member)
-      get :new, type: "planting", id: @planting1.id
-      assigns(:flickr_auth).should be_an_instance_of(Authentication)
+    describe "planting photos" do
+      before(:each) { get :new, type: "planting", id: planting.id }
+      it { assigns(:flickr_auth).should be_an_instance_of(Authentication) }
+      it { assigns(:id).should eq planting.id.to_s }
+      it { assigns(:type).should eq "planting" }
+      it { expect(flash[:alert]).not_to be_present }
+      it { expect(flash[:alert]).not_to be_present }
     end
 
-    it "assigns a planting id" do
-      get :new, type: "planting", id: @planting1.id
-      assigns(:id).should eq @planting1.id.to_s
-      assigns(:type).should eq "planting"
-      expect(flash[:alert]).not_to be_present
+    describe "harvest photos" do
+      before { get :new, type: "harvest", id: harvest.id }
+      it { assigns(:id).should eq harvest.id.to_s }
+      it { assigns(:type).should eq "harvest" }
+      it { expect(flash[:alert]).not_to be_present }
     end
 
-    it "assigns a harvest id" do
-      get :new, type: "harvest", id: @harvest1.id
-      assigns(:id).should eq @harvest1.id.to_s
-      assigns(:type).should eq "harvest"
-      expect(flash[:alert]).not_to be_present
-    end
-
-    it "assigns a garden id" do
-      get :new, type: "garden", id: @garden1.id
-      assigns(:id).should eq @garden1.id.to_s
-      assigns(:type).should eq "garden"
-      expect(flash[:alert]).not_to be_present
-    end
-
-    it "assigns the current set as @current_set" do
-      get :new, type: "planting", id: @planting1.id, set: 'foo'
-      assigns(:current_set).should eq "foo"
-      expect(flash[:alert]).not_to be_present
+    describe "garden photos" do
+      before { get :new, type: "garden", id: garden.id }
+      it { assigns(:id).should eq garden.id.to_s }
+      it { assigns(:type).should eq "garden" }
+      it { expect(flash[:alert]).not_to be_present }
     end
   end
 
@@ -103,11 +95,13 @@ describe PhotosController do
         Photo.last.plantings.first.should eq planting
       end
 
-      it "doesn't attach a photo to a planting twice" do
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
-        expect(flash[:alert]).not_to be_present
-        Photo.last.plantings.size.should eq 1
+      describe "doesn't attach a photo to a planting twice" do
+        before do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+        end
+        it { expect(flash[:alert]).not_to be_present }
+        it { expect(Photo.last.plantings.size).to eq 1 }
       end
 
       it "attaches the photo to a harvest" do

@@ -17,11 +17,12 @@ class PhotosController < ApplicationController
   end
 
   def new
-    @type = params[:type]
     @id = params[:id]
+    @type = params[:type]
+    redirect_to photos_path if @type.nil?
 
     @photo = Photo.new
-    find_item_name
+    @item = item_to_link_to
     retrieve_from_flickr
     respond_with @photo
   end
@@ -31,9 +32,14 @@ class PhotosController < ApplicationController
   end
 
   def create
-    find_or_create_photo_from_flickr_photo
-    add_photo_to_collection
-    @photo.save if @photo.present?
+    @photo = find_or_create_photo_from_flickr_photo
+    @item = item_to_link_to
+    raise "Could not find this item owned by you" unless @item
+    collection << @item unless collection.include?(@item)
+    @photo.save! if @photo.present?
+  rescue => e
+    flash[:alert] = e.message
+  ensure
     respond_with @photo
   end
 
@@ -50,6 +56,10 @@ class PhotosController < ApplicationController
   private
 
   def item_id?
+    item_id.present?
+  end
+
+  def item_id
     params.key? :id
   end
 
@@ -63,29 +73,22 @@ class PhotosController < ApplicationController
   end
 
   def find_or_create_photo_from_flickr_photo
-    @photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
-    @photo = Photo.new(photo_params) unless @photo
-    @photo.owner_id = current_member.id
-    @photo.set_flickr_metadata
-    @photo
+    photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
+    photo = Photo.new(photo_params) unless photo
+    photo.owner_id = current_member.id
+    photo.set_flickr_metadata
+    photo
   end
 
-  def add_photo_to_collection
+  def collection
     raise "Missing or invalid type provided" unless Growstuff::Constants::PhotoModels.types.include?(params[:type])
     raise "No item id provided" unless item_id?
-    collection = Growstuff::Constants::PhotoModels.get_relation(@photo, params[:type])
-
-    find_item_name
-    raise "Could not find this item owned by you" unless @item
-
-    collection << @item unless collection.include?(@item)
-  rescue => e
-    flash[:alert] = e.message
+    Growstuff::Constants::PhotoModels.get_relation(@photo, params[:type])
   end
 
-  def find_item_name
+  def item_to_link_to
     item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
-    @item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
+    item_class.find_by!(id: params[:id], owner_id: current_member.id)
   end
 
   def retrieve_from_flickr
