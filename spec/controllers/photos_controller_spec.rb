@@ -23,45 +23,38 @@ describe PhotosController do
   end
 
   describe "GET new" do
+    let(:tomato) { FactoryBot.create(:tomato) }
+    let(:planting) { FactoryBot.create(:planting, crop: tomato, owner: member) }
+    let(:garden) { FactoryBot.create(:garden, owner: member) }
+    let(:harvest) { FactoryBot.create(:harvest, owner: member) }
+    let(:member) { FactoryBot.create(:member) }
+    let!(:auth) { FactoryBot.create(:flickr_authentication, member: member) }
+
     before(:each) do
-      @member = FactoryBot.create(:member)
-      sign_in @member
-      @member.stub(:flickr_photos) { [[], 0] }
-      @member.stub(:flickr_sets) { { "foo" => "bar" } }
-      controller.stub(:current_member) { @member }
+      sign_in member
+      member.stub(:flickr_photos) { [[], 0] }
+      member.stub(:flickr_sets) { { "foo" => "bar" } }
+      controller.stub(:current_member) { member }
     end
 
-    it "assigns the flickr auth as @flickr_auth" do
-      @auth = FactoryBot.create(:flickr_authentication, member: @member)
-      get :new, {}
-      assigns(:flickr_auth).should be_an_instance_of(Authentication)
+    describe "planting photos" do
+      before(:each) { get :new, type: "planting", id: planting.id }
+      it { assigns(:flickr_auth).should be_an_instance_of(Authentication) }
+      it { assigns(:item).should eq planting }
+      it { expect(flash[:alert]).not_to be_present }
+      it { expect(flash[:alert]).not_to be_present }
     end
 
-    it "assigns a planting id" do
-      get :new, type: "planting", id: 5
-      assigns(:id).should eq "5"
-      assigns(:type).should eq "planting"
-      expect(flash[:alert]).not_to be_present
+    describe "harvest photos" do
+      before { get :new, type: "harvest", id: harvest.id }
+      it { assigns(:item).should eq harvest }
+      it { expect(flash[:alert]).not_to be_present }
     end
 
-    it "assigns a harvest id" do
-      get :new, type: "harvest", id: 5
-      assigns(:id).should eq "5"
-      assigns(:type).should eq "harvest"
-      expect(flash[:alert]).not_to be_present
-    end
-
-    it "assigns a garden id" do
-      get :new, type: "garden", id: 5
-      assigns(:id).should eq "5"
-      assigns(:type).should eq "garden"
-      expect(flash[:alert]).not_to be_present
-    end
-
-    it "assigns the current set as @current_set" do
-      get :new, set: 'foo'
-      assigns(:current_set).should eq "foo"
-      expect(flash[:alert]).not_to be_present
+    describe "garden photos" do
+      before { get :new, type: "garden", id: garden.id }
+      it { assigns(:item).should eq garden }
+      it { expect(flash[:alert]).not_to be_present }
     end
   end
 
@@ -88,11 +81,13 @@ describe PhotosController do
         Photo.last.plantings.first.should eq planting
       end
 
-      it "doesn't attach a photo to a planting twice" do
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
-        expect(flash[:alert]).not_to be_present
-        Photo.last.plantings.size.should eq 1
+      describe "doesn't attach a photo to a planting twice" do
+        before do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+        end
+        it { expect(flash[:alert]).not_to be_present }
+        it { expect(Photo.last.plantings.size).to eq 1 }
       end
 
       it "attaches the photo to a harvest" do
@@ -110,18 +105,20 @@ describe PhotosController do
 
       it "doesn't attach photo to a comment" do
         comment = FactoryBot.create(:comment)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
-        expect(flash[:alert]).to be_present
+        expect do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
+        end.to raise_error
       end
     end
 
     describe "for the second time" do
+      let(:planting) { FactoryBot.create :planting, owner: member }
       it "does not add a photo twice" do
         expect do
-          post :create, photo: { flickr_photo_id: 1 }
+          post :create, photo: { flickr_photo_id: 1 }, id: planting.id, type: 'planting'
         end.to change(Photo, :count).by(1)
         expect do
-          post :create, photo: { flickr_photo_id: 1 }
+          post :create, photo: { flickr_photo_id: 1 }, id: planting.id, type: 'planting'
         end.to change(Photo, :count).by(0)
       end
     end
@@ -148,16 +145,18 @@ describe PhotosController do
       it "does not create the planting/photo link" do
         # members will be auto-created, and different
         another_planting = FactoryBot.create(:planting)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
-        expect(flash[:alert]).to be_present
+        expect do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
+        end.to raise_error(ActiveRecord::RecordNotFound)
         Photo.last.plantings.first.should_not eq another_planting
       end
 
       it "does not create the harvest/photo link" do
         # members will be auto-created, and different
         another_harvest = FactoryBot.create(:harvest)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
-        expect(flash[:alert]).to be_present
+        expect do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
+        end.to raise_error(ActiveRecord::RecordNotFound)
         Photo.last.harvests.first.should_not eq another_harvest
       end
     end

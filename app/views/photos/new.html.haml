@@ -1,5 +1,9 @@
 - content_for :title, "New Photo"
 
+%h3
+  Choose photo for
+  = @item
+
 - if @flickr_auth
   %p
     Connected to Flickr as

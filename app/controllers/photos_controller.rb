@@ -17,10 +17,8 @@ class PhotosController < ApplicationController
   end
 
   def new
-    @type = params[:type]
-    @id = params[:id]
-
     @photo = Photo.new
+    @item = item_to_link_to
     retrieve_from_flickr
     respond_with @photo
   end
@@ -30,9 +28,13 @@ class PhotosController < ApplicationController
   end
 
   def create
-    find_or_create_photo_from_flickr_photo
-    add_photo_to_collection
-    @photo.save if @photo.present?
+    ActiveRecord::Base.transaction do
+      @photo = find_or_create_photo_from_flickr_photo
+      @item = item_to_link_to
+      raise "Could not find this #{type} owned by you" unless @item
+      collection << @item unless collection.include?(@item)
+      @photo.save! if @photo.present?
+    end
     respond_with @photo
   end
 
@@ -48,8 +50,14 @@ class PhotosController < ApplicationController
 
   private
 
-  def item_id?
-    params.key? :id
+  #
+  # Params
+  def item_id
+    params[:id]
+  end
+
+  def item_type
+    params[:type]
   end
 
   def flickr_photo_id_param
@@ -61,26 +69,32 @@ class PhotosController < ApplicationController
       :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
-  def find_or_create_photo_from_flickr_photo
-    @photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
-    @photo = Photo.new(photo_params) unless @photo
-    @photo.owner_id = current_member.id
-    @photo.set_flickr_metadata
-    @photo
+  # Item with photos attached
+  #
+  def item_to_link_to
+    raise "No item id provided" if item_id.nil?
+    raise "No item type provided" if item_type.nil?
+    raise "Missing or invalid type provided" unless photos_supported_on_type?(item_type)
+    item_class = Growstuff::Constants::PhotoModels.get_item(item_type)
+    item_class.find_by!(id: params[:id], owner_id: current_member.id)
   end
 
-  def add_photo_to_collection
-    raise "Missing or invalid type provided" unless Growstuff::Constants::PhotoModels.types.include?(params[:type])
-    raise "No item id provided" unless item_id?
-    collection = Growstuff::Constants::PhotoModels.get_relation(@photo, params[:type])
+  def collection
+    Growstuff::Constants::PhotoModels.get_relation(@photo, item_type)
+  end
 
-    item_class = Growstuff::Constants::PhotoModels.get_item(params[:type])
-    item = item_class.find_by!(id: params[:id], owner_id: current_member.id)
-    raise "Could not find this item owned by you" unless item
+  def photos_supported_on_type?(_type)
+    Growstuff::Constants::PhotoModels.types.include?(item_type)
+  end
 
-    collection << item unless collection.include?(item)
-  rescue => e
-    flash[:alert] = e.message
+  #
+  # Flickr retrieval
+  def find_or_create_photo_from_flickr_photo
+    photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
+    photo ||= Photo.new(photo_params)
+    photo.owner_id = current_member.id
+    photo.set_flickr_metadata
+    photo
   end
 
   def retrieve_from_flickr
