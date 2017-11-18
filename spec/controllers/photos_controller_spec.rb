@@ -40,23 +40,20 @@ describe PhotosController do
     describe "planting photos" do
       before(:each) { get :new, type: "planting", id: planting.id }
       it { assigns(:flickr_auth).should be_an_instance_of(Authentication) }
-      it { assigns(:id).should eq planting.id.to_s }
-      it { assigns(:type).should eq "planting" }
+      it { assigns(:item).should eq planting }
       it { expect(flash[:alert]).not_to be_present }
       it { expect(flash[:alert]).not_to be_present }
     end
 
     describe "harvest photos" do
       before { get :new, type: "harvest", id: harvest.id }
-      it { assigns(:id).should eq harvest.id.to_s }
-      it { assigns(:type).should eq "harvest" }
+      it { assigns(:item).should eq harvest }
       it { expect(flash[:alert]).not_to be_present }
     end
 
     describe "garden photos" do
       before { get :new, type: "garden", id: garden.id }
-      it { assigns(:id).should eq garden.id.to_s }
-      it { assigns(:type).should eq "garden" }
+      it { assigns(:item).should eq garden }
       it { expect(flash[:alert]).not_to be_present }
     end
   end
@@ -108,18 +105,20 @@ describe PhotosController do
 
       it "doesn't attach photo to a comment" do
         comment = FactoryBot.create(:comment)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
-        expect(flash[:alert]).to be_present
+        expect do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
+        end.to raise_error
       end
     end
 
     describe "for the second time" do
+      let(:planting) { FactoryBot.create :planting, owner: member }
       it "does not add a photo twice" do
         expect do
-          post :create, photo: { flickr_photo_id: 1 }
+          post :create, photo: { flickr_photo_id: 1 }, id: planting.id, type: 'planting'
         end.to change(Photo, :count).by(1)
         expect do
-          post :create, photo: { flickr_photo_id: 1 }
+          post :create, photo: { flickr_photo_id: 1 }, id: planting.id, type: 'planting'
         end.to change(Photo, :count).by(0)
       end
     end
@@ -146,16 +145,18 @@ describe PhotosController do
       it "does not create the planting/photo link" do
         # members will be auto-created, and different
         another_planting = FactoryBot.create(:planting)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
-        expect(flash[:alert]).to be_present
+        expect do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
+        end.to raise_error(ActiveRecord::RecordNotFound)
         Photo.last.plantings.first.should_not eq another_planting
       end
 
       it "does not create the harvest/photo link" do
         # members will be auto-created, and different
         another_harvest = FactoryBot.create(:harvest)
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
-        expect(flash[:alert]).to be_present
+        expect do
+          post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
+        end.to raise_error(ActiveRecord::RecordNotFound)
         Photo.last.harvests.first.should_not eq another_harvest
       end
     end
