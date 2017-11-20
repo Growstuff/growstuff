@@ -19,6 +19,8 @@ class PhotosController < ApplicationController
   def new
     @photo = Photo.new
     @item = item_to_link_to
+    @type = item_type
+    @id = item_id
     retrieve_from_flickr
     respond_with @photo
   end
