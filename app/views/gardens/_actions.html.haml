@@ -21,8 +21,8 @@
               class: 'btn btn-default', id: 'delete_garden_link' do
       %span.glyphicon.glyphicon-trash{ title: "Delete" }
       Delete
-  - if can?(:edit, @garden) && can?(:create, Photo)
-    = link_to new_photo_path(type: "garden", id: @garden.id),
+  - if can?(:edit, garden) && can?(:create, Photo)
+    = link_to new_photo_path(type: "garden", id: garden.id),
               class: 'btn btn-primary' do
       %span.glyphicon.glyphicon-camera{ title: "Add Photo" }
       Add Photo
