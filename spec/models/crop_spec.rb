@@ -39,10 +39,6 @@ describe Crop do
       @lowercase = FactoryBot.create(:lowercasecrop, created_at: 2.days.ago)
     end
 
-    it "should be sorted case-insensitively" do
-      Crop.first.should == @lowercase
-    end
-
     it 'recent scope sorts by creation date' do
       Crop.recent.first.should == @uppercase
     end

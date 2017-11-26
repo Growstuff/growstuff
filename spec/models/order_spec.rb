@@ -25,11 +25,6 @@ describe Order do
     @order.order_items.first.should eq @order_item
   end
 
-  it 'sorts by created_at DESC' do
-    @order2 = FactoryBot.create(:order)
-    Order.all.should eq [@order2, @order]
-  end
-
   it 'updates the account details' do
     @member = FactoryBot.create(:member)
     @order = FactoryBot.create(:order, member: @member)
