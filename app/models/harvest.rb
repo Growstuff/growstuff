@@ -124,7 +124,7 @@ class Harvest < ActiveRecord::Base
   end
 
   def default_photo
-    photos.first || crop.default_photo
+    photos.order(created_at: :desc).first || crop.default_photo
   end
 
   def crop_must_match_planting
