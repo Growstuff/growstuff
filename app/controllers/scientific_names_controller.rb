@@ -7,7 +7,7 @@ class ScientificNamesController < ApplicationController
   # GET /scientific_names
   # GET /scientific_names.json
   def index
-    @scientific_names = ScientificName.all
+    @scientific_names = ScientificName.all.order(:name)
     respond_with(@scientific_names)
   end
 

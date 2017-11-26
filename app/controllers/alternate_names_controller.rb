@@ -7,7 +7,7 @@ class AlternateNamesController < ApplicationController
   # GET /alternate_names
   # GET /alternate_names.json
   def index
-    @alternate_names = AlternateName.all
+    @alternate_names = AlternateName.all.order(:name)
     respond_with(@alternate_names)
   end
 
