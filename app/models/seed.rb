@@ -46,7 +46,7 @@ class Seed < ActiveRecord::Base
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
 
   def tradable?
-    tradable_to == 'nowhere'
+    tradable_to != 'nowhere'
   end
 
   def seed_slug
