@@ -140,16 +140,6 @@ describe 'member' do
     end
   end
 
-  context 'ordering' do
-    before do
-      FactoryBot.create(:member, login_name: "Zoe")
-      FactoryBot.create(:member, login_name: "Anna")
-    end
-    it "should be sorted by name" do
-      expect(Member.first.login_name).to eq("Anna")
-    end
-  end
-
   context 'invalid login names' do
     it "doesn't allow short names" do
       member = FactoryBot.build(:invalid_member_shortname)
