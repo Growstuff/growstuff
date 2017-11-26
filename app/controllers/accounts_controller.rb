@@ -5,7 +5,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts
   def index
-    @accounts = Account.all
+    @accounts = Account.all.order(created_at: :desc)
     respond_with(@accounts)
   end
 

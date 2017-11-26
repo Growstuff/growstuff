@@ -6,7 +6,7 @@ class NotificationsController < ApplicationController
 
   # GET /notifications
   def index
-    @notifications = Notification.by_recipient(current_member).page(params[:page])
+    @notifications = Notification.by_recipient(current_member).order(:created_at).page(params[:page])
   end
 
   # GET /notifications/1
