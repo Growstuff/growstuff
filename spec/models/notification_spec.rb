@@ -20,7 +20,8 @@ describe Notification do
     @n2 = FactoryBot.create(:notification, read: true)
     Notification.unread.should eq [notification]
     @n3 = FactoryBot.create(:notification, read: false)
-    Notification.unread.should eq [@n3, notification]
+    Notification.unread.should include @n3
+    Notification.unread.should include notification
   end
 
   it "counts unread" do
