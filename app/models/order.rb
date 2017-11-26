@@ -1,17 +1,22 @@
 class Order < ActiveRecord::Base
+  #
+  # Relationships
   belongs_to :member, with_deleted: true
-
   has_many :order_items, dependent: :destroy
 
-  default_scope { order('created_at DESC') }
-
+  #
+  # Validations
   validates :referral_code, format: {
     with: /\A[a-zA-Z0-9 ]*\z/,
     message: "may only include letters and numbers"
   }
 
+  #
+  # Teiggers
   before_save :standardize_referral_code
 
+  #
+  # Scopes
   scope :by_member, ->(member) { where(member: member) }
 
   # total price of an order

@@ -39,7 +39,7 @@ class Harvest < ActiveRecord::Base
 
   ##
   ## Scopes
-  default_scope { joins(:owner) }
+  default_scope { joins(:owner) } # Ensures owner exists
 
   ##
   ## Validations
