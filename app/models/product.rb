@@ -1,13 +1,12 @@
 class Product < ActiveRecord::Base
-  has_and_belongs_to_many :orders # rubocop:disable Rails/HasAndBelongsToMany
+  #
+  # Relationships
   belongs_to :account_type
+  has_and_belongs_to_many :orders # rubocop:disable Rails/HasAndBelongsToMany
 
-  validates :paid_months,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 0
-    },
-    allow_nil: true
+  #
+  # Validations
+  validates :paid_months, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :min_price, presence: true
 
   def to_s

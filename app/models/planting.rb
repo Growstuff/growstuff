@@ -22,7 +22,7 @@ class Planting < ActiveRecord::Base
 
   ##
   ## Scopes
-  default_scope { joins(:owner).order(created_at: :desc) }
+  default_scope { joins(:owner) } # Ensures the owner still exists
   scope :finished, -> { where(finished: true) }
   scope :current, -> { where(finished: false) }
   scope :interesting, -> { has_photos.one_per_owner }

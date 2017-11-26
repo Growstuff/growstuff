@@ -8,7 +8,7 @@ class Photo < ActiveRecord::Base
 
   before_destroy { all_associations.clear }
 
-  default_scope { joins(:owner).order(created_at: :desc) }
+  default_scope { joins(:owner) } # Ensures the owner still exists
 
   def associations?
     plantings.any? || harvests.any? || gardens.any? || seeds.any?
