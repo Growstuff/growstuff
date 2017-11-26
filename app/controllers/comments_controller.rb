@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
   responders :flash
 
   def index
-    @comments = Comment.order("comments.created_at": :desc).paginate(page: params[:page])
+    @comments = Comment.order(created_at: :desc).paginate(page: params[:page])
     respond_with(@comments)
   end
 
