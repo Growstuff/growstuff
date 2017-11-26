@@ -127,6 +127,8 @@ class Harvest < ActiveRecord::Base
     photos.order(created_at: :desc).first || crop.default_photo
   end
 
+  private
+
   def crop_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
     errors.add(:planting, "must be the same crop") unless crop == planting.crop
