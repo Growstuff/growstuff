@@ -88,6 +88,6 @@ class Garden < ActiveRecord::Base
   end
 
   def default_photo
-    photos.first
+    photos.order(created_at: :desc).first
   end
 end
