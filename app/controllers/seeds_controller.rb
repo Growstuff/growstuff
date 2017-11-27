@@ -75,7 +75,7 @@ class SeedsController < ApplicationController
       crop.seeds
     else
       Seed
-    end.order("seeds.created_at": :desc).includes(:owner, :crop).paginate(page: params[:page])
+    end.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
   end
 
   def csv_filename
