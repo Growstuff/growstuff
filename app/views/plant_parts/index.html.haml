@@ -9,7 +9,8 @@
     - if plant_part.crops.empty?
       No crops are harvested for this plant part (yet).
     - else
-      != plant_part.crops.map { |c| link_to(c, c) }.join(", ")
+      - plant_part.crops.limit(100).each do |crop|
+        = link_to(crop, crop_path(crop))
   %p
     = link_to "More detail", plant_part
 
@@ -18,6 +19,3 @@
     = link_to 'Edit', edit_plant_part_path(plant_part), class: 'btn btn-default btn-xs'
   - if can? :destroy, plant_part
     = link_to 'Delete', plant_part, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
-
-
-
