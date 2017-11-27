@@ -93,14 +93,6 @@ describe Garden do
     end
   end
 
-  context 'ordering' do
-    it "should be sorted alphabetically" do
-      FactoryBot.create(:garden_z)
-      a = FactoryBot.create(:garden_a)
-      Garden.first.should == a
-    end
-  end
-
   it "destroys plantings when deleted" do
     garden = FactoryBot.create(:garden, owner: owner)
     @planting1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
