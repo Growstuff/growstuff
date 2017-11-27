@@ -12,7 +12,7 @@ class PhotosController < ApplicationController
     else
       @photos = Photo.all
     end
-    @photos = @photos.order("photos.created_at": :desc)
+    @photos = @photos.order(created_at: :desc)
       .includes(:owner)
       .paginate(page: params[:page])
     respond_with(@photos)
