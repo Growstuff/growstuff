@@ -96,7 +96,7 @@ class PlantingsController < ApplicationController
         end
     p = p.current unless @show_all
     p.joins(:owner, :crop, :garden)
-      .order("plantings.created_at": :desc)
+      .order(created_at: :desc)
       .includes(:crop, :owner, :garden)
       .paginate(page: params[:page])
   end
