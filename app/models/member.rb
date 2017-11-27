@@ -25,9 +25,9 @@ class Member < ActiveRecord::Base
   has_many :photos
   has_many :requested_crops, class_name: Crop, foreign_key: 'requester_id'
   has_many :likes, dependent: :destroy
-  has_many :follows, class_name: "Follow", foreign_key: "follower_id"
+  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :followed, through: :follows
-  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id"
   has_many :followers, through: :inverse_follows, source: :follower
 
   #
