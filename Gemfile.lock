@@ -296,7 +296,7 @@ GEM
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
     kgio (2.11.0)
-    kramdown (1.15.0)
+    kramdown (1.16.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     leaflet-rails (1.2.0)
@@ -632,6 +632,7 @@ DEPENDENCIES
   webrat
   will_paginate
   xmlrpc
+
 
 RUBY VERSION
    ruby 2.4.1p111
