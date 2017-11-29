@@ -391,8 +391,8 @@ ActiveRecord::Schema.define(version: 20171129041341) do
     t.datetime "updated_at",          null: false
   end
 
-  add_index "photographings", ["photographable_id", "photographable_type", "photo_id"], name: "polymorphic_many_to_many_idx", using: :btree
-  add_index "photographings", ["photographable_id", "photographable_type"], name: "polymorphic_photographable_idx", using: :btree
+  add_index "photographings", ["photographable_id", "photographable_type", "photo_id"], name: "items_to_photos_idx", unique: true, using: :btree
+  add_index "photographings", ["photographable_id", "photographable_type"], name: "photographable_idx", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.integer  "owner_id",        null: false
