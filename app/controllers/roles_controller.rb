@@ -5,7 +5,7 @@ class RolesController < ApplicationController
   responders :flash
 
   def index
-    @roles = Role.all
+    @roles = Role.all.order(:name)
     respond_with @roles
   end
 

@@ -4,18 +4,6 @@ describe Post do
   let(:member) { FactoryBot.create(:member) }
   it_behaves_like "it is likeable"
 
-  it "should be sorted in reverse order" do
-    FactoryBot.create(:post,
-      subject: 'first entry',
-      author: member,
-      created_at: 2.days.ago)
-    FactoryBot.create(:post,
-      subject: 'second entry',
-      author: member,
-      created_at: 1.day.ago)
-    Post.first.subject.should == "second entry"
-  end
-
   it "should have a slug" do
     post = FactoryBot.create(:post, author: member)
     time = post.created_at

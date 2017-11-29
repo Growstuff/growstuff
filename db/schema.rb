@@ -384,9 +384,9 @@ ActiveRecord::Schema.define(version: 20171129041341) do
   end
 
   create_table "photographings", force: :cascade do |t|
-    t.integer  "photo_id"
-    t.integer  "photographable_id"
-    t.string   "photographable_type"
+    t.integer  "photo_id",            null: false
+    t.integer  "photographable_id",   null: false
+    t.string   "photographable_type", null: false
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
@@ -509,4 +509,5 @@ ActiveRecord::Schema.define(version: 20171129041341) do
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree
 
   add_foreign_key "harvests", "plantings"
+  add_foreign_key "photographings", "photos"
 end

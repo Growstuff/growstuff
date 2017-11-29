@@ -185,7 +185,7 @@ class CropsController < ApplicationController
   def crops
     q = Crop.approved.includes(:scientific_names, plantings: :photos)
     q = q.popular unless @sort == 'alpha'
-    q.includes(:photos).paginate(page: params[:page])
+    q.order("LOWER(crops.name)").includes(:photos).paginate(page: params[:page])
   end
 
   def requested_crops

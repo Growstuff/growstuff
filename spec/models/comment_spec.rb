@@ -49,10 +49,6 @@ describe Comment do
       @c2 = FactoryBot.create(:comment, post: @p, author: @m)
     end
 
-    it 'is in DESC order by default' do
-      Comment.all.should eq [@c2, @c1]
-    end
-
     it 'has a scope for ASC order for displaying on post page' do
       Comment.post_order.should eq [@c1, @c2]
     end

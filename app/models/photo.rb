@@ -10,7 +10,7 @@ class Photo < ActiveRecord::Base
       source_type: type
   end
 
-  default_scope { joins(:owner).order(created_at: :desc) }
+  default_scope { joins(:owner) } # Ensures the owner still exists
 
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.

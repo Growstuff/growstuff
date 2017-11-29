@@ -5,7 +5,7 @@ class AccountTypesController < ApplicationController
 
   # GET /account_types
   def index
-    @account_types = AccountType.all
+    @account_types = AccountType.all.order(:name)
     respond_with(@account_types)
   end
 

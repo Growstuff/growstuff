@@ -96,8 +96,10 @@ class MembersController < ApplicationController
   end
 
   def members
-    q = Member.confirmed
-    q = q.recently_joined if @sort == 'recently_joined'
-    q.paginate(page: params[:page])
+    if @sort == 'recently_joined'
+      Member.recently_joined
+    else
+      Member.order(:login_name)
+    end.confirmed.paginate(page: params[:page])
   end
 end

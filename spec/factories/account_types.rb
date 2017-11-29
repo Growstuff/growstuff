@@ -2,9 +2,15 @@
 
 FactoryBot.define do
   factory :account_type do
-    name "Free"
+    name { Faker::Name.unique.name }
     is_paid false
     is_permanent_paid false
+
+    factory :free_account_type do
+      name "Free"
+      is_paid false
+      is_permanent_paid false
+    end
 
     factory :paid_account_type do
       name "Paid"

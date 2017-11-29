@@ -11,37 +11,39 @@ describe CropsController do
     }
   end
 
+  subject { response }
+
   describe "GET crop wrangler homepage" do
-    it 'fetches the crop wrangler homepage' do
-      get :wrangle
-      response.should be_success
-      response.should render_template("crops/wrangle")
-      expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers)
+    describe 'fetches the crop wrangler homepage' do
+      before { get :wrangle }
+      it { is_expected.to be_success }
+      it { is_expected.to render_template("crops/wrangle") }
+      it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
     end
   end
 
   describe "GET crop hierarchy " do
-    it 'fetches the crop hierarchy page' do
-      get :hierarchy
-      response.should be_success
-      response.should render_template("crops/hierarchy")
+    describe 'fetches the crop hierarchy page' do
+      before { get :hierarchy }
+      it { is_expected.to be_success }
+      it { is_expected.to render_template("crops/hierarchy") }
     end
   end
 
   describe "GET crop search" do
-    it 'fetches the crop search page' do
-      get :search
-      response.should be_success
-      response.should render_template("crops/search")
+    describe 'fetches the crop search page' do
+      before { get :search }
+      it { is_expected.to be_success }
+      it { is_expected.to render_template("crops/search") }
     end
   end
 
   describe "GET RSS feed" do
-    it "returns an RSS feed" do
-      get :index, format: "rss"
-      response.should be_success
-      response.should render_template("crops/index")
-      response.content_type.should eq("application/rss+xml")
+    describe "returns an RSS feed" do
+      before { get :index, format: "rss" }
+      it { is_expected.to be_success }
+      it { is_expected.to render_template("crops/index") }
+      it { expect(response.content_type).to eq("application/rss+xml") }
     end
   end
 end

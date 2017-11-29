@@ -1,27 +1,18 @@
 require 'rails_helper'
 
 describe 'home/_crops.html.haml', type: "view" do
-  before(:each) do
-    # we need to set up an "interesting" crop
-    @crop = FactoryBot.create(:crop)
-    (1..3).each do
-      @planting = FactoryBot.create(:planting, crop: @crop)
-    end
-    @photo = FactoryBot.create(:photo)
-    (1..3).each do
-      @crop.plantings.first.photos << @photo
-    end
-    render
-  end
-
+  let!(:crop) { FactoryBot.create(:crop, plantings: FactoryBot.create_list(:planting, 3)) }
+  let!(:photo) { FactoryBot.create(:photo, plantings: [crop.plantings.first]) }
+  let(:planting) { crop.plantings.first }
+  before(:each) { render }
   it 'shows crops section' do
     assert_select 'h2', text: 'Some of our crops'
-    assert_select "a[href='#{crop_path(@crop)}']"
+    assert_select "a[href='#{crop_path(crop)}']"
   end
 
   it 'shows plantings section' do
     assert_select 'h2', text: 'Recently planted'
-    rendered.should have_content @planting.location
+    rendered.should have_content planting.location
   end
 
   it 'shows recently added crops' do

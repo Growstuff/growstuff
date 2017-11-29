@@ -6,47 +6,39 @@ class Member < ActiveRecord::Base
 
   friendly_id :login_name, use: %i(slugged finders)
 
+  #
+  # Relationshops
   has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :forums, foreign_key: 'owner_id'
   has_many :gardens, foreign_key: 'owner_id'
   has_many :plantings, foreign_key: 'owner_id'
-
   has_many :seeds, foreign_key: 'owner_id'
   has_many :harvests, foreign_key: 'owner_id'
-
   has_and_belongs_to_many :roles # rubocop:disable Rails/HasAndBelongsToMany
-
   has_many :notifications, foreign_key: 'recipient_id'
   has_many :sent_notifications, foreign_key: 'sender_id'
-
   has_many :authentications
-
   has_many :orders
   has_one  :account
   has_one  :account_type, through: :account
-
   has_many :photos
-
   has_many :requested_crops, class_name: Crop, foreign_key: 'requester_id'
   has_many :likes, dependent: :destroy
+  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followed, through: :follows
+  has_many :followers, through: :inverse_follows, source: :follower
 
-  default_scope { order("lower(login_name) asc") }
-
+  #
+  # Scopes
   scope :confirmed, -> { where.not(confirmed_at: nil) }
   scope :located, -> { where.not(location: '').where.not(latitude: nil).where.not(longitude: nil) }
   scope :recently_signed_in, -> { reorder(updated_at: :desc) }
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
   scope :wants_newsletter, -> { where(newsletter: true) }
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
-
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
-
-  has_many :follows, class_name: "Follow", foreign_key: "follower_id"
-  has_many :followed, through: :follows
-
-  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id"
-  has_many :followers, through: :inverse_follows, source: :follower
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -57,44 +49,41 @@ class Member < ActiveRecord::Base
 
   # set up geocoding
   geocoded_by :location
-  after_validation :geocode
-  after_validation :empty_unwanted_geocodes
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
+  #
+  # Validations
   # Requires acceptance of the Terms of Service
-  validates :tos_agreement, acceptance: { allow_nil: true,
-                                          accept: true }
-
+  validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
     length: {
-      minimum: 2,
-      maximum: 25,
-      message: "should be between 2 and 25 characters long"
+      minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
     },
     exclusion: {
-      in: %w(growstuff admin moderator staff nearby),
-      message: "name is reserved"
+      in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
     },
     format: {
-      with: /\A\w+\z/,
-      message: "may only include letters, numbers, or underscores"
+      with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
     },
     uniqueness: {
       case_sensitive: false
     }
 
-  # Give each new member a default garden
-  after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
+  #
+  # Triggers
+  after_validation :geocode
+  after_validation :empty_unwanted_geocodes
+  after_save :update_newsletter_subscription
 
+  # Give each new member a default garden
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryBot associations
+  after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
   after_create { |member| Account.find_or_create_by(member_id: member.id) }
-
-  after_save :update_newsletter_subscription
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
