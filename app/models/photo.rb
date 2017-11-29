@@ -1,9 +1,11 @@
 class Photo < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member'
 
+  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed).freeze
+
   has_many :photographings, foreign_key: :photo_id, dependent: :destroy
   # creates a relationship for each assignee type
-  %w(Garden Planting Harvest Seed).each do |type|
+  PHOTO_CAPABLE.each do |type|
     has_many type.downcase.pluralize.to_s.to_sym,
       through: :photographings,
       source: :photographable,

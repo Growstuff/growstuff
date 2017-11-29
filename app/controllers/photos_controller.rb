@@ -36,7 +36,7 @@ class PhotosController < ApplicationController
       @photo = find_or_create_photo_from_flickr_photo
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
-      collection << @item unless collection.include?(@item)
+      @item.photos << @photo
       @photo.save! if @photo.present?
     end
     respond_with @photo
@@ -74,21 +74,12 @@ class PhotosController < ApplicationController
   end
 
   # Item with photos attached
-  #
   def item_to_link_to
     raise "No item id provided" if item_id.nil?
     raise "No item type provided" if item_type.nil?
-    raise "Missing or invalid type provided" unless photos_supported_on_type?(item_type)
-    item_class = Growstuff::Constants::PhotoModels.get_item(item_type)
-    item_class.find_by!(id: params[:id], owner_id: current_member.id)
-  end
-
-  def collection
-    Growstuff::Constants::PhotoModels.get_relation(@photo, item_type)
-  end
-
-  def photos_supported_on_type?(_type)
-    Growstuff::Constants::PhotoModels.types.include?(item_type)
+    item_class = item_type.capitalize
+    raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+    item_class.constantize.find_by!(id: params[:id], owner_id: current_member.id)
   end
 
   #
