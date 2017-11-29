@@ -36,7 +36,7 @@ class PhotosController < ApplicationController
       @photo = find_or_create_photo_from_flickr_photo
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
-      @item.photos << @photo
+      @item.photos << @photo unless @item.photos.include? @photo
       @photo.save! if @photo.present?
     end
     respond_with @photo
