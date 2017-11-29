@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171105011017) do
+ActiveRecord::Schema.define(version: 20171129041341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -382,6 +382,17 @@ ActiveRecord::Schema.define(version: 20171105011017) do
     t.integer "order_id"
     t.integer "product_id"
   end
+
+  create_table "photographings", force: :cascade do |t|
+    t.integer  "photo_id"
+    t.integer  "photographable_id"
+    t.string   "photographable_type"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "photographings", ["photographable_id", "photographable_type", "photo_id"], name: "polymorphic_many_to_many_idx", using: :btree
+  add_index "photographings", ["photographable_id", "photographable_type"], name: "polymorphic_photographable_idx", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.integer  "owner_id",        null: false
