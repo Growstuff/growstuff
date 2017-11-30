@@ -269,78 +269,55 @@ describe Crop do
   end
 
   context 'interesting' do
-    it 'lists interesting crops' do
-      # first, a couple of candidate crops
-      @crop1 = FactoryBot.create(:crop)
-      @crop2 = FactoryBot.create(:crop)
+    let(:photo) { FactoryBot.create :photo }
+    # first, a couple of candidate crops
+    let(:crop1) { FactoryBot.create(:crop) }
+    let(:crop2) { FactoryBot.create(:crop) }
 
-      # they need 3+ plantings each to be interesting
-      (1..3).each do
-        FactoryBot.create(:planting, crop: @crop1)
-      end
-      (1..3).each do
-        FactoryBot.create(:planting, crop: @crop2)
-      end
+    let(:crop1_planting) { crop1.plantings.first }
+    let(:crop2_planting) { crop2.plantings.first }
 
-      # crops need 3+ photos to be interesting
-      @photo = FactoryBot.create(:photo)
-      [@crop1, @crop2].each do |c|
-        (1..3).each do
-          c.plantings.first.photos << @photo
-          c.plantings.first.save
-        end
+    subject { Crop.interesting }
+
+    describe 'lists interesting crops' do
+      before do
+        # they need 3+ plantings each to be interesting
+        FactoryBot.create_list(:planting, 3, crop: crop1)
+        FactoryBot.create_list(:planting, 3, crop: crop2)
+        # crops need 3+ photos to be interesting
+        crop1_planting.photos = FactoryBot.create_list :photo, 3
+        crop2_planting.photos = FactoryBot.create_list :photo, 3
       end
 
-      Crop.interesting.should include @crop1
-      Crop.interesting.should include @crop2
-      Crop.interesting.size.should == 2
+      it { is_expected.to include crop1 }
+      it { is_expected.to include crop2 }
+      it { expect(subject.size).to eq 2 }
     end
 
-    it 'ignores crops without plantings' do
-      # first, a couple of candidate crops
-      @crop1 = FactoryBot.create(:crop)
-      @crop2 = FactoryBot.create(:crop)
-
-      # only crop1 has plantings
-      (1..3).each do
-        FactoryBot.create(:planting, crop: @crop1)
+    describe 'crops without plantings are not interesting' do
+      before do
+        # only crop1 has plantings
+        FactoryBot.create_list(:planting, 3, crop: crop1)
+        # ... and photos
+        crop1_planting.photos = FactoryBot.create_list(:photo, 3)
       end
-
-      # ... and photos
-      @photo = FactoryBot.create(:photo)
-      (1..3).each do
-        @crop1.plantings.first.photos << @photo
-        @crop1.plantings.first.save
-      end
-
-      Crop.interesting.should include @crop1
-      Crop.interesting.should_not include @crop2
-      Crop.interesting.size.should == 1
+      it { is_expected.to include crop1 }
+      it { is_expected.not_to include crop2 }
+      it { expect(subject.size).to eq 1 }
     end
 
-    it 'ignores crops without photos' do
-      # first, a couple of candidate crops
-      @crop1 = FactoryBot.create(:crop)
-      @crop2 = FactoryBot.create(:crop)
+    describe 'crops without photos are not interesting' do
+      before do
+        # both crops have plantings
+        FactoryBot.create_list(:planting, 3, crop: crop1)
+        FactoryBot.create_list(:planting, 3, crop: crop2)
 
-      # both crops have plantings
-      (1..3).each do
-        FactoryBot.create(:planting, crop: @crop1)
+        # but only crop1 has photos
+        crop1_planting.photos = FactoryBot.create_list(:photo, 3)
       end
-      (1..3).each do
-        FactoryBot.create(:planting, crop: @crop2)
-      end
-
-      # but only crop1 has photos
-      @photo = FactoryBot.create(:photo)
-      (1..3).each do
-        @crop1.plantings.first.photos << @photo
-        @crop1.plantings.first.save
-      end
-
-      Crop.interesting.should include @crop1
-      Crop.interesting.should_not include @crop2
-      Crop.interesting.size.should == 1
+      it { is_expected.to include crop1 }
+      it { is_expected.not_to include crop2 }
+      it { expect(subject.size).to eq 1 }
     end
   end
 
@@ -349,34 +326,20 @@ describe Crop do
   let(:pp2) { FactoryBot.create(:plant_part) }
 
   context "harvests" do
-    let(:h1) do
-      FactoryBot.create(:harvest,
-        crop: maize,
-        plant_part: pp1)
-    end
-
-    let(:h2) do
-      FactoryBot.create(:harvest,
-        crop: maize,
-        plant_part: pp2)
-    end
-
+    let(:h1) { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
+    let(:h2) { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
+    let!(:crop) { FactoryBot.create(:crop) }
+    let!(:harvest) { FactoryBot.create(:harvest, crop: crop) }
     it "has harvests" do
-      crop = FactoryBot.create(:crop)
-      harvest = FactoryBot.create(:harvest, crop: crop)
-      crop.harvests.should eq [harvest]
+      expect(crop.harvests).to eq [harvest]
     end
   end
 
   it "doesn't duplicate plant_parts" do
     @maize = FactoryBot.create(:maize)
     @pp1 = FactoryBot.create(:plant_part)
-    @h1 = FactoryBot.create(:harvest,
-      crop: @maize,
-      plant_part: @pp1)
-    @h2 = FactoryBot.create(:harvest,
-      crop: @maize,
-      plant_part: @pp1)
+    @h1 = FactoryBot.create(:harvest, crop: @maize, plant_part: @pp1)
+    @h2 = FactoryBot.create(:harvest, crop: @maize, plant_part: @pp1)
     @maize.plant_parts.should eq [@pp1]
   end
 
