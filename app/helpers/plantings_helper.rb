@@ -10,11 +10,11 @@ module PlantingsHelper
   end
 
   def display_planted_from(planting)
-    !planting.planted_from.blank? ? planting.planted_from : "not specified"
+    planting.planted_from.present? ? planting.planted_from : "not specified"
   end
 
   def display_planting_quantity(planting)
-    !planting.quantity.blank? ? planting.quantity : "not specified"
+    planting.quantity.present? ? planting.quantity : "not specified"
   end
 
   def display_planting(planting)

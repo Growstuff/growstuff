@@ -7,12 +7,14 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
+  TargetRailsVersion: 4.0
 
 Rails:
   Enabled: true
 
 Style/FileName:
   Exclude:
+    - 'Guardfile'
     - 'Gemfile'
     - 'Gemfile.lock'
 

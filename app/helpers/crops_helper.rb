@@ -8,7 +8,7 @@ module CropsHelper
       total_quantity += seed.quantity if seed.quantity
     end
 
-    if !seeds.any?
+    if seeds.none?
       return "You don't have any seeds of this crop."
     end
 
