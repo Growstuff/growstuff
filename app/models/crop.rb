@@ -24,8 +24,7 @@ class Crop < ActiveRecord::Base
 
   ##
   ## Scopes
-  default_scope { order("lower(crops.name) asc") }
-  scope :recent, -> { approved.reorder("created_at desc") }
+  scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
   scope :popular, -> { approved.reorder("plantings_count desc, lower(name) asc") }
   # ok on sqlite and psql, but not on mysql

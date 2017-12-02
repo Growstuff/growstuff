@@ -155,12 +155,6 @@ describe Planting do
     planting.location.should eq "#{garden_owner.login_name}'s #{garden.name}"
   end
 
-  it "sorts plantings in descending order of creation" do
-    @planting1 = FactoryBot.create(:planting)
-    @planting2 = FactoryBot.create(:planting)
-    Planting.first.should eq @planting2
-  end
-
   it "should have a slug" do
     planting.slug.should match(/^member\d+-springfield-community-garden-tomato$/)
   end
@@ -321,12 +315,14 @@ describe Planting do
         p.save
       end
 
-      Planting.interesting.should eq [
+      [
         @planting4,
         @planting3,
         @planting2,
         @planting1
-      ]
+      ].each do |p|
+        Planting.interesting.should include p
+      end
     end
 
     context "default arguments" do

@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
   responders :flash
 
   def index
-    @products = Product.all
+    @products = Product.all.order(:name)
     respond_with @products
   end
 

@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actionmailer (4.2.10)
       actionpack (= 4.2.10)
@@ -84,7 +85,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.10.0)
     byebug (9.1.0)
-    cancancan (2.1.1)
+    cancancan (2.1.2)
     capybara (2.16.1)
       addressable
       mini_mime (>= 0.1.3)
@@ -180,6 +181,8 @@ GEM
     factory_bot_rails (4.8.2)
       factory_bot (~> 4.8.2)
       railties (>= 3.0.0)
+    faker (1.8.4)
+      i18n (~> 0.5)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
@@ -191,7 +194,7 @@ GEM
     formatador (0.2.5)
     friendly_id (5.2.3)
       activerecord (>= 4.0.0)
-    geocoder (1.4.4)
+    geocoder (1.4.5)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
@@ -241,7 +244,7 @@ GEM
       excon
       moneta
       multi_json (>= 1.9.2)
-    highline (1.7.8)
+    highline (1.7.10)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -273,7 +276,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    js-routes (1.4.1)
+    js-routes (1.4.2)
       railties (>= 3.2)
       sprockets-rails
     json (2.1.0)
@@ -295,12 +298,11 @@ GEM
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
     kgio (2.11.0)
-    kramdown (1.15.0)
+    kramdown (1.16.2)
     launchy (2.4.3)
       addressable (~> 2.3)
-    leaflet-markercluster-rails (0.7.0)
-      railties (>= 3.1)
-    leaflet-rails (0.7.7)
+    leaflet-rails (1.2.0)
+      rails (>= 4.2.0)
     letter_opener (1.4.1)
       launchy (~> 2.2)
     listen (3.1.5)
@@ -400,6 +402,9 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.10)
       sprockets-rails
+    rails-assets-leaflet (1.2.0)
+    rails-assets-leaflet.markercluster (1.2.0)
+      rails-assets-leaflet (>= 1.0.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.8)
@@ -479,7 +484,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.7.0)
+    selenium-webdriver (3.8.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
     sexp_processor (4.10.0)
@@ -494,8 +499,8 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sparkpost_rails (1.4.0)
-      rails (>= 4.0, < 5.1)
+    sparkpost_rails (1.5.0)
+      rails (>= 4.0, < 5.2)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -514,7 +519,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.8)
     timecop (0.9.1)
-    tins (1.15.1)
+    tins (1.16.0)
     trollop (1.16.2)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
@@ -575,6 +580,7 @@ DEPENDENCIES
   elasticsearch-model
   elasticsearch-rails
   factory_bot_rails
+  faker
   figaro
   flickraw
   font-awesome-sass
@@ -596,8 +602,7 @@ DEPENDENCIES
   js-routes
   jsonapi-resources
   kaminari
-  leaflet-markercluster-rails
-  leaflet-rails (~> 0.7.7)
+  leaflet-rails
   letter_opener
   memcachier
   newrelic_rpm
@@ -611,6 +616,7 @@ DEPENDENCIES
   pry
   quiet_assets
   rails (~> 4.2.8)
+  rails-assets-leaflet.markercluster!
   rails_12factor
   rainbow (< 2.2.0)
   rake (>= 10.0.0)
@@ -635,4 +641,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

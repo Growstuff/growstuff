@@ -4,7 +4,7 @@ class PlantPartsController < ApplicationController
   responders :flash
 
   def index
-    @plant_parts = PlantPart.all
+    @plant_parts = PlantPart.all.order(:name)
     respond_with(@plant_parts)
   end
 

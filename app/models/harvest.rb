@@ -39,7 +39,7 @@ class Harvest < ActiveRecord::Base
 
   ##
   ## Scopes
-  default_scope { joins(:owner) }
+  default_scope { joins(:owner) } # Ensures owner exists
 
   ##
   ## Validations
@@ -124,8 +124,10 @@ class Harvest < ActiveRecord::Base
   end
 
   def default_photo
-    photos.first || crop.default_photo
+    photos.order(created_at: :desc).first || crop.default_photo
   end
+
+  private
 
   def crop_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
