@@ -135,11 +135,6 @@ Style/MutableConstant:
     - 'app/models/planting.rb'
 
 # Cop supports --auto-correct.
-Style/NilComparison:
-  Exclude:
-    - 'lib/tasks/growstuff.rake'
-
-# Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, EnforcedStyle, SupportedStyles.
 # SupportedStyles: predicate, comparison
 Style/NumericPredicate:

@@ -62,7 +62,7 @@ namespace :growstuff do
   # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
   task depopulate_null_island: :environment do
     Member.find_each do |m|
-      if m.location and (m.latitude == nil and m.longitude == nil)
+      if m.location and (m.latitude.nil? and m.longitude.nil?)
         m.geocode
         m.save
       end
