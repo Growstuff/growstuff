@@ -93,11 +93,6 @@ Style/ClassAndModuleChildren:
     - 'lib/actions/oauth_signup_action.rb'
     - 'lib/haml/filters/escaped_markdown.rb'
 
-# Cop supports --auto-correct.
-Style/EachForSimpleLoop:
-  Exclude:
-    - 'spec/models/crop_spec.rb'
-
 Style/IdenticalConditionalBranches:
   Exclude:
     - 'app/controllers/follows_controller.rb'
