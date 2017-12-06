@@ -150,13 +150,6 @@ Style/ParallelAssignment:
     - 'app/mailers/notifier.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - 'app/helpers/auto_suggest_helper.rb'
-    - 'spec/features/signin_spec.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
 # SupportedStyles: slashes, percent_r, mixed
 Style/RegexpLiteral:
