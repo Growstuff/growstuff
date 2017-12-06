@@ -104,15 +104,6 @@ Style/EachForSimpleLoop:
   Exclude:
     - 'spec/models/crop_spec.rb'
 
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: format, sprintf, percent
-Style/FormatString:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'spec/helpers/application_helper_spec.rb'
-    - 'spec/views/shop/index_spec.rb'
-
 Style/IdenticalConditionalBranches:
   Exclude:
     - 'app/controllers/follows_controller.rb'

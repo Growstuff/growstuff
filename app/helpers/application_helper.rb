@@ -1,11 +1,11 @@
 module ApplicationHelper
   def price_in_dollars(price)
-    sprintf('%.2f', price / 100.0)
+    format('%.2f', price / 100.0)
   end
 
   # 999 cents becomes 9.99 AUD -- for products/orders/etc
   def price_with_currency(price)
-    sprintf('%.2f %s', price / 100.0, Growstuff::Application.config.currency)
+    format('%.2f %s', price / 100.0, Growstuff::Application.config.currency)
   end
 
   def parse_date(str)
