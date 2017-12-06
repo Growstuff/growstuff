@@ -161,13 +161,6 @@ Style/RegexpLiteral:
     - 'spec/views/posts/index.html.haml_spec.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: IgnoredMethods.
-# IgnoredMethods: respond_to, define_method
-Style/SymbolProc:
-  Exclude:
-    - 'lib/tasks/growstuff.rake'
-
-# Cop supports --auto-correct.
 # Configuration parameters: SupportedStyles, WordRegex.
 # SupportedStyles: percent, brackets
 Style/WordArray:
