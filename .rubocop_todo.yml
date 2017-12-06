@@ -94,12 +94,6 @@ Style/ClassAndModuleChildren:
     - 'lib/haml/filters/escaped_markdown.rb'
 
 # Cop supports --auto-correct.
-Style/ColonMethodCall:
-  Exclude:
-    - 'spec/lib/haml/filters/escaped_markdown_spec.rb'
-    - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
-
-# Cop supports --auto-correct.
 Style/EachForSimpleLoop:
   Exclude:
     - 'spec/models/crop_spec.rb'
