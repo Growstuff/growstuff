@@ -8,7 +8,7 @@ module FeatureHelpers
 
   def select_from_autocomplete(select)
     page.should have_selector('ul.ui-autocomplete li.ui-menu-item a')
-    selector = %Q{ul.ui-autocomplete li.ui-menu-item a:contains("#{select}")}
+    selector = %{ul.ui-autocomplete li.ui-menu-item a:contains("#{select}")}
     page.execute_script " $('#{selector}').mouseenter().click() "
   end
 end

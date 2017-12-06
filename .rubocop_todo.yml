@@ -61,14 +61,6 @@ Style/AsciiComments:
   Exclude:
     - 'config/initializers/comfortable_mexican_sofa.rb'
 
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: percent_q, bare_percent
-Style/BarePercentLiterals:
-  Exclude:
-    - 'app/helpers/auto_suggest_helper.rb'
-    - 'spec/support/feature_helpers.rb'
-
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: nested, compact
 Style/ClassAndModuleChildren:
