@@ -355,7 +355,8 @@ describe 'member' do
   context "update account" do
     let(:product) {
       FactoryBot.create(:product,
-        paid_months: 3)}
+        paid_months: 3)
+    }
     let(:member) { FactoryBot.create(:member) }
 
     it "sets account_type" do
