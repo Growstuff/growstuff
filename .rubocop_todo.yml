@@ -109,14 +109,6 @@ Style/IdenticalConditionalBranches:
     - 'app/controllers/follows_controller.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: MaxLineLength.
-Style/IfUnlessModifier:
-  Exclude:
-    - 'app/helpers/crops_helper.rb'
-    - 'config/initializers/geocoder.rb'
-    - 'lib/tasks/growstuff.rake'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: line_count_dependent, lambda, literal
 Style/Lambda:

@@ -140,9 +140,7 @@ namespace :growstuff do
 
       puts "Giving each member an account record..."
       Member.all.each do |m|
-        unless m.account
-          Account.create(member_id: m.id)
-        end
+        Account.create(member_id: m.id) unless m.account
       end
 
       puts "Making Skud a staff account..."
