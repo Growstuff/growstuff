@@ -19,11 +19,6 @@ Lint/UnusedMethodArgument:
     - 'app/controllers/registrations_controller.rb'
     - 'app/validators/approved_validator.rb'
 
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'spec/rails_helper.rb'
-
 Rails/FilePath:
   Exclude:
     - 'spec/rails_helper.rb'
