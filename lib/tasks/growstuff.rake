@@ -224,12 +224,11 @@ namespace :growstuff do
     task initialize_garden_locations: :environment do
       Member.located.find_each do |m|
         m.gardens.each do |g|
-          if g.location.blank?
-            g.location = m.location
-            g.latitude = m.latitude
-            g.longitude = m.longitude
-            g.save
-          end
+          next if g.location.present?
+          g.location = m.location
+          g.latitude = m.latitude
+          g.longitude = m.longitude
+          g.save
         end
       end
     end

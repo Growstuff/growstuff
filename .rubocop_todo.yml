@@ -135,13 +135,6 @@ Style/MutableConstant:
     - 'app/models/planting.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, MinBodyLength, SupportedStyles.
-# SupportedStyles: skip_modifier_ifs, always
-Style/Next:
-  Exclude:
-    - 'lib/tasks/growstuff.rake'
-
-# Cop supports --auto-correct.
 Style/NilComparison:
   Exclude:
     - 'lib/tasks/growstuff.rake'
