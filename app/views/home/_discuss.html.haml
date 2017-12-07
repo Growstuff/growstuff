@@ -5,7 +5,7 @@
   = render partial: "posts/summary", locals: { posts: posts, howmany: 6 }
 
 - cache cache_key_for(Forum) do
-  - forums = Forum.all
+  - forums = Forum.all.order(:name)
   - if forums
     %ul.list-inline
       %li
