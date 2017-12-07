@@ -2,7 +2,7 @@
   %h2= t('.title')
   .row
     .col-md-8
-      - Seed.includes(:owner, crop: :photos).interesting.first(6).each do |seed|
+      - Seed.includes(:owner, crop: :photos).order(created_at: :desc).interesting.first(6).each do |seed|
         .col-md-3
           .thumbnail
             - cache cache_key_for(Crop, seed.id) do
