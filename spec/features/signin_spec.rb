@@ -48,7 +48,7 @@ feature "signin", js: true do
   end
 
   describe "redirects to what you were trying to do" do
-    %w[plantings harvests posts photos gardens seeds].each do |m|
+    %w(plantings harvests posts photos gardens seeds).each do |m|
       it_behaves_like "redirects to what you were trying to do" do
         let(:model_name) { m }
       end

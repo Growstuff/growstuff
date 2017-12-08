@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '2.4.1'
@@ -46,8 +47,8 @@ gem 'comfortable_mexican_sofa'     # content management system
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari'                     # pagination
 
-gem 'activemerchant'
 gem 'active_utils'
+gem 'activemerchant'
 gem 'sidekiq'
 
 # Markdown formatting for updates etc
@@ -144,7 +145,7 @@ group :development, :test do
   gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
-  gem 'rubocop', '<= 0.47.1', require: false # Pin to rubocop (0.47.1) as 0.48.0 is buggy
+  gem 'rubocop'
   gem 'selenium-webdriver'
   gem 'webrat' # provides HTML matchers for view tests
 end

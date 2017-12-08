@@ -1,9 +1,9 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_action :authenticate_member!, except: [:index, :hierarchy, :search, :show]
+  before_action :authenticate_member!, except: %i(index hierarchy search show)
   load_and_authorize_resource
-  skip_authorize_resource only: [:hierarchy, :search]
+  skip_authorize_resource only: %i(hierarchy search)
   respond_to :html, :json, :rss, :csv
   responders :flash
 
@@ -134,7 +134,7 @@ class CropsController < ApplicationController
   end
 
   def recreate_names(param_name, name_type)
-    return unless params[param_name].present?
+    return if params[param_name].blank?
     destroy_names(name_type)
     params[param_name].each do |_i, value|
       create_name!(name_type, value) unless value.empty?
@@ -159,9 +159,9 @@ class CropsController < ApplicationController
       :request_notes,
       :reason_for_rejection,
       :rejection_notes,
-      scientific_names_attributes: [:scientific_name,
-                                    :_destroy,
-                                    :id])
+      scientific_names_attributes: %i(scientific_name
+                                      _destroy
+                                      id))
   end
 
   def filename
@@ -173,7 +173,7 @@ class CropsController < ApplicationController
       include: {
         plantings: {
           include: {
-            owner: { only: [:id, :login_name, :location, :latitude, :longitude] }
+            owner: { only: %i(id login_name location latitude longitude) }
           }
         },
         scientific_names: { only: [:name] },

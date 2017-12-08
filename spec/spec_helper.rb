@@ -28,7 +28,7 @@ RSpec.configure do |config|
     #   # => "be bigger than 2 and smaller than 4"
     # ...rather than:
     #   # => "be bigger than 2"
-    expectations.syntax = [:should, :expect]
+    expectations.syntax = %i(should expect)
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
@@ -39,7 +39,7 @@ RSpec.configure do |config|
     # a real object. This is generally recommended, and will default to
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = false
-    mocks.syntax = [:should, :expect]
+    mocks.syntax = %i(should expect)
   end
 
   # The settings below are suggested to provide a good initial experience
