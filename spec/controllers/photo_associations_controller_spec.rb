@@ -33,7 +33,7 @@ describe PhotoAssociationsController do
           rescue
             nil
           end
-        end.not_to change { photo.harvests.count }
+        end.not_to change(photo.harvests, :count)
       end
       it { expect { delete :destroy, valid_params }.to raise_error(ActiveRecord::RecordNotFound) }
     end

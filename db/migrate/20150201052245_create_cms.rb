@@ -33,8 +33,8 @@ class CreateCms < ActiveRecord::Migration
       t.boolean :is_shared,   null: false, default: false
       t.timestamps null: true
     end
-    add_index :comfy_cms_layouts, [:parent_id, :position]
-    add_index :comfy_cms_layouts, [:site_id, :identifier], unique: true
+    add_index :comfy_cms_layouts, %i(parent_id position)
+    add_index :comfy_cms_layouts, %i(site_id identifier), unique: true
 
     # -- Pages --------------------------------------------------------------
     create_table :comfy_cms_pages do |t|
@@ -52,8 +52,8 @@ class CreateCms < ActiveRecord::Migration
       t.boolean :is_shared,       null: false, default: false
       t.timestamps null: true
     end
-    add_index :comfy_cms_pages, [:site_id, :full_path]
-    add_index :comfy_cms_pages, [:parent_id, :position]
+    add_index :comfy_cms_pages, %i(site_id full_path)
+    add_index :comfy_cms_pages, %i(parent_id position)
 
     # -- Page Blocks --------------------------------------------------------
     create_table :comfy_cms_blocks do |t|
@@ -63,7 +63,7 @@ class CreateCms < ActiveRecord::Migration
       t.timestamps null: true
     end
     add_index :comfy_cms_blocks, [:identifier]
-    add_index :comfy_cms_blocks, [:blockable_id, :blockable_type]
+    add_index :comfy_cms_blocks, %i(blockable_id blockable_type)
 
     # -- Snippets -----------------------------------------------------------
     create_table :comfy_cms_snippets do |t|
@@ -75,8 +75,8 @@ class CreateCms < ActiveRecord::Migration
       t.boolean :is_shared,   null: false, default: false
       t.timestamps null: true
     end
-    add_index :comfy_cms_snippets, [:site_id, :identifier], unique: true
-    add_index :comfy_cms_snippets, [:site_id, :position]
+    add_index :comfy_cms_snippets, %i(site_id identifier), unique: true
+    add_index :comfy_cms_snippets, %i(site_id position)
 
     # -- Files --------------------------------------------------------------
     create_table :comfy_cms_files do |t|
@@ -90,10 +90,10 @@ class CreateCms < ActiveRecord::Migration
       t.integer :position,          null: false, default: 0
       t.timestamps null: true
     end
-    add_index :comfy_cms_files, [:site_id, :label]
-    add_index :comfy_cms_files, [:site_id, :file_file_name]
-    add_index :comfy_cms_files, [:site_id, :position]
-    add_index :comfy_cms_files, [:site_id, :block_id]
+    add_index :comfy_cms_files, %i(site_id label)
+    add_index :comfy_cms_files, %i(site_id file_file_name)
+    add_index :comfy_cms_files, %i(site_id position)
+    add_index :comfy_cms_files, %i(site_id block_id)
 
     # -- Revisions -----------------------------------------------------------
     create_table :comfy_cms_revisions, force: true do |t|
@@ -102,7 +102,7 @@ class CreateCms < ActiveRecord::Migration
       t.text      :data,        text_limit
       t.datetime  :created_at
     end
-    add_index :comfy_cms_revisions, [:record_type, :record_id, :created_at],
+    add_index :comfy_cms_revisions, %i(record_type record_id created_at),
       name: 'index_cms_revisions_on_rtype_and_rid_and_created_at'
 
     # -- Categories ---------------------------------------------------------
@@ -111,7 +111,7 @@ class CreateCms < ActiveRecord::Migration
       t.string  :label,            null: false
       t.string  :categorized_type, null: false
     end
-    add_index :comfy_cms_categories, [:site_id, :categorized_type, :label],
+    add_index :comfy_cms_categories, %i(site_id categorized_type label),
       unique: true,
       name: 'index_cms_categories_on_site_id_and_cat_type_and_label'
 
@@ -120,7 +120,7 @@ class CreateCms < ActiveRecord::Migration
       t.string  :categorized_type,  null: false
       t.integer :categorized_id,    null: false
     end
-    add_index :comfy_cms_categorizations, [:category_id, :categorized_type, :categorized_id],
+    add_index :comfy_cms_categorizations, %i(category_id categorized_type categorized_id),
       unique: true,
       name: 'index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id'
   end

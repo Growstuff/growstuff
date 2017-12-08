@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
-  load_and_authorize_resource except: [:finish_signup, :unsubscribe, :view_follows, :view_followers, :show]
-  skip_authorize_resource only: [:nearby, :unsubscribe, :finish_signup]
+  load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
+  skip_authorize_resource only: %i(nearby unsubscribe finish_signup)
   respond_to :html, :json, :rss
   after_action :expire_homepage, only: :create
 
@@ -62,7 +62,6 @@ class MembersController < ApplicationController
     @member.update(@type => false)
 
     flash.now[:notice] = I18n.t('members.unsubscribed', email_type: EMAIL_TYPE_STRING[@type])
-
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     flash.now[:alert] = I18n.t('members.unsubscribe.error')
   end
@@ -88,11 +87,11 @@ class MembersController < ApplicationController
   end
 
   def member_json_fields
-    [
-      :id, :login_name,
-      :slug, :bio, :created_at,
-      :location, :latitude, :longitude
-    ]
+    %i(
+      id login_name
+      slug bio created_at
+      location latitude longitude
+    )
   end
 
   def members
