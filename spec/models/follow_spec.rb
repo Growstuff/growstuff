@@ -7,16 +7,16 @@ describe Follow do
   end
 
   it "sends a notification when a follow is created" do
-    expect {
+    expect do
       Follow.create(follower_id: @member1.id, followed_id: @member2.id)
-    }.to change(Notification, :count).by(1)
+    end.to change(Notification, :count).by(1)
   end
 
   it "does not delete any members when follow is deleted" do
-    expect {
+    expect do
       follow = Follow.create(follower_id: @member1.id, followed_id: @member2.id)
       follow.destroy
-    }.not_to change(Member, :count)
+    end.not_to change(Member, :count)
   end
 
   context "when follow is created" do

@@ -275,17 +275,17 @@ describe Crop do
       @crop2 = FactoryBot.create(:crop)
 
       # they need 3+ plantings each to be interesting
-      (1..3).each do
+      3.times do
         FactoryBot.create(:planting, crop: @crop1)
       end
-      (1..3).each do
+      3.times do
         FactoryBot.create(:planting, crop: @crop2)
       end
 
       # crops need 3+ photos to be interesting
       @photo = FactoryBot.create(:photo)
       [@crop1, @crop2].each do |c|
-        (1..3).each do
+        3.times do
           c.plantings.first.photos << @photo
           c.plantings.first.save
         end
@@ -302,13 +302,13 @@ describe Crop do
       @crop2 = FactoryBot.create(:crop)
 
       # only crop1 has plantings
-      (1..3).each do
+      3.times do
         FactoryBot.create(:planting, crop: @crop1)
       end
 
       # ... and photos
       @photo = FactoryBot.create(:photo)
-      (1..3).each do
+      3.times do
         @crop1.plantings.first.photos << @photo
         @crop1.plantings.first.save
       end
@@ -324,16 +324,16 @@ describe Crop do
       @crop2 = FactoryBot.create(:crop)
 
       # both crops have plantings
-      (1..3).each do
+      3.times do
         FactoryBot.create(:planting, crop: @crop1)
       end
-      (1..3).each do
+      3.times do
         FactoryBot.create(:planting, crop: @crop2)
       end
 
       # but only crop1 has photos
       @photo = FactoryBot.create(:photo)
-      (1..3).each do
+      3.times do
         @crop1.plantings.first.photos << @photo
         @crop1.plantings.first.save
       end

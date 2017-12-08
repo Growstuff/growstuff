@@ -4,6 +4,6 @@ class AddGardensPhotosTable < ActiveRecord::Migration
       t.integer :photo_id
       t.integer :garden_id
     end
-    add_index(:gardens_photos, [:garden_id, :photo_id])
+    add_index(:gardens_photos, %i(garden_id photo_id))
   end
 end

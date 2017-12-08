@@ -18,7 +18,7 @@ when "on"
 when "off"
   maintenance_state = false
 else
-  abort "usage: #{$0} (on|off)"
+  abort "usage: #{$PROGRAM_NAME} (on|off)"
 end
 
 puts "Turning #{maintenance_state} maintenance mode on app #{app}"
