@@ -8,9 +8,7 @@ module CropsHelper
       total_quantity += seed.quantity if seed.quantity
     end
 
-    if !seeds.any?
-      return "You don't have any seeds of this crop."
-    end
+    return "You don't have any seeds of this crop." if seeds.none?
 
     if total_quantity != 0
       "You have #{total_quantity} #{Seed.model_name.human(count: total_quantity)} of this crop."

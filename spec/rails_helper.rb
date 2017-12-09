@@ -37,7 +37,7 @@ if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
 end
 
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
-  "screenshot_#{example.description.gsub(' ', '-').gsub(/^.*\/spec\//, '')}"
+  "screenshot_#{example.description.tr(' ', '-').gsub(/^.*\/spec\//, '')}"
 end
 
 Capybara.app_host = 'http://localhost'

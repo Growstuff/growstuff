@@ -13,7 +13,7 @@
           %small
             %br/
             Recently planted:
-            != member.plantings.first(3).map { |p| link_to p.crop_name, p }.join(", ")
+            != member.plantings.order(created_at: :desc).first(3).map { |p| link_to p.crop_name, p }.join(", ")
       %p
         %small
           Joined
@@ -24,4 +24,3 @@
           = [localize_plural(member.gardens, Garden),
           localize_plural(member.plantings, Planting),
           localize_plural(member.seeds, Seed)].join(", ")
-
