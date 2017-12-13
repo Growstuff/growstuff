@@ -15,7 +15,7 @@
   - unless @harvests.empty?
     - @harvests.each do |harvest|
       .col-md-6
-        = render partial: 'harvests/thumbnail', locals: { harvest: harvest }
+        = render 'harvests/card', harvest: harvest
 
 .pagination
   = page_entries_info @harvests
