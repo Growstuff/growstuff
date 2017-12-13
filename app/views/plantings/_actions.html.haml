@@ -16,7 +16,7 @@
         %span.glyphicon.glyphicon-ok{ title: "Finished" }
         Mark as finished
 
-  - if can?(:create, Harvest)
+  - if can? :edit, planting
     = link_to new_planting_harvest_path(planting), class: 'btn btn-default btn-xs' do
       %span.glyphicon.glyphicon-leaf{ title: "Harvest" }
       Harvest
