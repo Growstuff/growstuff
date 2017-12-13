@@ -1,15 +1,14 @@
 - if planting.crop.perennial
   %p Perennial
 - elsif !planting.planted?
-  - if show_explanation == true
-    Progress: 0% - not planted yet
+  - if show_explanation
+    %p Progress: 0% - not planted yet
   = render "plantings/progress_bar", status: "not planted", progress: 0
 - elsif planting.finished?
   = render "plantings/progress_bar", status: 'finished', progress: 100
 - elsif planting.finish_predicted_at.nil?
   - if show_explanation == true
-    Progress: Not enough data
+    %p Progress: Not enough data
   = render "plantings/progress_bar", status: "unknown", progress: nil
-
 - else
   = render "plantings/progress_bar", status: 'growing', progress: planting.percentage_grown

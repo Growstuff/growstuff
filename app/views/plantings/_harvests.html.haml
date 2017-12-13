@@ -1,8 +1,12 @@
-- unless planting.harvests.empty?
-  Harvests:
-  %ul
-    - planting.harvests.includes(:crop).each do |harvest|
-      %li
-        = harvest.harvested_at ? harvest.harvested_at : "undated"
-        = link_to harvest, harvest_path(harvest)
-  = link_to "more harvests from this planting", planting_harvests_path(planting)
+- if planting.harvests.empty?
+  %p no harvests yet
+- else
+  .row
+    - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
+      .col-xs-6.col-md-2
+        = render 'harvests/thumbnail', harvest: harvest
+    - if can? :edit, planting
+      .col-xs-6.col-md-2
+        = link_to new_planting_harvest_path(planting), class: 'btn btn-primary' do
+          %span.glyphicon.glyphicon-leaf{ title: "Harvest" }
+          Harvest
