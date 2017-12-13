@@ -7,7 +7,7 @@
   "devDependencies": {
     "coffeelint": "^1.16.0",
     "csslint": "^1.0.5",
-    "eslint": "^3.17.1",
+    "eslint": "^4.13.1",
     "jshint": "^2.9.4"
   },
   "repository": {
