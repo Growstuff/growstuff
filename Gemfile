@@ -142,7 +142,7 @@ group :development, :test do
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
-  gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
+  gem 'rainbow', '< 3.1.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
   gem 'rubocop'
