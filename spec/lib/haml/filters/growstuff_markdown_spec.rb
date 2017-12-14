@@ -24,7 +24,7 @@ end
 
 describe 'Haml::Filters::Growstuff_Markdown' do
   it 'is registered as the handler for :growstuff_markdown' do
-    Haml::Filters::defined['growstuff_markdown'].should ==
+    Haml::Filters.defined['growstuff_markdown'].should ==
       Haml::Filters::GrowstuffMarkdown
   end
 

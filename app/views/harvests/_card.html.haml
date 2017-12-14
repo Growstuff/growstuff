@@ -1,0 +1,29 @@
+.panel.panel-success
+  .panel-heading
+    %h3.panel-title
+      = link_to "#{harvest.owner.login_name}'s #{harvest.crop.name} harvest", harvest
+      - if can? :edit, harvest
+        %a.pull-right{ href: edit_harvest_path(harvest), role: "button", id: "edit_harvest_glyphicon" }
+          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
+  .panel-body
+    .row
+      .col-md-4
+        = link_to image_tag((harvest.default_photo ? harvest.default_photo.thumbnail_url : 'placeholder_150.png'),
+                            alt: harvest.crop.name, class: 'img'),
+                  harvest
+      .col-md-8
+        %dl.dl-horizontal
+          %dt Crop :
+          %dd= link_to harvest.crop.name, harvest.crop
+          %dt Plant part :
+          %dd= link_to harvest.plant_part, harvest.plant_part
+          %dt Quantity :
+          %dd= display_quantity(harvest)
+          %dt Harvest date :
+          %dd= harvest.harvested_at
+  .panel-footer
+    %dt Description
+    %dd.truncate
+      = display_harvest_description(harvest)
+    = if harvest.description.present?
+      - link_to "Read more", harvest_path(harvest)

@@ -9,6 +9,7 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+%p= render 'plantings/actions', planting: @planting
 .row.planting
   .col-md-6
     %dl.dl-horizontal.planting-attributes
@@ -45,11 +46,11 @@
         %dd
           - if @planting.finish_predicted_at.present?
             = @planting.finish_predicted_at
-          - else
+          - elsif @planting.planted_at.blank?
             %strong Set planted date to get predictions
-        %dt Finished:
-        %dd= display_finished(@planting)
-
+        - if @planting.finished?
+          %dt Finished:
+          %dd= display_finished(@planting)
         - if @planting.crop.median_lifespan.present?
           %dt Expected Lifespan:
           %dd #{@planting.crop.median_lifespan} days
@@ -63,10 +64,11 @@
           %dt Last Harvest:
           %dd #{@planting.days_to_last_harvest} days after planting
 
-    %p= render 'plantings/harvests', planting: @planting
-    %p= render 'plantings/progress', planting: @planting, show_explanation: true
 
-    = render 'plantings/actions', planting: @planting
+    %h2 Progress
+    %p= render 'plantings/progress', planting: @planting, show_explanation: true
+    %h2 Harvests
+    %p= render 'plantings/harvests', planting: @planting
 
   .col-md-6
     = render partial: "crops/index_card", locals: { crop: @planting.crop }

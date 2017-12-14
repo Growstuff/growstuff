@@ -62,7 +62,7 @@ namespace :growstuff do
   # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
   task depopulate_null_island: :environment do
     Member.find_each do |m|
-      if m.location and (m.latitude == nil and m.longitude == nil)
+      if m.location and (m.latitude.nil? and m.longitude.nil?)
         m.geocode
         m.save
       end
@@ -140,9 +140,7 @@ namespace :growstuff do
 
       puts "Giving each member an account record..."
       Member.all.each do |m|
-        unless m.account
-          Account.create(member_id: m.id)
-        end
+        Account.create(member_id: m.id) unless m.account
       end
 
       puts "Making Skud a staff account..."
@@ -224,12 +222,11 @@ namespace :growstuff do
     task initialize_garden_locations: :environment do
       Member.located.find_each do |m|
         m.gardens.each do |g|
-          if g.location.blank?
-            g.location = m.location
-            g.latitude = m.latitude
-            g.longitude = m.longitude
-            g.save
-          end
+          next if g.location.present?
+          g.location = m.location
+          g.latitude = m.latitude
+          g.longitude = m.longitude
+          g.save
         end
       end
     end
@@ -277,16 +274,12 @@ namespace :growstuff do
 
     desc "October 2014: remove unused photos"
     task remove_unused_photos: :environment do
-      Photo.find_each do |p|
-        p.destroy_if_unused
-      end
+      Photo.find_each(&:destroy_if_unused)
     end
 
     desc "October 2014: generate crops_posts records for existing posts"
     task generate_crops_posts_records: :environment do
-      Post.find_each do |p|
-        p.save
-      end
+      Post.find_each(&:save)
     end
 
     desc "October 2014: add alternate names for crops"

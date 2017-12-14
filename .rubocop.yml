@@ -7,12 +7,14 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
+  TargetRailsVersion: 4.0
 
 Rails:
   Enabled: true
 
 Style/FileName:
   Exclude:
+    - 'Guardfile'
     - 'Gemfile'
     - 'Gemfile.lock'
 
@@ -26,12 +28,12 @@ Style/PercentLiteralDelimiters:
     '%i': ()
     '%w': ()
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
 # Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
 # SupportedStyles: with_first_parameter, with_fixed_indentation
-Style/AlignParameters:
+Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
 Metrics/LineLength:

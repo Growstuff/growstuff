@@ -1,7 +1,7 @@
 class Seed < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
-  friendly_id :seed_slug, use: [:slugged, :finders]
+  friendly_id :seed_slug, use: %i(slugged finders)
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze

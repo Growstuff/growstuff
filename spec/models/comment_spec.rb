@@ -17,9 +17,9 @@ describe Comment do
     let(:comment) { FactoryBot.create(:comment) }
 
     it "sends a notification when a comment is posted" do
-      expect {
+      expect do
         FactoryBot.create(:comment)
-      }.to change(Notification, :count).by(1)
+      end.to change(Notification, :count).by(1)
     end
 
     it "sets the notification fields" do
@@ -35,9 +35,9 @@ describe Comment do
     it "doesn't send notifications to yourself" do
       @m = FactoryBot.create(:member)
       @p = FactoryBot.create(:post, author: @m)
-      expect {
+      expect do
         FactoryBot.create(:comment, post: @p, author: @m)
-      }.to change(Notification, :count).by(0)
+      end.to change(Notification, :count).by(0)
     end
   end
 

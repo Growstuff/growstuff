@@ -34,7 +34,7 @@ class CsvImporter
 
   def add_scientific_names(scientific_names)
     names_to_add = []
-    if !scientific_names.blank? # i.e. we actually passed something in, which isn't a given
+    if scientific_names.present? # i.e. we actually passed something in, which isn't a given
       names_to_add = scientific_names.split(/,\s*/)
     elsif @crop.parent && !@crop.parent.scientific_names.empty? # pick up from parent
       names_to_add = @crop.parent.scientific_names.map(&:name)

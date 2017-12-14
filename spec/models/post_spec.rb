@@ -95,15 +95,15 @@ describe Post do
     let(:member2) { FactoryBot.create(:member) }
 
     it "sends a notification when a member is mentioned using @-syntax" do
-      expect {
+      expect do
         FactoryBot.create(:post, author: member, body: "Hey @#{member2}")
-      }.to change(Notification, :count).by(1)
+      end.to change(Notification, :count).by(1)
     end
 
     it "sends a notification when a member is mentioned using [](member) syntax" do
-      expect {
+      expect do
         FactoryBot.create(:post, author: member, body: "Hey [#{member2}](member)")
-      }.to change(Notification, :count).by(1)
+      end.to change(Notification, :count).by(1)
     end
 
     it "sets the notification field" do
@@ -117,15 +117,15 @@ describe Post do
 
     it "sends notifications to all members mentioned" do
       member3 = FactoryBot.create(:member)
-      expect {
+      expect do
         FactoryBot.create(:post, author: member, body: "Hey @#{member2} & @#{member3}")
-      }.to change(Notification, :count).by(2)
+      end.to change(Notification, :count).by(2)
     end
 
     it "doesn't send notifications if you mention yourself" do
-      expect {
+      expect do
         FactoryBot.create(:post, author: member, body: "@#{member}")
-      }.to change(Notification, :count).by(0)
+      end.to change(Notification, :count).by(0)
     end
   end
 

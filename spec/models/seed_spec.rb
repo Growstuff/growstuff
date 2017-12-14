@@ -112,7 +112,7 @@ describe Seed do
     end
 
     it 'should refuse invalid organic/GMO/heirloom values' do
-      [:organic, :gmo, :heirloom].each do |field|
+      %i(organic gmo heirloom).each do |field|
         @seed = FactoryBot.build(:seed, field => 'not valid')
         @seed.should_not be_valid
         @seed.errors[field].should_not be_empty
@@ -120,7 +120,7 @@ describe Seed do
     end
 
     it 'should not allow nil or blank values' do
-      [:organic, :gmo, :heirloom].each do |field|
+      %i(organic gmo heirloom).each do |field|
         @seed = FactoryBot.build(:seed, field => nil)
         @seed.should_not be_valid
         @seed = FactoryBot.build(:seed, field => '')
