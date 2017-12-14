@@ -6,5 +6,5 @@ haml:
   config_file: .haml-lint.yml
 scss:
   config_file: .scss-lint.yml
-eslint:
-  config_file: .eslintrc
+# eslint:
+#   config_file: .eslintrc

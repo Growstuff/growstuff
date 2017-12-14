@@ -76,7 +76,11 @@
         = link_to "purchase seeds via Ebay",
         crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer"
 .row
-  - @seed.photos.includes(:owner).each do |p|
+  .pagination
+    = page_entries_info @photos
+    = will_paginate @photos
+.row
+  - @photos.each do |p|
     .col-md-2.six-across
       = render 'photos/thumbnail', photo: p
   - if can?(:create, Photo) && can?(:edit, @seed)
