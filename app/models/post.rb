@@ -43,7 +43,7 @@ class Post < ActiveRecord::Base
 
   # return posts sorted by recent activity
   def self.recently_active
-    Post.all.sort do |a, b|
+    Post.order(created_at: :desc).sort do |a, b|
       b.recent_activity <=> a.recent_activity
     end
   end
