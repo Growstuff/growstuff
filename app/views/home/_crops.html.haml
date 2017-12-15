@@ -14,7 +14,7 @@
   .col-md-4.hidden-xs
     - cache cache_key_for(Planting) do
       %h2= t('.recently_planted')
-      = render partial: 'plantings/list', locals: { plantings: Planting.includes(:owner, :photos).interesting.first(6) }
+      = render 'plantings/list', plantings: Planting.includes(:owner, :photos).interesting.recent.first(6)
 
 .row
   .col-md-12
