@@ -1,7 +1,13 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(member) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def initialize(member)
+    anon_abilities(member)
+    member_abilities(member) if member
+    admin_abilities(member) if member.role? :admin
+  end
+
+  def anon_abilities(_member)
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     # everyone can do these things, even non-logged in
@@ -35,7 +41,9 @@ class Ability
     can :read, AlternateName do |an|
       an.crop.approved?
     end
+  end
 
+  def member_abilities(member)
     return unless member
 
     # members can see even rejected or pending crops if they requested it
@@ -126,7 +134,9 @@ class Ability
 
     can :destroy, Follow
     cannot :destroy, Follow, followed_id: member.id # can't unfollow yourself
+  end
 
+  def admin_abilities(member)
     return unless member.role? :admin
 
     can :read, :all
