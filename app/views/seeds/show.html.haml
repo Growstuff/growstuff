@@ -75,10 +75,12 @@
         Or
         = link_to "purchase seeds via Ebay",
         crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer"
-.row
-  .pagination
-    = page_entries_info @photos
-    = will_paginate @photos
+
+- if @photos.size.positive?
+  .row
+    .pagination
+      = page_entries_info @photos
+      = will_paginate @photos
 .row
   - @photos.each do |p|
     .col-md-2.six-across
