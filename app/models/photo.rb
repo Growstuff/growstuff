@@ -1,30 +1,18 @@
-require_relative '../constants/photo_models.rb'
 class Photo < ActiveRecord::Base
   belongs_to :owner, class_name: 'Member'
 
-  Growstuff::Constants::PhotoModels.relations.each do |relation|
-    has_and_belongs_to_many relation.to_sym # rubocop:disable Rails/HasAndBelongsToMany
-  end
+  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed).freeze
 
-  before_destroy { all_associations.clear }
+  has_many :photographings, foreign_key: :photo_id, dependent: :destroy
+  # creates a relationship for each assignee type
+  PHOTO_CAPABLE.each do |type|
+    has_many type.downcase.pluralize.to_s.to_sym,
+      through: :photographings,
+      source: :photographable,
+      source_type: type
+  end
 
   default_scope { joins(:owner) } # Ensures the owner still exists
-
-  def associations?
-    plantings.any? || harvests.any? || gardens.any? || seeds.any?
-  end
-
-  def all_associations
-    associations = []
-    Growstuff::Constants::PhotoModels.relations.each do |association_name|
-      associations << send(association_name.to_s).to_a
-    end
-    associations.flatten!
-  end
-
-  def destroy_if_unused
-    destroy if all_associations.empty?
-  end
 
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.
@@ -41,6 +29,14 @@ class Photo < ActiveRecord::Base
       fullsize_url: FlickRaw.url_z(info),
       link_url: FlickRaw.url_photopage(info)
     }
+  end
+
+  def associations?
+    photographings.size.positive?
+  end
+
+  def destroy_if_unused
+    destroy unless associations?
   end
 
   def calculate_title(info)
