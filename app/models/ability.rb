@@ -3,8 +3,8 @@ class Ability
 
   def initialize(member)
     anon_abilities(member)
-    member_abilities(member) if member
-    admin_abilities(member) if member.role? :admin
+    member_abilities(member) if member.present?
+    admin_abilities(member) if member.present? && member.role?(:admin)
   end
 
   def anon_abilities(_member)
