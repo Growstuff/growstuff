@@ -43,7 +43,7 @@ class Ability
     end
   end
 
-  def member_abilities(member)
+  def member_abilities(member) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     return unless member
 
     # members can see even rejected or pending crops if they requested it
