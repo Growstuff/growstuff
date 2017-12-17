@@ -31,6 +31,7 @@ class PlantingsController < ApplicationController
     @planting = Planting.includes(:owner, :crop, :garden, :photos)
       .friendly
       .find(params[:id])
+    @photos = @planting.photos.order(created_at: :desc).includes(:owner).paginate(page: params[:page])
     respond_with @planting
   end
 
