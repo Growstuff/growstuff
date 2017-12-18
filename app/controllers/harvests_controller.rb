@@ -18,6 +18,7 @@ class HarvestsController < ApplicationController
 
   def show
     @matching_plantings = matching_plantings if @harvest.owner == current_member
+    @photos = @harvest.photos.order(created_at: :desc).paginate(page: params[:page])
     respond_with(@harvest)
   end
 

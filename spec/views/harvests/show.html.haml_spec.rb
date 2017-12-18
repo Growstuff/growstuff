@@ -6,6 +6,7 @@ describe "harvests/show" do
   before do
     controller.stub(:current_user) { nil }
     assign(:harvest, harvest)
+    assign(:photos, harvest.photos.paginate(page: 1))
     render
   end
 

@@ -1,0 +1,16 @@
+- if photos.size.positive? || (can?(:edit, item) && can?(:create, Photo))
+  %h2 Photos
+  - if photos.size.positive?
+    .row
+      .pagination
+        = page_entries_info photos
+        = will_paginate photos
+  .row
+    - photos.each do |photo|
+      .col-md-2.six-across= render 'photos/thumbnail', photo: photo
+    - if can?(:create, Photo) && can?(:edit, item)
+      .col-md-2
+        .thumbnail
+          = link_to new_photo_path(type: type, id: item.id), class: 'btn btn-primary' do
+            %span.glyphicon.glyphicon-camera{ title: "Add photo" }
+            Add photo
