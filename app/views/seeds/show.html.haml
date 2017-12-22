@@ -58,15 +58,11 @@
                                          subject: "Interested in your #{@seed.crop} seeds"),
                     class: 'btn btn-primary'
     - else
-      = render partial: 'shared/signin_signup', locals: { to: 'request seeds' }
+      = render 'shared/signin_signup', to: 'request seeds'
 
     - if can?(:edit, @seed) || can?(:destroy, @seed)
       %p
-      - if can? :edit, @seed
-        = link_to 'Edit', edit_seed_path(@seed), class: 'btn btn-default btn-xs'
-      - if can? :destroy, @seed
-        = link_to 'Delete', @seed, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
-
+        = render 'actions', seed: @seed
   .col-md-6
     = render partial: "crops/index_card", locals: { crop: @seed.crop }
     - if @seed.owner.location
@@ -79,3 +75,5 @@
         Or
         = link_to "purchase seeds via Ebay",
         crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer"
+
+= render 'photos/item_photos', item: @seed, type: 'seed', photos: @photos

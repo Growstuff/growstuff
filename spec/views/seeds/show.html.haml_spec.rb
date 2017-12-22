@@ -5,6 +5,7 @@ describe "seeds/show" do
     controller.stub(:current_user) { nil }
     @seed = FactoryBot.create(:seed)
     assign(:seed, @seed)
+    assign(:photos, @seed.photos.paginate(page: 1))
   end
 
   it "renders attributes in <p>" do

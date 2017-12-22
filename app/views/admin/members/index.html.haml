@@ -1,0 +1,15 @@
+.pagination
+  = page_entries_info @members
+  = will_paginate @members
+
+
+%table.table.table-striped
+  %tr
+    %th Name
+    %th Email
+    %th
+    %th
+  - @members.each do |member|
+    %tr
+      %td= ember.login_name
+      %td= member.email

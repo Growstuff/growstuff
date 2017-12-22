@@ -1,18 +1,19 @@
 = form_for @role do |f|
-  - if @role.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@role.errors.size, "error")
-        prohibited this role from being saved:
-      %ul
-        - @role.errors.full_messages.each do |msg|
-          %li= msg
+  .row
+    - if @role.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@role.errors.size, "error")
+          prohibited this role from being saved:
+        %ul
+          - @role.errors.full_messages.each do |msg|
+            %li= msg
 
   .field
-    = f.label :name
-    = f.text_field :name
+    .col-md2= f.label :name
+    .col-md10= f.text_field :name
   .field
-    = f.label :description
-    = f.text_area :description
+    .col-md2= f.label :description
+    .col-md10= f.text_area :description
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', class: 'btn btn-default'

@@ -19,6 +19,7 @@ class SeedsController < ApplicationController
   # GET /seeds/1
   # GET /seeds/1.json
   def show
+    @photos = @seed.photos.includes(:owner).order(created_at: :desc).paginate(page: params[:page])
     respond_with(@seed)
   end
 

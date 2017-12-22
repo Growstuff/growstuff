@@ -90,6 +90,9 @@ Growstuff::Application.routes.draw do
   get '/shop/:action' => 'shop#:action'
 
   comfy_route :cms_admin, path: '/admin/cms'
+  namespace :admin do
+    resources :members
+  end
   get '/admin/orders' => 'admin/orders#index'
   get '/admin/orders/:action' => 'admin/orders#:action'
   get '/admin' => 'admin#index'

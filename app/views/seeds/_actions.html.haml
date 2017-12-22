@@ -1,0 +1,11 @@
+- if can? :edit, @seed
+  = link_to  edit_seed_path(@seed), class: 'btn btn-default btn-xs' do
+    %span.glyphicon.glyphicon-pencil{ title: "Edit" }
+    Edit
+  = link_to new_photo_path(id: seed.id, type: 'seed'), class: 'btn btn-default btn-xs' do
+    %span.glyphicon.glyphicon-camera{ title: "Add photo" }
+    Add photo
+- if can? :destroy, @seed
+  = link_to @seed, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs' do
+    %span.glyphicon.glyphicon-trash{ title: "Delete" }
+    Delete
