@@ -8,14 +8,15 @@ submit the change with your pull request.
 
 ## Committers
 
-- Alex Bayley / [Skud](https://github.com/Skud)
 - Cesy / [cesy](https://github.com/cesy)
 - Miles Gould / [pozorvlak](https://github.com/pozorvlak)
-- Taylor Griffin / [tygriffin](https://github.com/tygriffin)
 - Mackenzie Morgan / [maco](https://github.com/maco)
+- Brenda Wallace / [br3nda](https://github.com/br3nda)
 
 ## Contributors
 
+- Alex Bayley / [Skud](https://github.com/Skud)
+- Taylor Griffin / [tygriffin](https://github.com/tygriffin)
 - Joseph Caudle / [jcaudle](https://github.com/jcaudle)
 - Ricky Amianym / [amianym](https://github.com/amianym)
 - Juliet Kemp / [julietk](https://github.com/julietk)
@@ -73,7 +74,6 @@ submit the change with your pull request.
 - Lucas Nogueira / [lucasnogueira](https://github.com/lucasnogueira)
 - Charley Lewittes / [ctlewitt](https://github.com/ctlewitt)
 - Kristine Nicole Polvoriza / [polveenomials](https://github.com/polveenomials)
-- Brenda Wallace / [br3nda](https://github.com/br3nda)
 - Jim Stallings / [jestallin](https://github.com/jestallin)
 - Alyssa Ransbury / [alran](https://github.com/alran)
 - Thomas Countz / [thomascountz](https://github.com/thomascountz)
