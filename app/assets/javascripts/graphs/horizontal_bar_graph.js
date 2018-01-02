@@ -1,6 +1,6 @@
-//= require d3
-//= require graphs/bar_group
-//= require graphs/bar_label_group
+// = require d3
+// = require graphs/bar_group
+// = require graphs/bar_label_group
 
 /*
 Horizontal Bar Graph represents sum total of the graph including all of the parts:
@@ -17,6 +17,10 @@ The main dimensions of the graph are rendered here.
   var BarGroup = growstuff.BarGroup;
   var BarLabelGroup = growstuff.BarLabelGroup;
 
+  /**
+   * create a new graph object
+   * @param {??} bar graph data
+   */
   function HorizontalBarGraph(data) {
     this._data = data;
     this._d3 = d3;
@@ -33,12 +37,12 @@ The main dimensions of the graph are rendered here.
     var barGroup = new BarGroup(this._data);
 
     var svg = root
-      .append("svg")
-        .attr("width", width.size + margin.left + margin.right)
-        .attr("height", height.size + margin.top + margin.bottom)
-      .append("g")
-        .attr("class","bar-graph")
-        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+      .append('svg')
+        .attr('width', width.size + margin.left + margin.right)
+        .attr('height', height.size + margin.top + margin.bottom)
+      .append('g')
+        .attr('class', 'bar-graph')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 
     barGroup.render(svg);

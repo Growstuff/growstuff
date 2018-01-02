@@ -1,7 +1,7 @@
-//= require graphs/width_scale
-//= require graphs/height_scale
+// = require graphs/width_scale
+// = require graphs/height_scale
 
-(function(){
+(function() {
   'use strict';
 
   /*
@@ -17,34 +17,33 @@ function BarGroup(data) {
   this._data = data;
 }
 
-BarGroup.prototype.render = function(root){
-
+BarGroup.prototype.render = function(root) {
   var data = this._data;
   var bars = this._data.bars;
   var widthScale = new WidthScale(data).render();
   var heightScale = new HeightScale(data).render();
 
   return root.append('g')
-    .attr("class", "bar")
-    .selectAll("rect")
-    .data(bars.map(function(bar) { return bar.value; }))
+    .attr('class', 'bar')
+    .selectAll('rect')
+    .data(bars.map(function(bar) {
+ return bar.value;
+}))
     .enter()
-    .append("rect")
-    .attr("y", function(d, i){
+    .append('rect')
+    .attr('y', function(d, i) {
       return heightScale(i);
-
     })
-    .attr("height", heightScale.rangeBand())
-    .attr("fill", data.bar_color)
-    .attr("width", function(d){
+    .attr('height', heightScale.rangeBand())
+    .attr('fill', data.bar_color)
+    .attr('width', function(d) {
       return widthScale(d);
     })
-    .append("title")
-    .text(function(d){
+    .append('title')
+    .text(function(d) {
       return 'This value is ' + d + '.';
     });
 };
 
 growstuff.BarGroup = BarGroup;
-
 }());
