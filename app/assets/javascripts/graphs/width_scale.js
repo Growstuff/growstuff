@@ -10,6 +10,10 @@ to the display size of the svg
 
   var growstuff = (window.growstuff = window.growstuff || {});
 
+  /**
+   * Object for WidthScale
+   * @param {?} data Graph data
+   */
   function WidthScale(data) {
     this._data = data;
   }
