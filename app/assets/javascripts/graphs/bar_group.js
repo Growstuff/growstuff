@@ -13,6 +13,10 @@
   var WidthScale = growstuff.WidthScale;
   var HeightScale = growstuff.HeightScale;
 
+/**
+ * data object for bar group
+ * @param {int} data The graph data
+ */
 function BarGroup(data) {
   this._data = data;
 }
