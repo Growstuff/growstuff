@@ -46,7 +46,9 @@ PreCommit:
     required_executable: 'npm'
   HamlLint:
     enabled: true
-    command: ['bundle', 'exec', 'haml-lint', 'app/views']
+    include:
+      - 'app/views/**'
+    command: ['bundle', 'exec', 'haml-lint']
   JsonSyntax:
     enabled: true
   BundleOutdated:
@@ -55,13 +57,13 @@ PreCommit:
   BundleAudit:
     enabled: true
     on_warn: warn
-  JsHint:
+  EsLint:
     enabled: true
     exclude:
       - 'app/assets/**'
       - 'spec/javascripts/support/vendor/**'
       - '**/bootstrap*'
-    command: ['npm', 'run', 'jshint']
+    command: ['./node_modules/.bin/eslint']
     required_executable: 'npm'
   ScssLint:
     enabled: true
