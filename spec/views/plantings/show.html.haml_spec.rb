@@ -12,6 +12,7 @@ describe "plantings/show" do
 
   before(:each) do
     assign(:planting, planting)
+    assign(:photos, planting.photos.paginate(page: 1))
     controller.stub(:current_user) { member }
   end
 
