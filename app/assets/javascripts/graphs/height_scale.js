@@ -11,7 +11,7 @@ the svg
   var growstuff = (window.growstuff = window.growstuff || {});
 
   /**
-   * new heighscale object
+   * new height scale object
    * @param {Object} data Graph configuration
    */
   function HeightScale(data) {
