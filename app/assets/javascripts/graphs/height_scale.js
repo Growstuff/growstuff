@@ -12,6 +12,7 @@ the svg
 
   /**
    * new heighscale object
+   * @param {Object} data Graph configuration
    */
   function HeightScale(data) {
     this._data = data;
