@@ -22,11 +22,11 @@ gem 'font-awesome-sass'
 gem 'uglifier' # JavaScript compressor
 
 # planting and harvest predictions
-# gem 'active_median'
+gem 'active_median'
 
 gem 'flickraw'
 gem 'jquery-rails'
-gem 'jquery-ui-rails', '~> 5.0.2' # needs careful upgrade with change of location
+gem 'jquery-ui-rails'
 gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
@@ -79,7 +79,7 @@ gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
 # For charting data
-gem 'd3-rails', '~> 3.5' # 4.* produces Error: <spyOn> : could not find an object to spy upon for linear() - see https://travis-ci.org/Growstuff/growstuff/jobs/204461482
+gem 'd3-rails'
 
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
