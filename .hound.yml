@@ -8,3 +8,4 @@ scss:
   config_file: .scss-lint.yml
 eslint:
   config_file: .eslintrc
+  ignore_file: .esignore
