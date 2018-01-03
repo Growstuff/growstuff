@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   #
   # Relationships
-  belongs_to :member, with_deleted: true
+  belongs_to :member, -> { with_deleted }
   has_many :order_items, dependent: :destroy
 
   #
