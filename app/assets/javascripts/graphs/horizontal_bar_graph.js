@@ -2,12 +2,12 @@
 // = require graphs/bar_group
 // = require graphs/bar_label_group
 
-/*
-Horizontal Bar Graph represents sum total of the graph including all of the parts:
-Bars
-Bar Labels
-
-The main dimensions of the graph are rendered here.
+/**
+ * Horizontal Bar Graph represents sum total of the graph including all of the parts:
+ * Bars
+ * Bar Labels
+ *
+ * The main dimensions of the graph are rendered here.
  */
 
 (function() {

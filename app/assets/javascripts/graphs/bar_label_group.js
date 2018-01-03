@@ -1,12 +1,11 @@
+// =require d3
+/**
+ * This file draws the labels to the left of each bar.
+ */
 (function() {
   'use strict';
 
-/*
-This file draws the labels to the left of each bar.
- */
-
   var growstuff = (window.growstuff = window.growstuff || {});
-
   /**
    * new bar label object
    * @param {Object} data Graph configuration
@@ -24,8 +23,8 @@ This file draws the labels to the left of each bar.
       .attr('class', 'bar-label')
       .selectAll('text')
       .data(bars.map(function(bar) {
- return bar.name;
-}))
+        return bar.name;
+      }))
       .enter()
       .append('text')
       .attr('x', -80)
@@ -38,8 +37,8 @@ This file draws the labels to the left of each bar.
         return i * barHeight * (barLabelSpread) + barLabelTopEdge;
       })
       .text(function(d) {
-return d;
-});
+        return d;
+      });
   };
 
   growstuff.BarLabelGroup = BarLabelGroup;
