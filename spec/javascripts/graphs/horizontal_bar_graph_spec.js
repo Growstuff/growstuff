@@ -61,7 +61,8 @@
       expect('g.bar-graph').toHaveAttr('transform', 'translate(100,0)');
     });
 
-    it('on the x axis, draws at least one bar at max width less margin width because of domain and range mapping', function() {
+    it('on the x axis, draws at least one bar at max width less margin width', function() {
+      // because of domain and range mapping
       expect('g.bar rect:eq(1)').toHaveAttr('width', '300' );
     });
 
