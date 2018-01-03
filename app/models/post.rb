@@ -1,4 +1,4 @@
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
   friendly_id :author_date_subject, use: %i(slugged finders)

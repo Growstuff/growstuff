@@ -1,4 +1,4 @@
-class Order < ActiveRecord::Base
+class Order < ApplicationRecord
   #
   # Relationships
   belongs_to :member, with_deleted: true

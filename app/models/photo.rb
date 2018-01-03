@@ -1,4 +1,4 @@
-class Photo < ActiveRecord::Base
+class Photo < ApplicationRecord
   belongs_to :owner, class_name: 'Member'
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed).freeze

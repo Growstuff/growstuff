@@ -1,4 +1,4 @@
-class PlantPart < ActiveRecord::Base
+class PlantPart < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: %i(slugged finders)
 

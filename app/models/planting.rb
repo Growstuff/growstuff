@@ -1,4 +1,4 @@
-class Planting < ActiveRecord::Base
+class Planting < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   friendly_id :planting_slug, use: %i(slugged finders)

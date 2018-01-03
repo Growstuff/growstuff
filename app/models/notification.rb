@@ -1,4 +1,4 @@
-class Notification < ActiveRecord::Base
+class Notification < ApplicationRecord
   belongs_to :sender, class_name: 'Member'
   belongs_to :recipient, class_name: 'Member'
   belongs_to :post

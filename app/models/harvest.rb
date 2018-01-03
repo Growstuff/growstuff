@@ -1,4 +1,4 @@
-class Harvest < ActiveRecord::Base
+class Harvest < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
   include PhotoCapable

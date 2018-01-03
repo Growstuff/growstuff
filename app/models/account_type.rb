@@ -1,4 +1,4 @@
-class AccountType < ActiveRecord::Base
+class AccountType < ApplicationRecord
   #
   # Relationships
   has_many :products

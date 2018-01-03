@@ -1,4 +1,4 @@
-class Crop < ActiveRecord::Base
+class Crop < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: %i(slugged finders)
 

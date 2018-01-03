@@ -1,4 +1,4 @@
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
   belongs_to :member
   belongs_to :account_type
 

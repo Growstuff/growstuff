@@ -1,4 +1,4 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: %i(slugged finders)
 

@@ -1,4 +1,4 @@
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   acts_as_paranoid # implements soft deletion
   before_destroy :newsletter_unsubscribe
   include Geocodable

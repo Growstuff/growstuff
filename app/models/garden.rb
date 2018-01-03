@@ -1,4 +1,4 @@
-class Garden < ActiveRecord::Base
+class Garden < ApplicationRecord
   extend FriendlyId
   include Geocodable
   include PhotoCapable

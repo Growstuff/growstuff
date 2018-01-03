@@ -1,4 +1,4 @@
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   belongs_to :author, class_name: 'Member'
   belongs_to :post
 
