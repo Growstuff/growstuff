@@ -6,10 +6,9 @@
    */
 
   describe('when drawing the group of bars', function() {
-    var BarGroup; var subject; var widthScale; var bars; var data;
+    var BarGroup; var subject; var bars; var data;
 
     beforeEach(function() {
-      var WidthScale = growstuff.WidthScale;
       BarGroup = growstuff.BarGroup;
 
       bars = [
@@ -24,7 +23,6 @@
         height: {size: 400, scale: 'ordinal'},
       };
 
-      widthScale = new WidthScale(data);
       subject = new BarGroup(data);
       subject.render(d3.select('#jasmine_content').append('svg'));
     });
