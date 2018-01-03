@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.1'
 
-gem 'rails', '~> 4.2.8'
+gem 'rails', '5.1.4'
 
 gem 'bundler', '>=1.1.5'
 
@@ -22,7 +22,7 @@ gem 'font-awesome-sass'
 gem 'uglifier' # JavaScript compressor
 
 # planting and harvest predictions
-gem 'active_median'
+# gem 'active_median'
 
 gem 'flickraw'
 gem 'jquery-rails'
@@ -88,7 +88,7 @@ gem 'd3-rails', '~> 3.5' # 4.* produces Error: <spyOn> : could not find an objec
 # Project does not use semver, so we want to be in sync with the version of
 # elasticsearch we use
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
-gem "elasticsearch-api", "~> 2.0.0"
+gem "elasticsearch-api"
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
 gem "hashie", ">= 3.5.3"
@@ -99,7 +99,7 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem 'acts_as_paranoid', '~> 0.5.0'
+gem "paranoia", "~> 2.2"
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
@@ -113,16 +113,14 @@ group :production, :staging do
 end
 
 group :development do
-  # A debugger and irb alternative. Pry doesn't play nice
-  # with unicorn, so start a Webrick server when debugging
-  # with Pry
-  gem 'better_errors', '~> 2.2.0'
-  gem 'binding_of_caller'
-  gem 'guard'
-  gem 'guard-rspec'
+  gem 'better_errors'
   gem 'letter_opener'
-  gem 'pry'
-  gem 'quiet_assets'
+  gem 'listen'
+  # gem 'binding_of_caller'
+  # gem 'guard'
+  # gem 'guard-rspec'
+  # gem 'pry'
+  # gem 'quiet_assets'
 end
 
 group :development, :test do
