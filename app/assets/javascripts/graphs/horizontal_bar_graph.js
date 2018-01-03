@@ -19,7 +19,7 @@ The main dimensions of the graph are rendered here.
 
   /**
    * create a new graph object
-   * @param {??} bar graph data
+   * @param {Object} data Graph configuration
    */
   function HorizontalBarGraph(data) {
     this._data = data;

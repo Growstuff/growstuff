@@ -15,7 +15,7 @@
 
 /**
  * data object for bar group
- * @param {int} data The graph data
+ * @param {Object} graph configuration
  */
 function BarGroup(data) {
   this._data = data;

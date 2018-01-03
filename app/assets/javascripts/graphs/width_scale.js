@@ -12,7 +12,7 @@ to the display size of the svg
 
   /**
    * Object for WidthScale
-   * @param {?} data Graph data
+   * @param {Object} data Graph configuration
    */
   function WidthScale(data) {
     this._data = data;
