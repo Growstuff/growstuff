@@ -21,7 +21,6 @@ the svg
   HeightScale.prototype.render = function() {
     var data = this._data;
     var scaleType = data.height.scale;
-    var axisSize = data.height.size;
 
     return d3.scale[scaleType]()
         .domain(d3.range(data.bars.length))

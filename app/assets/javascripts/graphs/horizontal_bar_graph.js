@@ -27,7 +27,6 @@ The main dimensions of the graph are rendered here.
   }
 
   HorizontalBarGraph.prototype.render = function(root) {
-    var bars = this._data.bars;
     var width = this._data.width;
     var height = this._data.height;
 
