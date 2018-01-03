@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
         response = EXPRESS_GATEWAY.setup_purchase(
           @order.total,
           items: @order.activemerchant_items,
-          currency: Growstuff::Application.config.currency,
+          currency: Rails.application.config.currency,
           no_shipping: true,
           ip: request.remote_ip,
           return_url: complete_order_url,
@@ -51,7 +51,7 @@ class OrdersController < ApplicationController
     if params[:token] && params['PayerID']
       purchase = EXPRESS_GATEWAY.purchase(
         @order.total,
-        currency: Growstuff::Application.config.currency,
+        currency: Rails.application.config.currency,
         ip: request.remote_ip,
         payer_id: params['PayerID'],
         token: params[:token]

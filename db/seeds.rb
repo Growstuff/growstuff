@@ -134,7 +134,7 @@ end
 def create_cropbot
   @cropbot_user = Member.new(
     login_name: "cropbot",
-    email: Growstuff::Application.config.bot_email,
+    email: Rails.application.config.bot_email,
     password: SecureRandom.urlsafe_base64(64),
     tos_agreement: true
   )

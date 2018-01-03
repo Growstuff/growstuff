@@ -1,4 +1,4 @@
-Growstuff::Application.routes.draw do
+Rails.application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts
@@ -89,7 +89,7 @@ Growstuff::Application.routes.draw do
   get '/shop' => 'shop#index'
   get '/shop/:action' => 'shop#:action'
 
-  comfy_route :cms_admin, path: '/admin/cms'
+  # comfy_route :cms_admin, path: '/admin/cms'
   namespace :admin do
     resources :members
   end
@@ -113,5 +113,5 @@ Growstuff::Application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
   # CMS stuff  -- must remain LAST
-  comfy_route :cms, path: '/', sitemap: false
+  # comfy_route :cms, path: '/', sitemap: false
 end

@@ -17,7 +17,7 @@ module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/
-    HOST = Growstuff::Application.config.host
+    HOST = Rails.application.config.host
 
     def expand_crops!
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)

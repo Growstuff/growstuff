@@ -210,7 +210,7 @@ class Member < ActiveRecord::Base
   def newsletter_subscribe(gb = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
     gb.lists.subscribe(
-      id: Growstuff::Application.config.newsletter_list_id,
+      id: Rails.application.config.newsletter_list_id,
       email: { email: email },
       merge_vars: { login_name: login_name },
       double_optin: false # they already confirmed their email with us
@@ -219,7 +219,7 @@ class Member < ActiveRecord::Base
 
   def newsletter_unsubscribe(gb = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
-    gb.lists.unsubscribe(id: Growstuff::Application.config.newsletter_list_id,
+    gb.lists.unsubscribe(id: Rails.application.config.newsletter_list_id,
                          email: { email: email })
   end
 

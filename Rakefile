@@ -5,4 +5,4 @@
 require 'rake/dsl_definition'
 require File.expand_path('../config/application', __FILE__)
 
-Growstuff::Application.load_tasks
+Rails.application.load_tasks

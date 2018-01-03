@@ -5,7 +5,7 @@ module ApplicationHelper
 
   # 999 cents becomes 9.99 AUD -- for products/orders/etc
   def price_with_currency(price)
-    format('%.2f %s', price / 100.0, Growstuff::Application.config.currency)
+    format('%.2f %s', price / 100.0, Rails.application.config.currency)
   end
 
   def parse_date(str)
@@ -15,7 +15,7 @@ module ApplicationHelper
 
   def forex_link(price)
     pid = price_in_dollars(price)
-    currency = Growstuff::Application.config.currency
+    currency = Rails.application.config.currency
     link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
 
     link_to "(convert)", link, target: "_blank", rel: "noopener noreferrer"

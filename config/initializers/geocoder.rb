@@ -5,8 +5,8 @@ Geocoder.configure(
   timeout: 10,
   http_headers: {
     "User-Agent" =>
-      "#{Growstuff::Application.config.user_agent} #{Growstuff::Application.config.user_agent_email}",
-    "From" => Growstuff::Application.config.user_agent_email
+      "#{Rails.application.config.user_agent} #{Rails.application.config.user_agent_email}",
+    "From" => Rails.application.config.user_agent_email
   }
 )
 # This configuration takes precedence over environment/test.rb

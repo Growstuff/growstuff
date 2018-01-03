@@ -20,20 +20,20 @@ describe 'shop/index.html.haml', type: "view" do
     end
 
     it 'shows prices in configured currency' do
-      rendered.should have_content format('9.99 %s', Growstuff::Application.config.currency)
+      rendered.should have_content format('9.99 %s', Rails.application.config.currency)
     end
 
     it 'should contain an exchange rate link' do
-      currency = Growstuff::Application.config.currency
+      currency = Rails.application.config.currency
       assert_select("a[href='http://www.wolframalpha.com/input/?i=9.99+#{currency}']")
     end
 
     it 'shows recommended price for products that have it' do
-      rendered.should have_content format('12.00 %s', Growstuff::Application.config.currency)
+      rendered.should have_content format('12.00 %s', Rails.application.config.currency)
     end
 
     it 'should contain an exchange rate link for recommended price' do
-      currency = Growstuff::Application.config.currency
+      currency = Rails.application.config.currency
       assert_select("a[href='http://www.wolframalpha.com/input/?i=12.00+#{currency}']")
     end
 

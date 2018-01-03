@@ -7,7 +7,7 @@ def input_link(name)
 end
 
 def output_link(crop, name = nil)
-  url = Rails.application.routes.url_helpers.crop_url(crop, host: Growstuff::Application.config.host)
+  url = Rails.application.routes.url_helpers.crop_url(crop, host: Rails.application.config.host)
   return "<a href=\"#{url}\">#{name}</a>" if name
   "<a href=\"#{url}\">#{crop.name}</a>"
 end

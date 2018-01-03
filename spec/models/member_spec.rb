@@ -29,7 +29,7 @@ describe 'member' do
     end
 
     it "should have a default-type account by default" do
-      member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
+      member.account.account_type.name.should eq Rails.application.config.default_account_type
       member.paid?.should be(false)
     end
 
