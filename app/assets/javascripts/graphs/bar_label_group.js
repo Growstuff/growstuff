@@ -7,6 +7,10 @@ This file draws the labels to the left of each bar.
 
   var growstuff = (window.growstuff = window.growstuff || {});
 
+  /**
+   * new bar label object
+   * @param {Object} data Graph configuration
+   */
   function BarLabelGroup(data) {
     this._data = data;
   }
