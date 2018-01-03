@@ -51,7 +51,8 @@
     .form-group
       = f.label :parent_id, 'Parent crop', class: 'control-label col-md-2'
       .col-md-8
-        = collection_select(:crop, :parent_id, Crop.all, :id, :name, { include_blank: true }, class: 'form-control')
+        = collection_select(:crop, :parent_id, Crop.all.order(:name), :id, :name,
+          { include_blank: true }, class: 'form-control')
         %span.help-block Optional. For setting up crop hierarchies for varieties etc.
 
 
