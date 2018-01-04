@@ -17,8 +17,8 @@ class Crop < ApplicationRecord
   has_many :harvests
   has_many :plant_parts, -> { uniq.reorder("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member'
-  belongs_to :requester, class_name: 'Member'
-  belongs_to :parent, class_name: 'Crop'
+  belongs_to :requester, class_name: 'Member', optional: true
+  belongs_to :parent, class_name: 'Crop', optional: true
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
 

@@ -35,7 +35,7 @@ class Harvest < ApplicationRecord
   belongs_to :crop
   belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :plant_part
-  belongs_to :planting
+  belongs_to :planting, optional: true
 
   ##
   ## Scopes

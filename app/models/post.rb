@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   #
   # Relationships
   belongs_to :author, class_name: 'Member'
-  belongs_to :forum
+  belongs_to :forum, optional: true
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :crops # rubocop:disable Rails/HasAndBelongsToMany
   # also has_many notifications, but kinda meaningless to get at them
