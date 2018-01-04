@@ -42,7 +42,7 @@ gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem 'comfortable_mexican_sofa'     # content management system
+# gem 'comfortable_mexican_sofa'     # content management system
 
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari'                     # pagination
