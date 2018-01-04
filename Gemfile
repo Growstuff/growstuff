@@ -150,6 +150,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
+  gem 'rails-controller-testing'
   gem 'timecop'
 end
 
