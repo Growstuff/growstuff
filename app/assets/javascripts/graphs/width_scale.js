@@ -29,8 +29,8 @@
 
   WidthScale.prototype.getMaxValue = function() {
     return d3.max(this._data.bars.map(function(bar) {
- return bar.value;
-}));
+      return bar.value;
+    }));
   };
 
   growstuff.WidthScale = WidthScale;
