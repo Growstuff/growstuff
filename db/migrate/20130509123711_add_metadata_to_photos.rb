@@ -1,4 +1,4 @@
-class AddMetadataToPhotos < ActiveRecord::Migration
+class AddMetadataToPhotos < ActiveRecord::Migration[4.2]
   def up
     change_table :photos do |t|
       t.string :title

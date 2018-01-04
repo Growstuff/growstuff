@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103024400) do
+ActiveRecord::Schema.define(version: 20171129041341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 20180103024400) do
   create_table "comfy_cms_blocks", id: :serial, force: :cascade do |t|
     t.string "identifier", null: false
     t.text "content"
-    t.integer "blockable_id"
     t.string "blockable_type"
+    t.integer "blockable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["blockable_id", "blockable_type"], name: "index_comfy_cms_blocks_on_blockable_id_and_blockable_type"
@@ -265,8 +265,8 @@ ActiveRecord::Schema.define(version: 20180103024400) do
 
   create_table "likes", id: :serial, force: :cascade do |t|
     t.integer "member_id"
-    t.integer "likeable_id"
     t.string "likeable_type"
+    t.integer "likeable_id"
     t.string "categories", array: true
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -421,9 +421,6 @@ ActiveRecord::Schema.define(version: 20180103024400) do
     t.integer "lifespan"
     t.integer "days_to_first_harvest"
     t.integer "days_to_last_harvest"
-    t.boolean "failed"
-    t.text "failure_cause"
-    t.index ["failed"], name: "index_plantings_on_failed"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 

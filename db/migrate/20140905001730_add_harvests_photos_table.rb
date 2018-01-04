@@ -1,4 +1,4 @@
-class AddHarvestsPhotosTable < ActiveRecord::Migration
+class AddHarvestsPhotosTable < ActiveRecord::Migration[4.2]
   def change
     create_table :harvests_photos, id: false do |t|
       t.integer :photo_id

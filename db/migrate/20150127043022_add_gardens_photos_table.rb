@@ -1,4 +1,4 @@
-class AddGardensPhotosTable < ActiveRecord::Migration
+class AddGardensPhotosTable < ActiveRecord::Migration[4.2]
   def change
     create_table :gardens_photos, id: false do |t|
       t.integer :photo_id

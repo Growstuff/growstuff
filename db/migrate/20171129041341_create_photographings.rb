@@ -1,4 +1,4 @@
-class CreatePhotographings < ActiveRecord::Migration
+class CreatePhotographings < ActiveRecord::Migration[4.2]
   def change
     create_table :photographings do |t|
       t.integer :photo_id, null: false

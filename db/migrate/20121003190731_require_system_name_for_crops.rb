@@ -1,4 +1,4 @@
-class RequireSystemNameForCrops < ActiveRecord::Migration
+class RequireSystemNameForCrops < ActiveRecord::Migration[4.2]
   def up
     change_table :crops do |t|
       t.index :system_name

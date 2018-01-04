@@ -1,4 +1,4 @@
-class CreateAlternateNames < ActiveRecord::Migration
+class CreateAlternateNames < ActiveRecord::Migration[4.2]
   def change
     create_table :alternate_names do |t|
       t.string :name, null: false

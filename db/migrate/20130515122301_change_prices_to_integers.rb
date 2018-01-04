@@ -1,4 +1,4 @@
-class ChangePricesToIntegers < ActiveRecord::Migration
+class ChangePricesToIntegers < ActiveRecord::Migration[4.2]
   def up
     change_column :order_items, :price, :integer
     change_column :products, :min_price, :integer
