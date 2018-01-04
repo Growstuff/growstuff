@@ -6,7 +6,7 @@ describe ShopController do
 
   describe "GET index" do
     describe 'not logged in' do
-      before { get :index, {} }
+      before { get :index, params: {} }
 
       describe "assigns all products as @products ordered by name" do
         it { expect(assigns(:products)).to eq([product1, product2]) }
@@ -26,7 +26,7 @@ describe ShopController do
         let!(:order) { FactoryBot.create(:order, member: member) }
         before do
           sign_in member
-          get :index, {}
+          get :index, params: {}
         end
         it { expect(assigns(:order)).to eq order }
       end

@@ -29,7 +29,7 @@ describe CommentsController do
     let(:post) { FactoryBot.create(:post) }
 
     describe "with valid params" do
-      before { get :new, post_id: post.id }
+      before { get :new, params: { post_id: post.id } }
 
       it "picks up post from params" do
         assigns(:post).should eq(post)
@@ -49,7 +49,7 @@ describe CommentsController do
 
   describe "GET edit" do
     let(:post) { FactoryBot.create(:post) }
-    before { get :edit, id: comment.to_param }
+    before { get :edit, params: { id: comment.to_param } }
 
     describe "my comment" do
       let!(:comment) { FactoryBot.create :comment, author: member, post: post }
@@ -66,7 +66,7 @@ describe CommentsController do
   end
 
   describe "PUT update" do
-    before { put :update, id: comment.to_param, comment: valid_attributes }
+    before { put :update, params: { id: comment.to_param, comment: valid_attributes } }
 
     describe "my comment" do
       let(:comment) { FactoryBot.create :comment, author: member }
@@ -74,10 +74,12 @@ describe CommentsController do
         expect(response).to redirect_to(comment.post)
       end
     end
+
     describe "not my comment" do
       let(:comment) { FactoryBot.create :comment }
       it { expect(response).not_to be_success }
     end
+
     describe "attempting to change post_id" do
       let(:post) { FactoryBot.create :post, subject: 'our post' }
       let(:other_post) { FactoryBot.create :post, subject: 'the other post' }
@@ -91,7 +93,7 @@ describe CommentsController do
   end
 
   describe "DELETE destroy" do
-    before { delete :destroy, id: comment.to_param }
+    before { delete :destroy, params: { id: comment.to_param } }
 
     describe "my comment" do
       let(:comment) { FactoryBot.create :comment, author: member }

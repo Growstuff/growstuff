@@ -39,10 +39,6 @@ Layout/AlignParameters:
 Metrics/LineLength:
   Max: 120
 
-# turn these back on in Rails 5
-Rails/HttpPositionalArguments: # See https://github.com/bbatsov/rubocop/issues/3629
-  Enabled: false
-
 Style/Documentation:
   Enabled: false
 

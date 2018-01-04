@@ -19,7 +19,7 @@ describe PhotoAssociationsController do
       let(:photo) { FactoryBot.create :photo, owner: member }
 
       it "removes link" do
-        expect { delete :destroy, valid_params }.to change { photo.harvests.count }.by(-1)
+        expect { delete :destroy, params: valid_params }.to change { photo.harvests.count }.by(-1)
       end
     end
 
@@ -29,13 +29,13 @@ describe PhotoAssociationsController do
       it do
         expect do
           begin
-            delete :destroy, valid_params
+            delete :destroy, params: valid_params
           rescue
             nil
           end
         end.not_to change(photo.harvests, :count)
       end
-      it { expect { delete :destroy, valid_params }.to raise_error(ActiveRecord::RecordNotFound) }
+      it { expect { delete :destroy, params: valid_params }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 end

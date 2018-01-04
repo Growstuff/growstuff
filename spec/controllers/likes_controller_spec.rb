@@ -10,7 +10,7 @@ describe LikesController do
 
   describe "POST create" do
     it { expect(response.content_type).to eq "application/json" }
-    before { post :create, post_id: blogpost.id, format: :json }
+    before { post :create, params: { post_id: blogpost.id, format: :json } }
     it { expect(Like.last.likeable_id).to eq(blogpost.id) }
     it { expect(Like.last.likeable_type).to eq('Post') }
     it { JSON.parse(response.body)["description"] == "1 like" }
@@ -25,7 +25,7 @@ describe LikesController do
   end
 
   describe "DELETE destroy" do
-    before { delete :destroy, id: like.id, format: :json }
+    before { delete :destroy, params: { id: like.id, format: :json } }
     it { expect(response.content_type).to eq "application/json" }
 
     describe "un-liking something i liked before" do
