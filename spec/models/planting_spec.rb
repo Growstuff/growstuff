@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Planting do
   let(:crop) { FactoryBot.create(:tomato) }
-  let(:garden_owner) { FactoryBot.create(:member) }
+  let(:garden_owner) { FactoryBot.create(:member, login_name: 'hatupatu') }
   let(:garden) { FactoryBot.create(:garden, owner: garden_owner) }
   let(:planting) { FactoryBot.create(:planting, crop: crop, garden: garden, owner: garden.owner) }
   let(:finished_planting) do
@@ -156,7 +156,7 @@ describe Planting do
   end
 
   it "should have a slug" do
-    planting.slug.should match(/^member\d+-springfield-community-garden-tomato$/)
+    planting.slug.should match(/^hatupatu-springfield-community-garden-tomato$/)
   end
 
   it 'should sort in reverse creation order' do
