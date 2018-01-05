@@ -6,9 +6,10 @@ class Account < ApplicationRecord
     message: 'already has account details associated with it'
   }
 
-  before_create do |account|
-    unless account.account_type
-      account.account_type = AccountType.find_or_create_by(name:
+  before_validation do
+    # If not account type, set to the free account
+    unless account_type
+      self.account_type = AccountType.find_or_create_by(name:
         Rails.application.config.default_account_type)
     end
   end

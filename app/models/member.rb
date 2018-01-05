@@ -77,13 +77,16 @@ class Member < ApplicationRecord
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
   after_save :update_newsletter_subscription
+  after_create :create_account_and_garden
 
   # Give each new member a default garden
   # and an account record (for paid accounts etc)
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryBot associations
-  after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
-  after_create { |member| Account.find_or_create_by(member_id: member.id) }
+  def create_account_and_garden
+    Garden.create!(name: "Garden", owner_id: id)
+    Account.find_or_create_by!(member_id: id)
+  end
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -198,13 +201,21 @@ class Member < ApplicationRecord
   end
 
   def update_newsletter_subscription
-    return unless confirmed_at_changed? || newsletter_changed?
+    return unless will_save_change_to_attribute?(:confirmed) || will_save_change_to_attribute?(:newsletter)
 
     if newsletter
-      newsletter_subscribe if confirmed_at_changed? || confirmed_at && newsletter_changed?
+      newsletter_subscribe if confirmed_just_now? || requested_newsletter_just_now?
     elsif confirmed_at
       newsletter_unsubscribe
     end
+  end
+
+  def confirmed_just_now?
+    will_save_change_to_attribute?(:confirmed_at)
+  end
+
+  def requested_newsletter_just_now?
+    confirmed_at && will_save_change_to_attribute?(:newsletter)
   end
 
   def newsletter_subscribe(gb = Gibbon::API.new, testing = false)

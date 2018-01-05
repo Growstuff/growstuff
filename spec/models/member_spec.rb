@@ -2,53 +2,51 @@ require 'rails_helper'
 
 describe 'member' do
   context 'valid member' do
-    let(:member) { FactoryBot.create(:member) }
+    let!(:member) { FactoryBot.create(:member, login_name: 'hinemoa') }
 
-    it 'should be fetchable from the database' do
-      member2 = Member.find(member.id)
-      member2.should be_an_instance_of Member
-      member2.login_name.should match(/member\d+/)
-      member2.encrypted_password.should_not be_nil
+    describe 'should be fetchable from the database' do
+      subject { Member.find(member.id) }
+      it { is_expected.to be_an_instance_of Member }
+      it { expect(subject.encrypted_password).not_to be_nil }
     end
 
-    it 'should have a friendly slug' do
-      member.slug.should match(/member\d+/)
+    describe 'should have a friendly slug' do
+      it { expect(member.slug).to eq('hinemoa') }
     end
 
     it 'has a bio' do
       member.bio = 'I love seeds'
-      member.bio.should eq 'I love seeds'
+      expect(member.bio).to eq 'I love seeds'
     end
 
     it 'should have a default garden' do
-      member.gardens.size.should == 1
+      expect(member.gardens.count).to eq 1
     end
 
     it 'should have a accounts entry' do
-      member.account.should be_an_instance_of Account
+      expect(member.account).to be_an_instance_of Account
     end
 
     it "should have a default-type account by default" do
       member.account.account_type.name.should eq Rails.application.config.default_account_type
-      member.paid?.should be(false)
+      expect(member.paid?).to be_false
     end
 
     it "doesn't show email by default" do
-      member.show_email.should be(false)
+      expect(member.show_email).to be_false
     end
 
     it 'should stringify as the login_name' do
-      member.to_s.should match(/member\d+/)
-      member.to_s.should match(/member\d+/)
+      expect(member.to_s).to eq 'hinemoa'
     end
 
     it 'should be able to fetch posts' do
       post = FactoryBot.create(:post, author: member)
-      member.posts.should eq [post]
+      expect(member.posts).to eq [post]
     end
 
     it 'should be able to fetch gardens' do
-      member.gardens.first.name.should eq "Garden"
+      expect(member.gardens.first.name).to eq "Garden"
     end
 
     it 'has many plantings' do
