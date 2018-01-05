@@ -55,12 +55,12 @@ RSpec.describe 'Photos', type: :request do
 
   subject { JSON.parse response.body }
   describe '#index' do
-    before { get '/api/v1/photos', {}, headers }
+    before { get '/api/v1/photos', params: {}, headers: headers }
     it { expect(subject['data']).to include(photo_encoded_as_json_api) }
   end
 
   describe '#show' do
-    before { get "/api/v1/photos/#{photo.id}", {}, headers }
+    before { get "/api/v1/photos/#{photo.id}", params: {}, headers: headers }
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
@@ -68,18 +68,21 @@ RSpec.describe 'Photos', type: :request do
     it { expect(subject['data']).to eq(photo_encoded_as_json_api) }
   end
 
-  describe '#create' do
-    before { post '/api/v1/photos', { 'photo' => { 'name' => 'can i make this' } }, headers }
-    it { expect(response.code).to eq "404" }
+  it '#create' do
+    expect do
+      post '/api/v1/photos', params: { 'photo' => { 'name' => 'can i make this' } }, headers: headers
+    end.to raise_error ActionController::RoutingError
   end
 
-  describe '#update' do
-    before { post "/api/v1/photos/#{photo.id}", { 'photo' => { 'name' => 'can i modify this' } }, headers }
-    it { expect(response.code).to eq "404" }
+  it '#update' do
+    expect do
+      post "/api/v1/photos/#{photo.id}", params: { 'photo' => { 'name' => 'can i modify this' } }, headers: headers
+    end.to raise_error ActionController::RoutingError
   end
 
-  describe '#delete' do
-    before { delete "/api/v1/photos/#{photo.id}", {}, headers }
-    it { expect(response.code).to eq "404" }
+  it '#delete' do
+    expect do
+      delete "/api/v1/photos/#{photo.id}", params: {}, headers: headers
+    end.to raise_error ActionController::RoutingError
   end
 end

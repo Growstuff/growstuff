@@ -57,12 +57,12 @@ RSpec.describe 'Harvests', type: :request do
 
   subject { JSON.parse response.body }
   describe '#index' do
-    before { get '/api/v1/harvests', {}, headers }
+    before { get '/api/v1/harvests', params: {}, headers: headers }
     it { expect(subject['data']).to include(harvest_encoded_as_json_api) }
   end
 
   describe '#show' do
-    before { get "/api/v1/harvests/#{harvest.id}", {}, headers }
+    before { get "/api/v1/harvests/#{harvest.id}", params: {}, headers: headers }
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("planting" => planting_as_json_api) }
     it { expect(subject['data']['relationships']).to include("crop" => crop_as_json_api) }
@@ -71,18 +71,25 @@ RSpec.describe 'Harvests', type: :request do
     it { expect(subject['data']).to eq(harvest_encoded_as_json_api) }
   end
 
-  describe '#create' do
-    before { post '/api/v1/harvests', { 'harvest' => { 'description' => 'can i make this' } }, headers }
-    it { expect(response.code).to eq "404" }
+  it '#create' do
+    expect do
+      put '/api/v1/harvests', headers: headers, params: {
+        'harvest' => { 'description' => 'can i make this' }
+      }
+    end.to raise_error ActionController::RoutingError
   end
 
-  describe '#update' do
-    before { post "/api/v1/harvests/#{harvest.id}", { 'harvest' => { 'description' => 'can i modify this' } }, headers }
-    it { expect(response.code).to eq "404" }
+  it '#update' do
+    expect do
+      post "/api/v1/harvests/#{harvest.id}", headers: headers, params: {
+        'harvest' => { 'description' => 'can i modify this' }
+      }
+    end.to raise_error ActionController::RoutingError
   end
 
-  describe '#delete' do
-    before { delete "/api/v1/harvests/#{harvest.id}", {}, headers }
-    it { expect(response.code).to eq "404" }
+  it '#delete' do
+    expect do
+      delete "/api/v1/harvests/#{harvest.id}", headers: headers, params: {}
+    end.to raise_error ActionController::RoutingError
   end
 end

@@ -38,27 +38,30 @@ RSpec.describe 'Gardens', type: :request do
 
   subject { JSON.parse response.body }
   scenario '#index' do
-    get '/api/v1/gardens', {}, headers
+    get '/api/v1/gardens', params: {}, headers: headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 
   scenario '#show' do
-    get "/api/v1/gardens/#{garden.id}", {}, headers
+    get "/api/v1/gardens/#{garden.id}", params: {}, headers: headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 
-  scenario '#create' do
-    post '/api/v1/gardens', { 'garden' => { 'name' => 'can i make this' } }, headers
-    expect(response.code).to eq "404"
+  it '#create' do
+    expect do
+      post '/api/v1/gardens', params: { 'garden' => { 'name' => 'can i make this' } }, headers: headers
+    end.to raise_error ActionController::RoutingError
   end
 
-  scenario '#update' do
-    post "/api/v1/gardens/#{garden.id}", { 'garden' => { 'name' => 'can i modify this' } }, headers
-    expect(response.code).to eq "404"
+  it '#update' do
+    expect do
+      post "/api/v1/gardens/#{garden.id}", params: { 'garden' => { 'name' => 'can i modify this' } }, headers: headers
+    end.to raise_error ActionController::RoutingError
   end
 
-  scenario '#delete' do
-    delete "/api/v1/gardens/#{garden.id}", {}, headers
-    expect(response.code).to eq "404"
+  it '#delete' do
+    expect do
+      delete "/api/v1/gardens/#{garden.id}", params: {}, headers: headers
+    end.to raise_error ActionController::RoutingError
   end
 end
