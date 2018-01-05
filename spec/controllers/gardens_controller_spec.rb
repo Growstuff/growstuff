@@ -11,7 +11,7 @@ RSpec.describe GardensController, type: :controller do
       it { expect(response).to redirect_to(new_member_session_path) }
     end
     describe 'PUT create' do
-      before { put :create, garden: valid_params }
+      before { put :create, params: { garden: valid_params } }
       it { expect(response).to redirect_to(new_member_session_path) }
     end
 
