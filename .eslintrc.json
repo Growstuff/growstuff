@@ -1,0 +1,11 @@
+{
+  "extends": "google",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "no-var": "off",
+    "max-len": ["error", { "code": 120, "tabWidth": 4 }]
+  }
+}
