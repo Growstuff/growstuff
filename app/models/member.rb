@@ -79,15 +79,6 @@ class Member < ApplicationRecord
   after_save :update_newsletter_subscription
   after_create :create_account_and_garden
 
-  # Give each new member a default garden
-  # and an account record (for paid accounts etc)
-  # we use find_or_create to avoid accidentally creating a second one,
-  # which can happen sometimes especially with FactoryBot associations
-  def create_account_and_garden
-    Garden.create!(name: "Garden", owner_id: id)
-    Account.find_or_create_by!(member_id: id)
-  end
-
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -240,5 +231,14 @@ class Member < ApplicationRecord
 
   def get_follow(member)
     follows.find_by(followed_id: member.id) if already_following?(member)
+  end
+
+  # Give each new member a default garden
+  # and an account record (for paid accounts etc)
+  # we use find_or_create to avoid accidentally creating a second one,
+  # which can happen sometimes especially with FactoryBot associations
+  def create_account_and_garden
+    Garden.create!(name: "Garden", owner_id: id)
+    Account.find_or_create_by!(member_id: id)
   end
 end
