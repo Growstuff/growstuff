@@ -33,7 +33,9 @@ class GardensController < ApplicationController
   end
 
   # GET /gardens/1/edit
-  def edit; end
+  def edit
+    respond_with(@garden)
+  end
 
   # POST /gardens
   # POST /gardens.json
