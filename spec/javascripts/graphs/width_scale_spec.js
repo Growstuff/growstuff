@@ -1,4 +1,4 @@
-(function(){
+(function() {
   'use strict';
 
   /*
@@ -6,19 +6,19 @@
   the length of a bar so that it is the correct size for the screen
    */
 
-  describe('GraphScale, when specifying width', function(){
-    var data, WidthScale, subject, mockD3;
+  describe('GraphScale, when specifying width', function() {
+    var data; var WidthScale; var subject; var mockD3;
 
-    beforeEach(function(){
+    beforeEach(function() {
       WidthScale = growstuff.WidthScale;
       var bars = [
         {name: 'Shade', value: 0.2},
-        {name: 'Half Shade', value: 0.5}
+        {name: 'Half Shade', value: 0.5},
       ];
       data = {
         bars: bars,
         width: {size: 300, scale: 'linear'},
-        height: {size: 400, scale: 'ordinal'}
+        height: {size: 400, scale: 'ordinal'},
       };
 
       subject = new WidthScale(data, 'width');
@@ -29,13 +29,12 @@
       subject.render();
       });
 
-      it ('gets the value of the longest bar', function(){
+      it('gets the value of the longest bar', function() {
         expect(subject.getMaxValue()).toEqual(0.5);
       });
 
-      it ('calls the d3 range function to draw the width', function(){
+      it('calls the d3 range function to draw the width', function() {
         expect(mockD3.range).toHaveBeenCalledWith([0, 300]);
       });
   });
-
 }());

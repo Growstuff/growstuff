@@ -42,3 +42,4 @@ exclude_paths:
 - spec/
 - public/
 - app/assets/stylesheets/bootstrap-accessibility.css
+- app/assets/javascripts/bootstrap*
