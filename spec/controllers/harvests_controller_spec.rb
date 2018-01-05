@@ -129,13 +129,12 @@ describe HarvestsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested harvest" do
-        harvest = Harvest.create! valid_attributes
-        # Assuming there are no other harvests in the database, this
-        # specifies that the Harvest created on the previous line
-        # receives the :update message with whatever params are
-        # submitted in the request.
-        Harvest.any_instance.should_receive(:update).with("crop_id" => "1", "owner_id": member.id)
-        put :update, params: { id: harvest.to_param, harvest: { "crop_id" => "1" } }
+        harvest = FactoryBot.create :harvest, valid_attributes
+        new_crop = FactoryBot.create :crop
+        expect do
+          put :update, params: { id: harvest.to_param, harvest: { crop_id: new_crop.id } }
+          harvest.reload
+        end.to change(harvest, :crop_id).to(new_crop.id)
       end
 
       it "assigns the requested harvest as @harvest" do
