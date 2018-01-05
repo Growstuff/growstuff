@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe Garden do
-  let(:owner) { FactoryBot.create(:member) }
+  let(:owner) { FactoryBot.create(:member, login_name: 'hatupatu') }
   let(:garden) { FactoryBot.create(:garden, owner: owner) }
 
   it "should have a slug" do
-    garden.slug.should match(/member\d+-springfield-community-garden/)
+    garden.slug.should match(/hatupatu-springfield-community-garden/)
   end
 
   it "should have a description" do
