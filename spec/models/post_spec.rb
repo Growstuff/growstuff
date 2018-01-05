@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Post do
-  let(:member) { FactoryBot.create(:member) }
+  let(:member) { FactoryBot.create(:member, login_name: 'whinacooper') }
   it_behaves_like "it is likeable"
 
   it "should have a slug" do

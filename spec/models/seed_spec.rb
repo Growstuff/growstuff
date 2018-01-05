@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe Seed do
-  let(:seed) { FactoryBot.build(:seed) }
+  let(:owner) { FactoryBot.create :owner, login_name: 'tamateapokaiwhenua' }
+  let(:seed) { FactoryBot.build(:seed, owner: owner) }
 
   it 'should save a basic seed' do
     seed.save.should be(true)
@@ -9,7 +10,7 @@ describe Seed do
 
   it "should have a slug" do
     seed.save
-    seed.slug.should match(/member\d+-magic-bean/)
+    seed.slug.should match(/tamateapokaiwhenua-magic-bean/)
   end
 
   context 'quantity' do
