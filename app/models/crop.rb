@@ -15,7 +15,7 @@ class Crop < ApplicationRecord
   has_many :photos, through: :plantings
   has_many :seeds
   has_many :harvests
-  has_many :plant_parts, -> { uniq.reorder("plant_parts.name") }, through: :harvests
+  has_many :plant_parts, -> { distinct.reorder("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member'
   belongs_to :requester, class_name: 'Member', optional: true
   belongs_to :parent, class_name: 'Crop', optional: true
