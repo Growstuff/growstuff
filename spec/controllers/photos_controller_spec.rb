@@ -52,8 +52,8 @@ describe PhotosController do
     end
 
     describe "garden photos" do
-      before { get :new, type: "garden", id: garden.id }
-      it { assigns(:item).should eq garden }
+      before { get :new, params: { type: "garden", id: garden.id } }
+      it { expect(assigns(:item)).to eq garden }
       it { expect(flash[:alert]).not_to be_present }
     end
   end
@@ -98,7 +98,7 @@ describe PhotosController do
       end
 
       it "attaches the photo to a harvest" do
-        post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+        post :create, params: { photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id }
         expect(flash[:alert]).not_to be_present
         Photo.last.harvests.first.should eq harvest
       end
@@ -144,7 +144,9 @@ describe PhotosController do
       end
 
       describe "creates the harvest/photo link" do
-        before { post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id }
+        before do
+          post :create, params: { photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id }
+        end
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.harvests.first).to eq harvest }
       end
