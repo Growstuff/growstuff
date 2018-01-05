@@ -29,11 +29,11 @@ describe 'member' do
 
     it "should have a default-type account by default" do
       member.account.account_type.name.should eq Rails.application.config.default_account_type
-      expect(member.paid?).to be_false
+      expect(member.paid?).to eq false
     end
 
     it "doesn't show email by default" do
-      expect(member.show_email).to be_false
+      expect(member.show_email).to eq false
     end
 
     it 'should stringify as the login_name' do
