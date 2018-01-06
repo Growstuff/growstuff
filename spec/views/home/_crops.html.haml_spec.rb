@@ -1,10 +1,16 @@
 require 'rails_helper'
 
 describe 'home/_crops.html.haml', type: "view" do
-  let!(:crop) { FactoryBot.create(:crop, plantings: FactoryBot.create_list(:planting, 3)) }
-  let!(:photo) { FactoryBot.create(:photo, plantings: [crop.plantings.first]) }
+  let(:crop) { FactoryBot.create(:crop, name: 'pūhā') }
+  let(:photo) { FactoryBot.create(:photo) }
+  before(:each) do
+    plantings = FactoryBot.create_list(:planting, 3, crop: crop)
+    plantings.each do |p|
+      p.photos << photo
+    end
+    render
+  end
   let(:planting) { crop.plantings.first }
-  before(:each) { render }
   it 'shows crops section' do
     assert_select 'h2', text: 'Some of our crops'
     assert_select "a[href='#{crop_path(crop)}']"
