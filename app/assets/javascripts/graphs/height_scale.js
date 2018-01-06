@@ -1,23 +1,26 @@
-//=require d3
+// =require d3
 
-/*
-Height Scale is used to map the number of bars to the display size of
-the svg
+/**
+ * Height Scale is used to map the number of bars to the display size of
+ * the svg
  */
 
-(function(){
+(function() {
   'use strict';
 
   var growstuff = (window.growstuff = window.growstuff || {});
 
-  function HeightScale(data){
+  /**
+   * new height scale object
+   * @param {Object} data Graph configuration
+   */
+  function HeightScale(data) {
     this._data = data;
   }
 
-  HeightScale.prototype.render = function(){
+  HeightScale.prototype.render = function() {
     var data = this._data;
     var scaleType = data.height.scale;
-    var axisSize = data.height.size;
 
     return d3.scale[scaleType]()
         .domain(d3.range(data.bars.length))
@@ -25,5 +28,4 @@ the svg
   };
 
   growstuff.HeightScale = HeightScale;
-
 }());
