@@ -1,16 +1,19 @@
-//=require d3
+// =require d3
 
-/*
-Width scale is used to map the value for the length of each bar
-to the display size of the svg
+/**
+ * Width scale is used to map the value for the length of each bar
+ * to the display size of the svg
  */
-
-(function(){
+(function() {
   'use strict';
 
   var growstuff = (window.growstuff = window.growstuff || {});
 
-  function WidthScale (data){
+  /**
+   * Object for WidthScale
+   * @param {Object} data Graph configuration
+   */
+  function WidthScale(data) {
     this._data = data;
   }
 
@@ -24,10 +27,11 @@ to the display size of the svg
         .range([0, axisSize]);
   };
 
-  WidthScale.prototype.getMaxValue = function(){
-    return d3.max(this._data.bars.map(function(bar) { return bar.value; }));
+  WidthScale.prototype.getMaxValue = function() {
+    return d3.max(this._data.bars.map(function(bar) {
+      return bar.value;
+    }));
   };
 
   growstuff.WidthScale = WidthScale;
-
 }());
