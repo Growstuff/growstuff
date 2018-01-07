@@ -78,8 +78,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
-# For charting data
-gem 'd3-rails'
+gem "chartkick"
 
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.

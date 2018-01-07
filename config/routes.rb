@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get 'crops/search' => 'crops#search', as: 'crops_search'
   resources :crops do
     get 'photos' => 'photos#index'
+    get 'sunniness' => 'crops#sunniness'
   end
 
   resources :comments
