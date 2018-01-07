@@ -51,11 +51,7 @@ class CropsController < ApplicationController
   def show
     @crop = Crop.includes(:scientific_names, plantings: :photos).find(params[:id])
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
-
-    respond_to do |format|
-      format.html # show.html.haml
-      format.json { render json: @crop.to_json(crop_json_fields) }
-    end
+    respond_with(@crop)
   end
 
   def new
@@ -104,6 +100,14 @@ class CropsController < ApplicationController
   def destroy
     @crop.destroy
     respond_with @crop
+  end
+
+  def sunniness
+    @crop = Crop.find(params[:crop_id])
+    render json: Planting.where(crop: @crop)
+      .where.not(sunniness: nil)
+      .where.not(sunniness: '')
+      .group(:sunniness).count(:id)
   end
 
   private
