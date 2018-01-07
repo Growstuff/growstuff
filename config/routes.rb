@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   get '/plantings/owner/:owner' => 'plantings#index', as: 'plantings_by_owner'
   get '/plantings/crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
 
-  resources :gardens
+  resources :gardens do
+    get 'timeline' => 'gardens#timeline'
+  end
   get '/gardens/owner/:owner' => 'gardens#index', as: 'gardens_by_owner'
 
   resources :seeds
