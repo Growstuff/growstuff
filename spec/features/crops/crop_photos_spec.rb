@@ -8,16 +8,16 @@ feature "crop detail page", js: true do
   let(:harvest) { create :harvest, owner: member }
 
   let(:photo1) do
-    create(:photo, owner: member, title: 'photo 1', fullsize_url: 'photo1.jpg', thumbnail_url: 'thumb1.jpg')
+    create(:photo, owner: member, title: 'photo 1', fullsize_url: 'http://example.com/photo1.jpg', thumbnail_url: 'http://example.com/thumb1.jpg')
   end
   let(:photo2) do
-    create(:photo, owner: member, title: 'photo 2', fullsize_url: 'photo2.jpg', thumbnail_url: 'thumb2.jpg')
+    create(:photo, owner: member, title: 'photo 2', fullsize_url: 'http://example.com/photo2.jpg', thumbnail_url: 'http://example.com/thumb2.jpg')
   end
   let(:photo3) do
-    create(:photo, owner: member, title: 'photo 3', fullsize_url: 'photo3.jpg', thumbnail_url: 'thumb3.jpg')
+    create(:photo, owner: member, title: 'photo 3', fullsize_url: 'http://example.com/photo3.jpg', thumbnail_url: 'http://example.com/thumb3.jpg')
   end
   let(:photo4) do
-    create(:photo, owner: member, title: 'photo 4', fullsize_url: 'photo4.jpg', thumbnail_url: 'thumb4.jpg')
+    create(:photo, owner: member, title: 'photo 4', fullsize_url: 'http://example.com/photo4.jpg', thumbnail_url: 'http://example.com/thumb4.jpg')
   end
 
   before do
