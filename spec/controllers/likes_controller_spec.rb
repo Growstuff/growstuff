@@ -35,6 +35,7 @@ describe LikesController do
 
     describe "Deleting someone else's like" do
       let(:like) { FactoryBot.create :like }
+
       it { expect(response.code).to eq('403') }
       it { JSON.parse(response.body)["error"] == "Unable to like" }
     end

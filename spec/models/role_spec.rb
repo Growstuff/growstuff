@@ -19,6 +19,7 @@ describe Role do
 
   describe '.crop_wranglers' do
     let!(:crop_wranglers) { FactoryBot.create_list(:crop_wrangling_member, 3) }
+
     it 'return the crop wranglers that are members of that role' do
       expect(Role.crop_wranglers).to match_array(crop_wranglers)
     end
@@ -26,6 +27,7 @@ describe Role do
 
   describe '.admins' do
     let!(:admins) { FactoryBot.create_list(:admin_member, 3) }
+
     it 'return the members that have the role of admin' do
       expect(Role.admins).to match_array(admins)
     end

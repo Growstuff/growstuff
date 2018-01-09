@@ -13,6 +13,7 @@ describe Planting do
     context 'no predications data yet' do
       describe 'planting planted, not finished' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: nil, finished: false }
+
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
         it { expect(planting.days_since_planted).to eq(30) }
@@ -20,6 +21,7 @@ describe Planting do
       end
       describe 'planting not planted yet' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil, finished: false }
+
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
         it { expect(planting.days_since_planted).to eq(nil) }
@@ -27,6 +29,7 @@ describe Planting do
       end
       describe 'planting finished, no planted_at' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: 1.day.ago, finished: true }
+
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
         it { expect(planting.days_since_planted).to eq(nil) }
@@ -34,6 +37,7 @@ describe Planting do
       end
       describe 'planting all finished' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 1.day.ago, finished: true }
+
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(29) }
         it { expect(planting.days_since_planted).to eq(30) }
@@ -63,16 +67,19 @@ describe Planting do
 
       describe 'planting not planted yet' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil }
+
         it { expect(planting.percentage_grown).to eq nil }
       end
 
       describe 'planting finished 10 days, but was never planted' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: 10.days.ago }
+
         it { expect(planting.percentage_grown).to eq nil }
       end
 
       describe 'planted 30 days ago, finished 10 days ago' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago }
+
         it { expect(planting.days_since_planted).to eq 30 }
         it { expect(planting.percentage_grown).to eq 100 }
       end
@@ -82,6 +89,7 @@ describe Planting do
   describe 'planting first harvest preductions' do
     context 'no data' do
       let(:planting) { FactoryBot.create :planting }
+
       it { expect(planting.crop.median_days_to_first_harvest).to eq(nil) }
       it { expect(planting.crop.median_days_to_last_harvest).to eq(nil) }
       it { expect(planting.days_to_first_harvest).to eq(nil) }
@@ -114,11 +122,13 @@ describe Planting do
         planting.crop.update_harvest_medians
       end
       let(:planting) { FactoryBot.create :planting }
+
       it { expect(planting.days_to_first_harvest).to eq(nil) }
       it { expect(planting.days_to_last_harvest).to eq(nil) }
     end
     describe 'planting has first harvest' do
       let(:planting) { FactoryBot.create :planting, planted_at: 100.days.ago }
+
       before do
         FactoryBot.create(:harvest,
           planting: planting,
@@ -134,6 +144,7 @@ describe Planting do
     end
     describe 'planting has last harvest' do
       let(:planting) { FactoryBot.create :planting, planted_at: 100.days.ago, finished_at: 1.day.ago, finished: true }
+
       before do
         FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 90.days.ago
         FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 10.days.ago
