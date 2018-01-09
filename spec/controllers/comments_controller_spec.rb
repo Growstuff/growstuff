@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe CommentsController do
   subject { response }
+
   let(:member) { FactoryBot.create(:member) }
   before(:each) do
     sign_in member
