@@ -61,7 +61,6 @@ PreCommit:
     enabled: true
     exclude:
       - 'app/assets/**'
-      - 'app/assets/javascripts/highcharts.js'
       - 'spec/javascripts/support/vendor/**'
       - '**/bootstrap*'
     command: ['./node_modules/.bin/eslint']
