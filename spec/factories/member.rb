@@ -7,7 +7,7 @@ FactoryBot.define do
     password 'password1'
     email { generate(:email) }
     tos_agreement true
-    confirmed_at Time.now
+    confirmed_at { Time.now }
     show_email false
     bio 'I love seeds'
 
