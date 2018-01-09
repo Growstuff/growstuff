@@ -215,7 +215,7 @@ feature "crop detail page", js: true do
       end
 
       it "predicts lifespan" do
-        is_expected.to have_text "Median lifespan of #{crop.name} plants is 99 days"
+        is_expected.to have_text "Median lifespan 99 days"
       end
 
       it "describes annual crops" do
