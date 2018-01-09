@@ -1,5 +1,5 @@
-- unless crop.perennial.nil?
-  .predictions
+.predictions
+  - unless crop.perennial.nil?
     .row
       %p
         #{crop.name} is
@@ -12,23 +12,23 @@
             an annual crop
           (living and reproducing in a single year or less)
 
-    .row
-      - if crop.annual? && crop.median_lifespan.present?
-        .metric.col-md-3.col-xs-5
-          %h3 Median lifespan
-          %strong= crop.median_lifespan
-          %span days
+  .row
+    - if crop.annual? && crop.median_lifespan.present?
+      .metric.col-md-3.col-xs-5
+        %h3 Median lifespan
+        %strong= crop.median_lifespan
+        %span days
 
-      - if crop.median_days_to_first_harvest.present?
-        .metric.col-md-3.col-xs-5
-          %h3 First harvest expected
-          %strong= crop.median_days_to_first_harvest
-          %span days
-          after planting
+    - if crop.median_days_to_first_harvest.present?
+      .metric.col-md-3.col-xs-5
+        %h3 First harvest expected
+        %strong= crop.median_days_to_first_harvest
+        %span days
+        after planting
 
-      - if crop.annual? && crop.median_days_to_last_harvest.present?
-        .metric.col-md-3.col-xs-5
-          %h3 Last harvest expected
-          %strong= crop.median_days_to_last_harvest
-          %span days
-          after planting
+    - if crop.annual? && crop.median_days_to_last_harvest.present?
+      .metric.col-md-3.col-xs-5
+        %h3 Last harvest expected
+        %strong= crop.median_days_to_last_harvest
+        %span days
+        after planting
