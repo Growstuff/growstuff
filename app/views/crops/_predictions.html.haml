@@ -1,16 +1,17 @@
 .predictions
   - unless crop.perennial.nil?
     .row
-      %p
-        #{crop.name} is
-        - if crop.perennial == true
-          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-            a perennial crop
-          (living more than two years)
-        - elsif crop.perennial == false
-          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-            an annual crop
-          (living and reproducing in a single year or less)
+      .col-md-12
+        %p
+          #{crop.name} is
+          - if crop.perennial == true
+            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+              a perennial crop
+            (living more than two years)
+          - elsif crop.perennial == false
+            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+              an annual crop
+            (living and reproducing in a single year or less)
 
   .row
     - if crop.annual? && crop.median_lifespan.present?
