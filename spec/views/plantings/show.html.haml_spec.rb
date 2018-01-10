@@ -28,6 +28,7 @@ describe "plantings/show" do
 
   context 'planted from' do
     let(:planting) { FactoryBot.create(:cutting_planting) }
+
     it "shows planted_from" do
       render
       rendered.should have_content 'Planted from:'

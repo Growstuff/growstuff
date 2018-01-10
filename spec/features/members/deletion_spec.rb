@@ -12,6 +12,7 @@ feature "member deletion" do
     let!(:secondgarden) { FactoryBot.create(:garden, owner: member) }
     let!(:order) { FactoryBot.create(:order, member: member, completed_at: Time.zone.now) }
     let(:admin) { FactoryBot.create(:admin_member) }
+
     background do
       login_as(member)
       visit member_path(other_member)
