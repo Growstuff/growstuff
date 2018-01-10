@@ -65,7 +65,7 @@ def load_test_users # rubocop:disable Metrics/AbcSize
   source_path = Rails.root.join('db', 'seeds')
   begin
     suburb_file = File.open("#{source_path}/suburbs.csv")
-  rescue
+  rescue StandardError
     puts "Warning: unable to open suburbs.csv"
   end
 
