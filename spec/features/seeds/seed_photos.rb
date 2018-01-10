@@ -19,12 +19,14 @@ feature "Seeds", :js do
   context 'has one photo' do
     before { seed.photos = [photo] }
     let!(:photo) { FactoryBot.create :photo, title: 'hello photo' }
+
     it { is_expected.to have_xpath("//img[contains(@src,'#{photo.thumbnail_url}')]") }
     it { is_expected.to have_xpath("//a[contains(@href,'#{photo_path(photo)}')]") }
   end
   context 'has 50 photos' do
     before { seed.photos = photos }
     let!(:photos) { FactoryBot.create_list :photo, 50 }
+
     it "shows newest photo" do
       is_expected.to have_xpath("//img[contains(@src,'#{photos.last.thumbnail_url}')]")
     end

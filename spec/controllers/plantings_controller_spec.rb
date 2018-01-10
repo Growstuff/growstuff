@@ -39,6 +39,7 @@ describe PlantingsController do
   describe "GET new" do
     describe "picks up crop from params" do
       let(:crop) { FactoryBot.create(:crop) }
+
       before { get :new, crop_id: crop.id }
       it { expect(assigns(:crop)).to eq(crop) }
     end
@@ -50,6 +51,7 @@ describe PlantingsController do
 
     describe "picks up member's garden from params" do
       let(:garden) { FactoryBot.create(:garden, owner: member) }
+
       before { get :new, garden_id: garden.id }
       it { expect(assigns(:garden)).to eq(garden) }
     end
@@ -57,6 +59,7 @@ describe PlantingsController do
     describe "Doesn't display another member's garden on planting form" do
       let(:another_member) { FactoryBot.create(:member) } # over-riding member from login_member()
       let(:garden) { FactoryBot.create(:garden, owner: another_member) }
+
       before { get :new, garden_id: garden.id }
       it { expect(assigns(:garden)).not_to eq(garden) }
     end
@@ -64,6 +67,7 @@ describe PlantingsController do
     describe "Doesn't display un-approved crops on planting form" do
       let(:crop) { FactoryBot.create(:crop, approval_status: 'pending') }
       let!(:garden) { FactoryBot.create(:garden, owner: member) }
+
       before { get :new, crop_id: crop.id }
       it { expect(assigns(:crop)).not_to eq(crop) }
     end
@@ -71,6 +75,7 @@ describe PlantingsController do
     describe "Doesn't display rejected crops on planting form" do
       let(:crop) { FactoryBot.create(:crop, approval_status: 'rejected', reason_for_rejection: 'nope') }
       let!(:garden) { FactoryBot.create(:garden, owner: member) }
+
       before { get :new, crop_id: crop.id }
       it { expect(assigns(:crop)).not_to eq(crop) }
     end
