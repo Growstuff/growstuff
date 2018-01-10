@@ -64,7 +64,7 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Max: 31
 Metrics/ClassLength:
-  Max: 179
+  Max: 182
 Metrics/CyclomaticComplexity:
   Max: 11
 Metrics/PerceivedComplexity:
