@@ -26,6 +26,7 @@ describe PhotoAssociationsController do
     describe "another member's harvest from another member's photo" do
       let(:harvest) { FactoryBot.create :harvest }
       let(:photo) { FactoryBot.create :photo }
+
       it do
         expect do
           begin

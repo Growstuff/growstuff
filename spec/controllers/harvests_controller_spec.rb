@@ -45,6 +45,7 @@ describe HarvestsController do
 
   describe "GET show" do
     let(:harvest) { Harvest.create! valid_attributes }
+
     describe "assigns the requested harvest as @harvest" do
       before { get :show, params: { id: harvest.to_param } }
       it { expect(assigns(:harvest)).to eq(harvest) }
@@ -65,6 +66,7 @@ describe HarvestsController do
 
   describe "GET edit" do
     let(:harvest) { Harvest.create! valid_attributes }
+
     describe "assigns the requested harvest as @harvest" do
       before { get :edit, params: { id: harvest.to_param } }
       it { expect(assigns(:harvest)).to eq(harvest) }
@@ -169,6 +171,7 @@ describe HarvestsController do
     describe "not my planting" do
       let(:not_my_planting) { FactoryBot.create(:planting) }
       let(:harvest) { FactoryBot.create(:harvest) }
+
       describe "does not save planting_id" do
         before do
           put :update, params: { id: harvest.to_param,
