@@ -56,6 +56,9 @@
       .col-md-3
         %h2 Planted from
         = pie_chart crop_planted_from_path(@crop), legend: "bottom"
+      .col-md-3
+        %h2 Harvested for
+        = pie_chart crop_harvested_for_path(@crop), legend: "bottom"
 
     .row
       .col-md-12
