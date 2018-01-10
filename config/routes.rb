@@ -51,6 +51,7 @@ Growstuff::Application.routes.draw do
   resources :crops do
     get 'photos' => 'photos#index'
     get 'sunniness' => 'crops#sunniness'
+    get 'planted_from' => 'crops#planted_from'
   end
 
   resources :comments

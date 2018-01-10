@@ -110,6 +110,14 @@ class CropsController < ApplicationController
       .group(:sunniness).count(:id)
   end
 
+  def planted_from
+    @crop = Crop.find(params[:crop_id])
+    render json: Planting.where(crop: @crop)
+      .where.not(planted_from: nil)
+      .where.not(planted_from: '')
+      .group(:planted_from).count(:id)
+  end
+
   private
 
   def notifier
