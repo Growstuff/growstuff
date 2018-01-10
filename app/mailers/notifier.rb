@@ -37,17 +37,20 @@ class Notifier < ActionMailer::Base
   end
 
   def new_crop_request(member, request)
-    @member, @request = member, request
+    @member = member
+    @request = request
     mail(to: @member.email, subject: "#{@request.requester.login_name} has requested #{@request.name} as a new crop")
   end
 
   def crop_request_approved(member, crop)
-    @member, @crop = member, crop
+    @member = member
+    @crop = crop
     mail(to: @member.email, subject: "#{crop.name.capitalize} has been approved")
   end
 
   def crop_request_rejected(member, crop)
-    @member, @crop = member, crop
+    @member = member
+    @crop = crop
     mail(to: @member.email, subject: "#{crop.name.capitalize} has been rejected")
   end
 end
