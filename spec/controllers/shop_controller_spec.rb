@@ -24,6 +24,7 @@ describe ShopController do
       describe "assigns @order as current_order if there is one" do
         let(:member) { FactoryBot.create(:member) }
         let!(:order) { FactoryBot.create(:order, member: member) }
+
         before do
           sign_in member
           get :index, {}

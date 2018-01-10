@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "crops/_planting_advice" do
   let(:planting) { FactoryBot.create(:planting) }
+
   subject { rendered }
 
   shared_examples "render planting_advice" do

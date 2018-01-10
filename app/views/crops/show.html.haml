@@ -8,9 +8,6 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- content_for :scripts do
-  = javascript_include_tag "charts"
-
 = render partial: 'approval_status_message', locals: { crop: @crop }
 
 - if @crop.approved?
@@ -26,25 +23,24 @@
 
 .row
   .col-md-9
-    - if member_signed_in?
-      = display_seed_availability(@current_member, @crop)
-      = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
+    .row
+      .col-md-12
+        - if member_signed_in?
+          = display_seed_availability(@current_member, @crop)
+          = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
 
-    %h2
-      - if !@crop.plantings.empty?
-        = @crop.name.titleize
-        has been planted
-        = pluralize(@crop.plantings.size, "time")
-        by #{ENV['GROWSTUFF_SITE_NAME']} members.
-      - else
-        Nobody is growing this yet. You could be the first!
+        %h2
+          - if !@crop.plantings.empty?
+            = @crop.name.titleize
+            has been planted
+            = pluralize(@crop.plantings.size, "time")
+            by #{ENV['GROWSTUFF_SITE_NAME']} members.
+          - else
+            Nobody is growing this yet. You could be the first!
+
 
     .row
-      .col-md-3
-        %h2 Sunniness Chart
-        = pie_chart crop_sunniness_path(@crop), legend: "bottom"
-
-      .col-md-9
+      .col-md-12
         %h2 Predictions
         = render 'predictions', crop: @crop
 
@@ -52,7 +48,17 @@
       .col-md-12
         %h2 Photos
         %p= render 'crops/photos', crop: @crop
+    .row
+      .col-md-3
+        %h2 Sunniness
+        = pie_chart crop_sunniness_path(@crop), legend: "bottom"
 
+      .col-md-3
+        %h2 Planted from
+        = pie_chart crop_planted_from_path(@crop), legend: "bottom"
+
+    .row
+      .col-md-12
         %h2 Crop Map
         %p
           Only plantings by members who have set their locations are shown on this map.
