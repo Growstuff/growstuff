@@ -31,7 +31,7 @@ describe PhotoAssociationsController do
         expect do
           begin
             delete :destroy, valid_params
-          rescue
+          rescue StandardError
             nil
           end
         end.not_to change(photo.harvests, :count)
