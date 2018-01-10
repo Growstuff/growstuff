@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Photo do
   let(:photo) { FactoryBot.create(:photo, owner: member) }
   let(:member) { FactoryBot.create(:member) }
+
   describe 'add/delete functionality' do
     let(:planting) { FactoryBot.create(:planting) }
     let(:harvest) { FactoryBot.create(:harvest) }

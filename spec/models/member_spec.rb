@@ -432,6 +432,7 @@ describe 'member' do
 
   context 'member deleted' do
     let(:member) { FactoryBot.create(:member) }
+
     context 'queries a scope' do
       before { member.destroy }
       it { expect(Member.all).not_to include(member) }
@@ -450,10 +451,12 @@ describe 'member' do
 
     context "deleted admin member" do
       let(:member) { FactoryBot.create(:admin_member) }
+
       before { member.destroy }
 
       context 'crop creator' do
         let!(:crop) { FactoryBot.create(:crop, creator: member) }
+
         it "leaves crops behind, reassigned to cropbot" do
           expect(Crop.all).to include(crop)
         end
@@ -461,6 +464,7 @@ describe 'member' do
 
       context 'forum owners' do
         let!(:forum) { FactoryBot.create(:forum, owner: member) }
+
         it "leaves forums behind, reassigned to ex_admin" do
           expect(forum.owner).to eq(member)
         end

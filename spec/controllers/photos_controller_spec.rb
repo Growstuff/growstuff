@@ -73,6 +73,7 @@ describe PhotosController do
     let(:planting) { FactoryBot.create(:planting, garden: garden, owner: member) }
     let(:harvest) { FactoryBot.create(:harvest, owner: member) }
     let(:photo) { FactoryBot.create(:photo, owner: member) }
+
     describe "with valid params" do
       before { controller.stub(:current_member) { member } }
       it "attaches the photo to a planting" do
@@ -113,6 +114,7 @@ describe PhotosController do
 
     describe "for the second time" do
       let(:planting) { FactoryBot.create :planting, owner: member }
+
       it "does not add a photo twice" do
         expect do
           post :create, photo: { flickr_photo_id: 1 }, id: planting.id, type: 'planting'
@@ -142,6 +144,7 @@ describe PhotosController do
 
     describe "with mismatched owners" do
       let(:photo) { FactoryBot.create(:photo) }
+
       it "does not create the planting/photo link" do
         # members will be auto-created, and different
         another_planting = FactoryBot.create(:planting)

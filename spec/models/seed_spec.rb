@@ -151,6 +151,7 @@ describe Seed do
 
   context 'photos' do
     let(:seed) { FactoryBot.create :seed }
+
     before { seed.photos << FactoryBot.create(:photo) }
     it 'is found in has_photos scope' do
       Seed.has_photos.should include(seed)
