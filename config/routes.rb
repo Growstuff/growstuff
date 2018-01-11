@@ -50,6 +50,9 @@ Growstuff::Application.routes.draw do
   get 'crops/search' => 'crops#search', as: 'crops_search'
   resources :crops do
     get 'photos' => 'photos#index'
+    get 'sunniness' => 'crops#sunniness'
+    get 'planted_from' => 'crops#planted_from'
+    get 'harvested_for' => 'crops#harvested_for'
   end
 
   resources :comments

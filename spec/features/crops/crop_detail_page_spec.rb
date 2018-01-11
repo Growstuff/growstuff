@@ -181,6 +181,7 @@ feature "crop detail page", js: true do
         # 10 days to harvest
         FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: planting.crop,
                                     planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        planting.crop.update_medians
       end
       it "predicts harvest" do
         is_expected.to have_text("First harvest expected 20 days after planting")
@@ -216,7 +217,8 @@ feature "crop detail page", js: true do
       end
 
       it "predicts lifespan" do
-        is_expected.to have_text "Median lifespan of #{crop.name} plants is 99 days"
+        is_expected.to have_text "Median lifespan"
+        is_expected.to have_text "99 days"
       end
 
       it "describes annual crops" do
