@@ -1,5 +1,6 @@
 !!! 5
 %html{ lang: "en", prefix: "og: http://ogp.me/ns#" }
+  = yield :scripts
   = javascript_include_tag "application"
   = yield :script
   = render partial: "layouts/meta"
