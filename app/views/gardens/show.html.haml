@@ -40,7 +40,7 @@
     .row
       = timeline garden_timeline_path(@garden), adapter: "google"
 
-    %h3 What's planted here?
+    %h3 Current plantings in garden
     .row
       - if @current_plantings.size.positive?
         - @current_plantings.each do |planting|
