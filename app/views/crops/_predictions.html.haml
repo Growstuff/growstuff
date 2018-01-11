@@ -1,29 +1,35 @@
-- unless crop.perennial.nil?
-  %p
-    #{crop.name} is
-    - if crop.perennial == true
-      = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-        a perennial crop
-      (living more than two years)
-    - elsif crop.perennial == false
-      = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-        an annual crop
-      (living and reproducing in a single year or less)
+.predictions
+  - unless crop.perennial.nil?
+    .row
+      .col-md-12
+        %p
+          #{crop.name} is
+          - if crop.perennial == true
+            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+              a perennial crop
+            (living more than two years)
+          - elsif crop.perennial == false
+            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+              an annual crop
+            (living and reproducing in a single year or less)
 
-- if crop.annual? && crop.median_lifespan.present?
-  %p
-    Median lifespan of #{crop.name} plants is
-    %strong= crop.median_lifespan
-    days
+  .row
+    - if crop.annual? && crop.median_lifespan.present?
+      .metric.col-md-3.col-xs-5
+        %h3 Median lifespan
+        %strong= crop.median_lifespan
+        %span days
 
-- if crop.median_days_to_first_harvest.present?
-  %p
-    First harvest expected
-    %strong= crop.median_days_to_first_harvest
-    days after planting
+    - if crop.median_days_to_first_harvest.present?
+      .metric.col-md-3.col-xs-5
+        %h3 First harvest expected
+        %strong= crop.median_days_to_first_harvest
+        %span days
+        after planting
 
-- if crop.annual? && crop.median_days_to_last_harvest.present?
-  %p
-    Last harvest expected
-    %strong= crop.median_days_to_last_harvest
-    days after planting
+    - if crop.annual? && crop.median_days_to_last_harvest.present?
+      .metric.col-md-3.col-xs-5
+        %h3 Last harvest expected
+        %strong= crop.median_days_to_last_harvest
+        %span days
+        after planting
