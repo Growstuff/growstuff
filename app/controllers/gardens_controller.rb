@@ -63,12 +63,8 @@ class GardensController < ApplicationController
     @garden = Garden.find(params[:garden_id])
     @garden.plantings.where.not(planted_at: nil)
       .order(finished_at: :desc).each do |p|
-
-      finish = if p.finished_at.present?
-                 p.finished_at
-               else
-                 p.finish_predicted_at
-               end
+      # use finished_at if we have it, otherwise use predictions
+      finish = p.finished_at.presence || p.finish_predicted_at
       @data << [p.crop.name, p.planted_at, finish] if finish.present?
     end
     render json: @data
