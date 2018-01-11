@@ -61,10 +61,15 @@ class GardensController < ApplicationController
   def timeline
     @data = []
     @garden = Garden.find(params[:garden_id])
-    @garden.plantings.where.not(finished_at: nil)
-      .where.not(planted_at: nil)
+    @garden.plantings.where.not(planted_at: nil)
       .order(finished_at: :desc).each do |p|
-      @data << [p.crop.name, p.planted_at, p.finished_at]
+
+      finish = if p.finished_at.present?
+                 p.finished_at
+               else
+                 p.finish_predicted_at
+               end
+      @data << [p.crop.name, p.planted_at, finish] if finish.present?
     end
     render json: @data
   end
