@@ -21,7 +21,7 @@ describe "posts/index" do
     assert_select "div.post", count: 2
     assert_select "h3", text: "A Post".to_s, count: 2
     assert_select "div.post-body",
-      text: "This is some text.".to_s, count: 2
+                  text: "This is some text.".to_s, count: 2
   end
 
   it "contains two gravatar icons" do

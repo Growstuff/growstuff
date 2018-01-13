@@ -17,11 +17,11 @@ class GardensController < ApplicationController
   # GET /gardens/1.json
   def show
     @current_plantings = @garden.plantings.current
-      .includes(:crop, :owner)
-      .order(planted_at: :desc)
+                                .includes(:crop, :owner)
+                                .order(planted_at: :desc)
     @finished_plantings = @garden.plantings.finished
-      .includes(:crop)
-      .order(finished_at: :desc)
+                                 .includes(:crop)
+                                 .order(finished_at: :desc)
     respond_with(@garden)
   end
 
@@ -62,7 +62,7 @@ class GardensController < ApplicationController
     @data = []
     @garden = Garden.find(params[:garden_id])
     @garden.plantings.where.not(planted_at: nil)
-      .order(finished_at: :desc).each do |p|
+           .order(finished_at: :desc).each do |p|
       # use finished_at if we have it, otherwise use predictions
       finish = p.finished_at.presence || p.finish_predicted_at
       @data << [p.crop.name, p.planted_at, finish] if finish.present?
@@ -74,7 +74,7 @@ class GardensController < ApplicationController
 
   def garden_params
     params.require(:garden).permit(:name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit)
+                                   :location, :latitude, :longitude, :area, :area_unit)
   end
 
   def gardens

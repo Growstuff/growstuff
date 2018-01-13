@@ -36,7 +36,7 @@ class Planting < ActiveRecord::Base
   ##
   ## Delegations
   delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count,
-    to: :crop, prefix: true
+           to: :crop, prefix: true
 
   ##
   ## Validations
