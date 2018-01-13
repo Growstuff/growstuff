@@ -3,8 +3,6 @@ require 'rails_helper'
 feature "crop detail page", js: true do
   let(:crop) { create :crop }
 
-  
-
   context "varieties" do
     scenario "The crop DOES NOT have varieties" do
       visit crop_path(crop)
