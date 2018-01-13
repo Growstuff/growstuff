@@ -6,6 +6,7 @@ RSpec.describe GardensController, type: :controller do
 
   context "when not signed in" do
     let(:garden) { double('garden') }
+
     describe 'GET new' do
       before { get :new, id: garden.to_param }
       it { expect(response).to redirect_to(new_member_session_path) }
@@ -45,6 +46,7 @@ RSpec.describe GardensController, type: :controller do
 
     describe "for another member's garden" do
       let(:not_my_garden) { double('garden') }
+
       before do
         expect(Garden).to receive(:find).and_return(:not_my_garden)
         expect(not_my_garden).not_to receive(:save)

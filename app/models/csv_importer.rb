@@ -46,7 +46,7 @@ class CsvImporter
 
     names_to_add.each do |name|
       sciname = ScientificName.find_by(name: name, crop: @crop)
-      sciname = ScientificName.create!(name: name, crop: @crop, creator: cropbot) unless sciname
+      sciname ||= ScientificName.create!(name: name, crop: @crop, creator: cropbot)
       @crop.scientific_names << sciname
     end
   end
@@ -56,15 +56,15 @@ class CsvImporter
     return if alternate_names.blank?
     alternate_names.split(/,\s*/).each do |name|
       altname = AlternateName.find_by(name: name, crop: @crop)
-      altname = AlternateName.create! name: name, crop: @crop, creator: cropbot unless altname
+      altname ||= AlternateName.create! name: name, crop: @crop, creator: cropbot
       @crop.alternate_names << altname
     end
   end
 
   def cropbot
-    @cropbot = Member.find_by!(login_name: 'cropbot') unless @cropbot
+    @cropbot ||= Member.find_by!(login_name: 'cropbot')
     @cropbot
-  rescue
+  rescue StandardError
     raise "cropbot account not found: run rake db:seed"
   end
 end
