@@ -6,8 +6,8 @@ feature "follows", :js do
 
     scenario "follow buttons on member profile page" do
       visit member_path(member)
-      expect(page).to_not have_link "Follow"
-      expect(page).to_not have_link "Unfollow"
+      expect(page).not_to have_link "Follow"
+      expect(page).not_to have_link "Unfollow"
     end
   end
 
