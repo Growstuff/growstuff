@@ -3,9 +3,9 @@ require 'rails_helper'
 describe "account_types/new" do
   before(:each) do
     assign(:account_type, stub_model(AccountType,
-      name: "MyString",
-      is_paid: false,
-      is_permanent_paid: false).as_new_record)
+                                     name: "MyString",
+                                     is_paid: false,
+                                     is_permanent_paid: false).as_new_record)
   end
 
   it "renders new account_type form" do

@@ -54,16 +54,16 @@ class HarvestsController < ApplicationController
 
   def harvest_params
     params.require(:harvest)
-      .permit(:planting_id, :crop_id, :harvested_at, :description,
-        :quantity, :unit, :weight_quantity, :weight_unit,
-        :plant_part_id, :slug, :si_weight)
-      .merge(owner_id: current_member.id)
+          .permit(:planting_id, :crop_id, :harvested_at, :description,
+                  :quantity, :unit, :weight_quantity, :weight_unit,
+                  :plant_part_id, :slug, :si_weight)
+          .merge(owner_id: current_member.id)
   end
 
   def matching_plantings
     Planting.where(crop: @harvest.crop, owner: @harvest.owner)
-      .where('(planted_at IS NULL OR planted_at <= ?)', @harvest.harvested_at)
-      .where('(finished_at IS NULL OR finished_at >= ?)', @harvest.harvested_at)
+            .where('(planted_at IS NULL OR planted_at <= ?)', @harvest.harvested_at)
+            .where('(finished_at IS NULL OR finished_at >= ?)', @harvest.harvested_at)
   end
 
   def harvests

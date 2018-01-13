@@ -5,7 +5,7 @@ describe Order do
     @order = FactoryBot.create(:order)
     @product = FactoryBot.create(:product)
     @order_item = FactoryBot.create(:order_item,
-      order_id: @order.id, product_id: @product.id)
+                                    order_id: @order.id, product_id: @product.id)
   end
 
   describe '#by_member_id' do
@@ -30,10 +30,10 @@ describe Order do
     @order = FactoryBot.create(:order, member: @member)
     @account_type = FactoryBot.create(:account_type, name: 'paid')
     @product = FactoryBot.create(:product,
-      account_type: @account_type,
-      paid_months: 3)
+                                 account_type: @account_type,
+                                 paid_months: 3)
     @order_item = FactoryBot.create(:order_item,
-      order_id: @order.id, product_id: @product.id)
+                                    order_id: @order.id, product_id: @product.id)
 
     @member.account.paid_until.should be_nil
 
@@ -47,11 +47,11 @@ describe Order do
     @member = FactoryBot.create(:member)
     @order = FactoryBot.create(:order, member: @member)
     @product = FactoryBot.create(:product,
-      min_price: 1000)
+                                 min_price: 1000)
     # we force an order to only have one item at present. Add more if wanted
     # later.
     @order_item1 = FactoryBot.create(:order_item,
-      order_id: @order.id, product_id: @product.id, price: 1111, quantity: 1)
+                                     order_id: @order.id, product_id: @product.id, price: 1111, quantity: 1)
 
     @order.total.should eq 1111
   end
@@ -60,11 +60,11 @@ describe Order do
     @member = FactoryBot.create(:member)
     @order = FactoryBot.create(:order, member: @member)
     @product = FactoryBot.create(:product,
-      min_price: 1000)
+                                 min_price: 1000)
     # we force an order to only have one item at present. Add more if wanted
     # later.
     @order_item1 = FactoryBot.create(:order_item,
-      order_id: @order.id, product_id: @product.id, price: 1111, quantity: 2)
+                                     order_id: @order.id, product_id: @product.id, price: 1111, quantity: 2)
 
     @order.total.should eq 2222
   end
@@ -73,12 +73,12 @@ describe Order do
     @member = FactoryBot.create(:member)
     @order = FactoryBot.create(:order, member: @member)
     @product = FactoryBot.create(:product,
-      name: 'foo',
-      min_price: 1000)
+                                 name: 'foo',
+                                 min_price: 1000)
     # we force an order to only have one item at present. Add more if wanted
     # later.
     @order_item1 = FactoryBot.create(:order_item,
-      order_id: @order.id, product_id: @product.id, price: 1111, quantity: 1)
+                                     order_id: @order.id, product_id: @product.id, price: 1111, quantity: 1)
 
     @order.activemerchant_items.should eq [{
       name: 'foo',

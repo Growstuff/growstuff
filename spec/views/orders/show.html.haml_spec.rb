@@ -11,9 +11,9 @@ describe "orders/show" do
     before(:each) do
       @order = assign(:order, FactoryBot.create(:order, member: @member))
       @order_item = FactoryBot.create(:order_item,
-        order: @order,
-        quantity: 2,
-        price: 9900)
+                                      order: @order,
+                                      quantity: 2,
+                                      price: 9900)
       render
     end
 
@@ -52,9 +52,9 @@ describe "orders/show" do
     before(:each) do
       @order = assign(:order, FactoryBot.create(:completed_order, member: @member))
       @order_item = FactoryBot.create(:order_item,
-        order: @order,
-        quantity: 2,
-        price: 9900)
+                                      order: @order,
+                                      quantity: 2,
+                                      price: 9900)
       render
     end
 

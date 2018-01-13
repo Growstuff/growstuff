@@ -3,9 +3,9 @@ require 'rails_helper'
 describe "products/new" do
   before(:each) do
     assign(:product, stub_model(Product,
-      name: "MyString",
-      description: "MyString",
-      min_price: "9.99").as_new_record)
+                                name: "MyString",
+                                description: "MyString",
+                                min_price: "9.99").as_new_record)
   end
 
   it "renders new product form" do

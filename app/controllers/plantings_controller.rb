@@ -29,8 +29,8 @@ class PlantingsController < ApplicationController
 
   def show
     @planting = Planting.includes(:owner, :crop, :garden, :photos)
-      .friendly
-      .find(params[:id])
+                        .friendly
+                        .find(params[:id])
     @photos = @planting.photos.order(created_at: :desc).includes(:owner).paginate(page: params[:page])
     respond_with @planting
   end
@@ -97,8 +97,8 @@ class PlantingsController < ApplicationController
         end
     p = p.current unless @show_all
     p.joins(:owner, :crop, :garden)
-      .order(created_at: :desc)
-      .includes(:crop, :owner, :garden)
-      .paginate(page: params[:page])
+     .order(created_at: :desc)
+     .includes(:crop, :owner, :garden)
+     .paginate(page: params[:page])
   end
 end

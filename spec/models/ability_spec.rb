@@ -13,20 +13,20 @@ describe Ability do
 
     it "member can't view someone else's notifications" do
       notification = FactoryBot.create(:notification,
-        recipient: FactoryBot.create(:member))
+                                       recipient: FactoryBot.create(:member))
       ability.should_not be_able_to(:read, notification)
     end
     it "member can't send messages to themself" do
       ability.should_not be_able_to(:create,
-        FactoryBot.create(:notification,
-          recipient: member,
-          sender: member))
+                                    FactoryBot.create(:notification,
+                                                      recipient: member,
+                                                      sender: member))
     end
     it "member can send messages to someone else" do
       ability.should be_able_to(:create,
-        FactoryBot.create(:notification,
-          recipient: FactoryBot.create(:member),
-          sender: member))
+                                FactoryBot.create(:notification,
+                                                  recipient: FactoryBot.create(:member),
+                                                  sender: member))
     end
   end
 
@@ -113,20 +113,20 @@ describe Ability do
     let(:order) { FactoryBot.create(:order, member: member) }
     let(:strangers_order) do
       FactoryBot.create(:order,
-        member: FactoryBot.create(:member))
+                        member: FactoryBot.create(:member))
     end
     let(:completed_order) do
       FactoryBot.create(:completed_order,
-        member: member)
+                        member: member)
     end
     let(:order_item) { FactoryBot.create(:order_item, order: order) }
     let(:strangers_order_item) do
       FactoryBot.create(:order_item,
-        order: strangers_order)
+                        order: strangers_order)
     end
     let(:completed_order_item) do
       FactoryBot.create(:order_item,
-        order: completed_order)
+                        order: completed_order)
     end
 
     context "standard member" do

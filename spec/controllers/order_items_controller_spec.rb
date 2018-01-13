@@ -8,9 +8,9 @@ describe OrderItemsController do
   let(:order) { FactoryBot.create(:order, member: member) }
   let(:order_item) do
     FactoryBot.create(:order_item,
-      order: order,
-      product: product,
-      price: product.min_price)
+                      order: order,
+                      product: product,
+                      price: product.min_price)
   end
 
   context 'signed in' do
