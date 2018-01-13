@@ -270,6 +270,7 @@ feature "Planting a crop", :js, :elasticsearch do
   describe "Marking a planting as finished from the show page" do
     let(:path) { planting_path(planting) }
     let(:link_text) { "Mark as finished" }
+
     it_behaves_like "append date"
   end
 

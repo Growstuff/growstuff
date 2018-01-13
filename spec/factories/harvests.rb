@@ -6,7 +6,7 @@ FactoryBot.define do
     plant_part
     planting nil
     owner { planting.present? ? planting.owner : FactoryBot.create(:member) }
-    harvested_at Time.zone.local(2015, 9, 17)
+    harvested_at { Time.zone.local(2015, 9, 17) }
     quantity "3"
     unit "individual"
     weight_quantity 6

@@ -21,6 +21,7 @@ describe AccountTypesController do
     describe '#index' do
       let!(:aaa) { FactoryBot.create :account_type, name: 'aaa' }
       let!(:zzz) { FactoryBot.create :account_type, name: 'zzz' }
+
       before { get :index }
       it { is_expected.to be_success }
       it { expect(assigns[:account_types].first).to eql(aaa) }
