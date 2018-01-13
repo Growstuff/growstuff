@@ -34,7 +34,7 @@ feature "Gardens#index", :js do
       it "show active garden" do
         expect(page).to have_text active_garden.name
       end
-      it "should not show inactive garden" do
+      it "does not show inactive garden" do
         expect(page).not_to have_text inactive_garden.name
       end
       it "links to active garden" do
