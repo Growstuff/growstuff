@@ -37,6 +37,7 @@ RSpec.describe 'Gardens', type: :request do
   end
 
   subject { JSON.parse response.body }
+
   scenario '#index' do
     get '/api/v1/gardens', {}, headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
