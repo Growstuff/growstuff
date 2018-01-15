@@ -46,4 +46,20 @@ describe CropsController do
       it { expect(response.content_type).to eq("application/rss+xml") }
     end
   end
+
+  describe 'GET charts' do
+    let(:crop) { FactoryBot.create :crop }
+    describe 'sunniness' do
+      before { get :sunniness, crop_id: crop.to_param }
+      it { expect(response).to be_success }
+    end
+    describe 'planted_from' do
+      before { get :planted_from, crop_id: crop.to_param }
+      it { expect(response).to be_success }
+    end
+    describe 'harvested_for' do
+      before { get :harvested_for, crop_id: crop.to_param }
+      it { expect(response).to be_success }
+    end
+  end
 end
