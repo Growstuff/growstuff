@@ -1,5 +1,5 @@
 class GardensController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
+  before_action :authenticate_member!, except: %i(index show timeline)
   after_action :expire_homepage, only: %i(create delete)
   load_and_authorize_resource
   respond_to :html, :json
