@@ -15,6 +15,12 @@ class Ability
     can :view_follows, Member
     can :view_followers, Member
 
+    # Everyone can see the charts
+    can :timeline, Garden
+    can :sunniness, Crop
+    can :planted_from, Crop
+    can :harvested_for, Crop
+
     # except these, which don't make sense if you're not logged in
     cannot :read, Notification
     cannot :read, Authentication
