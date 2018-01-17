@@ -149,9 +149,9 @@ feature "crop detail page", js: true do
 
     scenario "User not signed in" do
       visit crop_path(seed.crop)
-      expect(page).to_not have_content "You have 20 seeds of this crop"
-      expect(page).to_not have_content "You don't have any seeds of this crop"
-      expect(page).to_not have_link "View your seeds"
+      expect(page).not_to have_content "You have 20 seeds of this crop"
+      expect(page).not_to have_content "You don't have any seeds of this crop"
+      expect(page).not_to have_link "View your seeds"
     end
 
     scenario "User signed in" do

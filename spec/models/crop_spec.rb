@@ -553,7 +553,7 @@ describe Crop do
       end
 
       it "should not delete the posts" do
-        expect(Post.find(post.id)).to_not eq nil
+        expect(Post.find(post.id)).not_to eq nil
       end
     end
   end
