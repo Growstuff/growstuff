@@ -4,12 +4,12 @@ class Planting < ActiveRecord::Base
   friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants
-  SUNNINESS_VALUES = %w(sun semi-shade shade)
+  SUNNINESS_VALUES = %w(sun semi-shade shade).freeze
   PLANTED_FROM_VALUES = [
     'seed', 'seedling', 'cutting', 'root division', 'runner',
     'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
     'graft', 'layering'
-  ]
+  ].freeze
 
   ##
   ## Triggers
