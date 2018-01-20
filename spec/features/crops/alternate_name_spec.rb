@@ -45,7 +45,7 @@ feature "Alternate names", js: true do
         href: alternate_name_path(alternate_eggplant)
       within('.alternate_names') { click_on "Delete" }
       expect(page.status_code).to equal 200
-      expect(page).to_not have_content alternate_eggplant.name
+      expect(page).not_to have_content alternate_eggplant.name
       expect(page).to have_content 'Alternate name was successfully deleted'
     end
 
