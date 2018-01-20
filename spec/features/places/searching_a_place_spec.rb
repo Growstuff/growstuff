@@ -13,7 +13,7 @@ feature "User searches" do
     expect(page).to have_content "community near Philippines"
     expect(page).to have_button "search_button"
     expect(page).to have_content "Nearby members"
-    expect(page).to_not have_content "No results found"
+    expect(page).not_to have_content "No results found"
   end
 
   scenario "with a blank search string" do

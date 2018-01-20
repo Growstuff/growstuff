@@ -17,8 +17,8 @@ shared_examples "crop suggest" do |resource|
       fill_autocomplete "crop", with: "pe"
     end
 
-    expect(page).to_not have_content("pear")
-    expect(page).to_not have_content("pea")
+    expect(page).not_to have_content("pear")
+    expect(page).not_to have_content("pea")
 
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "pea"
