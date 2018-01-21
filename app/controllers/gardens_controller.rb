@@ -1,5 +1,5 @@
 class GardensController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show timeline)
+  before_action :authenticate_member!, except: %i(index show)
   after_action :expire_homepage, only: %i(create delete)
   load_and_authorize_resource
   respond_to :html, :json
@@ -56,18 +56,6 @@ class GardensController < ApplicationController
     @garden.destroy
     flash[:notice] = I18n.t('gardens.deleted')
     redirect_to(gardens_by_owner_path(owner: @garden.owner))
-  end
-
-  def timeline
-    @data = []
-    @garden = Garden.find(params[:garden_id])
-    @garden.plantings.where.not(planted_at: nil)
-      .order(finished_at: :desc).each do |p|
-      # use finished_at if we have it, otherwise use predictions
-      finish = p.finished_at.presence || p.finish_predicted_at
-      @data << [p.crop.name, p.planted_at, finish] if finish.present?
-    end
-    render json: @data
   end
 
   private

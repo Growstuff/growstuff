@@ -28,7 +28,7 @@ Growstuff::Application.routes.draw do
   get '/plantings/crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
 
   resources :gardens do
-    get 'timeline' => 'gardens#timeline'
+    get 'timeline' => 'charts/gardens#timeline'
   end
   get '/gardens/owner/:owner' => 'gardens#index', as: 'gardens_by_owner'
 
