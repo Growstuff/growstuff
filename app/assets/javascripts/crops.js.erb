@@ -1,24 +1,27 @@
 function showCropMap(cropmap) {
+  var mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
+  var mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_access_token %>";
+  var mapbox_base_url = "http://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
 
   L.tileLayer(mapbox_base_url, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(cropmap);
-  markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
+  var markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
-  things_to_map = location.pathname + '.json';
+  var things_to_map = location.pathname + '.json';
   $.getJSON(things_to_map, function(crop) {
     $.each(crop.plantings, function(i, planting) {
-      owner = planting.owner;
+      var owner = planting.owner;
       if (owner.latitude && owner.longitude) {
-        marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude));
+        var marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude));
 
-        planting_url = "/plantings/" + planting.id;
-        planting_link = "<a href='" + planting_url + "'>" + owner.login_name + "'s " + crop.name + "</a>";
+        var planting_url = "/plantings/" + planting.id;
+        var planting_link = "<a href='" + planting_url + "'>" + owner.login_name + "'s " + crop.name + "</a>";
 
-        where = "<p><i>" + owner.location + "</i></p>";
+        var where = "<p><i>" + owner.location + "</i></p>";
 
-        details = "<p>";
+        var details = "<p>";
         if (planting.quantity) {
           details = details + "Quantity: " + planting.quantity + "<br/>";
         }
@@ -41,13 +44,10 @@ function showCropMap(cropmap) {
 $(document).ready(function() {
 
   if (document.getElementById("cropmap") !== null) {
-    mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
-    mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_access_token %>";
-    mapbox_base_url = "http://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
 
-    L.Icon.Default.imagePath = '/assets'
+    L.Icon.Default.imagePath = '/assets';
 
-    cropmap = L.map('cropmap').setView([0.0, -0.0], 2);
+    var cropmap = L.map('cropmap').setView([0.0, -0.0], 2);
     showCropMap(cropmap);
   }
 
