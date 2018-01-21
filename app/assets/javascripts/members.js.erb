@@ -1,25 +1,24 @@
 if (document.getElementById("membermap") !== null) {
-  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
-  mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_access_token %>";
-  mapbox_base_url = "http://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
+  var mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
+  var mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_access_token %>";
+  var mapbox_base_url = "http://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
 
-  L.Icon.Default.imagePath = '/assets'
-
+  L.Icon.Default.imagePath = '/assets';
 
   $.getJSON(location.pathname + '.json', function(member) {
     if (member.latitude && member.longitude) {
-      membermap = L.map('membermap').setView([member.latitude, member.longitude], 4);
+      var membermap = L.map('membermap').setView([member.latitude, member.longitude], 4);
 
       L.tileLayer(mapbox_base_url, {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18
       }).addTo(membermap);
-      marker = new L.Marker(new L.LatLng(member.latitude, member.longitude));
+      var marker = new L.Marker(new L.LatLng(member.latitude, member.longitude));
 
-      member_url = "/members/" + member.slug;
-      member_link = "<a href='" + member_url + "'>" + member.login_name + "</a>";
+      var member_url = "/members/" + member.slug;
+      var member_link = "<a href='" + member_url + "'>" + member.login_name + "</a>";
 
-      where = "<p><i>" + member.location + "</i></p>";
+      var where = "<p><i>" + member.location + "</i></p>";
 
       marker.bindPopup(member_link + where).openPopup();
       marker.addTo(membermap);
