@@ -28,7 +28,7 @@ Growstuff::Application.routes.draw do
   get '/plantings/crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
 
   resources :gardens do
-    get 'timeline' => 'gardens#timeline'
+    get 'timeline' => 'charts/gardens#timeline'
   end
   get '/gardens/owner/:owner' => 'gardens#index', as: 'gardens_by_owner'
 
@@ -52,9 +52,9 @@ Growstuff::Application.routes.draw do
   get 'crops/search' => 'crops#search', as: 'crops_search'
   resources :crops do
     get 'photos' => 'photos#index'
-    get 'sunniness' => 'crops#sunniness'
-    get 'planted_from' => 'crops#planted_from'
-    get 'harvested_for' => 'crops#harvested_for'
+    get 'sunniness' => 'charts/crops#sunniness'
+    get 'planted_from' => 'charts/crops#planted_from'
+    get 'harvested_for' => 'charts/crops#harvested_for'
   end
 
   resources :comments
