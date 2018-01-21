@@ -1,5 +1,5 @@
 class GardensController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
+  before_action :authenticate_member!, except: %i(index show timeline)
   after_action :expire_homepage, only: %i(create delete)
   load_and_authorize_resource
   respond_to :html, :json
@@ -63,10 +63,11 @@ class GardensController < ApplicationController
   def timeline
     @data = []
     @garden = Garden.find(params[:garden_id])
-    @garden.plantings.where.not(finished_at: nil)
-      .where.not(planted_at: nil)
+    @garden.plantings.where.not(planted_at: nil)
       .order(finished_at: :desc).each do |p|
-      @data << [p.crop.name, p.planted_at, p.finished_at]
+      # use finished_at if we have it, otherwise use predictions
+      finish = p.finished_at.presence || p.finish_predicted_at
+      @data << [p.crop.name, p.planted_at, finish] if finish.present?
     end
     render json: @data
   end
