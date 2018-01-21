@@ -45,7 +45,7 @@ feature "Scientific names", js: true do
         href: scientific_name_path(zea_mays)
       within('.scientific_names') { click_on "Delete" }
       expect(page.status_code).to equal 200
-      expect(page).to_not have_content zea_mays.name
+      expect(page).not_to have_content zea_mays.name
       expect(page).to have_content 'Scientific name was successfully deleted.'
     end
 

@@ -56,6 +56,7 @@ deploy:
     secure: "WrQxf0fEKkCdXrjcejurobOnNNz3he4dDwjBbToXbQTQNDObPp7NetJrLsfM8FiUFEeOuvhIHHiDQtMvY720zGGAGxDptvgFS+0QHCUqoTRZA/yFfUmHlG2jROXTzk5uVK0AE4k6Ion5kX8+mM0EnMT/7u+MTFiukrJctSiEXfg="
   on:
     repo: Growstuff/growstuff
+    condition: "$RSPEC_TAG = elasticsearch"
   app:
     dev: growstuff-staging
     master: growstuff-prod
