@@ -21,7 +21,7 @@
     = f.label :garden_id, 'Where did you plant it?', class: 'control-label col-md-2'
     .col-md-8
       = collection_select(:planting, :garden_id,
-                          Garden.active.where(owner_id: current_member),
+                          current_member.gardens.active.order("lower(gardens.name)"),
                           :id, :name,
                           selected: @planting.garden_id || @garden.id,
                           class: 'form-control')
