@@ -8,6 +8,9 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :scripts do
+  = javascript_include_tag "charts"
+
 = render partial: 'approval_status_message', locals: { crop: @crop }
 
 - if @crop.approved?
