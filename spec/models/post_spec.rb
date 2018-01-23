@@ -5,7 +5,7 @@ describe Post do
 
   it_behaves_like "it is likeable"
 
-  it "should have a slug" do
+  it "has a slug" do
     post = FactoryBot.create(:post, author: member)
     time = post.created_at
     datestr = time.strftime("%Y%m%d")
@@ -136,16 +136,16 @@ describe Post do
     let!(:chard) { FactoryBot.create(:chard) }
     let!(:post) { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
-    it "should be generated" do
+    it "is generated" do
       expect(tomato.posts).to eq [post]
       expect(maize.posts).to eq [post]
     end
 
-    it "should not duplicate" do
+    it "does not duplicate" do
       expect(post.crops) =~ [tomato, maize]
     end
 
-    it "should be updated when post was modified" do
+    it "is updated when post was modified" do
       post.update_attributes(body: "[chard](crop)")
 
       expect(post.crops).to eq [chard]
@@ -159,12 +159,12 @@ describe Post do
         post.destroy
       end
 
-      it "should delete the association" do
+      it "deletes the association" do
         expect(Crop.find(tomato.id).posts).to eq []
         expect(Crop.find(maize.id).posts).to eq []
       end
 
-      it "should not delete the crops" do
+      it "does not delete the crops" do
         expect(Crop.find(tomato.id)).not_to eq nil
         expect(Crop.find(maize.id)).not_to eq nil
       end

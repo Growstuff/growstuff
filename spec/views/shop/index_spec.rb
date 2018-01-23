@@ -23,7 +23,7 @@ describe 'shop/index.html.haml', type: "view" do
       rendered.should have_content format('9.99 %s', Growstuff::Application.config.currency)
     end
 
-    it 'should contain an exchange rate link' do
+    it 'contains an exchange rate link' do
       currency = Growstuff::Application.config.currency
       assert_select("a[href='http://www.wolframalpha.com/input/?i=9.99+#{currency}']")
     end
@@ -32,7 +32,7 @@ describe 'shop/index.html.haml', type: "view" do
       rendered.should have_content format('12.00 %s', Growstuff::Application.config.currency)
     end
 
-    it 'should contain an exchange rate link for recommended price' do
+    it 'contains an exchange rate link for recommended price' do
       currency = Growstuff::Application.config.currency
       assert_select("a[href='http://www.wolframalpha.com/input/?i=12.00+#{currency}']")
     end

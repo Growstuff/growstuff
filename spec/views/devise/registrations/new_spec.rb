@@ -10,7 +10,7 @@ describe 'devise/registrations/new.html.haml', type: "view" do
       render
     end
 
-    it 'should have some fields' do
+    it 'has some fields' do
       rendered.should have_content 'Email'
     end
 

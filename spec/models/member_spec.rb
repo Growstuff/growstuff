@@ -4,14 +4,14 @@ describe 'member' do
   context 'valid member' do
     let(:member) { FactoryBot.create(:member) }
 
-    it 'should be fetchable from the database' do
+    it 'is fetchable from the database' do
       member2 = Member.find(member.id)
       member2.should be_an_instance_of Member
       member2.login_name.should match(/member\d+/)
       member2.encrypted_password.should_not be_nil
     end
 
-    it 'should have a friendly slug' do
+    it 'has a friendly slug' do
       member.slug.should match(/member\d+/)
     end
 
@@ -20,15 +20,15 @@ describe 'member' do
       member.bio.should eq 'I love seeds'
     end
 
-    it 'should have a default garden' do
+    it 'has a default garden' do
       member.gardens.size.should == 1
     end
 
-    it 'should have a accounts entry' do
+    it 'has a accounts entry' do
       member.account.should be_an_instance_of Account
     end
 
-    it "should have a default-type account by default" do
+    it "has a default-type account by default" do
       member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
       member.paid?.should be(false)
     end
@@ -37,17 +37,17 @@ describe 'member' do
       member.show_email.should be(false)
     end
 
-    it 'should stringify as the login_name' do
+    it 'stringifies as the login_name' do
       member.to_s.should match(/member\d+/)
       member.to_s.should match(/member\d+/)
     end
 
-    it 'should be able to fetch posts' do
+    it 'is able to fetch posts' do
       post = FactoryBot.create(:post, author: member)
       member.posts.should eq [post]
     end
 
-    it 'should be able to fetch gardens' do
+    it 'is able to fetch gardens' do
       member.gardens.first.name.should eq "Garden"
     end
 
@@ -103,7 +103,7 @@ describe 'member' do
   context 'no TOS agreement' do
     let(:member) { FactoryBot.build(:no_tos_member) }
 
-    it "should refuse to save a member who hasn't agreed to the TOS" do
+    it "refuses to save a member who hasn't agreed to the TOS" do
       member.save.should_not be(true)
     end
   end
@@ -118,7 +118,7 @@ describe 'member' do
   end
 
   context 'same :login_name' do
-    it "should not allow two members with the same login_name" do
+    it "does not allow two members with the same login_name" do
       FactoryBot.create(:member, login_name: "bob")
       member = FactoryBot.build(:member, login_name: "bob")
       member.should_not be_valid

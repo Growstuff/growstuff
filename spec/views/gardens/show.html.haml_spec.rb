@@ -12,15 +12,15 @@ describe "gardens/show" do
     render
   end
 
-  it 'should show the location' do
+  it 'shows the location' do
     rendered.should have_content @garden.location
   end
 
-  it 'should show the area' do
+  it 'shows the area' do
     rendered.should have_content pluralize(@garden.area, @garden.area_unit)
   end
 
-  it 'should show the description' do
+  it 'shows the description' do
     rendered.should have_content "totally cool garden"
   end
 
@@ -28,7 +28,7 @@ describe "gardens/show" do
     assert_select "strong", "totally"
   end
 
-  it 'should show plantings on the garden page' do
+  it 'shows plantings on the garden page' do
     rendered.should have_content @planting.crop.name
   end
 
@@ -42,7 +42,7 @@ describe "gardens/show" do
       render
     end
 
-    it 'should have an edit button' do
+    it 'has an edit button' do
       rendered.should have_link 'edit_garden_link'
     end
 

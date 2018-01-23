@@ -166,25 +166,25 @@ describe Planting do
     planting.location.should eq "#{garden_owner.login_name}'s #{garden.name}"
   end
 
-  it "should have a slug" do
+  it "has a slug" do
     planting.slug.should match(/^member\d+-springfield-community-garden-tomato$/)
   end
 
-  it 'should sort in reverse creation order' do
+  it 'sorts in reverse creation order' do
     @planting2 = FactoryBot.create(:planting)
     Planting.first.should eq @planting2
   end
 
   describe '#planted?' do
-    it "should be false for future plantings" do
+    it "is false for future plantings" do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today + 1
       expect(planting.planted?).to eq(false)
     end
-    it "should be false for never planted" do
+    it "is false for never planted" do
       planting = FactoryBot.create :planting, planted_at: nil
       expect(planting.planted?).to eq(false)
     end
-    it "should be true for past plantings" do
+    it "is true for past plantings" do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today - 1
       expect(planting.planted?).to eq(true)
     end
@@ -235,7 +235,7 @@ describe Planting do
   context 'sunniness' do
     let(:planting) { FactoryBot.create(:sunny_planting) }
 
-    it 'should have a sunniness value' do
+    it 'has a sunniness value' do
       planting.sunniness.should eq 'sun'
     end
 
@@ -246,7 +246,7 @@ describe Planting do
       end
     end
 
-    it 'should refuse invalid sunniness values' do
+    it 'refuses invalid sunniness values' do
       @planting = FactoryBot.build(:planting, sunniness: 'not valid')
       @planting.should_not be_valid
       @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
@@ -254,7 +254,7 @@ describe Planting do
   end
 
   context 'planted from' do
-    it 'should have a planted_from value' do
+    it 'has a planted_from value' do
       @planting = FactoryBot.create(:seed_planting)
       @planting.planted_from.should eq 'seed'
     end
@@ -268,7 +268,7 @@ describe Planting do
       end
     end
 
-    it 'should refuse invalid planted_from values' do
+    it 'refuses invalid planted_from values' do
       @planting = FactoryBot.build(:planting, planted_from: 'not valid')
       @planting.should_not be_valid
       @planting.errors[:planted_from].should include("not valid is not a valid planting method")

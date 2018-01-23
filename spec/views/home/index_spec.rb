@@ -37,7 +37,7 @@ describe 'home/index.html.haml', type: "view" do
       render
     end
 
-    it 'should say welcome' do
+    it 'says welcome' do
       rendered.should have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{@member.login_name}"
     end
   end

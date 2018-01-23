@@ -9,24 +9,24 @@ describe 'notifier/notify.html.haml', type: "view" do
     render
   end
 
-  it 'should say that you have a message' do
+  it 'says that you have a message' do
     rendered.should have_content 'You have received a message'
   end
 
-  it 'should include notification metadata' do
+  it 'includes notification metadata' do
     rendered.should have_content @notification.sender.login_name
     rendered.should have_content @notification.post.subject
   end
 
-  it 'should include a reply link' do
+  it 'includes a reply link' do
     assert_select "a[href='#{@reply_link}']", text: /Reply/
   end
 
-  it 'should contain a link to your inbox' do
+  it 'contains a link to your inbox' do
     assert_select "a[href*='notifications']"
   end
 
-  it 'should have fully qualified URLs' do
+  it 'has fully qualified URLs' do
     # lots of lovely fully qualified URLs
     assert_select "a[href^='http']", minimum: 4
     # no relative URLs starting with /
