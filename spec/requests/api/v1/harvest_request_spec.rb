@@ -56,6 +56,7 @@ RSpec.describe 'Harvests', type: :request do
   end
 
   subject { JSON.parse response.body }
+
   describe '#index' do
     before { get '/api/v1/harvests', {}, headers }
     it { expect(subject['data']).to include(harvest_encoded_as_json_api) }

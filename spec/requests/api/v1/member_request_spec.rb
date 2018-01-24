@@ -56,6 +56,7 @@ RSpec.describe 'Members', type: :request do
   end
 
   subject { JSON.parse response.body }
+
   describe '#index' do
     before { get '/api/v1/members', {}, headers }
     it { expect(subject['data']).to include(member_encoded_as_json_api) }

@@ -67,6 +67,7 @@ RSpec.describe 'Plantings', type: :request do
   end
 
   subject { JSON.parse response.body }
+
   scenario '#index' do
     get '/api/v1/plantings', {}, headers
     expect(subject['data']).to include(planting_encoded_as_json_api)
