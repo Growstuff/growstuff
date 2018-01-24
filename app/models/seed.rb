@@ -16,8 +16,6 @@ class Seed < ActiveRecord::Base
   #
   # Validations
   validates :crop, approved: true
-  delegate :name, to: :crop
-  delegate :default_photo, to: :crop
   validates :crop, presence: { message: "must be present and exist in our database" }
   validates :quantity, allow_nil: true,
                        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -39,11 +37,19 @@ class Seed < ActiveRecord::Base
                                                                   "are heirloom, hybrid, or unknown" }
 
   #
+  # Delegations
+  delegate :name, to: :crop
+
+  #
   # Scopes
   default_scope { joins(:owner) } # Ensure owner exists
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
+
+  def default_photo
+    photos.order(created_at: :desc).first
+  end
 
   def tradable?
     tradable_to != 'nowhere'
