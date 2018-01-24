@@ -1,14 +1,14 @@
 - unless crop.harvest_photos.empty?
   %h3 Photos of #{crop.name} harvests
   .row
-    - crop.harvest_photos.first(6).each do |p|
+    - crop.harvest_photos.order(created_at: :desc).first(6).each do |p|
       .col-xs-6.col-md-2
         = render "photos/thumbnail", photo: p
 
 - unless crop.photos.empty?
   %h3 Photos of #{crop.name} plants
   .row
-    - crop.photos.first(6).each do |p|
+    - crop.photos.order(created_at: :desc).first(6).each do |p|
       .col-xs-6.col-md-2
         = render "photos/thumbnail", photo: p
 .row

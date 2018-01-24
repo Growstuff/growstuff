@@ -4,7 +4,7 @@
     Nobody has harvested this crop yet.
 - else
   %ul
-    - crop.harvests.take(3).each do |harvest|
+    - crop.harvests.order(harvested_at: :desc)..take(3).each do |harvest|
       %li
         = link_to "#{harvest.owner} harvested #{display_quantity(harvest)}.", harvest_path(harvest)
         = render partial: 'members/location', locals: { member: harvest.owner }
