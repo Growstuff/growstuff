@@ -82,6 +82,7 @@ submit the change with your pull request.
 - Harry Brodsky / [hbrodsk1](https://github.com/hbrodsk1)
 - Jeff Kingswood / [ancyentmariner](https://github.com/ancyentmariner)
 - Logan Gingerich / [logangingerich](https://github.com/logangingerich)
+- Mark Taffman / [mftaff](https://github.com/mftaff)
 
 ## Bots
 
