@@ -88,7 +88,7 @@ namespace :growstuff do
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
       Garden.all.each do |g|
-        if g.name.nil? || g.name =~(/^\s*$/)
+        if g.name.nil? || g.name =~ /^\s*$/
           g.name = "Garden"
           g.save
         end
