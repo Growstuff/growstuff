@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Plantings', type: :request do
+  subject { JSON.parse response.body }
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:crop) { FactoryBot.create :crop }
   let(:crop_encoded_as_json_api) do
@@ -54,7 +55,6 @@ RSpec.describe 'Plantings', type: :request do
     }
   end
 
-  subject { JSON.parse response.body }
   describe '#index' do
     before { get '/api/v1/crops', {}, headers }
     it { expect(subject['data']).to include(crop_encoded_as_json_api) }
