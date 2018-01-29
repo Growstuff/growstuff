@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 describe "posts/show" do
+  subject { rendered }
   let(:author) { FactoryBot.create(:member) }
 
   before(:each) do
     controller.stub(:current_user) { nil }
     assign(:post, post)
   end
-  subject { rendered }
 
   describe 'render post' do
     before { render }

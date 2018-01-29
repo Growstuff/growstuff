@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 feature "crop detail page", js: true do
+  subject { page }
   let(:member) { create :member }
 
   let(:crop) { create :crop, plantings: [planting], harvests: [harvest] }
@@ -27,7 +28,6 @@ feature "crop detail page", js: true do
     harvest.photos << photo4
     visit crop_path(crop)
   end
-  subject { page }
 
   shared_examples "shows photos" do
     describe "show planting photos" do

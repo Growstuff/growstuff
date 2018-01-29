@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 describe Role do
-  let(:member) { FactoryBot.create(:member) }
-
   subject do
     role = FactoryBot.create(:role, name: 'Crop Wrangler')
     role.members << member
     role
   end
+  let(:member) { FactoryBot.create(:member) }
 
   it 'has members' do
     subject.members.first.should eq member
