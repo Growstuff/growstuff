@@ -285,7 +285,6 @@ describe Crop do
     let(:crop1_planting) { crop1.plantings.first }
     let(:crop2_planting) { crop2.plantings.first }
 
-
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting

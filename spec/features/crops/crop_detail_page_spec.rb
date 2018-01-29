@@ -196,7 +196,6 @@ feature "crop detail page", js: true do
     end
   end
 
-
   context 'predictions' do
     let!(:planting) do
       FactoryBot.create(:planting, crop: crop,

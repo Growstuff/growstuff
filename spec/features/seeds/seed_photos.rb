@@ -10,7 +10,6 @@ feature "Seeds", :js do
   let(:member) { FactoryBot.create :member }
   let!(:seed) { FactoryBot.create :seed, owner: member }
 
-
   it { is_expected.to have_content 'Add photo' }
 
   # context 'no photos' do

@@ -4,7 +4,6 @@ describe "crops/_planting_advice" do
   subject { rendered }
   let(:planting) { FactoryBot.create(:planting) }
 
-
   shared_examples "render planting_advice" do
     before { render 'crops/planting_advice', crop: planting.crop }
   end

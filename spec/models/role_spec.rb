@@ -8,7 +8,6 @@ describe Role do
   end
   let(:member) { FactoryBot.create(:member) }
 
-
   it 'has members' do
     subject.members.first.should eq member
   end
