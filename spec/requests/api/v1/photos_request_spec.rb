@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Photos', type: :request do
+  subject { JSON.parse response.body }
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:photo) { FactoryBot.create :photo }
   let(:photo_encoded_as_json_api) do
@@ -53,7 +54,6 @@ RSpec.describe 'Photos', type: :request do
     }
   end
 
-  subject { JSON.parse response.body }
   describe '#index' do
     before { get '/api/v1/photos', {}, headers }
     it { expect(subject['data']).to include(photo_encoded_as_json_api) }

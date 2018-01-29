@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe "harvests/show" do
+  subject { render }
   let!(:harvest) { FactoryBot.create(:harvest) }
 
   before do
@@ -9,8 +10,6 @@ describe "harvests/show" do
     assign(:photos, harvest.photos.paginate(page: 1))
     render
   end
-
-  subject { render }
 
   describe "renders attributes" do
     it { is_expected.to have_content harvest.crop.name }

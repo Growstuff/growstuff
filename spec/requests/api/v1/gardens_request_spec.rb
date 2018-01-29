@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Gardens', type: :request do
+  subject { JSON.parse response.body }
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:garden) { FactoryBot.create :garden }
   let(:garden_encoded_as_json_api) do
@@ -36,7 +37,6 @@ RSpec.describe 'Gardens', type: :request do
            "related" => "#{resource_url}/photos" } }
   end
 
-  subject { JSON.parse response.body }
   scenario '#index' do
     get '/api/v1/gardens', {}, headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
