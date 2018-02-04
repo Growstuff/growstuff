@@ -50,7 +50,11 @@ class Photo < ActiveRecord::Base
     end
   end
 
-  def set_flickr_metadata
+  def set_flickr_metadata!
     update_attributes(flickr_metadata)
+  end
+
+  def to_s
+    "#{title} by #{owner.login_name}"
   end
 end
