@@ -39,7 +39,6 @@ Rails/SkipsModelValidations:
 # SupportedStyles: strict, flexible
 Rails/TimeZone:
   Exclude:
-    - 'spec/controllers/accounts_controller_spec.rb'
     - 'spec/factories/member.rb'
     - 'spec/factories/post.rb'
     - 'spec/models/post_spec.rb'
@@ -60,7 +59,6 @@ Style/AsciiComments:
 # SupportedStyles: nested, compact
 Style/ClassAndModuleChildren:
   Exclude:
-    - 'app/controllers/admin/orders_controller.rb'
     - 'lib/actions/oauth_signup_action.rb'
     - 'lib/haml/filters/escaped_markdown.rb'
 

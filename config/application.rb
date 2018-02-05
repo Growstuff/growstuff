@@ -44,9 +44,6 @@ module Growstuff
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
-    # Configure a default account type
-    config.default_account_type = "Free"
-
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
