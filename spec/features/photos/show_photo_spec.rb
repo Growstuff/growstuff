@@ -15,7 +15,7 @@ feature "show photo page" do
         planting.photos << photo
         visit photo_path(photo)
         expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
-          href: planting_path(planting)
+                                  href: planting_path(planting)
       end
     end
 

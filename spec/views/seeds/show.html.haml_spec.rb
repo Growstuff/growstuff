@@ -17,7 +17,7 @@ describe "seeds/show" do
     before(:each) do
       @owner = FactoryBot.create(:london_member)
       assign(:seed, FactoryBot.create(:tradable_seed,
-        owner: @owner))
+                                      owner: @owner))
       # note current_member is not the owner of this seed
       @member = FactoryBot.create(:member)
       sign_in @member
