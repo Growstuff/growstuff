@@ -1,11 +1,5 @@
 ---
 en:
-  account:
-    update: Account detail was successfully updated.
-  account_types:
-    created: Account type was successfully created.
-    deleted: Account type was successfully deleted.
-    updated: Account type was successfully updated.
   activerecord:
     models:
       comment:
@@ -99,7 +93,6 @@ en:
     open:
       ad_free_linktext: ad-free
       api_docs_linktext: API documentation
-      buy_account_linktext: buying a paid account
       creative_commons_linktext: Creative Commons license
       get_involved_body_html: >
         We believe in collaboration, and work closely with our members and the wider food-growing community.
@@ -213,9 +206,6 @@ en:
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
     string: "%{crop} seeds belonging to %{owner}"
-  shop:
-    index:
-      title: Shop
   unauthorized:
     create:
       all: Please sign in or sign up to create a %{subject}.
