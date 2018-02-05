@@ -1,6 +1,9 @@
 %p
   %strong Member since:
   = member.created_at.to_s(:date)
+%p
+  %strong Last Login:
+  = member.last_sign_in_at
 
 %h3 Activity
 
