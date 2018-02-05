@@ -27,7 +27,8 @@ class Photo < ActiveRecord::Base
       license_url: license.url,
       thumbnail_url: FlickRaw.url_q(info),
       fullsize_url: FlickRaw.url_z(info),
-      link_url: FlickRaw.url_photopage(info)
+      link_url: FlickRaw.url_photopage(info),
+      date_taken: info.dates.taken
     }
   end
 
@@ -49,7 +50,11 @@ class Photo < ActiveRecord::Base
     end
   end
 
-  def set_flickr_metadata
+  def set_flickr_metadata!
     update_attributes(flickr_metadata)
+  end
+
+  def to_s
+    "#{title} by #{owner.login_name}"
   end
 end
