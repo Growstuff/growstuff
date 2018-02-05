@@ -7,7 +7,7 @@ describe "scientific_names/edit" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @scientific_name = assign(:scientific_name,
-        FactoryBot.create(:zea_mays))
+                                FactoryBot.create(:zea_mays))
       render
     end
 

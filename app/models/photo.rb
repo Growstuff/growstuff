@@ -7,9 +7,9 @@ class Photo < ActiveRecord::Base
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
     has_many type.downcase.pluralize.to_s.to_sym,
-      through: :photographings,
-      source: :photographable,
-      source_type: type
+             through: :photographings,
+             source: :photographable,
+             source_type: type
   end
 
   default_scope { joins(:owner) } # Ensures the owner still exists

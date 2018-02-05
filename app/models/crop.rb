@@ -45,11 +45,11 @@ class Crop < ActiveRecord::Base
   validate :must_have_meaningful_reason_for_rejection
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
-    format: {
-      with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
-      message: 'is not a valid English Wikipedia URL'
-    },
-    if: :approved?
+            format: {
+              with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              message: 'is not a valid English Wikipedia URL'
+            },
+            if: :approved?
 
   ####################################
   # Elastic search configuration
@@ -84,11 +84,11 @@ class Crop < ActiveRecord::Base
         indexes :approval_status, type: 'string'
         indexes :scientific_names do
           indexes :name,
-            type: 'string',
-            analyzer: 'gs_edgeNGram_analyzer',
-            # Disabling field-length norm (norm). If the norm option is turned on(by default),
-            # higher weigh would be given for shorter fields, which in our case is irrelevant.
-            norms: { enabled: false }
+                  type: 'string',
+                  analyzer: 'gs_edgeNGram_analyzer',
+                  # Disabling field-length norm (norm). If the norm option is turned on(by default),
+                  # higher weigh would be given for shorter fields, which in our case is irrelevant.
+                  norms: { enabled: false }
         end
         indexes :alternate_names do
           indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
@@ -148,10 +148,10 @@ class Crop < ActiveRecord::Base
   # value: count of how many times it's been used by harvests
   def popular_plant_parts
     PlantPart.joins(:harvests)
-      .where("crop_id = ?", id)
-      .order("count_harvests_id DESC")
-      .group("plant_parts.id", "plant_parts.name")
-      .count("harvests.id")
+             .where("crop_id = ?", id)
+             .order("count_harvests_id DESC")
+             .group("plant_parts.id", "plant_parts.name")
+             .count("harvests.id")
   end
 
   def annual?
@@ -219,10 +219,10 @@ class Crop < ActiveRecord::Base
 
   def count_uses_of_property(col_name)
     plantings.unscoped
-      .where(crop_id: id)
-      .where.not(col_name => nil)
-      .group(col_name)
-      .count
+             .where(crop_id: id)
+             .where.not(col_name => nil)
+             .group(col_name)
+             .count
   end
 
   # Custom validations

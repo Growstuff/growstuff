@@ -44,8 +44,8 @@ class Member < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable,
-    :confirmable, :lockable, :timeoutable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable, :lockable, :timeoutable, :omniauthable
 
   # set up geocoding
   geocoded_by :location
@@ -59,18 +59,18 @@ class Member < ActiveRecord::Base
   # Requires acceptance of the Terms of Service
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
-    length: {
-      minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
-    },
-    exclusion: {
-      in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
-    },
-    format: {
-      with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
-    },
-    uniqueness: {
-      case_sensitive: false
-    }
+            length: {
+              minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
+            },
+            exclusion: {
+              in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
+            },
+            format: {
+              with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
+            },
+            uniqueness: {
+              case_sensitive: false
+            }
 
   #
   # Triggers

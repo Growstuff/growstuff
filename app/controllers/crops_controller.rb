@@ -151,17 +151,17 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(:en_wikipedia_url,
-      :name,
-      :parent_id,
-      :creator_id,
-      :perennial,
-      :approval_status,
-      :request_notes,
-      :reason_for_rejection,
-      :rejection_notes,
-      scientific_names_attributes: %i(scientific_name
-                                      _destroy
-                                      id))
+                                 :name,
+                                 :parent_id,
+                                 :creator_id,
+                                 :perennial,
+                                 :approval_status,
+                                 :request_notes,
+                                 :reason_for_rejection,
+                                 :rejection_notes,
+                                 scientific_names_attributes: %i(scientific_name
+                                                                 _destroy
+                                                                 id))
   end
 
   def filename

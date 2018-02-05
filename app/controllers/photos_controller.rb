@@ -13,8 +13,8 @@ class PhotosController < ApplicationController
       @photos = Photo.all
     end
     @photos = @photos.order(created_at: :desc)
-      .includes(:owner)
-      .paginate(page: params[:page])
+                     .includes(:owner)
+                     .paginate(page: params[:page])
     respond_with(@photos)
   end
 
@@ -70,7 +70,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).permit(:flickr_photo_id, :title, :license_name,
-      :license_url, :thumbnail_url, :fullsize_url, :link_url)
+                                  :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
   # Item with photos attached

@@ -12,9 +12,9 @@ describe "plantings/new" do
     @crop2 = FactoryBot.create(:maize)
 
     assign(:planting, FactoryBot.create(:planting,
-      garden: @garden_a,
-      crop: @crop2,
-      owner: @member))
+                                        garden: @garden_a,
+                                        crop: @crop2,
+                                        owner: @member))
   end
 
   context "logged in" do
@@ -44,7 +44,7 @@ describe "plantings/new" do
 
     it "selects a garden given in a param" do
       assert_select "select#planting_garden_id",
-        html: /option selected value="#{@garden_z.id}"/
+                    html: /option selected value="#{@garden_z.id}"/
     end
   end
 end
