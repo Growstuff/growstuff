@@ -2,7 +2,7 @@ class Comment < ActiveRecord::Base
   belongs_to :author, class_name: 'Member'
   belongs_to :post
 
-  scope :post_order, -> { reorder("created_at ASC") } # for display on post page
+  scope :post_order, -> { reorder('created_at ASC') } # for display on post page
 
   after_create do
     recipient = post.author.id

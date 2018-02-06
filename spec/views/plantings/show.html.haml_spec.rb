@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "plantings/show" do
+describe 'plantings/show' do
   let(:crop) { FactoryBot.create(:tomato) }
   let(:member) { FactoryBot.create(:member) }
   let(:garden) { FactoryBot.create(:garden, owner: member) }
@@ -19,7 +19,7 @@ describe "plantings/show" do
   context 'sunniness' do
     let(:planting) { FactoryBot.create(:sunny_planting) }
 
-    it "shows the sunniness" do
+    it 'shows the sunniness' do
       render
       rendered.should have_content 'Sun or shade?'
       rendered.should have_content 'sun'
@@ -29,7 +29,7 @@ describe "plantings/show" do
   context 'planted from' do
     let(:planting) { FactoryBot.create(:cutting_planting) }
 
-    it "shows planted_from" do
+    it 'shows planted_from' do
       render
       rendered.should have_content 'Planted from:'
       rendered.should have_content 'cutting'
@@ -43,41 +43,41 @@ describe "plantings/show" do
     end
   end
 
-  it "shows photos" do
+  it 'shows photos' do
     photo = FactoryBot.create(:photo, owner: member)
     planting.photos << photo
     render
     assert_select "img[src='#{photo.thumbnail_url}']"
   end
 
-  it "shows a link to add photos" do
+  it 'shows a link to add photos' do
     render
-    rendered.should have_content "Add photo"
+    rendered.should have_content 'Add photo'
   end
 
-  context "no location set" do
+  context 'no location set' do
     before(:each) do
       render
     end
 
-    it "renders the quantity planted" do
+    it 'renders the quantity planted' do
       rendered.should match(/3/)
     end
 
-    it "renders the description" do
+    it 'renders the description' do
       rendered.should match(/This is a/)
     end
 
-    it "renders markdown in the description" do
-      assert_select "em", "really"
+    it 'renders markdown in the description' do
+      assert_select 'em', 'really'
     end
 
     it "doesn't contain a () if no location is set" do
-      rendered.should_not have_content "()"
+      rendered.should_not have_content '()'
     end
   end
 
-  context "location set" do
+  context 'location set' do
     before(:each) do
       planting.owner.update(location: 'Greenwich, UK')
       render

@@ -16,7 +16,7 @@ describe Order do
       @order2 = Order.create!(member_id: @member2.id)
     end
 
-    it "only returns orders belonging to member" do
+    it 'only returns orders belonging to member' do
       Order.by_member(@member1).should eq [@order1]
     end
   end
@@ -43,7 +43,7 @@ describe Order do
     @member.account.paid_until.should_not be_nil
   end
 
-  it "totals the amount due" do
+  it 'totals the amount due' do
     @member = FactoryBot.create(:member)
     @order = FactoryBot.create(:order, member: @member)
     @product = FactoryBot.create(:product,
@@ -56,7 +56,7 @@ describe Order do
     @order.total.should eq 1111
   end
 
-  it "gives the correct total for quantities more than 1" do
+  it 'gives the correct total for quantities more than 1' do
     @member = FactoryBot.create(:member)
     @order = FactoryBot.create(:order, member: @member)
     @product = FactoryBot.create(:product,
@@ -69,7 +69,7 @@ describe Order do
     @order.total.should eq 2222
   end
 
-  it "formats order items for activemerchant" do
+  it 'formats order items for activemerchant' do
     @member = FactoryBot.create(:member)
     @order = FactoryBot.create(:order, member: @member)
     @product = FactoryBot.create(:product,
@@ -87,18 +87,18 @@ describe Order do
     }]
   end
 
-  context "referral codes" do
-    it "has a referral code" do
+  context 'referral codes' do
+    it 'has a referral code' do
       referred_order = FactoryBot.create(:referred_order)
       referred_order.referral_code.should_not be nil
     end
 
-    it "validates referral codes" do
+    it 'validates referral codes' do
       referred_order = FactoryBot.build(:order, referral_code: 'CAMP_AIGN1?')
       referred_order.should_not be_valid
     end
 
-    it "cleans up messy referral codes" do
+    it 'cleans up messy referral codes' do
       referred_order = FactoryBot.create(:order, referral_code: 'CaMpAiGn 1  ')
       referred_order.referral_code.should eq 'CAMPAIGN1'
     end

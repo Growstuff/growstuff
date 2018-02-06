@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe 'notifier/notify.html.haml', type: "view" do
+describe 'notifier/notify.html.haml', type: 'view' do
   before(:each) do
     @notification = FactoryBot.create(:notification)
-    @reply_link = "http://example.com"
-    @signed_message = "EncryptedMessage"
+    @reply_link = 'http://example.com'
+    @signed_message = 'EncryptedMessage'
     assign(:reply_link, @reply_link)
     render
   end

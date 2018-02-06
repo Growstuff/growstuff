@@ -22,9 +22,9 @@ class AuthenticationsController < ApplicationController
           name: name
         )
 
-      flash[:notice] = "Authentication successful."
+      flash[:notice] = 'Authentication successful.'
     else
-      flash[:notice] = "Authentication failed."
+      flash[:notice] = 'Authentication failed.'
     end
     redirect_to request.env['omniauth.origin'] || edit_member_registration_path
   end

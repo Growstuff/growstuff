@@ -23,9 +23,9 @@ class CropsController < ApplicationController
   def wrangle
     @approval_status = params[:approval_status]
     @crops = case @approval_status
-             when "pending"
+             when 'pending'
                Crop.pending_approval
-             when "rejected"
+             when 'rejected'
                Crop.rejected
              else
                Crop.recent
@@ -78,7 +78,7 @@ class CropsController < ApplicationController
       @crop.creator = current_member
     else
       @crop.requester = current_member
-      @crop.approval_status = "pending"
+      @crop.approval_status = 'pending'
     end
 
     notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
@@ -89,13 +89,13 @@ class CropsController < ApplicationController
   def update
     previous_status = @crop.approval_status
 
-    @crop.creator = current_member if previous_status == "pending"
+    @crop.creator = current_member if previous_status == 'pending'
 
     if @crop.update(crop_params)
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      notifier.deliver_now! if previous_status == "pending"
+      notifier.deliver_now! if previous_status == 'pending'
     end
 
     respond_with @crop
@@ -110,9 +110,9 @@ class CropsController < ApplicationController
 
   def notifier
     case @crop.approval_status
-    when "approved"
+    when 'approved'
       Notifier.crop_request_approved(@crop.requester, @crop)
-    when "rejected"
+    when 'rejected'
       Notifier.crop_request_rejected(@crop.requester, @crop)
     end
   end
@@ -185,7 +185,7 @@ class CropsController < ApplicationController
   def crops
     q = Crop.approved.includes(:scientific_names, plantings: :photos)
     q = q.popular unless @sort == 'alpha'
-    q.order("LOWER(crops.name)").includes(:photos).paginate(page: params[:page])
+    q.order('LOWER(crops.name)').includes(:photos).paginate(page: params[:page])
   end
 
   def requested_crops

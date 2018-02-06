@@ -7,12 +7,12 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def store_location
-    unless request.path.in?(["/members/sign_in",
-                             "/members/sign_up",
-                             "/members/password/new",
-                             "/members/password/edit",
-                             "/members/confirmation",
-                             "/members/sign_out"]) || request.xhr?
+    unless request.path.in?(['/members/sign_in',
+                             '/members/sign_up',
+                             '/members/password/new',
+                             '/members/password/edit',
+                             '/members/confirmation',
+                             '/members/sign_out']) || request.xhr?
       store_location_for(:member, request.fullpath)
     end
   end
@@ -77,6 +77,6 @@ class ApplicationController < ActionController::Base
   end
 
   def expire_homepage
-    expire_fragment("homepage_stats")
+    expire_fragment('homepage_stats')
   end
 end

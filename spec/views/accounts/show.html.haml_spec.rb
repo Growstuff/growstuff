@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe "accounts/show" do
+describe 'accounts/show' do
   before(:each) do
     @member = FactoryBot.create(:member)
     @account = assign(:account, @member.account)
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     rendered.should have_content @account.member_id.to_s

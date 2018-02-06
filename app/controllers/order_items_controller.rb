@@ -24,7 +24,7 @@ class OrderItemsController < ApplicationController
 
   def errors
     if @order_item.errors.empty?
-      "There was a problem with your order."
+      'There was a problem with your order.'
     else
       @order_item.errors.full_messages.to_sentence
     end

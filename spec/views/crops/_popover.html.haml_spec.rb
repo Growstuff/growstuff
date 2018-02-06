@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "crops/_popover" do
+describe 'crops/_popover' do
   before(:each) do
     @tomato = FactoryBot.create(:tomato)
     @sn = FactoryBot.create(:solanum_lycopersicum, crop: @tomato)

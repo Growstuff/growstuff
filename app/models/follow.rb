@@ -1,6 +1,6 @@
 class Follow < ActiveRecord::Base
-  belongs_to :follower, class_name: "Member"
-  belongs_to :followed, class_name: "Member"
+  belongs_to :follower, class_name: 'Member'
+  belongs_to :followed, class_name: 'Member'
   validates :follower_id, uniqueness: { scope: :followed_id }
 
   after_create do

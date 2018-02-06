@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'layouts/_meta.html.haml', type: "view" do
+describe 'layouts/_meta.html.haml', type: 'view' do
   before(:each) do
     render
   end
@@ -21,6 +21,6 @@ describe 'layouts/_meta.html.haml', type: "view" do
   end
 
   it 'should have a title' do
-    assert_select "head>title"
+    assert_select 'head>title'
   end
 end
