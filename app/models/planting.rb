@@ -20,6 +20,12 @@ class Planting < ActiveRecord::Base
   belongs_to :crop, counter_cache: true
   has_many :harvests, dependent: :destroy
 
+  #
+  # Ancestry of food
+  belongs_to :parent_seed, class_name: 'Seed', foreign_key: 'parent_seed_id' # parent
+  has_many :child_seeds, class_name: 'Seed',
+                         foreign_key: 'parent_planting_id', dependent: :nullify # children
+
   ##
   ## Scopes
   default_scope { joins(:owner) } # Ensures the owner still exists
