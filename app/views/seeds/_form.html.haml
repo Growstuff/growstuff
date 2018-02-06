@@ -13,10 +13,14 @@
   .form-group.required
     = f.label :crop, 'Crop:', class: 'control-label col-md-2'
     .col-md-8
-      = auto_suggest @seed, :crop, class: 'form-control', default: @crop
-      %span.help-inline
-        Can't find what you're looking for?
-        = link_to "Request new crops.", new_crop_path
+      - if @planting
+        = link_to @planting, planting_path(@planting)
+        = f.hidden_field :parent_planting_id, value: @planting.id
+      - else
+        = auto_suggest @seed, :crop, class: 'form-control', default: @crop
+        %span.help-inline
+          Can't find what you're looking for?
+          = link_to "Request new crops.", new_crop_path
   .form-group
     = f.label :quantity, 'Quantity:', class: 'control-label col-md-2'
     .col-md-2
