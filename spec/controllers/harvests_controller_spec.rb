@@ -104,13 +104,13 @@ describe HarvestsController do
       it "assigns a newly created but unsaved harvest as @harvest" do
         # Trigger the behavior that occurs when invalid params are submitted
         Harvest.any_instance.stub(:save).and_return(false)
-        post :create, harvest: { "crop_id" => "invalid value" }
+        post :create, harvest: { :crop_id => "invalid value" }
         assigns(:harvest).should be_a_new(Harvest)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        post :create, harvest: { "crop_id" => "invalid value" }
+        post :create, harvest: { :crop_id => "invalid value" }
         response.should render_template("new")
       end
     end
@@ -137,8 +137,8 @@ describe HarvestsController do
         # specifies that the Harvest created on the previous line
         # receives the :update message with whatever params are
         # submitted in the request.
-        Harvest.any_instance.should_receive(:update).with("crop_id" => "1", "owner_id": member.id)
-        put :update, id: harvest.to_param, harvest: { "crop_id" => "1" }
+        Harvest.any_instance.should_receive(:update).with(:crop_id => "1", "owner_id": member.id)
+        put :update, id: harvest.to_param, harvest: { :crop_id => "1" }
       end
 
       it "assigns the requested harvest as @harvest" do
@@ -159,13 +159,13 @@ describe HarvestsController do
         harvest = Harvest.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Harvest.any_instance.stub(:save).and_return(false)
-        put :update, id: harvest.to_param, harvest: { "crop_id" => "invalid value" }
+        put :update, id: harvest.to_param, harvest: { :crop_id => "invalid value" }
         assigns(:harvest).should eq(harvest)
       end
 
       it "re-renders the 'edit' template" do
         harvest = Harvest.create! valid_attributes
-        put :update, id: harvest.to_param, harvest: { "crop_id" => "invalid value" }
+        put :update, id: harvest.to_param, harvest: { :crop_id => "invalid value" }
         response.should render_template("edit")
       end
     end

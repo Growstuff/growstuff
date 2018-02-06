@@ -8,13 +8,13 @@ describe PhotosController do
   def valid_attributes
     member = FactoryBot.create(:member)
     {
-      "owner_id" => member.id,
-      "flickr_photo_id" => 1,
-      "title" => "Photo",
-      "license_name" => "CC-BY",
-      "thumbnail_url" => 'http://example.com/thumb.jpg',
-      "fullsize_url" => 'http://example.com/full.jpg',
-      "link_url" => 'http://example.com'
+      :owner_id => member.id,
+      :flickr_photo_id => 1,
+      :title => "Photo",
+      :license_name => "CC-BY",
+      :thumbnail_url => 'http://example.com/thumb.jpg',
+      :fullsize_url => 'http://example.com/full.jpg',
+      :link_url => 'http://example.com'
     }
   end
 
@@ -33,7 +33,7 @@ describe PhotosController do
     before(:each) do
       sign_in member
       member.stub(:flickr_photos) { [[], 0] }
-      member.stub(:flickr_sets) { { "foo" => "bar" } }
+      member.stub(:flickr_sets) { { :foo => "bar" } }
       controller.stub(:current_member) { member }
     end
 

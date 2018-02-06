@@ -8,17 +8,17 @@ describe 'Growstuff::OauthSignupAction' do
 
   context 'with a valid authentication' do
     before :each do
-      @auth = OmniAuth::AuthHash.new('provider' => 'facebook',
-                                     'uid' => '123545',
-                                     'info' => {
-                                       'name' => "John Testerson's Brother",
-                                       'nickname' => 'JohnnyB',
-                                       'email' => 'example.oauth.facebook@example.com',
-                                       'image' => 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
+      @auth = OmniAuth::AuthHash.new(:provider => 'facebook',
+                                     :uid => '123545',
+                                     :info => {
+                                       :name => "John Testerson's Brother",
+                                       :nickname => 'JohnnyB',
+                                       :email => 'example.oauth.facebook@example.com',
+                                       :image => 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
                                      },
-                                     'credentials' => {
-                                       'token' => "token",
-                                       'secret' => "donttell"
+                                     :credentials => {
+                                       :token => "token",
+                                       :secret => "donttell"
                                      })
     end
 
