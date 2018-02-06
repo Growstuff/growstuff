@@ -18,8 +18,19 @@
       .visible-xs
         = render partial: 'blurb'
 
-    = render partial: 'crops'
-    = render partial: 'seeds'
-    = render partial: 'members'
-    = render partial: 'discuss'
-
+    .row
+      .col-md-8
+        = render partial: 'crops'
+      .col-md-4
+        = render partial: 'plantings'
+    .row
+      .col-md-8
+        = render partial: 'seeds'
+      .col-md-4
+        = render partial: 'harvests'
+    .row
+      .col-md-12
+        = render partial: 'members'
+    .row
+      .col-md-12
+        = render partial: 'discuss'

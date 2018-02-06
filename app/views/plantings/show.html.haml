@@ -9,9 +9,11 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-%p= render 'plantings/actions', planting: @planting
+- content_for :buttonbar do
+  = render 'plantings/actions', planting: @planting
+
 .row.planting
-  .col-md-6
+  .col-xs-12.col-sm-6
     %dl.dl-horizontal.planting-attributes
       %dt Owner:
       %dd
@@ -26,14 +28,17 @@
       %dd
         = link_to "#{@planting.owner}'s", @planting.owner
         = link_to @planting.garden, @planting.garden
-        - unless  @planting.owner.location.blank?
+        - if @planting.owner.location.present?
           (#{@planting.owner.location})
       %dt Quantity:
       %dd= display_planting_quantity(@planting)
 
-      - unless @planting.planted_from.blank?
-        %dt Planted from:
-        %dd= display_planted_from(@planting)
+      %dt Planted from:
+      %dd
+        - if @planting.parent_seed
+          = link_to @planting.parent_seed, seed_path(@planting.parent_seed)
+        - else
+          = display_planted_from(@planting)
 
       %dt Sun or shade?
       %dd
@@ -64,23 +69,23 @@
           %dt Last Harvest:
           %dd #{@planting.days_to_last_harvest} days after planting
 
+      %dt Progress
+      %dd= render 'plantings/progress', planting: @planting, show_explanation: true
 
-    %h2 Progress
-    %p= render 'plantings/progress', planting: @planting, show_explanation: true
-    %h2 Harvests
-    %p= render 'plantings/harvests', planting: @planting
-
-  .col-md-6
+  .col-xs-12.col-sm-6
     = render partial: "crops/index_card", locals: { crop: @planting.crop }
     - if @planting.owner.location
       %p
         %small
           View other plantings, members and more near
           = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
-- if @planting.description
-  %h2 Notes
-
-  :growstuff_markdown
-    #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
-
-= render 'photos/item_photos', item: @planting, type: 'planting', photos: @photos
+.row
+  .col-md-6
+    - if @planting.description
+      %h2 Notes
+      :growstuff_markdown
+        #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
+    = render 'plantings/harvests', planting: @planting
+    = render 'plantings/descendants', planting: @planting
+  .col-md-6
+    = render 'photos/item_photos', item: @planting, type: 'planting', photos: @photos

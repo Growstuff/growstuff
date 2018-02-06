@@ -1,0 +1,5 @@
+- unless planting.finished
+  = link_to planting_path(planting, planting: { finished: 1 }),
+            method: :put, class: 'btn btn-default btn-xs append-date' do
+    %span.glyphicon.glyphicon-ok{ title: "Finished" }
+    Mark as finished

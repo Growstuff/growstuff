@@ -1,0 +1,3 @@
+- cache cache_key_for(Harvest) do
+  %h2 Recently Harvested
+  = render 'harvests/list', harvests: Harvest.includes(:owner, :photos).interesting.recent.first(6)
