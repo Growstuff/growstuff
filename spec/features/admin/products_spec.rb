@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature "products" do
-  context "admin user" do
+feature 'products' do
+  context 'admin user' do
     let(:member) { create :admin_member }
     let(:product) { create :product }
 
@@ -9,15 +9,15 @@ feature "products" do
       login_as member
     end
 
-    scenario "navigating to product admin" do
+    scenario 'navigating to product admin' do
       visit admin_path
-      click_link "Products"
+      click_link 'Products'
       expect(current_path).to eq products_path
     end
 
-    scenario "adding a product" do
+    scenario 'adding a product' do
       visit products_path
-      click_link "New Product"
+      click_link 'New Product'
       expect(current_path).to eq new_product_path
       fill_in 'Name', with: 'Special offer'
       # note that failing to fill in a mandatory field has a messy error.

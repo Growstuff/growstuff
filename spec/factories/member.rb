@@ -77,7 +77,7 @@ FactoryBot.define do
     end
 
     factory :invalid_member_spaces do
-      login_name "a b"
+      login_name 'a b'
     end
 
     factory :invalid_member_badchars do

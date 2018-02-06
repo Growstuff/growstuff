@@ -18,7 +18,7 @@ module ApplicationHelper
     currency = Growstuff::Application.config.currency
     link = "http://www.wolframalpha.com/input/?i=#{pid}+#{currency}"
 
-    link_to "(convert)", link, target: "_blank", rel: "noopener noreferrer"
+    link_to '(convert)', link, target: '_blank', rel: 'noopener noreferrer'
   end
 
   def build_alert_classes(alert_type = :info)
@@ -37,7 +37,7 @@ module ApplicationHelper
   end
 
   # Produces a cache key for uniquely identifying cached fragments.
-  def cache_key_for(klass, identifier = "all")
+  def cache_key_for(klass, identifier = 'all')
     count          = klass.count
     max_updated_at = klass.maximum(:updated_at).try(:utc).try(:to_s, :number)
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
@@ -102,7 +102,7 @@ module ApplicationHelper
     elsif planting
       t(".title.planting_#{type}", planting: planting.to_s)
     else
-      t(".title.default")
+      t('.title.default')
     end
   end
 

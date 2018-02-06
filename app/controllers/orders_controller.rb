@@ -42,7 +42,7 @@ class OrdersController < ApplicationController
         )
         format.html { redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token) }
       else
-        format.html { render action: "show" }
+        format.html { render action: 'show' }
       end
     end
   end
@@ -60,7 +60,7 @@ class OrdersController < ApplicationController
         @order.completed_at = Time.zone.now
         @order.record_paypal_details(params[:token])
       else
-        flash[:alert] = "Could not complete your order. Please notify support."
+        flash[:alert] = 'Could not complete your order. Please notify support.'
       end
     else
       flash[:alert] = "PayPal didn't return a token or payer_id for your order.  Please notify support."

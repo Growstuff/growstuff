@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe HarvestsHelper do
-  describe "display_quantity" do
-    it "blank" do
+  describe 'display_quantity' do
+    it 'blank' do
       harvest = FactoryBot.create(:harvest,
         quantity: nil,
         weight_quantity: nil)

@@ -17,8 +17,8 @@ describe 'Growstuff::OauthSignupAction' do
                                        'image' => 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
                                      },
                                      'credentials' => {
-                                       'token' => "token",
-                                       'secret' => "donttell"
+                                       'token' => 'token',
+                                       'secret' => 'donttell'
                                      })
     end
 

@@ -20,7 +20,7 @@ Growstuff::Application.configure do
 
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_files = true
-  config.static_cache_control = "public, max-age=3600"
+  config.static_cache_control = 'public, max-age=3600'
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -53,7 +53,7 @@ Growstuff::Application.configure do
   end
 
   config.after_initialize do
-    require "active_merchant/ext/paypal_bogus_gateway"
+    require 'active_merchant/ext/paypal_bogus_gateway'
     ActiveMerchant::Billing::Base.mode = :test
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
@@ -63,7 +63,7 @@ end
 Geocoder.configure(lookup: :test)
 
 Geocoder::Lookup::Test.add_stub(
-  "Amundsen-Scott Base, Antarctica", [
+  'Amundsen-Scott Base, Antarctica', [
     {
       'latitude' =>         -90.0,
       'longitude' =>        0.0
@@ -72,7 +72,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "Philippines", [
+  'Philippines', [
     {
       'latitude'     => 12.7503486,
       'longitude'    => 122.7312101,
@@ -86,7 +86,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "Greenwich, UK", [
+  'Greenwich, UK', [
     {
       'latitude' =>         51.483061,
       'longitude' =>        -0.004151
@@ -95,7 +95,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "Edinburgh", [
+  'Edinburgh', [
     {
       'latitude' =>         55.953252,
       'longitude' =>        -3.188267
@@ -104,7 +104,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 # Unknown location
-Geocoder::Lookup::Test.add_stub("Tatooine", [])
+Geocoder::Lookup::Test.add_stub('Tatooine', [])
 
 Capybara.configure do |config|
   config.always_include_port = true
@@ -115,12 +115,12 @@ OmniAuth.config.test_mode = true
 OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(provider: 'facebook',
                                                               uid: '123545',
                                                               info: {
-                                                                name: "John Testerson",
+                                                                name: 'John Testerson',
                                                                 nickname: 'JohnnyT',
                                                                 email: 'example.oauth.facebook@example.com',
                                                                 image: 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
                                                               },
                                                               credentials: {
-                                                                token: "token",
-                                                                secret: "donttell"
+                                                                token: 'token',
+                                                                secret: 'donttell'
                                                               })

@@ -1,21 +1,21 @@
 class CropSearchService
   # Crop.search(string)
   def self.search(query)
-    if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
-      search_str = query.nil? ? "" : query.downcase
+    if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
+      search_str = query.nil? ? '' : query.downcase
       response = Crop.__elasticsearch__.search( # Finds documents which match any field, but uses the _score from
         # the best field insead of adding up _score from each field.
         query: {
           multi_match: {
             query: search_str.to_s,
-            analyzer: "standard",
-            fields: ["name",
-                     "scientific_names.scientific_name",
-                     "alternate_names.name"]
+            analyzer: 'standard',
+            fields: ['name',
+                     'scientific_names.scientific_name',
+                     'alternate_names.name']
           }
         },
         filter: {
-          term: { approval_status: "approved" }
+          term: { approval_status: 'approved' }
         },
         size: 50
       )
@@ -26,7 +26,7 @@ class CropSearchService
       # collection, so it matches what we get from elasticsearch and we can
       # manipulate it in the same ways (eg. deleting elements without deleting
       # the whole record from the db)
-      matches = Crop.approved.where("name ILIKE ?", "%#{query}%").to_a
+      matches = Crop.approved.where('name ILIKE ?', "%#{query}%").to_a
 
       # we want to make sure that exact matches come first, even if not
       # using elasticsearch (eg. in development)

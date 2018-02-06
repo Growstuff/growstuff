@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'admin/orders/index.html.haml', type: "view" do
+describe 'admin/orders/index.html.haml', type: 'view' do
   before(:each) do
     @member = FactoryBot.create(:admin_member)
     sign_in @member
@@ -8,13 +8,13 @@ describe 'admin/orders/index.html.haml', type: "view" do
     render
   end
 
-  it "includes a search form for orders" do
-    assert_select "form"
-    assert_select "input#search_text"
-    assert_select "select#search_by"
+  it 'includes a search form for orders' do
+    assert_select 'form'
+    assert_select 'input#search_text'
+    assert_select 'select#search_by'
   end
 
-  it "lets you search by referral code" do
-    assert_select "option[value=referral_code]", text: "Referral code"
+  it 'lets you search by referral code' do
+    assert_select 'option[value=referral_code]', text: 'Referral code'
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "plantings/_form" do
+describe 'plantings/_form' do
   before(:each) do
     @member = FactoryBot.create(:member)
     @garden = FactoryBot.create(:garden, owner: @member)
@@ -18,7 +18,7 @@ describe "plantings/_form" do
     render
   end
 
-  it "has a free-form text field containing the planting date in ISO format" do
+  it 'has a free-form text field containing the planting date in ISO format' do
     assert_select "input#planting_planted_at[type='text'][value='2013-03-01']"
   end
 end

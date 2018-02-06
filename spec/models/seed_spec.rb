@@ -7,7 +7,7 @@ describe Seed do
     seed.save.should be(true)
   end
 
-  it "should have a slug" do
+  it 'should have a slug' do
     seed.save
     seed.slug.should match(/member\d+-magic-bean/)
   end
@@ -28,7 +28,7 @@ describe Seed do
       @seed.should_not be_valid
     end
 
-    it "allows blank quantities" do
+    it 'allows blank quantities' do
       @seed = FactoryBot.build(:seed, quantity: nil)
       @seed.should be_valid
       @seed = FactoryBot.build(:seed, quantity: '')
@@ -48,8 +48,8 @@ describe Seed do
       @seed = FactoryBot.build(:seed, tradable_to: 'not valid')
       @seed.should_not be_valid
       @seed.errors[:tradable_to].should include(
-        "You may only trade seed nowhere, locally, "\
-        "nationally, or internationally"
+        'You may only trade seed nowhere, locally, '\
+        'nationally, or internationally'
       )
     end
 

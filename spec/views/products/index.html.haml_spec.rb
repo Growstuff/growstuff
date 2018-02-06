@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-describe "products/index" do
+describe 'products/index' do
   before(:each) do
     @product = FactoryBot.create(:product)
     assign(:products, [@product, @product])
   end
 
-  it "renders a list of products" do
+  it 'renders a list of products' do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", text: @product.name, count: 2
-    assert_select "tr>td", text: @product.description, count: 2
-    assert_select "tr>td", text: @product.min_price.to_s, count: 2
+    assert_select 'tr>td', text: @product.name, count: 2
+    assert_select 'tr>td', text: @product.description, count: 2
+    assert_select 'tr>td', text: @product.min_price.to_s, count: 2
   end
 end

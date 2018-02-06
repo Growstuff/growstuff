@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'shop/index.html.haml', type: "view" do
+describe 'shop/index.html.haml', type: 'view' do
   before(:each) do
     @product1 = FactoryBot.create(:product)
     @product2 = FactoryBot.create(:product_with_recommended_price)
@@ -8,7 +8,7 @@ describe 'shop/index.html.haml', type: "view" do
     assign(:order_item, OrderItem.new)
   end
 
-  context "signed in" do
+  context 'signed in' do
     before(:each) do
       @member = FactoryBot.create(:member)
       controller.stub(:current_user) { @member }
@@ -16,7 +16,7 @@ describe 'shop/index.html.haml', type: "view" do
     end
 
     it 'shows products' do
-      assert_select("h2", text: @product1.name)
+      assert_select('h2', text: @product1.name)
     end
 
     it 'shows prices in configured currency' do
@@ -38,15 +38,15 @@ describe 'shop/index.html.haml', type: "view" do
     end
 
     it 'displays the order form' do
-      assert_select "form", count: 2
+      assert_select 'form', count: 2
     end
 
     it 'renders markdown in product descriptions' do
-      assert_select "em", text: 'hurrah', count: 2
+      assert_select 'em', text: 'hurrah', count: 2
     end
   end
 
-  context "is paid" do
+  context 'is paid' do
     before(:each) do
       @member = FactoryBot.create(:member)
       @member.account.account_type = FactoryBot.create(:paid_account_type)
@@ -54,29 +54,29 @@ describe 'shop/index.html.haml', type: "view" do
       controller.stub(:current_member) { @member }
     end
 
-    it "recognises the paid member" do
+    it 'recognises the paid member' do
       @member.paid?.should be(true)
     end
 
-    it "tells you you have a paid membership" do
+    it 'tells you you have a paid membership' do
       render
-      rendered.should have_content "You currently have a paid"
+      rendered.should have_content 'You currently have a paid'
     end
 
     it "doesn't show shop" do
       render
-      assert_select "form", false
+      assert_select 'form', false
     end
   end
 
-  context "signed out" do
+  context 'signed out' do
     before(:each) do
       controller.stub(:current_user) { nil }
       render
     end
 
-    it "tells you to sign up/sign in" do
-      rendered.should have_content "sign in or sign up"
+    it 'tells you to sign up/sign in' do
+      rendered.should have_content 'sign in or sign up'
     end
   end
 end

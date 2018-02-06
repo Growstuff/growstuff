@@ -87,5 +87,5 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   # Remember which tests failed, so you can run rspec with the `--only-failures` flag.
-  config.example_status_persistence_file_path = "tmp/examples.txt"
+  config.example_status_persistence_file_path = 'tmp/examples.txt'
 end

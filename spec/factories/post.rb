@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :post do
-    subject "A Post"
-    body "This is some text."
+    subject 'A Post'
+    body 'This is some text.'
     author
     created_at { Time.now }
 
     # Markdown is allowed in posts
     factory :markdown_post do
-      body "This is some **strong** text."
+      body 'This is some **strong** text.'
     end
 
     # HTML isn't allowed in posts

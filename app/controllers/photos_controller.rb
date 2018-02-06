@@ -75,10 +75,10 @@ class PhotosController < ApplicationController
 
   # Item with photos attached
   def item_to_link_to
-    raise "No item id provided" if item_id.nil?
-    raise "No item type provided" if item_type.nil?
+    raise 'No item id provided' if item_id.nil?
+    raise 'No item type provided' if item_type.nil?
     item_class = item_type.capitalize
-    raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+    raise 'Photos not supported' unless Photo::PHOTO_CAPABLE.include? item_class
     item_class.constantize.find_by!(id: params[:id], owner_id: current_member.id)
   end
 
