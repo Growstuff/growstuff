@@ -207,14 +207,14 @@ describe Crop do
       FactoryBot.create(:sunny_planting, crop: crop)
       FactoryBot.create(:semi_shady_planting, crop: crop)
       FactoryBot.create(:shady_planting, crop: crop)
-      crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
+      crop.sunniness.should == { :sun => 2, :shade => 1, :"semi-shade" => 1 }
     end
 
     it 'ignores unused sunniness values' do
       FactoryBot.create(:sunny_planting, crop: crop)
       FactoryBot.create(:sunny_planting, crop: crop)
       FactoryBot.create(:semi_shady_planting, crop: crop)
-      crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
+      crop.sunniness.should == { :sun => 2, :"semi-shade" => 1 }
     end
   end
 
@@ -234,14 +234,14 @@ describe Crop do
       FactoryBot.create(:seed_planting, crop: crop)
       FactoryBot.create(:seedling_planting, crop: crop)
       FactoryBot.create(:cutting_planting, crop: crop)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
+      crop.planted_from.should == { :seed => 2, :seedling => 1, :cutting => 1 }
     end
 
     it 'ignores unused planted_from values' do
       FactoryBot.create(:seed_planting, crop: crop)
       FactoryBot.create(:seed_planting, crop: crop)
       FactoryBot.create(:seedling_planting, crop: crop)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
+      crop.planted_from.should == { :seed => 2, :seedling => 1 }
     end
   end
 

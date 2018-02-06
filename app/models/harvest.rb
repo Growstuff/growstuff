@@ -7,22 +7,22 @@ class Harvest < ActiveRecord::Base
 
   # Constants
   UNITS_VALUES = {
-    'individual' => 'individual',
-    'bunches' => 'bunch',
-    'sprigs' => 'sprig',
-    'handfuls' => 'handful',
-    'litres' => 'litre',
-    'pints' => 'pint',
-    'quarts' => 'quart',
-    'buckets' => 'bucket',
-    'baskets' => 'basket',
-    'bushels' => 'bushel'
+    :individual => 'individual',
+    :bunches => 'bunch',
+    :sprigs => 'sprig',
+    :handfuls => 'handful',
+    :litres => 'litre',
+    :pints => 'pint',
+    :quarts => 'quart',
+    :buckets => 'bucket',
+    :baskets => 'basket',
+    :bushels => 'bushel'
   }.freeze
 
   WEIGHT_UNITS_VALUES = {
-    'kg' => 'kg',
-    'lb' => 'lb',
-    'oz' => 'oz'
+    :kg => 'kg',
+    :lb => 'lb',
+    :oz => 'oz'
   }.freeze
 
   ##
