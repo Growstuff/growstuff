@@ -1,4 +1,4 @@
-if ENV['MY_RUBY_HOME'] && ENV['MY_RUBY_HOME'].include?('rvm')
+if ENV['MY_RUBY_HOME']&.include?('rvm')
   begin
     require 'rvm'
     RVM.use_from_path! File.dirname(File.dirname(__FILE__))
