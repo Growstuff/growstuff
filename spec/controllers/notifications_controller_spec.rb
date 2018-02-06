@@ -5,9 +5,9 @@ describe NotificationsController do
 
   def valid_attributes
     {
-      "recipient_id" => subject.current_member.id,
-      "sender_id" => FactoryBot.create(:member).id,
-      "subject" => 'test'
+      :recipient_id => subject.current_member.id,
+      :sender_id => FactoryBot.create(:member).id,
+      :subject => 'test'
     }
   end
 
@@ -18,9 +18,9 @@ describe NotificationsController do
   # attributes.
   def valid_attributes_for_sender
     {
-      "sender_id" => subject.current_member.id,
-      "recipient_id" => FactoryBot.create(:member).id,
-      "subject" => 'test'
+      :sender_id => subject.current_member.id,
+      :recipient_id => FactoryBot.create(:member).id,
+      :subject => 'test'
     }
   end
 

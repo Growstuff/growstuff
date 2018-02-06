@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe RolesController do
   def valid_attributes
-    { "name" => "MyString" }
+    { :name => "MyString" }
   end
 
   login_member(:admin_member)

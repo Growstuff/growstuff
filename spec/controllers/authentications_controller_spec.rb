@@ -7,10 +7,10 @@ describe AuthenticationsController do
     controller.stub(:current_member) { @member }
     @auth = FactoryBot.create(:authentication, member: @member)
     request.env['omniauth.auth'] = {
-      'provider' => 'foo',
-      'uid' => 'bar',
-      'info' => { 'nickname' => 'blah' },
-      'credentials' => { 'token' => 'blah', 'secret' => 'blah' }
+      :provider => 'foo',
+      :uid => 'bar',
+      :info => { :nickname => 'blah' },
+      :credentials => { :token => 'blah', :secret => 'blah' }
     }
   end
 end
