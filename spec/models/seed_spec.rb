@@ -157,4 +157,15 @@ describe Seed do
       Seed.has_photos.should include(seed)
     end
   end
+
+  context 'ancestry' do
+    let(:parent_planting) { FactoryBot.create :planting }
+    let(:seed) { FactoryBot.create :seed, parent_planting: parent_planting }
+    it "seed has a parent planting" do
+      expect(seed.parent_planting).to eq(parent_planting)
+    end
+    it "planting has a child seed" do
+      expect(parent_planting.child_seeds).to eq [seed]
+    end
+  end
 end

@@ -90,6 +90,14 @@ describe PlantingsController do
       it { expect(assigns(:planting).planted_at).to eq Time.zone.today }
     end
 
+    context 'with parent seed' do
+      let(:seed) { FactoryBot.create :seed, owner: member }
+      before { get :new, seed_id: seed.to_param }
+      it { expect(assigns(:seed)).to eq(seed) }
+    end
+  end
+
+  describe 'POST :create' do
     describe "sets the owner automatically" do
       before { post :create, planting: valid_attributes }
       it { expect(assigns(:planting).owner).to eq subject.current_member }
