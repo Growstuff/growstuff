@@ -23,6 +23,7 @@ Growstuff::Application.routes.draw do
 
   resources :plantings do
     resources :harvests
+    resources :seeds
   end
   get '/plantings/owner/:owner' => 'plantings#index', as: 'plantings_by_owner'
   get '/plantings/crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
@@ -32,7 +33,9 @@ Growstuff::Application.routes.draw do
   end
   get '/gardens/owner/:owner' => 'gardens#index', as: 'gardens_by_owner'
 
-  resources :seeds
+  resources :seeds do
+    resources :plantings
+  end
   get '/seeds/owner/:owner' => 'seeds#index', as: 'seeds_by_owner'
   get '/seeds/crop/:crop' => 'seeds#index', as: 'seeds_by_crop'
 
