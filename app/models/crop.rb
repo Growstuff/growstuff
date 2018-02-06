@@ -125,7 +125,7 @@ class Crop < ActiveRecord::Base
 
     # Crop has no photos? Look for the most recent harvest with a photo.
     harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
-    harvest_with_photo.photos.first if harvest_with_photo
+    harvest_with_photo&.photos.first
   end
 
   # returns hash indicating whether this crop is grown in
