@@ -12,14 +12,14 @@ Growstuff::Application.routes.draw do
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', as: 'unsubscribe_member'
   end
-  match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
+  match '/members/:id/finish_signup' => 'members#finish_signup', via: %i[get patch], as: :finish_signup
 
   resources :members
 
   resources :photos
   delete 'photo_associations' => 'photo_associations#destroy'
 
-  resources :authentications, only: %i(create destroy)
+  resources :authentications, only: %i[create destroy]
 
   resources :plantings do
     resources :harvests
@@ -64,7 +64,7 @@ Growstuff::Application.routes.draw do
     get 'reply', on: :member
   end
 
-  resources :follows, only: %i(create destroy)
+  resources :follows, only: %i[create destroy]
   get '/members/:login_name/follows' => 'members#view_follows', as: 'member_follows'
   get '/members/:login_name/followers' => 'members#view_followers', as: 'member_followers'
 
@@ -83,7 +83,7 @@ Growstuff::Application.routes.draw do
   resources :order_items
   resources :products
 
-  resources :likes, only: %i(create destroy)
+  resources :likes, only: %i[create destroy]
 
   get "home/index"
   root to: 'home#index'
