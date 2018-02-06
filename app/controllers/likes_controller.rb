@@ -11,7 +11,7 @@ class LikesController < ApplicationController
 
   def destroy
     @like = Like.find_by(id: params[:id], member: current_member)
-    return failed(@like, message: 'Unable to unlike') unless @like && @like.destroy
+    return failed(@like, message: 'Unable to unlike') unless @like&.destroy
 
     success(@like, liked_by_member: false, status_code: :ok)
   end
@@ -46,7 +46,7 @@ class LikesController < ApplicationController
       format.json { render(json: { 'error': message }, status: :forbidden) }
       format.html do
         flash[:error] = message
-        if like && like.likeable
+        if like&.likeable
           redirect_to like.likeable
         else
           redirect_to root_path
