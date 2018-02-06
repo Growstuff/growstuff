@@ -4,7 +4,7 @@ describe AccountsController do
   login_member(:admin_member)
 
   def valid_attributes
-    { 'paid_until' => Time.now }
+    { :paid_until => Time.now }
   end
 
   def create_account

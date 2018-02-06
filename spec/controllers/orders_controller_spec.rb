@@ -4,7 +4,7 @@ describe OrdersController do
   login_member(:admin_member)
 
   def valid_attributes
-    { 'member_id' => 1 }
+    { :member_id => 1 }
   end
 
   def valid_session
