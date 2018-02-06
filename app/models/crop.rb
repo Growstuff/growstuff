@@ -1,6 +1,6 @@
 class Crop < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: %i(slugged finders)
+  friendly_id :name, use: %i[slugged finders]
 
   ##
   ## Triggers
@@ -68,7 +68,7 @@ class Crop < ActiveRecord::Base
                    max_gram: 10,
                    # token_chars: Elasticsearch will split on characters
                    # that don't belong to any of these classes
-                   token_chars: %w(letter digit)
+                   token_chars: %w[letter digit]
                  }
                },
                analyzer: {
@@ -179,7 +179,7 @@ class Crop < ActiveRecord::Base
   end
 
   def approval_statuses
-    %w(rejected pending approved)
+    %w[rejected pending approved]
   end
 
   def reasons_for_rejection

@@ -3,7 +3,7 @@ class Harvest < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
 
-  friendly_id :harvest_slug, use: %i(slugged finders)
+  friendly_id :harvest_slug, use: %i[slugged finders]
 
   # Constants
   UNITS_VALUES = {
