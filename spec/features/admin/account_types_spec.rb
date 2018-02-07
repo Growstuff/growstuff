@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature "account types", js: true do
-  context "admin user" do
+feature 'account types', js: true do
+  context 'admin user' do
     let(:member) { create :admin_member }
     let(:account_type) { create :account_type }
 
@@ -9,28 +9,28 @@ feature "account types", js: true do
       login_as member
     end
 
-    scenario "navigating to account type admin with JavaScript on" do
+    scenario 'navigating to account type admin with JavaScript on' do
       visit root_path
       # Extra click for the expandable login menu
       click_link member.login_name
-      click_link "Admin"
+      click_link 'Admin'
       expect(current_path).to eq admin_path
-      click_link "Account types"
+      click_link 'Account types'
       expect(current_path).to eq account_types_path
     end
 
-    scenario "navigating to account type admin without JavaScript - Accessility version", js: false do
+    scenario 'navigating to account type admin without JavaScript - Accessility version', js: false do
       visit root_path
       # Extra link not needed as menu is already expanded
-      click_link "Admin"
+      click_link 'Admin'
       expect(current_path).to eq admin_path
-      click_link "Account types"
+      click_link 'Account types'
       expect(current_path).to eq account_types_path
     end
 
-    scenario "adding an account type" do
+    scenario 'adding an account type' do
       visit account_types_path
-      click_link "New Account type"
+      click_link 'New Account type'
       expect(current_path).to eq new_account_type_path
       fill_in 'Name', with: 'Guest'
       click_button 'Save'

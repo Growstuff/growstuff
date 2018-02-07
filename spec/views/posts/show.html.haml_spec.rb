@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "posts/show" do
+describe 'posts/show' do
   subject { rendered }
   let(:author) { FactoryBot.create(:member) }
 
@@ -11,7 +11,7 @@ describe "posts/show" do
 
   describe 'render post' do
     before { render }
-    describe "basic post" do
+    describe 'basic post' do
       let(:post) { FactoryBot.create(:post, author: author) }
 
       # show the name of the member who posted the post
@@ -23,17 +23,17 @@ describe "posts/show" do
       it { is_expected.not_to have_text('An Update') }
     end
 
-    describe "should parse markdown into html" do
+    describe 'should parse markdown into html' do
       let(:post) { FactoryBot.create(:markdown_post, author: author) }
 
-      it { assert_select "strong", "strong" }
+      it { assert_select 'strong', 'strong' }
     end
 
     describe "shouldn't let html through in body" do
       let(:post) { FactoryBot.create(:post, author: author, body: '<a href="http://evil.com">EVIL</a>') }
 
       it { is_expected.to have_content('EVIL') }
-      it { is_expected.not_to have_link("http://evil.com") }
+      it { is_expected.not_to have_link('http://evil.com') }
     end
     describe 'script tag in post body' do
       let(:post) { FactoryBot.create(:post, author: author, body: "<script>alert('hakker!')</script>") }
@@ -53,7 +53,7 @@ describe "posts/show" do
     end
   end
 
-  context "when there is one comment" do
+  context 'when there is one comment' do
     let(:post) { FactoryBot.create(:html_post, author: author) }
     let!(:comment) { FactoryBot.create(:comment, post: post) }
 
@@ -63,10 +63,10 @@ describe "posts/show" do
     end
 
     it 'shows comment count only 1' do
-      assert_select "div.post_comments", false
+      assert_select 'div.post_comments', false
     end
 
-    it "shows comments" do
+    it 'shows comments' do
       is_expected.to have_content comment.body
     end
 
@@ -75,36 +75,36 @@ describe "posts/show" do
     end
   end
 
-  context "when there is more than one comment" do
+  context 'when there is more than one comment' do
     let(:post) { FactoryBot.create(:html_post, author: author) }
 
     before(:each) do
-      @comment1 = FactoryBot.create(:comment, post: post, body: "F1rst!!!",
+      @comment1 = FactoryBot.create(:comment, post: post, body: 'F1rst!!!',
                                               created_at: Date.new(2010, 5, 17))
-      @comment3 = FactoryBot.create(:comment, post: post, body: "Th1rd!!!",
+      @comment3 = FactoryBot.create(:comment, post: post, body: 'Th1rd!!!',
                                               created_at: Date.new(2012, 5, 17))
-      @comment4 = FactoryBot.create(:comment, post: post, body: "F0urth!!!")
-      @comment2 = FactoryBot.create(:comment, post: post, body: "S3c0nd!!1!",
+      @comment4 = FactoryBot.create(:comment, post: post, body: 'F0urth!!!')
+      @comment2 = FactoryBot.create(:comment, post: post, body: 'S3c0nd!!1!',
                                               created_at: Date.new(2011, 5, 17))
       @comments = post.comments
       render
     end
 
-    it "shows the oldest comments first" do
+    it 'shows the oldest comments first' do
       is_expected.to have_content(/#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m)
     end
   end
 
-  context "forum post" do
+  context 'forum post' do
     let(:post) { FactoryBot.create(:forum_post, author: author) }
 
     before { render }
-    it "shows forum name" do
+    it 'shows forum name' do
       is_expected.to have_content "in #{post.forum.name}"
     end
   end
 
-  context "signed in" do
+  context 'signed in' do
     let(:post) { FactoryBot.create(:post, author: author) }
 
     before(:each) do
@@ -114,7 +114,7 @@ describe "posts/show" do
     end
 
     it 'shows a comment button' do
-      is_expected.to have_link "Comment", href: new_comment_path(post_id: post.id)
+      is_expected.to have_link 'Comment', href: new_comment_path(post_id: post.id)
     end
   end
 end

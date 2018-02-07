@@ -5,7 +5,7 @@ describe Ability do
   let(:member) { FactoryBot.create(:member) }
   let(:ability) { Ability.new(member) }
 
-  context "notifications" do
+  context 'notifications' do
     it 'member can view their own notifications' do
       notification = FactoryBot.create(:notification, recipient: member)
       ability.should be_able_to(:read, notification)
@@ -22,7 +22,7 @@ describe Ability do
           recipient: member,
           sender: member))
     end
-    it "member can send messages to someone else" do
+    it 'member can send messages to someone else' do
       ability.should be_able_to(:create,
         FactoryBot.create(:notification,
           recipient: FactoryBot.create(:member),
@@ -30,51 +30,51 @@ describe Ability do
     end
   end
 
-  context "crop wrangling" do
+  context 'crop wrangling' do
     let(:crop) { FactoryBot.create(:crop) }
 
-    context "standard member" do
+    context 'standard member' do
       it "can't manage crops" do
         ability.should_not be_able_to(:update, crop)
         ability.should_not be_able_to(:destroy, crop)
       end
 
-      it "can request crops" do
+      it 'can request crops' do
         ability.should be_able_to(:create, Crop)
       end
 
-      it "can read crops" do
+      it 'can read crops' do
         ability.should be_able_to(:read, crop)
       end
     end
 
-    context "crop wrangler" do
+    context 'crop wrangler' do
       let(:role) { FactoryBot.create(:crop_wrangler) }
 
       before(:each) do
         member.roles << role
       end
 
-      it "has crop_wrangler role" do
+      it 'has crop_wrangler role' do
         member.role?(:crop_wrangler).should be true
       end
 
-      it "can create crops" do
+      it 'can create crops' do
         ability.should be_able_to(:create, Crop)
       end
-      it "can update crops" do
+      it 'can update crops' do
         ability.should be_able_to(:update, crop)
       end
-      it "can destroy crops" do
+      it 'can destroy crops' do
         ability.should be_able_to(:destroy, crop)
       end
     end
   end
 
-  context "products" do
+  context 'products' do
     let(:product) { FactoryBot.create(:product) }
 
-    context "standard member" do
+    context 'standard member' do
       it "can't read or manage products" do
         ability.should_not be_able_to(:read, product)
         ability.should_not be_able_to(:create, Product)
@@ -83,33 +83,33 @@ describe Ability do
       end
     end
 
-    context "admin" do
+    context 'admin' do
       let(:role) { FactoryBot.create(:admin) }
 
       before do
         member.roles << role
       end
 
-      it "has admin role" do
+      it 'has admin role' do
         member.role?(:admin).should be true
       end
 
-      it "can read products" do
+      it 'can read products' do
         ability.should be_able_to(:read, product)
       end
-      it "can create products" do
+      it 'can create products' do
         ability.should be_able_to(:create, Product)
       end
-      it "can update products" do
+      it 'can update products' do
         ability.should be_able_to(:update, product)
       end
-      it "can destroy products" do
+      it 'can destroy products' do
         ability.should be_able_to(:destroy, product)
       end
     end
   end
 
-  context "orders" do
+  context 'orders' do
     let(:order) { FactoryBot.create(:order, member: member) }
     let(:strangers_order) do
       FactoryBot.create(:order,
@@ -129,8 +129,8 @@ describe Ability do
         order: completed_order)
     end
 
-    context "standard member" do
-      it "can read their own orders" do
+    context 'standard member' do
+      it 'can read their own orders' do
         ability.should be_able_to(:read, order)
         ability.should be_able_to(:read, completed_order)
       end
@@ -139,11 +139,11 @@ describe Ability do
         ability.should_not be_able_to(:read, strangers_order)
       end
 
-      it "can create a new order" do
+      it 'can create a new order' do
         ability.should be_able_to(:create, Order)
       end
 
-      it "can complete their own current order" do
+      it 'can complete their own current order' do
         ability.should be_able_to(:complete, order)
       end
 
@@ -155,7 +155,7 @@ describe Ability do
         ability.should_not be_able_to(:complete, completed_order)
       end
 
-      it "can delete a current order" do
+      it 'can delete a current order' do
         ability.should be_able_to(:destroy, order)
       end
 
@@ -176,7 +176,7 @@ describe Ability do
         ability.should_not be_able_to(:read, strangers_order_item)
       end
 
-      it "can create a new order item" do
+      it 'can create a new order item' do
         ability.should be_able_to(:create, OrderItem)
       end
 
@@ -205,30 +205,30 @@ describe Ability do
       end
     end
 
-    context "admin" do
+    context 'admin' do
       let(:role) { FactoryBot.create(:admin) }
 
       before do
         member.roles << role
       end
 
-      it "has admin role" do
+      it 'has admin role' do
         member.role?(:admin).should be true
       end
 
-      it "can read orders" do
+      it 'can read orders' do
         ability.should be_able_to(:read, order)
       end
 
-      it "cannot create orders" do
+      it 'cannot create orders' do
         ability.should_not be_able_to(:create, order)
       end
 
-      it "cannot complete orders" do
+      it 'cannot complete orders' do
         ability.should_not be_able_to(:complete, order)
       end
 
-      it "cannot delete orders" do
+      it 'cannot delete orders' do
         ability.should_not be_able_to(:destroy, order)
       end
     end
@@ -255,10 +255,10 @@ describe Ability do
         member.roles << role
       end
 
-      it "can read account details" do
+      it 'can read account details' do
         ability.should be_able_to(:read, account)
       end
-      it "can manage account details" do
+      it 'can manage account details' do
         ability.should be_able_to(:create, Account)
         ability.should be_able_to(:update, account)
         ability.should be_able_to(:destroy, account)
@@ -270,7 +270,7 @@ describe Ability do
     let(:plant_part) { FactoryBot.create(:plant_part) }
 
     context 'ordinary member' do
-      it "can read plant parts" do
+      it 'can read plant parts' do
         ability.should be_able_to(:read, plant_part)
       end
       it "can't manage plant parts" do
@@ -287,15 +287,15 @@ describe Ability do
         member.roles << role
       end
 
-      it "can read plant_part details" do
+      it 'can read plant_part details' do
         ability.should be_able_to(:read, plant_part)
       end
-      it "can manage plant_part details" do
+      it 'can manage plant_part details' do
         ability.should be_able_to(:create, PlantPart)
         ability.should be_able_to(:update, plant_part)
       end
 
-      it "can delete an unused plant part" do
+      it 'can delete an unused plant part' do
         ability.should be_able_to(:destroy, plant_part)
       end
 

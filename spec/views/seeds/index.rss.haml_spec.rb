@@ -14,7 +14,7 @@ describe 'seeds/index.rss.haml' do
     end
 
     it 'shows RSS feed title' do
-      rendered.should have_content "Recent seeds from all members"
+      rendered.should have_content 'Recent seeds from all members'
     end
 
     it 'has a useful item title' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "members/index" do
+describe 'members/index' do
   let(:member) { FactoryBot.create(:london_member) }
 
   before(:each) do
@@ -15,8 +15,8 @@ describe "members/index" do
     render
   end
 
-  it "contains two gravatar icons" do
-    assert_select "img", src: /gravatar\.com\/avatar/, count: 2
+  it 'contains two gravatar icons' do
+    assert_select 'img', src: /gravatar\.com\/avatar/, count: 2
   end
 
   it 'contains member locations' do

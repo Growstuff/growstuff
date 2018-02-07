@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe "products/show" do
+describe 'products/show' do
   before(:each) do
     @product = assign(:product, FactoryBot.create(:product))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     rendered.should have_content @product.name

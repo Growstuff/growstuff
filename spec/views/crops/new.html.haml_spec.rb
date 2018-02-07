@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "crops/new" do
+describe 'crops/new' do
   before(:each) do
     @crop = FactoryBot.create(:maize)
     3.times do
@@ -13,7 +13,7 @@ describe "crops/new" do
     render
   end
 
-  it "shows a link to crop wrangling guidelines" do
-    assert_select "a[href^='http://wiki.growstuff.org']", "crop wrangling guide"
+  it 'shows a link to crop wrangling guidelines' do
+    assert_select "a[href^='http://wiki.growstuff.org']", 'crop wrangling guide'
   end
 end

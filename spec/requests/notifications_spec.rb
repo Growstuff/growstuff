@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe "Notifications" do
-  describe "GET /notifications" do
-    it "works! (now write some real specs)" do
+describe 'Notifications' do
+  describe 'GET /notifications' do
+    it 'works! (now write some real specs)' do
       get notifications_path
       # can't see notifications because not logged in
       # therefore redirect to homepage

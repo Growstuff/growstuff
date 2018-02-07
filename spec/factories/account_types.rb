@@ -7,25 +7,25 @@ FactoryBot.define do
     is_permanent_paid false
 
     factory :free_account_type do
-      name "Free"
+      name 'Free'
       is_paid false
       is_permanent_paid false
     end
 
     factory :paid_account_type do
-      name "Paid"
+      name 'Paid'
       is_paid true
       is_permanent_paid false
     end
 
     factory :permanent_paid_account_type do
-      name "Permanent paid"
+      name 'Permanent paid'
       is_paid true
       is_permanent_paid true
     end
 
     factory :staff_account_type do
-      name "Staff"
+      name 'Staff'
       is_paid true
       is_permanent_paid true
     end

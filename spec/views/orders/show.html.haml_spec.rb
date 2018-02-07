@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe "orders/show" do
+describe 'orders/show' do
   before(:each) do
     @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }
   end
 
-  context "current order" do
+  context 'current order' do
     before(:each) do
       @order = assign(:order, FactoryBot.create(:order, member: @member))
       @order_item = FactoryBot.create(:order_item,
@@ -17,38 +17,38 @@ describe "orders/show" do
       render
     end
 
-    it "displays order number" do
-      rendered.should have_content "Order number"
+    it 'displays order number' do
+      rendered.should have_content 'Order number'
     end
 
-    it "shows order items in a table" do
-      assert_select "table>tr>th", text: "Product"
+    it 'shows order items in a table' do
+      assert_select 'table>tr>th', text: 'Product'
     end
 
-    it "shows the total" do
-      rendered.should have_content "Total:"
-      assert_select "strong", /198.00/
+    it 'shows the total' do
+      rendered.should have_content 'Total:'
+      assert_select 'strong', /198.00/
     end
 
-    it "shows a foreign exchange link for the total" do
+    it 'shows a foreign exchange link for the total' do
       currency = Growstuff::Application.config.currency
       assert_select("a[href='http://www.wolframalpha.com/input/?i=198.00+#{currency}']")
     end
 
-    it "asks for a referral code" do
+    it 'asks for a referral code' do
       assert_select "input[id='referral_code']"
     end
 
-    it "shows a checkout button" do
+    it 'shows a checkout button' do
       assert_select "input[value='Checkout with PayPal']"
     end
 
-    it "shows a delete order button" do
-      assert_select "a", text: "Delete this order"
+    it 'shows a delete order button' do
+      assert_select 'a', text: 'Delete this order'
     end
   end
 
-  context "completed order" do
+  context 'completed order' do
     before(:each) do
       @order = assign(:order, FactoryBot.create(:completed_order, member: @member))
       @order_item = FactoryBot.create(:order_item,
@@ -59,11 +59,11 @@ describe "orders/show" do
     end
 
     it "doesn't show a checkout button" do
-      assert_select "a", text: "Checkout", count: 0
+      assert_select 'a', text: 'Checkout', count: 0
     end
 
     it "doesn't show delete order button" do
-      assert_select "a", text: "Delete this order", count: 0
+      assert_select 'a', text: 'Delete this order', count: 0
     end
   end
 end

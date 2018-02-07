@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "photos/new" do
+describe 'photos/new' do
   before(:each) do
     @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
@@ -14,27 +14,27 @@ describe "photos/new" do
     assign(:flickr_auth, FactoryBot.create(:flickr_authentication, member: @member))
   end
 
-  context "user has no photosets" do
+  context 'user has no photosets' do
     it "doesn't show a dropdown with sets from Flickr" do
       render
-      assert_select "select#set", false
+      assert_select 'select#set', false
     end
   end
 
-  context "user has photosets" do
+  context 'user has photosets' do
     before(:each) do
-      assign(:sets, "foo" => "bar") # Hash of names => IDs
+      assign(:sets, 'foo' => 'bar') # Hash of names => IDs
     end
 
-    it "shows a dropdown with sets from Flickr" do
+    it 'shows a dropdown with sets from Flickr' do
       render
-      assert_select "select#set"
+      assert_select 'select#set'
     end
 
-    it "shows the current photoset" do
-      assign(:current_set, "bar") # the ID of the set
+    it 'shows the current photoset' do
+      assign(:current_set, 'bar') # the ID of the set
       render
-      assert_select "h2", "foo" # the name of the set
+      assert_select 'h2', 'foo' # the name of the set
     end
   end
 end

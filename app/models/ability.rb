@@ -36,7 +36,7 @@ class Ability
     # nobody should be able to view unapproved crops unless they
     # are wranglers or admins
     cannot :read, Crop
-    can :read, Crop, approval_status: "approved"
+    can :read, Crop, approval_status: 'approved'
     # scientific names should only be viewable if associated crop is approved
     cannot :read, ScientificName
     can :read, ScientificName do |sn|

@@ -15,7 +15,7 @@ class Crop < ActiveRecord::Base
   has_many :photos, through: :plantings
   has_many :seeds
   has_many :harvests
-  has_many :plant_parts, -> { uniq.reorder("plant_parts.name") }, through: :harvests
+  has_many :plant_parts, -> { uniq.reorder('plant_parts.name') }, through: :harvests
   belongs_to :creator, class_name: 'Member'
   belongs_to :requester, class_name: 'Member'
   belongs_to :parent, class_name: 'Crop'
@@ -26,12 +26,12 @@ class Crop < ActiveRecord::Base
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
-  scope :popular, -> { approved.reorder("plantings_count desc, lower(name) asc") }
+  scope :popular, -> { approved.reorder('plantings_count desc, lower(name) asc') }
   # ok on sqlite and psql, but not on mysql
   scope :randomized, -> { approved.reorder('random()') }
-  scope :pending_approval, -> { where(approval_status: "pending") }
-  scope :approved, -> { where(approval_status: "approved") }
-  scope :rejected, -> { where(approval_status: "rejected") }
+  scope :pending_approval, -> { where(approval_status: 'pending') }
+  scope :approved, -> { where(approval_status: 'approved') }
+  scope :rejected, -> { where(approval_status: 'rejected') }
   scope :interesting, -> { approved.has_photos.randomized }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
@@ -53,17 +53,17 @@ class Crop < ActiveRecord::Base
 
   ####################################
   # Elastic search configuration
-  if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+  if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
     include Elasticsearch::Model
     include Elasticsearch::Model::Callbacks
     # In order to avoid clashing between different environments,
     # use Rails.env as a part of index name (eg. development_growstuff)
-    index_name [Rails.env, "growstuff"].join('_')
+    index_name [Rails.env, 'growstuff'].join('_')
     settings index: { number_of_shards: 1 },
              analysis: {
                tokenizer: {
                  gs_edgeNGram_tokenizer: {
-                   type: "edgeNGram", # edgeNGram: NGram match from the start of a token
+                   type: 'edgeNGram', # edgeNGram: NGram match from the start of a token
                    min_gram: 3,
                    max_gram: 10,
                    # token_chars: Elasticsearch will split on characters
@@ -73,8 +73,8 @@ class Crop < ActiveRecord::Base
                },
                analyzer: {
                  gs_edgeNGram_analyzer: {
-                   tokenizer: "gs_edgeNGram_tokenizer",
-                   filter: ["lowercase"]
+                   tokenizer: 'gs_edgeNGram_tokenizer',
+                   filter: ['lowercase']
                  }
                }
              } do
@@ -104,7 +104,7 @@ class Crop < ActiveRecord::Base
   # update the Elasticsearch index (only if we're using it in this
   # environment)
   def update_index(_name_obj)
-    __elasticsearch__.index_document if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+    __elasticsearch__.index_document if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
   end
   # End Elasticsearch section
 
@@ -148,10 +148,10 @@ class Crop < ActiveRecord::Base
   # value: count of how many times it's been used by harvests
   def popular_plant_parts
     PlantPart.joins(:harvests)
-      .where("crop_id = ?", id)
-      .order("count_harvests_id DESC")
-      .group("plant_parts.id", "plant_parts.name")
-      .count("harvests.id")
+      .where('crop_id = ?', id)
+      .order('count_harvests_id DESC')
+      .group('plant_parts.id', 'plant_parts.name')
+      .count('harvests.id')
   end
 
   def annual?
@@ -167,15 +167,15 @@ class Crop < ActiveRecord::Base
   end
 
   def pending?
-    approval_status == "pending"
+    approval_status == 'pending'
   end
 
   def approved?
-    approval_status == "approved"
+    approval_status == 'approved'
   end
 
   def rejected?
-    approval_status == "rejected"
+    approval_status == 'rejected'
   end
 
   def approval_statuses
@@ -183,11 +183,11 @@ class Crop < ActiveRecord::Base
   end
 
   def reasons_for_rejection
-    ["already in database", "not edible", "not enough information", "other"]
+    ['already in database', 'not edible', 'not enough information', 'other']
   end
 
   def rejection_explanation
-    return rejection_notes if reason_for_rejection == "other"
+    return rejection_notes if reason_for_rejection == 'other'
     reason_for_rejection
   end
 
@@ -212,7 +212,7 @@ class Crop < ActiveRecord::Base
   end
 
   def self.case_insensitive_name(name)
-    where(["lower(crops.name) = :value", { value: name.downcase }])
+    where(['lower(crops.name) = :value', { value: name.downcase }])
   end
 
   private
@@ -235,11 +235,11 @@ class Crop < ActiveRecord::Base
   def must_be_rejected_if_rejected_reasons_present
     return if rejected?
     return unless reason_for_rejection.present? || rejection_notes.present?
-    errors.add(:approval_status, "must be rejected if a reason for rejection is present")
+    errors.add(:approval_status, 'must be rejected if a reason for rejection is present')
   end
 
   def must_have_meaningful_reason_for_rejection
-    return unless reason_for_rejection == "other" && rejection_notes.blank?
-    errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
+    return unless reason_for_rejection == 'other' && rejection_notes.blank?
+    errors.add(:rejection_notes, 'must be added if the reason for rejection is "other"')
   end
 end

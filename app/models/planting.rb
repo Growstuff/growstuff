@@ -30,7 +30,7 @@ class Planting < ActiveRecord::Base
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=plantings.owner_id)
            LEFT OUTER JOIN plantings p2
-           ON (m.id=p2.owner_id AND plantings.id < p2.id)").where("p2 IS NULL")
+           ON (m.id=p2.owner_id AND plantings.id < p2.id)").where('p2 IS NULL')
   }
 
   ##
@@ -41,17 +41,17 @@ class Planting < ActiveRecord::Base
   ##
   ## Validations
   validates :garden, presence: true
-  validates :crop, presence: true, approved: { message: "must be present and exist in our database" }
+  validates :crop, presence: true, approved: { message: 'must be present and exist in our database' }
   validate :finished_must_be_after_planted
   validate :owner_must_match_garden_owner
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
   validates :sunniness, allow_nil: true, allow_blank: true, inclusion: {
-    in: SUNNINESS_VALUES, message: "%<value>s is not a valid sunniness value"
+    in: SUNNINESS_VALUES, message: '%<value>s is not a valid sunniness value'
   }
   validates :planted_from, allow_nil: true, allow_blank: true, inclusion: {
-    in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
+    in: PLANTED_FROM_VALUES, message: '%<value>s is not a valid planting method'
   }
 
   def planting_slug
@@ -64,7 +64,7 @@ class Planting < ActiveRecord::Base
 
   # location = garden owner + garden name, i.e. "Skud's backyard"
   def location
-    I18n.t("gardens.location", garden: garden.name, owner: garden.owner.login_name)
+    I18n.t('gardens.location', garden: garden.name, owner: garden.owner.login_name)
   end
 
   # stringify as "beet in Skud's backyard" or similar
@@ -134,10 +134,10 @@ class Planting < ActiveRecord::Base
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
-    errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
+    errors.add(:finished_at, 'must be after the planting date') unless planted_at < finished_at
   end
 
   def owner_must_match_garden_owner
-    errors.add(:owner, "must be the same as garden") unless owner == garden.owner
+    errors.add(:owner, 'must be the same as garden') unless owner == garden.owner
   end
 end

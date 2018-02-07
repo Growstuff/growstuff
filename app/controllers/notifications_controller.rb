@@ -21,7 +21,7 @@ class NotificationsController < ApplicationController
   def new
     @notification = Notification.new
     @recipient = Member.find_by(id: params[:recipient_id])
-    @subject   = params[:subject] || ""
+    @subject   = params[:subject] || ''
   end
 
   # GET /notifications/1/reply
@@ -53,7 +53,7 @@ class NotificationsController < ApplicationController
     if @notification.save
       redirect_to notifications_path, notice: 'Message was successfully sent.'
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
