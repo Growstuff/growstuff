@@ -28,7 +28,7 @@ describe 'member' do
       member.account.should be_an_instance_of Account
     end
 
-    it 'should have a default-type account by default' do
+    it "should have a default-type account by default" do
       member.account.account_type.name.should eq Growstuff::Application.config.default_account_type
       member.paid?.should be(false)
     end
@@ -48,7 +48,7 @@ describe 'member' do
     end
 
     it 'should be able to fetch gardens' do
-      member.gardens.first.name.should eq 'Garden'
+      member.gardens.first.name.should eq "Garden"
     end
 
     it 'has many plantings' do
@@ -56,19 +56,19 @@ describe 'member' do
       member.plantings.size.should eq 1
     end
 
-    it 'has many comments' do
+    it "has many comments" do
       FactoryBot.create(:comment, author: member)
       FactoryBot.create(:comment, author: member)
       member.comments.size.should == 2
     end
 
-    it 'has many forums' do
+    it "has many forums" do
       FactoryBot.create(:forum, owner: member)
       FactoryBot.create(:forum, owner: member)
       member.forums.size.should == 2
     end
 
-    it 'has many likes' do
+    it "has many likes" do
       @post1 = FactoryBot.create(:post, author: member)
       @post2 = FactoryBot.create(:post, author: member)
       @like1 = FactoryBot.create(:like, member: member, likeable: @post1)
@@ -118,24 +118,24 @@ describe 'member' do
   end
 
   context 'same :login_name' do
-    it 'should not allow two members with the same login_name' do
-      FactoryBot.create(:member, login_name: 'bob')
-      member = FactoryBot.build(:member, login_name: 'bob')
+    it "should not allow two members with the same login_name" do
+      FactoryBot.create(:member, login_name: "bob")
+      member = FactoryBot.build(:member, login_name: "bob")
       member.should_not be_valid
-      member.errors[:login_name].should include('has already been taken')
+      member.errors[:login_name].should include("has already been taken")
     end
 
-    it 'tests uniqueness case-insensitively' do
-      FactoryBot.create(:member, login_name: 'bob')
-      member = FactoryBot.build(:member, login_name: 'BoB')
+    it "tests uniqueness case-insensitively" do
+      FactoryBot.create(:member, login_name: "bob")
+      member = FactoryBot.build(:member, login_name: "BoB")
       member.should_not be_valid
-      member.errors[:login_name].should include('has already been taken')
+      member.errors[:login_name].should include("has already been taken")
     end
   end
 
   context 'case sensitivity' do
     it 'preserves case of login name' do
-      FactoryBot.create(:member, login_name: 'BOB')
+      FactoryBot.create(:member, login_name: "BOB")
       Member.find('bob').login_name.should eq 'BOB'
     end
   end
@@ -144,40 +144,40 @@ describe 'member' do
     it "doesn't allow short names" do
       member = FactoryBot.build(:invalid_member_shortname)
       member.should_not be_valid
-      member.errors[:login_name].should include('should be between 2 and 25 characters long')
+      member.errors[:login_name].should include("should be between 2 and 25 characters long")
     end
     it "doesn't allow really long names" do
       member = FactoryBot.build(:invalid_member_longname)
       member.should_not be_valid
-      member.errors[:login_name].should include('should be between 2 and 25 characters long')
+      member.errors[:login_name].should include("should be between 2 and 25 characters long")
     end
     it "doesn't allow spaces in names" do
       member = FactoryBot.build(:invalid_member_spaces)
       member.should_not be_valid
-      member.errors[:login_name].should include('may only include letters, numbers, or underscores')
+      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
     end
     it "doesn't allow other chars in names" do
       member = FactoryBot.build(:invalid_member_badchars)
       member.should_not be_valid
-      member.errors[:login_name].should include('may only include letters, numbers, or underscores')
+      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
     end
     it "doesn't allow reserved names" do
       member = FactoryBot.build(:invalid_member_badname)
       member.should_not be_valid
-      member.errors[:login_name].should include('name is reserved')
+      member.errors[:login_name].should include("name is reserved")
     end
   end
 
   context 'valid login names' do
-    it 'allows plain alphanumeric chars in names' do
+    it "allows plain alphanumeric chars in names" do
       member = FactoryBot.build(:valid_member_alphanumeric)
       member.should be_valid
     end
-    it 'allows uppercase chars in names' do
+    it "allows uppercase chars in names" do
       member = FactoryBot.build(:valid_member_uppercase)
       member.should be_valid
     end
-    it 'allows underscores in names' do
+    it "allows underscores in names" do
       member = FactoryBot.build(:valid_member_underscore)
       member.should be_valid
     end
@@ -203,7 +203,7 @@ describe 'member' do
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
-      role = FactoryBot.create(:role, name: 'a b c')
+      role = FactoryBot.create(:role, name: "a b c")
       member.roles << role
       member.role?(:a_b_c).should eq true
     end
@@ -310,17 +310,17 @@ describe 'member' do
     end
   end
 
-  context 'paid accounts' do
+  context "paid accounts" do
     let(:member) { FactoryBot.create(:member) }
 
-    it 'recognises a permanent paid account' do
+    it "recognises a permanent paid account" do
       account_type = FactoryBot.create(:account_type,
         is_paid: true, is_permanent_paid: true)
       member.account.account_type = account_type
       member.paid?.should be(true)
     end
 
-    it 'recognises a current paid account' do
+    it "recognises a current paid account" do
       account_type = FactoryBot.create(:account_type,
         is_paid: true, is_permanent_paid: false)
       member.account.account_type = account_type
@@ -328,7 +328,7 @@ describe 'member' do
       member.paid?.should be(true)
     end
 
-    it 'recognises an expired paid account' do
+    it "recognises an expired paid account" do
       account_type = FactoryBot.create(:account_type,
         is_paid: true, is_permanent_paid: false)
       member.account.account_type = account_type
@@ -336,14 +336,14 @@ describe 'member' do
       member.paid?.should be(false)
     end
 
-    it 'recognises a free account' do
+    it "recognises a free account" do
       account_type = FactoryBot.create(:account_type,
         is_paid: false, is_permanent_paid: false)
       member.account.account_type = account_type
       member.paid?.should be(false)
     end
 
-    it 'recognises a free account even with paid_until set' do
+    it "recognises a free account even with paid_until set" do
       account_type = FactoryBot.create(:account_type,
         is_paid: false, is_permanent_paid: false)
       member.account.account_type = account_type
@@ -352,19 +352,19 @@ describe 'member' do
     end
   end
 
-  context 'update account' do
+  context "update account" do
     let(:product) do
       FactoryBot.create(:product,
         paid_months: 3)
     end
     let(:member) { FactoryBot.create(:member) }
 
-    it 'sets account_type' do
+    it "sets account_type" do
       member.update_account_after_purchase(product)
       member.account.account_type.should eq product.account_type
     end
 
-    it 'sets paid_until' do
+    it "sets paid_until" do
       member.account.paid_until = nil # blank for now, as if never paid before
       member.update_account_after_purchase(product)
 
@@ -417,7 +417,7 @@ describe 'member' do
 
   context 'subscriptions' do
     let(:member) { FactoryBot.create(:member) }
-    let(:gb) { instance_double('Gibbon::API.new') }
+    let(:gb) { instance_double("Gibbon::API.new") }
 
     it 'subscribes to the newsletter' do
       expect(gb).to receive_message_chain('lists.subscribe')
@@ -444,12 +444,12 @@ describe 'member' do
       it { expect(Member.interesting).not_to include(member) }
       it { expect(Member.has_plantings).not_to include(member) }
     end
-    it 'unsubscribes from mailing list' do
+    it "unsubscribes from mailing list" do
       expect(member).to receive(:newsletter_unsubscribe).and_return(true)
       member.destroy
     end
 
-    context 'deleted admin member' do
+    context "deleted admin member" do
       let(:member) { FactoryBot.create(:admin_member) }
 
       before { member.destroy }
@@ -457,7 +457,7 @@ describe 'member' do
       context 'crop creator' do
         let!(:crop) { FactoryBot.create(:crop, creator: member) }
 
-        it 'leaves crops behind, reassigned to cropbot' do
+        it "leaves crops behind, reassigned to cropbot" do
           expect(Crop.all).to include(crop)
         end
       end
@@ -465,7 +465,7 @@ describe 'member' do
       context 'forum owners' do
         let!(:forum) { FactoryBot.create(:forum, owner: member) }
 
-        it 'leaves forums behind, reassigned to ex_admin' do
+        it "leaves forums behind, reassigned to ex_admin" do
           expect(forum.owner).to eq(member)
         end
       end

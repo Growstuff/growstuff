@@ -8,22 +8,22 @@ describe MembersController do
     @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
   end
 
-  describe 'GET index' do
-    it 'assigns only confirmed members as @members' do
+  describe "GET index" do
+    it "assigns only confirmed members as @members" do
       get :index, {}
       assigns(:members).should eq([@member])
     end
   end
 
-  describe 'GET JSON index' do
-    it 'provides JSON for members' do
+  describe "GET JSON index" do
+    it "provides JSON for members" do
       get :index, format: 'json'
       response.should be_success
     end
   end
 
-  describe 'GET show' do
-    it 'provides JSON for member profile' do
+  describe "GET show" do
+    it "provides JSON for member profile" do
       get :show, id: @member.id, format: 'json'
       response.should be_success
     end
@@ -33,12 +33,12 @@ describe MembersController do
       assigns(:posts).should eq(@posts)
     end
 
-    it 'assigns @twitter_auth' do
+    it "assigns @twitter_auth" do
       get :show, id: @member.id
       assigns(:twitter_auth).should eq(@twitter_auth)
     end
 
-    it 'assigns @flickr_auth' do
+    it "assigns @flickr_auth" do
       get :show, id: @member.id
       assigns(:flickr_auth).should eq(@flickr_auth)
     end
@@ -54,11 +54,11 @@ describe MembersController do
   end
 
   describe "GET member's RSS feed" do
-    it 'returns an RSS feed' do
-      get :show, id: @member.to_param, format: 'rss'
+    it "returns an RSS feed" do
+      get :show, id: @member.to_param, format: "rss"
       response.should be_success
-      response.should render_template('members/show')
-      response.content_type.should eq('application/rss+xml')
+      response.should render_template("members/show")
+      response.content_type.should eq("application/rss+xml")
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'photos/index' do
+describe "photos/index" do
   before(:each) do
     page = 1
     per_page = 2
@@ -14,9 +14,9 @@ describe 'photos/index' do
     assign(:photos, photos)
   end
 
-  it 'renders a gallery of photos' do
+  it "renders a gallery of photos" do
     render
-    assert_select '.thumbnail', count: 2
-    assert_select 'img', count: 2
+    assert_select ".thumbnail", count: 2
+    assert_select "img", count: 2
   end
 end

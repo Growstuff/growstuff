@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-feature 'unsubscribe' do
+feature "unsubscribe" do
   let(:member) { create :member }
   let(:notification) { create :notification }
 
@@ -9,7 +9,7 @@ feature 'unsubscribe' do
     clear_emails
   end
 
-  scenario 'from planting reminder mailing list' do
+  scenario "from planting reminder mailing list" do
     # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)
@@ -20,13 +20,13 @@ feature 'unsubscribe' do
 
     # clicking 'Unsubscribe' link will unsubscribe the member
     current_email.click_link 'Unsubscribe from planting reminders'
-    expect(page).to have_content 'You have been unsubscribed from planting reminders'
+    expect(page).to have_content "You have been unsubscribed from planting reminders"
     updated_member = Member.find(member.id) # reload the member
     expect(updated_member.send_planting_reminder).to eq(false)
     expect(updated_member.send_notification_email).to eq(true)
   end
 
-  scenario 'from inbox notification mailing list' do
+  scenario "from inbox notification mailing list" do
     # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)
@@ -38,13 +38,13 @@ feature 'unsubscribe' do
 
     # clicking 'Unsubscribe' link will unsubscribe the member
     current_email.click_link 'Unsubscribe from direct message notifications'
-    expect(page).to have_content 'You have been unsubscribed from direct message notifications'
+    expect(page).to have_content "You have been unsubscribed from direct message notifications"
     updated_member = Member.find(member.id) # reload the member
     expect(updated_member.send_planting_reminder).to eq(true)
     expect(updated_member.send_notification_email).to eq(false)
   end
 
-  scenario 'visit unsubscribe page with a non-encrypted parameter' do
+  scenario "visit unsubscribe page with a non-encrypted parameter" do
     # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)

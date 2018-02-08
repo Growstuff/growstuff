@@ -10,7 +10,7 @@ describe PlantingsController do
     }
   end
 
-  describe 'GET index' do
+  describe "GET index" do
     let!(:member1) { FactoryBot.create(:member) }
     let!(:member2) { FactoryBot.create(:member) }
     let!(:tomato) { FactoryBot.create(:tomato) }
@@ -18,7 +18,7 @@ describe PlantingsController do
     let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
 
-    describe 'assigns all plantings as @plantings' do
+    describe "assigns all plantings as @plantings" do
       before { get :index, {} }
       it { expect(assigns(:plantings)).to match [planting1, planting2] }
     end
@@ -29,15 +29,15 @@ describe PlantingsController do
       it { expect(assigns(:plantings)).to eq [planting1] }
     end
 
-    describe 'picks up crop from params and shows the plantings for the crop only' do
+    describe "picks up crop from params and shows the plantings for the crop only" do
       before { get :index, crop: maize.name }
       it { expect(assigns(:crop)).to eq maize }
       it { expect(assigns(:plantings)).to eq [planting2] }
     end
   end
 
-  describe 'GET new' do
-    describe 'picks up crop from params' do
+  describe "GET new" do
+    describe "picks up crop from params" do
       let(:crop) { FactoryBot.create(:crop) }
 
       before { get :new, crop_id: crop.id }
@@ -85,12 +85,12 @@ describe PlantingsController do
       it { expect(assigns(:garden)).to be_a_new(Garden) }
     end
 
-    describe 'sets the date of the planting to today' do
+    describe "sets the date of the planting to today" do
       before { get :new, {} }
       it { expect(assigns(:planting).planted_at).to eq Time.zone.today }
     end
 
-    describe 'sets the owner automatically' do
+    describe "sets the owner automatically" do
       before { post :create, planting: valid_attributes }
       it { expect(assigns(:planting).owner).to eq subject.current_member }
     end

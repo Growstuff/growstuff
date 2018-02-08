@@ -3,18 +3,18 @@ module PlantingsHelper
     if planting.finished_at.present?
       planting.finished_at
     elsif planting.finished
-      'Yes (no date specified)'
+      "Yes (no date specified)"
     else
-      '(no date specified)'
+      "(no date specified)"
     end
   end
 
   def display_planted_from(planting)
-    planting.planted_from.present? ? planting.planted_from : 'not specified'
+    planting.planted_from.present? ? planting.planted_from : "not specified"
   end
 
   def display_planting_quantity(planting)
-    planting.quantity.present? ? planting.quantity : 'not specified'
+    planting.quantity.present? ? planting.quantity : "not specified"
   end
 
   def display_planting(planting)

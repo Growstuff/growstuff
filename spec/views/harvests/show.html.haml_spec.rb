@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'harvests/show' do
+describe "harvests/show" do
   subject { render }
   let!(:harvest) { FactoryBot.create(:harvest) }
 
@@ -11,7 +11,7 @@ describe 'harvests/show' do
     render
   end
 
-  describe 'renders attributes' do
+  describe "renders attributes" do
     it { is_expected.to have_content harvest.crop.name }
     it { is_expected.to have_content harvest.harvested_at.to_s }
     it { is_expected.to have_content harvest.plant_part.to_s }

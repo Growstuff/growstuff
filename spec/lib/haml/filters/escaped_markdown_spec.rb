@@ -10,8 +10,8 @@ describe 'Haml::Filters::Escaped_Markdown' do
   end
 
   it 'converts Markdown to escaped HTML' do
-    rendered = Haml::Filters::EscapedMarkdown.render('**foo**')
-    rendered.should == '&lt;p&gt;&lt;strong&gt;foo&lt;/strong&gt;&lt;/p&gt;'
+    rendered = Haml::Filters::EscapedMarkdown.render("**foo**")
+    rendered.should == "&lt;p&gt;&lt;strong&gt;foo&lt;/strong&gt;&lt;/p&gt;"
   end
 
   it 'converts quick crop links' do

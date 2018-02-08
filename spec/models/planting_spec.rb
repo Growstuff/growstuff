@@ -162,11 +162,11 @@ describe Planting do
     planting.owner.should be_an_instance_of Member
   end
 
-  it 'generates a location' do
+  it "generates a location" do
     planting.location.should eq "#{garden_owner.login_name}'s #{garden.name}"
   end
 
-  it 'should have a slug' do
+  it "should have a slug" do
     planting.slug.should match(/^member\d+-springfield-community-garden-tomato$/)
   end
 
@@ -176,15 +176,15 @@ describe Planting do
   end
 
   describe '#planted?' do
-    it 'should be false for future plantings' do
+    it "should be false for future plantings" do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today + 1
       expect(planting.planted?).to eq(false)
     end
-    it 'should be false for never planted' do
+    it "should be false for never planted" do
       planting = FactoryBot.create :planting, planted_at: nil
       expect(planting.planted?).to eq(false)
     end
-    it 'should be true for past plantings' do
+    it "should be true for past plantings" do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today - 1
       expect(planting.planted?).to eq(true)
     end
@@ -224,7 +224,7 @@ describe Planting do
       @planting.should_not be_valid
     end
 
-    it 'allows blank quantities' do
+    it "allows blank quantities" do
       @planting = FactoryBot.build(:planting, quantity: nil)
       @planting.should be_valid
       @planting = FactoryBot.build(:planting, quantity: '')
@@ -249,7 +249,7 @@ describe Planting do
     it 'should refuse invalid sunniness values' do
       @planting = FactoryBot.build(:planting, sunniness: 'not valid')
       @planting.should_not be_valid
-      @planting.errors[:sunniness].should include('not valid is not a valid sunniness value')
+      @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
     end
   end
 
@@ -271,7 +271,7 @@ describe Planting do
     it 'should refuse invalid planted_from values' do
       @planting = FactoryBot.build(:planting, planted_from: 'not valid')
       @planting.should_not be_valid
-      @planting.errors[:planted_from].should include('not valid is not a valid planting method')
+      @planting.errors[:planted_from].should include("not valid is not a valid planting method")
     end
   end
 
@@ -336,7 +336,7 @@ describe Planting do
       end
     end
 
-    context 'default arguments' do
+    context "default arguments" do
       it 'ignores plantings without photos' do
         # first, an interesting planting
         @planting = FactoryBot.create(:planting)
@@ -370,8 +370,8 @@ describe Planting do
       end
     end
 
-    context 'with howmany argument' do
-      it 'only returns the number asked for' do
+    context "with howmany argument" do
+      it "only returns the number asked for" do
         @plantings = FactoryBot.create_list(:planting, 10)
         @plantings.each do |p|
           p.photos << FactoryBot.create(:photo, owner: planting.owner)
@@ -381,7 +381,7 @@ describe Planting do
     end
   end # interesting plantings
 
-  context 'finished' do
+  context "finished" do
     it 'has finished fields' do
       @planting = FactoryBot.create(:finished_planting)
       @planting.finished.should be true
@@ -402,7 +402,7 @@ describe Planting do
       Planting.current.should_not include @f
     end
 
-    context 'finished date validation' do
+    context "finished date validation" do
       it 'requires finished date after planting date' do
         @f = FactoryBot.build(:finished_planting, planted_at: '2014-01-01', finished_at: '2013-01-01')
         @f.should_not be_valid

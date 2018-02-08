@@ -4,15 +4,15 @@ describe ShopController do
   let!(:product1) { FactoryBot.create(:product, name: 'aaa') }
   let!(:product2) { FactoryBot.create(:product, name: 'zzz') }
 
-  describe 'GET index' do
+  describe "GET index" do
     describe 'not logged in' do
       before { get :index, {} }
 
-      describe 'assigns all products as @products ordered by name' do
+      describe "assigns all products as @products ordered by name" do
         it { expect(assigns(:products)).to eq([product1, product2]) }
       end
 
-      describe 'assigns a new @order_item to build forms' do
+      describe "assigns a new @order_item to build forms" do
         it { expect(assigns(:order_item)).to be_an_instance_of OrderItem }
       end
 
@@ -21,7 +21,7 @@ describe ShopController do
       end
     end
     describe 'logged in' do
-      describe 'assigns @order as current_order if there is one' do
+      describe "assigns @order as current_order if there is one" do
         let(:member) { FactoryBot.create(:member) }
         let!(:order) { FactoryBot.create(:order, member: member) }
 

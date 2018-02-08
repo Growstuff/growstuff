@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Notifier do
-  describe 'notifications' do
+  describe "notifications" do
     let(:notification) { FactoryBot.create(:notification) }
     let(:mail) { Notifier.notify(notification) }
 
@@ -18,12 +18,12 @@ describe Notifier do
     end
   end
 
-  describe 'planting reminders' do
+  describe "planting reminders" do
     let(:member) { FactoryBot.create(:member) }
     let(:mail) { Notifier.planting_reminder(member) }
 
     it 'sets the subject correctly' do
-      mail.subject.should == 'What have you planted lately?'
+      mail.subject.should == "What have you planted lately?"
     end
 
     it 'comes from noreply@growstuff.org' do
@@ -43,7 +43,7 @@ describe Notifier do
     end
   end
 
-  describe 'new crop request' do
+  describe "new crop request" do
     let(:member) { FactoryBot.create(:crop_wrangling_member) }
     let(:crop) { FactoryBot.create(:crop_request) }
     let(:mail) { Notifier.new_crop_request(member, crop) }
@@ -65,13 +65,13 @@ describe Notifier do
     end
   end
 
-  describe 'crop approved' do
+  describe "crop approved" do
     let(:member) { FactoryBot.create(:member) }
     let(:crop) { FactoryBot.create(:crop) }
     let(:mail) { Notifier.crop_request_approved(member, crop) }
 
     it 'sets the subject correctly' do
-      expect(mail.subject).to eq 'Magic bean has been approved'
+      expect(mail.subject).to eq "Magic bean has been approved"
     end
 
     it 'comes from noreply@growstuff.org' do
@@ -93,13 +93,13 @@ describe Notifier do
     end
   end
 
-  describe 'crop rejected' do
+  describe "crop rejected" do
     let(:member) { FactoryBot.create(:member) }
     let(:crop) { FactoryBot.create(:rejected_crop) }
     let(:mail) { Notifier.crop_request_rejected(member, crop) }
 
     it 'sets the subject correctly' do
-      expect(mail.subject).to eq 'Fail bean has been rejected'
+      expect(mail.subject).to eq "Fail bean has been rejected"
     end
 
     it 'comes from noreply@growstuff.org' do
@@ -115,7 +115,7 @@ describe Notifier do
     end
 
     it 'includes the reason for rejection' do
-      expect(mail.body.encoded).to match 'Totally fake'
+      expect(mail.body.encoded).to match "Totally fake"
     end
   end
 end

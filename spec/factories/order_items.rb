@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :order_item do
     order
     product
-    price '999'
+    price "999"
     quantity 42
   end
 end
