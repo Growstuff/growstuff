@@ -1,11 +1,11 @@
 class Notifier < ActionMailer::Base
   include NotificationsHelper
-  default from: 'Growstuff <noreply@growstuff.org>'
+  default from: "Growstuff <noreply@growstuff.org>"
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
-      raise 'RAILS_SECRET_TOKEN environment variable'\
-        'not set - have you created config/application.yml?'
+      raise "RAILS_SECRET_TOKEN environment variable"\
+        "not set - have you created config/application.yml?"
     end
 
     ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
@@ -33,7 +33,7 @@ class Notifier < ActionMailer::Base
     message = { member_id: @member.id, type: :send_planting_reminder }
     @signed_message = verifier.generate(message)
 
-    mail(to: @member.email, subject: 'What have you planted lately?') if @member.send_planting_reminder
+    mail(to: @member.email, subject: "What have you planted lately?") if @member.send_planting_reminder
   end
 
   def new_crop_request(member, request)

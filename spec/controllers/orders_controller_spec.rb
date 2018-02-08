@@ -4,14 +4,14 @@ describe OrdersController do
   login_member(:admin_member)
 
   def valid_attributes
-    { 'member_id' => 1 }
+    { "member_id" => 1 }
   end
 
   def valid_session
     {}
   end
 
-  describe 'GET checkout' do
+  describe "GET checkout" do
     it 'sets the referral_code' do
       member = FactoryBot.create(:member)
       sign_in member
@@ -21,7 +21,7 @@ describe OrdersController do
       order.referral_code.should eq 'FOOBAR'
     end
 
-    it 'redirects to Paypal' do
+    it "redirects to Paypal" do
       member = FactoryBot.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
@@ -31,8 +31,8 @@ describe OrdersController do
     end
   end
 
-  describe 'GET complete' do
-    it 'assigns the requested order as @order' do
+  describe "GET complete" do
+    it "assigns the requested order as @order" do
       member = FactoryBot.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)
@@ -41,8 +41,8 @@ describe OrdersController do
     end
   end
 
-  describe 'DELETE destroy' do
-    it 'redirects to the shop' do
+  describe "DELETE destroy" do
+    it "redirects to the shop" do
       member = FactoryBot.create(:member)
       sign_in member
       order = Order.create!(member_id: member.id)

@@ -15,7 +15,7 @@ class Account < ActiveRecord::Base
 
   def paid_until_string
     if account_type.is_permanent_paid
-      'forever'
+      "forever"
     elsif account_type.is_paid
       paid_until.to_s
     end

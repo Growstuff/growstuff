@@ -4,8 +4,8 @@ FactoryBot.define do
   factory :notification, aliases: [:message] do
     sender
     recipient
-    subject 'MyString'
-    body 'MyText'
+    subject "MyString"
+    body "MyText"
     read false
     post
 

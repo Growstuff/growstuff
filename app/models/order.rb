@@ -8,7 +8,7 @@ class Order < ActiveRecord::Base
   # Validations
   validates :referral_code, format: {
     with: /\A[a-zA-Z0-9 ]*\z/,
-    message: 'may only include letters and numbers'
+    message: "may only include letters and numbers"
   }
 
   #
@@ -68,19 +68,19 @@ class Order < ActiveRecord::Base
   def self.search(args = {})
     if args[:for]
       case args[:by]
-      when 'member'
+      when "member"
         member = Member.with_deleted.find_by(login_name: args[:for])
         return member.orders if member
-      when 'order_id'
+      when "order_id"
         order = Order.find_by(id: args[:for])
         return [order] if order
-      when 'paypal_token'
+      when "paypal_token"
         order = Order.find_by(paypal_express_token: args[:for])
         return [order] if order
-      when 'paypal_payer_id'
+      when "paypal_payer_id"
         order = Order.find_by(paypal_express_payer_id: args[:for])
         return [order] if order
-      when 'referral_code'
+      when "referral_code"
         # coerce to uppercase
         return Order.where(referral_code: args[:for].upcase)
       end

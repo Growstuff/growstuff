@@ -1,12 +1,12 @@
 FactoryBot.define do
   factory :garden do
     name 'Springfield Community Garden'
-    description 'This is a **totally** cool garden'
+    description "This is a **totally** cool garden"
     owner
     active true
     area 23
-    area_unit 'acre'
-    location 'Greenwich, UK'
+    area_unit "acre"
+    location "Greenwich, UK"
 
     factory :inactive_garden do
       active false

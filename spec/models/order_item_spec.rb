@@ -3,12 +3,12 @@ require 'rails_helper'
 describe OrderItem do
   let(:order_item) { FactoryBot.create(:order_item) }
 
-  it 'has an order and a product' do
+  it "has an order and a product" do
     order_item.order.should be_an_instance_of Order
     order_item.product.should be_an_instance_of Product
   end
 
-  it 'validates price > product.min_price' do
+  it "validates price > product.min_price" do
     @product = FactoryBot.create(:product)
     order_item = FactoryBot.build(:order_item, price: @product.min_price - 1)
     order_item.should_not be_valid

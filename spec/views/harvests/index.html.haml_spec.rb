@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'harvests/index' do
+describe "harvests/index" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @member = FactoryBot.create(:member)
@@ -25,11 +25,11 @@ describe 'harvests/index' do
     render
   end
 
-  it 'provides data links' do
+  it "provides data links" do
     render
-    rendered.should have_content 'The data on this page is available in the following formats:'
-    assert_select 'a', href: harvests_path(format: 'csv')
-    assert_select 'a', href: harvests_path(format: 'json')
+    rendered.should have_content "The data on this page is available in the following formats:"
+    assert_select "a", href: harvests_path(format: 'csv')
+    assert_select "a", href: harvests_path(format: 'json')
   end
 
   it "displays member's name in title" do

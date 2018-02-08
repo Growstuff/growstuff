@@ -9,7 +9,7 @@ describe Photo do
     let(:harvest) { FactoryBot.create(:harvest) }
     let(:garden) { FactoryBot.create(:garden) }
 
-    context 'adds photos' do
+    context "adds photos" do
       it 'to a planting' do
         planting.photos << photo
         expect(planting.photos.size).to eq 1
@@ -29,7 +29,7 @@ describe Photo do
       end
     end
 
-    context 'removing photos' do
+    context "removing photos" do
       it 'from a planting' do
         planting.photos << photo
         photo.destroy
@@ -48,7 +48,7 @@ describe Photo do
         expect(garden.photos.size).to eq 0
       end
 
-      it 'automatically if unused' do
+      it "automatically if unused" do
         photo.destroy_if_unused
         expect(-> { photo.reload }).to raise_error ActiveRecord::RecordNotFound
       end

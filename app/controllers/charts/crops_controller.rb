@@ -14,7 +14,7 @@ module Charts
       @crop = Crop.find(params[:crop_id])
       render json: Harvest.joins(:plant_part)
         .where(crop: @crop)
-        .group('plant_parts.name').count(:id)
+        .group("plant_parts.name").count(:id)
     end
 
     private

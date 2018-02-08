@@ -5,7 +5,7 @@ FactoryBot.define do
     crop
     planted_at { Time.zone.local(2014, 7, 30) }
     quantity 33
-    description 'This is a *really* good plant.'
+    description "This is a *really* good plant."
 
     factory :seed_planting do
       planted_from 'seed'

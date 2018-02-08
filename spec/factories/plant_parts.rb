@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :plant_part do
-    name 'pollen'
+    name "pollen"
   end
 end

@@ -16,8 +16,8 @@ describe OrderItemsController do
   context 'signed in' do
     before { sign_in member }
 
-    describe 'POST create' do
-      describe 'redirects to order' do
+    describe "POST create" do
+      describe "redirects to order" do
         before do
           post :create, order_item: { order_id: order.id, product_id: product.id, price: product.min_price }
         end
@@ -36,8 +36,8 @@ describe OrderItemsController do
         end
       end
 
-      describe 'with non-int price' do
-        it 'converts 3.33 to 333 cents' do
+      describe "with non-int price" do
+        it "converts 3.33 to 333 cents" do
           order = FactoryBot.create(:order, member: member)
           product = FactoryBot.create(:product, min_price: 1)
           expect do

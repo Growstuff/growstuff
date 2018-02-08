@@ -4,10 +4,10 @@ Growstuff::Application.routes.draw do
   resources :plant_parts
 
   devise_for :members, controllers: {
-    registrations: 'registrations',
-    passwords: 'passwords',
-    sessions: 'sessions',
-    omniauth_callbacks: 'omniauth_callbacks'
+    registrations: "registrations",
+    passwords: "passwords",
+    sessions: "sessions",
+    omniauth_callbacks: "omniauth_callbacks"
   }
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', as: 'unsubscribe_member'
@@ -85,7 +85,7 @@ Growstuff::Application.routes.draw do
 
   resources :likes, only: %i(create destroy)
 
-  get 'home/index'
+  get "home/index"
   root to: 'home#index'
 
   get 'auth/:provider/callback' => 'authentications#create'

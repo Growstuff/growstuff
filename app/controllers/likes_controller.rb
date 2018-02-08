@@ -26,7 +26,7 @@ class LikesController < ApplicationController
     {
       id: like.likeable.id,
       liked_by_member: liked_by_member,
-      description: ActionController::Base.helpers.pluralize(like.likeable.likes.count, 'like'),
+      description: ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like"),
       url: like_path(like, format: :json)
     }
   end

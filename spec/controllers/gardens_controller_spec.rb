@@ -5,7 +5,7 @@ RSpec.describe GardensController, type: :controller do
   let(:valid_params) { { name: 'My second Garden' } }
 
   let(:garden) { FactoryBot.create :garden }
-  context 'when not signed in' do
+  context "when not signed in" do
     describe 'GET new' do
       before { get :new, id: garden.to_param }
       it { expect(response).to redirect_to(new_member_session_path) }
@@ -37,7 +37,7 @@ RSpec.describe GardensController, type: :controller do
       end
     end
   end
-  context 'when signed in' do
+  context "when signed in" do
     before(:each) { sign_in member }
 
     let!(:member) { FactoryBot.create(:member) }

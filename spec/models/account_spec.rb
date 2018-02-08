@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Account do
   let(:member) { FactoryBot.create(:member) }
 
-  it 'auto-creates an account detail record when a member is created' do
+  it "auto-creates an account detail record when a member is created" do
     member.account.should be_an_instance_of Account
   end
 
@@ -17,7 +17,7 @@ describe Account do
     member.account.paid_until_string.should eq nil
 
     member.account.account_type = FactoryBot.create(:permanent_paid_account_type)
-    member.account.paid_until_string.should eq 'forever'
+    member.account.paid_until_string.should eq "forever"
 
     member.account.account_type = FactoryBot.create(:paid_account_type)
     @time = Time.zone.now

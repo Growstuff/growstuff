@@ -5,7 +5,7 @@ describe ProductsController do
 
   def valid_attributes
     {
-      name: 'product name',
+      name: "product name",
       description: 'some description',
       min_price: 9.99
     }
