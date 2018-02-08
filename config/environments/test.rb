@@ -51,13 +51,6 @@ Growstuff::Application.configure do
     config.analytics_code = ''
     config.currency = 'AUD'
   end
-
-  config.after_initialize do
-    require "active_merchant/ext/paypal_bogus_gateway"
-    ActiveMerchant::Billing::Base.mode = :test
-    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
-    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalBogusGateway.new
-  end
 end
 
 Geocoder.configure(lookup: :test)

@@ -1,3 +1,10 @@
+%p
+  %strong Member since:
+  = member.created_at.to_s(:date)
+%p
+  %strong Last Login:
+  = member.last_sign_in_at
+
 %h3 Activity
 
 %ul.list-inline
@@ -33,4 +40,3 @@
       = link_to pluralize(member.followers.size, "follower"), member_followers_path(member)
     - else
       0 followers
-

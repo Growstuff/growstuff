@@ -1,8 +1,0 @@
-= form_tag(url_for(controller: 'admin/orders', action: 'search'), method: :get, class: 'form-inline') do
-  = label_tag :distance, "Search orders:", class: 'control-label'
-  = text_field_tag :search_text
-  = select_tag :search_by,
-    options_for_select('Member': 'member', 'Referral code': 'referral_code',
-                       'Order ID': 'order_id', 'Paypal Token': 'paypal_token',
-                       'Paypal Payer ID': 'paypal_payer_id')
-  = submit_tag "Search", class: 'btn btn-primary'

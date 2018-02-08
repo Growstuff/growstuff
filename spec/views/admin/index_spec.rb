@@ -9,8 +9,6 @@ describe 'admin/index.html.haml', type: "view" do
   end
 
   it "includes links to manage various things" do
-    assert_select "a", href: account_types_path
-    assert_select "a", href: products_path
     assert_select "a", href: roles_path
     assert_select "a", href: forums_path
   end
