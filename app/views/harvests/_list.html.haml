@@ -1,7 +1,7 @@
 - harvests.each do |h|
   - cache p do
     .row
-      .col-md-3{ style: 'padding-bottom: 6px' }
+      .col-md-3
         = render partial: 'plantings/image_with_popover', locals: { harvest: h }
       .col-md-9
         = link_to p.crop, p.crop
