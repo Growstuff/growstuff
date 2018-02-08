@@ -1,0 +1,9 @@
+%p
+  %strong Member Roles:
+  %br
+  - if member.role? :admin
+    Administrator
+  - if member.role? :crop_wrangler
+    Crop Wrangler
+  - unless (member.role?(:admin) || member.role?(:crop_wrangler))
+    Member

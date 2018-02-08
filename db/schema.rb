@@ -11,26 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180121083901) do
+ActiveRecord::Schema.define(version: 20180205000612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "account_types", force: :cascade do |t|
-    t.string   "name",              null: false
-    t.boolean  "is_paid"
-    t.boolean  "is_permanent_paid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "accounts", force: :cascade do |t|
-    t.integer  "member_id",       null: false
-    t.integer  "account_type_id"
-    t.datetime "paid_until"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "alternate_names", force: :cascade do |t|
     t.string   "name",       null: false
@@ -359,25 +343,6 @@ ActiveRecord::Schema.define(version: 20180121083901) do
     t.datetime "updated_at"
   end
 
-  create_table "order_items", force: :cascade do |t|
-    t.integer  "order_id"
-    t.integer  "product_id"
-    t.integer  "price"
-    t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "completed_at"
-    t.integer  "member_id"
-    t.string   "paypal_express_token"
-    t.string   "paypal_express_payer_id"
-    t.string   "referral_code"
-  end
-
   create_table "orders_products", id: false, force: :cascade do |t|
     t.integer "order_id"
     t.integer "product_id"
@@ -461,17 +426,6 @@ ActiveRecord::Schema.define(version: 20180121083901) do
 
   add_index "posts", ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id", using: :btree
   add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree
-
-  create_table "products", force: :cascade do |t|
-    t.string   "name",              null: false
-    t.text     "description",       null: false
-    t.integer  "min_price",         null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "account_type_id"
-    t.integer  "paid_months"
-    t.integer  "recommended_price"
-  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",        null: false
