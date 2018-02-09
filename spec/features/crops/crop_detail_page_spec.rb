@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 feature "crop detail page", js: true do
+  subject do
+    # Update the medians after all the
+    # data has been loaded
+    crop.reload
+    crop.update_medians
+
+    visit crop_path(crop)
+    page
+  end
   let(:crop) { create :crop }
 
   context "varieties" do
@@ -185,16 +194,6 @@ feature "crop detail page", js: true do
         is_expected.to have_text("First harvest expected 20 days after planting")
       end
     end
-  end
-
-  subject do
-    # Update the medians after all the
-    # data has been loaded
-    crop.reload
-    crop.update_medians
-
-    visit crop_path(crop)
-    page
   end
 
   context 'predictions' do

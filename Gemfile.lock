@@ -26,19 +26,12 @@ GEM
       addressable
     active_median (0.1.4)
       activerecord
-    active_merchant-paypal-bogus-gateway (0.1.0)
-      activemerchant
     active_utils (3.3.9)
       activesupport (>= 3.2, < 5.2.0)
       i18n
     activejob (4.2.10)
       activesupport (= 4.2.10)
       globalid (>= 0.3.0)
-    activemerchant (1.76.0)
-      activesupport (>= 3.2.14, < 6.x)
-      builder (>= 2.1.2, < 4.0.0)
-      i18n (>= 0.6.9)
-      nokogiri (~> 1.4)
     activemodel (4.2.10)
       activesupport (= 4.2.10)
       builder (~> 3.1)
@@ -57,7 +50,7 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     arel (6.0.4)
-    ast (2.3.0)
+    ast (2.4.0)
     autoprefixer-rails (7.2.5)
       execjs
     bcrypt (3.1.11)
@@ -84,7 +77,7 @@ GEM
     bullet (5.7.2)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11.0)
-    byebug (9.1.0)
+    byebug (10.0.0)
     cancancan (2.1.3)
     capybara (2.17.0)
       addressable
@@ -147,7 +140,7 @@ GEM
     dalli (2.7.6)
     database_cleaner (1.6.2)
     debug_inspector (0.0.3)
-    devise (4.4.0)
+    devise (4.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.2)
@@ -183,7 +176,7 @@ GEM
       i18n (>= 0.7)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.18)
+    ffi (1.9.21)
     figaro (1.1.1)
       thor (~> 0.14)
     flickraw (0.9.9)
@@ -267,7 +260,7 @@ GEM
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (2.9.1)
+    jasmine-core (2.99.0)
     jquery-rails (4.3.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -295,7 +288,7 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
-    kgio (2.11.1)
+    kgio (2.11.2)
     kramdown (1.16.2)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -321,14 +314,14 @@ GEM
     mimemagic (0.3.2)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-    minitest (5.11.1)
+    minitest (5.11.3)
     moneta (0.8.1)
     multi_json (1.11.3)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     nenv (0.3.0)
-    newrelic_rpm (4.7.1.340)
-    nokogiri (1.8.1)
+    newrelic_rpm (4.8.0.341)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -358,7 +351,7 @@ GEM
       omniauth-oauth (~> 1.1)
       rack
     orm_adapter (0.5.0)
-    paperclip (5.2.0)
+    paperclip (5.2.1)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
       cocaine (~> 0.5.5)
@@ -459,7 +452,7 @@ GEM
       rspec-expectations (~> 3.7.0)
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
-    rspec-support (3.7.0)
+    rspec-support (3.7.1)
     rubocop (0.49.1)
       parallel (~> 1.10)
       parser (>= 2.3.3.1, < 3.0)
@@ -484,12 +477,12 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.8.0)
+    selenium-webdriver (3.9.0)
       childprocess (~> 0.5)
-      rubyzip (~> 1.0)
+      rubyzip (~> 1.2)
     sexp_processor (4.10.0)
     shellany (0.0.1)
-    sidekiq (5.0.5)
+    sidekiq (5.1.0)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
@@ -521,9 +514,9 @@ GEM
     timecop (0.9.1)
     tins (1.16.3)
     trollop (1.16.2)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.3)
+    uglifier (4.1.5)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.3.0)
     unicorn (5.4.0)
@@ -549,9 +542,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_median
-  active_merchant-paypal-bogus-gateway
   active_utils
-  activemerchant
   acts_as_paranoid (~> 0.5.0)
   better_errors (~> 2.2.0)
   binding_of_caller

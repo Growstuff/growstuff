@@ -89,16 +89,5 @@ Growstuff::Application.configure do
   config.mapbox_map_id = 'growstuff.i3n2hao7'
   config.mapbox_access_token = 'pk.eyJ1IjoiZ3Jvd3N0dWZmIiwiYSI6IkdxMkx4alUifQ.n0igaBsw97s14zMa0lwKCA'
 
-  config.after_initialize do
-    ActiveMerchant::Billing::Base.mode = :test
-    paypal_options = {
-      login: ENV['GROWSTUFF_PAYPAL_USERNAME'],
-      password: ENV['GROWSTUFF_PAYPAL_PASSWORD'],
-      signature: ENV['GROWSTUFF_PAYPAL_SIGNATURE']
-    }
-    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
-    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-  end
-
   config.active_job.queue_adapter = :sidekiq
 end

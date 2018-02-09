@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Harvests', type: :request do
+  subject { JSON.parse response.body }
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:harvest) { FactoryBot.create :harvest }
   let(:harvest_encoded_as_json_api) do
@@ -55,7 +56,6 @@ RSpec.describe 'Harvests', type: :request do
     }
   end
 
-  subject { JSON.parse response.body }
   describe '#index' do
     before { get '/api/v1/harvests', {}, headers }
     it { expect(subject['data']).to include(harvest_encoded_as_json_api) }
