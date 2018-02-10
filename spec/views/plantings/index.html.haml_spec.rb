@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'plantings/index' do
+describe "plantings/index" do
   let(:member) { FactoryBot.create(:member) }
   let(:garden) { FactoryBot.create(:garden, owner: member) }
   let(:tomato) { FactoryBot.create(:tomato) }
@@ -36,27 +36,27 @@ describe 'plantings/index' do
     render
   end
 
-  it 'renders a list of plantings' do
+  it "renders a list of plantings" do
     rendered.should have_content tomato.name
     rendered.should have_content maize.name
     rendered.should have_content member.login_name
     rendered.should have_content garden.name
   end
 
-  it 'displays planting time' do
+  it "displays planting time" do
     rendered.should have_content 'January 13, 2013'
   end
 
-  it 'displays finished time' do
+  it "displays finished time" do
     rendered.should have_content 'January 20, 2013'
   end
 
-  it 'provides data links' do
+  it "provides data links" do
     render
-    rendered.should have_content 'The data on this page is available in the following formats:'
-    assert_select 'a', href: plantings_path(format: 'csv')
-    assert_select 'a', href: plantings_path(format: 'json')
-    assert_select 'a', href: plantings_path(format: 'rss')
+    rendered.should have_content "The data on this page is available in the following formats:"
+    assert_select "a", href: plantings_path(format: 'csv')
+    assert_select "a", href: plantings_path(format: 'json')
+    assert_select "a", href: plantings_path(format: 'rss')
   end
 
   it "displays member's name in title" do

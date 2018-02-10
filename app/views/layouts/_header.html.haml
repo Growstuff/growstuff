@@ -47,7 +47,6 @@
             %li= link_to t('.browse_members'), members_path
             %li= link_to t('.posts'), posts_path
             %li= link_to t('.forums'), forums_path
-            %li= link_to t('.support_growstuff'), shop_path
 
         - if member_signed_in?
           %li.dropdown<
@@ -64,7 +63,6 @@
               %li= link_to t('.harvest'), harvests_by_owner_path(owner: current_member.slug)
               %li= link_to t('.seeds'), seeds_by_owner_path(owner: current_member.slug)
               %li= link_to t('.posts'), posts_by_author_path(author: current_member.slug)
-              %li= link_to t('.account'), orders_path
               %li
                 - if current_member.notifications.unread_count.positive?
                   = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count),

@@ -48,7 +48,6 @@ gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari'                     # pagination
 
 gem 'active_utils'
-gem 'activemerchant'
 gem 'sidekiq'
 
 # Markdown formatting for updates etc
@@ -78,7 +77,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
-gem 'chartkick'
+gem "chartkick"
 
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
@@ -87,15 +86,15 @@ gem 'chartkick'
 # Project does not use semver, so we want to be in sync with the version of
 # elasticsearch we use
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
-gem 'elasticsearch-api', '~> 2.0.0'
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
-gem 'hashie', '>= 3.5.3'
+gem "elasticsearch-api", "~> 2.0.0"
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
+gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
 
 # locale based flash notices for controllers
-gem 'responders'
+gem "responders"
 
 # allows soft delete. Used for members.
 gem 'acts_as_paranoid', '~> 0.5.0'
@@ -125,7 +124,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'active_merchant-paypal-bogus-gateway'
   gem 'bullet'                          # performance tuning by finding unnecesary queries
   gem 'byebug'                          # debugging
   gem 'capybara'                        # integration tests

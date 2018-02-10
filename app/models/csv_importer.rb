@@ -65,6 +65,6 @@ class CsvImporter
     @cropbot ||= Member.find_by!(login_name: 'cropbot')
     @cropbot
   rescue StandardError
-    raise 'cropbot account not found: run rake db:seed'
+    raise "cropbot account not found: run rake db:seed"
   end
 end

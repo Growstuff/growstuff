@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'notifications/show' do
+describe "notifications/show" do
   before(:each) do
     @member = FactoryBot.create(:member)
     @notification = FactoryBot.create(:notification, recipient: @member)
@@ -10,16 +10,16 @@ describe 'notifications/show' do
     render
   end
 
-  it 'renders attributes' do
+  it "renders attributes" do
     rendered.should have_content @notification.sender.to_s
     rendered.should have_content @notification.body.to_s
   end
 
-  it 'includes a delete button' do
-    assert_select 'a', 'Delete'
+  it "includes a delete button" do
+    assert_select "a", "Delete"
   end
 
-  it 'includes a reply button' do
-    assert_select 'a', { href: @reply_link }, 'Reply'
+  it "includes a reply button" do
+    assert_select "a", { href: @reply_link }, "Reply"
   end
 end

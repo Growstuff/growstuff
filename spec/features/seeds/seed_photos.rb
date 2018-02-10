@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-feature 'Seeds', :js do
+feature "Seeds", :js do
   subject do
     login_as member
     visit seed_path(seed)
@@ -26,16 +26,16 @@ feature 'Seeds', :js do
     before { seed.photos = photos }
     let!(:photos) { FactoryBot.create_list :photo, 50 }
 
-    it 'shows newest photo' do
+    it "shows newest photo" do
       is_expected.to have_xpath("//img[contains(@src,'#{photos.last.thumbnail_url}')]")
     end
-    it 'links to newest photo' do
+    it "links to newest photo" do
       is_expected.to have_xpath("//a[contains(@href,'#{photo_path(photos.last)}')]")
     end
-    it 'does not show oldest photo' do
+    it "does not show oldest photo" do
       is_expected.not_to have_xpath("//img[contains(@src,'#{photos.first.thumbnail_url}')]")
     end
-    it 'does not link to oldest photo' do
+    it "does not link to oldest photo" do
       is_expected.not_to have_xpath("//a[contains(@href,'#{photo_path(photos.first)}')]")
     end
   end

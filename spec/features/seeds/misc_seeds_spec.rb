@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'seeds', js: true do
-  context 'signed in user' do
+feature "seeds", js: true do
+  context "signed in user" do
     let(:member) { create :member }
     let(:crop) { create :crop }
 
@@ -9,17 +9,17 @@ feature 'seeds', js: true do
       login_as member
     end
 
-    scenario 'button on index to edit seed' do
+    scenario "button on index to edit seed" do
       seed = create :seed, owner: member
       visit seeds_path
-      click_link 'edit_seed_glyphicon'
+      click_link "edit_seed_glyphicon"
       expect(current_path).to eq edit_seed_path(seed)
       expect(page).to have_content 'Editing seeds'
     end
 
-    scenario 'button on front page to add seeds' do
+    scenario "button on front page to add seeds" do
       visit root_path
-      click_link 'Add seeds'
+      click_link "Add seeds"
       expect(current_path).to eq new_seed_path
       expect(page).to have_content 'Add seeds'
     end
@@ -32,7 +32,7 @@ feature 'seeds', js: true do
 
     # actually adding seeds is in spec/features/seeds_new_spec.rb
 
-    scenario 'edit seeds' do
+    scenario "edit seeds" do
       seed = create :seed, owner: member
       visit seed_path(seed)
       click_link 'Edit'
@@ -42,35 +42,35 @@ feature 'seeds', js: true do
       expect(current_path).to eq seed_path(seed)
     end
 
-    scenario 'delete seeds' do
+    scenario "delete seeds" do
       seed = create :seed, owner: member
       visit seed_path(seed)
       click_link 'Delete'
       expect(current_path).to eq seeds_path
     end
 
-    scenario 'view seeds with max and min days until maturity' do
+    scenario "view seeds with max and min days until maturity" do
       seed = create :seed, days_until_maturity_min: 5, days_until_maturity_max: 7
       visit seed_path(seed)
-      expect(page).to have_content 'Days until maturity: 5–7'
+      expect(page).to have_content "Days until maturity: 5–7"
     end
 
-    scenario 'view seeds with only max days until maturity' do
+    scenario "view seeds with only max days until maturity" do
       seed = create :seed, days_until_maturity_max: 7
       visit seed_path(seed)
-      expect(page).to have_content 'Days until maturity: 7'
+      expect(page).to have_content "Days until maturity: 7"
     end
 
-    scenario 'view seeds with only min days until maturity' do
+    scenario "view seeds with only min days until maturity" do
       seed = create :seed, days_until_maturity_min: 5
       visit seed_path(seed)
-      expect(page).to have_content 'Days until maturity: 5'
+      expect(page).to have_content "Days until maturity: 5"
     end
 
-    scenario 'view seeds with neither max nor min days until maturity' do
+    scenario "view seeds with neither max nor min days until maturity" do
       seed = create :seed
       visit seed_path(seed)
-      expect(page).to have_content 'Days until maturity: unknown'
+      expect(page).to have_content "Days until maturity: unknown"
     end
   end
 end

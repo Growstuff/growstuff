@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'seeds/show' do
+describe "seeds/show" do
   before(:each) do
     controller.stub(:current_user) { nil }
     @seed = FactoryBot.create(:seed)
@@ -8,12 +8,12 @@ describe 'seeds/show' do
     assign(:photos, @seed.photos.paginate(page: 1))
   end
 
-  it 'renders attributes in <p>' do
+  it "renders attributes in <p>" do
     render
     rendered.should have_content @seed.crop.name
   end
 
-  context 'tradable' do
+  context "tradable" do
     before(:each) do
       @owner = FactoryBot.create(:london_member)
       assign(:seed, FactoryBot.create(:tradable_seed,
@@ -24,12 +24,12 @@ describe 'seeds/show' do
       controller.stub(:current_user) { @member }
     end
 
-    it 'shows tradable attributes' do
+    it "shows tradable attributes" do
       render
-      rendered.should have_content 'Will trade: locally'
+      rendered.should have_content "Will trade: locally"
     end
 
-    it 'shows location of seed owner' do
+    it "shows location of seed owner" do
       render
       rendered.should have_content @owner.location
       assert_select 'a', href: place_path(@owner.location)
@@ -45,18 +45,18 @@ describe 'seeds/show' do
 
       it 'says "from unspecified location"' do
         render
-        rendered.should have_content '(from unspecified location)'
+        rendered.should have_content "(from unspecified location)"
       end
 
-      it 'links to profile to set location' do
+      it "links to profile to set location" do
         render
-        assert_select "a[href='#{url_for(edit_member_registration_path)}']", text: 'Set Location'
+        assert_select "a[href='#{url_for(edit_member_registration_path)}']", text: "Set Location"
       end
     end
 
-    it 'shows button to send message' do
+    it "shows button to send message" do
       render
-      rendered.should have_content 'Request seeds'
+      rendered.should have_content "Request seeds"
     end
   end
 end

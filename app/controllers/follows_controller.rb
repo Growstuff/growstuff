@@ -11,7 +11,7 @@ class FollowsController < ApplicationController
       flash[:notice] = "Followed #{@follow.followed.login_name}"
       redirect_to :back
     else
-      flash[:error] = 'Already following or error while following.'
+      flash[:error] = "Already following or error while following."
       redirect_to :back
     end
   end

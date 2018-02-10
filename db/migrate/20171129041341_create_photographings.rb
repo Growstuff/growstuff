@@ -18,19 +18,19 @@ class CreatePhotographings < ActiveRecord::Migration
   end
 
   def migrate_data
-    say 'migrating garden photos'
+    say "migrating garden photos"
     GardensPhoto.all.each do |g|
       Photographing.create! photo_id: g.photo_id, photographable_id: g.garden_id, photographable_type: 'Garden'
     end
-    say 'migrating planting photos'
+    say "migrating planting photos"
     PhotosPlanting.all.each do |p|
       Photographing.create! photo_id: p.photo_id, photographable_id: p.planting_id, photographable_type: 'Planting'
     end
-    say 'migrating harvest photos'
+    say "migrating harvest photos"
     HarvestsPhoto.all.each do |h|
       Photographing.create! photo_id: h.photo_id, photographable_id: h.harvest_id, photographable_type: 'Harvest'
     end
-    say 'migrating seed photos'
+    say "migrating seed photos"
     PhotosSeed.all.each do |s|
       Photographing.create! photo_id: s.photo_id, photographable_id: s.seed_id, photographable_type: 'Seed'
     end

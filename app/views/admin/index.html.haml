@@ -6,8 +6,6 @@
   .col-md-4
     %h2 Site admin
     %ul#site_admin
-      %li= link_to "Account types", account_types_path
-      %li= link_to "Products", products_path
       %li= link_to "Roles", roles_path
       %li= link_to "Forums", forums_path
       %li= link_to "CMS", comfy_admin_cms_path
@@ -22,8 +20,3 @@
     %ul
       %li= link_to "Newsletter subscribers", admin_newsletter_path
       %li= link_to "Members", admin_members_path
-
-.row
-  .col-md-12
-    %h2 Orders
-    = render "admin/orders/searchform"

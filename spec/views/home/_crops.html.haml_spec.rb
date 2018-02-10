@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'home/_crops.html.haml', type: 'view' do
+describe 'home/_crops.html.haml', type: "view" do
   let!(:crop) { FactoryBot.create(:crop, plantings: FactoryBot.create_list(:planting, 3)) }
   let!(:photo) { FactoryBot.create(:photo, plantings: [crop.plantings.first]) }
   let(:planting) { crop.plantings.first }

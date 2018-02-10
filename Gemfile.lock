@@ -26,19 +26,12 @@ GEM
       addressable
     active_median (0.1.4)
       activerecord
-    active_merchant-paypal-bogus-gateway (0.1.0)
-      activemerchant
     active_utils (3.3.9)
       activesupport (>= 3.2, < 5.2.0)
       i18n
     activejob (4.2.10)
       activesupport (= 4.2.10)
       globalid (>= 0.3.0)
-    activemerchant (1.77.0)
-      activesupport (>= 3.2.14, < 6.x)
-      builder (>= 2.1.2, < 4.0.0)
-      i18n (>= 0.6.9)
-      nokogiri (~> 1.4)
     activemodel (4.2.10)
       activesupport (= 4.2.10)
       builder (~> 3.1)
@@ -549,9 +542,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_median
-  active_merchant-paypal-bogus-gateway
   active_utils
-  activemerchant
   acts_as_paranoid (~> 0.5.0)
   better_errors (~> 2.2.0)
   binding_of_caller
@@ -635,7 +626,6 @@ DEPENDENCIES
   webrat
   will_paginate
   xmlrpc
-
 
 RUBY VERSION
    ruby 2.4.1p111

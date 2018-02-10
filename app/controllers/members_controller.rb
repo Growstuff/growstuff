@@ -49,8 +49,8 @@ class MembersController < ApplicationController
   end
 
   EMAIL_TYPE_STRING = {
-    send_notification_email: 'direct message notifications',
-    send_planting_reminder: 'planting reminders'
+    send_notification_email: "direct message notifications",
+    send_planting_reminder: "planting reminders"
   }.freeze
 
   def unsubscribe
