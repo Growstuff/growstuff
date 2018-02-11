@@ -1,6 +1,7 @@
 class Seed < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
+  include Finishable
   friendly_id :seed_slug, use: %i(slugged finders)
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
