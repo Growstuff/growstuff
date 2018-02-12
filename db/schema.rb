@@ -461,7 +461,7 @@ ActiveRecord::Schema.define(version: 20180205000612) do
     t.text     "gmo",                     default: "unknown"
     t.text     "heirloom",                default: "unknown"
     t.boolean  "finished",                default: false
-    t.datetime "finished_at"
+    t.date     "finished_at"
     t.integer  "parent_planting_id"
   end
 

@@ -14,6 +14,11 @@ FactoryBot.define do
     days_until_maturity_min nil
     days_until_maturity_max nil
 
+    factory :finished_seed do
+      finished true
+      finished_at { Date.new }
+    end
+
     factory :tradable_seed do
       tradable_to "locally"
     end

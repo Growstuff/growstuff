@@ -2,7 +2,7 @@ class SeedsSown < ActiveRecord::Migration
   def change
     # seed can be all sown, meaning there is none left
     add_column(:seeds, :finished, :boolean, default: false)
-    add_column(:seeds, :finished_at, :timestamp, default: nil)
+    add_column(:seeds, :finished_at, :date, default: nil)
 
     # plantings can be grown from a seed
     add_column(:plantings, :parent_seed_id, :integer)
