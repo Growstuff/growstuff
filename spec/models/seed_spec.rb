@@ -186,8 +186,8 @@ describe Seed do
       end
 
       describe 'has current scope' do
-        it { expect(Seed.current).to include seed}
-        it { expect(Seed.current).not_to include finished_seed}
+        it { expect(Seed.current).to include seed }
+        it { expect(Seed.current).not_to include finished_seed }
       end
     end
   end
