@@ -1,6 +1,6 @@
-class SeedsSown < ActiveRecord::Migration
+class SeedUsage < ActiveRecord::Migration
   def change
-    # seed can be all sown, meaning there is none left
+    # # seed can be all sown, meaning there is none left
     add_column(:seeds, :finished, :boolean, default: false)
     add_column(:seeds, :finished_at, :date, default: nil)
 
