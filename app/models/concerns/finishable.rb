@@ -3,6 +3,6 @@ module Finishable
 
   included do
     scope :finished, -> { where(finished: true) }
-    scope :current, -> { where(finished: false) }
+    scope :current, -> { where.not(finished: true) }
   end
 end
