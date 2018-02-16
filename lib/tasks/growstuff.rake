@@ -51,7 +51,7 @@ namespace :growstuff do
     send_on_day = 3 # wednesday
     every_n_weeks = 2 # send fortnightly
 
-    if Time.zone.today.cwday == send_on_day and Time.zone.today.cweek % every_n_weeks == 0
+    if (Time.zone.today.cwday == send_on_day) && (Time.zone.today.cweek % every_n_weeks == 0)
       Member.confirmed.find_each do |m|
         Notifier.planting_reminder(m).deliver_now!
       end
@@ -62,7 +62,7 @@ namespace :growstuff do
   # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
   task depopulate_null_island: :environment do
     Member.find_each do |m|
-      if m.location and (m.latitude.nil? and m.longitude.nil?)
+      if m.location && (m.latitude.nil? && m.longitude.nil?)
         m.geocode
         m.save
       end
@@ -88,7 +88,7 @@ namespace :growstuff do
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
       Garden.all.each do |g|
-        if g.name.nil? or g.name =~ /^\s*$/
+        if g.name.nil? || g.name =~ /^\s*$/
           g.name = "Garden"
           g.save
         end
