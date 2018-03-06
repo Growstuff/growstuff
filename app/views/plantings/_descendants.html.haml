@@ -8,7 +8,7 @@
 - else
   %p No seeds saved
 
-- if can?(:create, Seed) && can?(:edit, planting)
+- if planting.active? && can?(:create, Seed) && can?(:edit, planting)
   = link_to new_planting_seed_path(planting), class: 'btn btn-primary' do
     %span.glyphicon.glyphicon-heart{ title: "Add photo" }
     Save seeds
