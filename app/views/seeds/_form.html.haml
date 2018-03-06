@@ -32,6 +32,13 @@
                       value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
       = render partial: 'shared/form_optional'
   .form-group
+    = f.label :finished, 'Mark as finished', class: 'control-label col-md-2'
+    .col-md-8
+      = f.check_box :finished
+      = render partial: 'shared/form_optional'
+      %span.help-block
+        = t('.finish_helper')
+  .form-group
     = f.label :finished_at, 'Finished at:', class: 'control-label col-md-2'
     .col-md-2
       = f.text_field :finished_at, class: 'add-datepicker form-control',
