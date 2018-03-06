@@ -7,5 +7,8 @@
       %span.glyphicon.glyphicon-grain{ title: "Plant seeds" }
       Plant seeds
 
+  - if can? :edit, seed
+    = render 'shared/buttons/finish_seeds', seed: seed
+
   - if can? :destroy, seed
     = render 'shared/buttons/delete', path: seed

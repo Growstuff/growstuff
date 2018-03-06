@@ -60,7 +60,8 @@ class SeedsController < ApplicationController
       :parent_planting_id,
       :days_until_maturity_min, :days_until_maturity_max,
       :organic, :gmo,
-      :heirloom, :tradable_to, :slug
+      :heirloom, :tradable_to, :slug,
+      :finished, :finished_at
     )
   end
 

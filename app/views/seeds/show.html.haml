@@ -25,6 +25,9 @@
       %dd= @seed.quantity.blank? ? "not specified" : @seed.quantity
       %dt Plant before:
       %dd= @seed.plant_before.to_s
+      -if @seed.finished_at
+        %dt Finished at:
+        %dd= @seed.finished_at.to_s
       %dt Days until maturity:
       %dd= render partial: 'days_until_maturity', locals: { seed: @seed }
       %dt Organic?
