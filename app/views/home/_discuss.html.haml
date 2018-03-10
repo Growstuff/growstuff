@@ -1,6 +1,6 @@
 %h2= t('.discussion')
 
-- posts = Post.limit(6)
+- posts = Post.order(created_at: :desc).limit(6)
 - if posts
   = render "posts/summary", posts: posts, howmany: 6
 

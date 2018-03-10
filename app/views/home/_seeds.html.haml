@@ -1,11 +1,11 @@
 - cache cache_key_for(Seed, 'interesting'), expires_in: 1.day do
   %h2= t('.title')
   .row
-    - Seed.current.interesting.includes(:owner, crop: :photos).order(created_at: :desc).first(6).each do |seed|
-      .col-md-3
+    - Seed.current.tradable.order(created_at: :desc).limit(6).each do |seed|
+      .col-md-2
         .thumbnail
           - cache cache_key_for(Crop, seed.id) do
-            = link_to image_tag((seed.default_photo ? seed.default_photo.thumbnail_url : 'placeholder_150.png'),
+            = link_to image_tag(seed_image_path(seed),
                                 alt: seed.crop.name, class: 'img'),
                                 seed
             .seedinfo
@@ -18,4 +18,4 @@
                   #{seed.tradable_to}
 
 %p.text-right
-  = link_to "#{t('.view_all')} »", seeds_path
+= link_to "#{t('.view_all')} »", seeds_path

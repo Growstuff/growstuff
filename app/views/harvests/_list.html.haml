@@ -1,15 +1,11 @@
 - harvests.each do |h|
-  - cache p do
+  - cache h do
     .row
-      .col-md-3
-        = render partial: 'plantings/image_with_popover', locals: { harvest: h }
+      .col-md-3{ style: 'padding-bottom: 6px' }
+        = render 'harvests/image_with_popover', harvest: h
       .col-md-9
-        = link_to p.crop, p.crop
-        in
-        = succeed "'s" do
-          = link_to p.garden.owner, p.garden.owner
-        = link_to display_garden_name(p.garden), p.garden
+        = link_to h.crop, crop_path(h.crop)
         %br/
         %small
           %i
-            = p.owner.location
+            = h.owner.location
