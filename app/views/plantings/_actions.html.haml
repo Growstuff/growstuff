@@ -1,7 +1,8 @@
-- if can?(:edit, planting) || can?(:destroy, planting)
-  - if can? :edit, planting
+- if can?(:edit, planting)
+  .btn-group.planting-actions
     = render 'shared/buttons/edit', path: edit_planting_path(planting)
     = render 'shared/buttons/add_photo', path: new_photo_path(id: planting.id, type: 'planting')
+
     - if planting.active?
       = render 'shared/buttons/finish_planting', planting: planting
       = render 'shared/buttons/harvest_planting', planting: planting

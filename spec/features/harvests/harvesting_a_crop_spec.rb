@@ -78,7 +78,7 @@ feature "Harvesting a crop", :js, :elasticsearch do
   scenario "Harvesting from planting page" do
     planting = create :planting, crop: maize, owner: member, garden: member.gardens.first
     visit planting_path(planting)
-    within ".btn-group" do
+    within ".planting-actions" do
       click_link "Harvest"
     end
 

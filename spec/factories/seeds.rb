@@ -13,6 +13,7 @@ FactoryBot.define do
     heirloom 'unknown'
     days_until_maturity_min nil
     days_until_maturity_max nil
+    finished_at nil
 
     factory :finished_seed do
       finished true
@@ -21,6 +22,8 @@ FactoryBot.define do
 
     factory :tradable_seed do
       tradable_to "locally"
+      finished false
+      finished_at nil
     end
 
     factory :untradable_seed do
