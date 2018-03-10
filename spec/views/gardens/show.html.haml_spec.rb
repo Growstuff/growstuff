@@ -43,7 +43,7 @@ describe "gardens/show" do
     end
 
     it 'should have an edit button' do
-      rendered.should have_link 'edit_garden_link'
+      rendered.should have_link 'Edit'
     end
 
     it "shows a 'plant something' button" do
