@@ -33,7 +33,9 @@ feature "new photo page" do
 
       scenario "add photo" do
         visit garden_path(garden)
-        click_link "Add photo"
+        within '.garden-actions' do
+          click_link "Add photo"
+        end
         expect(page).to have_text garden.name
       end
     end
