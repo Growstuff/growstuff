@@ -9,7 +9,7 @@
           .col-md-12.col-xs-6
             = render 'gardens/photo', garden: garden
           .col-md-12.col-xs-6
-            = garden.description
+            = display_garden_description(garden)
       .col-md-10
         .row
           - if garden.plantings.current.size.positive?
