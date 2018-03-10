@@ -59,7 +59,7 @@ feature "Planting a crop", js: true do
     end
 
     scenario "button on index to edit garden" do
-      first(".garden-info").click_link("edit_garden_link")
+      click_link href: edit_garden_path(garden)
       expect(page).to have_content 'Edit garden'
     end
   end
