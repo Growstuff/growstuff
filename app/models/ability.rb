@@ -111,9 +111,12 @@ class Ability
     can :update, Photo, owner_id: member.id
     can :destroy, Photo, owner_id: member.id
 
-    can :create, Seed
-    can :update, Seed, owner_id: member.id
+    can :create,  Seed
+    can :update,  Seed, owner_id: member.id
     can :destroy, Seed, owner_id: member.id
+    can :create,  Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
+    can :update,  Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
+    can :destroy, Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
 
     # following/unfollowing permissions
     can :create, Follow

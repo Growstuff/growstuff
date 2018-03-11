@@ -1,0 +1,32 @@
+.panel.panel-success
+  .panel-heading
+    %h3.panel-title
+      = link_to seed, seed
+      - if can? :edit, seed
+        %a.pull-right{ href: edit_seed_path(seed), role: "button", id: "edit_seed_glyphicon" }
+          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
+  .panel-body
+    .row
+      .col-md-4
+        = link_to image_tag((seed.crop.default_photo ? seed.crop.default_photo.thumbnail_url : 'placeholder_150.png'),
+                            alt: seed.crop.name, class: 'img'),
+                  seed.crop
+      .col-md-8
+        %dl.dl-horizontal
+          %dt Crop :
+          %dd= link_to seed.crop.name, seed.crop
+          - if seed.parent_planting.present?
+            %dt Saved from
+            %dd= link_to seed.parent_planting, planting_path(seed.parent_planting)
+          %dt Plant before :
+          %dd= seed.plant_before
+          %dt Quantity :
+          %dd= seed.quantity
+          %dt Will trade to :
+          %dd= seed.tradable_to
+          %dt From location :
+          %dd= seed.owner.location
+          %dt Owner :
+          %dd= link_to seed.owner.login_name, seed.owner
+      .col-md-12
+        %p= render 'seeds/actions', seed: seed

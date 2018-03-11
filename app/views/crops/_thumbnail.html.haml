@@ -1,7 +1,7 @@
-.thumbnail
-  .crop-thumbnail
-    - if crop
-      - cache cache_key_for(Crop, crop.id) do
+- cache cache_key_for(Crop, crop.id) do
+  .thumbnail
+    .crop-thumbnail
+      - if crop
         = link_to image_tag((crop.default_photo ? crop.default_photo.thumbnail_url : 'placeholder_150.png'),
                             alt: crop.name, class: 'img'),
                             crop

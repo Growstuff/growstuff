@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180205000612) do
+ActiveRecord::Schema.define(version: 20180213005731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -409,6 +409,7 @@ ActiveRecord::Schema.define(version: 20180205000612) do
     t.integer  "lifespan"
     t.integer  "days_to_first_harvest"
     t.integer  "days_to_last_harvest"
+    t.integer  "parent_seed_id"
   end
 
   add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree
@@ -459,10 +460,15 @@ ActiveRecord::Schema.define(version: 20180205000612) do
     t.text     "organic",                 default: "unknown"
     t.text     "gmo",                     default: "unknown"
     t.text     "heirloom",                default: "unknown"
+    t.boolean  "finished",                default: false
+    t.date     "finished_at"
+    t.integer  "parent_planting_id"
   end
 
   add_index "seeds", ["slug"], name: "index_seeds_on_slug", unique: true, using: :btree
 
   add_foreign_key "harvests", "plantings"
   add_foreign_key "photographings", "photos"
+  add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

@@ -1,11 +1,15 @@
-- if can? :edit, @seed
-  = link_to  edit_seed_path(@seed), class: 'btn btn-default btn-xs' do
-    %span.glyphicon.glyphicon-pencil{ title: "Edit" }
-    Edit
-  = link_to new_photo_path(id: seed.id, type: 'seed'), class: 'btn btn-default btn-xs' do
-    %span.glyphicon.glyphicon-camera{ title: "Add photo" }
-    Add photo
-- if can? :destroy, @seed
-  = link_to @seed, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs' do
-    %span.glyphicon.glyphicon-trash{ title: "Delete" }
-    Delete
+
+- if can? :edit, seed
+  .btn-group
+    = render 'shared/buttons/edit', path: edit_seed_path(seed)
+    = render 'shared/buttons/add_photo', path: new_photo_path(id: seed.id, type: 'seed')
+
+    - if can?(:create, Planting) && seed.active?
+      = link_to new_planting_path(seed_id: seed), class: 'btn btn-default btn-xs' do
+        %span.glyphicon.glyphicon-grain{ title: "Plant seeds" }
+        Plant seeds
+
+    = render 'shared/buttons/finish_seeds', seed: seed
+
+- if can? :destroy, seed
+  = render 'shared/buttons/delete', path: seed

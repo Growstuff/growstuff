@@ -1,13 +1,13 @@
 - cache cache_key_for(Member) do
   .hidden-xs
-    - members = Member.interesting.first(6)
+    - members = Member.includes(plantings: :crop).interesting.first(6)
     - if members.present?
       %section
       %h2= t('.title')
 
       .member-cards
         - members.each do |m|
-          = render partial: "members/thumbnail", locals: { member: m }
+          = render "members/thumbnail", member: m
 
       %p.text-right
         = link_to "#{t('.view_all')} »", members_path

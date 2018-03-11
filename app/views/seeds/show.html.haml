@@ -9,47 +9,56 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :buttonbar do
+  = render 'seeds/actions', seed: @seed
+
 .row
   .col-md-6
-    %p
-      %b Owner:
-      = link_to @seed.owner, @seed.owner
-      &mdash;
-      = link_to "view all #{@seed.owner}'s seeds", seeds_by_owner_path(owner: @seed.owner.slug)
-    %p
-      %b Quantity:
-      = @seed.quantity.blank? ? "not specified" : @seed.quantity
-    %p
-      %b Plant before:
-      = @seed.plant_before.to_s
-    %p
-      %b Days until maturity:
-      = render partial: 'days_until_maturity', locals: { seed: @seed }
-    %p
-      %b Organic?
-      = @seed.organic
-    %p
-      %b GMO?
-      = @seed.gmo
-    %p
-      %b Heirloom?
-      = @seed.heirloom
-    %p
-      %b Will trade:
-      = @seed.tradable_to
-      - if @seed.owner.location.blank?
-        (from unspecified location)
-        - if current_member == @seed.owner
-          = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
-      - else
-        (from
-        = succeed ")" do
-          = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
+    %dl.dl-horizontal
+      %dt Owner
+      %dd
+        = link_to @seed.owner, @seed.owner
+        &mdash;
+        = link_to "view all #{@seed.owner}'s seeds",
+          seeds_by_owner_path(owner: @seed.owner.slug)
+      %dt Quantity:
+      %dd= @seed.quantity.blank? ? "not specified" : @seed.quantity
+      %dt Plant before:
+      %dd= @seed.plant_before.to_s
+      -if @seed.finished_at
+        %dt Finished at:
+        %dd= @seed.finished_at.to_s
+      %dt Days until maturity:
+      %dd= render partial: 'days_until_maturity', locals: { seed: @seed }
+      %dt Organic?
+      %dd= @seed.organic
+      %dt GMO?
+      %dd= @seed.gmo
+      %dt Heirloom?
+      %dd= @seed.heirloom
+      %dt Will trade:
+      %dd
+        = @seed.tradable_to
+        - if @seed.owner.location.blank?
+          (from unspecified location)
+          - if current_member == @seed.owner
+            = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
+        - else
+          (from
+          = succeed ")" do
+            = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
 
-    %p
-      %b Description:
-      :growstuff_markdown
-        #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
+      %dt When?
+      %dd
+        = @seed.created_at
+      - if @seed.parent_planting
+        %dt Saved from planting:
+        %dd
+          = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
+      %dt Description:
+      %dd
+        :growstuff_markdown
+          #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
 
     - if current_member
       - if @seed.tradable? && current_member != @seed.owner
@@ -60,9 +69,9 @@
     - else
       = render 'shared/signin_signup', to: 'request seeds'
 
-    - if can?(:edit, @seed) || can?(:destroy, @seed)
-      %p
-        = render 'actions', seed: @seed
+    = render 'seeds/descendants', seed: @seed
+    = render 'photos/item_photos', item: @seed, type: 'seed', photos: @photos
+
   .col-md-6
     = render partial: "crops/index_card", locals: { crop: @seed.crop }
     - if @seed.owner.location
@@ -75,5 +84,3 @@
         Or
         = link_to "purchase seeds via Ebay",
         crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer"
-
-= render 'photos/item_photos', item: @seed, type: 'seed', photos: @photos

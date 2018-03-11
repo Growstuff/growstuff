@@ -1,10 +1,10 @@
 - cache planting do
-  = link_to image_tag(planting.photos.present? ? planting.photos.first.thumbnail_url : 'placeholder_150.png',
+  = link_to image_tag(planting_image_path(planting),
                       alt: planting.to_s,
                       class: 'image-responsive crop-image'),
             planting,
             rel: "popover",
             'data-trigger': 'hover',
             'data-title': planting.to_s,
-            'data-content': render(partial: 'plantings/popover', locals: { planting: planting }),
+            'data-content': render('plantings/popover', planting: planting),
             'data-html': true
