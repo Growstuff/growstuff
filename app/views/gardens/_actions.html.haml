@@ -21,7 +21,7 @@
 
   - if can?(:destroy, garden)
     .pull-right
-      = link_to garden.name,
+      = link_to garden_path(garden),
                 method: :delete,
                 data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' },
                 class: 'btn btn-default btn-xs', id: 'delete_garden_link' do
