@@ -1,4 +1,5 @@
 - cache cache_key_for(Crop, 'interesting'), expires_in: 1.day do
-  %h2= t('.our_crops')
-  - Crop.interesting.includes(:scientific_names, :photos).first(9).each do |c|
-    .col-md-4= render 'crops/thumbnail', crop: c
+  .row
+    %h2= t('.our_crops')
+    - Crop.interesting.includes(:scientific_names, :photos).limit(7).each do |c|
+      .col-md-4.col-xs-4= render 'crops/thumbnail', crop: c

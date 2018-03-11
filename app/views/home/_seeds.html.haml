@@ -2,7 +2,7 @@
   %h2= t('.title')
   .row
     - Seed.current.tradable.order(created_at: :desc).limit(6).each do |seed|
-      .col-md-2
+      .col-md-2.col-xs-4
         .thumbnail
           - cache cache_key_for(Crop, seed.id) do
             = link_to image_tag(seed_image_path(seed),

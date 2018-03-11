@@ -1,9 +1,9 @@
 - harvests.each do |h|
   - cache h do
     .row
-      .col-md-3{ style: 'padding-bottom: 6px' }
+      .col-md-3.col-xs-4{ style: 'padding-bottom: 6px' }
         = render 'harvests/image_with_popover', harvest: h
-      .col-md-9
+      .col-md-9.col-xs-4
         = link_to h.crop, crop_path(h.crop)
         %br/
         %small
