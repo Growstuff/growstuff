@@ -12,15 +12,7 @@
     %p= image_tag(@photo.fullsize_url, alt: @photo.title, class: 'img img-responsive')
 
   .col-md-4
-    %p
-      - if can? :destroy, @photo
-        = link_to @photo, method: :delete,
-          data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs' do
-          %span.glyphicon.glyphicon-trash{ title: "Delete" }
-
-      - if can? :edit, @photo
-        = link_to edit_photo_path(@photo), class: 'btn btn-default btn-xs' do
-          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
+    = render 'photos/actions', photo: @photo
     %p
       %strong Posted by:
       = link_to @photo.owner, @photo.owner

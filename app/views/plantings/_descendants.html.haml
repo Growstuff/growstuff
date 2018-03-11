@@ -1,0 +1,14 @@
+%h2 Seeds saved from this planting
+
+- if planting.child_seeds.size.positive?
+  .row
+    - planting.child_seeds.each do |seed|
+      .col-xs-6.col-sm-4.col-md-3
+        = render 'seeds/thumbnail', seed: seed
+- else
+  %p No seeds saved
+
+- if planting.active? && can?(:create, Seed) && can?(:edit, planting)
+  = link_to new_planting_seed_path(planting), class: 'btn btn-primary' do
+    %span.glyphicon.glyphicon-heart{ title: "Add photo" }
+    Save seeds

@@ -1,0 +1,6 @@
+- if can?(:edit, harvest) || can?(:destroy, harvest)
+  .btn-group.harvest-actions
+  - if can? :edit, harvest
+    = render 'shared/buttons/edit', path: edit_harvest_path(harvest)
+  - if can? :destroy, harvest
+    .pull-right= render 'shared/buttons/delete', path: harvest_path(harvest)

@@ -18,8 +18,26 @@
       .visible-xs
         = render partial: 'blurb'
 
-    = render partial: 'crops'
-    = render partial: 'seeds'
-    = render partial: 'members'
-    = render partial: 'discuss'
+    .row
+      .col-md-6
+        = render partial: 'crops'
+      .col-md-3
+        = render partial: 'plantings'
+      .col-md-3
+        = render partial: 'harvests'
+      .col-md-12
+        - cache cache_key_for(Crop, 'recent') do
+          %p{ style: 'margin-top: 11.25px' }
+            %strong
+              #{t('.recently_added')}:
+            != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
 
+    %p.text-right
+      = link_to "#{t('home.crops.view_all')} »", crops_path
+    .row
+      .col-md-12
+        = render partial: 'seeds'
+        = render partial: 'members'
+    .row
+      .col-md-12
+        = render partial: 'discuss'

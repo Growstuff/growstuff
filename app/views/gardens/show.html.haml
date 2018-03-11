@@ -16,7 +16,8 @@
 
 .row
   .col-md-9
-    %p.btn-group= render 'gardens/actions', garden: @garden
+    = render 'gardens/actions', garden: @garden
+
 
     - unless @garden.active
       .alert.alert-warning
@@ -26,20 +27,21 @@
           to plant something in this garden.
 
     %div
-      :growstuff_markdown
-        #{strip_tags @garden.description}
-      - unless @garden.description
-        .row-fluid
-          %p No description available yet.
+      %p
+        :growstuff_markdown
+          #{strip_tags @garden.description}
+        - unless @garden.description
+          .row-fluid
+            %p No description available yet.
 
-          - if can? :edit, @garden
-            %p
-              Why not
-              = link_to 'tell us more.', edit_garden_path(@garden)
+            - if can? :edit, @garden
+              %p
+                Why not
+                = link_to 'tell us more.', edit_garden_path(@garden)
 
     %h3 Garden timeline
     .row
-      = timeline garden_timeline_path(@garden), adapter: "google"
+      .col-md-12= timeline garden_timeline_path(@garden), adapter: "google"
 
     %h3 Current plantings in garden
     .row

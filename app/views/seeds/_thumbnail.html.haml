@@ -1,31 +1,14 @@
-.panel.panel-success
-  .panel-heading
-    %h3.panel-title
-      = link_to "#{seed.owner.login_name}'s seed", seed
-      - if can? :edit, seed
-        %a.pull-right{ href: edit_seed_path(seed), role: "button", id: "edit_seed_glyphicon" }
-          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
-  .panel-body
-    .row
-      .col-md-4
-        = link_to image_tag((seed.crop.default_photo ? seed.crop.default_photo.thumbnail_url : 'placeholder_150.png'),
-                            alt: seed.crop.name, class: 'img'),
-                  seed.crop
-      .col-md-8
-        %dl.dl-horizontal
-          %dt Crop :
-          %dd= link_to seed.crop.name, seed.crop
-          %dt Plant before :
-          %dd= seed.plant_before
-          %dt Quantity :
-          %dd= seed.quantity
-          %dt Will trade to :
-          %dd= seed.tradable_to
-          %dt From location :
-          %dd= seed.owner.location
-          %dt Owner :
-          %dd= link_to seed.owner.login_name, seed.owner
-  .panel-footer
-    %dt Description
-    %dd
-      = display_seed_description(seed)
+.thumbnail
+  .seed-thumbnail
+    = link_to image_tag((seed.default_photo ? seed.default_photo.thumbnail_url : 'placeholder_150.png'),
+              alt: seed.crop.name, class: 'img'),
+              seed_path(seed)
+    .seedinfo
+      .seed-name
+        = link_to seed, seed_path(seed)
+      .trade-to
+        %p= seed.owner.location
+        %p
+          Will trade to:
+          %br/
+          = seed.tradable_to

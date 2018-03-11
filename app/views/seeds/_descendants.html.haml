@@ -1,0 +1,13 @@
+%h2 Plants grown from these seeds
+- if @seed.child_plantings
+  .row
+    - seed.child_plantings.each do |planting|
+      .col-md-3
+        = render 'plantings/thumbnail', planting: planting
+- else
+  %p No plants grown yet.
+
+- if can?(:create, Planting) && can?(:edit, seed)
+  = link_to new_seed_planting_path(seed), class: 'btn btn-primary' do
+    %span.glyphicon.glyphicon-grain{ title: "Plant seeds" }
+    Plant seeds

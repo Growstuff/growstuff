@@ -1,6 +1,7 @@
 class Seed < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
+  include Finishable
   friendly_id :seed_slug, use: %i(slugged finders)
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
@@ -12,6 +13,10 @@ class Seed < ActiveRecord::Base
   # Relationships
   belongs_to :crop
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
+
+  belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id' # parent
+  has_many :child_plantings, class_name: 'Planting',
+                             foreign_key: 'parent_seed_id', dependent: :nullify # children
 
   #
   # Validations

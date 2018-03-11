@@ -28,7 +28,7 @@
   - unless @seeds.empty?
     - @seeds.each do |seed|
       .col-md-6
-        = render partial: 'seeds/thumbnail', locals: { seed: seed }
+        = render 'seeds/card', seed: seed
 
 .pagination
   = page_entries_info @seeds
