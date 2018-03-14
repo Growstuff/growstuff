@@ -24,8 +24,10 @@ module PhotosHelper
   end
 
   def seed_image_path(seed)
-    if seed.default_photo
+    if seed.default_photo.present?
       seed.default_photo.thumbnail_url
+    elsif seed.crop.default_photo.present?
+      seed.crop.default_photo
     else
       default_image
     end
