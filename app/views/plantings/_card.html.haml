@@ -8,7 +8,7 @@
   .panel-body
     .row
       .col-xs-12.col-md-5
-        = link_to image_tag((planting.default_photo ? planting.default_photo.thumbnail_url : 'placeholder_150.png'),
+        = link_to image_tag(planting_image_path(planting),
                   alt: planting.crop_id, class: 'img img-responsive'),
                   planting
       .col-xs-12.col-md-7
