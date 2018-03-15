@@ -2,14 +2,14 @@ require 'rails_helper'
 
 describe PhotosHelper do
   let(:crop) { FactoryBot.create :crop }
-  let(:crop_photo) { FactoryBot.create :photo, thumbnail_url: 'crop.jpg' }
+
   let(:garden) { FactoryBot.create :garden }
   let(:garden_photo) { FactoryBot.create(:photo, thumbnail_url: 'garden.jpg') }
-  let(:planting) { FactoryBot.create :planting }
+  let(:planting) { FactoryBot.create :planting, crop: crop }
   let(:planting_photo) { FactoryBot.create(:photo, thumbnail_url: 'planting.jpg') }
-  let(:harvest) { FactoryBot.create :harvest }
+  let(:harvest) { FactoryBot.create :harvest, crop: crop }
   let(:harvest_photo) { FactoryBot.create(:photo, thumbnail_url: 'harvest.jpg') }
-  let(:seed) { FactoryBot.create :seed }
+  let(:seed) { FactoryBot.create :seed, crop: crop }
   let(:seed_photo) { FactoryBot.create(:photo, thumbnail_url: 'seed.jpg') }
 
   describe "crops" do
@@ -18,30 +18,21 @@ describe PhotosHelper do
     it { is_expected.to eq 'placeholder_150.png' }
 
     describe "with a planting" do
-      before do
-        planting.photos << planting_photo
-        crop.plantings << planting
-      end
+      before { planting.photos << planting_photo }
       it "uses planting photos" do
         is_expected.to eq planting_photo.thumbnail_url
       end
     end
 
     describe "with a harvest photos" do
-      before do
-        harvest.photos << harvest_photo
-        crop.harvests << harvest
-      end
+      before { harvest.photos << harvest_photo }
       it "uses harvest photos" do
         is_expected.to eq harvest_photo.thumbnail_url
       end
     end
 
     describe "uses seed photo" do
-      before do
-        seed.photos << seed_photo
-        crop.seeds << seed
-      end
+      before { seed.photos << seed_photo }
       it "uses seed photos" do
         is_expected.to eq seed_photo.thumbnail_url
       end
