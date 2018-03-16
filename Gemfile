@@ -155,3 +155,4 @@ end
 group :travis do
   gem 'platform-api'
 end
+gem 'rack-protection', '>= 2.0.1'
