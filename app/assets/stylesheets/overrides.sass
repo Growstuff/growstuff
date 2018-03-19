@@ -94,21 +94,6 @@ p.stats
     dd
       margin-left: auto
 
-@media (min-width: $screen-md-min)
-  .planting-thumbnail
-    dl.planting-attributes
-      width: 100%
-
-      dt
-        text-align: left
-        width: 120px
-      dd
-        padding-left: 120px
-        margin-left: auto
-
-  .navbar .navbar-form
-    width: 250px
-
 
 #placesmap, #cropmap
   height: 500px
@@ -254,24 +239,6 @@ html, body
   a
     font-weight: 800
 
-// Overrides applying only to mobile view. This must be at the end of the overrides file.
-
-@media only screen and (max-width: 767px)
-  .sidebar
-    margin-left: 0
-    border-left: none
-    padding-left: 0
-
-  #map
-    height: 300px
-
-  .navbar .nav > li
-    display: block
-
-  .navbar .navbar-form
-    width: 185px
-    padding-left: 0
-    padding-right: 0
 
 /* override "info" alert boxes to be green, not blue, on Growstuff */
 $state-info-text: darken($green, 10%)
@@ -326,3 +293,44 @@ ul.thumbnail-buttons
 
 .hover-wrapper:hover .text
   visibility: visible
+
+.homepage-listing
+  padding-bottom: 6px
+
+@media (min-width: $screen-md-min)
+  .planting-thumbnail
+    dl.planting-attributes
+      width: 100%
+
+      dt
+        text-align: left
+        width: 120px
+      dd
+        padding-left: 120px
+        margin-left: auto
+
+  .navbar .navbar-form
+    width: 250px
+
+// Overrides applying only to mobile view. This must be at the end of the overrides file.
+@media only screen and (max-width: 767px)
+  .sidebar
+    margin-left: 0
+    border-left: none
+    padding-left: 0
+
+  #map
+    height: 300px
+
+  .navbar .nav > li
+    display: block
+
+  .navbar .navbar-form
+    width: 185px
+    padding-left: 0
+    padding-right: 0
+  .homepage
+    .thumbnail
+      height: 180px
+    .seed-thumbnail
+      height: 220px

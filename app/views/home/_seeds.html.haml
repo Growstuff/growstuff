@@ -2,8 +2,8 @@
   %h2= t('.title')
   .row
     - Seed.current.tradable.order(created_at: :desc).limit(6).each do |seed|
-      .col-md-2.col-xs-4
-        .thumbnail
+      .col-md-2.col-sm-2.col-xs-6
+        .thumbnail.seed-thumbnail
           - cache cache_key_for(Crop, seed.id) do
             = link_to image_tag(seed_image_path(seed),
                                 alt: seed.crop.name, class: 'img'),
@@ -13,9 +13,10 @@
               .trade-to
                 %p= seed.owner.location
                 %p
-                  Will trade to:
-                  %br/
-                  #{seed.tradable_to}
+                  %small
+                    Will trade to:
+                    %br/
+                    %em= seed.tradable_to
 
 %p.text-right
-= link_to "#{t('.view_all')} »", seeds_path
+  = link_to "#{t('.view_all')} »", seeds_path
