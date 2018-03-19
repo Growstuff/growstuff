@@ -7,8 +7,8 @@ cache:
     - tmp/cache/assets/test/sprockets
 env:
   matrix:
-    - ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true
-    - ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
+    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true
+    - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
     - STATIC_CHECKS=true
   global:
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
