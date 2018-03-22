@@ -8,7 +8,7 @@
 - unless crop.photos.empty?
   %h3 Photos of #{crop.name} plants
   .row
-    - crop.photos.first(6).each do |p|
+    - crop.photos.order(date_taken: :desc).first(6).each do |p|
       .col-xs-6.col-md-2
         = render "photos/thumbnail", photo: p
 .row

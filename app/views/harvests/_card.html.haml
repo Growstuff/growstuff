@@ -21,9 +21,11 @@
           %dd= display_quantity(harvest)
           %dt Harvest date :
           %dd= harvest.harvested_at
-  .panel-footer
-    %dt Description
-    %dd.truncate
-      = display_harvest_description(harvest)
-    = if harvest.description.present?
-      - link_to "Read more", harvest_path(harvest)
+          %dd Notes:
+          %dt=display_harvest_description(harvest)
+          - if harvest.planting.present?
+            %dt Harvested from
+            %dd= link_to(harvest.planting, planting_path(harvest.planting))
+    .row
+      .col-md-12
+        = render 'harvests/actions', harvest: harvest

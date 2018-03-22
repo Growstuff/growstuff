@@ -35,24 +35,6 @@
 
           %dt Finish expected:
           %dd= planting.finish_predicted_at if planting.finish_predicted_at.present?
-
     %p= render 'plantings/progress', planting: planting, show_explanation: true
-
-    = link_to 'Details', planting_path(planting),
-      class: 'btn btn-default btn-xs'
-
-    - if can?(:edit, planting) && can?(:create, Harvest)
-      = link_to 'Harvest', new_planting_harvest_path(planting),
-        class: 'btn btn-default btn-xs'
-
-    - if can?(:edit, planting) && !planting.finished
-      = link_to "Mark as finished",
-                    planting_path(planting, planting: { finished: 1 }),
-                    method: :put,
-                    class: 'btn btn-default btn-xs append-date'
-
-    - if can? :destroy, planting
-      = link_to planting, method: :delete,
-                  data: { confirm: 'Are you sure?' },
-                  class: 'btn btn-default btn-xs' do
-        %span.glyphicon.glyphicon-trash{ title: "Delete" }
+    .row
+      .col-md-12= render 'plantings/actions', planting: planting

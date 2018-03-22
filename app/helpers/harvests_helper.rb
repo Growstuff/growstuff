@@ -28,7 +28,12 @@ module HarvestsHelper
   end
 
   def display_harvest_description(harvest)
-    return "No description provided." if harvest.description.nil?
-    harvest.description
+    if harvest.description.nil?
+      "no description provided."
+    else
+      truncate(harvest.description, length: 50, separator: ' ', omission: '... ') do
+        link_to "Read more", harvest_path(harvest)
+      end
+    end
   end
 end

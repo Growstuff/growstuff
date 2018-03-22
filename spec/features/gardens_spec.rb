@@ -59,7 +59,7 @@ feature "Planting a crop", js: true do
     end
 
     scenario "button on index to edit garden" do
-      first(".garden-info").click_link("edit_garden_link")
+      click_link href: edit_garden_path(garden)
       expect(page).to have_content 'Edit garden'
     end
   end
@@ -68,7 +68,9 @@ feature "Planting a crop", js: true do
     visit new_garden_path
     fill_in "Name", with: "New garden"
     click_button "Save"
-    click_link 'edit_garden_link'
+    within '.garden-actions' do
+      click_link 'Edit'
+    end
     fill_in "Name", with: "Different name"
     click_button "Save"
     expect(page).to have_content "Garden was successfully updated"

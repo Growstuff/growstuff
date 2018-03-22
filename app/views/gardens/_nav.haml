@@ -4,12 +4,7 @@
 
   = link_to "Everyone's gardens", gardens_path, class: 'btn btn-default'
 
-
-  = link_to gardens_active_tickbox_path(@owner, show_all) do
-    = check_box_tag 'active', 'all', show_all
-    include in-active
-
-- if can?(:create, Garden)
-  = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
-- unless current_member
-  = render partial: 'shared/signin_signup', locals: { to: 'add a new garden' }
+  - if can?(:create, Garden)
+    = link_to 'Add a garden', new_garden_path, class: 'btn btn-default'
+  - unless current_member
+    = render 'shared/signin_signup', to: 'add a new garden'

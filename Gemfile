@@ -155,3 +155,5 @@ end
 group :travis do
   gem 'platform-api'
 end
+gem 'loofah', '>= 2.2.1'
+gem 'rack-protection', '>= 2.0.1'

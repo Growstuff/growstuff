@@ -1,9 +1,9 @@
-.row
+.homepage.row
   .col-md-12
     - if member_signed_in?
       %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
-      = render partial: 'stats'
+      = render 'stats'
       %p
         .btn-group
           = link_to t('.plant'), new_planting_path, class: 'btn btn-default'
@@ -14,12 +14,30 @@
     - else
       .hidden-xs
         .jumbotron
-          = render partial: 'blurb'
+          = render 'blurb'
       .visible-xs
-        = render partial: 'blurb'
+        = render 'blurb'
 
-    = render partial: 'crops'
-    = render partial: 'seeds'
-    = render partial: 'members'
-    = render partial: 'discuss'
+    .row
+      .col-md-6.col-sm-12
+        = render 'crops'
+      .col-md-3.col-sm-6
+        = render 'plantings'
+      .col-md-3.col-sm-6
+        = render 'harvests'
+      .col-md-12
+        - cache cache_key_for(Crop, 'recent') do
+          %p{ style: 'margin-top: 11.25px' }
+            %strong
+              #{t('.recently_added')}:
+            != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
 
+    %p.text-right
+      = link_to "#{t('home.crops.view_all')} »", crops_path
+    .row
+      .col-md-12
+        = render 'seeds'
+        = render 'members'
+    .row
+      .col-md-12
+        = render 'discuss'

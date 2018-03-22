@@ -1,0 +1,5 @@
+- unless seed.finished
+  = link_to seed_path(seed, seed: { finished: 1 }),
+            method: :put, class: 'btn btn-default btn-xs append-date' do
+    %span.glyphicon.glyphicon-ok{ title: "Finished" }
+    Mark as finished

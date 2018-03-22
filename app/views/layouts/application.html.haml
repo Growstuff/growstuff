@@ -15,9 +15,7 @@
                 %small= yield(:subtitle)
 
           - if content_for?(:buttonbar)
-            %p
-              .btn-group
-                = yield(:buttonbar)
+            .btn-group.layout-actions= yield(:buttonbar)
           = render partial: "shared/flash_messages", flash: flash
           = yield
 

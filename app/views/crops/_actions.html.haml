@@ -1,0 +1,8 @@
+- if can? :create, Planting
+  = link_to "Plant this", new_planting_path(crop_id: crop.id), class: 'btn btn-default'
+
+- if can? :create, Harvest
+  = link_to "Harvest this", new_harvest_path(crop_id: crop.id), class: 'btn btn-default'
+
+- if can? :create, Seed
+  = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-default'

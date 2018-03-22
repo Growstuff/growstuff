@@ -5,9 +5,7 @@ feature "seeds", js: true do
     let(:member) { create :member }
     let(:crop) { create :crop }
 
-    background do
-      login_as member
-    end
+    background { login_as member }
 
     scenario "button on index to edit seed" do
       seed = create :seed, owner: member

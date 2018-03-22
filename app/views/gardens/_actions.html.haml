@@ -1,28 +1,29 @@
-- if can?(:edit, garden) || can?(:delete, garden)
-  - if can? :edit, garden
-    - if garden.active
-      = link_to new_planting_path(garden_id: garden.id), class: 'btn btn-primary' do
-        %span.glyphicon.glyphicon-grain{ title: "Plant" }
-        Plant something
-      = link_to "Mark as inactive", garden_path(garden, garden: { active: 0 }),
-        method: :put, class: 'btn btn-default',
-        data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
-    - else
-      = link_to "Mark as active", garden_path(garden, garden: { active: 1 }),
-                method: :put,
-                class: 'btn btn-default'
-    = link_to edit_garden_path(garden), class: 'btn btn-default', id: 'edit_garden_link' do
-      %span.glyphicon.glyphicon-pencil{ title: "Edit garden" }
-      Edit
+.garden-actions
+  - if can?(:edit, garden)
+    .btn-group
+      - if garden.active
+        = link_to new_planting_path(garden_id: garden.id), class: 'btn btn-default btn-xs' do
+          %span.glyphicon.glyphicon-grain{ title: "Plant" }
+          Plant something
+        = link_to "Mark as inactive", garden_path(garden, garden: { active: 0 }),
+          method: :put, class: 'btn btn-default btn-xs',
+          data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
+      - else
+        = link_to "Mark as active", garden_path(garden, garden: { active: 1 }),
+                  method: :put
+      = render 'shared/buttons/edit', path: edit_garden_path(garden)
+
+      - if can?(:edit, garden) && can?(:create, Photo)
+        = link_to new_photo_path(type: "garden", id: garden.id),
+                  class: 'btn btn-default btn-xs' do
+          %span.glyphicon.glyphicon-camera{ title: "Add photo" }
+          Add photo
+
   - if can?(:destroy, garden)
-    = link_to garden,
-              method: :delete,
-              data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' },
-              class: 'btn btn-default', id: 'delete_garden_link' do
-      %span.glyphicon.glyphicon-trash{ title: "Delete" }
-      Delete
-  - if can?(:edit, garden) && can?(:create, Photo)
-    = link_to new_photo_path(type: "garden", id: garden.id),
-              class: 'btn btn-primary' do
-      %span.glyphicon.glyphicon-camera{ title: "Add Photo" }
-      Add Photo
+    .pull-right
+      = link_to garden_path(garden),
+                method: :delete,
+                data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' },
+                class: 'btn btn-default btn-xs', id: 'delete_garden_link' do
+        %span.glyphicon.glyphicon-trash{ title: "Delete" }
+        Delete

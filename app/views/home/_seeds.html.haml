@@ -1,21 +1,22 @@
 - cache cache_key_for(Seed, 'interesting'), expires_in: 1.day do
   %h2= t('.title')
   .row
-    .col-md-8
-      - Seed.includes(:owner, crop: :photos).order(created_at: :desc).interesting.first(6).each do |seed|
-        .col-md-3
-          .thumbnail
-            - cache cache_key_for(Crop, seed.id) do
-              = link_to image_tag((seed.default_photo ? seed.default_photo.thumbnail_url : 'placeholder_150.png'),
-                                  alt: seed.crop.name, class: 'img'),
-                                  seed
-              .seedinfo
-                = link_to seed.crop.name, seed
-                .trade-to
-                  %p= seed.owner.location
-                  %p
+    - Seed.current.tradable.order(created_at: :desc).limit(6).each do |seed|
+      .col-md-2.col-sm-2.col-xs-6
+        .thumbnail.seed-thumbnail
+          - cache cache_key_for(Crop, seed.id) do
+            = link_to image_tag(seed_image_path(seed),
+                                alt: seed.crop.name, class: 'img'),
+                                seed
+            .seedinfo
+              = link_to seed.crop.name, seed
+              .trade-to
+                %p= seed.owner.location
+                %p
+                  %small
                     Will trade to:
                     %br/
-                    #{seed.tradable_to}
+                    %em= seed.tradable_to
+
 %p.text-right
   = link_to "#{t('.view_all')} »", seeds_path
