@@ -1,6 +1,6 @@
 .thumbnail
   .seed-thumbnail
-    = link_to image_tag((seed.default_photo ? seed.default_photo.thumbnail_url : 'placeholder_150.png'),
+    = link_to image_tag(seed_image_path(seed),
               alt: seed.crop.name, class: 'img'),
               seed_path(seed)
     .seedinfo
