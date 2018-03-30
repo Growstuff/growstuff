@@ -120,12 +120,7 @@ class Crop < ActiveRecord::Base
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    # most recent photo
-    return photos.order(created_at: :desc).first if photos.any?
-
-    # Crop has no photos? Look for the most recent harvest with a photo.
-    harvest_with_photo = Harvest.where(crop_id: id).joins(:photos).order('harvests.id DESC').limit(1).first
-    harvest_with_photo.photos.first if harvest_with_photo
+    first_photo(:plantings) || first_photo(:harvests) || first_photo(:seeds)
   end
 
   # returns hash indicating whether this crop is grown in
@@ -241,5 +236,9 @@ class Crop < ActiveRecord::Base
   def must_have_meaningful_reason_for_rejection
     return unless reason_for_rejection == "other" && rejection_notes.blank?
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
+  end
+
+  def first_photo(type)
+    Photo.joins(type).where("#{type}": { crop_id: id }).order("photos.created_at DESC").first
   end
 end
