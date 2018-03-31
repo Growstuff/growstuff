@@ -8,7 +8,7 @@
   .panel-body{ id: "gardens_panel_body" }
     .row
       .col-md-4
-        = link_to image_tag((garden.default_photo ? garden.default_photo.thumbnail_url : 'placeholder_150.png'),
+        = link_to image_tag(garden_image_path(garden),
                             alt: garden.name, class: 'img'),
                   garden_path(garden)
       .col-md-8

@@ -1,7 +1,7 @@
 .well
   .row
     .col-md-4
-      = link_to image_tag((crop.default_photo ? crop.default_photo.thumbnail_url : 'placeholder_150.png'),
+      = link_to image_tag(crop_image_path(crop),
                           alt: '',
                           class: 'img crop-image'),
                           crop
