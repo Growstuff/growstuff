@@ -1,7 +1,7 @@
 .thumbnail
   .planting-thumbnail
     - if planting
-      = link_to image_tag((planting.default_photo ? planting.default_photo.thumbnail_url : 'placeholder_150.png'),
+      = link_to image_tag(planting_image_path(planting),
                           alt: planting.crop.name, class: 'img'),
                           planting
       .plantinginfo
