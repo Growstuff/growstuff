@@ -45,7 +45,6 @@ script:
     else
       bundle exec rake db:migrate --trace;
       bundle exec rspec --tag $RSPEC_TAG spec/;
-      bundle exec rake jasmine:ci;
     fi;
   - set +e
 before_deploy:
