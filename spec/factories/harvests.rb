@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :harvest do
     crop { planting.present? ? planting.crop : FactoryBot.create(:crop) }
-    plant_part
+    plant_part { create :plant_part, name: Faker::Book.unique.title }
     planting nil
     owner { planting.present? ? planting.owner : FactoryBot.create(:member) }
     harvested_at { Time.zone.local(2015, 9, 17) }
