@@ -20,7 +20,7 @@ class Member < ApplicationRecord
   has_many :sent_notifications, foreign_key: 'sender_id'
   has_many :authentications
   has_many :photos
-  has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id'
+  has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify
   has_many :likes, dependent: :destroy
   has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy

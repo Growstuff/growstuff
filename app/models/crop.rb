@@ -11,10 +11,10 @@ class Crop < ApplicationRecord
   has_many :scientific_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
-  has_many :plantings
+  has_many :plantings, dependent: :destroy
+  has_many :seeds, dependent: :destroy
+  has_many :harvests, dependent: :destroy
   has_many :photos, through: :plantings
-  has_many :seeds
-  has_many :harvests
   has_many :plant_parts, -> { distinct.reorder("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true
   belongs_to :requester, class_name: 'Member', optional: true
