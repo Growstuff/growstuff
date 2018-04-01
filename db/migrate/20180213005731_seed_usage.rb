@@ -1,4 +1,4 @@
-class SeedUsage < ActiveRecord::Migration
+class SeedUsage < ActiveRecord::Migration[4.2]
   def change
     # # seed can be all sown, meaning there is none left
     add_column(:seeds, :finished, :boolean, default: false)
