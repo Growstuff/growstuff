@@ -7,7 +7,7 @@ class Member < ApplicationRecord
   friendly_id :login_name, use: %i(slugged finders)
 
   #
-  # Relationshops
+  # Relationships
   has_many :posts, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :forums, foreign_key: 'owner_id'
@@ -19,9 +19,6 @@ class Member < ApplicationRecord
   has_many :notifications, foreign_key: 'recipient_id'
   has_many :sent_notifications, foreign_key: 'sender_id'
   has_many :authentications
-  has_many :orders
-  has_one  :account
-  has_one  :account_type, through: :account
   has_many :photos
   has_many :requested_crops, class_name: Crop, foreign_key: 'requester_id'
   has_many :likes, dependent: :destroy
@@ -77,7 +74,11 @@ class Member < ApplicationRecord
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
   after_save :update_newsletter_subscription
-  after_create :create_account_and_garden
+
+  # Give each new member a default garden
+  # we use find_or_create to avoid accidentally creating a second one,
+  # which can happen sometimes especially with FactoryBot associations
+  after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -93,34 +94,6 @@ class Member < ApplicationRecord
 
   def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
-  end
-
-  def current_order
-    orders.find_by(completed_at: nil)
-  end
-
-  # when purchasing a product that gives you a paid account, this method
-  # does all the messing around to actually make sure the account is
-  # updated correctly -- account type, paid until, etc.  Usually this is
-  # called by order.update_account, which loops through all order items
-  # and does this for each one.
-  def update_account_after_purchase(product)
-    account.account_type = product.account_type if product.account_type
-    if product.paid_months
-      start_date = account.paid_until || Time.zone.now
-      account.paid_until = start_date + product.paid_months.months
-    end
-    account.save
-  end
-
-  def paid?
-    if account.account_type.is_permanent_paid
-      true
-    elsif account.account_type.is_paid && account.paid_until >= Time.zone.now
-      true
-    else
-      false
-    end
   end
 
   def auth(provider)
@@ -231,14 +204,5 @@ class Member < ApplicationRecord
 
   def get_follow(member)
     follows.find_by(followed_id: member.id) if already_following?(member)
-  end
-
-  # Give each new member a default garden
-  # and an account record (for paid accounts etc)
-  # we use find_or_create to avoid accidentally creating a second one,
-  # which can happen sometimes especially with FactoryBot associations
-  def create_account_and_garden
-    Garden.create!(name: "Garden", owner_id: id)
-    Account.find_or_create_by!(member_id: id)
   end
 end

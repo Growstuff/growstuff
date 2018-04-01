@@ -8,18 +8,14 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :scripts do
+  = javascript_include_tag "charts"
+
 = render partial: 'approval_status_message', locals: { crop: @crop }
 
 - if @crop.approved?
   - content_for :buttonbar do
-    - if can? :create, Planting
-      = link_to "Plant this", new_planting_path(crop_id: @crop.id), class: 'btn btn-default'
-
-    - if can? :create, Harvest
-      = link_to "Harvest this", new_harvest_path(crop_id: @crop.id), class: 'btn btn-default'
-
-    - if can? :create, Seed
-      = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: @crop.id }), class: 'btn btn-default'
+    = render 'crops/actions', crop: @crop
 
 .row
   .col-md-9

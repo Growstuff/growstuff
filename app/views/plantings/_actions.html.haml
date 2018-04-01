@@ -1,27 +1,12 @@
-- if can?(:edit, planting) || can?(:destroy, planting)
-  - if can? :edit, planting
-    = link_to edit_planting_path(planting), class: 'btn btn-default btn-xs' do
-      %span.glyphicon.glyphicon-pencil{ title: "Edit" }
-      Edit
+- if can?(:edit, planting)
+  .btn-group.planting-actions
+    = render 'shared/buttons/edit', path: edit_planting_path(planting)
+    = render 'shared/buttons/add_photo', path: new_photo_path(id: planting.id, type: 'planting')
+
+    - if planting.active?
+      = render 'shared/buttons/finish_planting', planting: planting
+      = render 'shared/buttons/harvest_planting', planting: planting
+      = render 'shared/buttons/save_seeds', planting: planting
+
   - if can? :destroy, planting
-    = link_to planting, method: :delete,
-              data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs' do
-      %span.glyphicon.glyphicon-trash{ title: "Delete" }
-      Delete
-
-    - unless planting.finished
-      = link_to planting_path(planting, planting: { finished: 1 }),
-                method: :put, class: 'btn btn-default btn-xs append-date' do
-
-        %span.glyphicon.glyphicon-ok{ title: "Finished" }
-        Mark as finished
-
-  - if can? :edit, planting
-    = link_to new_planting_harvest_path(planting), class: 'btn btn-default btn-xs' do
-      %span.glyphicon.glyphicon-leaf{ title: "Harvest" }
-      Harvest
-
-  - if can?(:edit, planting) && can?(:create, Photo)
-    = link_to new_photo_path(id: planting.id, type: 'planting'), class: 'btn btn-default btn-xs' do
-      %span.glyphicon.glyphicon-camera{ title: "Add photo" }
-      Add photo
+    = render 'shared/buttons/delete', path: planting

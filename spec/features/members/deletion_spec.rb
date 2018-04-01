@@ -10,7 +10,6 @@ feature "member deletion" do
     let!(:harvest) { FactoryBot.create(:harvest, owner: member) }
     let!(:seed) { FactoryBot.create(:seed, owner: member) }
     let!(:secondgarden) { FactoryBot.create(:garden, owner: member) }
-    let!(:order) { FactoryBot.create(:order, member: member, completed_at: Time.zone.now) }
     let(:admin) { FactoryBot.create(:admin_member) }
 
     background do
@@ -113,16 +112,6 @@ feature "member deletion" do
         expect(page).not_to have_content member.login_name
         expect(page).to have_content other_member.login_name
         expect(page).to have_content "Member Deleted"
-      end
-
-      scenario "leaves a record of orders and payments intact" do
-        login_as(admin)
-        visit admin_path
-        fill_in "search_text", with: member.login_name.to_s
-        find("#maincontainer").click_button("Search", exact: true)
-        expect(page).to have_content member.login_name.to_s
-        expect(page).to have_content "Found 1 result"
-        logout
       end
 
       scenario "can't be interesting" do

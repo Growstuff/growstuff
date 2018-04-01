@@ -31,12 +31,13 @@ class PlantingsController < ApplicationController
     @planting = Planting.includes(:owner, :crop, :garden, :photos)
       .friendly
       .find(params[:id])
-    @photos = @planting.photos.order(created_at: :desc).includes(:owner).paginate(page: params[:page])
+    @photos = @planting.photos.order(date_taken: :desc).includes(:owner).paginate(page: params[:page])
     respond_with @planting
   end
 
   def new
     @planting = Planting.new(planted_at: Time.zone.today)
+    @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
 
     # using find_by_id here because it returns nil, unlike find
     @crop     = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
@@ -54,7 +55,8 @@ class PlantingsController < ApplicationController
   def create
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
-    @planting.save
+    @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
+    @planting.save!
     respond_with @planting
   end
 
@@ -82,6 +84,7 @@ class PlantingsController < ApplicationController
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
       :crop_id, :description, :garden_id, :planted_at,
+      :parent_seed_id,
       :quantity, :sunniness, :planted_from, :finished,
       :finished_at
     )

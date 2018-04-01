@@ -1,10 +1,12 @@
-.thumbnail.photo-thumbnail
-  = link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-responsive'), photo
-  .text
-    %p
-      = link_to photo.title, photo
-      %br/
-      %small
-        %i
-          by
-          = link_to photo.owner, photo.owner
+.thumbnail
+  .photo-thumbnail
+    = link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-responsive'), photo
+    .text
+      %p
+        = link_to photo.title, photo
+        %br/
+        %small
+          %i
+            by
+            = link_to photo.owner, photo.owner
+  = I18n.l(photo.created_at.to_date)

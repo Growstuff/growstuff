@@ -38,7 +38,7 @@ gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 gem 'leaflet-rails'
 gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
-gem 'pg'
+gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growstuff/growstuff/pull/1539
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
@@ -48,7 +48,6 @@ gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari'                     # pagination
 
 gem 'active_utils'
-gem 'activemerchant'
 gem 'sidekiq'
 
 # Markdown formatting for updates etc
@@ -123,7 +122,6 @@ group :development do
 end
 
 group :development, :test do
-  gem "active_merchant-paypal-bogus-gateway"
   gem 'bullet'                          # performance tuning by finding unnecesary queries
   gem 'byebug'                          # debugging
   gem 'capybara'                        # integration tests
@@ -137,7 +135,6 @@ group :development, :test do
   gem 'haml-rails'                      # HTML templating language
   gem 'haml_lint'                       # Checks haml files for goodness
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
-  gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
   gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'rspec-activemodel-mocks'
@@ -156,3 +153,5 @@ end
 group :travis do
   gem 'platform-api'
 end
+gem 'loofah', '>= 2.2.1'
+gem 'rack-protection', '>= 2.0.1'

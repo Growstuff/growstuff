@@ -9,14 +9,17 @@
       %ul
         - @seed.errors.full_messages.each do |msg|
           %li= msg
-
   .form-group.required
     = f.label :crop, 'Crop:', class: 'control-label col-md-2'
     .col-md-8
-      = auto_suggest @seed, :crop, class: 'form-control', default: @crop
-      %span.help-inline
-        Can't find what you're looking for?
-        = link_to "Request new crops.", new_crop_path
+      - if @planting
+        = link_to @planting, planting_path(@planting)
+        = f.hidden_field :parent_planting_id, value: @planting.id
+      - else
+        = auto_suggest @seed, :crop, class: 'form-control', default: @crop
+        %span.help-inline
+          Can't find what you're looking for?
+          = link_to "Request new crops.", new_crop_path
   .form-group
     = f.label :quantity, 'Quantity:', class: 'control-label col-md-2'
     .col-md-2
@@ -27,6 +30,19 @@
     .col-md-2
       = f.text_field :plant_before, class: 'add-datepicker form-control',
                       value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
+      = render partial: 'shared/form_optional'
+  .form-group
+    = f.label :finished, 'Mark as finished', class: 'control-label col-md-2'
+    .col-md-8
+      = f.check_box :finished
+      = render partial: 'shared/form_optional'
+      %span.help-block
+        = t('.finish_helper')
+  .form-group
+    = f.label :finished_at, 'Finished at:', class: 'control-label col-md-2'
+    .col-md-2
+      = f.text_field :finished_at, class: 'add-datepicker form-control',
+                      value: @seed.finished_at ? @seed.finished_at.to_s(:ymd) : ''
       = render partial: 'shared/form_optional'
   .form-group
     = f.label :days_until_maturity_min, 'Days until maturity:', class: 'control-label col-md-2'

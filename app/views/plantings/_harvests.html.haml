@@ -1,12 +1,13 @@
+%h2 Harvests
 - if planting.harvests.empty?
-  %p no harvests yet
+  %p No harvests
 - else
   .row
     - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
-      .col-xs-6.col-md-2
+      .col-xs-6.col-sm-4.col-md-3
         = render 'harvests/thumbnail', harvest: harvest
-    - if can? :edit, planting
-      .col-xs-6.col-md-2
-        = link_to new_planting_harvest_path(planting), class: 'btn btn-primary' do
-          %span.glyphicon.glyphicon-leaf{ title: "Harvest" }
-          Harvest
+
+- if planting.active? && can?(:edit, planting)
+  = link_to new_planting_harvest_path(planting), class: 'btn btn-primary' do
+    %span.glyphicon.glyphicon-leaf{ title: "Harvest" }
+    Harvest

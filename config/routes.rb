@@ -23,16 +23,19 @@ Rails.application.routes.draw do
 
   resources :plantings do
     resources :harvests
+    resources :seeds
   end
   get '/plantings/owner/:owner' => 'plantings#index', as: 'plantings_by_owner'
   get '/plantings/crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
 
   resources :gardens do
-    get 'timeline' => 'gardens#timeline'
+    get 'timeline' => 'charts/gardens#timeline'
   end
   get '/gardens/owner/:owner' => 'gardens#index', as: 'gardens_by_owner'
 
-  resources :seeds
+  resources :seeds do
+    resources :plantings
+  end
   get '/seeds/owner/:owner' => 'seeds#index', as: 'seeds_by_owner'
   get '/seeds/crop/:crop' => 'seeds#index', as: 'seeds_by_crop'
 
@@ -52,9 +55,9 @@ Rails.application.routes.draw do
   get 'crops/search' => 'crops#search', as: 'crops_search'
   resources :crops do
     get 'photos' => 'photos#index'
-    get 'sunniness' => 'crops#sunniness'
-    get 'planted_from' => 'crops#planted_from'
-    get 'harvested_for' => 'crops#harvested_for'
+    get 'sunniness' => 'charts/crops#sunniness'
+    get 'planted_from' => 'charts/crops#planted_from'
+    get 'harvested_for' => 'charts/crops#harvested_for'
   end
 
   resources :comments
@@ -72,17 +75,6 @@ Rails.application.routes.draw do
   get '/places/search' => 'places#search', as: 'search_places'
   get '/places/:place' => 'places#show', as: 'place'
 
-  # everything for paid accounts etc
-  resources :account_types
-  resources :accounts
-  resources :orders
-  get 'orders/:id/checkout' => 'orders#checkout', as: 'checkout_order'
-  get 'orders/:id/complete' => 'orders#complete', as: 'complete_order'
-  get 'orders/:id/cancel' => 'orders#cancel', as: 'cancel_order'
-
-  resources :order_items
-  resources :products
-
   resources :likes, only: %i(create destroy)
 
   get "home/index"
@@ -91,15 +83,11 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback' => 'authentications#create'
   get 'members/auth/:provider/callback' => 'authentications#create'
 
-  get '/shop' => 'shop#index'
-  get '/shop/:action' => 'shop#:action'
-
-  # comfy_route :cms_admin, path: '/admin/cms'
+  comfy_route :cms_admin, path: '/admin/cms'
   namespace :admin do
     resources :members
   end
-  get '/admin/orders' => 'admin/orders#index'
-  get '/admin/orders/:action' => 'admin/orders#:action'
+
   get '/admin' => 'admin#index'
   get '/admin/newsletter' => 'admin#newsletter', as: :admin_newsletter
   get '/admin/:action' => 'admin#:action'

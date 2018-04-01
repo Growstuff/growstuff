@@ -426,6 +426,22 @@ describe Planting do
     expect(Planting.joins(:owner).all).not_to include(planting)
   end
 
+  context 'ancestry' do
+    let(:parent_seed) { FactoryBot.create :seed }
+    let(:planting) { FactoryBot.create :planting, parent_seed: parent_seed }
+    it "planting has a parent seed" do
+      expect(planting.parent_seed).to eq(parent_seed)
+    end
+    it "seed has a child planting" do
+      expect(parent_seed.child_plantings).to eq [planting]
+    end
+    describe 'grandchildren' do
+      let(:grandchild_seed) { FactoryBot.create :seed, parent_planting: planting }
+      it { expect(grandchild_seed.parent_planting).to eq planting }
+      it { expect(grandchild_seed.parent_planting.parent_seed).to eq parent_seed }
+    end
+  end
+
   # it 'predicts harvest times' do
   #   crop = FactoryBot.create :crop
   #   10.times do

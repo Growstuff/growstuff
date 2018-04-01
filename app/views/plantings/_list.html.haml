@@ -1,9 +1,9 @@
 - plantings.each do |p|
   - cache p do
     .row
-      .col-md-3{ style: 'padding-bottom: 6px' }
-        = render partial: 'plantings/image_with_popover', locals: { planting: p }
-      .col-md-9
+      .col-md-3.col-xs-4.homepage-listing
+        = render 'plantings/image_with_popover', planting: p
+      .col-md-9.col-xs-4
         = link_to p.crop, p.crop
         in
         = succeed "'s" do
@@ -12,4 +12,4 @@
         %br/
         %small
           %i
-            = p.owner.location
+            = p.location

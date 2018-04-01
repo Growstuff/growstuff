@@ -1,9 +1,10 @@
 .thumbnail
   .harvest-thumbnail
     - if harvest
-      = link_to image_tag((harvest.default_photo ? harvest.default_photo.thumbnail_url : 'placeholder_150.png'),
+      = link_to image_tag(harvest_image_path(harvest),
                           alt: harvest.crop.name, class: 'img'),
                           harvest
       .harvestinfo
         .harvest-name
           = link_to harvest, harvest
+  = I18n.l(harvest.harvested_at.to_date)

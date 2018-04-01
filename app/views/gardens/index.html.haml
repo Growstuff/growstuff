@@ -1,6 +1,10 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
-= render 'nav', owner: @owner, show_all: @show_all
+= render 'nav'
+
+= link_to gardens_active_tickbox_path(@owner, @show_all) do
+  = check_box_tag 'active', 'all', @show_all
+  include in-active
 
 .pagination
   = page_entries_info @gardens

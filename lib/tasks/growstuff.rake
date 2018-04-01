@@ -51,7 +51,7 @@ namespace :growstuff do
     send_on_day = 3 # wednesday
     every_n_weeks = 2 # send fortnightly
 
-    if Time.zone.today.cwday == send_on_day and Time.zone.today.cweek % every_n_weeks == 0
+    if (Time.zone.today.cwday == send_on_day) && (Time.zone.today.cweek % every_n_weeks == 0)
       Member.confirmed.find_each do |m|
         Notifier.planting_reminder(m).deliver_now!
       end
@@ -62,7 +62,7 @@ namespace :growstuff do
   # this fixes up anyone who has erroneously wound up with a 0,0 lat/long
   task depopulate_null_island: :environment do
     Member.find_each do |m|
-      if m.location and (m.latitude.nil? and m.longitude.nil?)
+      if m.location && (m.latitude.nil? && m.longitude.nil?)
         m.geocode
         m.save
       end
@@ -88,80 +88,9 @@ namespace :growstuff do
       # site is small and there aren't many of them, so it shouldn't matter
       # for this one-off script.
       Garden.all.each do |g|
-        if g.name.nil? or g.name =~ /^\s*$/
+        if g.name.nil? || g.name =~ /^\s*$/
           g.name = "Garden"
           g.save
-        end
-      end
-    end
-
-    desc "June 2013: create account types and products."
-    task setup_shop: :environment do
-      puts "Adding account types..."
-      AccountType.find_or_create_by(
-        name: "Free",
-        is_paid: false,
-        is_permanent_paid: false
-      )
-      @paid_account = AccountType.find_or_create_by(
-        name: "Paid",
-        is_paid: true,
-        is_permanent_paid: false
-      )
-      @seed_account = AccountType.find_or_create_by(
-        name: "Seed",
-        is_paid: true,
-        is_permanent_paid: true
-      )
-      @staff_account = AccountType.find_or_create_by(
-        name: "Staff",
-        is_paid: true,
-        is_permanent_paid: true
-      )
-
-      puts "Adding products..."
-      Product.find_or_create_by(
-        name: "Annual subscription",
-        description: "An annual subscription gives you access "\
-                     "to paid account features for one year.  Does not auto-renew.",
-        min_price: 3000,
-        account_type_id: @paid_account.id,
-        paid_months: 12
-      )
-      Product.find_or_create_by(
-        name: "Seed account",
-        description: "A seed account helps Growstuff grow in its "\
-                     "early days.  It gives you all the features of "\
-                     "a paid account, in perpetuity.  This account "\
-                     "type never expires.",
-        min_price: 15_000,
-        account_type_id: @seed_account.id
-      )
-
-      puts "Giving each member an account record..."
-      Member.all.each do |m|
-        Account.create(member_id: m.id) unless m.account
-      end
-
-      puts "Making Skud a staff account..."
-      @skud = Member.find_by(login_name: 'Skud')
-      if @skud
-        @skud.account.account_type = @staff_account
-        @skud.account.save
-      end
-
-      puts "Done setting up shop."
-    end
-
-    desc "June 2013: replace nil account_types with free accounts"
-    task nil_account_type: :environment do
-      free = AccountType.find_by(name: "Free")
-      raise "Free account type not found: run rake growstuff:oneoff:setup_shop"\
-        unless free
-      Account.all.each do |a|
-        unless a.account_type
-          a.account_type = free
-          a.save
         end
       end
     end
@@ -187,8 +116,6 @@ namespace :growstuff do
     task set_default_crop_creator: :environment do
       cropbot = Member.find_by(login_name: "cropbot")
       raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
-      cropbot.account.account_type = AccountType.find_by(name: "Staff") # set this just because it's nice
-      cropbot.account.save
       Crop.find_each do |crop|
         unless crop.creator
           crop.creator = cropbot

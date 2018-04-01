@@ -1,0 +1,9 @@
+= link_to image_tag(harvest_image_path(harvest),
+                    alt: harvest.to_s,
+                    class: 'image-responsive crop-image'),
+          harvest,
+          rel: "popover",
+          'data-trigger': 'hover',
+          'data-title': harvest.to_s,
+          'data-content': render('harvests/popover', harvest: harvest),
+          'data-html': true

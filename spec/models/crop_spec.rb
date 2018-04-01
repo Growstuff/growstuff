@@ -276,6 +276,7 @@ describe Crop do
   end
 
   context 'interesting' do
+    subject { Crop.interesting }
     let(:photo) { FactoryBot.create :photo }
     # first, a couple of candidate crops
     let(:crop1) { FactoryBot.create(:crop) }
@@ -283,8 +284,6 @@ describe Crop do
 
     let(:crop1_planting) { crop1.plantings.first }
     let(:crop2_planting) { crop2.plantings.first }
-
-    subject { Crop.interesting }
 
     describe 'lists interesting crops' do
       before do
