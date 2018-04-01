@@ -31,7 +31,6 @@ script:
       RAILS_ENV=test bundle exec rake db:create db:migrate;
       bundle exec rake assets:precompile;
       bundle exec rspec --tag $RSPEC_TAG spec/;
-      bundle exec rake jasmine:ci;
     fi;
   - set +e
 after_script:

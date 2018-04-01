@@ -137,7 +137,6 @@ group :development, :test do
   gem 'haml-rails'                      # HTML templating language
   gem 'haml_lint'                       # Checks haml files for goodness
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
-  gem 'jasmine'                         # javascript unit testing
   gem 'poltergeist'                     # for headless JS testing
   gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'rspec-activemodel-mocks'
