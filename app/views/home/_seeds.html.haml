@@ -1,7 +1,7 @@
 - cache cache_key_for(Seed, 'interesting'), expires_in: 1.day do
   %h2= t('.title')
   .row
-    - Seed.current.tradable.order(created_at: :desc).limit(6).each do |seed|
+    - Seed.current.tradable.includes(:owner, :crop).order(created_at: :desc).limit(6).each do |seed|
       .col-md-2.col-sm-2.col-xs-6
         .thumbnail.seed-thumbnail
           - cache cache_key_for(Crop, seed.id) do
