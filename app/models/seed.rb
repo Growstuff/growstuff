@@ -14,7 +14,8 @@ class Seed < ApplicationRecord
   belongs_to :crop
   belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
 
-  belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id' # parent
+  belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id',
+                               required: false # parent
   has_many :child_plantings, class_name: 'Planting',
                              foreign_key: 'parent_seed_id', dependent: :nullify # children
 
