@@ -7,46 +7,37 @@ cache:
     - tmp/cache/assets/test/sprockets
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH='true' RSPEC_TAG=elasticsearch STATIC_CHECKS=false
-    - GROWSTUFF_ELASTICSEARCH='false' RSPEC_TAG=~elasticsearch STATIC_CHECKS=false
+    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true
+    - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
     - STATIC_CHECKS=true
   global:
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
     - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
 before_install:
-  - ./script/install_phantomjs;
+  - ./script/install_phantomjs.sh
   - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
+  - ./script/install_codeclimate.sh
+  - ./script/install_linters.sh
   # Force Travis to use Elastic Search 2.4.0
-  - >
-    if [ "${GROWSTUFF_ELASTICSEARCH}" = "true" ]; then
-      sudo dpkg -r elasticsearch;
-      curl -O https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.0/elasticsearch-2.4.0.deb;
-      sudo dpkg -i --force-confnew elasticsearch-2.4.0.deb;
-      sudo service elasticsearch start;
-      sleep 10;
-      curl localhost:9200;
-    fi
-before_script:
-  - set -e
-  - >
-    if [ "${STATIC_CHECKS}" = "true" ]; then
-      ./script/install_linters;
-    else
-      RAILS_ENV=test bundle exec rake db:create db:migrate;
-      bundle exec rake assets:precompile;
-    fi
-  - set +e
+  - ./script/install_elasticsearch.sh
 script:
   - set -e
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
       ./script/check_static.rb
     else
-      bundle exec rake db:migrate --trace;
+      set +e;
+      RAILS_ENV=test bundle exec rake db:create db:migrate;
+      bundle exec rake assets:precompile;
       bundle exec rspec --tag $RSPEC_TAG spec/;
     fi;
   - set +e
+after_script:
+  - >
+    if [ "${COVERAGE}" = "true" ]; then
+      ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
+    fi
 before_deploy:
   - bundle exec script/heroku_maintenance.rb on
 deploy:
@@ -69,4 +60,5 @@ after_deploy:
   - bundle exec script/heroku_maintenance.rb off
 addons:
   code_climate:
-    repo_token: 462e015bbdaabfb20910fc07f2fea253410ecb131444e00f97dbf32dc6789ca6
+    repo_token:
+      secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
