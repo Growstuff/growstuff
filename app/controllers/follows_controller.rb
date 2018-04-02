@@ -9,10 +9,10 @@ class FollowsController < ApplicationController
 
     if @follow.save
       flash[:notice] = "Followed #{@follow.followed.login_name}"
-      redirect_to :back
+      redirect_back fallback_location: root_path
     else
       flash[:error] = "Already following or error while following."
-      redirect_to :back
+      redirect_back fallback_location: root_path
     end
   end
 
