@@ -1,15 +1,10 @@
 - plantings.each do |p|
   - cache p do
     .row
-      .col-md-3.col-xs-4.homepage-listing
+      .col-lg-6.col-md-3.col-xs-4.homepage-listing
         = render 'plantings/image_with_popover', planting: p
-      .col-md-9.col-xs-4
+      .col-lg-3.col-md-9.col-xs-4
         = link_to p.crop, p.crop
-        in
-        = succeed "'s" do
-          = link_to p.garden.owner, p.garden.owner
-        = link_to display_garden_name(p.garden), p.garden
         %br/
         %small
-          %i
-            = p.location
+          %i= p.location
