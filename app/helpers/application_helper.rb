@@ -61,9 +61,7 @@ module ApplicationHelper
       # http://graph.facebook.com/12345678/picture?width=150&height=150
       uri = URI.parse(member.preferred_avatar_uri)
 
-      if uri.host == 'graph.facebook.com'
-        uri.query = "&width=#{size}&height=#{size}"
-      end
+      uri.query = "&width=#{size}&height=#{size}" if uri.host == 'graph.facebook.com'
 
       # TODO: Assess twitter - https://dev.twitter.com/overview/general/user-profile-images-and-banners
       # TODO: Assess flickr  - https://www.flickr.com/services/api/misc.buddyicons.html

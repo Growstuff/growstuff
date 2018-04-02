@@ -51,7 +51,7 @@ class Photo < ApplicationRecord
   end
 
   def set_flickr_metadata!
-    update_attributes(flickr_metadata)
+    update(flickr_metadata)
   end
 
   def to_s

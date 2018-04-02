@@ -145,7 +145,7 @@ describe Post do
     end
 
     it "should be updated when post was modified" do
-      post.update_attributes(body: "[chard](crop)")
+      post.update(body: "[chard](crop)")
 
       expect(post.crops).to eq [chard]
       expect(chard.posts).to eq [post]

@@ -95,9 +95,7 @@ class Planting < ApplicationRecord
   end
 
   def expected_lifespan
-    if planted_at.present? && finished_at.present?
-      return (finished_at - planted_at).to_i
-    end
+    return (finished_at - planted_at).to_i if planted_at.present? && finished_at.present?
     crop.median_lifespan
   end
 

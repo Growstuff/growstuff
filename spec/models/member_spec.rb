@@ -67,22 +67,22 @@ describe 'member' do
     end
 
     it 'has location and lat/long fields' do
-      member.update_attributes(location: 'Greenwich, UK')
+      member.update(location: 'Greenwich, UK')
       member.location.should eq 'Greenwich, UK'
       member.latitude.round(2).should eq 51.48
       member.longitude.round(2).should eq 0.00
     end
 
     it 'empties the lat/long if location removed' do
-      member.update_attributes(location: 'Greenwich, UK')
-      member.update_attributes(location: '')
+      member.update(location: 'Greenwich, UK')
+      member.update(location: '')
       member.location.should eq ''
       member.latitude.should be_nil
       member.longitude.should be_nil
     end
 
     it 'fails gracefully for unfound locations' do
-      member.update_attributes(location: 'Tatooine')
+      member.update(location: 'Tatooine')
       member.location.should eq 'Tatooine'
       member.latitude.should be_nil
       member.longitude.should be_nil

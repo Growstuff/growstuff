@@ -157,9 +157,7 @@ class Member < ApplicationRecord
     nearby_members = []
     if place
       latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
-      if latitude && longitude
-        nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
-      end
+      nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) } if latitude && longitude
     end
     nearby_members
   end
