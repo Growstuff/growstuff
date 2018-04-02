@@ -14,10 +14,6 @@ RSpec.describe GardensController, type: :controller do
       before { put :create, params: { garden: valid_params } }
       it { expect(response).to redirect_to(new_member_session_path) }
     end
-    describe 'GET timeline' do
-      before { get :timeline, garden_id: garden.to_param }
-      it { expect(response).to be_success }
-    end
     describe 'changing existing records' do
       before do
         allow(Garden).to receive(:find).and_return(:garden)
@@ -45,11 +41,6 @@ RSpec.describe GardensController, type: :controller do
     before(:each) { sign_in member }
 
     let!(:member) { FactoryBot.create(:member) }
-
-    describe 'GET timeline' do
-      before { get :timeline, garden_id: garden.to_param }
-      it { expect(response).to be_success }
-    end
 
     describe "for another member's garden" do
       let(:not_my_garden) { double('garden') }

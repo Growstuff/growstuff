@@ -87,7 +87,7 @@ describe PlantingsController do
 
     context 'with parent seed' do
       let(:seed) { FactoryBot.create :seed, owner: member }
-      before { get :new, seed_id: seed.to_param }
+      before { get :new, params: { seed_id: seed.to_param } }
       it { expect(assigns(:seed)).to eq(seed) }
     end
   end
