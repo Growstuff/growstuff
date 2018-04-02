@@ -1,3 +1,30 @@
 {
-    "userBlacklist": ["tygriffin","oshiho3"]
+  "actions": [
+    "opened"
+  ],
+  "assignToReviewer": false,
+  "branches": [
+    "dev"
+  ],
+  "createComment": true,
+  "createReviewRequest": true,
+  "delayed": true,
+  "delayedUntil": "3d",
+  "findPotentialReviewers": true,
+  "maxReviewers": 5,
+  "message": "@pullRequester, thanks for your contribution! @reviewers, you contributed the lines that are modified here. Can you do a quick review please?",
+  "numFilesToCheck": 25,
+  "requiredOrgs": [],
+  "skipAlreadyAssignedPR": false,
+  "skipAlreadyMentionedPR": false,
+  "skipCollaboratorPR": false,
+  "skipTitle": "",
+  "userBlacklist": [
+    "tygriffin",
+    "oshiho3"
+  ],
+  "userBlacklistForPR": [
+    "deppbot"
+  ],
+  "withLabel": ""
 }
