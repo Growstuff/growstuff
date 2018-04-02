@@ -1,16 +1,13 @@
-.col-md-12
-
-%h1= ENV['GROWSTUFF_SITE_NAME']
-
-.row
-  .col-md-8.info
-    %p= t('.intro', site_name: ENV['GROWSTUFF_SITE_NAME'])
-
-    = render partial: 'stats'
-  .col-md-4.signup
-    %p= t('.perks')
-    %p= link_to(t('.sign_up'), new_member_registration_path, class: 'btn btn-primary btn-lg')
-    %p
-      %small
-        = t('.already_html', sign_in: link_to(t('.sign_in_linktext'), new_member_session_path))
-
+.container
+  .row
+    .col-md-12
+      %h1= ENV['GROWSTUFF_SITE_NAME']
+    .col-md-8.info
+      %p= t('.intro', site_name: ENV['GROWSTUFF_SITE_NAME'])
+      = render partial: 'stats'
+    .col-md-4.signup
+      %p= t('.perks')
+      %p= link_to(t('.sign_up'), new_member_registration_path, class: 'btn btn-primary btn-lg')
+      %p
+        %small
+          = t('.already_html', sign_in: link_to(t('.sign_in_linktext'), new_member_session_path))
