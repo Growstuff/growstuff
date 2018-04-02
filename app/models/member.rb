@@ -180,9 +180,9 @@ class Member < ApplicationRecord
     confirmed_at && will_save_change_to_attribute?(:newsletter)
   end
 
-  def newsletter_subscribe(gb = Gibbon::API.new, testing = false)
+  def newsletter_subscribe(gibbon = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
-    gb.lists.subscribe(
+    gibbon.lists.subscribe(
       id: Rails.application.config.newsletter_list_id,
       email: { email: email },
       merge_vars: { login_name: login_name },
@@ -190,10 +190,10 @@ class Member < ApplicationRecord
     )
   end
 
-  def newsletter_unsubscribe(gb = Gibbon::API.new, testing = false)
+  def newsletter_unsubscribe(gibbon = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
-    gb.lists.unsubscribe(id: Rails.application.config.newsletter_list_id,
-                         email: { email: email })
+    gibbon.lists.unsubscribe(id: Rails.application.config.newsletter_list_id,
+                             email: { email: email })
   end
 
   def already_following?(member)
