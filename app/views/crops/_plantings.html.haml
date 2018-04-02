@@ -4,9 +4,9 @@
     Nobody has planted this crop yet.
 - else
   %ul
-    - crop.plantings.take(3).each do |planting|
+    - crop.plantings.order(planted_at: :desc).limit(3).each do |planting|
       %li
-        = link_to display_planting(planting), planting_path(planting)
+        = link_to planting, planting_path(planting)
         = render partial: 'members/location', locals: { member: planting.owner }
         %small
           = distance_of_time_in_words(planting.created_at, Time.zone.now)
@@ -18,4 +18,3 @@
     %p= link_to "Plant #{crop.name}", new_planting_path(crop_id: crop.id)
   - else
     = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} plantings" }
-
