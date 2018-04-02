@@ -133,13 +133,12 @@ group :development, :test do
   gem 'faker'
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
-  gem 'haml_lint'                       # Checks haml files for goodness
+  gem 'haml_lint', '>= 0.25.1' # Checks haml files for goodness
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'poltergeist'                     # for headless JS testing
-  gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
-  gem 'rubocop'
+  gem 'rubocop', '>= 0.54.0'
   gem 'selenium-webdriver'
   gem 'webrat' # provides HTML matchers for view tests
 end

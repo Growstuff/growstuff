@@ -12,7 +12,7 @@ AllCops:
 Rails:
   Enabled: true
 
-Style/FileName:
+Naming/FileName:
   Exclude:
     - 'Guardfile'
     - 'Gemfile'
