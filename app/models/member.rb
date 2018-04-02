@@ -8,17 +8,17 @@ class Member < ApplicationRecord
 
   #
   # Relationships
-  has_many :posts, foreign_key: 'author_id'
-  has_many :comments, foreign_key: 'author_id'
-  has_many :forums, foreign_key: 'owner_id'
-  has_many :gardens, foreign_key: 'owner_id'
-  has_many :plantings, foreign_key: 'owner_id'
-  has_many :seeds, foreign_key: 'owner_id'
-  has_many :harvests, foreign_key: 'owner_id'
+  has_many :posts, foreign_key: 'author_id', dependent: :destroy
+  has_many :comments, foreign_key: 'author_id', dependent: :destroy
+  has_many :forums, foreign_key: 'owner_id', dependent: :nullify
+  has_many :gardens, foreign_key: 'owner_id', dependent: :destroy
+  has_many :plantings, foreign_key: 'owner_id', dependent: :destroy
+  has_many :seeds, foreign_key: 'owner_id', dependent: :destroy
+  has_many :harvests, foreign_key: 'owner_id', dependent: :destroy
   has_and_belongs_to_many :roles # rubocop:disable Rails/HasAndBelongsToMany
   has_many :notifications, foreign_key: 'recipient_id'
   has_many :sent_notifications, foreign_key: 'sender_id'
-  has_many :authentications
+  has_many :authentications, dependent: :destroy
   has_many :photos
   has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify
   has_many :likes, dependent: :destroy
