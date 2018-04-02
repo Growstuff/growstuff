@@ -2,6 +2,7 @@ class Planting < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable
   include Finishable
+  include Ownable
   friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants
@@ -17,7 +18,6 @@ class Planting < ActiveRecord::Base
   before_save :calculate_lifespan
 
   belongs_to :garden
-  belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
   belongs_to :crop, counter_cache: true
   has_many :harvests, dependent: :destroy
 
