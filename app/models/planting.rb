@@ -24,7 +24,7 @@ class Planting < ApplicationRecord
   #
   # Ancestry of food
   belongs_to :parent_seed, class_name: 'Seed', foreign_key: 'parent_seed_id',
-                           allow_nil: true # parent
+                           required: false # parent
   has_many :child_seeds, class_name: 'Seed',
                          foreign_key: 'parent_planting_id', dependent: :nullify # children
 
