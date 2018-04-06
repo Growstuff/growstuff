@@ -1,5 +1,5 @@
 class Photo < ActiveRecord::Base
-  belongs_to :owner, class_name: 'Member'
+  include Ownable
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed).freeze
 

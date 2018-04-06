@@ -11,28 +11,26 @@ class Crop < ActiveRecord::Base
   has_many :scientific_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
-  has_many :plantings
+  has_many :plantings, dependent: :destroy
+  has_many :seeds, dependent: :destroy
+  has_many :harvests, dependent: :destroy
   has_many :photos, through: :plantings
-  has_many :seeds
-  has_many :harvests
   has_many :plant_parts, -> { uniq.reorder("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member'
   belongs_to :requester, class_name: 'Member'
   belongs_to :parent, class_name: 'Crop'
-  has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id'
+  has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
 
   ##
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
-  scope :popular, -> { approved.reorder("plantings_count desc, lower(name) asc") }
-  # ok on sqlite and psql, but not on mysql
-  scope :randomized, -> { approved.reorder('random()') }
+  scope :popular, -> { approved.order("plantings_count desc, lower(name) asc") }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
-  scope :interesting, -> { approved.has_photos.randomized }
+  scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   ##

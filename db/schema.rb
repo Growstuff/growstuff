@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180213005731) do
+ActiveRecord::Schema.define(version: 20180401220637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -318,6 +318,8 @@ ActiveRecord::Schema.define(version: 20180213005731) do
     t.integer  "harvests_count"
     t.integer  "seeds_count"
     t.datetime "deleted_at"
+    t.integer  "photos_count"
+    t.integer  "forums_count"
   end
 
   add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree
