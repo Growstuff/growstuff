@@ -27,7 +27,7 @@ module PhotosHelper
     if harvest.photos.present?
       harvest.photos.order(date_taken: :desc).first.thumbnail_url
     elsif harvest.planting.present?
-        planting_image_path(harvest.planting)
+      planting_image_path(harvest.planting)
     else
       placeholder_image
     end
