@@ -1,0 +1,15 @@
+// Finish times
+- if planting.zombie?
+  %span.badge.badge-danger zombie
+- elsif planting.living_past_predicted_finished?
+  %span.badge.badge-light
+    = days_from_now_to_finished(planting)
+    days until finished
+
+// Harvest times
+- if planting.harvest_time?
+  %span.badge.badge-light harvest time
+- elsif planting.before_harvest_time?
+  %span.badge.badge-light
+    = days_from_now_to_first_harvest(planting)
+    days until harvest

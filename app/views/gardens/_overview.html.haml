@@ -13,12 +13,9 @@
       .col-md-10
         .row
           - if garden.plantings.current.size.positive?
-            - garden.plantings.current.includes(:crop).each do |planting|
+            - garden.plantings.current.includes(:crop, :photos).each do |planting|
               .col-md-2.col-sm-6.col-xs-6
-                .hover-wrapper
-                  .text
-                    = render 'plantings/actions', planting: planting
-                  = render partial: "plantings/thumbnail", locals: { planting: planting }
+                = render "plantings/thumbnail", planting: planting
           - else
             .col-md-2.col-sm-6.col-xs-6 no plantings
   - if can?(:edit, garden)
