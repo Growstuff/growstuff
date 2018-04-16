@@ -2,6 +2,8 @@
 - if planting.zombie?
   %span.badge.badge-danger zombie
 - elsif planting.living_past_predicted_finished?
+
+- else
   %span.badge.badge-light
     = days_from_now_to_finished(planting)
     days until finished
