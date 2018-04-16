@@ -10,7 +10,7 @@ feature "Gardens#index", :js do
     context "with 10 gardens" do
       before do
         FactoryBot.create_list :garden, 10, owner: member
-        visit gardens_path(member: member)
+        visit gardens_path(owner: member.login_name)
       end
 
       it "displays each of the gardens" do
