@@ -97,8 +97,10 @@ describe Planting do
       it { expect(planting.expected_lifespan).to eq(nil) }
     end
     context 'lots of data' do
+      let(:crop) { FactoryBot.create :crop }
+      # this is a method so it creates a new one each time
       def one_hundred_day_old_planting
-        FactoryBot.create(:planting, crop: planting.crop, planted_at: 100.days.ago)
+        FactoryBot.create(:planting, crop: crop, planted_at: 100.days.ago)
       end
       before do
         # 50 days to harvest
@@ -110,19 +112,35 @@ describe Planting do
         # 10 days to harvest
         FactoryBot.create(:harvest, harvested_at: 90.days.ago, crop: planting.crop,
                                     planting: one_hundred_day_old_planting)
+
         planting.crop.plantings.each(&:update_harvest_days)
         planting.crop.update_lifespan_medians
         planting.crop.update_harvest_medians
       end
-      it { expect(planting.crop.median_days_to_first_harvest).to eq(20) }
+      it { expect(crop.median_days_to_first_harvest).to eq(20) }
+      describe 'sets median time to harvest' do
+        let(:planting) { FactoryBot.create :planting, crop: crop, planted_at: Time.zone.today }
+        it { expect(planting.first_harvest_predicted_at).to eq(Time.zone.today + 20.days) }
+      end
+
+      describe 'harvest still growing' do
+        let(:planting) { FactoryBot.create :planting, crop: crop, planted_at: Time.zone.today }
+        it { expect(planting.before_harvest_time?).to eq true }
+        it { expect(planting.harvest_time?).to eq false }
+      end
+      describe 'harvesting ready now' do
+        let(:planting) { FactoryBot.create :planting, crop: crop, planted_at: 21.days.ago }
+        it { expect(planting.first_harvest_predicted_at).to eq(1.day.ago.to_date) }
+        it { expect(planting.before_harvest_time?).to eq false }
+        it { expect(planting.harvest_time?).to eq true }
+      end
     end
     describe 'planting has no harvests' do
+      let(:planting) { FactoryBot.create :planting }
       before do
         planting.update_harvest_days
         planting.crop.update_harvest_medians
       end
-      let(:planting) { FactoryBot.create :planting }
-
       it { expect(planting.days_to_first_harvest).to eq(nil) }
       it { expect(planting.days_to_last_harvest).to eq(nil) }
     end
