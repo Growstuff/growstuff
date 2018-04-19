@@ -113,7 +113,7 @@ describe Planting do
         FactoryBot.create(:harvest, harvested_at: 90.days.ago, crop: planting.crop,
                                     planting: one_hundred_day_old_planting)
 
-        planting.crop.plantings.each(&:update_harvest_days)
+        planting.crop.plantings.each(&:update_harvest_days!)
         planting.crop.update_lifespan_medians
         planting.crop.update_harvest_medians
       end
@@ -138,7 +138,7 @@ describe Planting do
     describe 'planting has no harvests' do
       let(:planting) { FactoryBot.create :planting }
       before do
-        planting.update_harvest_days
+        planting.update_harvest_days!
         planting.crop.update_harvest_medians
       end
       it { expect(planting.days_to_first_harvest).to eq(nil) }
@@ -152,7 +152,7 @@ describe Planting do
           planting: planting,
           crop: planting.crop,
           harvested_at: 10.days.ago)
-        planting.update_harvest_days
+        planting.update_harvest_days!
         planting.crop.update_harvest_medians
       end
       it { expect(planting.days_to_first_harvest).to eq(90) }
@@ -166,7 +166,7 @@ describe Planting do
       before do
         FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 90.days.ago
         FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 10.days.ago
-        planting.update_harvest_days
+        planting.update_harvest_days!
         planting.crop.update_harvest_medians
       end
       it { expect(planting.days_to_first_harvest).to eq(10) }
