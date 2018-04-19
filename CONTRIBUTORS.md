@@ -83,6 +83,7 @@ submit the change with your pull request.
 - Jeff Kingswood / [ancyentmariner](https://github.com/ancyentmariner)
 - Logan Gingerich / [logangingerich](https://github.com/logangingerich)
 - Mark Taffman / [mftaff](https://github.com/mftaff)
+- Jennifer Kruse / [jenkr55](https://github.com/jenkr55)
 
 ## Bots
 
