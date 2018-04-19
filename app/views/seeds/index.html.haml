@@ -24,10 +24,10 @@
   = page_entries_info @seeds
   = will_paginate @seeds
 
-.row
+.seeds-row
   - unless @seeds.empty?
     - @seeds.each do |seed|
-      .col-md-6
+      .seedcard
         = render 'seeds/card', seed: seed
 
 .pagination
