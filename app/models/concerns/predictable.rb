@@ -69,7 +69,7 @@ module Predictable
     end
 
     # states
-    def finished_is_predicatable?
+    def finish_is_predicatable?
       crop.annual? && planted_at.present? && finish_predicted_at.present?
     end
 
