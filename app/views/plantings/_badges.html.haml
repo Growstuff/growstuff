@@ -1,12 +1,13 @@
 // Finish times
-- if planting.zombie?
-  %span.badge.badge-danger zombie
-- elsif planting.living_past_predicted_finished?
-
-- else
-  %span.badge.badge-light
-    = days_from_now_to_finished(planting)
-    days until finished
+- if planting.finished_is_predicatable?
+  - if planting.zombie?
+    %span.badge.badge-danger zombie
+  - elsif planting.should_be_finished?
+    %span.badge.badge-light days past finished
+  - else
+    %span.badge.badge-light
+      = days_from_now_to_finished(planting)
+      days until finished
 
 // Harvest times
 - if planting.harvest_time?
