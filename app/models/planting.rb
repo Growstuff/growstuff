@@ -3,7 +3,8 @@ class Planting < ActiveRecord::Base
   include PhotoCapable
   include Finishable
   include Ownable
-  include Predictable
+  include PredictPlanting
+  include PredictHarvest
   friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants
@@ -56,6 +57,10 @@ class Planting < ActiveRecord::Base
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
 
+  def age_in_days
+    (Time.zone.today - planted_at).to_i if planted_at.present?
+  end
+
   def planting_slug
     [
       owner.login_name,
@@ -83,10 +88,6 @@ class Planting < ActiveRecord::Base
   end
 
   private
-
-  def harvests_with_dates
-    harvests.where.not(harvested_at: nil)
-  end
 
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
