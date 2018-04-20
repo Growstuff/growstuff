@@ -73,8 +73,7 @@ describe Planting do
 
       describe 'planting finished 10 days, but was never planted' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: 10.days.ago }
-
-        it { expect(planting.percentage_grown).to eq nil }
+        it { expect(planting.percentage_grown).to eq 100 }
       end
 
       describe 'planted 30 days ago, finished 10 days ago' do

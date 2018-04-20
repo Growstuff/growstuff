@@ -16,10 +16,12 @@ module PredictPlanting
 
     # days
     def expected_lifespan
-      if planted_at.present? && finished_at.present?
-        return (finished_at - planted_at).to_i
-      end
-      crop.median_lifespan
+      actual_lifespan.present? ? actual_lifespan : crop.median_lifespan
+    end
+
+    def actual_lifespan
+      return unless planted_at.present? && finished_at.present?
+      (finished_at - planted_at).to_i
     end
 
     def days_since_planted
@@ -28,11 +30,14 @@ module PredictPlanting
 
     # progress
     def percentage_grown
-      return 100 if finished
-      return if planted_at.blank? || expected_lifespan.blank?
-      p = (days_since_planted / expected_lifespan.to_f) * 100
-      return p if p <= 100
-      100
+      return 100 if finished?
+      return unless finish_is_predicatable?
+      if growing?
+        percent = (days_since_planted / expected_lifespan.to_f) * 100
+        return 100 if percent > 100
+        return percent
+      end
+      return 0 if planted?
     end
 
     # states
@@ -41,14 +46,12 @@ module PredictPlanting
     end
 
     def zombie?
-      crop.annual? && !finished &&
-        planted_at.present? &&
-        finish_predicted_at.present? &&
+      should_be_finished? &&
         (finish_predicted_at + 60.days) < Time.zone.today
     end
 
     def should_be_finished?
-      crop.annual? && !finished &&
+      crop.annual? && !finished? &&
         planted_at.present? &&
         finish_predicted_at.present? &&
         finish_predicted_at < Time.zone.today

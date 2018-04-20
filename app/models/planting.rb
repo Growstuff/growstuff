@@ -83,8 +83,16 @@ class Planting < ActiveRecord::Base
     photos.order(created_at: :desc).first
   end
 
+  def finished?
+    finished || (finished_at.present? && finished_at <= Time.zone.today)
+  end
+
   def planted?
-    planted_at.present? && planted_at <= Date.current
+    planted_at.present? && planted_at <= Time.zone.today
+  end
+
+  def growing?
+    planted? && !finished?
   end
 
   private
