@@ -34,7 +34,7 @@ module PlantingsHelper
   end
 
   def days_from_now_to_finished(planting)
-    return unless planting.finish_predicted_at.present? && planting.finish_predicted_at > Time.zone.today
+    return unless planting.finish_is_predicatable?
     (planting.finish_predicted_at - Time.zone.today).to_i
   end
 
