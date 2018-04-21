@@ -86,8 +86,11 @@ module ApplicationHelper
   def show_inactive_tickbox_path(type, owner, show_all)
     all = show_all ? '' : 1
     if owner
-      plantings_by_owner_path(owner: owner.slug, all: all) if type == 'plantings'
-      gardens_by_owner_path(owner: owner.slug, all: all) if type == 'gardens'
+      if type == 'plantings' then
+        plantings_by_owner_path(owner: owner.slug, all: all)
+      elsif type == 'gardens' then
+        gardens_by_owner_path(owner: owner.slug, all: all)
+      end
     else
       if type == 'plantings' then
         plantings_path(all: all)
