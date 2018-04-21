@@ -200,6 +200,8 @@ en:
       days_until_finished: days until finished
       harvesting_now: harvesting now
       days_until_harvest: days until harvest
+    progress:
+      progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
   posts:
     index:
       title:

@@ -1,7 +1,7 @@
 // Finish times
 - if planting.finish_is_predicatable?
   - if planting.zombie?
-    %span.badge.badge-zombie=t('.zombie')
+    %span.badge.badge-zombie= t('.zombie')
     = render 'shared/buttons/finish_planting', planting: planting
   - elsif !planting.should_be_finished?
     %span.badge
