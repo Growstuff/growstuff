@@ -42,4 +42,14 @@ module PlantingsHelper
     return unless planting.planted_at.present? && planting.first_harvest_predicted_at.present?
     (planting.first_harvest_predicted_at - Time.zone.today).to_i
   end
+
+  def planting_classes(planting)
+    classes = []
+    classes << 'planting-growing' if planting.growing?
+    classes << 'planting-finished' if planting.finished?
+    classes << 'planting-harvest-time' if planting.harvest_time?
+    classes << 'planting-predicted-finished' if planting.should_be_finished?
+    classes << 'planting-zombie' if planting.zombie?
+    classes.join(' ')
+  end
 end
