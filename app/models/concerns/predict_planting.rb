@@ -47,7 +47,7 @@ module PredictPlanting
 
     def zombie?
       should_be_finished? &&
-        (finish_predicted_at + 60.days) < Time.zone.today
+        (finish_predicted_at + 90.days) < Time.zone.today
     end
 
     def should_be_finished?
