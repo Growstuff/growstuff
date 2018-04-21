@@ -93,16 +93,27 @@ p.stats
   padding-left: 1em
   width: 15em
 
+.progress
+  border-radius: 0
+
 .planting
+  .planting-badges
+    position: absolute
+
+  .planting-thumbnail
+    padding: 0
+    border: 1px solid darken($beige, 10%)
+    border-radius: 4px
+
+  .planting-name
+    position: relative
+    top: -1em
+
   dl.planting-attributes
     dt
       text-align: left
     dd
       margin-left: auto
-
-.planting-badges
-  position: absolute
-
 
 #placesmap, #cropmap
   height: 500px
@@ -156,6 +167,7 @@ p.stats
   text-align: center
   margin-bottom: 1.5em
   max-width: 160px
+  max-height: 200px
 
   .member-thumbnail
     text-align: left

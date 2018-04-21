@@ -1,11 +1,12 @@
-.planting-badges
-  = render 'plantings/badges', planting: planting
-.hover-wrapper
-  .text= render 'plantings/actions', planting: planting
-  .thumbnail
-    .planting-thumbnail
-      = link_to image_tag(planting_image_path(planting), alt: planting.crop.name, class: 'img'), planting_path(planting)
-      .plantinginfo
+.planting
+  .planting-badges
+    = render 'plantings/badges', planting: planting
+  .hover-wrapper
+    .text
+      = render 'plantings/actions', planting: planting
+    .thumbnail
+      .planting-thumbnail
+        = link_to image_tag(planting_image_path(planting), alt: planting.crop.name, class: 'img'), planting_path(planting)
+        = render 'plantings/progress', planting: planting, show_explanation: false
         .planting-name
-          = render 'plantings/progress', planting: planting, show_explanation: false
           = link_to planting.crop.name, planting
