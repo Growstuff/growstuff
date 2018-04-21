@@ -32,12 +32,8 @@ module PredictPlanting
     def percentage_grown
       return 100 if finished?
       return unless finish_is_predicatable?
-      if growing?
-        percent = (days_since_planted / expected_lifespan.to_f) * 100
-        return 100 if percent > 100
-        return percent
-      end
-      return 0 if planted?
+      return calculate_percentage_grown if growing?
+      0 if planted?
     end
 
     # states
@@ -55,6 +51,13 @@ module PredictPlanting
         planted_at.present? &&
         finish_predicted_at.present? &&
         finish_predicted_at <= Time.zone.today
+    end
+
+    private
+
+    def calculate_percentage_grown
+      percent = (days_since_planted / expected_lifespan.to_f) * 100
+      (percent > 100 ? 100 : percent)
     end
   end
 end
