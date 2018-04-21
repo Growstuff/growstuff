@@ -51,10 +51,10 @@ module PredictPlanting
     end
 
     def should_be_finished?
-      crop.annual? && !finished? &&
+      crop.annual? && !finished &&
         planted_at.present? &&
         finish_predicted_at.present? &&
-        finish_predicted_at < Time.zone.today
+        finish_predicted_at <= Time.zone.today
     end
   end
 end
