@@ -1,17 +1,18 @@
 // Finish times
 - if planting.finish_is_predicatable?
   - if planting.zombie?
-    %span.badge.badge-danger zombie
+    %span.badge.badge-zombie zombie
+    = render 'shared/buttons/finish_planting', planting: planting
   - elsif !planting.should_be_finished?
-    %span.badge.badge-light
+    %span.badge
       = days_from_now_to_finished(planting)
       days until finished
 
 // Harvest times
 - unless planting.zombie?
   - if planting.harvest_time?
-    %span.badge.badge-light harvest time
+    %span.badge.badge-harvest harvesting now
   - elsif planting.before_harvest_time?
-    %span.badge.badge-light
+    %span.badge
       = days_from_now_to_first_harvest(planting)
       days until harvest
