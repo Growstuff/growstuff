@@ -16,7 +16,7 @@ module PredictPlanting
 
     # days
     def expected_lifespan
-      actual_lifespan.present? ? actual_lifespan : crop.median_lifespan
+      actual_lifespan.presence || crop.median_lifespan
     end
 
     def actual_lifespan
