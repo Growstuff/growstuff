@@ -11,12 +11,24 @@ module PredictPlanting
 
     # dates
     def finish_predicted_at
-      planted_at + crop.median_lifespan.days if crop.median_lifespan.present? && planted_at.present?
+      if planted_at.blank?
+        nil
+      elsif crop.median_lifespan.present?
+        planted_at + crop.median_lifespan.days
+      elsif crop.parent.present? && crop.parent.median_lifespan.present?
+        planted_at + crop.parent.median_lifespan.days
+      end
     end
 
     # days
     def expected_lifespan
-      actual_lifespan.presence || crop.median_lifespan
+      if actual_lifespan.present?
+        actual_lifespan
+      elsif crop.median_lifespan.present?
+        crop.median_lifespan
+      elsif crop.parent.present? && crop.parent.median_lifespan.present?
+        crop.parent.median_lifespan
+      end
     end
 
     def actual_lifespan
@@ -30,10 +42,15 @@ module PredictPlanting
 
     # progress
     def percentage_grown
-      return 100 if finished?
-      return unless finish_is_predicatable?
-      return calculate_percentage_grown if growing?
-      0 if planted?
+      if finished?
+        100
+      elsif !finish_is_predicatable?
+        nil
+      elsif growing?
+        calculate_percentage_grown
+      elsif planted?
+        0
+      end
     end
 
     # states

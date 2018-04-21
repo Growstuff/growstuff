@@ -68,6 +68,20 @@ describe Planting do
         it { expect(planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
 
+      describe 'child crop uses parent data' do
+        let(:child_crop) { FactoryBot.create :crop, parent: crop, name: 'child' }
+        let(:child_planting) { FactoryBot.create :planting, crop: child_crop, planted_at: 30.days.ago }
+
+        # not data for this crop
+        it { expect(child_crop.median_lifespan).to eq nil }
+        # 30 / 50 = 60%
+        it { expect(child_planting.percentage_grown).to eq 60.0 }
+        # planted 30 days ago
+        it { expect(child_planting.days_since_planted).to eq 30 }
+        # means 20 days to go
+        it { expect(child_planting.finish_predicted_at).to eq Time.zone.today + 20.days }
+      end
+
       describe 'planting not planted yet' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil }
 
