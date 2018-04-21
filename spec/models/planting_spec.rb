@@ -60,9 +60,12 @@ describe Planting do
       describe 'planting 30 days ago, not finished' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago }
 
-        # 30 / 50
+        # 30 / 50 = 60%
         it { expect(planting.percentage_grown).to eq 60.0 }
+        # planted 30 days ago
         it { expect(planting.days_since_planted).to eq 30 }
+        # means 20 days to go
+        it { expect(planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
 
       describe 'planting not planted yet' do
