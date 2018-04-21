@@ -2,7 +2,8 @@
 - if planting.finish_is_predicatable?
   - if planting.zombie?
     %span.badge.badge-zombie= t('.zombie')
-    = render 'shared/buttons/finish_planting', planting: planting
+    - if can? :edit, planting
+      = render 'shared/buttons/finish_planting', planting: planting
   - elsif !planting.should_be_finished?
     %span.badge
       = days_from_now_to_finished(planting)
