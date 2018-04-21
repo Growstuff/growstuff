@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Planting do
   let(:crop) { FactoryBot.create(:tomato) }
   let(:garden_owner) { FactoryBot.create(:member) }
-  let(:garden) { FactoryBot.create(:garden, owner: garden_owner) }
+  let(:garden) { FactoryBot.create(:garden, owner: garden_owner, name: 'Springfield Community Garden') }
   let(:planting) { FactoryBot.create(:planting, crop: crop, garden: garden, owner: garden.owner) }
   let(:finished_planting) do
     FactoryBot.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago, finished: true
@@ -135,7 +135,7 @@ describe Planting do
       end
     end
     describe 'planting has no harvests' do
-      let(:planting) { FactoryBot.create :planting, name: 'Springfield Community Garden' }
+      let(:planting) { FactoryBot.create :planting }
       before do
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
