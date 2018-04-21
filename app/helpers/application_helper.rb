@@ -89,8 +89,11 @@ module ApplicationHelper
       plantings_by_owner_path(owner: owner.slug, all: all) if type == 'plantings'
       gardens_by_owner_path(owner: owner.slug, all: all) if type == 'gardens'
     else
-      plantings_path(all: all) if type == 'plantings'
-      gardens_path(all: all) if type == 'gardens'
+      if type == 'plantings' then
+        plantings_path(all: all)
+      elsif type == 'gardens' then
+        gardens_path(all: all)
+      end
     end
   end
 
