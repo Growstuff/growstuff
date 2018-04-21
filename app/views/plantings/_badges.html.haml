@@ -1,18 +1,18 @@
 // Finish times
 - if planting.finish_is_predicatable?
   - if planting.zombie?
-    %span.badge.badge-zombie zombie
+    %span.badge.badge-zombie=t('.zombie')
     = render 'shared/buttons/finish_planting', planting: planting
   - elsif !planting.should_be_finished?
     %span.badge
       = days_from_now_to_finished(planting)
-      days until finished
+      = t('.days_until_finished')
 
 // Harvest times
 - unless planting.zombie?
   - if planting.harvest_time?
-    %span.badge.badge-harvest harvesting now
+    %span.badge.badge-harvest= t('.harvesting_now')
   - elsif planting.before_harvest_time?
     %span.badge
       = days_from_now_to_first_harvest(planting)
-      days until harvest
+      = t('.days_until_harvest')
