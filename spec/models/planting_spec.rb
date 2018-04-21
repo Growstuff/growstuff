@@ -135,7 +135,7 @@ describe Planting do
       end
     end
     describe 'planting has no harvests' do
-      let(:planting) { FactoryBot.create :planting }
+      let(:planting) { FactoryBot.create :planting, name: 'Springfield Community Garden' }
       before do
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
