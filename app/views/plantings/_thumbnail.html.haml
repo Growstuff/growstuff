@@ -4,7 +4,8 @@
   .hover-wrapper
     .thumbnail
       .planting-thumbnail{ class: planting_classes(planting) }
-        = link_to image_tag(planting_image_path(planting), alt: planting.crop.name, class: 'img'), planting_path(planting)
+        = link_to image_tag(planting_image_path(planting),
+          alt: planting.crop.name, class: 'img'), planting_path(planting)
         = render 'plantings/progress', planting: planting, show_explanation: false
         .planting-name
           = link_to planting.crop.name, planting
