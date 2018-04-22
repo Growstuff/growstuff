@@ -12,6 +12,10 @@ body
 .list-inline > li.first
   padding-left: 0px
 
+.activity-list
+  list-style-type: none
+  padding: 0
+
 h2
   font-size: 150%
 
@@ -33,6 +37,20 @@ h3
 .img-responsive
   max-width: 100%
   height: auto
+
+.profile-img
+  border-radius: 50%
+  z-index: 2
+  position: relative
+  width: 80%
+
+.profile-sidebar
+  margin-top: -5rem
+
+.profile-activity
+  background: white
+  padding: 2em
+  margin-top: 2em
 
 .sidebar
   border-left: 1px solid darken($beige, 10%)
@@ -80,6 +98,12 @@ p.stats
   grid-gap: 25px
   grid-row-gap: 5px
 
+.card-row-short
+  display: grid
+  grid-template-columns: 47.5% 47.5%
+  grid-gap: 25px
+  grid-row-gap: 5px
+
 .member-thumbnail
   padding: .25em
   margin: 1em
@@ -108,6 +132,7 @@ p.stats
 
 #membermap
   height: 250px
+  z-index: 0
 
 .location-not-set
   height: 250px

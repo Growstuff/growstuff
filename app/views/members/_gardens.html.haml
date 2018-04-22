@@ -1,4 +1,3 @@
-%h2 #{member.login_name}'s gardens
 .tabbable
   %ul.nav.nav-tabs
     - first_garden = true
@@ -45,10 +44,10 @@
                   = link_to "Add photo", new_photo_path(type: "garden", id: g.id), class: 'btn btn-primary'
 
           %h3 What's planted here?
-          .row
+          .card-row-short
             - unless g.featured_plantings.empty?
               - g.featured_plantings.each.with_index do |planting|
-                .col-xs-12.col-lg-6
+                .card
                   = render partial: "plantings/card", locals: { planting: planting }
 
           %p

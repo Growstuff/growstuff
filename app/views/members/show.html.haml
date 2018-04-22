@@ -9,7 +9,7 @@
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 - content_for :buttonbar do
   - if can? :update, @member
-    = link_to 'Edit profile', edit_member_registration_path, class: 'btn btn-default'
+    = link_to 'Edit profile', edit_member_registration_path, class: 'btn btn-default pull-right'
   - if can?(:create, Notification) && current_member != @member
     = link_to 'Send message', new_notification_path(recipient_id: @member.id), class: 'btn btn-default'
 
@@ -24,11 +24,8 @@
 - content_for :member_rss_slug, @member.slug
 
 .row
-
-  .col-md-9
-    = render partial: "map", locals: { member: @member }
-    = render partial: "gardens", locals: { member: @member, gardens: @gardens }
-  .col-md-3
+  = render partial: "map", locals: { member: @member }
+  .col-md-2.profile-sidebar
     = render partial: "avatar", locals: { member: @member }
     = render partial: "bio", locals: { member: @member }
     = render partial: "roles", locals: { member: @member }
@@ -37,3 +34,16 @@
                                           twitter_auth: @twitter_auth,
                                           flickr_auth: @flickr_auth,
                                           facebook_auth: @facebook_auth }
+
+  .col-md-10
+    %ul.nav.nav-pills.nav-justified
+      %li.active
+        %a{"data-toggle" => "tab", href: "#gardens"} Gardens
+      %li
+        %a{"data-toggle" => "tab", href: "#harvests"} Harvests
+    / Tab panes
+    .tab-content.profile-activity
+      #gardens.tab-pane.active
+        = render partial: "gardens", locals: { member: @member, gardens: @gardens }
+      #harvests.tab-pane
+        = render partial: "harvests", locals: { member: @member, harvests: @harvests }
