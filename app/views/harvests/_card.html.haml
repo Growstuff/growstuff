@@ -22,7 +22,7 @@
           %dt Harvest date :
           %dd= harvest.harvested_at
           %dt Notes:
-          %dd=display_harvest_description(harvest)
+          %dd= display_harvest_description(harvest)
           - if harvest.planting.present?
             %dt Harvested from
             %dd= link_to(harvest.planting, planting_path(harvest.planting))

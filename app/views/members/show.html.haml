@@ -38,11 +38,11 @@
   .col-md-10
     %ul.nav.nav-pills.nav-justified
       %li.active
-        %a{"data-toggle" => "tab", href: "#gardens"} Gardens
+        %a{ "data-toggle" => "tab", href: "#gardens" } Gardens
       %li
-        %a{"data-toggle" => "tab", href: "#harvests"} Harvests
+        %a{ "data-toggle" => "tab", href: "#harvests" } Harvests
     .tab-content.profile-activity
-      #gardens.tab-pane.active
+      .tab-pane.active#gardens
         = render partial: "gardens", locals: { member: @member, gardens: @gardens }
-      #harvests.tab-pane
+      .tab-pane#harvests
         = render partial: "harvests", locals: { member: @member, harvests: @harvests }
