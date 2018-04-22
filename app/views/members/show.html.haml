@@ -27,10 +27,10 @@
 
   .col-md-9
     = render partial: "map", locals: { member: @member }
-    = render partial: "bio", locals: { member: @member }
     = render partial: "gardens", locals: { member: @member, gardens: @gardens }
   .col-md-3
     = render partial: "avatar", locals: { member: @member }
+    = render partial: "bio", locals: { member: @member }
     = render partial: "roles", locals: { member: @member }
     = render partial: "stats", locals: { member: @member }
     = render partial: "contact", locals: { member: @member,
