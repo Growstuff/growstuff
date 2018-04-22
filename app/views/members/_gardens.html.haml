@@ -44,7 +44,7 @@
                   = link_to "Add photo", new_photo_path(type: "garden", id: g.id), class: 'btn btn-primary'
 
           %h3 What's planted here?
-          .card-row-short
+          .card-row
             - unless g.featured_plantings.empty?
               - g.featured_plantings.each.with_index do |planting|
                 .card

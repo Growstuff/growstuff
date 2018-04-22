@@ -38,19 +38,20 @@ h3
   max-width: 100%
   height: auto
 
-.profile-img
-  border-radius: 50%
-  z-index: 2
-  position: relative
-  width: 80%
-
 .profile-sidebar
   margin-top: -5rem
+  .avatar
+    border-radius: 50%
+    border-radius: 50%
+    z-index: 2
+    position: relative
 
 .profile-activity
   background: white
   padding: 2em
   margin-top: 2em
+  .container
+    width: 100%
 
 .sidebar
   border-left: 1px solid darken($beige, 10%)
@@ -95,12 +96,6 @@ p.stats
 .card-row
   display: grid
   grid-template-columns: 50% 50%
-  grid-gap: 25px
-  grid-row-gap: 5px
-
-.card-row-short
-  display: grid
-  grid-template-columns: 47.5% 47.5%
   grid-gap: 25px
   grid-row-gap: 5px
 
