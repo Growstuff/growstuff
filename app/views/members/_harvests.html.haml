@@ -1,0 +1,6 @@
+.card-row-short
+  - harvests.each do |harvest|
+    .card
+      = render partial: "harvests/card", locals: { harvest: harvest }
+- if !harvests.any?
+  #{member.login_name} hasn't harvested anything yet.

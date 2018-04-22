@@ -12,6 +12,10 @@ body
 .list-inline > li.first
   padding-left: 0px
 
+.activity-list
+  list-style-type: none
+  padding: 0
+
 h2
   font-size: 150%
 
@@ -33,6 +37,21 @@ h3
 .img-responsive
   max-width: 100%
   height: auto
+
+.profile-sidebar
+  margin-top: -5rem
+  .avatar
+    border-radius: 50%
+    border-radius: 50%
+    z-index: 2
+    position: relative
+
+.profile-activity
+  background: white
+  padding: 2em
+  margin-top: 2em
+  .container
+    width: 100%
 
 .sidebar
   border-left: 1px solid darken($beige, 10%)
@@ -108,6 +127,7 @@ p.stats
 
 #membermap
   height: 250px
+  z-index: 0
 
 .location-not-set
   height: 250px
