@@ -48,7 +48,7 @@ module PlantingsHelper
     classes << 'planting-growing' if planting.growing?
     classes << 'planting-finished' if planting.finished?
     classes << 'planting-harvest-time' if planting.harvest_time?
-    classes << 'planting-predicted-finished' if planting.should_be_finished?
+    classes << 'planting-late' if planting.late?
     classes << 'planting-super-late' if planting.super_late?
     classes.join(' ')
   end

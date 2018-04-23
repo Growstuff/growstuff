@@ -1,10 +1,11 @@
 // Finish times
 - if planting.finish_is_predicatable?
   - if planting.super_late?
-    %span.badge.badge-super late= t('.super late')
-    - if can? :edit, planting
-      = render 'shared/buttons/finish_planting', planting: planting
-  - elsif !planting.should_be_finished?
+    %span.badge.badge-super-late= t('.super_late')
+    = render 'shared/buttons/finish_planting', planting: planting
+  - elsif planting.late?
+    %span.badge.badge-late= t('.late_finishing')
+  - else
     %span.badge
       = days_from_now_to_finished(planting)
       = t('.days_until_finished')

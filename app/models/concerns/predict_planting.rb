@@ -60,11 +60,10 @@ module PredictPlanting
 
     # Planting has live more then 90 days past predicted finish
     def super_late?
-      should_be_finished? &&
-        (finish_predicted_at + 90.days) < Time.zone.today
+      late? && (finish_predicted_at + 90.days) < Time.zone.today
     end
 
-    def should_be_finished?
+    def late?
       crop.annual? && !finished &&
         planted_at.present? &&
         finish_predicted_at.present? &&
