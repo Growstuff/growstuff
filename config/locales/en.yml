@@ -188,6 +188,8 @@ en:
         crop_plantings: Everyone's %{crop} plantings
         default: Everyone's plantings
         owner_plantings: "%{owner} plantings"
+      view_owners_profile: View %{owner}'s profile >>
+      the_data_on_this_page_is_available_in_the_following_formats: 'The data on this page is available in the following formats:'
     string: "%{crop} planting in %{garden} by %{owner}"
   posts:
     index:

@@ -3,7 +3,7 @@
 = render 'nav', owner: @owner, show_all: @show_all
 
 - if @owner
-  = link_to "View #{@owner}'s profile >>", member_path(@owner)
+  = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
 
 .pagination
   = page_entries_info @plantings
@@ -20,12 +20,7 @@
   = will_paginate @plantings
 
   %ul.list-inline
-    %li The data on this page is available in the following formats:
-    - if @owner
-      %li= link_to "CSV", plantings_by_owner_path(@owner, format: 'csv')
-      %li= link_to "JSON", plantings_by_owner_path(@owner, format: 'json')
-      %li= link_to "RSS", plantings_by_owner_path(@owner, format: 'rss')
-    - else
-      %li= link_to "CSV", plantings_path(format: 'csv')
-      %li= link_to "JSON", plantings_path(format: 'json')
-      %li= link_to "RSS", plantings_path(format: 'rss')
+    %li= t('.the_data_on_this_page_is_available_in_the_following_formats')
+    - ['csv', 'json', 'rss'].each do |format|
+      %li= link_to format.upcase,
+          (@owner ? plantings_by_owner_path(@owner, format: format) : plantings_path(format: format))
