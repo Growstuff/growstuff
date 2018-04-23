@@ -195,7 +195,7 @@ en:
         owner_plantings: "%{owner} plantings"
     string: "%{crop} planting in %{garden} by %{owner}"
     badges:
-      zombie: zombie
+      super late: super late
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       days_until_finished: days until finished
       harvesting_now: harvesting now

@@ -1,7 +1,7 @@
 // Finish times
 - if planting.finish_is_predicatable?
-  - if planting.zombie?
-    %span.badge.badge-zombie= t('.zombie')
+  - if planting.super_late?
+    %span.badge.badge-super late= t('.super late')
     - if can? :edit, planting
       = render 'shared/buttons/finish_planting', planting: planting
   - elsif !planting.should_be_finished?
@@ -10,7 +10,7 @@
       = t('.days_until_finished')
 
 // Harvest times
-- unless planting.zombie?
+- unless planting.super_late?
   - if planting.harvest_time?
     %span.badge.badge-harvest= t('.harvesting_now')
   - elsif planting.before_harvest_time?

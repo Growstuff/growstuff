@@ -120,13 +120,13 @@ feature "Gardens#index", :js do
       it { expect(page).not_to have_text 'days until harvest' }
     end
 
-    describe 'zombie' do
+    describe 'super late' do
       let!(:planting) do
         FactoryBot.create :planting,
           crop: crop, owner: member,
           garden: garden, planted_at: 260.days.ago
       end
-      it { expect(page).to have_text 'zombie' }
+      it { expect(page).to have_text 'super late' }
       it { expect(page).not_to have_text 'harvesting now' }
       it { expect(page).not_to have_text 'days until harvest' }
       it { expect(page).not_to have_text 'days until finished' }
