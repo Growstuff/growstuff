@@ -7,7 +7,7 @@
 
 %h3 Activity
 
-%ul.list-inline
+%ul.activity-list
   %li
     - if !member.plantings.empty?
       = link_to localize_plural(member.plantings, Planting), plantings_by_owner_path(owner: member)
