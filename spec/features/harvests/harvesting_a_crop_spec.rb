@@ -130,7 +130,7 @@ feature "Harvesting a crop", :js, :elasticsearch do
     end
 
     scenario "linking to a planting" do
-      expect(page).to have_content planting.to_s
+      expect(page).to have_content existing_planting.to_s
       choose("harvest_planting_id_#{existing_planting.id}")
       click_button "save"
       expect(page).to have_link(href: planting_path(existing_planting))

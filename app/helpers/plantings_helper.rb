@@ -32,4 +32,24 @@ module PlantingsHelper
   def plantings_active_tickbox_path(owner, show_all)
     show_inactive_tickbox_path('plantings', owner, show_all)
   end
+
+  def days_from_now_to_finished(planting)
+    return unless planting.finish_is_predicatable?
+    (planting.finish_predicted_at - Time.zone.today).to_i
+  end
+
+  def days_from_now_to_first_harvest(planting)
+    return unless planting.planted_at.present? && planting.first_harvest_predicted_at.present?
+    (planting.first_harvest_predicted_at - Time.zone.today).to_i
+  end
+
+  def planting_classes(planting)
+    classes = []
+    classes << 'planting-growing' if planting.growing?
+    classes << 'planting-finished' if planting.finished?
+    classes << 'planting-harvest-time' if planting.harvest_time?
+    classes << 'planting-late' if planting.late?
+    classes << 'planting-super-late' if planting.super_late?
+    classes.join(' ')
+  end
 end

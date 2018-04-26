@@ -52,6 +52,11 @@ en:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     location: "%{owner}'s %{garden}"
     updated: Garden was successfully updated.
+    overview:
+      gardensphoto: gardens/photo
+      plantingsthumbnail: plantings/thumbnail
+      no_plantings: no plantings
+      gardensactions: gardens/actions
   harvests:
     created: Harvest was successfully created.
     index:
@@ -189,6 +194,15 @@ en:
         default: Everyone's plantings
         owner_plantings: "%{owner} plantings"
     string: "%{crop} planting in %{garden} by %{owner}"
+    badges:
+      late_finishing: late finishing
+      super_late: super late
+      sharedbuttonsfinish_planting: shared/buttons/finish_planting
+      days_until_finished: days until finished
+      harvesting_now: harvesting now
+      days_until_harvest: days until harvest
+    progress:
+      progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
   posts:
     index:
       title:
