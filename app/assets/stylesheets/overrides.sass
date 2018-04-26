@@ -112,7 +112,32 @@ p.stats
   padding-left: 1em
   width: 15em
 
+.progress
+  border-radius: 0
+
+.badge-super-late
+  background-color: $red
+.badge-harvest
+  background-color: $blue
+
+.planting-super-late
+.planting-late
+  background-color: $beige
+
 .planting
+  .planting-badges
+    position: absolute
+
+  .planting-thumbnail
+    padding: 0
+    border: 1px solid darken($beige, 10%)
+    border-radius: 4px
+  .planting-actions
+    top: -8em
+  .planting-name
+    position: relative
+    top: -1em
+
   dl.planting-attributes
     dt
       text-align: left
@@ -175,6 +200,7 @@ p.stats
   text-align: center
   margin-bottom: 1.5em
   max-width: 160px
+  max-height: 200px
 
   .member-thumbnail
     text-align: left

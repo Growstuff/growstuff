@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :garden do
-    name 'Springfield Community Garden'
+    name { Faker::Vehicle.vin }
     description "This is a **totally** cool garden"
     owner
     active true
