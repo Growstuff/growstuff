@@ -9,7 +9,6 @@ feature "member profile", js: true do
       expect(page).to have_css("h1", text: member.login_name)
       expect(page).to have_content member.bio
       expect(page).to have_content "Member since: #{member.created_at.to_s(:date)}"
-      expect(page).to have_content "#{member.login_name}'s gardens"
       expect(page).to have_link "More about this garden...", href: garden_path(member.gardens.first)
     end
 
