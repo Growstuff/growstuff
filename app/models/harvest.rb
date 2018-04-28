@@ -2,6 +2,7 @@ class Harvest < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
   include PhotoCapable
+  include Ownable
 
   friendly_id :harvest_slug, use: %i(slugged finders)
 
@@ -33,7 +34,6 @@ class Harvest < ApplicationRecord
   ##
   ## Relationships
   belongs_to :crop
-  belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :plant_part
   belongs_to :planting, optional: true
 

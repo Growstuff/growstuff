@@ -1,11 +1,10 @@
 - harvests.each do |h|
   - cache h do
     .row
-      .col-md-3.col-xs-4{ style: 'padding-bottom: 6px' }
+      .col-lg-6.col-md-3.col-xs-4.homepage-listing
         = render 'harvests/image_with_popover', harvest: h
-      .col-md-9.col-xs-4
+      .col-lg-3.col-md-9.col-xs-4
         = link_to h.crop, crop_path(h.crop)
         %br/
         %small
-          %i
-            = h.owner.location
+          %i= h.owner.location

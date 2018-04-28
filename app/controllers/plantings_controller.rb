@@ -77,7 +77,7 @@ class PlantingsController < ApplicationController
   end
 
   def update_planting_medians
-    @planting.update_harvest_days
+    @planting.update_harvest_days!
   end
 
   def planting_params

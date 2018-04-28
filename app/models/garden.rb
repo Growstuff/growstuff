@@ -2,9 +2,9 @@ class Garden < ApplicationRecord
   extend FriendlyId
   include Geocodable
   include PhotoCapable
+  include Ownable
   friendly_id :garden_slug, use: %i(slugged finders)
 
-  belongs_to :owner, class_name: 'Member', foreign_key: 'owner_id', counter_cache: true
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
 

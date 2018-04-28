@@ -1,7 +1,11 @@
-%p
-  %small
-    Quantity:
-    = planting.quantity ? planting.quantity : 'unknown'
-    %br/
-    Planted on:
-    = planting.planted_at.to_s
+- if planting.quantity.present?
+  %p
+    %small
+      Quantity:
+      = planting.quantity
+
+- if planting.planted_at.present?
+  %p
+    %small
+      Planted:
+      = planting.planted_at.to_s

@@ -93,7 +93,7 @@ class HarvestsController < ApplicationController
     # if this harvest is not linked to a planting, then do nothing
     return if @harvest.planting.nil?
 
-    @harvest.planting.update_harvest_days
+    @harvest.planting.update_harvest_days!
     @harvest.crop.update_harvest_medians
   end
 end

@@ -2,6 +2,9 @@ class Planting < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include Finishable
+  include Ownable
+  include PredictPlanting
+  include PredictHarvest
   friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants
@@ -12,12 +15,7 @@ class Planting < ApplicationRecord
     'graft', 'layering'
   ].freeze
 
-  ##
-  ## Triggers
-  before_save :calculate_lifespan
-
   belongs_to :garden
-  belongs_to :owner, class_name: 'Member', counter_cache: true
   belongs_to :crop, counter_cache: true
   has_many :harvests, dependent: :destroy
 
@@ -60,6 +58,10 @@ class Planting < ApplicationRecord
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
 
+  def age_in_days
+    (Time.zone.today - planted_at).to_i if planted_at.present?
+  end
+
   def planting_slug
     [
       owner.login_name,
@@ -82,58 +84,19 @@ class Planting < ApplicationRecord
     photos.order(created_at: :desc).first
   end
 
+  def finished?
+    finished || (finished_at.present? && finished_at <= Time.zone.today)
+  end
+
   def planted?
-    planted_at.present? && planted_at <= Date.current
+    planted_at.present? && planted_at <= Time.zone.today
   end
 
-  def finish_predicted_at
-    planted_at + crop.median_lifespan.days if crop.median_lifespan.present? && planted_at.present?
-  end
-
-  def calculate_lifespan
-    self.lifespan = (planted_at.present? && finished_at.present? ? finished_at - planted_at : nil)
-  end
-
-  def expected_lifespan
-    return (finished_at - planted_at).to_i if planted_at.present? && finished_at.present?
-    crop.median_lifespan
-  end
-
-  def days_since_planted
-    (Time.zone.today - planted_at).to_i if planted_at.present?
-  end
-
-  def percentage_grown
-    return 100 if finished
-    return if planted_at.blank? || expected_lifespan.blank?
-    p = (days_since_planted / expected_lifespan.to_f) * 100
-    return p if p <= 100
-    100
-  end
-
-  def update_harvest_days
-    days_to_first_harvest = nil
-    days_to_last_harvest = nil
-    if planted_at.present? && harvests_with_dates.size.positive?
-      days_to_first_harvest = (first_harvest_date - planted_at).to_i
-      days_to_last_harvest = (last_harvest_date - planted_at).to_i if finished?
-    end
-    update(days_to_first_harvest: days_to_first_harvest, days_to_last_harvest: days_to_last_harvest)
-  end
-
-  def first_harvest_date
-    harvests_with_dates.minimum(:harvested_at)
-  end
-
-  def last_harvest_date
-    harvests_with_dates.maximum(:harvested_at)
+  def growing?
+    planted? && !finished?
   end
 
   private
-
-  def harvests_with_dates
-    harvests.where.not(harvested_at: nil)
-  end
 
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted

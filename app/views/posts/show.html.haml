@@ -36,8 +36,12 @@
         = link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-default btn-xs'
       - if can? :destroy, @post
         = link_to 'Delete Post', @post, method: :delete,
-                  data: { confirm: 'Are you sure?' },
-                  class: 'btn btn-default btn-xs'
+                      data: { confirm: 'Are you sure?' },
+                      class: 'btn btn-default btn-xs'
+
+  - if @post.comments.count > 10 && can?(:create, Comment)
+    .post-actions
+      = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn btn-primary'
 
   = render partial: "comments", locals: { post: @post }
 

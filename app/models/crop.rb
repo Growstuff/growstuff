@@ -15,7 +15,7 @@ class Crop < ApplicationRecord
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
   has_many :photos, through: :plantings
-  has_many :plant_parts, -> { distinct.reorder("plant_parts.name") }, through: :harvests
+  has_many :plant_parts, -> { uniq.reorder("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true
   belongs_to :requester, class_name: 'Member', optional: true
   belongs_to :parent, class_name: 'Crop', optional: true
@@ -26,13 +26,11 @@ class Crop < ApplicationRecord
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
-  scope :popular, -> { approved.reorder("plantings_count desc, lower(name) asc") }
-  # ok on sqlite and psql, but not on mysql
-  scope :randomized, -> { approved.reorder('random()') }
+  scope :popular, -> { approved.order("plantings_count desc, lower(name) asc") }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
-  scope :interesting, -> { approved.has_photos.randomized }
+  scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
   ##
@@ -187,7 +185,7 @@ class Crop < ApplicationRecord
   end
 
   def update_medians
-    plantings.each(&:update_harvest_days)
+    plantings.each(&:update_harvest_days!)
     update_lifespan_medians
     update_harvest_medians
   end

@@ -12,6 +12,10 @@ body
 .list-inline > li.first
   padding-left: 0px
 
+.activity-list
+  list-style-type: none
+  padding: 0
+
 h2
   font-size: 150%
 
@@ -33,6 +37,21 @@ h3
 .img-responsive
   max-width: 100%
   height: auto
+
+.profile-sidebar
+  margin-top: -5rem
+  .avatar
+    border-radius: 50%
+    border-radius: 50%
+    z-index: 2
+    position: relative
+
+.profile-activity
+  background: white
+  padding: 2em
+  margin-top: 2em
+  .container
+    width: 100%
 
 .sidebar
   border-left: 1px solid darken($beige, 10%)
@@ -73,10 +92,16 @@ p.stats
   display: flex
   flex: none
   flex-wrap: wrap
-  justify-content: space-between
+
+.card-row
+  display: grid
+  grid-template-columns: 50% 50%
+  grid-gap: 25px
+  grid-row-gap: 5px
 
 .member-thumbnail
   padding: .25em
+  margin: 1em
 
   div
     width: 5em
@@ -87,19 +112,47 @@ p.stats
   padding-left: 1em
   width: 15em
 
+.progress
+  border-radius: 0
+
+.badge-super-late
+  background-color: $red
+.badge-harvest
+  background-color: $blue
+
+.planting-super-late
+.planting-late
+  background-color: $beige
+
 .planting
+  .planting-badges
+    position: absolute
+
+  .planting-thumbnail
+    padding: 0
+    border: 1px solid darken($beige, 10%)
+    border-radius: 4px
+  .planting-actions
+    top: -8em
+  .planting-name
+    position: relative
+    top: -1em
+
   dl.planting-attributes
     dt
       text-align: left
     dd
       margin-left: auto
 
+.layout-actions
+  width: 100%
 
 #placesmap, #cropmap
   height: 500px
 
 #membermap
   height: 250px
+  z-index: 0
 
 .location-not-set
   height: 250px
@@ -146,6 +199,8 @@ p.stats
   border: none
   text-align: center
   margin-bottom: 1.5em
+  max-width: 160px
+  max-height: 200px
 
   .member-thumbnail
     text-align: left
@@ -192,6 +247,9 @@ li.crop-hierarchy
 .navbar-bottom
   margin: 40px 0px 0px 0px !important
 
+.post-actions
+  margin-bottom: 1rem
+
 // footer
 footer
   #footer1, #footer2, #footer3
@@ -221,6 +279,7 @@ footer
 
 #maincontainer
   min-height: 80%
+  padding: 50px
 
 html, body
   height: 100%
@@ -334,3 +393,6 @@ ul.thumbnail-buttons
       height: 180px
     .seed-thumbnail
       height: 220px
+
+  #maincontainer
+    padding: 10px

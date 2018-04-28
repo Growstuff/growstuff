@@ -8,5 +8,5 @@
       = render 'shared/buttons/harvest_planting', planting: planting
       = render 'shared/buttons/save_seeds', planting: planting
 
-  - if can? :destroy, planting
-    = render 'shared/buttons/delete', path: planting
+    - if can? :destroy, planting
+      = render 'shared/buttons/delete', path: planting
