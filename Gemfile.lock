@@ -51,7 +51,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (6.0.4)
     ast (2.4.0)
-    autoprefixer-rails (8.3.0)
+    autoprefixer-rails (8.3.0.1)
       execjs
     bcrypt (3.1.11)
     better_errors (2.2.0)
@@ -61,9 +61,7 @@ GEM
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
     bluecloth (2.2.0)
-    bonsai-elasticsearch-rails (0.2.0)
-      elasticsearch-model (~> 0)
-      elasticsearch-rails (~> 0)
+    bonsai-elasticsearch-rails (0.0.4)
     bootstrap-datepicker-rails (1.8.0.1)
       railties (>= 3.0)
     bootstrap-kaminari-views (0.0.5)
@@ -154,11 +152,11 @@ GEM
       elasticsearch-transport (= 2.0.2)
     elasticsearch-api (2.0.2)
       multi_json
-    elasticsearch-model (0.1.9)
+    elasticsearch-model (5.0.0)
       activesupport (> 3)
-      elasticsearch (> 0.4)
+      elasticsearch (> 1)
       hashie
-    elasticsearch-rails (0.1.9)
+    elasticsearch-rails (5.0.2)
     elasticsearch-transport (2.0.2)
       faraday
       multi_json
@@ -561,8 +559,8 @@ DEPENDENCIES
   database_cleaner
   devise
   elasticsearch-api (~> 2.0.0)
-  elasticsearch-model
-  elasticsearch-rails
+  elasticsearch-model (>= 5.0.0)
+  elasticsearch-rails (>= 5.0.0)
   factory_bot_rails
   faker
   figaro
@@ -620,7 +618,6 @@ DEPENDENCIES
   webrat
   will_paginate
   xmlrpc
-
 
 RUBY VERSION
    ruby 2.4.1p111
