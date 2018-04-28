@@ -56,7 +56,7 @@ class PlantingsController < ApplicationController
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
-    @planting.save!
+    @planting.save
     respond_with @planting
   end
 
