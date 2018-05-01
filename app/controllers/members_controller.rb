@@ -20,6 +20,7 @@ class MembersController < ApplicationController
     @facebook_auth = @member.auth('facebook')
     @posts         = @member.posts
     @gardens       = @member.gardens.active.order(:name)
+    @harvests      = @member.harvests
 
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.

@@ -3,14 +3,13 @@ require 'custom_matchers'
 
 feature "Gardens#index", :js do
   context "Logged in as member" do
-    let(:member) { FactoryBot.create :member }
-
+    let(:member) { FactoryBot.create :member, login_name: 'shadow' }
     background { login_as member }
 
     context "with 10 gardens" do
       before do
         FactoryBot.create_list :garden, 10, owner: member
-        visit gardens_path(member: member)
+        visit gardens_path(owner: member.login_name)
       end
 
       it "displays each of the gardens" do
@@ -65,6 +64,72 @@ feature "Gardens#index", :js do
       it "does not show finished planting" do
         expect(page).not_to have_text(finished_planting.crop.name)
       end
+    end
+  end
+
+  describe 'badges' do
+    let(:garden) { member.gardens.first }
+    let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
+    let(:crop) { FactoryBot.create :crop }
+    before(:each) do
+      # time to harvest = 50 day
+      # time to finished = 90 days
+      FactoryBot.create(:harvest,
+        harvested_at: 50.days.ago,
+        crop: crop,
+        planting: FactoryBot.create(:planting,
+          crop: crop,
+          planted_at: 100.days.ago,
+          finished_at: 10.days.ago))
+      crop.plantings.each(&:update_harvest_days!)
+      crop.update_lifespan_medians
+      crop.update_harvest_medians
+
+      garden.update! name: 'super awesome garden'
+      assert planting
+      visit gardens_path(owner: member.login_name)
+    end
+
+    describe 'harvest still growing' do
+      let!(:planting) do
+        FactoryBot.create :planting,
+          crop: crop,
+          owner: member,
+          garden: garden,
+          planted_at: Time.zone.today
+      end
+      it { expect(page).to have_link href: planting_path(planting) }
+      it { expect(page).to have_link href: garden_path(planting.garden) }
+      it { expect(page).to have_text '50 days until harvest' }
+      it { expect(page).to have_text '90 days until finished' }
+      it { expect(page).not_to have_text 'harvesting now' }
+    end
+
+    describe 'harvesting now' do
+      let!(:planting) do
+        FactoryBot.create :planting,
+          crop: crop,
+          owner: member, garden: garden,
+          planted_at: 51.days.ago
+      end
+      it { expect(crop.median_days_to_first_harvest).to eq 50 }
+      it { expect(crop.median_lifespan).to eq 90 }
+
+      it { expect(page).to have_text 'harvesting now' }
+      it { expect(page).to have_text '39 days until finished' }
+      it { expect(page).not_to have_text 'days until harvest' }
+    end
+
+    describe 'super late' do
+      let!(:planting) do
+        FactoryBot.create :planting,
+          crop: crop, owner: member,
+          garden: garden, planted_at: 260.days.ago
+      end
+      it { expect(page).to have_text 'super late' }
+      it { expect(page).not_to have_text 'harvesting now' }
+      it { expect(page).not_to have_text 'days until harvest' }
+      it { expect(page).not_to have_text 'days until finished' }
     end
   end
 end

@@ -185,7 +185,7 @@ class Crop < ActiveRecord::Base
   end
 
   def update_medians
-    plantings.each(&:update_harvest_days)
+    plantings.each(&:update_harvest_days!)
     update_lifespan_medians
     update_harvest_medians
   end

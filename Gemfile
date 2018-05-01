@@ -87,8 +87,8 @@ gem "chartkick"
 # elasticsearch we use
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
 gem "elasticsearch-api", "~> 2.0.0"
-gem "elasticsearch-model"
-gem "elasticsearch-rails"
+gem "elasticsearch-model", ">= 5.0.0"
+gem "elasticsearch-rails", ">= 5.0.0"
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
