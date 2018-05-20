@@ -34,7 +34,7 @@ describe Garden do
 
   it "allows macrons" do
     garden = FactoryBot.build(:garden, name: "Kūmara and pūha patch")
-    garden.should_not be_valid
+    garden.should be_valid
   end
 
   it "doesn't allow a name with only spaces" do
