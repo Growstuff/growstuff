@@ -24,7 +24,7 @@ describe Garden do
 
   it "allows numbers" do
     garden = FactoryBot.build(:garden, name: "100 vines of 2 kamo-kamo")
-    garden.should_not be_valid
+    garden.should be_valid
   end
 
   it "allows brackets" do
