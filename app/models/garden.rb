@@ -22,6 +22,8 @@ class Garden < ActiveRecord::Base
     length: { maximum: 255 }
 
   validates :name,
+    allow_nil: false,
+    allow_blank: false,
     length: { maximum: 255 }
 
   validates :area,
