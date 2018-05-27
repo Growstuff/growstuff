@@ -42,6 +42,11 @@ describe Garden do
     garden.should_not be_valid
   end
 
+  it "doesn't allow a new lines in garden names" do
+    garden = FactoryBot.build(:garden, name: "My garden\nI am a 1337 hacker")
+    garden.should_not be_valid
+  end
+
   it "should have an owner" do
     garden.owner.should be_an_instance_of Member
   end

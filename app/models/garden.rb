@@ -22,6 +22,9 @@ class Garden < ActiveRecord::Base
     length: { maximum: 255 }
 
   validates :name,
+    format: {
+      with: /\A[\p{L}\p{M}\d\s]*\z/
+    },
     allow_nil: false,
     allow_blank: false,
     presence: true,
