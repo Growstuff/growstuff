@@ -42,8 +42,13 @@ describe Garden do
     garden.should_not be_valid
   end
 
-  it "doesn't allow a new lines in garden names" do
+  it "doesn't allow a new line chars in garden names" do
     garden = FactoryBot.build(:garden, name: "My garden\nI am a 1337 hacker")
+    garden.should_not be_valid
+  end
+
+  it "doesn't allow a new lines in garden names" do
+    garden = FactoryBot.build(:garden, name: 'My garden\nI am a 1337 hacker')
     garden.should_not be_valid
   end
 
