@@ -23,7 +23,7 @@ class Garden < ActiveRecord::Base
 
   validates :name,
     format: {
-      with: /\A[\p{L}\p{M}\d\s[-]]*\z/
+      with: /\A((?!\\n)[\p{L}\p{M}\d\s[:ascii:](?!\\n)])*\z/
     },
     allow_nil: false,
     allow_blank: false,
