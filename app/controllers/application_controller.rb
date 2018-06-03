@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   after_action :store_location
   before_action :set_locale
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  # CanCan error handling
   def store_location
     unless request.path.in?(["/members/sign_in",
                              "/members/sign_up",
@@ -15,6 +17,10 @@ class ApplicationController < ActionController::Base
                              "/members/sign_out"]) || request.xhr?
       store_location_for(:member, request.fullpath)
     end
+  end
+
+  def not_found
+    render file: 'app/views/errors/404', status: :not_found, layout: false
   end
 
   def after_sign_in_path_for(resource)
