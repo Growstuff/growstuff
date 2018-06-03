@@ -4,7 +4,7 @@ feature "signin", js: true do
   let(:member) { FactoryBot.create :member }
   let(:recipient) { FactoryBot.create :member }
   let(:wrangler) { FactoryBot.create :crop_wrangling_member }
-  let(:notification) { FactoryBot.create :notification }
+  let(:notification) { FactoryBot.create :notification, recipient: recipient }
 
   def login
     fill_in 'Login', with: member.login_name
@@ -56,7 +56,7 @@ feature "signin", js: true do
   end
 
   scenario "after signin, redirect to new notifications page" do
-    visit new_notification_path(recipient: recipient)
+    visit new_notification_path(recipient: recipient.id)
     expect(current_path).to eq new_member_session_path
     login
     expect(current_path).to eq new_notification_path

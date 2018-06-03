@@ -20,7 +20,7 @@ class NotificationsController < ApplicationController
 
   def new
     @notification = Notification.new
-    @recipient = Member.find_by(id: params[:recipient_id])
+    @recipient = Member.find_by(id: params[:recipient])
     @subject   = params[:subject] || ""
   end
 
