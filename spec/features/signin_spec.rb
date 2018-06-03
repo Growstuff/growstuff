@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 feature "signin", js: true do
-  let(:member) { create :member }
-  let(:recipient) { create :member }
-  let(:wrangler) { create :crop_wrangling_member }
-  let(:notification) { create :notification }
+  let(:member) { FactoryBot.create :member }
+  let(:recipient) { FactoryBot.create :member }
+  let(:wrangler) { FactoryBot.create :crop_wrangling_member }
+  let(:notification) { FactoryBot.create :notification }
 
   def login
     fill_in 'Login', with: member.login_name
