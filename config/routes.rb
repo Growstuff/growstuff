@@ -106,5 +106,5 @@ Rails.application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
   # CMS stuff  -- must remain LAST
-  # comfy_route :cms, path: '/', sitemap: false
+  comfy_route :cms, path: '/', sitemap: false
 end

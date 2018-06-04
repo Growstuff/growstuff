@@ -42,7 +42,7 @@ gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growst
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-# gem 'comfortable_mexican_sofa'     # content management system
+gem 'comfortable_mexican_sofa', git: 'https://github.com/comfy/comfortable-mexican-sofa', branch: 'rails5.1'
 
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari'                     # pagination
