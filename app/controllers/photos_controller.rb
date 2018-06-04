@@ -79,7 +79,7 @@ class PhotosController < ApplicationController
     raise "No item type provided" if item_type.nil?
     item_class = item_type.capitalize
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
-    item_class.constantize.find_by!(id: params[:id], owner_id: current_member.id)
+    item_class.constantize.find(params[:id])
   end
 
   #

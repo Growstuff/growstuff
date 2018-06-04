@@ -163,7 +163,7 @@ describe PhotosController do
           post :create, params: {
             photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
           }
-        end.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordInvalid)
         Photo.last.plantings.first.should_not eq another_planting
       end
 
@@ -174,7 +174,7 @@ describe PhotosController do
           post :create, params: {
             photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
           }
-        end.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordInvalid)
         Photo.last.harvests.first.should_not eq another_harvest
       end
     end
