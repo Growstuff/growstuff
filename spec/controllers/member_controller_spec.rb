@@ -44,12 +44,14 @@ describe MembersController do
     end
 
     it "doesn't show completely nonsense members" do
-      -> { get :show, params: { id: 9999 } }.should raise_error(ActiveRecord::RecordNotFound)
+      get :show, params: { id: 9999 }
+      expect(response).to have_http_status(:not_found)
     end
 
     it "doesn't show unconfirmed members" do
       @member2 = FactoryBot.create(:unconfirmed_member)
-      -> { get :show, params: { id: @member2.id } }.should raise_error(ActiveRecord::RecordNotFound)
+      get :show, params: { id: @member2.id }
+      expect(response).to have_http_status(:not_found)
     end
   end
 
