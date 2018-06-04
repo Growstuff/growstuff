@@ -1,9 +1,7 @@
 FactoryBot.define do
-  sequence(:email) { |n| "member#{n}@example.com" }
-  sequence(:login_name) { |n| "member#{n}" }
-
   factory :member, aliases: %i(author owner sender recipient creator) do
-    login_name { "#{Faker::Name.first_name}_#{rand(1..1000)}" }
+    sequence(:login_name) { |n| "member#{n}" }
+    # login_name { "#{Faker::Internet.user_name}_#{rand(1..1000)}" }
     password 'password1'
     email { Faker::Internet.unique.email }
     tos_agreement true
