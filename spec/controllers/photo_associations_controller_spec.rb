@@ -39,7 +39,7 @@ describe PhotoAssociationsController do
 
       it do
         delete :destroy, params: valid_params
-        expect(response).to have_http_response(:not_found)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

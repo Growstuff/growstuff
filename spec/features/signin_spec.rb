@@ -56,7 +56,7 @@ feature "signin", js: true do
   end
 
   scenario "after signin, redirect to new notifications page" do
-    visit new_notification_path(recipient: recipient.id)
+    visit new_notification_path(recipient_id: recipient.id)
     expect(current_path).to eq new_member_session_path
     login
     expect(current_path).to eq new_notification_path
