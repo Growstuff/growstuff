@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback' => 'authentications#create'
   get 'members/auth/:provider/callback' => 'authentications#create'
 
-  # comfy_route :cms_admin, path: '/admin/cms'
+  comfy_route :cms_admin, path: '/admin/cms'
   namespace :admin do
     resources :members
   end
