@@ -29,7 +29,7 @@ namespace :growstuff do
   task import_crops: :environment do
     require 'csv'
 
-    @file = ENV['file'] or raise "Usage: rake growstuff:import_crops file=file.csv"
+    (@file = ENV['file']) || raise("Usage: rake growstuff:import_crops file=file.csv")
 
     puts "Loading crops from #{@file}..."
     CSV.foreach(@file) do |row|
