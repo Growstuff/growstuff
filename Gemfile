@@ -82,7 +82,6 @@ gem "chartkick"
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
-
 # Project does not use semver, so we want to be in sync with the version of
 # elasticsearch we use
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
@@ -114,11 +113,6 @@ group :development do
   gem 'better_errors'
   gem 'letter_opener'
   gem 'listen'
-  # gem 'binding_of_caller'
-  # gem 'guard'
-  # gem 'guard-rspec'
-  # gem 'pry'
-  # gem 'quiet_assets'
 end
 
 group :development, :test do
