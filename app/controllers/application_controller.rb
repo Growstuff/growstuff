@@ -23,11 +23,11 @@ class ApplicationController < ActionController::Base
     render file: 'app/views/errors/404', status: :not_found, layout: false
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     stored_location_for(:member) || root_path
   end
 
-  def after_sign_out_path_for(resource_or_scope)
+  def after_sign_out_path_for(_resource_or_scope)
     request.referer
   end
 
