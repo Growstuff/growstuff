@@ -11,6 +11,8 @@ class PhotoAssociationsController < ApplicationController
     respond_with(@photo)
   end
 
+  private
+
   def item_class
     params[:type].capitalize
   end

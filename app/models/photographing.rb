@@ -15,6 +15,6 @@ class Photographing < ApplicationRecord
   private
 
   def photo_and_item_have_same_owner
-    errors.add(:photo, "must have same owner as item it links to") unless photographable.owner == photo.owner
+    errors.add(:photo, "must have same owner as item it links to") unless photographable.owner_id == photo.owner_id
   end
 end

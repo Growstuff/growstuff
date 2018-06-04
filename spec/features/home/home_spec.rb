@@ -2,8 +2,8 @@ require 'rails_helper'
 
 feature "home page" do
   let(:member) { FactoryBot.create :member }
-  # let(:seed_photo) { FactoryBot.create :photo }
-  let(:photo) { FactoryBot.create :photo }
+
+  let(:photo) { FactoryBot.create :photo, owner: member }
   let(:crop) { FactoryBot.create :crop, created_at: 1.day.ago }
 
   let(:planting) { FactoryBot.create :planting, owner: member, crop: crop }

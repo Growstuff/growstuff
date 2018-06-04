@@ -153,7 +153,7 @@ describe Seed do
   context 'photos' do
     let(:seed) { FactoryBot.create :seed }
 
-    before { seed.photos << FactoryBot.create(:photo) }
+    before { seed.photos << FactoryBot.create(:photo, owner: seed.owner) }
     it 'is found in has_photos scope' do
       Seed.has_photos.should include(seed)
     end
@@ -161,7 +161,7 @@ describe Seed do
 
   context 'ancestry' do
     let(:parent_planting) { FactoryBot.create :planting }
-    let(:seed) { FactoryBot.create :seed, parent_planting: parent_planting }
+    let(:seed) { FactoryBot.create :seed, parent_planting: parent_planting, owner: parent_planting.owner }
     it "seed has a parent planting" do
       expect(seed.parent_planting).to eq(parent_planting)
     end

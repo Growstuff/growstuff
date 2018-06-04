@@ -76,7 +76,7 @@ describe NotificationsController do
     it "assigns a recipient" do
       @recipient = FactoryBot.create(:member)
       get :new, params: { recipient_id: @recipient.id }
-      assigns(:recipient).should be_an_instance_of(Member)
+      expect(assigns(:recipient)).to be_an_instance_of(Member)
     end
   end
 

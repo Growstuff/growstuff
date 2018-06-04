@@ -55,26 +55,26 @@ describe Crop do
     end
 
     it "sorts by most plantings" do
-      Crop.popular.first.should eq maize
+      expect(Crop.popular.first).to eq maize
       FactoryBot.create_list(:planting, 10, crop: tomato)
-      Crop.popular.first.should eq tomato
+      expect(Crop.popular.first).to eq tomato
     end
   end
 
   it 'finds a default scientific name' do
     @crop = FactoryBot.create(:tomato)
-    @crop.default_scientific_name.should eq nil
+    expect(@crop.default_scientific_name).to eq nil
     @sn = FactoryBot.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
-    @crop.default_scientific_name.should eq @sn.name
+    expect(@crop.default_scientific_name).to eq @sn.name
   end
 
   it 'counts plantings' do
     @crop = FactoryBot.create(:tomato)
-    @crop.plantings.size.should eq 0
+    expect(@crop.plantings.size).to eq 0
     @planting = FactoryBot.create(:planting, crop: @crop)
     @crop.reload
-    @crop.plantings.size.should eq 1
+    expect(@crop.plantings.size).to eq 1
   end
 
   context "wikipedia url" do
@@ -127,14 +127,14 @@ describe Crop do
     it 'has a crop hierarchy' do
       @tomato = FactoryBot.create(:tomato)
       @roma = FactoryBot.create(:roma, parent_id: @tomato.id)
-      @roma.parent.should eq @tomato
-      @tomato.varieties.should eq [@roma]
+      expect(@roma.parent).to eq @tomato
+      expect(@tomato.varieties).to eq [@roma]
     end
 
     it 'toplevel scope works' do
       @tomato = FactoryBot.create(:tomato)
       @roma = FactoryBot.create(:roma, parent_id: @tomato.id)
-      Crop.toplevel.should eq [@tomato]
+      expect(Crop.toplevel).to eq [@tomato]
     end
   end
 
@@ -145,13 +145,13 @@ describe Crop do
     context 'with a planting photo' do
       before :each do
         @planting = FactoryBot.create(:planting, crop: @crop)
-        @photo = FactoryBot.create(:photo)
+        @photo = FactoryBot.create(:photo, owner: @planting.owner)
         @planting.photos << @photo
       end
 
       it 'has a default photo' do
         @crop.default_photo.should be_an_instance_of Photo
-        @crop.default_photo.id.should eq @photo.id
+        expect(@crop.default_photo.id).to eq @photo.id
       end
 
       it 'is found in has_photos scope' do
@@ -162,31 +162,31 @@ describe Crop do
     context 'with a harvest photo' do
       before :each do
         @harvest = FactoryBot.create(:harvest, crop: @crop)
-        @photo = FactoryBot.create(:photo)
+        @photo = FactoryBot.create(:photo, owner: @harvest.owner)
         @harvest.photos << @photo
       end
 
       it 'has a default photo' do
         @crop.default_photo.should be_an_instance_of Photo
-        @crop.default_photo.id.should eq @photo.id
+        expect(@crop.default_photo.id).to eq @photo.id
       end
 
       context 'and planting photo' do
         before :each do
           @planting = FactoryBot.create(:planting, crop: @crop)
-          @planting_photo = FactoryBot.create(:photo)
+          @planting_photo = FactoryBot.create(:photo, owner: @planting.owner)
           @planting.photos << @planting_photo
         end
 
         it 'should prefer the planting photo' do
-          @crop.default_photo.id.should eq @planting_photo.id
+          expect(@crop.default_photo.id).to eq @planting_photo.id
         end
       end
     end
 
     context 'with no plantings or harvests' do
       it 'has no default photo' do
-        @crop.default_photo.should eq nil
+        expect(@crop.default_photo).to eq nil
       end
     end
   end
@@ -285,14 +285,15 @@ describe Crop do
     let(:crop1_planting) { crop1.plantings.first }
     let(:crop2_planting) { crop2.plantings.first }
 
+    let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
-        FactoryBot.create_list(:planting, 3, crop: crop1)
-        FactoryBot.create_list(:planting, 3, crop: crop2)
+        FactoryBot.create_list(:planting, 3, crop: crop1, owner: member)
+        FactoryBot.create_list(:planting, 3, crop: crop2, owner: member)
         # crops need 3+ photos to be interesting
-        crop1_planting.photos = FactoryBot.create_list :photo, 3
-        crop2_planting.photos = FactoryBot.create_list :photo, 3
+        crop1_planting.photos = FactoryBot.create_list :photo, 3, owner: member
+        crop2_planting.photos = FactoryBot.create_list :photo, 3, owner: member
       end
 
       it { is_expected.to include crop1 }
@@ -303,9 +304,9 @@ describe Crop do
     describe 'crops without plantings are not interesting' do
       before do
         # only crop1 has plantings
-        FactoryBot.create_list(:planting, 3, crop: crop1)
+        FactoryBot.create_list(:planting, 3, crop: crop1, owner: member)
         # ... and photos
-        crop1_planting.photos = FactoryBot.create_list(:photo, 3)
+        crop1_planting.photos = FactoryBot.create_list(:photo, 3, owner: member)
       end
       it { is_expected.to include crop1 }
       it { is_expected.not_to include crop2 }
@@ -315,11 +316,11 @@ describe Crop do
     describe 'crops without photos are not interesting' do
       before do
         # both crops have plantings
-        FactoryBot.create_list(:planting, 3, crop: crop1)
-        FactoryBot.create_list(:planting, 3, crop: crop2)
+        FactoryBot.create_list(:planting, 3, crop: crop1, owner: member)
+        FactoryBot.create_list(:planting, 3, crop: crop2, owner: member)
 
         # but only crop1 has photos
-        crop1_planting.photos = FactoryBot.create_list(:photo, 3)
+        crop1_planting.photos = FactoryBot.create_list(:photo, 3, owner: member)
       end
       it { is_expected.to include crop1 }
       it { is_expected.not_to include crop2 }
@@ -347,7 +348,7 @@ describe Crop do
     @pp1 = FactoryBot.create(:plant_part)
     @h1 = FactoryBot.create(:harvest, crop: @maize, plant_part: @pp1)
     @h2 = FactoryBot.create(:harvest, crop: @maize, plant_part: @pp1)
-    @maize.plant_parts.should eq [@pp1]
+    expect(@maize.plant_parts).to eq [@pp1]
   end
 
   context "search", :elasticsearch do
@@ -356,10 +357,10 @@ describe Crop do
     before { sync_elasticsearch([mushroom]) }
 
     it "finds exact matches" do
-      Crop.search('mushroom').should eq [mushroom]
+      expect(Crop.search('mushroom')).to eq [mushroom]
     end
     it "finds approximate matches" do
-      Crop.search('mush').should eq [mushroom]
+      expect(Crop.search('mush')).to eq [mushroom]
     end
     it "doesn't find non-matches" do
       Crop.search('mush').should_not include @crop
