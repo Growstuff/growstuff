@@ -272,9 +272,7 @@ describe 'member' do
         @result = Member.interesting
 
         # Some members have multiple plantings, but should only appear once
-        3.times do
-          FactoryBot.create(:planting, owner: @members[2])
-        end
+        FactoryBot.create_list(:planting, 3, owner: @members[2])
       end
 
       it 'finds interesting members without duplicates in the correct order' do
