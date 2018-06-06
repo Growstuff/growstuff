@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :plant_part do
-    name { Faker::Book.unique.title }
+    name { "#{Faker::Book.title}_#{rand(100..999)}" }
   end
 end
