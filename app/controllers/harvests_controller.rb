@@ -3,7 +3,7 @@ class HarvestsController < ApplicationController
   after_action :update_crop_medians, only: %i(create update destroy)
   load_and_authorize_resource
   respond_to :html, :json
-  respond_to :csv, only: :index
+  respond_to :csv, :rss, only: :index
   responders :flash
 
   def index
