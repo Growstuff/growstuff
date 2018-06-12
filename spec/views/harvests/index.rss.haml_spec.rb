@@ -33,10 +33,10 @@ describe 'harvests/index.rss.haml' do
   it "displays crop's name in title" do
     assign(:crop, @tomato)
     render
-    rendered.should have_content "#{@tomato.name.to_s}"
+    expect(rendered).to have_content @tomato.name
   end
 
   it 'shows formatted content of harvest posts' do
-    rendered.should have_content "<p>Quantity: "
+    expect(rendered).to have_content "<p>Quantity: "
   end
 end
