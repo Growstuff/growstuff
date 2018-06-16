@@ -26,8 +26,8 @@ class Notifier < ActionMailer::Base
   def planting_reminder(member)
     @member = member
 
-    @plantings = @member.plantings.first(5)
-    @harvests = @member.harvests.first(5)
+    @plantings = @member.plantings.order(planted_at: :desc).first(5)
+    @harvests = @member.harvests.order(harvested_at: :desc).first(5)
 
     # Encrypting
     message = { member_id: @member.id, type: :send_planting_reminder }
