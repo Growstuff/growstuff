@@ -5,6 +5,8 @@ class PlantPart < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :crops, -> { distinct }, through: :harvests
 
+  validates :name, presence: true, uniqueness: true
+
   def to_s
     name
   end
