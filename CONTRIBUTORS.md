@@ -84,6 +84,7 @@ submit the change with your pull request.
 - Logan Gingerich / [logangingerich](https://github.com/logangingerich)
 - Mark Taffman / [mftaff](https://github.com/mftaff)
 - Jennifer Kruse / [jenkr55](https://github.com/jenkr55)
+- Christopher Bazin / [RobotScissors](https://github.com/robotscissors)
 
 ## Bots
 
