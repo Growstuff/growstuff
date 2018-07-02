@@ -88,4 +88,4 @@ submit the change with your pull request.
 
 ## Bots
 
-- Security and Dependency Updates / [deppbot](https://github.com/deppbot)
+- Security and Dependency Updates / [deppbot](https://github.com/deppbot) & [dependabot](https://github.com/dependabot)
