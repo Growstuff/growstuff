@@ -257,7 +257,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    js-routes (1.4.3)
+    js-routes (1.4.4)
       railties (>= 3.2)
       sprockets-rails
     json (2.1.0)
