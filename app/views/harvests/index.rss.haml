@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+%rss{ version: 2.0 }
+  %channel
+    %title
+      Recent harvests from #{@owner ? @owner : 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
+    %link= harvests_url
+    - @harvests.each do |harvest|
+      %item
+        %title #{harvest.owner.login_name}'s #{harvest.crop.name}
+        %pubdate= harvest.harvested_at.to_s(:rfc822)
+        %description
+          :escaped
+            <p>Crop: #{harvest.crop ? harvest.crop : 'unknown' }</p>
+            <p>Quantity: #{harvest.quantity ? harvest.quantity : 'unknown' }</p>
+            <p>Harvested on: #{harvest.harvested_at ? harvest.harvested_at : 'unknown' }</p>
+          :escaped_markdown
+            #{ strip_tags harvest.description }
+        %link= harvest_url(harvest)
+        %guid= harvest_url(harvest)
