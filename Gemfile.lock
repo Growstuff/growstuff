@@ -26,7 +26,7 @@ GEM
       addressable
     active_median (0.1.4)
       activerecord
-    active_utils (3.3.11)
+    active_utils (3.3.12)
       activesupport (>= 3.2, < 6.0)
       i18n
     activejob (4.2.10)
