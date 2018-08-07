@@ -469,7 +469,7 @@ GEM
     sassc (1.12.0)
       ffi (~> 1.9.6)
       sass (>= 3.3.0)
-    selenium-webdriver (3.13.0)
+    selenium-webdriver (3.14.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
     sexp_processor (4.11.0)
