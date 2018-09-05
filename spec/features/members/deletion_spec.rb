@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "member deletion" do
+describe "member deletion" do
   context "with activity and followers" do
     let(:member) { FactoryBot.create(:member) }
     let(:other_member) { FactoryBot.create(:member) }
@@ -12,7 +12,7 @@ feature "member deletion" do
     let!(:secondgarden) { FactoryBot.create(:garden, owner: member) }
     let(:admin) { FactoryBot.create(:admin_member) }
 
-    background do
+    before do
       login_as(member)
       visit member_path(other_member)
       click_link 'Follow'
@@ -30,13 +30,13 @@ feature "member deletion" do
       FactoryBot.create(:member, login_name: "ex_member")
     end
 
-    scenario "has option to delete on member profile page" do
+    it "has option to delete on member profile page" do
       visit member_path(member)
       click_link 'Edit profile'
       expect(page).to have_link "Delete Account"
     end
 
-    scenario "asks for password before deletion" do
+    it "asks for password before deletion" do
       visit member_path(member)
       click_link 'Edit profile'
       click_link 'Delete Account'
@@ -44,7 +44,7 @@ feature "member deletion" do
       expect(page).to have_content "Current password can't be blank"
     end
 
-    scenario "password must be correct" do
+    it "password must be correct" do
       visit member_path(member)
       click_link 'Edit profile'
       click_link 'Delete Account'
@@ -53,7 +53,7 @@ feature "member deletion" do
       expect(page).to have_content "Current password is invalid"
     end
 
-    scenario "deletes and removes bio" do
+    it "deletes and removes bio" do
       visit member_path(member)
       click_link 'Edit profile'
       click_link 'Delete Account'
@@ -64,7 +64,7 @@ feature "member deletion" do
     end
 
     context "deletes and" do
-      background do
+      before do
         logout
         login_as(member)
         visit member_path(member)
@@ -75,46 +75,46 @@ feature "member deletion" do
         logout
       end
 
-      scenario "removes plantings" do
+      it "removes plantings" do
         visit planting_path(planting)
         expect(page.status_code).to eq(404)
       end
 
-      scenario "removes gardens" do
+      it "removes gardens" do
         visit garden_path(secondgarden)
         expect(page.status_code).to eq(404)
       end
 
-      scenario "removes harvests and seeds" do
+      it "removes harvests and seeds" do
         visit harvest_path(harvest)
         expect(page.status_code).to eq(404)
       end
 
-      scenario "removes seeds" do
+      it "removes seeds" do
         visit seed_path(seed)
         expect(page.status_code).to eq(404)
       end
 
-      scenario "removes members from following" do
+      it "removes members from following" do
         visit member_follows_path(other_member)
         expect(page).not_to have_content member.login_name.to_s
         visit member_followers_path(other_member)
         expect(page).not_to have_content member.login_name.to_s
       end
 
-      scenario "replaces posts with deletion note" do
+      it "replaces posts with deletion note" do
         visit post_path(memberpost)
         expect(page.status_code).to eq(404)
       end
 
-      scenario "replaces comments on others' posts with deletion note, leaving post intact" do
+      it "replaces comments on others' posts with deletion note, leaving post intact" do
         visit post_path(othermemberpost)
         expect(page).not_to have_content member.login_name
         expect(page).to have_content other_member.login_name
         expect(page).to have_content "Member Deleted"
       end
 
-      scenario "can't be interesting" do
+      it "can't be interesting" do
         expect(Member.interesting).not_to include(member)
         expect(Planting.interesting).not_to include(planting)
         expect(Seed.interesting).not_to include(seed)
@@ -122,7 +122,7 @@ feature "member deletion" do
 
       pending "doesn't show in nearby"
 
-      scenario "can no longer sign in" do
+      it "can no longer sign in" do
         visit new_member_session_path
         fill_in 'Login', with: member.login_name
         fill_in 'Password', with: member.password
@@ -139,7 +139,7 @@ feature "member deletion" do
     FactoryBot.create(:cropbot)
     let!(:ex_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: "ex_wrangler") }
 
-    scenario "leaves crops behind" do
+    it "leaves crops behind" do
       login_as(otherwrangler)
       visit edit_crop_path(crop)
       expect(page).to have_content member.login_name
