@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe "follows", :js do
+feature "follows", :js do
   context "when signed out" do
     let(:member) { create :member }
 
-    it "follow buttons on member profile page" do
+    scenario "follow buttons on member profile page" do
       visit member_path(member)
       expect(page).not_to have_link "Follow"
       expect(page).not_to have_link "Unfollow"
@@ -15,43 +15,43 @@ describe "follows", :js do
     let(:member) { create :member }
     let(:other_member) { create :member }
 
-    before do
+    background do
       login_as(member)
     end
 
-    it "your profile doesn't have a follow button" do
+    scenario "your profile doesn't have a follow button" do
       visit member_path(member)
       expect(page).not_to have_link "Follow"
       expect(page).not_to have_link "Unfollow"
     end
 
     context "following another member" do
-      before do
+      background do
         visit member_path(other_member)
       end
 
-      it "has a follow button" do
+      scenario "has a follow button" do
         expect(page).to have_link "Follow", href: follows_path(followed_id: other_member.id)
       end
 
-      it "has correct message and unfollow button" do
+      scenario "has correct message and unfollow button" do
         click_link 'Follow'
         expect(page).to have_content "Followed #{other_member.login_name}"
         expect(page).to have_link "Unfollow", href: follow_path(member.get_follow(other_member))
       end
 
-      it "has a followed member listed in the following page" do
+      scenario "has a followed member listed in the following page" do
         click_link 'Follow'
         visit member_follows_path(member)
         expect(page).to have_content other_member.login_name.to_s
       end
 
-      it "does not die when passed an authenticity_token" do
+      scenario "does not die when passed an authenticity_token" do
         visit member_follows_path member, params: { authenticity_token: "Ultima ratio regum" }
         expect(page.status_code).to equal 200
       end
 
-      it "has correct message and follow button after unfollow" do
+      scenario "has correct message and follow button after unfollow" do
         click_link 'Follow'
         click_link 'Unfollow'
         expect(page).to have_content "Unfollowed #{other_member.login_name}"
@@ -59,19 +59,19 @@ describe "follows", :js do
         expect(page).to have_link "Follow", href: follows_path(followed_id: other_member.id)
       end
 
-      it "has member in following list" do
+      scenario "has member in following list" do
         click_link 'Follow'
         visit member_follows_path(member)
         expect(page).to have_content other_member.login_name.to_s
       end
 
-      it "appears in in followed member's followers list" do
+      scenario "appears in in followed member's followers list" do
         click_link 'Follow'
         visit member_followers_path(other_member)
         expect(page).to have_content member.login_name.to_s
       end
 
-      it "removes members from following and followers lists after unfollow" do
+      scenario "removes members from following and followers lists after unfollow" do
         click_link 'Follow'
         click_link 'Unfollow'
         visit member_follows_path(member)

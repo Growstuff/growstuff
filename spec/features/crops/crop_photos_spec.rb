@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "crop detail page", js: true do
+feature "crop detail page", js: true do
   subject { page }
   let(:member) { create :member }
 
@@ -44,11 +44,11 @@ describe "crop detail page", js: true do
   end
 
   context "when signed in" do
-    before { login_as(create(:member)) }
+    background { login_as(create(:member)) }
     include_examples "shows photos"
   end
   context "when signed in as photos owner" do
-    before { login_as(member) }
+    background { login_as(member) }
     include_examples "shows photos"
   end
   context "when not signed in " do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "crop wranglers", js: true do
+feature "crop wranglers", js: true do
   context "signed in wrangler" do
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
     let(:wrangler) { crop_wranglers.first }
@@ -8,9 +8,9 @@ describe "crop wranglers", js: true do
     let!(:requested_crop) { create :crop_request }
     let!(:rejected_crop) { create :rejected_crop }
 
-    before { login_as wrangler }
+    background { login_as wrangler }
 
-    it "sees crop wranglers listed on the crop wrangler page" do
+    scenario "sees crop wranglers listed on the crop wrangler page" do
       visit root_path
       click_link wrangler.login_name
       click_link 'Crop Wrangling'
@@ -23,7 +23,7 @@ describe "crop wranglers", js: true do
       end
     end
 
-    it "can see list of crops with extra detail of who created a crop" do
+    scenario "can see list of crops with extra detail of who created a crop" do
       visit root_path
       click_link wrangler.login_name
       click_link 'Crop Wrangling'
@@ -32,14 +32,14 @@ describe "crop wranglers", js: true do
       end
     end
 
-    it "visiting a crop can see wrangler links" do
+    scenario "visiting a crop can see wrangler links" do
       visit crop_path(crops.first)
       expect(page).to have_content 'You are a CROP WRANGLER'
       expect(page).to have_link 'Edit crop'
       expect(page).to have_link 'Delete crop'
     end
 
-    it "can create a new crop" do
+    scenario "can create a new crop" do
       visit root_path
       click_link wrangler.login_name
       click_link 'Crop Wrangling'
@@ -52,13 +52,13 @@ describe "crop wranglers", js: true do
       expect(page).to have_content 'planticus maximus'
     end
 
-    it "View pending crops" do
+    scenario "View pending crops" do
       visit crop_path(requested_crop)
       expect(page).to have_content "This crop is currently pending approval."
       expect(page).to have_content "Please approve this even though it's fake."
     end
 
-    it "View rejected crops" do
+    scenario "View rejected crops" do
       visit crop_path(rejected_crop)
       expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
     end
@@ -68,14 +68,14 @@ describe "crop wranglers", js: true do
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
     let(:member) { create :member }
 
-    before { login_as member }
+    background { login_as member }
 
-    it "can't see wrangling page without js", js: false do
+    scenario "can't see wrangling page without js", js: false do
       visit root_path
       expect(page).not_to have_link "Crop Wrangling"
     end
 
-    it "can't see wrangling page with js" do
+    scenario "can't see wrangling page with js" do
       visit root_path
       click_link member.login_name
       expect(page).not_to have_link "Crop Wrangling"

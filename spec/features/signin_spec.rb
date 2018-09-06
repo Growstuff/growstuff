@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "signin", js: true do
+feature "signin", js: true do
   let(:member) { create :member }
   let(:recipient) { create :member }
   let(:wrangler) { create :crop_wrangling_member }
@@ -12,34 +12,34 @@ describe "signin", js: true do
     click_button 'Sign in'
   end
 
-  it "via email address" do
+  scenario "via email address" do
     visit crops_path # some random page
     click_link 'Sign in'
     login
     expect(page).to have_content("Sign out")
   end
 
-  it "redirect to previous page after signin" do
+  scenario "redirect to previous page after signin" do
     visit crops_path # some random page
     click_link 'Sign in'
     login
     expect(current_path).to eq crops_path
   end
 
-  it "don't redirect to devise pages after signin" do
+  scenario "don't redirect to devise pages after signin" do
     visit new_member_registration_path # devise signup page
     click_link 'Sign in'
     login
     expect(current_path).to eq root_path
   end
 
-  it "redirect to signin page for if not authenticated to view notification" do
+  scenario "redirect to signin page for if not authenticated to view notification" do
     visit notification_path(notification)
     expect(current_path).to eq new_member_session_path
   end
 
   shared_examples "redirects to what you were trying to do" do
-    it do
+    scenario do
       visit "/#{model_name}/new"
       expect(current_path).to eq new_member_session_path
       login
@@ -55,14 +55,14 @@ describe "signin", js: true do
     end
   end
 
-  it "after signin, redirect to new notifications page" do
+  scenario "after signin, redirect to new notifications page" do
     visit new_notification_path(recipient: recipient)
     expect(current_path).to eq new_member_session_path
     login
     expect(current_path).to eq new_notification_path
   end
 
-  it "after crop wrangler signs in and crops await wrangling, show alert" do
+  scenario "after crop wrangler signs in and crops await wrangling, show alert" do
     create :crop_request
     visit crops_path # some random page
     click_link 'Sign in'
@@ -73,7 +73,7 @@ describe "signin", js: true do
   end
 
   context "with facebook" do
-    it "sign in" do
+    scenario "sign in" do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
 

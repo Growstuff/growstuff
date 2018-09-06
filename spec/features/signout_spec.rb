@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe "signout" do
+feature "signout" do
   let(:member) { create :member }
 
-  it "redirect to previous page after signout" do
+  scenario "redirect to previous page after signout" do
     visit crops_path # some random page
     click_link 'Sign in'
     fill_in 'Login', with: member.login_name
@@ -14,7 +14,7 @@ describe "signout" do
   end
 
   shared_examples "sign-in redirects" do |path|
-    it "after signout, redirect to signin page if page needs authentication" do
+    scenario "after signout, redirect to signin page if page needs authentication" do
       visit path
       expect(current_path).to eq new_member_session_path
       expect(page).to have_http_status(200)
@@ -39,7 +39,7 @@ describe "signout" do
     include_examples "sign-in redirects", "/seeds/new"
   end
 
-  it 'photos' do
+  scenario 'photos' do
     garden = FactoryBot.create :garden, owner: member
     visit "/photos/new?id=#{garden.id}&type=garden"
     expect(current_path).to eq new_member_session_path

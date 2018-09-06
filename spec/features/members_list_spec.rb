@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe "members list" do
+feature "members list" do
   context "list all members" do
     let!(:member1) { create :member, login_name: "Archaeopteryx", confirmed_at: Time.zone.parse('2013-02-10') }
     let!(:member2) { create :member, login_name: "Zephyrosaurus", confirmed_at: Time.zone.parse('2014-01-11') }
     let!(:member3) { create :member, login_name: "Testingname", confirmed_at: Time.zone.parse('2014-05-09') }
 
-    it "default alphabetical sort" do
+    scenario "default alphabetical sort" do
       visit members_path
       expect(page).to have_css "#sort"
       expect(page).to have_selector "form"
@@ -16,7 +16,7 @@ describe "members list" do
       expect(all_links.last).to have_text member2.login_name
     end
 
-    it "recently joined sort" do
+    scenario "recently joined sort" do
       visit members_path
       expect(page).to have_css "#sort"
       expect(page).to have_selector "form"

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Notifications", :js do
+feature "Notifications", :js do
   let(:sender) { create :member }
   let(:recipient) { create :member }
 
@@ -13,12 +13,12 @@ describe "Notifications", :js do
         post_id: nil
     end
 
-    before do
+    background do
       login_as recipient
       visit notification_path(notification)
     end
 
-    it "Replying to the notification" do
+    scenario "Replying to the notification" do
       click_link "Reply"
       expect(page).to have_content "Notification body"
 

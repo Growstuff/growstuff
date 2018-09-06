@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-describe "Requesting a new crop" do
+feature "Requesting a new crop" do
   context "As a regular member" do
     let(:member) { create :member }
     let!(:wrangler) { create :crop_wrangling_member }
 
-    before do
+    background do
       login_as member
     end
 
-    it "Submit request" do
+    scenario "Submit request" do
       visit new_crop_path
       fill_in "Name", with: "Couch potato"
       fill_in "request_notes", with: "Couch potatoes are real for real."
@@ -24,9 +24,9 @@ describe "Requesting a new crop" do
     let!(:crop) { create :crop_request }
     let!(:already_approved) { create :crop }
 
-    before { login_as wrangler }
+    background { login_as wrangler }
 
-    it "Approve a request" do
+    scenario "Approve a request" do
       visit edit_crop_path(crop)
       select "approved", from: "Approval status"
       click_button "Save"
@@ -36,7 +36,7 @@ describe "Requesting a new crop" do
       expect(page).to have_content "crop was successfully updated."
     end
 
-    it "Rejecting a crop" do
+    scenario "Rejecting a crop" do
       visit edit_crop_path(crop)
       select "rejected", from: "Approval status"
       select "not edible", from: "Reason for rejection"

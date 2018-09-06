@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-describe "Gardens#index", :js do
+feature "Gardens#index", :js do
   context "Logged in as member" do
     let(:member) { FactoryBot.create :member, login_name: 'shadow' }
-    before { login_as member }
+    background { login_as member }
 
     context "with 10 gardens" do
       before do

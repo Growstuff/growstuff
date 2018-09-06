@@ -1,11 +1,11 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-describe "Seeds", :js, :elasticsearch do
+feature "Seeds", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize }
 
-  before do
+  background do
     login_as member
     visit new_seed_path
     sync_elasticsearch [maize]
@@ -30,7 +30,7 @@ describe "Seeds", :js, :elasticsearch do
     expect(page).to have_selector '.form-group.required', text: 'Will trade:'
   end
 
-  it "Adding a new seed", js: true do
+  scenario "Adding a new seed", js: true do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
     within "form#new_seed" do
@@ -55,7 +55,7 @@ describe "Seeds", :js, :elasticsearch do
     expect(page).to have_content "It's killer."
   end
 
-  it "Adding a seed from crop page" do
+  scenario "Adding a seed from crop page" do
     visit crop_path(maize)
     click_link "Add seeds to stash"
     within "form#new_seed" do

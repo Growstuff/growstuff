@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe "irregular crop inflections" do
+feature "irregular crop inflections" do
   # We're just testing a couple of representative crops to
   # check that inflection works: you don't need to add
   # every crop here.
-  it "crops which are mass nouns" do
+  scenario "crops which are mass nouns" do
     expect("kale".pluralize).to eq "kale"
     expect("broccoli".pluralize).to eq "broccoli"
     expect("square foot".pluralize).to eq "square feet"

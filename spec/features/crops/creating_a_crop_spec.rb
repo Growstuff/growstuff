@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-describe "Crop - " do
+feature "Crop - " do
   let!(:crop_wrangler) { create :crop_wrangling_member }
   let!(:member) { create :member }
 
-  before do
+  background do
     login_as member
     visit new_crop_path
   end
 
-  it "creating a crop with multiple scientific and alternate name", :js do
+  scenario "creating a crop with multiple scientific and alternate name", :js do
     within "form#new_crop" do
       fill_in "crop_name", with: "Philippine flower"
       fill_in "en_wikipedia_url", with: "https://en.wikipedia.org/wiki/Jasminum_sambac"

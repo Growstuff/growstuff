@@ -1,13 +1,13 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-describe "Harvesting a crop", :js, :elasticsearch do
+feature "Harvesting a crop", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize }
   let!(:plant_part) { create :plant_part }
   let(:planting) { create :planting, crop: maize, owner: member }
 
-  before do
+  background do
     login_as member
     visit new_harvest_path
     sync_elasticsearch [maize]
@@ -26,7 +26,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
     expect(page).to have_optional 'textarea#harvest_description'
   end
 
-  it "Creating a new harvest", :js do
+  scenario "Creating a new harvest", :js do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
 
@@ -45,24 +45,24 @@ describe "Harvesting a crop", :js, :elasticsearch do
   context "Clicking edit from the index page" do
     let!(:harvest) { create :harvest, crop: maize, owner: member }
 
-    before do
+    background do
       visit harvests_path
     end
 
-    it "button on index to edit harvest" do
+    scenario "button on index to edit harvest" do
       click_link "edit_harvest_glyphicon"
       expect(current_path).to eq edit_harvest_path(harvest)
       expect(page).to have_content 'Editing harvest'
     end
   end
 
-  it "Clicking link to owner's profile" do
+  scenario "Clicking link to owner's profile" do
     visit harvests_by_owner_path(member)
     click_link "View #{member}'s profile >>"
     expect(current_path).to eq member_path member
   end
 
-  it "Harvesting from crop page" do
+  scenario "Harvesting from crop page" do
     visit crop_path(maize)
     click_link "Harvest this"
     within "form#new_harvest" do
@@ -75,7 +75,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
     expect(page).to have_content "maize"
   end
 
-  it "Harvesting from planting page" do
+  scenario "Harvesting from planting page" do
     planting = create :planting, crop: maize, owner: member, garden: member.gardens.first
     visit planting_path(planting)
     within ".planting-actions" do
@@ -94,12 +94,12 @@ describe "Harvesting a crop", :js, :elasticsearch do
     let(:existing_harvest) { create :harvest, crop: maize, owner: member }
     let!(:other_plant_part) { create :plant_part, name: 'chocolate' }
 
-    before do
+    background do
       visit harvest_path(existing_harvest)
       click_link "Edit"
     end
 
-    it "Saving without edits" do
+    scenario "Saving without edits" do
       # Check that the autosuggest helper properly fills inputs with
       # existing resource's data
       click_button "Save"
@@ -107,7 +107,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
       expect(page).to have_content "maize"
     end
 
-    it "change plant part" do
+    scenario "change plant part" do
       select other_plant_part.name, from: 'harvest[plant_part_id]'
       click_button "Save"
       expect(page).to have_content "harvest was successfully updated."
@@ -125,11 +125,11 @@ describe "Harvesting a crop", :js, :elasticsearch do
                         planted_at: Time.zone.yesterday
     end
 
-    before do
+    background do
       visit harvest_path(existing_harvest)
     end
 
-    it "linking to a planting" do
+    scenario "linking to a planting" do
       expect(page).to have_content existing_planting.to_s
       choose("harvest_planting_id_#{existing_planting.id}")
       click_button "save"

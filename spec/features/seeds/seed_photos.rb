@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-describe "Seeds", :js do
+feature "Seeds", :js do
   subject do
     login_as member
     visit seed_path(seed)

@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-describe "forums", js: true do
+feature "forums", js: true do
   context "as an admin user" do
     let(:member) { create :admin_member }
     let(:forum) { create :forum }
 
-    before do
+    background do
       login_as member
     end
 
-    it "navigating to forum admin without js", js: false do
+    scenario "navigating to forum admin without js", js: false do
       visit root_path
       click_link "Admin"
       expect(current_path).to eq admin_path
@@ -20,7 +20,7 @@ describe "forums", js: true do
       expect(page).to have_content "New forum"
     end
 
-    it "navigating to forum admin with js" do
+    scenario "navigating to forum admin with js" do
       visit root_path
       click_link member.login_name
       click_link "Admin"
@@ -32,7 +32,7 @@ describe "forums", js: true do
       expect(page).to have_content "New forum"
     end
 
-    it "adding a forum" do
+    scenario "adding a forum" do
       visit forums_path
       click_link "New forum"
       expect(current_path).to eq new_forum_path
@@ -43,7 +43,7 @@ describe "forums", js: true do
       expect(page).to have_content 'Forum was successfully created'
     end
 
-    it 'editing forum' do
+    scenario 'editing forum' do
       visit forum_path forum
       click_link 'Edit'
       fill_in 'Name', with: 'Something else'
@@ -54,7 +54,7 @@ describe "forums", js: true do
       expect(page).to have_content 'Something else'
     end
 
-    it 'deleting forum' do
+    scenario 'deleting forum' do
       visit forum_path forum
       click_link 'Delete'
       expect(current_path).to eq forums_path

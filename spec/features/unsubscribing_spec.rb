@@ -1,15 +1,15 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-describe "unsubscribe" do
+feature "unsubscribe" do
   let(:member) { create :member }
   let(:notification) { create :notification }
 
-  before do
+  background do
     clear_emails
   end
 
-  it "from planting reminder mailing list" do
+  scenario "from planting reminder mailing list" do
     # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)
@@ -26,7 +26,7 @@ describe "unsubscribe" do
     expect(updated_member.send_notification_email).to eq(true)
   end
 
-  it "from inbox notification mailing list" do
+  scenario "from inbox notification mailing list" do
     # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)
@@ -44,7 +44,7 @@ describe "unsubscribe" do
     expect(updated_member.send_notification_email).to eq(false)
   end
 
-  it "visit unsubscribe page with a non-encrypted parameter" do
+  scenario "visit unsubscribe page with a non-encrypted parameter" do
     # verifying the initial subscription status of the member
     expect(member.send_planting_reminder).to eq(true)
     expect(member.send_notification_email).to eq(true)

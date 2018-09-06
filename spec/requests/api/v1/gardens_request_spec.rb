@@ -37,27 +37,27 @@ RSpec.describe 'Gardens', type: :request do
            "related" => "#{resource_url}/photos" } }
   end
 
-  it '#index' do
+  scenario '#index' do
     get '/api/v1/gardens', {}, headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 
-  it '#show' do
+  scenario '#show' do
     get "/api/v1/gardens/#{garden.id}", {}, headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 
-  it '#create' do
+  scenario '#create' do
     post '/api/v1/gardens', { 'garden' => { 'name' => 'can i make this' } }, headers
     expect(response.code).to eq "404"
   end
 
-  it '#update' do
+  scenario '#update' do
     post "/api/v1/gardens/#{garden.id}", { 'garden' => { 'name' => 'can i modify this' } }, headers
     expect(response.code).to eq "404"
   end
 
-  it '#delete' do
+  scenario '#delete' do
     delete "/api/v1/gardens/#{garden.id}", {}, headers
     expect(response.code).to eq "404"
   end

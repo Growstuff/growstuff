@@ -1,13 +1,13 @@
 require "rails_helper"
 
-describe "User searches" do
+feature "User searches" do
   let(:member) { create :member, location: "Philippines" }
   let!(:maize) { create :maize }
   let(:garden) { create :garden, owner: member }
   let!(:seed1) { create :seed, owner: member }
   let!(:planting) { create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-3-10") }
 
-  it "with a valid place" do
+  scenario "with a valid place" do
     visit places_path
     search_with "Philippines"
     expect(page).to have_content "community near Philippines"
@@ -16,7 +16,7 @@ describe "User searches" do
     expect(page).not_to have_content "No results found"
   end
 
-  it "with a blank search string" do
+  scenario "with a blank search string" do
     visit places_path
     search_with ""
     expect(page).to have_content "Please enter a valid location"

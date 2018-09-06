@@ -1,7 +1,7 @@
 require "rails_helper"
 require 'custom_matchers'
 
-describe "Planting a crop", :js, :elasticsearch do
+feature "Planting a crop", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize }
   let(:garden) { create :garden, owner: member }
@@ -9,7 +9,7 @@ describe "Planting a crop", :js, :elasticsearch do
     create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-3-10")
   end
 
-  before do
+  background do
     login_as member
     visit new_planting_path
     sync_elasticsearch [maize]
@@ -32,7 +32,7 @@ describe "Planting a crop", :js, :elasticsearch do
     expect(page).to have_optional 'input#planting_finished_at'
   end
 
-  it "Creating a new planting" do
+  scenario "Creating a new planting" do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
@@ -48,7 +48,7 @@ describe "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "Progress: Not enough data"
   end
 
-  it "Clicking link to owner's profile" do
+  scenario "Clicking link to owner's profile" do
     visit plantings_by_owner_path(member)
     click_link "View #{member}'s profile >>"
     expect(current_path).to eq member_path(member)
@@ -150,7 +150,7 @@ describe "Planting a crop", :js, :elasticsearch do
     end
   end
 
-  it "Planting from crop page" do
+  scenario "Planting from crop page" do
     visit crop_path(maize)
     click_link "Plant this"
     within "form#new_planting" do
@@ -162,7 +162,7 @@ describe "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "maize"
   end
 
-  it "Editing a planting to add details" do
+  scenario "Editing a planting to add details" do
     visit planting_path(planting)
     click_link "Edit"
     fill_in "Tell us more about it", with: "Some extra notes"
@@ -170,7 +170,7 @@ describe "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "planting was successfully updated"
   end
 
-  it "Editing a planting to fill in the finished date" do
+  scenario "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
     expect(page).to have_content "Progress: Not enough data"
     click_link "Edit"
@@ -181,7 +181,7 @@ describe "Planting a crop", :js, :elasticsearch do
     expect(page).not_to have_content "Progress: Not enough data"
   end
 
-  it "Marking a planting as finished" do
+  scenario "Marking a planting as finished" do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do
@@ -222,7 +222,7 @@ describe "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "August 30, 2014"
   end
 
-  it "Marking a planting as finished without a date" do
+  scenario "Marking a planting as finished without a date" do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do

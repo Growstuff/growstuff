@@ -67,12 +67,12 @@ RSpec.describe 'Plantings', type: :request do
     }
   end
 
-  it '#index' do
+  scenario '#index' do
     get '/api/v1/plantings', {}, headers
     expect(subject['data']).to include(planting_encoded_as_json_api)
   end
 
-  it '#show' do
+  scenario '#show' do
     get "/api/v1/plantings/#{planting.id}", {}, headers
     expect(subject['data']['relationships']).to include("garden" => garden_as_json_api)
     expect(subject['data']['relationships']).to include("crop" => crop_as_json_api)
@@ -82,17 +82,17 @@ RSpec.describe 'Plantings', type: :request do
     expect(subject['data']).to eq(planting_encoded_as_json_api)
   end
 
-  it '#create' do
+  scenario '#create' do
     post '/api/v1/plantings', { 'planting' => { 'description' => 'can i make this' } }, headers
     expect(response.code).to eq "404"
   end
 
-  it '#update' do
+  scenario '#update' do
     post "/api/v1/plantings/#{planting.id}", { 'planting' => { 'description' => 'can i modify this' } }, headers
     expect(response.code).to eq "404"
   end
 
-  it '#delete' do
+  scenario '#delete' do
     delete "/api/v1/plantings/#{planting.id}", {}, headers
     expect(response.code).to eq "404"
   end

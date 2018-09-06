@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "home page" do
+feature "home page" do
   let(:member) { FactoryBot.create :member }
   # let(:seed_photo) { FactoryBot.create :photo }
   let(:photo) { FactoryBot.create :photo }
@@ -13,7 +13,7 @@ describe "home page" do
   let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
   let!(:finished_seed) { FactoryBot.create :tradable_seed, finished: true }
   let!(:untradable_seed) { FactoryBot.create :untradable_seed }
-  before do
+  background do
     # Add photos, so they can appear on home page
     planting.photos << photo
     seed.photos << photo
@@ -75,7 +75,7 @@ describe "home page" do
   end
 
   context "when signed in" do
-    before { login_as member }
+    background { login_as member }
     include_examples 'show crops'
     include_examples 'show plantings'
     include_examples 'show harvests'

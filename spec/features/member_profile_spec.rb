@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe "member profile", js: true do
+feature "member profile", js: true do
   context "signed out member" do
     let(:member) { create :member }
 
-    it "basic details on member profile page" do
+    scenario "basic details on member profile page" do
       visit member_path(member)
       expect(page).to have_css("h1", text: member.login_name)
       expect(page).to have_content member.bio
@@ -12,20 +12,20 @@ describe "member profile", js: true do
       expect(page).to have_link "More about this garden...", href: garden_path(member.gardens.first)
     end
 
-    it "no bio" do
+    scenario "no bio" do
       member.bio = nil
       member.save
       visit member_path(member)
       expect(page).to have_content "hasn't written a bio yet"
     end
 
-    it "gravatar" do
+    scenario "gravatar" do
       visit member_path(member)
       expect(page).to have_css "img.avatar"
     end
 
     context "location" do
-      it "member has set location" do
+      scenario "member has set location" do
         london_member = create :london_member
         visit member_path(london_member)
         expect(page).to have_css("h1>small", text: london_member.location)
@@ -33,7 +33,7 @@ describe "member profile", js: true do
         expect(page).to have_content "See other members, plantings, seeds and more near #{london_member.location}"
       end
 
-      it "member has not set location" do
+      scenario "member has not set location" do
         visit member_path(member)
         expect(page).not_to have_css("h1>small")
         expect(page).not_to have_css("#membermap")
@@ -42,31 +42,31 @@ describe "member profile", js: true do
     end
 
     context "email privacy" do
-      it "public email address" do
+      scenario "public email address" do
         public_member = create :public_member
         visit member_path(public_member)
         expect(page).to have_content public_member.email
       end
-      it "private email address" do
+      scenario "private email address" do
         visit member_path(member)
         expect(page).not_to have_content member.email
       end
     end
 
     context "email privacy" do
-      it "public email address" do
+      scenario "public email address" do
         public_member = create :public_member
         visit member_path(public_member)
         expect(page).to have_content public_member.email
       end
-      it "private email address" do
+      scenario "private email address" do
         visit member_path(member)
         expect(page).not_to have_content member.email
       end
     end
 
     context "activity stats" do
-      it "with no activity" do
+      scenario "with no activity" do
         visit member_path(member)
         expect(page).to have_content "Activity"
         expect(page).to have_content "0 plantings"
@@ -75,7 +75,7 @@ describe "member profile", js: true do
         expect(page).to have_content "0 posts"
       end
 
-      it "with some activity" do
+      scenario "with some activity" do
         create_list :planting, 2, owner: member
         create_list :harvest, 3, owner: member
         create_list :seed, 4, owner: member
@@ -88,13 +88,13 @@ describe "member profile", js: true do
       end
     end
 
-    it "twitter link" do
+    scenario "twitter link" do
       twitter_auth = create :authentication, member: member
       visit member_path(member)
       expect(page).to have_link twitter_auth.name, href: "http://twitter.com/#{twitter_auth.name}"
     end
 
-    it "flickr link" do
+    scenario "flickr link" do
       flickr_auth = create :flickr_authentication, member: member
       visit member_path(member)
       expect(page).to have_link flickr_auth.name, href: "http://flickr.com/photos/#{flickr_auth.uid}"
@@ -107,56 +107,56 @@ describe "member profile", js: true do
     let(:admin_member) { create :admin_member }
     let(:crop_wrangler) { create :crop_wrangling_member }
 
-    before do
+    background do
       login_as(member)
     end
 
-    it "admin user's page" do
+    scenario "admin user's page" do
       visit member_path(admin_member)
       expect(page).to have_text "Admin"
     end
 
-    it "crop wrangler's page" do
+    scenario "crop wrangler's page" do
       visit member_path(crop_wrangler)
       expect(page).to have_text "Crop Wrangler"
     end
 
-    it "ordinary user's page" do
+    scenario "ordinary user's page" do
       visit member_path(other_member)
       expect(page).not_to have_text "Crop Wrangler"
       expect(page).not_to have_text "Admin"
     end
 
     context "your own profile page" do
-      before do
+      background do
         visit member_path(member)
       end
 
-      it "has a link to create new garden" do
+      scenario "has a link to create new garden" do
         expect(page).to have_link "New Garden", href: new_garden_path
       end
 
-      it "has a button to edit profile" do
+      scenario "has a button to edit profile" do
         expect(page).to have_link "Edit profile", href: edit_member_registration_path
       end
     end
 
     context "someone else's profile page" do
-      before do
+      background do
         visit member_path(other_member)
       end
 
-      it "has a private message button" do
+      scenario "has a private message button" do
         expect(page).to have_link "Send message", href: new_notification_path(recipient_id: other_member.id)
       end
     end
 
     context "home page" do
-      before do
+      background do
         visit root_path
       end
 
-      it "does not have a button to edit profile" do
+      scenario "does not have a button to edit profile" do
         expect(page).not_to have_link "Edit profile", href: edit_member_registration_path
       end
     end
