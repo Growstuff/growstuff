@@ -19,8 +19,8 @@ before_install:
   - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
   - ./script/install_codeclimate.sh
   - ./script/install_linters.sh
-  # Force Travis to use Elastic Search 2.4.0
   - ./script/install_elasticsearch.sh
+  - RAILS_ENV=test bundle exec rake search:create
 script:
   - set -e
   - >
