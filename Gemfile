@@ -86,9 +86,9 @@ gem "chartkick"
 # Project does not use semver, so we want to be in sync with the version of
 # elasticsearch we use
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
-gem "elasticsearch-api", "~> 2.0.0"
-gem "elasticsearch-model", ">= 5.0.0"
-gem "elasticsearch-rails", ">= 5.0.0"
+gem "elasticsearch-api", ">= 6.0.0"
+gem "elasticsearch-model", ">= 6.0.0"
+gem "elasticsearch-rails", ">= 6.0.0"
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
