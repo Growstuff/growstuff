@@ -55,8 +55,8 @@ FactoryBot.define do
     factory :south_pole_member do
       sequence(:login_name) { |n| "ScottRF#{n}" }
       location 'Amundsen-Scott Base, Antarctica'
-      latitude -90
-      longitude 0
+      latitude { -90 }
+      longitude { 0 }
     end
 
     factory :admin_member do
