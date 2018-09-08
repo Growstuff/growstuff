@@ -20,7 +20,6 @@ before_install:
   - ./script/install_codeclimate.sh
   - ./script/install_linters.sh
   - ./script/install_elasticsearch.sh
-  - RAILS_ENV=test bundle exec rake search:create
 script:
   - set -e
   - >
@@ -28,7 +27,7 @@ script:
       ./script/check_static.rb
     else
       set +e;
-      RAILS_ENV=test bundle exec rake db:create db:migrate;
+      RAILS_ENV=test bundle exec rake db:create db:migrate search:create;
       bundle exec rake assets:precompile;
       bundle exec rspec --tag $RSPEC_TAG spec/;
     fi;
