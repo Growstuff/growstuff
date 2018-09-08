@@ -7,7 +7,7 @@ if [ "${GROWSTUFF_ELASTICSEARCH}" = "true" ]; then
   wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${VERSION}.deb
   wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${VERSION}.deb.sha512
   shasum -a 512 -c elasticsearch-${VERSION}.deb.sha512
-  sudo dpkg -i elasticsearch-${VERSION}.deb
+  sudo dpkg -i --force-confnew elasticsearch-${VERSION}.deb
 
   sudo service elasticsearch start
   sleep 10
