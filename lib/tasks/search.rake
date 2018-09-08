@@ -7,6 +7,6 @@ namespace :search do
 
   desc 'Refresh elastic search index'
   task refresh: :environment do
-  	Crop.__elasticsearch__.refresh_index!
+    Crop.__elasticsearch__.refresh_index!
   end
 end
