@@ -20,6 +20,11 @@ before_install:
   - ./script/install_codeclimate.sh
   - ./script/install_linters.sh
   - VERSION="6.2.3" ./script/install_elasticsearch.sh
+before_script:
+  - >
+    if [ "${COVERAGE}" = "true" ]; then
+      ./cc-test-reporter before-build
+    fi
 script:
   - set -e
   - >
