@@ -7,15 +7,15 @@ class CropSearchService
         query: {
           bool: {
             filter: {
-             term: {"approval_status" => "approved"}
+              term: { "approval_status" => "approved" }
             },
             must: {
               query_string: {
                 query: "*#{search_str}*"
               }
             }
-          },
-        },
+          }
+        }
       )
       response.records.to_a
     else
