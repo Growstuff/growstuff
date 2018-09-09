@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "${GROWSTUFF_ELASTICSEARCH}" = "true" ]; then
-  VERSION="6.2.3"
+  [[ -z "$VERSION" ]] && VERSION="6.2.3"
   set -euv
   sudo dpkg -r elasticsearch
   wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${VERSION}.deb

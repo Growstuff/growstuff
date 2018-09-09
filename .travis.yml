@@ -19,7 +19,7 @@ before_install:
   - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
   - ./script/install_codeclimate.sh
   - ./script/install_linters.sh
-  - ./script/install_elasticsearch.sh
+  - VERSION="6.2.3" ./script/install_elasticsearch.sh
 script:
   - set -e
   - >
