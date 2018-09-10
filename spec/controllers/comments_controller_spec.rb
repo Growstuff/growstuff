@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe CommentsController do
   subject { response }
+
   let(:member) { FactoryBot.create(:member) }
 
   before(:each) do
@@ -20,6 +21,7 @@ describe CommentsController do
 
     describe "returns an RSS feed" do
       before { get :index, format: "rss" }
+
       it { is_expected.to be_success }
       it { is_expected.to render_template("comments/index") }
       it { expect(response.content_type).to eq("application/rss+xml") }
@@ -81,11 +83,13 @@ describe CommentsController do
         expect(response).to redirect_to(comment.post)
       end
     end
+
     describe "not my comment" do
       let(:comment) { FactoryBot.create :comment }
 
       it { expect(response).not_to be_success }
     end
+
     describe "attempting to change post_id" do
       let(:post) { FactoryBot.create :post, subject: 'our post' }
       let(:other_post) { FactoryBot.create :post, subject: 'the other post' }

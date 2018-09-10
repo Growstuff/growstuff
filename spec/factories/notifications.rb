@@ -5,6 +5,7 @@ FactoryBot.define do
     sender
     recipient
     subject { "MyString" }
+
     body { "MyText" }
     read { false }
     post

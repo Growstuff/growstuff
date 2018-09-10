@@ -22,23 +22,27 @@ describe HarvestsController do
 
     describe "assigns all harvests as @harvests" do
       before { get :index, {} }
+
       it { assigns(:harvests).should =~ [harvest1, harvest2] }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do
       before { get :index, owner: member1.slug }
+
       it { expect(assigns(:owner)).to eq member1 }
       it { expect(assigns(:harvests)).to eq [harvest1] }
     end
 
     describe "picks up crop from params and shows the harvests for the crop only" do
       before { get :index, crop: maize.name }
+
       it { expect(assigns(:crop)).to eq maize }
       it { expect(assigns(:harvests)).to eq [harvest2] }
     end
 
     describe "generates a csv" do
       before { get :index, format: "csv" }
+
       it { expect(response.status).to eq 200 }
     end
   end
@@ -48,6 +52,7 @@ describe HarvestsController do
 
     describe "assigns the requested harvest as @harvest" do
       before { get :show, id: harvest.to_param }
+
       it { expect(assigns(:harvest)).to eq(harvest) }
     end
   end
@@ -69,6 +74,7 @@ describe HarvestsController do
 
     describe "assigns the requested harvest as @harvest" do
       before { get :edit, id: harvest.to_param }
+
       it { expect(assigns(:harvest)).to eq(harvest) }
     end
   end
@@ -96,6 +102,7 @@ describe HarvestsController do
         let(:planting) { FactoryBot.create(:planting, owner_id: member.id, garden: member.gardens.first) }
 
         before { post :create, harvest: valid_attributes.merge(planting_id: planting.id) }
+
         it { expect(Harvest.last.planting.id).to eq(planting.id) }
       end
     end
@@ -124,6 +131,7 @@ describe HarvestsController do
           allow(Harvest).to receive(:new).and_return(harvest)
           post :create, harvest: valid_attributes.merge(planting_id: not_my_planting.id)
         end
+
         it { expect(harvest.planting_id).not_to eq(not_my_planting.id) }
       end
     end
@@ -179,6 +187,7 @@ describe HarvestsController do
           put :update, id: harvest.to_param,
                        harvest: valid_attributes.merge(planting_id: not_my_planting.id)
         end
+
         it { expect(harvest.planting_id).to eq(nil) }
       end
     end

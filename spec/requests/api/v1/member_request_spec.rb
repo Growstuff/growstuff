@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Members', type: :request do
   subject { JSON.parse response.body }
+
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:member) { FactoryBot.create :member }
   let(:member_encoded_as_json_api) do
@@ -58,11 +59,13 @@ RSpec.describe 'Members', type: :request do
 
   describe '#index' do
     before { get '/api/v1/members', {}, headers }
+
     it { expect(subject['data']).to include(member_encoded_as_json_api) }
   end
 
   describe '#show' do
     before { get "/api/v1/members/#{member.id}", {}, headers }
+
     it { expect(subject['data']['relationships']).to include("gardens" => gardens_as_json_api) }
     it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
     it { expect(subject['data']['relationships']).to include("seeds" => seeds_as_json_api) }
@@ -73,16 +76,19 @@ RSpec.describe 'Members', type: :request do
 
   describe '#create' do
     before { post '/api/v1/members', { 'member' => { 'login_name' => 'can i make this' } }, headers }
+
     it { expect(response.code).to eq "404" }
   end
 
   describe '#update' do
     before { post "/api/v1/members/#{member.id}", { 'member' => { 'login_name' => 'can i modify this' } }, headers }
+
     it { expect(response.code).to eq "404" }
   end
 
   describe '#delete' do
     before { delete "/api/v1/members/#{member.id}", {}, headers }
+
     it { expect(response.code).to eq "404" }
   end
 end

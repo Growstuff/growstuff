@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :post do
     subject { "A Post" }
+
     body { "This is some text." }
     author
     created_at { Time.now }

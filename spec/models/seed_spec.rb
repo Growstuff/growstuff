@@ -153,6 +153,7 @@ describe Seed do
     let(:seed) { FactoryBot.create :seed }
 
     before { seed.photos << FactoryBot.create(:photo) }
+
     it 'is found in has_photos scope' do
       Seed.has_photos.should include(seed)
     end
@@ -161,6 +162,7 @@ describe Seed do
   context 'ancestry' do
     let(:parent_planting) { FactoryBot.create :planting }
     let(:seed) { FactoryBot.create :seed, parent_planting: parent_planting }
+
     it "seed has a parent planting" do
       expect(seed.parent_planting).to eq(parent_planting)
     end
@@ -172,6 +174,7 @@ describe Seed do
   context "finished" do
     describe 'has finished fields' do
       let(:seed) { FactoryBot.create(:finished_seed) }
+
       it { expect(seed.finished).to eq true }
       it { expect(seed.finished_at).to be_an_instance_of Date }
     end
