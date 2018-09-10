@@ -49,6 +49,7 @@ describe "photos/show" do
       controller.stub(:current_user) { member }
       render
     end
+
     include_examples "photo data renders"
 
     it "has a delete button" do
@@ -61,6 +62,7 @@ describe "photos/show" do
       controller.stub(:current_user) { FactoryBot.create :member }
       render
     end
+
     include_examples "photo data renders"
     include_examples "No links to change data"
   end
@@ -70,6 +72,7 @@ describe "photos/show" do
       controller.stub(:current_user) { nil }
       render
     end
+
     include_examples "photo data renders"
     include_examples "No links to change data"
   end
@@ -84,6 +87,7 @@ describe "photos/show" do
       @photo.gardens << garden
       render
     end
+
     it "links to the CC license" do
       assert_select "a", href: @photo.license_url,
                          text: @photo.license_name

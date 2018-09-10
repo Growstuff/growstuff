@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
-  it "formats prices" do
-    price_in_dollars(999).should eq '9.99'
-    price_with_currency(999).should eq format('9.99 %s', Growstuff::Application.config.currency)
-  end
-
   it "parses dates" do
     parse_date(nil).should eq nil
     parse_date('').should eq nil
@@ -25,6 +20,7 @@ describe ApplicationHelper do
       before :each do
         @member = FactoryBot.build(:member, email: 'example@example.com', preferred_avatar_uri: nil)
       end
+
       it 'should render a gravatar uri' do
         expect(avatar_uri(@member)).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=150&default=identicon'
       end
@@ -38,6 +34,7 @@ describe ApplicationHelper do
       before :each do
         @member = FactoryBot.build(:member, email: 'example@example.com', preferred_avatar_uri: 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg')
       end
+
       it 'should render a the specified uri' do
         expect(avatar_uri(@member)).to eq 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg'
       end
@@ -92,6 +89,7 @@ describe ApplicationHelper do
           expect(build_alert_classes(:info)).not_to include ' alert-danger'
         end
       end
+
       context 'warning' do
         it 'works when :warning' do
           expect(build_alert_classes(:warning)).to include 'alert-warning'
@@ -106,6 +104,7 @@ describe ApplicationHelper do
           expect(build_alert_classes(:info)).not_to include ' alert-warning'
         end
       end
+
       context 'success' do
         it 'works when :notice' do
           expect(build_alert_classes(:notice)).to include 'alert-success'
@@ -120,6 +119,7 @@ describe ApplicationHelper do
           expect(build_alert_classes(:info)).not_to include ' alert-success'
         end
       end
+
       context 'info' do
         it 'works when :info' do
           expect(build_alert_classes(:info)).to include 'alert-info'

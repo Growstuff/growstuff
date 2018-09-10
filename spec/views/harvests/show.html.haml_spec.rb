@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "harvests/show" do
   subject { render }
+
   let!(:harvest) { FactoryBot.create(:harvest) }
 
   before do

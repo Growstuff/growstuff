@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "posts/show" do
   subject { rendered }
+
   let(:author) { FactoryBot.create(:member) }
 
   before(:each) do
@@ -11,6 +12,7 @@ describe "posts/show" do
 
   describe 'render post' do
     before { render }
+
     describe "basic post" do
       let(:post) { FactoryBot.create(:post, author: author) }
 
@@ -35,11 +37,13 @@ describe "posts/show" do
       it { is_expected.to have_content('EVIL') }
       it { is_expected.not_to have_link("http://evil.com") }
     end
+
     describe 'script tag in post body' do
       let(:post) { FactoryBot.create(:post, author: author, body: "<script>alert('hakker!')</script>") }
 
       it { is_expected.not_to have_selector('script') }
     end
+
     describe 'script tag in post title' do
       let(:post) { FactoryBot.create(:post, author: author, subject: "<script>alert('hakker!')</script>") }
 
@@ -99,6 +103,7 @@ describe "posts/show" do
     let(:post) { FactoryBot.create(:forum_post, author: author) }
 
     before { render }
+
     it "shows forum name" do
       is_expected.to have_content "in #{post.forum.name}"
     end

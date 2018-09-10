@@ -142,6 +142,7 @@ describe Crop do
     before :each do
       @crop = FactoryBot.create(:tomato)
     end
+
     context 'with a planting photo' do
       before :each do
         @planting = FactoryBot.create(:planting, crop: @crop)
@@ -277,6 +278,7 @@ describe Crop do
 
   context 'interesting' do
     subject { Crop.interesting }
+
     let(:photo) { FactoryBot.create :photo }
     # first, a couple of candidate crops
     let(:crop1) { FactoryBot.create(:crop) }
@@ -307,6 +309,7 @@ describe Crop do
         # ... and photos
         crop1_planting.photos = FactoryBot.create_list(:photo, 3)
       end
+
       it { is_expected.to include crop1 }
       it { is_expected.not_to include crop2 }
       it { expect(subject.size).to eq 1 }
@@ -321,6 +324,7 @@ describe Crop do
         # but only crop1 has photos
         crop1_planting.photos = FactoryBot.create_list(:photo, 3)
       end
+
       it { is_expected.to include crop1 }
       it { is_expected.not_to include crop2 }
       it { expect(subject.size).to eq 1 }

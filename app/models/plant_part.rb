@@ -5,6 +5,8 @@ class PlantPart < ActiveRecord::Base
   has_many :harvests
   has_many :crops, -> { uniq }, through: :harvests
 
+  validates :name, presence: true, uniqueness: true
+
   def to_s
     name
   end

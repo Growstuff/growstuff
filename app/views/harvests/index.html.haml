@@ -24,8 +24,10 @@
   %ul.list-inline
     %li The data on this page is available in the following formats:
     - if @owner
+      %li= link_to "RSS", harvests_by_owner_path(@owner, format: 'rss')
       %li= link_to "CSV", harvests_by_owner_path(@owner, format: 'csv')
       %li= link_to "JSON", harvests_by_owner_path(@owner, format: 'json')
     - else
+      %li= link_to "RSS", harvests_path(format: 'rss')
       %li= link_to "CSV", harvests_path(format: 'csv')
       %li= link_to "JSON", harvests_path(format: 'json')
