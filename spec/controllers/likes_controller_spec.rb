@@ -10,6 +10,7 @@ describe LikesController do
 
   describe "POST create" do
     before { post :create, post_id: blogpost.id, format: :json }
+
     it { expect(response.content_type).to eq "application/json" }
 
     it { expect(Like.last.likeable_id).to eq(blogpost.id) }
