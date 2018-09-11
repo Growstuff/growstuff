@@ -4,6 +4,7 @@ require 'custom_matchers'
 feature "Gardens#index", :js do
   context "Logged in as member" do
     let(:member) { FactoryBot.create :member, login_name: 'shadow' }
+
     background { login_as member }
 
     context "with 10 gardens" do
@@ -58,6 +59,7 @@ feature "Gardens#index", :js do
       before do
         visit gardens_path(member: member)
       end
+
       it "shows planting in garden" do
         expect(page).to have_link(planting.crop.name, href: planting_path(planting))
       end
@@ -71,6 +73,7 @@ feature "Gardens#index", :js do
     let(:garden) { member.gardens.first }
     let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
     let(:crop) { FactoryBot.create :crop }
+
     before(:each) do
       # time to harvest = 50 day
       # time to finished = 90 days
@@ -98,6 +101,7 @@ feature "Gardens#index", :js do
           garden: garden,
           planted_at: Time.zone.today
       end
+
       it { expect(page).to have_link href: planting_path(planting) }
       it { expect(page).to have_link href: garden_path(planting.garden) }
       it { expect(page).to have_text '50 days until harvest' }
@@ -112,6 +116,7 @@ feature "Gardens#index", :js do
           owner: member, garden: garden,
           planted_at: 51.days.ago
       end
+
       it { expect(crop.median_days_to_first_harvest).to eq 50 }
       it { expect(crop.median_lifespan).to eq 90 }
 
@@ -126,6 +131,7 @@ feature "Gardens#index", :js do
           crop: crop, owner: member,
           garden: garden, planted_at: 260.days.ago
       end
+
       it { expect(page).to have_text 'super late' }
       it { expect(page).not_to have_text 'harvesting now' }
       it { expect(page).not_to have_text 'days until harvest' }

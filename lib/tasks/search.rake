@@ -1,4 +1,3 @@
-
 namespace :search do
   desc "Create elastic search index"
   task create: :environment do
