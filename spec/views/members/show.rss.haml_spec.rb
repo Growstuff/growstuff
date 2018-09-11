@@ -11,7 +11,6 @@ describe 'members/show.rss.haml', type: "view" do
     render
   end
 
-
   it 'shows RSS feed title' do
     is_expected.to match(/member\d+'s recent posts/)
   end
