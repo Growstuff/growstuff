@@ -173,6 +173,7 @@ describe Seed do
   context "finished" do
     describe 'has finished fields' do
       let(:seed) { FactoryBot.create(:finished_seed) }
+
       it { expect(seed.finished).to eq true }
       it { expect(seed.finished_at).to be_an_instance_of Date }
     end

@@ -339,6 +339,7 @@ describe 'member' do
 
     context 'queries a scope' do
       before { member.destroy }
+
       it { expect(Member.all).not_to include(member) }
       it { expect(Member.confirmed).not_to include(member) }
       it { expect(Member.located).not_to include(member) }
@@ -348,6 +349,7 @@ describe 'member' do
       it { expect(Member.interesting).not_to include(member) }
       it { expect(Member.has_plantings).not_to include(member) }
     end
+
     it "unsubscribes from mailing list" do
       expect(member).to receive(:newsletter_unsubscribe).and_return(true)
       member.destroy

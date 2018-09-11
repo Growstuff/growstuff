@@ -39,6 +39,7 @@ describe HarvestsController do
 
     describe "generates a csv" do
       before { get :index, format: "csv" }
+
       it { expect(response.status).to eq 200 }
     end
   end
@@ -123,6 +124,7 @@ describe HarvestsController do
           allow(Harvest).to receive(:new).and_return(harvest)
           post :create, params: { harvest: valid_attributes.merge(planting_id: not_my_planting.id) }
         end
+
         it { expect(harvest.planting_id).not_to eq(not_my_planting.id) }
       end
     end
@@ -177,6 +179,7 @@ describe HarvestsController do
           put :update, params: { id: harvest.to_param,
                                  harvest: valid_attributes.merge(planting_id: not_my_planting.id) }
         end
+
         it { expect(harvest.planting_id).to eq(nil) }
       end
     end

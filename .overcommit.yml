@@ -51,9 +51,6 @@ PreCommit:
     command: ['bundle', 'exec', 'haml-lint']
   JsonSyntax:
     enabled: true
-  BundleOutdated:
-    enabled: true
-    on_warn: warn
   BundleAudit:
     enabled: true
     on_warn: warn

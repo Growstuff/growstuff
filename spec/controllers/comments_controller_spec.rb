@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe CommentsController do
   subject { response }
+
   let(:member) { FactoryBot.create(:member) }
 
   before(:each) do
@@ -20,6 +21,7 @@ describe CommentsController do
 
     describe "returns an RSS feed" do
       before { get :index, format: "rss" }
+
       it { is_expected.to be_success }
       it { is_expected.to render_template("comments/index") }
       it { expect(response.content_type).to eq("application/rss+xml") }

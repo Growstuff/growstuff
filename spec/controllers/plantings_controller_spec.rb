@@ -20,6 +20,7 @@ describe PlantingsController do
 
     describe "assigns all plantings as @plantings" do
       before { get :index, {} }
+
       it { expect(assigns(:plantings)).to match [planting1, planting2] }
     end
 
@@ -82,6 +83,7 @@ describe PlantingsController do
 
     describe "sets the date of the planting to today" do
       before { get :new, {} }
+
       it { expect(assigns(:planting).planted_at).to eq Time.zone.today }
     end
 

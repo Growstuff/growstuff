@@ -76,6 +76,7 @@ describe PhotosController do
 
     describe "with valid params" do
       before { controller.stub(:current_member) { member } }
+
       it "attaches the photo to a planting" do
         post :create, params: {
           photo: { flickr_photo_id: photo.flickr_photo_id },
@@ -94,6 +95,7 @@ describe PhotosController do
             photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
           }
         end
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.plantings.size).to eq 1 }
       end
@@ -136,6 +138,7 @@ describe PhotosController do
 
     describe "with matching owners" do
       before { controller.stub(:current_member) { member } }
+
       it "creates the planting/photo link" do
         planting = FactoryBot.create(:planting, garden: garden, owner: member)
         photo = FactoryBot.create(:photo, owner: member)
