@@ -11,7 +11,6 @@ describe 'members/show.rss.haml', type: "view" do
     render
   end
 
-
   it 'shows RSS feed title' do
     is_expected.to have_text("callum's recent posts")
   end

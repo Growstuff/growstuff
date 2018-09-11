@@ -23,7 +23,6 @@ feature "home page" do
     harvest.photos << photo
   end
 
-
   before { visit root_path }
 
   shared_examples 'shows seeds' do
