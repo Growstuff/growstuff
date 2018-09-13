@@ -100,6 +100,8 @@ gem "paranoia", "~> 2.2"
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
+gem 'puma'
+
 group :production, :staging do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
