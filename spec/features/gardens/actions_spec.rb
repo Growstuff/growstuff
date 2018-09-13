@@ -3,9 +3,11 @@ require 'custom_matchers'
 
 feature "Gardens" do
   context 'logged in' do
+    subject { page }
+
     let(:member) { FactoryBot.create :member }
     background { login_as member }
-    subject { page }
+
     let(:garden) { member.gardens.first }
 
     describe '#index' do
@@ -21,6 +23,7 @@ feature "Gardens" do
 
       context 'my gardens' do
         before { visit gardens_path(owner: member) }
+
         include_examples "has buttons bar at top"
         it "has actions on garden" do
           within '.garden-actions' do
@@ -32,12 +35,16 @@ feature "Gardens" do
           end
         end
       end
+
       context 'all gardens' do
         before { visit gardens_path }
+
         include_examples "has buttons bar at top"
       end
+
       context "other member's garden" do
         before { visit gardens_path(owner: FactoryBot.create(:member)) }
+
         include_examples "has buttons bar at top"
         it 'does not show actions on other member garden' do
           is_expected.not_to have_link 'Plant something'

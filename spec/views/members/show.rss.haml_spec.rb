@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'members/show.rss.haml', type: "view" do
+  subject { rendered }
+
   before(:each) do
     @member = assign(:member, FactoryBot.create(:member))
     @post1 = FactoryBot.create(:post, id: 1, author: @member)
@@ -8,8 +10,6 @@ describe 'members/show.rss.haml', type: "view" do
     assign(:posts, [@post1, @post2])
     render
   end
-
-  subject { rendered }
 
   it 'shows RSS feed title' do
     is_expected.to match(/member\d+'s recent posts/)

@@ -78,18 +78,18 @@ class Crop < ActiveRecord::Base
              } do
       mappings dynamic: 'false' do
         indexes :id, type: 'long'
-        indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
-        indexes :approval_status, type: 'string'
+        indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
+        indexes :approval_status, type: 'text'
         indexes :scientific_names do
           indexes :name,
-            type: 'string',
+            type: 'text',
             analyzer: 'gs_edgeNGram_analyzer',
             # Disabling field-length norm (norm). If the norm option is turned on(by default),
             # higher weigh would be given for shorter fields, which in our case is irrelevant.
             norms: { enabled: false }
         end
         indexes :alternate_names do
-          indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+          indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
         end
       end
     end

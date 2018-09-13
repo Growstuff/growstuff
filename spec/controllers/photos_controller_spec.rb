@@ -39,6 +39,7 @@ describe PhotosController do
 
     describe "planting photos" do
       before(:each) { get :new, type: "planting", id: planting.id }
+
       it { assigns(:flickr_auth).should be_an_instance_of(Authentication) }
       it { assigns(:item).should eq planting }
       it { expect(flash[:alert]).not_to be_present }
@@ -47,12 +48,14 @@ describe PhotosController do
 
     describe "harvest photos" do
       before { get :new, type: "harvest", id: harvest.id }
+
       it { assigns(:item).should eq harvest }
       it { expect(flash[:alert]).not_to be_present }
     end
 
     describe "garden photos" do
       before { get :new, type: "garden", id: garden.id }
+
       it { assigns(:item).should eq garden }
       it { expect(flash[:alert]).not_to be_present }
     end
@@ -76,6 +79,7 @@ describe PhotosController do
 
     describe "with valid params" do
       before { controller.stub(:current_member) { member } }
+
       it "attaches the photo to a planting" do
         post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
         expect(flash[:alert]).not_to be_present
@@ -87,6 +91,7 @@ describe PhotosController do
           post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
           post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
         end
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.plantings.size).to eq 1 }
       end
@@ -127,6 +132,7 @@ describe PhotosController do
 
     describe "with matching owners" do
       before { controller.stub(:current_member) { member } }
+
       it "creates the planting/photo link" do
         planting = FactoryBot.create(:planting, garden: garden, owner: member)
         photo = FactoryBot.create(:photo, owner: member)
