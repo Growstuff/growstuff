@@ -1,13 +1,9 @@
 inherit_from: .rubocop_todo.yml
 AllCops:
-  Include:
-    - 'Rakefile'
-    - 'config.ru'
-    - 'lib/**/*.rake'
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
-  TargetRailsVersion: 4.0
+  TargetRailsVersion: 5.0
 
 Rails:
   Enabled: true
@@ -21,7 +17,6 @@ Naming/FileName:
 Style/StringLiterals:
   Enabled: false
 
-# Stop hound and codeclimate fighting
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     default: ()
@@ -36,8 +31,6 @@ Layout/MultilineMethodCallIndentation:
 Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
-Metrics/LineLength:
-  Max: 120
 
 Style/Documentation:
   Enabled: false
@@ -57,6 +50,9 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - '**/*.rake'
     - 'config/**/*.rb'
+
+Metrics/LineLength:
+  Max: 120
 
 # Remove the following once the code style matches
 Metrics/MethodLength:
