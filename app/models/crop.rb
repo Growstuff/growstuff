@@ -156,6 +156,7 @@ class Crop < ApplicationRecord
     min_photos    = 3 # needs this many photos to be interesting
     return false unless photos.size >= min_photos
     return false unless plantings_count >= min_plantings
+
     true
   end
 
@@ -181,6 +182,7 @@ class Crop < ApplicationRecord
 
   def rejection_explanation
     return rejection_notes if reason_for_rejection == "other"
+
     reason_for_rejection
   end
 
@@ -222,17 +224,20 @@ class Crop < ApplicationRecord
   def approval_status_cannot_be_changed_again
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
     return unless previous.include?(:rejected) || previous.include?(:approved)
+
     errors.add(:approval_status, "has already been set to #{approval_status}")
   end
 
   def must_be_rejected_if_rejected_reasons_present
     return if rejected?
     return unless reason_for_rejection.present? || rejection_notes.present?
+
     errors.add(:approval_status, "must be rejected if a reason for rejection is present")
   end
 
   def must_have_meaningful_reason_for_rejection
     return unless reason_for_rejection == "other" && rejection_notes.blank?
+
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
   end
 

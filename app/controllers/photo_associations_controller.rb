@@ -4,6 +4,7 @@ class PhotoAssociationsController < ApplicationController
 
   def destroy
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+
     @photo = Photo.find_by!(id: params[:photo_id], owner: current_member)
     @item = Photographing.item(item_id, item_class)
     @item.photos.delete(@photo)

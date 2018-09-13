@@ -77,6 +77,7 @@ class Post < ApplicationRecord
     # don't send notifications to yourself
     recipients.map(&:id).each do |recipient_id|
       next unless recipient_id != sender
+
       Notification.create(
         recipient_id: recipient_id,
         sender_id: sender,

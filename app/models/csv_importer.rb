@@ -54,6 +54,7 @@ class CsvImporter
   def add_alternate_names(alternate_names)
     # i.e. we actually passed something in, which isn't a given
     return if alternate_names.blank?
+
     alternate_names.split(/,\s*/).each do |name|
       altname = AlternateName.find_by(name: name, crop: @crop)
       altname ||= AlternateName.create! name: name, crop: @crop, creator: cropbot

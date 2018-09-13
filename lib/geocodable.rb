@@ -7,6 +7,7 @@ module Geocodable
 
   def empty_unwanted_geocodes
     return if location.present?
+
     self.latitude = nil
     self.longitude = nil
   end

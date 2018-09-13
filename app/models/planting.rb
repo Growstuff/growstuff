@@ -101,6 +101,7 @@ class Planting < ApplicationRecord
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
+
     errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
   end
 

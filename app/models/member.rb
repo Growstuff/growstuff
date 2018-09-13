@@ -85,6 +85,7 @@ class Member < ApplicationRecord
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
     return  where(conditions).login_name_or_email(login).first if login
+
     find_by(conditions)
   end
 
@@ -133,6 +134,7 @@ class Member < ApplicationRecord
                )
              end
     return [result.photo, result.total] if result
+
     [[], 0]
   end
 
@@ -182,6 +184,7 @@ class Member < ApplicationRecord
 
   def newsletter_subscribe(gibbon = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
+
     gibbon.lists.subscribe(
       id: Rails.application.config.newsletter_list_id,
       email: { email: email },
@@ -192,6 +195,7 @@ class Member < ApplicationRecord
 
   def newsletter_unsubscribe(gibbon = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
+
     gibbon.lists.unsubscribe(id: Rails.application.config.newsletter_list_id,
                              email: { email: email })
   end

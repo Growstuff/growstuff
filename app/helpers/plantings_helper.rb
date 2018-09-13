@@ -35,11 +35,13 @@ module PlantingsHelper
 
   def days_from_now_to_finished(planting)
     return unless planting.finish_is_predicatable?
+
     (planting.finish_predicted_at - Time.zone.today).to_i
   end
 
   def days_from_now_to_first_harvest(planting)
     return unless planting.planted_at.present? && planting.first_harvest_predicted_at.present?
+
     (planting.first_harvest_predicted_at - Time.zone.today).to_i
   end
 

@@ -128,6 +128,7 @@ class CropsController < ApplicationController
 
   def notify_wranglers
     return if current_member.role? :crop_wrangler
+
     Role.crop_wranglers.each do |w|
       Notifier.new_crop_request(w, @crop).deliver_now!
     end
@@ -135,6 +136,7 @@ class CropsController < ApplicationController
 
   def recreate_names(param_name, name_type)
     return if params[param_name].blank?
+
     destroy_names(name_type)
     params[param_name].each do |_i, value|
       create_name!(name_type, value) unless value.empty?

@@ -96,6 +96,7 @@ end
 module CmsDeviseAuth
   def authenticate
     return if current_member&.role?(:admin)
+
     redirect_to root_path, alert: 'Permission denied. Please sign in as an admin user to use the CMS admin area.'
   end
 end

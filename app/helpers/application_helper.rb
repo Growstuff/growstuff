@@ -39,6 +39,7 @@ module ApplicationHelper
   #
   def avatar_uri(member, size = 150)
     return unless member
+
     if member.preferred_avatar_uri.present?
       # Some avatars support different sizes
       # http://graph.facebook.com/12345678/picture?width=150&height=150
