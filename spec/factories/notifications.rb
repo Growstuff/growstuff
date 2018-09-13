@@ -5,7 +5,7 @@ FactoryBot.define do
 
     sender { FactoryBot.create :member }
     recipient { FactoryBot.create :member }
-    subject "MyString"
+    subject { "MyString" }
     body { "MyText" }
     read { false }
     post
