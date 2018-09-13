@@ -431,6 +431,8 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
+    rubocop-rspec (1.29.1)
+      rubocop (>= 0.58.0)
     ruby-progressbar (1.10.0)
     ruby-units (2.3.0)
     ruby_dep (1.5.0)
@@ -586,6 +588,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rubocop (>= 0.54.0)
+  rubocop-rspec
   ruby-units
   sass-rails
   selenium-webdriver
