@@ -19,7 +19,7 @@ describe PlantingsController do
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
 
     describe "assigns all plantings as @plantings" do
-      before { get :index, {} }
+      before { get :index }
 
       it { expect(assigns(:plantings)).to match [planting1, planting2] }
     end
@@ -82,7 +82,7 @@ describe PlantingsController do
     end
 
     describe "sets the date of the planting to today" do
-      before { get :new, {} }
+      before { get :new }
 
       it { expect(assigns(:planting).planted_at).to eq Time.zone.today }
     end
