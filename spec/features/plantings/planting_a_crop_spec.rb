@@ -211,7 +211,7 @@ feature "Planting a crop", :js, :elasticsearch do
       click_button "Save"
     end
     expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Finished: August 30, 2014"
+    expect(page).to have_content "Finished:\nAugust 30, 2014"
 
     # shouldn't be on the page
     visit plantings_path
@@ -223,15 +223,17 @@ feature "Planting a crop", :js, :elasticsearch do
   end
 
   scenario "Marking a planting as finished without a date" do
-    fill_autocomplete "crop", with: "mai"
-    select_from_autocomplete "maize"
-    within "form#new_planting" do
-      check "Mark as finished"
-      click_button "Save"
+    before do
+      fill_autocomplete "crop", with: "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        check "Mark as finished"
+        click_button "Save"
+      end
     end
-    expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Finished: Yes (no date specified)"
-    expect(page).to have_content "100%"
+    it { expect(page).to have_content "planting was successfully created" }
+    it { expect(page).to have_content "Finished:\nYes (no date specified)" }
+    it { expect(page).to have_content "100%" }
   end
 
   describe "Planting sunniness" do

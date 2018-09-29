@@ -10,7 +10,7 @@ shared_examples "append date" do
       expect(page).to have_content this_month.to_s
       find(".datepicker-days td.day", text: "21").click
     end
-    expect(page).to have_content "Finished: #{this_month} 21, #{this_year}"
+    expect(page).to have_content "Finished:\n#{this_month} 21, #{this_year}"
   end
 
   scenario "Confirming without selecting date" do
