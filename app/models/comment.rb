@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  belongs_to :author, -> { with_deleted }, class_name: 'Member'
+  belongs_to :author, -> { with_deleted }, class_name: 'Member', inverse_of: :comment
   belongs_to :post
 
   scope :post_order, -> { reorder("created_at ASC") } # for display on post page
