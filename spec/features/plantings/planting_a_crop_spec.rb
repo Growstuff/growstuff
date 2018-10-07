@@ -222,7 +222,7 @@ feature "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "August 30, 2014"
   end
 
-  scenario "Marking a planting as finished without a date" do
+  describe "Marking a planting as finished without a date" do
     before do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
