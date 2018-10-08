@@ -8,21 +8,23 @@ class Member < ApplicationRecord
 
   #
   # Relationships
-  has_many :posts, foreign_key: 'author_id', dependent: :destroy
-  has_many :comments, foreign_key: 'author_id', dependent: :destroy
-  has_many :forums, foreign_key: 'owner_id', dependent: :nullify
-  has_many :gardens, foreign_key: 'owner_id', dependent: :destroy
-  has_many :plantings, foreign_key: 'owner_id', dependent: :destroy
-  has_many :seeds, foreign_key: 'owner_id', dependent: :destroy
-  has_many :harvests, foreign_key: 'owner_id', dependent: :destroy
+  has_many :posts, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
+  has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
+  has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
+  has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_and_belongs_to_many :roles # rubocop:disable Rails/HasAndBelongsToMany
-  has_many :notifications, foreign_key: 'recipient_id'
-  has_many :sent_notifications, foreign_key: 'sender_id'
+  has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
+  has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender
   has_many :authentications, dependent: :destroy
-  has_many :photos
-  has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify
+  has_many :photos, inverse_of: :owner
+  has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify,
+                             inverse_of: :requester
   has_many :likes, dependent: :destroy
-  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy,
+                     inverse_of: :follower
   has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :followed, through: :follows
   has_many :followers, through: :inverse_follows, source: :follower
