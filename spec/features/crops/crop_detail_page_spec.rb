@@ -193,7 +193,7 @@ feature "crop detail page", js: true do
       end
 
       it "predicts harvest" do
-        is_expected.to have_text("First harvest expected 20 days after planting")
+        is_expected.to have_text("First harvest expected\n20 days after planting")
       end
     end
   end

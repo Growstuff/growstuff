@@ -50,7 +50,7 @@ feature "seeds", js: true do
     scenario "view seeds with max and min days until maturity" do
       seed = create :seed, days_until_maturity_min: 5, days_until_maturity_max: 7
       visit seed_path(seed)
-      expect(page).to have_content "Days until maturity: 5–7"
+      expect(page).to have_content "Days until maturity:\n5–7"
     end
 
     scenario "view seeds with only max days until maturity" do
