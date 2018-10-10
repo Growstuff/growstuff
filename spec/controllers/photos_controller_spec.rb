@@ -113,7 +113,7 @@ describe PhotosController do
         comment = FactoryBot.create(:comment)
         expect do
           post :create, photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
-        end.to raise_error
+        end.to raise_error('Photos not supported')
       end
     end
 
