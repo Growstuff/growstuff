@@ -17,7 +17,7 @@ class Seed < ApplicationRecord
                                required: false # parent
   has_many :child_plantings, class_name: 'Planting',
                              foreign_key: 'parent_seed_id', dependent: :nullify,
-                             inverse_of: :parent_planting # children
+                             inverse_of: :parent_seed # children
 
   #
   # Validations
