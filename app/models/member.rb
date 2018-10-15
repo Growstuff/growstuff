@@ -22,10 +22,12 @@ class Member < ApplicationRecord
   has_many :photos, inverse_of: :owner
   has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify,
                              inverse_of: :requester
+  has_many :created_alternate_names, class_name: 'AlternateName', foreign_key: 'creator_id', inverse_of: :creator
   has_many :likes, dependent: :destroy
   has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy,
                      inverse_of: :follower
-  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id",
+                             dependent: :destroy, inverse_of: :followed
   has_many :followed, through: :follows
   has_many :followers, through: :inverse_follows, source: :follower
 

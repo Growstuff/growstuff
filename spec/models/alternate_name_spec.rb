@@ -18,4 +18,14 @@ describe AlternateName do
     expect(crop.alternate_names).to include an
     expect(crop.alternate_names).to include an2
   end
+
+  describe 'relationships' do
+    let(:alternate_name) { FactoryBot.create :alternate_name, crop: crop, creator: member }
+    let(:crop) { FactoryBot.create :crop }
+    let(:member) { FactoryBot.create :member }
+
+    it { expect(alternate_name.crop).to eq crop }
+    it { expect(alternate_name.creator).to eq member }
+    it { expect(member.created_alternate_names).to eq [alternate_name] }
+  end
 end
