@@ -5,7 +5,7 @@ class Post < ApplicationRecord
 
   #
   # Relationships
-  belongs_to :author, class_name: 'Member'
+  belongs_to :author, class_name: 'Member', inverse_of: :posts
   belongs_to :forum, optional: true
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :crops # rubocop:disable Rails/HasAndBelongsToMany

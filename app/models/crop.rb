@@ -16,11 +16,11 @@ class Crop < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :photos, through: :plantings
   has_many :plant_parts, -> { distinct.order("plant_parts.name") }, through: :harvests
-  belongs_to :creator, class_name: 'Member', optional: true
-  belongs_to :requester, class_name: 'Member', optional: true
-  belongs_to :parent, class_name: 'Crop', optional: true
+  belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
+  belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requestd_crops
+  belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
-  has_and_belongs_to_many :posts
+  has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
 
   ##
   ## Scopes

@@ -1,6 +1,6 @@
 class Follow < ApplicationRecord
-  belongs_to :follower, class_name: "Member"
-  belongs_to :followed, class_name: "Member"
+  belongs_to :follower, class_name: "Member", inverse_of: :follows
+  belongs_to :followed, class_name: "Member", inverse_of: :inverse_follows
   validates :follower_id, uniqueness: { scope: :followed_id }
 
   after_create do
