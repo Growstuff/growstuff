@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HarvestsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   after_action :update_crop_medians, only: %i(create update destroy)

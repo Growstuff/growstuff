@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Planting < ActiveRecord::Base
   extend FriendlyId
   include PhotoCapable

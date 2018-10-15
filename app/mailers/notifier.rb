@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Notifier < ActionMailer::Base
   include NotificationsHelper
   default from: "Growstuff <noreply@growstuff.org>"

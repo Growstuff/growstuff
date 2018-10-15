@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Garden < ActiveRecord::Base
   extend FriendlyId
   include Geocodable

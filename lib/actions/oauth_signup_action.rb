@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Growstuff::OauthSignupAction
   #
   # Inspects the omniauth information
