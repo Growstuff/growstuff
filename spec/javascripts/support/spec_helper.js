@@ -1,4 +1,4 @@
-beforeEach(function() {
+beforeEach(function () {
   $(window).off();
   $(document).off();
   $('body').off();
