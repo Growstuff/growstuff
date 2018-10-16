@@ -21,10 +21,14 @@ class Planting < ApplicationRecord
 
   #
   # Ancestry of food
-  belongs_to :parent_seed, class_name: 'Seed', foreign_key: 'parent_seed_id',
-                           required: false # parent
-  has_many :child_seeds, class_name: 'Seed',
-                         foreign_key: 'parent_planting_id', dependent: :nullify # children
+  belongs_to :parent_seed, class_name: 'Seed', # parent
+                           foreign_key: 'parent_seed_id',
+                           required: false,
+                           inverse_of: :child_plantings
+  has_many :child_seeds, class_name: 'Seed', # children
+                         foreign_key: 'parent_planting_id',
+                         inverse_of: :parent_planting,
+                         dependent: :nullify
 
   ##
   ## Scopes

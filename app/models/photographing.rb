@@ -1,5 +1,5 @@
 class Photographing < ApplicationRecord
-  belongs_to :photo
+  belongs_to :photo, inverse_of: :photographings
   belongs_to :photographable, polymorphic: true
 
   validate :photo_and_item_have_same_owner

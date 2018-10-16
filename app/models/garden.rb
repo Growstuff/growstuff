@@ -62,7 +62,7 @@ class Garden < ApplicationRecord
     unique_plantings = []
     seen_crops = []
 
-    plantings.order(created_at: :desc).includes(:garden, :crop, :owner, :harvests).each do |p|
+    plantings.includes(:garden, :crop, :owner, :harvests).order(created_at: :desc).each do |p|
       unless seen_crops.include?(p.crop)
         unique_plantings.push(p)
         seen_crops.push(p.crop)
