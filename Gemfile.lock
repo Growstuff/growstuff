@@ -72,7 +72,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap_form (2.7.0)
     builder (3.2.3)
-    bullet (5.7.5)
+    bullet (5.7.6)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11.0)
     byebug (10.0.2)
