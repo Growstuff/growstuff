@@ -95,7 +95,7 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.2.0)
     cliver (0.3.2)
-    codeclimate-test-reporter (1.0.8)
+    codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
     codemirror-rails (5.16.0)
       railties (>= 3.0, < 6.0)
