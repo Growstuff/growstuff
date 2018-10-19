@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RobotsController < ApplicationController
   DEFAULT_FILENAME = 'config/robots.txt'.freeze
 

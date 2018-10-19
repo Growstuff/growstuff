@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Forum < ActiveRecord::Base
   extend FriendlyId
   include Ownable

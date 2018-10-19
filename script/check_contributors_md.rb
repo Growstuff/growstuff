@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 puts "Checking to see if you're in CONTRIBUTORS.md..."
 if ENV['TRAVIS']
