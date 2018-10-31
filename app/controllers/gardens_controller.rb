@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GardensController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   after_action :expire_homepage, only: %i(create delete)

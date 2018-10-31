@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlantPart < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: %i(slugged finders)

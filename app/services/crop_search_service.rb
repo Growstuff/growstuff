@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CropSearchService
   # Crop.search(string)
   def self.search(query)

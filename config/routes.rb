@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Growstuff::Application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
