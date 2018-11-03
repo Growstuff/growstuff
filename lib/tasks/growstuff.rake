@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :growstuff do
   desc "Add an admin user, by name"
   # usage: rake growstuff:admin_user name=skud

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlacesController < ApplicationController
   skip_authorize_resource
   respond_to :html, :json

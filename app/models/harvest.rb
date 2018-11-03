@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Harvest < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   extend FriendlyId

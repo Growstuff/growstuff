@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Notification < ActiveRecord::Base
   belongs_to :sender, class_name: 'Member'
   belongs_to :recipient, class_name: 'Member'
