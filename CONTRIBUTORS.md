@@ -86,6 +86,7 @@ submit the change with your pull request.
 - Jennifer Kruse / [jenkr55](https://github.com/jenkr55)
 - Christopher Bazin / [RobotScissors](https://github.com/robotscissors)
 - Ahmed Shahin / [codeminator](https://www.github.com/codeminator)
+- Brandon Baker / [brandonbaker40](https://github.com/brandonbaker40)
 
 ## Bots
 
