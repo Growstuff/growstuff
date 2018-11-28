@@ -17,5 +17,37 @@ feature "irregular crop inflections" do
     expect("garlic".pluralize).to eq "garlic"
     expect("licorice".pluralize).to eq "licorice"
     expect("lillipilli".pluralize).to eq "lillipillies"
+    expect("barley".pluralize).to eq "barley"
+    expect("Brassica oleracea Acephela group".pluralize).to eq "Brassica oleracea Acephela group"
+    expect("common flax".pluralize).to eq "common flax"
+    expect("cumin".pluralize).to eq "cumin"
+    expect("Good King Henry".pluralize).to eq "Good King Henry"
+    expect("oregano".pluralize).to eq "oregano"
+    expect("star anise".pluralize).to eq "star anise"
+  end
+
+  scenario "crops which are particularly irregular" do
+    expect("curry leaf".pluralize).to eq "curry leaves"
+    expect("capsicum".pluralize).to eq "capsica"
+  end
+
+  scenario "crops which require -es" do
+    expect("mango".pluralize).to eq "mangoes"
+    expect("potato".pluralize).to eq "potatoes"
+    expect("avocado".pluralize).to eq "avocadoes"
+  end
+
+  scenario "crops where the first crop would normally be pluralized" do
+    expect("Potato Onion".pluralize).to eq "Potato Onions"
+    expect("lemon basil".pluralize).to eq "lemon basil"
+    expect("pear tomato".pluralize).to eq "pear tomatoes"
+    expect("chilli pepper".pluralize).to eq "chilli peppers"
+  end
+
+  scenario "crops where the proper name succeeds the crop that would normally be pluralized" do
+    expect("potato Taranaki".pluralize).to eq "potato Taranaki"
+    expect("potato Gladstone".pluralize).to eq "potato Gladstone"
+    expect("potato matariki".pluralize).to eq "potato matariki"
+    expect("spinach Santana".pluralize).to eq "spinach Santana"
   end
 end
