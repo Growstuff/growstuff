@@ -124,6 +124,10 @@ class Ability
 
     can :destroy, Follow
     cannot :destroy, Follow, followed_id: member.id # can't unfollow yourself
+
+    cannot :create, Container
+    cannot :update, Container
+    cannot :destroy, Container
   end
 
   def admin_abilities(member)

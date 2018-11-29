@@ -1,5 +1,4 @@
 class Container < ActiveRecord::Base
-
   has_many :plots, dependent: :destroy
   has_many :gardens, through: :plots
 

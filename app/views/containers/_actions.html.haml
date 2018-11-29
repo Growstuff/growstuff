@@ -1,0 +1,11 @@
+- if can?(:create, container) && can?(:edit, container) && can?(:destroy, container)
+  .btn-group.container-actions
+  - if can? :edit, container
+    = render 'shared/buttons/edit', path: edit_container_path(container)
+  - if can? :destroy, container
+    .pull-right= render 'shared/buttons/delete', path: container_path(container)
+
+  - if can? :create, container
+    = link_to new_container_path, class: 'btn btn-default btn-xs' do
+      %span.glyphicon.glyphicon-grain{ title: "Create new container" }
+      Create new container
