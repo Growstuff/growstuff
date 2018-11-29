@@ -55,5 +55,4 @@ feature "irregular crop inflections" do
     expect("kūmara".pluralize).to eq "kūmara"
     expect("pūhā".pluralize).to eq "pūhā"
   end
-
 end
