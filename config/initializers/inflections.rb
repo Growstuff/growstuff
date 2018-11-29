@@ -181,7 +181,6 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural 'shiso', 'shiso'
   inflect.plural 'smallage', 'smallage'
   inflect.plural 'sorghum', 'sorghum'
-  inflect.plural 'soybean', 'soybean'
   inflect.plural 'spearmint', 'spearmint'
   inflect.plural 'spinach', 'spinach'
   inflect.plural 'spinach Santana', 'spinach Santana'
