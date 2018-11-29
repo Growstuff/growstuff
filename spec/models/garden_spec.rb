@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Garden do
   let(:owner) { FactoryBot.create(:member) }
   let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
+  let(:container ) { FactoryBot.create(:container, description: "aquaponic") }
 
   it "should have a slug" do
     garden.slug.should match(/member\d+-springfield-community-garden/)
@@ -101,6 +102,16 @@ describe Garden do
     all = Planting.count
     garden.destroy
     Planting.count.should eq(all - 2)
+  end
+
+  it "destroys plots when deleted" do
+    garden = FactoryBot.create(:garden, owner: owner)
+    @plot1 = FactoryBot.create(:plot, garden: garden, container: container)
+    @plot2 = FactoryBot.create(:plot, garden: garden, container: container)
+    garden.plots.size.should eq(2)
+    all = Plot.count
+    garden.destroy
+    Plot.count.should eq(all - 2)
   end
 
   context 'area' do
