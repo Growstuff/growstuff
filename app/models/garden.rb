@@ -8,6 +8,9 @@ class Garden < ActiveRecord::Base
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
 
+  has_many :plots, dependent: :destroy
+  has_many :containers, through: :plots
+
   # set up geocoding
   geocoded_by :location
   after_validation :geocode

@@ -1,4 +1,5 @@
 Growstuff::Application.routes.draw do
+  resources :containers
   get '/robots.txt' => 'robots#robots'
 
   resources :plant_parts

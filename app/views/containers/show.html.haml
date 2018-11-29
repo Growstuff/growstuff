@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Description:
+  = @container.description
+
+= link_to 'Edit', edit_container_path(@container)
+\|
+= link_to 'Back', containers_path

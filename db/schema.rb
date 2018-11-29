@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180401220637) do
+ActiveRecord::Schema.define(version: 20181129171857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,12 @@ ActiveRecord::Schema.define(version: 20180401220637) do
     t.text     "body",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "containers", force: :cascade do |t|
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "crops", force: :cascade do |t|
@@ -416,6 +422,13 @@ ActiveRecord::Schema.define(version: 20180401220637) do
 
   add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree
 
+  create_table "plots", force: :cascade do |t|
+    t.integer  "garden_id"
+    t.integer  "container_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.integer  "author_id",  null: false
     t.string   "subject",    null: false
@@ -472,5 +485,7 @@ ActiveRecord::Schema.define(version: 20180401220637) do
   add_foreign_key "harvests", "plantings"
   add_foreign_key "photographings", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "plots", "containers"
+  add_foreign_key "plots", "gardens"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end
