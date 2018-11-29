@@ -50,4 +50,10 @@ feature "irregular crop inflections" do
     expect("potato matariki".pluralize).to eq "potato matariki"
     expect("spinach Santana".pluralize).to eq "spinach Santana"
   end
+
+  scenario "crops of Māori origin" do
+    expect("kūmara".pluralize).to eq "kūmara"
+    expect("pūhā".pluralize).to eq "pūhā"
+  end
+
 end
