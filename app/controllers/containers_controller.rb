@@ -1,5 +1,5 @@
 class ContainersController < ApplicationController
-  before_action :set_container, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_member!, except: %i(index show)
 
   # GET /containers
   def index
@@ -7,8 +7,7 @@ class ContainersController < ApplicationController
   end
 
   # GET /containers/1
-  def show
-  end
+  def show; end
 
   # GET /containers/new
   def new
@@ -16,8 +15,7 @@ class ContainersController < ApplicationController
   end
 
   # GET /containers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /containers
   def create
@@ -46,13 +44,12 @@ class ContainersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_container
-      @container = Container.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def container_params
-      params.require(:container).permit(:description)
-    end
+  def set_container
+    @container = Container.find(params[:id])
+  end
+
+  def container_params
+    params.require(:container).permit(:description)
+  end
 end

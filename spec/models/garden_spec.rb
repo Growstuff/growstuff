@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Garden do
   let(:owner) { FactoryBot.create(:member) }
   let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
-  let(:container ) { FactoryBot.create(:container, description: "aquaponic") }
+  let(:container) { FactoryBot.create(:container, description: "aquaponic") }
 
   it "should have a slug" do
     garden.slug.should match(/member\d+-springfield-community-garden/)
