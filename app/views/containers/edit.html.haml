@@ -1,7 +1,4 @@
-%h1 Editing container
+- content_for :title, "Edit Container"
 
-= render 'form'
-
-= link_to 'Show', @container
-\|
-= link_to 'Back', containers_path
+- if can? :update, @container
+  = render 'form'

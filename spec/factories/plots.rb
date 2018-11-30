@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :plot do
-    garden { nil }
-    container { nil }
+    garden { garden }
+    container { container }
   end
 end

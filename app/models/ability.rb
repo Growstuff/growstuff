@@ -42,6 +42,10 @@ class Ability
     can :read, AlternateName do |an|
       an.crop.approved?
     end
+
+    cannot :create, Container
+    cannot :update, Container
+    cannot :destroy, Container
   end
 
   def member_abilities(member) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength

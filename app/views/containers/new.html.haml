@@ -1,5 +1,4 @@
-%h1 New container
+- content_for :title, "New Container"
 
-= render 'form'
-
-= link_to 'Back', containers_path
+- if can? :create, @container
+  = render 'form'

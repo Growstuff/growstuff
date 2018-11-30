@@ -1,4 +1,4 @@
-= form_for @container do |f|
+= form_for @container, html: { class: 'form-horizontal', role: "form" } do |f|
   - if @container.errors.any?
     #error_explanation
       %h2= "#{pluralize(@container.errors.count, "error")} prohibited this container from being saved:"
@@ -6,8 +6,15 @@
         - @container.errors.full_messages.each do |message|
           %li= message
 
-  .field
-    = f.label :description
-    = f.text_field :description
-  .actions
-    = f.submit 'Save'
+  %h2 Basic information
+  
+  .form-group
+    = f.label :description, class: 'control-label col-md-2'
+    .col-md-8
+      = f.text_field :description, class: 'form-control'
+      %span.help-block
+        The name for the container, i.e. "organic", in English (required).
+
+  .form-group
+    .form-actions.col-md-offset-2.col-md-8
+      = f.submit 'Save', class: 'btn btn-primary'

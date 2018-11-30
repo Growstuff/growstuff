@@ -1,9 +1,10 @@
 class ContainersController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
+  # before_action :authenticate_member!, except: %i(index show)
+  load_and_authorize_resource
 
   # GET /containers
   def index
-    @containers = Container.all
+    @containers = Container.all.paginate(page: params[:page])
   end
 
   # GET /containers/1

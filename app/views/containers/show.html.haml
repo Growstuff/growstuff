@@ -1,9 +1,12 @@
-%p#notice= notice
+- content_for :title, @container.description.capitalize
+- content_for :subtitle, @container.subtitler(@container)
 
-%p
-  %b Description:
-  = @container.description
+- if can?(:create, @container) && can?(:edit, @container) && can?(:destroy, @container)
+  - content_for :buttonbar do
+    = render 'containers/actions', container: @container
 
-= link_to 'Edit', edit_container_path(@container)
-\|
-= link_to 'Back', containers_path
+- if @container.gardens.uniq.empty?
+  %p There are no gardens to display.
+- else
+  - @container.gardens.uniq.each do |garden|
+    = render 'gardens/overview', garden: garden

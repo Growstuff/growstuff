@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :container do
-    description { "MyString" }
+    description { "homemade swamp" }
   end
 end

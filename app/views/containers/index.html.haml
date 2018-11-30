@@ -1,21 +1,17 @@
-%h1 Listing containers
+- content_for :title, 'Containers'
 
-%table
-  %thead
-    %tr
-      %th Description
-      %th
-      %th
-      %th
+%p
+  #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
+  View any container page to see which of our members have used it.
 
-  %tbody
-    - @containers.each do |container|
-      %tr
-        %td= container.description
-        %td= link_to 'Show', container
-        %td= link_to 'Edit', edit_container_path(container)
-        %td= link_to 'Destroy', container, method: :delete, data: { confirm: 'Are you sure?' }
+.row
+  - @containers.each do |container|
+    .col-md-2.six-across
+      = render partial: "thumbnail", locals: { container: container }
 
-%br
+- if can? :create, Container
+  %div
+    = link_to 'New Container', new_container_path, class: 'btn btn-primary'
 
-= link_to 'New Container', new_container_path
+.pagination
+  = will_paginate @containers
