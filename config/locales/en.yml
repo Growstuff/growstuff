@@ -144,6 +144,8 @@ en:
       browse_members: Browse Members
       community: Community
       community_map: Community Map
+      container: Container
+      containers: Containers
       crop_wrangling: Crop Wrangling
       crops: Crops
       current_memberlogin_name: "%{current_memberlogin_name}"
@@ -229,6 +231,7 @@ en:
       planting: Please sign in or sign up to plant something.
       post: Please sign in or sign up to post.
       seed: Please sign in or sign up to add seeds.
+      container: Not authorized. Only admins can create containers.
     manage:
       all: Not authorized to %{action} %{subject}.
     read:
