@@ -51,6 +51,6 @@ class ContainersController < ApplicationController
   end
 
   def container_params
-    params.require(:container).permit(:description)
+    params.require(:container).permit(:description, :slug)
   end
 end
