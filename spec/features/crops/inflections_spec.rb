@@ -28,18 +28,15 @@ feature "irregular crop inflections" do
 
   scenario "crops which are particularly irregular" do
     expect("curry leaf".pluralize).to eq "curry leaves"
-    expect("capsicum".pluralize).to eq "capsica"
   end
 
   scenario "crops which require -es" do
     expect("mango".pluralize).to eq "mangoes"
     expect("potato".pluralize).to eq "potatoes"
-    expect("avocado".pluralize).to eq "avocadoes"
   end
 
   scenario "crops where the first crop would normally be pluralized" do
     expect("Potato Onion".pluralize).to eq "Potato Onions"
-    expect("lemon basil".pluralize).to eq "lemon basil"
     expect("pear tomato".pluralize).to eq "pear tomatoes"
     expect("chilli pepper".pluralize).to eq "chilli peppers"
   end
