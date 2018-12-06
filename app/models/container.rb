@@ -1,6 +1,6 @@
 class Container < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :container_slug, use: %i(slugged finders)
+  friendly_id :description, use: %i(slugged finders)
 
   has_many :plots, dependent: :destroy
   has_many :gardens, through: :plots
@@ -8,7 +8,7 @@ class Container < ActiveRecord::Base
   validates :description, presence: true, uniqueness: true
 
   def container_slug
-    "#{self.description}".gsub!(/[^A-Za-z ]/, '')
+    description.gsub!(/[^A-Za-z ]/, '')
   end
 
   def subtitler(container)

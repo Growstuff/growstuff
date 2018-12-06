@@ -171,6 +171,8 @@ ActiveRecord::Schema.define(version: 20181201213214) do
     t.string   "slug"
   end
 
+  add_index "containers", ["slug"], name: "index_containers_on_slug", unique: true, using: :btree
+
   create_table "crops", force: :cascade do |t|
     t.string   "name",                                              null: false
     t.string   "en_wikipedia_url"
