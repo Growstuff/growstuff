@@ -98,6 +98,7 @@ Geocoder::Lookup::Test.add_stub("Tatooine", [])
 
 Capybara.configure do |config|
   config.always_include_port = true
+  config.default_normalize_ws = true
 end
 
 OmniAuth.config.test_mode = true
