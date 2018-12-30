@@ -5,6 +5,9 @@ class PhotosController < ApplicationController
   respond_to :html, :json
   responders :flash
 
+  def show
+  end
+
   def index
     if params[:crop_id]
       @crop = Crop.find params[:crop_id]
