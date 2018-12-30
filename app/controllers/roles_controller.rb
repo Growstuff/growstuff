@@ -18,9 +18,7 @@ class RolesController < ApplicationController
     respond_with @role
   end
 
-  def edit
-    respond_with @role
-  end
+  def edit; end
 
   def create
     @role = Role.create(role_params)

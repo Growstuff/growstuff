@@ -7,12 +7,35 @@ describe RolesController do
 
   login_member(:admin_member)
 
+  let!(:role) { FactoryBot.create :role, name: 'zebra' }
+
+  # note that admin role exists because of login_admin_member
+  let(:admin_role) { Role.find_by(name: 'admin') }
+
   describe "GET index" do
-    it "assigns all roles as @roles" do
-      role = Role.create! valid_attributes
-      get :index, params: {}
-      # note that admin role exists because of login_admin_member
-      assigns(:roles).should eq([Role.find_by(name: 'admin'), role])
-    end
+    before { get :index }
+    it { expect(assigns(:roles)).to eq([admin_role, role]) }
+  end
+
+  describe "GET edit" do
+    before { get :edit, params: { id: role.id } }
+    it { expect(assigns(:role)).to eq role }
+  end
+
+  describe "GET show" do
+    before { get :show, params: { id: role.id } }
+    it { expect(assigns(:role)).to eq role }
+  end
+
+  describe 'POST create' do
+    subject { post :create, params: { role: { name: 'chef' } } }
+    it { expect { subject }.to change { Role.count }.by(1) }
+    it { expect(subject.request.flash[:notice]).to_not be_nil }
+  end
+
+  describe 'DELETE destroy' do
+    subject { delete :destroy, params: { id: role.id } }
+    it { expect { subject }.to change { Role.count }.by(-1) }
+    it { expect(subject.request.flash[:notice]).to_not be_nil }
   end
 end
