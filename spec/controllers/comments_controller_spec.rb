@@ -36,13 +36,13 @@ describe CommentsController do
       before { get :new, params: { post_id: post.id } }
 
       it "picks up post from params" do
-        assigns(:post).should eq(post)
+        expect(assigns(:post)).to eq(post)
       end
 
       let(:old_comment) { FactoryBot.create(:comment, post: post) }
 
       it "assigns the old comments as @comments" do
-        assigns(:comments).should eq [old_comment]
+        expect(assigns(:comments)).to eq [old_comment]
       end
     end
 
