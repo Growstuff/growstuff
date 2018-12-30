@@ -29,7 +29,7 @@ module GardensHelper
         output += ", planted on #{planting.planted_at}</li>"
       end
       output += '</ul>'
-      output.html_safe
+      output.html_safe  # rubocob:ignore Rails/OutputSafety
     end
   end
 end
