@@ -7,13 +7,15 @@ describe SeedsController do
   let!(:seed) { FactoryBot.create :seed, description: 'someone elses seeds' }
   let!(:seed_of_crop) { FactoryBot.create :seed, crop: crop, description: 'seeds of same crop' }
   let!(:seed_of_owner) { FactoryBot.create :seed, owner: owner, description: 'seeds of owner' }
-  let!(:seed_of_crop_and_owner) { FactoryBot.create :seed, crop: crop, owner: owner, description: 'seeds of same crop and owner' }
+  let!(:seed_of_crop_and_owner) do
+    FactoryBot.create :seed,
+      crop: crop, owner: owner, description: 'seeds of same crop and owner'
+  end
 
   describe "GET index" do
     context 'default' do
       before { get :index, params: {} }
       it { expect(assigns(:seeds).size).to eq 4 }
-      # it { expect(assigns(:seeds)).to eq [ seed, seed_of_crop, seed_of_owner, seed_of_crop_and_owner ] }
       it { expect(assigns(:seeds)).to include seed }
       it { expect(assigns(:seeds)).to include seed_of_crop }
       it { expect(assigns(:seeds)).to include seed_of_owner }
