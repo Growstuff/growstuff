@@ -60,7 +60,7 @@ describe Post do
 
   context "recent activity" do
     before do
-      Time.stub(now: Time.now)
+      Time.stub(now: Time.zone.now)
     end
 
     let!(:post) { FactoryBot.create(:post, created_at: 1.day.ago) }
