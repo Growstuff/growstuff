@@ -1,4 +1,5 @@
 module AutoSuggestHelper
+  # rubocop:disable Rails/OutputSafety
   def auto_suggest(resource, source, options = {})
     if options[:default] && !options[:default].new_record?
       default = options[:default]
@@ -20,6 +21,7 @@ module AutoSuggestHelper
       </noscript>
       <input id="#{resource}_#{source}_id" class="auto-suggest-id"
         type="hidden" name="#{resource}[#{source}_id]" value="#{default_id}">
-    ).html_safe # rubocob:ignore Rails/OutputSafety
+    ).html_safe
   end
+  # rubocop:enable Rails/OutputSafety
 end
