@@ -141,12 +141,12 @@ feature "crop detail page", js: true do
 
       scenario "has a link to OpenFarm" do
         expect(page).to have_link "OpenFarm - Growing guide",
-          href: "https://openfarm.cc/en/crops/#{URI.escape crop.name}"
+          href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
       end
 
       scenario "has a link to gardenate" do
         expect(page).to have_link "Gardenate - Planting reminders",
-          href: "http://www.gardenate.com/plant/#{URI.escape crop.name}"
+          href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
       end
     end
   end
