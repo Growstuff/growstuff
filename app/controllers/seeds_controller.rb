@@ -27,11 +27,9 @@ class SeedsController < ApplicationController
   end
 
   def new
-    if params[:planting_id]
-      @planting = Planting.find_by(slug: params[:planting_id])
-    else
-      @crop = Crop.find(params[:crop_id])
-    end
+    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id].present?
+    @crop = Crop.find(params[:crop_id]) if params[:crop_id].present?
+
     respond_with(@seed)
   end
 
