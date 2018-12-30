@@ -13,10 +13,10 @@ module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
 
     private
 
-    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
-    MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
-    MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/
-    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/
+    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/.freeze
+    MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/.freeze
+    MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/.freeze
+    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/.freeze
     HOST = Rails.application.config.host
 
     def expand_crops!
