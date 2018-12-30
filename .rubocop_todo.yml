@@ -10,18 +10,6 @@ Lint/HandleExceptions:
   Exclude:
     - 'lib/tasks/testing.rake'
 
-# Configuration parameters: MaximumRangeSize.
-Lint/MissingCopEnableDirective:
-  Exclude:
-    - 'config.rb'
-    - 'config/compass.rb'
-    - 'config/initializers/devise.rb'
-
-Lint/UriEscapeUnescape:
-  Exclude:
-    - 'app/helpers/crops_helper.rb'
-    - 'spec/features/crops/crop_detail_page_spec.rb'
-
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: lowercase, uppercase
 Naming/HeredocDelimiterCase:
@@ -88,14 +76,3 @@ Style/NumericPredicate:
     - 'app/helpers/harvests_helper.rb'
     - 'app/helpers/plantings_helper.rb'
     - 'lib/tasks/growstuff.rake'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, AllowInnerSlashes.
-# SupportedStyles: slashes, percent_r, mixed
-Style/RegexpLiteral:
-  Exclude:
-    - 'spec/lib/haml/filters/growstuff_markdown_spec.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/views/devise/registrations/edit_spec.rb'
-    - 'spec/views/members/index.html.haml_spec.rb'
-    - 'spec/views/posts/index.html.haml_spec.rb'
