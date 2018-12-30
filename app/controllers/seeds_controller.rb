@@ -5,6 +5,8 @@ class SeedsController < ApplicationController
   respond_to :csv, only: :index
   respond_to :rss, only: :index
 
+  responders :flash
+
   # GET /seeds
   # GET /seeds.json
   def index
@@ -44,7 +46,7 @@ class SeedsController < ApplicationController
   end
 
   def update
-    flash[:notice] = 'Seed was successfully updated.' if @seed.update(seed_params)
+    @seed.update(seed_params)
     respond_with(@seed)
   end
 
