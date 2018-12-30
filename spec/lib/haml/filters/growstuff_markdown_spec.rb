@@ -58,7 +58,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   it "converts normal markdown" do
     string = "**foo**"
     rendered = Haml::Filters::GrowstuffMarkdown.render(string)
-    expect(rendered).to match(/<strong>foo<\/strong>/)
+    expect(rendered).to match(%r{<strong>foo</strong>})
   end
 
   it "finds crops case insensitively" do
