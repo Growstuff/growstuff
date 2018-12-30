@@ -22,7 +22,8 @@ gem 'font-awesome-sass'
 gem 'uglifier' # JavaScript compressor
 
 # planting and harvest predictions
-gem 'active_median'
+# based on median values for the crop
+gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
 
 gem 'flickraw'
 gem 'jquery-rails'

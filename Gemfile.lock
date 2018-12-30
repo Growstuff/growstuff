@@ -49,8 +49,8 @@ GEM
     active_link_to (1.0.5)
       actionpack
       addressable
-    active_median (0.2.2)
-      activerecord (>= 4.2)
+    active_median (0.1.4)
+      activerecord
     active_utils (3.3.16)
       activesupport (>= 4.2)
       i18n
@@ -521,7 +521,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_median
+  active_median (= 0.1.4)
   active_utils
   better_errors
   bluecloth

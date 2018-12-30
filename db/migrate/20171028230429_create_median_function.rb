@@ -1,6 +1,6 @@
 class CreateMedianFunction < ActiveRecord::Migration[4.2]
   def up
-    # ActiveMedian.create_function
+    ActiveMedian.create_function
   end
 
   def down
