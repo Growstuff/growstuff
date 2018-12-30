@@ -56,8 +56,23 @@ describe SeedsController do
 
     it { expect(response).to be_success }
 
-    context 'no parent planting' do
-      before { get :new }
+    context 'for a planting with no parent' do
+      context 'default' do
+        before { get :new }
+        it { expect(assigns(:seed)).to be_a Seed }
+      end
+
+      context 'with planting' do
+        let(:planting) { FactoryBot.create :planting }
+        before { get :new, params: { planting_id: planting.slug } }
+        it { expect(assigns(:planting)).to eq planting }
+      end
+
+      context 'with crop' do
+        let(:crop) { FactoryBot.create :crop }
+        before { get :new, params: { crop_id: crop.id } }
+        it { expect(assigns(:crop)).to eq crop }
+      end
     end
 
     context 'with parent planting' do

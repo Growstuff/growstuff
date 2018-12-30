@@ -27,12 +27,10 @@ class SeedsController < ApplicationController
   end
 
   def new
-    @seed = Seed.new
-
     if params[:planting_id]
       @planting = Planting.find_by(slug: params[:planting_id])
     else
-      @crop = Crop.find_or_initialize_by(id: params[:crop_id])
+      @crop = Crop.find(params[:crop_id])
     end
     respond_with(@seed)
   end
