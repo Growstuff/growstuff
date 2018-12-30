@@ -23,11 +23,11 @@ class Seed < ApplicationRecord
   # Validations
   validates :crop, approved: true
   validates :crop, presence: { message: "must be present and exist in our database" }
-  validates :quantity, allow_nil: true,
+  validates :quantity, allow_nil:    true,
                        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :days_until_maturity_min, allow_nil: true,
+  validates :days_until_maturity_min, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :days_until_maturity_max, allow_nil: true,
+  validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :tradable_to, allow_nil: false, allow_blank: false,
                           inclusion: { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, "\

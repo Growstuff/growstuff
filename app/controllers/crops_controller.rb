@@ -173,13 +173,13 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings: {
+        plantings:        {
           include: {
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
         scientific_names: { only: [:name] },
-        alternate_names: { only: [:name] }
+        alternate_names:  { only: [:name] }
       }
     }
   end

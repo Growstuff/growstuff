@@ -225,7 +225,7 @@ namespace :growstuff do
         if crop
           alternate_names.split(/,\s*/).each do |an|
             AlternateName.where(
-              name: an,
+              name:    an,
               crop_id: crop.id
             ).first_or_create do |x|
               x.creator = cropbot

@@ -53,7 +53,7 @@ module ApplicationHelper
       return uri.to_s
     end
 
-    Gravatar.new(member.email).image_url(size: size,
+    Gravatar.new(member.email).image_url(size:    size,
                                          default: :identicon)
   end
 

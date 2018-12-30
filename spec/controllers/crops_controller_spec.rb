@@ -5,9 +5,9 @@ describe CropsController do
 
   def valid_attributes
     {
-      name: "Tomato",
+      name:             "Tomato",
       en_wikipedia_url: 'http://en.wikipedia.org/wiki/Tomato',
-      approval_status: 'approved'
+      approval_status:  'approved'
     }
   end
 

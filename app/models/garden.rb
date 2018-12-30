@@ -29,20 +29,20 @@ class Garden < ApplicationRecord
 
   validates :area,
     numericality: {
-      only_integer: false,
+      only_integer:             false,
       greater_than_or_equal_to: 0
     },
-    allow_nil: true
+    allow_nil:    true
 
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
-    "square feet" => "square foot",
-    "hectares" => "hectare",
-    "acres" => "acre"
+    "square feet"   => "square foot",
+    "hectares"      => "hectare",
+    "acres"         => "acre"
   }.freeze
-  validates :area_unit, inclusion: { in: AREA_UNITS_VALUES.values,
-                                     message: "%<value>s is not a valid area unit" },
-                        allow_nil: true,
+  validates :area_unit, inclusion:   { in:      AREA_UNITS_VALUES.values,
+                                       message: "%<value>s is not a valid area unit" },
+                        allow_nil:   true,
                         allow_blank: true
 
   after_validation :cleanup_area

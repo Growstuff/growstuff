@@ -5,9 +5,9 @@ describe ForumsController do
 
   def valid_attributes
     {
-      "name" => "MyString",
+      "name"        => "MyString",
       "description" => "Something",
-      "owner_id" => 1
+      "owner_id"    => 1
     }
   end
 

@@ -44,10 +44,10 @@ class Crop < ApplicationRecord
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     format: {
-      with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+      with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
       message: 'is not a valid English Wikipedia URL'
     },
-    if: :approved?
+    if:     :approved?
 
   ####################################
   # Elastic search configuration
@@ -57,22 +57,22 @@ class Crop < ApplicationRecord
     # In order to avoid clashing between different environments,
     # use Rails.env as a part of index name (eg. development_growstuff)
     index_name [Rails.env, "growstuff"].join('_')
-    settings index: { number_of_shards: 1 },
+    settings index:    { number_of_shards: 1 },
              analysis: {
                tokenizer: {
                  gs_edgeNGram_tokenizer: {
-                   type: "edgeNGram", # edgeNGram: NGram match from the start of a token
-                   min_gram: 3,
-                   max_gram: 10,
+                   type:        "edgeNGram", # edgeNGram: NGram match from the start of a token
+                   min_gram:    3,
+                   max_gram:    10,
                    # token_chars: Elasticsearch will split on characters
                    # that don't belong to any of these classes
                    token_chars: %w(letter digit)
                  }
                },
-               analyzer: {
+               analyzer:  {
                  gs_edgeNGram_analyzer: {
                    tokenizer: "gs_edgeNGram_tokenizer",
-                   filter: ["lowercase"]
+                   filter:    ["lowercase"]
                  }
                }
              } do
@@ -82,11 +82,11 @@ class Crop < ApplicationRecord
         indexes :approval_status, type: 'text'
         indexes :scientific_names do
           indexes :name,
-            type: 'text',
+            type:     'text',
             analyzer: 'gs_edgeNGram_analyzer',
             # Disabling field-length norm (norm). If the norm option is turned on(by default),
             # higher weigh would be given for shorter fields, which in our case is irrelevant.
-            norms: { enabled: false }
+            norms:    { enabled: false }
         end
         indexes :alternate_names do
           indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'

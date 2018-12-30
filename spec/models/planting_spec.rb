@@ -180,8 +180,8 @@ describe Planting do
 
       before do
         FactoryBot.create(:harvest,
-          planting: planting,
-          crop: planting.crop,
+          planting:     planting,
+          crop:         planting.crop,
           harvested_at: 10.days.ago)
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
@@ -402,8 +402,8 @@ describe Planting do
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryBot.create(:planting,
           created_at: 1.minute.ago,
-          garden: @planting1.garden,
-          owner: @planting1.owner)
+          garden:     @planting1.garden,
+          owner:      @planting1.owner)
         @planting2.photos << FactoryBot.create(:photo, owner: @planting2.owner)
         @planting2.save
 

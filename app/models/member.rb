@@ -69,13 +69,13 @@ class Member < ApplicationRecord
   # Requires acceptance of the Terms of Service
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
-    length: {
+    length:     {
       minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
     },
-    exclusion: {
+    exclusion:  {
       in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
     },
-    format: {
+    format:     {
       with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
     },
     uniqueness: {
@@ -136,13 +136,13 @@ class Member < ApplicationRecord
     result = if set
                flickr.photosets.getPhotos(
                  photoset_id: set,
-                 page: page_num,
-                 per_page: 30
+                 page:        page_num,
+                 per_page:    30
                )
              else
                flickr.people.getPhotos(
-                 user_id: 'me',
-                 page: page_num,
+                 user_id:  'me',
+                 page:     page_num,
                  per_page: 30
                )
              end
@@ -199,9 +199,9 @@ class Member < ApplicationRecord
     return true if Rails.env.test? && !testing
 
     gibbon.lists.subscribe(
-      id: Rails.application.config.newsletter_list_id,
-      email: { email: email },
-      merge_vars: { login_name: login_name },
+      id:           Rails.application.config.newsletter_list_id,
+      email:        { email: email },
+      merge_vars:   { login_name: login_name },
       double_optin: false # they already confirmed their email with us
     )
   end
@@ -209,7 +209,7 @@ class Member < ApplicationRecord
   def newsletter_unsubscribe(gibbon = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
 
-    gibbon.lists.unsubscribe(id: Rails.application.config.newsletter_list_id,
+    gibbon.lists.unsubscribe(id:    Rails.application.config.newsletter_list_id,
                              email: { email: email })
   end
 

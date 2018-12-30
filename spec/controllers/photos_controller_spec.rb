@@ -8,13 +8,13 @@ describe PhotosController do
   def valid_attributes
     member = FactoryBot.create(:member)
     {
-      "owner_id" => member.id,
+      "owner_id"        => member.id,
       "flickr_photo_id" => 1,
-      "title" => "Photo",
-      "license_name" => "CC-BY",
-      "thumbnail_url" => 'http://example.com/thumb.jpg',
-      "fullsize_url" => 'http://example.com/full.jpg',
-      "link_url" => 'http://example.com'
+      "title"           => "Photo",
+      "license_name"    => "CC-BY",
+      "thumbnail_url"   => 'http://example.com/thumb.jpg',
+      "fullsize_url"    => 'http://example.com/full.jpg',
+      "link_url"        => 'http://example.com'
     }
   end
 
@@ -60,12 +60,12 @@ describe PhotosController do
 
   describe "POST create" do
     before(:each) do
-      Photo.any_instance.stub(:flickr_metadata).and_return(title: "A Heartbreaking work of staggering genius",
-                                                           license_name: "CC-BY",
-                                                           license_url: "http://example.com/aybpl",
+      Photo.any_instance.stub(:flickr_metadata).and_return(title:         "A Heartbreaking work of staggering genius",
+                                                           license_name:  "CC-BY",
+                                                           license_url:   "http://example.com/aybpl",
                                                            thumbnail_url: "http://example.com/thumb.jpg",
-                                                           fullsize_url: "http://example.com/full.jpg",
-                                                           link_url: "http://example.com")
+                                                           fullsize_url:  "http://example.com/full.jpg",
+                                                           link_url:      "http://example.com")
     end
 
     let(:member) { FactoryBot.create(:member) }
