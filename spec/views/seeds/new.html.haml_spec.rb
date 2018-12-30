@@ -23,7 +23,7 @@ describe "seeds/new" do
 
   context 'member has no location' do
     describe 'reminds you to set your location' do
-      it { expect(rendered).to have_content "Don't forget to\nset your location." }
+      it { expect(rendered).to have_content "Don't forget to set your location." }
       it { expect(rendered).to have_link "set your location" }
     end
   end
@@ -32,7 +32,7 @@ describe "seeds/new" do
     let!(:member) { FactoryBot.create(:london_member) }
 
     describe 'shows the location' do
-      it { expect(rendered).to have_text "from\n#{member.location}." }
+      it { expect(rendered).to have_text "from #{member.location}." }
       it { expect(rendered).to have_link(member.location, href: place_path(member.location)) }
     end
 

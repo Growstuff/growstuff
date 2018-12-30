@@ -60,22 +60,22 @@ feature "seeds", js: true do
       before { visit seed_path(seed) }
       describe "view seeds with max and min days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5, days_until_maturity_max: 7 }
-        it { expect(page).to have_content "Days until maturity:\n5–7" }
+        it { expect(page).to have_content "Days until maturity: 5–7" }
       end
 
       describe "view seeds with only max days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_max: 7 }
-        it { expect(page).to have_content "Days until maturity:\n7" }
+        it { expect(page).to have_content "Days until maturity: 7" }
       end
 
       describe "view seeds with only min days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5 }
-        it { expect(page).to have_content "Days until maturity:\n5" }
+        it { expect(page).to have_content "Days until maturity: 5" }
       end
 
       describe "view seeds with neither max nor min days until maturity" do
         let(:seed) { FactoryBot.create :seed }
-        it { expect(page).to have_content "Days until maturity:\nunknown" }
+        it { expect(page).to have_content "Days until maturity: unknown" }
       end
     end
   end

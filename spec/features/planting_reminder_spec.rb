@@ -41,7 +41,7 @@ feature "Planting reminder email", :js do
 
   context "when member has no harvests" do
     scenario "tells you to tracking plantings" do
-      expect(mail).to have_content "Get started now\nby tracking your first harvest"
+      expect(mail).to have_content "Get started now by tracking your first harvest"
     end
 
     scenario "doesn't list plantings" do

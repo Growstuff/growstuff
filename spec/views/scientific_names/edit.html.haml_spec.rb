@@ -13,7 +13,7 @@ describe "scientific_names/edit" do
     end
 
     it "shows the creator" do
-      expect(rendered).to have_content "Added by\n#{member}\nless than a minute\nago."
+      expect(rendered).to have_content "Added by #{member} less than a minute ago."
     end
     it { expect(rendered).to have_link member }
 

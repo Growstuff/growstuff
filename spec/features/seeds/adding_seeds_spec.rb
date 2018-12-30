@@ -48,11 +48,11 @@ feature "Seeds", :js, :elasticsearch do
       end
     end
     it { expect(page).to have_content "Successfully added maize seed to your stash" }
-    it { expect(page).to have_content "Quantity:\n42" }
-    it { expect(page).to have_content "Days until maturity:\n999–1999" }
+    it { expect(page).to have_content "Quantity: 42" }
+    it { expect(page).to have_content "Days until maturity: 999–1999" }
     it { expect(page).to have_content "certified organic" }
     it { expect(page).to have_content "non-certified GMO-free" }
-    it { expect(page).to have_content "Heirloom?\nheirloom" }
+    it { expect(page).to have_content "Heirloom? heirloom" }
     it { expect(page).to have_content "It's killer." }
   end
 
