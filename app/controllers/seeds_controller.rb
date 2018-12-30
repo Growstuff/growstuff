@@ -10,7 +10,12 @@ class SeedsController < ApplicationController
   def index
     @owner = Member.find_by(slug: params[:owner])
     @crop = Crop.find_by(slug: params[:crop])
-    @seeds = seeds(owner: @owner, crop: @crop)
+
+    @seeds = @seeds.where(owner: @owner) if @owner.present?
+    @seeds = @seeds.where(crop: @crop) if @crop.present?
+
+    @seeds = @seeds.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
+
     @filename = csv_filename
 
     respond_with(@seeds)
@@ -63,16 +68,6 @@ class SeedsController < ApplicationController
       :heirloom, :tradable_to, :slug,
       :finished, :finished_at
     )
-  end
-
-  def seeds(owner: nil, crop: nil)
-    if owner
-      owner.seeds
-    elsif crop
-      crop.seeds
-    else
-      Seed
-    end.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
   end
 
   def csv_filename
