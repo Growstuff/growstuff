@@ -1,4 +1,4 @@
-class RequireFieldsForComments < ActiveRecord::Migration
+class RequireFieldsForComments < ActiveRecord::Migration[4.2]
   def up
     change_table :comments do |t|
       t.change :post_id, :integer, null: false

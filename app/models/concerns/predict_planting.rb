@@ -33,6 +33,7 @@ module PredictPlanting
 
     def actual_lifespan
       return unless planted_at.present? && finished_at.present?
+
       (finished_at - planted_at).to_i
     end
 

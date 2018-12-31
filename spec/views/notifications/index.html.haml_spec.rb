@@ -8,7 +8,7 @@ describe "notifications/index" do
 
   context "ordinary notifications" do
     before(:each) do
-      @notification = FactoryBot.create(:notification, sender: @member,
+      @notification = FactoryBot.create(:notification, sender:    @member,
                                                        recipient: @member)
       assign(:notifications, Kaminari.paginate_array([@notification, @notification]).page(1))
       render

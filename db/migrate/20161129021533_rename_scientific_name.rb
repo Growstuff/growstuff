@@ -1,4 +1,4 @@
-class RenameScientificName < ActiveRecord::Migration
+class RenameScientificName < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :scientific_names, :scientific_name, :name
   end

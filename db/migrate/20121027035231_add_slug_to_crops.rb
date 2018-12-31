@@ -1,4 +1,4 @@
-class AddSlugToCrops < ActiveRecord::Migration
+class AddSlugToCrops < ActiveRecord::Migration[4.2]
   def change
     add_column :crops, :slug, :string
     add_index :crops, :slug, unique: true

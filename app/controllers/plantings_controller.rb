@@ -56,7 +56,7 @@ class PlantingsController < ApplicationController
     @planting = Planting.new(planting_params)
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
-    @planting.save!
+    @planting.save
     respond_with @planting
   end
 
@@ -73,7 +73,7 @@ class PlantingsController < ApplicationController
   private
 
   def update_crop_medians
-    @planting.crop.update_lifespan_medians
+    @planting.crop.update_lifespan_medians if @planting.crop.present?
   end
 
   def update_planting_medians

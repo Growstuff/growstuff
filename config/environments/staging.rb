@@ -1,4 +1,4 @@
-Growstuff::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   config.action_controller.action_on_unpermitted_parameters = :raise

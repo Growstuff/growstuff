@@ -31,6 +31,7 @@ class HarvestsController < ApplicationController
 
   def edit
     @planting = @harvest.planting if @harvest.planting_id
+    respond_with(@harvest)
   end
 
   def create

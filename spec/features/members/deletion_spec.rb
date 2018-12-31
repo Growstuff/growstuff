@@ -75,6 +75,10 @@ feature "member deletion" do
         logout
       end
 
+      describe 'member exists but is marked deleted' do
+        it { expect(Member.with_deleted.find(member.id)).to eq member }
+      end
+
       scenario "removes plantings" do
         visit planting_path(planting)
         expect(page.status_code).to eq(404)
@@ -108,6 +112,8 @@ feature "member deletion" do
       end
 
       scenario "replaces comments on others' posts with deletion note, leaving post intact" do
+        FactoryBot.create :comment, post: othermemberpost, author: member, body: 'i am deleting my account'
+
         visit post_path(othermemberpost)
         expect(page).not_to have_content member.login_name
         expect(page).to have_content other_member.login_name

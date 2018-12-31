@@ -17,8 +17,7 @@
             <p>Heirloom? #{seed.heirloom}</p>
           - if seed.tradable?
             %p
-              Will trade #{seed.tradable_to} from
-              = seed.owner.location ? seed.owner.location : 'unknown location'
+              Will trade #{seed.tradable_to} from #{seed.owner.location ? seed.owner.location : 'unknown location'}
 
           :escaped_markdown
             #{ strip_tags seed.description }

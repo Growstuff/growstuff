@@ -1,4 +1,4 @@
-class CreateForums < ActiveRecord::Migration
+class CreateForums < ActiveRecord::Migration[4.2]
   def change
     create_table :forums do |t|
       t.string :name, null: false

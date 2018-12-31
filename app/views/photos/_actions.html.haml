@@ -1,6 +1,7 @@
-- if can?(:edit, @photo) && can?(:destroy, @photo)
-  %p.photo-actions
-    - if can?(:edit, @photo)
-      = render 'shared/buttons/edit', path: edit_photo_path(@photo)
-    - if can?(:destroy, @photo)
-      = render 'shared/buttons/delete', path: photo_path(@photo)
+.photo-actions
+  - if can?(:edit, @photo) && can?(:destroy, @photo)
+    %p
+      - if can?(:edit, @photo)
+        = render 'shared/buttons/edit', path: edit_photo_path(@photo)
+      - if can?(:destroy, @photo)
+        = render 'shared/buttons/delete', path: photo_path(@photo)

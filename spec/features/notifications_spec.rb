@@ -2,15 +2,15 @@ require 'rails_helper'
 
 feature "Notifications", :js do
   let(:sender) { create :member }
-  let(:recipient) { create :member }
+  let(:recipient) { create :member, login_name: 'beyonce' }
 
   context "On existing notification" do
     let!(:notification) do
       create :notification,
-        sender: sender,
+        sender:    sender,
         recipient: recipient,
-        body: "Notification body",
-        post_id: nil
+        body:      "Notification body",
+        post_id:   nil
     end
 
     background do

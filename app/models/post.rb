@@ -1,12 +1,12 @@
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
   friendly_id :author_date_subject, use: %i(slugged finders)
 
   #
   # Relationships
-  belongs_to :author, class_name: 'Member'
-  belongs_to :forum
+  belongs_to :author, class_name: 'Member', inverse_of: :posts
+  belongs_to :forum, optional: true
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :crops # rubocop:disable Rails/HasAndBelongsToMany
   # also has_many notifications, but kinda meaningless to get at them
@@ -77,11 +77,12 @@ class Post < ActiveRecord::Base
     # don't send notifications to yourself
     recipients.map(&:id).each do |recipient_id|
       next unless recipient_id != sender
+
       Notification.create(
         recipient_id: recipient_id,
-        sender_id: sender,
-        subject: "#{author} mentioned you in their post #{subject}",
-        body: body
+        sender_id:    sender,
+        subject:      "#{author} mentioned you in their post #{subject}",
+        body:         body
       )
     end
   end
