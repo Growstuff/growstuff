@@ -67,7 +67,7 @@ Growstuff::Application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Growstuff configuration
-  config.action_mailer.default_url_options = { host: 'growstuff.org' }
+  config.action_mailer.default_url_options = { host: ENV['MAIL_SENDER_HOST'] }
 
   ActionMailer::Base.smtp_settings = {
     port:                 ENV['SPARKPOST_SMTP_PORT'],
