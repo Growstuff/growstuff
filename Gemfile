@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.1'
 
-gem 'rails', '5.1.4'
+gem 'rails', '5.2.2'
 
 gem 'bundler', '>=1.1.5'
 
@@ -43,7 +43,7 @@ gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growst
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem 'comfortable_mexican_sofa', git: 'https://github.com/comfy/comfortable-mexican-sofa', branch: 'rails5.1'
+gem "comfortable_mexican_sofa", "~> 2.0.0"
 
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari'                     # pagination
