@@ -1,4 +1,4 @@
-class CreatePlantings < ActiveRecord::Migration
+class CreatePlantings < ActiveRecord::Migration[4.2]
   def change
     create_table :plantings do |t|
       t.integer :garden_id, null: false

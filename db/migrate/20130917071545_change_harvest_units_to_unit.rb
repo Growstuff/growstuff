@@ -1,4 +1,4 @@
-class ChangeHarvestUnitsToUnit < ActiveRecord::Migration
+class ChangeHarvestUnitsToUnit < ActiveRecord::Migration[4.2]
   def change
     rename_column :harvests, :units, :unit
   end

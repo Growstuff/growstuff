@@ -2,7 +2,7 @@
 
 %p
   Added by
-  = @scientific_name.creator
+  = link_to @scientific_name.creator, @scientific_name.creator
   = distance_of_time_in_words(@scientific_name.created_at, Time.zone.now)
   ago.
 

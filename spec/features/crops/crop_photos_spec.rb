@@ -8,18 +8,30 @@ feature "crop detail page", js: true do
   let(:crop) { create :crop, plantings: [planting], harvests: [harvest] }
   let(:planting) { create :planting, owner: member }
   let(:harvest) { create :harvest, owner: member }
-
+  let(:valid_server) { 'https://farm5.staticflickr.com/' }
   let(:photo1) do
-    create(:photo, owner: member, title: 'photo 1', fullsize_url: 'photo1.jpg', thumbnail_url: 'thumb1.jpg')
+    create(:photo, owner:         member,
+                   title:         'photo 1',
+                   fullsize_url:  "#{valid_server}photo1.jpg",
+                   thumbnail_url: "#{valid_server}thumb1.jpg")
   end
   let(:photo2) do
-    create(:photo, owner: member, title: 'photo 2', fullsize_url: 'photo2.jpg', thumbnail_url: 'thumb2.jpg')
+    create(:photo, owner:         member,
+                   title:         'photo 2',
+                   fullsize_url:  "#{valid_server}photo2.jpg",
+                   thumbnail_url: "#{valid_server}thumb2.jpg")
   end
   let(:photo3) do
-    create(:photo, owner: member, title: 'photo 3', fullsize_url: 'photo3.jpg', thumbnail_url: 'thumb3.jpg')
+    create(:photo, owner:         member,
+                   title:         'photo 3',
+                   fullsize_url:  "#{valid_server}photo3.jpg",
+                   thumbnail_url: "#{valid_server}thumb3.jpg")
   end
   let(:photo4) do
-    create(:photo, owner: member, title: 'photo 4', fullsize_url: 'photo4.jpg', thumbnail_url: 'thumb4.jpg')
+    create(:photo, owner:         member,
+                   title:         'photo 4',
+                   fullsize_url:  "#{valid_server}photo4.jpg",
+                   thumbnail_url: "#{valid_server}thumb4.jpg")
   end
 
   before do

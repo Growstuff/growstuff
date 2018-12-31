@@ -1,16 +1,17 @@
 require 'rails_helper'
 
 describe "seeds/new" do
+  let!(:seed) { FactoryBot.create(:seed, owner: member) }
+  let!(:member) { FactoryBot.create(:member) }
+
   before(:each) do
-    @member = FactoryBot.create(:member)
-    sign_in @member
+    sign_in member
     controller.stub(:current_user) { @member }
-    @seed1 = FactoryBot.create(:seed, owner: @member)
-    assign(:seed, @seed1)
+    assign(:seed, seed)
+    render
   end
 
   it "renders new seed form" do
-    render
     assert_select "form", action: seeds_path, method: "post" do
       assert_select "input#crop", class: "ui-autocomplete-input"
       assert_select "input#seed_crop_id", name: "seed[crop_id]"
@@ -20,30 +21,23 @@ describe "seeds/new" do
     end
   end
 
-  it 'reminds you to set your location' do
-    render
-    rendered.should have_content "Don't forget to set your location."
-    assert_select "a", text: "set your location"
+  context 'member has no location' do
+    describe 'reminds you to set your location' do
+      it { expect(rendered).to have_content "Don't forget to set your location." }
+      it { expect(rendered).to have_link "set your location" }
+    end
   end
 
-  context 'member has location' do
-    before(:each) do
-      @member = FactoryBot.create(:london_member)
-      sign_in @member
-      controller.stub(:current_user) { @member }
-      @seed1 = FactoryBot.create(:seed, owner: @member)
-      assign(:seed, @seed1)
+  context 'when member has location' do
+    let!(:member) { FactoryBot.create(:london_member) }
+
+    describe 'shows the location' do
+      it { expect(rendered).to have_text "from #{member.location}." }
+      it { expect(rendered).to have_link(member.location, href: place_path(member.location)) }
     end
 
-    it 'shows the location' do
-      render
-      rendered.should have_content "from #{@member.location}."
-      assert_select 'a', href: place_path(@member.location)
-    end
-
-    it 'links to change location' do
-      render
-      assert_select "a", text: "Change your location."
+    it 'link to change location' do
+      expect(rendered).to have_link("Change your location.")
     end
   end
 end

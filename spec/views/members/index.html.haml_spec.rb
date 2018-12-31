@@ -16,7 +16,7 @@ describe "members/index" do
   end
 
   it "contains two gravatar icons" do
-    assert_select "img", src: /gravatar\.com\/avatar/, count: 2
+    assert_select "img", src: %r{gravatar\.com/avatar}, count: 2
   end
 
   it 'contains member locations' do

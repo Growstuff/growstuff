@@ -1,4 +1,4 @@
-class Harvest < ActiveRecord::Base
+class Harvest < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
   include PhotoCapable
@@ -9,15 +9,15 @@ class Harvest < ActiveRecord::Base
   # Constants
   UNITS_VALUES = {
     "individual" => "individual",
-    "bunches" => "bunch",
-    "sprigs" => "sprig",
-    "handfuls" => "handful",
-    "litres" => "litre",
-    "pints" => "pint",
-    "quarts" => "quart",
-    "buckets" => "bucket",
-    "baskets" => "basket",
-    "bushels" => "bushel"
+    "bunches"    => "bunch",
+    "sprigs"     => "sprig",
+    "handfuls"   => "handful",
+    "litres"     => "litre",
+    "pints"      => "pint",
+    "quarts"     => "quart",
+    "buckets"    => "bucket",
+    "baskets"    => "basket",
+    "bushels"    => "bushel"
   }.freeze
 
   WEIGHT_UNITS_VALUES = {
@@ -35,7 +35,7 @@ class Harvest < ActiveRecord::Base
   ## Relationships
   belongs_to :crop
   belongs_to :plant_part
-  belongs_to :planting
+  belongs_to :planting, optional: true
 
   ##
   ## Scopes
@@ -70,6 +70,7 @@ class Harvest < ActiveRecord::Base
 
   def time_from_planting_to_harvest
     return if planting.blank?
+
     harvested_at - planting.planted_at
   end
 
@@ -77,14 +78,15 @@ class Harvest < ActiveRecord::Base
   # to make data manipulation easier
   def set_si_weight
     return if weight_unit.nil?
+
     weight_string = "#{weight_quantity} #{weight_unit}"
     self.si_weight = Unit.new(weight_string).convert_to("kg").to_s("%0.3f").delete(" kg").to_f
   end
 
   def cleanup_quantities
-    self.quantity = nil if quantity && quantity.zero?
+    self.quantity = nil if quantity&.zero?
     self.unit = nil if quantity.blank?
-    self.weight_quantity = nil if weight_quantity && weight_quantity.zero?
+    self.weight_quantity = nil if weight_quantity&.zero?
     self.weight_unit = nil if weight_quantity.blank?
   end
 
@@ -101,11 +103,13 @@ class Harvest < ActiveRecord::Base
 
   def quantity_to_human
     return number_to_human(quantity.to_s, strip_insignificant_zeros: true) if quantity
+
     ""
   end
 
   def unit_to_human
     return "" unless quantity
+
     if unit == 'individual'
       'individual'
     elsif quantity == 1
@@ -117,6 +121,7 @@ class Harvest < ActiveRecord::Base
 
   def weight_to_human
     return "" unless weight_quantity
+
     "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
   end
 
@@ -138,17 +143,20 @@ class Harvest < ActiveRecord::Base
 
   def crop_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
+
     errors.add(:planting, "must be the same crop") unless crop == planting.crop
   end
 
   def owner_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
+
     errors.add(:owner, "of harvest must be the same as planting") unless owner == planting.owner
   end
 
   def harvest_must_be_after_planting
     # only check if we are linked to a planting
     return unless harvested_at.present? && planting.present? && planting.planted_at.present?
+
     errors.add(:planting, "cannot be harvested before planting") unless harvested_at > planting.planted_at
   end
 end

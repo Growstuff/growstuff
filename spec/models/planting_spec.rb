@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Planting do
   let(:crop) { FactoryBot.create(:tomato) }
-  let(:garden_owner) { FactoryBot.create(:member) }
+  let(:garden_owner) { FactoryBot.create(:member, login_name: 'hatupatu') }
   let(:garden) { FactoryBot.create(:garden, owner: garden_owner, name: 'Springfield Community Garden') }
   let(:planting) { FactoryBot.create(:planting, crop: crop, garden: garden, owner: garden.owner) }
   let(:finished_planting) do
@@ -180,8 +180,8 @@ describe Planting do
 
       before do
         FactoryBot.create(:harvest,
-          planting: planting,
-          crop: planting.crop,
+          planting:     planting,
+          crop:         planting.crop,
           harvested_at: 10.days.ago)
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
@@ -219,7 +219,7 @@ describe Planting do
   end
 
   it "should have a slug" do
-    planting.slug.should match(/^member\d+-springfield-community-garden-tomato$/)
+    planting.slug.should match(/^hatupatu-springfield-community-garden-tomato$/)
   end
 
   it 'should sort in reverse creation order' do
@@ -331,94 +331,85 @@ describe Planting do
   # be done on this side, not on the photos side
   context 'photos' do
     let(:planting) { FactoryBot.create(:planting) }
-    let(:photo) { FactoryBot.create(:photo) }
-
-    before do
-      planting.photos << photo
-    end
+    let(:photo) { FactoryBot.create(:photo, owner_id: planting.owner_id) }
+    before { planting.photos << photo }
 
     it 'has a photo' do
-      planting.photos.first.should eq photo
+      expect(planting.photos.first).to eq photo
     end
 
     it 'is found in has_photos scope' do
-      Planting.has_photos.should include(planting)
+      expect(Planting.has_photos).to include(planting)
     end
 
     it 'deletes association with photos when photo is deleted' do
       photo.destroy
       planting.reload
-      planting.photos.should be_empty
+      expect(planting.photos).to be_empty
     end
 
     it 'has a default photo' do
-      planting.default_photo.should eq photo
+      expect(planting.default_photo).to eq photo
     end
 
     it 'chooses the most recent photo' do
-      @photo2 = FactoryBot.create(:photo)
+      @photo2 = FactoryBot.create(:photo, owner: planting.owner)
       planting.photos << @photo2
-      planting.default_photo.should eq @photo2
+      expect(planting.default_photo).to eq @photo2
     end
   end
 
   context 'interesting plantings' do
-    it 'picks up interesting plantings' do
-      # plantings have members created implicitly for them
-      # each member is different, hence these are all interesting
-      @planting1 = FactoryBot.create(:planting, created_at: 5.days.ago)
-      @planting2 = FactoryBot.create(:planting, created_at: 4.days.ago)
-      @planting3 = FactoryBot.create(:planting, created_at: 3.days.ago)
-      @planting4 = FactoryBot.create(:planting, created_at: 2.days.ago)
+    describe 'picks up interesting plantings' do
+      before do
+        # plantings have members created implicitly for them
+        # each member is different, hence these are all interesting
+        @planting1 = FactoryBot.create(:planting, planted_at: 5.days.ago)
+        @planting2 = FactoryBot.create(:planting, planted_at: 4.days.ago)
+        @planting3 = FactoryBot.create(:planting, planted_at: 3.days.ago)
+        @planting4 = FactoryBot.create(:planting, planted_at: 2.days.ago)
 
-      # plantings need photos to be interesting
-      @photo = FactoryBot.create(:photo)
-      [@planting1, @planting2, @planting3, @planting4].each do |p|
-        p.photos << @photo
-        p.save
+        # plantings need photos to be interesting
+        [@planting1, @planting2, @planting3, @planting4].each do |p|
+          p.photos << FactoryBot.create(:photo, owner_id: p.owner_id)
+          p.save
+        end
       end
 
-      [
-        @planting4,
-        @planting3,
-        @planting2,
-        @planting1
-      ].each do |p|
-        Planting.interesting.should include p
-      end
+      it { expect(Planting.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
     end
 
     context "default arguments" do
       it 'ignores plantings without photos' do
         # first, an interesting planting
         @planting = FactoryBot.create(:planting)
-        @planting.photos << FactoryBot.create(:photo)
+        @planting.photos << FactoryBot.create(:photo, owner: @planting.owner)
         @planting.save
 
         # this one doesn't have a photo
         @no_photo_planting = FactoryBot.create(:planting)
 
-        Planting.interesting.should include @planting
-        Planting.interesting.should_not include @no_photo_planting
+        expect(Planting.interesting).to include @planting
+        expect(Planting.interesting).not_to include @no_photo_planting
       end
 
       it 'ignores plantings with the same owner' do
         # this planting is older
         @planting1 = FactoryBot.create(:planting, created_at: 1.day.ago)
-        @planting1.photos << FactoryBot.create(:photo)
+        @planting1.photos << FactoryBot.create(:photo, owner_id: @planting1.owner_id)
         @planting1.save
 
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryBot.create(:planting,
           created_at: 1.minute.ago,
-          garden: @planting1.garden,
-          owner: @planting1.owner)
-        @planting2.photos << FactoryBot.create(:photo)
+          garden:     @planting1.garden,
+          owner:      @planting1.owner)
+        @planting2.photos << FactoryBot.create(:photo, owner: @planting2.owner)
         @planting2.save
 
         # result: the newer one is interesting, the older one isn't
-        Planting.interesting.should include @planting2
-        Planting.interesting.should_not include @planting1
+        expect(Planting.interesting).to include @planting2
+        expect(Planting.interesting).not_to include @planting1
       end
     end
 
@@ -426,9 +417,9 @@ describe Planting do
       it "only returns the number asked for" do
         @plantings = FactoryBot.create_list(:planting, 10)
         @plantings.each do |p|
-          p.photos << FactoryBot.create(:photo, owner: planting.owner)
+          p.photos << FactoryBot.create(:photo, owner: p.owner)
         end
-        Planting.interesting.limit(3).count.should eq 3
+        expect(Planting.interesting.limit(3).count).to eq 3
       end
     end
   end # interesting plantings

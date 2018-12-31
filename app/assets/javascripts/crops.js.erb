@@ -1,6 +1,6 @@
 function showCropMap(cropmap) {
-  var mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
-  var mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_access_token %>";
+  var mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_map_id %>";
+  var mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_access_token %>";
   var mapbox_base_url = "http://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
 
   L.tileLayer(mapbox_base_url, {
