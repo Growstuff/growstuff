@@ -9,8 +9,8 @@ describe Notifier do
       mail.subject.should == notification.subject
     end
 
-    it 'comes from noreply@growstuff.org' do
-      mail.from.should == ['noreply@growstuff.org']
+    it 'comes from noreply@test.growstuff.org' do
+      mail.from.should == ['noreply@test.growstuff.org']
     end
 
     it 'sends the mail to the recipient of the notification' do
@@ -26,8 +26,8 @@ describe Notifier do
       mail.subject.should == "What have you planted lately?"
     end
 
-    it 'comes from noreply@growstuff.org' do
-      mail.from.should == ['noreply@growstuff.org']
+    it 'comes from noreply@test.growstuff.org' do
+      mail.from.should == ['noreply@test.growstuff.org']
     end
 
     it 'sends the mail to the recipient of the notification' do
@@ -52,8 +52,8 @@ describe Notifier do
       mail.subject.should == "#{crop.requester.login_name} has requested Ultra berry as a new crop"
     end
 
-    it 'comes from noreply@growstuff.org' do
-      mail.from.should == ['noreply@growstuff.org']
+    it 'comes from noreply@test.growstuff.org' do
+      mail.from.should == ['noreply@test.growstuff.org']
     end
 
     it 'sends the mail to the recipient of the notification' do
@@ -74,8 +74,8 @@ describe Notifier do
       expect(mail.subject).to eq "Magic bean has been approved"
     end
 
-    it 'comes from noreply@growstuff.org' do
-      expect(mail.from).to eq ['noreply@growstuff.org']
+    it 'comes from noreply@test.growstuff.org' do
+      expect(mail.from).to eq ['noreply@test.growstuff.org']
     end
 
     it 'sends the mail to the recipient of the notification' do
@@ -102,8 +102,8 @@ describe Notifier do
       expect(mail.subject).to eq "Fail bean has been rejected"
     end
 
-    it 'comes from noreply@growstuff.org' do
-      expect(mail.from).to eq ['noreply@growstuff.org']
+    it 'comes from noreply@test.growstuff.org' do
+      expect(mail.from).to eq ['noreply@test.growstuff.org']
     end
 
     it 'sends the mail to the recipient of the notification' do
