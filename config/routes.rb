@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
-  resources :plant_parts
-
   devise_for :members, controllers: {
     registrations:      "registrations",
     passwords:          "passwords",
@@ -14,83 +12,99 @@ Rails.application.routes.draw do
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
-  resources :members
-
-  resources :photos
-  delete 'photo_associations' => 'photo_associations#destroy'
-
   resources :authentications, only: %i(create destroy)
 
-  resources :plantings do
-    resources :harvests
-    resources :seeds
-  end
-  get '/plantings/owner/:owner' => 'plantings#index', as: 'plantings_by_owner'
-  get '/plantings/crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
+  get "home/index"
+  root to: 'home#index'
 
   resources :gardens do
     get 'timeline' => 'charts/gardens#timeline'
+    get 'owner/:owner' => 'gardens#index', as: 'gardens_by_owner', on: :collection
   end
-  get '/gardens/owner/:owner' => 'gardens#index', as: 'gardens_by_owner'
+
+  resources :plantings do
+    get :harvests
+    get :seeds
+    collection do
+      get 'owner/:owner' => 'plantings#index', as: 'plantings_by_owner'
+      get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
+    end
+  end
 
   resources :seeds do
-    resources :plantings
+    get :plantings
+    collection do
+      get 'owner/:owner' => 'seeds#index', as: 'seeds_by_owner'
+      get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop'
+    end
   end
-  get '/seeds/owner/:owner' => 'seeds#index', as: 'seeds_by_owner'
-  get '/seeds/crop/:crop' => 'seeds#index', as: 'seeds_by_crop'
 
-  resources :harvests
-  get '/harvests/owner/:owner' => 'harvests#index', as: 'harvests_by_owner'
-  get '/harvests/crop/:crop' => 'harvests#index', as: 'harvests_by_crop'
+  resources :harvests do
+    collection do
+      get 'owner/:owner' => 'harvests#index', as: 'harvests_by_owner'
+      get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop'
+    end
+  end
 
-  resources :posts
-  get '/posts/author/:author' => 'posts#index', as: 'posts_by_author'
+  resources :posts do
+    collection do
+      get 'author/:author' => 'posts#index', as: 'posts_by_author'
+    end
+  end
 
   resources :scientific_names
   resources :alternate_names
+  resources :plant_parts
+  resources :photos
 
-  get 'crops/requested' => 'crops#requested', as: 'requested_crops'
-  get 'crops/wrangle' => 'crops#wrangle', as: 'wrangle_crops'
-  get 'crops/hierarchy' => 'crops#hierarchy', as: 'crops_hierarchy'
-  get 'crops/search' => 'crops#search', as: 'crops_search'
+  delete 'photo_associations' => 'photo_associations#destroy'
+
   resources :crops do
-    get 'photos' => 'photos#index'
-    get 'sunniness' => 'charts/crops#sunniness'
-    get 'planted_from' => 'charts/crops#planted_from'
-    get 'harvested_for' => 'charts/crops#harvested_for'
+    get 'harvests' => 'harvests#index'
+    get 'plantings' => 'plantings#index'
+
+    # Charts
+    get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
+    get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
+    get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
+
+    collection do
+      get 'requested' => 'crops#requested', as: 'requested_crops'
+      get 'wrangle' => 'crops#wrangle', as: 'wrangle_crops'
+      get 'hierarchy' => 'crops#hierarchy', as: 'crops_hierarchy'
+      get 'search' => 'crops#search', as: 'search'
+    end
   end
 
   resources :comments
   resources :roles
   resources :forums
+
+  resources :follows, only: %i(create destroy)
+  resources :likes, only: %i(create destroy)
+  resources :members do
+    get 'follows' => 'members#view_follows', as: 'member_follows'
+    get 'followers' => 'members#view_followers', as: 'member_followers'
+  end
   resources :notifications do
     get 'reply', on: :member
   end
 
-  resources :follows, only: %i(create destroy)
-  get '/members/:login_name/follows' => 'members#view_follows', as: 'member_follows'
-  get '/members/:login_name/followers' => 'members#view_followers', as: 'member_followers'
-
-  get '/places' => 'places#index'
-  get '/places/search' => 'places#search', as: 'search_places'
-  get '/places/:place' => 'places#show', as: 'place'
-
-  resources :likes, only: %i(create destroy)
-
-  get "home/index"
-  root to: 'home#index'
+  resources :places do
+    collection do
+      get 'search' => 'places#search', as: 'search_places'
+      get ':place' => 'places#show', as: 'place'
+    end
+  end
 
   get 'auth/:provider/callback' => 'authentications#create'
   get 'members/auth/:provider/callback' => 'authentications#create'
 
-  comfy_route :cms_admin, path: '/admin/cms'
-  namespace :admin do
+  resources :admin, only: :index do
+    get 'newsletter'
     resources :members
+    get ':action' => 'admin#:action', on: :collection
   end
-
-  get '/admin' => 'admin#index'
-  get '/admin/newsletter' => 'admin#newsletter', as: :admin_newsletter
-  get '/admin/:action' => 'admin#:action'
 
   namespace :api do
     namespace :v1 do
@@ -106,5 +120,6 @@ Rails.application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
   # CMS stuff  -- must remain LAST
+  comfy_route :cms_admin, path: '/admin/cms'
   comfy_route :cms, path: '/', sitemap: false
 end
