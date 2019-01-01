@@ -17,12 +17,21 @@ Rails.application.routes.draw do
   get "home/index"
   root to: 'home#index'
 
+
+  concern :photo_attachable do
+    resources :photos, only: :index
+  end
+
+  concern :ownable do
+    get 'owner/:owner' => 'gardens#index', on: :collection
+  end
+
   resources :gardens do
     get 'timeline' => 'charts/gardens#timeline'
     get 'owner/:owner' => 'gardens#index', as: 'gardens_by_owner', on: :collection
   end
 
-  resources :plantings do
+  resources :plantings, concerns: [:photo_attachable, :ownable] do
     get :harvests
     get :seeds
     collection do
@@ -31,7 +40,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :seeds do
+  resources :seeds, concerns: [:photo_attachable, :ownable] do
     get :plantings
     collection do
       get 'owner/:owner' => 'seeds#index', as: 'seeds_by_owner'
@@ -39,14 +48,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :harvests do
+  resources :harvests, concerns: [:photo_attachable, :ownable] do
     collection do
       get 'owner/:owner' => 'harvests#index', as: 'harvests_by_owner'
       get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop'
     end
   end
 
-  resources :posts do
+  resources :posts, concerns: :ownable do
     collection do
       get 'author/:author' => 'posts#index', as: 'posts_by_author'
     end
@@ -59,7 +68,7 @@ Rails.application.routes.draw do
 
   delete 'photo_associations' => 'photo_associations#destroy'
 
-  resources :crops do
+  resources :crops, concerns: [:photo_attachable, :ownable] do
     get 'harvests' => 'harvests#index'
     get 'plantings' => 'plantings#index'
 
