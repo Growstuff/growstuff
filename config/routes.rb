@@ -94,10 +94,7 @@ Rails.application.routes.draw do
   end
 
   resources :places do
-    collection do
-      get 'search'
-      get ':place' => 'places#show'
-    end
+    get 'search', on: :collection
   end
 
   get 'auth/:provider/callback' => 'authentications#create'
