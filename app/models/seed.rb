@@ -1,4 +1,4 @@
-class Seed < ActiveRecord::Base
+class Seed < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include Finishable
@@ -13,19 +13,21 @@ class Seed < ActiveRecord::Base
   #
   # Relationships
   belongs_to :crop
-  belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id' # parent
+  belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id',
+                               required: false, inverse_of: :child_seeds # parent
   has_many :child_plantings, class_name: 'Planting',
-                             foreign_key: 'parent_seed_id', dependent: :nullify # children
+                             foreign_key: 'parent_seed_id', dependent: :nullify,
+                             inverse_of: :parent_seed # children
 
   #
   # Validations
   validates :crop, approved: true
   validates :crop, presence: { message: "must be present and exist in our database" }
-  validates :quantity, allow_nil: true,
+  validates :quantity, allow_nil:    true,
                        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :days_until_maturity_min, allow_nil: true,
+  validates :days_until_maturity_min, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :days_until_maturity_max, allow_nil: true,
+  validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :tradable_to, allow_nil: false, allow_blank: false,
                           inclusion: { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, "\

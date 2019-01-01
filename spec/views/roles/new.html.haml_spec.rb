@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "roles/new" do
   before(:each) do
     assign(:role, stub_model(Role,
-      name: "MyString",
+      name:        "MyString",
       description: "MyText").as_new_record)
   end
 

@@ -1,4 +1,4 @@
-class ChangePlantPartToPlantPartId < ActiveRecord::Migration
+class ChangePlantPartToPlantPartId < ActiveRecord::Migration[4.2]
   def up
     remove_column :harvests, :plant_part
     add_column :harvests, :plant_part_id, :integer

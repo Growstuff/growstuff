@@ -1,4 +1,4 @@
-class SetDefaultTradableToOnSeed < ActiveRecord::Migration
+class SetDefaultTradableToOnSeed < ActiveRecord::Migration[4.2]
   def up
     change_column_default(:seeds, :tradable_to, 'nowhere')
   end

@@ -1,4 +1,4 @@
-class AddCropsPostsTable < ActiveRecord::Migration
+class AddCropsPostsTable < ActiveRecord::Migration[4.2]
   def change
     create_table :crops_posts, id: false do |t|
       t.integer :crop_id

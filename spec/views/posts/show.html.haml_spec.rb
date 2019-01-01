@@ -2,8 +2,7 @@ require 'rails_helper'
 
 describe "posts/show" do
   subject { rendered }
-
-  let(:author) { FactoryBot.create(:member) }
+  let(:author) { FactoryBot.create(:member, login_name: 'mary') }
 
   before(:each) do
     controller.stub(:current_user) { nil }
@@ -14,12 +13,12 @@ describe "posts/show" do
     before { render }
 
     describe "basic post" do
-      let(:post) { FactoryBot.create(:post, author: author) }
+      let(:post) { FactoryBot.create(:post, author: author, body: 'hello there') }
 
       # show the name of the member who posted the post
-      it { is_expected.to match(/member\d+/) }
+      it { is_expected.to have_text author.login_name }
       # Subject goes in title
-      it { is_expected.to have_text('This is some text.') }
+      it { is_expected.to have_text('hello there') }
       # shouldn't show the subject on a single post page
       # (it appears in the title/h1 via the layout, not via this view)
       it { is_expected.not_to have_text('An Update') }

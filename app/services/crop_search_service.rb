@@ -9,7 +9,7 @@ class CropSearchService
             filter: {
               term: { "approval_status" => "approved" }
             },
-            must: {
+            must:   {
               query_string: {
                 query: "*#{search_str}*"
               }

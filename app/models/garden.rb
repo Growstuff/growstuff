@@ -1,4 +1,4 @@
-class Garden < ActiveRecord::Base
+class Garden < ApplicationRecord
   extend FriendlyId
   include Geocodable
   include PhotoCapable
@@ -29,26 +29,26 @@ class Garden < ActiveRecord::Base
 
   validates :area,
     numericality: {
-      only_integer: false,
+      only_integer:             false,
       greater_than_or_equal_to: 0
     },
-    allow_nil: true
+    allow_nil:    true
 
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
-    "square feet" => "square foot",
-    "hectares" => "hectare",
-    "acres" => "acre"
+    "square feet"   => "square foot",
+    "hectares"      => "hectare",
+    "acres"         => "acre"
   }.freeze
-  validates :area_unit, inclusion: { in: AREA_UNITS_VALUES.values,
-                                     message: "%<value>s is not a valid area unit" },
-                        allow_nil: true,
+  validates :area_unit, inclusion:   { in:      AREA_UNITS_VALUES.values,
+                                       message: "%<value>s is not a valid area unit" },
+                        allow_nil:   true,
                         allow_blank: true
 
   after_validation :cleanup_area
 
   def cleanup_area
-    self.area = nil if area && area.zero?
+    self.area = nil if area&.zero?
     self.area_unit = nil if area.blank?
   end
 
@@ -62,7 +62,7 @@ class Garden < ActiveRecord::Base
     unique_plantings = []
     seen_crops = []
 
-    plantings.order(created_at: :desc).includes(:garden, :crop, :owner, :harvests).each do |p|
+    plantings.includes(:garden, :crop, :owner, :harvests).order(created_at: :desc).each do |p|
       unless seen_crops.include?(p.crop)
         unique_plantings.push(p)
         seen_crops.push(p.crop)

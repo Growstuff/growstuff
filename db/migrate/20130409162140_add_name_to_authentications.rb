@@ -1,4 +1,4 @@
-class AddNameToAuthentications < ActiveRecord::Migration
+class AddNameToAuthentications < ActiveRecord::Migration[4.2]
   def change
     add_column :authentications, :name, :string
   end

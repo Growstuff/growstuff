@@ -1,4 +1,4 @@
-class Notifier < ActionMailer::Base
+class Notifier < ApplicationMailer
   include NotificationsHelper
   default from: "Growstuff <noreply@growstuff.org>"
 
@@ -19,7 +19,7 @@ class Notifier < ActionMailer::Base
     message = { member_id: @notification.recipient.id, type: :send_notification_email }
     @signed_message = verifier.generate(message)
 
-    mail(to: @notification.recipient.email,
+    mail(to:      @notification.recipient.email,
          subject: @notification.subject)
   end
 

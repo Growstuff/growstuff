@@ -10,11 +10,11 @@ When you create a pull request, please include the following:
 All pull requests should pass our automatic continuous integration and style
 checks before being merged. You can run tests locally as follows:
 
- - `rake spec` to run all Ruby tests
- - `rake spec:models` to run Ruby model tests (or `rake spec:views` for view tests, etc)
- - `rake static` to run all static checks (code style, unfixed Git conflicts, etc)
- - `rake jasmine:ci` to run JavaScript unit tests in headless mode
- - `rake jasmine` to start a server for running JavaScript unit tests in a
+ - `rails spec` to run all Ruby tests
+ - `rails spec:models` to run Ruby model tests (or `rails spec:views` for view tests, etc)
+ - `rails static` to run all static checks (code style, unfixed Git conflicts, etc)
+ - `rails jasmine:ci` to run JavaScript unit tests in headless mode
+ - `rails jasmine` to start a server for running JavaScript unit tests in a
    browser (eg for debugging). Point your browser at http://localhost:8888 to
    run the tests.
  - `rspec ./spec/path/to/my_spec.rb` to run all Ruby tests in the file `my_spec.rb`

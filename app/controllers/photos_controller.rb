@@ -1,9 +1,13 @@
 class PhotosController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create delete)
+  after_action :expire_homepage, only: %i(create destroy)
   load_and_authorize_resource
   respond_to :html, :json
   responders :flash
+
+  def show
+    respond_with(@photo)
+  end
 
   def index
     if params[:crop_id]
@@ -36,6 +40,7 @@ class PhotosController < ApplicationController
       @photo = find_or_create_photo_from_flickr_photo
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
+
       @item.photos << @photo unless @item.photos.include? @photo
       @photo.save! if @photo.present?
     end
@@ -77,9 +82,11 @@ class PhotosController < ApplicationController
   def item_to_link_to
     raise "No item id provided" if item_id.nil?
     raise "No item type provided" if item_type.nil?
+
     item_class = item_type.capitalize
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
-    item_class.constantize.find_by!(id: params[:id], owner_id: current_member.id)
+
+    item_class.constantize.find(params[:id])
   end
 
   #

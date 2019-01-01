@@ -1,62 +1,65 @@
 require 'rails_helper'
 
 describe "seeds/show" do
+  let(:seed) { FactoryBot.create(:seed) }
   before(:each) do
     controller.stub(:current_user) { nil }
-    @seed = FactoryBot.create(:seed)
-    assign(:seed, @seed)
-    assign(:photos, @seed.photos.paginate(page: 1))
+    assign(:seed, seed)
+    assign(:photos, seed.photos.paginate(page: 1))
+    render
   end
 
   it "renders attributes in <p>" do
-    render
-    rendered.should have_content @seed.crop.name
+    expect(rendered).to have_content seed.crop.name
   end
 
   context "tradable" do
-    before(:each) do
-      @owner = FactoryBot.create(:london_member)
-      assign(:seed, FactoryBot.create(:tradable_seed,
-        owner: @owner))
-      # note current_member is not the owner of this seed
-      @member = FactoryBot.create(:member)
-      sign_in @member
-      controller.stub(:current_user) { @member }
-    end
+    context 'with location' do
+      let!(:owner) { FactoryBot.create(:london_member) }
+      let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
+      let!(:member) { FactoryBot.create(:member) }
 
-    it "shows tradable attributes" do
-      render
-      rendered.should have_content "Will trade: locally"
-    end
+      before(:each) do
+        assign(:seed, seed)
+        # note current_member is not the owner of this seed
+        sign_in member
+        controller.stub(:current_user) { member }
+        render
+      end
 
-    it "shows location of seed owner" do
-      render
-      rendered.should have_content @owner.location
-      assert_select 'a', href: place_path(@owner.location)
+      it "shows tradable attributes" do
+        expect(rendered).to have_content "Will trade: locally"
+      end
+
+      it "shows button to send message" do
+        expect(rendered).to have_content "Request seeds"
+      end
+
+      describe "shows location of seed owner" do
+        it { expect(rendered).to have_content owner.location }
+        it { expect(rendered).to have_link seed.owner.location, href: place_path(seed.owner.location, anchor: "seeds") }
+      end
     end
 
     context 'with no location' do
+      # no location
+      let(:owner) { FactoryBot.create(:member) }
+      let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
+
       before(:each) do
-        @owner = FactoryBot.create(:member) # no location
-        sign_in @owner
-        controller.stub(:current_user) { @owner }
-        assign(:seed, FactoryBot.create(:tradable_seed, owner: @owner))
+        sign_in owner
+        controller.stub(:current_user) { owner }
+        assign(:seed, seed)
+        render
       end
 
       it 'says "from unspecified location"' do
-        render
-        rendered.should have_content "(from unspecified location)"
+        expect(rendered).to have_content "(from unspecified location)"
       end
 
       it "links to profile to set location" do
-        render
-        assert_select "a[href='#{url_for(edit_member_registration_path)}']", text: "Set Location"
+        expect(rendered).to have_link("Set Location") # , href: edit_member_registration_path)
       end
-    end
-
-    it "shows button to send message" do
-      render
-      rendered.should have_content "Request seeds"
     end
   end
 end

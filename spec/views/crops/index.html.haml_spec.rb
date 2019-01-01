@@ -17,7 +17,7 @@ describe "crops/index" do
 
   it "shows photos where available" do
     @planting = FactoryBot.create(:planting, crop: @tomato)
-    @photo = FactoryBot.create(:photo)
+    @photo = FactoryBot.create(:photo, owner: @planting.owner)
     @planting.photos << @photo
     render
     assert_select "img", src: @photo.thumbnail_url

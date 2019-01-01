@@ -1,4 +1,4 @@
-class AddSlugToSeed < ActiveRecord::Migration
+class AddSlugToSeed < ActiveRecord::Migration[4.2]
   def change
     add_column :seeds, :slug, :string
     add_index :seeds, :slug, unique: true

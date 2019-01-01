@@ -1,4 +1,4 @@
-class AddParentToCrop < ActiveRecord::Migration
+class AddParentToCrop < ActiveRecord::Migration[4.2]
   def change
     add_column :crops, :parent_id, :integer
   end

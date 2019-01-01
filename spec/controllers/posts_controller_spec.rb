@@ -11,19 +11,19 @@ describe PostsController do
   describe "GET RSS feed" do
     it "returns an RSS feed" do
       get :index, format: "rss"
-      response.should be_success
-      response.should render_template("posts/index")
-      response.content_type.should eq("application/rss+xml")
+      expect(response).to be_success
+      expect(response).to render_template("posts/index")
+      expect(response.content_type).to eq("application/rss+xml")
     end
   end
 
   describe "GET RSS feed for individual post" do
     it "returns an RSS feed" do
       post = Post.create! valid_attributes
-      get :show, format: "rss", id: post.slug
-      response.should be_success
-      response.should render_template("posts/show")
-      response.content_type.should eq("application/rss+xml")
+      get :show, format: "rss", params: { id: post.slug }
+      expect(response).to be_success
+      expect(response).to render_template("posts/show")
+      expect(response.content_type).to eq("application/rss+xml")
     end
   end
 end

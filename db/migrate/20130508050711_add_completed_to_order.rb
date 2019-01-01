@@ -1,4 +1,4 @@
-class AddCompletedToOrder < ActiveRecord::Migration
+class AddCompletedToOrder < ActiveRecord::Migration[4.2]
   def change
     add_column :orders, :completed_at, :datetime
   end

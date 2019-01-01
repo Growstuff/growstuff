@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 feature "show photo page" do
-  let(:photo) { create :photo }
-
   context "signed in member" do
     let(:member) { create :member }
 
@@ -10,6 +8,7 @@ feature "show photo page" do
 
     context "linked to planting" do
       let(:planting) { create :planting }
+      let(:photo) { create :photo, owner: planting.owner }
 
       scenario "shows linkback to planting" do
         planting.photos << photo
@@ -20,6 +19,7 @@ feature "show photo page" do
     end
 
     context "linked to harvest" do
+      let(:photo) { create :photo, owner: harvest.owner }
       let(:harvest) { create :harvest }
 
       scenario "shows linkback to harvest" do
@@ -30,6 +30,7 @@ feature "show photo page" do
     end
 
     context "linked to garden" do
+      let(:photo) { create :photo, owner: garden.owner }
       let(:garden) { create :garden }
 
       scenario "shows linkback to garden" do
@@ -40,6 +41,7 @@ feature "show photo page" do
     end
 
     context "linked to seed" do
+      let(:photo) { create :photo, owner: seed.owner }
       let(:seed) { create :seed }
 
       scenario "shows linkback to seed" do
