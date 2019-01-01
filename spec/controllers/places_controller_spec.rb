@@ -12,12 +12,12 @@ describe PlacesController do
     end
 
     it "assigns place name" do
-      get :show, params: { place: @member_london.location }
+      get :show, params: { id: @member_london.location }
       assigns(:place).should eq @member_london.location
     end
 
     it "assigns nearby members" do
-      get :show, params: { place: @member_london.location }
+      get :show, params: { id: @member_london.location }
       assigns(:nearby_members).should eq [@member_london, @member_south_pole]
     end
   end

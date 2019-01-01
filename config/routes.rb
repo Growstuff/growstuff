@@ -93,7 +93,7 @@ Rails.application.routes.draw do
     get 'reply', on: :member
   end
 
-  resources :places do
+  resources :places, only: [:index, :show] do
     get 'search', on: :collection
   end
 
