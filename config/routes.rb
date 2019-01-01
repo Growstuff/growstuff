@@ -86,8 +86,8 @@ Rails.application.routes.draw do
   resources :follows, only: %i(create destroy)
   resources :likes, only: %i(create destroy)
   resources :members do
-    get 'follows' => 'members#view_follows', as: 'member_follows'
-    get 'followers' => 'members#view_followers', as: 'member_followers'
+    get 'follows' => 'members#view_follows'
+    get 'followers' => 'members#view_followers'
   end
   resources :notifications do
     get 'reply', on: :member
