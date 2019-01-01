@@ -101,9 +101,11 @@ Rails.application.routes.draw do
   get 'members/auth/:provider/callback' => 'authentications#create'
 
   resources :admin, only: :index do
-    get 'newsletter'
     resources :members
-    get ':action' => 'admin#:action', on: :collection
+    collection do
+      get 'newsletter'
+      get ':action' => 'admin#:action'
+    end
   end
 
   namespace :api do
