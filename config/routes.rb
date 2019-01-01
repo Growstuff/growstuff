@@ -17,48 +17,37 @@ Rails.application.routes.draw do
   get "home/index"
   root to: 'home#index'
 
-
-  concern :photo_attachable do
+  concern :has_photos do
     resources :photos, only: :index
   end
 
-  concern :ownable do
-    get 'owner/:owner' => 'gardens#index', on: :collection
+  concern :has_owner do
+    get 'owner/:owner' => 'gardens#index', as: :by_owner, on: :collection
   end
 
-  resources :gardens do
-    get 'timeline' => 'charts/gardens#timeline'
-    get 'owner/:owner' => 'gardens#index', as: 'gardens_by_owner', on: :collection
+  resources :gardens, concerns: [:has_photos, :has_owner] do
+    get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
   end
 
-  resources :plantings, concerns: [:photo_attachable, :ownable] do
-    get :harvests
-    get :seeds
+  resources :plantings, concerns: [:has_photos, :has_owner] do
+    resources :harvests
+    resources :seeds
     collection do
-      get 'owner/:owner' => 'plantings#index', as: 'plantings_by_owner'
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
   end
 
-  resources :seeds, concerns: [:photo_attachable, :ownable] do
-    get :plantings
-    collection do
-      get 'owner/:owner' => 'seeds#index', as: 'seeds_by_owner'
-      get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop'
-    end
+  resources :seeds, concerns: [:has_photos, :has_owner] do
+    resources :plantings
+    get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
 
-  resources :harvests, concerns: [:photo_attachable, :ownable] do
-    collection do
-      get 'owner/:owner' => 'harvests#index', as: 'harvests_by_owner'
-      get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop'
-    end
+  resources :harvests, concerns: [:has_photos, :has_owner] do
+    get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop', on: :collection
   end
 
-  resources :posts, concerns: :ownable do
-    collection do
-      get 'author/:author' => 'posts#index', as: 'posts_by_author'
-    end
+  resources :posts do
+    get 'author/:author' => 'posts#index', as: 'by_author', on: :collection
   end
 
   resources :scientific_names
@@ -68,20 +57,25 @@ Rails.application.routes.draw do
 
   delete 'photo_associations' => 'photo_associations#destroy'
 
-  resources :crops, concerns: [:photo_attachable, :ownable] do
+  resources :crops, concerns: [:has_photos, :has_owner] do
+    get 'gardens' => 'gardens#index'
     get 'harvests' => 'harvests#index'
     get 'plantings' => 'plantings#index'
+    get 'seeds' => 'seeds#index'
 
-    # Charts
+    get 'places' => 'places#index'
+    get 'members' => 'members#index'
+
+    # Charts json
     get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
 
     collection do
-      get 'requested' => 'crops#requested', as: 'requested_crops'
-      get 'wrangle' => 'crops#wrangle', as: 'wrangle_crops'
-      get 'hierarchy' => 'crops#hierarchy', as: 'crops_hierarchy'
-      get 'search' => 'crops#search', as: 'search'
+      get 'requested'
+      get 'wrangle'
+      get 'hierarchy'
+      get 'search'
     end
   end
 
@@ -101,8 +95,8 @@ Rails.application.routes.draw do
 
   resources :places do
     collection do
-      get 'search' => 'places#search', as: 'search_places'
-      get ':place' => 'places#show', as: 'place'
+      get 'search'
+      get ':place' => 'places#show'
     end
   end
 
