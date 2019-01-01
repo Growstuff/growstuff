@@ -173,7 +173,7 @@ feature "crop detail page", js: true do
       login_as(member)
       visit crop_path(seed.crop)
       click_link "View your seeds"
-      expect(current_path).to eq seeds_by_owner_path(owner: member.slug)
+      expect(current_path).to eq by_owner_seeds_path(owner: member.slug)
     end
   end
 

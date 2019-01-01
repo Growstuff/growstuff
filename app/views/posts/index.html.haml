@@ -10,7 +10,7 @@
     - else # everyone's posts
       = link_to 'Post something', new_post_path, class: 'btn btn-primary'
       - if current_member
-        = link_to 'View your posts', posts_by_author_path(author: current_member.slug), class: 'btn btn-default'
+        = link_to 'View your posts', by_author_posts_path(author: current_member.slug), class: 'btn btn-default'
   - else
     = render partial: 'shared/signin_signup', locals: { to: 'write a post' }
 
@@ -30,7 +30,7 @@
   - if @author
     Subscribe to
     = succeed "." do
-      = link_to "#{@author}'s posts RSS feed", posts_by_author_path(format: 'rss', author: @author)
+      = link_to "#{@author}'s posts RSS feed", by_author_posts_path(format: 'rss', author: @author)
 
   - else
     Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}

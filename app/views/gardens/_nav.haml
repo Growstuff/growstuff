@@ -1,6 +1,6 @@
 - content_for :buttonbar do
   - if current_member
-    = link_to 'My Gardens', gardens_by_owner_path(owner: current_member.slug), class: 'btn btn-default'
+    = link_to 'My Gardens', by_owner_gardens_path(owner: current_member.slug), class: 'btn btn-default'
 
   = link_to "Everyone's gardens", gardens_path, class: 'btn btn-default'
 

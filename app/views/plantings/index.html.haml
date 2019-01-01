@@ -23,4 +23,4 @@
     %li= t('.the_data_on_this_page_is_available_in_the_following_formats')
     - ['csv', 'json', 'rss'].each do |format|
       %li= link_to format.upcase,
-          (@owner ? plantings_by_owner_path(@owner, format: format) : plantings_path(format: format))
+          (@owner ? by_owner_plantings_path(@owner, format: format) : plantings_path(format: format))

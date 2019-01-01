@@ -10,6 +10,6 @@
     - else # everyone's harvests
       = link_to 'Add harvest', new_harvest_path, class: 'btn btn-primary'
       - if current_member
-        = link_to 'View your harvests', harvests_by_owner_path(owner: current_member.slug), class: 'btn btn-default'
+        = link_to 'View your harvests', by_owner_harvests_path(owner: current_member.slug), class: 'btn btn-default'
   - else
     = render partial: 'shared/signin_signup', locals: { to: 'track your harvests' }

@@ -10,22 +10,22 @@
 %ul.activity-list
   %li
     - if !member.plantings.empty?
-      = link_to localize_plural(member.plantings, Planting), plantings_by_owner_path(owner: member)
+      = link_to localize_plural(member.plantings, Planting), by_owner_plantings_path(owner: member)
     - else
       0 plantings
   %li
     - if !member.harvests.empty?
-      = link_to localize_plural(member.harvests, Harvest), harvests_by_owner_path(owner: member)
+      = link_to localize_plural(member.harvests, Harvest), by_owner_harvests_path(owner: member)
     - else
       0 harvests
   %li
     - if !member.seeds.empty?
-      = link_to localize_plural(member.seeds, Seed), seeds_by_owner_path(owner: member)
+      = link_to localize_plural(member.seeds, Seed), by_owner_seeds_path(owner: member)
     - else
       0 seeds
   %li
     - if !member.posts.empty?
-      = link_to localize_plural(member.posts, Post), posts_by_author_path(author: member)
+      = link_to localize_plural(member.posts, Post), by_author_posts_path(author: member)
     - else
       0 posts
 

@@ -23,7 +23,7 @@
       .col-md-12
         - if member_signed_in?
           = display_seed_availability(@current_member, @crop)
-          = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
+          = link_to "View your seeds", by_owner_seeds_path(owner: current_member.slug)
 
         %h2
           - if !@crop.plantings.empty?

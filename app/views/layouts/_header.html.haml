@@ -17,7 +17,7 @@
                     alt: ENV['GROWSTUFF_SITE_NAME'])
 
       .form.navbar-form.pull-left
-        = form_tag crops_search_path, method: :get, id: 'navbar-search' do
+        = form_tag search_crops_path, method: :get, id: 'navbar-search' do
           = label_tag :term, "Search crop database:", class: 'sr-only'
           .input
             .input-group
@@ -58,11 +58,11 @@
               %b.caret
             %ul.dropdown-menu
               %li= link_to t('.profile'), member_path(current_member)
-              %li= link_to t('.gardens'), gardens_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.plantings'), plantings_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.harvest'), harvests_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.seeds'), seeds_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.posts'), posts_by_author_path(author: current_member.slug)
+              %li= link_to t('.gardens'), by_owner_gardens_path(owner: current_member.slug)
+              %li= link_to t('.plantings'), by_owner_plantings_path(owner: current_member.slug)
+              %li= link_to t('.harvest'), by_owner_harvests_path(owner: current_member.slug)
+              %li= link_to t('.seeds'), by_owner_seeds_path(owner: current_member.slug)
+              %li= link_to t('.posts'), by_author_posts_path(author: current_member.slug)
               %li
                 - if current_member.notifications.unread_count.positive?
                   = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count),
