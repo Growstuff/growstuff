@@ -18,6 +18,8 @@ class PlantingsController < ApplicationController
     @plantings = @plantings.where(owner: @owner) if @owner.present?
     @plantings = @plantings.where(crop: @crop) if @crop.present?
 
+    @plantings = @plantings.active unless params[:all] == '1'
+
     @plantings = @plantings.joins(:owner, :crop, :garden)
       .order(created_at: :desc)
       .includes(:crop, :owner, :garden)
