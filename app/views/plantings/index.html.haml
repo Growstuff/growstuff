@@ -2,6 +2,9 @@
 
 = render 'layouts/nav', model: Planting
 
+= link_to plantings_active_tickbox_path(@owner, @show_all) do
+  = check_box_tag 'active', 'all', @show_all
+  include in-active
 
 - if @owner
   = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
