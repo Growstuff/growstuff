@@ -92,6 +92,24 @@
 
     = render partial: 'wrangle', locals: { crop: @crop }
 
+    %p
+      %li
+        = link_to crop_seeds_path(@crop) do
+          View all #{@crop.name} seeds
+          (#{@crop.seeds.size})
+      %li
+        = link_to crop_plantings_path(@crop) do
+          View all #{@crop.name} plantings
+          (#{@crop.plantings.size})
+      %li
+        = link_to crop_harvests_path(@crop) do
+          View all #{@crop.name} harvests
+          (#{@crop.harvests.size})
+    %p
+      - if member_signed_in?
+        = link_to member_seeds_path(current_member, crop_id: @crop.id) do
+          = display_seed_availability(@current_member, @crop)
+
     %h4 How to grow #{@crop.name.pluralize}
 
     = render 'grown_for', crop: @crop
