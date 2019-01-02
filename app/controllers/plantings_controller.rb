@@ -11,7 +11,7 @@ class PlantingsController < ApplicationController
 
   def index
     @owner = Member.find_by(slug: params[:member_slug])
-    @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
+    @crop = Crop.find_by(slug: params[:crop_slug])
 
     @show_all = params[:all] == '1'
 
