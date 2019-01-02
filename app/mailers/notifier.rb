@@ -1,6 +1,6 @@
 class Notifier < ApplicationMailer
   include NotificationsHelper
-  default from: "Growstuff <noreply@growstuff.org>"
+  default from: "Growstuff <#{ENV['GROWSTUFF_EMAIL']}>"
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
