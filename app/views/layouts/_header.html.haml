@@ -58,11 +58,11 @@
               %b.caret
             %ul.dropdown-menu
               %li= link_to t('.profile'), member_path(current_member)
-              %li= link_to t('.gardens'), member_gardens_path(owner: current_member.slug)
-              %li= link_to t('.plantings'), member_plantings_path(owner: current_member.slug)
-              %li= link_to t('.harvest'), member_harvests_path(owner: current_member.slug)
-              %li= link_to t('.seeds'), member_seeds_path(owner: current_member.slug)
-              %li= link_to t('.posts'), member_posts_path_path(author: current_member.slug)
+              %li= link_to t('.gardens'), member_gardens_path(current_member)
+              %li= link_to t('.plantings'), member_plantings_path(current_member)
+              %li= link_to t('.harvest'), member_harvests_path(current_member)
+              %li= link_to t('.seeds'), member_seeds_path(current_member)
+              %li= link_to t('.posts'), member_posts_path(current_member)
               %li
                 - if current_member.notifications.unread_count.positive?
                   = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count),

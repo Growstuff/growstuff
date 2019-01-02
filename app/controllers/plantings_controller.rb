@@ -10,11 +10,18 @@ class PlantingsController < ApplicationController
   responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:owner]) if params[:owner]
+    @owner = Member.find_by(slug: params[:member_slug])
     @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
+
     @show_all = params[:all] == '1'
 
-    @plantings = plantings
+    @plantings = @plantings.where(owner: @owner) if @owner.present?
+    @plantings = @plantings.where(crop: @crop) if @crop.present?
+
+    @plantings = @plantings.joins(:owner, :crop, :garden)
+      .order(created_at: :desc)
+      .includes(:crop, :owner, :garden)
+      .paginate(page: params[:page])
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 

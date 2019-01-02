@@ -8,8 +8,8 @@ class SeedsController < ApplicationController
   # GET /seeds
   # GET /seeds.json
   def index
-    @owner = Member.find_by(slug: params[:owner])
-    @crop = Crop.find_by(slug: params[:crop])
+    @owner = Member.find_by(slug: params[:member_slug])
+    @crop = Crop.find_by(slug: params[:crop_slug])
 
     @seeds = @seeds.where(owner: @owner) if @owner.present?
     @seeds = @seeds.where(crop: @crop) if @crop.present?

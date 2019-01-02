@@ -110,6 +110,10 @@ class Crop < ApplicationRecord
     name
   end
 
+  def to_param
+    slug
+  end
+
   def default_scientific_name
     scientific_names.first.name unless scientific_names.empty?
   end

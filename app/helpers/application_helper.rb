@@ -70,8 +70,8 @@ module ApplicationHelper
   def show_inactive_tickbox_path(type, owner, show_all)
     all = show_all ? '' : 1
     if owner
-      return member_plantings_path(owner: owner.slug, all: all) if type == 'plantings'
-      return member_gardens_path(owner: owner.slug, all: all) if type == 'gardens'
+      return member_plantings_path(member_slug: owner.slug, all: all) if type == 'plantings'
+      return member_gardens_path(member_slug: owner.slug, all: all) if type == 'gardens'
     end
 
     return plantings_path(all: all) if type == 'plantings'

@@ -19,7 +19,7 @@
       %dd
         = link_to @planting.owner, @planting.owner
         &mdash;
-        = link_to "view all #{@planting.owner}'s plantings", member_plantings_path(owner: @planting.owner.slug)
+        = link_to "view all #{@planting.owner}'s plantings", member_plantings_path(@planting.owner)
 
       %dt Planted on:
       %dd= @planting.planted_at ? @planting.planted_at : "not specified"

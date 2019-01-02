@@ -53,7 +53,7 @@ Rails.application.routes.draw do
 
   delete 'photo_associations' => 'photo_associations#destroy'
 
-  resources :crops, concerns: :has_photos do
+  resources :crops, param: :slug, concerns: :has_photos do
     get 'gardens' => 'gardens#index'
     get 'harvests' => 'harvests#index'
     get 'plantings' => 'plantings#index'
@@ -82,7 +82,7 @@ Rails.application.routes.draw do
   resources :follows, only: %i(create destroy)
   resources :likes, only: %i(create destroy)
 
-  resources :members, param: :login_name do
+  resources :members, param: :slug do
     get 'follows' => 'members#view_follows'
     get 'followers' => 'members#view_followers'
 

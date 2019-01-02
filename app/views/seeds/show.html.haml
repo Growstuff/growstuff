@@ -20,7 +20,7 @@
         = link_to @seed.owner, @seed.owner
         &mdash;
         = link_to "view all #{@seed.owner}'s seeds",
-          member_seeds_path(owner: @seed.owner.slug)
+          member_seeds_path(@seed.owner)
       %dt Quantity:
       %dd= @seed.quantity.blank? ? "not specified" : @seed.quantity
       %dt Plant before:
