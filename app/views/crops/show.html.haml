@@ -104,7 +104,7 @@
           (#{@crop.harvests.size})
     %p
       - if member_signed_in?
-        = link_to member_seeds_path(current_member, crop_id: @crop.id) do
+        = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
           = display_seed_availability(@current_member, @crop)
 
     %h4 How to grow #{@crop.name.pluralize}
