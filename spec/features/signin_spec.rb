@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 feature "signin", js: true do
-  let(:member) { create :member }
-  let(:recipient) { create :member }
-  let(:wrangler) { create :crop_wrangling_member }
-  let(:notification) { create :notification }
+  let(:member) { FactoryBot.create :member }
+  let(:recipient) { FactoryBot.create :member }
+  let(:wrangler) { FactoryBot.create :crop_wrangling_member }
+  let(:notification) { FactoryBot.create :notification, recipient: recipient }
 
   def login
     fill_in 'Login', with: member.login_name
@@ -48,7 +48,7 @@ feature "signin", js: true do
   end
 
   describe "redirects to what you were trying to do" do
-    %w(plantings harvests posts photos gardens seeds).each do |m|
+    %w(plantings harvests posts gardens seeds).each do |m|
       it_behaves_like "redirects to what you were trying to do" do
         let(:model_name) { m }
       end
@@ -56,7 +56,7 @@ feature "signin", js: true do
   end
 
   scenario "after signin, redirect to new notifications page" do
-    visit new_notification_path(recipient: recipient)
+    visit new_notification_path(recipient_id: recipient.id)
     expect(current_path).to eq new_member_session_path
     login
     expect(current_path).to eq new_notification_path

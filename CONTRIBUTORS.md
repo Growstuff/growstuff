@@ -85,10 +85,12 @@ submit the change with your pull request.
 - Mark Taffman / [mftaff](https://github.com/mftaff)
 - Jennifer Kruse / [jenkr55](https://github.com/jenkr55)
 - Christopher Bazin / [RobotScissors](https://github.com/robotscissors)
+- Ahmed Shahin / [codeminator](https://www.github.com/codeminator)
+- Brandon Baker / [brandonbaker40](https://github.com/brandonbaker40)
 
 ## Bots
 
 ### Security and Dependency Updates
 - DeppBot / [deppbot](https://github.com/deppbot)
-- dependabot[bot] / [dependabot-bot](https://github.com/dependabot-bot)
+- dependabot[bot] / [dependabot-bot] / [dependabot] (https://github.com/dependabot-bot)
 - dependabot / [dependabot](https://github.com/dependabot)

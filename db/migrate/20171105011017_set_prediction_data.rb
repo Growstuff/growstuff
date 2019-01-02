@@ -1,4 +1,4 @@
-class SetPredictionData < ActiveRecord::Migration
+class SetPredictionData < ActiveRecord::Migration[4.2]
   def up
     say "Updating all plantings time to first harvest"
     Planting.all.each(&:update_harvest_days!)

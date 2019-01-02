@@ -2,44 +2,42 @@ require 'rails_helper'
 
 describe 'member' do
   context 'valid member' do
-    let(:member) { FactoryBot.create(:member) }
+    let!(:member) { FactoryBot.create(:member, login_name: 'hinemoa') }
 
-    it 'should be fetchable from the database' do
-      member2 = Member.find(member.id)
-      member2.should be_an_instance_of Member
-      member2.login_name.should match(/member\d+/)
-      member2.encrypted_password.should_not be_nil
+    describe 'should be fetchable from the database' do
+      subject { Member.find(member.id) }
+      it { is_expected.to be_an_instance_of Member }
+      it { expect(subject.encrypted_password).not_to be_nil }
     end
 
-    it 'should have a friendly slug' do
-      member.slug.should match(/member\d+/)
+    describe 'should have a friendly slug' do
+      it { expect(member.slug).to eq('hinemoa') }
     end
 
     it 'has a bio' do
       member.bio = 'I love seeds'
-      member.bio.should eq 'I love seeds'
+      expect(member.bio).to eq 'I love seeds'
     end
 
     it 'should have a default garden' do
-      member.gardens.size.should == 1
+      expect(member.gardens.count).to eq 1
     end
 
     it "doesn't show email by default" do
-      member.show_email.should be(false)
+      expect(member.show_email).to eq false
     end
 
     it 'should stringify as the login_name' do
-      member.to_s.should match(/member\d+/)
-      member.to_s.should match(/member\d+/)
+      expect(member.to_s).to eq 'hinemoa'
     end
 
     it 'should be able to fetch posts' do
       post = FactoryBot.create(:post, author: member)
-      member.posts.should eq [post]
+      expect(member.posts).to eq [post]
     end
 
     it 'should be able to fetch gardens' do
-      member.gardens.first.name.should eq "Garden"
+      expect(member.gardens.first.name).to eq "Garden"
     end
 
     it 'has many plantings' do
@@ -69,22 +67,22 @@ describe 'member' do
     end
 
     it 'has location and lat/long fields' do
-      member.update_attributes(location: 'Greenwich, UK')
+      member.update(location: 'Greenwich, UK')
       member.location.should eq 'Greenwich, UK'
       member.latitude.round(2).should eq 51.48
       member.longitude.round(2).should eq 0.00
     end
 
     it 'empties the lat/long if location removed' do
-      member.update_attributes(location: 'Greenwich, UK')
-      member.update_attributes(location: '')
+      member.update(location: 'Greenwich, UK')
+      member.update(location: '')
       member.location.should eq ''
       member.latitude.should be_nil
       member.longitude.should be_nil
     end
 
     it 'fails gracefully for unfound locations' do
-      member.update_attributes(location: 'Tatooine')
+      member.update(location: 'Tatooine')
       member.location.should eq 'Tatooine'
       member.latitude.should be_nil
       member.longitude.should be_nil
@@ -341,6 +339,7 @@ describe 'member' do
 
     context 'queries a scope' do
       before { member.destroy }
+
       it { expect(Member.all).not_to include(member) }
       it { expect(Member.confirmed).not_to include(member) }
       it { expect(Member.located).not_to include(member) }
@@ -350,6 +349,7 @@ describe 'member' do
       it { expect(Member.interesting).not_to include(member) }
       it { expect(Member.has_plantings).not_to include(member) }
     end
+
     it "unsubscribes from mailing list" do
       expect(member).to receive(:newsletter_unsubscribe).and_return(true)
       member.destroy

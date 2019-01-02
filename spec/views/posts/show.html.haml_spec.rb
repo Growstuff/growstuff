@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "posts/show" do
   subject { rendered }
-  let(:author) { FactoryBot.create(:member) }
+  let(:author) { FactoryBot.create(:member, login_name: 'mary') }
 
   before(:each) do
     controller.stub(:current_user) { nil }
@@ -11,13 +11,14 @@ describe "posts/show" do
 
   describe 'render post' do
     before { render }
+
     describe "basic post" do
-      let(:post) { FactoryBot.create(:post, author: author) }
+      let(:post) { FactoryBot.create(:post, author: author, body: 'hello there') }
 
       # show the name of the member who posted the post
-      it { is_expected.to match(/member\d+/) }
+      it { is_expected.to have_text author.login_name }
       # Subject goes in title
-      it { is_expected.to have_text('This is some text.') }
+      it { is_expected.to have_text('hello there') }
       # shouldn't show the subject on a single post page
       # (it appears in the title/h1 via the layout, not via this view)
       it { is_expected.not_to have_text('An Update') }
@@ -35,11 +36,13 @@ describe "posts/show" do
       it { is_expected.to have_content('EVIL') }
       it { is_expected.not_to have_link("http://evil.com") }
     end
+
     describe 'script tag in post body' do
       let(:post) { FactoryBot.create(:post, author: author, body: "<script>alert('hakker!')</script>") }
 
       it { is_expected.not_to have_selector('script') }
     end
+
     describe 'script tag in post title' do
       let(:post) { FactoryBot.create(:post, author: author, subject: "<script>alert('hakker!')</script>") }
 
@@ -99,6 +102,7 @@ describe "posts/show" do
     let(:post) { FactoryBot.create(:forum_post, author: author) }
 
     before { render }
+
     it "shows forum name" do
       is_expected.to have_content "in #{post.forum.name}"
     end

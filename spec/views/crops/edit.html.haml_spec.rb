@@ -14,6 +14,6 @@ describe "crops/edit" do
   end
 
   it "shows the creator" do
-    rendered.should have_content "Added by #{@crop.creator} less than a minute ago."
+    expect(rendered).to have_content "Added by #{@crop.creator} less than a minute ago."
   end
 end

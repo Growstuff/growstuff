@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 feature "browse harvests" do
+  subject { page }
+
   let!(:member) { create :member }
   let!(:harvest) { create :harvest, owner: member }
 
   background { login_as member }
-  subject { page }
+
   feature 'blank optional fields' do
     let!(:harvest) { create :harvest, :no_description }
+
     before { visit harvests_path }
 
     scenario 'read more' do

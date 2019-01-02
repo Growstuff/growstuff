@@ -5,9 +5,9 @@ describe CropsController do
 
   def valid_attributes
     {
-      name: "Tomato",
+      name:             "Tomato",
       en_wikipedia_url: 'http://en.wikipedia.org/wiki/Tomato',
-      approval_status: 'approved'
+      approval_status:  'approved'
     }
   end
 
@@ -16,6 +16,7 @@ describe CropsController do
   describe "GET crop wrangler homepage" do
     describe 'fetches the crop wrangler homepage' do
       before { get :wrangle }
+
       it { is_expected.to be_success }
       it { is_expected.to render_template("crops/wrangle") }
       it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
@@ -25,6 +26,7 @@ describe CropsController do
   describe "GET crop hierarchy " do
     describe 'fetches the crop hierarchy page' do
       before { get :hierarchy }
+
       it { is_expected.to be_success }
       it { is_expected.to render_template("crops/hierarchy") }
     end
@@ -33,6 +35,7 @@ describe CropsController do
   describe "GET crop search" do
     describe 'fetches the crop search page' do
       before { get :search }
+
       it { is_expected.to be_success }
       it { is_expected.to render_template("crops/search") }
     end
@@ -41,6 +44,7 @@ describe CropsController do
   describe "GET RSS feed" do
     describe "returns an RSS feed" do
       before { get :index, format: "rss" }
+
       it { is_expected.to be_success }
       it { is_expected.to render_template("crops/index") }
       it { expect(response.content_type).to eq("application/rss+xml") }

@@ -1,4 +1,4 @@
-class Crop < ActiveRecord::Base
+class Crop < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: %i(slugged finders)
 
@@ -15,11 +15,11 @@ class Crop < ActiveRecord::Base
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
   has_many :photos, through: :plantings
-  has_many :plant_parts, -> { uniq.reorder("plant_parts.name") }, through: :harvests
-  belongs_to :creator, class_name: 'Member'
-  belongs_to :requester, class_name: 'Member'
-  belongs_to :parent, class_name: 'Crop'
-  has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify
+  has_many :plant_parts, -> { distinct.order("plant_parts.name") }, through: :harvests
+  belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
+  belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
+  belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
+  has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
 
   ##
@@ -44,10 +44,10 @@ class Crop < ActiveRecord::Base
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
     format: {
-      with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+      with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
       message: 'is not a valid English Wikipedia URL'
     },
-    if: :approved?
+    if:     :approved?
 
   ####################################
   # Elastic search configuration
@@ -57,39 +57,39 @@ class Crop < ActiveRecord::Base
     # In order to avoid clashing between different environments,
     # use Rails.env as a part of index name (eg. development_growstuff)
     index_name [Rails.env, "growstuff"].join('_')
-    settings index: { number_of_shards: 1 },
+    settings index:    { number_of_shards: 1 },
              analysis: {
                tokenizer: {
                  gs_edgeNGram_tokenizer: {
-                   type: "edgeNGram", # edgeNGram: NGram match from the start of a token
-                   min_gram: 3,
-                   max_gram: 10,
+                   type:        "edgeNGram", # edgeNGram: NGram match from the start of a token
+                   min_gram:    3,
+                   max_gram:    10,
                    # token_chars: Elasticsearch will split on characters
                    # that don't belong to any of these classes
                    token_chars: %w(letter digit)
                  }
                },
-               analyzer: {
+               analyzer:  {
                  gs_edgeNGram_analyzer: {
                    tokenizer: "gs_edgeNGram_tokenizer",
-                   filter: ["lowercase"]
+                   filter:    ["lowercase"]
                  }
                }
              } do
       mappings dynamic: 'false' do
         indexes :id, type: 'long'
-        indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
-        indexes :approval_status, type: 'string'
+        indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
+        indexes :approval_status, type: 'text'
         indexes :scientific_names do
           indexes :name,
-            type: 'string',
+            type:     'text',
             analyzer: 'gs_edgeNGram_analyzer',
             # Disabling field-length norm (norm). If the norm option is turned on(by default),
             # higher weigh would be given for shorter fields, which in our case is irrelevant.
-            norms: { enabled: false }
+            norms:    { enabled: false }
         end
         indexes :alternate_names do
-          indexes :name, type: 'string', analyzer: 'gs_edgeNGram_analyzer'
+          indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
         end
       end
     end
@@ -156,6 +156,7 @@ class Crop < ActiveRecord::Base
     min_photos    = 3 # needs this many photos to be interesting
     return false unless photos.size >= min_photos
     return false unless plantings_count >= min_plantings
+
     true
   end
 
@@ -181,6 +182,7 @@ class Crop < ActiveRecord::Base
 
   def rejection_explanation
     return rejection_notes if reason_for_rejection == "other"
+
     reason_for_rejection
   end
 
@@ -222,17 +224,20 @@ class Crop < ActiveRecord::Base
   def approval_status_cannot_be_changed_again
     previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
     return unless previous.include?(:rejected) || previous.include?(:approved)
+
     errors.add(:approval_status, "has already been set to #{approval_status}")
   end
 
   def must_be_rejected_if_rejected_reasons_present
     return if rejected?
     return unless reason_for_rejection.present? || rejection_notes.present?
+
     errors.add(:approval_status, "must be rejected if a reason for rejection is present")
   end
 
   def must_have_meaningful_reason_for_rejection
     return unless reason_for_rejection == "other" && rejection_notes.blank?
+
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
   end
 

@@ -41,7 +41,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
 
       it "contains a gravatar icon" do
-        assert_select "img", src: /gravatar\.com\/avatar/
+        assert_select "img", src: %r{gravatar\.com/avatar}
       end
 
       it 'contains a link to gravatar.com' do
@@ -64,11 +64,13 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
           assert_select "a", "Connect to Twitter"
         end
       end
+
       context 'connected to twitter' do
         before(:each) do
           @twitter_auth = FactoryBot.create(:authentication, member: @member)
           render
         end
+
         it 'has a link to twitter profile' do
           assert_select "a", href: "http://twitter.com/#{@twitter_auth.name}"
         end
@@ -84,11 +86,13 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
           assert_select "a", "Connect to Flickr"
         end
       end
+
       context 'connected to flickr' do
         before(:each) do
           @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
           render
         end
+
         it 'has a link to flickr photostream' do
           assert_select "a", href: "http://flickr.com/photos/#{@flickr_auth.uid}"
         end

@@ -40,12 +40,12 @@ feature "new photo page" do
       end
     end
 
-    pending "viewing a seed" do
+    describe "viewing a seed" do
       let(:seed) { FactoryBot.create :seed, owner: member }
 
       scenario "add photo" do
         visit seed_path(seed)
-        click_link "Add photo"
+        first('.seed-actions').click_link('Add photo')
         expect(page).to have_text seed.to_s
       end
     end

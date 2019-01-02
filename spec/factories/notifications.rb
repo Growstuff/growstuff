@@ -2,11 +2,11 @@
 
 FactoryBot.define do
   factory :notification, aliases: [:message] do
-    sender
-    recipient
-    subject "MyString"
-    body "MyText"
-    read false
+    sender { FactoryBot.create :member }
+    recipient { FactoryBot.create :member }
+    subject { "MyString" }
+    body { "MyText" }
+    read { false }
     post
 
     factory :no_email_notification do

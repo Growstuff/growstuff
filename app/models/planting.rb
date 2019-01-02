@@ -1,4 +1,4 @@
-class Planting < ActiveRecord::Base
+class Planting < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include Finishable
@@ -21,14 +21,19 @@ class Planting < ActiveRecord::Base
 
   #
   # Ancestry of food
-  belongs_to :parent_seed, class_name: 'Seed', foreign_key: 'parent_seed_id' # parent
-  has_many :child_seeds, class_name: 'Seed',
-                         foreign_key: 'parent_planting_id', dependent: :nullify # children
+  belongs_to :parent_seed, class_name:  'Seed', # parent
+                           foreign_key: 'parent_seed_id',
+                           required:    false,
+                           inverse_of:  :child_plantings
+  has_many :child_seeds, class_name:  'Seed', # children
+                         foreign_key: 'parent_planting_id',
+                         inverse_of:  :parent_planting,
+                         dependent:   :nullify
 
   ##
   ## Scopes
   default_scope { joins(:owner) } # Ensures the owner still exists
-  scope :interesting, -> { has_photos.one_per_owner }
+  scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=plantings.owner_id)
@@ -100,6 +105,7 @@ class Planting < ActiveRecord::Base
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
+
     errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
   end
 

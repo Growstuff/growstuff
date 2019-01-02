@@ -1,6 +1,6 @@
 class GardensController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create delete)
+  after_action :expire_homepage, only: %i(create destroy)
   load_and_authorize_resource
   respond_to :html, :json
 
@@ -33,7 +33,9 @@ class GardensController < ApplicationController
   end
 
   # GET /gardens/1/edit
-  def edit; end
+  def edit
+    respond_with(@garden)
+  end
 
   # POST /gardens
   # POST /gardens.json

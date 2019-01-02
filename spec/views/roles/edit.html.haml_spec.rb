@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "roles/edit" do
   before(:each) do
     @role = assign(:role, stub_model(Role,
-      name: "MyString",
+      name:        "MyString",
       description: "MyText"))
   end
 

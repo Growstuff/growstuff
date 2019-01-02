@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 feature "home page" do
+  subject { page }
+
   let(:member) { FactoryBot.create :member }
-  # let(:seed_photo) { FactoryBot.create :photo }
-  let(:photo) { FactoryBot.create :photo }
+
+  let(:photo) { FactoryBot.create :photo, owner: member }
   let(:crop) { FactoryBot.create :crop, created_at: 1.day.ago }
 
   let(:planting) { FactoryBot.create :planting, owner: member, crop: crop }
@@ -13,6 +15,7 @@ feature "home page" do
   let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
   let!(:finished_seed) { FactoryBot.create :tradable_seed, finished: true }
   let!(:untradable_seed) { FactoryBot.create :untradable_seed }
+
   background do
     # Add photos, so they can appear on home page
     planting.photos << photo
@@ -20,7 +23,6 @@ feature "home page" do
     harvest.photos << photo
   end
 
-  subject { page }
   before { visit root_path }
 
   shared_examples 'shows seeds' do
@@ -55,12 +57,14 @@ feature "home page" do
       it { is_expected.to have_text 'Some of our crops' }
       it { is_expected.to have_link href: crop_path(crop) }
     end
+
     describe 'shows recently added crops' do
       it { is_expected.to have_text 'Recently Added' }
       it 'link to newest crops' do
         is_expected.to have_link crop.name, href: crop_path(crop)
       end
     end
+
     it 'includes a link to all crops' do
       is_expected.to have_link 'View all crops'
     end

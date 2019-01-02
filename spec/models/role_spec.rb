@@ -6,6 +6,7 @@ describe Role do
     role.members << member
     role
   end
+
   let(:member) { FactoryBot.create(:member) }
 
   it 'has members' do

@@ -1,4 +1,4 @@
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   acts_as_paranoid # implements soft deletion
   before_destroy :newsletter_unsubscribe
   include Geocodable
@@ -8,24 +8,37 @@ class Member < ActiveRecord::Base
 
   #
   # Relationships
-  has_many :posts, foreign_key: 'author_id'
-  has_many :comments, foreign_key: 'author_id'
-  has_many :forums, foreign_key: 'owner_id'
-  has_many :gardens, foreign_key: 'owner_id'
-  has_many :plantings, foreign_key: 'owner_id'
-  has_many :seeds, foreign_key: 'owner_id'
-  has_many :harvests, foreign_key: 'owner_id'
+  has_many :posts, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
+  has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
+  has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
+  has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_and_belongs_to_many :roles # rubocop:disable Rails/HasAndBelongsToMany
-  has_many :notifications, foreign_key: 'recipient_id'
-  has_many :sent_notifications, foreign_key: 'sender_id'
-  has_many :authentications
-  has_many :photos
-  has_many :requested_crops, class_name: Crop, foreign_key: 'requester_id'
+  has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
+  has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender
+  has_many :authentications, dependent: :destroy
+  has_many :photos, inverse_of: :owner
   has_many :likes, dependent: :destroy
-  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
-  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+
+  #
+  # Following other members
+  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy,
+                     inverse_of: :follower
+  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id",
+                             dependent: :destroy, inverse_of: :followed
   has_many :followed, through: :follows
   has_many :followers, through: :inverse_follows, source: :follower
+
+  #
+  # Global data records this member created
+  has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify,
+                             inverse_of: :requester
+  has_many :created_crops, class_name: 'Crop', foreign_key: 'creator_id', dependent: :nullify,
+                           inverse_of: :creator
+  has_many :created_alternate_names, class_name: 'AlternateName', foreign_key: 'creator_id', inverse_of: :creator
+  has_many :created_scientific_names, class_name: 'ScientificName', foreign_key: 'creator_id', inverse_of: :creator
 
   #
   # Scopes
@@ -56,13 +69,13 @@ class Member < ActiveRecord::Base
   # Requires acceptance of the Terms of Service
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
-    length: {
+    length:     {
       minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
     },
-    exclusion: {
+    exclusion:  {
       in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
     },
-    format: {
+    format:     {
       with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
     },
     uniqueness: {
@@ -85,6 +98,7 @@ class Member < ActiveRecord::Base
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
     return  where(conditions).login_name_or_email(login).first if login
+
     find_by(conditions)
   end
 
@@ -122,17 +136,18 @@ class Member < ActiveRecord::Base
     result = if set
                flickr.photosets.getPhotos(
                  photoset_id: set,
-                 page: page_num,
-                 per_page: 30
+                 page:        page_num,
+                 per_page:    30
                )
              else
                flickr.people.getPhotos(
-                 user_id: 'me',
-                 page: page_num,
+                 user_id:  'me',
+                 page:     page_num,
                  per_page: 30
                )
              end
     return [result.photo, result.total] if result
+
     [[], 0]
   end
 
@@ -157,37 +172,45 @@ class Member < ActiveRecord::Base
     nearby_members = []
     if place
       latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
-      if latitude && longitude
-        nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) }
-      end
+      nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) } if latitude && longitude
     end
     nearby_members
   end
 
   def update_newsletter_subscription
-    return unless confirmed_at_changed? || newsletter_changed?
+    return unless will_save_change_to_attribute?(:confirmed) || will_save_change_to_attribute?(:newsletter)
 
     if newsletter
-      newsletter_subscribe if confirmed_at_changed? || confirmed_at && newsletter_changed?
+      newsletter_subscribe if confirmed_just_now? || requested_newsletter_just_now?
     elsif confirmed_at
       newsletter_unsubscribe
     end
   end
 
-  def newsletter_subscribe(gb = Gibbon::API.new, testing = false)
+  def confirmed_just_now?
+    will_save_change_to_attribute?(:confirmed_at)
+  end
+
+  def requested_newsletter_just_now?
+    confirmed_at && will_save_change_to_attribute?(:newsletter)
+  end
+
+  def newsletter_subscribe(gibbon = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
-    gb.lists.subscribe(
-      id: Growstuff::Application.config.newsletter_list_id,
-      email: { email: email },
-      merge_vars: { login_name: login_name },
+
+    gibbon.lists.subscribe(
+      id:           Rails.application.config.newsletter_list_id,
+      email:        { email: email },
+      merge_vars:   { login_name: login_name },
       double_optin: false # they already confirmed their email with us
     )
   end
 
-  def newsletter_unsubscribe(gb = Gibbon::API.new, testing = false)
+  def newsletter_unsubscribe(gibbon = Gibbon::API.new, testing = false)
     return true if Rails.env.test? && !testing
-    gb.lists.unsubscribe(id: Growstuff::Application.config.newsletter_list_id,
-                         email: { email: email })
+
+    gibbon.lists.unsubscribe(id:    Rails.application.config.newsletter_list_id,
+                             email: { email: email })
   end
 
   def already_following?(member)

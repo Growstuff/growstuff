@@ -6,10 +6,10 @@
       .col-md-11
         .comment-meta
           Posted by
-          - if comment.author
-            = link_to comment.author.login_name, member_path(comment.author)
-          - else
+          - if comment.author.deleted?
             Member Deleted
+          - else
+            = link_to comment.author.login_name, member_path(comment.author)
           on
           = comment.created_at
           - if comment.updated_at > comment.created_at
@@ -27,4 +27,3 @@
             - if can? :destroy, comment
               = link_to 'Delete', comment, method: :delete,
                 data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
-

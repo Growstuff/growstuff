@@ -13,11 +13,13 @@ module PredictHarvest
 
     def first_harvest_predicted_at
       return unless crop.median_days_to_first_harvest.present? && planted_at.present?
+
       planted_at + crop.median_days_to_first_harvest.days
     end
 
     def last_harvest_predicted_at
       return unless crop.median_days_to_last_harvest.present? && planted_at.present?
+
       planted_at + crop.median_days_to_last_harvest.days
     end
 

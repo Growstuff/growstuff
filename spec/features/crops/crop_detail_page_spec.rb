@@ -10,6 +10,7 @@ feature "crop detail page", js: true do
     visit crop_path(crop)
     page
   end
+
   let(:crop) { create :crop }
 
   context "varieties" do
@@ -140,12 +141,12 @@ feature "crop detail page", js: true do
 
       scenario "has a link to OpenFarm" do
         expect(page).to have_link "OpenFarm - Growing guide",
-          href: "https://openfarm.cc/en/crops/#{URI.escape crop.name}"
+          href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
       end
 
       scenario "has a link to gardenate" do
         expect(page).to have_link "Gardenate - Planting reminders",
-          href: "http://www.gardenate.com/plant/#{URI.escape crop.name}"
+          href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
       end
     end
   end
@@ -190,6 +191,7 @@ feature "crop detail page", js: true do
                                     planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
         planting.crop.update_medians
       end
+
       it "predicts harvest" do
         is_expected.to have_text("First harvest expected 20 days after planting")
       end
@@ -198,8 +200,8 @@ feature "crop detail page", js: true do
 
   context 'predictions' do
     let!(:planting) do
-      FactoryBot.create(:planting, crop: crop,
-                                   planted_at: 100.days.ago,
+      FactoryBot.create(:planting, crop:        crop,
+                                   planted_at:  100.days.ago,
                                    finished_at: 1.day.ago)
     end
 
@@ -254,18 +256,21 @@ feature "crop detail page", js: true do
 
   context 'annual and perennial' do
     before { visit crop_path(crop) }
+
     context 'crop is an annual' do
       let(:crop) { FactoryBot.create :annual_crop }
 
       it { expect(page).to have_text 'annual crop (living and reproducing in a single year or less)' }
       it { expect(page).not_to have_text 'perennial crop (living more than two years)' }
     end
+
     context 'crop is perennial' do
       let(:crop) { FactoryBot.create :perennial_crop }
 
       it { expect(page).to have_text 'perennial crop (living more than two years)' }
       it { expect(page).not_to have_text 'annual crop (living and reproducing in a single year or less)' }
     end
+
     context 'crop perennial value is null' do
       let(:crop) { FactoryBot.create :crop, perennial: nil }
 

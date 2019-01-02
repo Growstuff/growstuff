@@ -1,4 +1,4 @@
-class ChangeProductDescriptionToText < ActiveRecord::Migration
+class ChangeProductDescriptionToText < ActiveRecord::Migration[4.2]
   def up
     change_column :products, :description, :text
   end
