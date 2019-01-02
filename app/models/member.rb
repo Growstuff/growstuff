@@ -107,7 +107,7 @@ class Member < ApplicationRecord
   end
 
   def to_param
-    login_name
+    slug
   end
 
   def role?(role_sym)
