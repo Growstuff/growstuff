@@ -81,10 +81,10 @@ feature "member profile", js: true do
         create_list :seed, 4, owner: member
         create_list :post, 5, author: member
         visit member_path(member)
-        expect(page).to have_link "2 plantings", href: by_owner_plantings_path(owner: member)
-        expect(page).to have_link "3 harvests", href: by_owner_harvests_path(owner: member)
-        expect(page).to have_link "4 seeds", href: by_owner_seeds_path(owner: member)
-        expect(page).to have_link "5 posts", href: by_author_posts_path(author: member)
+        expect(page).to have_link "2 plantings", href: member_plantings_path(owner: member)
+        expect(page).to have_link "3 harvests", href: member_harvests_path(owner: member)
+        expect(page).to have_link "4 seeds", href: member_seeds_path(owner: member)
+        expect(page).to have_link "5 posts", href: member_posts_path_path(author: member)
       end
     end
 

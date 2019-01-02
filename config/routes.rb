@@ -21,15 +21,11 @@ Rails.application.routes.draw do
     resources :photos, only: :index
   end
 
-  concern :has_owner do
-    get 'owner/:owner' => 'gardens#index', as: :by_owner, on: :collection
-  end
-
-  resources :gardens, concerns: [:has_photos, :has_owner] do
+  resources :gardens, concerns: :has_photos do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
   end
 
-  resources :plantings, concerns: [:has_photos, :has_owner] do
+  resources :plantings, concerns: :has_photos do
     resources :harvests
     resources :seeds
     collection do
@@ -37,12 +33,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :seeds, concerns: [:has_photos, :has_owner] do
+  resources :seeds, concerns: :has_photos do
     resources :plantings
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
 
-  resources :harvests, concerns: [:has_photos, :has_owner] do
+  resources :harvests, concerns: :has_photos do
     get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop', on: :collection
   end
 
@@ -57,7 +53,7 @@ Rails.application.routes.draw do
 
   delete 'photo_associations' => 'photo_associations#destroy'
 
-  resources :crops, concerns: [:has_photos, :has_owner] do
+  resources :crops, concerns: :has_photos do
     get 'gardens' => 'gardens#index'
     get 'harvests' => 'harvests#index'
     get 'plantings' => 'plantings#index'
@@ -85,10 +81,18 @@ Rails.application.routes.draw do
 
   resources :follows, only: %i(create destroy)
   resources :likes, only: %i(create destroy)
-  resources :members do
+
+  resources :members, param: :login_name do
     get 'follows' => 'members#view_follows'
     get 'followers' => 'members#view_followers'
+
+    resources :gardens
+    resources :seeds
+    resources :plantings
+    resources :harvests
+    resources :posts
   end
+  
   resources :notifications do
     get 'reply', on: :member
   end

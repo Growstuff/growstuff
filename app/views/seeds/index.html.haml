@@ -1,4 +1,5 @@
 - content_for :title, title('seeds', @owner, @crop, @planting)
+
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
 
@@ -16,7 +17,7 @@
     - else # everyone's seeds
       = link_to 'Add seeds', new_seed_path, class: 'btn btn-primary'
       - if current_member
-        = link_to 'View your seeds', by_owner_seeds_path(owner: current_member.slug), class: 'btn btn-default'
+        = link_to 'View your seeds', member_seeds_path(owner: current_member.slug), class: 'btn btn-default'
   - else
     = render partial: 'shared/signin_signup', locals: { to: 'add seeds to your stash' }
 
@@ -37,9 +38,9 @@
 %ul.list-inline
   %li The data on this page is available in the following formats:
   - if @owner
-    %li= link_to "CSV", by_owner_seeds_path(@owner, format: 'csv')
-    %li= link_to "JSON", by_owner_seeds_path(@owner, format: 'json')
-    %li= link_to "RSS", by_owner_seeds_path(@owner, format: 'rss')
+    %li= link_to "CSV", member_seeds_path(@owner, format: 'csv')
+    %li= link_to "JSON", member_seeds_path(@owner, format: 'json')
+    %li= link_to "RSS", member_seeds_path(@owner, format: 'rss')
   - else
     %li= link_to "CSV", seeds_path(format: 'csv')
     %li= link_to "JSON", seeds_path(format: 'json')

@@ -57,7 +57,7 @@ feature "Harvesting a crop", :js, :elasticsearch do
   end
 
   scenario "Clicking link to owner's profile" do
-    visit by_owner_harvests_path(member)
+    visit member_harvests_path(member)
     click_link "View #{member}'s profile >>"
     expect(current_path).to eq member_path member
   end

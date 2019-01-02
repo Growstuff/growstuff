@@ -57,7 +57,7 @@ class GardensController < ApplicationController
   def destroy
     @garden.destroy
     flash[:notice] = I18n.t('gardens.deleted')
-    redirect_to(by_owner_gardens_path(owner: @garden.owner))
+    redirect_to(member_gardens_path(owner: @garden.owner))
   end
 
   private
