@@ -7,7 +7,8 @@
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
   harvesting from your home garden and see how productive it is.
 
-= render "nav"
+= render 'layouts/nav', model: Harvest
+
 .pagination
   = page_entries_info @harvests
   = will_paginate @harvests

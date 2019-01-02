@@ -1,6 +1,7 @@
 - content_for :title, title('plantings', @owner, @crop, @planting)
 
-= render 'nav', owner: @owner, show_all: @show_all
+= render 'layouts/nav', model: Planting
+
 
 - if @owner
   = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)

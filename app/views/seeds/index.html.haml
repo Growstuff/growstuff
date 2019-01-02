@@ -7,19 +7,7 @@
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track your seed
   stash or trade seeds with other members.
 
-%p
-  - if can? :create, Seed
-    - if @owner
-      %p
-        - if @owner == current_member
-          = link_to 'Add seeds', new_seed_path, class: 'btn btn-primary'
-        = link_to "View everyone's seeds", seeds_path, class: 'btn btn-default'
-    - else # everyone's seeds
-      = link_to 'Add seeds', new_seed_path, class: 'btn btn-primary'
-      - if current_member
-        = link_to 'View your seeds', member_seeds_path(owner: current_member.slug), class: 'btn btn-default'
-  - else
-    = render partial: 'shared/signin_signup', locals: { to: 'add seeds to your stash' }
+= render 'layouts/nav', model: Seed
 
 .pagination
   = page_entries_info @seeds
