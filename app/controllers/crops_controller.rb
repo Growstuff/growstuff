@@ -67,6 +67,7 @@ class CropsController < ApplicationController
   end
 
   def edit
+    @crop = Crop.find_by(slug: params[:slug])
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
   end
@@ -87,6 +88,7 @@ class CropsController < ApplicationController
   end
 
   def update
+    @crop = Crop.find_by(slug: params[:slug])
     previous_status = @crop.approval_status
 
     @crop.creator = current_member if previous_status == "pending"
