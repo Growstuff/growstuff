@@ -31,7 +31,6 @@
           - else
             Nobody is growing this yet. You could be the first!
 
-
     .row
       .col-md-12
         %h2 Predictions
@@ -45,7 +44,6 @@
       .col-md-3
         %h2 Sunniness
         = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-
       .col-md-3
         %h2 Planted from
         = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
@@ -102,8 +100,8 @@
         = link_to crop_harvests_path(@crop) do
           View all #{@crop.name} harvests
           (#{@crop.harvests.size})
-    %p
-      - if member_signed_in?
+    - if member_signed_in?
+      %p
         = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
           = display_seed_availability(@current_member, @crop)
 
