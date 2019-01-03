@@ -7,6 +7,7 @@ if [ "${STATIC_CHECKS}" = "true" ]; then
   npm install;
 
   gem install --update overcommit haml-lint bundler-audit;
+  gem install childprocess 0.7.0
 
   pip install --upgrade pip;
   pip install yamllint --user;
