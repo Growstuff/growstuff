@@ -1,9 +1,9 @@
 class FollowsController < ApplicationController
   before_action :authenticate_member!
+  before_action :set_member, only: [:index, :followers]
   load_and_authorize_resource
   skip_load_resource only: :create
 
-  # POST /follows
   def create
     @follow = current_member.follows.build(followed: Member.find(params[:followed]))
 
@@ -15,7 +15,6 @@ class FollowsController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
-  # DELETE /follows/1
   def destroy
     @follow = current_member.follows.find(params[:id])
     @unfollowed = @follow.followed
@@ -25,7 +24,19 @@ class FollowsController < ApplicationController
     redirect_to @unfollowed
   end
 
+  def index
+    @follows = @member.followed.paginate(page: params[:page])
+  end
+
+  def followers
+    @followers = @member.followers.paginate(page: params[:page])
+  end
+
   private
+
+  def set_member
+    @member = Member.confirmed.find(params[:member_slug])
+  end
 
   def follow_params
     params.permit(:id, :followed, :follower)

@@ -38,16 +38,6 @@ class MembersController < ApplicationController
     end
   end
 
-  def view_follows
-    @member = Member.confirmed.find(params[:owner])
-    @follows = @member.followed.paginate(page: params[:page])
-  end
-
-  def view_followers
-    @member = Member.confirmed.find(params[:owner])
-    @followers = @member.followers.paginate(page: params[:page])
-  end
-
   EMAIL_TYPE_STRING = {
     send_notification_email: "direct message notifications",
     send_planting_reminder:  "planting reminders"

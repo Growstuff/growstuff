@@ -83,14 +83,14 @@ Rails.application.routes.draw do
   resources :likes, only: %i(create destroy)
 
   resources :members, param: :slug do
-    get 'follows' => 'members#view_follows'
-    get 'followers' => 'members#view_followers'
-
     resources :gardens
     resources :seeds
     resources :plantings
     resources :harvests
     resources :posts
+
+    resources :follows
+    get 'followers' => 'follows#followers'
   end
   
   resources :notifications do
