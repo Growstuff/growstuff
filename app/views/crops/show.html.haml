@@ -44,14 +44,14 @@
     .row
       .col-md-3
         %h2 Sunniness
-        = pie_chart crop_sunniness_path(@crop), legend: "bottom"
+        = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
 
       .col-md-3
         %h2 Planted from
-        = pie_chart crop_planted_from_path(@crop), legend: "bottom"
+        = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
       .col-md-3
         %h2 Harvested for
-        = pie_chart crop_harvested_for_path(@crop), legend: "bottom"
+        = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     .row
       .col-md-12
