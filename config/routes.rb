@@ -94,7 +94,7 @@ Rails.application.routes.draw do
   end
   
   resources :notifications do
-    get 'reply', on: :member
+    get 'reply', on: :collection
   end
 
   resources :places, only: [:index, :show] do
