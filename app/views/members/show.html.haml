@@ -11,7 +11,7 @@
   - if can? :update, @member
     = link_to 'Edit profile', edit_member_registration_path, class: 'btn btn-default pull-right'
   - if can?(:create, Notification) && current_member != @member
-    = link_to 'Send message', new_notification_path(recipient_id: @member.slug), class: 'btn btn-default pull-right'
+    = link_to 'Send message', new_notification_path(recipient_id: @member.id), class: 'btn btn-default pull-right'
 
   - if current_member && current_member != @member # must be logged in, can't follow yourself
     - follow = current_member.get_follow(@member)
