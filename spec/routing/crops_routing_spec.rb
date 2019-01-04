@@ -11,11 +11,11 @@ describe CropsController do
     end
 
     it "routes to #show" do
-      get("/crops/1").should route_to("crops#show", id: "1")
+      get("/crops/lettuce").should route_to("crops#show", slug: 'lettuce')
     end
 
     it "routes to #edit" do
-      get("/crops/1/edit").should route_to("crops#edit", id: "1")
+      get("/crops/lettuce/edit").should route_to("crops#edit", slug: "lettuce")
     end
 
     it "routes to #create" do
@@ -23,11 +23,11 @@ describe CropsController do
     end
 
     it "routes to #update" do
-      put("/crops/1").should route_to("crops#update", id: "1")
+      put("/crops/lettuce").should route_to("crops#update", slug: "lettuce")
     end
 
     it "routes to #destroy" do
-      delete("/crops/1").should route_to("crops#destroy", id: "1")
+      delete("/crops/lettuce").should route_to("crops#destroy", slug: "lettuce")
     end
   end
 end
