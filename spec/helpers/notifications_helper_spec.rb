@@ -8,7 +8,7 @@ describe NotificationsHelper do
       notification = FactoryBot.create(:notification, recipient_id: member.id, post_id: nil)
       link = helper.reply_link(notification)
       link.should_not be_nil
-      link.should eq reply_notifications_url(notification)
+      link.should eq notification_reply_url(notification)
     end
 
     it "replies to post comments with post comments" do
