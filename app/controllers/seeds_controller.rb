@@ -71,7 +71,7 @@ class SeedsController < ApplicationController
 
   def csv_filename
     if @owner
-      "Growstuff-#{@owner}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
+      "Growstuff-#{@owner.to_param}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
     else
       "Growstuff-Seeds-#{Time.zone.now.to_s(:number)}.csv"
     end
