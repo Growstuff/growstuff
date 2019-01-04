@@ -30,7 +30,7 @@
   - if @author
     Subscribe to
     = succeed "." do
-      = link_to "#{@author}'s posts RSS feed", member_posts_path(format: 'rss', author: @author)
+      = link_to "#{@author}'s posts RSS feed", member_posts_path(@author, format: 'rss')
 
   - else
     Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
