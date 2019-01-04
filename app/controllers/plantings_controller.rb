@@ -109,10 +109,10 @@ class PlantingsController < ApplicationController
   end
 
   def specifics
-    if @owner
-      "#{@owner.login_name}-"
-    elsif @crop
-      "#{@crop.name}-"
-                end
-              end
+    if @owner.present?
+      "#{@owner.to_param}-"
+    elsif @crop.present?
+      "#{@crop.to_param}-"
+    end
+  end
 end
