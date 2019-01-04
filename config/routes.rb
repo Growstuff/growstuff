@@ -104,8 +104,9 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback' => 'authentications#create'
   get 'members/auth/:provider/callback' => 'authentications#create'
 
+    
   scope :admin do
-    resources :members, as: 'admin_members'
+    resources :members, controller: 'admin/members', as: 'admin_members'
     get '/' => 'admin#index', as: 'admin'
     get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
     comfy_route :cms_admin, path: '/cms'
