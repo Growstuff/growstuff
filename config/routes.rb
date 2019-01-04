@@ -108,7 +108,7 @@ Rails.application.routes.draw do
     resources :members, as: 'admin_members'
     get '/' => 'admin#index', as: 'admin'
     get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
-    get ':action' => 'admin#:action'
+    comfy_route :cms_admin, path: '/cms'
   end
 
   namespace :api do
@@ -125,6 +125,5 @@ Rails.application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
   # CMS stuff  -- must remain LAST
-  comfy_route :cms_admin, path: '/admin/cms'
   comfy_route :cms, path: '/', sitemap: false
 end
