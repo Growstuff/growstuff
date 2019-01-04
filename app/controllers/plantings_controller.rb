@@ -10,8 +10,8 @@ class PlantingsController < ApplicationController
   responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:member_slug])
-    @crop = Crop.find_by(slug: params[:crop_slug])
+    @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug]
+    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
 
     @show_all = params[:all] == '1'
 
