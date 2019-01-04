@@ -97,7 +97,7 @@ Rails.application.routes.draw do
     get 'reply'
   end
 
-  resources :places, only: %i(index show) do
+  resources :places, only: %i(index show), param: :place do
     get 'search', on: :collection
   end
 
