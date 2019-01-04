@@ -92,19 +92,18 @@ Rails.application.routes.draw do
     resources :follows
     get 'followers' => 'follows#followers'
   end
-  
+
   resources :notifications do
-    get 'reply', on: :collection
+    get 'reply'
   end
 
-  resources :places, only: [:index, :show] do
+  resources :places, only: %i(index show) do
     get 'search', on: :collection
   end
 
   get 'auth/:provider/callback' => 'authentications#create'
   get 'members/auth/:provider/callback' => 'authentications#create'
 
-    
   scope :admin do
     resources :members, controller: 'admin/members', as: 'admin_members'
     get '/' => 'admin#index', as: 'admin'

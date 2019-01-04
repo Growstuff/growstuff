@@ -26,7 +26,7 @@ feature "follows", :js do
     end
 
     context "following another member" do
-      background { visit member_path(other_member)}
+      background { visit member_path(other_member) }
 
       scenario "has a follow button" do
         expect(page).to have_link "Follow", href: follows_path(followed: other_member.slug)
