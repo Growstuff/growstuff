@@ -5,7 +5,7 @@ module NotificationsHelper
       new_comment_url(post_id: notification.post.id)
     else
       # by default, reply link sends a PM in return
-      reply_notification_url(notification)
+      reply_notifications_url(notification)
     end
   end
 end
