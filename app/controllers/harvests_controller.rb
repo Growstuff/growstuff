@@ -74,9 +74,9 @@ class HarvestsController < ApplicationController
 
   def csv_filename
     specifics = if @owner
-                  "#{@owner.login_name}-"
+                  "#{@owner.to_param}-"
                 elsif @crop
-                  "#{@crop.name}-"
+                  "#{@crop.to_param}-"
                 end
     "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
   end
