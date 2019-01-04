@@ -11,23 +11,6 @@ describe NotificationsController do
     }
   end
 
-  # this gets a bit confused because for most of the notification tests
-  # (reading, etc) the logged in member needs to be the recipient.
-  # However, for sending private messages (create, etc) the logged in
-  # member needs to be the sender.  Hence this separate set of
-  # attributes.
-  def valid_attributes_for_sender
-    {
-      "sender_id"    => subject.current_member.id,
-      "recipient_id" => FactoryBot.create(:member).id,
-      "subject"      => 'test'
-    }
-  end
-
-  def valid_session
-    {}
-  end
-
   describe "GET index" do
     it "assigns all notifications as @notifications" do
       notification = FactoryBot.create(:notification, recipient_id: subject.current_member.id)
@@ -65,7 +48,7 @@ describe NotificationsController do
   describe "GET reply" do
     it "marks notifications as read" do
       notification = FactoryBot.create(:notification, recipient_id: subject.current_member.id)
-      get :reply, params: { id: notification.to_param }
+      get :reply, params: { notification_id: notification.to_param }
       # we need to fetch it from the db again, can't test against the old one
       n = Notification.find(notification.id)
       n.read.should eq true
