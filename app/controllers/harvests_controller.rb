@@ -15,7 +15,7 @@ class HarvestsController < ApplicationController
     @harvests = @harvests.where(crop: @crop) if @crop.present?
     @harvests = @harvests.where(planting: @planting) if @planting.present?
     @harvests = @harvests.order(harvested_at: :desc).joins(:owner, :crop).paginate(page: params[:page])
-    
+
     @filename = csv_filename
 
     respond_with(@harvests)

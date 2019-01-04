@@ -110,9 +110,9 @@ class PlantingsController < ApplicationController
 
   def specifics
     if @owner
-                  "#{@owner.login_name}-"
-                elsif @crop
-                  "#{@crop.name}-"
+      "#{@owner.login_name}-"
+    elsif @crop
+      "#{@crop.name}-"
                 end
               end
 end

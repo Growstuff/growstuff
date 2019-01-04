@@ -68,7 +68,7 @@ class SeedsController < ApplicationController
       :finished, :finished_at
     )
   end
-  
+
   def csv_filename
     if @owner
       "Growstuff-#{@owner}-Seeds-#{Time.zone.now.to_s(:number)}.csv"

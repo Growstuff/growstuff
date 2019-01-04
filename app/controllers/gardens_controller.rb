@@ -9,7 +9,7 @@ class GardensController < ApplicationController
   def index
     @owner = Member.find_by(slug: params[:member_slug])
     @show_all = params[:all] == '1'
-    
+
     @gardens = @gardens.active unless @show_all
     @gardens = @gardens.where(owner: @owner) if @owner.present?
     @gardens = @gardens.joins(:owner).order(:name).paginate(page: params[:page])
