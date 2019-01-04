@@ -2,8 +2,11 @@
 
 if [ "${STATIC_CHECKS}" = "true" ]; then
   set -euv
-  gem install --update overcommit rubocop haml-lint bundler-audit;
   npm install;
+
+  gem install --update overcommit haml-lint bundler-audit;
+
+  pip install --upgrade pip;
   pip install yamllint --user;
 
   overcommit --install;
