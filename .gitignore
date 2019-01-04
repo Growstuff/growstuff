@@ -17,3 +17,4 @@ zeus.json
 .idea/**
 public/**
 node_modules
+/.byebug_history
