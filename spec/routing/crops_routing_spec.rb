@@ -14,6 +14,10 @@ describe CropsController do
       get("/crops/lettuce").should route_to("crops#show", slug: 'lettuce')
     end
 
+    it { get("/crops/lettuce/plantings").should route_to("plantings#index", crop_slug: 'lettuce') }
+    it { get("/crops/lettuce/harvests").should route_to("harvests#index", crop_slug: 'lettuce') }
+    it { get("/crops/lettuce/seeds").should route_to("seeds#index", crop_slug: 'lettuce') }
+
     it "routes to #edit" do
       get("/crops/lettuce/edit").should route_to("crops#edit", slug: "lettuce")
     end
