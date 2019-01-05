@@ -2,7 +2,7 @@
 
 if [ "${STATIC_CHECKS}" = "true" ]; then
   set -euv
-  npm install;
+  yarn install;
 
   gem install --update overcommit haml-lint bundler-audit;
 
