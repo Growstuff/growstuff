@@ -4,7 +4,7 @@ if [ "${STATIC_CHECKS}" = "true" ]; then
   set -euv
   yarn install;
 
-  gem install --update overcommit haml-lint bundler-audit;
+  gem install --update overcommit haml-lint bundler-audit --no-document;
 
   pip install --upgrade pip;
   pip install yamllint --user;
