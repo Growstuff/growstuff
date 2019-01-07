@@ -41,7 +41,7 @@
     "bonsai",
     "memcachier",
     "newrelic",
-    "sparkhost"
+    "sparkpost"
   ],
   "buildpacks": [
     {
