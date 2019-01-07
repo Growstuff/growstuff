@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback' => 'authentications#create'
   get 'members/auth/:provider/callback' => 'authentications#create'
 
-  comfy_route :cms_admin, path: '/admin/cms'
+  # comfy_route :cms_admin, path: '/admin/cms'
   namespace :admin do
     resources :members
   end
@@ -106,5 +106,5 @@ Rails.application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
   # CMS stuff  -- must remain LAST
-  comfy_route :cms, path: '/', sitemap: false
+  # comfy_route :cms, path: '/', sitemap: false
 end
