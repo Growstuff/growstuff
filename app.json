@@ -38,7 +38,7 @@
   },
   "addons": [
     "heroku-postgresql",
-    "bonsai-elasticsearch",
+    "bonsai",
     "memcachier",
     "newrelic",
     "sparkhost"
