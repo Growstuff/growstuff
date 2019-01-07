@@ -1,20 +1,30 @@
-/log/*
+.byebug_history
+.bundle
+
+# Folders to ignore
+/log
 /doc
+/tmp
+/vendor
+/coverage
+/public
+/node_modules
+
+# Dev database (if they use sqlite)
 /db/*.sqlite3
-/tmp/*
-coverage
+
+# Editor and file system droppings
 .pt
 .*.sw*
 *~
 *.DS_Store
+.idea/**
+
+# Dev config files
 config/application.yml
 config/database.yml
-credentials*.sh
-Pathogen:
-custom_plan.rb
-zeus.json
-.bundle
-.idea/**
-public/**
-node_modules
-/.byebug_history
+
+# Files that are created on Travis
+cc-test-reporter
+elasticsearch-*.deb
+elasticsearch-*.deb.sha512
