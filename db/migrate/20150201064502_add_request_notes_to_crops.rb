@@ -1,4 +1,4 @@
-class AddRequestNotesToCrops < ActiveRecord::Migration
+class AddRequestNotesToCrops < ActiveRecord::Migration[4.2]
   def change
     add_column :crops, :request_notes, :text
   end

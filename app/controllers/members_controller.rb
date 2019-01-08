@@ -2,7 +2,6 @@ class MembersController < ApplicationController
   load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
   skip_authorize_resource only: %i(nearby unsubscribe finish_signup)
   respond_to :html, :json, :rss
-  after_action :expire_homepage, only: :create
 
   def index
     @sort = params[:sort]
@@ -51,7 +50,7 @@ class MembersController < ApplicationController
 
   EMAIL_TYPE_STRING = {
     send_notification_email: "direct message notifications",
-    send_planting_reminder: "planting reminders"
+    send_planting_reminder:  "planting reminders"
   }.freeze
 
   def unsubscribe

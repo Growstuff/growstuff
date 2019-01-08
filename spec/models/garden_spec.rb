@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe Garden do
-  let(:owner) { FactoryBot.create(:member) }
+  let(:owner) { FactoryBot.create(:member, login_name: 'hatupatu') }
   let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
   let(:container) { FactoryBot.create(:container, description: "aquaponic") }
 
   it "should have a slug" do
-    garden.slug.should match(/member\d+-springfield-community-garden/)
+    garden.slug.should match(/hatupatu-springfield-community-garden/)
   end
 
   it "should have a description" do
@@ -68,7 +68,7 @@ describe Garden do
       @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden, owner: garden.owner)
       @p2 = FactoryBot.create(:planting, crop: maize, garden: garden, owner: garden.owner)
 
-      garden.featured_plantings.should eq [@p2, @p1]
+      expect(garden.featured_plantings).to eq [@p2, @p1]
     end
 
     it "should fetch most recent 4 featured plantings" do
@@ -78,7 +78,7 @@ describe Garden do
       @p4 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
       @p5 = FactoryBot.create(:planting, crop: walnut, garden: garden, owner: garden.owner)
 
-      garden.featured_plantings.should eq [@p5, @p4, @p3, @p2]
+      expect(garden.featured_plantings).to eq [@p5, @p4, @p3, @p2]
     end
 
     it "should skip repeated plantings" do
@@ -90,7 +90,7 @@ describe Garden do
       @p6 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
       @p7 = FactoryBot.create(:planting, crop: pear, garden: garden, owner: garden.owner)
 
-      garden.featured_plantings.should eq [@p7, @p6, @p5, @p3]
+      expect(garden.featured_plantings).to eq [@p7, @p6, @p5, @p3]
     end
   end
 
@@ -98,10 +98,10 @@ describe Garden do
     garden = FactoryBot.create(:garden, owner: owner)
     @planting1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
     @planting2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
-    garden.plantings.size.should eq(2)
+    expect(garden.plantings.size).to eq(2)
     all = Planting.count
     garden.destroy
-    Planting.count.should eq(all - 2)
+    expect(Planting.count).to eq(all - 2)
   end
 
   it "destroys plots when deleted" do
@@ -168,7 +168,7 @@ describe Garden do
     it 'sets area unit to blank if area is blank' do
       garden = FactoryBot.build(:garden, area: '', area_unit: 'acre')
       garden.should be_valid
-      garden.area_unit.should eq nil
+      expect(garden.area_unit).to eq nil
     end
   end
 
@@ -191,16 +191,16 @@ describe Garden do
     p1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
     p2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
 
-    p1.finished.should eq false
-    p2.finished.should eq false
+    expect(p1.finished).to eq false
+    expect(p2.finished).to eq false
 
     garden.active = false
     garden.save
 
     p1.reload
-    p1.finished.should eq true
+    expect(p1.finished).to eq true
     p2.reload
-    p2.finished.should eq true
+    expect(p2.finished).to eq true
   end
 
   it "doesn't mark the wrong plantings as finished" do
@@ -215,23 +215,23 @@ describe Garden do
 
     # plantings in that garden should be "finished"
     p1.reload
-    p1.finished.should eq true
+    expect(p1.finished).to eq true
 
     # plantings in other gardens should not be.
     p2.reload
-    p2.finished.should eq false
+    expect(p2.finished).to eq false
   end
 
   context 'photos' do
     let(:garden) { FactoryBot.create(:garden) }
-    let(:photo) { FactoryBot.create(:photo) }
+    let(:photo) { FactoryBot.create(:photo, owner: garden.owner) }
 
     before do
       garden.photos << photo
     end
 
     it 'has a photo' do
-      garden.photos.first.should eq photo
+      expect(garden.photos.first).to eq photo
     end
 
     it 'deletes association with photos when photo is deleted' do
@@ -241,13 +241,13 @@ describe Garden do
     end
 
     it 'has a default photo' do
-      garden.default_photo.should eq photo
+      expect(garden.default_photo).to eq photo
     end
 
     it 'chooses the most recent photo' do
-      @photo2 = FactoryBot.create(:photo)
+      @photo2 = FactoryBot.create(:photo, owner: garden.owner)
       garden.photos << @photo2
-      garden.default_photo.should eq @photo2
+      expect(garden.default_photo).to eq @photo2
     end
   end
 

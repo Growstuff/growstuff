@@ -1,4 +1,4 @@
-class AddOrdersProductsTable < ActiveRecord::Migration
+class AddOrdersProductsTable < ActiveRecord::Migration[4.2]
   def change
     create_table :orders_products, id: false do |t|
       t.integer :order_id

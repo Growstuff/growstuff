@@ -1,13 +1,13 @@
-Growstuff::Application.routes.draw do
-  resources :containers
+Rails.application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
+  resources :containers
   resources :plant_parts
 
   devise_for :members, controllers: {
-    registrations: "registrations",
-    passwords: "passwords",
-    sessions: "sessions",
+    registrations:      "registrations",
+    passwords:          "passwords",
+    sessions:           "sessions",
     omniauth_callbacks: "omniauth_callbacks"
   }
   devise_scope :member do

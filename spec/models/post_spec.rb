@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe Post do
-  let(:member) { FactoryBot.create(:member) }
-
+  let(:member) { FactoryBot.create(:member, login_name: 'whinacooper') }
   it_behaves_like "it is likeable"
 
   it "should have a slug" do
@@ -61,7 +60,7 @@ describe Post do
 
   context "recent activity" do
     before do
-      Time.stub(now: Time.now)
+      Time.stub(now: Time.zone.now)
     end
 
     let!(:post) { FactoryBot.create(:post, created_at: 1.day.ago) }
@@ -71,7 +70,7 @@ describe Post do
     end
 
     it "sets recent activity to comment time" do
-      comment = FactoryBot.create(:comment, post: post,
+      comment = FactoryBot.create(:comment, post:       post,
                                             created_at: 1.hour.ago)
       post.recent_activity.to_i.should eq comment.created_at.to_i
     end
@@ -146,7 +145,7 @@ describe Post do
     end
 
     it "should be updated when post was modified" do
-      post.update_attributes(body: "[chard](crop)")
+      post.update(body: "[chard](crop)")
 
       expect(post.crops).to eq [chard]
       expect(chard.posts).to eq [post]

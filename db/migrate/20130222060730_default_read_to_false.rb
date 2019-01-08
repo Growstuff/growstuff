@@ -1,4 +1,4 @@
-class DefaultReadToFalse < ActiveRecord::Migration
+class DefaultReadToFalse < ActiveRecord::Migration[4.2]
   def up
     change_table :notifications do |t|
       t.change :read, :boolean, default: false

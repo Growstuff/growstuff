@@ -10,6 +10,6 @@ class RobotsController < ApplicationController
   private
 
   def subdomain
-    request.subdomain.present? ? request.subdomain : nil
+    request.subdomain.presence
   end
 end

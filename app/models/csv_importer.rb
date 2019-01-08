@@ -9,9 +9,9 @@ class CsvImporter
     name, en_wikipedia_url, parent_name, scientific_names, alternate_names = row
 
     @crop = Crop.find_or_create_by(name: name)
-    @crop.update_attributes(
+    @crop.update(
       en_wikipedia_url: en_wikipedia_url,
-      creator_id: cropbot.id
+      creator_id:       cropbot.id
     )
 
     add_parent(parent_name) if parent_name
@@ -26,7 +26,7 @@ class CsvImporter
   def add_parent(parent_name)
     parent = Crop.find_by(name: parent_name)
     if parent
-      @crop.update_attributes(parent_id: parent.id)
+      @crop.update(parent_id: parent.id)
     else
       @crop.logger.warn("Warning: parent crop #{parent_name} not found")
     end
@@ -54,6 +54,7 @@ class CsvImporter
   def add_alternate_names(alternate_names)
     # i.e. we actually passed something in, which isn't a given
     return if alternate_names.blank?
+
     alternate_names.split(/,\s*/).each do |name|
       altname = AlternateName.find_by(name: name, crop: @crop)
       altname ||= AlternateName.create! name: name, crop: @crop, creator: cropbot

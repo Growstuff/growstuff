@@ -4,7 +4,7 @@ describe 'members/show.rss.haml', type: "view" do
   subject { rendered }
 
   before(:each) do
-    @member = assign(:member, FactoryBot.create(:member))
+    @member = assign(:member, FactoryBot.create(:member, login_name: 'callum'))
     @post1 = FactoryBot.create(:post, id: 1, author: @member)
     @post2 = FactoryBot.create(:markdown_post, id: 2, author: @member)
     assign(:posts, [@post1, @post2])
@@ -12,7 +12,7 @@ describe 'members/show.rss.haml', type: "view" do
   end
 
   it 'shows RSS feed title' do
-    is_expected.to match(/member\d+'s recent posts/)
+    is_expected.to have_text("callum's recent posts")
   end
 
   it 'shows content of posts' do

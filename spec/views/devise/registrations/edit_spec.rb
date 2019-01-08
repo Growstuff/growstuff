@@ -41,7 +41,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
 
       it "contains a gravatar icon" do
-        assert_select "img", src: /gravatar\.com\/avatar/
+        assert_select "img", src: %r{gravatar\.com/avatar}
       end
 
       it 'contains a link to gravatar.com' do

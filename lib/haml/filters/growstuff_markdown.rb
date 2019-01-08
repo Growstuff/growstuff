@@ -13,11 +13,11 @@ module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
 
     private
 
-    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
-    MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
-    MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/
-    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/
-    HOST = Growstuff::Application.config.host
+    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/.freeze
+    MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/.freeze
+    MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/.freeze
+    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/.freeze
+    HOST = Rails.application.config.host
 
     def expand_crops!
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)

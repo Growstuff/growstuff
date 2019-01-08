@@ -1,4 +1,4 @@
-class CreatePlantParts < ActiveRecord::Migration
+class CreatePlantParts < ActiveRecord::Migration[4.2]
   def change
     create_table :plant_parts do |t|
       t.string :name
