@@ -2,11 +2,11 @@
 
 if [ "${STATIC_CHECKS}" = "true" ]; then
   set -euv
-  npm install;
+  yarn install;
 
-  gem install --update overcommit haml-lint bundler-audit;
+  gem install --update overcommit haml-lint bundler-audit --no-document;
 
-  pip install --upgrade pip;
+  # pip install --upgrade pip;
   pip install yamllint --user;
 
   overcommit --install;
