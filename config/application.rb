@@ -81,7 +81,7 @@ module Growstuff
 
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
-    config.bot_email = "noreply@growstuff.org"
+    config.bot_email = ENV['GROWSTUFF_EMAIL']
     config.user_agent = 'Growstuff'
     config.user_agent_email = "info@growstuff.org"
 

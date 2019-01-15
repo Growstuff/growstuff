@@ -80,7 +80,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Growstuff configuration
-  config.action_mailer.default_url_options = { host: 'growstuff.org' }
+  config.action_mailer.default_url_options = { host: ENV['MAIL_SENDER_HOST'] }
 
   ActionMailer::Base.smtp_settings = {
     port:                 ENV['SPARKPOST_SMTP_PORT'],
@@ -105,6 +105,15 @@ Rails.application.configure do
   config.mapbox_access_token = 'pk.eyJ1IjoiZ3Jvd3N0dWZmIiwiYSI6IkdxMkx4alUifQ.n0igaBsw97s14zMa0lwKCA'
 
   config.active_job.queue_adapter = :sidekiq
+  # Use a different logger for distributed setups.
+  # require 'syslog/logger'
+  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
+
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
