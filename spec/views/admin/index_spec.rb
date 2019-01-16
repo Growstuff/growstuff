@@ -8,12 +8,12 @@ describe 'admin/index.html.haml', type: "view" do
     render
   end
 
-  it "includes links to manage various things" do
+  scenario "includes links to manage various things" do
     assert_select "a", href: roles_path
     assert_select "a", href: forums_path
   end
 
-  it "has a link to newsletter subscribers" do
+  scenario "has a link to newsletter subscribers" do
     rendered.should have_content "Newsletter subscribers"
   end
 end
