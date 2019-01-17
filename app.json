@@ -38,20 +38,10 @@
   },
   "addons": [
     "heroku-postgresql",
-    
-"bonsai:free",
-
-
-      
-
+    "bonsai:free",
     "memcachier",
     "newrelic",
-   
     "sparkpost:free"
-
-
-
-    
   ],
   "buildpacks": [
     {
