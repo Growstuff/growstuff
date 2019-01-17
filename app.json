@@ -37,11 +37,23 @@
     }
   },
   "addons": [
-    "heroku-postgresql",
-    "bonsai:free",
-    "memcachier",
-    "newrelic",
-    "sparkpost:free"
+    {
+      "plan:": "heroku-postgresql:dev"
+    },
+    {
+      "plan:": "bonsai:sandbox-6"},
+    {
+      "plan:": "memcachier:dev"
+    },
+    {
+      "plan:": "newrelic:wayne"
+    },
+    {
+      "plan:": "sparkpost:free"
+    },
+    {
+      "plan": "scheduler:standard"
+    }
   ],
   "buildpacks": [
     {
