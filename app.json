@@ -38,9 +38,6 @@
   },
   "addons": [
     {
-      "plan": "heroku-postgresql:dev"
-    },
-    {
       "plan": "bonsai:sandbox-6",
       "options": {
         "version": "6.2.3"
@@ -51,9 +48,6 @@
     },
     {
       "plan": "newrelic:wayne"
-    },
-    {
-      "plan": "sparkpost:free"
     },
     {
       "plan": "scheduler:standard"
