@@ -37,27 +37,27 @@
     }
   },
   "addons": [
-    // {
-    //   "plan:": "heroku-postgresql:dev"
-    // },
-    // {
-    //   "plan:": "bonsai:sandbox-6",
-    //   "options": {
-    //     "version": "6.2.3"
-    //   }
-    // },
-    // {
-    //   "plan:": "memcachier:dev"
-    // },
-    // {
-    //   "plan:": "newrelic:wayne"
-    // },
-    // {
-    //   "plan:": "sparkpost:free"
-    // },
-    // {
-    //   "plan": "scheduler:standard"
-    // }
+    {
+      "plan": "heroku-postgresql:dev"
+    },
+    {
+      "plan": "bonsai:sandbox-6",
+      "options": {
+        "version": "6.2.3"
+      }
+    },
+    {
+      "plan": "memcachier:dev"
+    },
+    {
+      "plan": "newrelic:wayne"
+    },
+    {
+      "plan": "sparkpost:free"
+    },
+    {
+      "plan": "scheduler:standard"
+    }
   ],
   "buildpacks": [
     {
