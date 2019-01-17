@@ -39,14 +39,19 @@
   "addons": [
     "heroku-postgresql",
     {
-      "plan": "bonsai:hobby",
+      "plan": "bonsai:free",
       "options": {
         "version": "6.2.3"
       }
     },
     "memcachier",
     "newrelic",
-    "sparkpost"
+    {
+      "plan": "sparkpost:free",
+
+
+
+    }
   ],
   "buildpacks": [
     {
