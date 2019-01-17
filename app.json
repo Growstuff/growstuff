@@ -41,7 +41,11 @@
       "plan:": "heroku-postgresql:dev"
     },
     {
-      "plan:": "bonsai:sandbox-6"},
+      "plan:": "bonsai:sandbox-6",
+      "options": {
+        "version": "6.2.3"
+      }
+    },
     {
       "plan:": "memcachier:dev"
     },
