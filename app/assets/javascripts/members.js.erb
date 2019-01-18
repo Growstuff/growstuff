@@ -18,7 +18,7 @@ if (document.getElementById("membermap") !== null) {
       var marker = new L.Marker(new L.LatLng(member.latitude, member.longitude));
 
       var member_url = "/members/" + member.slug;
-      var member_link = "<a href='" + member_url + "'>" + member.slug + "</a>";
+      var member_link = "<a href='" + member_url + "'>" + member.login_name + "</a>";
 
       var where = "<p><i>" + member.location + "</i></p>";
 
