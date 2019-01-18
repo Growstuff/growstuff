@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181201213214) do
+ActiveRecord::Schema.define(version: 2018_11_29_171803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20181201213214) do
   create_table "comfy_cms_blocks", id: :serial, force: :cascade do |t|
     t.string "identifier", null: false
     t.text "content"
-    t.string "blockable_type"
     t.integer "blockable_id"
+    t.string "blockable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["blockable_id", "blockable_type"], name: "index_comfy_cms_blocks_on_blockable_id_and_blockable_type"
@@ -153,15 +153,14 @@ ActiveRecord::Schema.define(version: 20181201213214) do
     t.datetime "updated_at"
   end
 
-  create_table "containers", force: :cascade do |t|
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "slug"
+  create_table "containers", id: :serial, force: :cascade do |t|
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_containers_on_slug", unique: true
   end
 
-  add_index "containers", ["slug"], name: "index_containers_on_slug", unique: true, using: :btree
-    
   create_table "crops", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "en_wikipedia_url"
@@ -258,8 +257,8 @@ ActiveRecord::Schema.define(version: 20181201213214) do
 
   create_table "likes", id: :serial, force: :cascade do |t|
     t.integer "member_id"
-    t.string "likeable_type"
     t.integer "likeable_id"
+    t.string "likeable_type"
     t.string "categories", array: true
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -389,31 +388,6 @@ ActiveRecord::Schema.define(version: 20181201213214) do
     t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
-    t.string   "sunniness"
-    t.string   "planted_from"
-    t.integer  "owner_id"
-    t.boolean  "finished",              default: false
-    t.date     "finished_at"
-    t.integer  "lifespan"
-    t.integer  "days_to_first_harvest"
-    t.integer  "days_to_last_harvest"
-    t.integer  "parent_seed_id"
-  end
-
-  add_index "plantings", ["slug"], name: "index_plantings_on_slug", unique: true, using: :btree
-
-  create_table "plots", force: :cascade do |t|
-    t.integer  "garden_id"
-    t.integer  "container_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  create_table "posts", force: :cascade do |t|
-    t.integer  "author_id",  null: false
-    t.string   "subject",    null: false
-    t.text     "body",       null: false
     t.string "slug"
     t.string "sunniness"
     t.string "planted_from"
@@ -425,6 +399,25 @@ ActiveRecord::Schema.define(version: 20181201213214) do
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
+  end
+
+  create_table "plots", id: :serial, force: :cascade do |t|
+    t.integer "garden_id"
+    t.integer "container_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "posts", id: :serial, force: :cascade do |t|
+    t.integer "author_id", null: false
+    t.string "subject", null: false
+    t.text "body", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "slug"
+    t.integer "forum_id"
+    t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
+    t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
