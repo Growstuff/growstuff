@@ -40,13 +40,7 @@
     "heroku-postgresql",
     "memcachier",
     "newrelic",
-    "sparkhost",
-    {
-      "plan": "bonsai:sandbox-6",
-      "options": {
-        "version": "6.2.3"
-      }
-    }
+    "sendgrid"
   ],
   "buildpacks": [
     {
