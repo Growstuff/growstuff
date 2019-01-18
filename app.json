@@ -38,10 +38,15 @@
   },
   "addons": [
     "heroku-postgresql",
-    "bonsai-elasticsearch",
     "memcachier",
     "newrelic",
-    "sparkhost"
+    "sparkhost",
+    {
+      "plan": "bonsai:sandbox-6",
+      "options": {
+        "version": "6.2.3"
+      }
+    }
   ],
   "buildpacks": [
     {
