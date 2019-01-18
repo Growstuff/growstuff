@@ -109,7 +109,6 @@ group :production, :staging do
   gem 'memcachier'
   gem 'newrelic_rpm'
   gem 'rails_12factor' # supresses heroku plugin injection
-  gem 'sparkpost_rails'
 end
 
 group :development do
