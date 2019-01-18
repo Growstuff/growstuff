@@ -82,12 +82,13 @@ Rails.application.configure do
   # Growstuff configuration
   config.action_mailer.default_url_options = { host: ENV['MAIL_SENDER_HOST'] }
 
-  ActionMailer::Base.smtp_settings = {
-    port:                 ENV['SPARKPOST_SMTP_PORT'],
-    address:              ENV['SPARKPOST_SMTP_HOST'],
-    user_name:            ENV['SPARKPOST_SMTP_USERNAME'],
-    password:             ENV['SPARKPOST_SMTP_PASSWORD'],
-    authentication:       :login,
+  config.action_mailer.smtp_settings = {
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: ENV['GROWSTUFF_EMAIL_DOMAIN'],
+    address: 'smtp.sendgrid.net',
+    port: 587,
+    authentication: :plain,
     enable_starttls_auto: true
   }
   ActionMailer::Base.delivery_method = :smtp
