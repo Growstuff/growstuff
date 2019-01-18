@@ -49,7 +49,7 @@ class CropsController < ApplicationController
   end
 
   def show
-    @crop = Crop.includes(:scientific_names, plantings: :photos).find(params[:slug])
+    @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
     # respond_with(@crop)
     respond_to do |format|
