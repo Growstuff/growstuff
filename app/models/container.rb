@@ -1,4 +1,4 @@
-class Container < ActiveRecord::Base
+class Container < ApplicationRecord
   extend FriendlyId
   friendly_id :description, use: %i(slugged finders)
 
