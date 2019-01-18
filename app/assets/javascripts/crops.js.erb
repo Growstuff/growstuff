@@ -17,7 +17,7 @@ function showCropMap(cropmap) {
         var marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude));
 
         var planting_url = "/plantings/" + planting.id;
-        var planting_link = "<a href='" + planting_url + "'>" + owner.slug + "'s " + crop.name + "</a>";
+        var planting_link = "<a href='" + planting_url + "'>" + owner.login_name + "'s " + crop.name + "</a>";
 
         var where = "<p><i>" + owner.location + "</i></p>";
 
