@@ -17,7 +17,7 @@ SimpleCov.start :rails do
 end
 
 require 'spec_helper'
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 Rails.application.eager_load!
@@ -37,7 +37,7 @@ if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
 end
 
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
-  "screenshot_#{example.description.tr(' ', '-').gsub(/^.*\/spec\//, '')}"
+  "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
 end
 
 Capybara.app_host = 'http://localhost'
@@ -104,12 +104,14 @@ RSpec.configure do |config|
 
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, js: true) do
-    page.driver.browser.url_blacklist = [
-      'gravatar.com',
-      'mapbox.com',
-      'okfn.org',
-      'googlecode.com'
-    ] if page.driver.browser.respond_to?(:url_blacklist)
+    if page.driver.browser.respond_to?(:url_blacklist)
+      page.driver.browser.url_blacklist = [
+        'gravatar.com',
+        'mapbox.com',
+        'okfn.org',
+        'googlecode.com'
+      ]
+    end
 
     page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)
   end

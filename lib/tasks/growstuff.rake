@@ -29,7 +29,7 @@ namespace :growstuff do
   task import_crops: :environment do
     require 'csv'
 
-    @file = ENV['file'] or raise "Usage: rake growstuff:import_crops file=file.csv"
+    (@file = ENV['file']) || raise("Usage: rake growstuff:import_crops file=file.csv")
 
     puts "Loading crops from #{@file}..."
     CSV.foreach(@file) do |row|
@@ -116,6 +116,7 @@ namespace :growstuff do
     task set_default_crop_creator: :environment do
       cropbot = Member.find_by(login_name: "cropbot")
       raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
+
       Crop.find_each do |crop|
         unless crop.creator
           crop.creator = cropbot
@@ -150,6 +151,7 @@ namespace :growstuff do
       Member.located.find_each do |m|
         m.gardens.each do |g|
           next if g.location.present?
+
           g.location = m.location
           g.latitude = m.latitude
           g.longitude = m.longitude
@@ -218,11 +220,12 @@ namespace :growstuff do
       CSV.foreach(file) do |row|
         _crop_id, crop_name, alternate_names = row
         next if alternate_names.blank?
+
         crop = Crop.find_by(name: crop_name)
         if crop
           alternate_names.split(/,\s*/).each do |an|
             AlternateName.where(
-              name: an,
+              name:    an,
               crop_id: crop.id
             ).first_or_create do |x|
               x.creator = cropbot

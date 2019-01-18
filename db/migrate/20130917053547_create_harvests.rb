@@ -1,4 +1,4 @@
-class CreateHarvests < ActiveRecord::Migration
+class CreateHarvests < ActiveRecord::Migration[4.2]
   def change
     create_table :harvests do |t|
       t.integer :crop_id, null: false

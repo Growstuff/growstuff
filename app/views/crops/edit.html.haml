@@ -9,7 +9,8 @@
       Approved by #{link_to @crop.creator, @crop.creator}.
   - else
     %p
-      Added by #{link_to @crop.creator, @crop.creator}
+      Added by
+      = link_to @crop.creator, @crop.creator
       #{distance_of_time_in_words(@crop.created_at, Time.zone.now)} ago.
 - elsif @crop.approval_status == "pending"
   .alert.alert-danger

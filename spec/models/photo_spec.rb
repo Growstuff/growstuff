@@ -5,9 +5,9 @@ describe Photo do
   let(:member) { FactoryBot.create(:member) }
 
   describe 'add/delete functionality' do
-    let(:planting) { FactoryBot.create(:planting) }
-    let(:harvest) { FactoryBot.create(:harvest) }
-    let(:garden) { FactoryBot.create(:garden) }
+    let(:planting) { FactoryBot.create(:planting, owner: member) }
+    let(:harvest) { FactoryBot.create(:harvest, owner: member) }
+    let(:garden) { FactoryBot.create(:garden, owner: member) }
 
     context "adds photos" do
       it 'to a planting' do

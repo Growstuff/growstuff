@@ -1,4 +1,4 @@
-class ChangeHarvestNotesToDescription < ActiveRecord::Migration
+class ChangeHarvestNotesToDescription < ActiveRecord::Migration[4.2]
   def change
     rename_column :harvests, :notes, :description
   end

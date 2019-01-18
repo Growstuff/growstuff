@@ -1,4 +1,4 @@
-class RemoveShop < ActiveRecord::Migration
+class RemoveShop < ActiveRecord::Migration[4.2]
   def up
     drop_table :order_items
     drop_table :orders

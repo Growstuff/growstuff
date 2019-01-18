@@ -2,9 +2,9 @@
 
 source 'https://rubygems.org'
 
-ruby '2.4.1'
+ruby '2.6.0'
 
-gem 'rails', '~> 4.2.8'
+gem 'rails', '5.2.2'
 
 gem 'bundler', '>=1.1.5'
 
@@ -22,11 +22,12 @@ gem 'font-awesome-sass'
 gem 'uglifier' # JavaScript compressor
 
 # planting and harvest predictions
-gem 'active_median'
+# based on median values for the crop
+gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
 
 gem 'flickraw'
 gem 'jquery-rails'
-gem 'jquery-ui-rails', '~> 5.0.2' # needs careful upgrade with change of location
+gem 'jquery-ui-rails'
 gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
@@ -42,7 +43,7 @@ gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growst
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem 'comfortable_mexican_sofa'     # content management system
+gem "comfortable_mexican_sofa", "~> 2.0.0"
 
 gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
 gem 'kaminari'                     # pagination
@@ -66,7 +67,7 @@ gem 'friendly_id'
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder'
+gem 'geocoder', '1.4.9' # TODO: Fails on version 1.5.0. Needs investigation
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
@@ -82,13 +83,12 @@ gem "chartkick"
 # client for Elasticsearch. Elasticsearch is a flexible
 # and powerful, distributed, real-time search and analytics engine.
 # An example of the use in the project is fuzzy crop search.
-
 # Project does not use semver, so we want to be in sync with the version of
 # elasticsearch we use
 # See https://github.com/elastic/elasticsearch-ruby#compatibility
-gem "elasticsearch-api", ">= 6.0.0"
-gem "elasticsearch-model", ">= 6.0.0"
-gem "elasticsearch-rails", ">= 6.0.0"
+gem "elasticsearch-api", "~> 6.0.0"
+gem "elasticsearch-model", "~> 6.0.0"
+gem "elasticsearch-rails", "~> 6.0.0"
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
@@ -97,9 +97,11 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem 'acts_as_paranoid', '~> 0.5.0'
+gem "paranoia", "~> 2.2"
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
+
+gem 'puma'
 
 group :production, :staging do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
@@ -111,16 +113,9 @@ group :production, :staging do
 end
 
 group :development do
-  # A debugger and irb alternative. Pry doesn't play nice
-  # with unicorn, so start a Webrick server when debugging
-  # with Pry
-  gem 'better_errors', '~> 2.2.0'
-  gem 'binding_of_caller'
-  gem 'guard'
-  gem 'guard-rspec'
+  gem 'better_errors'
   gem 'letter_opener'
-  gem 'pry'
-  gem 'quiet_assets'
+  gem 'listen'
 end
 
 group :development, :test do
@@ -135,19 +130,20 @@ group :development, :test do
   gem 'faker'
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
-  gem 'haml_lint'                       # Checks haml files for goodness
+  gem 'haml_lint', '>= 0.25.1' # Checks haml files for goodness
   gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
   gem 'poltergeist'                     # for headless JS testing
-  gem 'rainbow', '< 2.2.0' # See https://github.com/sickill/rainbow/issues/44
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
-  gem 'rubocop'
+  gem 'rubocop', '~> 0.60'
+  gem 'rubocop-rspec'
   gem 'selenium-webdriver'
   gem 'webrat' # provides HTML matchers for view tests
 end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
+  gem 'rails-controller-testing'
   gem 'timecop'
 end
 

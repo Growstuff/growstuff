@@ -1,10 +1,10 @@
 if (document.getElementById("placesmap") !== null) {
   places_base_path = "/places";
-  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_map_id %>";
-  mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.mapbox_access_token %>";
+  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_map_id %>";
+  mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_access_token %>";
   mapbox_base_url = "http://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
   nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
-  nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Growstuff::Application.config.user_agent_email %>";
+  nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Rails.application.config.user_agent_email %>";
 
   L.Icon.Default.imagePath = '/assets'
 

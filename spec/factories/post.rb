@@ -4,7 +4,7 @@ FactoryBot.define do
 
     body { "This is some text." }
     author
-    created_at { Time.now }
+    created_at { Time.zone.now }
 
     # Markdown is allowed in posts
     factory :markdown_post do

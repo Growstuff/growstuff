@@ -1,4 +1,4 @@
-class AddFieldsToGardens < ActiveRecord::Migration
+class AddFieldsToGardens < ActiveRecord::Migration[4.2]
   def change
     add_column :gardens, :active, :boolean, default: true
     add_column :gardens, :location, :string

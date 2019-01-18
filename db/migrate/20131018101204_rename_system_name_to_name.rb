@@ -1,4 +1,4 @@
-class RenameSystemNameToName < ActiveRecord::Migration
+class RenameSystemNameToName < ActiveRecord::Migration[4.2]
   def up
     # Rails is smart enough to alter the column being indexed, but not the name
     # of the index, and there's no rename_index command.
