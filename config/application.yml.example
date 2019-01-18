@@ -35,8 +35,6 @@ GROWSTUFF_SITE_NAME: Growstuff (dev)
 # confirmations).  If using Heroku connect to Mandrill via Heroku addons
 # list then go to tools menu (upper right) and choose "SMTP and API
 # Credentials"
-GROWSTUFF_MANDRILL_USERNAME: "dummy"
-GROWSTUFF_MANDRILL_APIKEY: "dummy"
 
 # Mailchimp is used for subscribing/unsubscribing people from the newsletter
 # To fetch list IDs using Gibbon (and thus find the ID of your newsletter):
