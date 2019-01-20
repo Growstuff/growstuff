@@ -41,7 +41,7 @@
     "bonsai-elasticsearch",
     "memcachier",
     "newrelic",
-    "sparkhost"
+    "sendgrid"
   ],
   "buildpacks": [
     {
