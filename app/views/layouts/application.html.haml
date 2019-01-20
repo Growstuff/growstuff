@@ -8,6 +8,7 @@
     #maincontainer
       .row
         .col-md-12
+          = render 'shared/global_actions'
           - if content_for?(:title)
             %h1#title
               = yield(:title)
