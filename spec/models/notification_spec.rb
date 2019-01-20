@@ -33,17 +33,17 @@ describe Notification do
   it "sends email if asked" do
     @notification2 = FactoryBot.create(:notification)
     @notification2.send_email
-    expect(ActionMailer::Base.deliveries.last.to).to eq [@notification2.recipient.email]
+    expect(ActionMailer::Base.deliveries.last&.to).to eq [@notification2.recipient.email]
   end
 
   it "doesn't send email to people who don't want it" do
     FactoryBot.create(:no_email_notification).send_email
-    expect(ActionMailer::Base.deliveries.last.to).not_to eq [notification.recipient.email]
+    expect(ActionMailer::Base.deliveries.last&.to).not_to eq [notification.recipient.email]
   end
 
   it "sends email on creation" do
     @notification2 = FactoryBot.create(:notification)
-    expect(ActionMailer::Base.deliveries.last.to).to eq [@notification2.recipient.email]
+    expect(ActionMailer::Base.deliveries.last&.to).to eq [@notification2.recipient.email]
   end
 
   it "replaces missing subjects with (no subject)" do
