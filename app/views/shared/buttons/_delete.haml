@@ -1,4 +1,4 @@
 = link_to path, method: :delete,
           data: { confirm: t(:are_you_sure?) }, class: 'btn btn-default btn-xs' do
-  %span.glyphicon.glyphicon-trash{ title: t('buttons.delete') }
+  = render 'shared/glyphicon', icon: 'trash', title: 'buttons.delete'
   =t('buttons.delete')
