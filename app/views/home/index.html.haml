@@ -1,7 +1,7 @@
 .homepage.row
   .col-md-12
     - if member_signed_in?
-      %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+      - content_for :title, t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
       = render 'stats'
     - else
