@@ -225,6 +225,13 @@ en:
     index:
       title: "%{site_name} Community Map"
   plantings:
+    badges:
+      days_until_finished: days until finished
+      days_until_harvest: days until harvest
+      harvesting_now: harvesting now
+      late_finishing: late finishing
+      sharedbuttonsfinish_planting: shared/buttons/finish_planting
+      super_late: super late
     form:
       finish_helper: >
         A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise
