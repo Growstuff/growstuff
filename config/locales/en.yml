@@ -63,14 +63,17 @@ en:
       seed:
         one: seed
         other: seeds
+  are_you_sure: 'Are you sure?'
   buttons:
     add_photo: Add photo
     delete: Delete
     edit: Edit
     harvest: Harvest
+    harvest_crop: Harvest %{crop_name}
     harvest_something: Harvest something
     mark_as_finished: Mark as finished
     plant_something: Plant something
+    plant_crop: Plant %{crop_name}
     save_seeds: Save seeds
     write_blog_post: Write blog post
   crops:
