@@ -16,7 +16,8 @@
 
 .row
   .col-md-9
-    = render 'gardens/actions', garden: @garden
+    -content_for(:buttonbar) do
+      = render 'gardens/actions', garden: @garden
 
 
     - unless @garden.active
@@ -57,7 +58,7 @@
       - if @finished_plantings.size.positive?
         - @finished_plantings.each do |planting|
           .col-xs-6.col-md-2
-            = render partial: "plantings/thumbnail", locals: { planting: planting }
+            = render "plantings/thumbnail",  planting: planting
       - else
         %p Nothing has been planted here.
   .col-md-3
