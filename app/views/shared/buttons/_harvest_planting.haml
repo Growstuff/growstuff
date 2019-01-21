@@ -1,4 +1,4 @@
 - planting.active? && if can?(:create, Harvest) && can?(:edit, planting)
   = link_to new_planting_harvest_path(planting), class: 'btn btn-default btn-xs' do
-    %span.glyphicon.glyphicon-leaf{ title: :harvest }
-    =t('buttons.harvest')
+    %span.glyphicon.glyphicon-leaf{ title: = t('buttons.harvest') }
+    = t('buttons.harvest')
