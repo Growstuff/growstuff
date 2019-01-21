@@ -63,6 +63,16 @@ en:
       seed:
         one: seed
         other: seeds
+  buttons:
+    add_photo: Add photo
+    delete: Delete
+    edit: Edit
+    harvest: Harvest
+    harvest_something: Harvest something
+    mark_as_finished: Mark as finished
+    plant_something: Plant something
+    save_seeds: Save seeds
+    write_blog_post: Write blog post
   crops:
     index:
       subtitle: "%{crops_size} total"
