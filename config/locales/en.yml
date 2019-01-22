@@ -114,6 +114,7 @@ en:
     updated: Garden was successfully updated.
   harvests:
     created: Harvest was successfully created.
+    harvest_something: Harvest something
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests
@@ -248,6 +249,7 @@ en:
       late_finishing: late finishing
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
+    plant_something: Plant something
     form:
       finish_helper: >
         A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise
@@ -269,6 +271,7 @@ en:
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
   posts:
+    write_blog_post: Write blog post
     index:
       title:
         author_posts: "%{author} posts"
@@ -284,6 +287,7 @@ en:
         crop_seeds: Everyone's %{crop} seeds
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
+    save_seeds: Save seeds
     string: "%{crop} seeds belonging to %{owner}"
   unauthorized:
     create:
