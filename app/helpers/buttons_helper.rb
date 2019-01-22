@@ -1,4 +1,12 @@
 module ButtonsHelper
+  def harvest_add_photo_button(harvest)
+    button(new_photo_path(id: harvest.id, type: "harvest"), 'buttons.add_a_photo', 'camera')
+  end
+  
+  def harvest_edit_button(harvest)
+    button(edit_harvest_path(harvest), 'buttons.edit', 'pencil')
+  end
+
   def garden_plant_something_button(garden)
     button(new_planting_path(garden_id: garden.id), 'buttons.plant_something_here', 'leaf')
   end
