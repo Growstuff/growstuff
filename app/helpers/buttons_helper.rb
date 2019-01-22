@@ -3,13 +3,13 @@ module ButtonsHelper
     button(new_planting_path(garden_id: garden.id), 'buttons.plant_something_here', 'leaf')
   end
 
-  def garden_mark_active(garden)
+  def garden_mark_active_button(garden)
     link_to t('buttons.mark_as_active'),
       garden_path(garden, garden: { active: 1 }),
       method: :put, class: 'btn btn-default btn-xs'
   end
 
-  def garden_mark_inactive(garden)
+  def garden_mark_inactive_button(garden)
     link_to t('buttons.mark_as_inactive'),
       garden_path(garden, garden: { active: 0 }),
       method: :put, class: 'btn btn-default btn-xs',
