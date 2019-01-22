@@ -2,17 +2,9 @@ module ButtonsHelper
   def seed_add_photo_button(seed)
     button(new_photo_path(id: seed.id, type: "seed"), 'buttons.add_a_photo', 'camera')
   end
-
-  def seed_edit_button(seed)
-    button(edit_seed_path(seed), 'buttons.edit', 'pencil')
-  end
   
   def harvest_add_photo_button(harvest)
     button(new_photo_path(id: harvest.id, type: "harvest"), 'buttons.add_a_photo', 'camera')
-  end
-  
-  def harvest_edit_button(harvest)
-    button(edit_harvest_path(harvest), 'buttons.edit', 'pencil')
   end
 
   def garden_plant_something_button(garden)
@@ -35,13 +27,21 @@ module ButtonsHelper
   def garden_add_photo_button(garden)
     button(new_photo_path(id: garden.id, type: "garden"), 'buttons.add_a_photo', 'camera')
   end
+  
+  def seed_edit_button(seed)
+    edit_button(edit_seed_path(seed))
+  end
+  
+  def harvest_edit_button(harvest)
+    edit_button(edit_harvest_path(harvest))
+  end
 
   def garden_edit_button(garden)
-    button(edit_garden_path(garden), 'buttons.edit', 'pencil')
+    edit_button(edit_garden_path(garden))
   end
 
   def planting_edit_button(planting)
-    button(edit_planting_path(planting), 'buttons.edit', 'pencil')
+    edit_button(edit_planting_path(planting))
   end
 
   def planting_add_photo_button(planting)
@@ -66,6 +66,10 @@ module ButtonsHelper
 
   def planting_save_seeds_button(planting)
     button(new_planting_seed_path(planting), 'buttons.save_seeds', 'heart') if can?(:edit, planting)
+  end
+
+  def edit_button(path)
+    button(path, 'buttons.edit', 'pencil')
   end
 
   def delete_button(model, message: 'are_you_sure')
