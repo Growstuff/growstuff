@@ -8,9 +8,7 @@
         = garden_mark_active_button(garden)
 
       = garden_edit_button(garden)
-
-      - if can?(:edit, garden) && can?(:create, Photo)
-        = garden_add_photo_button(garden)
+      = render 'shared/buttons/add_photo', model: garden
 
   - if can?(:destroy, garden)
     .pull-right

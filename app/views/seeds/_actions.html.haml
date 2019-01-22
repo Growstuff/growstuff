@@ -2,7 +2,7 @@
   - if can? :edit, seed
     .btn-group
       = seed_edit_button(seed)
-      = seed_add_photo_button(seed)
+      = add_photo_button(seed)
 
       - if can?(:create, Planting) && seed.active?
         = link_to new_planting_path(seed_id: seed), class: 'btn btn-default btn-xs' do
