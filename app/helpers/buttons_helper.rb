@@ -1,0 +1,66 @@
+module ButtonsHelper
+  def garden_plant_something_button(garden)
+    button(new_planting_path(garden_id: garden.id), 'buttons.plant_something_here', 'leaf')
+  end
+
+  def garden_mark_active(garden)
+    link_to t('buttons.mark_as_active'), garden_path(garden, garden: { active: 1 }), method: :put, class: 'btn btn-default btn-xs'
+  end
+
+  def garden_mark_inactive(garden)
+    link_to t('buttons.mark_as_inactive'),
+      garden_path(garden, garden: { active: 0 }),
+      method: :put, class: 'btn btn-default btn-xs',
+      data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
+  end
+
+  def garden_add_photo_button(garden)
+    button(new_photo_path(id: garden.id, type: "garden"), 'buttons.add_a_photo', 'camera')
+  end
+
+  def garden_edit_button(garden)
+    button(edit_garden_path(garden), 'buttons.edit', 'pencil')
+  end
+
+  def planting_edit_button(planting)
+    button(edit_planting_path(planting), 'buttons.edit', 'pencil')
+  end
+
+  def planting_add_photo_button(planting)
+    button(new_photo_path(id: planting.id, type: 'planting'), 'buttons.add_photo', 'camera')
+  end
+
+  def planting_finish_button(planting)
+    if can?(:edit, planting)
+      button(
+        planting_path(planting, planting: { finished: 1 }),
+        'buttons.mark_as_finished',
+        'ok'
+      )
+    end
+  end
+
+  def planting_harvest_button(planting)
+    if planting.active? && can?(:create, Harvest) && can?(:edit, planting)
+      button(new_planting_harvest_path(planting), 'buttons.harvest', 'apple')
+    end
+  end
+
+  def planting_save_seeds_button(planting)
+    button(new_planting_seed_path(planting), 'buttons.save_seeds', 'heart') if can?(:edit, planting)
+  end
+
+  def delete_button(model, message: 'are_you_sure')
+    link_to model, method: :delete, data: { confirm: t(message) }, class: 'btn btn-default btn-xs' do
+      render 'shared/glyphicon', icon: 'trash', title: 'buttons.delete'
+    end
+  end
+
+  private
+
+  def button(path, title, icon, size = 'btn-xs')
+    link_to path, class: "btn btn-default #{size}" do
+      render 'shared/glyphicon', icon: icon, title: title
+    end
+  end
+end

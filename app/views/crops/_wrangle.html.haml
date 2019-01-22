@@ -4,11 +4,13 @@
     You are a
     = succeed "." do
       %strong CROP WRANGLER
-  - content_for(:buttonbar) do
-    - if can? :edit, crop
+
+  - if can? :edit, crop
+    %p
       = link_to t(:edit_crop), edit_crop_path(crop), class: 'btn btn-default'
-    - if can? :destroy, crop
+  - if can? :destroy, crop
+    %p
       = link_to 'Delete crop', crop,
-                 method: :delete,
-                 data: { confirm: t('are_you_sure') },
-                 class: 'btn btn-default'
+              method: :delete,
+              data: { confirm: t('are_you_sure') },
+              class: 'btn btn-default'
