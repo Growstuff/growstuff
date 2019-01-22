@@ -8,6 +8,9 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+-content_for(:buttonbar) do
+  = render 'harvests/actions', harvest: @harvest
+
 .row
   .col-md-6
     %p
@@ -32,7 +35,6 @@
       %b Quantity:
       = display_quantity(@harvest)
 
-    = render 'harvests/actions', harvest: @harvest
 
   .col-md-6
     = render partial: "crops/index_card", locals: { crop: @harvest.crop }
