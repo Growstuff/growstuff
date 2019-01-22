@@ -14,15 +14,14 @@
               = yield(:title)
               - if content_for?(:subtitle)
                 %small= yield(:subtitle)
-
-
+  
+          - if content_for?(:buttonbar)
+            .btn-group.layout-actions
+              = yield(:buttonbar)
 
         .col-md-4
-          - if content_for?(:buttonbar)
-            .btn-group.layout-actions= yield(:buttonbar)
-          - else
-            = render 'shared/global_actions'
 
+          = render 'shared/global_actions'
       = yield
 
     %footer

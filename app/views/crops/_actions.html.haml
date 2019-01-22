@@ -1,10 +1,13 @@
 .crop-actions
   .btn-group
     - if can? :create, Planting
-      = link_to t('buttons.plant_crop', crop_name: crop.name), new_planting_path(crop_id: crop.id), class: 'btn btn-default'
+      = link_to new_planting_path(crop_id: crop.id), class: 'btn btn-default' do
+        = t('buttons.plant_crop', crop_name: crop.name)
 
     - if can? :create, Harvest
-      = link_to t('buttons.harvest_crop', crop_name: crop.name), new_harvest_path(crop_id: crop.id), class: 'btn btn-default'
+      = link_to new_harvest_path(crop_id: crop.id), class: 'btn btn-default' do
+        = t('buttons.harvest_crop', crop_name: crop.name)
 
     - if can? :create, Seed
-      = link_to t('buttons.add_seed_to_stash'), new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-default'
+      = link_to new_seed_path(crop_id: crop.id), class: 'btn btn-default' do
+        = t('buttons.add_seed_to_stash', crop_name: crop.name)

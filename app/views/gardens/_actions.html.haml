@@ -2,29 +2,16 @@
   - if can?(:edit, garden)
     .btn-group
       - if garden.active
-        = render 'shared/buttons/plant', garden: garden
-        = render 'shared/glyphicon', icon: 'ban', title: 'buttons.mark_as_inactive'
-        = link_to t('buttons.mark_as_inactive'), garden_path(garden, garden: { active: 0 }),
-          method: :put, class: 'btn btn-default',
-          data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
+        = garden_plant_something_button(garden)
+        = garden_mark_inactive(garden)
       - else
-        = render 'shared/glyphicon', icon: 'check', title: 'buttons.mark_active'
-        = link_to "Mark as active", garden_path(garden, garden: { active: 1 }),
-                  method: :put
+        = garden_mark_active(garden)
 
-      = render 'shared/buttons/edit', path: edit_garden_path(garden)
+      = garden_edit_button(garden)
 
       - if can?(:edit, garden) && can?(:create, Photo)
-        = link_to new_photo_path(type: "garden", id: garden.id),
-                  class: 'btn btn-default' do
-          %span.glyphicon.glyphicon-camera{ title: "Add photo" }
-          = t('buttons.add_a_photo')
+        = garden_add_photo_button(garden)
 
   - if can?(:destroy, garden)
     .pull-right
-      = link_to garden_path(garden),
-                method: :delete,
-                data: { confirm: 'All plantings associated with this garden will also be deleted. Are you sure?' },
-                class: 'btn btn-default', id: 'delete_garden_link' do
-        %span.glyphicon.glyphicon-trash{ title: "Delete" }
-        = t('buttons.delete_this_garden')
+      = delete_button(garden, message: 'All plantings associated with this garden will also be deleted. Are you sure?')

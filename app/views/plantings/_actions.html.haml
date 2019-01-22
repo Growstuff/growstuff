@@ -1,12 +1,13 @@
 - if can?(:edit, planting)
-  .btn-group.planting-actions
-    = render 'shared/buttons/edit', path: edit_planting_path(planting)
-    = render 'shared/buttons/add_photo', path: new_photo_path(id: planting.id, type: 'planting')
+  .planting-actions
+    .btn-group
+      = planting_edit_button(planting)
+      = planting_add_photo_button(planting)
 
-    - if planting.active?
-      = render 'shared/buttons/finish_planting', planting: planting
-      = render 'shared/buttons/harvest_planting', planting: planting
-      = render 'shared/buttons/save_seeds', planting: planting
+      - if planting.active?
+        = planting_finish_button(planting)
+        = planting_harvest_button(planting)
+        = planting_save_seeds_button(planting)
 
     - if can? :destroy, planting
-      = render 'shared/buttons/delete', path: planting
+      = delete_button(planting)
