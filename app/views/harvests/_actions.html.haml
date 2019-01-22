@@ -1,5 +1,5 @@
 .harvest-actions
   .btn-group
     = harvest_edit_button(harvest) if can? :edit, harvest
-    = harvest_add_photo_button(harvest) 
-  = delete_button(harvest) if can? :destroy, harvest
+    = render 'shared/buttons/add_photo', model: harvest
+  = delete_button(harvest)
