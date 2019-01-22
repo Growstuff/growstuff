@@ -14,12 +14,11 @@
   = javascript_include_tag "charts"
   = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
 
+-content_for(:buttonbar) do
+  = render 'gardens/actions', garden: @garden
+
 .row
   .col-md-9
-    -content_for(:buttonbar) do
-      = render 'gardens/actions', garden: @garden
-
-
     - unless @garden.active
       .alert.alert-warning
         This garden is inactive.
