@@ -4,7 +4,9 @@ module ButtonsHelper
   end
 
   def garden_mark_active(garden)
-    link_to t('buttons.mark_as_active'), garden_path(garden, garden: { active: 1 }), method: :put, class: 'btn btn-default btn-xs'
+    link_to t('buttons.mark_as_active'),
+      garden_path(garden, garden: { active: 1 }),
+      method: :put, class: 'btn btn-default btn-xs'
   end
 
   def garden_mark_inactive(garden)
@@ -31,19 +33,19 @@ module ButtonsHelper
   end
 
   def planting_finish_button(planting)
-    if can?(:edit, planting)
-      button(
-        planting_path(planting, planting: { finished: 1 }),
-        'buttons.mark_as_finished',
-        'ok'
-      )
-    end
+    return unless can?(:edit, planting)
+
+    button(
+      planting_path(planting, planting: { finished: 1 }),
+      'buttons.mark_as_finished',
+      'ok'
+    )
   end
 
   def planting_harvest_button(planting)
-    if planting.active? && can?(:create, Harvest) && can?(:edit, planting)
-      button(new_planting_harvest_path(planting), 'buttons.harvest', 'apple')
-    end
+    return unless planting.active? && can?(:create, Harvest) && can?(:edit, planting)
+
+    button(new_planting_harvest_path(planting), 'buttons.harvest', 'apple')
   end
 
   def planting_save_seeds_button(planting)
