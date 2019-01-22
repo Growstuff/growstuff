@@ -46,9 +46,9 @@ feature "Gardens" do
         before { visit gardens_path(owner: FactoryBot.create(:member)) }
 
         include_examples "has buttons bar at top"
-        it 'does not show actions on other member garden' do
-          is_expected.not_to have_link 'Plant something'
-          is_expected.not_to have_link 'Mark as inactive'
+        describe 'does not show actions on other member garden' do
+          it { is_expected.not_to have_link 'Plant something' }
+          it { is_expected.not_to have_link 'Mark as inactive' }
         end
       end
     end
