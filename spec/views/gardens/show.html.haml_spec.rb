@@ -31,15 +31,4 @@ describe "gardens/show" do
   it 'shows plantings on the garden page' do
     expect(rendered).to have_content @planting.crop.name
   end
-
-  context 'signed in' do
-    before :each do
-      sign_in @owner
-      render
-    end
-
-    it "links to the right crop in the planting link" do
-      assert_select("a[href='#{new_planting_path}?garden_id=#{@garden.id}']")
-    end
-  end
 end
