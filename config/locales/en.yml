@@ -130,7 +130,7 @@ en:
     crops:
       our_crops: Some of our crops
       recently_added: Recently added crops
-      recently_planted: Recently planted
+      recently_planted: Recently Planted
       view_all: View all crops
     discuss:
       discussion: Discussion
@@ -142,7 +142,7 @@ en:
       harvest: Harvest
       plant: Plant
       post: Post
-      recently_added: Recently added
+      recently_added: Recently Added
       welcome: Welcome to %{site_name}, %{member_name}
     members:
       title: Some of our members
@@ -173,7 +173,7 @@ en:
       why_linktext: why Growstuff is open source
       wiki_linktext: Growstuff Wiki
     plantings:
-      recently_planted: Recently planted
+      recently_planted: Recently Planted
     seeds:
       crop: Crop
       description: Description
