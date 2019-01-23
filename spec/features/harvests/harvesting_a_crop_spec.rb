@@ -64,7 +64,9 @@ feature "Harvesting a crop", :js, :elasticsearch do
 
   scenario "Harvesting from crop page" do
     visit crop_path(maize)
-    click_link "Harvest this"
+    within '.crop-actions' do
+      click_link "Harvest #{maize.name}"
+    end
     within "form#new_harvest" do
       select plant_part.name, from: 'harvest[plant_part_id]'
       expect(page).to have_selector "input[value='maize']"
