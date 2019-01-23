@@ -21,15 +21,15 @@ feature "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "* denotes a required field"
   end
 
-  it "displays required and optional fields properly" do
-    expect(page).to have_selector ".form-group.required", text: "What did you plant?"
-    expect(page).to have_selector ".form-group.required", text: "Where did you plant it?"
-    expect(page).to have_optional 'input#planting_planted_at'
-    expect(page).to have_optional 'input#planting_quantity'
-    expect(page).to have_optional 'select#planting_planted_from'
-    expect(page).to have_optional 'select#planting_sunniness'
-    expect(page).to have_optional 'textarea#planting_description'
-    expect(page).to have_optional 'input#planting_finished_at'
+  describe "displays required and optional fields properly" do
+    it { expect(page).to have_selector ".form-group.required", text: "What did you plant?" }
+    it { expect(page).to have_selector ".form-group.required", text: "Where did you plant it?" }
+    it { expect(page).to have_optional 'input#planting_planted_at' }
+    it { expect(page).to have_optional 'input#planting_quantity' }
+    it { expect(page).to have_optional 'select#planting_planted_from' }
+    it { expect(page).to have_optional 'select#planting_sunniness' }
+    it { expect(page).to have_optional 'textarea#planting_description' }
+    it { expect(page).to have_optional 'input#planting_finished_at' }
   end
 
   scenario "Creating a new planting" do
