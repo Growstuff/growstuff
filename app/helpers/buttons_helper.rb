@@ -43,7 +43,7 @@ module ButtonsHelper
 
     link_to planting_path(planting, planting: { finished: 1 }),
       method: :put, class: 'btn btn-default btn-xs append-date' do
-        finished_icon + ' ' + t('buttons.mark_as_finished')
+      finished_icon + ' ' + t('buttons.mark_as_finished')
     end
   end
 
