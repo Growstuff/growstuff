@@ -76,13 +76,11 @@ en:
     edit: Edit
     harvest: Harvest
     harvest_crop: Harvest %{crop_name}
-    harvest_something: Harvest something
     mark_as_active: Mark as active
     mark_as_finished: Mark as finished
     mark_as_inactive: Mark as inactive
     plant: Plant
     plant_crop: Plant %{crop_name}
-    plant_something: Plant something
     plant_something_here: Plant something here
     save_seeds: Save seeds
     write_blog_post: Write blog post
