@@ -14,4 +14,20 @@ module IconsHelper
   def seed_icon
     icon('fas', 'heart')
   end
+
+  def finished_icon
+    icon('fas', 'calendar')
+  end
+
+  def edit_icon
+    icon('far', 'edit')
+  end
+
+  def delete_icon
+    icon('fas', 'trash-alt')
+  end
+
+  def photo_icon
+    icon('fas', 'camera-retro')
+  end
 end
