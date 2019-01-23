@@ -84,5 +84,10 @@ feature "home page" do
     include_examples 'show plantings'
     include_examples 'show harvests'
     include_examples 'shows seeds'
+
+    describe 'should say welcome' do
+      before { visit root_path }
+      it { expect(page).to have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{member.login_name}" }
+    end
   end
 end
