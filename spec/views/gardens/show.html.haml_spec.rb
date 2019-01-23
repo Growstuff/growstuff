@@ -32,10 +32,6 @@ describe "gardens/show" do
     expect(rendered).to have_content @planting.crop.name
   end
 
-  it "doesn't show the note about random plantings" do
-    expect(rendered).to have_content "Note: these are a random selection"
-  end
-
   context 'signed in' do
     before :each do
       sign_in @owner
