@@ -152,7 +152,9 @@ feature "Planting a crop", :js, :elasticsearch do
 
   scenario "Planting from crop page" do
     visit crop_path(maize)
-    click_link "Plant this"
+    within '.crop-actions' do
+      click_link "Plant maize"
+    end
     within "form#new_planting" do
       expect(page).to have_selector "input[value='maize']"
       click_button "Save"
