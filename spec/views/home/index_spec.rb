@@ -36,9 +36,5 @@ describe 'home/index.html.haml', type: "view" do
       controller.stub(:current_user) { @member }
       render
     end
-
-    it 'should say welcome' do
-      rendered.should have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{@member.login_name}"
-    end
   end
 end
