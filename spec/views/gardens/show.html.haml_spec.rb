@@ -12,28 +12,28 @@ describe "gardens/show" do
     render
   end
 
-  it 'should show the location' do
-    rendered.should have_content @garden.location
+  it 'shows the location' do
+    expect(rendered).to have_content @garden.location
   end
 
-  it 'should show the area' do
-    rendered.should have_content pluralize(@garden.area, @garden.area_unit)
+  it 'shows the area' do
+    expect(rendered).to have_content pluralize(@garden.area, @garden.area_unit)
   end
 
-  it 'should show the description' do
-    rendered.should have_content "totally cool garden"
+  it 'shows the description' do
+    expect(rendered).to have_content "totally cool garden"
   end
 
   it 'renders markdown in the description' do
     assert_select "strong", "totally"
   end
 
-  it 'should show plantings on the garden page' do
-    rendered.should have_content @planting.crop.name
+  it 'shows plantings on the garden page' do
+    expect(rendered).to have_content @planting.crop.name
   end
 
   it "doesn't show the note about random plantings" do
-    rendered.should_not have_content "Note: these are a random selection"
+    expect(rendered).to have_content "Note: these are a random selection"
   end
 
   context 'signed in' do
