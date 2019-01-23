@@ -1,4 +1,5 @@
 module ButtonsHelper
+  include IconsHelper
   def garden_plant_something_button(garden)
     link_to new_planting_path(garden_id: garden.id), class: "btn btn-default btn-xs btn-primary" do
       planting_icon + ' ' + t('buttons.plant_something_here')
