@@ -6,7 +6,8 @@
     = render partial: "layouts/header"
 
     #maincontainer
-      = render partial: "shared/flash_messages", flash: flash
+      .row
+        .col-md-12= render partial: "shared/flash_messages", flash: flash
       .row
         .col-md-6
           - if content_for?(:title)
@@ -21,10 +22,13 @@
 
         .col-md-6
           = render 'shared/global_actions'
-      = yield
+      
+      .row
+        .col-md-12
+          = yield
 
     %footer
-      = render partial: "layouts/footer"
+      = render "layouts/footer"
     /
       Javascripts
       \==================================================
