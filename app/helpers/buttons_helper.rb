@@ -58,7 +58,7 @@ module ButtonsHelper
 
     button(
       new_photo_path(id: model.id, type: model_type_for_photo(model)),
-      'buttons.add_a_photo', 'camera'
+      'buttons.add_photo', 'camera'
     )
   end
 
