@@ -63,6 +63,27 @@ en:
       seed:
         one: seed
         other: seeds
+  application_helper:
+    title:
+      title:
+        default: Default
+  are_you_sure: Are you sure?
+  buttons:
+    add: Add
+    add_photo: Add photo
+    add_seed_to_stash: Add %{crop_name} seeds to stash
+    delete: Delete
+    edit: Edit
+    harvest: Harvest
+    harvest_crop: Harvest %{crop_name}
+    mark_as_active: Mark as active
+    mark_as_finished: Mark as finished
+    mark_as_inactive: Mark as inactive
+    plant: Plant
+    plant_crop: Plant %{crop_name}
+    plant_something_here: Plant something here
+    save_seeds: Save seeds
+    write_blog_post: Write blog post
   crops:
     index:
       subtitle: "%{crops_size} total"
@@ -71,6 +92,7 @@ en:
       link: You have %{number_crops} crops awaiting approval
       subtitle: Pending approval
       title: Requested crops
+  edit_crop: Edit crop
   forms:
     optional: "(Optional)"
   forums:
@@ -82,35 +104,33 @@ en:
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     location: "%{owner}'s %{garden}"
-    updated: Garden was successfully updated.
     overview:
-      gardensphoto: gardens/photo
-      plantingsthumbnail: plantings/thumbnail
-      no_plantings: no plantings
       gardensactions: gardens/actions
+      gardensphoto: gardens/photo
+      no_plantings: no plantings
+      plantingsthumbnail: plantings/thumbnail
+    updated: Garden was successfully updated.
   harvests:
     created: Harvest was successfully created.
+    harvest_something: Harvest something
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests
-        planting_harvests: Harvests from %{planting}
         default: Everyone's harvests
         owner_harvests: "%{owner} harvests"
+        planting_harvests: Harvests from %{planting}
     updated: Harvest was successfully updated.
   home:
     blurb:
       already_html: Or %{sign_in} if you already have an account
-      intro: >
-        %{site_name} is a community of food gardeners. We're building an open source
-        platform to help you learn about growing food, track what you plant and harvest,
-        and swap seeds and produce with other gardeners near you.
+      intro: "%{site_name} is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you.\n"
       perks: Join now for your free garden journal, seed sharing, forums, and more.
       sign_in_linktext: sign in
       sign_up: Sign up
     crops:
       our_crops: Some of our crops
       recently_added: Recently added crops
-      recently_planted: Recently planted
+      recently_planted: Recently Planted
       view_all: View all crops
     discuss:
       discussion: Discussion
@@ -122,6 +142,7 @@ en:
       harvest: Harvest
       plant: Plant
       post: Post
+      recently_added: Recently Added
       welcome: Welcome to %{site_name}, %{member_name}
     members:
       title: Some of our members
@@ -151,6 +172,8 @@ en:
       talk_linktext: Growstuff Talk
       why_linktext: why Growstuff is open source
       wiki_linktext: Growstuff Wiki
+    plantings:
+      recently_planted: Recently Planted
     seeds:
       crop: Crop
       description: Description
@@ -197,7 +220,10 @@ en:
       support_growstuff: Support Growstuff
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff (%{unread_count})
+  links:
+    my_gardens: My gardens
   members:
+    edit_profile: Edit profile
     index:
       title: "%{site_name} members"
     signup:
@@ -217,6 +243,14 @@ en:
     index:
       title: "%{site_name} Community Map"
   plantings:
+    badges:
+      days_until_finished: days until finished
+      days_until_harvest: days until harvest
+      harvesting_now: harvesting now
+      late_finishing: late finishing
+      sharedbuttonsfinish_planting: shared/buttons/finish_planting
+      super_late: super late
+    plant_something: Plant something
     form:
       finish_helper: >
         A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise
@@ -232,13 +266,13 @@ en:
     badges:
       late_finishing: late finishing
       super_late: super late
-      sharedbuttonsfinish_planting: shared/buttons/finish_planting
       days_until_finished: days until finished
       harvesting_now: harvesting now
       days_until_harvest: days until harvest
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
   posts:
+    write_blog_post: Write blog post
     index:
       title:
         author_posts: "%{author} posts"
@@ -254,6 +288,7 @@ en:
         crop_seeds: Everyone's %{crop} seeds
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
+    save_seeds: Save seeds
     string: "%{crop} seeds belonging to %{owner}"
   unauthorized:
     create:

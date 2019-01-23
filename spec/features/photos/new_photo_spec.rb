@@ -13,7 +13,9 @@ feature "new photo page" do
 
       scenario "add photo" do
         visit planting_path(planting)
-        click_link('Add photo', match: :first)
+        within '.planting-actions' do
+          click_link('Add photo')
+        end
         expect(page).to have_text planting.crop.name
       end
     end
@@ -23,7 +25,9 @@ feature "new photo page" do
 
       scenario "add photo" do
         visit harvest_path(harvest)
-        click_link "Add photo"
+        within '.harvest-actions' do
+          click_link "Add photo"
+        end
         expect(page).to have_text harvest.crop.name
       end
     end
