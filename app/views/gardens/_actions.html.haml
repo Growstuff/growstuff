@@ -1,8 +1,8 @@
 .garden-actions
   - if can?(:edit, garden)
+    = garden_plant_something_button(garden) if garden.active
     .btn-group
       - if garden.active
-        = garden_plant_something_button(garden)
         = garden_mark_inactive_button(garden)
       - else
         = garden_mark_active_button(garden)
@@ -11,5 +11,4 @@
       = add_photo_button(garden)
 
   - if can?(:destroy, garden)
-    .pull-right
-      = delete_button(garden, message: 'All plantings associated with this garden will also be deleted. Are you sure?')
+    = delete_button(garden, message: 'All plantings associated with this garden will also be deleted. Are you sure?')
