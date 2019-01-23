@@ -17,7 +17,7 @@ module ButtonsHelper
   end
 
   def crop_edit_button(crop)
-    edit_button(edit_crop_path(seed))
+    edit_button(edit_crop_path(crop))
   end
 
   def seed_edit_button(seed)
@@ -37,13 +37,12 @@ module ButtonsHelper
   end
 
   def planting_finish_button(planting)
-    return unless can?(:edit, planting)
+    return unless can?(:edit, planting) || planting.finished
 
-    button(
-      planting_path(planting, planting: { finished: 1 }),
-      'buttons.mark_as_finished',
-      'ok'
-    )
+    link_to planting_path(planting, planting: { finished: 1 }),
+      method: :put, class: 'btn btn-default btn-xs append-date' do
+      render 'shared/glyphicon', icon: 'ok', title: 'buttons.mark_as_finished'
+    end
   end
 
   def planting_harvest_button(planting)
