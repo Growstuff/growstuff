@@ -2,7 +2,7 @@
   .planting-actions
     .btn-group
       = planting_edit_button(planting)
-      = render 'shared/buttons/add_photo', model: planting
+      = add_photo_button(planting)
 
       - if planting.active?
         = planting_finish_button(planting)
