@@ -32,11 +32,11 @@ feature "crop wranglers", js: true do
       end
     end
 
-    scenario "visiting a crop can see wrangler links" do
-      visit crop_path(crops.first)
-      expect(page).to have_content 'You are a CROP WRANGLER'
-      expect(page).to have_link 'Edit crop'
-      expect(page).to have_link 'Delete crop'
+    describe "visiting a crop can see wrangler links" do
+      before { visit crop_path(crops.first) }
+      it { expect(page).to have_content 'You are a CROP WRANGLER' }
+      it { expect(page).to have_link 'Edit' }
+      it { expect(page).to have_link 'Delete' }
     end
 
     scenario "can create a new crop" do
