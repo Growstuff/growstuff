@@ -42,18 +42,6 @@ describe "gardens/show" do
       render
     end
 
-    it 'should have an edit button' do
-      rendered.should have_link 'Edit'
-    end
-
-    it "shows a 'plant something' button" do
-      rendered.should have_content "Plant something"
-    end
-
-    it "shows an 'add photo' button" do
-      rendered.should have_content "Add photo"
-    end
-
     it "links to the right crop in the planting link" do
       assert_select("a[href='#{new_planting_path}?garden_id=#{@garden.id}']")
     end

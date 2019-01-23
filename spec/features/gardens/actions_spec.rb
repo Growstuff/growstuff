@@ -54,6 +54,11 @@ feature "Gardens" do
     end
 
     describe '#show' do
+      before { visit garden_path(garden) }
+      it { is_expected.to have_link 'Edit' }
+      it { is_expected.to have_link 'Delete' }
+      it { is_expected.to have_content "Plant something here" }
+      it { is_expected.to have_content "Add photo" }
     end
   end
 
