@@ -16,6 +16,10 @@ module ButtonsHelper
       data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
   end
 
+  def crop_edit_button(crop)
+    edit_button(edit_crop_path(seed))
+  end
+
   def seed_edit_button(seed)
     edit_button(edit_seed_path(seed))
   end

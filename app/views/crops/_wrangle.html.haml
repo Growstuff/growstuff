@@ -5,12 +5,5 @@
     = succeed "." do
       %strong CROP WRANGLER
 
-  - if can? :edit, crop
-    %p
-      = link_to t(:edit_crop), edit_crop_path(crop), class: 'btn btn-default'
-  - if can? :destroy, crop
-    %p
-      = link_to 'Delete crop', crop,
-              method: :delete,
-              data: { confirm: t('are_you_sure') },
-              class: 'btn btn-default'
+  %p= crop_edit_button(crop) if can? :edit, crop
+  %p= delete_button(crop) if can? :destroy, crop
