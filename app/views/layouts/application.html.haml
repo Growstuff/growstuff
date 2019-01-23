@@ -8,7 +8,7 @@
     #maincontainer
       = render partial: "shared/flash_messages", flash: flash
       .row
-        .col-md-8
+        .col-md-6
           - if content_for?(:title)
             %h1#title
               = yield(:title)
@@ -19,8 +19,7 @@
             .btn-group.layout-actions
               = yield(:buttonbar)
 
-        .col-md-4
-
+        .col-md-6
           = render 'shared/global_actions'
       = yield
 
