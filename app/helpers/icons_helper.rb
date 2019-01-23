@@ -1,4 +1,5 @@
 module IconsHelper
+  include FontAwesome::Sass::Rails::ViewHelpers
   def garden_icon
     icon('far', 'square')
   end
