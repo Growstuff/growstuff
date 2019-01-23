@@ -58,9 +58,9 @@ module ButtonsHelper
 
     button(
       new_photo_path(id: model.id, type: model_type_for_photo(model)),
-      'buttons.add_a_photo', 'camera')
+      'buttons.add_a_photo', 'camera'
+    )
   end
-
 
   def edit_button(path)
     button(path, 'buttons.edit', 'pencil')
@@ -68,6 +68,7 @@ module ButtonsHelper
 
   def delete_button(model, message: 'are_you_sure')
     return unless can? :destroy, model
+
     link_to model, method: :delete, data: { confirm: t(message) }, class: 'btn btn-default btn-xs' do
       render 'shared/glyphicon', icon: 'trash', title: 'buttons.delete'
     end
