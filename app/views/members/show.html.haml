@@ -7,11 +7,17 @@
   = tag("meta", property: "og:type", content: "profile")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+
+
 - content_for :buttonbar do
-  - if can? :update, @member
-    = link_to 'Edit profile', edit_member_registration_path, class: 'btn btn-default pull-right'
-  - if can?(:create, Notification) && current_member != @member
-    = link_to 'Send message', new_notification_path(recipient_id: @member.id), class: 'btn btn-default pull-right'
+  %p.btn-group
+    - if can? :update, @member
+      = link_to edit_member_registration_path, class: 'btn btn-default pull-right' do
+        = edit_icon
+        = t('members.edit_profile')
+
+    - if can?(:create, Notification) && current_member != @member
+      = link_to 'Send message', new_notification_path(recipient_id: @member.id), class: 'btn btn-default'
 
   - if current_member && current_member != @member # must be logged in, can't follow yourself
     - follow = current_member.get_follow(@member)

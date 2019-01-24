@@ -14,11 +14,11 @@
   = javascript_include_tag "charts"
   = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
 
+-content_for(:buttonbar) do
+  = render 'gardens/actions', garden: @garden
+
 .row
   .col-md-9
-    = render 'gardens/actions', garden: @garden
-
-
     - unless @garden.active
       .alert.alert-warning
         This garden is inactive.
@@ -57,7 +57,7 @@
       - if @finished_plantings.size.positive?
         - @finished_plantings.each do |planting|
           .col-xs-6.col-md-2
-            = render partial: "plantings/thumbnail", locals: { planting: planting }
+            = render "plantings/thumbnail",  planting: planting
       - else
         %p Nothing has been planted here.
   .col-md-3
