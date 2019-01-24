@@ -38,10 +38,9 @@
   },
   "addons": [
     "heroku-postgresql",
-    "bonsai-elasticsearch",
     "memcachier",
     "newrelic",
-    "sparkhost"
+    "sendgrid"
   ],
   "buildpacks": [
     {
