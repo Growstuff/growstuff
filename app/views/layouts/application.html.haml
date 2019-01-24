@@ -7,8 +7,6 @@
 
     #maincontainer
       .row
-        .col-md-12= render partial: "shared/flash_messages", flash: flash
-      .row
         .col-md-6
           - if content_for?(:title)
             %h1#title
@@ -25,6 +23,7 @@
       
       .row
         .col-md-12
+          = render partial: "shared/flash_messages", flash: flash
           = yield
 
     %footer
