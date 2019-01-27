@@ -1,0 +1,6 @@
+- if can?(:edit, planting)
+  .planting-quick-actions.pull-right
+    %a.btn.btn-default.btn-xs#actionsMenu.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#"}
+      =icon('fas', 'bars')
+    .dropdown-menu{"aria-labelledby" => "actionsMenu"}
+      %p= render 'plantings/actions', planting: planting

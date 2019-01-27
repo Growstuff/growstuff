@@ -8,13 +8,12 @@
         .row
           .col-md-12.col-xs-6
             = render 'gardens/photo', garden: garden
-          .col-md-12.col-xs-6
-            = display_garden_description(garden)
+          .col-md-12.col-xs-6= display_garden_description(garden)
       .col-md-10
         .row
           - if garden.plantings.current.size.positive?
             - garden.plantings.current.order(created_at: :desc).includes(:crop, :photos).each do |planting|
-              .col-md-2.col-sm-4.col-xs-6
+              .col-lg-2.col-md-3.col-sm-6.col-xs-12
                 = render "plantings/thumbnail", planting: planting
           - else
             .col-md-2.col-sm-6.col-xs-6 no plantings

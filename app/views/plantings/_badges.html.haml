@@ -1,21 +1,26 @@
-- unless planting.finished?
-  // Finish times
-  - if planting.finish_is_predicatable?
-    - if planting.super_late?
-      %span.badge.badge-super-late= t('.super_late')
-      = planting_finish_button(planting)
-    - elsif planting.late?
-      %span.badge.badge-late= t('.late_finishing')
-    - else
-      %span.badge
-        = days_from_now_to_finished(planting)
-        = t('.days_until_finished')
+.planting-badges
+  - unless planting.finished?
+    // Finish times
+    - if planting.finish_is_predicatable?
+      - if planting.super_late?
+        .badge.badge-super-late= t('.super_late')
+        = planting_finish_button(planting)
+      - elsif planting.late?
+        .badge.badge-late= t('.late_finishing')
+      - else
+        .badge{'data-toggle': "tooltip", 'data-placement': "top", title: 'Days until planting is finished'}
+          = finished_icon
+          = days_from_now_to_finished(planting)
+          =t 'label.days'
 
-  // Harvest times
-  - unless planting.super_late?
-    - if planting.harvest_time?
-      %span.badge.badge-harvest= t('.harvesting_now')
-    - elsif planting.before_harvest_time?
-      %span.badge
-        = days_from_now_to_first_harvest(planting)
-        = t('.days_until_harvest')
+    // Harvest times
+    - unless planting.super_late?
+      - if planting.harvest_time?
+        .badge.badge-harvest{'data-toggle': "tooltip", 'data-placement': "top", title: 'Planting is ready for harvesting now'}
+          = harvest_icon
+          harvesting now
+      - elsif planting.before_harvest_time?
+        .badge{'data-toggle': "tooltip", 'data-placement': "top", title: 'Predicted days until harvest'}
+          = harvest_icon
+          = days_from_now_to_first_harvest(planting)
+          = t 'label.days'
