@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Garden < ApplicationRecord
   extend FriendlyId
   include Geocodable

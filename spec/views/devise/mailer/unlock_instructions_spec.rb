@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 describe 'devise/mailer/unlock_instructions.html.haml', type: "view" do
   context "logged in" do

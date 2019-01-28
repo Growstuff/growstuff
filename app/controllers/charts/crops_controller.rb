@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Charts
   class CropsController < ApplicationController
     respond_to :json

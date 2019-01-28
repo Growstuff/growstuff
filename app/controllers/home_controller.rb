@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HomeController < ApplicationController
   skip_authorize_resource
   respond_to :html

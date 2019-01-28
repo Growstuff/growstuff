@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RolesController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HarvestsHelper
   def display_quantity(harvest)
     human_quantity = display_human_quantity(harvest)
