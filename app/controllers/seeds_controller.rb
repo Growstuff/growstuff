@@ -8,9 +8,13 @@ class SeedsController < ApplicationController
   # GET /seeds
   # GET /seeds.json
   def index
-    @owner = Member.find_by(slug: params[:owner])
-    @crop = Crop.find_by(slug: params[:crop])
-    @seeds = seeds(owner: @owner, crop: @crop)
+    @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug].present?
+    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug].present?
+
+    @seeds = @seeds.where(owner: @owner) if @owner.present?
+    @seeds = @seeds.where(crop: @crop) if @crop.present?
+    @seeds = @seeds.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
+
     @filename = csv_filename
 
     respond_with(@seeds)
@@ -65,19 +69,9 @@ class SeedsController < ApplicationController
     )
   end
 
-  def seeds(owner: nil, crop: nil)
-    if owner
-      owner.seeds
-    elsif crop
-      crop.seeds
-    else
-      Seed
-    end.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
-  end
-
   def csv_filename
     if @owner
-      "Growstuff-#{@owner}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
+      "Growstuff-#{@owner.to_param}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
     else
       "Growstuff-Seeds-#{Time.zone.now.to_s(:number)}.csv"
     end

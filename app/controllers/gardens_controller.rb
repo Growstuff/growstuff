@@ -7,9 +7,12 @@ class GardensController < ApplicationController
   # GET /gardens
   # GET /gardens.json
   def index
-    @owner = Member.find_by(slug: params[:owner])
+    @owner = Member.find_by(slug: params[:member_slug])
     @show_all = params[:all] == '1'
-    @gardens = gardens
+
+    @gardens = @gardens.active unless @show_all
+    @gardens = @gardens.where(owner: @owner) if @owner.present?
+    @gardens = @gardens.joins(:owner).order(:name).paginate(page: params[:page])
     respond_with(@gardens)
   end
 
@@ -57,7 +60,7 @@ class GardensController < ApplicationController
   def destroy
     @garden.destroy
     flash[:notice] = I18n.t('gardens.deleted')
-    redirect_to(gardens_by_owner_path(owner: @garden.owner))
+    redirect_to(member_gardens_path(@garden.owner))
   end
 
   private
@@ -65,11 +68,5 @@ class GardensController < ApplicationController
   def garden_params
     params.require(:garden).permit(:name, :slug, :description, :active,
       :location, :latitude, :longitude, :area, :area_unit, container_ids: [])
-  end
-
-  def gardens
-    g = @owner ? @owner.gardens : Garden.all
-    g = g.active unless @show_all
-    g.joins(:owner).order(:name).paginate(page: params[:page])
   end
 end

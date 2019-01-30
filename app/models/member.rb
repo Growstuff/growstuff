@@ -106,6 +106,10 @@ class Member < ApplicationRecord
     login_name
   end
 
+  def to_param
+    slug
+  end
+
   def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
   end

@@ -22,7 +22,7 @@
   - if current_member && current_member != @member # must be logged in, can't follow yourself
     - follow = current_member.get_follow(@member)
     - if !follow && can?(:create, Follow) # not already following
-      = link_to 'Follow', follows_path(followed_id: @member.id), method: :post, class: 'btn btn-default pull-right'
+      = link_to 'Follow', follows_path(followed: @member), method: :post, class: 'btn btn-default pull-right'
     - if follow && can?(:destroy, follow) # already following
       = link_to 'Unfollow', follow_path(follow), method: :delete, class: 'btn btn-default pull-right'
 
