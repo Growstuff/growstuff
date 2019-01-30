@@ -9,7 +9,7 @@
         = link_to "#{seed.owner} will trade #{seed.tradable_to}.", seed_path(seed)
         = render partial: 'members/location', locals: { member: seed.owner }
   %p
-    = link_to "View all #{crop.name} seeds", seeds_by_crop_path(crop)
+    = link_to "View all #{crop.name} seeds", crop_seeds_path(crop)
 %p
   = link_to "Purchase seeds via Ebay",
              crop_ebay_seeds_url(crop),

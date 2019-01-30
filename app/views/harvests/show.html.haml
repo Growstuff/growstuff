@@ -17,7 +17,7 @@
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
       &mdash;
-      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(owner: @harvest.owner.slug)
+      = link_to "view all #{@harvest.owner}'s harvests", member_harvests_path(@harvest.owner)
     %p
       %b Plant part:
       - if @harvest.plant_part

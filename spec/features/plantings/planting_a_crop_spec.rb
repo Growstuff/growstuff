@@ -49,7 +49,7 @@ feature "Planting a crop", :js, :elasticsearch do
   end
 
   scenario "Clicking link to owner's profile" do
-    visit plantings_by_owner_path(member)
+    visit member_plantings_path(member)
     click_link "View #{member}'s profile >>"
     expect(current_path).to eq member_path(member)
   end

@@ -18,8 +18,9 @@ class Garden < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
-  validates :location,
-    length: { maximum: 255 }
+  validates :location, length: { maximum: 255 }
+  validates :slug, uniqueness: true
+  validates :name, uniqueness: { scope: :owner_id }
 
   validates :name,
     format: {
