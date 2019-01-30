@@ -4,6 +4,7 @@ describe PlantingsController do
   describe "routing" do
     it "routes to #index" do
       get("/plantings").should route_to("plantings#index")
+      get("/members/fred/plantings").should route_to("plantings#index", member_slug: 'fred')
     end
 
     it "routes to #new" do

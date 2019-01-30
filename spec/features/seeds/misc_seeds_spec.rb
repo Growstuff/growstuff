@@ -21,15 +21,15 @@ feature "seeds", js: true do
     describe "button on front page to add seeds" do
       before do
         visit root_path
-        click_link "Add seeds"
+        click_link "Save seeds"
       end
       it { expect(current_path).to eq new_seed_path }
-      it { expect(page).to have_content 'Add seeds' }
+      it { expect(page).to have_content 'Save seeds' }
     end
 
     describe "Clicking link to owner's profile" do
       before do
-        visit seeds_by_owner_path(member)
+        visit member_seeds_path(member)
         click_link "View #{member}'s profile >>"
       end
       it { expect(current_path).to eq member_path(member) }

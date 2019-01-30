@@ -113,6 +113,10 @@ class Crop < ApplicationRecord
     name
   end
 
+  def to_param
+    slug
+  end
+
   def default_scientific_name
     scientific_names.first.name unless scientific_names.empty?
   end
@@ -155,12 +159,7 @@ class Crop < ApplicationRecord
   end
 
   def interesting?
-    min_plantings = 3 # needs this many plantings to be interesting
-    min_photos    = 3 # needs this many photos to be interesting
-    return false unless photos.size >= min_photos
-    return false unless plantings_count >= min_plantings
-
-    true
+    photos.size >= 3 || plantings_count >= 3
   end
 
   def pending?

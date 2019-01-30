@@ -59,7 +59,7 @@ feature "Seeds", :js, :elasticsearch do
   describe "Adding a seed from crop page" do
     before do
       visit crop_path(maize)
-      click_link "Add seeds to stash"
+      click_link "Add maize seeds to stash"
       within "form#new_seed" do
         expect(page).to have_selector "input[value='maize']"
         click_button "Save"

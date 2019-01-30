@@ -26,12 +26,10 @@ feature "follows", :js do
     end
 
     context "following another member" do
-      background do
-        visit member_path(other_member)
-      end
+      background { visit member_path(other_member) }
 
       scenario "has a follow button" do
-        expect(page).to have_link "Follow", href: follows_path(followed_id: other_member.id)
+        expect(page).to have_link "Follow", href: follows_path(followed: other_member.slug)
       end
 
       scenario "has correct message and unfollow button" do
@@ -43,12 +41,7 @@ feature "follows", :js do
       scenario "has a followed member listed in the following page" do
         click_link 'Follow'
         visit member_follows_path(member)
-        expect(page).to have_content other_member.login_name.to_s
-      end
-
-      scenario "does not die when passed an authenticity_token" do
-        visit member_follows_path member, params: { authenticity_token: "Ultima ratio regum" }
-        expect(page.status_code).to equal 200
+        expect(page).to have_content other_member.login_name
       end
 
       scenario "has correct message and follow button after unfollow" do
@@ -56,28 +49,28 @@ feature "follows", :js do
         click_link 'Unfollow'
         expect(page).to have_content "Unfollowed #{other_member.login_name}"
         visit member_path(other_member) # unfollowing redirects to root
-        expect(page).to have_link "Follow", href: follows_path(followed_id: other_member.id)
+        expect(page).to have_link "Follow", href: follows_path(followed: other_member.slug)
       end
 
       scenario "has member in following list" do
         click_link 'Follow'
         visit member_follows_path(member)
-        expect(page).to have_content other_member.login_name.to_s
+        expect(page).to have_content other_member.login_name
       end
 
       scenario "appears in in followed member's followers list" do
         click_link 'Follow'
         visit member_followers_path(other_member)
-        expect(page).to have_content member.login_name.to_s
+        expect(page).to have_content member.login_name
       end
 
       scenario "removes members from following and followers lists after unfollow" do
         click_link 'Follow'
         click_link 'Unfollow'
         visit member_follows_path(member)
-        expect(page).not_to have_content other_member.login_name.to_s
+        expect(page).not_to have_content other_member.login_name
         visit member_followers_path(other_member)
-        expect(page).to have_content member.login_name.to_s
+        expect(page).to have_content member.login_name
       end
     end
   end

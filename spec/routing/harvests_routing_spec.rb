@@ -4,6 +4,7 @@ describe HarvestsController do
   describe "routing" do
     it "routes to #index" do
       get("/harvests").should route_to("harvests#index")
+      get("/members/fred/harvests").should route_to("harvests#index", member_slug: 'fred')
     end
 
     it "routes to #new" do
