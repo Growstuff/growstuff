@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Member < ApplicationRecord
   acts_as_paranoid # implements soft deletion
   before_destroy :newsletter_unsubscribe

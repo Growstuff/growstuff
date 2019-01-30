@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ElasticsearchHelpers
   def sync_elasticsearch(crops)
     return unless ENV['GROWSTUFF_ELASTICSEARCH'] == "true"

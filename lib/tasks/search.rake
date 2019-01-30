@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :search do
   desc "Create elastic search index"
   task create: :environment do
