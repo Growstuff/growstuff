@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PhotosHelper
   def crop_image_path(crop)
     if crop.default_photo.present?
