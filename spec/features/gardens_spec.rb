@@ -14,9 +14,13 @@ feature "Planting a crop", js: true do
   scenario "View gardens" do
     visit gardens_path
     expect(page).to have_content "Everyone's gardens"
-    click_link "My Gardens"
+    within '.layout-actions' do
+      click_link "My gardens"
+    end
     expect(page).to have_content "#{garden.owner.login_name}'s gardens"
-    click_link "Everyone's gardens"
+    within '.layout-actions' do
+      click_link "Everyone's gardens"
+    end
     expect(page).to have_content "Everyone's gardens"
   end
 

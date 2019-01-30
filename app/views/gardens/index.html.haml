@@ -1,6 +1,6 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
-= render 'nav'
+= render 'layouts/nav', model: Garden
 
 = link_to gardens_active_tickbox_path(@owner, @show_all) do
   = check_box_tag 'active', 'all', @show_all

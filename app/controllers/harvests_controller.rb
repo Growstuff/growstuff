@@ -7,12 +7,17 @@ class HarvestsController < ApplicationController
   responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:owner]) if params[:owner]
-    @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
-    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
+    @owner = Member.find_by(slug: params[:member_slug])
+    @crop = Crop.find_by(slug: params[:crop_slug])
+    @planting = Planting.find_by(slug: params[:planting_id])
 
-    @harvests = harvests
+    @harvests = @harvests.where(owner: @owner) if @owner.present?
+    @harvests = @harvests.where(crop: @crop) if @crop.present?
+    @harvests = @harvests.where(planting: @planting) if @planting.present?
+    @harvests = @harvests.order(harvested_at: :desc).joins(:owner, :crop).paginate(page: params[:page])
+
     @filename = csv_filename
+
     respond_with(@harvests)
   end
 
@@ -67,23 +72,11 @@ class HarvestsController < ApplicationController
       .where('(finished_at IS NULL OR finished_at >= ?)', @harvest.harvested_at)
   end
 
-  def harvests
-    if @owner
-      @owner.harvests
-    elsif @crop
-      @crop.harvests
-    elsif @planting
-      @planting.harvests
-    else
-      Harvest.all
-    end.order(harvested_at: :desc).joins(:owner, :crop).paginate(page: params[:page])
-  end
-
   def csv_filename
     specifics = if @owner
-                  "#{@owner.login_name}-"
+                  "#{@owner.to_param}-"
                 elsif @crop
-                  "#{@crop.name}-"
+                  "#{@crop.to_param}-"
                 end
     "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
   end

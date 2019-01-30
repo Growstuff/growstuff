@@ -12,7 +12,7 @@
           = distance_of_time_in_words(harvest.harvested_at, Time.zone.now)
           ago.
   %p
-    = link_to "View all #{crop.name} harvests", harvests_by_crop_path(crop)
+    = link_to "View all #{crop.name} harvests", crop_harvests_path(crop)
 - if crop.approved?
   - if current_member
     %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id)

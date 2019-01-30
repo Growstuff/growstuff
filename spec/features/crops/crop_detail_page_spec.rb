@@ -157,23 +157,20 @@ feature "crop detail page", js: true do
 
     scenario "User not signed in" do
       visit crop_path(seed.crop)
-      expect(page).not_to have_content "You have 20 seeds of this crop"
-      expect(page).not_to have_content "You don't have any seeds of this crop"
-      expect(page).not_to have_link "View your seeds"
+      expect(page).not_to have_content "You have 20 seeds"
     end
 
     scenario "User signed in" do
       login_as(member)
       visit crop_path(seed.crop)
-      expect(page).to have_content "You have 20 seeds of this crop."
-      expect(page).to have_link "View your seeds"
+      expect(page).to have_link "You have 20 seeds of this crop."
     end
 
     scenario "click link to your owned seeds" do
       login_as(member)
       visit crop_path(seed.crop)
-      click_link "View your seeds"
-      expect(current_path).to eq seeds_by_owner_path(owner: member.slug)
+      click_link "You have 20 seeds of this crop."
+      expect(current_path).to eq member_seeds_path(member_slug: member.slug)
     end
   end
 

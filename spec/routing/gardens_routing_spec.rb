@@ -4,6 +4,7 @@ describe GardensController do
   describe "routing" do
     it "routes to #index" do
       get("/gardens").should route_to("gardens#index")
+      get("/members/fred/gardens").should route_to("gardens#index", member_slug: 'fred')
     end
 
     it "routes to #new" do

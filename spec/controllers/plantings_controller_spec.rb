@@ -25,13 +25,13 @@ describe PlantingsController do
     end
 
     describe "picks up owner from params and shows owner's plantings only" do
-      before { get :index, params: { owner: member1.slug } }
+      before { get :index, params: { member_slug: member1.slug } }
       it { expect(assigns(:owner)).to eq member1 }
       it { expect(assigns(:plantings)).to eq [planting1] }
     end
 
     describe "picks up crop from params and shows the plantings for the crop only" do
-      before { get :index, params: { crop: maize.name } }
+      before { get :index, params: { crop_slug: maize.slug } }
       it { expect(assigns(:crop)).to eq maize }
       it { expect(assigns(:plantings)).to eq [planting2] }
     end

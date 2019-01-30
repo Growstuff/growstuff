@@ -21,9 +21,6 @@
   .col-md-9
     .row
       .col-md-12
-        - if member_signed_in?
-          = display_seed_availability(@current_member, @crop)
-          = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
 
         %h2
           - if !@crop.plantings.empty?
@@ -33,7 +30,6 @@
             by #{ENV['GROWSTUFF_SITE_NAME']} members.
           - else
             Nobody is growing this yet. You could be the first!
-
 
     .row
       .col-md-12
@@ -47,14 +43,13 @@
     .row
       .col-md-3
         %h2 Sunniness
-        = pie_chart crop_sunniness_path(@crop), legend: "bottom"
-
+        = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
       .col-md-3
         %h2 Planted from
-        = pie_chart crop_planted_from_path(@crop), legend: "bottom"
+        = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
       .col-md-3
         %h2 Harvested for
-        = pie_chart crop_harvested_for_path(@crop), legend: "bottom"
+        = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     .row
       .col-md-12
@@ -91,6 +86,24 @@
   .col-md-3
 
     = render partial: 'wrangle', locals: { crop: @crop }
+
+    %p
+      %li
+        = link_to crop_seeds_path(@crop) do
+          View all #{@crop.name} seeds
+          (#{@crop.seeds.size})
+      %li
+        = link_to crop_plantings_path(@crop) do
+          View all #{@crop.name} plantings
+          (#{@crop.plantings.size})
+      %li
+        = link_to crop_harvests_path(@crop) do
+          View all #{@crop.name} harvests
+          (#{@crop.harvests.size})
+    - if member_signed_in?
+      %p
+        = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
+          = display_seed_availability(@current_member, @crop)
 
     %h4 How to grow #{@crop.name.pluralize}
 
