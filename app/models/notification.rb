@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Notification < ApplicationRecord
   belongs_to :sender, class_name: 'Member', inverse_of: :sent_notifications
   belongs_to :recipient, class_name: 'Member', inverse_of: :notifications

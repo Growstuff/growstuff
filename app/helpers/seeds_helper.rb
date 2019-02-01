@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SeedsHelper
   def display_seed_description(seed)
     if seed.description.nil?

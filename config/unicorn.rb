@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # from https://blog.heroku.com/archives/2013/2/27/unicorn_rails
 worker_processes 3
 timeout 30

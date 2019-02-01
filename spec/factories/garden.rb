@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :garden do
     name { Faker::Vehicle.vin }
