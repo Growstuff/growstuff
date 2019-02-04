@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_01_220637) do
+ActiveRecord::Schema.define(version: 2019_01_30_090437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -336,6 +336,7 @@ ActiveRecord::Schema.define(version: 2018_04_01_220637) do
     t.string "photographable_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "crop_id"
     t.index ["photographable_id", "photographable_type", "photo_id"], name: "items_to_photos_idx", unique: true
     t.index ["photographable_id", "photographable_type"], name: "photographable_idx"
   end
@@ -444,6 +445,7 @@ ActiveRecord::Schema.define(version: 2018_04_01_220637) do
   end
 
   add_foreign_key "harvests", "plantings"
+  add_foreign_key "photographings", "crops"
   add_foreign_key "photographings", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
