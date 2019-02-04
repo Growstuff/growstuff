@@ -10,8 +10,8 @@ class PhotosController < ApplicationController
   end
 
   def index
-    if params[:crop_id]
-      @crop = Crop.find params[:crop_id]
+    if params[:crop_slug]
+      @crop = Crop.find params[:crop_slug]
       @photos = @crop.photos
     else
       @photos = Photo.all
