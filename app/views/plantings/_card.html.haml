@@ -12,7 +12,6 @@
                   alt: planting.crop_id, class: 'img img-responsive'),
                   planting
       .col-xs-12.col-md-8
-        = render 'stats', planting: planting
         %dl.dl-horizontal.planting-attributes
           %dt Owner:
           %dd= link_to planting.owner.login_name, planting.owner
