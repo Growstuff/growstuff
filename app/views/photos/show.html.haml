@@ -28,7 +28,7 @@
     - if @photo.associations?
       = render "photo_associations", locals: { photo: @photo }
       
-    - if @photo.crops.size.positive?
-      - @photo.crops.each do |crop|
+    - if @crops.size.positive?
+      - @crops.each do |crop|
         = render 'crops/index_card', crop: crop
 
