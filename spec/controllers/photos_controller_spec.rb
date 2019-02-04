@@ -9,21 +9,21 @@ describe PhotosController do
     describe 'all photos' do
       let!(:photo) { FactoryBot.create :photo }
       before { get :index }
-      it { expect(assigns(:photos)).to eq [ photo ]}
+      it { expect(assigns(:photos)).to eq [photo] }
     end
 
     describe 'crop photos' do
       let!(:photo) { FactoryBot.create :photo, owner: member }
       let!(:crop_photo) { FactoryBot.create :photo, owner: member }
-      let!(:planting) { FactoryBot.create :planting, crop: crop, owner: member}
+      let!(:planting) { FactoryBot.create :planting, crop: crop, owner: member }
       let!(:crop) { FactoryBot.create :crop }
 
       before do
         planting.photos << crop_photo
-        get :index, params: {crop_slug: crop.to_param }
+        get :index, params: { crop_slug: crop.to_param }
       end
-      it { expect(assigns(:crop)).to eq crop}
-      it { expect(assigns(:photos)).to eq [ crop_photo ]}
+      it { expect(assigns(:crop)).to eq crop }
+      it { expect(assigns(:photos)).to eq [crop_photo] }
     end
   end
 
