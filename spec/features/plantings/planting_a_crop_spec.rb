@@ -104,6 +104,7 @@ feature "Planting a crop", :js, :elasticsearch do
         fill_in "How many?", with: 42
         select "cutting", from: "Planted from:"
         select "semi-shade", from: "Sun or shade?"
+        fill_in "When?", with: '2013-03-10'
         fill_in "Tell us more about it", with: "It's rad."
         fill_in "Finished date", with: @a_future_date
         click_button "Save"
