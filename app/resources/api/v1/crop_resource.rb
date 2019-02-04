@@ -8,6 +8,9 @@ module Api
       has_many :plantings
       has_many :seeds
       has_many :harvests
+
+      has_many :photos
+      
       has_one :parent
 
       attribute :name
