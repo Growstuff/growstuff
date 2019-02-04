@@ -13,7 +13,7 @@ class PhotosController < ApplicationController
   def index
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
-      @photos = Photo.joins(:photographings).where(photographings: { crop: @crop })
+      @photos = Photo.by_crop(@crop)
     else
       @photos = Photo.all
     end
