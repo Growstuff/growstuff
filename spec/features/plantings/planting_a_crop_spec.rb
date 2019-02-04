@@ -77,7 +77,7 @@ feature "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Progress: 0% - not planted yet"
+      expect(page).to have_content "0%"
     end
 
     it "should show that days before maturity is unknown" do
@@ -110,7 +110,7 @@ feature "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).not_to have_content "Progress: 0% - not planted yet"
+      expect(page).not_to have_content "0%"
       expect(page).not_to have_content "Not enough data"
     end
 
