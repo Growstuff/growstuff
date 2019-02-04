@@ -26,7 +26,7 @@ describe Planting do
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
         it { expect(planting.days_since_planted).to eq(nil) }
-        it { expect(planting.percentage_grown).to eq(nil) }
+        it { expect(planting.percentage_grown).to eq(0) }
       end
 
       describe 'planting finished, no planted_at' do
@@ -88,7 +88,7 @@ describe Planting do
       describe 'planting not planted yet' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil }
 
-        it { expect(planting.percentage_grown).to eq nil }
+        it { expect(planting.percentage_grown).to eq 0 }
       end
 
       describe 'planting finished 10 days, but was never planted' do
