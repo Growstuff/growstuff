@@ -126,4 +126,23 @@ describe Photo do
     member.destroy
     expect(Photo.joins(:owner).all).not_to include(photo)
   end
+
+  describe 'scopes' do
+    describe 'by_model_type' do
+      let!(:harvest) { FactoryBot.create :harvest, owner: member }
+      let!(:harvest_photo) { FactoryBot.create :photo, owner: member }
+      let!(:planting) { FactoryBot.create :planting, owner: member }
+      let!(:planting_photo) { FactoryBot.create :photo, owner: member }
+      let!(:seed) { FactoryBot.create :seed, owner: member }
+      let!(:seed_photo) { FactoryBot.create :photo, owner: member }
+      before do
+        harvest.photos << harvest_photo
+        planting.photos << planting_photo
+        seed.photos << seed_photo
+      end
+      it { expect(Photo.by_model_type(Harvest)).to eq[harvest_photo] }
+      it { expect(Photo.by_model_type(Planting)).to eq[planting_photo] }
+      it { expect(Photo.by_model_type(Seed)).to eq[seed_photo] }
+    end
+  end
 end
