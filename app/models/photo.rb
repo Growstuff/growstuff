@@ -15,7 +15,9 @@ class Photo < ApplicationRecord
   end
 
   default_scope { joins(:owner) } # Ensures the owner still exists
-
+  scope :by_crop, ->(crop) { joins(:photographings).where(photographings: {crop: crop}) }
+  scope :by_model, ->(model_name) { joins(:photographings).where(photographings: {photographable_type: model_name.to_s}) }
+  
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.
   def flickr_metadata

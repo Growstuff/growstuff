@@ -35,6 +35,7 @@
 
     %h2 Photos
     %p= render 'crops/photos', photos: @photos
+    %p= link_to 'more photos', crop_photos_path(@crop)
     
     .row
       .col-md-3
