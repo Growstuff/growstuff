@@ -14,7 +14,8 @@ class Crop < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
-  has_many :photos, through: :plantings
+  has_many :photographings
+  has_many :photos, through: :photographings
   has_many :plant_parts, -> { distinct.order("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
@@ -93,6 +94,10 @@ class Crop < ApplicationRecord
         end
       end
     end
+  end
+
+  def planting_photos
+    Photo.joins(:plantings).where("plantings.crop_id": id)
   end
 
   def harvest_photos
