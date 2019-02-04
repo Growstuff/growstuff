@@ -74,16 +74,4 @@ module PlantingsHelper
       t 'planting.status.unknown'
     end
   end
-
-  def planting_progress(planting)
-    if planting.finished?
-      100
-    elsif !planting.planted?
-      0
-    elsif planting.crop.perennial || planting.finish_predicted_at.nil?
-      nil
-    else
-      planting.percentage_grown
-    end
-  end
 end
