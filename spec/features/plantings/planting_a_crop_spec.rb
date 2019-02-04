@@ -45,7 +45,7 @@ feature "Planting a crop", :js, :elasticsearch do
     end
 
     expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Progress: Not enough data"
+    expect(page).to have_content "Not enough data"
   end
 
   scenario "Clicking link to owner's profile" do
@@ -93,7 +93,7 @@ feature "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Progress: Not enough data"
+      expect(page).to have_content "Not enough data"
     end
 
     it "should show that planting is in progress" do
@@ -174,13 +174,13 @@ feature "Planting a crop", :js, :elasticsearch do
 
   scenario "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
-    expect(page).to have_content "Progress: Not enough data"
+    expect(page).to have_content "Not enough data"
     click_link "Edit"
     check "finished"
     fill_in "Finished date", with: "2015-06-25"
     click_button "Save"
     expect(page).to have_content "planting was successfully updated"
-    expect(page).not_to have_content "Progress: Not enough data"
+    expect(page).not_to have_content "Not enough data"
   end
 
   scenario "Marking a planting as finished" do
