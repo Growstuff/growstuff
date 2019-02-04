@@ -6,14 +6,14 @@ class PhotosController < ApplicationController
   responders :flash
 
   def show
-    @crops = Crop.distinct.joins(:photographings).where(photographings: { photo: @photo})
+    @crops = Crop.distinct.joins(:photographings).where(photographings: { photo: @photo })
     respond_with(@photo)
   end
 
   def index
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
-      @photos = Photo.joins(:photographings).where(photographings: {crop: @crop})
+      @photos = Photo.joins(:photographings).where(photographings: { crop: @crop })
     else
       @photos = Photo.all
     end

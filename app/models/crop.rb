@@ -107,6 +107,7 @@ class Crop < ApplicationRecord
   def seed_photos
     Photo.joins(:seeds).where("seeds.crop_id": id)
   end
+
   # update the Elasticsearch index (only if we're using it in this
   # environment)
   def update_index(_name_obj)
