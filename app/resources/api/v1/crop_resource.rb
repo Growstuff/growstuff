@@ -6,7 +6,7 @@ module Api
       filter :approval_status, default: 'approved'
 
       has_many :plantings
-      has_many :photos
+      has_many :seeds
       has_many :harvests
       has_one :parent
 
