@@ -2,11 +2,11 @@ require "rails_helper"
 require 'custom_matchers'
 
 feature "Planting a crop", :js, :elasticsearch do
-  let(:member) { create :member }
-  let!(:maize) { create :maize }
-  let(:garden) { create :garden, owner: member }
+  let(:member) { FactoryBot.create :member }
+  let!(:maize) { FactoryBot.create :maize }
+  let(:garden) { FactoryBot.create :garden, owner: member }
   let!(:planting) do
-    create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-3-10")
+    FactoryBot.create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10")
   end
 
   background do
