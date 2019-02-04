@@ -1,22 +1,9 @@
-- unless crop.harvest_photos.empty?
-  %h3 Photos of #{crop.name} harvests
+- unless photos.empty?
   .row
-    - crop.harvest_photos.first(6).each do |p|
-      .col-xs-6.col-md-2
-        = render "photos/thumbnail", photo: p
+    - photos.order(created_at: :desc).limit(18).each do |photo|
+      .col-md-2.six-across
+        .thumbnail
+          = link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img'), photo
 
-- unless crop.photos.empty?
-  %h3 Photos of #{crop.name} plants
-  .row
-    - crop.photos.order(date_taken: :desc).first(6).each do |p|
-      .col-xs-6.col-md-2
-        = render "photos/thumbnail", photo: p
-
-- unless crop.seed_photos.empty?
-  %h3 Photos of #{crop.name} seeds
-  .row
-    - crop.seed_photos.order(date_taken: :desc).first(6).each do |p|
-      .col-xs-6.col-md-2
-        = render "photos/thumbnail", photo: p
-.row
-  = link_to "more photos", crop_photos_path(crop)
+= link_to 'more photos', crop_photos_path(@crop)
+            

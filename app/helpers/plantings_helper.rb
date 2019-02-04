@@ -54,4 +54,34 @@ module PlantingsHelper
     classes << 'planting-super-late' if planting.super_late?
     classes.join(' ')
   end
+
+  def planting_status(planting)
+    if planting.crop.perennial
+      'perennial'
+    elsif planting.harvest_time?
+      'harvesting'
+    elsif planting.late?
+      'late'
+    elsif planting.growing?
+      'growing'
+    elsif !planting.planted?
+      'not planted'
+    elsif planting.finished?
+      'finished'
+    else
+      'unknown'
+    end
+  end
+
+  def planting_progress(planting)
+    if planting.crop.perennial || planting.finish_predicted_at.nil?
+      nil
+    elsif !planting.planted?
+      0
+    elsif planting.finished?
+      100
+    else
+      planting.percentage_grown
+    end
+  end
 end

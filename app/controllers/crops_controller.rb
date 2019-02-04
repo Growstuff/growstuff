@@ -51,6 +51,7 @@ class CropsController < ApplicationController
   def show
     @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
+    @photos = Photo.joins(:photographings).where(photographings: {crop: @crop})
     # respond_with(@crop)
     respond_to do |format|
       format.html

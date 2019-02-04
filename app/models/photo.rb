@@ -1,9 +1,11 @@
 class Photo < ApplicationRecord
   include Ownable
 
+
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed).freeze
 
   has_many :photographings, foreign_key: :photo_id, dependent: :destroy, inverse_of: :photo
+  has_many :crops, through: :photographings
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|

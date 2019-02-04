@@ -27,3 +27,8 @@
     %p= link_to "View on Flickr", @photo.link_url
     - if @photo.associations?
       = render "photo_associations", locals: { photo: @photo }
+      
+    - if @photo.crops.size.positive?
+      - @photo.crops.each do |crop|
+        = render 'crops/index_card', crop: crop
+
