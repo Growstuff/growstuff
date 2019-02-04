@@ -10,7 +10,7 @@ module Api
       has_many :harvests
 
       has_many :photos
-      
+
       has_one :parent
 
       attribute :name

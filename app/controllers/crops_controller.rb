@@ -53,7 +53,7 @@ class CropsController < ApplicationController
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
 
     @photos = Photo.by_crop(@crop)
-      
+
     respond_to do |format|
       format.html
       format.json { render json: @crop.to_json(crop_json_fields) }

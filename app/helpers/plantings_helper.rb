@@ -60,7 +60,7 @@ module PlantingsHelper
       t 'planting.status.perennial'
     elsif planting.finished?
       t 'planting.status.finished'
-    elsif ! planting.finish_is_predicatable?
+    elsif !planting.finish_is_predicatable?
       t 'planting.status.not_enough_data'
     elsif planting.harvest_time?
       t 'planting.status.harvesting'
