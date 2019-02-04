@@ -27,7 +27,6 @@ RSpec.describe 'Plantings', type: :request do
                    "related" => "#{resource_url}/seeds" } }
   end
 
-
   let(:harvests_as_json_api) do
     { "links" =>
                  { "self"    => "#{resource_url}/relationships/harvests",
