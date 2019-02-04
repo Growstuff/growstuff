@@ -57,19 +57,21 @@ module PlantingsHelper
 
   def planting_status(planting)
     if planting.crop.perennial
-      'perennial'
+      t 'planting.status.perennial'
+    elsif ! planting.finish_is_predicatable?
+      t 'planting.status.not_enough_data'
     elsif planting.harvest_time?
-      'harvesting'
+      t 'planting.status.harvesting'
     elsif planting.late?
-      'late'
+      t 'planting.status.late'
     elsif planting.growing?
-      'growing'
+      t 'planting.status.growing'
     elsif !planting.planted?
-      'not planted'
+      t 'planting.status.not planted'
     elsif planting.finished?
-      'finished'
+      t 'planting.status.finished'
     else
-      'unknown'
+      t 'planting.status.unknown'
     end
   end
 
