@@ -58,6 +58,8 @@ module PlantingsHelper
   def planting_status(planting)
     if planting.crop.perennial
       t 'planting.status.perennial'
+    elsif planting.finished?
+      t 'planting.status.finished'
     elsif ! planting.finish_is_predicatable?
       t 'planting.status.not_enough_data'
     elsif planting.harvest_time?
@@ -68,20 +70,18 @@ module PlantingsHelper
       t 'planting.status.growing'
     elsif !planting.planted?
       t 'planting.status.not planted'
-    elsif planting.finished?
-      t 'planting.status.finished'
     else
       t 'planting.status.unknown'
     end
   end
 
   def planting_progress(planting)
-    if planting.crop.perennial || planting.finish_predicted_at.nil?
+    if planting.finished?
+      100
+    elsif planting.crop.perennial || planting.finish_predicted_at.nil?
       nil
     elsif !planting.planted?
       0
-    elsif planting.finished?
-      100
     else
       planting.percentage_grown
     end
