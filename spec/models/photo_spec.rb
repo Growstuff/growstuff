@@ -129,15 +129,15 @@ describe Photo do
 
   describe 'scopes' do
     let(:harvest_crop) { FactoryBot.create :crop }
-    let!(:harvest) { FactoryBot.create :harvest, owner: member, crop: harvest_crop}
+    let!(:harvest) { FactoryBot.create :harvest, owner: member, crop: harvest_crop }
     let!(:harvest_photo) { FactoryBot.create :photo, owner: member }
-    
+
     let(:planting_crop) { FactoryBot.create :crop }
-    let!(:planting) { FactoryBot.create :planting, owner: member, crop: planting_crop}
+    let!(:planting) { FactoryBot.create :planting, owner: member, crop: planting_crop }
     let!(:planting_photo) { FactoryBot.create :photo, owner: member }
-    
+
     let(:seed_crop) { FactoryBot.create :crop }
-    let!(:seed) { FactoryBot.create :seed, owner: member, crop: seed_crop}
+    let!(:seed) { FactoryBot.create :seed, owner: member, crop: seed_crop }
     let!(:seed_photo) { FactoryBot.create :photo, owner: member }
     before do
       harvest.photos << harvest_photo
@@ -149,8 +149,8 @@ describe Photo do
     it { expect(Photo.by_model_type(Planting)).to eq[planting_photo] }
     it { expect(Photo.by_model_type(Seed)).to eq[seed_photo] }
 
-    it { expect(Photo.by_crop(harvest_crop).to eq [ harvest_photo ]}
-    it { expect(Photo.by_crop(planting_crop).to eq [ planting_photo ]}
-    it { expect(Photo.by_crop(seed_crop).to eq [ seed_photo ]}
+    it { expect(Photo.by_crop(harvest_crop)).to eq [harvest_photo] }
+    it { expect(Photo.by_crop(planting_crop)).to eq [planting_photo] }
+    it { expect(Photo.by_crop(seed_crop)).to eq [seed_photo] }
   end
 end
