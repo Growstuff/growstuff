@@ -12,7 +12,7 @@
           = distance_of_time_in_words(planting.created_at, Time.zone.now)
           ago.
   %p
-    = link_to "View all #{crop.name} plantings", plantings_by_crop_path(crop)
+    = link_to "View all #{crop.name} plantings", crop_plantings_path(crop)
 - if crop.approved?
   - if current_member
     %p= link_to "Plant #{crop.name}", new_planting_path(crop_id: crop.id)

@@ -49,7 +49,7 @@ class CropsController < ApplicationController
   end
 
   def show
-    @crop = Crop.includes(:scientific_names, plantings: :photos).find(params[:id])
+    @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
     # respond_with(@crop)
     respond_to do |format|
@@ -67,6 +67,7 @@ class CropsController < ApplicationController
   end
 
   def edit
+    @crop = Crop.find_by!(slug: params[:slug])
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
   end
@@ -87,6 +88,7 @@ class CropsController < ApplicationController
   end
 
   def update
+    @crop = Crop.find_by!(slug: params[:slug])
     previous_status = @crop.approval_status
 
     @crop.creator = current_member if previous_status == "pending"

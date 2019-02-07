@@ -29,7 +29,7 @@ feature "seeds", js: true do
 
     describe "Clicking link to owner's profile" do
       before do
-        visit seeds_by_owner_path(member)
+        visit member_seeds_path(member)
         click_link "View #{member}'s profile >>"
       end
       it { expect(current_path).to eq member_path(member) }

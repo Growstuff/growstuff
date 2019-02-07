@@ -10,7 +10,7 @@ feature "Gardens#index", :js do
     context "with 10 gardens" do
       before do
         FactoryBot.create_list :garden, 10, owner: member
-        visit gardens_path(owner: member.login_name)
+        visit member_gardens_path(member_slug: member.slug)
       end
 
       it "displays each of the gardens" do
@@ -29,7 +29,7 @@ feature "Gardens#index", :js do
       let!(:active_garden) { FactoryBot.create :garden, name: "My active garden", owner: member }
       let!(:inactive_garden) { FactoryBot.create :inactive_garden, name: "retired garden", owner: member }
 
-      before { visit gardens_path(member: member) }
+      before { visit member_gardens_path(member_slug: member.slug) }
 
       it "show active garden" do
         expect(page).to have_text active_garden.name
@@ -57,7 +57,7 @@ feature "Gardens#index", :js do
       end
 
       before do
-        visit gardens_path(member: member)
+        visit member_gardens_path(member_slug: member.slug)
       end
 
       it "shows planting in garden" do
@@ -90,7 +90,7 @@ feature "Gardens#index", :js do
 
       garden.update! name: 'super awesome garden'
       assert planting
-      visit gardens_path(owner: member.login_name)
+      visit member_gardens_path(member_slug: member.slug)
     end
 
     describe 'harvest still growing' do

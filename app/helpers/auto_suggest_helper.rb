@@ -10,7 +10,7 @@ module AutoSuggestHelper
     end
 
     resource = resource.class.name.downcase
-    source_path = Rails.application.routes.url_helpers.send("#{source}s_search_path")
+    source_path = Rails.application.routes.url_helpers.send("search_#{source}s_path")
 
     %(
       <input id="#{source}" class="auto-suggest #{options[:class]}"

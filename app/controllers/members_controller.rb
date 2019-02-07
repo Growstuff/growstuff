@@ -13,7 +13,7 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member        = Member.confirmed.find(params[:id])
+    @member        = Member.confirmed.find_by!(slug: params[:slug])
     @twitter_auth  = @member.auth('twitter')
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
@@ -36,16 +36,6 @@ class MembersController < ApplicationController
         )
       end
     end
-  end
-
-  def view_follows
-    @member = Member.confirmed.find(params[:login_name])
-    @follows = @member.followed.paginate(page: params[:page])
-  end
-
-  def view_followers
-    @member = Member.confirmed.find(params[:login_name])
-    @followers = @member.followers.paginate(page: params[:page])
   end
 
   EMAIL_TYPE_STRING = {

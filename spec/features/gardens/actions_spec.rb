@@ -16,14 +16,14 @@ feature "Gardens" do
         it "has buttons bar at top" do
           within '.layout-actions' do
             is_expected.to have_link 'Add a garden'
-            is_expected.to have_link 'My Gardens'
+            is_expected.to have_link 'My gardens'
             is_expected.to have_link "Everyone's gardens"
           end
         end
       end
 
       context 'my gardens' do
-        before { visit gardens_path(owner: member) }
+        before { visit gardens_path(member_slug: member.slug) }
 
         include_examples "has buttons bar at top"
         it "has actions on garden" do
@@ -42,7 +42,7 @@ feature "Gardens" do
       end
 
       context "other member's garden" do
-        before { visit gardens_path(owner: FactoryBot.create(:member)) }
+        before { visit gardens_path(member_slug: FactoryBot.create(:member).slug) }
 
         include_examples "has buttons bar at top"
         describe 'does not show actions on other member garden' do
