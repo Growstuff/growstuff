@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 puts "Checking to see if you're in CONTRIBUTORS.md..."
+
 if ENV['TRAVIS']
   if ENV['TRAVIS_PULL_REQUEST']
     require 'httparty'
@@ -18,7 +19,7 @@ if ENV['TRAVIS']
   end
 else
   author = `git config github.user`.chomp
-  if $CHILD_STATUS.exitstatus.positive?
+  if $?.exitstatus.positive?
     abort %(
 Couldn't determine your GitHub username, and not in a Travis PR build
 Please set it using
@@ -26,6 +27,9 @@ Please set it using
 )
   end
 end
+
+author.sub! '[', '\\['
+author.sub! ']', '\\]'
 
 unless system('grep', '-i', author, 'CONTRIBUTORS.md')
   abort %(
