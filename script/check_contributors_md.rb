@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require "English"
 
 puts "Checking to see if you're in CONTRIBUTORS.md..."
 
@@ -19,7 +20,7 @@ if ENV['TRAVIS']
   end
 else
   author = `git config github.user`.chomp
-  if $?.exitstatus.positive?
+  if $CHILD_STATUS.exitstatus.positive?
     abort %(
 Couldn't determine your GitHub username, and not in a Travis PR build
 Please set it using
@@ -28,10 +29,7 @@ Please set it using
   end
 end
 
-author.sub! '[', '\\['
-author.sub! ']', '\\]'
-
-unless system('grep', '-i', author, 'CONTRIBUTORS.md')
+unless File.read('CONTRIBUTORS.md').include? author
   abort %(
 Thanks for your contribution, #{author}!
 Please add your name and GitHub handle to the file CONTRIBUTORS.md,
