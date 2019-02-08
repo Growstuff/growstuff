@@ -190,6 +190,10 @@ en:
       number_crops_linktext: "%{count} crops"
       number_gardens_linktext: "%{count} gardens"
       number_plantings_linktext: "%{count} times"
+  label:
+    days_until_harvest: "%{number} days until harvest"
+    days_until_finished: "%{number} days until finished"
+    harvesting_now: harvesting now
   layouts:
     header:
       account: Account
