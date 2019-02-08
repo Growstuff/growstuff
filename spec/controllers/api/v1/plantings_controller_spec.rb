@@ -12,7 +12,6 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
   end
   let!(:member) { FactoryBot.create :member }
 
-
   describe '#index' do
     let(:matching_planting) { subject['data'].select { |planting| planting['id'] == my_planting.id.to_s }.first }
 
