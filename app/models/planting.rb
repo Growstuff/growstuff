@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Planting < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
