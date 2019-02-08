@@ -9,9 +9,10 @@ module Api
       has_many :photos
       has_many :harvests
 
+      attribute :slug
       attribute :planted_at
-      attribute :finished_at
       attribute :finished
+      attribute :finished_at
       attribute :quantity
       attribute :description
       attribute :sunniness
@@ -23,6 +24,28 @@ module Api
       attribute :percentage_grown
       attribute :first_harvest_date
       attribute :last_harvest_date
+
+      filter :slug
+      filter :crop
+      filter :planted_from
+      filter :garden
+      filter :owner
+      filter :finished, default: nil
+
+      attribute :percentage_grown
+      def percentage_grown
+        @model.percentage_grown
+      end
+
+      attribute :crop_name
+      def crop_name
+        @model.crop.name
+      end
+
+      attribute :thumbnail
+      def thumbnail
+        @model.default_photo&.thumbnail_url
+      end
     end
   end
 end
