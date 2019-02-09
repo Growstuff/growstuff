@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotificationsController < ApplicationController
   include NotificationsHelper
   before_action :authenticate_member!
