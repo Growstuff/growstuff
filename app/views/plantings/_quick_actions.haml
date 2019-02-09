@@ -2,5 +2,15 @@
   .planting-quick-actions.pull-right
     %a.btn.btn-default.btn-xs#actionsMenu.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#"}
       =icon('fas', 'bars')
-    .dropdown-menu{"aria-labelledby" => "actionsMenu"}
-      %p= render 'plantings/actions', planting: planting
+    %ul.dropdown-menu{"aria-labelledby" => "actionsMenu"}
+      - if can?(:edit, planting)
+        %li= planting_edit_button(planting)
+        %li= add_photo_button(planting)
+
+        - if planting.active?
+          %li= planting_finish_button(planting)
+          %li= planting_harvest_button(planting)
+          %li= planting_save_seeds_button(planting)
+
+      -# - if can? :destroy, planting
+      -#   %li= delete_button(planting)
