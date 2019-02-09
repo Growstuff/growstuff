@@ -8,7 +8,7 @@
       - elsif planting.late?
         .badge.badge-late= t('.late_finishing')
       - else
-        .badge{'data-toggle': "tooltip", 'data-placement': "top", title: 'Days until planting is finished'}
+        .badge{'data-toggle': "tooltip", 'data-placement': "top", title: 'Predicted days until planting is finished'}
           = finished_icon
           = t('label.days_until_finished', number: days_from_now_to_finished(planting))
 

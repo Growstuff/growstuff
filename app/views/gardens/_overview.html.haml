@@ -5,10 +5,8 @@
   .panel-body
     .row
       .col-md-2.col-xs-12.garden-info
-        .row
-          .col-md-12.col-xs-6
-            = render 'gardens/photo', garden: garden
-          .col-md-12.col-xs-6= display_garden_description(garden)
+        %p= render 'gardens/photo', garden: garden
+        %p= display_garden_description(garden)
       .col-md-10
         - if garden.plantings.current.size.positive?
           .row
