@@ -332,6 +332,7 @@ describe Planting do
   context 'photos' do
     let(:planting) { FactoryBot.create(:planting) }
     let(:photo) { FactoryBot.create(:photo, owner_id: planting.owner_id) }
+
     before { planting.photos << photo }
 
     it 'has a photo' do

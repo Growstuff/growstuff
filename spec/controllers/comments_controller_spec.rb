@@ -54,6 +54,7 @@ describe CommentsController do
 
   describe "GET edit" do
     let(:post) { FactoryBot.create(:post) }
+
     before { get :edit, params: { id: comment.to_param } }
 
     describe "my comment" do

@@ -44,6 +44,7 @@ describe PhotosController do
 
     describe "planting photos" do
       before(:each) { get :new, params: { type: "planting", id: planting.id } }
+
       it { assigns(:flickr_auth).should be_an_instance_of(Authentication) }
       it { assigns(:item).should eq planting }
       it { expect(flash[:alert]).not_to be_present }
@@ -52,12 +53,14 @@ describe PhotosController do
 
     describe "harvest photos" do
       before { get :new, params: { type: "harvest", id: harvest.id } }
+
       it { assigns(:item).should eq harvest }
       it { expect(flash[:alert]).not_to be_present }
     end
 
     describe "garden photos" do
       before { get :new, params: { type: "garden", id: garden.id } }
+
       it { expect(assigns(:item)).to eq garden }
       it { expect(flash[:alert]).not_to be_present }
     end
@@ -135,6 +138,7 @@ describe PhotosController do
     describe "for the second time" do
       let(:planting) { FactoryBot.create :planting, owner: member }
       let(:valid_params) { { photo: { flickr_photo_id: 1 }, id: planting.id, type: 'planting' } }
+
       it "does not add a photo twice" do
         expect { post :create, params: valid_params }.to change(Photo, :count).by(1)
         expect { post :create, params: valid_params }.not_to change(Photo, :count)
@@ -156,6 +160,7 @@ describe PhotosController do
         before do
           post :create, params: { photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id }
         end
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.harvests.first).to eq harvest }
       end

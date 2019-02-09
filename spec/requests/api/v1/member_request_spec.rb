@@ -59,11 +59,13 @@ RSpec.describe 'Members', type: :request do
 
   describe '#index' do
     before { get '/api/v1/members', params: {}, headers: headers }
+
     it { expect(subject['data']).to include(member_encoded_as_json_api) }
   end
 
   describe '#show' do
     before { get "/api/v1/members/#{member.id}", params: {}, headers: headers }
+
     it { expect(subject['data']['relationships']).to include("gardens" => gardens_as_json_api) }
     it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
     it { expect(subject['data']['relationships']).to include("seeds" => seeds_as_json_api) }

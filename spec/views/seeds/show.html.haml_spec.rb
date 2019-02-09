@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "seeds/show" do
   let(:seed) { FactoryBot.create(:seed) }
+
   before(:each) do
     controller.stub(:current_user) { nil }
     assign(:seed, seed)
