@@ -34,6 +34,7 @@ feature "crop wranglers", js: true do
 
     describe "visiting a crop can see wrangler links" do
       before { visit crop_path(crops.first) }
+
       it { expect(page).to have_content 'You are a CROP WRANGLER' }
       it { expect(page).to have_link 'Edit' }
       it { expect(page).to have_link 'Delete' }

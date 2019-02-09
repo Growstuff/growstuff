@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "posts/new" do
   let(:author) { FactoryBot.create(:member) }
+
   before(:each) do
     assign(:post, FactoryBot.create(:post, author: author))
     # assign(:forum, Forum.new)

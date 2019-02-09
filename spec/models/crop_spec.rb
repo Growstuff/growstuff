@@ -288,6 +288,7 @@ describe Crop do
     let(:crop2_planting) { crop2.plantings.first }
 
     let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
+
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
