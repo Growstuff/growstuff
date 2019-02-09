@@ -170,7 +170,7 @@ feature "crop detail page", js: true do
       login_as(member)
       visit crop_path(seed.crop)
       click_link "You have 20 seeds of this crop."
-      expect(current_path).to eq member_seeds_path(member_slug: member.slug)
+      expect(page).to have_current_path member_seeds_path(member_slug: member.slug)
     end
   end
 

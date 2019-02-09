@@ -14,7 +14,7 @@ feature "seeds", js: true do
         visit seeds_path
         click_link "edit_seed_glyphicon"
       end
-      it { expect(current_path).to eq edit_seed_path(seed) }
+      it { expect(page).to have_current_path edit_seed_path(seed) }
       it { expect(page).to have_content 'Editing seeds' }
     end
 
@@ -23,7 +23,7 @@ feature "seeds", js: true do
         visit root_path
         click_link "Save seeds"
       end
-      it { expect(current_path).to eq new_seed_path }
+      it { expect(page).to have_current_path new_seed_path }
       it { expect(page).to have_content 'Save seeds' }
     end
 
@@ -32,7 +32,7 @@ feature "seeds", js: true do
         visit member_seeds_path(member)
         click_link "View #{member}'s profile >>"
       end
-      it { expect(current_path).to eq member_path(member) }
+      it { expect(page).to have_current_path member_path(member) }
     end
 
     # actually adding seeds is in spec/features/seeds_new_spec.rb
@@ -41,10 +41,10 @@ feature "seeds", js: true do
       seed = create :seed, owner: member
       visit seed_path(seed)
       click_link 'Edit'
-      expect(current_path).to eq edit_seed_path(seed)
+      expect(page).to have_current_path edit_seed_path(seed)
       fill_in 'Quantity:', with: seed.quantity * 2
       click_button 'Save'
-      expect(current_path).to eq seed_path(seed)
+      expect(page).to have_current_path seed_path(seed)
     end
 
     describe "delete seeds" do
@@ -53,7 +53,7 @@ feature "seeds", js: true do
         visit seed_path(seed)
         click_link 'Delete'
       end
-      it { expect(current_path).to eq seeds_path }
+      it { expect(page).to have_current_path seeds_path }
     end
 
     describe '#show' do
