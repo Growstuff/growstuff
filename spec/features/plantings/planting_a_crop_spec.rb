@@ -233,6 +233,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
     end
+
     it { expect(page).to have_content "planting was successfully created" }
     it { expect(page).to have_content "Finished: Yes (no date specified)" }
     it { expect(page).to have_content "100%" }

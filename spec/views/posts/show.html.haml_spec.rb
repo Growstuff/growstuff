@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "posts/show" do
   subject { rendered }
+
   let(:author) { FactoryBot.create(:member, login_name: 'mary') }
 
   before(:each) do

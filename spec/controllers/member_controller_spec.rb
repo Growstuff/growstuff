@@ -58,6 +58,7 @@ describe MembersController do
   describe "GET member's RSS feed" do
     describe "returns an RSS feed" do
       before { get :show, params: { slug: @member.to_param }, format: "rss" }
+
       it { response.should be_success }
       it { response.should render_template("members/show") }
       it { response.content_type.should eq("application/rss+xml") }

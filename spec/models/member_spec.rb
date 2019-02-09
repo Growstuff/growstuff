@@ -6,6 +6,7 @@ describe 'member' do
 
     describe 'should be fetchable from the database' do
       subject { Member.find(member.id) }
+
       it { is_expected.to be_an_instance_of Member }
       it { expect(subject.encrypted_password).not_to be_nil }
     end

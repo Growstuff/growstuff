@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::PlantingsController, type: :controller do
   subject { JSON.parse response.body }
+
   let(:headers) do
     {
       'Accept'       => 'application/vnd.api+json',
@@ -37,11 +38,14 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
             'thumbnail'           => nil
           }
         end
+
         before { get :index, format: :json }
+
         it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
         it { expect(matching_planting['attributes']).to eq expected_attributes }
         it { expect(response.status).to eq 200 }
       end
+
       context 'with photo' do
         let!(:my_planting) { FactoryBot.create(:planting, owner: member, planted_at: '2000-01-01') }
 
@@ -65,10 +69,12 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
           }
         end
         let(:photo) { FactoryBot.create(:photo, owner: my_planting.owner) }
+
         before do
           my_planting.photos << photo
           get :index, format: :json
         end
+
         it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
         it { expect(matching_planting['attributes']).to eq expected_attributes }
         it { expect(response.status).to eq 200 }
