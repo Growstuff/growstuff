@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-feature "show photo page" do
+describe "show photo page" do
   context "signed in member" do
     let(:member) { create :member }
 
-    background { login_as member }
+    before { login_as member }
 
     context "linked to planting" do
       let(:planting) { create :planting }
       let(:photo) { create :photo, owner: planting.owner }
 
-      scenario "shows linkback to planting" do
+      it "shows linkback to planting" do
         planting.photos << photo
         visit photo_path(photo)
         expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
@@ -22,7 +22,7 @@ feature "show photo page" do
       let(:photo) { create :photo, owner: harvest.owner }
       let(:harvest) { create :harvest }
 
-      scenario "shows linkback to harvest" do
+      it "shows linkback to harvest" do
         harvest.photos << photo
         visit photo_path(photo)
         expect(page).to have_link "#{harvest.crop.name} harvest by #{harvest.owner}", href: harvest_path(harvest)
@@ -33,7 +33,7 @@ feature "show photo page" do
       let(:photo) { create :photo, owner: garden.owner }
       let(:garden) { create :garden }
 
-      scenario "shows linkback to garden" do
+      it "shows linkback to garden" do
         garden.photos << photo
         visit photo_path(photo)
         expect(page).to have_link "garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden)
@@ -44,7 +44,7 @@ feature "show photo page" do
       let(:photo) { create :photo, owner: seed.owner }
       let(:seed) { create :seed }
 
-      scenario "shows linkback to seed" do
+      it "shows linkback to seed" do
         seed.photos << photo
         visit photo_path(photo)
         expect(page).to have_link "#{seed.crop.name} seeds belonging to #{seed.owner}", href: seed_path(seed)

@@ -38,12 +38,12 @@ RSpec.describe 'Gardens', type: :request do
                    "related" => "#{resource_url}/photos" } }
   end
 
-  scenario '#index' do
+  it '#index' do
     get '/api/v1/gardens', params: {}, headers: headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 
-  scenario '#show' do
+  it '#show' do
     get "/api/v1/gardens/#{garden.id}", params: {}, headers: headers
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
