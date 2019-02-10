@@ -11,7 +11,7 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe ButtonsHelper, type: :helper do
-  before { allow(self).to receive(:can?) { true } }
+  before { allow(self).to receive(:can?).and_return(true) }
 
   let(:garden) { FactoryBot.create :garden }
   let(:planting) { FactoryBot.create :planting }
