@@ -3,7 +3,7 @@ require 'rails_helper'
 describe CropsHelper do
   describe "display_seed_availability" do
     before do
-      @member =  create :member
+      @member = create :member
       @crop = create :tomato
     end
 
