@@ -40,7 +40,6 @@ describe CommentsController do
         expect(assigns(:post)).to eq(post)
       end
 
-
       it "assigns the old comments as @comments" do
         expect(assigns(:comments)).to eq [old_comment]
       end
