@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "plant_parts/show" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @pp = FactoryBot.create(:plant_part)
     @harvest = FactoryBot.create(:harvest, plant_part: @pp)

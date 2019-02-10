@@ -30,7 +30,7 @@ describe PhotosController do
     let(:member) { FactoryBot.create(:member) }
     let!(:auth) { FactoryBot.create(:flickr_authentication, member: member) }
 
-    before(:each) do
+    before do
       sign_in member
       member.stub(:flickr_photos) { [[], 0] }
       member.stub(:flickr_sets) { { "foo" => "bar" } }
@@ -38,7 +38,7 @@ describe PhotosController do
     end
 
     describe "planting photos" do
-      before(:each) { get :new, params: { type: "planting", id: planting.id } }
+      before { get :new, params: { type: "planting", id: planting.id } }
 
       it { assigns(:flickr_auth).should be_an_instance_of(Authentication) }
       it { assigns(:item).should eq planting }
@@ -62,7 +62,7 @@ describe PhotosController do
   end
 
   describe "POST create" do
-    before(:each) do
+    before do
       Photo.any_instance.stub(:flickr_metadata).and_return(title:         "A Heartbreaking work of staggering genius",
                                                            license_name:  "CC-BY",
                                                            license_url:   "http://example.com/aybpl",

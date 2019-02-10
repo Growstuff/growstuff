@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "photos/new" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
     page = 1
@@ -22,7 +22,7 @@ describe "photos/new" do
   end
 
   context "user has photosets" do
-    before(:each) do
+    before do
       assign(:sets, "foo" => "bar") # Hash of names => IDs
     end
 

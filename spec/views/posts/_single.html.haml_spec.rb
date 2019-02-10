@@ -5,13 +5,13 @@ describe "posts/_single" do
     render partial: "single", locals: { post: @post }
   end
 
-  before(:each) do
+  before do
     @post = FactoryBot.create(:post)
     controller.stub(:current_user) { nil }
   end
 
   context "when the number of comments doesn't matter" do
-    before(:each) do
+    before do
       render_post
     end
 
@@ -25,7 +25,7 @@ describe "posts/_single" do
   end
 
   context "when logged in" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
@@ -42,7 +42,7 @@ describe "posts/_single" do
   end
 
   context "when logged in as post author" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
@@ -56,7 +56,7 @@ describe "posts/_single" do
   end
 
   context "when there are no comments" do
-    before(:each) do
+    before do
       render_post
     end
 
@@ -66,7 +66,7 @@ describe "posts/_single" do
   end
 
   context "when there is 1 comment" do
-    before(:each) do
+    before do
       @comment = FactoryBot.create(:comment, post: @post)
       render_post
     end
@@ -77,7 +77,7 @@ describe "posts/_single" do
   end
 
   context "when there are 2 comments" do
-    before(:each) do
+    before do
       @comment = FactoryBot.create(:comment, post: @post)
       @comment2 = FactoryBot.create(:comment, post: @post)
       render_post
@@ -89,7 +89,7 @@ describe "posts/_single" do
   end
 
   context "when comments should be hidden" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
@@ -113,7 +113,7 @@ describe "posts/_single" do
   end
 
   context "when post has been edited" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
@@ -132,7 +132,7 @@ describe "posts/_single" do
   end
 
   context "when comment has been edited" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
@@ -152,7 +152,7 @@ describe "posts/_single" do
   end
 
   context "when post has not been edited" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
@@ -167,7 +167,7 @@ describe "posts/_single" do
   end
 
   context "when comment has not been edited" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }

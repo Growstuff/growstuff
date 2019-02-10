@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'comments/index.rss.haml' do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @author = FactoryBot.create(:member)
     @post = FactoryBot.create(:post)

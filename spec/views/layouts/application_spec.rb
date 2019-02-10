@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'layouts/application.html.haml', type: "view" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
   end
 
