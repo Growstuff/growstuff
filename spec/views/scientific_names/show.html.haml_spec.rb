@@ -21,7 +21,7 @@ describe "scientific_names/show" do
       render
     end
 
-    it 'should have an edit button' do
+    it 'has an edit button' do
       rendered.should have_content 'Edit'
     end
   end

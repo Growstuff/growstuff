@@ -12,7 +12,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       @view.stub(:devise_mapping).and_return(Devise.mappings[:member])
     end
 
-    it 'should have some fields' do
+    it 'has some fields' do
       render
       rendered.should have_content 'Email'
     end
