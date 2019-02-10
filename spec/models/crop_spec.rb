@@ -3,6 +3,9 @@
 require 'rails_helper'
 
 describe Crop do
+  let(:pp2) { FactoryBot.create(:plant_part) }
+  let(:pp1) { FactoryBot.create(:plant_part) }
+  let(:maize) { FactoryBot.create(:maize) }
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 
@@ -335,9 +338,6 @@ describe Crop do
     end
   end
 
-  let(:maize) { FactoryBot.create(:maize) }
-  let(:pp1) { FactoryBot.create(:plant_part) }
-  let(:pp2) { FactoryBot.create(:plant_part) }
 
   context "harvests" do
     let(:h1) { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
