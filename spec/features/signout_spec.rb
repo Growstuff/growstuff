@@ -30,7 +30,6 @@ feature "signout" do
     end
   end
 
-
   describe 'after signout, redirect to signin page if page needs authentication' do
     include_examples "sign-in redirects", "/plantings/new"
     include_examples "sign-in redirects", "/harvests/new"
