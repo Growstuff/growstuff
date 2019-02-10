@@ -2,12 +2,12 @@ require 'rails_helper'
 require './lib/actions/oauth_signup_action'
 
 describe 'Growstuff::OauthSignupAction' do
-  before :each do
+  before do
     @action = Growstuff::OauthSignupAction.new
   end
 
   context 'with a valid authentication' do
-    before :each do
+    before do
       @auth = OmniAuth::AuthHash.new('provider'    => 'facebook',
                                      'uid'         => '123545',
                                      'info'        => {
@@ -23,7 +23,7 @@ describe 'Growstuff::OauthSignupAction' do
     end
 
     context 'no existing user' do
-      before :each do
+      before do
         @auth['info']['email'] = 'no.existing.user@gmail.com'
 
         Member.where(email: @auth['info']['email']).delete_all
@@ -32,7 +32,7 @@ describe 'Growstuff::OauthSignupAction' do
         @authentication = @action.establish_authentication(@auth, @member)
       end
 
-      after :each do
+      after do
         @member.delete
         @authentication.delete
       end
@@ -70,7 +70,7 @@ describe 'Growstuff::OauthSignupAction' do
 
     context 'an existing user' do
       context 'who has never used oauth' do
-        before :each do
+        before do
           @auth['info']['email'] = 'never.used.oauth@yahoo.com'
 
           Member.where(email: @auth['info']['email']).delete_all
@@ -82,7 +82,7 @@ describe 'Growstuff::OauthSignupAction' do
           @authentication = @action.establish_authentication(@auth, @member)
         end
 
-        after :each do
+        after do
           @existing_member.delete
           @member.delete
           @authentication.delete
@@ -112,7 +112,7 @@ describe 'Growstuff::OauthSignupAction' do
       end
 
       context 'who has used oauth' do
-        before :each do
+        before do
           @auth['info']['email'] = 'i.used.oauth.once@coolemail.com'
 
           Member.where(email: @auth['info']['email']).delete_all
@@ -131,7 +131,7 @@ describe 'Growstuff::OauthSignupAction' do
           @authentication = @action.establish_authentication(@auth, @member)
         end
 
-        after :each do
+        after do
           @existing_member.delete
           @member.delete
           @existing_authentication.delete

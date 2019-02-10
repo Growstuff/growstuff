@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "crops/new" do
-  before(:each) do
+  before do
     @crop = FactoryBot.create(:maize)
     3.times do
       @crop.scientific_names.build

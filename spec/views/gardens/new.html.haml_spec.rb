@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "gardens/new" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }

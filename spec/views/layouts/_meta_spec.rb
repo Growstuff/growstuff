@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'layouts/_meta.html.haml', type: "view" do
-  before(:each) do
+  before do
     render
   end
 

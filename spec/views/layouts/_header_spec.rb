@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'layouts/_header.html.haml', type: "view" do
   context "when not logged in" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { nil }
       render
     end
@@ -51,7 +51,7 @@ describe 'layouts/_header.html.haml', type: "view" do
   end
 
   context "logged in" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
