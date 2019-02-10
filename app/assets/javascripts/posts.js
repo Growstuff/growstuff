@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(document).ready(function () {
   $('.post-like').show();
 
-  $('.post-like').on('ajax:success', function(event, data) {
+  $('.post-like').on('ajax:success', function (event, data) {
     var likeControl = $('#post-' + data.id + ' .post-like');
 
     $('#post-' + data.id + ' .like-count').text(data.description);
