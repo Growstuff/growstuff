@@ -1,5 +1,5 @@
 shared_examples "it is likeable" do
-  before(:each) do
+  before do
     # Possibly a horrible hack.
     # Will fail if factory name does not match the model name..
     @likeable = FactoryBot.create(described_class.to_s.underscore.to_sym)

@@ -200,7 +200,7 @@ describe 'member' do
   end
 
   context 'confirmed scope' do
-    before(:each) do
+    before do
       FactoryBot.create(:member)
       FactoryBot.create(:member)
     end
@@ -252,7 +252,7 @@ describe 'member' do
     # 4) ordered by the most recent sign in
 
     context 'with a few members and plantings' do
-      before :each do
+      before do
         @members = [
           :london_member, :london_member, :london_member,
           :unconfirmed_member, # !1

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "roles/index" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     assign(:roles, [
              stub_model(Role,

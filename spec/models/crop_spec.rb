@@ -142,12 +142,12 @@ describe Crop do
   end
 
   context 'photos' do
-    before :each do
+    before do
       @crop = FactoryBot.create(:tomato)
     end
 
     context 'with a planting photo' do
-      before :each do
+      before do
         @planting = FactoryBot.create(:planting, crop: @crop)
         @photo = FactoryBot.create(:photo, owner: @planting.owner)
         @planting.photos << @photo
@@ -164,7 +164,7 @@ describe Crop do
     end
 
     context 'with a harvest photo' do
-      before :each do
+      before do
         @harvest = FactoryBot.create(:harvest, crop: @crop)
         @photo = FactoryBot.create(:photo, owner: @harvest.owner)
         @harvest.photos << @photo
@@ -176,7 +176,7 @@ describe Crop do
       end
 
       context 'and planting photo' do
-        before :each do
+        before do
           @planting = FactoryBot.create(:planting, crop: @crop)
           @planting_photo = FactoryBot.create(:photo, owner: @planting.owner)
           @planting.photos << @planting_photo
@@ -386,7 +386,7 @@ describe Crop do
   end
 
   context "csv loading" do
-    before(:each) do
+    before do
       # don't use 'let' for this -- we need to actually create it,
       # regardless of whether it's used.
       @cropbot = FactoryBot.create(:cropbot)

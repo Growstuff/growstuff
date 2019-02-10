@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "places/index" do
-  before(:each) do
+  before do
     render
   end
 

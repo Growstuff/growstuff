@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Follow do
-  before(:each) do
+  before do
     @member1 = FactoryBot.create(:member)
     @member2 = FactoryBot.create(:member)
   end
@@ -20,7 +20,7 @@ describe Follow do
   end
 
   context "when follow is created" do
-    before(:each) do
+    before do
       @follow = Follow.create(follower_id: @member1.id, followed_id: @member2.id)
     end
 

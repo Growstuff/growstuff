@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "members/index" do
   let(:member) { FactoryBot.create(:london_member) }
 
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     page = 1
     per_page = 2

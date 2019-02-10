@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'devise/registrations/edit.html.haml', type: "view" do
   context "logged in" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { nil }
       @member = FactoryBot.create(:member)
       controller.stub(:current_member) { @member }
@@ -18,7 +18,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
     end
 
     context 'email section' do
-      before(:each) do
+      before do
         render
       end
 
@@ -32,7 +32,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
     end
 
     context 'profile section' do
-      before(:each) do
+      before do
         render
       end
 
@@ -66,7 +66,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
 
       context 'connected to twitter' do
-        before(:each) do
+        before do
           @twitter_auth = FactoryBot.create(:authentication, member: @member)
           render
         end
@@ -88,7 +88,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
 
       context 'connected to flickr' do
-        before(:each) do
+        before do
           @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
           render
         end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "harvests/edit" do
-  before(:each) do
+  before do
     assign(:harvest, FactoryBot.create(:harvest))
     render
   end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'devise/unlocks/new.html.haml', type: "view" do
   context "logged in" do
-    before(:each) do
+    before do
       @view.stub(:resource).and_return(Member.new)
       @view.stub(:resource_name).and_return("member")
       @view.stub(:resource_class).and_return(Member)
