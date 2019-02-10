@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "forums/index" do
-  before(:each) do
+  before do
     @admin = FactoryBot.create(:admin_member)
     controller.stub(:current_user) { @admin }
     @forum1 = FactoryBot.create(:forum)
@@ -20,7 +20,7 @@ describe "forums/index" do
   end
 
   context "posts" do
-    before(:each) do
+    before do
       @post = FactoryBot.create(:forum_post, forum: @forum1)
       @comment = FactoryBot.create(:comment, post: @post)
       render

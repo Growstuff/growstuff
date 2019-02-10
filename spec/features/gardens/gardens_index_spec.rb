@@ -74,7 +74,7 @@ feature "Gardens#index", :js do
     let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
     let(:crop) { FactoryBot.create :crop }
 
-    before(:each) do
+    before do
       # time to harvest = 50 day
       # time to finished = 90 days
       FactoryBot.create(:harvest,

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "plant_parts/new" do
-  before(:each) do
+  before do
     assign(:plant_part, stub_model(PlantPart,
       name: "MyString").as_new_record)
   end

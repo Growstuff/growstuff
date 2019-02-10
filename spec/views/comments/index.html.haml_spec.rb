@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "comments/index" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     page = 1
     per_page = 2
