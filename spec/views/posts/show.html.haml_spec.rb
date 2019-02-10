@@ -5,7 +5,7 @@ describe "posts/show" do
 
   let(:author) { FactoryBot.create(:member, login_name: 'mary') }
 
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     assign(:post, post)
   end
@@ -61,7 +61,7 @@ describe "posts/show" do
     let(:post) { FactoryBot.create(:html_post, author: author) }
     let!(:comment) { FactoryBot.create(:comment, post: post) }
 
-    before(:each) do
+    before do
       @comments = post.comments
       render
     end
@@ -82,7 +82,7 @@ describe "posts/show" do
   context "when there is more than one comment" do
     let(:post) { FactoryBot.create(:html_post, author: author) }
 
-    before(:each) do
+    before do
       @comment1 = FactoryBot.create(:comment, post: post, body: "F1rst!!!",
                                               created_at: Date.new(2010, 5, 17))
       @comment3 = FactoryBot.create(:comment, post: post, body: "Th1rd!!!",
@@ -112,7 +112,7 @@ describe "posts/show" do
   context "signed in" do
     let(:post) { FactoryBot.create(:post, author: author) }
 
-    before(:each) do
+    before do
       sign_in author
       controller.stub(:current_user) { author }
       render

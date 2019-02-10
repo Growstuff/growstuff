@@ -5,7 +5,7 @@ describe CommentsController do
 
   let(:member) { FactoryBot.create(:member) }
 
-  before(:each) do
+  before do
     sign_in member
     controller.stub(:current_member) { member }
   end

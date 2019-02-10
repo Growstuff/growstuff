@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe 'plantings/index.rss.haml' do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
   end
 
   context 'all plantings' do
-    before :each do
+    before do
       @planting = FactoryBot.create(:planting)
       @sunny = FactoryBot.create(:sunny_planting)
       @seedling = FactoryBot.create(:seedling_planting)
@@ -36,7 +36,7 @@ describe 'plantings/index.rss.haml' do
   end
 
   context "one person's plantings" do
-    before :each do
+    before do
       @planting = FactoryBot.create(:planting)
       assign(:plantings, [@planting])
       assign(:owner, @planting.owner)

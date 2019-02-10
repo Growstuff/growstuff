@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "notifications/show" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member)
     @notification = FactoryBot.create(:notification, recipient: @member)
     assign(:notification, @notification)

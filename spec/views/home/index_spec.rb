@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'home/index.html.haml', type: "view" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:london_member)
     @member.updated_at = 2.days.ago
     assign(:interesting_members, [@member])
@@ -19,7 +19,7 @@ describe 'home/index.html.haml', type: "view" do
   end
 
   context 'logged out' do
-    before(:each) do
+    before do
       controller.stub(:current_user) { nil }
       render
     end
@@ -31,7 +31,7 @@ describe 'home/index.html.haml', type: "view" do
   end
 
   context 'signed in' do
-    before(:each) do
+    before do
       sign_in @member
       controller.stub(:current_user) { @member }
       render
