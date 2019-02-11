@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'members/show.rss.haml', type: "view" do
   subject { rendered }
 
-  before(:each) do
+  before do
     @member = assign(:member, FactoryBot.create(:member, login_name: 'callum'))
     @post1 = FactoryBot.create(:post, id: 1, author: @member)
     @post2 = FactoryBot.create(:markdown_post, id: 2, author: @member)

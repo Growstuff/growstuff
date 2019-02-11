@@ -5,7 +5,7 @@ describe CommentsController do
 
   let(:member) { FactoryBot.create(:member) }
 
-  before(:each) do
+  before do
     sign_in member
     controller.stub(:current_member) { member }
   end
@@ -39,7 +39,6 @@ describe CommentsController do
       it "picks up post from params" do
         expect(assigns(:post)).to eq(post)
       end
-
 
       it "assigns the old comments as @comments" do
         expect(assigns(:comments)).to eq [old_comment]

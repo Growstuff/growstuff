@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "gardens/show" do
-  before(:each) do
+  before do
     @owner = FactoryBot.create(:member)
     controller.stub(:current_user) { @owner }
     @garden   = FactoryBot.create(:garden, owner: @owner)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "comments/edit" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     assign(:comment, FactoryBot.create(:comment))
   end
