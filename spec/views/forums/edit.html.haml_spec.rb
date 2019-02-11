@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "forums/edit" do
-  before(:each) do
+  before do
     @forum = assign(:forum, stub_model(Forum,
       name:        "MyString",
       description: "MyText",

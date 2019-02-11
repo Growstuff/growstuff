@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe MembersController do
-  before :each do
+  before do
     @member = FactoryBot.create(:member)
     @posts = [FactoryBot.create(:post, author: @member)]
     @twitter_auth = FactoryBot.create(:authentication, member: @member)

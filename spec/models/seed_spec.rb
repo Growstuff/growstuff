@@ -4,11 +4,11 @@ describe Seed do
   let(:owner) { FactoryBot.create :owner, login_name: 'tamateapokaiwhenua' }
   let(:seed) { FactoryBot.build(:seed, owner: owner) }
 
-  it 'should save a basic seed' do
+  it 'saves a basic seed' do
     seed.save.should be(true)
   end
 
-  it "should have a slug" do
+  it "has a slug" do
     seed.save
     seed.slug.should match(/tamateapokaiwhenua-magic-bean/)
   end
@@ -45,7 +45,7 @@ describe Seed do
       end
     end
 
-    it 'should refuse invalid tradable_to values' do
+    it 'refuses invalid tradable_to values' do
       @seed = FactoryBot.build(:seed, tradable_to: 'not valid')
       @seed.should_not be_valid
       @seed.errors[:tradable_to].should include(
@@ -54,7 +54,7 @@ describe Seed do
       )
     end
 
-    it 'should not allow nil or blank values' do
+    it 'does not allow nil or blank values' do
       @seed = FactoryBot.build(:seed, tradable_to: nil)
       @seed.should_not be_valid
       @seed = FactoryBot.build(:seed, tradable_to: '')
@@ -112,7 +112,7 @@ describe Seed do
       end
     end
 
-    it 'should refuse invalid organic/GMO/heirloom values' do
+    it 'refuses invalid organic/GMO/heirloom values' do
       %i(organic gmo heirloom).each do |field|
         @seed = FactoryBot.build(:seed, field => 'not valid')
         @seed.should_not be_valid
@@ -120,7 +120,7 @@ describe Seed do
       end
     end
 
-    it 'should not allow nil or blank values' do
+    it 'does not allow nil or blank values' do
       %i(organic gmo heirloom).each do |field|
         @seed = FactoryBot.build(:seed, field => nil)
         @seed.should_not be_valid

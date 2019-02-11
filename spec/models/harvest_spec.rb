@@ -52,7 +52,7 @@ describe Harvest do
       end
     end
 
-    it 'should refuse invalid unit values' do
+    it 'refuses invalid unit values' do
       @harvest = FactoryBot.build(:harvest, unit: 'not valid')
       @harvest.should_not be_valid
       @harvest.errors[:unit].should include("not valid is not a valid unit")
@@ -105,7 +105,7 @@ describe Harvest do
       end
     end
 
-    it 'should refuse invalid weight unit values' do
+    it 'refuses invalid weight unit values' do
       @harvest = FactoryBot.build(:harvest, weight_unit: 'not valid')
       @harvest.should_not be_valid
       @harvest.errors[:weight_unit].should include("not valid is not a valid unit")
@@ -223,23 +223,23 @@ describe Harvest do
   end
 
   context 'photos' do
-    before :each do
+    before do
       @harvest = FactoryBot.create(:harvest)
     end
 
     context 'without a photo' do
-      it 'should have no default photo' do
+      it 'has no default photo' do
         expect(@harvest.default_photo).to eq nil
       end
 
       context 'and with a crop(planting) photo' do
-        before :each do
+        before do
           @planting = FactoryBot.create(:planting, crop: @harvest.crop)
           @photo = FactoryBot.create(:photo, owner: @planting.owner)
           @planting.photos << @photo
         end
 
-        it 'should have a default photo' do
+        it 'has a default photo' do
           expect(@harvest.default_photo).to eq @photo
         end
       end
@@ -270,19 +270,19 @@ describe Harvest do
       end
 
       context 'and with a crop(planting) photo' do
-        before :each do
+        before do
           @planting = FactoryBot.create(:planting, crop: @harvest.crop)
           @crop_photo = FactoryBot.create(:photo, owner: @planting.owner)
           @planting.photos << @crop_photo
         end
 
-        it 'should prefer the harvest photo' do
+        it 'prefers the harvest photo' do
           expect(@harvest.default_photo).to eq @photo
         end
       end
 
       context 'and a second photo' do
-        before :each do
+        before do
           @photo2 = FactoryBot.create(:photo, owner: @harvest.owner)
           @harvest.photos << @photo2
         end
