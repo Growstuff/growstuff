@@ -5,7 +5,7 @@ describe 'like' do
   let(:post) { FactoryBot.create(:post) }
 
   context 'existing like' do
-    before(:each) do
+    before do
       @like = Like.create(member: member, likeable: post)
     end
 

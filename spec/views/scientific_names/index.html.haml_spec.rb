@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "scientific_names/index" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     assign(:scientific_names, [
              FactoryBot.create(:zea_mays),
@@ -22,7 +22,7 @@ describe "scientific_names/index" do
   end
 
   context "logged in and crop wrangler" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:crop_wrangling_member)
       sign_in @member
       controller.stub(:current_user) { @member }

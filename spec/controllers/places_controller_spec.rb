@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe PlacesController do
-  before :each do
+  before do
     controller.stub(:current_member) { nil }
   end
 
   describe "GET show" do
-    before(:each) do
+    before do
       @member_london = FactoryBot.create(:london_member)
       @member_south_pole = FactoryBot.create(:south_pole_member)
     end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'posts/index.rss.haml', type: "view" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     author = FactoryBot.create(:member)
     @post1 = FactoryBot.create(:post, id: 1, author: author)

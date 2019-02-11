@@ -34,7 +34,7 @@ feature "Gardens#index", :js do
       it "show active garden" do
         expect(page).to have_text active_garden.name
       end
-      it "should not show inactive garden" do
+      it "does not show inactive garden" do
         expect(page).not_to have_text inactive_garden.name
       end
       it "links to active garden" do
@@ -74,7 +74,7 @@ feature "Gardens#index", :js do
     let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
     let(:crop) { FactoryBot.create :crop }
 
-    before(:each) do
+    before do
       # time to harvest = 50 day
       # time to finished = 90 days
       FactoryBot.create(:harvest,

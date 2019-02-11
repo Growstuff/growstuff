@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "plantings/edit" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member,
       login_name: 'right',
       email:      'right@example.com')
@@ -20,7 +20,7 @@ describe "plantings/edit" do
   end
 
   context "logged in" do
-    before(:each) do
+    before do
       sign_in @member
       controller.stub(:current_user) { @member }
       render

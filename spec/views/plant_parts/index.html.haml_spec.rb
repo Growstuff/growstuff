@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "plant_parts/index" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @pp = FactoryBot.create(:plant_part)
     assign(:plant_parts, [@pp])

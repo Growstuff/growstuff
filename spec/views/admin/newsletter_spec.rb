@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'admin/newsletter.html.haml', type: "view" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:admin_member)
     sign_in @member
     controller.stub(:current_user) { @member }

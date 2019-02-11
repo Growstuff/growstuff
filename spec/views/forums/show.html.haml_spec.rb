@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "forums/show" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @forum = assign(:forum, FactoryBot.create(:forum))
   end
