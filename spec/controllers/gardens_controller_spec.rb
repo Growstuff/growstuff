@@ -9,11 +9,13 @@ RSpec.describe GardensController, type: :controller do
   context "when not signed in" do
     describe 'GET new' do
       before { get :new, params: { id: garden.to_param } }
+
       it { expect(response).to redirect_to(new_member_session_path) }
     end
 
     describe 'PUT create' do
       before { put :create, params: { garden: valid_params } }
+
       it { expect(response).to redirect_to(new_member_session_path) }
     end
 
@@ -29,23 +31,26 @@ RSpec.describe GardensController, type: :controller do
 
       describe 'GET edit' do
         before { get :edit, params: { id: garden.to_param } }
+
         it { expect(response).to redirect_to(new_member_session_path) }
       end
 
       describe 'POST update' do
         before { post :update, params: { id: garden.to_param, garden: valid_params } }
+
         it { expect(response).to redirect_to(new_member_session_path) }
       end
 
       describe 'DELETE' do
         before { delete :destroy, params: { id: garden.to_param, params: { garden: valid_params } } }
+
         it { expect(response).to redirect_to(new_member_session_path) }
       end
     end
   end
 
   context "when signed in" do
-    before(:each) { sign_in member }
+    before { sign_in member }
 
     let!(:member) { FactoryBot.create(:member) }
 
@@ -63,16 +68,19 @@ RSpec.describe GardensController, type: :controller do
 
       describe 'GET edit' do
         before { get :edit, params: { id: not_my_garden.to_param } }
+
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'POST update' do
         before { post :update, params: { id: not_my_garden.to_param, garden: valid_params } }
+
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'DELETE' do
         before { delete :destroy, params: { id: not_my_garden.to_param, params: { garden: valid_params } } }
+
         it { expect(response).to redirect_to(root_path) }
       end
     end

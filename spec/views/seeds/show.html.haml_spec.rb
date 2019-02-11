@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe "seeds/show" do
   let(:seed) { FactoryBot.create(:seed) }
-  before(:each) do
+
+  before do
     controller.stub(:current_user) { nil }
     assign(:seed, seed)
     assign(:photos, seed.photos.paginate(page: 1))
@@ -19,7 +20,7 @@ describe "seeds/show" do
       let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
       let!(:member) { FactoryBot.create(:member) }
 
-      before(:each) do
+      before do
         assign(:seed, seed)
         # note current_member is not the owner of this seed
         sign_in member
@@ -46,7 +47,7 @@ describe "seeds/show" do
       let(:owner) { FactoryBot.create(:member) }
       let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
 
-      before(:each) do
+      before do
         sign_in owner
         controller.stub(:current_user) { owner }
         assign(:seed, seed)

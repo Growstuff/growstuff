@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'devise/sessions/new.html.haml', type: "view" do
   context "logged in" do
-    before(:each) do
+    before do
       @view.stub(:resource).and_return(Member.new)
       @view.stub(:resource_name).and_return("member")
       @view.stub(:resource_class).and_return(Member)
@@ -10,7 +10,7 @@ describe 'devise/sessions/new.html.haml', type: "view" do
       render
     end
 
-    it 'should have some fields' do
+    it 'has some fields' do
       rendered.should have_content 'Remember me'
       rendered.should have_content 'Password'
     end

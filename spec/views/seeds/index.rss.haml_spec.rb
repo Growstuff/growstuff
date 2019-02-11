@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe 'seeds/index.rss.haml' do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
   end
 
   context 'all seeds' do
-    before(:each) do
+    before do
       @seed = FactoryBot.create(:seed)
       @tradable = FactoryBot.create(:tradable_seed)
       assign(:seeds, [@seed, @tradable])
@@ -35,7 +35,7 @@ describe 'seeds/index.rss.haml' do
   end
 
   context "one member's seeds" do
-    before(:each) do
+    before do
       @seed = FactoryBot.create(:seed)
       assign(:seeds, [@seed])
       assign(:owner, @seed.owner)

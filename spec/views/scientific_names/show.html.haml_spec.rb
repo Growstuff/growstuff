@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "scientific_names/show" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @scientific_name = assign(:scientific_name,
       FactoryBot.create(:zea_mays))
@@ -14,14 +14,14 @@ describe "scientific_names/show" do
   end
 
   context 'signed in' do
-    before :each do
+    before do
       @wrangler = FactoryBot.create(:crop_wrangling_member)
       sign_in @wrangler
       controller.stub(:current_user) { @wrangler }
       render
     end
 
-    it 'should have an edit button' do
+    it 'has an edit button' do
       rendered.should have_content 'Edit'
     end
   end

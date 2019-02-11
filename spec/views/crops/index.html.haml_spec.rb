@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "crops/index" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     page = 1
     per_page = 2
@@ -29,7 +29,7 @@ describe "crops/index" do
   end
 
   context "logged in and crop wrangler" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:crop_wrangling_member)
       sign_in @member
       controller.stub(:current_user) { @member }
