@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "photos/index" do
-  before(:each) do
+  before do
     page = 1
     per_page = 2
     total_entries = 2

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "comments/show" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @comment = assign(:comment, FactoryBot.create(:comment))
     render

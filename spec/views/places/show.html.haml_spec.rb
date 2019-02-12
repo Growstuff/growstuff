@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "places/show" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:london_member)
     @nearby_members = [FactoryBot.create(:member)]
     controller.stub(:current_user) { @member }

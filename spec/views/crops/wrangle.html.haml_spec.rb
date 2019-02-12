@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "crops/wrangle" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:crop_wrangling_member)
     controller.stub(:current_user) { @member }
     page = 1

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "comments/new" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @post = FactoryBot.create(:post)
     @comment = FactoryBot.create(:comment, post: @post)

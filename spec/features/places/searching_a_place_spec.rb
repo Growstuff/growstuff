@@ -30,23 +30,23 @@ feature "User searches" do
       search_with "Philippines"
     end
 
-    it "should show that there are nearby seeds, plantings, and members" do
+    it "shows that there are nearby seeds, plantings, and members" do
       expect(page).to have_content "Nearby members"
       expect(page).to have_content "Seeds available for trade near Philippines"
       expect(page).to have_content "Recent plantings near Philippines"
     end
 
-    it "should go to members' index page" do
+    it "goes to members' index page" do
       click_link 'View all members >>'
       expect(current_path).to eq members_path
     end
 
-    it "should go to plantings' index page" do
+    it "goes to plantings' index page" do
       click_link 'View all plantings >>'
       expect(current_path).to eq plantings_path
     end
 
-    it "should go to seeds' index page" do
+    it "goes to seeds' index page" do
       click_link 'View all seeds >>'
       expect(current_path).to eq seeds_path
     end

@@ -6,7 +6,7 @@ describe "plantings/index" do
   let(:tomato) { FactoryBot.create(:tomato) }
   let(:maize)  { FactoryBot.create(:maize) }
 
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     page = 1
     per_page = 3
