@@ -36,6 +36,7 @@
     %h2 Photos
     %p= render 'crops/photos', photos: @photos
     %p= link_to 'more photos', crop_photos_path(@crop)
+
     
     .row
       .col-md-3
@@ -48,6 +49,8 @@
         %h3 Harvested for
         = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
+
+    = render 'varieties', crop: @crop
 
     %h3 Crop Map
     %p
@@ -90,8 +93,13 @@
     = render 'scientific_names', crop: @crop
     = render 'alternate_names', crop: @crop
 
-    %h4 #{@crop.name.capitalize} varieties
-    = render 'varieties', crop: @crop
+    - if @crop.parent
+      .parent-crop  
+        = @crop.name
+        is a variety of
+        = succeed "." do
+          = link_to @crop.parent, @crop.parent
+        = render 'crops/thumbnail', crop: @crop.parent
 
     = render 'plantings', crop: @crop
     = render 'harvests', crop: @crop
