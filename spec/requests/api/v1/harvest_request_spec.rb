@@ -59,11 +59,13 @@ RSpec.describe 'Harvests', type: :request do
 
   describe '#index' do
     before { get '/api/v1/harvests', params: {}, headers: headers }
+
     it { expect(subject['data']).to include(harvest_encoded_as_json_api) }
   end
 
   describe '#show' do
     before { get "/api/v1/harvests/#{harvest.id}", params: {}, headers: headers }
+
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("planting" => planting_as_json_api) }
     it { expect(subject['data']['relationships']).to include("crop" => crop_as_json_api) }

@@ -51,7 +51,7 @@ describe Ability do
     context "crop wrangler" do
       let(:role) { FactoryBot.create(:crop_wrangler) }
 
-      before(:each) do
+      before do
         member.roles << role
       end
 

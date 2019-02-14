@@ -64,7 +64,7 @@ feature "Planting a crop", :js, :elasticsearch do
       @a_future_date = 1.year.from_now.strftime("%Y-%m-%d")
     end
 
-    it "should show that it is not planted yet" do
+    it "shows that it is not planted yet" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -80,7 +80,7 @@ feature "Planting a crop", :js, :elasticsearch do
       expect(page).to have_content "0%"
     end
 
-    it "should show that days before maturity is unknown" do
+    it "shows that days before maturity is unknown" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -96,7 +96,7 @@ feature "Planting a crop", :js, :elasticsearch do
       expect(page).to have_content "Not enough data"
     end
 
-    it "should show that planting is in progress" do
+    it "shows that planting is in progress" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -115,7 +115,7 @@ feature "Planting a crop", :js, :elasticsearch do
       expect(page).not_to have_content "Not enough data"
     end
 
-    it "should show that planting is 100% complete (no date specified)" do
+    it "shows that planting is 100% complete (no date specified)" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -133,7 +133,7 @@ feature "Planting a crop", :js, :elasticsearch do
       expect(page).to have_content "Yes (no date specified)"
     end
 
-    it "should show that planting is 100% complete (date specified)" do
+    it "shows that planting is 100% complete (date specified)" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -234,13 +234,14 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
     end
+
     it { expect(page).to have_content "planting was successfully created" }
     it { expect(page).to have_content "Finished: Yes (no date specified)" }
     it { expect(page).to have_content "100%" }
   end
 
   describe "Planting sunniness" do
-    it "should show the a sunny image" do
+    it "shows the a sunny image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -256,7 +257,7 @@ feature "Planting a crop", :js, :elasticsearch do
       expect(page).to have_css("img[alt='sun']")
     end
 
-    it "should show a sunniness not specified image" do
+    it "shows a sunniness not specified image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do

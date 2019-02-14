@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "crops/edit" do
-  before(:each) do
+  before do
     controller.stub(:current_user) do
       FactoryBot.create(:crop_wrangling_member)
     end
