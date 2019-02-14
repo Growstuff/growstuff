@@ -1,34 +1,36 @@
 require 'rails_helper'
 
 describe CropsController do
-  login_member(:crop_wrangling_member)
-
-  def valid_attributes
-    {
-      name:             "Tomato",
-      en_wikipedia_url: 'http://en.wikipedia.org/wiki/Tomato',
-      approval_status:  'approved'
-    }
+  shared_context 'login as wrangler' do
+    login_member(:crop_wrangling_member)
   end
 
   subject { response }
 
   describe "GET crop wrangler homepage" do
     describe 'fetches the crop wrangler homepage' do
-      before { get :wrangle }
-
-      it { is_expected.to be_success }
-      it { is_expected.to render_template("crops/wrangle") }
-      it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
+      context 'anonymous' do
+        before { get :wrangle }
+        it { is_expected.not_to be_success }
+      end
+      context 'wrangler' do
+        include_context 'login as wrangler'
+        before { get :wrangle }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template("crops/wrangle") }
+        it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
+      end
     end
   end
 
   describe "GET crop hierarchy " do
     describe 'fetches the crop hierarchy page' do
-      before { get :hierarchy }
-
-      it { is_expected.to be_success }
-      it { is_expected.to render_template("crops/hierarchy") }
+      context 'wrangler' do
+        include_context 'login as wrangler'
+        before { get :hierarchy }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template("crops/hierarchy") }
+      end
     end
   end
 
@@ -48,6 +50,21 @@ describe CropsController do
       it { is_expected.to be_success }
       it { is_expected.to render_template("crops/index") }
       it { expect(response.content_type).to eq("application/rss+xml") }
+    end
+  end
+
+  describe 'DELETE destroy' do
+    let!(:crop) { FactoryBot.create :crop }
+    subject { delete :destroy, params: { slug: crop.to_param } }
+    context 'not logged in' do
+      it { expect { subject }.not_to change { Crop.count } }
+    end
+    context 'logged in as member' do
+      it { expect { subject }.not_to change { Crop.count } }
+    end
+    context 'wrangler' do
+      include_context 'login as wrangler'
+      it { expect { subject }.to change { Crop.count }.by -1 }
     end
   end
 end
