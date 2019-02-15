@@ -1,0 +1,13 @@
+.planting-stats
+  %span.badge.harvest-count{'data-toggle': "tooltip", 'data-placement': "top", title: 'Harvests'}
+    = harvest_icon
+    = planting.harvests.size
+  %span.badge.child-seeds-count{'data-toggle': "tooltip", 'data-placement': "top", title: 'Seeds saved'}
+    = seed_icon
+    = planting.child_seeds.size
+  %span.badge.photos-count{'data-toggle': "tooltip", 'data-placement': "top", title: 'Photos'}
+    = photo_icon
+    = planting.photos.size
+  %span.badge.photos-count{'data-toggle': "tooltip", 'data-placement': "top", title: 'Age in days'}
+    = planting_icon
+    = planting.age_in_days

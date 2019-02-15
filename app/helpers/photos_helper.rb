@@ -15,9 +15,10 @@ module PhotosHelper
     end
   end
 
-  def planting_image_path(planting)
+  def planting_image_path(planting, full_size: false)
     if planting.photos.present?
-      planting.photos.order(date_taken: :desc).first.thumbnail_url
+      photo = planting.photos.order(date_taken: :desc).first
+      full_size ? photo.fullsize_url : photo.thumbnail_url
     else
       placeholder_image
     end
@@ -33,11 +34,13 @@ module PhotosHelper
     end
   end
 
-  def seed_image_path(seed)
+  def seed_image_path(seed, full_size: false)
     if seed.default_photo.present?
-      seed.default_photo.thumbnail_url
+      photo = seed.default_photo
+      full_size ? photo.fullsize_url : photo.thumbnail_url
     elsif seed.crop.default_photo.present?
-      seed.crop.default_photo.thumbnail_url
+      photo = seed.crop.default_photo
+      full_size ? photo.fullsize_url : photo.thumbnail_url
     else
       placeholder_image
     end

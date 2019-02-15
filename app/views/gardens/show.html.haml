@@ -100,6 +100,7 @@
 
     - if can?(:edit, @garden) && can?(:create, Photo)
       %p
+        = 
         = link_to new_photo_path(type: "garden", id: @garden.id),
         class: 'btn btn-primary' do
           %span.glyphicon.glyphicon-camera{ title: "Add photo" }
@@ -108,5 +109,4 @@
       %h3= localize_plural(@garden.photos, Photo)
       .row
         - @garden.photos.includes(:owner).each do |photo|
-          .col-xs-6
-            = render partial: 'photos/thumbnail', locals: { photo: photo }
+          .col-xs-6= render partial: 'photos/thumbnail', locals: { photo: photo }

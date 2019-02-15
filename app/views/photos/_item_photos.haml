@@ -8,7 +8,4 @@
       - photos.each do |photo|
         .col-xs-6.col-md-3.six-across= render 'photos/thumbnail', photo: photo
 
-- if can?(:create, Photo) && can?(:edit, item)
-  = link_to new_photo_path(type: type, id: item.id), class: 'btn  btn-primary' do
-    %span.glyphicon.glyphicon-camera{ title: "Add photo" }
-    Add photo
+= add_photo_button(item)

@@ -1,6 +1,9 @@
 - cache cache_key_for(Crop, 'interesting'), expires_in: 1.day do
+  %h2.section-heading.h1.pt-4= t('.our_crops')
   .row
-    %h2= t('.our_crops')
-    - Crop.interesting.includes(:scientific_names, :photos).shuffle.first(12).each do |c|
+    - Crop.interesting.includes(:scientific_names, :photos).shuffle.first(36).each do |c|
       .col-lg-2.col-md-4.col-sm-3.col-xs-6
         = render 'crops/thumbnail', crop: c
+
+  .align-bottom
+    %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'

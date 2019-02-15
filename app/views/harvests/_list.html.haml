@@ -1,10 +1,12 @@
-- harvests.each do |h|
-  - cache h do
-    .row
-      .col-lg-6.col-md-3.col-xs-4.homepage-listing
-        = render 'harvests/image_with_popover', harvest: h
-      .col-lg-3.col-md-9.col-xs-4
-        = link_to h.crop, crop_path(h.crop)
-        %br/
+- harvests.each do |harvest|
+  - cache harvest do
+    .card
+      .view.overlay
+        = link_to harvest do
+          %img.card-img-top.img-responsive{alt: harvest, src: harvest.default_photo.fullsize_url}/
+      .card-body.p-3
+        %h5.card-title.font-weight-bold.fuchsia-rose-text.mb-0
+          = link_to harvest, harvest
         %small
-          %i= h.owner.location
+          %i= harvest.owner.location
+    %hr/

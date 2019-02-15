@@ -21,34 +21,35 @@
   .col-md-9
     %h2
       - if !@crop.plantings.empty?
-        = @crop.name.titleize
-        has been planted
+        #{@crop.name.titleize} has been planted
         = pluralize(@crop.plantings.size, "time")
         by #{ENV['GROWSTUFF_SITE_NAME']} members.
       - else
         Nobody is growing this yet. You could be the first!
+    %hr/
 
-
-    %h3 Predictions
     = render 'predictions', crop: @crop
+    %hr/
 
+    = render 'crops/photos', photos: @photos
+    %hr/
 
-    %h2 Photos
-    %p= render 'crops/photos', photos: @photos
-    %p= link_to 'more photos', crop_photos_path(@crop)
-
-    
-    .row
-      .col-md-3
-        %h3 Sunniness
-        = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-      .col-md-3
-        %h3 Planted from
-        = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
-      .col-md-3
-        %h3 Harvested for
-        = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
-
+    .row.text-center
+      .col-md-4
+        .card
+          .card-body
+            %h3.section-heading.h3.pt-4 Sunniness
+            = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"  
+      .col-md-4
+        .card
+          .card-body
+            %h3.section-heading.h3.pt-4 Planted from
+            = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+      .col-md-4
+        .card
+          .card-body
+            %h3.section-heading.h3.pt-4 Harvested for
+            = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     = render 'varieties', crop: @crop
 
@@ -59,27 +60,18 @@
         = link_to "Set your location.", edit_member_registration_path
     #cropmap
 
-    .row
-      .col-md-12
-        = render 'crops/posts', crop: @crop
+    = render 'crops/posts', crop: @crop
 
   .col-md-3
-
     = render partial: 'wrangle', locals: { crop: @crop }
-
     %p
-      %li
-        = link_to crop_seeds_path(@crop) do
-          View all #{@crop.name} seeds
-          (#{@crop.seeds.size})
-      %li
-        = link_to crop_plantings_path(@crop) do
-          View all #{@crop.name} plantings
-          (#{@crop.plantings.size})
-      %li
-        = link_to crop_harvests_path(@crop) do
-          View all #{@crop.name} harvests
-          (#{@crop.harvests.size})
+      = link_to crop_plantings_path(@crop) do
+        View all #{@crop.name} plantings
+        (#{@crop.plantings.size})
+    %p
+      = link_to crop_harvests_path(@crop) do
+        View all #{@crop.name} harvests
+        (#{@crop.harvests.size})
     - if member_signed_in?
       %p
         = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do

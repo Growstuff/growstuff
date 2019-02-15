@@ -7,7 +7,4 @@
       .col-xs-6.col-sm-4.col-md-3
         = render 'harvests/thumbnail', harvest: harvest
 
-- if planting.active? && can?(:edit, planting)
-  = link_to new_planting_harvest_path(planting), class: 'btn btn-primary' do
-    %span.glyphicon.glyphicon-leaf{ title: "Harvest" }
-    Harvest
+= planting_harvest_button(planting)

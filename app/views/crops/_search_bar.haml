@@ -1,4 +1,5 @@
-= form_tag search_crops_path, method: :get, id: 'navbar-search' do
+= form_tag 'search' do 
+  -# , method: :get, id: 'navbar-search' do
   = label_tag :term, "Search crop database:", class: 'sr-only'
   .input
     .input-group

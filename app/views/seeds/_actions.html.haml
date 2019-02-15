@@ -5,10 +5,10 @@
       = add_photo_button(seed)
 
       - if can?(:create, Planting) && seed.active?
-        = link_to new_planting_path(seed_id: seed), class: 'btn btn-default btn-xs' do
+        = link_to new_planting_path(seed_id: seed), class: 'btn btn-default' do
           %span.glyphicon.glyphicon-grain{ title: "Plant seeds" }
           Plant seeds
 
-      = render 'shared/buttons/finish_seeds', seed: seed
+      = seed_finish_button(seed)
 
     = delete_button(seed) if can? :destroy, seed

@@ -1,8 +1,12 @@
 - content_for :title, t('.title')
 - content_for :subtitle, t('.subtitle', crops_size: @crops.size)
 
-- if can? :wrangle, Crop
-  = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-primary'
+- content_for :buttonbar do
+  - if can? :wrangle, Crop
+    = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-secondary'
+  - if can? :create, Crop
+    = link_to 'Add new Crop', new_crop_path, class: 'btn btn-primary'
+
 
 - if @num_requested_crops && @num_requested_crops.positive?
   = link_to(I18n.t('crops.requested.link', number_crops: @num_requested_crops), requested_crops_path)
@@ -30,9 +34,6 @@
     .col-md-2.six-across
       = render partial: "thumbnail", locals: { crop: crop }
 
-- if can? :create, Crop
-  %div
-    = link_to 'New Crop', new_crop_path, class: 'btn btn-primary'
 
 .pagination
   = will_paginate @crops

@@ -73,7 +73,7 @@
       %dd= render 'plantings/progress', planting: @planting, show_explanation: true
 
   .col-xs-12.col-sm-6
-    = render partial: "crops/index_card", locals: { crop: @planting.crop }
+    = render "crops/index_card", crop: @planting.crop
     - if @planting.owner.location
       %p
         %small

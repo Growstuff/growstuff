@@ -1,17 +1,34 @@
 %h2= t('.discussion')
 
-- posts = Post.order(created_at: :desc).limit(6)
-- if posts
-  = render "posts/summary", posts: posts, howmany: 6
+-# - Post.order(created_at: :desc).limit(6).each do |post|
 
-- cache cache_key_for(Forum) do
-  - forums = Forum.all.order(:name)
-  - if forums
-    %ul.list-inline
-      %li
-        %strong #{t('.forums')}:
-      - forums.each do |f|
-        %li= link_to f.name, f
+-#   = link_to truncate(strip_tags(post.subject), length: 40, separator: ' '), post
+-#   by
+-#   = link_to post.author, post.author
 
+-# - cache cache_key_for(Forum) do
+-#   - forums = Forum.all.order(:name)
+-#   - if forums
+-#     %ul.list-inline
+-#       %li
+-#         %strong #{t('.forums')}:
+-#       - forums.each do |f|
+-#         %li= link_to f.name, f
+
+
+
+.list-group
+  - Post.order(created_at: :desc).limit(3).each do |post|
+    %a.list-group-item.list-group-item-action.flex-column.align-items-start{:href => post_path(post)}
+      .d-flex.w-100.justify-content-between
+        %h5.mb-2.h5= truncate(strip_tags(post.subject))
+        %small
+          = time_ago_in_words(post.created_at)
+          ago
+      %p.mb-2
+        = truncate(strip_tags(post.body), length: 200)
+      %small
+        = post.comments.size
+        comments
 %p.text-right
-  = link_to "#{t('.view_all')} »", posts_path
+  = link_to "#{t('.view_all')} »", posts_path, class: 'btn'

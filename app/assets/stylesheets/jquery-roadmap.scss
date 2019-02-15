@@ -1,0 +1,381 @@
+// Config
+@import 'base/variables';
+@import 'base/mixins';
+
+@mixin roadmap-default {
+  position: relative;
+  width: 95%;
+    margin: 0 auto;
+
+  .roadmap__events {
+    position: relative;
+    width: calc(100% - 200px);
+    margin: 0 auto;
+    padding: 200px 0;
+
+    &:after {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      display: block;
+      content: "";
+      width: 0%;
+      height: 4px;
+      background-color: $primary-color;
+      // box-shadow: 0 0 30px -1px rgba($primary-color, 0.2);
+      border-radius: 2px;
+
+      transition: all 0.5s linear;
+    }
+
+    &__event {
+      position: absolute;
+      width: 280px;
+      height: 200px;
+      margin-left: -140px;
+      list-style: none;
+      font-size: 16px;
+
+      &:before,
+      &:after {
+        position: absolute;
+        content: "";
+        display: block;
+        background-color: $primary-color;
+        // box-shadow: 0 0 30px -1px rgba($primary-color, 0.2);
+
+        transition: all 0.3s $transition-function;
+      }
+
+      &:before {
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        transform: scale(0);
+      }
+
+      &:after {
+        width: 4px;
+        // height: 62px;
+        height: 0;
+        border-radius: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .event {
+        position: absolute;
+        display: block;
+        text-align: center;
+        width: 100%;
+
+        transition: all 0.3s $transition-function;
+        transform: scale(0);
+
+        .event__date {
+          font-weight: 600;
+        }
+
+        .event__content {
+
+          small {
+            display: block;
+          }
+        }
+      }
+
+      /**
+       * Events showing on the bottom of the timeline
+       */
+      &:nth-child(odd) {
+        bottom: 0;
+
+        &:before {
+          top: -8px;
+        }
+
+        &:after {
+          top: 0;
+        }
+
+        .event {
+          top: 80px;
+        }
+      }
+
+      /**
+       * Events showing on the top of the timeline
+       */
+      &:nth-child(even) {
+        top: 0;
+
+        &:before {
+          bottom: -12px;
+        }
+
+        &:after {
+          bottom: -4px;
+        }
+
+        .event {
+          bottom: 80px;
+        }
+      }
+
+      @for $i from 1 through 15 {
+        &:nth-child(#{$i}n) {
+
+          &:before,
+          &:after,
+          .event {
+            transition-delay: #{$i * 0.13}s;
+          }
+        }
+      }
+    }
+  }
+
+  .roadmap__navigation {
+    margin: 0;
+
+    &>* {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-46%);
+      z-index: 100;
+      list-style: none;
+
+      a {
+        display: block;
+        color: #000;
+        line-height: 0;
+
+        i {
+          font-size: 44px;
+        }
+
+        &:hover {
+          text-decoration: none;
+          box-shadow: none;
+        }
+      }
+
+      &:first-child {
+        left: 40px;
+      }
+
+      &:last-child {
+        right: 40px;
+      }
+    }
+
+    .prev {}
+    .next {}
+  }
+
+  &.roadmap--initialized {
+
+    .roadmap__events {
+
+      &:after {
+        width: 100%;
+      }
+
+      .roadmap__events__event {
+
+        /**
+         * Dot
+         */
+        &:before {
+          transform: scale(1) translateX(-50%);
+        }
+
+        /**
+         * Line
+         */
+        &:after {
+          height: 62px;
+        }
+
+        .event {
+          transform: scale(1);
+        }
+      }
+    }
+  }
+}
+
+@mixin roadmap-vertical {
+  margin: $gap*2 auto;
+
+  .roadmap__events {
+    padding: 0;
+    width: 80%;
+    max-width: 640px;
+    min-height: 400px;
+
+    &:after {
+      left: 50%;
+      top: 0;
+      width: 4px;
+      height: calc(0% - 0px);
+      transform: translateX(-50%);
+    }
+
+    &__event {
+      position: relative;
+      left: auto !important;
+      top: auto;
+      bottom: auto;
+      margin-left: 0;
+      width: auto;
+      height: auto;
+      min-height: 120px;
+
+      &:before {
+        top: -8px;
+        bottom: auto;
+      }
+
+      &:after {
+        top: 0;
+        bottom: auto;
+        // width: 48px;
+        width: 0;
+        height: 4px !important;
+      }
+
+      .event {
+        top: -15px;
+        bottom: auto;
+        width: 40%;
+
+        @include sm-down {
+          width: 50%;
+        }
+      }
+
+      /**
+       * Events showing on the left of the timeline
+       */
+      &:nth-child(odd) {
+
+        &:before {}
+
+        &:after {
+          transform: translateX(-100%);
+        }
+
+        .event {
+          @include sm-down {
+            margin-left: -10%;
+          }
+        }
+      }
+
+      /**
+       * Events showing on the right of the timeline
+       */
+      &:nth-child(even) {
+
+        &:before {
+          // margin-left: -12px;
+        }
+
+        &:after {
+          transform: translateX(0%);
+        }
+
+        .event {
+          right: 0;
+
+          @include sm-down {
+            margin-right: -10%;
+          }
+        }
+      }
+    }
+  }
+
+  &.roadmap--initialized {
+
+    .roadmap__events {
+
+      &:after {
+        width: 4px;
+        height: calc(100% - 120px);
+      }
+
+      .roadmap__events__event {
+
+        /**
+         * Dot
+         */
+        &:before {}
+
+        /**
+         * Line
+         */
+        &:after {
+          width: 48px;
+
+          @include sm-down {
+            width: 32px;
+          }
+        }
+
+        .event {}
+
+        /**
+         * Events showing on the left of the timeline
+         */
+        &:nth-child(odd) {
+
+          &:before {}
+
+          &:after {
+            transform: translateX(-100%);
+          }
+
+          .event {}
+        }
+
+        /**
+         * Events showing on the right of the timeline
+         */
+        &:nth-child(even) {
+
+          &:before {}
+
+          &:after {
+            transform: translateX(0%);
+          }
+
+          .event {}
+        }
+      }
+    }
+  }
+}
+
+.roadmap {
+
+  &.roadmap--orientation-auto {
+    @include roadmap-default;
+
+    @include md-down {
+      @include roadmap-vertical;
+    }
+  }
+
+  &.roadmap--orientation-horizontal {
+    @include roadmap-default;
+  }
+
+  &.roadmap--orientation-vertical {
+    @include roadmap-default;
+    @include roadmap-vertical;
+  }
+}

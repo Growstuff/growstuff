@@ -145,12 +145,12 @@ describe Photo do
       seed.photos << seed_photo
     end
 
-    it { expect(Photo.by_model(Harvest)).to eq([ harvest_photo ]) }
-    it { expect(Photo.by_model(Planting)).to eq([ planting_photo ]) }
-    it { expect(Photo.by_model(Seed)).to eq([ seed_photo ]) }
+    it { expect(Photo.by_model(Harvest)).to eq([harvest_photo]) }
+    it { expect(Photo.by_model(Planting)).to eq([planting_photo]) }
+    it { expect(Photo.by_model(Seed)).to eq([seed_photo]) }
 
-    it { expect(Photo.by_crop(harvest_crop)).to eq([ harvest_photo ]) }
-    it { expect(Photo.by_crop(planting_crop)).to eq([ planting_photo ]) }
-    it { expect(Photo.by_crop(seed_crop)).to eq([ seed_photo ]) }
+    it { expect(Photo.by_crop(harvest_crop)).to eq([harvest_photo]) }
+    it { expect(Photo.by_crop(planting_crop)).to eq([planting_photo]) }
+    it { expect(Photo.by_crop(seed_crop)).to eq([seed_photo]) }
   end
 end

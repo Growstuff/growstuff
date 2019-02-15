@@ -1,5 +1,0 @@
-- unless seed.finished
-  = link_to seed_path(seed, seed: { finished: 1 }),
-            method: :put, class: 'btn btn-default btn-xs append-date' do
-    = render 'shared/glyphicon', icon: 'ok', title: 'buttons.finished'  
-    =t('buttons.mark_as_finished')

@@ -17,6 +17,9 @@ gem 'jsonapi-resources'
 
 # CSS framework
 gem 'bootstrap-sass'
+gem 'bootstrap',     '4.1.1'
+gem 'material-sass', '4.1.1'
+gem 'material_icons'
 gem 'font-awesome-sass'
 
 gem 'uglifier' # JavaScript compressor
