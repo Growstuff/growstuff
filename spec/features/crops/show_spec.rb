@@ -15,7 +15,7 @@ feature "browse crops" do
     before { FactoryBot.create_list :harvest, 20, crop: tomato, harvested_at: 1.year.ago, created_at: 1.minute.ago }
 
     let!(:most_recent_harvest) do
-      FactoryBot.create :harvest, crop: tomato, harvested_at: 60.minutes.ago, created_at: 10.minute.ago
+      FactoryBot.create :harvest, crop: tomato, harvested_at: 60.minutes.ago, created_at: 10.minutes.ago
     end
 
     scenario "Shows most recently harvested harvest" do
@@ -28,7 +28,7 @@ feature "browse crops" do
     before { FactoryBot.create_list :planting, 20, crop: tomato, planted_at: 1.year.ago, created_at: 1.minute.ago }
 
     let!(:most_recent_planting) do
-      FactoryBot.create :planting, crop: tomato, planted_at: 60.minutes.ago, created_at: 10.minute.ago
+      FactoryBot.create :planting, crop: tomato, planted_at: 60.minutes.ago, created_at: 10.minutes.ago
     end
 
     scenario "Shows most recently planted planting" do
