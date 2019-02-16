@@ -106,6 +106,8 @@ class CropsController < ApplicationController
   end
 
   def destroy
+    @crop = Crop.find_by!(slug: params[:slug])
+    authorize! :destroy, @crop
     @crop.destroy
     respond_with @crop
   end
