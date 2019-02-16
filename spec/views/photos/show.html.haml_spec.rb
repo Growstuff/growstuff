@@ -2,7 +2,11 @@ require 'rails_helper'
 
 describe "photos/show" do
   let(:photo) { FactoryBot.create :photo, owner: member }
-  before { @photo = photo }
+  let(:crops) { FactoryBot.create_list :crop, 2 }
+  before do
+    @photo = photo
+    @crops = crops
+  end
 
   let(:member) { FactoryBot.create :member }
 
@@ -80,7 +84,6 @@ describe "photos/show" do
   context "CC-licensed photo" do
     before do
       controller.stub(:current_user) { nil }
-      # @photo = assign(:photo, FactoryBot.create(:photo, owner: @member))
       @photo.harvests << harvest
       @photo.plantings << planting
       @photo.seeds << seed

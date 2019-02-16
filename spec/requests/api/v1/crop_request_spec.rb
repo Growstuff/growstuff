@@ -13,12 +13,19 @@ RSpec.describe 'Plantings', type: :request do
       "relationships" => {
         "plantings" => plantings_as_json_api,
         "parent"    => parent_as_json_api,
-        "photos"    => photos_as_json_api,
-        "harvests"  => harvests_as_json_api
+        "harvests"  => harvests_as_json_api,
+        "seeds"     => seeds_as_json_api,
+        "photos"    => photos_as_json_api
       } }
   end
 
   let(:resource_url) { "http://www.example.com/api/v1/crops/#{crop.id}" }
+
+  let(:seeds_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/seeds",
+                   "related" => "#{resource_url}/seeds" } }
+  end
 
   let(:harvests_as_json_api) do
     { "links" =>
@@ -68,6 +75,7 @@ RSpec.describe 'Plantings', type: :request do
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
+    it { expect(subject['data']['relationships']).to include("seeds" => seeds_as_json_api) }
     it { expect(subject['data']['relationships']).to include("photos" => photos_as_json_api) }
     it { expect(subject['data']['relationships']).to include("parent" => parent_as_json_api) }
     it { expect(subject['data']).to eq(crop_encoded_as_json_api) }

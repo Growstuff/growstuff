@@ -3,42 +3,28 @@ require 'rails_helper'
 feature "crop detail page", js: true do
   subject { page }
 
-  let(:member) { create :member }
+  let!(:member) { FactoryBot.create :member }
 
-  let(:crop) { create :crop, plantings: [planting], harvests: [harvest] }
-  let(:planting) { create :planting, owner: member }
-  let(:harvest) { create :harvest, owner: member }
-  let(:valid_server) { 'https://farm5.staticflickr.com/' }
-  let(:photo1) do
-    create(:photo, owner:         member,
-                   title:         'photo 1',
-                   fullsize_url:  "#{valid_server}photo1.jpg",
-                   thumbnail_url: "#{valid_server}thumb1.jpg")
-  end
-  let(:photo2) do
-    create(:photo, owner:         member,
-                   title:         'photo 2',
-                   fullsize_url:  "#{valid_server}photo2.jpg",
-                   thumbnail_url: "#{valid_server}thumb2.jpg")
-  end
-  let(:photo3) do
-    create(:photo, owner:         member,
-                   title:         'photo 3',
-                   fullsize_url:  "#{valid_server}photo3.jpg",
-                   thumbnail_url: "#{valid_server}thumb3.jpg")
-  end
-  let(:photo4) do
-    create(:photo, owner:         member,
-                   title:         'photo 4',
-                   fullsize_url:  "#{valid_server}photo4.jpg",
-                   thumbnail_url: "#{valid_server}thumb4.jpg")
-  end
+  let!(:crop) { FactoryBot.create :crop }
+
+  let!(:planting) { FactoryBot.create :planting, crop: crop, owner: member }
+  let!(:harvest) { FactoryBot.create :harvest, crop: crop, owner: member }
+  let!(:seed) { FactoryBot.create :seed, crop: crop, owner: member }
+
+  let!(:photo1) { FactoryBot.create(:photo, owner: member) }
+  let!(:photo2) { FactoryBot.create(:photo, owner: member) }
+  let!(:photo3) { FactoryBot.create(:photo, owner: member) }
+  let!(:photo4) { FactoryBot.create(:photo, owner: member) }
+  let!(:photo5) { FactoryBot.create(:photo, owner: member) }
+  let!(:photo6) { FactoryBot.create(:photo, owner: member) }
 
   before do
     planting.photos << photo1
     planting.photos << photo2
     harvest.photos << photo3
     harvest.photos << photo4
+    seed.photos << photo5
+    seed.photos << photo6
     visit crop_path(crop)
   end
 
@@ -53,13 +39,18 @@ feature "crop detail page", js: true do
       it { is_expected.to have_xpath("//img[contains(@src,'#{photo4.thumbnail_url}')]") }
     end
 
+    describe "show seed photos" do
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo5.thumbnail_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo6.thumbnail_url}')]") }
+    end
+
     describe "link to more photos" do
       it { is_expected.to have_link "more photos" }
     end
   end
 
   context "when signed in" do
-    background { login_as(create(:member)) }
+    background { login_as(FactoryBot.create(:member)) }
     include_examples "shows photos"
   end
 

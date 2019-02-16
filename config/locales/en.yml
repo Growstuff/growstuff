@@ -244,6 +244,16 @@ en:
   places:
     index:
       title: "%{site_name} Community Map"
+  planting:
+    status:
+      finished: Finished
+      growing: Growing
+      harvesting: Harvesting
+      late: Late
+      not planted: Not planted
+      not_enough_data: Not enough data
+      perennial: Perennial
+      unknown: Unknown
   plantings:
     badges:
       days_until_finished: days until finished

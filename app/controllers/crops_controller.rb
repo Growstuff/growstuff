@@ -51,7 +51,9 @@ class CropsController < ApplicationController
   def show
     @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
-    # respond_with(@crop)
+
+    @photos = Photo.by_crop(@crop)
+
     respond_to do |format|
       format.html
       format.json { render json: @crop.to_json(crop_json_fields) }
