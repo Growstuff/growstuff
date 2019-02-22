@@ -6,6 +6,7 @@ describe 'member' do
 
     describe 'should be fetchable from the database' do
       subject { Member.find(member.id) }
+
       it { is_expected.to be_an_instance_of Member }
       it { expect(subject.encrypted_password).not_to be_nil }
     end
@@ -19,7 +20,7 @@ describe 'member' do
       expect(member.bio).to eq 'I love seeds'
     end
 
-    it 'should have a default garden' do
+    it 'has a default garden' do
       expect(member.gardens.count).to eq 1
     end
 
@@ -27,16 +28,16 @@ describe 'member' do
       expect(member.show_email).to eq false
     end
 
-    it 'should stringify as the login_name' do
+    it 'stringifies as the login_name' do
       expect(member.to_s).to eq 'hinemoa'
     end
 
-    it 'should be able to fetch posts' do
+    it 'is able to fetch posts' do
       post = FactoryBot.create(:post, author: member)
       expect(member.posts).to eq [post]
     end
 
-    it 'should be able to fetch gardens' do
+    it 'is able to fetch gardens' do
       expect(member.gardens.first.name).to eq "Garden"
     end
 
@@ -92,7 +93,7 @@ describe 'member' do
   context 'no TOS agreement' do
     let(:member) { FactoryBot.build(:no_tos_member) }
 
-    it "should refuse to save a member who hasn't agreed to the TOS" do
+    it "refuses to save a member who hasn't agreed to the TOS" do
       member.save.should_not be(true)
     end
   end
@@ -107,7 +108,7 @@ describe 'member' do
   end
 
   context 'same :login_name' do
-    it "should not allow two members with the same login_name" do
+    it "does not allow two members with the same login_name" do
       FactoryBot.create(:member, login_name: "bob")
       member = FactoryBot.build(:member, login_name: "bob")
       member.should_not be_valid
@@ -199,7 +200,7 @@ describe 'member' do
   end
 
   context 'confirmed scope' do
-    before(:each) do
+    before do
       FactoryBot.create(:member)
       FactoryBot.create(:member)
     end
@@ -251,7 +252,7 @@ describe 'member' do
     # 4) ordered by the most recent sign in
 
     context 'with a few members and plantings' do
-      before :each do
+      before do
         @members = [
           :london_member, :london_member, :london_member,
           :unconfirmed_member, # !1

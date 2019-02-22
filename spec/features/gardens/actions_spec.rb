@@ -55,13 +55,16 @@ feature "Gardens" do
     describe '#show' do
       describe 'my garden' do
         before { visit garden_path(garden) }
+
         it { is_expected.to have_link 'Edit' }
         it { is_expected.to have_link 'Delete' }
         it { is_expected.to have_content "Plant something here" }
         it { is_expected.to have_content "Add photo" }
       end
+
       describe "someone else's garden" do
         before { visit garden_path(other_member_garden) }
+
         it { is_expected.not_to have_link 'Edit' }
         it { is_expected.not_to have_link 'Delete' }
         it { is_expected.not_to have_content "Plant something here" }

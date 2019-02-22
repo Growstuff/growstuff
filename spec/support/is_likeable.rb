@@ -1,5 +1,5 @@
 shared_examples "it is likeable" do
-  before(:each) do
+  before do
     # Possibly a horrible hack.
     # Will fail if factory name does not match the model name..
     @likeable = FactoryBot.create(described_class.to_s.underscore.to_sym)
@@ -17,7 +17,7 @@ shared_examples "it is likeable" do
     expect(@likeable.members.length).to eq 2
   end
 
-  it 'should destroy the like when it is destroyed' do
+  it 'destroys the like when it is destroyed' do
     like_count = -1 * @likeable.likes.count
     expect { @likeable.destroy }.to change(Like, :count).by like_count
   end

@@ -10,11 +10,16 @@ feature "show photo page" do
       let(:planting) { create :planting }
       let(:photo) { create :photo, owner: planting.owner }
 
-      scenario "shows linkback to planting" do
-        planting.photos << photo
-        visit photo_path(photo)
-        expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
-          href: planting_path(planting)
+      context "shows linkback to planting" do
+        before do
+          planting.photos << photo
+          visit photo_path(photo)
+        end
+        it {
+          expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
+            href: planting_path(planting)
+        }
+        it { expect(page).to have_link planting.crop.name }
       end
     end
 
@@ -22,10 +27,13 @@ feature "show photo page" do
       let(:photo) { create :photo, owner: harvest.owner }
       let(:harvest) { create :harvest }
 
-      scenario "shows linkback to harvest" do
-        harvest.photos << photo
-        visit photo_path(photo)
-        expect(page).to have_link "#{harvest.crop.name} harvest by #{harvest.owner}", href: harvest_path(harvest)
+      context "shows linkback to harvest" do
+        before do
+          harvest.photos << photo
+          visit photo_path(photo)
+        end
+        it { expect(page).to have_link "#{harvest.crop.name} harvest by #{harvest.owner}", href: harvest_path(harvest) }
+        it { expect(page).to have_link harvest.crop.name }
       end
     end
 
@@ -33,10 +41,12 @@ feature "show photo page" do
       let(:photo) { create :photo, owner: garden.owner }
       let(:garden) { create :garden }
 
-      scenario "shows linkback to garden" do
-        garden.photos << photo
-        visit photo_path(photo)
-        expect(page).to have_link "garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden)
+      context "shows linkback to garden" do
+        before do
+          garden.photos << photo
+          visit photo_path(photo)
+        end
+        it { expect(page).to have_link "garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden) }
       end
     end
 
@@ -44,10 +54,13 @@ feature "show photo page" do
       let(:photo) { create :photo, owner: seed.owner }
       let(:seed) { create :seed }
 
-      scenario "shows linkback to seed" do
-        seed.photos << photo
-        visit photo_path(photo)
-        expect(page).to have_link "#{seed.crop.name} seeds belonging to #{seed.owner}", href: seed_path(seed)
+      context "shows linkback to seed" do
+        before do
+          seed.photos << photo
+          visit photo_path(photo)
+        end
+        it { expect(page).to have_link "#{seed.crop.name} seeds belonging to #{seed.owner}", href: seed_path(seed) }
+        it { expect(page).to have_link seed.crop.name }
       end
     end
   end

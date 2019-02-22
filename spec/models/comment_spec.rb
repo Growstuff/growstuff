@@ -42,7 +42,7 @@ describe Comment do
   end
 
   context "ordering" do
-    before(:each) do
+    before do
       @m = FactoryBot.create(:member)
       @p = FactoryBot.create(:post, author: @m)
       @c1 = FactoryBot.create(:comment, post: @p, author: @m)

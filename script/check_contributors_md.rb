@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
+require "English"
 
 puts "Checking to see if you're in CONTRIBUTORS.md..."
+
 if ENV['TRAVIS']
   if ENV['TRAVIS_PULL_REQUEST']
     require 'httparty'
@@ -27,7 +29,10 @@ Please set it using
   end
 end
 
-unless system('grep', '-i', author, 'CONTRIBUTORS.md')
+# Escape chars in name, and make case insensitive
+author_to_search_for = Regexp.new(Regexp.escape(author), Regexp::IGNORECASE)
+
+unless File.read('CONTRIBUTORS.md').match?(author_to_search_for)
   abort %(
 Thanks for your contribution, #{author}!
 Please add your name and GitHub handle to the file CONTRIBUTORS.md,
