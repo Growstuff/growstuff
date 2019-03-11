@@ -65,6 +65,7 @@ Rails.application.configure do
                      down_retry_delay: 60
                     }
 
+
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "growstuff_#{Rails.env}"
@@ -110,8 +111,8 @@ Rails.application.configure do
 
   # this config variable cannot be put in application.yml as it is needed
   # by the assets pipeline, which doesn't have access to ENV.
-  config.mapbox_map_id = 'growstuff.i3n2c4ie'
-  config.mapbox_access_token = 'pk.eyJ1IjoiZ3Jvd3N0dWZmIiwiYSI6IkdxMkx4alUifQ.n0igaBsw97s14zMa0lwKCA'
+  config.mapbox_map_id = ENV['MAPBOX_ID']
+  config.mapbox_access_token = ENV['MAPBOX_ACCESS_TOKEN']
 
   config.active_job.queue_adapter = :sidekiq
   # Use a different logger for distributed setups.
