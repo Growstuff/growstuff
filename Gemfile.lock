@@ -194,12 +194,12 @@ GEM
       highline
       tilt
       trollop (= 1.16.2)
-    haml-rails (1.0.0)
-      actionpack (>= 4.0.1)
-      activesupport (>= 4.0.1)
+    haml-rails (2.0.0)
+      actionpack (>= 5.1)
+      activesupport (>= 5.1)
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
-      railties (>= 4.0.1)
+      railties (>= 5.1)
     haml_lint (0.28.0)
       haml (>= 4.0, < 5.1)
       rainbow
@@ -467,7 +467,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sysexits (1.2.0)
-    temple (0.8.0)
+    temple (0.8.1)
     term-ansicolor (1.7.0)
       tins (~> 1.0)
     terminal-table (1.8.0)
