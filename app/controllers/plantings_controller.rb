@@ -35,7 +35,7 @@ class PlantingsController < ApplicationController
       .friendly
       .find(params[:id])
     @photos = @planting.photos.order(date_taken: :desc).includes(:owner).paginate(page: params[:page])
-    respond_with @planting
+    respond_with(@planting)
   end
 
   def new
@@ -46,7 +46,7 @@ class PlantingsController < ApplicationController
     @crop     = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
     @garden   = Garden.find_by(owner: current_member, id: params[:garden_id]) || Garden.new
 
-    respond_with @planting
+    respond_with(@planting)
   end
 
   def edit
@@ -60,17 +60,17 @@ class PlantingsController < ApplicationController
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
     @planting.save
-    respond_with @planting
+    respond_with(@planting)
   end
 
   def update
     @planting.update(planting_params)
-    respond_with @planting
+    respond_with(@planting)
   end
 
   def destroy
     @planting.destroy
-    respond_with @planting, location: @planting.garden
+    respond_with(@planting, location: @planting.garden)
   end
 
   private

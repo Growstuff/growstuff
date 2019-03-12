@@ -47,9 +47,9 @@ class LikesController < ApplicationController
       format.html do
         flash[:error] = message
         if like&.likeable
-          redirect_to like.likeable
+          redirect_to(like.likeable)
         else
-          redirect_to root_path
+          redirect_to(root_path)
         end
       end
     end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "scientific_names/new" do
   before do

@@ -8,6 +8,6 @@ describe 'devise/confirmations/new.html.haml', type: "view" do
   end
 
   it 'contains a login field' do
-    rendered.should have_content "Enter either your login name or your email address"
+    rendered.should(have_content("Enter either your login name or your email address"))
   end
 end

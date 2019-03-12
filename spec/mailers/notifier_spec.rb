@@ -1,4 +1,4 @@
-require "rails_helper"
+require("rails_helper")
 
 describe Notifier do
   describe "notifications" do
@@ -35,11 +35,11 @@ describe Notifier do
     end
 
     it 'includes the new planting URL' do
-      mail.body.encoded.should match new_planting_path
+      mail.body.encoded.should(match(new_planting_path))
     end
 
     it 'includes the new harvest URL' do
-      mail.body.encoded.should match new_harvest_path
+      mail.body.encoded.should(match(new_harvest_path))
     end
   end
 
@@ -61,7 +61,7 @@ describe Notifier do
     end
 
     it 'includes the requested crop URL' do
-      mail.body.encoded.should match crop_url(crop)
+      mail.body.encoded.should(match(crop_url(crop)))
     end
   end
 
@@ -71,25 +71,25 @@ describe Notifier do
     let(:mail) { Notifier.crop_request_approved(member, crop) }
 
     it 'sets the subject correctly' do
-      expect(mail.subject).to eq "Magic bean has been approved"
+      expect(mail.subject).to(eq("Magic bean has been approved"))
     end
 
     it 'comes from noreply@test.growstuff.org' do
-      expect(mail.from).to eq ['noreply@test.growstuff.org']
+      expect(mail.from).to(eq(['noreply@test.growstuff.org']))
     end
 
     it 'sends the mail to the recipient of the notification' do
-      expect(mail.to).to eq [member.email]
+      expect(mail.to).to(eq([member.email]))
     end
 
     it 'includes the approved crop URL' do
-      expect(mail.body.encoded).to match crop_url(crop)
+      expect(mail.body.encoded).to(match(crop_url(crop)))
     end
 
     it 'includes links to plant, harvest and stash seeds for the new crop' do
-      expect(mail.body.encoded).to match "#{new_planting_url}\\?crop_id=#{crop.id}"
-      expect(mail.body.encoded).to match "#{new_harvest_url}\\?crop_id=#{crop.id}"
-      expect(mail.body.encoded).to match "#{new_seed_url}\\?crop_id=#{crop.id}"
+      expect(mail.body.encoded).to(match("#{new_planting_url}\\?crop_id=#{crop.id}"))
+      expect(mail.body.encoded).to(match("#{new_harvest_url}\\?crop_id=#{crop.id}"))
+      expect(mail.body.encoded).to(match("#{new_seed_url}\\?crop_id=#{crop.id}"))
     end
   end
 
@@ -99,23 +99,23 @@ describe Notifier do
     let(:mail) { Notifier.crop_request_rejected(member, crop) }
 
     it 'sets the subject correctly' do
-      expect(mail.subject).to eq "Fail bean has been rejected"
+      expect(mail.subject).to(eq("Fail bean has been rejected"))
     end
 
     it 'comes from noreply@test.growstuff.org' do
-      expect(mail.from).to eq ['noreply@test.growstuff.org']
+      expect(mail.from).to(eq(['noreply@test.growstuff.org']))
     end
 
     it 'sends the mail to the recipient of the notification' do
-      expect(mail.to).to eq [member.email]
+      expect(mail.to).to(eq([member.email]))
     end
 
     it 'includes the rejected crop URL' do
-      expect(mail.body.encoded).to match crop_url(crop)
+      expect(mail.body.encoded).to(match(crop_url(crop)))
     end
 
     it 'includes the reason for rejection' do
-      expect(mail.body.encoded).to match "Totally fake"
+      expect(mail.body.encoded).to(match("Totally fake"))
     end
   end
 end

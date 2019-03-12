@@ -1,12 +1,12 @@
-require "rails_helper"
-require 'custom_matchers'
+require("rails_helper")
+require('custom_matchers')
 
 feature "Planting a crop", :js, :elasticsearch do
-  let(:member) { FactoryBot.create :member }
-  let!(:maize) { FactoryBot.create :maize }
-  let(:garden) { FactoryBot.create :garden, owner: member }
+  let(:member) { FactoryBot.create(:member) }
+  let!(:maize) { FactoryBot.create(:maize) }
+  let(:garden) { FactoryBot.create(:garden, owner: member) }
   let!(:planting) do
-    FactoryBot.create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10")
+    FactoryBot.create(:planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10"))
   end
 
   background do
@@ -18,18 +18,18 @@ feature "Planting a crop", :js, :elasticsearch do
   it_behaves_like "crop suggest", "planting"
 
   it "has the required fields help text" do
-    expect(page).to have_content "* denotes a required field"
+    expect(page).to(have_content("* denotes a required field"))
   end
 
   describe "displays required and optional fields properly" do
-    it { expect(page).to have_selector ".form-group.required", text: "What did you plant?" }
-    it { expect(page).to have_selector ".form-group.required", text: "Where did you plant it?" }
-    it { expect(page).to have_optional 'input#planting_planted_at' }
-    it { expect(page).to have_optional 'input#planting_quantity' }
-    it { expect(page).to have_optional 'select#planting_planted_from' }
-    it { expect(page).to have_optional 'select#planting_sunniness' }
-    it { expect(page).to have_optional 'textarea#planting_description' }
-    it { expect(page).to have_optional 'input#planting_finished_at' }
+    it { expect(page).to(have_selector(".form-group.required", text: "What did you plant?")) }
+    it { expect(page).to(have_selector(".form-group.required", text: "Where did you plant it?")) }
+    it { expect(page).to(have_optional('input#planting_planted_at')) }
+    it { expect(page).to(have_optional('input#planting_quantity')) }
+    it { expect(page).to(have_optional('select#planting_planted_from')) }
+    it { expect(page).to(have_optional('select#planting_sunniness')) }
+    it { expect(page).to(have_optional('textarea#planting_description')) }
+    it { expect(page).to(have_optional('input#planting_finished_at')) }
   end
 
   scenario "Creating a new planting" do
@@ -44,14 +44,14 @@ feature "Planting a crop", :js, :elasticsearch do
       click_button "Save"
     end
 
-    expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Not enough data"
+    expect(page).to(have_content("planting was successfully created"))
+    expect(page).to(have_content("Not enough data"))
   end
 
   scenario "Clicking link to owner's profile" do
     visit member_plantings_path(member)
     click_link "View #{member}'s profile >>"
-    expect(current_path).to eq member_path(member)
+    expect(current_path).to(eq(member_path(member)))
   end
 
   describe "Progress bar status on planting creation" do
@@ -76,8 +76,8 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "0%"
+      expect(page).to(have_content("planting was successfully created"))
+      expect(page).to(have_content("0%"))
     end
 
     it "shows that days before maturity is unknown" do
@@ -92,8 +92,8 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Not enough data"
+      expect(page).to(have_content("planting was successfully created"))
+      expect(page).to(have_content("Not enough data"))
     end
 
     it "shows that planting is in progress" do
@@ -110,9 +110,9 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "planting was successfully created"
-      expect(page).not_to have_content "0%"
-      expect(page).not_to have_content "Not enough data"
+      expect(page).to(have_content("planting was successfully created"))
+      expect(page).not_to(have_content("0%"))
+      expect(page).not_to(have_content("Not enough data"))
     end
 
     it "shows that planting is 100% complete (no date specified)" do
@@ -128,9 +128,9 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "100%"
-      expect(page).to have_content "Yes (no date specified)"
+      expect(page).to(have_content("planting was successfully created"))
+      expect(page).to(have_content("100%"))
+      expect(page).to(have_content("Yes (no date specified)"))
     end
 
     it "shows that planting is 100% complete (date specified)" do
@@ -146,8 +146,8 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "100%"
+      expect(page).to(have_content("planting was successfully created"))
+      expect(page).to(have_content("100%"))
     end
   end
 
@@ -157,12 +157,12 @@ feature "Planting a crop", :js, :elasticsearch do
       click_link "Plant maize"
     end
     within "form#new_planting" do
-      expect(page).to have_selector "input[value='maize']"
+      expect(page).to(have_selector("input[value='maize']"))
       click_button "Save"
     end
 
-    expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "maize"
+    expect(page).to(have_content("planting was successfully created"))
+    expect(page).to(have_content("maize"))
   end
 
   scenario "Editing a planting to add details" do
@@ -170,18 +170,18 @@ feature "Planting a crop", :js, :elasticsearch do
     click_link "Edit"
     fill_in "Tell us more about it", with: "Some extra notes"
     click_button "Save"
-    expect(page).to have_content "planting was successfully updated"
+    expect(page).to(have_content("planting was successfully updated"))
   end
 
   scenario "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
-    expect(page).to have_content "Not enough data"
+    expect(page).to(have_content("Not enough data"))
     click_link "Edit"
     check "finished"
     fill_in "Finished date", with: "2015-06-25"
     click_button "Save"
-    expect(page).to have_content "planting was successfully updated"
-    expect(page).not_to have_content "Not enough data"
+    expect(page).to(have_content("planting was successfully updated"))
+    expect(page).not_to(have_content("Not enough data"))
   end
 
   scenario "Marking a planting as finished" do
@@ -195,34 +195,34 @@ feature "Planting a crop", :js, :elasticsearch do
       # Trigger click instead of using Capybara"s uncheck
       # because a date selection widget is overlapping
       # the checkbox preventing interaction.
-      find("#planting_finished").trigger 'click'
+      find("#planting_finished").trigger('click')
     end
 
     # Javascript removes the finished at date when the
     # planting is marked unfinished.
-    expect(find("#planting_finished_at").value).to eq("")
+    expect(find("#planting_finished_at").value).to(eq(""))
 
     within "form#new_planting" do
-      find("#planting_finished").trigger 'click'
+      find("#planting_finished").trigger('click')
     end
 
     # The finished at date was cached in Javascript in
     # case the user clicks unfinished accidentally.
-    expect(find("#planting_finished_at").value).to eq("2014-08-30")
+    expect(find("#planting_finished_at").value).to(eq("2014-08-30"))
 
     within "form#new_planting" do
       click_button "Save"
     end
-    expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Finished: August 30, 2014"
+    expect(page).to(have_content("planting was successfully created"))
+    expect(page).to(have_content("Finished: August 30, 2014"))
 
     # shouldn't be on the page
     visit plantings_path
-    expect(page).not_to have_content "maize"
+    expect(page).not_to(have_content("maize"))
 
     # show all plantings to see this finished planting
     visit plantings_path(all: 1)
-    expect(page).to have_content "August 30, 2014"
+    expect(page).to(have_content("August 30, 2014"))
   end
 
   describe "Marking a planting as finished without a date" do
@@ -235,9 +235,9 @@ feature "Planting a crop", :js, :elasticsearch do
       end
     end
 
-    it { expect(page).to have_content "planting was successfully created" }
-    it { expect(page).to have_content "Finished: Yes (no date specified)" }
-    it { expect(page).to have_content "100%" }
+    it { expect(page).to(have_content("planting was successfully created")) }
+    it { expect(page).to(have_content("Finished: Yes (no date specified)")) }
+    it { expect(page).to(have_content("100%")) }
   end
 
   describe "Planting sunniness" do
@@ -254,7 +254,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[alt='sun']")
+      expect(page).to(have_css("img[alt='sun']"))
     end
 
     it "shows a sunniness not specified image" do
@@ -269,7 +269,7 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[alt='not specified']")
+      expect(page).to(have_css("img[alt='not specified']"))
     end
   end
 

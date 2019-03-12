@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "members/_location" do
   context "member with location" do
@@ -7,7 +7,7 @@ describe "members/_location" do
     before { render partial: 'members/location', locals: { member: member } }
 
     it 'shows location if available' do
-      expect(rendered).to have_content member.location
+      expect(rendered).to(have_content(member.location))
     end
 
     it "links to the places page" do
@@ -22,7 +22,7 @@ describe "members/_location" do
     end
 
     it 'shows unknown location' do
-      expect(rendered).to have_content "unknown location"
+      expect(rendered).to(have_content("unknown location"))
     end
 
     it "doesn't link anywhere" do

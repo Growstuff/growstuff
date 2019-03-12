@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "seeds/new" do
   let!(:seed) { FactoryBot.create(:seed, owner: member) }
@@ -23,8 +23,8 @@ describe "seeds/new" do
 
   context 'member has no location' do
     describe 'reminds you to set your location' do
-      it { expect(rendered).to have_content "Don't forget to set your location." }
-      it { expect(rendered).to have_link "set your location" }
+      it { expect(rendered).to(have_content("Don't forget to set your location.")) }
+      it { expect(rendered).to(have_link("set your location")) }
     end
   end
 
@@ -32,12 +32,12 @@ describe "seeds/new" do
     let!(:member) { FactoryBot.create(:london_member) }
 
     describe 'shows the location' do
-      it { expect(rendered).to have_text "from #{member.location}." }
-      it { expect(rendered).to have_link(member.location, href: place_path(member.location)) }
+      it { expect(rendered).to(have_text("from #{member.location}.")) }
+      it { expect(rendered).to(have_link(member.location, href: place_path(member.location))) }
     end
 
     it 'link to change location' do
-      expect(rendered).to have_link("Change your location.")
+      expect(rendered).to(have_link("Change your location."))
     end
   end
 end

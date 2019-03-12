@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "posts/show" do
   subject { rendered }
@@ -17,12 +17,12 @@ describe "posts/show" do
       let(:post) { FactoryBot.create(:post, author: author, body: 'hello there') }
 
       # show the name of the member who posted the post
-      it { is_expected.to have_text author.login_name }
+      it { is_expected.to(have_text(author.login_name)) }
       # Subject goes in title
-      it { is_expected.to have_text('hello there') }
+      it { is_expected.to(have_text('hello there')) }
       # shouldn't show the subject on a single post page
       # (it appears in the title/h1 via the layout, not via this view)
-      it { is_expected.not_to have_text('An Update') }
+      it { is_expected.not_to(have_text('An Update')) }
     end
 
     describe "should parse markdown into html" do
@@ -34,26 +34,26 @@ describe "posts/show" do
     describe "shouldn't let html through in body" do
       let(:post) { FactoryBot.create(:post, author: author, body: '<a href="http://evil.com">EVIL</a>') }
 
-      it { is_expected.to have_content('EVIL') }
-      it { is_expected.not_to have_link("http://evil.com") }
+      it { is_expected.to(have_content('EVIL')) }
+      it { is_expected.not_to(have_link("http://evil.com")) }
     end
 
     describe 'script tag in post body' do
       let(:post) { FactoryBot.create(:post, author: author, body: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.not_to have_selector('script') }
+      it { is_expected.not_to(have_selector('script')) }
     end
 
     describe 'script tag in post title' do
       let(:post) { FactoryBot.create(:post, author: author, subject: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.not_to have_selector('script') }
+      it { is_expected.not_to(have_selector('script')) }
     end
 
     describe 'has an anchor to the comments' do
       let(:post) { FactoryBot.create(:post, author: author) }
 
-      it { is_expected.to have_selector('a[name=comments]') }
+      it { is_expected.to(have_selector('a[name=comments]')) }
     end
   end
 
@@ -71,7 +71,7 @@ describe "posts/show" do
     end
 
     it "shows comments" do
-      is_expected.to have_content comment.body
+      is_expected.to(have_content(comment.body))
     end
 
     it 'has an anchor to the comments' do
@@ -95,7 +95,7 @@ describe "posts/show" do
     end
 
     it "shows the oldest comments first" do
-      is_expected.to have_content(/#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m)
+      is_expected.to(have_content(/#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m))
     end
   end
 
@@ -105,7 +105,7 @@ describe "posts/show" do
     before { render }
 
     it "shows forum name" do
-      is_expected.to have_content "in #{post.forum.name}"
+      is_expected.to(have_content("in #{post.forum.name}"))
     end
   end
 
@@ -119,7 +119,7 @@ describe "posts/show" do
     end
 
     it 'shows a comment button' do
-      is_expected.to have_link "Comment", href: new_comment_path(post_id: post.id)
+      is_expected.to(have_link("Comment", href: new_comment_path(post_id: post.id)))
     end
   end
 end

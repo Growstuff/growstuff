@@ -1,4 +1,4 @@
-require "rails_helper"
+require("rails_helper")
 
 feature "User searches" do
   let(:member) { create :member, location: "Philippines" }
@@ -10,17 +10,17 @@ feature "User searches" do
   scenario "with a valid place" do
     visit places_path
     search_with "Philippines"
-    expect(page).to have_content "community near Philippines"
-    expect(page).to have_button "search_button"
-    expect(page).to have_content "Nearby members"
-    expect(page).not_to have_content "No results found"
+    expect(page).to(have_content("community near Philippines"))
+    expect(page).to(have_button("search_button"))
+    expect(page).to(have_content("Nearby members"))
+    expect(page).not_to(have_content("No results found"))
   end
 
   scenario "with a blank search string" do
     visit places_path
     search_with ""
-    expect(page).to have_content "Please enter a valid location"
-    expect(page).to have_button "search_button"
+    expect(page).to(have_content("Please enter a valid location"))
+    expect(page).to(have_button("search_button"))
   end
 
   describe "Nearby plantings, seed, and members" do
@@ -31,31 +31,31 @@ feature "User searches" do
     end
 
     it "shows that there are nearby seeds, plantings, and members" do
-      expect(page).to have_content "Nearby members"
-      expect(page).to have_content "Seeds available for trade near Philippines"
-      expect(page).to have_content "Recent plantings near Philippines"
+      expect(page).to(have_content("Nearby members"))
+      expect(page).to(have_content("Seeds available for trade near Philippines"))
+      expect(page).to(have_content("Recent plantings near Philippines"))
     end
 
     it "goes to members' index page" do
       click_link 'View all members >>'
-      expect(current_path).to eq members_path
+      expect(current_path).to(eq(members_path))
     end
 
     it "goes to plantings' index page" do
       click_link 'View all plantings >>'
-      expect(current_path).to eq plantings_path
+      expect(current_path).to(eq(plantings_path))
     end
 
     it "goes to seeds' index page" do
       click_link 'View all seeds >>'
-      expect(current_path).to eq seeds_path
+      expect(current_path).to(eq(seeds_path))
     end
   end
 
   private
 
   def search_with(search_string)
-    fill_in "new_place", with: search_string
-    click_button "search_button"
+    fill_in("new_place", with: search_string)
+    click_button("search_button")
   end
 end

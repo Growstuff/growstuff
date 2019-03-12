@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'layouts/_header.html.haml', type: "view" do
   context "when not logged in" do
@@ -12,24 +12,24 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'has signup/signin links' do
-      rendered.should have_content 'Sign up'
-      rendered.should have_content 'Sign in'
+      rendered.should(have_content('Sign up'))
+      rendered.should(have_content('Sign in'))
     end
 
     it 'has a Crops link' do
-      rendered.should have_content "Crops"
+      rendered.should(have_content("Crops"))
     end
 
     it 'has a Seeds link' do
-      rendered.should have_content "Seeds"
+      rendered.should(have_content("Seeds"))
     end
 
     it 'has a Places link' do
-      rendered.should have_content "Community Map"
+      rendered.should(have_content("Community Map"))
     end
 
     it 'has a Community section' do
-      rendered.should have_content "Community"
+      rendered.should(have_content("Community"))
     end
 
     it 'links to members' do
@@ -60,7 +60,7 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     context "login name" do
       it 'has member login name' do
-        rendered.should have_content @member.login_name.to_s
+        rendered.should(have_content(@member.login_name.to_s))
       end
       it "shows link to member's gardens" do
         assert_select("a[href='#{member_gardens_path(@member)}']", "Gardens")
@@ -77,19 +77,19 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'shows signout link' do
-      rendered.should have_content 'Sign out'
+      rendered.should(have_content('Sign out'))
     end
 
     it 'shows inbox link' do
-      rendered.should have_content 'Inbox'
-      rendered.should_not match(/Inbox \(\d+\)/)
+      rendered.should(have_content('Inbox'))
+      rendered.should_not(match(/Inbox \(\d+\)/))
     end
 
     context 'has notifications' do
       it 'shows inbox count' do
         FactoryBot.create(:notification, recipient: @member)
         render
-        rendered.should have_content 'Inbox (1)'
+        rendered.should(have_content('Inbox (1)'))
       end
     end
   end

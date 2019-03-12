@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "plant_parts/show" do
   before do
@@ -11,7 +11,7 @@ describe "plant_parts/show" do
   it "renders a list of crops harvested for this part" do
     render
     @pp.crops.each do |c|
-      rendered.should have_content c.name
+      rendered.should(have_content(c.name))
       assert_select "a", href: crop_path(c)
     end
   end

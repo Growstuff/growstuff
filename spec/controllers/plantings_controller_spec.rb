@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe PlantingsController do
   login_member
@@ -15,27 +15,27 @@ describe PlantingsController do
     let!(:member2) { FactoryBot.create(:member) }
     let!(:tomato) { FactoryBot.create(:tomato) }
     let!(:maize) { FactoryBot.create(:maize) }
-    let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
-    let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
+    let!(:planting1) { FactoryBot.create(:planting, crop: tomato, owner: member1, created_at: 1.day.ago) }
+    let!(:planting2) { FactoryBot.create(:planting, crop: maize, owner: member2, created_at: 5.days.ago) }
 
     describe "assigns all plantings as @plantings" do
       before { get :index }
 
-      it { expect(assigns(:plantings)).to match [planting1, planting2] }
+      it { expect(assigns(:plantings)).to(match([planting1, planting2])) }
     end
 
     describe "picks up owner from params and shows owner's plantings only" do
       before { get :index, params: { member_slug: member1.slug } }
 
-      it { expect(assigns(:owner)).to eq member1 }
-      it { expect(assigns(:plantings)).to eq [planting1] }
+      it { expect(assigns(:owner)).to(eq(member1)) }
+      it { expect(assigns(:plantings)).to(eq([planting1])) }
     end
 
     describe "picks up crop from params and shows the plantings for the crop only" do
       before { get :index, params: { crop_slug: maize.slug } }
 
-      it { expect(assigns(:crop)).to eq maize }
-      it { expect(assigns(:plantings)).to eq [planting2] }
+      it { expect(assigns(:crop)).to(eq(maize)) }
+      it { expect(assigns(:plantings)).to(eq([planting2])) }
     end
   end
 
@@ -45,13 +45,13 @@ describe PlantingsController do
 
       before { get :new, params: { crop_id: crop.id } }
 
-      it { expect(assigns(:crop)).to eq(crop) }
+      it { expect(assigns(:crop)).to(eq(crop)) }
     end
 
     describe "doesn't die if no crop specified" do
       before { get :new, params: {} }
 
-      it { expect(assigns(:crop)).to be_a_new(Crop) }
+      it { expect(assigns(:crop)).to(be_a_new(Crop)) }
     end
 
     describe "picks up member's garden from params" do
@@ -59,7 +59,7 @@ describe PlantingsController do
 
       before { get :new, params: { garden_id: garden.id } }
 
-      it { expect(assigns(:garden)).to eq(garden) }
+      it { expect(assigns(:garden)).to(eq(garden)) }
     end
 
     describe "Doesn't display another member's garden on planting form" do
@@ -68,7 +68,7 @@ describe PlantingsController do
 
       before { get :new, params: { garden_id: garden.id } }
 
-      it { expect(assigns(:garden)).not_to eq(garden) }
+      it { expect(assigns(:garden)).not_to(eq(garden)) }
     end
 
     describe "Doesn't display un-approved crops on planting form" do
@@ -77,7 +77,7 @@ describe PlantingsController do
 
       before { get :new, params: { crop_id: crop.id } }
 
-      it { expect(assigns(:crop)).not_to eq(crop) }
+      it { expect(assigns(:crop)).not_to(eq(crop)) }
     end
 
     describe "Doesn't display rejected crops on planting form" do
@@ -86,27 +86,27 @@ describe PlantingsController do
 
       before { get :new, params: { crop_id: crop.id } }
 
-      it { expect(assigns(:crop)).not_to eq(crop) }
+      it { expect(assigns(:crop)).not_to(eq(crop)) }
     end
 
     describe "doesn't die if no garden specified" do
       before { get :new, params: {} }
 
-      it { expect(assigns(:garden)).to be_a_new(Garden) }
+      it { expect(assigns(:garden)).to(be_a_new(Garden)) }
     end
 
     describe "sets the date of the planting to today" do
       before { get :new }
 
-      it { expect(assigns(:planting).planted_at).to eq Time.zone.today }
+      it { expect(assigns(:planting).planted_at).to(eq(Time.zone.today)) }
     end
 
     context 'with parent seed' do
-      let(:seed) { FactoryBot.create :seed, owner: member }
+      let(:seed) { FactoryBot.create(:seed, owner: member) }
 
       before { get :new, params: { seed_id: seed.to_param } }
 
-      it { expect(assigns(:seed)).to eq(seed) }
+      it { expect(assigns(:seed)).to(eq(seed)) }
     end
   end
 
@@ -114,7 +114,7 @@ describe PlantingsController do
     describe "sets the owner automatically" do
       before { post :create, params: { planting: valid_attributes } }
 
-      it { expect(assigns(:planting).owner).to eq subject.current_member }
+      it { expect(assigns(:planting).owner).to(eq(subject.current_member)) }
     end
   end
 end

@@ -57,7 +57,7 @@ class CsvImporter
 
     alternate_names.split(/,\s*/).each do |name|
       altname = AlternateName.find_by(name: name, crop: @crop)
-      altname ||= AlternateName.create! name: name, crop: @crop, creator: cropbot
+      altname ||= AlternateName.create!(name: name, crop: @crop, creator: cropbot)
       @crop.alternate_names << altname
     end
   end
@@ -66,6 +66,6 @@ class CsvImporter
     @cropbot ||= Member.find_by!(login_name: 'cropbot')
     @cropbot
   rescue StandardError
-    raise "cropbot account not found: run rake db:seed"
+    raise("cropbot account not found: run rake db:seed")
   end
 end

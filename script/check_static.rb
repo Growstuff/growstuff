@@ -7,4 +7,4 @@ checks = [
 
 return_values = checks.collect { |t| system(t) }
 failures = return_values.count(&:!)
-abort "#{failures} static check(s) failed" unless failures.zero?
+abort("#{failures} static check(s) failed") unless failures.zero?

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe HomeController do
   describe "GET index" do

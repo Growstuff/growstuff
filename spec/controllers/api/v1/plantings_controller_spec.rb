@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require('rails_helper')
 
-RSpec.describe Api::V1::PlantingsController, type: :controller do
-  subject { JSON.parse response.body }
+RSpec.describe(Api::V1::PlantingsController, type: :controller) do
+  subject { JSON.parse(response.body) }
 
   let(:headers) do
     {
@@ -11,7 +11,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
       'Content-Type' => 'application/vnd.api+json'
     }
   end
-  let!(:member) { FactoryBot.create :member }
+  let!(:member) { FactoryBot.create(:member) }
 
   describe '#index' do
     let(:matching_planting) { subject['data'].select { |planting| planting['id'] == my_planting.id.to_s }.first }
@@ -41,9 +41,9 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
 
         before { get :index, format: :json }
 
-        it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
-        it { expect(matching_planting['attributes']).to eq expected_attributes }
-        it { expect(response.status).to eq 200 }
+        it { expect(matching_planting).to(include('id' => my_planting.id.to_s)) }
+        it { expect(matching_planting['attributes']).to(eq(expected_attributes)) }
+        it { expect(response.status).to(eq(200)) }
       end
 
       context 'with photo' do
@@ -75,9 +75,9 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
           get :index, format: :json
         end
 
-        it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
-        it { expect(matching_planting['attributes']).to eq expected_attributes }
-        it { expect(response.status).to eq 200 }
+        it { expect(matching_planting).to(include('id' => my_planting.id.to_s)) }
+        it { expect(matching_planting['attributes']).to(eq(expected_attributes)) }
+        it { expect(response.status).to(eq(200)) }
       end
     end
   end

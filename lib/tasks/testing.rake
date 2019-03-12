@@ -1,6 +1,6 @@
-require 'rake'
+require('rake')
 begin
-  require 'rspec/core/rake_task'
+  require('rspec/core/rake_task')
   task(:spec).clear
   RSpec::Core::RakeTask.new(spec: ['db:create',
                                    'db:test:prepare',
@@ -10,7 +10,7 @@ begin
 rescue LoadError
 end
 
-desc "Run static code-quality checks"
+desc("Run static code-quality checks")
 task :static do
   system('script/check_static')
 end
@@ -23,4 +23,4 @@ namespace :spec do
   end
 end
 
-task default: [:static, :spec, 'jasmine:ci']
+task(default: [:static, :spec, 'jasmine:ci'])

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "seeds/edit" do
   before do
@@ -23,7 +23,7 @@ describe "seeds/edit" do
 
   it "doesn't revert tradable_to to nowhere" do
     @seed = FactoryBot.create(:tradable_seed, owner: @member)
-    @seed.tradable_to.should_not eq "nowhere"
+    @seed.tradable_to.should_not(eq("nowhere"))
     render
     assert_select "option[selected=selected]", text: @seed.tradable_to
   end

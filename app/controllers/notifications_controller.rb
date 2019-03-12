@@ -31,7 +31,7 @@ class NotificationsController < ApplicationController
     @sender_notification.read = true
     @sender_notification.save
     @recipient = @sender_notification.sender
-    @subject   = if @sender_notification.subject.start_with? 'Re: '
+    @subject   = if @sender_notification.subject.start_with?('Re: ')
                    @sender_notification.subject
                  else
                    "Re: #{@sender_notification.subject}"
@@ -41,7 +41,7 @@ class NotificationsController < ApplicationController
   # DELETE /notifications/1
   def destroy
     @notification.destroy
-    redirect_to notifications_url
+    redirect_to(notifications_url)
   end
 
   # POST /notifications
@@ -51,9 +51,9 @@ class NotificationsController < ApplicationController
     @recipient = Member.find_by(id: params[:notification][:recipient_id])
 
     if @notification.save
-      redirect_to notifications_path, notice: 'Message was successfully sent.'
+      redirect_to(notifications_path, notice: 'Message was successfully sent.')
     else
-      render action: "new"
+      render(action: "new")
     end
   end
 

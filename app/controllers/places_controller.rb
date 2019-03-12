@@ -31,9 +31,9 @@ class PlacesController < ApplicationController
 
   def search
     if params[:new_place].empty?
-      redirect_to places_path, alert: 'Please enter a valid location'
+      redirect_to(places_path, alert: 'Please enter a valid location')
     else
-      redirect_to place_path(params[:new_place])
+      redirect_to(place_path(params[:new_place]))
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'crops/index.rss.haml' do
   before do
@@ -11,11 +11,11 @@ describe 'crops/index.rss.haml' do
   end
 
   it 'shows RSS feed title' do
-    rendered.should have_content "Recently added crops"
+    rendered.should(have_content("Recently added crops"))
   end
 
   it 'shows names of crops' do
-    rendered.should have_content @tomato.name
-    rendered.should have_content @maize.name
+    rendered.should(have_content(@tomato.name))
+    rendered.should(have_content(@maize.name))
   end
 end

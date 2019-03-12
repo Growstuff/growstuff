@@ -1,12 +1,12 @@
 class AdminController < ApplicationController
   respond_to :html
   def index
-    authorize! :manage, :all
+    authorize!(:manage, :all)
   end
 
   def newsletter
-    authorize! :manage, :all
+    authorize!(:manage, :all)
     @members = Member.confirmed.wants_newsletter.all
-    respond_with @members
+    respond_with(@members)
   end
 end

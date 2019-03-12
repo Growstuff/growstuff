@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'devise/registrations/edit.html.haml', type: "view" do
   context "logged in" do
@@ -14,7 +14,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
 
     it 'has some fields' do
       render
-      rendered.should have_content 'Email'
+      rendered.should(have_content('Email'))
     end
 
     context 'email section' do

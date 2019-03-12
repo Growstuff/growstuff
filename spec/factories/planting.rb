@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :planting do
     owner
-    garden { FactoryBot.create :garden, owner: owner }
+    garden { FactoryBot.create(:garden, owner: owner) }
     crop
     planted_at { Time.zone.local(2014, 7, 30) }
     quantity { 33 }

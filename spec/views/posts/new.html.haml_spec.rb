@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "posts/new" do
   let(:author) { FactoryBot.create(:member) }
@@ -23,15 +23,15 @@ describe "posts/new" do
   end
 
   it 'no forum mentioned' do
-    expect(rendered).not_to have_content "This post will be posted in the forum"
+    expect(rendered).not_to(have_content("This post will be posted in the forum"))
   end
 
   it "asks what's going on in your garden" do
-    expect(rendered).to have_content "What's going on in your food garden?"
+    expect(rendered).to(have_content("What's going on in your food garden?"))
   end
 
   it 'shows markdown help' do
-    expect(rendered).to have_content 'Markdown'
+    expect(rendered).to(have_content('Markdown'))
   end
 
   context "forum specified" do
@@ -48,13 +48,13 @@ describe "posts/new" do
     end
 
     it 'tells the user what forum it will be posted in' do
-      expect(rendered).to have_content "This post will be posted in the forum #{forum.name}"
+      expect(rendered).to(have_content("This post will be posted in the forum #{forum.name}"))
     end
-    it { expect(rendered).to have_link forum.name }
+    it { expect(rendered).to(have_link(forum.name)) }
 
     describe "asks what's going on generally" do
-      it { expect(rendered).to have_content "What's going on in your food garden?" }
-      it { expect(rendered).to have_content "What's up?" }
+      it { expect(rendered).to(have_content("What's going on in your food garden?")) }
+      it { expect(rendered).to(have_content("What's up?")) }
     end
   end
 end

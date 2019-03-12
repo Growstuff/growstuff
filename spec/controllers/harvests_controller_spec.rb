@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe HarvestsController do
   login_member
@@ -23,37 +23,37 @@ describe HarvestsController do
     describe "assigns all harvests as @harvests" do
       before { get :index, params: {} }
 
-      it { expect(assigns(:harvests)).to eq [harvest1, harvest2] }
+      it { expect(assigns(:harvests)).to(eq([harvest1, harvest2])) }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do
       before { get :index, params: { member_slug: member1.slug } }
 
-      it { expect(assigns(:owner)).to eq member1 }
-      it { expect(assigns(:harvests)).to eq [harvest1] }
+      it { expect(assigns(:owner)).to(eq(member1)) }
+      it { expect(assigns(:harvests)).to(eq([harvest1])) }
     end
 
     describe "picks up crop from params and shows the harvests for the crop only" do
       before { get :index, params: { crop_slug: maize.name } }
 
-      it { expect(assigns(:crop)).to eq maize }
-      it { expect(assigns(:harvests)).to eq [harvest2] }
+      it { expect(assigns(:crop)).to(eq(maize)) }
+      it { expect(assigns(:harvests)).to(eq([harvest2])) }
     end
 
     describe "generates a csv" do
       before { get :index, format: "csv" }
 
-      it { expect(response.status).to eq 200 }
+      it { expect(response.status).to(eq(200)) }
     end
   end
 
   describe "GET show" do
-    let(:harvest) { Harvest.create! valid_attributes }
+    let(:harvest) { Harvest.create!(valid_attributes) }
 
     describe "assigns the requested harvest as @harvest" do
       before { get :show, params: { id: harvest.to_param } }
 
-      it { expect(assigns(:harvest)).to eq(harvest) }
+      it { expect(assigns(:harvest)).to(eq(harvest)) }
     end
   end
 
@@ -61,21 +61,21 @@ describe HarvestsController do
     before { get :new, params: {} }
 
     describe "assigns a new harvest as @harvest" do
-      it { expect(assigns(:harvest)).to be_a_new(Harvest) }
+      it { expect(assigns(:harvest)).to(be_a_new(Harvest)) }
     end
 
     describe "sets the date of the harvest to today" do
-      it { expect(assigns(:harvest).harvested_at).to eq(Time.zone.today) }
+      it { expect(assigns(:harvest).harvested_at).to(eq(Time.zone.today)) }
     end
   end
 
   describe "GET edit" do
-    let(:harvest) { Harvest.create! valid_attributes }
+    let(:harvest) { Harvest.create!(valid_attributes) }
 
     describe "assigns the requested harvest as @harvest" do
       before { get :edit, params: { id: harvest.to_param } }
 
-      it { expect(assigns(:harvest)).to eq(harvest) }
+      it { expect(assigns(:harvest)).to(eq(harvest)) }
     end
   end
 
@@ -84,20 +84,20 @@ describe HarvestsController do
       it "creates a new Harvest" do
         expect do
           post :create, params: { harvest: valid_attributes }
-        end.to change(Harvest, :count).by(1)
+        end.to(change(Harvest, :count).by(1))
       end
 
       describe "assigns a newly created harvest as @harvest" do
         before { post :create, params: { harvest: valid_attributes } }
 
-        it { expect(assigns(:harvest)).to be_a(Harvest) }
-        it { expect(assigns(:harvest)).to be_persisted }
+        it { expect(assigns(:harvest)).to(be_a(Harvest)) }
+        it { expect(assigns(:harvest)).to(be_persisted) }
       end
 
       describe "redirects to the created harvest" do
         before { post :create, params: { harvest: valid_attributes } }
 
-        it { expect(response).to redirect_to(Harvest.last) }
+        it { expect(response).to(redirect_to(Harvest.last)) }
       end
 
       describe "links to planting" do
@@ -105,7 +105,7 @@ describe HarvestsController do
 
         before { post :create, params: { harvest: valid_attributes.merge(planting_id: planting.id) } }
 
-        it { expect(Harvest.last.planting.id).to eq(planting.id) }
+        it { expect(Harvest.last.planting.id).to(eq(planting.id)) }
       end
     end
 
@@ -114,14 +114,14 @@ describe HarvestsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Harvest.any_instance.stub(:save).and_return(false)
         post :create, params: { harvest: { "crop_id" => "invalid value" } }
-        expect(assigns(:harvest)).to be_a_new(Harvest)
+        expect(assigns(:harvest)).to(be_a_new(Harvest))
       end
 
       describe "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         before { post :create, params: { harvest: { "crop_id" => "invalid value" } } }
 
-        it { expect(response).to render_template("new") }
+        it { expect(response).to(render_template("new")) }
       end
     end
 
@@ -131,53 +131,53 @@ describe HarvestsController do
 
       describe "does not save planting_id" do
         before do
-          allow(Harvest).to receive(:new).and_return(harvest)
+          allow(Harvest).to(receive(:new).and_return(harvest))
           post :create, params: { harvest: valid_attributes.merge(planting_id: not_my_planting.id) }
         end
 
-        it { expect(harvest.planting_id).not_to eq(not_my_planting.id) }
+        it { expect(harvest.planting_id).not_to(eq(not_my_planting.id)) }
       end
     end
   end
 
   describe "PUT update" do
     describe "with valid params" do
-      let(:harvest) { Harvest.create! valid_attributes }
+      let(:harvest) { Harvest.create!(valid_attributes) }
 
       it "updates the requested harvest" do
-        new_crop = FactoryBot.create :crop
+        new_crop = FactoryBot.create(:crop)
         expect do
           put :update, params: { id: harvest.to_param, harvest: { crop_id: new_crop.id } }
           harvest.reload
-        end.to change(harvest, :crop_id).to(new_crop.id)
+        end.to(change(harvest, :crop_id).to(new_crop.id))
       end
 
       describe "assigns the requested harvest as @harvest" do
         before { put :update, params: { id: harvest.to_param, harvest: valid_attributes } }
 
-        it { expect(assigns(:harvest)).to eq(harvest) }
+        it { expect(assigns(:harvest)).to(eq(harvest)) }
       end
 
       describe "redirects to the harvest" do
         before { put :update, params: { id: harvest.to_param, harvest: valid_attributes } }
 
-        it { expect(response).to redirect_to(harvest) }
+        it { expect(response).to(redirect_to(harvest)) }
       end
     end
 
     describe "with invalid params" do
       it "assigns the harvest as @harvest" do
-        harvest = Harvest.create! valid_attributes
+        harvest = Harvest.create!(valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Harvest.any_instance.stub(:save).and_return(false)
         put :update, params: { id: harvest.to_param, harvest: { "crop_id" => "invalid value" } }
-        expect(assigns(:harvest)).to eq(harvest)
+        expect(assigns(:harvest)).to(eq(harvest))
       end
 
       it "re-renders the 'edit' template" do
-        harvest = Harvest.create! valid_attributes
+        harvest = Harvest.create!(valid_attributes)
         put :update, params: { id: harvest.to_param, harvest: { "crop_id" => "invalid value" } }
-        expect(response).to render_template("edit")
+        expect(response).to(render_template("edit"))
       end
     end
 
@@ -191,23 +191,23 @@ describe HarvestsController do
                                  harvest: valid_attributes.merge(planting_id: not_my_planting.id) }
         end
 
-        it { expect(harvest.planting_id).to eq(nil) }
+        it { expect(harvest.planting_id).to(eq(nil)) }
       end
     end
   end
 
   describe "DELETE destroy" do
     it "destroys the requested harvest" do
-      harvest = Harvest.create! valid_attributes
+      harvest = Harvest.create!(valid_attributes)
       expect do
         delete :destroy, params: { id: harvest.to_param }
-      end.to change(Harvest, :count).by(-1)
+      end.to(change(Harvest, :count).by(-1))
     end
 
     it "redirects to the harvests list" do
-      harvest = Harvest.create! valid_attributes
+      harvest = Harvest.create!(valid_attributes)
       delete :destroy, params: { id: harvest.to_param }
-      expect(response).to redirect_to(harvests_url)
+      expect(response).to(redirect_to(harvests_url))
     end
   end
 end

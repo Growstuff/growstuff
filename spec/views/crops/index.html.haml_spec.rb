@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "crops/index" do
   before do
@@ -37,14 +37,14 @@ describe "crops/index" do
     end
 
     it "shows a new crop link" do
-      rendered.should have_content "New Crop"
+      rendered.should(have_content("New Crop"))
     end
   end
 
   context "downloads" do
     it "offers data downloads" do
       render
-      rendered.should have_content "The data on this page is available in the following formats:"
+      rendered.should(have_content("The data on this page is available in the following formats:"))
       assert_select "a", href: crops_path(format: 'csv')
       assert_select "a", href: crops_path(format: 'json')
       assert_select "a", href: crops_path(format: 'rss')

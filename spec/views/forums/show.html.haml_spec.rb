@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "forums/show" do
   before do
@@ -8,8 +8,8 @@ describe "forums/show" do
 
   it "renders attributes" do
     render
-    rendered.should have_content "Everything about permaculture"
-    rendered.should have_content @forum.owner.to_s
+    rendered.should(have_content("Everything about permaculture"))
+    rendered.should(have_content(@forum.owner.to_s))
   end
 
   it "parses markdown description into html" do
@@ -24,14 +24,14 @@ describe "forums/show" do
 
   it 'has no posts' do
     render
-    rendered.should have_content "No posts yet."
+    rendered.should(have_content("No posts yet."))
   end
 
   it 'shows posts' do
     @post = FactoryBot.create(:post, forum: @forum)
     render
     assert_select "table"
-    rendered.should have_content @post.subject
-    rendered.should have_content @post.author.to_s
+    rendered.should(have_content(@post.subject))
+    rendered.should(have_content(@post.author.to_s))
   end
 end

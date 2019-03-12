@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe RobotsController do
   describe '#robots' do
@@ -15,8 +15,8 @@ describe RobotsController do
       it 'loads the staging robots.txt file' do
         get :robots
 
-        expect(response).to be_success
-        expect(response.body).to eq(File.read(staging_filename))
+        expect(response).to(be_success)
+        expect(response.body).to(eq(File.read(staging_filename)))
       end
     end
 
@@ -26,8 +26,8 @@ describe RobotsController do
       it 'loads the production robots.txt file' do
         get :robots
 
-        expect(response).to be_success
-        expect(response.body).to eq(File.read(production_filename))
+        expect(response).to(be_success)
+        expect(response.body).to(eq(File.read(production_filename)))
       end
     end
 
@@ -37,8 +37,8 @@ describe RobotsController do
       it 'loads the production robots.txt file' do
         get :robots
 
-        expect(response).to be_success
-        expect(response.body).to eq(File.read(production_filename))
+        expect(response).to(be_success)
+        expect(response.body).to(eq(File.read(production_filename)))
       end
     end
 
@@ -48,8 +48,8 @@ describe RobotsController do
       it 'loads the production robots.txt file' do
         get :robots
 
-        expect(response).to be_success
-        expect(response.body).to eq(File.read(production_filename))
+        expect(response).to(be_success)
+        expect(response.body).to(eq(File.read(production_filename)))
       end
     end
   end

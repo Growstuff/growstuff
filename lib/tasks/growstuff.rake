@@ -15,8 +15,8 @@ namespace :growstuff do
 
   def add_role_to_member!(login_name, role_name)
     unless login_name && role_name
-      raise "Usage: rake growstuff:[rolename] name=[username] "\
-        "\n (login name is case-sensitive)\n"
+      raise("Usage: rake growstuff:[rolename] name=[username] "\
+        "\n (login name is case-sensitive)\n")
     end
     member = Member.find_by!(login_name: login_name)
     role = Role.find_by!(name: role_name)
@@ -108,14 +108,14 @@ namespace :growstuff do
     desc "August 2013: set up plantings_count cache on crop"
     task reset_crop_plantings_count: :environment do
       Crop.find_each do |c|
-        Crop.reset_counters c.id, :plantings
+        Crop.reset_counters(c.id, :plantings)
       end
     end
 
     desc "August 2013: set default creator on existing crops"
     task set_default_crop_creator: :environment do
       cropbot = Member.find_by(login_name: "cropbot")
-      raise "cropbot not found: create cropbot member on site or run rake db:seed" unless cropbot
+      raise("cropbot not found: create cropbot member on site or run rake db:seed") unless cropbot
 
       Crop.find_each do |crop|
         unless crop.creator
@@ -142,7 +142,7 @@ namespace :growstuff do
     desc "August 2013: initialize member planting counter"
     task initialize_member_planting_count: :environment do
       Member.find_each do |m|
-        Member.reset_counters m.id, :plantings
+        Member.reset_counters(m.id, :plantings)
       end
     end
 
@@ -245,7 +245,7 @@ namespace :growstuff do
 
     desc "January 2015: build Elasticsearch index"
     task elasticsearch_create_index: :environment do
-      Crop.__elasticsearch__.create_index! force: true
+      Crop.__elasticsearch__.create_index!(force: true)
       Crop.import
     end
   end # end oneoff section

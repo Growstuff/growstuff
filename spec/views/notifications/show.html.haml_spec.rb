@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "notifications/show" do
   before do
@@ -11,8 +11,8 @@ describe "notifications/show" do
   end
 
   it "renders attributes" do
-    rendered.should have_content @notification.sender.to_s
-    rendered.should have_content @notification.body.to_s
+    rendered.should(have_content(@notification.sender.to_s))
+    rendered.should(have_content(@notification.body.to_s))
   end
 
   it "includes a delete button" do

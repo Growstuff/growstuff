@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "notifications/index" do
   before do
@@ -31,7 +31,7 @@ describe "notifications/index" do
         sender: @member, recipient: @member, subject: nil)
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
-      rendered.should have_content "(no subject)"
+      rendered.should(have_content("(no subject)"))
     end
   end
 
@@ -41,7 +41,7 @@ describe "notifications/index" do
         sender: @member, recipient: @member, subject: "   ")
       assign(:notifications, Kaminari.paginate_array([@notification]).page(1))
       render
-      rendered.should have_content "(no subject)"
+      rendered.should(have_content("(no subject)"))
     end
   end
 end

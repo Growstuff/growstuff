@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 feature "crop wrangling button" do
   let(:crop_wrangler) { create :crop_wrangling_member }
@@ -11,7 +11,7 @@ feature "crop wrangling button" do
     end
 
     scenario "has a link to crop wrangling page" do
-      expect(page).to have_link "Wrangle Crops", href: wrangle_crops_path
+      expect(page).to(have_link("Wrangle Crops", href: wrangle_crops_path))
     end
   end
 
@@ -22,7 +22,7 @@ feature "crop wrangling button" do
     end
 
     scenario "has no link to crop wrangling page" do
-      expect(page).to have_no_link "Wrangle Crops", href: wrangle_crops_path
+      expect(page).to(have_no_link("Wrangle Crops", href: wrangle_crops_path))
     end
   end
 end

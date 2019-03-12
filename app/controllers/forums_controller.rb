@@ -45,7 +45,7 @@ class ForumsController < ApplicationController
   def destroy
     @forum.destroy
     flash[:notice] = 'Forum was successfully deleted'
-    redirect_to forums_url
+    redirect_to(forums_url)
   end
 
   private

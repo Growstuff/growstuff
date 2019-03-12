@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "plantings/show" do
   let(:crop) { FactoryBot.create(:tomato) }
@@ -21,8 +21,8 @@ describe "plantings/show" do
 
     it "shows the sunniness" do
       render
-      rendered.should have_content 'Sun or shade?'
-      rendered.should have_content 'sun'
+      rendered.should(have_content('Sun or shade?'))
+      rendered.should(have_content('sun'))
     end
   end
 
@@ -31,14 +31,14 @@ describe "plantings/show" do
 
     it "shows planted_from" do
       render
-      rendered.should have_content 'Planted from:'
-      rendered.should have_content 'cutting'
+      rendered.should(have_content('Planted from:'))
+      rendered.should(have_content('cutting'))
     end
 
     it "shows planted_from if blank" do
       planting.update(planted_from:  '')
       render
-      rendered.should have_content 'Planted from: not specified'
+      rendered.should(have_content('Planted from: not specified'))
     end
   end
 
@@ -51,7 +51,7 @@ describe "plantings/show" do
 
   it "shows a link to add photos" do
     render
-    rendered.should have_content "Add photo"
+    rendered.should(have_content("Add photo"))
   end
 
   context "no location set" do
@@ -60,11 +60,11 @@ describe "plantings/show" do
     end
 
     it "renders the quantity planted" do
-      rendered.should match(/3/)
+      rendered.should(match(/3/))
     end
 
     it "renders the description" do
-      rendered.should match(/This is a/)
+      rendered.should(match(/This is a/))
     end
 
     it "renders markdown in the description" do
@@ -72,7 +72,7 @@ describe "plantings/show" do
     end
 
     it "doesn't contain a () if no location is set" do
-      rendered.should_not have_content "()"
+      rendered.should_not(have_content("()"))
     end
   end
 
@@ -83,7 +83,7 @@ describe "plantings/show" do
     end
 
     it "shows the member's location in parentheses" do
-      rendered.should have_content "(#{planting.owner.location})"
+      rendered.should(have_content("(#{planting.owner.location})"))
     end
   end
 end

@@ -10,7 +10,7 @@ module Charts
         finish = p.finished_at.presence || p.finish_predicted_at
         @data << [p.crop.name, p.planted_at, finish] if finish.present?
       end
-      render json: @data
+      render(json: @data)
     end
   end
 end

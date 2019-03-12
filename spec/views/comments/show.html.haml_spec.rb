@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "comments/show" do
   before do
@@ -8,7 +8,7 @@ describe "comments/show" do
   end
 
   it "renders the comment" do
-    rendered.should have_content @comment.author.login_name
-    rendered.should have_content @comment.body
+    rendered.should(have_content(@comment.author.login_name))
+    rendered.should(have_content(@comment.body))
   end
 end

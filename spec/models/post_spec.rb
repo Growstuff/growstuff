@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe Post do
   let(:member) { FactoryBot.create(:member, login_name: 'whinacooper') }
@@ -11,8 +11,8 @@ describe Post do
     datestr = time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years
     # Counting digits using Math.log is not precise enough!
-    datestr.size.should eq(4 + time.year.to_s.size)
-    post.slug.should eq("#{member.login_name}-#{datestr}-a-post")
+    datestr.size.should(eq(4 + time.year.to_s.size))
+    post.slug.should(eq("#{member.login_name}-#{datestr}-a-post"))
   end
 
   it "has many comments" do
@@ -33,30 +33,30 @@ describe Post do
     post = FactoryBot.create(:post, author: member)
     FactoryBot.create(:comment, post: post)
     FactoryBot.create(:comment, post: post)
-    post.comments.size.should eq(2)
+    post.comments.size.should(eq(2))
     all = Comment.count
     post.destroy
-    Comment.count.should eq(all - 2)
+    Comment.count.should(eq(all - 2))
   end
 
   it "belongs to a forum" do
     post = FactoryBot.create(:forum_post)
-    post.forum.should be_an_instance_of Forum
+    post.forum.should(be_an_instance_of(Forum))
   end
 
   it "doesn't allow a nil subject" do
     post = FactoryBot.build(:post, subject: nil)
-    post.should_not be_valid
+    post.should_not(be_valid)
   end
 
   it "doesn't allow a blank subject" do
     post = FactoryBot.build(:post, subject: "")
-    post.should_not be_valid
+    post.should_not(be_valid)
   end
 
   it "doesn't allow a subject with only spaces" do
     post = FactoryBot.build(:post, subject: "    ")
-    post.should_not be_valid
+    post.should_not(be_valid)
   end
 
   context "recent activity" do
@@ -67,28 +67,28 @@ describe Post do
     let!(:post) { FactoryBot.create(:post, created_at: 1.day.ago) }
 
     it "sets recent activity to post time" do
-      post.recent_activity.to_i.should eq post.created_at.to_i
+      post.recent_activity.to_i.should(eq(post.created_at.to_i))
     end
 
     it "sets recent activity to comment time" do
       comment = FactoryBot.create(:comment, post:       post,
                                             created_at: 1.hour.ago)
-      post.recent_activity.to_i.should eq comment.created_at.to_i
+      post.recent_activity.to_i.should(eq(comment.created_at.to_i))
     end
 
     it "shiny new post is recently active" do
       # create a shiny new post
       post2 = FactoryBot.create(:post, created_at: 1.minute.ago)
-      Post.recently_active.first.should eq post2
-      Post.recently_active.second.should eq post
+      Post.recently_active.first.should(eq(post2))
+      Post.recently_active.second.should(eq(post))
     end
 
     it "new comment on old post is recently active" do
       # now comment on an older post
       post2 = FactoryBot.create(:post, created_at: 1.minute.ago)
       FactoryBot.create(:comment, post: post, created_at: 1.second.ago)
-      Post.recently_active.first.should eq post
-      Post.recently_active.second.should eq post2
+      Post.recently_active.first.should(eq(post))
+      Post.recently_active.second.should(eq(post2))
     end
   end
 
@@ -98,35 +98,35 @@ describe Post do
     it "sends a notification when a member is mentioned using @-syntax" do
       expect do
         FactoryBot.create(:post, author: member, body: "Hey @#{member2}")
-      end.to change(Notification, :count).by(1)
+      end.to(change(Notification, :count).by(1))
     end
 
     it "sends a notification when a member is mentioned using [](member) syntax" do
       expect do
         FactoryBot.create(:post, author: member, body: "Hey [#{member2}](member)")
-      end.to change(Notification, :count).by(1)
+      end.to(change(Notification, :count).by(1))
     end
 
     it "sets the notification field" do
       p = FactoryBot.create(:post, author: member, body: "Hey @#{member2}")
       n = Notification.first
-      n.sender.should eq member
-      n.recipient.should eq member2
-      n.subject.should match(/mentioned you in their post/)
-      n.body.should eq p.body
+      n.sender.should(eq(member))
+      n.recipient.should(eq(member2))
+      n.subject.should(match(/mentioned you in their post/))
+      n.body.should(eq(p.body))
     end
 
     it "sends notifications to all members mentioned" do
       member3 = FactoryBot.create(:member)
       expect do
         FactoryBot.create(:post, author: member, body: "Hey @#{member2} & @#{member3}")
-      end.to change(Notification, :count).by(2)
+      end.to(change(Notification, :count).by(2))
     end
 
     it "doesn't send notifications if you mention yourself" do
       expect do
         FactoryBot.create(:post, author: member, body: "@#{member}")
-      end.to change(Notification, :count).by(0)
+      end.to(change(Notification, :count).by(0))
     end
   end
 
@@ -137,8 +137,8 @@ describe Post do
     let!(:post) { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
     it "is generated" do
-      expect(tomato.posts).to eq [post]
-      expect(maize.posts).to eq [post]
+      expect(tomato.posts).to(eq([post]))
+      expect(maize.posts).to(eq([post]))
     end
 
     it "does not duplicate" do
@@ -148,10 +148,10 @@ describe Post do
     it "is updated when post was modified" do
       post.update(body: "[chard](crop)")
 
-      expect(post.crops).to eq [chard]
-      expect(chard.posts).to eq [post]
-      expect(tomato.posts).to eq []
-      expect(maize.posts).to eq []
+      expect(post.crops).to(eq([chard]))
+      expect(chard.posts).to(eq([post]))
+      expect(tomato.posts).to(eq([]))
+      expect(maize.posts).to(eq([]))
     end
 
     describe "destroying the post" do
@@ -160,21 +160,21 @@ describe Post do
       end
 
       it "deletes the association" do
-        expect(Crop.find(tomato.id).posts).to eq []
-        expect(Crop.find(maize.id).posts).to eq []
+        expect(Crop.find(tomato.id).posts).to(eq([]))
+        expect(Crop.find(maize.id).posts).to(eq([]))
       end
 
       it "does not delete the crops" do
-        expect(Crop.find(tomato.id)).not_to eq nil
-        expect(Crop.find(maize.id)).not_to eq nil
+        expect(Crop.find(tomato.id)).not_to(eq(nil))
+        expect(Crop.find(maize.id)).not_to(eq(nil))
       end
     end
   end
 
   it 'excludes deleted members' do
-    post = FactoryBot.create :post, author: member
-    expect(Post.joins(:author).all).to include(post)
+    post = FactoryBot.create(:post, author: member)
+    expect(Post.joins(:author).all).to(include(post))
     member.destroy
-    expect(Post.joins(:author).all).not_to include(post)
+    expect(Post.joins(:author).all).not_to(include(post))
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe ScientificNamesController do
   login_member(:crop_wrangling_member)
@@ -12,7 +12,7 @@ describe ScientificNamesController do
   describe "GET new" do
     it "assigns crop if specified" do
       get :new, params: { crop_id: crop.id }
-      assigns(:crop).should be_an_instance_of Crop
+      assigns(:crop).should(be_an_instance_of(Crop))
     end
   end
 end

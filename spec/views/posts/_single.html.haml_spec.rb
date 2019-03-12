@@ -1,8 +1,8 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "posts/_single" do
   def render_post
-    render partial: "single", locals: { post: @post }
+    render(partial: "single", locals: { post: @post })
   end
 
   before do
@@ -16,7 +16,7 @@ describe "posts/_single" do
     end
 
     it "contains a permanent link to post" do
-      assert_select "a[href='#{post_path @post}']", "Permalink"
+      assert_select "a[href='#{post_path(@post)}']", "Permalink"
     end
 
     it "doesn't contain a link to new comment" do
@@ -100,11 +100,11 @@ describe "posts/_single" do
     end
 
     it "renders no value of comments" do
-      rendered.should_not have_content "1 comment"
+      rendered.should_not(have_content("1 comment"))
     end
 
     it "does not contain link to post" do
-      assert_select "a[href='#{post_path @post}']", false
+      assert_select "a[href='#{post_path(@post)}']", false
     end
 
     it "does not contain link to new comment" do
@@ -123,11 +123,11 @@ describe "posts/_single" do
     end
 
     it "shows edited at" do
-      rendered.should have_content "edited at"
+      rendered.should(have_content("edited at"))
     end
 
     it "shows the updated time" do
-      rendered.should have_content @post.updated_at
+      rendered.should(have_content(@post.updated_at))
     end
   end
 
@@ -143,11 +143,11 @@ describe "posts/_single" do
     end
 
     it "shows edited at time" do
-      rendered.should have_content "edited at"
+      rendered.should(have_content("edited at"))
     end
 
     it "shows updated time" do
-      rendered.should have_content @comment.updated_at
+      rendered.should(have_content(@comment.updated_at))
     end
   end
 
@@ -162,7 +162,7 @@ describe "posts/_single" do
     end
 
     it "does not show edited at" do
-      rendered.should_not have_content "edited at #{@post.updated_at}"
+      rendered.should_not(have_content("edited at #{@post.updated_at}"))
     end
   end
 
@@ -178,7 +178,7 @@ describe "posts/_single" do
     end
 
     it "does not show edited at" do
-      rendered.should_not have_content "edited at #{@comment.updated_at}"
+      rendered.should_not(have_content("edited at #{@comment.updated_at}"))
     end
   end
 end

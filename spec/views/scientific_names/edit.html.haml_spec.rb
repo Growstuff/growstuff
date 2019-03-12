@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "scientific_names/edit" do
   context "logged in" do
@@ -13,9 +13,9 @@ describe "scientific_names/edit" do
     end
 
     it "shows the creator" do
-      expect(rendered).to have_content "Added by #{member} less than a minute ago."
+      expect(rendered).to(have_content("Added by #{member} less than a minute ago."))
     end
-    it { expect(rendered).to have_link member }
+    it { expect(rendered).to(have_link(member)) }
 
     it "renders the edit scientific_name form" do
       assert_select "form", action: scientific_names_path(scientific_name), method: "post" do

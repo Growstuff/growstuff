@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 feature "show photo page" do
   context "signed in member" do
@@ -16,10 +16,10 @@ feature "show photo page" do
           visit photo_path(photo)
         end
         it {
-          expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
-            href: planting_path(planting)
+          expect(page).to(have_link("#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
+            href: planting_path(planting)))
         }
-        it { expect(page).to have_link planting.crop.name }
+        it { expect(page).to(have_link(planting.crop.name)) }
       end
     end
 
@@ -32,8 +32,8 @@ feature "show photo page" do
           harvest.photos << photo
           visit photo_path(photo)
         end
-        it { expect(page).to have_link "#{harvest.crop.name} harvest by #{harvest.owner}", href: harvest_path(harvest) }
-        it { expect(page).to have_link harvest.crop.name }
+        it { expect(page).to(have_link("#{harvest.crop.name} harvest by #{harvest.owner}", href: harvest_path(harvest))) }
+        it { expect(page).to(have_link(harvest.crop.name)) }
       end
     end
 
@@ -46,7 +46,7 @@ feature "show photo page" do
           garden.photos << photo
           visit photo_path(photo)
         end
-        it { expect(page).to have_link "garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden) }
+        it { expect(page).to(have_link("garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden))) }
       end
     end
 
@@ -59,8 +59,8 @@ feature "show photo page" do
           seed.photos << photo
           visit photo_path(photo)
         end
-        it { expect(page).to have_link "#{seed.crop.name} seeds belonging to #{seed.owner}", href: seed_path(seed) }
-        it { expect(page).to have_link seed.crop.name }
+        it { expect(page).to(have_link("#{seed.crop.name} seeds belonging to #{seed.owner}", href: seed_path(seed))) }
+        it { expect(page).to(have_link(seed.crop.name)) }
       end
     end
   end

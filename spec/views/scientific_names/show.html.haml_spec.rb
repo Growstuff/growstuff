@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "scientific_names/show" do
   before do
@@ -10,7 +10,7 @@ describe "scientific_names/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Zea mays/)
+    rendered.should(match(/Zea mays/))
   end
 
   context 'signed in' do
@@ -22,7 +22,7 @@ describe "scientific_names/show" do
     end
 
     it 'has an edit button' do
-      rendered.should have_content 'Edit'
+      rendered.should(have_content('Edit'))
     end
   end
 end

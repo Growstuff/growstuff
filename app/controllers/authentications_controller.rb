@@ -1,4 +1,4 @@
-require './lib/actions/oauth_signup_action'
+require('./lib/actions/oauth_signup_action')
 class AuthenticationsController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource
@@ -26,7 +26,7 @@ class AuthenticationsController < ApplicationController
     else
       flash[:notice] = "Authentication failed."
     end
-    redirect_to request.env['omniauth.origin'] || edit_member_registration_path
+    redirect_to(request.env['omniauth.origin'] || edit_member_registration_path)
   end
 
   # DELETE /authentications/1

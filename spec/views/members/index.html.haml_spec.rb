@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "members/index" do
   let(:member) { FactoryBot.create(:london_member) }
@@ -20,6 +20,6 @@ describe "members/index" do
   end
 
   it 'contains member locations' do
-    expect(rendered).to have_content member.location
+    expect(rendered).to(have_content(member.location))
   end
 end

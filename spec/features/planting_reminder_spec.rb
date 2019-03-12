@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'capybara/email/rspec'
+require('rails_helper')
+require('capybara/email/rspec')
 
 feature "Planting reminder email", :js do
   let(:member) { create :member }
@@ -12,16 +12,16 @@ feature "Planting reminder email", :js do
   end
 
   scenario "has a greeting" do
-    expect(mail).to have_content "Hello"
+    expect(mail).to(have_content("Hello"))
   end
 
   context "when member has no plantings" do
     scenario "tells you to track your plantings" do
-      expect(mail).to have_content "planting your first crop"
+      expect(mail).to(have_content("planting your first crop"))
     end
 
     scenario "doesn't list plantings" do
-      expect(mail).not_to have_content "most recent plantings you've told us about"
+      expect(mail).not_to(have_content("most recent plantings you've told us about"))
     end
   end
 
@@ -32,20 +32,20 @@ feature "Planting reminder email", :js do
     let!(:p2) { create :planting, garden: member.gardens.first, owner: member }
 
     scenario "lists plantings" do
-      expect(mail).to have_content "most recent plantings you've told us about"
-      expect(mail).to have_link p1.to_s, href: planting_url(p1)
-      expect(mail).to have_link p2.to_s, href: planting_url(p2)
-      expect(mail).to have_content "keep your garden records up to date"
+      expect(mail).to(have_content("most recent plantings you've told us about"))
+      expect(mail).to(have_link(p1.to_s, href: planting_url(p1)))
+      expect(mail).to(have_link(p2.to_s, href: planting_url(p2)))
+      expect(mail).to(have_content("keep your garden records up to date"))
     end
   end
 
   context "when member has no harvests" do
     scenario "tells you to tracking plantings" do
-      expect(mail).to have_content "Get started now by tracking your first harvest"
+      expect(mail).to(have_content("Get started now by tracking your first harvest"))
     end
 
     scenario "doesn't list plantings" do
-      expect(mail).not_to have_content "the last few things you harvested were"
+      expect(mail).not_to(have_content("the last few things you harvested were"))
     end
   end
 
@@ -56,10 +56,10 @@ feature "Planting reminder email", :js do
     let!(:h2) { create :harvest, owner: member }
 
     scenario "lists harvests" do
-      expect(mail).to have_content "the last few things you harvested were"
-      expect(mail).to have_link h1.to_s, href: harvest_url(h1)
-      expect(mail).to have_link h2.to_s, href: harvest_url(h2)
-      expect(mail).to have_content "Harvested anything else lately?"
+      expect(mail).to(have_content("the last few things you harvested were"))
+      expect(mail).to(have_link(h1.to_s, href: harvest_url(h1)))
+      expect(mail).to(have_link(h2.to_s, href: harvest_url(h2)))
+      expect(mail).to(have_content("Harvested anything else lately?"))
     end
   end
 end

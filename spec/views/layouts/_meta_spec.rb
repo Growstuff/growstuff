@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'layouts/_meta.html.haml', type: "view" do
   before do

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe Role do
   subject do
@@ -10,18 +10,18 @@ describe Role do
   let(:member) { FactoryBot.create(:member) }
 
   it 'has members' do
-    subject.members.first.should eq member
+    subject.members.first.should(eq(member))
   end
 
   it 'has a slug' do
-    subject.slug.should eq 'crop-wrangler'
+    subject.slug.should(eq('crop-wrangler'))
   end
 
   describe '.crop_wranglers' do
     let!(:crop_wranglers) { FactoryBot.create_list(:crop_wrangling_member, 3) }
 
     it 'return the crop wranglers that are members of that role' do
-      expect(Role.crop_wranglers).to match_array(crop_wranglers)
+      expect(Role.crop_wranglers).to(match_array(crop_wranglers))
     end
   end
 
@@ -29,7 +29,7 @@ describe Role do
     let!(:admins) { FactoryBot.create_list(:admin_member, 3) }
 
     it 'return the members that have the role of admin' do
-      expect(Role.admins).to match_array(admins)
+      expect(Role.admins).to(match_array(admins))
     end
   end
 end

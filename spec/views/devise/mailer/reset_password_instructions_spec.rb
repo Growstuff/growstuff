@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'devise/mailer/reset_password_instructions.html.haml', type: "view" do
   context "logged in" do
@@ -10,8 +10,8 @@ describe 'devise/mailer/reset_password_instructions.html.haml', type: "view" do
     end
 
     it 'has some of the right text' do
-      rendered.should have_content 'Change my password'
-      rendered.should have_content 'Someone has requested a link to reset your password'
+      rendered.should(have_content('Change my password'))
+      rendered.should(have_content('Someone has requested a link to reset your password'))
     end
   end
 end

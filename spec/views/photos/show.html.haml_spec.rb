@@ -1,19 +1,19 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "photos/show" do
-  let(:photo) { FactoryBot.create :photo, owner: member }
-  let(:crops) { FactoryBot.create_list :crop, 2 }
+  let(:photo) { FactoryBot.create(:photo, owner: member) }
+  let(:crops) { FactoryBot.create_list(:crop, 2) }
   before do
     @photo = photo
     @crops = crops
   end
 
-  let(:member) { FactoryBot.create :member }
+  let(:member) { FactoryBot.create(:member) }
 
-  let(:harvest) { FactoryBot.create :harvest, owner: member }
-  let(:planting) { FactoryBot.create :planting, owner: member }
-  let(:seed) { FactoryBot.create :seed, owner: member }
-  let(:garden) { FactoryBot.create :garden, owner: member }
+  let(:harvest) { FactoryBot.create(:harvest, owner: member) }
+  let(:planting) { FactoryBot.create(:planting, owner: member) }
+  let(:seed) { FactoryBot.create(:seed, owner: member) }
+  let(:garden) { FactoryBot.create(:garden, owner: member) }
 
   shared_examples "photo data renders" do
     it "shows the image" do
@@ -63,7 +63,7 @@ describe "photos/show" do
 
   context "signed in as another member" do
     before do
-      controller.stub(:current_user) { FactoryBot.create :member }
+      controller.stub(:current_user) { FactoryBot.create(:member) }
       render
     end
 
@@ -105,7 +105,7 @@ describe "photos/show" do
     end
 
     it "contains the phrase 'All rights reserved'" do
-      rendered.should have_content "All rights reserved"
+      rendered.should(have_content("All rights reserved"))
     end
   end
 end

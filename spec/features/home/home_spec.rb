@@ -1,20 +1,20 @@
-require 'rails_helper'
+require('rails_helper')
 
 feature "home page" do
   subject { page }
 
-  let(:member) { FactoryBot.create :member }
+  let(:member) { FactoryBot.create(:member) }
 
-  let(:photo) { FactoryBot.create :photo, owner: member }
-  let(:crop) { FactoryBot.create :crop, created_at: 1.day.ago }
+  let(:photo) { FactoryBot.create(:photo, owner: member) }
+  let(:crop) { FactoryBot.create(:crop, created_at: 1.day.ago) }
 
-  let(:planting) { FactoryBot.create :planting, owner: member, crop: crop }
-  let(:seed) { FactoryBot.create :tradable_seed, owner: member, crop: crop }
-  let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop }
+  let(:planting) { FactoryBot.create(:planting, owner: member, crop: crop) }
+  let(:seed) { FactoryBot.create(:tradable_seed, owner: member, crop: crop) }
+  let(:harvest) { FactoryBot.create(:harvest, owner: member, crop: crop) }
 
-  let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
-  let!(:finished_seed) { FactoryBot.create :tradable_seed, finished: true }
-  let!(:untradable_seed) { FactoryBot.create :untradable_seed }
+  let!(:tradable_seed) { FactoryBot.create(:tradable_seed, finished: false) }
+  let!(:finished_seed) { FactoryBot.create(:tradable_seed, finished: true) }
+  let!(:untradable_seed) { FactoryBot.create(:untradable_seed) }
 
   background do
     # Add photos, so they can appear on home page
@@ -27,46 +27,46 @@ feature "home page" do
 
   shared_examples 'shows seeds' do
     it "show tradeable seed" do
-      is_expected.to have_link href: seed_path(tradable_seed)
+      is_expected.to(have_link(href: seed_path(tradable_seed)))
     end
     it "does not show finished seeds" do
-      is_expected.not_to have_link href: seed_path(finished_seed)
+      is_expected.not_to(have_link(href: seed_path(finished_seed)))
     end
     it "does not show untradable seeds" do
-      is_expected.not_to have_link href: seed_path(untradable_seed)
+      is_expected.not_to(have_link(href: seed_path(untradable_seed)))
     end
 
-    it { is_expected.to have_text 'View all seeds' }
+    it { is_expected.to(have_text('View all seeds')) }
   end
 
   shared_examples 'show plantings' do
     it 'shows plantings section' do
-      is_expected.to have_text 'Recently Planted'
-      is_expected.to have_link href: planting_path(planting)
+      is_expected.to(have_text('Recently Planted'))
+      is_expected.to(have_link(href: planting_path(planting)))
     end
   end
   shared_examples 'show harvests' do
     it 'shows harvests section' do
-      is_expected.to have_text 'Recently Harvested'
-      is_expected.to have_link href: harvest_path(harvest)
+      is_expected.to(have_text('Recently Harvested'))
+      is_expected.to(have_link(href: harvest_path(harvest)))
     end
   end
 
   shared_examples "show crops" do
     describe 'shows crops section' do
-      it { is_expected.to have_text 'Some of our crops' }
-      it { is_expected.to have_link href: crop_path(crop) }
+      it { is_expected.to(have_text('Some of our crops')) }
+      it { is_expected.to(have_link(href: crop_path(crop))) }
     end
 
     describe 'shows recently added crops' do
-      it { is_expected.to have_text 'Recently Added' }
+      it { is_expected.to(have_text('Recently Added')) }
       it 'link to newest crops' do
-        is_expected.to have_link crop.name, href: crop_path(crop)
+        is_expected.to(have_link(crop.name, href: crop_path(crop)))
       end
     end
 
     it 'includes a link to all crops' do
-      is_expected.to have_link 'View all crops'
+      is_expected.to(have_link('View all crops'))
     end
   end
 
@@ -75,7 +75,7 @@ feature "home page" do
     include_examples 'show plantings'
     include_examples 'show harvests'
     include_examples 'shows seeds'
-    it { is_expected.to have_text 'community of food gardeners' }
+    it { is_expected.to(have_text('community of food gardeners')) }
   end
 
   context "when signed in" do
@@ -88,7 +88,7 @@ feature "home page" do
     describe 'should say welcome' do
       before { visit root_path }
 
-      it { expect(page).to have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{member.login_name}" }
+      it { expect(page).to(have_content("Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{member.login_name}")) }
     end
   end
 end

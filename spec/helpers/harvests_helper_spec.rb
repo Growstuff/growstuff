@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe HarvestsHelper do
   describe "display_quantity" do
@@ -7,7 +7,7 @@ describe HarvestsHelper do
         quantity:        nil,
         weight_quantity: nil)
       result = helper.display_quantity(harvest)
-      result.should eq 'not specified'
+      result.should(eq('not specified'))
     end
 
     it '3 individual' do
@@ -16,7 +16,7 @@ describe HarvestsHelper do
         unit:            'individual',
         weight_quantity: nil)
       result = helper.display_quantity(harvest)
-      result.should eq '3'
+      result.should(eq('3'))
     end
 
     it '1 bunch' do
@@ -25,7 +25,7 @@ describe HarvestsHelper do
         unit:            'bunch',
         weight_quantity: nil)
       result = helper.display_quantity(harvest)
-      result.should eq '1 bunch'
+      result.should(eq('1 bunch'))
     end
 
     it '3 bunches' do
@@ -34,7 +34,7 @@ describe HarvestsHelper do
         unit:            'bunch',
         weight_quantity: nil)
       result = helper.display_quantity(harvest)
-      result.should eq '3 bunches'
+      result.should(eq('3 bunches'))
     end
 
     it '3 kg' do
@@ -44,7 +44,7 @@ describe HarvestsHelper do
         weight_quantity: 3,
         weight_unit:     'kg')
       result = helper.display_quantity(harvest)
-      result.should eq '3 kg'
+      result.should(eq('3 kg'))
     end
 
     it '3 individual weighing 3 kg' do
@@ -54,7 +54,7 @@ describe HarvestsHelper do
         weight_quantity: 3,
         weight_unit:     'kg')
       result = helper.display_quantity(harvest)
-      result.should eq '3, weighing 3 kg'
+      result.should(eq('3, weighing 3 kg'))
     end
 
     it '3 bunches weighing 3 kg' do
@@ -64,7 +64,7 @@ describe HarvestsHelper do
         weight_quantity: 3,
         weight_unit:     'kg')
       result = helper.display_quantity(harvest)
-      result.should eq '3 bunches, weighing 3 kg'
+      result.should(eq('3 bunches, weighing 3 kg'))
     end
   end
 end

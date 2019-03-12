@@ -1,8 +1,8 @@
-require 'rails_helper'
+require('rails_helper')
 
 feature "Crop - " do
-  let!(:crop_wrangler) { FactoryBot.create :crop_wrangling_member }
-  let!(:member) { FactoryBot.create :member }
+  let!(:crop_wrangler) { FactoryBot.create(:crop_wrangling_member) }
+  let!(:member) { FactoryBot.create(:member) }
 
   background do
     login_as member
@@ -27,9 +27,9 @@ feature "Crop - " do
       click_button "Save"
     end
 
-    expect(page).to have_content 'crop was successfully created.'
-    expect(page).to have_content "This crop is currently pending approval."
-    expect(page).to have_content "Jasminum sambac 2"
-    expect(page).to have_content "Matsurika"
+    expect(page).to(have_content('crop was successfully created.'))
+    expect(page).to(have_content("This crop is currently pending approval."))
+    expect(page).to(have_content("Jasminum sambac 2"))
+    expect(page).to(have_content("Matsurika"))
   end
 end

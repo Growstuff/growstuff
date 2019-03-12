@@ -8,7 +8,7 @@ module Admin
     private
 
     def auth!
-      authorize! :manage, :all
+      authorize!(:manage, :all)
     end
   end
 end

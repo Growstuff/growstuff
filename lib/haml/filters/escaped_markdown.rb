@@ -1,11 +1,11 @@
-require 'bluecloth'
-require 'haml/filters/growstuff_markdown'
+require('bluecloth')
+require('haml/filters/growstuff_markdown')
 
 module Haml::Filters
   module EscapedMarkdown
     include Haml::Filters::Base
     def render(text)
-      Haml::Helpers.html_escape Haml::Filters::GrowstuffMarkdown.render(text)
+      Haml::Helpers.html_escape(Haml::Filters::GrowstuffMarkdown.render(text))
     end
   end
 

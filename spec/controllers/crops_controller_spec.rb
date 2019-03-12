@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe CropsController do
   shared_context 'login as wrangler' do
@@ -11,14 +11,14 @@ describe CropsController do
     describe 'fetches the crop wrangler homepage' do
       context 'anonymous' do
         before { get :wrangle }
-        it { is_expected.not_to be_success }
+        it { is_expected.not_to(be_success) }
       end
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :wrangle }
-        it { is_expected.to be_success }
-        it { is_expected.to render_template("crops/wrangle") }
-        it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
+        it { is_expected.to(be_success) }
+        it { is_expected.to(render_template("crops/wrangle")) }
+        it { expect(assigns[:crop_wranglers]).to(eq(Role.crop_wranglers)) }
       end
     end
   end
@@ -28,8 +28,8 @@ describe CropsController do
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :hierarchy }
-        it { is_expected.to be_success }
-        it { is_expected.to render_template("crops/hierarchy") }
+        it { is_expected.to(be_success) }
+        it { is_expected.to(render_template("crops/hierarchy")) }
       end
     end
   end
@@ -38,8 +38,8 @@ describe CropsController do
     describe 'fetches the crop search page' do
       before { get :search }
 
-      it { is_expected.to be_success }
-      it { is_expected.to render_template("crops/search") }
+      it { is_expected.to(be_success) }
+      it { is_expected.to(render_template("crops/search")) }
     end
   end
 
@@ -47,24 +47,24 @@ describe CropsController do
     describe "returns an RSS feed" do
       before { get :index, format: "rss" }
 
-      it { is_expected.to be_success }
-      it { is_expected.to render_template("crops/index") }
-      it { expect(response.content_type).to eq("application/rss+xml") }
+      it { is_expected.to(be_success) }
+      it { is_expected.to(render_template("crops/index")) }
+      it { expect(response.content_type).to(eq("application/rss+xml")) }
     end
   end
 
   describe 'DELETE destroy' do
-    let!(:crop) { FactoryBot.create :crop }
+    let!(:crop) { FactoryBot.create(:crop) }
     subject { delete :destroy, params: { slug: crop.to_param } }
     context 'not logged in' do
-      it { expect { subject }.not_to change { Crop.count } }
+      it { expect { subject }.not_to(change { Crop.count }) }
     end
     context 'logged in as member' do
-      it { expect { subject }.not_to change { Crop.count } }
+      it { expect { subject }.not_to(change { Crop.count }) }
     end
     context 'wrangler' do
       include_context 'login as wrangler'
-      it { expect { subject }.to change { Crop.count }.by -1 }
+      it { expect { subject }.to(change { Crop.count }.by(-1)) }
     end
   end
 end

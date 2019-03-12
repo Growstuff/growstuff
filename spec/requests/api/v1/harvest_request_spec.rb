@@ -1,10 +1,10 @@
-require 'rails_helper'
+require('rails_helper')
 
-RSpec.describe 'Harvests', type: :request do
-  subject { JSON.parse response.body }
+RSpec.describe('Harvests', type: :request) do
+  subject { JSON.parse(response.body) }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:harvest) { FactoryBot.create :harvest }
+  let!(:harvest) { FactoryBot.create(:harvest) }
   let(:harvest_encoded_as_json_api) do
     { "id"            => harvest.id.to_s,
       "type"          => "harvests",
@@ -60,18 +60,18 @@ RSpec.describe 'Harvests', type: :request do
   describe '#index' do
     before { get '/api/v1/harvests', params: {}, headers: headers }
 
-    it { expect(subject['data']).to include(harvest_encoded_as_json_api) }
+    it { expect(subject['data']).to(include(harvest_encoded_as_json_api)) }
   end
 
   describe '#show' do
     before { get "/api/v1/harvests/#{harvest.id}", params: {}, headers: headers }
 
-    it { expect(subject['data']['attributes']).to eq(attributes) }
-    it { expect(subject['data']['relationships']).to include("planting" => planting_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("crop" => crop_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("photos" => photos_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("owner" => owner_as_json_api) }
-    it { expect(subject['data']).to eq(harvest_encoded_as_json_api) }
+    it { expect(subject['data']['attributes']).to(eq(attributes)) }
+    it { expect(subject['data']['relationships']).to(include("planting" => planting_as_json_api)) }
+    it { expect(subject['data']['relationships']).to(include("crop" => crop_as_json_api)) }
+    it { expect(subject['data']['relationships']).to(include("photos" => photos_as_json_api)) }
+    it { expect(subject['data']['relationships']).to(include("owner" => owner_as_json_api)) }
+    it { expect(subject['data']).to(eq(harvest_encoded_as_json_api)) }
   end
 
   it '#create' do
@@ -79,7 +79,7 @@ RSpec.describe 'Harvests', type: :request do
       put '/api/v1/harvests', headers: headers, params: {
         'harvest' => { 'description' => 'can i make this' }
       }
-    end.to raise_error ActionController::RoutingError
+    end.to(raise_error(ActionController::RoutingError))
   end
 
   it '#update' do
@@ -87,12 +87,12 @@ RSpec.describe 'Harvests', type: :request do
       post "/api/v1/harvests/#{harvest.id}", headers: headers, params: {
         'harvest' => { 'description' => 'can i modify this' }
       }
-    end.to raise_error ActionController::RoutingError
+    end.to(raise_error(ActionController::RoutingError))
   end
 
   it '#delete' do
     expect do
       delete "/api/v1/harvests/#{harvest.id}", headers: headers, params: {}
-    end.to raise_error ActionController::RoutingError
+    end.to(raise_error(ActionController::RoutingError))
   end
 end

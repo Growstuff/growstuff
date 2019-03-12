@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe PlacesController do
   before do
@@ -13,19 +13,19 @@ describe PlacesController do
 
     it "assigns place name" do
       get :show, params: { place: @member_london.location }
-      assigns(:place).should eq @member_london.location
+      assigns(:place).should(eq(@member_london.location))
     end
 
     it "assigns nearby members" do
       get :show, params: { place: @member_london.location }
-      assigns(:nearby_members).should eq [@member_london, @member_south_pole]
+      assigns(:nearby_members).should(eq([@member_london, @member_south_pole]))
     end
   end
 
   describe "GET search" do
     it "redirects to the new place" do
       get :search, params: { new_place: "foo" }
-      response.should redirect_to place_path("foo")
+      response.should(redirect_to(place_path("foo")))
     end
   end
 end

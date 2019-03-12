@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 feature 'Post a post' do
   let(:member) { create :member }
@@ -12,8 +12,8 @@ feature 'Post a post' do
     fill_in "post_subject", with: "Testing"
     fill_in "post_body", with: "This is a sample test"
     click_button "Post"
-    expect(page).to have_content "Post was successfully created"
-    expect(page).to have_content "Posted by"
+    expect(page).to(have_content("Post was successfully created"))
+    expect(page).to(have_content("Posted by"))
   end
 
   context "editing a post" do
@@ -26,8 +26,8 @@ feature 'Post a post' do
     scenario "saving edit" do
       fill_in "post_subject", with: "Testing Edit"
       click_button "Post"
-      expect(page).to have_content "Post was successfully updated"
-      expect(page).to have_content "edited at"
+      expect(page).to(have_content("Post was successfully updated"))
+      expect(page).to(have_content("edited at"))
     end
   end
 end

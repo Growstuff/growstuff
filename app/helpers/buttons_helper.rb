@@ -7,16 +7,16 @@ module ButtonsHelper
   end
 
   def garden_mark_active_button(garden)
-    link_to t('buttons.mark_as_active'),
+    link_to(t('buttons.mark_as_active'),
       garden_path(garden, garden: { active: 1 }),
-      method: :put, class: 'btn btn-default btn-xs'
+      method: :put, class: 'btn btn-default btn-xs')
   end
 
   def garden_mark_inactive_button(garden)
-    link_to t('buttons.mark_as_inactive'),
+    link_to(t('buttons.mark_as_inactive'),
       garden_path(garden, garden: { active: 0 }),
       method: :put, class: 'btn btn-default btn-xs',
-      data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
+      data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' })
   end
 
   def crop_edit_button(crop)
@@ -80,7 +80,7 @@ module ButtonsHelper
   end
 
   def delete_button(model, message: 'are_you_sure')
-    return unless can? :destroy, model
+    return unless can?(:destroy, model)
 
     link_to model, method: :delete, data: { confirm: t(message) }, class: 'btn btn-default btn-xs' do
       delete_icon + ' ' + t('buttons.delete')

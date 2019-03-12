@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe NotificationsController do
   login_member
@@ -15,7 +15,7 @@ describe NotificationsController do
     it "assigns all notifications as @notifications" do
       notification = FactoryBot.create(:notification, recipient_id: subject.current_member.id)
       get :index, params: {}
-      assigns(:notifications).should eq([notification])
+      assigns(:notifications).should(eq([notification]))
     end
   end
 
@@ -23,17 +23,17 @@ describe NotificationsController do
     it "assigns the requested notification as @notification" do
       notification = FactoryBot.create(:notification, recipient_id: subject.current_member.id)
       get :show, params: { id: notification.to_param }
-      assigns(:notification).should eq(notification)
+      assigns(:notification).should(eq(notification))
     end
 
     it "assigns the reply link for a post comment" do
       notification = FactoryBot.create(:notification, recipient_id: subject.current_member.id)
 
       get :show, params: { id: notification.to_param }
-      assigns(:reply_link).should_not be_nil
-      assigns(:reply_link).should eq new_comment_url(
+      assigns(:reply_link).should_not(be_nil)
+      assigns(:reply_link).should(eq(new_comment_url(
         post_id: notification.post.id
-      )
+      )))
     end
 
     it "marks notifications as read" do
@@ -41,7 +41,7 @@ describe NotificationsController do
       get :show, params: { id: notification.to_param }
       # we need to fetch it from the db again, can't test against the old one
       n = Notification.find(notification.id)
-      n.read.should eq true
+      n.read.should(eq(true))
     end
   end
 
@@ -51,7 +51,7 @@ describe NotificationsController do
       get :reply, params: { notification_id: notification.to_param }
       # we need to fetch it from the db again, can't test against the old one
       n = Notification.find(notification.id)
-      n.read.should eq true
+      n.read.should(eq(true))
     end
   end
 
@@ -59,7 +59,7 @@ describe NotificationsController do
     it "assigns a recipient" do
       @recipient = FactoryBot.create(:member)
       get :new, params: { recipient_id: @recipient.id }
-      expect(assigns(:recipient)).to be_an_instance_of(Member)
+      expect(assigns(:recipient)).to(be_an_instance_of(Member))
     end
   end
 
@@ -68,7 +68,7 @@ describe NotificationsController do
       it "redirects to the recipient's profile" do
         @recipient = FactoryBot.create(:member)
         post :create, params: { notification: { recipient_id: @recipient.id, subject: 'foo' } }
-        response.should redirect_to(notifications_path)
+        response.should(redirect_to(notifications_path))
       end
     end
   end

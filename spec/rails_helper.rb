@@ -1,7 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
-require 'simplecov'
-require 'coveralls'
+require('simplecov')
+require('coveralls')
 
 # output coverage locally AND send it to coveralls
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
@@ -10,28 +10,28 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
                                                                ])
 
 # fail if there's a significant test coverage drop
-SimpleCov.maximum_coverage_drop 1
+SimpleCov.maximum_coverage_drop(1)
 
-SimpleCov.start :rails do
+SimpleCov.start(:rails) do
   add_filter 'spec/'
 end
 
-require 'spec_helper'
-require File.expand_path('../config/environment', __dir__)
-require 'rspec/rails'
+require('spec_helper')
+require(File.expand_path('../config/environment', __dir__))
+require('rspec/rails')
 # Add additional requires below this line. Rails is not loaded until this point!
 Rails.application.eager_load!
 
-require 'capybara'
-require 'capybara/poltergeist'
-require 'capybara/rspec'
-require 'capybara-screenshot/rspec'
+require('capybara')
+require('capybara/poltergeist')
+require('capybara/rspec')
+require('capybara-screenshot/rspec')
 
 Capybara.javascript_driver = :poltergeist
 if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
   case ENV['GROWSTUFF_CAPYBARA_DRIVER']
   when 'selenium'
-    require 'selenium-webdriver'
+    require('selenium-webdriver')
   end
   Capybara.javascript_driver = ENV['GROWSTUFF_CAPYBARA_DRIVER'].to_sym
 end
@@ -43,7 +43,7 @@ end
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
 
-include Warden::Test::Helpers
+include(Warden::Test::Helpers)
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -96,11 +96,11 @@ RSpec.configure do |config|
 
   # controller specs require this to work with Devise
   # see https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29
-  config.include Devise::Test::ControllerHelpers, type: :controller
-  config.extend ControllerMacros, type: :controller
+  config.include(Devise::Test::ControllerHelpers, type: :controller)
+  config.extend(ControllerMacros, type: :controller)
 
   # Allow just create(:factory) instead of needing to specify FactoryBot.create(:factory)
-  config.include FactoryBot::Syntax::Methods
+  config.include(FactoryBot::Syntax::Methods)
 
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, js: true) do

@@ -1,4 +1,4 @@
-require 'geocodable'
+require('geocodable')
 
 Geocoder.configure(
   units:        :km,

@@ -1,4 +1,4 @@
-require 'will_paginate/array'
+require('will_paginate/array')
 
 class CropsController < ApplicationController
   before_action :authenticate_member!, except: %i(index hierarchy search show)
@@ -12,12 +12,12 @@ class CropsController < ApplicationController
     @crops = crops
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
-    respond_with @crops
+    respond_with(@crops)
   end
 
   def requested
     @requested = requested_crops.paginate(page: params[:page])
-    respond_with @requested
+    respond_with(@requested)
   end
 
   def wrangle
@@ -32,12 +32,12 @@ class CropsController < ApplicationController
              end.paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
-    respond_with @crops
+    respond_with(@crops)
   end
 
   def hierarchy
     @crops = Crop.toplevel
-    respond_with @crops
+    respond_with(@crops)
   end
 
   def search
@@ -45,7 +45,7 @@ class CropsController < ApplicationController
     @matches = Crop.search(@term)
     @paginated_matches = @matches.paginate(page: params[:page])
 
-    respond_with @matches
+    respond_with(@matches)
   end
 
   def show
@@ -65,7 +65,7 @@ class CropsController < ApplicationController
     @crop.alternate_names.build
     @crop.scientific_names.build
 
-    respond_with @crop
+    respond_with(@crop)
   end
 
   def edit
@@ -77,7 +77,7 @@ class CropsController < ApplicationController
   def create
     @crop = Crop.new(crop_params)
 
-    if current_member.role? :crop_wrangler
+    if current_member.role?(:crop_wrangler)
       @crop.creator = current_member
     else
       @crop.requester = current_member
@@ -86,7 +86,7 @@ class CropsController < ApplicationController
 
     notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
 
-    respond_with @crop
+    respond_with(@crop)
   end
 
   def update
@@ -102,14 +102,14 @@ class CropsController < ApplicationController
       notifier.deliver_now! if previous_status == "pending"
     end
 
-    respond_with @crop
+    respond_with(@crop)
   end
 
   def destroy
     @crop = Crop.find_by!(slug: params[:slug])
-    authorize! :destroy, @crop
+    authorize!(:destroy, @crop)
     @crop.destroy
-    respond_with @crop
+    respond_with(@crop)
   end
 
   private
@@ -133,7 +133,7 @@ class CropsController < ApplicationController
   end
 
   def notify_wranglers
-    return if current_member.role? :crop_wrangler
+    return if current_member.role?(:crop_wrangler)
 
     Role.crop_wranglers.each do |w|
       Notifier.new_crop_request(w, @crop).deliver_now!

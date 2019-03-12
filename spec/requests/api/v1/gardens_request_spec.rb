@@ -1,10 +1,10 @@
-require 'rails_helper'
+require('rails_helper')
 
-RSpec.describe 'Gardens', type: :request do
-  subject { JSON.parse response.body }
+RSpec.describe('Gardens', type: :request) do
+  subject { JSON.parse(response.body) }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:garden) { FactoryBot.create :garden }
+  let!(:garden) { FactoryBot.create(:garden) }
   let(:garden_encoded_as_json_api) do
     { "id"            => garden.id.to_s,
       "type"          => "gardens",
@@ -40,29 +40,29 @@ RSpec.describe 'Gardens', type: :request do
 
   scenario '#index' do
     get '/api/v1/gardens', params: {}, headers: headers
-    expect(subject['data']).to include(garden_encoded_as_json_api)
+    expect(subject['data']).to(include(garden_encoded_as_json_api))
   end
 
   scenario '#show' do
     get "/api/v1/gardens/#{garden.id}", params: {}, headers: headers
-    expect(subject['data']).to include(garden_encoded_as_json_api)
+    expect(subject['data']).to(include(garden_encoded_as_json_api))
   end
 
   it '#create' do
     expect do
       post '/api/v1/gardens', params: { 'garden' => { 'name' => 'can i make this' } }, headers: headers
-    end.to raise_error ActionController::RoutingError
+    end.to(raise_error(ActionController::RoutingError))
   end
 
   it '#update' do
     expect do
       post "/api/v1/gardens/#{garden.id}", params: { 'garden' => { 'name' => 'can i modify this' } }, headers: headers
-    end.to raise_error ActionController::RoutingError
+    end.to(raise_error(ActionController::RoutingError))
   end
 
   it '#delete' do
     expect do
       delete "/api/v1/gardens/#{garden.id}", params: {}, headers: headers
-    end.to raise_error ActionController::RoutingError
+    end.to(raise_error(ActionController::RoutingError))
   end
 end

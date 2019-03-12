@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe PlantingsHelper do
   describe "display_planting" do
@@ -10,7 +10,7 @@ describe PlantingsHelper do
         planted_from: '',
         owner:        member)
       result = helper.display_planting(planting)
-      expect(result).to eq "crop_lady."
+      expect(result).to(eq("crop_lady."))
     end
 
     it "does not have a quantity provided" do
@@ -19,7 +19,7 @@ describe PlantingsHelper do
         planted_from: 'seed',
         owner:        member)
       result = helper.display_planting(planting)
-      expect(result).to eq "crop_lady planted seeds."
+      expect(result).to(eq("crop_lady planted seeds."))
     end
 
     context "when quantity is greater than 1" do
@@ -29,7 +29,7 @@ describe PlantingsHelper do
           planted_from: '',
           owner:        member)
         result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 10 units."
+        expect(result).to(eq("crop_lady planted 10 units."))
       end
 
       it "does have a planted from value provided" do
@@ -38,7 +38,7 @@ describe PlantingsHelper do
           planted_from: 'seed',
           owner:        member)
         result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 5 seeds."
+        expect(result).to(eq("crop_lady planted 5 seeds."))
       end
     end
 
@@ -49,7 +49,7 @@ describe PlantingsHelper do
           planted_from: '',
           owner:        member)
         result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 1 unit."
+        expect(result).to(eq("crop_lady planted 1 unit."))
       end
 
       it "does have a planted from value provided" do
@@ -58,7 +58,7 @@ describe PlantingsHelper do
           planted_from: 'seed',
           owner:        member)
         result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 1 seed."
+        expect(result).to(eq("crop_lady planted 1 seed."))
       end
     end
   end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'devise/sessions/new.html.haml', type: "view" do
   context "logged in" do
@@ -11,8 +11,8 @@ describe 'devise/sessions/new.html.haml', type: "view" do
     end
 
     it 'has some fields' do
-      rendered.should have_content 'Remember me'
-      rendered.should have_content 'Password'
+      rendered.should(have_content('Remember me'))
+      rendered.should(have_content('Password'))
     end
   end
 end

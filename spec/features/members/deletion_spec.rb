@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 feature "member deletion" do
   context "with activity and followers" do
@@ -33,7 +33,7 @@ feature "member deletion" do
     scenario "has option to delete on member profile page" do
       visit member_path(member)
       click_link 'Edit profile'
-      expect(page).to have_link "Delete Account"
+      expect(page).to(have_link("Delete Account"))
     end
 
     scenario "asks for password before deletion" do
@@ -41,7 +41,7 @@ feature "member deletion" do
       click_link 'Edit profile'
       click_link 'Delete Account'
       click_button "Delete"
-      expect(page).to have_content "Current password can't be blank"
+      expect(page).to(have_content("Current password can't be blank"))
     end
 
     scenario "password must be correct" do
@@ -50,7 +50,7 @@ feature "member deletion" do
       click_link 'Delete Account'
       fill_in "current_pw_for_delete", with: "wrongpassword"
       click_button "Delete"
-      expect(page).to have_content "Current password is invalid"
+      expect(page).to(have_content("Current password is invalid"))
     end
 
     scenario "deletes and removes bio" do
@@ -60,7 +60,7 @@ feature "member deletion" do
       fill_in "current_pw_for_delete", with: "password1", match: :prefer_exact
       click_button "Delete"
       visit member_path(member)
-      expect(page.status_code).to eq(404)
+      expect(page.status_code).to(eq(404))
     end
 
     context "deletes and" do
@@ -76,54 +76,54 @@ feature "member deletion" do
       end
 
       describe 'member exists but is marked deleted' do
-        it { expect(Member.with_deleted.find(member.id)).to eq member }
+        it { expect(Member.with_deleted.find(member.id)).to(eq(member)) }
       end
 
       scenario "removes plantings" do
         visit planting_path(planting)
-        expect(page.status_code).to eq(404)
+        expect(page.status_code).to(eq(404))
       end
 
       scenario "removes gardens" do
         visit garden_path(secondgarden)
-        expect(page.status_code).to eq(404)
+        expect(page.status_code).to(eq(404))
       end
 
       scenario "removes harvests and seeds" do
         visit harvest_path(harvest)
-        expect(page.status_code).to eq(404)
+        expect(page.status_code).to(eq(404))
       end
 
       scenario "removes seeds" do
         visit seed_path(seed)
-        expect(page.status_code).to eq(404)
+        expect(page.status_code).to(eq(404))
       end
 
       scenario "removes members from following" do
         visit member_follows_path(other_member)
-        expect(page).not_to have_content member.login_name.to_s
+        expect(page).not_to(have_content(member.login_name.to_s))
         visit member_followers_path(other_member)
-        expect(page).not_to have_content member.login_name.to_s
+        expect(page).not_to(have_content(member.login_name.to_s))
       end
 
       scenario "replaces posts with deletion note" do
         visit post_path(memberpost)
-        expect(page.status_code).to eq(404)
+        expect(page.status_code).to(eq(404))
       end
 
       scenario "replaces comments on others' posts with deletion note, leaving post intact" do
-        FactoryBot.create :comment, post: othermemberpost, author: member, body: 'i am deleting my account'
+        FactoryBot.create(:comment, post: othermemberpost, author: member, body: 'i am deleting my account')
 
         visit post_path(othermemberpost)
-        expect(page).not_to have_content member.login_name
-        expect(page).to have_content other_member.login_name
-        expect(page).to have_content "Member Deleted"
+        expect(page).not_to(have_content(member.login_name))
+        expect(page).to(have_content(other_member.login_name))
+        expect(page).to(have_content("Member Deleted"))
       end
 
       scenario "can't be interesting" do
-        expect(Member.interesting).not_to include(member)
-        expect(Planting.interesting).not_to include(planting)
-        expect(Seed.interesting).not_to include(seed)
+        expect(Member.interesting).not_to(include(member))
+        expect(Planting.interesting).not_to(include(planting))
+        expect(Seed.interesting).not_to(include(seed))
       end
 
       pending "doesn't show in nearby"
@@ -133,7 +133,7 @@ feature "member deletion" do
         fill_in 'Login', with: member.login_name
         fill_in 'Password', with: member.password
         click_button 'Sign in'
-        expect(page).to have_content 'Invalid Login or password'
+        expect(page).to(have_content('Invalid Login or password'))
       end
     end
   end
@@ -148,8 +148,8 @@ feature "member deletion" do
     scenario "leaves crops behind" do
       login_as(otherwrangler)
       visit edit_crop_path(crop)
-      expect(page).to have_content member.login_name
-      expect(page).not_to have_content "cropbot"
+      expect(page).to(have_content(member.login_name))
+      expect(page).not_to(have_content("cropbot"))
       logout
       login_as(member)
       visit member_path(member)
@@ -159,7 +159,7 @@ feature "member deletion" do
       click_button "Delete"
       login_as(otherwrangler)
       visit edit_crop_path(crop)
-      expect(page).not_to have_content member.login_name
+      expect(page).not_to(have_content(member.login_name))
     end
   end
 end

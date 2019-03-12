@@ -1,4 +1,4 @@
-require 'bluecloth'
+require('bluecloth')
 
 module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
   module GrowstuffMarkdown

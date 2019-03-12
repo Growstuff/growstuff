@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 feature "Crop - " do
   let(:member) { create :member }
@@ -10,6 +10,6 @@ feature "Crop - " do
   end
 
   scenario "creating a crop with multiple scientific and alternate name", :js do
-    expect(page).to have_content "puha for dinner"
+    expect(page).to(have_content("puha for dinner"))
   end
 end

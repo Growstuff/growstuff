@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'home/index.html.haml', type: "view" do
   before do
@@ -25,8 +25,8 @@ describe 'home/index.html.haml', type: "view" do
     end
 
     it 'show interesting members' do
-      rendered.should have_content @member.login_name
-      rendered.should have_content @member.location
+      rendered.should(have_content(@member.login_name))
+      rendered.should(have_content(@member.location))
     end
   end
 

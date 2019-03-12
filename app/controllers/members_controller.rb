@@ -63,7 +63,7 @@ class MembersController < ApplicationController
     if @member.update(member_params)
       @member.skip_reconfirmation!
       bypass_sign_in(@member)
-      redirect_to root_path, notice: I18n.t('members.welcome')
+      redirect_to(root_path, notice: I18n.t('members.welcome'))
     else
       flash[:alert] = I18n.t('members.signup.error')
       @show_errors = true

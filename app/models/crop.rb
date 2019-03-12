@@ -53,11 +53,11 @@ class Crop < ApplicationRecord
   ####################################
   # Elastic search configuration
   if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    include Elasticsearch::Model
-    include Elasticsearch::Model::Callbacks
+    include(Elasticsearch::Model)
+    include(Elasticsearch::Model::Callbacks)
     # In order to avoid clashing between different environments,
     # use Rails.env as a part of index name (eg. development_growstuff)
-    index_name [Rails.env, "growstuff"].join('_')
+    index_name([Rails.env, "growstuff"].join('_'))
     settings index:    { number_of_shards: 1 },
              analysis: {
                tokenizer: {
@@ -139,14 +139,14 @@ class Crop < ApplicationRecord
   # key: sunniness (eg. 'sun')
   # value: count of how many times it's been used by plantings
   def sunniness
-    count_uses_of_property 'sunniness'
+    count_uses_of_property('sunniness')
   end
 
   # returns a hash of propagation methods (seed, seedling, etc),
   # key: propagation method (eg. 'seed')
   # value: count of how many times it's been used by plantings
   def planted_from
-    count_uses_of_property 'planted_from'
+    count_uses_of_property('planted_from')
   end
 
   # returns a hash of most harvested plant parts (fruit, seed, etc)

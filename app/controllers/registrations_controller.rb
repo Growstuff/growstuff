@@ -5,7 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
     @twitter_auth  = current_member.auth('twitter')
     @flickr_auth   = current_member.auth('flickr')
     @facebook_auth = current_member.auth('facebook')
-    render "edit"
+    render("edit")
   end
 
   # we need this subclassed method so that Devise doesn't force people to
@@ -27,20 +27,20 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     if successfully_updated
-      set_flash_message :notice, :updated
+      set_flash_message(:notice, :updated)
       # Sign in the member bypassing validation in case their password changed
-      sign_in @member, bypass: true
-      redirect_to edit_member_registration_path
+      sign_in(@member, bypass: true)
+      redirect_to(edit_member_registration_path)
     else
-      render "edit"
+      render("edit")
     end
   end
 
   def destroy
     if @member.destroy_with_password(params.require(:member)[:current_password])
-      redirect_to root_path
+      redirect_to(root_path)
     else
-      render "edit"
+      render("edit")
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "notifications/new" do
   before do
@@ -19,7 +19,7 @@ describe "notifications/new" do
 
   it "tells you who the recipient is" do
     render
-    rendered.should have_content @recipient.login_name
+    rendered.should(have_content(@recipient.login_name))
   end
 
   it "puts the recipient in a hidden field" do
@@ -40,11 +40,11 @@ describe "notifications/new" do
 
   it "Tells you to write your message here" do
     render
-    rendered.should have_content "Type your message here"
+    rendered.should(have_content("Type your message here"))
   end
 
   it 'shows markdown help' do
     render
-    rendered.should have_content 'Markdown'
+    rendered.should(have_content('Markdown'))
   end
 end

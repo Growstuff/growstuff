@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'admin/newsletter.html.haml', type: "view" do
   before do
@@ -11,6 +11,6 @@ describe 'admin/newsletter.html.haml', type: "view" do
   end
 
   it "lists newsletter subscribers by email" do
-    rendered.should have_content @subscriber.email
+    rendered.should(have_content(@subscriber.email))
   end
 end

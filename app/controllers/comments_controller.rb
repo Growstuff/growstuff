@@ -31,12 +31,12 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.author = current_member
     @comment.save
-    respond_with @comment, location: @comment.post
+    respond_with(@comment, location: @comment.post)
   end
 
   def update
     @comment.update(body: comment_params['body'])
-    respond_with @comment, location: @comment.post
+    respond_with(@comment, location: @comment.post)
   end
 
   def destroy

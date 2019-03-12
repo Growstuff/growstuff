@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'devise/unlocks/new.html.haml', type: "view" do
   context "logged in" do
@@ -11,7 +11,7 @@ describe 'devise/unlocks/new.html.haml', type: "view" do
     end
 
     it 'has some fields' do
-      rendered.should have_content 'Email'
+      rendered.should(have_content('Email'))
     end
   end
 end

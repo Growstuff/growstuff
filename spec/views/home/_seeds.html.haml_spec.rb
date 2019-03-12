@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'home/_seeds.html.haml', type: "view" do
   before do
@@ -12,8 +12,8 @@ describe 'home/_seeds.html.haml', type: "view" do
   end
 
   it 'lists seeds' do
-    rendered.should have_content @seed.tradable_to
-    rendered.should have_content @seed.owner.location
+    rendered.should(have_content(@seed.tradable_to))
+    rendered.should(have_content(@seed.owner.location))
     assert_select 'a', href: seed_path(@seed)
   end
 end

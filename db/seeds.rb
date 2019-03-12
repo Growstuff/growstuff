@@ -1,7 +1,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-require 'csv'
+require('csv')
 
 def load_data
   Crop.transaction do
@@ -20,7 +20,7 @@ def load_data
     end
   end
 
-  puts "Done!"
+  puts("Done!")
 end
 
 def load_crops
@@ -31,25 +31,25 @@ def load_crops
       CsvImporter.new.import_crop(row)
     end
   end
-  puts "Finished loading crops"
+  puts("Finished loading crops")
 end
 
 def load_roles
-  puts "Creating admin role..."
+  puts("Creating admin role...")
   @admin = Role.create(name: 'Admin')
-  puts "Creating crop wrangler role..."
+  puts("Creating crop wrangler role...")
   @wrangler = Role.create(name: 'Crop Wrangler')
 end
 
 def load_test_users # rubocop:disable Metrics/AbcSize
-  puts "Loading test users..."
+  puts("Loading test users...")
 
   # Open suburb csv
   source_path = Rails.root.join('db', 'seeds')
   begin
     suburb_file = File.open("#{source_path}/suburbs.csv")
   rescue StandardError
-    puts "Warning: unable to open suburbs.csv"
+    puts("Warning: unable to open suburbs.csv")
   end
 
   # rake parameter (eg. 'rake db:seed member_size=10')
@@ -88,11 +88,11 @@ def load_test_users # rubocop:disable Metrics/AbcSize
     )
   end
 
-  puts "Finished loading test users"
+  puts("Finished loading test users")
 end
 
 def load_admin_users
-  puts "Adding admin and crop wrangler members..."
+  puts("Adding admin and crop wrangler members...")
   @admin_user = Member.new(
     login_name:    "admin1",
     email:         "admin1@example.com",
@@ -127,7 +127,7 @@ def create_cropbot
 end
 
 def load_plant_parts
-  puts "Loading plant parts..."
+  puts("Loading plant parts...")
   plant_parts = [
     'fruit',
     'flower',

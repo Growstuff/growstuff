@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "gardens/show" do
   before do
@@ -13,15 +13,15 @@ describe "gardens/show" do
   end
 
   it 'shows the location' do
-    expect(rendered).to have_content @garden.location
+    expect(rendered).to(have_content(@garden.location))
   end
 
   it 'shows the area' do
-    expect(rendered).to have_content pluralize(@garden.area, @garden.area_unit)
+    expect(rendered).to(have_content(pluralize(@garden.area, @garden.area_unit)))
   end
 
   it 'shows the description' do
-    expect(rendered).to have_content "totally cool garden"
+    expect(rendered).to(have_content("totally cool garden"))
   end
 
   it 'renders markdown in the description' do
@@ -29,6 +29,6 @@ describe "gardens/show" do
   end
 
   it 'shows plantings on the garden page' do
-    expect(rendered).to have_content @planting.crop.name
+    expect(rendered).to(have_content(@planting.crop.name))
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'harvests/index.rss.haml' do
   before do
@@ -27,16 +27,16 @@ describe 'harvests/index.rss.haml' do
   end
 
   it 'shows RSS feed title' do
-    rendered.should have_content "Recent harvests from all members"
+    rendered.should(have_content("Recent harvests from all members"))
   end
 
   it "displays crop's name in title" do
     assign(:crop, @tomato)
     render
-    expect(rendered).to have_content @tomato.name
+    expect(rendered).to(have_content(@tomato.name))
   end
 
   it 'shows formatted content of harvest posts' do
-    expect(rendered).to have_content "<p>Quantity: "
+    expect(rendered).to(have_content("<p>Quantity: "))
   end
 end

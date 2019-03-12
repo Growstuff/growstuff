@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "comments/new" do
   before do
@@ -11,15 +11,15 @@ describe "comments/new" do
   end
 
   it "shows the text of the post under discussion" do
-    rendered.should have_content @post.body
+    rendered.should(have_content(@post.body))
   end
 
   it "shows previous comments" do
-    rendered.should have_content @comment.body
+    rendered.should(have_content(@comment.body))
   end
 
   it "shows the correct comment count" do
-    rendered.should have_content "1 comment"
+    rendered.should(have_content("1 comment"))
   end
 
   it "renders new comment form" do
@@ -29,6 +29,6 @@ describe "comments/new" do
   end
 
   it 'shows markdown help' do
-    rendered.should have_content 'Markdown'
+    rendered.should(have_content('Markdown'))
   end
 end

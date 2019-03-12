@@ -12,7 +12,7 @@ class PhotosController < ApplicationController
 
   def index
     if params[:crop_slug]
-      @crop = Crop.find params[:crop_slug]
+      @crop = Crop.find(params[:crop_slug])
       @photos = Photo.by_crop(@crop)
     else
       @photos = Photo.all
@@ -29,33 +29,33 @@ class PhotosController < ApplicationController
     @type = item_type
     @id = item_id
     retrieve_from_flickr
-    respond_with @photo
+    respond_with(@photo)
   end
 
   def edit
-    respond_with @photo
+    respond_with(@photo)
   end
 
   def create
     ActiveRecord::Base.transaction do
       @photo = find_or_create_photo_from_flickr_photo
       @item = item_to_link_to
-      raise "Could not find this #{type} owned by you" unless @item
+      raise("Could not find this #{type} owned by you") unless @item
 
-      @item.photos << @photo unless @item.photos.include? @photo
+      @item.photos << @photo unless @item.photos.include?(@photo)
       @photo.save! if @photo.present?
     end
-    respond_with @photo
+    respond_with(@photo)
   end
 
   def update
     @photo.update(photo_params)
-    respond_with @photo
+    respond_with(@photo)
   end
 
   def destroy
     @photo.destroy
-    respond_with @photo
+    respond_with(@photo)
   end
 
   private
@@ -81,11 +81,11 @@ class PhotosController < ApplicationController
 
   # Item with photos attached
   def item_to_link_to
-    raise "No item id provided" if item_id.nil?
-    raise "No item type provided" if item_type.nil?
+    raise("No item id provided") if item_id.nil?
+    raise("No item type provided") if item_type.nil?
 
     item_class = item_type.capitalize
-    raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+    raise("Photos not supported") unless Photo::PHOTO_CAPABLE.include?(item_class)
 
     item_class.constantize.find(params[:id])
   end
@@ -111,7 +111,7 @@ class PhotosController < ApplicationController
     photos, total = current_member.flickr_photos(page, @current_set)
 
     @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
-      pager.replace photos
+      pager.replace(photos)
     end
   end
 end

@@ -1,23 +1,23 @@
-require 'rails_helper'
-require 'custom_matchers'
+require('rails_helper')
+require('custom_matchers')
 
 feature "Gardens" do
   context 'logged in' do
     subject { page }
 
-    let(:member) { FactoryBot.create :member }
+    let(:member) { FactoryBot.create(:member) }
     background { login_as member }
 
     let(:garden) { member.gardens.first }
-    let(:other_member_garden) { FactoryBot.create :garden }
+    let(:other_member_garden) { FactoryBot.create(:garden) }
 
     describe '#index' do
       shared_examples "has buttons bar at top" do
         it "has buttons bar at top" do
           within '.layout-actions' do
-            is_expected.to have_link 'Add a garden'
-            is_expected.to have_link 'My gardens'
-            is_expected.to have_link "Everyone's gardens"
+            is_expected.to(have_link('Add a garden'))
+            is_expected.to(have_link('My gardens'))
+            is_expected.to(have_link("Everyone's gardens"))
           end
         end
       end
@@ -27,11 +27,11 @@ feature "Gardens" do
 
         include_examples "has buttons bar at top"
         it "has actions on garden" do
-          is_expected.to have_link 'Plant something here'
-          is_expected.to have_link 'Mark as inactive'
-          is_expected.to have_link 'Edit'
-          is_expected.to have_link 'Add photo'
-          is_expected.to have_link 'Delete'
+          is_expected.to(have_link('Plant something here'))
+          is_expected.to(have_link('Mark as inactive'))
+          is_expected.to(have_link('Edit'))
+          is_expected.to(have_link('Add photo'))
+          is_expected.to(have_link('Delete'))
         end
       end
 
@@ -46,8 +46,8 @@ feature "Gardens" do
 
         include_examples "has buttons bar at top"
         describe 'does not show actions on other member garden' do
-          it { is_expected.not_to have_link 'Edit' }
-          it { is_expected.not_to have_link 'Delete' }
+          it { is_expected.not_to(have_link('Edit')) }
+          it { is_expected.not_to(have_link('Delete')) }
         end
       end
     end
@@ -56,19 +56,19 @@ feature "Gardens" do
       describe 'my garden' do
         before { visit garden_path(garden) }
 
-        it { is_expected.to have_link 'Edit' }
-        it { is_expected.to have_link 'Delete' }
-        it { is_expected.to have_content "Plant something here" }
-        it { is_expected.to have_content "Add photo" }
+        it { is_expected.to(have_link('Edit')) }
+        it { is_expected.to(have_link('Delete')) }
+        it { is_expected.to(have_content("Plant something here")) }
+        it { is_expected.to(have_content("Add photo")) }
       end
 
       describe "someone else's garden" do
         before { visit garden_path(other_member_garden) }
 
-        it { is_expected.not_to have_link 'Edit' }
-        it { is_expected.not_to have_link 'Delete' }
-        it { is_expected.not_to have_content "Plant something here" }
-        it { is_expected.not_to have_content "Add photo" }
+        it { is_expected.not_to(have_link('Edit')) }
+        it { is_expected.not_to(have_link('Delete')) }
+        it { is_expected.not_to(have_content("Plant something here")) }
+        it { is_expected.not_to(have_content("Add photo")) }
       end
     end
   end

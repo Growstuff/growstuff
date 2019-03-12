@@ -26,7 +26,7 @@ module GardensHelper
       plantings.each do |planting|
         output += "<li>"
         output += planting.quantity.nil? ? "0 " : "#{planting.quantity} "
-        output += link_to planting.crop.name, planting.crop
+        output += link_to(planting.crop.name, planting.crop)
         output += ", planted on #{planting.planted_at}</li>"
       end
       output += '</ul>'

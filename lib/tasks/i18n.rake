@@ -12,7 +12,7 @@ namespace :i18n do
       translate = Haml::I18n::Extractor.new(haml_path)
       translate.run
     rescue Haml::I18n::Extractor::InvalidSyntax
-      puts "There was an error with #{haml_path}"
+      puts("There was an error with #{haml_path}")
     end
   end
 end

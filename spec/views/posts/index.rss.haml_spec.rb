@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe 'posts/index.rss.haml', type: "view" do
   before do
@@ -11,14 +11,14 @@ describe 'posts/index.rss.haml', type: "view" do
   end
 
   it 'shows RSS feed title' do
-    rendered.should have_content "Recent posts from all members"
+    rendered.should(have_content("Recent posts from all members"))
   end
 
   it 'shows content of posts' do
-    rendered.should have_content "This is some text."
+    rendered.should(have_content("This is some text."))
   end
 
   it 'gives the author in the item title' do
-    rendered.should have_content "#{@post1.subject} by #{@post1.author}"
+    rendered.should(have_content("#{@post1.subject} by #{@post1.author}"))
   end
 end

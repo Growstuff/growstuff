@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe "crops/_planting_advice" do
   subject { rendered }
@@ -13,7 +13,7 @@ describe "crops/_planting_advice" do
     context "with no sunniness set" do
       include_examples "render planting_advice"
       it "doesn't show sunniness" do
-        is_expected.to have_content "Plant in: not known."
+        is_expected.to(have_content("Plant in: not known."))
       end
     end
 
@@ -21,8 +21,8 @@ describe "crops/_planting_advice" do
       before { FactoryBot.create(:sunny_planting, crop: planting.crop) }
 
       include_examples "render planting_advice"
-      it { is_expected.to have_content "Plant in:" }
-      it { is_expected.to have_content "sun (1)" }
+      it { is_expected.to(have_content("Plant in:")) }
+      it { is_expected.to(have_content("sun (1)")) }
     end
 
     context "with multiple sunniness frequencies" do
@@ -32,8 +32,8 @@ describe "crops/_planting_advice" do
       end
 
       include_examples "render planting_advice"
-      it { is_expected.to have_content "Plant in:" }
-      it { is_expected.to have_content "sun (2), shade (1)" }
+      it { is_expected.to(have_content("Plant in:")) }
+      it { is_expected.to(have_content("sun (2), shade (1)")) }
     end
   end
 
@@ -41,7 +41,7 @@ describe "crops/_planting_advice" do
     context "when none are set" do
       include_examples "render planting_advice"
       it "doesn't show planted_from " do
-        is_expected.to have_content "Plant from: not known."
+        is_expected.to(have_content("Plant from: not known."))
       end
     end
 
@@ -49,8 +49,8 @@ describe "crops/_planting_advice" do
       before { FactoryBot.create(:seed_planting, crop: planting.crop) }
 
       include_examples "render planting_advice"
-      it { is_expected.to have_content "Plant from:" }
-      it { is_expected.to have_content "seed (1)" }
+      it { is_expected.to(have_content("Plant from:")) }
+      it { is_expected.to(have_content("seed (1)")) }
     end
 
     context "with multiple planted_from frequencies" do
@@ -60,8 +60,8 @@ describe "crops/_planting_advice" do
       end
 
       include_examples "render planting_advice"
-      it { is_expected.to have_content "Plant from:" }
-      it { is_expected.to have_content "seed (2), cutting (1)" }
+      it { is_expected.to(have_content("Plant from:")) }
+      it { is_expected.to(have_content("seed (2), cutting (1)")) }
     end
   end
 end

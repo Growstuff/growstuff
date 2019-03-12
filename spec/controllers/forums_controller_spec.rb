@@ -1,4 +1,4 @@
-require 'rails_helper'
+require('rails_helper')
 
 describe ForumsController do
   login_member(:admin_member)
