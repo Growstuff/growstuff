@@ -11,22 +11,22 @@ feature "signout" do
     fill_in 'Password', with: member.password
     click_button 'Sign in'
     click_link 'Sign out'
-    expect(current_path).to eq crops_path
+    expect(page).to have_current_path crops_path
   end
 
   shared_examples "sign-in redirects" do |path|
     scenario "after signout, redirect to signin page if page needs authentication" do
       visit path
-      expect(current_path).to eq new_member_session_path
+      expect(page).to have_current_path new_member_session_path
       expect(page).to have_http_status(200)
       fill_in 'Login', with: member.login_name
       fill_in 'Password', with: member.password
       click_button 'Sign in'
       expect(page).to have_http_status(200)
-      expect(current_path).to eq path
+      expect(page).to have_current_path path
       click_link 'Sign out'
       expect(page).to have_http_status(200)
-      expect(current_path).to eq new_member_session_path
+      expect(page).to have_current_path new_member_session_path
     end
   end
 
@@ -41,7 +41,7 @@ feature "signout" do
   scenario 'photos' do
     garden = FactoryBot.create :garden, owner: member
     visit "/photos/new?id=#{garden.id}&type=garden"
-    expect(current_path).to eq new_member_session_path
+    expect(page).to have_current_path new_member_session_path
     expect(page).to have_http_status(200)
     # photos/new needs id&type params,
     # but these are stripped after signing in
