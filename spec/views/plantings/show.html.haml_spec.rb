@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "plantings/show" do
-  let(:crop) { FactoryBot.create(:tomato) }
+  let(:crop)   { FactoryBot.create(:tomato) }
   let(:member) { FactoryBot.create(:member) }
   let(:garden) { FactoryBot.create(:garden, owner: member) }
   let(:planting) do

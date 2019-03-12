@@ -134,7 +134,7 @@ describe Post do
     let!(:tomato) { FactoryBot.create(:tomato) }
     let!(:maize) { FactoryBot.create(:maize) }
     let!(:chard) { FactoryBot.create(:chard) }
-    let!(:post) { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
+    let!(:post)  { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
     it "is generated" do
       expect(tomato.posts).to eq [post]

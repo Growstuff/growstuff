@@ -13,10 +13,10 @@ describe HarvestsController do
   end
 
   describe "GET index" do
-    let!(:member1) { FactoryBot.create(:member) }
-    let(:member2) { FactoryBot.create(:member) }
-    let(:tomato) { FactoryBot.create(:tomato) }
-    let(:maize) { FactoryBot.create(:maize) }
+    let!(:member1)  { FactoryBot.create(:member) }
+    let(:member2)   { FactoryBot.create(:member) }
+    let(:tomato)    { FactoryBot.create(:tomato) }
+    let(:maize)     { FactoryBot.create(:maize) }
     let!(:harvest1) { FactoryBot.create(:harvest, owner_id: member1.id, crop_id: tomato.id) }
     let!(:harvest2) { FactoryBot.create(:harvest, owner_id: member2.id, crop_id: maize.id) }
 
@@ -127,7 +127,7 @@ describe HarvestsController do
 
     describe "not my planting" do
       let(:not_my_planting) { FactoryBot.create(:planting) }
-      let(:harvest) { FactoryBot.create(:harvest) }
+      let(:harvest)         { FactoryBot.create(:harvest) }
 
       describe "does not save planting_id" do
         before do
@@ -183,7 +183,7 @@ describe HarvestsController do
 
     describe "not my planting" do
       let(:not_my_planting) { FactoryBot.create(:planting) }
-      let(:harvest) { FactoryBot.create(:harvest) }
+      let(:harvest)         { FactoryBot.create(:harvest) }
 
       describe "does not save planting_id" do
         before do

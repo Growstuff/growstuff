@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'cancan/matchers'
 
 describe Ability do
-  let(:member) { FactoryBot.create(:member) }
+  let(:member)  { FactoryBot.create(:member) }
   let(:ability) { Ability.new(member) }
 
   context "notifications" do

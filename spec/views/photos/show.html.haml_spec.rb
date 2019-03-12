@@ -10,10 +10,10 @@ describe "photos/show" do
 
   let(:member) { FactoryBot.create :member }
 
-  let(:harvest) { FactoryBot.create :harvest, owner: member }
+  let(:harvest)  { FactoryBot.create :harvest, owner: member }
   let(:planting) { FactoryBot.create :planting, owner: member }
-  let(:seed) { FactoryBot.create :seed, owner: member }
-  let(:garden) { FactoryBot.create :garden, owner: member }
+  let(:seed)     { FactoryBot.create :seed, owner: member }
+  let(:garden)   { FactoryBot.create :garden, owner: member }
 
   shared_examples "photo data renders" do
     it "shows the image" do

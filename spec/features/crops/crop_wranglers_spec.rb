@@ -3,10 +3,10 @@ require 'rails_helper'
 feature "crop wranglers", js: true do
   context "signed in wrangler" do
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-    let(:wrangler) { crop_wranglers.first }
-    let!(:crops) { create_list :crop, 2 }
+    let(:wrangler)        { crop_wranglers.first }
+    let!(:crops)          { create_list :crop, 2 }
     let!(:requested_crop) { create :crop_request }
-    let!(:rejected_crop) { create :rejected_crop }
+    let!(:rejected_crop)  { create :rejected_crop }
 
     background { login_as wrangler }
 

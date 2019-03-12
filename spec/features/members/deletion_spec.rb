@@ -2,15 +2,15 @@ require 'rails_helper'
 
 feature "member deletion" do
   context "with activity and followers" do
-    let(:member) { FactoryBot.create(:member) }
-    let(:other_member) { FactoryBot.create(:member) }
-    let(:memberpost) { FactoryBot.create(:post, author: member) }
+    let(:member)          { FactoryBot.create(:member) }
+    let(:other_member)    { FactoryBot.create(:member) }
+    let(:memberpost)      { FactoryBot.create(:post, author: member) }
     let(:othermemberpost) { FactoryBot.create(:post, author: other_member) }
-    let!(:planting) { FactoryBot.create(:planting, owner: member) }
-    let!(:harvest) { FactoryBot.create(:harvest, owner: member) }
-    let!(:seed) { FactoryBot.create(:seed, owner: member) }
-    let!(:secondgarden) { FactoryBot.create(:garden, owner: member) }
-    let(:admin) { FactoryBot.create(:admin_member) }
+    let!(:planting)       { FactoryBot.create(:planting, owner: member) }
+    let!(:harvest)        { FactoryBot.create(:harvest, owner: member) }
+    let!(:seed)           { FactoryBot.create(:seed, owner: member) }
+    let!(:secondgarden)   { FactoryBot.create(:garden, owner: member) }
+    let(:admin)           { FactoryBot.create(:admin_member) }
 
     background do
       login_as(member)
@@ -141,7 +141,7 @@ feature "member deletion" do
   context "for a crop wrangler" do
     let(:member) { FactoryBot.create(:crop_wrangling_member) }
     let(:otherwrangler) { FactoryBot.create(:crop_wrangling_member) }
-    let(:crop) { FactoryBot.create(:crop, creator: member) }
+    let(:crop)          { FactoryBot.create(:crop, creator: member) }
     FactoryBot.create(:cropbot)
     let!(:ex_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: "ex_wrangler") }
 
