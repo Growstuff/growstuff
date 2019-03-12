@@ -8,7 +8,9 @@ describe PhotosController do
   describe 'GET index' do
     describe 'all photos' do
       let!(:photo) { FactoryBot.create :photo }
+
       before { get :index }
+
       it { expect(assigns(:photos)).to eq [photo] }
     end
 
@@ -22,6 +24,7 @@ describe PhotosController do
         planting.photos << crop_photo
         get :index, params: { crop_slug: crop.to_param }
       end
+
       it { expect(assigns(:crop)).to eq crop }
       it { expect(assigns(:photos)).to eq [crop_photo] }
     end
