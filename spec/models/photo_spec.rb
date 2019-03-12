@@ -139,6 +139,7 @@ describe Photo do
     let(:seed_crop) { FactoryBot.create :crop }
     let!(:seed)       { FactoryBot.create :seed, owner: member, crop: seed_crop }
     let!(:seed_photo) { FactoryBot.create :photo, owner: member }
+
     before do
       harvest.photos << harvest_photo
       planting.photos << planting_photo
