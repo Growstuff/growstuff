@@ -72,7 +72,7 @@ feature "Gardens#index", :js do
   describe 'badges' do
     let(:garden) { member.gardens.first }
     let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
-    let(:crop) { FactoryBot.create :crop }
+    let(:crop)   { FactoryBot.create :crop }
 
     before do
       # time to harvest = 50 day

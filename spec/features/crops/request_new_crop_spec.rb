@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Requesting a new crop" do
   context "As a regular member" do
-    let(:member) { create :member }
+    let(:member)    { create :member }
     let!(:wrangler) { create :crop_wrangling_member }
 
     background do
@@ -21,7 +21,7 @@ feature "Requesting a new crop" do
 
   context "As a crop wrangler" do
     let(:wrangler) { create :crop_wrangling_member }
-    let!(:crop) { create :crop_request }
+    let!(:crop)             { create :crop_request }
     let!(:already_approved) { create :crop }
 
     background { login_as wrangler }

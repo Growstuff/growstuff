@@ -1,6 +1,6 @@
 shared_examples "append date" do
   let(:this_month) { Time.zone.today.strftime("%B") }
-  let(:this_year) { Time.zone.today.strftime("%Y") }
+  let(:this_year)  { Time.zone.today.strftime("%Y") }
 
   background { visit path }
 

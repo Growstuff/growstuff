@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "crop wrangling button" do
   let(:crop_wrangler) { create :crop_wrangling_member }
-  let(:member) { create :member }
+  let(:member)        { create :member }
 
   context "crop wrangling button" do
     background do

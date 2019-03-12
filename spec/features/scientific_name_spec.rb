@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Scientific names", js: true do
   let!(:zea_mays) { create :zea_mays }
-  let(:crop) { zea_mays.crop }
+  let(:crop)      { zea_mays.crop }
 
   scenario "Display scientific names on crop page" do
     visit crop_path(zea_mays.crop)

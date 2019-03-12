@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 feature "unsubscribe" do
-  let(:member) { create :member }
+  let(:member)       { create :member }
   let(:notification) { create :notification }
 
   background do

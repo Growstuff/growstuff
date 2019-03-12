@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Garden do
-  let(:owner) { FactoryBot.create(:member, login_name: 'hatupatu') }
+  let(:owner)  { FactoryBot.create(:member, login_name: 'hatupatu') }
   let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
 
   it "has a slug" do
@@ -57,10 +57,10 @@ describe Garden do
 
   context "featured plantings" do
     let(:tomato) { FactoryBot.create(:tomato) }
-    let(:maize) { FactoryBot.create(:maize) }
-    let(:chard) { FactoryBot.create(:chard) }
-    let(:apple) { FactoryBot.create(:apple) }
-    let(:pear)  { FactoryBot.create(:pear) }
+    let(:maize)  { FactoryBot.create(:maize) }
+    let(:chard)  { FactoryBot.create(:chard) }
+    let(:apple)  { FactoryBot.create(:apple) }
+    let(:pear)   { FactoryBot.create(:pear) }
     let(:walnut) { FactoryBot.create(:walnut) }
 
     it "fetches < 4 featured plantings if insufficient exist" do

@@ -1,10 +1,10 @@
 require "rails_helper"
 
 feature "User searches" do
-  let(:member) { create :member, location: "Philippines" }
-  let!(:maize) { create :maize }
-  let(:garden) { create :garden, owner: member }
-  let!(:seed1) { create :seed, owner: member }
+  let(:member)    { create :member, location: "Philippines" }
+  let!(:maize)    { create :maize }
+  let(:garden)    { create :garden, owner: member }
+  let!(:seed1)    { create :seed, owner: member }
   let!(:planting) { create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-3-10") }
 
   scenario "with a valid place" do
