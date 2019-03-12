@@ -11,11 +11,14 @@ describe CropsController do
     describe 'fetches the crop wrangler homepage' do
       context 'anonymous' do
         before { get :wrangle }
+
         it { is_expected.not_to be_success }
       end
+
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :wrangle }
+
         it { is_expected.to be_success }
         it { is_expected.to render_template("crops/wrangle") }
         it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
@@ -28,6 +31,7 @@ describe CropsController do
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :hierarchy }
+
         it { is_expected.to be_success }
         it { is_expected.to render_template("crops/hierarchy") }
       end
@@ -55,13 +59,17 @@ describe CropsController do
 
   describe 'DELETE destroy' do
     let!(:crop) { FactoryBot.create :crop }
+
     subject { delete :destroy, params: { slug: crop.to_param } }
+
     context 'not logged in' do
       it { expect { subject }.not_to change { Crop.count } }
     end
+
     context 'logged in as member' do
       it { expect { subject }.not_to change { Crop.count } }
     end
+
     context 'wrangler' do
       include_context 'login as wrangler'
       it { expect { subject }.to change { Crop.count }.by -1 }

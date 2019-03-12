@@ -9,11 +9,11 @@ feature "home page" do
   let(:crop) { FactoryBot.create :crop, created_at: 1.day.ago }
 
   let(:planting) { FactoryBot.create :planting, owner: member, crop: crop }
-  let(:seed) { FactoryBot.create :tradable_seed, owner: member, crop: crop }
+  let(:seed)    { FactoryBot.create :tradable_seed, owner: member, crop: crop }
   let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop }
 
   let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
-  let!(:finished_seed) { FactoryBot.create :tradable_seed, finished: true }
+  let!(:finished_seed)   { FactoryBot.create :tradable_seed, finished: true }
   let!(:untradable_seed) { FactoryBot.create :untradable_seed }
 
   background do

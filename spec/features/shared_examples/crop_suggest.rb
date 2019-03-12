@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 shared_examples "crop suggest" do |resource|
-  let!(:pea) { create :crop, name: 'pea' }
-  let!(:pear) { create :pear }
+  let!(:pea)    { create :crop, name: 'pea' }
+  let!(:pear)   { create :pear }
   let!(:tomato) { create :tomato }
-  let!(:roma) { create :roma }
+  let!(:roma)   { create :roma }
 
   background { sync_elasticsearch [pea, pear, maize, tomato] }
 

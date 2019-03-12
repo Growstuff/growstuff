@@ -8,8 +8,8 @@ feature "crop detail page", js: true do
   let!(:crop) { FactoryBot.create :crop }
 
   let!(:planting) { FactoryBot.create :planting, crop: crop, owner: member }
-  let!(:harvest) { FactoryBot.create :harvest, crop: crop, owner: member }
-  let!(:seed) { FactoryBot.create :seed, crop: crop, owner: member }
+  let!(:harvest)  { FactoryBot.create :harvest, crop: crop, owner: member }
+  let!(:seed)     { FactoryBot.create :seed, crop: crop, owner: member }
 
   let!(:photo1) { FactoryBot.create(:photo, owner: member) }
   let!(:photo2) { FactoryBot.create(:photo, owner: member) }

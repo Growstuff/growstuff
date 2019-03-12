@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "forums", js: true do
   context "as an admin user" do
     let(:member) { create :admin_member }
-    let(:forum) { create :forum }
+    let(:forum)  { create :forum }
 
     background do
       login_as member
