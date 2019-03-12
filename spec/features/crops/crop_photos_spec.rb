@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "crop detail page", js: true do
+describe "crop detail page", js: true do
   subject { page }
 
   let!(:member) { FactoryBot.create :member }
@@ -50,12 +50,12 @@ feature "crop detail page", js: true do
   end
 
   context "when signed in" do
-    background { login_as(FactoryBot.create(:member)) }
+    before { login_as(FactoryBot.create(:member)) }
     include_examples "shows photos"
   end
 
   context "when signed in as photos owner" do
-    background { login_as(member) }
+    before { login_as(member) }
     include_examples "shows photos"
   end
 

@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-feature "Gardens", :js do
+describe "Gardens", :js do
   let(:member) { FactoryBot.create :member }
 
-  background do
+  before do
     login_as member
     visit new_garden_path
   end
@@ -20,14 +20,14 @@ feature "Gardens", :js do
     expect(page).to have_optional 'input#garden_area'
   end
 
-  scenario "Create new garden" do
+  it "Create new garden" do
     fill_in "Name", with: "New garden"
     click_button "Save"
     expect(page).to have_content "Garden was successfully created"
     expect(page).to have_content "New garden"
   end
 
-  scenario "Refuse to create new garden with negative area" do
+  it "Refuse to create new garden with negative area" do
     visit new_garden_path
     fill_in "Name", with: "Negative Garden"
     fill_in "Area", with: -5

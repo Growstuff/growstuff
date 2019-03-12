@@ -1,17 +1,17 @@
 require 'rails_helper'
 
-feature "Planting a crop", js: true do
+describe "Planting a crop", js: true do
   # name is aaa to ensure it is ordered first
   let!(:garden) { create :garden, name: 'aaa' }
   let!(:planting) { create :planting, garden: garden, owner: garden.owner, planted_at: Date.parse("2013-3-10") }
   let!(:tomato) { create :tomato }
   let!(:finished_planting) { create :finished_planting, owner: garden.owner, garden: garden, crop: tomato }
 
-  background do
+  before do
     login_as garden.owner
   end
 
-  scenario "View gardens" do
+  it "View gardens" do
     visit gardens_path
     expect(page).to have_content "Everyone's gardens"
     within '.layout-actions' do
@@ -24,7 +24,7 @@ feature "Planting a crop", js: true do
     expect(page).to have_content "Everyone's gardens"
   end
 
-  scenario "Marking a garden as inactive" do
+  it "Marking a garden as inactive" do
     visit garden_path(garden)
     click_link "Mark as inactive"
     expect(page).to have_content "Garden was successfully updated"
@@ -33,14 +33,14 @@ feature "Planting a crop", js: true do
     expect(page).not_to have_content "Mark as inactive"
   end
 
-  scenario "List only active gardens" do
+  it "List only active gardens" do
     visit garden_path(garden)
     click_link "Mark as inactive"
     visit gardens_path
     expect(page).not_to have_link garden_path(garden)
   end
 
-  scenario "Create new garden" do
+  it "Create new garden" do
     visit new_garden_path
     fill_in "Name", with: "New garden"
     click_button "Save"
@@ -48,7 +48,7 @@ feature "Planting a crop", js: true do
     expect(page).to have_content "New garden"
   end
 
-  scenario "Refuse to create new garden with negative area" do
+  it "Refuse to create new garden with negative area" do
     visit new_garden_path
     fill_in "Name", with: "Negative Garden"
     fill_in "Area", with: -5
@@ -58,17 +58,17 @@ feature "Planting a crop", js: true do
   end
 
   context "Clicking edit from the index page" do
-    background do
+    before do
       visit gardens_path
     end
 
-    scenario "button on index to edit garden" do
+    it "button on index to edit garden" do
       click_link href: edit_garden_path(garden)
       expect(page).to have_content 'Edit garden'
     end
   end
 
-  scenario "Edit garden" do
+  it "Edit garden" do
     visit new_garden_path
     fill_in "Name", with: "New garden"
     click_button "Save"
@@ -81,7 +81,7 @@ feature "Planting a crop", js: true do
     expect(page).to have_content "Different name"
   end
 
-  scenario "Delete garden" do
+  it "Delete garden" do
     visit new_garden_path
     fill_in "Name", with: "New garden"
     click_button "Save"
@@ -98,7 +98,7 @@ feature "Planting a crop", js: true do
     it_behaves_like "append date"
   end
 
-  scenario "List only active plantings on a garden" do
+  it "List only active plantings on a garden" do
     visit gardens_path
     expect(page).not_to have_content finished_planting.crop_name
   end
