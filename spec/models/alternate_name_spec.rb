@@ -21,7 +21,7 @@ describe AlternateName do
 
   describe 'relationships' do
     let(:alternate_name) { FactoryBot.create :alternate_name, crop: crop, creator: member }
-    let(:crop) { FactoryBot.create :crop }
+    let(:crop)   { FactoryBot.create :crop }
     let(:member) { FactoryBot.create :member }
 
     it { expect(alternate_name.crop).to eq crop }

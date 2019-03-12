@@ -3,7 +3,7 @@ require "rails_helper"
 describe Notifier do
   describe "notifications" do
     let(:notification) { FactoryBot.create(:notification) }
-    let(:mail) { Notifier.notify(notification) }
+    let(:mail)         { Notifier.notify(notification) }
 
     it 'sets the subject correctly' do
       mail.subject.should == notification.subject

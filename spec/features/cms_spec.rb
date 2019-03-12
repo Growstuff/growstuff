@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "cms admin" do
-  let(:member) { create :member }
+  let(:member)       { create :member }
   let(:admin_member) { create :admin_member }
 
   scenario "can't view CMS admin if not signed in" do

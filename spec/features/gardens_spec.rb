@@ -2,9 +2,9 @@ require 'rails_helper'
 
 feature "Planting a crop", js: true do
   # name is aaa to ensure it is ordered first
-  let!(:garden) { create :garden, name: 'aaa' }
-  let!(:planting) { create :planting, garden: garden, owner: garden.owner, planted_at: Date.parse("2013-3-10") }
-  let!(:tomato) { create :tomato }
+  let!(:garden)            { create :garden, name: 'aaa' }
+  let!(:planting)          { create :planting, garden: garden, owner: garden.owner, planted_at: Date.parse("2013-3-10") }
+  let!(:tomato)            { create :tomato }
   let!(:finished_planting) { create :finished_planting, owner: garden.owner, garden: garden, crop: tomato }
 
   background do

@@ -2,10 +2,10 @@ require 'rails_helper'
 require 'custom_matchers'
 
 feature "Harvesting a crop", :js, :elasticsearch do
-  let(:member) { create :member }
-  let!(:maize) { create :maize }
+  let(:member)      { create :member }
+  let!(:maize)      { create :maize }
   let!(:plant_part) { create :plant_part }
-  let(:planting) { create :planting, crop: maize, owner: member }
+  let(:planting)    { create :planting, crop: maize, owner: member }
 
   background do
     login_as member
@@ -93,7 +93,7 @@ feature "Harvesting a crop", :js, :elasticsearch do
   end
 
   context "Editing a harvest" do
-    let(:existing_harvest) { create :harvest, crop: maize, owner: member }
+    let(:existing_harvest)  { create :harvest, crop: maize, owner: member }
     let!(:other_plant_part) { create :plant_part, name: 'chocolate' }
 
     background do

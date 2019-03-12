@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Alternate names", js: true do
   let!(:alternate_eggplant) { create :alternate_eggplant }
-  let(:crop) { alternate_eggplant.crop }
+  let(:crop)                { alternate_eggplant.crop }
 
   scenario "Display alternate names on crop page" do
     visit crop_path(alternate_eggplant.crop)

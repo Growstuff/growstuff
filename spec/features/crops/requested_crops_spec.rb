@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Crop - " do
-  let(:member) { create :member }
+  let(:member)          { create :member }
   let!(:requested_crop) { create :crop, requester: member, approval_status: 'pending', name: 'puha for dinner' }
 
   background do
