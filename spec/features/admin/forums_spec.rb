@@ -5,9 +5,7 @@ describe "forums", js: true do
     let(:member) { create :admin_member }
     let(:forum) { create :forum }
 
-    before do
-      login_as member
-    end
+    before { login_as member }
 
     it "navigating to forum admin without js", js: false do
       visit root_path
