@@ -63,16 +63,16 @@ describe CropsController do
     subject { delete :destroy, params: { slug: crop.to_param } }
 
     context 'not logged in' do
-      it { expect { subject }.not_to change { Crop.count } }
+      it { expect { subject }.not_to change(Crop, :count) }
     end
 
     context 'logged in as member' do
-      it { expect { subject }.not_to change { Crop.count } }
+      it { expect { subject }.not_to change(Crop, :count) }
     end
 
     context 'wrangler' do
       include_context 'login as wrangler'
-      it { expect { subject }.to change { Crop.count }.by -1 }
+      it { expect { subject }.to change(Crop, :count).by -1 }
     end
   end
 end
