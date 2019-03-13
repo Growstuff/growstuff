@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe "plantings/index" do
-  let(:member) { FactoryBot.create(:member) }
+  let(:member) { FactoryBot.create(:member)                }
   let(:garden) { FactoryBot.create(:garden, owner: member) }
-  let(:tomato) { FactoryBot.create(:tomato) }
-  let(:maize)  { FactoryBot.create(:maize) }
+  let(:tomato) { FactoryBot.create(:tomato)                }
+  let(:maize)  { FactoryBot.create(:maize)                 }
 
   before do
     controller.stub(:current_user) { nil }

@@ -3,7 +3,7 @@ require 'custom_matchers'
 
 feature "Seeds", :js, :elasticsearch do
   let(:member) { create :member }
-  let!(:maize) { create :maize }
+  let!(:maize) { create :maize  }
 
   background do
     login_as member

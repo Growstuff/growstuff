@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Commenting on a post' do
-  let(:member) { create :member }
+  let(:member) { create :member               }
   let(:post)   { create :post, author: member }
 
   background do

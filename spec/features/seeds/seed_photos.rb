@@ -8,7 +8,7 @@ feature "Seeds", :js do
     page
   end
 
-  let(:member) { FactoryBot.create :member }
+  let(:member) { FactoryBot.create :member              }
   let!(:seed)  { FactoryBot.create :seed, owner: member }
 
   it { is_expected.to have_content 'Add photo' }
