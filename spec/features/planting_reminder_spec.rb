@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 feature "Planting reminder email", :js do
-  let(:member) { create :member }
+  let(:member) { create :member                     }
   let(:mail)   { Notifier.planting_reminder(member) }
 
   # Unfortunately, we can't use the default url options for ActionMailer as configured in

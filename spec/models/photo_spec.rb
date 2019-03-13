@@ -2,12 +2,12 @@ require 'rails_helper'
 
 describe Photo do
   let(:photo)  { FactoryBot.create(:photo, owner: member) }
-  let(:member) { FactoryBot.create(:member) }
+  let(:member) { FactoryBot.create(:member)               }
 
   describe 'add/delete functionality' do
     let(:planting) { FactoryBot.create(:planting, owner: member) }
     let(:harvest) { FactoryBot.create(:harvest, owner: member) }
-    let(:garden)  { FactoryBot.create(:garden, owner: member) }
+    let(:garden)  { FactoryBot.create(:garden, owner: member)  }
 
     context "adds photos" do
       it 'to a planting' do
@@ -130,15 +130,15 @@ describe Photo do
   describe 'scopes' do
     let(:harvest_crop) { FactoryBot.create :crop }
     let!(:harvest)       { FactoryBot.create :harvest, owner: member, crop: harvest_crop }
-    let!(:harvest_photo) { FactoryBot.create :photo, owner: member }
+    let!(:harvest_photo) { FactoryBot.create :photo, owner: member                       }
 
     let(:planting_crop) { FactoryBot.create :crop }
     let!(:planting)       { FactoryBot.create :planting, owner: member, crop: planting_crop }
-    let!(:planting_photo) { FactoryBot.create :photo, owner: member }
+    let!(:planting_photo) { FactoryBot.create :photo, owner: member                         }
 
     let(:seed_crop) { FactoryBot.create :crop }
     let!(:seed)       { FactoryBot.create :seed, owner: member, crop: seed_crop }
-    let!(:seed_photo) { FactoryBot.create :photo, owner: member }
+    let!(:seed_photo) { FactoryBot.create :photo, owner: member                 }
 
     before do
       harvest.photos << harvest_photo

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Crop do
   let(:pp2)   { FactoryBot.create(:plant_part) }
   let(:pp1)   { FactoryBot.create(:plant_part) }
-  let(:maize) { FactoryBot.create(:maize) }
+  let(:maize) { FactoryBot.create(:maize)      }
 
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
@@ -49,8 +49,8 @@ describe Crop do
   end
 
   context 'popularity' do
-    let(:tomato)   { FactoryBot.create(:tomato) }
-    let(:maize)    { FactoryBot.create(:maize) }
+    let(:tomato)   { FactoryBot.create(:tomato)                 }
+    let(:maize)    { FactoryBot.create(:maize)                  }
     let(:cucumber) { FactoryBot.create(:crop, name: 'cucumber') }
 
     before do
@@ -340,8 +340,8 @@ describe Crop do
   context "harvests" do
     let(:h1)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
     let(:h2)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
-    let!(:crop)    { FactoryBot.create(:crop) }
-    let!(:harvest) { FactoryBot.create(:harvest, crop: crop) }
+    let!(:crop)    { FactoryBot.create(:crop)                                  }
+    let!(:harvest) { FactoryBot.create(:harvest, crop: crop)                   }
 
     it "has harvests" do
       expect(crop.harvests).to eq [harvest]
@@ -544,8 +544,8 @@ describe Crop do
   end
 
   context "crop-post association" do
-    let!(:tomato) { FactoryBot.create(:tomato) }
-    let!(:maize)  { FactoryBot.create(:maize) }
+    let!(:tomato) { FactoryBot.create(:tomato)                                                  }
+    let!(:maize)  { FactoryBot.create(:maize)                                                   }
     let!(:post)   { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
     describe "destroying a crop" do

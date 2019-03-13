@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "photos/show" do
   let(:photo) { FactoryBot.create :photo, owner: member }
-  let(:crops) { FactoryBot.create_list :crop, 2 }
+  let(:crops) { FactoryBot.create_list :crop, 2         }
   before do
     @photo = photo
     @crops = crops
@@ -10,10 +10,10 @@ describe "photos/show" do
 
   let(:member) { FactoryBot.create :member }
 
-  let(:harvest)  { FactoryBot.create :harvest, owner: member }
+  let(:harvest)  { FactoryBot.create :harvest, owner: member  }
   let(:planting) { FactoryBot.create :planting, owner: member }
-  let(:seed)     { FactoryBot.create :seed, owner: member }
-  let(:garden)   { FactoryBot.create :garden, owner: member }
+  let(:seed)     { FactoryBot.create :seed, owner: member     }
+  let(:garden)   { FactoryBot.create :garden, owner: member   }
 
   shared_examples "photo data renders" do
     it "shows the image" do
