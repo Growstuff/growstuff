@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe LikesController do
-  let(:like)     { FactoryBot.create :like, member: member }
-  let(:member)   { FactoryBot.create(:member) }
-  let(:blogpost) { FactoryBot.create(:post) }
+  let(:like)     { FactoryBot.create :like, member: member  }
+  let(:member)   { FactoryBot.create(:member)               }
+  let(:blogpost) { FactoryBot.create(:post)                 }
   let(:mypost)   { FactoryBot.create(:post, author: member) }
 
   before { sign_in member }
