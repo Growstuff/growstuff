@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlternateNamesController < ApplicationController
   before_action :authenticate_member!, except: %i(index)
   load_and_authorize_resource

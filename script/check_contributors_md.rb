@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require "English"
 
 puts "Checking to see if you're in CONTRIBUTORS.md..."

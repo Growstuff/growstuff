@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'devise/shared/_links.haml', type: "view" do
   def devise_mapping(register, recover, confirm, lock, oauth)
     dm = double("mappings")

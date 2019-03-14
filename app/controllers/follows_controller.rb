@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FollowsController < ApplicationController
   before_action :authenticate_member!
   before_action :set_member, only: %i(index followers)

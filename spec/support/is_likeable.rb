@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples "it is likeable" do
   before do
     # Possibly a horrible hack.
