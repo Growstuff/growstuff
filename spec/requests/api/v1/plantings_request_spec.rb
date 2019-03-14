@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Plantings', type: :request do
   subject { JSON.parse response.body }
 
-  let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:planting) { FactoryBot.create :planting }
+  let(:headers)   { { 'Accept' => 'application/vnd.api+json' } }
+  let!(:planting) { FactoryBot.create :planting                }
   let(:planting_encoded_as_json_api) do
     { "id"            => planting.id.to_s,
       "type"          => "plantings",

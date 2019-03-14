@@ -2,9 +2,9 @@ require 'rails_helper'
 
 feature "Delete crop spec" do
   context "As a crop wrangler" do
-    let(:wrangler) { FactoryBot.create :crop_wrangling_member }
-    let!(:pending_crop) { FactoryBot.create :crop_request }
-    let!(:approved_crop) { FactoryBot.create :crop }
+    let(:wrangler)       { FactoryBot.create :crop_wrangling_member }
+    let!(:pending_crop)  { FactoryBot.create :crop_request          }
+    let!(:approved_crop) { FactoryBot.create :crop                  }
 
     background { login_as wrangler }
 

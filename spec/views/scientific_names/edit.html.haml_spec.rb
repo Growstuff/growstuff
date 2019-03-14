@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "scientific_names/edit" do
   context "logged in" do
-    let(:member) { FactoryBot.create(:member) }
+    let(:member)          { FactoryBot.create(:member)                    }
     let(:scientific_name) { FactoryBot.create(:zea_mays, creator: member) }
 
     before do

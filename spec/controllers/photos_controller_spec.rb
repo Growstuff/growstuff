@@ -8,20 +8,23 @@ describe PhotosController do
   describe 'GET index' do
     describe 'all photos' do
       let!(:photo) { FactoryBot.create :photo }
+
       before { get :index }
+
       it { expect(assigns(:photos)).to eq [photo] }
     end
 
     describe 'crop photos' do
       let!(:photo) { FactoryBot.create :photo, owner: member }
-      let!(:crop_photo) { FactoryBot.create :photo, owner: member }
-      let!(:planting) { FactoryBot.create :planting, crop: crop, owner: member }
-      let!(:crop) { FactoryBot.create :crop }
+      let!(:crop_photo) { FactoryBot.create :photo, owner: member                }
+      let!(:planting)   { FactoryBot.create :planting, crop: crop, owner: member }
+      let!(:crop)       { FactoryBot.create :crop                                }
 
       before do
         planting.photos << crop_photo
         get :index, params: { crop_slug: crop.to_param }
       end
+
       it { expect(assigns(:crop)).to eq crop }
       it { expect(assigns(:photos)).to eq [crop_photo] }
     end
@@ -30,10 +33,10 @@ describe PhotosController do
   describe "GET new" do
     let(:tomato) { FactoryBot.create(:tomato) }
     let(:planting) { FactoryBot.create(:planting, crop: tomato, owner: member) }
-    let(:garden) { FactoryBot.create(:garden, owner: member) }
-    let(:harvest) { FactoryBot.create(:harvest, owner: member) }
-    let(:member) { FactoryBot.create(:member) }
-    let!(:auth) { FactoryBot.create(:flickr_authentication, member: member) }
+    let(:garden)   { FactoryBot.create(:garden, owner: member)                 }
+    let(:harvest)  { FactoryBot.create(:harvest, owner: member)                }
+    let(:member)   { FactoryBot.create(:member)                                }
+    let!(:auth)    { FactoryBot.create(:flickr_authentication, member: member) }
 
     before do
       sign_in member
@@ -77,10 +80,10 @@ describe PhotosController do
     end
 
     let(:member) { FactoryBot.create(:member) }
-    let(:garden) { FactoryBot.create(:garden, owner: member) }
+    let(:garden)   { FactoryBot.create(:garden, owner: member)                   }
     let(:planting) { FactoryBot.create(:planting, garden: garden, owner: member) }
-    let(:harvest) { FactoryBot.create(:harvest, owner: member) }
-    let(:photo) { FactoryBot.create(:photo, owner: member) }
+    let(:harvest)  { FactoryBot.create(:harvest, owner: member)                  }
+    let(:photo)    { FactoryBot.create(:photo, owner: member)                    }
 
     describe "with valid params" do
       before { controller.stub(:current_member) { member } }

@@ -17,8 +17,8 @@ describe "seeds/show" do
   context "tradable" do
     context 'with location' do
       let!(:owner) { FactoryBot.create(:london_member) }
-      let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
-      let!(:member) { FactoryBot.create(:member) }
+      let!(:seed)   { FactoryBot.create(:tradable_seed, owner: owner) }
+      let!(:member) { FactoryBot.create(:member)                      }
 
       before do
         assign(:seed, seed)

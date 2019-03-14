@@ -103,8 +103,8 @@ feature "member profile", js: true do
 
   context "signed in member" do
     let(:member) { create :member }
-    let(:other_member) { create :member }
-    let(:admin_member) { create :admin_member }
+    let(:other_member)  { create :member                }
+    let(:admin_member)  { create :admin_member          }
     let(:crop_wrangler) { create :crop_wrangling_member }
 
     background do

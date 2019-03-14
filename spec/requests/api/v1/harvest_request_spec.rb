@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Harvests', type: :request do
   subject { JSON.parse response.body }
 
-  let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:harvest) { FactoryBot.create :harvest }
+  let(:headers)  { { 'Accept' => 'application/vnd.api+json' } }
+  let!(:harvest) { FactoryBot.create :harvest                 }
   let(:harvest_encoded_as_json_api) do
     { "id"            => harvest.id.to_s,
       "type"          => "harvests",

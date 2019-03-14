@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Notifications", :js do
-  let(:sender) { create :member }
+  let(:sender)    { create :member                        }
   let(:recipient) { create :member, login_name: 'beyonce' }
 
   context "On existing notification" do
