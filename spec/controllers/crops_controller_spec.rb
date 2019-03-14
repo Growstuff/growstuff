@@ -58,9 +58,9 @@ describe CropsController do
   end
 
   describe 'DELETE destroy' do
+    subject { delete :destroy, params: { slug: crop.to_param } }
     let!(:crop) { FactoryBot.create :crop }
 
-    subject { delete :destroy, params: { slug: crop.to_param } }
 
     context 'not logged in' do
       it { expect { subject }.not_to change(Crop, :count) }
