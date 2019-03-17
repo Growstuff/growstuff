@@ -7,9 +7,13 @@ module Api
       has_many :plantings
       has_many :harvests
       has_many :seeds
+
       has_many :photos
 
       attribute :login_name
+      attribute :slug
+
+      filters :login_name, :slug
     end
   end
 end
