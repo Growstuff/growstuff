@@ -30,7 +30,7 @@ module Api
       filter :planted_from
       filter :garden
       filter :owner
-      filter :finished, default: nil
+      filter :finished
 
       attribute :percentage_grown
       def percentage_grown

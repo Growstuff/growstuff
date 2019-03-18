@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_30_090437) do
+ActiveRecord::Schema.define(version: 2019_03_17_023129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -385,7 +385,7 @@ ActiveRecord::Schema.define(version: 2019_01_30_090437) do
     t.string "sunniness"
     t.string "planted_from"
     t.integer "owner_id"
-    t.boolean "finished", default: false
+    t.boolean "finished", default: false, null: false
     t.date "finished_at"
     t.integer "lifespan"
     t.integer "days_to_first_harvest"
