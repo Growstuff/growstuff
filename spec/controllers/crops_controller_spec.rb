@@ -61,6 +61,7 @@ describe CropsController do
 
   describe 'DELETE destroy' do
     subject { delete :destroy, params: { slug: crop.to_param } }
+
     let!(:crop) { FactoryBot.create :crop }
 
     context 'not logged in' do
