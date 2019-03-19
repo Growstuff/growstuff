@@ -111,7 +111,7 @@ Rails.application.configure do
 
   # this config variable cannot be put in application.yml as it is needed
   # by the assets pipeline, which doesn't have access to ENV.
-  config.mapbox_map_id = ENV['MAPBOX_ID']
+  config.mapbox_map_id = ENV['MAPBOX_MAP_ID']
   config.mapbox_access_token = ENV['MAPBOX_ACCESS_TOKEN']
 
   config.active_job.queue_adapter = :sidekiq
