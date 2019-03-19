@@ -103,7 +103,7 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
-group :production, :staging do
+group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
   gem 'memcachier'
