@@ -15,7 +15,7 @@
   %p There are no gardens to display.
 - else
   - @gardens.each do |garden|
-    = render 'overview', garden: garden
+    = react_component("Garden", { garden_id: garden.id, name: garden.name })
 
 .pagination
   = page_entries_info @gardens
