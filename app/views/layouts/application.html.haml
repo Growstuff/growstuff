@@ -1,7 +1,9 @@
 !!! 5
 %html{ lang: "en", prefix: "og: http://ogp.me/ns#" }
-  = yield :scripts
-  = render partial: "layouts/meta"
+  %head
+    = yield :scripts
+    = render partial: "layouts/meta"
+    = javascript_pack_tag 'application'
   %body
     = render partial: "layouts/header"
 
@@ -13,14 +15,14 @@
               = yield(:title)
               - if content_for?(:subtitle)
                 %small= yield(:subtitle)
-  
+
           - if content_for?(:buttonbar)
             .btn-group.layout-actions
               = yield(:buttonbar)
 
         .col-md-6
           = render 'shared/global_actions'
-      
+
       .row
         .col-md-12
           = render partial: "shared/flash_messages", flash: flash
