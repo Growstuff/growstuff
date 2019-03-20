@@ -28,3 +28,10 @@ config/database.yml
 cc-test-reporter
 elasticsearch-*.deb
 elasticsearch-*.deb.sha512
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
