@@ -39,9 +39,8 @@
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
-    %h3 Garden timeline
-    .row
-      .col-md-12= timeline garden_timeline_path(@garden), adapter: "google"
+    %h2 Layout
+    = react_component("GardenLayout", { garden: @garden })
 
     %h3 Current plantings in garden
     .row
