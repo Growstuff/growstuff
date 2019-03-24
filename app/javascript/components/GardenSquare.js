@@ -24,12 +24,9 @@ class GardenSquare extends React.Component {
     return (
       <div className="card">
         {!this.state.planting &&
-          <button onClick={this.handleClick}><i class="fas fa-plus"></i></button>
+          <button onClick={this.handleClick}><i className="fas fa-plus"></i></button>
         }
         {this.renderPlanting()}
-{/*        <p>
-          {`${this.props.x + 1} x ${this.props.y + 1}`}
-        </p>*/}
       </div>
     );
   }

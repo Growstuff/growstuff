@@ -16,7 +16,7 @@ class GardenLayout extends React.Component {
       height: height,
       maxHeight: maxHeight,
       maxWidth: maxWidth,
-      layout: this.initLayout(maxWidth, maxHeight),
+      layout: this.initLayout(width, height),
       selected_planting_id: null
     };
 
@@ -25,13 +25,13 @@ class GardenLayout extends React.Component {
     this.handlePlantingSelection = this.handlePlantingSelection.bind(this);
     this.handleLayoutAssignment = this.handleLayoutAssignment.bind(this);
     this.getLayoutPlanting = this.getLayoutPlanting.bind(this);
-  }
+    this.initLayout = this.initLayout.bind(this);  }
 
-  initLayout(maxWidth, maxHeight) {
+  initLayout(width, height) {
     let layout = [];
-    for (let x = 0; x < maxHeight; x++) {
+    for (let x = 0; x < height; x++) {
       layout[x] = [];
-      for (let y = 0; y < maxWidth; y++) {
+      for (let y = 0; y < width; y++) {
         layout[x][y] = null;
       }
     }
@@ -86,7 +86,6 @@ class GardenLayout extends React.Component {
     this.setState({height: height});
   }
   handleLayoutAssignment(x, y) {
-    console.log(`${x} x ${y} = ${this.state.selected_planting_id}`)
     let layout = this.state.layout;
     layout[x][y] = this.state.selected_planting_id;
     this.setState({layout: layout});
@@ -113,7 +112,7 @@ class GardenLayout extends React.Component {
     //   });
   }
   handlePlantingSelection(event) {
-    this.setState({selected_planting_id: event.target.value});
+    this.setState({selected_planting_id: parseInt(event.target.value)});
   }
 
   getLayoutPlanting(x, y) {
@@ -125,10 +124,16 @@ class GardenLayout extends React.Component {
       <React.Fragment>
         <div className="row">
           <label>Width (max {this.state.maxWidth})</label>
-          <input name="width" value={this.state.width}
+          <input name="width" type="number"
+            size="3"
+            min="0"
+            value={this.state.width}
             onChange={this.handleWidthChange}/>
           <label>Height (max {this.state.maxHeight})</label>
-          <input name="height" value={this.state.height}
+          <input name="height" type="number"
+            size="3"
+            min="0"
+            value={this.state.height}
             onChange={this.handleHeightChange}/>
         </div>
         <div className="row">
@@ -139,8 +144,11 @@ class GardenLayout extends React.Component {
               garden_id={this.props.garden.id}
               handleSelection={this.handlePlantingSelection} />
           </div>
-          <div className="col-sm-10">
+          <div className="col-sm-8">
             {this.renderTable()}
+          </div>
+          <div className="col-sm-2">
+            {JSON.stringify(this.state.layout)}
           </div>
         </div>
       </React.Fragment>
