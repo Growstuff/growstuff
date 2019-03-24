@@ -1,32 +1,41 @@
 import React from "react"
-import PropTypes from "prop-types"
+// import axios from 'axios';
+import PlantingsList from './PlantingsList'
+import GardenSquare from './GardenSquare'
 
 class GardenLayout extends React.Component {
   constructor(props) {
     super(props);
     const width =3;
     const height = 3;
-
-    let layout = [];
-    for (let x = 0; x < height; x++) {
-      layout[x] = [];
-      for (let y = 0; y < width; y++) {
-        layout[x][y] = null;
-      }
-    }
+    const maxWidth = 20;
+    const maxHeight = 20;
 
     this.state = {
       width: width,
       height: height,
-      maxHeight: 20,
-      maxWidth: 20,
-      layout: layout,
+      maxHeight: maxHeight,
+      maxWidth: maxWidth,
+      layout: this.initLayout(maxWidth, maxHeight),
       selected_planting_id: null
     };
 
     this.handleWidthChange = this.handleWidthChange.bind(this);
     this.handleHeightChange = this.handleHeightChange.bind(this);
     this.handlePlantingSelection = this.handlePlantingSelection.bind(this);
+    this.handleLayoutAssignment = this.handleLayoutAssignment.bind(this);
+    this.getLayoutPlanting = this.getLayoutPlanting.bind(this);
+  }
+
+  initLayout(maxWidth, maxHeight) {
+    let layout = [];
+    for (let x = 0; x < maxHeight; x++) {
+      layout[x] = [];
+      for (let y = 0; y < maxWidth; y++) {
+        layout[x][y] = null;
+      }
+    }
+    return layout;
   }
 
   renderTable = () => {
@@ -37,10 +46,14 @@ class GardenLayout extends React.Component {
       let children = []
       //Inner loop to create children
       for (let y = 0; y < this.state.width; y++) {
+        let planting_id = this.getLayoutPlanting(x, y);
         children.push(
           <td key={`${x}_${y}`}>
             <GardenSquare
-              x={x} y={y}
+              x={x}
+              y={y}
+              handleLayoutAssignment={this.handleLayoutAssignment}
+              planting_id={planting_id}
               />
           </td>
         )
@@ -72,11 +85,39 @@ class GardenLayout extends React.Component {
     }
     this.setState({height: height});
   }
+  handleLayoutAssignment(x, y) {
+    console.log(`${x} x ${y} = ${this.state.selected_planting_id}`)
+    let layout = this.state.layout;
+    layout[x][y] = this.state.selected_planting_id;
+    this.setState({layout: layout});
+    this.saveGardenLayout();
+  }
+  saveGardenLayout() {
+    // API doesn't allow save ye
+    // let data = {
+    //     "data": {
+    //       "type": "plantings",
+    //       "id": this.props.garden.id,
+    //       "attributes": {
+    //         "layout": JSON.stringify(this.state.layout)
+    //       }
+    //     }
+    // };
+    // console.log(data);
+    // axios.put('/api/v1/gardens', data)
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  }
   handlePlantingSelection(event) {
     this.setState({selected_planting_id: event.target.value});
   }
+
   getLayoutPlanting(x, y) {
-    return this.state.layout[x][x];
+    return this.state.layout[x][y];
   }
 
   render () {
@@ -94,7 +135,9 @@ class GardenLayout extends React.Component {
           <h3>Layout</h3>
           <p>Selected planting: {this.state.selected_planting_id}</p>
           <div className="col-sm-2">
-            <PlantingsList garden_id={this.props.garden.id} handleSelection={this.handlePlantingSelection} />
+            <PlantingsList
+              garden_id={this.props.garden.id}
+              handleSelection={this.handlePlantingSelection} />
           </div>
           <div className="col-sm-10">
             {this.renderTable()}
@@ -106,72 +149,6 @@ class GardenLayout extends React.Component {
 }
 
 
-class PlantingsList extends React.Component {
-  render() {
-    return (
-      <div className="card">
-        {this.renderPlantingsList()}
-      </div>
-    );
-  }
-  renderPlantingsList() {
-    console.log(this.state.plantings);
-    return this.state.plantings.map((planting) =>
-      <li key={planting.id}>
-        <label>
-          {planting.attributes['crop-name']}
-          <input name="planting"
-            type="radio"
-            value={planting.id}
-            onClick={this.props.handleSelection} />
-        </label>
-      </li>
-    );
-  }
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      isLoaded: false,
-      plantings: []
-    };
-  }
 
-  componentDidMount() {
-    const url = `/api/v1/gardens/${this.props.garden_id}/plantings`;
-    console.log(url);
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            plantings: result.data
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
-}
-
-class GardenSquare extends React.Component {
-  render() {
-    return (
-      <div className="card">
-        <sub>
-          {`${this.props.x + 1} x ${this.props.y + 1}`}
-        </sub>
-      </div>
-    );
-  }
-}
-
-export default GardenLayout
+export default GardenLayout;
