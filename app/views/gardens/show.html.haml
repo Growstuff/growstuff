@@ -42,70 +42,79 @@
     %h2 Layout
     = react_component("GardenLayout", { garden: @garden })
 
-    %h3 Current plantings in garden
-    .row
-      - if @current_plantings.size.positive?
-        - @current_plantings.each do |planting|
-          .col-xs-12.col-md-6
-            = render partial: "plantings/card", locals: { planting: planting }
-      - else
-        .col-md-12
-          %p Nothing is currently planted here.
-    %h3 Previously planted in this garden
-    .row
-      - if @finished_plantings.size.positive?
-        - @finished_plantings.each do |planting|
-          .col-xs-6.col-md-2
-            = render "plantings/thumbnail",  planting: planting
-      - else
-        %p Nothing has been planted here.
+    -# - @current_plantings.each do |planting|
+    -#   = react_component("PlantingDraggable",
+    -#     {planting: planting, crop: planting.crop, icon: crop_icon(planting.crop)})
+
+    -# %h2 Garden timeline
+    -# .row
+    -#   .col-md-12= timeline garden_timeline_path(@garden), adapter: "google"
+
+    -# %h2 Current plantings in garden
+    -# .row
+    -#   - if @current_plantings.size.positive?
+    -#     - @current_plantings.each do |planting|
+    -#       .col-xs-6.col-md-2= render "plantings/thumbnail", planting: planting
+
+    -#   - else
+    -#     .col-md-12
+    -#       %p Nothing is currently planted here.
+    -# %h2 Previously planted in this garden
+    -# .row
+    -#   - if @finished_plantings.size.positive?
+    -#     - @finished_plantings.each do |planting|
+    -#       .col-xs-6.col-md-2
+    -#         = render "plantings/thumbnail",  planting: planting
+    -#   - else
+    -#     %p Nothing has been planted here.
+
   .col-md-3
-    %h4 About this garden
-    %p
-      %strong Owner:
-      = link_to @garden.owner, @garden.owner
-    - unless @garden.location.blank?
-      %p
-        %strong Location:
-        = @garden.location
-    - unless @garden.area.blank?
-      %p
-        %strong Area:
-        = pluralize(@garden.area, @garden.area_unit)
+    -# %h4 About this garden
+    -# %p
+    -#   %strong Owner:
+    -#   = link_to @garden.owner, @garden.owner
+    -# - unless @garden.location.blank?
+    -#   %p
+    -#     %strong Location:
+    -#     = @garden.location
+    -# - unless @garden.area.blank?
+    -#   %p
+    -#     %strong Area:
+    -#     = pluralize(@garden.area, @garden.area_unit)
 
-    %h4 "#{@garden.owner}'s gardens"
-    %ul
-      - @garden.owner.gardens.active.each do |othergarden|
-        %li
-          - if @garden == othergarden
-            = @garden
-          - else
-            = link_to othergarden, garden_path(othergarden)
+    -# %h4 "#{@garden.owner}'s gardens"
+    -# %ul
+    -#   - @garden.owner.gardens.active.each do |othergarden|
+    -#     %li
+    -#       - if @garden == othergarden
+    -#         = @garden
+    -#       - else
+    -#         = link_to othergarden, garden_path(othergarden)
 
-    - unless @garden.owner.gardens.inactive.empty?
-      %h4= "Inactive gardens"
-      %ul
-        - @garden.owner.gardens.inactive.each do |othergarden|
-          %li
-            - if @garden == othergarden
-              = @garden.name
-            - else
-              = link_to othergarden, garden_path(othergarden)
+    -# - unless @garden.owner.gardens.inactive.empty?
+    -#   %h4= "Inactive gardens"
+    -#   %ul
+    -#     - @garden.owner.gardens.inactive.each do |othergarden|
+    -#       %li
+    -#         - if @garden == othergarden
+    -#           = @garden.name
+    -#         - else
+    -#           = link_to othergarden, garden_path(othergarden)
 
-    - if @garden.owner == current_member
-      %p
-        = link_to new_garden_path, class: 'btn btn-default btn-xs' do
-          Add New Garden
+    -# - if @garden.owner == current_member
+    -#   %p
+    -#     = link_to new_garden_path, class: 'btn btn-default btn-xs' do
+    -#       Add New Garden
 
-    - if can?(:edit, @garden) && can?(:create, Photo)
-      %p
-        = link_to new_photo_path(type: "garden", id: @garden.id),
-        class: 'btn btn-primary' do
-          %span.glyphicon.glyphicon-camera{ title: "Add photo" }
-          Add photo
-    - if @garden.photos.size.positive?
-      %h3= localize_plural(@garden.photos, Photo)
-      .row
-        - @garden.photos.includes(:owner).each do |photo|
-          .col-xs-6
-            = render partial: 'photos/thumbnail', locals: { photo: photo }
+    -# - if can?(:edit, @garden) && can?(:create, Photo)
+    -#   %p
+    -#     = link_to new_photo_path(type: "garden", id: @garden.id),
+    -#     class: 'btn btn-primary' do
+    -#       %span.glyphicon.glyphicon-camera{ title: "Add photo" }
+    -#       Add photo
+    -# - if @garden.photos.size.positive?
+    -#   %h2= localize_plural(@garden.photos, Photo)
+    -#   .row
+    -#     - @garden.photos.includes(:owner).each do |photo|
+    -#       .col-xs-6
+    -#         = render partial: 'photos/thumbnail', locals: { photo: photo }
