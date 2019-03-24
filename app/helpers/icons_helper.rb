@@ -31,4 +31,18 @@ module IconsHelper
   def photo_icon
     icon('fas', 'camera-retro')
   end
+
+  def crop_icon(crop)
+    path = "icons/crops/#{crop.name}.svg"
+    return image_url(path, height: 25) if icon_exists?(path)
+    image_url(crop_image_path(crop), height: 25)
+  end
+
+  def icon_exists?(path)
+    if Rails.configuration.assets.compile
+      Rails.application.precompiled_assets.include? path
+    else
+      Rails.application.assets_manifest.assets[path].present?
+    end
+  end
 end
