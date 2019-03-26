@@ -113,6 +113,8 @@ group :production, :staging do
   gem 'memcachier'
   gem 'newrelic_rpm'
   gem 'rails_12factor' # supresses heroku plugin injection
+
+  gem 'scout_apm' # monitoring
 end
 
 group :development do
