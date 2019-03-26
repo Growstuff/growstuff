@@ -8,13 +8,16 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+-content_for(:buttonbar) do
+  = render 'harvests/actions', harvest: @harvest
+
 .row
   .col-md-6
     %p
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
       &mdash;
-      = link_to "view all #{@harvest.owner}'s harvests", harvests_by_owner_path(owner: @harvest.owner.slug)
+      = link_to "view all #{@harvest.owner}'s harvests", member_harvests_path(@harvest.owner)
     %p
       %b Plant part:
       - if @harvest.plant_part
@@ -32,7 +35,6 @@
       %b Quantity:
       = display_quantity(@harvest)
 
-    = render 'harvests/actions', harvest: @harvest
 
   .col-md-6
     = render partial: "crops/index_card", locals: { crop: @harvest.crop }

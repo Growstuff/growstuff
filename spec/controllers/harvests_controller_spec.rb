@@ -13,26 +13,29 @@ describe HarvestsController do
   end
 
   describe "GET index" do
-    let(:member1) { FactoryBot.create(:member) }
-    let(:member2) { FactoryBot.create(:member) }
-    let(:tomato) { FactoryBot.create(:tomato) }
-    let(:maize) { FactoryBot.create(:maize) }
-    let(:harvest1) { FactoryBot.create(:harvest, owner_id: member1.id, crop_id: tomato.id) }
-    let(:harvest2) { FactoryBot.create(:harvest, owner_id: member2.id, crop_id: maize.id) }
+    let!(:member1)  { FactoryBot.create(:member)                                            }
+    let(:member2)   { FactoryBot.create(:member)                                            }
+    let(:tomato)    { FactoryBot.create(:tomato)                                            }
+    let(:maize)     { FactoryBot.create(:maize)                                             }
+    let!(:harvest1) { FactoryBot.create(:harvest, owner_id: member1.id, crop_id: tomato.id) }
+    let!(:harvest2) { FactoryBot.create(:harvest, owner_id: member2.id, crop_id: maize.id)  }
 
     describe "assigns all harvests as @harvests" do
       before { get :index, params: {} }
-      it { assigns(:harvests).should =~ [harvest1, harvest2] }
+
+      it { expect(assigns(:harvests)).to eq [harvest1, harvest2] }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do
-      before { get :index, params: { owner: member1.slug } }
+      before { get :index, params: { member_slug: member1.slug } }
+
       it { expect(assigns(:owner)).to eq member1 }
       it { expect(assigns(:harvests)).to eq [harvest1] }
     end
 
     describe "picks up crop from params and shows the harvests for the crop only" do
-      before { get :index, params: { crop: maize.name } }
+      before { get :index, params: { crop_slug: maize.name } }
+
       it { expect(assigns(:crop)).to eq maize }
       it { expect(assigns(:harvests)).to eq [harvest2] }
     end
@@ -49,6 +52,7 @@ describe HarvestsController do
 
     describe "assigns the requested harvest as @harvest" do
       before { get :show, params: { id: harvest.to_param } }
+
       it { expect(assigns(:harvest)).to eq(harvest) }
     end
   end
@@ -70,6 +74,7 @@ describe HarvestsController do
 
     describe "assigns the requested harvest as @harvest" do
       before { get :edit, params: { id: harvest.to_param } }
+
       it { expect(assigns(:harvest)).to eq(harvest) }
     end
   end
@@ -82,20 +87,24 @@ describe HarvestsController do
         end.to change(Harvest, :count).by(1)
       end
 
-      it "assigns a newly created harvest as @harvest" do
-        post :create, params: { harvest: valid_attributes }
-        assigns(:harvest).should be_a(Harvest)
-        assigns(:harvest).should be_persisted
+      describe "assigns a newly created harvest as @harvest" do
+        before { post :create, params: { harvest: valid_attributes } }
+
+        it { expect(assigns(:harvest)).to be_a(Harvest) }
+        it { expect(assigns(:harvest)).to be_persisted }
       end
 
-      it "redirects to the created harvest" do
-        post :create, params: { harvest: valid_attributes }
-        response.should redirect_to(Harvest.last)
+      describe "redirects to the created harvest" do
+        before { post :create, params: { harvest: valid_attributes } }
+
+        it { expect(response).to redirect_to(Harvest.last) }
       end
 
       describe "links to planting" do
         let(:planting) { FactoryBot.create(:planting, owner_id: member.id, garden: member.gardens.first) }
+
         before { post :create, params: { harvest: valid_attributes.merge(planting_id: planting.id) } }
+
         it { expect(Harvest.last.planting.id).to eq(planting.id) }
       end
     end
@@ -105,19 +114,20 @@ describe HarvestsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Harvest.any_instance.stub(:save).and_return(false)
         post :create, params: { harvest: { "crop_id" => "invalid value" } }
-        assigns(:harvest).should be_a_new(Harvest)
+        expect(assigns(:harvest)).to be_a_new(Harvest)
       end
 
-      it "re-renders the 'new' template" do
+      describe "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        post :create, params: { harvest: { "crop_id" => "invalid value" } }
-        response.should render_template("new")
+        before { post :create, params: { harvest: { "crop_id" => "invalid value" } } }
+
+        it { expect(response).to render_template("new") }
       end
     end
 
     describe "not my planting" do
       let(:not_my_planting) { FactoryBot.create(:planting) }
-      let(:harvest) { FactoryBot.create(:harvest) }
+      let(:harvest)         { FactoryBot.create(:harvest)  }
 
       describe "does not save planting_id" do
         before do
@@ -132,8 +142,9 @@ describe HarvestsController do
 
   describe "PUT update" do
     describe "with valid params" do
+      let(:harvest) { Harvest.create! valid_attributes }
+
       it "updates the requested harvest" do
-        harvest = FactoryBot.create :harvest, valid_attributes
         new_crop = FactoryBot.create :crop
         expect do
           put :update, params: { id: harvest.to_param, harvest: { crop_id: new_crop.id } }
@@ -141,16 +152,16 @@ describe HarvestsController do
         end.to change(harvest, :crop_id).to(new_crop.id)
       end
 
-      it "assigns the requested harvest as @harvest" do
-        harvest = Harvest.create! valid_attributes
-        put :update, params: { id: harvest.to_param, harvest: valid_attributes }
-        assigns(:harvest).should eq(harvest)
+      describe "assigns the requested harvest as @harvest" do
+        before { put :update, params: { id: harvest.to_param, harvest: valid_attributes } }
+
+        it { expect(assigns(:harvest)).to eq(harvest) }
       end
 
-      it "redirects to the harvest" do
-        harvest = Harvest.create! valid_attributes
-        put :update, params: { id: harvest.to_param, harvest: valid_attributes }
-        response.should redirect_to(harvest)
+      describe "redirects to the harvest" do
+        before { put :update, params: { id: harvest.to_param, harvest: valid_attributes } }
+
+        it { expect(response).to redirect_to(harvest) }
       end
     end
 
@@ -160,19 +171,19 @@ describe HarvestsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Harvest.any_instance.stub(:save).and_return(false)
         put :update, params: { id: harvest.to_param, harvest: { "crop_id" => "invalid value" } }
-        assigns(:harvest).should eq(harvest)
+        expect(assigns(:harvest)).to eq(harvest)
       end
 
       it "re-renders the 'edit' template" do
         harvest = Harvest.create! valid_attributes
         put :update, params: { id: harvest.to_param, harvest: { "crop_id" => "invalid value" } }
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
 
     describe "not my planting" do
       let(:not_my_planting) { FactoryBot.create(:planting) }
-      let(:harvest) { FactoryBot.create(:harvest) }
+      let(:harvest)         { FactoryBot.create(:harvest)  }
 
       describe "does not save planting_id" do
         before do
@@ -196,7 +207,7 @@ describe HarvestsController do
     it "redirects to the harvests list" do
       harvest = Harvest.create! valid_attributes
       delete :destroy, params: { id: harvest.to_param }
-      response.should redirect_to(harvests_url)
+      expect(response).to redirect_to(harvests_url)
     end
   end
 end

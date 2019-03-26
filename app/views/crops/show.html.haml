@@ -19,78 +19,68 @@
 
 .row
   .col-md-9
-    .row
-      .col-md-12
-        - if member_signed_in?
-          = display_seed_availability(@current_member, @crop)
-          = link_to "View your seeds", seeds_by_owner_path(owner: current_member.slug)
-
-        %h2
-          - if !@crop.plantings.empty?
-            = @crop.name.titleize
-            has been planted
-            = pluralize(@crop.plantings.size, "time")
-            by #{ENV['GROWSTUFF_SITE_NAME']} members.
-          - else
-            Nobody is growing this yet. You could be the first!
+    %h2
+      - if !@crop.plantings.empty?
+        = @crop.name.titleize
+        has been planted
+        = pluralize(@crop.plantings.size, "time")
+        by #{ENV['GROWSTUFF_SITE_NAME']} members.
+      - else
+        Nobody is growing this yet. You could be the first!
 
 
-    .row
-      .col-md-12
-        %h2 Predictions
-        = render 'predictions', crop: @crop
+    %h3 Predictions
+    = render 'predictions', crop: @crop
 
-    .row
-      .col-md-12
-        %h2 Photos
-        %p= render 'crops/photos', crop: @crop
+
+    %h2 Photos
+    %p= render 'crops/photos', photos: @photos
+    %p= link_to 'more photos', crop_photos_path(@crop)
+    
     .row
       .col-md-3
-        %h2 Sunniness
-        = pie_chart crop_sunniness_path(@crop), legend: "bottom"
+        %h3 Sunniness
+        = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+      .col-md-3
+        %h3 Planted from
+        = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+      .col-md-3
+        %h3 Harvested for
+        = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-      .col-md-3
-        %h2 Planted from
-        = pie_chart crop_planted_from_path(@crop), legend: "bottom"
-      .col-md-3
-        %h2 Harvested for
-        = pie_chart crop_harvested_for_path(@crop), legend: "bottom"
+
+    %h3 Crop Map
+    %p
+      Only plantings by members who have set their locations are shown on this map.
+      - if current_member && current_member.location.blank?
+        = link_to "Set your location.", edit_member_registration_path
+    #cropmap
 
     .row
       .col-md-12
-        %h2 Crop Map
-        %p
-          Only plantings by members who have set their locations are shown on this map.
-          - if current_member && current_member.location.blank?
-            = link_to "Set your location.", edit_member_registration_path
-        #cropmap
-
-    %a{ name: 'posts' }
-    %h2 What people are saying about #{@crop.name.pluralize}
-
-    - if @posts.empty?
-      %p
-        Nobody has posted about #{@crop.name.pluralize} yet.
-      %p
-        - if can? :create, Post
-          = link_to "Post something", new_post_path, class: 'btn btn-default'
-        - else
-          = render partial: "shared/signin_signup",
-                  locals: { to: "post your tips and experiences growing #{@crop.name.pluralize}" }
-    - else
-      .pagination
-        = page_entries_info @posts
-        = will_paginate @posts, params: { anchor: "posts" }
-      - @posts.each do |post|
-        = render partial: "posts/single", locals: { post: post, subject: true }
-
-      .pagination
-        = page_entries_info @posts
-        = will_paginate @posts, params: { anchor: "posts" }
+        = render 'crops/posts', crop: @crop
 
   .col-md-3
 
     = render partial: 'wrangle', locals: { crop: @crop }
+
+    %p
+      %li
+        = link_to crop_seeds_path(@crop) do
+          View all #{@crop.name} seeds
+          (#{@crop.seeds.size})
+      %li
+        = link_to crop_plantings_path(@crop) do
+          View all #{@crop.name} plantings
+          (#{@crop.plantings.size})
+      %li
+        = link_to crop_harvests_path(@crop) do
+          View all #{@crop.name} harvests
+          (#{@crop.harvests.size})
+    - if member_signed_in?
+      %p
+        = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
+          = display_seed_availability(@current_member, @crop)
 
     %h4 How to grow #{@crop.name.pluralize}
 

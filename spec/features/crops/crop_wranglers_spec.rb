@@ -3,10 +3,10 @@ require 'rails_helper'
 feature "crop wranglers", js: true do
   context "signed in wrangler" do
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-    let(:wrangler) { crop_wranglers.first }
-    let!(:crops) { create_list :crop, 2 }
-    let!(:requested_crop) { create :crop_request }
-    let!(:rejected_crop) { create :rejected_crop }
+    let(:wrangler)        { crop_wranglers.first                  }
+    let!(:crops)          { create_list :crop, 2                  }
+    let!(:requested_crop) { create :crop_request                  }
+    let!(:rejected_crop)  { create :rejected_crop                 }
 
     background { login_as wrangler }
 
@@ -32,11 +32,12 @@ feature "crop wranglers", js: true do
       end
     end
 
-    scenario "visiting a crop can see wrangler links" do
-      visit crop_path(crops.first)
-      expect(page).to have_content 'You are a CROP WRANGLER'
-      expect(page).to have_link 'Edit crop'
-      expect(page).to have_link 'Delete crop'
+    describe "visiting a crop can see wrangler links" do
+      before { visit crop_path(crops.first) }
+
+      it { expect(page).to have_content 'You are a CROP WRANGLER' }
+      it { expect(page).to have_link 'Edit' }
+      it { expect(page).to have_link 'Delete' }
     end
 
     scenario "can create a new crop" do

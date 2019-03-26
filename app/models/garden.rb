@@ -8,6 +8,8 @@ class Garden < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
 
+  belongs_to :garden_type, optional: true
+
   # set up geocoding
   geocoded_by :location
   after_validation :geocode
@@ -18,8 +20,9 @@ class Garden < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
-  validates :location,
-    length: { maximum: 255 }
+  validates :location, length: { maximum: 255 }
+  validates :slug, uniqueness: true
+  validates :name, uniqueness: { scope: :owner_id }
 
   validates :name,
     format: {

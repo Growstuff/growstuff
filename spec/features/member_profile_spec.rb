@@ -81,10 +81,10 @@ feature "member profile", js: true do
         create_list :seed, 4, owner: member
         create_list :post, 5, author: member
         visit member_path(member)
-        expect(page).to have_link "2 plantings", href: plantings_by_owner_path(owner: member)
-        expect(page).to have_link "3 harvests", href: harvests_by_owner_path(owner: member)
-        expect(page).to have_link "4 seeds", href: seeds_by_owner_path(owner: member)
-        expect(page).to have_link "5 posts", href: posts_by_author_path(author: member)
+        expect(page).to have_link "2 plantings", href: member_plantings_path(member)
+        expect(page).to have_link "3 harvests", href: member_harvests_path(member)
+        expect(page).to have_link "4 seeds", href: member_seeds_path(member)
+        expect(page).to have_link "5 posts", href: member_posts_path(member)
       end
     end
 
@@ -103,8 +103,8 @@ feature "member profile", js: true do
 
   context "signed in member" do
     let(:member) { create :member }
-    let(:other_member) { create :member }
-    let(:admin_member) { create :admin_member }
+    let(:other_member)  { create :member                }
+    let(:admin_member)  { create :admin_member          }
     let(:crop_wrangler) { create :crop_wrangling_member }
 
     background do

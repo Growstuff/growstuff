@@ -2,8 +2,8 @@ require 'rails_helper'
 require 'cancan/matchers'
 
 describe Ability do
-  let(:member) { FactoryBot.create(:member) }
-  let(:ability) { Ability.new(member) }
+  let(:member)  { FactoryBot.create(:member) }
+  let(:ability) { Ability.new(member)        }
 
   context "notifications" do
     it 'member can view their own notifications' do
@@ -51,7 +51,7 @@ describe Ability do
     context "crop wrangler" do
       let(:role) { FactoryBot.create(:crop_wrangler) }
 
-      before(:each) do
+      before do
         member.roles << role
       end
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'layouts/_header.html.haml', type: "view" do
   context "when not logged in" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { nil }
       render
     end
@@ -11,7 +11,7 @@ describe 'layouts/_header.html.haml', type: "view" do
       assert_select("a.navbar-brand img[src]", href: root_path)
     end
 
-    it 'should have signup/signin links' do
+    it 'has signup/signin links' do
       rendered.should have_content 'Sign up'
       rendered.should have_content 'Sign in'
     end
@@ -45,13 +45,13 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'has a crop search' do
-      assert_select("form[action='#{crops_search_path}']")
+      assert_select("form[action='#{search_crops_path}']")
       assert_select("input#term")
     end
   end
 
   context "logged in" do
-    before(:each) do
+    before do
       @member = FactoryBot.create(:member)
       sign_in @member
       controller.stub(:current_user) { @member }
@@ -59,34 +59,34 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     context "login name" do
-      it 'should have member login name' do
+      it 'has member login name' do
         rendered.should have_content @member.login_name.to_s
       end
-      it "should show link to member's gardens" do
-        assert_select("a[href='#{gardens_by_owner_path(owner: @member.slug)}']", "Gardens")
+      it "shows link to member's gardens" do
+        assert_select("a[href='#{member_gardens_path(@member)}']", "Gardens")
       end
-      it "should show link to member's plantings" do
-        assert_select("a[href='#{plantings_by_owner_path(owner: @member.slug)}']", "Plantings")
+      it "shows link to member's plantings" do
+        assert_select("a[href='#{member_plantings_path(@member)}']", "Plantings")
       end
-      it "should show link to member's seeds" do
-        assert_select("a[href='#{seeds_by_owner_path(owner: @member.slug)}']", "Seeds")
+      it "shows link to member's seeds" do
+        assert_select("a[href='#{member_seeds_path(@member)}']", "Seeds")
       end
-      it "should show link to member's posts" do
-        assert_select("a[href='#{posts_by_author_path(author: @member.slug)}']", "Posts")
+      it "shows link to member's posts" do
+        assert_select("a[href='#{member_posts_path(@member)}']", "Posts")
       end
     end
 
-    it 'should show signout link' do
+    it 'shows signout link' do
       rendered.should have_content 'Sign out'
     end
 
-    it 'should show inbox link' do
+    it 'shows inbox link' do
       rendered.should have_content 'Inbox'
       rendered.should_not match(/Inbox \(\d+\)/)
     end
 
     context 'has notifications' do
-      it 'should show inbox count' do
+      it 'shows inbox count' do
         FactoryBot.create(:notification, recipient: @member)
         render
         rendered.should have_content 'Inbox (1)'

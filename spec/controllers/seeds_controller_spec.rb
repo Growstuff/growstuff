@@ -5,8 +5,10 @@ describe SeedsController do
 
   describe "GET index" do
     let(:owner) { FactoryBot.create(:member) }
+
     describe "picks up owner from params" do
-      before { get :index, params: { owner: owner.slug } }
+      before { get :index, params: { member_slug: owner.slug } }
+
       it { expect(assigns(:owner)).to eq(owner) }
     end
   end
@@ -22,7 +24,9 @@ describe SeedsController do
 
     context 'with parent planting' do
       let(:planting) { FactoryBot.create :planting, owner: owner }
+
       before { get :new, params: { planting_id: planting.to_param } }
+
       it { expect(assigns(:planting)).to eq(planting) }
     end
   end

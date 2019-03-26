@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "notifications/new" do
-  before(:each) do
+  before do
     @recipient = FactoryBot.create(:member)
     @sender = FactoryBot.create(:member)
     assign(:notification, FactoryBot.create(:notification, recipient_id: @recipient.id, sender_id: @sender.id))

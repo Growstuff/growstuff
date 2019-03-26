@@ -4,7 +4,7 @@ RSpec.describe 'Plantings', type: :request do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:crop) { FactoryBot.create :crop }
+  let!(:crop)   { FactoryBot.create :crop                    }
   let(:crop_encoded_as_json_api) do
     { "id"            => crop.id.to_s,
       "type"          => "crops",
@@ -13,12 +13,19 @@ RSpec.describe 'Plantings', type: :request do
       "relationships" => {
         "plantings" => plantings_as_json_api,
         "parent"    => parent_as_json_api,
-        "photos"    => photos_as_json_api,
-        "harvests"  => harvests_as_json_api
+        "harvests"  => harvests_as_json_api,
+        "seeds"     => seeds_as_json_api,
+        "photos"    => photos_as_json_api
       } }
   end
 
   let(:resource_url) { "http://www.example.com/api/v1/crops/#{crop.id}" }
+
+  let(:seeds_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/seeds",
+                   "related" => "#{resource_url}/seeds" } }
+  end
 
   let(:harvests_as_json_api) do
     { "links" =>
@@ -58,14 +65,17 @@ RSpec.describe 'Plantings', type: :request do
 
   describe '#index' do
     before { get '/api/v1/crops', params: {}, headers: headers }
+
     it { expect(subject['data']).to include(crop_encoded_as_json_api) }
   end
 
   describe '#show' do
     before { get "/api/v1/crops/#{crop.id}", params: {}, headers: headers }
+
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
+    it { expect(subject['data']['relationships']).to include("seeds" => seeds_as_json_api) }
     it { expect(subject['data']['relationships']).to include("photos" => photos_as_json_api) }
     it { expect(subject['data']['relationships']).to include("parent" => parent_as_json_api) }
     it { expect(subject['data']).to eq(crop_encoded_as_json_api) }

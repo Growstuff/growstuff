@@ -10,17 +10,20 @@ class PlantingsController < ApplicationController
   responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:owner]) if params[:owner]
-    @crop = Crop.find_by(slug: params[:crop]) if params[:crop]
+    @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug]
+    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
+
     @show_all = params[:all] == '1'
 
-    @plantings = plantings
+    @plantings = @plantings.where(owner: @owner) if @owner.present?
+    @plantings = @plantings.where(crop: @crop) if @crop.present?
 
-    specifics = if @owner
-                  "#{@owner.login_name}-"
-                elsif @crop
-                  "#{@crop.name}-"
-                end
+    @plantings = @plantings.active unless params[:all] == '1'
+
+    @plantings = @plantings.joins(:owner, :crop, :garden)
+      .order(created_at: :desc)
+      .includes(:crop, :owner, :garden)
+      .paginate(page: params[:page])
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
@@ -103,5 +106,13 @@ class PlantingsController < ApplicationController
       .order(created_at: :desc)
       .includes(:crop, :owner, :garden)
       .paginate(page: params[:page])
+  end
+
+  def specifics
+    if @owner.present?
+      "#{@owner.to_param}-"
+    elsif @crop.present?
+      "#{@crop.to_param}-"
+    end
   end
 end

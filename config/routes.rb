@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
+  resources :garden_types
   resources :plant_parts
 
   devise_for :members, controllers: {
@@ -14,83 +15,104 @@ Rails.application.routes.draw do
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
-  resources :members
-
-  resources :photos
-  delete 'photo_associations' => 'photo_associations#destroy'
-
   resources :authentications, only: %i(create destroy)
 
-  resources :plantings do
+  get "home/index"
+  root to: 'home#index'
+
+  concern :has_photos do
+    resources :photos, only: :index
+  end
+
+  resources :gardens, concerns: :has_photos do
+    get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
+  end
+
+  resources :plantings, concerns: :has_photos do
     resources :harvests
     resources :seeds
+    collection do
+      get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
+    end
   end
-  get '/plantings/owner/:owner' => 'plantings#index', as: 'plantings_by_owner'
-  get '/plantings/crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
 
-  resources :gardens do
-    get 'timeline' => 'charts/gardens#timeline'
-  end
-  get '/gardens/owner/:owner' => 'gardens#index', as: 'gardens_by_owner'
-
-  resources :seeds do
+  resources :seeds, concerns: :has_photos do
     resources :plantings
+    get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
-  get '/seeds/owner/:owner' => 'seeds#index', as: 'seeds_by_owner'
-  get '/seeds/crop/:crop' => 'seeds#index', as: 'seeds_by_crop'
 
-  resources :harvests
-  get '/harvests/owner/:owner' => 'harvests#index', as: 'harvests_by_owner'
-  get '/harvests/crop/:crop' => 'harvests#index', as: 'harvests_by_crop'
+  resources :harvests, concerns: :has_photos do
+    get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop', on: :collection
+  end
 
-  resources :posts
-  get '/posts/author/:author' => 'posts#index', as: 'posts_by_author'
+  resources :posts do
+    get 'author/:author' => 'posts#index', as: 'by_author', on: :collection
+  end
 
   resources :scientific_names
   resources :alternate_names
+  resources :plant_parts
+  resources :photos
 
-  get 'crops/requested' => 'crops#requested', as: 'requested_crops'
-  get 'crops/wrangle' => 'crops#wrangle', as: 'wrangle_crops'
-  get 'crops/hierarchy' => 'crops#hierarchy', as: 'crops_hierarchy'
-  get 'crops/search' => 'crops#search', as: 'crops_search'
-  resources :crops do
-    get 'photos' => 'photos#index'
-    get 'sunniness' => 'charts/crops#sunniness'
-    get 'planted_from' => 'charts/crops#planted_from'
-    get 'harvested_for' => 'charts/crops#harvested_for'
+  delete 'photo_associations' => 'photo_associations#destroy'
+
+  resources :crops, param: :slug, concerns: :has_photos do
+    get 'gardens' => 'gardens#index'
+    get 'harvests' => 'harvests#index'
+    get 'plantings' => 'plantings#index'
+    get 'seeds' => 'seeds#index'
+
+    get 'places' => 'places#index'
+    get 'members' => 'members#index'
+
+    # Charts json
+    get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
+    get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
+    get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
+
+    collection do
+      get 'requested'
+      get 'wrangle'
+      get 'hierarchy'
+      get 'search'
+    end
   end
 
   resources :comments
   resources :roles
   resources :forums
-  resources :notifications do
-    get 'reply', on: :member
-  end
 
   resources :follows, only: %i(create destroy)
-  get '/members/:login_name/follows' => 'members#view_follows', as: 'member_follows'
-  get '/members/:login_name/followers' => 'members#view_followers', as: 'member_followers'
-
-  get '/places' => 'places#index'
-  get '/places/search' => 'places#search', as: 'search_places'
-  get '/places/:place' => 'places#show', as: 'place'
-
   resources :likes, only: %i(create destroy)
 
-  get "home/index"
-  root to: 'home#index'
+  resources :members, param: :slug do
+    resources :gardens
+    resources :seeds
+    resources :plantings
+    resources :harvests
+    resources :posts
+
+    resources :follows
+    get 'followers' => 'follows#followers'
+  end
+
+  resources :notifications do
+    get 'reply'
+  end
+
+  resources :places, only: %i(index show), param: :place do
+    get 'search', on: :collection
+  end
 
   get 'auth/:provider/callback' => 'authentications#create'
   get 'members/auth/:provider/callback' => 'authentications#create'
 
-  comfy_route :cms_admin, path: '/admin/cms'
-  namespace :admin do
-    resources :members
+  scope :admin do
+    resources :members, controller: 'admin/members', as: 'admin_members'
+    get '/' => 'admin#index', as: 'admin'
+    get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
+    comfy_route :cms_admin, path: '/cms'
   end
-
-  get '/admin' => 'admin#index'
-  get '/admin/newsletter' => 'admin#newsletter', as: :admin_newsletter
-  get '/admin/:action' => 'admin#:action'
 
   namespace :api do
     namespace :v1 do

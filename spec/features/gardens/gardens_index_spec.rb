@@ -10,7 +10,7 @@ feature "Gardens#index", :js do
     context "with 10 gardens" do
       before do
         FactoryBot.create_list :garden, 10, owner: member
-        visit gardens_path(owner: member.login_name)
+        visit member_gardens_path(member_slug: member.slug)
       end
 
       it "displays each of the gardens" do
@@ -29,12 +29,12 @@ feature "Gardens#index", :js do
       let!(:active_garden) { FactoryBot.create :garden, name: "My active garden", owner: member }
       let!(:inactive_garden) { FactoryBot.create :inactive_garden, name: "retired garden", owner: member }
 
-      before { visit gardens_path(member: member) }
+      before { visit member_gardens_path(member_slug: member.slug) }
 
       it "show active garden" do
         expect(page).to have_text active_garden.name
       end
-      it "should not show inactive garden" do
+      it "does not show inactive garden" do
         expect(page).not_to have_text inactive_garden.name
       end
       it "links to active garden" do
@@ -57,7 +57,7 @@ feature "Gardens#index", :js do
       end
 
       before do
-        visit gardens_path(member: member)
+        visit member_gardens_path(member_slug: member.slug)
       end
 
       it "shows planting in garden" do
@@ -72,9 +72,9 @@ feature "Gardens#index", :js do
   describe 'badges' do
     let(:garden) { member.gardens.first }
     let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
-    let(:crop) { FactoryBot.create :crop }
+    let(:crop)   { FactoryBot.create :crop                              }
 
-    before(:each) do
+    before do
       # time to harvest = 50 day
       # time to finished = 90 days
       FactoryBot.create(:harvest,
@@ -90,7 +90,7 @@ feature "Gardens#index", :js do
 
       garden.update! name: 'super awesome garden'
       assert planting
-      visit gardens_path(owner: member.login_name)
+      visit member_gardens_path(member_slug: member.slug)
     end
 
     describe 'harvest still growing' do
@@ -104,8 +104,8 @@ feature "Gardens#index", :js do
 
       it { expect(page).to have_link href: planting_path(planting) }
       it { expect(page).to have_link href: garden_path(planting.garden) }
-      it { expect(page).to have_text '50 days until harvest' }
-      it { expect(page).to have_text '90 days until finished' }
+      it { expect(page).to have_text '50 days' }
+      it { expect(page).to have_text '90 days' }
       it { expect(page).not_to have_text 'harvesting now' }
     end
 
@@ -121,8 +121,8 @@ feature "Gardens#index", :js do
       it { expect(crop.median_lifespan).to eq 90 }
 
       it { expect(page).to have_text 'harvesting now' }
-      it { expect(page).to have_text '39 days until finished' }
-      it { expect(page).not_to have_text 'days until harvest' }
+      it { expect(page).to have_text '39 days' }
+      it { expect(page).not_to have_text 'Predicted days until harvest' }
     end
 
     describe 'super late' do
@@ -134,8 +134,8 @@ feature "Gardens#index", :js do
 
       it { expect(page).to have_text 'super late' }
       it { expect(page).not_to have_text 'harvesting now' }
-      it { expect(page).not_to have_text 'days until harvest' }
-      it { expect(page).not_to have_text 'days until finished' }
+      it { expect(page).not_to have_text 'Predicted days until harvest' }
+      it { expect(page).not_to have_text 'Predicted days until planting is finished' }
     end
   end
 end

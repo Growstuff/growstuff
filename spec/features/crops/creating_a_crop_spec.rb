@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Crop - " do
   let!(:crop_wrangler) { FactoryBot.create :crop_wrangling_member }
-  let!(:member) { FactoryBot.create :member }
+  let!(:member)        { FactoryBot.create :member                }
 
   background do
     login_as member

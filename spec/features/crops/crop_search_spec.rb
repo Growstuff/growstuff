@@ -11,12 +11,12 @@ feature "crop search" do
   end
 
   scenario "search page with no search term shows suitable title" do
-    visit crops_search_path
+    visit search_crops_path
     expect(page).to have_css "h1", text: "Crop search"
   end
 
   scenario "search page has a search form on it" do
-    visit crops_search_path
+    visit search_crops_path
     expect(page).to have_css "form#crop-search"
   end
 end

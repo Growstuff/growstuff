@@ -1,0 +1,14 @@
+- content_for :buttonbar do
+  - if current_member.present?
+    = link_to url_for([current_member, model]), class: 'btn btn-default' do
+      My #{model.model_name.human.pluralize}
+
+  = link_to model, class: 'btn btn-default' do
+    Everyone's #{model.model_name.human.pluralize}
+
+  - if can?(:create, model)
+    = link_to url_for([model, action: :new]), class: 'btn btn-default' do
+      Add a #{model.model_name.human}
+
+  - unless current_member
+    = render 'shared/signin_signup', to: 'add a new seed'

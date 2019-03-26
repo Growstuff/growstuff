@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe Planting do
-  let(:crop) { FactoryBot.create(:tomato) }
-  let(:garden_owner) { FactoryBot.create(:member, login_name: 'hatupatu') }
-  let(:garden) { FactoryBot.create(:garden, owner: garden_owner, name: 'Springfield Community Garden') }
-  let(:planting) { FactoryBot.create(:planting, crop: crop, garden: garden, owner: garden.owner) }
+  let(:crop)         { FactoryBot.create(:tomato)                                                            }
+  let(:garden_owner) { FactoryBot.create(:member, login_name: 'hatupatu')                                    }
+  let(:garden)       { FactoryBot.create(:garden, owner: garden_owner, name: 'Springfield Community Garden') }
+  let(:planting)     { FactoryBot.create(:planting, crop: crop, garden: garden, owner: garden.owner)         }
   let(:finished_planting) do
     FactoryBot.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago, finished: true
   end
@@ -26,7 +26,7 @@ describe Planting do
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
         it { expect(planting.days_since_planted).to eq(nil) }
-        it { expect(planting.percentage_grown).to eq(nil) }
+        it { expect(planting.percentage_grown).to eq(0) }
       end
 
       describe 'planting finished, no planted_at' do
@@ -72,7 +72,7 @@ describe Planting do
       end
 
       describe 'child crop uses parent data' do
-        let(:child_crop) { FactoryBot.create :crop, parent: crop, name: 'child' }
+        let(:child_crop)     { FactoryBot.create :crop, parent: crop, name: 'child'                   }
         let(:child_planting) { FactoryBot.create :planting, crop: child_crop, planted_at: 30.days.ago }
 
         # not data for this crop
@@ -88,7 +88,7 @@ describe Planting do
       describe 'planting not planted yet' do
         let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil }
 
-        it { expect(planting.percentage_grown).to eq nil }
+        it { expect(planting.percentage_grown).to eq 0 }
       end
 
       describe 'planting finished 10 days, but was never planted' do
@@ -218,25 +218,25 @@ describe Planting do
     planting.location.should eq "#{garden_owner.login_name}'s #{garden.name}"
   end
 
-  it "should have a slug" do
+  it "has a slug" do
     planting.slug.should match(/^hatupatu-springfield-community-garden-tomato$/)
   end
 
-  it 'should sort in reverse creation order' do
+  it 'sorts in reverse creation order' do
     @planting2 = FactoryBot.create(:planting)
     Planting.first.should eq @planting2
   end
 
   describe '#planted?' do
-    it "should be false for future plantings" do
+    it "is false for future plantings" do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today + 1
       expect(planting.planted?).to eq(false)
     end
-    it "should be false for never planted" do
+    it "is false for never planted" do
       planting = FactoryBot.create :planting, planted_at: nil
       expect(planting.planted?).to eq(false)
     end
-    it "should be true for past plantings" do
+    it "is true for past plantings" do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today - 1
       expect(planting.planted?).to eq(true)
     end
@@ -287,7 +287,7 @@ describe Planting do
   context 'sunniness' do
     let(:planting) { FactoryBot.create(:sunny_planting) }
 
-    it 'should have a sunniness value' do
+    it 'has a sunniness value' do
       planting.sunniness.should eq 'sun'
     end
 
@@ -298,7 +298,7 @@ describe Planting do
       end
     end
 
-    it 'should refuse invalid sunniness values' do
+    it 'refuses invalid sunniness values' do
       @planting = FactoryBot.build(:planting, sunniness: 'not valid')
       @planting.should_not be_valid
       @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
@@ -306,7 +306,7 @@ describe Planting do
   end
 
   context 'planted from' do
-    it 'should have a planted_from value' do
+    it 'has a planted_from value' do
       @planting = FactoryBot.create(:seed_planting)
       @planting.planted_from.should eq 'seed'
     end
@@ -320,7 +320,7 @@ describe Planting do
       end
     end
 
-    it 'should refuse invalid planted_from values' do
+    it 'refuses invalid planted_from values' do
       @planting = FactoryBot.build(:planting, planted_from: 'not valid')
       @planting.should_not be_valid
       @planting.errors[:planted_from].should include("not valid is not a valid planting method")
@@ -332,6 +332,7 @@ describe Planting do
   context 'photos' do
     let(:planting) { FactoryBot.create(:planting) }
     let(:photo) { FactoryBot.create(:photo, owner_id: planting.owner_id) }
+
     before { planting.photos << photo }
 
     it 'has a photo' do

@@ -45,12 +45,12 @@ module PredictPlanting
     def percentage_grown
       if finished?
         100
-      elsif !finish_is_predicatable?
-        nil
-      elsif growing?
-        calculate_percentage_grown
-      elsif planted?
+      elsif !planted?
         0
+      elsif crop.perennial || finish_predicted_at.nil?
+        nil
+      else
+        calculate_percentage_grown
       end
     end
 

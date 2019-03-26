@@ -2,10 +2,10 @@ require 'rails_helper'
 require 'custom_matchers'
 
 feature "Harvesting a crop", :js, :elasticsearch do
-  let(:member) { create :member }
-  let!(:maize) { create :maize }
-  let!(:plant_part) { create :plant_part }
-  let(:planting) { create :planting, crop: maize, owner: member }
+  let(:member)      { create :member                               }
+  let!(:maize)      { create :maize                                }
+  let!(:plant_part) { create :plant_part                           }
+  let(:planting)    { create :planting, crop: maize, owner: member }
 
   background do
     login_as member
@@ -57,14 +57,16 @@ feature "Harvesting a crop", :js, :elasticsearch do
   end
 
   scenario "Clicking link to owner's profile" do
-    visit harvests_by_owner_path(member)
+    visit member_harvests_path(member)
     click_link "View #{member}'s profile >>"
     expect(current_path).to eq member_path member
   end
 
   scenario "Harvesting from crop page" do
     visit crop_path(maize)
-    click_link "Harvest this"
+    within '.crop-actions' do
+      click_link "Harvest #{maize.name}"
+    end
     within "form#new_harvest" do
       select plant_part.name, from: 'harvest[plant_part_id]'
       expect(page).to have_selector "input[value='maize']"
@@ -91,8 +93,8 @@ feature "Harvesting a crop", :js, :elasticsearch do
   end
 
   context "Editing a harvest" do
-    let(:existing_harvest) { create :harvest, crop: maize, owner: member }
-    let!(:other_plant_part) { create :plant_part, name: 'chocolate' }
+    let(:existing_harvest)  { create :harvest, crop: maize, owner: member }
+    let!(:other_plant_part) { create :plant_part, name: 'chocolate'       }
 
     background do
       visit harvest_path(existing_harvest)

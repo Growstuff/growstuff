@@ -14,7 +14,8 @@ class Crop < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
-  has_many :photos, through: :plantings
+  has_many :photographings, dependent: :destroy
+  has_many :photos, through: :photographings
   has_many :plant_parts, -> { distinct.order("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
@@ -95,8 +96,16 @@ class Crop < ApplicationRecord
     end
   end
 
+  def planting_photos
+    Photo.joins(:plantings).where("plantings.crop_id": id)
+  end
+
   def harvest_photos
     Photo.joins(:harvests).where("harvests.crop_id": id)
+  end
+
+  def seed_photos
+    Photo.joins(:seeds).where("seeds.crop_id": id)
   end
 
   # update the Elasticsearch index (only if we're using it in this
@@ -108,6 +117,10 @@ class Crop < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def to_param
+    slug
   end
 
   def default_scientific_name
@@ -152,12 +165,7 @@ class Crop < ApplicationRecord
   end
 
   def interesting?
-    min_plantings = 3 # needs this many plantings to be interesting
-    min_photos    = 3 # needs this many photos to be interesting
-    return false unless photos.size >= min_photos
-    return false unless plantings_count >= min_plantings
-
-    true
+    photos.size >= 3 || plantings_count >= 3
   end
 
   def pending?

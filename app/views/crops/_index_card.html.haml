@@ -31,6 +31,6 @@
           days after planting
 
       - if can? :create, Planting
-        = link_to 'Plant this', new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
+        = link_to "Plant #{crop.name}", new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
       - if can? :create, Seed
-        = link_to 'Add seeds to stash', new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
+        = link_to "Add #{crop.name} seeds to stash", new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-primary'

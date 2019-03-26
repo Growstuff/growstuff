@@ -4,15 +4,15 @@
     Nobody has harvested this crop yet.
 - else
   %ul
-    - crop.harvests.take(3).each do |harvest|
+    - crop.harvests.order(harvested_at: :desc).limit(3).each do |harvest|
       %li
         = link_to "#{harvest.owner} harvested #{display_quantity(harvest)}.", harvest_path(harvest)
-        = render partial: 'members/location', locals: { member: harvest.owner }
+        = render 'members/location', member: harvest.owner
         %small
-          = distance_of_time_in_words(harvest.created_at, Time.zone.now)
+          = distance_of_time_in_words(harvest.harvested_at, Time.zone.now)
           ago.
   %p
-    = link_to "View all #{crop.name} harvests", harvests_by_crop_path(crop)
+    = link_to "View all #{crop.name} harvests", crop_harvests_path(crop)
 - if crop.approved?
   - if current_member
     %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id)

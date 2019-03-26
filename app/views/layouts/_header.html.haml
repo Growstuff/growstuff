@@ -17,15 +17,7 @@
                     alt: ENV['GROWSTUFF_SITE_NAME'])
 
       .form.navbar-form.pull-left
-        = form_tag crops_search_path, method: :get, id: 'navbar-search' do
-          = label_tag :term, "Search crop database:", class: 'sr-only'
-          .input
-            .input-group
-              = text_field_tag 'term', nil, class: 'search-query input-medium form-control', placeholder: 'Search crops'
-              .input-group-btn
-                %button.btn.btn-default{ style: "height: 34px;" }
-                  = submit_tag "Search", class: 'btn sr-only'
-                  %span.glyphicon.glyphicon-search
+        = render 'crops/search_bar'
 
     .navbar-collapse.collapse#navbar-collapse
       %ul.nav.navbar-nav.navbar-right
@@ -58,11 +50,11 @@
               %b.caret
             %ul.dropdown-menu
               %li= link_to t('.profile'), member_path(current_member)
-              %li= link_to t('.gardens'), gardens_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.plantings'), plantings_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.harvest'), harvests_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.seeds'), seeds_by_owner_path(owner: current_member.slug)
-              %li= link_to t('.posts'), posts_by_author_path(author: current_member.slug)
+              %li= link_to t('.gardens'), member_gardens_path(current_member)
+              %li= link_to t('.plantings'), member_plantings_path(current_member)
+              %li= link_to t('.harvest'), member_harvests_path(current_member)
+              %li= link_to t('.seeds'), member_seeds_path(current_member)
+              %li= link_to t('.posts'), member_posts_path(current_member)
               %li
                 - if current_member.notifications.unread_count.positive?
                   = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count),

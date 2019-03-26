@@ -5,6 +5,7 @@ describe AdminController do
 
   describe "GET admin/newsletter" do
     before { get :newsletter }
+
     describe 'fetches the admin newsletter page' do
       it { expect(response).to be_success }
       it { expect(response).to render_template("admin/newsletter") }
@@ -12,6 +13,7 @@ describe AdminController do
 
     describe 'assigns @members' do
       let!(:m) { FactoryBot.create(:newsletter_recipient_member) }
+
       it { expect(assigns(:members)).to eq [m] }
     end
   end

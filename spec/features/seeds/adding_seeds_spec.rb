@@ -3,7 +3,7 @@ require 'custom_matchers'
 
 feature "Seeds", :js, :elasticsearch do
   let(:member) { create :member }
-  let!(:maize) { create :maize }
+  let!(:maize) { create :maize  }
 
   background do
     login_as member
@@ -47,6 +47,7 @@ feature "Seeds", :js, :elasticsearch do
         click_button "Save"
       end
     end
+
     it { expect(page).to have_content "Successfully added maize seed to your stash" }
     it { expect(page).to have_content "Quantity: 42" }
     it { expect(page).to have_content "Days until maturity: 999–1999" }
@@ -59,7 +60,7 @@ feature "Seeds", :js, :elasticsearch do
   describe "Adding a seed from crop page" do
     before do
       visit crop_path(maize)
-      click_link "Add seeds to stash"
+      click_link "Add maize seeds to stash"
       within "form#new_seed" do
         expect(page).to have_selector "input[value='maize']"
         click_button "Save"

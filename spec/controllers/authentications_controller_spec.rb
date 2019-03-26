@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AuthenticationsController do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member)
     sign_in @member
     controller.stub(:current_member) { @member }

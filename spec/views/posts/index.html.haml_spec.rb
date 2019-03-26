@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "posts/index" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @author = FactoryBot.create(:member)
     page = 1

@@ -27,9 +27,9 @@ module ApplicationHelper
   end
 
   def required_field_help_text
-    # rubocop:disable Rails/OutputSafety
     asterisk = content_tag :span, '*', class: ['red']
     text = content_tag :em, 'denotes a required field'
+    # rubocop:disable Rails/OutputSafety
     content_tag :div, asterisk + ' '.html_safe + text, class: ['margin-bottom']
     # rubocop:enable Rails/OutputSafety
   end
@@ -70,8 +70,8 @@ module ApplicationHelper
   def show_inactive_tickbox_path(type, owner, show_all)
     all = show_all ? '' : 1
     if owner
-      return plantings_by_owner_path(owner: owner.slug, all: all) if type == 'plantings'
-      return gardens_by_owner_path(owner: owner.slug, all: all) if type == 'gardens'
+      return member_plantings_path(owner, all: all) if type == 'plantings'
+      return member_gardens_path(owner, all: all) if type == 'gardens'
     end
 
     return plantings_path(all: all) if type == 'plantings'

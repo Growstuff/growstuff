@@ -87,10 +87,10 @@ submit the change with your pull request.
 - Christopher Bazin / [RobotScissors](https://github.com/robotscissors)
 - Ahmed Shahin / [codeminator](https://www.github.com/codeminator)
 - Brandon Baker / [brandonbaker40](https://github.com/brandonbaker40)
+- Alex Darr / [apdarr](https://github.com/apdarr)
 
 ## Bots
 
 ### Security and Dependency Updates
 - DeppBot / [deppbot](https://github.com/deppbot)
-- dependabot[bot] / [dependabot-bot] / [dependabot] (https://github.com/dependabot-bot)
-- dependabot / [dependabot](https://github.com/dependabot)
+- dependabot[bot]  (https://github.com/dependabot-bot)
