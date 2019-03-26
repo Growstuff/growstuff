@@ -1,37 +1,32 @@
 require 'rails_helper'
 
 describe GardenType do
-  let(:owner) { FactoryBot.create(:member) }
-  let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Free Carrots') }
-  let(:garden_type) { FactoryBot.create(:garden_type, name: "fake hole in the ground") }
+  let(:garden) { FactoryBot.create(:garden, 'Free Carrots') }
 
-  it "should have a name" do
-    garden_type = FactoryBot.build(:garden_type, name: "organic")
-    garden_type.should be_valid
+  describe "should have a name" do
+    let(:garden_type) { FactoryBot.build(:garden_type, name: "organic") }
+    it { expect(garden_type).to be_valid }
   end
 
-  it "doesn't allow a nil name" do
-    garden_type = FactoryBot.build(:garden_type, name: nil)
-    garden_type.should_not be_valid
+  describe "doesn't allow a nil name" do
+    let(:garden_type) { FactoryBot.build(:garden_type, name: nil) }
+    it { expect(garden_type).not_to be_valid }
   end
 
-  it "doesn't allow a blank name" do
-    garden_type = FactoryBot.build(:garden_type, name: "")
-    garden_type.should_not be_valid
+  describe "doesn't allow a blank name" do
+    let(:garden_type) { FactoryBot.build(:garden_type, name: "") }
+    it { expect(garden_type).not_to be_valid }
   end
 
-  it "doesn't allow a name with only spaces" do
-    garden_type = FactoryBot.build(:garden_type, name: "    ")
-    garden_type.should_not be_valid
+  describe "doesn't allow a name with only spaces" do
+    let(:garden_type) { FactoryBot.build(:garden_type, name: "    ") }
+    it { expect(garden_type).not_to be_valid }
   end
 
-  it "destroys plots when deleted" do
-    garden_type = FactoryBot.create(:garden_type, name: "Massive Flower Pot")
-    @plot1 = FactoryBot.create(:plot, garden: garden, garden_type: garden_type)
-    @plot2 = FactoryBot.create(:plot, garden: garden, garden_type: garden_type)
-    garden_type.plots.size.should eq(2)
-    all = Plot.count
-    garden_type.destroy
-    Plot.count.should eq(all - 2)
+  describe "does not delete gardens when deleted" do
+    before { FactoryBot.create :garden, garden_type: garden_type }
+    let(:garden_type) { FactoryBot.create(:garden_type, name: "Massive Flower Pot") }
+    it { expect(garden_type.gardens.size).to eq(1) }
+    it { expect { garden_type.destroy }.not_to change { Garden.count } }
   end
 end
