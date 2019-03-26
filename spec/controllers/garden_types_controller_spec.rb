@@ -16,7 +16,7 @@ RSpec.describe GardenTypesController, type: :controller do
     end
 
     describe 'PUT create' do
-      before { put :create, garden_type: valid_params }
+      before { put :create, params: { garden_type: valid_params } }
 
       it { expect(response).to redirect_to(root_path) }
     end
