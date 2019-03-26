@@ -1,17 +1,17 @@
 require 'rails_helper'
 
-describe "containers/new" do
+describe "garden_types/edit" do
   before(:each) do
     @owner = FactoryBot.create(:admin_member)
     sign_in @owner
     controller.stub(:current_user) { @owner }
-    @container = assign(:container, FactoryBot.create(:container))
+    @garden_type = assign(:garden_type, FactoryBot.create(:garden_type))
     render
   end
 
-  it "renders new container form" do
+  it "renders the edit garden_type form" do
     assert_select "form", action: garden_types_path, method: "post" do
-      assert_select "input#container_description", name: "container[description]"
+      assert_select "input#garden_type_description", name: "garden_type[description]"
     end
   end
 end
