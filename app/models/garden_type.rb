@@ -2,7 +2,7 @@ class GardenType < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: %i(slugged finders)
 
-  has_many :gardens
+  has_many :gardens, dependent: :nullify
 
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
