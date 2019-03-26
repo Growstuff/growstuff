@@ -9,8 +9,8 @@ describe Garden do
     garden.slug.should match(/hatupatu-springfield-community-garden/)
   end
 
-  it "has a name" do
-    garden.name.should == "This is a **totally** cool garden"
+  it "has a description" do
+    garden.description.should == "This is a **totally** cool garden"
   end
 
   it "doesn't allow a nil name" do
