@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.0'
 
-gem 'rails', '5.2.2'
+gem 'rails', '5.2.2.1'
 
 gem 'bundler', '>=1.1.5'
 
@@ -109,6 +109,8 @@ group :production, :staging do
   gem 'memcachier'
   gem 'newrelic_rpm'
   gem 'rails_12factor' # supresses heroku plugin injection
+
+  gem 'scout_apm' # monitoring
 end
 
 group :development do

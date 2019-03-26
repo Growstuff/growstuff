@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "plantings/_form" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member)
     @garden = FactoryBot.create(:garden, owner: @member)
     @uppercase = FactoryBot.create(:uppercasecrop)

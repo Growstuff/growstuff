@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe 'like' do
   let(:member) { FactoryBot.create(:member) }
-  let(:post) { FactoryBot.create(:post) }
+  let(:post)   { FactoryBot.create(:post)   }
 
   context 'existing like' do
-    before(:each) do
+    before do
       @like = Like.create(member: member, likeable: post)
     end
 

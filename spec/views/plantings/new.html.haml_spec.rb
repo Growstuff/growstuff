@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "plantings/new" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
 
@@ -18,7 +18,7 @@ describe "plantings/new" do
   end
 
   context "logged in" do
-    before(:each) do
+    before do
       sign_in @member
       assign(:planting, Planting.new)
       assign(:crop, @crop2)

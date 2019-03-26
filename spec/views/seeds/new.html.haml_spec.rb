@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe "seeds/new" do
-  let!(:seed) { FactoryBot.create(:seed, owner: member) }
-  let!(:member) { FactoryBot.create(:member) }
+  let!(:seed)   { FactoryBot.create(:seed, owner: member) }
+  let!(:member) { FactoryBot.create(:member)              }
 
-  before(:each) do
+  before do
     sign_in member
     controller.stub(:current_user) { @member }
     assign(:seed, seed)

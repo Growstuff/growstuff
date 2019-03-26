@@ -2,14 +2,18 @@ require 'rails_helper'
 
 describe "photos/show" do
   let(:photo) { FactoryBot.create :photo, owner: member }
-  before { @photo = photo }
+  let(:crops) { FactoryBot.create_list :crop, 2         }
+  before do
+    @photo = photo
+    @crops = crops
+  end
 
   let(:member) { FactoryBot.create :member }
 
-  let(:harvest) { FactoryBot.create :harvest, owner: member }
+  let(:harvest)  { FactoryBot.create :harvest, owner: member  }
   let(:planting) { FactoryBot.create :planting, owner: member }
-  let(:seed) { FactoryBot.create :seed, owner: member }
-  let(:garden) { FactoryBot.create :garden, owner: member }
+  let(:seed)     { FactoryBot.create :seed, owner: member     }
+  let(:garden)   { FactoryBot.create :garden, owner: member   }
 
   shared_examples "photo data renders" do
     it "shows the image" do
@@ -45,7 +49,7 @@ describe "photos/show" do
   end
 
   context "signed in as owner" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { member }
       render
     end
@@ -58,7 +62,7 @@ describe "photos/show" do
   end
 
   context "signed in as another member" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { FactoryBot.create :member }
       render
     end
@@ -68,7 +72,7 @@ describe "photos/show" do
   end
 
   context "not signed in" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { nil }
       render
     end
@@ -78,9 +82,8 @@ describe "photos/show" do
   end
 
   context "CC-licensed photo" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { nil }
-      # @photo = assign(:photo, FactoryBot.create(:photo, owner: @member))
       @photo.harvests << harvest
       @photo.plantings << planting
       @photo.seeds << seed
@@ -95,7 +98,7 @@ describe "photos/show" do
   end
 
   context "unlicensed photo" do
-    before(:each) do
+    before do
       controller.stub(:current_user) { nil }
       @photo = assign(:photo, FactoryBot.create(:unlicensed_photo))
       render

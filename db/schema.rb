@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_29_171803) do
+ActiveRecord::Schema.define(version: 2019_03_17_023129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2018_11_29_171803) do
   create_table "comfy_cms_blocks", id: :serial, force: :cascade do |t|
     t.string "identifier", null: false
     t.text "content"
-    t.integer "blockable_id"
     t.string "blockable_type"
+    t.integer "blockable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["blockable_id", "blockable_type"], name: "index_comfy_cms_blocks_on_blockable_id_and_blockable_type"
@@ -257,8 +257,8 @@ ActiveRecord::Schema.define(version: 2018_11_29_171803) do
 
   create_table "likes", id: :serial, force: :cascade do |t|
     t.integer "member_id"
-    t.integer "likeable_id"
     t.string "likeable_type"
+    t.integer "likeable_id"
     t.string "categories", array: true
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -344,6 +344,7 @@ ActiveRecord::Schema.define(version: 2018_11_29_171803) do
     t.string "photographable_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "crop_id"
     t.index ["photographable_id", "photographable_type", "photo_id"], name: "items_to_photos_idx", unique: true
     t.index ["photographable_id", "photographable_type"], name: "photographable_idx"
   end
@@ -392,7 +393,7 @@ ActiveRecord::Schema.define(version: 2018_11_29_171803) do
     t.string "sunniness"
     t.string "planted_from"
     t.integer "owner_id"
-    t.boolean "finished", default: false
+    t.boolean "finished", default: false, null: false
     t.date "finished_at"
     t.integer "lifespan"
     t.integer "days_to_first_harvest"
@@ -459,6 +460,7 @@ ActiveRecord::Schema.define(version: 2018_11_29_171803) do
   end
 
   add_foreign_key "harvests", "plantings"
+  add_foreign_key "photographings", "crops"
   add_foreign_key "photographings", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plots", "containers"

@@ -40,6 +40,7 @@
     "heroku-postgresql",
     "memcachier",
     "newrelic",
+    "scout",
     "sendgrid"
   ],
   "buildpacks": [

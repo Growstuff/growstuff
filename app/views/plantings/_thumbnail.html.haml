@@ -1,20 +1,12 @@
 .planting
-  .planting-badges
+  .planting-thumbnail
+    = render 'plantings/quick_actions', planting: planting
     = render 'plantings/badges', planting: planting
+    .planting-thumbnail-image
+      = link_to planting do
+        = image_tag(planting_image_path(planting),
+          class: 'img-responsive planting-thumbnail-photo',
+          alt: planting)
 
-  .planting-quick-actions.pull-right
-    %a.btn.btn-default.btn-xs#actionsMenu.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#"}
-      =icon('fas', 'bars')
-    .dropdown-menu{"aria-labelledby" => "actionsMenu"}
-      %p= render 'plantings/actions', planting: planting
-
-  .thumbnail
-    
-    .planting-thumbnail{ class: planting_classes(planting) }
-      = link_to image_tag(planting_image_path(planting),
-        alt: planting.crop.name, class: 'img'), planting_path(planting)
-      = render 'plantings/progress', planting: planting, show_explanation: false
-      
-      .planting-name
-        = link_to planting.crop.name, planting
-    
+    = render 'plantings/progress', planting: planting, show_explanation: false
+    .planting-name= link_to planting.crop.name, planting

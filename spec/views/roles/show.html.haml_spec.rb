@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "roles/show" do
-  before(:each) do
+  before do
     @role = assign(:role, stub_model(Role,
       name:        "Name",
       description: "MyText"))

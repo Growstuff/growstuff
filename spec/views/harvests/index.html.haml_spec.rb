@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "harvests/index" do
-  before(:each) do
+  before do
     controller.stub(:current_user) { nil }
     @member = FactoryBot.create(:member)
     @tomato = FactoryBot.create(:tomato)

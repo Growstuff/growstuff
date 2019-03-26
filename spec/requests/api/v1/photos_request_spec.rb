@@ -4,7 +4,7 @@ RSpec.describe 'Photos', type: :request do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:photo) { FactoryBot.create :photo }
+  let!(:photo)  { FactoryBot.create :photo                   }
   let(:photo_encoded_as_json_api) do
     { "id"            => photo.id.to_s,
       "type"          => "photos",
@@ -57,11 +57,13 @@ RSpec.describe 'Photos', type: :request do
 
   describe '#index' do
     before { get '/api/v1/photos', params: {}, headers: headers }
+
     it { expect(subject['data']).to include(photo_encoded_as_json_api) }
   end
 
   describe '#show' do
     before { get "/api/v1/photos/#{photo.id}", params: {}, headers: headers }
+
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 describe "notifications/index" do
-  before(:each) do
+  before do
     @member = FactoryBot.create(:member)
     controller.stub(:current_user) { @member }
   end
 
   context "ordinary notifications" do
-    before(:each) do
+    before do
       @notification = FactoryBot.create(:notification, sender:    @member,
                                                        recipient: @member)
       assign(:notifications, Kaminari.paginate_array([@notification, @notification]).page(1))

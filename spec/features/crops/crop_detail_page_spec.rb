@@ -152,8 +152,8 @@ feature "crop detail page", js: true do
   end
 
   context "seed quantity for a crop" do
-    let(:member) { create :member }
-    let(:seed) { create :seed, crop: crop, quantity: 20, owner: member }
+    let(:member) { create :member                                        }
+    let(:seed)   { create :seed, crop: crop, quantity: 20, owner: member }
 
     scenario "User not signed in" do
       visit crop_path(seed.crop)

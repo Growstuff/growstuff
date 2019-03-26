@@ -3,6 +3,8 @@ require 'rails_helper'
 feature "signout" do
   let(:member) { create :member }
 
+  let(:path) {}
+
   scenario "redirect to previous page after signout" do
     visit crops_path # some random page
     click_link 'Sign in'
@@ -28,8 +30,6 @@ feature "signout" do
       expect(current_path).to eq new_member_session_path
     end
   end
-
-  let(:path) {}
 
   describe 'after signout, redirect to signin page if page needs authentication' do
     include_examples "sign-in redirects", "/plantings/new"

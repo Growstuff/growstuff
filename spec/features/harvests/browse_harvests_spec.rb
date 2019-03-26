@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "browse harvests" do
   subject { page }
 
-  let!(:member) { create :member }
+  let!(:member)  { create :member                 }
   let!(:harvest) { create :harvest, owner: member }
 
   background { login_as member }
@@ -21,7 +21,7 @@ feature "browse harvests" do
   feature "filled in optional fields" do
     let!(:harvest) { create :harvest, :long_description }
 
-    before(:each) do
+    before do
       visit harvests_path
     end
 
