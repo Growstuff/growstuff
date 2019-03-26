@@ -44,6 +44,10 @@ class Ability
     can :read, AlternateName do |an|
       an.crop.approved?
     end
+
+    cannot :create, GardenType
+    cannot :update, GardenType
+    cannot :destroy, GardenType
   end
 
   def member_abilities(member) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
@@ -126,6 +130,10 @@ class Ability
 
     can :destroy, Follow
     cannot :destroy, Follow, followed_id: member.id # can't unfollow yourself
+
+    cannot :create, GardenType
+    cannot :update, GardenType
+    cannot :destroy, GardenType
   end
 
   def admin_abilities(member)

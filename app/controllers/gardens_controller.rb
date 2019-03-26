@@ -69,6 +69,6 @@ class GardensController < ApplicationController
 
   def garden_params
     params.require(:garden).permit(:name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit)
+      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id)
   end
 end
