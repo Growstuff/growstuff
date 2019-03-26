@@ -11,7 +11,7 @@ describe "garden_types/edit" do
 
   it "renders the edit garden_type form" do
     assert_select "form", action: garden_types_path, method: "post" do
-      assert_select "input#garden_type_description", name: "garden_type[description]"
+      assert_select "input#garden_type_name", name: "garden_type[name]"
     end
   end
 end

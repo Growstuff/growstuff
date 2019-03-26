@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GardenTypesController, type: :controller do
   include Devise::Test::ControllerHelpers
-  let(:valid_params) { { description: 'My second GardenType' } }
+  let(:valid_params) { { name: 'My second GardenType' } }
   let(:garden_type) { FactoryBot.create :garden_type }
 
   let(:member) { FactoryBot.create(:member) }

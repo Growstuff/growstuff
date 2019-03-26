@@ -3,14 +3,14 @@ require 'rails_helper'
 describe Garden do
   let(:owner)  { FactoryBot.create(:member, login_name: 'hatupatu')                             }
   let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
-  let(:garden_type) { FactoryBot.create(:garden_type, description: "aquaponic") }
+  let(:garden_type) { FactoryBot.create(:garden_type, name: "aquaponic") }
 
   it "has a slug" do
     garden.slug.should match(/hatupatu-springfield-community-garden/)
   end
 
-  it "has a description" do
-    garden.description.should == "This is a **totally** cool garden"
+  it "has a name" do
+    garden.name.should == "This is a **totally** cool garden"
   end
 
   it "doesn't allow a nil name" do
