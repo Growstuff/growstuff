@@ -10,7 +10,7 @@ RSpec.describe GardenTypesController, type: :controller do
 
   context "when not signed in" do
     describe 'GET new' do
-      before { get :new, id: garden_type.to_param }
+      before { get :new, params: { id: garden_type.to_param } }
 
       it { expect(response).to redirect_to(root_path) }
     end
@@ -32,19 +32,19 @@ RSpec.describe GardenTypesController, type: :controller do
       end
 
       describe 'GET edit' do
-        before { get :edit, id: garden_type.to_param }
+        before { get :edit, params: { id: garden_type.to_param } }
 
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'POST update' do
-        before { post :update, id: garden_type.to_param, garden_type: valid_params }
+        before { post :update, params: { id: garden_type.to_param, garden_type: valid_params } }
 
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'DELETE' do
-        before { delete :destroy, id: garden_type.to_param, params: { garden_type: valid_params } }
+        before { delete :destroy, params: { id: garden_type.to_param, params: { garden_type: valid_params } } }
 
         it { expect(response).to redirect_to(root_path) }
       end
@@ -69,19 +69,19 @@ RSpec.describe GardenTypesController, type: :controller do
       end
 
       describe 'GET edit' do
-        before { get :edit, id: any_garden_type.to_param }
+        before { get :edit, params: { id: any_garden_type.to_param } }
 
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'POST update' do
-        before { post :update, id: any_garden_type.to_param, garden_type: valid_params }
+        before { post :update, params: { id: any_garden_type.to_param, garden_type: valid_params } }
 
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'DELETE' do
-        before { delete :destroy, id: any_garden_type.to_param, params: { garden_type: valid_params } }
+        before { delete :destroy, params: { id: any_garden_type.to_param, params: { garden_type: valid_params } } }
 
         it { expect(response).to redirect_to(root_path) }
       end
