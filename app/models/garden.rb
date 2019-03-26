@@ -8,7 +8,6 @@ class Garden < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
 
-  has_many :plots, dependent: :destroy
   belongs_to :garden_type, required: false
 
   # set up geocoding
