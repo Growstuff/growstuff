@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
+  resources :garden_types
+  resources :plant_parts
+
   devise_for :members, controllers: {
     registrations:      "registrations",
     passwords:          "passwords",

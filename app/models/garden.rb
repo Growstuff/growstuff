@@ -8,6 +8,8 @@ class Garden < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
 
+  belongs_to :garden_type, optional: true
+
   # set up geocoding
   geocoded_by :location
   after_validation :geocode
