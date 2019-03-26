@@ -8,7 +8,7 @@ class GardenType < ApplicationRecord
   validates :slug, presence: true, uniqueness: true
 
   def garden_type_slug
-    name.gsub!(/[^A-Za-z ]/, '')
+    name.gsub!(/[^A-Za-z]/, '')
   end
 
   def subtitler(garden_type)
