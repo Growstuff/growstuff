@@ -44,11 +44,13 @@
       = f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false }, class: 'form-control')
 
   .form-group
-    = f.label :container, class: 'control-label col-md-2'
+    = f.label :garden_type, class: 'control-label col-md-2'
     .col-md-2
-      = f.collection_check_boxes(:container_ids, Container.all, :id, :description) do |c|
-        = c.label class:"checkbox-inline" do
-          = c.check_box + c.text
+      = collection_select(:garden, :garden_type_id,
+                          GardenType.all.order(:name),
+                          :id, :name,
+                          selected: @garden.garden_type_id,
+                          class: 'form-control')
 
   .form-group
     = f.label :active, 'Active? ', class: 'control-label col-md-2'

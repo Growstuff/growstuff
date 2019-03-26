@@ -10,7 +10,7 @@ describe "containers/new" do
   end
 
   it "renders new container form" do
-    assert_select "form", action: containers_path, method: "post" do
+    assert_select "form", action: garden_types_path, method: "post" do
       assert_select "input#container_description", name: "container[description]"
     end
   end
