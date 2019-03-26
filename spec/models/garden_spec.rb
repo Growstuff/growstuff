@@ -104,16 +104,6 @@ describe Garden do
     expect(Planting.count).to eq(all - 2)
   end
 
-  it "destroys plots when deleted" do
-    garden = FactoryBot.create(:garden, owner: owner)
-    @plot1 = FactoryBot.create(:plot, garden: garden, garden_type: garden_type)
-    @plot2 = FactoryBot.create(:plot, garden: garden, garden_type: garden_type)
-    garden.plots.size.should eq(2)
-    all = Plot.count
-    garden.destroy
-    Plot.count.should eq(all - 2)
-  end
-
   context 'area' do
     it 'allows numeric area' do
       garden = FactoryBot.build(:garden, area: 33)
