@@ -8,8 +8,8 @@ class CreateGardenTypes < ActiveRecord::Migration[5.2]
     add_column :gardens, :garden_type_id, :integer
     add_index :gardens, :garden_type_id
     ['organic', 'conventional', 'container', 'vertical', 'greenhouse', 'rooftop', 'no-dig', 'raised bed',
-      'wicking bed', 'permaculture', 'hydroponic', 'aquaponic', 'orchard', 'food forest',
-      'biodynamic'].each do |name|
+     'wicking bed', 'permaculture', 'hydroponic', 'aquaponic', 'orchard', 'food forest',
+     'biodynamic'].each do |name|
       say "Creating #{name}"
       GardenType.create! name: name
     end
