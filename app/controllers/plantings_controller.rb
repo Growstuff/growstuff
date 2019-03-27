@@ -22,7 +22,7 @@ class PlantingsController < ApplicationController
 
     @plantings = @plantings.joins(:owner, :crop, :garden)
       .order(created_at: :desc)
-      .includes(:crop, :owner, :garden)
+      .includes(:owner, :garden, crop: :parent)
       .paginate(page: params[:page])
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"

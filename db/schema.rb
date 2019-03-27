@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_063855) do
+ActiveRecord::Schema.define(version: 2019_03_26_224347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -400,6 +400,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_063855) do
     t.integer "days_to_first_harvest"
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
+    t.integer "harvests_count", default: 0
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 

@@ -13,11 +13,7 @@
   = page_entries_info @plantings
   = will_paginate @plantings
 
-.card-row
-  - unless @plantings.empty?
-    - @plantings.each.with_index do |planting|
-      .card
-        = render partial: "plantings/card", locals: { planting: planting }
+.row= render @plantings || "empty_list"
 
 .pagination
   = page_entries_info @plantings

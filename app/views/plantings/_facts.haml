@@ -1,0 +1,95 @@
+.planting
+
+  - if planting.parent_seed
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Parent seed
+      %strong
+        = link_to @planting.parent_seed, seed_path(@planting.parent_seed)
+  - if planting.finished
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Planted
+      %strong=planting_icon
+      %span= planting.planted_at.to_formatted_s(:short)
+
+  - if planting.planted_at.present? && ! planting.finished?
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Planted
+      %strong #{planting.days_since_planted}
+      %span days ago
+      %span= planting.planted_at.to_formatted_s(:short)
+
+  - unless planting.finished?
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Growing
+      %strong
+        %i.fas.fa-seedling
+      %span= planting.planted_at.to_formatted_s(:short)
+
+  - if planting.planted_from.present?
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Grown from
+      %strong=planted_from_icon(planting.planted_from)
+      - if planting.quantity.to_i.positive?
+        %span #{pluralize((planting.quantity.to_i), planting.planted_from)}
+
+  - if planting.sunniness.present?
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Grown in
+      %strong
+        = link_to planting.garden do
+          = sunniness_icon(planting.sunniness)
+      %span= planting.sunniness
+
+
+  .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+    %h3
+      - if planting.finished?
+        Harvests
+      - else
+        Harvesting
+    %strong
+      = link_to planting_harvests_path(planting) do
+        = harvest_icon
+    %span
+      = planting.first_harvest_date&.to_formatted_s(:short) || planting&.first_harvest_predicted_at&.to_formatted_s(:short)
+    %span #{planting.harvests.size} harvests
+
+  - if planting.crop.perennial
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Perennial
+      %strong
+        %i.fas.fa-tree
+  - else
+    - if !planting.finished? && planting.finish_is_predicatable?
+      .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+        - days = days_from_now_to_finished(planting)
+        - if days.positive?
+          %h3 Finishes
+          %strong #{days}
+          %span days to go
+        - else
+          %h3 Finish
+          %strong #{days * -1}
+          %span days ago
+        %span= planting.finish_predicted_at&.to_formatted_s(:short)
+
+  - if planting.child_seeds.size.positive?
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Seeds saved
+      %strong
+        = link_to planting_seeds_path(planting) do
+          = seed_icon
+      %span=planting.child_seeds&.first&.created_at&.to_date&.to_formatted_s(:short)
+      %span #{pluralize(planting.child_seeds.size, 'packet')} of seed
+
+
+  - if planting.finished?
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h3 Finished
+      %strong=finished_icon
+      %span=planting.finished_at&.to_formatted_s(:short)
+
+  - elsif planting.percentage_grown
+    .fact.col-lg-2.col-md-3.col-sm-6.col-xs-12
+      %h2 Progress
+      %strong #{sprintf '%.0f', planting.percentage_grown}%

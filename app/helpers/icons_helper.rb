@@ -31,4 +31,12 @@ module IconsHelper
   def photo_icon
     icon('fas', 'camera-retro')
   end
+
+  def planted_from_icon(planted_from)
+    planted_from
+  end
+
+  def sunniness_icon(sunniness)
+    image_tag("sunniness_#{sunniness}.png", class: 'img')
+  end
 end

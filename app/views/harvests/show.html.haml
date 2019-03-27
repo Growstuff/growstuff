@@ -39,9 +39,16 @@
   .col-md-6
     = render partial: "crops/index_card", locals: { crop: @harvest.crop }
 
-%h2 Notes
+- if @harvest.description.present?
+  %h2 Notes
+  :growstuff_markdown
+    #{ @harvest.description != "" ? strip_tags(@harvest.description) : "No description given." }
 
-:growstuff_markdown
-  #{ @harvest.description != "" ? strip_tags(@harvest.description) : "No description given." }
-
-= render 'photos/item_photos', item: @harvest, type: 'harvest', photos: @photos
+%hr/
+- if @harvest.photos.size.positive?
+  .row
+    .col-md-6= render @harvest.default_photo
+    .col-md-6
+      = link_to 'View all photos >>', planting_photos_path(@harvest), class: 'pull-right'
+      - @harvest.photos.order(date_taken: :desc).limit(3).each do |photo|
+        = render('photos/thumbnail', photo: photo)
