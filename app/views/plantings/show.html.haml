@@ -25,7 +25,7 @@
             = render @planting.default_photo
           .col-sm-4
             = link_to 'View all photos >>', planting_photos_path(@planting), class: 'pull-right'
-            - @planting.photos.order(date_taken: :desc).limit(3).each do |photo|
+            - @photos.each do |photo|
               = render('photos/thumbnail', photo: photo)
 
     .col-xs-12.col-sm-4.pull-right

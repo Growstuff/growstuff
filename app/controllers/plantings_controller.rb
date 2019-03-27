@@ -34,7 +34,10 @@ class PlantingsController < ApplicationController
     @planting = Planting.includes(:owner, :crop, :garden, :photos)
       .friendly
       .find(params[:id])
-    @photos = @planting.photos.order(date_taken: :desc).includes(:owner).paginate(page: params[:page])
+    @photos = @planting.photos
+      .includes(:owner)
+      .order(date_taken: :desc)
+      .limit(3)
     respond_with @planting
   end
 
