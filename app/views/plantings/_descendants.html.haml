@@ -5,10 +5,8 @@
     Save seeds
 
 - if planting.child_seeds.size.positive?
-  .row
-    - planting.child_seeds.each do |seed|
-      .col-xs-6.col-sm-4.col-md-3
-        = render 'seeds/thumbnail', seed: seed
+  - planting.child_seeds.each do |seed|
+    = render 'seeds/thumbnail', seed: seed
 - else
   %p No seeds saved
 

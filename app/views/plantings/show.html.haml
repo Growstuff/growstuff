@@ -31,6 +31,11 @@
     .col-xs-12.col-sm-4.pull-right
       = render "crops/index_card", crop: @planting.crop
       = render 'plantings/owner', planting: @planting
+      .row
+        .col-md-6.col-sm-12
+          = render 'plantings/harvests', planting: @planting
+        .col-md-6.col-sm-12
+          = render 'plantings/descendants', planting: @planting
 
   .row
     .col-md-12
@@ -38,8 +43,3 @@
         %h2 Notes
         :growstuff_markdown
           #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
-  .row
-    .col-md-6.col-sm-12
-      = render 'plantings/harvests', planting: @planting
-    .col-md-6.col-sm-12
-      = render 'plantings/descendants', planting: @planting

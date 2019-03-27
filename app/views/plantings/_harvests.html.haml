@@ -6,8 +6,6 @@
 - if planting.harvests.empty?
   %p No harvests
 - else
-  .row
-    - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
-      .col-xs-6.col-sm-4.col-md-3
-        = render 'harvests/thumbnail', harvest: harvest
+  - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
+    = render 'harvests/thumbnail', harvest: harvest
 
