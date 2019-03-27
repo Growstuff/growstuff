@@ -23,6 +23,11 @@
           .col-sm-8
             = render 'plantings/badges', planting: @planting
             = render @planting.default_photo
+            - if @planting.description
+              %h2 Notes
+              :growstuff_markdown
+                #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
+
           .col-sm-4
             = link_to 'View all photos >>', planting_photos_path(@planting), class: 'pull-right'
             - @photos.each do |photo|
@@ -36,10 +41,3 @@
           = render 'plantings/harvests', planting: @planting
         .col-md-6.col-sm-12
           = render 'plantings/descendants', planting: @planting
-
-  .row
-    .col-md-12
-      - if @planting.description
-        %h2 Notes
-        :growstuff_markdown
-          #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
