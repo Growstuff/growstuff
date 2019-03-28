@@ -16,6 +16,6 @@ shared_examples "append date" do
   scenario "Confirming without selecting date" do
     click_link link_text
     click_link "Confirm without date"
-    expect(page).to have_content("Finished: Yes (no date specified)")
+    expect(page).to have_content("Finished")
   end
 end

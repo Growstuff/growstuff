@@ -241,8 +241,7 @@ feature "Planting a crop", :js, :elasticsearch do
     end
 
     it { expect(page).to have_content "planting was successfully created" }
-    it { expect(page).to have_content "Finished: Yes (no date specified)" }
-    it { expect(page).to have_content "100%" }
+    it { expect(page).to have_content "Finished" }
   end
 
   describe "Planting sunniness" do
@@ -260,21 +259,6 @@ feature "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_css("img[alt='sun']")
-    end
-
-    it "shows a sunniness not specified image" do
-      fill_autocomplete "crop", with: "mai"
-      select_from_autocomplete "maize"
-      within "form#new_planting" do
-        fill_in "When", with: "2015-10-15"
-        fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
-        fill_in "Tell us more about it", with: "It's rad."
-        check "Mark as finished"
-        click_button "Save"
-      end
-
-      expect(page).to have_css("img[alt='not specified']")
     end
   end
 
