@@ -7,7 +7,7 @@ describe HarvestsHelper do
         quantity:        nil,
         weight_quantity: nil)
       result = helper.display_quantity(harvest)
-      result.should eq 'not specified'
+      result.should eq ''
     end
 
     it '3 individual' do

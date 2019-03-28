@@ -4,18 +4,23 @@ shared_examples "append date" do
 
   background { visit path }
 
-  scenario "Selecting a date with datepicker" do
+  describe "Selecting a date with datepicker" do
+    before do
     click_link link_text
-    within "div.datepicker" do
-      expect(page).to have_content this_month.to_s
-      find(".datepicker-days td.day", text: "21").click
+      within "div.datepicker" do
+        expect(page).to have_content this_month.to_s
+        find(".datepicker-days td.day", text: "21").click
+      end
     end
-    expect(page).to have_content "Finished: #{this_month} 21, #{this_year}"
+    it { expect(page).to have_content "Finished" }
+    it { expect(page).to have_content "21 #{this_month}" }
   end
 
-  scenario "Confirming without selecting date" do
-    click_link link_text
-    click_link "Confirm without date"
-    expect(page).to have_content("Finished")
+  describe "Confirming without selecting date" do
+    before do
+      click_link link_text
+      click_link "Confirm without date"
+    end
+    it { expect(page).to have_content("Finished") }
   end
 end
