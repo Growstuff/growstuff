@@ -37,6 +37,6 @@ module IconsHelper
   end
 
   def sunniness_icon(sunniness)
-    image_tag("sunniness_#{sunniness}.png", class: 'img')
+    image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness)
   end
 end
