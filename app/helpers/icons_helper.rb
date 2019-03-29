@@ -32,6 +32,14 @@ module IconsHelper
     icon('fas', 'camera-retro')
   end
 
+  def seedling_icon
+    icon('fas', 'seedling')
+  end
+
+  def perennial_icon
+    icon('fas', 'tree')
+  end
+
   def planted_from_icon(planted_from)
     planted_from
   end

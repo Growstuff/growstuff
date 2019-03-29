@@ -1,4 +1,4 @@
-%h2 Harvests from this planting
+%h2 Harvests
 - if planting.active? && can?(:edit, planting)
   = link_to new_planting_harvest_path(planting), class: 'btn btn-default' do
     %span.glyphicon.glyphicon-leaf{ title: "Harvest" }
