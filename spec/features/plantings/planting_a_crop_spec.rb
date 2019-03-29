@@ -245,7 +245,7 @@ feature "Planting a crop", :js, :elasticsearch do
   end
 
   describe "Planting sunniness" do
-    it "shows the a sunny image" do
+    before "shows the a sunny image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -258,19 +258,12 @@ feature "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[alt='sun']")
+      it { expect(page).to have_css("img[alt='sun']") }
     end
   end
 
   describe "Marking a planting as finished from the show page" do
     let(:path) { planting_path(planting) }
-    let(:link_text) { "Mark as finished" }
-
-    it_behaves_like "append date"
-  end
-
-  describe "Marking a planting as finished from the list page" do
-    let(:path) { plantings_path }
     let(:link_text) { "Mark as finished" }
 
     it_behaves_like "append date"
