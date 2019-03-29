@@ -1,0 +1,4 @@
+.col-md-12
+  %h2 Photos
+- @photos.each do |photo|
+  .col-md-6.col-xs-12= render('photos/thumbnail', photo: photo)
