@@ -27,6 +27,6 @@ describe GardenType do
     before { FactoryBot.create :garden, garden_type: garden_type }
     let(:garden_type) { FactoryBot.create(:garden_type, name: "Massive Flower Pot") }
     it { expect(garden_type.gardens.size).to eq(1) }
-    it { expect { garden_type.destroy }.not_to change { Garden.count } }
+    it { expect { garden_type.destroy }.not_to change(Garden, :count) }
   end
 end
