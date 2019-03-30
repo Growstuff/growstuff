@@ -15,9 +15,9 @@ feature "Gardens" do
       shared_examples "has buttons bar at top" do
         it "has buttons bar at top" do
           within '.layout-actions' do
-            is_expected.to have_link 'Add a garden'
-            is_expected.to have_link 'My gardens'
-            is_expected.to have_link "Everyone's gardens"
+            expect(subject).to have_link 'Add a garden'
+            expect(subject).to have_link 'My gardens'
+            expect(subject).to have_link "Everyone's gardens"
           end
         end
       end
@@ -27,11 +27,11 @@ feature "Gardens" do
 
         include_examples "has buttons bar at top"
         it "has actions on garden" do
-          is_expected.to have_link 'Plant something here'
-          is_expected.to have_link 'Mark as inactive'
-          is_expected.to have_link 'Edit'
-          is_expected.to have_link 'Add photo'
-          is_expected.to have_link 'Delete'
+          expect(subject).to have_link 'Plant something here'
+          expect(subject).to have_link 'Mark as inactive'
+          expect(subject).to have_link 'Edit'
+          expect(subject).to have_link 'Add photo'
+          expect(subject).to have_link 'Delete'
         end
       end
 
