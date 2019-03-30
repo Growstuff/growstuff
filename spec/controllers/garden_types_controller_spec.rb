@@ -52,7 +52,7 @@ RSpec.describe GardenTypesController, type: :controller do
   end
 
   context "when signed in as a member" do
-    before(:each) { sign_in member }
+    before { sign_in member }
 
     let!(:member) { FactoryBot.create(:member) }
 
