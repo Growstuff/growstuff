@@ -37,7 +37,6 @@ class PlantingsController < ApplicationController
     @photos = @planting.photos
       .includes(:owner)
       .order(date_taken: :desc)
-      .limit(3)
     respond_with @planting
   end
 

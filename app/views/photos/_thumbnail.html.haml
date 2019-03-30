@@ -10,4 +10,4 @@
             by
             = link_to photo.owner, photo.owner
   - if photo.date_taken.present?
-    = I18n.l(photo.date_taken.to_date)
+    %small= I18n.l(photo.date_taken.to_date)
