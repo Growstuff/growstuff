@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Garden do
-  let(:owner)  { FactoryBot.create(:member, login_name: 'hatupatu')                             }
-  let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
+  let(:owner)       { FactoryBot.create(:member, login_name: 'hatupatu')                             }
+  let(:garden)      { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
   let(:garden_type) { FactoryBot.create(:garden_type, name: "aquaponic") }
 
   it "has a slug" do
