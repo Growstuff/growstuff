@@ -36,7 +36,7 @@
     %h2 Photos
     %p= render 'crops/photos', photos: @photos
     %p= link_to 'more photos', crop_photos_path(@crop)
-    
+
     .row
       .col-md-3
         %h3 Sunniness
@@ -48,7 +48,7 @@
         %h3 Harvested for
         = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-    = render 'varieties', crop: @crop
+    .varieties= render 'varieties', crop: @crop
 
     %h3 Crop Map
     %p
@@ -92,7 +92,7 @@
     = render 'alternate_names', crop: @crop
 
     - if @crop.parent
-      .parent-crop  
+      .parent-crop
         = @crop.name
         is a variety of
         = succeed "." do
