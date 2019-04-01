@@ -51,11 +51,13 @@ describe "crop detail page", js: true do
 
   context "when signed in" do
     before { login_as(FactoryBot.create(:member)) }
+
     include_examples "shows photos"
   end
 
   context "when signed in as photos owner" do
     before { login_as(member) }
+
     include_examples "shows photos"
   end
 

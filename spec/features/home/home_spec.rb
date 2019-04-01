@@ -80,6 +80,7 @@ describe "home page" do
 
   context "when signed in" do
     before { login_as member }
+
     include_examples 'show crops'
     include_examples 'show plantings'
     include_examples 'show harvests'
