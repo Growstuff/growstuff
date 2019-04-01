@@ -42,9 +42,10 @@ class CropsController < ApplicationController
 
   def search
     @term = params[:term]
-    @matches = Crop.search(@term)
-    @paginated_matches = @matches.paginate(page: params[:page])
+    page = params[:page]
+    per_page = 12
 
+    @matches = CropSearchService.search(@term, page, per_page, current_member: current_member)
     respond_with @matches
   end
 

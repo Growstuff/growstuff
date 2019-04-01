@@ -26,13 +26,12 @@
 
 - else
   .pagination
-    = will_paginate @paginated_matches
+    = will_paginate @matches
 
   #paginated_matches
     .row
-      - @paginated_matches.each do |c|
-        .col-md-2.six-across
-          = render partial: "thumbnail", locals: { crop: c }
+      - @matches.each do |c|
+        .col-md-2.six-across= render partial: "thumbnail", locals: { crop: c }
 
   .pagination
-    = will_paginate @paginated_matches
+    = will_paginate @matches

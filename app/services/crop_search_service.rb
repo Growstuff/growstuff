@@ -1,23 +1,13 @@
 class CropSearchService
   # Crop.search(string)
-  def self.search(query)
-    if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
-      search_str = query.nil? ? "" : query.downcase
-      response = Crop.__elasticsearch__.search(
-        query: {
-          bool: {
-            filter: {
-              term: { "approval_status" => "approved" }
-            },
-            must:   {
-              query_string: {
-                query: "*#{search_str}*"
-              }
-            }
-          }
-        }
-      )
-      response.records.to_a
+  def self.search(query, page, per_page, current_member: nil)
+    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+      search_params = { page: page, per_page: per_page }
+      search_params[:boost_by] = [:plantings_count] # boost crops that are planted more often
+      # prioritise crops the member has planted
+      search_params[:boost_where] = { planters_ids: current_member.id } if current_member
+      search_params[:includes] = [:scientific_names]
+      Crop.search(query, search_params)
     else
       # if we don't have elasticsearch, just do a basic SQL query.
       # also, make sure it's an actual array not an activerecord
@@ -25,7 +15,6 @@ class CropSearchService
       # manipulate it in the same ways (eg. deleting elements without deleting
       # the whole record from the db)
       matches = Crop.approved.where("name ILIKE ?", "%#{query}%").to_a
-
       # we want to make sure that exact matches come first, even if not
       # using elasticsearch (eg. in development)
       exact_match = Crop.approved.find_by(name: query)
@@ -33,8 +22,7 @@ class CropSearchService
         matches.delete(exact_match)
         matches.unshift(exact_match)
       end
-
-      matches
+      matches.paginate(page: page, per_page: per_page)
     end
   end
 end
