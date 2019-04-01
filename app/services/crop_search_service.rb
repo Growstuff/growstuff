@@ -1,6 +1,6 @@
 class CropSearchService
   # Crop.search(string)
-  def self.search(query, page, per_page, current_member: nil)
+  def self.search(query, page: 1, per_page: 12, current_member: nil)
     if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
       search_params = { page: page, per_page: per_page }
       search_params[:boost_by] = [:plantings_count] # boost crops that are planted more often

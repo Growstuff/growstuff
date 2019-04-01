@@ -357,31 +357,32 @@ describe Crop do
   end
 
   context "search", :elasticsearch do
-    let(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-
-    before { sync_elasticsearch([mushroom]) }
-
+    let!(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
+    before { Crop.reindex }
     it "finds exact matches" do
-      expect(Crop.search('mushroom')).to eq [mushroom]
+      expect(Crop.search('mushroom').map(&:name)).to eq ['mushroom']
     end
     it "finds approximate matches" do
-      expect(Crop.search('mush')).to eq [mushroom]
+      expect(Crop.search('mush', match: :word_start).map(&:name)).to eq ['mushroom']
+    end
+    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+      it "finds mispellings matches" do
+        expect(Crop.search('muhsroom').map(&:name)).to eq ['mushroom']
+      end
     end
     it "doesn't find non-matches" do
-      Crop.search('mush').should_not include @crop
+      expect(Crop.search('coffee').map(&:name)).to eq []
     end
     it "searches case insensitively" do
-      Crop.search('mUsH').should include mushroom
+      expect(Crop.search('mUsHroom').map(&:name)).to eq ['mushroom']
     end
     it "doesn't find 'rejected' crop" do
       @rejected_crop = FactoryBot.create(:rejected_crop, name: 'tomato')
-      sync_elasticsearch([@rejected_crop])
-      Crop.search('tomato').should_not include @rejected_crop
+      expect(Crop.search('tomato').map(&:name)).to eq []
     end
     it "doesn't find 'pending' crop" do
       @crop_request = FactoryBot.create(:crop_request, name: 'tomato')
-      sync_elasticsearch([@crop_request])
-      Crop.search('tomato').should_not include @crop_request
+      expect(Crop.search('tomato').map(&:name)).to eq []
     end
   end
 
