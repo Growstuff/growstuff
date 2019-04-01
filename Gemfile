@@ -21,6 +21,8 @@ gem 'font-awesome-sass'
 
 gem 'uglifier' # JavaScript compressor
 
+gem 'oj' # Speeds up json
+
 # planting and harvest predictions
 # based on median values for the crop
 gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
@@ -83,7 +85,6 @@ gem "chartkick"
 
 # clever elastic searh
 gem 'searchkick'
-
 
 gem "hashie", ">= 3.5.3"
 
