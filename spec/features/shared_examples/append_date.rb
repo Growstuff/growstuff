@@ -2,7 +2,7 @@ shared_examples "append date" do
   let(:this_month) { Time.zone.today.strftime("%B") }
   let(:this_year)  { Time.zone.today.strftime("%Y") }
 
-  background { visit path }
+  before { visit path }
 
   scenario "Selecting a date with datepicker" do
     click_link link_text
