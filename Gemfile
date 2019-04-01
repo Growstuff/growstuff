@@ -78,17 +78,13 @@ gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
+# Pretty charts
 gem "chartkick"
 
-# client for Elasticsearch. Elasticsearch is a flexible
-# and powerful, distributed, real-time search and analytics engine.
-# An example of the use in the project is fuzzy crop search.
-# Project does not use semver, so we want to be in sync with the version of
-# elasticsearch we use
-# See https://github.com/elastic/elasticsearch-ruby#compatibility
-gem "elasticsearch-api", "~> 6.0.0"
-gem "elasticsearch-model", "~> 6.0.0"
-gem "elasticsearch-rails", "~> 6.0.0"
+# clever elastic searh
+gem 'searchkick'
+
+
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
@@ -104,7 +100,6 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 gem 'puma'
 
 group :production, :staging do
-  gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
   gem 'memcachier'
   gem 'newrelic_rpm'
