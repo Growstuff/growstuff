@@ -14,7 +14,7 @@ describe Crop do
 
     it 'is fetchable from the database' do
       crop.save
-      @crop2 = Crop.find_by(name: 'tomato')
+      @crop2 = described_class.find_by(name: 'tomato')
       @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
       @crop2.slug.should eq("tomato")
     end
@@ -44,7 +44,7 @@ describe Crop do
     end
 
     it 'recent scope sorts by creation date' do
-      Crop.recent.first.should == @uppercase
+      described_class.recent.first.should == @uppercase
     end
   end
 
@@ -59,9 +59,9 @@ describe Crop do
     end
 
     it "sorts by most plantings" do
-      expect(Crop.popular.first).to eq maize
+      expect(described_class.popular.first).to eq maize
       FactoryBot.create_list(:planting, 10, crop: tomato)
-      expect(Crop.popular.first).to eq tomato
+      expect(described_class.popular.first).to eq tomato
     end
   end
 
@@ -138,7 +138,7 @@ describe Crop do
     it 'toplevel scope works' do
       @tomato = FactoryBot.create(:tomato)
       @roma = FactoryBot.create(:roma, parent_id: @tomato.id)
-      expect(Crop.toplevel).to eq [@tomato]
+      expect(described_class.toplevel).to eq [@tomato]
     end
   end
 
@@ -160,7 +160,7 @@ describe Crop do
       end
 
       it 'is found in has_photos scope' do
-        Crop.has_photos.should include(@crop)
+        described_class.has_photos.should include(@crop)
       end
     end
 
@@ -281,7 +281,7 @@ describe Crop do
   end
 
   context 'interesting' do
-    subject { Crop.interesting }
+    subject { described_class.interesting }
 
     let(:photo) { FactoryBot.create :photo }
     # first, a couple of candidate crops
@@ -362,26 +362,26 @@ describe Crop do
     before { sync_elasticsearch([mushroom]) }
 
     it "finds exact matches" do
-      expect(Crop.search('mushroom')).to eq [mushroom]
+      expect(described_class.search('mushroom')).to eq [mushroom]
     end
     it "finds approximate matches" do
-      expect(Crop.search('mush')).to eq [mushroom]
+      expect(described_class.search('mush')).to eq [mushroom]
     end
     it "doesn't find non-matches" do
-      Crop.search('mush').should_not include @crop
+      described_class.search('mush').should_not include @crop
     end
     it "searches case insensitively" do
-      Crop.search('mUsH').should include mushroom
+      described_class.search('mUsH').should include mushroom
     end
     it "doesn't find 'rejected' crop" do
       @rejected_crop = FactoryBot.create(:rejected_crop, name: 'tomato')
       sync_elasticsearch([@rejected_crop])
-      Crop.search('tomato').should_not include @rejected_crop
+      described_class.search('tomato').should_not include @rejected_crop
     end
     it "doesn't find 'pending' crop" do
       @crop_request = FactoryBot.create(:crop_request, name: 'tomato')
       sync_elasticsearch([@crop_request])
-      Crop.search('tomato').should_not include @crop_request
+      described_class.search('tomato').should_not include @crop_request
     end
   end
 
@@ -525,7 +525,7 @@ describe Crop do
         CsvImporter.new.import_crop(row)
       end
 
-      loaded = Crop.last
+      loaded = described_class.last
       expect(loaded.parent).to be_nil
     end
 
@@ -536,7 +536,7 @@ describe Crop do
         CsvImporter.new.import_crop(row)
       end
 
-      loaded = Crop.last
+      loaded = described_class.last
       expect(loaded.name).to eq "tomato"
       expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
       expect(loaded.creator).to eq @cropbot

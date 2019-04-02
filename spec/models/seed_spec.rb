@@ -83,8 +83,8 @@ describe Seed do
     it 'scopes correctly' do
       @tradable = FactoryBot.create(:tradable_seed)
       @untradable = FactoryBot.create(:untradable_seed)
-      Seed.tradable.should include @tradable
-      Seed.tradable.should_not include @untradable
+      described_class.tradable.should include @tradable
+      described_class.tradable.should_not include @untradable
     end
   end
 
@@ -142,11 +142,11 @@ describe Seed do
       @seed3 = FactoryBot.create(:tradable_seed)
       @seed4 = FactoryBot.create(:seed)
 
-      Seed.interesting.should include @seed1
-      Seed.interesting.should_not include @seed2
-      Seed.interesting.should_not include @seed3
-      Seed.interesting.should_not include @seed4
-      Seed.interesting.size.should == 1
+      described_class.interesting.should include @seed1
+      described_class.interesting.should_not include @seed2
+      described_class.interesting.should_not include @seed3
+      described_class.interesting.should_not include @seed4
+      described_class.interesting.size.should == 1
     end
   end
 
@@ -156,7 +156,7 @@ describe Seed do
     before { seed.photos << FactoryBot.create(:photo, owner: seed.owner) }
 
     it 'is found in has_photos scope' do
-      Seed.has_photos.should include(seed)
+      described_class.has_photos.should include(seed)
     end
   end
 
@@ -185,13 +185,13 @@ describe Seed do
       let!(:finished_seed) { FactoryBot.create(:finished_seed) }
 
       describe 'has finished scope' do
-        it { expect(Seed.finished).to include finished_seed }
-        it { expect(Seed.finished).not_to include seed }
+        it { expect(described_class.finished).to include finished_seed }
+        it { expect(described_class.finished).not_to include seed }
       end
 
       describe 'has current scope' do
-        it { expect(Seed.current).to include seed }
-        it { expect(Seed.current).not_to include finished_seed }
+        it { expect(described_class.current).to include seed }
+        it { expect(described_class.current).not_to include finished_seed }
       end
     end
   end

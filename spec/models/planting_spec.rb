@@ -224,7 +224,7 @@ describe Planting do
 
   it 'sorts in reverse creation order' do
     @planting2 = FactoryBot.create(:planting)
-    Planting.first.should eq @planting2
+    described_class.first.should eq @planting2
   end
 
   describe '#planted?' do
@@ -340,7 +340,7 @@ describe Planting do
     end
 
     it 'is found in has_photos scope' do
-      expect(Planting.has_photos).to include(planting)
+      expect(described_class.has_photos).to include(planting)
     end
 
     it 'deletes association with photos when photo is deleted' do
@@ -377,7 +377,7 @@ describe Planting do
         end
       end
 
-      it { expect(Planting.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
+      it { expect(described_class.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
     end
 
     context "default arguments" do
@@ -390,8 +390,8 @@ describe Planting do
         # this one doesn't have a photo
         @no_photo_planting = FactoryBot.create(:planting)
 
-        expect(Planting.interesting).to include @planting
-        expect(Planting.interesting).not_to include @no_photo_planting
+        expect(described_class.interesting).to include @planting
+        expect(described_class.interesting).not_to include @no_photo_planting
       end
 
       it 'ignores plantings with the same owner' do
@@ -409,8 +409,8 @@ describe Planting do
         @planting2.save
 
         # result: the newer one is interesting, the older one isn't
-        expect(Planting.interesting).to include @planting2
-        expect(Planting.interesting).not_to include @planting1
+        expect(described_class.interesting).to include @planting2
+        expect(described_class.interesting).not_to include @planting1
       end
     end
 
@@ -420,7 +420,7 @@ describe Planting do
         @plantings.each do |p|
           p.photos << FactoryBot.create(:photo, owner: p.owner)
         end
-        expect(Planting.interesting.limit(3).count).to eq 3
+        expect(described_class.interesting.limit(3).count).to eq 3
       end
     end
   end # interesting plantings
@@ -435,15 +435,15 @@ describe Planting do
     it 'has finished scope' do
       @p = FactoryBot.create(:planting)
       @f = FactoryBot.create(:finished_planting)
-      Planting.finished.should include @f
-      Planting.finished.should_not include @p
+      described_class.finished.should include @f
+      described_class.finished.should_not include @p
     end
 
     it 'has current scope' do
       @p = FactoryBot.create(:planting)
       @f = FactoryBot.create(:finished_planting)
-      Planting.current.should include @p
-      Planting.current.should_not include @f
+      described_class.current.should include @p
+      described_class.current.should_not include @f
     end
 
     context "finished date validation" do
@@ -465,9 +465,9 @@ describe Planting do
   end
 
   it 'excludes deleted members' do
-    expect(Planting.joins(:owner).all).to include(planting)
+    expect(described_class.joins(:owner).all).to include(planting)
     planting.owner.destroy
-    expect(Planting.joins(:owner).all).not_to include(planting)
+    expect(described_class.joins(:owner).all).not_to include(planting)
   end
 
   context 'ancestry' do

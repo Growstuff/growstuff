@@ -106,7 +106,7 @@ describe Photo do
         planting.photos << photo
         harvest.photos << photo
         planting.destroy # photo is still used by the harvest
-        expect(photo).to be_an_instance_of Photo
+        expect(photo).to be_an_instance_of described_class
       end
     end # removing photos
   end # add/delete functionality
@@ -116,15 +116,15 @@ describe Photo do
     # which was epistemologically unsatisfactory.
     # So we're just going to test that the method exists.
     it 'exists' do
-      photo = Photo.new(owner_id: 1)
+      photo = described_class.new(owner_id: 1)
       photo.should.respond_to? :flickr_metadata
     end
   end
 
   it 'excludes deleted members' do
-    expect(Photo.joins(:owner).all).to include(photo)
+    expect(described_class.joins(:owner).all).to include(photo)
     member.destroy
-    expect(Photo.joins(:owner).all).not_to include(photo)
+    expect(described_class.joins(:owner).all).not_to include(photo)
   end
 
   describe 'scopes' do
@@ -146,12 +146,12 @@ describe Photo do
       seed.photos << seed_photo
     end
 
-    it { expect(Photo.by_model(Harvest)).to eq([harvest_photo]) }
-    it { expect(Photo.by_model(Planting)).to eq([planting_photo]) }
-    it { expect(Photo.by_model(Seed)).to eq([seed_photo]) }
+    it { expect(described_class.by_model(Harvest)).to eq([harvest_photo]) }
+    it { expect(described_class.by_model(Planting)).to eq([planting_photo]) }
+    it { expect(described_class.by_model(Seed)).to eq([seed_photo]) }
 
-    it { expect(Photo.by_crop(harvest_crop)).to eq([harvest_photo]) }
-    it { expect(Photo.by_crop(planting_crop)).to eq([planting_photo]) }
-    it { expect(Photo.by_crop(seed_crop)).to eq([seed_photo]) }
+    it { expect(described_class.by_crop(harvest_crop)).to eq([harvest_photo]) }
+    it { expect(described_class.by_crop(planting_crop)).to eq([planting_photo]) }
+    it { expect(described_class.by_crop(seed_crop)).to eq([seed_photo]) }
   end
 end

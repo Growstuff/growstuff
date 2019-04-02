@@ -3,7 +3,7 @@ require "rails_helper"
 describe Notifier do
   describe "notifications" do
     let(:notification) { FactoryBot.create(:notification) }
-    let(:mail)         { Notifier.notify(notification)    }
+    let(:mail)         { described_class.notify(notification)    }
 
     it 'sets the subject correctly' do
       mail.subject.should == notification.subject
@@ -20,7 +20,7 @@ describe Notifier do
 
   describe "planting reminders" do
     let(:member) { FactoryBot.create(:member) }
-    let(:mail) { Notifier.planting_reminder(member) }
+    let(:mail) { described_class.planting_reminder(member) }
 
     it 'sets the subject correctly' do
       mail.subject.should == "What have you planted lately?"
@@ -46,7 +46,7 @@ describe Notifier do
   describe "new crop request" do
     let(:member) { FactoryBot.create(:crop_wrangling_member) }
     let(:crop) { FactoryBot.create(:crop_request)        }
-    let(:mail) { Notifier.new_crop_request(member, crop) }
+    let(:mail) { described_class.new_crop_request(member, crop) }
 
     it 'sets the subject correctly' do
       mail.subject.should == "#{crop.requester.login_name} has requested Ultra berry as a new crop"
@@ -68,7 +68,7 @@ describe Notifier do
   describe "crop approved" do
     let(:member) { FactoryBot.create(:member) }
     let(:crop) { FactoryBot.create(:crop)                     }
-    let(:mail) { Notifier.crop_request_approved(member, crop) }
+    let(:mail) { described_class.crop_request_approved(member, crop) }
 
     it 'sets the subject correctly' do
       expect(mail.subject).to eq "Magic bean has been approved"
@@ -96,7 +96,7 @@ describe Notifier do
   describe "crop rejected" do
     let(:member) { FactoryBot.create(:member) }
     let(:crop) { FactoryBot.create(:rejected_crop)            }
-    let(:mail) { Notifier.crop_request_rejected(member, crop) }
+    let(:mail) { described_class.crop_request_rejected(member, crop) }
 
     it 'sets the subject correctly' do
       expect(mail.subject).to eq "Fail bean has been rejected"
