@@ -358,7 +358,7 @@ describe Crop do
 
   context "search", :elasticsearch do
     let!(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-    before { Crop.reindex }
+    before { mushroom.reindex }
     it "finds exact matches" do
       expect(Crop.search('mushroom').map(&:name)).to eq ['mushroom']
     end
