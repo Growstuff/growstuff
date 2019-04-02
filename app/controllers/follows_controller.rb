@@ -1,6 +1,6 @@
 class FollowsController < ApplicationController
   before_action :authenticate_member!
-  before_action :set_member, only: %i(index followers)
+  before_action :set_member, only: %i[index followers]
   load_and_authorize_resource
   skip_load_resource only: :create
 

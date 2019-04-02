@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', as: 'unsubscribe_member'
   end
-  match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
+  match '/members/:id/finish_signup' => 'members#finish_signup', via: %i[get patch], as: :finish_signup
 
-  resources :authentications, only: %i(create destroy)
+  resources :authentications, only: %i[create destroy]
 
   get "home/index"
   root to: 'home#index'
@@ -82,8 +82,8 @@ Rails.application.routes.draw do
   resources :roles
   resources :forums
 
-  resources :follows, only: %i(create destroy)
-  resources :likes, only: %i(create destroy)
+  resources :follows, only: %i[create destroy]
+  resources :likes, only: %i[create destroy]
 
   resources :members, param: :slug do
     resources :gardens
@@ -100,7 +100,7 @@ Rails.application.routes.draw do
     get 'reply'
   end
 
-  resources :places, only: %i(index show), param: :place do
+  resources :places, only: %i[index show], param: :place do
     get 'search', on: :collection
   end
 

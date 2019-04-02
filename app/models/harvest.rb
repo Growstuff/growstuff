@@ -4,7 +4,7 @@ class Harvest < ApplicationRecord
   include PhotoCapable
   include Ownable
 
-  friendly_id :harvest_slug, use: %i(slugged finders)
+  friendly_id :harvest_slug, use: %i[slugged finders]
 
   # Constants
   UNITS_VALUES = {

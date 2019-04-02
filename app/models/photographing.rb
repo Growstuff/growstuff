@@ -18,7 +18,7 @@ class Photographing < ApplicationRecord
   end
 
   def set_crop
-    self.crop_id = photographable.crop_id if %w(Planting Seed Harvest).include?(photographable_type)
+    self.crop_id = photographable.crop_id if %w[Planting Seed Harvest].include?(photographable_type)
   end
 
   private
