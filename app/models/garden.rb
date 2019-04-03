@@ -19,6 +19,7 @@ class Garden < ApplicationRecord
   default_scope { joins(:owner) } # Ensures owner exists
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :order_by_name, -> { order("lower(name) asc") }
 
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
