@@ -23,7 +23,7 @@ RSpec.describe CropSearchService, type: :service do
 
         # Child record
         FactoryBot.create(:crop, name: 'portabello', parent: mushroom)
-        Crop.reindex
+        Crop.reindex if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
       end
 
       describe 'finds exact match' do

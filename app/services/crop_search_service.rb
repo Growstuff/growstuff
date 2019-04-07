@@ -23,7 +23,8 @@ class CropSearchService
       matcher = "%#{query}%"
       matches = Crop.approved
         .left_outer_joins(:alternate_names, :scientific_names)
-        .where("crops.name ILIKE ? OR alternate_names.name ILIKE ? OR scientific_names.name ILIKE ?", matcher, matcher, matcher)
+        .where("crops.name ILIKE ? OR alternate_names.name ILIKE ? OR scientific_names.name ILIKE ?",
+          matcher, matcher, matcher)
 
       matches = matches.to_a
       # we want to make sure that exact matches come first, even if not
