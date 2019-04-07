@@ -56,7 +56,7 @@ class Crop < ApplicationRecord
   ####################################
   # Elastic search configuration
   if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    searchkick word_start: [:name, :alternate_names, :scientific_names], case_sensitive: false
+    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
   end
 
   def planting_photos
