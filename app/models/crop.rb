@@ -55,7 +55,9 @@ class Crop < ApplicationRecord
 
   ####################################
   # Elastic search configuration
-  searchkick word_start: [:name], case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+  if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+    searchkick word_start: [:name, :alternate_names, :scientific_names], case_sensitive: false
+  end
 
   def planting_photos
     Photo.joins(:plantings).where("plantings.crop_id": id)
@@ -162,17 +164,6 @@ class Crop < ApplicationRecord
   def update_harvest_medians
     update(median_days_to_first_harvest: Planting.where(crop: self).median(:days_to_first_harvest))
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
-  end
-
-  # Only add this method, if we aren't using elastic search
-  unless ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    def self.search(query, *extra_params)
-      CropSearchService.search(query, *extra_params)
-    end
-    def self.reindex
-    end
-    def reindex
-    end
   end
 
   def self.case_insensitive_name(name)

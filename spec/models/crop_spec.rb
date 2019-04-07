@@ -356,36 +356,6 @@ describe Crop do
     expect(@maize.plant_parts).to eq [@pp1]
   end
 
-  context "search", :elasticsearch do
-    let!(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-    before { mushroom.reindex }
-    it "finds exact matches" do
-      expect(Crop.search('mushroom').map(&:name)).to eq ['mushroom']
-    end
-    it "finds approximate matches" do
-      expect(Crop.search('mush', match: :word_start).map(&:name)).to eq ['mushroom']
-    end
-    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-      it "finds mispellings matches" do
-        expect(Crop.search('muhsroom').map(&:name)).to eq ['mushroom']
-      end
-    end
-    it "doesn't find non-matches" do
-      expect(Crop.search('coffee').map(&:name)).to eq []
-    end
-    it "searches case insensitively" do
-      expect(Crop.search('mUsHroom').map(&:name)).to eq ['mushroom']
-    end
-    it "doesn't find 'rejected' crop" do
-      @rejected_crop = FactoryBot.create(:rejected_crop, name: 'tomato')
-      expect(Crop.search('tomato').map(&:name)).to eq []
-    end
-    it "doesn't find 'pending' crop" do
-      @crop_request = FactoryBot.create(:crop_request, name: 'tomato')
-      expect(Crop.search('tomato').map(&:name)).to eq []
-    end
-  end
-
   context "csv loading" do
     before do
       # don't use 'let' for this -- we need to actually create it,
