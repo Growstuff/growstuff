@@ -166,8 +166,12 @@ class Crop < ApplicationRecord
 
   # Only add this method, if we aren't using elastic search
   unless ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    def self.search(query)
-      CropSearchService.search(query)
+    def self.search(query, *extra_params)
+      CropSearchService.search(query, *extra_params)
+    end
+    def self.reindex
+    end
+    def reindex
     end
   end
 
