@@ -57,11 +57,11 @@ class Harvest < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: false, greater_than_or_equal_to: 0
   }
-  validates :unit, allow_nil: true, allow_blank: true, inclusion: {
+  validates :unit, allow_blank: true, inclusion: {
     in: UNITS_VALUES.values, message: "%<value>s is not a valid unit"
   }
   validates :weight_quantity, allow_nil: true, numericality: { only_integer: false }
-  validates :weight_unit, allow_nil: true, allow_blank: true, inclusion: {
+  validates :weight_unit, allow_blank: true, inclusion: {
     in: WEIGHT_UNITS_VALUES.values, message: "%<value>s is not a valid unit"
   }
   validate :crop_must_match_planting

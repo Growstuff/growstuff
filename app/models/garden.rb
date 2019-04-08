@@ -46,7 +46,6 @@ class Garden < ApplicationRecord
   }.freeze
   validates :area_unit, inclusion:   { in:      AREA_UNITS_VALUES.values,
                                        message: "%<value>s is not a valid area unit" },
-                        allow_nil:   true,
                         allow_blank: true
 
   after_validation :cleanup_area
