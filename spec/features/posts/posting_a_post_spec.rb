@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-feature 'Post a post' do
+describe 'Post a post' do
   let(:member) { create :member }
 
-  background do
+  before do
     login_as member
     visit new_post_path
   end
 
-  scenario "creating a post" do
+  it "creating a post" do
     fill_in "post_subject", with: "Testing"
     fill_in "post_body", with: "This is a sample test"
     click_button "Post"
@@ -19,11 +19,11 @@ feature 'Post a post' do
   context "editing a post" do
     let(:existing_post) { create :post, author: member }
 
-    background do
+    before do
       visit edit_post_path(existing_post)
     end
 
-    scenario "saving edit" do
+    it "saving edit" do
       fill_in "post_subject", with: "Testing Edit"
       click_button "Post"
       expect(page).to have_content "Post was successfully updated"
