@@ -1,7 +1,7 @@
 - if @term
   - content_for :title, "Crops matching \"#{@term}\""
-  - if @matches
-    - content_for :subtitle, "#{@matches.size} total"
+  - if @crops
+    - content_for :subtitle, "#{@crops.size} total"
 - else
   - content_for :title, "Crop search"
 
@@ -15,7 +15,7 @@
                        value: @term
     = submit_tag "Search", class: 'btn btn-primary'
 
-- if @matches.empty?
+- if @crops.empty?
   %h2 No results found
   %p
     Sorry, we couldn't find any crops that matched your search for "#{@term}".
@@ -26,12 +26,12 @@
 
 - else
   .pagination
-    = will_paginate @matches
+    = will_paginate @crops
 
   #paginated_matches
     .row
-      - @matches.each do |c|
+      - @crops.each do |c|
         .col-md-2.six-across= render partial: "thumbnail", locals: { crop: c }
 
   .pagination
-    = will_paginate @matches
+    = will_paginate @crops

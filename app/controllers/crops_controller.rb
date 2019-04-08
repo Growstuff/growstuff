@@ -43,12 +43,12 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
 
-    @matches = CropSearchService.search(
+    @crops = CropSearchService.search(
       @term, page:           params[:page],
              per_page:       12,
              current_member: current_member
     )
-    respond_with @matches
+    respond_with @crops
   end
 
   def show
