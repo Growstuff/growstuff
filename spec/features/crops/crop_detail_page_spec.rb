@@ -18,78 +18,7 @@ describe "crop detail page", js: true do
       visit crop_path(crop)
 
       within ".varieties" do
-        expect(page).to have_no_selector('li', text: /tomato/i)
-        expect(page).to have_no_selector('button', text: /Show+/i)
-      end
-    end
-
-    it "The crop has one variety" do
-      create :crop, name: 'Roma tomato 1', parent: crop
-
-      subject
-
-      within ".varieties" do
-        # It lists all 2 items (note: including the top level item.)
-        expect(page).to have_selector('li', text: /tomato/i, count: 2)
-        # It DOES NOT have "Show all/less" toggle link
-        expect(page).to have_no_selector('button', text: /Show+/i)
-      end
-    end
-
-    context "many" do
-      let!(:roma1) { create :crop, name: 'Roma tomato 1', parent: crop }
-      let!(:roma2) { create :crop, name: 'Roma tomato 2', parent: crop }
-      let!(:roma3) { create :crop, name: 'Roma tomato 3', parent: crop }
-      let!(:roma4) { create :crop, name: 'Roma tomato 4', parent: crop }
-
-      it "The crop has 4 varieties" do
-        subject
-
-        within ".varieties" do
-          # It lists all 5 items (note: including the top level item.)
-          expect(page).to have_selector('li', text: /tomato/i, count: 5)
-          # It DOES NOT have "Show all/less" toggle link
-          expect(page).to have_no_selector('button', text: /Show+/i)
-        end
-      end
-
-      it "The crop has 5 varieties, including grandchild", js: true do
-        create :crop, name: 'Roma tomato child 1', parent: roma4
-
-        subject
-
-        within ".varieties" do
-          # It lists the first 5 items (note: including the top level item.)
-          # It HAS have "Show all" toggle link but not "Show less" link
-          expect(page).to have_selector('li', text: /tomato/i, count: 5)
-          expect(page).to have_selector('li', text: 'Roma tomato 4')
-          expect(page).to have_no_selector('li', text: 'Roma tomato child 1')
-          # It shows the total number (5) correctly
-          expect(page).to have_selector('button', text: /Show all 5 +/i)
-          expect(page).to have_no_selector('button', text: /Show less+/i)
-
-          # Clik "Show all" link
-          page.find('button', text: /Show all+/).click
-
-          # It lists all 6 items (note: including the top level item.)
-          # It HAS have "Show less" toggle link but not "Show all" link
-          expect(page).to have_selector('li', text: /tomato/i, count: 6)
-          expect(page).to have_selector('li', text: 'Roma tomato 4')
-          expect(page).to have_selector('li', text: 'Roma tomato child 1')
-          expect(page).to have_no_selector('button', text: /Show all+/i)
-          expect(page).to have_selector('button', text: /Show less+/i)
-
-          # Clik "Show less" link
-          page.find('button', text: /Show less+/).click
-
-          # It lists 5 items (note: including the top level item.)
-          # It HAS have "Show all" toggle link but not "Show less" link
-          expect(page).to have_selector('li', text: /tomato/i, count: 5)
-          expect(page).to have_selector('li', text: 'Roma tomato 4')
-          expect(page).to have_no_selector('li', text: 'Roma tomato child 1')
-          expect(page).to have_selector('button', text: /Show all 5 +/i)
-          expect(page).to have_no_selector('button', text: /Show less+/i)
-        end
+        expect(page).not_to have_text 'tomato'
       end
     end
   end
