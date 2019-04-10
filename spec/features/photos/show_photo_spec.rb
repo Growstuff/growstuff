@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature "show photo page" do
+describe "show photo page" do
   context "signed in member" do
     let(:member) { create :member }
 
-    background { login_as member }
+    before { login_as member }
 
     context "linked to planting" do
       let(:planting) { create :planting }
