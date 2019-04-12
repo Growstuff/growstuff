@@ -40,10 +40,21 @@ describe CropsController do
 
   describe "GET crop search" do
     describe 'fetches the crop search page' do
-      before { get :search }
+      let!(:tomato) { FactoryBot.create :tomato }
+      let!(:maize) { FactoryBot.create :maize }
+      before { Crop.reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true" }
+      describe 'search form page' do
+        before { get :search }
 
-      it { is_expected.to be_success }
-      it { is_expected.to render_template("crops/search") }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template("crops/search") }
+      end
+
+      describe 'perform a search' do
+        before { get :search, params: { term: 'tom' } }
+        it { expect(assigns(:term)).to eq 'tom'}
+        it { expect(assigns(:crops).map(&:name)).to eq ['tomato']}
+      end
     end
   end
 
