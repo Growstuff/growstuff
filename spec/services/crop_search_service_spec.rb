@@ -8,9 +8,12 @@ RSpec.describe CropSearchService, type: :service do
       CropSearchService.search(term).map(&:name)
     end
 
-    context 'with a mushroom' do
+    context 'with some crops' do
       let!(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-
+      let!(:tomato) { FactoryBot.create(:crop ,name: 'tomato') }
+      let!(:taewa) { FactoryBot.create(:crop, name: 'taewa') }
+      let!(:zucchini) { FactoryBot.create(:crop, name: 'zucchini') }
+      let!(:broccoli) { FactoryBot.create(:crop, name: 'broccoli') }
       before do
         # Alternate name
         FactoryBot.create :alternate_name, name: 'fungus', crop: mushroom
@@ -38,11 +41,18 @@ RSpec.describe CropSearchService, type: :service do
         describe 'finds mispellings matches' do
           it { expect(search('muhsroom')).to eq ['mushroom'] }
           it { expect(search('mushrom')).to eq ['mushroom'] }
+          it { expect(search('zuchini')).to eq ['zucchini'] }
+          it { expect(search('brocoli')).to eq ['broccoli'] }
         end
       end
 
       describe 'doesn\'t find non-match "coffee"' do
         it { expect(search('coffee')).to eq [] }
+      end
+
+      describe 'finds plurals' do
+        it { expect(search('mushrooms')).to eq ['mushroom'] }
+        it { expect(search('tomatoes')).to eq ['tomato'] }
       end
 
       describe 'searches case insensitively' do
@@ -51,22 +61,22 @@ RSpec.describe CropSearchService, type: :service do
         it { expect(search('MUSHROOM')).to eq ['mushroom'] }
       end
 
-      it 'searches for alternate names' do
+      it 'finds by alternate names' do
         expect(search('fungus')).to eq ['mushroom']
       end
 
-      describe 'searches for scientific names' do
+      describe 'finds by scientific names' do
         it { expect(search('Agaricus bisporus')).to eq ['mushroom'] }
         it { expect(search('agaricus bisporus')).to eq ['mushroom'] }
         it { expect(search('Agaricus')).to eq ['mushroom'] }
         it { expect(search('bisporus')).to eq ['mushroom'] }
       end
 
-      describe 'doesn\'t find rejected crop' do
+      describe "doesn't find rejected crop" do
         it { expect(search('rejected')).to eq [] }
       end
 
-      describe 'doesn\'t find pending crop' do
+      describe "doesn't find pending crop" do
         it { expect(search('requested')).to eq [] }
       end
     end

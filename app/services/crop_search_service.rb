@@ -12,13 +12,14 @@ class CropSearchService
     search_params = {
       page:     page,
       per_page: per_page,
-      fields:   %i(name alternate_names scientific_names),
-      match:    :word_start
+      fields:   %i(name^5 alternate_names scientific_names),
+      match:    :word_start,
+      boost_by: [:plantings_count],
+      includes: %i(scientific_names alternate_names),
+      misspellings: { edit_distance: 2 }
     }
-    # search_params[:boost_by] = [:plantings_count] # boost crops that are planted more often
     # prioritise crops the member has planted
     search_params[:boost_where] = { planters_ids: current_member.id } if current_member
-    search_params[:includes] = %i(scientific_names alternate_names)
 
     Crop.search(query, search_params)
   end
