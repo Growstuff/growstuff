@@ -4,7 +4,7 @@ class CropSearchService
     if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
       elasticsearch(query, page: page, per_page: per_page, current_member: current_member)
     else
-      dbsearch(query, page: page, per_page: per_page, current_member: current_member)
+      dbsearch(query, page: page, per_page: per_page)
     end
   end
 
@@ -24,7 +24,7 @@ class CropSearchService
     Crop.search(query, search_params)
   end
 
-  def self.dbsearch(query, page: 1, per_page: 12, current_member: nil)
+  def self.dbsearch(query, page: 1, per_page: 12)
     # if we don't have elasticsearch, just do a basic SQL query.
     # also, make sure it's an actual array not an activerecord
     # collection, so it matches what we get from elasticsearch and we can
