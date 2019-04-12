@@ -12,7 +12,6 @@ describe "Planting a crop", :js, :elasticsearch do
   before do
     login_as member
     visit new_planting_path
-    maize.reindex
   end
 
   it_behaves_like "crop suggest", "planting"
