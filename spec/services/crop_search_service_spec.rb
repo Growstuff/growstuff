@@ -50,9 +50,11 @@ RSpec.describe CropSearchService, type: :service do
         it { expect(search('coffee')).to eq [] }
       end
 
-      describe 'finds plurals' do
-        it { expect(search('mushrooms')).to eq ['mushroom'] }
-        it { expect(search('tomatoes')).to eq ['tomato'] }
+      if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
+        describe 'finds plurals' do
+          it { expect(search('mushrooms')).to eq ['mushroom'] }
+          it { expect(search('tomatoes')).to eq ['tomato'] }
+        end
       end
 
       describe 'searches case insensitively' do
