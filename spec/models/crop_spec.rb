@@ -150,6 +150,7 @@ describe Crop do
       let!(:planting) { FactoryBot.create(:planting, crop: crop) }
 
       before { planting.photos << photo }
+
       it { expect(crop.default_photo).to eq photo }
       include_examples 'has default photo'
     end
@@ -157,13 +158,16 @@ describe Crop do
     context 'with a harvest photo' do
       let!(:harvest) { FactoryBot.create(:harvest, crop: crop) }
       let!(:photo) { FactoryBot.create(:photo, owner: harvest.owner) }
+
       before { harvest.photos << photo }
+
       it { expect(crop.default_photo).to eq photo }
       include_examples 'has default photo'
 
       context 'and planting photo' do
         let(:planting) { FactoryBot.create(:planting, crop: crop) }
         let!(:planting_photo) { FactoryBot.create(:photo, owner: planting.owner) }
+
         before { planting.photos << planting_photo }
 
         it 'should prefer the planting photo' do
@@ -182,6 +186,7 @@ describe Crop do
       let(:planting) { FactoryBot.create :planting, crop: crop }
       let(:harvest) { FactoryBot.create :harvest, crop: crop }
       let(:seed) { FactoryBot.create :seed, crop: crop }
+
       before do
         # Add photos to all
         planting.photos << FactoryBot.create(:photo, owner: planting.owner)
@@ -292,6 +297,7 @@ describe Crop do
     let(:crop2_planting) { crop2.plantings.first }
 
     let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
+
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
