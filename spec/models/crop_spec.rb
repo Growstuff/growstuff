@@ -142,7 +142,7 @@ describe Crop do
     shared_examples 'has default photo' do
       it { expect(Crop.has_photos).to include(crop) }
     end
-    let!(:crop) { FactoryBot.create :tomato }
+    let!(:crop)  { FactoryBot.create :tomato }
     let(:member) { FactoryBot.create :member }
 
     context 'with a planting photo' do
@@ -185,7 +185,7 @@ describe Crop do
     describe 'finding all photos' do
       let(:planting) { FactoryBot.create :planting, crop: crop }
       let(:harvest) { FactoryBot.create :harvest, crop: crop }
-      let(:seed) { FactoryBot.create :seed, crop: crop }
+      let(:seed)    { FactoryBot.create :seed, crop: crop }
 
       before do
         # Add photos to all
@@ -343,8 +343,8 @@ describe Crop do
   end
 
   let(:maize) { FactoryBot.create(:maize) }
-  let(:pp1) { FactoryBot.create(:plant_part) }
-  let(:pp2) { FactoryBot.create(:plant_part) }
+  let(:pp1)   { FactoryBot.create(:plant_part) }
+  let(:pp2)   { FactoryBot.create(:plant_part) }
 
   context "harvests" do
     let(:h1)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
