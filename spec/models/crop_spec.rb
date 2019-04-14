@@ -345,7 +345,6 @@ describe Crop do
     end
   end
 
-
   context "harvests" do
     let(:h1)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
     let(:h2)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
