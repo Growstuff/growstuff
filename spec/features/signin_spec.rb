@@ -23,27 +23,27 @@ describe "signin", js: true do
     visit crops_path # some random page
     click_link 'Sign in'
     login
-    expect(current_path).to eq crops_path
+    expect(page).to have_current_path crops_path
   end
 
   it "don't redirect to devise pages after signin" do
     visit new_member_registration_path # devise signup page
     click_link 'Sign in'
     login
-    expect(current_path).to eq root_path
+    expect(page).to have_current_path root_path
   end
 
   it "redirect to signin page for if not authenticated to view notification" do
     visit notification_path(notification)
-    expect(current_path).to eq new_member_session_path
+    expect(page).to have_current_path new_member_session_path
   end
 
   shared_examples "redirects to what you were trying to do" do
     it do
       visit "/#{model_name}/new"
-      expect(current_path).to eq new_member_session_path
+      expect(page).to have_current_path new_member_session_path
       login
-      expect(current_path).to eq "/#{model_name}/new"
+      expect(page).to have_current_path "/#{model_name}/new"
     end
   end
 
@@ -57,9 +57,9 @@ describe "signin", js: true do
 
   it "after signin, redirect to new notifications page" do
     visit new_notification_path(recipient_id: recipient.id)
-    expect(current_path).to eq new_member_session_path
+    expect(page).to have_current_path new_member_session_path
     login
-    expect(current_path).to eq new_notification_path
+    expect(page).to have_current_path new_notification_path
   end
 
   it "after crop wrangler signs in and crops await wrangling, show alert" do
@@ -91,7 +91,7 @@ describe "signin", js: true do
       # that we pretended to auth as
 
       # Signed up and logged in
-      expect(current_path).to eq root_path
+      expect(page).to have_current_path root_path
       expect(page.text).to include("Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, tdawg")
     end
   end

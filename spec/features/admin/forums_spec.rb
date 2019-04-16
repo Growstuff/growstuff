@@ -12,11 +12,11 @@ describe "forums", js: true do
     it "navigating to forum admin without js", js: false do
       visit root_path
       click_link "Admin"
-      expect(current_path).to eq admin_path
+      expect(page).to have_current_path admin_path
       within 'ul#site_admin' do
         click_link "Forums"
       end
-      expect(current_path).to eq forums_path
+      expect(page).to have_current_path forums_path
       expect(page).to have_content "New forum"
     end
 
@@ -24,22 +24,22 @@ describe "forums", js: true do
       visit root_path
       click_link member.login_name
       click_link "Admin"
-      expect(current_path).to eq admin_path
+      expect(page).to have_current_path admin_path
       within 'ul#site_admin' do
         click_link "Forums"
       end
-      expect(current_path).to eq forums_path
+      expect(page).to have_current_path forums_path
       expect(page).to have_content "New forum"
     end
 
     it "adding a forum" do
       visit forums_path
       click_link "New forum"
-      expect(current_path).to eq new_forum_path
+      expect(page).to have_current_path new_forum_path
       fill_in 'Name', with: 'Discussion'
       fill_in 'Description', with: "this is a new forum"
       click_button 'Save'
-      expect(current_path).to eq forum_path(Forum.last)
+      expect(page).to have_current_path forum_path(Forum.last)
       expect(page).to have_content 'Forum was successfully created'
     end
 
@@ -49,7 +49,7 @@ describe "forums", js: true do
       fill_in 'Name', with: 'Something else'
       click_button 'Save'
       forum.reload
-      expect(current_path).to eq forum_path(forum)
+      expect(page).to have_current_path forum_path(forum)
       expect(page).to have_content 'Forum was successfully updated'
       expect(page).to have_content 'Something else'
     end
@@ -57,7 +57,7 @@ describe "forums", js: true do
     it 'deleting forum' do
       visit forum_path forum
       click_link 'Delete'
-      expect(current_path).to eq forums_path
+      expect(page).to have_current_path forums_path
       expect(page).to have_content 'Forum was successfully deleted'
     end
   end

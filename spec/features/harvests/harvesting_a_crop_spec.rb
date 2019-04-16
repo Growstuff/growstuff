@@ -51,7 +51,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
 
     it "button on index to edit harvest" do
       click_link "edit_harvest_glyphicon"
-      expect(current_path).to eq edit_harvest_path(harvest)
+      expect(page).to have_current_path edit_harvest_path(harvest)
       expect(page).to have_content 'Editing harvest'
     end
   end
@@ -59,7 +59,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
   it "Clicking link to owner's profile" do
     visit member_harvests_path(member)
     click_link "View #{member}'s profile >>"
-    expect(current_path).to eq member_path member
+    expect(page).to have_current_path member_path member
   end
 
   it "Harvesting from crop page" do
