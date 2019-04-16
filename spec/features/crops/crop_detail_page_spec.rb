@@ -119,7 +119,7 @@ describe "crop detail page", js: true do
       end
 
       it "predicts harvest" do
-        is_expected.to have_text("First harvest expected 20 days after planting")
+        expect(subject).to have_text("First harvest expected 20 days after planting")
       end
     end
   end
@@ -142,12 +142,12 @@ describe "crop detail page", js: true do
       end
 
       it "predicts lifespan" do
-        is_expected.to have_text "Median lifespan"
-        is_expected.to have_text "99 days"
+        expect(subject).to have_text "Median lifespan"
+        expect(subject).to have_text "99 days"
       end
 
       it "describes annual crops" do
-        is_expected.to have_text(
+        expect(subject).to have_text(
           "#{crop.name} is an annual crop (living and reproducing in a single year or less)"
         )
       end
@@ -164,7 +164,7 @@ describe "crop detail page", js: true do
       end
 
       it "describes perennial crops" do
-        is_expected.to have_text("#{crop.name} is a perennial crop (living more than two years)")
+        expect(subject).to have_text("#{crop.name} is a perennial crop (living more than two years)")
       end
     end
 

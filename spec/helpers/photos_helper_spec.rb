@@ -22,7 +22,7 @@ describe PhotosHelper do
       before { planting.photos << planting_photo }
 
       it "uses planting photos" do
-        is_expected.to eq planting_photo.thumbnail_url
+        expect(subject).to eq planting_photo.thumbnail_url
       end
     end
 
@@ -30,7 +30,7 @@ describe PhotosHelper do
       before { harvest.photos << harvest_photo }
 
       it "uses harvest photos" do
-        is_expected.to eq harvest_photo.thumbnail_url
+        expect(subject).to eq harvest_photo.thumbnail_url
       end
     end
 
@@ -38,7 +38,7 @@ describe PhotosHelper do
       before { seed.photos << seed_photo }
 
       it "uses seed photos" do
-        is_expected.to eq seed_photo.thumbnail_url
+        expect(subject).to eq seed_photo.thumbnail_url
       end
     end
   end
