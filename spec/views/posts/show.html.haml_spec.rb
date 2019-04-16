@@ -71,7 +71,7 @@ describe "posts/show" do
     end
 
     it "shows comments" do
-      is_expected.to have_content comment.body
+      expect(subject).to have_content comment.body
     end
 
     it 'has an anchor to the comments' do
@@ -95,7 +95,7 @@ describe "posts/show" do
     end
 
     it "shows the oldest comments first" do
-      is_expected.to have_content(/#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m)
+      expect(subject).to have_content(/#{@comment1.body}.*#{@comment2.body}.*#{@comment3.body}.*#{@comment4.body}/m)
     end
   end
 
@@ -105,7 +105,7 @@ describe "posts/show" do
     before { render }
 
     it "shows forum name" do
-      is_expected.to have_content "in #{post.forum.name}"
+      expect(subject).to have_content "in #{post.forum.name}"
     end
   end
 
@@ -119,7 +119,7 @@ describe "posts/show" do
     end
 
     it 'shows a comment button' do
-      is_expected.to have_link "Comment", href: new_comment_path(post_id: post.id)
+      expect(subject).to have_link "Comment", href: new_comment_path(post_id: post.id)
     end
   end
 end
