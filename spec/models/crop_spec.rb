@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Crop do
   let(:pp2)   { FactoryBot.create(:plant_part) }
   let(:pp1)   { FactoryBot.create(:plant_part) }
-  let(:maize) { FactoryBot.create(:maize) }
+  let(:maize) { FactoryBot.create(:maize)      }
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 
@@ -188,7 +188,7 @@ describe Crop do
     describe 'finding all photos' do
       let(:planting) { FactoryBot.create :planting, crop: crop }
       let(:harvest) { FactoryBot.create :harvest, crop: crop }
-      let(:seed)    { FactoryBot.create :seed, crop: crop }
+      let(:seed)    { FactoryBot.create :seed, crop: crop    }
 
       before do
         # Add photos to all
