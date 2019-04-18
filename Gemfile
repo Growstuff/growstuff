@@ -83,7 +83,7 @@ gem 'omniauth-twitter'
 # Pretty charts
 gem "chartkick"
 
-# clever elastic searh
+# clever elastic search
 gem 'searchkick'
 
 gem "hashie", ">= 3.5.3"
