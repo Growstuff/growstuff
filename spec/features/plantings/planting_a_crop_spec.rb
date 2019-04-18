@@ -12,7 +12,6 @@ describe "Planting a crop", :js, :elasticsearch do
   before do
     login_as member
     visit new_planting_path
-    sync_elasticsearch [maize]
   end
 
   it_behaves_like "crop suggest", "planting"
@@ -32,26 +31,30 @@ describe "Planting a crop", :js, :elasticsearch do
     it { expect(page).to have_optional 'input#planting_finished_at' }
   end
 
-  it "Creating a new planting" do
-    fill_autocomplete "crop", with: "mai"
-    select_from_autocomplete "maize"
-    within "form#new_planting" do
-      fill_in "When", with: "2014-06-15"
-      fill_in "How many?", with: 42
-      select "cutting", from: "Planted from:"
-      select "semi-shade", from: "Sun or shade?"
-      fill_in "Tell us more about it", with: "It's rad."
-      click_button "Save"
+  describe "Creating a new planting" do
+    before do
+      fill_autocomplete "crop", with: "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", with: "2014-06-15"
+        fill_in "How many?", with: 42
+        select "cutting", from: "Planted from:"
+        select "semi-shade", from: "Sun or shade?"
+        fill_in "Tell us more about it", with: "It's rad."
+        click_button "Save"
+      end
     end
 
-    expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Not enough data"
+    it { expect(page).to have_content "planting was successfully created" }
+    it { expect(page).to have_content "Not enough data" }
   end
 
-  it "Clicking link to owner's profile" do
-    visit member_plantings_path(member)
-    click_link "View #{member}'s profile >>"
-    expect(page).to have_current_path member_path(member)
+  describe "Clicking link to owner's profile" do
+    before do
+      visit member_plantings_path(member)
+      click_link "View #{member}'s profile >>"
+    end
+    it { expect(page).to have_current_path member_path(member) }
   end
 
   describe "Progress bar status on planting creation" do

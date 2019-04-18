@@ -10,7 +10,6 @@ describe "Harvesting a crop", :js, :elasticsearch do
   before do
     login_as member
     visit new_harvest_path
-    sync_elasticsearch [maize]
   end
 
   it_behaves_like "crop suggest", "harvest", "crop"
@@ -19,11 +18,11 @@ describe "Harvesting a crop", :js, :elasticsearch do
     expect(page).to have_content "* denotes a required field"
   end
 
-  it "displays required and optional fields properly" do
-    expect(page).to have_selector ".form-group.required", text: "What did you harvest?"
-    expect(page).to have_optional 'input#harvest_quantity'
-    expect(page).to have_optional 'input#harvest_weight_quantity'
-    expect(page).to have_optional 'textarea#harvest_description'
+  describe "displays required and optional fields properly" do
+    it { expect(page).to have_selector ".form-group.required", text: "What did you harvest?" }
+    it { expect(page).to have_optional 'input#harvest_quantity' }
+    it { expect(page).to have_optional 'input#harvest_weight_quantity' }
+    it { expect(page).to have_optional 'textarea#harvest_description' }
   end
 
   it "Creating a new harvest", :js do
@@ -62,34 +61,38 @@ describe "Harvesting a crop", :js, :elasticsearch do
     expect(page).to have_current_path member_path member
   end
 
-  it "Harvesting from crop page" do
-    visit crop_path(maize)
-    within '.crop-actions' do
-      click_link "Harvest #{maize.name}"
+  describe "Harvesting from crop page" do
+    before do
+      visit crop_path(maize)
+      within '.crop-actions' do
+        click_link "Harvest #{maize.name}"
+      end
+      within "form#new_harvest" do
+        select plant_part.name, from: 'harvest[plant_part_id]'
+        expect(page).to have_selector "input[value='maize']"
+        click_button "Save"
+      end
     end
-    within "form#new_harvest" do
+
+    it { expect(page).to have_content "harvest was successfully created." }
+    it { expect(page).to have_content "maize" }
+  end
+
+  describe "Harvesting from planting page" do
+    let!(:planting) { create :planting, crop: maize, owner: member, garden: member.gardens.first }
+    before do
+      visit planting_path(planting)
+      within ".planting-actions" do
+        click_link "Harvest"
+      end
+
       select plant_part.name, from: 'harvest[plant_part_id]'
-      expect(page).to have_selector "input[value='maize']"
       click_button "Save"
     end
 
-    expect(page).to have_content "harvest was successfully created."
-    expect(page).to have_content "maize"
-  end
-
-  it "Harvesting from planting page" do
-    planting = create :planting, crop: maize, owner: member, garden: member.gardens.first
-    visit planting_path(planting)
-    within ".planting-actions" do
-      click_link "Harvest"
-    end
-
-    select plant_part.name, from: 'harvest[plant_part_id]'
-    click_button "Save"
-
-    expect(page).to have_content "harvest was successfully created."
-    expect(page).to have_content planting.garden.name
-    expect(page).to have_content "maize"
+    it { expect(page).to have_content "harvest was successfully created." }
+    it { expect(page).to have_content planting.garden.name }
+    it { expect(page).to have_content "maize" }
   end
 
   context "Editing a harvest" do
