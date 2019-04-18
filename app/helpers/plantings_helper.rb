@@ -51,7 +51,6 @@ module PlantingsHelper
     (planting.last_harvest_predicted_at - Time.zone.today).to_i
   end
 
-
   def planting_classes(planting)
     classes = []
     classes << 'planting-growing' if planting.growing?

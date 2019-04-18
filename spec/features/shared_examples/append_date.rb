@@ -6,7 +6,7 @@ shared_examples "append date" do
 
   describe "Selecting a date with datepicker" do
     before do
-    click_link link_text
+      click_link link_text
       within "div.datepicker" do
         expect(page).to have_content this_month.to_s
         find(".datepicker-days td.day", text: "21").click

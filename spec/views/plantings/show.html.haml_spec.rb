@@ -37,7 +37,7 @@ describe "plantings/show" do
 
     describe "shows planted_from if blank" do
       before do
-        planting.update(planted_from:  '')
+        planting.update(planted_from: '')
         render
       end
       it { expect(rendered).not_to have_content 'Planted from' }
