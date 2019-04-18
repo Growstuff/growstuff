@@ -1,7 +1,7 @@
 require "rails_helper"
 require 'custom_matchers'
 
-feature "Planting a crop", :js, :elasticsearch do
+describe "Planting a crop", :js, :elasticsearch do
   let(:member) { FactoryBot.create :member                }
   let!(:maize) { FactoryBot.create :maize                 }
   let(:garden) { FactoryBot.create :garden, owner: member }
@@ -9,10 +9,9 @@ feature "Planting a crop", :js, :elasticsearch do
     FactoryBot.create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10")
   end
 
-  background do
+  before do
     login_as member
     visit new_planting_path
-    sync_elasticsearch [maize]
   end
 
   it_behaves_like "crop suggest", "planting"
@@ -32,26 +31,30 @@ feature "Planting a crop", :js, :elasticsearch do
     it { expect(page).to have_optional 'input#planting_finished_at' }
   end
 
-  scenario "Creating a new planting" do
-    fill_autocomplete "crop", with: "mai"
-    select_from_autocomplete "maize"
-    within "form#new_planting" do
-      fill_in "When", with: "2014-06-15"
-      fill_in "How many?", with: 42
-      select "cutting", from: "Planted from:"
-      select "semi-shade", from: "Sun or shade?"
-      fill_in "Tell us more about it", with: "It's rad."
-      click_button "Save"
+  describe "Creating a new planting" do
+    before do
+      fill_autocomplete "crop", with: "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", with: "2014-06-15"
+        fill_in "How many?", with: 42
+        select "cutting", from: "Planted from:"
+        select "semi-shade", from: "Sun or shade?"
+        fill_in "Tell us more about it", with: "It's rad."
+        click_button "Save"
+      end
     end
 
-    expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Not enough data"
+    it { expect(page).to have_content "planting was successfully created" }
+    it { expect(page).to have_content "Not enough data" }
   end
 
-  scenario "Clicking link to owner's profile" do
-    visit member_plantings_path(member)
-    click_link "View #{member}'s profile >>"
-    expect(current_path).to eq member_path(member)
+  describe "Clicking link to owner's profile" do
+    before do
+      visit member_plantings_path(member)
+      click_link "View #{member}'s profile >>"
+    end
+    it { expect(current_path).to eq member_path(member) }
   end
 
   describe "Progress bar status on planting creation" do
@@ -151,7 +154,7 @@ feature "Planting a crop", :js, :elasticsearch do
     end
   end
 
-  scenario "Planting from crop page" do
+  it "Planting from crop page" do
     visit crop_path(maize)
     within '.crop-actions' do
       click_link "Plant maize"
@@ -165,7 +168,7 @@ feature "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "maize"
   end
 
-  scenario "Editing a planting to add details" do
+  it "Editing a planting to add details" do
     visit planting_path(planting)
     click_link "Edit"
     fill_in "Tell us more about it", with: "Some extra notes"
@@ -173,7 +176,7 @@ feature "Planting a crop", :js, :elasticsearch do
     expect(page).to have_content "planting was successfully updated"
   end
 
-  scenario "Editing a planting to fill in the finished date" do
+  it "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
     expect(page).to have_content "Not enough data"
     click_link "Edit"
@@ -184,7 +187,7 @@ feature "Planting a crop", :js, :elasticsearch do
     expect(page).not_to have_content "Not enough data"
   end
 
-  scenario "Marking a planting as finished" do
+  it "Marking a planting as finished" do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
     within "form#new_planting" do

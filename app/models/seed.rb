@@ -14,7 +14,7 @@ class Seed < ApplicationRecord
   # Relationships
   belongs_to :crop
   belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id',
-                               required: false, inverse_of: :child_seeds # parent
+                               optional: true, inverse_of: :child_seeds # parent
   has_many :child_plantings, class_name: 'Planting',
                              foreign_key: 'parent_seed_id', dependent: :nullify,
                              inverse_of: :parent_seed # children
@@ -29,17 +29,17 @@ class Seed < ApplicationRecord
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :tradable_to, allow_nil: false, allow_blank: false,
-                          inclusion: { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, "\
+  validates :tradable_to, allow_blank: false,
+                          inclusion:   { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, "\
                                                 "locally, nationally, or internationally" }
-  validates :organic, allow_nil: false, allow_blank: false,
-                      inclusion: { in: ORGANIC_VALUES, message: "You must say whether the seeds "\
+  validates :organic, allow_blank: false,
+                      inclusion:   { in: ORGANIC_VALUES, message: "You must say whether the seeds "\
                                              "are organic or not, or that you don't know" }
-  validates :gmo, allow_nil: false, allow_blank: false,
-                  inclusion: { in: GMO_VALUES, message: "You must say whether the seeds are "\
+  validates :gmo, allow_blank: false,
+                  inclusion:   { in: GMO_VALUES, message: "You must say whether the seeds are "\
                                                         "genetically modified or not, or that you don't know" }
-  validates :heirloom, allow_nil: false, allow_blank: false,
-                       inclusion: { in: HEIRLOOM_VALUES, message: "You must say whether the seeds"\
+  validates :heirloom, allow_blank: false,
+                       inclusion:   { in: HEIRLOOM_VALUES, message: "You must say whether the seeds"\
                                                                   "are heirloom, hybrid, or unknown" }
 
   #

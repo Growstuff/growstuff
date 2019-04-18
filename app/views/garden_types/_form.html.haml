@@ -1,0 +1,20 @@
+= form_for @garden_type, html: { class: 'form-horizontal', role: "form" } do |f|
+  - if @garden_type.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@garden_type.errors.count, "error")} prohibited this garden_type from being saved:"
+      %ul
+        - @garden_type.errors.full_messages.each do |message|
+          %li= message
+
+  %h2 Basic information
+
+  .form-group
+    = f.label :name, class: 'control-label col-md-2'
+    .col-md-8
+      = f.text_field :name, class: 'form-control'
+      %span.help-block
+        The name for the garden_type, i.e. "organic", in English (required).
+
+  .form-group
+    .form-actions.col-md-offset-2.col-md-8
+      = f.submit 'Save', class: 'btn btn-primary'

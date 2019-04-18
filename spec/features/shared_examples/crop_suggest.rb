@@ -6,8 +6,6 @@ shared_examples "crop suggest" do |resource|
   let!(:tomato) { create :tomato            }
   let!(:roma)   { create :roma              }
 
-  background { sync_elasticsearch [pea, pear, maize, tomato] }
-
   scenario "placeholder text in crop auto suggest field" do
     expect(page).to have_selector("input[placeholder='e.g. lettuce']")
   end

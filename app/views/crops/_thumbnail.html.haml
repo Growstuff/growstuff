@@ -11,6 +11,8 @@
           - unless crop.scientific_names.empty?
             .scientificname
               = crop.scientific_names.first.name
-          .plantingcount
-            Planted
-            = pluralize(crop.plantings.size, "time")
+          - if crop.annual? && crop.median_lifespan.present?
+            .planting-lifespan
+              lifespan
+              %strong= crop.median_lifespan
+              days

@@ -21,6 +21,8 @@ gem 'font-awesome-sass'
 
 gem 'uglifier' # JavaScript compressor
 
+gem 'oj' # Speeds up json
+
 # planting and harvest predictions
 # based on median values for the crop
 gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
@@ -78,17 +80,12 @@ gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
+# Pretty charts
 gem "chartkick"
 
-# client for Elasticsearch. Elasticsearch is a flexible
-# and powerful, distributed, real-time search and analytics engine.
-# An example of the use in the project is fuzzy crop search.
-# Project does not use semver, so we want to be in sync with the version of
-# elasticsearch we use
-# See https://github.com/elastic/elasticsearch-ruby#compatibility
-gem "elasticsearch-api", "~> 6.0.0"
-gem "elasticsearch-model", "~> 6.0.0"
-gem "elasticsearch-rails", "~> 6.0.0"
+# clever elastic search
+gem 'searchkick'
+
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
