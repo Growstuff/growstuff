@@ -25,7 +25,7 @@ RSpec.describe CropSearchService, type: :service do
         FactoryBot.create(:crop_request, name: 'requested mushroom')
 
         # Child record
-        FactoryBot.create(:crop, name: 'portabello', parent: mushroom)
+        FactoryBot.create(:crop, name: 'portobello', parent: mushroom)
         Crop.reindex if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
       end
 
