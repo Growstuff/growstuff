@@ -8,7 +8,6 @@ describe "Seeds", :js, :elasticsearch do
   before do
     login_as member
     visit new_seed_path
-    sync_elasticsearch [maize]
   end
 
   it_behaves_like "crop suggest", "seed", "crop"

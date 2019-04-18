@@ -56,10 +56,10 @@ class Planting < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
-  validates :sunniness, allow_nil: true, allow_blank: true, inclusion: {
+  validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: "%<value>s is not a valid sunniness value"
   }
-  validates :planted_from, allow_nil: true, allow_blank: true, inclusion: {
+  validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
 
