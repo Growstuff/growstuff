@@ -68,6 +68,7 @@ RSpec.describe CropSearchService, type: :service do
           describe "biased to crops you've planted" do
             let(:owner) { FactoryBot.create :member }
             before do
+              FactoryBot.create_list :planting, 10, crop: brown
               FactoryBot.create :planting, crop: oyster, owner: owner
               FactoryBot.create :planting, crop: oyster, owner: owner
               FactoryBot.create :planting, crop: shitake, owner: owner
