@@ -10,7 +10,7 @@ RSpec.describe CropSearchService, type: :service do
 
     context 'with some crops' do
       let!(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-      let!(:tomato) { FactoryBot.create(:crop ,name: 'tomato') }
+      let!(:tomato) { FactoryBot.create(:crop, name: 'tomato') }
       let!(:taewa) { FactoryBot.create(:crop, name: 'taewa') }
       let!(:zucchini) { FactoryBot.create(:crop, name: 'zucchini') }
       let!(:broccoli) { FactoryBot.create(:crop, name: 'broccoli') }
@@ -43,6 +43,40 @@ RSpec.describe CropSearchService, type: :service do
           it { expect(search('mushrom')).to eq ['mushroom'] }
           it { expect(search('zuchini')).to eq ['zucchini'] }
           it { expect(search('brocoli')).to eq ['broccoli'] }
+        end
+
+        describe 'biased' do
+          # Make some crops with planting counts
+          let!(:mushroom_parent) { FactoryBot.create :crop, name: 'mushroom' }
+          let!(:oyster) { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
+          let!(:shitake) { FactoryBot.create :crop, name: 'shitake mushroom', parent: mushroom_parent }
+          let!(:common) { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
+          let!(:brown) { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
+          let!(:white) { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
+
+          describe 'biased to higher planting counts' do
+            before do
+              # Having plantings should bring these crops to the top of the search results
+              FactoryBot.create_list :planting, 10, crop: white
+              FactoryBot.create_list :planting, 4, crop: shitake
+              Crop.reindex
+            end
+            subject { search('mushroom') }
+            it { expect(subject.first).to eq 'white mushroom' }
+            it { expect(subject.second).to eq 'shitake mushroom' }
+          end
+          describe "biased to crops you've planted" do
+            let(:owner) { FactoryBot.create :member }
+            before do
+              FactoryBot.create :planting, crop: oyster, owner: owner
+              FactoryBot.create :planting, crop: oyster, owner: owner
+              FactoryBot.create :planting, crop: shitake, owner: owner
+              Crop.reindex
+            end
+            subject { CropSearchService.search('mushroom', current_member: owner).map(&:name) }
+            it { expect(subject.first).to eq oyster.name }
+            it { expect(subject.second).to eq shitake.name }
+          end
         end
       end
 
