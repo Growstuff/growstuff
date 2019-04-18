@@ -1,0 +1,12 @@
+- content_for :title, @garden_type.name.capitalize
+- content_for :subtitle, @garden_type.subtitler(@garden_type)
+
+- if can?(:create, @garden_type) && can?(:edit, @garden_type) && can?(:destroy, @garden_type)
+  - content_for :buttonbar do
+    = render 'garden_types/actions', garden_type: @garden_type
+
+- if @garden_type.gardens.uniq.empty?
+  %p There are no gardens to display.
+- else
+  - @garden_type.gardens.uniq.each do |garden|
+    = render 'gardens/overview', garden: garden

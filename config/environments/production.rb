@@ -80,7 +80,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Growstuff configuration
-  config.action_mailer.default_url_options = { host: ENV['MAIL_SENDER_HOST'] }
+  config.action_mailer.default_url_options = { host: ENV['HOST'] }
 
   config.action_mailer.smtp_settings = {
     user_name:            ENV['SENDGRID_USERNAME'],
