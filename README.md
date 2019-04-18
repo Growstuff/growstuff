@@ -17,7 +17,7 @@ encourage participation from people of all backgrounds and skill levels.
 
 ## Important links
 
-* [Issues](http://github.com/Growstuff/growstuff/issues) (features we're
+* [Issues](https://github.com/orgs/Growstuff/projects/1) (features we're
   working on, known bugs, etc)
 * [IRC](https://webchat.freenode.net/) growstuff channel (general chat, brainstorming and troubleshooting) or [Gitter](https://gitter.im/Growstuff/growstuff)
 * [Wiki](https://github.com/Growstuff/growstuff/wiki) (general documentation, etc. Help by migrating from the [old wiki](https://web.archive.org/web/*/wiki.growstuff.org))
@@ -44,9 +44,9 @@ You might like to check out:
 
 Here on Github, you might find these useful:
 
-* [Waffle](http://waffle.io/Growstuff/growstuff) has stories in "ready" that can be worked on.
+* [Github Project Board](https://github.com/orgs/Growstuff/projects/1) has stories in "ready" that can be worked on.
 * [needs: design](https://github.com/Growstuff/growstuff/labels/needs:%20design) - tasks requiring high-level design
-* [needs: visual design](https://github.com/Growstuff/growstuff/labels/needs:%20visual design) - tasks requiring visual/graphical design
+* [needs: visual design](https://github.com/Growstuff/growstuff/labels/needs:%20visual+design) - tasks requiring visual/graphical design
 * [needs: documentation](https://github.com/Growstuff/growstuff/labels/needs:%20documentation)
 * [needs: data](https://github.com/Growstuff/growstuff/labels/needs:%20data) - tasks requiring data entry, data design, data import, or similar
 * [curated:beginner](https://github.com/Growstuff/growstuff/labels/curated:%20beginner) - tasks that are ideal for beginner programmers or people new to the project
