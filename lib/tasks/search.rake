@@ -1,6 +1,8 @@
 namespace :search do
   desc 'reindex'
   task reindex: :environment do
-    puts Crop.reindex
+    Crop.all.each_slice(50) do |batch|
+      Crop.searchkick_index.import(batch)
+    end
   end
 end
