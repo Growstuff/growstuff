@@ -1,7 +1,8 @@
 module IconsHelper
   include FontAwesome::Sass::Rails::ViewHelpers
+
   def garden_icon
-    icon('far', 'square')
+    icon('fas', 'square')
   end
 
   def planting_icon
@@ -21,7 +22,7 @@ module IconsHelper
   end
 
   def edit_icon
-    icon('far', 'edit')
+    icon('fas', 'edit')
   end
 
   def delete_icon
@@ -36,6 +37,10 @@ module IconsHelper
     icon('fas', 'seedling')
   end
 
+  def blog_icon
+    icon('fas', 'pen')
+  end
+
   def perennial_icon
     icon('fas', 'tree')
   end
@@ -45,6 +50,10 @@ module IconsHelper
   end
 
   def sunniness_icon(sunniness)
-    image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness)
+    if sunniness.present?
+      image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness, width: 55)
+    else
+      image_tag("sunniness_not_specified.png", class: 'img', alt: 'unknown', width: 55)
+    end
   end
 end
