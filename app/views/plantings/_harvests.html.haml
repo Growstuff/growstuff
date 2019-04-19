@@ -1,7 +1,7 @@
 %h2 Harvests
 - if planting.harvests.empty?
   %p No harvests recorded
-  - if can?(:edit, planting) && can?(:create, Harvest)
+  - if !planting.finished? && can?(:edit, planting) && can?(:create, Harvest)
     %p Record your harvests here to improve crop predictions, and you'll be able to compare with your garden next season.
 - else
   .row
