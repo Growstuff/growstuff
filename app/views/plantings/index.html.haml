@@ -13,7 +13,7 @@
   = page_entries_info @plantings
   = will_paginate @plantings
 
-.row= render @plantings || "empty_list"
+.row= render(@plantings) || "empty_list"
 
 .pagination
   = page_entries_info @plantings
