@@ -63,6 +63,9 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
     bluecloth (2.2.0)
+    bonsai-elasticsearch-rails (7.0.1)
+      elasticsearch-model (< 8)
+      elasticsearch-rails (< 8)
     bootstrap-datepicker-rails (1.8.0.1)
       railties (>= 3.0)
     bootstrap-kaminari-views (0.0.5)
@@ -92,8 +95,8 @@ GEM
       capybara (>= 1.0, < 4)
       launchy
     chartkick (3.0.2)
-    childprocess (1.0.1)
-      rake (< 13.0)
+    childprocess (0.9.0)
+      ffi (~> 1.0, >= 1.0.11)
     cliver (0.3.2)
     codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
@@ -144,6 +147,11 @@ GEM
       elasticsearch-transport (= 6.2.0)
     elasticsearch-api (6.2.0)
       multi_json
+    elasticsearch-model (6.0.0)
+      activesupport (> 3)
+      elasticsearch (> 1)
+      hashie
+    elasticsearch-rails (6.0.0)
     elasticsearch-transport (6.2.0)
       faraday
       multi_json
@@ -513,6 +521,7 @@ DEPENDENCIES
   active_utils
   better_errors
   bluecloth
+  bonsai-elasticsearch-rails
   bootstrap-datepicker-rails
   bootstrap-kaminari-views
   bootstrap-sass
