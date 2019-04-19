@@ -14,9 +14,9 @@
 
 .planting
   .row
-    .col-md-8.col-xs-6
+    .col-md-8.col-xs-12
       = render 'facts', planting: @planting
-    .col-md-4.col-xs-6.pull-right
+    .col-md-4.col-xs-12.pull-right
       = render 'plantings/owner', planting: @planting
   .row
     .col-md-8.col-xs-12
@@ -26,7 +26,7 @@
           #{strip_tags(@planting.description)}
       = render 'plantings/photos', photos: @photos, planting: @planting
       %p.text-right= link_to 'more photos', planting_photos_path(@planting)
-    .col-md-4.col-xs-6.pull-right
+    .col-md-4.col-xs-12.pull-right
       = render "crops/index_card", crop: @planting.crop
   .row
     .col-md-12
