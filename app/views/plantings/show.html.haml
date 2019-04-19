@@ -1,6 +1,6 @@
 = content_for :title, "#{@planting.crop} in #{@planting.location}"
 - content_for :opengraph do
-  - @planting.crop.photos.each do |photo|
+  - @planting.crop.photos.limit(3).each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
   = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")
   - if @planting.description
@@ -14,31 +14,22 @@
 
 .planting
   .row
-    .col-xs-12.col-sm-8
-      .row
-        = render 'facts', planting: @planting
-
-      %hr/
-
-      - if @planting.photos.size.positive?
-        .row
-          .col-sm-8
-            .planting-full-badges= render 'plantings/badges', planting: @planting
-            = link_to @planting.default_photo do
-              = render @planting.default_photo
-          .col-sm-4
-            = render 'photos/gallery', photos: @photos.limit(4)
-            = link_to 'more photos', planting_photos_path(@planting)
-        %hr
-
+    .col-md-8.col-xs-6
+      = render 'facts', planting: @planting
+    .col-md-4.col-xs-6.pull-right
+      = render 'plantings/owner', planting: @planting
+  .row
+    .col-md-8.col-xs-12
       - if @planting.description.present?
         %h2 Notes
         :growstuff_markdown
           #{strip_tags(@planting.description)}
-
+      = render 'plantings/photos', photos: @photos, planting: @planting
+      %p.text-right= link_to 'more photos', planting_photos_path(@planting)
+    .col-md-4.col-xs-6.pull-right
+      = render "crops/index_card", crop: @planting.crop
+  .row
+    .col-md-12
       = render 'plantings/harvests', planting: @planting
+    .col-md-12
       = render 'plantings/descendants', planting: @planting
-    .col-sm-4
-      .row
-        .col-xs-8.col-sm-12= render "crops/index_card", crop: @planting.crop
-        .col-xs-4.col-sm-12= render 'plantings/owner', planting: @planting
