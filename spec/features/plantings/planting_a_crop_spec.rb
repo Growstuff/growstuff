@@ -46,7 +46,6 @@ describe "Planting a crop", :js, :elasticsearch do
     end
 
     it { expect(page).to have_content "planting was successfully created" }
-    it { expect(page).to have_content "Not enough data" }
   end
 
   describe "Clicking link to owner's profile" do
@@ -134,7 +133,6 @@ describe "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "100%"
       expect(page).to have_content "Yes (no date specified)"
     end
 
@@ -152,7 +150,6 @@ describe "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "100%"
       expect(page).to have_content "Finished"
     end
   end
