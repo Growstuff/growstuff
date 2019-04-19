@@ -22,7 +22,9 @@
     .fact
       %h2 Quantity
       %strong= planting.quantity
-      %span #{pluralize((planting.quantity.to_i), planting.planted_from)}
+      %span
+        - if planting.planted_from.present?
+          #{pluralize((planting.quantity.to_i), planting.planted_from)}
 
   - unless planting.finished?
     .fact.grid-sizer
