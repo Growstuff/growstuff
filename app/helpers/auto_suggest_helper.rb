@@ -1,5 +1,4 @@
 module AutoSuggestHelper
-  # rubocop:disable Rails/OutputSafety
   def auto_suggest(resource, source, options = {})
     if options[:default] && !options[:default].new_record?
       default = options[:default]
