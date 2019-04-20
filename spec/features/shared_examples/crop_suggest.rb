@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 shared_examples "crop suggest" do |resource|
-  let!(:pea) { create :crop, name: 'pea' }
-  let!(:pear) { create :pear }
-  let!(:tomato) { create :tomato }
-  let!(:roma) { create :roma }
-
-  background { sync_elasticsearch [pea, pear, maize, tomato] }
+  let!(:pea)    { create :crop, name: 'pea' }
+  let!(:pear)   { create :pear              }
+  let!(:tomato) { create :tomato            }
+  let!(:roma)   { create :roma              }
 
   scenario "placeholder text in crop auto suggest field" do
     expect(page).to have_selector("input[placeholder='e.g. lettuce']")

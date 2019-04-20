@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_30_090437) do
+ActiveRecord::Schema.define(version: 2019_03_26_224347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,13 @@ ActiveRecord::Schema.define(version: 2019_01_30_090437) do
     t.index ["slug"], name: "index_forums_on_slug", unique: true
   end
 
+  create_table "garden_types", force: :cascade do |t|
+    t.text "name", null: false
+    t.text "slug", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "gardens", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.integer "owner_id"
@@ -213,6 +220,8 @@ ActiveRecord::Schema.define(version: 2019_01_30_090437) do
     t.float "longitude"
     t.decimal "area"
     t.string "area_unit"
+    t.integer "garden_type_id"
+    t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
   end
@@ -385,12 +394,13 @@ ActiveRecord::Schema.define(version: 2019_01_30_090437) do
     t.string "sunniness"
     t.string "planted_from"
     t.integer "owner_id"
-    t.boolean "finished", default: false
+    t.boolean "finished", default: false, null: false
     t.date "finished_at"
     t.integer "lifespan"
     t.integer "days_to_first_harvest"
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
+    t.integer "harvests_count", default: 0
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 

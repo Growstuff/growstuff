@@ -1,1 +1,3 @@
-= render "plantings/progress_bar", status: planting_status(planting), progress: planting.percentage_grown
+.progress
+  - if planting.percentage_grown.present?
+    = render "plantings/progress_bar", status: planting_status(planting), progress: planting.percentage_grown

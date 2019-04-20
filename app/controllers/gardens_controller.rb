@@ -13,6 +13,7 @@ class GardensController < ApplicationController
     @gardens = @gardens.active unless @show_all
     @gardens = @gardens.where(owner: @owner) if @owner.present?
     @gardens = @gardens.joins(:owner).order(:name).paginate(page: params[:page])
+    @gardens = @gardens.includes(:owner, plantings: [:owner, crop: :parent])
     respond_with(@gardens)
   end
 
@@ -67,6 +68,6 @@ class GardensController < ApplicationController
 
   def garden_params
     params.require(:garden).permit(:name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit)
+      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id)
   end
 end

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-feature "seeds", js: true do
+describe "seeds", js: true do
   let(:member) { create :member }
 
   context "signed in user" do
     let(:crop) { create :crop }
 
-    background { login_as member }
+    before { login_as member }
 
     describe "button on index to edit seed" do
       let!(:seed) { create :seed, owner: member }
@@ -41,7 +41,7 @@ feature "seeds", js: true do
 
     # actually adding seeds is in spec/features/seeds_new_spec.rb
 
-    scenario "edit seeds" do
+    it "edit seeds" do
       seed = create :seed, owner: member
       visit seed_path(seed)
       click_link 'Edit'

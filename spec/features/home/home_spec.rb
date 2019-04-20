@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "home page" do
+describe "home page" do
   subject { page }
 
   let(:member) { FactoryBot.create :member }
@@ -9,14 +9,14 @@ feature "home page" do
   let(:crop) { FactoryBot.create :crop, created_at: 1.day.ago }
 
   let(:planting) { FactoryBot.create :planting, owner: member, crop: crop }
-  let(:seed) { FactoryBot.create :tradable_seed, owner: member, crop: crop }
-  let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop }
+  let(:seed)    { FactoryBot.create :tradable_seed, owner: member, crop: crop }
+  let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop       }
 
   let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
-  let!(:finished_seed) { FactoryBot.create :tradable_seed, finished: true }
-  let!(:untradable_seed) { FactoryBot.create :untradable_seed }
+  let!(:finished_seed)   { FactoryBot.create :tradable_seed, finished: true }
+  let!(:untradable_seed) { FactoryBot.create :untradable_seed               }
 
-  background do
+  before do
     # Add photos, so they can appear on home page
     planting.photos << photo
     seed.photos << photo
@@ -27,13 +27,13 @@ feature "home page" do
 
   shared_examples 'shows seeds' do
     it "show tradeable seed" do
-      is_expected.to have_link href: seed_path(tradable_seed)
+      expect(subject).to have_link href: seed_path(tradable_seed)
     end
     it "does not show finished seeds" do
-      is_expected.not_to have_link href: seed_path(finished_seed)
+      expect(subject).not_to have_link href: seed_path(finished_seed)
     end
     it "does not show untradable seeds" do
-      is_expected.not_to have_link href: seed_path(untradable_seed)
+      expect(subject).not_to have_link href: seed_path(untradable_seed)
     end
 
     it { is_expected.to have_text 'View all seeds' }
@@ -41,14 +41,14 @@ feature "home page" do
 
   shared_examples 'show plantings' do
     it 'shows plantings section' do
-      is_expected.to have_text 'Recently Planted'
-      is_expected.to have_link href: planting_path(planting)
+      expect(subject).to have_text 'Recently Planted'
+      expect(subject).to have_link href: planting_path(planting)
     end
   end
   shared_examples 'show harvests' do
     it 'shows harvests section' do
-      is_expected.to have_text 'Recently Harvested'
-      is_expected.to have_link href: harvest_path(harvest)
+      expect(subject).to have_text 'Recently Harvested'
+      expect(subject).to have_link href: harvest_path(harvest)
     end
   end
 
@@ -61,12 +61,12 @@ feature "home page" do
     describe 'shows recently added crops' do
       it { is_expected.to have_text 'Recently Added' }
       it 'link to newest crops' do
-        is_expected.to have_link crop.name, href: crop_path(crop)
+        expect(subject).to have_link crop.name, href: crop_path(crop)
       end
     end
 
     it 'includes a link to all crops' do
-      is_expected.to have_link 'View all crops'
+      expect(subject).to have_link 'View all crops'
     end
   end
 
@@ -79,7 +79,8 @@ feature "home page" do
   end
 
   context "when signed in" do
-    background { login_as member }
+    before { login_as member }
+
     include_examples 'show crops'
     include_examples 'show plantings'
     include_examples 'show harvests'

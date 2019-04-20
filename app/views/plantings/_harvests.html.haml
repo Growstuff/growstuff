@@ -1,10 +1,11 @@
 %h2 Harvests
 - if planting.harvests.empty?
-  %p No harvests
+  %p No harvests recorded
+  - if !planting.finished? && can?(:edit, planting) && can?(:create, Harvest)
+    %p Record your harvests here to improve crop predictions, and you'll be able to compare with your garden next season.
 - else
   .row
     - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
-      .col-xs-6.col-sm-4.col-md-3
-        = render 'harvests/thumbnail', harvest: harvest
+      .col-md-2.col-sm-6= render 'harvests/thumbnail', harvest: harvest
 
 = planting_harvest_button(planting)

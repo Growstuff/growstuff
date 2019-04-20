@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature "signin", js: true do
-  let(:member) { FactoryBot.create :member }
-  let(:recipient) { FactoryBot.create :member }
-  let(:wrangler) { FactoryBot.create :crop_wrangling_member }
+describe "signin", js: true do
+  let(:member)       { FactoryBot.create :member                             }
+  let(:recipient)    { FactoryBot.create :member                             }
+  let(:wrangler)     { FactoryBot.create :crop_wrangling_member              }
   let(:notification) { FactoryBot.create :notification, recipient: recipient }
 
   def login
@@ -12,34 +12,34 @@ feature "signin", js: true do
     click_button 'Sign in'
   end
 
-  scenario "via email address" do
+  it "via email address" do
     visit crops_path # some random page
     click_link 'Sign in'
     login
     expect(page).to have_content("Sign out")
   end
 
-  scenario "redirect to previous page after signin" do
+  it "redirect to previous page after signin" do
     visit crops_path # some random page
     click_link 'Sign in'
     login
     expect(current_path).to eq crops_path
   end
 
-  scenario "don't redirect to devise pages after signin" do
+  it "don't redirect to devise pages after signin" do
     visit new_member_registration_path # devise signup page
     click_link 'Sign in'
     login
     expect(current_path).to eq root_path
   end
 
-  scenario "redirect to signin page for if not authenticated to view notification" do
+  it "redirect to signin page for if not authenticated to view notification" do
     visit notification_path(notification)
     expect(current_path).to eq new_member_session_path
   end
 
   shared_examples "redirects to what you were trying to do" do
-    scenario do
+    it do
       visit "/#{model_name}/new"
       expect(current_path).to eq new_member_session_path
       login
@@ -55,14 +55,14 @@ feature "signin", js: true do
     end
   end
 
-  scenario "after signin, redirect to new notifications page" do
+  it "after signin, redirect to new notifications page" do
     visit new_notification_path(recipient_id: recipient.id)
     expect(current_path).to eq new_member_session_path
     login
     expect(current_path).to eq new_notification_path
   end
 
-  scenario "after crop wrangler signs in and crops await wrangling, show alert" do
+  it "after crop wrangler signs in and crops await wrangling, show alert" do
     create :crop_request
     visit crops_path # some random page
     click_link 'Sign in'
@@ -73,7 +73,7 @@ feature "signin", js: true do
   end
 
   context "with facebook" do
-    scenario "sign in" do
+    it "sign in" do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
 

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe "seeds/new" do
-  let!(:seed) { FactoryBot.create(:seed, owner: member) }
-  let!(:member) { FactoryBot.create(:member) }
+  let!(:seed)   { FactoryBot.create(:seed, owner: member) }
+  let!(:member) { FactoryBot.create(:member)              }
 
   before do
     sign_in member

@@ -1,12 +1,9 @@
-- cache cache_key_for(Seed, seed.id) do
-  .thumbnail
-    .seed-thumbnail
-      = link_to image_tag(seed_image_path(seed),
-                          alt: seed.name, class: 'img'),
-                          seed
-      .seedinfo
-        .seedname
-          = link_to seed.name, seed
-        %small.trade-to
-          %p #{seed.owner.location}
-          %p Will trade #{seed.tradable_to}
+.thumbnail
+  .seed-thumbnail
+    = link_to image_tag(seed_image_path(seed),
+              alt: seed.crop.name, class: 'img'),
+              seed_path(seed)
+    .seedinfo
+      .seed-name
+        = link_to display_seed_quantity(seed), seed_path(seed)
+  = I18n.l(seed.created_at.to_date)

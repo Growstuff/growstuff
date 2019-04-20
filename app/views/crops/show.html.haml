@@ -51,7 +51,22 @@
             %h3.section-heading.h3.pt-4 Harvested for
             = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-    = render 'varieties', crop: @crop
+    %h2 Photos
+    %p= render 'crops/photos', photos: @photos
+    %p= link_to 'more photos', crop_photos_path(@crop)
+
+    .row
+      .col-md-3
+        %h3 Sunniness
+        = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+      .col-md-3
+        %h3 Planted from
+        = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+      .col-md-3
+        %h3 Harvested for
+        = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
+
+    .varieties= render 'varieties', crop: @crop
 
     %h3 Crop Map
     %p
@@ -86,7 +101,11 @@
     = render 'alternate_names', crop: @crop
 
     - if @crop.parent
+<<<<<<< HEAD
       .parent-crop  
+=======
+      .parent-crop
+>>>>>>> upstream/dev
         = @crop.name
         is a variety of
         = succeed "." do

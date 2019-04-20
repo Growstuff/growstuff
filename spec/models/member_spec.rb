@@ -175,7 +175,7 @@ describe 'member' do
 
   context 'roles' do
     let(:member) { FactoryBot.create(:member) }
-    let(:role) { FactoryBot.create(:role) }
+    let(:role)   { FactoryBot.create(:role)   }
 
     before do
       member.roles << role

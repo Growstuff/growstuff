@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe Crop do
+  let(:pp2)   { FactoryBot.create(:plant_part) }
+  let(:pp1)   { FactoryBot.create(:plant_part) }
+  let(:maize) { FactoryBot.create(:maize)      }
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 
@@ -45,8 +48,8 @@ describe Crop do
   end
 
   context 'popularity' do
-    let(:tomato) { FactoryBot.create(:tomato) }
-    let(:maize) { FactoryBot.create(:maize) }
+    let(:tomato)   { FactoryBot.create(:tomato)                 }
+    let(:maize)    { FactoryBot.create(:maize)                  }
     let(:cucumber) { FactoryBot.create(:crop, name: 'cucumber') }
 
     before do
@@ -142,7 +145,7 @@ describe Crop do
     shared_examples 'has default photo' do
       it { expect(Crop.has_photos).to include(crop) }
     end
-    let!(:crop) { FactoryBot.create :tomato }
+    let!(:crop)  { FactoryBot.create :tomato }
     let(:member) { FactoryBot.create :member }
 
     context 'with a planting photo' do
@@ -150,6 +153,7 @@ describe Crop do
       let!(:planting) { FactoryBot.create(:planting, crop: crop) }
 
       before { planting.photos << photo }
+
       it { expect(crop.default_photo).to eq photo }
       include_examples 'has default photo'
     end
@@ -157,16 +161,19 @@ describe Crop do
     context 'with a harvest photo' do
       let!(:harvest) { FactoryBot.create(:harvest, crop: crop) }
       let!(:photo) { FactoryBot.create(:photo, owner: harvest.owner) }
+
       before { harvest.photos << photo }
+
       it { expect(crop.default_photo).to eq photo }
       include_examples 'has default photo'
 
       context 'and planting photo' do
         let(:planting) { FactoryBot.create(:planting, crop: crop) }
         let!(:planting_photo) { FactoryBot.create(:photo, owner: planting.owner) }
+
         before { planting.photos << planting_photo }
 
-        it 'should prefer the planting photo' do
+        it 'prefers the planting photo' do
           expect(crop.default_photo.id).to eq planting_photo.id
         end
       end
@@ -176,12 +183,18 @@ describe Crop do
       it 'has no default photo' do
         expect(crop.default_photo).to eq nil
       end
+
+      it { expect(crop.photos.size).to eq 3 }
+      it { expect(crop.planting_photos.size).to eq 1 }
+      it { expect(crop.harvest_photos.size).to eq 1 }
+      it { expect(crop.seed_photos.size).to eq 1 }
     end
 
     describe 'finding all photos' do
       let(:planting) { FactoryBot.create :planting, crop: crop }
       let(:harvest) { FactoryBot.create :harvest, crop: crop }
-      let(:seed) { FactoryBot.create :seed, crop: crop }
+      let(:seed)    { FactoryBot.create :seed, crop: crop    }
+
       before do
         # Add photos to all
         planting.photos << FactoryBot.create(:photo, owner: planting.owner)
@@ -341,10 +354,10 @@ describe Crop do
   let(:pp2) { FactoryBot.create(:plant_part) }
 
   context "harvests" do
-    let(:h1) { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
-    let(:h2) { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
-    let!(:crop) { FactoryBot.create(:crop) }
-    let!(:harvest) { FactoryBot.create(:harvest, crop: crop) }
+    let(:h1)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
+    let(:h2)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
+    let!(:crop)    { FactoryBot.create(:crop)                                  }
+    let!(:harvest) { FactoryBot.create(:harvest, crop: crop)                   }
 
     it "has harvests" do
       expect(crop.harvests).to eq [harvest]
@@ -357,35 +370,6 @@ describe Crop do
     @h1 = FactoryBot.create(:harvest, crop: @maize, plant_part: @pp1)
     @h2 = FactoryBot.create(:harvest, crop: @maize, plant_part: @pp1)
     expect(@maize.plant_parts).to eq [@pp1]
-  end
-
-  context "search", :elasticsearch do
-    let(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-
-    before { sync_elasticsearch([mushroom]) }
-
-    it "finds exact matches" do
-      expect(Crop.search('mushroom')).to eq [mushroom]
-    end
-    it "finds approximate matches" do
-      expect(Crop.search('mush')).to eq [mushroom]
-    end
-    it "doesn't find non-matches" do
-      Crop.search('mush').should_not include @crop
-    end
-    it "searches case insensitively" do
-      Crop.search('mUsH').should include mushroom
-    end
-    it "doesn't find 'rejected' crop" do
-      @rejected_crop = FactoryBot.create(:rejected_crop, name: 'tomato')
-      sync_elasticsearch([@rejected_crop])
-      Crop.search('tomato').should_not include @rejected_crop
-    end
-    it "doesn't find 'pending' crop" do
-      @crop_request = FactoryBot.create(:crop_request, name: 'tomato')
-      sync_elasticsearch([@crop_request])
-      Crop.search('tomato').should_not include @crop_request
-    end
   end
 
   context "csv loading" do
@@ -547,9 +531,9 @@ describe Crop do
   end
 
   context "crop-post association" do
-    let!(:tomato) { FactoryBot.create(:tomato) }
-    let!(:maize) { FactoryBot.create(:maize) }
-    let!(:post) { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
+    let!(:tomato) { FactoryBot.create(:tomato)                                                  }
+    let!(:maize)  { FactoryBot.create(:maize)                                                   }
+    let!(:post)   { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
     describe "destroying a crop" do
       before do

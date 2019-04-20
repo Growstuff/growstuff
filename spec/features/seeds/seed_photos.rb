@@ -1,15 +1,15 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-feature "Seeds", :js do
+describe "Seeds", :js do
   subject do
     login_as member
     visit seed_path(seed)
     page
   end
 
-  let(:member) { FactoryBot.create :member }
-  let!(:seed) { FactoryBot.create :seed, owner: member }
+  let(:member) { FactoryBot.create :member              }
+  let!(:seed)  { FactoryBot.create :seed, owner: member }
 
   it { is_expected.to have_content 'Add photo' }
 
@@ -31,16 +31,16 @@ feature "Seeds", :js do
     let!(:photos) { FactoryBot.create_list :photo, 50 }
 
     it "shows newest photo" do
-      is_expected.to have_xpath("//img[contains(@src,'#{photos.last.thumbnail_url}')]")
+      expect(subject).to have_xpath("//img[contains(@src,'#{photos.last.thumbnail_url}')]")
     end
     it "links to newest photo" do
-      is_expected.to have_xpath("//a[contains(@href,'#{photo_path(photos.last)}')]")
+      expect(subject).to have_xpath("//a[contains(@href,'#{photo_path(photos.last)}')]")
     end
     it "does not show oldest photo" do
-      is_expected.not_to have_xpath("//img[contains(@src,'#{photos.first.thumbnail_url}')]")
+      expect(subject).not_to have_xpath("//img[contains(@src,'#{photos.first.thumbnail_url}')]")
     end
     it "does not link to oldest photo" do
-      is_expected.not_to have_xpath("//a[contains(@href,'#{photo_path(photos.first)}')]")
+      expect(subject).not_to have_xpath("//a[contains(@href,'#{photo_path(photos.first)}')]")
     end
   end
 end

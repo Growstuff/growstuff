@@ -11,11 +11,14 @@ describe CropsController do
     describe 'fetches the crop wrangler homepage' do
       context 'anonymous' do
         before { get :wrangle }
+
         it { is_expected.not_to be_success }
       end
+
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :wrangle }
+
         it { is_expected.to be_success }
         it { is_expected.to render_template("crops/wrangle") }
         it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
@@ -28,6 +31,7 @@ describe CropsController do
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :hierarchy }
+
         it { is_expected.to be_success }
         it { is_expected.to render_template("crops/hierarchy") }
       end
@@ -36,10 +40,21 @@ describe CropsController do
 
   describe "GET crop search" do
     describe 'fetches the crop search page' do
-      before { get :search }
+      let!(:tomato) { FactoryBot.create :tomato }
+      let!(:maize)  { FactoryBot.create :maize }
+      before { Crop.reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true" }
+      describe 'search form page' do
+        before { get :search }
 
-      it { is_expected.to be_success }
-      it { is_expected.to render_template("crops/search") }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template("crops/search") }
+      end
+
+      describe 'perform a search' do
+        before { get :search, params: { term: 'tom' } }
+        it { expect(assigns(:term)).to eq 'tom' }
+        it { expect(assigns(:crops).map(&:name)).to eq ['tomato'] }
+      end
     end
   end
 
@@ -54,17 +69,21 @@ describe CropsController do
   end
 
   describe 'DELETE destroy' do
-    let!(:crop) { FactoryBot.create :crop }
     subject { delete :destroy, params: { slug: crop.to_param } }
+
+    let!(:crop) { FactoryBot.create :crop }
+
     context 'not logged in' do
-      it { expect { subject }.not_to change { Crop.count } }
+      it { expect { subject }.not_to change(Crop, :count) }
     end
+
     context 'logged in as member' do
-      it { expect { subject }.not_to change { Crop.count } }
+      it { expect { subject }.not_to change(Crop, :count) }
     end
+
     context 'wrangler' do
       include_context 'login as wrangler'
-      it { expect { subject }.to change { Crop.count }.by -1 }
+      it { expect { subject }.to change(Crop, :count).by -1 }
     end
   end
 end

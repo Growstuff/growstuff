@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "crop detail page", js: true do
+describe "crop detail page", js: true do
   subject do
     # Update the medians after all the
     # data has been loaded
@@ -14,82 +14,11 @@ feature "crop detail page", js: true do
   let(:crop) { create :crop }
 
   context "varieties" do
-    scenario "The crop DOES NOT have varieties" do
+    it "The crop DOES NOT have varieties" do
       visit crop_path(crop)
 
       within ".varieties" do
-        expect(page).to have_no_selector('li', text: /tomato/i)
-        expect(page).to have_no_selector('button', text: /Show+/i)
-      end
-    end
-
-    scenario "The crop has one variety" do
-      create :crop, name: 'Roma tomato 1', parent: crop
-
-      subject
-
-      within ".varieties" do
-        # It lists all 2 items (note: including the top level item.)
-        expect(page).to have_selector('li', text: /tomato/i, count: 2)
-        # It DOES NOT have "Show all/less" toggle link
-        expect(page).to have_no_selector('button', text: /Show+/i)
-      end
-    end
-
-    context "many" do
-      let!(:roma1) { create :crop, name: 'Roma tomato 1', parent: crop }
-      let!(:roma2) { create :crop, name: 'Roma tomato 2', parent: crop }
-      let!(:roma3) { create :crop, name: 'Roma tomato 3', parent: crop }
-      let!(:roma4) { create :crop, name: 'Roma tomato 4', parent: crop }
-
-      scenario "The crop has 4 varieties" do
-        subject
-
-        within ".varieties" do
-          # It lists all 5 items (note: including the top level item.)
-          expect(page).to have_selector('li', text: /tomato/i, count: 5)
-          # It DOES NOT have "Show all/less" toggle link
-          expect(page).to have_no_selector('button', text: /Show+/i)
-        end
-      end
-
-      scenario "The crop has 5 varieties, including grandchild", js: true do
-        create :crop, name: 'Roma tomato child 1', parent: roma4
-
-        subject
-
-        within ".varieties" do
-          # It lists the first 5 items (note: including the top level item.)
-          # It HAS have "Show all" toggle link but not "Show less" link
-          expect(page).to have_selector('li', text: /tomato/i, count: 5)
-          expect(page).to have_selector('li', text: 'Roma tomato 4')
-          expect(page).to have_no_selector('li', text: 'Roma tomato child 1')
-          # It shows the total number (5) correctly
-          expect(page).to have_selector('button', text: /Show all 5 +/i)
-          expect(page).to have_no_selector('button', text: /Show less+/i)
-
-          # Clik "Show all" link
-          page.find('button', text: /Show all+/).click
-
-          # It lists all 6 items (note: including the top level item.)
-          # It HAS have "Show less" toggle link but not "Show all" link
-          expect(page).to have_selector('li', text: /tomato/i, count: 6)
-          expect(page).to have_selector('li', text: 'Roma tomato 4')
-          expect(page).to have_selector('li', text: 'Roma tomato child 1')
-          expect(page).to have_no_selector('button', text: /Show all+/i)
-          expect(page).to have_selector('button', text: /Show less+/i)
-
-          # Clik "Show less" link
-          page.find('button', text: /Show less+/).click
-
-          # It lists 5 items (note: including the top level item.)
-          # It HAS have "Show all" toggle link but not "Show less" link
-          expect(page).to have_selector('li', text: /tomato/i, count: 5)
-          expect(page).to have_selector('li', text: 'Roma tomato 4')
-          expect(page).to have_no_selector('li', text: 'Roma tomato child 1')
-          expect(page).to have_selector('button', text: /Show all 5 +/i)
-          expect(page).to have_no_selector('button', text: /Show less+/i)
-        end
+        expect(page).not_to have_text 'tomato'
       end
     end
   end
@@ -97,54 +26,54 @@ feature "crop detail page", js: true do
   context "signed in member" do
     let(:member) { create :member }
 
-    background do
+    before do
       login_as(member)
     end
 
     context "action buttons" do
-      background { subject }
+      before { subject }
 
-      scenario "has a link to plant the crop" do
+      it "has a link to plant the crop" do
         expect(page).to have_link "Plant #{crop.name}", href: new_planting_path(crop_id: crop.id)
       end
-      scenario "has a link to harvest the crop" do
+      it "has a link to harvest the crop" do
         expect(page).to have_link "Harvest #{crop.name}", href: new_harvest_path(crop_id: crop.id)
       end
-      scenario "has a link to add seeds" do
+      it "has a link to add seeds" do
         expect(page).to have_link "Add #{crop.name} seeds to stash", href: new_seed_path(crop_id: crop.id)
       end
     end
 
     context "SEO" do
-      background { subject }
+      before { subject }
 
-      scenario "has seed heading with SEO" do
+      it "has seed heading with SEO" do
         expect(page).to have_content "Find #{crop.name} seeds"
       end
 
-      scenario "has harvest heading with SEO" do
+      it "has harvest heading with SEO" do
         expect(page).to have_content "#{crop.name.capitalize} harvests"
       end
 
-      scenario "has planting heading with SEO" do
+      it "has planting heading with SEO" do
         expect(page).to have_content "See who's planted #{crop.name.pluralize}"
       end
 
-      scenario "has planting advice with SEO" do
+      it "has planting advice with SEO" do
         expect(page).to have_content "How to grow #{crop.name}"
       end
 
-      scenario "has a link to Wikipedia with SEO" do
+      it "has a link to Wikipedia with SEO" do
         expect(page).to have_content "Learn more about #{crop.name}"
         expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
 
-      scenario "has a link to OpenFarm" do
+      it "has a link to OpenFarm" do
         expect(page).to have_link "OpenFarm - Growing guide",
           href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
       end
 
-      scenario "has a link to gardenate" do
+      it "has a link to gardenate" do
         expect(page).to have_link "Gardenate - Planting reminders",
           href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
       end
@@ -152,21 +81,21 @@ feature "crop detail page", js: true do
   end
 
   context "seed quantity for a crop" do
-    let(:member) { create :member }
-    let(:seed) { create :seed, crop: crop, quantity: 20, owner: member }
+    let(:member) { create :member                                        }
+    let(:seed)   { create :seed, crop: crop, quantity: 20, owner: member }
 
-    scenario "User not signed in" do
+    it "User not signed in" do
       visit crop_path(seed.crop)
       expect(page).not_to have_content "You have 20 seeds"
     end
 
-    scenario "User signed in" do
+    it "User signed in" do
       login_as(member)
       visit crop_path(seed.crop)
       expect(page).to have_link "You have 20 seeds of this crop."
     end
 
-    scenario "click link to your owned seeds" do
+    it "click link to your owned seeds" do
       login_as(member)
       visit crop_path(seed.crop)
       click_link "You have 20 seeds of this crop."
@@ -190,7 +119,7 @@ feature "crop detail page", js: true do
       end
 
       it "predicts harvest" do
-        is_expected.to have_text("First harvest expected 20 days after planting")
+        expect(subject).to have_text("First harvest expected 20 days after planting")
       end
     end
   end
@@ -213,12 +142,12 @@ feature "crop detail page", js: true do
       end
 
       it "predicts lifespan" do
-        is_expected.to have_text "Median lifespan"
-        is_expected.to have_text "99 days"
+        expect(subject).to have_text "Median lifespan"
+        expect(subject).to have_text "99 days"
       end
 
       it "describes annual crops" do
-        is_expected.to have_text(
+        expect(subject).to have_text(
           "#{crop.name} is an annual crop (living and reproducing in a single year or less)"
         )
       end
@@ -235,7 +164,7 @@ feature "crop detail page", js: true do
       end
 
       it "describes perennial crops" do
-        is_expected.to have_text("#{crop.name} is a perennial crop (living more than two years)")
+        expect(subject).to have_text("#{crop.name} is a perennial crop (living more than two years)")
       end
     end
 

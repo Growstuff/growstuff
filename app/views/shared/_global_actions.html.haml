@@ -1,24 +1,24 @@
 - if signed_in?
   .global-actions.pull-right
-         
     .btn-group
-      = link_to new_planting_path, class: "btn #{current_page?(new_planting_path) ? 'btn-primary' : ''}" do
+      = link_to member_gardens_path(current_member), class: 'btn btn-xs' do
+        = garden_icon
+        = t('links.my_gardens')
+
+    .btn-group
+      = link_to new_planting_path, class: 'btn btn-xs' do
         = planting_icon
-        = t('plantings.plant_something')
+        = t('plantings.plant')
 
-      = link_to new_harvest_path, class: "btn #{current_page?(new_harvest_path) ? 'btn-primary' : ''}" do
+      = link_to new_harvest_path, class: 'btn btn-xs' do
         = harvest_icon
-        = t('harvests.harvest_something')
+        = t('harvests.harvest')
 
-      = link_to new_seed_path, class: "btn #{current_page?(new_seed_path) ? 'btn-primary' : ''}" do
+      = link_to new_seed_path, class: 'btn btn-xs' do
         = seed_icon
         = t('buttons.save_seeds')
 
-    -# .btn-group
-    -#   = link_to t('posts.write_blog_post'), new_post_path, class: 'btn'
-
-    - unless current_page?(member_gardens_path(current_member))
-      .btn-group
-        = link_to member_gardens_path(current_member), class: "btn" do
-          = garden_icon
-          = t('links.my_gardens') 
+    .btn-group
+      = link_to new_post_path, class: 'btn btn-xs' do
+        = blog_icon
+        = t 'posts.write_blog'

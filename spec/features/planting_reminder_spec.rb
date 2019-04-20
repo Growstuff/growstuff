@@ -1,9 +1,9 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-feature "Planting reminder email", :js do
-  let(:member) { create :member }
-  let(:mail) { Notifier.planting_reminder(member) }
+describe "Planting reminder email", :js do
+  let(:member) { create :member                     }
+  let(:mail)   { Notifier.planting_reminder(member) }
 
   # Unfortunately, we can't use the default url options for ActionMailer as configured in
   # test.rb, since this isn't a mailer spec.
@@ -11,16 +11,16 @@ feature "Planting reminder email", :js do
     { host: 'localhost', port: 8080 }
   end
 
-  scenario "has a greeting" do
+  it "has a greeting" do
     expect(mail).to have_content "Hello"
   end
 
   context "when member has no plantings" do
-    scenario "tells you to track your plantings" do
+    it "tells you to track your plantings" do
       expect(mail).to have_content "planting your first crop"
     end
 
-    scenario "doesn't list plantings" do
+    it "doesn't list plantings" do
       expect(mail).not_to have_content "most recent plantings you've told us about"
     end
   end
@@ -31,7 +31,7 @@ feature "Planting reminder email", :js do
     let!(:p1) { create :planting, garden: member.gardens.first, owner: member }
     let!(:p2) { create :planting, garden: member.gardens.first, owner: member }
 
-    scenario "lists plantings" do
+    it "lists plantings" do
       expect(mail).to have_content "most recent plantings you've told us about"
       expect(mail).to have_link p1.to_s, href: planting_url(p1)
       expect(mail).to have_link p2.to_s, href: planting_url(p2)
@@ -40,11 +40,11 @@ feature "Planting reminder email", :js do
   end
 
   context "when member has no harvests" do
-    scenario "tells you to tracking plantings" do
+    it "tells you to tracking plantings" do
       expect(mail).to have_content "Get started now by tracking your first harvest"
     end
 
-    scenario "doesn't list plantings" do
+    it "doesn't list plantings" do
       expect(mail).not_to have_content "the last few things you harvested were"
     end
   end
@@ -55,7 +55,7 @@ feature "Planting reminder email", :js do
     let!(:h1) { create :harvest, owner: member }
     let!(:h2) { create :harvest, owner: member }
 
-    scenario "lists harvests" do
+    it "lists harvests" do
       expect(mail).to have_content "the last few things you harvested were"
       expect(mail).to have_link h1.to_s, href: harvest_url(h1)
       expect(mail).to have_link h2.to_s, href: harvest_url(h2)

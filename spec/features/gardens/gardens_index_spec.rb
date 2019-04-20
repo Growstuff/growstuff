@@ -1,11 +1,11 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-feature "Gardens#index", :js do
+describe "Gardens#index", :js do
   context "Logged in as member" do
     let(:member) { FactoryBot.create :member, login_name: 'shadow' }
 
-    background { login_as member }
+    before { login_as member }
 
     context "with 10 gardens" do
       before do
@@ -72,7 +72,7 @@ feature "Gardens#index", :js do
   describe 'badges' do
     let(:garden) { member.gardens.first }
     let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
-    let(:crop) { FactoryBot.create :crop }
+    let(:crop)   { FactoryBot.create :crop                              }
 
     before do
       # time to harvest = 50 day

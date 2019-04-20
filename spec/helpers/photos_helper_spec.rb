@@ -5,13 +5,13 @@ describe PhotosHelper do
 
   let(:garden) { FactoryBot.create :garden }
 
-  let(:garden_photo) { FactoryBot.create(:photo, thumbnail_url: 'garden.jpg', owner: garden.owner) }
-  let(:planting) { FactoryBot.create :planting, crop: crop, owner: garden.owner }
+  let(:garden_photo)   { FactoryBot.create(:photo, thumbnail_url: 'garden.jpg', owner: garden.owner)   }
+  let(:planting)       { FactoryBot.create :planting, crop: crop, owner: garden.owner                  }
   let(:planting_photo) { FactoryBot.create(:photo, thumbnail_url: 'planting.jpg', owner: garden.owner) }
-  let(:harvest) { FactoryBot.create :harvest, crop: crop, owner: garden.owner }
-  let(:harvest_photo) { FactoryBot.create(:photo, thumbnail_url: 'harvest.jpg', owner: garden.owner) }
-  let(:seed) { FactoryBot.create :seed, crop: crop, owner: garden.owner }
-  let(:seed_photo) { FactoryBot.create(:photo, thumbnail_url: 'seed.jpg', owner: garden.owner) }
+  let(:harvest)        { FactoryBot.create :harvest, crop: crop, owner: garden.owner                   }
+  let(:harvest_photo)  { FactoryBot.create(:photo, thumbnail_url: 'harvest.jpg', owner: garden.owner)  }
+  let(:seed)           { FactoryBot.create :seed, crop: crop, owner: garden.owner                      }
+  let(:seed_photo)     { FactoryBot.create(:photo, thumbnail_url: 'seed.jpg', owner: garden.owner)     }
 
   describe "crops" do
     subject { crop_image_path(crop) }
@@ -22,7 +22,7 @@ describe PhotosHelper do
       before { planting.photos << planting_photo }
 
       it "uses planting photos" do
-        is_expected.to eq planting_photo.thumbnail_url
+        expect(subject).to eq planting_photo.thumbnail_url
       end
     end
 
@@ -30,7 +30,7 @@ describe PhotosHelper do
       before { harvest.photos << harvest_photo }
 
       it "uses harvest photos" do
-        is_expected.to eq harvest_photo.thumbnail_url
+        expect(subject).to eq harvest_photo.thumbnail_url
       end
     end
 
@@ -38,7 +38,7 @@ describe PhotosHelper do
       before { seed.photos << seed_photo }
 
       it "uses seed photos" do
-        is_expected.to eq seed_photo.thumbnail_url
+        expect(subject).to eq seed_photo.thumbnail_url
       end
     end
   end

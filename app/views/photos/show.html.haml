@@ -22,11 +22,15 @@
         = link_to @photo.license_name, @photo.license_url
       - else
         = succeed "." do
-          = @photo.license_name        
-          
+          = @photo.license_name
+
     - if @photo.associations?
       = render "photo_associations", locals: { photo: @photo }
     = render 'photos/actions', photo: @photo
+
+    - if @crops.size.positive?
+      - @crops.each do |crop|
+        = render 'crops/index_card', crop: crop
 
   .col-md-7
     //%img.img-fluid.z-depth-1{:alt => "1", :src => "https://mdbootstrap.com/img/Photos/Slides/img%20(54).jpg"}/

@@ -22,7 +22,7 @@ class PlantingsController < ApplicationController
 
     @plantings = @plantings.joins(:owner, :crop, :garden)
       .order(created_at: :desc)
-      .includes(:crop, :owner, :garden)
+      .includes(:owner, :garden, crop: :parent)
       .paginate(page: params[:page])
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
@@ -34,7 +34,9 @@ class PlantingsController < ApplicationController
     @planting = Planting.includes(:owner, :crop, :garden, :photos)
       .friendly
       .find(params[:id])
-    @photos = @planting.photos.order(date_taken: :desc).includes(:owner).paginate(page: params[:page])
+    @photos = @planting.photos
+      .includes(:owner)
+      .order(date_taken: :desc)
     respond_with @planting
   end
 

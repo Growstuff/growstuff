@@ -6,9 +6,10 @@
     = render partial: "layouts/header"
 
     #maincontainer
+      .row= render 'shared/global_actions'
       .row
         .col-md-6
-  
+
           - if content_for?(:buttonbar)
             = yield(:buttonbar)
 
@@ -19,8 +20,7 @@
                 %small= yield(:subtitle)
 
         .col-md-6
-          = render 'shared/global_actions'
-      
+
       .row
         .col-md-12
           = render partial: "shared/flash_messages", flash: flash

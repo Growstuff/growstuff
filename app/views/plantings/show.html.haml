@@ -1,6 +1,6 @@
 = content_for :title, "#{@planting.crop} in #{@planting.location}"
 - content_for :opengraph do
-  - @planting.crop.photos.each do |photo|
+  - @planting.crop.photos.limit(3).each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
   = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")
   - if @planting.description
@@ -12,80 +12,24 @@
 - content_for :buttonbar do
   = render 'plantings/actions', planting: @planting
 
-.row.planting
-  .col-xs-12.col-sm-6
-    %dl.dl-horizontal.planting-attributes
-      %dt Owner:
-      %dd
-        = link_to @planting.owner, @planting.owner
-        &mdash;
-        = link_to "view all #{@planting.owner}'s plantings", member_plantings_path(@planting.owner)
-
-      %dt Planted on:
-      %dd= @planting.planted_at ? @planting.planted_at : "not specified"
-
-      %dt Where:
-      %dd
-        = link_to "#{@planting.owner}'s", @planting.owner
-        = link_to @planting.garden, @planting.garden
-        - if @planting.owner.location.present?
-          (#{@planting.owner.location})
-      %dt Quantity:
-      %dd= display_planting_quantity(@planting)
-
-      %dt Planted from:
-      %dd
-        - if @planting.parent_seed
-          = link_to @planting.parent_seed, seed_path(@planting.parent_seed)
-        - else
-          = display_planted_from(@planting)
-
-      %dt Sun or shade?
-      %dd
-        - sunniness = @planting.sunniness.blank? ? "not specified" : @planting.sunniness
-        = image_tag("sunniness_#{sunniness}.png", size: "25x25", alt: sunniness, title: sunniness)
-        = sunniness
-
-      - unless @planting.crop.perennial
-        %dt Predicted finish:
-        %dd
-          - if @planting.finish_predicted_at.present?
-            = @planting.finish_predicted_at
-          - elsif @planting.planted_at.blank?
-            %strong Set planted date to get predictions
-        - if @planting.finished?
-          %dt Finished:
-          %dd= display_finished(@planting)
-        - if @planting.crop.median_lifespan.present?
-          %dt Expected Lifespan:
-          %dd #{@planting.crop.median_lifespan} days
-        - if @planting.lifespan.present?
-          %dt Actual Lifespan:
-          %dd #{@planting.lifespan} days
-        - if @planting.days_to_first_harvest.present?
-          %dt First Harvest:
-          %dd #{@planting.days_to_first_harvest} days after planting
-        - if @planting.days_to_last_harvest.present?
-          %dt Last Harvest:
-          %dd #{@planting.days_to_last_harvest} days after planting
-
-      %dt Progress
-      %dd= render 'plantings/progress', planting: @planting, show_explanation: true
-
-  .col-xs-12.col-sm-6
-    = render "crops/index_card", crop: @planting.crop
-    - if @planting.owner.location
-      %p
-        %small
-          View other plantings, members and more near
-          = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
-.row
-  .col-md-6
-    - if @planting.description
-      %h2 Notes
-      :growstuff_markdown
-        #{ @planting.description != "" ? strip_tags(@planting.description) : "No description given." }
-    = render 'plantings/harvests', planting: @planting
-    = render 'plantings/descendants', planting: @planting
-  .col-md-6
-    = render 'photos/item_photos', item: @planting, type: 'planting', photos: @photos
+.planting
+  .row
+    .col-md-8.col-xs-12
+      = render 'facts', planting: @planting
+    .col-md-4.col-xs-12.pull-right
+      = render 'plantings/owner', planting: @planting
+  .row
+    .col-md-8.col-xs-12
+      - if @planting.description.present?
+        %h2 Notes
+        :growstuff_markdown
+          #{strip_tags(@planting.description)}
+      = render 'plantings/photos', photos: @photos, planting: @planting
+      %p.text-right= link_to 'more photos', planting_photos_path(@planting)
+    .col-md-4.col-xs-12.pull-right
+      = render "crops/index_card", crop: @planting.crop
+  .row
+    .col-md-12
+      = render 'plantings/harvests', planting: @planting
+    .col-md-12
+      = render 'plantings/descendants', planting: @planting

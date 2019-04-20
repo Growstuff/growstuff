@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe RobotsController do
   describe '#robots' do
-    let(:production_filename) { 'config/robots.txt' }
+    let(:production_filename) { 'config/robots.txt'         }
     let(:staging_filename)    { 'config/robots.staging.txt' }
 
     before do
