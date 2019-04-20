@@ -133,7 +133,7 @@ describe "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Yes (no date specified)"
+      expect(page).to have_content "Finished"
     end
 
     it "shows that planting is 100% complete (date specified)" do
