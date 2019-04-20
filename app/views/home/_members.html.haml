@@ -1,6 +1,6 @@
 - cache cache_key_for(Member) do
   .hidden-xs
-    - members = Member.includes(plantings: :crop).interesting.first(6)
+    - members = Member.includes(plantings: :crop).interesting.first(8)
     - if members.present?
       %section
       %h2= t('.title')

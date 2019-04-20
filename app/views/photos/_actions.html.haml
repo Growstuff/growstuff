@@ -2,6 +2,6 @@
   - if can?(:edit, @photo) && can?(:destroy, @photo)
     %p
       - if can?(:edit, @photo)
-        = edit_button(@photo)
+        = edit_button(edit_photo_path(@photo))
       - if can?(:destroy, @photo)
         = delete_button(@photo)

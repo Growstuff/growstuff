@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "garden_types/edit" do
-  before(:each) do
+  before do
     @owner = FactoryBot.create(:admin_member)
     sign_in @owner
     controller.stub(:current_user) { @owner }

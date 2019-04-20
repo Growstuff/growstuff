@@ -19,6 +19,7 @@ class Garden < ApplicationRecord
   default_scope { joins(:owner) } # Ensures owner exists
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :order_by_name, -> { order("lower(name) asc") }
 
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
@@ -48,7 +49,6 @@ class Garden < ApplicationRecord
   }.freeze
   validates :area_unit, inclusion:   { in:      AREA_UNITS_VALUES.values,
                                        message: "%<value>s is not a valid area unit" },
-                        allow_nil:   true,
                         allow_blank: true
 
   after_validation :cleanup_area

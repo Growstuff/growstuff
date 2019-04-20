@@ -1,14 +1,14 @@
-- content_for :title, "Photos"
-
-- if @crop
-  %h2= @crop.name
-
-%p Most recent photos added to #{ENV['GROWSTUFF_SITE_NAME']}.
+- content_for :title do
+  - if @crop
+    Photos of #{@crop.name}
+  - elsif @planting.present?
+    Photos of #{@planting}
+  - else
+    Most recent photos added to #{ENV['GROWSTUFF_SITE_NAME']}.
 
 .pagination
   = page_entries_info @photos
   = will_paginate @photos
-
 
 .row
   - @photos.each do |p|
