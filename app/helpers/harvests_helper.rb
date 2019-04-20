@@ -11,7 +11,7 @@ module HarvestsHelper
   end
 
   def display_human_quantity(harvest)
-    return harvest.plant_part.name unless harvest.quantity.present? && harvest.quantity > 0
+        return unless harvest.quantity.present? && harvest.quantity > 0
 
     if harvest.unit == 'individual' # just the number
       number_to_human(harvest.quantity, strip_insignificant_zeros: true)
