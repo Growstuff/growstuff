@@ -1,0 +1,11 @@
+%h2 Photos
+- if planting.photos.size.positive?
+  = render 'photos/gallery', photos: photos
+  - if can?(:edit, planting) && can?(:create, Photo)
+    %p.text-right= add_photo_button(planting)
+  %hr
+- else
+  %p No photos.
+  - if can?(:edit, planting) && can?(:create, Photo)
+    %p Add a photo to visually track growth of this planting
+    = add_photo_button(planting)

@@ -12,7 +12,6 @@ describe "Planting a crop", :js, :elasticsearch do
   before do
     login_as member
     visit new_planting_path
-    sync_elasticsearch [maize]
   end
 
   it_behaves_like "crop suggest", "planting"
@@ -32,26 +31,29 @@ describe "Planting a crop", :js, :elasticsearch do
     it { expect(page).to have_optional 'input#planting_finished_at' }
   end
 
-  it "Creating a new planting" do
-    fill_autocomplete "crop", with: "mai"
-    select_from_autocomplete "maize"
-    within "form#new_planting" do
-      fill_in "When", with: "2014-06-15"
-      fill_in "How many?", with: 42
-      select "cutting", from: "Planted from:"
-      select "semi-shade", from: "Sun or shade?"
-      fill_in "Tell us more about it", with: "It's rad."
-      click_button "Save"
+  describe "Creating a new planting" do
+    before do
+      fill_autocomplete "crop", with: "mai"
+      select_from_autocomplete "maize"
+      within "form#new_planting" do
+        fill_in "When", with: "2014-06-15"
+        fill_in "How many?", with: 42
+        select "cutting", from: "Planted from:"
+        select "semi-shade", from: "Sun or shade?"
+        fill_in "Tell us more about it", with: "It's rad."
+        click_button "Save"
+      end
     end
 
-    expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Not enough data"
+    it { expect(page).to have_content "planting was successfully created" }
   end
 
-  it "Clicking link to owner's profile" do
-    visit member_plantings_path(member)
-    click_link "View #{member}'s profile >>"
-    expect(current_path).to eq member_path(member)
+  describe "Clicking link to owner's profile" do
+    before do
+      visit member_plantings_path(member)
+      click_link "View #{member}'s profile >>"
+    end
+    it { expect(current_path).to eq member_path(member) }
   end
 
   describe "Progress bar status on planting creation" do
@@ -93,7 +95,8 @@ describe "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "Not enough data"
+      expect(page).not_to have_content "Finished"
+      expect(page).not_to have_content "Finishes"
     end
 
     it "shows that planting is in progress" do
@@ -112,7 +115,8 @@ describe "Planting a crop", :js, :elasticsearch do
 
       expect(page).to have_content "planting was successfully created"
       expect(page).not_to have_content "0%"
-      expect(page).not_to have_content "Not enough data"
+      expect(page).not_to have_content "Finished"
+      expect(page).not_to have_content "Finishes"
     end
 
     it "shows that planting is 100% complete (no date specified)" do
@@ -129,8 +133,7 @@ describe "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "100%"
-      expect(page).to have_content "Yes (no date specified)"
+      expect(page).to have_content "Finished"
     end
 
     it "shows that planting is 100% complete (date specified)" do
@@ -147,7 +150,7 @@ describe "Planting a crop", :js, :elasticsearch do
       end
 
       expect(page).to have_content "planting was successfully created"
-      expect(page).to have_content "100%"
+      expect(page).to have_content "Finished"
     end
   end
 
@@ -175,13 +178,13 @@ describe "Planting a crop", :js, :elasticsearch do
 
   it "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
-    expect(page).to have_content "Not enough data"
+    expect(page).not_to have_content "Finishes"
     click_link "Edit"
     check "finished"
     fill_in "Finished date", with: "2015-06-25"
     click_button "Save"
     expect(page).to have_content "planting was successfully updated"
-    expect(page).not_to have_content "Not enough data"
+    expect(page).to have_content "Finished"
   end
 
   it "Marking a planting as finished" do
@@ -214,7 +217,8 @@ describe "Planting a crop", :js, :elasticsearch do
       click_button "Save"
     end
     expect(page).to have_content "planting was successfully created"
-    expect(page).to have_content "Finished: August 30, 2014"
+    expect(page).to have_content "Finished"
+    expect(page).to have_content "30 Aug"
 
     # shouldn't be on the page
     visit plantings_path
@@ -222,7 +226,7 @@ describe "Planting a crop", :js, :elasticsearch do
 
     # show all plantings to see this finished planting
     visit plantings_path(all: 1)
-    expect(page).to have_content "August 30, 2014"
+    expect(page).to have_content "maize"
   end
 
   describe "Marking a planting as finished without a date" do
@@ -236,12 +240,11 @@ describe "Planting a crop", :js, :elasticsearch do
     end
 
     it { expect(page).to have_content "planting was successfully created" }
-    it { expect(page).to have_content "Finished: Yes (no date specified)" }
-    it { expect(page).to have_content "100%" }
+    it { expect(page).to have_content "Finished" }
   end
 
   describe "Planting sunniness" do
-    it "shows the a sunny image" do
+    before "shows the a sunny image" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
@@ -254,34 +257,12 @@ describe "Planting a crop", :js, :elasticsearch do
         click_button "Save"
       end
 
-      expect(page).to have_css("img[alt='sun']")
-    end
-
-    it "shows a sunniness not specified image" do
-      fill_autocomplete "crop", with: "mai"
-      select_from_autocomplete "maize"
-      within "form#new_planting" do
-        fill_in "When", with: "2015-10-15"
-        fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
-        fill_in "Tell us more about it", with: "It's rad."
-        check "Mark as finished"
-        click_button "Save"
-      end
-
-      expect(page).to have_css("img[alt='not specified']")
+      it { expect(page).to have_css("img[alt='sun']") }
     end
   end
 
   describe "Marking a planting as finished from the show page" do
     let(:path) { planting_path(planting) }
-    let(:link_text) { "Mark as finished" }
-
-    it_behaves_like "append date"
-  end
-
-  describe "Marking a planting as finished from the list page" do
-    let(:path) { plantings_path }
     let(:link_text) { "Mark as finished" }
 
     it_behaves_like "append date"

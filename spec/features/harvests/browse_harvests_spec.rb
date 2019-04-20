@@ -14,7 +14,7 @@ describe "browse harvests" do
     before { visit harvests_path }
 
     it 'read more' do
-      is_expected.not_to have_link "Read more"
+      expect(subject).not_to have_link "Read more"
     end
   end
 
@@ -26,11 +26,11 @@ describe "browse harvests" do
     end
 
     it 'read more' do
-      is_expected.to have_link "Read more"
+      expect(subject).to have_link "Read more"
     end
 
     it 'links to #show' do
-      is_expected.to have_link harvest.crop.name, href: harvest_path(harvest)
+      expect(subject).to have_link harvest.crop.name, href: harvest_path(harvest)
     end
   end
 end

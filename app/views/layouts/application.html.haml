@@ -8,6 +8,7 @@
     = render partial: "layouts/header"
 
     #maincontainer
+      .row= render 'shared/global_actions'
       .row
         .col-md-6
           - if content_for?(:title)

@@ -401,6 +401,7 @@ ActiveRecord::Schema.define(version: 2019_04_13_025436) do
     t.integer "days_to_first_harvest"
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
+    t.integer "harvests_count", default: 0
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
