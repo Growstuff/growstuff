@@ -14,6 +14,9 @@ class PhotosController < ApplicationController
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
       @photos = Photo.by_crop(@crop)
+    elsif params[:planting_id]
+      @planting = Planting.find params[:planting_id]
+      @photos = @planting.photos
     else
       @photos = Photo.all
     end

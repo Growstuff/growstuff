@@ -10,9 +10,11 @@ class SeedsController < ApplicationController
   def index
     @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug].present?
     @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug].present?
+    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id].present?
 
     @seeds = @seeds.where(owner: @owner) if @owner.present?
     @seeds = @seeds.where(crop: @crop) if @crop.present?
+    @seeds = @seeds.where(parent_planting: @planting) if @planting.present?
     @seeds = @seeds.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
 
     @filename = csv_filename

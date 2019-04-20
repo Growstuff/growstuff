@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe "plantings/index" do
-  let(:member) { FactoryBot.create(:member)                }
-  let(:garden) { FactoryBot.create(:garden, owner: member) }
-  let(:tomato) { FactoryBot.create(:tomato)                }
-  let(:maize)  { FactoryBot.create(:maize)                 }
+  let(:member) { FactoryBot.create(:member)                 }
+  let(:garden) { FactoryBot.create(:garden, owner: member)  }
+  let(:tomato) { FactoryBot.create(:tomato, name: 'tomato') }
+  let(:maize)  { FactoryBot.create(:maize, name: 'maize')   }
 
   before do
     controller.stub(:current_user) { nil }
@@ -36,19 +36,9 @@ describe "plantings/index" do
     render
   end
 
-  it "renders a list of plantings" do
-    rendered.should have_content tomato.name
-    rendered.should have_content maize.name
-    rendered.should have_content member.login_name
-    rendered.should have_content garden.name
-  end
-
-  it "displays planting time" do
-    rendered.should have_content 'January 13, 2013'
-  end
-
-  it "displays finished time" do
-    rendered.should have_content 'January 20, 2013'
+  describe "renders a list of plantings" do
+    it { expect(rendered).to have_content tomato.name }
+    it { expect(rendered).to have_content maize.name }
   end
 
   it "provides data links" do

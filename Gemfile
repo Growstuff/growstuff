@@ -32,6 +32,9 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'js-routes' # provides access to Rails routes in Javascript
 
+# Boostrap friendly layout for photo galleries
+gem 'isotope-rails'
+
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
 gem 'figaro'                       # for handling config via ENV variables

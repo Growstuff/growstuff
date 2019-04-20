@@ -6,5 +6,5 @@
                           harvest
       .harvestinfo
         .harvest-name
-          = link_to harvest, harvest
+          = link_to display_quantity(harvest), harvest
   = I18n.l(harvest.harvested_at.to_date)
