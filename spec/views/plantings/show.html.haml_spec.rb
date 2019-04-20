@@ -86,7 +86,7 @@ describe "plantings/show" do
     end
 
     it "shows the member's location in parentheses" do
-      expect(rendered).to have_content "#{planting.owner.location}"
+      expect(rendered).to have_content planting.owner.location.to_s
     end
   end
 end
