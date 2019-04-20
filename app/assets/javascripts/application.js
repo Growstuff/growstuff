@@ -18,4 +18,5 @@
 // = require jquery-ui/widgets/autocomplete
 // = require bootstrap-sprockets
 // = require bootstrap-datepicker
+// = require isotope
 // = require_tree .

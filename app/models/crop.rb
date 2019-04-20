@@ -8,9 +8,9 @@ class Crop < ApplicationRecord
 
   ##
   ## Relationships
-  has_many :scientific_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
+  has_many :scientific_names, dependent: :destroy
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
-  has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
+  has_many :alternate_names, dependent: :destroy
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
@@ -34,6 +34,9 @@ class Crop < ApplicationRecord
   scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
+  # Special scope to control if it's in the search index
+  scope :search_import, -> { approved }
+
   ##
   ## Validations
   # Reasons are only necessary when rejecting
@@ -53,47 +56,7 @@ class Crop < ApplicationRecord
   ####################################
   # Elastic search configuration
   if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    include Elasticsearch::Model
-    include Elasticsearch::Model::Callbacks
-    # In order to avoid clashing between different environments,
-    # use Rails.env as a part of index name (eg. development_growstuff)
-    index_name [Rails.env, "growstuff"].join('_')
-    settings index:    { number_of_shards: 1 },
-             analysis: {
-               tokenizer: {
-                 gs_edgeNGram_tokenizer: {
-                   type:        "edgeNGram", # edgeNGram: NGram match from the start of a token
-                   min_gram:    3,
-                   max_gram:    10,
-                   # token_chars: Elasticsearch will split on characters
-                   # that don't belong to any of these classes
-                   token_chars: %w(letter digit)
-                 }
-               },
-               analyzer:  {
-                 gs_edgeNGram_analyzer: {
-                   tokenizer: "gs_edgeNGram_tokenizer",
-                   filter:    ["lowercase"]
-                 }
-               }
-             } do
-      mappings dynamic: 'false' do
-        indexes :id, type: 'long'
-        indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
-        indexes :approval_status, type: 'text'
-        indexes :scientific_names do
-          indexes :name,
-            type:     'text',
-            analyzer: 'gs_edgeNGram_analyzer',
-            # Disabling field-length norm (norm). If the norm option is turned on(by default),
-            # higher weigh would be given for shorter fields, which in our case is irrelevant.
-            norms:    { enabled: false }
-        end
-        indexes :alternate_names do
-          indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
-        end
-      end
-    end
+    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
   end
 
   def planting_photos
@@ -107,13 +70,6 @@ class Crop < ApplicationRecord
   def seed_photos
     Photo.joins(:seeds).where("seeds.crop_id": id)
   end
-
-  # update the Elasticsearch index (only if we're using it in this
-  # environment)
-  def update_index(_name_obj)
-    __elasticsearch__.index_document if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-  end
-  # End Elasticsearch section
 
   def to_s
     name
@@ -210,12 +166,22 @@ class Crop < ApplicationRecord
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
   end
 
-  def self.search(query)
-    CropSearchService.search(query)
-  end
-
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
+  end
+
+  def should_index?
+    approved?
+  end
+
+  def search_data
+    {
+      name:             name,
+      alternate_names:  alternate_names.pluck(:name),
+      scientific_names: scientific_names.pluck(:name),
+      plantings_count:  plantings_count, # boost the crops that are planted the most
+      planters_ids:     plantings.pluck(:owner_id) # boost this product for these members
+    }
   end
 
   private

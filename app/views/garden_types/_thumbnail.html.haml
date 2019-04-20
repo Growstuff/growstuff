@@ -1,0 +1,7 @@
+- cache cache_key_for(GardenType, garden_type.id) do
+  .thumbnail
+    .garden_type-thumbnail
+      - if garden_type
+        .garden_typeinfo
+          .garden_typename
+            = link_to garden_type.name, garden_type

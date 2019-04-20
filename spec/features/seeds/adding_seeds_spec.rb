@@ -1,14 +1,13 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-feature "Seeds", :js, :elasticsearch do
+describe "Seeds", :js, :elasticsearch do
   let(:member) { create :member }
   let!(:maize) { create :maize  }
 
-  background do
+  before do
     login_as member
     visit new_seed_path
-    sync_elasticsearch [maize]
   end
 
   it_behaves_like "crop suggest", "seed", "crop"

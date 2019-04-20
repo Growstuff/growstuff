@@ -23,7 +23,7 @@ class Planting < ApplicationRecord
   # Ancestry of food
   belongs_to :parent_seed, class_name:  'Seed', # parent
                            foreign_key: 'parent_seed_id',
-                           required:    false,
+                           optional:    true,
                            inverse_of:  :child_plantings
   has_many :child_seeds, class_name:  'Seed', # children
                          foreign_key: 'parent_planting_id',
@@ -56,10 +56,10 @@ class Planting < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
-  validates :sunniness, allow_nil: true, allow_blank: true, inclusion: {
+  validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: "%<value>s is not a valid sunniness value"
   }
-  validates :planted_from, allow_nil: true, allow_blank: true, inclusion: {
+  validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
 

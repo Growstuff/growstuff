@@ -1,36 +1,36 @@
 require 'rails_helper'
 
-feature "browse harvests" do
+describe "browse harvests" do
   subject { page }
 
   let!(:member)  { create :member                 }
   let!(:harvest) { create :harvest, owner: member }
 
-  background { login_as member }
+  before { login_as member }
 
-  feature 'blank optional fields' do
+  describe 'blank optional fields' do
     let!(:harvest) { create :harvest, :no_description }
 
     before { visit harvests_path }
 
-    scenario 'read more' do
-      is_expected.not_to have_link "Read more"
+    it 'read more' do
+      expect(subject).not_to have_link "Read more"
     end
   end
 
-  feature "filled in optional fields" do
+  describe "filled in optional fields" do
     let!(:harvest) { create :harvest, :long_description }
 
     before do
       visit harvests_path
     end
 
-    scenario 'read more' do
-      is_expected.to have_link "Read more"
+    it 'read more' do
+      expect(subject).to have_link "Read more"
     end
 
     it 'links to #show' do
-      is_expected.to have_link harvest.crop.name, href: harvest_path(harvest)
+      expect(subject).to have_link harvest.crop.name, href: harvest_path(harvest)
     end
   end
 end
