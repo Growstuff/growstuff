@@ -364,35 +364,6 @@ describe Crop do
     expect(@maize.plant_parts).to eq [@pp1]
   end
 
-  context "search", :elasticsearch do
-    let(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-
-    before { sync_elasticsearch([mushroom]) }
-
-    it "finds exact matches" do
-      expect(Crop.search('mushroom')).to eq [mushroom]
-    end
-    it "finds approximate matches" do
-      expect(Crop.search('mush')).to eq [mushroom]
-    end
-    it "doesn't find non-matches" do
-      Crop.search('mush').should_not include @crop
-    end
-    it "searches case insensitively" do
-      Crop.search('mUsH').should include mushroom
-    end
-    it "doesn't find 'rejected' crop" do
-      @rejected_crop = FactoryBot.create(:rejected_crop, name: 'tomato')
-      sync_elasticsearch([@rejected_crop])
-      Crop.search('tomato').should_not include @rejected_crop
-    end
-    it "doesn't find 'pending' crop" do
-      @crop_request = FactoryBot.create(:crop_request, name: 'tomato')
-      sync_elasticsearch([@crop_request])
-      Crop.search('tomato').should_not include @crop_request
-    end
-  end
-
   context "csv loading" do
     before do
       # don't use 'let' for this -- we need to actually create it,
