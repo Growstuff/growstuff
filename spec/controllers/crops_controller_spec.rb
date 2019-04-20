@@ -41,7 +41,7 @@ describe CropsController do
   describe "GET crop search" do
     describe 'fetches the crop search page' do
       let!(:tomato) { FactoryBot.create :tomato }
-      let!(:maize) { FactoryBot.create :maize }
+      let!(:maize)  { FactoryBot.create :maize }
       before { Crop.reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true" }
       describe 'search form page' do
         before { get :search }
