@@ -4,5 +4,5 @@ $('.planting-facts').isotope({
   itemSelector: '.fact',
   fitRows: {
     gutter: 10,
-  }
+  },
 });
