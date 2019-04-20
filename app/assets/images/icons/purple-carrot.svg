@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 20.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#D7E2BD;}
+	.st1{fill:#D7E2BD;stroke:#366D00;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st2{fill:#105409;}
+	.st3{fill:none;stroke:#8ACF0D;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st4{fill:#A9C500;stroke:#2B6000;stroke-width:3;stroke-miterlimit:10;}
+	.st5{fill:#A0CB39;}
+	.st6{fill:#A9C500;}
+	.st7{fill:#2B6000;}
+	.st8{fill:#A0CB39;stroke:#4B823B;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st9{fill:#4B823B;}
+	.st10{fill:#90C400;}
+	.st11{fill:#90C400;stroke:#2B6000;stroke-width:3;stroke-linecap:round;stroke-miterlimit:10;}
+	.st12{fill:#90C400;stroke:#2B6000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st13{fill:#68AB19;}
+	.st14{fill:#074004;}
+	.st15{fill:#94466D;stroke:#311538;stroke-width:3;stroke-miterlimit:10;}
+	.st16{fill:#00FFFF;}
+	.st17{fill:none;stroke:#311538;stroke-linecap:round;stroke-miterlimit:10;}
+	.st18{fill:#F08A06;stroke:#DA5C00;stroke-width:3;stroke-miterlimit:10;}
+	.st19{fill:none;stroke:#DA5C00;stroke-linecap:round;stroke-miterlimit:10;}
+	.st20{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-miterlimit:10;}
+	.st21{fill:#FFFFFF;}
+	.st22{fill:none;stroke:#074004;stroke-width:3;stroke-miterlimit:10;}
+	.st23{fill:none;stroke:#A9C500;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st24{fill:#F78508;}
+	.st25{fill:#A5507E;}
+	.st26{fill:none;stroke:#F08A06;stroke-linecap:round;stroke-miterlimit:10;}
+	.st27{fill:none;stroke:#311538;stroke-width:3;stroke-miterlimit:10;}
+	.st28{fill:#F5DABD;stroke:#B9722E;stroke-width:3;stroke-miterlimit:10;}
+	.st29{fill:none;stroke:#B9722E;stroke-linecap:round;stroke-miterlimit:10;}
+	.st30{fill:#3A7800;}
+	.st31{fill:#FF4778;}
+	.st32{fill:#A90E0F;}
+	.st33{fill:#8DA54A;}
+	.st34{fill:#3B6014;}
+	.st35{fill:#F3FFCB;}
+	.st36{fill:#8E6600;}
+	.st37{fill:#A9C500;stroke:#2B6000;stroke-width:3;stroke-linecap:round;stroke-miterlimit:10;}
+	.st38{fill:#A9C500;stroke:#2B6000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st39{fill:#A9C500;stroke:#2B6000;stroke-width:9.5263;stroke-miterlimit:10;}
+	.st40{fill:none;stroke:#B9722E;stroke-width:0.9785;stroke-linecap:round;stroke-miterlimit:10;}
+	.st41{fill:#F5DABD;}
+	.st42{fill:#B9722E;}
+	.st43{fill:#995929;}
+	.st44{fill:#E5C074;}
+	.st45{fill:#E5C074;stroke:#52340E;stroke-width:3;stroke-miterlimit:10;}
+	.st46{fill:none;stroke:#A0CB39;stroke-width:4;stroke-miterlimit:10;}
+	.st47{fill:none;stroke:#52340E;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st48{fill:none;stroke:#52340E;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st49{fill:#52340E;}
+	.st50{fill:#A0CB39;stroke:#4B823B;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st51{fill:none;stroke:#2B6000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st52{fill:#A9C500;stroke:#2B6000;stroke-miterlimit:10;}
+	.st53{fill:#FFFFFF;stroke:#E3EA9D;stroke-miterlimit:10;}
+	.st54{fill:#A9C500;stroke:#2B6000;stroke-linecap:round;stroke-miterlimit:10;}
+	.st55{fill:#FFFFFF;stroke:#2B6000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st56{fill:none;stroke:#E3EA9D;stroke-miterlimit:10;}
+	.st57{fill:none;stroke:#2B6000;stroke-width:3;stroke-miterlimit:10;}
+	.st58{fill:#E3EA9D;}
+	.st59{fill:none;stroke:#A9C500;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st60{fill:none;stroke:#438700;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st61{fill:#9ACC11;}
+	.st62{fill:#65B200;}
+	.st63{fill:none;stroke:#438700;stroke-width:3.3722;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st64{fill:#D7E2BD;stroke:#366D00;stroke-miterlimit:10;}
+	.st65{fill:none;stroke:#F4FFD7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st66{fill:#D7E2BD;stroke:#366D00;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st67{fill:#D7E2BD;stroke:#366D00;stroke-width:3;stroke-miterlimit:10;}
+	.st68{fill:none;stroke:#366D00;stroke-width:3;stroke-linecap:round;stroke-miterlimit:10;}
+	.st69{fill:#F4FFD7;}
+	.st70{fill:#366D00;}
+	.st71{fill:#D7E2BD;stroke:#366D00;stroke-width:2.387;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st72{fill:none;stroke:#F4FFD7;stroke-width:0.7957;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st73{fill:#D7E2BD;stroke:#366D00;stroke-width:0.7957;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st74{fill:none;stroke:#366D00;stroke-width:2.387;stroke-linecap:round;stroke-miterlimit:10;}
+	.st75{fill:#529900;}
+	.st76{fill:#BF4D00;}
+	.st77{fill:#311538;}
+</style>
+<path class="st25" d="M15.3,193.1c0,0,78-41.5,120.7-84.2c13.4-13.4,17.7-29.3,3.2-43.8l0,0c-14.5-14.5-30.2-10.4-43.8,3.2
+	C46.1,117.6,11.2,189,11.2,189C9.2,191.7,12.6,195.1,15.3,193.1z"/>
+<path class="st21" d="M111.2,79.3c-0.4,0-0.7-0.1-1-0.4c-2.7-2.4-3-2.7-5.8-4.9c-0.7-0.5-0.8-1.5-0.3-2.2c0.5-0.7,1.5-0.8,2.2-0.3
+	c2.9,2.3,3.2,2.6,6,5c0.6,0.6,0.7,1.6,0.1,2.2C112.1,79.1,111.7,79.3,111.2,79.3z"/>
+<path class="st21" d="M99.3,90.7c-0.4,0-0.7-0.1-1-0.4l-1.2-1.1C96.9,89,96.9,89,96.8,89c-0.2-0.1-0.5-0.3-1.6-1.3
+	c-0.7-0.5-0.8-1.5-0.3-2.2c0.5-0.7,1.5-0.8,2.2-0.3c1.1,0.9,1.4,1.1,1.5,1.2c0.2,0.1,0.2,0.1,0.6,0.5l1.2,1c0.7,0.6,0.7,1.6,0.1,2.2
+	C100.2,90.5,99.8,90.7,99.3,90.7z"/>
+<ellipse transform="matrix(0.6437 -0.7653 0.7653 0.6437 -45.7002 102.4801)" class="st21" cx="87.2" cy="100.3" rx="1.6" ry="1.6"/>
+<g>
+</g>
+<path class="st77" d="M142.9,61.8c-15-15-33.4-13.9-50.4,3.2C44.9,112.6,10.2,181.3,7.5,186.6c-1.9,3-1.6,6.9,1,9.5
+	c1.5,1.5,3.4,2.2,5.4,2.2c1.5,0,2.9-0.4,4.2-1.3c2.4-1.3,21.2-11.4,44.4-26.1c22.9-14.5,54.8-36.4,77.2-58.8
+	C156.8,95.2,157.9,76.8,142.9,61.8z M127.2,107.5c-2.8-3.5-5.9-6.9-9.1-10.4c-0.5-0.5-1.3-0.7-1.9-0.4c-0.9,0.5-1.1,1.7-0.4,2.5
+	c3.3,3.5,6.5,7.2,9.4,10.8c0.8,1,0.7,2.4-0.3,3.2c-2.1,1.9-4.2,3.7-6.3,5.6c-1.1,0.9-2.6,0.7-3.5-0.3c-2.9-3.5-6-7.1-9.3-10.6
+	c-0.5-0.5-1.3-0.7-1.9-0.4c-0.9,0.5-1.1,1.7-0.4,2.5c3.2,3.4,6.3,6.9,9.2,10.4c0.9,1.1,0.7,2.8-0.4,3.7c-2.2,1.8-4.4,3.5-6.6,5.3
+	c-1.1,0.8-2.6,0.6-3.4-0.4c-2.6-3.2-5.4-6.4-8.4-9.5c-0.5-0.5-1.3-0.7-1.9-0.4c-0.9,0.5-1.1,1.7-0.4,2.5c2.8,2.9,5.4,5.9,7.9,8.9
+	c1,1.2,0.8,2.9-0.5,3.9c-2.1,1.6-4.3,3.2-6.5,4.8c-1,0.8-2.5,0.6-3.3-0.4c-2.2-2.6-4.5-5.2-6.9-7.7c-0.5-0.5-1.3-0.7-1.9-0.4
+	c-0.9,0.5-1.1,1.7-0.4,2.5c2.2,2.3,4.3,4.7,6.4,7.1c1,1.1,0.7,2.9-0.5,3.7c-2.3,1.6-4.5,3.2-6.8,4.7c-1,0.7-2.4,0.5-3.2-0.4
+	c-1.7-1.9-3.4-3.8-5.1-5.6c-0.5-0.5-1.3-0.7-1.9-0.3c-0.9,0.5-1.1,1.7-0.4,2.5c1.5,1.6,3,3.2,4.4,4.8c1,1.1,0.8,2.9-0.5,3.8
+	c-2.3,1.6-4.7,3.1-6.9,4.6c-1,0.7-2.4,0.5-3.2-0.4c-1.5-1.6-2.9-3.2-4.4-4.8c-0.5-0.5-1.3-0.7-1.9-0.3c-0.9,0.5-1.1,1.7-0.4,2.5
+	c1.3,1.3,2.5,2.6,3.7,4c0.9,1,0.7,2.7-0.5,3.4c-2.5,1.6-5,3.1-7.4,4.6c-1,0.6-2.3,0.4-3.1-0.4c-0.7-0.8-1.5-1.6-2.3-2.4
+	c-0.5-0.5-1.3-0.7-1.9-0.3c-0.9,0.5-1,1.7-0.4,2.5c0.6,0.6,1.2,1.3,1.8,1.9c0.7,0.7,0.5,1.9-0.3,2.5c-2.9,1.8-5.6,3.4-8.2,4.9
+	c-1,0.6-2.2,0.4-3-0.4c-0.2-0.2-0.4-0.4-0.6-0.6c-0.5-0.5-1.3-0.7-1.9-0.3c-0.9,0.5-1,1.8-0.3,2.5l0,0c0.7,0.7,0.6,2-0.3,2.5
+	c-3.1,1.8-5.8,3.4-8.2,4.7c-1.3,0.7-2.7-0.7-2-2c4.4-8.2,11.7-21.3,21.3-36.5c0.7-1.2,2.4-1.4,3.4-0.5c1.5,1.3,2.9,2.7,4.4,4.1
+	c0.3,0.3,0.7,0.4,1.1,0.4c0.5,0,1.1-0.3,1.4-0.8c0.3-0.6,0.2-1.4-0.3-1.9c-1.7-1.6-3.5-3.3-5.2-4.8c-0.9-0.8-1.1-2.1-0.4-3.2
+	c1.5-2.3,3-4.6,4.6-6.9c0.9-1.3,2.6-1.5,3.8-0.5c1.2,1.1,2.5,2.2,3.7,3.3c0.3,0.3,0.7,0.4,1.1,0.4c0.5,0,1.1-0.3,1.4-0.9
+	c0.3-0.6,0.1-1.4-0.4-1.9c-1.5-1.4-3-2.7-4.5-4c-1-0.8-1.1-2.2-0.4-3.3c1.5-2.2,3.1-4.5,4.8-6.7c0.9-1.2,2.6-1.4,3.7-0.4
+	c2,1.7,4,3.4,5.9,5.3c0.3,0.3,0.7,0.4,1.1,0.4c0.5,0,1.1-0.3,1.4-0.9c0.3-0.6,0.1-1.4-0.4-1.9c-2.1-2-4.3-3.9-6.5-5.7
+	c-1-0.8-1.2-2.3-0.4-3.4c1.6-2.1,3.2-4.3,4.8-6.4c0.9-1.2,2.7-1.4,3.8-0.4c2.6,2.1,5.1,4.4,7.7,6.7c0.3,0.3,0.7,0.4,1.1,0.4
+	c0.5,0,1.1-0.3,1.4-0.9c0.3-0.6,0.1-1.4-0.4-1.9c-2.6-2.4-5.3-4.8-8-7c-1-0.9-1.2-2.4-0.4-3.5c1.8-2.2,3.5-4.4,5.4-6.5
+	c0.9-1.1,2.5-1.2,3.6-0.4c3.1,2.5,6.2,5.2,9.3,8.1c0.3,0.3,0.7,0.4,1.1,0.4c0.5,0,1.1-0.3,1.4-0.9c0.3-0.6,0.1-1.4-0.4-1.9
+	c-3.1-2.9-6.2-5.6-9.3-8.1c-1.1-0.9-1.2-2.5-0.3-3.5c1.8-2.1,3.6-4.1,5.5-6.1c0.8-0.9,2.2-1,3.2-0.3c3.7,2.9,7.5,6.1,11.1,9.5
+	c0.3,0.3,0.7,0.4,1.1,0.4c0.5,0,1.1-0.3,1.4-0.9c0.3-0.6,0.1-1.4-0.4-1.9c-3.5-3.2-7.1-6.3-10.6-9.1c-1.1-0.9-1.3-2.6-0.3-3.7
+	c0.8-0.8,1.6-1.6,2.3-2.4c1.2-1.2,2.4-2.3,3.6-3.3c1.1-0.9,2.7-0.9,3.7,0c3.5,2.9,7.1,5.9,10.5,9c0.3,0.3,0.7,0.4,1,0.4
+	c0.6,0,1.1-0.3,1.4-0.9c0.3-0.6,0.1-1.4-0.4-1.9c-2.9-2.6-6-5.2-9-7.7c-1.4-1.1-1.1-3.3,0.5-4.1c2.5-1.2,5-2,7.4-2.3
+	c0.7-0.1,1.5-0.1,2.2-0.1c5.6,0,11,2.6,16.1,7.8c7.9,7.9,9.7,16.5,5.4,25.5c-0.8,1.6-3,1.8-4.1,0.5c-2.5-3-5.1-5.9-7.7-8.8
+	c-0.5-0.5-1.3-0.7-1.9-0.4c-0.9,0.5-1.1,1.7-0.4,2.4c3.1,3.3,6.1,6.9,9,10.3c0.9,1.1,0.9,2.7,0,3.7c-1,1.3-2.2,2.5-3.5,3.8
+	c-0.7,0.7-1.5,1.5-2.2,2.2C129.8,108.7,128.1,108.6,127.2,107.5z"/>
+<g>
+	<path class="st33" d="M186.2,37c-0.2,0.1-20.6,9.7-47.7,35.7l-7.8-7.7c0.3-0.3,32.7-35.5,45.4-55.8l9.3,5.8
+		c-2.6,4.2-6.8,10.1-11,15.6c3.9-2.3,7-3.5,7.4-3.7L186.2,37z"/>
+</g>
+<path class="st34" d="M193.6,31.9l-3.2-7.1c-0.2-0.5-0.5-1-0.8-1.4c0.7-1.1,1.4-2.1,2-3.1c0.6-1,1.1-2.1,1.3-3.2
+	c0.7-4-1.1-7.8-4.3-9.8L182,3.1c-1.5-1-3.3-1.4-5-1.4c-3.1,0-6.2,1.6-8,4.4c-9.2,14.8-28.7,37.1-38.1,47.4c0.9,0.4,1.7,0.8,2.5,1.2
+	c1.6,0.9,2,3.1,0.7,4.5c-2.4,2.6-3.8,4.2-3.9,4.3c-1.2,1.2-1.1,3.2,0.1,4.4l5.6,5.5c0.6,0.6,1.4,0.9,2.2,0.9c0.8,0,1.6-0.3,2.2-0.9
+	c1.5-1.4,2.9-2.8,4.4-4.1c1.3-1.2,3.5-0.9,4.4,0.6c0.5,0.8,1,1.7,1.4,2.5c18-16.4,32.7-25.5,38.4-28.1
+	C193.7,42.1,195.7,36.6,193.6,31.9z M171.5,34.4c2.1-1.4,5.1-3.1,8.3-4.8c1-0.5,2.3-0.1,2.8,1l1.6,3.5c0.4,0.9,0.1,2-0.8,2.6
+	c-26.9,16.8-45.2,34.4-45.2,34.4l-5.6-5.5c0,0,21.7-22.4,43.2-53c0.6-0.9,1.8-1.1,2.8-0.6l3.2,2c1,0.6,1.3,1.9,0.6,2.9
+	c-4.4,6.7-9,12.8-11.9,16.4C170.2,34,170.9,34.8,171.5,34.4z"/>
+</svg>
