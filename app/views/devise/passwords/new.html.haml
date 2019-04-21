@@ -11,6 +11,4 @@
       = f.text_field :login, class: "form-control mb-4", placeholder: "E-mail", type: "email"
       = f.submit "Send me reset password instructions", class: 'btn btn-block my-4 btn-primary'
 
-      .form-group
-        .col-md-offset-2.col-md-8
-          = render "devise/shared/links"
+    = render "devise/shared/links"
