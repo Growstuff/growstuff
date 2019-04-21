@@ -13,7 +13,7 @@ describe "crops/_planting_advice" do
     context "with no sunniness set" do
       include_examples "render planting_advice"
       it "doesn't show sunniness" do
-        is_expected.to have_content "Plant in: not known."
+        expect(subject).to have_content "Plant in: not known."
       end
     end
 
@@ -41,7 +41,7 @@ describe "crops/_planting_advice" do
     context "when none are set" do
       include_examples "render planting_advice"
       it "doesn't show planted_from " do
-        is_expected.to have_content "Plant from: not known."
+        expect(subject).to have_content "Plant from: not known."
       end
     end
 

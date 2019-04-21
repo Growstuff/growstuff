@@ -42,14 +42,18 @@ class CropsController < ApplicationController
 
   def search
     @term = params[:term]
-    @matches = Crop.search(@term)
-    @paginated_matches = @matches.paginate(page: params[:page])
 
-    respond_with @matches
+    @crops = CropSearchService.search(
+      @term, page:           params[:page],
+             per_page:       12,
+             current_member: current_member
+    )
+    respond_with @crops
   end
 
   def show
-    @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
+    @crop = Crop.includes(:scientific_names, plantings: :photos)
+      .find_by!(slug: params[:slug])
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
 
     @photos = Photo.by_crop(@crop)
