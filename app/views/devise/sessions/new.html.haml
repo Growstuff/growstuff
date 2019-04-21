@@ -1,31 +1,20 @@
-- content_for :title, "Sign in"
 
-= form_for(resource, as: resource_name,
-    url: session_path(resource_name),
-    html: { class: "form-horizontal" }) do |f|
-  = devise_error_messages!
-
-  .form-group
-    = f.label :login, class: "control-label col-md-2"
-    .col-md-8
-      = f.text_field :login, class: 'form-control'
-
-  .form-group
-    = f.label :password, class: "control-label col-md-2"
-    .col-md-8
-      = f.password_field :password, class: 'form-control'
-
-  - if devise_mapping.rememberable?
-    .form-group
-      .col-md-8.col-md-offset-2.checkbox
-        %label
+.login-page
+  %section.card.login-card
+    %h1 Sign in
+    = form_for(resource, as: resource_name,
+        url: session_path(resource_name),
+        html: { class: "text-center border border-light p-5" }) do |f|
+      = devise_error_messages!
+      = f.text_field :login, class: "form-control mb-4", placeholder: "E-mail", type: "email"
+      = f.password_field :password, class: 'form-control mb-4', placeholder: "Password", type: "password"
+      - if devise_mapping.rememberable?
+        %p
           = f.check_box :remember_me
           Remember me
+        - if devise_mapping.recoverable? && controller_name != 'passwords'
+          %p
+            = link_to "Forgot password?", new_password_path(resource_name)
+      = f.submit "Sign in", class: 'btn btn-block my-4 btn-primary'
 
-  .form-group
-    .form-actions.col-md-8.col-md-offset-2
-      = f.submit "Sign in", class: 'btn btn-primary'
-
-  .form-group
-    .col-md-8.col-md-offset-2
-      = render "devise/shared/links"
+    = render "devise/shared/links"
