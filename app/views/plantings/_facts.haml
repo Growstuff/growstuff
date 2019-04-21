@@ -30,7 +30,8 @@
     .fact.grid-sizer
       %h3 Growing
       %strong= seedling_icon
-      %span= planting.planted_at.to_formatted_s(:rfc822)
+      - if planting.planted_at.present?
+        %span= planting.planted_at.to_formatted_s(:rfc822)
 
     - if planting.percentage_grown
       .fact
