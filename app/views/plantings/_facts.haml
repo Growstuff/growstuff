@@ -1,25 +1,24 @@
 .planting-facts
-
   - if planting.parent_seed
-    .fact
+    .fact.card
       %h3 Parent seed
       %strong
         = link_to @planting.parent_seed, seed_path(@planting.parent_seed)
 
   - if planting.finished
-    .fact.grid-sizer
+    .fact.card.grid-sizer
       %h3 Planted
       %strong=planting_icon
       - if planting.quantity.present?
         %span= planting.quantity
 
   - if planting.planted_at.present? && !planting.finished?
-    .fact
+    .fact.card
       %h3 Planted
       %strong #{planting.days_since_planted}
       %span days ago
   - if planting.quantity.to_i.positive?
-    .fact
+    .fact.card
       %h3 Quantity
       %strong= planting.quantity
       %span
@@ -27,13 +26,13 @@
           #{pluralize((planting.quantity.to_i), planting.planted_from)}
 
   - unless planting.finished?
-    .fact.grid-sizer
+    .fact.card.grid-sizer
       %h3 Growing
       %strong= seedling_icon
       %span= planting.planted_at.to_formatted_s(:rfc822)
 
     - if planting.percentage_grown
-      .fact
+      .fact.card
         %h3 Progress
         %strong #{sprintf '%.0f', planting.percentage_grown}%
         .progress
@@ -44,16 +43,16 @@
 
 
   - if planting.planted_from.present?
-    .fact
+    .fact.card
       %h3 Grown from
       %span=planting.planted_from
 
-  .fact
+  .fact.card
     %h3 Grown in
     %strong= sunniness_icon(planting.sunniness)
     %span= planting.sunniness.blank? ? "not specified" : planting.sunniness
 
-  -# .fact
+  -# .fact.card
   -#   %h3 Garden
   -#   = link_to planting.garden do
   -#     - if planting.garden.default_photo.present?
@@ -62,7 +61,7 @@
   -#       %strong= garden_icon
   -#       %span= planting.garden.name
 
-  .fact
+  .fact.card
     %h3
       = planting.finished? ? "Harvests" : "Harvesting"
     %strong
@@ -71,12 +70,12 @@
     %span= planting.first_harvest_date&.to_formatted_s(:rfc822) || planting&.first_harvest_predicted_at&.to_formatted_s(:rfc822) || 'unknown'
 
   - if planting.crop.perennial
-    .fact
+    .fact.card
       %h3 Perennial
       %strong=perennial_icon
   - else
     - if !planting.finished? && planting.finish_is_predicatable?
-      .fact
+      .fact.card
         - days = days_from_now_to_finished(planting)
         - if days.positive?
           %h3 Prediction
@@ -89,7 +88,7 @@
         %span= planting.finish_predicted_at&.to_formatted_s(:rfc822)
 
   - if planting.child_seeds.size.positive?
-    .fact
+    .fact.card
       %h3 Seeds saved
       %strong
         = link_to planting_seeds_path(planting) do
@@ -97,7 +96,7 @@
       %span #{pluralize(planting.child_seeds.size, 'packet')} of seed
 
   - if planting.finished?
-    .fact
+    .fact.card
       %h3 Finished
       %strong=finished_icon
       %span=planting.finished_at&.to_formatted_s(:rfc822)
