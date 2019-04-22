@@ -332,6 +332,7 @@ GEM
       activerecord (>= 4.0, < 5.3)
     parser (2.6.2.1)
       ast (~> 2.4.0)
+    percy-capybara (4.0.0)
     pg (0.21.0)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
@@ -577,6 +578,7 @@ DEPENDENCIES
   omniauth-flickr (>= 0.0.15)
   omniauth-twitter
   paranoia (~> 2.2)
+  percy-capybara (~> 4.0.0)
   pg (< 1.0.0)
   platform-api
   poltergeist
