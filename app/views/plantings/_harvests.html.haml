@@ -5,7 +5,7 @@
     %p Record your harvests here to improve crop predictions, and you'll be able to compare with your garden next season.
 - else
   .row
-    - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
-      .col-md-2.col-sm-6= render 'harvests/thumbnail', harvest: harvest
+    - planting.harvests.order(created_at: :desc).includes(:crop, :photos).each do |harvest|
+      .col-md-2= render 'harvests/thumbnail', harvest: harvest
 
 = planting_harvest_button(planting)

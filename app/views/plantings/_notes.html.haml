@@ -1,0 +1,4 @@
+- if @planting.description.present?
+  %h2 Notes
+  :growstuff_markdown
+    #{strip_tags(@planting.description)}

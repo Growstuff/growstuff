@@ -20,4 +20,5 @@
 // = require bootstrap-sprockets
 // = require bootstrap-datepicker
 // = require isotope
+// = require packery-mode.pkgd.min
 // = require_tree .

@@ -1,6 +1,8 @@
 .photos-grid
-  .photo-grid-item= link_to image_tag(photos.first.fullsize_url), photos.first
+  .photo-grid-item
+    = link_to image_tag(photos.first.fullsize_url, width: 400), photos.first
   - photos.offset(1).each do |photo|
     .photo-grid-item
       = link_to photo do
-        = render 'photos/thumbnail', photo: photo
+        = image_tag photo.fullsize_url, height: 200
+        /= render 'photos/thumbnail', photo: photo

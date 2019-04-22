@@ -16,19 +16,15 @@
   .row
     .col-md-8
       .row
-        = render 'facts', planting: @planting
-        - if @planting.description.present?
-          %h2 Notes
-          :growstuff_markdown
-            #{strip_tags(@planting.description)}
-        = content_tag :div, class: "planting-data", data: {events: planting_events(@planting)} do
-          #planting-timeline
+        = render 'timeline', planting: @planting
     .col-md-4.col-xs-12.pull-right
-      = render "crops/index_card", crop: @planting.crop
       = render 'plantings/owner', planting: @planting
+      = render "crops/index_card", crop: @planting.crop
+  .row= render 'facts', planting: @planting
   .row
-    = render 'plantings/photos', photos: @photos, planting: @planting
-    %p.text-right= link_to 'more photos', planting_photos_path(@planting)
-  .row
-    .col-md-6= render 'plantings/harvests', planting: @planting
-    .col-md-6= render 'plantings/descendants', planting: @planting
+    .col-md-8= render 'plantings/photos', photos: @photos, planting: @planting
+    .col-md-4= render "gardens/thumbnail", garden: @planting.garden
+  = render 'notes', planting: @planting
+  %p.text-right= link_to 'more photos', planting_photos_path(@planting)
+  = render 'plantings/harvests', planting: @planting
+  = render 'plantings/saved_seeds', planting: @planting

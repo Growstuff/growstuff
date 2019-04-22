@@ -1,0 +1,9 @@
+%h2 Seeds saved
+.row
+  - if planting.child_seeds.size.positive?
+    - planting.child_seeds.each do |seed|
+      .col-md-2= render 'seeds/thumbnail', seed: seed
+  - else
+    %p No seeds saved
+
+= planting_save_seeds_button(planting)
