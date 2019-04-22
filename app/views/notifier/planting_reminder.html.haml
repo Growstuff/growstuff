@@ -1,63 +1,52 @@
-- site_name = ENV['GROWSTUFF_SITE_NAME']
 %p Hello #{@member.login_name},
 
-%h2 What's new in your garden?
+%h2 Your #{Date.today.strftime("%B %Y")} #{@sitename} progress report
 
 %p
-
 - if @member.plantings.empty?
   %p
-    #{site_name} lets you track what food you're growing
+    #{@sitename} lets you track what food you're growing
     in your garden and see what other people near you are planting too.
   %p
     = link_to "Get started now", new_planting_url
     by planting your first crop.
 
 - else
-  %p
-    The most recent plantings you've told us about are:
+  - if @harvesting.size.positive?
+    %h4 Congratulations, you have plants ready to harvest
+    %ul
+      - @harvesting.each do |planting|
+        %li= link_to planting.crop, planting
 
-  %ul
-  - @plantings.each do |p|
-    %li
-      = link_to p, planting_url(p)
-      planted
-      = distance_of_time_in_words(p.created_at, Time.zone.now)
-      ago.
+  - if @others.size.positive?
+    %h4 Progress report
+    %ul
+      - @others.each do |planting|
+        %li
+          = link_to planting.crop, planting
+          is #{sprintf '%.0f', planting.percentage_grown}% grown
 
-  %p
-    = link_to "Plant something new", new_planting_url
-    to keep your garden records up to date.
+  - if @late.size.positive?
+    %p
+      These perenial plantings are at the end of their lifecycle.
+      %ul
+        - @late.each do |planting|
+          %li= link_to planting.crop, planting
 
-%h2 Your recent harvests
+  - if @super_late.size.positive?
+    %p
+      We suspect the following plantings finished long ago and no longer need tracking. You can mark them as finished to stop tracking.
+      %ul
+        - @super_late.each do |planting|
+          %li
+            = link_to planting.crop, planting
+            planted on #{planting.planted_at.to_date}
+%p
+  Harvested anything lately?
+  = link_to "Track your harvests here.", new_harvest_url
 
-- if @member.harvests.empty?
-  %p
-    #{site_name} helps you keep track of what you
-    harvest from your garden.  Record what food you've grown
-    and see what other people near you are harvesting, too.
-
-  %p
-    = link_to "Get started now", new_harvest_url
-    by tracking your first harvest.
-
-- else
-  According to our records, the last few things you harvested were:
-
-  %ul
-  - @harvests.each do |h|
-    %li
-      = link_to h, harvest_url(h)
-      harvested
-      = distance_of_time_in_words(h.created_at, Time.zone.now)
-      ago.
-
-  %p
-    Harvested anything else lately?
-    = link_to "Track your harvests here.", new_harvest_url
-
-%h2
-  See you soon on #{site_name}!
+%h4
+  See you soon on #{@sitename}!
 
 = render partial: 'signature'
 
