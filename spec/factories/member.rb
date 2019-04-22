@@ -7,6 +7,7 @@ FactoryBot.define do
     confirmed_at { Time.zone.now }
     show_email { false }
     bio { 'I love seeds' }
+    preferred_avatar_uri { 'me.jpg'}
 
     # cropbot is needed for certain tests, eg. Crop.create_from_csv
     factory :cropbot do
