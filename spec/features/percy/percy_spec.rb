@@ -53,12 +53,6 @@ describe 'Test with visual testing', type: :feature, js: true do
         visit planting_path(planting)
         Percy.snapshot(page, name: "#{prefix}/plantings#show")
       end
-
-      it 'load plantings#show' do
-        planting = FactoryBot.create :planting, crop: tomato, owner: member, garden: member.gardens.first
-        visit planting_path(planting)
-        Percy.snapshot(page, name: "#{prefix}/self/plantings#show")
-      end
     end
 
     describe 'gardens' do
@@ -72,23 +66,12 @@ describe 'Test with visual testing', type: :feature, js: true do
         visit garden_path(garden)
         Percy.snapshot(page, name: "#{prefix}/gardens#show")
       end
-
-      it 'load my gardens#show' do
-        garden = FactoryBot.create :garden, name: 'paradise', owner: member
-        visit garden_path(garden)
-        Percy.snapshot(page, name: "#{prefix}/self/gardens#show")
-      end
     end
 
     describe 'members' do
       it 'loads members#index' do
         visit members_path
         Percy.snapshot(page, name: "#{prefix}/members#index")
-      end
-
-      it 'load members#show' do
-        visit member_path(member)
-        Percy.snapshot(page, name: "#{prefix}/self/members#show")
       end
 
       it 'loads another members#show' do
@@ -107,5 +90,22 @@ describe 'Test with visual testing', type: :feature, js: true do
     let(:prefix) { 'signed-in' }
     before { login_as member }
     include_examples 'visit pages'
+
+    it 'load plantings#show' do
+      planting = FactoryBot.create :planting, crop: tomato, owner: member, garden: member.gardens.first
+      visit planting_path(planting)
+      Percy.snapshot(page, name: "#{prefix}/self/plantings#show")
+    end
+
+    it 'load members#show' do
+      visit member_path(member)
+      Percy.snapshot(page, name: "#{prefix}/self/members#show")
+    end
+
+    it 'load my gardens#show' do
+      garden = FactoryBot.create :garden, name: 'paradise', owner: member
+      visit garden_path(garden)
+      Percy.snapshot(page, name: "#{prefix}/self/gardens#show")
+    end
   end
 end
