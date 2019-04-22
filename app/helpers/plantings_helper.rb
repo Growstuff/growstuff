@@ -80,4 +80,35 @@ module PlantingsHelper
       t 'planting.status.unknown'
     end
   end
+
+  def planting_events(planting)
+    @events = []
+
+    add_event(Time.now.to_date, 'today')
+    add_event(planting.planted_at, 'planted') if planting.planted_at
+    planting.harvests.each.each do |harvest|
+      add_event(harvest.harvested_at, render('harvests/tiny', harvest: harvest))
+    end
+    planting.child_seeds.each do |seed|
+      add_event(seed.created_at.to_date, 'seeds collected')
+    end
+
+    # planting.photos.each do |photo|
+    #   add_event(photo.date_taken.to_date, render('photos/tiny', photo: photo))
+    # end
+    if planting.first_harvest_predicted_at.present?
+      add_event(planting.first_harvest_predicted_at, "first harvest expected")
+    end
+    add_event(planting.last_harvest_predicted_at, 'last harvest expected') if planting.last_harvest_predicted_at.present?
+    add_event(planting.finished_at, 'finished') if planting.finished_at.present?
+    add_event(planting.finish_predicted_at, 'finish expected') if planting.finish_predicted_at.present?
+
+
+    @events = @events.sort_by { |hsh| hsh[:date] }
+    return @events
+  end
+
+  def add_event(date, content)
+    @events << { date: date, content: content }
+  end
 end

@@ -14,22 +14,21 @@
 
 .planting
   .row
-    .col-md-8.col-xs-12
-      = render 'facts', planting: @planting
-    .col-md-4.col-xs-12.pull-right
-      = render 'plantings/owner', planting: @planting
-  .row
-    .col-md-8.col-xs-12
-      - if @planting.description.present?
-        %h2 Notes
-        :growstuff_markdown
-          #{strip_tags(@planting.description)}
-      = render 'plantings/photos', photos: @photos, planting: @planting
-      %p.text-right= link_to 'more photos', planting_photos_path(@planting)
+    .col-md-8
+      .row
+        = render 'facts', planting: @planting
+        - if @planting.description.present?
+          %h2 Notes
+          :growstuff_markdown
+            #{strip_tags(@planting.description)}
+        = content_tag :div, class: "planting-data", data: {events: planting_events(@planting)} do
+          #planting-timeline
     .col-md-4.col-xs-12.pull-right
       = render "crops/index_card", crop: @planting.crop
+      = render 'plantings/owner', planting: @planting
   .row
-    .col-md-12
-      = render 'plantings/harvests', planting: @planting
-    .col-md-12
-      = render 'plantings/descendants', planting: @planting
+    = render 'plantings/photos', photos: @photos, planting: @planting
+    %p.text-right= link_to 'more photos', planting_photos_path(@planting)
+  .row
+    .col-md-6= render 'plantings/harvests', planting: @planting
+    .col-md-6= render 'plantings/descendants', planting: @planting

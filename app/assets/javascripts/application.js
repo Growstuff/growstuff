@@ -16,6 +16,7 @@
 // = require jquery
 // = require jquery_ujs
 // = require jquery-ui/widgets/autocomplete
+// = require jquery.roadmap.js
 // = require bootstrap-sprockets
 // = require bootstrap-datepicker
 // = require isotope

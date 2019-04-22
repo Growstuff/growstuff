@@ -51,9 +51,9 @@ module IconsHelper
 
   def sunniness_icon(sunniness)
     if sunniness.present?
-      image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness, width: 55)
+      image_tag("sunniness_#{sunniness}.png", alt: sunniness)
     else
-      image_tag("sunniness_not_specified.png", class: 'img', alt: 'unknown', width: 55)
+      image_tag("sunniness_not_specified.png", alt: 'unknown')
     end
   end
 end

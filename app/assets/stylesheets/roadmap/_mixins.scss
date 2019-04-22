@@ -1,0 +1,33 @@
+/* --------- Mixins --------- */
+
+@mixin xs() {
+	@media only screen and (max-width: $screen-xs) { @content }
+}
+
+@mixin sm() {
+	@media only screen and (min-width: $screen-xs) and (max-width: $screen-sm) { @content }
+}
+
+@mixin sm-down() {
+	@media only screen and (max-width: $screen-sm) { @content }
+}
+
+@mixin sm-up() {
+	@media only screen and (min-width: $screen-sm) { @content }
+}
+
+@mixin md() {
+	@media only screen and (min-width: $screen-sm) and (max-width: $screen-md) { @content }
+}
+
+@mixin md-down() {
+	@media only screen and (max-width: $screen-md) { @content }
+}
+
+@mixin md-up() {
+	@media only screen and (min-width: $screen-md) { @content }
+}
+
+@mixin lg-up() {
+	@media only screen and (min-width: $screen-md) { @content }
+}

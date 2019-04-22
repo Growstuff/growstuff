@@ -64,11 +64,8 @@
   -#       %span= planting.garden.name
 
   .fact
-    %h3
-      = planting.finished? ? "Harvests" : "Harvesting"
-    %strong
-      = link_to planting_harvests_path(planting) do
-        = harvest_icon
+    %h3 Harvests
+    %strong= link_to planting.harvests.size.to_i, planting_harvests_path(planting)
     %span= planting.first_harvest_date&.to_formatted_s(:rfc822) || planting&.first_harvest_predicted_at&.to_formatted_s(:rfc822) || 'unknown'
 
   - if planting.crop.perennial
