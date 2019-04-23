@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Growstuff Linters",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@percy/agent": "^0.3.1"
+  },
   "devDependencies": {
     "coffeelint": "^2.0.7",
     "csslint": "^1.0.5",
