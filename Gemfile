@@ -144,6 +144,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
+  gem 'percy-capybara', '~> 4.0.0'
   gem 'rails-controller-testing'
   gem 'timecop'
 end
