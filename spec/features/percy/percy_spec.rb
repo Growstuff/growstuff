@@ -6,7 +6,7 @@ describe 'Test with visual testing', type: :feature, js: true do
 
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
-  let!(:tomato) { FactoryBot.create :tomato }
+  let!(:tomato) { FactoryBot.create :tomato, creator: someone_else }
   before do
     {
       chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
@@ -16,7 +16,7 @@ describe 'Test with visual testing', type: :feature, js: true do
       eggplant: 'https://farm8.staticflickr.com/7856/47068736892_1af9b8a4ba_q.jpg',
       maize:    'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
     }.each do |crop_type, photo_url|
-      crop = FactoryBot.create crop_type
+      crop = FactoryBot.create crop_type, creator: someone_else
       owner = FactoryBot.create :member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
       planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
       planting.photos << FactoryBot.create(:photo, owner: owner, thumbnail_url: photo_url)
@@ -103,7 +103,7 @@ describe 'Test with visual testing', type: :feature, js: true do
     end
     it 'loads new confirmation' do
       visit new_member_confirmation_path
-      Percy.snapshot(page, name: "forgot-password")
+      Percy.snapshot(page, name: "new-confimation")
     end
 
     it 'loads sign in page' do
