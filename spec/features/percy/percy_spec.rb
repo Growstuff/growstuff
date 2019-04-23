@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'Test with visual testing', type: :feature, js: true do
+
+
   let(:member) { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
   let(:someone_else) { FactoryBot.create :member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
 
@@ -21,7 +23,11 @@ describe 'Test with visual testing', type: :feature, js: true do
       planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
       planting.photos << FactoryBot.create(:photo, owner: owner, thumbnail_url: photo_url)
     end
+
+    # Freeze time, so we don't have variations in timestamps on the page
+    Timecop.freeze(Time.local(2019, 1, 1))
   end
+  after { Timecop.return }
 
   shared_examples 'visit pages' do
     describe 'home' do
