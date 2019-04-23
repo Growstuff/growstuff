@@ -84,6 +84,31 @@ describe 'Test with visual testing', type: :feature, js: true do
   context "when signed out" do
     let(:prefix) { 'signed-out' }
     include_examples 'visit pages'
+
+    it 'loads sign in page' do
+      visit crops_path # some random page
+      click_link 'Sign in'
+      Percy.snapshot(page, name: "sign-in")
+    end
+
+    it 'loads sign up page' do
+      visit crops_path # some random page
+      click_link 'Sign up'
+      Percy.snapshot(page, name: "sign-up")
+    end
+
+    it 'loads forgot password' do
+      visit new_member_password_path
+      Percy.snapshot(page, name: "forgot-password")
+    end
+    it 'loads new confirmation' do
+      visit new_member_confirmation_path
+      Percy.snapshot(page, name: "forgot-password")
+    end
+
+    it 'loads sign in page' do
+      visit crops_path # some random page
+    end
   end
 
   context 'when signed in' do
