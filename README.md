@@ -19,7 +19,7 @@ encourage participation from people of all backgrounds and skill levels.
 
 * [Issues](https://github.com/orgs/Growstuff/projects/1) (features we're
   working on, known bugs, etc)
-* [IRC](https://webchat.freenode.net/) growstuff channel (general chat, brainstorming and troubleshooting) or [Gitter](https://gitter.im/Growstuff/growstuff)
+* [![Gitter](https://badges.gitter.im/Growstuff/growstuff.svg)](https://gitter.im/Growstuff/growstuff?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 * [Wiki](https://github.com/Growstuff/growstuff/wiki) (general documentation, etc. Help by migrating from the [old wiki](https://web.archive.org/web/*/wiki.growstuff.org))
 
 ## For coders
