@@ -308,7 +308,7 @@ GEM
     multipart-post (2.0.0)
     newrelic_rpm (6.2.0.354)
     nio4r (2.3.1)
-    nokogiri (1.10.2)
+    nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     oauth2 (1.4.1)
@@ -341,6 +341,7 @@ GEM
       activerecord (>= 4.0, < 5.3)
     parser (2.6.2.1)
       ast (~> 2.4.0)
+    percy-capybara (4.0.0)
     pg (0.21.0)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
@@ -590,6 +591,7 @@ DEPENDENCIES
   omniauth-flickr (>= 0.0.15)
   omniauth-twitter
   paranoia (~> 2.2)
+  percy-capybara (~> 4.0.0)
   pg (< 1.0.0)
   platform-api
   poltergeist
