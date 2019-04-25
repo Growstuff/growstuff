@@ -24,11 +24,12 @@ module PhotosHelper
     end
   end
 
-  def harvest_image_path(harvest)
+  def harvest_image_path(harvest, full_size: false)
     if harvest.photos.present?
-      harvest.photos.order(date_taken: :desc).first.thumbnail_url
+      photo = harvest.photos.order(date_taken: :desc).first
+      full_size ? photo.fullsize_url : photo.thumbnail_url
     elsif harvest.planting.present?
-      planting_image_path(harvest.planting)
+      planting_image_path(harvest.planting, full_size: full_size)
     else
       placeholder_image
     end

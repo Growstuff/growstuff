@@ -1,6 +1,6 @@
 .card
   = link_to harvest do
-    = image_tag harvest.default_photo.fullsize_url, alt: "Card image cap", class: 'img-fluid card-img-top'
+    = image_tag harvest_image_path(harvest, full_size: true), alt: harvest, class: 'img-fluid card-img-top'
   .card-body.text-center
     %h4.card-title
       %strong= link_to "#{harvest.crop} #{harvest.plant_part}", harvest
