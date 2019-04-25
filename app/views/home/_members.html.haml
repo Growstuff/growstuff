@@ -5,8 +5,7 @@
       - if members.present?
         %h2.section-heading.h1.pt-4= t('.title')
         .row.member-cards
-          - members.each do |m|
-            .col-md-3.col.sm-2= render "members/thumbnail", member: m
+          = render members
 
     %p.text-right
       = link_to "#{t('.view_all')} »", members_path, class: 'btn'

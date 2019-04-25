@@ -1,32 +1,37 @@
-.homepage
-  .row
-    .col-md-12
-      - if member_signed_in?
-        - content_for :title, t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+- if member_signed_in?
+  - content_for :title, t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
-        = render 'stats'
-      - else
-        .hidden-xs
-          .jumbotron= render 'blurb'
-        -# .visible-xs= render 'blurb'
+  = render 'stats'
+- else
+  .hidden-xs
+    .jumbotron= render 'blurb'
 
-      .row
-        .col-lg-8.col-md-6.col-sm-12.well
-          = render 'crops'
-        .col-lg-2.col-md-3.col-sm-6
-          = render 'plantings'
-        .col-lg-2.col-md-3.col-sm-6
-          = render 'harvests'
-        .col-md-12
-          - cache cache_key_for(Crop, 'recent') do
-            %p{ style: 'margin-top: 11.25px' }
-              %strong
-                #{t('.recently_added')}:
-              != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
+.row
+  .col-md-8
+    %h2= t('.our_crops')
+    .row.homepage-thumbnails= render 'crops'
+    .align-bottom
+      %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'
+      - cache cache_key_for(Crop, 'recent') do
+        %h3= t('.recently_added')
+        != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
 
-      .row
-        .col-lg-8.col-md-6.col-sm-12
-          = render 'seeds'
-        .col-lg-4.col-md-6.col-sm-12
-          = render 'discuss'
-      = render 'members'
+    %h2= t('.seeds_available_to_trade')
+    .row.homepage-cards
+      = render Seed.current.tradable.recent.includes(:owner, :crop).limit(12), full: true
+    .align-bottom
+      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
+
+  .col-md-2
+    %h2= t('.recently_planted')
+    .row.homepage-thumbnails
+      = render Planting.has_photos.recent.includes(:crop, garden: :owner).limit(3), full: true
+
+  .col-md-2
+    %h2= t('.recently_harvested')
+    .row.homepage-thumbnails
+      = render Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(3), full: true
+
+
+.row= render 'discuss'
+.row= render 'members'

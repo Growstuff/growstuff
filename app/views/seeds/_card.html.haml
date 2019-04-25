@@ -1,32 +1,47 @@
-.panel.panel-success
-  .panel-heading
-    %h3.panel-title
+-# .panel.panel-success
+-#   .panel-heading
+-#     %h3.panel-title
+-#       = link_to seed, seed
+-#       - if can? :edit, seed
+-#         %a.pull-right{ href: edit_seed_path(seed), role: "button", id: "edit_seed_glyphicon" }
+-#           %span.glyphicon.glyphicon-pencil{ title: "Edit" }
+-#   .panel-body
+-#     .row
+-#       .col-md-4
+-#         = link_to image_tag(seed_image_path(seed),
+-#                             alt: seed.crop.name, class: 'img'),
+-#                   seed.crop
+-#       .col-md-8
+-#         %dl.dl-horizontal
+-#           %dt Crop :
+-#           %dd= link_to seed.crop.name, seed.crop
+-#           - if seed.parent_planting.present?
+-#             %dt Saved from
+-#             %dd= link_to seed.parent_planting, planting_path(seed.parent_planting)
+-#           %dt Plant before :
+-#           %dd= seed.plant_before
+-#           %dt Quantity :
+-#           %dd= seed.quantity
+-#           %dt Will trade to :
+-#           %dd= seed.tradable_to
+-#           %dt From location :
+-#           %dd= seed.owner.location
+-#           %dt Owner :
+-#           %dd= link_to seed.owner.login_name, seed.owner
+-#       .col-md-12
+-#         %p= render 'seeds/actions', seed: seed
+
+
+.card
+  .view.overlay
+    = link_to seed do
+      = image_tag(seed_image_path(seed, full_size: true), alt: seed, class: 'card-img-top img-responsive')
+  .card-body.p-3
+    %h5.card-title.font-weight-bold.fuchsia-rose-text.mb-0
       = link_to seed, seed
-      - if can? :edit, seed
-        %a.pull-right{ href: edit_seed_path(seed), role: "button", id: "edit_seed_glyphicon" }
-          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
-  .panel-body
-    .row
-      .col-md-4
-        = link_to image_tag(seed_image_path(seed),
-                            alt: seed.crop.name, class: 'img'),
-                  seed.crop
-      .col-md-8
-        %dl.dl-horizontal
-          %dt Crop :
-          %dd= link_to seed.crop.name, seed.crop
-          - if seed.parent_planting.present?
-            %dt Saved from
-            %dd= link_to seed.parent_planting, planting_path(seed.parent_planting)
-          %dt Plant before :
-          %dd= seed.plant_before
-          %dt Quantity :
-          %dd= seed.quantity
-          %dt Will trade to :
-          %dd= seed.tradable_to
-          %dt From location :
-          %dd= seed.owner.location
-          %dt Owner :
-          %dd= link_to seed.owner.login_name, seed.owner
-      .col-md-12
-        %p= render 'seeds/actions', seed: seed
+    %p
+      %i #{seed.owner.location}
+    %p Will trade #{seed.tradable_to}
+    %p.float-right
+      = link_to seed.owner do
+        = image_tag(avatar_uri(seed.owner, 50), alt: '', class: 'img img-responsive avatar rounded')

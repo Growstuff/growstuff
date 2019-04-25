@@ -52,6 +52,7 @@ class Seed < ApplicationRecord
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
+  scope :recent, -> { order(created_at: :desc) }
 
   def default_photo
     photos.order(created_at: :desc).first

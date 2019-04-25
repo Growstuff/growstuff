@@ -1,3 +1,0 @@
-- cache cache_key_for(Harvest) do
-  %h2.section-heading.h1.pt-4 Recently Harvested
-  = render 'harvests/list', harvests: Harvest.includes(:crop, :owner, :photos).has_photos.recent.first(3)
