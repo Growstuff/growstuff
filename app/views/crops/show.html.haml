@@ -76,6 +76,11 @@
       = link_to crop_harvests_path(@crop) do
         View all #{@crop.name} harvests
         (#{@crop.harvests.size})
+    %p
+      = link_to crop_seeds_path(@crop) do
+        View all #{@crop.name} seeds
+        (#{@crop.seeds.size})
+
     - if member_signed_in?
       %p
         = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
