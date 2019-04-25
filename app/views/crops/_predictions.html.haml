@@ -11,17 +11,16 @@
                   Perennial
                 - elsif crop.perennial == false
                   Annual
-                  
+
             .d-flex.justify-content-between
             %p.display-1
               %i.far.fa-calendar
 
-            
             - if crop.perennial == true
               %small living more than two years
             - elsif crop.perennial == false
               %small living and reproducing in a single year or less
-    
+
     - if crop.annual? && crop.median_lifespan.present?
       .col-md-3.col-xs-5
         .card

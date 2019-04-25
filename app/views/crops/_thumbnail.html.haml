@@ -1,5 +1,5 @@
 - cache cache_key_for(Crop, crop.id) do
-  .thumbnail
+  .card.thumbnail
     .crop-thumbnail
       = link_to image_tag(crop_image_path(crop),
                           alt: crop.name, class: 'img'),
