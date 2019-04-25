@@ -6,15 +6,17 @@
   .hidden-xs
     .jumbotron= render 'blurb'
 
-.row
+.row.shadow
   .col-md-8
     %h2= t('.our_crops')
     .row.homepage-thumbnails= render 'crops'
     .align-bottom
       %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'
       - cache cache_key_for(Crop, 'recent') do
-        %h3= t('.recently_added')
-        != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
+        .well
+          %h3= t('.recently_added')
+          != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
+
 
     %h2= t('.seeds_available_to_trade')
     .row.homepage-cards
@@ -33,5 +35,6 @@
       = render Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(3), full: true
 
 
-.row= render 'discuss'
-.row= render 'members'
+/.row= render 'discuss'
+.row
+  .col-md-12.text-center= render 'members'

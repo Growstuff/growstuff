@@ -1,11 +1,10 @@
 - cache cache_key_for(Member) do
-  .hidden-xs
-    %section.section.pb-3.text-center
-      - members = Member.includes(plantings: :crop).interesting.first(6)
-      - if members.present?
-        %h2.section-heading.h1.pt-4= t('.title')
-        .row.member-cards
-          = render members
+  .hidden-xs.well
+    - members = Member.includes(plantings: :crop).interesting.first(6)
+    - if members.present?
+      %h2= t('.title')
+      .member-cards
+        = render members
 
     %p.text-right
       = link_to "#{t('.view_all')} »", members_path, class: 'btn'
