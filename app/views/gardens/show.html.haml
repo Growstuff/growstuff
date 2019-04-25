@@ -100,7 +100,6 @@
 
     - if can?(:edit, @garden) && can?(:create, Photo)
       %p
-        = 
         = link_to new_photo_path(type: "garden", id: @garden.id),
         class: 'btn btn-primary' do
           %span.glyphicon.glyphicon-camera{ title: "Add photo" }
