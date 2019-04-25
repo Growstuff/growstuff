@@ -21,7 +21,11 @@ describe 'Test with visual testing', type: :feature, js: true do
       crop = FactoryBot.create crop_type, creator: someone_else
       owner = FactoryBot.create :member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
       planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
-      planting.photos << FactoryBot.create(:photo, owner: owner, thumbnail_url: photo_url)
+      photo = FactoryBot.create(:photo, owner: owner, thumbnail_url: photo_url)
+      planting.photos << photo
+
+      harvest = FactoryBot.create :harvest, crop: crop, owner: owner
+      harvest.photos << photo
     end
 
     # Freeze time, so we don't have variations in timestamps on the page
