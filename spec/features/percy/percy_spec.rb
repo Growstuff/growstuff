@@ -142,5 +142,25 @@ describe 'Test with visual testing', type: :feature, js: true do
       visit garden_path(garden)
       Percy.snapshot(page, name: "#{prefix}/self/gardens#show")
     end
+
+    it 'loads plantings#new' do
+      visit new_planting_path
+      Percy.snapshot(page, name: "#{prefix}/plantings#new")
+    end
+
+    it 'loads gardens#new' do
+      visit new_garden_path
+      Percy.snapshot(page, name: "#{prefix}/gardens#new")
+    end
+
+    it 'loads harvests#new' do
+      visit new_harvest_path
+      Percy.snapshot(page, name: "#{prefix}/harvests#new")
+    end
+
+    it 'loads posts#new' do
+      visit new_post_path
+      Percy.snapshot(page, name: "#{prefix}/posts#new")
+    end
   end
 end
