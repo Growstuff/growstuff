@@ -9,6 +9,10 @@ module IconsHelper
     icon('fas', 'seedling')
   end
 
+  def member_icon
+    icon('fas', 'user')
+  end
+
   def harvest_icon
     icon('fas', 'carrot')
   end

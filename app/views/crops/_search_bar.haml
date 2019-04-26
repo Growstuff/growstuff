@@ -1,10 +1,8 @@
-= form_tag 'search' do 
-  -# , method: :get, id: 'navbar-search' do
+= form_tag search_crops_path, method: :get, class: 'navbar-form navbar-left', id: 'navbar-search' do
   = label_tag :term, "Search crop database:", class: 'sr-only'
-  .input
+  .input.text-white
     .input-group
-      = text_field_tag 'term', nil, class: 'search-query input-medium form-control', placeholder: 'Search crops'
+      = text_field_tag 'term', nil, class: 'search-query input-medium form-control', placeholder: t('.search_crops')
       .input-group-btn
         %button.btn.btn-default{ style: "height: 34px;" }
-          = submit_tag "Search", class: 'btn sr-only'
           %span.glyphicon.glyphicon-search

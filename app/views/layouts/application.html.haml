@@ -3,10 +3,12 @@
   = yield :scripts
   = render partial: "layouts/meta"
   %body
+    .sr-only= link_to t(".skip"), "#skipnav"
     = render partial: "layouts/header"
-
+    = render 'shared/global_actions'
+    -# anchor tag for accessibility link to skip the navigation menu
+    %a{ name: 'skipnav' }
     #maincontainer
-      .row= render 'shared/global_actions'
       .row
         .col-md-6
 
