@@ -1,11 +1,11 @@
 .well
   .row
-    .col-md-4
+    .col
       = link_to image_tag(crop_image_path(crop),
                           alt: '',
                           class: 'img crop-image'),
                           crop
-    .col-md-8
+    .col
       %h3{ style: 'padding-top: 0px; margin-top: 0px' }
         = link_to crop, crop
 
