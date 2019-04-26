@@ -93,7 +93,7 @@ describe 'Test with visual testing', type: :feature, js: true do
     describe 'photos' do
       it 'loads photos#show' do
         photo = FactoryBot.create :photo, owner: member
-        visit_page photo_url(photo)
+        visit photo_url(photo)
         Percy.snapshot(page, name: "#{prefix}/photos#show")
       end
     end
