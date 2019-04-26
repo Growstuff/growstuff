@@ -89,6 +89,14 @@ describe 'Test with visual testing', type: :feature, js: true do
         Percy.snapshot(page, name: "#{prefix}/members#show")
       end
     end
+
+    describe 'photos' do
+      it 'loads photos#show' do
+        photo = FactoryBot.create :photo, owner: member
+        visit_page photo_url(photo)
+        Percy.snapshot(page, name: "#{prefix}/photos#show")
+      end
+    end
   end
 
   context "when signed out" do
