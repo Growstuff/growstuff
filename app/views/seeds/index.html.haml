@@ -13,11 +13,8 @@
   = page_entries_info @seeds
   = will_paginate @seeds
 
-.card-row
-  - unless @seeds.empty?
-    - @seeds.each do |seed|
-      .seedcard
-        = render 'seeds/card', seed: seed
+- unless @seeds.empty?
+  .seed-cards= render @seeds, full: true
 
 .pagination
   = page_entries_info @seeds
