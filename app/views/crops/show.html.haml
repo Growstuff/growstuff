@@ -30,16 +30,14 @@
 
     = render 'predictions', crop: @crop
     %hr/
+    .well= render 'crops/photos', photos: @photos
 
-    = render 'crops/photos', photos: @photos
-    %hr/
-
-    .row.text-center
+    .card-deck.text-center
       .col-md-4
         .card
           .card-body
             %h3.section-heading.h3.pt-4 Sunniness
-            = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"  
+            = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
       .col-md-4
         .card
           .card-body
@@ -51,23 +49,20 @@
             %h3.section-heading.h3.pt-4 Harvested for
             = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-    %h2 Photos
-    %p= render 'crops/photos', photos: @photos
-    %p= link_to 'more photos', crop_photos_path(@crop)
-
     .varieties= render 'varieties', crop: @crop
 
-    %h3 Crop Map
-    %p
-      Only plantings by members who have set their locations are shown on this map.
-      - if current_member && current_member.location.blank?
-        = link_to "Set your location.", edit_member_registration_path
-    #cropmap
+    .well
+      %h3 Crop Map
+      %p
+        Only plantings by members who have set their locations are shown on this map.
+        - if current_member && current_member.location.blank?
+          = link_to "Set your location.", edit_member_registration_path
+      #cropmap
 
-    = render 'crops/posts', crop: @crop
+    .well= render 'crops/posts', crop: @crop
 
   .col-md-3
-    = render partial: 'wrangle', locals: { crop: @crop }
+    = render 'wrangle', crop: @crop
     %p
       = link_to crop_plantings_path(@crop) do
         View all #{@crop.name} plantings
@@ -86,42 +81,47 @@
         = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
           = display_seed_availability(@current_member, @crop)
 
-    %h4 How to grow #{@crop.name.pluralize}
+    .card
+      .card-body
+        %h4 How to grow #{@crop.name.pluralize}
+        = render 'grown_for', crop: @crop
+        = render 'planting_advice', crop: @crop
 
-    = render 'grown_for', crop: @crop
-    = render 'planting_advice', crop: @crop
-
-    = render 'scientific_names', crop: @crop
-    = render 'alternate_names', crop: @crop
+    .well
+      = render 'scientific_names', crop: @crop
+      = render 'alternate_names', crop: @crop
 
     - if @crop.parent
-      .parent-crop  
+      .parent-crop
         = @crop.name
         is a variety of
+        %span.chip
+          %img.chip-img{alt: "Chip Image", src: "/material/apple-touch-icon.png"}>/
+          Chip Label
+
         = succeed "." do
           = link_to @crop.parent, @crop.parent
         = render 'crops/thumbnail', crop: @crop.parent
 
-    = render 'plantings', crop: @crop
-    = render 'harvests', crop: @crop
+
     = render 'find_seeds', crop: @crop
 
-
-    %h4 Learn more about #{@crop.name.pluralize}
-    %ul
-      %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer"
-      %li
-        = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
-                  target: "_blank",
-                  rel: "noopener noreferrer"
-      %li
-        = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{CGI.escape @crop.name}",
-                  target: "_blank", rel: "noopener noreferrer"
-      - if current_member && current_member.location
+    .well
+      %h4 Learn more about #{@crop.name.pluralize}
+      %ul
+        %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer"
         %li
-          = link_to "Google",
-                    'http://www.google.com/search?q=' + CGI.escape(['Growing',
-                                                                    @crop.name,
-                                                                    current_member.location].join(' ')),
+          = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
                     target: "_blank",
                     rel: "noopener noreferrer"
+        %li
+          = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{CGI.escape @crop.name}",
+                    target: "_blank", rel: "noopener noreferrer"
+        - if current_member && current_member.location
+          %li
+            = link_to "Google",
+                      'http://www.google.com/search?q=' + CGI.escape(['Growing',
+                                                                      @crop.name,
+                                                                      current_member.location].join(' ')),
+                      target: "_blank",
+                      rel: "noopener noreferrer"
