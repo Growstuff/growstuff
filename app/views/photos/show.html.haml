@@ -8,7 +8,13 @@
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 .row
-  .col-md-5
+  .col-md-8
+    %p.text-center
+      = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-fluid shadow-sm')
+  .col-md-4
+    %p.text-center
+      = render 'photos/actions', photo: @photo
+      = link_to "View on Flickr", @photo.link_url, class: 'btn'
     - if @crops.size.positive?
       - @crops.each do |crop|
         = render 'crops/index_card', crop: crop
@@ -16,23 +22,13 @@
       %i.fas.fa-camera-retro
       %strong Photo by
       = link_to @photo.owner, @photo.owner
+      Taken on #{@photo.date_taken}
     %p
       %strong License:
       - if @photo.license_url
         = link_to @photo.license_name, @photo.license_url
       - else
-        = succeed "." do
-          = @photo.license_name
+        = @photo.license_name
 
     - if @photo.associations?
-      = render "photo_associations", locals: { photo: @photo }
-    = render 'photos/actions', photo: @photo
-
-    - if @crops.size.positive?
-      - @crops.each do |crop|
-        = render 'crops/index_card', crop: crop
-
-  .col-md-7
-    //%img.img-fluid.z-depth-1{:alt => "1", :src => "https://mdbootstrap.com/img/Photos/Slides/img%20(54).jpg"}/
-    %p= image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-fluid z-depth-1 float-right ')
-    %p= link_to "View on Flickr", @photo.link_url, class: 'btn'
+      = render "photo_associations", photo: @photo
