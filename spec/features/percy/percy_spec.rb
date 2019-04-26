@@ -92,7 +92,9 @@ describe 'Test with visual testing', type: :feature, js: true do
 
     describe 'photos' do
       it 'loads photos#show' do
-        photo = FactoryBot.create :photo, owner: member
+        photo = FactoryBot.create :photo, owner: member,
+          fullsize_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
+          thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
         visit photo_url(photo)
         Percy.snapshot(page, name: "#{prefix}/photos#show")
       end
@@ -123,10 +125,6 @@ describe 'Test with visual testing', type: :feature, js: true do
       visit new_member_confirmation_path
       Percy.snapshot(page, name: "new-confimation")
     end
-
-    it 'loads sign in page' do
-      visit crops_path # some random page
-    end
   end
 
   context 'when signed in' do
@@ -134,13 +132,13 @@ describe 'Test with visual testing', type: :feature, js: true do
     before { login_as member }
     include_examples 'visit pages'
 
-    it 'load plantings#show' do
+    it 'load my plantings#show' do
       planting = FactoryBot.create :planting, crop: tomato, owner: member, garden: member.gardens.first
       visit planting_path(planting)
       Percy.snapshot(page, name: "#{prefix}/self/plantings#show")
     end
 
-    it 'load members#show' do
+    it 'load my members#show' do
       visit member_path(member)
       Percy.snapshot(page, name: "#{prefix}/self/members#show")
     end
@@ -156,19 +154,52 @@ describe 'Test with visual testing', type: :feature, js: true do
       Percy.snapshot(page, name: "#{prefix}/plantings#new")
     end
 
-    it 'loads gardens#new' do
-      visit new_garden_path
-      Percy.snapshot(page, name: "#{prefix}/gardens#new")
+    describe '#new' do
+      it 'loads gardens#new' do
+        visit new_garden_path
+        Percy.snapshot(page, name: "#{prefix}/gardens#new")
+      end
+
+      it 'loads harvests#new' do
+        visit new_harvest_path
+        Percy.snapshot(page, name: "#{prefix}/harvests#new")
+      end
+
+      it 'loads plantings#new' do
+        visit new_planting_path
+        Percy.snapshot(page, name: "#{prefix}/plantings#new")
+      end
+
+      it 'loads posts#new' do
+        visit new_post_path
+        Percy.snapshot(page, name: "#{prefix}/posts#new")
+      end
     end
 
-    it 'loads harvests#new' do
-      visit new_harvest_path
-      Percy.snapshot(page, name: "#{prefix}/harvests#new")
-    end
+    describe '#edit' do
+      it 'loads gardens#edit' do
+        garden = FactoryBot.create :garden, owner: member
+        visit edit_garden_path(garden)
+        Percy.snapshot(page, name: "#{prefix}/gardens#edit")
+      end
 
-    it 'loads posts#new' do
-      visit new_post_path
-      Percy.snapshot(page, name: "#{prefix}/posts#new")
+      it 'loads harvests#edit' do
+        harvest = FactoryBot.create :harvest, owner: member
+        visit edit_harvest_path(harvest)
+        Percy.snapshot(page, name: "#{prefix}/harvests#edit")
+      end
+
+      it 'loads planting#edit' do
+        planting = FactoryBot.create :planting, owner: member
+        visit edit_planting_path(planting)
+        Percy.snapshot(page, name: "#{prefix}/plantings#edit")
+      end
+
+      it 'loads posts#edit' do
+        post = FactoryBot.create :post, owner: member
+        visit edit_post_path(post)
+        Percy.snapshot(page, name: "#{prefix}/posts#edit")
+      end
     end
   end
 end
