@@ -12,11 +12,10 @@
 .pagination
   = page_entries_info @harvests
   = will_paginate @harvests
-.row
-  - unless @harvests.empty?
-    - @harvests.each do |harvest|
-      .col-md-6
-        = render 'harvests/card', harvest: harvest
+
+- unless @harvests.empty?
+  .harvest-cards
+    = render @harvests, full: true
 
 .pagination
   = page_entries_info @harvests
