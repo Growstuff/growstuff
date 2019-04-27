@@ -178,6 +178,11 @@ describe 'Test with visual testing', type: :feature, js: true do
         visit new_post_path
         Percy.snapshot(page, name: "#{prefix}/posts#new")
       end
+
+      it 'loads crops#new' do
+        visit new_crop_path
+        Percy.snapshot(page, name: "#{prefix}/crops#new")
+      end
     end
 
     describe '#edit' do
