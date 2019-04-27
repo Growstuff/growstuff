@@ -21,7 +21,8 @@ describe 'Test with visual testing', type: :feature, js: true do
       crop = FactoryBot.create crop_type, creator: someone_else
       owner = FactoryBot.create :member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
       planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
-      photo = FactoryBot.create(:photo, owner: owner, thumbnail_url: photo_url)
+      photo = FactoryBot.create(:photo, owner: owner,
+          thumbnail_url: "#{photo_url}_q.jpg", fullsize_url: "#{photo_url}_z.jpg")
       planting.photos << photo
 
       harvest = FactoryBot.create :harvest, crop: crop, owner: owner
@@ -92,10 +93,13 @@ describe 'Test with visual testing', type: :feature, js: true do
 
     describe 'photos' do
       it 'loads photos#show' do
-        photo = FactoryBot.create :photo, owner: member,
+        photo = FactoryBot.create :photo,
+          title: 'look at my tomatoes',
+          owner: member,
           fullsize_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
           thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
-        visit photo_url(photo)
+        photo.plantings << FactoryBot.create(:planting, owner: member, crop: tomato)
+        visit photo_path(photo)
         Percy.snapshot(page, name: "#{prefix}/photos#show")
       end
     end
@@ -196,7 +200,7 @@ describe 'Test with visual testing', type: :feature, js: true do
       end
 
       it 'loads posts#edit' do
-        post = FactoryBot.create :post, owner: member
+        post = FactoryBot.create :post, author: member
         visit edit_post_path(post)
         Percy.snapshot(page, name: "#{prefix}/posts#edit")
       end
