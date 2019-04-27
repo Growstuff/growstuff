@@ -29,11 +29,7 @@
 .pagination
   = will_paginate @crops
 
-.row
-  - @crops.each do |crop|
-    .col-md-2.six-across
-      = render partial: "thumbnail", locals: { crop: crop }
-
+.card-row= render @crops
 
 .pagination
   = will_paginate @crops

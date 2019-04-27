@@ -1,0 +1,6 @@
+- if local_assigns[:full]
+  - cache crop do
+    = render 'crops/card', crop: crop
+- else
+  - cache crop do
+    = render 'crops/thumbnail', crop: crop
