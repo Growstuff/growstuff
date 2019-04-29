@@ -6,34 +6,35 @@
   .hidden-xs
     .jumbotron= render 'blurb'
 
-
 .row
   .col-md-8
-    %h2= t('.our_crops')
-    .shadow.mx-auto= render 'crops'
-    .align-bottom
-      %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'
-      - cache cache_key_for(Crop, 'recent') do
-        .well
-          %h3= t('.recently_added')
-          != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
+    .homepage-cards.shadow
+      %h2= t('.our_crops')
+      .mx-auto= render 'crops'
+      .align-bottom
+        %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'
+        - cache cache_key_for(Crop, 'recent') do
+          .well
+            %h3= t('.recently_added')
+            != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
 
 
-    %h2= t('.seeds_available_to_trade')
-    .row.homepage-cards
-      = render Seed.current.tradable.recent.includes(:owner, :crop).limit(12), full: true
-    .align-bottom
-      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
+    .well
+      %h2.text-center= t('.seeds_available_to_trade')
+      .row.homepage-cards
+        .card-row.mx-auto= render Seed.current.tradable.recent.includes(:owner, :crop).limit(12), full: true
+      .align-bottom
+        %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
 
   .col-md-2
     %h2= t('.recently_planted')
     .row.homepage-thumbnails
-      = render Planting.has_photos.recent.includes(:crop, garden: :owner).limit(3), full: true
+      = render Planting.has_photos.recent.includes(:crop, garden: :owner).limit(4), full: true
 
   .col-md-2
     %h2= t('.recently_harvested')
     .row.homepage-thumbnails
-      = render Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(3), full: true
+      = render Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(4), full: true
 
 
 /.row= render 'discuss'
