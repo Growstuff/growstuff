@@ -1,26 +1,27 @@
-- if signed_in?
-  %ul.nav.nav-tabs.pull-right#global-actions
-    %li.nav-item
-      = link_to member_gardens_path(current_member), class: 'nav-link' do
-        = garden_icon
-        = t('links.my_gardens')
+.row
+  .col-md-12
+    %ul.nav.nav-tabs.pull-right#global-actions
+      %li.nav-item
+        = link_to member_gardens_path(current_member), class: 'nav-link' do
+          = garden_icon
+          = t('links.my_gardens')
 
-    %li.nav-item
-      = link_to new_planting_path, class: 'nav-link' do
-        = planting_icon
-        = t('plantings.plant')
+      %li.nav-item
+        = link_to new_planting_path, class: 'nav-link' do
+          = planting_icon
+          = t('plantings.plant')
 
-    %li.nav-item
-      = link_to new_harvest_path, class: 'nav-link' do
-        = harvest_icon
-        = t('harvests.harvest')
+      %li.nav-item
+        = link_to new_harvest_path, class: 'nav-link' do
+          = harvest_icon
+          = t('harvests.harvest')
 
-    %li.nav-item
-      = link_to new_seed_path, class: 'nav-link' do
-        = seed_icon
-        = t('buttons.save_seeds')
+      %li.nav-item
+        = link_to new_seed_path, class: 'nav-link' do
+          = seed_icon
+          = t('buttons.save_seeds')
 
-    %li.nav-item
-      = link_to new_post_path, class: 'nav-link' do
-        = blog_icon
-        = t 'posts.write_blog'
+      %li.nav-item
+        = link_to new_post_path, class: 'nav-link' do
+          = blog_icon
+          = t 'posts.write_blog'
