@@ -36,8 +36,7 @@
       = display_quantity(@harvest)
 
 
-  .col-md-6
-    = render partial: "crops/index_card", locals: { crop: @harvest.crop }
+  .col-md-6= render @harvest.crop
 
 - if @harvest.description.present?
   %h2 Notes

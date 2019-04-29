@@ -73,7 +73,7 @@
     = render 'photos/item_photos', item: @seed, type: 'seed', photos: @photos
 
   .col-md-6
-    = render partial: "crops/index_card", locals: { crop: @seed.crop }
+    = render @seed.crop
     - if @seed.owner.location
       %p
         %small

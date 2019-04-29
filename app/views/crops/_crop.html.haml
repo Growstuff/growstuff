@@ -9,9 +9,7 @@
       %h3{ style: 'padding-top: 0px; margin-top: 0px' }
         = link_to crop, crop
 
-      %p
-        %b Scientific name:
-        = crop.default_scientific_name
+      %p= crop.default_scientific_name
 
       - if crop.annual? && crop.median_lifespan.present?
         %p
@@ -32,5 +30,5 @@
 
       - if can? :create, Planting
         = link_to "Plant #{crop.name}", new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
-      - if can? :create, Seed
-        = link_to "Add #{crop.name} seeds to stash", new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
+      -# - if can? :create, Seed
+      -#   = link_to "Add #{crop.name} seeds to stash", new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-primary'

@@ -6,10 +6,11 @@
   .hidden-xs
     .jumbotron= render 'blurb'
 
-.row.shadow
+
+.row
   .col-md-8
     %h2= t('.our_crops')
-    .row.homepage-thumbnails= render 'crops'
+    .shadow.mx-auto= render 'crops'
     .align-bottom
       %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'
       - cache cache_key_for(Crop, 'recent') do

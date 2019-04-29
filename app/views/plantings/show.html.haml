@@ -27,7 +27,7 @@
       = render 'plantings/photos', photos: @photos, planting: @planting
       %p.text-right= link_to 'more photos', planting_photos_path(@planting)
     .col-md-4.col-xs-12.pull-right
-      = render "crops/index_card", crop: @planting.crop
+      = render @planting.crop
   .row
     .col-md-12
       = render 'plantings/harvests', planting: @planting

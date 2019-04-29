@@ -63,29 +63,33 @@
 
   .col-md-3
     = render 'wrangle', crop: @crop
-    %p
-      = link_to crop_plantings_path(@crop) do
-        View all #{@crop.name} plantings
-        (#{@crop.plantings.size})
-    %p
-      = link_to crop_harvests_path(@crop) do
-        View all #{@crop.name} harvests
-        (#{@crop.harvests.size})
-    %p
-      = link_to crop_seeds_path(@crop) do
-        View all #{@crop.name} seeds
-        (#{@crop.seeds.size})
-
-    - if member_signed_in?
-      %p
-        = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
-          = display_seed_availability(@current_member, @crop)
-
     .card
       .card-body
+        = image_tag @crop.default_photo.fullsize_url,
+          class: 'card-img-top img-responsive',
+          alt: 'photo of crop'
         %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop
         = render 'planting_advice', crop: @crop
+    .card
+      %p
+        = link_to crop_plantings_path(@crop), class: 'card-link' do
+          View all #{@crop.name} plantings
+          (#{@crop.plantings.size})
+      %p
+        = link_to crop_harvests_path(@crop) do
+          View all #{@crop.name} harvests
+          (#{@crop.harvests.size})
+      %p
+        = link_to crop_seeds_path(@crop) do
+          View all #{@crop.name} seeds
+          (#{@crop.seeds.size})
+
+      - if member_signed_in?
+        %p
+          = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
+            = display_seed_availability(@current_member, @crop)
+
 
     .well
       = render 'scientific_names', crop: @crop
