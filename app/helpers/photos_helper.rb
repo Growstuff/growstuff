@@ -1,7 +1,8 @@
 module PhotosHelper
-  def crop_image_path(crop)
+  def crop_image_path(crop, full_size: false)
     if crop.default_photo.present?
-      crop.default_photo.thumbnail_url
+      photo = crop.default_photo
+      full_size ? photo.fullsize_url : photo.thumbnail_url
     else
       placeholder_image
     end

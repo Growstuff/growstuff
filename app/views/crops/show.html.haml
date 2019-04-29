@@ -65,7 +65,7 @@
     = render 'wrangle', crop: @crop
     .card
       .card-body
-        = image_tag @crop.default_photo.fullsize_url,
+        = image_tag crop_image_path(@crop, full_size: true),
           class: 'card-img-top img-responsive',
           alt: 'photo of crop'
         %h4 How to grow #{@crop.name.pluralize}
