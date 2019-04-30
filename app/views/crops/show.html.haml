@@ -1,5 +1,4 @@
 - content_for :title, @crop.name
-- content_for :subtitle, @crop.default_scientific_name
 - content_for :opengraph do
   - @crop.photos.each do |photo|
     = tag("meta", property: "og:image", content: photo.fullsize_url)
@@ -11,7 +10,11 @@
 - content_for :scripts do
   = javascript_include_tag "charts"
 
-= render partial: 'approval_status_message', locals: { crop: @crop }
+%h1
+  = @crop.name
+  %small= @crop.default_scientific_name
+
+= render 'approval_status_message', crop: @crop
 
 - if @crop.approved?
   - content_for :buttonbar do

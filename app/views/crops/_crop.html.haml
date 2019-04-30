@@ -1,34 +1,43 @@
-.well
-  .row
-    .col
-      = link_to image_tag(crop_image_path(crop),
-                          alt: '',
-                          class: 'img crop-image rounded'),
-                          crop
-    .col
-      %h3{ style: 'padding-top: 0px; margin-top: 0px' }
-        = link_to crop, crop
+.well.crop-thumbnail.row
+  .col
+    = link_to image_tag(crop_image_path(crop),
+                        alt: '',
+                        class: 'img crop-image rounded'),
+                        crop
+  .col
+    %h3{ style: 'padding-top: 0px; margin-top: 0px' }
+      = link_to crop, crop
 
-      %p= crop.default_scientific_name
 
-      - if crop.annual? && crop.median_lifespan.present?
-        %p
+
+    %p= crop.default_scientific_name
+
+    - if crop.annual? && crop.median_lifespan.present?
+      %p
+        %small
           Median Lifespan
           %b= crop.median_lifespan
           days
-      - unless crop.median_days_to_first_harvest.nil?
-        %p
+    - unless crop.median_days_to_first_harvest.nil?
+      %p
+        %small
           First harvest expected
           %b= crop.median_days_to_first_harvest
           days after planting
 
-      - if crop.annual? && crop.median_days_to_last_harvest.present?
-        %p
+    - if crop.annual? && crop.median_days_to_last_harvest.present?
+      %p
+        %small
           Last harvest expected
           %b= crop.median_days_to_last_harvest
           days after planting
 
-      - if can? :create, Planting
-        = link_to "Plant #{crop.name}", new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
-      -# - if can? :create, Seed
-      -#   = link_to "Add #{crop.name} seeds to stash", new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-primary'
+    - if can? :create, Planting
+      = link_to new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-sm' do
+        = planting_icon
+        -# "Plant #{crop.name}"
+
+    - if can? :create, Seed
+      = link_to new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-sm' do
+        -# "Add #{crop.name} seeds to stash"
+        = seed_icon

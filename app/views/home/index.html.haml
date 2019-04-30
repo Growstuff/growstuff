@@ -1,5 +1,8 @@
+- content_for :title do
+  ENV['GROWSTUFF_SITE_NAME']
+
 - if member_signed_in?
-  - content_for :title, t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+  %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
   = render 'stats'
 - else

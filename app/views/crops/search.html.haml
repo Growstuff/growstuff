@@ -28,10 +28,7 @@
   .pagination
     = will_paginate @crops
 
-  #paginated_matches
-    .row
-      - @crops.each do |c|
-        .col-md-2.six-across= render partial: "thumbnail", locals: { crop: c }
+  .mx-auto= render @crops
 
   .pagination
     = will_paginate @crops
