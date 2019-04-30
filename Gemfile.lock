@@ -75,12 +75,12 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
     builder (3.2.3)
-    bullet (5.9.0)
+    bullet (6.0.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     byebug (11.0.1)
     cancancan (3.0.1)
-    capybara (3.17.0)
+    capybara (3.18.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -101,9 +101,9 @@ GEM
     codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
     coderay (1.1.2)
-    coffee-rails (4.2.2)
+    coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
-      railties (>= 4.0.0)
+      railties (>= 5.2.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -328,10 +328,11 @@ GEM
       rack
     orm_adapter (0.5.0)
     parallel (1.17.0)
-    paranoia (2.4.1)
-      activerecord (>= 4.0, < 5.3)
+    paranoia (2.4.2)
+      activerecord (>= 4.0, < 6.1)
     parser (2.6.2.1)
       ast (~> 2.4.0)
+    percy-capybara (4.0.0)
     pg (0.21.0)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
@@ -464,7 +465,7 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
     sexp_processor (4.12.0)
-    sidekiq (5.2.6)
+    sidekiq (5.2.7)
       connection_pool (~> 2.2, >= 2.2.2)
       rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
@@ -577,6 +578,7 @@ DEPENDENCIES
   omniauth-flickr (>= 0.0.15)
   omniauth-twitter
   paranoia (~> 2.2)
+  percy-capybara (~> 4.0.0)
   pg (< 1.0.0)
   platform-api
   poltergeist
