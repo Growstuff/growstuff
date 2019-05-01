@@ -7,7 +7,7 @@ cache:
     - tmp/cache/assets/test/sprockets
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true
+    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true PERCY_CHECKS=true
     - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
     - STATIC_CHECKS=true
   global:
@@ -42,6 +42,10 @@ after_script:
   - >
     if [ "${COVERAGE}" = "true" ]; then
       ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
+    fi
+  - >
+    if [ "${PERCY}" = "true" ]; then
+      ./scripts/percy.sh
     fi
 before_deploy:
   - bundle exec script/heroku_maintenance.rb on
