@@ -3,12 +3,12 @@ require 'rails_helper'
 describe 'Test with visual testing', type: :feature, js: true do
 
 
-  let(:member) { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
+  let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
   let(:someone_else) { FactoryBot.create :member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
 
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
-  let!(:tomato) { FactoryBot.create :tomato, creator: someone_else }
+  let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
   before do
     {
       chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
