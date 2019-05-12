@@ -10,6 +10,8 @@ describe 'Test with visual testing', type: :feature, js: true do
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
   let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
   before do
+    # Freeze time, so we don't have variations in timestamps on the page
+    Timecop.freeze(Time.local(2019, 1, 1))
     {
       chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
       apple:    'https://farm5.staticflickr.com/4748/38932178855_6fe9bcdb48_q.jpg',
@@ -29,8 +31,6 @@ describe 'Test with visual testing', type: :feature, js: true do
       harvest.photos << photo
     end
 
-    # Freeze time, so we don't have variations in timestamps on the page
-    Timecop.freeze(Time.local(2019, 1, 1))
   end
   after { Timecop.return }
 
