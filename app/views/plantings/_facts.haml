@@ -3,7 +3,10 @@
     .fact.card
       %h3 Parent seed
       %strong
-        = link_to @planting.parent_seed, seed_path(@planting.parent_seed)
+        = link_to seed_path(planting.parent_seed) do
+          = seed_icon
+      %span=planting.parent_seed
+
 
   - if planting.finished
     .fact.card.grid-sizer

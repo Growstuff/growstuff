@@ -15,21 +15,24 @@
 .planting
   .row
     .col-md-8.col-xs-12
+      %h2.h1= @planting
       = render 'facts', planting: @planting
+      - if @planting.description.present?
+        %hr/
+        .card
+          .card-header
+            %h2 Notes
+          .card-body
+            :growstuff_markdown
+              #{strip_tags(@planting.description)}
+      %hr/
+      = render 'plantings/photos', photos: @photos, planting: @planting
     .col-md-4.col-xs-12.pull-right
       = render 'plantings/owner', planting: @planting
-  .row
-    .col-md-8.col-xs-12
-      - if @planting.description.present?
-        %h2 Notes
-        :growstuff_markdown
-          #{strip_tags(@planting.description)}
-      = render 'plantings/photos', photos: @photos, planting: @planting
-      %p.text-right= link_to 'more photos', planting_photos_path(@planting)
-    .col-md-4.col-xs-12.pull-right
       = render @planting.crop
   .row
     .col-md-12
+      %hr/
       = render 'plantings/harvests', planting: @planting
-    .col-md-12
+      %hr/
       = render 'plantings/descendants', planting: @planting

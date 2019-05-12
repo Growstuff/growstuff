@@ -1,43 +1,28 @@
-.well.crop-thumbnail.row
-  .col
-    = link_to image_tag(crop_image_path(crop),
-                        alt: '',
-                        class: 'img crop-image rounded'),
-                        crop
-  .col
-    %h3{ style: 'padding-top: 0px; margin-top: 0px' }
-      = link_to crop, crop
+.card.card-crop
+  .crop-image
+    = link_to image_tag(crop_image_path(crop, full_size: true),
+                          alt: '',
+                          class: 'img img-card'),
+                          crop
 
-
-
-    %p= crop.default_scientific_name
-
+  .card-body
+    %h3.card-title= link_to crop, crop
+    %p.crop-sci-name= crop.default_scientific_name
+  .card-footer
     - if crop.annual? && crop.median_lifespan.present?
-      %p
-        %small
-          Median Lifespan
-          %b= crop.median_lifespan
-          days
+      %p.card-text
+        Median Lifespan
+        %b= crop.median_lifespan
+        days
     - unless crop.median_days_to_first_harvest.nil?
-      %p
-        %small
-          First harvest expected
-          %b= crop.median_days_to_first_harvest
-          days after planting
+      %p.card-text
+        First harvest expected
+        %b= crop.median_days_to_first_harvest
+        days after planting
 
     - if crop.annual? && crop.median_days_to_last_harvest.present?
-      %p
-        %small
-          Last harvest expected
-          %b= crop.median_days_to_last_harvest
-          days after planting
-
-    - if can? :create, Planting
-      = link_to new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-sm' do
-        = planting_icon
-        -# "Plant #{crop.name}"
-
-    - if can? :create, Seed
-      = link_to new_seed_path(params: { crop_id: crop.id }), class: 'btn btn-sm' do
-        -# "Add #{crop.name} seeds to stash"
-        = seed_icon
+      %p.card-text
+        Last harvest expected
+        %b= crop.median_days_to_last_harvest
+        days after planting
+    = crop_plant_button(crop)

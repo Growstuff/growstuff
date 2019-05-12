@@ -2,10 +2,9 @@
   = link_to harvest do
     = image_tag harvest_image_path(harvest, full_size: true), alt: harvest, class: 'img-fluid card-img-top'
   .card-body.text-center
-    %h5.card-title
+    %h5
       %strong= link_to "#{harvest.crop} #{harvest.plant_part}", harvest
-    %p.card-text
-      = link_to harvest.plant_part, harvest.plant_part
+    %span.badge.badge-pill.badge-info= link_to harvest.plant_part, harvest.plant_part
 
     - if harvest.planting.present?
       %p.card-text

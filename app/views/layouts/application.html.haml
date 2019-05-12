@@ -7,17 +7,14 @@
     = render partial: "layouts/header"
     -# anchor tag for accessibility link to skip the navigation menu
     %a{ name: 'skipnav' }
-    #maincontainer
-      = render 'shared/global_actions'
-      .row
-        .col-md-6
-          - if content_for?(:buttonbar)
-            = yield(:buttonbar)
+    #maincontainer.container
+      .pull-right= render 'shared/global_actions'
+      - if content_for?(:buttonbar)
+        = yield(:buttonbar)
 
-          - if content_for?(:subtitle)
-            %small= yield(:subtitle)
+      - if content_for?(:subtitle)
+        %small= yield(:subtitle)
 
-        .col-md-6
 
       .row
         .col-md-12

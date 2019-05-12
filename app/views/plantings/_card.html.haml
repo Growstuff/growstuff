@@ -1,6 +1,6 @@
 .card
   = link_to planting do
-    = image_tag planting_image_path(planting, full_size: true), class: 'card-img-top img-fluid', alt: planting
-  .card-body.card-body-cascade.text-center
-    %h4.card-title
+    = image_tag planting_image_path(planting, full_size: true), class: 'img-card', alt: planting
+  .card-body.text-center
+    %h5
       %strong= link_to planting, planting

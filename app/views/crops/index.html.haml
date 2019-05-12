@@ -26,10 +26,11 @@
                  class: 'form-control'
   = submit_tag "Show", class: 'btn btn-primary'
 
-.pagination
-  = will_paginate @crops
+.pagination= render 'layouts/pagination', collection: @crops
 
-.card-deck.mx-auto= render @crops
+.row
+  - @crops.each do |crop|
+    .col-md-2= render 'crops/thumbnail', crop: crop
 
 .pagination
   = will_paginate @crops

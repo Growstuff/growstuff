@@ -6,6 +6,6 @@
       .row
         - photos.by_model(model_name).limit(6).each do |photo|
           .col-md-2.six-across
-            .thumbnail= link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img'), photo
+            .thumbnail= link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-square'), photo
 
   %p.text-right= link_to 'more photos »', crop_photos_path(@crop), class: 'btn'

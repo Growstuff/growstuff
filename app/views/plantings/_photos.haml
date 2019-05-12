@@ -3,7 +3,7 @@
   = render 'photos/gallery', photos: photos
   - if can?(:edit, planting) && can?(:create, Photo)
     %p.text-right= add_photo_button(planting)
-  %hr
+  %p.text-right= link_to 'more photos', planting_photos_path(@planting), class: 'btn'
 - else
   %p No photos.
   - if can?(:edit, planting) && can?(:create, Photo)

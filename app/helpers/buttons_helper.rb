@@ -19,6 +19,14 @@ module ButtonsHelper
       data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
   end
 
+  def crop_plant_button(crop)
+    return unless can? :create, Planting
+
+    link_to new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-sm' do
+      planting_icon.html_safe
+    end
+  end
+
   def crop_edit_button(crop)
     edit_button(edit_crop_path(crop))
   end
@@ -50,7 +58,7 @@ module ButtonsHelper
 
   def seed_finish_button(seed)
     return unless can?(:create, Planting) && seed.active?
-    
+
     link_to seed_path(seed, seed: { finished: 1 }), method: :put, class: 'btn btn-default append-date' do
       finished_icon + ' ' + t('buttons.mark_as_finished')
     end

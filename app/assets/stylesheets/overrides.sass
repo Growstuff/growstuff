@@ -1,12 +1,23 @@
-@import "bootstrap-sprockets"
-@import "bootstrap"
+//@import "bootstrap-sprockets"
+//@import "bootstrap"
 // this padding needs to be done before the responsive stuff is imported
 body
-  padding-top: $navbar-height
+  // padding-top: $navbar-height
 
 // Font Awesome
 @import "font-awesome-sprockets"
 @import "font-awesome"
+
+a
+  color: $green
+a:hover
+  color: $white
+  background-color: $green
+
+span.badge
+  background-color: $brown
+  a
+    color: $white
 
 .list-inline > li.first
   padding-left: 0px
@@ -24,18 +35,28 @@ h3
 .main
   padding-right: 1em
 
-.navbar .navbar-form
-  padding-top: 0
-  padding-bottom: 0
-  margin-right: 0
-  margin-left: 15px
-  border: 0
-  -webkit-box-shadow: none
-  box-shadow: none
+// .navbar .navbar-form
+//   padding-top: 0
+//   padding-bottom: 0
+//   margin-right: 0
+//   margin-left: 15px
+//   border: 0
+//   -webkit-box-shadow: none
+//   box-shadow: none
+
+.img-square
+  object-fit: cover
+  height: 150px
+  width: 150px
+
+.img-card
+  object-fit: cover
+  height: 150px
+  width: 100%
 
 .img-responsive
   max-width: 100%
-  height: auto
+
 
 .avatar
   border-radius: 50%
@@ -248,8 +269,8 @@ footer
     a:active
       color: $navbar-default-link-active-color
 
-  .navbar-bottom.navbar
-    border-radius: 0
+  //.navbar-bottom.navbar
+  //  border-radius: 0
 
 // ensure footer is pushed to bottom of browser window
 
@@ -269,7 +290,7 @@ html, body
 // Autosuggest
 .ui-autocomplete
   background: white
-  z-index: $zindex-tooltip
+  //z-index: $zindex-tooltip
 
 .alert
   a
@@ -333,7 +354,7 @@ ul.thumbnail-buttons
 .homepage-listing
   padding-bottom: 6px
 
-@media (min-width: $screen-md-min)
+@include media-breakpoint-up(md)
   .planting-thumbnail
     dl.planting-attributes
       width: 100%
@@ -345,8 +366,8 @@ ul.thumbnail-buttons
         padding-left: 120px
         margin-left: auto
 
-  .navbar .navbar-form
-    width: 250px
+  //.navbar .navbar-form
+  //  width: 250px
 
 .form-page
   text-align: center
@@ -357,7 +378,7 @@ ul.thumbnail-buttons
     padding: 1em
 
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
-@media only screen and (max-width: 767px)
+@include media-breakpoint-up(sm)
   .sidebar
     margin-left: 0
     border-left: none
@@ -370,9 +391,12 @@ ul.thumbnail-buttons
     display: block
 
   .navbar .navbar-form
-    width: 185px
+    //width: 185px
     padding-left: 0
     padding-right: 0
+    .navbar-search
+      width: auto
+
   //.homepage
   //  .thumbnail
   //    height: 180px

@@ -25,10 +25,10 @@
     instead.
 
 - else
-  .pagination
-    = will_paginate @crops
+  = will_paginate @crops
 
-  .mx-auto= render @crops
+  .row
+    - @crops.each do |crop|
+      .col-md-2= render 'crops/thumbnail', crop: crop
 
-  .pagination
-    = will_paginate @crops
+  = will_paginate @crops

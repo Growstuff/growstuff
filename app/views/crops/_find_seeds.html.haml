@@ -12,17 +12,15 @@
             = render partial: 'members/location', locals: { member: seed.owner }
       %p
         = link_to "View all #{crop.name} seeds", crop_seeds_path(crop)
-  .card-actions.flex-column
+  .card-footer.flex-column
     = link_to "Purchase seeds via Ebay",
              crop_ebay_seeds_url(crop),
              target: "_blank",
-             rel: "noopener noreferrer",
-             class: 'btn btn-outline-primary'
+             rel: "noopener noreferrer"
 
     - if crop.approved?
       - if current_member
         = link_to "List #{crop.name} seeds to trade",
-              new_seed_path(crop_id: crop.id),
-              class: 'btn btn-outline-primary'
+              new_seed_path(crop_id: crop.id)
       - else
         = render partial: 'shared/signin_signup', locals: { to: 'list your seeds to trade' }

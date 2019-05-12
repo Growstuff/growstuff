@@ -1,8 +1,7 @@
 = content_for :title, "Recent comments"
 
-.pagination
-  = page_entries_info @comments
-  = will_paginate @comments
+= page_entries_info @comments
+= render 'layouts/pagination', collection: @comments
 
 - @comments.each do |comment|
   %h2
@@ -10,9 +9,8 @@
     = link_to comment.post.subject, comment.post
   = render partial: "single", locals: { comment: comment }
 
-.pagination
-  = page_entries_info @comments
-  = will_paginate @comments
+= page_entries_info @comments
+= render 'layouts/pagination', collection: @comments
 
 %p
   Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}

@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.0'
+ruby '2.6.3'
 
 gem 'rails', '5.2.2.1'
 
@@ -16,13 +16,13 @@ gem 'sass-rails'
 gem 'jsonapi-resources'
 
 # CSS framework
-gem 'bootstrap-sass'
+# gem 'bootstrap-sass'
 gem 'bootstrap',     '4.1.1'
 gem 'material-sass', '4.1.1'
 
 # icons
 gem 'font-awesome-sass'
-gem 'material_icons'
+gem 'material_design_icons'
 
 gem 'uglifier' # JavaScript compressor
 
@@ -66,6 +66,7 @@ gem 'bluecloth'
 
 # Pagination
 gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 
 # user signup/login/etc
 gem 'devise'
