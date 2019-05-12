@@ -47,11 +47,11 @@ class Crop < ApplicationRecord
   validate :must_have_meaningful_reason_for_rejection
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
-    format: {
-      with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
-      message: 'is not a valid English Wikipedia URL'
-    },
-    if:     :approved?
+            format: {
+              with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              message: 'is not a valid English Wikipedia URL'
+            },
+            if:     :approved?
 
   ####################################
   # Elastic search configuration

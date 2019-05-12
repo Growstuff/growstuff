@@ -26,17 +26,17 @@ class Garden < ApplicationRecord
   validates :name, uniqueness: { scope: :owner_id }
 
   validates :name,
-    format: {
-      with: /\A\w+[\w ()]+\z/
-    },
-    length: { maximum: 255 }
+            format: {
+              with: /\A\w+[\w ()]+\z/
+            },
+            length: { maximum: 255 }
 
   validates :area,
-    numericality: {
-      only_integer:             false,
-      greater_than_or_equal_to: 0
-    },
-    allow_nil:    true
+            numericality: {
+              only_integer:             false,
+              greater_than_or_equal_to: 0
+            },
+            allow_nil:    true
 
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
