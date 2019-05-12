@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe 'Test with visual testing', type: :feature, js: true do
-
-
   let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
   let(:someone_else) { FactoryBot.create :member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
 
@@ -30,7 +28,6 @@ describe 'Test with visual testing', type: :feature, js: true do
       harvest = FactoryBot.create :harvest, crop: crop, owner: owner
       harvest.photos << photo
     end
-
   end
   after { Timecop.return }
 
@@ -94,10 +91,10 @@ describe 'Test with visual testing', type: :feature, js: true do
     describe 'photos' do
       it 'loads photos#show' do
         photo = FactoryBot.create :photo,
-          title: 'look at my tomatoes',
-          owner: member,
-          fullsize_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
-          thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
+                                  title:         'look at my tomatoes',
+                                  owner:         member,
+                                  fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
+                                  thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
         photo.plantings << FactoryBot.create(:planting, owner: member, crop: tomato)
         visit photo_path(photo)
         Percy.snapshot(page, name: "#{prefix}/photos#show")
