@@ -1,28 +1,27 @@
-- if signed_in?
-  .row
-    .col-md-12
-      %ul.nav.nav-tabs.pull-right#global-actions
-        %li.nav-item
-          = link_to member_gardens_path(member_slug: current_member.slug), class: 'nav-link' do
-            = garden_icon
-            = t('links.my_gardens')
+-# - if signed_in?
+-#   .row
+-#     .col-md-12
+-#       .btn-group
+-#         = link_to member_gardens_path(member_slug: current_member.slug),
+-#           class: 'btn btn-default' do
+-#           = garden_icon
+-#           -# = t('.my_gardens')
+-#         = link_to new_planting_path,
+-#           class: 'btn btn-default' do
+-#           = planting_icon
+-#           -# = t('plantings.plant')
 
-        %li.nav-item
-          = link_to new_planting_path, class: 'nav-link' do
-            = planting_icon
-            = t('plantings.plant')
+-#         = link_to new_harvest_path,
+-#           class: 'btn btn-default' do
+-#           = harvest_icon
+-#           -# = t('harvests.harvest')
 
-        %li.nav-item
-          = link_to new_harvest_path, class: 'nav-link' do
-            = harvest_icon
-            = t('harvests.harvest')
+-#         = link_to new_seed_path,
+-#           class: 'btn btn-default' do
+-#           = seed_icon
+-#           -# = t('buttons.save_seeds')
 
-        %li.nav-item
-          = link_to new_seed_path, class: 'nav-link' do
-            = seed_icon
-            = t('buttons.save_seeds')
-
-        %li.nav-item
-          = link_to new_post_path, class: 'nav-link' do
-            = blog_icon
-            = t 'posts.write_blog'
+-#         = link_to new_post_path,
+-#           class: 'btn btn-default' do
+-#           = blog_icon
+-#           -# = t 'posts.write_blog'
