@@ -53,16 +53,15 @@
             = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     .varieties= render 'varieties', crop: @crop
+    
+    %h3 Crop Map
+    %p
+      Only plantings by members who have set their locations are shown on this map.
+      - if current_member && current_member.location.blank?
+        = link_to "Set your location.", edit_member_registration_path
+    #cropmap
 
-    .well
-      %h3 Crop Map
-      %p
-        Only plantings by members who have set their locations are shown on this map.
-        - if current_member && current_member.location.blank?
-          = link_to "Set your location.", edit_member_registration_path
-      #cropmap
-
-    .well= render 'crops/posts', crop: @crop
+    = render 'crops/posts', crop: @crop
 
   .col-md-3
     = render 'wrangle', crop: @crop
@@ -70,55 +69,65 @@
       .crop-image
         = image_tag crop_image_path(@crop, full_size: true),
           class: 'img-card', alt: 'photo of crop'
-      .card-header
-        %h4 How to grow #{@crop.name.pluralize}
       .card-body
+        %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop
         = render 'planting_advice', crop: @crop
-      .card-footer
-        %p.card-text
+        - if @crop.parent
+          %hr/
+          %p.parent-crop
+            = @crop.name
+            is a variety of
+            = link_to @crop.parent, @crop.parent
+      .list-group
+        .list-group-item.list-group-flush.d-flex.justify-content-between.align-items-center
           = link_to crop_plantings_path(@crop), class: 'card-link' do
             #{@crop.name} plantings
-            (#{@crop.plantings.size})
-        %p.card-text
+          %span.badge.badge-primary.badge-pill=@crop.plantings.size
+        .list-group-item.d-flex.justify-content-between.align-items-center
           = link_to crop_harvests_path(@crop) do
             #{@crop.name} harvests
-            (#{@crop.harvests.size})
-        %p.card-text
+          %span.badge.badge-primary.badge-pill=@crop.harvests.size
+
+        .list-group-item.d-flex.justify-content-between.align-items-center
           = link_to crop_seeds_path(@crop) do
             #{@crop.name} seeds
-            (#{@crop.seeds.size})
+          %span.badge.badge-primary.badge-pill=@crop.seeds.size
 
         - if member_signed_in?
-          %p.card-text
+          .list-group-item.d-flex.justify-content-between.align-items-center
             = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
               = display_seed_availability(@current_member, @crop)
 
-    = render 'scientific_names', crop: @crop
-    = render 'alternate_names', crop: @crop
+        .card-body
+          = render 'scientific_names', crop: @crop
+          = render 'alternate_names', crop: @crop
 
-    - if @crop.parent
-      %hr/
-      %p.parent-crop
-        = @crop.name
-        is a variety of
-        = link_to @crop.parent, @crop.parent
+    %hr/
+
 
     = render 'find_seeds', crop: @crop
 
-    .well
-      %h4 Learn more about #{@crop.name.pluralize}
-      %ul
-        %li= link_to 'Wikipedia (English)', @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer"
-        %li
+    %hr/
+    .card
+      .card-body
+        %h5.card-title Learn more about #{@crop.name.pluralize}
+        %h6.card-subtitle.mb-2.text-muted resources outside #{ENV['GROWSTUFF_SITE_NAME']}
+
+      %ul.list-group.list-group-flush
+        %li.list-group-item
+          = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
+            Wikipedia (English)
+
+        %li.list-group-item
           = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
                     target: "_blank",
                     rel: "noopener noreferrer"
-        %li
+        %li.list-group-item
           = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{CGI.escape @crop.name}",
                     target: "_blank", rel: "noopener noreferrer"
         - if current_member && current_member.location
-          %li
+          %li.list-group-item
             = link_to "Google",
                       'http://www.google.com/search?q=' + CGI.escape(['Growing',
                                                                       @crop.name,

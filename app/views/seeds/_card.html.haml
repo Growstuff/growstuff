@@ -38,6 +38,7 @@
   .card-body
     %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
     %h5.card-title= link_to seed, seed
+  .card-footer
     %span.badge.badge-pill.badge-secondary=seed.owner.location
     %p.float-right
       = link_to seed.owner do
