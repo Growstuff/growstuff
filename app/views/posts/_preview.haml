@@ -10,5 +10,4 @@
             %strong= link_to post.author, post.author
 
           %p
-            :growstuff_markdown
-              #{ strip_tags post.body }
+            = truncate(strip_tags(post.body), length: 200)

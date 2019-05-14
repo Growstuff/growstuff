@@ -54,7 +54,9 @@
 
     .varieties= render 'varieties', crop: @crop
 
-    %h3 Crop Map
+    %h3
+      = icon 'fas', 'map'
+      Crop Map
     %p
       Only plantings by members who have set their locations are shown on this map.
       - if current_member && current_member.location.blank?
@@ -120,20 +122,22 @@
       %ul.list-group.list-group-flush
         %li.list-group-item
           = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
             Wikipedia (English)
 
         %li.list-group-item
-          = link_to "OpenFarm - Growing guide", "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
+          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
                     target: "_blank",
-                    rel: "noopener noreferrer"
+                    rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            OpenFarm - Growing guide
         %li.list-group-item
-          = link_to "Gardenate - Planting reminders", "http://www.gardenate.com/plant/#{CGI.escape @crop.name}",
-                    target: "_blank", rel: "noopener noreferrer"
+          = link_to "http://www.gardenate.com/plant/#{CGI.escape @crop.name}",
+                    target: "_blank", rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            Gardenate - Planting reminders
         - if current_member && current_member.location
           %li.list-group-item
-            = link_to "Google",
-                      'http://www.google.com/search?q=' + CGI.escape(['Growing',
-                                                                      @crop.name,
-                                                                      current_member.location].join(' ')),
-                      target: "_blank",
-                      rel: "noopener noreferrer"
+            = link_to 'http://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')), target: "_blank", rel: "noopener noreferrer" do
+              = icon 'fas', 'external-link-alt'
+              Google
