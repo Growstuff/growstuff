@@ -15,6 +15,6 @@
         - if devise_mapping.recoverable? && controller_name != 'passwords'
           %p
             = link_to "Forgot password?", new_password_path(resource_name)
-      = f.submit "Sign in", class: 'btn btn-block my-4 btn-primary'
+      = f.submit "Sign in", class: 'btn btn-block my-4 btn-success'
 
     = render "devise/shared/links"
