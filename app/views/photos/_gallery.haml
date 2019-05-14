@@ -4,3 +4,5 @@
     .photo-grid-item
       = link_to photo do
         = render 'photos/thumbnail', photo: photo
+        - if photo.date_taken.present?
+          %small= I18n.l(photo.date_taken.to_date)

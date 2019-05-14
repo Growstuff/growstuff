@@ -3,8 +3,7 @@
     %h5.card-title Find #{crop.name} seeds
   .card-body
     - if crop.seeds.empty?
-      %p
-        There are no seeds available to trade on Growstuff right now.
+      %p There are no seeds available to trade on Growstuff right now.
     - else
       %ul.list-group
         - crop.seeds.tradable.each do |seed|
