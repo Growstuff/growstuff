@@ -23,7 +23,15 @@ module ButtonsHelper
     return unless can? :create, Planting
 
     link_to new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-sm' do
-      planting_icon.html_safe
+      planting_icon + ' ' + t('buttons.plant')
+    end
+  end
+
+  def crop_save_seeds_button(crop)
+    return unless can?(:create, Seed)
+
+    link_to new_seed_path(params: { crop_id: crop.id }), class: "btn btn-sm" do
+      seed_icon + ' ' + t('buttons.save_seeds')
     end
   end
 
