@@ -7,6 +7,7 @@ describe 'Test with visual testing', type: :feature, js: true do
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
   let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
+  let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
   before do
     # Freeze time, so we don't have variations in timestamps on the page
     Timecop.freeze(Time.local(2019, 1, 1))
@@ -25,7 +26,7 @@ describe 'Test with visual testing', type: :feature, js: true do
           thumbnail_url: "#{photo_url}_q.jpg", fullsize_url: "#{photo_url}_z.jpg")
       planting.photos << photo
 
-      harvest = FactoryBot.create :harvest, crop: crop, owner: owner
+      harvest = FactoryBot.create :harvest, crop: crop, owner: owner, plant_part: plant_part
       harvest.photos << photo
     end
   end
