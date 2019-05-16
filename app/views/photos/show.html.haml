@@ -17,7 +17,7 @@
       = render 'photos/actions', photo: @photo
       = link_to "View on Flickr", @photo.link_url, class: 'btn'
     - if @crops.size.positive?
-      = render @crops
+      %p= render @crops
     %p
       %i.fas.fa-camera-retro
       %strong Photo by
