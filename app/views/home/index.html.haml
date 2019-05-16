@@ -30,18 +30,40 @@
 
   .col-xl-4
     .row
-      .col-md-6
+      .col-6
         %section.plantings
-          %h4.h4= t('.recently_planted')
-          .row.homepage-thumbnails
-            = render Planting.has_photos.recent.includes(:crop, garden: :owner).limit(3), full: true
+          %h5= t('.recently_planted')
 
-      .col-md-6
+          - Planting.has_photos.recent.includes(:crop, garden: :owner).limit(3).each do |planting|
+            .card
+              = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
+                .d-flex.w-100.justify-content-between
+                  %p.mb-2= image_tag planting_image_path(planting), width: 75
+                  %div
+                    %h5.mb-2.h5
+                      = planting.crop.name
+                      - if !planting.finished? && planting.finish_is_predicatable?
+                        %span.badge.badge-success #{sprintf '%.0f', planting.percentage_grown}%
+                    %small.text-muted
+                      - if planting.planted_from.present?
+                        = display_planting(planting)
+
+
+
+      .col-6
         %section.harvests
-          %h4.h4= t('.recently_harvested')
-          .row.homepage-thumbnails
-            = render Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(3), full: true
-    
+          %h5= t('.recently_harvested')
+          - Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(3).each do |harvest|
+            .card
+              = link_to harvest, class: 'list-group-item list-group-item-action flex-column align-items-start' do
+                .d-flex.w-100.justify-content-between
+                  %div
+                    %h5.mb-2.h5= harvest.crop.name
+                    %span.badge.badge-success=harvest.plant_part
+                    %small.text-muted=display_human_quantity(harvest)
+                  %p.mb-2= image_tag harvest_image_path(harvest), width: 75
+
+
     %section.members= render 'discuss'
 
 

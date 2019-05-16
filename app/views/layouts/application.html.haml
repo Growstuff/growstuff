@@ -15,11 +15,8 @@
       - if content_for?(:subtitle)
         %small= yield(:subtitle)
 
-
-      .row
-        .col-md-12
-          = render partial: "shared/flash_messages", flash: flash
-          = yield
+      = render partial: "shared/flash_messages", flash: flash
+      = yield
 
     %footer
       = render "layouts/footer"
