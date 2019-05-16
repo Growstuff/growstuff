@@ -8,9 +8,18 @@ describe 'Test with visual testing', type: :feature, js: true do
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
   let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
   let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
+
+  let(:tomato_photo) do
+        FactoryBot.create :photo,
+                                  title:         'look at my tomatoes',
+                                  owner:         member,
+                                  fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
+                                  thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
+  end
   before do
     # Freeze time, so we don't have variations in timestamps on the page
     Timecop.freeze(Time.local(2019, 1, 1))
+
     {
       chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
       apple:    'https://farm5.staticflickr.com/4748/38932178855_6fe9bcdb48_q.jpg',
@@ -70,8 +79,14 @@ describe 'Test with visual testing', type: :feature, js: true do
         Percy.snapshot(page, name: "#{prefix}/gardens#index")
       end
 
-      it 'load some one else\'s gardens#show' do
-        garden = FactoryBot.create :garden, name: 'paraside', owner: someone_else
+      it 'gardens#show' do
+        # a garden
+        garden = FactoryBot.create :garden, name: 'paraside', owner: member
+        #with some lettuce (finished)
+        FactoryBot.create :planting, crop: FactoryBot.create(:crop, name: 'lettuce'), garden: garden, owner: member, finished_at: 2.weeks.ago
+        #tomato still growing
+        tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
+        tomato_photo.plantings << tomato_planting
         visit garden_path(garden)
         Percy.snapshot(page, name: "#{prefix}/gardens#show")
       end
@@ -89,15 +104,18 @@ describe 'Test with visual testing', type: :feature, js: true do
       end
     end
 
+    describe 'posts' do
+      let(:post) { FactoryBot.create :post, author: member }
+      it 'loads posts#show' do
+        visit post_path(post)
+        Percy.snapshot(page, name: "#{prefix}/posts#show")
+      end
+    end
+
     describe 'photos' do
       it 'loads photos#show' do
-        photo = FactoryBot.create :photo,
-                                  title:         'look at my tomatoes',
-                                  owner:         member,
-                                  fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
-                                  thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
-        photo.plantings << FactoryBot.create(:planting, owner: member, crop: tomato)
-        visit photo_path(photo)
+        tomato_photo.plantings << FactoryBot.create(:planting, owner: member, crop: tomato)
+        visit photo_path(tomato_photo)
         Percy.snapshot(page, name: "#{prefix}/photos#show")
       end
     end
