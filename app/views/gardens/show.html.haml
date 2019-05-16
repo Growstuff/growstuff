@@ -48,7 +48,7 @@
       - if @current_plantings.size.positive?
         - @current_plantings.each do |planting|
           .col-xs-12.col-md-6
-            = render partial: "plantings/card", locals: { planting: planting }
+            = render "plantings/card", planting: planting
       - else
         .col-md-12
           %p Nothing is currently planted here.

@@ -2,7 +2,7 @@
   .card.text-center
     .avatar.mx-auto
       = link_to member do
-        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid', alt: member)
+        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid shadow member-avatar', alt: member)
     .card-body
       / Name
       %h4.card-title
