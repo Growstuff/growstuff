@@ -21,5 +21,4 @@
 // = require popper
 // = require bootstrap
 // = require material
-// = require isotope
 // = require_tree .
