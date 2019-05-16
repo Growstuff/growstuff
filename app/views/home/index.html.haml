@@ -10,7 +10,7 @@
     .jumbotron= render 'blurb'
 
 .row
-  .col-xl-8.col-md-12
+  .col-xl-7.col-md-12
     %section.crops
       %h2= t('.some_of_our_crops')
       .homepage-cards= render 'crops'
@@ -28,40 +28,10 @@
       .align-bottom
         %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
 
-  .col-xl-4
+  .col-xl-5
     .row
-      .col-6
-        %section.plantings
-          %h5= t('.recently_planted')
-
-          - Planting.has_photos.recent.includes(:crop, garden: :owner).limit(3).each do |planting|
-            .card
-              = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
-                .d-flex.w-100.justify-content-between
-                  %p.mb-2= image_tag planting_image_path(planting), width: 75
-                  %div
-                    %h5.mb-2.h5
-                      = planting.crop.name
-                      - if !planting.finished? && planting.finish_is_predicatable?
-                        %span.badge.badge-success #{sprintf '%.0f', planting.percentage_grown}%
-                    %small.text-muted
-                      - if planting.planted_from.present?
-                        = display_planting(planting)
-
-
-
-      .col-6
-        %section.harvests
-          %h5= t('.recently_harvested')
-          - Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(3).each do |harvest|
-            .card
-              = link_to harvest, class: 'list-group-item list-group-item-action flex-column align-items-start' do
-                .d-flex.w-100.justify-content-between
-                  %div
-                    %h5.mb-2.h5= harvest.crop.name
-                    %span.badge.badge-success=harvest.plant_part
-                    %small.text-muted=display_human_quantity(harvest)
-                  %p.mb-2= image_tag harvest_image_path(harvest), width: 75
+      .col-md-6.col-sm-12=render 'plantings'
+      .col-md-6.col-sm-12= render 'harvests'
 
 
     %section.members= render 'discuss'
