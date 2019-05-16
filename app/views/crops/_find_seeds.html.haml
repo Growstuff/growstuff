@@ -27,7 +27,9 @@
     - if crop.approved?
       - if current_member
         %li.list-group-item
-          = link_to "List #{crop.name} seeds to trade", new_seed_path(crop_id: crop.id)
+          = link_to new_seed_path(crop_id: crop.id) do
+            = seed_icon
+            List #{crop.name} seeds to trade
       - else
         %li.list-group-item.active
           = icon 'fas', 'user'
