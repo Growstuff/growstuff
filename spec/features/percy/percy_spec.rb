@@ -226,5 +226,17 @@ describe 'Test with visual testing', type: :feature, js: true do
         Percy.snapshot(page, name: "#{prefix}/posts#edit")
       end
     end
+
+    describe 'expand menus' do
+      it 'expands crop menu' do
+        visit root_path
+        click_on 'Crops'
+        Percy.snapshot(page, name: "#{prefix}/crops-menu")
+        click_on 'Community'
+        Percy.snapshot(page, name: "#{prefix}/community-menu")
+        click_on 'percy'
+        Percy.snapshot(page, name: "#{prefix}/menu-menu")
+      end
+    end
   end
 end
