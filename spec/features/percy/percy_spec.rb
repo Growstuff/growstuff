@@ -88,7 +88,7 @@ describe 'Test with visual testing', type: :feature, js: true do
         tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
         tomato_photo.plantings << tomato_planting
         visit garden_path(garden)
-        Percy.snapshot(page, name: "#{prefix}/gardens#show")
+        Percy.snapshot(page, name: "#{prefix}/gardens#show-2")
       end
     end
 
@@ -235,7 +235,7 @@ describe 'Test with visual testing', type: :feature, js: true do
         click_on 'Community'
         Percy.snapshot(page, name: "#{prefix}/community-menu")
         click_on 'percy'
-        Percy.snapshot(page, name: "#{prefix}/menu-menu")
+        Percy.snapshot(page, name: "#{prefix}/member-menu")
       end
     end
   end
