@@ -17,7 +17,7 @@
           = link_to t('.harvests'), harvests_path, class: 'dropdown-item'
 
       %li.nav-item.dropdown
-        %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to t('.community_map'), places_path, class: 'dropdown-item'
           = link_to t('.browse_members'), members_path, class: 'dropdown-item'
@@ -27,50 +27,46 @@
 
       - if member_signed_in?
         %li.nav-item.dropdown
-          %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
             - if current_member.notifications.unread_count.positive?
               = t('.your_stuff', unread_count: current_member.notifications.unread_count)
             - else
               = t('.current_memberlogin_name', current_memberlogin_name: current_member.login_name)
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             = link_to member_path(current_member), class: 'dropdown-item' do
-              = member_icon
               = t('.profile')
             = link_to member_gardens_path(current_member), class: 'dropdown-item' do
-              = garden_icon
               = t('.gardens')
             = link_to member_plantings_path(current_member), class: 'dropdown-item' do
-              = planting_icon
               = t('.plantings')
             = link_to member_harvests_path(current_member), class: 'dropdown-item' do
-              = harvest_icon
               = t('.harvest')
             = link_to member_seeds_path(current_member), class: 'dropdown-item' do
-              = seed_icon
               = t('.seeds')
-            = link_to t('.posts'), member_posts_path(current_member)
+            = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
 
             - if current_member.notifications.unread_count.positive?
               = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count),
                         notifications_path)
             - else
-              = link_to(t('.inbox'), notifications_path)
+              = link_to t('.inbox'), notifications_path, class: 'dropdown-item'
           - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
             %li.divider{ role: 'presentation' }
             - if current_member.role?(:crop_wrangler)
-              %li= link_to t('.crop_wrangling'), wrangle_crops_path
+              = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
             - if current_member.role?(:admin)
-              %li= link_to t('.admin'), admin_path
+              = link_to t('.admin'), admin_path, class: 'dropdown-item'
 
-        %li= link_to t('.sign_out'), destroy_member_session_path, method: :delete
+        %li.nav-item
+          = link_to t('.sign_out'), destroy_member_session_path, method: :delete, class: 'nav-link'
 
       - else
-        = link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin'
-        = link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup'
+        %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'nav-link'
+        %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'nav-link'
 
 
     = form_tag search_crops_path, method: :get, class: 'form-inline my-2 my-lg-0' do
       .input-group
         %input.form-control.mr-sm-2{name: 'term', "aria-label" => "Search", placeholder: "Search", type: "search"}/
-        %button.btn.btn-default.text-white{type: "submit"}<
+        %button.btn.btn-default.text-white{type: "submit"}
           = icon 'fas', 'search'

@@ -20,10 +20,11 @@ gem 'jsonapi-resources'
 gem 'bootstrap',     '4.1.1'
 gem 'material-sass', '4.1.1'
 
+# Icons used by bootstrap/material-sass
+gem 'material_icons'
 
 # icons
 gem 'font-awesome-sass'
-gem 'material_design_icons'
 
 gem 'uglifier' # JavaScript compressor
 
