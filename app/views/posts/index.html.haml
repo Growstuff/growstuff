@@ -1,30 +1,27 @@
 - content_for :title, @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
-%p
-  - if can? :create, Post
-    - if @author
-      %p
-        - if @author == current_member
-          = link_to 'Post something', new_post_path, class: 'btn btn-primary'
-        = link_to "View everyone's posts", posts_path, class: 'btn btn-default'
-    - else # everyone's posts
-      = link_to 'Post something', new_post_path, class: 'btn btn-primary'
-      - if current_member
-        = link_to 'View your posts', member_posts_path(current_member), class: 'btn btn-default'
-  - else
-    = render partial: 'shared/signin_signup', locals: { to: 'write a post' }
+.pagination= render 'layouts/pagination', collection: @posts
+.row
+  .card-deck
+    - @posts.each do |post|
+      .col-6.col-xs-12
+        .card
+          .card-body
+            .row
+              .col-4= render 'members/avatar', member: post.author
+              .col-8
+                %h5.card-title
+                  = link_to post.subject, post
+                  - if post.comments.size.positive?
+                    %span.badge.badge-pill.badge-info.float-right
+                      = icon 'fas', 'comment'
+                      = post.comments.size
+                %p.card-text= display_post_truncated(post)
+                - post.crops.each do |crop|
+                  %span.badge.badge-pill.badge-primary= link_to crop, crop
 
-.pagination
-  = page_entries_info @posts
-  = will_paginate @posts
 
-- unless @posts.empty?
-  - @posts.each do |post|
-    = render partial: "single", locals: { post: post, subject: true }
-
-  .pagination
-    = page_entries_info @posts
-    = will_paginate @posts
+.pagination= render 'layouts/pagination', collection: @posts
 
 %p
   - if @author
