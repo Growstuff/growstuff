@@ -10,16 +10,16 @@ describe 'Test with visual testing', type: :feature, js: true do
   let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
 
   let(:tomato_photo) do
-        FactoryBot.create :photo,
-                                  title:         'look at my tomatoes',
-                                  owner:         member,
-                                  fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
-                                  thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
+    FactoryBot.create :photo,
+                      title:         'look at my tomatoes',
+                      owner:         member,
+                      fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
+                      thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
   end
   let(:post_body) do
     "So, um, watering's important. Yep. Very important.
 
-Well, what with moving into the house and all THAT entails...my plants are looking the worse for wear. They haven't gotten enough water. The oregano is dead. The basil and chives are just hanging on. The [tomato](crop) have sort of purple leaves. Seeing that the roots were all growing out of the bottom of the pots, I finally went and got soil to fill the basins I have for the tomatoes and spent the money on proper (much larger) pots for the herbs. 
+Well, what with moving into the house and all THAT entails...my plants are looking the worse for wear. They haven't gotten enough water. The oregano is dead. The basil and chives are just hanging on. The [tomato](crop) have sort of purple leaves. Seeing that the roots were all growing out of the bottom of the pots, I finally went and got soil to fill the basins I have for the tomatoes and spent the money on proper (much larger) pots for the herbs.
 
 At Home Depot, it turned out that 7.5\" pots that are glazed inside and out (to prevent wicking & evaporation of water -- the problem my tomatoes were hitting with the teensy clay pots) were $10 for the pot and $5 for the saucer. Or there are 7.25\" self-watering pots for $15. So my herbs are now in self-watering pots where they should be able to survive Pennsic without me.  I got a new oregano plant too.
 
@@ -105,9 +105,9 @@ I noticed a couple of days ago on the way to work that there's a place near home
       it 'gardens#show' do
         # a garden
         garden = FactoryBot.create :garden, name: 'paradise', owner: member
-        #with some lettuce (finished)
+        # with some lettuce (finished)
         FactoryBot.create :planting, crop: FactoryBot.create(:crop, name: 'lettuce'), garden: garden, owner: member, finished_at: 2.weeks.ago
-        #tomato still growing
+        # tomato still growing
         tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
         tomato_photo.plantings << tomato_planting
         visit garden_path(garden)
@@ -129,8 +129,8 @@ I noticed a couple of days ago on the way to work that there's a place near home
 
     describe 'posts' do
       it 'loads posts#show' do
-        FactoryBot.create :comment ,post: post
-        FactoryBot.create :comment ,post: post
+        FactoryBot.create :comment, post: post
+        FactoryBot.create :comment, post: post
         visit post_path(post)
         Percy.snapshot(page, name: "#{prefix}/posts#show")
       end
