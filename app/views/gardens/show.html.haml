@@ -47,8 +47,7 @@
     .row
       - if @current_plantings.size.positive?
         - @current_plantings.each do |planting|
-          .col-xs-12.col-md-6
-            = render "plantings/card", planting: planting
+          .col-xs-12.col-3= render "plantings/card", planting: planting
       - else
         .col-md-12
           %p Nothing is currently planted here.
@@ -84,7 +83,7 @@
             = link_to othergarden, garden_path(othergarden)
 
     - unless @garden.owner.gardens.inactive.empty?
-      %h4= "Inactive gardens"
+      %h4 Inactive gardens
       %ul
         - @garden.owner.gardens.inactive.each do |othergarden|
           %li
@@ -108,4 +107,4 @@
       %h3= localize_plural(@garden.photos, Photo)
       .row
         - @garden.photos.includes(:owner).each do |photo|
-          .col-xs-6= render partial: 'photos/thumbnail', locals: { photo: photo }
+          .col-xs-6= render 'photos/thumbnail', photo: photo
