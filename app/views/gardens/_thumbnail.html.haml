@@ -3,7 +3,7 @@
     %h3.panel-title
       = link_to display_garden_name(garden), garden_path(garden)
       - if can? :edit, garden
-        %a.pull-right{ href: edit_garden_path(garden), role: "button", id: "edit_garden_glyphicon" }
+        %a.text-right{ href: edit_garden_path(garden), role: "button", id: "edit_garden_glyphicon" }
           %span.glyphicon.glyphicon-pencil{ title: "Edit" }
   .panel-body{ id: "gardens_panel_body" }
     .row

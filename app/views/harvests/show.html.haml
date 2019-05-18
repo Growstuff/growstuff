@@ -48,7 +48,7 @@
   .row
     .col-md-6= render @harvest.default_photo
     .col-md-6
-      = link_to 'View all photos >>', planting_photos_path(@harvest), class: 'pull-right'
+      = link_to 'View all photos >>', planting_photos_path(@harvest), class: 'text-right'
       .row
         - @harvest.photos.order(date_taken: :desc).limit(3).each do |photo|
           .col-md-3= render('photos/thumbnail', photo: photo)
