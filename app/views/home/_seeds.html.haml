@@ -1,5 +1,3 @@
 - cache cache_key_for(Seed) do
-  - seeds = Seed.current.tradable.includes(:owner, :crop).order(created_at: :desc).limit(6)
-  - if seeds.size.positive?
-    %h2= t('.title')
-    = render 'seeds/list', seeds: seeds
+  %h2= t('.title')
+  = render 'seeds/list', seeds: Seed.current.tradable.includes(:owner, :crop).order(created_at: :desc).limit(6)
