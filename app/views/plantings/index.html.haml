@@ -13,7 +13,9 @@
   = page_entries_info @plantings
   = render 'layouts/pagination', collection: @plantings
 
-.row= render(@plantings) || "empty_list"
+.row
+  - @plantings.each do |planting|
+    .col-md-3.col-sm-4.col-6= render 'plantings/card', planting: planting
 
 .pagination
   = page_entries_info @plantings
