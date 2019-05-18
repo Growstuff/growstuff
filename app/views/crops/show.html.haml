@@ -10,6 +10,14 @@
 - content_for :scripts do
   = javascript_include_tag "charts"
 
+- content_for :breadcrumbs do
+  %nav{"aria-label" => "breadcrumb"}
+    %ol.breadcrumb
+      %li.breadcrumb-item
+        = link_to 'Home', root_path
+      %li.breadcrumb-item= link_to 'Crops', crops_path
+      %li.breadcrumb-item.active= link_to @crop, @crop
+
 %h1
   = @crop.name
   %small= @crop.default_scientific_name

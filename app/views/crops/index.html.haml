@@ -1,5 +1,4 @@
 - content_for :title, t('.title')
-- content_for :subtitle, t('.subtitle', crops_size: @crops.size)
 
 - content_for :buttonbar do
   - if can? :wrangle, Crop
@@ -7,24 +6,30 @@
   - if can? :create, Crop
     = link_to 'Add new Crop', new_crop_path, class: 'btn btn-primary'
 
+- content_for :breadcrumbs do
+  %nav{"aria-label" => "breadcrumb"}
+    %ol.breadcrumb
+      %li.breadcrumb-item
+        = link_to 'Home', root_path
+      %li.breadcrumb-item.active= link_to 'Crops', crops_path
 
-- if @num_requested_crops && @num_requested_crops.positive?
-  = link_to(I18n.t('crops.requested.link', number_crops: @num_requested_crops), requested_crops_path)
-
+%h1=t('.title')
 %p
   #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
   View any crop page to see which of our members have planted it and find
   information on how to grow it yourself.
 
-= form_tag(crops_path, method: :get, class: 'form-inline', role: 'form') do
-  .form-group
-    = label_tag :sort, "Sort by:", class: 'sr-only'
-    = select_tag "sort",
-                 options_for_select({ "Sort by popularity": 'popular',
-                                      "Sort alphabetically": 'alpha' },
-                                      @sort || 'popular'),
-                 class: 'form-control'
-  = submit_tag "Show", class: 'btn btn-primary'
+
+.well
+  = form_tag(crops_path, method: :get, class: 'form-inline', role: 'form') do
+    .form-group
+      = label_tag :sort, "Sort by:", class: 'sr-only'
+      = select_tag "sort",
+                   options_for_select({ "Sort by popularity": 'popular',
+                                        "Sort alphabetically": 'alpha' },
+                                        @sort || 'popular'),
+                   class: 'form-control'
+    = submit_tag "Show", class: 'btn btn-success'
 
 .pagination= render 'layouts/pagination', collection: @crops
 
@@ -32,9 +37,7 @@
   - @crops.each do |crop|
     .col-md-2= render 'crops/thumbnail', crop: crop
 
-.pagination
-  = will_paginate @crops
-
+.pagination= render 'layouts/pagination', collection: @crops
 
 %ul.list-inline
   %li The data on this page is available in the following formats:

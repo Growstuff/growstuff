@@ -5,6 +5,14 @@
 - else
   - content_for :title, "Crop search"
 
+- content_for :breadcrumbs do
+  %nav{"aria-label" => "breadcrumb"}
+    %ol.breadcrumb
+      %li.breadcrumb-item
+        = link_to 'Home', root_path
+      %li.breadcrumb-item= link_to 'Crops', crops_path
+      %li.breadcrumb-item.active= link_to 'Search', search_crops_path(term: @term)
+
 %div
   = form_tag search_crops_path, method: :get, id: 'crop-search', class: 'form-inline' do
     .form-group
@@ -25,10 +33,6 @@
     instead.
 
 - else
-  = will_paginate @crops
-
   .row
     - @crops.each do |crop|
       .col-md-2= render 'crops/thumbnail', crop: crop
-
-  = will_paginate @crops
