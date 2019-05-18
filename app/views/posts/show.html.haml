@@ -22,22 +22,8 @@
       to: "or to start using #{ENV['GROWSTUFF_SITE_NAME']} to track what you're planting and harvesting"
 
 - content_for :buttonbar do
-  - if can?(:edit, @post) || can?(:destroy, @post)
-    - if can? :edit, @post
-      = link_to edit_post_path(@post), class: 'btn' do
-        = edit_icon
-        edit
-
-    - if can? :destroy, @post
-      = link_to @post, method: :delete,
-                    data: { confirm: 'Are you sure?' },
-                    class: 'btn btn-danger' do
-        = delete_icon
-        delete
-
   - if @post.comments.count > 10 && can?(:create, Comment)
     = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn'
-
 
 - content_for :breadcrumbs do
   %nav{"aria-label" => "breadcrumb"}
@@ -50,36 +36,32 @@
 
 .row
   .col-8.col-xs-12
-
-    / Section: Blog v.4
     %section.blog-post
       .card.post{ id: "post-#{@post.id}" }
         .card-header
-          %h2.display-3= @post.subject
-        .card-body
-          %p
-            Posted by
-            - if @post.author
-              = link_to @post.author.login_name, member_path(@post.author)
-            - else
-              Member Deleted
-            - if @post.forum
-              in
-              = link_to @post.forum, @post.forum
-            on
-            = @post.created_at
-            - if @post.updated_at > @post.created_at
-              and edited at
-              = @post.updated_at
-          :growstuff_markdown
-            #{ strip_tags @post.body }
+          %h2.display-3.float-left
+            = @post.subject
+          .dropdown.float-right
+            %button#post-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+            .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "post-edit-button"}
+              - if can? :edit, @post
+                = link_to edit_post_path(@post), class: 'dropdown-item' do
+                  = edit_icon
+                  Edit
+              - if can? :delete, @post
+                = link_to post_path(@post), class: 'dropdown-item text-danger', data: { confirm: 'Are you sure?' } do
+                  = delete_icon
+                  Delete
+        .card-body= render 'posts/single', post: @post
 
         .card-footer
-          - if can? :create, Comment
-            = link_to new_comment_path(post_id: @post.id), class: 'btn' do
-              = icon 'fas', 'comment'
-              Comment
+          .float-right
+            - if can? :create, Comment
+              = link_to new_comment_path(post_id: @post.id), class: 'btn' do
+                = icon 'fas', 'comment'
+                Comment
 
+    = render "comments", post: @post
 
   .col-4.col-xs-12
     = render @post.author
@@ -94,6 +76,4 @@
 
 
 
-  .col-md-12
-    = render "comments", post: @post
 

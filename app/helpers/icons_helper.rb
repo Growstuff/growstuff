@@ -21,6 +21,10 @@ module IconsHelper
     icon('fas', 'heart')
   end
 
+  def comment_icon
+    icon('fas', 'comment')
+  end
+
   def finished_icon
     icon('fas', 'calendar')
   end
