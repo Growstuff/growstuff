@@ -1,10 +1,12 @@
 - content_for :title, @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
+
+%h1= @author ? t('.title.author_posts', author: @author) : t('.title.default')
 .pagination= render 'layouts/pagination', collection: @posts
 .row
   .card-deck
     - @posts.each do |post|
-      .col-6.col-xs-12
+      .col-6
         .card
           .card-body
             .row

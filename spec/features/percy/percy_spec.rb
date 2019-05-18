@@ -88,7 +88,7 @@ describe 'Test with visual testing', type: :feature, js: true do
         tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
         tomato_photo.plantings << tomato_planting
         visit garden_path(garden)
-        Percy.snapshot(page, name: "#{prefix}/gardens#show-2")
+        Percy.snapshot(page, name: "#{prefix}/gardens#show")
       end
     end
 
@@ -109,6 +109,16 @@ describe 'Test with visual testing', type: :feature, js: true do
       it 'loads posts#show' do
         visit post_path(post)
         Percy.snapshot(page, name: "#{prefix}/posts#show")
+      end
+      it 'loads posts#index' do
+        Member.all.each do |member|
+          FactoryBot.create_list :post, 12, author: member
+        end
+        Post.all.order(:id).limit(4) do |post|
+          FactoryBot.create_list :comment, rand(1..5), post: post
+        end
+        visit posts_path
+        Percy.snapshot(page, name: "#{prefix}/posts#index")
       end
     end
 

@@ -20,7 +20,6 @@
           %h3= t('.recently_added')
           != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
 
-
     %section.seeds
       %h2.text-center= t('.seeds_available_to_trade')
       .homepage-cards
@@ -28,13 +27,14 @@
       .align-bottom
         %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
 
+    %section.members= render 'members'
+
   .col-xl-5
     .row
       .col-md-6.col-sm-12=render 'plantings'
       .col-md-6.col-sm-12= render 'harvests'
+    .row
+      .col-12
+        %section.members= render 'discuss'
 
 
-    %section.members= render 'discuss'
-
-
-%section.members= render 'members'
