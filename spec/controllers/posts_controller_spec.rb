@@ -8,6 +8,22 @@ describe PostsController do
     { author_id: member.id, subject: "blah", body: "blah blah" }
   end
 
+  describe '#index' do
+    before do
+      FactoryBot.create_list :post, 100
+      FactoryBot.create_list :post, 5, author: member
+    end
+    describe "everyone's posts" do
+      before { get :index }
+      it {expect(assigns(:posts).size).to eq 12 }
+    end
+    describe "one member's posts" do
+      before { get :index, params: {member_slug: member.slug } }
+      it { expect(assigns(:posts).size).to eq 5 }
+      it { expect(assigns(:posts).first.author).to eq member }
+    end
+  end
+
   describe "GET RSS feed" do
     it "returns an RSS feed" do
       get :index, format: "rss"
