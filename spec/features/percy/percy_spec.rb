@@ -77,6 +77,18 @@ I noticed a couple of days ago on the way to work that there's a place near home
 
     describe 'crops' do
       it 'loads crops#show' do
+        FactoryBot.create :planting, planted_at: 2.months.ago, sunniness: 'shade', planted_from: 'seedling'
+
+        planting = FactoryBot.create :planting, planted_at: 1.year.ago , sunniness: 'sun', planted_from: 'seed', crop: tomato
+        FactoryBot.create(:harvest,
+            crop: tomato,
+            plant_part: FactoryBot.create(:plant_part, name: 'berry'),
+            planting: planting,
+            harvested_at: 1.day.ago)
+
+        post = FactoryBot.create :post, subject: 'tomatoes are delicious'
+        tomato.posts << post
+
         visit crop_path(tomato)
         Percy.snapshot(page, name: "#{prefix}/crops#show")
       end
@@ -125,10 +137,10 @@ I noticed a couple of days ago on the way to work that there's a place near home
       end
 
       it 'loads another members#show' do
-        Factory.create :planting, author: someone_else, created_at: 30.days.ago, crop: tomato
-        Factory.create :planting, author: someone_else, created_at: 24.days.ago, crop: tomato
-        Factory.create :post, author: someone_else, created_at: 4.days.ago, subject: 'waiting for my tomatoes'
-        Factory.create :harvest, author: someone_else, created_at: 1.day.ago, crop: tomato
+        FactoryBot.create :planting, owner: someone_else, created_at: 30.days.ago, crop: tomato
+        FactoryBot.create :planting, owner: someone_else, created_at: 24.days.ago, crop: tomato
+        FactoryBot.create :post, author: someone_else, created_at: 4.days.ago, subject: 'waiting for my tomatoes'
+        FactoryBot.create :harvest, owner: someone_else, created_at: 1.day.ago, crop: tomato
 
         visit member_path(someone_else)
         Percy.snapshot(page, name: "#{prefix}/members#show")
