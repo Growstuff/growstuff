@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Test with visual testing', type: :feature, js: true do
   let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
-  let(:someone_else) { FactoryBot.create :member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
+  let(:someone_else) { FactoryBot.create :edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
 
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
@@ -90,6 +90,7 @@ I noticed a couple of days ago on the way to work that there's a place near home
         tomato.posts << post
 
         visit crop_path(tomato)
+        expect(page).to have_text 'tomato'
         Percy.snapshot(page, name: "#{prefix}/crops#show")
       end
       it 'loads crops#index' do
