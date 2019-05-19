@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Test with visual testing', type: :feature, js: true do
-  let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
+  let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar, location: 'Paris, France' }
   let(:someone_else) { FactoryBot.create :member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
 
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
@@ -61,6 +61,9 @@ I noticed a couple of days ago on the way to work that there's a place near home
         planted_at: 1.year.ago, finished_at: 2.months.ago,
         sunniness: 'sun', planted_from: 'seed'
     end
+
+    FactoryBot.create :seed, owner: member, tradeable_to: 'nationally'
+    FactoryBot.create :seed, owner: someone_else, tradeable_to: 'nationally'
   end
   after { Timecop.return }
 
