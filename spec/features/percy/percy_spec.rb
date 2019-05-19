@@ -125,6 +125,11 @@ I noticed a couple of days ago on the way to work that there's a place near home
       end
 
       it 'loads another members#show' do
+        Factory.create :planting, author: someone_else, created_at: 30.days.ago, crop: tomato
+        Factory.create :planting, author: someone_else, created_at: 24.days.ago, crop: tomato
+        Factory.create :post, author: someone_else, created_at: 4.days.ago, subject: 'waiting for my tomatoes'
+        Factory.create :harvest, author: someone_else, created_at: 1.day.ago, crop: tomato
+
         visit member_path(someone_else)
         Percy.snapshot(page, name: "#{prefix}/members#show")
       end
