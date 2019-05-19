@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Test with visual testing', type: :feature, js: true do
-  let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar, location: 'Paris, France' }
+  let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
   let(:someone_else) { FactoryBot.create :member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
 
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
