@@ -1,9 +1,9 @@
 .card.thumbnail
   /= render 'plantings/quick_actions', planting: planting
-  = render 'plantings/badges', planting: planting
   .planting-thumbnail-image
     = link_to image_tag(planting_image_path(planting, full_size: true),
                         alt: planting.crop, class: 'img-card'),
                         planting
-  .card-body.plantinginfo
+  .card-body
     = link_to planting.crop, planting
+    = render 'plantings/badges', planting: planting
