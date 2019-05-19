@@ -79,12 +79,12 @@ I noticed a couple of days ago on the way to work that there's a place near home
       it 'loads crops#show' do
         FactoryBot.create :planting, planted_at: 2.months.ago, sunniness: 'shade', planted_from: 'seedling'
 
-        planting = FactoryBot.create :planting, planted_at: 1.year.ago , sunniness: 'sun', planted_from: 'seed', crop: tomato
+        planting = FactoryBot.create :planting, planted_at: 1.year.ago, sunniness: 'sun', planted_from: 'seed', crop: tomato
         FactoryBot.create(:harvest,
-            crop: tomato,
-            plant_part: FactoryBot.create(:plant_part, name: 'berry'),
-            planting: planting,
-            harvested_at: 1.day.ago)
+                          crop:         tomato,
+                          plant_part:   FactoryBot.create(:plant_part, name: 'berry'),
+                          planting:     planting,
+                          harvested_at: 1.day.ago)
 
         post = FactoryBot.create :post, subject: 'tomatoes are delicious'
         tomato.posts << post

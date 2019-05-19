@@ -1,17 +1,17 @@
 module PostsHelper
   def display_post_truncated(post)
     length = 300
-    return truncate(strip_tags(post.body), length: length, separator: ' ', omission: '... ') { link_to "Read more", post_path(post) }
+    truncate(strip_tags(post.body), length: length, separator: ' ', omission: '... ') { link_to "Read more", post_path(post) }
   end
 
   def post_byline(post)
     byline = 'Posted by '
 
-    if post.author
-      byline += link_to post.author.login_name, member_path(post.author)
-    else
-      byline += 'Member Deleted'
-    end
+    byline += if post.author
+                link_to post.author.login_name, member_path(post.author)
+              else
+                'Member Deleted'
+              end
 
     if post.forum
       byline += ' in '
