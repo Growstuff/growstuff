@@ -62,8 +62,8 @@ I noticed a couple of days ago on the way to work that there's a place near home
         sunniness: 'sun', planted_from: 'seed'
     end
 
-    FactoryBot.create :seed, owner: member, tradeable_to: 'nationally'
-    FactoryBot.create :seed, owner: someone_else, tradeable_to: 'nationally'
+    FactoryBot.create :seed, owner: member, tradable_to: 'nationally'
+    FactoryBot.create :seed, owner: someone_else, tradable_to: 'nationally'
   end
   after { Timecop.return }
 
