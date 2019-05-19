@@ -18,8 +18,17 @@ class MembersController < ApplicationController
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
     @posts         = @member.posts
-    @gardens       = @member.gardens.active.order(:name)
-    @harvests      = @member.harvests
+    plantings = Planting.select(:id, "'planting' as event_type", 'planted_at as event_at', :owner_id, :crop_id, :slug)
+    harvests = Harvest.select(:id, "'harvest' as event_type", 'harvested_at as event_at', :owner_id, :crop_id, :slug)
+    posts = Post.select(:id, "'post' as event_type", 'posts.created_at as event_at', 'author_id as owner_id', 'null as crop_id', :slug)
+    comments = Comment.select(:id, "'comment' as event_type", 'comments.created_at as event_at', 'author_id as owner_id', 'null as crop_id', 'null as slug')
+    @activity = plantings
+      .union_all(harvests)
+      .union_all(posts)
+      .union_all(comments)
+      .where(owner_id: @member.id)
+      .order(event_at: :desc)
+      .limit(30)
 
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.

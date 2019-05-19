@@ -52,8 +52,38 @@
 
   .col-md-10
     = render "map", member: @member
-    .tab-content.profile-activity
-      .tab-pane.active#gardens
-        = render "gardens", member: @member, gardens: @gardens
-      .tab-pane#harvests
-        = render "harvests", member: @member, harvests: @harvests
+    %h2 Activity
+    .list-group
+      - @activity.each do |event|
+        .list-group-item.list-group-item-action.flex-column.align-items-start.active{:href => "#!"}
+          .d-flex.w-100.justify-content-between
+            %h5
+              - if event.event_type == 'planting'
+                - planting = Planting.find(event.id)
+                = planting_icon
+                planted
+                = link_to planting, planting
+              - elsif event.event_type == 'harvest'
+                - harvest = Harvest.find(event.id)
+                = harvest_icon
+                harvested
+                = link_to harvest, harvest
+              - elsif event.event_type == 'comment'
+                - comment = Comment.find(event.id)
+                = comment_icon
+                = link_to 'commented', comment
+                on 
+                = link_to comment.post, comment.post
+              - elsif event.event_type == 'post'
+                - post = Post.find(event.id)
+                = blog_icon
+                wrote a post about
+                = link_to post, post
+              - else
+                = link_to event.event_type, event
+            %small #{time_ago_in_words(event.event_at)} ago
+          -# %p.mb-2
+          -#   Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+          -#   blandit.
+          -# %small Donec id elit non mi porta.
+
