@@ -203,7 +203,7 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
-    haml_lint (0.30.0)
+    haml_lint (0.31.0)
       haml (>= 4.0, < 5.1)
       rainbow
       rake (>= 10, < 13)
@@ -247,7 +247,7 @@ GEM
       railties (>= 4)
       sprockets-rails
     json (2.1.0)
-    jsonapi-resources (0.9.6)
+    jsonapi-resources (0.9.7)
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
