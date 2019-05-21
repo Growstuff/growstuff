@@ -62,7 +62,7 @@
                 - planting = Planting.find(event.id)
                 = planting_icon
                 planted
-                = link_to planting, planting
+                = link_to planting.crop, planting
               - elsif event.event_type == 'harvest'
                 - harvest = Harvest.find(event.id)
                 = harvest_icon
@@ -79,6 +79,36 @@
                 = blog_icon
                 wrote a post about
                 = link_to post, post
+              - elsif event.event_type == 'photo'
+                - photo = Photo.find(event.id)
+                %p
+                  = photo_icon
+                  took a photo
+                  = link_to photo, photo.title
+                %p
+                  .float-left= image_tag photo.fullsize_url, width: 75, class: 'rounded shadow'
+                %p
+                  %ul.associations
+                    - photo.plantings.each do |planting|
+                      %li
+                        = planting_icon
+                        = link_to t('photos.show.planting', planting: planting.to_s, owner: planting.owner.to_s), planting_path(planting)
+
+                    - photo.harvests.each do |harvest|
+                      %li
+                        = harvest_icon
+                        = link_to t('photos.show.harvest', crop: harvest.crop.name, owner: harvest.owner.to_s), harvest_path(harvest)
+
+                    - photo.gardens.each do |garden|
+                      %li
+                        = garden_icon
+                        = link_to t('photos.show.garden', garden: garden.to_s, owner: garden.owner.to_s), garden_path(garden)
+
+                    - photo.seeds.each do |seed|
+                      %li
+                        = seed_icon
+                        = link_to t('photos.show.seed', seed: seed.to_s, owner: seed.owner.to_s), seed_path(seed)
+
               - else
                 = link_to event.event_type, event
             %small #{time_ago_in_words(event.event_at)} ago

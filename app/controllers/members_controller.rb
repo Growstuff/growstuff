@@ -22,10 +22,12 @@ class MembersController < ApplicationController
     harvests = Harvest.select(:id, "'harvest' as event_type", 'harvested_at as event_at', :owner_id, :crop_id, :slug)
     posts = Post.select(:id, "'post' as event_type", 'posts.created_at as event_at', 'author_id as owner_id', 'null as crop_id', :slug)
     comments = Comment.select(:id, "'comment' as event_type", 'comments.created_at as event_at', 'author_id as owner_id', 'null as crop_id', 'null as slug')
+    photos = Photo.select(:id, "'photo' as event_type", "photos.created_at as event_at", 'photos.owner_id', 'null as crop_id', 'null as slug')
     @activity = plantings
       .union_all(harvests)
       .union_all(posts)
       .union_all(comments)
+      .union_all(photos)
       .where(owner_id: @member.id)
       .order(event_at: :desc)
       .limit(30)
