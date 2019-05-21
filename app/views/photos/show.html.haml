@@ -19,7 +19,7 @@
     - if @crops.size.positive?
       %p= render @crops
     %p
-      %i.fas.fa-camera-retro
+      = photo_icon
       %strong Photo by
       = link_to @photo.owner, @photo.owner
       Taken on #{@photo.date_taken}
