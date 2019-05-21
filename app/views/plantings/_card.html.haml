@@ -3,3 +3,21 @@
     = image_tag planting_image_path(planting, full_size: true), class: 'img-card', alt: planting
   .card-body.text-center
     %h5= link_to planting.crop, planting
+    .text-center= render 'plantings/badges', planting: planting
+  - if planting.percentage_grown.present?
+    .card-footer= render 'plantings/progress', planting: planting
+  -# - if can? :edit, planting
+  -#   .card-footer
+  -#     .dropup
+  -#       %button#dropdownMenuButton.btn.btn-sm.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+  -#       .dropdown-menu{"aria-labelledby" => "dropdownMenuButton"}
+  -#         = planting_edit_button(planting)
+  -#         = add_photo_button(planting)
+
+  -#         - if planting.active?
+  -#           = planting_finish_button(planting)
+  -#           = planting_harvest_button(planting)
+  -#           = planting_save_seeds_button(planting)
+
+  -#         - if can? :destroy, planting
+  -#           = delete_button(planting)
