@@ -1,0 +1,28 @@
+.member-cards {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+
+  .card {
+    max-width: 200px;
+    margin: 1em;
+  }
+}
+
+.member-thumbnail {
+  padding: 0.25em;
+  margin: 1em;
+  border-radius: 12px;
+  height: 200px;
+
+  div {
+    width: 5em;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.member-thumbnail div ~ div {
+  padding-left: 1em;
+  width: 15em;
+}
