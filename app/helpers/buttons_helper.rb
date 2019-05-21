@@ -1,8 +1,16 @@
 module ButtonsHelper
   include IconsHelper
   def garden_plant_something_button(garden)
+    return unless can? :edit, garden
     link_to new_planting_path(garden_id: garden.id), class: "btn btn-default" do
       planting_icon + ' ' + t('buttons.plant_something_here')
+    end
+  end
+
+  def plant_something_button
+    return unless can? :create, Planting
+    link_to new_planting_path, class: "btn btn-default" do
+      planting_icon + ' ' + t('buttons.plant_something')
     end
   end
 
