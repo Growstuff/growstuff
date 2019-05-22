@@ -83,6 +83,9 @@ gem 'geocoder', '1.4.9' # TODO: Fails on version 1.5.0. Needs investigation
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
 
+# DRY-er easier bootstrap 4 forms
+gem "bootstrap_form", ">= 4.2.0"
+
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
 gem 'omniauth-facebook'
