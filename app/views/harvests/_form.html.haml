@@ -1,12 +1,13 @@
 .card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
-  .card-header
-    - if content_for? :title
-      %h1.h2-responsive.text-center
-        %strong=yield :title
-  .card-body
-    = required_field_help_text
 
-    = bootstrap_form_for(@harvest) do |f|
+  = bootstrap_form_for(@harvest) do |f|
+    .card-header
+      - if content_for? :title
+        %h1.h2-responsive.text-center
+          = harvest_icon
+          %strong=yield :title
+    .card-body
+      = required_field_help_text
       - if @harvest.errors.any?
         #error_explanation
           %h2 #{pluralize(@harvest.errors.size, "error")} prohibited this harvest from being saved:"
@@ -50,6 +51,6 @@
           = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, class: 'form-control')
       = f.text_area :description, rows: 6, label: 'Notes'
 
-
+    .card-footer
       .text-right= f.submit 'Save'
 
