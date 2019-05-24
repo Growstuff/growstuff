@@ -1,6 +1,6 @@
 .card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
   = bootstrap_form_for(@post) do |f|
-    .card-body
+    .card-header
       - if content_for? :title
         %h1.h2-responsive.text-center
           %strong=yield :title
