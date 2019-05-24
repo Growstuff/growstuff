@@ -229,6 +229,11 @@ I noticed a couple of days ago on the way to work that there's a place near home
       Percy.snapshot(page, name: "#{prefix}/plantings#new")
     end
 
+    it 'loads crops#new' do
+      visit new_crop_path
+      Percy.snapshot(page, name: "#{prefix}/crops#new")
+    end
+
     describe '#new' do
       it 'loads gardens#new' do
         visit new_garden_path
