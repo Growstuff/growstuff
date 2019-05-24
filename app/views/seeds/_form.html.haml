@@ -1,11 +1,10 @@
 .card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
-  .card-body
-    - if content_for? :title
-      %h1.h2-responsive.text-center
-        %strong=yield :title
-    = required_field_help_text
-
-    = bootstrap_form_for(@seed) do |f|
+  = bootstrap_form_for(@seed) do |f|
+    .card-header
+      - if content_for? :title
+        %h1.h2-responsive.text-center
+          %strong=yield :title
+    .card-body
       - if @seed.errors.any?
         #error_explanation
           %h2
@@ -14,7 +13,7 @@
           %ul
             - @seed.errors.full_messages.each do |msg|
               %li= msg
-      = f.label :crop, 'Crop:', class: 'control-label col-md-2'
+      = f.label :crop, 'Crop:', class: 'control-label'
       - if @planting
         = link_to @planting, planting_path(@planting)
         = f.hidden_field :parent_planting_id, value: @planting.id
@@ -23,9 +22,12 @@
         %span.help-inline
           Can't find what you're looking for?
           = link_to "Request new crops.", new_crop_path
-      = f.number_field :quantity, label: 'Quantity'
-      = f.text_field :plant_before, class: 'add-datepicker',
-        value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
+      .row
+        .col-4= f.number_field :quantity, label: 'Quantity'
+        .col-8
+          = f.text_field :plant_before, class: 'add-datepicker',
+          value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
+
       .row
         .col-4
           = f.check_box :finished, label: 'Mark as finished'
@@ -37,7 +39,6 @@
       .row
         .col-4= f.number_field :days_until_maturity_min
         .col-4= f.number_field :days_until_maturity_max
-        .col-4= f.label :dummy, 'days'
 
       .row
         .col-4= f.select(:organic, Seed::ORGANIC_VALUES, {}, default: 'unknown')
@@ -58,4 +59,5 @@
           = succeed "." do
             = link_to current_member.location, place_path(current_member.location)
           = link_to "Change your location.", edit_member_registration_path
-      .text-right= f.submit 'Save', class: 'btn btn-primary'
+    .card-footer
+      .text-right= f.submit 'Save'
