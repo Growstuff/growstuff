@@ -1,11 +1,19 @@
 require 'rails_helper'
 
 describe 'Test with visual testing', type: :feature, js: true do
-  let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
-  let(:someone_else) { FactoryBot.create :edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
+  # Use the same random seed every time so our random data is the same
+  # on every run, so doesn't trigger percy to see changes
+  before { Faker::Config.random = Random.new(42) }
+  let!(:member)        { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
+  let!(:crop_wrangler) { FactoryBot.create :crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: gravatar2 }
+  let!(:admin_user) { FactoryBot.create :admin_member, login_name: 'janitor', preferred_avatar_uri: gravatar3 }
+  let!(:someone_else) { FactoryBot.create :edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar4 }
 
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
+  let(:gravatar3) { 'http://www.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
+  let(:gravatar4) { 'http://www.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
+
   let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
   let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
 
@@ -38,7 +46,7 @@ I noticed a couple of days ago on the way to work that there's a place near home
   let(:post) { FactoryBot.create :post, author: member, subject: "Watering", body: post_body }
   before do
     # Freeze time, so we don't have variations in timestamps on the page
-    Timecop.freeze(Time.local(2019, 1, 1))
+    Timecop.freeze(Time.zone.local(2019, 1, 1))
 
     {
       chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
@@ -260,7 +268,7 @@ I noticed a couple of days ago on the way to work that there's a place near home
         fill_in(id: 'crop', with: 'tom')
         Percy.snapshot(page, name: "#{prefix}/seeds#new-autosuggest")
       end
-      
+
       it 'posts#new' do
         visit new_post_path
         Percy.snapshot(page, name: "#{prefix}/posts#new")
@@ -307,6 +315,54 @@ I noticed a couple of days ago on the way to work that there's a place near home
         click_on 'percy'
         Percy.snapshot(page, name: "#{prefix}/member-menu")
       end
+    end
+  end
+
+  context 'wrangling crops' do
+    let(:prefix) { 'crop-wrangler' }
+    before { login_as crop_wrangler }
+    let!(:candy) { FactoryBot.create :crop_request, name: 'candy' }
+
+    it 'crop wrangling page' do
+      visit wrangle_crops_path
+      Percy.snapshot(page, 'crops wrangle')
+      click_link 'Pending approval'
+      Percy.snapshot(page, 'crops pending approval')
+      click_link 'candy'
+      Percy.snapshot(page, 'editing pending crop')
+    end
+  end
+  context 'admin' do
+    before do
+      login_as admin_user
+      visit admin_path
+    end
+    it 'admin page' do
+      Percy.snapshot(page)
+    end
+    it 'Roles' do
+      click_link 'Roles'
+      Percy.snapshot(page)
+    end
+    it 'CMS' do
+      click_link 'CMS'
+      Percy.snapshot(page)
+    end
+    it 'Garden Types' do
+      click_link 'Garden Types'
+      Percy.snapshot(page)
+    end
+    it 'Alternate names' do
+      click_link 'Alternate names'
+      Percy.snapshot(page)
+    end
+    it 'Scientific names' do
+      click_link 'Scientific names'
+      Percy.snapshot(page)
+    end
+    it 'Members' do
+      click_link 'Members'
+      Percy.snapshot(page)
     end
   end
 end
