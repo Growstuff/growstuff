@@ -298,6 +298,8 @@ en:
         Are you interested in trading or swapping seeds with other %{site_name} members?  If you list
         your seeds as available for trade, other members can contact you to request seeds.  You can
         list any conditions or other information in the description, above.
+      finish_helper: >
+        Seeds are finished when you've planted them all, or you've traded them all away.
     index:
       title:
         crop_seeds: Everyone's %{crop} seeds
