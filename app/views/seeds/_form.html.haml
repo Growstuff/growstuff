@@ -37,8 +37,8 @@
             value: @seed.finished_at ? @seed.finished_at.to_s(:ymd) : ''
 
       .row
-        .col-4= f.number_field :days_until_maturity_min
-        .col-4= f.number_field :days_until_maturity_max
+        .col-4= f.number_field :days_until_maturity_min, append: " days"
+        .col-4= f.number_field :days_until_maturity_max, append: " days"
 
       .row
         .col-4= f.select(:organic, Seed::ORGANIC_VALUES, {}, default: 'unknown')
