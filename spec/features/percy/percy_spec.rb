@@ -224,40 +224,46 @@ I noticed a couple of days ago on the way to work that there's a place near home
       Percy.snapshot(page, name: "#{prefix}/self/gardens#show")
     end
 
-    it 'loads plantings#new' do
-      visit new_planting_path
-      Percy.snapshot(page, name: "#{prefix}/plantings#new")
-    end
-
-    it 'loads crops#new' do
-      visit new_crop_path
-      Percy.snapshot(page, name: "#{prefix}/crops#new")
-    end
-
     describe '#new' do
-      it 'loads gardens#new' do
-        visit new_garden_path
-        Percy.snapshot(page, name: "#{prefix}/gardens#new")
-      end
-
-      it 'loads harvests#new' do
-        visit new_harvest_path
-        Percy.snapshot(page, name: "#{prefix}/harvests#new")
-      end
-
-      it 'loads plantings#new' do
+      it 'plantings#new' do
         visit new_planting_path
         Percy.snapshot(page, name: "#{prefix}/plantings#new")
       end
 
-      it 'loads posts#new' do
-        visit new_post_path
-        Percy.snapshot(page, name: "#{prefix}/posts#new")
-      end
-
-      it 'loads crops#new' do
+      it 'crops#new' do
         visit new_crop_path
         Percy.snapshot(page, name: "#{prefix}/crops#new")
+      end
+
+      it 'gardens#new' do
+        visit new_garden_path
+        Percy.snapshot(page, name: "#{prefix}/gardens#new")
+      end
+
+      it 'harvests#new' do
+        visit new_harvest_path
+        Percy.snapshot(page, name: "#{prefix}/harvests#new")
+        fill_in(id: 'crop', with: 'tom')
+        Percy.snapshot(page, name: "#{prefix}/harvests#new-autosuggest")
+      end
+
+      it 'plantings#new' do
+        visit new_planting_path
+        Percy.snapshot(page, name: "#{prefix}/plantings#new")
+        fill_in(id: 'crop', with: 'tom')
+        Percy.snapshot(page, name: "#{prefix}/plantings#new-autosuggest")
+      end
+
+      it 'seeds#new' do
+        visit new_seed_path
+        Percy.snapshot(page, name: "#{prefix}/seeds#new")
+        fill_in(id: 'crop', with: 'tom')
+        Percy.snapshot(page, name: "#{prefix}/seeds#new-autosuggest")
+      end
+      
+      it 'posts#new' do
+        visit new_post_path
+        Percy.snapshot(page, name: "#{prefix}/posts#new")
       end
     end
 
