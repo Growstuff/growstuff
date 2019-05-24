@@ -1,4 +1,4 @@
-.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+.card.col-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
   = bootstrap_form_for(@crop) do |f|
     .card-header
       - if content_for? :title
@@ -33,7 +33,6 @@
           Wranglers: please ensure this is singular, and capitalize
           proper nouns only.
 
-
       %h2 Lifespan
       %p
         = f.radio_button(:perennial, false, label: 'Annual')
@@ -61,11 +60,11 @@
 
       .form-group#scientific_names
         - @crop.scientific_names.each.with_index do |sci, index|
-          .template.col-md-12{ id: "sci_template[#{index + 1}]" }
-            .col-md-2
+          .template.col-12{ id: "sci_template[#{index + 1}]" }
+            .col-2
               = label_tag :scientific_names, "Scientific name #{index + 1}:", class: 'control-label'
-            .col-md-8
-              = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]"
+            .col-8
+              = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]", class: 'form-control'
               %span.help-block Scientific name of crop.
       %h2
         Alternate names
@@ -74,13 +73,13 @@
 
       .form-group#alternate_names
         - @crop.alternate_names.each.with_index do |alt, index|
-          .template.col-md-12{ id: "alt_template[#{index + 1}]" }
-            .col-md-2
+          .template.col-12{ id: "alt_template[#{index + 1}]" }
+            .col-2
               = label_tag :alternate_names, "Alternate name #{index + 1}:", class: 'control-label'
-            .col-md-8
-              = text_field_tag "alt_name[#{index + 1}]", alt.name, id: "alt_name[#{index + 1}]"
+            .col-8
+              = text_field_tag "alt_name[#{index + 1}]", alt.name, id: "alt_name[#{index + 1}]", class: 'form-control'
               %span.help-block Alternate name of crop.
-            .col-md-2
+            .col-2
 
       -# This is used for comments from crop requesters.  We need to show it
       -# to everyone, but we don't include it on new crops from wranglers.
@@ -88,8 +87,8 @@
       - if (can?(:wrangle, @crop) && @crop.requester) || (cannot?(:wrangle, @crop) && @crop.new_record?)
         %h2 Crop request notes
         .form-group
-          = f.label :request_notes, 'Comments', class: 'control-label col-md-2'
-          .col-md-8
+          = f.label :request_notes, 'Comments', class: 'control-label col-2'
+          .col-8
             = f.text_area :request_notes, rows: 3, id: 'request_notes'
 
       -# A final explanation of what's going to happen next, for crop requesters
@@ -102,22 +101,21 @@
       - if can?(:wrangle, @crop) && @crop.requester
         %h2 Approve or reject pending crops
         .form-group
-          = f.label :approval_status, 'Approval status', class: 'control-label col-md-2'
-          .col-md-8
+          = f.label :approval_status, 'Approval status', class: 'control-label col-2'
+          .col-8
             = f.select(:approval_status, @crop.approval_statuses, {})
 
         .form-group
-          = f.label :reason_for_rejection, 'Reason for rejection', class: 'control-label col-md-2'
-          .col-md-8
+          = f.label :reason_for_rejection, 'Reason for rejection', class: 'control-label col-2'
+          .col-8
             = f.select(:reason_for_rejection, @crop.reasons_for_rejection, include_blank: true)
 
         .form-group
-          = f.label :rejection_notes, 'Rejection notes', class: 'control-label col-md-2'
-          .col-md-8
+          = f.label :rejection_notes, 'Rejection notes', class: 'control-label col-2'
+          .col-8
             = f.text_area :rejection_notes, rows: 3
             %span.help-block
               Please provide additional notes why this crop request was rejected if the above reasons do not apply.
 
-      .form-group
-        .form-actions.col-md-offset-2.col-md-8
-          = f.submit 'Save', class: 'btn btn-primary'
+    .card-footer
+      .text-right= f.submit 'Save'
