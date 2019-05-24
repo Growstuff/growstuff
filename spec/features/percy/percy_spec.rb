@@ -325,11 +325,11 @@ I noticed a couple of days ago on the way to work that there's a place near home
 
     it 'crop wrangling page' do
       visit wrangle_crops_path
-      Percy.snapshot(page, 'crops wrangle')
+      Percy.snapshot(page, name: 'crops wrangle')
       click_link 'Pending approval'
-      Percy.snapshot(page, 'crops pending approval')
+      Percy.snapshot(page, name: 'crops pending approval')
       click_link 'candy'
-      Percy.snapshot(page, 'editing pending crop')
+      Percy.snapshot(page, name: 'editing pending crop')
     end
   end
   context 'admin' do
@@ -338,31 +338,31 @@ I noticed a couple of days ago on the way to work that there's a place near home
       visit admin_path
     end
     it 'admin page' do
-      Percy.snapshot(page)
+      Percy.snapshot(page, name: 'Admin')
     end
     it 'Roles' do
       click_link 'Roles'
-      Percy.snapshot(page)
+      Percy.snapshot(page, name: 'Admin Roles')
     end
     it 'CMS' do
       click_link 'CMS'
-      Percy.snapshot(page)
+      Percy.snapshot(page, name: 'CMS')
     end
     it 'Garden Types' do
       click_link 'Garden Types'
-      Percy.snapshot(page)
+      Percy.snapshot(page, name: 'Admin Garden type')
     end
     it 'Alternate names' do
       click_link 'Alternate names'
-      Percy.snapshot(page)
+      Percy.snapshot(page, name: 'Admin Alternate names')
     end
     it 'Scientific names' do
       click_link 'Scientific names'
-      Percy.snapshot(page)
+      Percy.snapshot(page, name: 'Admin Scientific names')
     end
     it 'Members' do
       click_link 'Members'
-      Percy.snapshot(page)
+      Percy.snapshot(page, name: 'Admin Members')
     end
   end
 end
