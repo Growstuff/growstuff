@@ -10,7 +10,7 @@
     .jumbotron= render 'blurb'
 
 .row
-  .col-xl-7.col-md-12
+  .col-xl-8.col-md-12
     %section.crops
       %h2= t('.some_of_our_crops')
       .homepage-cards= render 'crops'
@@ -19,22 +19,17 @@
         - cache cache_key_for(Crop, 'recent') do
           %h3= t('.recently_added')
           != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
+  .col-xl-4
+    .row
+      .col-md-6.col-sm-12=render 'plantings'
+      .col-md-6.col-sm-12= render 'harvests'
 
+  .col-12
     %section.seeds
       %h2.text-center= t('.seeds_available_to_trade')
-      .homepage-cards
-        .card-row.mx-auto= render Seed.current.tradable.recent.includes(:owner, :crop).limit(12), full: true
+      = render 'seeds'
       .align-bottom
         %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
 
     %section.members= render 'members'
-
-  .col-xl-5
-    .row
-      .col-md-6.col-sm-12=render 'plantings'
-      .col-md-6.col-sm-12= render 'harvests'
-    .row
-      .col-12
-        %section.members= render 'discuss'
-
-
+    %section.members= render 'discuss'

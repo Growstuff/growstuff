@@ -1,13 +1,2 @@
 - seeds.each do |seed|
-  .card
-    .card-image
-      = link_to seed do
-        = image_tag(seed_image_path(seed, full_size: true), alt: seed, class: 'card-img-top img-responsive')
-    .card-body
-      %h5.card-title= link_to seed, seed
-      %p
-        %i #{seed.owner.location}
-      %p Will trade #{seed.tradable_to}
-      %p.float-right
-        = link_to seed.owner do
-          = image_tag(avatar_uri(seed.owner, 50), alt: '', class: 'img img-responsive avatar rounded')
+  = render 'seeds/card', seed: seed
