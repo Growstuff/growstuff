@@ -28,7 +28,8 @@
       %hr/
       = render 'plantings/photos', photos: @photos, planting: @planting
     .col-md-4.col-xs-12.text-right
-      = render 'plantings/owner', planting: @planting
+      .card
+        .card-body= render 'plantings/owner', planting: @planting
       = render @planting.crop
   .row
     .col-md-12
