@@ -1,7 +1,7 @@
 - if can?(:edit, planting)
   .dropdown.float-right.planting-actions
-    %button#post-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
-    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "post-edit-button"}
+    %button#planting-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
       = link_to edit_planting_path(planting), class: 'dropdown-item' do
         = edit_icon
         = t('.edit')
