@@ -1,13 +1,17 @@
 - if can?(:edit, planting)
-  .planting-actions
-    .btn-group
-      = planting_edit_button(planting)
+  .dropdown.float-right.planting-actions
+    %button#post-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "post-edit-button"}
+      = link_to edit_planting_path(planting), class: 'dropdown-item' do
+        = edit_icon
+        = t('.edit')
+      = link_to new_photo_path(id: planting.id, type: 'planting'), class: "dropdown-item" do
+        = photo_icon
+        = t('buttons.add_photo')
       = add_photo_button(planting)
-
       - if planting.active?
         = planting_finish_button(planting)
         = planting_harvest_button(planting)
         = planting_save_seeds_button(planting)
-
-    - if can? :destroy, planting
-      = delete_button(planting)
+      - if can? :destroy, planting
+        = delete_button(planting)
