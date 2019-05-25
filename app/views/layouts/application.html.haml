@@ -8,9 +8,9 @@
     -# anchor tag for accessibility link to skip the navigation menu
     %a{ name: 'skipnav' }
     #maincontainer.container
-      .float-right= render 'shared/global_actions'
       .row
-        .col-md-12
+        .col-12
+          .float-right= render 'shared/global_actions'
           - if content_for?(:breadcrumbs)
             .float-left= yield(:breadcrumbs)
           - if content_for?(:buttonbar)
