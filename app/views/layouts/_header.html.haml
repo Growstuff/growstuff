@@ -66,10 +66,4 @@
       - else
         %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn nav-link'
         %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn nav-link'
-
-
-    = form_tag search_crops_path, method: :get, class: 'form-inline my-2 my-lg-0' do
-      .input-group
-        %input.form-control.mr-sm-2{name: 'term', "aria-label" => "Search", placeholder: "Search", type: "search"}/
-        %button.btn.btn-default.text-white{type: "submit"}
-          = icon 'fas', 'search'
+    = render 'crops/search_bar'
