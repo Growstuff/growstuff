@@ -1,9 +1,12 @@
 - if @term
   - content_for :title, "Crops matching \"#{@term}\""
+  %h1 "Crops matching \"#{@term}\""
   - if @crops
-    - content_for :subtitle, "#{@crops.size} total"
+    %h2 "#{@crops.size} total"
+
 - else
   - content_for :title, "Crop search"
+  %h1 Crop search
 
 - content_for :breadcrumbs do
   %nav{"aria-label" => "breadcrumb"}
