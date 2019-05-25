@@ -14,4 +14,4 @@
       - if can? :create, Seed
         = link_to new_seed_path(crop_id: crop.id), class: 'btn btn-sm' do
           = seed_icon
-          = t('buttons.save_seeds', crop_name: crop.name)
+          = t('buttons.add_seed_to_stash', crop_name: crop.name)
