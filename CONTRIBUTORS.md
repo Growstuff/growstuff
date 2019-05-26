@@ -93,4 +93,4 @@ submit the change with your pull request.
 
 ### Security and Dependency Updates
 - DeppBot / [deppbot](https://github.com/deppbot)
-- dependabot[bot] / dependabot-preview[bot](https://github.com/dependabot-bot)
+- dependabot(https://github.com/dependabot-bot) / [dependabot-preview](https://github.com/apps/dependabot-preview)
