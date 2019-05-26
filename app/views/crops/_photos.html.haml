@@ -6,7 +6,8 @@
     - [Planting, Harvest, Seed].each do |model_name|
       - if photos.by_model(model_name).size.positive?
         %h3
-          %i #{@crop.name} #{t("activerecord.models.#{model_name.to_s.downcase}.other")}
+          %i
+            #{@crop.name.capitalize} #{t("activerecord.models.#{model_name.to_s.downcase}.other")}
         .row
           - photos.by_model(model_name).limit(4).each do |photo|
             = render 'photos/thumbnail', photo: photo
