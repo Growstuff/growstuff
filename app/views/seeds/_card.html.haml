@@ -36,7 +36,7 @@
   = link_to seed do
     = image_tag(seed_image_path(seed, full_size: true), alt: seed, class: 'img-card')
   .card-body
-    %h5.card-title= link_to seed, seed
+    %h5= link_to seed, seed
     - if seed.tradable?
       %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
   .card-footer
