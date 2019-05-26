@@ -4,6 +4,10 @@
     You are a
     = succeed "." do
       %strong CROP WRANGLER
-
-  %p= crop_edit_button(crop) if can? :edit, crop
-  %p= delete_button(crop) if can? :destroy, crop
+    .dropdown.crop-actions
+      %button#crop-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+      .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
+        = link_to edit_crop_path(crop), class: 'dropdown-item' do
+          = edit_icon
+          = t('.edit')
+        = delete_button(crop) if can? :destroy, crop

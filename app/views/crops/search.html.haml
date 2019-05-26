@@ -1,8 +1,8 @@
 - if @term
   - content_for :title, "Crops matching \"#{@term}\""
-  %h1 "Crops matching \"#{@term}\""
+  %h1 Crops matching "#{@term}"
   - if @crops
-    %h2 "#{@crops.size} total"
+    %h2 #{@crops.size} total
 
 - else
   - content_for :title, "Crop search"

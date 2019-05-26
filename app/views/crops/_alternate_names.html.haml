@@ -3,9 +3,9 @@
   - if crop.alternate_names.empty?
     %p None known.
   - else
-    %ul
+    %ul.list-group.list-group-flush
       - crop.alternate_names.each do |an|
-        %li
+        %li.list-group-item.d-flex.justify-content-between.align-items-center
           = an.name
           - if can? :edit, an
             = link_to 'Edit', edit_alternate_name_path(an), class: 'btn btn-default btn-xs'

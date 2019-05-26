@@ -3,14 +3,21 @@
   - if crop.scientific_names.empty?
     %p None known.
   - else
-    %ul
+    %ul.list-group.list-group-flush
       - crop.scientific_names.each do |sn|
-        %li
+        %li.list-group-item.d-flex.justify-content-between.align-items-center
           = sn.name
           - if can? :edit, sn
-            = link_to 'Edit', edit_scientific_name_path(sn), class: 'btn btn-default btn-xs'
-          - if can? :destroy, sn
-            = link_to 'Delete', sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
+            .dropdown.planting-actions
+              %button#planting-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+              .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
+                = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
+                  = edit_icon
+                  = t('.edit')
+                = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' do
+                  = delete_icon
+                  = t('.delete')
+
   %p
   - if can? :edit, crop
     = link_to 'Add', new_scientific_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'
