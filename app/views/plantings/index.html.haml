@@ -15,7 +15,7 @@
 
 .row
   - @plantings.each do |planting|
-    .col-2.col-xs-6= render 'plantings/card', planting: planting
+    .col-6.col-md-2= render 'plantings/card', planting: planting
 
 .pagination
   = page_entries_info @plantings

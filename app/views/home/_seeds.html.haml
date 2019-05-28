@@ -1,3 +1,4 @@
 - cache cache_key_for(Seed) do
-  %h2= t('.title')
-  .homepage-cards= render 'seeds/list', seeds: Seed.current.tradable.includes(:owner, :crop).order(created_at: :desc).limit(6)
+  .homepage-cards
+    - Seed.current.tradable.includes(:owner, :crop).order(created_at: :desc).limit(3).each do |seed|
+      = render 'seeds/card', seed: seed

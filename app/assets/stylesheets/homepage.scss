@@ -27,7 +27,6 @@
   left: -0.5em;
 
   .card {
-    width: 200px;
     min-height: 100px;
     margin: 0.5em;
     padding: 0;
@@ -37,8 +36,34 @@
       font-size: 2em;
     }
   }
+  .crop-card {
+    width: 120px;
+    min-height: 80px;
+  }
 
   .thumbnail {
     margin: 0.5em;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .seed-card {
+    width: 100%;
+    min-height: 80px;
+    align: center;
+  }
+  .img-card {
+    object-fit: cover;
+    height: 75px;
+    width: 100%;
+  }
+}
+
+@include media-breakpoint-up(md) {
+
+  .homepage-cards {
+    .card {
+      width: 200px;
+    }
   }
 }
