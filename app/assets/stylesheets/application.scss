@@ -1,6 +1,5 @@
 @import "material";
 @import "variables";
-@import "overrides";
 
 @import "jquery-ui/autocomplete";
 @import "bootstrap-datepicker";
@@ -22,3 +21,5 @@
 @import "font-awesome";
 @import "material_icons";
 @import 'rails_bootstrap_forms';
+
+@import "overrides";
