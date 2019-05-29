@@ -19,7 +19,7 @@
       %li.breadcrumb-item.active= link_to @crop, @crop
 
 %h1
-  = @crop.name
+  = @crop.name.titleize
   %small= @crop.default_scientific_name
 
 = render 'approval_status_message', crop: @crop
@@ -30,13 +30,17 @@
 
 .row
   .col-md-9
-    %h2
+    %p
       - if !@crop.plantings.empty?
         #{@crop.name.titleize} has been planted
         = pluralize(@crop.plantings.size, "time")
         by #{ENV['GROWSTUFF_SITE_NAME']} members.
       - else
         Nobody is growing this yet. You could be the first!
+      - if @crop.perennial?
+        #{@crop.name.titleize} is a perennial crop (living more than two years)
+      - else
+        #{@crop.name.titleize} is an annual crop (living and reproducing in a single year or less)
     %hr/
 
     = render 'predictions', crop: @crop
