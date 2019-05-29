@@ -35,7 +35,7 @@ span.badge {
 }
 
 .list-inline > li.first {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 .activity-list {
@@ -104,11 +104,11 @@ h3 {
 
 // this is used for eg. crops and members index pages
 .six-across:nth-child(6n+1) {
-  margin-left: 0px;
+  margin-left: 0;
 }
 
 .three-across:nth-child(3n+1) {
-  margin-left: 0px;
+  margin-left: 0;
   clear: both;
 }
 
@@ -279,12 +279,12 @@ li.crop-hierarchy {
 }
 
 .navbar-brand {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar-bottom {
-  margin: 40px 0px 0px 0px !important;
+  margin: 40px 0 0 !important;
 }
 
 .post-actions {
@@ -301,8 +301,8 @@ footer {
     ul {
       list-style-type: none;
       list-style-position: outside;
-      padding-left: 0px;
-      margin-left: 0px;
+      padding-left: 0;
+      margin-left: 0;
     }
 
     a {
