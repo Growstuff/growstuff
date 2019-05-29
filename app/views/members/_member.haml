@@ -1,12 +1,10 @@
 - cache member do
-  .card.text-center
+  .card.member-card.text-center
     .avatar.mx-auto
       = link_to member do
         = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid shadow member-avatar', alt: member)
     .card-body
-      / Name
-      %h4.card-title
-        = link_to member, member
+      %h4.card-title= link_to member, member
       %hr/
       %p
         %small
@@ -14,7 +12,13 @@
           = distance_of_time_in_words(member.created_at, Time.zone.now)
           ago.
       %p
-        %ul.nav.md-pills.nav-justified.small
-          %li.nav-item= link_to localize_plural(member.plantings, Planting), member_plantings_path(member)
-          %li.nav-item= link_to localize_plural(member.harvests, Harvest), member_harvests_path(member)
-          %li.nav-item= link_to localize_plural(member.seeds, Seed), member_seeds_path(member)
+        %ul.nav.nav-justified.small
+          %li.nav-item.border-right
+            = link_to member_plantings_path(member) do
+              = localize_plural(member.plantings, Planting)
+          %li.nav-item.border-right
+            = link_to member_harvests_path(member) do
+              = localize_plural(member.harvests, Harvest)
+          %li.nav-item
+            = link_to member_seeds_path(member) do
+              = localize_plural(member.seeds, Seed)

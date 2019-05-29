@@ -52,15 +52,14 @@
     min-height: 80px;
     align: center;
   }
-  .img-card {
-    object-fit: cover;
-    height: 75px;
-    width: 100%;
+  .member-card {
+    width: 150px;
+    min-height: 80px;
+    align: center;
   }
 }
 
 @include media-breakpoint-up(md) {
-
   .homepage-cards {
     .card {
       width: 200px;

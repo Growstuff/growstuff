@@ -1,22 +1,4 @@
-%h2= t('.discussion')
-
--# - Post.order(created_at: :desc).limit(6).each do |post|
-
--#   = link_to truncate(strip_tags(post.subject), length: 40, separator: ' '), post
--#   by
--#   = link_to post.author, post.author
-
--# - cache cache_key_for(Forum) do
--#   - forums = Forum.all.order(:name)
--#   - if forums
--#     %ul.list-inline
--#       %li
--#         %strong #{t('.forums')}:
--#       - forums.each do |f|
--#         %li= link_to f.name, f
-
-
-
+%h2.text-center= t('.discussion')
 .list-group
   - Post.order(created_at: :desc).limit(3).each do |post|
     = link_to post, class: 'list-group-item list-group-item-action flex-column align-items-start' do

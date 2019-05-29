@@ -1,8 +1,8 @@
 - cache cache_key_for(Member) do
-  .hidden-xs.well
+  .hidden-xs
     - members = Member.includes(plantings: :crop).interesting.first(6)
     - if members.present?
-      %h2= t('.title')
+      %h2.text-center= t('.title')
       .member-cards
         = render members
 

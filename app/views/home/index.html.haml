@@ -2,7 +2,7 @@
   = ENV['GROWSTUFF_SITE_NAME']
 
 - if member_signed_in?
-  %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+  %h1.display-5= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
   %p= render 'stats'
 - else
@@ -24,12 +24,11 @@
       .col-md-6.col-sm-12=render 'plantings'
       .col-md-6.col-sm-12= render 'harvests'
 
-  .col-12
-    %section.seeds
-      %h2.text-center= t('.seeds_available_to_trade')
-      = render 'seeds'
-      .align-bottom
-        %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
+  %section.seeds.mx-auto
+    %h2.text-center= t('.seeds_available_to_trade')
+    = render 'seeds'
+    .align-bottom
+      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
 
-    %section.members= render 'members'
-    %section.members= render 'discuss'
+  %section.members.mx-auto= render 'members'
+  %section.discussion.mx-auto= render 'discuss'
