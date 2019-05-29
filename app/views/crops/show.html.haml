@@ -87,18 +87,18 @@
         .list-group-item.list-group-flush.d-flex.justify-content-between.align-items-center
           = link_to crop_plantings_path(@crop), class: 'card-link' do
             = planting_icon
-            #{@crop.name} plantings
+            #{@crop.name.capitalize} plantings
           %span.badge.badge-primary.badge-pill=@crop.plantings.size
         .list-group-item.d-flex.justify-content-between.align-items-center
           = link_to crop_harvests_path(@crop) do
             = harvest_icon
-            #{@crop.name} harvests
+            #{@crop.name.capitalize} harvests
           %span.badge.badge-primary.badge-pill=@crop.harvests.size
 
         .list-group-item.d-flex.justify-content-between.align-items-center
           = link_to crop_seeds_path(@crop) do
             = seed_icon
-            #{@crop.name} seeds
+            #{@crop.name.capitalize} seeds
           %span.badge.badge-primary.badge-pill=@crop.seeds.size
 
         - if member_signed_in?
@@ -109,9 +109,19 @@
         .card-body
           = render 'scientific_names', crop: @crop
           = render 'alternate_names', crop: @crop
+        .card-body
+          %h3 See who's planted #{@crop.name.pluralize}
+          %ul.list-group.list-group-flush
+            - @crop.plantings.order(planted_at: :desc).limit(5).each do |planting|
+              %li.list-group-item
+                = link_to planting do
+                  = planting_icon
+                  = planting
+                - if planting.owner.location.present?
+                  %small=planting.owner.location
+
 
     %hr/
-
 
     = render 'find_seeds', crop: @crop
 
