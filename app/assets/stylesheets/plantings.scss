@@ -23,7 +23,7 @@
 
   .planting-thumbnail {
     width: 150px;
-    padding: 0em;
+    padding: 0;
     margin-bottom: 0.5em;
     margin-top: 0.5em;
 
@@ -41,14 +41,14 @@
   .planting-name {
     position: relative;
     text-align: center;
-    top: 0em;
+    top: 0;
   }
 
   .planting-quick-actions {
     position: absolute;
 
     //Mine
-    top: 0px;
+    top: 0;
     left: 130px;
 
     //Upstream
