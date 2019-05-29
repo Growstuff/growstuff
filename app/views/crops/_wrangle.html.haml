@@ -10,4 +10,9 @@
         = link_to edit_crop_path(crop), class: 'dropdown-item' do
           = edit_icon
           = t('.edit')
-        = delete_button(crop) if can? :destroy, crop
+
+        - if can? :destroy, crop
+          .dropdown-divider
+          = link_to crop, method: :delete, class: 'dropdown-item bg-danger' do
+            = delete_icon
+            Delete
