@@ -8,9 +8,10 @@ module PhotosHelper
     end
   end
 
-  def garden_image_path(garden)
+  def garden_image_path(garden, full_size: false)
     if garden.default_photo.present?
-      garden.default_photo.thumbnail_url
+      photo = garden.default_photo
+      full_size ? photo.fullsize_url : photo.thumbnail_url
     else
       placeholder_image
     end
