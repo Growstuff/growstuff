@@ -9,13 +9,14 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- content_for :buttonbar do
-  = render 'plantings/actions', planting: @planting
 
 .planting
   .row
     .col-md-8.col-xs-12
-      %h2.h1= @planting
+      %h2.h1
+        %strong= @planting
+        = render 'plantings/actions', planting: @planting
+
       = render 'facts', planting: @planting
       - if @planting.description.present?
         %hr/

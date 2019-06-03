@@ -1,6 +1,13 @@
-- content_for :title, title('plantings', @owner, @crop, @planting)
+%h1=title('plantings', @owner, @crop, @planting)
 
 = render 'layouts/nav', model: Planting
+
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'Plantings', plantings_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s plantings", plantings_path(owner: @owner)
+  - else
+    %li.breadcrumb-item.active= link_to 'Plantings', plantings_path
 
 = link_to plantings_active_tickbox_path(@owner, @show_all) do
   = check_box_tag 'active', 'all', @show_all
