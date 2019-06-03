@@ -27,15 +27,11 @@
 
       .row
         .col-md-8
-          - if @garden.present?
-            %p Planted in #{link_to @garden, @garden}
-            = f.hidden_field :garden_id, value: @garden.id
-          - else
-            = f.collection_radio_buttons(:garden_id,
-              @planting.owner.gardens.active.order_by_name,
-              :id, :name, required: true,
-              label: 'Where did you plant it?')
-            = link_to "Add a garden.", new_garden_path
+          = f.collection_radio_buttons(:garden_id,
+            @planting.owner.gardens.active.order_by_name,
+            :id, :name, required: true,
+            label: 'Where did you plant it?')
+          = link_to "Add a garden.", new_garden_path
         .col-md-4
           = f.text_field :planted_at,
                      value: @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '',

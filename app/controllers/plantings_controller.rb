@@ -46,7 +46,9 @@ class PlantingsController < ApplicationController
 
     # using find_by_id here because it returns nil, unlike find
     @crop     = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
-    @garden   = Garden.find_by(owner: current_member, id: params[:garden_id])
+    @planting.garden   = Garden.find_by(
+        owner: current_member,
+        id: params[:garden_id]) if params[:garden_id]
 
     respond_with @planting
   end
