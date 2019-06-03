@@ -11,4 +11,4 @@
       Add a #{model.model_name.human}
 
   - unless current_member
-    = render 'shared/signin_signup', to: 'add a new seed'
+    = render 'shared/signin_signup', to: "add a new #{model.to_s.downcase}"
