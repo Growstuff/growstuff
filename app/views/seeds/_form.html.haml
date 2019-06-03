@@ -19,31 +19,31 @@
         = f.hidden_field :parent_planting_id, value: @planting.id
       - else
         = auto_suggest @seed, :crop, class: 'form-control', default: @crop
-        %span.help-inline
+        %legend
           Can't find what you're looking for?
           = link_to "Request new crops.", new_crop_path
       .row
-        .col-4= f.number_field :quantity, label: 'Quantity'
-        .col-8
+        .col-md-4.col-12= f.number_field :quantity, label: 'Quantity'
+        .col-md-8.col-12
           = f.text_field :plant_before, class: 'add-datepicker',
           value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
 
       .row
-        .col-4
+        .col-md-4.col-12
           = f.check_box :finished, label: 'Mark as finished'
-          = t('.finish_helper')
-        .col-8
+          %small= t('.finish_helper')
+        .col-md-8.col-12
           = f.text_field :finished_at, class: 'add-datepicker',
             value: @seed.finished_at ? @seed.finished_at.to_s(:ymd) : ''
 
       .row
-        .col-4= f.number_field :days_until_maturity_min, append: " days"
-        .col-4= f.number_field :days_until_maturity_max, append: " days"
+        .col-md-4.col-12= f.number_field :days_until_maturity_min, append: " days"
+        .col-md-4.col-12= f.number_field :days_until_maturity_max, append: " days"
 
       .row
-        .col-4= f.select(:organic, Seed::ORGANIC_VALUES, {}, default: 'unknown')
-        .col-4= f.select(:gmo, Seed::GMO_VALUES, {}, class: 'form-control', default: 'unknown')
-        .col-4= f.select(:heirloom, Seed::HEIRLOOM_VALUES, {}, class: 'form-control', default: 'unknown')
+        .col-md-4.col-12= f.select(:organic, Seed::ORGANIC_VALUES, {}, default: 'unknown')
+        .col-md-4.col-12= f.select(:gmo, Seed::GMO_VALUES, {}, class: 'form-control', default: 'unknown')
+        .col-md-4.col-12= f.select(:heirloom, Seed::HEIRLOOM_VALUES, {}, class: 'form-control', default: 'unknown')
       = f.text_area :description, rows: 6, class: 'form-control'
 
       %hr/
