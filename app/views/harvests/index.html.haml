@@ -1,4 +1,4 @@
-- content_for :title, title('harvests', @owner, @crop, @planting)
+%h1=title('harvests', @owner, @crop, @planting)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
@@ -8,6 +8,13 @@
   harvesting from your home garden and see how productive it is.
 
 = render 'layouts/nav', model: Harvest
+
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'Harvests', harvests_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s harvests", harvests_path(owner: @owner)
+  - else
+    %li.breadcrumb-item.active= link_to "Harvests", harvests_path
 
 .pagination
   = page_entries_info @harvests

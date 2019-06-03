@@ -1,4 +1,4 @@
-- content_for :title do
+%h1
   - if @crop
     Photos of #{@crop.name}
   - elsif @planting.present?
@@ -6,6 +6,8 @@
   - else
     Most recent photos added to #{ENV['GROWSTUFF_SITE_NAME']}.
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Photos', photos_path
 .pagination
   = page_entries_info @photos
   = will_paginate @photos

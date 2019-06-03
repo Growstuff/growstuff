@@ -7,6 +7,10 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Photos', photos_path
+  %li.breadcrumb-item.active= link_to @photo, @photo
+
 .row
   .col-md-8
     %h1.text-center=@photo.title

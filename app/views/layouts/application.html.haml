@@ -12,9 +12,14 @@
         .col-12
           .float-right= render 'shared/global_actions'
           - if content_for?(:breadcrumbs)
-            .float-left= yield(:breadcrumbs)
+            .float-left
+              %nav{"aria-label" => "breadcrumb"}
+                %ol.breadcrumb
+                  %li.breadcrumb-item= link_to 'Home', root_path
+                  = yield(:breadcrumbs)
+
           - if content_for?(:buttonbar)
-            = yield(:buttonbar)
+            .float-right= yield(:buttonbar)
 
       - if content_for?(:subtitle)
         %small= yield(:subtitle)
