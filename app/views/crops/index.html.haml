@@ -7,11 +7,7 @@
     = link_to 'Add new Crop', new_crop_path, class: 'btn btn-primary'
 
 - content_for :breadcrumbs do
-  %nav{"aria-label" => "breadcrumb"}
-    %ol.breadcrumb
-      %li.breadcrumb-item
-        = link_to 'Home', root_path
-      %li.breadcrumb-item.active= link_to 'Crops', crops_path
+  %li.breadcrumb-item.active= link_to 'Crops', crops_path
 
 %h1=t('.title')
 %p

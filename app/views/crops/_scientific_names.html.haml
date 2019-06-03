@@ -9,7 +9,7 @@
           = sn.name
           - if can? :edit, sn
             .dropdown.planting-actions
-              %button#planting-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+              %a#planting-actions-scinames.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
               .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
                 = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
                   = edit_icon
@@ -18,6 +18,6 @@
                   = delete_icon
                   = t('.delete')
 
-  %p
-  - if can? :edit, crop
-    = link_to 'Add', new_scientific_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'
+  %p.text-right
+    - if can? :edit, crop
+      = link_to 'Add', new_scientific_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'

@@ -1,4 +1,4 @@
-- if signed_in?
+- if @crop.approved? && signed_in?
   .crop-actions
     .btn-group
       - if can? :create, Planting

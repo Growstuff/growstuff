@@ -11,22 +11,15 @@
   = javascript_include_tag "charts"
 
 - content_for :breadcrumbs do
-  %nav{"aria-label" => "breadcrumb"}
-    %ol.breadcrumb
-      %li.breadcrumb-item
-        = link_to 'Home', root_path
-      %li.breadcrumb-item= link_to 'Crops', crops_path
-      %li.breadcrumb-item.active= link_to @crop, @crop
+  %li.breadcrumb-item= link_to 'Crops', crops_path
+  %li.breadcrumb-item.active= link_to @crop, @crop
 
 %h1
-  = @crop.name.titleize
-  %small= @crop.default_scientific_name
+  %strong= @crop.name.titleize
+  %small.text-muted= @crop.default_scientific_name
+%p= render 'crops/actions', crop: @crop
 
 = render 'approval_status_message', crop: @crop
-
-- if @crop.approved?
-  - content_for :buttonbar do
-    = render 'crops/actions', crop: @crop
 
 .row
   .col-md-9
