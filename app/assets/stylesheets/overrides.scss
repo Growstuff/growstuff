@@ -72,7 +72,7 @@ h3 {
 
 .img-card {
   object-fit: cover;
-  height: 150px;
+  height: 200px;
   width: 100%;
 }
 
@@ -140,6 +140,9 @@ h3 {
 // stats shown on homepage. eg. "999 members..."
 p.stats {
   font-weight: bold;
+}
+.card {
+  max-width: 400px;
 }
 
 .card-row {

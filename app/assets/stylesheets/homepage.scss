@@ -24,7 +24,7 @@
   flex: none;
   flex-wrap: wrap;
   margin: 0.5em;
-  left: -0.5em;
+  // left: -0.5em;
 
   .card {
     min-height: 100px;
@@ -44,6 +44,10 @@
   .thumbnail {
     margin: 0.5em;
   }
+  .img-card {
+    height: 150px;
+  }
+
 }
 
 @include media-breakpoint-down(sm) {
