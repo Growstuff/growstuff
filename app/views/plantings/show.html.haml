@@ -13,11 +13,11 @@
 .planting
   .row
     .col-md-8.col-xs-12
-      %h2.h1
+      %h2.h3
         %strong= @planting
         = render 'plantings/actions', planting: @planting
 
-      = render 'facts', planting: @planting
+      %section= render 'facts', planting: @planting
       - if @planting.description.present?
         %hr/
         .card
@@ -27,7 +27,7 @@
             :growstuff_markdown
               #{strip_tags(@planting.description)}
       %hr/
-      = render 'plantings/photos', photos: @photos, planting: @planting
+      %section= render 'plantings/photos', photos: @photos, planting: @planting
     .col-md-4.col-xs-12.text-right
       .card
         .card-body= render 'plantings/owner', planting: @planting
