@@ -16,7 +16,7 @@
               %li= msg
 
       .row
-        .col-8
+        .col-md-8
           = f.label :crop, 'What did you harvest?'
           - if @planting
             = link_to @planting.crop.name, planting_path(@planting)
@@ -30,24 +30,27 @@
                 Can't find what you're looking for?
                 = link_to "Request new crops.", new_crop_path
 
-        .col-4
-          = f.select :plant_part_id, PlantPart.all.collect {|p| [ p.name, p.id ] },include_blank: '', prompt: 'e.g. fruit', required: true, selected: @harvest.plant_part_id, required: true
-
-      = f.text_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '',
+        .col-md-4
+          = f.text_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '',
                          class: 'add-datepicker', label: 'When?'
+        .col-12
+          = f.form_group :plant_part_id, label: { text: "Harvested Plant Part" } do
+            .row
+              - PlantPart.all.order(:name).pluck(:id, :name).each do |id, name|
+                .col-4.col-md-3= f.radio_button :plant_part_id, id, label: name, checked: true
 
       -# Some browsers (eg Firefox for Android) assume "number" means
       -# "integer" unless you specify step="any":
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
       .row
-        .col-4
+        .col-md-4
           = f.number_field :quantity, class: 'input-small form-control', step: 'any', label: 'How many?'
-        .col-8
+        .col-md-8
           = f.select(:unit, Harvest::UNITS_VALUES, { include_blank: false }, class: 'input-medium form-control')
       .row
-        .col-4
+        .col-md-4
           = f.number_field :weight_quantity, class: 'input-small form-control', step: 'any'
-        .col-8
+        .col-md-8
           = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, class: 'form-control')
       = f.text_area :description, rows: 6, label: 'Notes'
 
