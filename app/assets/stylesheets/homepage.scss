@@ -51,15 +51,17 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .seed-card {
-    width: 100%;
-    min-height: 80px;
-    align: center;
-  }
-  .member-card {
-    width: 150px;
-    min-height: 80px;
-    align: center;
+  .homepage-cards {
+    .seed-card {
+      width: 100%;
+      min-height: 80px;
+      align: center;
+    }
+    .member-card {
+      width: 150px;
+      min-height: 80px;
+      align: center;
+    }
   }
 }
 

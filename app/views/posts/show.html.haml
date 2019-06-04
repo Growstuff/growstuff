@@ -54,8 +54,8 @@
     = render "comments", post: @post
 
   .col-md-4.col-12
+    = render @post.author
     .row
-      .col-12= render @post.author
       - unless @post.crops.empty?
         .col-12
           %h3.h3 Crops mentioned in this post
