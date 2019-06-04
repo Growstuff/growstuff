@@ -61,15 +61,15 @@ module ButtonsHelper
     edit_button(edit_garden_path(garden))
   end
 
-  def planting_edit_button(planting)
-    edit_button(edit_planting_path(planting))
+  def planting_edit_button(planting, classes: "btn btn-raised btn-info")
+    edit_button(edit_planting_path(planting), classes: classes)
   end
 
-  def planting_finish_button(planting)
+  def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
     return unless can?(:edit, planting) || planting.finished
 
     link_to planting_path(planting, planting: { finished: 1 }),
-            method: :put, class: 'btn btn-default btn-secondary append-date' do
+            method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')
     end
   end
@@ -82,41 +82,41 @@ module ButtonsHelper
     end
   end
 
-  def planting_harvest_button(planting)
+  def planting_harvest_button(planting, classes: 'btn btn-default')
     return unless planting.active? && can?(:create, Harvest) && can?(:edit, planting)
 
-    link_to new_planting_harvest_path(planting), class: "btn btn-default" do
-      harvest_icon + ' ' + t('buttons.harvest')
+    link_to new_planting_harvest_path(planting), class: classes do
+      harvest_icon + ' ' + t('buttons.record_harvest')
     end
   end
 
-  def planting_save_seeds_button(planting)
+  def planting_save_seeds_button(planting, classes: 'btn btn-default')
     return unless can?(:edit, planting)
 
-    link_to new_planting_seed_path(planting), class: "btn btn-default" do
+    link_to new_planting_seed_path(planting), class: classes do
       seed_icon + ' ' + t('buttons.save_seeds')
     end
   end
 
-  def add_photo_button(model)
+  def add_photo_button(model, classes: "btn btn-default")
     return unless can?(:edit, model) && can?(:create, Photo)
 
     link_to new_photo_path(id: model.id, type: model_type_for_photo(model)),
-            class: "btn btn-default" do
+            class: classes do
       photo_icon + ' ' + t('buttons.add_photo')
     end
   end
 
-  def edit_button(path)
-    link_to path, class: "btn btn-raised btn-info" do
+  def edit_button(path, classes: "btn btn-raised btn-info")
+    link_to path, class: classes do
       edit_icon + ' ' + t('buttons.edit')
     end
   end
 
-  def delete_button(model, message: 'are_you_sure')
+  def delete_button(model, message: 'are_you_sure', classes: 'btn btn-danger')
     return unless can? :destroy, model
 
-    link_to model, method: :delete, data: { confirm: t(message) }, class: 'btn btn-danger' do
+    link_to model, method: :delete, data: { confirm: t(message) }, class: classes do
       delete_icon + ' ' + t('buttons.delete')
     end
   end

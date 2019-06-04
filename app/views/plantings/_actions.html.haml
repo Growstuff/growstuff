@@ -1,12 +1,12 @@
 - if can?(:edit, planting)
   .dropdown.float-right.planting-actions
-    %a#planting-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+    %a#planting-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
-      .dropdown-item= planting_edit_button(planting)
-      .dropdown-item= add_photo_button(planting)
+      = planting_edit_button(planting, classes: 'dropdown-item')
+      = add_photo_button(planting, classes: 'dropdown-item')
       - if planting.active?
-        .dropdown-item= planting_finish_button(planting)
-        .dropdown-item= planting_harvest_button(planting)
-        .dropdown-item= planting_save_seeds_button(planting)
-      - if can? :destroy, planting
-        .dropdown-item= delete_button(planting)
+        = planting_finish_button(planting, classes: 'dropdown-item')
+        = planting_harvest_button(planting, classes: 'dropdown-item')
+        = planting_save_seeds_button(planting, classes: 'dropdown-item')
+      .dropdown-divider
+      = delete_button(planting, classes: 'dropdown-item')
