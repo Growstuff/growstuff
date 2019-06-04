@@ -53,16 +53,14 @@
 
     = render "comments", post: @post
 
-  .col-4.col-xs-12
-    = render @post.author
-
-    - unless @post.crops.empty?
-      %hr/
-      .row
-        .col-md-12
-          %h3 Crops mentioned in this post
+  .col-md-4.col-12
+    .row
+      .col-12= render @post.author
+      - unless @post.crops.empty?
+        .col-12
+          %h3.h3 Crops mentioned in this post
         - @post.crops.each do |c|
-          .col-md-6= render 'crops/thumbnail', crop: c
+          .col-6= render 'crops/thumbnail', crop: c
 
 
 
