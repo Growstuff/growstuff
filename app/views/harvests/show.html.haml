@@ -11,8 +11,12 @@
 -content_for(:buttonbar) do
   = render 'harvests/actions', harvest: @harvest
 
+
 .row
-  .col-md-6
+  .col-md-8
+    %h1
+      = harvest_icon
+      #{@harvest.crop} harvested by #{@harvest.owner}
     %p
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
@@ -36,7 +40,7 @@
       = display_quantity(@harvest)
 
 
-  .col-md-6= render @harvest.crop
+  .col-md-4= render @harvest.crop
 
 - if @harvest.description.present?
   %h2 Notes

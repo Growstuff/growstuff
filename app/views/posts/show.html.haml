@@ -26,13 +26,9 @@
     = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn'
 
 - content_for :breadcrumbs do
-  %nav{"aria-label" => "breadcrumb"}
-    %ol.breadcrumb
-      %li.breadcrumb-item
-        = link_to 'Home', root_path
-      %li.breadcrumb-item= link_to @post.author, @post.author
-      %li.breadcrumb-item= link_to 'posts', posts_path(member_slug: @post.author.slug)
-      %li.breadcrumb-item.active{"aria-current" => "page"}= @post.subject
+  %li.breadcrumb-item= link_to @post.author, @post.author
+  %li.breadcrumb-item= link_to 'posts', posts_path(member_slug: @post.author.slug)
+  %li.breadcrumb-item.active{"aria-current" => "page"}= @post.subject
 
 .row
   .col-md-8.col-12
