@@ -1,10 +1,10 @@
 !!! 5
 %html{ lang: "en", prefix: "og: http://ogp.me/ns#" }
   = yield :scripts
-  = render partial: "layouts/meta"
+  = render "layouts/meta"
   %body
     .sr-only= link_to t(".skip"), "#skipnav"
-    = render partial: "layouts/header"
+    = render "layouts/header"
     -# anchor tag for accessibility link to skip the navigation menu
     %a{ name: 'skipnav' }
     #maincontainer.container
@@ -24,11 +24,10 @@
       - if content_for?(:subtitle)
         %small= yield(:subtitle)
 
-      = render partial: "shared/flash_messages", flash: flash
+      = render "shared/flash_messages", flash: flash
       = yield
 
-    %footer
-      = render "layouts/footer"
+    %footer.page-footer.font-small.bg-dark.pt-4= render "layouts/footer"
     /
       Javascripts
       \==================================================
