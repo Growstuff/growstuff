@@ -1,17 +1,16 @@
 - if @crop.approved? && signed_in?
   .crop-actions
-    .btn-toolbar{"data-toggle" => "buttons"}
-      - if can? :create, Planting
-        = link_to new_planting_path(crop_id: crop.id), class: 'btn btn-sm' do
-          = planting_icon
-          = t('buttons.plant_crop', crop_name: crop.name)
+    - if can? :create, Planting
+      = link_to new_planting_path(crop_id: crop.id), class: 'btn btn-sm' do
+        = planting_icon
+        = t('buttons.plant_crop', crop_name: crop.name)
 
-      - if can? :create, Harvest
-        = link_to new_harvest_path(crop_id: crop.id), class: 'btn btn-sm' do
-          = harvest_icon
-          = t('buttons.harvest_crop', crop_name: crop.name)
+    - if can? :create, Harvest
+      = link_to new_harvest_path(crop_id: crop.id), class: 'btn btn-sm' do
+        = harvest_icon
+        = t('buttons.harvest_crop', crop_name: crop.name)
 
-      - if can? :create, Seed
-        = link_to new_seed_path(crop_id: crop.id), class: 'btn btn-sm' do
-          = seed_icon
-          = t('buttons.add_seed_to_stash', crop_name: crop.name)
+    - if can? :create, Seed
+      = link_to new_seed_path(crop_id: crop.id), class: 'btn btn-sm' do
+        = seed_icon
+        = t('buttons.add_seed_to_stash', crop_name: crop.name)
