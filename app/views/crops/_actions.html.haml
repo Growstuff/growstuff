@@ -1,6 +1,6 @@
 - if @crop.approved? && signed_in?
   .crop-actions
-    .btn-group
+    .btn-toolbar{"data-toggle" => "buttons"}
       - if can? :create, Planting
         = link_to new_planting_path(crop_id: crop.id), class: 'btn btn-sm' do
           = planting_icon
