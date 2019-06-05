@@ -16,16 +16,13 @@
   information on how to grow it yourself.
 
 
-.well
-  = form_tag(crops_path, method: :get, class: 'form-inline', role: 'form') do
-    .form-group
-      = label_tag :sort, "Sort by:", class: 'sr-only'
-      = select_tag "sort",
-                   options_for_select({ "Sort by popularity": 'popular',
-                                        "Sort alphabetically": 'alpha' },
-                                        @sort || 'popular'),
-                   class: 'form-control'
-    = submit_tag "Show", class: 'btn btn-success'
+= bootstrap_form_tag(url: crops_path, method: :get, layout: :inline) do |f|
+  = f.select "sort",
+               options_for_select({ "popularity": 'popular',
+                                    "alphabetically": 'alpha' },
+                                    @sort || 'popular'),
+               label: 'Sort by'
+  = f.submit "Show"
 
 .pagination= render 'layouts/pagination', collection: @crops
 
