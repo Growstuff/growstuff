@@ -29,9 +29,10 @@
 
 .pagination= render 'layouts/pagination', collection: @crops
 
-.row
-  - @crops.each do |crop|
-    .col-md-2= render 'crops/thumbnail', crop: crop
+.crops
+  .row
+    - @crops.each do |crop|
+      .col-6.col-md-3= render 'crops/thumbnail', crop: crop
 
 .pagination= render 'layouts/pagination', collection: @crops
 

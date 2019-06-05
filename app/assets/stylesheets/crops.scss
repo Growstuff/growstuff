@@ -14,3 +14,23 @@
 .crop-photos {
   margin-left: 3em;
 }
+
+.crops {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  margin: 0.5em;
+  .card {
+    min-height: 100px;
+    margin: 0.5em;
+    padding: 0;
+
+    %h3.crop-name {
+      font-size: 2em;
+    }
+  }
+  .crop-card {
+    width: 120px;
+    min-height: 80px;
+  }
+}
