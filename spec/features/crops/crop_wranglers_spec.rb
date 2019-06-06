@@ -33,7 +33,10 @@ describe "crop wranglers", js: true do
     end
 
     describe "visiting a crop can see wrangler links" do
-      before { visit crop_path(crops.first) }
+      before do
+        visit crop_path(crops.first)
+        click_button 'Actions'
+      end
 
       it { expect(page).to have_content 'You are a CROP WRANGLER' }
       it { expect(page).to have_link 'Edit' }
