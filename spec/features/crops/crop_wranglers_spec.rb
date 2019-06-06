@@ -12,7 +12,7 @@ describe "crop wranglers", js: true do
 
     it "sees crop wranglers listed on the crop wrangler page" do
       visit root_path
-      click_link wrangler.login_name
+      click_link 'Admin'
       click_link 'Crop Wrangling'
 
       within '.crop_wranglers' do
@@ -25,7 +25,7 @@ describe "crop wranglers", js: true do
 
     it "can see list of crops with extra detail of who created a crop" do
       visit root_path
-      click_link wrangler.login_name
+      click_link 'Admin'
       click_link 'Crop Wrangling'
       within '#recently-added-crops' do
         expect(page).to have_content crops.first.creator.login_name.to_s
@@ -42,7 +42,7 @@ describe "crop wranglers", js: true do
 
     it "can create a new crop" do
       visit root_path
-      click_link wrangler.login_name
+      click_link 'Admin'
       click_link 'Crop Wrangling'
       click_link 'Add Crop'
       fill_in 'Name', with: "aubergine"
