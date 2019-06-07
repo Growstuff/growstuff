@@ -148,7 +148,7 @@ describe "crop detail page", js: true do
 
       it "describes annual crops" do
         expect(subject).to have_text(
-          "#{crop.name} is an annual crop (living and reproducing in a single year or less)"
+          "#{crop.name.capitalize} is an annual crop (living and reproducing in a single year or less)"
         )
       end
     end
@@ -164,7 +164,7 @@ describe "crop detail page", js: true do
       end
 
       it "describes perennial crops" do
-        expect(subject).to have_text("#{crop.name} is a perennial crop (living more than two years)")
+        expect(subject).to have_text("#{crop.name.capitalize} is a perennial crop (living more than two years)")
       end
     end
 
