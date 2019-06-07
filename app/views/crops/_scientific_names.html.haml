@@ -6,10 +6,9 @@
     %ul.list-group.list-group-flush
       - crop.scientific_names.each do |sn|
         %li.list-group-item.d-flex.justify-content-between.align-items-center
-          = sn.name
           - if can? :edit, sn
             .dropdown.planting-actions
-              %a#planting-actions-scinames.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+              %a#planting-actions-scinames.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
               .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
                 = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
                   = edit_icon
@@ -17,6 +16,8 @@
                 = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' do
                   = delete_icon
                   = t('.delete')
+          - else
+            = sn.name
 
   %p.text-right
     - if can? :edit, crop
