@@ -37,6 +37,7 @@
     }
   },
   "addons": [
+    "bonsai",
     "heroku-postgresql",
     "memcachier",
     "newrelic",
