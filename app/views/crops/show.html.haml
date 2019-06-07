@@ -31,9 +31,9 @@
       - else
         Nobody is growing this yet. You could be the first!
       - if @crop.perennial?
-        #{@crop.name.titleize} is a perennial crop (living more than two years)
-      - else
-        #{@crop.name.titleize} is an annual crop (living and reproducing in a single year or less)
+        #{@crop.name.capitalize} is a perennial crop (living more than two years)
+      - elsif @crop.annual?
+        #{@crop.name.capitalize} is an annual crop (living and reproducing in a single year or less)
     %hr/
 
     = render 'predictions', crop: @crop
@@ -108,8 +108,6 @@
         = render 'alternate_names', crop: @crop
         = render 'plantings', crop: @crop
         = render 'harvests', crop: @crop
-
-
 
     = render 'find_seeds', crop: @crop
 
