@@ -1,8 +1,8 @@
 .planting {
-  padding: 0.5em;
+  // padding: 0.5em;
 
   .planting-badges {
-    font-size: 100%;
+    font-size: 1.5em;
     position: absolute;
     top: 3em;
 
@@ -24,8 +24,8 @@
   .planting-thumbnail {
     width: 150px;
     padding: 0;
-    margin-bottom: 0.5em;
-    margin-top: 0.5em;
+    // margin-bottom: 0.5em;
+    // margin-top: 0.5em;
 
     .badge {
       font-size: 100%;
@@ -37,6 +37,9 @@
       font-size: 200%;
     }
   }
+  .progress {
+    min-height: 25px;
+  }
 
   .planting-name {
     position: relative;
@@ -46,15 +49,9 @@
 
   .planting-quick-actions {
     position: absolute;
-
-    //Mine
     top: 0;
-    left: 130px;
-
-    //Upstream
-    //left: 142px
-    //top: 6px
- 
+    right: 0;
+    background-color: $white;
   }
 
   .planting-thumbnail-photo {

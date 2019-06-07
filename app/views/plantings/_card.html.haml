@@ -1,23 +1,25 @@
-.card
+.card.planting
   = link_to planting do
     = image_tag planting_image_path(planting, full_size: true), class: 'img-card', alt: planting
+  - if can? :edit, planting
+    .planting-quick-actions
+      .dropdown
+        %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button"}
+        .dropdown-menu{"aria-labelledby" => "planting-menu"}
+          = planting_edit_button(planting, classes: 'dropdown-item')
+          = add_photo_button(planting, classes: 'dropdown-item')
+
+          - if planting.active?
+            = planting_finish_button(planting, classes: 'dropdown-item')
+            = planting_harvest_button(planting, classes: 'dropdown-item')
+            = planting_save_seeds_button(planting, classes: 'dropdown-item')
+
+          - if can? :destroy, planting
+            = delete_button(planting, classes: 'dropdown-item')
+
   .card-body.text-center
-    %h5= link_to planting.crop, planting
+    %h4= link_to planting.crop, planting
     .text-center= render 'plantings/badges', planting: planting
   - if planting.percentage_grown.present?
-    .card-footer= render 'plantings/progress', planting: planting
-  -# - if can? :edit, planting
-  -#   .card-footer
-  -#     .dropup
-  -#       %button#dropdownMenuButton.btn.btn-sm.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-  -#       .dropdown-menu{"aria-labelledby" => "dropdownMenuButton"}
-  -#         = planting_edit_button(planting)
-  -#         = add_photo_button(planting)
-
-  -#         - if planting.active?
-  -#           = planting_finish_button(planting)
-  -#           = planting_harvest_button(planting)
-  -#           = planting_save_seeds_button(planting)
-
-  -#         - if can? :destroy, planting
-  -#           = delete_button(planting)
+    .card-footer
+      = render 'plantings/progress', planting: planting
