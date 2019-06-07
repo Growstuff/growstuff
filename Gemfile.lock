@@ -86,13 +86,13 @@ GEM
       uniform_notifier (~> 1.11)
     byebug (11.0.1)
     cancancan (3.0.1)
-    capybara (3.19.1)
+    capybara (3.22.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      regexp_parser (~> 1.2)
+      regexp_parser (~> 1.5)
       xpath (~> 3.2)
     capybara-email (3.0.1)
       capybara (>= 2.4, < 4.0)
@@ -100,7 +100,7 @@ GEM
     capybara-screenshot (1.0.22)
       capybara (>= 1.0, < 4)
       launchy
-    chartkick (3.0.2)
+    chartkick (3.1.0)
     childprocess (1.0.1)
       rake (< 13.0)
     cliver (0.3.2)
@@ -148,17 +148,17 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.3)
     docile (1.1.5)
-    elasticsearch (6.3.0)
-      elasticsearch-api (= 6.3.0)
-      elasticsearch-transport (= 6.3.0)
-    elasticsearch-api (6.3.0)
+    elasticsearch (7.1.0)
+      elasticsearch-api (= 7.1.0)
+      elasticsearch-transport (= 7.1.0)
+    elasticsearch-api (7.1.0)
       multi_json
     elasticsearch-model (6.0.0)
       activesupport (> 3)
       elasticsearch (> 1)
       hashie
     elasticsearch-rails (6.0.0)
-    elasticsearch-transport (6.3.0)
+    elasticsearch-transport (7.1.0)
       faraday
       multi_json
     erubi (1.8.0)
@@ -304,7 +304,7 @@ GEM
     moneta (1.0.0)
     multi_json (1.11.3)
     multi_xml (0.6.0)
-    multipart-post (2.0.0)
+    multipart-post (2.1.1)
     newrelic_rpm (6.3.0.355)
     nio4r (2.3.1)
     nokogiri (1.10.3)
@@ -340,7 +340,7 @@ GEM
       activerecord (>= 4.0, < 6.1)
     parser (2.6.3.0)
       ast (~> 2.4.0)
-    percy-capybara (4.0.0)
+    percy-capybara (4.0.1)
     pg (0.21.0)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
@@ -403,7 +403,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redis (4.1.0)
-    regexp_parser (1.4.0)
+    regexp_parser (1.5.1)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
@@ -464,7 +464,7 @@ GEM
       sprockets-rails
       tilt
     scout_apm (2.4.24)
-    searchkick (4.0.0)
+    searchkick (4.0.1)
       activemodel (>= 5)
       elasticsearch (>= 6)
       hashie
