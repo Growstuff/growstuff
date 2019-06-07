@@ -5,7 +5,6 @@
         %strong=yield :title
   = bootstrap_form_for(@planting) do |f|
     .card-body
-
       - if @planting.errors.any?
         #error_explanation
           %h2
@@ -15,7 +14,7 @@
             - @planting.errors.full_messages.each do |msg|
               %li= msg
 
-      = f.label :crop, 'What did you plant?'
+      = f.label :crop, 'What did you plant?', class: 'required'
       - if @seed.present?
         = link_to @seed, seed_path(@seed)
         = f.hidden_field :parent_seed_id, value: @seed.id

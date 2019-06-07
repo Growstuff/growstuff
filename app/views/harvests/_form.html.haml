@@ -16,8 +16,8 @@
               %li= msg
 
       .row
-        .col-md-8
-          = f.label :crop, 'What did you harvest?'
+        .col-12
+          = f.label :crop, 'What did you harvest?', class: 'required'
           - if @planting
             = link_to @planting.crop.name, planting_path(@planting)
             from

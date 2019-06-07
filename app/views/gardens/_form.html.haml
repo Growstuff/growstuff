@@ -7,17 +7,16 @@
     .card-body
       = required_field_help_text
       - if @garden.errors.any?
-        #error_explanation
-          %h2
+        #error_explanation.alert.alert-warning{:role => "alert"}
+          %h4.alert-heading
             = pluralize(@garden.errors.size, "error")
-            prohibited this garden from being saved:
+            prohibited this garden from being saved
           %ul
             - @garden.errors.full_messages.each do |msg|
               %li= msg
 
       = f.text_field :name, maxlength: 255, required: true
       = f.text_area :description, rows: 6
-
       = f.text_field :location,
                       value: @garden.location || current_member.location,
                       class: 'form-control', maxlength: 255
