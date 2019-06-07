@@ -103,26 +103,16 @@
             = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
               = display_seed_availability(@current_member, @crop)
 
-        .card-body
-          = render 'scientific_names', crop: @crop
-          = render 'alternate_names', crop: @crop
-        .card-body
-          %h3 See who's planted #{@crop.name.pluralize}
-          %ul.list-group.list-group-flush
-            - @crop.plantings.order(planted_at: :desc).limit(5).each do |planting|
-              %li.list-group-item
-                = link_to planting do
-                  = planting_icon
-                  = planting
-                - if planting.owner.location.present?
-                  %small=planting.owner.location
+      .card-body
+        = render 'scientific_names', crop: @crop
+        = render 'alternate_names', crop: @crop
+        = render 'plantings', crop: @crop
+        = render 'harvests', crop: @crop
 
 
-    %hr/
 
     = render 'find_seeds', crop: @crop
 
-    %hr/
     .card
       .card-body
         %h5.card-title Learn more about #{@crop.name.pluralize}
