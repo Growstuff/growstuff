@@ -349,8 +349,7 @@ html, body {
 // Autosuggest
 .ui-autocomplete {
   background: white;
-
-  //z-index: $zindex-tooltip
+  z-index: $zindex-tooltip
 }
 
 .alert {
