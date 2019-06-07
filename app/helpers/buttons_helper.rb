@@ -49,8 +49,8 @@ module ButtonsHelper
     edit_button(edit_crop_path(crop))
   end
 
-  def seed_edit_button(seed)
-    edit_button(edit_seed_path(seed))
+  def seed_edit_button(seed, classes: "btn btn-raised btn-info")
+    edit_button(edit_seed_path(seed), classes: classes)
   end
 
   def harvest_edit_button(harvest)
@@ -74,10 +74,10 @@ module ButtonsHelper
     end
   end
 
-  def seed_finish_button(seed)
+  def seed_finish_button(seed, classes: 'btn btn-default')
     return unless can?(:create, Planting) && seed.active?
 
-    link_to seed_path(seed, seed: { finished: 1 }), method: :put, class: 'btn btn-default append-date' do
+    link_to seed_path(seed, seed: { finished: 1 }), method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')
     end
   end
