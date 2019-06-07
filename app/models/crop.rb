@@ -117,7 +117,7 @@ class Crop < ApplicationRecord
   end
 
   def annual?
-    !perennial
+    perennial == false
   end
 
   def interesting?
