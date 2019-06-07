@@ -15,10 +15,10 @@
         %ul.nav.nav-justified.small
           %li.nav-item.border-right
             = link_to member_plantings_path(member) do
-              = localize_plural(member.plantings, Planting)
+              = localize_plural(member.plantings.active.size, Planting)
           %li.nav-item.border-right
             = link_to member_harvests_path(member) do
-              = localize_plural(member.harvests, Harvest)
+              = localize_plural(member.harvests.size, Harvest)
           %li.nav-item
             = link_to member_seeds_path(member) do
-              = localize_plural(member.seeds, Seed)
+              = localize_plural(member.seeds.active.size, Seed)
