@@ -40,6 +40,4 @@
       %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
   .card-footer
     %span.badge.badge-pill.badge-secondary=seed.owner.location
-    %p.float-right
-      = link_to seed.owner do
-        = image_tag(avatar_uri(seed.owner, 50), alt: '', class: 'img img-responsive avatar rounded')
+    %p.float-right= render 'members/tiny', member: seed.owner

@@ -1,18 +1,19 @@
 - if can?(:edit, crop) || can?(:destroy, crop)
-  %h4 Crop wrangling
-  %p
-    You are a
-    = succeed "." do
-      %strong CROP WRANGLER
-    .dropdown.crop-actions
-      %button#crop-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
-      .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
-        = link_to edit_crop_path(crop), class: 'dropdown-item' do
-          = edit_icon
-          = t('.edit')
+  .alert.alert-success{role: "alert"}
+    %h4 Crop wrangling
+    %p
+      You are a
+      = succeed "." do
+        %strong CROP WRANGLER
+      .dropdown.crop-actions
+        %button#crop-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+        .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
+          = link_to edit_crop_path(crop), class: 'dropdown-item' do
+            = edit_icon
+            = t('.edit')
 
-        - if can? :destroy, crop
-          .dropdown-divider
-          = link_to crop, method: :delete, class: 'dropdown-item text-danger' do
-            = delete_icon
-            Delete
+          - if can? :destroy, crop
+            .dropdown-divider
+            = link_to crop, method: :delete, class: 'dropdown-item text-danger' do
+              = delete_icon
+              Delete
