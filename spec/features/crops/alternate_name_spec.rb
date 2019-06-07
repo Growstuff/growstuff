@@ -28,6 +28,7 @@ describe "Alternate names", js: true do
       expect(page.status_code).to equal 200
       expect(page).to have_content "CROP WRANGLER"
       expect(page).to have_content alternate_eggplant.name
+      click_link 'aubergine'
       expect(page).to have_link "Edit", href: edit_alternate_name_path(alternate_eggplant)
       within('.alternate_names') { click_on "Edit" }
       expect(page.status_code).to equal 200
@@ -41,6 +42,7 @@ describe "Alternate names", js: true do
 
     it "Crop wranglers can delete alternate names" do
       visit crop_path(alternate_eggplant.crop)
+      click_link 'aubergine'
       expect(page).to have_link "Delete",
         href: alternate_name_path(alternate_eggplant)
       within('.alternate_names') { click_on "Delete" }
