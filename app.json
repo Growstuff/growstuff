@@ -3,7 +3,9 @@
   "stack": "heroku-18",
   "description": "Open data project for small-scale food growers",
   "scripts": {
-    "postdeploy": "bundle exec rails db:migrate db:seed"
+    // The postdeploy script is run once, after the app is created
+    // and not on subsequent deploys to the app
+    "postdeploy": "bundle exec rails db:seed"
   },
   "env": {
     "GROWSTUFF_ELASTICSEARCH": {
