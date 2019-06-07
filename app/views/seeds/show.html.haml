@@ -9,15 +9,16 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- content_for :buttonbar do
-  = render 'seeds/actions', seed: @seed
-  
+
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Seeds', seeds_path
   %li.breadcrumb-item.active= link_to @seed, @seed
 
 .row
   .col-md-6
+    %h1
+      #{@seed.owner}'s #{@seed.crop} seeds
+      = render 'seeds/actions', seed: @seed
     %dl.dl-horizontal
       %dt Owner
       %dd
