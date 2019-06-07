@@ -15,7 +15,7 @@
             - @garden.errors.full_messages.each do |msg|
               %li= msg
 
-      = f.text_field :name, maxlength: 255, required: "required"
+      = f.text_field :name, maxlength: 255, required: true
       = f.text_area :description, rows: 6
 
       = f.text_field :location,
