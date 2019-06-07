@@ -70,12 +70,12 @@ describe "crop detail page", js: true do
 
       it "has a link to OpenFarm" do
         expect(page).to have_link "OpenFarm - Growing guide",
-          href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
+                                  href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
       end
 
       it "has a link to gardenate" do
         expect(page).to have_link "Gardenate - Planting reminders",
-          href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
+                                  href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
       end
     end
   end
