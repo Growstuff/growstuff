@@ -387,9 +387,9 @@ $state-success-bg: lighten($green, 50%);
   }
 }
 
-.form-group.required .control-label:before {
-  content: "* ";
+label.required:after {
   color: red;
+  content:" *";
 }
 
 .margin-bottom {
