@@ -20,9 +20,7 @@
   = page_entries_info @plantings
   = render 'layouts/pagination', collection: @plantings
 
-.row
-  - @plantings.each do |planting|
-    .col-6.col-md-2= render 'plantings/card', planting: planting
+.index-cards= render @plantings, full: true
 
 .pagination
   = page_entries_info @plantings
