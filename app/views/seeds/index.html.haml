@@ -1,4 +1,7 @@
-%h1= title('seeds', @owner, @crop, @planting)
+- content_for :title, title('seeds', @owner, @crop, @planting)
+%h1
+  = seed_icon
+  = title('seeds', @owner, @crop, @planting)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
