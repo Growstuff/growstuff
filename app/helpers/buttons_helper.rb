@@ -16,16 +16,16 @@ module ButtonsHelper
     end
   end
 
-  def garden_mark_active_button(garden)
+  def garden_mark_active_button(garden, classes: 'btn')
     link_to t('buttons.mark_as_active'),
             garden_path(garden, garden: { active: 1 }),
-            method: :put, class: 'btn'
+            method: :put, class: classes
   end
 
-  def garden_mark_inactive_button(garden)
+  def garden_mark_inactive_button(garden, classes: 'btn')
     link_to t('buttons.mark_as_inactive'),
             garden_path(garden, garden: { active: 0 }),
-            method: :put, class: 'btn',
+            method: :put, class: classes,
             data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
   end
 
@@ -57,8 +57,8 @@ module ButtonsHelper
     edit_button(edit_harvest_path(harvest))
   end
 
-  def garden_edit_button(garden)
-    edit_button(edit_garden_path(garden))
+  def garden_edit_button(garden, classes: "btn btn-raised btn-info")
+    edit_button(edit_garden_path(garden), classes: classes)
   end
 
   def planting_edit_button(planting, classes: "btn btn-raised btn-info")
