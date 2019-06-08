@@ -63,7 +63,6 @@ shared_examples "crop suggest" do |resource|
   scenario "Submitting a crop that doesn't exist in the database produces a meaningful error" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "Ryan Gosling"
-      choose('Garden')
       click_button "Save"
     end
 
