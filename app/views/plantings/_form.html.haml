@@ -5,6 +5,7 @@
         %strong=yield :title
   = bootstrap_form_for(@planting) do |f|
     .card-body
+      = required_field_help_text
       - if @planting.errors.any?
         #error_explanation
           %h2
