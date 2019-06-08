@@ -488,13 +488,15 @@ describe Planting do
     end
   end
 
-  # it 'predicts harvest times' do
-  #   crop = FactoryBot.create :crop
-  #   10.times do
-  #     planting = FactoryBot.create :planting, crop: crop, planted_at: Time.zone.local(2013, 1, 1)
-  #     FactoryBot.create :harvest, crop: crop, planting: planting, harvested_at: Time.zone.local(2013, 2, 1)
-  #   end
-  #   planting = FactoryBot.create :planting, planted_at: Time.zone.local(2017, 1, 1), crop: crop
-  #   expect(planting.harvest_predicted_at).to eq Time.zone.local(2017, 2, 1)
-  # end
+  describe 'active scope' do
+    let(:member) { FactoryBot.create :member }
+    let!(:planting) do
+      FactoryBot.create :planting, owner: member, garden: member.gardens.first
+    end
+    let!(:finished_planting) do
+      FactoryBot.create :finished_planting, owner: member, garden: member.gardens.first
+    end
+    it { expect(member.plantings.active).to include(planting) }
+    it { expect(member.plantings.active).not_to include(finished_planting) }
+  end
 end
