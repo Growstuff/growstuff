@@ -19,7 +19,7 @@
                   = yield(:breadcrumbs)
 
           - if content_for?(:buttonbar)
-            .float-right= yield(:buttonbar)
+            .layout-actions.float-right= yield(:buttonbar)
 
       - if content_for?(:subtitle)
         %small= yield(:subtitle)
