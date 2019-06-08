@@ -21,14 +21,14 @@ describe "Planting a crop", :js, :elasticsearch do
   end
 
   describe "displays required and optional fields properly" do
-    it { expect(page).to have_selector ".form-group.required", text: "What did you plant?" }
-    it { expect(page).to have_selector ".form-group.required", text: "Where did you plant it?" }
-    it { expect(page).to have_optional 'input#planting_planted_at' }
-    it { expect(page).to have_optional 'input#planting_quantity' }
-    it { expect(page).to have_optional 'select#planting_planted_from' }
-    it { expect(page).to have_optional 'select#planting_sunniness' }
-    it { expect(page).to have_optional 'textarea#planting_description' }
-    it { expect(page).to have_optional 'input#planting_finished_at' }
+    it { expect(page).to have_selector ".required", text: "What did you plant?" }
+    it { expect(page).to have_selector ".required", text: "Where did you plant it?" }
+    it { expect(page).to have_selector 'input#planting_planted_at' }
+    it { expect(page).to have_selector 'input#planting_quantity' }
+    it { expect(page).to have_selector 'select#planting_planted_from' }
+    it { expect(page).to have_selector 'select#planting_sunniness' }
+    it { expect(page).to have_selector 'textarea#planting_description' }
+    it { expect(page).to have_selector 'input#planting_finished_at' }
   end
 
   describe "Creating a new planting" do
