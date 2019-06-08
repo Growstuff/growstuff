@@ -68,9 +68,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
     let!(:planting) { create :planting, crop: maize, owner: member, garden: member.gardens.first }
     before do
       visit planting_path(planting)
-      within ".planting-actions" do
-        click_button "Record Harvest"
-      end
+      click_link "Record Harvest"
 
       choose plant_part.name
       click_button "Save"
