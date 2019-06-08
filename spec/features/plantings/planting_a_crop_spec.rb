@@ -36,11 +36,12 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
-        fill_in "When", with: "2014-06-15"
         fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
+        select "cutting", from: "Planted from"
         select "semi-shade", from: "Sun or shade?"
         fill_in "Tell us more about it", with: "It's rad."
+        choose 'Garden'
+        fill_in "When", with: "2014-06-15"
         click_button "Save"
       end
     end
@@ -70,9 +71,10 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
+        choose 'Garden'
         fill_in "When", with: @a_future_date
         fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
+        select "cutting", from: "Planted from"
         select "semi-shade", from: "Sun or shade?"
         fill_in "Tell us more about it", with: "It's rad."
         click_button "Save"
@@ -86,9 +88,10 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
+        choose 'Garden'
         fill_in "When", with: @a_past_date
         fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
+        select "cutting", from: "Planted from"
         select "semi-shade", from: "Sun or shade?"
         fill_in "Tell us more about it", with: "It's rad."
         click_button "Save"
@@ -103,9 +106,10 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
+        choose 'Garden'
         fill_in "When", with: @right_now
         fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
+        select "cutting", from: "Planted from"
         select "semi-shade", from: "Sun or shade?"
         fill_in "When?", with: '2013-03-10'
         fill_in "Tell us more about it", with: "It's rad."
@@ -123,9 +127,10 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
+        choose 'Garden'
         fill_in "When", with: @right_now
         fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
+        select "cutting", from: "Planted from"
         select "semi-shade", from: "Sun or shade?"
         fill_in "Tell us more about it", with: "It's rad."
         check "Mark as finished"
@@ -140,10 +145,12 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
+        choose 'Garden'
         fill_in "When", with: @a_past_date
         fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
+        select "cutting", from: "Planted from"
         select "semi-shade", from: "Sun or shade?"
+        choose 'Garden'
         fill_in "Tell us more about it", with: "It's rad."
         fill_in "Finished date", with: @right_now
         click_button "Save"
@@ -161,8 +168,10 @@ describe "Planting a crop", :js, :elasticsearch do
     end
     within "form#new_planting" do
       expect(page).to have_selector "input[value='maize']"
-      click_button "Save"
     end
+
+    choose(member.gardens.first.name)
+    click_button "Save"
 
     expect(page).to have_content "planting was successfully created"
     expect(page).to have_content "maize"
@@ -170,6 +179,7 @@ describe "Planting a crop", :js, :elasticsearch do
 
   it "Editing a planting to add details" do
     visit planting_path(planting)
+    click_link 'Actions'
     click_link "Edit"
     fill_in "Tell us more about it", with: "Some extra notes"
     click_button "Save"
@@ -179,6 +189,8 @@ describe "Planting a crop", :js, :elasticsearch do
   it "Editing a planting to fill in the finished date" do
     visit planting_path(planting)
     expect(page).not_to have_content "Finishes"
+    # click_link(id: 'planting-actions-button')
+    click_link 'Actions'
     click_link "Edit"
     check "finished"
     fill_in "Finished date", with: "2015-06-25"
@@ -190,6 +202,7 @@ describe "Planting a crop", :js, :elasticsearch do
   it "Marking a planting as finished" do
     fill_autocomplete "crop", with: "mai"
     select_from_autocomplete "maize"
+    choose(member.gardens.first.name)
     within "form#new_planting" do
       fill_in "When?", with: "2014-07-01"
       check "Mark as finished"
@@ -234,6 +247,7 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_planting" do
+        choose member.gardens.first.name
         check "Mark as finished"
         click_button "Save"
       end
@@ -250,7 +264,7 @@ describe "Planting a crop", :js, :elasticsearch do
       within "form#new_planting" do
         fill_in "When", with: "2015-10-15"
         fill_in "How many?", with: 42
-        select "cutting", from: "Planted from:"
+        select "cutting", from: "Planted from"
         select "sun", from: "Sun or shade?"
         fill_in "Tell us more about it", with: "It's rad."
         check "Mark as finished"

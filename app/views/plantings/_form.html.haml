@@ -39,9 +39,12 @@
                      class: 'add-datepicker', label: 'When?'
 
       .row
-        .col-md-4= f.select(:planted_from, Planting::PLANTED_FROM_VALUES, { include_blank: '' }, label: 'Planted from')
-        .col-md-4= f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '' }, label: 'Sun or shade?')
-        .col-md-4= f.number_field :quantity, label: 'How many?'
+        .col-md-4
+          = f.select(:planted_from, Planting::PLANTED_FROM_VALUES, { include_blank: '', label: 'Planted from' } )
+        .col-md-4
+          = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '', label: 'Sun or shade?' } )
+        .col-md-4
+          = f.number_field :quantity, label: 'How many?'
       = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
       .row
