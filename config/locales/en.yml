@@ -87,6 +87,7 @@ en:
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
+    record_harvest: Record Harvest
     save_seeds: Save seeds
     write_blog_post: Write blog post
   crops:
