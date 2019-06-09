@@ -53,8 +53,8 @@ module ButtonsHelper
     edit_button(edit_seed_path(seed), classes: classes)
   end
 
-  def harvest_edit_button(harvest)
-    edit_button(edit_harvest_path(harvest))
+  def harvest_edit_button(harvest, classes: "btn btn-raised btn-info")
+    edit_button(edit_harvest_path(harvest), classes: classes)
   end
 
   def garden_edit_button(garden, classes: "btn btn-raised btn-info")

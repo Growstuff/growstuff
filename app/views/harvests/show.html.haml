@@ -8,14 +8,12 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
--content_for(:buttonbar) do
-  = render 'harvests/actions', harvest: @harvest
-
 .row
   .col-md-8
     %h1
       = harvest_icon
       #{@harvest.crop} harvested by #{@harvest.owner}
+    = render 'harvests/actions', harvest: @harvest
     %p
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
