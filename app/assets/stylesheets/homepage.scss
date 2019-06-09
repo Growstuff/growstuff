@@ -19,7 +19,7 @@
   text-align: center;
 }
 
-.homepage-cards, .homepage-thumbnails {
+.homepage-cards {
   display: flex;
   flex: none;
   flex-wrap: wrap;
@@ -49,6 +49,18 @@
   }
 
 }
+
+.member-cards {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+
+  .card {
+    width: 150px;
+    margin: 1em;
+  }
+}
+
 
 @include media-breakpoint-down(sm) {
   .homepage-cards {
