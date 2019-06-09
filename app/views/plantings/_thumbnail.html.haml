@@ -5,5 +5,6 @@
                         alt: planting.crop, class: 'img-card'),
                         planting
   .card-body
-    = link_to planting.crop, planting
+    %h5.card-title= link_to planting.crop, planting
+    %h6.card-subtitle.text-muted=planting.finished_at
     = render 'plantings/badges', planting: planting
