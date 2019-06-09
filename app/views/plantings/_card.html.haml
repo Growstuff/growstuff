@@ -15,10 +15,11 @@
             = planting_save_seeds_button(planting, classes: 'dropdown-item')
 
           - if can? :destroy, planting
-            = delete_button(planting, classes: 'dropdown-item')
+            .dropdown-divider
+            = delete_button(planting, classes: 'dropdown-item text-danger')
 
   .card-body.text-center
-    %h4= link_to planting.crop, planting
+    %h4.card-title= link_to planting.crop, planting
     .text-center= render 'plantings/badges', planting: planting
   - if planting.percentage_grown.present?
     .card-footer
