@@ -14,6 +14,11 @@
   = javascript_include_tag "charts"
   = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
 
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Gardens', gardens_path
+  %li.breadcrumb-item.active= link_to @garden.name, gardens_path(@garden)
+
 .row
   .col-md-9.col-sm-12
     %h2.h1
@@ -43,27 +48,25 @@
 
     .row
       .col-md-12
-        %section.card
-          .card-header
-            %h3 Garden timeline
-          .card-body= timeline garden_timeline_path(@garden), adapter: "google"
+        %section
+          %h3 Garden timeline
+          = timeline garden_timeline_path(@garden), adapter: "google"
 
     %section
       %h3.h3 Current plantings in garden
-      .row
+      .index-cards
         - if @current_plantings.size.positive?
           - @current_plantings.each do |planting|
-            .col-xs-12.col-3= render "plantings/card", planting: planting
+            = render "plantings/card", planting: planting
         - else
           .col-md-12
             %p Nothing is currently planted here.
     %section
       %h3.h3 Previously planted in this garden
-      .row
+      .index-cards
         - if @finished_plantings.size.positive?
           - @finished_plantings.each do |planting|
-            .col-xs-6.col-md-2
-              = render "plantings/thumbnail",  planting: planting
+            = render "plantings/thumbnail",  planting: planting
         - else
           %p Nothing has been planted here.
   .col-md-3
