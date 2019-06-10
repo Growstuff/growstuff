@@ -185,7 +185,7 @@ GEM
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
-    haml (5.0.4)
+    haml (5.1.1)
       temple (>= 0.8.0)
       tilt
     haml-i18n-extractor (0.5.9)
