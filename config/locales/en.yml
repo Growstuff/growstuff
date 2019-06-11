@@ -151,6 +151,8 @@ en:
       post: Post
       recently_added: Recently Added
       welcome: Welcome to %{site_name}, %{member_name}
+    harvests:
+      view_all: View all harvests
     members:
       title: Some of our members
       view_all: View all members
@@ -174,6 +176,7 @@ en:
         community and the world.  We believe that openness, sustainability, and social good go hand in hand.
         You can read more about %{why} or check out our code on %{github}.
       open_source_title: Open Source
+
       support_body_html: Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}.
       support_title: Support Growstuff
       talk_linktext: Growstuff Talk
@@ -181,6 +184,7 @@ en:
       wiki_linktext: Growstuff Wiki
     plantings:
       recently_planted: Recently Planted
+      view_all: View all plantings
     seeds:
       crop: Crop
       description: Description
