@@ -21,8 +21,12 @@
           != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
   .col-xl-4
     .row
-      .col-md-6.col-sm-12=render 'plantings'
-      .col-md-6.col-sm-12= render 'harvests'
+      .col-md-6
+        =render 'plantings'
+        %p.text-right= link_to "#{t('home.plantings.view_all')} »", seeds_path, class: 'btn'
+      .col-md-6
+        = render 'harvests'
+        %p.text-right= link_to "#{t('home.harvests.view_all')} »", seeds_path, class: 'btn'
 
   %section.seeds.mx-auto
     %h2.text-center= t('.seeds_available_to_trade')
