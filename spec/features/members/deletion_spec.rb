@@ -142,7 +142,7 @@ describe "member deletion" do
     let(:member) { FactoryBot.create(:crop_wrangling_member) }
     let(:otherwrangler) { FactoryBot.create(:crop_wrangling_member) }
     let(:crop)          { FactoryBot.create(:crop, creator: member) }
-    FactoryBot.create(:cropbot)
+    before { FactoryBot.create(:cropbot) }
     let!(:ex_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: "ex_wrangler") }
 
     it "leaves crops behind" do
