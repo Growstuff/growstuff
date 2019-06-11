@@ -43,8 +43,9 @@ class PlantingsController < ApplicationController
   def new
     @planting = Planting.new(
       planted_at: Time.zone.today,
-      owner: current_member,
-      garden: current_member.gardens.first)
+      owner:      current_member,
+      garden:     current_member.gardens.first
+    )
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
 
     # using find_by_id here because it returns nil, unlike find
