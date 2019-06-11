@@ -191,7 +191,7 @@ GEM
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
-    haml (5.0.4)
+    haml (5.1.1)
       temple (>= 0.8.0)
       tilt
     haml-i18n-extractor (0.5.9)
@@ -206,8 +206,8 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
-    haml_lint (0.31.0)
-      haml (>= 4.0, < 5.1)
+    haml_lint (0.32.0)
+      haml (>= 4.0, < 5.2)
       rainbow
       rake (>= 10, < 13)
       rubocop (>= 0.50.0)
@@ -428,7 +428,7 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    rubocop (0.70.0)
+    rubocop (0.71.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
@@ -437,7 +437,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     rubocop-rspec (1.33.0)
       rubocop (>= 0.60.0)
-    ruby-progressbar (1.10.0)
+    ruby-progressbar (1.10.1)
     ruby-units (2.3.1)
     ruby_dep (1.5.0)
     ruby_parser (3.13.1)
@@ -464,7 +464,7 @@ GEM
       sprockets-rails
       tilt
     scout_apm (2.4.24)
-    searchkick (4.0.1)
+    searchkick (4.0.2)
       activemodel (>= 5)
       elasticsearch (>= 6)
       hashie
