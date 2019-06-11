@@ -15,7 +15,7 @@
       %h2= t('home.blurb.some_of_our_crops')
       .homepage-cards= render 'crops'
       .align-bottom
-        %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'
+        %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
         - cache cache_key_for(Crop, 'recent') do
           %h3= t('.recently_added')
           != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
