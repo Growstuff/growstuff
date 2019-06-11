@@ -1,7 +1,7 @@
 - content_for :title, "Inbox"
 
 - if @notifications.empty?
- .alert You have no messages.
+  .alert You have no messages.
 - else
   = paginate @notifications, theme: 'twitter-bootstrap-3'
   %table.table.table-striped
