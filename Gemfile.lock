@@ -604,7 +604,7 @@ DEPENDENCIES
   responders
   rspec-activemodel-mocks
   rspec-rails
-  rubocop (~> 0.60)
+  rubocop (~> 0.70)
   rubocop-rspec
   ruby-units
   sass-rails

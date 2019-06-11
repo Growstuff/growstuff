@@ -145,7 +145,7 @@ group :development, :test do
   gem 'poltergeist'                     # for headless JS testing
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
-  gem 'rubocop', '~> 0.60'
+  gem 'rubocop', '~> 0.70'
   gem 'rubocop-rspec'
   gem 'selenium-webdriver'
   gem 'webrat' # provides HTML matchers for view tests
