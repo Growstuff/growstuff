@@ -12,7 +12,7 @@
 .row
   .col-xl-8.col-md-12
     %section.crops
-      %h2= t('.some_of_our_crops')
+      %h2= t('home.blurb.some_of_our_crops')
       .homepage-cards= render 'crops'
       .align-bottom
         %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn'
@@ -23,16 +23,16 @@
     .row
       .col-md-6
         =render 'plantings'
-        %p.text-right= link_to "#{t('home.plantings.view_all')} »", seeds_path, class: 'btn'
+        %p.text-right= link_to "#{t('home.plantings.view_all')} »", seeds_path, class: 'btn btn-block'
       .col-md-6
         = render 'harvests'
-        %p.text-right= link_to "#{t('home.harvests.view_all')} »", seeds_path, class: 'btn'
+        %p.text-right= link_to "#{t('home.harvests.view_all')} »", seeds_path, class: 'btn btn-block'
 
   %section.seeds.mx-auto
     %h2.text-center= t('.seeds_available_to_trade')
     = render 'seeds'
     .align-bottom
-      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn'
+      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
 
   %section.members.mx-auto= render 'members'
   %section.discussion.mx-auto= render 'discuss'
