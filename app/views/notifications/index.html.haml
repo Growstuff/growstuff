@@ -5,11 +5,12 @@
 - else
   = paginate @notifications, theme: 'twitter-bootstrap-3'
   %table.table.table-striped
-    %tr
-      %th From
-      %th Subject
-      %th Date
-      %th
+    %thead
+      %tr
+        %th From
+        %th Subject
+        %th Date
+        %th
 
     - @notifications.each do |n|
       - if can? :read, n
