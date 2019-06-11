@@ -3,8 +3,6 @@
   "stack": "heroku-18",
   "description": "Open data project for small-scale food growers",
   "scripts": {
-    // The postdeploy script is run once, after the app is created
-    // and not on subsequent deploys to the app
     "postdeploy": "bundle exec rails db:seed"
   },
   "env": {
