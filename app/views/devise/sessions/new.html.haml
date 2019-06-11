@@ -2,19 +2,17 @@
 .form-page
   %section.card.form-card
     %h1 Sign in
-    = form_for(resource, as: resource_name,
+    = bootstrap_form_for(resource, as: resource_name,
         url: session_path(resource_name),
         html: { class: "text-center border border-light p-5" }) do |f|
       = devise_error_messages!
-      = f.text_field :login, class: "form-control mb-4", placeholder: "E-mail", type: "email"
-      = f.password_field :password, class: 'form-control mb-4', placeholder: "Password", type: "password"
+      = f.text_field :login, type: "email", label: 'Login', required: true
+      = f.password_field :password, type: "password"
       - if devise_mapping.rememberable?
         %p
           = f.check_box :remember_me
-          Remember me
         - if devise_mapping.recoverable? && controller_name != 'passwords'
-          %p
-            = link_to "Forgot password?", new_password_path(resource_name)
-      = f.submit "Sign in", class: 'btn btn-block my-4 btn-success'
+          %p= link_to "Forgot password?", new_password_path(resource_name)
+      = f.submit "Sign in", class: 'btn btn-block btn-success'
 
     = render "devise/shared/links"
