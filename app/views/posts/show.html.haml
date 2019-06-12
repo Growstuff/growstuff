@@ -47,7 +47,7 @@
                 = icon 'fas', 'comment'
                 Comment
 
-    = render "comments", post: @post
+    %secion.comments= render "comments", post: @post
 
   .col-md-4.col-12
     = render @post.author

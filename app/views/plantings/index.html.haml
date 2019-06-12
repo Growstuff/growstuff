@@ -1,7 +1,8 @@
 - content_for :title, title('plantings', @owner, @crop, @planting)
+
 %h1
   = planting_icon
-  =title('plantings', @owner, @crop, @planting)
+  %strong= title('plantings', @owner, @crop, @planting)
 
 = render 'layouts/nav', model: Planting
 

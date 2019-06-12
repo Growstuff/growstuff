@@ -15,7 +15,6 @@
     = page_entries_info @posts
     = render 'layouts/pagination', collection: @posts
   - @posts.each do |post|
-    -# = render partial: "posts/single", locals: { post: post, subject: true }
     = render 'posts/preview', post: post
 
   .pagination
