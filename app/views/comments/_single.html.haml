@@ -1,8 +1,7 @@
 .card.comment
   .card-body
     .row
-      .col-md-1
-        = render partial: "members/avatar", locals: { member: comment.author }
+      .col-md-1= render "members/tiny", member: comment.author
       .col-md-11.border-left
         - if can?(:edit, comment) || can?(:destroy, comment)
           .dropdown.float-right
