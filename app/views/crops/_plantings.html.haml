@@ -11,6 +11,6 @@
   .card-footer
     - if crop.approved?
       - if current_member
-        %p= link_to "Plant #{crop.name}", new_planting_path(crop_id: crop.id), class: 'btn'
+        %p= link_to "Plant #{crop.name}", new_planting_path(crop_id: crop.id), class: 'btn btn-block'
       - else
         = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} plantings" }
