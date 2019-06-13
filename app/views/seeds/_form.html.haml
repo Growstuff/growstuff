@@ -24,32 +24,33 @@
           Can't find what you're looking for?
           = link_to "Request new crops.", new_crop_path
       .row
-        .col-md-4.col-12= f.number_field :quantity, label: 'Quantity'
-        .col-md-8.col-12
+        .col-12= f.number_field :quantity, label: 'Quantity'
+        .col-12
           = f.text_field :plant_before, class: 'add-datepicker',
           value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
 
+
       .row
-        .col-md-4.col-12
+        .col-12
           = f.check_box :finished, label: 'Mark as finished'
-          %small= t('.finish_helper')
-        .col-md-8.col-12
-          = f.text_field :finished_at, class: 'add-datepicker',
-            value: @seed.finished_at ? @seed.finished_at.to_s(:ymd) : ''
+        .col-12
+          = f.text_field :finished_at, class: 'add-datepicker', value: @seed.finished_at ? @seed.finished_at.to_s(:ymd) : ''
+        .col-12
+          %span.help-inline= t('.finish_helper')
 
       .row
-        .col-md-4.col-12= f.number_field :days_until_maturity_min, append: " days"
-        .col-md-4.col-12= f.number_field :days_until_maturity_max, append: " days"
+        .col-md-6.col-12= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity'
+        .col-md-6.col-12= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days"
 
       .row
-        .col-md-4.col-12= f.select(:organic, Seed::ORGANIC_VALUES, {}, default: 'unknown')
-        .col-md-4.col-12= f.select(:gmo, Seed::GMO_VALUES, {}, default: 'unknown')
-        .col-md-4.col-12= f.select(:heirloom, Seed::HEIRLOOM_VALUES, {}, default: 'unknown')
+        .col-md-4.col-12= f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?'}, default: 'unknown')
+        .col-md-4.col-12= f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?'}, default: 'unknown')
+        .col-md-4.col-12= f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?'}, default: 'unknown')
       = f.text_area :description, rows: 6
 
       %hr/
       =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
-      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {}, label: 'Will trade')
+      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {label: 'Will trade'})
       %span.help_inline
         - if current_member.location.blank?
           Don't forget to

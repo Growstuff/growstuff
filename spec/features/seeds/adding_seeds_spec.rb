@@ -34,15 +34,15 @@ describe "Seeds", :js, :elasticsearch do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       within "form#new_seed" do
-        fill_in "Quantity:", with: 42
-        fill_in "Plant before:", with: "2014-06-15"
-        fill_in "Days until maturity:", with: 999
-        fill_in "to", with: 1999
+        fill_in "Quantity", with: 42
+        fill_in "Plant before", with: "2014-06-15"
+        fill_in "min", with: 999
+        fill_in "max", with: 1999
         select "certified organic", from: "Organic?"
         select "non-certified GMO-free", from: "GMO?"
         select "heirloom", from: "Heirloom?"
         fill_in "Description", with: "It's killer."
-        select "internationally", from: "Will trade:"
+        select "internationally", from: "Will trade"
         click_button "Save"
       end
     end
