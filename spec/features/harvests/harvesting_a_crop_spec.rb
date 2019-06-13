@@ -85,6 +85,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
 
     before do
       visit harvest_path(existing_harvest)
+      click_link 'Action'
       click_link "Edit"
     end
 
