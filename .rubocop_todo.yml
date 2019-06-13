@@ -21,21 +21,6 @@ Lint/HandleExceptions:
   Exclude:
     - 'lib/tasks/testing.rake'
 
-Metrics/AbcSize:
-  Max: 33
-
-Metrics/CyclomaticComplexity:
-  Max: 8
-
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
-Metrics/LineLength:
-  Max: 127
-
-Metrics/PerceivedComplexity:
-  Max: 9
-
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: lowercase, uppercase
 Naming/HeredocDelimiterCase:
