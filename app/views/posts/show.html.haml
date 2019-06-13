@@ -27,7 +27,7 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to @post.author, @post.author
-  %li.breadcrumb-item= link_to 'posts', posts_path(member_slug: @post.author.slug)
+  %li.breadcrumb-item= link_to 'posts', member_posts_path(member_slug: @post.author.slug)
   %li.breadcrumb-item.active{"aria-current" => "page"}= @post.subject
 
 .row
