@@ -57,6 +57,10 @@ module IconsHelper
     planted_from
   end
 
+  def delete_association_icon
+    icon('fas', 'backspace')
+  end
+
   def sunniness_icon(sunniness)
     if sunniness.present?
       image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness, width: 55)
