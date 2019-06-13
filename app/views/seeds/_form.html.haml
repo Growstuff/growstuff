@@ -13,13 +13,14 @@
           %ul
             - @seed.errors.full_messages.each do |msg|
               %li= msg
-      = f.label :crop, 'Crop:', class: 'control-label'
+      = required_field_help_text
+      = f.label :crop, 'Crop'
       - if @planting
         = link_to @planting, planting_path(@planting)
         = f.hidden_field :parent_planting_id, value: @planting.id
       - else
         = auto_suggest @seed, :crop, class: 'form-control', default: @crop
-        %legend
+        %span.help-inline
           Can't find what you're looking for?
           = link_to "Request new crops.", new_crop_path
       .row
@@ -42,9 +43,9 @@
 
       .row
         .col-md-4.col-12= f.select(:organic, Seed::ORGANIC_VALUES, {}, default: 'unknown')
-        .col-md-4.col-12= f.select(:gmo, Seed::GMO_VALUES, {}, class: 'form-control', default: 'unknown')
-        .col-md-4.col-12= f.select(:heirloom, Seed::HEIRLOOM_VALUES, {}, class: 'form-control', default: 'unknown')
-      = f.text_area :description, rows: 6, class: 'form-control'
+        .col-md-4.col-12= f.select(:gmo, Seed::GMO_VALUES, {}, default: 'unknown')
+        .col-md-4.col-12= f.select(:heirloom, Seed::HEIRLOOM_VALUES, {}, default: 'unknown')
+      = f.text_area :description, rows: 6
 
       %hr/
       =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
