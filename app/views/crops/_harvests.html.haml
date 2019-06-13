@@ -7,13 +7,14 @@
     %ul.list-group.list-group-flush
       - crop.harvests.order(harvested_at: :desc).limit(3).each do |harvest|
         %li.list-group-item
-          = harvest_icon
-          = link_to "#{harvest.owner} harvested #{display_quantity(harvest)}.", harvest_path(harvest)
+          = link_to harvest_path(harvest), class: 'card-link' do
+            = harvest_icon
+            #{harvest.owner} harvested #{display_quantity(harvest)}.
           .float-right= render 'members/location', member: harvest.owner
           .harvest-timeago
             %small #{distance_of_time_in_words(harvest.harvested_at, Time.zone.now)} ago.
   .card-footer
-    %p= link_to "View all #{crop.name} harvests", crop_harvests_path(crop)
+    %p= link_to "View all #{crop.name} harvests", crop_harvests_path(crop), class: 'card-link'
     - if crop.approved?
       - if current_member
         %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id), class: 'btn btn-block'

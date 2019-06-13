@@ -87,13 +87,13 @@
             #{@crop.name.capitalize} plantings
           %span.badge.badge-primary.badge-pill=@crop.plantings.size
         .list-group-item.d-flex.justify-content-between.align-items-center
-          = link_to crop_harvests_path(@crop) do
+          = link_to crop_harvests_path(@crop), class: 'card-link' do
             = harvest_icon
             #{@crop.name.capitalize} harvests
           %span.badge.badge-primary.badge-pill=@crop.harvests.size
 
         .list-group-item.d-flex.justify-content-between.align-items-center
-          = link_to crop_seeds_path(@crop) do
+          = link_to crop_seeds_path(@crop), class: 'card-link' do
             = seed_icon
             #{@crop.name.capitalize} seeds
           %span.badge.badge-primary.badge-pill=@crop.seeds.size
@@ -124,17 +124,23 @@
 
         %li.list-group-item
           = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
+                    class: 'card-link',
                     target: "_blank",
                     rel: "noopener noreferrer" do
             = icon 'fas', 'external-link-alt'
             OpenFarm - Growing guide
         %li.list-group-item
           = link_to "http://www.gardenate.com/plant/#{CGI.escape @crop.name}",
-                    target: "_blank", rel: "noopener noreferrer" do
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
             = icon 'fas', 'external-link-alt'
             Gardenate - Planting reminders
         - if current_member && current_member.location
           %li.list-group-item
-            = link_to 'http://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')), target: "_blank", rel: "noopener noreferrer" do
+            = link_to 'http://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
               Google

@@ -5,8 +5,9 @@
     %ul.list-group.list-group-flush
       - crop.plantings.order(planted_at: :desc).limit(5).each do |planting|
         %li.list-group-item
-          = planting_icon
-          = link_to planting, planting
+          = link_to planting, class: 'card-link' do
+            = planting_icon
+            = planting
           .float-right= render 'members/location', member: planting.owner
   .card-footer
     - if crop.approved?
