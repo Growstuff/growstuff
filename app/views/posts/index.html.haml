@@ -18,7 +18,7 @@
                 = render 'members/avatar', member: post.author
               .col-10.border-left
                 %h5.card-title
-                  = link_to post.subject, post
+                  = link_to strip_tags(post.subject), post
                   - if post.comments.size.positive?
                     %span.badge.badge-pill.badge-info.float-right
                       = icon 'fas', 'comment'
