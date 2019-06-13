@@ -56,13 +56,11 @@ Metrics/BlockLength:
     - 'config/**/*.rb'
 
 Metrics/LineLength:
-  Max: 120
+  Max: 127
 
 # Remove the following once the code style matches
 Metrics/MethodLength:
   Max: 34
-Metrics/LineLength:
-  Max: 127
 Metrics/AbcSize:
   Max: 33
 # Configuration parameters: CountComments.
