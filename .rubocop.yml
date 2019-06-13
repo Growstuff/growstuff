@@ -56,7 +56,7 @@ Metrics/BlockLength:
     - 'config/**/*.rb'
 
 Metrics/LineLength:
-  Max: 127
+  Max: 120
 
 # Remove the following once the code style matches
 Metrics/MethodLength:
