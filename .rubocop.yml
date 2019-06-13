@@ -61,12 +61,14 @@ Metrics/LineLength:
 # Remove the following once the code style matches
 Metrics/MethodLength:
   Max: 34
+Metrics/LineLength:
+  Max: 127
 Metrics/AbcSize:
-  Max: 30
+  Max: 33
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
   Max: 171
 Metrics/CyclomaticComplexity:
-  Max: 7
-Metrics/PerceivedComplexity:
   Max: 8
+Metrics/PerceivedComplexity:
+  Max: 9
