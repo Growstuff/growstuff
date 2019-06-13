@@ -4,7 +4,7 @@
       = link_to member do
         = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid shadow member-avatar', alt: member)
     .card-body
-      %h4.card-title= link_to member, member
+      %h4.card-title.login-name= link_to member, member
       %hr/
       %p
         %small
