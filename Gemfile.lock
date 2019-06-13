@@ -91,10 +91,10 @@ GEM
     capybara-email (3.0.1)
       capybara (>= 2.4, < 4.0)
       mail
-    capybara-screenshot (1.0.22)
+    capybara-screenshot (1.0.23)
       capybara (>= 1.0, < 4)
       launchy
-    chartkick (3.1.0)
+    chartkick (3.2.0)
     childprocess (1.0.1)
       rake (< 13.0)
     cliver (0.3.2)
