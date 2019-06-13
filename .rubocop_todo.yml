@@ -53,13 +53,6 @@ Rails/HasManyOrHasOneDependent:
   Exclude:
     - 'app/models/member.rb'
 
-# Configuration parameters: Blacklist, Whitelist.
-# Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
-Rails/SkipsModelValidations:
-  Exclude:
-    - 'db/migrate/20190317023129_finished_boolean.rb'
-    - 'db/seeds.rb'
-
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, EnforcedStyle.
 # SupportedStyles: nested, compact

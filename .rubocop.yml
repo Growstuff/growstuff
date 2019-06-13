@@ -70,3 +70,9 @@ Metrics/CyclomaticComplexity:
   Max: 8
 Metrics/PerceivedComplexity:
   Max: 9
+
+# Places we use update_all, etc even though it skips validations.
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/20190317023129_finished_boolean.rb'
+    - 'db/seeds.rb'
