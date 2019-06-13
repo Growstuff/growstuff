@@ -23,7 +23,7 @@ describe 'Test with visual testing', type: :feature, js: true do
     end
 
     # Freeze time, so we don't have variations in timestamps on the page
-    Timecop.freeze(Time.local(2019, 1, 1))
+    Timecop.freeze(Time.zone.local(2019, 1, 1))
   end
   after { Timecop.return }
 
