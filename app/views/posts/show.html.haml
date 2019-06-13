@@ -38,9 +38,11 @@
           %h2.display-3.float-left
             = @post.subject
           = render 'posts/actions', post: @post
-        .card-body= render 'posts/single', post: @post
+        .card-body
+          = render 'posts/single', post: @post
 
         .card-footer
+          = render 'posts/likes', post: @post
           .float-right
             - if can? :create, Comment
               = link_to new_comment_path(post_id: @post.id), class: 'btn' do

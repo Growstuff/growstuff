@@ -61,6 +61,10 @@ module IconsHelper
     icon('fas', 'backspace')
   end
 
+  def like_icon
+    icon('fas', 'thumbs-up')
+  end
+
   def sunniness_icon(sunniness)
     if sunniness.present?
       image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness, width: 55)
