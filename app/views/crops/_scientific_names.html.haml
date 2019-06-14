@@ -8,12 +8,13 @@
         %li.list-group-item.d-flex.justify-content-between.align-items-center
           - if can? :edit, sn
             .dropdown.planting-actions
-              %a#planting-actions-scinames.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
+              %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
               .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
                 = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
                   = edit_icon
                   = t('.edit')
-                = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' do
+                .dropdown-divider
+                = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
                   = delete_icon
                   = t('.delete')
           - else
