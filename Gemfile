@@ -111,6 +111,9 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
+gem 'loofah', '>= 2.2.1'
+gem 'rack-protection', '>= 2.0.1'
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
@@ -153,13 +156,11 @@ group :test do
   gem 'codeclimate-test-reporter', require: false
   gem 'percy-capybara', '~> 4.0.0'
   gem 'rails-controller-testing'
-  gem 'timecop'
   gem 'selenium-webdriver'
+  gem 'timecop'
   gem 'webdrivers'
 end
 
 group :travis do
   gem 'platform-api'
 end
-gem 'loofah', '>= 2.2.1'
-gem 'rack-protection', '>= 2.0.1'
