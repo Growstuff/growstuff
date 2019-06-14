@@ -46,7 +46,8 @@ describe "Alternate names", js: true do
       expect(page).to have_link "Delete",
                                 href: alternate_name_path(alternate_eggplant)
       within('.alternate_names') { click_on "Delete" }
-      expect(page.status_code).to equal 200
+      dismiss_confirm {click_link 'OK'}
+      expect(pending_alt_name.status_code).to equal 200
       expect(page).not_to have_content alternate_eggplant.name
       expect(page).to have_content 'Alternate name was successfully deleted'
     end
