@@ -17,7 +17,7 @@ describe "Seeds", :js, :elasticsearch do
   end
 
   describe "displays required and optional fields properly" do
-    it { expect(page).to have_selector ".form-group.required", text: "Crop:" }
+    it { expect(page).to have_selector ".form-group.required", text: "Crop" }
     it { expect(page).to have_selector 'input#seed_quantity' }
     it { expect(page).to have_selector 'input#seed_plant_before' }
     it { expect(page).to have_selector 'input#seed_days_until_maturity_min' }
@@ -26,7 +26,7 @@ describe "Seeds", :js, :elasticsearch do
     it { expect(page).to have_selector '.form-group.required', text: 'GMO?' }
     it { expect(page).to have_selector '.form-group.required', text: 'Heirloom?' }
     it { expect(page).to have_selector 'textarea#seed_description' }
-    it { expect(page).to have_selector '.form-group.required', text: 'Will trade:' }
+    it { expect(page).to have_selector '.form-group.required', text: 'Will trade' }
   end
 
   describe "Adding a new seed", js: true do
