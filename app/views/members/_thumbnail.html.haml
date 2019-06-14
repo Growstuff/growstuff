@@ -1,18 +1,3 @@
--# .member-thumbnail.well
--#   %div
--#     = render "members/avatar", member: member
--#   %div
--#     %p.login-name
--#       = link_to member.login_name, member
--#       - unless member.location.blank?
--#         %small
--#           %br/
--#           %i= member.location
--#       - unless member.plantings.empty?
--#         %small
--#           %br/
--#           Recently planted:
--#           != member.plantings.order(created_at: :desc).first(3).map { |p| link_to p.crop_name, p }.join(", ")
 - cache member do
   .card.text-center
     / Background color
@@ -20,7 +5,7 @@
     / Avatar
     .avatar.mx-auto.white
       = link_to member do
-        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid', alt: member)  
+        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid', alt: member)
     .card-body
       / Name
       %h4.card-title

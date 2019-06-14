@@ -11,7 +11,7 @@ class MembersController < ApplicationController
       format.json { render json: @members.to_json(only: member_json_fields) }
     end
   end
-  
+
   # Queries for the show view/action
   def plantings_for_show
     Planting.select(
@@ -23,8 +23,8 @@ class MembersController < ApplicationController
       :slug
      )
   end
-  
-  def harvests_for_show 
+
+  def harvests_for_show
     Harvest.select(
       :id,
       "'harvest' as event_type",
@@ -45,7 +45,7 @@ class MembersController < ApplicationController
       :slug
     )
   end
-  
+
   def comments_for_show
      Comment.select(
        :id,
@@ -56,7 +56,7 @@ class MembersController < ApplicationController
        'null as slug'
      )
   end
-  
+
   def photos_for_show
     Photo.select(
       :id,

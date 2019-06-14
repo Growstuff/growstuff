@@ -9,10 +9,7 @@
 
       %h2 Resend unlock instructions
       = devise_error_messages!
-
       = f.email_field :email, class: 'form-control', placeholder: 'email'
-
       = f.submit "Resend unlock instructions", class: 'btn btn-block my-4 btn-primary'
 
-      
     = render "devise/shared/links"
