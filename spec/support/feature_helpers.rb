@@ -4,8 +4,9 @@ module FeatureHelpers
 
     fill_in field, with: options[:with]
 
-    page.execute_script " $('##{field}').trigger('focus'); "
-    page.execute_script " $('##{field}').trigger('keydown'); "
+    # Not needed if using a real browser headless instead of poltergeist
+    # page.execute_script " $('##{field}').trigger('focus'); "
+    # page.execute_script " $('##{field}').trigger('keydown'); "
   end
 
   def select_from_autocomplete(select)
