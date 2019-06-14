@@ -14,15 +14,18 @@
             - @seed.errors.full_messages.each do |msg|
               %li= msg
       = required_field_help_text
-      = f.label :crop, 'Crop'
-      - if @planting
-        = link_to @planting, planting_path(@planting)
-        = f.hidden_field :parent_planting_id, value: @planting.id
-      - else
-        = auto_suggest @seed, :crop, class: 'form-control', default: @crop
-        %span.help-inline
-          Can't find what you're looking for?
-          = link_to "Request new crops.", new_crop_path
+
+      .form-group.required
+        = f.label :crop, 'Crop'
+        - if @planting
+          = link_to @planting, planting_path(@planting)
+          = f.hidden_field :parent_planting_id, value: @planting.id
+        - else
+
+          = auto_suggest @seed, :crop, class: 'form-control', default: @crop
+          %span.help-inline
+            Can't find what you're looking for?
+            = link_to "Request new crops.", new_crop_path
       .row
         .col-12= f.number_field :quantity, label: 'Quantity'
         .col-12
