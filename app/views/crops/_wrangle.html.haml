@@ -6,7 +6,7 @@
       = succeed "." do
         %strong CROP WRANGLER
       .dropdown.crop-actions
-        %button#crop-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+        %button#crop-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", href: '#'} Actions
         .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
           = link_to edit_crop_path(crop), class: 'dropdown-item' do
             = edit_icon
