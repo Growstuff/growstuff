@@ -184,10 +184,10 @@ describe Crop do
         expect(crop.default_photo).to eq nil
       end
 
-      it { expect(crop.photos.size).to eq 3 }
-      it { expect(crop.planting_photos.size).to eq 1 }
-      it { expect(crop.harvest_photos.size).to eq 1 }
-      it { expect(crop.seed_photos.size).to eq 1 }
+      it { expect(crop.photos.size).to eq 0 }
+      it { expect(crop.planting_photos.size).to eq 0 }
+      it { expect(crop.harvest_photos.size).to eq 0 }
+      it { expect(crop.seed_photos.size).to eq 0 }
     end
 
     describe 'finding all photos' do
