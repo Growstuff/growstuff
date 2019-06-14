@@ -29,7 +29,6 @@
           = f.text_field :plant_before, class: 'add-datepicker',
           value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
 
-
       .row
         .col-12
           = f.check_box :finished, label: 'Mark as finished'
@@ -39,13 +38,16 @@
           %span.help-inline= t('.finish_helper')
 
       .row
-        .col-md-6.col-12= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity'
-        .col-md-6.col-12= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days"
+        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity'
+        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days"
 
       .row
-        .col-md-4.col-12= f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?'}, default: 'unknown')
-        .col-md-4.col-12= f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?'}, default: 'unknown')
-        .col-md-4.col-12= f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?'}, default: 'unknown')
+        .col-md-4
+          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+        .col-md-4
+          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+        .col-md-4
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
       = f.text_area :description, rows: 6
 
       %hr/
