@@ -16,10 +16,10 @@
   // left: -0.5em;
 
   .card {
-    min-height: 100px;
-    margin: 0.5em;
-    padding: 0;
     left: -0.5em;
+    margin: 0.5em;
+    min-height: 100px;
+    padding: 0;
 
     %h3.crop-name {
       font-size: 2em;
@@ -54,14 +54,14 @@
 @include media-breakpoint-down(sm) {
   .homepage-cards {
     .seed-card {
-      width: 100%;
-      min-height: 80px;
       align: center;
+      min-height: 80px;
+      width: 100%;
     }
     .member-card {
-      width: 150px;
-      min-height: 80px;
       align: center;
+      min-height: 80px;
+      width: 150px;
     }
   }
 }
