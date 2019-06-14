@@ -24,9 +24,13 @@ a {
 }
 
 a:hover {
-  color: $white;
-  background-color: $green;
   text-decoration: none;
+  color: $brown;
+}
+
+.card a:hover {
+  color: $blue;
+  background-color: $beige;
 }
 
 span.badge {
