@@ -49,10 +49,12 @@ class PlantingsController < ApplicationController
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
 
     @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
-    @planting.garden = Garden.find_by(
-      owner: current_member,
-      id:    params[:garden_id]
-    ) if params[:garden_id]
+    if params[:garden_id]
+      @planting.garden = Garden.find_by(
+        owner: current_member,
+        id:    params[:garden_id]
+      )
+    end
 
     respond_with @planting
   end
