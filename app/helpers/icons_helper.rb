@@ -46,7 +46,7 @@ module IconsHelper
   end
 
   def blog_icon
-    icon('fas', 'pen')
+    icon('fas', 'comments')
   end
 
   def perennial_icon
