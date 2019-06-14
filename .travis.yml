@@ -8,8 +8,8 @@ cache:
 addons:
   apt:
     packages:
-    - chromium-chromedriver
-    - google-chrome-stable
+      - chromium-chromedriver
+      - google-chrome-stable
   code_climate:
     repo_token:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
