@@ -21,7 +21,7 @@ class MembersController < ApplicationController
       :owner_id,
       :crop_id,
       :slug
-     )
+    )
   end
 
   def harvests_for_show
@@ -47,14 +47,14 @@ class MembersController < ApplicationController
   end
 
   def comments_for_show
-     Comment.select(
-       :id,
-       "'comment' as event_type",
-       'comments.created_at as event_at',
-       'author_id as owner_id',
-       'null as crop_id',
-       'null as slug'
-     )
+    Comment.select(
+      :id,
+      "'comment' as event_type",
+      'comments.created_at as event_at',
+      'author_id as owner_id',
+      'null as crop_id',
+      'null as slug'
+    )
   end
 
   def photos_for_show
