@@ -13,6 +13,12 @@ section {
   margin: 0;
 }
 
+.ellipsis {
+    overflow:hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 a {
   color: $green;
 }

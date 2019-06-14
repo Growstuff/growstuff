@@ -13,7 +13,7 @@
 
 .row
   .col-md-8
-    %h1.text-center=@photo.title
+    %h1.text-center.ellipsis=@photo.title
     %p.text-center
       = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-fluid shadow-sm')
   .col-md-4
