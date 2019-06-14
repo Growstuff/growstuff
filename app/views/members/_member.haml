@@ -1,8 +1,7 @@
 - cache member do
   .card.member-card.text-center
-    .avatar.mx-auto
-      = link_to member do
-        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid shadow member-avatar', alt: member)
+    = link_to member do
+      = image_tag(avatar_uri(member, 150), class: 'img img-fluid avatar rounded', alt: member)
     .card-body
       %h4.card-title.login-name= link_to member, member
       %hr/
