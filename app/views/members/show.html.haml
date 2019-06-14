@@ -72,7 +72,7 @@
                 - comment = Comment.find(event.id)
                 = comment_icon
                 = link_to 'commented', comment
-                on 
+                on
                 = link_to comment.post, comment.post
               - elsif event.event_type == 'post'
                 - post = Post.find(event.id)
