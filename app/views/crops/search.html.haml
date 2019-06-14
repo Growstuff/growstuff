@@ -1,18 +1,19 @@
-- if @term
-  - content_for :title, "Crops matching \"#{@term}\""
-  %h1 Crops matching "#{@term}"
-  - if @crops
-    %h2.text-muted Found #{@crops.size} total
-
-- else
-  - content_for :title, "Crop search"
-  %h1 Crop search
-
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Crops', crops_path
   %li.breadcrumb-item.active= link_to 'Search', search_crops_path(term: @term)
 
-.search-form
+%section.crops-search-form
+
+  - if @term
+    - content_for :title, "Crops matching \"#{@term}\""
+    %h1 Crops matching "#{@term}"
+    - if @crops
+      %h2.text-muted Found #{@crops.size} total
+  - else
+    - content_for :title, "Crop search"
+    %h1 Crop search
+
+
   = bootstrap_form_tag(url: search_crops_path, method: :get, id: 'crop-search', layout: :inline) do |f|
     = f.label :term, "Search crops:", class: 'sr-only'
     = f.text_field 'term', class: 'search-query input-medium',
