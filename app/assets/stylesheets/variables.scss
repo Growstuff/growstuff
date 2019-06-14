@@ -12,19 +12,16 @@ $yellow: #b2935c;
 $white: #ffffff;
 
 
-// $body-bg: $beige;
-// $text-color: $brown;
-// $link-color: $green;
-// $graph-hover: $orange;
-
-// $brand-primary: $green;
+$body-bg: $beige;
+$text-color: $brown;
+$link-color: $green;
+$graph-hover: $orange;
 
 $primary: (
   color: $green,
   dark:  darken($green, 10%),
   light: lighten($green, 10%)
 );
-
 $secondary: (
   color: $blue,
   dark:  darken($blue, 10%),
