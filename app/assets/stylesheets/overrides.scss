@@ -58,14 +58,27 @@ h3 {
   padding-right: 1em;
 }
 
-// .navbar .navbar-form
-//   padding-top: 0
-//   padding-bottom: 0
-//   margin-right: 0
-//   margin-left: 15px
-//   border: 0
-//   -webkit-box-shadow: none
-//   box-shadow: none
+#navbar-search {
+  .input-group {
+    input {
+      background-color: $white;
+      color: $black;
+    }
+    input::placeholder {
+      color: $navbar-default-link-color;
+    }
+  }
+}
+.navbar .navbar-form {
+
+//   padding-top: 0;
+//   padding-bottom: 0;
+//   margin-right: 0;
+//   margin-left: 15px;
+//   border: 0;
+//   -webkit-box-shadow: none;
+//   box-shadow: none;
+}
 
 .index-cards {
   display: flex;
@@ -416,7 +429,7 @@ ul.thumbnail-buttons {
   }
 
   .navbar .navbar-form {
-    //width: 185px
+    // width: 185px;
     padding-left: 0;
     padding-right: 0;
 
