@@ -1,5 +1,10 @@
-@import "material";
+// Import original variables so they can be used in overrides
+
+
+
 @import "variables";
+@import "material";
+@import "bootstrap/variables.scss";
 
 @import "jquery-ui/autocomplete";
 @import "bootstrap-datepicker";
