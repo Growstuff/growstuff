@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe 'Test with visual testing', type: :feature, js: true do
-
-
   let(:member)       { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
   let(:someone_else) { FactoryBot.create :member, login_name: 'ruby', preferred_avatar_uri: gravatar2 }
 
@@ -25,7 +23,7 @@ describe 'Test with visual testing', type: :feature, js: true do
     end
 
     # Freeze time, so we don't have variations in timestamps on the page
-    Timecop.freeze(Time.local(2019, 1, 1))
+    Timecop.freeze(Time.zone.local(2019, 1, 1))
   end
   after { Timecop.return }
 

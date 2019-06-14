@@ -80,21 +80,21 @@ GEM
       uniform_notifier (~> 1.11)
     byebug (11.0.1)
     cancancan (3.0.1)
-    capybara (3.19.1)
+    capybara (3.24.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      regexp_parser (~> 1.2)
+      regexp_parser (~> 1.5)
       xpath (~> 3.2)
     capybara-email (3.0.1)
       capybara (>= 2.4, < 4.0)
       mail
-    capybara-screenshot (1.0.22)
+    capybara-screenshot (1.0.23)
       capybara (>= 1.0, < 4)
       launchy
-    chartkick (3.0.2)
+    chartkick (3.2.0)
     childprocess (1.0.1)
       rake (< 13.0)
     cliver (0.3.2)
@@ -142,17 +142,17 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.3)
     docile (1.1.5)
-    elasticsearch (6.3.0)
-      elasticsearch-api (= 6.3.0)
-      elasticsearch-transport (= 6.3.0)
-    elasticsearch-api (6.3.0)
+    elasticsearch (7.1.0)
+      elasticsearch-api (= 7.1.0)
+      elasticsearch-transport (= 7.1.0)
+    elasticsearch-api (7.1.0)
       multi_json
     elasticsearch-model (6.0.0)
       activesupport (> 3)
       elasticsearch (> 1)
       hashie
     elasticsearch-rails (6.0.0)
-    elasticsearch-transport (6.3.0)
+    elasticsearch-transport (7.1.0)
       faraday
       multi_json
     erubi (1.8.0)
@@ -185,7 +185,7 @@ GEM
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
-    haml (5.0.4)
+    haml (5.1.1)
       temple (>= 0.8.0)
       tilt
     haml-i18n-extractor (0.5.9)
@@ -200,8 +200,8 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
-    haml_lint (0.31.0)
-      haml (>= 4.0, < 5.1)
+    haml_lint (0.32.0)
+      haml (>= 4.0, < 5.2)
       rainbow
       rake (>= 10, < 13)
       rubocop (>= 0.50.0)
@@ -237,7 +237,7 @@ GEM
       jquery-rails
       rails (>= 4.0)
     jaro_winkler (1.5.2)
-    jquery-rails (4.3.3)
+    jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
@@ -247,7 +247,7 @@ GEM
       railties (>= 4)
       sprockets-rails
     json (2.1.0)
-    jsonapi-resources (0.9.7)
+    jsonapi-resources (0.9.8)
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
@@ -296,8 +296,8 @@ GEM
     moneta (1.0.0)
     multi_json (1.11.3)
     multi_xml (0.6.0)
-    multipart-post (2.0.0)
-    newrelic_rpm (6.3.0.355)
+    multipart-post (2.1.1)
+    newrelic_rpm (6.4.0.356)
     nio4r (2.3.1)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
@@ -332,7 +332,7 @@ GEM
       activerecord (>= 4.0, < 6.1)
     parser (2.6.3.0)
       ast (~> 2.4.0)
-    percy-capybara (4.0.0)
+    percy-capybara (4.0.1)
     pg (0.21.0)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
@@ -341,7 +341,7 @@ GEM
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
-    public_suffix (3.0.3)
+    public_suffix (3.1.0)
     puma (3.12.1)
     rack (2.0.7)
     rack-protection (2.0.5)
@@ -394,7 +394,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redis (4.1.0)
-    regexp_parser (1.4.0)
+    regexp_parser (1.5.1)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
@@ -419,7 +419,7 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    rubocop (0.70.0)
+    rubocop (0.71.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
@@ -428,7 +428,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     rubocop-rspec (1.33.0)
       rubocop (>= 0.60.0)
-    ruby-progressbar (1.10.0)
+    ruby-progressbar (1.10.1)
     ruby-units (2.3.1)
     ruby_dep (1.5.0)
     ruby_parser (3.13.1)
@@ -455,11 +455,11 @@ GEM
       sprockets-rails
       tilt
     scout_apm (2.4.24)
-    searchkick (4.0.0)
+    searchkick (4.0.2)
       activemodel (>= 5)
       elasticsearch (>= 6)
       hashie
-    selenium-webdriver (3.142.2)
+    selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
     sexp_processor (4.12.0)
@@ -590,7 +590,7 @@ DEPENDENCIES
   responders
   rspec-activemodel-mocks
   rspec-rails
-  rubocop (~> 0.60)
+  rubocop (~> 0.70)
   rubocop-rspec
   ruby-units
   sass-rails
