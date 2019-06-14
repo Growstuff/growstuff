@@ -1,19 +1,19 @@
 = bootstrap_form_for(@crop) do |f|
+  - if @crop.errors.any?
+    #error_explanation.alert.alert-warning{role: "alert"}
+      %h3
+        = pluralize(@crop.errors.size, "error")
+        prohibited this crop from being saved:
+      %ul
+        - @crop.errors.full_messages.each do |msg|
+          %li= msg
+
   .card.col-12.col-md-8.mx-auto.float-none.white
     .card-header
       - if content_for? :title
         %h1.h2-responsive.text-center
           %strong=yield :title
     .card-body
-      - if @crop.errors.any?
-        #error_explanation
-          %h3
-            = pluralize(@crop.errors.size, "error")
-            prohibited this crop from being saved:
-          %ul
-            - @crop.errors.full_messages.each do |msg|
-              %li= msg
-
       -# Handy link to crop wrangling policy/style guide, shown to wranglers only
       - if can? :wrangle, @crop
         %p
