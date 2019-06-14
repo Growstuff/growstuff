@@ -103,7 +103,6 @@ GEM
     chartkick (3.2.0)
     childprocess (1.0.1)
       rake (< 13.0)
-    cliver (0.3.2)
     codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
     coderay (1.1.2)
@@ -345,10 +344,6 @@ GEM
     platform-api (2.2.0)
       heroics (~> 0.0.25)
       moneta (~> 1.0.0)
-    poltergeist (1.18.1)
-      capybara (>= 2.1, < 4)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
     popper_js (1.14.5)
     public_suffix (3.0.3)
     puma (3.12.1)
@@ -512,6 +507,10 @@ GEM
     uniform_notifier (1.12.1)
     warden (1.2.8)
       rack (>= 2.0.6)
+    webdrivers (4.0.1)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -593,7 +592,6 @@ DEPENDENCIES
   percy-capybara (~> 4.0.0)
   pg (< 1.0.0)
   platform-api
-  poltergeist
   puma
   rack-protection (>= 2.0.1)
   rails (= 5.2.2.1)
@@ -615,6 +613,7 @@ DEPENDENCIES
   timecop
   uglifier
   unicorn
+  webdrivers
   webrat
   will_paginate
   will_paginate-bootstrap4
