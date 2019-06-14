@@ -11,6 +11,62 @@ class MembersController < ApplicationController
       format.json { render json: @members.to_json(only: member_json_fields) }
     end
   end
+  
+  # Queries for the show view/action
+  def plantings_for_show
+    Planting.select(
+      :id,
+      "'planting' as event_type",
+      'planted_at as event_at',
+      :owner_id,
+      :crop_id,
+      :slug
+     )
+  end
+  
+  def harvests_for_show 
+    Harvest.select(
+      :id,
+      "'harvest' as event_type",
+      'harvested_at as event_at',
+      :owner_id,
+      :crop_id,
+      :slug
+    )
+  end
+
+  def posts_for_show
+    Post.select(
+      :id,
+      "'post' as event_type",
+      'posts.created_at as event_at',
+      'author_id as owner_id',
+      'null as crop_id',
+      :slug
+    )
+  end
+  
+  def comments_for_show
+     Comment.select(
+       :id,
+       "'comment' as event_type",
+       'comments.created_at as event_at',
+       'author_id as owner_id',
+       'null as crop_id',
+       'null as slug'
+     )
+  end
+  
+  def photos_for_show
+    Photo.select(
+      :id,
+      "'photo' as event_type",
+      "photos.created_at as event_at",
+      'photos.owner_id',
+      'null as crop_id',
+      'null as slug'
+    )
+  end
 
   def show
     @member        = Member.confirmed.find_by!(slug: params[:slug])
@@ -18,16 +74,13 @@ class MembersController < ApplicationController
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
     @posts         = @member.posts
-    plantings = Planting.select(:id, "'planting' as event_type", 'planted_at as event_at', :owner_id, :crop_id, :slug)
-    harvests = Harvest.select(:id, "'harvest' as event_type", 'harvested_at as event_at', :owner_id, :crop_id, :slug)
-    posts = Post.select(:id, "'post' as event_type", 'posts.created_at as event_at', 'author_id as owner_id', 'null as crop_id', :slug)
-    comments = Comment.select(:id, "'comment' as event_type", 'comments.created_at as event_at', 'author_id as owner_id', 'null as crop_id', 'null as slug')
-    photos = Photo.select(:id, "'photo' as event_type", "photos.created_at as event_at", 'photos.owner_id', 'null as crop_id', 'null as slug')
-    @activity = plantings
-      .union_all(harvests)
-      .union_all(posts)
-      .union_all(comments)
-      .union_all(photos)
+
+    # TODO: Consider shifting all of these onto a member activity model?
+    @activity = plantings_for_show
+      .union_all(harvests_for_show)
+      .union_all(posts_for_show)
+      .union_all(comments_for_show)
+      .union_all(photos_for_show)
       .where(owner_id: @member.id)
       .order(event_at: :desc)
       .limit(30)
