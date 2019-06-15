@@ -143,7 +143,7 @@ group :development, :test do
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
   gem 'haml_lint', '>= 0.25.1' # Checks haml files for goodness
-  gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
+  gem 'i18n-tasks' # adds tests for finding missing and unused translations
   # gem 'poltergeist'                     # for headless JS testing
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework

@@ -55,9 +55,7 @@ class Crop < ApplicationRecord
 
   ####################################
   # Elastic search configuration
-  if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
-  end
+  searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
 
   def planting_photos
     Photo.joins(:plantings).where("plantings.crop_id": id)
