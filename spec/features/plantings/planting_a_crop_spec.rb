@@ -207,11 +207,7 @@ describe "Planting a crop", :js, :elasticsearch do
       fill_in "When?", with: "2014-07-01"
       check "Mark as finished"
       fill_in "Finished date", with: "2014-08-30"
-
-      # Trigger click instead of using Capybara"s uncheck
-      # because a date selection widget is overlapping
-      # the checkbox preventing interaction.
-      find("#planting_finished").trigger 'click'
+      uncheck 'Mark as finished'
     end
 
     # Javascript removes the finished at date when the
@@ -219,7 +215,7 @@ describe "Planting a crop", :js, :elasticsearch do
     expect(find("#planting_finished_at").value).to eq("")
 
     within "form#new_planting" do
-      find("#planting_finished").trigger 'click'
+      check 'Mark as finished'
     end
 
     # The finished at date was cached in Javascript in
