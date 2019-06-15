@@ -49,6 +49,7 @@ describe "new photo page" do
 
       it "add photo" do
         visit seed_path(seed)
+        click_link 'Actions'
         first('.seed-actions').click_link('Add photo')
         expect(page).to have_text seed.to_s
       end

@@ -4,7 +4,8 @@
     Plant seeds
 - if can?(:edit, seed)
   .dropdown.float-right.seed-actions
-    %a#seed-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+    %a#seed-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+      Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "seed-actions-button"}
       = seed_edit_button(seed, classes: 'dropdown-item')
       = add_photo_button(seed, classes: 'dropdown-item')
