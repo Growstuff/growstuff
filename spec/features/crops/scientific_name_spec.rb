@@ -6,13 +6,13 @@ describe "Scientific names", js: true do
 
   it "Display scientific names on crop page" do
     visit crop_path(zea_mays.crop)
-    expect(page.status_code).to equal 200
+    # expect(page.status_code).to equal 200
     expect(page).to have_content zea_mays.name
   end
 
   it "Index page for scientific names" do
     visit scientific_names_path
-    expect(page.status_code).to equal 200
+    # expect(page.status_code).to equal 200
     expect(page).to have_content zea_mays.name
   end
 
@@ -26,13 +26,13 @@ describe "Scientific names", js: true do
 
     it "Crop wranglers can edit scientific names" do
       visit crop_path(crop)
-      expect(page.status_code).to equal 200
+      # expect(page.status_code).to equal 200
       expect(page).to have_content "CROP WRANGLER"
       expect(page).to have_content zea_mays.name
       click_link zea_mays.name
       expect(page).to have_link "Edit", href: edit_scientific_name_path(zea_mays)
       within('.scientific_names') { click_on "Edit" }
-      expect(page.status_code).to equal 200
+      # expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
       fill_in 'Name', with: "Zea mirabila"
       click_on "Save"
@@ -50,7 +50,7 @@ describe "Scientific names", js: true do
           click_link 'Delete'
         end
       end
-      expect(page.status_code).to equal 200
+      # expect(page.status_code).to equal 200
       expect(page).not_to have_content zea_mays.name
       expect(page).to have_content 'Scientific name was successfully deleted.'
     end
@@ -60,18 +60,18 @@ describe "Scientific names", js: true do
       expect(page).to have_link "Add",
         href: new_scientific_name_path(crop_id: crop.id)
       within('.scientific_names') { click_on "Add" }
-      expect(page.status_code).to equal 200
+      # expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
       fill_in 'Name', with: "Zea mirabila"
       click_on "Save"
-      expect(page.status_code).to equal 200
+      # expect(page.status_code).to equal 200
       expect(page).to have_content "Zea mirabila"
       expect(page).to have_content 'crop was successfully created.'
     end
 
     it "The show-scientific-name page works" do
       visit scientific_name_path(zea_mays)
-      expect(page.status_code).to equal 200
+      # expect(page.status_code).to equal 200
       expect(page).to have_link zea_mays.crop.name,
         href: crop_path(zea_mays.crop)
     end
