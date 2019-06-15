@@ -6,7 +6,7 @@
         url: session_path(resource_name),
         html: { class: "text-center border border-light p-5" }) do |f|
       = devise_error_messages!
-      = f.text_field :login, type: "email", label: 'Login', required: true
+      = f.text_field :login, label: 'Login', required: true
       = f.password_field :password, type: "password"
       - if devise_mapping.rememberable?
         %p
