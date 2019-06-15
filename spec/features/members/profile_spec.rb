@@ -6,10 +6,9 @@ describe "member profile", js: true do
 
     it "basic details on member profile page" do
       visit member_path(member)
-      expect(page).to have_css("h1", text: member.login_name)
+      expect(page).to have_content("All about #{member.login_name}")
       expect(page).to have_content member.bio
-      expect(page).to have_content "Member since: #{member.created_at.to_s(:date)}"
-      expect(page).to have_link "More about this garden...", href: garden_path(member.gardens.first)
+      expect(page).to have_content "Member since #{member.created_at.to_s(:date)}"
     end
 
     it "no bio" do
@@ -28,7 +27,7 @@ describe "member profile", js: true do
       it "member has set location" do
         london_member = create :london_member
         visit member_path(london_member)
-        expect(page).to have_css("h1>small", text: london_member.location)
+        expect(page).to have_content(london_member.location)
         expect(page).to have_css("#membermap")
         expect(page).to have_content "See other members, plantings, seeds and more near #{london_member.location}"
       end
@@ -107,9 +106,7 @@ describe "member profile", js: true do
     let(:admin_member)  { create :admin_member          }
     let(:crop_wrangler) { create :crop_wrangling_member }
 
-    before do
-      login_as(member)
-    end
+    before { login_as(member) }
 
     it "admin user's page" do
       visit member_path(admin_member)
@@ -128,13 +125,7 @@ describe "member profile", js: true do
     end
 
     context "your own profile page" do
-      before do
-        visit member_path(member)
-      end
-
-      it "has a link to create new garden" do
-        expect(page).to have_link "New Garden", href: new_garden_path
-      end
+      before {visit member_path(member) }
 
       it "has a button to edit profile" do
         expect(page).to have_link "Edit profile", href: edit_member_registration_path
