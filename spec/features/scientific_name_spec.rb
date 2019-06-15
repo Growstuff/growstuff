@@ -45,7 +45,11 @@ describe "Scientific names", js: true do
       click_link zea_mays.name
       expect(page).to have_link "Delete",
         href: scientific_name_path(zea_mays)
-      within('.scientific_names') { click_on "Delete" }
+      within('.scientific_names') do
+        accept_confirm do
+          click_link 'Delete'
+        end
+      end
       expect(page.status_code).to equal 200
       expect(page).not_to have_content zea_mays.name
       expect(page).to have_content 'Scientific name was successfully deleted.'

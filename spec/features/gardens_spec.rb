@@ -86,7 +86,9 @@ describe "Planting a crop", js: true do
     fill_in "Name", with: "New garden"
     click_button "Save"
     visit garden_path(Garden.last)
-    click_link 'Delete'
+    accept_confirm do
+      click_link 'Delete'
+    end
     expect(page).to have_content "Garden was successfully deleted"
     expect(page).to have_content "#{garden.owner}'s gardens"
   end
