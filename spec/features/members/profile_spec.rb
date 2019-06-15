@@ -79,7 +79,7 @@ describe "member profile", js: true do
         let!(:harvest) { FactoryBot.create :harvest, owner: member }
         let!(:seed) { FactoryBot.create :seed, owner: member }
         let!(:post) { FactoryBot.create :post, author: member }
-        before {visit member_path(member) }
+        before { visit member_path(member) }
         it { expect(page).to have_link(href: planting_path(planting)) }
         it { expect(page).to have_link(href: harvest_path(harvest)) }
         it { expect(page).to have_link(href: seed_path(seed)) }
@@ -125,7 +125,7 @@ describe "member profile", js: true do
     end
 
     context "your own profile page" do
-      before {visit member_path(member) }
+      before { visit member_path(member) }
 
       it "has a button to edit profile" do
         expect(page).to have_link "Edit profile", href: edit_member_registration_path

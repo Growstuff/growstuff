@@ -6,7 +6,7 @@ describe 'Members RSS feed' do
   before { visit member_path(member, format: 'rss') }
 
   pending 'The show action exists' do
-   # expect(page.status_code).to equal 200
+    # expect(page.status_code).to equal 200
   end
 
   it 'The show action title is what we expect' do

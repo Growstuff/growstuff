@@ -81,22 +81,22 @@ describe "member deletion" do
 
       it "removes plantings" do
         visit planting_path(planting)
-      expect(page).to have_text "The page you were looking for doesn't exist."
+        expect(page).to have_text "The page you were looking for doesn't exist."
       end
 
       it "removes gardens" do
         visit garden_path(secondgarden)
-      expect(page).to have_text "The page you were looking for doesn't exist."
+        expect(page).to have_text "The page you were looking for doesn't exist."
       end
 
       it "removes harvests and seeds" do
         visit harvest_path(harvest)
-      expect(page).to have_text "The page you were looking for doesn't exist."
+        expect(page).to have_text "The page you were looking for doesn't exist."
       end
 
       it "removes seeds" do
         visit seed_path(seed)
-      expect(page).to have_text "The page you were looking for doesn't exist."
+        expect(page).to have_text "The page you were looking for doesn't exist."
       end
 
       it "removes members from following" do
@@ -108,7 +108,7 @@ describe "member deletion" do
 
       it "replaces posts with deletion note" do
         visit post_path(memberpost)
-      expect(page).to have_text "The page you were looking for doesn't exist."
+        expect(page).to have_text "The page you were looking for doesn't exist."
       end
 
       it "replaces comments on others' posts with deletion note, leaving post intact" do
