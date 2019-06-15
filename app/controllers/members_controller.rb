@@ -68,6 +68,17 @@ class MembersController < ApplicationController
     )
   end
 
+  def seeds_for_show
+    Seed.select(
+      :id,
+      "'seed' as event_type",
+      "seeds.created_at as event_at",
+      'seeds.owner_id',
+      'crop_id',
+      'slug'
+    )
+  end
+
   def show
     @member        = Member.confirmed.find_by!(slug: params[:slug])
     @twitter_auth  = @member.auth('twitter')
@@ -81,6 +92,7 @@ class MembersController < ApplicationController
       .union_all(posts_for_show)
       .union_all(comments_for_show)
       .union_all(photos_for_show)
+      .union_all(seeds_for_show)
       .where(owner_id: @member.id)
       .order(event_at: :desc)
       .limit(30)

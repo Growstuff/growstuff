@@ -63,6 +63,12 @@
                 = planting_icon
                 planted
                 = link_to planting.crop, planting
+              - elsif event.event_type == 'seed'
+                - seed = Seed.find(event.id)
+                = seed_icon
+                saved
+                = link_to seed.crop, seed
+                seeds
               - elsif event.event_type == 'harvest'
                 - harvest = Harvest.find(event.id)
                 = harvest_icon

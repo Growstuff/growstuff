@@ -75,16 +75,16 @@ describe "member profile", js: true do
         expect(page).to have_content "0 posts"
       end
 
-      it "with some activity" do
-        create_list :planting, 2, owner: member
-        create_list :harvest, 3, owner: member
-        create_list :seed, 4, owner: member
-        create_list :post, 5, author: member
-        visit member_path(member)
-        expect(page).to have_link "2 plantings", href: member_plantings_path(member)
-        expect(page).to have_link "3 harvests", href: member_harvests_path(member)
-        expect(page).to have_link "4 seeds", href: member_seeds_path(member)
-        expect(page).to have_link "5 posts", href: member_posts_path(member)
+      context "with some activity" do
+        let!(:planting) { FactoryBot.create :planting, owner: member }
+        let!(:harvest) { FactoryBot.create :harvest, owner: member }
+        let!(:seed) { FactoryBot.create :seed, owner: member }
+        let!(:post) { FactoryBot.create :post, author: member }
+        before {visit member_path(member) }
+        it { expect(page).to have_link(href: planting_path(planting)) }
+        it { expect(page).to have_link(href: harvest_path(harvest)) }
+        it { expect(page).to have_link(href: seed_path(seed)) }
+        it { expect(page).to have_link(href: post_path(post)) }
       end
     end
 
