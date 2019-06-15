@@ -1,8 +1,3 @@
-.photos-grid
-  .photo-grid-item= link_to image_tag(photos.first.fullsize_url, class: 'rounded mx-auto hero-photo'), photos.first
-  - photos.offset(1).each do |photo|
-    .photo-grid-item
-      = link_to photo do
-        = render 'photos/thumbnail', photo: photo
-        - if photo.date_taken.present?
-          %small= I18n.l(photo.date_taken.to_date)
+- photos.each do |photo|
+  .photo-grid-item= render 'photos/card', photo: photo
+
