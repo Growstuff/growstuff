@@ -1,37 +1,31 @@
 .form-page
-  %section.card.form-card
-    %h1 Join Growstuff
+  .card.form-card
+    %h1 Join #{ENV['GROWSTUFF_SITE_NAME']}
     .card-body
-      %p Sign up for a Growstuff account to track your veggie garden and connect with other local growers.
+      %p Sign up for a #{ENV['GROWSTUFF_SITE_NAME']} account to track your vegetable garden and connect with other local growers.
 
-    = form_for(resource, as: resource_name,
-        url: registration_path(resource_name),
+    = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name),
         html: { class: "text-center border border-light p-5" }) do |f|
       = devise_error_messages!
 
-      = f.text_field :login_name, class: 'form-control form-control-lg{', placeholder: 'login name'
+      = f.text_field :login_name
       %span This is the name that will show on the website.
 
       = icon 'fas', 'email'
-      = f.email_field :email, class: 'form-control', placeholder: 'email', type: :email
+      = f.email_field :email
       %span We'll use this address to contact you (we never spam!)
 
-      %hr/
-      = f.password_field :password, class: "form-control", placeholder: 'password', type: :password
-      = f.password_field :password_confirmation, class: 'form-control', placeholder: 'confirm password'
-
-      %hr/
+      = f.password_field :password, type: :password
+      = f.password_field :password_confirmation
 
       %p
-        = f.check_box :tos_agreement
-        I agree to the
-        = link_to 'Terms of Service', "#{root_url}/policy/tos"
+        = f.check_box :tos_agreement, label: "I agree"
+        to the #{link_to 'Terms of Service', "/policy/tos"}
 
       %p
-        = f.check_box :newsletter, checked: true
-        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
+        = f.check_box :newsletter, checked: true, label: "Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter"
       %p= render partial: 'newsletter_blurb'
 
-      = f.submit "Sign up", class: 'btn btn-block my-4 btn-success'
+      = f.submit "Sign up", class: 'btn btn-block btn-success'
 
-    = render "devise/shared/links"
+    .card-footer= render "devise/shared/links"
