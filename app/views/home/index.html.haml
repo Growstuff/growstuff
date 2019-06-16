@@ -23,10 +23,10 @@
     .row
       .col-md-6
         =render 'plantings'
-        %p.text-right= link_to "#{t('home.plantings.view_all')} »", seeds_path, class: 'btn btn-block'
+        %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
       .col-md-6
         = render 'harvests'
-        %p.text-right= link_to "#{t('home.harvests.view_all')} »", seeds_path, class: 'btn btn-block'
+        %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
 
   %section.seeds.mx-auto
     %h2.text-center= t('.seeds_available_to_trade')
