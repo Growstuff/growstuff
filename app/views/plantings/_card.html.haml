@@ -21,6 +21,5 @@
   .card-body.text-center
     %h4.card-title= link_to planting.crop, planting
     .text-center= render 'plantings/badges', planting: planting
-  - if planting.percentage_grown.present?
-    .card-footer
-      = render 'plantings/progress', planting: planting
+  .card-footer
+    = render 'plantings/progress', planting: planting
