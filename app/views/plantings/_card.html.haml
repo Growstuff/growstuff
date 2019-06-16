@@ -4,7 +4,7 @@
   - if can? :edit, planting
     .planting-quick-actions
       .dropdown
-        %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button"}
+        %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
         .dropdown-menu{"aria-labelledby" => "planting-menu"}
           = planting_edit_button(planting, classes: 'dropdown-item')
           = add_photo_button(planting, classes: 'dropdown-item')
