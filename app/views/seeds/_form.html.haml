@@ -3,6 +3,7 @@
     .card-header
       - if content_for? :title
         %h1.h2-responsive.text-center
+          = seed_icon
           %strong=yield :title
     .card-body
       - if @seed.errors.any?

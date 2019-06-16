@@ -2,6 +2,7 @@
   .card-header
     - if content_for? :title
       %h1.h2-responsive.text-center
+        = planting_icon
         %strong=yield :title
   = bootstrap_form_for(@planting) do |f|
     .card-body
