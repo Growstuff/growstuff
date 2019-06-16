@@ -13,8 +13,6 @@
   - else
     %li.breadcrumb-item.active= link_to 'Gardens', gardens_path
 
-
-
 = link_to gardens_active_tickbox_path(@owner, @show_all) do
   = check_box_tag 'active', 'all', @show_all
   include in-active
