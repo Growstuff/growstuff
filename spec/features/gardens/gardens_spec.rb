@@ -26,16 +26,24 @@ describe "Planting a crop", js: true do
 
   it "Marking a garden as inactive" do
     visit garden_path(garden)
-    click_link "Mark as inactive"
+    click_link 'Actions'
+    accept_confirm do
+      click_link "Mark as inactive"
+    end
     expect(page).to have_content "Garden was successfully updated"
     expect(page).to have_content "This garden is inactive"
+
+    click_link 'Actions'
     expect(page).to have_content "Mark as active"
     expect(page).not_to have_content "Mark as inactive"
   end
 
   it "List only active gardens" do
     visit garden_path(garden)
-    click_link "Mark as inactive"
+    click_link 'Actions'
+    accept_confirm do
+      click_link "Mark as inactive"
+    end
     visit gardens_path
     expect(page).not_to have_link garden_path(garden)
   end
@@ -63,6 +71,7 @@ describe "Planting a crop", js: true do
     end
 
     it "button on index to edit garden" do
+      click_link 'Actions'
       click_link href: edit_garden_path(garden)
       expect(page).to have_content 'Edit garden'
     end
@@ -72,6 +81,7 @@ describe "Planting a crop", js: true do
     visit new_garden_path
     fill_in "Name", with: "New garden"
     click_button "Save"
+    click_link 'Actions'
     within '.garden-actions' do
       click_link 'Edit'
     end
@@ -86,6 +96,7 @@ describe "Planting a crop", js: true do
     fill_in "Name", with: "New garden"
     click_button "Save"
     visit garden_path(Garden.last)
+    click_link 'Actions'
     accept_confirm do
       click_link 'Delete'
     end
