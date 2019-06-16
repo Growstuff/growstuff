@@ -29,5 +29,3 @@ cc-test-reporter
 elasticsearch-*.deb
 elasticsearch-*.deb.sha512
 
-app/assets/images/*.svg
-app/assets/images/icons/*.svg
