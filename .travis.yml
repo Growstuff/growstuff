@@ -3,7 +3,6 @@ language: ruby
 cache:
   bundler: true
   directories:
-    - travis_phantomjs
     - tmp/cache/assets/test/sprockets
 addons:
   apt:
