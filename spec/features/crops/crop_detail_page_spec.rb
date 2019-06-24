@@ -16,10 +16,7 @@ describe "crop detail page", js: true do
   context "varieties" do
     it "The crop DOES NOT have varieties" do
       visit crop_path(crop)
-
-      within ".varieties" do
-        expect(page).not_to have_text 'tomato'
-      end
+      expect(page).not_to have_text 'Varieties'
     end
   end
 
