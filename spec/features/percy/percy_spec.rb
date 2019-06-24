@@ -27,19 +27,39 @@ describe 'Test with visual testing', type: :feature, js: true do
   let(:post_body) do
     "So, um, watering's important. Yep. Very important.
 
-Well, what with moving into the house and all THAT entails...my plants are looking the worse for wear. They haven't gotten enough water. The oregano is dead. The basil and chives are just hanging on. The [tomato](crop) have sort of purple leaves. Seeing that the roots were all growing out of the bottom of the pots, I finally went and got soil to fill the basins I have for the tomatoes and spent the money on proper (much larger) pots for the herbs.
+Well, what with moving into the house and all THAT entails...my plants
+are looking the worse for wear. They haven't gotten enough water. The
+oregano is dead. The basil and chives are just hanging on. The
+[tomato](crop) have sort of purple leaves. Seeing that the roots were all
+growing out of the bottom of the pots, I finally went and got soil
+to fill the basins I have for the tomatoes and spent the money on proper
+(much larger) pots for the herbs.
 
-At Home Depot, it turned out that 7.5\" pots that are glazed inside and out (to prevent wicking & evaporation of water -- the problem my tomatoes were hitting with the teensy clay pots) were $10 for the pot and $5 for the saucer. Or there are 7.25\" self-watering pots for $15. So my herbs are now in self-watering pots where they should be able to survive Pennsic without me.  I got a new oregano plant too.
+At Home Depot, it turned out that 7.5\" pots that are glazed inside and out
+(to prevent wicking & evaporation of water -- the problem my tomatoes
+were hitting with the teensy clay pots) were $10 for the pot and $5
+for the saucer. Or there are 7.25\" self-watering pots for $15. So my
+  herbs are now in self-watering pots where they should be able to
+  survive Pennsic without me.  I got a new oregano plant too.
 
 [ ![self-watering herbs](http://farm4.staticflickr.com/3735/9337893326_62a036bf56.jpg) ](http://www.flickr.com/photos/maco_nix/9337893326/)
 
-The tomatoes are now in large plastic bins full of dirt/compost, where their roots can spread out. Turns out clay pots in weather that is always over 80, usually over 90, and hitting over 100 (celsius people, read those as 26, 32, 38) means you need to water at least daily, probably a couple of times a day, to keep the plants happy.
+The tomatoes are now in large plastic bins full of dirt/compost, where
+their roots can spread out. Turns out clay pots in weather that is always over 80,
+usually over 90, and hitting over 100 (celsius people, read those as 26, 32, 38)
+means you need to water at least daily, probably a couple of times a day, to keep
+the plants happy.
 
 [ ![tomatoes in plastic cement mixing tubs](http://farm4.staticflickr.com/3745/9337878942_9602530c31.jpg)](http://www.flickr.com/photos/maco_nix/9337878942/)
 
-After taking that photo, I put some egg shells (since I hardboiled some eggs today for pickling) in the dirt around them and added stakes.
+After taking that photo, I put some egg shells (since I hardboiled some eggs
+today for pickling) in the dirt around them and added stakes.
 
-I noticed a couple of days ago on the way to work that there's a place near home called Country Boy Market. Fresh locally grown produce (cheap berries, nom nom), mulch, top soil, compost, and straw bales are all available. Also they deliver mulch & soil. Well then. I know what's happening next spring when I try to build up the rest of the garden.
+I noticed a couple of days ago on the way to work that there's a place near
+home called Country Boy Market. Fresh locally grown produce (cheap berries, nom nom),
+mulch, top soil, compost, and straw bales are all available. Also they deliver mulch
+& soil. Well then. I know what's happening next spring when I try to build up the
+rest of the garden.
 [apple](crop)
     "
   end
@@ -130,7 +150,10 @@ I noticed a couple of days ago on the way to work that there's a place near home
         # a garden
         garden = FactoryBot.create :garden, name: 'paradise', owner: member
         # with some lettuce (finished)
-        FactoryBot.create :planting, crop: FactoryBot.create(:crop, name: 'lettuce'), garden: garden, owner: member, finished_at: 2.weeks.ago
+        FactoryBot.create(
+          :planting, crop: FactoryBot.create(:crop, name: 'lettuce'),
+          garden: garden, owner: member, finished_at: 2.weeks.ago
+        )
         # tomato still growing
         tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
         tomato_photo.plantings << tomato_planting

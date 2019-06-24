@@ -76,5 +76,4 @@ module IconsHelper
   def image_icon(icon)
     image_tag "icons/#{icon}.svg", class: 'img img-icon'
   end
-
 end
