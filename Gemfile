@@ -95,7 +95,6 @@ gem 'omniauth-twitter'
 gem "chartkick"
 
 # clever elastic search
-gem 'elasticsearch', '< 7.0.0'
 gem 'searchkick'
 
 gem "hashie", ">= 3.5.3"
