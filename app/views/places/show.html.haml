@@ -5,6 +5,8 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+
+%h1 #{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}
 = render partial: 'search_form'
 
 #placesmap{ style: "height:300px" }
