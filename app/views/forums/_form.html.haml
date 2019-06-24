@@ -18,4 +18,4 @@
       = f.text_area :description, rows: 6
       = f.select(:owner_id, Member.all.order(:login_name).pluck(:login_name, :id))
     .card-footer
-      .text-right= f.submit 'save'
+      .text-right= f.submit 'Save'
