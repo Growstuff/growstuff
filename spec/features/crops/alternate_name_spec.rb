@@ -42,12 +42,10 @@ describe "Alternate names", js: true do
 
     it "Crop wranglers can delete alternate names" do
       visit crop_path(alternate_eggplant.crop)
-      click_link 'aubergine'
-      expect(page).to have_link "Delete", href: alternate_name_path(alternate_eggplant)
+      click_link('aubergine', href: '#')
       accept_confirm do
         click_link 'Delete'
       end
-      expect(pending_alt_name.status_code).to equal 200
       expect(page).not_to have_content alternate_eggplant.name
       expect(page).to have_content 'Alternate name was successfully deleted'
     end
