@@ -105,14 +105,13 @@ describe "Planting a crop", js: true do
   end
 
   describe "Making a planting inactive from garden show" do
-    let(:path) { garden_path garden }
-    let(:link_text) { "Mark as finished" }
-    before do
-      within '.planting-quick-actions' do
-        click_link(aclass: 'planting-menu')
-      end
+    it do
+      visit garden_path(garden)
+      click_link(class: 'planting-menu')
+      click_link "Mark as finished"
+      find(".datepicker-days td.day", text: "21").click
+      expect(page).to have_content 'Finished'
     end
-    it_behaves_like "append date"
   end
 
   it "List only active plantings on a garden" do
