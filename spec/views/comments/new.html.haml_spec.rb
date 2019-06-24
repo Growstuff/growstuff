@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "comments/new" do
   before do
     controller.stub(:current_user) { nil }
-    @post = FactoryBot.create(:post)
+    @post = FactoryBot.create(:post, body: 'tena koutou ki te ao')
     @comment = FactoryBot.create(:comment, post: @post)
     assign(:comment, @comment)
     assign(:comments, [@comment])
