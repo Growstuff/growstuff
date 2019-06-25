@@ -27,7 +27,7 @@ class Crop < ApplicationRecord
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
-  scope :popular, -> { approved.order("plantings_count desc, lower(name) asc") }
+  scope :popular, -> { approved.order(Arel.sql("plantings_count desc, lower(name) asc")) }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
