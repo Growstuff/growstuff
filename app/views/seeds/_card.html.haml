@@ -7,8 +7,5 @@
       %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
   = link_to seed.owner do
     .card-footer
-      %ul.nav.nav-justified.small
-        %li.nav-item
-          %span.badge.badge-pill.badge-secondary=seed.owner.location
-        %li.nav-item
-          = render 'members/tiny', member: seed.owner
+      %span.badge.badge-pill.badge-secondary=seed.owner.location
+      = render 'members/tiny', member: seed.owner
