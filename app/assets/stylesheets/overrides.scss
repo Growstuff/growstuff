@@ -280,7 +280,8 @@ footer {
   padding-top: 10px;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -314,7 +315,10 @@ $state-success-bg: lighten($green, 50%);
   display: none;
 }
 
-#add-sci_name-row, #remove-sci_name-row, #add-alt_name-row, #remove-alt_name-row {
+#add-sci_name-row,
+#remove-sci_name-row,
+#add-alt_name-row,
+#remove-alt_name-row {
   display: none;
 }
 
