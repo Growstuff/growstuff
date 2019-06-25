@@ -1,13 +1,13 @@
 .member-thumbnail {
-  padding: 0.25em;
-  margin: 1em;
   border-radius: 12px;
   height: 200px;
+  margin: 1em;
+  padding: 0.25em;
 
   div {
-    width: 5em;
     display: inline-block;
     vertical-align: top;
+    width: 5em;
   }
 }
 
