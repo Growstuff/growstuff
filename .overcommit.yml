@@ -22,7 +22,7 @@ PreCommit:
     problem_on_unmodified_line: warn
   RuboCop:
     enabled: true
-    command: ['bundle', 'exec', 'rubocop', '-D', '--rails']
+    command: ['bundle', 'exec', 'rubocop', '-D']
   TrailingWhitespace:
     enabled: true
     exclude:
