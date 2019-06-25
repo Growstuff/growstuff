@@ -3,6 +3,7 @@ language: ruby
 cache:
   bundler: true
   directories:
+    - travis_phantomjs
     - tmp/cache/assets/test/sprockets
 addons:
   apt:
@@ -38,9 +39,9 @@ script:
       ./script/check_static.rb
     else
       set +e;
-      RAILS_ENV=test bundle exec rake db:create db:migrate search:reindex;
+      RAILS_ENV=test bundle exec rake db:create db:migrate search:create;
       bundle exec rake assets:precompile;
-      bundle exec rspec -fd --tag $RSPEC_TAG spec/;
+      bundle exec rspec --tag $RSPEC_TAG spec/;
     fi;
   - set +e
 after_script:
@@ -64,6 +65,8 @@ deploy:
   app:
     dev: growstuff-staging
     master: growstuff-prod
+    travis_deploy: tranquil-basin-3130
+    travis_containers: tranquil-basin-3130
   run:
     - "rake db:migrate"
     - "script/deploy-tasks.sh"
