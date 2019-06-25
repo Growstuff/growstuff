@@ -2,7 +2,7 @@
 -#   = link_to "Forgot password?", new_password_path(resource_name)
 -#   %br
 
-
+%hr/
 - if devise_mapping.confirmable? && controller_name != 'confirmations'
   %p
     %small= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
@@ -14,10 +14,10 @@
 - if devise_mapping.omniauthable?
   - resource_class.omniauth_providers.each do |provider|
     %p
-      = link_to omniauth_authorize_path(resource_name, provider) do
+      = link_to omniauth_authorize_path(resource_name, provider), class: 'btn' do
         = icon 'fab', provider
         Sign in with #{provider.to_s.titleize}
 
   %p
     Not a member?
-    =link_to 'Register', new_member_registration_path
+    %strong= link_to 'Register', new_member_registration_path
