@@ -5,7 +5,7 @@ describe 'members/show.rss.haml', type: "view" do
 
   before do
     @member = assign(:member, FactoryBot.create(:member, login_name: 'callum'))
-    @post1 = FactoryBot.create(:post, id: 1, author: @member)
+    @post1 = FactoryBot.create(:post, id: 1, author: @member, body: "This is some text.")
     @post2 = FactoryBot.create(:markdown_post, id: 2, author: @member)
     assign(:posts, [@post1, @post2])
     render

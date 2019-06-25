@@ -51,7 +51,7 @@ describe "plantings/show" do
     planting.photos << photo2
     render
     assert_select "img[src='#{photo1.fullsize_url}']"
-    assert_select "img[src='#{photo2.thumbnail_url}']"
+    assert_select "img[src='#{photo2.fullsize_url}']"
   end
 
   describe "shows a link to add photos" do
