@@ -23,7 +23,18 @@
                     %span.badge.badge-pill.badge-info.float-right
                       = icon 'fas', 'comment'
                       = post.comments.size
-                %p.text-muted= post_byline(post)
+                %p.text-muted
+                  Posted by
+                  - if post.author
+                    = link_to post.author.login_name, member_path(post.author)
+                  - else
+                    Member Deleted
+
+                  - if post.forum
+                    in #{link_to post.forum, post.forum}
+                  on #{post.created_at}"
+                  - if post.updated_at > post.created_at
+                    and edited at #{post.updated_at}
                 %p.card-text= display_post_truncated(post)
                 - post.crops.each do |crop|
                   %span.badge.badge-pill.badge-primary= link_to crop, crop
