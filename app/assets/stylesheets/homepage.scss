@@ -54,12 +54,10 @@
 @include media-breakpoint-down(sm) {
   .homepage-cards {
     .seed-card {
-      align: center;
       min-height: 80px;
       width: 100%;
     }
     .member-card {
-      align: center;
       min-height: 80px;
       width: 150px;
     }
