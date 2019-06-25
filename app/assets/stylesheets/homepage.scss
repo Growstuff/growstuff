@@ -12,12 +12,12 @@
   display: flex;
   flex: none;
   flex-wrap: wrap;
-  margin: 0.5em;
-  // left: -0.5em;
+  margin: .5em;
+  // left: -.5em;
 
   .card {
-    left: -0.5em;
-    margin: 0.5em;
+    left: -.5em;
+    margin: .5em;
     min-height: 100px;
     padding: 0;
 
@@ -31,7 +31,7 @@
   }
 
   .thumbnail {
-    margin: 0.5em;
+    margin: .5em;
   }
   .img-card {
     height: 150px;
