@@ -10,20 +10,18 @@ describe "plantings/new" do
     @garden_z = FactoryBot.create(:garden, owner: @member)
     @crop1 = FactoryBot.create(:tomato)
     @crop2 = FactoryBot.create(:maize)
+    @planting = FactoryBot.create(:planting,
+      garden: @garden_a, crop: @crop2, owner: @member)
 
-    assign(:planting, FactoryBot.create(:planting,
-      garden: @garden_a,
-      crop:   @crop2,
-      owner:  @member))
+    assign(:planting, @planting)
   end
 
   context "logged in" do
     before do
       sign_in @member
-      planting = Planting.new(garden: @garden_z)
+      planting = Planting.new(garden: @garden_z, owner: @member)
       assign(:planting, planting)
       assign(:crop, @crop2)
-      assign(:gardens, [@garden_z])
       render
     end
 
