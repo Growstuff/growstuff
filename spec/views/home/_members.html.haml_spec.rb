@@ -17,6 +17,5 @@ describe 'home/_members.html.haml', type: "view" do
   describe 'Shows members' do
     it { expect(rendered).to have_content @member.login_name }
     it { expect(rendered).to have_content @member.location }
-    it { expect(rendered).to have_content @planting.crop_name }
   end
 end
