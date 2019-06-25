@@ -11,11 +11,10 @@
 
 .photo-grid-item {
   float: left;
-}
-
-.photo-grid-item img {
-  display: block;
-  max-width: 100%;
+  img {
+    display: block;
+    max-width: 100%;
+  }
 }
 
 .hero-photo {
