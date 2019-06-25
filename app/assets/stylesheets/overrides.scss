@@ -1,11 +1,6 @@
-//@import "bootstrap-sprockets"
-//@import "bootstrap"
-// this padding needs to be done before the responsive stuff is imported
 body {
   background-color: $beige;
   font-family: $font-family-sans-serif;
-
-  // padding-top: $navbar-height
 }
 
 section {
