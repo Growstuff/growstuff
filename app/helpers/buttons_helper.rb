@@ -30,18 +30,22 @@ module ButtonsHelper
   end
 
   def crop_plant_button(crop)
-    return unless can? :create, Planting
-
-    link_to new_planting_path(params: { crop_id: crop.id }), class: 'btn btn-sm' do
-      planting_icon + ' ' + t('buttons.plant')
-    end
+    create_button(Planting,
+      new_planting_path(params: { crop_id: crop.id }),
+      planting_icon, t('buttons.plant'))
   end
 
   def crop_save_seeds_button(crop)
-    return unless can?(:create, Seed)
+    create_button(Seed,
+      new_seed_path(params: { crop_id: crop.id }),
+      seed_icon, t('buttons.save_seeds'))
+  end
 
-    link_to new_seed_path(params: { crop_id: crop.id }), class: "btn btn-sm" do
-      seed_icon + ' ' + t('buttons.save_seeds')
+  def create_button(model_to_create, path, icon, label)
+    return unless can?(:create, model_to_create)
+
+    link_to path, class: "btn btn-sm" do
+      icon + ' ' + label
     end
   end
 
