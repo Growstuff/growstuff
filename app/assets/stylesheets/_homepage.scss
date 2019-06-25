@@ -25,6 +25,7 @@
       font-size: 2em;
     }
   }
+
   .crop-card {
     min-height: 80px;
     width: 120px;
@@ -33,6 +34,7 @@
   .thumbnail {
     margin: .5em;
   }
+
   .img-card {
     height: 150px;
   }
@@ -45,8 +47,8 @@
   flex-wrap: wrap;
 
   .card {
-    width: 150px;
     margin: 1em;
+    width: 150px;
   }
 }
 

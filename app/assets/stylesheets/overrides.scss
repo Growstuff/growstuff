@@ -14,9 +14,9 @@ section {
 }
 
 .ellipsis {
-    overflow:hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 a {
@@ -24,13 +24,13 @@ a {
 }
 
 a:hover {
-  text-decoration: none;
   color: $brown;
+  text-decoration: none;
 }
 
 .card a:hover {
-  color: $blue;
   background-color: $beige;
+  color: $blue;
 }
 
 span.badge {
@@ -74,7 +74,6 @@ h3 {
   }
 }
 .navbar .navbar-form {
-
 //   padding-top: 0;
 //   padding-bottom: 0;
 //   margin-right: 0;
@@ -90,8 +89,8 @@ h3 {
   flex-wrap: wrap;
 
   .card {
-    width: 200px;
     margin: 1em;
+    width: 200px;
   }
 }
 
@@ -100,14 +99,14 @@ img.img-icon {
 }
 
 .img-square {
-  object-fit: cover;
   height: 150px;
+  object-fit: cover;
   width: 150px;
 }
 
 .img-card {
-  object-fit: cover;
   height: 180px;
+  object-fit: cover;
   width: 100%;
 }
 
@@ -117,9 +116,9 @@ img.img-icon {
 
 .avatar {
   border-radius: 50%;
-  z-index: 2;
-  position: relative;
   padding: 1em;
+  position: relative;
+  z-index: 2;
 }
 
 .profile-sidebar {
@@ -144,8 +143,8 @@ img.img-icon {
 }
 
 .three-across:nth-child(3n+1) {
-  margin-left: 0;
   clear: both;
+  margin-left: 0;
 }
 
 // let's condense the hero unit a little
@@ -166,8 +165,8 @@ img.img-icon {
 // signup widget on homepage
 .jumbotron .signup {
   background-color: lighten($green, 40%);
-  border: 1px solid lighten($green, 20%);
   border-radius: 6px;
+  border: 1px solid lighten($green, 20%);
   line-height: 200%;
   padding: 15px;
   text-align: center;
@@ -180,9 +179,9 @@ p.stats {
 
 .card-row {
   display: grid;
-  grid-template-columns: 50% 50%;
   grid-gap: 25px;
   grid-row-gap: 5px;
+  grid-template-columns: 50% 50%;
 }
 .card {
   margin-bottom: 1em
@@ -208,11 +207,11 @@ p.stats {
 }
 
 .location-not-set {
+  background-image: image-url("location-not-set.en.png");
+  background-position: center;
+  background-repeat: no-repeat;
   height: 250px;
   width: 100%;
-  background-image: image-url("location-not-set.en.png");
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .member-location {
@@ -249,15 +248,15 @@ li.crop-hierarchy {
 // footer
 footer {
   #footer1, #footer2, #footer3 {
-    text-align: left;
-    padding-top: 1em;
     padding-bottom: 2em;
+    padding-top: 1em;
+    text-align: left;
 
     ul {
-      list-style-type: none;
       list-style-position: outside;
-      padding-left: 0;
+      list-style-type: none;
       margin-left: 0;
+      padding-left: 0;
     }
 
     a {
@@ -391,14 +390,11 @@ ul.thumbnail-buttons {
       }
 
       dd {
-        padding-left: 120px;
         margin-left: auto;
+        padding-left: 120px;
       }
     }
   }
-
-  //.navbar .navbar-form
-  //  width: 250px
 }
 
 
@@ -406,11 +402,13 @@ ul.thumbnail-buttons {
   text-align: center;
 
   .form-card {
-    max-width: 500px;
-    text-align: center;
     display: inline-block;
+    margin-top: 0.5em;
+    max-width: 800px;
     padding: 1em;
+    text-align: center;
   }
+
   .crop-card {
     width: 100px;
   }
@@ -422,6 +420,7 @@ ul.thumbnail-buttons {
   #maincontainer {
     width: 100%;
   }
+
   .sidebar {
     margin-left: 0;
     border-left: none;
@@ -437,7 +436,6 @@ ul.thumbnail-buttons {
   }
 
   .navbar .navbar-form {
-    // width: 185px;
     padding-left: 0;
     padding-right: 0;
 
@@ -449,11 +447,13 @@ ul.thumbnail-buttons {
   #maincontainer {
     padding: 10px;
   }
+
   .homepage-cards {
     .crop-card {
       width: 50px;
     }
   }
+
   .index-cards {
     .card {
       width: 100%;
