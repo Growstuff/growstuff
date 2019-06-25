@@ -26,4 +26,15 @@ describe "browse crops" do
     visit crops_path
     expect(page).not_to have_content rejected_crop.name
   end
+
+  context "logged in and crop wrangler" do
+    before do
+      login_as FactoryBot.create(:crop_wrangling_member)
+      visit crops_path
+    end
+
+    it "shows a new crop link" do
+      expect(page).to have_link "Add New Crop"
+    end
+  end
 end
