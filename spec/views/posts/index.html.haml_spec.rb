@@ -19,7 +19,7 @@ describe "posts/index" do
 
   it "renders a list of posts" do
     assert_select "div.post", count: 2
-    assert_select "h3", text: "A Post".to_s, count: 2
+    assert_select "h5", text: "A Post".to_s, count: 2
     assert_select "div.post-body", text: "This is some text.".to_s, count: 2
   end
 
