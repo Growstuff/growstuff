@@ -7,9 +7,9 @@
 
 // clear fix
 .photo-grid:after {
+  clear: both;
   content: "";
   display: block;
-  clear: both;
 }
 
 .photo-grid-item {
@@ -26,8 +26,8 @@
 }
 
 .photo-thumbnail {
-  margin-right: 1em;
   margin-bottom: 1em;
+  margin-right: 1em;
   max-width: 150px;
   padding: 0;
   position: relative;
@@ -37,19 +37,19 @@
   }
 
   .text {
-    display: none;
-    color: #000;
-    position: absolute;
-    bottom: 0;
     background: rgba(0, 0, 0, 0.8);
-    width: 100%;
+    bottom: 0;
+    color: #000;
+    display: none;
     margin: 0;
+    position: absolute;
+    width: 100%;
   }
 
   p {
-    padding: 5px;
-    margin: 0;
     color: #fff;
+    margin: 0;
+    padding: 5px;
   }
 
   &:hover {
