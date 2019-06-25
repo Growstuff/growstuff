@@ -37,7 +37,7 @@ describe "crops/index" do
     end
 
     it "shows a new crop link" do
-      rendered.should have_content "New Crop"
+      rendered.should have_content "Add New Crop"
     end
   end
 

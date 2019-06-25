@@ -4,7 +4,7 @@
   - if can? :wrangle, Crop
     = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-secondary'
   - if can? :create, Crop
-    = link_to 'Add new Crop', new_crop_path, class: 'btn btn-primary'
+    = link_to 'Add New Crop', new_crop_path, class: 'btn btn-primary'
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item.active= link_to 'Crops', crops_path
