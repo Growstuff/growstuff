@@ -61,7 +61,7 @@ class PlantingsController < ApplicationController
 
   def edit
     # the following are needed to display the form but aren't used
-    @crop     = Crop.new
+    @crop = Crop.new
     @gardens = @planting.owner.gardens.active.order_by_name
   end
 
