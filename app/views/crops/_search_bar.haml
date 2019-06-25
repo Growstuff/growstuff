@@ -1,6 +1,6 @@
 = form_tag search_crops_path, method: :get, class: 'form-inline', id: 'navbar-search' do
   .input-group
-    %input.form-control{name: 'term', "aria-label" => "Search crops", placeholder: "Search crops", type: "search"}/
+    %input.form-control{name: 'term', "aria-label" => "Search crops", placeholder: "Search crops", type: "search", id: 'term' }/
     %button.btn.btn-default.text-white{type: "submit"}
       = icon 'fas', 'search'
       .sr-only Search
