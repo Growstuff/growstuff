@@ -28,7 +28,7 @@
 
       .row
         .col-md-8
-          = f.collection_radio_buttons(:garden_id, @gardens,
+          = f.collection_radio_buttons(:garden_id, @planting.owner.gardens,
             :id, :name, required: true,
             label: 'Where did you plant it?')
           = link_to "Add a garden.", new_garden_path

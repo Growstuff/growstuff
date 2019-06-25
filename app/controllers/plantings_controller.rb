@@ -47,7 +47,6 @@ class PlantingsController < ApplicationController
       garden:     current_member.gardens.first
     )
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
-    @gardens = @planting.owner.gardens.active.order_by_name
     @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
     if params[:garden_id]
       @planting.garden = Garden.find_by(
