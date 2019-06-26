@@ -454,7 +454,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (2.5.0)
+    scout_apm (2.5.1)
     searchkick (4.0.2)
       activemodel (>= 5)
       elasticsearch (>= 6)
