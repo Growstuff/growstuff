@@ -35,7 +35,8 @@
                   on #{post.created_at}"
                   - if post.updated_at > post.created_at
                     and edited at #{post.updated_at}
-                %p.card-text= display_post_truncated(post)
+                .card-text
+                  .post-body= display_post_truncated(post)
                 - post.crops.each do |crop|
                   %span.badge.badge-pill.badge-primary= link_to crop, crop
 
