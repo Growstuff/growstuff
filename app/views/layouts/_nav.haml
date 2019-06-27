@@ -10,5 +10,5 @@
     = link_to url_for([model, action: :new]), class: 'btn' do
       Add a #{model.model_name.human}
 
-  - unless current_member
-    = render 'shared/signin_signup', to: "add a new #{model.to_s.downcase}"
+- unless current_member
+  = render 'shared/signin_signup', to: "add a new #{model.to_s.downcase}"
