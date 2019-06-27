@@ -27,7 +27,7 @@ describe PostsController do
   describe "GET RSS feed" do
     it "returns an RSS feed" do
       get :index, format: "rss"
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template("posts/index")
       expect(response.content_type).to eq("application/rss+xml")
     end
@@ -37,7 +37,7 @@ describe PostsController do
     it "returns an RSS feed" do
       post = Post.create! valid_attributes
       get :show, format: "rss", params: { id: post.slug }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template("posts/show")
       expect(response.content_type).to eq("application/rss+xml")
     end
