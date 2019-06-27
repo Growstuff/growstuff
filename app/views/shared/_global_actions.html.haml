@@ -1,24 +1,20 @@
 - if signed_in?
-  .global-actions.pull-right
-    .btn-group
-      = link_to member_gardens_path(current_member), class: 'btn btn-xs' do
-        = garden_icon
-        = t('links.my_gardens')
+  .btn-group
+    = link_to member_gardens_path(member_slug: current_member.slug),
+      class: 'btn btn-default', 'data-toggle': "tooltip", 'data-placement': "bottom", title: t('buttons.my_gardens') do
+      = garden_icon
+    = link_to new_planting_path,
+      class: 'btn btn-default', 'data-toggle': "tooltip", 'data-placement': "bottom", title: t('buttons.new_planting') do
+      = planting_icon
 
-    .btn-group
-      = link_to new_planting_path, class: 'btn btn-xs' do
-        = planting_icon
-        = t('plantings.plant')
+    = link_to new_harvest_path,
+      class: 'btn btn-default', 'data-toggle': "tooltip", 'data-placement': "bottom", title: t('buttons.new_harvest') do
+      = harvest_icon
 
-      = link_to new_harvest_path, class: 'btn btn-xs' do
-        = harvest_icon
-        = t('harvests.harvest')
+    = link_to new_seed_path,
+      class: 'btn btn-default', 'data-toggle': "tooltip", 'data-placement': "bottom", title: t('buttons.new_seeds') do
+      = seed_icon
 
-      = link_to new_seed_path, class: 'btn btn-xs' do
-        = seed_icon
-        = t('buttons.save_seeds')
-
-    .btn-group
-      = link_to new_post_path, class: 'btn btn-xs' do
-        = blog_icon
-        = t 'posts.write_blog'
+    = link_to new_post_path,
+      class: 'btn btn-default', 'data-toggle': "tooltip", 'data-placement': "bottom", title: t('buttons.new_post') do
+      = blog_icon

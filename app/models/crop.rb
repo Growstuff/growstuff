@@ -27,7 +27,7 @@ class Crop < ApplicationRecord
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
-  scope :popular, -> { approved.order("plantings_count desc, lower(name) asc") }
+  scope :popular, -> { approved.order(Arel.sql("plantings_count desc, lower(name) asc")) }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
@@ -47,17 +47,15 @@ class Crop < ApplicationRecord
   validate :must_have_meaningful_reason_for_rejection
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
-    format: {
-      with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
-      message: 'is not a valid English Wikipedia URL'
-    },
-    if:     :approved?
+            format: {
+              with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              message: 'is not a valid English Wikipedia URL'
+            },
+            if:     :approved?
 
   ####################################
   # Elastic search configuration
-  if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
-  end
+  searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
 
   def planting_photos
     Photo.joins(:plantings).where("plantings.crop_id": id)
@@ -117,7 +115,7 @@ class Crop < ApplicationRecord
   end
 
   def annual?
-    !perennial
+    perennial == false
   end
 
   def interesting?

@@ -7,7 +7,7 @@ describe AdminController do
     before { get :newsletter }
 
     describe 'fetches the admin newsletter page' do
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template("admin/newsletter") }
     end
 

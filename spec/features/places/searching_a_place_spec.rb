@@ -7,13 +7,15 @@ describe "User searches" do
   let!(:seed1)    { create :seed, owner: member                                                          }
   let!(:planting) { create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-3-10") }
 
-  it "with a valid place" do
-    visit places_path
-    search_with "Philippines"
-    expect(page).to have_content "community near Philippines"
-    expect(page).to have_button "search_button"
-    expect(page).to have_content "Nearby members"
-    expect(page).not_to have_content "No results found"
+  describe "with a valid place" do
+    before do
+      visit places_path
+      search_with "Philippines"
+    end
+    it { expect(page).to have_content "community near Philippines" }
+    it { expect(page).to have_button "search_button" }
+    it { expect(page).to have_content "Nearby members" }
+    it { expect(page).not_to have_content "No results found" }
   end
 
   it "with a blank search string" do

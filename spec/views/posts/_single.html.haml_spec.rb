@@ -49,67 +49,6 @@ describe "posts/_single" do
       @post = FactoryBot.create(:post, author: @member)
       render_post
     end
-
-    it "contains an edit link" do
-      assert_select "a[href='#{edit_post_path(@post)}']", "Edit"
-    end
-  end
-
-  context "when there are no comments" do
-    before do
-      render_post
-    end
-
-    it "renders the number of comments" do
-      assert_select "a[href='#{post_path(@post)}\#comments']", "0 comments"
-    end
-  end
-
-  context "when there is 1 comment" do
-    before do
-      @comment = FactoryBot.create(:comment, post: @post)
-      render_post
-    end
-
-    it "renders the number of comments" do
-      assert_select "a[href='#{post_path(@post)}\#comments']", "1 comment"
-    end
-  end
-
-  context "when there are 2 comments" do
-    before do
-      @comment = FactoryBot.create(:comment, post: @post)
-      @comment2 = FactoryBot.create(:comment, post: @post)
-      render_post
-    end
-
-    it "renders the number of comments" do
-      assert_select "a[href='#{post_path(@post)}\#comments']", "2 comments"
-    end
-  end
-
-  context "when comments should be hidden" do
-    before do
-      @member = FactoryBot.create(:member)
-      sign_in @member
-      controller.stub(:current_user) { @member }
-      @comment = FactoryBot.create(:comment, post: @post)
-      render partial: "single", locals: {
-        post: @post, hide_comments: true
-      }
-    end
-
-    it "renders no value of comments" do
-      rendered.should_not have_content "1 comment"
-    end
-
-    it "does not contain link to post" do
-      assert_select "a[href='#{post_path @post}']", false
-    end
-
-    it "does not contain link to new comment" do
-      assert_select "a[href='#{new_comment_path(post_id: @post.id)}']", false
-    end
   end
 
   context "when post has been edited" do

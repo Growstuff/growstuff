@@ -33,7 +33,7 @@ class Planting < ApplicationRecord
   ##
   ## Scopes
   default_scope { joins(:owner) } # Ensures the owner still exists
-  scope :active, -> { where(finished_at: nil) }
+  scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
   scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
@@ -45,7 +45,7 @@ class Planting < ApplicationRecord
   ##
   ## Delegations
   delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count,
-    to: :crop, prefix: true
+           to: :crop, prefix: true
 
   ##
   ## Validations

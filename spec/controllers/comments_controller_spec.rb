@@ -22,7 +22,7 @@ describe CommentsController do
     describe "returns an RSS feed" do
       before { get :index, format: "rss" }
 
-      it { is_expected.to be_success }
+      it { is_expected.to be_successful }
       it { is_expected.to render_template("comments/index") }
       it { expect(response.content_type).to eq("application/rss+xml") }
       it { expect(assigns(:comments)).to eq([last_comment, first_comment]) }
@@ -48,7 +48,7 @@ describe CommentsController do
 
     it "dies if no post specified" do
       get :new
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
     end
   end
 
@@ -69,7 +69,7 @@ describe CommentsController do
     describe "not my comment" do
       let(:comment) { FactoryBot.create :comment, post: post }
 
-      it { expect(response).not_to be_success }
+      it { expect(response).not_to be_successful }
     end
   end
 
@@ -87,7 +87,7 @@ describe CommentsController do
     describe "not my comment" do
       let(:comment) { FactoryBot.create :comment }
 
-      it { expect(response).not_to be_success }
+      it { expect(response).not_to be_successful }
     end
 
     describe "attempting to change post_id" do
@@ -117,7 +117,7 @@ describe CommentsController do
     describe "not my comment" do
       let(:comment) { FactoryBot.create :comment }
 
-      it { expect(response).not_to be_success }
+      it { expect(response).not_to be_successful }
     end
   end
 end

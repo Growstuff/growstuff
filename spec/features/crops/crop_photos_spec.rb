@@ -30,18 +30,18 @@ describe "crop detail page", js: true do
 
   shared_examples "shows photos" do
     describe "show planting photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo1.thumbnail_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo2.thumbnail_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo1.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo2.fullsize_url}')]") }
     end
 
     describe "show harvest photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo3.thumbnail_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo4.thumbnail_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo3.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo4.fullsize_url}')]") }
     end
 
     describe "show seed photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo5.thumbnail_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo6.thumbnail_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo5.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{photo6.fullsize_url}')]") }
     end
 
     describe "link to more photos" do

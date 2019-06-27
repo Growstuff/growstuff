@@ -41,20 +41,27 @@ class PlantingsController < ApplicationController
   end
 
   def new
-    @planting = Planting.new(planted_at: Time.zone.today)
+    @planting = Planting.new(
+      planted_at: Time.zone.today,
+      owner:      current_member,
+      garden:     current_member.gardens.first
+    )
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
-
-    # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
-    @garden   = Garden.find_by(owner: current_member, id: params[:garden_id]) || Garden.new
+    @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
+    if params[:garden_id]
+      @planting.garden = Garden.find_by(
+        owner: current_member,
+        id:    params[:garden_id]
+      )
+    end
 
     respond_with @planting
   end
 
   def edit
     # the following are needed to display the form but aren't used
-    @crop     = Crop.new
-    @garden   = Garden.new
+    @crop = Crop.new
+    @gardens = @planting.owner.gardens.active.order_by_name
   end
 
   def create

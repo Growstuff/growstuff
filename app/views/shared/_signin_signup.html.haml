@@ -1,6 +1,7 @@
-= link_to 'Sign in', new_member_session_path
-or
-= link_to 'sign up', new_member_registration_path
-to
-= succeed "." do
-  = to
+%p
+  = link_to 'Sign in', new_member_session_path, class: 'btn btn-success'
+  or
+  = link_to 'sign up', new_member_registration_path, class: 'btn btn-info'
+  to
+  = succeed "." do
+    = to

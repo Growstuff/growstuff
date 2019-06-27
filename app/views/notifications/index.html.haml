@@ -1,15 +1,16 @@
 - content_for :title, "Inbox"
 
 - if @notifications.empty?
-  You have no messages.
+  .alert.alert-success{role: "alert"} You have no messages.
 - else
   = paginate @notifications, theme: 'twitter-bootstrap-3'
   %table.table.table-striped
-    %tr
-      %th From
-      %th Subject
-      %th Date
-      %th
+    %thead
+      %tr
+        %th From
+        %th Subject
+        %th Date
+        %th
 
     - @notifications.each do |n|
       - if can? :read, n
@@ -33,5 +34,5 @@
             - else
               %strong= n.created_at
           %td
-            = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
+            = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default background-danger btn-xs'
   = paginate @notifications, theme: 'twitter-bootstrap-3'

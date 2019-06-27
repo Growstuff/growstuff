@@ -48,6 +48,10 @@ class Post < ApplicationRecord
     end
   end
 
+  def to_s
+    subject
+  end
+
   private
 
   def update_crops_posts_association

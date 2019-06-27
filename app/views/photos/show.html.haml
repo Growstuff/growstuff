@@ -7,28 +7,32 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Photos', photos_path
+  %li.breadcrumb-item.active= link_to @photo, @photo
+
 .row
   .col-md-8
-    %p= image_tag(@photo.fullsize_url, alt: @photo.title, class: 'img img-responsive')
-
+    %h1.text-center.ellipsis=@photo.title
+    %p.text-center
+      = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-fluid shadow-sm')
   .col-md-4
-    = render 'photos/actions', photo: @photo
+    %p.text-center
+      = render 'photos/actions', photo: @photo
+      = link_to "View on Flickr", @photo.link_url, class: 'btn'
+    - if @crops.size.positive?
+      %p= render @crops
     %p
-      %strong Posted by:
+      = photo_icon
+      %strong Photo by
       = link_to @photo.owner, @photo.owner
+      Taken on #{@photo.date_taken}
     %p
       %strong License:
       - if @photo.license_url
         = link_to @photo.license_name, @photo.license_url
       - else
-        = succeed "." do
-          = @photo.license_name
+        = @photo.license_name
 
-    %p= link_to "View on Flickr", @photo.link_url
     - if @photo.associations?
-      = render "photo_associations", locals: { photo: @photo }
-
-    - if @crops.size.positive?
-      - @crops.each do |crop|
-        = render 'crops/index_card', crop: crop
-
+      = render "associations", photo: @photo

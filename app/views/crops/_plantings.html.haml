@@ -1,20 +1,17 @@
-%h4 See who's planted #{crop.name.pluralize}
-- if crop.plantings.empty?
-  %p
-    Nobody has planted this crop yet.
-- else
-  %ul
-    - crop.plantings.order(planted_at: :desc).limit(3).each do |planting|
-      %li
-        = link_to planting, planting_path(planting)
-        = render partial: 'members/location', locals: { member: planting.owner }
-        %small
-          = distance_of_time_in_words(planting.created_at, Time.zone.now)
-          ago.
-  %p
-    = link_to "View all #{crop.name} plantings", crop_plantings_path(crop)
-- if crop.approved?
-  - if current_member
-    %p= link_to "Plant #{crop.name}", new_planting_path(crop_id: crop.id)
-  - else
-    = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} plantings" }
+.card
+  .card-body
+    %h3 See who's planted #{crop.name.pluralize}
+  - unless crop.plantings.empty?
+    %ul.list-group.list-group-flush
+      - crop.plantings.order(planted_at: :desc).limit(5).each do |planting|
+        %li.list-group-item
+          = link_to planting, class: 'card-link' do
+            = planting_icon
+            = planting
+          .float-right= render 'members/location', member: planting.owner
+  .card-footer
+    - if crop.approved?
+      - if current_member
+        %p= link_to "Plant #{crop.name}", new_planting_path(crop_id: crop.id), class: 'btn btn-block'
+      - else
+        = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} plantings" }

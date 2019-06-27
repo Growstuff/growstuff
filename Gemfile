@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.0'
+ruby '2.6.3'
 
 gem 'rails', '5.2.2.1'
 
@@ -16,7 +16,13 @@ gem 'sass-rails'
 gem 'jsonapi-resources'
 
 # CSS framework
-gem 'bootstrap-sass'
+gem 'bootstrap',     '4.1.1'
+gem 'material-sass', '4.1.1'
+
+# Icons used by bootstrap/material-sass
+gem 'material_icons'
+
+# icons
 gem 'font-awesome-sass'
 
 gem 'uglifier' # JavaScript compressor
@@ -26,14 +32,12 @@ gem 'oj' # Speeds up json
 # planting and harvest predictions
 # based on median values for the crop
 gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
+gem 'active_record_union'
 
 gem 'flickraw'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'js-routes' # provides access to Rails routes in Javascript
-
-# Boostrap friendly layout for photo galleries
-gem 'isotope-rails'
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
@@ -61,6 +65,7 @@ gem 'bluecloth'
 
 # Pagination
 gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 
 # user signup/login/etc
 gem 'devise'
@@ -76,6 +81,9 @@ gem 'geocoder', '1.4.9' # TODO: Fails on version 1.5.0. Needs investigation
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
+
+# DRY-er easier bootstrap 4 forms
+gem "bootstrap_form", ">= 4.2.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
@@ -103,6 +111,9 @@ gem "paranoia", "~> 2.2"
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
+
+gem 'loofah', '>= 2.2.1'
+gem 'rack-protection', '>= 2.0.1'
 
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
@@ -133,13 +144,12 @@ group :development, :test do
   gem 'haml-i18n-extractor'
   gem 'haml-rails'                      # HTML templating language
   gem 'haml_lint', '>= 0.25.1' # Checks haml files for goodness
-  gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
-  gem 'poltergeist'                     # for headless JS testing
+  gem 'i18n-tasks' # adds tests for finding missing and unused translations
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
-  gem 'rubocop', '~> 0.70'
+  gem 'rubocop', '~> 0.71'
+  gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'selenium-webdriver'
   gem 'webrat' # provides HTML matchers for view tests
 end
 
@@ -147,11 +157,11 @@ group :test do
   gem 'codeclimate-test-reporter', require: false
   gem 'percy-capybara', '~> 4.0.0'
   gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
   gem 'timecop'
+  gem 'webdrivers'
 end
 
 group :travis do
   gem 'platform-api'
 end
-gem 'loofah', '>= 2.2.1'
-gem 'rack-protection', '>= 2.0.1'

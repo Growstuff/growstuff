@@ -18,4 +18,8 @@ class Comment < ApplicationRecord
       )
     end
   end
+
+  def to_s
+    "#{author.login_name} commented on #{post.subject}"
+  end
 end
