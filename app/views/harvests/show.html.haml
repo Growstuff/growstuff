@@ -51,6 +51,5 @@
     .col-md-6
       %p.text-right
         = link_to 'View all photos >>', harvest_photos_path(@harvest), class: 'btn'
-      .row
-        - @harvest.photos.order(date_taken: :desc).limit(3).each do |photo|
-          .col-md-3= render('photos/thumbnail', photo: photo)
+      - @harvest.photos.order(date_taken: :desc).limit(3).each do |photo|
+        .col-md-3= render('photos/card', photo: photo)
