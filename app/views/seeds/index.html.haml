@@ -19,16 +19,16 @@
   - else
     %li.breadcrumb-item.active= link_to 'Seeds', seeds_path
 
-.pagination
-  = page_entries_info @seeds
-  = will_paginate @seeds
 
 - unless @seeds.empty?
+  .pagination
+    = page_entries_info @seeds
+    = will_paginate @seeds
   .index-cards= render @seeds, full: true
 
-.pagination
-  = page_entries_info @seeds
-  = will_paginate @seeds
+  .pagination
+    = page_entries_info @seeds
+    = will_paginate @seeds
 
 %ul.list-inline
   %li The data on this page is available in the following formats:
