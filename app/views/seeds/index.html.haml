@@ -30,13 +30,21 @@
     = page_entries_info @seeds
     = will_paginate @seeds
 
-%ul.list-inline
-  %li The data on this page is available in the following formats:
-  - if @owner
-    %li= link_to "CSV", member_seeds_path(@owner, format: 'csv')
-    %li= link_to "JSON", member_seeds_path(@owner, format: 'json')
-    %li= link_to "RSS", member_seeds_path(@owner, format: 'rss')
-  - else
-    %li= link_to "CSV", seeds_path(format: 'csv')
-    %li= link_to "JSON", seeds_path(format: 'json')
-    %li= link_to "RSS", seeds_path(format: 'rss')
+  %ul.nav.justify-content-center
+    %li.nav-item
+      The data on this page is available in the following formats:
+    - if @owner
+      %li.nav-item
+        = link_to "CSV", member_seeds_path(@owner, format: 'csv'), class: 'nav-link'
+      %li.nav-item
+        = link_to "JSON", member_seeds_path(@owner, format: 'json'), class: 'nav-link'
+      %li.nav-item
+        = link_to "RSS", member_seeds_path(@owner, format: 'rss'), class: 'nav-link'
+    - else
+      %li.nav-item
+        = link_to "CSV", seeds_path(format: 'csv'), class: 'nav-link'
+      %li.nav-item
+        = link_to "JSON", seeds_path(format: 'json'), class: 'nav-link'
+      %li.nav-item
+        = link_to "RSS", seeds_path(format: 'rss'), class: 'nav-link'
+
