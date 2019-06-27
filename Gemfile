@@ -147,7 +147,7 @@ group :development, :test do
   gem 'i18n-tasks' # adds tests for finding missing and unused translations
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
-  gem 'rubocop', '~> 0.70'
+  gem 'rubocop', '~> 0.71'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'webrat' # provides HTML matchers for view tests
