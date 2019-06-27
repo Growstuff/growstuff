@@ -15,12 +15,13 @@
 .row
   - @photos.each do |p|
     .col-md-2.six-across
-      .thumbnail{ style: 'height: 220px' }
-        = link_to image_tag(p.thumbnail_url, alt: p.title, class: 'img'), p
-        %p
-          = link_to p.title, p
-          by
-          = link_to p.owner, p.owner
+      = render 'photos/card', photo: p
+      -# .thumbnail{ style: 'height: 220px' }
+      -#   = link_to image_tag(p.thumbnail_url, alt: p.title, class: 'img'), p
+      -#   %p
+      -#     = link_to p.title, p
+      -#     by
+      -#     = link_to p.owner, p.owner
 
 .pagination
   = page_entries_info @photos
