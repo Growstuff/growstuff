@@ -247,7 +247,7 @@ GEM
       railties (>= 4)
       sprockets-rails
     json (2.1.0)
-    jsonapi-resources (0.9.8)
+    jsonapi-resources (0.9.9)
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
