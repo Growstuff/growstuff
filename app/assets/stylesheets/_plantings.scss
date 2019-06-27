@@ -63,30 +63,34 @@
   }
 }
 
+
+
 .planting-facts {
   display: flex;
   flex-wrap: wrap;
   flex: none;
-  margin: 0.5em;
 
-  .fact {
+  .planting-fact-card {
+    background: $white;
     background: $white;
     border-radius: 5%;
     border: 1px solid lighten($green, 20%);
-    height: 160px;
-    left: -0.5em;
-    margin: 0.5em;
+    margin: 1em;
     padding: 1em;
     text-align: center;
-    width: 160px;
+    width: 120px;
 
     strong {
       font-align: center;
-      font-size: 3em;
+      font-size: 4em;
+    }
+
+    span {
+      display: block;
     }
 
     h3 {
-      padding-top: 1em;
+      // padding-top: 1em;
     }
 
     span {
