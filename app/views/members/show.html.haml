@@ -122,4 +122,8 @@
 
               - else
                 = link_to event.event_type, event
-            %small #{time_ago_in_words(event.event_at)} ago
+            %small
+            - if event.event_at.present?
+              #{time_ago_in_words(event.event_at)} ago
+            - else
+              unknown date
