@@ -102,8 +102,23 @@ describe "member profile", js: true do
     end
   end
 
+  shared_examples 'member activity' do
+    context 'member has plantings' do
+      let!(:new_planting) { FactoryBot.create :planting, owner: member, planted_at: Time.zone.now }
+      let!(:old_planting) { FactoryBot.create :planting, owner: member, planted_at: 3.years.ago }
+      let!(:finished_planting) { FactoryBot.create :finished_planting, owner: member }
+      let!(:no_planted_at_planting) { FactoryBot.create :planting, owner: member, planted_at: nil }
+      before { visit member_path(member) }
+      it { expect(page).to have_link href: planting_path(new_planting) }
+      it { expect(page).to have_link href: planting_path(old_planting) }
+      it { expect(page).to have_link href: planting_path(finished_planting) }
+      it { expect(page).to have_link href: planting_path(no_planted_at_planting) }
+    end
+  end
+
   context "not signed in" do
     include_examples 'member details'
+    include_examples 'member activity'
 
     it "no bio" do
       member.update! bio: nil
