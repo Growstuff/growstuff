@@ -134,6 +134,14 @@ describe "member profile", js: true do
       it { expect(page).to have_link href: post_path(post) }
     end
 
+    context 'member has comments' do
+      let(:post) { FactoryBot.create :post }
+      let!(:comment) { FactoryBot.create :comment, post: post, author: member }
+      before { visit member_path(member) }
+      it { expect(page).to have_link href: post_path(post) }
+      it { expect(page).to have_link href: comment_path(comment) }
+    end
+
     context 'photos' do
       let(:planting) { FactoryBot.create :planting, owner: member }
       let!(:photo) { FactoryBot.create :photo, owner: member, plantings: [planting] }
