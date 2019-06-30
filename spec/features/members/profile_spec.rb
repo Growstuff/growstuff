@@ -113,7 +113,33 @@ describe "member profile", js: true do
       it { expect(page).to have_link href: planting_path(old_planting) }
       it { expect(page).to have_link href: planting_path(finished_planting) }
       it { expect(page).to have_link href: planting_path(no_planted_at_planting) }
-      it { expect(page).to have_text 'unknown date'}
+      it { expect(page).to have_text 'unknown date' }
+    end
+
+    context 'member has seeds' do
+      let!(:seed) { FactoryBot.create :seed, owner: member }
+      before { visit member_path(member) }
+      it { expect(page).to have_link href: seed_path(seed) }
+    end
+
+    context 'member has harvests' do
+      let!(:harvest) { FactoryBot.create :harvest, owner: member }
+      before { visit member_path(member) }
+      it { expect(page).to have_link href: harvest_path(harvest) }
+    end
+
+    context 'member has posts' do
+      let!(:post) { FactoryBot.create :post, author: member }
+      before { visit member_path(member) }
+      it { expect(page).to have_link href: post_path(post) }
+    end
+
+    context 'photos' do
+      let(:planting) { FactoryBot.create :planting, owner: member }
+      let!(:photo) { FactoryBot.create :photo, owner: member, plantings: [planting] }
+      before { visit member_path(member) }
+      it { expect(page).to have_link href: photo_path(photo) }
+      it { expect(page).to have_link href: planting_path(planting) }
     end
   end
 
