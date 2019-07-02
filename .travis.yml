@@ -14,9 +14,9 @@ addons:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true PERCY_CHECKS=true
+    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true
     - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
-    - STATIC_CHECKS=true
+    - STATIC_CHECKS=true PERCY_CHECKS=true
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
     - GROWSTUFF_EMAIL="noreply@test.growstuff.org"
