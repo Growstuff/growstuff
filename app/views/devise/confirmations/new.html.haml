@@ -5,8 +5,7 @@
     = form_for(resource, as: resource_name,
         url: confirmation_path(resource_name),
         html: { method: :post, class: 'form-horizontal', role: 'form' }) do |f|
-      = devise_error_messages!
-
+      = render 'devise/shared/error_messages', resource: resource
       %p Enter either your login name or your email address to resend the confirmation email.
 
       = f.text_field :login, class: 'form-control', placeholder: 'email or login name'
