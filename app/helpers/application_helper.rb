@@ -60,7 +60,7 @@ module ApplicationHelper
   # Returns a string with the quantity and the right pluralization for a
   # given collection and model.
   def localize_plural(collection, model)
-    pluralize(collection.size, model.model_name.downcase.to_s)
+    pluralize(collection.size, model.model_name.to_s.downcase)
   end
 
   def show_inactive_tickbox_path(type, owner, show_all)
