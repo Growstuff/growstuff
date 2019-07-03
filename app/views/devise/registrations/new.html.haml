@@ -6,7 +6,7 @@
 
     = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name),
         html: { class: "text-center border border-light p-5" }) do |f|
-      = devise_error_messages!
+      = render 'devise/shared/error_messages', resource: resource
 
       = f.text_field :login_name
       %span This is the name that will show on the website.

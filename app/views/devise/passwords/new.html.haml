@@ -6,7 +6,7 @@
         url: password_path(resource_name),
         html: { method: :post,
         class: 'text-center border border-light p-5', role: 'form' }) do |f|
-      = devise_error_messages!
+      = render 'devise/shared/error_messages', resource: resource
 
       = f.text_field :login, class: "form-control mb-4", placeholder: "E-mail", type: "email"
       = f.submit "Send me reset password instructions", class: 'btn btn-block my-4 btn-primary'
