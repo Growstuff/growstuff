@@ -68,10 +68,10 @@ GEM
     bonsai-elasticsearch-rails (7.0.1)
       elasticsearch-model (< 8)
       elasticsearch-rails (< 8)
-    bootstrap (4.1.1)
-      autoprefixer-rails (>= 6.0.3)
-      popper_js (>= 1.12.9, < 2)
-      sass (>= 3.5.2)
+    bootstrap (4.3.1)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     bootstrap-datepicker-rails (1.8.0.1)
       railties (>= 3.0)
     bootstrap-kaminari-views (0.0.5)
@@ -574,7 +574,7 @@ DEPENDENCIES
   better_errors
   bluecloth
   bonsai-elasticsearch-rails
-  bootstrap (= 4.1.1)
+  bootstrap (= 4.3.1)
   bootstrap-datepicker-rails
   bootstrap-kaminari-views
   bootstrap_form (>= 4.2.0)

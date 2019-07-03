@@ -16,7 +16,7 @@ gem 'sass-rails'
 gem 'jsonapi-resources'
 
 # CSS framework
-gem 'bootstrap',     '4.1.1'
+gem 'bootstrap',     '4.3.1'
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
