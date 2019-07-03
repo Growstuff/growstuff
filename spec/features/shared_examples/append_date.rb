@@ -6,6 +6,7 @@ shared_examples "append date" do
 
   describe "Selecting a date with datepicker" do
     before do
+      click_link 'Actions'
       click_link link_text
       within "div.datepicker" do
         expect(page).to have_content this_month.to_s
@@ -18,6 +19,7 @@ shared_examples "append date" do
 
   describe "Confirming without selecting date" do
     before do
+      click_link 'Actions'
       click_link link_text
       click_link "Confirm without date"
     end

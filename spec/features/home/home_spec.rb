@@ -36,19 +36,19 @@ describe "home page" do
       expect(subject).not_to have_link href: seed_path(untradable_seed)
     end
 
-    it { is_expected.to have_text 'View all seeds' }
+    it { is_expected.to have_link 'View all seeds »' }
   end
 
   shared_examples 'show plantings' do
-    it 'shows plantings section' do
-      expect(subject).to have_text 'Recently Planted'
-      expect(subject).to have_link href: planting_path(planting)
+    describe 'shows plantings section' do
+      it { expect(subject).to have_text 'Recently Planted' }
+      it { expect(subject).to have_link href: planting_path(planting) }
     end
   end
   shared_examples 'show harvests' do
-    it 'shows harvests section' do
-      expect(subject).to have_text 'Recently Harvested'
-      expect(subject).to have_link href: harvest_path(harvest)
+    describe 'shows harvests section' do
+      it { expect(subject).to have_text 'Recently Harvested' }
+      it { expect(subject).to have_link href: harvest_path(harvest) }
     end
   end
 

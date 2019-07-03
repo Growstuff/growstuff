@@ -9,14 +9,16 @@ class Photo < ApplicationRecord
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
     has_many type.downcase.pluralize.to_s.to_sym,
-      through:     :photographings,
-      source:      :photographable,
-      source_type: type
+             through:     :photographings,
+             source:      :photographable,
+             source_type: type
   end
 
   default_scope { joins(:owner) } # Ensures the owner still exists
   scope :by_crop, ->(crop) { joins(:photographings).where(photographings: { crop: crop }) }
-  scope :by_model, ->(model_name) { joins(:photographings).where(photographings: { photographable_type: model_name.to_s }) }
+  scope :by_model, lambda { |model_name|
+    joins(:photographings).where(photographings: { photographable_type: model_name.to_s })
+  }
 
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.

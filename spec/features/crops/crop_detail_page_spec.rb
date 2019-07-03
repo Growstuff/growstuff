@@ -16,10 +16,7 @@ describe "crop detail page", js: true do
   context "varieties" do
     it "The crop DOES NOT have varieties" do
       visit crop_path(crop)
-
-      within ".varieties" do
-        expect(page).not_to have_text 'tomato'
-      end
+      expect(page).not_to have_text 'Varieties'
     end
   end
 
@@ -70,12 +67,12 @@ describe "crop detail page", js: true do
 
       it "has a link to OpenFarm" do
         expect(page).to have_link "OpenFarm - Growing guide",
-          href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
+                                  href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
       end
 
       it "has a link to gardenate" do
         expect(page).to have_link "Gardenate - Planting reminders",
-          href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
+                                  href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
       end
     end
   end
@@ -148,7 +145,7 @@ describe "crop detail page", js: true do
 
       it "describes annual crops" do
         expect(subject).to have_text(
-          "#{crop.name} is an annual crop (living and reproducing in a single year or less)"
+          "#{crop.name.capitalize} is an annual crop (living and reproducing in a single year or less)"
         )
       end
     end
@@ -164,7 +161,7 @@ describe "crop detail page", js: true do
       end
 
       it "describes perennial crops" do
-        expect(subject).to have_text("#{crop.name} is a perennial crop (living more than two years)")
+        expect(subject).to have_text("#{crop.name.capitalize} is a perennial crop (living more than two years)")
       end
     end
 

@@ -1,21 +1,20 @@
 = content_for :title, t(".title", site_name: ENV['GROWSTUFF_SITE_NAME'])
 
-= form_tag(members_path, method: :get, class: 'form-inline', role: 'form') do
-  .form-group
-    = label_tag :sort, "Sort by:", class: 'sr-only'
-    = select_tag "sort",
-                  options_for_select({ "Sort alphabetically": 'alpha', "Sort by recently joined": "recently_joined" },
+%h1
+  = member_icon
+  = t(".title", site_name: ENV['GROWSTUFF_SITE_NAME'])
+= bootstrap_form_tag(url: members_path, method: :get, layout: :inline) do |f|
+  = f.select "sort",
+        options_for_select({ "alphabetically": 'alpha', "recently joined": "recently_joined" },
                                       @sort || 'alpha'),
-                  class: 'form-control'
-  = submit_tag "Show", class: 'btn btn-primary'
+        label: 'Sort by'
+  = f.submit "Show"
 
 .pagination
   = page_entries_info @members
   = will_paginate @members
 
-.member-cards
-  - @members.each do |m|
-    = render partial: "members/thumbnail", locals: { member: m }
+.index-cards= render @members
 
 .pagination
   = page_entries_info @members

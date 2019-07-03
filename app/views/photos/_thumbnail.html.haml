@@ -1,7 +1,7 @@
 .thumbnail
   .photo-thumbnail
-    = link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-responsive'), photo
-    .text
+    = link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-responsive rounded'), photo
+    .text.ellipsis
       %p
         = link_to photo.title, photo
         %br/
@@ -9,5 +9,4 @@
           %i
             by
             = link_to photo.owner, photo.owner
-  - if photo.date_taken.present?
-    %small= I18n.l(photo.date_taken.to_date)
+

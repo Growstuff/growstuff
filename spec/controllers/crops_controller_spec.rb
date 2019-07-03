@@ -12,14 +12,14 @@ describe CropsController do
       context 'anonymous' do
         before { get :wrangle }
 
-        it { is_expected.not_to be_success }
+        it { is_expected.not_to be_successful }
       end
 
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :wrangle }
 
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template("crops/wrangle") }
         it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
       end
@@ -32,7 +32,7 @@ describe CropsController do
         include_context 'login as wrangler'
         before { get :hierarchy }
 
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template("crops/hierarchy") }
       end
     end
@@ -41,12 +41,12 @@ describe CropsController do
   describe "GET crop search" do
     describe 'fetches the crop search page' do
       let!(:tomato) { FactoryBot.create :tomato }
-      let!(:maize) { FactoryBot.create :maize }
+      let!(:maize)  { FactoryBot.create :maize }
       before { Crop.reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true" }
       describe 'search form page' do
         before { get :search }
 
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template("crops/search") }
       end
 
@@ -62,7 +62,7 @@ describe CropsController do
     describe "returns an RSS feed" do
       before { get :index, format: "rss" }
 
-      it { is_expected.to be_success }
+      it { is_expected.to be_successful }
       it { is_expected.to render_template("crops/index") }
       it { expect(response.content_type).to eq("application/rss+xml") }
     end

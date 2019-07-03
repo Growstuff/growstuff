@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   # GET /posts.rss
   def index
-    @author = Member.find_by(slug: params[:author])
+    @author = Member.find_by(slug: params[:member_slug])
     @posts = posts
     respond_with(@posts)
   end

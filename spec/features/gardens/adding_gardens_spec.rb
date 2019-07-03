@@ -14,10 +14,10 @@ describe "Gardens", :js do
   end
 
   it "displays required and optional fields properly" do
-    expect(page).to have_selector ".form-group.required", text: "Name"
-    expect(page).to have_optional 'textarea#garden_description'
-    expect(page).to have_optional 'input#garden_location'
-    expect(page).to have_optional 'input#garden_area'
+    expect(page).to have_selector ".required", text: "Name"
+    expect(page).to have_selector 'textarea#garden_description'
+    expect(page).to have_selector 'input#garden_location'
+    expect(page).to have_selector 'input#garden_area'
   end
 
   it "Create new garden" do

@@ -8,12 +8,13 @@ describe "seeds", js: true do
 
     before { login_as member }
 
-    describe "button on index to edit seed" do
+    xit "button on index to edit seed" do
       let!(:seed) { create :seed, owner: member }
 
       before do
         visit seeds_path
-        click_link "edit_seed_glyphicon"
+        click_link 'Actions'
+        click_link "Edit"
       end
 
       it { expect(current_path).to eq edit_seed_path(seed) }
@@ -23,7 +24,7 @@ describe "seeds", js: true do
     describe "button on front page to add seeds" do
       before do
         visit root_path
-        click_link "Save seeds"
+        click_link(href: new_seed_path)
       end
 
       it { expect(current_path).to eq new_seed_path }
@@ -44,9 +45,10 @@ describe "seeds", js: true do
     it "edit seeds" do
       seed = create :seed, owner: member
       visit seed_path(seed)
+      click_link 'Actions'
       click_link 'Edit'
       expect(current_path).to eq edit_seed_path(seed)
-      fill_in 'Quantity:', with: seed.quantity * 2
+      fill_in 'Quantity', with: seed.quantity * 2
       click_button 'Save'
       expect(current_path).to eq seed_path(seed)
     end
@@ -56,7 +58,10 @@ describe "seeds", js: true do
 
       before do
         visit seed_path(seed)
-        click_link 'Delete'
+        click_link 'Actions'
+        accept_confirm do
+          click_link 'Delete'
+        end
       end
 
       it { expect(current_path).to eq seeds_path }

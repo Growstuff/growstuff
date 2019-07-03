@@ -1,11 +1,7 @@
 module FeatureHelpers
   def fill_autocomplete(field, options = {})
     Crop.reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-
     fill_in field, with: options[:with]
-
-    page.execute_script " $('##{field}').trigger('focus'); "
-    page.execute_script " $('##{field}').trigger('keydown'); "
   end
 
   def select_from_autocomplete(select)

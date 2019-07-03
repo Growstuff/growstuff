@@ -1,5 +1,12 @@
 - content_for :title, 'Admin'
 
+- content_for :breadcrumbs do
+  %nav{"aria-label" => "breadcrumb"}
+    %ol.breadcrumb
+      %li.breadcrumb-item
+        = link_to 'Home', root_path
+      %li.breadcrumb-item.active= link_to 'Admin', admin_path
+
 %h2 Manage
 
 .row

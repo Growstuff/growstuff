@@ -1,4 +1,5 @@
 inherit_from: .rubocop_todo.yml
+require: rubocop-rails
 AllCops:
   Exclude:
     - 'db/schema.rb'
@@ -56,17 +57,23 @@ Metrics/BlockLength:
     - 'config/**/*.rb'
 
 Metrics/LineLength:
-  Max: 120
+  Max: 140
 
 # Remove the following once the code style matches
 Metrics/MethodLength:
   Max: 34
 Metrics/AbcSize:
-  Max: 30
+  Max: 33
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
   Max: 171
 Metrics/CyclomaticComplexity:
-  Max: 7
-Metrics/PerceivedComplexity:
   Max: 8
+Metrics/PerceivedComplexity:
+  Max: 9
+
+# Places we use update_all, etc even though it skips validations.
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/20190317023129_finished_boolean.rb'
+    - 'db/seeds.rb'

@@ -1,20 +1,22 @@
-%h4 #{crop.name.capitalize} harvests
-- if crop.harvests.empty?
-  %p
-    Nobody has harvested this crop yet.
-- else
-  %ul
-    - crop.harvests.order(harvested_at: :desc).limit(3).each do |harvest|
-      %li
-        = link_to "#{harvest.owner} harvested #{display_quantity(harvest)}.", harvest_path(harvest)
-        = render 'members/location', member: harvest.owner
-        %small
-          = distance_of_time_in_words(harvest.harvested_at, Time.zone.now)
-          ago.
-  %p
-    = link_to "View all #{crop.name} harvests", crop_harvests_path(crop)
-- if crop.approved?
-  - if current_member
-    %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id)
-  - else
-    = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} harvests" }
+.card
+  .card-body
+    %h3 #{crop.name.capitalize} harvests
+    - if crop.harvests.empty?
+      %p Nobody has harvested this crop yet.
+  - unless crop.harvests.empty?
+    %ul.list-group.list-group-flush
+      - crop.harvests.order(harvested_at: :desc).limit(3).each do |harvest|
+        %li.list-group-item
+          = link_to harvest_path(harvest), class: 'card-link' do
+            = harvest_icon
+            #{harvest.owner} harvested #{display_quantity(harvest)}.
+          .float-right= render 'members/location', member: harvest.owner
+          .harvest-timeago
+            %small #{distance_of_time_in_words(harvest.harvested_at, Time.zone.now)} ago.
+  .card-footer
+    %p= link_to "View all #{crop.name} harvests", crop_harvests_path(crop), class: 'card-link'
+    - if crop.approved?
+      - if current_member
+        %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id), class: 'btn btn-block'
+      - else
+        = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} harvests" }

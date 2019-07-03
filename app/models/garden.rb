@@ -19,7 +19,7 @@ class Garden < ApplicationRecord
   default_scope { joins(:owner) } # Ensures owner exists
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
-  scope :order_by_name, -> { order("lower(name) asc") }
+  scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }
 
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
@@ -34,12 +34,13 @@ class Garden < ApplicationRecord
     presence: true,
     length: { maximum: 255 }
 
+
   validates :area,
-    numericality: {
-      only_integer:             false,
-      greater_than_or_equal_to: 0
-    },
-    allow_nil:    true
+            numericality: {
+              only_integer:             false,
+              greater_than_or_equal_to: 0
+            },
+            allow_nil:    true
 
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",

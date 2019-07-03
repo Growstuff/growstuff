@@ -7,15 +7,16 @@ describe "Notifications", :js do
   context "On existing notification" do
     let!(:notification) do
       create :notification,
-        sender:    sender,
-        recipient: recipient,
-        body:      "Notification body",
-        post_id:   nil
+             sender:    sender,
+             recipient: recipient,
+             body:      "Notification body",
+             post_id:   nil
     end
 
     before do
       login_as recipient
       visit notification_path(notification)
+      Percy.snapshot(page, name: "notifications#show")
     end
 
     it "Replying to the notification" do
@@ -23,6 +24,7 @@ describe "Notifications", :js do
       expect(page).to have_content "Notification body"
 
       fill_in 'notification_body', with: "Response body"
+      Percy.snapshot(page, name: "notifications#new")
       click_button "Send"
 
       expect(page).to have_content "Message was successfully sent"
@@ -34,6 +36,7 @@ describe "Notifications", :js do
       FactoryBot.create_list :notification, 34, recipient: recipient
       login_as recipient
       visit notifications_path
+      Percy.snapshot(page, name: "notifications#index")
     end
 
     it 'has page navigation' do

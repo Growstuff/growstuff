@@ -11,12 +11,11 @@ describe 'home/_members.html.haml', type: "view" do
   end
 
   it 'Has a heading' do
-    rendered.should have_content "Some of our members"
+    expect(rendered).to have_content "Some of our members"
   end
 
-  it 'Shows members' do
-    rendered.should have_content @member.login_name
-    rendered.should have_content @member.location
-    rendered.should have_content @planting.crop_name
+  describe 'Shows members' do
+    it { expect(rendered).to have_content @member.login_name }
+    it { expect(rendered).to have_content @member.location }
   end
 end

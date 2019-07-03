@@ -1,6 +1,17 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
+
+%h1
+  = @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
+
 = render 'layouts/nav', model: Garden
+
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'Gardens', gardens_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s gardens", member_gardens_path(@owner)
+  - else
+    %li.breadcrumb-item.active= link_to 'Gardens', gardens_path
 
 = link_to gardens_active_tickbox_path(@owner, @show_all) do
   = check_box_tag 'active', 'all', @show_all
@@ -15,7 +26,22 @@
   %p There are no gardens to display.
 - else
   - @gardens.each do |garden|
-    = render 'overview', garden: garden
+    %section.border-top
+      .row
+        .col-md-2.border-right
+          %h2
+            %strong= link_to garden, garden
+            = render 'gardens/actions', garden: garden
+          %p
+            = pluralize(garden.plantings.active.size, "planting")
+        .col-md-10
+          .row
+            - if garden.plantings.empty?
+              = garden_plant_something_button(garden, classes: 'btn btn-success')
+            - else
+              - garden.plantings.active.each do |planting|
+                .col-6.col-md-4.col-lg-3= render 'plantings/card', planting: planting
+
 
 .pagination
   = page_entries_info @gardens

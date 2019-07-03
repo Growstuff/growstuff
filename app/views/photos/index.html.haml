@@ -1,4 +1,4 @@
-- content_for :title do
+%h1
   - if @crop
     Photos of #{@crop.name}
   - elsif @planting.present?
@@ -6,6 +6,8 @@
   - else
     Most recent photos added to #{ENV['GROWSTUFF_SITE_NAME']}.
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Photos', photos_path
 .pagination
   = page_entries_info @photos
   = will_paginate @photos
@@ -13,12 +15,13 @@
 .row
   - @photos.each do |p|
     .col-md-2.six-across
-      .thumbnail{ style: 'height: 220px' }
-        = link_to image_tag(p.thumbnail_url, alt: p.title, class: 'img'), p
-        %p
-          = link_to p.title, p
-          by
-          = link_to p.owner, p.owner
+      = render 'photos/card', photo: p
+      -# .thumbnail{ style: 'height: 220px' }
+      -#   = link_to image_tag(p.thumbnail_url, alt: p.title, class: 'img'), p
+      -#   %p
+      -#     = link_to p.title, p
+      -#     by
+      -#     = link_to p.owner, p.owner
 
 .pagination
   = page_entries_info @photos

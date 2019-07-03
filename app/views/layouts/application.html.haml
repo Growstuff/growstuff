@@ -1,33 +1,33 @@
 !!! 5
 %html{ lang: "en", prefix: "og: http://ogp.me/ns#" }
   = yield :scripts
-  = render partial: "layouts/meta"
+  = render "layouts/meta"
   %body
-    = render partial: "layouts/header"
-
-    #maincontainer
-      .row= render 'shared/global_actions'
+    .sr-only= link_to t(".skip"), "#skipnav"
+    = render "layouts/header"
+    -# anchor tag for accessibility link to skip the navigation menu
+    %a{ name: 'skipnav' }
+    #maincontainer.container
       .row
-        .col-md-6
-          - if content_for?(:title)
-            %h1#title
-              = yield(:title)
-              - if content_for?(:subtitle)
-                %small= yield(:subtitle)
+        .col-12
+          .float-right= render 'shared/global_actions'
+          - if content_for?(:breadcrumbs)
+            .float-left
+              %nav{"aria-label" => "breadcrumb"}
+                %ol.breadcrumb
+                  %li.breadcrumb-item= link_to 'Home', root_path
+                  = yield(:breadcrumbs)
 
           - if content_for?(:buttonbar)
-            .btn-group.layout-actions
-              = yield(:buttonbar)
+            .layout-actions.float-right= yield(:buttonbar)
 
-        .col-md-6
+      - if content_for?(:subtitle)
+        %small= yield(:subtitle)
 
-      .row
-        .col-md-12
-          = render partial: "shared/flash_messages", flash: flash
-          = yield
+      = render "shared/flash_messages", flash: flash
+      = yield
 
-    %footer
-      = render "layouts/footer"
+    %footer.page-footer.font-small.bg-dark.pt-4= render "layouts/footer"
     /
       Javascripts
       \==================================================

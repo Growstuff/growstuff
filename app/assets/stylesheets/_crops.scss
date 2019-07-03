@@ -1,0 +1,21 @@
+.planting {
+  .crop-card {
+    height: 100%;
+    margin: .1em;
+    min-height: 300px;
+    width: 100px;
+  }
+
+  .img-thumbnail {
+    width: 100%;
+  }
+}
+
+.crop-photos {
+  margin-left: 3em;
+}
+
+.crops-search-form {
+  background-color: $white;
+  padding: 1em;
+}

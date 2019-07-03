@@ -1,18 +1,10 @@
-- cache cache_key_for(Crop, crop.id) do
-  .thumbnail
-    .crop-thumbnail
-      - if crop
-        = link_to image_tag(crop_image_path(crop),
-                            alt: crop.name, class: 'img'),
-                            crop
-        .cropinfo
-          .cropname
-            = link_to crop.name, crop
-          - unless crop.scientific_names.empty?
-            .scientificname
-              = crop.scientific_names.first.name
-          - if crop.annual? && crop.median_lifespan.present?
-            .planting-lifespan
-              lifespan
-              %strong= crop.median_lifespan
-              days
+.card.card-crop
+  .crop-image
+    = link_to image_tag(crop_image_path(crop, full_size: true),
+                          alt: crop.name,
+                          class: 'img img-card'),
+                          crop
+
+  .card-body
+    %h3.text-center.crop-name= link_to crop, crop
+    %p.small.crop-sci-name.text-center= crop.default_scientific_name

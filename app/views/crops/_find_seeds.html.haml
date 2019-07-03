@@ -1,22 +1,36 @@
-%h4 Find #{crop.name} seeds
-- if crop.seeds.empty?
-  %p
-    There are no seeds available to trade on Growstuff right now.
-- else
-  %ul
-    - crop.seeds.tradable.each do |seed|
-      %li
-        = link_to "#{seed.owner} will trade #{seed.tradable_to}.", seed_path(seed)
-        = render partial: 'members/location', locals: { member: seed.owner }
-  %p
-    = link_to "View all #{crop.name} seeds", crop_seeds_path(crop)
-%p
-  = link_to "Purchase seeds via Ebay",
-             crop_ebay_seeds_url(crop),
-             target: "_blank",
-             rel: "noopener noreferrer"
-- if crop.approved?
-  - if current_member
-    %p= link_to "List #{crop.name} seeds to trade", new_seed_path(crop_id: crop.id)
+.card
+  .card-header
+    %h5.card-title Find #{crop.name} seeds
+  - if crop.seeds.empty?
+    .card-body
+      %p There are no seeds available to trade on Growstuff right now.
   - else
-    = render partial: 'shared/signin_signup', locals: { to: 'list your seeds to trade' }
+    %ul.list-group
+      - crop.seeds.tradable.each do |seed|
+        %li.list-group-item
+          = link_to "#{seed.owner} will trade #{seed.tradable_to}.", seed_path(seed), class: 'card-link'
+          = render 'members/location', member: seed.owner
+      %li.list-group-item.d-flex.justify-content-between.align-items-center
+        = link_to crop_seeds_path(crop), class: 'card-link' do
+          = seed_icon
+          View all #{crop.name} seeds
+        %span.badge.badge-primary.badge-pill=crop.seeds.size
+
+  %ul.list-group
+    %li.list-group-item
+      = link_to crop_ebay_seeds_url(crop), class: 'card-link',
+               target: "_blank",
+               rel: "noopener noreferrer" do
+        = icon 'fas', 'money-check-alt'
+        Purchase seeds via Ebay
+
+    - if crop.approved?
+      - if current_member
+        %li.list-group-item
+          = link_to new_seed_path(crop_id: crop.id), class: 'card-link' do
+            = seed_icon
+            List #{crop.name} seeds to trade
+      - else
+        %li.list-group-item.active
+          = icon 'fas', 'user'
+          = render partial: 'shared/signin_signup', locals: { to: 'list your seeds to trade' }
