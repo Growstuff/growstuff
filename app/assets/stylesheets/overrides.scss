@@ -76,7 +76,7 @@ h3 {
   flex-wrap: wrap;
 
   .card {
-    margin: 1em;
+    margin: 1em 1em 1em 0;
     width: 200px;
   }
 }
@@ -283,7 +283,7 @@ body {
 // Autosuggest
 .ui-autocomplete {
   background: $white;
-  z-index: $zindex-tooltip
+  z-index: $highest-level;
 }
 
 .alert {
