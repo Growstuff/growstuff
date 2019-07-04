@@ -43,23 +43,6 @@ $dark: (
   light: lighten($brown, 20%)
 );
 
-
-// $font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
-// $font-family-serif: Georgia, "Times New Roman", Times, serif;
-// $font-family-mono: Monaco, Menlo, Consolas, "Courier New", monospace;
-
-// $font-size-base: 14px;
-// $font-family-base: $font-family-sans-serif;
-// $line-height-base: 1.5;
-// $alt-font-family: $font-family-serif;
-
-// $headings-font-family: $font-family-sans-serif;
-// $headings-font-weight: bold;
-// $headings-color: inherit;
-
-// // Hero unit
-// $jumbotron-bg: darken($body-bg, 10%);
-
 // Nav bar
 $navbar-default-bg: $brown;
 $navbar-default-bg-highlight: $brown;
@@ -68,11 +51,5 @@ $navbar-default-link-color: darken($beige, 20%);
 $navbar-default-link-hover-color: $beige;
 $navbar-default-link-active-color: darken($beige, 80%);
 $navbar-default-brand-color: lighten($green, 20%);
-
-// // Top nav collapse threshold
-
-// $dropdown-link-color: $brown;
-// $dropdown-link-hover-color: $brown;
-// $dropdown-link-hover-bg: lighten($green, 50%);
 
 $highest-level:  1070;
