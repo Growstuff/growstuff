@@ -29,8 +29,8 @@
         %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
   .col-md-6
     %section.seeds.mx-auto
-      = render 'seeds', max: 6
+      = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
   .col-md-6
-    %section.members.mx-auto= render 'members', max: 6
-  %section.discussion.mx-auto= render 'discuss', max: 3
+    %section.members.mx-auto= render 'members'
+  %section.discussion.mx-auto= render 'discuss'
