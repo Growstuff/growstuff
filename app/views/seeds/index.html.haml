@@ -1,4 +1,7 @@
 - content_for :title, title('seeds', @owner, @crop, @planting)
+%h1
+  = seed_icon
+  = title('seeds', @owner, @crop, @planting)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
@@ -9,27 +12,39 @@
 
 = render 'layouts/nav', model: Seed
 
-.pagination
-  = page_entries_info @seeds
-  = will_paginate @seeds
-
-.card-row
-  - unless @seeds.empty?
-    - @seeds.each do |seed|
-      .seedcard
-        = render 'seeds/card', seed: seed
-
-.pagination
-  = page_entries_info @seeds
-  = will_paginate @seeds
-
-%ul.list-inline
-  %li The data on this page is available in the following formats:
+- content_for :breadcrumbs do
   - if @owner
-    %li= link_to "CSV", member_seeds_path(@owner, format: 'csv')
-    %li= link_to "JSON", member_seeds_path(@owner, format: 'json')
-    %li= link_to "RSS", member_seeds_path(@owner, format: 'rss')
+    %li.breadcrumb-item= link_to 'Seeds', seeds_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s seeds", seeds_path(owner: @owner)
   - else
-    %li= link_to "CSV", seeds_path(format: 'csv')
-    %li= link_to "JSON", seeds_path(format: 'json')
-    %li= link_to "RSS", seeds_path(format: 'rss')
+    %li.breadcrumb-item.active= link_to 'Seeds', seeds_path
+
+
+- unless @seeds.empty?
+  .pagination
+    = page_entries_info @seeds
+    = will_paginate @seeds
+  .index-cards= render @seeds, full: true
+
+  .pagination
+    = page_entries_info @seeds
+    = will_paginate @seeds
+
+  %ul.nav.justify-content-center
+    %li.nav-item
+      The data on this page is available in the following formats:
+    - if @owner
+      %li.nav-item
+        = link_to "CSV", member_seeds_path(@owner, format: 'csv'), class: 'nav-link'
+      %li.nav-item
+        = link_to "JSON", member_seeds_path(@owner, format: 'json'), class: 'nav-link'
+      %li.nav-item
+        = link_to "RSS", member_seeds_path(@owner, format: 'rss'), class: 'nav-link'
+    - else
+      %li.nav-item
+        = link_to "CSV", seeds_path(format: 'csv'), class: 'nav-link'
+      %li.nav-item
+        = link_to "JSON", seeds_path(format: 'json'), class: 'nav-link'
+      %li.nav-item
+        = link_to "RSS", seeds_path(format: 'rss'), class: 'nav-link'
+

@@ -6,6 +6,8 @@
 
 Welcome to the Growstuff project.
 
+You can find our app at https://www.growstuff.org
+
 Growstuff is an open source/open data project to create a website for
 food gardeners.  We crowdsource information on what our members are
 growing and harvesting, aggregate it, and make it available as open data

@@ -1,4 +1,9 @@
-- content_for :title, title('harvests', @owner, @crop, @planting)
+- content_for(:title) do
+  = title('harvests', @owner, @crop, @planting)
+
+%h1
+  = harvest_icon
+  = title('harvests', @owner, @crop, @planting)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
@@ -9,14 +14,19 @@
 
 = render 'layouts/nav', model: Harvest
 
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'Harvests', harvests_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s harvests", harvests_path(owner: @owner)
+  - else
+    %li.breadcrumb-item.active= link_to "Harvests", harvests_path
+
 .pagination
   = page_entries_info @harvests
   = will_paginate @harvests
-.row
-  - unless @harvests.empty?
-    - @harvests.each do |harvest|
-      .col-md-6
-        = render 'harvests/card', harvest: harvest
+
+- unless @harvests.empty?
+  .index-cards=render @harvests, full: true
 
 .pagination
   = page_entries_info @harvests

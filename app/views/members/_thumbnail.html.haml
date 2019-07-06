@@ -1,26 +1,23 @@
 - cache member do
-  .member-thumbnail.panel
-    %div
-      = render partial: "members/avatar", locals: { member: member }
-    %div
-      %p.login-name
-        = link_to member.login_name, member
-        - unless member.location.blank?
-          %small
-            %br/
-            %i= member.location
-        - unless member.plantings.empty?
-          %small
-            %br/
-            Recently planted:
-            != member.plantings.order(created_at: :desc).first(3).map { |p| link_to p.crop_name, p }.join(", ")
+  .card.text-center
+    / Background color
+    .card-up.teal.lighten-2
+    / Avatar
+    .avatar.mx-auto.white
+      = link_to member do
+        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid', alt: member)
+    .card-body
+      / Name
+      %h4.card-title
+        = link_to member, member
+      %hr/
       %p
         %small
           Joined
           = distance_of_time_in_words(member.created_at, Time.zone.now)
           ago.
       %p
-        %small
-          = [localize_plural(member.gardens, Garden),
-          localize_plural(member.plantings, Planting),
-          localize_plural(member.seeds, Seed)].join(", ")
+        %ul.nav.md-pills.nav-justified.pills-pink.small
+          %li.nav-item= link_to localize_plural(member.plantings, Planting), member_plantings_path(member)
+          %li.nav-item= link_to localize_plural(member.harvests, Harvest), member_harvests_path(member)
+          %li.nav-item= link_to localize_plural(member.seeds, Seed), member_seeds_path(member)

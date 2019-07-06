@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe "browse crops" do
-  let(:tomato)         { create :tomato        }
-  let(:maize)          { create :maize         }
-  let(:pending_crop)   { create :crop_request  }
-  let(:rejected_crop)  { create :rejected_crop }
+  let!(:tomato)         { FactoryBot.create :tomato        }
+  let!(:maize)          { FactoryBot.create :maize         }
+  let!(:pending_crop)   { FactoryBot.create :crop_request  }
+  let!(:rejected_crop)  { FactoryBot.create :rejected_crop }
 
   it "has a form for sorting by" do
     visit crops_path
@@ -25,5 +25,16 @@ describe "browse crops" do
   it "rejected crops are not listed" do
     visit crops_path
     expect(page).not_to have_content rejected_crop.name
+  end
+
+  context "logged in and crop wrangler" do
+    before do
+      login_as FactoryBot.create(:crop_wrangling_member)
+      visit crops_path
+    end
+
+    it "shows a new crop link" do
+      expect(page).to have_link "Add New Crop"
+    end
   end
 end

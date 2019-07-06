@@ -1,32 +1,49 @@
-.predictions
+%h3
+  = icon 'fas', 'magic'
+  Predictions
+.card-deck.mx-auto.predictions
   - unless crop.perennial.nil?
-    .row
-      .col-md-12
-        %p
-          #{crop.name} is
+    .col
+      .card.predictions-card
+        .card-body.text-center
+          %h3
+            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
+              - if crop.perennial == true
+                Perennial
+              - elsif crop.perennial == false
+                Annual
+
+          %p.display-1
+            %i.far.fa-calendar
+
           - if crop.perennial == true
-            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-              a perennial crop
-            (living more than two years)
+            %small living more than two years
           - elsif crop.perennial == false
-            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-              an annual crop
-            (living and reproducing in a single year or less)
-  .row
-    - if crop.annual? && crop.median_lifespan.present?
-      .prediction-metric.col-md-3.col-xs-5
-        %h3 Median lifespan
-        %strong= crop.median_lifespan
-        %span days
+            %small living and reproducing in a single year or less
 
-    - if crop.median_days_to_first_harvest.present?
-      .prediction-metric.col-md-3.col-xs-5
-        %h3 First harvest expected
-        %strong= crop.median_days_to_first_harvest
-        %span days after planting
+  - if crop.annual? && crop.median_lifespan.present?
+    .col
+      .card.predictions-card
+        .card-body.text-center
+          %h3 Median lifespan
+          %p.display-1= crop.median_lifespan
+          %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
+          %span days
 
-    - if crop.annual? && crop.median_days_to_last_harvest.present?
-      .prediction-metric.col-md-3.col-xs-5
-        %h3 Last harvest expected
-        %strong= crop.median_days_to_last_harvest
-        %span days after planting
+
+  - if crop.median_days_to_first_harvest.present?
+    .col
+      .card.predictions-card
+        .card-body.text-center
+          %h3 First harvest expected
+          %p.display-1= crop.median_days_to_first_harvest
+          %span days after planting
+
+  - if crop.annual? && crop.median_days_to_last_harvest.present?
+    .col
+      .card.predictions-card
+        .card-body.text-center
+          %h3 Last harvest expected
+          %p.display-1= crop.median_days_to_last_harvest
+          %span days after planting
+

@@ -1,4 +1,5 @@
 inherit_from: .rubocop_todo.yml
+require: rubocop-rails
 AllCops:
   Exclude:
     - 'db/schema.rb'
@@ -56,7 +57,7 @@ Metrics/BlockLength:
     - 'config/**/*.rb'
 
 Metrics/LineLength:
-  Max: 120
+  Max: 140
 
 # Remove the following once the code style matches
 Metrics/MethodLength:

@@ -14,6 +14,7 @@ describe "plantings/_form" do
       owner:      @member,
       planted_at: Date.new(2013, 3, 1))
 
+    @gardens = @member.gardens
     sign_in @member
     render
   end

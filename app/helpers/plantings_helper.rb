@@ -25,7 +25,7 @@ module PlantingsHelper
     elsif planting.planted_from.present?
       "#{planting.owner} planted #{planting.planted_from.pluralize}."
     else
-      "#{planting.owner}."
+      "#{planting.owner} planted #{planting.crop}."
     end
   end
 

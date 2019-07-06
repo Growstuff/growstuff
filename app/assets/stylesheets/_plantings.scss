@@ -1,0 +1,104 @@
+.planting {
+
+  .planting-badges {
+    font-size: 1em;
+    position: absolute;
+    top: 3em;
+    .badge-super-late {
+      background-color: $red;
+    }
+    .badge-harvest {
+      background-color: $blue;
+    }
+  }
+
+  .planting-thumbnail {
+    padding: 0;
+    width: 150px;
+
+    .badge {
+      font-size: 100%;
+    }
+  }
+
+  .planting-full-badges {
+    .badge {
+      font-size: 200%;
+    }
+  }
+  .progress {
+    .progress-bar {
+      border-bottom-color: $green;
+    }
+    .progress-bar:after {
+      background-color: $beige;
+    }
+  }
+
+  .planting-name {
+    position: relative;
+    text-align: center;
+    top: 0;
+  }
+
+  .planting-quick-actions {
+    background-color: $white;
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+
+  .planting-thumbnail-photo {
+    height: 150px;
+  }
+
+  dl.planting-attributes {
+    dt {
+      text-align: left;
+    }
+
+    dd {
+      margin-left: auto;
+    }
+  }
+}
+
+
+
+.planting-facts {
+  display: flex;
+  flex-wrap: wrap;
+  flex: none;
+
+  .planting-fact-card {
+    background: $white;
+    background: $white;
+    border-radius: 5%;
+    border: 1px solid lighten($green, 20%);
+    margin: 1em;
+    padding: 1em;
+    text-align: center;
+    width: 120px;
+
+    strong {
+      font-align: center;
+      font-size: 4em;
+    }
+
+    span {
+      display: block;
+    }
+
+    h3 {
+      // padding-top: 1em;
+    }
+
+    span {
+      display: block;
+    }
+
+    img {
+      height: 50%;
+    }
+  }
+}

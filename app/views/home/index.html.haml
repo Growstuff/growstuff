@@ -1,36 +1,36 @@
-.homepage.row
-  .col-md-12
-    - if member_signed_in?
-      - content_for :title, t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+- content_for :title do
+  = ENV['GROWSTUFF_SITE_NAME']
 
-      = render 'stats'
-    - else
-      .hidden-xs
-        .jumbotron
-          = render 'blurb'
-      .visible-xs
-        = render 'blurb'
+- if member_signed_in?
+  %h1.display-5= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
-    .row
-      .col-lg-8.col-md-6.col-sm-12
-        = render 'crops'
-      .col-lg-2.col-md-3.col-sm-6
-        = render 'plantings'
-      .col-lg-2.col-md-3.col-sm-6
-        = render 'harvests'
-      .col-md-12
+  %p= render 'stats'
+- else
+  .hidden-xs
+    .jumbotron= render 'blurb'
+
+.row
+  .col-xl-8.col-md-12
+    %section.crops
+      %h2= t('home.crops.our_crops')
+      .homepage-cards= render 'crops'
+      .align-bottom
+        %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
         - cache cache_key_for(Crop, 'recent') do
-          %p{ style: 'margin-top: 11.25px' }
-            %strong
-              #{t('.recently_added')}:
-            != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
-
-    %p.text-right
-      = link_to "#{t('home.crops.view_all')} »", crops_path
+          %h3= t('.recently_added')
+          != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
+  .col-xl-4
     .row
-      .col-md-12
-        = render 'seeds'
-        = render 'members'
-    .row
-      .col-md-12
-        = render 'discuss'
+      .col-md-6
+        =render 'plantings'
+        %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
+      .col-md-6
+        = render 'harvests'
+        %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
+  .col-md-6
+    %section.seeds.mx-auto
+      = render 'seeds'
+      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
+  .col-md-6
+    %section.members.mx-auto= render 'members'
+  %section.discussion.mx-auto= render 'discuss'

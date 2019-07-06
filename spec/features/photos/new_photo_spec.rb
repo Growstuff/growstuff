@@ -13,6 +13,7 @@ describe "new photo page" do
 
       it "add photo" do
         visit planting_path(planting)
+        click_link 'Actions'
         within '.planting-actions' do
           click_link('Add photo')
         end
@@ -25,6 +26,7 @@ describe "new photo page" do
 
       it "add photo" do
         visit harvest_path(harvest)
+        click_link 'Actions'
         within '.harvest-actions' do
           click_link "Add photo"
         end
@@ -37,6 +39,7 @@ describe "new photo page" do
 
       it "add photo" do
         visit garden_path(garden)
+        click_link 'Actions'
         within '.garden-actions' do
           click_link "Add photo"
         end
@@ -49,6 +52,7 @@ describe "new photo page" do
 
       it "add photo" do
         visit seed_path(seed)
+        click_link 'Actions'
         first('.seed-actions').click_link('Add photo')
         expect(page).to have_text seed.to_s
       end

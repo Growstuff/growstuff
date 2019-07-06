@@ -10,8 +10,7 @@ describe 'devise/unlocks/new.html.haml', type: "view" do
       render
     end
 
-    it 'has some fields' do
-      rendered.should have_content 'Email'
-    end
+    it { expect(rendered).to have_field 'Email' }
+    it { expect(rendered).to have_content 'Resend unlock instructions' }
   end
 end

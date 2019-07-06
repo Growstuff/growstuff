@@ -1,17 +1,17 @@
-%h2= t('.discussion')
-
-- posts = Post.order(created_at: :desc).limit(6)
-- if posts
-  = render "posts/summary", posts: posts, howmany: 6
-
-- cache cache_key_for(Forum) do
-  - forums = Forum.all.order(:name)
-  - if forums
-    %ul.list-inline
-      %li
-        %strong #{t('.forums')}:
-      - forums.each do |f|
-        %li= link_to f.name, f
-
+%h2.text-center= t('.discussion')
+.list-group
+  - Post.order(created_at: :desc).limit(6).each do |post|
+    = link_to post, class: 'list-group-item list-group-item-action flex-column align-items-start' do
+      .d-flex.w-100.justify-content-between
+        %h5.mb-2.h5= truncate(strip_tags(post.subject))
+        %small
+          = time_ago_in_words(post.created_at)
+          ago
+      = image_tag avatar_uri(post.author, 50), align: :right, class: 'avatar'
+      %p.mb-2
+        = truncate(strip_tags(post.body), length: 200)
+      %small
+        = post.comments.size
+        comments
 %p.text-right
-  = link_to "#{t('.view_all')} »", posts_path
+  = link_to "#{t('.view_all')} »", posts_path, class: 'btn btn-block'

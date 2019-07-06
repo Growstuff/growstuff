@@ -8,11 +8,12 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
--content_for(:buttonbar) do
-  = render 'harvests/actions', harvest: @harvest
-
 .row
-  .col-md-6
+  .col-md-8
+    %h1
+      = harvest_icon
+      #{@harvest.crop} harvested by #{@harvest.owner}
+    = render 'harvests/actions', harvest: @harvest
     %p
       %b Owner:
       = link_to @harvest.owner, @harvest.owner
@@ -36,8 +37,7 @@
       = display_quantity(@harvest)
 
 
-  .col-md-6
-    = render partial: "crops/index_card", locals: { crop: @harvest.crop }
+  .col-md-4= render @harvest.crop
 
 - if @harvest.description.present?
   %h2 Notes
@@ -49,6 +49,7 @@
   .row
     .col-md-6= render @harvest.default_photo
     .col-md-6
-      = link_to 'View all photos >>', planting_photos_path(@harvest), class: 'pull-right'
+      %p.text-right
+        = link_to 'View all photos >>', harvest_photos_path(@harvest), class: 'btn'
       - @harvest.photos.order(date_taken: :desc).limit(3).each do |photo|
-        = render('photos/thumbnail', photo: photo)
+        .col-md-3= render('photos/card', photo: photo)

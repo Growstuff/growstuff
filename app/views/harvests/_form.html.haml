@@ -1,68 +1,59 @@
-= required_field_help_text
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
 
-= form_for(@harvest, html: { class: "form-horizontal", role: :form }) do |f|
-  - if @harvest.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@harvest.errors.size, "error")
-        prohibited this harvest from being saved:"
-      %ul
-        - @harvest.errors.full_messages.each do |msg|
-          %li= msg
+  = bootstrap_form_for(@harvest) do |f|
+    .card-header
+      - if content_for? :title
+        %h1.h2-responsive.text-center
+          = harvest_icon
+          %strong=yield :title
+    .card-body
+      = required_field_help_text
+      - if @harvest.errors.any?
+        #error_explanation
+          %h2 #{pluralize(@harvest.errors.size, "error")} prohibited this harvest from being saved:"
+          %ul
+            - @harvest.errors.full_messages.each do |msg|
+              %li= msg
 
-  .form-group.required
-    = f.label :crop, 'What did you harvest?', class: 'control-label col-md-2'
-    - if @planting
-      .col-md-8
-        = link_to @planting.crop.name, planting_path(@planting)
-        from
-        = link_to @planting.garden.name, garden_path(@planting.garden)
-        = f.hidden_field :planting_id, value: @planting.id
-    - else
-      .col-md-4
-        = auto_suggest @harvest, :crop, class: 'form-control col-md-2', default: @crop
+      .row
+        .col-12
+          = f.label :crop, 'What did you harvest?', class: 'required'
+          - if @planting
+            = link_to @planting.crop.name, planting_path(@planting)
+            from
+            = link_to @planting.garden.name, garden_path(@planting.garden)
+            = f.hidden_field :planting_id, value: @planting.id
+          - else
+            = auto_suggest @harvest, :crop, class: 'form-control', default: @crop
+            - unless @planting
+              %span.help-block.col-md-8
+                Can't find what you're looking for?
+                = link_to "Request new crops.", new_crop_path
 
-    .col-md-4
-      = collection_select(:harvest, :plant_part_id, PlantPart.all,
-                          :id, :name, { selected: @harvest.plant_part_id },
-                          class: 'form-control', prompt: 'e.g. fruit', required: "required")
-    - unless @planting
-      %span.help-block.col-md-8
-        Can't find what you're looking for?
-        = link_to "Request new crops.", new_crop_path
+        .col-md-4
+          = f.text_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '',
+                         class: 'add-datepicker', label: 'When?'
+        .col-12
+          = f.form_group :plant_part_id, label: { text: "Harvested Plant Part" } do
+            .row
+              - PlantPart.all.order(:name).pluck(:id, :name).each do |id, name|
+                .col-4.col-md-3= f.radio_button :plant_part_id, id, label: name, checked: true
 
-  .form-group
-    = f.label :harvested_at, 'When?', class: 'control-label col-md-2'
-    .col-md-2
-      = f.text_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '',
-                     class: 'add-datepicker form-control'
-      = render partial: 'shared/form_optional'
-
-  .form-group
-    = f.label :quantity, 'How many?', class: 'control-label col-md-2'
-    .col-md-2
       -# Some browsers (eg Firefox for Android) assume "number" means
       -# "integer" unless you specify step="any":
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
-      = f.number_field :quantity, class: 'input-small form-control', step: 'any'
-      = render partial: 'shared/form_optional'
-    .col-md-2
-      = f.select(:unit, Harvest::UNITS_VALUES, { include_blank: false }, class: 'input-medium form-control')
+      .row
+        .col-md-4
+          = f.number_field :quantity, class: 'input-small form-control', step: 'any', label: 'How many?'
+        .col-md-8
+          = f.select(:unit, Harvest::UNITS_VALUES, { include_blank: false }, class: 'input-medium form-control')
+      .row
+        .col-md-4
+          = f.number_field :weight_quantity, class: 'input-small form-control', step: 'any', label: 'Weighing (in total)'
+        .col-md-8
+          = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, class: 'form-control')
+      = f.text_area :description, rows: 6, label: 'Notes'
 
-  .form-group
-    = f.label :weight_quantity, 'Weighing (in total):', class: 'control-label col-md-2'
-    .col-md-2
-      = f.number_field :weight_quantity, class: 'input-small form-control', step: 'any'
-      = render partial: 'shared/form_optional'
-    .col-md-2
-      = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, class: 'form-control')
-  .form-group
-    = f.label :description, 'Notes', class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_area :description, rows: 6, class: 'form-control'
-      = render partial: 'shared/form_optional'
-
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+    .card-footer
+      .text-right= f.submit 'Save'
 

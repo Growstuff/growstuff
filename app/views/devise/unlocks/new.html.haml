@@ -1,20 +1,15 @@
-- content_for :title, "Resend unlock instructions"
+- content_for :title, ""
+.form-page
+  .card.form-card
+    = form_for(resource, as: resource_name,
+        url: unlock_path(resource_name),
+        html: { method: :post,
+        class: 'form-horizontal',
+        role: 'form' }) do |f|
 
-= form_for(resource, as: resource_name,
-    url: unlock_path(resource_name),
-    html: { method: :post,
-    class: 'form-horizontal',
-    role: 'form' }) do |f|
-  = devise_error_messages!
+      %h2 Resend unlock instructions
+      = render 'devise/shared/error_messages', resource: resource
+      = f.email_field :email, class: 'form-control', placeholder: 'Email'
+      = f.submit "Resend unlock instructions", class: 'btn btn-block my-4 btn-primary'
 
-  .form-group
-    = f.label :email, class: 'control-label col-md-2'
-    .col-md-8
-      = f.email_field :email, class: 'form-control'
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit "Resend unlock instructions", class: 'btn btn-primary'
-
-  .form-group
-    .col-md-offset-2.col-md-8
-      = render "devise/shared/links"
+    = render "devise/shared/links"

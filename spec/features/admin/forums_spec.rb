@@ -9,27 +9,13 @@ describe "forums", js: true do
       login_as member
     end
 
-    it "navigating to forum admin without js", js: false do
-      visit root_path
-      click_link "Admin"
-      expect(current_path).to eq admin_path
-      within 'ul#site_admin' do
-        click_link "Forums"
-      end
-      expect(current_path).to eq forums_path
-      expect(page).to have_content "New forum"
-    end
-
     it "navigating to forum admin with js" do
-      visit root_path
-      click_link member.login_name
-      click_link "Admin"
-      expect(current_path).to eq admin_path
+      visit admin_path
       within 'ul#site_admin' do
         click_link "Forums"
       end
       expect(current_path).to eq forums_path
-      expect(page).to have_content "New forum"
+      expect(page).to have_link "New forum"
     end
 
     it "adding a forum" do
@@ -56,7 +42,9 @@ describe "forums", js: true do
 
     it 'deleting forum' do
       visit forum_path forum
-      click_link 'Delete'
+      accept_confirm do
+        click_link 'Delete'
+      end
       expect(current_path).to eq forums_path
       expect(page).to have_content 'Forum was successfully deleted'
     end

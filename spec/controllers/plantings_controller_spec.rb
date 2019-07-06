@@ -59,7 +59,7 @@ describe PlantingsController do
 
       before { get :new, params: { garden_id: garden.id } }
 
-      it { expect(assigns(:garden)).to eq(garden) }
+      it { expect(assigns(:planting).garden).to eq(garden) }
     end
 
     describe "Doesn't display another member's garden on planting form" do
@@ -68,7 +68,7 @@ describe PlantingsController do
 
       before { get :new, params: { garden_id: garden.id } }
 
-      it { expect(assigns(:garden)).not_to eq(garden) }
+      it { expect(assigns(:planting).garden).not_to eq(garden) }
     end
 
     describe "Doesn't display un-approved crops on planting form" do
@@ -92,7 +92,7 @@ describe PlantingsController do
     describe "doesn't die if no garden specified" do
       before { get :new, params: {} }
 
-      it { expect(assigns(:garden)).to be_a_new(Garden) }
+      it { expect(assigns(:planting)).to be_a_new(Planting) }
     end
 
     describe "sets the date of the planting to today" do

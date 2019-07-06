@@ -7,6 +7,9 @@
       .col-md-2.col-xs-12.garden-info
         %p= render 'gardens/photo', garden: garden
         %p= display_garden_description(garden)
+        - if can?(:edit, garden)
+          = render 'gardens/actions', garden: garden
+
       .col-md-10
         - if garden.plantings.current.size.positive?
           .row
@@ -15,5 +18,3 @@
                 = render "plantings/thumbnail", planting: planting
         - else
           no plantings
-  - if can?(:edit, garden)
-    .panel-footer= render 'gardens/actions', garden: garden

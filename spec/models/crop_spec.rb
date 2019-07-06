@@ -7,18 +7,18 @@ describe Crop do
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 
-    it 'saves a basic crop' do
+    it 'should save a basic crop' do
       crop.save.should be(true)
     end
 
-    it 'is fetchable from the database' do
+    it 'should be fetchable from the database' do
       crop.save
       @crop2 = Crop.find_by(name: 'tomato')
       @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
       @crop2.slug.should eq("tomato")
     end
 
-    it 'stringifies as the system name' do
+    it 'should stringify as the system name' do
       crop.save
       crop.to_s.should eq('tomato')
     end
@@ -30,7 +30,7 @@ describe Crop do
   end
 
   context 'invalid data' do
-    it 'does not save a crop without a system name' do
+    it 'should not save a crop without a system name' do
       crop = FactoryBot.build(:crop, name: nil)
       expect { crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
@@ -183,6 +183,11 @@ describe Crop do
       it 'has no default photo' do
         expect(crop.default_photo).to eq nil
       end
+
+      it { expect(crop.photos.size).to eq 0 }
+      it { expect(crop.planting_photos.size).to eq 0 }
+      it { expect(crop.harvest_photos.size).to eq 0 }
+      it { expect(crop.seed_photos.size).to eq 0 }
     end
 
     describe 'finding all photos' do
@@ -300,7 +305,6 @@ describe Crop do
     let(:crop2_planting) { crop2.plantings.first }
 
     let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
-
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
@@ -345,6 +349,10 @@ describe Crop do
     end
   end
 
+  let(:maize) { FactoryBot.create(:maize) }
+  let(:pp1) { FactoryBot.create(:plant_part) }
+  let(:pp2) { FactoryBot.create(:plant_part) }
+
   context "harvests" do
     let(:h1)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
     let(:h2)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
@@ -365,7 +373,7 @@ describe Crop do
   end
 
   context "csv loading" do
-    before do
+    before(:each) do
       # don't use 'let' for this -- we need to actually create it,
       # regardless of whether it's used.
       @cropbot = FactoryBot.create(:cropbot)
@@ -532,11 +540,11 @@ describe Crop do
         tomato.destroy
       end
 
-      it "deletes the association between post and the crop(tomato)" do
+      it "should delete the association between post and the crop(tomato)" do
         expect(Post.find(post.id).crops).to eq [maize]
       end
 
-      it "does not delete the posts" do
+      it "should not delete the posts" do
         expect(Post.find(post.id)).not_to eq nil
       end
     end
@@ -556,11 +564,11 @@ describe Crop do
     end
 
     describe "rejecting a crop" do
-      it "gives reason if a default option" do
+      it "should give reason if a default option" do
         expect(rejected_reason.rejection_explanation).to eq "not edible"
       end
 
-      it "shows rejection notes if reason was other" do
+      it "should show rejection notes if reason was other" do
         expect(rejected_other.rejection_explanation).to eq "blah blah blah"
       end
     end
