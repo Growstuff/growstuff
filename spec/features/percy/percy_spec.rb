@@ -7,6 +7,7 @@ describe 'Test with visual testing', type: :feature, js: true do
   let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
   let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
   let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
+
   before do
     {
       chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
@@ -25,6 +26,7 @@ describe 'Test with visual testing', type: :feature, js: true do
     # Freeze time, so we don't have variations in timestamps on the page
     Timecop.freeze(Time.zone.local(2019, 1, 1))
   end
+
   after { Timecop.return }
 
   shared_examples 'visit pages' do
@@ -87,6 +89,7 @@ describe 'Test with visual testing', type: :feature, js: true do
 
   context "when signed out" do
     let(:prefix) { 'signed-out' }
+
     include_examples 'visit pages'
 
     it 'loads sign in page' do
@@ -117,7 +120,9 @@ describe 'Test with visual testing', type: :feature, js: true do
 
   context 'when signed in' do
     let(:prefix) { 'signed-in' }
+
     before { login_as member }
+
     include_examples 'visit pages'
 
     it 'load plantings#show' do

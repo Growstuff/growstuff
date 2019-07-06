@@ -4,6 +4,7 @@ describe Crop do
   let(:pp2)   { FactoryBot.create(:plant_part) }
   let(:pp1)   { FactoryBot.create(:plant_part) }
   let(:maize) { FactoryBot.create(:maize)      }
+
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 

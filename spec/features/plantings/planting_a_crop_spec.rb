@@ -53,6 +53,7 @@ describe "Planting a crop", :js, :elasticsearch do
       visit member_plantings_path(member)
       click_link "View #{member}'s profile >>"
     end
+
     it { expect(current_path).to eq member_path(member) }
   end
 

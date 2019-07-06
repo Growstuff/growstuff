@@ -80,6 +80,7 @@ describe "Harvesting a crop", :js, :elasticsearch do
 
   describe "Harvesting from planting page" do
     let!(:planting) { create :planting, crop: maize, owner: member, garden: member.gardens.first }
+
     before do
       visit planting_path(planting)
       within ".planting-actions" do
