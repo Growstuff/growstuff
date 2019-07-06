@@ -57,6 +57,16 @@ FactoryBot.define do
       longitude { 0 }
     end
 
+    factory :interesting_member do
+      sequence(:login_name) { |n| "ScottRF#{n}" }
+      location { 'Edinburgh' }
+      latitude { Faker::Address.latitude }
+      longitude { Faker::Address.longitude }
+      after(:create) do |member|
+        create(:planting, owner: member, garden: member.gardens.first)
+      end
+    end
+
     factory :admin_member do
       roles { [FactoryBot.create(:admin)] }
     end
