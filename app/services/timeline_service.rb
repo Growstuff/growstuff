@@ -19,22 +19,6 @@ class TimelineService
       .order(event_at: :desc)
   end
 
-  def self.resolve_model(event)
-    if event.event_type == 'planting'
-      Planting.find(event.id)
-    elsif event.event_type == 'seed'
-      Seed.find(event.id)
-    elsif event.event_type == 'harvest'
-      Harvest.find(event.id)
-    elsif event.event_type == 'comment'
-      Comment.find(event.id)
-    elsif event.event_type == 'post'
-      Post.find(event.id)
-    elsif event.event_type == 'photo'
-      Photo.find(event.id)
-    end
-  end
-
   def self.plantings_query
     Planting.select(
       :id,

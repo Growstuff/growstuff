@@ -9,28 +9,16 @@
 
     .list-group-item.list-group-item-action.flex-column.align-items-start.active{:href => "#!"}
       - @timeline.each do |event|
-        - event_model = TimelineService.resolve_model(event)
-        - owner = Member.find(event.owner_id)
         .d-flex.justify-content-between
           %h5
+            - owner = Member.find(event.owner_id)
             = render 'members/tiny', member: owner
-            = icon_for_model(event_model)
+            = icon_for_model(event.event_type)
             = link_to owner, owner
-            - if event.event_type == 'planting'
-              planted #{link_to event_model.crop, event_model}
-            - elsif event.event_type == 'seed'
-              saved #{link_to event_model.crop, event_model} seeds
-            - elsif event.event_type == 'harvest'
-              harvested #{link_to event_model, event_model}
-            - elsif event.event_type == 'comment'
-              #{link_to 'commented', event_model} on #{link_to event_model.post, event_model.post}
-            - elsif event.event_type == 'post'
-              wrote a post about #{link_to event_model, event_model}
-            - elsif event.event_type == 'photo'
-              took a photo #{link_to event_model.title, event_model}
+            = event_description(event)
           %small= time_ago_in_words event.event_at
           - if event.crop_id.present?
-            = render 'crops/thumbnail', crop: event_model.crop
+            = render 'crops/thumbnail', crop: Crop.find(event.crop_id)
     .pagination
       = page_entries_info @seeds
       = will_paginate @seeds
