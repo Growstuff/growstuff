@@ -30,7 +30,7 @@ module IconsHelper
   end
 
   def comment_icon
-    icon('fas', 'comment')
+    icon('far', 'comment')
   end
 
   def finished_icon
