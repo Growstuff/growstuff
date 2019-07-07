@@ -25,8 +25,7 @@ class TimelineService
       "'planting' as event_type",
       'planted_at as event_at',
       :owner_id,
-      :crop_id,
-      :slug
+      :crop_id
     )
   end
 
@@ -36,8 +35,17 @@ class TimelineService
       "'harvest' as event_type",
       'harvested_at as event_at',
       :owner_id,
-      :crop_id,
-      :slug
+      :crop_id
+    )
+  end
+
+  def self.seeds_query
+    Seed.select(
+      :id,
+      "'seed' as event_type",
+      "seeds.created_at as event_at",
+      :owner_id,
+      :crop_id
     )
   end
 
@@ -47,8 +55,7 @@ class TimelineService
       "'post' as event_type",
       'posts.created_at as event_at',
       'author_id as owner_id',
-      'null as crop_id',
-      :slug
+      'null as crop_id'
     )
   end
 
@@ -58,8 +65,7 @@ class TimelineService
       "'comment' as event_type",
       'comments.created_at as event_at',
       'author_id as owner_id',
-      'null as crop_id',
-      'null as slug'
+      'null as crop_id'
     )
   end
 
@@ -68,20 +74,8 @@ class TimelineService
       :id,
       "'photo' as event_type",
       "photos.created_at as event_at",
-      'photos.owner_id',
-      'null as crop_id',
-      'null as slug'
-    )
-  end
-
-  def self.seeds_query
-    Seed.select(
-      :id,
-      "'seed' as event_type",
-      "seeds.created_at as event_at",
-      'seeds.owner_id',
-      'crop_id',
-      'slug'
+      :owner_id,
+      'null as crop_id'
     )
   end
 end
