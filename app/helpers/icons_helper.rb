@@ -1,6 +1,10 @@
 module IconsHelper
   include FontAwesome::Sass::Rails::ViewHelpers
 
+  def icon_for_model(the_model)
+    self.send("#{the_model.class.name.downcase}_icon")
+  end
+
   def timeline_icon
     icon('far', 'calendar')
   end
