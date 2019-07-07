@@ -1,11 +1,11 @@
 class TimelineService
   def self.member_query(member)
-    self.query.where(owner_id: member.id)
+    query.where(owner_id: member.id)
   end
 
   # A timeline of events by people the member follows
   def self.followed_query(member)
-    self.query.where(owner_id: [member.followed.pluck(:id)])
+    query.where(owner_id: [member.followed.pluck(:id)])
   end
 
   def self.query
@@ -100,5 +100,4 @@ class TimelineService
       'slug'
     )
   end
-
 end
