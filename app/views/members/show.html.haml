@@ -63,38 +63,10 @@
         .list-group-item.list-group-item-action.flex-column.align-items-start.active{:href => "#!"}
           .d-flex.w-100.justify-content-between
             %h5
-              - if event.event_type == 'planting'
-                - planting = Planting.find(event.id)
-                = planting_icon
-                planted
-                = link_to planting.crop, planting
-              - elsif event.event_type == 'seed'
-                - seed = Seed.find(event.id)
-                = seed_icon
-                saved
-                = link_to seed.crop, seed
-                seeds
-              - elsif event.event_type == 'harvest'
-                - harvest = Harvest.find(event.id)
-                = harvest_icon
-                harvested
-                = link_to harvest, harvest
-              - elsif event.event_type == 'comment'
-                - comment = Comment.find(event.id)
-                = comment_icon
-                = link_to 'commented', comment
-                on
-                = link_to comment.post, comment.post
-              - elsif event.event_type == 'post'
-                - post = Post.find(event.id)
-                = blog_icon
-                wrote a post about
-                = link_to post, post
-              - elsif event.event_type == 'photo'
-                - photo = Photo.find(event.id)
-                = photo_icon
-                took a photo
-                = link_to photo.title, photo
+              = icon_for_model(event.event_type)
+              = event_description(event)
+              - if event.event_type == 'photo'
+                - photo = resolve_model(event)
                 .media
                   = link_to(image_tag(photo.fullsize_url, width: 150, class: 'rounded'), photo)
                   .media-body
