@@ -112,7 +112,6 @@ describe "member profile", js: true do
       it { expect(page).to have_link href: planting_path(new_planting) }
       it { expect(page).to have_link href: planting_path(old_planting) }
       it { expect(page).to have_link href: planting_path(finished_planting) }
-      it { expect(page).to have_link href: planting_path(no_planted_at_planting) }
       it { expect(page).not_to have_link href: planting_path(no_planted_at_planting) }
     end
 
