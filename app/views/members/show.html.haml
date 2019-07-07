@@ -94,7 +94,7 @@
                 - photo = Photo.find(event.id)
                 = photo_icon
                 took a photo
-                = link_to photo, photo.title
+                = link_to photo.title, photo
                 .media
                   = link_to(image_tag(photo.fullsize_url, width: 150, class: 'rounded'), photo)
                   .media-body

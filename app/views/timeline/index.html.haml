@@ -1,0 +1,55 @@
+%h1 Timeline
+
+.row
+  .col-md-9
+
+    .pagination
+      = page_entries_info @seeds
+      = will_paginate @seeds
+
+    .list-group-item.list-group-item-action.flex-column.align-items-start.active{:href => "#!"}
+      - @timeline.each do |event|
+        - event_model = TimelineService.resolve_model(event)
+        - owner = Member.find(event.owner_id)
+        .d-flex.justify-content-between
+          %h5
+            = render 'members/tiny', member: owner
+            - if event.event_type == 'planting'
+              = planting_icon
+              = link_to owner, owner
+              planted #{link_to event_model.crop, event_model}
+            - elsif event.event_type == 'seed'
+              = seed_icon
+              = link_to owner, owner
+              saved #{link_to event_model.crop, event_model} seeds
+            - elsif event.event_type == 'harvest'
+              = harvest_icon
+              = link_to owner, owner
+              harvested #{link_to event_model, event_model}
+            - elsif event.event_type == 'comment'
+              = comment_icon
+              = link_to owner, owner
+              #{link_to 'commented', event_model} on #{link_to event_model.post, event_model.post}
+            - elsif event.event_type == 'post'
+              = blog_icon
+              = link_to owner, owner
+              wrote a post about #{link_to event_model, event_model}
+            - elsif event.event_type == 'photo'
+              = photo_icon
+              = link_to owner, owner
+              took a photo #{link_to event_model.title, event_model}
+          %small= time_ago_in_words event.event_at
+          - if event.crop_id.present?
+            = render 'crops/thumbnail', crop: event_model.crop
+    .pagination
+      = page_entries_info @seeds
+      = will_paginate @seeds
+  .col-md-3
+    .card
+      .card-header
+        %h3 Following
+      - @members.each do |member|
+        = link_to member do
+          %p
+            = render 'members/tiny', member: member
+            = member
