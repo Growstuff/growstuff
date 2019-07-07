@@ -8,8 +8,10 @@ describe 'timeline' do
     let!(:harvest) { FactoryBot.create :harvest, owner: friend, harvested_at: 2.days.ago }
     before { friend.followers << member }
     subject { TimelineService.followed_query(member) }
-    it { expect(subject.first).to eq planting }
-    it { expect(TimelineService.resolve_model(subject.second)).to eq harvest }
+    it { expect(subject.first.id).to eq planting.id }
+    it { expect(subject.first.event_type).to eq 'planting' }
+    it { expect(subject.second.event_id).to eq harvest.id }
+    it { expect(subject.sedond.event_type).to eq 'harvest' }
   end
 
   describe
