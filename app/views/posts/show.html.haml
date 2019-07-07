@@ -39,7 +39,7 @@
             = @post.subject
           = render 'posts/actions', post: @post
         .card-body
-          = render 'posts/single', post: @post
+          .post-content= render 'posts/single', post: @post
 
         .card-footer
           = render 'posts/likes', post: @post
