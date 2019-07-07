@@ -60,40 +60,12 @@
     %h2 Activity
     .list-group
       - @activity.each do |event|
-        .list-group-item.list-group-item-action.flex-column.align-items-start.active{:href => "#!"}
+        .list-group-item.list-group-item-action.flex-column.align-items-start{:href => "#!"}
           .d-flex.w-100.justify-content-between
             %h5
               = icon_for_model(event.event_type)
               = event_description(event)
-              - if event.event_type == 'photo'
-                - photo = resolve_model(event)
-                .media
-                  = link_to(image_tag(photo.fullsize_url, width: 150, class: 'rounded'), photo)
-                  .media-body
-                    %p
-                      %ul.associations
-                        - photo.plantings.each do |planting|
-                          %li
-                            = planting_icon
-                            = link_to t('photos.show.planting', planting: planting.to_s, owner: planting.owner.to_s), planting_path(planting)
-
-                        - photo.harvests.each do |harvest|
-                          %li
-                            = harvest_icon
-                            = link_to t('photos.show.harvest', crop: harvest.crop.name, owner: harvest.owner.to_s), harvest_path(harvest)
-
-                        - photo.gardens.each do |garden|
-                          %li
-                            = garden_icon
-                            = link_to t('photos.show.garden', garden: garden.to_s, owner: garden.owner.to_s), garden_path(garden)
-
-                        - photo.seeds.each do |seed|
-                          %li
-                            = seed_icon
-                            = link_to t('photos.show.seed', seed: seed.to_s, owner: seed.owner.to_s), seed_path(seed)
-
-              - else
-                = link_to event.event_type, event
+              = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
             %small
             - if event.event_at.present?
               #{time_ago_in_words(event.event_at)} ago

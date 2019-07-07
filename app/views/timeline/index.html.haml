@@ -7,18 +7,22 @@
       = page_entries_info @seeds
       = will_paginate @seeds
 
-    .list-group-item.list-group-item-action.flex-column.align-items-start.active{:href => "#!"}
+    .list-group
       - @timeline.each do |event|
-        .d-flex.justify-content-between
-          %h5
-            - owner = Member.find(event.owner_id)
-            = render 'members/tiny', member: owner
-            = icon_for_model(event.event_type)
-            = link_to owner, owner
-            = event_description(event)
-          %small= time_ago_in_words event.event_at
-          - if event.crop_id.present?
-            = render 'crops/thumbnail', crop: Crop.find(event.crop_id)
+        .list-group-item.list-group-item-action.flex-column.align-items-start{:href => "#!"}
+          .d-flex.w-100.justify-content-between
+            %h5
+              = icon_for_model(event.event_type)
+              - owner = Member.find(event.owner_id)
+              = link_to owner, owner
+              = event_description(event)
+              = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
+            %small
+            - if event.event_at.present?
+              #{time_ago_in_words(event.event_at)} ago
+            - else
+              unknown date
+
     .pagination
       = page_entries_info @seeds
       = will_paginate @seeds
