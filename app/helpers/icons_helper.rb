@@ -1,6 +1,10 @@
 module IconsHelper
   include FontAwesome::Sass::Rails::ViewHelpers
 
+  def timeline_icon
+    icon('far', 'calendar')
+  end
+
   def garden_icon
     image_icon 'home'
   end
