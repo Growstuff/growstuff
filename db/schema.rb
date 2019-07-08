@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_224347) do
+ActiveRecord::Schema.define(version: 2019_07_08_104319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -454,9 +454,23 @@ ActiveRecord::Schema.define(version: 2019_03_26_224347) do
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
   end
 
+  create_table "trades", force: :cascade do |t|
+    t.bigint "seed_id"
+    t.bigint "member_id"
+    t.boolean "accepted"
+    t.text "info"
+    t.text "rejection_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_trades_on_member_id"
+    t.index ["seed_id"], name: "index_trades_on_seed_id"
+  end
+
   add_foreign_key "harvests", "plantings"
   add_foreign_key "photographings", "crops"
   add_foreign_key "photographings", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "trades", "members"
+  add_foreign_key "trades", "seeds"
 end

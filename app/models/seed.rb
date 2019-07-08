@@ -13,6 +13,7 @@ class Seed < ApplicationRecord
   #
   # Relationships
   belongs_to :crop
+  has_many :trades
   belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id',
                                optional: true, inverse_of: :child_seeds # parent
   has_many :child_plantings, class_name: 'Planting',

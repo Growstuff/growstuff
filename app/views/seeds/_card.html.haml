@@ -5,6 +5,8 @@
     %h5= link_to seed, seed
     - if seed.tradable?
       %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
+      - if current_member.present? && current_member != seed.owner
+        = link_to 'trade', new_trade_path(seed_id: seed.id), class: 'btn'
   = link_to seed.owner do
     .card-footer
       %span.badge.badge-pill.badge-secondary

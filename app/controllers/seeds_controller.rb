@@ -24,6 +24,7 @@ class SeedsController < ApplicationController
 
   def show
     @photos = @seed.photos.includes(:owner).order(created_at: :desc).paginate(page: params[:page])
+    @pending_trades = @seed.trades.where(accepted: nil)
     respond_with(@seed)
   end
 
