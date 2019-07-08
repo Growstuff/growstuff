@@ -10,7 +10,7 @@ module IconsHelper
   end
 
   def member_icon
-    icon('fas', 'user')
+    icon('far', 'user')
   end
 
   def harvest_icon
