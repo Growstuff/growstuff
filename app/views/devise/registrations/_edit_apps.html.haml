@@ -39,6 +39,6 @@
             = link_to @facebook_auth.name, "http://facebook.com/profile/#{@facebook_auth.uid}"
           = link_to "Disconnect", @facebook_auth,
                     confirm: "Are you sure you want to remove this connection?",
-                    method: :delete, class: "remove btn btn-denger"
+                    method: :delete, class: "remove btn btn-danger"
         - else
           = link_to 'Connect to Facebook', '/members/auth/facebook', class: 'btn'
