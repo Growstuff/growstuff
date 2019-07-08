@@ -45,7 +45,7 @@ module IconsHelper
     icon('fas', 'seedling')
   end
 
-  def blog_icon
+  def post_icon
     image_icon 'post'
   end
 

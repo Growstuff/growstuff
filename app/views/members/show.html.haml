@@ -87,7 +87,7 @@
                 = link_to comment.post, comment.post
               - elsif event.event_type == 'post'
                 - post = Post.find(event.id)
-                = blog_icon
+                = post_icon
                 wrote a post about
                 = link_to post, post
               - elsif event.event_type == 'photo'
