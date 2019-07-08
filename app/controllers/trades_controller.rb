@@ -20,7 +20,8 @@ class TradesController < ApplicationController
   end
 
   def index
-    @trades = Trade.where(requested_by: current_member)
+    @sent_trade_requests = Trade.where(requested_by: current_member)
+    @recieved_trade_requests = Trade.where(owner: current_member)
   end
 
   private

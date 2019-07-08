@@ -1,4 +1,11 @@
-%h1 Trades
+%h1
+  = trade_icon
+  Trades
 
-- @trades.each do |trade|
-  %li= trade
+%h2 Requests you sent
+- @sent_trade_requests.each do |trade|
+  %li= link_to trade, trade
+
+%h2 Requests you recieved
+- @recieved_trade_requests.each do |trade|
+  %li= link_to trade, trade
