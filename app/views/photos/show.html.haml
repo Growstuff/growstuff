@@ -11,17 +11,22 @@
   %li.breadcrumb-item= link_to 'Photos', photos_path
   %li.breadcrumb-item.active= link_to @photo, @photo
 
-.row
+.row#photo
   .col-md-8
     %h1.text-center.ellipsis=@photo.title
     %p.text-center
       = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-fluid shadow-sm')
   .col-md-4
-    %p.text-center
+    %p.text-center{ id: "photo-#{@photo.id}" }
       = render 'photos/actions', photo: @photo
       = link_to "View on Flickr", @photo.link_url, class: 'btn'
+
+      = render 'photos/likes', photo: @photo
+
     - if @crops.size.positive?
-      %p= render @crops
+      .index-cards
+        - @crops.each do |crop|
+          = render 'crops/thumbnail', crop: crop
     %p
       = photo_icon
       %strong Photo by
