@@ -84,6 +84,7 @@ Rails.application.routes.draw do
 
   resources :follows, only: %i(create destroy)
   resources :likes, only: %i(create destroy)
+  resources :timeline
 
   resources :members, param: :slug do
     resources :gardens
