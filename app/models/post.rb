@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
   friendly_id :author_date_subject, use: %i(slugged finders)
+  include PhotoCapable
 
   #
   # Relationships
@@ -46,6 +47,10 @@ class Post < ApplicationRecord
     Post.order(created_at: :desc).sort do |a, b|
       b.recent_activity <=> a.recent_activity
     end
+  end
+
+  def owner_id
+    author_id
   end
 
   def to_s
