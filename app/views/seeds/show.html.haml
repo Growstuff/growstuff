@@ -15,11 +15,11 @@
   %li.breadcrumb-item.active= link_to @seed, @seed
 
 .row
-  .col-md-6
+  .col-md-8
     %h1
       #{@seed.owner}'s #{@seed.crop} seeds
       = render 'seeds/actions', seed: @seed
-    - if @pending_trades.size.positive?
+    - if @seed.trades_pending?
       .alert.alert-warning{role: "alert"}
         %p Trades are pending for these seeds
 
@@ -80,7 +80,7 @@
     = render 'seeds/descendants', seed: @seed
     = render 'photos/gallery', photos: @photos
 
-  .col-md-6
+  .col-md-4
     = render @seed.crop
     - if @seed.owner.location
       %p
