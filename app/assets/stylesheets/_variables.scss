@@ -11,7 +11,6 @@ $orange: #ffa500;
 $yellow: #b2935c;
 $white: #fff;
 
-
 $body-bg: $beige;
 $text-color: $brown;
 $link-color: $green;
@@ -19,27 +18,27 @@ $graph-hover: $orange;
 
 $primary: (
   color: $green,
-  dark:  darken($green, 20%),
+  dark: darken($green, 20%),
   light: lighten($green, 20%)
 );
 $secondary: (
   color: $blue,
-  dark:  darken($blue, 20%),
+  dark: darken($blue, 20%),
   light: lighten($blue, 20%)
 );
 $success: (
   color: $green,
-  dark:  darken($green, 20%),
+  dark: darken($green, 20%),
   light: lighten($green, 20%)
 );
 $danger: (
   color: $red,
-  dark:  darken($red, 20%),
+  dark: darken($red, 20%),
   light: lighten($red, 20%)
 );
 $dark: (
   color: $brown,
-  dark:  darken($brown, 20%),
+  dark: darken($brown, 20%),
   light: lighten($brown, 20%)
 );
 
@@ -52,4 +51,4 @@ $navbar-default-link-hover-color: $beige;
 $navbar-default-link-active-color: darken($beige, 80%);
 $navbar-default-brand-color: lighten($green, 20%);
 
-$highest-level:  1070;
+$highest-level: 1070;

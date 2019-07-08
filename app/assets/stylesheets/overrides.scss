@@ -125,11 +125,11 @@ img.img-icon {
 }
 
 // this is used for eg. crops and members index pages
-.six-across:nth-child(6n+1) {
+.six-across:nth-child(6n + 1) {
   margin-left: 0;
 }
 
-.three-across:nth-child(3n+1) {
+.three-across:nth-child(3n + 1) {
   clear: both;
   margin-left: 0;
 }
@@ -157,7 +157,6 @@ img.img-icon {
   text-align: center;
 }
 
-
 // stats shown on homepage. eg. "999 members..."
 p.stats {
   font-weight: bold;
@@ -170,7 +169,7 @@ p.stats {
   grid-template-columns: 50% 50%;
 }
 .card {
-  margin-bottom: 1em
+  margin-bottom: 1em;
 }
 
 .progress {
@@ -192,7 +191,7 @@ p.stats {
 }
 
 .location-not-set {
-  background-image: image-url('location-not-set.en.png');
+  background-image: image-url("location-not-set.en.png");
   background-position: center;
   background-repeat: no-repeat;
   height: 250px;
@@ -211,7 +210,6 @@ p.stats {
 .associations {
   list-style-type: none;
 }
-
 
 li.crop-hierarchy {
   list-style-type: disc;
@@ -326,7 +324,7 @@ $state-success-bg: lighten($green, 50%);
 
 label.required:after {
   color: red;
-  content:" *";
+  content: " *";
 }
 
 .margin-bottom {
@@ -387,7 +385,6 @@ ul.thumbnail-buttons {
     }
   }
 }
-
 
 .form-page {
   text-align: center;
