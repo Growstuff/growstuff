@@ -21,7 +21,7 @@ class TradesController < ApplicationController
 
   def index
     @sent_trade_requests = Trade.where(requested_by: current_member)
-    @recieved_trade_requests = Trade.where(owner: current_member)
+    @recieved_trade_requests = Trade.joins(:seed).where(seeds: { owner: current_member })
   end
 
   private
