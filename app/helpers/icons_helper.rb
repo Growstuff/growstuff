@@ -1,6 +1,14 @@
 module IconsHelper
   include FontAwesome::Sass::Rails::ViewHelpers
 
+  def icon_for_model(event_model)
+    send("#{event_model}_icon")
+  end
+
+  def timeline_icon
+    icon('far', 'calendar')
+  end
+
   def garden_icon
     image_icon 'home'
   end
@@ -22,7 +30,7 @@ module IconsHelper
   end
 
   def comment_icon
-    icon('fas', 'comment')
+    icon('far', 'comment')
   end
 
   def finished_icon
@@ -45,7 +53,7 @@ module IconsHelper
     icon('fas', 'seedling')
   end
 
-  def blog_icon
+  def post_icon
     image_icon 'post'
   end
 
