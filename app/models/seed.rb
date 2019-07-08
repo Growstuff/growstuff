@@ -64,6 +64,10 @@ class Seed < ApplicationRecord
     tradable_to != 'nowhere'
   end
 
+  def trades_pending?
+    trades.where(accepted: nil).size.positive?
+  end
+
   def seed_slug
     "#{owner.login_name}-#{crop}".downcase.tr(' ', '-')
   end
