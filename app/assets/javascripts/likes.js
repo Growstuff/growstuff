@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   $('.post-like').show();
 
   $('.post-like').on('ajax:success', function(event, data) {
