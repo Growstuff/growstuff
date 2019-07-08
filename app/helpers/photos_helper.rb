@@ -35,6 +35,6 @@ module PhotosHelper
   end
 
   def placeholder_image
-    'placeholder_150.png'
+    'placeholder_600.png'
   end
 end
