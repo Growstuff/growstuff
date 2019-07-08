@@ -3,12 +3,8 @@ class SessionsController < Devise::SessionsController
 
   def create
     super do |_resource|
-      if Crop.pending_approval.present? && current_member.role?(:crop_wrangler)
-        flash[:alert] = "There are crops waiting to be wrangled."
-      end
-      if Trade.where(owner: current_member)
-        flash[:info] = "Someone has requested a seed trade."
-      end
+      flash[:alert] = "There are crops waiting to be wrangled." if Crop.pending_approval.present? && current_member.role?(:crop_wrangler)
+      flash[:info] = "Someone has requested a seed trade." if Trade.where(owner: current_member)
     end
   end
 end
