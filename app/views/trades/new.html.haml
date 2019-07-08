@@ -3,8 +3,11 @@
 .index-cards
   = render @trade
 
-
-  = bootstrap_form_for(@trade) do |f|
-    = f.hidden_field :seed_id
-    = f.text_area :message
-    = f.submit :confirm
+  .details
+    %h2 How this works
+    %p
+      #{@seed.owner} will choose from your listed seeds
+    = bootstrap_form_for(@trade) do |f|
+      = f.hidden_field :seed_id
+      = f.text_area :message
+      = f.submit :request

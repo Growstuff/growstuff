@@ -1,6 +1,6 @@
 .card.booking-card
   .card-body
-    %h3 Owned by
+    %h3 Requesting seeds
 
     %p.mb-2
       = render 'members/tiny', member: @trade.seed.owner
@@ -16,12 +16,21 @@
   .card-footer
     %p.lead
       %strong= @trade.owner.location
+      = icon 'fas', 'arrow-right'
+
 .card
   .card-body
-    %h3 Requested by
+    %h3 In return for
     = render 'members/tiny', member: @trade.requested_by
     = @trade.requested_by
-    %h1= icon('fas', 'exchange-alt')
+  .list-group.list-group-flush
+    - @trade.requested_by.seeds.where.not(tradable_to: nil).each do |seed|
+      = link_to seed do
+        %li.list-group-item.d-flex.justify-content-between
+          = seed.crop
+          = image_tag seed_image_path(seed), width: 50, height: 50
   .card-footer
     %p.lead
-      %strong= @trade.requested_by.location
+      %strong
+        = icon 'fas', 'arrow-left'
+        = @trade.requested_by.location
