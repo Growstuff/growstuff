@@ -1,35 +1,10 @@
 %h2 Trade #{@seed.crop.name} seeds with #{@seed.owner}
 
 .index-cards
-  .card.booking-card
-    .card-body
-      %h3 Owned by
-
-      %p.mb-2
-        = render 'members/tiny', member: @seed.owner
-        = @seed.owner
-      %h4.card-title.font-weight-bold
-        %a #{@seed.crop.name} seeds
-      / Text
-      %p.card-text= @seed.description
-      %hr.my-4/
-      %p Will trade #{@seed.tradable_to}
-    = image_tag seed_image_path(@seed, full_size: true), alt: 'seeds', class: 'img-card'
-    .card-footer
-      %p.lead
-        %strong= @seed.owner.location
-  .card
-    .card-body
-      %h3 Requested by
-      = render 'members/tiny', member: current_member
-      = current_member
-      %h1= icon('fas', 'exchange-alt')
-    .card-footer
-      %p.lead
-        %strong= current_member.location
+  = render @trade
 
 
-  = bootstrap_form_for(Trade.new(seed_id: @seed.id)) do |f|
+  = bootstrap_form_for(@trade) do |f|
     = f.hidden_field :seed_id
-    = f.text_area :info, label: 'Info for trade'
+    = f.text_area :message
     = f.submit :confirm

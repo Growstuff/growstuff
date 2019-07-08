@@ -456,13 +456,14 @@ ActiveRecord::Schema.define(version: 2019_07_08_104319) do
 
   create_table "trades", force: :cascade do |t|
     t.bigint "seed_id"
-    t.bigint "member_id"
+    t.bigint "requested_by_id"
     t.boolean "accepted"
-    t.text "info"
+    t.text "message"
+    t.text "address_for_delivery"
     t.text "rejection_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["member_id"], name: "index_trades_on_member_id"
+    t.index ["requested_by_id"], name: "index_trades_on_requested_by_id"
     t.index ["seed_id"], name: "index_trades_on_seed_id"
   end
 
@@ -471,6 +472,6 @@ ActiveRecord::Schema.define(version: 2019_07_08_104319) do
   add_foreign_key "photographings", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
-  add_foreign_key "trades", "members"
+  add_foreign_key "trades", "members", column: "requested_by_id"
   add_foreign_key "trades", "seeds"
 end

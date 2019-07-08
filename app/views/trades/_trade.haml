@@ -1,0 +1,27 @@
+.card.booking-card
+  .card-body
+    %h3 Owned by
+
+    %p.mb-2
+      = render 'members/tiny', member: @trade.seed.owner
+      = @trade.owner
+    %h4.card-title.font-weight-bold
+      = link_to @trade.seed do
+        #{@trade.seed.crop.name} seeds
+    / Text
+    %p.card-text= @trade.seed.description
+    %hr.my-4/
+    %p Will trade #{@trade.seed.tradable_to}
+  = image_tag seed_image_path(@trade.seed, full_size: true), alt: 'seeds', class: 'img-card'
+  .card-footer
+    %p.lead
+      %strong= @trade.owner.location
+.card
+  .card-body
+    %h3 Requested by
+    = render 'members/tiny', member: @trade.requested_by
+    = @trade.requested_by
+    %h1= icon('fas', 'exchange-alt')
+  .card-footer
+    %p.lead
+      %strong= @trade.requested_by.location
