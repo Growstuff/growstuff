@@ -24,9 +24,22 @@ class TradesController < ApplicationController
     @recieved_trade_requests = Trade.joins(:seed).where(seeds: { owner: current_member })
   end
 
+  def update
+    @trade = Trade.find(params[:id])
+    if @trade.seed.owner == current_member
+      @trade.accepted = (params[:commit] == 'accept')
+      @trade.update(accept_trade_params)
+    end
+    respond_with @trade
+  end
+
   private
 
   def trade_params
     params.require(:trade).permit(:seed_id, :message)
+  end
+
+  def accept_trade_params
+    params.require(:trade).permit(:responded_seed_id)
   end
 end

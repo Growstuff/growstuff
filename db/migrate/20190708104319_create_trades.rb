@@ -2,6 +2,7 @@ class CreateTrades < ActiveRecord::Migration[5.2]
   def change
     create_table :trades do |t|
       t.references :seed, index: true, foreign_key: true
+      t.references :responded_seed, index: true, foreign_key: {to_table: :seeds }
       t.references :requested_by, index: true, foreign_key: { to_table: :members }
       t.boolean :accepted
       t.text :message

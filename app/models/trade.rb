@@ -1,5 +1,6 @@
 class Trade < ApplicationRecord
   belongs_to :seed
+  belongs_to :responded_seed, class_name: 'Seed', optional: true
   belongs_to :requested_by, class_name: 'Member', inverse_of: :trades
   has_one :owner, through: :seed
   has_one :crop, through: :seed

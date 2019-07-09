@@ -26,12 +26,19 @@
       %p.mb-2
         = render 'members/tiny', member: @trade.requested_by
         = @trade.requested_by
-  .list-group.list-group-flush
-    - @trade.requested_by.seeds.where.not(tradable_to: nil).limit(3).each do |seed|
-      = link_to seed do
-        %li.list-group-item.d-flex.justify-content-between
-          = seed.crop
-          = image_tag seed_image_path(seed), width: 50, height: 50
+
+    - if @trade.accepted
+      %h4.card-title.font-weight-bold
+        = link_to @trade.responded_seed do
+          #{@trade.responded_seed.crop.name} seeds
+      %hr.my-4/
+      %p= render 'seeds/badges', seed: @trade.responded_seed
+    -if @trade.accepted.nil?
+      Awaiting decision
+    - elsif !@trade.accepted
+      %h5 Trade declined
+  - if @trade.accepted
+    = image_tag seed_image_path(@trade.responded_seed, full_size: true), alt: 'seeds', class: 'img-card'
   .card-footer
     %p.lead
       %strong
