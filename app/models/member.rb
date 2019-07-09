@@ -39,6 +39,7 @@ class Member < ApplicationRecord
                            inverse_of: :creator
   has_many :created_alternate_names, class_name: 'AlternateName', foreign_key: 'creator_id', inverse_of: :creator
   has_many :created_scientific_names, class_name: 'ScientificName', foreign_key: 'creator_id', inverse_of: :creator
+  has_many :trades
 
   #
   # Scopes

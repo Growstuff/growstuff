@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
 
+  resources :trades
+
   resources :harvests, concerns: :has_photos do
     get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop', on: :collection
   end

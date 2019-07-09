@@ -1,0 +1,10 @@
+%h1
+  = trade_icon
+  Requested trade
+
+.index-cards
+  = render @trade
+
+  - if @trade.owner == current_member
+    %h3 pick your seeds to swap
+= link_to @trade.seed, @trade.seed

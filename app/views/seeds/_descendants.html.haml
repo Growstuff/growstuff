@@ -1,11 +1,9 @@
-%h2 Plants grown from these seeds
-- if @seed.child_plantings
+- if @seed.child_plantings.size.positive?
+  %h2 Plants grown from these seeds
   .row
     - seed.child_plantings.each do |planting|
       .col-md-3
         = render 'plantings/thumbnail', planting: planting
-- else
-  %p No plants grown yet.
 
 - if can?(:create, Planting) && can?(:edit, seed)
   = link_to new_seed_planting_path(seed), class: 'btn btn-primary' do

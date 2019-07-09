@@ -43,7 +43,10 @@
               = t('.harvest')
             = link_to member_seeds_path(current_member), class: 'dropdown-item' do
               = t('.seeds')
-            = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
+            = link_to member_posts_path(current_member), class: 'dropdown-item' do
+              = t('.posts')
+            = link_to trades_path, class: 'dropdown-item' do
+              = t('.trades')
 
             - if current_member.notifications.unread_count.positive?
               = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count),
