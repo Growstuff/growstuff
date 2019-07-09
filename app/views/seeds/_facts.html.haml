@@ -1,0 +1,54 @@
+.index-cards.seed-facts
+  - if seed.parent_planting.present?
+    .card.seed-fact-card
+      %h3 Saved from planting
+      %strong
+        = link_to planting_path(seed.parent_planting) do
+          = planting_icon
+      %span=seed.parent_planting
+
+  - if seed.quantity.present?
+    .card.seed-fact-card
+      %h3 Quantity
+      %strong= seed.quantity
+      %span seeds
+
+
+  %dd= @seed.plant_before.to_s
+  -if @seed.finished_at
+    %dt Finished at:
+    %dd= @seed.finished_at.to_s
+  %dt Days until maturity:
+  %dd= render partial: 'days_until_maturity', locals: { seed: @seed }
+  %dt Organic?
+  %dd= @seed.organic
+  %dt GMO?
+  %dd= @seed.gmo
+  %dt Heirloom?
+  %dd= @seed.heirloom
+
+
+  %dt Will trade:
+  %dd
+    = @seed.tradable_to
+    - if @seed.owner.location.blank?
+      (from unspecified location)
+      - if current_member == @seed.owner
+        = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
+    - else
+      (from
+      = succeed ")" do
+        = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
+
+  %dt When?
+  %dd
+    = @seed.created_at
+  - if @seed.parent_planting
+    %dt Saved from planting:
+    %dd
+      = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
+  %dt Description:
+  %dd
+    :growstuff_markdown
+      #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
+

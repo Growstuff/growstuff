@@ -1,7 +1,17 @@
-- if can?(:create, Planting) && can?(:update, seed) && seed.active?
-  = link_to new_planting_path(seed_id: seed), class: 'btn btn-info' do
-    %span.glyphicon.glyphicon-grain{ title: "Plant seeds" }
-    Plant seeds
+
+- if current_member.present? 
+  - if can?(:create, Planting) && can?(:update, seed) && seed.active?
+    = link_to new_planting_path(seed_id: seed), class: 'btn btn-info' do
+      %span.glyphicon.glyphicon-grain{ title: "Plant seeds" }
+      Plant seeds
+  - if @seed.tradable? && current_member != @seed.owner
+    = link_to new_trade_path(seed_id: @seed.id), class: 'btn btn-primary' do
+      = trade_icon
+      Request Trade
+
+- else
+  = render 'shared/signin_signup', to: 'request trading seeds'
+  
 - if can?(:edit, seed)
   .dropdown.float-right.seed-actions
     %a#seed-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
@@ -13,3 +23,5 @@
         = seed_finish_button(seed, classes: 'dropdown-item')
       .dropdown-divider
       = delete_button(seed, classes: 'dropdown-item text-danger')
+
+

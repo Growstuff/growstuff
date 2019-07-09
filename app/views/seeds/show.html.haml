@@ -14,65 +14,22 @@
   %li.breadcrumb-item= link_to 'Seeds', seeds_path
   %li.breadcrumb-item.active= link_to @seed, @seed
 
+
 .row
   .col-md-8
     %h1
       #{@seed.owner}'s #{@seed.crop} seeds
       = render 'seeds/actions', seed: @seed
+
+    %h3= render 'seeds/badges', seed: @seed
+
     - if @seed.trades_pending?
       .alert.alert-warning{role: "alert"}
         %p Trades are pending for these seeds
 
-    - if current_member
-      - if @seed.tradable? && current_member != @seed.owner
-        %p= link_to "Trade", new_trade_path(seed_id: @seed.id), class: 'btn btn-primary'
-    - else
-      = render 'shared/signin_signup', to: 'request seeds'
-    %dl.dl-horizontal
-      %dt Owner
-      %dd
-        = link_to @seed.owner, @seed.owner
-        &mdash;
-        = link_to "view all #{@seed.owner}'s seeds",
-          member_seeds_path(@seed.owner)
-      %dt Quantity:
-      %dd= @seed.quantity.blank? ? "not specified" : @seed.quantity
-      %dt Plant before:
-      %dd= @seed.plant_before.to_s
-      -if @seed.finished_at
-        %dt Finished at:
-        %dd= @seed.finished_at.to_s
-      %dt Days until maturity:
-      %dd= render partial: 'days_until_maturity', locals: { seed: @seed }
-      %dt Organic?
-      %dd= @seed.organic
-      %dt GMO?
-      %dd= @seed.gmo
-      %dt Heirloom?
-      %dd= @seed.heirloom
-      %dt Will trade:
-      %dd
-        = @seed.tradable_to
-        - if @seed.owner.location.blank?
-          (from unspecified location)
-          - if current_member == @seed.owner
-            = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
-        - else
-          (from
-          = succeed ")" do
-            = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
 
-      %dt When?
-      %dd
-        = @seed.created_at
-      - if @seed.parent_planting
-        %dt Saved from planting:
-        %dd
-          = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
-      %dt Description:
-      %dd
-        :growstuff_markdown
-          #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
+    = render 'seeds/facts', seed: @seed
+    = link_to "view all #{@seed.owner}'s seeds", member_seeds_path(@seed.owner)
 
 
 
@@ -82,6 +39,7 @@
 
   .col-md-4
     = render @seed.crop
+    = render @seed.owner
     - if @seed.owner.location
       %p
         %small
