@@ -4,17 +4,17 @@
   - if twitter_auth
     %p
       = image_tag "twitter_32.png", size: "32x32", alt: 'Twitter logo'
-      = link_to twitter_auth.name, "http://twitter.com/#{twitter_auth.name}"
+      = link_to twitter_auth.name, "https://twitter.com/#{twitter_auth.name}"
 
   - if flickr_auth
     %p
       = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
-      = link_to flickr_auth.name, "http://flickr.com/photos/#{flickr_auth.uid}"
+      = link_to flickr_auth.name, "https://flickr.com/photos/#{flickr_auth.uid}"
 
   - if facebook_auth
     %p
       = image_tag "facebook_32.png", size: "32x32", alt: 'Facebook logo'
-      = link_to facebook_auth.name, "http://facebook.com/profile/#{facebook_auth.uid}"
+      = link_to facebook_auth.name, "https://facebook.com/profile/#{facebook_auth.uid}"
 
   - if member.show_email
     %p
