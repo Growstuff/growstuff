@@ -1,13 +1,17 @@
 - if seed.tradable?
-  %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
+  %span.badge.badge-secondary Will trade #{seed.tradable_to}
   - if seed.trades_pending?
-    %span.badge.badge-pill.badge-warning trade pending
+    %span.badge.badge-warning trade pending
 
 - if seed.quantity.present?
   %span.badge.badge-primary
     =display_seed_quantity(seed)
 
-- if seed.plant_before.present?
-  %spend.badge.badge-info
-    plant before
-    = seed.plant_before
+- unless seed.organic == 'unknown'
+  %span.badge.badge-info= seed.organic
+
+- unless seed.gmo == 'unknown'
+  %span.badge.badge-info= seed.gmo
+
+- unless seed.heirloom == 'unknown'
+  %span.badge.badge-info= seed.heirloom

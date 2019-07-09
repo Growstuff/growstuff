@@ -6,7 +6,7 @@
   .details
     %h2 How this works
     %p
-      #{@seed.owner} will choose from your listed seeds
+      #{@seed.owner} may choose from your listed seeds, or they may request nothing in return.
     = bootstrap_form_for(@trade) do |f|
       = f.hidden_field :seed_id
       = f.text_area :message
