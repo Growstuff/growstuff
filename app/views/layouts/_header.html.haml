@@ -46,8 +46,10 @@
             = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
 
             - if current_member.notifications.unread_count.positive?
-              = link_to(t('.inbox_unread', unread_count: current_member.notifications.unread_count),
-                        notifications_path)
+              .dropdown-divider
+              %strong= link_to(t('.inbox_unread',
+                        unread_count: current_member.notifications.unread_count),
+                        notifications_path, class: 'dropdown-item')
             - else
               = link_to t('.inbox'), notifications_path, class: 'dropdown-item'
 
