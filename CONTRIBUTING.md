@@ -13,10 +13,6 @@ checks before being merged. You can run tests locally as follows:
  - `rails spec` to run all Ruby tests
  - `rails spec:models` to run Ruby model tests (or `rails spec:views` for view tests, etc)
  - `rails static` to run all static checks (code style, unfixed Git conflicts, etc)
- - `rails jasmine:ci` to run JavaScript unit tests in headless mode
- - `rails jasmine` to start a server for running JavaScript unit tests in a
-   browser (eg for debugging). Point your browser at http://localhost:8888 to
-   run the tests.
  - `rspec ./spec/path/to/my_spec.rb` to run all Ruby tests in the file `my_spec.rb`
  - `rspec ./spec/path/to/my_spec.rb:45` to run the Ruby test starting on line 45 of
    `my_spec.rb`. RSpec will output a list of command-lines in this form for all
