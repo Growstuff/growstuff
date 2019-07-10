@@ -144,3 +144,12 @@
                     rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
               Google
+
+        %li.list-group-item
+          = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            Wikihow instructions
+
