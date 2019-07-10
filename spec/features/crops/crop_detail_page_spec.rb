@@ -72,7 +72,7 @@ describe "crop detail page", js: true do
 
       it "has a link to gardenate" do
         expect(page).to have_link "Gardenate - Planting reminders",
-                                  href: "http://www.gardenate.com/plant/#{CGI.escape crop.name}"
+                                  href: "https://www.gardenate.com/plant/#{CGI.escape crop.name}"
       end
     end
   end
