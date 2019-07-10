@@ -22,6 +22,7 @@ describe "Notifications", :js do
     it "Replying to the notification" do
       click_link "Reply"
       expect(page).to have_content "Notification body"
+      Percy.snapshot(page, name: 'Replying to notification')
 
       fill_in 'notification_body', with: "Response body"
       Percy.snapshot(page, name: "notifications#new")
@@ -44,12 +45,12 @@ describe "Notifications", :js do
     end
 
     it 'paginates at 30 notifications per page' do
-      expect(page).to have_selector 'tr', count: 31
+      expect(page).to have_selector '.message', count: 30
     end
 
     it 'navigates pages' do
       first('a[rel="next"]').click
-      expect(page).to have_selector 'tr', count: 5
+      expect(page).to have_selector '.message', count: 4
     end
   end
 end
