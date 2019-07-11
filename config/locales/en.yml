@@ -89,6 +89,7 @@ en:
     plant_something_here: Plant something here
     record_harvest: Record Harvest
     save_seeds: Save seeds
+    timeline: Timeline
     write_blog_post: Write blog post
   crops:
     search: Search crops
