@@ -9,7 +9,8 @@
       = link_to 'Unlike', like_path(id: like.id, format: :json),
                 method: :delete, remote: true, class: 'post-like btn'
 
-%span.badge.like-badge{class: (post.liked_by?(current_member)) ? 'liked' : ''}
-  = like_icon
-  &nbsp;
-  %span.like-count= post.likes.count
+= render 'likes/count', likeable: post
+-# %span.badge.like-badge{class: (post.liked_by?(current_member)) ? 'liked' : ''}
+-#   = like_icon
+-#   &nbsp;
+-#   %span.like-count= post.likes.count

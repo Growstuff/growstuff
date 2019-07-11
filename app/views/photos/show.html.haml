@@ -18,11 +18,11 @@
       = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-fluid shadow-sm')
   .col-md-4
 
-    %p.text-center{ id: "photo-#{@photo.id}" }
+    %p
       = render 'photos/actions', photo: @photo
       = link_to "View on Flickr", @photo.link_url, class: 'btn'
+      %span.btn= render 'photos/likes', photo: @photo
 
-      = render 'photos/likes', photo: @photo
 
     - if @crops.size.positive?
       .index-cards
