@@ -54,7 +54,7 @@ module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
 
     def crop_link(crop, link_text)
       if crop
-        url = Rails.application.routes.url_helpers.crop_url(crop, host: HOST)
+        url = Rails.application.routes.url_helpers.crop_url(crop, only_path: true)
         "[#{link_text}](#{url})"
       else
         link_text

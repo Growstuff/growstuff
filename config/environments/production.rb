@@ -100,7 +100,7 @@ Rails.application.configure do
   }
   ActionMailer::Base.delivery_method = :smtp
 
-  config.host = 'growstuff.org'
+  config.host = ENV['HOST']
   config.analytics_code = <<-eos
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
