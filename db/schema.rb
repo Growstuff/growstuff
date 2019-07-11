@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_224347) do
+ActiveRecord::Schema.define(version: 2019_07_12_234859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -339,7 +339,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_224347) do
     t.integer "product_id"
   end
 
-  create_table "photographings", id: :serial, force: :cascade do |t|
+  create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.integer "photo_id", null: false
     t.integer "photographable_id", null: false
     t.string "photographable_type", null: false
@@ -455,8 +455,8 @@ ActiveRecord::Schema.define(version: 2019_03_26_224347) do
   end
 
   add_foreign_key "harvests", "plantings"
-  add_foreign_key "photographings", "crops"
-  add_foreign_key "photographings", "photos"
+  add_foreign_key "photo_associations", "crops"
+  add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end
