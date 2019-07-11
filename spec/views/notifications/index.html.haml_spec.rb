@@ -15,8 +15,8 @@ describe "notifications/index" do
     end
 
     it "renders a list of notifications" do
-      has_content @notification.sender.to_s, count: 2
-      has_content @notification.subject, count: 2
+      expect(rendered).to have_content @notification.sender.to_s, count: 2
+      expect(rendered).to have_content @notification.subject, count: 2
     end
 
     it "links to sender's profile" do
