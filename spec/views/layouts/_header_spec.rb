@@ -82,7 +82,7 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     it 'shows inbox link' do
       rendered.should have_content 'Inbox'
-      rendered.should_not match(/Inbox \(\d+\)/)
+      rendered.should_not match(/Inbox \d+/)
     end
 
     context 'has notifications' do
