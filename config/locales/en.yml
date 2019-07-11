@@ -236,7 +236,7 @@ en:
       skip: Skip navigation menu
       support_growstuff: Support Growstuff
       toggle_navigation: Toggle Navigation
-      your_stuff: Your Stuff (%{unread_count})
+      your_stuff: Your Stuff
   links:
     my_gardens: My gardens
   members:
