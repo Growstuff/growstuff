@@ -15,6 +15,9 @@ describe "Notifications", :js do
 
     before do
       login_as recipient
+      visit root_path
+      click_link 'Your Stuff'
+      Percy.snapshot(page, name: "notification menu")
       visit notification_path(notification)
       Percy.snapshot(page, name: "notifications#show")
     end
