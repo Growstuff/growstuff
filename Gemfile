@@ -115,6 +115,9 @@ gem 'puma'
 gem 'loofah', '>= 2.2.1'
 gem 'rack-protection', '>= 2.0.1'
 
+# Member to member messaging system
+gem 'mailboxer'
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'

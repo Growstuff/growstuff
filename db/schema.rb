@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_224347) do
+ActiveRecord::Schema.define(version: 2019_07_11_043654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_224347) do
     t.decimal "area"
     t.string "area_unit"
     t.integer "garden_type_id"
+    t.jsonb "layout"
     t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
@@ -266,6 +267,60 @@ ActiveRecord::Schema.define(version: 2019_03_26_224347) do
     t.index ["likeable_id"], name: "index_likes_on_likeable_id"
     t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id"
     t.index ["member_id"], name: "index_likes_on_member_id"
+  end
+
+  create_table "mailboxer_conversation_opt_outs", id: :serial, force: :cascade do |t|
+    t.string "unsubscriber_type"
+    t.integer "unsubscriber_id"
+    t.integer "conversation_id"
+    t.index ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id"
+    t.index ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
+  end
+
+  create_table "mailboxer_conversations", id: :serial, force: :cascade do |t|
+    t.string "subject", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "mailboxer_notifications", id: :serial, force: :cascade do |t|
+    t.string "type"
+    t.text "body"
+    t.string "subject", default: ""
+    t.string "sender_type"
+    t.integer "sender_id"
+    t.integer "conversation_id"
+    t.boolean "draft", default: false
+    t.string "notification_code"
+    t.string "notified_object_type"
+    t.integer "notified_object_id"
+    t.string "attachment"
+    t.datetime "updated_at", null: false
+    t.datetime "created_at", null: false
+    t.boolean "global", default: false
+    t.datetime "expires"
+    t.index ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id"
+    t.index ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type"
+    t.index ["notified_object_type", "notified_object_id"], name: "mailboxer_notifications_notified_object"
+    t.index ["sender_id", "sender_type"], name: "index_mailboxer_notifications_on_sender_id_and_sender_type"
+    t.index ["type"], name: "index_mailboxer_notifications_on_type"
+  end
+
+  create_table "mailboxer_receipts", id: :serial, force: :cascade do |t|
+    t.string "receiver_type"
+    t.integer "receiver_id"
+    t.integer "notification_id", null: false
+    t.boolean "is_read", default: false
+    t.boolean "trashed", default: false
+    t.boolean "deleted", default: false
+    t.string "mailbox_type", limit: 25
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_delivered", default: false
+    t.string "delivery_method"
+    t.string "message_id"
+    t.index ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
+    t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
   end
 
   create_table "median_functions", id: :serial, force: :cascade do |t|
@@ -433,6 +488,16 @@ ActiveRecord::Schema.define(version: 2019_03_26_224347) do
     t.integer "creator_id"
   end
 
+  create_table "seed_trades", force: :cascade do |t|
+    t.bigint "seed_id"
+    t.bigint "member_id"
+    t.boolean "accepted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_seed_trades_on_member_id"
+    t.index ["seed_id"], name: "index_seed_trades_on_seed_id"
+  end
+
   create_table "seeds", id: :serial, force: :cascade do |t|
     t.integer "owner_id", null: false
     t.integer "crop_id", null: false
@@ -454,9 +519,32 @@ ActiveRecord::Schema.define(version: 2019_03_26_224347) do
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
   end
 
+  create_table "trades", force: :cascade do |t|
+    t.bigint "seed_id"
+    t.bigint "responded_seed_id"
+    t.bigint "requested_by_id"
+    t.boolean "accepted"
+    t.text "message"
+    t.text "address_for_delivery"
+    t.text "rejection_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["requested_by_id"], name: "index_trades_on_requested_by_id"
+    t.index ["responded_seed_id"], name: "index_trades_on_responded_seed_id"
+    t.index ["seed_id"], name: "index_trades_on_seed_id"
+  end
+
   add_foreign_key "harvests", "plantings"
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "photographings", "crops"
   add_foreign_key "photographings", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "seed_trades", "members"
+  add_foreign_key "seed_trades", "seeds"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "trades", "members", column: "requested_by_id"
+  add_foreign_key "trades", "seeds"
+  add_foreign_key "trades", "seeds", column: "responded_seed_id"
 end

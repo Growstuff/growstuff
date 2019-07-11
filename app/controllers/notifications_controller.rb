@@ -46,15 +46,20 @@ class NotificationsController < ApplicationController
 
   # POST /notifications
   def create
-    params[:notification][:sender_id] = current_member.id
-    @notification = Notification.new(notification_params)
-    @recipient = Member.find_by(id: params[:notification][:recipient_id])
+    # params[:notification][:sender_id] = current_member.id
+    # @notification = Notification.new(notification_params)
+    @recipient = Member.find_by(id: notification_params[:recipient_id])
+    @body = notification_params[:body]
+    @subject = notification_params[:subject]
 
-    if @notification.save
+    byebug
+    current_member.send_message(@recipient, @body, @subject)
+
+    # if @notification.save
       redirect_to notifications_path, notice: 'Message was successfully sent.'
-    else
-      render action: "new"
-    end
+    # else
+      # render action: "new"
+    # end
   end
 
   private

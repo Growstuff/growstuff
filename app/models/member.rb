@@ -1,5 +1,6 @@
 class Member < ApplicationRecord
   acts_as_paranoid # implements soft deletion
+  acts_as_messageable # messages can be sent to this model
   before_destroy :newsletter_unsubscribe
   include Geocodable
   extend FriendlyId
@@ -108,6 +109,10 @@ class Member < ApplicationRecord
 
   def to_param
     slug
+  end
+
+  def name
+    login_name
   end
 
   def role?(role_sym)
