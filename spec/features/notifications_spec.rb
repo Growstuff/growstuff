@@ -36,6 +36,9 @@ describe "Notifications", :js do
       FactoryBot.create_list :notification, 34, recipient: recipient
       login_as recipient
       visit notifications_path
+    end
+
+    it do
       Percy.snapshot(page, name: "notifications#index")
     end
 

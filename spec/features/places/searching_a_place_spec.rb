@@ -36,6 +36,7 @@ describe "User searches" do
       expect(page).to have_content "Nearby members"
       expect(page).to have_content "Seeds available for trade near Philippines"
       expect(page).to have_content "Recent plantings near Philippines"
+      Percy.snapshot(page, name: 'places map')
     end
 
     it "goes to members' index page" do

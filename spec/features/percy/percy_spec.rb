@@ -256,11 +256,6 @@ rest of the garden.
     end
 
     describe '#new' do
-      it 'plantings#new' do
-        visit new_planting_path
-        Percy.snapshot(page, name: "#{prefix}/plantings#new")
-      end
-
       it 'crops#new' do
         visit new_crop_path
         Percy.snapshot(page, name: "#{prefix}/crops#new")
