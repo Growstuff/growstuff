@@ -6,35 +6,35 @@ describe 'Likeable', js: true do
   let(:post)           { FactoryBot.create(:post)          }
 
   context 'logged in member' do
-    before do
-      login_as member
-      visit post_path(post)
-    end
+    before { login_as member }
 
-    it 'can be liked' do
-      expect(page).to have_link 'Like'
-      click_link 'Like'
-      expect(page).to have_content '1 like'
+    describe 'posts' do
+      before { visit post_path(post) }
+      it 'can be liked' do
+        expect(page).to have_link 'Like'
+        click_link 'Like'
+        expect(page).to have_css(".like-count", text: "1")
 
-      visit post_path(post)
+        visit post_path(post)
 
-      expect(page).to have_link 'Unlike'
-      click_link 'Unlike'
-      expect(page).to have_content '0 likes'
-    end
+        expect(page).to have_link 'Unlike'
+        click_link 'Unlike'
+        expect(page).to have_css(".like-count", text: "0")
+      end
 
-    it 'displays correct number of likes' do
-      expect(page).to have_link 'Like'
-      click_link 'Like'
-      expect(page).to have_content '1 like'
-      logout(member)
+      it 'displays correct number of likes' do
+        expect(page).to have_link 'Like'
+        click_link 'Like'
+        expect(page).to have_css(".like-count", text: "1")
 
-      login_as(another_member)
-      visit post_path(post)
+        logout(member)
+        login_as(another_member)
+        visit post_path(post)
 
-      expect(page).to have_link 'Like'
-      click_link 'Like'
-      expect(page).to have_content '2 likes'
+        expect(page).to have_link 'Like'
+        click_link 'Like'
+        expect(page).to have_css(".like-count", text: "2")
+      end
     end
   end
 end
