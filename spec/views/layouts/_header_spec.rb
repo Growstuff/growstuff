@@ -89,7 +89,7 @@ describe 'layouts/_header.html.haml', type: "view" do
       it 'shows inbox count' do
         FactoryBot.create(:notification, recipient: @member)
         render
-        rendered.should have_content 'Inbox (1)'
+        rendered.should have_content 'Inbox 1'
       end
     end
   end
