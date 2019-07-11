@@ -19,9 +19,9 @@ $(document).ready(function() {
   $('.photo-like').show();
 
   $('.photo-like').on('ajax:success', function(event, data) {
-    var likeControl = $('.photo-like');
-
-    $('.like-count').text(data.description);
+    var likeControl = $('#photo-'+ data.id + ' .photo-like');
+    console.log(data);
+    $('#photo-' + data.id + ' .like-count').text(data.description);
     if (data.liked_by_member) {
       likeControl.data('method', 'delete');
       likeControl.attr('href', data.url);
