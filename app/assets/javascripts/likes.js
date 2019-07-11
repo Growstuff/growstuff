@@ -1,10 +1,10 @@
 $(document).ready(function() {
-  $('.post-like').show();
+  $('.like-btn').show();
 
   $('.post-like').on('ajax:success', function(event, data) {
     var likeControl = $('#post-' + data.id + ' .post-like');
 
-    $('#post-' + data.id + ' .like-count').text(data.description);
+    $('#post-' + data.id + ' .like-count').text(data.like_count);
     if (data.liked_by_member) {
       likeControl.data('method', 'delete');
       likeControl.attr('href', data.url);
@@ -16,20 +16,25 @@ $(document).ready(function() {
     }
   });
 
-  $('.photo-like').show();
 
   $('.photo-like').on('ajax:success', function(event, data) {
-    var likeControl = $('#photo-'+ data.id + ' .photo-like');
-    console.log(data);
-    $('#photo-' + data.id + ' .like-count').text(data.description);
+    var like_badge = $('#photo-'+ data.id + ' .like-badge');
+    var like_count = $('#photo-'+ data.id + ' .like-count');
+    var like_button = $('#photo-'+ data.id + ' .like-btn');
+
+    $('#photo-' + data.id + ' .like-count').text(data.like_count);
     if (data.liked_by_member) {
-      likeControl.data('method', 'delete');
-      likeControl.attr('href', data.url);
-      likeControl.text('Unlike');
+      like_badge.addClass('text-success');
+      // Turn the button into an unlike button
+      like_button.data('method', 'delete');
+      like_button.attr('href', data.url);
+      like_button.text('Unlike');
     } else {
-      likeControl.data('method', 'post');
-      likeControl.attr('href', '/likes.json?photo_id=' + data.id);
-      likeControl.text('Like');
+      like_badge.removeClass('text-success');
+      // Turn the button into an *like* button
+      like_button.data('method', 'post');
+      like_button.attr('href', '/likes.json?photo_id=' + data.id);
+      like_button.text('Like');
     }
   });
 });

@@ -1,17 +1,15 @@
 
 - if member_signed_in?
-  - if !photo.members.include? current_member
-    - if can?(:new, Like)
-      = link_to 'Like', likes_path(photo_id: photo.id, format: :json),
-                method: :post, remote: true, class: 'photo-like btn'
+  - if can?(:new, Like)
+    = link_to 'Like', likes_path(photo_id: photo.id, format: :json),
+              method: :post, remote: true, class: 'photo-like btn like-btn'
   - else
     - like = photo.likes.find_by(member: current_member)
     - if like && can?(:destroy, like)
       = link_to 'Unlike', like_path(id: like.id, format: :json),
-                method: :delete, remote: true, class: 'photo-like btn'
+                method: :delete, remote: true, class: 'photo-like btn like-btn'
 
-%span.badge.badge-info
-  .like-count
-    - unless photo.likes.empty?
-      = like_icon
-      = pluralize(photo.likes.count, "like")
+%span.badge.like-badge
+  = like_icon
+  &nbsp;
+  %span.like-count= photo.likes.count
