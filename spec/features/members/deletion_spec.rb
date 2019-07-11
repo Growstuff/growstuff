@@ -63,6 +63,17 @@ describe "member deletion" do
       expect(page).to have_text "The page you were looking for doesn't exist."
     end
 
+    describe 'percy spec' do
+      it do
+        logout
+        login_as(member)
+        visit member_path(member)
+        click_link 'Edit profile'
+        click_link 'Delete Account'
+        Percy.snapshot(page, name: 'Account deletion')
+      end
+    end
+
     context "deletes and" do
       before do
         logout
@@ -70,7 +81,6 @@ describe "member deletion" do
         visit member_path(member)
         click_link 'Edit profile'
         click_link 'Delete Account'
-        Percy.snapshot(page, name: 'Account deletion')
         fill_in "current_pw_for_delete", with: "password1", match: :prefer_exact
         click_button "Delete"
         logout
