@@ -24,13 +24,13 @@ $(document).ready(function() {
 
     $('#photo-' + data.id + ' .like-count').text(data.like_count);
     if (data.liked_by_member) {
-      like_badge.addClass('text-success');
+      like_badge.addClass('liked');
       // Turn the button into an unlike button
       like_button.data('method', 'delete');
       like_button.attr('href', data.url);
       like_button.text('Unlike');
     } else {
-      like_badge.removeClass('text-success');
+      like_badge.removeClass('liked');
       // Turn the button into an *like* button
       like_button.data('method', 'post');
       like_button.attr('href', '/likes.json?photo_id=' + data.id);
