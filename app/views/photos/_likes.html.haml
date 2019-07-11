@@ -1,8 +1,9 @@
 
 - if member_signed_in?
-  - if can?(:new, Like)
-    = link_to 'Like', likes_path(photo_id: photo.id, format: :json),
-              method: :post, remote: true, class: 'photo-like btn like-btn'
+  - if !photo.members.include? current_member
+    - if can?(:new, Like)
+      = link_to 'Like', likes_path(photo_id: photo.id, format: :json),
+                method: :post, remote: true, class: 'photo-like btn like-btn'
   - else
     - like = photo.likes.find_by(member: current_member)
     - if like && can?(:destroy, like)
