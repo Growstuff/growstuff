@@ -74,13 +74,13 @@ describe "member profile", js: true do
     it "twitter link" do
       twitter_auth = create :authentication, member: member
       visit member_path(member)
-      expect(page).to have_link twitter_auth.name, href: "http://twitter.com/#{twitter_auth.name}"
+      expect(page).to have_link twitter_auth.name, href: "https://twitter.com/#{twitter_auth.name}"
     end
 
     it "flickr link" do
       flickr_auth = create :flickr_authentication, member: member
       visit member_path(member)
-      expect(page).to have_link flickr_auth.name, href: "http://flickr.com/photos/#{flickr_auth.uid}"
+      expect(page).to have_link flickr_auth.name, href: "https://flickr.com/photos/#{flickr_auth.uid}"
     end
 
     describe 'user role labels' do
@@ -112,8 +112,7 @@ describe "member profile", js: true do
       it { expect(page).to have_link href: planting_path(new_planting) }
       it { expect(page).to have_link href: planting_path(old_planting) }
       it { expect(page).to have_link href: planting_path(finished_planting) }
-      it { expect(page).to have_link href: planting_path(no_planted_at_planting) }
-      it { expect(page).to have_text 'unknown date' }
+      it { expect(page).not_to have_link href: planting_path(no_planted_at_planting) }
     end
 
     context 'member has seeds' do

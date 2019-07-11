@@ -39,7 +39,10 @@
             = @post.subject
           = render 'posts/actions', post: @post
         .card-body
-          = render 'posts/single', post: @post
+          .post-content= render 'posts/single', post: @post
+          .index-cards
+            - @post.photos.each do |photo|
+              = render 'photos/thumbnail', photo: photo
 
         .card-footer
           = render 'posts/likes', post: @post

@@ -130,7 +130,7 @@
             = icon 'fas', 'external-link-alt'
             OpenFarm - Growing guide
         %li.list-group-item
-          = link_to "http://www.gardenate.com/plant/#{CGI.escape @crop.name}",
+          = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
                     target: "_blank",
                     class: 'card-link',
                     rel: "noopener noreferrer" do
@@ -138,9 +138,18 @@
             Gardenate - Planting reminders
         - if current_member && current_member.location
           %li.list-group-item
-            = link_to 'http://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
+            = link_to 'https://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
                     target: "_blank",
                     class: 'card-link',
                     rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
               Google
+
+        %li.list-group-item
+          = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            Wikihow instructions
+
