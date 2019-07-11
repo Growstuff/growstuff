@@ -1,4 +1,6 @@
 - content_for :title, "Inbox"
+- content_for :breadcrumbs do
+  %li.breadcrumb-item.active= link_to 'Messages', notifications_path
 
 - if @notifications.empty?
   .alert.alert-success{role: "alert"} You have no messages.

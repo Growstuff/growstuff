@@ -1,8 +1,15 @@
 = content_for :title, @notification.subject
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Messages', notifications_path
+
 .card
   .card-header
     .card-title= @notification.subject
+    .float-right
+      = link_to @notification.sender do
+        = @notification.sender
+        = render 'members/tiny', member: @notification.sender
   .card-body
     = render @notification
 
