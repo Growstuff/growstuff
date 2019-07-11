@@ -81,7 +81,6 @@ describe "member deletion" do
         visit member_path(member)
         click_link 'Edit profile'
         click_link 'Delete Account'
-        Percy.snapshot(page, name: 'Account deletion')
         fill_in "current_pw_for_delete", with: "password1", match: :prefer_exact
         click_button "Delete"
         logout
