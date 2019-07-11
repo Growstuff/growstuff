@@ -29,7 +29,8 @@
         %li.nav-item.dropdown
           %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
             - if current_member.notifications.unread_count.positive?
-              = t('.your_stuff', unread_count: current_member.notifications.unread_count)
+              = t('.your_stuff')
+              %span.badge.badge-info= current_member.notifications.unread_count
             - else
               = t('.current_memberlogin_name', current_memberlogin_name: current_member.login_name)
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
@@ -47,9 +48,10 @@
 
             - if current_member.notifications.unread_count.positive?
               .dropdown-divider
-              %strong= link_to(t('.inbox_unread',
-                        unread_count: current_member.notifications.unread_count),
-                        notifications_path, class: 'dropdown-item')
+              %strong
+                = link_to(notifications_path, class: 'dropdown-item') do
+                  = t('.inbox')
+                  %span.badge.badge-info= current_member.notifications.unread_count
             - else
               = link_to t('.inbox'), notifications_path, class: 'dropdown-item'
 
