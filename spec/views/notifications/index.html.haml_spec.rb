@@ -15,9 +15,8 @@ describe "notifications/index" do
     end
 
     it "renders a list of notifications" do
-      assert_select "table"
-      assert_select "tr>td", text: @notification.sender.to_s, count: 2
-      assert_select "tr>td", text: @notification.subject, count: 2
+      has_content @notification.sender.to_s, count: 2
+      has_content @notification.subject, count: 2
     end
 
     it "links to sender's profile" do
