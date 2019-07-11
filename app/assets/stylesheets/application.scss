@@ -8,16 +8,6 @@
 @import 'leaflet';
 @import 'leaflet.markercluster';
 
-@import 'predictions';
-@import 'plantings';
-@import 'members';
-@import 'harvests';
-@import 'seeds';
-@import 'posts';
-@import 'crops';
-
-@import 'homepage';
-@import 'photos';
 
 // Font Awesome
 @import 'font-awesome-sprockets';
@@ -26,3 +16,14 @@
 @import 'rails_bootstrap_forms';
 
 @import 'overrides';
+@import 'crops';
+@import 'harvests';
+@import 'members';
+@import 'notifications';
+@import 'plantings';
+@import 'posts';
+@import 'predictions';
+@import 'seeds';
+
+@import 'homepage';
+@import 'photos';
