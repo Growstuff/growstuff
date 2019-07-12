@@ -85,7 +85,7 @@ class Crop < ApplicationRecord
   # later we can choose a default photo based on different criteria,
   # eg. popularity
   def default_photo
-    first_photo(:plantings) || first_photo(:harvests) || first_photo(:seeds)
+    most_liked_photo
   end
 
   # returns hash indicating whether this crop is grown in
@@ -213,7 +213,7 @@ class Crop < ApplicationRecord
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
   end
 
-  def first_photo(type)
-    Photo.joins(type).where("#{type}": { crop_id: id }).order("photos.created_at DESC").first
+  def most_liked_photo
+    photos.order(likes_count: :desc, created_at: :desc).first
   end
 end
