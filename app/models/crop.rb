@@ -1,5 +1,6 @@
 class Crop < ApplicationRecord
   extend FriendlyId
+  include PhotoCapable
   friendly_id :name, use: %i(slugged finders)
 
   ##
@@ -57,18 +58,6 @@ class Crop < ApplicationRecord
   # Elastic search configuration
   searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
 
-  def planting_photos
-    Photo.joins(:plantings).where("plantings.crop_id": id)
-  end
-
-  def harvest_photos
-    Photo.joins(:harvests).where("harvests.crop_id": id)
-  end
-
-  def seed_photos
-    Photo.joins(:seeds).where("seeds.crop_id": id)
-  end
-
   def to_s
     name
   end
@@ -78,14 +67,7 @@ class Crop < ApplicationRecord
   end
 
   def default_scientific_name
-    scientific_names.first.name unless scientific_names.empty?
-  end
-
-  # currently returns the first available photo, but exists so that
-  # later we can choose a default photo based on different criteria,
-  # eg. popularity
-  def default_photo
-    most_liked_photo
+    scientific_names.first&.name
   end
 
   # returns hash indicating whether this crop is grown in
@@ -211,9 +193,5 @@ class Crop < ApplicationRecord
     return unless reason_for_rejection == "other" && rejection_notes.blank?
 
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
-  end
-
-  def most_liked_photo
-    photos.order(likes_count: :desc, created_at: :desc).first
   end
 end
