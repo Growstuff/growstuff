@@ -8,7 +8,9 @@ describe Photo do
 
   describe 'add/delete functionality' do
     let(:planting) { FactoryBot.create(:planting, owner: member) }
+    let(:seed) { FactoryBot.create(:seed, owner: member) }
     let(:harvest) { FactoryBot.create(:harvest, owner: member) }
+    let(:post) { FactoryBot.create(:post, author: member) }
     let(:garden)  { FactoryBot.create(:garden, owner: member)  }
 
     context "adds photos" do
@@ -24,10 +26,22 @@ describe Photo do
         expect(harvest.photos.first).to eq photo
       end
 
+      it 'to a seed' do
+        seed.photos << photo
+        expect(seed.photos.size).to eq 1
+        expect(seed.photos.first).to eq photo
+      end
+
       it 'to a garden' do
         garden.photos << photo
         expect(garden.photos.size).to eq 1
         expect(garden.photos.first).to eq photo
+      end
+
+      it 'to a post' do
+        post.photos << photo
+        expect(post.photos.size).to eq 1
+        expect(post.photos.first).to eq photo
       end
     end
 
