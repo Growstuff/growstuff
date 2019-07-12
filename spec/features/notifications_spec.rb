@@ -15,6 +15,9 @@ describe "Notifications", :js do
 
     before do
       login_as recipient
+      visit root_path
+      click_link 'Your Stuff'
+      Percy.snapshot(page, name: "notification menu")
       visit notification_path(notification)
       Percy.snapshot(page, name: "notifications#show")
     end
@@ -22,6 +25,7 @@ describe "Notifications", :js do
     it "Replying to the notification" do
       click_link "Reply"
       expect(page).to have_content "Notification body"
+      Percy.snapshot(page, name: 'Replying to notification')
 
       fill_in 'notification_body', with: "Response body"
       Percy.snapshot(page, name: "notifications#new")
@@ -36,6 +40,9 @@ describe "Notifications", :js do
       FactoryBot.create_list :notification, 34, recipient: recipient
       login_as recipient
       visit notifications_path
+    end
+
+    it do
       Percy.snapshot(page, name: "notifications#index")
     end
 
@@ -44,12 +51,12 @@ describe "Notifications", :js do
     end
 
     it 'paginates at 30 notifications per page' do
-      expect(page).to have_selector 'tr', count: 31
+      expect(page).to have_selector '.message', count: 30
     end
 
     it 'navigates pages' do
       first('a[rel="next"]').click
-      expect(page).to have_selector 'tr', count: 5
+      expect(page).to have_selector '.message', count: 4
     end
   end
 end

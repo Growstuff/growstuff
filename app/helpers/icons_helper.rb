@@ -74,7 +74,7 @@ module IconsHelper
   end
 
   def like_icon
-    icon('fas', 'thumbs-up')
+    icon('fas', 'heart')
   end
 
   def sunniness_icon(sunniness)
