@@ -1,4 +1,5 @@
 class Photo < ApplicationRecord
+  include Likeable
   include Ownable
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post).freeze
