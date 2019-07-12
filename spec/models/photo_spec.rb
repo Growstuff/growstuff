@@ -31,9 +31,9 @@ describe Photo do
           it { expect(planting.crop.default_photo).to eq photo }
 
           describe 'and someone likes the old photo' do
-            before { Like.create(likeable: old_photo) }
-            it { expect(planting.default_photo).to eq photo }
-            it { expect(planting.crop.default_photo).to eq photo }
+            before { FactoryBot.create :like, likeable: old_photo }
+            it { expect(planting.default_photo).to eq old_photo }
+            it { expect(planting.crop.default_photo).to eq old_photo }
           end
         end
       end
