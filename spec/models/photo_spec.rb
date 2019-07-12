@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe Photo do
   let(:photo)  { FactoryBot.create(:photo, owner: member) }
-  let(:member) { FactoryBot.create(:member)               }
+  let(:old_photo) { FactoryBot.create(:photo, owner: member, created_at: 1.year.ago, date_taken: 2.years.ago) }
+  let(:member) { FactoryBot.create(:member) }
 
   it_behaves_like "it is likeable"
 
@@ -11,13 +12,30 @@ describe Photo do
     let(:seed) { FactoryBot.create(:seed, owner: member) }
     let(:harvest) { FactoryBot.create(:harvest, owner: member) }
     let(:post) { FactoryBot.create(:post, author: member) }
-    let(:garden)  { FactoryBot.create(:garden, owner: member)  }
+    let(:garden)  { FactoryBot.create(:garden, owner: member) }
 
     context "adds photos" do
-      it 'to a planting' do
-        planting.photos << photo
-        expect(planting.photos.size).to eq 1
-        expect(planting.photos.first).to eq photo
+      describe 'to a planting' do
+        before { planting.photos << photo }
+
+        it { expect(planting.photos.size).to eq 1 }
+        it { expect(planting.photos.first).to eq photo }
+        # there's only one photo, so that's the default
+        it { expect(planting.default_photo).to eq photo }
+        it { expect(planting.crop.default_photo).to eq photo }
+
+        describe 'with a second older photo' do
+          # Add an old photo
+          before { planting.photos << old_photo }
+          it { expect(planting.default_photo).to eq photo }
+          it { expect(planting.crop.default_photo).to eq photo }
+
+          describe 'and someone likes the old photo' do
+            before { Like.create(likeable: old_photo) }
+            it { expect(planting.default_photo).to eq photo }
+            it { expect(planting.crop.default_photo).to eq photo }
+          end
+        end
       end
 
       it 'to a harvest' do
