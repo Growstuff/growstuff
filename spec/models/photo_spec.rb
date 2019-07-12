@@ -4,6 +4,8 @@ describe Photo do
   let(:photo)  { FactoryBot.create(:photo, owner: member) }
   let(:member) { FactoryBot.create(:member)               }
 
+  it_behaves_like "it is likeable"
+
   describe 'add/delete functionality' do
     let(:planting) { FactoryBot.create(:planting, owner: member) }
     let(:harvest) { FactoryBot.create(:harvest, owner: member) }
