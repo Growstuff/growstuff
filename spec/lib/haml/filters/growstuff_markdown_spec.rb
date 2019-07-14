@@ -7,7 +7,7 @@ def input_link(name)
 end
 
 def output_link(crop, name = nil)
-  url = Rails.application.routes.url_helpers.crop_url(crop, host: Rails.application.config.host)
+  url = Rails.application.routes.url_helpers.crop_url(crop, only_path: true)
   return "<a href=\"#{url}\">#{name}</a>" if name
 
   "<a href=\"#{url}\">#{crop.name}</a>"
@@ -62,7 +62,7 @@ describe 'Haml::Filters::Growstuff_Markdown' do
   end
 
   it "finds crops case insensitively" do
-    @crop = FactoryBot.create(:crop, name: 'tomato')
+    @crop = FactoryBot.create(:crop, name: 'tomato', slug: 'tomato')
     rendered = Haml::Filters::GrowstuffMarkdown.render(input_link('ToMaTo'))
     expect(rendered).to match(/#{output_link(@crop, 'ToMaTo')}/)
   end

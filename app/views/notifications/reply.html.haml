@@ -1,6 +1,8 @@
 = content_for :title, "Send a message to #{@recipient}"
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Messages', notifications_path
 
-= render @sender_notification
-
+.card
+  .card-body= render @sender_notification
 = render 'form'
 
