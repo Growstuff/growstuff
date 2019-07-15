@@ -1,7 +1,7 @@
 class Notification < ApplicationRecord
   belongs_to :sender, class_name: 'Member', inverse_of: :sent_notifications
   belongs_to :recipient, class_name: 'Member', inverse_of: :notifications
-  belongs_to :post, optional: true
+  belongs_to :item, optional: true, polymorphic: true
 
   validates :subject, length: { maximum: 255 }
 
@@ -10,6 +10,10 @@ class Notification < ApplicationRecord
 
   before_create :replace_blank_subject
   after_create :send_email
+
+    def post
+      return item if item_type == 'Post'
+    end
 
   def self.unread_count
     unread.size
@@ -20,6 +24,6 @@ class Notification < ApplicationRecord
   end
 
   def send_email
-    Notifier.notify(self).deliver_now! if recipient.send_notification_email
+    Notifier.notify(self).deliver_now! if should_send_email && recipient.send_notification_email
   end
 end

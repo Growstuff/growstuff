@@ -4,9 +4,11 @@
   on
   = notification.created_at
 
-  - if notification.post_id
+  - if notification.item.present?
     in response to:
-    = link_to notification.post.subject, notification.post
+    = link_to notification.item, notification.item
+
+    = render notification.item
 
 .well
   :growstuff_markdown

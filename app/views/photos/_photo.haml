@@ -1,10 +1,11 @@
-.planting-full-photo
-  = image_tag(photo.fullsize_url, alt: photo.title, class: 'img img-responsive')
-  .text
-    %p
-      = link_to photo.title, photo
-      %br/
-      %small
-        %i
-          by
-          = link_to photo.owner, photo.owner
+-# .planting-full-photo
+-#   = image_tag(photo.fullsize_url, alt: photo.title, class: 'img img-responsive')
+-#   .text
+-#     %p
+-#       = link_to photo.title, photo
+-#       %br/
+-#       %small
+-#         %i
+-#           by
+-#           = link_to photo.owner, photo.owner
+= render 'photos/thumbnail', photo: photo

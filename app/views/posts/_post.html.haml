@@ -1,0 +1,5 @@
+%h2= link_to post.subject, post
+%p
+  Written by
+  %strong= link_to post.author, post.author
+%p= truncate(strip_tags(post.body), length: 200)

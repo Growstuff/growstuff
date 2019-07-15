@@ -1,6 +1,7 @@
 class Comment < ApplicationRecord
   belongs_to :author, -> { with_deleted }, class_name: 'Member', inverse_of: :comments
   belongs_to :post
+  has_one :notification, as: :item
 
   scope :post_order, -> { reorder("created_at ASC") } # for display on post page
 
@@ -14,7 +15,8 @@ class Comment < ApplicationRecord
         sender_id:    sender,
         subject:      "#{author} commented on #{post.subject}",
         body:         body,
-        post_id:      post.id
+        item:         self,
+        should_send_email: true
       )
     end
   end

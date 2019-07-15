@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_234859) do
+ActiveRecord::Schema.define(version: 2019_07_13_042506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -329,9 +329,11 @@ ActiveRecord::Schema.define(version: 2019_07_12_234859) do
     t.string "subject"
     t.text "body"
     t.boolean "read", default: false
-    t.integer "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "should_send_email"
+    t.integer "item_id"
+    t.text "item_type"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|

@@ -72,7 +72,7 @@ class Post < ApplicationRecord
 
   def send_notification
     recipients = []
-    sender = author.id
+    sender = author
     body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |_m|
       # find member case-insensitively and add to list of recipients
       member = Member.case_insensitive_login_name(Regexp.last_match(1)).first
@@ -85,13 +85,26 @@ class Post < ApplicationRecord
     end
     # don't send notifications to yourself
     recipients.map(&:id).each do |recipient_id|
-      next unless recipient_id != sender
+      next unless recipient_id != author
 
-      Notification.create(
+      Notification.create!(
         recipient_id: recipient_id,
-        sender_id:    sender,
+        sender:       author,
         subject:      "#{author} mentioned you in their post #{subject}",
-        body:         body
+        body:         body,
+        should_send_email: true,
+        item:         self
+      )
+    end
+
+    # notify followers
+    author.followers.each do |follower|
+      Notification.create!(
+        recipient:     follower,
+        sender:        author,
+        subject:      "#{author} wrote a post #{subject}",
+        item:         self,
+        should_send_email: true
       )
     end
   end

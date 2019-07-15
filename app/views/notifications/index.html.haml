@@ -8,28 +8,36 @@
   = paginate @notifications
 
   - @notifications.each do |n|
-    .card.message
+
+    .card.message-card
+      .card-header
+        %span.text-muted.float-right #{time_ago_in_words n.created_at} ago
+        %h3
+          - if n.read
+            = icon 'far', 'envelope-open'
+          - else
+            %span.badge.badge-primary
+              = icon 'far', 'envelope'
+              unread
+          - if n.item.present?
+            %span.badge.badge-info=n.item_type
+          = link_to  n.subject, notification_path(n)
       .card-body
         .row
-          .col-6.col-md-9
-            %h3= link_to  n.subject, notification_path(n)
-            %p
-              - if n.read
-                = icon 'far', 'envelope-open'
-              - else
-                = icon 'far', 'envelope'
-                %strong unread
-              = n.created_at
-          .col-6.col-md-3.text-right
+          .col-8
+            - if n.item.present?
+              = render n.item
+          .col-4.text-right
             = link_to n.sender do
               %h3
                 = render 'members/tiny', member: n.sender
                 = n.sender
             = render 'members/follow_buttons', member: n.sender
       .card-footer
-        = link_to 'Read', n, class: 'btn btn-primary'
-        = link_to 'Reply', reply_link(n), class: 'btn btn-secondary'
-        = link_to n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
-          = delete_icon
-          = t('buttons.delete')
+        .float-right
+          = link_to 'Read', n, class: 'btn btn-primary'
+          = link_to 'Reply', reply_link(n), class: 'btn btn-secondary'
+          = link_to n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
+            = delete_icon
+            = t('buttons.delete')
   = paginate @notifications
