@@ -100,7 +100,7 @@ GEM
     capybara-screenshot (1.0.23)
       capybara (>= 1.0, < 4)
       launchy
-    chartkick (3.2.0)
+    chartkick (3.2.1)
     childprocess (1.0.1)
       rake (< 13.0)
     codeclimate-test-reporter (1.0.9)
