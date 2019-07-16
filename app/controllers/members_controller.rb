@@ -38,10 +38,11 @@ class MembersController < ApplicationController
     end
   end
 
-  EMAIL_TYPE_STRING = {
-    send_notification_email: "direct message notifications",
-    send_planting_reminder:  "planting reminders"
-  }.freeze
+  def destroy
+    @member = Member.find_by!(slug: params[:slug])
+    @member.destroy
+    redirect_to admin_path
+  end
 
   def unsubscribe
     verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
@@ -71,6 +72,11 @@ class MembersController < ApplicationController
   end
 
   private
+
+  EMAIL_TYPE_STRING = {
+    send_notification_email: "direct message notifications",
+    send_planting_reminder:  "planting reminders"
+  }.freeze
 
   def member_params
     params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter)
