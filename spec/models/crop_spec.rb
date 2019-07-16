@@ -185,9 +185,9 @@ describe Crop do
       end
 
       it { expect(crop.photos.size).to eq 0 }
-      it { expect(crop.planting_photos.size).to eq 0 }
-      it { expect(crop.harvest_photos.size).to eq 0 }
-      it { expect(crop.seed_photos.size).to eq 0 }
+      it { expect(crop.photos.by_model(Planting).size).to eq 0 }
+      it { expect(crop.photos.by_model(Harvest).size).to eq 0 }
+      it { expect(crop.photos.by_model(Seed).size).to eq 0 }
     end
 
     describe 'finding all photos' do
@@ -203,9 +203,9 @@ describe Crop do
       end
 
       it { expect(crop.photos.size).to eq 3 }
-      it { expect(crop.planting_photos.size).to eq 1 }
-      it { expect(crop.harvest_photos.size).to eq 1 }
-      it { expect(crop.seed_photos.size).to eq 1 }
+      it { expect(crop.photos.by_model(Planting).size).to eq 1 }
+      it { expect(crop.photos.by_model(Harvest).size).to eq 1 }
+      it { expect(crop.photos.by_model(Seed).size).to eq 1 }
     end
   end
 

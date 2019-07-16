@@ -362,6 +362,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_234859) do
     t.string "link_url", null: false
     t.string "flickr_photo_id"
     t.datetime "date_taken"
+    t.integer "likes_count", default: 0
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|
@@ -412,6 +413,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_234859) do
     t.datetime "updated_at"
     t.string "slug"
     t.integer "forum_id"
+    t.integer "likes_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
