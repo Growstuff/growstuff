@@ -37,11 +37,6 @@ class MembersController < ApplicationController
     end
   end
 
-  def destroy
-    @member = Member.find_by!(slug: params[:slug])
-    @member.destroy
-    redirect_to admin_members_path
-  end
 
   def unsubscribe
     verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
