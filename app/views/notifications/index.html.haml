@@ -21,11 +21,14 @@
                 %strong unread
               = n.created_at
           .col-6.col-md-3.text-right
-            = link_to n.sender do
-              %h3
-                /= render 'members/tiny', member: n.sender
-                = n.sender
-            = render 'members/follow_buttons', member: n.sender
+            - if n.sender.present?
+              = link_to n.sender do
+                %h3
+                  = render 'members/tiny', member: n.sender
+                  = n.sender
+              = render 'members/follow_buttons', member: n.sender
+            - else
+              Member deleted
       .card-footer
         = link_to 'Read', n, class: 'btn btn-primary'
         = link_to 'Reply', reply_link(n), class: 'btn btn-secondary'
