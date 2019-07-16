@@ -23,7 +23,7 @@
           .col-6.col-md-3.text-right
             = link_to n.sender do
               %h3
-                = render 'members/tiny', member: n.sender
+                /= render 'members/tiny', member: n.sender
                 = n.sender
             = render 'members/follow_buttons', member: n.sender
       .card-footer
