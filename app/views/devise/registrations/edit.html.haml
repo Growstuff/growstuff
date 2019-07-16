@@ -1,5 +1,8 @@
 - content_for :title, "Settings for #{current_member.login_name}"
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'My Profile', member_path(current_member)
+
 %h1
   = member_icon
   Settings for #{current_member.login_name}

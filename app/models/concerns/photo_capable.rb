@@ -6,5 +6,13 @@ module PhotoCapable
     has_many :photos, through: :photo_associations, as: :photographable
 
     scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
+
+    def default_photo
+      most_liked_photo
+    end
+
+    def most_liked_photo
+      photos.order(likes_count: :desc, created_at: :desc).first
+    end
   end
 end
