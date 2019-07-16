@@ -40,7 +40,7 @@ class MembersController < ApplicationController
   def destroy
     @member = Member.find_by!(slug: params[:slug])
     @member.destroy
-    redirect_to admin_path
+    redirect_to admin_members_path
   end
 
   def unsubscribe
