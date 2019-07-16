@@ -17,6 +17,7 @@ class MembersController < ApplicationController
     @twitter_auth  = @member.auth('twitter')
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
+    @posts         = @member.posts
 
     @activity = TimelineService.member_query(@member).limit(30)
 
