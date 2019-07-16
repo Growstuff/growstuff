@@ -54,7 +54,7 @@ Rails.application.routes.draw do
   resources :plant_parts
   resources :photos
 
-  delete 'photo_associations' => 'photo_associations#destroy'
+  resources :photo_associations, only: :destroy
 
   resources :crops, param: :slug, concerns: :has_photos do
     get 'gardens' => 'gardens#index'
