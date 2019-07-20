@@ -3,7 +3,6 @@ require 'rails_helper'
 describe MembersController do
   before do
     @member = FactoryBot.create(:member)
-    @posts = [FactoryBot.create(:post, author: @member)]
     @twitter_auth = FactoryBot.create(:authentication, member: @member)
     @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
   end
@@ -26,11 +25,6 @@ describe MembersController do
     it "provides JSON for member profile" do
       get :show, params: { slug: @member.to_param }, format: 'json'
       response.should be_successful
-    end
-
-    it "assigns @posts with the member's posts" do
-      get :show, params: { slug: @member.to_param }
-      assigns(:posts).should eq(@posts)
     end
 
     it "assigns @twitter_auth" do
