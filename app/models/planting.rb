@@ -85,10 +85,6 @@ class Planting < ApplicationRecord
     I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner: owner)
   end
 
-  def default_photo
-    photos.order(created_at: :desc).first
-  end
-
   def finished?
     finished || (finished_at.present? && finished_at <= Time.zone.today)
   end

@@ -1,5 +1,6 @@
 class Crop < ApplicationRecord
   extend FriendlyId
+  include PhotoCapable
   friendly_id :name, use: %i(slugged finders)
 
   ##
@@ -14,8 +15,8 @@ class Crop < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
-  has_many :photographings, dependent: :destroy
-  has_many :photos, through: :photographings
+  has_many :photo_associations, dependent: :destroy
+  has_many :photos, through: :photo_associations
   has_many :plant_parts, -> { distinct.order("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
@@ -57,18 +58,6 @@ class Crop < ApplicationRecord
   # Elastic search configuration
   searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
 
-  def planting_photos
-    Photo.joins(:plantings).where("plantings.crop_id": id)
-  end
-
-  def harvest_photos
-    Photo.joins(:harvests).where("harvests.crop_id": id)
-  end
-
-  def seed_photos
-    Photo.joins(:seeds).where("seeds.crop_id": id)
-  end
-
   def to_s
     name
   end
@@ -78,14 +67,7 @@ class Crop < ApplicationRecord
   end
 
   def default_scientific_name
-    scientific_names.first.name unless scientific_names.empty?
-  end
-
-  # currently returns the first available photo, but exists so that
-  # later we can choose a default photo based on different criteria,
-  # eg. popularity
-  def default_photo
-    first_photo(:plantings) || first_photo(:harvests) || first_photo(:seeds)
+    scientific_names.first&.name
   end
 
   # returns hash indicating whether this crop is grown in
@@ -211,9 +193,5 @@ class Crop < ApplicationRecord
     return unless reason_for_rejection == "other" && rejection_notes.blank?
 
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
-  end
-
-  def first_photo(type)
-    Photo.joins(type).where("#{type}": { crop_id: id }).order("photos.created_at DESC").first
   end
 end

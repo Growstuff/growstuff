@@ -74,6 +74,10 @@ class Harvest < ApplicationRecord
     harvested_at - planting.planted_at
   end
 
+  def default_photo
+    most_liked_photo || planting&.default_photo
+  end
+
   # we're storing the harvest weight in kilograms in the db too
   # to make data manipulation easier
   def set_si_weight
@@ -133,10 +137,6 @@ class Harvest < ApplicationRecord
     else
       crop.name.pluralize
     end.to_s
-  end
-
-  def default_photo
-    photos.order(created_at: :desc).first || crop.default_photo
   end
 
   private

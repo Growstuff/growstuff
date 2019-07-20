@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_11_043654) do
+ActiveRecord::Schema.define(version: 2019_07_20_000625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,7 +221,6 @@ ActiveRecord::Schema.define(version: 2019_07_11_043654) do
     t.decimal "area"
     t.string "area_unit"
     t.integer "garden_type_id"
-    t.jsonb "layout"
     t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
@@ -394,7 +393,7 @@ ActiveRecord::Schema.define(version: 2019_07_11_043654) do
     t.integer "product_id"
   end
 
-  create_table "photographings", id: :serial, force: :cascade do |t|
+  create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.integer "photo_id", null: false
     t.integer "photographable_id", null: false
     t.string "photographable_type", null: false
@@ -417,6 +416,7 @@ ActiveRecord::Schema.define(version: 2019_07_11_043654) do
     t.string "link_url", null: false
     t.string "flickr_photo_id"
     t.datetime "date_taken"
+    t.integer "likes_count", default: 0
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|
@@ -467,6 +467,7 @@ ActiveRecord::Schema.define(version: 2019_07_11_043654) do
     t.datetime "updated_at"
     t.string "slug"
     t.integer "forum_id"
+    t.integer "likes_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
@@ -486,16 +487,6 @@ ActiveRecord::Schema.define(version: 2019_07_11_043654) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "creator_id"
-  end
-
-  create_table "seed_trades", force: :cascade do |t|
-    t.bigint "seed_id"
-    t.bigint "member_id"
-    t.boolean "accepted"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["member_id"], name: "index_seed_trades_on_member_id"
-    t.index ["seed_id"], name: "index_seed_trades_on_seed_id"
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
@@ -519,32 +510,12 @@ ActiveRecord::Schema.define(version: 2019_07_11_043654) do
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
   end
 
-  create_table "trades", force: :cascade do |t|
-    t.bigint "seed_id"
-    t.bigint "responded_seed_id"
-    t.bigint "requested_by_id"
-    t.boolean "accepted"
-    t.text "message"
-    t.text "address_for_delivery"
-    t.text "rejection_reason"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["requested_by_id"], name: "index_trades_on_requested_by_id"
-    t.index ["responded_seed_id"], name: "index_trades_on_responded_seed_id"
-    t.index ["seed_id"], name: "index_trades_on_seed_id"
-  end
-
   add_foreign_key "harvests", "plantings"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
-  add_foreign_key "photographings", "crops"
-  add_foreign_key "photographings", "photos"
+  add_foreign_key "photo_associations", "crops"
+  add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
-  add_foreign_key "seed_trades", "members"
-  add_foreign_key "seed_trades", "seeds"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
-  add_foreign_key "trades", "members", column: "requested_by_id"
-  add_foreign_key "trades", "seeds"
-  add_foreign_key "trades", "seeds", column: "responded_seed_id"
 end
