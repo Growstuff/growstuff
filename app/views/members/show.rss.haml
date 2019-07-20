@@ -3,7 +3,7 @@
   %channel
     %title #{@member.login_name}'s recent posts (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= member_url(@member)
-    - @posts.each do |post|
+    - @member.posts.each do |post|
       %item
         %title #{post.subject} by #{post.author.login_name}
         %pubdate= post.created_at.to_s(:rfc822)
