@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :get_mailbox, :get_box, :get_actor
+  before_action :authenticate_member!
+  before_action :get_mailbox #, :get_box, :get_actor
   def index
     redirect_to conversations_path(box: @box)
   end
@@ -17,14 +17,13 @@ class MessagesController < ApplicationController
     redirect_to conversations_path(box: @box)
   end
 
-  # GET /messages/new
-  # GET /messages/new.xml
   def new
-    if params[:receiver].present?
-      @recipient = Actor.find_by(slug: params[:receiver])
+    @message = Mailboxer::Message.new
+    if params[:recipient_id].present?
+      @recipient = Member.find_by(id: params[:recipient_id])
       return if @recipient.nil?
 
-      @recipient = nil if Actor.normalize(@recipient) == Actor.normalize(current_subject)
+      # @recipient = nil if Member.normalize(@recipient) == Actor.normalize(current_subject)
     end
   end
 
@@ -75,5 +74,12 @@ class MessagesController < ApplicationController
       return
     end
     @box = params[:box]
+  end
+
+  def current_subject
+    @current_subject ||=
+      # current_subject_from_params  ||
+      # current_subject_from_session ||
+        current_member
   end
 end

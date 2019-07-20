@@ -49,11 +49,11 @@
             - if current_member.notifications.unread_count.positive?
               .dropdown-divider
               %strong
-                = link_to(notifications_path, class: 'dropdown-item') do
+                = link_to(conversations_path, class: 'dropdown-item') do
                   = t('.inbox')
                   %span.badge.badge-info= current_member.notifications.unread_count
             - else
-              = link_to t('.inbox'), notifications_path, class: 'dropdown-item'
+              = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
 
           - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
             %li.nav-item.dropdown

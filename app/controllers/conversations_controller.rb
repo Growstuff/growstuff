@@ -1,7 +1,7 @@
 class ConversationsController < ApplicationController
   before_action :authenticate_member!
   before_action :get_mailbox, :get_box # , :get_actor
-  # before_action :check_current_subject_in_conversation, :only => [:show, :update, :destroy]
+  before_action :check_current_subject_in_conversation, :only => [:show, :update, :destroy]
 
   def index
     @conversations = if @box.eql? "inbox"
@@ -18,13 +18,10 @@ class ConversationsController < ApplicationController
   end
 
   def show
-    @receipts = if @box.eql? 'trash'
-                  @mailbox.receipts_for(@conversation).trash
-                else
-                  @mailbox.receipts_for(@conversation).not_trash
-                end
-    render action: :show
-    @receipts.mark_as_read
+    # byebug
+    # @receipts = @mailbox.receipts_for(@conversation)
+    # @receipts.mark_as_read
+    # render action: :show
   end
 
   def update
@@ -36,7 +33,7 @@ class ConversationsController < ApplicationController
     end
 
     @receipts = if @box.eql? 'trash'
-                  @mailbox.receipts_for(@conversation).trash
+                 @mailbox.receipts_for(@conversation).trash
                 else
                   @mailbox.receipts_for(@conversation).not_trash
                 end
@@ -71,20 +68,14 @@ class ConversationsController < ApplicationController
     @mailbox = current_member.mailbox
   end
 
-  def get_actor
-    @actor = Actor.normalize(current_subject)
-  end
-
   def get_box
     params[:box] = 'inbox' if params[:box].blank? || !%w(inbox sentbox trash).include?(params[:box])
-
     @box = params[:box]
   end
 
   def check_current_subject_in_conversation
-    @conversation = Conversation.find_by(id: params[:id])
-
-    if @conversation.nil? || !@conversation.is_participant?(@actor)
+    @conversation = Mailboxer::Conversation.find_by(id: params[:id])
+    if @conversation.nil? || !@conversation.is_participant?(current_member)
       redirect_to conversations_path(box: @box)
       return
     end

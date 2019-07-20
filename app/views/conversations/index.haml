@@ -1,35 +1,39 @@
 - content_for :title, "Inbox"
 - content_for :breadcrumbs do
-  %li.breadcrumb-item.active= link_to 'Messages', notifications_path
+  %li.breadcrumb-item.active= link_to 'Conversations', conversations_path
 
-- if @conversations.empty?
-  .alert.alert-success{role: "alert"} You have no messages.
-- else
-  = paginate @conversations, theme: 'twitter-bootstrap-3'
+- unless @conversations.empty?
+  = paginate @conversations
 
--#   - @conversations.each do |n|
--#     .card.message
--#       .card-body
--#         .row
--#           .col-6.col-md-9
--#             %h3= link_to  n.subject, notification_path(n)
--#             %p
--#               - if n.read
--#                 = icon 'far', 'envelope-open'
--#               - else
--#                 = icon 'far', 'envelope'
--#                 %strong unread
--#               = n.created_at
--#           .col-6.col-md-3.text-right
--#             = link_to n.sender do
--#               %h3
--#                 = render 'members/tiny', member: n.sender
--#                 = n.sender
--#             = render 'members/follow_buttons', member: n.sender
--#       .card-footer
--#         = link_to 'Read', n, class: 'btn btn-primary'
--#         = link_to 'Reply', reply_link(n), class: 'btn btn-secondary'
--#         = link_to n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
--#           = delete_icon
--#           = t('buttons.delete')
--#   = paginate @conversations
+
+%ul.nav.grey.lighten-4.py-4
+  - %W[inbox sentbox trash].each do |box|
+    %li.nav-item= link_to box, conversations_path(box: box), class: 'nav-link'
+
+- @conversations.each do |conversation|
+  .card.message
+    .card-body
+      .row
+        .col-6.col-md-9
+          %h3= link_to  conversation.subject, conversation_path(conversation)
+          -# %p
+          -#   - if n.read
+          -#     = icon 'far', 'envelope-open'
+          -#   - else
+          -#     = icon 'far', 'envelope'
+          -#     %strong unread
+          -#   = n.created_at
+        -# .col-6.col-md-3.text-right
+        -#   = link_to n.sender do
+        -#     %h3
+        -#       = render 'members/tiny', member: n.sender
+        -#       = n.sender
+        -#   = render 'members/follow_buttons', member: n.sender
+    .card-footer
+      = link_to 'Read', conversation_path(conversation), class: 'btn btn-primary'
+      -#= link_to 'Reply', reply_link(conversation), class: 'btn btn-secondary'
+      = link_to conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
+        = delete_icon
+        = t('buttons.delete')
+- unless @conversations.empty?
+  = paginate @conversations

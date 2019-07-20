@@ -6,7 +6,7 @@ class NotificationsController < ApplicationController
 
   # GET /notifications
   def index
-    @notifications = Notification.by_recipient(current_member).order(created_at: :desc).paginate(page: params[:page], per_page: 30)
+    # @notifications = Notification.by_recipient(current_member).order(created_at: :desc).paginate(page: params[:page], per_page: 30)
   end
 
   # GET /notifications/1
@@ -47,24 +47,41 @@ class NotificationsController < ApplicationController
   # POST /notifications
   def create
     # params[:notification][:sender_id] = current_member.id
-    # @notification = Notification.new(notification_params)
-    @recipient = Member.find_by(id: notification_params[:recipient_id])
+    @notification = Notification.new(notification_params)
+    @notification.sender = current_member
+    @notification.recipient = Member.find_by(id: notification_params[:recipient_id])
     @body = notification_params[:body]
     @subject = notification_params[:subject]
 
-    byebug
-    current_member.send_message(@recipient, @body, @subject)
-
-    # if @notification.save
+    if @notification.save
+      @notification.sender.send_message(@notification.recipient, @notification.body, @notification.subject)
       redirect_to notifications_path, notice: 'Message was successfully sent.'
-    # else
-      # render action: "new"
-    # end
+    else
+      render action: "new"
+    end
   end
 
   private
 
   def notification_params
     params.require(:notification).permit(:sender_id, :recipient_id, :subject, :body, :post_id, :read)
+  end
+
+  def conversation_params(*keys)
+    fetch_params(:conversation, *keys)
+  end
+
+  def message_params(*keys)
+    fetch_params(:message, *keys)
+  end
+
+  def fetch_params(key, *subkeys)
+    params[key].instance_eval do
+      case subkeys.size
+      when 0 then self
+      when 1 then self[subkeys.first]
+      else subkeys.map{|k| self[k] }
+      end
+    end
   end
 end
