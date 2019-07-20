@@ -55,10 +55,6 @@ class Seed < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished_at < ?', Time.zone.now) }
 
-  def default_photo
-    photos.order(created_at: :desc).first
-  end
-
   def tradable?
     tradable_to != 'nowhere'
   end

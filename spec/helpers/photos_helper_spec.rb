@@ -16,7 +16,7 @@ describe PhotosHelper do
   describe "crops" do
     subject { crop_image_path(crop) }
 
-    it { is_expected.to eq 'placeholder_150.png' }
+    it { is_expected.to eq 'placeholder_600.png' }
 
     describe "with a planting" do
       before { planting.photos << planting_photo }
@@ -46,7 +46,7 @@ describe PhotosHelper do
   describe "gardens" do
     subject { garden_image_path(garden) }
 
-    it { is_expected.to eq 'placeholder_150.png' }
+    it { is_expected.to eq 'placeholder_600.png' }
 
     describe "uses garden's own photo" do
       before { garden.photos << garden_photo }
@@ -58,7 +58,7 @@ describe PhotosHelper do
   describe 'plantings' do
     subject { planting_image_path(planting) }
 
-    it { is_expected.to eq 'placeholder_150.png' }
+    it { is_expected.to eq 'placeholder_600.png' }
     describe "uses planting's own photo" do
       before { planting.photos << planting_photo }
 
@@ -69,7 +69,7 @@ describe PhotosHelper do
   describe 'harvests' do
     subject { harvest_image_path(harvest) }
 
-    it { is_expected.to eq 'placeholder_150.png' }
+    it { is_expected.to eq 'placeholder_600.png' }
     describe "uses harvest's own photo" do
       before { harvest.photos << harvest_photo }
 
@@ -80,7 +80,7 @@ describe PhotosHelper do
   describe 'seeds' do
     subject { seed_image_path(seed) }
 
-    it { is_expected.to eq 'placeholder_150.png' }
+    it { is_expected.to eq 'placeholder_600.png' }
 
     describe "uses seed's own photo" do
       before { seed.photos << seed_photo }

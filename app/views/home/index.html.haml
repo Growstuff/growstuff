@@ -27,11 +27,10 @@
       .col-md-6
         = render 'harvests'
         %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
-
-  %section.seeds.mx-auto
-    = render 'seeds'
-    .align-bottom
+  .col-md-6
+    %section.seeds.mx-auto
+      = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
-
-  %section.members.mx-auto= render 'members'
+  .col-md-6
+    %section.members.mx-auto= render 'members'
   %section.discussion.mx-auto= render 'discuss'

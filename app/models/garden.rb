@@ -93,8 +93,4 @@ class Garden < ApplicationRecord
       p.save
     end
   end
-
-  def default_photo
-    photos.order(created_at: :desc).first
-  end
 end

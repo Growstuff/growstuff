@@ -1,38 +1,38 @@
 - content_for :title, "Inbox"
+- content_for :breadcrumbs do
+  %li.breadcrumb-item.active= link_to 'Messages', notifications_path
 
 - if @notifications.empty?
   .alert.alert-success{role: "alert"} You have no messages.
 - else
-  = paginate @notifications, theme: 'twitter-bootstrap-3'
-  %table.table.table-striped
-    %thead
-      %tr
-        %th From
-        %th Subject
-        %th Date
-        %th
+  = paginate @notifications
 
-    - @notifications.each do |n|
-      - if can? :read, n
-        %tr
-          %td
-            - if n.sender.present?
+  - @notifications.each do |n|
+    .card.message
+      .card-body
+        .row
+          .col-6.col-md-9
+            %h3= link_to  n.subject, notification_path(n)
+            %p
               - if n.read
-                = link_to n.sender, member_path(n.sender)
+                = icon 'far', 'envelope-open'
               - else
-                %strong= link_to n.sender, member_path(n.sender)
-            - else
-              *deleted member*
-          %td
-            - if n.read
-              = link_to n.subject, notification_path(n)
-            - else
-              %strong= link_to n.subject, notification_path(n)
-          %td
-            - if n.read
+                = icon 'far', 'envelope'
+                %strong unread
               = n.created_at
+          .col-6.col-md-3.text-right
+            - if n.sender.present?
+              = link_to n.sender do
+                %h3
+                  = render 'members/tiny', member: n.sender
+                  = n.sender
+              = render 'members/follow_buttons', member: n.sender
             - else
-              %strong= n.created_at
-          %td
-            = link_to 'Delete', n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default background-danger btn-xs'
-  = paginate @notifications, theme: 'twitter-bootstrap-3'
+              Member deleted
+      .card-footer
+        = link_to 'Read', n, class: 'btn btn-primary'
+        = link_to 'Reply', reply_link(n), class: 'btn btn-secondary'
+        = link_to n, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
+          = delete_icon
+          = t('buttons.delete')
+  = paginate @notifications

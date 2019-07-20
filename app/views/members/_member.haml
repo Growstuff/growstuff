@@ -13,7 +13,7 @@
       - if member.location.present?
         %span.badge.badge-success
           = icon 'fas', 'map-marker'
-          = member.location
+          = truncate(member.location, length: 50, separator: ' ', omission: '... ')
 
       %p
         %ul.nav.nav-justified.small

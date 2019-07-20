@@ -3,14 +3,14 @@ namespace :growstuff do
   # usage: rake growstuff:admin_user name=skud
 
   task admin_user: :environment do
-    add_role_to_member! ENV['name'], 'admin'
+    add_role_to_member! ENV['name'], 'Admin'
   end
 
   desc "Add a crop wrangler user, by name"
   # usage: rake growstuff:cropwrangler_user name=skud
 
   task cropwrangler_user: :environment do
-    add_role_to_member! ENV['name'], 'crop-wrangler'
+    add_role_to_member! ENV['name'], 'Crop Wrangler'
   end
 
   def add_role_to_member!(login_name, role_name)

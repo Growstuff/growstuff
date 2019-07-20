@@ -1,6 +1,11 @@
 %h4 This photo depicts:
 %p
   %ul.associations
+    - @photo.posts.each do |post|
+      %li
+        = post_icon
+        = link_to post.subject, post
+        = render "association_delete_button", photo: @photo, type: 'post', thing: post
     - @photo.plantings.each do |planting|
       %li
         = planting_icon

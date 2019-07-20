@@ -19,16 +19,7 @@ class MembersController < ApplicationController
     @facebook_auth = @member.auth('facebook')
     @posts         = @member.posts
 
-    # TODO: Consider shifting all of these onto a member activity model?
-    @activity = plantings_for_show
-      .union_all(harvests_for_show)
-      .union_all(posts_for_show)
-      .union_all(comments_for_show)
-      .union_all(photos_for_show)
-      .union_all(seeds_for_show)
-      .where(owner_id: @member.id)
-      .order(event_at: :desc)
-      .limit(30)
+    @activity = TimelineService.member_query(@member).limit(30)
 
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
@@ -46,11 +37,6 @@ class MembersController < ApplicationController
       end
     end
   end
-
-  EMAIL_TYPE_STRING = {
-    send_notification_email: "direct message notifications",
-    send_planting_reminder:  "planting reminders"
-  }.freeze
 
   def unsubscribe
     verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
@@ -81,6 +67,11 @@ class MembersController < ApplicationController
 
   private
 
+  EMAIL_TYPE_STRING = {
+    send_notification_email: "direct message notifications",
+    send_planting_reminder:  "planting reminders"
+  }.freeze
+
   def member_params
     params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter)
   end
@@ -99,72 +90,5 @@ class MembersController < ApplicationController
     else
       Member.order(:login_name)
     end.confirmed.paginate(page: params[:page])
-  end
-
-  # Queries for the show view/action
-  def plantings_for_show
-    Planting.select(
-      :id,
-      "'planting' as event_type",
-      'planted_at as event_at',
-      :owner_id,
-      :crop_id,
-      :slug
-    )
-  end
-
-  def harvests_for_show
-    Harvest.select(
-      :id,
-      "'harvest' as event_type",
-      'harvested_at as event_at',
-      :owner_id,
-      :crop_id,
-      :slug
-    )
-  end
-
-  def posts_for_show
-    Post.select(
-      :id,
-      "'post' as event_type",
-      'posts.created_at as event_at',
-      'author_id as owner_id',
-      'null as crop_id',
-      :slug
-    )
-  end
-
-  def comments_for_show
-    Comment.select(
-      :id,
-      "'comment' as event_type",
-      'comments.created_at as event_at',
-      'author_id as owner_id',
-      'null as crop_id',
-      'null as slug'
-    )
-  end
-
-  def photos_for_show
-    Photo.select(
-      :id,
-      "'photo' as event_type",
-      "photos.created_at as event_at",
-      'photos.owner_id',
-      'null as crop_id',
-      'null as slug'
-    )
-  end
-
-  def seeds_for_show
-    Seed.select(
-      :id,
-      "'seed' as event_type",
-      "seeds.created_at as event_at",
-      'seeds.owner_id',
-      'crop_id',
-      'slug'
-    )
   end
 end

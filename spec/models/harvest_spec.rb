@@ -237,6 +237,7 @@ describe Harvest do
           @planting = FactoryBot.create(:planting, crop: @harvest.crop)
           @photo = FactoryBot.create(:photo, owner: @planting.owner)
           @planting.photos << @photo
+          @harvest.update(planting: @planting)
         end
 
         it 'has a default photo' do

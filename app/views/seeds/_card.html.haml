@@ -7,5 +7,6 @@
       %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
   = link_to seed.owner do
     .card-footer
-      %span.badge.badge-pill.badge-secondary=seed.owner.location
+      %span.badge.badge-pill.badge-secondary
+        = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')
       = render 'members/tiny', member: seed.owner
