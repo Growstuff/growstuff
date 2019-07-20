@@ -97,9 +97,6 @@ Rails.application.routes.draw do
     get 'followers' => 'follows#followers'
   end
 
-  resources :notifications do
-    get 'reply'
-  end
   resources :messages
   resources :conversations
 

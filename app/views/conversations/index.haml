@@ -5,35 +5,45 @@
 - unless @conversations.empty?
   = paginate @conversations
 
+.row
+  .col-2
+    %ul
+      - %W[inbox sentbox trash].each do |box|
+        %li.nav-item
+          = link_to conversations_path(box: box), class: 'nav-link' do
+            = box
+            = icon 'fas', box
+  .col-10
+    %table.table
+      %thead.black.white-text
+        %tr
+          %th{scope: "col"} Sender
+          %th{scope: "col"} Subject
+          %th{scope: "col"} Sent at
+          %th{scope: "col"}
+      %tbody
+        - @conversations.each do |conversation|
 
-%ul.nav.grey.lighten-4.py-4
-  - %W[inbox sentbox trash].each do |box|
-    %li.nav-item= link_to box, conversations_path(box: box), class: 'nav-link'
-
-- @conversations.each do |conversation|
-  .card.message
-    .card-body
-      .row
-        .col-6.col-md-9
-          %h3= link_to  conversation.subject, conversation_path(conversation)
-          -# %p
-          -#   - if n.read
-          -#     = icon 'far', 'envelope-open'
-          -#   - else
-          -#     = icon 'far', 'envelope'
-          -#     %strong unread
-          -#   = n.created_at
-        -# .col-6.col-md-3.text-right
-        -#   = link_to n.sender do
-        -#     %h3
-        -#       = render 'members/tiny', member: n.sender
-        -#       = n.sender
-        -#   = render 'members/follow_buttons', member: n.sender
-    .card-footer
-      = link_to 'Read', conversation_path(conversation), class: 'btn btn-primary'
-      -#= link_to 'Reply', reply_link(conversation), class: 'btn btn-secondary'
-      = link_to conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
-        = delete_icon
-        = t('buttons.delete')
-- unless @conversations.empty?
-  = paginate @conversations
+          %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
+            %td
+              -# - conversation.recipients.each do |member|
+              -#   - unless member == current_member
+              -#     .float-left= render 'members/tiny', member: member
+              -#     = link_to member.login_name, member
+            %td
+              %h3.h3-responsive
+                = link_to conversation_path(conversation) do
+                  - if conversation.receipts_for(current_member).last.is_unread?
+                    = icon 'far', 'envelope'
+                  - else
+                    = icon 'far', 'envelope-open'
+                  =conversation.subject
+            %td
+              =conversation.updated_at
+              .text-muted (#{time_ago_in_words conversation.updated_at} ago)
+            %td
+              = link_to conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
+                = delete_icon
+                = t('buttons.delete')
+        - unless @conversations.empty?
+          = paginate @conversations

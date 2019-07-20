@@ -8,32 +8,34 @@
     .card-header
       %h6 Participants
     .card-body
-      - @conversation.recipients.each do |r|
-        %li
-          = render 'members/tiny', member: r
-          = link_to r, r
+      -# - @conversation.recipients.each do |r|
+      -#   %li
+      -#     = render 'members/tiny', member: r
+      -#     = link_to r, r
   .col-10
     %h1= @conversation.subject
-    - @conversation.messages.each do |message|
-      .card
+    .card
+      - @conversation.messages.order(:created_at).each do |message|
+        - message
         .card-body
-          .card-title= message.subject
-          .float-right
-            = link_to message.sender do
-              = message.sender
-              = render 'members/tiny', member: message.sender
-          %p.text-muted
-            From
-            = link_to message.sender, message.sender
-            on
-            = message.created_at
-          .well
-            :growstuff_markdown
-              #{ strip_tags(message.body) }
+          .col
+            .float-left
+              = link_to message.sender do
+                = message.sender
+                = render 'members/tiny', member: message.sender
+          .col
+            %p.text-muted
+              From
+              = link_to message.sender, message.sender
+              on
+              = message.created_at
+            .well
+              :growstuff_markdown
+                #{ strip_tags(message.body) }
+        -# .card-footer
+        -#   = link_to 'Reply', @reply_link, class: 'btn btn-primary'
+        -#   = link_to message, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger' do
+        -#     = delete_icon
+        -#     = t('buttons.delete')
 
-
-        .card-footer
-          -# = link_to 'Reply', @reply_link, class: 'btn btn-primary'
-          -# = link_to message, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger' do
-          -#   = delete_icon
-          -#   = t('buttons.delete')
+    = render 'messages/form', conversation: @conversation

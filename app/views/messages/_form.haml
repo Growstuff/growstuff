@@ -1,4 +1,4 @@
-= bootstrap_form_for @message do |f|
+= bootstrap_form_tag url: '/messages' do |f|
   .card
     .card-body
       -# - if @notification.errors.any?
@@ -11,16 +11,26 @@
       -#         %li= msg
 
       .field
-        = f.hidden_field :recipient_id, value: @recipient.id
 
-      %p
-        To
-        = link_to @recipient, @recipient
-        = render 'members/tiny', member: @recipient
-      = f.text_field :subject, value: @subject, class: 'form-control', maxlength: 255
+      - if @conversation.present?
+        = f.hidden_field :conversation_id, value: @conversation.id
+        -# To
+        -# - @conversation.recipients.each do |recipient|
+        -#   - unless recipient == current_member
+        -#     = link_to recipient, recipient
+        -#     = render 'members/tiny', member: recipient
+      - elsif @recipient.present?
+        %p
+          To
+          = link_to @recipient, @recipient
+          = render 'members/tiny', member: @recipient
+        = f.hidden_field :recipient_id, value: @recipient.id
+        = f.text_field :subject, value: @subject, class: 'form-control', maxlength: 255
+      - else
+        TODO - add recipient field
+
       = f.text_area :body, rows: 12, label: "Type your message here"
       %span.help-block= render partial: "shared/markdown_help"
     .card-footer
-
-      = link_to 'cancel', notifications_path, class: 'btn'
+      = link_to 'cancel', conversations_path, class: 'btn'
       .float-right= f.submit "Send", class: 'btn btn-primary'
