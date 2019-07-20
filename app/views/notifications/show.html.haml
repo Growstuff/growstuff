@@ -7,9 +7,13 @@
   .card-header
     .card-title= @notification.subject
     .float-right
-      = link_to @notification.sender do
-        = @notification.sender
-        = render 'members/tiny', member: @notification.sender
+      - if @notification.sender.present?
+        = link_to @notification.sender do
+          = @notification.sender
+          = render 'members/tiny', member: @notification.sender
+      - else
+        Member deleted
+
   .card-body
     = render @notification
 
