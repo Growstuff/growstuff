@@ -8,7 +8,7 @@ module Admin
 
     def destroy
       @member = Member.find_by!(slug: params[:slug])
-      @member.destroy
+      @member.discard
       redirect_to admin_members_path
     end
 
