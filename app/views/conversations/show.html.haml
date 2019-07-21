@@ -2,7 +2,10 @@
   %li.breadcrumb-item= link_to 'Conversations', conversations_path
   %li.breadcrumb-item.active= link_to @conversation.subject, conversation_path(@conversation)
 
-
+.row
+  .col-2
+  .col-10
+    %h1= @conversation.subject
 .row
   .col-2
     .card
@@ -12,7 +15,6 @@
         - @participants.each do |member|
           %li.list-group-item= render 'members/tiny', member: member
   .col-10
-    %h1= @conversation.subject
     .card
       - @conversation.messages.order(:created_at).each do |message|
         %ul.list-group.list-group-flush
