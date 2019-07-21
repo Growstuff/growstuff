@@ -132,6 +132,10 @@ class Member < ApplicationRecord
     authentications.find_by(provider: provider)
   end
 
+  def unread_count
+    receipts.where(is_read: false).count
+  end
+
   # Authenticates against Flickr and returns an object we can use for subsequent api calls
   def flickr
     if @flickr.nil?

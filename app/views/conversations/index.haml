@@ -2,13 +2,13 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item.active= link_to 'Conversations', conversations_path
 
-- unless @conversations.empty?
-  = paginate @conversations
 
 .row
   .col-2
   .col-10
     %h1= @box
+    - unless @conversations.empty?
+      = will_paginate @conversations
 .row
   .col-2
     %ul.list-group
@@ -20,8 +20,6 @@
           %span.badge.badge-primary.badge-pill= item_count
 
   .col-10
-    - unless @conversations.empty?
-      = paginate @conversations
     .table-responsive.text-nowrap
       %table.table.table-hover
         %thead.black.white-text
@@ -37,12 +35,12 @@
                 - conversation.participants.each do |member|
                   = render 'members/tiny', member: member
               %td
-                %h3.h3-responsive
+                %h2
                   = link_to conversation_path(conversation) do
                     - if conversation.receipts_for(current_member).last.is_unread?
-                      = icon 'far', 'envelope'
+                      .badge.badge-pill.badge-info= icon 'far', 'envelope'
                     - else
-                      = icon 'far', 'envelope-open'
+                      .badge.badge-pill.badge-success= icon 'far', 'envelope-open'
                     =conversation.subject
               %td
                 =conversation.updated_at
@@ -56,6 +54,6 @@
                   = link_to conversation_path(conversation, box: @box), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
                     = delete_icon
                     .sr-only= t('buttons.delete')
-  - unless @conversations.empty?
-    = paginate @conversations
+    - unless @conversations.empty?
+      = will_paginate @conversations
  
