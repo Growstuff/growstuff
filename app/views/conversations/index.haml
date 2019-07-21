@@ -48,9 +48,14 @@
                 =conversation.updated_at
                 .text-muted (#{time_ago_in_words conversation.updated_at} ago)
               %td
-                = link_to conversation_path(conversation, box: @box), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
-                  = delete_icon
-                  .sr-only= t('buttons.delete')
+                - if @box == 'trash'
+                  = link_to conversation_path(conversation, box: @box), method: :put, class: 'btn btn-default btn-info btn-xs' do
+                    = icon 'fas', 'trash-restore'
+                    .sr-only= t('buttons.restore')
+                - else
+                  = link_to conversation_path(conversation, box: @box), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
+                    = delete_icon
+                    .sr-only= t('buttons.delete')
   - unless @conversations.empty?
     = paginate @conversations
  
