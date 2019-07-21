@@ -20,34 +20,37 @@
           %span.badge.badge-primary.badge-pill= item_count
 
   .col-10
-    %table.table
-      %thead.black.white-text
-        %tr
-          %th{scope: "col"} Participants
-          %th{scope: "col"} Subject
-          %th{scope: "col"} Sent at
-          %th{scope: "col"}
-      %tbody
-        - @conversations.each do |conversation|
-
-          %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
-            %td
-              - conversation.participants.each do |member|
-                = render 'members/tiny', member: member
-            %td
-              %h3.h3-responsive
-                = link_to conversation_path(conversation) do
-                  - if conversation.receipts_for(current_member).last.is_unread?
-                    = icon 'far', 'envelope'
-                  - else
-                    = icon 'far', 'envelope-open'
-                  =conversation.subject
-            %td
-              =conversation.updated_at
-              .text-muted (#{time_ago_in_words conversation.updated_at} ago)
-            %td
-              = link_to conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
-                = delete_icon
-                = t('buttons.delete')
-        - unless @conversations.empty?
-          = paginate @conversations
+    - unless @conversations.empty?
+      = paginate @conversations
+    .table-responsive.text-nowrap
+      %table.table.table-hover
+        %thead.black.white-text
+          %tr
+            %th{scope: "col"} Participants
+            %th{scope: "col"} Subject
+            %th{scope: "col"} Sent at
+            %th{scope: "col"}
+        %tbody
+          - @conversations.each do |conversation|
+            %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
+              %td
+                - conversation.participants.each do |member|
+                  = render 'members/tiny', member: member
+              %td
+                %h3.h3-responsive
+                  = link_to conversation_path(conversation) do
+                    - if conversation.receipts_for(current_member).last.is_unread?
+                      = icon 'far', 'envelope'
+                    - else
+                      = icon 'far', 'envelope-open'
+                    =conversation.subject
+              %td
+                =conversation.updated_at
+                .text-muted (#{time_ago_in_words conversation.updated_at} ago)
+              %td
+                = link_to conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
+                  = delete_icon
+                  .sr-only= t('buttons.delete')
+  - unless @conversations.empty?
+    = paginate @conversations
+ 
