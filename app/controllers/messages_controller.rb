@@ -25,7 +25,6 @@ class MessagesController < ApplicationController
   def create
     if params[:conversation_id].present?
       @conversation = Mailboxer::Conversation.find(params[:conversation_id])
-      # receipts = conversation.receipts_for alfa
       current_member.reply_to_conversation(@conversation, params[:body])
       redirect_to conversation_path(@conversation)
     else
@@ -47,6 +46,6 @@ class MessagesController < ApplicationController
     @current_subject ||=
       # current_subject_from_params  ||
       # current_subject_from_session ||
-        current_member
+      current_member
   end
 end

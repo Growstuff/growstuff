@@ -66,22 +66,4 @@ class NotificationsController < ApplicationController
   def notification_params
     params.require(:notification).permit(:sender_id, :recipient_id, :subject, :body, :post_id, :read)
   end
-
-  def conversation_params(*keys)
-    fetch_params(:conversation, *keys)
-  end
-
-  def message_params(*keys)
-    fetch_params(:message, *keys)
-  end
-
-  def fetch_params(key, *subkeys)
-    params[key].instance_eval do
-      case subkeys.size
-      when 0 then self
-      when 1 then self[subkeys.first]
-      else subkeys.map{|k| self[k] }
-      end
-    end
-  end
 end

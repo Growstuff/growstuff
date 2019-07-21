@@ -1,8 +1,7 @@
 class ConversationsController < ApplicationController
   respond_to :html
   before_action :authenticate_member!
-  # before_action :get_mailbox, :get_box
-  before_action :check_current_subject_in_conversation, :only => [:show, :update, :destroy]
+  before_action :check_current_subject_in_conversation, only: %i(show update destroy)
 
   def index
     @conversations = if box.eql? "inbox"
@@ -30,7 +29,7 @@ class ConversationsController < ApplicationController
     end
 
     @receipts = if box.eql? 'trash'
-                 mailbox.receipts_for(@conversation).trash
+                  mailbox.receipts_for(@conversation).trash
                 else
                   mailbox.receipts_for(@conversation).not_trash
                 end
