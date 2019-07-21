@@ -32,11 +32,8 @@
 
           %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
             %td
-              -# - conversation.participants.each do |member|
-              -#   = render 'members/tiny', member: member
-              -#   - unless member == current_member
-              -#     .float-left= render 'members/tiny', member: member
-              -#     = link_to member.login_name, member
+              - conversation.participants.each do |member|
+                = render 'members/tiny', member: member
             %td
               %h3.h3-responsive
                 = link_to conversation_path(conversation) do
