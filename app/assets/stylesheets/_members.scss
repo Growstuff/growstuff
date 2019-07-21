@@ -24,13 +24,15 @@
   font-size: 16px;
   line-height: 50px;
   border-radius: 25px;
-  background-color: #f1f1f1;
-}
-
-.member-chip img {
-  float: left;
-  margin: 0 10px 0 -25px;
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
+  background-color: lighten($green, 30%);
+  a {
+    color: $black;
+  }
+  img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
 }
