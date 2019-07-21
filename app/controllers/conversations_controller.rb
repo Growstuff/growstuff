@@ -23,20 +23,20 @@ class ConversationsController < ApplicationController
   end
 
   def update
-  #   @conversation.untrash(@actor) if params[:untrash].present?
+    #   @conversation.untrash(@actor) if params[:untrash].present?
 
-  #   if params[:reply_all].present?
-  #     last_receipt = mailbox.receipts_for(@conversation).last
-  #     @receipt = @actor.reply_to_all(last_receipt, params[:body])
-  #   end
+    #   if params[:reply_all].present?
+    #     last_receipt = mailbox.receipts_for(@conversation).last
+    #     @receipt = @actor.reply_to_all(last_receipt, params[:body])
+    #   end
 
-  #   @receipts = if box.eql? 'trash'
-  #                 mailbox.receipts_for(@conversation).trash
-  #               else
-  #                 mailbox.receipts_for(@conversation).not_trash
-  #               end
-  #   redirect_to action: :show
-  #   @receipts.mark_as_read
+    #   @receipts = if box.eql? 'trash'
+    #                 mailbox.receipts_for(@conversation).trash
+    #               else
+    #                 mailbox.receipts_for(@conversation).not_trash
+    #               end
+    #   redirect_to action: :show
+    #   @receipts.mark_as_read
   end
 
   def destroy
@@ -53,14 +53,14 @@ class ConversationsController < ApplicationController
 
   def set_box
     @boxes = {
-      'inbox'=> mailbox.inbox.size,
-      'sent'=>  mailbox.sentbox.size,
-      'trash'=> mailbox.trash.size
+      'inbox' => mailbox.inbox.size,
+      'sent'  => mailbox.sentbox.size,
+      'trash' => mailbox.trash.size
     }
     @box = if params[:box].blank? || !@boxes.keys.include?(params[:box])
-      'inbox'
-    else
-      params[:box]
+             'inbox'
+           else
+             params[:box]
     end
   end
 
