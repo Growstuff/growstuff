@@ -6,12 +6,12 @@ class ConversationsController < ApplicationController
 
   def index
     @conversations = if @box.eql? "inbox"
-                       mailbox.inbox.paginate(page: params[:page])
+                       mailbox.inbox
                      elsif @box.eql? "sent"
-                       mailbox.sentbox.paginate(page: params[:page])
+                       mailbox.sentbox
                      else
-                       mailbox.trash.paginate(page: params[:page])
-                     end
+                       mailbox.trash
+                     end.paginate(page: params[:page])
 
     respond_with @conversations
   end
