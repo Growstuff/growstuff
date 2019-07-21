@@ -16,10 +16,9 @@ class MessagesController < ApplicationController
   end
 
   def new
-    if params[:recipient_id].present?
-      @recipient = Member.find_by(id: params[:recipient_id])
-      return if @recipient.nil?
-    end
+    return unless params[:recipient_id].present?
+    @recipient = Member.find_by(id: params[:recipient_id])
+    return if @recipient.nil?
   end
 
   def create
