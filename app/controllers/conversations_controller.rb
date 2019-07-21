@@ -42,7 +42,7 @@ class ConversationsController < ApplicationController
   def destroy
     @conversation = Mailboxer::Conversation.find(params[:id])
     @conversation.move_to_trash(current_member)
-    redirect_to conversations_path
+    redirect_to conversations_path(box: params[:box])
   end
 
   private
