@@ -1,4 +1,10 @@
-- if member.nil?
-  = icon 'fas', 'user-times'
-- else
-  = image_tag(avatar_uri(member, 50), alt: '', class: 'img img-fluid avatar', height: 50, width: 50)
+.member-chip
+  - if member.nil?
+    = icon 'fas', 'user-times'
+    deleted
+  - else
+    = link_to member do
+      = image_tag(avatar_uri(member, 100), alt: '', height: 50, width: 50)
+      = member
+
+
