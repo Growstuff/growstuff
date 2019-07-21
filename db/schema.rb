@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_20_000625) do
+ActiveRecord::Schema.define(version: 2019_07_21_042146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -361,11 +361,11 @@ ActiveRecord::Schema.define(version: 2019_07_20_000625) do
     t.integer "gardens_count"
     t.integer "harvests_count"
     t.integer "seeds_count"
-    t.datetime "deleted_at"
+    t.datetime "discarded_at"
     t.integer "photos_count"
     t.integer "forums_count"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
-    t.index ["deleted_at"], name: "index_members_on_deleted_at"
+    t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
     t.index ["slug"], name: "index_members_on_slug", unique: true

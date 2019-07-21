@@ -16,7 +16,6 @@ class Garden < ApplicationRecord
   after_validation :empty_unwanted_geocodes
   after_save :mark_inactive_garden_plantings_as_finished
 
-  default_scope { joins(:owner) } # Ensures owner exists
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
   scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }

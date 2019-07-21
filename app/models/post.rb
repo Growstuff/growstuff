@@ -19,7 +19,7 @@ class Post < ApplicationRecord
   after_save :update_crops_posts_association
   after_create  :send_notification
 
-  default_scope { joins(:author) } # Ensures the owner still exists
+  default_scope { joins(:author).merge(Member.kept) } # Ensures the owner still exists
 
   #
   # Validations

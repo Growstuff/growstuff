@@ -1,5 +1,5 @@
 class Member < ApplicationRecord
-  acts_as_paranoid # implements soft deletion
+  include Discard::Model
   acts_as_messageable # messages can be sent to this model
   before_destroy :newsletter_unsubscribe
   include Geocodable
@@ -58,6 +58,11 @@ class Member < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable, :omniauthable
 
+  # discarded (deleted) member cannot log in
+  def active_for_authentication?
+    super && !discarded?
+  end
+
   # set up geocoding
   geocoded_by :location
 
@@ -104,7 +109,11 @@ class Member < ApplicationRecord
   end
 
   def to_s
-    login_name
+    if discarded?
+      'deleted'
+    else
+      login_name
+    end
   end
 
   def to_param

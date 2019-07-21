@@ -32,7 +32,7 @@
               = t('.your_stuff')
               %span.badge.badge-info= current_member.notifications.unread_count
             - else
-              = t('.current_memberlogin_name', current_memberlogin_name: current_member.login_name)
+              = t('.current_memberlogin_name', current_memberlogin_name: current_member)
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             = link_to member_path(current_member), class: 'dropdown-item' do
               = t('.profile')
