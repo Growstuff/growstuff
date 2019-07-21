@@ -37,7 +37,11 @@
       = display_quantity(@harvest)
 
 
-  .col-md-4= render @harvest.crop
+  .col-md-4
+    .card
+      .card-body= render 'harvests/owner', harvest: @harvest
+      
+    = render @harvest.crop
 
 - if @harvest.description.present?
   %h2 Notes
