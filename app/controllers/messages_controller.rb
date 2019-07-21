@@ -16,7 +16,8 @@ class MessagesController < ApplicationController
   end
 
   def new
-    return unless params[:recipient_id].present?
+    return if params[:recipient_id].blank?
+
     @recipient = Member.find_by(id: params[:recipient_id])
     return if @recipient.nil?
   end
