@@ -34,13 +34,4 @@ class MessagesController < ApplicationController
       redirect_to conversations_path(box: 'sentbox')
     end
   end
-
-  private
-
-  def current_subject
-    @current_subject ||=
-      # current_subject_from_params  ||
-      # current_subject_from_session ||
-      current_member
-  end
 end
