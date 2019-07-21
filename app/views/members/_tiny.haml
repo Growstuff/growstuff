@@ -1,1 +1,4 @@
-= image_tag(avatar_uri(member, 50), alt: '', class: 'img img-fluid avatar', height: 50, width: 50)
+- if member.nil?
+  = icon 'fas', 'user-times'
+- else
+  = image_tag(avatar_uri(member, 50), alt: '', class: 'img img-fluid avatar', height: 50, width: 50)

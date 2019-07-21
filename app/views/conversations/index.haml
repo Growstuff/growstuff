@@ -5,19 +5,21 @@
 - unless @conversations.empty?
   = paginate @conversations
 
+
 .row
   .col-2
     %ul
-      - %W[inbox sentbox trash].each do |box|
+      - @boxes.each do |box|
         %li.nav-item
           = link_to conversations_path(box: box), class: 'nav-link' do
             = box
             = icon 'fas', box
   .col-10
+    %h1= @box
     %table.table
       %thead.black.white-text
         %tr
-          %th{scope: "col"} Sender
+          %th{scope: "col"} Participants
           %th{scope: "col"} Subject
           %th{scope: "col"} Sent at
           %th{scope: "col"}
@@ -26,7 +28,13 @@
 
           %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
             %td
-              -# - conversation.recipients.each do |member|
+              - conversation.receipts.each do |r|
+                = render 'members/tiny', member: r.receiver
+                - if r.receiver.nil?
+                  deleted member
+                - else
+                  = link_to r.receiver, r.receiver
+
               -#   - unless member == current_member
               -#     .float-left= render 'members/tiny', member: member
               -#     = link_to member.login_name, member
