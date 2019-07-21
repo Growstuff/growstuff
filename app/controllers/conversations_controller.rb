@@ -19,6 +19,7 @@ class ConversationsController < ApplicationController
   def show
     @receipts = mailbox.receipts_for(@conversation)
     @receipts.mark_as_read
+    @participants = @conversation.participants
   end
 
   def update
@@ -51,8 +52,12 @@ class ConversationsController < ApplicationController
   end
 
   def set_box
-    @boxes = %W[inbox sent trash]
-    @box = if params[:box].blank? || !@boxes.include?(params[:box])
+    @boxes = {
+      'inbox'=> mailbox.inbox.size,
+      'sent'=>  mailbox.sentbox.size,
+      'trash'=> mailbox.trash.size
+    }
+    @box = if params[:box].blank? || !@boxes.keys.include?(params[:box])
       'inbox'
     else
       params[:box]

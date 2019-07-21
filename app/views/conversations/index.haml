@@ -5,17 +5,21 @@
 - unless @conversations.empty?
   = paginate @conversations
 
-
 .row
   .col-2
-    %ul
-      - @boxes.each do |box|
-        %li.nav-item
-          = link_to conversations_path(box: box), class: 'nav-link' do
-            = box
-            = icon 'fas', box
   .col-10
     %h1= @box
+.row
+  .col-2
+    %ul.list-group
+      - @boxes.each do |box_name, item_count|
+        %li.list-group-item.d-flex.justify-content-between{class: box_name == @box ? 'active' : ''}
+          = link_to conversations_path(box: box_name), class: 'nav-link' do
+            = icon 'fas', box_name
+            = box_name
+          %span.badge.badge-primary.badge-pill= item_count
+
+  .col-10
     %table.table
       %thead.black.white-text
         %tr
@@ -28,13 +32,8 @@
 
           %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
             %td
-              - conversation.receipts.each do |r|
-                = render 'members/tiny', member: r.receiver
-                - if r.receiver.nil?
-                  deleted member
-                - else
-                  = link_to r.receiver, r.receiver
-
+              -# - conversation.participants.each do |member|
+              -#   = render 'members/tiny', member: member
               -#   - unless member == current_member
               -#     .float-left= render 'members/tiny', member: member
               -#     = link_to member.login_name, member
