@@ -3,13 +3,13 @@
   %li.breadcrumb-item.active= link_to 'Conversations', conversations_path
 
 .row
-  .col-2
-  .col-10
+  .col-md-2
+  .col-md-10
     %h1= @box
     - unless @conversations.empty?
       = will_paginate @conversations
 .row
-  .col-2
+  .col-md-2
     %ul.list-group
       - @boxes.each do |box_name, item_count|
         %li.list-group-item.d-flex.justify-content-between{class: box_name == @box ? 'active' : ''}
@@ -17,42 +17,33 @@
             = icon 'fas', box_name
             = box_name
           %span.badge.badge-primary.badge-pill= item_count
+    %hr/
+  .col-md-10
+    %ul.list-group
+      - @conversations.each do |conversation|
+        %li.list-group-item
+          .float-right
+            - if @box == 'trash'
+              = link_to conversation_path(conversation, box: @box), method: :put, class: 'btn btn-default text-info btn-xs' do
+                = icon 'fas', 'trash-restore'
+                .sr-only= t('buttons.restore')
+            - else
+              = link_to conversation_path(conversation, box: @box), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default text-danger btn-xs' do
+                = delete_icon
+                .sr-only= t('buttons.delete')
 
-  .col-10
-    .table-responsive.text-nowrap
-      %table.table.table-hover
-        %thead.black.white-text
-          %tr
-            %th{scope: "col"} Participants
-            %th{scope: "col"} Subject
-            %th{scope: "col"} Sent at
-            %th{scope: "col"}
-        %tbody
-          - @conversations.each do |conversation|
-            %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
-              %td
-                .d-flex.w-100.justify-content-between
-                  - if conversation.receipts_for(current_member).last.is_unread?
-                    %span.badge.badge-pill.badge-info= icon 'far', 'envelope'
-                  - else
-                    %span.badge.badge-pill.badge-success= icon 'far', 'envelope-open'
-                  - conversation.participants.each do |member|
-                    - if member != current_member
-                      = render 'members/tiny', member: member
-              %td
-                = link_to conversation_path(conversation) do
-                  %strong= conversation.subject
-              %td
-                =conversation.updated_at
-                .text-muted (#{time_ago_in_words conversation.updated_at} ago)
-              %td
-                - if @box == 'trash'
-                  = link_to conversation_path(conversation, box: @box), method: :put, class: 'btn btn-default btn-info btn-xs' do
-                    = icon 'fas', 'trash-restore'
-                    .sr-only= t('buttons.restore')
-                - else
-                  = link_to conversation_path(conversation, box: @box), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger btn-xs' do
-                    = delete_icon
-                    .sr-only= t('buttons.delete')
+          = link_to conversation_path(conversation), class: 'list-group-item-action flex-column align-items-start' do
+            %h3
+              - if conversation.receipts_for(current_member).last.is_unread?
+                %span.badge.badge-pill.badge-info= icon 'far', 'envelope'
+              - else
+                %span.badge.badge-pill.badge-success= icon 'far', 'envelope-open'
+              = conversation.subject
+            %p
+              = truncate(strip_tags(conversation.messages.last.body), length: 100, separator: ' ', omission: '... ')
+              - conversation.participants.each do |member|
+                - if member != current_member
+                  = render 'members/tiny', member: member
+
     - unless @conversations.empty?
       = will_paginate @conversations
