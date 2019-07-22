@@ -1,22 +1,6 @@
 = bootstrap_form_tag url: '/messages' do |f|
-  -# - if @notification.errors.any?
-  -#   #error_explanation
-  -#     %h2
-  -#       = pluralize(@notification.errors.size, "error")
-  -#       prohibited this message from being sent:
-  -#     %ul
-  -#       - @notification.errors.full_messages.each do |msg|
-  -#         %li= msg
-
-  .field
-
   - if @conversation.present?
     = f.hidden_field :conversation_id, value: @conversation.id
-    -# To
-    -# - @conversation.recipients.each do |recipient|
-    -#   - unless recipient == current_member
-    -#     = link_to recipient, recipient
-    -#     = render 'members/tiny', member: recipient
   - elsif @recipient.present?
     %p
       To
