@@ -21,9 +21,9 @@
   background-color: lighten($green, 30%);
   border-radius: 25px;
   display: inline-block;
-  font-size: 16px;
-  height: 50px;
-  line-height: 50px;
+  font-size:  1em;
+  height: 30px;
+  line-height: 30px;
   padding: 0 25px;
   a {
     color: $black;
@@ -31,8 +31,8 @@
   img {
     border-radius: 50%;
     float: left;
-    height: 50px;
+    height: 30px;
     margin: 0 10px 0 -25px;
-    width: 50px;
+    width: 30px;
   }
 }

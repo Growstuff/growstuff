@@ -3,33 +3,29 @@
   %li.breadcrumb-item.active= link_to @conversation.subject, conversation_path(@conversation)
 
 .row
-  .col-2
-  .col-10
+  .col-md-4
+  .col-md-8
     %h1= @conversation.subject
 .row
-  .col-2
+  .col-md-4
     .card
       .card-header
         %h6 Participants
       %ul.list-group.list-group-flush
         - @participants.each do |member|
           %li.list-group-item= render 'members/tiny', member: member
-  .col-10
+  .col-md-8
     .card
-      - @conversation.messages.order(:created_at).each do |message|
-        %ul.list-group.list-group-flush
+      %ul.list-group.list-group-flush
+        - @conversation.messages.order(:created_at).each do |message|
           %li.list-group-item
             .text-muted.float-right
               = comment_icon
               on #{message.created_at}
-              = render 'members/tiny', member: message.sender
-            %p.mb-2.well
+            = render 'members/tiny', member: message.sender
+            %p.text-justify
               :growstuff_markdown
                 #{ strip_tags(message.body) }
-        -# .card-footer
-        -#   = link_to 'Reply', @reply_link, class: 'btn btn-primary'
-        -#   = link_to message, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-danger' do
-        -#     = delete_icon
-        -#     = t('buttons.delete')
-
-    = render 'messages/form', conversation: @conversation
+        %li.list-group-item
+          = icon 'fas', 'reply'
+          = render 'messages/form', conversation: @conversation

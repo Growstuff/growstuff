@@ -32,16 +32,17 @@
           - @conversations.each do |conversation|
             %tr{class: conversation.receipts_for(current_member).last.is_unread? ? 'active': ''}
               %td
-                - conversation.participants.each do |member|
-                  = render 'members/tiny', member: member
+                .d-flex.w-100.justify-content-between
+                  - if conversation.receipts_for(current_member).last.is_unread?
+                    %span.badge.badge-pill.badge-info= icon 'far', 'envelope'
+                  - else
+                    %span.badge.badge-pill.badge-success= icon 'far', 'envelope-open'
+                  - conversation.participants.each do |member|
+                    - if member != current_member
+                      = render 'members/tiny', member: member
               %td
-                %h2
-                  = link_to conversation_path(conversation) do
-                    - if conversation.receipts_for(current_member).last.is_unread?
-                      .badge.badge-pill.badge-info= icon 'far', 'envelope'
-                    - else
-                      .badge.badge-pill.badge-success= icon 'far', 'envelope-open'
-                    =conversation.subject
+                = link_to conversation_path(conversation) do
+                  %strong= conversation.subject
               %td
                 =conversation.updated_at
                 .text-muted (#{time_ago_in_words conversation.updated_at} ago)
