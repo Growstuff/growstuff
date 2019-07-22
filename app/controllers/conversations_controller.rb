@@ -2,7 +2,6 @@ class ConversationsController < ApplicationController
   respond_to :html
   before_action :authenticate_member!
   before_action :set_box
-  before_action :check_current_subject_in_conversation, only: %i(show update destroy)
 
   def index
     @conversations = if @box.eql? "inbox"
@@ -49,14 +48,6 @@ class ConversationsController < ApplicationController
              'inbox'
            else
              params[:box]
-    end
-  end
-
-  def check_current_subject_in_conversation
-    @conversation = Mailboxer::Conversation.find_by(id: params[:id])
-    if @conversation.nil? || !@conversation.is_participant?(current_member)
-      redirect_to conversations_path(box: box)
-      return
     end
   end
 end
