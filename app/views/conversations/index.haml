@@ -2,7 +2,6 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item.active= link_to 'Conversations', conversations_path
 
-
 .row
   .col-2
   .col-10
@@ -57,4 +56,3 @@
                     .sr-only= t('buttons.delete')
     - unless @conversations.empty?
       = will_paginate @conversations
- 
