@@ -8,6 +8,7 @@ addons:
     packages:
       - chromium-chromedriver
       - google-chrome-stable
+      # Postgresql version used here should match production
       - postgresql-9.4
       - postgresql-client-9.4
   code_climate:
