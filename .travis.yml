@@ -2,8 +2,6 @@ sudo: required
 language: ruby
 cache:
   bundler: true
-  directories:
-    - tmp/cache/assets/test/sprockets
 addons:
   apt:
     packages:
