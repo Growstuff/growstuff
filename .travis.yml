@@ -18,7 +18,8 @@ addons:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true
+    - GROWSTUFF_ELASTICSEARCH=true ELASTIC_SEARCH_VERSION="6.2.3" RSPEC_TAG=elasticsearch COVERAGE=true
+    - GROWSTUFF_ELASTICSEARCH=true ELASTIC_SEARCH_VERSION="7.3.0" RSPEC_TAG=elasticsearch
     - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
     - STATIC_CHECKS=true PERCY_CHECKS=true
   global:
@@ -29,7 +30,7 @@ env:
 before_install:
   - ./script/install_codeclimate.sh
   - ./script/install_linters.sh
-  - ELASTIC_SEARCH_VERSION="6.2.3" ./script/install_elasticsearch.sh
+  - ./script/install_elasticsearch.sh # Installs the version set as ELASTIC_SEARCH_VERSION
 before_script:
   - >
     if [ "${COVERAGE}" = "true" ]; then
