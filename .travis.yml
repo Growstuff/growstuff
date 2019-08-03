@@ -1,5 +1,6 @@
 sudo: required
 language: ruby
+dist: trusty
 cache:
   bundler: true
     - tmp/cache/assets/test/sprockets
