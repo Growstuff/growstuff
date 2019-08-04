@@ -12,11 +12,10 @@
 .row
   .col-md-2.list-group
     - @boxes.each do |box_name, item_count|
-      = link_to conversations_path(box: box_name), class: 'nav-link' do
-        .list-group-item.d-flex.justify-content-between{class: "#{box_name == @box ? 'active' : ''} #{box_name}"}
-          = icon 'fas', box_name
-          = box_name
-          %span.badge.badge-primary.badge-pill= item_count
+      = link_to conversations_path(box: box_name), class: "nav-link list-group-item d-flex justify-content-between #{box_name == @box ? 'active' : ''} #{box_name}" do
+        = icon 'fas', box_name
+        = box_name
+        %span.badge.badge-primary.badge-pill= item_count
 
   .col-md-10
     .list-group
@@ -29,7 +28,16 @@
               - else
                 %i.far.fa-envelope-open.mr-4.pr-3
               %strong= conversation.subject
-            %small= time_ago_in_words conversation.messages.last.created_at
+              %small
+                #{time_ago_in_words conversation.messages.last.created_at} ago
+                %span.text-muted= conversation.messages.last.created_at
+
+            %ul.list-group
+              - conversation.recipients.each do |member|
+                - if member != current_member
+                  %li.member-chip
+                    = image_tag(avatar_uri(member, 100), alt: '', height: 50, width: 50)
+                    = member
 
           %p.mb-2
             = truncate(strip_tags(conversation.messages.last.body), length: 100, separator: ' ', omission: '... ')

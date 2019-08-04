@@ -3,18 +3,18 @@
   %li.breadcrumb-item.active= link_to @conversation.subject, conversation_path(@conversation)
 
 .row
-  .col-md-4
-  .col-md-8
+  .col-md-2
+  .col-md-10
     %h1= @conversation.subject
 .row
-  .col-md-4
+  .col-md-2
     .card
       .card-header
         %h6 Participants
       %ul.list-group.list-group-flush
         - @participants.each do |member|
           %li.list-group-item= render 'members/tiny', member: member
-  .col-md-8
+  .col-md-10
     .card
       %ul.list-group.list-group-flush
         - @conversation.messages.order(:created_at).each do |message|
