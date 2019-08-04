@@ -3,6 +3,7 @@ language: ruby
 dist: trusty
 cache:
   bundler: true
+  directories:
     - tmp/cache/assets/test/sprockets
 addons:
   apt:
