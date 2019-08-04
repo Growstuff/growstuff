@@ -91,8 +91,6 @@ gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
-gem "omniauth-rails_csrf_protection"
-
 # Pretty charts
 gem "chartkick"
 
