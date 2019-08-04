@@ -1,6 +1,7 @@
 - content_for :title, "Inbox"
 - content_for :breadcrumbs do
-  %li.breadcrumb-item.active= link_to 'Conversations', conversations_path
+  %li.breadcrumb-item= link_to 'Conversations', conversations_path
+  %li.breadcrumb-item.active= link_to @box, conversations_path(box: @box)
 
 .row
   .col-md-2
@@ -9,41 +10,29 @@
     - unless @conversations.empty?
       = will_paginate @conversations
 .row
-  .col-md-2
-    %ul.list-group
-      - @boxes.each do |box_name, item_count|
-        %li.list-group-item.d-flex.justify-content-between{class: box_name == @box ? 'active' : ''}
-          = link_to conversations_path(box: box_name), class: 'nav-link' do
-            = icon 'fas', box_name
-            = box_name
+  .col-md-2.list-group
+    - @boxes.each do |box_name, item_count|
+      = link_to conversations_path(box: box_name), class: 'nav-link' do
+        .list-group-item.d-flex.justify-content-between{class: "#{box_name == @box ? 'active' : ''} #{box_name}"}
+          = icon 'fas', box_name
+          = box_name
           %span.badge.badge-primary.badge-pill= item_count
-    %hr/
+
   .col-md-10
-    %ul.list-group
+    .list-group
       - @conversations.each do |conversation|
-        %li.list-group-item
-          .float-right
-            - if @box == 'trash'
-              = link_to conversation_path(conversation, box: @box), method: :put, class: 'btn btn-default text-info btn-xs' do
-                = icon 'fas', 'trash-restore'
-                .sr-only= t('buttons.restore')
-            - else
-              = link_to conversation_path(conversation, box: @box), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default text-danger btn-xs' do
-                = delete_icon
-                .sr-only= t('buttons.delete')
-
-          = link_to conversation_path(conversation), class: 'list-group-item-action flex-column align-items-start' do
-            %h3
+        %a.list-group-item.list-group-item-action.flex-column.align-items-start{href: conversation_path(conversation)}
+          .d-flex.w-100.justify-content-between
+            %h5.mb-2.h5
               - if conversation.receipts_for(current_member).last.is_unread?
-                %span.badge.badge-pill.badge-info= icon 'far', 'envelope'
+                %i.far.fa-envelope.mr-4.pr-3
               - else
-                %span.badge.badge-pill.badge-success= icon 'far', 'envelope-open'
-              = conversation.subject
-            %p
-              = truncate(strip_tags(conversation.messages.last.body), length: 100, separator: ' ', omission: '... ')
-              - conversation.participants.each do |member|
-                - if member != current_member
-                  = render 'members/tiny', member: member
+                %i.far.fa-envelope-open.mr-4.pr-3
+              %strong= conversation.subject
+            %small= time_ago_in_words conversation.messages.last.created_at
 
+          %p.mb-2
+            = truncate(strip_tags(conversation.messages.last.body), length: 100, separator: ' ', omission: '... ')
+            Donec id elit non mi porta.
     - unless @conversations.empty?
       = will_paginate @conversations
