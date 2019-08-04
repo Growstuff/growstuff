@@ -1,7 +1,8 @@
 #!/bin/bash
 
-if [ "${GROWSTUFF_ELASTICSEARCH}" = "true" ]; then
-  [[ -z "$ELASTIC_SEARCH_VERSION" ]] && ELASTIC_SEARCH_VERSION="6.2.3"
+if [ -z "$ELASTIC_SEARCH_VERSION"]; then
+  echo "ELASTIC_SEARCH_VERSION variable not set"
+else
   set -euv
   sudo dpkg -r elasticsearch
   wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTIC_SEARCH_VERSION}.deb
