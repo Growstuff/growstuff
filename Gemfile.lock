@@ -463,7 +463,7 @@ GEM
       sprockets-rails
       tilt
     scout_apm (2.5.1)
-    searchkick (4.0.2)
+    searchkick (4.1.0)
       activemodel (>= 5)
       elasticsearch (>= 6)
       hashie
