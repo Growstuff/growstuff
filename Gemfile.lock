@@ -339,7 +339,7 @@ GEM
       activerecord (>= 4.0, < 6.1)
     parser (2.6.3.0)
       ast (~> 2.4.0)
-    percy-capybara (4.0.1)
+    percy-capybara (4.0.2)
     pg (0.21.0)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
