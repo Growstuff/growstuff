@@ -14,7 +14,7 @@
     %li.breadcrumb-item.active= link_to 'Gardens', gardens_path
 
 %section.border-top
-  = link_to gardens_active_tickbox_path(@owner, @show_all) do
+  = link_to gardens_active_tickbox_path(@owner, @show_all), class: 'btn'  do
     = check_box_tag 'active', 'all', @show_all
     include in-active
 
