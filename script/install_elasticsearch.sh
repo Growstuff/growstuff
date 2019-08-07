@@ -4,7 +4,6 @@ if [[ -z "$ELASTIC_SEARCH_VERSION" ]]; then
   echo "ELASTIC_SEARCH_VERSION variable not set"
 else
   set -euv
-  echo "Installing elasticsearch $VERSION"
   sudo dpkg -r elasticsearch
   wget "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTIC_SEARCH_VERSION}.deb"
   wget "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTIC_SEARCH_VERSION}.deb.sha512"
