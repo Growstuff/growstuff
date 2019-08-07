@@ -18,20 +18,7 @@ describe "Notifications", :js do
     it { expect(page).to have_content 'something i want to say' }
     it { Percy.snapshot(page, name: 'conversations#index') }
 
-    describe 'view conversation thread' do
-      before { click_link 'something i want to say' }
-
-      it { expect(page).to have_content 'this is the body' }
-      it { expect(page).to have_link sender.login_name }
-      it { Percy.snapshot(page, name: 'conversations#show') }
-
-      describe 'Replying to the conversation' do
-        before do
-          fill_in :body, with: 'i like this too'
-          click_button 'Send'
-        end
-        it { expect(page).to have_content "i like this too" }
-      end
+    describe 'deleting' do
     end
   end
 end
