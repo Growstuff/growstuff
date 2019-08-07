@@ -19,6 +19,24 @@ describe "Notifications", :js do
     it { Percy.snapshot(page, name: 'conversations#index') }
 
     describe 'deleting' do
+      before do
+        # delete button
+        click_link class: 'delete'
+      end
+
+      describe 'view trash' do
+        before { click_link 'trash' }
+        it { expect(page).to have_content 'something i want to say' }
+        describe 'restore conversation' do
+          before { click_link class: 'restore' }
+          it { expect(page).not_to have_content 'something i want to say' }
+
+          describe 'conversation was restored' do
+            before { click_link 'inbox' }
+            it { expect(page).to have_content 'something i want to say' }
+          end
+        end
+      end
     end
   end
 end

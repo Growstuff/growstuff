@@ -25,10 +25,10 @@
           .row
             .col-md-1
               - if @box == 'trash'
-                = link_to conversation_path(conversation, box: @box), method: :put do
+                = link_to conversation_path(conversation, box: @box), method: :put, class: 'restore' do
                   = icon 'fas', 'trash-restore'
               - else
-                = link_to delete_icon, conversation_path(conversation, box: @box), method: :delete, class: 'text-danger'
+                = link_to delete_icon, conversation_path(conversation, box: @box), method: :delete, class: 'delete text-danger'
             .col-md-11
               .text-right.float-right
                 - conversation.recipients.each do |member|
