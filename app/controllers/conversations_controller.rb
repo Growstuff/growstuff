@@ -41,9 +41,9 @@ class ConversationsController < ApplicationController
 
   def set_box
     @boxes = {
-      'inbox' => { 'total' => mailbox.inbox.size, 'unread' => 0},
-      'sent'  => { 'total' => mailbox.sentbox.size, 'unread' => 0},
-      'trash' => { 'total' => mailbox.trash.size, 'unread' => 0}
+      'inbox' => { 'total' => mailbox.inbox.size, 'unread' => 0 },
+      'sent'  => { 'total' => mailbox.sentbox.size, 'unread' => 0 },
+      'trash' => { 'total' => mailbox.trash.size, 'unread' => 0 }
     }
     @box = if params[:box].blank? || !@boxes.keys.include?(params[:box])
              'inbox'
