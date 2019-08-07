@@ -14,46 +14,40 @@
       = harvest_icon
       #{@harvest.crop} harvested by #{@harvest.owner}
     = render 'harvests/actions', harvest: @harvest
-    %p
-      %b Owner:
-      = link_to @harvest.owner, @harvest.owner
-      &mdash;
-      = link_to "view all #{@harvest.owner}'s harvests", member_harvests_path(@harvest.owner)
-    %p
-      %b Plant part:
+    = link_to "view all #{@harvest.owner}'s harvests >>", member_harvests_path(@harvest.owner), class: 'btn'
+    .index-cards.planting-facts
       - if @harvest.plant_part
-        = link_to @harvest.plant_part, @harvest.plant_part
-      - else
-        not specified
-    %p
-      %b Harvested:
-      = @harvest.harvested_at ? @harvest.harvested_at : "not specified"
+        .card.planting-fact-card
+          %h3 Plant part
+          %span= link_to @harvest.plant_part, @harvest.plant_part
+      - if @harvest.harvested_at.present?
+        .card.planting-fact-card
+          %h3 Harvested
+          = @harvest.harvested_at
 
-      %p
-        %b Planting:
+      .card.planting-fact-card
+        %h3 Planting
         = render partial: 'planting'
-    %p
-      %b Quantity:
-      = display_quantity(@harvest)
+      .card.planting-fact-card
+        %h3 Quantity
+        %span= display_quantity(@harvest)
 
 
   .col-md-4
     .card
       .card-body= render 'harvests/owner', harvest: @harvest
-      
+
     = render @harvest.crop
 
-- if @harvest.description.present?
-  %h2 Notes
-  :growstuff_markdown
-    #{ @harvest.description != "" ? strip_tags(@harvest.description) : "No description given." }
+    %hr/
+    - if @harvest.photos.size.positive?
+      .row
+        .col-md-6= render @harvest.default_photo
+        .col-md-6
+          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3).offset(1)
+          %p.text-right= link_to 'View all photos >>', harvest_photos_path(@harvest), class: 'btn'
+  .col-md-4
+    .card
+      .card-body= render 'harvests/owner', harvest: @harvest
 
-%hr/
-- if @harvest.photos.size.positive?
-  .row
-    .col-md-6= render @harvest.default_photo
-    .col-md-6
-      %p.text-right
-        = link_to 'View all photos >>', harvest_photos_path(@harvest), class: 'btn'
-      - @harvest.photos.order(date_taken: :desc).limit(3).each do |photo|
-        .col-md-3= render('photos/card', photo: photo)
+    = render @harvest.crop
