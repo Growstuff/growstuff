@@ -11,33 +11,41 @@
       = will_paginate @conversations
 .row
   .col-md-2.list-group
-    - @boxes.each do |box_name, item_count|
+    - @boxes.each do |box_name, counts|
       = link_to conversations_path(box: box_name), class: "nav-link list-group-item d-flex justify-content-between #{box_name == @box ? 'active' : ''} #{box_name}" do
         = icon 'fas', box_name
         = box_name
-        %span.badge.badge-primary.badge-pill= item_count
+        - if counts['unread'].positive?
+          %span.badge.badge-primary.badge-pill=counts['unread']
 
   .col-md-10
     .list-group
       - @conversations.each do |conversation|
-        %a.list-group-item.list-group-item-action{href: conversation_path(conversation)}
-          .text-right.float-right
-            - conversation.recipients.each do |member|
-              - if member != current_member
-                .member-chip
-                  = image_tag(avatar_uri(member, 100), alt: '', height: 50, width: 50)
-                  = member
-          %h5.mb-2.h5
-            - if conversation.receipts_for(current_member).last.is_unread?
-              = icon 'far', 'envelope'
-            - else
-              = icon 'far', 'envelope-open'
-            %strong= conversation.subject
-            %small
-              #{time_ago_in_words conversation.messages.last.created_at} ago
-              %span.text-muted= conversation.messages.last.created_at
-          %small= truncate(strip_tags(conversation.messages.last.body), length: 500, separator: ' ', omission: '... ')
-          .col-md-1
-            = link_to delete_icon, conversation_path(conversation), class: 'btn text-danger'
+        .list-group-item
+          .row
+            .col-md-1
+              - if @box == 'trash'
+                = link_to conversation_path(conversation, box: @box), method: :put do
+                  = icon 'fas', 'trash-restore'
+              - else
+                = link_to delete_icon, conversation_path(conversation, box: @box), method: :delete, class: 'text-danger'
+            .col-md-11
+              .text-right.float-right
+                - conversation.recipients.each do |member|
+                  - if member != current_member
+                    .member-chip
+                      = image_tag(avatar_uri(member, 100), alt: '', height: 50, width: 50)
+                      = member
+              %h5.mb-2.h5
+                %a{href: conversation_path(conversation)}
+                  - if conversation.receipts_for(current_member).last.is_unread?
+                    = icon 'far', 'envelope'
+                  - else
+                    = icon 'far', 'envelope-open'
+                  %strong= conversation.subject
+                %small
+                  #{time_ago_in_words conversation.messages.last.created_at} ago
+                  %span.text-muted= conversation.messages.last.created_at
+              %small= truncate(strip_tags(conversation.messages.last.body), length: 150, separator: ' ', omission: '... ')
     - unless @conversations.empty?
       = will_paginate @conversations
