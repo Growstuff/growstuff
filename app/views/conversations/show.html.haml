@@ -19,13 +19,15 @@
       %ul.list-group.list-group-flush
         - @conversation.messages.order(:created_at).each do |message|
           %li.list-group-item
-            .text-muted.float-right
+            .col-md-8.text-muted
               = comment_icon
               on #{message.created_at}
-            = render 'members/tiny', member: message.sender
-            %p.text-justify
-              :growstuff_markdown
-                #{ strip_tags(message.body) }
+            .col-md-4.text-right.float-right
+              = render 'members/tiny', member: message.sender
+            .col-12
+              %p.text-justify
+                :growstuff_markdown
+                  #{ strip_tags(message.body) }
         %li.list-group-item
           = icon 'fas', 'reply'
           = render 'messages/form', conversation: @conversation
