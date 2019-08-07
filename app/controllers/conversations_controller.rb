@@ -54,9 +54,8 @@ class ConversationsController < ApplicationController
 
   def check_current_subject_in_conversation
     @conversation = Mailboxer::Conversation.find_by(id: params[:id])
-    if @conversation.nil? || !@conversation.is_participant?(current_member)
-      redirect_to conversations_path(box: box)
-      return
-    end
+    return unless @conversation.nil? || !@conversation.is_participant?(current_member)
+    redirect_to conversations_path(box: box)
+    return
   end
 end
