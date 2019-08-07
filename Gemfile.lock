@@ -86,7 +86,7 @@ GEM
       uniform_notifier (~> 1.11)
     byebug (11.0.1)
     cancancan (3.0.1)
-    capybara (3.26.0)
+    capybara (3.28.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -315,7 +315,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    oj (3.8.0)
+    oj (3.8.1)
     omniauth (1.9.0)
       hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
@@ -399,7 +399,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redis (4.1.2)
-    regexp_parser (1.5.1)
+    regexp_parser (1.6.0)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -463,7 +463,7 @@ GEM
       sprockets-rails
       tilt
     scout_apm (2.5.1)
-    searchkick (4.0.2)
+    searchkick (4.1.0)
       activemodel (>= 5)
       elasticsearch (>= 6)
       hashie
