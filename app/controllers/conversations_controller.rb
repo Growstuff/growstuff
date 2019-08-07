@@ -49,7 +49,7 @@ class ConversationsController < ApplicationController
              'inbox'
            else
              params[:box]
-    end
+           end
   end
 
   def check_current_subject_in_conversation
