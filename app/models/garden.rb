@@ -58,22 +58,6 @@ class Garden < ApplicationRecord
     "#{owner.login_name}-#{name}".downcase.tr(' ', '-')
   end
 
-  # featured plantings returns the most recent 4 plantings for a garden,
-  # choosing them so that no crop is repeated.
-  def featured_plantings
-    unique_plantings = []
-    seen_crops = []
-
-    plantings.includes(:garden, :crop, :owner, :harvests).order(created_at: :desc).each do |p|
-      unless seen_crops.include?(p.crop)
-        unique_plantings.push(p)
-        seen_crops.push(p.crop)
-      end
-    end
-
-    unique_plantings[0..3]
-  end
-
   def to_s
     name
   end
