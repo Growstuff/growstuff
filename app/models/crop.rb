@@ -17,7 +17,7 @@ class Crop < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :photo_associations, dependent: :destroy
   has_many :photos, through: :photo_associations
-  has_many :plant_parts, -> { distinct.order("plant_parts.name") }, through: :harvests
+  has_many :plant_parts, -> { joins("INNER JOIN members ON members.id = owner_id").distinct.order("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
