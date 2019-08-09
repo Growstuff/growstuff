@@ -9,7 +9,7 @@ class Notification < ApplicationRecord
   scope :by_recipient, ->(recipient) { where(recipient_id: recipient) }
 
   before_create :replace_blank_subject
-  after_create :create_mailboxer_message
+  after_create :send_message
 
   def self.unread_count
     unread.size
@@ -19,7 +19,7 @@ class Notification < ApplicationRecord
     self.subject = "(no subject)" if subject.nil? || subject =~ /^\s*$/
   end
 
-  def create_mailboxer_message
+  def send_message
     sender.send_message(recipient, body, subject)
   end
 end

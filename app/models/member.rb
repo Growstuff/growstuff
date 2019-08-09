@@ -124,6 +124,14 @@ class Member < ApplicationRecord
     login_name
   end
 
+  def mailboxer_email(messageable)
+    if send_notification_email
+      email
+    else
+      false
+    end
+  end
+
   def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
   end
