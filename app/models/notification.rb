@@ -4,6 +4,8 @@ class Notification < ApplicationRecord
   belongs_to :post, optional: true
 
   validates :subject, length: { maximum: 255 }
+  validates :subject, presence: true
+  validates :body, presence: true
 
   scope :unread, -> { where(read: false) }
   scope :by_recipient, ->(recipient) { where(recipient_id: recipient) }
