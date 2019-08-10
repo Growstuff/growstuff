@@ -124,7 +124,7 @@ class Member < ApplicationRecord
     login_name
   end
 
-  def mailboxer_email(messageable)
+  def mailboxer_email(_messageable)
     if send_notification_email
       email
     else

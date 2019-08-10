@@ -34,7 +34,7 @@ class Crop < ApplicationRecord
   scope :rejected, -> { where(approval_status: "rejected") }
   scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
-  scope :joins_members, -> {  joins("INNER JOIN members ON members.id = harvests.owner_id") }
+  scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
   # Special scope to control if it's in the search index
   scope :search_import, -> { approved }

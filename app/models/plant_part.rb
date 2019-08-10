@@ -7,7 +7,7 @@ class PlantPart < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  scope :joins_members, -> {  joins("INNER JOIN members ON members.id = harvests.owner_id") }
+  scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
   def to_s
     name
