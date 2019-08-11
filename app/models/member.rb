@@ -121,11 +121,7 @@ class Member < ApplicationRecord
   end
 
   def mailboxer_email(_messageable)
-    if send_notification_email
-      email
-    else
-      false
-    end
+    send_notification_email ? email : false
   end
 
   def role?(role_sym)
