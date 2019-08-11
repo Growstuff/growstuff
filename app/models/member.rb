@@ -109,11 +109,7 @@ class Member < ApplicationRecord
   end
 
   def to_s
-    if discarded?
-      'deleted'
-    else
-      login_name
-    end
+    discarded? ? 'deleted' : login_name
   end
 
   def to_param
