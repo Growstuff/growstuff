@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Notifications", :js do
+describe "Conversations", :js do
   let(:sender)    { create :member                        }
   let(:recipient) { create :member, login_name: 'beyonce' }
 
