@@ -8,9 +8,12 @@ class NotificationsToMailboxer < ActiveRecord::Migration[5.2]
       group.each do |n|
         n.body = 'message has no body' if n.body.blank?
         receipt = n.send_message
-        next unless n.read
-
-        receipt.conversation.receipts.each(&:mark_as_read)
+        # Copy over which messages are read
+        receipt.conversation.receipts.each(&:mark_as_read) if n.read
+        # copy over timestamps
+        receipt.conversation.messages.each do |msg|
+          msg.update!(created_at: n.created_at, updated_at: n.updated_at)
+        end
       end
     end
   end
