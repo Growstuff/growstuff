@@ -24,12 +24,6 @@ describe Notification do
     expect(Notification.unread).to include notification
   end
 
-  it "counts unread" do
-    @who = notification.recipient
-    @n2 = FactoryBot.create(:notification, recipient: @who, read: false)
-    expect(@who.notifications.unread_count).to eq 2
-  end
-
   it "sends email if asked" do
     @notification2 = FactoryBot.create(:notification)
     @notification2.send_message
