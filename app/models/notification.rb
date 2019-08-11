@@ -16,6 +16,6 @@ class Notification < ApplicationRecord
   end
 
   def send_message
-    sender.send_message(recipient, body, subject)
+    sender.send_message(recipient, body, subject) if recipient.send_notification_email
   end
 end
