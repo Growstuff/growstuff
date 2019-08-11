@@ -24,4 +24,35 @@ class Notification < ApplicationRecord
   def send_message
     sender.send_message(recipient, body, subject)
   end
+
+  def migrate_to_mailboxer!
+    conversation = Mailboxer::ConversationBuilder.new(
+      subject:    subject,
+      created_at: created_at,
+      updated_at: updated_at
+    ).build
+
+    message = Mailboxer::MessageBuilder.new(
+      sender:       sender,
+      conversation: conversation,
+      recipients:   [recipient],
+      body:         body,
+      subject:      subject,
+      # attachment:   attachment,
+      created_at:   created_at,
+      updated_at:   updated_at
+    ).build
+
+    notification = Mailboxer::NotificationBuilder.new(
+      recipients: [recipient],
+      subject:    subject,
+      body:       body,
+      sender:     sender
+    ).build
+
+    conversation.save!
+    message.save!
+    notification.save!
+    notification.deliver(false, false)
+  end
 end
