@@ -7,7 +7,10 @@ class NotificationsToMailboxer < ActiveRecord::Migration[5.2]
     Notification.find_in_batches.each do |group|
       group.each do |n|
         n.body = 'message has no body' if n.body.blank?
-        n.send_message
+        receipt = n.send_message
+        next unless n.read
+
+        receipt.conversation.receipts.each(&:mark_as_read)
       end
     end
   end
