@@ -3,27 +3,6 @@ require 'rails_helper'
 describe Notification do
   let(:notification) { FactoryBot.create(:notification) }
 
-  describe 'migration to mailboxer' do
-    let(:body) do
-      "Hellos
-      how are you today?
-      I am fine
-
-      -- me
-      "
-    end
-    let(:sender) { FactoryBot.create :member }
-    let(:recipient) { FactoryBot.create :member }
-    let(:notification) do
-      FactoryBot.create :notification,
-        subject: 'hello', body: body,
-        sender: sender,
-        recipient: recipient
-    end
-    before { notification.migrate_to_mailboxer! }
-    it { expect(recipient.mailbox.inbox.count).to eq 1 }
-    it { expect(recipient.mailbox.inbox.first.subject).to eq 'hello' }
-  end
   it "belongs to a post" do
     expect(notification.post).to be_an_instance_of Post
   end

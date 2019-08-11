@@ -1,9 +1,13 @@
 class NotificationsToMailboxer < ActiveRecord::Migration[5.2]
   def up
-    Notification.find_in_batches do |group|
+    Mailboxer.setup do |config|
+      # turn off emails
+      config.uses_emails = false
+    end
+    Notification.find_in_batches.each do |group|
       group.each do |n|
-        next unless n.valid?
-        n.migrate_to_mailboxer!
+        n.body = 'message has no body' if n.body.blank?
+        n.send_message
       end
     end
   end
