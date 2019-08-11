@@ -5,8 +5,7 @@ class CreateMailboxer < ActiveRecord::Migration[4.2]
     # Conversations
     create_table :mailboxer_conversations do |t|
       t.column :subject, :string, default: ""
-      t.column :created_at, :datetime, null: false
-      t.column :updated_at, :datetime, null: false
+      t.timestamps null: false
     end
     # Receipts
     create_table :mailboxer_receipts do |t|
@@ -16,8 +15,7 @@ class CreateMailboxer < ActiveRecord::Migration[4.2]
       t.column :trashed, :boolean, default: false
       t.column :deleted, :boolean, default: false
       t.column :mailbox_type, :string, limit: 25
-      t.column :created_at, :datetime, null: false
-      t.column :updated_at, :datetime, null: false
+      t.timestamps null: false
     end
     # Notifications and Messages
     create_table :mailboxer_notifications do |t|
@@ -30,8 +28,7 @@ class CreateMailboxer < ActiveRecord::Migration[4.2]
       t.string :notification_code, default: nil
       t.references :notified_object, polymorphic: true, index: { name: 'mailboxer_notifications_notified_object' }
       t.column :attachment, :string
-      t.column :updated_at, :datetime, null: false
-      t.column :created_at, :datetime, null: false
+      t.timestamps null: false
       t.boolean :global, default: false
       t.datetime :expires
     end

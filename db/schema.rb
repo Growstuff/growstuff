@@ -272,6 +272,8 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.string "unsubscriber_type"
     t.integer "unsubscriber_id"
     t.integer "conversation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id"
     t.index ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
   end
@@ -294,8 +296,8 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.string "notified_object_type"
     t.integer "notified_object_id"
     t.string "attachment"
-    t.datetime "updated_at", null: false
     t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "global", default: false
     t.datetime "expires"
     t.index ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id"
