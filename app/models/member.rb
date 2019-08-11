@@ -116,10 +116,6 @@ class Member < ApplicationRecord
     slug
   end
 
-  def name
-    login_name
-  end
-
   def mailboxer_email(_messageable)
     send_notification_email ? email : false
   end
