@@ -11,11 +11,13 @@ class Notification < ApplicationRecord
   before_create :replace_blank_subject
   after_create :send_message
 
-  def replace_blank_subject
-    self.subject = "(no subject)" if subject.nil? || subject =~ /^\s*$/
-  end
-
   def send_message
     sender.send_message(recipient, body, subject) if recipient.send_notification_email
+  end
+
+  private
+
+  def replace_blank_subject
+    self.subject = "(no subject)" if subject.nil? || subject =~ /^\s*$/
   end
 end
