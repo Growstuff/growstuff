@@ -9,6 +9,11 @@ module FeatureHelpers
     selector = %{ul.ui-autocomplete li.ui-menu-item a:contains("#{select}")}
     page.execute_script " $('#{selector}').mouseenter().click() "
   end
+
+  shared_context 'signed in' do
+    before { sign_in user }
+    after { sign_out user }
+  end
 end
 
 RSpec.configure do |config|
