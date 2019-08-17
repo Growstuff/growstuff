@@ -28,11 +28,11 @@
       - if member_signed_in?
         %li.nav-item.dropdown
           %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
-            - if current_member.notifications.unread_count.positive?
+            - if current_member.unread_count.positive?
               = t('.your_stuff')
-              %span.badge.badge-info= current_member.notifications.unread_count
+              %span.badge.badge-info= current_member.unread_count
             - else
-              = t('.current_memberlogin_name', current_memberlogin_name: current_member.login_name)
+              = t('.current_memberlogin_name', current_memberlogin_name: current_member)
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             = link_to member_path(current_member), class: 'dropdown-item' do
               = t('.profile')
@@ -46,14 +46,14 @@
               = t('.seeds')
             = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
 
-            - if current_member.notifications.unread_count.positive?
+            - if current_member.unread_count.positive?
               .dropdown-divider
               %strong
-                = link_to(notifications_path, class: 'dropdown-item') do
+                = link_to(conversations_path, class: 'dropdown-item') do
                   = t('.inbox')
-                  %span.badge.badge-info= current_member.notifications.unread_count
+                  %span.badge.badge-info= current_member.unread_count
             - else
-              = link_to t('.inbox'), notifications_path, class: 'dropdown-item'
+              = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
 
           - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
             %li.nav-item.dropdown

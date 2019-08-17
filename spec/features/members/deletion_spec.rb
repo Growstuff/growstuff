@@ -41,7 +41,7 @@ describe "member deletion" do
       click_link 'Edit profile'
       click_link 'Delete Account'
       click_button "Delete"
-      expect(page).to have_content "Current password can't be blank"
+      expect(page).to have_content "Incorrect password"
     end
 
     it "password must be correct" do
@@ -50,7 +50,7 @@ describe "member deletion" do
       click_link 'Delete Account'
       fill_in "current_pw_for_delete", with: "wrongpassword"
       click_button "Delete"
-      expect(page).to have_content "Current password is invalid"
+      expect(page).to have_content "Incorrect password"
     end
 
     it "deletes and removes bio" do
@@ -87,7 +87,10 @@ describe "member deletion" do
       end
 
       describe 'member exists but is marked deleted' do
-        it { expect(Member.with_deleted.find(member.id)).to eq member }
+        subject { Member.all.find(member.id) }
+        it { expect(subject).to eq member }
+        it { expect(subject.discarded?).to eq true }
+        it { expect(Member.kept).not_to include(member) }
       end
 
       it "removes plantings" do
@@ -144,7 +147,7 @@ describe "member deletion" do
         fill_in 'Login', with: member.login_name
         fill_in 'Password', with: member.password
         click_button 'Sign in'
-        expect(page).to have_content 'Invalid Login or password'
+        expect(page).to have_content 'Your account is not activated'
       end
     end
   end

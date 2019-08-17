@@ -13,18 +13,20 @@
   - else
     %li.breadcrumb-item.active= link_to 'Gardens', gardens_path
 
-= link_to gardens_active_tickbox_path(@owner, @show_all) do
-  = check_box_tag 'active', 'all', @show_all
-  include in-active
-
-.pagination
-  = page_entries_info @gardens
-  = will_paginate @gardens
-
+%section.border-top
+  = link_to gardens_active_tickbox_path(@owner, @show_all), class: 'btn'  do
+    = check_box_tag 'active', 'all', @show_all
+    include in-active
 
 - if @gardens.empty?
   %p There are no gardens to display.
+  - if can?(:create, Garden) && @owner == current_member
+    = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
+
 - else
+  .row
+    .col-12= page_entries_info @gardens
+    .col-12= will_paginate @gardens
   - @gardens.each do |garden|
     %section.border-top
       .row
@@ -43,6 +45,6 @@
                 .col-6.col-md-4.col-lg-3= render 'plantings/card', planting: planting
 
 
-.pagination
-  = page_entries_info @gardens
-  = will_paginate @gardens
+  .row
+    .col-12= page_entries_info @gardens
+    .col-12= will_paginate @gardens

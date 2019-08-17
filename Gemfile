@@ -106,7 +106,7 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem "paranoia", "~> 2.2"
+gem 'discard', '~> 1.0'
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
@@ -114,6 +114,9 @@ gem 'puma'
 
 gem 'loofah', '>= 2.2.1'
 gem 'rack-protection', '>= 2.0.1'
+
+# Member to member messaging system
+gem 'mailboxer'
 
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku

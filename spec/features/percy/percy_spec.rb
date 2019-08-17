@@ -331,9 +331,8 @@ rest of the garden.
           Percy.snapshot(page, name: "#{prefix}/crops-menu")
           click_on 'Community'
           Percy.snapshot(page, name: "#{prefix}/community-menu")
-          click_on 'percy'
+          click_on 'percy', class: 'nav-link'
           Percy.snapshot(page, name: "#{prefix}/member-menu")
-        end
       end
     end
   end

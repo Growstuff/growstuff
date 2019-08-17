@@ -33,10 +33,11 @@
         %span= display_quantity(@harvest)
 
 
-    - if @harvest.description.present?
-      %h2 Notes
-      :growstuff_markdown
-        #{ @harvest.description != "" ? strip_tags(@harvest.description) : "No description given." }
+  .col-md-4
+    .card
+      .card-body= render 'harvests/owner', harvest: @harvest
+
+    = render @harvest.crop
 
     %hr/
     - if @harvest.photos.size.positive?
