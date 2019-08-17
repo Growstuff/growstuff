@@ -325,6 +325,7 @@ rest of the garden.
 
       describe 'expand menus' do
         it 'expands crop menu' do
+          member.update! login_name: 'percy'
           visit root_path
           click_on 'Crops'
           Percy.snapshot(page, name: "#{prefix}/crops-menu")
