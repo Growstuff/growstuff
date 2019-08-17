@@ -15,13 +15,8 @@ describe "Alternate names", js: true do
     expect(page).to have_content alternate_eggplant.name
   end
 
-  context "User is a crop wrangler" do
+  include_context 'signed in crop wrangler' do
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-    let(:member) { crop_wranglers.first }
-
-    before do
-      login_as member
-    end
 
     it "Crop wranglers can edit alternate names" do
       visit crop_path(crop)

@@ -12,9 +12,8 @@ describe "browse crops" do
   end
 
   it "shows a list of crops" do
-    crop1 = tomato
     visit crops_path
-    expect(page).to have_content crop1.name
+    expect(page).to have_content tomato.name
   end
 
   it "pending crops are not listed" do
@@ -27,11 +26,8 @@ describe "browse crops" do
     expect(page).not_to have_content rejected_crop.name
   end
 
-  context "logged in and crop wrangler" do
-    before do
-      login_as FactoryBot.create(:crop_wrangling_member)
-      visit crops_path
-    end
+  include_context 'signed in crop wrangler' do
+    before { visit crops_path }
 
     it "shows a new crop link" do
       expect(page).to have_link "Add New Crop"

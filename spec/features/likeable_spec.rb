@@ -6,9 +6,7 @@ describe 'Likeable', js: true do
   let!(:post)           { FactoryBot.create(:post, author: member) }
   let!(:photo)          { FactoryBot.create(:photo, owner: member) }
 
-  context 'logged in member' do
-    before { login_as member }
-
+  include_context 'signed in member' do
     describe 'photos' do
       let(:like_count_class) { "#photo-#{photo.id} .like-count" }
 
