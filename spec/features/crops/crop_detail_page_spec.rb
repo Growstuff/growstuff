@@ -83,12 +83,12 @@ describe "crop detail page", js: true do
 
     context 'signed in' do
       include_context 'signed in member' do
+        before { seed.update! owner: member }
         it "User signed in" do
           visit crop_path(seed.crop)
           expect(page).to have_link "You have 20 seeds of this crop."
         end
         it "click link to your owned seeds" do
-          seed.update! owner: member
           visit crop_path(seed.crop)
           click_link "You have 20 seeds of this crop."
           expect(current_path).to eq member_seeds_path(member_slug: member.slug)
