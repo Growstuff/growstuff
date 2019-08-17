@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe "User searches" do
-  let(:member)    { create :member, location: "Philippines"                                              }
   let!(:maize)    { create :maize                                                                        }
   let(:garden)    { create :garden, owner: member                                                        }
   let!(:seed1)    { create :seed, owner: member                                                          }
@@ -27,6 +26,7 @@ describe "User searches" do
 
   describe "Nearby plantings, seed, and members" do
     include_context 'signed in member' do
+      let(:member) { create :member, location: "Philippines" }
       before do
         visit places_path
         search_with "Philippines"
