@@ -70,7 +70,6 @@ describe "crop wranglers", js: true do
   context "signed in non-wrangler" do
     include_context 'signed in member' do
       let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-      let(:member) { create :member }
 
       it "can't see wrangling page without js", js: false do
         visit root_path
