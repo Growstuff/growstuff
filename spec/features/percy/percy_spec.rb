@@ -333,6 +333,7 @@ rest of the garden.
           Percy.snapshot(page, name: "#{prefix}/community-menu")
           click_on 'percy', class: 'nav-link'
           Percy.snapshot(page, name: "#{prefix}/member-menu")
+        end
       end
     end
   end
