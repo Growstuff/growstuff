@@ -1,10 +1,11 @@
 require "rails_helper"
 
 describe "User searches" do
+  let!(:located_member) { create :member, location: "Philippines" }
   let!(:maize)    { create :maize                                                                        }
-  let(:garden)    { create :garden, owner: member                                                        }
-  let!(:seed1)    { create :seed, owner: member                                                          }
-  let!(:planting) { create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-3-10") }
+  let(:garden)    { create :garden, owner: located_member                                                        }
+  let!(:seed1)    { create :seed, owner: located_member                                                          }
+  let!(:planting) { create :planting, garden: garden, owner: located_member, planted_at: Date.parse("2013-3-10") }
 
   describe "with a valid place" do
     before do
@@ -26,7 +27,7 @@ describe "User searches" do
 
   describe "Nearby plantings, seed, and members" do
     include_context 'signed in member' do
-      let(:member) { create :member, location: "Philippines" }
+      let(:member) { located_member }
       before do
         visit places_path
         search_with "Philippines"
