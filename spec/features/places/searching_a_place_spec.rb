@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "User searches" do
   let!(:located_member) { create :member, location: "Philippines" }
-  let!(:maize)    { create :maize                                                                        }
+  let!(:maize)    { create :maize }
   let(:garden)    { create :garden, owner: located_member                                                        }
   let!(:seed1)    { create :seed, owner: located_member                                                          }
   let!(:planting) { create :planting, garden: garden, owner: located_member, planted_at: Date.parse("2013-3-10") }

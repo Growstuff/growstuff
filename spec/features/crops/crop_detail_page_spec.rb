@@ -20,53 +20,55 @@ describe "crop detail page", js: true do
     end
   end
 
-  include_context "signed in member" do
-    context "action buttons" do
-      before { subject }
+  context 'signed in' do
+    include_context "signed in member" do
+      context "action buttons" do
+        before { subject }
 
-      it "has a link to plant the crop" do
-        expect(page).to have_link "Plant #{crop.name}", href: new_planting_path(crop_id: crop.id)
-      end
-      it "has a link to harvest the crop" do
-        expect(page).to have_link "Harvest #{crop.name}", href: new_harvest_path(crop_id: crop.id)
-      end
-      it "has a link to add seeds" do
-        expect(page).to have_link "Add #{crop.name} seeds to stash", href: new_seed_path(crop_id: crop.id)
-      end
-    end
-
-    context "SEO" do
-      before { subject }
-
-      it "has seed heading with SEO" do
-        expect(page).to have_content "Find #{crop.name} seeds"
+        it "has a link to plant the crop" do
+          expect(page).to have_link "Plant #{crop.name}", href: new_planting_path(crop_id: crop.id)
+        end
+        it "has a link to harvest the crop" do
+          expect(page).to have_link "Harvest #{crop.name}", href: new_harvest_path(crop_id: crop.id)
+        end
+        it "has a link to add seeds" do
+          expect(page).to have_link "Add #{crop.name} seeds to stash", href: new_seed_path(crop_id: crop.id)
+        end
       end
 
-      it "has harvest heading with SEO" do
-        expect(page).to have_content "#{crop.name.capitalize} harvests"
-      end
+      context "SEO" do
+        before { subject }
 
-      it "has planting heading with SEO" do
-        expect(page).to have_content "See who's planted #{crop.name.pluralize}"
-      end
+        it "has seed heading with SEO" do
+          expect(page).to have_content "Find #{crop.name} seeds"
+        end
 
-      it "has planting advice with SEO" do
-        expect(page).to have_content "How to grow #{crop.name}"
-      end
+        it "has harvest heading with SEO" do
+          expect(page).to have_content "#{crop.name.capitalize} harvests"
+        end
 
-      it "has a link to Wikipedia with SEO" do
-        expect(page).to have_content "Learn more about #{crop.name}"
-        expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
-      end
+        it "has planting heading with SEO" do
+          expect(page).to have_content "See who's planted #{crop.name.pluralize}"
+        end
 
-      it "has a link to OpenFarm" do
-        expect(page).to have_link "OpenFarm - Growing guide",
-                                  href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
-      end
+        it "has planting advice with SEO" do
+          expect(page).to have_content "How to grow #{crop.name}"
+        end
 
-      it "has a link to gardenate" do
-        expect(page).to have_link "Gardenate - Planting reminders",
-                                  href: "https://www.gardenate.com/plant/#{CGI.escape crop.name}"
+        it "has a link to Wikipedia with SEO" do
+          expect(page).to have_content "Learn more about #{crop.name}"
+          expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
+        end
+
+        it "has a link to OpenFarm" do
+          expect(page).to have_link "OpenFarm - Growing guide",
+                                    href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
+        end
+
+        it "has a link to gardenate" do
+          expect(page).to have_link "Gardenate - Planting reminders",
+                                    href: "https://www.gardenate.com/plant/#{CGI.escape crop.name}"
+        end
       end
     end
   end
@@ -79,16 +81,18 @@ describe "crop detail page", js: true do
       expect(page).not_to have_content "You have 20 seeds"
     end
 
-    include_context 'signed in member' do
-      it "User signed in" do
-        visit crop_path(seed.crop)
-        expect(page).to have_link "You have 20 seeds of this crop."
-      end
-      it "click link to your owned seeds" do
-        seed.update! owner: member
-        visit crop_path(seed.crop)
-        click_link "You have 20 seeds of this crop."
-        expect(current_path).to eq member_seeds_path(member_slug: member.slug)
+    context 'signed in' do
+      include_context 'signed in member' do
+        it "User signed in" do
+          visit crop_path(seed.crop)
+          expect(page).to have_link "You have 20 seeds of this crop."
+        end
+        it "click link to your owned seeds" do
+          seed.update! owner: member
+          visit crop_path(seed.crop)
+          click_link "You have 20 seeds of this crop."
+          expect(current_path).to eq member_seeds_path(member_slug: member.slug)
+        end
       end
     end
   end
