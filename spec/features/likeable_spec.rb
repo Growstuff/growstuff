@@ -40,6 +40,7 @@ describe 'Likeable', js: true do
           expect(page).to have_css(like_count_class, text: "1")
           click_link '1', class: 'like-btn'
           expect(page).to have_css(like_count_class, text: "2")
+          logout(another_member)
         end
       end
       describe 'photos#index' do
@@ -89,6 +90,7 @@ describe 'Likeable', js: true do
         expect(page).to have_link 'Like'
         click_link 'Like', class: 'like-btn'
         expect(page).to have_css(like_count_class, text: "2")
+        logout(another_member)
       end
     end
   end
