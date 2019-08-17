@@ -39,7 +39,6 @@ class Harvest < ApplicationRecord
 
   ##
   ## Scopes
-  default_scope { joins(:owner) } # Ensures owner exists
   scope :interesting, -> { has_photos.one_per_owner }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {

@@ -48,7 +48,7 @@ class Seed < ApplicationRecord
 
   #
   # Scopes
-  default_scope { joins(:owner) } # Ensure owner exists
+  default_scope { joins(:owner).merge(Member.kept) } # Ensure owner exists
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }

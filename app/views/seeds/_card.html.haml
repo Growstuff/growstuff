@@ -2,11 +2,12 @@
   = link_to seed do
     = image_tag(seed_image_path(seed, full_size: true), alt: seed, class: 'img-card')
   .card-body
-    %h5= link_to seed, seed
+    .card-title= link_to seed.crop, seed
+  .card-footer
+    = render 'members/tiny', member: seed.owner
     - if seed.tradable?
-      %span.badge.badge-pill.badge-secondary Will trade #{seed.tradable_to}
-  = link_to seed.owner do
-    .card-footer
-      %span.badge.badge-pill.badge-secondary
-        = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')
-      = render 'members/tiny', member: seed.owner
+      %span.badge.badge-pill.badge-info
+        = icon 'fas', 'map'
+        Will trade #{seed.tradable_to}
+    %span.badge.badge-pill.badge-secondary
+      = truncate(seed.owner.location, length: 30, separator: ' ', omission: '... ')

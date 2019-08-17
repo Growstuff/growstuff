@@ -32,25 +32,24 @@
 
 .row
   .col-md-8.col-12
-    %section.blog-post
-      .card.post{ id: "post-#{@post.id}" }
-        .card-header
-          %h2.display-3.float-left
-            = @post.subject
-          = render 'posts/actions', post: @post
-        .card-body
-          .post-content= render 'posts/single', post: @post
-          .index-cards
-            - @post.photos.each do |photo|
-              = render 'photos/thumbnail', photo: photo
+    .card.post{ id: "post-#{@post.id}" }
+      .card-header
+        %h2.display-3.float-left
+          = @post.subject
+        = render 'posts/actions', post: @post
+      .card-body
+        .post-content= render 'posts/single', post: @post
+        .index-cards
+          - @post.photos.each do |photo|
+            = render 'photos/thumbnail', photo: photo
 
-        .card-footer
-          = render 'posts/likes', post: @post
-          .float-right
-            - if can? :create, Comment
-              = link_to new_comment_path(post_id: @post.id), class: 'btn' do
-                = icon 'fas', 'comment'
-                Comment
+      .card-footer
+        = render 'posts/likes', post: @post
+        .float-right
+          - if can? :create, Comment
+            = link_to new_comment_path(post_id: @post.id), class: 'btn' do
+              = icon 'fas', 'comment'
+              Comment
 
     %secion.comments= render "comments", post: @post
 

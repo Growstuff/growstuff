@@ -97,9 +97,8 @@ Rails.application.routes.draw do
     get 'followers' => 'follows#followers'
   end
 
-  resources :notifications do
-    get 'reply'
-  end
+  resources :messages
+  resources :conversations
 
   resources :places, only: %i(index show), param: :place do
     get 'search', on: :collection

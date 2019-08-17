@@ -13,7 +13,7 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member        = Member.confirmed.find_by!(slug: params[:slug])
+    @member        = Member.confirmed.kept.find_by!(slug: params[:slug])
     @twitter_auth  = @member.auth('twitter')
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
@@ -89,6 +89,6 @@ class MembersController < ApplicationController
       Member.recently_joined
     else
       Member.order(:login_name)
-    end.confirmed.paginate(page: params[:page])
+    end.kept.confirmed.paginate(page: params[:page])
   end
 end
