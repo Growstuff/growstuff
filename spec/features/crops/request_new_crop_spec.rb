@@ -15,10 +15,10 @@ describe "Requesting a new crop" do
   end
 
   context "As a crop wrangler" do
-    let!(:crop)             { create :crop_request }
-    let!(:already_approved) { create :crop         }
-
     include_context 'signed in crop wrangler' do
+      let!(:crop)             { create :crop_request }
+      let!(:already_approved) { create :crop         }
+
       it "Approve a request" do
         visit edit_crop_path(crop)
         select "approved", from: "Approval status"
