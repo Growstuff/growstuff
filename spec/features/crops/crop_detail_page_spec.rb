@@ -72,8 +72,7 @@ describe "crop detail page", js: true do
   end
 
   context "seed quantity for a crop" do
-    let(:member) { create :member                                        }
-    let(:seed)   { create :seed, crop: crop, quantity: 20, owner: member }
+    let(:seed)   { create :seed, crop: crop, quantity: 20 }
 
     it "User not signed in" do
       visit crop_path(seed.crop)
@@ -86,6 +85,7 @@ describe "crop detail page", js: true do
         expect(page).to have_link "You have 20 seeds of this crop."
       end
       it "click link to your owned seeds" do
+        seed.update! owner: member
         visit crop_path(seed.crop)
         click_link "You have 20 seeds of this crop."
         expect(current_path).to eq member_seeds_path(member_slug: member.slug)
