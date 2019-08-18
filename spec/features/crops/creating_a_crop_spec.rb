@@ -1,23 +1,30 @@
 require 'rails_helper'
 
 describe "Crop", js: true do
+  shared_examples 'fill in form' do
+    before do
+      visit new_crop_path
+      within "form#new_crop" do
+        fill_in "crop_name", with: "Philippine flower"
+        fill_in "en_wikipedia_url", with: "https://en.wikipedia.org/wiki/Jasminum_sambac"
+        click_button "add-sci_name-row"
+        fill_in "sci_name[1]", with: "Jasminum sambac 1"
+        fill_in "sci_name[2]", with: "Jasminum sambac 2"
+        fill_in "alt_name[1]", with: "Sampaguita"
+        click_button "add-alt_name-row"
+        click_button "add-alt_name-row"
+        fill_in "alt_name[2]", with: "Manol"
+        click_button "add-alt_name-row"
+        fill_in "alt_name[3]", with: "Jazmin"
+        fill_in "alt_name[4]", with: "Matsurika"
+      end
+    end
+  end
   shared_examples 'request crop' do
     describe "requesting a crop with multiple scientific and alternate name" do
+      include_examples 'fill in form'
       before do
-        visit new_crop_path
         within "form#new_crop" do
-          fill_in "crop_name", with: "Philippine flower"
-          fill_in "en_wikipedia_url", with: "https://en.wikipedia.org/wiki/Jasminum_sambac"
-          click_button "add-sci_name-row"
-          fill_in "sci_name[1]", with: "Jasminum sambac 1"
-          fill_in "sci_name[2]", with: "Jasminum sambac 2"
-          fill_in "alt_name[1]", with: "Sampaguita"
-          click_button "add-alt_name-row"
-          click_button "add-alt_name-row"
-          fill_in "alt_name[2]", with: "Manol"
-          click_button "add-alt_name-row"
-          fill_in "alt_name[3]", with: "Jazmin"
-          fill_in "alt_name[4]", with: "Matsurika"
           fill_in "request_notes", with: "This is the Philippine national flower."
           click_button "Save"
         end
@@ -30,23 +37,9 @@ describe "Crop", js: true do
   end
   shared_examples 'create crop' do
     describe "creating a crop with multiple scientific and alternate name" do
+      include_examples 'fill in form'
       before do
-        visit new_crop_path
-        within "form#new_crop" do
-          fill_in "crop_name", with: "Philippine flower"
-          fill_in "en_wikipedia_url", with: "https://en.wikipedia.org/wiki/Jasminum_sambac"
-          click_button "add-sci_name-row"
-          fill_in "sci_name[1]", with: "Jasminum sambac 1"
-          fill_in "sci_name[2]", with: "Jasminum sambac 2"
-          fill_in "alt_name[1]", with: "Sampaguita"
-          click_button "add-alt_name-row"
-          click_button "add-alt_name-row"
-          fill_in "alt_name[2]", with: "Manol"
-          click_button "add-alt_name-row"
-          fill_in "alt_name[3]", with: "Jazmin"
-          fill_in "alt_name[4]", with: "Matsurika"
-          click_button "Save"
-        end
+        click_button "Save"
       end
       it { expect(page).to have_content 'crop was successfully created.' }
       it { expect(page).to have_content "Jasminum sambac 2" }
