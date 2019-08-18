@@ -340,7 +340,6 @@ rest of the garden.
 
   context 'wrangling crops' do
     include_context 'signed in crop wrangler' do
-      let(:prefix) { 'crop-wrangler' }
       let!(:candy) { FactoryBot.create :crop_request, name: 'candy' }
 
       it 'crop wrangling page' do

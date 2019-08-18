@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'Likeable', js: true do
-  let(:member)         { FactoryBot.create(:member)                }
   let(:another_member) { FactoryBot.create(:london_member)         }
   let!(:post)           { FactoryBot.create(:post, author: member) }
   let!(:photo)          { FactoryBot.create(:photo, owner: member) }

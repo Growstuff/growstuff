@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 describe "new photo page" do
-  let(:photo) { FactoryBot.create :photo }
-
   context "signed in member" do
-    let(:member) { FactoryBot.create :member }
-
     include_context 'signed in member' do
       context "viewing a planting" do
         let(:planting) { FactoryBot.create :planting, owner: member }

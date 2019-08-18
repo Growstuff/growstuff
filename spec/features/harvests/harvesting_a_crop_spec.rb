@@ -4,8 +4,7 @@ require 'custom_matchers'
 describe "Harvesting a crop", :js, :elasticsearch do
   include_context 'signed in member' do
     let!(:maize)      { create :maize }
-    let!(:plant_part) { create :plant_part                           }
-    let(:planting)    { create :planting, crop: maize, owner: member }
+    let!(:plant_part) { create :plant_part }
 
     before { visit new_harvest_path }
 
