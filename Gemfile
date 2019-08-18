@@ -150,6 +150,7 @@ group :development, :test do
   gem 'i18n-tasks' # adds tests for finding missing and unused translations
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails' # unit testing framework
+  gem 'rspectre', require: false # finds unused code in specs
   gem 'rubocop', '~> 0.71'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
