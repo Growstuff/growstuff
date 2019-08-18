@@ -50,16 +50,14 @@ describe "crop detail page", js: true do
   end
 
   context "when signed in" do
-    include_context 'signed in member' do
-      include_examples "shows photos"
-    end
+    include_context 'signed in member'
+    include_examples "shows photos"
   end
 
   context "when signed in as photos owner" do
-    include_context 'signed in member' do
-      let(:member) { owner_member }
-      include_examples "shows photos"
-    end
+    include_context 'signed in member'
+    let(:member) { owner_member }
+    include_examples "shows photos"
   end
 
   context "when not signed in " do

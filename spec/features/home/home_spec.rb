@@ -79,17 +79,16 @@ describe "home page" do
   end
 
   context "when signed in" do
-    include_context 'signed in member' do
-      include_examples 'show crops'
-      include_examples 'show plantings'
-      include_examples 'show harvests'
-      include_examples 'shows seeds'
+    include_context 'signed in member'
+    include_examples 'show crops'
+    include_examples 'show plantings'
+    include_examples 'show harvests'
+    include_examples 'shows seeds'
 
-      describe 'should say welcome' do
-        before { visit root_path }
+    describe 'should say welcome' do
+      before { visit root_path }
 
-        it { expect(page).to have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{member.login_name}" }
-      end
+      it { expect(page).to have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{member.login_name}" }
     end
   end
 end

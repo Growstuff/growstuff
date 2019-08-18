@@ -2,7 +2,8 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Gardens", :js do
-  include_context 'signed in member' do
+  context 'signed in' do
+    include_context 'signed in member'
     before { visit new_garden_path }
 
     it "has the required fields help text" do

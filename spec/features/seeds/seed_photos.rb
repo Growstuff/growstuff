@@ -2,7 +2,8 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Seeds", :js do
-  include_context 'signed in member' do
+  context 'signed in' do
+    include_context 'signed in member'
     before { visit seed_path(seed) }
     subject { page }
 

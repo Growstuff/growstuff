@@ -162,26 +162,25 @@ describe "member profile", js: true do
   end
 
   context "signed in member" do
-    include_context 'signed in member' do
-      include_examples 'member details'
-      include_examples 'member activity'
+    include_context 'signed in member'
+    include_examples 'member details'
+    include_examples 'member activity'
 
-      context "your own profile page" do
-        before { visit member_path(member) }
+    context "your own profile page" do
+      before { visit member_path(member) }
 
-        it "has a button to edit profile" do
-          expect(page).to have_link "Edit profile", href: edit_member_registration_path
-        end
+      it "has a button to edit profile" do
+        expect(page).to have_link "Edit profile", href: edit_member_registration_path
       end
+    end
 
-      context "someone else's profile page" do
-        before { visit member_path(other_member) }
+    context "someone else's profile page" do
+      before { visit member_path(other_member) }
 
-        it "has a private message button" do
-          expect(page).to have_link "Send message", href: new_message_path(recipient_id: other_member.id)
-        end
-        it { expect(page).not_to have_link "Edit profile", href: edit_member_registration_path }
+      it "has a private message button" do
+        expect(page).to have_link "Send message", href: new_message_path(recipient_id: other_member.id)
       end
+      it { expect(page).not_to have_link "Edit profile", href: edit_member_registration_path }
     end
   end
 end

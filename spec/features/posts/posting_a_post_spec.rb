@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'Post a post' do
-  include_context 'signed in member' do
+  context 'signed in' do
+    include_context 'signed in member'
     before { visit new_post_path }
 
     it "creating a post" do

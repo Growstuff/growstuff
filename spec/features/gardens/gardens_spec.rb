@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe "Planting a crop", js: true do
-  include_context 'signed in member' do
+  context 'signed in' do
+    include_context 'signed in member'
     # name is aaa to ensure it is ordered first
     let!(:garden)            { create :garden, name: 'aaa', owner: member }
     let!(:planting)          { create :planting, garden: garden, owner: garden.owner, planted_at: Date.parse("2013-3-10") }

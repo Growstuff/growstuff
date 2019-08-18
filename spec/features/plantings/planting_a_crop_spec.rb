@@ -7,7 +7,9 @@ describe "Planting a crop", :js, :elasticsearch do
   let!(:planting) do
     FactoryBot.create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10")
   end
-  include_context 'signed in member' do
+
+  context 'signed in' do
+    include_context 'signed in member'
     before { visit new_planting_path }
 
     it_behaves_like "crop suggest", "planting"

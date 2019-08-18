@@ -2,7 +2,8 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Harvesting a crop", :js, :elasticsearch do
-  include_context 'signed in member' do
+  context 'signed in' do
+    include_context 'signed in member'
     let!(:maize)      { create :maize }
     let!(:plant_part) { create :plant_part }
 

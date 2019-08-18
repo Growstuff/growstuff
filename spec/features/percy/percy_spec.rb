@@ -235,154 +235,151 @@ rest of the garden.
 
   context 'when signed in' do
     let(:prefix) { 'signed-in' }
-    include_context 'signed in member' do
-      include_examples 'visit pages'
+    include_context 'signed in member'
+    include_examples 'visit pages'
 
-      it 'load my plantings#show' do
-        planting = FactoryBot.create :planting, crop: tomato, owner: member, garden: member.gardens.first
-        visit planting_path(planting)
-        Percy.snapshot(page, name: "#{prefix}/self/plantings#show")
+    it 'load my plantings#show' do
+      planting = FactoryBot.create :planting, crop: tomato, owner: member, garden: member.gardens.first
+      visit planting_path(planting)
+      Percy.snapshot(page, name: "#{prefix}/self/plantings#show")
+    end
+
+    it 'load my members#show' do
+      visit member_path(member)
+      Percy.snapshot(page, name: "#{prefix}/self/members#show")
+    end
+
+    it 'load my gardens#show' do
+      garden = FactoryBot.create :garden, name: 'paradise', owner: member
+      visit garden_path(garden)
+      Percy.snapshot(page, name: "#{prefix}/self/gardens#show")
+    end
+
+    describe '#new' do
+      it 'crops#new' do
+        visit new_crop_path
+        Percy.snapshot(page, name: "#{prefix}/crops#new")
       end
 
-      it 'load my members#show' do
-        visit member_path(member)
-        Percy.snapshot(page, name: "#{prefix}/self/members#show")
+      it 'gardens#new' do
+        visit new_garden_path
+        Percy.snapshot(page, name: "#{prefix}/gardens#new")
       end
 
-      it 'load my gardens#show' do
-        garden = FactoryBot.create :garden, name: 'paradise', owner: member
-        visit garden_path(garden)
-        Percy.snapshot(page, name: "#{prefix}/self/gardens#show")
+      it 'harvests#new' do
+        visit new_harvest_path
+        Percy.snapshot(page, name: "#{prefix}/harvests#new")
+        fill_in(id: 'crop', with: 'tom')
+        Percy.snapshot(page, name: "#{prefix}/harvests#new-autosuggest")
       end
 
-      describe '#new' do
-        it 'crops#new' do
-          visit new_crop_path
-          Percy.snapshot(page, name: "#{prefix}/crops#new")
-        end
-
-        it 'gardens#new' do
-          visit new_garden_path
-          Percy.snapshot(page, name: "#{prefix}/gardens#new")
-        end
-
-        it 'harvests#new' do
-          visit new_harvest_path
-          Percy.snapshot(page, name: "#{prefix}/harvests#new")
-          fill_in(id: 'crop', with: 'tom')
-          Percy.snapshot(page, name: "#{prefix}/harvests#new-autosuggest")
-        end
-
-        it 'plantings#new' do
-          visit new_planting_path
-          Percy.snapshot(page, name: "#{prefix}/plantings#new")
-          fill_in(id: 'crop', with: 'tom')
-          Percy.snapshot(page, name: "#{prefix}/plantings#new-autosuggest")
-        end
-
-        it 'seeds#new' do
-          visit new_seed_path
-          Percy.snapshot(page, name: "#{prefix}/seeds#new")
-          fill_in(id: 'crop', with: 'tom')
-          Percy.snapshot(page, name: "#{prefix}/seeds#new-autosuggest")
-        end
-
-        it 'posts#new' do
-          visit new_post_path
-          Percy.snapshot(page, name: "#{prefix}/posts#new")
-        end
+      it 'plantings#new' do
+        visit new_planting_path
+        Percy.snapshot(page, name: "#{prefix}/plantings#new")
+        fill_in(id: 'crop', with: 'tom')
+        Percy.snapshot(page, name: "#{prefix}/plantings#new-autosuggest")
       end
 
-      describe '#edit' do
-        it 'loads gardens#edit' do
-          garden = FactoryBot.create :garden, owner: member
-          visit edit_garden_path(garden)
-          Percy.snapshot(page, name: "#{prefix}/gardens#edit")
-        end
-
-        it 'loads harvests#edit' do
-          harvest = FactoryBot.create :harvest, owner: member
-          visit edit_harvest_path(harvest)
-          Percy.snapshot(page, name: "#{prefix}/harvests#edit")
-        end
-
-        it 'loads planting#edit' do
-          planting = FactoryBot.create :planting, owner: member
-          visit edit_planting_path(planting)
-          Percy.snapshot(page, name: "#{prefix}/plantings#edit")
-        end
-
-        it 'loads posts#edit' do
-          visit edit_post_path(post)
-          Percy.snapshot(page, name: "#{prefix}/posts#edit")
-        end
-
-        it 'comments#new' do
-          visit new_comment_path(post_id: post.id)
-          Percy.snapshot(page, name: "comments#new")
-        end
+      it 'seeds#new' do
+        visit new_seed_path
+        Percy.snapshot(page, name: "#{prefix}/seeds#new")
+        fill_in(id: 'crop', with: 'tom')
+        Percy.snapshot(page, name: "#{prefix}/seeds#new-autosuggest")
       end
 
-      describe 'expand menus' do
-        it 'expands crop menu' do
-          member.update! login_name: 'percy'
-          visit root_path
-          click_on 'Crops'
-          Percy.snapshot(page, name: "#{prefix}/crops-menu")
-          click_on 'Community'
-          Percy.snapshot(page, name: "#{prefix}/community-menu")
-          click_on 'percy', class: 'nav-link'
-          Percy.snapshot(page, name: "#{prefix}/member-menu")
-        end
+      it 'posts#new' do
+        visit new_post_path
+        Percy.snapshot(page, name: "#{prefix}/posts#new")
+      end
+    end
+
+    describe '#edit' do
+      it 'loads gardens#edit' do
+        garden = FactoryBot.create :garden, owner: member
+        visit edit_garden_path(garden)
+        Percy.snapshot(page, name: "#{prefix}/gardens#edit")
+      end
+
+      it 'loads harvests#edit' do
+        harvest = FactoryBot.create :harvest, owner: member
+        visit edit_harvest_path(harvest)
+        Percy.snapshot(page, name: "#{prefix}/harvests#edit")
+      end
+
+      it 'loads planting#edit' do
+        planting = FactoryBot.create :planting, owner: member
+        visit edit_planting_path(planting)
+        Percy.snapshot(page, name: "#{prefix}/plantings#edit")
+      end
+
+      it 'loads posts#edit' do
+        visit edit_post_path(post)
+        Percy.snapshot(page, name: "#{prefix}/posts#edit")
+      end
+
+      it 'comments#new' do
+        visit new_comment_path(post_id: post.id)
+        Percy.snapshot(page, name: "comments#new")
+      end
+    end
+
+    describe 'expand menus' do
+      it 'expands crop menu' do
+        member.update! login_name: 'percy'
+        visit root_path
+        click_on 'Crops'
+        Percy.snapshot(page, name: "#{prefix}/crops-menu")
+        click_on 'Community'
+        Percy.snapshot(page, name: "#{prefix}/community-menu")
+        click_on 'percy', class: 'nav-link'
+        Percy.snapshot(page, name: "#{prefix}/member-menu")
       end
     end
   end
 
   context 'wrangling crops' do
-    include_context 'signed in crop wrangler' do
-      let!(:candy) { FactoryBot.create :crop_request, name: 'candy' }
+    include_context 'signed in crop wrangler'
+    let!(:candy) { FactoryBot.create :crop_request, name: 'candy' }
 
-      it 'crop wrangling page' do
-        visit wrangle_crops_path
-        Percy.snapshot(page, name: 'crops wrangle')
-        click_link 'Pending approval'
-        Percy.snapshot(page, name: 'crops pending approval')
-        click_link 'candy'
-        Percy.snapshot(page, name: 'editing pending crop')
-      end
+    it 'crop wrangling page' do
+      visit wrangle_crops_path
+      Percy.snapshot(page, name: 'crops wrangle')
+      click_link 'Pending approval'
+      Percy.snapshot(page, name: 'crops pending approval')
+      click_link 'candy'
+      Percy.snapshot(page, name: 'editing pending crop')
     end
   end
 
   context 'admin' do
-    include_context 'signed in admin' do
-      before { visit admin_path }
-      it 'admin page' do
-        Percy.snapshot(page, name: 'Admin')
-      end
-      it 'Roles' do
-        click_link 'Roles'
-        Percy.snapshot(page, name: 'Admin Roles')
-      end
-      it 'CMS' do
-        click_link 'CMS'
-        Percy.snapshot(page, name: 'CMS')
-      end
-      it 'Garden Types' do
-        click_link 'Garden Types'
-        Percy.snapshot(page, name: 'Admin Garden type')
-      end
-      it 'Alternate names' do
-        click_link 'Alternate names'
-        Percy.snapshot(page, name: 'Admin Alternate names')
-      end
-      it 'Scientific names' do
-        click_link 'Scientific names'
-        Percy.snapshot(page, name: 'Admin Scientific names')
-      end
-      it 'Members' do
-        click_link 'Members'
-        Percy.snapshot(page, name: 'Admin Members')
-      end
+    include_context 'signed in admin'
+    before { visit admin_path }
+    it 'admin page' do
+      Percy.snapshot(page, name: 'Admin')
+    end
+    it 'Roles' do
+      click_link 'Roles'
+      Percy.snapshot(page, name: 'Admin Roles')
+    end
+    it 'CMS' do
+      click_link 'CMS'
+      Percy.snapshot(page, name: 'CMS')
+    end
+    it 'Garden Types' do
+      click_link 'Garden Types'
+      Percy.snapshot(page, name: 'Admin Garden type')
+    end
+    it 'Alternate names' do
+      click_link 'Alternate names'
+      Percy.snapshot(page, name: 'Admin Alternate names')
+    end
+    it 'Scientific names' do
+      click_link 'Scientific names'
+      Percy.snapshot(page, name: 'Admin Scientific names')
+    end
+    it 'Members' do
+      click_link 'Members'
+      Percy.snapshot(page, name: 'Admin Members')
     end
   end
 end
