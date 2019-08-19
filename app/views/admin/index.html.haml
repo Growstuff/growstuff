@@ -13,7 +13,7 @@
           = icon 'fas', 'tablet-alt'
           Site admin
       .card-body
-        %nav.nav
+        %nav.nav#site_admin
           %li= link_to "Roles", roles_path, class: 'nav-link'
           %li= link_to "Forums", forums_path, class: 'nav-link'
           %li= link_to "CMS", comfy_admin_cms_path, class: 'nav-link'
@@ -26,7 +26,7 @@
           = icon 'fas', 'seedling'
           Crop data admin
       .card-body
-        %nav.nav
+        %nav.nav#crop_admin
           %li= link_to "Crop Wrangling", wrangle_crops_path, class: 'nav-link'
           %li= link_to "Alternate names", alternate_names_path, class: 'nav-link'
           %li= link_to "Scientific names", scientific_names_path, class: 'nav-link'
@@ -38,6 +38,6 @@
           = icon 'fas', 'user'
           Member admin
       .card-body
-        %nav.nav
+        %nav.nav#member_admin
           %li= link_to "Newsletter subscribers", admin_newsletter_path, class: 'nav-link'
           %li= link_to "Members", admin_members_path, class: 'nav-link'
