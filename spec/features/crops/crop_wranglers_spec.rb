@@ -16,7 +16,7 @@ describe "crop wranglers", js: true do
       click_link 'Crop Wrangling'
 
       within '.crop_wranglers' do
-        expect(page).to have_content 'Crop Wranglers:'
+        expect(page).to have_content 'Crop Wranglers'
         crop_wranglers.each do |crop_wrangler|
           expect(page).to have_link crop_wrangler.login_name, href: member_path(crop_wrangler)
         end
