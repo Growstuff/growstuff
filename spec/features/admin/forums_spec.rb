@@ -7,7 +7,7 @@ describe "forums", js: true do
   describe "navigating to forum admin with js" do
     before do
       visit admin_path
-      within 'ul#site_admin' do
+      within 'nav#site_admin' do
         click_link "Forums"
       end
     end
