@@ -235,7 +235,7 @@ rest of the garden.
 
   context 'when signed in' do
     let(:prefix) { 'signed-in' }
-    before { login_as member }
+    include_context 'signed in member'
     include_examples 'visit pages'
 
     it 'load my plantings#show' do
@@ -325,6 +325,7 @@ rest of the garden.
 
     describe 'expand menus' do
       it 'expands crop menu' do
+        member.update! login_name: 'percy'
         visit root_path
         click_on 'Crops'
         Percy.snapshot(page, name: "#{prefix}/crops-menu")
@@ -337,8 +338,7 @@ rest of the garden.
   end
 
   context 'wrangling crops' do
-    let(:prefix) { 'crop-wrangler' }
-    before { login_as crop_wrangler }
+    include_context 'signed in crop wrangler'
     let!(:candy) { FactoryBot.create :crop_request, name: 'candy' }
 
     it 'crop wrangling page' do
@@ -350,11 +350,10 @@ rest of the garden.
       Percy.snapshot(page, name: 'editing pending crop')
     end
   end
+
   context 'admin' do
-    before do
-      login_as admin_user
-      visit admin_path
-    end
+    include_context 'signed in admin'
+    before { visit admin_path }
     it 'admin page' do
       Percy.snapshot(page, name: 'Admin')
     end

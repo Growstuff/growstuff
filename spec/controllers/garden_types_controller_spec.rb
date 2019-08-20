@@ -5,9 +5,6 @@ RSpec.describe GardenTypesController, type: :controller do
   let(:valid_params) { { name: 'My second GardenType' } }
   let(:garden_type)  { FactoryBot.create :garden_type   }
 
-  let(:member) { FactoryBot.create(:member) }
-  let(:admin_member) { FactoryBot.create(:admin) }
-
   context "when not signed in" do
     describe 'GET new' do
       before { get :new, params: { id: garden_type.to_param } }

@@ -10,7 +10,6 @@ describe "member deletion" do
     let!(:harvest)        { FactoryBot.create(:harvest, owner: member)     }
     let!(:seed)           { FactoryBot.create(:seed, owner: member)        }
     let!(:secondgarden)   { FactoryBot.create(:garden, owner: member)      }
-    let(:admin)           { FactoryBot.create(:admin_member)               }
 
     before do
       login_as(member)

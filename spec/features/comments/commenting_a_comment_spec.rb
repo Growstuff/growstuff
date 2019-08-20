@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 describe 'Commenting on a post' do
-  let(:member) { create :member               }
-  let(:post)   { create :post, author: member }
+  include_context 'signed in member'
+  let(:member) { create :member }
+  let(:post) { create :post, author: member }
 
-  before do
-    login_as member
-    visit new_comment_path post_id: post.id
-  end
+  before { visit new_comment_path post_id: post.id }
 
   it "creating a comment" do
     fill_in "comment_body", with: "This is a sample test for comment"
