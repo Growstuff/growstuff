@@ -139,7 +139,7 @@ class CropsController < ApplicationController
   def notify_wranglers
     return if current_member.role? :crop_wrangler
 
-    Role.crop_wranglers.each do |w|
+    Role.crop_wranglers&.each do |w|
       Notifier.new_crop_request(w, @crop).deliver_now!
     end
   end

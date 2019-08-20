@@ -14,8 +14,6 @@ describe Comment do
   end
 
   context "notifications" do
-    let(:comment) { FactoryBot.create(:comment) }
-
     it "sends a notification when a comment is posted" do
       expect do
         FactoryBot.create(:comment)

@@ -5,9 +5,7 @@ describe "Gardens" do
   context 'logged in' do
     subject { page }
 
-    let(:member) { FactoryBot.create :member }
-    before { login_as member }
-
+    include_context 'signed in member'
     let(:garden) { member.gardens.first }
     let(:other_member_garden) { FactoryBot.create :garden }
 

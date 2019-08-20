@@ -135,25 +135,28 @@ group :development do
 end
 
 group :development, :test do
-  gem 'bullet'                          # performance tuning by finding unnecesary queries
-  gem 'byebug'                          # debugging
-  gem 'capybara'                        # integration tests
-  gem 'capybara-email'                  # integration tests for email
-  gem 'capybara-screenshot'             # for test debugging
-  gem 'coveralls', require: false       # coverage analysis
+  gem 'bullet'                  # performance tuning by finding unnecesary queries
+  gem 'byebug'                  # debugging
+  gem 'capybara'                # integration tests
+  gem 'capybara-email'          # integration tests for email
+  gem 'capybara-screenshot'     # for test debugging
   gem 'database_cleaner'
-  gem 'factory_bot_rails'               # for creating test data
+  gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
-  gem 'haml-i18n-extractor'
-  gem 'haml-rails'                      # HTML templating language
-  gem 'haml_lint', '>= 0.25.1' # Checks haml files for goodness
-  gem 'i18n-tasks' # adds tests for finding missing and unused translations
+  gem 'haml-rails'              # HTML templating language
   gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails' # unit testing framework
-  gem 'rubocop', '~> 0.71'
+  gem 'rspec-rails'             # unit testing framework
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'webrat' # provides HTML matchers for view tests
+  gem 'webrat'                  # provides HTML matchers for view tests
+
+  # cli utils
+  gem 'coveralls', require: false # coverage analysis
+  gem 'haml-i18n-extractor', require: false
+  gem 'haml_lint', '>= 0.25.1', require: false # Checks haml files for goodness
+  gem 'i18n-tasks', require: false # adds tests for finding missing and unused translations
+  gem 'rspectre', require: false # finds unused code in specs
+  gem 'rubocop', '~> 0.71', require: false
 end
 
 group :test do

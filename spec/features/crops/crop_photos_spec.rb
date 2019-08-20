@@ -3,20 +3,20 @@ require 'rails_helper'
 describe "crop detail page", js: true do
   subject { page }
 
-  let!(:member) { FactoryBot.create :member }
+  let!(:owner_member) { FactoryBot.create :member }
 
   let!(:crop) { FactoryBot.create :crop }
 
-  let!(:planting) { FactoryBot.create :planting, crop: crop, owner: member }
-  let!(:harvest)  { FactoryBot.create :harvest, crop: crop, owner: member  }
-  let!(:seed)     { FactoryBot.create :seed, crop: crop, owner: member     }
+  let!(:planting) { FactoryBot.create :planting, crop: crop, owner: owner_member }
+  let!(:harvest)  { FactoryBot.create :harvest, crop: crop, owner: owner_member  }
+  let!(:seed)     { FactoryBot.create :seed, crop: crop, owner: owner_member     }
 
-  let!(:photo1) { FactoryBot.create(:photo, owner: member) }
-  let!(:photo2) { FactoryBot.create(:photo, owner: member) }
-  let!(:photo3) { FactoryBot.create(:photo, owner: member) }
-  let!(:photo4) { FactoryBot.create(:photo, owner: member) }
-  let!(:photo5) { FactoryBot.create(:photo, owner: member) }
-  let!(:photo6) { FactoryBot.create(:photo, owner: member) }
+  let!(:photo1) { FactoryBot.create(:photo, owner: owner_member) }
+  let!(:photo2) { FactoryBot.create(:photo, owner: owner_member) }
+  let!(:photo3) { FactoryBot.create(:photo, owner: owner_member) }
+  let!(:photo4) { FactoryBot.create(:photo, owner: owner_member) }
+  let!(:photo5) { FactoryBot.create(:photo, owner: owner_member) }
+  let!(:photo6) { FactoryBot.create(:photo, owner: owner_member) }
 
   before do
     planting.photos << photo1
@@ -50,14 +50,13 @@ describe "crop detail page", js: true do
   end
 
   context "when signed in" do
-    before { login_as(FactoryBot.create(:member)) }
-
+    include_context 'signed in member'
     include_examples "shows photos"
   end
 
   context "when signed in as photos owner" do
-    before { login_as(member) }
-
+    include_context 'signed in member'
+    let(:member) { owner_member }
     include_examples "shows photos"
   end
 

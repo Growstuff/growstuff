@@ -2,10 +2,7 @@ require 'rails_helper'
 
 describe "show photo page" do
   context "signed in member" do
-    let(:member) { create :member }
-
-    before { login_as member }
-
+    include_context 'signed in member'
     context "linked to planting" do
       let(:planting) { create :planting }
       let(:photo) { create :photo, owner: planting.owner }
