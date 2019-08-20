@@ -162,8 +162,7 @@ describe "member profile", js: true do
   end
 
   context "signed in member" do
-    before { login_as(member) }
-
+    include_context 'signed in member'
     include_examples 'member details'
     include_examples 'member activity'
 

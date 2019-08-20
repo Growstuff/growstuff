@@ -20,13 +20,8 @@ describe "crop detail page", js: true do
     end
   end
 
-  context "signed in member" do
-    let(:member) { create :member }
-
-    before do
-      login_as(member)
-    end
-
+  context 'signed in' do
+    include_context "signed in member"
     context "action buttons" do
       before { subject }
 
@@ -78,25 +73,25 @@ describe "crop detail page", js: true do
   end
 
   context "seed quantity for a crop" do
-    let(:member) { create :member                                        }
-    let(:seed)   { create :seed, crop: crop, quantity: 20, owner: member }
+    let(:seed)   { create :seed, crop: crop, quantity: 20 }
 
     it "User not signed in" do
       visit crop_path(seed.crop)
       expect(page).not_to have_content "You have 20 seeds"
     end
 
-    it "User signed in" do
-      login_as(member)
-      visit crop_path(seed.crop)
-      expect(page).to have_link "You have 20 seeds of this crop."
-    end
-
-    it "click link to your owned seeds" do
-      login_as(member)
-      visit crop_path(seed.crop)
-      click_link "You have 20 seeds of this crop."
-      expect(current_path).to eq member_seeds_path(member_slug: member.slug)
+    context 'signed in' do
+      include_context 'signed in member'
+      before { seed.update! owner: member }
+      it "User signed in" do
+        visit crop_path(seed.crop)
+        expect(page).to have_link "You have 20 seeds of this crop."
+      end
+      it "click link to your owned seeds" do
+        visit crop_path(seed.crop)
+        click_link "You have 20 seeds of this crop."
+        expect(current_path).to eq member_seeds_path(member_slug: member.slug)
+      end
     end
   end
 
