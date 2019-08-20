@@ -1,10 +1,11 @@
 .card.comment
   .card-body
     .row
-      .col-md-1= render "members/tiny", member: comment.author
-      .col-md-11.border-left
+      .col
+        = render "members/tiny", member: comment.author
         - if can?(:edit, comment) || can?(:destroy, comment)
-          .dropdown.float-right
+          %hr/
+          .dropdown
             %button#comment-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button"} Actions
             .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "comment-edit-button"}
               - if can? :edit, comment
@@ -16,9 +17,10 @@
                   data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
                   = delete_icon
                   Delete
+      .col-md-9.border-left
         .comment-meta.text-muted
           Posted by
-          - if comment.author.deleted?
+          - if comment.author.discarded?
             Member Deleted
           - else
             = link_to comment.author.login_name, member_path(comment.author)

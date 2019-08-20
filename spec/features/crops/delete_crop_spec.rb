@@ -1,14 +1,10 @@
 require 'rails_helper'
 
 describe "Delete crop spec" do
-  context "As a crop wrangler" do
-    let(:wrangler)       { FactoryBot.create :crop_wrangling_member }
+  shared_examples 'delete crop' do
     let!(:pending_crop)  { FactoryBot.create :crop_request          }
     let!(:approved_crop) { FactoryBot.create :crop                  }
-
-    before { login_as wrangler }
-
-    it "Delete approved crop" do
+    it "deletes approved crop" do
       visit crop_path(approved_crop)
       click_link 'Actions'
       accept_confirm do
@@ -17,7 +13,7 @@ describe "Delete crop spec" do
       expect(page).to have_content "crop was successfully destroyed"
     end
 
-    it "Delete pending crop" do
+    it "deletes pending crop" do
       visit crop_path(pending_crop)
       click_link 'Actions'
       accept_confirm do
@@ -25,5 +21,15 @@ describe "Delete crop spec" do
       end
       expect(page).to have_content "crop was successfully destroyed"
     end
+  end
+
+  context "As a crop wrangler" do
+    include_context 'signed in crop wrangler'
+    include_examples 'delete crop'
+  end
+
+  context 'admin' do
+    include_context 'signed in admin'
+    include_examples 'delete crop'
   end
 end

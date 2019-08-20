@@ -31,12 +31,7 @@ class PlantingsController < ApplicationController
   end
 
   def show
-    @planting = Planting.includes(:owner, :crop, :garden, :photos)
-      .friendly
-      .find(params[:id])
-    @photos = @planting.photos
-      .includes(:owner)
-      .order(date_taken: :desc)
+    @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     respond_with @planting
   end
 

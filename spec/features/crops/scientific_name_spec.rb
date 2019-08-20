@@ -18,12 +18,8 @@ describe "Scientific names", js: true do
 
   context "User is a crop wrangler" do
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-    let(:member) { crop_wranglers.first }
 
-    before do
-      login_as(member)
-    end
-
+    include_context 'signed in crop wrangler'
     it "Crop wranglers can edit scientific names" do
       visit crop_path(crop)
       # expect(page.status_code).to equal 200

@@ -3,8 +3,6 @@ require 'rails_helper'
 describe "signout" do
   let(:member) { create :member }
 
-  let(:path) {}
-
   it "redirect to previous page after signout" do
     visit crops_path # some random page
     click_link 'Sign in'
