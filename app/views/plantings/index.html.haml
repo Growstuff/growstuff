@@ -13,25 +13,28 @@
   - else
     %li.breadcrumb-item.active= link_to 'Plantings', plantings_path
 
-= link_to plantings_active_tickbox_path(@owner, @show_all) do
-  = check_box_tag 'active', 'all', @show_all
-  include in-active
+%section.border-top
+  .btn-group
+    = link_to plantings_active_tickbox_path(@owner, @show_all), class: 'btn' do
+      = check_box_tag 'active', 'all', @show_all
+      include in-active
 
-- if @owner
-  = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
+    - if @owner
+      = link_to t('.view_owners_profile', owner: @owner), member_path(@owner), class: 'btn'
 
-.pagination
-  = page_entries_info @plantings
-  = render 'layouts/pagination', collection: @plantings
+.row
+  .col-12= page_entries_info @plantings
+  .col-12= render 'layouts/pagination', collection: @plantings
 
 .index-cards= render @plantings, full: true
 
-.pagination
-  = page_entries_info @plantings
-  = render 'layouts/pagination', collection: @plantings
+.row
+  .col-12= page_entries_info @plantings
+  .col-12= render 'layouts/pagination', collection: @plantings
 
-  %ul.list-inline
-    %li= t('.the_data_on_this_page_is_available_in_the_following_formats')
-    - ['csv', 'json', 'rss'].each do |format|
-      %li= link_to format.upcase,
-          (@owner ? member_plantings_path(@owner, format: format) : plantings_path(format: format))
+%p= t('.the_data_on_this_page_is_available_in_the_following_formats')
+%ul.list-group.list-group-horizontal
+  - ['csv', 'json', 'rss'].each do |format|
+    %li.list-group-item
+      = icon 'fas', format
+      = link_to format.upcase, (@owner ? member_plantings_path(@owner, format: format) : plantings_path(format: format))

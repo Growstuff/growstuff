@@ -1,13 +1,8 @@
 require 'rails_helper'
 
 describe "seeds", js: true do
-  let(:member) { create :member }
-
   context "signed in user" do
-    let(:crop) { create :crop }
-
-    before { login_as member }
-
+    include_context 'signed in member'
     xit "button on index to edit seed" do
       let!(:seed) { create :seed, owner: member }
 

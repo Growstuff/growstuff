@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 describe "browse crops" do
-  let(:tomato)         { create :tomato        }
-  let(:maize)          { create :maize         }
-  let(:pending_crop)   { create :crop_request  }
-  let(:rejected_crop)  { create :rejected_crop }
+  let(:tomato) { create :tomato }
 
   it "Show crop info" do
     visit crop_path(tomato)

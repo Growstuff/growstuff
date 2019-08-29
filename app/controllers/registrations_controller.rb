@@ -37,9 +37,11 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy
-    if @member.destroy_with_password(params.require(:member)[:current_password])
+    if @member.valid_password?(params.require(:member)[:current_password])
+      @member.discard
       redirect_to root_path
     else
+      @member.errors.add(:current_password, 'Incorrect password')
       render "edit"
     end
   end

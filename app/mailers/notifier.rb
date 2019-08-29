@@ -1,5 +1,5 @@
 class Notifier < ApplicationMailer
-  include NotificationsHelper
+  # include NotificationsHelper
   default from: "Growstuff <#{ENV['GROWSTUFF_EMAIL']}>"
 
   def verifier

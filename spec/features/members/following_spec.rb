@@ -12,12 +12,8 @@ describe "follows", :js do
   end
 
   context "when signed in" do
-    let(:member) { create :member }
+    include_context 'signed in member'
     let(:other_member) { create :member }
-
-    before do
-      login_as(member)
-    end
 
     it "your profile doesn't have a follow button" do
       visit member_path(member)
