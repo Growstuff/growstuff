@@ -68,6 +68,26 @@
 
 
     = link_to "view all #{@seed.owner}'s seeds", member_seeds_path(@seed.owner)
+      %dt When?
+      %dd
+        = @seed.created_at
+      - if @seed.parent_planting
+        %dt Saved from planting:
+        %dd
+          = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
+      %dt Description:
+      %dd
+        :growstuff_markdown
+          #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
+
+    - if current_member
+      - if @seed.tradable? && current_member != @seed.owner
+        %p= link_to "Request seeds",
+                    new_message_path(recipient_id: @seed.owner.id,
+                                         subject: "Interested in your #{@seed.crop} seeds"),
+                    class: 'btn btn-primary'
+    - else
+      = render 'shared/signin_signup', to: 'request seeds'
 
     = render 'seeds/descendants', seed: @seed
     %section.photos= render 'photos/gallery', photos: @photos

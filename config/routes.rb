@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   resources :plant_parts
   resources :photos
 
-  delete 'photo_associations' => 'photo_associations#destroy'
+  resources :photo_associations, only: :destroy
 
   resources :crops, param: :slug, concerns: :has_photos do
     get 'gardens' => 'gardens#index'
@@ -99,9 +99,8 @@ Rails.application.routes.draw do
     get 'followers' => 'follows#followers'
   end
 
-  resources :notifications do
-    get 'reply'
-  end
+  resources :messages
+  resources :conversations
 
   resources :places, only: %i(index show), param: :place do
     get 'search', on: :collection
@@ -111,7 +110,7 @@ Rails.application.routes.draw do
   get 'members/auth/:provider/callback' => 'authentications#create'
 
   scope :admin do
-    resources :members, controller: 'admin/members', as: 'admin_members'
+    resources :members, param: :slug, controller: 'admin/members', as: 'admin_members'
     get '/' => 'admin#index', as: 'admin'
     get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
     comfy_route :cms_admin, path: '/cms'

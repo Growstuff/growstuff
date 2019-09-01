@@ -162,8 +162,7 @@ describe "member profile", js: true do
   end
 
   context "signed in member" do
-    before { login_as(member) }
-
+    include_context 'signed in member'
     include_examples 'member details'
     include_examples 'member activity'
 
@@ -179,7 +178,7 @@ describe "member profile", js: true do
       before { visit member_path(other_member) }
 
       it "has a private message button" do
-        expect(page).to have_link "Send message", href: new_notification_path(recipient_id: other_member.id)
+        expect(page).to have_link "Send message", href: new_message_path(recipient_id: other_member.id)
       end
       it { expect(page).not_to have_link "Edit profile", href: edit_member_registration_path }
     end

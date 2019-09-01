@@ -2,13 +2,11 @@ require 'rails_helper'
 
 describe "crop wranglers", js: true do
   context "signed in wrangler" do
+    include_context 'signed in crop wrangler'
     let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-    let(:wrangler)        { crop_wranglers.first                  }
     let!(:crops)          { create_list :crop, 2                  }
     let!(:requested_crop) { create :crop_request                  }
     let!(:rejected_crop)  { create :rejected_crop                 }
-
-    before { login_as wrangler }
 
     it "sees crop wranglers listed on the crop wrangler page" do
       visit root_path
@@ -16,7 +14,7 @@ describe "crop wranglers", js: true do
       click_link 'Crop Wrangling'
 
       within '.crop_wranglers' do
-        expect(page).to have_content 'Crop Wranglers:'
+        expect(page).to have_content 'Crop Wranglers'
         crop_wranglers.each do |crop_wrangler|
           expect(page).to have_link crop_wrangler.login_name, href: member_path(crop_wrangler)
         end
@@ -67,22 +65,20 @@ describe "crop wranglers", js: true do
       expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
     end
   end
+end
 
-  context "signed in non-wrangler" do
-    let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-    let(:member) { create :member }
+context "signed in non-wrangler" do
+  include_context 'signed in member'
+  let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
 
-    before { login_as member }
+  it "can't see wrangling page without js", js: false do
+    visit root_path
+    expect(page).not_to have_link "Crop Wrangling"
+  end
 
-    it "can't see wrangling page without js", js: false do
-      visit root_path
-      expect(page).not_to have_link "Crop Wrangling"
-    end
-
-    it "can't see wrangling page with js" do
-      visit root_path
-      click_link member.login_name
-      expect(page).not_to have_link "Crop Wrangling"
-    end
+  it "can't see wrangling page with js" do
+    visit root_path
+    click_link member.login_name
+    expect(page).not_to have_link "Crop Wrangling"
   end
 end

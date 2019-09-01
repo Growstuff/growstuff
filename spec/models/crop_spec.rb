@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 describe Crop do
-  let(:pp2)   { FactoryBot.create(:plant_part) }
-  let(:pp1)   { FactoryBot.create(:plant_part) }
-  let(:maize) { FactoryBot.create(:maize)      }
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 
@@ -50,7 +47,6 @@ describe Crop do
   context 'popularity' do
     let(:tomato)   { FactoryBot.create(:tomato)                 }
     let(:maize)    { FactoryBot.create(:maize)                  }
-    let(:cucumber) { FactoryBot.create(:crop, name: 'cucumber') }
 
     before do
       FactoryBot.create_list(:planting, 10, crop: maize)
@@ -145,8 +141,7 @@ describe Crop do
     shared_examples 'has default photo' do
       it { expect(Crop.has_photos).to include(crop) }
     end
-    let!(:crop)  { FactoryBot.create :tomato }
-    let(:member) { FactoryBot.create :member }
+    let!(:crop) { FactoryBot.create :tomato }
 
     context 'with a planting photo' do
       let!(:photo) { FactoryBot.create(:photo, owner: planting.owner) }
@@ -185,9 +180,9 @@ describe Crop do
       end
 
       it { expect(crop.photos.size).to eq 0 }
-      it { expect(crop.planting_photos.size).to eq 0 }
-      it { expect(crop.harvest_photos.size).to eq 0 }
-      it { expect(crop.seed_photos.size).to eq 0 }
+      it { expect(crop.photos.by_model(Planting).size).to eq 0 }
+      it { expect(crop.photos.by_model(Harvest).size).to eq 0 }
+      it { expect(crop.photos.by_model(Seed).size).to eq 0 }
     end
 
     describe 'finding all photos' do
@@ -203,9 +198,9 @@ describe Crop do
       end
 
       it { expect(crop.photos.size).to eq 3 }
-      it { expect(crop.planting_photos.size).to eq 1 }
-      it { expect(crop.harvest_photos.size).to eq 1 }
-      it { expect(crop.seed_photos.size).to eq 1 }
+      it { expect(crop.photos.by_model(Planting).size).to eq 1 }
+      it { expect(crop.photos.by_model(Harvest).size).to eq 1 }
+      it { expect(crop.photos.by_model(Seed).size).to eq 1 }
     end
   end
 
@@ -296,7 +291,6 @@ describe Crop do
   context 'interesting' do
     subject { Crop.interesting }
 
-    let(:photo) { FactoryBot.create :photo }
     # first, a couple of candidate crops
     let(:crop1) { FactoryBot.create(:crop) }
     let(:crop2) { FactoryBot.create(:crop) }
@@ -349,13 +343,7 @@ describe Crop do
     end
   end
 
-  let(:maize) { FactoryBot.create(:maize) }
-  let(:pp1) { FactoryBot.create(:plant_part) }
-  let(:pp2) { FactoryBot.create(:plant_part) }
-
   context "harvests" do
-    let(:h1)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
-    let(:h2)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
     let!(:crop)    { FactoryBot.create(:crop)                                  }
     let!(:harvest) { FactoryBot.create(:harvest, crop: crop)                   }
 

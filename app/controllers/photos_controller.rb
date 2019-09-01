@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
   responders :flash
 
   def show
-    @crops = Crop.distinct.joins(:photographings).where(photographings: { photo: @photo })
+    @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
     respond_with(@photo)
   end
 

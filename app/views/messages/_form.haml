@@ -1,0 +1,17 @@
+= bootstrap_form_tag url: '/messages' do |f|
+  - if @conversation.present?
+    = f.hidden_field :conversation_id, value: @conversation.id
+  - elsif @recipient.present?
+    %p
+      To
+      = link_to @recipient, @recipient
+      = render 'members/tiny', member: @recipient
+    = f.hidden_field :recipient_id, value: @recipient.id
+    = f.text_field :subject, value: @subject, class: 'form-control', maxlength: 255, required: true
+
+  = f.text_area :body, rows: 12, label: "Type your message here", required: true
+  %span.help-block= render partial: "shared/markdown_help"
+
+  .card-footer
+    = link_to 'cancel', conversations_path, class: 'btn'
+    .float-right= f.submit "Send", class: 'btn btn-primary'

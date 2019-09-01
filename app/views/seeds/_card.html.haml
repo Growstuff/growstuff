@@ -2,15 +2,16 @@
   = link_to seed do
     = image_tag(seed_image_path(seed, full_size: true), alt: seed, class: 'img-card')
   .card-body
-    %h5= link_to seed, seed
-    = render 'seeds/badges', seed: seed
-
-  = link_to seed.owner do
-    .card-footer
+    .card-title= link_to seed.crop, seed
+  .card-footer
       - if seed.tradable? && current_member.present? && current_member != seed.owner
         = link_to new_trade_path(seed_id: seed.id), class: 'btn' do
           = trade_icon
           Request Trade
-      %span.badge.badge-pill.badge-success
-        = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')
-      = render 'members/tiny', member: seed.owner
+    = render 'members/tiny', member: seed.owner
+    - if seed.tradable?
+      %span.badge.badge-pill.badge-info
+        = icon 'fas', 'map'
+        Will trade #{seed.tradable_to}
+    %span.badge.badge-pill.badge-secondary
+      = truncate(seed.owner.location, length: 30, separator: ' ', omission: '... ')

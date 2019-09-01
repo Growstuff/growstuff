@@ -79,8 +79,7 @@ describe "home page" do
   end
 
   context "when signed in" do
-    before { login_as member }
-
+    include_context 'signed in member'
     include_examples 'show crops'
     include_examples 'show plantings'
     include_examples 'show harvests'

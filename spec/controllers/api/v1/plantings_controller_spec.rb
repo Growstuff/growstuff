@@ -5,12 +5,6 @@ require 'rails_helper'
 RSpec.describe Api::V1::PlantingsController, type: :controller do
   subject { JSON.parse response.body }
 
-  let(:headers) do
-    {
-      'Accept'       => 'application/vnd.api+json',
-      'Content-Type' => 'application/vnd.api+json'
-    }
-  end
   let!(:member) { FactoryBot.create :member }
 
   describe '#index' do

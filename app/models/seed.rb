@@ -49,16 +49,12 @@ class Seed < ApplicationRecord
 
   #
   # Scopes
-  default_scope { joins(:owner) } # Ensure owner exists
+  default_scope { joins(:owner).merge(Member.kept) } # Ensure owner exists
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished_at < ?', Time.zone.now) }
-
-  def default_photo
-    photos.order(created_at: :desc).first
-  end
 
   def tradable?
     tradable_to != 'nowhere'

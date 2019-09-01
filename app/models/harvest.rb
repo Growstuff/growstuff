@@ -39,7 +39,6 @@ class Harvest < ApplicationRecord
 
   ##
   ## Scopes
-  default_scope { joins(:owner) } # Ensures owner exists
   scope :interesting, -> { has_photos.one_per_owner }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
@@ -72,6 +71,10 @@ class Harvest < ApplicationRecord
     return if planting.blank?
 
     harvested_at - planting.planted_at
+  end
+
+  def default_photo
+    most_liked_photo || planting&.default_photo
   end
 
   # we're storing the harvest weight in kilograms in the db too
@@ -133,10 +136,6 @@ class Harvest < ApplicationRecord
     else
       crop.name.pluralize
     end.to_s
-  end
-
-  def default_photo
-    photos.order(created_at: :desc).first || crop.default_photo
   end
 
   private

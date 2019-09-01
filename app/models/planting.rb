@@ -32,7 +32,6 @@ class Planting < ApplicationRecord
 
   ##
   ## Scopes
-  default_scope { joins(:owner) } # Ensures the owner still exists
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
   scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
@@ -47,6 +46,7 @@ class Planting < ApplicationRecord
   delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count,
            to: :crop, prefix: true
 
+  delegate :annual?, to: :crop
   ##
   ## Validations
   validates :garden, presence: true
@@ -83,10 +83,6 @@ class Planting < ApplicationRecord
   # stringify as "beet in Skud's backyard" or similar
   def to_s
     I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner: owner)
-  end
-
-  def default_photo
-    photos.order(created_at: :desc).first
   end
 
   def finished?

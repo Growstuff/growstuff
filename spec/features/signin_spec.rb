@@ -4,7 +4,6 @@ describe "signin", js: true do
   let(:member)       { FactoryBot.create :member                             }
   let(:recipient)    { FactoryBot.create :member                             }
   let(:wrangler)     { FactoryBot.create :crop_wrangling_member              }
-  let(:notification) { FactoryBot.create :notification, recipient: recipient }
 
   def login
     fill_in 'Login', with: member.login_name
@@ -33,9 +32,12 @@ describe "signin", js: true do
     expect(current_path).to eq root_path
   end
 
-  it "redirect to signin page for if not authenticated to view notification" do
-    visit notification_path(notification)
-    expect(current_path).to eq new_member_session_path
+  describe "redirect to signin page for if not authenticated to view conversations" do
+    before do
+      conversation = member.send_message(recipient, 'hey there', 'kiaora')
+      visit conversation_path(conversation)
+    end
+    it { expect(current_path).to eq new_member_session_path }
   end
 
   shared_examples "redirects to what you were trying to do" do
@@ -55,11 +57,11 @@ describe "signin", js: true do
     end
   end
 
-  it "after signin, redirect to new notifications page" do
-    visit new_notification_path(recipient_id: recipient.id)
+  it "after signin, redirect to new message page" do
+    visit new_message_path(recipient_id: recipient.id)
     expect(current_path).to eq new_member_session_path
     login
-    expect(current_path).to eq new_notification_path
+    expect(current_path).to eq new_message_path
   end
 
   it "after crop wrangler signs in and crops await wrangling, show alert" do

@@ -16,7 +16,6 @@ class Garden < ApplicationRecord
   after_validation :empty_unwanted_geocodes
   after_save :mark_inactive_garden_plantings_as_finished
 
-  default_scope { joins(:owner) } # Ensures owner exists
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
   scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }
@@ -59,22 +58,6 @@ class Garden < ApplicationRecord
     "#{owner.login_name}-#{name}".downcase.tr(' ', '-')
   end
 
-  # featured plantings returns the most recent 4 plantings for a garden,
-  # choosing them so that no crop is repeated.
-  def featured_plantings
-    unique_plantings = []
-    seen_crops = []
-
-    plantings.includes(:garden, :crop, :owner, :harvests).order(created_at: :desc).each do |p|
-      unless seen_crops.include?(p.crop)
-        unique_plantings.push(p)
-        seen_crops.push(p.crop)
-      end
-    end
-
-    unique_plantings[0..3]
-  end
-
   def to_s
     name
   end
@@ -88,9 +71,5 @@ class Garden < ApplicationRecord
       p.finished = true
       p.save
     end
-  end
-
-  def default_photo
-    photos.order(created_at: :desc).first
   end
 end
