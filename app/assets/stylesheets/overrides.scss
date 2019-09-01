@@ -21,6 +21,11 @@ section {
 
 a {
   color: $green;
+
+  .navbar-brand {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 a:hover {
@@ -114,11 +119,6 @@ img.avatar {
 
 ul.associations {
   list-style-type: none;
-}
-
-a.navbar-brand {
-  margin: 0;
-  padding: 0;
 }
 
 // footer
