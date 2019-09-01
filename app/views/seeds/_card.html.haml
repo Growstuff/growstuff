@@ -4,10 +4,10 @@
   .card-body
     .card-title= link_to seed.crop, seed
   .card-footer
-      - if seed.tradable? && current_member.present? && current_member != seed.owner
-        = link_to new_trade_path(seed_id: seed.id), class: 'btn' do
-          = trade_icon
-          Request Trade
+    - if seed.tradable? && current_member.present? && current_member != seed.owner
+      = link_to new_trade_path(seed_id: seed.id), class: 'btn' do
+        = trade_icon
+        Request Trade
     = render 'members/tiny', member: seed.owner
     - if seed.tradable?
       %span.badge.badge-pill.badge-info
