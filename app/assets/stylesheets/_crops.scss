@@ -20,13 +20,13 @@
   padding: 1em;
 }
 
-li.crop-hierarchy {
+.crop-hierarchy {
   list-style-type: disc;
 }
 
-#add-sciname-row,
-#remove-sciname-row,
-#add-altname-row,
-#remove-altname-row {
+.add-sciname-row,
+.remove-sciname-row,
+.add-altname-row,
+.remove-altname-row {
   display: none;
 }
