@@ -43,10 +43,10 @@
 .member-location {
   font-size: small;
   font-style: italic;
-}
 
-.member-location a {
-  color: $brown;
+  a {
+    color: $brown;
+  }
 }
 
 .location-not-set {
