@@ -60,7 +60,7 @@
       Only plantings by members who have set their locations are shown on this map.
       - if current_member && current_member.location.blank?
         = link_to "Set your location.", edit_member_registration_path
-    #cropmap
+    #cropmap.map
 
     = render 'crops/posts', crop: @crop
 

@@ -1,9 +1,9 @@
-#placesmap,
-#cropmap {
+.map {
   height: 500px;
+  z-index: 2;
 }
 
-#membermap {
+.member-map {
   height: 250px;
-  z-index: 0;
+  z-index: 2;
 }
