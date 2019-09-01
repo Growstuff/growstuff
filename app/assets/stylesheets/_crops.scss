@@ -19,3 +19,14 @@
   background-color: $white;
   padding: 1em;
 }
+
+li.crop-hierarchy {
+  list-style-type: disc;
+}
+
+#add-sci_name-row,
+#remove-sci_name-row,
+#add-alt_name-row,
+#remove-alt_name-row {
+  display: none;
+}
