@@ -7,8 +7,6 @@ class OpenfarmService
   def import!
     Crop.all.order(:updated_at).each do |crop|
       update_crop(crop)
-    rescue StandardError
-      # continue
     end
   end
 
