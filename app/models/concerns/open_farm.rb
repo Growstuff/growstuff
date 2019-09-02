@@ -1,7 +1,7 @@
 module OpenFarm
   extend ActiveSupport::Concern
 
-  included do
+  included do # rubocop:ignore Metrics/BlockLength
     def of_photo
       fetch_attr('main_image_path')
     end
