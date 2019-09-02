@@ -15,34 +15,26 @@
       #{@harvest.crop} harvested by #{@harvest.owner}
     = render 'harvests/actions', harvest: @harvest
     = link_to "view all #{@harvest.owner}'s harvests >>", member_harvests_path(@harvest.owner), class: 'btn'
-    .index-cards.planting-facts
+    .index-cards.facts
       - if @harvest.plant_part
-        .card.planting-fact-card
+        .card
           %h3 Plant part
           %span= link_to @harvest.plant_part, @harvest.plant_part
       - if @harvest.harvested_at.present?
-        .card.planting-fact-card
+        .card
           %h3 Harvested
           = @harvest.harvested_at
 
-      .card.planting-fact-card
+      .card
         %h3 Planting
         = render partial: 'planting'
-      .card.planting-fact-card
+      .card
         %h3 Quantity
         %span= display_quantity(@harvest)
-
-
-  .col-md-4
-    .card
-      .card-body= render 'harvests/owner', harvest: @harvest
-
-    = render @harvest.crop
-
     %hr/
     - if @harvest.photos.size.positive?
-      .row
-        .col-md-6= render @harvest.default_photo
-        .col-md-6
-          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3).offset(1)
-          %p.text-right= link_to 'View all photos >>', harvest_photos_path(@harvest), class: 'btn'
+      = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
+  .col-md-4
+    = render @harvest.crop
+    .card
+      .card-body= render 'harvests/owner', harvest: @harvest
