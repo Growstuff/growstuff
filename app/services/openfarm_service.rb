@@ -6,21 +6,15 @@ BASE = 'https://openfarm.cc/api/v1/'
 class OpenfarmService
   def import!
     Crop.all.order(:updated_at).each do |crop|
-      puts crop.name
       update_crop(crop)
     rescue StandardError
-      puts "ERROR fetching #{crop.name}"
+      # continue
     end
   end
 
   def update_crop(crop)
     openfarm_record = fetch_one(crop.name)
-    if openfarm_record.fetch('attributes', false)
-      puts openfarm_record
-      crop.update! openfarm_data: openfarm_record
-    else
-      crop.touch
-    end
+    crop.update! openfarm_data: openfarm_record if openfarm_record.fetch('attributes', false)
   end
 
   private
