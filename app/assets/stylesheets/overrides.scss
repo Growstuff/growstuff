@@ -71,6 +71,7 @@ h3 {
     border-radius: 5%;
     margin: 1em 1em 1em 0;
     width: 200px;
+
     .img-card {
       border-top-left-radius: 5%;
       border-top-right-radius: 5%;
@@ -79,15 +80,41 @@ h3 {
 }
 
 .card {
-  // max-width: 250px;
   .img-card {
     height: 180px;
     object-fit: cover;
     width: 100%;
   }
+
   a:hover {
     background-color: $beige;
     color: $blue;
+  }
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  flex: none;
+
+  .card {
+    margin: 1em;
+    padding: 1em;
+    text-align: center;
+    width: 180;
+
+    strong {
+      font-align: center;
+      font-size: 2em;
+    }
+
+    span {
+      display: block;
+    }
+
+    img {
+      height: 50%;
+    }
   }
 }
 

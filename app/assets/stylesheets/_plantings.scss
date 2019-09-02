@@ -62,29 +62,3 @@
     }
   }
 }
-
-.planting-facts {
-  display: flex;
-  flex-wrap: wrap;
-  flex: none;
-
-  .card {
-    margin: 1em;
-    padding: 1em;
-    text-align: center;
-    width: 120px;
-
-    strong {
-      font-align: center;
-      font-size: 2em;
-    }
-
-    span {
-      display: block;
-    }
-
-    img {
-      height: 50%;
-    }
-  }
-}
