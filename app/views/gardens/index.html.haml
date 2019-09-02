@@ -29,22 +29,19 @@
     .col-12= will_paginate @gardens
   - @gardens.each do |garden|
     %section.border-top
+      %h2
+        %strong= link_to garden, garden
+        = render 'gardens/actions', garden: garden
       .row
         .col-md-2.border-right
-          %h2
-            %strong= link_to garden, garden
-            = render 'gardens/actions', garden: garden
-          %p
-            = pluralize(garden.plantings.active.size, "planting")
+          %p= pluralize(garden.plantings.active.size, "planting")
+          = image_tag garden_image_path(garden), class: 'img-responsive'
         .col-md-10
-          .row
-            - if garden.plantings.empty?
-              = garden_plant_something_button(garden, classes: 'btn btn-success')
-            - else
-              - garden.plantings.active.each do |planting|
-                .col-6.col-md-4.col-lg-3= render 'plantings/card', planting: planting
-
-
+          - garden.plantings.active.each do |planting|
+            .crop-chip
+              = link_to planting do
+                = crop_icon(planting.crop)
+                = planting.crop.name
   .row
     .col-12= page_entries_info @gardens
     .col-12= will_paginate @gardens

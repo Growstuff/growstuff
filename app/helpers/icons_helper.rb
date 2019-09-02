@@ -73,6 +73,14 @@ module IconsHelper
     icon('fas', 'heart')
   end
 
+  def crop_icon(crop)
+    if crop.svg_icon.present?
+      image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon')
+    else
+      planting_icon
+    end
+  end
+
   def sunniness_icon(sunniness)
     if sunniness.present?
       image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness, width: 55)

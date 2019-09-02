@@ -1,3 +1,13 @@
+- if crop.guides_count.present? && crop.guides_count.positive?
+  %p There are #{crop.guides_count} growing guides
+
+%p
+  - if crop.height.present?
+    %strong Height:
+    #{crop.height} centimetres
+  - if crop.spread.present?
+    %strong Spread:
+    #{crop.spread} centimetres
 %p
   %strong Plant from:
   - if crop.planted_from.empty?

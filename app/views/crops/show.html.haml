@@ -12,30 +12,40 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Crops', crops_path
-  %li.breadcrumb-item.active= link_to @crop, @crop
-
-%h1
-  %strong= @crop.name.titleize
-  %small.text-muted= @crop.default_scientific_name
-%p= render 'crops/actions', crop: @crop
+  %li.breadcrumb-item.active= link_to @crop.name.titleize, @crop
 
 = render 'approval_status_message', crop: @crop
+.jumbotron
+  .row
+    .col-md-9
+      %h1
+        = crop_icon(@crop)
+        %strong= @crop.name.titleize
+        %small.text-muted= @crop.default_scientific_name
+        
+      - if @crop.sowing_method.present?
+        %h2= @crop.sowing_method
+      - if @crop.sun_requirements.present?
+        %p
+          Plant in
+          = @crop.sun_requirements
+      %p.text-muted
+        - if !@crop.plantings.empty?
+          #{@crop.name.titleize} has been planted
+          = pluralize(@crop.plantings.size, "time")
+          by #{ENV['GROWSTUFF_SITE_NAME']} members.
+        - else
+          Nobody is growing this yet. You could be the first!
+      - if @crop.description.present?
+        %p= @crop.description
+    .col-md-3
+      = image_tag crop_image_path(@crop),
+        class: 'img-responsive shadow rounded', alt: 'photo of crop'
+
+%p= render 'crops/actions', crop: @crop
 
 .row
   .col-md-9
-    %p
-      - if !@crop.plantings.empty?
-        #{@crop.name.titleize} has been planted
-        = pluralize(@crop.plantings.size, "time")
-        by #{ENV['GROWSTUFF_SITE_NAME']} members.
-      - else
-        Nobody is growing this yet. You could be the first!
-      - if @crop.perennial?
-        #{@crop.name.capitalize} is a perennial crop (living more than two years)
-      - elsif @crop.annual?
-        #{@crop.name.capitalize} is an annual crop (living and reproducing in a single year or less)
-    %hr/
-
     = render 'predictions', crop: @crop
     %hr/
     = render 'crops/photos', photos: @photos, crop: @crop
@@ -67,9 +77,6 @@
   .col-md-3
     = render 'wrangle', crop: @crop
     .card
-      .crop-image
-        = image_tag crop_image_path(@crop, full_size: true),
-          class: 'img-card', alt: 'photo of crop'
       .card-body
         %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop

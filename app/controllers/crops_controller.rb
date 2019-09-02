@@ -4,7 +4,7 @@ class CropsController < ApplicationController
   before_action :authenticate_member!, except: %i(index hierarchy search show)
   load_and_authorize_resource
   skip_authorize_resource only: %i(hierarchy search)
-  respond_to :html, :json, :rss, :csv
+  respond_to :html, :json, :rss, :csv, :svg
   responders :flash
 
   def index
@@ -60,6 +60,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.svg { send_data(@crop.svg_icon, type: "image/svg+xml", disposition: "inline") }
       format.json { render json: @crop.to_json(crop_json_fields) }
     end
   end

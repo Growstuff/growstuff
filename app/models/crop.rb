@@ -1,6 +1,7 @@
 class Crop < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
+  include OpenFarm
   friendly_id :name, use: %i(slugged finders)
 
   ##
@@ -145,6 +146,10 @@ class Crop < ApplicationRecord
   def update_harvest_medians
     update(median_days_to_first_harvest: Planting.where(crop: self).median(:days_to_first_harvest))
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
+  end
+
+  def update_openfarm_data
+    OpenfarmService.new.update_crop(self)
   end
 
   def self.case_insensitive_name(name)

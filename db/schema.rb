@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_042146) do
+ActiveRecord::Schema.define(version: 2019_09_02_004225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.integer "median_lifespan"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
+    t.jsonb "openfarm_data"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true

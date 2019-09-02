@@ -46,8 +46,3 @@
         .col-md-6
           = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3).offset(1)
           %p.text-right= link_to 'View all photos >>', harvest_photos_path(@harvest), class: 'btn'
-  .col-md-4
-    .card
-      .card-body= render 'harvests/owner', harvest: @harvest
-
-    = render @harvest.crop

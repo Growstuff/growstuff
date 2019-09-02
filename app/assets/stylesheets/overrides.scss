@@ -33,10 +33,7 @@ a:hover {
   text-decoration: none;
 }
 
-.card a:hover {
-  background-color: $beige;
-  color: $blue;
-}
+
 
 ul.list-inline > li.first {
   padding-left: 0;
@@ -71,17 +68,32 @@ h3 {
   .card {
     margin: 1em 1em 1em 0;
     width: 200px;
+    background: $white;
+    border-radius: 5%;
+    border: 1px solid lighten($green, 20%);
+    margin: 1em;
+    .img-card {
+      border-top-left-radius: 5%;
+      border-top-right-radius: 5%;
+    }
+  }
+}
+
+.card {
+  // max-width: 250px;
+  .img-card {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+  }
+  a:hover {
+    background-color: $beige;
+    color: $blue;
   }
 }
 
 img.img-icon {
   width: 1.2em;
-}
-
-img.img-card {
-  height: 180px;
-  object-fit: cover;
-  width: 100%;
 }
 
 img.img-responsive {

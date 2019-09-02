@@ -13,7 +13,7 @@
   .col-xl-8.col-md-12
     %section.crops
       %h2= t('home.crops.our_crops')
-      .homepage-cards= render 'crops'
+      = render 'crops'
       .align-bottom
         %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
         - cache cache_key_for(Crop, 'recent') do

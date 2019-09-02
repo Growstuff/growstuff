@@ -68,11 +68,7 @@
   flex-wrap: wrap;
   flex: none;
 
-  .planting-fact-card {
-    background: $white;
-    background: $white;
-    border-radius: 5%;
-    border: 1px solid lighten($green, 20%);
+  .card {
     margin: 1em;
     padding: 1em;
     text-align: center;
@@ -80,7 +76,7 @@
 
     strong {
       font-align: center;
-      font-size: 4em;
+      font-size: 2em;
     }
 
     span {

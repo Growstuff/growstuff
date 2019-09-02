@@ -34,10 +34,9 @@
 - else
   .pagination= will_paginate @crops
 
-  .crops
-    .row
-      - @crops.each do |crop|
-        .col-6.col-md-3= render 'crops/thumbnail', crop: crop
+  .index-cards
+    - @crops.each do |crop|
+      = render 'crops/thumbnail', crop: crop
 
 
   .pagination= will_paginate @crops

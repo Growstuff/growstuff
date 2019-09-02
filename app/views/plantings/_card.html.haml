@@ -1,6 +1,6 @@
 .card.planting
   = link_to planting do
-    = image_tag planting_image_path(planting, full_size: true), class: 'img-card', alt: planting
+    = image_tag planting_image_path(planting), class: 'img-card', alt: planting
   - if can? :edit, planting
     .planting-quick-actions
       .dropdown

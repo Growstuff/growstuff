@@ -4,7 +4,7 @@
       %h4
         Harvested by
         = link_to harvest.owner, harvest.owner
-      = link_to "view all #{harvest.owner}'s harvests", member_gardens_path(harvest.owner)
+      = link_to "view all #{harvest.owner}'s harvests", member_harvests_path(harvest.owner)
 
       - if harvest.planting.present?
         %p
