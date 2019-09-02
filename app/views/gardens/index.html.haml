@@ -37,11 +37,10 @@
           %p= pluralize(garden.plantings.active.size, "planting")
           = image_tag garden_image_path(garden), class: 'img-responsive'
         .col-md-10
-          - garden.plantings.active.each do |planting|
-            .crop-chip
-              = link_to planting do
-                = crop_icon(planting.crop)
-                = planting.crop.name
+          .index-cards
+            - garden.plantings.active.each do |planting|
+              = render planting, full: true
+
   .row
     .col-12= page_entries_info @gardens
     .col-12= will_paginate @gardens
