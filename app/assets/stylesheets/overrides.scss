@@ -66,12 +66,11 @@ h3 {
   flex-wrap: wrap;
 
   .card {
-    margin: 1em 1em 1em 0;
-    width: 200px;
     background: $white;
     border-radius: 5%;
     border: 1px solid lighten($green, 20%);
-    margin: 1em;
+    margin: 1em 1em 1em 0;
+    width: 200px;
     .img-card {
       border-top-left-radius: 5%;
       border-top-right-radius: 5%;
