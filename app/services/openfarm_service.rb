@@ -5,8 +5,11 @@ BASE = 'https://openfarm.cc/api/v1/'
 
 class OpenfarmService
   def import!
-    Crop.all.order(:updated_at).each do |crop|
+    Crop.all.order(updated_at: :desc).each do |crop|
+      puts crop.name
       update_crop(crop)
+    rescue
+      puts "ERROR"
     end
   end
 
