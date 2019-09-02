@@ -20,9 +20,9 @@
           - @member.roles.each do |role|
             %span.badge.badge-info= role.name.titleize
         - if @member.location.present?
-          %p.badge.badge-success
+          %p.badge.badge-location
             = icon 'fas', 'map-marker'
-            = @member.location
+            = truncate(@member.location, length: 25, separator: ' ', omission: '... ')
         %p
           %strong Member since
           = @member.created_at.to_s(:date)

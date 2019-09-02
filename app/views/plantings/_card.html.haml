@@ -22,3 +22,5 @@
     %h4.card-title= link_to planting.crop, planting
     .text-center= render 'plantings/badges', planting: planting
     = render 'plantings/progress', planting: planting
+  .card-footer
+    .float-right=render 'members/tiny', member: planting.owner

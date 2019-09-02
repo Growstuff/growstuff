@@ -9,5 +9,6 @@
       %span.badge.badge-pill.badge-info
         = icon 'fas', 'map'
         Will trade #{seed.tradable_to}
-    %span.badge.badge-pill.badge-secondary
-      = truncate(seed.owner.location, length: 30, separator: ' ', omission: '... ')
+    %span.badge.badge-location
+      = icon 'fas', 'map-marker'
+      = truncate(seed.owner.location, length: 25, separator: ' ', omission: '... ')

@@ -55,3 +55,8 @@
   height: 250px;
   width: 100%;
 }
+
+.badge-location {
+  background-color: darken($blue, 10%);
+  color: $white;
+}

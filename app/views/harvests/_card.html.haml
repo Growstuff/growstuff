@@ -12,6 +12,4 @@
           Harvested from
           = link_to harvest.planting, harvest.planting
   .card-footer
-    %p
-      .float-left= link_to harvest.owner, harvest.owner
-      .float-right=render 'members/tiny', member: harvest.owner
+    .float-right=render 'members/tiny', member: harvest.owner

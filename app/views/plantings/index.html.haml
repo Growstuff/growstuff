@@ -26,7 +26,9 @@
   .col-12= page_entries_info @plantings
   .col-12= render 'layouts/pagination', collection: @plantings
 
-.index-cards= render @plantings, full: true
+.index-cards
+  - @plantings.each do |planting|
+    = render planting, full: true
 
 .row
   .col-12= page_entries_info @plantings

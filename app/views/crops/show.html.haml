@@ -22,7 +22,6 @@
         = crop_icon(@crop)
         %strong= @crop.name.titleize
         %small.text-muted= @crop.default_scientific_name
-        
       - if @crop.sowing_method.present?
         %h2= @crop.sowing_method
       - if @crop.sun_requirements.present?
