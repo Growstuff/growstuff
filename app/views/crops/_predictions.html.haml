@@ -12,7 +12,7 @@
             - elsif crop.perennial == false
               Annual
 
-        %p.display-1
+        %strong
           %i.far.fa-calendar
 
         - if crop.perennial == true
@@ -24,7 +24,7 @@
     .card
       .card-body.text-center
         %h3 Median lifespan
-        %p.display-1= crop.median_lifespan
+        %strong= crop.median_lifespan
         %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
         %span days
 
@@ -33,13 +33,13 @@
     .card
       .card-body.text-center
         %h3 First harvest expected
-        %p.display-1= crop.median_days_to_first_harvest
+        %strong= crop.median_days_to_first_harvest
         %span days after planting
 
   - if crop.annual? && crop.median_days_to_last_harvest.present?
     .card
       .card-body.text-center
         %h3 Last harvest expected
-        %p.display-1= crop.median_days_to_last_harvest
+        %strong= crop.median_days_to_last_harvest
         %span days after planting
 
