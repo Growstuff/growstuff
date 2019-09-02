@@ -76,6 +76,8 @@ module IconsHelper
   def crop_icon(crop)
     if crop.svg_icon.present?
       image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon')
+    elsif crop.parent.present? && crop.parent.svg_icon.present?
+      image_tag(crop_path(crop.parent, format: 'svg'), class: 'crop-icon')
     else
       planting_icon
     end
