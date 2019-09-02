@@ -49,16 +49,17 @@
     %hr/
     = render 'crops/photos', photos: @photos, crop: @crop
 
-    .card-deck.text-center
-      .col-md-4
-        %h3.section-heading.h3.pt-4 Sunniness
-        = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-      .col-md-4
-        %h3.section-heading.h3.pt-4 Planted from
-        = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
-      .col-md-4
-        %h3.section-heading.h3.pt-4 Harvested for
-        = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
+    - if @crop.plantings.any?
+      .card-deck.text-center
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Sunniness
+          = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Planted from
+          = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Harvested for
+          = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     .varieties= render 'varieties', crop: @crop
 
