@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  background-color: $beige;
+  background-color: darken($beige, 10%);
   font-family: $font-family-sans-serif;
 }
 
@@ -32,8 +32,6 @@ a:hover {
   color: $brown;
   text-decoration: none;
 }
-
-
 
 ul.list-inline > li.first {
   padding-left: 0;
@@ -105,7 +103,7 @@ h3 {
 
     strong {
       font-align: center;
-      font-size: 4em;
+      font-size: 2em;
     }
 
     span {
