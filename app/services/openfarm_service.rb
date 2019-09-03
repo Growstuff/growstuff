@@ -8,7 +8,7 @@ class OpenfarmService
     Crop.all.order(updated_at: :desc).each do |crop|
       puts crop.name
       update_crop(crop)
-    rescue
+    rescue StandardError
       puts "ERROR"
     end
   end
