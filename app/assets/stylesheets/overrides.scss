@@ -78,6 +78,8 @@ h3 {
 }
 
 .card {
+  margin-bottom: 1em;
+
   .img-card {
     height: 180px;
     object-fit: cover;
@@ -140,10 +142,6 @@ img.avatar {
 .three-across:nth-child(3n+1) {
   clear: both;
   margin-left: 0;
-}
-
-.card {
-  margin-bottom: 1em
 }
 
 .progress {
