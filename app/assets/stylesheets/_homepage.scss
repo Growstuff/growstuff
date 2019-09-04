@@ -22,39 +22,6 @@
   }
 }
 
-// info under the main heading on homepage
-.homepage-cards {
-  display: flex;
-  flex: none;
-  flex-wrap: wrap;
-  margin: .5em;
-
-  .card {
-    left: -.5em;
-    margin: .5em;
-    min-height: 100px;
-    padding: 0;
-
-    %h3.crop-name {
-      font-size: 2em;
-    }
-  }
-
-  .crop-card {
-    min-height: 80px;
-    width: 120px;
-  }
-
-  .thumbnail {
-    margin: .5em;
-  }
-
-  .img-card {
-    height: 150px;
-  }
-
-}
-
 .member-cards {
   display: flex;
   flex: none;
