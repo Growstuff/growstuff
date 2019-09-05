@@ -14,35 +14,48 @@
   %li.breadcrumb-item= link_to 'Seeds', seeds_path
   %li.breadcrumb-item.active= link_to @seed, @seed
 
+
 .row
-  .col-md-6
+  .col-md-8
     %h1
       #{@seed.owner}'s #{@seed.crop} seeds
+      %small.text-muted
+        = @seed.created_at.to_date
+        - if @seed.finished_at.present?
+          and all gone/sown by
+          = @seed.finished_at
+
       = render 'seeds/actions', seed: @seed
-    %dl.dl-horizontal
-      %dt Owner
-      %dd
-        = link_to @seed.owner, @seed.owner
-        &mdash;
-        = link_to "view all #{@seed.owner}'s seeds",
-          member_seeds_path(@seed.owner)
-      %dt Quantity:
-      %dd= @seed.quantity.blank? ? "not specified" : @seed.quantity
-      %dt Plant before:
-      %dd= @seed.plant_before.to_s
-      -if @seed.finished_at
-        %dt Finished at:
-        %dd= @seed.finished_at.to_s
-      %dt Days until maturity:
-      %dd= render partial: 'days_until_maturity', locals: { seed: @seed }
-      %dt Organic?
-      %dd= @seed.organic
-      %dt GMO?
-      %dd= @seed.gmo
-      %dt Heirloom?
-      %dd= @seed.heirloom
-      %dt Will trade:
-      %dd
+
+      .float-right
+        - if current_member.present? 
+
+          - if @seed.tradable? && current_member != @seed.owner
+            = link_to new_trade_path(seed_id: @seed.id), class: 'btn btn-primary' do
+              = trade_icon
+              Request Trade
+
+        - else
+          = render 'shared/signin_signup', to: 'request trading seeds'
+
+    %h3= render 'seeds/badges', seed: @seed
+
+    %section.facts
+      = render 'seeds/facts', seed: @seed
+    %section.info
+
+    %h4 When?
+    %p= @seed.created_at
+    %h4 Description:
+    %p
+      :growstuff_markdown
+        #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
+
+
+
+    %section.trading
+      %h3 Will trade:
+      %strong
         = @seed.tradable_to
         - if @seed.owner.location.blank?
           (from unspecified location)
@@ -53,6 +66,8 @@
           = succeed ")" do
             = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
 
+
+    = link_to "view all #{@seed.owner}'s seeds", member_seeds_path(@seed.owner)
       %dt When?
       %dd
         = @seed.created_at
@@ -75,9 +90,10 @@
       = render 'shared/signin_signup', to: 'request seeds'
 
     = render 'seeds/descendants', seed: @seed
-    = render 'photos/item_photos', item: @seed, type: 'seed', photos: @photos
+    %section.photos= render 'photos/gallery', photos: @photos
 
-  .col-md-6
+  .col-md-4
+    = render @seed.owner
     = render @seed.crop
     - if @seed.owner.location
       %p

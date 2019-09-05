@@ -1,0 +1,31 @@
+.index-cards.seed-facts
+  - if seed.parent_planting.present?
+    = link_to planting_path(seed.parent_planting) do
+      .card.seed-fact-card
+        %h3 Saved from planting
+        %strong
+          = planting_icon
+        %span=seed.parent_planting
+
+  - if seed.quantity.present?
+    .card.seed-fact-card
+      %h3 Quantity
+      %strong= seed.quantity
+      %span seeds
+
+
+  - if @seed.plant_before.present?
+    .card.seed-fact-card
+      %h3 Plant before
+      %strong= icon 'far', 'calendar'
+      %span= @seed.plant_before.to_s
+
+  -if @seed.finished_at.present?
+    .card.seed-fact-card
+      %h3 Finished at
+      %strong= @seed.finished_at.to_s
+  - if @seed.days_until_maturity_max.present? || @seed.days_until_maturity_min.present?
+    .card.seed-fact-card
+      %h3 Days until maturity
+      %strong= render partial: 'days_until_maturity', locals: { seed: @seed }
+      %span days

@@ -5,6 +5,10 @@ module IconsHelper
     send("#{event_model}_icon")
   end
 
+  def trade_icon
+    icon('fas', 'exchange-alt')
+  end
+
   def timeline_icon
     icon('far', 'calendar')
   end

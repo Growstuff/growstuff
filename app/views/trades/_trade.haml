@@ -1,0 +1,46 @@
+.card.booking-card
+  .card-body
+    %h3 Requesting seeds
+
+    = link_to @trade.seed.owner do
+      %p.mb-2
+        = render 'members/tiny', member: @trade.seed.owner
+        = @trade.owner
+    %h4.card-title.font-weight-bold
+      = link_to @trade.seed do
+        #{@trade.seed.crop.name} seeds
+    %p.card-text= @trade.seed.description
+    %hr.my-4/
+    %p= render 'seeds/badges', seed: @trade.seed
+  = link_to @trade.seed do
+    = image_tag seed_image_path(@trade.seed, full_size: true), alt: 'seeds', class: 'img-card'
+  .card-footer
+    %p.lead
+      %strong= @trade.owner.location
+      = icon 'fas', 'arrow-right'
+
+.card
+  .card-body
+    %h3 In return for
+    = link_to @trade.requested_by do
+      %p.mb-2
+        = render 'members/tiny', member: @trade.requested_by
+        = @trade.requested_by
+
+    - if @trade.accepted
+      %h4.card-title.font-weight-bold
+        = link_to @trade.responded_seed do
+          #{@trade.responded_seed.crop.name} seeds
+      %hr.my-4/
+      %p= render 'seeds/badges', seed: @trade.responded_seed
+    -if @trade.accepted.nil?
+      Awaiting decision
+    - elsif !@trade.accepted
+      %h5 Trade declined
+  - if @trade.accepted
+    = image_tag seed_image_path(@trade.responded_seed, full_size: true), alt: 'seeds', class: 'img-card'
+  .card-footer
+    %p.lead
+      %strong
+        = icon 'fas', 'arrow-left'
+        = @trade.requested_by.location

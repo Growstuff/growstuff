@@ -122,6 +122,13 @@ class Ability
     can :update,  Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
     can :destroy, Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
 
+    can :create, Trade
+    can :read, Trade, requested_by: member.id
+    can :read, Trade, owner: member
+    can :update, Trade, requested_by: member.id
+    can :update, Trade, owner: member
+    can :destroy, Trade, requested_by: member.id
+
     # following/unfollowing permissions
     can :create, Follow
     cannot :create, Follow, followed_id: member.id # can't follow yourself
