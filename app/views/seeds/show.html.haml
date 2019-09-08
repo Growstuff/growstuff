@@ -19,12 +19,16 @@
     %h1
       = crop_icon(@seed.crop)
       %strong #{@seed.owner}'s #{@seed.crop} seeds
-      %small
-        = @seed.organic
-        %span.text-muted= @seed.gmo
-        = @seed.heirloom
-      = @seed.created_at.strftime("%Y-%m-%d")
+      - if @seed.organic != 'unknown'
+        %small.seed-organic= @seed.organic
+      - if @seed.gmo != 'unknown'
+        %small.seed-gmo= @seed.gmo
+      - if @seed.heirloom != 'unknown'
+        %small.seed-heirloom= @seed.heirloom
+      = I18n.l @seed.created_at.to_date
+
     = render 'seeds/actions', seed: @seed
+
     %section= render 'facts', seed: @seed
     - if @seed.parent_planting
       %dt Saved from planting:
@@ -48,19 +52,20 @@
       = render 'shared/signin_signup', to: 'request seeds'
 
     %section= render 'seeds/descendants', seed: @seed
-    %section= render 'photos/gallery', photos: @photos
-
-  .col-md-3
-    = render @seed.crop
-    = render @seed.owner
-
+    %section.seed-photos
+      - @photos.each do |photo|
+        = render 'photos/hero', photo: photo
+    %p
+      %small
+        Or
+        = link_to "purchase seeds via Ebay",
+        crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer", class: 'btn'
     - if @seed.owner.location
       %p
         %small
           View other seeds, members to trade with and more near
           = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
-    %p
-      %small
-        Or
-        = link_to "purchase seeds via Ebay",
-        crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer"
+  .col-md-3
+    = render @seed.crop
+    = render @seed.owner
+

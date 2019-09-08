@@ -1,5 +1,5 @@
 - if can?(:edit, planting)
-  .dropdown.float-right.planting-actions
+  .dropdown.planting-actions
     %a#planting-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
       = planting_edit_button(planting, classes: 'dropdown-item')

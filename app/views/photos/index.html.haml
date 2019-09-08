@@ -8,21 +8,13 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Photos', photos_path
-.pagination
-  = page_entries_info @photos
-  = will_paginate @photos
 
-.row
+= page_entries_info @photos
+= will_paginate @photos
+
+.index-cards
   - @photos.each do |p|
-    .col-md-2.six-across
-      = render 'photos/card', photo: p
-      -# .thumbnail{ style: 'height: 220px' }
-      -#   = link_to image_tag(p.thumbnail_url, alt: p.title, class: 'img'), p
-      -#   %p
-      -#     = link_to p.title, p
-      -#     by
-      -#     = link_to p.owner, p.owner
+    = render 'photos/card', photo: p
 
-.pagination
-  = page_entries_info @photos
-  = will_paginate @photos
+= page_entries_info @photos
+= will_paginate @photos

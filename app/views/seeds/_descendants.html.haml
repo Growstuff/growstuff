@@ -3,8 +3,3 @@
   .index-cards
     - seed.child_plantings.each do |planting|
       = render 'plantings/thumbnail', planting: planting
-
-- if can?(:create, Planting) && can?(:edit, seed)
-  = link_to new_seed_planting_path(seed), class: 'btn btn-primary' do
-    = planting_icon
-    Plant seeds

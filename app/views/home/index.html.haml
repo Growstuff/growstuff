@@ -7,17 +7,18 @@
   %p= render 'stats'
 - else
   .hidden-xs
-    .jumbotron= render 'blurb'
+    %section.jumbotron= render 'blurb'
 
 .row
   .col-xl-8.col-md-12
     %section.crops
       %h2= t('home.crops.our_crops')
       = render 'crops'
-      .align-bottom
-        %p.text-right= link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
-        - cache cache_key_for(Crop, 'recent') do
-          %h3= t('.recently_added')
+      = link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
+    %section.recent-crops
+      - cache cache_key_for(Crop, 'recent') do
+        %h2= t('.recently_added')
+        %p
           != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
   .col-xl-4
     .row
@@ -28,9 +29,9 @@
         = render 'harvests'
         %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
   .col-md-6
-    %section.seeds.mx-auto
+    %section.seeds
       = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
   .col-md-6
-    %section.members.mx-auto= render 'members'
-  %section.discussion.mx-auto= render 'discuss'
+    %section.members= render 'members'
+  %section.discussion= render 'discuss'

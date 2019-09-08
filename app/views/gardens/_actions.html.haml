@@ -1,5 +1,5 @@
 - if can?(:edit, garden)
-  .dropdown.float-right.garden-actions
+  .dropdown.garden-actions
     %a#garden-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "garden-actions-button"}
       - if can?(:edit, garden)

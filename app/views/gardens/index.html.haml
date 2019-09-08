@@ -1,8 +1,7 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
 
-%h1
-  = @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
+%h1= @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
 = render 'layouts/nav', model: Garden
 
@@ -24,22 +23,15 @@
     = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
 
 - else
-  .row
-    .col-12= page_entries_info @gardens
-    .col-12= will_paginate @gardens
+  = page_entries_info @gardens
+  = will_paginate @gardens
   - @gardens.each do |garden|
-    %section.border-top
-      %h2
-        %strong= link_to garden, garden
-        = render 'gardens/actions', garden: garden
-      .row
-        .col-md-2.border-right
-          %p= pluralize(garden.plantings.active.size, "planting")
-          = image_tag garden_image_path(garden), class: 'img-responsive'
-        .col-md-10
-          .index-cards
-            - garden.plantings.active.each do |planting|
-              = render planting, full: true
+    %section
+      %h2= garden.name
+      = render 'gardens/actions', garden: garden
+      .index-cards
+        - garden.plantings.active.each do |planting|
+          = render planting, full: true
 
   .row
     .col-12= page_entries_info @gardens

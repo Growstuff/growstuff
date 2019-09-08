@@ -1,11 +1,11 @@
 %section.harvests
-  %h5= t('.recently_harvested')
+  %h2= t('.recently_harvested')
   - Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(6).each do |harvest|
     .card
       = link_to harvest, class: 'list-group-item list-group-item-action flex-column align-items-start' do
         .d-flex.w-100.justify-content-between
           %div
-            %h5.mb-2.h5= harvest.crop.name
+            %h5= harvest.crop.name
             %span.badge.badge-success=harvest.plant_part
             %small.text-muted
               harvested by #{harvest.owner}

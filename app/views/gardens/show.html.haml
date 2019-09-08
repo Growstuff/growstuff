@@ -53,7 +53,7 @@
           = timeline garden_timeline_path(@garden), adapter: "google"
 
     %section
-      %h3.h3 Current plantings in garden
+      %h2 Current plantings in garden
       .index-cards
         - if @current_plantings.size.positive?
           - @current_plantings.each do |planting|
@@ -62,7 +62,7 @@
           .col-md-12
             %p Nothing is currently planted here.
     %section
-      %h3.h3 Previously planted in this garden
+      %h2 Previously planted in this garden
       .index-cards
         - if @finished_plantings.size.positive?
           - @finished_plantings.each do |planting|
@@ -120,7 +120,8 @@
         = add_photo_button(@garden)
 
     - if @garden.photos.size.positive?
-      %h3= localize_plural(@garden.photos, Photo)
-      .row
-        - @garden.photos.includes(:owner).each do |photo|
-          .col-xs-6= render 'photos/thumbnail', photo: photo
+      %section.photos
+        %h2= localize_plural(@garden.photos, Photo)
+        .index-cards
+          - @garden.photos.includes(:owner).each do |photo|
+            = render 'photos/thumbnail', photo: photo
