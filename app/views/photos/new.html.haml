@@ -30,7 +30,7 @@
     - @photos.each do |photo|
       .col-md-2.col-6
         .card
-          = link_to photos_path(photo: { source_id: photo.id, source: 'flickr' }, item: { id: @id, type: @type } ), method: :post do
+          = link_to photos_path(photo: { source_id: photo.id, source: 'flickr' }, id: @id, type: @type ), method: :post do
             = image_tag(FlickRaw.url_z(photo), alt: '', class: 'img img-card')
           .card-body
             %p.photo-title= photo.title
