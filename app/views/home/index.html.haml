@@ -2,7 +2,7 @@
   = ENV['GROWSTUFF_SITE_NAME']
 
 - if member_signed_in?
-  %h1.display-5= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+  %h1.display-2= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
   %p= render 'stats'
 - else
@@ -23,15 +23,18 @@
   .col-xl-4
     .row
       .col-md-6
-        =render 'plantings'
-        %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
+        %section.plantings
+          =render 'plantings'
+          %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
       .col-md-6
-        = render 'harvests'
-        %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
-  .col-md-6
+        %section.harvests
+          = render 'harvests'
+          %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
+  .col-md-4
     %section.seeds
       = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
-  .col-md-6
+  .col-md-4
     %section.members= render 'members'
-  %section.discussion= render 'discuss'
+  .col-md-4
+    %section.discussion= render 'discuss'

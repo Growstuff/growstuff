@@ -29,6 +29,9 @@ a:hover {
   text-decoration: none;
 }
 
+h1 {
+  font-size: 180%;
+}
 h2 {
   font-size: 150%;
 }
@@ -50,24 +53,18 @@ h3 {
   }
 }
 section {
-  // border-radius: 5%;
-  // border: 1px solid darken($beige, 20%);
-  // background-color: $beige;
   margin: .5em 0 0 0;
   padding: 0 0 1em 0;
   h2 {
     color: $white;
     background-color: $green;
-    // font-family: Helvetica;
     padding: 0.2em;
+    a {
+      color: white;
+    }
   }
-
-}
-
-.actions {
-  .dropdown-toggle {
-    background-color: $green;
-    color: $white;
+  .btn {
+    border: 1px solid $green;
   }
 }
 
@@ -75,7 +72,6 @@ section {
   display: flex;
   flex: none;
   flex-wrap: wrap;
-  // align-items: center;
   justify-content: center;
   .card {
     background: $white;
@@ -300,6 +296,10 @@ ul.thumbnail-buttons {
   }
 }
 
+.breadcrumb {
+  background-color: darken($beige, 10%);
+}
+
 
 // Small devices (landscape phones, less than 768px)
 @include media-breakpoint-down(md) {
@@ -328,13 +328,16 @@ ul.thumbnail-buttons {
     padding: 10px;
   }
   h1 {
-    font-size: 130%;
+    font-size: 200%;
   }
   h2 {
-    font-size: 120%;
+    font-size: 130%;
   }
   h3 {
-    font-size: 100%;
+    font-size: 120%;
+  }
+  .card-title {
+    margin-bottom: 0;
   }
   .sidebar {
     margin-left: 0;
@@ -359,9 +362,18 @@ ul.thumbnail-buttons {
     }
   }
 
+  .nav .btn {
+    background-color: lighten($green, 50%);
+    width: 100%;
+  }
+
+  section .btn {
+    width: 100%;
+  }
+
   .index-cards {
     .card {
-      width: 100%;
+      width: 45%;
       margin: 0.2em;
 
       // Shrink title to fit more on page
@@ -377,12 +389,5 @@ ul.thumbnail-buttons {
       }
 
     }
-    // These cards can fit 2 across
-    .planting-card {
-      width: 45%;
-    }
-  }
-  .badge {
-    font-size: 0.6em;
   }
 }

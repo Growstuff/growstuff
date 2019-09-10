@@ -1,9 +1,9 @@
-%h3
+%h2
   = icon 'fas', 'magic'
   Predictions
 .index-cards.facts
   - unless crop.perennial.nil?
-    .card
+    .card.fact-card
       .card-body.text-center
         %h3
           = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
@@ -21,7 +21,7 @@
           %small living and reproducing in a single year or less
 
   - if crop.annual? && crop.median_lifespan.present?
-    .card
+    .card.fact-card
       .card-body.text-center
         %h3 Median lifespan
         %strong= crop.median_lifespan
@@ -30,14 +30,14 @@
 
 
   - if crop.median_days_to_first_harvest.present?
-    .card
+    .card.fact-card
       .card-body.text-center
         %h3 First harvest expected
         %strong= crop.median_days_to_first_harvest
         %span days after planting
 
   - if crop.annual? && crop.median_days_to_last_harvest.present?
-    .card
+    .card.fact-card
       .card-body.text-center
         %h3 Last harvest expected
         %strong= crop.median_days_to_last_harvest

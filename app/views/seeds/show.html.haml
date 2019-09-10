@@ -12,10 +12,11 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Seeds', seeds_path
+  %li.breadcrumb-item= link_to @seed.owner, member_seeds_path(@seed.owner)
   %li.breadcrumb-item.active= link_to @seed, @seed
 
 .row.seeds
-  .col-md-9
+  .col-md-8
     %h1
       = crop_icon(@seed.crop)
       %strong #{@seed.owner}'s #{@seed.crop} seeds
@@ -65,7 +66,7 @@
         %small
           View other seeds, members to trade with and more near
           = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
-  .col-md-3
+  .col-md-4
+    = render 'seeds/owner'
     = render @seed.crop
-    = render @seed.owner
 

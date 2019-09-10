@@ -8,13 +8,18 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Harvests', harvests_path
+  %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
+  %li.breadcrumb-item.active= link_to @harvest, @harvest
+
 .row
   .col-md-8
     %h1
       = harvest_icon
       #{@harvest.crop} harvested by #{@harvest.owner}
     = render 'harvests/actions', harvest: @harvest
-    = link_to "view all #{@harvest.owner}'s harvests >>", member_harvests_path(@harvest.owner), class: 'btn'
+    = render partial: 'planting'
     .index-cards.facts
       - if @harvest.plant_part
         .card
@@ -23,18 +28,28 @@
       - if @harvest.harvested_at.present?
         .card
           %h3 Harvested
-          = @harvest.harvested_at
-
-      .card
-        %h3 Planting
-        = render partial: 'planting'
+          %strong= I18n.l @harvest.harvested_at
       .card
         %h3 Quantity
-        %span= display_quantity(@harvest)
-    %hr/
+        %strong= display_quantity(@harvest)
     - if @harvest.photos.size.positive?
-      = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
+      %section
+        %h2 Photos
+        = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
+    %section.harvest-detail
+      %h2 Detail
+      - if @harvest.planting.present?
+        Havested from
+        = link_to @harvest.planting, @harvest.planting
+
+    - if @harvest.description.present?
+      .card
+        .card-header
+          %h2 Notes
+        .card-body
+          :growstuff_markdown
+            #{strip_tags(@harvest.description)}
+
   .col-md-4
+    = render 'harvests/owner', harvest: @harvest
     = render @harvest.crop
-    .card
-      .card-body= render 'harvests/owner', harvest: @harvest

@@ -170,6 +170,10 @@ class Crop < ApplicationRecord
     }
   end
 
+  def fetch_from_openfarm!
+    OpenfarmService.new.update_crop(self)
+  end
+
   private
 
   def count_uses_of_property(col_name)

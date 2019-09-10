@@ -1,14 +1,6 @@
-%section
-  .row
-    .col-md-12
-      .card.card-cascade
-        .card-header
-          %h2= link_to post.subject, post
-          %p
-            Written by
-            %strong= link_to post.author, post.author
-        .card-body
-          .float-right= render 'members/tiny', member: post.author
-
-          %p
-            = truncate(strip_tags(post.body), length: 200)
+.card.card-cascade
+  .card-header
+    %h3= link_to post.subject, post
+    = render 'members/tiny', member: post.author
+  .card-body
+    %p= truncate(strip_tags(post.body), length: 200)
