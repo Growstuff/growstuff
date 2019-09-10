@@ -130,7 +130,7 @@
             Wikipedia (English)
 
         %li.list-group-item
-          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
+          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.sub(' ', '-')}",
                     class: 'card-link',
                     target: "_blank",
                     rel: "noopener noreferrer" do
