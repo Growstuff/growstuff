@@ -46,7 +46,7 @@ describe PhotosController do
     end
 
     describe "planting photos" do
-      before { get :new, params: { {type: "planting", id: planting.id} } }
+      before { get :new, params: { type: "planting", id: planting.id } }
 
       it { assigns(:flickr_auth).should be_an_instance_of(Authentication) }
       it { assigns(:item).should eq planting }
@@ -91,7 +91,7 @@ describe PhotosController do
       it "attaches the photo to a planting" do
         post :create, params: {
           photo: { source_id: photo.source_id, source: 'flickr' },
-          {type: "planting", id: planting.id}
+          type: "planting", id: planting.id
         }
         expect(flash[:alert]).not_to be_present
         Photo.last.plantings.first.should eq planting
@@ -100,10 +100,10 @@ describe PhotosController do
       describe "doesn't attach a photo to a planting twice" do
         before do
           post :create, params: {
-            photo: { source_id: photo.source_id, source: 'flickr' }, {type: "planting", id: planting.id}
+            photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id
           }
           post :create, params: {
-            photo: { source_id: photo.source_id, source: 'flickr' }, {type: "planting", id: planting.id}
+            photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id
           }
         end
 
@@ -154,7 +154,7 @@ describe PhotosController do
       it "creates the planting/photo link" do
         planting = FactoryBot.create(:planting, garden: garden, owner: member)
         photo = FactoryBot.create(:photo, owner: member)
-        post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, {type: "planting", id: planting.id} }
+        post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id }
         expect(flash[:alert]).not_to be_present
         expect(Photo.last.plantings.first).to eq planting
       end
@@ -177,7 +177,8 @@ describe PhotosController do
         another_planting = FactoryBot.create(:planting)
         expect do
           post :create, params: {
-            photo: { source_id: photo.source_id, source: 'flickr' }, {type: "planting", id: another_planting.id}
+            photo: { source_id: photo.source_id, source: 'flickr' },
+            type: "planting", id: another_planting.id
           }
         end.to raise_error(ActiveRecord::RecordInvalid)
         Photo.last.plantings.first.should_not eq another_planting

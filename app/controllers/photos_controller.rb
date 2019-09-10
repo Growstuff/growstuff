@@ -68,19 +68,15 @@ class PhotosController < ApplicationController
       :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
-  def item_params
-    params.require(:item).permit(:id, :type)
-  end
-
   # Item with photos attached
   def item_to_link_to
-    raise "No item id provided" if item_params[:id].nil?
-    raise "No item type provided" if item_params[:type].nil?
+    raise "No item id provided" if params[:id].nil?
+    raise "No item type provided" if params[:type].nil?
 
-    item_class = item_params[:type].capitalize
+    item_class = params[:type].capitalize
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
 
-    item_class.constantize.find(item_params[:id])
+    item_class.constantize.find(params[:id])
   end
 
   #
