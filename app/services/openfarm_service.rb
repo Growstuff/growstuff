@@ -48,7 +48,7 @@ class OpenfarmService
     body = conn.get("crops/#{name_to_slug(name)}.json").body
     puts body[0..100]
     body.fetch('data', {})
-  rescue
+  rescue StandardError
     puts "error fetching crop"
     puts body
   end
@@ -64,7 +64,7 @@ class OpenfarmService
   def fetch_pictures(name)
     body = conn.get("crops/#{name_to_slug(name)}/pictures.json").body
     body.fetch('data', false)
-  rescue
+  rescue StandardError
     puts "Error fetching photos"
     puts body
   end
