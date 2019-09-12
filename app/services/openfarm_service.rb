@@ -9,7 +9,7 @@ class OpenfarmService
   end
 
   def import!
-    Crop.all.order(updated_at: :desc).each do |crop|
+    Crop.all.where(openfarm_data: nil).order(updated_at: :desc).each do |crop|
       puts crop.name
       update_crop(crop)
     end
@@ -22,7 +22,7 @@ class OpenfarmService
       save_photos(crop)
     else
       puts "\tcrop not found on Open Farm"
-      crop.touch :updated_at
+      crop.update! openfarm_data: false
     end
   end
 

@@ -148,7 +148,7 @@ class Crop < ApplicationRecord
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
   end
 
-  def update_openfarm_data
+  def update_openfarm_data!
     OpenfarmService.new.update_crop(self)
   end
 

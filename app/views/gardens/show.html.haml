@@ -46,11 +46,12 @@
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
-    .row
-      .col-md-12
-        %section
-          %h3 Garden timeline
-          = timeline garden_timeline_path(@garden), adapter: "google"
+    - if @garden.plantings.where.not(planted_at: nil).any?
+      .row
+        .col-md-12
+          %section
+            %h2 Garden timeline
+            = timeline garden_timeline_path(@garden), adapter: "google"
 
     %section
       %h2 Current plantings in garden

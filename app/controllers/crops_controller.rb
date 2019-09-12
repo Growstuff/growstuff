@@ -35,6 +35,12 @@ class CropsController < ApplicationController
     respond_with @crops
   end
 
+  def openfarm
+    @crop = Crop.find(params[:crop_slug])
+    @crop.update_openfarm_data!
+    respond_with @crop, location: @crop
+  end
+
   def hierarchy
     @crops = Crop.toplevel
     respond_with @crops

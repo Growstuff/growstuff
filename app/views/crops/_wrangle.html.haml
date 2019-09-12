@@ -10,6 +10,10 @@
           = edit_icon
           = t('.edit')
 
+        = link_to crop_openfarm_path(crop), method: :post, class: 'dropdown-item' do
+          = icon 'far', 'update'
+          Fetch data from OpenFarm
+
         - if can? :destroy, crop
           .dropdown-divider
           = delete_button(crop, classes: 'dropdown-item text-danger')

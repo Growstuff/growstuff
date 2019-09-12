@@ -35,6 +35,8 @@ module PhotosHelper
   def photo_or_placeholder(item)
     if item.default_photo.present?
       item_photo(item)
+    elsif item.respond_to?(:crop)
+      crop_image_path(item.crop)
     else
       placeholder_image
     end

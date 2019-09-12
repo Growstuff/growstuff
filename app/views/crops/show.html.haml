@@ -40,7 +40,11 @@
       = image_tag crop_image_path(@crop),
         class: 'img-responsive shadow rounded crop-hero-photo', alt: 'photo of crop'
 
-%p= render 'crops/actions', crop: @crop
+.row
+  .col-md-9
+    %p= render 'crops/actions', crop: @crop
+  .col-md-3
+    = render 'wrangle', crop: @crop
 
 .row
   .col-md-9
@@ -74,7 +78,6 @@
     %section.posts= render 'crops/posts', crop: @crop
 
   .col-md-3
-    = render 'wrangle', crop: @crop
     .card
       .card-body
         %h4 How to grow #{@crop.name.pluralize}

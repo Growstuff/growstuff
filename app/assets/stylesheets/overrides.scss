@@ -54,6 +54,7 @@ h3 {
 section {
   margin: .5em 0 0;
   padding: 0 0 1em;
+
   h2 {
     color: $white;
     background-color: $green;
@@ -65,6 +66,10 @@ section {
   .btn {
     border: 1px solid $green;
   }
+}
+.layout-actions {
+  float: right;
+  border: 1px solid lighten($green, 20%);
 }
 
 .index-cards {

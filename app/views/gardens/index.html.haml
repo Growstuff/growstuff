@@ -27,11 +27,15 @@
   = will_paginate @gardens
   - @gardens.each do |garden|
     %section
-      %h2= garden.name
+      %h2
+        = link_to garden.name, garden
       = render 'gardens/actions', garden: garden
-      .index-cards
-        - garden.plantings.active.each do |planting|
-          = render planting, full: true
+      - if garden.plantings.any?
+        .index-cards
+          - garden.plantings.active.each do |planting|
+            = render planting, full: true
+      - else
+        No plantings
 
   .row
     .col-12= page_entries_info @gardens
