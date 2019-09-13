@@ -17,8 +17,8 @@
 .planting
   .row
     .col-md-8.col-xs-12
-      %h1
-        = planting_icon
+      %h1.plantingtitle
+        %span.plantingtitle--icon= planting_icon
         = @planting.to_s.titleize
       = render 'plantings/actions', planting: @planting
 
