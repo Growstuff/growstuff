@@ -18,14 +18,17 @@
 .row.seeds
   .col-md-8
     %h1
-      = crop_icon(@seed.crop)
-      %strong #{@seed.owner}'s #{@seed.crop} seeds
+      %span.seedtitle--icon= crop_icon(@seed.crop)
+      %strong
+        %span.seedtitle--owner #{@seed.owner}'s
+        %span.seedtitle--crop #{@seed.crop}
+        seeds
       - if @seed.organic != 'unknown'
-        %small.seed-organic= @seed.organic
+        %small.seedtitle--organic= @seed.organic
       - if @seed.gmo != 'unknown'
-        %small.seed-gmo= @seed.gmo
+        %small.seedtitle--gmo= @seed.gmo
       - if @seed.heirloom != 'unknown'
-        %small.seed-heirloom= @seed.heirloom
+        %small.seedtitle--heirloom= @seed.heirloom
       = I18n.l @seed.created_at.to_date
 
     = render 'seeds/actions', seed: @seed
@@ -36,7 +39,7 @@
       %dd
         = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
     - unless @seed.description.blank?
-      .card
+      .card.seed--description
         .card-header
           %h2 Notes
         .card-body

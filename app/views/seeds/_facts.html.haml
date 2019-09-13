@@ -1,24 +1,24 @@
-.index-cards.facts
+.index-cards.facts.seedfacts
   .card
     %h3 Quantity
-    %strong= @seed.quantity.blank? ? "not specified" : @seed.quantity
+    %strong.seedfacts--quantity= @seed.quantity.blank? ? "not specified" : @seed.quantity
     %span seeds
 
-  .card
+  .card.seedfacts--card
     %h3 Plant before
-    %strong= @seed.plant_before.to_s
+    %strong.seedfacts--plantbefore= @seed.plant_before.to_s
 
   -if @seed.finished_at
     .card
       %h3 Finished at
-      %strong= @seed.finished_at.to_s
+      %strong.seedfacts--finishedat= @seed.finished_at.to_s
   .card
     %h3 Days until maturity
-    %strong.seed-days_until_maturity= render partial: 'days_until_maturity', locals: { seed: @seed }
+    %strong.seedfacts--maturity= render partial: 'days_until_maturity', locals: { seed: @seed }
 
   .card
     %h3 Will trade
-    %strong= @seed.tradable_to
+    %strong.seedfacts--tradableto= @seed.tradable_to
     %span
       - if @seed.owner.location.blank?
         (from unspecified location)

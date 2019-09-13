@@ -68,25 +68,25 @@ describe "seeds", js: true do
       describe "view seeds with max and min days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5, days_until_maturity_max: 7 }
 
-        it { expect(find('.seed-days_until_maturity')).to have_content("5–7") }
+        it { expect(find('.seedfacts--maturity')).to have_content("5–7") }
       end
 
       describe "view seeds with only max days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_max: 7 }
 
-        it { expect(find('.seed-days_until_maturity')).to have_content("7") }
+        it { expect(find('.seedfacts--maturity')).to have_content("7") }
       end
 
       describe "view seeds with only min days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5 }
 
-        it { expect(find('.seed-days_until_maturity')).to have_content("5") }
+        it { expect(find('.seedfacts--maturity')).to have_content("5") }
       end
 
       describe "view seeds with neither max nor min days until maturity" do
         let(:seed) { FactoryBot.create :seed }
 
-        it { expect(find('.seed-days_until_maturity')).to have_content "unknown" }
+        it { expect(find('.seedfacts--maturity')).to have_content "unknown" }
       end
     end
   end
