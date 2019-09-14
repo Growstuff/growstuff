@@ -24,8 +24,8 @@ describe "Display a planting", :js, :elasticsearch do
   context 'Annual with predicted finish' do
     let(:planting) { FactoryBot.create :predicatable_planting, planted_at: 1.day.ago }
     it { expect(find('.plantingfact--dayssinceplanted')).to have_text '1' }
-    it { expect(find('.plantingfact--percentagegrown')).to have_text '2%'}
-    it { expect(find('.plantingfact--planttedat')).to have_text I18n.l(1.day.ago.to_date)}
+    it { expect(find('.plantingfact--percentagegrown')).to have_text '2%' }
+    it { expect(find('.plantingfact--planttedat')).to have_text I18n.l(1.day.ago.to_date) }
     it { expect(find('.plantingfact--harveststitle')).to have_text 'Harvesting' }
   end
 
