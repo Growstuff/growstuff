@@ -10,8 +10,8 @@ class OpenfarmService
 
   def import!
     Crop.all.where(openfarm_data: nil).order(updated_at: :desc).each do |crop|
-      puts crop.name
-      update_crop(crop)
+      puts crop.id, crop.name
+      update_crop(crop) if crop.valid?
     end
   end
 
@@ -23,7 +23,7 @@ class OpenfarmService
       save_photos(crop)
     else
       puts "\tcrop not found on Open Farm"
-      crop.update! openfarm_data: false
+      crop.update!(openfarm_data: false)
     end
   end
 
@@ -52,7 +52,7 @@ class OpenfarmService
       photo.fullsize_url = data.fetch('image_url')
       photo.title = 'Open Farm photo'
       photo.license_name = 'No rights reserved'
-      photo.link_url = "https://openfarm.cc/en/crops/#{CGI.escape crop.name.downcase}"
+      photo.link_url = "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
       photo.save!
 
       PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
@@ -61,14 +61,18 @@ class OpenfarmService
   end
 
   def fetch(name)
-    conn.get("crops/#{name_to_slug(name)}.json").body
+    body = conn.get("crops/#{name_to_slug(name)}.json").body
+    body.fetch('data')
+    body
   rescue StandardError
     puts "error fetching crop"
+    puts "BODY: "
     puts body
+    puts " =================== "
   end
 
   def name_to_slug(name)
-    CGI.escape(name.sub(' ', '-').downcase)
+    CGI.escape(name.gsub(' ', '-').downcase)
   end
 
   def fetch_all(page)
