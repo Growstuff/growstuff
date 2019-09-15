@@ -17,12 +17,28 @@ class OpenfarmService
 
   def update_crop(crop)
     openfarm_record = fetch(crop.name)
-    if openfarm_record.present?
-      crop.update! openfarm_data: openfarm_record
+    if openfarm_record.present? && openfarm_record.fetch('data', false)
+      crop.update! openfarm_data: openfarm_record.fetch('data', false)
+      save_companions(crop, openfarm_record)
       save_photos(crop)
     else
       puts "\tcrop not found on Open Farm"
       crop.update! openfarm_data: false
+    end
+  end
+
+  def save_companions(crop, openfarm_record)
+    companions = openfarm_record.fetch('data').fetch('relationships').fetch('companions').fetch('data')
+    crops = openfarm_record.fetch('included', []).select {|rec| rec["type"] == 'crops' }
+    companions.each do |com|
+      companion_crop_hash = crops.detect{|crop| crop.fetch('id') == com.fetch('id') }
+      companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
+      companion_crop = Crop.find_by(name: companion_crop_name)
+      if companion_crop.nil?
+        companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending")
+        # companion_crop.update_openfarm_data!
+      end
+      crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
     end
   end
 
@@ -45,9 +61,7 @@ class OpenfarmService
   end
 
   def fetch(name)
-    body = conn.get("crops/#{name_to_slug(name)}.json").body
-    puts body[0..100]
-    body.fetch('data', {})
+    conn.get("crops/#{name_to_slug(name)}.json").body
   rescue StandardError
     puts "error fetching crop"
     puts body
