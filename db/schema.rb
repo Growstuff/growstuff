@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_10_022329) do
+ActiveRecord::Schema.define(version: 2019_09_15_065209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,11 @@ ActiveRecord::Schema.define(version: 2019_09_10_022329) do
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "crop_companions", force: :cascade do |t|
+    t.integer "crop_a_id", null: false
+    t.integer "crop_b_id", null: false
   end
 
   create_table "crops", id: :serial, force: :cascade do |t|
