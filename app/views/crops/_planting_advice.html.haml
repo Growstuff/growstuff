@@ -1,10 +1,6 @@
 - if crop.guides_count.present? && crop.guides_count.positive?
-  %p There are #{crop.guides_count} growing guides
+  %p
+    There are
+    = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.sub(' ', '-')}" do
+      #{crop.guides_count} growing guides on Open Farm
 
-%p
-  - if crop.height.present?
-    %strong Height:
-    #{crop.height} centimetres
-  - if crop.spread.present?
-    %strong Spread:
-    #{crop.spread} centimetres

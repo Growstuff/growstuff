@@ -49,6 +49,12 @@
 .row
   .col-md-9
     %section.prediction= render 'predictions', crop: @crop
+    - if @crop.companions.any?
+      %section.companions
+        %h2 Companions
+        - @crop.companions.each do |companion|
+          = render 'crops/tiny', crop: companion
+
     %section.photos= render 'crops/photos', photos: @photos, crop: @crop
 
     - if @crop.plantings.any?
