@@ -1,6 +1,6 @@
 - if crop.guides_count.present? && crop.guides_count.positive?
   %p
     There are
-    = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.sub(' ', '-')}" do
+    = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-').downcase}" do
       #{crop.guides_count} growing guides on Open Farm
 
