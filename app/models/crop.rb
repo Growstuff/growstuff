@@ -45,8 +45,6 @@ class Crop < ApplicationRecord
   ## Validations
   # Reasons are only necessary when rejecting
   validates :reason_for_rejection, presence: true, if: :rejected?
-  ## This validation addresses a race condition
-  validate :approval_status_cannot_be_changed_again
   validate :must_be_rejected_if_rejected_reasons_present
   validate :must_have_meaningful_reason_for_rejection
   ## Wikipedia urls are only necessary when approving a crop
@@ -183,14 +181,6 @@ class Crop < ApplicationRecord
       .where.not(col_name => nil)
       .group(col_name)
       .count
-  end
-
-  # Custom validations
-  def approval_status_cannot_be_changed_again
-    previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
-    return unless previous.include?(:rejected) || previous.include?(:approved)
-
-    errors.add(:approval_status, "has already been set to #{approval_status}")
   end
 
   def must_be_rejected_if_rejected_reasons_present
