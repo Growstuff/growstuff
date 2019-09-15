@@ -1,22 +1,15 @@
-// signup widget on homepage
-
-// let's condense the hero unit a little
-
-.member-cards {
-  display: flex;
-  flex: none;
-  flex-wrap: wrap;
-
-  .card {
-    margin: 1em;
-    width: 150px;
-  }
-}
 
 // stats shown on homepage. eg. "999 members..."
 .stats {
   font-weight: bold;
 }
+
+.crops {
+  .index-cards {
+    justify-content: center;
+  }
+}
+
 
 @include media-breakpoint-down(sm) {
   .homepage-cards {
@@ -35,7 +28,7 @@
 @include media-breakpoint-up(md) {
   .homepage-cards {
     .card {
-      width: 200px;
+      width: 100px;
     }
   }
 }
