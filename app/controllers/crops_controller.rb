@@ -110,7 +110,7 @@ class CropsController < ApplicationController
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      notifier.deliver_now! if previous_status == "pending"
+      notifier.deliver_now! if @crop.approval_status != previous_status && previous_status == "pending"
     end
 
     respond_with @crop
