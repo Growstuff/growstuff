@@ -29,9 +29,9 @@ class OpenfarmService
 
   def save_companions(crop, openfarm_record)
     companions = openfarm_record.fetch('data').fetch('relationships').fetch('companions').fetch('data')
-    crops = openfarm_record.fetch('included', []).select {|rec| rec["type"] == 'crops' }
+    crops = openfarm_record.fetch('included', []).select { |rec| rec["type"] == 'crops' }
     companions.each do |com|
-      companion_crop_hash = crops.detect{|crop| crop.fetch('id') == com.fetch('id') }
+      companion_crop_hash = crops.detect { |crop| crop.fetch('id') == com.fetch('id') }
       companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
       companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
       if companion_crop.nil?
@@ -46,7 +46,8 @@ class OpenfarmService
     pictures = fetch_pictures(crop.name)
     pictures.each do |p|
       data = p.fetch('attributes')
-      if data.fetch('image_url').start_with? 'http'
+      next unless data.fetch('image_url').start_with? 'http'
+
       photo = Photo.find_or_initialize_by(source_id: p.fetch('id'), source: 'openfarm')
       photo.owner = @cropbot
       photo.thumbnail_url = data.fetch('thumbnail_url')
@@ -58,8 +59,6 @@ class OpenfarmService
 
       PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
       puts "\t created photo #{photo.id}"
-
-    end
     end
   end
 
