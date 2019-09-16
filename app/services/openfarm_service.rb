@@ -46,6 +46,7 @@ class OpenfarmService
     pictures = fetch_pictures(crop.name)
     pictures.each do |p|
       data = p.fetch('attributes')
+      if data.fetch('image_url').start_with? 'http'
       photo = Photo.find_or_initialize_by(source_id: p.fetch('id'), source: 'openfarm')
       photo.owner = @cropbot
       photo.thumbnail_url = data.fetch('thumbnail_url')
@@ -57,6 +58,8 @@ class OpenfarmService
 
       PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
       puts "\t created photo #{photo.id}"
+
+    end
     end
   end
 
