@@ -33,7 +33,7 @@ class OpenfarmService
     companions.each do |com|
       companion_crop_hash = crops.detect{|crop| crop.fetch('id') == com.fetch('id') }
       companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
-      companion_crop = Crop.find_by(name: companion_crop_name)
+      companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
       if companion_crop.nil?
         companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending")
         # companion_crop.update_openfarm_data!
