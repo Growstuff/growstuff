@@ -86,7 +86,7 @@ class OpenfarmService
     body.fetch('data', false)
   rescue StandardError
     puts "Error fetching photos"
-    puts body
+    puts []
   end
 
   private
