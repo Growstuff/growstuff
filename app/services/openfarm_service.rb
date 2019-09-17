@@ -29,11 +29,11 @@ class OpenfarmService
 
   def save_companions(crop, openfarm_record)
     companions = openfarm_record.fetch('data').fetch('relationships').fetch('companions').fetch('data')
-    crops = openfarm_record.fetch('included', []).select {|rec| rec["type"] == 'crops' }
+    crops = openfarm_record.fetch('included', []).select { |rec| rec["type"] == 'crops' }
     companions.each do |com|
-      companion_crop_hash = crops.detect{|crop| crop.fetch('id') == com.fetch('id') }
+      companion_crop_hash = crops.detect { |crop| crop.fetch('id') == com.fetch('id') }
       companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
-      companion_crop = Crop.find_by(name: companion_crop_name)
+      companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
       if companion_crop.nil?
         companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending")
         # companion_crop.update_openfarm_data!
@@ -46,6 +46,8 @@ class OpenfarmService
     pictures = fetch_pictures(crop.name)
     pictures.each do |p|
       data = p.fetch('attributes')
+      next unless data.fetch('image_url').start_with? 'http'
+
       photo = Photo.find_or_initialize_by(source_id: p.fetch('id'), source: 'openfarm')
       photo.owner = @cropbot
       photo.thumbnail_url = data.fetch('thumbnail_url')
