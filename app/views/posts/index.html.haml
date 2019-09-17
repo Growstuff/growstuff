@@ -10,7 +10,7 @@
 
 %h1= @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
-= render 'layouts/nav', model: Harvest
+= render 'layouts/nav', model: Post
 
 = will_paginate @posts
 
