@@ -6,8 +6,6 @@
     %li.breadcrumb-item= link_to @author, @author
     %li.breadcrumb-item.active= link_to 'posts', posts_path(author: @author.slug)
 
-
-
 %h1= @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
 = render 'layouts/nav', model: Post

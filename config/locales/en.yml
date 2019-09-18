@@ -208,6 +208,7 @@ en:
     days_until_harvest: "%{number} days"
     days_until_finished: "%{number} days"
     harvesting_now: harvesting now
+    data: 'The data on this page is available in the following formats:'
   layouts:
     header:
       account: Account
@@ -289,7 +290,6 @@ en:
         default: Everyone's plantings
         owner_plantings: "%{owner} plantings"
       view_owners_profile: View %{owner}'s profile >>
-      the_data_on_this_page_is_available_in_the_following_formats: 'The data on this page is available in the following formats:'
     string: "%{crop} planting in %{garden} by %{owner}"
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'

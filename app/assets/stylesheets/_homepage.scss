@@ -4,12 +4,17 @@
   font-weight: bold;
 }
 
-.crops {
+.crops,
+.seeds,
+.members {
   .index-cards {
     justify-content: center;
   }
 }
 
+.homepage--list-item {
+  height: 100px;
+}
 
 @include media-breakpoint-down(sm) {
   .homepage-cards {

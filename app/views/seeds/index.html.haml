@@ -31,7 +31,7 @@
     = will_paginate @seeds
 
 %section.open-data
-  %h5= t('.the_data_on_this_page_is_available_in_the_following_formats')
+  %h5= t('label.data')
   %ul.nav#open-data
     - ['csv', 'json', 'rss'].each do |format|
       %li.list-group-item
