@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_15_065209) do
+ActiveRecord::Schema.define(version: 2019_09_18_033319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -426,6 +426,8 @@ ActiveRecord::Schema.define(version: 2019_09_15_065209) do
     t.datetime "date_taken"
     t.integer "likes_count", default: 0
     t.string "source"
+    t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
+    t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|

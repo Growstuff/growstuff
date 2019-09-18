@@ -7,10 +7,8 @@ module PhotosHelper
       else
         crop.default_photo.thumbnail_url
       end
-    elsif crop.of_photo.present?
-      crop.of_photo
     else
-      photo_or_placeholder(crop)
+      placeholder_image
     end
   end
 

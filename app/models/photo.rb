@@ -7,6 +7,9 @@ class Photo < ApplicationRecord
   has_many :photo_associations, foreign_key: :photo_id, dependent: :destroy, inverse_of: :photo
   has_many :crops, through: :photo_associations
 
+  validates :fullsize_url, url: true, uniqueness: true
+  validates :thumbnail_url, url: true, uniqueness: true
+
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
     has_many type.downcase.pluralize.to_s.to_sym,
