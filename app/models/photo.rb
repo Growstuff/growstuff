@@ -9,6 +9,8 @@ class Photo < ApplicationRecord
 
   validates :fullsize_url, url: true, uniqueness: true
   validates :thumbnail_url, url: true, uniqueness: true
+  validates :license_url, url: true
+  validates :link_url, url: true
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
