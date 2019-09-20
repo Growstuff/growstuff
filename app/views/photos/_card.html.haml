@@ -1,5 +1,5 @@
 .card.photo-card{id: "photo-#{photo.id}"}
-  = link_to image_tag(photo.fullsize_url, alt: photo.title, class: 'img img-card'), photo
+  = link_to image_tag(photo.source == 'flickr' ? photo.fullsize_url : photo.thumbnail_url, alt: photo.title, class: 'img img-card'), photo
   .card-body
     %h5.ellipsis= link_to photo.title, photo
     %i by #{link_to photo.owner, photo.owner}
