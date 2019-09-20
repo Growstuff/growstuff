@@ -24,7 +24,7 @@
       = link_to @photo.link_url, class: 'btn btn-info' do
         - if @photo.source == 'flickr'
           = icon 'fab', 'flickr'
-        View on #{@photo.source}
+        View on #{@photo.source.titleize}
       %span.btn= render 'photos/likes', photo: @photo
 
     - if @crops.size.positive?

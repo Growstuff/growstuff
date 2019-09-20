@@ -21,22 +21,25 @@ describe "photos/show" do
     end
 
     it "links to the owner's profile" do
-      assert_select "a", href: @photo.owner
+      expect(rendered).to have_link(href: member_path(@photo.owner))
     end
 
     it "shows a link to the original image" do
-      assert_select "a", href: @photo.link_url, text: "View on Flickr"
+      expect(rendered).to have_link 'View on Flickr', href: @photo.link_url
     end
 
     it "links to harvest" do
       assert_select "a", href: harvest_path(harvest)
     end
+
     it "links to planting" do
       assert_select "a", href: planting_path(planting)
     end
+
     it "links to garden" do
       assert_select "a", href: garden_path(garden)
     end
+
     it "links to seeds" do
       assert_select "a", href: seed_path(seed)
     end
