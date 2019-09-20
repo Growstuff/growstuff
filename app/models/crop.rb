@@ -23,7 +23,7 @@ class Crop < ApplicationRecord
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
-  has_many :crop_companions, foreign_key: :crop_a_id
+  has_many :crop_companions, foreign_key: :crop_a_id, inverse_of: :crop_a
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
   ##
   ## Scopes
