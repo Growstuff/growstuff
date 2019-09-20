@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_042146) do
+ActiveRecord::Schema.define(version: 2019_09_15_065209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,11 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.text "body", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "crop_companions", force: :cascade do |t|
+    t.integer "crop_a_id", null: false
+    t.integer "crop_b_id", null: false
   end
 
   create_table "crops", id: :serial, force: :cascade do |t|
@@ -416,9 +421,10 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.string "license_name", null: false
     t.string "license_url"
     t.string "link_url", null: false
-    t.string "flickr_photo_id"
+    t.string "source_id"
     t.datetime "date_taken"
     t.integer "likes_count", default: 0
+    t.string "source"
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|
