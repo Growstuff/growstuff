@@ -9,13 +9,13 @@ class Crop < ApplicationRecord
 
   ##
   ## Relationships
-  has_many :scientific_names, dependent: :destroy
+  has_many :scientific_names, dependent: :delete_all
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
-  has_many :alternate_names, dependent: :destroy
+  has_many :alternate_names, dependent: :delete_all
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
-  has_many :photo_associations, dependent: :destroy
+  has_many :photo_associations, dependent: :delete_all
   has_many :photos, through: :photo_associations
   has_many :plant_parts, -> { joins_members.distinct.order("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
