@@ -4,7 +4,7 @@ class Photo < ApplicationRecord
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post).freeze
 
-  has_many :photo_associations, foreign_key: :photo_id, dependent: :destroy, inverse_of: :photo
+  has_many :photo_associations, foreign_key: :photo_id, dependent: :delete_all, inverse_of: :photo
   has_many :crops, through: :photo_associations
 
   # creates a relationship for each assignee type
