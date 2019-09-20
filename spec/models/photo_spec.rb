@@ -188,4 +188,18 @@ describe Photo do
     it { expect(Photo.by_crop(planting_crop)).to eq([planting_photo]) }
     it { expect(Photo.by_crop(seed_crop)).to eq([seed_photo]) }
   end
+
+  describe 'validations' do
+    describe 'fullsize_url' do
+      let(:fullsize_url) { 'https://example.com/photo.jpg' }
+      let!(:photo) { FactoryBot.create :photo, fullsize_url: fullsize_url }
+      it { expect { Photo.create! fullsize_url: fullsize_url }.to raise_error(ActiveRecord::RecordInvalid) }
+    end
+
+    describe 'thumbnail_url' do
+      let(:thumbnail_url) { 'https://example.com/photo.jpg' }
+      let!(:photo) { FactoryBot.create :photo, thumbnail_url: thumbnail_url }
+      it { expect { Photo.create! thumbnail_url: thumbnail_url }.to raise_error(ActiveRecord::RecordInvalid) }
+    end
+  end
 end

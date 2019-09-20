@@ -73,6 +73,9 @@ gem 'devise'
 # nicely formatted URLs
 gem 'friendly_id'
 
+# validates URLs
+gem "validate_url"
+
 # gravatars
 gem 'gravatar-ultimate'
 
