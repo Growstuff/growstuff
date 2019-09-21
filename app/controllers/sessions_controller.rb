@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  respond_to :json
+  respond_to :html, :json
 
   def create
     super do |_resource|

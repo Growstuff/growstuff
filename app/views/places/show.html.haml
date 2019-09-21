@@ -14,10 +14,9 @@
 %h3#members= "Nearby members"
 
 - if !@nearby_members.empty?
-  .row
+  .index-cards.members
     - @nearby_members.first(30).each do |member|
-      .col-md-4.three-across
-        = render partial: "members/thumbnail", locals: { member: member }
+      = render partial: "members/thumbnail", locals: { member: member }
   = link_to "View all members >>", members_path
 
   %h3#seeds Seeds available for trade near #{@place}
@@ -25,11 +24,10 @@
   - @nearby_members.first(10).each do |member|
     - member.seeds.first(5).each do |seed|
       - crop_id.push seed.crop.id
-  - if !crop_id.blank?
-    .row
+  - if crop_id.present?
+    .index-cards.crops
       - crop_id.uniq.first(20).each do |crop|
-        .col-md-2.six-across
-          = render partial: "crops/thumbnail", locals: { crop: Crop.find(crop) }
+        = render partial: "crops/thumbnail", locals: { crop: Crop.find(crop) }
     = link_to "View all seeds >>", seeds_path
   - else
     %p No nearby seeds found
@@ -43,10 +41,9 @@
     - member.plantings.first(5).each do |planting|
       - plantings << planting
   - if !plantings.blank?
-    .row
+    .index-cards.plantings
       - plantings.first(10).each.with_index do |planting, index|
-        .col-xs-12.col-lg-6
-          = render partial: "plantings/card", locals: { planting: planting, index: index }
+        = render partial: "plantings/card", locals: { planting: planting, index: index }
     = link_to "View all plantings >>", plantings_path
   - else
     %p No nearby plantings found

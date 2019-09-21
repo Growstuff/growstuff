@@ -7,10 +7,10 @@
     = render "layouts/header"
     -# anchor tag for accessibility link to skip the navigation menu
     %a{ name: 'skipnav' }
-    #maincontainer.container
+    #maincontainer.container-fluid
       .row
         .col-12
-          .float-right= render 'shared/global_actions'
+          .layout-actions= render 'shared/global_actions'
           - if content_for?(:breadcrumbs)
             .float-left
               %nav{"aria-label" => "breadcrumb"}
@@ -19,7 +19,7 @@
                   = yield(:breadcrumbs)
 
           - if content_for?(:buttonbar)
-            .layout-actions.float-right= yield(:buttonbar)
+            = yield(:buttonbar)
 
       - if content_for?(:subtitle)
         %small= yield(:subtitle)

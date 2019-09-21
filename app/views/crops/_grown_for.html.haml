@@ -1,8 +1,6 @@
-%p
-  %strong Grown for:
-  - if crop.harvests.empty?
-    not known.
-  - else
+- if crop.harvests.any?
+  %p
+    %strong Grown for:
     - crop.popular_plant_parts.each do |plant_part, frequency|
     - id, name = plant_part
       = link_to name, plant_part_path(id: id)

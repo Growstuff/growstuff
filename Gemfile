@@ -73,6 +73,9 @@ gem 'devise'
 # nicely formatted URLs
 gem 'friendly_id'
 
+#validates URLs
+gem "validate_url"
+
 # gravatars
 gem 'gravatar-ultimate'
 
@@ -117,6 +120,9 @@ gem 'rack-protection', '>= 2.0.1'
 
 # Member to member messaging system
 gem 'mailboxer'
+
+gem 'faraday'
+gem 'faraday_middleware'
 
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku

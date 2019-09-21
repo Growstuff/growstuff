@@ -38,5 +38,26 @@ FactoryBot.define do
       planted_at { Time.zone.local(2014, 7, 30) }
       finished_at { Time.zone.local(2014, 8, 30) }
     end
+
+    factory :annual_planting do
+      crop { FactoryBot.create :annual_crop }
+    end
+
+    factory :perennial_planting do
+      crop { FactoryBot.create :perennial_crop }
+    end
+
+    factory :predicatable_planting do
+      crop do
+        crop = FactoryBot.create :annual_crop
+        FactoryBot.create :planting, crop: crop, planted_at: 10.days.ago
+        FactoryBot.create :planting, crop: crop, planted_at: 100.days.ago, finished_at: 50.days.ago
+        FactoryBot.create :planting, crop: crop, planted_at: 100.days.ago, finished_at: 51.days.ago
+        FactoryBot.create :planting, crop: crop, planted_at: 2.years.ago, finished_at: 50.days.ago
+        FactoryBot.create :planting, crop: crop, planted_at: 150.days.ago, finished_at: 100.days.ago
+        crop.update_lifespan_medians
+        crop
+      end
+    end
   end
 end

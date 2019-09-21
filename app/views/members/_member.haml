@@ -11,9 +11,7 @@
           = distance_of_time_in_words(member.created_at, Time.zone.now)
           ago.
       - if member.location.present?
-        %span.badge.badge-success
-          = icon 'fas', 'map-marker'
-          = truncate(member.location, length: 50, separator: ' ', omission: '... ')
+        = render 'members/location', member: member
 
       %p
         %ul.nav.nav-justified.small

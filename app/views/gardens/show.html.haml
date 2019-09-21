@@ -46,14 +46,15 @@
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
-    .row
-      .col-md-12
-        %section
-          %h3 Garden timeline
-          = timeline garden_timeline_path(@garden), adapter: "google"
+    - if @garden.plantings.where.not(planted_at: nil).any?
+      .row
+        .col-md-12
+          %section
+            %h2 Garden timeline
+            = timeline garden_timeline_path(@garden), adapter: "google"
 
     %section
-      %h3.h3 Current plantings in garden
+      %h2 Current plantings in garden
       .index-cards
         - if @current_plantings.size.positive?
           - @current_plantings.each do |planting|
@@ -62,7 +63,7 @@
           .col-md-12
             %p Nothing is currently planted here.
     %section
-      %h3.h3 Previously planted in this garden
+      %h2 Previously planted in this garden
       .index-cards
         - if @finished_plantings.size.positive?
           - @finished_plantings.each do |planting|
@@ -72,7 +73,7 @@
   .col-md-3
     .card
       .card-image
-        = image_tag garden_image_path(@garden, full_size: true), class: 'img-card', alt: 'photo of this garden'
+        = image_tag garden_image_path(@garden), class: 'img-card', alt: 'photo of this garden'
       .card-body
         %h4 About this garden
         %p
@@ -86,7 +87,7 @@
           %p
             %strong Area:
             = pluralize(@garden.area, @garden.area_unit)
-    %hr/
+
     .card
       .card-header
         %h4 #{@garden.owner}'s gardens
@@ -120,7 +121,8 @@
         = add_photo_button(@garden)
 
     - if @garden.photos.size.positive?
-      %h3= localize_plural(@garden.photos, Photo)
-      .row
-        - @garden.photos.includes(:owner).each do |photo|
-          .col-xs-6= render 'photos/thumbnail', photo: photo
+      %section.photos
+        %h2= localize_plural(@garden.photos, Photo)
+        .index-cards
+          - @garden.photos.includes(:owner).each do |photo|
+            = render 'photos/thumbnail', photo: photo

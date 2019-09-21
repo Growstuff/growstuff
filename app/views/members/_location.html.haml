@@ -1,6 +1,3 @@
-%span.badge.badge-light.member-location
-  - if member.location.blank?
-    unknown location
-  - else
-    = link_to place_path(member.location, anchor: "members") do
-      = truncate(member.location, length: 40, separator: ' ', omission: '... ')
+%span.badge.badge-location
+  = icon 'fas', 'map-marker'
+  = truncate(member.location, length: 15, separator: ' ', omission: '... ')

@@ -1,0 +1,5 @@
+.card
+  = link_to garden do
+    = image_tag garden_image_path(garden), class: 'img-card', alt: garden
+    .card-body.text-center
+      %h4.card-title= garden.name

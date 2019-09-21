@@ -115,6 +115,8 @@ def load_admin_users
 end
 
 def create_cropbot
+  return if Member.find_by(login_name: 'cropbot')
+
   @cropbot_user = Member.new(
     login_name:    "cropbot",
     email:         Rails.application.config.bot_email,

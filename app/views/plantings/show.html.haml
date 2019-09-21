@@ -9,14 +9,18 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Plantings', plantings_path
+  %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
+  %li.breadcrumb-item.active= link_to @planting, @planting
 
 .planting
   .row
     .col-md-8.col-xs-12
-      %h1
-        = planting_icon
-        %strong= @planting
-        = render 'plantings/actions', planting: @planting
+      %h1.plantingtitle
+        %span.plantingtitle--icon= planting_icon
+        = @planting.to_s.titleize
+      = render 'plantings/actions', planting: @planting
 
       %section= render 'facts', planting: @planting
       - if @planting.description.present?
@@ -27,15 +31,12 @@
           .card-body
             :growstuff_markdown
               #{strip_tags(@planting.description)}
-      %hr/
       %section= render 'plantings/photos', photos: @photos, planting: @planting
     .col-md-4.col-xs-12.text-right
-      .card
-        .card-body= render 'plantings/owner', planting: @planting
+      = render 'plantings/owner', planting: @planting
       = render @planting.crop
   .row
-    .col-md-12
-      %hr/
+    .col-md-6
       %section= render 'plantings/harvests', planting: @planting
-      %hr/
+    .col-md-6
       %section= render 'plantings/descendants', planting: @planting

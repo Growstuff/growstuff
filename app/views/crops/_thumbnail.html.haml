@@ -1,6 +1,6 @@
-.card.card-crop
+.card.crop-card
   .crop-image
-    = link_to image_tag(crop_image_path(crop, full_size: true),
+    = link_to image_tag(crop_image_path(crop),
                           alt: crop.name,
                           class: 'img img-card'),
                           crop

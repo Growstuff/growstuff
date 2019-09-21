@@ -24,7 +24,8 @@ class Crop < ApplicationRecord
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
-
+  has_many :crop_companions, foreign_key: :crop_a_id
+  has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
   ##
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
@@ -44,8 +45,6 @@ class Crop < ApplicationRecord
   ## Validations
   # Reasons are only necessary when rejecting
   validates :reason_for_rejection, presence: true, if: :rejected?
-  ## This validation addresses a race condition
-  validate :approval_status_cannot_be_changed_again
   validate :must_be_rejected_if_rejected_reasons_present
   validate :must_have_meaningful_reason_for_rejection
   ## Wikipedia urls are only necessary when approving a crop
@@ -148,6 +147,10 @@ class Crop < ApplicationRecord
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
   end
 
+  def update_openfarm_data!
+    OpenfarmService.new.update_crop(self)
+  end
+
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
   end
@@ -166,6 +169,10 @@ class Crop < ApplicationRecord
     }
   end
 
+  def fetch_from_openfarm!
+    OpenfarmService.new.update_crop(self)
+  end
+
   private
 
   def count_uses_of_property(col_name)
@@ -174,14 +181,6 @@ class Crop < ApplicationRecord
       .where.not(col_name => nil)
       .group(col_name)
       .count
-  end
-
-  # Custom validations
-  def approval_status_cannot_be_changed_again
-    previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
-    return unless previous.include?(:rejected) || previous.include?(:approved)
-
-    errors.add(:approval_status, "has already been set to #{approval_status}")
   end
 
   def must_be_rejected_if_rejected_reasons_present

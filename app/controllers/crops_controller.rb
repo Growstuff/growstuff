@@ -4,7 +4,7 @@ class CropsController < ApplicationController
   before_action :authenticate_member!, except: %i(index hierarchy search show)
   load_and_authorize_resource
   skip_authorize_resource only: %i(hierarchy search)
-  respond_to :html, :json, :rss, :csv
+  respond_to :html, :json, :rss, :csv, :svg
   responders :flash
 
   def index
@@ -35,6 +35,12 @@ class CropsController < ApplicationController
     respond_with @crops
   end
 
+  def openfarm
+    @crop = Crop.find(params[:crop_slug])
+    @crop.update_openfarm_data!
+    respond_with @crop, location: @crop
+  end
+
   def hierarchy
     @crops = Crop.toplevel
     respond_with @crops
@@ -60,6 +66,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.svg { send_data(@crop.svg_icon, type: "image/svg+xml", disposition: "inline") }
       format.json { render json: @crop.to_json(crop_json_fields) }
     end
   end
@@ -103,7 +110,7 @@ class CropsController < ApplicationController
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      notifier.deliver_now! if previous_status == "pending"
+      notifier.deliver_now! if @crop.approval_status != previous_status && previous_status == "pending"
     end
 
     respond_with @crop

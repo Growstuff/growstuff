@@ -132,8 +132,8 @@ en:
     blurb:
       already_html: Or %{sign_in} if you already have an account
       intro: >
-        %{site_name} is a community of food gardeners. We're building an open source platform to help you learn about growing food,
-        track what you plant and harvest, and swap seeds and produce with other gardeners near you.
+        %{site_name} is a community of food gardeners. %{site_name}'s open source and open data platform
+        can predict when your plantings will be ready to harvest. The more you tell it, the better the predictions.
       perks: Join now for your free garden journal, harvest predictions, forums, and more.
       sign_in_linktext: sign in
       sign_up: Sign up
@@ -208,6 +208,7 @@ en:
     days_until_harvest: "%{number} days"
     days_until_finished: "%{number} days"
     harvesting_now: harvesting now
+    data: 'The data on this page is available in the following formats:'
   layouts:
     header:
       account: Account
@@ -289,7 +290,6 @@ en:
         default: Everyone's plantings
         owner_plantings: "%{owner} plantings"
       view_owners_profile: View %{owner}'s profile >>
-      the_data_on_this_page_is_available_in_the_following_formats: 'The data on this page is available in the following formats:'
     string: "%{crop} planting in %{garden} by %{owner}"
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
