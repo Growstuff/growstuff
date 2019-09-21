@@ -15,25 +15,3 @@
 .homepage--list-item {
   height: 100px;
 }
-
-@include media-breakpoint-down(sm) {
-  .homepage-cards {
-    .seed-card {
-      min-height: 80px;
-      width: 100%;
-    }
-
-    .member-card {
-      min-height: 80px;
-      width: 150px;
-    }
-  }
-}
-
-@include media-breakpoint-up(md) {
-  .homepage-cards {
-    .card {
-      width: 100px;
-    }
-  }
-}
