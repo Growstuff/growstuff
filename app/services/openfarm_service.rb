@@ -9,8 +9,8 @@ class OpenfarmService
   end
 
   def import!
-    Crop.all.where(openfarm_data: nil).order(updated_at: :desc).each do |crop|
-      puts crop.id, crop.name
+    Crop.all.order(updated_at: :desc).each do |crop|
+      Rails.logger.debug("#{crop.id}, #{crop.name}")
       update_crop(crop) if crop.valid?
     end
   end
@@ -22,7 +22,7 @@ class OpenfarmService
       save_companions(crop, openfarm_record)
       save_photos(crop)
     else
-      puts "\tcrop not found on Open Farm"
+      Rails.logger.debug "\tcrop not found on Open Farm"
       crop.update!(openfarm_data: false)
     end
   end
@@ -58,7 +58,7 @@ class OpenfarmService
       photo.save!
 
       PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
-      puts "\t created photo #{photo.id}"
+      Rails.logger.debug "\t created photo #{photo.id}"
     end
   end
 
@@ -67,10 +67,10 @@ class OpenfarmService
     body.fetch('data')
     body
   rescue StandardError
-    puts "error fetching crop"
-    puts "BODY: "
-    puts body
-    puts " =================== "
+    Rails.logger.debug "error fetching crop"
+    Rails.logger.debug "BODY: "
+    Rails.logger.debug body
+    Rails.logger.debug " =================== "
   end
 
   def name_to_slug(name)
@@ -85,8 +85,8 @@ class OpenfarmService
     body = conn.get("crops/#{name_to_slug(name)}/pictures.json").body
     body.fetch('data', false)
   rescue StandardError
-    puts "Error fetching photos"
-    puts []
+    Rails.logger.debug "Error fetching photos"
+    Rails.logger.debug []
   end
 
   private

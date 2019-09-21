@@ -3,6 +3,7 @@ namespace :openfarm do
   # usage: rake growstuff:admin_user name=skud
 
   task import: :environment do
+    Rails.logger = Logger.new(STDOUT)
     OpenfarmService.new.import!
   end
 end
