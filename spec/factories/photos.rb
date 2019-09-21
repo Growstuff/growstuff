@@ -13,7 +13,7 @@ FactoryBot.define do
 
     factory :unlicensed_photo do
       license_name { "All rights reserved" }
-      license_url { "" }
+      license_url { nil }
     end
   end
 end
