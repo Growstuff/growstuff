@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_042146) do
+ActiveRecord::Schema.define(version: 2019_09_21_211652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,13 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.datetime "updated_at"
   end
 
+  create_table "crop_posts", id: false, force: :cascade do |t|
+    t.integer "crop_id"
+    t.integer "post_id"
+    t.index ["crop_id", "post_id"], name: "index_crop_posts_on_crop_id_and_post_id"
+    t.index ["crop_id"], name: "index_crop_posts_on_crop_id"
+  end
+
   create_table "crops", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "en_wikipedia_url"
@@ -174,13 +181,6 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
-  end
-
-  create_table "crops_posts", id: false, force: :cascade do |t|
-    t.integer "crop_id"
-    t.integer "post_id"
-    t.index ["crop_id", "post_id"], name: "index_crops_posts_on_crop_id_and_post_id"
-    t.index ["crop_id"], name: "index_crops_posts_on_crop_id"
   end
 
   create_table "follows", id: :serial, force: :cascade do |t|
