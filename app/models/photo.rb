@@ -9,7 +9,7 @@ class Photo < ApplicationRecord
 
   validates :fullsize_url, url: true, uniqueness: true
   validates :thumbnail_url, url: true, uniqueness: true
-  validates :license_url, url: true
+  validates :license_url, url: { allow_blank: true }
   validates :link_url, url: true
 
   # creates a relationship for each assignee type
