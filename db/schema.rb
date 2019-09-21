@@ -156,6 +156,8 @@ ActiveRecord::Schema.define(version: 2019_09_15_065209) do
   create_table "crop_companions", force: :cascade do |t|
     t.integer "crop_a_id", null: false
     t.integer "crop_b_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "crops", id: :serial, force: :cascade do |t|
