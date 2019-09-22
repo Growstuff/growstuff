@@ -47,18 +47,29 @@ class OpenfarmService
     pictures.each do |p|
       data = p.fetch('attributes')
       next unless data.fetch('image_url').start_with? 'http'
+      next if Photo.find_by(source_id: p.fetch('id'), source: 'openfarm')
 
-      photo = Photo.find_or_initialize_by(source_id: p.fetch('id'), source: 'openfarm')
+      photo = Photo.new(source_id: p.fetch('id'), source: 'openfarm')
       photo.owner = @cropbot
       photo.thumbnail_url = data.fetch('thumbnail_url')
       photo.fullsize_url = data.fetch('image_url')
       photo.title = 'Open Farm photo'
       photo.license_name = 'No rights reserved'
       photo.link_url = "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
-      photo.save!
+      if photo.valid?
+        photo.save!
 
-      PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
-      Rails.logger.debug "\t created photo #{photo.id}"
+        PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
+        Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
+      else
+        Photo.where(thumbnail_url: photo.thumbnail_url).each do |p|
+          Rails.logger.warn p
+        end
+        Photo.where(fullsize_url: photo.fullsize_url).each do |p|
+          Rails.logger.warn p
+        end
+        Rails.logger.warn "Photo not valid"
+      end
     end
   end
 
