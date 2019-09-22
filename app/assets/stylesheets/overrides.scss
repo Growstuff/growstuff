@@ -31,6 +31,7 @@ a:hover {
 h1 {
   font-size: 180%;
 }
+
 h2 {
   font-size: 150%;
 }
@@ -51,26 +52,29 @@ h3 {
     }
   }
 }
+
 section {
   margin: .5em 0 0;
   padding: 0 0 1em;
 
   h2 {
-    color: $white;
     background-color: $green;
-    padding: 0.2em;
+    color: $white;
+    padding: .2em;
+
     a {
-      color: white;
+      color: $white;
     }
   }
+
   .btn {
     border: 1px solid $green;
   }
 }
 
 .layout-actions {
-  float: right;
   border: 1px solid lighten($green, 20%);
+  float: right;
 }
 
 .index-cards {
@@ -113,20 +117,20 @@ section {
 
 .facts {
   display: flex;
-  flex-wrap: wrap;
   flex: none;
+  flex-wrap: wrap;
 
   .card {
     margin: 1em;
+    max-width: 100%;
     padding: 1em;
     text-align: center;
     width: 180px;
-    max-width: 100%;
 
     strong {
-      font-align: center;
-      font-size: 2em;
       display: block;
+      font-size: 2em;
+      text-align: center;
     }
 
     span {
@@ -199,8 +203,8 @@ footer {
 
 // ensure footer is pushed to bottom of browser window
 #maincontainer {
-  min-height: 80%;
   max-width: 2500px;
+  min-height: 80%;
   padding: 1em;
 }
 
@@ -280,9 +284,9 @@ ul.thumbnail-buttons {
 
 .jumbotron {
   background-color: $beige;
+  margin-bottom: 1em;
   padding-bottom: 30px;
   padding-top: 30px;
-  margin-bottom: 1em;
 
   // signup widget on homepage
   .signup {
@@ -311,18 +315,23 @@ ul.thumbnail-buttons {
     width: 100%;
     padding: 10px;
   }
+
   h1 {
     font-size: 200%;
   }
+
   h2 {
     font-size: 130%;
   }
+
   h3 {
     font-size: 120%;
   }
+
   .card-title {
     margin-bottom: 0;
   }
+
   .sidebar {
     margin-left: 0;
     border-left: none;
@@ -357,8 +366,8 @@ ul.thumbnail-buttons {
 
   .index-cards {
     .card {
-      width: 45%;
       margin: 0.2em;
+      width: 45%;
 
       // Shrink title to fit more on page
       .card-title {
