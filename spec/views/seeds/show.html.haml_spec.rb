@@ -29,7 +29,7 @@ describe "seeds/show" do
       end
 
       it "shows tradable attributes" do
-        expect(rendered).to have_content "Will trade: locally"
+        expect(rendered).to have_content "Will trade locally"
       end
 
       it "shows button to send message" do
