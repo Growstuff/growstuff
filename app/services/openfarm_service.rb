@@ -46,6 +46,7 @@ class OpenfarmService
     pictures = fetch_pictures(crop.name)
     pictures.each do |p|
       data = p.fetch('attributes')
+      Rails.logger.debug(data)
       next unless data.fetch('image_url').start_with? 'http'
       next if Photo.find_by(source_id: p.fetch('id'), source: 'openfarm')
 
