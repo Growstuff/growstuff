@@ -29,6 +29,7 @@ class PhotoAssociation < ApplicationRecord
 
   def photo_and_item_have_same_owner
     return unless photographable_type != 'Crop'
+
     errors.add(:photo, "must have same owner as item it links to") unless photographable.owner_id == photo.owner_id
   end
 end
