@@ -44,13 +44,13 @@ class OpenfarmService
 
   def save_photos(crop)
     pictures = fetch_pictures(crop.name)
-    pictures.each do |p|
-      data = p.fetch('attributes')
+    pictures.each do |picture|
+      data = picture.fetch('attributes')
       Rails.logger.debug(data)
       next unless data.fetch('image_url').start_with? 'http'
-      next if Photo.find_by(source_id: p.fetch('id'), source: 'openfarm')
+      next if Photo.find_by(source_id: picture.fetch('id'), source: 'openfarm')
 
-      photo = Photo.new(source_id: p.fetch('id'), source: 'openfarm')
+      photo = Photo.new(source_id: picture.fetch('id'), source: 'openfarm')
       photo.owner = @cropbot
       photo.thumbnail_url = data.fetch('thumbnail_url')
       photo.fullsize_url = data.fetch('image_url')
