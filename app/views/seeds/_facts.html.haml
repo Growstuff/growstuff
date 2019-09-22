@@ -6,12 +6,12 @@
 
   .card.seedfacts--card
     %h3 Plant before
-    %strong.seedfacts--plantbefore= @seed.plant_before.to_s
+    %strong.seedfacts--plantbefore= I18n.l(@seed.plant_before)
 
   -if @seed.finished_at
     .card
       %h3 Finished at
-      %strong.seedfacts--finishedat= @seed.finished_at.to_s
+      %strong.seedfacts--finishedat= I18n.l(@seed.finished_at)
   .card
     %h3 Days until maturity
     %strong.seedfacts--maturity= render partial: 'days_until_maturity', locals: { seed: @seed }
