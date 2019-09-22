@@ -18,7 +18,7 @@ class Crop < ApplicationRecord
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
-  has_many :crop_posts
+  has_many :crop_posts, dependent: :delete_all
   has_many :posts, through: :crop_posts, dependent: :delete_all
 
   ##

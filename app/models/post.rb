@@ -64,7 +64,7 @@ class Post < ApplicationRecord
       crop_name = Regexp.last_match(1)
       crop = Crop.case_insensitive_name(crop_name).first
       # create association
-      self.crops << crop if crop && !crops.include?(crop)
+      crops << crop if crop && !crops.include?(crop)
     end
   end
 
