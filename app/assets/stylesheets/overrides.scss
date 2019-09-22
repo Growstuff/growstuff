@@ -160,7 +160,11 @@ img.avatar {
 
 .progress {
   border-radius: 0;
-
+  height: 2em;
+  .progress-bar {
+    height: 2em;
+    background-color: $progress-bar-color
+  }
   .progress-bar-text {
     text-align: center;
   }
