@@ -10,7 +10,7 @@
     %section.jumbotron= render 'blurb'
 
 .row
-  .col-xl-8.col-md-12
+  .col-lg-8.col-md-12
     %section.crops
       %h2= t('home.crops.our_crops')
       = render 'crops'
@@ -20,21 +20,20 @@
         %h2= t('.recently_added')
         %p
           != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
-  .col-xl-4
-    .row
-      .col-md-6
-        %section.plantings
-          =render 'plantings'
-          %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
-      .col-md-6
-        %section.harvests
-          = render 'harvests'
-          %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
-  .col-12.col-xl-4
+
+  .col-xl-2.col
+    %section.plantings
+      =render 'plantings'
+      %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
+  .col-xl-2.col
+    %section.harvests
+      = render 'harvests'
+      %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
+  .col-6
     %section.seeds
       = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
-  .col-12.col-xl-4
+  .col-6
     %section.discussion= render 'discuss'
-  .col-12.col-xl-4
+  .col-12
     %section.members= render 'members'

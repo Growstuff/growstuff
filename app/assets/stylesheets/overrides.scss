@@ -84,7 +84,7 @@ section {
 
   .card {
     background: $white;
-    border: 1px solid lighten($green, 20%);
+    // border: 1px solid lighten($brown, 20%);
     border-radius: 5%;
     margin: .5em .5em .5em 0;
     width: 200px;
@@ -125,7 +125,7 @@ section {
     max-width: 100%;
     padding: 1em;
     text-align: center;
-    width: 180px;
+    width: 170px;
 
     strong {
       display: block;

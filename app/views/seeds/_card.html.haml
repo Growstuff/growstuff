@@ -11,6 +11,6 @@
       .text-muted
         = icon 'fas', 'map'
         Will trade #{seed.tradable_to}
-    .badge-location
+    .badge.badge-pill.badge-location
       = icon 'fas', 'map-marker'
-      = truncate(seed.owner.location, length: 25, separator: ' ', omission: '... ')
+      = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')

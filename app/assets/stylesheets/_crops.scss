@@ -2,6 +2,34 @@
   height: 1em;
 }
 
+.crop-thumbnail {
+  .text {
+    bottom: 0;
+    color: $white;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+
+    h3 {
+      font-size: 1.5em;
+      background-color: $brown;
+    }
+
+    a {
+      color: $white;
+    }
+
+    a:hover {
+      color: $black;
+    }
+
+    .img-card {
+      border: 5%;
+    }
+  }
+}
+
 .planting {
   .crop-card {
     height: 100%;
