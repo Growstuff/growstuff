@@ -10,8 +10,10 @@ class Crop < ApplicationRecord
 
   ##
   ## Relationships
+  belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
+  belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
+  belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   has_many :scientific_names, dependent: :destroy
-  accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   has_many :alternate_names, dependent: :destroy
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
@@ -19,13 +21,11 @@ class Crop < ApplicationRecord
   has_many :photo_associations, dependent: :destroy
   has_many :photos, through: :photo_associations
   has_many :plant_parts, -> { joins_members.distinct.order("plant_parts.name") }, through: :harvests
-  belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
-  belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
-  belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
-  has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
-  has_many :crop_companions, foreign_key: :crop_a_id
+  has_many :crop_companions, foreign_key: :crop_a_id, dependent: :delete_all, inverse_of: :crop_a
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
+  has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
+  accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   ##
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }

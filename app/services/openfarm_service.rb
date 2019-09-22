@@ -31,7 +31,7 @@ class OpenfarmService
     companions = openfarm_record.fetch('data').fetch('relationships').fetch('companions').fetch('data')
     crops = openfarm_record.fetch('included', []).select { |rec| rec["type"] == 'crops' }
     companions.each do |com|
-      companion_crop_hash = crops.detect { |crop| crop.fetch('id') == com.fetch('id') }
+      companion_crop_hash = crops.detect { |c| c.fetch('id') == com.fetch('id') }
       companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
       companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
       if companion_crop.nil?
