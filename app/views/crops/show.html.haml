@@ -14,32 +14,8 @@
   %li.breadcrumb-item.active= link_to @crop.name.titleize, @crop
 
 = render 'approval_status_message', crop: @crop
-.jumbotron
-  .row
-    .col-md-9
-      %h1
-        = crop_icon(@crop)
-        %strong= @crop.name.titleize
-        - unless @crop.approved?
-          %badge.badge-warning=@crop.approval_status
-        %small.text-muted= @crop.default_scientific_name
-      - if @crop.sowing_method.present?
-        %h2= @crop.sowing_method
-      - if @crop.sun_requirements.present?
-        %p
-          Plant in #{@crop.sun_requirements}
-      %p.text-muted
-        - if !@crop.plantings.empty?
-          #{@crop.name.titleize} has been planted
-          = pluralize(@crop.plantings.size, "time")
-          by #{ENV['GROWSTUFF_SITE_NAME']} members.
-        - else
-          Nobody is growing this yet. You could be the first!
-      - if @crop.description.present?
-        %p= @crop.description
-    .col-md-3
-      = image_tag crop_image_path(@crop),
-        class: 'img-responsive shadow rounded crop-hero-photo', alt: 'photo of crop'
+
+.jumbotron= render 'crops/info'
 
 .row
   .col-md-9
