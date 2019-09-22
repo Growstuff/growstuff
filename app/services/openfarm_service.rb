@@ -58,14 +58,11 @@ class OpenfarmService
       photo.license_name = 'No rights reserved'
       photo.link_url = "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
       if photo.valid?
-        photo.save!
+        photo.save
 
         PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
         Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
       else
-        photo.errors.each do |e|
-          Rails.logger.warn e
-        end
         Photo.where(thumbnail_url: photo.thumbnail_url).each do |p|
           Rails.logger.warn p
         end
