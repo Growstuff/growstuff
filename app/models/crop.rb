@@ -148,7 +148,13 @@ class Crop < ApplicationRecord
   end
 
   def update_openfarm_data!
-    OpenfarmService.new.update_crop(self)
+    service = OpenfarmService.new
+    service.update_crop(self)
+    if service.errors.any?
+      service.errors.each do |e|
+        crop.errors.add(e)
+      end
+    end
   end
 
   def self.case_insensitive_name(name)
