@@ -63,10 +63,8 @@ class OpenfarmService
   end
 
   def fetch(name)
-    body = conn.get("crops/#{name_to_slug(name)}.json").body
-    body.fetch('data')
-    body
-  rescue StandardError
+    conn.get("crops/#{name_to_slug(name)}.json").body
+  rescue NoMethodError
     Rails.logger.debug "error fetching crop"
     Rails.logger.debug "BODY: "
     Rails.logger.debug body
