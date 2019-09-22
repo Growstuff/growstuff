@@ -147,16 +147,6 @@ class Crop < ApplicationRecord
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
   end
 
-  def update_openfarm_data!
-    service = OpenfarmService.new
-    service.update_crop(self)
-    if service.errors.any?
-      service.errors.each do |e|
-        crop.errors.add(e)
-      end
-    end
-  end
-
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
   end
