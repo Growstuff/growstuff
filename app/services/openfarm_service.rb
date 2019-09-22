@@ -17,7 +17,9 @@ class OpenfarmService
 
   def update_crop(crop)
     openfarm_record = fetch(crop.name)
-    if openfarm_record.present? && openfarm_record.fetch('data', false)
+    if openfarm_record.present? && openfarm_record.is_a?(String)
+      Rails.logger.info(openfarm_record)
+    elsif openfarm_record.present? && openfarm_record.fetch('data', false)
       crop.update! openfarm_data: openfarm_record.fetch('data', false)
       save_companions(crop, openfarm_record)
       save_photos(crop)
