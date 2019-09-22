@@ -87,7 +87,7 @@ describe PhotosHelper do
     describe "uses seed's own photo" do
       before { seed.photos << seed_photo }
 
-      it { is_expected.to eq seed_photo.thumbnail_url }
+      it { is_expected.to eq seed_photo.fullsize_url }
     end
   end
 end
