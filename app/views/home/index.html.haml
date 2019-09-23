@@ -29,11 +29,11 @@
     %section.harvests
       = render 'harvests'
       %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
-  .col-6
+  .col-12.col-md-6
     %section.seeds
       = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
-  .col-6
+  .col-12.col-md-6
     %section.discussion= render 'discuss'
   .col-12
     %section.members= render 'members'
