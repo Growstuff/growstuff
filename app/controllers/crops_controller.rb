@@ -210,7 +210,7 @@ class CropsController < ApplicationController
     q = Crop.approved.includes(:scientific_names, plantings: :photos)
     q = q.popular unless @sort == 'alpha'
     q.order(Arel.sql("LOWER(crops.name)"))
-      .includes(:photos).paginate(page: params[:page])
+      .includes(:photos).paginate(page: params[:page], per_page: 30)
   end
 
   def requested_crops
