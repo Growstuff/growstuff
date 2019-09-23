@@ -42,7 +42,7 @@ class CropsController < ApplicationController
   end
 
   def hierarchy
-    @crops = Crop.toplevel
+    @crops = Crop.toplevel.order(:name)
     respond_with @crops
   end
 
@@ -102,15 +102,21 @@ class CropsController < ApplicationController
 
   def update
     @crop = Crop.find_by!(slug: params[:slug])
-    previous_status = @crop.approval_status
 
-    @crop.creator = current_member if previous_status == "pending"
+    if params.fetch("reject", false) && can?(:wrangle, @crop)
+      @crop.approval_status = 'rejected'
+    elsif params.fetch("approve", false) && can?(:wrangle, @crop)
+      @crop.approval_status = 'approved'
+    end
 
+    @crop.creator = current_member if @crop.approval_status == "pending"
     if @crop.update(crop_params)
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      notifier.deliver_now! if @crop.approval_status != previous_status && previous_status == "pending"
+      notifier.deliver_now! if @crop.approval_status_changed?(from: "pending", to: "approved")
+    else
+      @crop.approval_status = @crop.approval_status_was
     end
 
     respond_with @crop
@@ -169,12 +175,11 @@ class CropsController < ApplicationController
   end
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url,
+    params.require(:crop).permit(
+      :en_wikipedia_url,
       :name,
       :parent_id,
-      :creator_id,
       :perennial,
-      :approval_status,
       :request_notes,
       :reason_for_rejection,
       :rejection_notes,
