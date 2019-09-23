@@ -3,6 +3,9 @@
   .media-body
     %p
       %ul.associations
+        - photo.crops.each do |crop|
+          %li= render 'crops/tiny', crop: crop
+
         - photo.plantings.each do |planting|
           %li
             = planting_icon
