@@ -369,7 +369,7 @@ GEM
     popper_js (1.14.5)
     procto (0.0.3)
     public_suffix (4.0.1)
-    puma (4.1.1)
+    puma (4.2.0)
       nio4r (~> 2.0)
     rack (2.0.7)
     rack-protection (2.0.7)
