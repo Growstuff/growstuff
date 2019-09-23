@@ -185,7 +185,8 @@ class CropsController < ApplicationController
       :rejection_notes,
       scientific_names_attributes: %i(scientific_name
                                       _destroy
-                                      id))
+                                      id)
+    )
   end
 
   def filename
