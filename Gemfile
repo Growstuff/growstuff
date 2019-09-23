@@ -54,9 +54,6 @@ gem 'unicorn'                      # http server
 
 gem "comfortable_mexican_sofa", "~> 2.0.0"
 
-gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
-gem 'kaminari'                     # pagination
-
 gem 'active_utils'
 gem 'sidekiq'
 

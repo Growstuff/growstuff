@@ -82,9 +82,6 @@ GEM
       sassc-rails (>= 2.0.0)
     bootstrap-datepicker-rails (1.8.0.1)
       railties (>= 3.0)
-    bootstrap-kaminari-views (0.0.5)
-      kaminari (>= 0.13)
-      rails (>= 3.1)
     bootstrap_form (4.2.0)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
@@ -275,18 +272,6 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jwt (2.2.1)
-    kaminari (1.1.1)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.1.1)
-      kaminari-activerecord (= 1.1.1)
-      kaminari-core (= 1.1.1)
-    kaminari-actionview (1.1.1)
-      actionview
-      kaminari-core (= 1.1.1)
-    kaminari-activerecord (1.1.1)
-      activerecord
-      kaminari-core (= 1.1.1)
-    kaminari-core (1.1.1)
     kgio (2.11.2)
     kramdown (2.1.0)
     launchy (2.4.3)
@@ -587,7 +572,6 @@ DEPENDENCIES
   bonsai-elasticsearch-rails
   bootstrap (>= 4.3.1)
   bootstrap-datepicker-rails
-  bootstrap-kaminari-views
   bootstrap_form (>= 4.2.0)
   bullet
   bundler (>= 1.1.5)
@@ -628,7 +612,6 @@ DEPENDENCIES
   jquery-ui-rails
   js-routes
   jsonapi-resources
-  kaminari
   leaflet-rails
   letter_opener
   listen
