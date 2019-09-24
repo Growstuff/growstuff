@@ -38,3 +38,20 @@
     width: 30px;
   }
 }
+
+.member-location {
+  font-size: small;
+  font-style: italic;
+
+  a {
+    color: $brown;
+  }
+}
+
+.location-not-set {
+  background-image: image-url('location-not-set.en.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 250px;
+  width: 100%;
+}

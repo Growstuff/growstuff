@@ -1,16 +1,11 @@
 - content_for :title, "#{@member.login_name}'s follows"
 
-.pagination
-  = page_entries_info @follows
-  = will_paginate @follows
+%h1.page-title #{@member.login_name}'s follows
 
-.row
-  .col-md-12
-    - @follows.each do |f|
-      .col-md-4.three-across
-        .thumbnail
-          = render partial: "members/thumbnail", locals: { member: f }
+= page_entries_info @follows
+= will_paginate @follows
 
-.pagination
-  = page_entries_info @follows
-  = will_paginate @follows
+.index-cards= render @follows
+
+= page_entries_info @follows
+= will_paginate @follows

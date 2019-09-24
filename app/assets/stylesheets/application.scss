@@ -16,15 +16,17 @@
 @import 'rails_bootstrap_forms';
 
 @import 'overrides';
+
 @import 'crops';
 @import 'harvests';
 @import 'likes';
 @import 'members';
 @import 'notifications';
 @import 'plantings';
+@import 'photos';
 @import 'posts';
-@import 'predictions';
 @import 'seeds';
 
+@import 'predictions';
 @import 'homepage';
-@import 'photos';
+@import 'maps';

@@ -8,8 +8,6 @@ cache:
 addons:
   apt:
     packages:
-      - chromium-chromedriver
-      - google-chrome-stable
       # Postgresql version used here should match production
       - postgresql-9.4
       - postgresql-client-9.4
@@ -18,7 +16,7 @@ addons:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true
+    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true ELASTIC_SEARCH_VERSION="6.2.3"
     - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
     - STATIC_CHECKS=true PERCY_CHECKS=true
   global:
@@ -27,9 +25,13 @@ env:
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
     - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 before_install:
+  - sudo apt clean
+  # - sudo apt update
+  - sudo apt install dpkg
+  - sudo apt install google-chrome-stable
   - ./script/install_codeclimate.sh
   - ./script/install_linters.sh
-  - ELASTIC_SEARCH_VERSION="6.2.3" ./script/install_elasticsearch.sh
+  - ./script/install_elasticsearch.sh
 before_script:
   - >
     if [ "${COVERAGE}" = "true" ]; then
