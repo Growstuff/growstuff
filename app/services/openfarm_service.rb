@@ -38,7 +38,7 @@ class OpenfarmService
       companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
       if companion_crop.nil?
         companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending")
-        # companion_crop.update_openfarm_data!
+        companion_crop.update_openfarm_data!
       end
       crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
     end
