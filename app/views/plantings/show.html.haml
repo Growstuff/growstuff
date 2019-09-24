@@ -43,6 +43,7 @@
             #{sprintf '%.0f', @planting.percentage_grown}%
 
       = render 'plantings/owner', planting: @planting
+      = render @planting.garden
       = render @planting.crop
   .row
     .col-md-6
