@@ -5,10 +5,6 @@ class Crop < ApplicationRecord
   friendly_id :name, use: %i(slugged finders)
 
   ##
-  ## Triggers
-  before_destroy { |crop| crop.posts.clear }
-
-  ##
   ## Relationships
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
@@ -24,8 +20,11 @@ class Crop < ApplicationRecord
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   has_many :crop_companions, foreign_key: :crop_a_id, dependent: :delete_all, inverse_of: :crop_a
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
-  has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
+  has_many :crop_posts, dependent: :delete_all
+  has_many :posts, through: :crop_posts, dependent: :delete_all
+
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
+
   ##
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
