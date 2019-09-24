@@ -25,14 +25,14 @@
 
       %section= render 'facts', planting: @planting
 
-      - if @planting.description.present?
-        %hr/
-        .card
-          .card-header
-            %h2 Notes
-          .card-body
-            :growstuff_markdown
-              #{strip_tags(@planting.description)}
+      %hr/
+      .card
+        .card-header
+          %h2 Notes
+          = editable :text_area, @planting, :description
+        .card-body
+          :growstuff_markdown
+            #{strip_tags(@planting.description)}
       %section= render 'plantings/photos', photos: @photos, planting: @planting
     .col-md-4.col-xs-12
       - if @planting.percentage_grown

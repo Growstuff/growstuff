@@ -14,18 +14,24 @@
       - if planting.quantity.present?
         %span.plantingfact--quantity= planting.quantity
 
-  - if planting.planted_at.present? && !planting.finished?
-    .card.fact-card
-      %h3 Planted
-      %strong.plantingfact--dayssinceplanted #{planting.days_since_planted}
-      %span days ago
-  - if planting.quantity.to_i.positive?
-    .card.fact-card
-      %h3 Quantity
-      %strong.plantingfact--quantity= planting.quantity
-      %span
-        - if planting.planted_from.present?
-          #{pluralize((planting.quantity.to_i), planting.planted_from)}
+  .card.fact-card
+    %h3 Planted
+    %strong.plantingfact--dayssinceplanted
+      - if planting.planted_at.present?
+        #{planting.days_since_planted}
+      - else
+        unknown
+    %span
+      days ago
+      = editable :text_field, @planting, :planted_at
+
+  .card.fact-card
+    %h3 Quantity
+    %strong.plantingfact--quantity= planting.quantity
+    %span
+      - if planting.quantity.to_i.positive? && planting.planted_from.present?
+        #{pluralize((planting.quantity.to_i), planting.planted_from)}
+      = editable :text_field, @planting, :quantity
 
   - unless planting.finished?
     .card.fact-card.grid-sizer
@@ -35,15 +41,19 @@
         %span.plantingfact--planttedat= I18n.l planting.planted_at.to_date
 
 
-  - if planting.planted_from.present?
-    .card.fact-card
-      %h3 Grown from
-      %span.plantingfact--plantedfrom=planting.planted_from
+  .card.fact-card
+    %h3 Grown from
+    %strong= planting.planted_from
+    %span.plantingfact--plantedfrom
+      = editable :select, @planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES
+
 
   .card.fact-card
     %h3 Grown in
     %strong= sunniness_icon(planting.sunniness)
-    %span.plantingfact--sunniness= planting.sunniness.blank? ? "not specified" : planting.sunniness
+    %span.plantingfact--sunniness
+      = planting.sunniness.blank? ? "not specified" : planting.sunniness
+      = editable :select, @planting, :sunniness, collection: Planting::SUNNINESS_VALUES
 
   .card.fact-card
     %h3.plantingfact--harveststitle

@@ -1,0 +1,15 @@
+- if can? :edit, model
+  %a.editable#description{"data-form" => "#modal--#{field.to_s}", href: "#"}= edit_icon
+
+  .modal{"aria-hidden" => "true", "aria-label" => field, role: "dialog", tabindex: "-1", id: "modal--#{field.to_s}"}
+    .modal-dialog.modal-md
+      .modal-content
+        = bootstrap_form_for(model) do |f|
+          .modal-body
+            - if field_type == :text_area
+              = f.text_area field
+            - elsif field_type == :select 
+              = f.select field, collection
+            - else
+              = f.text_field field
+            = f.submit :save
