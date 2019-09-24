@@ -1,16 +1,22 @@
 - if @crop.approved? && signed_in?
-  .nav.crop-actions
-    - if can? :create, Planting
-      = link_to new_planting_path(crop_id: crop.id), class: 'list-group-item btn' do
-        = planting_icon
-        = t('buttons.plant_crop', crop_name: crop.name)
 
-    - if can? :create, Harvest
-      = link_to new_harvest_path(crop_id: crop.id), class: 'list-group-item btn' do
-        = harvest_icon
-        = t('buttons.harvest_crop', crop_name: crop.name)
-
-    - if can? :create, Seed
-      = link_to new_seed_path(crop_id: crop.id), class: 'list-group-item btn' do
-        = seed_icon
-        = t('buttons.add_seed_to_stash', crop_name: crop.name)
+  %ul.nav.crop-actions
+    %li.nav-item.dropdown.btn
+      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"} Add to garden
+      .dropdown-menu.dropdown-secondary
+        - current_member.gardens.each do |garden|
+          = link_to plantings_path(planting: {crop_id: @crop.id, garden_id: garden.id}), method: :post, class: 'dropdown-item' do
+            = garden.name
+    %li.nav-item.dropdown.btn
+      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"} Record harvest
+      .dropdown-menu.dropdown-secondary
+        - PlantPart.all.each do |plant_part|
+          = link_to harvests_path(harvest: {crop_id: @crop.id, plant_part_id: plant_part.id}), method: :post, class: 'dropdown-item' do
+            = plant_part.name
+    %li.nav-item.dropdown.btn
+      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}=t('buttons.add_seed_to_stash', crop_name: crop.name)
+      .dropdown-menu.dropdown-secondary
+        - Seed::TRADABLE_TO_VALUES.each do |trade|
+          = link_to seeds_path(seed: {crop_id: @crop.id, tradable_to: trade}), method: :post, class: 'dropdown-item' do
+            Will trade:
+            = trade
