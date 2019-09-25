@@ -112,6 +112,7 @@
           = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
             = icon 'fas', 'external-link-alt'
             Wikipedia (English)
+          = editable :text_field, @crop, :en_wikipedia_url
 
         %li.list-group-item
           = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
