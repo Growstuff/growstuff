@@ -38,7 +38,7 @@ module IconsHelper
   end
 
   def edit_icon
-    icon('fas', 'edit')
+    icon('fas', 'pencil-alt')
   end
 
   def delete_icon
