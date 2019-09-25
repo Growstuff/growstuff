@@ -24,7 +24,9 @@
       - if @harvest.plant_part
         .card
           %h3 Plant part
-          %span= link_to @harvest.plant_part, @harvest.plant_part
+          %strong= @harvest.plant_part
+          %span
+            = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id)
       - if @harvest.harvested_at.present?
         .card
           %h3 Harvested
@@ -32,6 +34,9 @@
       .card
         %h3 Quantity
         %strong= display_quantity(@harvest)
+        %span
+        = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id)
+
     - if @harvest.photos.size.positive?
       %section
         %h2 Photos
