@@ -1,8 +1,9 @@
 - if can? :edit, model
-  %a.editable#description{"data-form" => "#modal--#{field.to_s}", href: "#"}= edit_icon
+  %a.editable#description{"data-form" => "#modal--#{model.id}-#{field.to_s}", href: "#"}= edit_icon
 
-  .modal{"aria-hidden" => "true", "aria-label" => field, role: "dialog", tabindex: "-1", id: "modal--#{field.to_s}"}
-    .modal-dialog.modal-md
+  .modal.right{"aria-hidden" => "true", "aria-label" => field, role: "dialog", tabindex: "-1",
+    id: "modal--#{model.id}-#{field.to_s}"}
+    .modal-dialog.modal-md.right
       .modal-content
         = bootstrap_form_for(model) do |f|
           .modal-body

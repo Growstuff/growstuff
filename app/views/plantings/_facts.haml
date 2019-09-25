@@ -27,7 +27,11 @@
 
   .card.fact-card
     %h3 Quantity
-    %strong.plantingfact--quantity= planting.quantity
+    %strong.plantingfact--quantity
+      - if planting.quantity.to_i.positive?
+        = planting.quantity
+      -else
+        unknown
     %span
       - if planting.quantity.to_i.positive? && planting.planted_from.present?
         #{pluralize((planting.quantity.to_i), planting.planted_from)}

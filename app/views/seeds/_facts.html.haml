@@ -1,8 +1,12 @@
 .index-cards.facts.seedfacts
+  - if seed.parent_planting_id.present?
+    = render 'plantings/card', planting: seed.parent_planting
   .card
     %h3 Quantity
     %strong.seedfacts--quantity= seed.quantity.blank? ? "not specified" : seed.quantity
-    %span seeds
+    %span
+      seeds
+      = editable :text_field, seed, :quantity
 
   - if seed.plant_before.present?
     .card.seedfacts--card
@@ -27,3 +31,4 @@
           = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
       - else
         (from #{link_to seed.owner.location, place_path(seed.owner.location, anchor: "seeds")})
+    = editable :select, seed, :tradable_to, collection: Seed::TRADABLE_TO_VALUES
