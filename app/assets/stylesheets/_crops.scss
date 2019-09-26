@@ -1,3 +1,7 @@
+.crop-icon {
+  height: 1em;
+}
+
 .planting {
   .crop-card {
     height: 100%;
@@ -29,4 +33,31 @@
 .add-altname-row,
 .remove-altname-row {
   display: none;
+}
+
+.crop-chip {
+  background-color: lighten($green, 20%);
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 1em;
+  height: 30px;
+  line-height: 30px;
+  margin: .2em;
+  padding: 0 25px;
+
+  a {
+    color: $white;
+  }
+
+  img {
+    border-radius: 50%;
+    float: left;
+    height: 30px;
+    margin: 0 10px 0 -25px;
+    width: 30px;
+  }
+}
+
+.crop-hero-photo {
+  max-height: 300px;
 }

@@ -12,27 +12,28 @@
   %li.breadcrumb-item.active= link_to @photo, @photo
 
 .row{id: "photo-#{@photo.id}"}
-  .col-md-8
-    %h1.text-center.ellipsis=@photo.title
+  .col-md-9
+    %h1.text-center.ellipsis
+      = photo_icon
+      = @photo.title
     %p.text-center
-      = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-fluid shadow-sm')
-  .col-md-4
-
+      = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-responsive shadow-sm')
+  .col-md-3
     %p
       = render 'photos/actions', photo: @photo
-      = link_to "View on Flickr", @photo.link_url, class: 'btn'
+      = link_to @photo.link_url, class: 'btn btn-info' do
+        - if @photo.source == 'flickr'
+          = icon 'fab', 'flickr'
+        View on #{@photo.source.titleize}
       %span.btn= render 'photos/likes', photo: @photo
 
-
     - if @crops.size.positive?
-      .index-cards
-        - @crops.each do |crop|
-          = render 'crops/thumbnail', crop: crop
+      - @crops.each do |crop|
+        = render 'crops/tiny', crop: crop
     %p
-      = photo_icon
-      %strong Photo by
-      = link_to @photo.owner, @photo.owner
-      Taken on #{@photo.date_taken}
+      = render 'members/tiny', member: @photo.owner
+      - if @photo.date_taken.present?
+        Taken on #{I18n.l @photo.date_taken.to_date}
     %p
       %strong License:
       - if @photo.license_url
@@ -40,5 +41,4 @@
       - else
         = @photo.license_name
 
-    - if @photo.associations?
-      = render "associations", photo: @photo
+    = render "associations", photo: @photo
