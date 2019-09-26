@@ -84,10 +84,15 @@ module IconsHelper
   end
 
   def sunniness_icon(sunniness)
-    if sunniness.present?
-      image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness, width: 55)
-    else
-      image_tag("sunniness_not_specified.png", class: 'img', alt: 'unknown', width: 55)
+    case sunniness
+    when nil
+      icon 'far', 'question'
+    when 'sun'
+      icon 'far', 'sun'
+    when 'shade'
+      icon 'fas', 'umbrella-beach'
+    when 'semi-shade'
+      icon 'fas', 'cloud-sun'
     end
   end
 
