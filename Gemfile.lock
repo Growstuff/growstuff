@@ -196,7 +196,7 @@ GEM
     flickraw (0.9.10)
     font-awesome-sass (5.11.2)
       sassc (>= 1.11)
-    friendly_id (5.2.5)
+    friendly_id (5.3.0)
       activerecord (>= 4.0.0)
     geocoder (1.4.9)
     gibbon (1.2.1)
