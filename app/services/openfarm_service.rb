@@ -60,9 +60,10 @@ class OpenfarmService
         link_url:      "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
       )
       if photo.valid?
-        photo.save
-
-        PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
+        Photo.transaction do
+          photo.save
+          PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
+        end
         Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
       else
         Rails.logger.warn "Photo not valid"
