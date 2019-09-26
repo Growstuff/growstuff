@@ -49,13 +49,16 @@ class OpenfarmService
       next unless data.fetch('image_url').start_with? 'http'
       next if Photo.find_by(source_id: picture.fetch('id'), source: 'openfarm')
 
-      photo = Photo.new(source_id: picture.fetch('id'), source: 'openfarm')
-      photo.owner = @cropbot
-      photo.thumbnail_url = data.fetch('thumbnail_url')
-      photo.fullsize_url = data.fetch('image_url')
-      photo.title = 'Open Farm photo'
-      photo.license_name = 'No rights reserved'
-      photo.link_url = "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
+      photo = Photo.new(
+        source_id:     picture.fetch('id'),
+        source:        'openfarm',
+        owner:         @cropbot,
+        thumbnail_url: data.fetch('thumbnail_url'),
+        fullsize_url:  data.fetch('image_url'),
+        title:         'Open Farm photo',
+        license_name:  'No rights reserved',
+        link_url:      "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
+      )
       if photo.valid?
         photo.save
 
