@@ -416,9 +416,10 @@ ActiveRecord::Schema.define(version: 2019_09_21_211652) do
     t.string "license_name", null: false
     t.string "license_url"
     t.string "link_url", null: false
-    t.string "flickr_photo_id"
+    t.string "source_id"
     t.datetime "date_taken"
     t.integer "likes_count", default: 0
+    t.string "source"
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|
