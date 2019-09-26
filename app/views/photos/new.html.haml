@@ -30,12 +30,9 @@
     - @photos.each do |photo|
       .col-md-2.col-6
         .card
-          = link_to image_tag(FlickRaw.url_z(photo), alt: '', class: 'img img-card',
-            width: 150, height: 150),
-            photos_path(photo: { flickr_photo_id: photo.id }, type: @type, id: @id),
-            method: :post
-          .card-body
-            %p.photo-title= photo.title
+          = link_to photos_path(photo: { source_id: photo.id, source: 'flickr' }, id: @id, type: @type ), method: :post do
+            = image_tag(FlickRaw.url_z(photo), alt: photo.title, class: 'img img-card')
+          .card-body= photo.title
 
   .row.pagination
     .col-md-12= will_paginate @photos

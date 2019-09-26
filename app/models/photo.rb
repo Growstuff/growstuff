@@ -24,7 +24,7 @@ class Photo < ApplicationRecord
   # for easier stubbing and testing.
   def flickr_metadata
     flickr = owner.flickr
-    info = flickr.photos.getInfo(photo_id: flickr_photo_id)
+    info = flickr.photos.getInfo(photo_id: source_id)
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
@@ -62,5 +62,9 @@ class Photo < ApplicationRecord
 
   def to_s
     "#{title} by #{owner.login_name}"
+  end
+
+  def flickr_photo_id
+    source_id if source == 'flickr'
   end
 end
