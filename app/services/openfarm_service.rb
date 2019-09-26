@@ -73,7 +73,6 @@ class OpenfarmService
     Rails.logger.debug "error fetching crop"
     Rails.logger.debug "BODY: "
     Rails.logger.debug body
-    Rails.logger.debug " =================== "
   end
 
   def name_to_slug(name)
