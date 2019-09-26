@@ -90,7 +90,7 @@ describe PhotosController do
 
       it "attaches the photo to a planting" do
         post :create, params: {
-          photo: { flickr_photo_id: photo.flickr_photo_id },
+          photo: { source_id: photo.source_id, source: 'flickr' },
           type: "planting", id: planting.id
         }
         expect(flash[:alert]).not_to be_present
@@ -100,10 +100,10 @@ describe PhotosController do
       describe "doesn't attach a photo to a planting twice" do
         before do
           post :create, params: {
-            photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+            photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id
           }
           post :create, params: {
-            photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id
+            photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id
           }
         end
 
@@ -112,17 +112,17 @@ describe PhotosController do
       end
 
       it "attaches the photo to a harvest" do
-        post :create, params: { photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id }
+        post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id }
         expect(flash[:alert]).not_to be_present
         Photo.last.harvests.first.should eq harvest
       end
 
       it "doesn't attach a photo to a harvest twice" do
         post :create, params: {
-          photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+          photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id
         }
         post :create, params: {
-          photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id
+          photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id
         }
         expect(flash[:alert]).not_to be_present
         Photo.last.harvests.size.should eq 1
@@ -132,7 +132,7 @@ describe PhotosController do
         comment = FactoryBot.create(:comment)
         expect do
           post :create, params: {
-            photo: { flickr_photo_id: photo.flickr_photo_id }, type: "comment", id: comment.id
+            photo: { source_id: photo.source_id, source: 'flickr' }, type: "comment", id: comment.id
           }
         end.to raise_error
       end
@@ -140,7 +140,7 @@ describe PhotosController do
 
     describe "for the second time" do
       let(:planting) { FactoryBot.create :planting, owner: member }
-      let(:valid_params) { { photo: { flickr_photo_id: 1 }, id: planting.id, type: 'planting' } }
+      let(:valid_params) { { photo: { source_id: 1 }, id: planting.id, type: 'planting' } }
 
       it "does not add a photo twice" do
         expect { post :create, params: valid_params }.to change(Photo, :count).by(1)
@@ -154,14 +154,14 @@ describe PhotosController do
       it "creates the planting/photo link" do
         planting = FactoryBot.create(:planting, garden: garden, owner: member)
         photo = FactoryBot.create(:photo, owner: member)
-        post :create, params: { photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: planting.id }
+        post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id }
         expect(flash[:alert]).not_to be_present
         expect(Photo.last.plantings.first).to eq planting
       end
 
       describe "creates the harvest/photo link" do
         before do
-          post :create, params: { photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: harvest.id }
+          post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id }
         end
 
         it { expect(flash[:alert]).not_to be_present }
@@ -177,7 +177,8 @@ describe PhotosController do
         another_planting = FactoryBot.create(:planting)
         expect do
           post :create, params: {
-            photo: { flickr_photo_id: photo.flickr_photo_id }, type: "planting", id: another_planting.id
+            photo: { source_id: photo.source_id, source: 'flickr' },
+            type: "planting", id: another_planting.id
           }
         end.to raise_error(ActiveRecord::RecordInvalid)
         Photo.last.plantings.first.should_not eq another_planting
@@ -188,7 +189,7 @@ describe PhotosController do
         another_harvest = FactoryBot.create(:harvest)
         expect do
           post :create, params: {
-            photo: { flickr_photo_id: photo.flickr_photo_id }, type: "harvest", id: another_harvest.id
+            photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: another_harvest.id
           }
         end.to raise_error(ActiveRecord::RecordInvalid)
         Photo.last.harvests.first.should_not eq another_harvest
