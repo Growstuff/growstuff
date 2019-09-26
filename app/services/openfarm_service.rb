@@ -36,10 +36,7 @@ class OpenfarmService
       companion_crop_hash = crops.detect { |c| c.fetch('id') == com.fetch('id') }
       companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
       companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
-      if companion_crop.nil?
-        companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending")
-        # companion_crop.update_openfarm_data!
-      end
+      companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending") if companion_crop.nil?
       crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
     end
   end
@@ -65,12 +62,6 @@ class OpenfarmService
         PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
         Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
       else
-        Photo.where(thumbnail_url: photo.thumbnail_url).each do |p|
-          Rails.logger.warn p
-        end
-        Photo.where(fullsize_url: photo.fullsize_url).each do |p|
-          Rails.logger.warn p
-        end
         Rails.logger.warn "Photo not valid"
       end
     end
