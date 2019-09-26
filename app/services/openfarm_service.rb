@@ -32,12 +32,14 @@ class OpenfarmService
   def save_companions(crop, openfarm_record)
     companions = openfarm_record.fetch('data').fetch('relationships').fetch('companions').fetch('data')
     crops = openfarm_record.fetch('included', []).select { |rec| rec["type"] == 'crops' }
-    companions.each do |com|
-      companion_crop_hash = crops.detect { |c| c.fetch('id') == com.fetch('id') }
-      companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
-      companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
-      companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending") if companion_crop.nil?
-      crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
+    CropCompanion.transaction do
+      companions.each do |com|
+        companion_crop_hash = crops.detect { |c| c.fetch('id') == com.fetch('id') }
+        companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
+        companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
+        companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending") if companion_crop.nil?
+        crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
+      end
     end
   end
 
