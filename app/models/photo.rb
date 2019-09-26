@@ -4,7 +4,7 @@ class Photo < ApplicationRecord
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post).freeze
 
-  has_many :photo_associations, foreign_key: :photo_id, dependent: :destroy, inverse_of: :photo
+  has_many :photo_associations, foreign_key: :photo_id, dependent: :delete_all, inverse_of: :photo
   has_many :crops, through: :photo_associations
 
   # creates a relationship for each assignee type
@@ -24,7 +24,7 @@ class Photo < ApplicationRecord
   # for easier stubbing and testing.
   def flickr_metadata
     flickr = owner.flickr
-    info = flickr.photos.getInfo(photo_id: flickr_photo_id)
+    info = flickr.photos.getInfo(photo_id: source_id)
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
@@ -62,5 +62,9 @@ class Photo < ApplicationRecord
 
   def to_s
     "#{title} by #{owner.login_name}"
+  end
+
+  def flickr_photo_id
+    source_id if source == 'flickr'
   end
 end
