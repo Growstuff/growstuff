@@ -1,19 +1,19 @@
 - if crop.approved? && signed_in?
   %ul.nav.crop-actions
     %li.nav-item.dropdown.btn.btn-sm
-      .nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :role => "button"} Add to garden
+      .nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button"} Add to garden
       .dropdown-menu.dropdown-secondary
         - current_member.gardens.each do |garden|
           = link_to plantings_path(planting: {crop_id: crop.id, garden_id: garden.id}), method: :post, class: 'dropdown-item' do
             = garden.name
     %li.nav-item.dropdown.btn.btn-sm
-      .nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :role => "button"} Record harvest
+      .nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button"} Record harvest
       .dropdown-menu.dropdown-secondary
         - PlantPart.all.each do |plant_part|
           = link_to harvests_path(harvest: {crop_id: crop.id, plant_part_id: plant_part.id}), method: :post, class: 'dropdown-item' do
             = plant_part.name
     %li.nav-item.dropdown.btn.btn-sm
-      .nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :role => "button"}=t('buttons.save_seeds', crop_name: crop.name)
+      .nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button"}=t('buttons.save_seeds', crop_name: crop.name)
       .dropdown-menu.dropdown-secondary
         - Seed::TRADABLE_TO_VALUES.each do |trade|
           = link_to seeds_path(seed: {crop_id: crop.id, tradable_to: trade}), method: :post, class: 'dropdown-item' do
