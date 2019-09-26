@@ -38,126 +38,126 @@
     %p= render 'crops/actions', crop: @crop
   .col-md-3
     = render 'wrangle', crop: @crop
-- if @crop.approved?
-  .row
-    .col-md-9
-      %section.prediction= render 'predictions', crop: @crop
-      - if @crop.companions.any?
-        %section.companions
-          %h2 Companions
-          - @crop.companions.each do |companion|
-            = render 'crops/tiny', crop: companion
 
-      %section.photos= render 'crops/photos', photos: @photos, crop: @crop
+.row
+  .col-md-9
+    %section.prediction= render 'predictions', crop: @crop
+    - if @crop.companions.any?
+      %section.companions
+        %h2 Companions
+        - @crop.companions.each do |companion|
+          = render 'crops/tiny', crop: companion
 
-      - if @crop.plantings.any?
-        .card-deck.text-center
-          .col-md-4
-            %h3.section-heading.h3.pt-4 Sunniness
-            = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-          .col-md-4
-            %h3.section-heading.h3.pt-4 Planted from
-            = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
-          .col-md-4
-            %h3.section-heading.h3.pt-4 Harvested for
-            = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
+    %section.photos= render 'crops/photos', photos: @photos, crop: @crop
 
-      %section.varieties= render 'varieties', crop: @crop
+    - if @crop.plantings.any?
+      .card-deck.text-center
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Sunniness
+          = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Planted from
+          = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Harvested for
+          = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-      %section.crop-map
-        %h2
-          = icon 'fas', 'map'
-          Crop Map
-        %p
-          Only plantings by members who have set their locations are shown on this map.
-          - if current_member && current_member.location.blank?
-            = link_to "Set your location.", edit_member_registration_path
-        #cropmap.map
+    %section.varieties= render 'varieties', crop: @crop
 
-      %section.posts= render 'crops/posts', crop: @crop
+    %section.crop-map
+      %h2
+        = icon 'fas', 'map'
+        Crop Map
+      %p
+        Only plantings by members who have set their locations are shown on this map.
+        - if current_member && current_member.location.blank?
+          = link_to "Set your location.", edit_member_registration_path
+      #cropmap.map
 
-    .col-md-3
-      .card
-        .card-body
-          %h4 How to grow #{@crop.name.pluralize}
-          = render 'grown_for', crop: @crop
-          = render 'planting_advice', crop: @crop
-          - if @crop.parent
-            %hr/
-            %p.parent-crop
-              = @crop.name
-              is a variety of
-              = link_to @crop.parent, @crop.parent
-        .list-group.list-group-flush
-          .list-group-item.list-group-flush.d-flex.justify-content-between.align-items-center
-            = link_to crop_plantings_path(@crop), class: 'card-link' do
-              = planting_icon
-              #{@crop.name.capitalize} plantings
-            %span.badge.badge-primary.badge-pill=@crop.plantings.size
+    %section.posts= render 'crops/posts', crop: @crop
+
+  .col-md-3
+    .card
+      .card-body
+        %h4 How to grow #{@crop.name.pluralize}
+        = render 'grown_for', crop: @crop
+        = render 'planting_advice', crop: @crop
+        - if @crop.parent
+          %hr/
+          %p.parent-crop
+            = @crop.name
+            is a variety of
+            = link_to @crop.parent, @crop.parent
+      .list-group.list-group-flush
+        .list-group-item.list-group-flush.d-flex.justify-content-between.align-items-center
+          = link_to crop_plantings_path(@crop), class: 'card-link' do
+            = planting_icon
+            #{@crop.name.capitalize} plantings
+          %span.badge.badge-primary.badge-pill=@crop.plantings.size
+        .list-group-item.d-flex.justify-content-between.align-items-center
+          = link_to crop_harvests_path(@crop), class: 'card-link' do
+            = harvest_icon
+            #{@crop.name.capitalize} harvests
+          %span.badge.badge-primary.badge-pill=@crop.harvests.size
+
+        .list-group-item.d-flex.justify-content-between.align-items-center
+          = link_to crop_seeds_path(@crop), class: 'card-link' do
+            = seed_icon
+            #{@crop.name.capitalize} seeds
+          %span.badge.badge-primary.badge-pill=@crop.seeds.size
+
+        - if member_signed_in?
           .list-group-item.d-flex.justify-content-between.align-items-center
-            = link_to crop_harvests_path(@crop), class: 'card-link' do
-              = harvest_icon
-              #{@crop.name.capitalize} harvests
-            %span.badge.badge-primary.badge-pill=@crop.harvests.size
+            = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
+              = display_seed_availability(@current_member, @crop)
 
-          .list-group-item.d-flex.justify-content-between.align-items-center
-            = link_to crop_seeds_path(@crop), class: 'card-link' do
-              = seed_icon
-              #{@crop.name.capitalize} seeds
-            %span.badge.badge-primary.badge-pill=@crop.seeds.size
+      .card-body
+        = render 'scientific_names', crop: @crop
+        = render 'alternate_names', crop: @crop
 
-          - if member_signed_in?
-            .list-group-item.d-flex.justify-content-between.align-items-center
-              = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
-                = display_seed_availability(@current_member, @crop)
+    = render 'plantings', crop: @crop
+    = render 'harvests', crop: @crop
+    = render 'find_seeds', crop: @crop
 
-        .card-body
-          = render 'scientific_names', crop: @crop
-          = render 'alternate_names', crop: @crop
+    .card
+      .card-body
+        %h5.card-title Learn more about #{@crop.name.pluralize}
+        %h6.card-subtitle.mb-2.text-muted resources outside #{ENV['GROWSTUFF_SITE_NAME']}
 
-      = render 'plantings', crop: @crop
-      = render 'harvests', crop: @crop
-      = render 'find_seeds', crop: @crop
+      %ul.list-group.list-group-flush
+        %li.list-group-item
+          = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            Wikipedia (English)
 
-      .card
-        .card-body
-          %h5.card-title Learn more about #{@crop.name.pluralize}
-          %h6.card-subtitle.mb-2.text-muted resources outside #{ENV['GROWSTUFF_SITE_NAME']}
-
-        %ul.list-group.list-group-flush
+        %li.list-group-item
+          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
+                    class: 'card-link',
+                    target: "_blank",
+                    rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            OpenFarm - Growing guide
+        %li.list-group-item
+          = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            Gardenate - Planting reminders
+        - if current_member && current_member.location
           %li.list-group-item
-            = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
+            = link_to 'https://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
-              Wikipedia (English)
+              Google
 
-          %li.list-group-item
-            = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
-                      class: 'card-link',
-                      target: "_blank",
-                      rel: "noopener noreferrer" do
-              = icon 'fas', 'external-link-alt'
-              OpenFarm - Growing guide
-          %li.list-group-item
-            = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
-                      target: "_blank",
-                      class: 'card-link',
-                      rel: "noopener noreferrer" do
-              = icon 'fas', 'external-link-alt'
-              Gardenate - Planting reminders
-          - if current_member && current_member.location
-            %li.list-group-item
-              = link_to 'https://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
-                      target: "_blank",
-                      class: 'card-link',
-                      rel: "noopener noreferrer" do
-                = icon 'fas', 'external-link-alt'
-                Google
-
-          %li.list-group-item
-            = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",
-                      target: "_blank",
-                      class: 'card-link',
-                      rel: "noopener noreferrer" do
-              = icon 'fas', 'external-link-alt'
-              Wikihow instructions
+        %li.list-group-item
+          = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            Wikihow instructions
 
