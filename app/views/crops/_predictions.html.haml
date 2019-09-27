@@ -11,6 +11,7 @@
               Perennial
             - elsif crop.perennial == false
               Annual
+          = editable :select, @crop, :perennial, collection: {'Perennial' => true, 'Annual' => false}
 
         %strong
           %i.far.fa-calendar
@@ -20,7 +21,6 @@
         - elsif crop.perennial == false
           %small living and reproducing in a single year or less
 
-        = editable :select, @crop, :perennial, collection: {'Perennial' => true, 'Annual' => false}
 
   - if crop.annual? && crop.median_lifespan.present?
     .card.fact-card
