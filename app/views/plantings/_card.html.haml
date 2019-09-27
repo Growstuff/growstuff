@@ -18,9 +18,10 @@
             .dropdown-divider
             = delete_button(planting, classes: 'dropdown-item text-danger')
 
-  .card-body.text-center
-    %h4.card-title= link_to planting.crop, planting
-    .text-center= render 'plantings/badges', planting: planting
-    = render 'plantings/progress', planting: planting
-  -# .card-footer
-  -#   .float-right=render 'members/tiny', member: planting.owner
+  = link_to planting do
+    .card-body.text-center
+      %h4= planting.crop
+      .text-center= render 'plantings/badges', planting: planting
+      -# .float-right=render 'members/tiny', member: planting.owner
+    .card-footer
+      = render 'plantings/progress', planting: planting

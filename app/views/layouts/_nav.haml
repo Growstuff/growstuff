@@ -1,17 +1,18 @@
-%ul.nav
+%ul.nav.float-right
   - if current_member.present?
     %li.list-group-item.btn
       = link_to url_for([current_member, model]) do
         My #{model.model_name.human.pluralize}
 
-  %li.list-group-item.btn
-    = link_to model do
-      Everyone's #{model.model_name.human.pluralize}
-
-  - if can?(:create, model)
     %li.list-group-item.btn
-      = link_to url_for([model, action: :new]) do
-        Add a #{model.model_name.human}
+      = link_to model do
+        Everyone's #{model.model_name.human.pluralize}
+
+    - if can?(:create, model)
+      %li.list-group-item.btn
+        = link_to url_for([model, action: :new]) do
+          Add a #{model.model_name.human}
 
 - unless current_member
-  = render 'shared/signin_signup', to: "add a new #{model.to_s.downcase}"
+  - content_for(:buttonbar) do
+    = render 'shared/signin_signup', to: "add a new #{model.to_s.downcase}"

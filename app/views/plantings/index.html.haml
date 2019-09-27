@@ -13,30 +13,30 @@
 
 = render 'layouts/nav', model: Planting
 
-
 %section.border-top
-  .btn-group
-    = link_to plantings_active_tickbox_path(@owner, @show_all), class: 'btn' do
-      = check_box_tag 'active', 'all', @show_all
-      include in-active
+  %ul.nav
+    %li.list-group-item.btn
+      = link_to plantings_active_tickbox_path(@owner, @show_all) do
+        = check_box_tag 'active', 'all', @show_all
+        include in-active
 
     - if @owner
-      = link_to t('.view_owners_profile', owner: @owner), member_path(@owner), class: 'btn'
-
+      %li.list-group-item.btn
+        = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
 .row
   .col-12= page_entries_info @plantings
-  .col-12= render 'layouts/pagination', collection: @plantings
+  .col-12= will_paginate @plantings
 
 .index-cards
   - @plantings.each do |planting|
     = render planting, full: true
 
-.row
-  .col-12= page_entries_info @plantings
-  .col-12= render 'layouts/pagination', collection: @plantings
+= will_paginate @plantings
+
+%hr/
 
 %section.open-data
-  %h5= t('label.data')
+  %h3= t('label.data')
   %ul.nav#open-data
     - ['csv', 'json', 'rss'].each do |format|
       %li.list-group-item

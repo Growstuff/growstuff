@@ -1,6 +1,6 @@
 - if planting.annual? && planting.percentage_grown.present?
   .progress
-    .progress-bar.bg-success{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => planting.percentage_grown, :role => "progressbar", :style => "width: #{planting.percentage_grown}%; height: 25px"}
+    .progress-bar.bg-info{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => planting.percentage_grown, :role => "progressbar", :style => "width: #{planting.percentage_grown}%; height: 25px"}
 
   .float-left #{sprintf '%.0f', planting.percentage_grown}%
 

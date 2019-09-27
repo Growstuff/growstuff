@@ -13,11 +13,19 @@
 
 .row{id: "photo-#{@photo.id}"}
   .col-md-9
-    %h1.text-center.ellipsis
-      = photo_icon
-      = @photo.title
-    %p.text-center
-      = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-responsive shadow-sm')
+    %section.photo
+      %h2.text-center.ellipsis
+        = photo_icon
+        = @photo.title
+
+      %p.text-center
+        = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-responsive shadow-sm')
+
+
+    - if @crops.size.positive?
+      .index-cards
+        - @crops.each do |crop|
+          = render 'crops/thumbnail', crop: crop
   .col-md-3
     %p
       = render 'photos/actions', photo: @photo
@@ -26,14 +34,11 @@
           = icon 'fab', 'flickr'
         View on #{@photo.source.titleize}
       %span.btn= render 'photos/likes', photo: @photo
-
-    - if @crops.size.positive?
-      - @crops.each do |crop|
-        = render 'crops/tiny', crop: crop
-    %p
-      = render 'members/tiny', member: @photo.owner
       - if @photo.date_taken.present?
-        Taken on #{I18n.l @photo.date_taken.to_date}
+        %h3 Taken on #{I18n.l @photo.date_taken.to_date}
+
+    = render @photo.owner
+
     %p
       %strong License:
       - if @photo.license_url

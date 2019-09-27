@@ -8,18 +8,14 @@
     -# anchor tag for accessibility link to skip the navigation menu
     %a{ name: 'skipnav' }
     #maincontainer.container-fluid
-      .row
-        .col-12
-          .layout-actions= render 'shared/global_actions'
-          - if content_for?(:breadcrumbs)
-            .float-left
-              %nav{"aria-label" => "breadcrumb"}
-                %ol.breadcrumb
-                  %li.breadcrumb-item= link_to 'Home', root_path
-                  = yield(:breadcrumbs)
-
-          - if content_for?(:buttonbar)
-            = yield(:buttonbar)
+      .layout-actions= render 'shared/global_actions'
+      - if content_for?(:breadcrumbs)
+        %nav
+          %ol.breadcrumb{"aria-label" => "breadcrumb"}
+            %li.breadcrumb-item= link_to 'Home', root_path
+            = yield(:breadcrumbs)
+      - if content_for?(:buttonbar)
+        .well.float-right= yield(:buttonbar)
 
       - if content_for?(:subtitle)
         %small= yield(:subtitle)
