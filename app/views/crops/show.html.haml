@@ -11,20 +11,20 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Crops', crops_path
-  %li.breadcrumb-item.active= link_to @crop.name.titleize, @crop
+  %li.breadcrumb-item.active= link_to @crop.name.capitalize, @crop
 
 = render 'approval_status_message', crop: @crop
 .jumbotron
   .row
     .col-md-9
       %h1
-        %strong= @crop.name.titleize
+        %strong= @crop.name.capitalize
         - unless @crop.approved?
           %badge.badge-warning=@crop.approval_status
         %small.text-muted= @crop.default_scientific_name
       %p.text-muted
         - if !@crop.plantings.empty?
-          #{@crop.name.titleize} has been planted
+          #{@crop.name.capitalize} has been planted
           = pluralize(@crop.plantings.size, "time")
           by #{ENV['GROWSTUFF_SITE_NAME']} members.
         - else
@@ -35,7 +35,7 @@
 
 .row
   .col-md-9
-    %p= render 'crops/actions', crop: @crop
+    = render 'crops/actions', crop: @crop
   .col-md-3
     = render 'wrangle', crop: @crop
 

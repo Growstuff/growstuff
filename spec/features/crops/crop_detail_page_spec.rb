@@ -44,7 +44,7 @@ describe "crop detail page", js: true do
       end
 
       it "has harvest heading with SEO" do
-        expect(page).to have_content "#{crop.name.titleize} harvests"
+        expect(page).to have_content "Magic bean harvests"
       end
 
       it "has planting heading with SEO" do
@@ -62,7 +62,7 @@ describe "crop detail page", js: true do
 
       it "has a link to OpenFarm" do
         expect(page).to have_link "OpenFarm - Growing guide",
-                                  href: "https://openfarm.cc/en/crops/#{CGI.escape crop.name}"
+                                  href: "https://openfarm.cc/en/crops/magic-bean"
       end
 
       it "has a link to gardenate" do
@@ -124,7 +124,7 @@ describe "crop detail page", js: true do
     end
 
     context 'crop is an annual' do
-      let(:crop) { FactoryBot.create(:annual_crop) }
+      let(:crop) { FactoryBot.create(:annual_crop, name: 'magic bean') }
 
       describe 'with no harvests' do
       end
@@ -140,7 +140,7 @@ describe "crop detail page", js: true do
 
       it "describes annual crops" do
         expect(subject).to have_text(
-          "#{crop.name.titleize} is an annual crop (living and reproducing in a single year or less)"
+          "Magic bean is an annual crop (living and reproducing in a single year or less)"
         )
       end
     end
@@ -156,7 +156,7 @@ describe "crop detail page", js: true do
       end
 
       it "describes perennial crops" do
-        expect(subject).to have_text("#{crop.name.titleize} is a perennial crop (living more than two years)")
+        expect(subject).to have_text("Magic bean is a perennial crop (living more than two years)")
       end
     end
 
