@@ -1,7 +1,6 @@
 - content_for :title, @crop.name
 - content_for :opengraph do
-  - @crop.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:image", content: crop_image_path(@crop))
   = tag("meta", property: "og:title", content: @crop.name)
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
@@ -12,64 +11,73 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Crops', crops_path
-  %li.breadcrumb-item.active= link_to @crop, @crop
-
-%h1
-  %strong= @crop.name.titleize
-  %small.text-muted= @crop.default_scientific_name
-%p= render 'crops/actions', crop: @crop
+  %li.breadcrumb-item.active= link_to @crop.name.capitalize, @crop
 
 = render 'approval_status_message', crop: @crop
+.jumbotron
+  .row
+    .col-md-9
+      %h1
+        %strong= @crop.name.capitalize
+        - unless @crop.approved?
+          %badge.badge-warning=@crop.approval_status
+        %small.text-muted= @crop.default_scientific_name
+      %p.text-muted
+        - if !@crop.plantings.empty?
+          #{@crop.name.capitalize} has been planted
+          = pluralize(@crop.plantings.size, "time")
+          by #{ENV['GROWSTUFF_SITE_NAME']} members.
+        - else
+          Nobody is growing this yet. You could be the first!
+    .col-md-3
+      = image_tag crop_image_path(@crop),
+        class: 'img-responsive shadow rounded crop-hero-photo', alt: 'photo of crop'
 
 .row
   .col-md-9
-    %p
-      - if !@crop.plantings.empty?
-        #{@crop.name.titleize} has been planted
-        = pluralize(@crop.plantings.size, "time")
-        by #{ENV['GROWSTUFF_SITE_NAME']} members.
-      - else
-        Nobody is growing this yet. You could be the first!
-      - if @crop.perennial?
-        #{@crop.name.capitalize} is a perennial crop (living more than two years)
-      - elsif @crop.annual?
-        #{@crop.name.capitalize} is an annual crop (living and reproducing in a single year or less)
-    %hr/
-
-    = render 'predictions', crop: @crop
-    %hr/
-    = render 'crops/photos', photos: @photos, crop: @crop
-
-    .card-deck.text-center
-      .col-md-4
-        %h3.section-heading.h3.pt-4 Sunniness
-        = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-      .col-md-4
-        %h3.section-heading.h3.pt-4 Planted from
-        = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
-      .col-md-4
-        %h3.section-heading.h3.pt-4 Harvested for
-        = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
-
-    .varieties= render 'varieties', crop: @crop
-
-    %h3
-      = icon 'fas', 'map'
-      Crop Map
-    %p
-      Only plantings by members who have set their locations are shown on this map.
-      - if current_member && current_member.location.blank?
-        = link_to "Set your location.", edit_member_registration_path
-    #cropmap.map
-
-    = render 'crops/posts', crop: @crop
-
+    = render 'crops/actions', crop: @crop
   .col-md-3
     = render 'wrangle', crop: @crop
+
+.row
+  .col-md-9
+    %section.prediction= render 'predictions', crop: @crop
+    - if @crop.companions.any?
+      %section.companions
+        %h2 Companions
+        - @crop.companions.each do |companion|
+          = render 'crops/tiny', crop: companion
+
+    %section.photos= render 'crops/photos', photos: @photos, crop: @crop
+
+    - if @crop.plantings.any?
+      .card-deck.text-center
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Sunniness
+          = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Planted from
+          = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+        .col-md-4
+          %h3.section-heading.h3.pt-4 Harvested for
+          = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
+
+    %section.varieties= render 'varieties', crop: @crop
+
+    %section.crop-map
+      %h2
+        = icon 'fas', 'map'
+        Crop Map
+      %p
+        Only plantings by members who have set their locations are shown on this map.
+        - if current_member && current_member.location.blank?
+          = link_to "Set your location.", edit_member_registration_path
+      #cropmap.map
+
+    %section.posts= render 'crops/posts', crop: @crop
+
+  .col-md-3
     .card
-      .crop-image
-        = image_tag crop_image_path(@crop, full_size: true),
-          class: 'img-card', alt: 'photo of crop'
       .card-body
         %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop
@@ -123,7 +131,7 @@
             Wikipedia (English)
 
         %li.list-group-item
-          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name}",
+          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
                     class: 'card-link',
                     target: "_blank",
                     rel: "noopener noreferrer" do

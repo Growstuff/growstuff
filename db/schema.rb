@@ -153,6 +153,13 @@ ActiveRecord::Schema.define(version: 2019_09_21_211652) do
     t.datetime "updated_at"
   end
 
+  create_table "crop_companions", force: :cascade do |t|
+    t.integer "crop_a_id", null: false
+    t.integer "crop_b_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "crop_posts", id: false, force: :cascade do |t|
     t.integer "crop_id"
     t.integer "post_id"
