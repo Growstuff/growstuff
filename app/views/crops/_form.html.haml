@@ -94,8 +94,8 @@
 
       -# Now, for crop wranglers, let's have approval/rejection at the bottom of the page
       - if can?(:wrangle, @crop) && @crop.requester
-        %h2 Approve or reject pending crops
-        = f.select(:approval_status, @crop.approval_statuses, {})
+        -# %h2 Approve or reject pending crops
+        -# = f.select(:approval_status, @crop.approval_statuses, {})
         = f.select(:reason_for_rejection, @crop.reasons_for_rejection, include_blank: true)
 
         = f.text_area :rejection_notes, rows: 3
@@ -103,4 +103,9 @@
           Please provide additional notes why this crop request was rejected if the above reasons do not apply.
 
     .card-footer
-      .text-right= f.submit 'Save'
+      .text-right
+        - if @crop.approved?
+          = f.submit 'Save'
+        - else
+          = f.submit 'Reject', class: 'btn btn-danger', name: 'reject'
+          = f.submit 'Approve and save', class: 'btn btn-success', name: 'approve'

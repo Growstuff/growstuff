@@ -1,6 +1,6 @@
-.card.planting
+.card.planting-card.planting
   = link_to planting do
-    = image_tag planting_image_path(planting, full_size: true), class: 'img-card', alt: planting
+    = image_tag planting_image_path(planting), class: 'img-card', alt: planting
   - if can? :edit, planting
     .planting-quick-actions
       .dropdown
@@ -22,3 +22,5 @@
     %h4.card-title= link_to planting.crop, planting
     .text-center= render 'plantings/badges', planting: planting
     = render 'plantings/progress', planting: planting
+  -# .card-footer
+  -#   .float-right=render 'members/tiny', member: planting.owner

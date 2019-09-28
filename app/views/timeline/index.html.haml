@@ -23,10 +23,7 @@
     .pagination= will_paginate @seeds
   .col-md-3
     .card
-      .card-header
+      .card-body
         %h3 Following
-      - @members.each do |member|
-        = link_to member do
-          %p
-            = render 'members/tiny', member: member
-            = member
+        - @members.each do |member|
+          = render 'members/tiny', member: member

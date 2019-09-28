@@ -32,13 +32,11 @@
   = page_entries_info @harvests
   = will_paginate @harvests
 
-  %ul.list-inline
-    %li The data on this page is available in the following formats:
-    - if @owner
-      %li= link_to "RSS", member_harvests_path(@owner, format: 'rss')
-      %li= link_to "CSV", member_harvests_path(@owner, format: 'csv')
-      %li= link_to "JSON", member_harvests_path(@owner, format: 'json')
-    - else
-      %li= link_to "RSS", harvests_path(format: 'rss')
-      %li= link_to "CSV", harvests_path(format: 'csv')
-      %li= link_to "JSON", harvests_path(format: 'json')
+%section.open-data
+  %h5= t('label.data')
+  %ul.nav#open-data
+    - ['csv', 'json', 'rss'].each do |format|
+      %li.list-group-item
+        = link_to (@owner ? member_harvests_path(@owner, format: format) : harvests_path(format: format)) do
+          = icon 'fas', format.to_s
+          = format.upcase

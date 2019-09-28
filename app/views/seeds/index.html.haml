@@ -30,21 +30,12 @@
     = page_entries_info @seeds
     = will_paginate @seeds
 
-  %ul.nav.justify-content-center
-    %li.nav-item
-      The data on this page is available in the following formats:
-    - if @owner
-      %li.nav-item
-        = link_to "CSV", member_seeds_path(@owner, format: 'csv'), class: 'nav-link'
-      %li.nav-item
-        = link_to "JSON", member_seeds_path(@owner, format: 'json'), class: 'nav-link'
-      %li.nav-item
-        = link_to "RSS", member_seeds_path(@owner, format: 'rss'), class: 'nav-link'
-    - else
-      %li.nav-item
-        = link_to "CSV", seeds_path(format: 'csv'), class: 'nav-link'
-      %li.nav-item
-        = link_to "JSON", seeds_path(format: 'json'), class: 'nav-link'
-      %li.nav-item
-        = link_to "RSS", seeds_path(format: 'rss'), class: 'nav-link'
+%section.open-data
+  %h5= t('label.data')
+  %ul.nav#open-data
+    - ['csv', 'json', 'rss'].each do |format|
+      %li.list-group-item
+        = link_to (@owner ? member_seeds_path(@owner, format: format) : seeds_path(format: format)) do
+          = icon 'fas', format.to_s
+          = format.upcase
 

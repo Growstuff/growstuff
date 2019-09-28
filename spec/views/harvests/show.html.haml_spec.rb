@@ -14,7 +14,7 @@ describe "harvests/show" do
 
   describe "renders attributes" do
     it { is_expected.to have_content harvest.crop.name }
-    it { is_expected.to have_content harvest.harvested_at.to_s }
+    it { is_expected.to have_content I18n.l(harvest.harvested_at) }
     it { is_expected.to have_content harvest.plant_part.to_s }
   end
 end

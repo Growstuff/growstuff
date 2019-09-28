@@ -33,12 +33,13 @@
       = image_tag crop_image_path(@crop),
         class: 'img-responsive shadow rounded crop-hero-photo', alt: 'photo of crop'
 
+.jumbotron= render 'crops/info'
+
 .row
   .col-md-9
-    = render 'crops/actions', crop: @crop
+    %p= render 'crops/actions', crop: @crop
   .col-md-3
     = render 'wrangle', crop: @crop
-
 .row
   .col-md-9
     %section.prediction= render 'predictions', crop: @crop

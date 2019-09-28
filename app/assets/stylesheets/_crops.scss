@@ -2,6 +2,41 @@
   height: 1em;
 }
 
+.crop-thumbnail {
+  .text {
+    bottom: 0;
+    color: $white;
+    margin: 0;
+    opacity: .9;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+
+    h3 {
+      background-color: $brown;
+      font-size: 1em;
+    }
+
+    h5.crop-sci-name {
+      background-color: $beige;
+      color: $black;
+      font-size: .7em;
+    }
+
+    a {
+      color: $white;
+    }
+
+    a:hover {
+      color: $black;
+    }
+
+    .img-card {
+      border: 5%;
+    }
+  }
+}
+
 .planting {
   .crop-card {
     height: 100%;

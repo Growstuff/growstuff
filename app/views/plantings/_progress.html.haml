@@ -4,5 +4,5 @@
 
   .float-left #{sprintf '%.0f', planting.percentage_grown}%
 
-- unless planting.finish_predicted_at.blank?
-  .float-right= planting.finish_predicted_at.strftime(Date::DATE_FORMATS[:ymd])
+  - unless planting.finish_predicted_at.blank?
+    .float-right= planting.finish_predicted_at.strftime(Date::DATE_FORMATS[:ymd])

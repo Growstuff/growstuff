@@ -76,6 +76,7 @@ class Ability
       can :manage, Crop
       can :manage, ScientificName
       can :manage, AlternateName
+      can :openfarm, Crop
     end
 
     # any member can create a crop provisionally

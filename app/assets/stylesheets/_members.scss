@@ -21,10 +21,11 @@
   background-color: lighten($green, 30%);
   border-radius: 25px;
   display: inline-block;
-  font-size: 1em;
+  font-size: .8em;
   height: 30px;
   line-height: 30px;
   padding: 0 25px;
+  white-space: nowrap;
 
   a {
     color: $black;
@@ -54,4 +55,10 @@
   background-repeat: no-repeat;
   height: 250px;
   width: 100%;
+}
+
+.badge-location {
+  background-color: darken($blue, 10%);
+  border-radius: 5%;
+  color: $white;
 }

@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(version: 2019_09_21_211652) do
     t.integer "median_lifespan"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
+    t.jsonb "openfarm_data"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
@@ -427,6 +428,8 @@ ActiveRecord::Schema.define(version: 2019_09_21_211652) do
     t.datetime "date_taken"
     t.integer "likes_count", default: 0
     t.string "source"
+    t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
+    t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|

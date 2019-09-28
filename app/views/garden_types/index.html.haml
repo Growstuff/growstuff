@@ -4,10 +4,9 @@
   #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
   View any garden_type page to see which of our members have used it.
 
-.row
+.index-cards
   - @garden_types.each do |garden_type|
-    .col-md-2.six-across
-      = render partial: "thumbnail", locals: { garden_type: garden_type }
+    = render partial: "thumbnail", locals: { garden_type: garden_type }
 
 - if can? :create, GardenType
   %div

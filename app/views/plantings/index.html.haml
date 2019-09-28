@@ -1,17 +1,18 @@
 - content_for :title, title('plantings', @owner, @crop, @planting)
 
-%h1
-  = planting_icon
-  = title('plantings', @owner, @crop, @planting)
-
-= render 'layouts/nav', model: Planting
-
 - content_for :breadcrumbs do
   - if @owner
     %li.breadcrumb-item= link_to 'Plantings', plantings_path
     %li.breadcrumb-item.active= link_to "#{@owner}'s plantings", plantings_path(owner: @owner)
   - else
     %li.breadcrumb-item.active= link_to 'Plantings', plantings_path
+
+%h1
+  = planting_icon
+  = title('plantings', @owner, @crop, @planting)
+
+= render 'layouts/nav', model: Planting
+
 
 %section.border-top
   .btn-group
@@ -26,15 +27,19 @@
   .col-12= page_entries_info @plantings
   .col-12= render 'layouts/pagination', collection: @plantings
 
-.index-cards= render @plantings, full: true
+.index-cards
+  - @plantings.each do |planting|
+    = render planting, full: true
 
 .row
   .col-12= page_entries_info @plantings
   .col-12= render 'layouts/pagination', collection: @plantings
 
-%p= t('.the_data_on_this_page_is_available_in_the_following_formats')
-%ul.list-group.list-group-horizontal
-  - ['csv', 'json', 'rss'].each do |format|
-    %li.list-group-item
-      = icon 'fas', format
-      = link_to format.upcase, (@owner ? member_plantings_path(@owner, format: format) : plantings_path(format: format))
+%section.open-data
+  %h5= t('label.data')
+  %ul.nav#open-data
+    - ['csv', 'json', 'rss'].each do |format|
+      %li.list-group-item
+        = link_to (@owner ? member_plantings_path(@owner, format: format) : plantings_path(format: format)) do
+          = icon 'fas', format.to_s
+          = format.upcase

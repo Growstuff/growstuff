@@ -82,10 +82,7 @@ GEM
       sassc-rails (>= 2.0.0)
     bootstrap-datepicker-rails (1.8.0.1)
       railties (>= 3.0)
-    bootstrap-kaminari-views (0.0.5)
-      kaminari (>= 0.13)
-      rails (>= 3.1)
-    bootstrap_form (4.3.0)
+    bootstrap_form (4.2.0)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
     builder (3.2.3)
@@ -191,6 +188,8 @@ GEM
       i18n (~> 1.6.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.13.1)
+      faraday (>= 0.7.4, < 1.0)
     ffi (1.11.1)
     figaro (1.1.1)
       thor (~> 0.14)
@@ -273,18 +272,6 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jwt (2.2.1)
-    kaminari (1.1.1)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.1.1)
-      kaminari-activerecord (= 1.1.1)
-      kaminari-core (= 1.1.1)
-    kaminari-actionview (1.1.1)
-      actionview
-      kaminari-core (= 1.1.1)
-    kaminari-activerecord (1.1.1)
-      activerecord
-      kaminari-core (= 1.1.1)
-    kaminari-core (1.1.1)
     kgio (2.11.2)
     kramdown (2.1.0)
     launchy (2.4.3)
@@ -550,6 +537,9 @@ GEM
       equalizer (~> 0.0.9)
       parser (~> 2.6.3)
       procto (~> 0.0.2)
+    validate_url (1.0.8)
+      activemodel (>= 3.0.0)
+      public_suffix
     warden (1.2.8)
       rack (>= 2.0.6)
     webdrivers (4.1.2)
@@ -582,7 +572,6 @@ DEPENDENCIES
   bonsai-elasticsearch-rails
   bootstrap (>= 4.3.1)
   bootstrap-datepicker-rails
-  bootstrap-kaminari-views
   bootstrap_form (>= 4.2.0)
   bullet
   bundler (>= 1.1.5)
@@ -604,6 +593,8 @@ DEPENDENCIES
   elasticsearch (< 7.0.0)
   factory_bot_rails
   faker
+  faraday
+  faraday_middleware
   figaro
   flickraw
   font-awesome-sass
@@ -621,7 +612,6 @@ DEPENDENCIES
   jquery-ui-rails
   js-routes
   jsonapi-resources
-  kaminari
   leaflet-rails
   letter_opener
   listen
@@ -662,6 +652,7 @@ DEPENDENCIES
   timecop
   uglifier
   unicorn
+  validate_url
   webdrivers
   webrat
   will_paginate

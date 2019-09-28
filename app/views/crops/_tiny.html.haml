@@ -1,6 +1,7 @@
 - if crop.approved? || can?(:wrangle, Crop)
   .crop-chip
     = link_to crop do
+      = crop_icon(crop)
       = crop.name
     - unless crop.approved?
       %badge.badge-warning= crop.approval_status

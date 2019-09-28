@@ -1,8 +1,8 @@
 %h2 Seeds saved
-
 - if planting.child_seeds.size.positive?
-  - planting.child_seeds.each do |seed|
-    = render 'seeds/thumbnail', seed: seed
+  .index-cards
+    - planting.child_seeds.each do |seed|
+      = render 'seeds/card', seed: seed
 - else
   %p No seeds saved
 

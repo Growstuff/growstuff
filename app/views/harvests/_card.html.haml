@@ -1,17 +1,16 @@
 .card
   = link_to harvest do
-    = image_tag harvest_image_path(harvest, full_size: true), alt: harvest, class: 'img-card'
+    = image_tag harvest_image_path(harvest), alt: harvest, class: 'img-card'
   .card-body
     %h5
-      %strong= link_to "#{harvest.crop} #{harvest.plant_part}", harvest
-    %span.badge.badge-pill.badge-info= link_to harvest.plant_part, harvest.plant_part
-
+      = crop_icon(harvest.crop)
+      %strong
+        = link_to harvest.crop, harvest
+      %span.badge.badge-pill= link_to harvest.plant_part, harvest.plant_part
     - if harvest.planting.present?
       %p.card-text
         %small.text-muted
           Harvested from
           = link_to harvest.planting, harvest.planting
   .card-footer
-    %p
-      .float-left= link_to harvest.owner, harvest.owner
-      .float-right=render 'members/tiny', member: harvest.owner
+    .float-right=render 'members/tiny', member: harvest.owner

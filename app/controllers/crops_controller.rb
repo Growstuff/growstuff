@@ -4,7 +4,7 @@ class CropsController < ApplicationController
   before_action :authenticate_member!, except: %i(index hierarchy search show)
   load_and_authorize_resource
   skip_authorize_resource only: %i(hierarchy search)
-  respond_to :html, :json, :rss, :csv
+  respond_to :html, :json, :rss, :csv, :svg
   responders :flash
 
   def index
@@ -35,8 +35,14 @@ class CropsController < ApplicationController
     respond_with @crops
   end
 
+  def openfarm
+    @crop = Crop.find(params[:crop_slug])
+    @crop.update_openfarm_data!
+    respond_with @crop, location: @crop
+  end
+
   def hierarchy
-    @crops = Crop.toplevel
+    @crops = Crop.toplevel.order(:name)
     respond_with @crops
   end
 
@@ -60,6 +66,7 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.svg { send_data(@crop.svg_icon, type: "image/svg+xml", disposition: "inline") }
       format.json { render json: @crop.to_json(crop_json_fields) }
     end
   end
@@ -95,15 +102,20 @@ class CropsController < ApplicationController
 
   def update
     @crop = Crop.find_by!(slug: params[:slug])
-    previous_status = @crop.approval_status
 
-    @crop.creator = current_member if previous_status == "pending"
+    if can?(:wrangle, @crop)
+      @crop.approval_status = 'rejected' if params.fetch("reject", false)
+      @crop.approval_status = 'approved' if params.fetch("approve", false)
+    end
 
+    @crop.creator = current_member if @crop.approval_status == "pending"
     if @crop.update(crop_params)
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      notifier.deliver_now! if previous_status == "pending"
+      notifier.deliver_now! if @crop.approval_status_changed?(from: "pending", to: "approved")
+    else
+      @crop.approval_status = @crop.approval_status_was
     end
 
     respond_with @crop
@@ -162,18 +174,18 @@ class CropsController < ApplicationController
   end
 
   def crop_params
-    params.require(:crop).permit(:en_wikipedia_url,
+    params.require(:crop).permit(
+      :en_wikipedia_url,
       :name,
       :parent_id,
-      :creator_id,
       :perennial,
-      :approval_status,
       :request_notes,
       :reason_for_rejection,
       :rejection_notes,
       scientific_names_attributes: %i(scientific_name
                                       _destroy
-                                      id))
+                                      id)
+    )
   end
 
   def filename
@@ -198,7 +210,7 @@ class CropsController < ApplicationController
     q = Crop.approved.includes(:scientific_names, plantings: :photos)
     q = q.popular unless @sort == 'alpha'
     q.order(Arel.sql("LOWER(crops.name)"))
-      .includes(:photos).paginate(page: params[:page])
+      .includes(:photos).paginate(page: params[:page], per_page: 30)
   end
 
   def requested_crops
