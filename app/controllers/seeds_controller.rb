@@ -46,7 +46,11 @@ class SeedsController < ApplicationController
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
     flash[:notice] = "Successfully added #{@seed.crop} seed to your stash." if @seed.save
-    respond_with(@seed)
+    if params[:return] == 'planting'
+      respond_with(@seed, location: @seed.parent_planting)
+    else
+      respond_with(@seed)
+    end
   end
 
   def update

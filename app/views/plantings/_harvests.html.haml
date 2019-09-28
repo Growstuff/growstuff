@@ -1,12 +1,13 @@
 %h2 Harvests
 
 - if can? :edit, @planting
-  %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+  %a.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
     = harvest_icon
     Record harvest
+
   .dropdown-menu.dropdown-secondary
     - PlantPart.all.each do |plant_part|
-      = link_to harvests_path(harvest: {crop_id: @planting.crop_id, planting_id: @planting.id, plant_part_id: plant_part.id}), method: :post, class: 'dropdown-item' do
+      = link_to harvests_path(return: 'planting', harvest: {crop_id: @planting.crop_id, planting_id: @planting.id, plant_part_id: plant_part.id}), method: :post, class: 'dropdown-item' do
         = plant_part.name
 
 - if planting.harvests.empty?
@@ -16,4 +17,4 @@
 - else
   .index-cards
     - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
-      = render 'harvests/card', harvest: harvest
+      = render 'harvests/thumbnail', harvest: harvest

@@ -1,4 +1,5 @@
 .index-cards.facts.plantingfacts
+
   - if planting.parent_seed
     .card.fact-card
       %h3 Parent seed
@@ -7,28 +8,21 @@
           = seed_icon
       %span=planting.parent_seed
 
-  - if planting.finished?
-    .card.fact-card
-      %h3 Planted
-      %strong=planting_icon
-      - if planting.quantity.present?
-        %span.plantingfact--quantity= planting.quantity
-
-  .card.fact-card
+  .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
     %h3
       Planted
-      = editable :date, @planting, :planted_at
-    %strong.plantingfact--dayssinceplanted
+      = editable_date @planting, :planted_at, display_field: '.planted_at'
+    %strong.plantingfact--dayssinceplanted.planted_at
       - if planting.planted_at.present?
         #{planting.days_since_planted}
       - else
         unknown
-    %span days ago
+    %span.planted_at days ago
     - if @planting.planted_at.present?
-      %span.plantingfact--planttedat
+      %span.plantingfact--planttedat.planted_at
         = I18n.l @planting.planted_at
 
-  .card.fact-card
+  .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
     %h3
       Quantity
       %small= editable :text_field, @planting, :quantity
@@ -48,14 +42,14 @@
       %span
         Planting is still growing today
 
-  .card.fact-card
+  .card.fact-card{class: planting.planted_from.present? ? '' : 'text-muted'}
     %h3
       Grown from
       = editable :select, @planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES
     %strong.plantingfact--plantedfrom
       = planting.planted_from.present? ? planting.planted_from : 'unknown'
 
-  .card.fact-card
+  .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3
       Grown in
       = editable :select, @planting, :sunniness, collection: Planting::SUNNINESS_VALUES

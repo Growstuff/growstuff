@@ -20,9 +20,10 @@
       %h1.plantingtitle
         %span.plantingtitle--icon= planting_icon
         = @planting.to_s.titleize
-
+    .col-md-4.col-xs-12
       = render 'plantings/actions', planting: @planting
-
+  .row
+    .col-md-8.col-xs-12
       %section= render 'facts', planting: @planting
 
       %hr/
@@ -46,6 +47,10 @@
       = render @planting.crop
   .row
     .col-md-6
-      %section= render 'plantings/harvests', planting: @planting
+      %section.harvests
+        %a{name: 'harvests'}
+        = render 'plantings/harvests', planting: @planting
     .col-md-6
-      %section= render 'plantings/descendants', planting: @planting
+      %section.descendants
+        %a{name: 'seeds'}
+        = render 'plantings/descendants', planting: @planting

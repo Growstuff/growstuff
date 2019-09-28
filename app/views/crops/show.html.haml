@@ -18,10 +18,8 @@
 .jumbotron= render 'crops/info'
 
 .row
-  .col-md-9
-    %p= render 'crops/actions', crop: @crop
-  .col-md-3
-    = render 'wrangle', crop: @crop
+  .col-md-9= render 'crops/actions', crop: @crop
+  .col-md-3= render 'wrangle', crop: @crop
 .row
   .col-md-9
     %section.prediction= render 'predictions', crop: @crop
