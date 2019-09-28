@@ -1,7 +1,10 @@
 $(document).ready(function() {
   $('.editable').click(function() {
-    var modal = $(this.dataset.form);
-    modal.modal('show');
-    // $(this).hide()
+    $(this.dataset.form).modal('show');
+  });
+
+  $('.editable-date').click(function() {
+    $(this.dataset.field).show();
+    $(this.dataset.display).hide();
   });
 });
