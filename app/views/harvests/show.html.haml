@@ -23,19 +23,24 @@
     .index-cards.facts
       - if @harvest.plant_part
         .card
-          %h3 Plant part
+          %h3
+            Plant part
+            = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id)
           %strong= @harvest.plant_part
           %span
-            = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id)
-      - if @harvest.harvested_at.present?
-        .card
-          %h3 Harvested
-          %strong= I18n.l @harvest.harvested_at
       .card
-        %h3 Quantity
-        %strong= display_quantity(@harvest)
-        %span
-        = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id)
+        %h3
+          Harvested
+          = editable_date @harvest, :harvested_at, display_field: '.harvested_at'
+        %strong.harvested_at #{time_ago_in_words @harvest.harvested_at} ago
+        %span.harvested_at= I18n.l @harvest.harvested_at
+
+      .card{class: @harvest.quantity.present? ? '' : 'text-muted'}
+        %h3
+          Quantity
+          -# = editable :text_field, @harvest, :quantity
+        %strong.harvested_at
+          = display_quantity(@harvest)
 
     - if @harvest.photos.size.positive?
       %section
