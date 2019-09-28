@@ -46,7 +46,7 @@ gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
 gem 'leaflet-rails'
-gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
+gem 'rails-assets-leaflet.markercluster'
 
 gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growstuff/growstuff/pull/1539
 gem 'ruby-units'                   # for unit conversion
