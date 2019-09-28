@@ -1,17 +1,20 @@
 - if can?(:edit, crop) || can?(:destroy, crop)
-  .dropdown.crop-actions
-    %a#crop-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", href: '#'}
-      Wrangle
-    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
-      = link_to edit_crop_path(crop), class: 'dropdown-item' do
-        = edit_icon
-        = t('.edit')
+  .alert.alert-success{role: "alert"}
+    %p
+      You are a
+      %strong CROP WRANGLER
+    .dropdown.crop-actions
+      %a#crop-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", href: '#'} Actions
+      .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
+        = link_to edit_crop_path(crop), class: 'dropdown-item' do
+          = edit_icon
+          = t('.edit')
 
-      = link_to crop_openfarm_path(crop), method: :post, class: 'dropdown-item' do
-        = icon 'fas', 'tractor'
-        Fetch data from OpenFarm
+        = link_to crop_openfarm_path(crop), method: :post, class: 'dropdown-item' do
+          = icon 'far', 'update'
+          Fetch data from OpenFarm
 
-      - if can? :destroy, crop
-        .dropdown-divider
-        = delete_button(crop, classes: 'dropdown-item text-danger')
+        - if can? :destroy, crop
+          .dropdown-divider
+          = delete_button(crop, classes: 'dropdown-item text-danger')
 

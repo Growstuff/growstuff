@@ -1,17 +1,17 @@
-%ul.nav.float-right
+%ul.nav
   - if current_member.present?
     %li.list-group-item.btn
       = link_to url_for([current_member, model]) do
         My #{model.model_name.human.pluralize}
 
-    %li.list-group-item.btn
-      = link_to model do
-        Everyone's #{model.model_name.human.pluralize}
+  %li.list-group-item.btn
+    = link_to model do
+      Everyone's #{model.model_name.human.pluralize}
 
-    - if can?(:create, model)
-      %li.list-group-item.btn
-        = link_to url_for([model, action: :new]) do
-          Add a #{model.model_name.human}
+  - if can?(:create, model)
+    %li.list-group-item.btn
+      = link_to url_for([model, action: :new]) do
+        Add a #{model.model_name.human}
 
 - unless current_member
   - content_for(:buttonbar) do

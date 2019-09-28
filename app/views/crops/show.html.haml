@@ -11,15 +11,21 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Crops', crops_path
-  %li.breadcrumb-item.active= link_to @crop.name.titleize, @crop
+  %li.breadcrumb-item.active= link_to @crop.name.capitalize, @crop
 
 = render 'approval_status_message', crop: @crop
+.jumbotron= render 'crops/info'
 
 .jumbotron= render 'crops/info'
 
 .row
   .col-md-9= render 'crops/actions', crop: @crop
   .col-md-3= render 'wrangle', crop: @crop
+.row
+  .col-md-9
+    %p= render 'crops/actions', crop: @crop
+  .col-md-3
+    = render 'wrangle', crop: @crop
 .row
   .col-md-9
     %section.prediction= render 'predictions', crop: @crop

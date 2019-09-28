@@ -32,15 +32,14 @@ class OpenfarmService
   def save_companions(crop, openfarm_record)
     companions = openfarm_record.fetch('data').fetch('relationships').fetch('companions').fetch('data')
     crops = openfarm_record.fetch('included', []).select { |rec| rec["type"] == 'crops' }
-    companions.each do |com|
-      companion_crop_hash = crops.detect { |c| c.fetch('id') == com.fetch('id') }
-      companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
-      companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
-      if companion_crop.nil?
-        companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending")
-        companion_crop.update_openfarm_data!
+    CropCompanion.transaction do
+      companions.each do |com|
+        companion_crop_hash = crops.detect { |c| c.fetch('id') == com.fetch('id') }
+        companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
+        companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
+        companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: "pending") if companion_crop.nil?
+        crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
       end
-      crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
     end
   end
 
@@ -52,16 +51,25 @@ class OpenfarmService
       next unless data.fetch('image_url').start_with? 'http'
       next if Photo.find_by(source_id: picture.fetch('id'), source: 'openfarm')
 
-      photo = Photo.new(source_id: picture.fetch('id'), source: 'openfarm')
-      photo.owner = @cropbot
-      photo.thumbnail_url = data.fetch('thumbnail_url')
-      photo.fullsize_url = data.fetch('image_url')
-      photo.title = 'Open Farm photo'
-      photo.license_name = 'No rights reserved'
-      photo.link_url = "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
-      photo.save!
-      PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
-      Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
+      photo = Photo.new(
+        source_id:     picture.fetch('id'),
+        source:        'openfarm',
+        owner:         @cropbot,
+        thumbnail_url: data.fetch('thumbnail_url'),
+        fullsize_url:  data.fetch('image_url'),
+        title:         'Open Farm photo',
+        license_name:  'No rights reserved',
+        link_url:      "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
+      )
+      if photo.valid?
+        Photo.transaction do
+          photo.save
+          PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
+        end
+        Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
+      else
+        Rails.logger.warn "Photo not valid"
+      end
     end
   end
 
@@ -71,7 +79,6 @@ class OpenfarmService
     Rails.logger.debug "error fetching crop"
     Rails.logger.debug "BODY: "
     Rails.logger.debug body
-    Rails.logger.debug " =================== "
   end
 
   def name_to_slug(name)

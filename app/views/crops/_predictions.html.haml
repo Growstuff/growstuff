@@ -21,7 +21,6 @@
         - elsif crop.perennial == false
           %small living and reproducing in a single year or less
 
-
   - if crop.annual? && crop.median_lifespan.present?
     .card.fact-card
       .card-body.text-center
@@ -29,7 +28,6 @@
         %strong= crop.median_lifespan
         %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
         %span days
-
 
   - if crop.median_days_to_first_harvest.present?
     .card.fact-card

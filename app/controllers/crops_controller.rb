@@ -103,10 +103,9 @@ class CropsController < ApplicationController
   def update
     @crop = Crop.find_by!(slug: params[:slug])
 
-    if params.fetch("reject", false) && can?(:wrangle, @crop)
-      @crop.approval_status = 'rejected'
-    elsif params.fetch("approve", false) && can?(:wrangle, @crop)
-      @crop.approval_status = 'approved'
+    if can?(:wrangle, @crop)
+      @crop.approval_status = 'rejected' if params.fetch("reject", false)
+      @crop.approval_status = 'approved' if params.fetch("approve", false)
     end
 
     @crop.creator = current_member if @crop.approval_status == "pending"

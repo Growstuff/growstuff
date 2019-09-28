@@ -20,7 +20,6 @@
   -if seed.finished_at.present?
     .card
       %h3 Finished at
-      %strong.seedfacts--finishedat= I18n.l(seed.finished_at)
 
   .card{class: seed.days_until_maturity_max.present? ? '' : 'text-muted'}
     %h3 Days until maturity
@@ -34,6 +33,7 @@
     %h3
       Will trade
       = editable :select, seed, :tradable_to, collection: Seed::TRADABLE_TO_VALUES
+      %strong.seedfacts--finishedat= I18n.l(seed.finished_at)
     %strong.seedfacts--tradableto= seed.tradable_to
     %span
       - if seed.owner.location.blank?
