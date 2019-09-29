@@ -58,9 +58,8 @@ section {
   padding: 0 0 1em;
 
   h2 {
-    // border: 1px solid $brown;
-    box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     background-color: $green;
+    box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     color: $white;
     padding: .2em;
 
