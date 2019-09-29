@@ -7,7 +7,7 @@
     bottom: 0;
     color: $white;
     margin: 0;
-    opacity: 0.9;
+    opacity: 0.8;
     position: absolute;
     text-align: center;
     width: 100%;
@@ -15,12 +15,16 @@
     h3 {
       background-color: $brown;
       font-size: 1em;
+      padding-bottom: 0;
+      margin-bottom: 0;
     }
 
     h5.crop-sci-name {
       background-color: $beige;
       color: $black;
       font-size: .7em;
+      padding-top: 0;
+      margin-top: 0;
     }
 
     a {
@@ -33,6 +37,7 @@
 
     .img-card {
       border: 5%;
+      border-radius: 5%;
     }
   }
 }

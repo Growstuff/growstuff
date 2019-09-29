@@ -6,14 +6,14 @@
     .card.fact-card
       .card-body.text-center
         %h3
-          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-            - if crop.perennial == true
+          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'crop-longevity' do
+            - if crop.perennial?
               Perennial
-            - elsif crop.perennial == false
+            - elsif crop.annual?
               Annual
-          = editable :select, @crop, :perennial, collection: {'Perennial' => true, 'Annual' => false}
+          = editable :select, @crop, :perennial, collection: {'Perennial' => true, 'Annual' => false}, display_field: '.crop-longevity'
 
-        %strong
+        %strong.crop-longevity
           %i.far.fa-calendar
 
         - if crop.perennial == true

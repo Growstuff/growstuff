@@ -58,6 +58,8 @@ section {
   padding: 0 0 1em;
 
   h2 {
+    // border: 1px solid $brown;
+    box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     background-color: $green;
     color: $white;
     padding: .2em;
@@ -68,7 +70,12 @@ section {
   }
 
   .btn {
-    border: 1px solid $green;
+    border: 1px solid $brown;
+  }
+
+  .card {
+    // border: 1px solid $brown;
+    box-shadow: 1px 3px 3px 1px darken($beige, 20%);
   }
 }
 

@@ -16,16 +16,9 @@
 = render 'approval_status_message', crop: @crop
 .jumbotron= render 'crops/info'
 
-.jumbotron= render 'crops/info'
-
 .row
   .col-md-9= render 'crops/actions', crop: @crop
   .col-md-3= render 'wrangle', crop: @crop
-.row
-  .col-md-9
-    %p= render 'crops/actions', crop: @crop
-  .col-md-3
-    = render 'wrangle', crop: @crop
 .row
   .col-md-9
     %section.prediction= render 'predictions', crop: @crop
@@ -116,7 +109,6 @@
           = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
             = icon 'fas', 'external-link-alt'
             Wikipedia (English)
-          = editable :text_field, @crop, :en_wikipedia_url
 
         %li.list-group-item
           = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",

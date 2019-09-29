@@ -111,7 +111,7 @@ class Harvest < ApplicationRecord
   end
 
   def unit_to_human
-    return "" unless quantity
+    return "" unless quantity && unit
 
     if unit == 'individual'
       'individual'

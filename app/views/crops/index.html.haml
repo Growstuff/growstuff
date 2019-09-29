@@ -24,14 +24,14 @@
                label: 'Sort by'
   = f.submit "Show"
 
-= render 'layouts/pagination', collection: @crops
+= will_paginate @crops
 
 .crops
   .index-cards
     - @crops.each do |crop|
       = render 'crops/thumbnail', crop: crop
 
-= render 'layouts/pagination', collection: @crops
+= will_paginate @crops
 
 %ul.list-inline
   %li The data on this page is available in the following formats:

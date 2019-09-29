@@ -2,7 +2,7 @@
   = ENV['GROWSTUFF_SITE_NAME']
 
 - if member_signed_in?
-  %h1.display-2= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+  %h1.display-4= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
   %p= render 'stats'
 - else
