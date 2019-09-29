@@ -22,6 +22,4 @@
     .card-body.text-center
       %h4= planting.crop
       .text-center= render 'plantings/badges', planting: planting
-      -# .float-right=render 'members/tiny', member: planting.owner
-    .card-footer
       = render 'plantings/progress', planting: planting
