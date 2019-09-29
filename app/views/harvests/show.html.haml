@@ -13,52 +13,55 @@
   %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
   %li.breadcrumb-item.active= link_to @harvest, @harvest
 
-.row
-  .col-md-8
-    %h1
-      = harvest_icon
-      #{@harvest.crop} harvested by #{@harvest.owner}
-    = render 'harvests/actions', harvest: @harvest
-    = render partial: 'planting'
-    .index-cards.facts
-      - if @harvest.plant_part
+.harvest
+  .row
+    .col-md-8.col-xs-12
+      %h1
+        = harvest_icon
+        #{@harvest.crop} harvested by #{@harvest.owner}
+    .col-md-4.col-xs-12
+      = render 'harvests/actions', harvest: @harvest
+    .col-md-8.col-xs-12
+      = render partial: 'planting'
+      .index-cards.facts
+        - if @harvest.plant_part
+          .card
+            %h3
+              Plant part
+              = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-value'
+            %strong.harvest-value= @harvest.plant_part
         .card
           %h3
-            Plant part
-            = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-value'
-          %strong.harvest-value= @harvest.plant_part
-      .card
-        %h3
-          Harvested
-          = editable :date, @harvest, :harvested_at, display_field: '.harvested_at'
-        %strong.harvested_at #{time_ago_in_words @harvest.harvested_at} ago
-        %span.harvested_at= I18n.l @harvest.harvested_at
+            Harvested
+            = editable :date, @harvest, :harvested_at, display_field: '.harvested_at'
+          %strong.harvested_at #{time_ago_in_words @harvest.harvested_at} ago
+          %span.harvested_at= I18n.l @harvest.harvested_at
 
-      .card{class: @harvest.quantity.present? ? '' : 'text-muted'}
-        %h3
-          Quantity
-          = editable :text_field, @harvest, :quantity, display_field: '.harvested_at'
-        %strong.harvested_at
-          = display_quantity(@harvest)
+        .card{class: @harvest.quantity.present? ? '' : 'text-muted'}
+          %h3
+            Quantity
+            = editable :text_field, @harvest, :quantity, display_field: '.harvested_at'
+          %strong.harvested_at
+            = display_quantity(@harvest)
 
-    - if @harvest.photos.size.positive?
-      %section
-        %h2 Photos
-        = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
-    %section.harvest-detail
-      %h2 Detail
-      - if @harvest.planting.present?
-        Havested from
-        = link_to @harvest.planting, @harvest.planting
+      - if @harvest.photos.size.positive?
+        %section
+          %h2 Photos
+          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
+      %section.harvest-detail
+        %h2 Detail
+        - if @harvest.planting.present?
+          Havested from
+          = link_to @harvest.planting, @harvest.planting
 
-    - if @harvest.description.present?
-      .card
-        .card-header
-          %h2 Notes
-        .card-body
-          :growstuff_markdown
-            #{strip_tags(@harvest.description)}
+      - if @harvest.description.present?
+        .card
+          .card-header
+            %h2 Notes
+          .card-body
+            :growstuff_markdown
+              #{strip_tags(@harvest.description)}
 
-  .col-md-4
-    = render 'harvests/owner', harvest: @harvest
-    = render @harvest.crop
+    .col-md-4.col-xs-12
+      = render 'harvests/owner', harvest: @harvest
+      = render @harvest.crop

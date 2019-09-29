@@ -2,7 +2,7 @@
   .card{class: seed.quantity.present? ? '' : 'text-muted'}
     %h3
       Quantity
-      = editable :text_field, seed, :quantity
+      = editable :text_field, seed, :quantity, display_field: '.seedfacts--quantity'
     %strong.seedfacts--quantity= seed.quantity.blank? ? "not specified" : seed.quantity
     %span
       seeds
@@ -10,7 +10,7 @@
   .card.seedfacts--card{class: seed.plant_before.present? ? '' : 'text-muted'}
     %h3
       Plant before
-      = editable_date seed, :plant_before
+      = editable :date, seed, :plant_before, display_field: '.seedfacts--plantbefore'
     %strong.seedfacts--plantbefore
       - if seed.plant_before.present?
         = I18n.l(seed.plant_before)
@@ -24,16 +24,13 @@
   .card{class: seed.days_until_maturity_max.present? ? '' : 'text-muted'}
     %h3 Days until maturity
     %strong.seedfacts--maturity
-      = editable :text_field, seed, :days_until_maturity_min
       = render partial: 'days_until_maturity', locals: { seed: seed }
-      = editable :text_field, seed, :days_until_maturity_max
     %span days
 
   .card
     %h3
       Will trade
-      = editable :select, seed, :tradable_to, collection: Seed::TRADABLE_TO_VALUES
-      %strong.seedfacts--finishedat= I18n.l(seed.finished_at)
+      = editable :select, seed, :tradable_to, collection: Seed::TRADABLE_TO_VALUES, display_field: '.seedfacts--tradableto'
     %strong.seedfacts--tradableto= seed.tradable_to
     %span
       - if seed.owner.location.blank?
