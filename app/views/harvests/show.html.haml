@@ -28,8 +28,8 @@
           .card
             %h3
               Plant part
-              = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-value'
-            %strong.harvest-value= @harvest.plant_part
+              = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-plantpart'
+            %strong.harvest-plantpart= @harvest.plant_part
         .card
           %h3
             Harvested
@@ -40,8 +40,8 @@
         .card{class: @harvest.quantity.present? ? '' : 'text-muted'}
           %h3
             Quantity
-            = editable :text_field, @harvest, :quantity, display_field: '.harvested_at'
-          %strong.harvested_at
+            = editable :text_field, @harvest, :quantity, display_field: '.quantity'
+          %strong.quantity
             = display_quantity(@harvest)
 
       - if @harvest.photos.size.positive?
