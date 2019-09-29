@@ -11,18 +11,18 @@
   = planting_icon
   = title('plantings', @owner, @crop, @planting)
 
-= render 'layouts/nav', model: Planting
+.row
+  .col
+    %ul.nav
+      %li.list-group-item
+        = link_to plantings_active_tickbox_path(@owner, @show_all) do
+          = check_box_tag 'active', 'all', @show_all
+          include finished
+      - if @owner
+        %li.list-group-item.btn
+          = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
+  .col= render 'layouts/nav', model: Planting
 
-%section.border-top
-  %ul.nav
-    %li.list-group-item.btn
-      = link_to plantings_active_tickbox_path(@owner, @show_all) do
-        = check_box_tag 'active', 'all', @show_all
-        include in-active
-
-    - if @owner
-      %li.list-group-item.btn
-        = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
 .row
   .col-12= page_entries_info @plantings
   .col-12= will_paginate @plantings

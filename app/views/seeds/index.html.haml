@@ -10,7 +10,18 @@
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track your seed
   stash or trade seeds with other members.
 
-= render 'layouts/nav', model: Seed
+.row
+  .col
+    %ul.nav
+      %li.list-group-item
+        = link_to seeds_active_tickbox_path(@owner, @show_all) do
+          = check_box_tag 'active', 'all', @show_all
+          include finished
+      - if @owner
+        %li.list-group-item.btn
+          = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
+  .col= render 'layouts/nav', model: Seed
+
 
 - content_for :breadcrumbs do
   - if @owner

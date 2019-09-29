@@ -1,4 +1,4 @@
-.card.seed-card
+.card.seed-card{class: seed.active? ? '' : 'card-finished'}
   = link_to seed do
     = image_tag(seed_image_path(seed), alt: seed, class: 'img-card')
   .card-body

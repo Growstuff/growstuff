@@ -13,6 +13,6 @@
       = link_to url_for([model, action: :new]) do
         Add a #{model.model_name.human}
 
-- unless current_member
-  - content_for(:buttonbar) do
-    = render 'shared/signin_signup', to: "add a new #{model.to_s.downcase}"
+  - else
+    - content_for(:buttonbar) do
+      %li.list-group-item.btn= render 'shared/signin_signup', to: "add a new #{model.to_s.downcase}"
