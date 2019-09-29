@@ -1,6 +1,5 @@
 GEM
   remote: https://rubygems.org/
-  remote: https://rails-assets.org/
   specs:
     abstract_type (0.0.7)
     actioncable (5.2.2.1)
@@ -632,7 +631,7 @@ DEPENDENCIES
   puma
   rack-protection (>= 2.0.1)
   rails (= 5.2.2.1)
-  rails-assets-leaflet.markercluster!
+  rails-assets-leaflet.markercluster
   rails-controller-testing
   rails_12factor
   rake (>= 10.0.0)
