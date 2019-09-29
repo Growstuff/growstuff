@@ -16,4 +16,8 @@ module SeedsHelper
 
     ''
   end
+
+  def seeds_active_tickbox_path(owner, show_all)
+    show_inactive_tickbox_path('seeds', owner, show_all)
+  end
 end
