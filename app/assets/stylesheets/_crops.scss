@@ -47,7 +47,6 @@
     height: 100%;
     margin: .1em;
     min-height: 300px;
-    width: 100px;
   }
 
   .img-thumbnail {
@@ -100,4 +99,13 @@
 
 .crop-hero-photo {
   max-height: 300px;
+}
+
+@include media-breakpoint-down(xs) {
+  .index-cards {
+    .crop-thumbnail {
+      margin: .2em;
+      width: 30%;
+    }
+  }
 }
