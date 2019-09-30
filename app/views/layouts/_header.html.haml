@@ -1,16 +1,22 @@
 %nav.navbar.navbar-expand-lg.navbar-dark.default-color.bg-dark
+  .container
+    .row
+      .col-2.col-lg-5
+        .d-none.d-lg-inline
+          %a.navbar-brand{ href: root_path }
+            = image_tag("growstuff-brand.png", size: "200x50", alt: ENV['GROWSTUFF_SITE_NAME'])
+        .d-inline.d-lg-none
+          %a.navbar-brand{ href: root_path }
+            = image_tag("growstuff-apple-touch-icon-precomposed.png", size: "40x40",
+              alt: ENV['GROWSTUFF_SITE_NAME'])
+      .col-8.col-lg-6
+        = render 'crops/search_bar'
+    %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", type: "button"}
+      %i.fas.fa-ellipsis-v.navbar-toggler-icon
+
   .d-none.d-lg-inline
-    %a.navbar-brand{ href: root_path }
-      = image_tag("growstuff-brand.png", size: "200x50", alt: ENV['GROWSTUFF_SITE_NAME'])
-  .d-inline.d-lg-none
-    %a.navbar-brand{ href: root_path }
-      = image_tag("growstuff-apple-touch-icon-precomposed.png", size: "40x40",
-        alt: ENV['GROWSTUFF_SITE_NAME'])
-  = render 'crops/search_bar'
-  = button_to timeline_index_path, method: :get, class: 'nav-link' do
-    %i.fas.fa-bell
-  %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", type: "button"}
-    %i.fas.fa-ellipsis-v.navbar-toggler-icon
+    = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
+      %i.fas.fa-bell
 
   #navbarSupportedContent.collapse.navbar-collapse
     %ul.navbar-nav.mr-auto
