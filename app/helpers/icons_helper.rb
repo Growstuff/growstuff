@@ -16,7 +16,7 @@ module IconsHelper
   end
 
   def garden_icon
-    image_icon 'pot-trough'
+    image_icon 'gardens'
   end
 
   def planting_icon
