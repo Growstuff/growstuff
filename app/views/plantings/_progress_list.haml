@@ -1,0 +1,17 @@
+- plantings.annual.each do |planting|
+  = link_to planting do
+    .row.border-top
+      .col= render 'plantings/quick_actions', planting: planting
+      .col.text-right
+        = render 'plantings/tiny', planting: planting
+      .col-8
+        - if planting.crop.perennial?
+          = perennial_icon
+          %small perennial
+        - elsif planting.percentage_grown.blank?
+          %small not enough data on #{planting.crop} to predict
+        - else
+          = render 'plantings/progress', planting: planting
+      .col
+        - if planting.finish_is_predicatable?
+          = t('label.days_until_finished', number: days_from_now_to_finished(planting))

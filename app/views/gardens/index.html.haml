@@ -26,14 +26,28 @@
   = page_entries_info @gardens
   = will_paginate @gardens
   - @gardens.each do |garden|
-    %section
+    = cute_icon
+    %section.card
       %h2
         = link_to garden.name, garden
-      = render 'gardens/actions', garden: garden
-      - if garden.plantings.any?
-        .index-cards
-          - garden.plantings.active.each do |planting|
-            = render planting, full: true
+      - unless @owner.present?
+        %p
+          owner:
+          = render 'members/tiny', member: garden.owner
+      .row
+        .col= render 'gardens/actions', garden: garden
+        .col
+          - if garden.plantings.any?
+            - if garden.plantings.active.perennial.any?
+              %strong Perennials:
+              - garden.plantings.active.perennial.each do |planting|
+                = link_to planting do
+                  = crop_icon planting.crop
+                  = planting.crop
+
+      - if garden.plantings.active.annual.any?
+        %h3 Annuals
+        = render 'plantings/progress_list', plantings: garden.plantings.active.annual
       - else
         No plantings
 
