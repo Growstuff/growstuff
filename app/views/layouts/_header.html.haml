@@ -14,19 +14,18 @@
     %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", type: "button"}
       %i.fas.fa-ellipsis-v.navbar-toggler-icon
 
-  .d-none.d-lg-inline
-    = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
-      %i.fas.fa-bell
-
   #navbarSupportedContent.collapse.navbar-collapse
     %ul.navbar-nav.mr-auto
       - if signed_in?
+        = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
+          = image_tag 'icons/notification.svg', class: 'img img-icon'
+        = link_to member_gardens_path(member_slug: current_member.slug), class: 'nav-link text-white' do
+          = image_tag 'icons/gardens.svg', class: 'img img-icon'
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.actions')
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+            = image_tag "icons/gardener.svg", class: 'img img-icon'
+            = t('.actions')
           .dropdown-menu
-            = link_to member_gardens_path(member_slug: current_member.slug), class: 'dropdown-item' do
-              = garden_icon
-              = t('buttons.my_gardens')
             = link_to timeline_index_path, class: 'dropdown-item' do
               = timeline_icon
               = t('buttons.timeline')
@@ -59,11 +58,11 @@
           = link_to t('.posts'), posts_path, class: 'dropdown-item'
           = link_to t('.forums'), forums_path, class: 'dropdown-item'
 
-
       - if member_signed_in?
         %li.nav-item.dropdown
           %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
             - if current_member.unread_count.positive?
+              = image_tag(avatar_uri(current_member, 25), alt: current_member)
               = t('.your_stuff')
               %span.badge.badge-info= current_member.unread_count
             - else
