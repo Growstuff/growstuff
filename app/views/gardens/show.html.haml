@@ -10,11 +10,6 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- content_for :scripts do
-  = javascript_include_tag "charts"
-  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
-
-
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Gardens', gardens_path
   %li.breadcrumb-item.active= link_to @garden.name, gardens_path(@garden)
