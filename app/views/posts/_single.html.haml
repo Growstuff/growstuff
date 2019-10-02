@@ -17,32 +17,3 @@
 
 :growstuff_markdown
   #{ strip_tags @post.body }
-
--# .card
--#   .post{ id: "post-#{post.id}" }
--#     .row
--#       .col-md-1
--#         = render partial: "members/avatar", locals: { member: post.author }
--#       .col-md-11
--#         - if defined?(subject)
--#           %h3= link_to strip_tags(post.subject), post
-
--#         .post-meta
--#           %p
--#             Posted by
--#             - if post.author
--#               = link_to post.author.login_name, member_path(post.author)
--#             - else
--#               Member Deleted
--#             - if post.forum
--#               in
--#               = link_to post.forum, post.forum
--#             on
--#             = post.created_at
--#             - if post.updated_at > post.created_at
--#               and edited at
--#               = post.updated_at
-
--#         .post-body
--#           :growstuff_markdown
--#             #{ strip_tags post.body }
