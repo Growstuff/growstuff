@@ -11,8 +11,6 @@
               Perennial
             - elsif crop.annual?
               Annual
-          = editable :select, @crop, :perennial, collection: {'Perennial' => true, 'Annual' => false}, display_field: '.crop-longevity'
-
         %strong.crop-longevity
           %i.far.fa-calendar
 
@@ -20,6 +18,11 @@
           %small living more than two years
         - elsif crop.perennial == false
           %small living and reproducing in a single year or less
+        - if can? :wrangle, @crop
+          %small.edit-link
+            = bootstrap_form_for(@crop) do |f|
+              = f.hidden_field :perennial, value: crop.annual?
+              = f.submit :toggle
 
   - if crop.annual? && crop.median_lifespan.present?
     .card.fact-card
