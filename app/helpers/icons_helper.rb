@@ -6,9 +6,10 @@ module IconsHelper
   end
 
   def cute_icon
-    icons = ['slug', 'sprinkler', 'bee', 'ant', 'hose', 'grass', 'rabbit', 'slug-eating', 'snail']
-    icon = icons[rand(1..icons.size) -1]
-    image_tag "icons/#{icon}.svg", class: 'img img-cute'
+    icons = %w(slug sprinkler bee ant hose grass rabbit slug-eating snail)
+    rand_num = rand(1..icons.size)
+    icon = icons[rand_num - 1]
+    image_tag("icons/#{icon}.svg", class: 'img img-cute')
   end
 
   def timeline_icon
