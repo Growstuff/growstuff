@@ -96,6 +96,10 @@ class Crop < ApplicationRecord
       .count("harvests.id")
   end
 
+  def perennial?
+    perennial == true
+  end
+
   def annual?
     perennial == false
   end
