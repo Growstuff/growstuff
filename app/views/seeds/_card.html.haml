@@ -1,12 +1,12 @@
 .card.seed-card{class: seed.active? ? '' : 'card-finished'}
   = link_to seed do
     = image_tag(seed_image_path(seed), alt: seed, class: 'img-card')
+  .text
+    = render 'members/tiny', member: seed.owner
   .card-body
     .card-title
       = crop_icon(seed.crop)
       = link_to seed.crop, seed
-  .card-footer
-    = render 'members/tiny', member: seed.owner
     - if seed.tradable?
       .text-muted
         = icon 'fas', 'map'
