@@ -21,7 +21,9 @@
   .col-md-3= render 'wrangle', crop: @crop
 .row
   .col-md-9
-    %section.prediction= render 'predictions', crop: @crop
+    %section.prediction
+      = cute_icon
+      = render 'predictions', crop: @crop
     - if @crop.companions.any?
       %section.companions
         %h2 Companions
@@ -31,18 +33,20 @@
     %section.photos= render 'crops/photos', photos: @photos, crop: @crop
 
     - if @crop.plantings.any?
-      .row
-        .col-3
-          %h2.section-heading.h3.pt-4 Sunniness
-          = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-        .col-3
-          %h2.section-heading.h3.pt-4 Planted from
-          = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
-        .col-3
-          %h2.section-heading.h3.pt-4 Harvested for
-          = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
+      %section.charts
+        .row
+          .col-lg-4.col-12
+            %h2 Sunniness
+            = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+          .col-lg-4.col-12
+            %h2 Planted from
+            = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+          .col-lg-4.col-12
+            %h2 Harvested for
+            = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-    %section.varieties= render 'varieties', crop: @crop
+    %section.varieties
+      = render 'varieties', crop: @crop
 
     %section.crop-map
       %h2
@@ -57,6 +61,7 @@
     %section.posts= render 'crops/posts', crop: @crop
 
   .col-md-3
+    = cute_icon
     .card
       .card-body
         %h4 How to grow #{@crop.name.pluralize}
@@ -99,6 +104,7 @@
     = render 'harvests', crop: @crop
     = render 'find_seeds', crop: @crop
 
+    = cute_icon
     .card
       .card-body
         %h5.card-title Learn more about #{@crop.name.pluralize}

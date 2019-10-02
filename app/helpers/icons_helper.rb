@@ -5,12 +5,18 @@ module IconsHelper
     send("#{event_model}_icon")
   end
 
+  def cute_icon
+    icons = ['slug', 'sprinkler', 'bee', 'ant', 'hose', 'grass', 'rabbit', 'slug-eating', 'snail']
+    icon = icons[rand(1..icons.size) -1]
+    image_tag "icons/#{icon}.svg", class: 'img img-cute'
+  end
+
   def timeline_icon
-    icon('far', 'calendar')
+    image_icon 'timeline'
   end
 
   def garden_icon
-    image_icon 'home'
+    image_icon 'pot-trough'
   end
 
   def planting_icon
