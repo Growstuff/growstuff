@@ -41,19 +41,23 @@ module IconsHelper
   end
 
   def finished_icon
-    icon('fas', 'calendar')
+    image_icon 'finish'
   end
 
   def edit_icon
-    icon('fas', 'pencil-alt')
+    image_icon 'edit'
   end
 
   def delete_icon
-    icon('fas', 'trash-alt')
+    image_icon 'delete'
+  end
+
+  def add_photo_icon
+    image_icon 'add-photo'
   end
 
   def photo_icon
-    icon('fas', 'camera-retro')
+    image_icon 'photo'
   end
 
   def seedling_icon

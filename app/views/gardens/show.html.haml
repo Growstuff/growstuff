@@ -20,10 +20,11 @@
   %li.breadcrumb-item.active= link_to @garden.name, gardens_path(@garden)
 
 .row
-  .col-md-9.col-sm-12
+  .col-md-9.col-12
     %h2.h1
       %strong= @garden
-      = render 'gardens/actions', garden: @garden
+  .col-md-3.col-12
+    = render 'gardens/actions', garden: @garden
 .row
   .col-md-9
     - unless @garden.active
@@ -50,8 +51,9 @@
       .row
         .col-md-12
           %section
-            %h2 Garden timeline
-            = timeline garden_timeline_path(@garden), adapter: "google"
+            %h2 Garden progress
+            /= timeline garden_timeline_path(@garden), adapter: "google"
+            = render 'plantings/progress_list', plantings: @garden.plantings.active
 
     %section
       %h2 Current plantings in garden
