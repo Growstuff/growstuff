@@ -61,6 +61,7 @@ class PlantingsController < ApplicationController
 
   def create
     @planting = Planting.new(planting_params)
+    @planting.planted_at = Time.zone.now if @planting.planted_at.blank?
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
     @planting.save
