@@ -1,6 +1,6 @@
 - if can? :edit, model
   %small.edit-link
-    %a.editable{"data-form" => "#form--#{model.id}-#{field.to_s}", "data-display": display_field, href: "#form--#{model.id}-#{field.to_s}", name: "#form--#{model.id}-#{field.to_s}"}
+    %a.editable{"data-form" => "#form--#{model.id}-#{field.to_s}", "data-display": display_field, href: "#", name: "#form--#{model.id}-#{field.to_s}"}
       = edit_icon
 
   .hide{id: "form--#{model.id}-#{field.to_s}"}
