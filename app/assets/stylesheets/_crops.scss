@@ -75,26 +75,7 @@
 }
 
 .crop-chip {
-  background-color: lighten($green, 20%);
-  border-radius: 25px;
-  display: inline-block;
-  font-size: 1em;
-  height: 30px;
-  line-height: 30px;
-  margin: .2em;
-  padding: 0 25px;
-
-  a {
-    color: $white;
-  }
-
-  img {
-    border-radius: 50%;
-    float: left;
-    height: 30px;
-    margin: 0 10px 0 -25px;
-    width: 30px;
-  }
+  background-color: lighten($brown, 20%);
 }
 
 .crop-hero-photo {

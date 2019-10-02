@@ -19,24 +19,8 @@
 
 .member-chip {
   background-color: lighten($green, 30%);
-  border-radius: 25px;
-  display: inline-block;
-  font-size: .8em;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 25px;
-  white-space: nowrap;
-
   a {
     color: $black;
-  }
-
-  img {
-    border-radius: 50%;
-    float: left;
-    height: 30px;
-    margin: 0 10px 0 -25px;
-    width: 30px;
   }
 }
 

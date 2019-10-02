@@ -5,7 +5,8 @@ body {
 
 body {
   background-color: $beige;
-  font-family: $font-family-sans-serif;
+  // font-family: $font-family-sans-serif;
+  font-family: $default-font;
 }
 
 .ellipsis {
@@ -155,6 +156,9 @@ section {
   }
 }
 
+img.img-cute {
+}
+
 img.img-icon {
   width: 1.2em;
 }
@@ -170,16 +174,8 @@ img.avatar {
   z-index: 2;
 }
 
-.progress {
-  border-radius: 0;
-  height: 2em;
-  .progress-bar {
-    height: 2em;
-    background-color: $progress-bar-color
-  }
-  .progress-bar-text {
-    text-align: center;
-  }
+.progress-bar {
+    border-bottom: 1em solid $progress-bar-color;
 }
 
 ul.associations {
@@ -322,6 +318,29 @@ ul.thumbnail-buttons {
 
 .breadcrumb {
   background-color: $beige;
+}
+
+.chip {
+  background-color: lighten($brown, 20%);
+  border-radius: 25px;
+  display: inline-block;
+  color: $white;
+  height: 30px;
+  line-height: 30px;
+  margin: .2em;
+  padding: 0 25px;
+
+  a {
+    color: $white;
+  }
+
+  img {
+    border-radius: 50%;
+    float: left;
+    height: 30px;
+    margin: 0 10px 0 -25px;
+    width: 30px;
+  }
 }
 
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
