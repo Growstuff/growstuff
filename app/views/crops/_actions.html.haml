@@ -3,7 +3,7 @@
     %li.nav-item.dropdown.btn.btn-sm
       .nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button"} Add to garden
       .dropdown-menu.dropdown-secondary
-        - current_member.gardens.each do |garden|
+        - current_member.gardens.active.each do |garden|
           = link_to plantings_path(planting: {crop_id: crop.id, garden_id: garden.id}), method: :post, class: 'dropdown-item' do
             = garden.name
     %li.nav-item.dropdown.btn.btn-sm
