@@ -10,21 +10,21 @@
   .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
     %h3
       Planted
-      = editable :date, @planting, :planted_at, display_field: '.planted_at'
+      = editable :date, planting, :planted_at, display_field: '.planted_at'
     %strong.plantingfact--dayssinceplanted.planted_at
       - if planting.planted_at.present?
         #{planting.days_since_planted}
       - else
         unknown
     %span.planted_at days ago
-    - if @planting.planted_at.present?
+    - if planting.planted_at.present?
       %span.plantingfact--planttedat.planted_at
-        = I18n.l @planting.planted_at
+        = I18n.l planting.planted_at
 
   .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
     %h3
       Quantity
-      %small= editable :text_field, @planting, :quantity, display_field: '.plantingfact--quantity'
+      %small= editable :text_field, planting, :quantity, display_field: '.plantingfact--quantity'
     %strong.plantingfact--quantity
       - if planting.quantity.to_i.positive?
         = planting.quantity
@@ -44,14 +44,14 @@
   .card.fact-card{class: planting.planted_from.present? ? '' : 'text-muted'}
     %h3
       Grown from
-      = editable :select, @planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES, display_field: '.plantingfact--plantedfrom'
+      = editable :select, planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES, display_field: '.plantingfact--plantedfrom'
     %strong.plantingfact--plantedfrom
       = planting.planted_from.present? ? planting.planted_from : 'unknown'
 
   .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3
       Grown in
-      = editable :select, @planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.plantingfact--sunniness'
+      = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.plantingfact--sunniness'
     %strong= sunniness_icon(planting.sunniness)
     %span.plantingfact--sunniness
       = planting.sunniness.blank? ? "not specified" : planting.sunniness
