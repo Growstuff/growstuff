@@ -15,6 +15,7 @@
       %h2= t('home.crops.our_crops')
       = render 'crops'
       = link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
+      = cute_icon
     %section.recent-crops
       - cache cache_key_for(Crop, 'recent') do
         %h2= t('.recently_added')
@@ -25,13 +26,16 @@
     %section.plantings
       =render 'plantings'
       %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
+      = cute_icon
   .col-xl-2.col
     %section.harvests
       = render 'harvests'
       %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
+      = cute_icon
   .col-12.col-md-6
     %section.seeds
       = render 'seeds'
+      = cute_icon
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
   .col-12.col-md-6
     %section.discussion= render 'discuss'
