@@ -1,16 +1,14 @@
 - if can?(:edit, planting)
-  .planting-quick-actions.text-right
-    %a.btn#actionsMenu.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#"}
-      -# =icon('fas', 'ellipsis-v')
-    %ul.dropdown-menu.dropdown-menu-left{"aria-labelledby" => "actionsMenu"}
-      %li.btn-xs
-        = link_to t('view'), planting, class: 'btn'
-      %li.btn-xs= planting_edit_button(planting)
-      %li.btn-xs= add_photo_button(planting)
+  %a#actionsMenu.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#"}
+    /=icon('fas', 'ellipsis-v')
+  %ul.dropdown-menu.dropdown-menu-left{"aria-labelledby" => "actionsMenu"}
+    %li= link_to t('view'), planting, class: 'dropdown-item'
+    %li= planting_edit_button(planting, classes: 'dropdown-item')
+    %li= add_photo_button(planting, classes: 'dropdown-item')
 
-      - if planting.active?
-        %li.btn-xs= planting_finish_button(planting)
-        %li.btn-xs= planting_harvest_button(planting)
-        %li.btn-xs= planting_save_seeds_button(planting)
+    - if planting.active?
+      %li= planting_finish_button(planting, classes: 'dropdown-item')
+      %li= planting_harvest_button(planting, classes: 'dropdown-item')
+      %li= planting_save_seeds_button(planting, classes: 'dropdown-item')
 
 
