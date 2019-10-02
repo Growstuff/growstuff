@@ -67,7 +67,7 @@
       .index-cards
         - if @finished_plantings.size.positive?
           - @finished_plantings.each do |planting|
-            = render "plantings/thumbnail",  planting: planting
+            = render "plantings/tiny",  planting: planting
         - else
           %p Nothing has been planted here.
   .col-md-3
