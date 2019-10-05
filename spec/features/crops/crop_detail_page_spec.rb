@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe "crop detail page", js: true do
+  before do
+    FactoryBot.create :plant_part, name: 'leaf'
+  end
   subject do
     # Update the medians after all the
     # data has been loaded
@@ -26,13 +29,16 @@ describe "crop detail page", js: true do
       before { subject }
 
       it "has a link to plant the crop" do
-        expect(page).to have_link "Plant #{crop.name}", href: new_planting_path(crop_id: crop.id)
+        click_link 'Add to garden'
+        expect(page).to have_link "add new garden"
       end
       it "has a link to harvest the crop" do
-        expect(page).to have_link "Harvest #{crop.name}", href: new_harvest_path(crop_id: crop.id)
+        click_link 'Record harvest'
+        expect(page).to have_link "leaf"
       end
       it "has a link to add seeds" do
-        expect(page).to have_link "Add #{crop.name} seeds to stash", href: new_seed_path(crop_id: crop.id)
+        click_link 'Save seeds'
+        expect(page).to have_link "Will trade: nowhere"
       end
     end
 

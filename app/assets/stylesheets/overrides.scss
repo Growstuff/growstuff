@@ -5,7 +5,7 @@ body {
 
 body {
   background-color: $beige;
-  font-family: $font-family-sans-serif;
+  font-family: $default-font;
 }
 
 .ellipsis {
@@ -29,7 +29,7 @@ a:hover {
 }
 
 h1 {
-  font-size: 180%;
+  font-size: 250%;
 }
 
 h2 {
@@ -59,6 +59,7 @@ section {
 
   h2 {
     background-color: $green;
+    box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     color: $white;
     padding: .2em;
 
@@ -68,7 +69,11 @@ section {
   }
 
   .btn {
-    border: 1px solid $green;
+    border: 1px solid $brown;
+  }
+
+  .card {
+    box-shadow: 1px 3px 3px 1px darken($beige, 20%);
   }
 }
 
@@ -84,7 +89,6 @@ section {
 
   .card {
     background: $white;
-    // border: 1px solid lighten($brown, 20%);
     border-radius: 5%;
     margin: .5em .5em .5em 0;
     width: 200px;
@@ -92,6 +96,12 @@ section {
     .img-card {
       border-top-left-radius: 5%;
       border-top-right-radius: 5%;
+    }
+  }
+  .card-finished {
+    background: darken($beige, 10%);
+    a {
+      color: $brown;
     }
   }
 
@@ -104,7 +114,7 @@ section {
   margin-bottom: 1em;
 
   .img-card {
-    height: 180px;
+    height: 200px;
     object-fit: cover;
     width: 100%;
   }
@@ -143,6 +153,17 @@ section {
   }
 }
 
+img.img-cute {
+  bottom: -6px;
+  left: 45px;
+  position: relative;
+  width: 3em;
+}
+
+img.img-tiny {
+  width: 50px;
+}
+
 img.img-icon {
   width: 1.2em;
 }
@@ -158,16 +179,8 @@ img.avatar {
   z-index: 2;
 }
 
-.progress {
-  border-radius: 0;
-  height: 2em;
-  .progress-bar {
-    height: 2em;
-    background-color: $progress-bar-color
-  }
-  .progress-bar-text {
-    text-align: center;
-  }
+.progress-bar {
+  border-bottom: 1em solid $progress-bar-color;
 }
 
 ul.associations {
@@ -312,6 +325,29 @@ ul.thumbnail-buttons {
   background-color: $beige;
 }
 
+.chip {
+  background-color: lighten($brown, 20%);
+  border-radius: 25px;
+  color: $white;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin: .2em;
+  padding: 0 25px;
+
+  a {
+    color: $white;
+  }
+
+  img {
+    border-radius: 50%;
+    float: left;
+    height: 30px;
+    margin: 0 10px 0 -25px;
+    width: 30px;
+  }
+}
+
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
 // Extra small devices (portrait phones, less than 576px)
 @include media-breakpoint-down(xs) {
@@ -371,7 +407,7 @@ ul.thumbnail-buttons {
   .index-cards {
     .card {
       margin: .2em;
-      width: 45%;
+      width: 48%;
 
       // Shrink title to fit more on page
       .card-title {

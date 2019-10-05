@@ -6,7 +6,7 @@
       = crop_icon(harvest.crop)
       %strong
         = link_to harvest.crop, harvest
-      %span.badge.badge-pill= link_to harvest.plant_part, harvest.plant_part
+      %span.badge.badge-pill= harvest.plant_part
     - if harvest.planting.present?
       %p.card-text
         %small.text-muted

@@ -1,0 +1,3 @@
+- if photo.present?
+  .photo
+    = image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-tiny')

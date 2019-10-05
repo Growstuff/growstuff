@@ -41,6 +41,8 @@
         = f.radio_button(:perennial, true, label: "Perennial")
         %span.help-block Living more than two years
 
+      - unless @crop.approved?
+        = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
       = f.text_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).

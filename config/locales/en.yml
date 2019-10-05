@@ -206,7 +206,9 @@ en:
       number_plantings_linktext: "%{count} times"
   label:
     days_until_harvest: "%{number} days"
+    weeks_until_harvest: "%{number} weeks until harvest"
     days_until_finished: "%{number} days"
+    weeks_until_finished: "%{number} weeks"
     harvesting_now: harvesting now
     data: 'The data on this page is available in the following formats:'
   layouts:
@@ -226,6 +228,7 @@ en:
       gardens: Gardens
       harvest: Harvest
       harvests: Harvests
+      record: Record
       inbox: Inbox
       inbox_unread: Inbox (%{unread_count})
       plantings: Plantings

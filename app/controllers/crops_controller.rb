@@ -113,7 +113,10 @@ class CropsController < ApplicationController
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      notifier.deliver_now! if @crop.approval_status_changed?(from: "pending", to: "approved")
+      if @crop.approval_status_changed?(from: "pending", to: "approved")
+        notifier.deliver_now!
+        @crop.update_openfarm_data!
+      end
     else
       @crop.approval_status = @crop.approval_status_was
     end

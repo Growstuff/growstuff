@@ -10,7 +10,6 @@ class Crop < ApplicationRecord
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   has_many :scientific_names, dependent: :delete_all
-  accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   has_many :alternate_names, dependent: :delete_all
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
@@ -23,6 +22,8 @@ class Crop < ApplicationRecord
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
   has_many :crop_posts, dependent: :delete_all
   has_many :posts, through: :crop_posts, dependent: :delete_all
+
+  accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
 
   ##
   ## Scopes
@@ -93,6 +94,10 @@ class Crop < ApplicationRecord
       .order("count_harvests_id DESC")
       .group("plant_parts.id", "plant_parts.name")
       .count("harvests.id")
+  end
+
+  def perennial?
+    perennial == true
   end
 
   def annual?

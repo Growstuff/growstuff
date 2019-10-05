@@ -1,6 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" version="1.1" width="96px" height="96px">
-<g id="surface1">
-<path style=" " d="M 2 5 L 2 21 L 6 21 L 6 26.09375 L 7.625 24.78125 L 12.34375 21 L 22 21 L 22 5 Z M 4 7 L 20 7 L 20 19 L 11.65625 19 L 11.375 19.21875 L 8 21.90625 L 8 19 L 4 19 Z M 24 9 L 24 11 L 28 11 L 28 23 L 24 23 L 24 25.90625 L 20.34375 23 L 12.84375 23 L 10.34375 25 L 19.65625 25 L 26 30.09375 L 26 25 L 30 25 L 30 9 Z "/>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path fill="#1565C0" d="M20,36h16l6,6V20c0-2.209-1.791-4-4-4H20c-2.209,0-4,1.791-4,4v12C16,34.209,17.791,36,20,36"/><path fill="#2196F3" d="M29,26H12l-6,6V10c0-2.209,1.791-4,4-4h19c2.209,0,4,1.791,4,4v12C33,24.209,31.209,26,29,26"/></svg>

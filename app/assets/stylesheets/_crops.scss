@@ -7,7 +7,7 @@
     bottom: 0;
     color: $white;
     margin: 0;
-    opacity: .9;
+    opacity: .8;
     position: absolute;
     text-align: center;
     width: 100%;
@@ -15,12 +15,16 @@
     h3 {
       background-color: $brown;
       font-size: 1em;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
 
     h5.crop-sci-name {
       background-color: $beige;
       color: $black;
       font-size: .7em;
+      margin-top: 0;
+      padding-top: 0;
     }
 
     a {
@@ -33,6 +37,7 @@
 
     .img-card {
       border: 5%;
+      border-radius: 5%;
     }
   }
 }
@@ -42,7 +47,6 @@
     height: 100%;
     margin: .1em;
     min-height: 300px;
-    width: 100px;
   }
 
   .img-thumbnail {
@@ -71,28 +75,18 @@
 }
 
 .crop-chip {
-  background-color: lighten($green, 20%);
-  border-radius: 25px;
-  display: inline-block;
-  font-size: 1em;
-  height: 30px;
-  line-height: 30px;
-  margin: .2em;
-  padding: 0 25px;
-
-  a {
-    color: $white;
-  }
-
-  img {
-    border-radius: 50%;
-    float: left;
-    height: 30px;
-    margin: 0 10px 0 -25px;
-    width: 30px;
-  }
+  background-color: lighten($brown, 20%);
 }
 
 .crop-hero-photo {
   max-height: 300px;
+}
+
+@include media-breakpoint-down(xs) {
+  .index-cards {
+    .crop-thumbnail {
+      margin: .2em;
+      width: 30%;
+    }
+  }
 }

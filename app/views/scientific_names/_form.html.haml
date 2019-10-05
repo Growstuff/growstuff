@@ -17,7 +17,7 @@
   .form-group
     = f.label :crop_id, class: 'control-label col-md-2'
     .col-md-8
-      = collection_select(:scientific_name, :crop_id, Crop.all, :id,
+      = collection_select(:scientific_name, :crop_id, Crop.all.order(:name), :id,
         :name, { selected: @scientific_name.crop_id || @crop.id },
         class: 'form-control')
   .form-group

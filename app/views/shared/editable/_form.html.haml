@@ -1,0 +1,18 @@
+- if can? :edit, model
+  %small.edit-link
+    %a.editable{"data-form" => "#form--#{model.id}-#{field.to_s}", "data-display": display_field, href: "#", name: "#form--#{model.id}-#{field.to_s}"}
+      = edit_icon
+
+  .hide{id: "form--#{model.id}-#{field.to_s}"}
+    = bootstrap_form_for(model) do |f|
+      - if field_type == :text_area
+        = f.text_area field
+      - elsif field_type == :text_field
+        = f.text_field field
+      - elsif field_type == :select
+        = f.select field, collection
+      - elsif field_type == :date
+        = f.text_field field,
+                 value: model.send(field) ? model.send(field).to_s(:ymd) : '',
+                 class: 'add-datepicker', label: 'When?'
+      = f.submit :save

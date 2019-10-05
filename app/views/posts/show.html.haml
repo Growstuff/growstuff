@@ -56,11 +56,11 @@
 
   .col-md-4.col-12
     = render @post.author
-    - unless @post.crops.empty?
+    - unless @post.crops.approved.empty?
       %section.crops
         %h2 Crops mentioned in this post
         .index-cards
-          - @post.crops.each do |c|
+          - @post.crops.approved.each do |c|
             = render 'crops/thumbnail', crop: c
 
 

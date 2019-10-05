@@ -107,7 +107,7 @@ module ButtonsHelper
 
     link_to new_photo_path(id: model.id, type: model_type_for_photo(model)),
             class: classes do
-      photo_icon + ' ' + t('buttons.add_photo')
+      add_photo_icon + ' ' + t('buttons.add_photo')
     end
   end
 
