@@ -33,6 +33,13 @@ class ConversationsController < ApplicationController
     redirect_to conversations_path(box: params[:box])
   end
 
+  def destroy_multiple
+    Mailboxer::Conversation.where(id: params[:conversation_ids]).each do |conversation|
+      conversation.move_to_trash(current_member)
+    end
+    redirect_to conversations_path(box: params[:box])
+  end
+
   private
 
   def mailbox
