@@ -1,6 +1,7 @@
 class Role < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: %i(slugged finders)
+  validates :name, uniqueness: true, presence: true
 
   has_and_belongs_to_many :members # rubocop:disable Rails/HasAndBelongsToMany
 

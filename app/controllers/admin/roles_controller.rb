@@ -1,3 +1,4 @@
+module Admin
 class RolesController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource
@@ -24,17 +25,17 @@ class RolesController < ApplicationController
 
   def create
     @role = Role.create(role_params)
-    respond_with @role
+    respond_with @role, location: admin_roles_path
   end
 
   def update
     @role.update(role_params)
-    respond_with @role
+    respond_with @role, location: admin_roles_path
   end
 
   def destroy
     @role.destroy
-    respond_with @role
+    respond_with @role, location: admin_roles_path
   end
 
   private
@@ -42,4 +43,5 @@ class RolesController < ApplicationController
   def role_params
     params.require(:role).permit(:description, :name, :members, :slug)
   end
+end
 end

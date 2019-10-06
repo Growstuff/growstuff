@@ -1,0 +1,16 @@
+.form-page
+  %section.card.form-card
+    = bootstrap_form_for [:admin, @role] do |f|
+      - if @role.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@role.errors.size, "error")
+            prohibited this role from being saved:
+          %ul
+            - @role.errors.full_messages.each do |msg|
+              %li= msg
+      .card-body
+        = f.text_field :name
+        = f.text_area :description
+      .card-footer
+        = f.submit 'Save', class: 'btn btn-success'
