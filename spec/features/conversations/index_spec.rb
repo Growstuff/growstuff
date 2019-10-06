@@ -49,10 +49,7 @@ describe "Conversations", :js do
       click_link 'Your Stuff'
       click_link 'Inbox'
 
-      all('input[type=checkbox]').each do |checkbox|
-        checkbox.click
-      end
-
+      all('input[type=checkbox]').each(&:click)
       click_button 'Delete Selected'
 
       expect(page).not_to have_content 'this is a message'
@@ -70,10 +67,7 @@ describe "Conversations", :js do
       expect(page).to have_selector('.sent')
       find('.sent').click
 
-      all('input[type=checkbox]').each do |checkbox|
-        checkbox.click
-      end
-
+      all('input[type=checkbox]').each(&:click)
       click_button 'Delete Selected'
 
       expect(page).to have_selector('.sent')
