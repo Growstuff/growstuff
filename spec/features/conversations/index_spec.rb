@@ -39,4 +39,47 @@ describe "Conversations", :js do
       end
     end
   end
+
+  describe 'deleting conversations' do
+    it 'deletes multiple conversations from the inbox' do
+      sender.send_message(recipient, 'this is a message', 'message 1')
+      sender.send_message(recipient, 'this is another message', 'follow up message')
+
+      visit root_path
+      click_link 'Your Stuff'
+      click_link 'Inbox'
+
+      all('input[type=checkbox]').each do |checkbox|
+        checkbox.click
+      end
+
+      click_button 'Delete Selected'
+
+      expect(page).not_to have_content 'this is a message'
+      expect(page).not_to have_content 'this is another message'
+    end
+
+    it 'deletes multiple conversations from the sentbox' do
+      sender.send_message(recipient, 'this is a message', 'message 1')
+      sender.send_message(recipient, 'this is another message', 'follow up message')
+
+      visit root_path
+      click_link 'Your Stuff'
+      click_link 'Inbox'
+
+      expect(page).to have_selector('.sent')
+      find('.sent').click
+
+      all('input[type=checkbox]').each do |checkbox|
+        checkbox.click
+      end
+
+      click_button 'Delete Selected'
+
+      expect(page).to have_selector('.sent')
+      find('.sent').click
+      expect(page).not_to have_content 'this is a message'
+      expect(page).not_to have_content 'this is another message'
+    end
+  end
 end
