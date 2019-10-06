@@ -99,7 +99,11 @@ Rails.application.routes.draw do
   end
 
   resources :messages
-  resources :conversations
+  resources :conversations do
+    collection do
+      delete 'destroy_multiple'
+    end
+  end
 
   resources :places, only: %i(index show), param: :place do
     get 'search', on: :collection

@@ -20,8 +20,8 @@ describe "Conversations", :js do
 
     describe 'deleting' do
       before do
-        # delete button
-        click_link class: 'delete'
+        check 'conversation_ids[]'
+        click_button 'Delete Selected'
       end
 
       describe 'view trash' do
