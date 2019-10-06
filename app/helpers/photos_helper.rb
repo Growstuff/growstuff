@@ -2,11 +2,7 @@ module PhotosHelper
   def crop_image_path(crop)
     if crop.default_photo.present?
       # The flickr thumbnails are too small, use full size
-      if crop.default_photo.source == 'flickr'
-        crop.default_photo.fullsize_url
-      else
-        crop.default_photo.thumbnail_url
-      end
+      crop.default_photo.source == 'flickr' ? crop.default_photo.fullsize_url : crop.default_photo.thumbnail_url
     else
       placeholder_image
     end

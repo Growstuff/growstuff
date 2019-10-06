@@ -1,9 +1,7 @@
 require 'rails_helper'
 
-describe 'layouts/_meta.html.haml', type: "view" do
-  before do
-    render
-  end
+describe 'layouts/_meta.html.haml', type: 'view' do
+  before { render }
 
   it 'has a Posts RSS feed' do
     posts_rss = url_for(controller: 'posts', format: 'rss', only_path: false)
@@ -21,6 +19,6 @@ describe 'layouts/_meta.html.haml', type: "view" do
   end
 
   it 'has a title' do
-    assert_select "head>title"
+    assert_select 'head>title'
   end
 end

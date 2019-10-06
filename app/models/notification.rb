@@ -18,6 +18,6 @@ class Notification < ApplicationRecord
   private
 
   def replace_blank_subject
-    self.subject = "(no subject)" if subject.nil? || subject =~ /^\s*$/
+    self.subject = '(no subject)' if subject.nil? || subject =~ /^\s*$/
   end
 end

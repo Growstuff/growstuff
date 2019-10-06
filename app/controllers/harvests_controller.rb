@@ -1,6 +1,6 @@
 class HarvestsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :update_crop_medians, only: %i(create update destroy)
+  before_action :authenticate_member!, except: %i[index show]
+  after_action :update_crop_medians, only: %i[create update destroy]
   load_and_authorize_resource
   respond_to :html, :json
   respond_to :csv, :rss, only: :index
@@ -59,25 +59,37 @@ class HarvestsController < ApplicationController
   private
 
   def harvest_params
-    params.require(:harvest)
-      .permit(:planting_id, :crop_id, :harvested_at, :description,
-        :quantity, :unit, :weight_quantity, :weight_unit,
-        :plant_part_id, :slug, :si_weight)
+    params.require(:harvest).permit(
+      :planting_id,
+      :crop_id,
+      :harvested_at,
+      :description,
+      :quantity,
+      :unit,
+      :weight_quantity,
+      :weight_unit,
+      :plant_part_id,
+      :slug,
+      :si_weight
+    )
       .merge(owner_id: current_member.id)
   end
 
   def matching_plantings
-    Planting.where(crop: @harvest.crop, owner: @harvest.owner)
-      .where('(planted_at IS NULL OR planted_at <= ?)', @harvest.harvested_at)
+    Planting.where(crop: @harvest.crop, owner: @harvest.owner).where(
+      '(planted_at IS NULL OR planted_at <= ?)',
+      @harvest.harvested_at
+    )
       .where('(finished_at IS NULL OR finished_at >= ?)', @harvest.harvested_at)
   end
 
   def csv_filename
-    specifics = if @owner
-                  "#{@owner.to_param}-"
-                elsif @crop
-                  "#{@crop.to_param}-"
-                end
+    specifics =
+      if @owner
+        "#{@owner.to_param}-"
+      elsif @crop
+        "#{@crop.to_param}-"
+      end
     "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
   end
 

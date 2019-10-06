@@ -1,4 +1,4 @@
-shared_examples "it is likeable" do
+shared_examples 'it is likeable' do
   before do
     # Possibly a horrible hack.
     # Will fail if factory name does not match the model name..
@@ -9,7 +9,7 @@ shared_examples "it is likeable" do
     @like2 = FactoryBot.create(:like, member: @member2, likeable: @likeable)
   end
 
-  it "has many likes" do
+  it 'has many likes' do
     expect(@likeable.likes.length).to eq 2
   end
 

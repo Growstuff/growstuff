@@ -1,13 +1,11 @@
 require 'rails_helper'
 
-describe "plantings/show" do
-  let(:crop)   { FactoryBot.create(:tomato)                }
-  let(:member) { FactoryBot.create(:member)                }
+describe 'plantings/show' do
+  let(:crop) { FactoryBot.create(:tomato) }
+  let(:member) { FactoryBot.create(:member) }
   let(:garden) { FactoryBot.create(:garden, owner: member) }
   let(:planting) do
-    FactoryBot.create(:planting, garden: garden, crop: crop,
-                                 owner: garden.owner,
-                                 planted_from: 'cutting')
+    FactoryBot.create(:planting, garden: garden, crop: crop, owner: garden.owner, planted_from: 'cutting')
   end
 
   before do
@@ -19,7 +17,7 @@ describe "plantings/show" do
   context 'sunniness' do
     let(:planting) { FactoryBot.create(:sunny_planting) }
 
-    describe "shows the sunniness" do
+    describe 'shows the sunniness' do
       before { render }
       it { expect(rendered).to have_content 'Planted in' }
       it { expect(rendered).to have_content 'sun' }
@@ -29,13 +27,13 @@ describe "plantings/show" do
   context 'planted from' do
     let(:planting) { FactoryBot.create(:cutting_planting) }
 
-    describe "shows planted_from" do
+    describe 'shows planted_from' do
       before { render }
       it { expect(rendered).to have_content 'Grown from' }
       it { expect(rendered).to have_content 'cutting' }
     end
 
-    describe "shows planted_from if blank" do
+    describe 'shows planted_from if blank' do
       before do
         planting.update(planted_from: '')
         render
@@ -44,7 +42,7 @@ describe "plantings/show" do
     end
   end
 
-  it "shows photos" do
+  it 'shows photos' do
     photo1 = FactoryBot.create(:photo, owner: member)
     photo2 = FactoryBot.create(:photo, owner: member)
     planting.photos << photo1
@@ -54,32 +52,32 @@ describe "plantings/show" do
     assert_select "img[src='#{photo2.fullsize_url}']"
   end
 
-  describe "shows a link to add photos" do
+  describe 'shows a link to add photos' do
     before { render }
-    it { expect(rendered).to have_content "Add photo" }
+    it { expect(rendered).to have_content 'Add photo' }
   end
 
-  context "no location set" do
+  context 'no location set' do
     before { render }
 
-    it "renders the quantity planted" do
+    it 'renders the quantity planted' do
       expect(rendered).to match(/3/)
     end
 
-    it "renders the description" do
+    it 'renders the description' do
       expect(rendered).to match(/This is a/)
     end
 
-    it "renders markdown in the description" do
-      assert_select "em", "really"
+    it 'renders markdown in the description' do
+      assert_select 'em', 'really'
     end
 
     it "doesn't contain a () if no location is set" do
-      expect(rendered).not_to have_content "()"
+      expect(rendered).not_to have_content '()'
     end
   end
 
-  context "location set" do
+  context 'location set' do
     before do
       planting.owner.update(location: 'Greenwich, UK')
       render

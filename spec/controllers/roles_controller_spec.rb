@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe RolesController do
   def valid_attributes
-    { "name" => "MyString" }
+    { 'name' => 'MyString' }
   end
 
   login_member(:admin_member)
 
-  describe "GET index" do
-    it "assigns all roles as @roles" do
+  describe 'GET index' do
+    it 'assigns all roles as @roles' do
       role = Role.create! valid_attributes
       get :index, params: {}
       # note that admin role exists because of login_admin_member

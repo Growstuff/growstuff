@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
+  before_action :authenticate_member!, except: %i[index show]
   load_and_authorize_resource
   responders :flash
   respond_to :html, :json
-  respond_to :rss, only: %i(index show)
+  respond_to :rss, only: %i[index show]
 
   # GET /posts
   # GET /posts.json
@@ -63,10 +63,8 @@ class PostsController < ApplicationController
   end
 
   def posts
-    if @author
-      @author.posts
-    else
-      Post
-    end.order(created_at: :desc).includes(:author, comments: :author).paginate(page: params[:page])
+    (@author ? @author.posts : Post).order(created_at: :desc).includes(:author, comments: :author).paginate(
+      page: params[:page]
+    )
   end
 end

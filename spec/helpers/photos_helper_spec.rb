@@ -6,50 +6,50 @@ describe PhotosHelper do
   let(:crop_photo_flickr) { FactoryBot.create(:photo, source: 'flickr') }
 
   let(:garden) { FactoryBot.create :garden }
-  let(:planting)       { FactoryBot.create :planting, crop: crop, owner: garden.owner }
+  let(:planting) { FactoryBot.create :planting, crop: crop, owner: garden.owner }
   let(:planting_photo) { FactoryBot.create(:photo, owner: garden.owner) }
-  let(:harvest)        { FactoryBot.create :harvest, crop: crop, owner: garden.owner }
-  let(:harvest_photo)  { FactoryBot.create(:photo, owner: garden.owner) }
-  let(:seed)           { FactoryBot.create :seed, crop: crop, owner: garden.owner }
-  let(:seed_photo)     { FactoryBot.create(:photo, owner: garden.owner) }
+  let(:harvest) { FactoryBot.create :harvest, crop: crop, owner: garden.owner }
+  let(:harvest_photo) { FactoryBot.create(:photo, owner: garden.owner) }
+  let(:seed) { FactoryBot.create :seed, crop: crop, owner: garden.owner }
+  let(:seed_photo) { FactoryBot.create(:photo, owner: garden.owner) }
 
-  describe "crops" do
+  describe 'crops' do
     subject { crop_image_path(crop) }
 
     it { is_expected.to eq 'placeholder_600.png' }
 
-    describe "with a planting" do
+    describe 'with a planting' do
       before { planting.photos << planting_photo }
 
-      it "uses planting photos" do
+      it 'uses planting photos' do
         expect(subject).to eq planting_photo.fullsize_url
       end
     end
 
-    describe "with a harvest photos" do
+    describe 'with a harvest photos' do
       before { harvest.photos << harvest_photo }
 
-      it "uses harvest photos" do
+      it 'uses harvest photos' do
         expect(subject).to eq harvest_photo.fullsize_url
       end
     end
 
-    describe "uses seed photo" do
+    describe 'uses seed photo' do
       before { seed.photos << seed_photo }
 
-      it "uses seed photos" do
+      it 'uses seed photos' do
         expect(subject).to eq seed_photo.fullsize_url
       end
     end
   end
 
-  describe "gardens" do
+  describe 'gardens' do
     subject { garden_image_path(garden) }
 
     it { is_expected.to eq 'placeholder_600.png' }
 
-    describe "has a flickr photo" do
-      let(:garden_photo)   { FactoryBot.create(:photo, owner: garden.owner, source: 'flickr') }
+    describe 'has a flickr photo' do
+      let(:garden_photo) { FactoryBot.create(:photo, owner: garden.owner, source: 'flickr') }
       before { garden.photos << garden_photo }
       it { is_expected.to eq garden_photo.fullsize_url }
     end

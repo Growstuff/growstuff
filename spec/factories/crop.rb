@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :crop do
-    name { "magic bean" }
-    en_wikipedia_url { "http://en.wikipedia.org/wiki/Magic_bean" }
-    approval_status { "approved" }
+    name { 'magic bean' }
+    en_wikipedia_url { 'http://en.wikipedia.org/wiki/Magic_bean' }
+    approval_status { 'approved' }
     creator
 
     factory :annual_crop, parent: :crop do
@@ -13,71 +13,71 @@ FactoryBot.define do
     end
 
     factory :tomato do
-      name { "tomato" }
-      en_wikipedia_url { "http://en.wikipedia.org/wiki/Tomato" }
+      name { 'tomato' }
+      en_wikipedia_url { 'http://en.wikipedia.org/wiki/Tomato' }
     end
 
     factory :maize do
-      name { "maize" }
-      en_wikipedia_url { "http://en.wikipedia.org/wiki/Maize" }
+      name { 'maize' }
+      en_wikipedia_url { 'http://en.wikipedia.org/wiki/Maize' }
     end
 
     factory :chard do
-      name { "chard" }
+      name { 'chard' }
     end
 
     factory :walnut do
-      name { "walnut" }
+      name { 'walnut' }
     end
 
     factory :apple do
-      name { "apple" }
+      name { 'apple' }
     end
 
     factory :pear do
-      name { "pear" }
+      name { 'pear' }
     end
 
     # for testing varieties
     factory :roma do
-      name { "roma tomato" }
+      name { 'roma tomato' }
     end
 
     factory :popcorn do
-      name { "popcorn" }
+      name { 'popcorn' }
     end
 
     factory :eggplant do
-      name { "eggplant" }
+      name { 'eggplant' }
     end
 
     # This should have a name that is alphabetically earlier than :uppercase
     # crop to ensure that the ordering tests work.
     factory :lowercasecrop do
-      name { "ffrench bean" }
+      name { 'ffrench bean' }
     end
 
     factory :uppercasecrop do
-      name { "Swiss chard" }
+      name { 'Swiss chard' }
     end
 
     factory :autoloaded_crop do
-      creator { "cropbot" }
+      creator { 'cropbot' }
     end
 
     # for testing crop request
     factory :crop_request do
-      name { "Ultra berry" }
-      en_wikipedia_url { "" }
-      approval_status { "pending" }
+      name { 'Ultra berry' }
+      en_wikipedia_url { '' }
+      approval_status { 'pending' }
       association :requester, factory: :member
       request_notes { "Please approve this even though it's fake." }
     end
 
     factory :rejected_crop do
-      name { "Fail bean" }
-      approval_status { "rejected" }
-      reason_for_rejection { "Totally fake" }
+      name { 'Fail bean' }
+      approval_status { 'rejected' }
+      reason_for_rejection { 'Totally fake' }
     end
   end
 end

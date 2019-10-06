@@ -3,9 +3,9 @@ FactoryBot.define do
     owner
     garden { FactoryBot.create :garden, owner: owner }
     crop
-    planted_at { Time.zone.local(2014, 7, 30) }
+    planted_at { Time.zone.local(2_014, 7, 30) }
     quantity { 33 }
-    description { "This is a *really* good plant." }
+    description { 'This is a *really* good plant.' }
     finished { false }
     finished_at { nil }
 
@@ -35,8 +35,8 @@ FactoryBot.define do
 
     factory :finished_planting do
       finished { true }
-      planted_at { Time.zone.local(2014, 7, 30) }
-      finished_at { Time.zone.local(2014, 8, 30) }
+      planted_at { Time.zone.local(2_014, 7, 30) }
+      finished_at { Time.zone.local(2_014, 8, 30) }
     end
 
     factory :annual_planting do

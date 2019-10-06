@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "home page" do
+describe 'home page' do
   subject { page }
 
   let(:member) { FactoryBot.create :member }
@@ -9,12 +9,12 @@ describe "home page" do
   let(:crop) { FactoryBot.create :crop, created_at: 1.day.ago }
 
   let(:planting) { FactoryBot.create :planting, owner: member, crop: crop }
-  let(:seed)    { FactoryBot.create :tradable_seed, owner: member, crop: crop }
-  let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop       }
+  let(:seed) { FactoryBot.create :tradable_seed, owner: member, crop: crop }
+  let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop }
 
   let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
-  let!(:finished_seed)   { FactoryBot.create :tradable_seed, finished: true }
-  let!(:untradable_seed) { FactoryBot.create :untradable_seed               }
+  let!(:finished_seed) { FactoryBot.create :tradable_seed, finished: true }
+  let!(:untradable_seed) { FactoryBot.create :untradable_seed }
 
   before do
     # Add photos, so they can appear on home page
@@ -26,13 +26,13 @@ describe "home page" do
   before { visit root_path }
 
   shared_examples 'shows seeds' do
-    it "show tradeable seed" do
+    it 'show tradeable seed' do
       expect(subject).to have_link href: seed_path(tradable_seed)
     end
-    it "does not show finished seeds" do
+    it 'does not show finished seeds' do
       expect(subject).not_to have_link href: seed_path(finished_seed)
     end
-    it "does not show untradable seeds" do
+    it 'does not show untradable seeds' do
       expect(subject).not_to have_link href: seed_path(untradable_seed)
     end
 
@@ -52,7 +52,7 @@ describe "home page" do
     end
   end
 
-  shared_examples "show crops" do
+  shared_examples 'show crops' do
     describe 'shows crops section' do
       it { is_expected.to have_text 'Some of our crops' }
       it { is_expected.to have_link href: crop_path(crop) }
@@ -78,7 +78,7 @@ describe "home page" do
     it { is_expected.to have_text 'community of food gardeners' }
   end
 
-  context "when signed in" do
+  context 'when signed in' do
     include_context 'signed in member'
     include_examples 'show crops'
     include_examples 'show plantings'

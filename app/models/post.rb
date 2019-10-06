@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
-  friendly_id :author_date_subject, use: %i(slugged finders)
+  friendly_id :author_date_subject, use: %i[slugged finders]
   include PhotoCapable
 
   #
@@ -15,7 +15,7 @@ class Post < ApplicationRecord
   #
   # Triggers
   after_save :update_crop_posts_association
-  after_create  :send_notification
+  after_create :send_notification
 
   default_scope { joins(:author).merge(Member.kept) } # Ensures the owner still exists
 
@@ -42,9 +42,7 @@ class Post < ApplicationRecord
 
   # return posts sorted by recent activity
   def self.recently_active
-    Post.order(created_at: :desc).sort do |a, b|
-      b.recent_activity <=> a.recent_activity
-    end
+    Post.order(created_at: :desc).sort { |a, b| b.recent_activity <=> a.recent_activity }
   end
 
   def owner_id
@@ -73,12 +71,14 @@ class Post < ApplicationRecord
     sender = author.id
     body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |_m|
       # find member case-insensitively and add to list of recipients
-      member = Member.case_insensitive_login_name(Regexp.last_match(1)).first
+      member =
+        Member.case_insensitive_login_name(Regexp.last_match(1)).first
       recipients << member if member && !recipients.include?(member)
     end
     body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_AT_REGEX) do |_m|
       # find member case-insensitively and add to list of recipients
-      member = Member.case_insensitive_login_name(Regexp.last_match(1)[1..-1]).first
+      member =
+        Member.case_insensitive_login_name(Regexp.last_match(1)[1..-1]).first
       recipients << member if member && !recipients.include?(member)
     end
     # don't send notifications to yourself
@@ -87,9 +87,9 @@ class Post < ApplicationRecord
 
       Notification.create(
         recipient_id: recipient_id,
-        sender_id:    sender,
-        subject:      "#{author} mentioned you in their post #{subject}",
-        body:         body
+        sender_id: sender,
+        subject: "#{author} mentioned you in their post #{subject}",
+        body: body
       )
     end
   end

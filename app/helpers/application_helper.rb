@@ -20,16 +20,16 @@ module ApplicationHelper
   end
 
   # Produces a cache key for uniquely identifying cached fragments.
-  def cache_key_for(klass, identifier = "all")
-    count          = klass.count
+  def cache_key_for(klass, identifier = 'all')
+    count = klass.count
     max_updated_at = klass.maximum(:updated_at).try(:utc).try(:to_s, :number)
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
   end
 
   def required_field_help_text
-    asterisk = content_tag :span, '*', class: ['red']
+    asterisk = content_tag :span, '*', class: %w[red]
     text = content_tag :em, 'denotes a required field'
-    content_tag :div, asterisk + ' '.html_safe + text, class: ['margin-bottom']
+    content_tag :div, asterisk + ' '.html_safe + text, class: %w[margin-bottom]
   end
 
   #
@@ -40,9 +40,10 @@ module ApplicationHelper
   def avatar_uri(member, size = 150)
     return unless member
 
+    # Some avatars support different sizes
+    # http://graph.facebook.com/12345678/picture?width=150&height=150
+
     if member.preferred_avatar_uri.present?
-      # Some avatars support different sizes
-      # http://graph.facebook.com/12345678/picture?width=150&height=150
       uri = URI.parse(member.preferred_avatar_uri)
 
       uri.query = "&width=#{size}&height=#{size}" if uri.host == 'graph.facebook.com'
@@ -53,8 +54,7 @@ module ApplicationHelper
       return uri.to_s
     end
 
-    Gravatar.new(member.email).image_url(size:    size,
-                                         default: :identicon)
+    Gravatar.new(member.email).image_url(size: size, default: :identicon)
   end
 
   # Returns a string with the quantity and the right pluralization for a
@@ -65,6 +65,7 @@ module ApplicationHelper
 
   def show_inactive_tickbox_path(type, owner, show_all)
     all = show_all ? '' : 1
+
     if owner
       return member_plantings_path(owner, all: all) if type == 'plantings'
       return member_gardens_path(owner, all: all) if type == 'gardens'
@@ -82,7 +83,7 @@ module ApplicationHelper
     elsif planting
       t(".title.planting_#{type}", planting: planting.to_s)
     else
-      t(".title.default")
+      t('.title.default')
     end
   end
 

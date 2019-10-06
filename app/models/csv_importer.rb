@@ -9,10 +9,7 @@ class CsvImporter
     name, en_wikipedia_url, parent_name, scientific_names, alternate_names = row
 
     @crop = Crop.find_or_create_by(name: name)
-    @crop.update(
-      en_wikipedia_url: en_wikipedia_url,
-      creator_id:       cropbot.id
-    )
+    @crop.update(en_wikipedia_url: en_wikipedia_url, creator_id: cropbot.id)
 
     add_parent(parent_name) if parent_name
     add_scientific_names(scientific_names)
@@ -25,17 +22,15 @@ class CsvImporter
 
   def add_parent(parent_name)
     parent = Crop.find_by(name: parent_name)
-    if parent
-      @crop.update(parent_id: parent.id)
-    else
-      @crop.logger.warn("Warning: parent crop #{parent_name} not found")
-    end
+    parent ? @crop.update(parent_id: parent.id) : @crop.logger.warn("Warning: parent crop #{parent_name} not found")
   end
 
   def add_scientific_names(scientific_names)
     names_to_add = []
-    if scientific_names.present? # i.e. we actually passed something in, which isn't a given
-      names_to_add = scientific_names.split(/,\s*/)
+    if scientific_names.present?
+      # i.e. we actually passed something in, which isn't a given
+      names_to_add =
+        scientific_names.split(/,\s*/)
     elsif @crop.parent && !@crop.parent.scientific_names.empty? # pick up from parent
       names_to_add = @crop.parent.scientific_names.map(&:name)
     else
@@ -66,6 +61,6 @@ class CsvImporter
     @cropbot ||= Member.find_by!(login_name: 'cropbot')
     @cropbot
   rescue StandardError
-    raise "cropbot account not found: run rake db:seed"
+    raise 'cropbot account not found: run rake db:seed'
   end
 end

@@ -1,7 +1,7 @@
-require "rails_helper"
+require 'rails_helper'
 require 'custom_matchers'
 
-describe "Display a planting", :js, :elasticsearch do
+describe 'Display a planting', :js, :elasticsearch do
   before { visit planting_path(planting) }
 
   context 'Perennial planted long ago' do
@@ -11,7 +11,9 @@ describe "Display a planting", :js, :elasticsearch do
   end
 
   context 'Perennial finished' do
-    let(:planting) { FactoryBot.create :perennial_planting, planted_at: 6.years.ago, finished: true, finished_at: 1.year.ago }
+    let(:planting) do
+      FactoryBot.create :perennial_planting, planted_at: 6.years.ago, finished: true, finished_at: 1.year.ago
+    end
     it { expect(find('.plantingfact--perennial')).to have_text 'Perennial' }
     it { expect(find('.plantingfact--harveststitle')).to have_text 'Harvested' }
   end
@@ -30,7 +32,9 @@ describe "Display a planting", :js, :elasticsearch do
   end
 
   context 'Annual finished' do
-    let(:planting) { FactoryBot.create :annual_planting, planted_at: 100.days.ago, finished: true, finished_at: 1.day.ago }
+    let(:planting) do
+      FactoryBot.create :annual_planting, planted_at: 100.days.ago, finished: true, finished_at: 1.day.ago
+    end
     it { expect(find('.plantingfact--harveststitle')).to have_text 'Harvested' }
   end
 

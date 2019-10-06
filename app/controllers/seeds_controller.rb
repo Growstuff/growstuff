@@ -1,5 +1,5 @@
 class SeedsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
+  before_action :authenticate_member!, except: %i[index show]
   load_and_authorize_resource
   responders :flash
   respond_to :html, :json
@@ -63,12 +63,20 @@ class SeedsController < ApplicationController
 
   def seed_params
     params.require(:seed).permit(
-      :crop_id, :description, :quantity, :plant_before,
+      :crop_id,
+      :description,
+      :quantity,
+      :plant_before,
       :parent_planting_id,
-      :days_until_maturity_min, :days_until_maturity_max,
-      :organic, :gmo,
-      :heirloom, :tradable_to, :slug,
-      :finished, :finished_at
+      :days_until_maturity_min,
+      :days_until_maturity_max,
+      :organic,
+      :gmo,
+      :heirloom,
+      :tradable_to,
+      :slug,
+      :finished,
+      :finished_at
     )
   end
 

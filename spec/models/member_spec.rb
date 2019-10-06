@@ -38,7 +38,7 @@ describe 'member' do
     end
 
     it 'is able to fetch gardens' do
-      expect(member.gardens.first.name).to eq "Garden"
+      expect(member.gardens.first.name).to eq 'Garden'
     end
 
     it 'has many plantings' do
@@ -46,19 +46,19 @@ describe 'member' do
       member.plantings.size.should eq 1
     end
 
-    it "has many comments" do
+    it 'has many comments' do
       FactoryBot.create(:comment, author: member)
       FactoryBot.create(:comment, author: member)
       member.comments.size.should == 2
     end
 
-    it "has many forums" do
+    it 'has many forums' do
       FactoryBot.create(:forum, owner: member)
       FactoryBot.create(:forum, owner: member)
       member.forums.size.should == 2
     end
 
-    it "has many likes" do
+    it 'has many likes' do
       @post1 = FactoryBot.create(:post, author: member)
       @post2 = FactoryBot.create(:post, author: member)
       @like1 = FactoryBot.create(:like, member: member, likeable: @post1)
@@ -108,24 +108,24 @@ describe 'member' do
   end
 
   context 'same :login_name' do
-    it "does not allow two members with the same login_name" do
-      FactoryBot.create(:member, login_name: "bob")
-      member = FactoryBot.build(:member, login_name: "bob")
+    it 'does not allow two members with the same login_name' do
+      FactoryBot.create(:member, login_name: 'bob')
+      member = FactoryBot.build(:member, login_name: 'bob')
       member.should_not be_valid
-      member.errors[:login_name].should include("has already been taken")
+      member.errors[:login_name].should include('has already been taken')
     end
 
-    it "tests uniqueness case-insensitively" do
-      FactoryBot.create(:member, login_name: "bob")
-      member = FactoryBot.build(:member, login_name: "BoB")
+    it 'tests uniqueness case-insensitively' do
+      FactoryBot.create(:member, login_name: 'bob')
+      member = FactoryBot.build(:member, login_name: 'BoB')
       member.should_not be_valid
-      member.errors[:login_name].should include("has already been taken")
+      member.errors[:login_name].should include('has already been taken')
     end
   end
 
   context 'case sensitivity' do
     it 'preserves case of login name' do
-      FactoryBot.create(:member, login_name: "BOB")
+      FactoryBot.create(:member, login_name: 'BOB')
       Member.find('bob').login_name.should eq 'BOB'
     end
   end
@@ -134,40 +134,40 @@ describe 'member' do
     it "doesn't allow short names" do
       member = FactoryBot.build(:invalid_member_shortname)
       member.should_not be_valid
-      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+      member.errors[:login_name].should include('should be between 2 and 25 characters long')
     end
     it "doesn't allow really long names" do
       member = FactoryBot.build(:invalid_member_longname)
       member.should_not be_valid
-      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+      member.errors[:login_name].should include('should be between 2 and 25 characters long')
     end
     it "doesn't allow spaces in names" do
       member = FactoryBot.build(:invalid_member_spaces)
       member.should_not be_valid
-      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+      member.errors[:login_name].should include('may only include letters, numbers, or underscores')
     end
     it "doesn't allow other chars in names" do
       member = FactoryBot.build(:invalid_member_badchars)
       member.should_not be_valid
-      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+      member.errors[:login_name].should include('may only include letters, numbers, or underscores')
     end
     it "doesn't allow reserved names" do
       member = FactoryBot.build(:invalid_member_badname)
       member.should_not be_valid
-      member.errors[:login_name].should include("name is reserved")
+      member.errors[:login_name].should include('name is reserved')
     end
   end
 
   context 'valid login names' do
-    it "allows plain alphanumeric chars in names" do
+    it 'allows plain alphanumeric chars in names' do
       member = FactoryBot.build(:valid_member_alphanumeric)
       member.should be_valid
     end
-    it "allows uppercase chars in names" do
+    it 'allows uppercase chars in names' do
       member = FactoryBot.build(:valid_member_uppercase)
       member.should be_valid
     end
-    it "allows underscores in names" do
+    it 'allows underscores in names' do
       member = FactoryBot.build(:valid_member_underscore)
       member.should be_valid
     end
@@ -175,11 +175,9 @@ describe 'member' do
 
   context 'roles' do
     let(:member) { FactoryBot.create(:member) }
-    let(:role)   { FactoryBot.create(:role)   }
+    let(:role) { FactoryBot.create(:role) }
 
-    before do
-      member.roles << role
-    end
+    before { member.roles << role }
 
     it 'has a role' do
       member.roles.first.should eq role
@@ -193,7 +191,7 @@ describe 'member' do
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
-      role = FactoryBot.create(:role, name: "a b c")
+      role = FactoryBot.create(:role, name: 'a b c')
       member.roles << role
       member.role?(:a_b_c).should eq true
     end
@@ -253,16 +251,12 @@ describe 'member' do
 
     context 'with a few members and plantings' do
       before do
-        @members = [
-          :london_member, :london_member, :london_member,
-          :unconfirmed_member, # !1
-          :london_member,      # 1, 2, !3
-          :member              # 1, !2, 3
-        ].collect { |m| FactoryBot.create(m) }
+        @members =
+          %i[london_member london_member london_member unconfirmed_member london_member member].collect do |m|
+            FactoryBot.create(m)
+          end
 
-        [0, 1, 2, 3, 5].each do |i|
-          FactoryBot.create(:planting, owner: @members[i])
-        end
+        [0, 1, 2, 3, 5].each { |i| FactoryBot.create(:planting, owner: @members[i]) }
 
         @members[0].updated_at = 3.days.ago
         @members[1].updated_at = 2.days.ago
@@ -295,9 +289,7 @@ describe 'member' do
     let(:member2) { FactoryBot.create(:member) }
     let(:member3) { FactoryBot.create(:member) }
 
-    before do
-      @follow = member1.follows.create(follower_id: member1.id, followed_id: member2.id)
-    end
+    before { @follow = member1.follows.create(follower_id: member1.id, followed_id: member2.id) }
 
     context 'already_following' do
       it 'detects that member is already following a member' do
@@ -322,7 +314,7 @@ describe 'member' do
 
   context 'subscriptions' do
     let(:member) { FactoryBot.create(:member) }
-    let(:gb) { instance_double("Gibbon::API.new") }
+    let(:gb) { instance_double('Gibbon::API.new') }
 
     it 'subscribes to the newsletter' do
       expect(gb).to receive_message_chain('lists.subscribe')
@@ -351,12 +343,12 @@ describe 'member' do
       it { expect(Member.has_plantings).not_to include(member) }
     end
 
-    it "unsubscribes from mailing list" do
+    it 'unsubscribes from mailing list' do
       expect(member).to receive(:newsletter_unsubscribe).and_return(true)
       member.destroy
     end
 
-    context "deleted admin member" do
+    context 'deleted admin member' do
       let(:member) { FactoryBot.create(:admin_member) }
 
       before { member.discard }
@@ -364,7 +356,7 @@ describe 'member' do
       context 'crop creator' do
         let!(:crop) { FactoryBot.create(:crop, creator: member) }
 
-        it "leaves crops behind, reassigned to cropbot" do
+        it 'leaves crops behind, reassigned to cropbot' do
           expect(Crop.all).to include(crop)
         end
       end
@@ -372,7 +364,7 @@ describe 'member' do
       context 'forum owners' do
         let!(:forum) { FactoryBot.create(:forum, owner: member) }
 
-        it "leaves forums behind, reassigned to ex_admin" do
+        it 'leaves forums behind, reassigned to ex_admin' do
           expect(forum.owner).to eq(member)
         end
       end

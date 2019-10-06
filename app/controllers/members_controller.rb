@@ -1,23 +1,23 @@
 class MembersController < ApplicationController
-  load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
-  skip_authorize_resource only: %i(nearby unsubscribe finish_signup)
+  load_and_authorize_resource except: %i[finish_signup unsubscribe view_follows view_followers show]
+  skip_authorize_resource only: %i[nearby unsubscribe finish_signup]
   respond_to :html, :json, :rss
 
   def index
     @sort = params[:sort]
     @members = members
     respond_to do |format|
-      format.html # index.html.haml
-      format.json { render json: @members.to_json(only: member_json_fields) }
+      format.html
+      format.json { render json: @members.to_json(only: member_json_fields) } # index.html.haml
     end
   end
 
   def show
-    @member        = Member.confirmed.kept.find_by!(slug: params[:slug])
-    @twitter_auth  = @member.auth('twitter')
-    @flickr_auth   = @member.auth('flickr')
+    @member = Member.confirmed.kept.find_by!(slug: params[:slug])
+    @twitter_auth = @member.auth('twitter')
+    @flickr_auth = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
-    @posts         = @member.posts
+    @posts = @member.posts
 
     @activity = TimelineService.member_query(@member).limit(30)
 
@@ -27,14 +27,9 @@ class MembersController < ApplicationController
     @garden = Garden.new
 
     respond_to do |format|
-      format.html # show.html.haml
+      format.html
       format.json { render json: @member.to_json(only: member_json_fields) }
-      format.rss do
-        render(
-          layout: false,
-          locals: { member: @member }
-        )
-      end
+      format.rss { render(layout: false, locals: { member: @member }) } # show.html.haml
     end
   end
 
@@ -68,8 +63,7 @@ class MembersController < ApplicationController
   private
 
   EMAIL_TYPE_STRING = {
-    send_notification_email: "direct message notifications",
-    send_planting_reminder:  "planting reminders"
+    send_notification_email: 'direct message notifications', send_planting_reminder: 'planting reminders'
   }.freeze
 
   def member_params
@@ -77,18 +71,12 @@ class MembersController < ApplicationController
   end
 
   def member_json_fields
-    %i(
-      id login_name
-      slug bio created_at
-      location latitude longitude
-    )
+    %i[id login_name slug bio created_at location latitude longitude]
   end
 
   def members
-    if @sort == 'recently_joined'
-      Member.recently_joined
-    else
-      Member.order(:login_name)
-    end.kept.confirmed.paginate(page: params[:page])
+    (@sort == 'recently_joined' ? Member.recently_joined : Member.order(:login_name)).kept.confirmed.paginate(
+      page: params[:page]
+    )
   end
 end

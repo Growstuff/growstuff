@@ -1,12 +1,12 @@
 # Read about factories at https://github.com/thoughtbot/factory_bot
 
 FactoryBot.define do
-  factory :notification, aliases: [:message] do
+  factory :notification, aliases: %i[message] do
     sender { FactoryBot.create :member }
     recipient { FactoryBot.create :member }
-    subject { "MyString" }
+    subject { 'MyString' }
 
-    body { "MyText" }
+    body { 'MyText' }
     read { false }
     post
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "gardens/show" do
+describe 'gardens/show' do
   before do
     @owner = FactoryBot.create(:member)
     controller.stub(:current_user) { @owner }
@@ -21,11 +21,11 @@ describe "gardens/show" do
   end
 
   it 'shows the description' do
-    expect(rendered).to have_content "totally cool garden"
+    expect(rendered).to have_content 'totally cool garden'
   end
 
   it 'renders markdown in the description' do
-    assert_select "strong", "totally"
+    assert_select 'strong', 'totally'
   end
 
   it 'shows plantings on the garden page' do

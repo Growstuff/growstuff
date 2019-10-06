@@ -15,8 +15,15 @@ module HarvestsHelper
 
     if harvest.unit == 'individual' # just the number
       number_to_human(harvest.quantity, strip_insignificant_zeros: true)
-    elsif harvest.unit.present? # pluralize anything else
-      pluralize(number_to_human(harvest.quantity, strip_insignificant_zeros: true), harvest.unit)
+    elsif harvest.unit.present?
+      pluralize(
+        number_to_human(
+          # pluralize anything else
+          harvest.quantity,
+          strip_insignificant_zeros: true
+        ),
+        harvest.unit
+      )
     else
       "#{number_to_human(harvest.quantity, strip_insignificant_zeros: true)} #{harvest.unit}"
     end
@@ -30,10 +37,10 @@ module HarvestsHelper
 
   def display_harvest_description(harvest)
     if harvest.description.nil?
-      "no description provided."
+      'no description provided.'
     else
       truncate(harvest.description, length: 50, separator: ' ', omission: '... ') do
-        link_to "Read more", harvest_path(harvest)
+        link_to 'Read more', harvest_path(harvest)
       end
     end
   end

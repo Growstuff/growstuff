@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe "footer", js: true do
+describe 'footer', js: true do
   before { visit root_path }
 
-  it "footer is on home page" do
+  it 'footer is on home page' do
     expect(page).to have_css 'footer'
   end
 

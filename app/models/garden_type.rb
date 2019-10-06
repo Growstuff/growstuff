@@ -1,6 +1,6 @@
 class GardenType < ApplicationRecord
   extend FriendlyId
-  friendly_id :name, use: %i(slugged finders)
+  friendly_id :name, use: %i[slugged finders]
 
   has_many :gardens, dependent: :nullify
 
@@ -13,7 +13,7 @@ class GardenType < ApplicationRecord
 
   def subtitler(garden_type)
     num = garden_type.gardens.uniq.count
-    s = num > 1 || num.zero? ? "s are" : " is"
+    s = num > 1 || num.zero? ? 's are' : ' is'
     "#{num} garden#{s} using this garden type"
   end
 end

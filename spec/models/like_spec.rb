@@ -2,12 +2,10 @@ require 'rails_helper'
 
 describe 'like' do
   let(:member) { FactoryBot.create(:member) }
-  let(:post)   { FactoryBot.create(:post)   }
+  let(:post) { FactoryBot.create(:post) }
 
   context 'existing like' do
-    before do
-      @like = Like.create(member: member, likeable: post)
-    end
+    before { @like = Like.create(member: member, likeable: post) }
 
     it 'is valid' do
       expect(@like).to be_valid

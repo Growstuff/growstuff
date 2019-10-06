@@ -1,6 +1,6 @@
 class GardensController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create destroy)
+  before_action :authenticate_member!, except: %i[index show]
+  after_action :expire_homepage, only: %i[create destroy]
   load_and_authorize_resource
   responders :flash
   respond_to :html, :json
@@ -20,12 +20,8 @@ class GardensController < ApplicationController
   # GET /gardens/1
   # GET /gardens/1.json
   def show
-    @current_plantings = @garden.plantings.current
-      .includes(:crop, :owner)
-      .order(planted_at: :desc)
-    @finished_plantings = @garden.plantings.finished
-      .includes(:crop)
-      .order(finished_at: :desc)
+    @current_plantings = @garden.plantings.current.includes(:crop, :owner).order(planted_at: :desc)
+    @finished_plantings = @garden.plantings.finished.includes(:crop).order(finished_at: :desc)
     respond_with(@garden)
   end
 
@@ -67,7 +63,17 @@ class GardensController < ApplicationController
   private
 
   def garden_params
-    params.require(:garden).permit(:name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id)
+    params.require(:garden).permit(
+      :name,
+      :slug,
+      :description,
+      :active,
+      :location,
+      :latitude,
+      :longitude,
+      :area,
+      :area_unit,
+      :garden_type_id
+    )
   end
 end

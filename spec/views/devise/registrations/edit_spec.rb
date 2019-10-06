@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe 'devise/registrations/edit.html.haml', type: "view" do
-  context "logged in" do
+describe 'devise/registrations/edit.html.haml', type: 'view' do
+  context 'logged in' do
     before do
       controller.stub(:current_user) { nil }
       @member = FactoryBot.create(:member)
       controller.stub(:current_member) { @member }
       @view.stub(:resource).and_return(@member)
-      @view.stub(:resource_name).and_return("member")
+      @view.stub(:resource_name).and_return('member')
       @view.stub(:resource_class).and_return(Member)
       @view.stub(:devise_mapping).and_return(Devise.mappings[:member])
     end
@@ -18,42 +18,38 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
     end
 
     context 'email section' do
-      before do
-        render
-      end
+      before { render }
 
       it 'has a checkbox for email notifications' do
-        assert_select "input[id=member_send_notification_email][type=checkbox]"
+        assert_select 'input[id=member_send_notification_email][type=checkbox]'
       end
 
       it 'has a checkbox for newsletter subscription' do
-        assert_select "input[id=member_newsletter][type=checkbox]"
+        assert_select 'input[id=member_newsletter][type=checkbox]'
       end
     end
 
     context 'profile section' do
-      before do
-        render
-      end
+      before { render }
 
       it 'shows show_email checkbox' do
-        assert_select "input[id=member_show_email][type=checkbox]"
+        assert_select 'input[id=member_show_email][type=checkbox]'
       end
 
-      it "contains a gravatar icon" do
-        assert_select "img", src: %r{gravatar\.com/avatar}
+      it 'contains a gravatar icon' do
+        assert_select 'img', src: %r{gravatar\.com/avatar}
       end
 
       it 'contains a link to gravatar.com' do
-        assert_select "a", href: /gravatar\.com/
+        assert_select 'a', href: /gravatar\.com/
       end
 
       it 'shows bio field' do
-        assert_select "textarea[id=member_bio]"
+        assert_select 'textarea[id=member_bio]'
       end
 
       it 'shows location field' do
-        assert_select "input[id=member_location][type=text]"
+        assert_select 'input[id=member_location][type=text]'
       end
     end
 
@@ -61,7 +57,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       context 'not connected to twitter' do
         it 'has a link to connect' do
           render
-          assert_select "a", "Connect to Twitter"
+          assert_select 'a', 'Connect to Twitter'
         end
       end
 
@@ -72,18 +68,18 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
         end
 
         it 'has a link to twitter profile' do
-          assert_select "a", href: "http://twitter.com/#{@twitter_auth.name}"
+          assert_select 'a', href: "http://twitter.com/#{@twitter_auth.name}"
         end
         it 'has a link to disconnect' do
           render
-          assert_select "a", href: @twitter_auth, text: "Disconnect"
+          assert_select 'a', href: @twitter_auth, text: 'Disconnect'
         end
       end
 
       context 'not connected to flickr' do
         it 'has a link to connect' do
           render
-          assert_select "a", "Connect to Flickr"
+          assert_select 'a', 'Connect to Flickr'
         end
       end
 
@@ -94,11 +90,11 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
         end
 
         it 'has a link to flickr photostream' do
-          assert_select "a", href: "http://flickr.com/photos/#{@flickr_auth.uid}"
+          assert_select 'a', href: "http://flickr.com/photos/#{@flickr_auth.uid}"
         end
         it 'has a link to disconnect' do
           render
-          assert_select "a", href: @flickr_auth, text: "Disconnect"
+          assert_select 'a', href: @flickr_auth, text: 'Disconnect'
         end
       end
     end

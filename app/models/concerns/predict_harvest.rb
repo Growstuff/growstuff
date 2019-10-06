@@ -1,7 +1,8 @@
 module PredictHarvest
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
+    # rubocop:disable Metrics/BlockLength
     # dates
     def first_harvest_date
       harvests_with_dates.minimum(:harvested_at)
@@ -27,6 +28,7 @@ module PredictHarvest
     def update_harvest_days!
       days_to_first_harvest = nil
       days_to_last_harvest = nil
+
       if planted_at.present? && harvests_with_dates.size.positive?
         days_to_first_harvest = (first_harvest_date - planted_at).to_i
         days_to_last_harvest = (last_harvest_date - planted_at).to_i if finished?
@@ -40,17 +42,12 @@ module PredictHarvest
 
       # We have harvests but haven't finished
       harvests.size.positive? ||
-
-        # or, we don't have harvests, but we predict we should by now
-        (first_harvest_predicted_at.present? &&
-          harvests.empty? &&
-          first_harvest_predicted_at < Time.zone.today)
+        (first_harvest_predicted_at.present? && harvests.empty? && first_harvest_predicted_at < Time.zone.today)
+      # or, we don't have harvests, but we predict we should by now
     end
 
     def before_harvest_time?
-      first_harvest_predicted_at.present? &&
-        harvests.empty? &&
-        first_harvest_predicted_at.present? &&
+      first_harvest_predicted_at.present? && harvests.empty? && first_harvest_predicted_at.present? &&
         first_harvest_predicted_at > Time.zone.today
     end
 

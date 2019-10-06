@@ -1,7 +1,8 @@
 module MemberFlickr
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
+    # rubocop:disable Metrics/BlockLength
     # Authenticates against Flickr and returns an object we can use for subsequent api calls
     def flickr
       if @flickr.nil?
@@ -21,19 +22,12 @@ module MemberFlickr
     # Returns a [[page of photos], total] pair.
     # Total is needed for pagination.
     def flickr_photos(page_num = 1, set = nil)
-      result = if set
-                 flickr.photosets.getPhotos(
-                   photoset_id: set,
-                   page:        page_num,
-                   per_page:    30
-                 )
-               else
-                 flickr.people.getPhotos(
-                   user_id:  'me',
-                   page:     page_num,
-                   per_page: 30
-                 )
-               end
+      result =
+        if set
+          flickr.photosets.getPhotos(photoset_id: set, page: page_num, per_page: 30)
+        else
+          flickr.people.getPhotos(user_id: 'me', page: page_num, per_page: 30)
+        end
       return [result.photo, result.total] if result
 
       [[], 0]
@@ -42,9 +36,7 @@ module MemberFlickr
     # Returns a hash of Flickr photosets' ids and titles
     def flickr_sets
       sets = {}
-      flickr.photosets.getList.each do |p|
-        sets[p.title] = p.id
-      end
+      flickr.photosets.getList.each { |p| sets[p.title] = p.id }
       sets
     end
   end

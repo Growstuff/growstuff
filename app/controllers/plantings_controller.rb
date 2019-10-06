@@ -1,12 +1,12 @@
 class PlantingsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create update destroy)
-  after_action :update_crop_medians, only: %i(create update destroy)
+  before_action :authenticate_member!, except: %i[index show]
+  after_action :expire_homepage, only: %i[create update destroy]
+  after_action :update_crop_medians, only: %i[create update destroy]
   after_action :update_planting_medians, only: :update
   load_and_authorize_resource
 
   respond_to :html, :json
-  respond_to :csv, :rss, only: [:index]
+  respond_to :csv, :rss, only: %i[index]
   responders :flash
 
   def index
@@ -20,10 +20,9 @@ class PlantingsController < ApplicationController
 
     @plantings = @plantings.active unless params[:all] == '1'
 
-    @plantings = @plantings.joins(:owner, :crop, :garden)
-      .order(created_at: :desc)
-      .includes(:owner, :garden, crop: :parent)
-      .paginate(page: params[:page])
+    @plantings =
+      @plantings.joins(:owner, :crop, :garden).order(created_at: :desc).includes(:owner, :garden, crop: :parent)
+        .paginate(page: params[:page])
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
@@ -36,19 +35,10 @@ class PlantingsController < ApplicationController
   end
 
   def new
-    @planting = Planting.new(
-      planted_at: Time.zone.today,
-      owner:      current_member,
-      garden:     current_member.gardens.first
-    )
+    @planting = Planting.new(planted_at: Time.zone.today, owner: current_member, garden: current_member.gardens.first)
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
     @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
-    if params[:garden_id]
-      @planting.garden = Garden.find_by(
-        owner: current_member,
-        id:    params[:garden_id]
-      )
-    end
+    @planting.garden = Garden.find_by(owner: current_member, id: params[:garden_id]) if params[:garden_id]
 
     respond_with @planting
   end
@@ -90,26 +80,32 @@ class PlantingsController < ApplicationController
   def planting_params
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
-      :crop_id, :description, :garden_id, :planted_at,
+      :crop_id,
+      :description,
+      :garden_id,
+      :planted_at,
       :parent_seed_id,
-      :quantity, :sunniness, :planted_from, :finished,
+      :quantity,
+      :sunniness,
+      :planted_from,
+      :finished,
       :finished_at
     )
   end
 
   def plantings
-    p = if @owner
-          @owner.plantings
-        elsif @crop
-          @crop.plantings
-        else
-          Planting
-        end
+    p =
+      if @owner
+        @owner.plantings
+      elsif @crop
+        @crop.plantings
+      else
+        Planting
+      end
     p = p.current unless @show_all
-    p.joins(:owner, :crop, :garden)
-      .order(created_at: :desc)
-      .includes(:crop, :owner, :garden)
-      .paginate(page: params[:page])
+    p.joins(:owner, :crop, :garden).order(created_at: :desc).includes(:crop, :owner, :garden).paginate(
+      page: params[:page]
+    )
   end
 
   def specifics

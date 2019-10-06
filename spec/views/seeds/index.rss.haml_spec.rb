@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe 'seeds/index.rss.haml' do
-  before do
-    controller.stub(:current_user) { nil }
-  end
+  before { controller.stub(:current_user) { nil } }
 
   context 'all seeds' do
     before do
@@ -14,7 +12,7 @@ describe 'seeds/index.rss.haml' do
     end
 
     it 'shows RSS feed title' do
-      rendered.should have_content "Recent seeds from all members"
+      rendered.should have_content 'Recent seeds from all members'
     end
 
     it 'has a useful item title' do

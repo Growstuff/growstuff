@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'admin/newsletter.html.haml', type: "view" do
+describe 'admin/newsletter.html.haml', type: 'view' do
   before do
     @member = FactoryBot.create(:admin_member)
     sign_in @member
@@ -10,7 +10,7 @@ describe 'admin/newsletter.html.haml', type: "view" do
     render
   end
 
-  it "lists newsletter subscribers by email" do
+  it 'lists newsletter subscribers by email' do
     rendered.should have_content @subscriber.email
   end
 end

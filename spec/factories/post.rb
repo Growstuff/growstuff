@@ -8,7 +8,7 @@ FactoryBot.define do
 
     # Markdown is allowed in posts
     factory :markdown_post do
-      body { "This is some **strong** text." }
+      body { 'This is some **strong** text.' }
     end
 
     # HTML isn't allowed in posts

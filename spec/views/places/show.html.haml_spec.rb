@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "places/show" do
+describe 'places/show' do
   before do
     @member = FactoryBot.create(:london_member)
     @nearby_members = [FactoryBot.create(:member)]
@@ -10,17 +10,15 @@ describe "places/show" do
     render
   end
 
-  it "shows the selected place" do
+  it 'shows the selected place' do
     view.content_for(:title).should match @place
   end
 
-  it "shows the selected place in the textbox" do
-    assert_select "#new_place", value: @place
+  it 'shows the selected place in the textbox' do
+    assert_select '#new_place', value: @place
   end
 
-  it "shows the names of nearby members" do
-    @nearby_members.each do |m|
-      rendered.should have_content m.login_name
-    end
+  it 'shows the names of nearby members' do
+    @nearby_members.each { |m| rendered.should have_content m.login_name }
   end
 end
