@@ -34,7 +34,12 @@ class ConversationsController < ApplicationController
   end
 
   def destroy_multiple
-    Mailboxer::Conversation.where(id: params[:conversation_ids]).each do |conversation|
+    conversations = if @box.eql? 'sent'
+                      mailbox.sentbox
+                    else
+                      mailbox.inbox
+                    end
+    conversations.where(id: params[:conversation_ids]).each do |conversation|
       conversation.move_to_trash(current_member)
     end
     redirect_to conversations_path(box: params[:box])
