@@ -6,19 +6,15 @@ class SeedsController < ApplicationController
   respond_to :csv, only: :index
   respond_to :rss, only: :index
 
-  # GET /seeds
-  # GET /seeds.json
   def index
     @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug].present?
     @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug].present?
     @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id].present?
 
-    @seeds = @seeds.where(owner: @owner) if @owner.present?
-    @seeds = @seeds.where(crop: @crop) if @crop.present?
-    @seeds = @seeds.where(parent_planting: @planting) if @planting.present?
-    @seeds = @seeds.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
+    @show_all = (params[:all] == '1')
 
     @filename = csv_filename
+    @seeds = seeds.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
 
     respond_with(@seeds)
   end
@@ -46,7 +42,11 @@ class SeedsController < ApplicationController
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
     flash[:notice] = "Successfully added #{@seed.crop} seed to your stash." if @seed.save
-    respond_with(@seed)
+    if params[:return] == 'planting'
+      respond_with(@seed, location: @seed.parent_planting)
+    else
+      respond_with(@seed)
+    end
   end
 
   def update
@@ -60,6 +60,15 @@ class SeedsController < ApplicationController
   end
 
   private
+
+  def seeds
+    records = Seed.all
+    records = records.where(owner: @owner) if @owner.present?
+    records = records.where(crop: @crop) if @crop.present?
+    records = records.where(parent_planting: @planting) if @planting.present?
+    records = records.active unless @show_all
+    records
+  end
 
   def seed_params
     params.require(:seed).permit(

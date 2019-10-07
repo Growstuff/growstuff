@@ -6,19 +6,23 @@
     .card.fact-card
       .card-body.text-center
         %h3
-          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-            - if crop.perennial == true
+          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'crop-longevity' do
+            - if crop.perennial?
               Perennial
-            - elsif crop.perennial == false
+            - elsif crop.annual?
               Annual
-
-        %strong
+        %strong.crop-longevity
           %i.far.fa-calendar
 
         - if crop.perennial == true
           %small living more than two years
         - elsif crop.perennial == false
           %small living and reproducing in a single year or less
+        - if can? :wrangle, @crop
+          %small.edit-link
+            = bootstrap_form_for(@crop) do |f|
+              = f.hidden_field :perennial, value: crop.annual?
+              = f.submit :toggle
 
   - if crop.annual? && crop.median_lifespan.present?
     .card.fact-card
@@ -27,7 +31,6 @@
         %strong= crop.median_lifespan
         %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
         %span days
-
 
   - if crop.median_days_to_first_harvest.present?
     .card.fact-card

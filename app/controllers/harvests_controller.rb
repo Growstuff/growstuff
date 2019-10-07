@@ -43,7 +43,11 @@ class HarvestsController < ApplicationController
     @harvest.crop_id = @harvest.planting.crop_id if @harvest.planting_id
     @harvest.harvested_at = Time.zone.now if @harvest.harvested_at.blank?
     @harvest.save
-    respond_with(@harvest)
+    if params[:return] == 'planting'
+      respond_with(@harvest, location: @harvest.planting)
+    else
+      respond_with(@harvest)
+    end
   end
 
   def update

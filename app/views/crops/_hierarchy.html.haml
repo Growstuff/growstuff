@@ -5,6 +5,8 @@
   - display_crops.each do |c|
     %li.crop-hierarchy{ class: (max != 0 && @count >= max) || !c.approved? ? ['hide', 'toggle'] : [] }
       = render 'crops/tiny', crop: c
+      - if c.perennial
+        = perennial_icon
       - @count += 1
       - if c.varieties.present?
         - c.varieties.order(:name).each do |v|

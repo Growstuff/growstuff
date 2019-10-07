@@ -1,0 +1,11 @@
+#mainModal.modal{"aria-hidden" => "true", "aria-labelledby" => "mainModalLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", type: "button"}
+          %span{"aria-hidden" => "true"} &#215;
+          %span.sr-only Close
+        %h4#mainModalLabel.modal-title
+          = yield :title if content_for? :title
+          \&#160;
+      = yield

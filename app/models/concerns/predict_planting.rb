@@ -41,6 +41,10 @@ module PredictPlanting
       (Time.zone.today - planted_at).to_i if planted_at.present?
     end
 
+    def weeks_since_planted
+      days_since_planted / 7
+    end
+
     # progress
     def percentage_grown
       if finished?

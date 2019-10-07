@@ -1,15 +1,18 @@
 .row
   .col-md-9
-    %h1
+    %h1.display-3
       = crop_icon(@crop)
       %strong= @crop.name.titleize
       - unless @crop.approved?
         %badge.badge-warning=@crop.approval_status
       %small.text-muted= @crop.default_scientific_name
     - if @crop.sowing_method.present?
-      %h2= @crop.sowing_method
+      %h2
+        How to sow #{@crop.name}:
+        = @crop.sowing_method
     - if @crop.sun_requirements.present?
       %p
+        %strong Sun requirement for #{@crop}:
         Plant in #{@crop.sun_requirements}
     %p.text-muted
       - if !@crop.plantings.empty?

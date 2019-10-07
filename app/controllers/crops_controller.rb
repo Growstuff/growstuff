@@ -113,7 +113,10 @@ class CropsController < ApplicationController
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      notifier.deliver_now! if @crop.approval_status_changed?(from: "pending", to: "approved")
+      if @crop.approval_status_changed?(from: "pending", to: "approved")
+        notifier.deliver_now!
+        @crop.update_openfarm_data!
+      end
     else
       @crop.approval_status = @crop.approval_status_was
     end
@@ -210,7 +213,7 @@ class CropsController < ApplicationController
     q = Crop.approved.includes(:scientific_names, plantings: :photos)
     q = q.popular unless @sort == 'alpha'
     q.order(Arel.sql("LOWER(crops.name)"))
-      .includes(:photos).paginate(page: params[:page], per_page: 30)
+      .includes(:photos).paginate(page: params[:page])
   end
 
   def requested_crops

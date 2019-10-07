@@ -12,11 +12,11 @@
               locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }
 - else
 
-  = render 'layouts/pagination', collection: @posts
+  = will_paginate @posts
 
   .index-cards
     - @posts.each do |post|
       = render 'posts/preview', post: post
 
-  = render 'layouts/pagination', collection: @posts
+  = will_paginate @posts
 

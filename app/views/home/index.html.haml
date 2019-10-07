@@ -2,16 +2,23 @@
   = ENV['GROWSTUFF_SITE_NAME']
 
 - if member_signed_in?
-  %h1.display-2= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+  .row
+    .col-lg-8.col-md-12
+      %h1.display-4= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
-  %p= render 'stats'
+      %p= render 'stats'
+    .col
+      %p
+        = link_to member_gardens_path(current_member), class: 'btn btn-dark' do
+          = image_icon 'gardens'
+          Show me my garden
 - else
   .hidden-xs
     %section.jumbotron= render 'blurb'
-
 .row
   .col-lg-8.col-md-12
     %section.crops
+      = cute_icon
       %h2= t('home.crops.our_crops')
       = render 'crops'
       = link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
@@ -23,14 +30,17 @@
 
   .col-xl-2.col
     %section.plantings
+      = cute_icon
       =render 'plantings'
       %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
   .col-xl-2.col
     %section.harvests
+      = cute_icon
       = render 'harvests'
       %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
   .col-12.col-md-6
     %section.seeds
+      = cute_icon
       = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
   .col-12.col-md-6

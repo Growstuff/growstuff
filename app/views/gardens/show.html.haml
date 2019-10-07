@@ -10,20 +10,16 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- content_for :scripts do
-  = javascript_include_tag "charts"
-  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
-
-
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Gardens', gardens_path
   %li.breadcrumb-item.active= link_to @garden.name, gardens_path(@garden)
 
 .row
-  .col-md-9.col-sm-12
+  .col-md-9.col-12
     %h2.h1
       %strong= @garden
-      = render 'gardens/actions', garden: @garden
+  .col-md-3.col-12
+    = render 'gardens/actions', garden: @garden
 .row
   .col-md-9
     - unless @garden.active
@@ -32,7 +28,6 @@
         - if can? :edit, @garden
           = link_to 'Set it to active', edit_garden_path(@garden)
           to plant something in this garden.
-
     %div
       %p
         :growstuff_markdown
@@ -47,11 +42,10 @@
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
     - if @garden.plantings.where.not(planted_at: nil).any?
-      .row
-        .col-md-12
-          %section
-            %h2 Garden timeline
-            = timeline garden_timeline_path(@garden), adapter: "google"
+      %section.card
+        %h2 Garden progress
+        .card-body
+          = render 'plantings/progress_list', plantings: @garden.plantings.active
 
     %section
       %h2 Current plantings in garden
@@ -67,7 +61,7 @@
       .index-cards
         - if @finished_plantings.size.positive?
           - @finished_plantings.each do |planting|
-            = render "plantings/thumbnail",  planting: planting
+            = render "plantings/tiny",  planting: planting
         - else
           .col-md-12
             %p Nothing has been planted here.

@@ -19,6 +19,7 @@ describe "seeds", js: true do
     describe "button on front page to add seeds" do
       before do
         visit root_path
+        click_link 'Record'
         click_link(href: new_seed_path)
       end
 
@@ -29,7 +30,7 @@ describe "seeds", js: true do
     describe "Clicking link to owner's profile" do
       before do
         visit member_seeds_path(member)
-        click_link "View #{member}'s profile >>"
+        click_link "View Owners Profile"
       end
 
       it { expect(current_path).to eq member_path(member) }
