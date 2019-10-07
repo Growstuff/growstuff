@@ -17,7 +17,6 @@
                                       @sort || 'popular'),
                  label: 'Sort by'
     = f.submit "Show"
-  = f.select :sort, append: f.primary('Show'), input_group_class: 'input-group-lg'
 
 %section.crops
   %h2= t('.title')
