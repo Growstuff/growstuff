@@ -111,15 +111,11 @@ class Harvest < ApplicationRecord
   end
 
   def unit_to_human
-    return "" unless quantity
+    return "" unless quantity && unit
+    return 'individual' if unit == 'individual'
+    return "#{unit} of" if quantity == 1
 
-    if unit == 'individual'
-      'individual'
-    elsif quantity == 1
-      "#{unit} of"
-    else
-      "#{unit.pluralize} of"
-    end
+    "#{unit.pluralize} of"
   end
 
   def weight_to_human

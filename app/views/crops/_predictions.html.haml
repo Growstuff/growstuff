@@ -1,49 +1,61 @@
-%h3
+%h2
   = icon 'fas', 'magic'
   Predictions
-.card-deck.mx-auto.predictions
+.index-cards.facts
   - unless crop.perennial.nil?
-    .col
-      .card.predictions-card
-        .card-body.text-center
-          %h3
-            = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution' do
-              - if crop.perennial == true
-                Perennial
-              - elsif crop.perennial == false
-                Annual
+    .card.fact-card
+      .card-body.text-center
+        %h3
+          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'crop-longevity' do
+            - if crop.perennial?
+              Perennial
+            - elsif crop.annual?
+              Annual
+        %strong.crop-longevity
+          %i.far.fa-calendar
 
-          %p.display-1
-            %i.far.fa-calendar
-
-          - if crop.perennial == true
-            %small living more than two years
-          - elsif crop.perennial == false
-            %small living and reproducing in a single year or less
+        - if crop.perennial == true
+          %small living more than two years
+        - elsif crop.perennial == false
+          %small living and reproducing in a single year or less
+        - if can? :wrangle, @crop
+          %small.edit-link
+            = bootstrap_form_for(@crop) do |f|
+              = f.hidden_field :perennial, value: crop.annual?
+              = f.submit :toggle
 
   - if crop.annual? && crop.median_lifespan.present?
-    .col
-      .card.predictions-card
-        .card-body.text-center
-          %h3 Median lifespan
-          %p.display-1= crop.median_lifespan
-          %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
-          %span days
-
+    .card.fact-card
+      .card-body.text-center
+        %h3 Median lifespan
+        %strong= crop.median_lifespan
+        %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
+        %span days
 
   - if crop.median_days_to_first_harvest.present?
-    .col
-      .card.predictions-card
-        .card-body.text-center
-          %h3 First harvest expected
-          %p.display-1= crop.median_days_to_first_harvest
-          %span days after planting
+    .card.fact-card
+      .card-body.text-center
+        %h3 First harvest expected
+        %strong= crop.median_days_to_first_harvest
+        %span days after planting
 
   - if crop.annual? && crop.median_days_to_last_harvest.present?
-    .col
-      .card.predictions-card
-        .card-body.text-center
-          %h3 Last harvest expected
-          %p.display-1= crop.median_days_to_last_harvest
-          %span days after planting
+    = render 'layouts/fact_card',
+      title: "Last harvest expected",
+      value: crop.median_days_to_last_harvest,
+      description: "days after planting"
 
+  - if crop.height.present?
+    = render 'layouts/fact_card',
+      title: 'Height', value: "#{crop.height}cm", description: nil
+
+  - if crop.spread.present?
+    = render 'layouts/fact_card',
+      title: 'Spread', value: "#{crop.spread}cm", description: nil
+
+  - if crop.row_spacing.present?
+    = render 'layouts/fact_card',
+      title: 'Row Spacing', value: "#{crop.row_spacing}cm", description: nil
+  - if crop.growing_degree_days.present?
+    = render 'layouts/fact_card',
+      title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil

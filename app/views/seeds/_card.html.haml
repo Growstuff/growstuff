@@ -1,13 +1,16 @@
-.card.seed-card
+.card.seed-card{class: seed.active? ? '' : 'card-finished'}
   = link_to seed do
-    = image_tag(seed_image_path(seed, full_size: true), alt: seed, class: 'img-card')
-  .card-body
-    .card-title= link_to seed.crop, seed
-  .card-footer
+    = image_tag(seed_image_path(seed), alt: seed, class: 'img-card')
+  .text
     = render 'members/tiny', member: seed.owner
+  .card-body
+    .card-title
+      = crop_icon(seed.crop)
+      = link_to seed.crop, seed
     - if seed.tradable?
-      %span.badge.badge-pill.badge-info
+      .text-muted
         = icon 'fas', 'map'
         Will trade #{seed.tradable_to}
-    %span.badge.badge-pill.badge-secondary
-      = truncate(seed.owner.location, length: 30, separator: ' ', omission: '... ')
+    .badge.badge-pill.badge-location
+      = icon 'fas', 'map-marker'
+      = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')

@@ -11,13 +11,12 @@
       = render partial: "shared/signin_signup",
               locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }
 - else
-  .pagination
-    = page_entries_info @posts
-    = render 'layouts/pagination', collection: @posts
-  - @posts.each do |post|
-    = render 'posts/preview', post: post
 
-  .pagination
-    = page_entries_info @posts
-    = render 'layouts/pagination', collection: @posts
+  = will_paginate @posts
+
+  .index-cards
+    - @posts.each do |post|
+      = render 'posts/preview', post: post
+
+  = will_paginate @posts
 

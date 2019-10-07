@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
+    post :openfarm
 
     collection do
       get 'requested'
@@ -98,7 +99,11 @@ Rails.application.routes.draw do
   end
 
   resources :messages
-  resources :conversations
+  resources :conversations do
+    collection do
+      delete 'destroy_multiple'
+    end
+  end
 
   resources :places, only: %i(index show), param: :place do
     get 'search', on: :collection

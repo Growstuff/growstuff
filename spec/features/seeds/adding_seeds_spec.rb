@@ -46,22 +46,19 @@ describe "Seeds", :js, :elasticsearch do
       end
 
       it { expect(page).to have_content "Successfully added maize seed to your stash" }
-      it { expect(page).to have_content "Quantity: 42" }
-      it { expect(page).to have_content "Days until maturity: 999–1999" }
-      it { expect(page).to have_content "certified organic" }
-      it { expect(page).to have_content "non-certified GMO-free" }
-      it { expect(page).to have_content "Heirloom? heirloom" }
-      it { expect(page).to have_content "It's killer." }
+      it { expect(find('.seedfacts--quantity')).to have_content "42" }
+      it { expect(find('.seedfacts--maturity')).to have_content "999–1999" }
+      it { expect(find('.seedtitle--organic')).to have_content "certified organic" }
+      it { expect(find('.seedtitle--gmo')).to have_content "non-certified GMO-free" }
+      it { expect(find('.seedtitle--heirloom')).to have_content "heirloom" }
+      it { expect(find('.seed--description')).to have_content "It's killer." }
     end
 
     describe "Adding a seed from crop page" do
       before do
         visit crop_path(maize)
-        click_link "Add maize seeds to stash"
-        within "form#new_seed" do
-          expect(page).to have_selector "input[value='maize']"
-          click_button "Save"
-        end
+        click_link "Save seeds"
+        click_link "Will trade: nowhere"
       end
 
       it { expect(page).to have_content "Successfully added maize seed to your stash" }

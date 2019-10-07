@@ -1,15 +1,6 @@
-%p
-  %strong Plant from:
-  - if crop.planted_from.empty?
-    not known.
-  - else
-    - planted_from = crop.planted_from.sort_by { |_, freq| freq }.reverse
-    = planted_from.map { |s, freq| "#{s} (#{freq})" }.join(", ")
+- if crop.guides_count.present? && crop.guides_count.positive?
+  %p
+    There are
+    = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-').downcase}" do
+      #{crop.guides_count} growing guides on Open Farm
 
-%p
-  %strong Plant in:
-  - if crop.sunniness.empty?
-    not known.
-  - else
-    - sunniness = crop.sunniness.sort_by { |_, freq| freq }.reverse
-    = sunniness.map { |s, freq| "#{s} (#{freq})" }.join(", ")

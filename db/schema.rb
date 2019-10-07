@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_042146) do
+ActiveRecord::Schema.define(version: 2019_09_21_211652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,20 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.datetime "updated_at"
   end
 
+  create_table "crop_companions", force: :cascade do |t|
+    t.integer "crop_a_id", null: false
+    t.integer "crop_b_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "crop_posts", id: false, force: :cascade do |t|
+    t.integer "crop_id"
+    t.integer "post_id"
+    t.index ["crop_id", "post_id"], name: "index_crop_posts_on_crop_id_and_post_id"
+    t.index ["crop_id"], name: "index_crop_posts_on_crop_id"
+  end
+
   create_table "crops", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "en_wikipedia_url"
@@ -171,16 +185,10 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.integer "median_lifespan"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
+    t.jsonb "openfarm_data"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
-  end
-
-  create_table "crops_posts", id: false, force: :cascade do |t|
-    t.integer "crop_id"
-    t.integer "post_id"
-    t.index ["crop_id", "post_id"], name: "index_crops_posts_on_crop_id_and_post_id"
-    t.index ["crop_id"], name: "index_crops_posts_on_crop_id"
   end
 
   create_table "follows", id: :serial, force: :cascade do |t|
@@ -416,9 +424,12 @@ ActiveRecord::Schema.define(version: 2019_07_21_042146) do
     t.string "license_name", null: false
     t.string "license_url"
     t.string "link_url", null: false
-    t.string "flickr_photo_id"
+    t.string "source_id"
     t.datetime "date_taken"
     t.integer "likes_count", default: 0
+    t.string "source"
+    t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
+    t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|

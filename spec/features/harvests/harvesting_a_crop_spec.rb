@@ -47,14 +47,8 @@ describe "Harvesting a crop", :js, :elasticsearch do
     describe "Harvesting from crop page" do
       before do
         visit crop_path(maize)
-        within '.crop-actions' do
-          click_link "Harvest #{maize.name}"
-        end
-        within "form#new_harvest" do
-          choose plant_part.name
-          expect(page).to have_selector "input[value='maize']"
-          click_button "Save"
-        end
+        click_link 'Record harvest'
+        click_link plant_part.name
       end
 
       it { expect(page).to have_content "harvest was successfully created." }
@@ -65,10 +59,8 @@ describe "Harvesting a crop", :js, :elasticsearch do
       let!(:planting) { create :planting, crop: maize, owner: member, garden: member.gardens.first }
       before do
         visit planting_path(planting)
-        click_link "Record Harvest"
-
-        choose plant_part.name
-        click_button "Save"
+        click_link "Record harvest"
+        click_link plant_part.name
       end
 
       it { expect(page).to have_content "harvest was successfully created." }

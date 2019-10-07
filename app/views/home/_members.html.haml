@@ -3,7 +3,7 @@
     - members = Member.includes(plantings: :crop).interesting.limit(6)
     - if members.present?
       %h2.text-center= t('.title')
-      .member-cards.index-cards
+      .index-cards
         = render members
 
     %p.text-right

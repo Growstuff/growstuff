@@ -9,7 +9,7 @@ describe Charts::GardensController do
     describe 'GET timeline' do
       before { get :timeline, params: { garden_id: garden.to_param } }
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
   end
 
@@ -21,7 +21,7 @@ describe Charts::GardensController do
     describe 'GET timeline' do
       before { get :timeline, params: { garden_id: garden.to_param } }
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
   end
 end

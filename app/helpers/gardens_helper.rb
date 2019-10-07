@@ -9,10 +9,6 @@ module GardensHelper
     end
   end
 
-  def gardens_active_tickbox_path(owner, show_all)
-    show_inactive_tickbox_path('gardens', owner, show_all)
-  end
-
   def display_garden_name(garden)
     truncate(garden.name, length: 50, separator: ' ', omission: '... ')
   end

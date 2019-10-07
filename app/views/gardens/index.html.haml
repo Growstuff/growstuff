@@ -1,8 +1,7 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
 
-%h1
-  = @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
+%h1= @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
 = render 'layouts/nav', model: Garden
 
@@ -14,7 +13,7 @@
     %li.breadcrumb-item.active= link_to 'Gardens', gardens_path
 
 %section.border-top
-  = link_to gardens_active_tickbox_path(@owner, @show_all), class: 'btn'  do
+  = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all), class: 'btn'  do
     = check_box_tag 'active', 'all', @show_all
     include in-active
 
@@ -24,26 +23,33 @@
     = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
 
 - else
+  = page_entries_info @gardens
+  = will_paginate @gardens
   .row
-    .col-12= page_entries_info @gardens
-    .col-12= will_paginate @gardens
-  - @gardens.each do |garden|
-    %section.border-top
-      .row
-        .col-md-2.border-right
-          %h2
-            %strong= link_to garden, garden
-            = render 'gardens/actions', garden: garden
-          %p
-            = pluralize(garden.plantings.active.size, "planting")
-        .col-md-10
-          .row
-            - if garden.plantings.empty?
-              = garden_plant_something_button(garden, classes: 'btn btn-success')
+    - @gardens.each do |garden|
+      .col-md-6.col-12
+        %section.card
+          %h2= link_to garden.name, garden
+          .card-header
+            .row
+              - unless @owner.present?
+                .col
+                  owner:
+                  = render 'members/tiny', member: garden.owner
+              .col= render 'gardens/actions', garden: garden
+              .col
+                - if garden.plantings.any?
+                  - if garden.plantings.active.perennial.any?
+                    %strong Perennials:
+                    - garden.plantings.active.perennial.each do |planting|
+                      = link_to planting do
+                        = crop_icon planting.crop
+                        = planting.crop
+          .card-body
+            - if garden.plantings.active.annual.any?
+              = render 'plantings/progress_list', plantings: garden.plantings.active.annual
             - else
-              - garden.plantings.active.each do |planting|
-                .col-6.col-md-4.col-lg-3= render 'plantings/card', planting: planting
-
+              No annual plantings
 
   .row
     .col-12= page_entries_info @gardens

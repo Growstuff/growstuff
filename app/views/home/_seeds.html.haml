@@ -1,5 +1,5 @@
 - cache cache_key_for(Seed) do
   %h2.text-center= t('home.seeds.title')
-  .homepage-cards
+  .index-cards
     - Seed.current.tradable.includes(:owner, :crop).order(created_at: :desc).limit(6).each do |seed|
       = render 'seeds/card', seed: seed

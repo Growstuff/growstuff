@@ -9,33 +9,49 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Plantings', plantings_path
+  %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
+  %li.breadcrumb-item.active= link_to @planting, @planting
 
 .planting
   .row
     .col-md-8.col-xs-12
-      %h1
-        = planting_icon
-        %strong= @planting
-        = render 'plantings/actions', planting: @planting
+      %h1.plantingtitle
+        %span.plantingtitle--icon= planting_icon
+        = @planting.to_s.titleize
+    .col-md-4.col-xs-12
+      = render 'plantings/actions', planting: @planting
 
+    .col-md-8.col-xs-12
       %section= render 'facts', planting: @planting
       - if @planting.description.present?
         %hr/
+        = cute_icon
         .card
           .card-header
             %h2 Notes
           .card-body
             :growstuff_markdown
               #{strip_tags(@planting.description)}
-      %hr/
       %section= render 'plantings/photos', photos: @photos, planting: @planting
-    .col-md-4.col-xs-12.text-right
-      .card
-        .card-body= render 'plantings/owner', planting: @planting
+    .col-md-4.col-xs-12
+      - if @planting.percentage_grown
+        %section.progress-bar
+          %h2 Progress
+          .progress
+            .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => @planting.percentage_grown, role: "progressbar", style: "width: #{@planting.percentage_grown}%"}
+          %strong.plantingfact--percentagegrown
+            #{sprintf '%.0f', @planting.percentage_grown}%
+
+      = render 'plantings/owner', planting: @planting
       = render @planting.crop
   .row
-    .col-md-12
-      %hr/
-      %section= render 'plantings/harvests', planting: @planting
-      %hr/
-      %section= render 'plantings/descendants', planting: @planting
+    .col-md-6
+      %section.harvests
+        %a{name: 'harvests'}
+        = render 'plantings/harvests', planting: @planting
+    .col-md-6
+      %section.descendants
+        %a{name: 'seeds'}
+        = render 'plantings/descendants', planting: @planting

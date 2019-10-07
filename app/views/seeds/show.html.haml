@@ -12,80 +12,69 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Seeds', seeds_path
+  %li.breadcrumb-item= link_to @seed.owner, member_seeds_path(@seed.owner)
   %li.breadcrumb-item.active= link_to @seed, @seed
 
-.row
-  .col-md-6
-    %h1
-      #{@seed.owner}'s #{@seed.crop} seeds
-      = render 'seeds/actions', seed: @seed
-    %dl.dl-horizontal
-      %dt Owner
-      %dd
-        = link_to @seed.owner, @seed.owner
-        &mdash;
-        = link_to "view all #{@seed.owner}'s seeds",
-          member_seeds_path(@seed.owner)
-      %dt Quantity:
-      %dd= @seed.quantity.blank? ? "not specified" : @seed.quantity
-      %dt Plant before:
-      %dd= @seed.plant_before.to_s
-      -if @seed.finished_at
-        %dt Finished at:
-        %dd= @seed.finished_at.to_s
-      %dt Days until maturity:
-      %dd= render partial: 'days_until_maturity', locals: { seed: @seed }
-      %dt Organic?
-      %dd= @seed.organic
-      %dt GMO?
-      %dd= @seed.gmo
-      %dt Heirloom?
-      %dd= @seed.heirloom
-      %dt Will trade:
-      %dd
-        = @seed.tradable_to
-        - if @seed.owner.location.blank?
-          (from unspecified location)
-          - if current_member == @seed.owner
-            = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
-        - else
-          (from
-          = succeed ")" do
-            = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
+.seed
+  .row
+    .col-md-8.col-xs-12
+      %h1
+        %span.seedtitle--icon= crop_icon(@seed.crop)
+        %strong
+          %span.seedtitle--owner #{@seed.owner}'s
+          %span.seedtitle--crop #{@seed.crop}
+          seeds
+        - if @seed.organic != 'unknown'
+          %small.seedtitle--organic= @seed.organic
+        - if @seed.gmo != 'unknown'
+          %small.seedtitle--gmo= @seed.gmo
+        - if @seed.heirloom != 'unknown'
+          %small.seedtitle--heirloom= @seed.heirloom
+        = I18n.l @seed.created_at.to_date
 
-      %dt When?
-      %dd
-        = @seed.created_at
+    .col-md-4.col-xs-12
+      = render 'seeds/actions', seed: @seed
+
+    .col-md-8.col-xs-12
+      %section= render 'facts', seed: @seed
       - if @seed.parent_planting
         %dt Saved from planting:
         %dd
           = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
-      %dt Description:
-      %dd
-        :growstuff_markdown
-          #{ @seed.description != "" ? strip_tags(@seed.description) : "No description given." }
+      - unless @seed.description.blank?
+        = cute_icon
+        .card.seed--description
+          .card-header
+            %h2 Notes
+          .card-body
+            :growstuff_markdown
+              #{strip_tags(@seed.description)}
 
-    - if current_member
-      - if @seed.tradable? && current_member != @seed.owner
-        %p= link_to "Request seeds",
-                    new_message_path(recipient_id: @seed.owner.id,
-                                         subject: "Interested in your #{@seed.crop} seeds"),
-                    class: 'btn btn-primary'
-    - else
-      = render 'shared/signin_signup', to: 'request seeds'
+      - if current_member
+        - if @seed.tradable? && current_member != @seed.owner
+          %p= link_to "Request seeds",
+                      new_message_path(recipient_id: @seed.owner.id,
+                                           subject: "Interested in your #{@seed.crop} seeds"),
+                      class: 'btn btn-primary'
+      - else
+        = render 'shared/signin_signup', to: 'request seeds'
 
-    = render 'seeds/descendants', seed: @seed
-    = render 'photos/item_photos', item: @seed, type: 'seed', photos: @photos
-
-  .col-md-6
-    = render @seed.crop
-    - if @seed.owner.location
+      %section.plantings
+        = render 'seeds/descendants', seed: @seed
+      %section.seed-photos
+        - @photos.each do |photo|
+          = render 'photos/hero', photo: photo
       %p
         %small
-          View other seeds, members to trade with and more near
-          = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
-    %p
-      %small
-        Or
-        = link_to "purchase seeds via Ebay",
-        crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer"
+          Or
+          = link_to "purchase seeds via Ebay",
+          crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer", class: 'btn'
+      - if @seed.owner.location
+        %p
+          %small
+            View other seeds, members to trade with and more near
+            = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
+    .col-md-4.col-xs-12
+      = render 'seeds/owner'
+      = render @seed.crop
+

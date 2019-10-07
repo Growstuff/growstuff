@@ -1,8 +1,11 @@
 .media
-  = link_to(image_tag(photo.fullsize_url, width: 150, class: 'rounded'), photo)
+  = link_to(image_tag(photo.thumbnail_url, width: 150, class: 'rounded'), photo)
   .media-body
     %p
       %ul.associations
+        - photo.crops.each do |crop|
+          %li= render 'crops/tiny', crop: crop
+
         - photo.plantings.each do |planting|
           %li
             = planting_icon

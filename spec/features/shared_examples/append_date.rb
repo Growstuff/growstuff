@@ -1,5 +1,6 @@
 shared_examples "append date" do
   let(:this_month) { Time.zone.today.strftime("%b") }
+  let(:this_year) { Time.zone.today.year }
 
   before { visit path }
 
@@ -13,7 +14,7 @@ shared_examples "append date" do
       end
     end
     it { expect(page).to have_content "Finished" }
-    it { expect(page).to have_content "21 #{this_month}" }
+    it { expect(page).to have_content "#{this_month} #{this_year}" }
   end
 
   describe "Confirming without selecting date" do
