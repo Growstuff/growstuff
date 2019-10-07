@@ -27,9 +27,9 @@ module ApplicationHelper
   end
 
   def required_field_help_text
-    asterisk = content_tag :span, '*', class: %w[red]
+    asterisk = content_tag :span, '*', class: %w(red)
     text = content_tag :em, 'denotes a required field'
-    content_tag :div, asterisk + ' '.html_safe + text, class: %w[margin-bottom]
+    content_tag :div, asterisk + ' '.html_safe + text, class: %w(margin-bottom)
   end
 
   #

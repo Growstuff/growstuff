@@ -369,7 +369,7 @@ describe Crop do
       it 'picks up scientific name from parent crop if available' do
         parent = CsvImporter.new.import_crop(['parent', 'http://en.wikipedia.org/wiki/Parent', '', 'Parentis cropis'])
 
-        tomato = CsvImporter.new.import_crop(%w[Tomato http://en.wikipedia.org/wiki/Parent parent])
+        tomato = CsvImporter.new.import_crop(%w(Tomato http://en.wikipedia.org/wiki/Parent parent))
 
         expect(tomato.parent).to eq parent
         expect(tomato.parent.default_scientific_name).to eq 'Parentis cropis'
@@ -442,7 +442,7 @@ describe Crop do
     end # alternate names
 
     it 'loads the simplest possible crop' do
-      tomato_row = %w[tomato http://en.wikipedia.org/wiki/Tomato]
+      tomato_row = %w(tomato http://en.wikipedia.org/wiki/Tomato)
       tomato = CsvImporter.new.import_crop(tomato_row)
 
       expect(tomato.name).to eq 'tomato'
@@ -469,7 +469,7 @@ describe Crop do
 
     it 'loads a crop with a parent' do
       parent = FactoryBot.create(:crop, name: 'parent')
-      crop = CsvImporter.new.import_crop(%w[tomato http://en.wikipedia.org/wiki/Tomato parent])
+      crop = CsvImporter.new.import_crop(%w(tomato http://en.wikipedia.org/wiki/Tomato parent))
       expect(crop.parent).to eq parent
     end
 

@@ -10,15 +10,15 @@ class ApplicationController < ActionController::Base
   # CanCan error handling
   def store_location
     unless request.path.in?(
-           %w[
-             /members/sign_in
-             /members/sign_up
-             /members/password/new
-             /members/password/edit
-             /members/confirmation
-             /members/sign_out
-           ]
-         ) ||
+      %w(
+        /members/sign_in
+        /members/sign_up
+        /members/password/new
+        /members/password/edit
+        /members/confirmation
+        /members/sign_out
+      )
+    ) ||
            request.xhr?
       store_location_for(:member, request.fullpath) if request.format == :html
     end

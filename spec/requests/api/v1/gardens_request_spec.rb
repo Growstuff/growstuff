@@ -7,10 +7,10 @@ RSpec.describe 'Gardens', type: :request do
   let!(:garden) { FactoryBot.create :garden }
   let(:garden_encoded_as_json_api) do
     {
-      'id' => garden.id.to_s,
-      'type' => 'gardens',
-      'links' => { 'self' => resource_url },
-      'attributes' => { 'name' => garden.name },
+      'id'            => garden.id.to_s,
+      'type'          => 'gardens',
+      'links'         => { 'self' => resource_url },
+      'attributes'    => { 'name' => garden.name },
       'relationships' => {
         'owner' => owner_as_json_api, 'plantings' => plantings_as_json_api, 'photos' => photos_as_json_api
       }

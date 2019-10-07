@@ -24,8 +24,8 @@ module ButtonsHelper
     link_to t('buttons.mark_as_inactive'),
             garden_path(garden, garden: { active: 0 }),
             method: :put,
-            class: classes,
-            data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
+            class:  classes,
+            data:   { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
   end
 
   def crop_plant_button(crop)

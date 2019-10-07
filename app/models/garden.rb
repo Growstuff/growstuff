@@ -3,7 +3,7 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
-  friendly_id :garden_slug, use: %i[slugged finders]
+  friendly_id :garden_slug, use: %i(slugged finders)
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
@@ -32,7 +32,7 @@ class Garden < ApplicationRecord
     'square metres' => 'square metre', 'square feet' => 'square foot', 'hectares' => 'hectare', 'acres' => 'acre'
   }.freeze
   validates :area_unit,
-            inclusion: { in: AREA_UNITS_VALUES.values, message: '%<value>s is not a valid area unit' },
+            inclusion:   { in: AREA_UNITS_VALUES.values, message: '%<value>s is not a valid area unit' },
             allow_blank: true
 
   after_validation :cleanup_area

@@ -39,13 +39,13 @@ module Growstuff
     # rails will fallback to config.i18n.default_locale translation
     config.i18n.fallbacks = true
     # rails will fallback to en, no matter what is set as config.i18n.default_locale
-    config.i18n.fallbacks = %i[en]
+    config.i18n.fallbacks = %i(en)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += %i[password]
+    config.filter_parameters += %i(password)
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true

@@ -37,9 +37,7 @@ class OpenfarmService
         companion_crop_hash = crops.detect { |c| c.fetch('id') == com.fetch('id') }
         companion_crop_name = companion_crop_hash.fetch('attributes').fetch('name').downcase
         companion_crop = Crop.where('lower(name) = ?', companion_crop_name).first
-        if companion_crop.nil?
-          companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: 'pending')
-        end
+        companion_crop = Crop.create!(name: companion_crop_name, requester: @cropbot, approval_status: 'pending') if companion_crop.nil?
         crop.companions << companion_crop unless crop.companions.where(id: companion_crop.id).any?
       end
     end
@@ -55,14 +53,14 @@ class OpenfarmService
 
       photo =
         Photo.new(
-          source_id: picture.fetch('id'),
-          source: 'openfarm',
-          owner: @cropbot,
+          source_id:     picture.fetch('id'),
+          source:        'openfarm',
+          owner:         @cropbot,
           thumbnail_url: data.fetch('thumbnail_url'),
-          fullsize_url: data.fetch('image_url'),
-          title: 'Open Farm photo',
-          license_name: 'No rights reserved',
-          link_url: "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
+          fullsize_url:  data.fetch('image_url'),
+          title:         'Open Farm photo',
+          license_name:  'No rights reserved',
+          link_url:      "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
         )
       if photo.valid?
         Photo.transaction do

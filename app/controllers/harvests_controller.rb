@@ -1,6 +1,6 @@
 class HarvestsController < ApplicationController
-  before_action :authenticate_member!, except: %i[index show]
-  after_action :update_crop_medians, only: %i[create update destroy]
+  before_action :authenticate_member!, except: %i(index show)
+  after_action :update_crop_medians, only: %i(create update destroy)
   load_and_authorize_resource
   respond_to :html, :json
   respond_to :csv, :rss, only: :index

@@ -5,7 +5,7 @@ namespace :i18n do
   end
 
   desc 'translate haml strings into i18 en locale using haml-i18n-extractor'
-  task :extractor, %i[haml_path] do |_t, args|
+  task :extractor, %i(haml_path) do |_t, args|
     require 'haml-i18n-extractor'
     haml_path = args[:haml_path]
     begin

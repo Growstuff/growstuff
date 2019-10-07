@@ -2,7 +2,7 @@ class Photo < ApplicationRecord
   include Likeable
   include Ownable
 
-  PHOTO_CAPABLE = %w[Garden Planting Harvest Seed Post Crop].freeze
+  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
   has_many :photo_associations, foreign_key: :photo_id, dependent: :delete_all, inverse_of: :photo
   has_many :crops, through: :photo_associations
@@ -30,13 +30,13 @@ class Photo < ApplicationRecord
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
-      title: calculate_title(info),
-      license_name: license.name,
-      license_url: license.url,
+      title:         calculate_title(info),
+      license_name:  license.name,
+      license_url:   license.url,
       thumbnail_url: FlickRaw.url_q(info),
-      fullsize_url: FlickRaw.url_z(info),
-      link_url: FlickRaw.url_photopage(info),
-      date_taken: info.dates.taken
+      fullsize_url:  FlickRaw.url_z(info),
+      link_url:      FlickRaw.url_photopage(info),
+      date_taken:    info.dates.taken
     }
   end
 

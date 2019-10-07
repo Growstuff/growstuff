@@ -2,7 +2,7 @@ class Crop < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include OpenFarmData
-  friendly_id :name, use: %i[slugged finders]
+  friendly_id :name, use: %i(slugged finders)
 
   ##
   ## Relationships
@@ -49,16 +49,14 @@ class Crop < ApplicationRecord
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
             format: {
-              with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
               message: 'is not a valid English Wikipedia URL'
             },
-            if: :approved?
+            if:     :approved?
 
   ####################################
   # Elastic search configuration
-  if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
-    searchkick word_start: %i[name alternate_names scientific_names], case_sensitive: false
-  end
+  searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
 
   def to_s
     name
@@ -123,7 +121,7 @@ class Crop < ApplicationRecord
   end
 
   def approval_statuses
-    %w[rejected pending approved]
+    %w(rejected pending approved)
   end
 
   def reasons_for_rejection
@@ -162,13 +160,13 @@ class Crop < ApplicationRecord
 
   def search_data
     {
-      name: name,
-      alternate_names: alternate_names.pluck(:name),
+      name:             name,
+      alternate_names:  alternate_names.pluck(:name),
       scientific_names: scientific_names.pluck(:name),
-      plantings_count: plantings_count,
+      plantings_count:  plantings_count,
       planters_ids:
-        # boost the crops that are planted the most
-        plantings.pluck(:owner_id) # boost this product for these members
+                        # boost the crops that are planted the most
+                        plantings.pluck(:owner_id) # boost this product for these members
     }
   end
 

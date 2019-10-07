@@ -6,7 +6,7 @@ class PlacesController < ApplicationController
     respond_to do |format|
       format.html
       # json response is whatever we want to map here
-      format.json { render json: Member.located.to_json(only: %i[id login_name slug location latitude longitude]) }
+      format.json { render json: Member.located.to_json(only: %i(id login_name slug location latitude longitude)) }
     end
   end
 
@@ -17,7 +17,7 @@ class PlacesController < ApplicationController
     @nearby_members = Member.nearest_to(params[:place])
     respond_to do |format|
       format.html
-      format.json { render json: @nearby_members.to_json(only: %i[id login_name slug location latitude longitude]) } # show.html.haml
+      format.json { render json: @nearby_members.to_json(only: %i(id login_name slug location latitude longitude)) } # show.html.haml
     end
   end
 

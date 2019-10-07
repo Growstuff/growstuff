@@ -71,8 +71,8 @@ describe 'Gardens#index', :js do
       FactoryBot.create(
         :harvest,
         harvested_at: 50.days.ago,
-        crop: crop,
-        planting: FactoryBot.create(:planting, crop: crop, planted_at: 100.days.ago, finished_at: 10.days.ago)
+        crop:         crop,
+        planting:     FactoryBot.create(:planting, crop: crop, planted_at: 100.days.ago, finished_at: 10.days.ago)
       )
       crop.plantings.each(&:update_harvest_days!)
       crop.update_lifespan_medians

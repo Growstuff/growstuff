@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
-  before_action :authenticate_member!, except: %i[index show]
+  before_action :authenticate_member!, except: %i(index show)
   load_and_authorize_resource
   responders :flash
   respond_to :html, :json
-  respond_to :rss, only: %i[index show]
+  respond_to :rss, only: %i(index show)
 
   # GET /posts
   # GET /posts.json

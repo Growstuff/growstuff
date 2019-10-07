@@ -1,6 +1,6 @@
 class GardenType < ApplicationRecord
   extend FriendlyId
-  friendly_id :name, use: %i[slugged finders]
+  friendly_id :name, use: %i(slugged finders)
 
   has_many :gardens, dependent: :nullify
 

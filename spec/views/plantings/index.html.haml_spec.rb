@@ -18,20 +18,20 @@ describe 'plantings/index' do
             FactoryBot.create(:planting, garden: garden, crop: tomato, owner: member),
             FactoryBot.create(
               :planting,
-              garden: garden,
-              crop: maize,
-              owner: garden.owner,
+              garden:      garden,
+              crop:        maize,
+              owner:       garden.owner,
               description: '',
-              planted_at: Time.zone.local(2_013, 1, 13)
+              planted_at:  Time.zone.local(2_013, 1, 13)
             ),
             FactoryBot.create(
               :planting,
-              garden: garden,
-              owner: garden.owner,
-              crop: tomato,
-              planted_at: Time.zone.local(2_013, 1, 13),
+              garden:      garden,
+              owner:       garden.owner,
+              crop:        tomato,
+              planted_at:  Time.zone.local(2_013, 1, 13),
               finished_at: Time.zone.local(2_013, 1, 20),
-              finished: true
+              finished:    true
             )
           ]
         )

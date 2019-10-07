@@ -74,11 +74,11 @@ def load_test_users
 
     # Create a planting by the member
     Planting.create(
-      owner_id: @user.id,
-      garden_id: @user.gardens.first.id,
-      planted_at: Time.zone.today,
-      crop_id: Crop.find(i % Crop.all.size + 1).id,
-      sunniness: select_random_item(Planting::SUNNINESS_VALUES),
+      owner_id:     @user.id,
+      garden_id:    @user.gardens.first.id,
+      planted_at:   Time.zone.today,
+      crop_id:      Crop.find(i % Crop.all.size + 1).id,
+      sunniness:    select_random_item(Planting::SUNNINESS_VALUES),
       planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
     )
   end
@@ -106,9 +106,9 @@ def create_cropbot
 
   @cropbot_user =
     Member.new(
-      login_name: 'cropbot',
-      email: Rails.application.config.bot_email,
-      password: SecureRandom.urlsafe_base64(64),
+      login_name:    'cropbot',
+      email:         Rails.application.config.bot_email,
+      password:      SecureRandom.urlsafe_base64(64),
       tos_agreement: true
     )
   @cropbot_user.skip_confirmation!

@@ -1,12 +1,12 @@
 class PlantingsController < ApplicationController
-  before_action :authenticate_member!, except: %i[index show]
-  after_action :expire_homepage, only: %i[create update destroy]
-  after_action :update_crop_medians, only: %i[create update destroy]
+  before_action :authenticate_member!, except: %i(index show)
+  after_action :expire_homepage, only: %i(create update destroy)
+  after_action :update_crop_medians, only: %i(create update destroy)
   after_action :update_planting_medians, only: :update
   load_and_authorize_resource
 
   respond_to :html, :json
-  respond_to :csv, :rss, only: %i[index]
+  respond_to :csv, :rss, only: %i(index)
   responders :flash
 
   def index

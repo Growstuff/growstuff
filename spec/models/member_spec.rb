@@ -252,7 +252,7 @@ describe 'member' do
     context 'with a few members and plantings' do
       before do
         @members =
-          %i[london_member london_member london_member unconfirmed_member london_member member].collect do |m|
+          %i(london_member london_member london_member unconfirmed_member london_member member).collect do |m|
             FactoryBot.create(m)
           end
 

@@ -11,10 +11,10 @@ class Comment < ApplicationRecord
     if recipient != sender
       Notification.create(
         recipient_id: recipient,
-        sender_id: sender,
-        subject: "#{author} commented on #{post.subject}",
-        body: body,
-        post_id: post.id
+        sender_id:    sender,
+        subject:      "#{author} commented on #{post.subject}",
+        body:         body,
+        post_id:      post.id
       )
     end
   end

@@ -18,7 +18,7 @@ class PhotoAssociation < ApplicationRecord
   end
 
   def set_crop
-    if %w[Planting Seed Harvest].include?(photographable_type)
+    if %w(Planting Seed Harvest).include?(photographable_type)
       self.crop_id = photographable.crop_id
     elsif photographable_type == 'Crop'
       self.crop_id = photographable_id

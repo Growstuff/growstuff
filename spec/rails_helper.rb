@@ -103,7 +103,7 @@ RSpec.configure do |config|
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, js: true) do
     if page.driver.browser.respond_to?(:url_blacklist)
-      page.driver.browser.url_blacklist = %w[gravatar.com mapbox.com okfn.org googlecode.com]
+      page.driver.browser.url_blacklist = %w(gravatar.com mapbox.com okfn.org googlecode.com)
     end
 
     page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)

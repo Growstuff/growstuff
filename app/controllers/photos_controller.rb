@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
-  before_action :authenticate_member!, except: %i[index show]
-  after_action :expire_homepage, only: %i[create destroy]
+  before_action :authenticate_member!, except: %i(index show)
+  after_action :expire_homepage, only: %i(create destroy)
   load_and_authorize_resource
   respond_to :html, :json
   responders :flash

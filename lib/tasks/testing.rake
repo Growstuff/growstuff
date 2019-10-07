@@ -2,9 +2,8 @@ require 'rake'
 begin
   require 'rspec/core/rake_task'
   task(:spec).clear
-  RSpec::Core::RakeTask.new(spec: %w[db:create db:test:prepare assets:precompile]) { |t| t.verbose = false }
+  RSpec::Core::RakeTask.new(spec: %w(db:create db:test:prepare assets:precompile)) { |t| t.verbose = false }
 rescue LoadError
-
 end
 
 desc 'Run static code-quality checks'
@@ -14,8 +13,8 @@ end
 
 namespace :spec do
   desc 'Run only unit tests'
-  task unit: %w[jasmine:ci] do
-    suites = %w[controllers helpers lib mailers models requests routing views]
+  task unit: %w(jasmine:ci) do
+    suites = %w(controllers helpers lib mailers models requests routing views)
     system('rspec', *suites.collect { |s| "spec/#{s}" })
   end
 end

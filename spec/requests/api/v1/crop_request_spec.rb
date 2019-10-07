@@ -7,16 +7,16 @@ RSpec.describe 'Plantings', type: :request do
   let!(:crop) { FactoryBot.create :crop }
   let(:crop_encoded_as_json_api) do
     {
-      'id' => crop.id.to_s,
-      'type' => 'crops',
-      'links' => { 'self' => resource_url },
-      'attributes' => attributes,
+      'id'            => crop.id.to_s,
+      'type'          => 'crops',
+      'links'         => { 'self' => resource_url },
+      'attributes'    => attributes,
       'relationships' => {
         'plantings' => plantings_as_json_api,
-        'parent' => parent_as_json_api,
-        'harvests' => harvests_as_json_api,
-        'seeds' => seeds_as_json_api,
-        'photos' => photos_as_json_api
+        'parent'    => parent_as_json_api,
+        'harvests'  => harvests_as_json_api,
+        'seeds'     => seeds_as_json_api,
+        'photos'    => photos_as_json_api
       }
     }
   end
@@ -45,12 +45,12 @@ RSpec.describe 'Plantings', type: :request do
 
   let(:attributes) do
     {
-      'name' => crop.name,
-      'en-wikipedia-url' => crop.en_wikipedia_url,
-      'perennial' => false,
-      'median-lifespan' => nil,
+      'name'                         => crop.name,
+      'en-wikipedia-url'             => crop.en_wikipedia_url,
+      'perennial'                    => false,
+      'median-lifespan'              => nil,
       'median-days-to-first-harvest' => nil,
-      'median-days-to-last-harvest' => nil
+      'median-days-to-last-harvest'  => nil
     }
   end
 

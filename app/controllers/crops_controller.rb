@@ -1,9 +1,9 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_action :authenticate_member!, except: %i[index hierarchy search show]
+  before_action :authenticate_member!, except: %i(index hierarchy search show)
   load_and_authorize_resource
-  skip_authorize_resource only: %i[hierarchy search]
+  skip_authorize_resource only: %i(hierarchy search)
   respond_to :html, :json, :rss, :csv, :svg
   responders :flash
 
@@ -174,7 +174,7 @@ class CropsController < ApplicationController
       :request_notes,
       :reason_for_rejection,
       :rejection_notes,
-      scientific_names_attributes: %i[scientific_name _destroy id]
+      scientific_names_attributes: %i(scientific_name _destroy id)
     )
   end
 
@@ -185,9 +185,9 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings: { include: { owner: { only: %i[id login_name location latitude longitude] } } },
-        scientific_names: { only: %i[name] },
-        alternate_names: { only: %i[name] }
+        plantings:        { include: { owner: { only: %i(id login_name location latitude longitude) } } },
+        scientific_names: { only: %i(name) },
+        alternate_names:  { only: %i(name) }
       }
     }
   end

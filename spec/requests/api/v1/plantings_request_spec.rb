@@ -7,15 +7,15 @@ RSpec.describe 'Plantings', type: :request do
   let!(:planting) { FactoryBot.create :planting }
   let(:planting_encoded_as_json_api) do
     {
-      'id' => planting.id.to_s,
-      'type' => 'plantings',
-      'links' => { 'self' => resource_url },
-      'attributes' => attributes,
+      'id'            => planting.id.to_s,
+      'type'          => 'plantings',
+      'links'         => { 'self' => resource_url },
+      'attributes'    => attributes,
       'relationships' => {
-        'garden' => garden_as_json_api,
-        'crop' => crop_as_json_api,
-        'owner' => owner_as_json_api,
-        'photos' => photos_as_json_api,
+        'garden'   => garden_as_json_api,
+        'crop'     => crop_as_json_api,
+        'owner'    => owner_as_json_api,
+        'photos'   => photos_as_json_api,
         'harvests' => harvests_as_json_api
       }
     }
@@ -44,21 +44,21 @@ RSpec.describe 'Plantings', type: :request do
 
   let(:attributes) do
     {
-      'slug' => planting.slug,
-      'planted-at' => '2014-07-30',
-      'finished-at' => nil,
-      'finished' => false,
-      'quantity' => 33,
-      'description' => planting.description,
-      'crop-name' => planting.crop.name,
-      'sunniness' => nil,
-      'planted-from' => nil,
-      'expected-lifespan' => nil,
+      'slug'                => planting.slug,
+      'planted-at'          => '2014-07-30',
+      'finished-at'         => nil,
+      'finished'            => false,
+      'quantity'            => 33,
+      'description'         => planting.description,
+      'crop-name'           => planting.crop.name,
+      'sunniness'           => nil,
+      'planted-from'        => nil,
+      'expected-lifespan'   => nil,
       'finish-predicted-at' => nil,
-      'percentage-grown' => nil,
-      'first-harvest-date' => nil,
-      'last-harvest-date' => nil,
-      'thumbnail' => nil
+      'percentage-grown'    => nil,
+      'first-harvest-date'  => nil,
+      'last-harvest-date'   => nil,
+      'thumbnail'           => nil
     }
   end
 

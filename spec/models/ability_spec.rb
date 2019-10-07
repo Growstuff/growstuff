@@ -20,9 +20,9 @@ describe Ability do
     end
     it 'member can send messages to someone else' do
       ability.should be_able_to(
-                       :create,
+        :create,
                        FactoryBot.create(:notification, recipient: FactoryBot.create(:member), sender: member)
-                     )
+      )
     end
   end
 

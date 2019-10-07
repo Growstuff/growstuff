@@ -10,12 +10,12 @@ class CropSearchService
 
   def self.elasticsearch(query, page: 1, per_page: 12, current_member: nil)
     search_params = {
-      page: page,
-      per_page: per_page,
-      fields: %i[name^5 alternate_names scientific_names],
-      match: :word_start,
-      boost_by: %i[plantings_count],
-      includes: %i[scientific_names alternate_names],
+      page:         page,
+      per_page:     per_page,
+      fields:       %i(name^5 alternate_names scientific_names),
+      match:        :word_start,
+      boost_by:     %i(plantings_count),
+      includes:     %i(scientific_names alternate_names),
       misspellings: { edit_distance: 2 }
     }
     # prioritise crops the member has planted

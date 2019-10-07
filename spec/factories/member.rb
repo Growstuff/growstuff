@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :member, aliases: %i[author owner sender recipient creator] do
+  factory :member, aliases: %i(author owner sender recipient creator) do
     login_name { (0...8).map { rand(65..90).chr }.join }
     password { 'password1' }
     email { Faker::Internet.unique.email }

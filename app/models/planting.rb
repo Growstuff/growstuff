@@ -5,10 +5,10 @@ class Planting < ApplicationRecord
   include Ownable
   include PredictPlanting
   include PredictHarvest
-  friendly_id :planting_slug, use: %i[slugged finders]
+  friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants
-  SUNNINESS_VALUES = %w[sun semi-shade shade].freeze
+  SUNNINESS_VALUES = %w(sun semi-shade shade).freeze
   PLANTED_FROM_VALUES = [
     'seed',
     'seedling',
@@ -30,17 +30,17 @@ class Planting < ApplicationRecord
   #
   # Ancestry of food
   belongs_to :parent_seed,
-             class_name: 'Seed',
+             class_name:  'Seed',
              # parent
              foreign_key: 'parent_seed_id',
-             optional: true,
-             inverse_of: :child_plantings
+             optional:    true,
+             inverse_of:  :child_plantings
   has_many :child_seeds,
-           class_name: 'Seed',
+           class_name:  'Seed',
            # children
            foreign_key: 'parent_planting_id',
-           inverse_of: :parent_planting,
-           dependent: :nullify
+           inverse_of:  :parent_planting,
+           dependent:   :nullify
 
   ##
   ## Scopes
@@ -75,7 +75,7 @@ class Planting < ApplicationRecord
             allow_blank: true, inclusion: { in: SUNNINESS_VALUES, message: '%<value>s is not a valid sunniness value' }
   validates :planted_from,
             allow_blank: true,
-            inclusion: { in: PLANTED_FROM_VALUES, message: '%<value>s is not a valid planting method' }
+            inclusion:   { in: PLANTED_FROM_VALUES, message: '%<value>s is not a valid planting method' }
 
   def age_in_days
     (Time.zone.today - planted_at).to_i if planted_at.present?

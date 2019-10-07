@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
-  load_and_authorize_resource except: %i[finish_signup unsubscribe view_follows view_followers show]
-  skip_authorize_resource only: %i[nearby unsubscribe finish_signup]
+  load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
+  skip_authorize_resource only: %i(nearby unsubscribe finish_signup)
   respond_to :html, :json, :rss
 
   def index
@@ -71,7 +71,7 @@ class MembersController < ApplicationController
   end
 
   def member_json_fields
-    %i[id login_name slug bio created_at location latitude longitude]
+    %i(id login_name slug bio created_at location latitude longitude)
   end
 
   def members

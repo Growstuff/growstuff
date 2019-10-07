@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
-  friendly_id :author_date_subject, use: %i[slugged finders]
+  friendly_id :author_date_subject, use: %i(slugged finders)
   include PhotoCapable
 
   #
@@ -87,9 +87,9 @@ class Post < ApplicationRecord
 
       Notification.create(
         recipient_id: recipient_id,
-        sender_id: sender,
-        subject: "#{author} mentioned you in their post #{subject}",
-        body: body
+        sender_id:    sender,
+        subject:      "#{author} mentioned you in their post #{subject}",
+        body:         body
       )
     end
   end

@@ -53,7 +53,7 @@ describe CropsController do
       describe 'perform a search' do
         before { get :search, params: { term: 'tom' } }
         it { expect(assigns(:term)).to eq 'tom' }
-        it { expect(assigns(:crops).map(&:name)).to eq %w[tomato] }
+        it { expect(assigns(:crops).map(&:name)).to eq %w(tomato) }
       end
     end
   end

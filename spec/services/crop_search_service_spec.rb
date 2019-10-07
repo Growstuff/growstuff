@@ -30,19 +30,19 @@ RSpec.describe CropSearchService, type: :service do
       end
 
       describe 'finds exact match' do
-        it { expect(search('mushroom')).to eq %w[mushroom] }
+        it { expect(search('mushroom')).to eq %w(mushroom) }
       end
 
       describe 'finds approximate match "mush"' do
-        it { expect(search('mush')).to eq %w[mushroom] }
+        it { expect(search('mush')).to eq %w(mushroom) }
       end
 
       if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
         describe 'finds mispellings matches' do
-          it { expect(search('muhsroom')).to eq %w[mushroom] }
-          it { expect(search('mushrom')).to eq %w[mushroom] }
-          it { expect(search('zuchini')).to eq %w[zucchini] }
-          it { expect(search('brocoli')).to eq %w[broccoli] }
+          it { expect(search('muhsroom')).to eq %w(mushroom) }
+          it { expect(search('mushrom')).to eq %w(mushroom) }
+          it { expect(search('zuchini')).to eq %w(zucchini) }
+          it { expect(search('brocoli')).to eq %w(broccoli) }
         end
 
         describe 'biased' do
@@ -87,26 +87,26 @@ RSpec.describe CropSearchService, type: :service do
 
       if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
         describe 'finds plurals' do
-          it { expect(search('mushrooms')).to eq %w[mushroom] }
-          it { expect(search('tomatoes')).to eq %w[tomato] }
+          it { expect(search('mushrooms')).to eq %w(mushroom) }
+          it { expect(search('tomatoes')).to eq %w(tomato) }
         end
       end
 
       describe 'searches case insensitively' do
-        it { expect(search('mUsHroom')).to eq %w[mushroom] }
-        it { expect(search('Mushroom')).to eq %w[mushroom] }
-        it { expect(search('MUSHROOM')).to eq %w[mushroom] }
+        it { expect(search('mUsHroom')).to eq %w(mushroom) }
+        it { expect(search('Mushroom')).to eq %w(mushroom) }
+        it { expect(search('MUSHROOM')).to eq %w(mushroom) }
       end
 
       it 'finds by alternate names' do
-        expect(search('fungus')).to eq %w[mushroom]
+        expect(search('fungus')).to eq %w(mushroom)
       end
 
       describe 'finds by scientific names' do
-        it { expect(search('Agaricus bisporus')).to eq %w[mushroom] }
-        it { expect(search('agaricus bisporus')).to eq %w[mushroom] }
-        it { expect(search('Agaricus')).to eq %w[mushroom] }
-        it { expect(search('bisporus')).to eq %w[mushroom] }
+        it { expect(search('Agaricus bisporus')).to eq %w(mushroom) }
+        it { expect(search('agaricus bisporus')).to eq %w(mushroom) }
+        it { expect(search('Agaricus')).to eq %w(mushroom) }
+        it { expect(search('bisporus')).to eq %w(mushroom) }
       end
 
       describe "doesn't find rejected crop" do
