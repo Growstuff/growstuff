@@ -1,11 +1,11 @@
 namespace :i18n do
-  desc "sort all i18n locale keys"
+  desc 'sort all i18n locale keys'
   task :normalize do
     `i18n-tasks normalize`
   end
 
-  desc "translate haml strings into i18 en locale using haml-i18n-extractor"
-  task :extractor, [:haml_path] do |_t, args|
+  desc 'translate haml strings into i18 en locale using haml-i18n-extractor'
+  task :extractor, %i[haml_path] do |_t, args|
     require 'haml-i18n-extractor'
     haml_path = args[:haml_path]
     begin

@@ -1,20 +1,20 @@
 require 'rails_helper'
 
-describe "forums/show" do
+describe 'forums/show' do
   before do
     controller.stub(:current_user) { nil }
     @forum = assign(:forum, FactoryBot.create(:forum))
   end
 
-  it "renders attributes" do
+  it 'renders attributes' do
     render
-    rendered.should have_content "Everything about permaculture"
+    rendered.should have_content 'Everything about permaculture'
     rendered.should have_content @forum.owner.to_s
   end
 
-  it "parses markdown description into html" do
+  it 'parses markdown description into html' do
     render
-    assert_select "em", "Everything"
+    assert_select 'em', 'Everything'
   end
 
   it 'links to new post with the forum id' do
@@ -24,13 +24,13 @@ describe "forums/show" do
 
   it 'has no posts' do
     render
-    rendered.should have_content "No posts yet."
+    rendered.should have_content 'No posts yet.'
   end
 
   it 'shows posts' do
     @post = FactoryBot.create(:post, forum: @forum)
     render
-    assert_select "table"
+    assert_select 'table'
     rendered.should have_content @post.subject
     rendered.should have_content @post.author.to_s
   end

@@ -13,9 +13,9 @@ else
 end
 
 case ARGV[0]
-when "on"
+when 'on'
   maintenance_state = true
-when "off"
+when 'off'
   maintenance_state = false
 else
   abort "usage: #{$PROGRAM_NAME} (on|off)"

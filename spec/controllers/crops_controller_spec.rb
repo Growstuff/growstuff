@@ -7,7 +7,7 @@ describe CropsController do
 
   subject { response }
 
-  describe "GET crop wrangler homepage" do
+  describe 'GET crop wrangler homepage' do
     describe 'fetches the crop wrangler homepage' do
       context 'anonymous' do
         before { get :wrangle }
@@ -20,51 +20,51 @@ describe CropsController do
         before { get :wrangle }
 
         it { is_expected.to be_successful }
-        it { is_expected.to render_template("crops/wrangle") }
+        it { is_expected.to render_template('crops/wrangle') }
         it { expect(assigns[:crop_wranglers]).to eq(Role.crop_wranglers) }
       end
     end
   end
 
-  describe "GET crop hierarchy " do
+  describe 'GET crop hierarchy ' do
     describe 'fetches the crop hierarchy page' do
       context 'wrangler' do
         include_context 'login as wrangler'
         before { get :hierarchy }
 
         it { is_expected.to be_successful }
-        it { is_expected.to render_template("crops/hierarchy") }
+        it { is_expected.to render_template('crops/hierarchy') }
       end
     end
   end
 
-  describe "GET crop search" do
+  describe 'GET crop search' do
     describe 'fetches the crop search page' do
       let!(:tomato) { FactoryBot.create :tomato }
-      let!(:maize)  { FactoryBot.create :maize }
-      before { Crop.reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true" }
+      let!(:maize) { FactoryBot.create :maize }
+      before { Crop.reindex if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true' }
       describe 'search form page' do
         before { get :search }
 
         it { is_expected.to be_successful }
-        it { is_expected.to render_template("crops/search") }
+        it { is_expected.to render_template('crops/search') }
       end
 
       describe 'perform a search' do
         before { get :search, params: { term: 'tom' } }
         it { expect(assigns(:term)).to eq 'tom' }
-        it { expect(assigns(:crops).map(&:name)).to eq ['tomato'] }
+        it { expect(assigns(:crops).map(&:name)).to eq %w[tomato] }
       end
     end
   end
 
-  describe "GET RSS feed" do
-    describe "returns an RSS feed" do
-      before { get :index, format: "rss" }
+  describe 'GET RSS feed' do
+    describe 'returns an RSS feed' do
+      before { get :index, format: 'rss' }
 
       it { is_expected.to be_successful }
-      it { is_expected.to render_template("crops/index") }
-      it { expect(response.content_type).to eq("application/rss+xml") }
+      it { is_expected.to render_template('crops/index') }
+      it { expect(response.content_type).to eq('application/rss+xml') }
     end
   end
 

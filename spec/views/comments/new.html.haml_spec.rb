@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "comments/new" do
+describe 'comments/new' do
   before do
     controller.stub(:current_user) { nil }
     @post = FactoryBot.create(:post, body: 'tena koutou ki te ao')
@@ -10,21 +10,21 @@ describe "comments/new" do
     render
   end
 
-  it "shows the text of the post under discussion" do
+  it 'shows the text of the post under discussion' do
     expect(rendered).to have_content @post.body
   end
 
-  it "shows previous comments" do
+  it 'shows previous comments' do
     expect(rendered).to have_content @comment.body
   end
 
-  it "shows the correct comment count" do
-    expect(rendered).to have_content "1 comment"
+  it 'shows the correct comment count' do
+    expect(rendered).to have_content '1 comment'
   end
 
-  it "renders new comment form" do
-    assert_select "form", action: comments_path, method: "post" do
-      assert_select "textarea#comment_body", name: "comment[body]"
+  it 'renders new comment form' do
+    assert_select 'form', action: comments_path, method: 'post' do
+      assert_select 'textarea#comment_body', name: 'comment[body]'
     end
   end
 

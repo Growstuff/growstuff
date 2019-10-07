@@ -18,7 +18,7 @@ RSpec.describe EventHelper, type: :helper do
   describe 'harvests' do
     let(:event) { OpenStruct.new(id: harvest.id, event_type: 'harvest') }
     it { expect(subject).to eq harvest }
-    it { expect(event_description(event)).to have_text "harvested" }
+    it { expect(event_description(event)).to have_text 'harvested' }
   end
 
   describe 'seeds' do
@@ -42,6 +42,6 @@ RSpec.describe EventHelper, type: :helper do
   describe 'photos' do
     let(:event) { OpenStruct.new(id: photo.id, event_type: 'photo') }
     it { expect(subject).to eq photo }
-    it { expect(event_description(event)).to have_text "took a photo" }
+    it { expect(event_description(event)).to have_text 'took a photo' }
   end
 end

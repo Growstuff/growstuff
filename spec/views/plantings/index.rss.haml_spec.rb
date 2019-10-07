@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe 'plantings/index.rss.haml' do
-  before do
-    controller.stub(:current_user) { nil }
-  end
+  before { controller.stub(:current_user) { nil } }
 
   context 'all plantings' do
     before do
@@ -15,7 +13,7 @@ describe 'plantings/index.rss.haml' do
     end
 
     it 'shows RSS feed title' do
-      rendered.should have_content "Recent plantings from all members"
+      rendered.should have_content 'Recent plantings from all members'
     end
 
     it 'item title shows owner and location' do
@@ -23,7 +21,7 @@ describe 'plantings/index.rss.haml' do
     end
 
     it 'shows formatted content of posts' do
-      rendered.should have_content "This is a <em>really</em> good plant."
+      rendered.should have_content 'This is a <em>really</em> good plant.'
     end
 
     it 'shows sunniness' do

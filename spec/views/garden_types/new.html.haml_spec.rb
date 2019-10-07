@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "garden_types/new" do
+describe 'garden_types/new' do
   before do
     @owner = FactoryBot.create(:admin_member)
     sign_in @owner
@@ -9,9 +9,9 @@ describe "garden_types/new" do
     render
   end
 
-  it "renders new garden_type form" do
-    assert_select "form", action: garden_types_path, method: "post" do
-      assert_select "input#garden_type_name", name: "garden_type[name]"
+  it 'renders new garden_type form' do
+    assert_select 'form', action: garden_types_path, method: 'post' do
+      assert_select 'input#garden_type_name', name: 'garden_type[name]'
     end
   end
 end

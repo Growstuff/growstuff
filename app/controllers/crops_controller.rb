@@ -1,9 +1,9 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index hierarchy search show)
+  before_action :authenticate_member!, except: %i[index hierarchy search show]
   load_and_authorize_resource
-  skip_authorize_resource only: %i(hierarchy search)
+  skip_authorize_resource only: %i[hierarchy search]
   respond_to :html, :json, :rss, :csv, :svg
   responders :flash
 
@@ -22,14 +22,16 @@ class CropsController < ApplicationController
 
   def wrangle
     @approval_status = params[:approval_status]
-    @crops = case @approval_status
-             when "pending"
-               Crop.pending_approval
-             when "rejected"
-               Crop.rejected
-             else
-               Crop.recent
-             end.paginate(page: params[:page])
+    @crops =
+      case @approval_status
+      when 'pending'
+        Crop.pending_approval
+      when 'rejected'
+        Crop.rejected
+      else
+        Crop.recent
+      end
+        .paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
     respond_with @crops
@@ -49,24 +51,19 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
 
-    @crops = CropSearchService.search(
-      @term, page:           params[:page],
-             per_page:       12,
-             current_member: current_member
-    )
+    @crops = CropSearchService.search(@term, page: params[:page], per_page: 12, current_member: current_member)
     respond_with @crops
   end
 
   def show
-    @crop = Crop.includes(:scientific_names, plantings: :photos)
-      .find_by!(slug: params[:slug])
+    @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
     @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
 
     @photos = Photo.by_crop(@crop)
 
     respond_to do |format|
       format.html
-      format.svg { send_data(@crop.svg_icon, type: "image/svg+xml", disposition: "inline") }
+      format.svg { send_data(@crop.svg_icon, type: 'image/svg+xml', disposition: 'inline') }
       format.json { render json: @crop.to_json(crop_json_fields) }
     end
   end
@@ -92,7 +89,7 @@ class CropsController < ApplicationController
       @crop.creator = current_member
     else
       @crop.requester = current_member
-      @crop.approval_status = "pending"
+      @crop.approval_status = 'pending'
     end
 
     notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
@@ -104,16 +101,16 @@ class CropsController < ApplicationController
     @crop = Crop.find_by!(slug: params[:slug])
 
     if can?(:wrangle, @crop)
-      @crop.approval_status = 'rejected' if params.fetch("reject", false)
-      @crop.approval_status = 'approved' if params.fetch("approve", false)
+      @crop.approval_status = 'rejected' if params.fetch('reject', false)
+      @crop.approval_status = 'approved' if params.fetch('approve', false)
     end
 
-    @crop.creator = current_member if @crop.approval_status == "pending"
+    @crop.creator = current_member if @crop.approval_status == 'pending'
     if @crop.update(crop_params)
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      if @crop.approval_status_changed?(from: "pending", to: "approved")
+      if @crop.approval_status_changed?(from: 'pending', to: 'approved')
         notifier.deliver_now!
         @crop.update_openfarm_data!
       end
@@ -135,37 +132,29 @@ class CropsController < ApplicationController
 
   def notifier
     case @crop.approval_status
-    when "approved"
+    when 'approved'
       Notifier.crop_request_approved(@crop.requester, @crop)
-    when "rejected"
+    when 'rejected'
       Notifier.crop_request_rejected(@crop.requester, @crop)
     end
   end
 
   def save_crop_names
-    params[:alt_name]&.values&.each do |value|
-      create_name!('alternate', value) unless value.empty?
-    end
-    params[:sci_name]&.values&.each do |value|
-      create_name!('scientific', value) unless value.empty?
-    end
+    params[:alt_name]&.values&.each { |value| create_name!('alternate', value) unless value.empty? }
+    params[:sci_name]&.values&.each { |value| create_name!('scientific', value) unless value.empty? }
   end
 
   def notify_wranglers
     return if current_member.role? :crop_wrangler
 
-    Role.crop_wranglers&.each do |w|
-      Notifier.new_crop_request(w, @crop).deliver_now!
-    end
+    Role.crop_wranglers&.each { |w| Notifier.new_crop_request(w, @crop).deliver_now! }
   end
 
   def recreate_names(param_name, name_type)
     return if params[param_name].blank?
 
     destroy_names(name_type)
-    params[param_name].each do |_i, value|
-      create_name!(name_type, value) unless value.empty?
-    end
+    params[param_name].each { |_i, value| create_name!(name_type, value) unless value.empty? }
   end
 
   def destroy_names(name_type)
@@ -185,9 +174,7 @@ class CropsController < ApplicationController
       :request_notes,
       :reason_for_rejection,
       :rejection_notes,
-      scientific_names_attributes: %i(scientific_name
-                                      _destroy
-                                      id)
+      scientific_names_attributes: %i[scientific_name _destroy id]
     )
   end
 
@@ -198,13 +185,9 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings:        {
-          include: {
-            owner: { only: %i(id login_name location latitude longitude) }
-          }
-        },
-        scientific_names: { only: [:name] },
-        alternate_names:  { only: [:name] }
+        plantings: { include: { owner: { only: %i[id login_name location latitude longitude] } } },
+        scientific_names: { only: %i[name] },
+        alternate_names: { only: %i[name] }
       }
     }
   end
@@ -212,8 +195,7 @@ class CropsController < ApplicationController
   def crops
     q = Crop.approved.includes(:scientific_names, plantings: :photos)
     q = q.popular unless @sort == 'alpha'
-    q.order(Arel.sql("LOWER(crops.name)"))
-      .includes(:photos).paginate(page: params[:page])
+    q.order(Arel.sql('LOWER(crops.name)')).includes(:photos).paginate(page: params[:page])
   end
 
   def requested_crops

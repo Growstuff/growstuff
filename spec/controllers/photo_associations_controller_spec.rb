@@ -3,22 +3,16 @@ require 'rails_helper'
 describe PhotoAssociationsController do
   login_member
 
-  describe "destroy" do
-    let(:valid_params) do
-      {
-        id:       harvest.id,
-        type:     'harvest',
-        photo_id: photo.id
-      }
-    end
+  describe 'destroy' do
+    let(:valid_params) { { id: harvest.id, type: 'harvest', photo_id: photo.id } }
 
     before { photo.harvests << harvest }
 
-    describe "my harvest my photo" do
+    describe 'my harvest my photo' do
       let(:harvest) { FactoryBot.create :harvest, owner: member }
-      let(:photo)   { FactoryBot.create :photo, owner: member   }
+      let(:photo) { FactoryBot.create :photo, owner: member }
 
-      it "removes link" do
+      it 'removes link' do
         expect { delete :destroy, params: valid_params }.to change { photo.harvests.count }.by(-1)
       end
     end
@@ -28,11 +22,11 @@ describe PhotoAssociationsController do
       let(:photo) { FactoryBot.create :photo }
 
       it do
-        expect do
+        expect {
           delete :destroy, params: valid_params
         rescue StandardError
           nil
-        end.not_to change(photo.harvests, :count)
+        }.not_to change(photo.harvests, :count)
       end
 
       it do

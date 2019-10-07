@@ -1,6 +1,6 @@
 module ButtonsHelper
   include IconsHelper
-  def garden_plant_something_button(garden, classes: "btn btn-default")
+  def garden_plant_something_button(garden, classes: 'btn btn-default')
     return unless can? :edit, garden
 
     link_to new_planting_path(garden_id: garden.id), class: classes do
@@ -11,40 +11,35 @@ module ButtonsHelper
   def plant_something_button
     return unless can? :create, Planting
 
-    link_to new_planting_path, class: "btn btn-default" do
+    link_to new_planting_path, class: 'btn btn-default' do
       planting_icon + ' ' + t('buttons.plant_something')
     end
   end
 
   def garden_mark_active_button(garden, classes: 'btn')
-    link_to t('buttons.mark_as_active'),
-            garden_path(garden, garden: { active: 1 }),
-            method: :put, class: classes
+    link_to t('buttons.mark_as_active'), garden_path(garden, garden: { active: 1 }), method: :put, class: classes
   end
 
   def garden_mark_inactive_button(garden, classes: 'btn')
     link_to t('buttons.mark_as_inactive'),
             garden_path(garden, garden: { active: 0 }),
-            method: :put, class: classes,
+            method: :put,
+            class: classes,
             data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
   end
 
   def crop_plant_button(crop)
-    create_button(Planting,
-      new_planting_path(params: { crop_id: crop.id }),
-      planting_icon, t('buttons.plant'))
+    create_button(Planting, new_planting_path(params: { crop_id: crop.id }), planting_icon, t('buttons.plant'))
   end
 
   def crop_save_seeds_button(crop)
-    create_button(Seed,
-      new_seed_path(params: { crop_id: crop.id }),
-      seed_icon, t('buttons.save_seeds'))
+    create_button(Seed, new_seed_path(params: { crop_id: crop.id }), seed_icon, t('buttons.save_seeds'))
   end
 
   def create_button(model_to_create, path, icon, label)
     return unless can?(:create, model_to_create)
 
-    link_to path, class: "btn btn-sm" do
+    link_to path, class: 'btn btn-sm' do
       icon + ' ' + label
     end
   end
@@ -53,27 +48,26 @@ module ButtonsHelper
     edit_button(edit_crop_path(crop))
   end
 
-  def seed_edit_button(seed, classes: "btn btn-raised btn-info")
+  def seed_edit_button(seed, classes: 'btn btn-raised btn-info')
     edit_button(edit_seed_path(seed), classes: classes)
   end
 
-  def harvest_edit_button(harvest, classes: "btn btn-raised btn-info")
+  def harvest_edit_button(harvest, classes: 'btn btn-raised btn-info')
     edit_button(edit_harvest_path(harvest), classes: classes)
   end
 
-  def garden_edit_button(garden, classes: "btn btn-raised btn-info")
+  def garden_edit_button(garden, classes: 'btn btn-raised btn-info')
     edit_button(edit_garden_path(garden), classes: classes)
   end
 
-  def planting_edit_button(planting, classes: "btn btn-raised btn-info")
+  def planting_edit_button(planting, classes: 'btn btn-raised btn-info')
     edit_button(edit_planting_path(planting), classes: classes)
   end
 
   def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
     return unless can?(:edit, planting) || planting.finished
 
-    link_to planting_path(planting, planting: { finished: 1 }),
-            method: :put, class: "#{classes} append-date" do
+    link_to planting_path(planting, planting: { finished: 1 }), method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')
     end
   end
@@ -102,16 +96,15 @@ module ButtonsHelper
     end
   end
 
-  def add_photo_button(model, classes: "btn btn-default")
+  def add_photo_button(model, classes: 'btn btn-default')
     return unless can?(:edit, model) && can?(:create, Photo)
 
-    link_to new_photo_path(id: model.id, type: model_type_for_photo(model)),
-            class: classes do
+    link_to new_photo_path(id: model.id, type: model_type_for_photo(model)), class: classes do
       add_photo_icon + ' ' + t('buttons.add_photo')
     end
   end
 
-  def edit_button(path, classes: "btn btn-raised btn-info")
+  def edit_button(path, classes: 'btn btn-raised btn-info')
     link_to path, class: classes do
       edit_icon + ' ' + t('buttons.edit')
     end

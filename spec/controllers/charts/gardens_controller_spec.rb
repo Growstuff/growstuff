@@ -5,7 +5,7 @@ describe Charts::GardensController do
 
   let(:garden) { FactoryBot.create :garden }
 
-  context "when not signed in" do
+  context 'when not signed in' do
     describe 'GET timeline' do
       before { get :timeline, params: { garden_id: garden.to_param } }
 
@@ -13,7 +13,7 @@ describe Charts::GardensController do
     end
   end
 
-  context "when signed in" do
+  context 'when signed in' do
     before { sign_in member }
 
     let!(:member) { FactoryBot.create(:member) }

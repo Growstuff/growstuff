@@ -1,7 +1,8 @@
 module PredictPlanting
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
+    # rubocop:disable Metrics/BlockLength
     ## Triggers
     before_save :calculate_lifespan
 
@@ -69,9 +70,7 @@ module PredictPlanting
     end
 
     def late?
-      crop.annual? && !finished &&
-        planted_at.present? &&
-        finish_predicted_at.present? &&
+      crop.annual? && !finished && planted_at.present? && finish_predicted_at.present? &&
         finish_predicted_at <= Time.zone.today
     end
 

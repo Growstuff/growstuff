@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe "signin", js: true do
-  let(:member)       { FactoryBot.create :member                             }
-  let(:recipient)    { FactoryBot.create :member                             }
-  let(:wrangler)     { FactoryBot.create :crop_wrangling_member              }
+describe 'signin', js: true do
+  let(:member) { FactoryBot.create :member }
+  let(:recipient) { FactoryBot.create :member }
+  let(:wrangler) { FactoryBot.create :crop_wrangling_member }
 
   def login
     fill_in 'Login', with: member.login_name
@@ -11,14 +11,14 @@ describe "signin", js: true do
     click_button 'Sign in'
   end
 
-  it "via email address" do
+  it 'via email address' do
     visit crops_path # some random page
     click_link 'Sign in'
     login
-    expect(page).to have_content("Sign out")
+    expect(page).to have_content('Sign out')
   end
 
-  it "redirect to previous page after signin" do
+  it 'redirect to previous page after signin' do
     visit crops_path # some random page
     click_link 'Sign in'
     login
@@ -32,7 +32,7 @@ describe "signin", js: true do
     expect(current_path).to eq root_path
   end
 
-  describe "redirect to signin page for if not authenticated to view conversations" do
+  describe 'redirect to signin page for if not authenticated to view conversations' do
     before do
       conversation = member.send_message(recipient, 'hey there', 'kiaora')
       visit conversation_path(conversation)
@@ -40,7 +40,7 @@ describe "signin", js: true do
     it { expect(current_path).to eq new_member_session_path }
   end
 
-  shared_examples "redirects to what you were trying to do" do
+  shared_examples 'redirects to what you were trying to do' do
     it do
       visit "/#{model_name}/new"
       expect(current_path).to eq new_member_session_path
@@ -49,33 +49,33 @@ describe "signin", js: true do
     end
   end
 
-  describe "redirects to what you were trying to do" do
-    %w(plantings harvests posts gardens seeds).each do |m|
-      it_behaves_like "redirects to what you were trying to do" do
+  describe 'redirects to what you were trying to do' do
+    %w[plantings harvests posts gardens seeds].each do |m|
+      it_behaves_like 'redirects to what you were trying to do' do
         let(:model_name) { m }
       end
     end
   end
 
-  it "after signin, redirect to new message page" do
+  it 'after signin, redirect to new message page' do
     visit new_message_path(recipient_id: recipient.id)
     expect(current_path).to eq new_member_session_path
     login
     expect(current_path).to eq new_message_path
   end
 
-  it "after crop wrangler signs in and crops await wrangling, show alert" do
+  it 'after crop wrangler signs in and crops await wrangling, show alert' do
     create :crop_request
     visit crops_path # some random page
     click_link 'Sign in'
     fill_in 'Login', with: wrangler.login_name
     fill_in 'Password', with: wrangler.password
     click_button 'Sign in'
-    expect(page).to have_content("There are crops waiting to be wrangled.")
+    expect(page).to have_content('There are crops waiting to be wrangled.')
   end
 
-  context "with facebook" do
-    it "sign in" do
+  context 'with facebook' do
+    it 'sign in' do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
 

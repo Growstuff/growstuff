@@ -30,12 +30,12 @@ RSpec.configure do |config|
     #   # => "be bigger than 2 and smaller than 4"
     # ...rather than:
     #   # => "be bigger than 2"
-    expectations.syntax = %i(should expect)
+    expectations.syntax = %i[should expect]
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
   config.before(:suite) do
-    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+    if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
       # reindex models
       Crop.reindex
 
@@ -44,11 +44,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.around(:each, search: true) do |example|
-    Searchkick.callbacks(true) do
-      example.run
-    end
-  end
+  config.around(:each, search: true) { |example| Searchkick.callbacks(true) { example.run } }
 
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
@@ -56,8 +52,9 @@ RSpec.configure do |config|
     # Prevents you from mocking or stubbing a method that does not exist on
     # a real object. This is generally recommended, and will default to
     # `true` in RSpec 4.
-    mocks.verify_partial_doubles = false
-    mocks.syntax = %i(should expect)
+    mocks.verify_partial_doubles =
+      false
+    mocks.syntax = %i[should expect]
   end
 
   # The settings below are suggested to provide a good initial experience
@@ -105,5 +102,5 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   # Remember which tests failed, so you can run rspec with the `--only-failures` flag.
-  config.example_status_persistence_file_path = "tmp/examples.txt"
+  config.example_status_persistence_file_path = 'tmp/examples.txt'
 end

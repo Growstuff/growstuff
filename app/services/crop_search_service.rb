@@ -1,7 +1,7 @@
 class CropSearchService
   # Crop.search(string)
   def self.search(query, page: 1, per_page: 12, current_member: nil)
-    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+    if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
       elasticsearch(query, page: page, per_page: per_page, current_member: current_member)
     else
       dbsearch(query, page: page, per_page: per_page)
@@ -10,12 +10,12 @@ class CropSearchService
 
   def self.elasticsearch(query, page: 1, per_page: 12, current_member: nil)
     search_params = {
-      page:         page,
-      per_page:     per_page,
-      fields:       %i(name^5 alternate_names scientific_names),
-      match:        :word_start,
-      boost_by:     [:plantings_count],
-      includes:     %i(scientific_names alternate_names),
+      page: page,
+      per_page: per_page,
+      fields: %i[name^5 alternate_names scientific_names],
+      match: :word_start,
+      boost_by: %i[plantings_count],
+      includes: %i[scientific_names alternate_names],
       misspellings: { edit_distance: 2 }
     }
     # prioritise crops the member has planted
@@ -31,10 +31,13 @@ class CropSearchService
     # manipulate it in the same ways (eg. deleting elements without deleting
     # the whole record from the db)
     matcher = "%#{query}%"
-    matches = Crop.approved
-      .left_outer_joins(:alternate_names, :scientific_names)
-      .where("crops.name ILIKE ? OR alternate_names.name ILIKE ? OR scientific_names.name ILIKE ?",
-        matcher, matcher, matcher)
+    matches =
+      Crop.approved.left_outer_joins(:alternate_names, :scientific_names).where(
+        'crops.name ILIKE ? OR alternate_names.name ILIKE ? OR scientific_names.name ILIKE ?',
+        matcher,
+        matcher,
+        matcher
+      )
 
     matches = matches.to_a
     # we want to make sure that exact matches come first, even if not

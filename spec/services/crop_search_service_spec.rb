@@ -10,8 +10,8 @@ RSpec.describe CropSearchService, type: :service do
 
     context 'with some crops' do
       let!(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-      let!(:tomato)   { FactoryBot.create(:crop, name: 'tomato') }
-      let!(:taewa)    { FactoryBot.create(:crop, name: 'taewa') }
+      let!(:tomato) { FactoryBot.create(:crop, name: 'tomato') }
+      let!(:taewa) { FactoryBot.create(:crop, name: 'taewa') }
       let!(:zucchini) { FactoryBot.create(:crop, name: 'zucchini') }
       let!(:broccoli) { FactoryBot.create(:crop, name: 'broccoli') }
       before do
@@ -30,29 +30,29 @@ RSpec.describe CropSearchService, type: :service do
       end
 
       describe 'finds exact match' do
-        it { expect(search('mushroom')).to eq ['mushroom'] }
+        it { expect(search('mushroom')).to eq %w[mushroom] }
       end
 
       describe 'finds approximate match "mush"' do
-        it { expect(search('mush')).to eq ['mushroom'] }
+        it { expect(search('mush')).to eq %w[mushroom] }
       end
 
       if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
         describe 'finds mispellings matches' do
-          it { expect(search('muhsroom')).to eq ['mushroom'] }
-          it { expect(search('mushrom')).to eq ['mushroom'] }
-          it { expect(search('zuchini')).to eq ['zucchini'] }
-          it { expect(search('brocoli')).to eq ['broccoli'] }
+          it { expect(search('muhsroom')).to eq %w[mushroom] }
+          it { expect(search('mushrom')).to eq %w[mushroom] }
+          it { expect(search('zuchini')).to eq %w[zucchini] }
+          it { expect(search('brocoli')).to eq %w[broccoli] }
         end
 
         describe 'biased' do
           # Make some crops with planting counts
           let!(:mushroom_parent) { FactoryBot.create :crop, name: 'mushroom' }
-          let!(:oyster)  { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
+          let!(:oyster) { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
           let!(:shitake) { FactoryBot.create :crop, name: 'shitake mushroom', parent: mushroom_parent }
-          let!(:common)  { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
-          let!(:brown)   { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
-          let!(:white)   { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
+          let!(:common) { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
+          let!(:brown) { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
+          let!(:white) { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
 
           describe 'biased to higher planting counts' do
             subject { search('mushroom') }
@@ -81,32 +81,32 @@ RSpec.describe CropSearchService, type: :service do
         end
       end
 
-      describe 'doesn\'t find non-match "coffee"' do
+      describe "doesn't find non-match \"coffee\"" do
         it { expect(search('coffee')).to eq [] }
       end
 
       if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
         describe 'finds plurals' do
-          it { expect(search('mushrooms')).to eq ['mushroom'] }
-          it { expect(search('tomatoes')).to eq ['tomato'] }
+          it { expect(search('mushrooms')).to eq %w[mushroom] }
+          it { expect(search('tomatoes')).to eq %w[tomato] }
         end
       end
 
       describe 'searches case insensitively' do
-        it { expect(search('mUsHroom')).to eq ['mushroom'] }
-        it { expect(search('Mushroom')).to eq ['mushroom'] }
-        it { expect(search('MUSHROOM')).to eq ['mushroom'] }
+        it { expect(search('mUsHroom')).to eq %w[mushroom] }
+        it { expect(search('Mushroom')).to eq %w[mushroom] }
+        it { expect(search('MUSHROOM')).to eq %w[mushroom] }
       end
 
       it 'finds by alternate names' do
-        expect(search('fungus')).to eq ['mushroom']
+        expect(search('fungus')).to eq %w[mushroom]
       end
 
       describe 'finds by scientific names' do
-        it { expect(search('Agaricus bisporus')).to eq ['mushroom'] }
-        it { expect(search('agaricus bisporus')).to eq ['mushroom'] }
-        it { expect(search('Agaricus')).to eq ['mushroom'] }
-        it { expect(search('bisporus')).to eq ['mushroom'] }
+        it { expect(search('Agaricus bisporus')).to eq %w[mushroom] }
+        it { expect(search('agaricus bisporus')).to eq %w[mushroom] }
+        it { expect(search('Agaricus')).to eq %w[mushroom] }
+        it { expect(search('bisporus')).to eq %w[mushroom] }
       end
 
       describe "doesn't find rejected crop" do

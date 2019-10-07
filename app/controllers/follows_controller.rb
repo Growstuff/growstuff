@@ -1,5 +1,5 @@
 class FollowsController < ApplicationController
-  before_action :set_member, only: %i(index followers)
+  before_action :set_member, only: %i[index followers]
   load_and_authorize_resource
   skip_load_resource only: :create
 
@@ -9,7 +9,7 @@ class FollowsController < ApplicationController
     if @follow.save
       flash[:notice] = "Followed #{@follow.followed.login_name}"
     else
-      flash[:error] = "Already following or error while following."
+      flash[:error] = 'Already following or error while following.'
     end
     redirect_back fallback_location: root_path
   end

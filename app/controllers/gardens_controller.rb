@@ -1,6 +1,6 @@
 class GardensController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create destroy)
+  before_action :authenticate_member!, except: %i[index show]
+  after_action :expire_homepage, only: %i[create destroy]
   load_and_authorize_resource
   responders :flash
   respond_to :html, :json
@@ -11,18 +11,13 @@ class GardensController < ApplicationController
 
     @gardens = @gardens.active unless @show_all
     @gardens = @gardens.where(owner: @owner) if @owner.present?
-    @gardens = @gardens.where.not(members: { confirmed_at: nil })
-      .order(:name).paginate(page: params[:page])
+    @gardens = @gardens.where.not(members: { confirmed_at: nil }).order(:name).paginate(page: params[:page])
     respond_with(@gardens)
   end
 
   def show
-    @current_plantings = @garden.plantings.current
-      .includes(:crop, :owner)
-      .order(planted_at: :desc)
-    @finished_plantings = @garden.plantings.finished
-      .includes(:crop)
-      .order(finished_at: :desc)
+    @current_plantings = @garden.plantings.current.includes(:crop, :owner).order(planted_at: :desc)
+    @finished_plantings = @garden.plantings.finished.includes(:crop).order(finished_at: :desc)
     respond_with(@garden)
   end
 
@@ -55,7 +50,17 @@ class GardensController < ApplicationController
   private
 
   def garden_params
-    params.require(:garden).permit(:name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id)
+    params.require(:garden).permit(
+      :name,
+      :slug,
+      :description,
+      :active,
+      :location,
+      :latitude,
+      :longitude,
+      :area,
+      :area_unit,
+      :garden_type_id
+    )
   end
 end

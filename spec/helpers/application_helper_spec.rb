@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
-  it "parses dates" do
+  it 'parses dates' do
     parse_date(nil).should eq nil
     parse_date('').should eq nil
-    parse_date('2012-05-12').should eq Date.new(2012, 5, 12)
-    parse_date('may 12th 2012').should eq Date.new(2012, 5, 12)
+    parse_date('2012-05-12').should eq Date.new(2_012, 5, 12)
+    parse_date('may 12th 2012').should eq Date.new(2_012, 5, 12)
   end
 
-  it "shows required field marker help text with proper formatting" do
+  it 'shows required field marker help text with proper formatting' do
     output = required_field_help_text
     expect(output).to have_selector '.margin-bottom'
     expect(output).to have_selector '.red', text: '*'
@@ -17,22 +17,28 @@ describe ApplicationHelper do
 
   describe '#avatar_uri' do
     context 'with a normal user' do
-      before do
-        @member = FactoryBot.build(:member, email: 'example@example.com', preferred_avatar_uri: nil)
-      end
+      before { @member = FactoryBot.build(:member, email: 'example@example.com', preferred_avatar_uri: nil) }
 
       it 'renders a gravatar uri' do
-        expect(avatar_uri(@member)).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=150&default=identicon'
+        expect(
+          avatar_uri(@member)
+        ).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=150&default=identicon'
       end
 
       it 'renders a gravatar uri for a given size' do
-        expect(avatar_uri(@member, 456)).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=456&default=identicon'
+        expect(
+          avatar_uri(@member, 456)
+        ).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=456&default=identicon'
       end
     end
 
     context 'with a user who specified a preferred avatar uri' do
       before do
-        @member = FactoryBot.build(:member, email: 'example@example.com', preferred_avatar_uri: 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg')
+        @member =
+          FactoryBot.build(
+            :member,
+            email: 'example@example.com', preferred_avatar_uri: 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg'
+          )
       end
 
       it 'renders a the specified uri' do

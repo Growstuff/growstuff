@@ -1,5 +1,5 @@
 class SeedsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
+  before_action :authenticate_member!, except: %i[index show]
   load_and_authorize_resource
   responders :flash
   respond_to :html, :json
@@ -42,11 +42,7 @@ class SeedsController < ApplicationController
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
     flash[:notice] = "Successfully added #{@seed.crop} seed to your stash." if @seed.save
-    if params[:return] == 'planting'
-      respond_with(@seed, location: @seed.parent_planting)
-    else
-      respond_with(@seed)
-    end
+    params[:return] == 'planting' ? respond_with(@seed, location: @seed.parent_planting) : respond_with(@seed)
   end
 
   def update
@@ -72,12 +68,20 @@ class SeedsController < ApplicationController
 
   def seed_params
     params.require(:seed).permit(
-      :crop_id, :description, :quantity, :plant_before,
+      :crop_id,
+      :description,
+      :quantity,
+      :plant_before,
       :parent_planting_id,
-      :days_until_maturity_min, :days_until_maturity_max,
-      :organic, :gmo,
-      :heirloom, :tradable_to, :slug,
-      :finished, :finished_at
+      :days_until_maturity_min,
+      :days_until_maturity_max,
+      :organic,
+      :gmo,
+      :heirloom,
+      :tradable_to,
+      :slug,
+      :finished,
+      :finished_at
     )
   end
 

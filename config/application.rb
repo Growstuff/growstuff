@@ -39,13 +39,13 @@ module Growstuff
     # rails will fallback to config.i18n.default_locale translation
     config.i18n.fallbacks = true
     # rails will fallback to en, no matter what is set as config.i18n.default_locale
-    config.i18n.fallbacks = [:en]
+    config.i18n.fallbacks = %i[en]
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += %i[password]
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
@@ -71,19 +71,19 @@ module Growstuff
     config.assets.initialize_on_precompile = true
 
     config.generators do |g|
-      g.template_engine  :haml
-      g.view_specs       false
+      g.template_engine :haml
+      g.view_specs false
       g.controller_specs false
-      g.helper           false
-      g.stylesheets      false
-      g.javascripts      false
+      g.helper false
+      g.stylesheets false
+      g.javascripts false
     end
 
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
     config.bot_email = ENV['GROWSTUFF_EMAIL']
     config.user_agent = 'Growstuff'
-    config.user_agent_email = "info@growstuff.org"
+    config.user_agent_email = 'info@growstuff.org'
 
     Gibbon::API.api_key = ENV['GROWSTUFF_MAILCHIMP_APIKEY'] || 'notarealkey'
     # API key can't be blank or tests fail

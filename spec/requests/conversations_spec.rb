@@ -4,9 +4,7 @@ describe 'Converstions' do
   describe 'DELETE destroy_multiple' do
     let!(:member) { create(:admin_member) }
 
-    before do
-      sign_in member
-    end
+    before { sign_in member }
 
     it 'redirects to the conversations inbox' do
       delete '/conversations/destroy_multiple', params: { conversation_ids: [] }
@@ -22,9 +20,9 @@ describe 'Converstions' do
       conversations_to_trash = [first_conversation.id, second_conversation.id]
 
       # we dont actually destroy the messages, we move them to the trash folder
-      expect do
+      expect {
         delete '/conversations/destroy_multiple', params: { conversation_ids: conversations_to_trash, box: 'inbox' }
-      end.to_not change(Mailboxer::Conversation, :count)
+      }.to_not change(Mailboxer::Conversation, :count)
 
       expect(member.mailbox.inbox.count).to eq 0
       expect(member.mailbox.trash.count).to eq 2
@@ -37,9 +35,9 @@ describe 'Converstions' do
       conversations_to_trash = [first_conversation.id, second_conversation.id]
 
       # we dont actually destroy the messages, we move them to the trash folder
-      expect do
+      expect {
         delete '/conversations/destroy_multiple', params: { conversation_ids: conversations_to_trash }
-      end.to_not change(Mailboxer::Conversation, :count)
+      }.to_not change(Mailboxer::Conversation, :count)
 
       expect(second_member.mailbox.inbox.count).to eq 2
       expect(second_member.mailbox.trash.count).to eq 0
@@ -51,9 +49,9 @@ describe 'Converstions' do
       conversations_to_trash = [first_conversation.id, second_conversation.id]
 
       # we dont actually destroy the messages, we move them to the trash folder
-      expect do
+      expect {
         delete '/conversations/destroy_multiple', params: { conversation_ids: conversations_to_trash, box: 'sent' }
-      end.to_not change(Mailboxer::Conversation, :count)
+      }.to_not change(Mailboxer::Conversation, :count)
 
       expect(member.mailbox.sentbox.count).to eq 0
       expect(member.mailbox.trash.count).to eq 2

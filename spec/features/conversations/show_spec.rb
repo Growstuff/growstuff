@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe "Conversations", :js do
-  let(:sender)    { create :member                        }
+describe 'Conversations', :js do
+  let(:sender) { create :member }
   let(:recipient) { create :member, login_name: 'beyonce' }
 
   before do
-    sender.send_message(recipient, "this is the body", "something i want to say")
+    sender.send_message(recipient, 'this is the body', 'something i want to say')
     login_as recipient
   end
 
@@ -26,7 +26,7 @@ describe "Conversations", :js do
         fill_in :body, with: 'i like this too'
         click_button 'Send'
       end
-      it { expect(page).to have_content "i like this too" }
+      it { expect(page).to have_content 'i like this too' }
     end
   end
 end

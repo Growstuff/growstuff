@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :garden_type do
-    name { "homemade swamp" }
+    name { 'homemade swamp' }
   end
 end

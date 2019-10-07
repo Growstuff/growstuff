@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'home/index.html.haml', type: "view" do
+describe 'home/index.html.haml', type: 'view' do
   before do
     @member = FactoryBot.create(:london_member)
     @member.updated_at = 2.days.ago

@@ -21,23 +21,25 @@ module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
 
     def expand_crops!
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
-      @expanded = @expanded.gsub(CROP_REGEX) do
-        crop_str = Regexp.last_match(1)
-        # find crop case-insensitively
-        crop = Crop.where('lower(name) = ?', crop_str.downcase).first
-        crop_link crop, crop_str
-      end
+      @expanded =
+        @expanded.gsub(CROP_REGEX) do
+          crop_str = Regexp.last_match(1)
+          # find crop case-insensitively
+          crop = Crop.where('lower(name) = ?', crop_str.downcase).first
+          crop_link crop, crop_str
+        end
     end
 
     def expand_members!
       # turn [jane](member) into [jane](http://growstuff.org/members/jane)
       # turn @jane into [@jane](http://growstuff.org/members/jane)
       [MEMBER_REGEX, MEMBER_AT_REGEX].each do |re|
-        @expanded = @expanded.gsub(re) do
-          member_str = Regexp.last_match(1)
-          member = find_member(member_str)
-          member_link(member, member_str)
-        end
+        @expanded =
+          @expanded.gsub(re) do
+            member_str = Regexp.last_match(1)
+            member = find_member(member_str)
+            member_link(member, member_str)
+          end
       end
 
       @expanded = @expanded.gsub(MEMBER_ESCAPE_AT_REGEX, '')

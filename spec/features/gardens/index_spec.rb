@@ -1,45 +1,41 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-describe "Gardens#index", :js do
-  context "Logged in as member" do
+describe 'Gardens#index', :js do
+  context 'Logged in as member' do
     include_context 'signed in member'
     let(:member) { FactoryBot.create :member, login_name: 'shadow' }
 
-    context "with 10 gardens" do
+    context 'with 10 gardens' do
       before do
         FactoryBot.create_list :garden, 10, owner: member
         visit member_gardens_path(member_slug: member.slug)
       end
 
-      it "displays each of the gardens" do
-        member.gardens.each do |garden|
-          expect(page).to have_text garden.name
-        end
+      it 'displays each of the gardens' do
+        member.gardens.each { |garden| expect(page).to have_text garden.name }
       end
-      it "links to each garden" do
-        member.gardens.each do |garden|
-          expect(page).to have_link(garden.name, href: garden_path(garden))
-        end
+      it 'links to each garden' do
+        member.gardens.each { |garden| expect(page).to have_link(garden.name, href: garden_path(garden)) }
       end
     end
 
-    context "with inactive gardens" do
-      let!(:active_garden) { FactoryBot.create :garden, name: "My active garden", owner: member }
-      let!(:inactive_garden) { FactoryBot.create :inactive_garden, name: "retired garden", owner: member }
+    context 'with inactive gardens' do
+      let!(:active_garden) { FactoryBot.create :garden, name: 'My active garden', owner: member }
+      let!(:inactive_garden) { FactoryBot.create :inactive_garden, name: 'retired garden', owner: member }
 
       before { visit member_gardens_path(member_slug: member.slug) }
 
-      it "show active garden" do
+      it 'show active garden' do
         expect(page).to have_text active_garden.name
       end
-      it "does not show inactive garden" do
+      it 'does not show inactive garden' do
         expect(page).not_to have_text inactive_garden.name
       end
-      it "links to active garden" do
+      it 'links to active garden' do
         expect(page).to have_link(active_garden.name, href: garden_path(active_garden))
       end
-      it "does not link to inactive gardens" do
+      it 'does not link to inactive gardens' do
         expect(page).not_to have_link(inactive_garden.name, href: garden_path(inactive_garden))
       end
     end
@@ -48,21 +44,17 @@ describe "Gardens#index", :js do
       let(:maize) { FactoryBot.create(:maize) }
       let(:tomato) { FactoryBot.create(:tomato) }
 
-      let!(:planting) do
-        FactoryBot.create :planting, owner: member, crop: maize, garden: member.gardens.first
-      end
+      let!(:planting) { FactoryBot.create :planting, owner: member, crop: maize, garden: member.gardens.first }
       let!(:finished_planting) do
         FactoryBot.create :finished_planting, owner: member, crop: tomato, garden: member.gardens.first
       end
 
-      before do
-        visit member_gardens_path(member_slug: member.slug)
-      end
+      before { visit member_gardens_path(member_slug: member.slug) }
 
-      it "shows planting in garden" do
+      it 'shows planting in garden' do
         expect(page).to have_link(planting.crop.name, href: planting_path(planting))
       end
-      it "does not show finished planting" do
+      it 'does not show finished planting' do
         expect(page).not_to have_text(finished_planting.crop.name)
       end
     end
@@ -71,18 +63,17 @@ describe "Gardens#index", :js do
   describe 'badges' do
     let(:garden) { member.gardens.first }
     let(:member) { FactoryBot.create :member, login_name: 'robbieburns' }
-    let(:crop)   { FactoryBot.create :crop                              }
+    let(:crop) { FactoryBot.create :crop }
 
     before do
       # time to harvest = 50 day
       # time to finished = 90 days
-      FactoryBot.create(:harvest,
+      FactoryBot.create(
+        :harvest,
         harvested_at: 50.days.ago,
-        crop:         crop,
-        planting:     FactoryBot.create(:planting,
-          crop:        crop,
-          planted_at:  100.days.ago,
-          finished_at: 10.days.ago))
+        crop: crop,
+        planting: FactoryBot.create(:planting, crop: crop, planted_at: 100.days.ago, finished_at: 10.days.ago)
+      )
       crop.plantings.each(&:update_harvest_days!)
       crop.update_lifespan_medians
       crop.update_harvest_medians
@@ -94,11 +85,7 @@ describe "Gardens#index", :js do
 
     describe 'harvest still growing' do
       let!(:planting) do
-        FactoryBot.create :planting,
-          crop:       crop,
-          owner:      member,
-          garden:     garden,
-          planted_at: Time.zone.today
+        FactoryBot.create :planting, crop: crop, owner: member, garden: garden, planted_at: Time.zone.today
       end
 
       it { expect(page).to have_link href: planting_path(planting) }
@@ -109,10 +96,7 @@ describe "Gardens#index", :js do
 
     describe 'harvesting now' do
       let!(:planting) do
-        FactoryBot.create :planting,
-          crop: crop,
-          owner: member, garden: garden,
-          planted_at: 51.days.ago
+        FactoryBot.create :planting, crop: crop, owner: member, garden: garden, planted_at: 51.days.ago
       end
 
       it { expect(crop.median_days_to_first_harvest).to eq 50 }
@@ -124,9 +108,7 @@ describe "Gardens#index", :js do
 
     describe 'super late' do
       let!(:planting) do
-        FactoryBot.create :planting,
-          crop: crop, owner: member,
-          garden: garden, planted_at: 260.days.ago
+        FactoryBot.create :planting, crop: crop, owner: member, garden: garden, planted_at: 260.days.ago
       end
 
       it { expect(page).to have_text 'super late' }

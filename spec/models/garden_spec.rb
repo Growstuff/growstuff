@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 describe Garden do
-  let(:owner)       { FactoryBot.create(:member, login_name: 'hatupatu')                             }
-  let(:garden)      { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
+  let(:owner) { FactoryBot.create(:member, login_name: 'hatupatu') }
+  let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
 
-  it "has a slug" do
+  it 'has a slug' do
     garden.slug.should match(/hatupatu-springfield-community-garden/)
   end
 
-  it "has a description" do
-    garden.description.should == "This is a **totally** cool garden"
+  it 'has a description' do
+    garden.description.should == 'This is a **totally** cool garden'
   end
 
   it "doesn't allow a nil name" do
@@ -18,27 +18,27 @@ describe Garden do
   end
 
   it "doesn't allow a blank name" do
-    garden = FactoryBot.build(:garden, name: "")
+    garden = FactoryBot.build(:garden, name: '')
     garden.should_not be_valid
   end
 
-  it "allows numbers" do
-    garden = FactoryBot.build(:garden, name: "100 vines of 2 kamo-kamo")
+  it 'allows numbers' do
+    garden = FactoryBot.build(:garden, name: '100 vines of 2 kamo-kamo')
     garden.should_not be_valid
   end
 
-  it "allows brackets" do
-    garden = FactoryBot.build(:garden, name: "Garden (second)")
+  it 'allows brackets' do
+    garden = FactoryBot.build(:garden, name: 'Garden (second)')
     garden.should be_valid
   end
 
-  it "allows macrons" do
-    garden = FactoryBot.build(:garden, name: "Kūmara and pūha patch")
+  it 'allows macrons' do
+    garden = FactoryBot.build(:garden, name: 'Kūmara and pūha patch')
     garden.should_not be_valid
   end
 
   it "doesn't allow a name with only spaces" do
-    garden = FactoryBot.build(:garden, name: "    ")
+    garden = FactoryBot.build(:garden, name: '    ')
     garden.should_not be_valid
   end
 
@@ -47,15 +47,15 @@ describe Garden do
     garden.should_not be_valid
   end
 
-  it "has an owner" do
+  it 'has an owner' do
     garden.owner.should be_an_instance_of Member
   end
 
-  it "stringifies as its name" do
+  it 'stringifies as its name' do
     garden.to_s.should == garden.name
   end
 
-  it "destroys plantings when deleted" do
+  it 'destroys plantings when deleted' do
     garden = FactoryBot.create(:garden, owner: owner)
     @planting1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
     @planting2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
@@ -97,7 +97,7 @@ describe Garden do
     end
 
     it "doesn't allow non-numeric quantities" do
-      garden = FactoryBot.build(:garden, area: "99a")
+      garden = FactoryBot.build(:garden, area: '99a')
       garden.should_not be_valid
     end
   end
@@ -113,7 +113,7 @@ describe Garden do
     it 'refuses invalid unit values' do
       garden = FactoryBot.build(:garden, area_unit: 'not valid')
       garden.should_not be_valid
-      garden.errors[:area_unit].should include("not valid is not a valid area unit")
+      garden.errors[:area_unit].should include('not valid is not a valid area unit')
     end
 
     it 'sets area unit to blank if area is blank' do
@@ -137,7 +137,7 @@ describe Garden do
     end
   end
 
-  it "marks plantings as finished when garden is inactive" do
+  it 'marks plantings as finished when garden is inactive' do
     garden = FactoryBot.create(:garden)
     p1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
     p2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
@@ -177,9 +177,7 @@ describe Garden do
     let(:garden) { FactoryBot.create(:garden) }
     let(:photo) { FactoryBot.create(:photo, owner: garden.owner) }
 
-    before do
-      garden.photos << photo
-    end
+    before { garden.photos << photo }
 
     it 'has a photo' do
       expect(garden.photos.first).to eq photo

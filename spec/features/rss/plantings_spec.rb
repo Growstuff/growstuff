@@ -8,7 +8,7 @@ describe 'Plantings RSS feed' do
 
   it 'The index title is what we expect' do
     visit plantings_path(format: 'rss')
-    expect(page).to have_content "Recent plantings from "\
-      "#{@owner || 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})"
+    expect(page).to have_content 'Recent plantings from ' \
+                   "#{@owner || 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})"
   end
 end

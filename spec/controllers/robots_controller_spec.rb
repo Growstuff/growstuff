@@ -2,12 +2,10 @@ require 'rails_helper'
 
 describe RobotsController do
   describe '#robots' do
-    let(:production_filename) { 'config/robots.txt'         }
-    let(:staging_filename)    { 'config/robots.staging.txt' }
+    let(:production_filename) { 'config/robots.txt' }
+    let(:staging_filename) { 'config/robots.staging.txt' }
 
-    before do
-      @request.host = "#{subdomain}.localhost.com"
-    end
+    before { @request.host = "#{subdomain}.localhost.com" }
 
     context 'subdomain is staging' do
       let(:subdomain) { 'staging' }
