@@ -1,6 +1,6 @@
 module Admin
   class MembersController < ApplicationController
-    before_action :is_admin?
+    before_action :admin?
     load_and_authorize_resource
     respond_to :html
     responders :flash
@@ -34,7 +34,7 @@ module Admin
       params[:q]
     end
 
-    def is_admin?
+    def admin?
       authorize! :manage, :all
     end
   end
