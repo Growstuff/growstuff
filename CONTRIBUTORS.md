@@ -88,6 +88,7 @@ submit the change with your pull request.
 - Ahmed Shahin / [codeminator](https://www.github.com/codeminator)
 - Brandon Baker / [brandonbaker40](https://github.com/brandonbaker40)
 - Alex Darr / [apdarr](https://github.com/apdarr)
+- Taylor William / [bestest-mensch](https://github.com/bestest-mensch)
 
 ## Bots
 

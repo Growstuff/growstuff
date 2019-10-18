@@ -63,7 +63,8 @@
           - @finished_plantings.each do |planting|
             = render "plantings/tiny",  planting: planting
         - else
-          %p Nothing has been planted here.
+          .col-md-12
+            %p Nothing has been planted here.
   .col-md-3
     .card
       .card-image
