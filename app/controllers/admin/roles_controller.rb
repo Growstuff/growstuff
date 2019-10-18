@@ -1,6 +1,6 @@
 module Admin
   class RolesController < ApplicationController
-    before_action :authenticate_member!
+    before_action :is_admin?
     load_and_authorize_resource
     respond_to :html
     responders :flash
@@ -35,6 +35,10 @@ module Admin
     end
 
     private
+
+    def is_admin?
+      authorize! :manage, :all
+    end
 
     def role_params
       params.require(:role).permit(:description, :name, :members, :slug)
