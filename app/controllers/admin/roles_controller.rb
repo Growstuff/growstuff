@@ -10,10 +10,6 @@ module Admin
       respond_with @roles
     end
 
-    def show
-      respond_with @role
-    end
-
     def new
       @role = Role.new
       respond_with @role
