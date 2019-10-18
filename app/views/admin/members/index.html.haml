@@ -16,12 +16,10 @@
     %tr
       %th{scope: "col"} #
       %th{scope: "col"} Login Name
-      %th{scope: "col"} Email
   - @members.each do |member|
     %tr
       %td= render 'members/tiny', member: member
       %td= member.login_name
-      %td= member.email
       %td
         %ul
           - member.roles.pluck(:name).each do |r|
