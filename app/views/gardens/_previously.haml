@@ -1,0 +1,13 @@
+%h2 Previously planted in this garden
+
+- if @finished_plantings.size.positive?
+  - year = nil
+  - @finished_plantings.order(planted_at: :desc).each do |planting|
+    - if year != planting.planted_at.year
+      - year = planting.planted_at.year
+      %h4= year
+    = render "plantings/tiny",  planting: planting
+- else
+  .col-md-12
+    %p Nothing has been planted here.
+

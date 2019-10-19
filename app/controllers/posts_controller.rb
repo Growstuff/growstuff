@@ -67,6 +67,6 @@ class PostsController < ApplicationController
       @author.posts
     else
       Post
-    end.order(created_at: :desc).includes(:author, comments: :author).paginate(page: params[:page])
+    end.order(created_at: :desc).includes(:author, comments: :author).paginate(page: params[:page], per_page: 12)
   end
 end
