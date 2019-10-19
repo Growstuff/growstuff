@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "roles/show" do
+describe "admin/roles/show" do
   before do
     @role = assign(:role, stub_model(Role,
       name:        "Name",
