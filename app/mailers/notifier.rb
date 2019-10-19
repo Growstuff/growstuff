@@ -31,6 +31,7 @@ class Notifier < ApplicationMailer
     @super_late = []
     @harvesting = []
     @others = []
+    @perennials = []
 
     @member.plantings.active.each do |planting|
       if planting.finish_is_predicatable?
@@ -44,9 +45,10 @@ class Notifier < ApplicationMailer
           @others << planting
         end
       else
-        @perenials << planting
+        @perennials << planting
       end
     end
+
     @subject = "Your #{Date.today.strftime("%B %Y")} #{@sitename} progress report"
 
     # Encrypting
