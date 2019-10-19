@@ -25,31 +25,29 @@
 - else
   = page_entries_info @gardens
   = will_paginate @gardens
-  .row
-    - @gardens.each do |garden|
-      .col-md-6.col-12
-        %section.card
-          %h2= link_to garden.name, garden
-          .card-header
-            .row
-              - unless @owner.present?
-                .col
-                  owner:
-                  = render 'members/tiny', member: garden.owner
-              .col= render 'gardens/actions', garden: garden
-              .col
-                - if garden.plantings.any?
-                  - if garden.plantings.active.perennial.any?
-                    %strong Perennials:
-                    - garden.plantings.active.perennial.each do |planting|
-                      = link_to planting do
-                        = crop_icon planting.crop
-                        = planting.crop
-          .card-body
-            - if garden.plantings.active.annual.any?
-              = render 'plantings/progress_list', plantings: garden.plantings.active.annual
-            - else
-              No annual plantings
+  - @gardens.each do |garden|
+    %section.card
+      %h2= link_to garden.name, garden
+      .card-header
+        .row
+          .col-12.col-md-3
+            - unless @owner.present?
+              owner:
+              = render 'members/tiny', member: garden.owner
+            = image_tag garden_image_path(garden), alt: garden.name, class: 'img-card'
+          .col-12.col-md-2= render 'gardens/actions', garden: garden
+          .col
+            - if garden.plantings.active.perennial.any?
+              %strong Perennials:
+              - garden.plantings.active.perennial.each do |planting|
+                = link_to planting do
+                  = crop_icon planting.crop
+                  = planting.crop
+      .card-body
+        - if garden.plantings.active.annual.any?
+          = render 'plantings/progress_list', plantings: garden.plantings.active.annual
+        - else
+          No annual plantings
 
   .row
     .col-12= page_entries_info @gardens
