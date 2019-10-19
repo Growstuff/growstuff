@@ -20,9 +20,7 @@ class GardensController < ApplicationController
     @current_plantings = @garden.plantings.current
       .includes(:crop, :owner)
       .order(planted_at: :desc)
-    @finished_plantings = @garden.plantings.finished
-      .includes(:crop)
-      .order(finished_at: :desc)
+    @finished_plantings = @garden.plantings.finished.includes(:crop)
     respond_with(@garden)
   end
 
