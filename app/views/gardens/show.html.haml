@@ -57,6 +57,12 @@
           .col-md-12
             %p Nothing is currently planted here.
 
+    %section.companions
+      %h2 Suggestioned companions
+      - @garden.plantings.each do |planting|
+        - planting.crop.companions.approved.each do |companion|
+          = render 'crops/tiny', crop: companion
+
     %section= render 'previously'
 
   .col-md-3
