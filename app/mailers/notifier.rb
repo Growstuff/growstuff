@@ -31,9 +31,8 @@ class Notifier < ApplicationMailer
     @super_late = []
     @harvesting = []
     @others = []
-    @perennials = []
 
-    @member.plantings.active.each do |planting|
+    @member.plantings.active.annual.each do |planting|
       if planting.finish_is_predicatable?
         if planting.super_late?
           @super_late << planting
@@ -44,12 +43,10 @@ class Notifier < ApplicationMailer
         else
           @others << planting
         end
-      else
-        @perennials << planting
       end
     end
 
-    @subject = "Your #{Date.today.strftime("%B %Y")} #{@sitename} progress report"
+    @subject = "Your #{Date.today.strftime('%B %Y')} #{@sitename} progress report"
 
     # Encrypting
     message = { member_id: @member.id, type: :send_planting_reminder }

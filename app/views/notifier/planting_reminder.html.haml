@@ -2,48 +2,63 @@
 
 %h2 Your #{Date.today.strftime("%B %Y")} #{@sitename} progress report
 
-%p
 - if @member.plantings.empty?
   %p
     #{@sitename} lets you track what food you're growing
     in your garden and see what other people near you are planting too.
   %p
-    = link_to "Get started now", new_planting_url
-    by planting your first crop.
+    #{link_to "Get started now", new_planting_url} by planting your first crop.
 
 - else
   - if @harvesting.size.positive?
-    %h4 Congratulations, you have plants ready to harvest
-    %ul
-      - @harvesting.each do |planting|
-        %li= link_to planting.crop, planting
+    %section.harvests
+      %h2 Ready to harvest
+      %p Congratulations, you have plants ready to harvest
+      %ul
+        - @harvesting.each do |planting|
+          %li= render 'planting', planting: planting
 
   - if @others.size.positive?
-    %h4 Progress report
-    %ul
-      - @others.each do |planting|
-        %li
-          = link_to planting.crop, planting
-          is #{sprintf '%.0f', planting.percentage_grown}% grown
+    %section.progress
+      %h2 Progress report
+      %ul
+        - @others.each do |planting|
+          %li
+            = render 'planting', planting: planting
+            is #{sprintf '%.0f', planting.percentage_grown}% grown
+            with #{(planting.finish_predicted_at - Time.zone.today).to_i} days to go.
 
   - if @late.size.positive?
-    %p
-      These perenial plantings are at the end of their lifecycle.
+    %section.late
+      %h2 Late
+      %p
+        These plantings are at the end of their lifecycle.
       %ul
         - @late.each do |planting|
-          %li= link_to planting.crop, planting
+          %li= render 'planting', planting: planting
 
   - if @super_late.size.positive?
-    %p
-      We suspect the following plantings finished long ago and no longer need tracking. You can mark them as finished to stop tracking.
+    %section.superlate
+      %h2 Super late
+      %p
+        We suspect the following plantings finished long ago and no longer need tracking. You can mark them as finished to stop tracking.
       %ul
         - @super_late.each do |planting|
           %li
-            = link_to planting.crop, planting
+            = render 'planting', planting: planting
             planted on #{planting.planted_at.to_date}
 %p
   Harvested anything lately?
-  = link_to "Track your harvests here.", new_harvest_url
+  = link_to "Track your harvests here.", new_harvest_url, class: 'btn'
+
+%p
+  Want to track and predit a planting in your garden?
+  = link_to "Add a planting.", new_planting_url, class: 'btn'
+
+%p
+  Track and predict your entire garden, and keep your garden records up to date at
+  = link_to member_gardens_url(@member), class: 'btn' do
+    your garden overview
 
 %h4
   See you soon on #{@sitename}!
