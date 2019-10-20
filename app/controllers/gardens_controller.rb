@@ -17,10 +17,11 @@ class GardensController < ApplicationController
   end
 
   def show
-    @current_plantings = @garden.plantings.current
-      .includes(:crop, :owner)
-      .order(planted_at: :desc)
+    @current_plantings = @garden.plantings.current.includes(:crop, :owner).order(planted_at: :desc)
     @finished_plantings = @garden.plantings.finished.includes(:crop)
+    @suggested_companions = Crop.approved.where(
+      id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
+    ).order(:name)
     respond_with(@garden)
   end
 
