@@ -14,6 +14,6 @@ describe 'admin/index.html.haml', type: "view" do
   end
 
   it "has a link to newsletter subscribers" do
-    expeect(rendered).to have_content "Newsletter subscribers"
+    expect(rendered).to have_content "Newsletter subscribers"
   end
 end
