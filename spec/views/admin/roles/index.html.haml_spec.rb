@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "roles/index" do
+describe "admin/roles/index" do
   before do
     controller.stub(:current_user) { nil }
     assign(:roles, [

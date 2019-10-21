@@ -1,0 +1,8 @@
+- content_for :title, "Editing role"
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item= link_to 'Roles', admin_roles_path
+  %li.breadcrumb-item.active= link_to 'Edit', edit_admin_role_path(@role)
+= render 'form'
+
+= link_to 'Back', admin_roles_path

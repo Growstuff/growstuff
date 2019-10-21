@@ -1,0 +1,30 @@
+- content_for :title, "Listing roles"
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to 'Roles', admin_roles_path
+
+- if can? :create, Role
+  %p= link_to 'New Role', new_admin_role_path, class: 'btn btn-primary'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th
+      %th
+
+  - @roles.each do |role|
+    %tr
+      %td= role.name
+      %td= role.description
+      %td
+        - if can? :edit, role
+          = link_to edit_admin_role_path(role), class: 'btn btn-default btn-xs' do 
+            = edit_icon
+            = t('.edit')
+        - if can?(:destroy, role) && ! role.members.any?
+          = link_to admin_role_path(role), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs text-danger' do
+            = delete_icon
+            = t('.delete')
