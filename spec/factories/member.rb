@@ -7,7 +7,7 @@ FactoryBot.define do
     confirmed_at { Time.zone.now }
     show_email { false }
     bio { 'I love seeds' }
-    preferred_avatar_uri { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
+    preferred_avatar_uri { 'https://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
 
     # cropbot is needed for certain tests, eg. Crop.create_from_csv
     factory :cropbot do
