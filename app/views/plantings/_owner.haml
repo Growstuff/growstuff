@@ -1,7 +1,7 @@
 .card
   .card-body
     .row
-      .col-md-6
+      .col
         %h4
           Planted by
           = link_to @planting.owner, @planting.owner
@@ -15,4 +15,4 @@
             %small
               View other plantings, members and more near
               = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
-      .col-md-6= render "members/avatar", member: @planting.owner
+      .col= render "members/avatar", member: @planting.owner

@@ -12,16 +12,14 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Plantings', plantings_path
   %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
-  %li.breadcrumb-item.active= link_to @planting, @planting
+  %li.breadcrumb-item.active= link_to @planting.crop.name, @planting
 
 .planting
   .row
     .col-md-8.col-xs-12
-      %h1.plantingtitle
-        %span.plantingtitle--icon= planting_icon
-        = @planting.to_s.titleize
+      = render 'timeline', planting: @planting
     .col-md-4.col-xs-12
-      = render 'plantings/actions', planting: @planting
+      = render 'plantings/owner', planting: @planting
 
     .col-md-8.col-xs-12
       %section= render 'facts', planting: @planting
@@ -36,15 +34,8 @@
               #{strip_tags(@planting.description)}
       %section= render 'plantings/photos', photos: @photos, planting: @planting
     .col-md-4.col-xs-12
-      - if @planting.percentage_grown
-        %section.progress-bar
-          %h2 Progress
-          .progress
-            .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => @planting.percentage_grown, role: "progressbar", style: "width: #{@planting.percentage_grown}%"}
-          %strong.plantingfact--percentagegrown
-            #{sprintf '%.0f', @planting.percentage_grown}%
-
-      = render 'plantings/owner', planting: @planting
+      = render 'plantings/actions', planting: @planting
+      %hr/
       = render @planting.crop
   .row
     .col-md-6

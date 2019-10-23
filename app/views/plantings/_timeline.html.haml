@@ -1,0 +1,30 @@
+.jumbotron
+  .d-flex.justify-content-between
+    %h1.display-3
+      = crop_icon(@planting.crop)
+      %strong= @planting.crop.name.titleize
+      %small.text-muted= @planting.crop.default_scientific_name
+    - if @planting.percentage_grown.present?
+      #{@planting.percentage_grown.to_i}%
+  - if @planting.crop.annual? && @planting.expected_lifespan.present?
+    .d-flex.justify-content-between
+      - if @planting.planted_at.present?
+        %p.small #{ image_icon 'planting-hand'} Planted #{I18n.l @planting.planted_at}
+      - if @planting.first_harvest_date.present?
+        %p.small #{harvest_icon} First harvest #{I18n.l @planting.first_harvest_date}
+      - elsif @planting.first_harvest_predicted_at.present?
+        %p.small #{harvest_icon} First harvest expected #{I18n.l @planting.first_harvest_predicted_at}
+      - if @planting.finished_at.present?
+        %p.small #{finished_icon} Finished #{I18n.l @planting.finished_at}
+      - elsif @planting.finish_predicted_at.present?
+        %p.small #{finished_icon} Finish expected #{I18n.l @planting.finish_predicted_at}
+    .progress
+      .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => @planting.percentage_grown, role: "progressbar", style: "width: #{@planting.percentage_grown}%"}
+    - if @planting.planted_at.present?
+      %ul.list-unstyled.d-flex.justify-content-between
+        - (@planting.expected_lifespan / 7).times do |week_number|
+          %li{class: @planting.planted_at + week_number.weeks > Time.zone.today ? 'text-muted tint' : '', 'data-toggle': "tooltip", 'data-placement': "top", title: I18n.l(@planting.planted_at + week_number.weeks)}
+            = render 'timeline_icon', planting: @planting,
+              week_number: week_number, date_this_week: @planting.planted_at + week_number.weeks
+      (One emojii = 1 week)
+

@@ -68,10 +68,6 @@ section {
     }
   }
 
-  .btn {
-    border: 1px solid $brown;
-  }
-
   .card {
     box-shadow: 1px 3px 3px 1px darken($beige, 20%);
   }
@@ -346,6 +342,29 @@ ul.thumbnail-buttons {
     margin: 0 10px 0 -25px;
     width: 30px;
   }
+}
+
+.tint {
+  cursor: pointer;
+  float: left;
+  position: relative;
+}
+
+.tint::before {
+  background: $beige;
+  bottom: 0;
+  content: '';
+  display: block;
+  left: 0;
+  opacity: .7;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background .3s linear;
+}
+
+.tint:hover::before {
+  background: none;
 }
 
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
