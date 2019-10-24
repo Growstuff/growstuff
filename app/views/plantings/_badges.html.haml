@@ -15,4 +15,4 @@
           = t('label.harvesting_now')
       - elsif planting.before_harvest_time?
         %span.badge.badge-info{'data-toggle': "tooltip", 'data-placement': "top", title: 'Predicted weeks until harvest'}
-          = t('label.weeks_until_harvest', number: weeks_from_now_to_first_harvest(planting))
+          = t('label.weeks_until_harvest', number: days_from_now_to_first_harvest(planting) / 7)
