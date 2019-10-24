@@ -344,13 +344,13 @@ ul.thumbnail-buttons {
   }
 }
 
-.tint {
+.progress-fade {
   cursor: pointer;
   float: left;
   position: relative;
 }
 
-.tint::before {
+.progress-fade::before {
   background: $beige;
   bottom: 0;
   content: '';
@@ -363,7 +363,7 @@ ul.thumbnail-buttons {
   transition: background .3s linear;
 }
 
-.tint:hover::before {
+.progress-fade:hover::before {
   background: none;
 }
 
