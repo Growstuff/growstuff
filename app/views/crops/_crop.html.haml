@@ -10,20 +10,20 @@
       = crop.default_scientific_name
     .d-flex.justify-content-between
       - if crop.annual? && crop.median_lifespan.present?
-        %p.card-text
+        %p.small
           Median Lifespan
-          %b= crop.median_lifespan
+          %strong= crop.median_lifespan
           days
       - unless crop.median_days_to_first_harvest.nil?
-        %p.card-text
+        %p.small
           First harvest expected
-          %b= crop.median_days_to_first_harvest
+          %strong= crop.median_days_to_first_harvest
           days after planting
 
       - if crop.annual? && crop.median_days_to_last_harvest.present?
-        %p.card-text
+        %p.small
           Last harvest expected
-          %b= crop.median_days_to_last_harvest
+          %strong= crop.median_days_to_last_harvest
           days after planting
     - if member_signed_in?
       .card-footer
