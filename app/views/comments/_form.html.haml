@@ -1,20 +1,26 @@
-= form_for(@comment, html: { class: "form-horizontal", role: "form" }) do |f|
-  - if @comment.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@comment.errors.size, "error")
-        prohibited this comment from being saved:
-      %ul
-        - @comment.errors.full_messages.each do |msg|
-          %li= msg
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  .card-body
+    - if content_for? :title
+      %h1.h2-responsive.text-center
+        %strong=yield :title
+    = form_for(@comment, html: { class: "form-horizontal", role: "form" }) do |f|
+      - if @comment.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@comment.errors.size, "error")
+            prohibited this comment from being saved:
+          %ul
+            - @comment.errors.full_messages.each do |msg|
+              %li= msg
 
-  .form-group
-    = f.label :body, "Your comment:"
-    = f.text_area :body, rows: 6, class: 'form-control', autofocus: 'autofocus'
-  %span.help-block
-    = render partial: "shared/markdown_help"
-  .actions
-    = f.submit 'Post comment', class: 'btn btn-primary'
-  - if defined?(@post)
-    .field
-      = f.hidden_field :post_id, value: @post.id
+      .md-form
+        = f.text_area :body, rows: 6, class: 'form-control md-textarea', autofocus: 'autofocus'
+        = f.label :body, "Your comment:"
+
+      %span.help-block
+        = render partial: "shared/markdown_help"
+      .actions.text-right
+        = f.submit 'Post comment', class: 'btn btn-primary'
+      - if defined?(@post)
+        .field
+          = f.hidden_field :post_id, value: @post.id

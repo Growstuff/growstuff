@@ -1,0 +1,16 @@
+- content_for :title, 'GardenTypes'
+
+%p
+  #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
+  View any garden_type page to see which of our members have used it.
+
+.index-cards
+  - @garden_types.each do |garden_type|
+    = render partial: "thumbnail", locals: { garden_type: garden_type }
+
+- if can? :create, GardenType
+  %div
+    = link_to 'New GardenType', new_garden_type_path, class: 'btn btn-primary'
+
+.pagination
+  = will_paginate @garden_types

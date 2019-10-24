@@ -13,13 +13,13 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member        = Member.confirmed.find_by!(slug: params[:slug])
+    @member        = Member.confirmed.kept.find_by!(slug: params[:slug])
     @twitter_auth  = @member.auth('twitter')
     @flickr_auth   = @member.auth('flickr')
     @facebook_auth = @member.auth('facebook')
     @posts         = @member.posts
-    @gardens       = @member.gardens.active.order(:name)
-    @harvests      = @member.harvests
+
+    @activity = TimelineService.member_query(@member).limit(30)
 
     # The garden form partial is called from the "New Garden" tab;
     # it requires a garden to be passed in @garden.
@@ -37,11 +37,6 @@ class MembersController < ApplicationController
       end
     end
   end
-
-  EMAIL_TYPE_STRING = {
-    send_notification_email: "direct message notifications",
-    send_planting_reminder:  "planting reminders"
-  }.freeze
 
   def unsubscribe
     verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
@@ -72,6 +67,11 @@ class MembersController < ApplicationController
 
   private
 
+  EMAIL_TYPE_STRING = {
+    send_notification_email: "direct message notifications",
+    send_planting_reminder:  "planting reminders"
+  }.freeze
+
   def member_params
     params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter)
   end
@@ -89,6 +89,6 @@ class MembersController < ApplicationController
       Member.recently_joined
     else
       Member.order(:login_name)
-    end.confirmed.paginate(page: params[:page])
+    end.kept.confirmed.paginate(page: params[:page])
   end
 end

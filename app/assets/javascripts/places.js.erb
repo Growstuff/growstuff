@@ -2,8 +2,8 @@ if (document.getElementById("placesmap") !== null) {
   places_base_path = "/places";
   mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_map_id %>";
   mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_access_token %>";
-  mapbox_base_url = "http://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
-  nominatim_base_url = 'http://nominatim.openstreetmap.org/search/';
+  mapbox_base_url = "https://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
+  nominatim_base_url = 'https://nominatim.openstreetmap.org/search/';
   nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Rails.application.config.user_agent_email %>";
 
   L.Icon.Default.imagePath = '/assets'
@@ -29,7 +29,7 @@ if (document.getElementById("placesmap") !== null) {
 
 function showMap(placesmap) {
   L.tileLayer(mapbox_base_url, {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors under <a href="http://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+    attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="https://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(placesmap);
   markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });

@@ -1,0 +1,4 @@
+%span.badge.like-badge{class: (likeable.liked_by?(current_member)) ? 'liked' : ''}
+  = like_icon
+  &nbsp;
+  %span.like-count= likeable.likes_count

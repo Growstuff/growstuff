@@ -14,6 +14,7 @@ describe "plantings/edit" do
     # and likewise for gardens
     @garden =  FactoryBot.create(:garden_z, owner: @member)
     @garden2 = FactoryBot.create(:garden_a, owner: @member)
+    @gardens = @member.gardens
 
     @planting = assign(:planting,
       FactoryBot.create(:planting, garden: @garden, crop: @tomato, owner: @member))
@@ -35,17 +36,12 @@ describe "plantings/edit" do
       end
     end
 
-    it 'includes helpful links for crops and gardens' do
-      assert_select "a[href='#{new_garden_path}']", text: "Add a garden."
-    end
-
     it "chooses the right crop" do
       assert_select "input#crop[value=?]", "tomato"
     end
 
     it "chooses the right garden" do
-      assert_select "select#planting_garden_id",
-        html: /option selected value="#{@garden.id}"/
+      assert_select "input", id: "planting_garden_id_#{@garden.id}", checked: "checked"
     end
   end
 end

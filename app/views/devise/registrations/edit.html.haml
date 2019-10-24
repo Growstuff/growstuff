@@ -1,30 +1,33 @@
 - content_for :title, "Settings for #{current_member.login_name}"
 
-%ul.nav.nav-tabs{ role: 'tablist' }
-  %li.active
-    %a{ href: '#profile', role: 'tab', 'data-toggle': 'tab' }
-      Profile
-  %li
-    %a{ href: '#email', role: 'tab', 'data-toggle': 'tab' }
-      Email
-  %li
-    %a{ href: '#apps', role: 'tab', 'data-toggle': 'tab' }
-      Apps
-  %li
-    %a{ href: '#password', role: 'tab', 'data-toggle': 'tab' }
-      Password
-  %li
-    %a{ href: '#delete', role: 'tab', 'data-toggle': 'tab' }
-      Delete Account
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'My Profile', member_path(current_member)
 
-.tab-content
-  .tab-pane.active#profile
-    = render partial: 'edit_profile'
-  .tab-pane#email
-    = render partial: 'edit_email'
-  .tab-pane#apps
-    = render partial: 'edit_apps'
-  .tab-pane#password
-    = render partial: 'edit_password'
-  .tab-pane#delete
-    = render partial: 'delete'
+%h1
+  = member_icon
+  Settings for #{current_member.login_name}
+
+.card
+  %ul#myTab.nav.nav-tabs{role: "tablist"}
+    %li.nav-item
+      %a#profile-tab.nav-link.active{"aria-controls" => "profile", "aria-selected" => "true", "data-toggle" => "tab", href: "#profile", role: "tab"} Profile
+    %li.nav-item
+      %a#email-tab.nav-link{"aria-controls" => "email", "aria-selected" => "false", "data-toggle" => "tab", href: "#email", role: "tab"} Email
+    %li.nav-item
+      %a#apps-tab.nav-link{"aria-controls" => "apps", "aria-selected" => "false", "data-toggle" => "tab", href: "#apps", role: "tab"} Apps
+    %li.nav-item
+      %a#password-tab.nav-link{"aria-controls" => "password", "aria-selected" => "false", "data-toggle" => "tab", href: "#password", role: "tab"} Password
+    %li.nav-item
+      %a#delete-tab.nav-link.text-danger{"aria-controls" => "delete", "aria-selected" => "false", "data-toggle" => "tab", href: "#delete", role: "tab"} Delete Account
+  .card-body
+    #myTabContent.tab-content
+      #profile.tab-pane.fade.show.active{"aria-labelledby" => "profile-tab", role: "tabpanel"}
+        = render partial: 'edit_profile'
+      #email.tab-pane.fade{"aria-labelledby" => "email-tab", role: "tabpanel"}
+        = render partial: 'edit_email'
+      #apps.tab-pane.fade{"aria-labelledby" => "apps-tab", role: "tabpanel"}
+        = render partial: 'edit_apps'
+      #password.tab-pane.fade{"aria-labelledby" => "password-tab", role: "tabpanel"}
+        = render partial: 'edit_password'
+      #delete.tab-pane.fade{"aria-labelledby" => "delete-tab", role: "tabpanel"}
+        = render partial: 'delete'

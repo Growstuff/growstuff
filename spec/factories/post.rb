@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :post do
-    subject { "A Post" }
+    subject { Faker::Book.title }
 
-    body { "This is some text." }
+    body { Faker::Lorem.paragraphs.join("\n") }
     author
     created_at { Time.zone.now }
 

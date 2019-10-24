@@ -1,30 +1,47 @@
 - content_for :title, @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
-%p
-  - if can? :create, Post
-    - if @author
-      %p
-        - if @author == current_member
-          = link_to 'Post something', new_post_path, class: 'btn btn-primary'
-        = link_to "View everyone's posts", posts_path, class: 'btn btn-default'
-    - else # everyone's posts
-      = link_to 'Post something', new_post_path, class: 'btn btn-primary'
-      - if current_member
-        = link_to 'View your posts', member_posts_path(current_member), class: 'btn btn-default'
-  - else
-    = render partial: 'shared/signin_signup', locals: { to: 'write a post' }
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Posts', posts_path
+  - if @author.present?
+    %li.breadcrumb-item= link_to @author, @author
+    %li.breadcrumb-item.active= link_to 'posts', posts_path(author: @author.slug)
 
-.pagination
-  = page_entries_info @posts
-  = will_paginate @posts
+%h1= @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
-- unless @posts.empty?
-  - @posts.each do |post|
-    = render partial: "single", locals: { post: post, subject: true }
+= render 'layouts/nav', model: Post
 
-  .pagination
-    = page_entries_info @posts
-    = will_paginate @posts
+= will_paginate @posts
+
+- @posts.each do |post|
+  .card.post
+    .card-body
+      %h5.card-title
+        = link_to strip_tags(post.subject), post
+        - if post.comments.size.positive?
+          %span.badge.badge-pill.badge-info.float-right
+            = icon 'fas', 'comment'
+            &nbsp;
+            = post.comments.size
+      %p.text-muted
+        Posted by
+        - if post.author
+          = link_to post.author.login_name, member_path(post.author)
+        - else
+          Member Deleted
+
+        - if post.forum
+          in #{link_to post.forum, post.forum}
+        on #{post.created_at}"
+        - if post.updated_at > post.created_at
+          and edited at #{post.updated_at}
+      = render 'members/tiny', member: post.author
+      .card-body
+        .post-body= display_post_truncated(post)
+      - post.crops.each do |crop|
+        = render 'crops/tiny', crop: crop
+
+
+= will_paginate @posts
 
 %p
   - if @author

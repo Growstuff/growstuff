@@ -54,7 +54,7 @@ RSpec.describe 'Members', type: :request do
   let(:attributes) do
     {
       "login-name" => member.login_name,
-      "slug" => member.slug
+      "slug"       => member.slug
     }
   end
 

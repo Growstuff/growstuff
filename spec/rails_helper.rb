@@ -23,23 +23,22 @@ require 'rspec/rails'
 Rails.application.eager_load!
 
 require 'capybara'
-require 'capybara/poltergeist'
 require 'capybara/rspec'
+require 'selenium/webdriver'
 require 'capybara-screenshot/rspec'
 
-Capybara.javascript_driver = :poltergeist
-if ENV['GROWSTUFF_CAPYBARA_DRIVER'].present?
-  case ENV['GROWSTUFF_CAPYBARA_DRIVER']
-  when 'selenium'
-    require 'selenium-webdriver'
-  end
-  Capybara.javascript_driver = ENV['GROWSTUFF_CAPYBARA_DRIVER'].to_sym
-end
+require 'webdrivers'
+
+Capybara.default_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :selenium_chrome_headless
 
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
   "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
 end
 
+width = 1280
+height = 1280
+Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
 
@@ -97,6 +96,7 @@ RSpec.configure do |config|
   # controller specs require this to work with Devise
   # see https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.extend ControllerMacros, type: :controller
 
   # Allow just create(:factory) instead of needing to specify FactoryBot.create(:factory)

@@ -1,6 +1,6 @@
-= form_for @crop, html: { class: 'form-horizontal', role: "form" } do |f|
+= bootstrap_form_for(@crop) do |f|
   - if @crop.errors.any?
-    #error_explanation
+    #error_explanation.alert.alert-warning{role: "alert"}
       %h3
         = pluralize(@crop.errors.size, "error")
         prohibited this crop from being saved:
@@ -8,121 +8,106 @@
         - @crop.errors.full_messages.each do |msg|
           %li= msg
 
-  -# Handy link to crop wrangling policy/style guide, shown to wranglers only
-  - if can? :wrangle, @crop
-    %p
-      %span.help-block
-        For detailed crop wrangling guidelines, please consult the
-        = link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
-        on the Growstuff wiki.
+  .card.col-12.col-md-8.mx-auto.float-none.white
+    .card-header
+      - if content_for? :title
+        %h1.h2-responsive.text-center
+          %strong=yield :title
+    .card-body
+      -# Handy link to crop wrangling policy/style guide, shown to wranglers only
+      - if can? :wrangle, @crop
+        %p
+          %span.help-block
+            For detailed crop wrangling guidelines, please consult the
+            = link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
+            on the Growstuff wiki.
 
-  -# Everyone (wranglers and requesters) sees the basic info section
-  %h2 Basic information
+      -# Everyone (wranglers and requesters) sees the basic info section
+      %h2 Basic information
 
-  .form-group#new_crop
-    = f.label :name, class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_field :name, class: 'form-control'
+      .form-group#new_crop
+      = f.text_field :name
       %span.help-block
         The common name for the crop, in English (required).
         - if can? :wrangle, @crop
           Wranglers: please ensure this is singular, and capitalize
           proper nouns only.
 
-  .form-group
-    = f.label :perennial, 'Lifespan', class: 'control-label col-md-2'
-    .col-md-8
-      = f.radio_button(:perennial, false)
-      = f.label(:perennial_false, "Annual")
-      %span.help-block Living and reproducing in a single year or less
-      = f.radio_button(:perennial, true)
-      = f.label(:perennial_true, "Perennial")
-      %span.help-block Living more than two years
+      %h2 Lifespan
+      %p
+        = f.radio_button(:perennial, false, label: 'Annual')
+        %span.help-block Living and reproducing in a single year or less
+      %p
+        = f.radio_button(:perennial, true, label: "Perennial")
+        %span.help-block Living more than two years
 
-  .form-group
-    = f.label :en_wikipedia_url, 'Wikipedia URL', class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_field :en_wikipedia_url, class: 'form-control', id: "en_wikipedia_url"
+      - unless @crop.approved?
+        = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
+      = f.text_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
 
-  -# Only crop wranglers see the crop hierarchy (for now)
-  - if can? :wrangle, @crop
-    .form-group
-      = f.label :parent_id, 'Parent crop', class: 'control-label col-md-2'
-      .col-md-8
-        = collection_select(:crop, :parent_id, Crop.all.order(:name), :id, :name,
-          { include_blank: true }, class: 'form-control')
+      -# Only crop wranglers see the crop hierarchy (for now)
+      - if can? :wrangle, @crop
+        = f.collection_select(:parent_id, Crop.all.order(:name), :id, :name,
+          { include_blank: true, label: 'Parent crop'})
         %span.help-block Optional. For setting up crop hierarchies for varieties etc.
 
 
-  -# Everyone (wranglers and requesters) gets to add scientific names
-  %h2
-    Scientific names
-    = button_tag "+", id: "add-sci_name-row", type: "button"
-    = button_tag "-", id: "remove-sci_name-row", type: "button"
+      -# Everyone (wranglers and requesters) gets to add scientific names
+      %h2 Scientific names
+      = button_tag "+", class: "add-sciname-row", type: "button"
+      = button_tag "-", class: "remove-sciname-row", type: "button"
 
-  .form-group#scientific_names
-    - @crop.scientific_names.each.with_index do |sci, index|
-      .template.col-md-12{ id: "sci_template[#{index + 1}]" }
-        .col-md-2
-          = label_tag :scientific_names, "Scientific name #{index + 1}:", class: 'control-label'
-        .col-md-8
-          = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]", class: 'form-control'
-          %span.help-block Scientific name of crop.
-        .col-md-2
+      .form-group#scientific_names
+        - @crop.scientific_names.each.with_index do |sci, index|
+          .template.col-12{ id: "sci_template[#{index + 1}]" }
+            .col-2
+              = label_tag :scientific_names, "Scientific name #{index + 1}:", class: 'control-label'
+            .col-8
+              = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]", class: 'form-control'
+              %span.help-block Scientific name of crop.
+      %h2 Alternate names
+      = button_tag "+", class: "add-altname-row", type: "button"
+      = button_tag "-", class: "remove-altname-row", type: "button"
 
-  %h2
-    Alternate names
-    = button_tag "+", id: "add-alt_name-row", type: "button"
-    = button_tag "-", id: "remove-alt_name-row", type: "button"
+      .form-group#alternate_names
+        - @crop.alternate_names.each.with_index do |alt, index|
+          .template.col-12{ id: "alt_template[#{index + 1}]" }
+            .col-2
+              = label_tag :alternate_names, "Alternate name #{index + 1}:", class: 'control-label'
+            .col-8
+              = text_field_tag "alt_name[#{index + 1}]", alt.name, id: "alt_name[#{index + 1}]", class: 'form-control'
+              %span.help-block Alternate name of crop.
+            .col-2
 
-  .form-group#alternate_names
-    - @crop.alternate_names.each.with_index do |alt, index|
-      .template.col-md-12{ id: "alt_template[#{index + 1}]" }
-        .col-md-2
-          = label_tag :alternate_names, "Alternate name #{index + 1}:", class: 'control-label'
-        .col-md-8
-          = text_field_tag "alt_name[#{index + 1}]", alt.name, id: "alt_name[#{index + 1}]", class: 'form-control'
-          %span.help-block Alternate name of crop.
-        .col-md-2
+      -# This is used for comments from crop requesters.  We need to show it
+      -# to everyone, but we don't include it on new crops from wranglers.
 
-  -# This is used for comments from crop requesters.  We need to show it
-  -# to everyone, but we don't include it on new crops from wranglers.
+      - if (can?(:wrangle, @crop) && @crop.requester) || (cannot?(:wrangle, @crop) && @crop.new_record?)
+        %h2 Crop request notes
+        = f.text_area :request_notes, rows: 3, id: 'request_notes', label: 'Comments'
 
-  - if (can?(:wrangle, @crop) && @crop.requester) || (cannot?(:wrangle, @crop) && @crop.new_record?)
-    %h2 Crop request notes
-    .form-group
-      = f.label :request_notes, 'Comments', class: 'control-label col-md-2'
-      .col-md-8
-        = f.text_area :request_notes, rows: 3, class: 'form-control', id: 'request_notes'
+      -# A final explanation of what's going to happen next, for crop requesters
+      - unless can? :wrangle, @crop
+        %p
+          When you submit this form, your suggestion will be sent to our team of
+          volunteer crop wranglers for review. We'll let you know the outcome as soon as we can.
 
-  -# A final explanation of what's going to happen next, for crop requesters
-  - unless can? :wrangle, @crop
-    %p
-      When you submit this form, your suggestion will be sent to our team of
-      volunteer crop wranglers for review. We'll let you know the outcome as soon as we can.
+      -# Now, for crop wranglers, let's have approval/rejection at the bottom of the page
+      - if can?(:wrangle, @crop) && @crop.requester
+        -# %h2 Approve or reject pending crops
+        -# = f.select(:approval_status, @crop.approval_statuses, {})
+        = f.select(:reason_for_rejection, @crop.reasons_for_rejection, include_blank: true)
 
-  -# Now, for crop wranglers, let's have approval/rejection at the bottom of the page
-  - if can?(:wrangle, @crop) && @crop.requester
-    %h2 Approve or reject pending crops
-    .form-group
-      = f.label :approval_status, 'Approval status', class: 'control-label col-md-2'
-      .col-md-8
-        = f.select(:approval_status, @crop.approval_statuses, {}, class: 'form-control')
-
-    .form-group
-      = f.label :reason_for_rejection, 'Reason for rejection', class: 'control-label col-md-2'
-      .col-md-8
-        = f.select(:reason_for_rejection, @crop.reasons_for_rejection, include_blank: true, class: 'form-control')
-
-    .form-group
-      = f.label :rejection_notes, 'Rejection notes', class: 'control-label col-md-2'
-      .col-md-8
-        = f.text_area :rejection_notes, rows: 3, class: 'form-control'
+        = f.text_area :rejection_notes, rows: 3
         %span.help-block
           Please provide additional notes why this crop request was rejected if the above reasons do not apply.
 
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+    .card-footer
+      .text-right
+        - if @crop.approved?
+          = f.submit 'Save'
+        - else
+          = f.submit 'Reject', class: 'btn btn-danger', name: 'reject'
+          = f.submit 'Approve and save', class: 'btn btn-success', name: 'approve'

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get '/robots.txt' => 'robots#robots'
 
+  resources :garden_types
+  resources :plant_parts
+
   devise_for :members, controllers: {
     registrations:      "registrations",
     passwords:          "passwords",
@@ -51,7 +54,7 @@ Rails.application.routes.draw do
   resources :plant_parts
   resources :photos
 
-  delete 'photo_associations' => 'photo_associations#destroy'
+  resources :photo_associations, only: :destroy
 
   resources :crops, param: :slug, concerns: :has_photos do
     get 'gardens' => 'gardens#index'
@@ -66,6 +69,7 @@ Rails.application.routes.draw do
     get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
+    post :openfarm
 
     collection do
       get 'requested'
@@ -76,11 +80,11 @@ Rails.application.routes.draw do
   end
 
   resources :comments
-  resources :roles
   resources :forums
 
   resources :follows, only: %i(create destroy)
   resources :likes, only: %i(create destroy)
+  resources :timeline
 
   resources :members, param: :slug do
     resources :gardens
@@ -93,8 +97,11 @@ Rails.application.routes.draw do
     get 'followers' => 'follows#followers'
   end
 
-  resources :notifications do
-    get 'reply'
+  resources :messages
+  resources :conversations do
+    collection do
+      delete 'destroy_multiple'
+    end
   end
 
   resources :places, only: %i(index show), param: :place do
@@ -105,10 +112,14 @@ Rails.application.routes.draw do
   get 'members/auth/:provider/callback' => 'authentications#create'
 
   scope :admin do
-    resources :members, controller: 'admin/members', as: 'admin_members'
     get '/' => 'admin#index', as: 'admin'
     get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
     comfy_route :cms_admin, path: '/cms'
+  end
+
+  namespace :admin do
+    resources :members, param: :slug
+    resources :roles
   end
 
   namespace :api do

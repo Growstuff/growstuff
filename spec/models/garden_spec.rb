@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Garden do
-  let(:owner)  { FactoryBot.create(:member, login_name: 'hatupatu')                             }
-  let(:garden) { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
+  let(:owner)       { FactoryBot.create(:member, login_name: 'hatupatu')                             }
+  let(:garden)      { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
 
   it "has a slug" do
     garden.slug.should match(/hatupatu-springfield-community-garden/)
@@ -53,44 +53,6 @@ describe Garden do
 
   it "stringifies as its name" do
     garden.to_s.should == garden.name
-  end
-
-  context "featured plantings" do
-    let(:tomato) { FactoryBot.create(:tomato) }
-    let(:maize)  { FactoryBot.create(:maize)  }
-    let(:chard)  { FactoryBot.create(:chard)  }
-    let(:apple)  { FactoryBot.create(:apple)  }
-    let(:pear)   { FactoryBot.create(:pear)   }
-    let(:walnut) { FactoryBot.create(:walnut) }
-
-    it "fetches < 4 featured plantings if insufficient exist" do
-      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden, owner: garden.owner)
-      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden, owner: garden.owner)
-
-      expect(garden.featured_plantings).to eq [@p2, @p1]
-    end
-
-    it "fetches most recent 4 featured plantings" do
-      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden, owner: garden.owner)
-      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden, owner: garden.owner)
-      @p3 = FactoryBot.create(:planting, crop: chard, garden: garden, owner: garden.owner)
-      @p4 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
-      @p5 = FactoryBot.create(:planting, crop: walnut, garden: garden, owner: garden.owner)
-
-      expect(garden.featured_plantings).to eq [@p5, @p4, @p3, @p2]
-    end
-
-    it "skips repeated plantings" do
-      @p1 = FactoryBot.create(:planting, crop: tomato, garden: garden, owner: garden.owner)
-      @p2 = FactoryBot.create(:planting, crop: maize, garden: garden, owner: garden.owner)
-      @p3 = FactoryBot.create(:planting, crop: chard, garden: garden, owner: garden.owner)
-      @p4 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
-      @p5 = FactoryBot.create(:planting, crop: walnut, garden: garden, owner: garden.owner)
-      @p6 = FactoryBot.create(:planting, crop: apple, garden: garden, owner: garden.owner)
-      @p7 = FactoryBot.create(:planting, crop: pear, garden: garden, owner: garden.owner)
-
-      expect(garden.featured_plantings).to eq [@p7, @p6, @p5, @p3]
-    end
   end
 
   it "destroys plantings when deleted" do

@@ -1,22 +1,43 @@
 - content_for :title, 'Admin'
 
-%h2 Manage
+- content_for :breadcrumbs do
+  %li.breadcrumb-item.active= link_to 'Admin', admin_path
+
+%h1 Manage #{ENV['GROWSTUFF_SITE_NAME']}
 
 .row
   .col-md-4
-    %h2 Site admin
-    %ul#site_admin
-      %li= link_to "Roles", roles_path
-      %li= link_to "Forums", forums_path
-      %li= link_to "CMS", comfy_admin_cms_path
+    .card
+      .card-header
+        %h2
+          = icon 'fas', 'tablet-alt'
+          Site admin
+      .card-body
+        %nav.nav#site_admin
+          %li= link_to "Roles", admin_roles_path, class: 'nav-link'
+          %li= link_to "Forums", forums_path, class: 'nav-link'
+          %li= link_to "CMS", comfy_admin_cms_path, class: 'nav-link'
+          %li= link_to t('.garden_types'), garden_types_path, class: 'nav-link'
 
   .col-md-4
-    %h2 Crop data admin
-    %ul
-      %li= link_to "Alternate names", alternate_names_path
-      %li= link_to "Scientific names", scientific_names_path
+    .card
+      .card-header
+        %h2
+          = icon 'fas', 'seedling'
+          Crop data admin
+      .card-body
+        %nav.nav#crop_admin
+          %li= link_to "Crop Wrangling", wrangle_crops_path, class: 'nav-link'
+          %li= link_to "Alternate names", alternate_names_path, class: 'nav-link'
+          %li= link_to "Scientific names", scientific_names_path, class: 'nav-link'
+
   .col-md-4
-    %h2 Member admin
-    %ul
-      %li= link_to "Newsletter subscribers", admin_newsletter_path
-      %li= link_to "Members", admin_members_path
+    .card
+      .card-header
+        %h2
+          = icon 'fas', 'user'
+          Member admin
+      .card-body
+        %nav.nav#member_admin
+          %li= link_to "Newsletter subscribers", admin_newsletter_path, class: 'nav-link'
+          %li= link_to "Members", admin_members_path, class: 'nav-link'

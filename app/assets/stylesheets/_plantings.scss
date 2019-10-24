@@ -1,0 +1,55 @@
+.planting {
+
+  .planting-badges {
+    font-size: 1em;
+    position: absolute;
+    top: 3em;
+    .badge-super-late {
+      background-color: $red;
+    }
+    .badge-harvest {
+      background-color: $blue;
+    }
+  }
+
+  .planting-thumbnail {
+    padding: 0;
+    width: 150px;
+
+    .badge {
+      font-size: 100%;
+    }
+  }
+
+  .planting-full-badges {
+    .badge {
+      font-size: 200%;
+    }
+  }
+
+  .planting-name {
+    position: relative;
+    text-align: center;
+    top: 0;
+  }
+
+  .planting-quick-actions {
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+
+  .planting-thumbnail-photo {
+    height: 150px;
+  }
+
+  dl.planting-attributes {
+    dt {
+      text-align: left;
+    }
+
+    dd {
+      margin-left: auto;
+    }
+  }
+}

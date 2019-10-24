@@ -1,9 +1,11 @@
 class Member < ApplicationRecord
-  acts_as_paranoid # implements soft deletion
-  before_destroy :newsletter_unsubscribe
+  include Discard::Model
+  acts_as_messageable # messages can be sent to this model
   include Geocodable
-  extend FriendlyId
+  include MemberFlickr
+  include MemberNewsletter
 
+  extend FriendlyId
   friendly_id :login_name, use: %i(slugged finders)
 
   #
@@ -46,16 +48,21 @@ class Member < ApplicationRecord
   scope :located, -> { where.not(location: '').where.not(latitude: nil).where.not(longitude: nil) }
   scope :recently_signed_in, -> { reorder(updated_at: :desc) }
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
-  scope :wants_newsletter, -> { where(newsletter: true) }
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
+  scope :wants_reminders, -> { where(send_planting_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable,
-    :confirmable, :lockable, :timeoutable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable, :lockable, :timeoutable, :omniauthable
+
+  # discarded (deleted) member cannot log in
+  def active_for_authentication?
+    super && !discarded?
+  end
 
   # set up geocoding
   geocoded_by :location
@@ -69,24 +76,23 @@ class Member < ApplicationRecord
   # Requires acceptance of the Terms of Service
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
-    length:     {
-      minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
-    },
-    exclusion:  {
-      in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
-    },
-    format:     {
-      with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
-    },
-    uniqueness: {
-      case_sensitive: false
-    }
+            length:     {
+              minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
+            },
+            exclusion:  {
+              in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
+            },
+            format:     {
+              with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
+            },
+            uniqueness: {
+              case_sensitive: false
+            }
 
   #
   # Triggers
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
-  after_save :update_newsletter_subscription
 
   # Give each new member a default garden
   # we use find_or_create to avoid accidentally creating a second one,
@@ -103,11 +109,15 @@ class Member < ApplicationRecord
   end
 
   def to_s
-    login_name
+    discarded? ? 'deleted' : login_name
   end
 
   def to_param
     slug
+  end
+
+  def mailboxer_email(_messageable)
+    send_notification_email ? email : false
   end
 
   def role?(role_sym)
@@ -118,50 +128,8 @@ class Member < ApplicationRecord
     authentications.find_by(provider: provider)
   end
 
-  # Authenticates against Flickr and returns an object we can use for subsequent api calls
-  def flickr
-    if @flickr.nil?
-      flickr_auth = auth('flickr')
-      if flickr_auth
-        FlickRaw.api_key = ENV['GROWSTUFF_FLICKR_KEY']
-        FlickRaw.shared_secret = ENV['GROWSTUFF_FLICKR_SECRET']
-        @flickr = FlickRaw::Flickr.new
-        @flickr.access_token = flickr_auth.token
-        @flickr.access_secret = flickr_auth.secret
-      end
-    end
-    @flickr
-  end
-
-  # Fetches a collection of photos from Flickr
-  # Returns a [[page of photos], total] pair.
-  # Total is needed for pagination.
-  def flickr_photos(page_num = 1, set = nil)
-    result = if set
-               flickr.photosets.getPhotos(
-                 photoset_id: set,
-                 page:        page_num,
-                 per_page:    30
-               )
-             else
-               flickr.people.getPhotos(
-                 user_id:  'me',
-                 page:     page_num,
-                 per_page: 30
-               )
-             end
-    return [result.photo, result.total] if result
-
-    [[], 0]
-  end
-
-  # Returns a hash of Flickr photosets' ids and titles
-  def flickr_sets
-    sets = {}
-    flickr.photosets.getList.each do |p|
-      sets[p.title] = p.id
-    end
-    sets
+  def unread_count
+    receipts.where(is_read: false).count
   end
 
   def self.login_name_or_email(login)
@@ -179,42 +147,6 @@ class Member < ApplicationRecord
       nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) } if latitude && longitude
     end
     nearby_members
-  end
-
-  def update_newsletter_subscription
-    return unless will_save_change_to_attribute?(:confirmed) || will_save_change_to_attribute?(:newsletter)
-
-    if newsletter
-      newsletter_subscribe if confirmed_just_now? || requested_newsletter_just_now?
-    elsif confirmed_at
-      newsletter_unsubscribe
-    end
-  end
-
-  def confirmed_just_now?
-    will_save_change_to_attribute?(:confirmed_at)
-  end
-
-  def requested_newsletter_just_now?
-    confirmed_at && will_save_change_to_attribute?(:newsletter)
-  end
-
-  def newsletter_subscribe(gibbon = Gibbon::API.new, testing = false)
-    return true if Rails.env.test? && !testing
-
-    gibbon.lists.subscribe(
-      id:           Rails.application.config.newsletter_list_id,
-      email:        { email: email },
-      merge_vars:   { login_name: login_name },
-      double_optin: false # they already confirmed their email with us
-    )
-  end
-
-  def newsletter_unsubscribe(gibbon = Gibbon::API.new, testing = false)
-    return true if Rails.env.test? && !testing
-
-    gibbon.lists.unsubscribe(id:    Rails.application.config.newsletter_list_id,
-                             email: { email: email })
   end
 
   def already_following?(member)

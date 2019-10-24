@@ -1,25 +1,21 @@
-= form_for @forum, html: { class: 'form-horizontal', role: "form" } do |f|
-  - if @forum.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@forum.errors.size, "error")
-        prohibited this forum from being saved:
-      %ul
-        - @forum.errors.full_messages.each do |msg|
-          %li= msg
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  .card-header
+    - if content_for? :title
+      %h1.h2-responsive.text-center
+        %strong=yield :title
+  = bootstrap_form_for(@forum) do |f|
+    .card-body
+      - if @forum.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@forum.errors.size, "error")
+            prohibited this forum from being saved:
+          %ul
+            - @forum.errors.full_messages.each do |msg|
+              %li= msg
 
-  .form-group
-    = f.label :name, class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_field :name, class: 'form-control'
-  .form-group
-    = f.label :description, class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_area :description, rows: 6, class: 'form-control'
-  .form-group
-    = f.label :owner_id, class: 'control-label col-md-2'
-    .col-md-8
-      = collection_select(:forum, :owner_id, Member.all, :id, :login_name, {}, class: 'form-control')
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+      = f.text_field :name
+      = f.text_area :description, rows: 6
+      = f.select(:owner_id, Member.all.order(:login_name).pluck(:login_name, :id))
+    .card-footer
+      .text-right= f.submit 'Save'

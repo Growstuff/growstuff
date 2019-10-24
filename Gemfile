@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.0'
+ruby '2.6.3'
 
 gem 'rails', '5.2.2.1'
 
@@ -16,14 +16,23 @@ gem 'sass-rails'
 gem 'jsonapi-resources'
 
 # CSS framework
-gem 'bootstrap-sass'
+gem "bootstrap", ">= 4.3.1"
+gem 'material-sass', '4.1.1'
+
+# Icons used by bootstrap/material-sass
+gem 'material_icons'
+
+# icons
 gem 'font-awesome-sass'
 
 gem 'uglifier' # JavaScript compressor
 
+gem 'oj' # Speeds up json
+
 # planting and harvest predictions
 # based on median values for the crop
 gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
+gem 'active_record_union'
 
 gem 'flickraw'
 gem 'jquery-rails'
@@ -45,9 +54,6 @@ gem 'unicorn'                      # http server
 
 gem "comfortable_mexican_sofa", "~> 2.0.0"
 
-gem 'bootstrap-kaminari-views'     # bootstrap views for kaminari
-gem 'kaminari'                     # pagination
-
 gem 'active_utils'
 gem 'sidekiq'
 
@@ -56,12 +62,16 @@ gem 'bluecloth'
 
 # Pagination
 gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 
 # user signup/login/etc
 gem 'devise'
 
 # nicely formatted URLs
 gem 'friendly_id'
+
+# validates URLs
+gem "validate_url"
 
 # gravatars
 gem 'gravatar-ultimate'
@@ -72,23 +82,22 @@ gem 'geocoder', '1.4.9' # TODO: Fails on version 1.5.0. Needs investigation
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
 
+# DRY-er easier bootstrap 4 forms
+gem "bootstrap_form", ">= 4.2.0"
+
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
 gem 'omniauth-facebook'
 gem 'omniauth-flickr', '>= 0.0.15'
 gem 'omniauth-twitter'
 
+# Pretty charts
 gem "chartkick"
 
-# client for Elasticsearch. Elasticsearch is a flexible
-# and powerful, distributed, real-time search and analytics engine.
-# An example of the use in the project is fuzzy crop search.
-# Project does not use semver, so we want to be in sync with the version of
-# elasticsearch we use
-# See https://github.com/elastic/elasticsearch-ruby#compatibility
-gem "elasticsearch-api", "~> 6.0.0"
-gem "elasticsearch-model", "~> 6.0.0"
-gem "elasticsearch-rails", "~> 6.0.0"
+# clever elastic search
+gem 'elasticsearch', '< 7.0.0'
+gem 'searchkick'
+
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
@@ -97,7 +106,7 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem "paranoia", "~> 2.2"
+gem 'discard', '~> 1.0'
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
@@ -107,12 +116,23 @@ gem 'puma'
 gem 'webpacker'
 gem 'react-rails'
 
-group :production, :staging do
+gem 'loofah', '>= 2.2.1'
+gem 'rack-protection', '>= 2.0.1'
+
+# Member to member messaging system
+gem 'mailboxer'
+
+gem 'faraday'
+gem 'faraday_middleware'
+
+group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
   gem 'memcachier'
   gem 'newrelic_rpm'
   gem 'rails_12factor' # supresses heroku plugin injection
+
+  gem 'scout_apm' # monitoring
 end
 
 group :development do
@@ -122,36 +142,39 @@ group :development do
 end
 
 group :development, :test do
-  gem 'bullet'                          # performance tuning by finding unnecesary queries
-  gem 'byebug'                          # debugging
-  gem 'capybara'                        # integration tests
-  gem 'capybara-email'                  # integration tests for email
-  gem 'capybara-screenshot'             # for test debugging
-  gem 'coveralls', require: false       # coverage analysis
+  gem 'bullet'                  # performance tuning by finding unnecesary queries
+  gem 'byebug'                  # debugging
+  gem 'capybara'                # integration tests
+  gem 'capybara-email'          # integration tests for email
+  gem 'capybara-screenshot'     # for test debugging
   gem 'database_cleaner'
-  gem 'factory_bot_rails'               # for creating test data
+  gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
-  gem 'haml-i18n-extractor'
-  gem 'haml-rails'                      # HTML templating language
-  gem 'haml_lint', '>= 0.25.1' # Checks haml files for goodness
-  gem 'i18n-tasks'                      # adds tests for finding missing and unused translations
-  gem 'poltergeist'                     # for headless JS testing
+  gem 'haml-rails'              # HTML templating language
   gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails' # unit testing framework
-  gem 'rubocop', '~> 0.60'
+  gem 'rspec-rails'             # unit testing framework
+  gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'selenium-webdriver'
-  gem 'webrat' # provides HTML matchers for view tests
+  gem 'webrat'                  # provides HTML matchers for view tests
+
+  # cli utils
+  gem 'coveralls', require: false # coverage analysis
+  gem 'haml-i18n-extractor', require: false
+  gem 'haml_lint', '>= 0.25.1', require: false # Checks haml files for goodness
+  gem 'i18n-tasks', require: false # adds tests for finding missing and unused translations
+  gem 'rspectre', require: false # finds unused code in specs
+  gem 'rubocop', '~> 0.71', require: false
 end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
+  gem 'percy-capybara', '~> 4.0.0'
   gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
   gem 'timecop'
+  gem 'webdrivers'
 end
 
 group :travis do
   gem 'platform-api'
 end
-gem 'loofah', '>= 2.2.1'
-gem 'rack-protection', '>= 2.0.1'

@@ -1,51 +1,50 @@
 module PhotosHelper
   def crop_image_path(crop)
     if crop.default_photo.present?
-      crop.default_photo.thumbnail_url
+      # The flickr thumbnails are too small, use full size
+      if crop.default_photo.source == 'flickr'
+        crop.default_photo.fullsize_url
+      else
+        crop.default_photo.thumbnail_url
+      end
     else
       placeholder_image
     end
   end
 
   def garden_image_path(garden)
-    if garden.default_photo.present?
-      garden.default_photo.thumbnail_url
-    else
-      placeholder_image
-    end
+    photo_or_placeholder(garden)
   end
 
   def planting_image_path(planting)
-    if planting.photos.present?
-      planting.photos.order(date_taken: :desc).first.thumbnail_url
-    else
-      placeholder_image
-    end
+    photo_or_placeholder(planting)
   end
 
   def harvest_image_path(harvest)
-    if harvest.photos.present?
-      harvest.photos.order(date_taken: :desc).first.thumbnail_url
-    elsif harvest.planting.present?
-      planting_image_path(harvest.planting)
-    else
-      placeholder_image
-    end
+    photo_or_placeholder(harvest)
   end
 
   def seed_image_path(seed)
-    if seed.default_photo.present?
-      seed.default_photo.thumbnail_url
-    elsif seed.crop.default_photo.present?
-      seed.crop.default_photo.thumbnail_url
-    else
-      placeholder_image
-    end
+    photo_or_placeholder(seed)
   end
 
   private
 
+  def photo_or_placeholder(item)
+    if item.default_photo.present?
+      item_photo(item)
+    elsif item.respond_to?(:crop)
+      crop_image_path(item.crop)
+    else
+      placeholder_image
+    end
+  end
+
+  def item_photo(item)
+    item.default_photo.fullsize_url
+  end
+
   def placeholder_image
-    'placeholder_150.png'
+    'placeholder_600.png'
   end
 end

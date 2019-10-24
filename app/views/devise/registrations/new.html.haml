@@ -1,51 +1,31 @@
-- content_for :title, "Join Growstuff"
+.form-page
+  .card.form-card
+    %h1 Join #{ENV['GROWSTUFF_SITE_NAME']}
+    .card-body
+      %p Sign up for a #{ENV['GROWSTUFF_SITE_NAME']} account to track your vegetable garden and connect with other local growers.
 
-%p Sign up for a Growstuff account to track your veggie garden and connect with other local growers.
+    = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name),
+        html: { class: "text-center border border-light p-5" }) do |f|
+      = render 'devise/shared/error_messages', resource: resource
 
-= form_for(resource, as: resource_name,
-    url: registration_path(resource_name),
-    html: { class: "form-horizontal" }) do |f|
-  = devise_error_messages!
+      = f.text_field :login_name
+      %span This is the name that will show on the website.
 
-  .form-group
-    = f.label :login_name, class: "control-label col-md-2"
-    .col-md-8
-      = f.text_field :login_name, class: 'form-control'
-      %span.help-inline This is the name that will show on the website.
+      = icon 'fas', 'email'
+      = f.email_field :email
+      %span We'll use this address to contact you (we never spam!)
 
-  .form-group
-    = f.label :email, class: "control-label col-md-2"
-    .col-md-8
-      = f.email_field :email, class: 'form-control'
-      %span.help-inline We'll use this address to contact you (we never spam!)
+      = f.password_field :password, type: :password
+      = f.password_field :password_confirmation
 
-  .form-group
-    = f.label :password, class: "control-label col-md-2"
-    .col-md-8= f.password_field :password, class: 'form-control'
+      %p
+        = f.check_box :tos_agreement, label: "I agree"
+        to the #{link_to 'Terms of Service', "/policy/tos"}
 
-  .form-group
-    = f.label :password_confirmation, class: "control-label col-md-2"
-    .col-md-8= f.password_field :password_confirmation, class: 'form-control'
+      %p
+        = f.check_box :newsletter, checked: true, label: "Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter"
+      %p= render partial: 'newsletter_blurb'
 
-  .form-group
-    .col-md-offset-2.col-md-8.checkbox
-      %label
-        = f.check_box :tos_agreement
-        I agree to the
-        = succeed "." do
-          = link_to 'Terms of Service', "#{root_url}/policy/tos"
-  .form-group
-    .col-md-offset-2.col-md-8.checkbox
-      %label
-        = f.check_box :newsletter, checked: true
-        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
-      .help-inline
-        = render partial: 'newsletter_blurb'
+      = f.submit "Sign up", class: 'btn btn-block btn-success'
 
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit "Sign up", class: 'btn btn-primary'
-
-  .form-group
-    .col-md-offset-2.col-md-8
-      = render "devise/shared/links"
+    .card-footer= render "devise/shared/links"

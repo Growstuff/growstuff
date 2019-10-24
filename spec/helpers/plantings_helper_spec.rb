@@ -10,7 +10,7 @@ describe PlantingsHelper do
         planted_from: '',
         owner:        member)
       result = helper.display_planting(planting)
-      expect(result).to eq "crop_lady."
+      expect(result).to eq "crop_lady planted magic bean."
     end
 
     it "does not have a quantity provided" do

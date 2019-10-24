@@ -1,12 +1,9 @@
 require 'rails_helper'
 
-feature "browse crops" do
-  let(:tomato)         { create :tomato        }
-  let(:maize)          { create :maize         }
-  let(:pending_crop)   { create :crop_request  }
-  let(:rejected_crop)  { create :rejected_crop }
+describe "browse crops" do
+  let(:tomato) { create :tomato }
 
-  scenario "Show crop info" do
+  it "Show crop info" do
     visit crop_path(tomato)
     expect(page).to have_text 'tomato'
   end
@@ -18,7 +15,7 @@ feature "browse crops" do
       FactoryBot.create :harvest, crop: tomato, harvested_at: 60.minutes.ago, created_at: 10.minutes.ago
     end
 
-    scenario "Shows most recently harvested harvest" do
+    it "Shows most recently harvested harvest" do
       visit crop_path(tomato)
       expect(page).to have_link(href: harvest_path(most_recent_harvest))
     end
@@ -31,7 +28,7 @@ feature "browse crops" do
       FactoryBot.create :planting, crop: tomato, planted_at: 60.minutes.ago, created_at: 10.minutes.ago
     end
 
-    scenario "Shows most recently planted planting" do
+    it "Shows most recently planted planting" do
       visit crop_path(tomato)
       expect(page).to have_link(href: planting_path(most_recent_planting))
     end

@@ -1,88 +1,62 @@
-= required_field_help_text
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  = bootstrap_form_for(@seed) do |f|
+    .card-header
+      - if content_for? :title
+        %h1.h2-responsive.text-center
+          = seed_icon
+          %strong=yield :title
+    .card-body
+      - if @seed.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@seed.errors.size, "error")
+            prohibited this seed from being saved:
+          %ul
+            - @seed.errors.full_messages.each do |msg|
+              %li= msg
+      = required_field_help_text
 
-= form_for(@seed, html: { class: "form-horizontal", role: "form" }) do |f|
-  - if @seed.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@seed.errors.size, "error")
-        prohibited this seed from being saved:
-      %ul
-        - @seed.errors.full_messages.each do |msg|
-          %li= msg
-  .form-group.required
-    = f.label :crop, 'Crop:', class: 'control-label col-md-2'
-    .col-md-8
-      - if @planting
-        = link_to @planting, planting_path(@planting)
-        = f.hidden_field :parent_planting_id, value: @planting.id
-      - else
-        = auto_suggest @seed, :crop, class: 'form-control', default: @crop
-        %span.help-inline
-          Can't find what you're looking for?
-          = link_to "Request new crops.", new_crop_path
-  .form-group
-    = f.label :quantity, 'Quantity:', class: 'control-label col-md-2'
-    .col-md-2
-      = f.number_field :quantity, class: 'form-control'
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :plant_before, 'Plant before:', class: 'control-label col-md-2'
-    .col-md-2
-      = f.text_field :plant_before, class: 'add-datepicker form-control',
-                      value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :finished, 'Mark as finished', class: 'control-label col-md-2'
-    .col-md-8
-      = f.check_box :finished
-      = render partial: 'shared/form_optional'
-      %span.help-block
-        = t('.finish_helper')
-  .form-group
-    = f.label :finished_at, 'Finished at:', class: 'control-label col-md-2'
-    .col-md-2
-      = f.text_field :finished_at, class: 'add-datepicker form-control',
-                      value: @seed.finished_at ? @seed.finished_at.to_s(:ymd) : ''
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :days_until_maturity_min, 'Days until maturity:', class: 'control-label col-md-2'
-    %fieldset
-      .col-md-2
-        = f.number_field :days_until_maturity_min, class: 'form-control'
-        = render partial: 'shared/form_optional'
-      .col-md-1
-        = f.label :days_until_maturity_max, 'to', class: 'control-label'
-      .col-md-2
-        = f.number_field :days_until_maturity_max, class: 'form-control'
-        = render partial: 'shared/form_optional'
-      .col-md-1
-        = f.label :dummy, 'days', class: 'control-label'
+      .form-group.required
+        = f.label :crop, 'Crop'
+        - if @planting
+          = link_to @planting, planting_path(@planting)
+          = f.hidden_field :parent_planting_id, value: @planting.id
+        - else
 
-  .form-group.required
-    = f.label :organic, 'Organic?', class: 'control-label col-md-2'
-    .col-md-8
-      = f.select(:organic, Seed::ORGANIC_VALUES, {}, class: 'form-control', default: 'unknown')
-  .form-group.required
-    = f.label :gmo, 'GMO?', class: 'control-label col-md-2'
-    .col-md-8
-      = f.select(:gmo, Seed::GMO_VALUES, {}, class: 'form-control', default: 'unknown')
-  .form-group.required
-    = f.label :heirloom, 'Heirloom?', class: 'control-label col-md-2'
-    .col-md-8
-      = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {}, class: 'form-control', default: 'unknown')
-  .form-group
-    = f.label :description, 'Description:', class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_area :description, rows: 6, class: 'form-control'
-      = render partial: 'shared/form_optional'
-  .form-group
-    .col-md-offset-2.col-md-8
-      %span.help-block
-        =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
-  .form-group.required
-    = f.label :tradable_to, 'Will trade:', class: 'control-label col-md-2'
-    .col-md-8
-      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {}, class: 'form-control')
+          = auto_suggest @seed, :crop, class: 'form-control', default: @crop
+          %span.help-inline
+            Can't find what you're looking for?
+            = link_to "Request new crops.", new_crop_path
+      .row
+        .col-12= f.number_field :quantity, label: 'Quantity'
+        .col-12
+          = f.text_field :plant_before, class: 'add-datepicker',
+          value: @seed.plant_before ? @seed.plant_before.to_s(:ymd) : ''
+
+      .row
+        .col-12
+          = f.check_box :finished, label: 'Mark as finished'
+        .col-12
+          = f.text_field :finished_at, class: 'add-datepicker', value: @seed.finished_at ? @seed.finished_at.to_s(:ymd) : ''
+        .col-12
+          %span.help-inline= t('.finish_helper')
+
+      .row
+        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity'
+        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days"
+
+      .row
+        .col-md-4
+          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+        .col-md-4
+          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+        .col-md-4
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+      = f.text_area :description, rows: 6
+
+      %hr/
+      =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
+      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {label: 'Will trade', wrapper: { class: 'required'}})
       %span.help_inline
         - if current_member.location.blank?
           Don't forget to
@@ -93,6 +67,5 @@
           = succeed "." do
             = link_to current_member.location, place_path(current_member.location)
           = link_to "Change your location.", edit_member_registration_path
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+    .card-footer
+      .text-right= f.submit 'Save'

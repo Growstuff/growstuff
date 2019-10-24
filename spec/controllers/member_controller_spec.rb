@@ -3,7 +3,6 @@ require 'rails_helper'
 describe MembersController do
   before do
     @member = FactoryBot.create(:member)
-    @posts = [FactoryBot.create(:post, author: @member)]
     @twitter_auth = FactoryBot.create(:authentication, member: @member)
     @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
   end
@@ -18,19 +17,14 @@ describe MembersController do
   describe "GET JSON index" do
     it "provides JSON for members" do
       get :index, format: 'json'
-      response.should be_success
+      response.should be_successful
     end
   end
 
   describe "GET show" do
     it "provides JSON for member profile" do
       get :show, params: { slug: @member.to_param }, format: 'json'
-      response.should be_success
-    end
-
-    it "assigns @posts with the member's posts" do
-      get :show, params: { slug: @member.to_param }
-      assigns(:posts).should eq(@posts)
+      response.should be_successful
     end
 
     it "assigns @twitter_auth" do
@@ -59,7 +53,7 @@ describe MembersController do
     describe "returns an RSS feed" do
       before { get :show, params: { slug: @member.to_param }, format: "rss" }
 
-      it { response.should be_success }
+      it { response.should be_successful }
       it { response.should render_template("members/show") }
       it { response.content_type.should eq("application/rss+xml") }
     end

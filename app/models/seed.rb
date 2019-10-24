@@ -14,7 +14,7 @@ class Seed < ApplicationRecord
   # Relationships
   belongs_to :crop
   belongs_to :parent_planting, class_name: 'Planting', foreign_key: 'parent_planting_id',
-                               required: false, inverse_of: :child_seeds # parent
+                               optional: true, inverse_of: :child_seeds # parent
   has_many :child_plantings, class_name: 'Planting',
                              foreign_key: 'parent_seed_id', dependent: :nullify,
                              inverse_of: :parent_seed # children
@@ -29,17 +29,17 @@ class Seed < ApplicationRecord
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :tradable_to, allow_nil: false, allow_blank: false,
-                          inclusion: { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, "\
+  validates :tradable_to, allow_blank: false,
+                          inclusion:   { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, "\
                                                 "locally, nationally, or internationally" }
-  validates :organic, allow_nil: false, allow_blank: false,
-                      inclusion: { in: ORGANIC_VALUES, message: "You must say whether the seeds "\
+  validates :organic, allow_blank: false,
+                      inclusion:   { in: ORGANIC_VALUES, message: "You must say whether the seeds "\
                                              "are organic or not, or that you don't know" }
-  validates :gmo, allow_nil: false, allow_blank: false,
-                  inclusion: { in: GMO_VALUES, message: "You must say whether the seeds are "\
+  validates :gmo, allow_blank: false,
+                  inclusion:   { in: GMO_VALUES, message: "You must say whether the seeds are "\
                                                         "genetically modified or not, or that you don't know" }
-  validates :heirloom, allow_nil: false, allow_blank: false,
-                       inclusion: { in: HEIRLOOM_VALUES, message: "You must say whether the seeds"\
+  validates :heirloom, allow_blank: false,
+                       inclusion:   { in: HEIRLOOM_VALUES, message: "You must say whether the seeds"\
                                                                   "are heirloom, hybrid, or unknown" }
 
   #
@@ -48,14 +48,12 @@ class Seed < ApplicationRecord
 
   #
   # Scopes
-  default_scope { joins(:owner) } # Ensure owner exists
+  default_scope { joins(:owner).merge(Member.kept) } # Ensure owner exists
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
-
-  def default_photo
-    photos.order(created_at: :desc).first
-  end
+  scope :recent, -> { order(created_at: :desc) }
+  scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
 
   def tradable?
     tradable_to != 'nowhere'

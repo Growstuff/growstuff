@@ -11,7 +11,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react_ujs": "^2.4.4"
+    "react_ujs": "^2.4.4",
+    "@percy/agent": "^0.3.1",
+    "mdbootstrap": "^4.7.7"
   },
   "devDependencies": {
     "coffeelint": "^2.0.7",

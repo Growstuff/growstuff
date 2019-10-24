@@ -1,0 +1,47 @@
+.photo-grid {
+  background: $beige;
+}
+
+// clear fix
+.photo-grid:after {
+  clear: both;
+  content: "";
+  display: block;
+}
+
+.hero-photo {
+  max-height: 500px;
+}
+
+.photo-thumbnail {
+  margin-bottom: 1em;
+  margin-right: 1em;
+  max-width: 150px;
+  padding: 0;
+  position: relative;
+
+  img {
+    width: 100%;
+  }
+
+  .text {
+    bottom: 0;
+    color: $black;
+    display: none;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  p {
+    color: $white;
+    margin: 0;
+    padding: 5px;
+  }
+
+  &:hover {
+    .text {
+      display: block;
+    }
+  }
+}

@@ -1,11 +1,12 @@
 %a{ name: "comments" }
 - if post.comments
+  %hr/
   %h2
+    = comment_icon
     = localize_plural(post.comments, Comment)
-  - post.comments.post_order.each do |c|
-    = render partial: "comments/single", locals: { comment: c }
+  - post.comments.post_order.each do |comment|
+    = render "comments/single", comment: comment
 
 - else
   %h2 There are no comments yet
-
 

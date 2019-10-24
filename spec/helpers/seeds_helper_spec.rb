@@ -6,7 +6,7 @@ describe SeedsHelper do
       seed = FactoryBot.create(:seed,
         description: nil)
       result = helper.display_seed_description(seed)
-      expect(result).to eq "no description provided."
+      expect(result).to eq ""
     end
 
     it "is less than 130 characters long" do

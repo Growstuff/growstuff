@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature "irregular crop inflections" do
+describe "irregular crop inflections" do
   # We're just testing a couple of representative crops to
   # check that inflection works: you don't need to add
   # every crop here.
-  scenario "crops which are mass nouns" do
+  it "crops which are mass nouns" do
     expect("kale".pluralize).to eq "kale"
     expect("broccoli".pluralize).to eq "broccoli"
     expect("square foot".pluralize).to eq "square feet"
@@ -26,29 +26,29 @@ feature "irregular crop inflections" do
     expect("star anise".pluralize).to eq "star anise"
   end
 
-  scenario "crops which are particularly irregular" do
+  it "crops which are particularly irregular" do
     expect("curry leaf".pluralize).to eq "curry leaves"
   end
 
-  scenario "crops which require -es" do
+  it "crops which require -es" do
     expect("mango".pluralize).to eq "mangoes"
     expect("potato".pluralize).to eq "potatoes"
   end
 
-  scenario "crops where the first crop would normally be pluralized" do
+  it "crops where the first crop would normally be pluralized" do
     expect("Potato Onion".pluralize).to eq "Potato Onions"
     expect("pear tomato".pluralize).to eq "pear tomatoes"
     expect("chilli pepper".pluralize).to eq "chilli peppers"
   end
 
-  scenario "crops where the proper name succeeds the crop that would normally be pluralized" do
+  it "crops where the proper name succeeds the crop that would normally be pluralized" do
     expect("potato Taranaki".pluralize).to eq "potato Taranaki"
     expect("potato Gladstone".pluralize).to eq "potato Gladstone"
     expect("potato matariki".pluralize).to eq "potato matariki"
     expect("spinach Santana".pluralize).to eq "spinach Santana"
   end
 
-  scenario "crops of Māori origin" do
+  it "crops of Māori origin" do
     expect("kūmara".pluralize).to eq "kūmara"
     expect("pūhā".pluralize).to eq "pūhā"
   end

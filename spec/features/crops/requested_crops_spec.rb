@@ -1,15 +1,14 @@
 require 'rails_helper'
 
-feature "Crop - " do
-  let(:member)          { create :member                                                                       }
+describe "Requesting Crops" do
   let!(:requested_crop) { create :crop, requester: member, approval_status: 'pending', name: 'puha for dinner' }
 
-  background do
-    login_as member
-    visit requested_crops_path
-  end
+  context 'signed in' do
+    include_context 'signed in member'
+    before { visit requested_crops_path }
 
-  scenario "creating a crop with multiple scientific and alternate name", :js do
-    expect(page).to have_content "puha for dinner"
+    it "creating a crop with multiple scientific and alternate name", :js do
+      expect(page).to have_content "puha for dinner"
+    end
   end
 end

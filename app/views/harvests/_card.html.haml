@@ -1,31 +1,16 @@
-.panel.panel-success
-  .panel-heading
-    %h3.panel-title
-      = link_to "#{harvest.owner.login_name}'s #{harvest.crop.name} harvest", harvest
-      - if can? :edit, harvest
-        %a.pull-right{ href: edit_harvest_path(harvest), role: "button", id: "edit_harvest_glyphicon" }
-          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
-  .panel-body
-    .row
-      .col-md-4
-        = link_to image_tag(harvest_image_path(harvest),
-                            alt: harvest.crop.name, class: 'img'),
-                  harvest
-      .col-md-8
-        %dl.dl-horizontal
-          %dt Crop :
-          %dd= link_to harvest.crop.name, harvest.crop
-          %dt Plant part :
-          %dd= link_to harvest.plant_part, harvest.plant_part
-          %dt Quantity :
-          %dd= display_quantity(harvest)
-          %dt Harvest date :
-          %dd= harvest.harvested_at
-          %dt Notes:
-          %dd= display_harvest_description(harvest)
-          - if harvest.planting.present?
-            %dt Harvested from
-            %dd= link_to(harvest.planting, planting_path(harvest.planting))
-    .row
-      .col-md-12
-        = render 'harvests/actions', harvest: harvest
+.card
+  = link_to harvest do
+    = image_tag harvest_image_path(harvest), alt: harvest, class: 'img-card'
+  .card-body
+    %h5
+      = crop_icon(harvest.crop)
+      %strong
+        = link_to harvest.crop, harvest
+      %span.badge.badge-pill= harvest.plant_part
+    - if harvest.planting.present?
+      %p.card-text
+        %small.text-muted
+          Harvested from
+          = link_to harvest.planting, harvest.planting
+  .card-footer
+    .float-right=render 'members/tiny', member: harvest.owner

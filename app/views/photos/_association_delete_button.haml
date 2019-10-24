@@ -1,0 +1,6 @@
+- if can? :edit, photo
+  = link_to photo_association_path(photo_id: photo.id, type: type, id: thing.id),
+    data: { confirm: "Removing photo from this #{type}. Are you sure?" },
+    method: 'delete', class: 'text-warning btn-sm' do
+    = delete_association_icon
+

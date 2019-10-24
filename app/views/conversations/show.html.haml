@@ -1,0 +1,33 @@
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Conversations', conversations_path
+  %li.breadcrumb-item.active= link_to @conversation.subject, conversation_path(@conversation)
+
+.row
+  .col-md-2
+  .col-md-10
+    %h1= @conversation.subject
+.row
+  .col-md-2
+    .card
+      .card-header
+        %h6 Participants
+      %ul.list-group.list-group-flush
+        - @participants.each do |member|
+          %li.list-group-item= render 'members/tiny', member: member
+  .col-md-10
+    .card
+      %ul.list-group.list-group-flush
+        - @conversation.messages.order(:created_at).each do |message|
+          %li.list-group-item
+            .col-md-8.text-muted
+              = comment_icon
+              on #{message.created_at}
+            .col-md-4.text-right.float-right
+              = render 'members/tiny', member: message.sender
+            .col-12
+              %p.text-justify
+                :growstuff_markdown
+                  #{ strip_tags(message.body) }
+        %li.list-group-item
+          = icon 'fas', 'reply'
+          = render 'messages/form', conversation: @conversation

@@ -11,7 +11,7 @@ module Api
 
       has_many :photos
 
-      has_one :parent
+      # has_one :parent
 
       attribute :name
       attribute :en_wikipedia_url

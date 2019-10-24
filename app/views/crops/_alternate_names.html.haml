@@ -1,16 +1,24 @@
 .alternate_names
   %h4 Alternate names
-  - if crop.alternate_names.empty?
-    %p None known.
-  - else
-    %ul
-      - crop.alternate_names.each do |an|
-        %li
-          = an.name
-          - if can? :edit, an
-            = link_to 'Edit', edit_alternate_name_path(an), class: 'btn btn-default btn-xs'
-          - if can? :destroy, an
-            = link_to 'Delete', an, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
-  %p
-  - if can? :edit, crop
-    = link_to 'Add', new_alternate_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'
+  - if crop.alternate_names.any?
+    - crop.alternate_names.each do |an|
+      - if can? :edit, an
+        .dropdown.planting-actions
+          %a#crop-actions-altnames.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", :href => '#'}
+            = an.name
+          .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-altnames"}
+            - if can? :edit, an
+              = link_to edit_alternate_name_path(an), class: 'dropdown-item' do
+                = edit_icon
+                = t('.edit')
+            - if can? :destroy, an
+              = link_to an, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' do
+                = delete_icon
+                = t('.delete')
+      - else
+        .badge= an.name
+
+
+  %p.text-right
+    - if can? :edit, crop
+      = link_to 'Add', new_alternate_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'

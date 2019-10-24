@@ -1,6 +1,7 @@
 class ForumsController < ApplicationController
   load_and_authorize_resource
   respond_to :html, :json
+  responders :flash
 
   # GET /forums
   # GET /forums.json

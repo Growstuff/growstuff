@@ -1,15 +1,11 @@
 require 'rails_helper'
 
-feature 'Members RSS feed' do
+describe 'Members RSS feed' do
   let(:member) { create :member }
 
-  scenario 'The show action exists' do
-    visit member_path(member, format: 'rss')
-    expect(page.status_code).to equal 200
-  end
+  before { visit member_path(member, format: 'rss') }
 
-  scenario 'The show action title is what we expect' do
-    visit member_path(member, format: 'rss')
+  it 'The show action title is what we expect' do
     expect(page).to have_content "#{member.login_name}'s recent posts (#{ENV['GROWSTUFF_SITE_NAME']})"
   end
 end

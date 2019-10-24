@@ -1,7 +1,7 @@
 %h2 All about #{member.login_name}
 - if member.bio.blank?
   - if can? :edit, member
-    = link_to "Add a bio to complete your profile."
+    = link_to "Add a bio to complete your profile.", edit_member_path(member)
   - else
     #{member.login_name} hasn't written a bio yet.
 - else

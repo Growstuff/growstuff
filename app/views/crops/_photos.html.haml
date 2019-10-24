@@ -1,10 +1,7 @@
-- [Planting, Harvest, Seed].each do |model_name|
-  .row
-    .col-md-12
-      %h3
-        = @crop.name
-        = t("activerecord.models.#{model_name.to_s.downcase}.other")
-  .row
-    - photos.by_model(model_name).limit(6).each do |photo|
-      .col-md-2.six-across
-        .thumbnail= link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img'), photo
+- if @crop.photos.size.positive?
+  %h2 #{photo_icon} Photos
+  - [Crop, Planting, Harvest, Seed].each do |model_name|
+    - if photos.by_model(model_name).size.positive?
+      %h3 #{@crop.name.capitalize} #{t("activerecord.models.#{model_name.to_s.downcase}.other")}
+      = render 'photos/gallery', photos: photos.by_model(model_name).order(likes_count: :desc).limit(5)
+  = link_to 'more photos »', crop_photos_path(@crop), class: 'btn'

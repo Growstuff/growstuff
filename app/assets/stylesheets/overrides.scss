@@ -1,0 +1,426 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: $beige;
+  font-family: $default-font;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a {
+  color: $green;
+
+  .navbar-brand {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+a:hover {
+  color: $brown;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 250%;
+}
+
+h2 {
+  font-size: 150%;
+}
+
+h3 {
+  font-size: 120%;
+}
+
+#navbar-search {
+  .input-group {
+    input {
+      background-color: $white;
+      color: $black;
+    }
+
+    input::placeholder {
+      color: $navbar-default-link-color;
+    }
+  }
+}
+
+section {
+  margin: .5em 0 0;
+  padding: 0 0 1em;
+
+  h2 {
+    background-color: $green;
+    box-shadow: 1px 1px 1px 1px darken($beige, 20%);
+    color: $white;
+    padding: .2em;
+
+    a {
+      color: $white;
+    }
+  }
+
+  .btn {
+    border: 1px solid $brown;
+  }
+
+  .card {
+    box-shadow: 1px 3px 3px 1px darken($beige, 20%);
+  }
+}
+
+.layout-actions {
+  border: 1px solid lighten($green, 20%);
+  float: right;
+}
+
+.index-cards {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+
+  .card {
+    background: $white;
+    border-radius: 5%;
+    margin: .5em .5em .5em 0;
+    width: 200px;
+
+    .img-card {
+      border-top-left-radius: 5%;
+      border-top-right-radius: 5%;
+    }
+  }
+  .card-finished {
+    background: darken($beige, 10%);
+    a {
+      color: $brown;
+    }
+  }
+
+  .card:hover {
+    background-color: $beige;
+  }
+}
+
+.card {
+  margin-bottom: 1em;
+
+  .img-card {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  a:hover {
+    background-color: $beige;
+    color: $blue;
+  }
+}
+
+.facts {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+
+  .card {
+    margin: 1em;
+    max-width: 100%;
+    padding: 1em;
+    text-align: center;
+    width: 170px;
+
+    strong {
+      display: block;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    span {
+      display: block;
+    }
+
+    img {
+      height: 50%;
+    }
+  }
+}
+
+img.img-cute {
+  bottom: -6px;
+  left: 45px;
+  position: relative;
+  width: 3em;
+}
+
+img.img-tiny {
+  width: 50px;
+}
+
+img.img-icon {
+  width: 1.2em;
+}
+
+img.img-responsive {
+  max-width: 100%;
+}
+
+img.avatar {
+  border-radius: 50%;
+  padding: 1em;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar {
+  border-bottom: 1em solid $progress-bar-color;
+}
+
+ul.associations {
+  list-style-type: none;
+}
+
+// footer
+footer {
+  #footer1,
+  #footer2,
+  #footer3 {
+    padding-bottom: 2em;
+    padding-top: 1em;
+    text-align: left;
+
+    ul {
+      list-style-position: outside;
+      list-style-type: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    a {
+      color: $navbar-default-link-color;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: $navbar-default-link-hover-color;
+    }
+
+    a:active {
+      color: $navbar-default-link-active-color;
+    }
+  }
+}
+
+// ensure footer is pushed to bottom of browser window
+#maincontainer {
+  max-width: 2500px;
+  min-height: 80%;
+  padding: 1em;
+}
+
+// Autosuggest
+.ui-autocomplete {
+  background: $white;
+  z-index: $highest-level;
+}
+
+.alert {
+  a {
+    font-weight: 800;
+  }
+}
+
+/* override "info" alert boxes to be green, not blue, on Growstuff */
+$state-info-text: darken($green, 10%);
+$state-info-bg: lighten($green, 50%);
+
+/* and set "success" to be the same, as it was just very slightly
+ * different because the default bootstrap green is slightly different
+ * from ours */
+$state-success-text: darken($green, 10%);
+$state-success-bg: lighten($green, 50%);
+
+.hide {
+  display: none;
+}
+
+.panel {
+  .dl-horizontal {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+label.required:after {
+  color: red;
+  content:" *";
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+ul.plantings {
+  list-style-type: none;
+}
+
+ul.thumbnail-buttons {
+  list-style-type: none;
+  text-align: right;
+}
+
+.hover-wrapper .text {
+  position: absolute;
+  visibility: hidden;
+}
+
+.hover-wrapper:hover .text {
+  visibility: visible;
+}
+
+.form-page {
+  text-align: center;
+
+  .form-card {
+    display: inline-block;
+    margin-top: 0.5em;
+    max-width: 800px;
+    padding: 1em;
+    text-align: center;
+  }
+}
+
+.jumbotron {
+  background-color: $beige;
+  margin-bottom: 1em;
+  padding-bottom: 30px;
+  padding-top: 30px;
+
+  // signup widget on homepage
+  .signup {
+    background-color: lighten($green, 40%);
+    border: 1px solid lighten($green, 20%);
+    border-radius: 6px;
+    line-height: 200%;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .info {
+    padding: .5em;
+    text-align: center;
+  }
+}
+
+.breadcrumb {
+  background-color: $beige;
+}
+
+.chip {
+  background-color: lighten($brown, 20%);
+  border-radius: 25px;
+  color: $white;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin: .2em;
+  padding: 0 25px;
+
+  a {
+    color: $white;
+  }
+
+  img {
+    border-radius: 50%;
+    float: left;
+    height: 30px;
+    margin: 0 10px 0 -25px;
+    width: 30px;
+  }
+}
+
+// Overrides applying only to mobile view. This must be at the end of the overrides file.
+// Extra small devices (portrait phones, less than 576px)
+@include media-breakpoint-down(xs) {
+  #maincontainer {
+    width: 100%;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 200%;
+  }
+
+  h2 {
+    font-size: 130%;
+  }
+
+  h3 {
+    font-size: 120%;
+  }
+
+  .card-title {
+    margin-bottom: 0;
+  }
+
+  .sidebar {
+    margin-left: 0;
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .map {
+    height: 300px;
+  }
+
+  .navbar .nav > li {
+    display: block;
+  }
+
+  .navbar .navbar-form {
+    padding-left: 0;
+    padding-right: 0;
+
+    .navbar-search {
+      width: auto;
+    }
+  }
+
+  .nav .btn {
+    background-color: lighten($green, 50%);
+    width: 100%;
+  }
+
+  section .btn {
+    width: 100%;
+  }
+
+  .index-cards {
+    .card {
+      margin: .2em;
+      width: 48%;
+
+      // Shrink title to fit more on page
+      .card-title {
+        font-size: 1em;
+      }
+
+      // Restrict height of image when on smaller screens
+      .img-card {
+        height: 100px;
+        object-fit: cover;
+        width: 100%;
+      }
+
+    }
+  }
+}

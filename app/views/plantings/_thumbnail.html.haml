@@ -1,12 +1,12 @@
-.planting
-  .planting-thumbnail
-    = render 'plantings/quick_actions', planting: planting
+.card.thumbnail
+  /= render 'plantings/quick_actions', planting: planting
+  .planting-thumbnail-image
+    = link_to image_tag(planting_image_path(planting),
+                        alt: planting.crop, class: 'img-card'),
+                        planting
+  .card-body
+    %h5.card-title
+      = crop_icon(planting.crop)
+      = link_to planting.crop, planting
+    %h6.card-subtitle.text-muted=planting.finished_at
     = render 'plantings/badges', planting: planting
-    .planting-thumbnail-image
-      = link_to planting do
-        = image_tag(planting_image_path(planting),
-          class: 'img-responsive planting-thumbnail-photo',
-          alt: planting)
-
-    = render 'plantings/progress', planting: planting, show_explanation: false
-    .planting-name= link_to planting.crop.name, planting

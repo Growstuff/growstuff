@@ -1,20 +1,5 @@
-.varieties
-  - if crop.parent
-    %p
-      = crop.name
-      is a variety of
-      = succeed "." do
-        = link_to crop.parent, crop.parent
-
-  - unless crop.varieties.empty?
-    %p
-      Varieties of #{crop.name}:
-
-    - max = 5
-    = render partial: 'hierarchy', locals: { display_crops: [crop], max: max }
-    - if max != 0 && @count > max
-      = button_tag "Show all #{@count - 1} varieties", class: 'btn btn-link toggle crop-hierarchy'
-      = button_tag "Show less varieties", class: 'btn btn-link toggle crop-hierarchy hide'
-
-  - if !crop.parent && crop.varieties.empty?
-    %p None known.
+- if crop.varieties.size.positive?
+  %h2 Varieties
+  .index-cards
+    - crop.varieties.order(:name).each do |v|
+      = render 'crops/thumbnail', crop: v

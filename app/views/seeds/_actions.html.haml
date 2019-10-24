@@ -1,14 +1,15 @@
-.seed-actions
-  - if can? :edit, seed
-    .btn-group
-      = seed_edit_button(seed)
-      = add_photo_button(seed)
-
-      - if can?(:create, Planting) && seed.active?
-        = link_to new_planting_path(seed_id: seed), class: 'btn btn-default btn-xs' do
-          %span.glyphicon.glyphicon-grain{ title: "Plant seeds" }
+- if can?(:edit, seed)
+  .dropdown.seed-actions
+    %a#seed-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+      Actions
+    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "seed-actions-button"}
+      - if can?(:create, Planting) && can?(:update, seed) && seed.active?
+        = link_to new_planting_path(seed_id: seed), class: 'dropdown-item success-color' do
+          = seed_icon
           Plant seeds
-
-      = render 'shared/buttons/finish_seeds', seed: seed
-
-    = delete_button(seed) if can? :destroy, seed
+      = seed_edit_button(seed, classes: 'dropdown-item')
+      = add_photo_button(seed, classes: 'dropdown-item')
+      - if seed.active?
+        = seed_finish_button(seed, classes: 'dropdown-item')
+      .dropdown-divider
+      = delete_button(seed, classes: 'dropdown-item text-danger')

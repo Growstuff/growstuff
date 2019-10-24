@@ -1,28 +1,33 @@
 class Photo < ApplicationRecord
+  include Likeable
   include Ownable
 
-  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed).freeze
+  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
-  has_many :photographings, foreign_key: :photo_id, dependent: :destroy, inverse_of: :photo
-  has_many :crops, through: :photographings
+  has_many :photo_associations, foreign_key: :photo_id, dependent: :delete_all, inverse_of: :photo
+  has_many :crops, through: :photo_associations
+
+  validates :fullsize_url, url: true
+  validates :thumbnail_url, url: true
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
     has_many type.downcase.pluralize.to_s.to_sym,
-      through:     :photographings,
-      source:      :photographable,
-      source_type: type
+             through:     :photo_associations,
+             source:      :photographable,
+             source_type: type
   end
 
-  default_scope { joins(:owner) } # Ensures the owner still exists
-  scope :by_crop, ->(crop) { joins(:photographings).where(photographings: { crop: crop }) }
-  scope :by_model, ->(model_name) { joins(:photographings).where(photographings: { photographable_type: model_name.to_s }) }
+  scope :by_crop, ->(crop) { joins(:photo_associations).where(photo_associations: { crop: crop }) }
+  scope :by_model, lambda { |model_name|
+    joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
+  }
 
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.
   def flickr_metadata
     flickr = owner.flickr
-    info = flickr.photos.getInfo(photo_id: flickr_photo_id)
+    info = flickr.photos.getInfo(photo_id: source_id)
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
@@ -37,7 +42,7 @@ class Photo < ApplicationRecord
   end
 
   def associations?
-    photographings.size.positive?
+    photo_associations.size.positive?
   end
 
   def destroy_if_unused
@@ -60,5 +65,9 @@ class Photo < ApplicationRecord
 
   def to_s
     "#{title} by #{owner.login_name}"
+  end
+
+  def flickr_photo_id
+    source_id if source == 'flickr'
   end
 end

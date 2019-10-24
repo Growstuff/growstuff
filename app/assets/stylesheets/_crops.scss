@@ -1,0 +1,92 @@
+.crop-icon {
+  height: 1em;
+}
+
+.crop-thumbnail {
+  .text {
+    bottom: 0;
+    color: $white;
+    margin: 0;
+    opacity: .8;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+
+    h3 {
+      background-color: $brown;
+      font-size: 1em;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    h5.crop-sci-name {
+      background-color: $beige;
+      color: $black;
+      font-size: .7em;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    a {
+      color: $white;
+    }
+
+    a:hover {
+      color: $black;
+    }
+
+    .img-card {
+      border: 5%;
+      border-radius: 5%;
+    }
+  }
+}
+
+.planting {
+  .crop-card {
+    height: 100%;
+    margin: .1em;
+    min-height: 300px;
+  }
+
+  .img-thumbnail {
+    width: 100%;
+  }
+}
+
+.crop-photos {
+  margin-left: 3em;
+}
+
+.crops-search-form {
+  background-color: $white;
+  padding: 1em;
+}
+
+.crop-hierarchy {
+  list-style-type: disc;
+}
+
+.add-sciname-row,
+.remove-sciname-row,
+.add-altname-row,
+.remove-altname-row {
+  display: none;
+}
+
+.crop-chip {
+  background-color: lighten($brown, 20%);
+}
+
+.crop-hero-photo {
+  max-height: 300px;
+}
+
+@include media-breakpoint-down(xs) {
+  .index-cards {
+    .crop-thumbnail {
+      margin: .2em;
+      width: 30%;
+    }
+  }
+}

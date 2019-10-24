@@ -1,8 +1,7 @@
 - content_for :title, "New Photo"
 
-%h3
-  Choose photo for
-  = @item
+%h1 New Photo
+%h2 Choose photo for #{link_to @item, @item}
 
 - if @flickr_auth
   %p
@@ -11,32 +10,32 @@
       = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
     Please select a photo from your recent uploads.
 
-  - if @sets && @current_set
-    %h2= @sets.key(@current_set)
 
   - if @sets && !@sets.empty?
     %p
-      = form_tag(new_photo_path, method: :get, class: 'form-inline') do
-        = label_tag :set, "Choose a photo album:", class: 'control-label'
-        = select_tag :set, options_for_select(@sets, @current_set), class: 'input-large'
+      = bootstrap_form_tag(url: new_photo_path, method: :get, layout: :inline) do |f|
+        = f.select :set, options_for_select(@sets, @current_set), label: "Choose a photo album"
         = hidden_field_tag :type, @type
         = hidden_field_tag :id, @id
-        = submit_tag "Search", class: 'btn btn-primary'
+        = f.submit "Search", class: "btn btn-success"
 
-  .pagination
-    = page_entries_info @photos
-    = will_paginate @photos
+  - if @sets && @current_set
+    %h2= @sets.key(@current_set)
+
+  .row.pagination
+    .col-md-12= page_entries_info @photos
+    .col-md-12= will_paginate @photos
 
   .row
-  - @photos.each do |p|
-    .col-md-2.six-across
-      .thumbnail{ style: 'height: 220px' }
-        = link_to image_tag(FlickRaw.url_q(p), alt: '', class: 'img'),
-          photos_path(photo: { flickr_photo_id: p.id }, type: @type, id: @id),
-          method: :post
-        %p
-          = p.title
+    - @photos.each do |photo|
+      .col-md-2.col-6
+        .card
+          = link_to photos_path(photo: { source_id: photo.id, source: 'flickr' }, id: @id, type: @type ), method: :post do
+            = image_tag(FlickRaw.url_z(photo), alt: photo.title, class: 'img img-card')
+          .card-body= photo.title
 
+  .row.pagination
+    .col-md-12= will_paginate @photos
 - else
   .alert
     You must

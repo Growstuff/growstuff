@@ -1,12 +1,11 @@
-.navbar.navbar-default.navbar-bottom
-  .container
-    .row
-      .col-md-4#footer1
-        != cms_snippet_content(:footer1)
-      .col-md-4#footer2
-        != cms_snippet_content(:footer2)
-      .col-md-4#footer3
-        != cms_snippet_content(:footer3)
-        %div{ style: "float: right;" }
-          %a{ href: "http://opendefinition.org/ossd/" }
-            %img{ src: "http://assets.okfn.org/images/ok_buttons/os_80x15_blue.png", alt: "" }
+.container-fluid.text-center.text-md-left
+  .row
+    .col-md-4#footer1
+      != cms_snippet_content(:footer1)
+    .col-md-4#footer2
+      != cms_snippet_content(:footer2)
+    .col-md-4#footer3
+      != cms_snippet_content(:footer3)
+      %div{ style: "float: right;" }
+        = link_to "https://opendefinition.org/ossd/" do
+          = image_tag 'open_service.png', alt: "Open Service"

@@ -1,5 +1,10 @@
-- content_for :title, "Edit Photo"
-= form_for(@photo) do |f|
-  = f.label :title
-  = f.text_field :title, placeholder: "title"
-  = f.submit
+.rol
+  .col-md-2= render 'photos/thumbnail', photo: @photo
+  .col-md-10
+    - content_for :title, "Edit Photo"
+    = form_for(@photo) do |f|
+      .form-group
+        = f.label :title
+        = f.text_field :title, placeholder: "title"
+      .form-group
+        .form-actions= f.submit 'Save', class: 'btn'

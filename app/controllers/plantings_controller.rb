@@ -22,7 +22,7 @@ class PlantingsController < ApplicationController
 
     @plantings = @plantings.joins(:owner, :crop, :garden)
       .order(created_at: :desc)
-      .includes(:crop, :owner, :garden)
+      .includes(:owner, :garden, crop: :parent)
       .paginate(page: params[:page])
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
@@ -31,32 +31,37 @@ class PlantingsController < ApplicationController
   end
 
   def show
-    @planting = Planting.includes(:owner, :crop, :garden, :photos)
-      .friendly
-      .find(params[:id])
-    @photos = @planting.photos.order(date_taken: :desc).includes(:owner).paginate(page: params[:page])
+    @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     respond_with @planting
   end
 
   def new
-    @planting = Planting.new(planted_at: Time.zone.today)
+    @planting = Planting.new(
+      planted_at: Time.zone.today,
+      owner:      current_member,
+      garden:     current_member.gardens.first
+    )
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
-
-    # using find_by_id here because it returns nil, unlike find
-    @crop     = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
-    @garden   = Garden.find_by(owner: current_member, id: params[:garden_id]) || Garden.new
+    @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
+    if params[:garden_id]
+      @planting.garden = Garden.find_by(
+        owner: current_member,
+        id:    params[:garden_id]
+      )
+    end
 
     respond_with @planting
   end
 
   def edit
     # the following are needed to display the form but aren't used
-    @crop     = Crop.new
-    @garden   = Garden.new
+    @crop = Crop.new
+    @gardens = @planting.owner.gardens.active.order_by_name
   end
 
   def create
     @planting = Planting.new(planting_params)
+    @planting.planted_at = Time.zone.now if @planting.planted_at.blank?
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
     @planting.save

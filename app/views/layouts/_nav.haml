@@ -1,14 +1,15 @@
-- content_for :buttonbar do
-  - if current_member.present?
-    = link_to url_for([current_member, model]), class: 'btn btn-default' do
-      My #{model.model_name.human.pluralize}
+- if current_member.present?
+  %ul.nav.crop-actions
+    %li.nav-item.dropdown.btn.btn-sm
+      = link_to url_for([current_member, model]), class: 'nav-link' do
+        My #{model.model_name.human.pluralize}
+    %li.nav-item.dropdown.btn.btn-sm
+      = link_to model, class: 'nav-link' do
+        Everyone's #{model.model_name.human.pluralize}
+    - if can?(:create, model)
+      %li.nav-item.dropdown.btn.btn-sm
+        = link_to url_for([model, action: :new]), class: 'nav-link' do
+          Add a #{model.model_name.human}
 
-  = link_to model, class: 'btn btn-default' do
-    Everyone's #{model.model_name.human.pluralize}
-
-  - if can?(:create, model)
-    = link_to url_for([model, action: :new]), class: 'btn btn-default' do
-      Add a #{model.model_name.human}
-
-  - unless current_member
-    = render 'shared/signin_signup', to: 'add a new seed'
+- else
+  = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"

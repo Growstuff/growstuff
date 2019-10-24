@@ -1,9 +1,6 @@
-= form_tag search_crops_path, method: :get, id: 'navbar-search' do
-  = label_tag :term, "Search crop database:", class: 'sr-only'
-  .input
-    .input-group
-      = text_field_tag 'term', nil, class: 'search-query input-medium form-control', placeholder: 'Search crops'
-      .input-group-btn
-        %button.btn.btn-default{ style: "height: 34px;" }
-          = submit_tag "Search", class: 'btn sr-only'
-          %span.glyphicon.glyphicon-search
+= form_tag search_crops_path, method: :get, class: 'form-inline', id: 'navbar-search' do
+  .input-group
+    %input.form-control{name: 'term', "aria-label" => "Search crops", placeholder: "Search crops", type: "search", id: 'term' }/
+    %button.btn.btn-default.text-white{type: "submit"}
+      = icon 'fas', 'search'
+      .sr-only Search

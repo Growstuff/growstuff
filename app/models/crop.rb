@@ -1,119 +1,62 @@
 class Crop < ApplicationRecord
   extend FriendlyId
+  include PhotoCapable
+  include OpenFarmData
   friendly_id :name, use: %i(slugged finders)
 
   ##
-  ## Triggers
-  before_destroy { |crop| crop.posts.clear }
-
-  ##
   ## Relationships
-  has_many :scientific_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
-  accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
-  has_many :alternate_names, after_add: :update_index, after_remove: :update_index, dependent: :destroy
-  has_many :plantings, dependent: :destroy
-  has_many :seeds, dependent: :destroy
-  has_many :harvests, dependent: :destroy
-  has_many :photographings, dependent: :destroy
-  has_many :photos, through: :photographings
-  has_many :plant_parts, -> { distinct.order("plant_parts.name") }, through: :harvests
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
+  has_many :scientific_names, dependent: :delete_all
+  has_many :alternate_names, dependent: :delete_all
+  has_many :plantings, dependent: :destroy
+  has_many :seeds, dependent: :destroy
+  has_many :harvests, dependent: :destroy
+  has_many :photo_associations, dependent: :delete_all
+  has_many :photos, through: :photo_associations
+  has_many :plant_parts, -> { joins_members.distinct.order("plant_parts.name") }, through: :harvests
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
-  has_and_belongs_to_many :posts # rubocop:disable Rails/HasAndBelongsToMany
+  has_many :crop_companions, foreign_key: :crop_a_id, dependent: :delete_all, inverse_of: :crop_a
+  has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
+  has_many :crop_posts, dependent: :delete_all
+  has_many :posts, through: :crop_posts, dependent: :delete_all
+
+  accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
 
   ##
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
-  scope :popular, -> { approved.order("plantings_count desc, lower(name) asc") }
+  scope :popular, -> { approved.order(Arel.sql("plantings_count desc, lower(name) asc")) }
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
   scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
+  scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
+
+  # Special scope to control if it's in the search index
+  scope :search_import, -> { approved }
 
   ##
   ## Validations
   # Reasons are only necessary when rejecting
   validates :reason_for_rejection, presence: true, if: :rejected?
-  ## This validation addresses a race condition
-  validate :approval_status_cannot_be_changed_again
   validate :must_be_rejected_if_rejected_reasons_present
   validate :must_have_meaningful_reason_for_rejection
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
-    format: {
-      with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
-      message: 'is not a valid English Wikipedia URL'
-    },
-    if:     :approved?
+            format: {
+              with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              message: 'is not a valid English Wikipedia URL'
+            },
+            if:     :approved?
 
   ####################################
   # Elastic search configuration
-  if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-    include Elasticsearch::Model
-    include Elasticsearch::Model::Callbacks
-    # In order to avoid clashing between different environments,
-    # use Rails.env as a part of index name (eg. development_growstuff)
-    index_name [Rails.env, "growstuff"].join('_')
-    settings index:    { number_of_shards: 1 },
-             analysis: {
-               tokenizer: {
-                 gs_edgeNGram_tokenizer: {
-                   type:        "edgeNGram", # edgeNGram: NGram match from the start of a token
-                   min_gram:    3,
-                   max_gram:    10,
-                   # token_chars: Elasticsearch will split on characters
-                   # that don't belong to any of these classes
-                   token_chars: %w(letter digit)
-                 }
-               },
-               analyzer:  {
-                 gs_edgeNGram_analyzer: {
-                   tokenizer: "gs_edgeNGram_tokenizer",
-                   filter:    ["lowercase"]
-                 }
-               }
-             } do
-      mappings dynamic: 'false' do
-        indexes :id, type: 'long'
-        indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
-        indexes :approval_status, type: 'text'
-        indexes :scientific_names do
-          indexes :name,
-            type:     'text',
-            analyzer: 'gs_edgeNGram_analyzer',
-            # Disabling field-length norm (norm). If the norm option is turned on(by default),
-            # higher weigh would be given for shorter fields, which in our case is irrelevant.
-            norms:    { enabled: false }
-        end
-        indexes :alternate_names do
-          indexes :name, type: 'text', analyzer: 'gs_edgeNGram_analyzer'
-        end
-      end
-    end
-  end
-
-  def planting_photos
-    Photo.joins(:plantings).where("plantings.crop_id": id)
-  end
-
-  def harvest_photos
-    Photo.joins(:harvests).where("harvests.crop_id": id)
-  end
-
-  def seed_photos
-    Photo.joins(:seeds).where("seeds.crop_id": id)
-  end
-
-  # update the Elasticsearch index (only if we're using it in this
-  # environment)
-  def update_index(_name_obj)
-    __elasticsearch__.index_document if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-  end
-  # End Elasticsearch section
+  searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
 
   def to_s
     name
@@ -124,14 +67,7 @@ class Crop < ApplicationRecord
   end
 
   def default_scientific_name
-    scientific_names.first.name unless scientific_names.empty?
-  end
-
-  # currently returns the first available photo, but exists so that
-  # later we can choose a default photo based on different criteria,
-  # eg. popularity
-  def default_photo
-    first_photo(:plantings) || first_photo(:harvests) || first_photo(:seeds)
+    scientific_names.first&.name
   end
 
   # returns hash indicating whether this crop is grown in
@@ -160,8 +96,12 @@ class Crop < ApplicationRecord
       .count("harvests.id")
   end
 
+  def perennial?
+    perennial == true
+  end
+
   def annual?
-    !perennial
+    perennial == false
   end
 
   def interesting?
@@ -210,12 +150,26 @@ class Crop < ApplicationRecord
     update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
   end
 
-  def self.search(query)
-    CropSearchService.search(query)
-  end
-
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
+  end
+
+  def should_index?
+    approved?
+  end
+
+  def search_data
+    {
+      name:             name,
+      alternate_names:  alternate_names.pluck(:name),
+      scientific_names: scientific_names.pluck(:name),
+      plantings_count:  plantings_count, # boost the crops that are planted the most
+      planters_ids:     plantings.pluck(:owner_id) # boost this product for these members
+    }
+  end
+
+  def fetch_from_openfarm!
+    OpenfarmService.new.update_crop(self)
   end
 
   private
@@ -226,14 +180,6 @@ class Crop < ApplicationRecord
       .where.not(col_name => nil)
       .group(col_name)
       .count
-  end
-
-  # Custom validations
-  def approval_status_cannot_be_changed_again
-    previous = previous_changes.include?(:approval_status) ? previous_changes.approval_status : {}
-    return unless previous.include?(:rejected) || previous.include?(:approved)
-
-    errors.add(:approval_status, "has already been set to #{approval_status}")
   end
 
   def must_be_rejected_if_rejected_reasons_present
@@ -247,9 +193,5 @@ class Crop < ApplicationRecord
     return unless reason_for_rejection == "other" && rejection_notes.blank?
 
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
-  end
-
-  def first_photo(type)
-    Photo.joins(type).where("#{type}": { crop_id: id }).order("photos.created_at DESC").first
   end
 end

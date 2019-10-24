@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  belongs_to :author, -> { with_deleted }, class_name: 'Member', inverse_of: :comments
+  belongs_to :author, class_name: 'Member', inverse_of: :comments
   belongs_to :post
 
   scope :post_order, -> { reorder("created_at ASC") } # for display on post page
@@ -17,5 +17,9 @@ class Comment < ApplicationRecord
         post_id:      post.id
       )
     end
+  end
+
+  def to_s
+    "#{author.login_name} commented on #{post.subject}"
   end
 end

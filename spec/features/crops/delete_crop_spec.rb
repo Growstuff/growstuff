@@ -1,23 +1,35 @@
 require 'rails_helper'
 
-feature "Delete crop spec" do
-  context "As a crop wrangler" do
-    let(:wrangler)       { FactoryBot.create :crop_wrangling_member }
+describe "Delete crop spec" do
+  shared_examples 'delete crop' do
     let!(:pending_crop)  { FactoryBot.create :crop_request          }
     let!(:approved_crop) { FactoryBot.create :crop                  }
-
-    background { login_as wrangler }
-
-    scenario "Delete approved crop" do
+    it "deletes approved crop" do
       visit crop_path(approved_crop)
-      click_link 'Delete'
+      click_link 'Actions'
+      accept_confirm do
+        click_link 'Delete'
+      end
       expect(page).to have_content "crop was successfully destroyed"
     end
 
-    scenario "Delete pending crop" do
+    it "deletes pending crop" do
       visit crop_path(pending_crop)
-      click_link 'Delete'
+      click_link 'Actions'
+      accept_confirm do
+        click_link 'Delete'
+      end
       expect(page).to have_content "crop was successfully destroyed"
     end
+  end
+
+  context "As a crop wrangler" do
+    include_context 'signed in crop wrangler'
+    include_examples 'delete crop'
+  end
+
+  context 'admin' do
+    include_context 'signed in admin'
+    include_examples 'delete crop'
   end
 end

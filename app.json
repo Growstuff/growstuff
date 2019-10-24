@@ -3,7 +3,7 @@
   "stack": "heroku-18",
   "description": "Open data project for small-scale food growers",
   "scripts": {
-    "postdeploy": "bundle exec rails db:migrate db:seed"
+    "postdeploy": "bundle exec rails db:seed"
   },
   "env": {
     "GROWSTUFF_ELASTICSEARCH": {
@@ -37,9 +37,11 @@
     }
   },
   "addons": [
+    "bonsai",
     "heroku-postgresql",
     "memcachier",
     "newrelic",
+    "scout",
     "sendgrid"
   ],
   "buildpacks": [

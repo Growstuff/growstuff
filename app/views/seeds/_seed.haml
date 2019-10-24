@@ -1,0 +1,6 @@
+- if local_assigns[:full]
+  - cache seed do
+    = render 'seeds/card', seed: seed
+- else
+  - cache seed do
+    = render 'seeds/thumbnail', seed: seed

@@ -3,14 +3,21 @@
   - if crop.scientific_names.empty?
     %p None known.
   - else
-    %ul
-      - crop.scientific_names.each do |sn|
-        %li
-          = sn.name
-          - if can? :edit, sn
-            = link_to 'Edit', edit_scientific_name_path(sn), class: 'btn btn-default btn-xs'
-          - if can? :destroy, sn
-            = link_to 'Delete', sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
-  %p
-  - if can? :edit, crop
-    = link_to 'Add', new_scientific_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'
+    - crop.scientific_names.each do |sn|
+      - if can? :edit, sn
+        .dropdown.planting-actions
+          %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
+          .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
+            = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
+              = edit_icon
+              = t('.edit')
+            .dropdown-divider
+            = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
+              = delete_icon
+              = t('.delete')
+      - else
+        .badge= sn.name
+
+  %p.text-right
+    - if can? :edit, crop
+      = link_to 'Add', new_scientific_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'

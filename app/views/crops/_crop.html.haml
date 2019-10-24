@@ -1,0 +1,30 @@
+.card.card-crop
+  .crop-image
+    = link_to image_tag(crop_image_path(crop),
+                          alt: '',
+                          class: 'img img-card'),
+                          crop
+
+  .card-body
+    %h3.card-title= link_to crop, crop
+    %p.crop-sci-name= crop.default_scientific_name
+    - if crop.annual? && crop.median_lifespan.present?
+      %p.card-text
+        Median Lifespan
+        %b= crop.median_lifespan
+        days
+    - unless crop.median_days_to_first_harvest.nil?
+      %p.card-text
+        First harvest expected
+        %b= crop.median_days_to_first_harvest
+        days after planting
+
+    - if crop.annual? && crop.median_days_to_last_harvest.present?
+      %p.card-text
+        Last harvest expected
+        %b= crop.median_days_to_last_harvest
+        days after planting
+  - if member_signed_in?
+    .card-footer
+      = crop_plant_button(crop)
+      = crop_save_seeds_button(crop)

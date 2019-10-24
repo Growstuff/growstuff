@@ -7,28 +7,43 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-.row
-  .col-md-8
-    %p= image_tag(@photo.fullsize_url, alt: @photo.title, class: 'img img-responsive')
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Photos', photos_path
+  %li.breadcrumb-item.active= link_to @photo, @photo
 
-  .col-md-4
-    = render 'photos/actions', photo: @photo
+.row{id: "photo-#{@photo.id}"}
+  .col-md-9
+    %section.photo
+      %h2.text-center.ellipsis
+        = photo_icon
+        = @photo.title
+
+      %p.text-center
+        = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-responsive shadow-sm')
+
+
+    - if @crops.size.positive?
+      .index-cards
+        - @crops.each do |crop|
+          = render 'crops/thumbnail', crop: crop
+  .col-md-3
     %p
-      %strong Posted by:
-      = link_to @photo.owner, @photo.owner
+      = render 'photos/actions', photo: @photo
+      = link_to @photo.link_url, class: 'btn btn-info' do
+        - if @photo.source == 'flickr'
+          = icon 'fab', 'flickr'
+        View on #{@photo.source.titleize}
+      %span.btn= render 'photos/likes', photo: @photo
+      - if @photo.date_taken.present?
+        %h3 Taken on #{I18n.l @photo.date_taken.to_date}
+
+    = render @photo.owner
+
     %p
       %strong License:
       - if @photo.license_url
         = link_to @photo.license_name, @photo.license_url
       - else
-        = succeed "." do
-          = @photo.license_name
+        = @photo.license_name
 
-    %p= link_to "View on Flickr", @photo.link_url
-    - if @photo.associations?
-      = render "photo_associations", locals: { photo: @photo }
-      
-    - if @crops.size.positive?
-      - @crops.each do |crop|
-        = render 'crops/index_card', crop: crop
-
+    = render "associations", photo: @photo

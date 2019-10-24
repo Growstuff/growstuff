@@ -28,19 +28,6 @@ describe "crops/index" do
     assert_select "img", src: :tomato
   end
 
-  context "logged in and crop wrangler" do
-    before do
-      @member = FactoryBot.create(:crop_wrangling_member)
-      sign_in @member
-      controller.stub(:current_user) { @member }
-      render
-    end
-
-    it "shows a new crop link" do
-      rendered.should have_content "New Crop"
-    end
-  end
-
   context "downloads" do
     it "offers data downloads" do
       render

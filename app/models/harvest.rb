@@ -35,11 +35,10 @@ class Harvest < ApplicationRecord
   ## Relationships
   belongs_to :crop
   belongs_to :plant_part
-  belongs_to :planting, optional: true
+  belongs_to :planting, optional: true, counter_cache: true
 
   ##
   ## Scopes
-  default_scope { joins(:owner) } # Ensures owner exists
   scope :interesting, -> { has_photos.one_per_owner }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
@@ -57,11 +56,11 @@ class Harvest < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: false, greater_than_or_equal_to: 0
   }
-  validates :unit, allow_nil: true, allow_blank: true, inclusion: {
+  validates :unit, allow_blank: true, inclusion: {
     in: UNITS_VALUES.values, message: "%<value>s is not a valid unit"
   }
   validates :weight_quantity, allow_nil: true, numericality: { only_integer: false }
-  validates :weight_unit, allow_nil: true, allow_blank: true, inclusion: {
+  validates :weight_unit, allow_blank: true, inclusion: {
     in: WEIGHT_UNITS_VALUES.values, message: "%<value>s is not a valid unit"
   }
   validate :crop_must_match_planting
@@ -72,6 +71,10 @@ class Harvest < ApplicationRecord
     return if planting.blank?
 
     harvested_at - planting.planted_at
+  end
+
+  def default_photo
+    most_liked_photo || planting&.default_photo
   end
 
   # we're storing the harvest weight in kilograms in the db too
@@ -108,15 +111,11 @@ class Harvest < ApplicationRecord
   end
 
   def unit_to_human
-    return "" unless quantity
+    return "" unless quantity && unit
+    return 'individual' if unit == 'individual'
+    return "#{unit} of" if quantity == 1
 
-    if unit == 'individual'
-      'individual'
-    elsif quantity == 1
-      "#{unit} of"
-    else
-      "#{unit.pluralize} of"
-    end
+    "#{unit.pluralize} of"
   end
 
   def weight_to_human
@@ -133,10 +132,6 @@ class Harvest < ApplicationRecord
     else
       crop.name.pluralize
     end.to_s
-  end
-
-  def default_photo
-    photos.order(created_at: :desc).first || crop.default_photo
   end
 
   private

@@ -1,0 +1,19 @@
+.card
+  .card-body
+    .row
+      .col-md-6
+        %h4
+          Harvested by
+          = link_to harvest.owner, harvest.owner
+        = link_to "view all #{harvest.owner}'s harvests", member_harvests_path(harvest.owner)
+
+        - if harvest.planting.present?
+          %p
+            Harvested from
+            = link_to harvest.planting, harvest.planting
+        - if harvest.owner.location
+          %p
+            %small
+              View other harvests, members and more near
+              = link_to harvest.owner.location, place_path(harvest.owner.location, anchor: "harvests")
+      .col-md-6= render "members/avatar", member: harvest.owner

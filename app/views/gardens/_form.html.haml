@@ -1,55 +1,40 @@
-= required_field_help_text
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  = bootstrap_form_for(@garden) do |f|
+    - if content_for? :title
+      .card-header
+        %h1.h2-responsive.text-center
+          %strong=yield :title
+    .card-body
+      = required_field_help_text
+      - if @garden.errors.any?
+        #error_explanation.alert.alert-warning{:role => "alert"}
+          %h4.alert-heading
+            = pluralize(@garden.errors.size, "error")
+            prohibited this garden from being saved
+          %ul
+            - @garden.errors.full_messages.each do |msg|
+              %li= msg
 
-= form_for(@garden, html: { class: "form-horizontal", role: "form" }) do |f|
-  - if @garden.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@garden.errors.size, "error")
-        prohibited this garden from being saved:
-      %ul
-        - @garden.errors.full_messages.each do |msg|
-          %li= msg
-
-  .form-group.required
-    = f.label :name, class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_field :name, class: 'form-control', maxlength: 255, required: "required"
-
-  .form-group
-    = f.label :description, class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_area :description, rows: 6, class: 'form-control'
-      = render partial: 'shared/form_optional'
-
-  .form-group
-    = f.label :location, class: 'control-label col-md-2'
-    .col-md-8
+      = f.text_field :name, maxlength: 255, required: true
+      = f.text_area :description, rows: 6
       = f.text_field :location,
                       value: @garden.location || current_member.location,
                       class: 'form-control', maxlength: 255
-      = render partial: 'shared/form_optional'
       %span.help-block
         = t('.location_helper')
         - if current_member.location.blank?
           = link_to "Set your location now.", edit_member_registration_path
         - else
           = link_to "Change your location.", edit_member_registration_path
-
-  .form-group
-    = f.label :area, class: 'control-label col-md-2'
-    .col-md-2
-      = f.number_field :area, class: 'input-small form-control'
-      = render partial: 'shared/form_optional'
-    .col-md-2
-      = f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false }, class: 'form-control')
-
-  .form-group
-    = f.label :active, 'Active? ', class: 'control-label col-md-2'
-    .col-md-8
-      = f.check_box :active
-      You can mark a garden as inactive if you no longer use it.  Note:
-      this will mark all plantings in the garden as "finished".
-
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save Garden', class: 'btn btn-primary'
+      .row
+        .col-md-5.col-12= f.number_field :area, class: 'input-small'
+        .col-md-7.col-12= f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false })
+        .col-12= f.select(:garden_type_id, GardenType.all.order(:name).pluck(:name, :id),
+                          selected: @garden.garden_type_id)
+        .col-12
+          = f.check_box :active, label: 'Active?'
+          %p
+            You can mark a garden as inactive if you no longer use it.
+            Note: this will mark all plantings in the garden as "finished".
+    .card-footer
+      .text-right= f.submit 'Save Garden'

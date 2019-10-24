@@ -17,9 +17,8 @@
 
 - if !@nearby_members.empty?
   %h3 Results found
-  .row
+  .index-cards
     - @nearby_members.each do |member|
-      .col-md-4.three-across
-        = render partial: "members/thumbnail", locals: { member: member }
+      = render partial: "members/thumbnail", locals: { member: member }
 - elsif @location
   %h3 No results found

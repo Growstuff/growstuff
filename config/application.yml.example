@@ -54,6 +54,9 @@ GROWSTUFF_FLICKR_SECRET: ""
 GROWSTUFF_FACEBOOK_KEY: ""
 GROWSTUFF_FACEBOOK_SECRET: ""
 
+GROWSTUFF_MAPBOX_MAP_ID: ""
+GROWSTUFF_MAPBOX_ACCESS_TOKEN: ""
+
 # Elasticsearch is used for flexible search and it requires another component
 # to be installed. To make it easy for people who don't need to test this feature
 # it's been turned off for test and development environment as a default.
@@ -73,7 +76,6 @@ GROWSTUFF_EMAIL: 'noreply@dev.growstuff.org'
 
 test:
   GROWSTUFF_SITE_NAME: Growstuff (test)
-  GROWSTUFF_CAPYBARA_DRIVER: poltergeist
 
 # Note: there is no good way to deploy settings from Figaro to
 # Travis-CI.  If you need env vars set there in order for tests to pass,

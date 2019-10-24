@@ -1,0 +1,14 @@
+- if can? :edit, post
+  .dropdown.float-right
+    %button#post-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"} Actions
+    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "post-edit-button"}
+      - if can? :edit, post
+        = link_to edit_post_path(post), class: 'dropdown-item' do
+          = edit_icon
+          Edit
+      = add_photo_button(post, classes: "dropdown-item")
+      .dropdown-divider
+      - if can? :delete, post
+        = link_to post_path(post), class: 'dropdown-item text-danger', data: { confirm: 'Are you sure?' } do
+          = delete_icon
+          Delete

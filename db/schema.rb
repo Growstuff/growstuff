@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_24_030521) do
+ActiveRecord::Schema.define(version: 2019_09_21_211652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,20 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.datetime "updated_at"
   end
 
+  create_table "crop_companions", force: :cascade do |t|
+    t.integer "crop_a_id", null: false
+    t.integer "crop_b_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "crop_posts", id: false, force: :cascade do |t|
+    t.integer "crop_id"
+    t.integer "post_id"
+    t.index ["crop_id", "post_id"], name: "index_crop_posts_on_crop_id_and_post_id"
+    t.index ["crop_id"], name: "index_crop_posts_on_crop_id"
+  end
+
   create_table "crops", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "en_wikipedia_url"
@@ -171,16 +185,10 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.integer "median_lifespan"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
+    t.jsonb "openfarm_data"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
-  end
-
-  create_table "crops_posts", id: false, force: :cascade do |t|
-    t.integer "crop_id"
-    t.integer "post_id"
-    t.index ["crop_id", "post_id"], name: "index_crops_posts_on_crop_id_and_post_id"
-    t.index ["crop_id"], name: "index_crops_posts_on_crop_id"
   end
 
   create_table "follows", id: :serial, force: :cascade do |t|
@@ -200,6 +208,13 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.index ["slug"], name: "index_forums_on_slug", unique: true
   end
 
+  create_table "garden_types", force: :cascade do |t|
+    t.text "name", null: false
+    t.text "slug", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "gardens", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.integer "owner_id"
@@ -214,6 +229,8 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.decimal "area"
     t.string "area_unit"
     t.json "layout"
+    t.integer "garden_type_id"
+    t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
   end
@@ -260,6 +277,62 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.index ["member_id"], name: "index_likes_on_member_id"
   end
 
+  create_table "mailboxer_conversation_opt_outs", id: :serial, force: :cascade do |t|
+    t.string "unsubscriber_type"
+    t.integer "unsubscriber_id"
+    t.integer "conversation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id"
+    t.index ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
+  end
+
+  create_table "mailboxer_conversations", id: :serial, force: :cascade do |t|
+    t.string "subject", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "mailboxer_notifications", id: :serial, force: :cascade do |t|
+    t.string "type"
+    t.text "body"
+    t.string "subject", default: ""
+    t.string "sender_type"
+    t.integer "sender_id"
+    t.integer "conversation_id"
+    t.boolean "draft", default: false
+    t.string "notification_code"
+    t.string "notified_object_type"
+    t.integer "notified_object_id"
+    t.string "attachment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "global", default: false
+    t.datetime "expires"
+    t.index ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id"
+    t.index ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type"
+    t.index ["notified_object_type", "notified_object_id"], name: "mailboxer_notifications_notified_object"
+    t.index ["sender_id", "sender_type"], name: "index_mailboxer_notifications_on_sender_id_and_sender_type"
+    t.index ["type"], name: "index_mailboxer_notifications_on_type"
+  end
+
+  create_table "mailboxer_receipts", id: :serial, force: :cascade do |t|
+    t.string "receiver_type"
+    t.integer "receiver_id"
+    t.integer "notification_id", null: false
+    t.boolean "is_read", default: false
+    t.boolean "trashed", default: false
+    t.boolean "deleted", default: false
+    t.string "mailbox_type", limit: 25
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_delivered", default: false
+    t.string "delivery_method"
+    t.string "message_id"
+    t.index ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
+    t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
+  end
+
   create_table "median_functions", id: :serial, force: :cascade do |t|
   end
 
@@ -299,11 +372,11 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.integer "gardens_count"
     t.integer "harvests_count"
     t.integer "seeds_count"
-    t.datetime "deleted_at"
+    t.datetime "discarded_at"
     t.integer "photos_count"
     t.integer "forums_count"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
-    t.index ["deleted_at"], name: "index_members_on_deleted_at"
+    t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
     t.index ["slug"], name: "index_members_on_slug", unique: true
@@ -331,7 +404,7 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.integer "product_id"
   end
 
-  create_table "photographings", id: :serial, force: :cascade do |t|
+  create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.integer "photo_id", null: false
     t.integer "photographable_id", null: false
     t.string "photographable_type", null: false
@@ -352,8 +425,12 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.string "license_name", null: false
     t.string "license_url"
     t.string "link_url", null: false
-    t.string "flickr_photo_id"
+    t.string "source_id"
     t.datetime "date_taken"
+    t.integer "likes_count", default: 0
+    t.string "source"
+    t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
+    t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|
@@ -392,6 +469,7 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.integer "days_to_first_harvest"
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
+    t.integer "harvests_count", default: 0
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
@@ -403,6 +481,7 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
     t.datetime "updated_at"
     t.string "slug"
     t.integer "forum_id"
+    t.integer "likes_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
@@ -446,8 +525,11 @@ ActiveRecord::Schema.define(version: 2019_03_24_030521) do
   end
 
   add_foreign_key "harvests", "plantings"
-  add_foreign_key "photographings", "crops"
-  add_foreign_key "photographings", "photos"
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "photo_associations", "crops"
+  add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

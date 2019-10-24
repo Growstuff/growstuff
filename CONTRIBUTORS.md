@@ -88,9 +88,10 @@ submit the change with your pull request.
 - Ahmed Shahin / [codeminator](https://www.github.com/codeminator)
 - Brandon Baker / [brandonbaker40](https://github.com/brandonbaker40)
 - Alex Darr / [apdarr](https://github.com/apdarr)
+- Taylor William / [bestest-mensch](https://github.com/bestest-mensch)
 
 ## Bots
 
 ### Security and Dependency Updates
 - DeppBot / [deppbot](https://github.com/deppbot)
-- dependabot[bot]  (https://github.com/dependabot-bot)
+- dependabot-preview[bot] [dependabot](https://github.com/dependabot-bot) / [dependabot-preview](https://github.com/apps/dependabot-preview)

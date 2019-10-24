@@ -15,7 +15,7 @@ describe RobotsController do
       it 'loads the staging robots.txt file' do
         get :robots
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to eq(File.read(staging_filename))
       end
     end
@@ -26,7 +26,7 @@ describe RobotsController do
       it 'loads the production robots.txt file' do
         get :robots
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to eq(File.read(production_filename))
       end
     end
@@ -37,7 +37,7 @@ describe RobotsController do
       it 'loads the production robots.txt file' do
         get :robots
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to eq(File.read(production_filename))
       end
     end
@@ -48,7 +48,7 @@ describe RobotsController do
       it 'loads the production robots.txt file' do
         get :robots
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to eq(File.read(production_filename))
       end
     end

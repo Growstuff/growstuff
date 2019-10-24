@@ -5,31 +5,28 @@
     = render partial: "layouts/meta"
     = javascript_pack_tag 'application'
   %body
-    = render partial: "layouts/header"
-
-    #maincontainer
+    .sr-only= link_to t(".skip"), "#skipnav"
+    = render "layouts/header"
+    -# anchor tag for accessibility link to skip the navigation menu
+    %a{ name: 'skipnav' }
+    #maincontainer.container-fluid
       .row
-        .col-md-6
-          - if content_for?(:title)
-            %h1#title
-              = yield(:title)
-              - if content_for?(:subtitle)
-                %small= yield(:subtitle)
+        .col-md-8.col-12
+          - if content_for?(:breadcrumbs)
+            %nav
+              %ol.breadcrumb{"aria-label" => "breadcrumb"}
+                %li.breadcrumb-item= link_to 'Home', root_path
+                = yield(:breadcrumbs)
+      - if content_for?(:buttonbar)
+        = yield(:buttonbar)
 
-          - if content_for?(:buttonbar)
-            .btn-group.layout-actions
-              = yield(:buttonbar)
+      - if content_for?(:subtitle)
+        %small= yield(:subtitle)
 
-        .col-md-6
-          = render 'shared/global_actions'
+      = render "shared/flash_messages", flash: flash
+      = yield
 
-      .row
-        .col-md-12
-          = render partial: "shared/flash_messages", flash: flash
-          = yield
-
-    %footer
-      = render "layouts/footer"
+    %footer.page-footer.font-small.bg-dark.pt-4= render "layouts/footer"
     /
       Javascripts
       \==================================================

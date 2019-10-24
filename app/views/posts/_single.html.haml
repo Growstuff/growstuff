@@ -1,55 +1,19 @@
-.well
-  .post{ id: "post-#{post.id}" }
-    .row
-      .col-md-1
-        = render partial: "members/avatar", locals: { member: post.author }
-      .col-md-11
-        - if defined?(subject)
-          %h3= link_to strip_tags(post.subject), post
+%p
+  Posted by
+  - if @post.author
+    = link_to @post.author.login_name, member_path(@post.author)
+  - else
+    Member Deleted
+  - if @post.forum
+    in
+    = link_to @post.forum, @post.forum
+  on
+  = @post.created_at
+  - if @post.updated_at > @post.created_at
+    and edited at
+    = @post.updated_at
 
-        .post-meta
-          %p
-            Posted by
-            - if post.author
-              = link_to post.author.login_name, member_path(post.author)
-            - else
-              Member Deleted
-            - if post.forum
-              in
-              = link_to post.forum, post.forum
-            on
-            = post.created_at
-            - if post.updated_at > post.created_at
-              and edited at
-              = post.updated_at
+= link_to "Permalink", post
 
-        .post-body
-          :growstuff_markdown
-            #{ strip_tags post.body }
-
-        - unless defined?(hide_comments)
-          .post-comments
-            %ul.list-inline
-              %li.first
-                = link_to localize_plural(post.comments, Comment),
-                          post_path(post, anchor: 'comments')
-              - if can? :create, Comment
-                %li= link_to "Reply", new_comment_path(post_id: post.id)
-              %li= link_to "Permalink", post
-              - if can? :edit, post
-                %li= link_to "Edit", edit_post_path(post)
-
-        .like-count
-          = pluralize(post.likes.count, "like") unless post.likes.empty?
-        - if member_signed_in?
-          - if !post.members.include? current_member
-            - if can?(:new, Like)
-              = link_to 'Like', likes_path(post_id: post.id, format: :json),
-                        method: :post, remote: true, class: 'post-like'
-          - else
-            - like = post.likes.find_by(member: current_member)
-            - if like && can?(:destroy, like)
-              = link_to 'Unlike', like_path(id: like.id, format: :json),
-                        method: :delete, remote: true, class: 'post-like'
-
-
+:growstuff_markdown
+  #{ strip_tags @post.body }

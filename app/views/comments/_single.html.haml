@@ -1,12 +1,26 @@
-.well
-  .comment
+.card.comment
+  .card-body
     .row
-      .col-md-1
-        = render partial: "members/avatar", locals: { member: comment.author }
-      .col-md-11
-        .comment-meta
+      .col
+        = render "members/tiny", member: comment.author
+        - if can?(:edit, comment) || can?(:destroy, comment)
+          %hr/
+          .dropdown
+            %button#comment-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button"} Actions
+            .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "comment-edit-button"}
+              - if can? :edit, comment
+                = link_to edit_comment_path(comment), class: 'dropdown-item' do
+                  = edit_icon
+                  Edit
+              - if can? :destroy, comment
+                = link_to comment, method: :delete,
+                  data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
+                  = delete_icon
+                  Delete
+      .col-md-9.border-left
+        .comment-meta.text-muted
           Posted by
-          - if comment.author.deleted?
+          - if comment.author.discarded?
             Member Deleted
           - else
             = link_to comment.author.login_name, member_path(comment.author)
@@ -20,10 +34,3 @@
           :growstuff_markdown
             #{ strip_tags comment.body }
 
-        - if can?(:edit, comment) || can?(:destroy, comment)
-          .comment-actions
-            - if can? :edit, comment
-              = link_to 'Edit', edit_comment_path(comment), class: 'btn btn-default btn-xs'
-            - if can? :destroy, comment
-              = link_to 'Delete', comment, method: :delete,
-                data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'

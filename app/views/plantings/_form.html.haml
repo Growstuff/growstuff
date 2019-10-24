@@ -1,18 +1,22 @@
-= required_field_help_text
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  .card-header
+    - if content_for? :title
+      %h1.h2-responsive.text-center
+        = planting_icon
+        %strong=yield :title
+  = bootstrap_form_for(@planting) do |f|
+    .card-body
+      = required_field_help_text
+      - if @planting.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@planting.errors.size, "error")
+            prohibited this planting from being saved:
+          %ul
+            - @planting.errors.full_messages.each do |msg|
+              %li= msg
 
-= form_for(@planting, html: { class: "form-horizontal", role: "form" }) do |f|
-  - if @planting.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@planting.errors.size, "error")
-        prohibited this planting from being saved:
-      %ul
-        - @planting.errors.full_messages.each do |msg|
-          %li= msg
-
-  .form-group.required
-    = f.label :crop, 'What did you plant?', class: 'control-label col-md-2'
-    .col-md-8
+      = f.label :crop, 'What did you plant?', class: 'required'
       - if @seed.present?
         = link_to @seed, seed_path(@seed)
         = f.hidden_field :parent_seed_id, value: @seed.id
@@ -21,59 +25,37 @@
         %span.help-inline
           Can't find what you're looking for?
           = link_to "Request new crops.", new_crop_path
-  .form-group.required
-    = f.label :garden_id, 'Where did you plant it?', class: 'control-label col-md-2'
-    .col-md-8
-      = collection_select(:planting, :garden_id,
-                          current_member.gardens.active.order("lower(gardens.name)"),
-                          :id, :name,
-                          selected: @planting.garden_id || @garden.id,
-                          class: 'form-control')
-      %span.help-inline
-        = link_to "Add a garden.", new_garden_path
-  .form-group
-    = f.label :planted_at, 'When?', class: 'control-label col-md-2'
-    .col-md-2
-      = f.text_field :planted_at,
-                     value: @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '',
-                     class: 'add-datepicker form-control'
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :quantity, 'How many?', class: 'control-label col-md-2'
-    .col-md-2
-      = f.number_field :quantity, class: 'form-control'
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :planted_from, 'Planted from:', class: 'control-label col-md-2'
-    .col-md-8
-      = f.select(:planted_from, Planting::PLANTED_FROM_VALUES, { include_blank: '' }, class: 'form-control')
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :sunniness, 'Sun or shade?', class: 'control-label col-md-2'
-    .col-md-8
-      = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '' }, class: 'form-control')
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :description, 'Tell us more about it', class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_area :description, rows: 6, class: 'form-control'
-      = render partial: 'shared/form_optional'
-  .form-group
-    = f.label :finished, 'Mark as finished', class: 'control-label col-md-2'
-    .col-md-8
-      = f.check_box :finished
-      = render partial: 'shared/form_optional'
-      %span.help-block
-        = t('.finish_helper')
 
-  .form-group
-    = f.label :finished_at, 'Finished date', class: 'control-label col-md-2'
-    .col-md-2
-      = f.text_field :finished_at,
+      .row
+        .col-md-8
+          = f.collection_radio_buttons(:garden_id, @planting.owner.gardens.active,
+            :id, :name, required: true,
+            label: 'Where did you plant it?')
+          = link_to "Add a garden.", new_garden_path
+        .col-md-4
+          = f.text_field :planted_at,
+                     value: @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '',
+                     class: 'add-datepicker', label: 'When?'
+
+      .row
+        .col-md-4
+          = f.select(:planted_from, Planting::PLANTED_FROM_VALUES, { include_blank: '', label: 'Planted from' } )
+        .col-md-4
+          = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '', label: 'Sun or shade?' } )
+        .col-md-4
+          = f.number_field :quantity, label: 'How many?'
+      = f.text_area :description, rows: 6, label: 'Tell us more about it'
+
+      .row
+        .col-md-6
+          = f.check_box :finished, label: 'Mark as finished'
+          %span.help-block= t('.finish_helper')
+        .col-md-6
+          = f.text_field :finished_at,
                      value: @planting.finished_at ? @planting.finished_at.to_s(:ymd) : '',
-                     class: 'add-datepicker form-control',
+                     class: 'add-datepicker',
+                     label: 'Finished date',
                      placeholder: 'optional'
-      = render partial: 'shared/form_optional'
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+
+    .card-footer
+      .text-right= f.submit 'Save'

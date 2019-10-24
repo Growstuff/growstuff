@@ -359,7 +359,7 @@ describe 'member' do
     context "deleted admin member" do
       let(:member) { FactoryBot.create(:admin_member) }
 
-      before { member.destroy }
+      before { member.discard }
 
       context 'crop creator' do
         let!(:crop) { FactoryBot.create(:crop, creator: member) }

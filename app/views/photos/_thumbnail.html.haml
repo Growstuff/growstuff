@@ -1,7 +1,7 @@
 .thumbnail
-  .photo-thumbnail
-    = link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-responsive'), photo
-    .text
+  .photo-thumbnail{id: "photo-#{photo.id}"}
+    = link_to image_tag(photo.thumbnail_url, alt: photo.title, class: 'img img-responsive rounded'), photo
+    .text.ellipsis
       %p
         = link_to photo.title, photo
         %br/
@@ -9,4 +9,3 @@
           %i
             by
             = link_to photo.owner, photo.owner
-  = I18n.l(photo.created_at.to_date)

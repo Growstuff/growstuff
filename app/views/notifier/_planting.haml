@@ -1,0 +1,4 @@
+= link_to planting do
+  - if planting.crop.svg_icon.present?
+    = image_tag crop_url(planting.crop, format: :svg), alt: planting.crop.name, class: 'img-icon'
+  = planting.crop

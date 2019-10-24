@@ -5,10 +5,5 @@
               seed_path(seed)
     .seedinfo
       .seed-name
-        = link_to seed, seed_path(seed)
-      .trade-to
-        %p= seed.owner.location
-        %p
-          Will trade to:
-          %br/
-          = seed.tradable_to
+        = link_to display_seed_quantity(seed), seed_path(seed)
+  = I18n.l(seed.created_at.to_date)

@@ -1,5 +1,8 @@
-.harvest-actions
-  .btn-group
-    = harvest_edit_button(harvest) if can? :edit, harvest
-    = add_photo_button(harvest)
-  = delete_button(harvest)
+- if can?(:edit, harvest)
+  .dropdown.harvest-actions
+    %a#harvest-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'} Actions
+    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "harvest-actions-button"}
+      = harvest_edit_button(harvest, classes: 'dropdown-item')
+      = add_photo_button(harvest, classes: 'dropdown-item')
+      .dropdown-divider
+      = delete_button(harvest, classes: 'dropdown-item text-danger')

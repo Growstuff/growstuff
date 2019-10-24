@@ -1,32 +1,37 @@
-= form_for @alternate_name, html: { class: 'form-horizontal', role: "form" } do |f|
-  - if @alternate_name.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@alternate_name.errors.size, "error")
-        prohibited this alternate_name from being saved:
-      %ul
-        - @alternate_name.errors.full_messages.each do |msg|
-          %li= msg
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  .card-body
+    - if content_for? :title
+      %h1.h2-responsive.text-center
+        %strong=yield :title
+    = form_for @alternate_name, html: { class: 'form-horizontal', role: "form" } do |f|
+      - if @alternate_name.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@alternate_name.errors.size, "error")
+            prohibited this alternate_name from being saved:
+          %ul
+            - @alternate_name.errors.full_messages.each do |msg|
+              %li= msg
 
-  %p
-    %span.help-block
-      For detailed crop wrangling guidelines, please consult the
-      = link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
-      on the Growstuff wiki.
+      %p
+        %span.help-block
+          For detailed crop wrangling guidelines, please consult the
+          = link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
+          on the Growstuff wiki.
 
-  .form-group
-    = f.label :crop_id, class: 'control-label col-md-2'
-    .col-md-8
-      = collection_select(:alternate_name, :crop_id,
-                          Crop.all, :id, :name,
-                          { selected: @alternate_name.crop_id || @crop.id },
-                          class: 'form-control')
+      .form-group
+        = f.label :crop_id, class: 'control-label col-md-2'
+        .col-md-8
+          = collection_select(:alternate_name, :crop_id,
+                              Crop.all, :id, :name,
+                              { selected: @alternate_name.crop_id || @crop.id },
+                              class: 'form-control')
 
-  .form-group
-    = f.label :name, class: 'control-label col-md-2'
-    .col-md-8
-      = f.text_field :name, class: 'form-control'
+      .form-group
+        = f.label :name, class: 'control-label col-md-2'
+        .col-md-8
+          = f.text_field :name, class: 'form-control'
 
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+      .form-group
+        .form-actions.col-md-offset-2.col-md-8
+          = f.submit 'Save', class: 'btn btn-primary'

@@ -48,6 +48,12 @@ describe 'like' do
     expect(Like.all).not_to include like
   end
 
+  it 'destroys like if post no longer exists' do
+    like = Like.create(member: member, likeable: post)
+    post.destroy
+    expect(Like.all).not_to include like
+  end
+
   it 'destroys like if member no longer exists' do
     like = Like.create(member: member, likeable: post)
     member.destroy

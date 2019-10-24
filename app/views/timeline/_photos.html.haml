@@ -1,0 +1,27 @@
+.media
+  = link_to(image_tag(photo.thumbnail_url, width: 150, class: 'rounded'), photo)
+  .media-body
+    %p
+      %ul.associations
+        - photo.crops.each do |crop|
+          %li= render 'crops/tiny', crop: crop
+
+        - photo.plantings.each do |planting|
+          %li
+            = planting_icon
+            = link_to t('photos.show.planting', planting: planting.to_s, owner: planting.owner.to_s), planting_path(planting)
+
+        - photo.harvests.each do |harvest|
+          %li
+            = harvest_icon
+            = link_to t('photos.show.harvest', crop: harvest.crop.name, owner: harvest.owner.to_s), harvest_path(harvest)
+
+        - photo.gardens.each do |garden|
+          %li
+            = garden_icon
+            = link_to t('photos.show.garden', garden: garden.to_s, owner: garden.owner.to_s), garden_path(garden)
+
+        - photo.seeds.each do |seed|
+          %li
+            = seed_icon
+            = link_to t('photos.show.seed', seed: seed.to_s, owner: seed.owner.to_s), seed_path(seed)

@@ -18,33 +18,51 @@
       = link_to 'hundreds of different crops', crops_url
     and a community from all around the world.
 
-    = render partial: "shared/signin_signup",
-      locals: { to: "or to start using #{ENV['GROWSTUFF_SITE_NAME']} to track what you're planting and harvesting" }
+    = render "shared/signin_signup",
+      to: "or to start using #{ENV['GROWSTUFF_SITE_NAME']} to track what you're planting and harvesting"
 
-= render partial: "single", locals: { post: @post, subject: false, hide_comments: true }
-
-- unless @post.crops.empty?
-  %h3 Crops mentioned in this post
-  - @post.crops.each do |c|
-    .col-md-2
-      = render partial: 'crops/thumbnail', locals: { crop: c }
-
-.col-md-11
-  - if can?(:edit, @post) || can?(:destroy, @post)
-    .post-actions
-      - if can? :edit, @post
-        = link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-default btn-xs'
-      - if can? :destroy, @post
-        = link_to 'Delete Post', @post, method: :delete,
-                      data: { confirm: 'Are you sure?' },
-                      class: 'btn btn-default btn-xs'
-
+- content_for :buttonbar do
   - if @post.comments.count > 10 && can?(:create, Comment)
-    .post-actions
-      = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn btn-primary'
+    = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn'
 
-  = render partial: "comments", locals: { post: @post }
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to @post.author, @post.author
+  %li.breadcrumb-item= link_to 'posts', member_posts_path(member_slug: @post.author.slug)
+  %li.breadcrumb-item.active{"aria-current" => "page"}= @post.subject
 
-  - if can? :create, Comment
-    .post-actions
-      = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn btn-primary'
+.row
+  .col-md-8.col-12
+    .card.post{ id: "post-#{@post.id}" }
+      .card-header
+        %h2.display-3.float-left
+          = @post.subject
+        = render 'posts/actions', post: @post
+      .card-body
+        .post-content= render 'posts/single', post: @post
+        .index-cards
+          - @post.photos.each do |photo|
+            = render 'photos/thumbnail', photo: photo
+
+      .card-footer
+        = render 'posts/likes', post: @post
+        .float-right
+          - if can? :create, Comment
+            = link_to new_comment_path(post_id: @post.id), class: 'btn' do
+              = icon 'fas', 'comment'
+              Comment
+
+    %section.comments
+      = render "comments", post: @post
+
+  .col-md-4.col-12
+    = render @post.author
+    - unless @post.crops.approved.empty?
+      %section.crops
+        %h2 Crops mentioned in this post
+        .index-cards
+          - @post.crops.approved.each do |c|
+            = render 'crops/thumbnail', crop: c
+
+
+
+

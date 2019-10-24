@@ -1,14 +1,17 @@
-%h2 Seeds saved from this planting
+%h2 Seeds saved
+
+%a.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button"}
+  = seed_icon
+  = t('buttons.save_seeds')
+.dropdown-menu.dropdown-secondary
+  - Seed::TRADABLE_TO_VALUES.each do |trade|
+    = link_to seeds_path(return: 'planting', seed: {crop_id: planting.crop.id, parent_planting_id: planting.id, tradable_to: trade}), method: :post, class: 'dropdown-item' do
+      Will trade:
+      = trade
 
 - if planting.child_seeds.size.positive?
-  .row
+  .index-cards
     - planting.child_seeds.each do |seed|
-      .col-xs-6.col-sm-4.col-md-3
-        = render 'seeds/thumbnail', seed: seed
+      = render 'seeds/card', seed: seed
 - else
   %p No seeds saved
-
-- if planting.active? && can?(:create, Seed) && can?(:edit, planting)
-  = link_to new_planting_seed_path(planting), class: 'btn btn-primary' do
-    %span.glyphicon.glyphicon-heart{ title: "Add photo" }
-    Save seeds

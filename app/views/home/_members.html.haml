@@ -1,13 +1,10 @@
 - cache cache_key_for(Member) do
   .hidden-xs
-    - members = Member.includes(plantings: :crop).interesting.first(6)
+    - members = Member.includes(plantings: :crop).interesting.limit(6)
     - if members.present?
-      %section
-      %h2= t('.title')
+      %h2.text-center= t('.title')
+      .index-cards
+        = render members
 
-      .member-cards
-        - members.each do |m|
-          = render "members/thumbnail", member: m
-
-      %p.text-right
-        = link_to "#{t('.view_all')} »", members_path
+    %p.text-right
+      = link_to "#{t('.view_all')} »", members_path, class: 'btn btn-block'

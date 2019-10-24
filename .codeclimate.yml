@@ -1,7 +1,7 @@
 engines:
   rubocop:
     enabled: true
-    channel: rubocop-0-60
+    channel: "rubocop-0-71"
   scss-lint:
     enabled: true
   shellcheck:
@@ -44,3 +44,4 @@ exclude_paths:
 - public/
 - app/assets/stylesheets/bootstrap-accessibility.css
 - app/assets/javascripts/bootstrap*
+- app/assets/stylesheets/leaflet_overrides.scss

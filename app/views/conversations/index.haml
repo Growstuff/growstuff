@@ -1,0 +1,60 @@
+- content_for :title, "Inbox"
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Conversations', conversations_path
+  %li.breadcrumb-item.active= link_to @box, conversations_path(box: @box)
+
+= form_tag destroy_multiple_conversations_path, method: :delete do
+  .row.py-4
+    .col-2.offset-md-2
+      %h1= @box
+    .col-8
+      = button_tag(type: 'submit', class: 'btn btn-default') do
+        = icon 'fas', 'trash-alt'
+        = 'Delete Selected'
+
+  .row
+    .col-md-2.py-4
+      - @boxes.each do |box_name, counts|
+        = link_to conversations_path(box: box_name), class: "nav-link list-group-item d-flex justify-content-between #{box_name == @box ? 'active' : ''} #{box_name}" do
+          - if counts['unread'].positive?
+            %span.badge.badge-info=counts['unread']
+          - else
+            %span
+          %span
+            = icon 'fas', box_name
+            = box_name
+
+    .col-md-10
+      .list-group
+        - @conversations.each do |conversation|
+          .list-group-item
+            .row
+              .col-md-1
+                - if conversation.receipts_for(current_member).last.is_unread?
+                  %h1= icon 'far', 'envelope'
+                - else
+                  %h1.text-muted= icon 'far', 'envelope-open'
+              .col-md-10
+                .text-right.float-right
+                  - conversation.recipients.each do |member|
+                    - if member != current_member
+                      = render 'members/tiny', member: member
+                = link_to conversation_path(conversation) do
+                  .conversation
+                    %h5.mb-2.h5
+                      - if conversation.receipts_for(current_member).last.is_unread?
+                        %strong= conversation.subject
+                      - else
+                        = conversation.subject
+                      %small
+                        #{time_ago_in_words conversation.messages.last.created_at} ago
+                        %span.text-muted= conversation.messages.last.created_at
+                    = truncate(strip_tags(conversation.messages.last.body), length: 150, separator: ' ', omission: '... ')
+              .col-md-1
+                - if @box == 'trash'
+                  = link_to conversation_path(conversation, box: @box), method: :put, class: 'restore' do
+                    = icon 'fas', 'trash-restore'
+                - else
+                  = check_box_tag 'conversation_ids[]', conversation.id, false, class: 'selectable'
+      - unless @conversations.empty?
+        = will_paginate @conversations

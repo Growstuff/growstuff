@@ -5,48 +5,48 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+
+%h1 #{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}
 = render partial: 'search_form'
 
-#placesmap{ style: "height:300px" }
+%section.map#placesmap{ style: "height:300px" }
 
-%h3#members= "Nearby members"
+%section.members
+  %h2#members= "Nearby members"
 
-- if !@nearby_members.empty?
-  .row
-    - @nearby_members.first(30).each do |member|
-      .col-md-4.three-across
+  - if @nearby_members.any?
+    .index-cards.members
+      - @nearby_members.first(30).each do |member|
         = render partial: "members/thumbnail", locals: { member: member }
+  - else
+    %p No nearby members
   = link_to "View all members >>", members_path
 
-  %h3#seeds Seeds available for trade near #{@place}
+%section.seeds
+  %h2#seeds Seeds available for trade near #{@place}
   - crop_id = []
   - @nearby_members.first(10).each do |member|
     - member.seeds.first(5).each do |seed|
       - crop_id.push seed.crop.id
-  - if !crop_id.blank?
-    .row
+  - if crop_id.present?
+    .index-cards.crops
       - crop_id.uniq.first(20).each do |crop|
-        .col-md-2.six-across
-          = render partial: "crops/thumbnail", locals: { crop: Crop.find(crop) }
-    = link_to "View all seeds >>", seeds_path
+        = render partial: "crops/thumbnail", locals: { crop: Crop.find(crop) }
   - else
     %p No nearby seeds found
+  = link_to "View all seeds >>", seeds_path
 
-  #plantings
-  %h3 Recent plantings near #{@place}
-
+%section#plantings
+  %h2 Recent plantings near #{@place}
 
   - plantings = []
   - @nearby_members.first(10).each do |member|
     - member.plantings.first(5).each do |planting|
       - plantings << planting
-  - if !plantings.blank?
-    .row
+  - if plantings.any?
+    .index-cards.plantings
       - plantings.first(10).each.with_index do |planting, index|
-        .col-xs-12.col-lg-6
-          = render partial: "plantings/card", locals: { planting: planting, index: index }
-    = link_to "View all plantings >>", plantings_path
+        = render partial: "plantings/card", locals: { planting: planting, index: index }
   - else
     %p No nearby plantings found
-- else
-  %p No results found
+  = link_to "View all plantings >>", plantings_path

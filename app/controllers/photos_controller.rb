@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
   responders :flash
 
   def show
-    @crops = Crop.distinct.joins(:photographings).where(photographings: { photo: @photo })
+    @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
     respond_with(@photo)
   end
 
@@ -14,6 +14,9 @@ class PhotosController < ApplicationController
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
       @photos = Photo.by_crop(@crop)
+    elsif params[:planting_id]
+      @planting = Planting.find params[:planting_id]
+      @photos = @planting.photos
     else
       @photos = Photo.all
     end
@@ -26,8 +29,8 @@ class PhotosController < ApplicationController
   def new
     @photo = Photo.new
     @item = item_to_link_to
-    @type = item_type
-    @id = item_id
+    @type = params[:type]
+    @id = params[:id]
     retrieve_from_flickr
     respond_with @photo
   end
@@ -60,31 +63,17 @@ class PhotosController < ApplicationController
 
   private
 
-  #
-  # Params
-  def item_id
-    params[:id]
-  end
-
-  def item_type
-    params[:type]
-  end
-
-  def flickr_photo_id_param
-    params[:photo][:flickr_photo_id]
-  end
-
   def photo_params
-    params.require(:photo).permit(:flickr_photo_id, :title, :license_name,
+    params.require(:photo).permit(:source_id, :source, :title, :license_name,
       :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
   # Item with photos attached
   def item_to_link_to
-    raise "No item id provided" if item_id.nil?
-    raise "No item type provided" if item_type.nil?
+    raise "No item id provided" if params[:id].nil?
+    raise "No item type provided" if params[:type].nil?
 
-    item_class = item_type.capitalize
+    item_class = params[:type].capitalize
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
 
     item_class.constantize.find(params[:id])
@@ -93,8 +82,11 @@ class PhotosController < ApplicationController
   #
   # Flickr retrieval
   def find_or_create_photo_from_flickr_photo
-    photo = Photo.find_by(flickr_photo_id: flickr_photo_id_param)
-    photo ||= Photo.new(photo_params)
+    photo = Photo.find_or_initialize_by(
+      source_id: photo_params[:source_id],
+      source:    'flickr'
+    )
+    photo.update(photo_params)
     photo.owner_id = current_member.id
     photo.set_flickr_metadata!
     photo

@@ -25,12 +25,12 @@ module PlantingsHelper
     elsif planting.planted_from.present?
       "#{planting.owner} planted #{planting.planted_from.pluralize}."
     else
-      "#{planting.owner}."
+      "#{planting.owner} planted #{planting.crop}."
     end
   end
 
-  def plantings_active_tickbox_path(owner, show_all)
-    show_inactive_tickbox_path('plantings', owner, show_all)
+  def weeks_from_not_to_finished(planting)
+    days_from_now_to_finished(planting) / 7
   end
 
   def days_from_now_to_finished(planting)
@@ -43,6 +43,16 @@ module PlantingsHelper
     return unless planting.planted_at.present? && planting.first_harvest_predicted_at.present?
 
     (planting.first_harvest_predicted_at - Time.zone.today).to_i
+  end
+
+  def weeks_from_now_to_first_harvest(planting)
+    days_from_now_to_first_harvest(planting) / 7
+  end
+
+  def days_from_now_to_last_harvest(planting)
+    return unless planting.planted_at.present? && planting.last_harvest_predicted_at.present?
+
+    (planting.last_harvest_predicted_at - Time.zone.today).to_i
   end
 
   def planting_classes(planting)

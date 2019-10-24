@@ -1,71 +1,60 @@
 - content_for :title, "Crop Wrangling"
 
+%h1 Crop Wrangling
 
-%ul
-  %li= link_to "Requests for new crops", 'http://growstuff.org/posts/skud-20130319-requests-for-new-crops'
-  %li= link_to "Crop wrangler guidelines", "http://wiki.growstuff.org/index.php/Crop_wrangling"
-  %li= link_to "crop-wranglers mailing list", "http://lists.growstuff.org/listinfo/crop-wranglers"
-  %li= link_to "Full crop hierarchy", hierarchy_crops_path
-  %li= link_to "Add Crop", new_crop_path
+%nav.nav
+  = link_to "Full crop hierarchy", hierarchy_crops_path, class: 'nav-link'
+  = link_to "Add Crop", new_crop_path, class: 'btn'
 
-.crop_wranglers
-  %h2 Crop Wranglers:
-  %ul
-    - @crop_wranglers.each do |crop_wrangler|
-      %li.crop_wrangler
-        = link_to crop_wrangler.login_name, crop_wrangler
+%section.crop_wranglers
+  %h2 Crop Wranglers
+  - @crop_wranglers.each do |crop_wrangler|
+    = render 'members/tiny', member: crop_wrangler
 
-.tabbable
-  %ul.nav.nav-tabs
-    %li{ class: @approval_status.blank? ? 'active' : '' }
-      = link_to "Recently added", wrangle_crops_path
-    %li{ class: @approval_status == "pending" ? 'active' : '' }
-      = link_to "Pending approval", wrangle_crops_path(approval_status: "pending")
-    %li{ class: @approval_status == "rejected" ? 'active' : '' }
-      = link_to "Rejected", wrangle_crops_path(approval_status: "rejected")
+%hr/
 
-%h2
-  - if @approval_status == "pending"
-    Requested Crops
-  - elsif @approval_status == "rejected"
-    Rejected Crops
-  - else
-    Recently added crops
+%section
+  %h2 Crops
 
+  %ul#myTab.nav.nav-tabs{role: "tablist"}
+    %li.nav-item
+      %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab", class: @approval_status.blank? ? 'active' : ''}
+        Recently added
+    %li.nav-item
+      %a#profile-tab.nav-link{ href: wrangle_crops_path(approval_status: "pending"), role: "tab", class: @approval_status == "pending" ? 'active' : ''}
+        Pending approval
+    %li.nav-item
+      %a#contact-tab.nav-link{ href: wrangle_crops_path(approval_status: "rejected"), role: "tab", class: @approval_status == "rejected" ? 'active' : ''} Rejected
 
-.pagination
-  = page_entries_info @crops
-  = will_paginate @crops
-
-%table{ class: "table table-striped",
-        id: @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops" }
-  %tr
-    %th System name
-    %th English Wikipedia URL
-    %th Scientific names
-    %th Requested by
-    - if @approval_status == "rejected"
-      %th Rejected by
-    - if @approval_status != "rejected" && @approval_status != "pending"
-      %th Added by
-    %th When
-  - @crops.each do |c|
+  %table.table.table-striped.table-bordered.table-sm{id: @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops" }
     %tr
-      %td= link_to c.name, edit_crop_path(c)
-      %td= link_to c.en_wikipedia_url, c.en_wikipedia_url
-      %td
-        - c.scientific_names.each do |s|
-          = link_to s.name, s
-          %br/
-      %td= c.requester.present? ? (link_to c.requester, c.requester) : "N/A"
-      - unless @approval_status == "pending"
-        %td= c.creator.present? ? (link_to c.creator, c.creator) : "N/A"
-      %td
-        = distance_of_time_in_words(c.created_at, Time.zone.now)
-        ago.
+      %th System name
+      %th English Wikipedia URL
+      %th Scientific names
+      %th Requested by
+      - if @approval_status == "rejected"
+        %th Rejected by
+      - if @approval_status != "rejected" && @approval_status != "pending"
+        %th Added by
+      %th When
+    - @crops.each do |c|
+      %tr
+        %td
+          = link_to edit_crop_path(c) do
+            = icon 'fas', 'seedling'
+            = c.name
+        %td= link_to c.en_wikipedia_url, c.en_wikipedia_url
+        %td
+          - c.scientific_names.each do |s|
+            = link_to s.name, s
+            %br/
+        %td= c.requester.present? ? (link_to c.requester, c.requester) : "N/A"
+        - unless @approval_status == "pending"
+          %td= c.creator.present? ? (link_to c.creator, c.creator) : "N/A"
+        %td
+          = distance_of_time_in_words(c.created_at, Time.zone.now)
+          ago.
 
-.pagination
   = page_entries_info @crops
   = will_paginate @crops
-
 

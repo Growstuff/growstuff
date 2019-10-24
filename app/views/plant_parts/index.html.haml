@@ -1,21 +1,25 @@
 - content_for :title, "Plant parts"
 
+%h1 Plant Parts
+
 - if can? :create, PlantPart
-  = link_to 'New Plant part', new_plant_part_path
+  = link_to 'New Plant part', new_plant_part_path, class: 'btn btn-info'
 
-- @plant_parts.each do |plant_part|
-  %h2= plant_part
-  %p
-    - if plant_part.crops.empty?
-      No crops are harvested for this plant part (yet).
-    - else
-      - plant_part.crops.limit(100).each do |crop|
-        = link_to(crop, crop_path(crop))
-  %p
-    = link_to "More detail", plant_part
-
-  %p
-  - if can? :edit, plant_part
-    = link_to 'Edit', edit_plant_part_path(plant_part), class: 'btn btn-default btn-xs'
-  - if can? :destroy, plant_part
-    = link_to 'Delete', plant_part, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
+.index-cards
+  - @plant_parts.each do |plant_part|
+    .card.plant-part
+      .card-header
+        %h2= link_to plant_part, plant_part
+      .card-body
+        %p
+          - if plant_part.crops.empty?
+            No crops are harvested for this plant part (yet).
+          - else
+            - plant_part.crops.limit(20).each do |crop|
+              = render 'crops/tiny', crop: crop
+      .card-footer
+        %p
+          - if can? :edit, plant_part
+            = link_to 'Edit', edit_plant_part_path(plant_part), class: 'btn btn-default btn-xs'
+          - if can? :destroy, plant_part
+            = link_to 'Delete', plant_part, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'

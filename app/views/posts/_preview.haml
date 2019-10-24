@@ -1,0 +1,6 @@
+.card.card-cascade
+  .card-header
+    %h3= link_to post.subject, post
+    = render 'members/tiny', member: post.author
+  .card-body
+    %p= truncate(strip_tags(post.body), length: 200)

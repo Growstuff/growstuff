@@ -1,0 +1,26 @@
+- cache member do
+  .card.member-card.text-center
+    = link_to member do
+      = image_tag(avatar_uri(member, 150), class: 'img img-fluid avatar rounded', alt: member)
+    .card-body
+      %h4.card-title.login-name= link_to member, member
+    .card-footer
+      %p
+        %small
+          Joined
+          = distance_of_time_in_words(member.created_at, Time.zone.now)
+          ago.
+      - if member.location.present?
+        = render 'members/location', member: member
+
+      %p
+        %ul.nav.nav-justified.small
+          %li.nav-item.border-right
+            = link_to member_plantings_path(member) do
+              = localize_plural(member.plantings, Planting)
+          %li.nav-item.border-right
+            = link_to member_harvests_path(member) do
+              = localize_plural(member.harvests, Harvest)
+          %li.nav-item
+            = link_to member_seeds_path(member) do
+              = localize_plural(member.seeds, Seed)

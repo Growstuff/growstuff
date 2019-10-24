@@ -1,0 +1,12 @@
+
+- if member_signed_in?
+  - if can?(:new, Like) && !post.liked_by?(current_member)
+    = link_to 'Like', likes_path(post_id: post.id, format: :json),
+              method: :post, remote: true, class: 'post-like btn like-btn'
+  - else
+    - like = post.likes.find_by(member: current_member)
+    - if like && can?(:destroy, like)
+      = link_to 'Unlike', like_path(id: like.id, format: :json),
+                method: :delete, remote: true, class: 'post-like btn like-btn'
+
+= render 'likes/count', likeable: post

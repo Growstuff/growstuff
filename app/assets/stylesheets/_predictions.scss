@@ -1,0 +1,19 @@
+.predictions {
+  .predictions-card {
+    background: $white;
+    border-radius: 5%;
+    border: 1px solid lighten($green, 20%);
+    margin: 1em;
+    max-width: 250px;
+    text-align: center;
+
+    strong {
+      font-align: center;
+      font-size: 3em;
+    }
+
+    span {
+      display: block;
+    }
+  }
+}

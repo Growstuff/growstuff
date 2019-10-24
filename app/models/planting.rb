@@ -23,7 +23,7 @@ class Planting < ApplicationRecord
   # Ancestry of food
   belongs_to :parent_seed, class_name:  'Seed', # parent
                            foreign_key: 'parent_seed_id',
-                           required:    false,
+                           optional:    true,
                            inverse_of:  :child_plantings
   has_many :child_seeds, class_name:  'Seed', # children
                          foreign_key: 'parent_planting_id',
@@ -32,8 +32,9 @@ class Planting < ApplicationRecord
 
   ##
   ## Scopes
-  default_scope { joins(:owner) } # Ensures the owner still exists
-  scope :active, -> { where(finished_at: nil) }
+  scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
+  scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
   scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
@@ -45,8 +46,9 @@ class Planting < ApplicationRecord
   ##
   ## Delegations
   delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count,
-    to: :crop, prefix: true
+           to: :crop, prefix: true
 
+  delegate :annual?, to: :crop
   ##
   ## Validations
   validates :garden, presence: true
@@ -56,10 +58,10 @@ class Planting < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
-  validates :sunniness, allow_nil: true, allow_blank: true, inclusion: {
+  validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: "%<value>s is not a valid sunniness value"
   }
-  validates :planted_from, allow_nil: true, allow_blank: true, inclusion: {
+  validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
 
@@ -83,10 +85,6 @@ class Planting < ApplicationRecord
   # stringify as "beet in Skud's backyard" or similar
   def to_s
     I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner: owner)
-  end
-
-  def default_photo
-    photos.order(created_at: :desc).first
   end
 
   def finished?

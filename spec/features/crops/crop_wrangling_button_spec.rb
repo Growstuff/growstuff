@@ -1,28 +1,20 @@
 require 'rails_helper'
 
-feature "crop wrangling button" do
-  let(:crop_wrangler) { create :crop_wrangling_member }
-  let(:member)        { create :member                }
-
-  context "crop wrangling button" do
-    background do
-      login_as crop_wrangler
-      visit crops_path
-    end
-
-    scenario "has a link to crop wrangling page" do
-      expect(page).to have_link "Wrangle Crops", href: wrangle_crops_path
-    end
+describe "crop wrangling button" do
+  context 'not signed in' do
+    before { visit crops_path }
+    it { expect(page).to have_no_link "Wrangle Crops", href: wrangle_crops_path }
   end
 
-  context "crop wrangling button" do
-    background do
-      login_as member
-      visit crops_path
-    end
+  context "signed in, but not a crop wrangler" do
+    include_context 'signed in member'
+    before { visit crops_path }
+    it { expect(page).to have_no_link "Wrangle Crops", href: wrangle_crops_path }
+  end
 
-    scenario "has no link to crop wrangling page" do
-      expect(page).to have_no_link "Wrangle Crops", href: wrangle_crops_path
-    end
+  context "signed in crop wrangler" do
+    include_context 'signed in crop wrangler'
+    before { visit crops_path }
+    it { expect(page).to have_link "Wrangle Crops", href: wrangle_crops_path }
   end
 end

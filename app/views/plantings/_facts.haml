@@ -1,0 +1,115 @@
+.index-cards.facts.plantingfacts
+  - if planting.parent_seed
+    .card.fact-card
+      %h3 Parent seed
+      %strong.plantingfact--parentseed
+        = link_to seed_path(planting.parent_seed) do
+          = seed_icon
+      %span=planting.parent_seed
+
+  - if planting.planted_at.present?
+    .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
+      %h3 Planted
+      %strong.plantingfact--plantedmonth
+        = I18n.t('date.abbr_month_names')[planting.planted_at.month]
+      %span=planting.planted_at.year
+
+  .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
+    %h3
+      Planted
+      = editable :date, planting, :planted_at, display_field: '.planted_at'
+    %strong.plantingfact--weekssinceplanted.planted_at
+      - if planting.planted_at.present?
+        #{planting.weeks_since_planted}
+      - else
+        unknown
+    %span.planted_at weeks ago
+    - if planting.planted_at.present?
+      %span.plantingfact--planttedat.planted_at
+        = I18n.l planting.planted_at
+
+
+
+  .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
+    %h3
+      Quantity
+      %small= editable :text_field, planting, :quantity, display_field: '.plantingfact--quantity'
+    %strong.plantingfact--quantity
+      - if planting.quantity.to_i.positive?
+        = planting.quantity
+      -else
+        unknown
+    %span
+      - if planting.quantity.to_i.positive? && planting.planted_from.present?
+        = planting.planted_from.pluralize(planting.quantity.to_i)
+
+  - unless planting.finished?
+    .card.fact-card.grid-sizer
+      %h3 Growing
+      %strong= seedling_icon
+      %span
+        Planting is still growing today
+
+  .card.fact-card{class: planting.planted_from.present? ? '' : 'text-muted'}
+    %h3
+      Grown from
+      = editable :select, planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES, display_field: '.plantingfact--plantedfrom'
+    %strong.plantingfact--plantedfrom
+      = planting.planted_from.present? ? planting.planted_from : 'unknown'
+
+  .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
+    %h3
+      Grown in
+      = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.plantingfact--sunniness'
+    %strong= sunniness_icon(planting.sunniness)
+    %span.plantingfact--sunniness
+      = planting.sunniness.blank? ? "not specified" : planting.sunniness
+
+  .card.fact-card
+    %h3.plantingfact--harveststitle
+      = planting.finished? ? "Harvested" : "Harvesting"
+    %strong
+      = link_to planting_harvests_path(planting) do
+        = harvest_icon
+    - if planting.first_harvest_date.present? ||  planting.first_harvest_predicted_at.present?
+      %span.plantingfact--harvestprediction
+        = I18n.l(planting.first_harvest_date || planting&.first_harvest_predicted_at || 'unknown')
+
+  - if planting.crop.perennial
+    .card.fact-card
+      %h3.plantingfact--perennial Perennial
+      %strong=perennial_icon
+  - else
+    - if !planting.finished? && planting.finish_is_predicatable?
+      .card.fact-card
+        %h3.plantingfact--finishtitle Predicted Finish
+        %strong.plantingfact--finishedmonth
+          = I18n.t('date.abbr_month_names')[planting.finish_predicted_at.month]
+        %span=planting.finish_predicted_at.year
+
+      .card.fact-card
+        %h3.plantingfact--finishtitle Predicted Finish
+        - if days_from_now_to_finished(planting).positive?
+          %strong.plantingfact--finisheddays= weeks_from_not_to_finished(planting)
+          %span weeks
+        - else
+          %strong.plantingfact--finisheddays #{weeks_from_not_to_finished(planting) * -1}
+          %span weeks ago
+        %span= I18n.l planting.finish_predicted_at
+
+  - if planting.child_seeds.size.positive?
+    .card.fact-card
+      %h3 Seeds saved
+      %strong
+        = link_to planting_seeds_path(planting) do
+          = seed_icon
+      %span.plantingfact--seedssaved #{pluralize(planting.child_seeds.size, 'packet')} of seed
+
+  - if planting.finished?
+    .card.fact-card
+      %h3 Finished
+      %strong=finished_icon
+      - if planting.finished_at.present?
+        %span.plantingfact--finish
+          = I18n.t('date.abbr_month_names')[planting.finished_at.month]
+          = planting.finished_at.year

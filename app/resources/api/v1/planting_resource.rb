@@ -21,7 +21,6 @@ module Api
       # Predictions
       attribute :expected_lifespan
       attribute :finish_predicted_at
-      attribute :percentage_grown
       attribute :first_harvest_date
       attribute :last_harvest_date
 

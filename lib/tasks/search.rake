@@ -1,11 +1,8 @@
 namespace :search do
-  desc "Create elastic search index"
-  task create: :environment do
-    puts Crop.__elasticsearch__.create_index! force: true
-  end
-
-  desc 'Refresh elastic search index'
-  task refresh: :environment do
-    puts Crop.__elasticsearch__.refresh_index!
+  desc 'reindex'
+  task reindex: :environment do
+    Crop.all.each_slice(50) do |batch|
+      Crop.searchkick_index.import(batch)
+    end
   end
 end

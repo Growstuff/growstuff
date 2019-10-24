@@ -79,12 +79,20 @@ en:
     mark_as_active: Mark as active
     mark_as_finished: Mark as finished
     mark_as_inactive: Mark as inactive
+    my_gardens: My Gardens
+    new_seeds: New saved seed
+    new_planting: New planting
+    new_post: Write new post
+    new_harvest: New harvest
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
+    record_harvest: Record Harvest
     save_seeds: Save seeds
+    timeline: Timeline
     write_blog_post: Write blog post
   crops:
+    search: Search crops
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
@@ -123,8 +131,10 @@ en:
   home:
     blurb:
       already_html: Or %{sign_in} if you already have an account
-      intro: "%{site_name} is a community of food gardeners. We're building an open source platform to help you learn about growing food, track what you plant and harvest, and swap seeds and produce with other gardeners near you.\n"
-      perks: Join now for your free garden journal, seed sharing, forums, and more.
+      intro: >
+        %{site_name} is a community of food gardeners. %{site_name}'s open source and open data platform
+        can predict when your plantings will be ready to harvest. The more you tell it, the better the predictions.
+      perks: Join now for your free garden journal, harvest predictions, forums, and more.
       sign_in_linktext: sign in
       sign_up: Sign up
     crops:
@@ -144,6 +154,8 @@ en:
       post: Post
       recently_added: Recently Added
       welcome: Welcome to %{site_name}, %{member_name}
+    harvests:
+      view_all: View all harvests
     members:
       title: Some of our members
       view_all: View all members
@@ -167,6 +179,7 @@ en:
         community and the world.  We believe that openness, sustainability, and social good go hand in hand.
         You can read more about %{why} or check out our code on %{github}.
       open_source_title: Open Source
+
       support_body_html: Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}.
       support_title: Support Growstuff
       talk_linktext: Growstuff Talk
@@ -174,6 +187,7 @@ en:
       wiki_linktext: Growstuff Wiki
     plantings:
       recently_planted: Recently Planted
+      view_all: View all plantings
     seeds:
       crop: Crop
       description: Description
@@ -192,8 +206,11 @@ en:
       number_plantings_linktext: "%{count} times"
   label:
     days_until_harvest: "%{number} days"
+    weeks_until_harvest: "%{number} weeks until harvest"
     days_until_finished: "%{number} days"
+    weeks_until_finished: "%{number} weeks"
     harvesting_now: harvesting now
+    data: 'The data on this page is available in the following formats:'
   layouts:
     header:
       account: Account
@@ -202,6 +219,8 @@ en:
       browse_members: Browse Members
       community: Community
       community_map: Community Map
+      garden_type: Garden Type
+      garden_types: Garden Types
       crop_wrangling: Crop Wrangling
       crops: Crops
       current_memberlogin_name: "%{current_memberlogin_name}"
@@ -209,6 +228,7 @@ en:
       gardens: Gardens
       harvest: Harvest
       harvests: Harvests
+      record: Record
       inbox: Inbox
       inbox_unread: Inbox (%{unread_count})
       plantings: Plantings
@@ -221,7 +241,7 @@ en:
       skip: Skip navigation menu
       support_growstuff: Support Growstuff
       toggle_navigation: Toggle Navigation
-      your_stuff: Your Stuff (%{unread_count})
+      your_stuff: Your Stuff
   links:
     my_gardens: My gardens
   members:
@@ -273,14 +293,7 @@ en:
         default: Everyone's plantings
         owner_plantings: "%{owner} plantings"
       view_owners_profile: View %{owner}'s profile >>
-      the_data_on_this_page_is_available_in_the_following_formats: 'The data on this page is available in the following formats:'
     string: "%{crop} planting in %{garden} by %{owner}"
-    badges:
-      late_finishing: late finishing
-      super_late: super late
-      days_until_finished: days until finished
-      harvesting_now: harvesting now
-      days_until_harvest: days until harvest
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
   posts:
@@ -295,6 +308,8 @@ en:
         Are you interested in trading or swapping seeds with other %{site_name} members?  If you list
         your seeds as available for trade, other members can contact you to request seeds.  You can
         list any conditions or other information in the description, above.
+      finish_helper: >
+        Seeds are finished when you've planted them all, or you've traded them all away.
     index:
       title:
         crop_seeds: Everyone's %{crop} seeds
@@ -309,6 +324,7 @@ en:
       planting: Please sign in or sign up to plant something.
       post: Please sign in or sign up to post.
       seed: Please sign in or sign up to add seeds.
+      garden_type: Not authorized. Only admins can create garden types.
     manage:
       all: Not authorized to %{action} %{subject}.
     read:

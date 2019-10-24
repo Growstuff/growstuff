@@ -5,9 +5,6 @@ describe Planting do
   let(:garden_owner) { FactoryBot.create(:member, login_name: 'hatupatu')                                    }
   let(:garden)       { FactoryBot.create(:garden, owner: garden_owner, name: 'Springfield Community Garden') }
   let(:planting)     { FactoryBot.create(:planting, crop: crop, garden: garden, owner: garden.owner)         }
-  let(:finished_planting) do
-    FactoryBot.create :planting, planted_at: 4.days.ago, finished_at: 2.days.ago, finished: true
-  end
 
   describe 'planting lifespan predictions' do
     context 'no predications data yet' do
@@ -180,9 +177,9 @@ describe Planting do
 
       before do
         FactoryBot.create(:harvest,
-          planting:     planting,
-          crop:         planting.crop,
-          harvested_at: 10.days.ago)
+                          planting:     planting,
+                          crop:         planting.crop,
+                          harvested_at: 10.days.ago)
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
       end
@@ -402,9 +399,9 @@ describe Planting do
 
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryBot.create(:planting,
-          created_at: 1.minute.ago,
-          garden:     @planting1.garden,
-          owner:      @planting1.owner)
+                                       created_at: 1.minute.ago,
+                                       garden:     @planting1.garden,
+                                       owner:      @planting1.owner)
         @planting2.photos << FactoryBot.create(:photo, owner: @planting2.owner)
         @planting2.save
 
@@ -488,13 +485,15 @@ describe Planting do
     end
   end
 
-  # it 'predicts harvest times' do
-  #   crop = FactoryBot.create :crop
-  #   10.times do
-  #     planting = FactoryBot.create :planting, crop: crop, planted_at: Time.zone.local(2013, 1, 1)
-  #     FactoryBot.create :harvest, crop: crop, planting: planting, harvested_at: Time.zone.local(2013, 2, 1)
-  #   end
-  #   planting = FactoryBot.create :planting, planted_at: Time.zone.local(2017, 1, 1), crop: crop
-  #   expect(planting.harvest_predicted_at).to eq Time.zone.local(2017, 2, 1)
-  # end
+  describe 'active scope' do
+    let(:member) { FactoryBot.create :member }
+    let!(:planting) do
+      FactoryBot.create :planting, owner: member, garden: member.gardens.first
+    end
+    let!(:finished_planting) do
+      FactoryBot.create :finished_planting, owner: member, garden: member.gardens.first
+    end
+    it { expect(member.plantings.active).to include(planting) }
+    it { expect(member.plantings.active).not_to include(finished_planting) }
+  end
 end

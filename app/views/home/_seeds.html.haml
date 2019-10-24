@@ -1,22 +1,5 @@
-- cache cache_key_for(Seed, 'interesting'), expires_in: 1.day do
-  %h2= t('.title')
-  .row
+- cache cache_key_for(Seed) do
+  %h2.text-center= t('home.seeds.title')
+  .index-cards
     - Seed.current.tradable.includes(:owner, :crop).order(created_at: :desc).limit(6).each do |seed|
-      .col-md-2.col-sm-2.col-xs-6
-        .thumbnail.seed-thumbnail
-          - cache cache_key_for(Crop, seed.id) do
-            = link_to image_tag(seed_image_path(seed),
-                                alt: seed.crop.name, class: 'img'),
-                                seed
-            .seedinfo
-              = link_to seed.crop.name, seed
-              .trade-to
-                %p= seed.owner.location
-                %p
-                  %small
-                    Will trade to:
-                    %br/
-                    %em= seed.tradable_to
-
-%p.text-right
-  = link_to "#{t('.view_all')} »", seeds_path
+      = render 'seeds/card', seed: seed

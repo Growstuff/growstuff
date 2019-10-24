@@ -1,22 +1,54 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
+
+%h1= @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
+
 = render 'layouts/nav', model: Garden
 
-= link_to gardens_active_tickbox_path(@owner, @show_all) do
-  = check_box_tag 'active', 'all', @show_all
-  include in-active
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'Gardens', gardens_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s gardens", member_gardens_path(@owner)
+  - else
+    %li.breadcrumb-item.active= link_to 'Gardens', gardens_path
 
-.pagination
-  = page_entries_info @gardens
-  = will_paginate @gardens
-
+%section.border-top
+  = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all), class: 'btn'  do
+    = check_box_tag 'active', 'all', @show_all
+    include in-active
 
 - if @gardens.empty?
   %p There are no gardens to display.
-- else
-  - @gardens.each do |garden|
-    = render 'overview', garden: garden
+  - if can?(:create, Garden) && @owner == current_member
+    = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
 
-.pagination
+- else
   = page_entries_info @gardens
   = will_paginate @gardens
+  - @gardens.each do |garden|
+    %section.card
+      %h2= link_to garden.name, garden
+      .card-header
+        .row
+          .col-12.col-md-3
+            - unless @owner.present?
+              owner:
+              = render 'members/tiny', member: garden.owner
+            = image_tag garden_image_path(garden), alt: garden.name, class: 'img-card'
+          .col-12.col-md-2= render 'gardens/actions', garden: garden
+          .col
+            - if garden.plantings.active.perennial.any?
+              %strong Perennials:
+              - garden.plantings.active.perennial.each do |planting|
+                = link_to planting do
+                  = crop_icon planting.crop
+                  = planting.crop
+      .card-body
+        - if garden.plantings.active.annual.any?
+          = render 'plantings/progress_list', plantings: garden.plantings.active.annual
+        - else
+          No annual plantings
+
+  .row
+    .col-12= page_entries_info @gardens
+    .col-12= will_paginate @gardens

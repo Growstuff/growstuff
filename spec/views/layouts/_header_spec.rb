@@ -82,14 +82,14 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     it 'shows inbox link' do
       rendered.should have_content 'Inbox'
-      rendered.should_not match(/Inbox \(\d+\)/)
+      rendered.should_not match(/Inbox \d+/)
     end
 
     context 'has notifications' do
       it 'shows inbox count' do
         FactoryBot.create(:notification, recipient: @member)
         render
-        rendered.should have_content 'Inbox (1)'
+        rendered.should have_content 'Inbox 1'
       end
     end
   end

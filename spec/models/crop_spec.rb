@@ -1,25 +1,21 @@
 require 'rails_helper'
 
 describe Crop do
-  let(:pp2)   { FactoryBot.create(:plant_part) }
-  let(:pp1)   { FactoryBot.create(:plant_part) }
-  let(:maize) { FactoryBot.create(:maize)      }
-
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 
-    it 'saves a basic crop' do
+    it 'should save a basic crop' do
       crop.save.should be(true)
     end
 
-    it 'is fetchable from the database' do
+    it 'should be fetchable from the database' do
       crop.save
       @crop2 = Crop.find_by(name: 'tomato')
       @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
       @crop2.slug.should eq("tomato")
     end
 
-    it 'stringifies as the system name' do
+    it 'should stringify as the system name' do
       crop.save
       crop.to_s.should eq('tomato')
     end
@@ -31,7 +27,7 @@ describe Crop do
   end
 
   context 'invalid data' do
-    it 'does not save a crop without a system name' do
+    it 'should not save a crop without a system name' do
       crop = FactoryBot.build(:crop, name: nil)
       expect { crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
@@ -51,7 +47,6 @@ describe Crop do
   context 'popularity' do
     let(:tomato)   { FactoryBot.create(:tomato)                 }
     let(:maize)    { FactoryBot.create(:maize)                  }
-    let(:cucumber) { FactoryBot.create(:crop, name: 'cucumber') }
 
     before do
       FactoryBot.create_list(:planting, 10, crop: maize)
@@ -143,56 +138,69 @@ describe Crop do
   end
 
   context 'photos' do
-    before do
-      @crop = FactoryBot.create(:tomato)
+    shared_examples 'has default photo' do
+      it { expect(Crop.has_photos).to include(crop) }
     end
+    let!(:crop) { FactoryBot.create :tomato }
 
     context 'with a planting photo' do
-      before do
-        @planting = FactoryBot.create(:planting, crop: @crop)
-        @photo = FactoryBot.create(:photo, owner: @planting.owner)
-        @planting.photos << @photo
-      end
+      let!(:photo) { FactoryBot.create(:photo, owner: planting.owner) }
+      let!(:planting) { FactoryBot.create(:planting, crop: crop) }
 
-      it 'has a default photo' do
-        @crop.default_photo.should be_an_instance_of Photo
-        expect(@crop.default_photo.id).to eq @photo.id
-      end
+      before { planting.photos << photo }
 
-      it 'is found in has_photos scope' do
-        Crop.has_photos.should include(@crop)
-      end
+      it { expect(crop.default_photo).to eq photo }
+      include_examples 'has default photo'
     end
 
     context 'with a harvest photo' do
-      before do
-        @harvest = FactoryBot.create(:harvest, crop: @crop)
-        @photo = FactoryBot.create(:photo, owner: @harvest.owner)
-        @harvest.photos << @photo
-      end
+      let!(:harvest) { FactoryBot.create(:harvest, crop: crop) }
+      let!(:photo) { FactoryBot.create(:photo, owner: harvest.owner) }
 
-      it 'has a default photo' do
-        @crop.default_photo.should be_an_instance_of Photo
-        expect(@crop.default_photo.id).to eq @photo.id
-      end
+      before { harvest.photos << photo }
+
+      it { expect(crop.default_photo).to eq photo }
+      include_examples 'has default photo'
 
       context 'and planting photo' do
-        before do
-          @planting = FactoryBot.create(:planting, crop: @crop)
-          @planting_photo = FactoryBot.create(:photo, owner: @planting.owner)
-          @planting.photos << @planting_photo
-        end
+        let(:planting) { FactoryBot.create(:planting, crop: crop) }
+        let!(:planting_photo) { FactoryBot.create(:photo, owner: planting.owner) }
+
+        before { planting.photos << planting_photo }
 
         it 'prefers the planting photo' do
-          expect(@crop.default_photo.id).to eq @planting_photo.id
+          expect(crop.default_photo.id).to eq planting_photo.id
         end
       end
     end
 
     context 'with no plantings or harvests' do
       it 'has no default photo' do
-        expect(@crop.default_photo).to eq nil
+        expect(crop.default_photo).to eq nil
       end
+
+      it { expect(crop.photos.size).to eq 0 }
+      it { expect(crop.photos.by_model(Planting).size).to eq 0 }
+      it { expect(crop.photos.by_model(Harvest).size).to eq 0 }
+      it { expect(crop.photos.by_model(Seed).size).to eq 0 }
+    end
+
+    describe 'finding all photos' do
+      let(:planting) { FactoryBot.create :planting, crop: crop }
+      let(:harvest) { FactoryBot.create :harvest, crop: crop }
+      let(:seed)    { FactoryBot.create :seed, crop: crop    }
+
+      before do
+        # Add photos to all
+        planting.photos << FactoryBot.create(:photo, owner: planting.owner)
+        harvest.photos << FactoryBot.create(:photo, owner: harvest.owner)
+        seed.photos << FactoryBot.create(:photo, owner: seed.owner)
+      end
+
+      it { expect(crop.photos.size).to eq 3 }
+      it { expect(crop.photos.by_model(Planting).size).to eq 1 }
+      it { expect(crop.photos.by_model(Harvest).size).to eq 1 }
+      it { expect(crop.photos.by_model(Seed).size).to eq 1 }
     end
   end
 
@@ -283,7 +291,6 @@ describe Crop do
   context 'interesting' do
     subject { Crop.interesting }
 
-    let(:photo) { FactoryBot.create :photo }
     # first, a couple of candidate crops
     let(:crop1) { FactoryBot.create(:crop) }
     let(:crop2) { FactoryBot.create(:crop) }
@@ -292,7 +299,6 @@ describe Crop do
     let(:crop2_planting) { crop2.plantings.first }
 
     let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
-
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
@@ -338,8 +344,6 @@ describe Crop do
   end
 
   context "harvests" do
-    let(:h1)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp1) }
-    let(:h2)       { FactoryBot.create(:harvest, crop: maize, plant_part: pp2) }
     let!(:crop)    { FactoryBot.create(:crop)                                  }
     let!(:harvest) { FactoryBot.create(:harvest, crop: crop)                   }
 
@@ -356,37 +360,8 @@ describe Crop do
     expect(@maize.plant_parts).to eq [@pp1]
   end
 
-  context "search", :elasticsearch do
-    let(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-
-    before { sync_elasticsearch([mushroom]) }
-
-    it "finds exact matches" do
-      expect(Crop.search('mushroom')).to eq [mushroom]
-    end
-    it "finds approximate matches" do
-      expect(Crop.search('mush')).to eq [mushroom]
-    end
-    it "doesn't find non-matches" do
-      Crop.search('mush').should_not include @crop
-    end
-    it "searches case insensitively" do
-      Crop.search('mUsH').should include mushroom
-    end
-    it "doesn't find 'rejected' crop" do
-      @rejected_crop = FactoryBot.create(:rejected_crop, name: 'tomato')
-      sync_elasticsearch([@rejected_crop])
-      Crop.search('tomato').should_not include @rejected_crop
-    end
-    it "doesn't find 'pending' crop" do
-      @crop_request = FactoryBot.create(:crop_request, name: 'tomato')
-      sync_elasticsearch([@crop_request])
-      Crop.search('tomato').should_not include @crop_request
-    end
-  end
-
   context "csv loading" do
-    before do
+    before(:each) do
       # don't use 'let' for this -- we need to actually create it,
       # regardless of whether it's used.
       @cropbot = FactoryBot.create(:cropbot)
@@ -553,11 +528,11 @@ describe Crop do
         tomato.destroy
       end
 
-      it "deletes the association between post and the crop(tomato)" do
+      it "should delete the association between post and the crop(tomato)" do
         expect(Post.find(post.id).crops).to eq [maize]
       end
 
-      it "does not delete the posts" do
+      it "should not delete the posts" do
         expect(Post.find(post.id)).not_to eq nil
       end
     end
@@ -577,11 +552,11 @@ describe Crop do
     end
 
     describe "rejecting a crop" do
-      it "gives reason if a default option" do
+      it "should give reason if a default option" do
         expect(rejected_reason.rejection_explanation).to eq "not edible"
       end
 
-      it "shows rejection notes if reason was other" do
+      it "should show rejection notes if reason was other" do
         expect(rejected_other.rejection_explanation).to eq "blah blah blah"
       end
     end

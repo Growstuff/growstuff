@@ -7,6 +7,7 @@ FactoryBot.define do
     confirmed_at { Time.zone.now }
     show_email { false }
     bio { 'I love seeds' }
+    preferred_avatar_uri { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
 
     # cropbot is needed for certain tests, eg. Crop.create_from_csv
     factory :cropbot do
@@ -54,6 +55,16 @@ FactoryBot.define do
       location { 'Amundsen-Scott Base, Antarctica' }
       latitude { -90 }
       longitude { 0 }
+    end
+
+    factory :interesting_member do
+      sequence(:login_name) { |n| "ScottRF#{n}" }
+      location { 'Edinburgh' }
+      latitude { Faker::Address.latitude }
+      longitude { Faker::Address.longitude }
+      after(:create) do |member|
+        create(:planting, owner: member, garden: member.gardens.first)
+      end
     end
 
     factory :admin_member do

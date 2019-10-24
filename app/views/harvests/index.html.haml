@@ -1,4 +1,9 @@
-- content_for :title, title('harvests', @owner, @crop, @planting)
+- content_for(:title) do
+  = title('harvests', @owner, @crop, @planting)
+
+%h1
+  = harvest_icon
+  = title('harvests', @owner, @crop, @planting)
 
 - if @owner
   = link_to "View #{@owner}'s profile >>", member_path(@owner)
@@ -9,26 +14,28 @@
 
 = render 'layouts/nav', model: Harvest
 
-.pagination
-  = page_entries_info @harvests
-  = will_paginate @harvests
-.row
-  - unless @harvests.empty?
-    - @harvests.each do |harvest|
-      .col-md-6
-        = render 'harvests/card', harvest: harvest
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'Harvests', harvests_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s harvests", harvests_path(owner: @owner)
+  - else
+    %li.breadcrumb-item.active= link_to "Harvests", harvests_path
 
 .pagination
   = page_entries_info @harvests
   = will_paginate @harvests
 
-  %ul.list-inline
-    %li The data on this page is available in the following formats:
-    - if @owner
-      %li= link_to "RSS", member_harvests_path(@owner, format: 'rss')
-      %li= link_to "CSV", member_harvests_path(@owner, format: 'csv')
-      %li= link_to "JSON", member_harvests_path(@owner, format: 'json')
-    - else
-      %li= link_to "RSS", harvests_path(format: 'rss')
-      %li= link_to "CSV", harvests_path(format: 'csv')
-      %li= link_to "JSON", harvests_path(format: 'json')
+- unless @harvests.empty?
+  .index-cards=render @harvests, full: true
+
+.pagination
+  = will_paginate @harvests
+
+%section.open-data
+  %h5= t('label.data')
+  %ul.nav#open-data
+    - ['csv', 'json', 'rss'].each do |format|
+      %li.list-group-item
+        = link_to (@owner ? member_harvests_path(@owner, format: format) : harvests_path(format: format)) do
+          = icon 'fas', format.to_s
+          = format.upcase

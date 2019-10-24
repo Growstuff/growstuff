@@ -16,12 +16,6 @@ describe "crops/wrangle" do
     assign(:crop_wranglers, Role.crop_wranglers)
   end
 
-  it 'contains handy links for wranglers' do
-    render
-    rendered.should have_content "Crop wrangler guidelines"
-    rendered.should have_content "mailing list"
-  end
-
   it 'has a link to add a crop' do
     render
     assert_select "a", href: new_crop_path

@@ -1,5 +1,5 @@
 class Notifier < ApplicationMailer
-  include NotificationsHelper
+  # include NotificationsHelper
   default from: "Growstuff <#{ENV['GROWSTUFF_EMAIL']}>"
 
   def verifier
@@ -25,15 +25,34 @@ class Notifier < ApplicationMailer
 
   def planting_reminder(member)
     @member = member
+    @sitename = ENV['GROWSTUFF_SITE_NAME']
 
-    @plantings = @member.plantings.order(planted_at: :desc).first(5)
-    @harvests = @member.harvests.order(harvested_at: :desc).first(5)
+    @late = []
+    @super_late = []
+    @harvesting = []
+    @others = []
+
+    @member.plantings.active.annual.each do |planting|
+      if planting.finish_is_predicatable?
+        if planting.super_late?
+          @super_late << planting
+        elsif planting.late?
+          @late << planting
+        elsif planting.harvest_time?
+          @harvesting << planting
+        else
+          @others << planting
+        end
+      end
+    end
+
+    @subject = "Your #{Date.today.strftime('%B %Y')} #{@sitename} progress report"
 
     # Encrypting
     message = { member_id: @member.id, type: :send_planting_reminder }
     @signed_message = verifier.generate(message)
 
-    mail(to: @member.email, subject: "What have you planted lately?") if @member.send_planting_reminder
+    mail(to: @member.email, subject: @subject) if @member.send_planting_reminder
   end
 
   def new_crop_request(member, request)

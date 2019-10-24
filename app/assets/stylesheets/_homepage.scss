@@ -1,0 +1,17 @@
+
+// stats shown on homepage. eg. "999 members..."
+.stats {
+  font-weight: bold;
+}
+
+.crops,
+.seeds,
+.members {
+  .index-cards {
+    justify-content: center;
+  }
+}
+
+.homepage--list-item {
+  height: 100px;
+}

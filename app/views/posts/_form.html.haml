@@ -1,32 +1,34 @@
-= form_for(@post, html: { role: "form" }) do |f|
-  - if @post.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@post.errors.size, "error")
-        prohibited this post from being saved:
-      %ul
-        - @post.errors.full_messages.each do |msg|
-          %li= msg
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  = bootstrap_form_for(@post) do |f|
+    .card-header
+      - if content_for? :title
+        %h1.h2-responsive.text-center
+          %strong=yield :title
+      - if @post.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@post.errors.size, "error")
+            prohibited this post from being saved:
+          %ul
+            - @post.errors.full_messages.each do |msg|
+              %li= msg
 
-  .form-group
-    = label_tag :post, "Subject", class: 'control-label'
-    = f.text_field :subject, class: 'form-control', autofocus: 'autofocus', maxlength: 255
+    .card-body
+      = f.text_field :subject, autofocus: 'autofocus', maxlength: 255
 
-  .form-group
-    - if @post.forum || @forum
-      = label_tag :body, "What's up?", class: 'control-label'
-    - else
-      = label_tag :body, "What's going on in your food garden?"
-    = f.text_area :body, rows: 12, class: 'form-control'
-    %span.help-block
-      = render partial: "shared/markdown_help"
+      - if @post.forum || @forum
+        = label_tag :body, "What's up?"
+      - else
+        = label_tag :body, "What's going on in your food garden?"
+      = f.text_area :body, rows: 12
+      %span.help-block= render partial: "shared/markdown_help"
 
-  - if @post.forum || @forum
-    - forum = @post.forum || @forum
-    %p
-      This post will be posted in the forum
-      = link_to forum.name, forum
-    .field
-      = f.hidden_field :forum_id, value: forum.id
-
-  = f.submit "Post", class: 'btn btn-primary'
+      - if @post.forum || @forum
+        - forum = @post.forum || @forum
+        %p
+          This post will be posted in the forum
+          = link_to forum.name, forum
+        .field
+          = f.hidden_field :forum_id, value: forum.id
+    .card-footer
+      .text-right= f.submit "Post"

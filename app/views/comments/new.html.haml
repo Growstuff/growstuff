@@ -1,6 +1,10 @@
 = content_for :title, "New comment"
 
-= render partial: "posts/single", locals: { post: @post || @comment.post, subject: true }
+%section.blog-post
+  .card.post{ id: "post-#{@post.id}" }
+    .card-header
+      %h2.display-3= @post.subject
+    .card-body= render "posts/single", post: @post || @comment.post, subject: true
 
 = render partial: "posts/comments", locals: { post: @post || @comment.post }
 

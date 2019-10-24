@@ -1,6 +1,5 @@
-- cache cache_key_for(Crop, 'interesting'), expires_in: 1.day do
-  .row
-    %h2= t('.our_crops')
-    - Crop.interesting.includes(:scientific_names, :photos).shuffle.first(12).each do |c|
-      .col-lg-2.col-md-4.col-sm-3.col-xs-6
-        = render 'crops/thumbnail', crop: c
+- cache cache_key_for(Crop, 'homepage'), expires_in: 1.day do
+  .index-cards
+    - Crop.interesting.includes(:scientific_names, :photos).shuffle.first(18).each do |crop|
+      = render 'crops/thumbnail', crop: crop
+

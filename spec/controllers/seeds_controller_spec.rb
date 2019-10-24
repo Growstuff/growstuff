@@ -16,7 +16,7 @@ describe SeedsController do
   describe 'GET new' do
     before { sign_in owner }
 
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
 
     context 'no parent planting' do
       before { get :new }

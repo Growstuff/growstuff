@@ -1,0 +1,29 @@
+%h1 Timeline
+
+.row
+  .col-md-9
+    .pagination= will_paginate @seeds
+
+    .list-group
+      - @timeline.each do |event|
+        .list-group-item.list-group-item-action.flex-column.align-items-start{:href => "#!"}
+          .d-flex.w-100.justify-content-between
+            %h5
+              = icon_for_model(event.event_type)
+              - owner = Member.find(event.owner_id)
+              = link_to owner, owner
+              = event_description(event)
+              = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
+            %small
+            - if event.event_at.present?
+              #{time_ago_in_words(event.event_at)} ago
+            - else
+              unknown date
+
+    .pagination= will_paginate @seeds
+  .col-md-3
+    .card
+      .card-body
+        %h3 Following
+        - @members.each do |member|
+          = render 'members/tiny', member: member

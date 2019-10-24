@@ -1,0 +1,32 @@
+- if @photo.associations?
+  %h4 This photo depicts:
+  %p
+    %ul.associations
+      - @photo.posts.each do |post|
+        %li
+          = post_icon
+          = link_to post.subject, post
+          = render "association_delete_button", photo: @photo, type: 'post', thing: post
+      - @photo.plantings.each do |planting|
+        %li
+          = planting_icon
+          = link_to t('photos.show.planting', planting: planting.to_s, owner: planting.owner.to_s), planting_path(planting)
+          = render "association_delete_button", photo: @photo, type: 'planting', thing: planting
+
+      - @photo.harvests.each do |harvest|
+        %li
+          = harvest_icon
+          = link_to t('photos.show.harvest', crop: harvest.crop.name, owner: harvest.owner.to_s), harvest_path(harvest)
+          = render "association_delete_button", photo: @photo, type: 'harvest', thing: harvest
+
+      - @photo.gardens.each do |garden|
+        %li
+          = garden_icon
+          = link_to t('photos.show.garden', garden: garden.to_s, owner: garden.owner.to_s), garden_path(garden)
+          = render "association_delete_button", photo: @photo, type: 'garden', thing: garden
+
+      - @photo.seeds.each do |seed|
+        %li
+          = seed_icon
+          = link_to t('photos.show.seed', seed: seed.to_s, owner: seed.owner.to_s), seed_path(seed)
+          = render "association_delete_button", photo: @photo, type: 'seed', thing: seed

@@ -1,21 +1,26 @@
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Crops', crops_path
+  %li.breadcrumb-item.active= link_to 'Search', search_crops_path(term: @term)
+
 - if @term
   - content_for :title, "Crops matching \"#{@term}\""
-  - if @matches
-    - content_for :subtitle, "#{@matches.size} total"
+  %h1
+    Crops matching "#{@term}"
+    - if @crops
+      %span.text-muted Found #{@crops.size} total
 - else
   - content_for :title, "Crop search"
+  %h1 Crop search
 
-%div
-  = form_tag search_crops_path, method: :get, id: 'crop-search', class: 'form-inline' do
-    .form-group
-      = label_tag :term, "Search crops:", class: 'sr-only'
-      = text_field_tag 'term', nil,
-                       class: 'search-query input-medium form-control',
-                       placeholder: 'Search crops',
-                       value: @term
-    = submit_tag "Search", class: 'btn btn-primary'
+= bootstrap_form_tag(url: search_crops_path, method: :get, html: { id: 'crop-search'}, layout: :inline) do |f|
+  = f.label :term, "Search crops:", class: 'sr-only'
+  = f.text_field 'term', class: 'search-query input-medium',
+                   placeholder: 'Search crops',
+                   label: 'crop',
+                   value: @term
+  = f.submit "Search", class: 'btn btn-success'
 
-- if @matches.empty?
+- if @crops.empty?
   %h2 No results found
   %p
     Sorry, we couldn't find any crops that matched your search for "#{@term}".
@@ -25,14 +30,11 @@
     instead.
 
 - else
-  .pagination
-    = will_paginate @paginated_matches
+  = will_paginate @crops
 
-  #paginated_matches
-    .row
-      - @paginated_matches.each do |c|
-        .col-md-2.six-across
-          = render partial: "thumbnail", locals: { crop: c }
+  .index-cards
+    - @crops.each do |crop|
+      = render 'crops/thumbnail', crop: crop
 
-  .pagination
-    = will_paginate @paginated_matches
+
+  = will_paginate @crops

@@ -1,0 +1,6 @@
+- if local_assigns[:full]
+  - cache planting do
+    = render 'plantings/card', planting: planting
+- else
+  - cache planting do
+    = render 'plantings/thumbnail', planting: planting

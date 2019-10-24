@@ -6,7 +6,7 @@ describe Post do
   it_behaves_like "it is likeable"
 
   it "has a slug" do
-    post = FactoryBot.create(:post, author: member)
+    post = FactoryBot.create(:post, author: member, subject: 'A Post')
     time = post.created_at
     datestr = time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years

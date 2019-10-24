@@ -1,42 +1,31 @@
 - content_for :title, t('.title')
-- content_for :subtitle, t('.subtitle', crops_size: @crops.size)
 
-- if can? :wrangle, Crop
-  = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-primary'
+- content_for :buttonbar do
+  - if can? :wrangle, Crop
+    = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-secondary'
+  - if can? :create, Crop
+    = link_to 'Add New Crop', new_crop_path, class: 'btn btn-primary'
 
-- if @num_requested_crops && @num_requested_crops.positive?
-  = link_to(I18n.t('crops.requested.link', number_crops: @num_requested_crops), requested_crops_path)
+- content_for :breadcrumbs do
+  %li.breadcrumb-item.active= link_to 'Crops', crops_path
 
-%p
-  #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
-  View any crop page to see which of our members have planted it and find
-  information on how to grow it yourself.
-
-= form_tag(crops_path, method: :get, class: 'form-inline', role: 'form') do
-  .form-group
-    = label_tag :sort, "Sort by:", class: 'sr-only'
-    = select_tag "sort",
-                 options_for_select({ "Sort by popularity": 'popular',
-                                      "Sort alphabetically": 'alpha' },
+= bootstrap_form_tag(url: crops_path, method: :get, layout: :inline) do |f|
+  .input-group
+    = f.select "sort",
+                 options_for_select({ "popularity": 'popular',
+                                      "alphabetically": 'alpha' },
                                       @sort || 'popular'),
-                 class: 'form-control'
-  = submit_tag "Show", class: 'btn btn-primary'
+                 label: 'Sort by'
+    = f.submit "Show"
 
-.pagination
+%section.crops
+  %h2= t('.title')
   = will_paginate @crops
+  .index-cards
+    - @crops.each do |crop|
+      = render 'crops/thumbnail', crop: crop
 
-.row
-  - @crops.each do |crop|
-    .col-md-2.six-across
-      = render partial: "thumbnail", locals: { crop: crop }
-
-- if can? :create, Crop
-  %div
-    = link_to 'New Crop', new_crop_path, class: 'btn btn-primary'
-
-.pagination
   = will_paginate @crops
-
 
 %ul.list-inline
   %li The data on this page is available in the following formats:

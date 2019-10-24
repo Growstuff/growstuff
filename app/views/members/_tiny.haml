@@ -1,0 +1,10 @@
+%span.chip.member-chip
+  - if member.discarded?
+    = icon 'fas', 'user-times'
+    = member
+  - else
+    = link_to member do
+      = image_tag(avatar_uri(member, 100), alt: '', height: 50, width: 50)
+      = member
+
+

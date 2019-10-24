@@ -1,46 +1,24 @@
-.panel.panel-success.planting-thumbnail
-  .panel-heading
-    %h3.panel-title
-      = link_to planting.crop.name, planting_path(planting)
-      - if can? :edit, planting
-        %a.pull-right{ href: edit_planting_path(planting), role: "button", id: "edit_garden_glyphicon" }
-          %span.glyphicon.glyphicon-pencil{ title: "Edit" }
-  .panel-body
-    .row
-      .col-xs-12.col-md-4
-        = link_to image_tag(planting_image_path(planting),
-                  alt: planting.crop_id, class: 'img img-responsive'),
-                  planting
-      .col-xs-12.col-md-8
-        %dl.dl-horizontal.planting-attributes
-          %dt Owner:
-          %dd= link_to planting.owner.login_name, planting.owner
-          %dt Garden:
-          %dd= link_to planting.garden&.name, planting.garden
-          %dt Planted on:
-          %dd= planting.planted_at
-          - if planting.quantity
-            %dt Quantity:
-            %dd= display_planting_quantity(planting)
-          - if planting.finished?
-            %dt Finished on:
-            %dd= display_finished(planting)
+.card.planting{class: planting.active? ? '' : 'card-finished'}
+  = link_to planting do
+    = image_tag planting_image_path(planting), class: 'img-card', alt: planting
+  - if can? :edit, planting
+    .planting-quick-actions
+      .dropdown
+        %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+        .dropdown-menu{"aria-labelledby" => "planting-menu"}
+          = planting_edit_button(planting, classes: 'dropdown-item')
+          = add_photo_button(planting, classes: 'dropdown-item')
 
-          - unless planting.sunniness.blank?
-            %dt Sun/shade?:
-            %dd
-              - sunniness = planting.sunniness.blank? ? "not specified" : planting.sunniness
-              = image_tag("sunniness_#{sunniness}.png", size: "25x25", alt: sunniness, title: sunniness)
-              = " (#{sunniness})"
-              
-          - unless planting.planted_from.blank?
-            %dt Planted from:
-            %dd= display_planted_from(planting)
+          - if planting.active?
+            = planting_finish_button(planting, classes: 'dropdown-item')
+            = planting_harvest_button(planting, classes: 'dropdown-item')
+            = planting_save_seeds_button(planting, classes: 'dropdown-item')
 
-          %dt Finish expected:
-          %dd= planting.finish_predicted_at if planting.finish_predicted_at.present?
-    %p= render 'plantings/progress', planting: planting, show_explanation: true
-    .row
-      .col-md-12
-        = render 'plantings/actions', planting: planting
-       
+          - if can? :destroy, planting
+            .dropdown-divider
+            = delete_button(planting, classes: 'dropdown-item text-danger')
+  = link_to planting do
+    .card-body.text-center
+      %h4= planting.crop
+      .text-center= render 'plantings/badges', planting: planting
+      = render 'plantings/progress', planting: planting
