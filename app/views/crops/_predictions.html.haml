@@ -30,7 +30,7 @@
         %h3 Median lifespan
         %strong= in_weeks(crop.median_lifespan)
         %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
-        %span #{'week'.pluralize(in_weeks(crop.median_lifespan)}
+        %span #{'week'.pluralize(in_weeks(crop.median_lifespan))}
 
   - if crop.median_days_to_first_harvest.present?
     = render 'layouts/fact_card',
