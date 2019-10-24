@@ -23,7 +23,9 @@
             = crop_icon(@planting.crop)
             %strong= @planting.crop.name.titleize
             %small.text-muted= @planting.crop.default_scientific_name
-          - if @planting.percentage_grown.present?
+          - if @planting.finished?
+            Finished
+          - elsif @planting.percentage_grown.present?
             #{@planting.percentage_grown.to_i}%
         = render 'timeline', planting: @planting
 
