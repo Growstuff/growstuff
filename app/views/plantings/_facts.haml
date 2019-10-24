@@ -72,7 +72,10 @@
     .card.fact-card
       %h3 Finished
       %strong
-        = I18n.t('date.abbr_month_names')[planting.finished_at.month]
+        - if planting.finished_at.present?
+          = I18n.t('date.abbr_month_names')[planting.finished_at.month]
+        - else
+          unknown date
       - if planting.finished_at.present?
         %span.plantingfact--finish
           = planting.finished_at.year
