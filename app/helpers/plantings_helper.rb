@@ -29,10 +29,6 @@ module PlantingsHelper
     end
   end
 
-  def weeks_from_not_to_finished(planting)
-    days_from_now_to_finished(planting) / 7
-  end
-
   def days_from_now_to_finished(planting)
     return unless planting.finish_is_predicatable?
 
@@ -43,10 +39,6 @@ module PlantingsHelper
     return unless planting.planted_at.present? && planting.first_harvest_predicted_at.present?
 
     (planting.first_harvest_predicted_at - Time.zone.today).to_i
-  end
-
-  def weeks_from_now_to_first_harvest(planting)
-    days_from_now_to_first_harvest(planting) / 7
   end
 
   def days_from_now_to_last_harvest(planting)
