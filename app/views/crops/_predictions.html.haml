@@ -28,20 +28,20 @@
     .card.fact-card
       .card-body.text-center
         %h3 Median lifespan
-        %strong= crop.median_lifespan / 7
+        %strong= (crop.median_lifespan / 7.0).round
         %i.fas.fa-sun-o.fa-5x.pt-3.amber-text
-        %span #{'week'.pluralize(crop.median_lifespan / 7)}
+        %span #{'week'.pluralize((crop.median_lifespan / 7.0).round)}
 
   - if crop.median_days_to_first_harvest.present?
     = render 'layouts/fact_card',
       title: 'First harvest expected',
-      value: crop.median_days_to_first_harvest / 7,
-      description: "#{'week'.pluralize(crop.median_days_to_first_harvest / 7)} after planting"
+      value: (crop.median_days_to_first_harvest / 7.0).round,
+      description: "#{'week'.pluralize((crop.median_days_to_first_harvest / 7.0).round)} after planting"
   - if crop.annual? && crop.median_days_to_last_harvest.present?
     = render 'layouts/fact_card',
       title: "Last harvest expected",
-      value: crop.median_days_to_last_harvest / 7,
-      description: "#{'week'.pluralize(crop.median_days_to_last_harvest / 7)} after planting"
+      value: (crop.median_days_to_last_harvest / 7.0).round,
+      description: "#{'week'.pluralize((crop.median_days_to_last_harvest / 7.0).round)} after planting"
   - if crop.height.present?
     = render 'layouts/fact_card',
       title: 'Height', value: "#{crop.height}cm", description: nil
