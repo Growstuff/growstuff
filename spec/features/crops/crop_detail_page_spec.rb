@@ -116,7 +116,7 @@ describe "crop detail page", js: true do
       end
 
       it "predicts harvest" do
-        expect(subject).to have_text("First harvest expected 2 weeks after planting")
+        expect(subject).to have_text("First harvest expected 3 weeks after planting")
       end
     end
   end
