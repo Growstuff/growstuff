@@ -16,6 +16,8 @@
     %ul.list-unstyled.d-flex.justify-content-between
       - (@planting.expected_lifespan / 7).times do |week_number|
         %li{class: @planting.planted_at + week_number.weeks > Time.zone.today ? 'text-muted progress-fade' : '', 'data-toggle': "tooltip", 'data-placement': "top", title: I18n.l(@planting.planted_at + week_number.weeks)}
-          = render 'timeline_icon', planting: @planting,
-            week_number: week_number, date_this_week: @planting.planted_at + week_number.weeks
+          = render 'timeline_icon',
+            planting: @planting,
+            week_number: week_number,
+            date_this_week: @planting.planted_at + week_number.weeks
     (One emojii = 1 week)
