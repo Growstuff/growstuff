@@ -7,27 +7,18 @@
           = seed_icon
       %span=planting.parent_seed
 
-  -# - if planting.planted_at.present?
-  -#   .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
-  -#     %h3 Planted
-  -#     %strong.plantingfact--plantedmonth
-  -#       = I18n.t('date.abbr_month_names')[planting.planted_at.month]
-  -#     %span=planting.planted_at.year
-
   .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
     %h3
       Planted
       = editable :date, planting, :planted_at, display_field: '.planted_at'
     %strong.plantingfact--weekssinceplanted.planted_at
       - if planting.planted_at.present?
-        -# #{planting.weeks_since_planted}
         = I18n.t('date.abbr_month_names')[planting.planted_at.month]
       - else
         unknown
     - if planting.planted_at.present?
       %span.planted_at
         =planting.planted_at.year
-
 
   .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
     %h3
@@ -64,37 +55,10 @@
     %span.plantingfact--sunniness
       = planting.sunniness.blank? ? "not specified" : planting.sunniness
 
-  -# .card.fact-card
-  -#   %h3.plantingfact--harveststitle
-  -#     = planting.finished? ? "Harvested" : "Harvesting"
-  -#   %strong
-  -#     = link_to planting_harvests_path(planting) do
-  -#       = harvest_icon
-  -#   - if planting.first_harvest_date.present? ||  planting.first_harvest_predicted_at.present?
-  -#     %span.plantingfact--harvestprediction
-  -#       = I18n.l(planting.first_harvest_date || planting&.first_harvest_predicted_at || 'unknown')
-
   - if planting.crop.perennial
     .card.fact-card
       %h3.plantingfact--perennial Perennial
       %strong=perennial_icon
-  - else
-    - if !planting.finished? && planting.finish_is_predicatable?
-      -# .card.fact-card
-      -#   %h3.plantingfact--finishtitle Predicted Finish
-      -#   %strong.plantingfact--finishedmonth
-      -#     = I18n.t('date.abbr_month_names')[planting.finish_predicted_at.month]
-      -#   %span=planting.finish_predicted_at.year
-
-      -# .card.fact-card
-      -#   %h3.plantingfact--finishtitle Predicted Finish
-      -#   - if days_from_now_to_finished(planting).positive?
-      -#     %strong.plantingfact--finisheddays= weeks_from_not_to_finished(planting)
-      -#     %span weeks
-      -#   - else
-      -#     %strong.plantingfact--finisheddays #{weeks_from_not_to_finished(planting) * -1}
-      -#     %span weeks ago
-      -#   %span= I18n.l planting.finish_predicted_at
 
   - if planting.child_seeds.size.positive?
     .card.fact-card
