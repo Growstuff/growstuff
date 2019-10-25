@@ -89,6 +89,7 @@ submit the change with your pull request.
 - Brandon Baker / [brandonbaker40](https://github.com/brandonbaker40)
 - Alex Darr / [apdarr](https://github.com/apdarr)
 - Taylor William / [bestest-mensch](https://github.com/bestest-mensch)
+- André Aubin / [lambda2](https://github.com/lambda2)
 
 ## Bots
 
