@@ -116,7 +116,7 @@ describe "Planting a crop", :js, :elasticsearch do
 
         expect(page).to have_content "planting was successfully created"
         expect(page).not_to have_content "0%"
-        expect(page).not_to have_content "Finished"
+        expect(page).not_to have_content "Finish expected"
         expect(page).not_to have_content "Finishes"
       end
 

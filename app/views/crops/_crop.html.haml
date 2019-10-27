@@ -4,27 +4,29 @@
                           alt: '',
                           class: 'img img-card'),
                           crop
-
   .card-body
-    %h3.card-title= link_to crop, crop
-    %p.crop-sci-name= crop.default_scientific_name
-    - if crop.annual? && crop.median_lifespan.present?
-      %p.card-text
-        Median Lifespan
-        %b= crop.median_lifespan
-        days
-    - unless crop.median_days_to_first_harvest.nil?
-      %p.card-text
-        First harvest expected
-        %b= crop.median_days_to_first_harvest
-        days after planting
+    %h3.card-title
+      %strong= link_to crop, crop
+      = crop.default_scientific_name
+    .d-flex.justify-content-between
+      - if crop.annual? && crop.median_lifespan.present?
+        %p.small
+          Median Lifespan
+          %strong= crop.median_lifespan
+          days
+      - unless crop.median_days_to_first_harvest.nil?
+        %p.small
+          First harvest expected
+          %strong= crop.median_days_to_first_harvest
+          days after planting
 
-    - if crop.annual? && crop.median_days_to_last_harvest.present?
-      %p.card-text
-        Last harvest expected
-        %b= crop.median_days_to_last_harvest
-        days after planting
-  - if member_signed_in?
-    .card-footer
-      = crop_plant_button(crop)
-      = crop_save_seeds_button(crop)
+      - if crop.annual? && crop.median_days_to_last_harvest.present?
+        %p.small
+          Last harvest expected
+          %strong= crop.median_days_to_last_harvest
+          days after planting
+    - if member_signed_in?
+      .card-footer
+        .d-flex.justify-content-between
+          = crop_plant_button(crop)
+          = crop_save_seeds_button(crop)
