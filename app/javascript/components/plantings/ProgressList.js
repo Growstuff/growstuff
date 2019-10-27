@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import axios from 'axios';
+import PlantingProgressBar from "../plantings/PlantingProgressBar";
 
 const flatten = (results, type) => {
   var data = []
@@ -13,10 +14,14 @@ const flatten = (results, type) => {
 };
 
 class ProgressList extends React.Component {
-  state = { loading: false, results: [], crops: [], plantings: [] };
+  state = { loading: false, hasError: false, crops: [], plantings: [] };
 
   componentDidMount() {
-    let params = {'filter[garden_id]': this.props.garden.id };
+    let params = {
+        'filter[garden_id]': this.props.garden.id,
+        'filter[active]' : true,
+        'filter[perennial]': false
+      };
 
     this.setState({loading: true});
     axios.get('/api/v1/plantings', { params: params })
@@ -27,17 +32,35 @@ class ProgressList extends React.Component {
       .catch(() => this.setState({ loading: false, plantings: [] }));
   }
 
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true });
+  }
+
   render () {
+    if (this.state.loading) {
+      return (
+        <p className="mx-auto display-4 text-muted"><i className="fas fa-spinner fa-pulse"></i>Loading...</p>
+      );
+    }
+    if (this.state.hasError) {
+      return (
+        <p className="alert alert-warning">Error</p>
+      );
+    }
+
     return (
-      <section>
+      <section className="garden-progress">
+        <h2>Progress</h2>
         {this.state.plantings.map((planting, index) => {
           let url = `/plantings/${planting.slug}`;
+          let crop_name = planting['crop-name'];
+
           return (
             <div key={index} className="row progress-row border-bottom">
               <div className="col-12 col-md-4 progress-row--crop">
                 <a href={url}>
                   <span className="chip crop-chip">
-                    {planting['crop-name']}
+                    {crop_name}
                   </span>
                 </a>
               </div>
@@ -45,41 +68,11 @@ class ProgressList extends React.Component {
                 <PlantingProgressBar planting={planting} />
               </div>
             </div>
-            );
+          );
         })}
       </section>
     )
   }
 }
 
-class PlantingProgressBar extends React.Component {
-  render() {
-    let planting = this.props.planting;
-    let percent = planting['percentage-grown'];
-
-    if(!planting['planted-at']) {
-      return (<small>set "planted" date to allow predictions</small>);
-    }
-    if(!percent) {
-      return (<small>not enough data on {planting['crop-name']} to predict</small>);
-    }
-
-    var style = { width: `${percent}%` };
-    return (
-      <React.Fragment>
-        <div className="progress">
-          <div className="progress-bar bg-success"
-            aria-valuemax="100"
-            aria-valuemin="0"
-            aria-valuenow={percent}
-            role="progressbar"
-            style={style}>
-          </div>
-        </div>
-        <small className="float-left">{percent}%</small>
-      </React.Fragment>
-    );
-  }
-}
-
-export default ProgressList
+export default ProgressList;

@@ -42,9 +42,7 @@
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
     - if @garden.plantings.where.not(planted_at: nil).any?
-      %section
-        %h2 Garden progress
-        = react_component("plantings/ProgressList", { garden: @garden })
+      = react_component("plantings/ProgressList", { garden: @garden })
 
     %section
       %h2 Current plantings in garden

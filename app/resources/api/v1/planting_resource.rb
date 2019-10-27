@@ -15,36 +15,48 @@ module Api
       attribute :finished_at
       attribute :quantity
       attribute :description
-      attribute :sunniness
-      attribute :planted_from
+      attributes :sunniness, :planted_from
+      attributes :active?, :finished?
 
       # Predictions
       attribute :expected_lifespan
       attribute :finish_predicted_at
       attribute :first_harvest_date
       attribute :last_harvest_date
+
+      # crops
+      attribute :crop_name
+      attribute :perennial
+      def perennial
+        @model.crop_perennial
+      end
+      # calculated attributes
       attribute :percentage_grown
       def percentage_grown
         @model.percentage_grown.to_i
       end
-
-      filter :slug
-      filter :crop
-      filter :planted_from
-      filter :garden
-      filter :owner
-      filter :finished
-      filter :garden_id
-
-      attribute :crop_name
-      def crop_name
-        @model.crop.name
-      end
-
       attribute :thumbnail
       def thumbnail
         @model.default_photo&.thumbnail_url
       end
+
+      filter :slug
+      filter :crop_id
+      filter :owner_id
+      filter :finished
+      filter :garden_id
+
+      filter :active, apply: lambda { |records, value, _options|
+        if value
+          records.active
+        else
+          record.not.active
+        end
+      }
+
+      filter :perennial, apply: lambda { |records, value, _options|
+        records.joins(:crop).where(crops: { perennial: value })
+      }
     end
   end
 end
