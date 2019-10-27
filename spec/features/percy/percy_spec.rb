@@ -9,10 +9,10 @@ describe 'Test with visual testing', type: :feature, js: true do
   let!(:admin_user) { FactoryBot.create :admin_member, login_name: 'janitor', preferred_avatar_uri: gravatar3 }
   let!(:someone_else) { FactoryBot.create :edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar4 }
 
-  let(:gravatar) { 'http://www.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
-  let(:gravatar2) { 'http://www.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
-  let(:gravatar3) { 'http://www.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
-  let(:gravatar4) { 'http://www.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
+  let(:gravatar) { 'https://secure.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
+  let(:gravatar2) { 'https://secure.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
+  let(:gravatar3) { 'https://secure.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
+  let(:gravatar4) { 'https://secure.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
 
   let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
   let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }

@@ -1,0 +1,14 @@
+- if @planting.first_harvest_date.present?
+  - # this planting has harvests
+  - if date_this_week >= @planting.first_harvest_date
+    = crop_icon(@planting.crop)
+  - else
+    = growing_icon
+- elsif @planting.first_harvest_predicted_at.present?
+  - # no harvests yet, so use predicted harvest
+  - if date_this_week < @planting.first_harvest_predicted_at
+    = growing_icon
+  - elsif date_this_week > @planting.first_harvest_predicted_at
+    = crop_icon(@planting.crop)
+- else
+  = week_number

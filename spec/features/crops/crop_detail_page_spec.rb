@@ -104,19 +104,19 @@ describe "crop detail page", js: true do
     describe 'with harvest history data' do
       before do
         # 50 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop: planting.crop,
+        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop: crop,
                                     planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
         # 20 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop: planting.crop,
+        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop: crop,
                                     planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
         # 10 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: planting.crop,
+        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: crop,
                                     planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
-        planting.crop.update_medians
+        crop.update_medians
       end
 
       it "predicts harvest" do
-        expect(subject).to have_text("First harvest expected 20 days after planting")
+        expect(subject).to have_text("First harvest expected 3 weeks after planting")
       end
     end
   end
@@ -131,16 +131,13 @@ describe "crop detail page", js: true do
     context 'crop is an Annual' do
       let(:crop) { FactoryBot.create(:annual_crop) }
 
-      describe 'with no harvests' do
-      end
-
       describe 'with harvests' do
         include_examples "predicts harvest"
       end
 
       it "predicts lifespan" do
         expect(subject).to have_text "Median lifespan"
-        expect(subject).to have_text "99 days"
+        expect(subject).to have_text "14 weeks"
       end
 
       it "describes Annual crops" do

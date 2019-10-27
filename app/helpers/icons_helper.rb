@@ -33,6 +33,10 @@ module IconsHelper
     image_icon 'harvest'
   end
 
+  def growing_icon
+    image_icon 'growing'
+  end
+
   def seed_icon
     image_icon 'seeds'
   end

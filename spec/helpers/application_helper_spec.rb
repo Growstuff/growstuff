@@ -22,11 +22,11 @@ describe ApplicationHelper do
       end
 
       it 'renders a gravatar uri' do
-        expect(avatar_uri(@member)).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=150&default=identicon'
+        expect(avatar_uri(@member)).to eq 'https://secure.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=150&default=identicon'
       end
 
       it 'renders a gravatar uri for a given size' do
-        expect(avatar_uri(@member, 456)).to eq 'http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=456&default=identicon'
+        expect(avatar_uri(@member, 456)).to eq 'https://secure.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?size=456&default=identicon'
       end
     end
 
