@@ -12,7 +12,7 @@
   = title('plantings', @owner, @crop, @planting)
 
 .row
-  .col
+  .col-md-6
     %ul.nav
       %li.list-group-item
         = link_to show_inactive_tickbox_path('plantings', owner: @owner, show_all: @show_all) do
@@ -21,7 +21,7 @@
       - if @owner
         %li.list-group-item.btn
           = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
-  .col= render 'layouts/nav', model: Planting
+  .col-md-6= render 'layouts/nav', model: Planting
 
 .row
   .col-12= page_entries_info @plantings

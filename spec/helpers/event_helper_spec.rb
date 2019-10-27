@@ -44,4 +44,16 @@ RSpec.describe EventHelper, type: :helper do
     it { expect(subject).to eq photo }
     it { expect(event_description(event)).to have_text "took a photo" }
   end
+
+  describe 'in_weeks' do
+    it { expect(in_weeks(14)).to eq 2 }
+    it { expect(in_weeks(15)).to eq 2 }
+    it { expect(in_weeks(16)).to eq 2 }
+    it { expect(in_weeks(17)).to eq 2 }
+    it { expect(in_weeks(18)).to eq 3 }
+    it { expect(in_weeks(19)).to eq 3 }
+    it { expect(in_weeks(20)).to eq 3 }
+    it { expect(in_weeks(21)).to eq 3 }
+    it { expect(in_weeks(22)).to eq 3 }
+  end
 end

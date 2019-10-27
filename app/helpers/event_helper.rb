@@ -1,4 +1,8 @@
 module EventHelper
+  def in_weeks(days)
+    (days / 7.0).round
+  end
+
   def event_description(event)
     render "#{event.event_type.pluralize}/description", event_model: resolve_model(event)
   end
