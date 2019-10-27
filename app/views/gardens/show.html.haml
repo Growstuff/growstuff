@@ -41,12 +41,10 @@
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
-    = react_component("GardenLayout", { garden: @garden })
     - if @garden.plantings.where.not(planted_at: nil).any?
-      %section.card
+      %section
         %h2 Garden progress
-        .card-body
-          = render 'plantings/progress_list', plantings: @garden.plantings.active
+        = react_component("plantings/ProgressList", { garden: @garden })
 
     %section
       %h2 Current plantings in garden

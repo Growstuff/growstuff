@@ -23,6 +23,10 @@ module Api
       attribute :finish_predicted_at
       attribute :first_harvest_date
       attribute :last_harvest_date
+      attribute :percentage_grown
+      def percentage_grown
+        @model.percentage_grown.to_i
+      end
 
       filter :slug
       filter :crop
@@ -30,11 +34,7 @@ module Api
       filter :garden
       filter :owner
       filter :finished
-
-      attribute :percentage_grown
-      def percentage_grown
-        @model.percentage_grown
-      end
+      filter :garden_id
 
       attribute :crop_name
       def crop_name
