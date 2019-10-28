@@ -8,6 +8,9 @@ engines:
     enabled: true
   eslint:
     enabled: true
+    channel: "eslint-5"
+    config:
+      config: .eslintrc.json
   coffeelint:
     enabled: true
   brakeman:
