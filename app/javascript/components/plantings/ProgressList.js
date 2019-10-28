@@ -49,27 +49,29 @@ class ProgressList extends React.Component {
     }
 
     return (
-      <section className="garden-progress">
-        <h2>Progress</h2>
-        {this.state.plantings.map((planting, index) => {
-          let url = `/plantings/${planting.slug}`;
-          let crop_name = planting['crop-name'];
+      <section className="card garden-progress">
+        <h2 className="card-title">Progress</h2>
+        <div className="card-body">
+          {this.state.plantings.map((planting, index) => {
+            let url = `/plantings/${planting.slug}`;
+            let crop_name = planting['crop-name'];
 
-          return (
-            <div key={index} className="row progress-row border-bottom">
-              <div className="col-12 col-md-4 progress-row--crop">
-                <a href={url}>
-                  <span className="chip crop-chip">
-                    {crop_name}
-                  </span>
-                </a>
+            return (
+              <div key={index} className="row progress-row">
+                <div className="col-12 col-md-4 progress-row--crop">
+                  <a href={url}>
+                    <span className="chip crop-chip">
+                      {crop_name}
+                    </span>
+                  </a>
+                </div>
+                <div className="col-12 col-md-6 progress-row--bar">
+                  <PlantingProgressBar planting={planting} />
+                </div>
               </div>
-              <div className="col-12 col-md-6 progress-row--bar">
-                <PlantingProgressBar planting={planting} />
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </section>
     )
   }
