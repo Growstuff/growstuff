@@ -113,8 +113,8 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 gem 'puma'
 
 # ReactJS on rails
-gem 'webpacker'
 gem 'react-rails'
+gem 'webpacker'
 
 gem 'loofah', '>= 2.2.1'
 gem 'rack-protection', '>= 2.0.1'
