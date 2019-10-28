@@ -1,0 +1,5 @@
+- if can? :wrangle, crop
+  %small.edit-link
+    = bootstrap_form_for(crop) do |f|
+      = f.hidden_field :perennial, value: crop.annual?
+      = f.submit :toggle

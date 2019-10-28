@@ -5,9 +5,14 @@
                           class: 'img img-card'),
                           crop
   .card-body
-    %h3.card-title
+    .card-title
       %strong= link_to crop, crop
       = crop.default_scientific_name
+      %span.text-muted
+        - if crop.perennial?
+          Perennial
+        - elsif crop.annual?
+          Annual
     .d-flex.justify-content-between
       - if crop.annual? && crop.median_lifespan.present?
         %p.small

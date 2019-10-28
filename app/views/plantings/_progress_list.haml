@@ -1,6 +1,4 @@
 - plantings.includes(:crop).annual.order(:planted_at).each_with_index do |planting, i|
-  - if i.positive?
-    %hr/
   .row.progress-row
     .col-12.col-md-4.progress-row--crop
       = render 'plantings/tiny', planting: planting
