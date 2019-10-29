@@ -41,6 +41,7 @@
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
+    
     - if @garden.plantings.where.not(planted_at: nil).any?
       = react_component("gardens/GardenProgressList", { garden: @garden })
 

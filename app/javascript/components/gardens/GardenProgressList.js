@@ -36,41 +36,40 @@ class ProgressList extends React.Component {
     this.setState({ hasError: true });
   }
 
-  render () {
-    if (this.state.loading) {
-      return (
-        <p className="mx-auto display-4 text-muted"><i className="fas fa-spinner fa-pulse"></i>Loading...</p>
-      );
-    }
-    if (this.state.hasError) {
-      return (
-        <p className="alert alert-warning">Error</p>
-      );
-    }
+  renderPlantings() {
+    return this.state.plantings.map((planting, index) => {
+      let url = `/plantings/${planting.slug}`;
+      let crop_name = planting['crop-name'];
 
+      return (
+        <div key={index} className="row progress-row">
+          <div className="col-12 col-md-4 progress-row--crop">
+            <a href={url}>
+              <span className="chip crop-chip">
+                {crop_name}
+              </span>
+            </a>
+          </div>
+          <div className="col-12 col-md-6 progress-row--bar">
+            <PlantingProgressBar planting={planting} />
+          </div>
+        </div>
+      );
+    });
+  }
+
+  render () {
     return (
       <section className="card garden-progress">
         <h2 className="card-title">Progress</h2>
         <div className="card-body">
-          {this.state.plantings.map((planting, index) => {
-            let url = `/plantings/${planting.slug}`;
-            let crop_name = planting['crop-name'];
-
-            return (
-              <div key={index} className="row progress-row">
-                <div className="col-12 col-md-4 progress-row--crop">
-                  <a href={url}>
-                    <span className="chip crop-chip">
-                      {crop_name}
-                    </span>
-                  </a>
-                </div>
-                <div className="col-12 col-md-6 progress-row--bar">
-                  <PlantingProgressBar planting={planting} />
-                </div>
-              </div>
-            );
-          })}
+          {this.state.loading &&
+            <p className="mx-auto display-4 text-muted"><i className="fas fa-spinner fa-pulse"></i>Loading...</p>
+          }
+          {this.state.hasError &&
+            <p className="alert alert-warning">Error</p>
+          }
+          {this.renderPlantings()}
         </div>
       </section>
     )
