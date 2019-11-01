@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_21_211652) do
+ActiveRecord::Schema.define(version: 2019_10_29_024101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -521,6 +521,7 @@ ActiveRecord::Schema.define(version: 2019_09_21_211652) do
     t.boolean "finished", default: false
     t.date "finished_at"
     t.integer "parent_planting_id"
+    t.date "saved_at"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
   end
 

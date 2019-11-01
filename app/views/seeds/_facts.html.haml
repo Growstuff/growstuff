@@ -17,9 +17,6 @@
       - else
         Unknown
 
-  -if seed.finished_at.present?
-    .card
-      %h3 Finished at
 
   .card{class: seed.days_until_maturity_max.present? ? '' : 'text-muted'}
     %h3 Days until maturity
@@ -39,3 +36,14 @@
           = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
       - else
         (from #{link_to seed.owner.location, place_path(seed.owner.location, anchor: "seeds")})
+
+  - if seed.finished_at.present? || seed.finished?
+    .card
+      %h3 Finished
+      %strong
+        - if seed.finished_at.present?
+          = I18n.t('date.abbr_month_names')[seed.finished_at.month]
+        -elsif seed.finished?
+          = finished_icon
+      - if seed.finished_at.present?
+        %span= seed.finished_at.year

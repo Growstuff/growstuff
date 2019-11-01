@@ -27,7 +27,16 @@
             Finished
           - elsif @planting.percentage_grown.present?
             #{@planting.percentage_grown.to_i}%
+
         = render 'timeline', planting: @planting
+
+      - if @planting.parent_seed.nil? && @matching_seeds && @matching_seeds.any? && @planting.owner == current_member
+        .alert.alert-info{role: "alert"}
+          = bootstrap_form_for(@planting) do |f|
+            Is this from one of these plantings?
+            - @matching_seeds.each do |seed|
+              = f.radio_button :parent_seed_id, seed.id, label: seed
+            = f.submit "save", class: 'btn btn-sm'
 
     .col-md-4.col-xs-12
       = render 'plantings/owner', planting: @planting

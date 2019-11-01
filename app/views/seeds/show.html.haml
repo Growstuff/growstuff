@@ -17,30 +17,29 @@
 
 .seed
   .row
-    .col-md-8.col-xs-12
-      %h1
-        %span.seedtitle--icon= crop_icon(@seed.crop)
-        %strong
-          %span.seedtitle--owner #{@seed.owner}'s
-          %span.seedtitle--crop #{@seed.crop}
-          seeds
+    .col-md-9.col-12
+      .jumbotron
+        .d-flex.justify-content-between
+          %h1.display-3
+            = crop_icon(@seed.crop)
+            = @seed.crop.name.titleize
+            seeds
+          %span.text-muted= I18n.l @seed.created_at.to_date
         - if @seed.organic != 'unknown'
-          %small.seedtitle--organic= @seed.organic
+          .badge.badge-success.seedtitle--organic= @seed.organic
         - if @seed.gmo != 'unknown'
-          %small.seedtitle--gmo= @seed.gmo
+          .badge.badge-success.seedtitle--gmo= @seed.gmo
         - if @seed.heirloom != 'unknown'
-          %small.seedtitle--heirloom= @seed.heirloom
-        = I18n.l @seed.created_at.to_date
-
-    .col-md-4.col-xs-12
+          .badge.badge-success.seedtitle--heirloom= @seed.heirloom
+        - if @seed.parent_planting
+          %p
+            Saved from planting:
+            = planting_icon
+            = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
       = render 'seeds/actions', seed: @seed
 
-    .col-md-8.col-xs-12
       %section= render 'facts', seed: @seed
-      - if @seed.parent_planting
-        %dt Saved from planting:
-        %dd
-          = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
+
       - unless @seed.description.blank?
         = cute_icon
         .card.seed--description
@@ -64,17 +63,7 @@
       %section.seed-photos
         - @photos.each do |photo|
           = render 'photos/hero', photo: photo
-      %p
-        %small
-          Or
-          = link_to "purchase seeds via Ebay",
-          crop_ebay_seeds_url(@seed.crop), target: "_blank", rel: "noopener noreferrer", class: 'btn'
-      - if @seed.owner.location
-        %p
-          %small
-            View other seeds, members to trade with and more near
-            = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")
-    .col-md-4.col-xs-12
+
+    .col-md-3.col-12
       = render 'seeds/owner'
       = render @seed.crop
-
