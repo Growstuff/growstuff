@@ -147,6 +147,14 @@ section {
       height: 50%;
     }
   }
+
+  .thumbnail {
+    height: 100px;
+    img {
+      border-radius: 5px;
+      height: 75px;
+    }
+  }
 }
 
 img.img-cute {

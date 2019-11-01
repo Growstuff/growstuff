@@ -2,10 +2,7 @@
   - if planting.parent_seed
     .card.fact-card
       %h3 Parent seed
-      %strong.plantingfact--parentseed
-        = link_to seed_path(planting.parent_seed) do
-          = seed_icon
-      %span=planting.parent_seed
+      = render 'seeds/thumbnail', seed: planting.parent_seed
 
   .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
     %h3
