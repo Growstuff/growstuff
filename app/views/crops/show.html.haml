@@ -47,8 +47,11 @@
             %h2 Harvested for
             = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-    %section.varieties
-      = render 'varieties', crop: @crop
+    - if @crop.varieties.any?
+      %section.varieties
+        %h2 Varieties
+        .index-cards
+          = render 'varieties', crop: @crop
 
     %section.crop-map
       %h2
