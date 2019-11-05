@@ -25,11 +25,9 @@ module Api
       attribute :last_harvest_date
 
       # crops
-      attribute :crop_name
-      attribute :perennial
-      def perennial
-        @model.crop_perennial
-      end
+      attributes :crop_name, :crop_perennial
+      attribute :owner_login_name
+
       # calculated attributes
       attribute :percentage_grown
       def percentage_grown
@@ -50,7 +48,15 @@ module Api
         if value
           records.active
         else
-          record.not.active
+          records.not.active
+        end
+      }
+
+      filter :interesting, apply: lambda { |records, value, _options|
+        if value
+          records.interesting
+        else
+          records
         end
       }
 

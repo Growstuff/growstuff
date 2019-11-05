@@ -67,6 +67,10 @@ class Harvest < ApplicationRecord
   validate :owner_must_match_planting
   validate :harvest_must_be_after_planting
 
+  delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count, :perennial,
+           to: :crop, prefix: true
+  delegate :login_name, to: :owner, prefix: true
+
   def time_from_planting_to_harvest
     return if planting.blank?
 

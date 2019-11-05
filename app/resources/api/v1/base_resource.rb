@@ -3,6 +3,7 @@ module Api
     class BaseResource < JSONAPI::Resource
       immutable
       abstract
+      attribute :slug
     end
   end
 end

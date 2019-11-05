@@ -47,6 +47,7 @@ class Planting < ApplicationRecord
   ## Delegations
   delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count, :perennial,
            to: :crop, prefix: true
+  delegate :login_name, to: :owner, prefix: true
 
   delegate :annual?, to: :crop
   ##
