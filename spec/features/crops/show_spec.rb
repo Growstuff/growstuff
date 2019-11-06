@@ -1,11 +1,21 @@
 require 'rails_helper'
 
 describe "browse crops" do
-  let(:tomato) { create :tomato }
+  let(:tomato) { FactoryBot.create :tomato }
 
   it "Show crop info" do
     visit crop_path(tomato)
     expect(page).to have_text 'tomato'
+  end
+
+  describe "shows varieties" do
+    let!(:cherry) { FactoryBot.create :crop, name: 'cherry tomato', parent: tomato }
+    let!(:heirloom) { FactoryBot.create :crop, name: 'heirloom tomato', parent: tomato }
+    let!(:striped) { FactoryBot.create :crop, name: 'striped tomato', parent: heirloom }
+    before { visit crop_path(tomato) }
+    it { expect(page).to have_link heirloom.name, href: crop_path(heirloom) }
+    it { expect(page).to have_link cherry.name, href: crop_path(cherry) }
+    it { expect(page).to have_link striped.name, href: crop_path(striped) }
   end
 
   context "when the most recently created harvest is not the most recently harvested" do
