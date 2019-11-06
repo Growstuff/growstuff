@@ -23,19 +23,11 @@ module Api
       end
 
       filter :interesting, apply: lambda { |records, value, _options|
-        if value
-          records.interesting
-        else
-          records
-        end
+        value ? records.interesting : records
       }
 
       filter :random, apply: lambda { |records, value, _options|
-        if value
-          records.shuffle
-        else
-          records
-        end
+        value ? records.shuffle : records
       }
     end
   end
