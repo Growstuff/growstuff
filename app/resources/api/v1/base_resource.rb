@@ -4,6 +4,7 @@ module Api
       immutable
       abstract
       attribute :slug
+      filters :slug
     end
   end
 end

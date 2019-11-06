@@ -9,7 +9,6 @@ module Api
       has_many :photos
       has_many :harvests
 
-      attribute :slug
       attribute :planted_at
       attribute :finished
       attribute :finished_at
@@ -38,7 +37,6 @@ module Api
         @model.default_photo&.thumbnail_url
       end
 
-      filter :slug
       filter :crop_id
       filter :owner_id
       filter :finished

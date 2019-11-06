@@ -8,13 +8,13 @@ module Api
       has_one :owner, class_name: 'Member'
       has_many :photos
 
-      attribute :harvested_at
-      attributes :description, :slug
+      attributes :harvested_at
+      attributes :description
       attributes :unit, :weight_quantity
-      attribute :weight_unit
-      attribute :si_weight
+      attributes :weight_unit
+      attributes :si_weight
       attributes :crop_name, :owner_login_name
-      attribute :thumbnail
+      attributes :thumbnail
       def thumbnail
         @model.default_photo&.thumbnail_url
       end
