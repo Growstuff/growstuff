@@ -6,10 +6,9 @@
 .pagination
   = will_paginate @requested
 
-.row
+.index-cards
   - @requested.each do |crop|
-    .col-md-2.six-across
-      = render partial: "thumbnail", locals: { crop: crop }
+    = render partial: "thumbnail", locals: { crop: crop }
 
 .pagination
   = will_paginate @requested

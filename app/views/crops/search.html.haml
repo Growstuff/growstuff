@@ -2,25 +2,23 @@
   %li.breadcrumb-item= link_to 'Crops', crops_path
   %li.breadcrumb-item.active= link_to 'Search', search_crops_path(term: @term)
 
-%section.crops-search-form
-
-  - if @term
-    - content_for :title, "Crops matching \"#{@term}\""
-    %h1 Crops matching "#{@term}"
+- if @term
+  - content_for :title, "Crops matching \"#{@term}\""
+  %h1
+    Crops matching "#{@term}"
     - if @crops
-      %h2.text-muted Found #{@crops.size} total
-  - else
-    - content_for :title, "Crop search"
-    %h1 Crop search
+      %span.text-muted Found #{@crops.size} total
+- else
+  - content_for :title, "Crop search"
+  %h1 Crop search
 
-
-  = bootstrap_form_tag(url: search_crops_path, method: :get, html: { id: 'crop-search'}, layout: :inline) do |f|
-    = f.label :term, "Search crops:", class: 'sr-only'
-    = f.text_field 'term', class: 'search-query input-medium',
-                     placeholder: 'Search crops',
-                     label: 'crop',
-                     value: @term
-    = f.submit "Search", class: 'btn btn-success'
+= bootstrap_form_tag(url: search_crops_path, method: :get, html: { id: 'crop-search'}, layout: :inline) do |f|
+  = f.label :term, "Search crops:", class: 'sr-only'
+  = f.text_field 'term', class: 'search-query input-medium',
+                   placeholder: 'Search crops',
+                   label: 'crop',
+                   value: @term
+  = f.submit "Search", class: 'btn btn-success'
 
 - if @crops.empty?
   %h2 No results found
@@ -32,12 +30,11 @@
     instead.
 
 - else
-  .pagination= will_paginate @crops
+  = will_paginate @crops
 
-  .crops
-    .row
-      - @crops.each do |crop|
-        .col-6.col-md-3= render 'crops/thumbnail', crop: crop
+  .index-cards
+    - @crops.each do |crop|
+      = render 'crops/thumbnail', crop: crop
 
 
-  .pagination= will_paginate @crops
+  = will_paginate @crops

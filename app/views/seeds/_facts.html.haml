@@ -1,0 +1,49 @@
+.index-cards.facts.seedfacts
+  .card{class: seed.quantity.present? ? '' : 'text-muted'}
+    %h3
+      Quantity
+      = editable :text_field, seed, :quantity, display_field: '.seedfacts--quantity'
+    %strong.seedfacts--quantity= seed.quantity.blank? ? "not specified" : seed.quantity
+    %span
+      seeds
+
+  .card.seedfacts--card{class: seed.plant_before.present? ? '' : 'text-muted'}
+    %h3
+      Plant before
+      = editable :date, seed, :plant_before, display_field: '.seedfacts--plantbefore'
+    %strong.seedfacts--plantbefore
+      - if seed.plant_before.present?
+        = I18n.l(seed.plant_before)
+      - else
+        Unknown
+
+
+  .card{class: seed.days_until_maturity_max.present? ? '' : 'text-muted'}
+    %h3 Days until maturity
+    %strong.seedfacts--maturity
+      = render partial: 'days_until_maturity', locals: { seed: seed }
+    %span days
+
+  .card
+    %h3
+      Will trade
+      = editable :select, seed, :tradable_to, collection: Seed::TRADABLE_TO_VALUES, display_field: '.seedfacts--tradableto'
+    %strong.seedfacts--tradableto= seed.tradable_to
+    %span
+      - if seed.owner.location.blank?
+        (from unspecified location)
+        - if current_member == seed.owner
+          = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-default btn-xs'
+      - else
+        (from #{link_to seed.owner.location, place_path(seed.owner.location, anchor: "seeds")})
+
+  - if seed.finished_at.present? || seed.finished?
+    .card
+      %h3 Finished
+      %strong
+        - if seed.finished_at.present?
+          = I18n.t('date.abbr_month_names')[seed.finished_at.month]
+        -elsif seed.finished?
+          = finished_icon
+      - if seed.finished_at.present?
+        %span= seed.finished_at.year

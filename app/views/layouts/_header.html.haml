@@ -1,20 +1,58 @@
 %nav.navbar.navbar-expand-lg.navbar-dark.default-color.bg-dark
-  %a.navbar-brand.d-xs-none{ href: root_path }
-    = image_tag("growstuff-brand.png", size: "200x50", alt: ENV['GROWSTUFF_SITE_NAME'])
-  %a.navbar-brand.d-none.d-xs{ href: root_path }
-    = image_tag("growstuff-apple-touch-icon-precomposed.png",
-                size: "40x40", alt: ENV['GROWSTUFF_SITE_NAME'])
-  %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", type: "button"}
-    %span.navbar-toggler-icon
+  .row
+    .col-2.col-lg-4
+      .d-none.d-lg-inline
+        %a.navbar-brand{ href: root_path }
+          = image_tag("growstuff-brand.png", size: "200x50", alt: ENV['GROWSTUFF_SITE_NAME'])
+      .d-inline.d-lg-none
+        %a.navbar-brand{ href: root_path }
+          = image_tag("growstuff-apple-touch-icon-precomposed.png", size: "40x40",
+            alt: ENV['GROWSTUFF_SITE_NAME'])
+    .col-8.col-lg-7
+      = render 'crops/search_bar'
+    .col-2.col-lg-1
+      %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", type: "button"}
+        %i.fas.fa-ellipsis-v.navbar-toggler-icon
+
   #navbarSupportedContent.collapse.navbar-collapse
     %ul.navbar-nav.mr-auto
+      - if signed_in?
+        = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
+          = image_tag 'icons/notification.svg', class: 'img img-icon'
+        = link_to member_gardens_path(member_slug: current_member.slug), class: 'nav-link text-white' do
+          = image_icon 'gardens'
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+            = image_tag "icons/gardener.svg", class: 'img img-icon'
+            = t('.record')
+          .dropdown-menu
+            = link_to new_planting_path, class: 'dropdown-item' do
+              = image_icon('planting-add')
+              = t('buttons.new_planting')
+            = link_to new_harvest_path, class: 'dropdown-item' do
+              = image_icon('harvest-add')
+              = t('buttons.new_harvest')
+            = link_to new_seed_path, class: 'dropdown-item' do
+              = image_icon('seed-add')
+              = t('buttons.new_seeds')
+            = link_to new_post_path, class: 'dropdown-item' do
+              = post_icon
+              = t('buttons.new_post')
+
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}= t('.crops')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.crops')
         .dropdown-menu
-          = link_to t('.browse_crops'), crops_path, class: 'dropdown-item'
-          = link_to t('.seeds'), seeds_path, class: 'dropdown-item'
-          = link_to t('.plantings'), plantings_path, class: 'dropdown-item'
-          = link_to t('.harvests'), harvests_path, class: 'dropdown-item'
+          = link_to crops_path, class: 'dropdown-item' do
+            = t('.browse_crops')
+          = link_to seeds_path, class: 'dropdown-item' do
+            = seed_icon
+            = t('.seeds')
+          = link_to plantings_path, class: 'dropdown-item' do
+            = planting_icon
+            = t('.plantings')
+          = link_to harvests_path, class: 'dropdown-item' do
+            = harvest_icon
+            = t('.harvests')
 
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
@@ -23,7 +61,6 @@
           = link_to t('.browse_members'), members_path, class: 'dropdown-item'
           = link_to t('.posts'), posts_path, class: 'dropdown-item'
           = link_to t('.forums'), forums_path, class: 'dropdown-item'
-
 
       - if member_signed_in?
         %li.nav-item.dropdown
@@ -70,4 +107,3 @@
       - else
         %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn nav-link'
         %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn nav-link'
-    = render 'crops/search_bar'

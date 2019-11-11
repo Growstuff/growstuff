@@ -1,10 +1,11 @@
 .card.thumbnail
-  /= render 'plantings/quick_actions', planting: planting
   .planting-thumbnail-image
-    = link_to image_tag(planting_image_path(planting, full_size: true),
+    = link_to image_tag(planting_image_path(planting),
                         alt: planting.crop, class: 'img-card'),
                         planting
   .card-body
-    %h5.card-title= link_to planting.crop, planting
+    %h5.card-title
+      = crop_icon(planting.crop)
+      = link_to planting.crop, planting
     %h6.card-subtitle.text-muted=planting.finished_at
     = render 'plantings/badges', planting: planting

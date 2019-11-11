@@ -1,0 +1,6 @@
+.card.fact-card
+  .card-body.text-center
+    %h3= title
+    %strong= value
+    - if description.present?
+      %span= description

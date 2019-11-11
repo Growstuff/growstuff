@@ -29,10 +29,6 @@ module PlantingsHelper
     end
   end
 
-  def plantings_active_tickbox_path(owner, show_all)
-    show_inactive_tickbox_path('plantings', owner, show_all)
-  end
-
   def days_from_now_to_finished(planting)
     return unless planting.finish_is_predicatable?
 

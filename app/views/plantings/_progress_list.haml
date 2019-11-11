@@ -1,0 +1,15 @@
+- plantings.includes(:crop).annual.order(:planted_at).each_with_index do |planting, i|
+  - if i.positive?
+    %hr/
+  .row.progress-row
+    .col-12.col-md-4.progress-row--crop
+      = render 'plantings/tiny', planting: planting
+      = render 'plantings/badges', planting: planting
+    .col-12.col-md-6.progress-row--bar
+      - if planting.planted_at.blank?
+        %small set "planted" date to allow predictions
+      - elsif planting.percentage_grown.blank?
+        %small not enough data on #{planting.crop} to predict
+      - else
+        = render 'plantings/progress', planting: planting
+    .col-12.col-md-2= render 'plantings/quick_actions', planting: planting

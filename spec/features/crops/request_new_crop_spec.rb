@@ -20,19 +20,17 @@ describe "Requesting a new crop" do
 
     it "Approve a request" do
       visit edit_crop_path(crop)
-      select "approved", from: "Approval status"
-      click_button "Save"
+      click_button "Approve and save"
       expect(page).to have_content "En wikipedia url is not a valid English Wikipedia URL"
       fill_in "en_wikipedia_url", with: "http://en.wikipedia.org/wiki/Aung_San_Suu_Kyi"
-      click_button "Save"
+      click_button "Approve and save"
       expect(page).to have_content "crop was successfully updated."
     end
 
     it "Rejecting a crop" do
       visit edit_crop_path(crop)
-      select "rejected", from: "Approval status"
       select "not edible", from: "Reason for rejection"
-      click_button "Save"
+      click_button "Reject"
       expect(page).to have_content "crop was successfully updated."
     end
   end

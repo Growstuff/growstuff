@@ -5,12 +5,20 @@ module IconsHelper
     send("#{event_model}_icon")
   end
 
+  def cute_icon
+    icons = %w(slug sprinkler bee ant hose grass rabbit slug-eating snail earth-worm insect watering-can
+               wheelbarrow cat spiderweb bug butterfly ladybird stones)
+    rand_num = rand(1..icons.size)
+    icon = icons[rand_num - 1]
+    image_tag("icons/#{icon}.svg", class: 'img img-cute', alt: icon)
+  end
+
   def timeline_icon
-    icon('far', 'calendar')
+    image_icon 'timeline'
   end
 
   def garden_icon
-    image_icon 'home'
+    image_icon 'gardens'
   end
 
   def planting_icon
@@ -25,6 +33,10 @@ module IconsHelper
     image_icon 'harvest'
   end
 
+  def growing_icon
+    image_icon 'growing'
+  end
+
   def seed_icon
     image_icon 'seeds'
   end
@@ -34,19 +46,23 @@ module IconsHelper
   end
 
   def finished_icon
-    icon('fas', 'calendar')
+    image_icon 'finish'
   end
 
   def edit_icon
-    icon('fas', 'edit')
+    image_icon 'edit'
   end
 
   def delete_icon
-    icon('fas', 'trash-alt')
+    image_icon 'delete'
+  end
+
+  def add_photo_icon
+    image_icon 'add-photo'
   end
 
   def photo_icon
-    icon('fas', 'camera-retro')
+    image_icon 'photo'
   end
 
   def seedling_icon
@@ -73,11 +89,26 @@ module IconsHelper
     icon('fas', 'heart')
   end
 
-  def sunniness_icon(sunniness)
-    if sunniness.present?
-      image_tag("sunniness_#{sunniness}.png", class: 'img', alt: sunniness, width: 55)
+  def crop_icon(crop)
+    if crop.svg_icon.present?
+      image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon')
+    elsif crop.parent.present?
+      crop_icon(crop.parent)
     else
-      image_tag("sunniness_not_specified.png", class: 'img', alt: 'unknown', width: 55)
+      planting_icon
+    end
+  end
+
+  def sunniness_icon(sunniness)
+    case sunniness
+    when 'sun'
+      icon 'far', 'sun'
+    when 'shade'
+      icon 'fas', 'umbrella-beach'
+    when 'semi-shade'
+      icon 'fas', 'cloud-sun'
+    else
+      icon 'fas', 'question'
     end
   end
 

@@ -50,6 +50,7 @@ class Member < ApplicationRecord
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
+  scope :wants_reminders, -> { where(send_planting_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

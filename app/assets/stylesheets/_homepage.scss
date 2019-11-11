@@ -1,76 +1,17 @@
-// signup widget on homepage
-.jumbotron .signup {
-  background-color: lighten($green, 40%);
-  border: 1px solid lighten($green, 20%);
-  border-radius: 6px;
-  line-height: 200%;
-  padding: 15px;
-  text-align: center;
+
+// stats shown on homepage. eg. "999 members..."
+.stats {
+  font-weight: bold;
 }
 
-.homepage-cards {
-  display: flex;
-  flex: none;
-  flex-wrap: wrap;
-  margin: .5em;
-  // left: -.5em;
-
-  .card {
-    left: -.5em;
-    margin: .5em;
-    min-height: 100px;
-    padding: 0;
-
-    %h3.crop-name {
-      font-size: 2em;
-    }
-  }
-
-  .crop-card {
-    min-height: 80px;
-    width: 120px;
-  }
-
-  .thumbnail {
-    margin: .5em;
-  }
-
-  .img-card {
-    height: 150px;
-  }
-
-}
-
-.member-cards {
-  display: flex;
-  flex: none;
-  flex-wrap: wrap;
-
-  .card {
-    margin: 1em;
-    width: 150px;
+.crops,
+.seeds,
+.members {
+  .index-cards {
+    justify-content: center;
   }
 }
 
-
-@include media-breakpoint-down(sm) {
-  .homepage-cards {
-    .seed-card {
-      min-height: 80px;
-      width: 100%;
-    }
-
-    .member-card {
-      min-height: 80px;
-      width: 150px;
-    }
-  }
-}
-
-@include media-breakpoint-up(md) {
-  .homepage-cards {
-    .card {
-      width: 200px;
-    }
-  }
+.homepage--list-item {
+  height: 100px;
 }

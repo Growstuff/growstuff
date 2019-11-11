@@ -1,10 +1,11 @@
 .card.photo-card{id: "photo-#{photo.id}"}
-  = link_to image_tag(photo.fullsize_url, alt: photo.title, class: 'img img-card'), photo
+  = link_to image_tag(photo.source == 'flickr' ? photo.fullsize_url : photo.thumbnail_url, alt: photo.title, class: 'img img-card'), photo
   .card-body
-    %h5.ellipsis= link_to photo.title, photo
+    %h5.ellipsis
+      = photo_icon
+      = link_to photo.title, photo
     %i by #{link_to photo.owner, photo.owner}
     - if photo.date_taken.present?
-      %small
-        %time{datetime: photo.date_taken}
-          = I18n.l(photo.date_taken.to_date)
+      %small.text-muted
+        %time{datetime: photo.date_taken}= I18n.l(photo.date_taken.to_date)
     = render 'photos/likes', photo: photo

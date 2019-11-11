@@ -21,45 +21,43 @@ describe "Planting reminder email", :js do
     end
 
     it "doesn't list plantings" do
-      expect(mail).not_to have_content "most recent plantings you've told us about"
+      expect(mail).not_to have_content "Progress report"
     end
   end
 
   context "when member has some plantings" do
     # Bangs are used on the following 2 let blocks in order to ensure that the plantings are present
     # in the database before the email is generated: otherwise, they won't be present in the email.
-    let!(:p1) { create :planting, garden: member.gardens.first, owner: member }
-    let!(:p2) { create :planting, garden: member.gardens.first, owner: member }
+    let!(:p1) { FactoryBot.create :predicatable_planting, planted_at: 10.days.ago, garden: member.gardens.first, owner: member }
+    let!(:p2) { FactoryBot.create :predicatable_planting, planted_at: 30.days.ago, garden: member.gardens.first, owner: member }
 
-    it "lists plantings" do
-      expect(mail).to have_content "most recent plantings you've told us about"
-      expect(mail).to have_link p1.to_s, href: planting_url(p1)
-      expect(mail).to have_link p2.to_s, href: planting_url(p2)
-      expect(mail).to have_content "keep your garden records up to date"
+    describe "lists plantings" do
+      it { expect(mail).to have_content "Progress report" }
+      it { expect(mail).to have_link p1.crop.to_s, href: planting_url(p1) }
+      it { expect(mail).to have_link p2.crop.to_s, href: planting_url(p2) }
+      it { expect(mail).to have_content "keep your garden records up to date" }
     end
   end
 
   context "when member has no harvests" do
-    it "tells you to tracking plantings" do
-      expect(mail).to have_content "Get started now by tracking your first harvest"
-    end
-
     it "doesn't list plantings" do
-      expect(mail).not_to have_content "the last few things you harvested were"
+      expect(mail).not_to have_content "Ready to harvest"
     end
   end
 
   context "when member has some harvests" do
     # Bangs are used on the following 2 let blocks in order to ensure that the plantings are present
     # in the database before the spec is run.
-    let!(:h1) { create :harvest, owner: member }
-    let!(:h2) { create :harvest, owner: member }
+    let!(:p1) { FactoryBot.create :predicatable_planting, garden: member.gardens.first, owner: member, planted_at: 20.days.ago }
+    let!(:p2) { FactoryBot.create :predicatable_planting, garden: member.gardens.first, owner: member }
+    let!(:h1) { FactoryBot.create :harvest, owner: member, planting: p1, harvested_at: 1.day.ago }
+    let!(:h2) { FactoryBot.create :harvest, owner: member, planting: p2, harvested_at: 3.days.ago }
 
-    it "lists harvests" do
-      expect(mail).to have_content "the last few things you harvested were"
-      expect(mail).to have_link h1.to_s, href: harvest_url(h1)
-      expect(mail).to have_link h2.to_s, href: harvest_url(h2)
-      expect(mail).to have_content "Harvested anything else lately?"
+    describe "lists planting that are ready for harvest" do
+      it { expect(mail).to have_content "Ready to harvest" }
+      it { expect(mail).to have_link p1.crop.name, href: planting_url(p1) }
+      it { expect(mail).to have_link p2.crop.name, href: planting_url(p2) }
+      it { expect(mail).to have_content "Harvested anything lately?" }
     end
   end
 end

@@ -11,11 +11,11 @@ $orange: #ffa500;
 $yellow: #b2935c;
 $white: #fff;
 
-
 $body-bg: $beige;
 $text-color: $brown;
 $link-color: $green;
-$graph-hover: $orange;
+
+$default-font: "Fira Sans", Helvetica, Arial, sans-serif;
 
 $primary: (
   color: $green,
@@ -43,6 +43,20 @@ $dark: (
   light: lighten($brown, 20%)
 );
 
+
+$grid-breakpoints: (
+  // Extra small screen / phone
+  xs: 0,
+  // Small screen / phone
+  sm: 576px,
+  // Medium screen / tablet
+  md: 768px,
+  // Large screen / desktop
+  lg: 1200px,
+  // Extra large screen / wide desktop
+  xl: 1800px
+);
+
 // Nav bar
 $navbar-default-bg: $brown;
 $navbar-default-bg-highlight: $brown;
@@ -53,3 +67,7 @@ $navbar-default-link-active-color: darken($beige, 80%);
 $navbar-default-brand-color: lighten($green, 20%);
 
 $highest-level:  1070;
+
+$progress-height: 5em;
+$progress-bar-color: $green;
+$progress-bg: $white;

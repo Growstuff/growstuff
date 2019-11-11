@@ -19,6 +19,7 @@ describe "seeds", js: true do
     describe "button on front page to add seeds" do
       before do
         visit root_path
+        click_link 'Record'
         click_link(href: new_seed_path)
       end
 
@@ -29,7 +30,7 @@ describe "seeds", js: true do
     describe "Clicking link to owner's profile" do
       before do
         visit member_seeds_path(member)
-        click_link "View #{member}'s profile >>"
+        click_link "View Owners Profile"
       end
 
       it { expect(current_path).to eq member_path(member) }
@@ -68,25 +69,25 @@ describe "seeds", js: true do
       describe "view seeds with max and min days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5, days_until_maturity_max: 7 }
 
-        it { expect(page).to have_content "Days until maturity: 5–7" }
+        it { expect(find('.seedfacts--maturity')).to have_content("5–7") }
       end
 
       describe "view seeds with only max days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_max: 7 }
 
-        it { expect(page).to have_content "Days until maturity: 7" }
+        it { expect(find('.seedfacts--maturity')).to have_content("7") }
       end
 
       describe "view seeds with only min days until maturity" do
         let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5 }
 
-        it { expect(page).to have_content "Days until maturity: 5" }
+        it { expect(find('.seedfacts--maturity')).to have_content("5") }
       end
 
       describe "view seeds with neither max nor min days until maturity" do
         let(:seed) { FactoryBot.create :seed }
 
-        it { expect(page).to have_content "Days until maturity: unknown" }
+        it { expect(find('.seedfacts--maturity')).to have_content "unknown" }
       end
     end
   end

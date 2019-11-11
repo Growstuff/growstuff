@@ -8,46 +8,60 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-.row
-  .col-md-8
-    %h1
-      = harvest_icon
-      #{@harvest.crop} harvested by #{@harvest.owner}
-    = render 'harvests/actions', harvest: @harvest
-    = link_to "view all #{@harvest.owner}'s harvests >>", member_harvests_path(@harvest.owner), class: 'btn'
-    .index-cards.planting-facts
-      - if @harvest.plant_part
-        .card.planting-fact-card
-          %h3 Plant part
-          %span= link_to @harvest.plant_part, @harvest.plant_part
-      - if @harvest.harvested_at.present?
-        .card.planting-fact-card
-          %h3 Harvested
-          = @harvest.harvested_at
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Harvests', harvests_path
+  %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
+  %li.breadcrumb-item.active= link_to @harvest, @harvest
 
-      .card.planting-fact-card
-        %h3 Planting
-        = render partial: 'planting'
-      .card.planting-fact-card
-        %h3 Quantity
-        %span= display_quantity(@harvest)
+.harvest
+  .row
+    .col-md-8.col-xs-12
+      %h1
+        = harvest_icon
+        #{@harvest.crop} harvested by #{@harvest.owner}
+    .col-md-4.col-xs-12
+      = render 'harvests/actions', harvest: @harvest
+    .col-md-8.col-xs-12
+      = render partial: 'planting'
+      .index-cards.facts
+        - if @harvest.plant_part
+          .card
+            %h3
+              Plant part
+              = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-plantpart'
+            %strong.harvest-plantpart= @harvest.plant_part
+        .card
+          %h3
+            Harvested
+            = editable :date, @harvest, :harvested_at, display_field: '.harvested_at'
+          %strong.harvested_at #{time_ago_in_words @harvest.harvested_at} ago
+          %span.harvested_at= I18n.l @harvest.harvested_at
 
+        .card{class: @harvest.quantity.present? ? '' : 'text-muted'}
+          %h3
+            Quantity
+            = editable :text_field, @harvest, :quantity, display_field: '.quantity'
+          %strong.quantity
+            = display_quantity(@harvest)
 
-  .col-md-4
-    .card
-      .card-body= render 'harvests/owner', harvest: @harvest
+      - if @harvest.photos.size.positive?
+        %section
+          %h2 Photos
+          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
+      %section.harvest-detail
+        %h2 Detail
+        - if @harvest.planting.present?
+          Havested from
+          = link_to @harvest.planting, @harvest.planting
 
-    = render @harvest.crop
+      - if @harvest.description.present?
+        .card
+          .card-header
+            %h2 Notes
+          .card-body
+            :growstuff_markdown
+              #{strip_tags(@harvest.description)}
 
-    %hr/
-    - if @harvest.photos.size.positive?
-      .row
-        .col-md-6= render @harvest.default_photo
-        .col-md-6
-          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3).offset(1)
-          %p.text-right= link_to 'View all photos >>', harvest_photos_path(@harvest), class: 'btn'
-  .col-md-4
-    .card
-      .card-body= render 'harvests/owner', harvest: @harvest
-
-    = render @harvest.crop
+    .col-md-4.col-xs-12
+      = render 'harvests/owner', harvest: @harvest
+      = render @harvest.crop

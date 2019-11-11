@@ -1,5 +1,4 @@
-- if crop.varieties.size.positive?
-  %h3 Varieties
-  .row
-    - crop.varieties.order(:name).each do |v|
-      .col-md-2.six-across= render 'crops/thumbnail', crop: v
+- if crop.varieties.any?
+  - crop.varieties.order(:name).each do |v|
+    = render 'crops/thumbnail', crop: v
+    = render 'crops/varieties', crop: v

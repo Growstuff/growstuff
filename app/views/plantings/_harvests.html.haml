@@ -1,11 +1,20 @@
 %h2 Harvests
+
+- if can? :edit, @planting
+  %a.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+    = harvest_icon
+    Record harvest
+
+  .dropdown-menu.dropdown-secondary
+    - PlantPart.all.each do |plant_part|
+      = link_to harvests_path(return: 'planting', harvest: {crop_id: @planting.crop_id, planting_id: @planting.id, plant_part_id: plant_part.id}), method: :post, class: 'dropdown-item' do
+        = plant_part.name
+
 - if planting.harvests.empty?
   %p No harvests recorded
   - if !planting.finished? && can?(:edit, planting) && can?(:create, Harvest)
     %p Record your harvests here to improve crop predictions, and you'll be able to compare with your garden next season.
 - else
-  .row
+  .index-cards
     - planting.harvests.order(created_at: :desc).includes(:crop).each do |harvest|
-      .col-md-2.col-sm-6= render 'harvests/thumbnail', harvest: harvest
-
-= planting_harvest_button(planting)
+      = render 'harvests/thumbnail', harvest: harvest

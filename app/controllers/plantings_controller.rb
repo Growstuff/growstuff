@@ -32,6 +32,7 @@ class PlantingsController < ApplicationController
 
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
+    @matching_seeds = matching_seeds
     respond_with @planting
   end
 
@@ -61,6 +62,7 @@ class PlantingsController < ApplicationController
 
   def create
     @planting = Planting.new(planting_params)
+    @planting.planted_at = Time.zone.now if @planting.planted_at.blank?
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
     @planting.save
@@ -110,6 +112,12 @@ class PlantingsController < ApplicationController
       .order(created_at: :desc)
       .includes(:crop, :owner, :garden)
       .paginate(page: params[:page])
+  end
+
+  def matching_seeds
+    Seed.where(crop: @planting.crop, owner: @planting.owner)
+      .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
+      .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end
 
   def specifics

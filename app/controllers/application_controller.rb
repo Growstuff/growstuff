@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
                              "/members/password/edit",
                              "/members/confirmation",
                              "/members/sign_out"]) || request.xhr?
-      store_location_for(:member, request.fullpath)
+      store_location_for(:member, request.fullpath) if request.format == :html
     end
   end
 

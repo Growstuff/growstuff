@@ -1,0 +1,14 @@
+%section.card.form-card
+  = bootstrap_form_for [:admin, @member] do |f|
+    - if @member.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@member.errors.size, "error")
+          prohibited this role from being saved:
+        %ul
+          - @member.errors.full_messages.each do |msg|
+            %li= msg
+    .card-body
+      = f.collection_check_boxes(:role_ids, Role.all, :id, :name)
+    .card-footer
+      = f.submit 'Save', class: 'btn btn-success'

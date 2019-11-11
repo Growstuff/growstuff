@@ -20,8 +20,8 @@ describe "Conversations", :js do
 
     describe 'deleting' do
       before do
-        # delete button
-        click_link class: 'delete'
+        check 'conversation_ids[]'
+        click_button 'Delete Selected'
       end
 
       describe 'view trash' do
@@ -37,6 +37,43 @@ describe "Conversations", :js do
           end
         end
       end
+    end
+  end
+
+  describe 'deleting conversations' do
+    it 'deletes multiple conversations from the inbox' do
+      sender.send_message(recipient, 'this is a message', 'message 1')
+      sender.send_message(recipient, 'this is another message', 'follow up message')
+
+      visit root_path
+      click_link 'Your Stuff'
+      click_link 'Inbox'
+
+      all('input[type=checkbox]').each(&:click)
+      click_button 'Delete Selected'
+
+      expect(page).not_to have_content 'this is a message'
+      expect(page).not_to have_content 'this is another message'
+    end
+
+    it 'deletes multiple conversations from the sentbox' do
+      sender.send_message(recipient, 'this is a message', 'message 1')
+      sender.send_message(recipient, 'this is another message', 'follow up message')
+
+      visit root_path
+      click_link 'Your Stuff'
+      click_link 'Inbox'
+
+      expect(page).to have_selector('.sent')
+      find('.sent').click
+
+      all('input[type=checkbox]').each(&:click)
+      click_button 'Delete Selected'
+
+      expect(page).to have_selector('.sent')
+      find('.sent').click
+      expect(page).not_to have_content 'this is a message'
+      expect(page).not_to have_content 'this is another message'
     end
   end
 end

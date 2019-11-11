@@ -41,6 +41,8 @@
         = f.radio_button(:perennial, true, label: "Perennial")
         %span.help-block Living more than two years
 
+      - unless @crop.approved?
+        = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
       = f.text_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
@@ -54,8 +56,8 @@
 
       -# Everyone (wranglers and requesters) gets to add scientific names
       %h2 Scientific names
-      = button_tag "+", id: "add-sci_name-row", type: "button"
-      = button_tag "-", id: "remove-sci_name-row", type: "button"
+      = button_tag "+", class: "add-sciname-row", type: "button"
+      = button_tag "-", class: "remove-sciname-row", type: "button"
 
       .form-group#scientific_names
         - @crop.scientific_names.each.with_index do |sci, index|
@@ -66,8 +68,8 @@
               = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]", class: 'form-control'
               %span.help-block Scientific name of crop.
       %h2 Alternate names
-      = button_tag "+", id: "add-alt_name-row", type: "button"
-      = button_tag "-", id: "remove-alt_name-row", type: "button"
+      = button_tag "+", class: "add-altname-row", type: "button"
+      = button_tag "-", class: "remove-altname-row", type: "button"
 
       .form-group#alternate_names
         - @crop.alternate_names.each.with_index do |alt, index|
@@ -94,8 +96,8 @@
 
       -# Now, for crop wranglers, let's have approval/rejection at the bottom of the page
       - if can?(:wrangle, @crop) && @crop.requester
-        %h2 Approve or reject pending crops
-        = f.select(:approval_status, @crop.approval_statuses, {})
+        -# %h2 Approve or reject pending crops
+        -# = f.select(:approval_status, @crop.approval_statuses, {})
         = f.select(:reason_for_rejection, @crop.reasons_for_rejection, include_blank: true)
 
         = f.text_area :rejection_notes, rows: 3
@@ -103,4 +105,9 @@
           Please provide additional notes why this crop request was rejected if the above reasons do not apply.
 
     .card-footer
-      .text-right= f.submit 'Save'
+      .text-right
+        - if @crop.approved?
+          = f.submit 'Save'
+        - else
+          = f.submit 'Reject', class: 'btn btn-danger', name: 'reject'
+          = f.submit 'Approve and save', class: 'btn btn-success', name: 'approve'

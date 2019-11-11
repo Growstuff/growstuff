@@ -1,0 +1,7 @@
+.photo.hero.jumbotron
+  .row
+    .col-6
+      = image_tag(photo.fullsize_url, alt: photo.title, class: 'img img-responsive hero-photo')
+    .col-6
+      %h3= link_to photo.title, photo
+      Taken on #{I18n.l photo.date_taken}

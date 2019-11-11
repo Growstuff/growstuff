@@ -10,20 +10,16 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
-- content_for :scripts do
-  = javascript_include_tag "charts"
-  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
-
-
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Gardens', gardens_path
   %li.breadcrumb-item.active= link_to @garden.name, gardens_path(@garden)
 
 .row
-  .col-md-9.col-sm-12
+  .col-md-9.col-12
     %h2.h1
       %strong= @garden
-      = render 'gardens/actions', garden: @garden
+  .col-md-3.col-12
+    = render 'gardens/actions', garden: @garden
 .row
   .col-md-9
     - unless @garden.active
@@ -32,7 +28,6 @@
         - if can? :edit, @garden
           = link_to 'Set it to active', edit_garden_path(@garden)
           to plant something in this garden.
-
     %div
       %p
         :growstuff_markdown
@@ -46,14 +41,14 @@
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
 
-    .row
-      .col-md-12
-        %section
-          %h3 Garden timeline
-          = timeline garden_timeline_path(@garden), adapter: "google"
+    - if @garden.plantings.where.not(planted_at: nil).any?
+      %section.card
+        %h2 Garden progress
+        .card-body
+          = render 'plantings/progress_list', plantings: @garden.plantings.active
 
     %section
-      %h3.h3 Current plantings in garden
+      %h2 Current plantings in garden
       .index-cards
         - if @current_plantings.size.positive?
           - @current_plantings.each do |planting|
@@ -61,18 +56,18 @@
         - else
           .col-md-12
             %p Nothing is currently planted here.
-    %section
-      %h3.h3 Previously planted in this garden
-      .index-cards
-        - if @finished_plantings.size.positive?
-          - @finished_plantings.each do |planting|
-            = render "plantings/thumbnail",  planting: planting
-        - else
-          %p Nothing has been planted here.
+
+    %section.companions
+      %h2 Suggestioned companions
+      - @suggested_companions.each do |companion|
+        = render 'crops/tiny', crop: companion
+
+    %section= render 'previously'
+
   .col-md-3
     .card
       .card-image
-        = image_tag garden_image_path(@garden, full_size: true), class: 'img-card', alt: 'photo of this garden'
+        = image_tag garden_image_path(@garden), class: 'img-card', alt: 'photo of this garden'
       .card-body
         %h4 About this garden
         %p
@@ -86,7 +81,7 @@
           %p
             %strong Area:
             = pluralize(@garden.area, @garden.area_unit)
-    %hr/
+
     .card
       .card-header
         %h4 #{@garden.owner}'s gardens
@@ -120,7 +115,8 @@
         = add_photo_button(@garden)
 
     - if @garden.photos.size.positive?
-      %h3= localize_plural(@garden.photos, Photo)
-      .row
-        - @garden.photos.includes(:owner).each do |photo|
-          .col-xs-6= render 'photos/thumbnail', photo: photo
+      %section.photos
+        %h2= localize_plural(@garden.photos, Photo)
+        .index-cards
+          - @garden.photos.includes(:owner).each do |photo|
+            = render 'photos/thumbnail', photo: photo

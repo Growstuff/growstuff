@@ -41,7 +41,6 @@ module PredictPlanting
       (Time.zone.today - planted_at).to_i if planted_at.present?
     end
 
-    # progress
     def percentage_grown
       if finished?
         100

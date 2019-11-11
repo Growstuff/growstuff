@@ -4,7 +4,9 @@
   - if can?(:edit, planting) && can?(:create, Photo)
     %p.text-right= add_photo_button(planting)
   %p.text-right
-    = link_to 'more photos', planting_photos_path(planting), class: 'btn'
+    = link_to planting_photos_path(planting), class: 'btn' do
+      = photo_icon
+      more photos
 - else
   %p No photos.
   - if can?(:edit, planting) && can?(:create, Photo)

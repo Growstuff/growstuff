@@ -1,17 +1,18 @@
-.well
-  .row
-    .col-md-6
-      %h4
-        Planted by
-        = link_to @planting.owner, @planting.owner
-      = link_to "view all #{@planting.owner}'s plantings", member_gardens_path(@planting.owner)
+.card
+  .card-body
+    .row
+      .col
+        %h4
+          Planted by
+          = link_to @planting.owner, @planting.owner
+        = link_to "view all #{@planting.owner}'s plantings", member_gardens_path(@planting.owner)
 
-      %p
-        Planted in
-        = link_to @planting.garden, @planting.garden
-      - if @planting.owner.location
         %p
-          %small
-            View other plantings, members and more near
-            = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
-    .col-md-6= render "members/avatar", member: @planting.owner
+          Planted in
+          = link_to @planting.garden, @planting.garden
+        - if @planting.owner.location
+          %p
+            %small
+              View other plantings, members and more near
+              = link_to @planting.owner.location, place_path(@planting.owner.location, anchor: "plantings")
+      .col= render "members/avatar", member: @planting.owner

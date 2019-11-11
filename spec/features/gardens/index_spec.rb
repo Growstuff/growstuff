@@ -103,8 +103,7 @@ describe "Gardens#index", :js do
 
       it { expect(page).to have_link href: planting_path(planting) }
       it { expect(page).to have_link href: garden_path(planting.garden) }
-      it { expect(page).to have_text '50 days' }
-      it { expect(page).to have_text '90 days' }
+      it { expect(page).to have_text '7 weeks' }
       it { expect(page).not_to have_text 'harvesting now' }
     end
 
@@ -120,8 +119,7 @@ describe "Gardens#index", :js do
       it { expect(crop.median_lifespan).to eq 90 }
 
       it { expect(page).to have_text 'harvesting now' }
-      it { expect(page).to have_text '39 days' }
-      it { expect(page).not_to have_text 'Predicted days until harvest' }
+      it { expect(page).not_to have_text 'Predicted weeks until harvest' }
     end
 
     describe 'super late' do
@@ -133,8 +131,8 @@ describe "Gardens#index", :js do
 
       it { expect(page).to have_text 'super late' }
       it { expect(page).not_to have_text 'harvesting now' }
-      it { expect(page).not_to have_text 'Predicted days until harvest' }
-      it { expect(page).not_to have_text 'Predicted days until planting is finished' }
+      it { expect(page).not_to have_text 'Predicted weeks until harvest' }
+      it { expect(page).not_to have_text 'Predicted weeks until planting is finished' }
     end
   end
 end

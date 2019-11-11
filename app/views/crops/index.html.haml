@@ -9,30 +9,23 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item.active= link_to 'Crops', crops_path
 
-%h1=t('.title')
-%p
-  #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
-  View any crop page to see which of our members have planted it and find
-  information on how to grow it yourself.
-
-
 = bootstrap_form_tag(url: crops_path, method: :get, layout: :inline) do |f|
-  = f.select "sort",
-               options_for_select({ "popularity": 'popular',
-                                    "alphabetically": 'alpha' },
-                                    @sort || 'popular'),
-               label: 'Sort by'
-  = f.submit "Show"
+  .input-group
+    = f.select "sort",
+                 options_for_select({ "popularity": 'popular',
+                                      "alphabetically": 'alpha' },
+                                      @sort || 'popular'),
+                 label: 'Sort by'
+    = f.submit "Show"
 
-.pagination= render 'layouts/pagination', collection: @crops
-
-.crops
-  .row
+%section.crops
+  %h2= t('.title')
+  = will_paginate @crops
+  .index-cards
     - @crops.each do |crop|
-      .col-6.col-md-3= render 'crops/thumbnail', crop: crop
+      = render 'crops/thumbnail', crop: crop
 
-
-.pagination= render 'layouts/pagination', collection: @crops
+  = will_paginate @crops
 
 %ul.list-inline
   %li The data on this page is available in the following formats:

@@ -1,11 +1,11 @@
+html,
 body {
-  background-color: $beige;
-  font-family: $font-family-sans-serif;
+  height: 100%;
 }
 
-section {
-  padding-top: 1em;
-  margin: 0;
+body {
+  background-color: $beige;
+  font-family: $default-font;
 }
 
 .ellipsis {
@@ -16,6 +16,11 @@ section {
 
 a {
   color: $green;
+
+  .navbar-brand {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 a:hover {
@@ -23,18 +28,8 @@ a:hover {
   text-decoration: none;
 }
 
-.card a:hover {
-  background-color: $beige;
-  color: $blue;
-}
-
-.list-inline > li.first {
-  padding-left: 0;
-}
-
-.activity-list {
-  list-style-type: none;
-  padding: 0;
+h1 {
+  font-size: 250%;
 }
 
 h2 {
@@ -43,10 +38,6 @@ h2 {
 
 h3 {
   font-size: 120%;
-}
-
-.main {
-  padding-right: 1em;
 }
 
 #navbar-search {
@@ -62,164 +53,142 @@ h3 {
   }
 }
 
+section {
+  margin: .5em 0 0;
+  padding: 0 0 1em;
+
+  h2 {
+    background-color: $green;
+    box-shadow: 1px 1px 1px 1px darken($beige, 20%);
+    color: $white;
+    padding: .2em;
+
+    a {
+      color: $white;
+    }
+  }
+
+  .card {
+    box-shadow: 1px 3px 3px 1px darken($beige, 20%);
+  }
+}
+
+.layout-actions {
+  border: 1px solid lighten($green, 20%);
+  float: right;
+}
+
 .index-cards {
   display: flex;
   flex: none;
   flex-wrap: wrap;
 
   .card {
-    margin: 1em 1em 1em 0;
+    background: $white;
+    border-radius: 5%;
+    margin: .5em .5em .5em 0;
     width: 200px;
+
+    .img-card {
+      border-top-left-radius: 5%;
+      border-top-right-radius: 5%;
+    }
   }
+  .card-finished {
+    background: darken($beige, 10%);
+    a {
+      color: $brown;
+    }
+  }
+
+  .card:hover {
+    background-color: $beige;
+  }
+}
+
+.card {
+  margin-bottom: 1em;
+
+  .img-card {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  a:hover {
+    background-color: $beige;
+    color: $blue;
+  }
+}
+
+.facts {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+
+  .card {
+    margin: 1em;
+    max-width: 100%;
+    padding: 1em;
+    text-align: center;
+    width: 170px;
+
+    strong {
+      display: block;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    span {
+      display: block;
+    }
+
+    img {
+      height: 50%;
+    }
+  }
+
+  .thumbnail {
+    height: 100px;
+    img {
+      border-radius: 5px;
+      height: 75px;
+    }
+  }
+}
+
+img.img-cute {
+  bottom: -6px;
+  left: 45px;
+  position: relative;
+  width: 3em;
+}
+
+img.img-tiny {
+  width: 50px;
 }
 
 img.img-icon {
   width: 1.2em;
 }
 
-.img-square {
-  height: 150px;
-  object-fit: cover;
-  width: 150px;
-}
-
-.img-card {
-  height: 180px;
-  object-fit: cover;
-  width: 100%;
-}
-
-.img-responsive {
+img.img-responsive {
   max-width: 100%;
 }
 
-.avatar {
+img.avatar {
   border-radius: 50%;
   padding: 1em;
   position: relative;
   z-index: 2;
 }
 
-.profile-sidebar {
-  margin-top: -5rem;
+.progress-bar {
+  border-bottom: 1em solid $progress-bar-color;
 }
 
-.profile-activity {
-  background: $white;
-  margin-top: 2em;
-  padding: 2em;
-}
-
-.sidebar {
-  border-left: 1px solid darken($beige, 10%);
-  margin-left: -1px;
-  padding-left: 1em;
-}
-
-// this is used for eg. crops and members index pages
-.six-across:nth-child(6n+1) {
-  margin-left: 0;
-}
-
-.three-across:nth-child(3n+1) {
-  clear: both;
-  margin-left: 0;
-}
-
-// let's condense the hero unit a little
-.jumbotron {
-  background-color: darken($beige, 10%);
-  padding-top: 30px;
-  padding-bottom: 30px;
-  // signup widget on homepage
-  .signup {
-    background-color: lighten($green, 40%);
-    border-radius: 6px;
-    border: 1px solid lighten($green, 20%);
-    line-height: 200%;
-    padding: 15px;
-    text-align: center;
-  }
-}
-
-// info under the main heading on homepage
-.jumbotron .info {
-  //padding-top: 15px
-  padding: 0.5em;
-  text-align: center;
-}
-
-
-// stats shown on homepage. eg. "999 members..."
-p.stats {
-  font-weight: bold;
-}
-
-.card-row {
-  display: grid;
-  grid-gap: 25px;
-  grid-row-gap: 5px;
-  grid-template-columns: 50% 50%;
-}
-.card {
-  margin-bottom: 1em
-}
-
-.progress {
-  border-radius: 0;
-
-  .progress-bar-text {
-    text-align: center;
-  }
-}
-
-#placesmap,
-#cropmap {
-  height: 500px;
-}
-
-#membermap {
-  height: 250px;
-  z-index: 0;
-}
-
-.location-not-set {
-  background-image: image-url('location-not-set.en.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 250px;
-  width: 100%;
-}
-
-.member-location {
-  font-size: small;
-  font-style: italic;
-}
-
-.member-location a {
-  color: $brown;
-}
-
-.associations {
+ul.associations {
   list-style-type: none;
-}
-
-
-li.crop-hierarchy {
-  list-style-type: disc;
-}
-
-.navbar-brand {
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-bottom {
-  margin: 40px 0 0 !important;
-}
-
-.post-actions {
-  margin-bottom: 1rem;
 }
 
 // footer
@@ -254,22 +223,10 @@ footer {
 }
 
 // ensure footer is pushed to bottom of browser window
-
 #maincontainer {
+  max-width: 2500px;
   min-height: 80%;
-}
-
-#global-actions {
-  padding-top: 10px;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-.member-image {
-  border-radius: 50%;
+  padding: 1em;
 }
 
 // Autosuggest
@@ -298,17 +255,6 @@ $state-success-bg: lighten($green, 50%);
   display: none;
 }
 
-#add-sci_name-row,
-#remove-sci_name-row,
-#add-alt_name-row,
-#remove-alt_name-row {
-  display: none;
-}
-
-.panel-footer {
-  height: 6em;
-}
-
 .panel {
   .dl-horizontal {
     text-overflow: ellipsis;
@@ -319,14 +265,6 @@ $state-success-bg: lighten($green, 50%);
 label.required:after {
   color: red;
   content:" *";
-}
-
-.margin-bottom {
-  margin-bottom: 1em;
-}
-
-.red {
-  color: red;
 }
 
 .truncate {
@@ -353,34 +291,6 @@ ul.thumbnail-buttons {
   visibility: visible;
 }
 
-.homepage-listing {
-  padding-bottom: 6px;
-}
-
-.container {
-  max-width: 1500px;
-}
-
-// Small devices (landscape phones, less than 768px)
-@include media-breakpoint-down(md) {
-  .planting-thumbnail {
-    dl.planting-attributes {
-      width: 100%;
-
-      dt {
-        text-align: left;
-        width: 120px;
-      }
-
-      dd {
-        margin-left: auto;
-        padding-left: 120px;
-      }
-    }
-  }
-}
-
-
 .form-page {
   text-align: center;
 
@@ -391,10 +301,78 @@ ul.thumbnail-buttons {
     padding: 1em;
     text-align: center;
   }
+}
 
-  .crop-card {
-    width: 100px;
+.jumbotron {
+  background-color: $beige;
+  margin-bottom: 1em;
+  padding-bottom: 30px;
+  padding-top: 30px;
+
+  // signup widget on homepage
+  .signup {
+    background-color: lighten($green, 40%);
+    border: 1px solid lighten($green, 20%);
+    border-radius: 6px;
+    line-height: 200%;
+    padding: 15px;
+    text-align: center;
   }
+
+  .info {
+    padding: .5em;
+    text-align: center;
+  }
+}
+
+.breadcrumb {
+  background-color: $beige;
+}
+
+.chip {
+  background-color: lighten($brown, 20%);
+  border-radius: 25px;
+  color: $white;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin: .2em;
+  padding: 0 25px;
+
+  a {
+    color: $white;
+  }
+
+  img {
+    border-radius: 50%;
+    float: left;
+    height: 30px;
+    margin: 0 10px 0 -25px;
+    width: 30px;
+  }
+}
+
+.progress-fade {
+  cursor: pointer;
+  float: left;
+  position: relative;
+}
+
+.progress-fade::before {
+  background: $beige;
+  bottom: 0;
+  content: '';
+  display: block;
+  left: 0;
+  opacity: .7;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background .3s linear;
+}
+
+.progress-fade:hover::before {
+  background: none;
 }
 
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
@@ -402,6 +380,23 @@ ul.thumbnail-buttons {
 @include media-breakpoint-down(xs) {
   #maincontainer {
     width: 100%;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 200%;
+  }
+
+  h2 {
+    font-size: 130%;
+  }
+
+  h3 {
+    font-size: 120%;
+  }
+
+  .card-title {
+    margin-bottom: 0;
   }
 
   .sidebar {
@@ -410,7 +405,7 @@ ul.thumbnail-buttons {
     padding-left: 0;
   }
 
-  #map {
+  .map {
     height: 300px;
   }
 
@@ -427,20 +422,32 @@ ul.thumbnail-buttons {
     }
   }
 
-  #maincontainer {
-    padding: 10px;
+  .nav .btn {
+    background-color: lighten($green, 50%);
+    width: 100%;
   }
 
-  .homepage-cards {
-    .crop-card {
-      width: 50px;
-    }
+  section .btn {
+    width: 100%;
   }
 
   .index-cards {
     .card {
-      width: 100%;
-      margin: 0.5em;
+      margin: .2em;
+      width: 48%;
+
+      // Shrink title to fit more on page
+      .card-title {
+        font-size: 1em;
+      }
+
+      // Restrict height of image when on smaller screens
+      .img-card {
+        height: 100px;
+        object-fit: cover;
+        width: 100%;
+      }
+
     }
   }
 }

@@ -1,0 +1,17 @@
+.card
+  .card-body
+    .row
+      .col-md-8
+        %h4
+          Saved by
+          = link_to @seed.owner, @seed.owner
+        = link_to "view all #{@seed.owner}'s seeds", member_seeds_path(@seed.owner)
+
+      .col-md-4= render "members/avatar", member: @seed.owner
+    .row
+      .col-12
+        - if @seed.owner.location
+          %p
+            %small
+              View other seeds, members and more near
+              = link_to @seed.owner.location, place_path(@seed.owner.location, anchor: "seeds")

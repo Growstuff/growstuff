@@ -9,33 +9,59 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Plantings', plantings_path
+  %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
+  %li.breadcrumb-item.active= link_to @planting.crop.name, @planting
 
 .planting
   .row
     .col-md-8.col-xs-12
-      %h1
-        = planting_icon
-        %strong= @planting
-        = render 'plantings/actions', planting: @planting
+      .jumbotron
+        .d-flex.justify-content-between
+          %h1.display-3
+            = crop_icon(@planting.crop)
+            %strong= @planting.crop.name.titleize
+            %small.text-muted= @planting.crop.default_scientific_name
+          - if @planting.finished?
+            Finished
+          - elsif @planting.percentage_grown.present?
+            #{@planting.percentage_grown.to_i}%
 
+        = render 'timeline', planting: @planting
+
+      - if @planting.parent_seed.nil? && @matching_seeds && @matching_seeds.any? && @planting.owner == current_member
+        .alert.alert-info{role: "alert"}
+          = bootstrap_form_for(@planting) do |f|
+            Is this from one of these plantings?
+            - @matching_seeds.each do |seed|
+              = f.radio_button :parent_seed_id, seed.id, label: seed
+            = f.submit "save", class: 'btn btn-sm'
+
+    .col-md-4.col-xs-12
+      = render 'plantings/owner', planting: @planting
+
+    .col-md-8.col-xs-12
       %section= render 'facts', planting: @planting
       - if @planting.description.present?
-        %hr/
+        = cute_icon
         .card
           .card-header
             %h2 Notes
           .card-body
             :growstuff_markdown
               #{strip_tags(@planting.description)}
-      %hr/
       %section= render 'plantings/photos', photos: @photos, planting: @planting
-    .col-md-4.col-xs-12.text-right
-      .card
-        .card-body= render 'plantings/owner', planting: @planting
+    .col-md-4.col-xs-12
+      = render 'plantings/actions', planting: @planting
+      %hr/
       = render @planting.crop
   .row
-    .col-md-12
-      %hr/
-      = render 'plantings/harvests', planting: @planting
-      %hr/
-      = render 'plantings/descendants', planting: @planting
+    .col-md-6
+      %section.harvests
+        %a{name: 'harvests'}
+        = render 'plantings/harvests', planting: @planting
+    .col-md-6
+      %section.descendants
+        %a{name: 'seeds'}
+        = render 'plantings/descendants', planting: @planting

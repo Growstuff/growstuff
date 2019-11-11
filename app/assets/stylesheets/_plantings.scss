@@ -26,14 +26,6 @@
       font-size: 200%;
     }
   }
-  .progress {
-    .progress-bar {
-      border-bottom-color: $green;
-    }
-    .progress-bar:after {
-      background-color: $beige;
-    }
-  }
 
   .planting-name {
     position: relative;
@@ -42,7 +34,6 @@
   }
 
   .planting-quick-actions {
-    background-color: $white;
     left: 0;
     position: absolute;
     top: 0;
@@ -59,38 +50,6 @@
 
     dd {
       margin-left: auto;
-    }
-  }
-}
-
-
-
-.planting-facts {
-  display: flex;
-  flex-wrap: wrap;
-  flex: none;
-
-  .planting-fact-card {
-    background: $white;
-    background: $white;
-    border-radius: 5%;
-    border: 1px solid lighten($green, 20%);
-    margin: 1em;
-    padding: 1em;
-    text-align: center;
-    width: 120px;
-
-    strong {
-      font-align: center;
-      font-size: 4em;
-    }
-
-    span {
-      display: block;
-    }
-
-    img {
-      height: 50%;
     }
   }
 }

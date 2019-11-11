@@ -1,6 +1,6 @@
-.card.planting
+.card.planting{class: planting.active? ? '' : 'card-finished'}
   = link_to planting do
-    = image_tag planting_image_path(planting, full_size: true), class: 'img-card', alt: planting
+    = image_tag planting_image_path(planting), class: 'img-card', alt: planting
   - if can? :edit, planting
     .planting-quick-actions
       .dropdown
@@ -17,8 +17,8 @@
           - if can? :destroy, planting
             .dropdown-divider
             = delete_button(planting, classes: 'dropdown-item text-danger')
-
-  .card-body.text-center
-    %h4.card-title= link_to planting.crop, planting
-    .text-center= render 'plantings/badges', planting: planting
-    = render 'plantings/progress', planting: planting
+  = link_to planting do
+    .card-body.text-center
+      %h4= planting.crop
+      .text-center= render 'plantings/badges', planting: planting
+      = render 'plantings/progress', planting: planting

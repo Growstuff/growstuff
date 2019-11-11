@@ -19,22 +19,31 @@
 
 .member-chip {
   background-color: lighten($green, 30%);
-  border-radius: 25px;
-  display: inline-block;
-  font-size: 1em;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 25px;
 
   a {
     color: $black;
   }
+}
 
-  img {
-    border-radius: 50%;
-    float: left;
-    height: 30px;
-    margin: 0 10px 0 -25px;
-    width: 30px;
+.member-location {
+  font-size: small;
+  font-style: italic;
+
+  a {
+    color: $brown;
   }
+}
+
+.location-not-set {
+  background-image: image-url('location-not-set.en.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 250px;
+  width: 100%;
+}
+
+.badge-location {
+  background-color: darken($blue, 10%);
+  border-radius: 5%;
+  color: $white;
 }

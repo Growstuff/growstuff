@@ -51,16 +51,17 @@
               = icon 'fas', 'comment'
               Comment
 
-    %secion.comments= render "comments", post: @post
+    %section.comments
+      = render "comments", post: @post
 
   .col-md-4.col-12
     = render @post.author
-    .row
-      - unless @post.crops.empty?
-        .col-12
-          %h3.h3 Crops mentioned in this post
-        - @post.crops.each do |c|
-          .col-6= render 'crops/thumbnail', crop: c
+    - unless @post.crops.approved.empty?
+      %section.crops
+        %h2 Crops mentioned in this post
+        .index-cards
+          - @post.crops.approved.each do |c|
+            = render 'crops/thumbnail', crop: c
 
 
 

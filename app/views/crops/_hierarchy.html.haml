@@ -4,8 +4,10 @@
     - max = 0 # list all without "show all" toggle button
   - display_crops.each do |c|
     %li.crop-hierarchy{ class: (max != 0 && @count >= max) || !c.approved? ? ['hide', 'toggle'] : [] }
-      = link_to c, c
+      = render 'crops/tiny', crop: c
+      - if c.perennial
+        = perennial_icon
       - @count += 1
       - if c.varieties.present?
-        - c.varieties.each do |v|
+        - c.varieties.order(:name).each do |v|
           = render partial: 'hierarchy', locals: { display_crops: [v], max: max }
