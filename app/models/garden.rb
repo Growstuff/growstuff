@@ -27,11 +27,11 @@ class Garden < ApplicationRecord
   validates :name, uniqueness: { scope: :owner_id }
   validates :name,
             format: { without: /\n/, message: "must contain no newlines" },
-            allow_nil: false, allow_blank: false, presence: true,
+            allow_blank: false, presence: true,
             length: { maximum: 255 }
 
   validates :area,
-            numericality: {only_integer: false, greater_than_or_equal_to: 0 },
+            numericality: { only_integer: false, greater_than_or_equal_to: 0 },
             allow_nil:    true
 
   AREA_UNITS_VALUES = {
