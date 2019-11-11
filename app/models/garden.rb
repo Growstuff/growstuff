@@ -73,6 +73,6 @@ class Garden < ApplicationRecord
   protected
 
   def strip_blanks
-    self.name = self.name.strip unless name.nil?
+    self.name = name.strip unless name.nil?
   end
 end
