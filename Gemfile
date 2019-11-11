@@ -131,7 +131,6 @@ group :production do
   gem 'memcachier'
   gem 'newrelic_rpm'
   gem 'rails_12factor' # supresses heroku plugin injection
-
   gem 'scout_apm' # monitoring
 end
 
@@ -144,18 +143,11 @@ end
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
   gem 'byebug'                  # debugging
-  gem 'capybara'                # integration tests
-  gem 'capybara-email'          # integration tests for email
-  gem 'capybara-screenshot'     # for test debugging
-  gem 'database_cleaner'
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
-  gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails'             # unit testing framework
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'webrat'                  # provides HTML matchers for view tests
 
   # cli utils
   gem 'coveralls', require: false # coverage analysis
@@ -167,12 +159,19 @@ group :development, :test do
 end
 
 group :test do
+  gem 'capybara'                # integration tests
+  gem 'capybara-email'          # integration tests for email
+  gem 'capybara-screenshot'     # for test debugging
   gem 'codeclimate-test-reporter', require: false
+  gem 'database_cleaner'
   gem 'percy-capybara', '~> 4.0.0'
   gem 'rails-controller-testing'
+  gem 'rspec-activemodel-mocks'
+  gem 'rspec-rails'             # unit testing framework
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'webdrivers'
+  gem 'webrat'                  # provides HTML matchers for view tests
 end
 
 group :travis do

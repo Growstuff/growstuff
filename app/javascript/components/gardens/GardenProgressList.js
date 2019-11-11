@@ -1,44 +1,20 @@
-import React from "react"
-import PropTypes from "prop-types"
-import axios from 'axios';
 import PlantingProgressBar from "../plantings/PlantingProgressBar";
+import DataList from "../data/DataList";
 
-const flatten = (results, type) => {
-  var data = []
-  results.forEach(function (result) {
-    if (type == result.type) {
-      data[result.id] = result.attributes;
-    }
-  });
-  return data;
-};
+class ProgressList extends DataList {
+  state = { loading: false, hasError: false, data: [] };
+  dataType = 'plantings';
 
-class ProgressList extends React.Component {
-  state = { loading: false, hasError: false, crops: [], plantings: [] };
-
-  componentDidMount() {
-    let params = {
-        'filter[garden_id]': this.props.garden.id,
-        'filter[active]' : true,
-        'filter[perennial]': false
-      };
-
-    this.setState({loading: true});
-    axios.get('/api/v1/plantings', { params: params })
-      .then((res) => this.setState({
-          loading: false,
-          plantings: flatten(res.data.data, 'plantings')
-        }))
-      .catch(() => this.setState({ loading: false, plantings: [] }));
+  params() {
+    return {
+      'filter[garden_id]': this.props.garden.id,
+      'filter[active]' : true,
+      'filter[perennial]': false
+    };
   }
-
-  componentDidCatch(error, info) {
-    this.setState({ hasError: true });
-  }
-
   renderPlantings() {
-    return this.state.plantings.map((planting, index) => {
-      let url = `/plantings/${planting.slug}`;
+    return this.state.data.map((planting, index) => {
+      let url = `/plantings/${planting.attributes.slug}`;
       let crop_name = planting['crop-name'];
 
       return (
