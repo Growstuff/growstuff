@@ -37,18 +37,18 @@ describe Garden do
     garden.should be_valid
   end
 
+  it "allows some punctuation" do
+    garden = FactoryBot.build(:garden, name: "best-garden-eva!")
+    garden.should be_valid
+  end
+
   it "doesn't allow a name with only spaces" do
     garden = FactoryBot.build(:garden, name: "    ")
     garden.should_not be_valid
   end
 
-  it "doesn't allow a new line chars in garden names" do
+  it "doesn't allow new line chars in garden names" do
     garden = FactoryBot.build(:garden, name: "My garden\nI am a 1337 hacker")
-    garden.should_not be_valid
-  end
-
-  it "doesn't allow a new lines in garden names" do
-    garden = FactoryBot.build(:garden, name: 'My garden\nI am a 1337 hacker')
     garden.should_not be_valid
   end
 
