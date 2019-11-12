@@ -24,7 +24,7 @@ describe Garden do
 
   it "allows numbers" do
     garden = FactoryBot.build(:garden, name: "100 vines of 2 kamo-kamo")
-    garden.should_not be_valid
+    garden.should be_valid
   end
 
   it "allows brackets" do
@@ -34,7 +34,12 @@ describe Garden do
 
   it "allows macrons" do
     garden = FactoryBot.build(:garden, name: "Kūmara and pūha patch")
-    garden.should_not be_valid
+    garden.should be_valid
+  end
+
+  it "allows some punctuation" do
+    garden = FactoryBot.build(:garden, name: "best-garden-eva!")
+    garden.should be_valid
   end
 
   it "doesn't allow a name with only spaces" do
@@ -42,7 +47,7 @@ describe Garden do
     garden.should_not be_valid
   end
 
-  it "doesn't allow a new lines in garden names" do
+  it "doesn't allow new line chars in garden names" do
     garden = FactoryBot.build(:garden, name: "My garden\nI am a 1337 hacker")
     garden.should_not be_valid
   end

@@ -22,19 +22,16 @@ class Garden < ApplicationRecord
 
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
-  validates :name, uniqueness: { scope: :owner_id }
 
+  before_validation :strip_blanks
+  validates :name, uniqueness: { scope: :owner_id }
   validates :name,
-            format: {
-              with: /\A\w+[\w ()]+\z/
-            },
+            format: { without: /\n/, message: "must contain no newlines" },
+            allow_blank: false, presence: true,
             length: { maximum: 255 }
 
   validates :area,
-            numericality: {
-              only_integer:             false,
-              greater_than_or_equal_to: 0
-            },
+            numericality: { only_integer: false, greater_than_or_equal_to: 0 },
             allow_nil:    true
 
   AREA_UNITS_VALUES = {
@@ -71,5 +68,11 @@ class Garden < ApplicationRecord
       p.finished = true
       p.save
     end
+  end
+
+  protected
+
+  def strip_blanks
+    self.name = name.strip unless name.nil?
   end
 end
