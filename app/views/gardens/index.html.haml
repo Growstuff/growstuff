@@ -25,9 +25,17 @@
 - else
   = page_entries_info @gardens
   = will_paginate @gardens
+  .jump
+    jump to:
+    - @gardens.each do |garden|
+      .badge.badge-primary
+        - if @owner.present?
+          = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
+        - else
+          = link_to garden.name, gardens_path(anchor: "garden-#{garden.id}")
   - @gardens.each do |garden|
     %section.card
-      %h2= link_to garden.name, garden
+      %h2= link_to garden.name, garden, name: "garden-#{garden.id}"
       .card-header
         .row
           .col-12.col-md-3
