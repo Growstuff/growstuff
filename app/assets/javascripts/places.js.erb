@@ -1,20 +1,23 @@
 if (document.getElementById("placesmap") !== null) {
-  places_base_path = "/places";
-  mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_map_id %>";
-  mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_access_token %>";
-  mapbox_base_url = "https://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
-  nominatim_base_url = 'https://nominatim.openstreetmap.org/search/';
-  nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Rails.application.config.user_agent_email %>";
+  var places_base_path = "/places";
+  var mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_map_id %>";
+  var mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_access_token %>";
+  var mapbox_base_url = "https://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
+  var nominatim_base_url = 'https://nominatim.openstreetmap.org/search/';
+  var nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Rails.application.config.user_agent_email %>";
 
   L.Icon.Default.imagePath = '/assets'
+
+  var placesmap;
 
   if (location.pathname === places_base_path) { //places index page
     placesmap = L.map('placesmap').setView([0.0, -0.0], 2);
     showMap(placesmap);
-  } else { // specific place page
-    place = location.pathname.replace(places_base_path + "/", '');
-    nominatim_query_url = nominatim_base_url + place;
-    nominatim_options = {
+  }
+  else { // specific place page
+    var place = location.pathname.replace(places_base_path + "/", '');
+    var nominatim_query_url = nominatim_base_url + place;
+    var nominatim_options = {
       format: "json",
       callback: "placeholder",
       limit: 1,
@@ -32,15 +35,21 @@ function showMap(placesmap) {
     attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="https://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(placesmap);
-  markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
+  var markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
-  things_to_map = location.pathname + '.json';
+  var things_to_map = location.pathname + '.json';
+  var default_marker_icon = L.icon({
+    iconUrl: "<%=image_url('spade-marker.svg')%>",
+    iconSize: [48, 48],
+    iconAnchor: [24, 48],
+    popupAnchor: [0, -46],
+  });
   $.getJSON(things_to_map, function(members) {
     $.each(members, function(i, m) {
       if (m.latitude && m.longitude) {
-        marker = new L.Marker(new L.LatLng(m.latitude, m.longitude));
-        link = "<p><a href='/members/" + m.slug + "'>" + m.login_name + "</a></p>";
-        where = "<p><i>" + m.location + "</i></p>";
+        var marker = new L.Marker(new L.LatLng(m.latitude, m.longitude), {icon: default_marker_icon});
+        var link = "<p><a href='/members/" + m.slug + "'>" + m.login_name + "</a></p>";
+        var where = "<p><i>" + m.location + "</i></p>";
         marker.bindPopup(link + where).openPopup();
         markers.addLayer(marker);
       }
