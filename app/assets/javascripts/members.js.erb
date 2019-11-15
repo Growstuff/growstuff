@@ -7,6 +7,13 @@ if (document.getElementById("membermap") !== null) {
 
   L.Icon.Default.imagePath = '/assets';
 
+  var default_marker_icon = L.icon({
+    iconUrl: "<%=image_url('spade-marker.svg')%>",
+    iconSize: [48, 48],
+    iconAnchor: [24, 48],
+    popupAnchor: [0, -46],
+  });
+
   $.getJSON(location.pathname + '.json', function(member) {
     if (member.latitude && member.longitude) {
       var membermap = L.map('membermap').setView([member.latitude, member.longitude], 4);
@@ -15,7 +22,8 @@ if (document.getElementById("membermap") !== null) {
         attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="https://mapbox.com">Mapbox</a>',
         maxZoom: 18
       }).addTo(membermap);
-      var marker = new L.Marker(new L.LatLng(member.latitude, member.longitude));
+      var marker = new L.Marker(new L.LatLng(member.latitude, member.longitude),
+          {'icon': default_marker_icon});
 
       var member_url = "/members/" + member.slug;
       var member_link = "<a href='" + member_url + "'>" + member.login_name + "</a>";
