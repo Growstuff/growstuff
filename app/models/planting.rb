@@ -45,10 +45,12 @@ class Planting < ApplicationRecord
 
   ##
   ## Delegations
-  delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count,
+  delegate :name, :slug, :en_wikipedia_url, :default_scientific_name, :plantings_count,
            to: :crop, prefix: true
 
-  delegate :annual?, to: :crop
+  delegate :annual?, :svg_icon, to: :crop
+  delegate :longitude, :latitude, to: :garden
+
   ##
   ## Validations
   validates :garden, presence: true

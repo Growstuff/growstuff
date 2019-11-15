@@ -35,9 +35,11 @@ function showMap(placesmap) {
     attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="https://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(placesmap);
+
   var markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
-  var things_to_map = location.pathname + '.json';
+  var members_url = location.pathname + '.json';
+
   // Icon documentation: https://leafletjs.com/reference-1.5.0.html#icon
   var default_marker_icon = L.icon({
     iconUrl: "<%=image_url('spade-marker.svg')%>",
@@ -45,7 +47,8 @@ function showMap(placesmap) {
     iconAnchor: [24, 48],
     popupAnchor: [0, -46],
   });
-  $.getJSON(things_to_map, function(members) {
+
+  $.getJSON(members_url, function(members) {
     $.each(members, function(i, m) {
       if (m.latitude && m.longitude) {
         var marker = new L.Marker(new L.LatLng(m.latitude, m.longitude), {icon: default_marker_icon});
@@ -57,5 +60,32 @@ function showMap(placesmap) {
     });
   });
 
+  function fetchCropsForMap(url) {
+    console.log('Fetching crops');
+    $.getJSON(url, function(crop_data) {
+      $.each(crop_data['data'], function(i, p) {
+        if (p.attributes.latitude && p.attributes.longitude) {
+          console.log(p);
+          var crop_marker = L.icon({
+            iconUrl: "/crops/" + p.attributes['crop-slug'] + '.svg',
+            iconSize: [48, 48],
+            iconAnchor: [24, 48],
+            popupAnchor: [0, -46],
+          });
+          var marker = new L.Marker(new L.LatLng(p.attributes.latitude, p.attributes.longitude),
+            {icon: crop_marker});
+          var link = "<p><a href='/plantings/" + p.attributes.slug + "'>" + p.attributes['crop-name'] + "</a></p>";
+          var where = "<p><i>" + p.attributes.location + "</i></p>";
+          marker.bindPopup(link + where).openPopup();
+          markers.addLayer(marker);
+        }
+      });
+      if (crop_data['links']['next']) {
+        fetchCropsForMap(crop_data['links']['next'])
+      }
+      return crop_data;
+    });
+  }
+  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false');
   placesmap.addLayer(markers);
 }

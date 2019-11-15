@@ -24,6 +24,9 @@ module Api
       attribute :first_harvest_date
       attribute :last_harvest_date
 
+      attribute :location
+      attributes :longitude, :latitude
+
       filter :slug
       filter :crop
       filter :planted_from
@@ -37,9 +40,7 @@ module Api
       end
 
       attribute :crop_name
-      def crop_name
-        @model.crop.name
-      end
+      attribute :crop_slug
 
       attribute :thumbnail
       def thumbnail
