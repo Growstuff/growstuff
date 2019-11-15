@@ -9,12 +9,20 @@ function showCropMap(cropmap) {
   }).addTo(cropmap);
   var markers = new L.MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 20 });
 
+  var crop_icon = L.icon({
+    iconUrl: location.pathname + '.svg',
+    iconSize: [24, 24],
+    iconAnchor: [12, 12],
+    popupAnchor: [0, -12],
+  });
+
   var things_to_map = location.pathname + '.json';
   $.getJSON(things_to_map, function(crop) {
     $.each(crop.plantings, function(i, planting) {
       var owner = planting.owner;
       if (owner.latitude && owner.longitude) {
-        var marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude));
+        var marker = new L.Marker(new L.LatLng(owner.latitude, owner.longitude),
+          {'icon': crop_icon});
 
         var planting_url = "/plantings/" + planting.id;
         var planting_link = "<a href='" + planting_url + "'>" + owner.login_name + "'s " + crop.name + "</a>";

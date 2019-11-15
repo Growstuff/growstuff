@@ -66,7 +66,10 @@ class CropsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.svg { send_data(@crop.svg_icon, type: "image/svg+xml", disposition: "inline") }
+      format.svg do
+        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
+        send_data(icon_data, type: "image/svg+xml", disposition: "inline")
+      end
       format.json { render json: @crop.to_json(crop_json_fields) }
     end
   end
