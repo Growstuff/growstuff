@@ -10,7 +10,7 @@ if (document.getElementById("placesmap") !== null) {
 
   var placesmap;
 
-  if (location.pathname === places_base_path) { //places index page
+  if (location.pathname === places_base_path || location.pathname === '/') { //places index page
     placesmap = L.map('placesmap').setView([0.0, -0.0], 2);
     showMap(placesmap);
   }
@@ -75,7 +75,7 @@ function showMap(placesmap) {
           var link = "<p><a href='/plantings/" + p.attributes.slug + "'>" + p.attributes['crop-name'] + "</a></p>";
           var where = "<p><i>" + p.attributes.location + "</i></p>";
           if (p.attributes['thumbnail']) {
-            where += '<img src="' + p.attributes['thumbnail'] + ' alt="photo of planting">';
+            where += '<img src="' + p.attributes['thumbnail'] + '" alt="photo of planting">';
           }
           marker.bindPopup(link + where).openPopup();
           markers.addLayer(marker);
@@ -87,6 +87,6 @@ function showMap(placesmap) {
       return crop_data;
     });
   }
-  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false');
+  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false&sort=-planted-at');
   placesmap.addLayer(markers);
 }
