@@ -212,7 +212,7 @@ describe Planting do
   end
 
   it "generates a location" do
-    planting.location.should eq "#{garden_owner.login_name}'s #{garden.name}"
+    planting.location.should eq garden.location
   end
 
   it "has a slug" do
