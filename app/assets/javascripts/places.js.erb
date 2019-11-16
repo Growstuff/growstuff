@@ -77,7 +77,7 @@ function showMap(placesmap) {
           var link = "<p><a href='/plantings/" + p.attributes.slug + "'>" + p.attributes['crop-name'] + "</a></p>";
           var where = "<p><i>" + p.attributes.location + "</i></p>";
           if (p.attributes['thumbnail']) {
-            where += '<img src="' + p.attributes['thumbnail'] + '">';
+            where += '<img src="' + p.attributes['thumbnail'] + ' alt="photo of planting">';
           }
           marker.bindPopup(link + where).openPopup();
           markers.addLayer(marker);
