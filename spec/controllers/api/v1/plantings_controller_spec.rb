@@ -50,6 +50,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
         let(:expected_attributes) do
           {
             'crop-name'           => my_planting.crop.name,
+            'crop-slug'           => my_planting.crop.slug,
             'description'         => my_planting.description,
             'expected-lifespan'   => nil,
             'finish-predicted-at' => nil,
@@ -57,6 +58,9 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
             'finished-at'         => my_planting.finished_at,
             'first-harvest-date'  => nil,
             'last-harvest-date'   => nil,
+            'latitude'            => my_planting.garden.latitude,
+            'longitude'           => my_planting.garden.longitude,
+            'location'            => my_planting.garden.location,
             'percentage-grown'    => nil,
             'planted-at'          => '2000-01-01',
             'planted-from'        => my_planting.planted_from,
