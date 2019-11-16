@@ -49,7 +49,7 @@ class Planting < ApplicationRecord
            to: :crop, prefix: true
 
   delegate :annual?, :svg_icon, to: :crop
-  delegate :longitude, :latitude, to: :garden
+  delegate :location, :longitude, :latitude, to: :garden
 
   ##
   ## Validations
@@ -77,11 +77,6 @@ class Planting < ApplicationRecord
       garden.present? ? garden.name : 'null',
       crop.present? ? crop.name : 'null'
     ].join('-').tr(' ', '-').downcase
-  end
-
-  # location = garden owner + garden name, i.e. "Skud's backyard"
-  def location
-    I18n.t("gardens.location", garden: garden.name, owner: garden.owner.login_name)
   end
 
   # stringify as "beet in Skud's backyard" or similar

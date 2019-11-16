@@ -24,8 +24,7 @@ module Api
       attribute :first_harvest_date
       attribute :last_harvest_date
 
-      attribute :location
-      attributes :longitude, :latitude
+      attributes :longitude, :latitude, :location
 
       filter :slug
       filter :crop
