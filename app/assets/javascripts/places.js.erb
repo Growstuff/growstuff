@@ -61,11 +61,9 @@ function showMap(placesmap) {
   });
 
   function fetchCropsForMap(url) {
-    console.log('Fetching crops');
     $.getJSON(url, function(crop_data) {
       $.each(crop_data['data'], function(i, p) {
         if (p.attributes.latitude && p.attributes.longitude) {
-          console.log(p);
           var crop_marker = L.icon({
             iconUrl: "/crops/" + p.attributes['crop-slug'] + '.svg',
             iconSize: [48, 48],
