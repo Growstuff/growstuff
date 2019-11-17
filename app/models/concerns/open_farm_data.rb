@@ -19,7 +19,10 @@ module OpenFarmData
     end
 
     def svg_icon
-      fetch_attr('svg_icon')
+      icon = fetch_attr('svg_icon')
+      return icon if icon.present?
+
+      parent.svg_icon if parent.present?
     end
 
     def tags_array
