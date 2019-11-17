@@ -1,15 +1,14 @@
 - if current_member.present?
-  %ul.nav.crop-actions
-    %li.nav-item.dropdown.btn.btn-sm
-      = link_to url_for([current_member, model]), class: 'nav-link' do
-        My #{model.model_name.human.pluralize}
-    %li.nav-item.dropdown.btn.btn-sm
-      = link_to model, class: 'nav-link' do
-        Everyone's #{model.model_name.human.pluralize}
+  .card
+    .card-header
+      %h2.card-title #{model} links
+    = link_to url_for([current_member, model]), class: 'btn' do
+      My #{model.model_name.human.pluralize}
+    = link_to model, class: 'btn' do
+      Everyone's #{model.model_name.human.pluralize}
     - if can?(:create, model)
-      %li.nav-item.dropdown.btn.btn-sm
-        = link_to url_for([model, action: :new]), class: 'nav-link' do
-          Add a #{model.model_name.human}
+      = link_to url_for([model, action: :new]), class: 'btn' do
+        Add a #{model.model_name.human}
 
 - else
   = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
