@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   get '/robots.txt' => 'robots#robots'
 
   resources :garden_types
@@ -122,8 +124,8 @@ Rails.application.routes.draw do
     resources :roles
   end
 
-  namespace :api do
-    namespace :v1 do
+  scope :api do
+    scope :v1 do
       jsonapi_resources :photos
       jsonapi_resources :crops
       jsonapi_resources :plantings
