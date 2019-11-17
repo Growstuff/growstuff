@@ -1,13 +1,13 @@
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  border: none;
+  border: 0;
 }
 
 .thumbnail {
-  background: #fff !important;
-  border: solid 1px whitesmoke;
-}
+  background: $white;
+  border: solid 1px $white;
 
-.thumbnail .crop-thumbnail .cropinfo {
-  padding-top: 14px;
+  .crop-thumbnail .cropinfo {
+    padding-top: 14px;
+  }
 }
