@@ -265,10 +265,13 @@ GEM
       railties (>= 4)
       sprockets-rails
     json (2.2.0)
+    json-schema (2.8.1)
+      addressable (>= 2.4)
     jsonapi-resources (0.9.10)
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
+    jsonapi-swagger (0.7.1)
     jwt (2.2.1)
     kgio (2.11.2)
     kramdown (2.1.0)
@@ -441,6 +444,19 @@ GEM
       parser (~> 2.3)
       rspec (~> 3.0)
       unparser (~> 0.2)
+    rswag (2.2.0)
+      rswag-api (= 2.2.0)
+      rswag-specs (= 2.2.0)
+      rswag-ui (= 2.2.0)
+    rswag-api (2.2.0)
+      railties (>= 3.1, < 6.1)
+    rswag-specs (2.2.0)
+      activesupport (>= 3.1, < 6.1)
+      json-schema (~> 2.2)
+      railties (>= 3.1, < 6.1)
+    rswag-ui (2.2.0)
+      actionpack (>= 3.1, < 6.1)
+      railties (>= 3.1, < 6.1)
     rubocop (0.76.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -608,6 +624,7 @@ DEPENDENCIES
   jquery-ui-rails
   js-routes
   jsonapi-resources
+  jsonapi-swagger
   leaflet-rails
   letter_opener
   listen
@@ -636,6 +653,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rspectre
+  rswag
   rubocop (~> 0.71)
   rubocop-rails
   rubocop-rspec

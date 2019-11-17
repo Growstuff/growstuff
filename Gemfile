@@ -14,6 +14,8 @@ gem 'sass-rails'
 
 # API data
 gem 'jsonapi-resources'
+gem 'jsonapi-swagger'
+gem 'rswag'
 
 # CSS framework
 gem "bootstrap", ">= 4.3.1"
