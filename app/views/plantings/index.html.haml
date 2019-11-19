@@ -12,7 +12,7 @@
   = title('plantings', @owner, @crop, @planting)
 
 .row
-  .col-2
+  .col-md-2
     = render 'layouts/nav', model: Planting
     %hr/
     = link_to show_inactive_tickbox_path('plantings', owner: @owner, crop: @crop, show_all: @show_all) do
@@ -34,7 +34,7 @@
             = format.upcase
       .badge.badge-success= link_to 'API Methods', '/api-docs'
 
-  .col-10
+  .col-md-10
 
     %section
       %h2= page_entries_info @plantings

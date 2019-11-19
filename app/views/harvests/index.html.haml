@@ -14,7 +14,7 @@
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
   harvesting from your home garden and see how productive it is.
 .row
-  .col-2
+  .col-md-2
     = render 'layouts/nav', model: Harvest
     - if @owner
       = render @owner
@@ -27,7 +27,7 @@
             = icon 'fas', format.to_s
             = format.upcase
       .badge.badge-success= link_to 'API Methods', '/api-docs'
-  .col-10
+  .col-md-10
     %section
       %h2
         = page_entries_info @harvests
