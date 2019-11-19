@@ -16,7 +16,7 @@ class UpgradeCms < ActiveRecord::Migration[5.2]
     remove_column :comfy_cms_pages, :is_shared
     remove_column :comfy_cms_snippets, :is_shared
 
-    limit = 16777215
+    limit = 16_777_215
     create_table :comfy_cms_translations, force: true do |t|
       t.string  :locale,    null: false
       t.integer :page_id,   null: false
