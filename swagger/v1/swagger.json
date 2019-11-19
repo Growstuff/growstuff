@@ -6,7 +6,7 @@
 },
   "basePath" : "",
   "paths": {
-  "/crops": {
+  "/api/v1/crops": {
     "get": {
       "summary": "crops List",
       "tags": [
@@ -313,7 +313,7 @@
       }
     }
   },
-  "/crops/{id}": {
+  "/api/v1/crops/{id}": {
     "get": {
       "summary": "crops Detail",
       "tags": [
@@ -561,7 +561,7 @@
       }
     }
   },
-  "/gardens": {
+  "/api/v1/gardens": {
     "get": {
       "summary": "gardens List",
       "tags": [
@@ -782,7 +782,7 @@
       }
     }
   },
-  "/gardens/{id}": {
+  "/api/v1/gardens/{id}": {
     "get": {
       "summary": "gardens Detail",
       "tags": [
@@ -951,7 +951,7 @@
       }
     }
   },
-  "/members": {
+  "/api/v1/members": {
     "get": {
       "summary": "members List",
       "tags": [
@@ -1245,7 +1245,7 @@
       }
     }
   },
-  "/members/{id}": {
+  "/api/v1/members/{id}": {
     "get": {
       "summary": "members Detail",
       "tags": [
@@ -1473,7 +1473,7 @@
       }
     }
   },
-  "/harvests": {
+  "/api/v1/harvests": {
     "get": {
       "summary": "harvests List",
       "tags": [
@@ -1746,7 +1746,7 @@
       }
     }
   },
-  "/harvests/{id}": {
+  "/api/v1/harvests/{id}": {
     "get": {
       "summary": "harvests Detail",
       "tags": [
@@ -1967,7 +1967,7 @@
       }
     }
   },
-  "/seeds": {
+  "/api/v1/seeds": {
     "get": {
       "summary": "seeds List",
       "tags": [
@@ -2201,7 +2201,7 @@
       }
     }
   },
-  "/seeds/{id}": {
+  "/api/v1/seeds/{id}": {
     "get": {
       "summary": "seeds Detail",
       "tags": [
@@ -2383,7 +2383,7 @@
       }
     }
   },
-  "/plantings": {
+  "/api/v1/plantings": {
     "get": {
       "summary": "plantings List",
       "tags": [
@@ -2708,7 +2708,7 @@
       }
     }
   },
-  "/plantings/{id}": {
+  "/api/v1/plantings/{id}": {
     "get": {
       "summary": "plantings Detail",
       "tags": [
@@ -2939,7 +2939,7 @@
       }
     }
   },
-  "/photos": {
+  "/api/v1/photos": {
     "get": {
       "summary": "photos List",
       "tags": [
@@ -3207,7 +3207,7 @@
       }
     }
   },
-  "/photos/{id}": {
+  "/api/v1/photos/{id}": {
     "get": {
       "summary": "photos Detail",
       "tags": [
