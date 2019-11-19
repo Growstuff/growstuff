@@ -59,7 +59,6 @@ Rails.application.routes.draw do
   resources :photo_associations, only: :destroy
 
   resources :crops, param: :slug, concerns: :has_photos do
-    get 'gardens' => 'gardens#index'
     get 'harvests' => 'harvests#index'
     get 'plantings' => 'plantings#index'
     get 'seeds' => 'seeds#index'
@@ -124,15 +123,15 @@ Rails.application.routes.draw do
     resources :roles
   end
 
-  scope :api do
-    scope :v1 do
-      jsonapi_resources :photos
+  namespace :api do
+    namespace :v1 do
       jsonapi_resources :crops
-      jsonapi_resources :plantings
       jsonapi_resources :gardens
       jsonapi_resources :harvests
-      jsonapi_resources :seeds
       jsonapi_resources :members
+      jsonapi_resources :photos
+      jsonapi_resources :plantings
+      jsonapi_resources :seeds
     end
   end
 
