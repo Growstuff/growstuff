@@ -15,6 +15,6 @@ module Api
       attribute :organic
       attribute :gmo
       attribute :heirloom
-end
-end
+    end
+  end
 end

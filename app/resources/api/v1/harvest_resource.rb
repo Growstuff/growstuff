@@ -14,6 +14,6 @@ module Api
       attribute :weight_quantity
       attribute :weight_unit
       attribute :si_weight
-end
-end
+    end
+  end
 end

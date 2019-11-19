@@ -13,6 +13,6 @@ module Api
       attribute :license_name
       attribute :link_url
       attribute :title
-end
-end
+    end
+  end
 end

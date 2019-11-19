@@ -45,6 +45,6 @@ module Api
       def thumbnail
         @model.default_photo&.thumbnail_url
       end
-end
-end
+    end
+  end
 end

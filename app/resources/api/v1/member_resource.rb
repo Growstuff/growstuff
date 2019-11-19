@@ -14,6 +14,6 @@ module Api
       attribute :slug
 
       filters :login_name, :slug
-end
-end
+    end
+  end
 end

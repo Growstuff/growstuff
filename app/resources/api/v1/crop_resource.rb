@@ -21,5 +21,5 @@ module Api
       attribute :median_days_to_first_harvest
       attribute :median_days_to_last_harvest
     end
-end
+  end
 end

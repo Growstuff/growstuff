@@ -8,6 +8,6 @@ module Api
       has_many :photos
 
       attribute :name
-end
-end
+    end
+  end
 end
