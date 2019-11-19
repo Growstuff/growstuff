@@ -382,4 +382,9 @@ rest of the garden.
       Percy.snapshot(page, name: 'Admin Members')
     end
   end
+
+  it 'api docs' do
+    visit '/api-docs'
+    Percy.snapshot(page, name: 'api docs')
+  end
 end

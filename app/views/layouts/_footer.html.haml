@@ -5,6 +5,7 @@
     .col-md-4#footer2
       != cms_snippet_content(:footer2)
     .col-md-4#footer3
+      .badge.badge-success= link_to 'API', '/api-docs'
       != cms_snippet_content(:footer3)
       %div{ style: "float: right;" }
         = link_to "https://opendefinition.org/ossd/" do
