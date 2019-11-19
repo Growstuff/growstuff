@@ -1,5 +1,5 @@
 class CmsTags < ActiveRecord::Migration[5.2]
-  def change
+  def up
     Comfy::Cms::Layout.all.each do |layout|
       layout.content = layout.content.gsub(%r{\{\{ ?cms:page:([\w/]+) ?\}\}}, '{{ cms:text \1 }}') if layout.content.is_a? String
 
