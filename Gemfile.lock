@@ -444,10 +444,6 @@ GEM
       parser (~> 2.3)
       rspec (~> 3.0)
       unparser (~> 0.2)
-    rswag (2.2.0)
-      rswag-api (= 2.2.0)
-      rswag-specs (= 2.2.0)
-      rswag-ui (= 2.2.0)
     rswag-api (2.2.0)
       railties (>= 3.1, < 6.1)
     rswag-specs (2.2.0)
@@ -653,7 +649,9 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rspectre
-  rswag
+  rswag-api
+  rswag-specs
+  rswag-ui
   rubocop (~> 0.71)
   rubocop-rails
   rubocop-rspec
