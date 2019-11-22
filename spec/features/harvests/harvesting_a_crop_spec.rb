@@ -40,7 +40,9 @@ describe "Harvesting a crop", :js, :elasticsearch do
 
     it "Clicking link to owner's profile" do
       visit member_harvests_path(member)
-      click_link "View #{member}'s profile >>"
+      within '.login-name' do
+        click_link member.login_name
+      end
       expect(current_path).to eq member_path member
     end
 

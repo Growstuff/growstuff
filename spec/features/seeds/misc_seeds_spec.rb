@@ -30,7 +30,9 @@ describe "seeds", js: true do
     describe "Clicking link to owner's profile" do
       before do
         visit member_seeds_path(member)
-        click_link "View Owners Profile"
+        within '.login-name' do
+          click_link member.login_name
+        end
       end
 
       it { expect(current_path).to eq member_path(member) }
