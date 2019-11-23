@@ -1,5 +1,5 @@
 - cache cache_key_for(Crop, 'homepage'), expires_in: 1.day do
   .index-cards
-    - Crop.interesting.includes(:scientific_names, :photos).shuffle.first(18).each do |crop|
+    - Crop.interesting.includes(:scientific_names, :photos, :parent).shuffle.first(18).each do |crop|
       = render 'crops/thumbnail', crop: crop
 
