@@ -14,6 +14,7 @@ module Api
       attribute :finished_at
       attribute :quantity
       attribute :description
+      attribute :slug
       attributes :sunniness, :planted_from
       attributes :active?, :finished?
 
