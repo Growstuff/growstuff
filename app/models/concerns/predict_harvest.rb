@@ -67,8 +67,11 @@ module PredictHarvest
       return harvests if harvests.size.positive?
 
       # otherwise use nearby plantings
-      return Harvest.where(planting: nearby_same_crop.has_harvests)
-          .where.not(planting_id: nil) if location
+      if location
+        return Harvest.where(planting: nearby_same_crop.has_harvests)
+          .where.not(planting_id: nil)
+      end
+
       []
     end
 
