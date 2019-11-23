@@ -7,39 +7,40 @@
   - else
     %li.breadcrumb-item.active= link_to 'Plantings', plantings_path
 
-%h1
+%h1.display-2.text-center
   = planting_icon
   = title('plantings', @owner, @crop, @planting)
 
 .row
-  .col-md-6
-    %ul.nav
-      %li.list-group-item
-        = link_to show_inactive_tickbox_path('plantings', owner: @owner, show_all: @show_all) do
-          = check_box_tag 'active', 'all', @show_all
-          include finished
-      - if @owner
-        %li.list-group-item.btn
-          = link_to t('.view_owners_profile', owner: @owner), member_path(@owner)
-  .col-md-6= render 'layouts/nav', model: Planting
+  .col-md-2
+    = render 'layouts/nav', model: Planting
+    %hr/
+    = link_to show_inactive_tickbox_path('plantings', owner: @owner, crop: @crop, show_all: @show_all) do
+      = check_box_tag 'active', 'all', @show_all
+      include finished plantings
+    %hr
+    - if @owner.present?
+      = render @owner
+    - if @crop.present?
+      = render @crop
 
-.row
-  .col-12= page_entries_info @plantings
-  .col-12= will_paginate @plantings
+    %section.open-data
+      %h2 Open Data
+      %p= t('label.data')
+      - ['csv', 'json', 'rss'].each do |format|
+        .badge.badge-info
+          = link_to (@owner ? member_plantings_path(@owner, format: format) : plantings_path(format: format)) do
+            = icon 'fas', format.to_s
+            = format.upcase
+      .badge.badge-success= link_to 'API Methods', '/api-docs'
 
-.index-cards
-  - @plantings.each do |planting|
-    = render planting, full: true
+  .col-md-10
 
-= will_paginate @plantings
+    %section
+      %h2= page_entries_info @plantings
+      = will_paginate @plantings
+      .index-cards
+        - @plantings.each do |planting|
+          = render planting, full: true
 
-%hr/
-
-%section.open-data
-  %h3= t('label.data')
-  %ul.nav#open-data
-    - ['csv', 'json', 'rss'].each do |format|
-      %li.list-group-item
-        = link_to (@owner ? member_plantings_path(@owner, format: format) : plantings_path(format: format)) do
-          = icon 'fas', format.to_s
-          = format.upcase
+      = will_paginate @plantings

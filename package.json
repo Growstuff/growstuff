@@ -16,6 +16,10 @@
     "react-drag-resize": "^0.1.4",
     "react_ujs": "^2.4.4"
   },
+ "engines": {
+    "node": ">=6.0.0",
+    "yarn": ">=0.25.2"
+  },
   "devDependencies": {
     "coffeelint": "^2.0.7",
     "csslint": "^1.0.5",

@@ -24,24 +24,30 @@ module Api
       attribute :last_harvest_date
 
       # crops
-      attributes :crop_name, :crop_perennial
+      attributes :crop_name, :crop_perennial, :crop_slug
       attribute :owner_login_name
+      attributes :longitude, :latitude, :location
 
       # calculated attributes
       attribute :percentage_grown
       def percentage_grown
         @model.percentage_grown.to_i
       end
+
       attribute :thumbnail
       def thumbnail
         @model.default_photo&.thumbnail_url
       end
 
+      filter :crop
       filter :crop_id
-      filter :owner_id
       filter :finished
+      filter :garden
       filter :garden_id
-
+      filter :owner
+      filter :owner_id
+      filter :planted_from
+      filter :slug
       filter :active, apply: lambda { |records, value, _options|
         if value
           records.active

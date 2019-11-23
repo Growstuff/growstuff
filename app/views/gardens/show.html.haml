@@ -85,7 +85,7 @@
         %h4 #{@garden.owner}'s gardens
       .card-body
         %ul.list-group.list-group-flush
-          - @garden.owner.gardens.active.each do |garden|
+          - @garden.owner.gardens.active.order_by_name.each do |garden|
             %li.list-group-item.list-group-flush
               = garden_icon
               - if @garden == garden
@@ -96,7 +96,7 @@
     - unless @garden.owner.gardens.inactive.empty?
       %h4 Inactive gardens
       %ul
-        - @garden.owner.gardens.inactive.each do |othergarden|
+        - @garden.owner.gardens.inactive.order_by_name.each do |othergarden|
           %li
             - if @garden == othergarden
               = @garden.name

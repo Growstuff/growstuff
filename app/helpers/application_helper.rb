@@ -64,11 +64,13 @@ module ApplicationHelper
     pluralize(collection.size, model.model_name.to_s.downcase)
   end
 
-  def show_inactive_tickbox_path(type, owner: nil, show_all: false)
+  def show_inactive_tickbox_path(type, owner: nil, crop: nil, show_all: false)
     all = show_all ? '' : 1
 
     path = if owner.present?
              public_send("member_#{type}_path", owner, all: all)
+           elsif crop.present?
+             public_send("crop_#{type}_path", crop, all: all)
            else
              public_send("#{type}_path", all: all)
            end

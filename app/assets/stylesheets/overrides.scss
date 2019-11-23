@@ -28,6 +28,14 @@ a:hover {
   text-decoration: none;
 }
 
+.badge a {
+  color: $white;
+}
+
+.badge a:hover {
+  text-decoration: underline;
+}
+
 h1 {
   font-size: 250%;
 }

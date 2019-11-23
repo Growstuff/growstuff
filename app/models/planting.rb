@@ -45,11 +45,13 @@ class Planting < ApplicationRecord
 
   ##
   ## Delegations
-  delegate :name, :en_wikipedia_url, :default_scientific_name, :plantings_count, :perennial,
+  delegate :name, :slug, :en_wikipedia_url, :default_scientific_name, :plantings_count, :perennial,
            to: :crop, prefix: true
   delegate :login_name, to: :owner, prefix: true
 
-  delegate :annual?, to: :crop
+  delegate :annual?, :svg_icon, to: :crop
+  delegate :location, :longitude, :latitude, to: :garden
+
   ##
   ## Validations
   validates :garden, presence: true
@@ -76,11 +78,6 @@ class Planting < ApplicationRecord
       garden.present? ? garden.name : 'null',
       crop.present? ? crop.name : 'null'
     ].join('-').tr(' ', '-').downcase
-  end
-
-  # location = garden owner + garden name, i.e. "Skud's backyard"
-  def location
-    I18n.t("gardens.location", garden: garden.name, owner: garden.owner.login_name)
   end
 
   # stringify as "beet in Skud's backyard" or similar

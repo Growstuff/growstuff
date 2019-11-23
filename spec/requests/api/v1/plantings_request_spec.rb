@@ -4,7 +4,7 @@ RSpec.describe 'Plantings', type: :request do
   subject { JSON.parse response.body }
 
   let(:headers)   { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:planting) { FactoryBot.create :planting                }
+  let!(:planting) { FactoryBot.create :planting }
   let(:planting_encoded_as_json_api) do
     { "id"            => planting.id.to_s,
       "type"          => "plantings",
@@ -60,6 +60,7 @@ RSpec.describe 'Plantings', type: :request do
       "quantity"            => 33,
       "description"         => planting.description,
       "crop-name"           => planting.crop.name,
+      "crop-slug"           => planting.crop.slug,
       "sunniness"           => nil,
       "planted-from"        => nil,
       "expected-lifespan"   => nil,
@@ -67,12 +68,17 @@ RSpec.describe 'Plantings', type: :request do
       "percentage-grown"    => nil,
       "first-harvest-date"  => nil,
       "last-harvest-date"   => nil,
-      "thumbnail"           => nil
+      "thumbnail"           => nil,
+      "location"            => planting.garden.location,
+      "longitude"           => planting.garden.longitude,
+      "latitude"            => planting.garden.latitude
     }
   end
 
   it '#index' do
     get '/api/v1/plantings', params: {}, headers: headers
+    expect(subject['data'][0].keys).to eq(planting_encoded_as_json_api.keys)
+    expect(subject['data'][0]['attributes'].keys.sort!).to eq(planting_encoded_as_json_api['attributes'].keys.sort!)
     expect(subject['data']).to include(planting_encoded_as_json_api)
   end
 

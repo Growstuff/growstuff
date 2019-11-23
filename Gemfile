@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.3'
+ruby '2.6.5'
 
 gem 'rails', '5.2.2.1'
 
@@ -14,6 +14,9 @@ gem 'sass-rails'
 
 # API data
 gem 'jsonapi-resources'
+gem 'jsonapi-swagger'
+gem 'rswag-api'
+gem 'rswag-ui'
 
 # CSS framework
 gem "bootstrap", ">= 4.3.1"
@@ -146,6 +149,9 @@ group :development, :test do
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
+  gem 'rspec-activemodel-mocks'
+  gem 'rspec-rails'             # unit testing framework
+  gem 'rswag-specs'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
 

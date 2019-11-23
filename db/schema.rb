@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_29_024101) do
+ActiveRecord::Schema.define(version: 2019_11_19_030244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,17 +35,6 @@ ActiveRecord::Schema.define(version: 2019_10_29_024101) do
     t.index ["member_id"], name: "index_authentications_on_member_id"
   end
 
-  create_table "comfy_cms_blocks", id: :serial, force: :cascade do |t|
-    t.string "identifier", null: false
-    t.text "content"
-    t.string "blockable_type"
-    t.integer "blockable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["blockable_id", "blockable_type"], name: "index_comfy_cms_blocks_on_blockable_id_and_blockable_type"
-    t.index ["identifier"], name: "index_comfy_cms_blocks_on_identifier"
-  end
-
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
     t.integer "site_id", null: false
     t.string "label", null: false
@@ -63,10 +52,8 @@ ActiveRecord::Schema.define(version: 2019_10_29_024101) do
   create_table "comfy_cms_files", id: :serial, force: :cascade do |t|
     t.integer "site_id", null: false
     t.integer "block_id"
-    t.string "label", null: false
-    t.string "file_file_name", null: false
-    t.string "file_content_type", null: false
-    t.integer "file_file_size", null: false
+    t.string "label", default: "", null: false
+    t.string "file_file_name"
     t.string "description", limit: 2048
     t.integer "position", default: 0, null: false
     t.datetime "created_at"
@@ -75,6 +62,20 @@ ActiveRecord::Schema.define(version: 2019_10_29_024101) do
     t.index ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name"
     t.index ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label"
     t.index ["site_id", "position"], name: "index_comfy_cms_files_on_site_id_and_position"
+  end
+
+  create_table "comfy_cms_fragments", id: :serial, force: :cascade do |t|
+    t.string "identifier", null: false
+    t.text "content"
+    t.string "record_type"
+    t.integer "record_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "tag", default: "text", null: false
+    t.datetime "datetime"
+    t.boolean "boolean", default: false, null: false
+    t.index ["identifier"], name: "index_comfy_cms_fragments_on_identifier"
+    t.index ["record_id", "record_type"], name: "index_comfy_cms_fragments_on_record_id_and_record_type"
   end
 
   create_table "comfy_cms_layouts", id: :serial, force: :cascade do |t|
@@ -87,7 +88,6 @@ ActiveRecord::Schema.define(version: 2019_10_29_024101) do
     t.text "css"
     t.text "js"
     t.integer "position", default: 0, null: false
-    t.boolean "is_shared", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position"
@@ -106,7 +106,6 @@ ActiveRecord::Schema.define(version: 2019_10_29_024101) do
     t.integer "position", default: 0, null: false
     t.integer "children_count", default: 0, null: false
     t.boolean "is_published", default: true, null: false
-    t.boolean "is_shared", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position"
@@ -127,9 +126,7 @@ ActiveRecord::Schema.define(version: 2019_10_29_024101) do
     t.string "hostname", null: false
     t.string "path"
     t.string "locale", default: "en", null: false
-    t.boolean "is_mirrored", default: false, null: false
     t.index ["hostname"], name: "index_comfy_cms_sites_on_hostname"
-    t.index ["is_mirrored"], name: "index_comfy_cms_sites_on_is_mirrored"
   end
 
   create_table "comfy_cms_snippets", id: :serial, force: :cascade do |t|
@@ -138,11 +135,24 @@ ActiveRecord::Schema.define(version: 2019_10_29_024101) do
     t.string "identifier", null: false
     t.text "content"
     t.integer "position", default: 0, null: false
-    t.boolean "is_shared", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true
     t.index ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position"
+  end
+
+  create_table "comfy_cms_translations", force: :cascade do |t|
+    t.string "locale", null: false
+    t.integer "page_id", null: false
+    t.integer "layout_id"
+    t.string "label", null: false
+    t.text "content_cache"
+    t.boolean "is_published", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["is_published"], name: "index_comfy_cms_translations_on_is_published"
+    t.index ["locale"], name: "index_comfy_cms_translations_on_locale"
+    t.index ["page_id"], name: "index_comfy_cms_translations_on_page_id"
   end
 
   create_table "comments", id: :serial, force: :cascade do |t|
