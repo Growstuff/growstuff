@@ -1,6 +1,6 @@
 %h2.text-center= t('.discussion')
 .list-group
-  - Post.order(created_at: :desc).limit(6).each do |post|
+  - Post.includes(:author).order(created_at: :desc).limit(6).each do |post|
     - cache post do
       = link_to post, class: 'list-group-item list-group-item-action flex-column align-items-start' do
         .d-flex.w-100.justify-content-between

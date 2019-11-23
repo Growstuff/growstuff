@@ -1,6 +1,6 @@
 - cache cache_key_for(Member) do
   .hidden-xs
-    - members = Member.includes(plantings: :crop).interesting.limit(6)
+    - members = Member.interesting.limit(6)
     - if members.present?
       %h2.text-center= t('.title')
       .index-cards

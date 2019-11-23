@@ -1,5 +1,5 @@
 %h2= t('.recently_harvested')
-- Harvest.has_photos.recent.includes(:crop, :owner, :photos).limit(6).each do |harvest|
+- Harvest.has_photos.recent.includes(:crop, :owner, :photos, :plant_part).limit(6).each do |harvest|
   - cache harvest do
     = link_to harvest, class: 'list-group-item list-group-item-action flex-column align-items-start' do
       .d-flex.w-100.justify-content-between.homepage--list-item
