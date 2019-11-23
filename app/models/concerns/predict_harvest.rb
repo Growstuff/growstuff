@@ -69,7 +69,7 @@ module PredictHarvest
       # otherwise use nearby plantings
       if location
         return Harvest.where(planting: nearby_same_crop.has_harvests)
-          .where.not(planting_id: nil)
+            .where.not(planting_id: nil)
       end
 
       Harvest.none
