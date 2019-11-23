@@ -207,6 +207,11 @@ describe Planting do
     end
   end
 
+  describe 'planting perrennial' do
+    pending 'no harvest to predict from'
+    pending 'harvests used to predict'
+    pending 'nearby plantings used to predict'
+  end
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
   end
