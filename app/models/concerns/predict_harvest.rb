@@ -57,7 +57,7 @@ module PredictHarvest
     def harvest_months
       Rails.cache.fetch("#{cache_key_with_version}/harvest_months", expires_in: 5.minutes) do
         neighbours_for_harvest_predictions.where.not(harvested_at: nil)
-          .group("extract(MONTH from harvested_at)")
+          .group("extract(MONTH from harvested_at)::int")
           .count
       end
     end
