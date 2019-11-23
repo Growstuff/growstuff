@@ -230,16 +230,22 @@ describe Planting do
       before do
         # Near by planting with harvests
         nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
-        nearby_planting = FactoryBot.create :planting, crop: crop, garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
-        FactoryBot.create :harvest, planting: nearby_planting, crop: crop, harvested_at: '1 May 2019'
-        FactoryBot.create :harvest, planting: nearby_planting, crop: crop, harvested_at: '18 June 2019'
-        FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop, harvested_at: '18 August 2008'
+        nearby_planting = FactoryBot.create :planting, crop: crop,
+          garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
+        FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
+          harvested_at: '1 May 2019'
+        FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
+          harvested_at: '18 June 2019'
+        FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop,
+          harvested_at: '18 August 2008'
 
         # far away planting harvests
         faraway_garden = FactoryBot.create :garden, location: 'Amundsen-Scott Base, Antarctica'
-        faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop, owner: faraway_garden.owner, planted_at: '16 May 2001'
+        faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop,
+          owner: faraway_garden.owner, planted_at: '16 May 2001'
 
-        FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop, harvested_at: '18 December 2006'
+        FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop,
+          harvested_at: '18 December 2006'
       end
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
