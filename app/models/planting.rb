@@ -104,7 +104,7 @@ class Planting < ApplicationRecord
   end
 
   def nearby_same_crop
-    return if location.empty?
+    return Planting.none if location.blank?
 
     # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
     Planting.joins(:garden)

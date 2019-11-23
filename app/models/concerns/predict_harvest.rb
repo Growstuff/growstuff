@@ -72,7 +72,7 @@ module PredictHarvest
           .where.not(planting_id: nil)
       end
 
-      []
+      Harvest.none
     end
 
     private
