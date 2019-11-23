@@ -34,6 +34,11 @@ class Garden < ApplicationRecord
             numericality: { only_integer: false, greater_than_or_equal_to: 0 },
             allow_nil:    true
 
+  scope :located, lambda {
+    where.not(gardens: { location: '' })
+      .where.not(gardens: { latitude: nil })
+      .where.not(gardens: { longitude: nil })
+  }
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
     "square feet"   => "square foot",

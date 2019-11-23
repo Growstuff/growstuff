@@ -32,6 +32,12 @@ class Planting < ApplicationRecord
 
   ##
   ## Scopes
+  scope :located, lambda {
+    joins(:garden)
+      .where.not(gardens: { location: '' })
+      .where.not(gardens: { latitude: nil })
+      .where.not(gardens: { longitude: nil })
+  }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
   scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
@@ -48,7 +54,7 @@ class Planting < ApplicationRecord
   delegate :name, :slug, :en_wikipedia_url, :default_scientific_name, :plantings_count,
            to: :crop, prefix: true
 
-  delegate :annual?, :svg_icon, to: :crop
+  delegate :annual?, :perennial?, :svg_icon, to: :crop
   delegate :location, :longitude, :latitude, to: :garden
 
   ##
