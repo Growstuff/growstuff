@@ -35,4 +35,5 @@
       - else
         .badge.text-muted{'aria-hidden': "true"}
           = I18n.t('date.abbr_month_names')[month]
-  in #{link_to planting.garden.location, place_path(planting.garden.location)}
+  - unless planting.garden.location.blank?
+    in #{link_to planting.garden.location, place_path(planting.garden.location)}
