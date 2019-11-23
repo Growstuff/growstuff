@@ -1,26 +1,27 @@
-.card.planting{class: planting.active? ? '' : 'card-finished'}
-  = link_to planting do
-    = image_tag planting_image_path(planting), class: 'img-card', alt: planting
-  - if can? :edit, planting
-    .planting-quick-actions
-      .dropdown
-        %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
-        .dropdown-menu{"aria-labelledby" => "planting-menu"}
-          = planting_edit_button(planting, classes: 'dropdown-item')
-          = add_photo_button(planting, classes: 'dropdown-item')
+- cache planting do
+  .card.planting{class: planting.active? ? '' : 'card-finished'}
+    = link_to planting do
+      = image_tag planting_image_path(planting), class: 'img-card', alt: planting
+    - if can? :edit, planting
+      .planting-quick-actions
+        .dropdown
+          %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+          .dropdown-menu{"aria-labelledby" => "planting-menu"}
+            = planting_edit_button(planting, classes: 'dropdown-item')
+            = add_photo_button(planting, classes: 'dropdown-item')
 
-          - if planting.active?
-            = planting_finish_button(planting, classes: 'dropdown-item')
-            = planting_harvest_button(planting, classes: 'dropdown-item')
-            = planting_save_seeds_button(planting, classes: 'dropdown-item')
+            - if planting.active?
+              = planting_finish_button(planting, classes: 'dropdown-item')
+              = planting_harvest_button(planting, classes: 'dropdown-item')
+              = planting_save_seeds_button(planting, classes: 'dropdown-item')
 
-          - if can? :destroy, planting
-            .dropdown-divider
-            = delete_button(planting, classes: 'dropdown-item text-danger')
-  = link_to planting do
-    .card-body.text-center
-      %h4= planting.crop
-      .text-center= render 'plantings/badges', planting: planting
-      = render 'plantings/progress', planting: planting
-  .card-footer
-    .float-right=render 'members/tiny', member: planting.owner
+            - if can? :destroy, planting
+              .dropdown-divider
+              = delete_button(planting, classes: 'dropdown-item text-danger')
+    = link_to planting do
+      .card-body.text-center
+        %h4= planting.crop
+        .text-center= render 'plantings/badges', planting: planting
+        = render 'plantings/progress', planting: planting
+    .card-footer
+      .float-right=render 'members/tiny', member: planting.owner

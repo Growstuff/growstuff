@@ -1,56 +1,58 @@
+
 .index-cards.facts.plantingfacts
+
   - if planting.parent_seed
     .card.fact-card
       %h3 Parent seed
       = render 'seeds/thumbnail', seed: planting.parent_seed
 
-  .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
-    %h3
-      Planted
-      = editable :date, planting, :planted_at, display_field: '.planted_at'
-    %strong.plantingfact--weekssinceplanted.planted_at
+  - cache planting do
+    .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
+      %h3
+        Planted
+        = editable :date, planting, :planted_at, display_field: '.planted_at'
+      %strong.plantingfact--weekssinceplanted.planted_at
+        - if planting.planted_at.present?
+          = I18n.t('date.abbr_month_names')[planting.planted_at.month]
+        - else
+          unknown
       - if planting.planted_at.present?
-        = I18n.t('date.abbr_month_names')[planting.planted_at.month]
-      - else
-        unknown
-    - if planting.planted_at.present?
-      %span.planted_at
-        =planting.planted_at.year
-
-  .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
-    %h3
-      Quantity
-      %small= editable :text_field, planting, :quantity, display_field: '.plantingfact--quantity'
-    %strong.plantingfact--quantity
-      - if planting.quantity.to_i.positive?
-        = planting.quantity
-      -else
-        unknown
-    %span
-      - if planting.quantity.to_i.positive? && planting.planted_from.present?
-        = planting.planted_from.pluralize(planting.quantity.to_i)
-
-  - unless planting.finished?
-    .card.fact-card.grid-sizer
-      %h3 Growing
-      %strong= seedling_icon
+        %span.planted_at
+          =planting.planted_at.year
+    .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
+      %h3
+        Quantity
+        %small= editable :text_field, planting, :quantity, display_field: '.plantingfact--quantity'
+      %strong.plantingfact--quantity
+        - if planting.quantity.to_i.positive?
+          = planting.quantity
+        -else
+          unknown
       %span
-        Planting is still growing today
+        - if planting.quantity.to_i.positive? && planting.planted_from.present?
+          = planting.planted_from.pluralize(planting.quantity.to_i)
 
-  .card.fact-card{class: planting.planted_from.present? ? '' : 'text-muted'}
-    %h3
-      Grown from
-      = editable :select, planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES, display_field: '.plantingfact--plantedfrom'
-    %strong.plantingfact--plantedfrom
-      = planting.planted_from.present? ? planting.planted_from : 'unknown'
+    - unless planting.finished?
+      .card.fact-card.grid-sizer
+        %h3 Growing
+        %strong= seedling_icon
+        %span
+          Planting is still growing today
 
-  .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
-    %h3
-      Grown in
-      = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.plantingfact--sunniness'
-    %strong= sunniness_icon(planting.sunniness)
-    %span.plantingfact--sunniness
-      = planting.sunniness.blank? ? "not specified" : planting.sunniness
+    .card.fact-card{class: planting.planted_from.present? ? '' : 'text-muted'}
+      %h3
+        Grown from
+        = editable :select, planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES, display_field: '.plantingfact--plantedfrom'
+      %strong.plantingfact--plantedfrom
+        = planting.planted_from.present? ? planting.planted_from : 'unknown'
+
+    .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
+      %h3
+        Grown in
+        = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.plantingfact--sunniness'
+      %strong= sunniness_icon(planting.sunniness)
+      %span.plantingfact--sunniness
+        = planting.sunniness.blank? ? "not specified" : planting.sunniness
 
   - if planting.crop.perennial
     .card.fact-card
@@ -65,14 +67,15 @@
           = seed_icon
       %span.plantingfact--seedssaved #{pluralize(planting.child_seeds.size, 'packet')} of seed
 
-  - if planting.finished?
-    .card.fact-card
-      %h3 Finished
-      %strong
+  - cache planting do
+    - if planting.finished?
+      .card.fact-card
+        %h3 Finished
+        %strong
+          - if planting.finished_at.present?
+            = I18n.t('date.abbr_month_names')[planting.finished_at.month]
+          - else
+            unknown date
         - if planting.finished_at.present?
-          = I18n.t('date.abbr_month_names')[planting.finished_at.month]
-        - else
-          unknown date
-      - if planting.finished_at.present?
-        %span.plantingfact--finish
-          = planting.finished_at.year
+          %span.plantingfact--finish
+            = planting.finished_at.year

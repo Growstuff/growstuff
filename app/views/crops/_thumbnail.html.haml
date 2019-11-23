@@ -1,11 +1,12 @@
-.card.crop-thumbnail
-  = link_to image_tag(crop_image_path(crop),
-                        alt: crop.name,
-                        class: 'img img-card'),
-                        crop
+- cache crop do
+  .card.crop-thumbnail
+    = link_to image_tag(crop_image_path(crop),
+                          alt: crop.name,
+                          class: 'img img-card'),
+                          crop
 
-  .text
-    %h3.crop-name= link_to crop, crop
-    %h5.crop-sci-name
-      &nbsp;
-      = crop.default_scientific_name
+    .text
+      %h3.crop-name= link_to crop, crop
+      %h5.crop-sci-name
+        &nbsp;
+        = crop.default_scientific_name
