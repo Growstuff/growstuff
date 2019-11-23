@@ -44,6 +44,10 @@
       = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
   .col-12.col-md-6
-    %section.discussion= render 'discuss', cached: true
+    %section.discussion
+      = cute_icon
+      = render 'discuss', cached: true
   .col-12
-    %section.members= render 'members', cached: true
+    %section.members
+      = cute_icon
+      = render 'members', cached: true
