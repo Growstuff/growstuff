@@ -12,7 +12,7 @@ module Api
 
       has_many :photos
 
-      attributes :name, :default_scientific_name
+      attributes :name, :default_scientific_name, :slug
       attributes :en_wikipedia_url
       attributes :perennial, :median_lifespan, :median_days_to_first_harvest, :median_days_to_last_harvest
       attributes :created_at, :updated_at

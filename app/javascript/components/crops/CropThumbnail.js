@@ -16,6 +16,7 @@ class CropThumbnail extends React.Component {
   }
   render () {
     let crop = this.props.crop.attributes;
+    console.log(crop);
     let crop_url = `/crops/${crop.slug}`;
     return (
       <div className="card crop-thumbnail">
