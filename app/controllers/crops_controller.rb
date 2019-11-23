@@ -58,7 +58,6 @@ class CropsController < ApplicationController
   end
 
   def show
-
     respond_to do |format|
       format.html do
         @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
