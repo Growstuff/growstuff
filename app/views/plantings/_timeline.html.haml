@@ -20,8 +20,8 @@
             planting: planting,
             week_number: week_number,
             date_this_week: planting.planted_at + week_number.weeks
-    (One emojii = 1 week)
-- if planting.perennial?
+    %small (One emojii = 1 week)
+.harvest-months
   Harvest months:
   - if planting.harvest_months.empty?
     %span.text-muted
