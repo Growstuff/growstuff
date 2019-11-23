@@ -56,13 +56,23 @@
       = render 'plantings/actions', planting: @planting
       %hr/
       = render @planting.crop
-      - unless @planting.nearby_same_crop.nil?
+
+      - if @planting.location
         %section.neighbours
           %h2 World Neighbours
+          - @neighbours.each do |planting|
+            = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
+              .d-flex.w-100.justify-content-between
+                %p.mb-2
+                  = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow'
+                .text-right
+                  %h5= planting.crop.name
+                  - if planting.planted_from.present?
+                    %span.badge.badge-success= planting.planted_from.pluralize
+                  %small.text-muted
+                    planted by #{planting.owner}
+                    in #{planting.garden.location}
           %p Other #{@planting.crop.name} plantings at the same latitude
-          %ul
-            - @planting.nearby_same_crop.each do |neighbour|
-              %li= link_to neighbour, neighbour
   .row
     .col-md-6
       %section.harvests

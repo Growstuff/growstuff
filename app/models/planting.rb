@@ -43,6 +43,7 @@ class Planting < ApplicationRecord
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
   scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :has_harvests, -> { where('plantings.harvests_count > 0') }
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=plantings.owner_id)
            LEFT OUTER JOIN plantings p2
@@ -104,13 +105,13 @@ class Planting < ApplicationRecord
 
   def nearby_same_crop
     return if location.empty?
+
     # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
     Planting.joins(:garden)
       .where(crop: crop)
       .located
       .where('gardens.latitude < ? AND gardens.latitude > ?',
         latitude + 10, latitude - 10)
-      .where("plantings.harvests_count> 0")
   end
 
   private

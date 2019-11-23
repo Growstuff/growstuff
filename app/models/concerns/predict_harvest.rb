@@ -56,12 +56,20 @@ module PredictHarvest
 
     def harvest_months
       Rails.cache.fetch("#{cache_key_with_version}/harvest_months", expires_in: 5.minutes) do
-        # use this planting's harvest if any, otherwise use nearby plantings_count
-        harvests_to_predict_from = harvests.size.positive? ? harvests : Harvest.where.not(planting_id: nil).where(planting: nearby_same_crop)
-        harvests_to_predict_from.where.not(harvested_at: nil)
+        neighbours_for_harvest_predictions.where.not(harvested_at: nil)
           .group("extract(MONTH from harvested_at)")
           .count
       end
+    end
+
+    def neighbours_for_harvest_predictions
+      # use this planting's harvest if any
+      return harvests if harvests.size.positive?
+
+      # otherwise use nearby plantings
+      return Harvest.where(planting: nearby_same_crop.has_harvests)
+          .where.not(planting_id: nil) if location
+      []
     end
 
     private
