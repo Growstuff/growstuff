@@ -4,6 +4,6 @@
     - if members.present?
       %h2.text-center= t('.title')
       .index-cards
-        = render members
+        = render partial: 'members/member', collection: members
     %p.text-right
       = link_to "#{t('.view_all')} »", members_path, class: 'btn btn-block'

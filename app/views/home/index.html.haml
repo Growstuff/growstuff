@@ -6,7 +6,7 @@
     .col-lg-8.col-md-12
       %h1.display-4= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 
-      %p= render 'stats'
+      %p= render 'stats', cached: true
     .col
       %p
         = link_to member_gardens_path(current_member), class: 'btn btn-dark' do
@@ -14,7 +14,7 @@
           Show me my garden
 - else
   .hidden-xs
-    %section.jumbotron= render 'blurb'
+    %section.jumbotron= render 'blurb', cached: true
 .row
   .col-lg-8.col-md-12
     %section.crops
@@ -44,6 +44,6 @@
       = render 'seeds'
       %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
   .col-12.col-md-6
-    %section.discussion= render 'discuss'
+    %section.discussion= render 'discuss', cached: true
   .col-12
-    %section.members= render 'members'
+    %section.members= render 'members', cached: true
