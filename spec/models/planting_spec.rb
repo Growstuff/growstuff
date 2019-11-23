@@ -207,10 +207,42 @@ describe Planting do
     end
   end
 
-  describe 'planting perrennial' do
-    pending 'no harvest to predict from'
-    pending 'harvests used to predict'
-    pending 'nearby plantings used to predict'
+  describe 'planting perennial' do
+    let(:crop) { FactoryBot.create(:crop, name: 'feijoa', perennial: true) }
+    it { expect(planting.perennial?).to eq true }
+    describe 'no harvest to predict from' do
+      it { expect(planting.harvest_months).to eq({}) }
+    end
+
+    describe 'harvests used to predict' do
+      before do
+        FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '1 May 2019'
+        FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '18 June 2019'
+        FactoryBot.create_list :harvest, 4, planting: planting, crop: crop, harvested_at: '18 August 2019'
+      end
+      it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
+    end
+
+    describe 'nearby plantings used to predict' do
+      # Note the locations used need to be stubbed in geocoder
+      let(:garden) { FactoryBot.create :garden, location: 'Edinburgh', owner: garden_owner }
+
+      before do
+        # Near by planting with harvests
+        nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
+        nearby_planting = FactoryBot.create :planting, crop: crop, garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
+        FactoryBot.create :harvest, planting: nearby_planting, crop: crop, harvested_at: '1 May 2019'
+        FactoryBot.create :harvest, planting: nearby_planting, crop: crop, harvested_at: '18 June 2019'
+        FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop, harvested_at: '18 August 2008'
+
+        # far away planting harvests
+        faraway_garden = FactoryBot.create :garden, location: 'Amundsen-Scott Base, Antarctica'
+        faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop, owner: faraway_garden.owner, planted_at: '16 May 2001'
+
+        FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop, harvested_at: '18 December 2006'
+      end
+      it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
+    end
   end
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
