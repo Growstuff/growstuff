@@ -104,6 +104,7 @@ class Planting < ApplicationRecord
 
   def nearby_same_crop
     return if location.empty?
+
     # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
     Planting.joins(:garden)
       .where(crop: crop)
