@@ -57,23 +57,11 @@ module PredictHarvest
     def harvest_months
       Rails.cache.fetch("#{cache_key_with_version}/harvest_months", expires_in: 5.minutes) do
         # use this planting's harvest if any, otherwise use nearby plantings_count
-        harvests_to_predict_from = harvests.size.positive? ? harvests : Harvest.where(planting: nearby_same_crop)
+        harvests_to_predict_from = harvests.size.positive? ? harvests : Harvest.where.not(planting_id: nil).where(planting: nearby_same_crop)
         harvests_to_predict_from.where.not(harvested_at: nil)
           .group("extract(MONTH from harvested_at)")
           .count
       end
-    end
-
-    def nearby_same_crop
-      return unless location
-
-      # nearby_members = Member.nearest_to(location)
-      Planting.joins(:garden)
-        .where(crop: crop)
-        .located
-        .where('gardens.latitude < ? AND gardens.latitude > ?',
-          latitude + 10, latitude - 10)
-        .where("plantings.harvests_count> 0")
     end
 
     private

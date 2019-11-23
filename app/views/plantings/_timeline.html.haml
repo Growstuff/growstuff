@@ -23,10 +23,15 @@
     (One emojii = 1 week)
 - if planting.perennial?
   Harvest months:
-  - (1..12).each do |month|
-    - if planting.harvest_months.keys().include?(month.to_f)
-      .badge.badge-info
-        = I18n.t('date.abbr_month_names')[month]
-    - else
-      .badge.text-muted
-        = I18n.t('date.abbr_month_names')[month]
+  - if planting.harvest_months.empty?
+    %span.text-muted
+      We need more data on this crop in your latitude. There's not enough
+      info yet to predict harvests.
+  - else
+    - (1..12).each do |month|
+      - if planting.harvest_months.keys().include?(month.to_f)
+        .badge.badge-info
+          = I18n.t('date.abbr_month_names')[month]
+      - else
+        .badge.text-muted
+          = I18n.t('date.abbr_month_names')[month]

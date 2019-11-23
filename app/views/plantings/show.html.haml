@@ -56,6 +56,13 @@
       = render 'plantings/actions', planting: @planting
       %hr/
       = render @planting.crop
+      - unless @planting.nearby_same_crop.nil?
+        %section.neighbours
+          %h2 Neighbours
+          %p Other #{@planting.crop.name} plantings at the same latitude
+          %ul
+            - @planting.nearby_same_crop.each do |neighbour|
+              %li= link_to neighbour, neighbour
   .row
     .col-md-6
       %section.harvests

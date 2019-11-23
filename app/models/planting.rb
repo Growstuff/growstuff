@@ -102,6 +102,17 @@ class Planting < ApplicationRecord
     planted? && !finished?
   end
 
+  def nearby_same_crop
+    return if location.empty?
+    # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
+    Planting.joins(:garden)
+      .where(crop: crop)
+      .located
+      .where('gardens.latitude < ? AND gardens.latitude > ?',
+        latitude + 10, latitude - 10)
+      .where("plantings.harvests_count> 0")
+  end
+
   private
 
   # check that any finished_at date occurs after planted_at
