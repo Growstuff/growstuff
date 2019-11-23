@@ -150,7 +150,6 @@ group :development, :test do
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
   gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
