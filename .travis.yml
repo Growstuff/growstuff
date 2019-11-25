@@ -46,7 +46,7 @@ script:
 after_script:
   - >
     if [ "${COVERAGE}" = "true" ]; then
-      gem install codeclimate
+      gem install codeclimate-test-reporter
       codeclimate-test-reporter
     fi
   - >
