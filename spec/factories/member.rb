@@ -39,7 +39,7 @@ FactoryBot.define do
     factory :london_member do
       sequence(:login_name) { |n| "JohnH#{n}" } # for the astronomer who figured out longitude
       location { 'Greenwich, UK' }
-      # including lat/long explicitly because geocoder doesn't work with FG
+      # including lat/long explicitly because geocoder doesn't work with FactoryBot
       latitude { 51.483 }
       longitude { 0.004 }
     end

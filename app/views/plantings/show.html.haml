@@ -14,6 +14,15 @@
   %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
   %li.breadcrumb-item.active= link_to @planting.crop.name, @planting
 
+
+- if @planting.parent_seed.nil? && @matching_seeds && @matching_seeds.any? && @planting.owner == current_member
+  .alert.alert-info{role: "alert"}
+    = bootstrap_form_for(@planting) do |f|
+      Is this from one of these plantings?
+      - @matching_seeds.each do |seed|
+        = f.radio_button :parent_seed_id, seed.id, label: seed
+      = f.submit "save", class: 'btn btn-sm'
+
 .planting
   .row
     .col-md-8.col-xs-12
@@ -30,13 +39,6 @@
 
         = render 'timeline', planting: @planting
 
-      - if @planting.parent_seed.nil? && @matching_seeds && @matching_seeds.any? && @planting.owner == current_member
-        .alert.alert-info{role: "alert"}
-          = bootstrap_form_for(@planting) do |f|
-            Is this from one of these plantings?
-            - @matching_seeds.each do |seed|
-              = f.radio_button :parent_seed_id, seed.id, label: seed
-            = f.submit "save", class: 'btn btn-sm'
 
     .col-md-4.col-xs-12
       = render 'plantings/owner', planting: @planting
@@ -52,16 +54,33 @@
             :growstuff_markdown
               #{strip_tags(@planting.description)}
       %section= render 'plantings/photos', photos: @photos, planting: @planting
+
+      %section.harvests
+        %a{name: 'harvests'}
+        = render 'plantings/harvests', planting: @planting
+
+      %section.descendants
+        %a{name: 'seeds'}
+        = render 'plantings/descendants', planting: @planting
+
     .col-md-4.col-xs-12
       = render 'plantings/actions', planting: @planting
       %hr/
       = render @planting.crop
-  .row
-    .col-md-6
-      %section.harvests
-        %a{name: 'harvests'}
-        = render 'plantings/harvests', planting: @planting
-    .col-md-6
-      %section.descendants
-        %a{name: 'seeds'}
-        = render 'plantings/descendants', planting: @planting
+
+      - if @planting.location
+        %section.neighbours
+          %h2 World Neighbours
+          - @neighbours.each do |planting|
+            = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
+              .d-flex.w-100.justify-content-between
+                %p.mb-2
+                  = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow'
+                .text-right
+                  %h5= planting.crop.name
+                  - if planting.planted_from.present?
+                    %span.badge.badge-success= planting.planted_from.pluralize
+                  %small.text-muted
+                    planted by #{planting.owner}
+                    in #{planting.garden.location}
+          %p Other #{@planting.crop.name} plantings at the same latitude
