@@ -61,6 +61,7 @@ describe "Display a planting", :js, :elasticsearch do
       it { expect(find('.plantingfact--quantity')).to have_text '100' }
     end
   end
+
   context 'signed in' do
     include_context 'signed in member'
     before { visit planting_path(planting) }

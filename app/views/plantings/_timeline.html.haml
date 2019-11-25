@@ -30,10 +30,10 @@
   - else
     - (1..12).each do |month|
       - if planting.harvest_months.keys().include?(month.to_f)
-        .badge.badge-info
+        .badge.badge-info.badge-harvesting{id: "month-#{month}"}
           = I18n.t('date.abbr_month_names')[month]
       - else
-        .badge.text-muted{'aria-hidden': "true"}
+        .badge.text-muted{'aria-hidden': "true", id: "month-#{month}"}
           = I18n.t('date.abbr_month_names')[month]
   - unless planting.garden.location.blank?
     in #{link_to planting.garden.location, place_path(planting.garden.location)}
