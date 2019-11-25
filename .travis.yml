@@ -29,14 +29,8 @@ before_install:
   # - sudo apt update
   - sudo apt install dpkg
   - sudo apt install google-chrome-stable
-  - ./script/install_codeclimate.sh
   - ./script/install_linters.sh
   - ./script/install_elasticsearch.sh
-before_script:
-  - >
-    if [ "${COVERAGE}" = "true" ]; then
-      ./cc-test-reporter before-build
-    fi
 script:
   - set -e
   - >
@@ -52,7 +46,8 @@ script:
 after_script:
   - >
     if [ "${COVERAGE}" = "true" ]; then
-      ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
+      gem install codeclimate-test-reporter
+      codeclimate-test-reporter
     fi
   - >
     if [ "${PERCY}" = "true" ]; then

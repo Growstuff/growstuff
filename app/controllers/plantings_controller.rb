@@ -33,6 +33,9 @@ class PlantingsController < ApplicationController
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     @matching_seeds = matching_seeds
+    @neighbours = @planting.nearby_same_crop
+      .where.not(id: @planting.id)
+      .limit(6)
     respond_with @planting
   end
 

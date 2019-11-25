@@ -13,6 +13,7 @@ describe "plantings/show" do
   before do
     assign(:planting, planting)
     assign(:photos, planting.photos.paginate(page: 1))
+    assign(:neighbours, planting.nearby_same_crop)
     controller.stub(:current_user) { member }
   end
 
