@@ -54,6 +54,27 @@ module PredictHarvest
         first_harvest_predicted_at > Time.zone.today
     end
 
+    def harvest_months
+      Rails.cache.fetch("#{cache_key_with_version}/harvest_months", expires_in: 5.minutes) do
+        neighbours_for_harvest_predictions.where.not(harvested_at: nil)
+          .group("extract(MONTH from harvested_at)::int")
+          .count
+      end
+    end
+
+    def neighbours_for_harvest_predictions
+      # use this planting's harvest if any
+      return harvests if harvests.size.positive?
+
+      # otherwise use nearby plantings
+      if location
+        return Harvest.where(planting: nearby_same_crop.has_harvests)
+            .where.not(planting_id: nil)
+      end
+
+      Harvest.none
+    end
+
     private
 
     def harvests_with_dates

@@ -32,11 +32,18 @@ class Planting < ApplicationRecord
 
   ##
   ## Scopes
+  scope :located, lambda {
+    joins(:garden)
+      .where.not(gardens: { location: '' })
+      .where.not(gardens: { latitude: nil })
+      .where.not(gardens: { longitude: nil })
+  }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
   scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
   scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :has_harvests, -> { where('plantings.harvests_count > 0') }
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=plantings.owner_id)
            LEFT OUTER JOIN plantings p2
@@ -49,7 +56,7 @@ class Planting < ApplicationRecord
            to: :crop, prefix: true
   delegate :login_name, to: :owner, prefix: true
 
-  delegate :annual?, :svg_icon, to: :crop
+  delegate :annual?, :perennial?, :svg_icon, to: :crop
   delegate :location, :longitude, :latitude, to: :garden
 
   ##
@@ -95,6 +102,17 @@ class Planting < ApplicationRecord
 
   def growing?
     planted? && !finished?
+  end
+
+  def nearby_same_crop
+    return Planting.none if location.blank?
+
+    # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
+    Planting.joins(:garden)
+      .where(crop: crop)
+      .located
+      .where('gardens.latitude < ? AND gardens.latitude > ?',
+        latitude + 10, latitude - 10)
   end
 
   private

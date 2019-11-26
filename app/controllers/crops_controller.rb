@@ -58,19 +58,21 @@ class CropsController < ApplicationController
   end
 
   def show
-    @crop = Crop.includes(:scientific_names, plantings: :photos)
-      .find_by!(slug: params[:slug])
-    @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
-
-    @photos = Photo.by_crop(@crop)
-
     respond_to do |format|
-      format.html
+      format.html do
+        @crop = Crop.includes(:scientific_names, plantings: :photos).find_by!(slug: params[:slug])
+        @photos = Photo.by_crop(@crop)
+        @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
+      end
       format.svg do
+        @crop = Crop.find_by!(slug: params[:slug])
         icon_data = @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
         send_data(icon_data, type: "image/svg+xml", disposition: "inline")
       end
-      format.json { render json: @crop.to_json(crop_json_fields) }
+      format.json do
+        @crop = Crop.find_by!(slug: params[:slug])
+        render json: @crop.to_json(crop_json_fields)
+      end
     end
   end
 

@@ -1,16 +1,17 @@
-.card.seed-card{class: seed.active? ? '' : 'card-finished'}
-  = link_to seed do
-    = image_tag(seed_image_path(seed), alt: seed, class: 'img-card')
-  .text
-    = render 'members/tiny', member: seed.owner
-  .card-body
-    .card-title
-      = crop_icon(seed.crop)
-      = link_to seed.crop, seed
-    - if seed.tradable?
-      .text-muted
-        = icon 'fas', 'map'
-        Will trade #{seed.tradable_to}
-    .badge.badge-pill.badge-location
-      = icon 'fas', 'map-marker'
-      = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')
+- cache seed do
+  .card.seed-card{class: seed.active? ? '' : 'card-finished'}
+    = link_to seed do
+      = image_tag(seed_image_path(seed), alt: seed, class: 'img-card')
+    .text
+      = render 'members/tiny', member: seed.owner
+    .card-body
+      .card-title
+        = crop_icon(seed.crop)
+        = link_to seed.crop, seed
+      - if seed.tradable?
+        .text-muted
+          = icon 'fas', 'map'
+          Will trade #{seed.tradable_to}
+      .badge.badge-pill.badge-location
+        = icon 'fas', 'map-marker'
+        = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')

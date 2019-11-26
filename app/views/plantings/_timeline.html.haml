@@ -1,23 +1,39 @@
-- if @planting.crop.annual?
+- if planting.annual?
   .d-flex.justify-content-between
-    - if @planting.planted_at.present?
-      %p.small #{ image_icon 'planting-hand'} Planted #{I18n.l @planting.planted_at}
-    - if @planting.first_harvest_date.present?
-      %p.small #{harvest_icon} Harvest started #{I18n.l @planting.first_harvest_date}
-    - elsif @planting.first_harvest_predicted_at.present?
-      %p.small #{harvest_icon} First harvest expected #{I18n.l @planting.first_harvest_predicted_at}
-    - if @planting.finished_at.present?
-      %p.small #{finished_icon} Finished #{I18n.l @planting.finished_at}
-    - elsif @planting.finish_predicted_at.present?
-      %p.small #{finished_icon} Finish expected #{I18n.l @planting.finish_predicted_at}
-  - if @planting.planted_at.present? && @planting.expected_lifespan.present?
+    - if planting.planted_at.present?
+      %p.small #{ image_icon 'planting-hand'} Planted #{I18n.l planting.planted_at}
+    - if planting.first_harvest_date.present?
+      %p.small #{harvest_icon} Harvest started #{I18n.l planting.first_harvest_date}
+    - elsif planting.first_harvest_predicted_at.present?
+      %p.small #{harvest_icon} First harvest expected #{I18n.l planting.first_harvest_predicted_at}
+    - if planting.finished_at.present?
+      %p.small #{finished_icon} Finished #{I18n.l planting.finished_at}
+    - elsif planting.finish_predicted_at.present?
+      %p.small #{finished_icon} Finish expected #{I18n.l planting.finish_predicted_at}
+  - if planting.planted_at.present? && planting.expected_lifespan.present?
     .progress
-      .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => @planting.percentage_grown, role: "progressbar", style: "width: #{@planting.percentage_grown}%"}
+      .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => planting.percentage_grown, role: "progressbar", style: "width: #{planting.percentage_grown}%"}
     %ul.list-unstyled.d-flex.justify-content-between
-      - in_weeks(@planting.expected_lifespan).times do |week_number|
-        %li{class: @planting.planted_at + week_number.weeks > Time.zone.today ? 'text-muted progress-fade' : '', 'data-toggle': "tooltip", 'data-placement': "top", title: I18n.l(@planting.planted_at + week_number.weeks)}
+      - in_weeks(planting.expected_lifespan).times do |week_number|
+        %li{class: planting.planted_at + week_number.weeks > Time.zone.today ? 'text-muted progress-fade' : '', 'data-toggle': "tooltip", 'data-placement': "top", title: I18n.l(planting.planted_at + week_number.weeks)}
           = render 'timeline_icon',
-            planting: @planting,
+            planting: planting,
             week_number: week_number,
-            date_this_week: @planting.planted_at + week_number.weeks
-    (One emojii = 1 week)
+            date_this_week: planting.planted_at + week_number.weeks
+    %small (One emojii = 1 week)
+.harvest-months
+  Harvest months:
+  - if planting.harvest_months.empty?
+    %span.text-muted
+      We need more data on this crop in your latitude. There's not enough
+      info yet to predict harvests.
+  - else
+    - (1..12).each do |month|
+      - if planting.harvest_months.keys().include?(month.to_f)
+        .badge.badge-info.badge-harvesting{id: "month-#{month}"}
+          = I18n.t('date.abbr_month_names')[month]
+      - else
+        .badge.text-muted{'aria-hidden': "true", id: "month-#{month}"}
+          = I18n.t('date.abbr_month_names')[month]
+  - unless planting.garden.location.blank?
+    in #{link_to planting.garden.location, place_path(planting.garden.location)}
