@@ -8,11 +8,12 @@ body {
   font-family: $default-font;
 }
 
-.site-name {
-  font-family: 'Modak', cursive;
+.jumbotron h1 {
+  font-size: 400%;
 }
 
 .navbar-brand .site-name {
+  font-family: 'Modak', cursive;
   font-size: 3em;
 }
 
