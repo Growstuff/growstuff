@@ -9,4 +9,4 @@
       %h3.crop-name= link_to crop, crop
       %h5.crop-sci-name
         &nbsp;
-        = crop.default_scientific_name
+        = crop.scientific_names.first&.name
