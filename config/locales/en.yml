@@ -235,15 +235,17 @@ en:
       posts: Posts
       profile: Profile
       seeds: Seeds
-      sign_in: Sign in
-      sign_out: Sign out
-      sign_up: Sign up
       skip: Skip navigation menu
       support_growstuff: Support Growstuff
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
+    menu:
+      sign_in: Sign in
+      sign_out: Sign out
+      sign_up: Sign up
   links:
     my_gardens: My gardens
+
   members:
     edit_profile: Edit profile
     index:
