@@ -43,6 +43,12 @@ a:hover {
   text-decoration: underline;
 }
 
+h1,
+h2,
+h3 {
+  font-family: $header-font;
+}
+
 h1 {
   font-size: 250%;
 }
@@ -71,11 +77,11 @@ h3 {
 section {
   margin: .5em 0 0;
   padding: 0 0 1em;
-
   h2 {
     background-color: $green;
     box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     color: $white;
+    font-weight: normal;
     padding: .2em;
 
     a {
