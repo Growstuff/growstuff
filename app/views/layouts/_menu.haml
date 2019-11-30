@@ -23,28 +23,28 @@
             = post_icon
             = t('buttons.new_post')
 
-    %li.nav-item.dropdown
-      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.crops')
-      .dropdown-menu
-        = link_to crops_path, class: 'dropdown-item' do
-          = t('.browse_crops')
-        = link_to seeds_path, class: 'dropdown-item' do
-          = seed_icon
-          = t('.seeds')
-        = link_to plantings_path, class: 'dropdown-item' do
-          = planting_icon
-          = t('.plantings')
-        = link_to harvests_path, class: 'dropdown-item' do
-          = harvest_icon
-          = t('.harvests')
-
-    %li.nav-item.dropdown
-      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
-      .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-        = link_to t('.community_map'), places_path, class: 'dropdown-item'
-        = link_to t('.browse_members'), members_path, class: 'dropdown-item'
-        = link_to t('.posts'), posts_path, class: 'dropdown-item'
-        = link_to t('.forums'), forums_path, class: 'dropdown-item'
+    - cache("everyone-menu", expires_in: 1.week) do
+      %li.nav-item.dropdown
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.crops')
+        .dropdown-menu
+          = link_to crops_path, class: 'dropdown-item' do
+            = t('.browse_crops')
+          = link_to seeds_path, class: 'dropdown-item' do
+            = seed_icon
+            = t('.seeds')
+          = link_to plantings_path, class: 'dropdown-item' do
+            = planting_icon
+            = t('.plantings')
+          = link_to harvests_path, class: 'dropdown-item' do
+            = harvest_icon
+            = t('.harvests')
+      %li.nav-item.dropdown
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
+        .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+          = link_to t('.community_map'), places_path, class: 'dropdown-item'
+          = link_to t('.browse_members'), members_path, class: 'dropdown-item'
+          = link_to t('.posts'), posts_path, class: 'dropdown-item'
+          = link_to t('.forums'), forums_path, class: 'dropdown-item'
 
     - if member_signed_in?
       %li.nav-item.dropdown
@@ -75,6 +75,8 @@
                 %span.badge.badge-info= current_member.unread_count
           - else
             = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
+          .dropdown-divider
+          = link_to t('.sign_out'), destroy_member_session_path, method: :delete, class: 'dropdown-item'
 
         - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
           %li.nav-item.dropdown
@@ -84,10 +86,6 @@
                 = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
               - if current_member.role?(:admin)
                 = link_to t('.admin'), admin_path, class: 'dropdown-item'
-
-      %li.nav-item
-        = link_to t('.sign_out'), destroy_member_session_path, method: :delete, class: 'nav-link'
-
     - else
       %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn nav-link'
       %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn nav-link'
