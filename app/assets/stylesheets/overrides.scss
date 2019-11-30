@@ -8,6 +8,17 @@ body {
   font-family: $default-font;
 }
 
+.site-name {
+  font-family: 'Modak', cursive;
+}
+
+.navbar-brand .site-name {
+  font-size: 3em;
+}
+
+.homepage-blurb h1.site-name {
+  font-size: 5em;
+}
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -16,11 +27,6 @@ body {
 
 a {
   color: $green;
-
-  .navbar-brand {
-    margin: 0;
-    padding: 0;
-  }
 }
 
 a:hover {
