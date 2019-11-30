@@ -8,10 +8,6 @@ body {
   font-family: $default-font;
 }
 
-.jumbotron h1 {
-  font-size: 400%;
-}
-
 .navbar-brand .site-name {
   font-family: 'Modak', cursive;
   font-size: 3em;
@@ -330,6 +326,10 @@ ul.thumbnail-buttons {
   margin-bottom: 1em;
   padding-bottom: 30px;
   padding-top: 30px;
+
+  h1 {
+    font-size: 400%;
+  }
 
   // signup widget on homepage
   .signup {
