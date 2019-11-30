@@ -10,7 +10,7 @@ module IconsHelper
                wheelbarrow cat spiderweb bug butterfly ladybird stones)
     rand_num = rand(1..icons.size)
     icon = icons[rand_num - 1]
-    image_tag("icons/#{icon}.svg", class: 'img img-cute', alt: icon)
+    image_tag("icons/#{icon}.svg", 'aria-hidden' => "true", class: 'img img-cute', alt: icon)
   end
 
   def timeline_icon
@@ -113,6 +113,6 @@ module IconsHelper
   end
 
   def image_icon(icon)
-    image_tag "icons/#{icon}.svg", class: 'img img-icon'
+    image_tag "icons/#{icon}.svg", class: 'img img-icon', 'aria-hidden' => "true"
   end
 end

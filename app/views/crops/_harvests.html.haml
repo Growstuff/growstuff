@@ -13,10 +13,11 @@
           .float-right= render 'members/location', member: harvest.owner
           .harvest-timeago
             %small #{distance_of_time_in_words(harvest.harvested_at, Time.zone.now)} ago.
-  .card-footer
-    %p= link_to "View all #{crop.name} harvests", crop_harvests_path(crop), class: 'card-link'
-    - if crop.approved?
-      - if current_member
-        %p= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id), class: 'btn btn-block'
-      - else
-        = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} harvests" }
+      %li.list-group-item= link_to "View all #{crop.name} harvests", crop_harvests_path(crop), class: 'card-link'
+      - if crop.approved?
+        - if current_member
+          %li.list-group-item= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id), class: 'btn btn-block'
+        - else
+          %li.list-group-item.active
+            = icon 'fas', 'user'
+            = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} harvests" }

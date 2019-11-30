@@ -1,7 +1,7 @@
 
 .form-page
   .card.form-card
-    %h2 Resend confirmation instructions
+    %h1 Resend confirmation instructions
     = form_for(resource, as: resource_name,
         url: confirmation_path(resource_name),
         html: { method: :post, class: 'form-horizontal', role: 'form' }) do |f|

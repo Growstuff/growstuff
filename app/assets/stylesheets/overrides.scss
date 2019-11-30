@@ -8,6 +8,21 @@ body {
   font-family: $default-font;
 }
 
+.navbar-brand .site-name {
+  font-family: 'Modak', cursive;
+  font-size: 3em;
+  margin-top: 0.2em;
+}
+
+.homepage-blurb .site-name {
+  font-size: 5em;
+}
+
+.navbar-nav .btn {
+  background-color: $green;
+  color: $white;
+}
+
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -16,11 +31,6 @@ body {
 
 a {
   color: $green;
-
-  .navbar-brand {
-    margin: 0;
-    padding: 0;
-  }
 }
 
 a:hover {
@@ -64,11 +74,11 @@ h3 {
 section {
   margin: .5em 0 0;
   padding: 0 0 1em;
-
   h2 {
     background-color: $green;
     box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     color: $white;
+    font-weight: normal;
     padding: .2em;
 
     a {
@@ -317,6 +327,10 @@ ul.thumbnail-buttons {
   padding-bottom: 30px;
   padding-top: 30px;
 
+  h1 {
+    font-size: 400%;
+  }
+
   // signup widget on homepage
   .signup {
     background-color: lighten($green, 40%);
@@ -431,7 +445,18 @@ ul.thumbnail-buttons {
   }
 
   .nav .btn {
-    background-color: lighten($green, 50%);
+    background-color: $green;
+    width: 100%;
+  }
+
+  .navbar-brand .site-name {
+    font-size: 1.4em;
+    text-align: justify;
+  }
+
+  .navbar-brand .site-name:after {
+    content: "";
+    display: inline-block;
     width: 100%;
   }
 

@@ -1,6 +1,6 @@
 .card
   .card-header
-    %h5.card-title Find #{crop.name} seeds
+    %h3 Find #{crop.name} seeds
   - if crop.seeds.empty?
     .card-body
       %p There are no seeds available to trade on Growstuff right now.
@@ -9,7 +9,7 @@
       - crop.seeds.tradable.each do |seed|
         %li.list-group-item
           = link_to "#{seed.owner} will trade #{seed.tradable_to}.", seed_path(seed), class: 'card-link'
-          = render 'members/location', member: seed.owner
+          .float-right= render 'members/location', member: seed.owner
       %li.list-group-item.d-flex.justify-content-between.align-items-center
         = link_to crop_seeds_path(crop), class: 'card-link' do
           = seed_icon
