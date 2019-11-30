@@ -3,9 +3,10 @@
     %a.navbar-brand{ href: root_path }
       = image_tag("pear.png", size: "100x100", alt: 'Growstuff brand logo (drawing of a pear)')
       %span.site-name Growstuff
-  = render 'crops/search_bar'
   .nav
     %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", type: "button"}
       %i.fas.fa-ellipsis-v.navbar-toggler-icon
 
     = render 'layouts/menu'
+
+  = render 'crops/search_bar'
