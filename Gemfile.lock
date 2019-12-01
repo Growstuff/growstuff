@@ -358,6 +358,7 @@ GEM
     public_suffix (4.0.1)
     puma (4.3.0)
       nio4r (~> 2.0)
+    query_diet (0.6.2)
     rack (2.0.7)
     rack-protection (2.0.7)
       rack
@@ -639,6 +640,7 @@ DEPENDENCIES
   pg (< 1.0.0)
   platform-api
   puma
+  query_diet
   rack-protection (>= 2.0.1)
   rails (= 5.2.2.1)
   rails-assets-leaflet.markercluster!

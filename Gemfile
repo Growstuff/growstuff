@@ -142,6 +142,7 @@ end
 
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
+  gem 'query_diet'
   gem 'byebug'                  # debugging
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
