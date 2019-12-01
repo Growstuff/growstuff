@@ -1,14 +1,16 @@
 module PhotosHelper
   def crop_image_path(crop)
-    if crop.default_photo.present?
-      # The flickr thumbnails are too small, use full size
-      if crop.default_photo.source == 'flickr'
-        crop.default_photo.fullsize_url
+    Rails.cache.fetch("crop_image_path/#{crop.id}") do
+      if crop.default_photo.present?
+        # The flickr thumbnails are too small, use full size
+        if crop.default_photo.source == 'flickr'
+          crop.default_photo.fullsize_url
+        else
+          crop.default_photo.thumbnail_url
+        end
       else
-        crop.default_photo.thumbnail_url
+        placeholder_image
       end
-    else
-      placeholder_image
     end
   end
 
