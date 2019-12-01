@@ -1,11 +1,11 @@
 .card
   .card-body
     %h3 #{crop.name.capitalize} harvests
-    - if crop.harvests.empty?
+    - if crop.harvests.none?
       %p Nobody has harvested this crop yet.
   - unless crop.harvests.empty?
     %ul.list-group.list-group-flush
-      - crop.harvests.order(harvested_at: :desc).limit(3).each do |harvest|
+      - Harvest.where(crop: crop).includes(:owner).order(harvested_at: :desc).limit(3).each do |harvest|
         %li.list-group-item
           = link_to harvest_path(harvest), class: 'card-link' do
             = harvest_icon

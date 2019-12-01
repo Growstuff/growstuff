@@ -1,11 +1,11 @@
 .card
   .card-body
     %h3 See who's planted #{crop.name.pluralize}
-  - unless crop.plantings.empty?
+  - if crop.plantings.any?
     %ul.list-group.list-group-flush
-      - crop.plantings.order(planted_at: :desc).limit(5).each do |planting|
+      - crop.plantings.includes(:owner, :garden).order(planted_at: :desc).limit(5).each do |planting|
         %li.list-group-item
-          = link_to planting, class: 'card-link' do
+          = link_to planting_path(planting), class: 'card-link' do
             = planting_icon
             = planting
           .float-right= render 'members/location', member: planting.owner
