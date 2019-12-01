@@ -65,7 +65,7 @@ describe Crop do
     expect(@crop.default_scientific_name).to eq nil
     @sn = FactoryBot.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
-    expect("#{@crop.default_scientific_name}").to eq @sn.name
+    expect(@crop.default_scientific_name.to_s).to eq @sn.name
   end
 
   it 'counts plantings' do
@@ -372,7 +372,7 @@ describe Crop do
         row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo bar"]
         tomato = CsvImporter.new.import_crop(row)
         expect(tomato.scientific_names.size).to eq 1
-        expect("#{tomato.default_scientific_name}").to eq "Foo bar"
+        expect(tomato.default_scientific_name.to_s).to eq "Foo bar"
       end
 
       it "picks up scientific name from parent crop if available" do
