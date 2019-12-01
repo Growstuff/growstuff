@@ -12,7 +12,9 @@ module PhotoCapable
     end
 
     def most_liked_photo
-      photos.order(likes_count: :desc, created_at: :desc).first
+      Rails.cache.fetch("most_liked_photo/#{model_name}/#{id}") do
+        photos.order(likes_count: :desc, created_at: :desc).first
+      end
     end
   end
 end
