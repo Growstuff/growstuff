@@ -142,7 +142,6 @@ end
 
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
-  gem 'query_diet'
   gem 'byebug'                  # debugging
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
@@ -151,6 +150,7 @@ group :development, :test do
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
+  gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'
