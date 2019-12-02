@@ -18,6 +18,11 @@ body {
   font-size: 5em;
 }
 
+.navbar-nav .btn {
+  background-color: $green;
+  color: $white;
+}
+
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -440,12 +445,19 @@ ul.thumbnail-buttons {
   }
 
   .nav .btn {
-    background-color: lighten($green, 50%);
+    background-color: $green;
     width: 100%;
   }
 
   .navbar-brand .site-name {
     font-size: 1.4em;
+    text-align: justify;
+  }
+
+  .navbar-brand .site-name:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
   }
 
   section .btn {

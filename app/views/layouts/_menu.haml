@@ -87,5 +87,5 @@
               - if current_member.role?(:admin)
                 = link_to t('.admin'), admin_path, class: 'dropdown-item'
     - else
-      %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn nav-link'
-      %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn nav-link'
+      %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn'
+      %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn'
