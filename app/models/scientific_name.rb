@@ -5,4 +5,8 @@ class ScientificName < ApplicationRecord
   validates :crop, presence: true
   after_commit :reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
   delegate :reindex, to: :crop
+
+  def to_s
+    name
+  end
 end

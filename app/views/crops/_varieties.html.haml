@@ -1,4 +1,4 @@
-- if crop.varieties.any?
-  - crop.varieties.order(:name).each do |v|
+- if crop.varieties.size.positive?
+  - crop.varieties.includes(:varieties).order(:name).each do |v|
     = render 'crops/thumbnail', crop: v
     = render 'crops/varieties', crop: v

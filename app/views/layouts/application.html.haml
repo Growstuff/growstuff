@@ -3,6 +3,7 @@
   = yield :scripts
   = render "layouts/head"
   %body
+    = query_diet_widget if Rails.env.development?
     .sr-only= link_to t(".skip"), "#skipnav"
     = render "layouts/header"
     -# anchor tag for accessibility link to skip the navigation menu

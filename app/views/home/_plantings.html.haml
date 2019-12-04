@@ -1,5 +1,4 @@
 %h2= t('.recently_planted')
-
 - Planting.has_photos.recent.includes(:owner, :crop).limit(6).each do |planting|
   - cache planting do
     = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do

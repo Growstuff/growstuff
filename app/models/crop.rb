@@ -67,7 +67,7 @@ class Crop < ApplicationRecord
   end
 
   def default_scientific_name
-    scientific_names.first&.name
+    scientific_names.first
   end
 
   # returns hash indicating whether this crop is grown in
