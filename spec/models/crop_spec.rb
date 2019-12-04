@@ -385,8 +385,8 @@ describe Crop do
         )
 
         expect(tomato.parent).to eq parent
-        expect(tomato.parent.default_scientific_name).to eq "Parentis cropis"
-        expect(tomato.default_scientific_name).to eq "Parentis cropis"
+        expect(tomato.parent.default_scientific_name.to_s).to eq "Parentis cropis"
+        expect(tomato.default_scientific_name.to_s).to eq "Parentis cropis"
       end
 
       it "doesn't add a duplicate scientific name" do
