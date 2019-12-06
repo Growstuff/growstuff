@@ -15,6 +15,7 @@ describe "signin", js: true do
     visit crops_path # some random page
     click_link 'Sign in'
     login
+    click_link member.login_name
     expect(page).to have_content("Sign out")
   end
 
