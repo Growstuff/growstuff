@@ -9,6 +9,7 @@ describe "signout" do
     fill_in 'Login', with: member.login_name
     fill_in 'Password', with: member.password
     click_button 'Sign in'
+    click_link member.login_name
     click_link 'Sign out'
     expect(current_path).to eq crops_path
   end
@@ -23,6 +24,7 @@ describe "signout" do
       click_button 'Sign in'
       # expect(page).to have_http_status(200)
       expect(current_path).to eq path
+      click_link member.login_name
       click_link 'Sign out'
       # expect(page).to have_http_status(200)
       expect(current_path).to eq new_member_session_path
