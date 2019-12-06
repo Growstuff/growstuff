@@ -1,10 +1,12 @@
 #navbarSupportedContent.collapse.navbar-collapse
   %ul.navbar-nav.mr-auto
     - if signed_in?
-      = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
-        = image_tag 'icons/notification.svg', class: 'img img-icon'
-      = link_to member_gardens_path(member_slug: current_member.slug), class: 'nav-link text-white' do
-        = image_icon 'gardens'
+      %li.nav-item
+        = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
+          = image_tag 'icons/notification.svg', class: 'img img-icon'
+      %li.nav-item
+        = link_to member_gardens_path(member_slug: current_member.slug), class: 'nav-link text-white' do
+          = image_icon 'gardens'
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
           = image_tag "icons/gardener.svg", class: 'img img-icon'
@@ -87,5 +89,5 @@
               - if current_member.role?(:admin)
                 = link_to t('.admin'), admin_path, class: 'dropdown-item'
     - else
-      %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn'
-      %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn'
+      %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn btn-signin'
+      %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn btn-signup'
