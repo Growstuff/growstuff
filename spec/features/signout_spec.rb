@@ -24,8 +24,8 @@ describe "signout" do
       click_button 'Sign in'
       # expect(page).to have_http_status(200)
       expect(current_path).to eq path
-    click_link member.login_name
-    click_link 'Sign out'
+      click_link member.login_name
+      click_link 'Sign out'
       # expect(page).to have_http_status(200)
       expect(current_path).to eq new_member_session_path
     end
