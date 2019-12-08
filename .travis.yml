@@ -18,7 +18,7 @@ env:
   matrix:
     - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true ELASTIC_SEARCH_VERSION="6.2.3"
     - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
-    - STATIC_CHECKS=true PERCY_CHECKS=true
+    - STATIC_CHECKS=true PERCY=true
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
     - GROWSTUFF_EMAIL="noreply@test.growstuff.org"
