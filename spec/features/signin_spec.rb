@@ -5,6 +5,11 @@ describe "signin", js: true do
   let(:recipient)    { FactoryBot.create :member                             }
   let(:wrangler)     { FactoryBot.create :crop_wrangling_member              }
 
+  before do
+    crop = FactoryBot.create :tomato
+    crop.reindex
+  end
+
   def login
     fill_in 'Login', with: member.login_name
     fill_in 'Password', with: member.password

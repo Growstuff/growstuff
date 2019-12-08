@@ -21,6 +21,7 @@ describe "home page" do
     planting.photos << photo
     seed.photos << photo
     harvest.photos << photo
+    Crop.reindex
   end
 
   before { visit root_path }
@@ -54,6 +55,7 @@ describe "home page" do
 
   shared_examples "show crops" do
     describe 'shows crops section' do
+      before { crop.reindex }
       it { is_expected.to have_text 'Some of our crops' }
       it { is_expected.to have_link href: crop_path(crop) }
     end

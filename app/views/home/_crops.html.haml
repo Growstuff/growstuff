@@ -1,5 +1,16 @@
 - cache cache_key_for(Crop, 'homepage'), expires_in: 1.day do
   .index-cards
-    - Crop.interesting.includes(:scientific_names, :photos, :parent).shuffle.first(18).each do |crop|
-      = render 'crops/thumbnail', crop: crop
+    - CropSearchService.random_with_photos(16).each do |crop|
+      .card.crop-thumbnail
+        = link_to crop_path(slug: crop['slug']) do
+          = image_tag(crop['photo'],
+                                alt: crop['name'],
+                                class: 'img img-card')
+
+        .text
+          %h3.crop-name
+            = link_to crop['name'], crop_path(slug: crop['slug'])
+          %h5.crop-sci-name
+            &nbsp;
+            = crop['scientific_name']
 
