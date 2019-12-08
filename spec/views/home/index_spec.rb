@@ -16,6 +16,8 @@ describe 'home/index.html.haml', type: "view" do
     assign(:crops, [@crop])
     assign(:recent_crops, [@crop])
     assign(:seeds, [FactoryBot.create(:tradable_seed)])
+
+    Crop.reindex
   end
 
   context 'logged out' do

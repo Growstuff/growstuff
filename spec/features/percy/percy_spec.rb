@@ -77,6 +77,7 @@ rest of the garden.
       maize:    'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
     }.each do |crop_type, photo_url|
       crop = FactoryBot.create crop_type, creator: someone_else
+      crop.reindex
       owner = FactoryBot.create :interesting_member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
       planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
       photo = FactoryBot.create(:photo, owner: owner,

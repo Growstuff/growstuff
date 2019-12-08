@@ -57,13 +57,6 @@ GROWSTUFF_FACEBOOK_SECRET: ""
 GROWSTUFF_MAPBOX_MAP_ID: ""
 GROWSTUFF_MAPBOX_ACCESS_TOKEN: ""
 
-# Elasticsearch is used for flexible search and it requires another component
-# to be installed. To make it easy for people who don't need to test this feature
-# it's been turned off for test and development environment as a default.
-# If you want to test this functionality, install elasticsearch and
-# set this flag to "true".
-GROWSTUFF_ELASTICSEARCH: "false"
-
 ##############################################################################
 # Other environments
 # You can override the above for staging, production, etc.
@@ -83,8 +76,6 @@ test:
 
 staging:
   GROWSTUFF_SITE_NAME: Growstuff (staging)
-  GROWSTUFF_ELASTICSEARCH: "true"
 
 production:
   GROWSTUFF_SITE_NAME: Growstuff
-  GROWSTUFF_ELASTICSEARCH: "true"

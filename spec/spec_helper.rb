@@ -35,13 +35,11 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
-      # reindex models
-      Crop.reindex
+    # reindex models
+    Crop.reindex
 
-      # and disable callbacks
-      Searchkick.disable_callbacks
-    end
+    # and disable callbacks
+    Searchkick.disable_callbacks
   end
 
   config.around(:each, search: true) do |example|

@@ -1,6 +1,6 @@
 require "rails_helper"
 require 'custom_matchers'
-describe "Display a planting", :js, :elasticsearch do
+describe "Display a planting", :js do
   describe 'planting perennial' do
     let(:garden) { FactoryBot.create :garden, location: 'Edinburgh' }
     let(:crop) { FactoryBot.create(:crop, name: 'feijoa', perennial: true) }
