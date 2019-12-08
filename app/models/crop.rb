@@ -2,6 +2,8 @@ class Crop < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include OpenFarmData
+  include CropSearch
+
   friendly_id :name, use: %i(slugged finders)
 
   ##
@@ -37,9 +39,6 @@ class Crop < ApplicationRecord
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
   scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
-  # Special scope to control if it's in the search index
-  scope :search_import, -> { approved }
-
   ##
   ## Validations
   # Reasons are only necessary when rejecting
@@ -53,10 +52,6 @@ class Crop < ApplicationRecord
               message: 'is not a valid English Wikipedia URL'
             },
             if:     :approved?
-
-  ####################################
-  # Elastic search configuration
-  searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
 
   def to_s
     name
@@ -152,24 +147,6 @@ class Crop < ApplicationRecord
 
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
-  end
-
-  def should_index?
-    approved?
-  end
-
-  def search_data
-    {
-      name:             name,
-      alternate_names:  alternate_names.pluck(:name),
-      scientific_names: scientific_names.pluck(:name),
-      plantings_count:  plantings_count, # boost the crops that are planted the most
-      planters_ids:     plantings.pluck(:owner_id) # boost this product for these members
-    }
-  end
-
-  def fetch_from_openfarm!
-    OpenfarmService.new.update_crop(self)
   end
 
   private

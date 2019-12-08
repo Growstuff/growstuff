@@ -34,7 +34,7 @@ class CropSearchService
     matches = Crop.approved
       .left_outer_joins(:alternate_names, :scientific_names)
       .where("crops.name ILIKE ? OR alternate_names.name ILIKE ? OR scientific_names.name ILIKE ?",
-        matcher, matcher, matcher)
+             matcher, matcher, matcher)
 
     matches = matches.to_a
     # we want to make sure that exact matches come first, even if not
@@ -45,5 +45,29 @@ class CropSearchService
       matches.unshift(exact_match)
     end
     matches.paginate(page: page, per_page: per_page)
+  end
+
+  def self.random_with_photos(limit)
+    body = {
+      "query": {
+        "function_score": {
+          "query":        { "query_string": { "query": 'has_photos:true' } },
+          "random_score": { "seed": DateTime.now.to_i }
+        }
+      }
+    }
+    Crop.search(
+      limit: limit,
+      load:  false,
+      body:  body
+    ).response['hits']['hits'].map { |c| c['_source'] }
+  end
+
+  def self.recent(limit)
+    Crop.search(
+      limit:    limit,
+      load:     false,
+      boost_by: { created_at: { factor: 100 } } # default factor is 1
+    ).response['hits']['hits'].map { |c| c['_source'] }
   end
 end

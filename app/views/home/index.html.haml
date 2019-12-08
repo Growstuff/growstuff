@@ -26,8 +26,7 @@
       - cache cache_key_for(Crop, 'recent') do
         %h2= t('.recently_added')
         %p
-          != Crop.recent.limit(30).map { |c| link_to(c, c) }.join(", ")
-
+          != CropSearchService.recent(30).map { |c| link_to(c['name'], crop_path(slug: c['slug'])) }.join(", ")
   .col-xl-2.col
     %section.plantings
       = cute_icon
