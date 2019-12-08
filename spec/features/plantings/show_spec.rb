@@ -1,7 +1,7 @@
 require "rails_helper"
 require 'custom_matchers'
 
-describe "Display a planting", :js, :elasticsearch do
+describe "Display a planting", :js do
   context 'anonymous' do
     before { visit planting_path(planting) }
 

@@ -4,7 +4,7 @@ module CropSearch
   included do
     ####################################
     # Elastic search configuration
-    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false if ENV["GROWSTUFF_ELASTICSEARCH"] == "true"
+    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
 
     # Special scope to control if it's in the search index
     scope :search_import, -> { includes(:scientific_names, :photos) }
@@ -27,7 +27,7 @@ module CropSearch
         photo:            default_photo&.thumbnail_url,
         scientific_name:  default_scientific_name&.name,
         description:      description,
-        created_at:       created_at
+        created_at:       created_at.to_i
       }
     end
   end
