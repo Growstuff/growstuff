@@ -2,11 +2,8 @@ module CropSearch
   extend ActiveSupport::Concern
 
   included do
-    ####################################
-    # Elastic search configuration
     searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
 
-    # Special scope to control if it's in the search index
     scope :search_import, -> { includes(:scientific_names, :photos) }
 
     def should_index?
@@ -21,6 +18,7 @@ module CropSearch
         scientific_names: scientific_names.pluck(:name),
         # boost the crops that are planted the most
         plantings_count:  plantings_count,
+        harvests_count:   harvests.size,
         # boost this crop for these members
         planters_ids:     plantings.pluck(:owner_id),
         has_photos:       photos.size.positive?,

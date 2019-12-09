@@ -3,6 +3,7 @@ class Harvest < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include Ownable
+  include HarvestSearch
 
   friendly_id :harvest_slug, use: %i(slugged finders)
 

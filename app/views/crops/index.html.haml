@@ -23,7 +23,7 @@
   = will_paginate @crops
   .index-cards
     - @crops.each do |crop|
-      = render 'crops/thumbnail', crop: crop
+      = render 'crops/search_result', crop: crop
 
   = will_paginate @crops
 

@@ -9,7 +9,7 @@ class CropsController < ApplicationController
 
   def index
     @sort = params[:sort]
-    @crops = crops
+    @crops = Crop.search('*', boost_by: [:plantings_count, :harvests_count], limit: 100, page: params[:page], load: false)
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
@@ -211,13 +211,6 @@ class CropsController < ApplicationController
         alternate_names:  { only: [:name] }
       }
     }
-  end
-
-  def crops
-    q = Crop.approved.includes(:scientific_names, plantings: :photos)
-    q = q.popular unless @sort == 'alpha'
-    q.order(Arel.sql("LOWER(crops.name)"))
-      .includes(:photos).paginate(page: params[:page])
   end
 
   def requested_crops

@@ -11,10 +11,12 @@ class HarvestsController < ApplicationController
     @crop = Crop.find_by(slug: params[:crop_slug])
     @planting = Planting.find_by(slug: params[:planting_id])
 
-    @harvests = @harvests.where(owner: @owner) if @owner.present?
-    @harvests = @harvests.where(crop: @crop) if @crop.present?
-    @harvests = @harvests.where(planting: @planting) if @planting.present?
-    @harvests = @harvests.order(harvested_at: :desc).joins(:owner, :crop).paginate(page: params[:page])
+    where = {}
+    where['owner_id']= @owner.id if @owner.present?
+    where['crop_id']= @crop.id if @crop.present?
+    where['planting_id']= @planting.id if @planting.present?
+
+    @harvests = Harvest.search('*', where: where, limit: 100, page: params[:page], load: false, boost_by: [:created_at])
 
     @filename = csv_filename
 

@@ -33,5 +33,20 @@
         = page_entries_info @harvests
       = will_paginate @harvests
       .index-cards
-        = render @harvests, full: true
+        - @harvests.each do |harvest|
+          - cache harvest do
+            .card
+              = link_to harvest_path(id: harvest['id']) do
+                - if harvest['thumbnail_url'].present?
+                  = image_tag harvest['thumbnail_url'], alt: harvest, class: 'img-card'
+                - else
+                  = image_tag placeholder_image, alt: harvest, class: 'img-card'
+              .card-body
+                %h5
+                  %strong
+                    = link_to harvest_path(id: harvest['id']) do
+                      = harvest['crop_name']
+                  %span.badge.badge-pill= harvest['plant_part']
+              .card-footer
+                .float-right=render 'members/tiny', member: Member.find(harvest['owner_id'])
       = will_paginate @harvests

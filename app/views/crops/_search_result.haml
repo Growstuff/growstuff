@@ -1,0 +1,14 @@
+.card.crop-thumbnail
+  = link_to crop_path(slug: crop['slug']) do
+
+    = image_tag(crop['photo'] ? crop['photo'] : placeholder_image,
+                          alt: crop['name'],
+                          class: 'img img-card')
+
+  .text
+    %h3.crop-name
+      = link_to crop['name'], crop_path(slug: crop['slug'])
+    %h5.crop-sci-name
+      &nbsp;
+      = crop['scientific_name']
+
