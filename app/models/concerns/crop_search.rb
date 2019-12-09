@@ -18,7 +18,7 @@ module CropSearch
         scientific_names: scientific_names.pluck(:name),
         # boost the crops that are planted the most
         plantings_count:  plantings_count,
-        harvests_count:   harvests.size,
+        harvests_count:   harvests_count,
         # boost this crop for these members
         planters_ids:     plantings.pluck(:owner_id),
         has_photos:       photos.size.positive?,
