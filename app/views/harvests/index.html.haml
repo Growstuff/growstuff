@@ -32,5 +32,6 @@
       %h2
         = page_entries_info @harvests
       = will_paginate @harvests
-      .index-cards=render @harvests, full: true
+      .index-cards
+        = render @harvests, full: true
       = will_paginate @harvests
