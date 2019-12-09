@@ -12,9 +12,9 @@ class HarvestsController < ApplicationController
     @planting = Planting.find_by(slug: params[:planting_id])
 
     where = {}
-    where['owner_id']= @owner.id if @owner.present?
-    where['crop_id']= @crop.id if @crop.present?
-    where['planting_id']= @planting.id if @planting.present?
+    where['owner_id'] = @owner.id if @owner.present?
+    where['crop_id'] = @crop.id if @crop.present?
+    where['planting_id'] = @planting.id if @planting.present?
 
     @harvests = Harvest.search('*', where: where, limit: 100, page: params[:page], load: false, boost_by: [:created_at])
 

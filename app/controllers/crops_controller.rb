@@ -9,7 +9,7 @@ class CropsController < ApplicationController
 
   def index
     @sort = params[:sort]
-    @crops = Crop.search('*', boost_by: [:plantings_count, :harvests_count], limit: 100, page: params[:page], load: false)
+    @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count), limit: 100, page: params[:page], load: false)
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
