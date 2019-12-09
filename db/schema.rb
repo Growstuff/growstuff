@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_19_030244) do
+ActiveRecord::Schema.define(version: 2019_12_09_202348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_030244) do
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
     t.jsonb "openfarm_data"
+    t.integer "harvests_count"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
@@ -458,6 +459,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_030244) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "slug"
+    t.integer "harvests_count"
   end
 
   create_table "plantings", id: :serial, force: :cascade do |t|
