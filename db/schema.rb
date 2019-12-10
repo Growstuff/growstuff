@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_202348) do
     t.integer "median_days_to_last_harvest"
     t.jsonb "openfarm_data"
     t.integer "harvests_count"
+    t.integer "photo_associations_count"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true

@@ -1,11 +1,12 @@
 %h2= t('.recently_harvested')
-- Harvest.has_photos.recent.includes(:crop, :owner, :photos, :plant_part).limit(6).each do |harvest|
+- Harvest.homepage_records(6).each do |harvest|
   - cache harvest do
     = link_to harvest, class: 'list-group-item list-group-item-action flex-column align-items-start' do
       .d-flex.w-100.justify-content-between.homepage--list-item
         %div
-          %h5= harvest.crop.name
-          %span.badge.badge-success=harvest.plant_part
+          %h5= harvest['crop_name']
+          %span.badge.badge-success=harvest['plant_part']
           %small.text-muted
-            harvested by #{harvest.owner}
-        %p.mb-2= image_tag harvest_image_path(harvest), width: 75, class: 'rounded shadow'
+            harvested by #{harvest['owner_name']}
+        %p.mb-2
+          = image_tag harvest['thumbnail_url'], width: 75, class: 'rounded shadow'

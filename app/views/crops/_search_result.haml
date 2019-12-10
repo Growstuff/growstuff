@@ -1,7 +1,7 @@
 .card.crop-thumbnail
   = link_to crop_path(slug: crop['slug']) do
 
-    = image_tag(crop['photo'] ? crop['photo'] : placeholder_image,
+    = image_tag(crop['thumbnail_url'] ? crop['thumbnail_url'] : placeholder_image,
                           alt: crop['name'],
                           class: 'img img-card')
 

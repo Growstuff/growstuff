@@ -1,12 +1,11 @@
 %h2= t('.recently_planted')
-- Planting.has_photos.recent.includes(:owner, :crop).limit(6).each do |planting|
-  - cache planting do
-    = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
-      .d-flex.w-100.justify-content-between.homepage--list-item
-        %p.mb-2
-          = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow'
-        .text-right
-          %h5= planting.crop.name
-          - if planting.planted_from.present?
-            %span.badge.badge-success= planting.planted_from.pluralize
-          %small.text-muted planted by #{planting.owner}
+- Planting.homepage_records(6).each do |planting|
+  = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
+    .d-flex.w-100.justify-content-between.homepage--list-item
+      %p.mb-2
+        = image_tag planting['thumbnail_url'], width: 75, class: 'rounded shadow'
+      .text-right
+        %h5= planting['crop_name']
+        - if planting['planted_from'].present?
+          %span.badge.badge-success= planting['planted_from'].pluralize
+        %small.text-muted planted by #{planting['owner_name']}

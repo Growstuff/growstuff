@@ -19,10 +19,11 @@ module CropSearch
         # boost the crops that are planted the most
         plantings_count:  plantings_count,
         harvests_count:   harvests_count,
+        photos_count:     photo_associations_count,
         # boost this crop for these members
         planters_ids:     plantings.pluck(:owner_id),
-        has_photos:       photos.size.positive?,
-        photo:            default_photo&.thumbnail_url,
+        has_photos:       photo_associations_count.positive?,
+        thumbnail_url:    default_photo&.thumbnail_url,
         scientific_name:  default_scientific_name&.name,
         description:      description,
         created_at:       created_at.to_i
