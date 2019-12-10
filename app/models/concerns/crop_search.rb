@@ -2,8 +2,7 @@ module CropSearch
   extend ActiveSupport::Concern
 
   included do
-    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
-
+    searchkick word_start: %i(name description), case_sensitive: false
     scope :search_import, -> { includes(:scientific_names, :photos) }
 
     def should_index?
@@ -13,6 +12,7 @@ module CropSearch
     def search_data
       {
         name:             name,
+        description:      description,
         slug:             slug,
         alternate_names:  alternate_names.pluck(:name),
         scientific_names: scientific_names.pluck(:name),
@@ -25,7 +25,6 @@ module CropSearch
         has_photos:       photo_associations_count.positive?,
         thumbnail_url:    default_photo&.thumbnail_url,
         scientific_name:  default_scientific_name&.name,
-        description:      description,
         created_at:       created_at.to_i
       }
     end

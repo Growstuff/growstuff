@@ -10,20 +10,28 @@ class PlantingsController < ApplicationController
   responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug]
-    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
 
     @show_all = params[:all] == '1'
 
-    @plantings = @plantings.where(owner: @owner) if @owner.present?
-    @plantings = @plantings.where(crop: @crop) if @crop.present?
+    @where = {}
+    @where[:active] = true unless @show_all
 
-    @plantings = @plantings.active unless params[:all] == '1'
+    if params[:member_slug]
+      @owner = Member.find_by(slug: params[:member_slug])
+      @where[:owner_id] = @owner.id
+    end
 
-    @plantings = @plantings.joins(:owner, :crop, :garden)
-      .order(created_at: :desc)
-      .includes(:owner, :garden, crop: :parent)
-      .paginate(page: params[:page])
+    if params[:crop_slug]
+      @crop = Crop.find_by(slug: params[:crop_slug])
+      @where[:crop_id] = @crop.id
+    end
+
+    @plantings = Planting.search(
+      page: params[:page],
+      limit: 100,
+      boost_by: [:created_at],
+      load: false
+      )
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
@@ -31,10 +39,16 @@ class PlantingsController < ApplicationController
   end
 
   def show
+    @planting = Planting.includes(:owner, :crop, :garden)
+      .find(params[:slug])
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
+    @harvests = Harvest.search(where: { planting_id: @planting.id } )
     @matching_seeds = matching_seeds
+
+    # TODO use elastic search long/lat
     @neighbours = @planting.nearby_same_crop
       .where.not(id: @planting.id)
+      .includes(:owner, :crop, :garden)
       .limit(6)
     respond_with @planting
   end

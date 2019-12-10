@@ -20,9 +20,9 @@
       include finished plantings
     %hr
     - if @owner.present?
-      = render @owner
+      = render @owner, cached: true
     - if @crop.present?
-      = render @crop
+      = render @crop, cached: true
 
     %section.open-data
       %h2 Open Data
@@ -41,6 +41,6 @@
       = will_paginate @plantings
       .index-cards
         - @plantings.each do |planting|
-          = render planting, full: true
+          .card= planting
 
       = will_paginate @plantings

@@ -8,18 +8,20 @@ module PlantingSearch
 
     def search_data
       {
-        slug:          slug,
-        crop_slug:     crop.slug,
-        crop_name:     crop.name,
-        crop_id:       crop_id,
-        owner_id:      owner_id,
-        owner_name:    owner.login_name,
-        planted_from:  planted_from,
-        photos_count:  photos.size,
-        harvests_count:  photos.size,
-        has_photos:    photos.size.positive?,
-        thumbnail_url: default_photo&.thumbnail_url,
-        created_at:    created_at.to_i
+        slug:             slug,
+        crop_slug:        crop.slug,
+        crop_name:        crop.name,
+        crop_id:          crop_id,
+        owner_id:         owner_id,
+        owner_name:       owner.login_name,
+        planted_from:     planted_from,
+        photos_count:     photos.size,
+        harvests_count:   harvests.size,
+        has_photos:       photos.size.positive?,
+        active:           active?,
+        thumbnail_url:    default_photo&.thumbnail_url,
+        percentage_grown: percentage_grown.to_i,
+        created_at:       created_at.to_i
       }
     end
 
