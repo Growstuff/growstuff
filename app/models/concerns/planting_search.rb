@@ -26,13 +26,13 @@ module PlantingSearch
     end
 
     def self.homepage_records(limit)
-      self.search('*',
-        limit:    limit,
-        where:    {
-          photos_count: { gt: 0 }
-        },
-        boost_by: [:created_at],
-        load:     false)
+      search('*',
+             limit:    limit,
+             where:    {
+               photos_count: { gt: 0 }
+             },
+             boost_by: [:created_at],
+             load:     false)
     end
   end
 end

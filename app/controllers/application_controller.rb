@@ -59,26 +59,26 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) do |member|
       member.permit(:login_name, :email, :password, :password_confirmation,
-        :remember_me, :login,
-        # terms of service
-        :tos_agreement,
-        # profile stuff
-        :bio, :location, :latitude, :longitude,
-        # email settings
-        :show_email, :newsletter, :send_notification_email, :send_planting_reminder)
+                    :remember_me, :login,
+                    # terms of service
+                    :tos_agreement,
+                    # profile stuff
+                    :bio, :location, :latitude, :longitude,
+                    # email settings
+                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder)
     end
 
     devise_parameter_sanitizer.permit(:account_update) do |member|
       member.permit(:login_name, :email, :password, :password_confirmation,
-        :remember_me, :login,
-        # terms of service
-        :tos_agreement,
-        # profile stuff
-        :bio, :location, :latitude, :longitude,
-        # email settings
-        :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
-        # update password
-        :current_password)
+                    :remember_me, :login,
+                    # terms of service
+                    :tos_agreement,
+                    # profile stuff
+                    :bio, :location, :latitude, :longitude,
+                    # email settings
+                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
+                    # update password
+                    :current_password)
     end
   end
 

@@ -10,7 +10,6 @@ class PlantingsController < ApplicationController
   responders :flash
 
   def index
-
     @show_all = params[:all] == '1'
 
     @where = {}
@@ -27,11 +26,11 @@ class PlantingsController < ApplicationController
     end
 
     @plantings = Planting.search(
-      page: params[:page],
-      limit: 100,
+      page:     params[:page],
+      limit:    100,
       boost_by: [:created_at],
-      load: false
-      )
+      load:     false
+    )
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
@@ -42,10 +41,10 @@ class PlantingsController < ApplicationController
     @planting = Planting.includes(:owner, :crop, :garden)
       .find(params[:slug])
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
-    @harvests = Harvest.search(where: { planting_id: @planting.id } )
+    @harvests = Harvest.search(where: { planting_id: @planting.id })
     @matching_seeds = matching_seeds
 
-    # TODO use elastic search long/lat
+    # TODO: use elastic search long/lat
     @neighbours = @planting.nearby_same_crop
       .where.not(id: @planting.id)
       .includes(:owner, :crop, :garden)

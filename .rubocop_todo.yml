@@ -6,20 +6,9 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_argument, with_fixed_indentation
-Layout/AlignArguments:
-  Enabled: false
-
 Lint/AmbiguousOperator:
   Exclude:
     - 'spec/controllers/crops_controller_spec.rb'
-
-# Configuration parameters: AllowComments.
-Lint/HandleExceptions:
-  Exclude:
-    - 'lib/tasks/testing.rake'
 
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: lowercase, uppercase

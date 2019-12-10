@@ -51,6 +51,11 @@ FactoryBot.define do
       name { "eggplant" }
     end
 
+    factory :crop_with_photo do
+      name { 'marshmallow' }
+      photos { FactoryBot.create_list :photo, 1 }
+    end
+
     # This should have a name that is alphabetically earlier than :uppercase
     # crop to ensure that the ordering tests work.
     factory :lowercasecrop do
