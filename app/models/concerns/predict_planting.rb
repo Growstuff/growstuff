@@ -42,14 +42,16 @@ module PredictPlanting
     end
 
     def percentage_grown
-      if finished?
-        100
-      elsif !planted?
-        0
-      elsif crop.perennial || finish_predicted_at.nil?
-        nil
-      else
-        calculate_percentage_grown
+      Rails.cache.fetch("#{cache_key_with_version}/percentage_grown", expires_in: 8.hours) do
+        if finished?
+          100
+        elsif !planted?
+          0
+        elsif crop.perennial || finish_predicted_at.nil?
+          nil
+        else
+          calculate_percentage_grown
+        end
       end
     end
 
