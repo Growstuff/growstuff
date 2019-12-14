@@ -10,7 +10,6 @@
 %h1.display-2.text-center
   = planting_icon
   = title('plantings', @owner, @crop, @planting)
-
 .row
   .col-md-2
     = render 'layouts/nav', model: Planting
@@ -41,6 +40,16 @@
       = will_paginate @plantings
       .index-cards
         - @plantings.each do |planting|
-          .card= planting
-
+          .card.planting{class: planting['active'] ? '' : 'card-finished'}
+            = link_to planting_path(slug: planting['slug']) do
+              = image_tag planting['thumbnail_url'] ? planting['thumbnail_url'] : placeholder_image, class: 'img-card', alt: planting
+            = link_to planting_path(slug: planting['slug']) do
+              .card-body.text-center
+                %h4= planting['crop_name']
+            /     = render 'plantings/progress', planting: planting
+            .card-footer
+              .float-right
+                %span.chip.member-chip
+                  = link_to member_path(slug: planting['owner_slug']) do
+                    = planting['owner_name']
       = will_paginate @plantings

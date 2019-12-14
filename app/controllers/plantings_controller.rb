@@ -13,21 +13,22 @@ class PlantingsController < ApplicationController
     @show_all = params[:all] == '1'
 
     @where = {}
-    @where[:active] = true unless @show_all
+    @where['active'] = true unless @show_all
 
     if params[:member_slug]
       @owner = Member.find_by(slug: params[:member_slug])
-      @where[:owner_id] = @owner.id
+      @where['owner_id'] = @owner.id
     end
 
     if params[:crop_slug]
       @crop = Crop.find_by(slug: params[:crop_slug])
-      @where[:crop_id] = @crop.id
+      @where['crop_id'] = @crop.id
     end
 
     @plantings = Planting.search(
+      where: @where,
       page:     params[:page],
-      limit:    100,
+      limit:    30,
       boost_by: [:created_at],
       load:     false
     )

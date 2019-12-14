@@ -14,6 +14,7 @@ module PlantingSearch
         crop_id:          crop_id,
         owner_id:         owner_id,
         owner_name:       owner.login_name,
+        owner_slug:       owner.slug,
         planted_from:     planted_from,
         photos_count:     photos.size,
         harvests_count:   harvests.size,
