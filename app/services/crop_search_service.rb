@@ -29,7 +29,7 @@ class CropSearchService
       limit: limit,
       load:  false,
       body:  body
-    ).response['hits']['hits'].map { |c| c['_source'] }
+    )
   end
 
   def self.recent(limit)
@@ -37,6 +37,6 @@ class CropSearchService
       limit:    limit,
       load:     false,
       boost_by: { created_at: { factor: 100 } } # default factor is 1
-    ).response['hits']['hits'].map { |c| c['_source'] }
+    )
   end
 end
