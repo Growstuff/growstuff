@@ -82,9 +82,6 @@ gem 'gravatar-ultimate'
 # For geolocation
 gem 'geocoder', '1.4.9' # TODO: Fails on version 1.5.0. Needs investigation
 
-# For easy calendar selection
-gem 'bootstrap-datepicker-rails'
-
 # DRY-er easier bootstrap 4 forms
 gem "bootstrap_form", ">= 4.2.0"
 

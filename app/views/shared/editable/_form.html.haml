@@ -12,7 +12,7 @@
       - elsif field_type == :select
         = f.select field, collection
       - elsif field_type == :date
-        = f.text_field field,
+        = f.date_field field,
                  value: model.send(field) ? model.send(field).to_s(:ymd) : '',
-                 class: 'add-datepicker', label: 'When?'
+                 label: 'When?'
       = f.submit :save

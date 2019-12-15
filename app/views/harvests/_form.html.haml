@@ -31,8 +31,9 @@
                 = link_to "Request new crops.", new_crop_path
 
         .col-md-4
-          = f.text_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '',
-                         class: 'add-datepicker', label: 'When?'
+          = f.date_field :harvested_at,
+                         value: @harvest.harvested_at ? @harvest.harvested_at.to_s(:ymd) : '',
+                         label: 'When?'
         .col-12
           = f.form_group :plant_part_id, label: { text: "Harvested Plant Part" } do
             .row
