@@ -4,7 +4,14 @@ module CropSearch
   included do
     ####################################
     # Elastic search configuration
-    searchkick word_start: %i(name alternate_names scientific_names), case_sensitive: false
+    searchkick word_start:     %i(name alternate_names scientific_names),
+               case_sensitive: false,
+               merge_mappings: true,
+               mappings:       {
+                 properties: {
+                   created_at: { type: :integer }
+                 }
+               }
 
     # Special scope to control if it's in the search index
     scope :search_import, -> { includes(:scientific_names, :photos) }
