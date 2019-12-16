@@ -41,7 +41,7 @@ class LikesController < ApplicationController
       format.html { redirect_to like.likeable }
       format.json do
         render(json:   render_json(like,
-              liked_by_member: liked_by_member),
+                                   liked_by_member: liked_by_member),
                status: status_code)
       end
     end

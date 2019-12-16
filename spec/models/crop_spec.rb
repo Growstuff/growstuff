@@ -271,17 +271,17 @@ describe Crop do
       @root = FactoryBot.create(:plant_part, name: 'root')
       @bulb = FactoryBot.create(:plant_part, name: 'bulb')
       @harvest1 = FactoryBot.create(:harvest,
-        crop:       crop,
-        plant_part: @fruit)
+                                    crop:       crop,
+                                    plant_part: @fruit)
       @harvest2 = FactoryBot.create(:harvest,
-        crop:       crop,
-        plant_part: @fruit)
+                                    crop:       crop,
+                                    plant_part: @fruit)
       @harvest3 = FactoryBot.create(:harvest,
-        crop:       crop,
-        plant_part: @seed)
+                                    crop:       crop,
+                                    plant_part: @seed)
       @harvest4 = FactoryBot.create(:harvest,
-        crop:       crop,
-        plant_part: @root)
+                                    crop:       crop,
+                                    plant_part: @root)
       crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
                                            [@seed.id, @seed.name]   => 1,
                                            [@root.id, @root.name]   => 1 }

@@ -111,7 +111,7 @@ class Planting < ApplicationRecord
       .where(crop: crop)
       .located
       .where('gardens.latitude < ? AND gardens.latitude > ?',
-        latitude + 10, latitude - 10)
+             latitude + 10, latitude - 10)
   end
 
   private

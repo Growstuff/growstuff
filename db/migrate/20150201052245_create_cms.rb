@@ -103,7 +103,7 @@ class CreateCms < ActiveRecord::Migration[4.2]
       t.datetime  :created_at
     end
     add_index :comfy_cms_revisions, %i(record_type record_id created_at),
-      name: 'index_cms_revisions_on_rtype_and_rid_and_created_at'
+              name: 'index_cms_revisions_on_rtype_and_rid_and_created_at'
 
     # -- Categories ---------------------------------------------------------
     create_table :comfy_cms_categories, force: true do |t|
@@ -112,8 +112,8 @@ class CreateCms < ActiveRecord::Migration[4.2]
       t.string  :categorized_type, null: false
     end
     add_index :comfy_cms_categories, %i(site_id categorized_type label),
-      unique: true,
-      name:   'index_cms_categories_on_site_id_and_cat_type_and_label'
+              unique: true,
+              name:   'index_cms_categories_on_site_id_and_cat_type_and_label'
 
     create_table :comfy_cms_categorizations, force: true do |t|
       t.integer :category_id,       null: false
@@ -121,8 +121,8 @@ class CreateCms < ActiveRecord::Migration[4.2]
       t.integer :categorized_id,    null: false
     end
     add_index :comfy_cms_categorizations, %i(category_id categorized_type categorized_id),
-      unique: true,
-      name:   'index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id'
+              unique: true,
+              name:   'index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id'
   end
 
   def self.down

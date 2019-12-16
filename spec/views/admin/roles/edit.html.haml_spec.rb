@@ -3,8 +3,8 @@ require 'rails_helper'
 describe "admin/roles/edit" do
   before do
     @role = assign(:role, stub_model(Role,
-      name:        "MyString",
-      description: "MyText"))
+                                     name:        "MyString",
+                                     description: "MyText"))
   end
 
   it "renders the edit role form" do

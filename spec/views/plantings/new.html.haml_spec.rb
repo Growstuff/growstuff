@@ -11,7 +11,7 @@ describe "plantings/new" do
     @crop1 = FactoryBot.create(:tomato)
     @crop2 = FactoryBot.create(:maize)
     @planting = FactoryBot.create(:planting,
-      garden: @garden_a, crop: @crop2, owner: @member)
+                                  garden: @garden_a, crop: @crop2, owner: @member)
 
     assign(:planting, @planting)
   end

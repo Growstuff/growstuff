@@ -31,14 +31,14 @@ module ButtonsHelper
 
   def crop_plant_button(crop)
     create_button(Planting,
-      new_planting_path(params: { crop_id: crop.id }),
-      planting_icon, t('buttons.plant'))
+                  new_planting_path(params: { crop_id: crop.id }),
+                  planting_icon, t('buttons.plant'))
   end
 
   def crop_save_seeds_button(crop)
     create_button(Seed,
-      new_seed_path(params: { crop_id: crop.id }),
-      seed_icon, t('buttons.save_seeds'))
+                  new_seed_path(params: { crop_id: crop.id }),
+                  seed_icon, t('buttons.save_seeds'))
   end
 
   def create_button(model_to_create, path, icon, label)
