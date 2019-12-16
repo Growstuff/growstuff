@@ -43,7 +43,7 @@ describe "plantings/new" do
 
     it "selects a garden given in a param" do
       assert_select "input", id: "planting_garden_id_#{@garden_z.id}",
-        type: 'radio', value: @garden_z.id, checked: "checked"
+                             type: 'radio', value: @garden_z.id, checked: "checked"
     end
   end
 end

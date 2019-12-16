@@ -123,8 +123,8 @@ describe "crop detail page", js: true do
 
   context 'predictions' do
     let!(:planting) do
-      FactoryBot.create(:planting, crop:        crop,
-                                   planted_at:  100.days.ago,
+      FactoryBot.create(:planting, crop: crop,
+                                   planted_at: 100.days.ago,
                                    finished_at: 1.day.ago)
     end
 

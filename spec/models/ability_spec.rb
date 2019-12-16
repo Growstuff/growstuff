@@ -20,13 +20,13 @@ describe Ability do
       ability.should_not be_able_to(:create,
                                     FactoryBot.create(:notification,
                                                       recipient: member,
-                                                      sender:    member))
+                                                      sender: member))
     end
     it "member can send messages to someone else" do
       ability.should be_able_to(:create,
                                 FactoryBot.create(:notification,
                                                   recipient: FactoryBot.create(:member),
-                                                  sender:    member))
+                                                  sender: member))
     end
   end
 
