@@ -271,20 +271,20 @@ describe Crop do
       @root = FactoryBot.create(:plant_part, name: 'root')
       @bulb = FactoryBot.create(:plant_part, name: 'bulb')
       @harvest1 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop: crop,
                                     plant_part: @fruit)
       @harvest2 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop: crop,
                                     plant_part: @fruit)
       @harvest3 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop: crop,
                                     plant_part: @seed)
       @harvest4 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop: crop,
                                     plant_part: @root)
       crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
-                                           [@seed.id, @seed.name]   => 1,
-                                           [@root.id, @root.name]   => 1 }
+                                           [@seed.id, @seed.name] => 1,
+                                           [@root.id, @root.name] => 1 }
     end
   end
 
@@ -540,15 +540,15 @@ describe Crop do
 
   context "crop rejections" do
     let!(:rejected_reason) do
-      FactoryBot.create(:crop, name:                 'tomato',
-                               approval_status:      'rejected',
+      FactoryBot.create(:crop, name: 'tomato',
+                               approval_status: 'rejected',
                                reason_for_rejection: 'not edible')
     end
     let!(:rejected_other) do
-      FactoryBot.create(:crop, name:                 'tomato',
-                               approval_status:      'rejected',
+      FactoryBot.create(:crop, name: 'tomato',
+                               approval_status: 'rejected',
                                reason_for_rejection: 'other',
-                               rejection_notes:      'blah blah blah')
+                               rejection_notes: 'blah blah blah')
     end
 
     describe "rejecting a crop" do
