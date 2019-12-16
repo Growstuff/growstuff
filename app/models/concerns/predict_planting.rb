@@ -1,7 +1,7 @@
 module PredictPlanting
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     ## Triggers
     before_save :calculate_lifespan
 

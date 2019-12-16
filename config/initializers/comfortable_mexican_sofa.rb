@@ -54,12 +54,9 @@ ComfortableMexicanSofa.configure do |config|
   # a previous version using this system. You can control how many revisions per
   # object you want to keep. Set it to 0 if you wish to turn this feature off.
   #   config.revisions_limit = 25
-
-  # rubocop:disable Style/AsciiComments
   # Locale definitions. If you want to define your own locale merge
   # {:locale => 'Locale Title'} with this.
   #   config.locales = {:en => 'English', :es => 'Español'}
-  # rubocop:enable Style/AsciiComments
 
   # Admin interface will respect the locale of the site being managed. However you can
   # force it to English by setting this to `:en`

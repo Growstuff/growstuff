@@ -32,7 +32,7 @@ describe "posts/edit" do
       before do
         @forum = assign(:forum, FactoryBot.create(:forum))
         assign(:post, FactoryBot.create(:post,
-                                        forum: @forum,
+                                        forum:  @forum,
                                         author: @author))
         render
       end

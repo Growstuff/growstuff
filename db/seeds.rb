@@ -57,9 +57,9 @@ def load_test_users # rubocop:disable Metrics/AbcSize
 
   (1..member_size).each do |i|
     @user = Member.new(
-      login_name: "test#{i}",
-      email: "test#{i}@example.com",
-      password: "password#{i}",
+      login_name:    "test#{i}",
+      email:         "test#{i}@example.com",
+      password:      "password#{i}",
       tos_agreement: true
     )
     @user.skip_confirmation!
@@ -79,11 +79,11 @@ def load_test_users # rubocop:disable Metrics/AbcSize
 
     # Create a planting by the member
     Planting.create(
-      owner_id: @user.id,
-      garden_id: @user.gardens.first.id,
-      planted_at: Time.zone.today,
-      crop_id: Crop.find(i % Crop.all.size + 1).id,
-      sunniness: select_random_item(Planting::SUNNINESS_VALUES),
+      owner_id:     @user.id,
+      garden_id:    @user.gardens.first.id,
+      planted_at:   Time.zone.today,
+      crop_id:      Crop.find(i % Crop.all.size + 1).id,
+      sunniness:    select_random_item(Planting::SUNNINESS_VALUES),
       planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
     )
   end
@@ -94,9 +94,9 @@ end
 def load_admin_users
   puts "Adding admin and crop wrangler members..."
   @admin_user = Member.new(
-    login_name: "admin1",
-    email: "admin1@example.com",
-    password: "password1",
+    login_name:    "admin1",
+    email:         "admin1@example.com",
+    password:      "password1",
     tos_agreement: true
   )
   @admin_user.skip_confirmation!
@@ -104,9 +104,9 @@ def load_admin_users
   @admin_user.save!
 
   @wrangler_user = Member.new(
-    login_name: "wrangler1",
-    email: "wrangler1@example.com",
-    password: "password1",
+    login_name:    "wrangler1",
+    email:         "wrangler1@example.com",
+    password:      "password1",
     tos_agreement: true
   )
   @wrangler_user.skip_confirmation!
@@ -118,9 +118,9 @@ def create_cropbot
   return if Member.find_by(login_name: 'cropbot')
 
   @cropbot_user = Member.new(
-    login_name: "cropbot",
-    email: Rails.application.config.bot_email,
-    password: SecureRandom.urlsafe_base64(64),
+    login_name:    "cropbot",
+    email:         Rails.application.config.bot_email,
+    password:      SecureRandom.urlsafe_base64(64),
     tos_agreement: true
   )
   @cropbot_user.skip_confirmation!

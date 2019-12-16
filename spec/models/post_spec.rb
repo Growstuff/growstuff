@@ -71,7 +71,7 @@ describe Post do
     end
 
     it "sets recent activity to comment time" do
-      comment = FactoryBot.create(:comment, post: post,
+      comment = FactoryBot.create(:comment, post:       post,
                                             created_at: 1.hour.ago)
       post.recent_activity.to_i.should eq comment.created_at.to_i
     end

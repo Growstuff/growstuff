@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   resources :plant_parts
 
   devise_for :members, controllers: {
-    registrations: "registrations",
-    passwords: "passwords",
-    sessions: "sessions",
+    registrations:      "registrations",
+    passwords:          "passwords",
+    sessions:           "sessions",
     omniauth_callbacks: "omniauth_callbacks"
   }
   devise_scope :member do

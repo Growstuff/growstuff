@@ -113,7 +113,7 @@ class CreateCms < ActiveRecord::Migration[4.2]
     end
     add_index :comfy_cms_categories, %i(site_id categorized_type label),
               unique: true,
-              name: 'index_cms_categories_on_site_id_and_cat_type_and_label'
+              name:   'index_cms_categories_on_site_id_and_cat_type_and_label'
 
     create_table :comfy_cms_categorizations, force: true do |t|
       t.integer :category_id,       null: false
@@ -122,7 +122,7 @@ class CreateCms < ActiveRecord::Migration[4.2]
     end
     add_index :comfy_cms_categorizations, %i(category_id categorized_type categorized_id),
               unique: true,
-              name: 'index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id'
+              name:   'index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id'
   end
 
   def self.down

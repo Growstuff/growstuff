@@ -19,7 +19,7 @@ class Notifier < ApplicationMailer
     message = { member_id: @notification.recipient.id, type: :send_notification_email }
     @signed_message = verifier.generate(message)
 
-    mail(to: @notification.recipient.email,
+    mail(to:      @notification.recipient.email,
          subject: @notification.subject)
   end
 

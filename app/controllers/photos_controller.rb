@@ -84,7 +84,7 @@ class PhotosController < ApplicationController
   def find_or_create_photo_from_flickr_photo
     photo = Photo.find_or_initialize_by(
       source_id: photo_params[:source_id],
-      source: 'flickr'
+      source:    'flickr'
     )
     photo.update(photo_params)
     photo.owner_id = current_member.id

@@ -10,7 +10,7 @@ describe "harvests/edit" do
     assert_select "form", action: harvests_path, method: "post" do
       assert_select "input#crop", class: "ui-autocomplete-input"
       assert_select "input#harvest_crop_id", name: "harvest[crop_id]"
-      assert_select 'input', id: "harvest_plant_part_id_#{PlantPart.first.id}",
+      assert_select 'input', id:   "harvest_plant_part_id_#{PlantPart.first.id}",
                              name: "harvest[plant_part_id]"
       assert_select "input#harvest_quantity", name: "harvest[quantity]"
       assert_select "input#harvest_weight_quantity", name: "harvest[quantity]"

@@ -6,15 +6,15 @@ RSpec.describe 'Photos', type: :request do
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:photo)  { FactoryBot.create :photo                   }
   let(:photo_encoded_as_json_api) do
-    { "id" => photo.id.to_s,
-      "type" => "photos",
-      "links" => { "self" => resource_url },
-      "attributes" => attributes,
+    { "id"            => photo.id.to_s,
+      "type"          => "photos",
+      "links"         => { "self" => resource_url },
+      "attributes"    => attributes,
       "relationships" => {
-        "owner" => owner_as_json_api,
+        "owner"     => owner_as_json_api,
         "plantings" => plantings_as_json_api,
-        "harvests" => harvests_as_json_api,
-        "gardens" => gardens_as_json_api
+        "harvests"  => harvests_as_json_api,
+        "gardens"   => gardens_as_json_api
       } }
   end
 
@@ -22,25 +22,25 @@ RSpec.describe 'Photos', type: :request do
 
   let(:owner_as_json_api) do
     { "links" =>
-                 { "self" => "#{resource_url}/relationships/owner",
+                 { "self"    => "#{resource_url}/relationships/owner",
                    "related" => "#{resource_url}/owner" } }
   end
 
   let(:harvests_as_json_api) do
     { "links" =>
-                 { "self" => "#{resource_url}/relationships/harvests",
+                 { "self"    => "#{resource_url}/relationships/harvests",
                    "related" => "#{resource_url}/harvests" } }
   end
 
   let(:gardens_as_json_api) do
     { "links" =>
-                 { "self" => "#{resource_url}/relationships/gardens",
+                 { "self"    => "#{resource_url}/relationships/gardens",
                    "related" => "#{resource_url}/gardens" } }
   end
 
   let(:plantings_as_json_api) do
     { "links" =>
-                 { "self" =>
+                 { "self"    =>
                                 "#{resource_url}/relationships/plantings",
                    "related" => "#{resource_url}/plantings" } }
   end
@@ -48,10 +48,10 @@ RSpec.describe 'Photos', type: :request do
   let(:attributes) do
     {
       "thumbnail-url" => photo.thumbnail_url,
-      "fullsize-url" => photo.fullsize_url,
-      "link-url" => photo.link_url,
-      "license-name" => photo.license_name,
-      "title" => photo.title
+      "fullsize-url"  => photo.fullsize_url,
+      "link-url"      => photo.link_url,
+      "license-name"  => photo.license_name,
+      "title"         => photo.title
     }
   end
 

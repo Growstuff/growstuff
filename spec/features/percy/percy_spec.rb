@@ -19,9 +19,9 @@ describe 'Test with visual testing', type: :feature, js: true do
 
   let(:tomato_photo) do
     FactoryBot.create :photo,
-                      title: 'look at my tomatoes',
-                      owner: member,
-                      fullsize_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
+                      title:         'look at my tomatoes',
+                      owner:         member,
+                      fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
                       thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
   end
   let(:post_body) do
@@ -69,12 +69,12 @@ rest of the garden.
     Timecop.freeze(Time.zone.local(2019, 1, 1))
 
     {
-      chard: 'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
-      apple: 'https://farm5.staticflickr.com/4748/38932178855_6fe9bcdb48_q.jpg',
-      pear: 'https://farm1.staticflickr.com/113/250984726_0fc31fea6d_q.jpg',
-      popcorn: 'https://farm8.staticflickr.com/7893/33150160528_24a689c6bc_q.jpg',
+      chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
+      apple:    'https://farm5.staticflickr.com/4748/38932178855_6fe9bcdb48_q.jpg',
+      pear:     'https://farm1.staticflickr.com/113/250984726_0fc31fea6d_q.jpg',
+      popcorn:  'https://farm8.staticflickr.com/7893/33150160528_24a689c6bc_q.jpg',
       eggplant: 'https://farm8.staticflickr.com/7856/47068736892_1af9b8a4ba_q.jpg',
-      maize: 'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
+      maize:    'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
     }.each do |crop_type, photo_url|
       crop = FactoryBot.create crop_type, creator: someone_else
       crop.reindex
@@ -110,9 +110,9 @@ rest of the garden.
 
         planting = FactoryBot.create :planting, planted_at: 1.year.ago, sunniness: 'sun', planted_from: 'seed', crop: tomato
         FactoryBot.create(:harvest,
-                          crop: tomato,
-                          plant_part: FactoryBot.create(:plant_part, name: 'berry'),
-                          planting: planting,
+                          crop:         tomato,
+                          plant_part:   FactoryBot.create(:plant_part, name: 'berry'),
+                          planting:     planting,
                           harvested_at: 1.day.ago)
 
         post = FactoryBot.create :post, subject: 'tomatoes are delicious'

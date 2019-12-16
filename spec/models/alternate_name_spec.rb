@@ -10,8 +10,8 @@ describe AlternateName do
   it 'is possible to add multiple alternate names to a crop' do
     crop = an.crop
     an2 = AlternateName.create(
-      name: "really alternative tomato",
-      crop_id: crop.id,
+      name:       "really alternative tomato",
+      crop_id:    crop.id,
       creator_id: an.creator.id
     )
     crop.alternate_names << an2

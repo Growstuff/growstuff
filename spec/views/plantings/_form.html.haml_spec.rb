@@ -9,9 +9,9 @@ describe "plantings/_form" do
     @crop = @lowercase # needed to render the form
 
     @planting = FactoryBot.create(:planting,
-                                  garden: @garden,
-                                  crop: @crop,
-                                  owner: @member,
+                                  garden:     @garden,
+                                  crop:       @crop,
+                                  owner:      @member,
                                   planted_at: Date.new(2013, 3, 1))
 
     @gardens = @member.gardens

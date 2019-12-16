@@ -78,11 +78,11 @@ describe "Gardens#index", :js do
       # time to finished = 90 days
       FactoryBot.create(:harvest,
                         harvested_at: 50.days.ago,
-                        crop: crop,
-                        planting: FactoryBot.create(:planting,
-                                                    crop: crop,
-                                                    planted_at: 100.days.ago,
-                                                    finished_at: 10.days.ago))
+                        crop:         crop,
+                        planting:     FactoryBot.create(:planting,
+                                                        crop:        crop,
+                                                        planted_at:  100.days.ago,
+                                                        finished_at: 10.days.ago))
       crop.plantings.each(&:update_harvest_days!)
       crop.update_lifespan_medians
       crop.update_harvest_medians
@@ -95,9 +95,9 @@ describe "Gardens#index", :js do
     describe 'harvest still growing' do
       let!(:planting) do
         FactoryBot.create :planting,
-                          crop: crop,
-                          owner: member,
-                          garden: garden,
+                          crop:       crop,
+                          owner:      member,
+                          garden:     garden,
                           planted_at: Time.zone.today
       end
 
