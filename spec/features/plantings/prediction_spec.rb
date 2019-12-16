@@ -33,21 +33,21 @@ describe "Display a planting", :js do
         # Near by planting with harvests
         nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
         nearby_planting = FactoryBot.create :planting, crop: crop,
-          garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
+                                                       garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '1 May 2019'
+                                    harvested_at: '1 May 2019'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '18 June 2019'
+                                    harvested_at: '18 June 2019'
         FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop,
-          harvested_at: '18 August 2008'
+                                            harvested_at: '18 August 2008'
 
         # far away planting harvests
         faraway_garden = FactoryBot.create :garden, location: 'Amundsen-Scott Base, Antarctica'
         faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop,
-          owner: faraway_garden.owner, planted_at: '16 May 2001'
+                                                        owner: faraway_garden.owner, planted_at: '16 May 2001'
 
         FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop,
-          harvested_at: '18 December 2006'
+                                            harvested_at: '18 December 2006'
       end
       before { visit planting_path(planting) }
       it { expect(page.find("#month-1")[:class]).not_to include("badge-harvesting") }

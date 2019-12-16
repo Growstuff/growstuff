@@ -77,12 +77,12 @@ describe "Gardens#index", :js do
       # time to harvest = 50 day
       # time to finished = 90 days
       FactoryBot.create(:harvest,
-        harvested_at: 50.days.ago,
-        crop:         crop,
-        planting:     FactoryBot.create(:planting,
-          crop:        crop,
-          planted_at:  100.days.ago,
-          finished_at: 10.days.ago))
+                        harvested_at: 50.days.ago,
+                        crop: crop,
+                        planting: FactoryBot.create(:planting,
+                                                    crop: crop,
+                                                    planted_at: 100.days.ago,
+                                                    finished_at: 10.days.ago))
       crop.plantings.each(&:update_harvest_days!)
       crop.update_lifespan_medians
       crop.update_harvest_medians
@@ -95,10 +95,10 @@ describe "Gardens#index", :js do
     describe 'harvest still growing' do
       let!(:planting) do
         FactoryBot.create :planting,
-          crop:       crop,
-          owner:      member,
-          garden:     garden,
-          planted_at: Time.zone.today
+                          crop: crop,
+                          owner: member,
+                          garden: garden,
+                          planted_at: Time.zone.today
       end
 
       it { expect(page).to have_link href: planting_path(planting) }
@@ -110,9 +110,9 @@ describe "Gardens#index", :js do
     describe 'harvesting now' do
       let!(:planting) do
         FactoryBot.create :planting,
-          crop: crop,
-          owner: member, garden: garden,
-          planted_at: 51.days.ago
+                          crop: crop,
+                          owner: member, garden: garden,
+                          planted_at: 51.days.ago
       end
 
       it { expect(crop.median_days_to_first_harvest).to eq 50 }
@@ -125,8 +125,8 @@ describe "Gardens#index", :js do
     describe 'super late' do
       let!(:planting) do
         FactoryBot.create :planting,
-          crop: crop, owner: member,
-          garden: garden, planted_at: 260.days.ago
+                          crop: crop, owner: member,
+                          garden: garden, planted_at: 260.days.ago
       end
 
       it { expect(page).to have_text 'super late' }

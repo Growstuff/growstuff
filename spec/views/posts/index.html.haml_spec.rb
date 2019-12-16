@@ -10,9 +10,9 @@ describe "posts/index" do
     posts = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
                       FactoryBot.create(:post, author: @author,
-                          subject: 'A Post', body: 'This is some text.'),
+                                               subject: 'A Post', body: 'This is some text.'),
                       FactoryBot.create(:post, author: @author,
-                          subject: 'A Post', body: 'This is some text.')
+                                               subject: 'A Post', body: 'This is some text.')
                     ])
     end
     assign(:posts, posts)
