@@ -1,7 +1,7 @@
 module MemberNewsletter
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     after_save :update_newsletter_subscription
     before_destroy :newsletter_unsubscribe
 
@@ -29,9 +29,9 @@ module MemberNewsletter
       return true if Rails.env.test? && !testing
 
       gibbon.lists.subscribe(
-        id:           Rails.application.config.newsletter_list_id,
-        email:        { email: email },
-        merge_vars:   { login_name: login_name },
+        id: Rails.application.config.newsletter_list_id,
+        email: { email: email },
+        merge_vars: { login_name: login_name },
         double_optin: false # they already confirmed their email with us
       )
     end
@@ -39,7 +39,7 @@ module MemberNewsletter
     def newsletter_unsubscribe(gibbon = Gibbon::API.new, testing = false)
       return true if Rails.env.test? && !testing
 
-      gibbon.lists.unsubscribe(id:    Rails.application.config.newsletter_list_id,
+      gibbon.lists.unsubscribe(id: Rails.application.config.newsletter_list_id,
                                email: { email: email })
     end
   end

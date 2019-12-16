@@ -10,9 +10,9 @@ class CreatePhotographings < ActiveRecord::Migration[4.2]
     add_foreign_key :photographings, :photos
 
     add_index :photographings, %i(photographable_id photographable_type photo_id),
-      unique: true, name: 'items_to_photos_idx'
+              unique: true, name: 'items_to_photos_idx'
     add_index :photographings, %i(photographable_id photographable_type),
-      name: 'photographable_idx'
+              name: 'photographable_idx'
 
     migrate_data
   end

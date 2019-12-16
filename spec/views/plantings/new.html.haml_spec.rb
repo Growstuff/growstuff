@@ -11,7 +11,7 @@ describe "plantings/new" do
     @crop1 = FactoryBot.create(:tomato)
     @crop2 = FactoryBot.create(:maize)
     @planting = FactoryBot.create(:planting,
-      garden: @garden_a, crop: @crop2, owner: @member)
+                                  garden: @garden_a, crop: @crop2, owner: @member)
 
     assign(:planting, @planting)
   end
@@ -43,7 +43,7 @@ describe "plantings/new" do
 
     it "selects a garden given in a param" do
       assert_select "input", id: "planting_garden_id_#{@garden_z.id}",
-        type: 'radio', value: @garden_z.id, checked: "checked"
+                             type: 'radio', value: @garden_z.id, checked: "checked"
     end
   end
 end
