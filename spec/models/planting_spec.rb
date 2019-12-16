@@ -177,8 +177,8 @@ describe Planting do
 
       before do
         FactoryBot.create(:harvest,
-                          planting:     planting,
-                          crop:         planting.crop,
+                          planting: planting,
+                          crop: planting.crop,
                           harvested_at: 10.days.ago)
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
@@ -231,21 +231,21 @@ describe Planting do
         # Near by planting with harvests
         nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
         nearby_planting = FactoryBot.create :planting, crop: crop,
-          garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
+                                                       garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '1 May 2019'
+                                    harvested_at: '1 May 2019'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '18 June 2019'
+                                    harvested_at: '18 June 2019'
         FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop,
-          harvested_at: '18 August 2008'
+                                            harvested_at: '18 August 2008'
 
         # far away planting harvests
         faraway_garden = FactoryBot.create :garden, location: 'Amundsen-Scott Base, Antarctica'
         faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop,
-          owner: faraway_garden.owner, planted_at: '16 May 2001'
+                                                        owner: faraway_garden.owner, planted_at: '16 May 2001'
 
         FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop,
-          harvested_at: '18 December 2006'
+                                            harvested_at: '18 December 2006'
       end
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
@@ -443,8 +443,8 @@ describe Planting do
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryBot.create(:planting,
                                        created_at: 1.minute.ago,
-                                       garden:     @planting1.garden,
-                                       owner:      @planting1.owner)
+                                       garden: @planting1.garden,
+                                       owner: @planting1.owner)
         @planting2.photos << FactoryBot.create(:photo, owner: @planting2.owner)
         @planting2.save
 

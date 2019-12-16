@@ -65,8 +65,8 @@ class HarvestsController < ApplicationController
   def harvest_params
     params.require(:harvest)
       .permit(:planting_id, :crop_id, :harvested_at, :description,
-        :quantity, :unit, :weight_quantity, :weight_unit,
-        :plant_part_id, :slug, :si_weight)
+              :quantity, :unit, :weight_quantity, :weight_unit,
+              :plant_part_id, :slug, :si_weight)
       .merge(owner_id: current_member.id)
   end
 

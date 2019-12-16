@@ -87,9 +87,9 @@ class Post < ApplicationRecord
 
       Notification.create(
         recipient_id: recipient_id,
-        sender_id:    sender,
-        subject:      "#{author} mentioned you in their post #{subject}",
-        body:         body
+        sender_id: sender,
+        subject: "#{author} mentioned you in their post #{subject}",
+        body: body
       )
     end
   end

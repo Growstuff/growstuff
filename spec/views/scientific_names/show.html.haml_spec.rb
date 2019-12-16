@@ -4,7 +4,7 @@ describe "scientific_names/show" do
   before do
     controller.stub(:current_user) { nil }
     @scientific_name = assign(:scientific_name,
-      FactoryBot.create(:zea_mays))
+                              FactoryBot.create(:zea_mays))
   end
 
   it "renders attributes in <p>" do
