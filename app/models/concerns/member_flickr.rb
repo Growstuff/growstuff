@@ -1,7 +1,7 @@
 module MemberFlickr
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     # Authenticates against Flickr and returns an object we can use for subsequent api calls
     def flickr
       if @flickr.nil?
@@ -24,13 +24,13 @@ module MemberFlickr
       result = if set
                  flickr.photosets.getPhotos(
                    photoset_id: set,
-                   page:        page_num,
-                   per_page:    30
+                   page: page_num,
+                   per_page: 30
                  )
                else
                  flickr.people.getPhotos(
-                   user_id:  'me',
-                   page:     page_num,
+                   user_id: 'me',
+                   page: page_num,
                    per_page: 30
                  )
                end

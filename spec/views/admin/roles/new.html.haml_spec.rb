@@ -3,8 +3,8 @@ require 'rails_helper'
 describe "admin/roles/new" do
   before do
     assign(:role, stub_model(Role,
-      name:        "MyString",
-      description: "MyText").as_new_record)
+                             name: "MyString",
+                             description: "MyText").as_new_record)
   end
 
   it "renders new role form" do

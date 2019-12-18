@@ -28,11 +28,11 @@ class LikesController < ApplicationController
 
   def render_json(like, liked_by_member: true)
     {
-      id:              like.likeable.id,
-      like_count:      like.likeable.likes.count,
+      id: like.likeable.id,
+      like_count: like.likeable.likes.count,
       liked_by_member: liked_by_member,
-      description:     ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like"),
-      url:             like_path(like, format: :json)
+      description: ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like"),
+      url: like_path(like, format: :json)
     }
   end
 
@@ -40,8 +40,8 @@ class LikesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to like.likeable }
       format.json do
-        render(json:   render_json(like,
-                                   liked_by_member: liked_by_member),
+        render(json: render_json(like,
+                                 liked_by_member: liked_by_member),
                status: status_code)
       end
     end
