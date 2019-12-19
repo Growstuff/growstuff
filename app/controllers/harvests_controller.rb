@@ -16,7 +16,12 @@ class HarvestsController < ApplicationController
     where['crop_id'] = @crop.id if @crop.present?
     where['planting_id'] = @planting.id if @planting.present?
 
-    @harvests = Harvest.search('*', where: where, limit: 100, page: params[:page], load: false, boost_by: [:created_at])
+    @harvests = Harvest.search('*',
+                               where:    where,
+                               limit:    100,
+                               page:     params[:page],
+                               load:     false,
+                               boost_by: [:created_at])
 
     @filename = csv_filename
 
@@ -24,6 +29,7 @@ class HarvestsController < ApplicationController
   end
 
   def show
+    @harvest = Harvest.find(params[:slug])
     @matching_plantings = matching_plantings if @harvest.owner == current_member
     @photos = @harvest.photos.order(created_at: :desc).paginate(page: params[:page])
     respond_with(@harvest)
