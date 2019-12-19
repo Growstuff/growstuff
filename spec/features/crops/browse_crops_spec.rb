@@ -7,7 +7,11 @@ describe "browse crops" do
   let!(:rejected_crop)  { FactoryBot.create :rejected_crop }
 
   shared_examples 'shows crops' do
-    before { visit crops_path }
+    before do
+      Crop.reindex
+      visit crops_path
+    end
+
     it "has a form for sorting by" do
       expect(page).to have_css "select#sort"
     end
