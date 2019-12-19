@@ -1,6 +1,6 @@
 class SeedsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
-  load_resource find_by: :slug
+  before_action :set_seed, only: %i(edit show update destroy)
   authorize_resource
   responders :flash
   respond_to :html, :json
@@ -61,6 +61,10 @@ class SeedsController < ApplicationController
   end
 
   private
+
+  def set_seed
+    @seed = Seed.find(params[:slug])
+  end
 
   def seeds
     records = Seed.all
