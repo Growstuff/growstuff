@@ -23,18 +23,18 @@ module CropSearch
     def search_data
       {
         name: name,
-        description:      description,
+        description: description,
         slug: slug,
         alternate_names: alternate_names.pluck(:name),
         scientific_names: scientific_names.pluck(:name),
-        photos_count:     photo_associations_count,
+        photos_count: photo_associations_count,
         # boost the crops that are planted the most
         plantings_count: plantings_count,
-        harvests_count:   harvests_count,
+        harvests_count: harvests_count,
         # boost this crop for these members
         planters_ids: plantings.pluck(:owner_id),
         has_photos: photos.size.positive?,
-        thumbnail_url:    default_photo&.thumbnail_url,
+        thumbnail_url: default_photo&.thumbnail_url,
         scientific_name: default_scientific_name&.name,
         created_at: created_at.to_i
       }

@@ -27,10 +27,10 @@ class PlantingsController < ApplicationController
 
     @plantings = Planting.search(
       where: @where,
-      page:     params[:page],
-      limit:    30,
+      page: params[:page],
+      limit: 30,
       boost_by: [:created_at],
-      load:     false
+      load: false
     )
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
