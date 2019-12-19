@@ -38,12 +38,15 @@ describe "Harvesting a crop", :js do
       expect(page).to have_content "harvest was successfully created."
     end
 
-    it "Clicking link to owner's profile" do
-      visit member_harvests_path(member)
-      within '.login-name' do
-        click_link member.login_name
+    describe 'member harvests' do
+      before { visit member_harvests_path(member) }
+      it { expect(page).to have_text "#{member.login_name}'s harvests" }
+      it "Clicking link to owner's profile" do
+        within '.login-name' do
+          click_link member.login_name
+        end
+        expect(current_path).to eq member_path(member)
       end
-      expect(current_path).to eq member_path member
     end
 
     describe "Harvesting from crop page" do
