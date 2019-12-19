@@ -54,7 +54,7 @@ class GardensController < ApplicationController
 
   private
 
-  def set_gardenplanting
+  def set_garden
     @garden = Garden.find(params[:slug])
   end
 
