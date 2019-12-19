@@ -1,5 +1,6 @@
 class HarvestsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
+  before_action :set_harvest, only: %i(edit show update destroy)
   after_action :update_crop_medians, only: %i(create update destroy)
   load_and_authorize_resource
   respond_to :html, :json
@@ -29,7 +30,6 @@ class HarvestsController < ApplicationController
   end
 
   def show
-    @harvest = Harvest.find(params[:slug])
     @matching_plantings = matching_plantings if @harvest.owner == current_member
     @photos = @harvest.photos.order(created_at: :desc).paginate(page: params[:page])
     respond_with(@harvest)
@@ -69,6 +69,10 @@ class HarvestsController < ApplicationController
   end
 
   private
+
+  def set_harvest
+    @harvest = Harvest.find(params[:slug])
+  end
 
   def harvest_params
     params.require(:harvest)

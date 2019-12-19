@@ -1,5 +1,6 @@
 class GardensController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
+  before_action :set_garden, only: %i(edit show update destroy)
   after_action :expire_homepage, only: %i(create destroy)
   load_and_authorize_resource
   responders :flash
@@ -52,6 +53,10 @@ class GardensController < ApplicationController
   end
 
   private
+
+  def set_gardenplanting
+    @garden = Garden.find(params[:slug])
+  end
 
   def garden_params
     params.require(:garden).permit(:name, :slug, :description, :active,
