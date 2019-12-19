@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     resources :photos, only: :index
   end
 
-  resources :gardens, concerns: :has_photos do
+  resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
   end
 
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :seeds, concerns: :has_photos do
+  resources :seeds, concerns: :has_photos, param: :slug  do
     resources :plantings
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
