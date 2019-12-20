@@ -3,6 +3,7 @@ class Seed < ApplicationRecord
   include PhotoCapable
   include Finishable
   include Ownable
+  include SeedSearch
   friendly_id :seed_slug, use: %i(slugged finders)
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
