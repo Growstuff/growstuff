@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GardensController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   before_action :set_garden, only: %i(edit show update destroy)

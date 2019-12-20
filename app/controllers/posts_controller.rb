@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   load_and_authorize_resource

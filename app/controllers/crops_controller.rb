@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
@@ -50,8 +52,8 @@ class CropsController < ApplicationController
     @term = params[:term]
 
     @crops = CropSearchService.search(
-      @term, page: params[:page],
-             per_page: 36,
+      @term, page:           params[:page],
+             per_page:       36,
              current_member: current_member
     )
     respond_with @crops
@@ -202,13 +204,13 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings: {
+        plantings:        {
           include: {
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
         scientific_names: { only: [:name] },
-        alternate_names: { only: [:name] }
+        alternate_names:  { only: [:name] }
       }
     }
   end
