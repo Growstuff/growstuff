@@ -10,9 +10,11 @@ class PhotoAssociation < ApplicationRecord
   ##
   ## Triggers
   before_save :set_crop
+  after_create { |record| record.photographable.reindex }
+  after_destroy { |record| record.photographable.reindex }
 
   def item
-    find_by!(photographable_id: photographable_id, photographable_type: photographable_type).photographable
+    photographable
   end
 
   def self.item(item_id, item_type)
