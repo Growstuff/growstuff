@@ -30,11 +30,11 @@ class SeedsController < ApplicationController
 
     @filename = csv_filename
     @seeds = Seed.search(
-      where:    where,
-      page:     params[:page],
-      limit:    30,
+      where: where,
+      page: params[:page],
+      limit: 30,
       boost_by: [:created_at],
-      load:     false
+      load: false
     )
 
     respond_with(@seeds)
