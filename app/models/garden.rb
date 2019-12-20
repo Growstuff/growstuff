@@ -77,6 +77,9 @@ class Garden < ApplicationRecord
     end
   end
 
+  def reindex
+  end
+
   protected
 
   def strip_blanks

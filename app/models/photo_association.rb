@@ -10,8 +10,8 @@ class PhotoAssociation < ApplicationRecord
   ##
   ## Triggers
   before_save :set_crop
-  after_create { |record| record.photographable.reindex }
-  after_destroy { |record| record.photographable.reindex }
+  after_create :reindex
+  after_destroy :reindex
 
   def item
     photographable
@@ -30,6 +30,12 @@ class PhotoAssociation < ApplicationRecord
   end
 
   private
+
+  def reindex
+    photographable.reindex
+    crop&.reindex
+    true
+  end
 
   def photo_and_item_have_same_owner
     return unless photographable_type != 'Crop'
