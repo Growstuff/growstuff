@@ -7,6 +7,7 @@ describe 'Plantings RSS feed' do
   end
 
   it 'The index title is what we expect' do
+    Planting.reindex
     visit plantings_path(format: 'rss')
     expect(page).to have_content "Recent plantings from "\
       "#{@owner || 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})"
