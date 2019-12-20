@@ -37,7 +37,7 @@ module PredictPlanting
       (finished_at - planted_at).to_i
     end
 
-    def days_since_planted
+    def age_in_days
       (Time.zone.today - planted_at).to_i if planted_at.present?
     end
 
@@ -75,7 +75,7 @@ module PredictPlanting
     private
 
     def calculate_percentage_grown
-      percent = (days_since_planted / expected_lifespan.to_f) * 100
+      percent = (age_in_days / expected_lifespan.to_f) * 100
       (percent > 100 ? 100 : percent)
     end
   end
