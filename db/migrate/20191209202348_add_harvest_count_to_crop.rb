@@ -13,6 +13,11 @@ class AddHarvestCountToCrop < ActiveRecord::Migration[5.2]
     reversible do |dir|
       dir.up { data }
     end
+
+    Crop.reindex
+    Planting.reindex
+    Seed.reindex
+    Harvest.reindex
   end
 
   def data
