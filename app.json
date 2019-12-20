@@ -1,0 +1,51 @@
+{
+  "name": "growstuff",
+  "stack": "heroku-18",
+  "description": "Open data project for small-scale food growers",
+  "scripts": {
+    "postdeploy": "bundle exec rails db:seed"
+  },
+  "env": {
+    "GROWSTUFF_ELASTICSEARCH": {
+      "required": true
+    },
+    "GROWSTUFF_FACEBOOK_KEY": {
+      "required": true
+    },
+    "GROWSTUFF_FACEBOOK_SECRET": {
+      "required": true
+    },
+    "GROWSTUFF_FLICKR_KEY": {
+      "required": true
+    },
+    "GROWSTUFF_FLICKR_SECRET": {
+      "required": true
+    },
+    "GROWSTUFF_SITE_NAME": {
+      "required": true
+    },
+    "GROWSTUFF_EMAIL": {
+      "required": true
+    },
+    "MAIL_SENDER_HOST": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "bonsai",
+    "heroku-postgresql",
+    "memcachier",
+    "newrelic",
+    "scout",
+    "sendgrid"
+  ],
+  "buildpacks": [
+    { "url": "heroku/nodejs" },
+    { "url": "heroku/ruby" }
+  ]
+}
