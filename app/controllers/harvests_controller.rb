@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HarvestsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   before_action :set_harvest, only: %i(edit show update destroy)
@@ -18,10 +20,10 @@ class HarvestsController < ApplicationController
     where['planting_id'] = @planting.id if @planting.present?
 
     @harvests = Harvest.search('*',
-                               where: where,
-                               limit: 100,
-                               page: params[:page],
-                               load: false,
+                               where:    where,
+                               limit:    100,
+                               page:     params[:page],
+                               load:     false,
                                boost_by: [:created_at])
 
     @filename = csv_filename
