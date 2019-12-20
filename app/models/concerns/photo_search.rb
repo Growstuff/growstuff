@@ -10,7 +10,6 @@ module PhotoSearch
 
     def search_data
       {
-        slug: slug,
         crops: crops.map(&:id),
         owner_id: owner_id,
         owner_name: owner.login_name,
