@@ -57,8 +57,7 @@ class Post < ApplicationRecord
     subject
   end
 
-  def reindex
-  end
+  def reindex; end
 
   private
 
