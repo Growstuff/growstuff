@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PhotoAssociation < ApplicationRecord
   belongs_to :photo, inverse_of: :photo_associations
   belongs_to :photographable, polymorphic: true

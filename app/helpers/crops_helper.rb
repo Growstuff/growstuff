@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CropsHelper
   def display_seed_availability(member, crop)
     seeds = member.seeds.where(crop: crop)
