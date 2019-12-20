@@ -39,7 +39,21 @@
 
       .index-cards
         - @seeds.each do |seed|
-          = render 'seeds/card', seed: seed
+          .card.seed-card{class: seed['finished'] ? 'card-finished' : ''}
+            = link_to seed_path(slug: seed['slug']) do
+              = image_tag(seed['thumbnail_url'] ? seed['thumbnail_url'] : placeholder_image, alt: seed['crop_name'], class: 'img-card')
+            .text
+              %span.chip.member-chip= seed['owner_name']
+            .card-body
+              .card-title
+                = link_to seed['crop_name'], seed_path(seed['slug'])
+              - if seed['tradable']
+                .text-muted
+                  = icon 'fas', 'map'
+                  Will trade #{seed['tradable_to']}
+              .badge.badge-pill.badge-location
+                = icon 'fas', 'map-marker'
+                = truncate(seed['owner_location'], length: 20, separator: ' ', omission: '... ')
 
       = will_paginate @seeds
 
