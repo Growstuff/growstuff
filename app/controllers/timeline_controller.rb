@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TimelineController < ApplicationController
   def index
     if current_member

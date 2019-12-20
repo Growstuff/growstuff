@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMetadataToPhotos < ActiveRecord::Migration[4.2]
   def up
     change_table :photos do |t|

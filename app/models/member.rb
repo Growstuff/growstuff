@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Member < ApplicationRecord
   include Discard::Model
   acts_as_messageable # messages can be sent to this model

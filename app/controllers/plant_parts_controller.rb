@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlantPartsController < ApplicationController
   load_and_authorize_resource
   respond_to :html, :json

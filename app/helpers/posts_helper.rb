@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PostsHelper
   def display_post_truncated(post)
     length = 300

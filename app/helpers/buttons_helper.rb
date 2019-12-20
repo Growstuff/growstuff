@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ButtonsHelper
   include IconsHelper
   def garden_plant_something_button(garden, classes: "btn btn-default")

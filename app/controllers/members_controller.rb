@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembersController < ApplicationController
   load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
   skip_authorize_resource only: %i(nearby unsubscribe finish_signup)

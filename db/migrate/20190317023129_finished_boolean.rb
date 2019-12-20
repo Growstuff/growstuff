@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FinishedBoolean < ActiveRecord::Migration[5.2]
   def change
     Planting.unscoped.where('finished_at < now()').update_all(finished: true)

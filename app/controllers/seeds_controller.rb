@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SeedsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   before_action :set_seed, only: %i(edit show update destroy)

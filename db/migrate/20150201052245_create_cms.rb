@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCms < ActiveRecord::Migration[4.2]
   def self.up # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     text_limit = case ActiveRecord::Base.connection.adapter_name

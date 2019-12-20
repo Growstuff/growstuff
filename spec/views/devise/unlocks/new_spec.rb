@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'devise/unlocks/new.html.haml', type: "view" do

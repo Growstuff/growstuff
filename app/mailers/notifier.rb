@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Notifier < ApplicationMailer
   # include NotificationsHelper
   default from: "Growstuff <#{ENV['GROWSTUFF_EMAIL']}>"

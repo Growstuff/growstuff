@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Geocodable
   def self.included(base)
     base.extend(self)

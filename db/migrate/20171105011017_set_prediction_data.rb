@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SetPredictionData < ActiveRecord::Migration[4.2]
   def up
     say "Updating all plantings time to first harvest"
