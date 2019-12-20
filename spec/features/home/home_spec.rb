@@ -21,15 +21,12 @@ describe "home page" do
   before do
     # Add photos, so they can appear on home page
     planting.photos << photo
-    planting.reindex
-
     seed.photos << photo
-    seed.reindex
-
     harvest.photos << photo
-    harvest.reindex
-
     Crop.reindex
+    Planting.reindex
+    Seed.reindex
+    Harvest.reindex
   end
 
   before { visit root_path }
