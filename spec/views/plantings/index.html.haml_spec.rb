@@ -16,26 +16,26 @@ describe "plantings/index" do
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
                       {
-                        'crop_name'  => tomato.name,
-                        'slug'       => 'tomato-1',
+                        'crop_name' => tomato.name,
+                        'slug' => 'tomato-1',
                         'owner_name' => member.login_name,
                         'owner_slug' => member.slug
                       },
                       {
-                        'crop_name'  => maize.name,
-                        'slug'       => 'maize',
+                        'crop_name' => maize.name,
+                        'slug' => 'maize',
                         'owner_name' => garden.owner.login_name,
                         'owner_slug' => garden.owner.slug,
                         'planted_at' => Time.zone.local(2013, 1, 13)
                       },
                       {
-                        'crop_name'   => tomato.name,
-                        'slug'        => 'tomato-2',
-                        'owner_name'  => garden.owner.login_name,
-                        'owner_slug'  => garden.owner.slug,
-                        'planted_at'  => Time.zone.local(2013, 1, 13),
+                        'crop_name' => tomato.name,
+                        'slug' => 'tomato-2',
+                        'owner_name' => garden.owner.login_name,
+                        'owner_slug' => garden.owner.slug,
+                        'planted_at' => Time.zone.local(2013, 1, 13),
                         'finished_at' => Time.zone.local(2013, 1, 20),
-                        'finished'    => true
+                        'finished' => true
                       }
                     ])
     end
