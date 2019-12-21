@@ -65,7 +65,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).permit(:source_id, :source, :title, :license_name,
-      :license_url, :thumbnail_url, :fullsize_url, :link_url)
+                                  :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
   # Item with photos attached
@@ -84,7 +84,7 @@ class PhotosController < ApplicationController
   def find_or_create_photo_from_flickr_photo
     photo = Photo.find_or_initialize_by(
       source_id: photo_params[:source_id],
-      source:    'flickr'
+      source: 'flickr'
     )
     photo.update(photo_params)
     photo.owner_id = current_member.id

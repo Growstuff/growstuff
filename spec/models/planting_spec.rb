@@ -13,7 +13,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.age_in_days).to eq(30) }
         it { expect(planting.percentage_grown).to eq(nil) }
       end
 
@@ -22,7 +22,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.age_in_days).to eq(nil) }
         it { expect(planting.percentage_grown).to eq(0) }
       end
 
@@ -31,7 +31,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.age_in_days).to eq(nil) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
 
@@ -40,7 +40,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(29) }
-        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.age_in_days).to eq(30) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
     end
@@ -63,7 +63,7 @@ describe Planting do
         # 30 / 50 = 60%
         it { expect(planting.percentage_grown).to eq 60.0 }
         # planted 30 days ago
-        it { expect(planting.days_since_planted).to eq 30 }
+        it { expect(planting.age_in_days).to eq 30 }
         # means 20 days to go
         it { expect(planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
@@ -77,7 +77,7 @@ describe Planting do
         # 30 / 50 = 60%
         it { expect(child_planting.percentage_grown).to eq 60.0 }
         # planted 30 days ago
-        it { expect(child_planting.days_since_planted).to eq 30 }
+        it { expect(child_planting.age_in_days).to eq 30 }
         # means 20 days to go
         it { expect(child_planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
@@ -97,7 +97,7 @@ describe Planting do
       describe 'planted 30 days ago, finished 10 days ago' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago }
 
-        it { expect(planting.days_since_planted).to eq 30 }
+        it { expect(planting.age_in_days).to eq 30 }
         it { expect(planting.percentage_grown).to eq 100 }
       end
     end
@@ -177,8 +177,8 @@ describe Planting do
 
       before do
         FactoryBot.create(:harvest,
-                          planting:     planting,
-                          crop:         planting.crop,
+                          planting: planting,
+                          crop: planting.crop,
                           harvested_at: 10.days.ago)
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
@@ -231,21 +231,21 @@ describe Planting do
         # Near by planting with harvests
         nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
         nearby_planting = FactoryBot.create :planting, crop: crop,
-          garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
+                                                       garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '1 May 2019'
+                                    harvested_at: '1 May 2019'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '18 June 2019'
+                                    harvested_at: '18 June 2019'
         FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop,
-          harvested_at: '18 August 2008'
+                                            harvested_at: '18 August 2008'
 
         # far away planting harvests
         faraway_garden = FactoryBot.create :garden, location: 'Amundsen-Scott Base, Antarctica'
         faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop,
-          owner: faraway_garden.owner, planted_at: '16 May 2001'
+                                                        owner: faraway_garden.owner, planted_at: '16 May 2001'
 
         FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop,
-          harvested_at: '18 December 2006'
+                                            harvested_at: '18 December 2006'
       end
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
@@ -443,8 +443,8 @@ describe Planting do
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryBot.create(:planting,
                                        created_at: 1.minute.ago,
-                                       garden:     @planting1.garden,
-                                       owner:      @planting1.owner)
+                                       garden: @planting1.garden,
+                                       owner: @planting1.owner)
         @planting2.photos << FactoryBot.create(:photo, owner: @planting2.owner)
         @planting2.save
 

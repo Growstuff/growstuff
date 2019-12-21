@@ -3,8 +3,8 @@ require 'rails_helper'
 describe "plantings/edit" do
   before do
     @member = FactoryBot.create(:member,
-      login_name: 'right',
-      email:      'right@example.com')
+                                login_name: 'right',
+                                email: 'right@example.com')
 
     # creating two crops to make sure that the correct one is selected
     # in the form.
@@ -17,7 +17,7 @@ describe "plantings/edit" do
     @gardens = @member.gardens
 
     @planting = assign(:planting,
-      FactoryBot.create(:planting, garden: @garden, crop: @tomato, owner: @member))
+                       FactoryBot.create(:planting, garden: @garden, crop: @tomato, owner: @member))
   end
 
   context "logged in" do

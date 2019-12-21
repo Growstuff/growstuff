@@ -17,7 +17,7 @@ class Member < ApplicationRecord
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
-  has_and_belongs_to_many :roles # rubocop:disable Rails/HasAndBelongsToMany
+  has_and_belongs_to_many :roles
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender
   has_many :authentications, dependent: :destroy
@@ -76,13 +76,13 @@ class Member < ApplicationRecord
   # Requires acceptance of the Terms of Service
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
-            length:     {
+            length: {
               minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
             },
-            exclusion:  {
+            exclusion: {
               in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
             },
-            format:     {
+            format: {
               with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
             },
             uniqueness: {

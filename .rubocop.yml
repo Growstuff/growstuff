@@ -27,13 +27,13 @@ Style/PercentLiteralDelimiters:
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table
 
 # Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
 # SupportedStyles: with_first_parameter, with_fixed_indentation
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 

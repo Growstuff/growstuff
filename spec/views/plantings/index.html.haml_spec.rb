@@ -14,22 +14,22 @@ describe "plantings/index" do
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
                       FactoryBot.create(:planting,
-                        garden: garden,
-                        crop:   tomato,
-                        owner:  member),
+                                        garden: garden,
+                                        crop: tomato,
+                                        owner: member),
                       FactoryBot.create(:planting,
-                        garden:      garden,
-                        crop:        maize,
-                        owner:       garden.owner,
-                        description: '',
-                        planted_at:  Time.zone.local(2013, 1, 13)),
+                                        garden: garden,
+                                        crop: maize,
+                                        owner: garden.owner,
+                                        description: '',
+                                        planted_at: Time.zone.local(2013, 1, 13)),
                       FactoryBot.create(:planting,
-                        garden:      garden,
-                        owner:       garden.owner,
-                        crop:        tomato,
-                        planted_at:  Time.zone.local(2013, 1, 13),
-                        finished_at: Time.zone.local(2013, 1, 20),
-                        finished:    true)
+                                        garden: garden,
+                                        owner: garden.owner,
+                                        crop: tomato,
+                                        planted_at: Time.zone.local(2013, 1, 13),
+                                        finished_at: Time.zone.local(2013, 1, 20),
+                                        finished: true)
                     ])
     end
     assign(:plantings, plantings)
