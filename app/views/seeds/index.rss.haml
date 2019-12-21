@@ -6,20 +6,17 @@
     %link= seeds_url
     - @seeds.each do |seed|
       %item
-        %title #{seed.owner}'s #{seed.crop} seeds
-        %pubdate= seed.created_at.to_s(:rfc822)
+        %title #{seed['owner_name']}'s #{seed['crop_name']} seeds
+        %pubdate= seed['created_at'].to_s(:rfc822)
         %description
           :escaped
-            <p>Quantity: #{seed.quantity ? seed.quantity : 'unknown' }</p>
-            <p>Plant before: #{seed.plant_before ? seed.plant_before : 'unknown' }</p>
-            <p>Organic? #{seed.organic}</p>
-            <p>GMO? #{seed.gmo}</p>
-            <p>Heirloom? #{seed.heirloom}</p>
-          - if seed.tradable?
+            <p>Quantity: #{seed['quantity'] ? seed['quantity'] : 'unknown' }</p>
+            <p>Plant before: #{seed['plant_before'] ? seed['plant_before'] : 'unknown' }</p>
+            <p>Organic? #{seed['organic']}</p>
+            <p>GMO? #{seed['gmo']}</p>
+            <p>Heirloom? #{seed['heirloom']}</p>
+          - if seed['tradable']
             %p
-              Will trade #{seed.tradable_to} from #{seed.owner.location ? seed.owner.location : 'unknown location'}
-
-          :escaped_markdown
-            #{ strip_tags seed.description }
-        %link= seed_url(seed)
-        %guid= seed_url(seed)
+              Will trade #{seed['tradable_to']} from #{@owner.location ? @owner.location : 'unknown location'}
+        %link= seed_url(slug: seed['slug'])
+        %guid= seed_url(slug: seed['slug'])

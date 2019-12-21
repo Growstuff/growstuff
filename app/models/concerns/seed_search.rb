@@ -18,17 +18,22 @@ module SeedSearch
     def search_data
       {
         slug: slug,
-        crop_slug: crop.slug,
-        crop_name: crop.name,
         crop_id: crop_id,
+        crop_name: crop.name,
+        crop_slug: crop.slug,
+        gmo: gmo,
+        has_photos: photos.size.positive?,
+        heirloom: heirloom,
+        organic: organic,
         owner_id: owner_id,
         owner_name: owner.login_name,
-        tradable_to: tradable_to,
-        tradeable: tradable?,
         parent_planting: parent_planting,
         photos_count: photos.size,
-        has_photos: photos.size.positive?,
+        plant_before: plant_before,
+        quantity: quantity,
         thumbnail_url: default_photo&.thumbnail_url,
+        tradable_to: tradable_to,
+        tradeable: tradable?,
         finished: finished?,
         created_at: created_at.to_i
       }
