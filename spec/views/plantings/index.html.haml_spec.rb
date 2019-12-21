@@ -15,23 +15,28 @@ describe "plantings/index" do
     total_entries = 3
     plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-                      FactoryBot.create(:planting,
-                                        garden: garden,
-                                        crop: tomato,
-                                        owner: member),
-                      FactoryBot.create(:planting,
-                                        garden: garden,
-                                        crop: maize,
-                                        owner: garden.owner,
-                                        description: '',
-                                        planted_at: Time.zone.local(2013, 1, 13)),
-                      FactoryBot.create(:planting,
-                                        garden: garden,
-                                        owner: garden.owner,
-                                        crop: tomato,
-                                        planted_at: Time.zone.local(2013, 1, 13),
-                                        finished_at: Time.zone.local(2013, 1, 20),
-                                        finished: true)
+                      {
+                        'crop_name'  => tomato.name,
+                        'slug'       => 'tomato-1',
+                        'owner_name' => member.login_name,
+                        'owner_slug' => member.slug
+                      },
+                      {
+                        'crop_name'  => maize.name,
+                        'slug'       => 'maize',
+                        'owner_name' => garden.owner.login_name,
+                        'owner_slug' => garden.owner.slug,
+                        'planted_at' => Time.zone.local(2013, 1, 13)
+                      },
+                      {
+                        'crop_name'   => tomato.name,
+                        'slug'        => 'tomato-2',
+                        'owner_name'  => garden.owner.login_name,
+                        'owner_slug'  => garden.owner.slug,
+                        'planted_at'  => Time.zone.local(2013, 1, 13),
+                        'finished_at' => Time.zone.local(2013, 1, 20),
+                        'finished'    => true
+                      }
                     ])
     end
     assign(:plantings, plantings)
@@ -39,8 +44,8 @@ describe "plantings/index" do
   end
 
   describe "renders a list of plantings" do
-    it { expect(rendered).to have_content tomato.name }
-    it { expect(rendered).to have_content maize.name }
+    it { expect(rendered).to have_content 'tomato' }
+    it { expect(rendered).to have_content 'maize' }
   end
 
   it "provides data links" do
