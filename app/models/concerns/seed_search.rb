@@ -45,7 +45,7 @@ module SeedSearch
              limit: limit,
              where: {
                finished: false,
-               tradeable: true,
+               tradeable: true
              },
              boost_by: [:created_at],
              load: false)
