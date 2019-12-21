@@ -18,6 +18,12 @@
       %span.planted_at
         =planting.planted_at.year
 
+  - if planting.finish_is_predicatable?
+    .card.fact-card
+      %h3 Progress
+      %strong #{planting.age_in_days}/#{planting.expected_lifespan}
+      %span days
+        
   .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
     %h3
       Quantity

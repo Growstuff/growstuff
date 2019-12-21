@@ -25,6 +25,7 @@ describe "Display a planting", :js do
     context 'Annual with predicted finish' do
       let(:planting) { FactoryBot.create :predicatable_planting, planted_at: 2.weeks.ago }
       it { expect(page).to have_text '28%' }
+      it { expect(page).to have_text '14/50 days' }
       it { expect(page).to have_text "Planted #{I18n.l(2.weeks.ago.to_date)}" }
       it { expect(page).to have_text 'Finish expected' }
     end
