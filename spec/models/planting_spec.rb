@@ -13,7 +13,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.age_in_days).to eq(30) }
         it { expect(planting.percentage_grown).to eq(nil) }
       end
 
@@ -22,7 +22,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.age_in_days).to eq(nil) }
         it { expect(planting.percentage_grown).to eq(0) }
       end
 
@@ -31,7 +31,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.age_in_days).to eq(nil) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
 
@@ -40,7 +40,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(29) }
-        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.age_in_days).to eq(30) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
     end
@@ -63,7 +63,7 @@ describe Planting do
         # 30 / 50 = 60%
         it { expect(planting.percentage_grown).to eq 60.0 }
         # planted 30 days ago
-        it { expect(planting.days_since_planted).to eq 30 }
+        it { expect(planting.age_in_days).to eq 30 }
         # means 20 days to go
         it { expect(planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
@@ -77,7 +77,7 @@ describe Planting do
         # 30 / 50 = 60%
         it { expect(child_planting.percentage_grown).to eq 60.0 }
         # planted 30 days ago
-        it { expect(child_planting.days_since_planted).to eq 30 }
+        it { expect(child_planting.age_in_days).to eq 30 }
         # means 20 days to go
         it { expect(child_planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
@@ -97,7 +97,7 @@ describe Planting do
       describe 'planted 30 days ago, finished 10 days ago' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago }
 
-        it { expect(planting.days_since_planted).to eq 30 }
+        it { expect(planting.age_in_days).to eq 30 }
         it { expect(planting.percentage_grown).to eq 100 }
       end
     end
