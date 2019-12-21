@@ -26,7 +26,10 @@ describe "forums/index" do
 
     describe "displays posts" do
       it { assert_select "table" }
-      it { expect(rendered).to have_content post.subject }
+
+      # only check for the first 20 chars, because it can be truncated when long
+      it { expect(rendered).to have_content post.subject[0..20] }
+
       it { expect(rendered).to have_content Time.zone.today.to_s(:short) }
     end
 
