@@ -31,10 +31,11 @@ module SeedSearch
         photos_count: photos.size,
         plant_before: plant_before,
         quantity: quantity,
-        thumbnail_url: default_photo&.thumbnail_url,
+        thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
         tradable_to: tradable_to,
         tradeable: tradable?,
         finished: finished?,
+        location: location,
         created_at: created_at.to_i
       }
     end
@@ -43,7 +44,8 @@ module SeedSearch
       search('*',
              limit: limit,
              where: {
-               photos_count: { gt: 0 }
+               finished: false,
+               tradeable: true,
              },
              boost_by: [:created_at],
              load: false)

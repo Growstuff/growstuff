@@ -37,7 +37,7 @@ module PlantingSearch
         planted_from: planted_from,
         quantity: quantity,
         sunniness: sunniness,
-        thumbnail_url: default_photo&.thumbnail_url,
+        thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
         created_at: created_at.to_i
       }
     end

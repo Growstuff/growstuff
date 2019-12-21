@@ -27,7 +27,7 @@ module HarvestSearch
         planting_id: planting_id,
         photos_count: photos.size,
         has_photos: photos.size.positive?,
-        thumbnail_url: default_photo&.thumbnail_url,
+        thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
         created_at: created_at.to_i
       }
     end
