@@ -19,7 +19,7 @@ describe PlantingsController do
     let!(:maize)     { FactoryBot.create(:maize)                                                        }
     let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
-    before  { Planting.reindex }
+    before { Planting.reindex }
     describe "assigns all plantings as @plantings" do
       before { get :index }
 
