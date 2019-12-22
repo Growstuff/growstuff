@@ -15,25 +15,25 @@ class PlantingsController < ApplicationController
   def index
     @show_all = params[:all] == '1'
 
-    @where = {}
-    @where['active'] = true unless @show_all
+    where = {}
+    where['active'] = true unless @show_all
 
     if params[:member_slug]
       @owner = Member.find_by(slug: params[:member_slug])
-      @where['owner_id'] = @owner.id
+      where['owner_id'] = @owner.id
     end
 
     if params[:crop_slug]
       @crop = Crop.find_by(slug: params[:crop_slug])
-      @where['crop_id'] = @crop.id
+      where['crop_id'] = @crop.id
     end
 
     @plantings = Planting.search(
-      where: @where,
-      page: params[:page],
-      limit: 30,
+      where:    where,
+      page:     params[:page],
+      limit:    30,
       boost_by: [:created_at],
-      load: false
+      load:     false
     )
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
@@ -59,15 +59,15 @@ class PlantingsController < ApplicationController
   def new
     @planting = Planting.new(
       planted_at: Time.zone.today,
-      owner: current_member,
-      garden: current_member.gardens.first
+      owner:      current_member,
+      garden:     current_member.gardens.first
     )
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
     @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
     if params[:garden_id]
       @planting.garden = Garden.find_by(
         owner: current_member,
-        id: params[:garden_id]
+        id:    params[:garden_id]
       )
     end
 
