@@ -14,7 +14,7 @@ describe "browse harvests" do
       let!(:harvest) { create :harvest, :no_description }
 
       before do
-        Harvest.reindex        
+        Harvest.reindex
         visit harvests_path
       end
 
@@ -27,7 +27,7 @@ describe "browse harvests" do
       let!(:harvest) { create :harvest, :long_description }
 
       before do
-        Harvest.reindex        
+        Harvest.reindex
         visit harvests_path
       end
 
