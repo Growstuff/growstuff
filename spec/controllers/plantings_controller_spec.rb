@@ -19,25 +19,28 @@ describe PlantingsController do
     let!(:maize)     { FactoryBot.create(:maize)                                                        }
     let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
-
+    before  { Planting.reindex }
     describe "assigns all plantings as @plantings" do
       before { get :index }
 
-      it { expect(assigns(:plantings)).to match [planting1, planting2] }
+      it { expect(assigns(:plantings).size).to eq 2 }
+      it { expect(assigns(:plantings)[0]['slug']).to eq planting1.slug }
+      it { expect(assigns(:plantings)[1]['slug']).to eq planting2.slug }
     end
 
     describe "picks up owner from params and shows owner's plantings only" do
       before { get :index, params: { member_slug: member1.slug } }
 
       it { expect(assigns(:owner)).to eq member1 }
-      it { expect(assigns(:plantings)).to eq [planting1] }
+      it { expect(assigns(:plantings).size).to eq 1 }
+      it { expect(assigns(:plantings).first['slug']).to eq planting1.slug }
     end
 
     describe "picks up crop from params and shows the plantings for the crop only" do
       before { get :index, params: { crop_slug: maize.slug } }
 
       it { expect(assigns(:crop)).to eq maize }
-      it { expect(assigns(:plantings)).to eq [planting2] }
+      it { expect(assigns(:plantings).first['slug']).to eq planting2.slug }
     end
   end
 
