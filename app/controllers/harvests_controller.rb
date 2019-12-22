@@ -10,14 +10,21 @@ class HarvestsController < ApplicationController
   responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:member_slug])
-    @crop = Crop.find_by(slug: params[:crop_slug])
-    @planting = Planting.find_by(slug: params[:planting_id])
-
     where = {}
-    where['owner_id'] = @owner.id if @owner.present?
-    where['crop_id'] = @crop.id if @crop.present?
-    where['planting_id'] = @planting.id if @planting.present?
+    if params[:member_slug]
+      @owner = Member.find_by(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
+    end
+
+    if params[:crop_slug]
+      @crop = Crop.find_by(slug: params[:crop_slug])
+      where['crop_id'] = @crop.id
+    end
+
+    if params[:planting_slug]
+      @planting = Planting.find_by(slug: params[:planting_slug])
+      where['planting_id'] = @planting.id
+    end
 
     @harvests = Harvest.search('*',
                                where:    where,
