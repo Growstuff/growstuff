@@ -18,7 +18,7 @@ describe GardensController do
     end
 
     it "routes to #edit" do
-      get("/gardens/1/edit").should route_to("gardens#edit", slug: 'sunny-bed')
+      get("/gardens/sunny-bed/edit").should route_to("gardens#edit", slug: 'sunny-bed')
     end
 
     it "routes to #create" do
