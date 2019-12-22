@@ -1,5 +1,4 @@
-# frozen_string_literal: true
-
+# rubocop:disable Style/FrozenStringLiteralComment
 require 'rails_helper'
 require 'haml/filters'
 require 'haml/filters/growstuff_markdown'
