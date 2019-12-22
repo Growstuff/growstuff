@@ -52,7 +52,7 @@ Metrics/BlockLength:
     - '**/*.rake'
     - 'config/**/*.rb'
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 140
 
 # Places we use update_all, etc even though it skips validations.
