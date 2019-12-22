@@ -9,10 +9,14 @@ describe "browse harvests" do
 
   context 'signed in' do
     include_context 'signed in member'
+
     describe 'blank optional fields' do
       let!(:harvest) { create :harvest, :no_description }
 
-      before { visit harvests_path }
+      before do
+        Harvest.reindex        
+        visit harvests_path
+      end
 
       it 'read more' do
         expect(subject).not_to have_link "Read more"
@@ -23,6 +27,7 @@ describe "browse harvests" do
       let!(:harvest) { create :harvest, :long_description }
 
       before do
+        Harvest.reindex        
         visit harvests_path
       end
 
