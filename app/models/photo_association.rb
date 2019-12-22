@@ -2,7 +2,7 @@
 
 class PhotoAssociation < ApplicationRecord
   belongs_to :photo, inverse_of: :photo_associations
-  belongs_to :photographable, polymorphic: true
+  belongs_to :photographable, polymorphic: true, touch: true
   belongs_to :crop, optional: true, counter_cache: true
 
   validate :photo_and_item_have_same_owner
@@ -10,8 +10,6 @@ class PhotoAssociation < ApplicationRecord
   ##
   ## Triggers
   before_save :set_crop
-  after_create :reindex
-  after_destroy :reindex
 
   def item
     photographable
@@ -30,12 +28,6 @@ class PhotoAssociation < ApplicationRecord
   end
 
   private
-
-  def reindex
-    photographable.reindex
-    crop&.reindex
-    true
-  end
 
   def photo_and_item_have_same_owner
     return unless photographable_type != 'Crop'
