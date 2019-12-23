@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe 'home/_seeds.html.haml', type: "view" do
+describe 'home/_seeds.html.haml', type: "view", search: true do
   let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
   let(:owner) { FactoryBot.create(:london_member) }
   before do
-    Seed.reindex
+    Seed.searchkick_index.refresh
     render
   end
 
