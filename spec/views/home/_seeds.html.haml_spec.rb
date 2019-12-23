@@ -5,7 +5,10 @@ require 'rails_helper'
 describe 'home/_seeds.html.haml', type: "view" do
   let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
   let(:owner) { FactoryBot.create(:london_member) }
-  before { render }
+  before do
+    Seed.reindex
+    render
+  end
 
   it 'has a heading' do
     assert_select 'h2', 'Seeds available to trade'
