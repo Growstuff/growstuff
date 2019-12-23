@@ -35,7 +35,7 @@ module SeedSearch
         tradable_to: tradable_to,
         tradeable: tradable?,
         finished: finished?,
-        location: location,
+        location: owner.location,
         created_at: created_at.to_i
       }
     end

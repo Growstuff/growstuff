@@ -15,8 +15,6 @@
             <p>Organic? #{seed['organic']}</p>
             <p>GMO? #{seed['gmo']}</p>
             <p>Heirloom? #{seed['heirloom']}</p>
-          - if seed['tradable']
-            %p
-              Will trade #{seed['tradable_to']} from #{@owner.location ? @owner.location : 'unknown location'}
+            <p>Will trade #{seed['tradable_to']} from #{seed['location'] ? seed['location'] : 'unknown location'}</p>
         %link= seed_url(slug: seed['slug'])
         %guid= seed_url(slug: seed['slug'])

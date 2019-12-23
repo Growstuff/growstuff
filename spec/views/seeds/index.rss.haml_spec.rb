@@ -12,6 +12,7 @@ describe 'seeds/index.rss.haml' do
       @seed = FactoryBot.create(:seed)
       @tradable = FactoryBot.create(:tradable_seed)
       assign(:seeds, [@seed, @tradable])
+      Seed.reindex
       render
     end
 
@@ -41,6 +42,7 @@ describe 'seeds/index.rss.haml' do
       @seed = FactoryBot.create(:seed)
       assign(:seeds, [@seed])
       assign(:owner, @seed.owner)
+      Seed.reindex
       render
     end
 
