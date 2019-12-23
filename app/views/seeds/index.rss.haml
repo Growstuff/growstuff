@@ -10,6 +10,7 @@
         %pubdate= seed['created_at'].to_s(:rfc822)
         %description
           :escaped
+            SEED: #{seed}
             <p>Quantity: #{seed['quantity'] ? seed['quantity'] : 'unknown' }</p>
             <p>Plant before: #{seed['plant_before'] ? seed['plant_before'] : 'unknown' }</p>
             <p>Organic? #{seed['organic']}</p>
