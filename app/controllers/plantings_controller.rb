@@ -1,16 +1,8 @@
 # frozen_string_literal: true
 
-class PlantingsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create update destroy)
+class PlantingsController < DataController
   after_action :update_crop_medians, only: %i(create update destroy)
   after_action :update_planting_medians, only: :update
-  load_resource find_by: :slug
-  authorize_resource
-
-  respond_to :html, :json
-  respond_to :csv, :rss, only: [:index]
-  responders :flash
 
   def index
     @show_all = params[:all] == '1'

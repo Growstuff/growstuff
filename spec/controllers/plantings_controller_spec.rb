@@ -8,7 +8,7 @@ describe PlantingsController do
   def valid_attributes
     {
       garden_id: FactoryBot.create(:garden, owner: subject.current_member).id,
-      crop_id: FactoryBot.create(:crop).id
+      crop_id:   FactoryBot.create(:crop).id
     }
   end
 
@@ -120,6 +120,21 @@ describe PlantingsController do
       before { post :create, params: { planting: valid_attributes } }
 
       it { expect(assigns(:planting).owner).to eq subject.current_member }
+    end
+  end
+
+  describe 'GET :edit' do
+    let(:my_planting) { FactoryBot.create :planting, owner: member }
+    let(:not_my_planting) { FactoryBot.create :planting }
+    context 'my planting' do
+      before { get :edit, params: { slug: my_planting } }
+      it { expect(assigns(:planting)).to eq my_planting }
+    end
+
+    context 'not my planting' do
+      before { get :edit, params: { slug: not_my_planting } }
+
+      it { expect(response).to redirect_to(root_path) }
     end
   end
 end

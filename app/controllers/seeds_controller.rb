@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
-class SeedsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  load_resource find_by: :slug
-  authorize_resource
-  responders :flash
-  respond_to :html, :json
-  respond_to :csv, only: :index
-  respond_to :rss, only: :index
-
+class SeedsController < DataController
   def index
     where = {}
 

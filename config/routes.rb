@@ -33,15 +33,15 @@ Rails.application.routes.draw do
   end
 
   resources :plantings, concerns: :has_photos, param: :slug do
-    resources :harvests
-    resources :seeds
+    get 'harvests' => 'harvests#index'
+    get 'seeds' => 'seeds#index'
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
   end
 
   resources :seeds, concerns: :has_photos, param: :slug do
-    resources :plantings
+    get 'plantings' => 'plantings#index'
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
 
