@@ -30,7 +30,7 @@ module SeedSearch
         owner_name: owner.login_name,
         parent_planting: parent_planting,
         photos_count: photos.size,
-        plant_before: plant_before.to_s(:ymd),
+        plant_before: plant_before&.to_s(:ymd),
         quantity: quantity,
         thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
         tradable_to: tradable_to,
