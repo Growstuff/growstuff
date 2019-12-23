@@ -39,6 +39,9 @@ RSpec.configure do |config|
   config.before(:suite) do
     # reindex models
     Crop.reindex
+    Seed.reindex
+    Harvest.reindex
+    Planting.reindex
 
     # and disable callbacks
     Searchkick.disable_callbacks
