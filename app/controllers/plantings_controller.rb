@@ -2,11 +2,11 @@
 
 class PlantingsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
-  before_action :set_planting, only: %i(edit show update destroy)
   after_action :expire_homepage, only: %i(create update destroy)
   after_action :update_crop_medians, only: %i(create update destroy)
   after_action :update_planting_medians, only: :update
-  load_and_authorize_resource
+  load_resource find_by: :slug
+  authorize_resource
 
   respond_to :html, :json
   respond_to :csv, :rss, only: [:index]
@@ -100,10 +100,6 @@ class PlantingsController < ApplicationController
   end
 
   private
-
-  def set_planting
-    @planting = Planting.find(params[:slug])
-  end
 
   def update_crop_medians
     @planting.crop.update_lifespan_medians if @planting.crop.present?

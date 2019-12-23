@@ -2,9 +2,9 @@
 
 class GardensController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
-  before_action :set_garden, only: %i(edit show update destroy)
   after_action :expire_homepage, only: %i(create destroy)
-  load_and_authorize_resource
+  load_resource find_by: :slug
+  authorize_resource
   responders :flash
   respond_to :html, :json
 
