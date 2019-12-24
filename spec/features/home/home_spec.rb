@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "home page" do
+describe "home page", :search do
   subject { page }
 
   let(:member) { FactoryBot.create :member }
@@ -23,10 +23,10 @@ describe "home page" do
     planting.photos << photo
     seed.photos << photo
     harvest.photos << photo
-    Crop.reindex
-    Planting.reindex
-    Seed.reindex
-    Harvest.reindex
+    Crop.searchkick_index.refresh
+    Planting.searchkick_index.refresh
+    Seed.searchkick_index.refresh
+    Harvest.searchkick_index.refresh
   end
 
   before { visit root_path }
