@@ -9,7 +9,8 @@ module HarvestSearch
                  properties: {
                    created_at: { type: :integer },
                    harvests_count: { type: :integer },
-                   photos_count: { type: :integer }
+                   photos_count: { type: :integer },
+                   harvested_at: { type: :date }
                  }
                }
 
@@ -18,16 +19,18 @@ module HarvestSearch
     def search_data
       {
         slug: slug,
-        crop_slug: crop.slug,
-        crop_name: crop.name,
         crop_id: crop_id,
-        plant_part: plant_part&.name,
+        crop_name: crop.name,
+        crop_slug: crop.slug,
+        has_photos: photos.size.positive?,
         owner_id: owner_id,
         owner_name: owner.login_name,
-        planting_id: planting_id,
         photos_count: photos.size,
-        has_photos: photos.size.positive?,
+        plant_part: plant_part&.name,
+        planting_id: planting_id,
+        quantity: quantity,
         thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
+        harvested_at: harvested_at,
         created_at: created_at.to_i
       }
     end
