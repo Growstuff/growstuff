@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "browse harvests" do
+describe "browse harvests", :search do
   subject { page }
 
   let!(:harvest) { create :harvest, owner: member }
@@ -13,10 +13,7 @@ describe "browse harvests" do
     describe 'blank optional fields' do
       let!(:harvest) { create :harvest, :no_description }
 
-      before do
-        Harvest.reindex
-        visit harvests_path
-      end
+      before { visit harvests_path }
 
       it 'read more' do
         expect(subject).not_to have_link "Read more"
@@ -26,10 +23,7 @@ describe "browse harvests" do
     describe "filled in optional fields" do
       let!(:harvest) { create :harvest, :long_description }
 
-      before do
-        Harvest.reindex
-        visit harvests_path
-      end
+      before { visit harvests_path }
 
       it 'links to #show' do
         expect(subject).to have_link harvest.crop.name, href: harvest_path(harvest)
