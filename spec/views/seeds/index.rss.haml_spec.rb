@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-describe 'seeds/index.rss.haml', search: true do
+describe 'seeds/index.rss.haml', :search do
   before do
     controller.stub(:current_user) { nil }
   end
 
   context 'all seeds' do
+    let(:seed) { FactoryBot.create(:seed) }
     before do
-      @seed = FactoryBot.create(:seed)
       @tradable = FactoryBot.create(:tradable_seed)
       Seed.searchkick_index.refresh
-      assign(:seeds, Seed.search('*', load: false))
+      assign(:seeds, Seed.homepage_records(10))
       render
     end
 
@@ -21,15 +21,15 @@ describe 'seeds/index.rss.haml', search: true do
     end
 
     it 'has a useful item title' do
-      expect(rendered).to have_content "#{@seed.owner.login_name}'s #{@seed.crop} seeds"
+      expect(rendered).to have_content "#{seed.owner.login_name}'s #{seed.crop} seeds"
     end
 
     it 'shows the seed count' do
-      expect(rendered).to have_content "Quantity: #{@seed.quantity}"
+      expect(rendered).to have_content "Quantity: #{seed.quantity}"
     end
 
     it 'shows the plant_before date' do
-      expect(rendered).to have_content "Plant before: #{@seed.plant_before.to_s(:ymd)}"
+      expect(rendered).to have_content "Plant before: #{seed.plant_before.to_s(:ymd)}"
     end
 
     it 'mentions that one seed is tradable' do
@@ -39,15 +39,15 @@ describe 'seeds/index.rss.haml', search: true do
 
   context "one member's seeds" do
     before do
-      @seed = FactoryBot.create(:seed)
-      assign(:seeds, [@seed])
-      assign(:owner, @seed.owner)
+      seed = FactoryBot.create(:seed)
+      assign(:seeds, [seed])
+      assign(:owner, seed.owner)
       Seed.reindex
       render
     end
 
     it 'shows RSS feed title' do
-      expect(rendered).to have_content "Recent seeds from #{@seed.owner}"
+      expect(rendered).to have_content "Recent seeds from #{seed.owner}"
     end
   end
 end
