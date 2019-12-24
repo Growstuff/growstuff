@@ -12,14 +12,14 @@ describe PlantingsController do
     }
   end
 
-  describe "GET index" do
+  describe "GET index", :search do
     let!(:member1)   { FactoryBot.create(:member)                                                       }
     let!(:member2)   { FactoryBot.create(:member)                                                       }
     let!(:tomato)    { FactoryBot.create(:tomato)                                                       }
     let!(:maize)     { FactoryBot.create(:maize)                                                        }
     let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
-    before { Planting.reindex }
+
     describe "assigns all plantings as @plantings" do
       before { get :index }
 
