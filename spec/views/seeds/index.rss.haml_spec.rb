@@ -12,7 +12,7 @@ describe 'seeds/index.rss.haml', :search do
     before do
       @tradable = FactoryBot.create(:tradable_seed)
       Seed.searchkick_index.refresh
-      assign(:seeds, Seed.search(load: false)))
+      assign(:seeds, Seed.search(load: false))
       render
     end
 
