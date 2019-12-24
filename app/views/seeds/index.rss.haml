@@ -10,12 +10,13 @@
         %pubdate= seed['created_at'].to_s(:rfc822)
         %description
           :escaped
-            SEED: #{seed}
             <p>Quantity: #{seed['quantity'] ? seed['quantity'] : 'unknown' }</p>
             <p>Plant before: #{seed['plant_before'] ? seed['plant_before'] : 'unknown' }</p>
             <p>Organic? #{seed['organic']}</p>
             <p>GMO? #{seed['gmo']}</p>
             <p>Heirloom? #{seed['heirloom']}</p>
-            <p>Will trade #{seed['tradable_to']} from #{seed['location'] ? seed['location'] : 'unknown location'}</p>
+          - if seed['tradeable']
+            :escaped
+              <p>Will trade #{seed['tradable_to']} from #{seed['location'] ? seed['location'] : 'unknown location'}</p>
         %link= seed_url(slug: seed['slug'])
         %guid= seed_url(slug: seed['slug'])
