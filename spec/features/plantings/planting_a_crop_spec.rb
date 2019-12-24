@@ -3,7 +3,7 @@
 require "rails_helper"
 require 'custom_matchers'
 
-describe "Planting a crop", :js do
+describe "Planting a crop", :js, :search do
   let!(:maize) { FactoryBot.create :maize }
   let(:garden) { FactoryBot.create :garden, owner: member, name: 'Orchard' }
   let!(:planting) do
