@@ -36,7 +36,6 @@ describe 'seeds/index.rss.haml', :search do
       expect(rendered).to have_content "Recent seeds from all members"
     end
 
-
     it 'mentions that one seed is tradable' do
       expect(rendered).to have_content "Will trade #{tradable.tradable_to} from #{tradable.owner.location}"
     end
@@ -59,7 +58,7 @@ describe 'seeds/index.rss.haml', :search do
     it 'shows RSS feed title' do
       expect(rendered).to have_content "Recent seeds from #{seed.owner}"
     end
-    
+
     include_examples 'displays seed in rss feed'
   end
 end
