@@ -50,6 +50,9 @@ class Harvest < ApplicationRecord
            ON (m.id=h2.owner_id AND harvests.id < h2.id)").where("h2 IS NULL")
   }
 
+  delegate :name, to: :crop, prefix: true
+  delegate :login_name, :slug, to: :owner, prefix: true
+
   ##
   ## Validations
   validates :crop, approved: true
