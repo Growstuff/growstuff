@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SeedSearch
+module SearchHarvests
   extend ActiveSupport::Concern
 
   included do
@@ -8,13 +8,13 @@ module SeedSearch
                mappings: {
                  properties: {
                    created_at: { type: :integer },
-                   plant_before: { type: :text },
+                   harvests_count: { type: :integer },
                    photos_count: { type: :integer },
-                   tradable_to: { type: :text }
+                   harvested_at: { type: :date }
                  }
                }
 
-    scope :search_import, -> { includes(:owner, :crop, :parent_planting) }
+    scope :search_import, -> { includes(:owner, :crop, :plant_part) }
 
     def search_data
       {
@@ -22,21 +22,15 @@ module SeedSearch
         crop_id: crop_id,
         crop_name: crop.name,
         crop_slug: crop.slug,
-        gmo: gmo,
         has_photos: photos.size.positive?,
-        heirloom: heirloom,
-        organic: organic,
         owner_id: owner_id,
         owner_name: owner.login_name,
-        parent_planting: parent_planting,
         photos_count: photos.size,
-        plant_before: plant_before&.to_s(:ymd),
+        plant_part: plant_part&.name,
+        planting_id: planting_id,
         quantity: quantity,
         thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
-        tradable_to: tradable_to,
-        tradeable: tradable?,
-        finished: finished?,
-        location: owner.location,
+        harvested_at: harvested_at,
         created_at: created_at.to_i
       }
     end
@@ -45,8 +39,7 @@ module SeedSearch
       search('*',
              limit: limit,
              where: {
-               finished: false,
-               tradeable: true
+               photos_count: { gt: 0 }
              },
              boost_by: [:created_at],
              load: false)

@@ -4,7 +4,7 @@ class Crop < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include OpenFarmData
-  include CropSearch
+  include SearchCrops
 
   friendly_id :name, use: %i(slugged finders)
 

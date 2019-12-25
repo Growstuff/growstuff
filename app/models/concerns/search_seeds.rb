@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PlantingSearch
+module SearchSeeds
   extend ActiveSupport::Concern
 
   included do
@@ -8,36 +8,35 @@ module PlantingSearch
                mappings: {
                  properties: {
                    created_at: { type: :integer },
-                   harvests_count: { type: :integer },
+                   plant_before: { type: :text },
                    photos_count: { type: :integer },
-                   owner_location: { type: :text }
+                   tradable_to: { type: :text }
                  }
                }
 
-    scope :search_import, -> { includes(:owner, :crop) }
+    scope :search_import, -> { includes(:owner, :crop, :parent_planting) }
 
     def search_data
       {
         slug: slug,
-        active: active?,
         crop_id: crop_id,
         crop_name: crop.name,
         crop_slug: crop.slug,
-        finished: finished?,
-        harvests_count: harvests.size,
+        gmo: gmo,
         has_photos: photos.size.positive?,
-        location: location,
+        heirloom: heirloom,
+        organic: organic,
         owner_id: owner_id,
-        owner_location: owner.location,
         owner_name: owner.login_name,
-        owner_slug: owner.slug,
-        percentage_grown: percentage_grown.to_i,
+        parent_planting: parent_planting,
         photos_count: photos.size,
-        planted_at: planted_at,
-        planted_from: planted_from,
+        plant_before: plant_before&.to_s(:ymd),
         quantity: quantity,
-        sunniness: sunniness,
         thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
+        tradable_to: tradable_to,
+        tradeable: tradable?,
+        finished: finished?,
+        location: owner.location,
         created_at: created_at.to_i
       }
     end
@@ -46,7 +45,8 @@ module PlantingSearch
       search('*',
              limit: limit,
              where: {
-               photos_count: { gt: 0 }
+               finished: false,
+               tradeable: true
              },
              boost_by: [:created_at],
              load: false)

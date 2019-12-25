@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CropSearch
+module SearchCrops
   extend ActiveSupport::Concern
 
   included do

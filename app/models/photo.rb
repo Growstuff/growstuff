@@ -3,7 +3,7 @@
 class Photo < ApplicationRecord
   include Likeable
   include Ownable
-  include PhotoSearch
+  include SearchPhotos
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
@@ -25,6 +25,8 @@ class Photo < ApplicationRecord
   scope :by_model, lambda { |model_name|
     joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
   }
+
+  delegate :login_name, to: :owner, prefix: true
 
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.
