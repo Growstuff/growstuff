@@ -7,6 +7,7 @@ module SearchPlantings
     searchkick merge_mappings: true,
                mappings: {
                  properties: {
+                   active: { type: :boolean },
                    created_at: { type: :integer },
                    harvests_count: { type: :integer },
                    photos_count: { type: :integer },
@@ -28,9 +29,9 @@ module SearchPlantings
         has_photos: photos.size.positive?,
         location: location,
         owner_id: owner_id,
-        owner_location: owner.location,
-        owner_name: owner.login_name,
-        owner_slug: owner.slug,
+        owner_location: owner_location,
+        owner_login_name: owner_login_name,
+        owner_slug: owner_slug,
         percentage_grown: percentage_grown.to_i,
         photos_count: photos.size,
         planted_at: planted_at,
