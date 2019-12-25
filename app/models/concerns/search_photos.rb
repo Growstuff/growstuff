@@ -5,13 +5,12 @@ module SearchPhotos
 
   included do
     searchkick merge_mappings: true,
-    mappings: {
-      properties: {
-        title: { type: :text },
-        created_at: { type: :integer },
-      }
-    }
-
+               mappings: {
+                 properties: {
+                   title: { type: :text },
+                   created_at: { type: :integer }
+                 }
+               }
 
     # scope :search_import, -> { includes(:owner, :crops, :plantings, :harvests, :seeds, :posts) }
 

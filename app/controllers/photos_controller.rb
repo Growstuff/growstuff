@@ -16,17 +16,17 @@ class PhotosController < ApplicationController
     where = {}
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
-      where = { crop_id: @crop.id}
+      where = { crop_id: @crop.id }
     elsif params[:planting_id]
       @planting = Planting.find params[:planting_id]
-      where = { planting_id: @planting.id}
+      where = { planting_id: @planting.id }
     end
 
     @photos = Photo.search(load: false,
-      boost_by: [:created_at],
-      where: where,
-      page: params[:page],
-      limit: 50)
+                           boost_by: [:created_at],
+                           where: where,
+                           page: params[:page],
+                           limit: 50)
     respond_with(@photos)
   end
 
