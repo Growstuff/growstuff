@@ -47,8 +47,9 @@ class Seed < ApplicationRecord
 
   #
   # Delegations
-  delegate :name, to: :crop
+  delegate :name, to: :crop, prefix: true
   delegate :location, :latitude, :longitude, to: :owner
+  delegate :login_name, :slug, :location, to: :owner, prefix: true
 
   #
   # Scopes

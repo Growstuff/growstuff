@@ -1,17 +1,17 @@
 - cache seed do
-  .card.seed-card{class: seed.active? ? '' : 'card-finished'}
+  .card.seed-card{class: seed.finished ? 'card-finished' : ''}
     = link_to seed do
-      = image_tag(seed_image_path(seed), alt: seed, class: 'img-card')
+      = image_tag(seed.thumbnail_url ? seed.thumbnail_url : placeholder_image, alt: seed.name, class: 'img-card')
     .text
-      = render 'members/tiny', member: seed.owner
+      %span.chip.member-chip
+        = seed.owner_login_name
     .card-body
       .card-title
-        = crop_icon(seed.crop)
-        = link_to seed.crop, seed
-      - if seed.tradable?
+        = link_to seed.crop_name, seed_path(slug: seed.slug)
+      - if seed.tradable
         .text-muted
           = icon 'fas', 'map'
           Will trade #{seed.tradable_to}
       .badge.badge-pill.badge-location
         = icon 'fas', 'map-marker'
-        = truncate(seed.owner.location, length: 20, separator: ' ', omission: '... ')
+        = truncate(seed.owner_location, length: 20, separator: ' ', omission: '... ')

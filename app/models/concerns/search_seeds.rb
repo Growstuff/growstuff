@@ -27,14 +27,16 @@ module SearchSeeds
         heirloom: heirloom,
         organic: organic,
         owner_id: owner_id,
-        owner_name: owner.login_name,
+        owner_login_name: owner_login_name,
+        owner_location: owner_location,
+        owner_slug: owner_slug,
         parent_planting: parent_planting,
         photos_count: photos.size,
         plant_before: plant_before&.to_s(:ymd),
         quantity: quantity,
         thumbnail_url: default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
         tradable_to: tradable_to,
-        tradeable: tradable?,
+        tradable: tradable?,
         finished: finished?,
         location: owner.location,
         created_at: created_at.to_i
@@ -46,7 +48,7 @@ module SearchSeeds
              limit: limit,
              where: {
                finished: false,
-               tradeable: true
+               tradable: true
              },
              boost_by: [:created_at],
              load: false)
