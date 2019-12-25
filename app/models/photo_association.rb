@@ -11,10 +11,6 @@ class PhotoAssociation < ApplicationRecord
   ## Triggers
   before_save :set_crop
 
-  def item
-    photographable
-  end
-
   def self.item(item_id, item_type)
     find_by!(photographable_id: item_id, photographable_type: item_type).photographable
   end
@@ -30,7 +26,7 @@ class PhotoAssociation < ApplicationRecord
   private
 
   def photo_and_item_have_same_owner
-    return unless photographable_type != 'Crop'
+    return if photographable_type == 'Crop'
 
     errors.add(:photo, "must have same owner as item it links to") unless photographable.owner_id == photo.owner_id
   end

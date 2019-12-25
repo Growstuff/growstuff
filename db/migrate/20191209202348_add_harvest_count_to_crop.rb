@@ -11,12 +11,7 @@ class AddHarvestCountToCrop < ActiveRecord::Migration[5.2]
     end
     change_table :posts do |t|
       t.integer :comments_count, default: 0
-      t.integer :photos_count, default: 0
     end
-    change_table :harvests do |t|
-      t.integer :photos_count, default: 0
-    end
-
     reversible do |dir|
       dir.up { data }
     end
@@ -54,22 +49,6 @@ class AddHarvestCountToCrop < ActiveRecord::Migration[5.2]
              SELECT count(1)
                FROM comments
               WHERE comments.post_id = posts.id
-              )
-    SQL
-    execute <<-SQL.squish
-        UPDATE harvests
-           SET photos_count = (
-             SELECT count(1)
-               FROM photo_associations
-              WHERE photo_associations.photographable_id = harvests.id
-              )
-    SQL
-    execute <<-SQL.squish
-        UPDATE posts
-           SET photos_count = (
-             SELECT count(1)
-               FROM photo_associations
-              WHERE photo_associations.photographable_id = posts.id
               )
     SQL
 

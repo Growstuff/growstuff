@@ -267,7 +267,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_202348) do
     t.integer "plant_part_id"
     t.float "si_weight"
     t.integer "planting_id"
-    t.integer "photos_count", default: 0
     t.index ["planting_id"], name: "index_harvests_on_planting_id"
   end
 
@@ -496,7 +495,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_202348) do
     t.integer "forum_id"
     t.integer "likes_count", default: 0
     t.integer "comments_count", default: 0
-    t.integer "photos_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
