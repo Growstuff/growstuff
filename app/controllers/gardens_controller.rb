@@ -49,9 +49,6 @@ class GardensController < DataController
 
   private
 
-  def set_garden
-    @garden = Garden.find(params[:slug])
-  end
 
   def garden_params
     params.require(:garden).permit(:name, :slug, :description, :active,
