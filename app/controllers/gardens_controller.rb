@@ -49,7 +49,6 @@ class GardensController < DataController
 
   private
 
-
   def garden_params
     params.require(:garden).permit(:name, :slug, :description, :active,
                                    :location, :latitude, :longitude, :area, :area_unit, :garden_type_id)
