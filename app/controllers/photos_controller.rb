@@ -13,18 +13,20 @@ class PhotosController < ApplicationController
   end
 
   def index
+    where = {}
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
-      @photos = Photo.by_crop(@crop)
+      where = { crop_id: @crop.id}
     elsif params[:planting_id]
       @planting = Planting.find params[:planting_id]
-      @photos = @planting.photos
-    else
-      @photos = Photo.all
+      where = { planting_id: @planting.id}
     end
-    @photos = @photos.order(created_at: :desc)
-      .includes(:owner)
-      .paginate(page: params[:page])
+
+    @photos = Photo.search(load: false,
+      boost_by: [:created_at],
+      where: where,
+      page: params[:page],
+      limit: 50)
     respond_with(@photos)
   end
 
