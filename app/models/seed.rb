@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Seed < ApplicationRecord
   extend FriendlyId
   include PhotoCapable

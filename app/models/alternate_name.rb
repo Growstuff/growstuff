@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlternateName < ApplicationRecord
   belongs_to :crop
   belongs_to :creator, class_name: 'Member', inverse_of: :created_alternate_names

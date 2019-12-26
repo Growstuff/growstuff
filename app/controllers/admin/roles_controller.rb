@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class RolesController < ApplicationController
     before_action :admin!
