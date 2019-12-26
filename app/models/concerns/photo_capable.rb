@@ -15,6 +15,10 @@ module PhotoCapable
       end
     end
 
+    def thumbnail_url
+      default_photo ? default_photos.thumbnail_url : nil
+    end
+
     def most_liked_photo
       photos.order(likes_count: :desc, created_at: :desc).first
     end

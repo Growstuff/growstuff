@@ -20,7 +20,7 @@ module SearchPlantings
     def search_data
       {
         slug: slug,
-        active: active?,
+        active: active,
         crop_id: crop_id,
         crop_name: crop.name,
         crop_slug: crop.slug,

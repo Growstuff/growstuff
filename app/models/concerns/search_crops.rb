@@ -39,7 +39,7 @@ module SearchCrops
         # boost this crop for these members
         planters_ids: plantings.pluck(:owner_id),
         has_photos: photos.size.positive?,
-        thumbnail_url: default_photo&.thumbnail_url,
+        thumbnail_url: thumbnail_url,
         scientific_name: default_scientific_name&.name,
         created_at: created_at.to_i
       }
