@@ -2,8 +2,8 @@
 
 class PhotoAssociation < ApplicationRecord
   belongs_to :photo, inverse_of: :photo_associations
-  belongs_to :photographable, polymorphic: true
-  belongs_to :crop, optional: true
+  belongs_to :photographable, polymorphic: true, touch: true
+  belongs_to :crop, optional: true, counter_cache: true
 
   validate :photo_and_item_have_same_owner
 
