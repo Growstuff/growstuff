@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CropHarvestCounterCache < ActiveRecord::Migration[5.2]
   def change
     change_table :crops do |t|
@@ -7,6 +9,7 @@ class CropHarvestCounterCache < ActiveRecord::Migration[5.2]
       dir.up { set_counter_value }
     end
   end
+
   def set_counter_value
     execute <<-SQL.squish
         UPDATE crops
