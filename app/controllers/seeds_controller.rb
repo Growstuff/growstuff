@@ -1,11 +1,6 @@
-class SeedsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  load_and_authorize_resource
-  responders :flash
-  respond_to :html, :json
-  respond_to :csv, only: :index
-  respond_to :rss, only: :index
+# frozen_string_literal: true
 
+class SeedsController < DataController
   def index
     @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug].present?
     @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug].present?

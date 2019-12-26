@@ -10,7 +10,7 @@ RSpec.describe GardensController, type: :controller do
 
   context "when not signed in" do
     describe 'GET new' do
-      before { get :new, params: { id: garden.to_param } }
+      before { get :new, params: { slug: garden.to_param } }
 
       it { expect(response).to redirect_to(new_member_session_path) }
     end
@@ -32,19 +32,19 @@ RSpec.describe GardensController, type: :controller do
       end
 
       describe 'GET edit' do
-        before { get :edit, params: { id: garden.to_param } }
+        before { get :edit, params: { slug: garden.to_param } }
 
         it { expect(response).to redirect_to(new_member_session_path) }
       end
 
       describe 'POST update' do
-        before { post :update, params: { id: garden.to_param, garden: valid_params } }
+        before { post :update, params: { slug: garden.to_param, garden: valid_params } }
 
         it { expect(response).to redirect_to(new_member_session_path) }
       end
 
       describe 'DELETE' do
-        before { delete :destroy, params: { id: garden.to_param, params: { garden: valid_params } } }
+        before { delete :destroy, params: { slug: garden.to_param, params: { garden: valid_params } } }
 
         it { expect(response).to redirect_to(new_member_session_path) }
       end
@@ -69,19 +69,19 @@ RSpec.describe GardensController, type: :controller do
       end
 
       describe 'GET edit' do
-        before { get :edit, params: { id: not_my_garden.to_param } }
+        before { get :edit, params: { slug: not_my_garden.to_param } }
 
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'POST update' do
-        before { post :update, params: { id: not_my_garden.to_param, garden: valid_params } }
+        before { post :update, params: { slug: not_my_garden.to_param, garden: valid_params } }
 
         it { expect(response).to redirect_to(root_path) }
       end
 
       describe 'DELETE' do
-        before { delete :destroy, params: { id: not_my_garden.to_param, params: { garden: valid_params } } }
+        before { delete :destroy, params: { slug: not_my_garden.to_param, params: { garden: valid_params } } }
 
         it { expect(response).to redirect_to(root_path) }
       end

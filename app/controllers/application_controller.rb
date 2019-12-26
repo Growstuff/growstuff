@@ -7,9 +7,8 @@ class ApplicationController < ActionController::Base
 
   after_action :store_location
   before_action :set_locale
-
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
-  # CanCan error handling
+
   def store_location
     unless request.path.in?(["/members/sign_in",
                              "/members/sign_up",
