@@ -7,7 +7,7 @@ class Photo < ApplicationRecord
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
   has_many :photo_associations, foreign_key: :photo_id, dependent: :delete_all, inverse_of: :photo
-  has_many :crops, through: :photo_associations
+  has_many :crops, through: :photo_associations, counter_cache: true
 
   validates :fullsize_url, url: true
   validates :thumbnail_url, url: true
