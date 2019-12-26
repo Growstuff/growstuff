@@ -89,7 +89,7 @@ module ButtonsHelper
   end
 
   def planting_harvest_button(planting, classes: 'btn btn-default')
-    return unless planting.active? && can?(:create, Harvest) && can?(:edit, planting)
+    return unless planting.active && can?(:create, Harvest) && can?(:edit, planting)
 
     link_to new_planting_harvest_path(planting), class: classes do
       harvest_icon + ' ' + t('buttons.record_harvest')
