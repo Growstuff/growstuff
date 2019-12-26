@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PhotosController do
+describe PhotosController, :search do
   login_member
 
   describe 'GET index' do

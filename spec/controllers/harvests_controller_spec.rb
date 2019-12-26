@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe HarvestsController do
+describe HarvestsController, :search do
   login_member
 
   def valid_attributes

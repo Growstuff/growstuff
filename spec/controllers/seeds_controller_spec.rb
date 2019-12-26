@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SeedsController do
+describe SeedsController, :search do
   let(:owner) { FactoryBot.create(:member) }
 
   describe "GET index" do

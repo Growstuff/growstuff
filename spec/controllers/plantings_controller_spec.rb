@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PlantingsController do
+describe PlantingsController, :search do
   login_member
 
   def valid_attributes
