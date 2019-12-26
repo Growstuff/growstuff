@@ -9,7 +9,7 @@ describe Charts::GardensController do
 
   context "when not signed in" do
     describe 'GET timeline' do
-      before { get :timeline, params: { garden_id: garden.to_param } }
+      before { get :timeline, params: { garden_slug: garden.to_param } }
 
       it { expect(response).to be_successful }
     end
@@ -21,7 +21,7 @@ describe Charts::GardensController do
     let!(:member) { FactoryBot.create(:member) }
 
     describe 'GET timeline' do
-      before { get :timeline, params: { garden_id: garden.to_param } }
+      before { get :timeline, params: { garden_slug: garden.to_param } }
 
       it { expect(response).to be_successful }
     end

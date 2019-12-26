@@ -14,11 +14,11 @@ describe GardensController do
     end
 
     it "routes to #show" do
-      get("/gardens/1").should route_to("gardens#show", id: "1")
+      get("/gardens/sunny-bed").should route_to("gardens#show", slug: 'sunny-bed')
     end
 
     it "routes to #edit" do
-      get("/gardens/1/edit").should route_to("gardens#edit", id: "1")
+      get("/gardens/sunny-bed/edit").should route_to("gardens#edit", slug: 'sunny-bed')
     end
 
     it "routes to #create" do
@@ -26,11 +26,11 @@ describe GardensController do
     end
 
     it "routes to #update" do
-      put("/gardens/1").should route_to("gardens#update", id: "1")
+      put("/gardens/sunny-bed").should route_to("gardens#update", slug: 'sunny-bed')
     end
 
     it "routes to #destroy" do
-      delete("/gardens/1").should route_to("gardens#destroy", id: "1")
+      delete("/gardens/sunny-bed").should route_to("gardens#destroy", slug: 'sunny-bed')
     end
   end
 end
