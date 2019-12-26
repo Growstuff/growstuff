@@ -26,7 +26,7 @@ module SearchHarvests
         owner_id: owner_id,
         owner_slug: owner_slug,
         owner_login_name: owner_login_name,
-        photos_count: photos_count,
+        photos_count: photos.count,
         plant_part: plant_part&.name,
         planting_id: planting_id,
         quantity: quantity,
