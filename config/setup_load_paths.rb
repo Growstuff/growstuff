@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if ENV['MY_RUBY_HOME']&.include?('rvm')
   begin
     require 'rvm'

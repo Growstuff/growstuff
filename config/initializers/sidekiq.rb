@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # config/initializers/sidekiq.rb
 
 Sidekiq.configure_server do |config|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SeedsHelper
   def display_seed_quantity(seed)
     if seed.quantity.nil?

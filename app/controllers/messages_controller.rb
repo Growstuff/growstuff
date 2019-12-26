@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
   respond_to :html, :json
   before_action :authenticate_member!

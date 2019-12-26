@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'haml/filters'
 require 'haml/filters/escaped_markdown'

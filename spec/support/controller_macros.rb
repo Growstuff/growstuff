@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Taken unashamedly from https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29
 module ControllerMacros
   def login_member(member_factory = :member)

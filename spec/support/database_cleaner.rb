@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.configure do |config|
   # a warning if you turn this off
   config.before(:suite) do

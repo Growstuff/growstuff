@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PhotoAssociationsController < ApplicationController
   before_action :authenticate_member!
   respond_to :json, :html
