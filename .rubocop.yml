@@ -15,15 +15,6 @@ Naming/FileName:
     - 'Gemfile'
     - 'Gemfile.lock'
 
-Style/StringLiterals:
-  Enabled: false
-
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    default: ()
-    '%i': ()
-    '%w': ()
-
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
@@ -36,11 +27,16 @@ Layout/HashAlignment:
 Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
-
-Style/Documentation:
+Style/StringLiterals:
   Enabled: false
 
-Style/FrozenStringLiteralComment:
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': ()
+    '%w': ()
+
+Style/Documentation:
   Enabled: false
 
 # Configuration parameters: Include.
@@ -56,21 +52,8 @@ Metrics/BlockLength:
     - '**/*.rake'
     - 'config/**/*.rb'
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 140
-
-# Remove the following once the code style matches
-Metrics/MethodLength:
-  Max: 34
-Metrics/AbcSize:
-  Max: 33
-# Configuration parameters: CountComments.
-Metrics/ClassLength:
-  Max: 171
-Metrics/CyclomaticComplexity:
-  Max: 8
-Metrics/PerceivedComplexity:
-  Max: 9
 
 # Places we use update_all, etc even though it skips validations.
 Rails/SkipsModelValidations:
