@@ -1,10 +1,6 @@
-class GardensController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create destroy)
-  load_and_authorize_resource
-  responders :flash
-  respond_to :html, :json
+# frozen_string_literal: true
 
+class GardensController < DataController
   def index
     @owner = Member.find_by(slug: params[:member_slug])
     @show_all = params[:all] == '1'
