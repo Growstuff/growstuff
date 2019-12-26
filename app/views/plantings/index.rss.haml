@@ -6,7 +6,7 @@
     %link= plantings_url
     - @plantings.each do |planting|
       %item
-        %title #{planting['crop']} in #{planting['location']}
+        %title #{planting['crop_name']} in #{planting['location']}
         %pubdate= planting['created_at'].to_s(:rfc822)
         %description
           :escaped

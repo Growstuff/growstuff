@@ -22,11 +22,7 @@ describe 'plantings/index.rss.haml', :search do
     end
 
     it 'item title shows owner and location' do
-      expect(rendered).to have_content "#{@planting.crop} in #{@planting.location}"
-    end
-
-    it 'shows formatted content of posts' do
-      expect(rendered).to have_content "This is a <em>really</em> good plant."
+      expect(rendered).to have_content "#{@planting.crop.name} in #{@planting.location}"
     end
 
     it 'shows sunniness' do
