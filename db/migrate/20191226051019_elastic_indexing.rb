@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ElasticIndexing < ActiveRecord::Migration[5.2]
   def up
     say 'indexing crops'
@@ -11,6 +13,6 @@ class ElasticIndexing < ActiveRecord::Migration[5.2]
     say 'indexing photos'
     Photo.reindex
   end
-  def down
-  end
+
+  def down; end
 end
