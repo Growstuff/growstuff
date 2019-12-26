@@ -16,7 +16,7 @@ module PhotoCapable
     end
 
     def thumbnail_url
-      default_photo ? default_photos.thumbnail_url : nil
+      default_photo ? default_photo.thumbnail_url : nil
     end
 
     def most_liked_photo
