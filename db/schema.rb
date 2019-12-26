@@ -196,6 +196,8 @@ ActiveRecord::Schema.define(version: 2019_12_26_051019) do
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
     t.jsonb "openfarm_data"
+    t.integer "harvests_count", default: 0
+    t.integer "photo_associations_count", default: 0
     t.index ["name"], name: "index_crops_on_name"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
@@ -458,6 +460,7 @@ ActiveRecord::Schema.define(version: 2019_12_26_051019) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "slug"
+    t.integer "harvests_count", default: 0
   end
 
   create_table "plantings", id: :serial, force: :cascade do |t|
@@ -491,6 +494,7 @@ ActiveRecord::Schema.define(version: 2019_12_26_051019) do
     t.string "slug"
     t.integer "forum_id"
     t.integer "likes_count", default: 0
+    t.integer "comments_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
