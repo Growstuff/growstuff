@@ -4,7 +4,7 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
-  TargetRailsVersion: 5.0
+  TargetRailsVersion: 5.2
 
 Rails:
   Enabled: true
