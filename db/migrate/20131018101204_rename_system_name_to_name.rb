@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameSystemNameToName < ActiveRecord::Migration[4.2]
   def up
     # Rails is smart enough to alter the column being indexed, but not the name

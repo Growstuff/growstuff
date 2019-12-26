@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AutoSuggestHelper
   def auto_suggest(resource, source, options = {})
     if options[:default] && !options[:default].new_record?

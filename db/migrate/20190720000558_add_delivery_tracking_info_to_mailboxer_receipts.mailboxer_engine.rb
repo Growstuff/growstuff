@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This migration comes from mailboxer_engine (originally 20151103080417)
 class AddDeliveryTrackingInfoToMailboxerReceipts < ActiveRecord::Migration[4.2]
   def change

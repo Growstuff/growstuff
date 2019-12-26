@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CmsTags < ActiveRecord::Migration[5.2]
   def up
     Comfy::Cms::Layout.all.each do |layout|

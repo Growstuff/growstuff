@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GardensHelper
   def display_garden_description(garden)
     if garden.description.nil?

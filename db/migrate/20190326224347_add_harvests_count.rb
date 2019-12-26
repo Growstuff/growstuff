@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddHarvestsCount < ActiveRecord::Migration[5.2]
   def change
     add_column :plantings, :harvests_count, :integer, default: 0

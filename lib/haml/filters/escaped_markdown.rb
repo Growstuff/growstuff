@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bluecloth'
 require 'haml/filters/growstuff_markdown'
 

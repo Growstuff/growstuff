@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :i18n do
   desc "sort all i18n locale keys"
   task :normalize do

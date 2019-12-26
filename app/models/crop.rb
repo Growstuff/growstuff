@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Crop < ApplicationRecord
   extend FriendlyId
   include PhotoCapable

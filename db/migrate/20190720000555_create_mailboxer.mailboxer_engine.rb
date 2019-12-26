@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This migration comes from mailboxer_engine (originally 20110511145103)
 class CreateMailboxer < ActiveRecord::Migration[4.2]
   def self.up

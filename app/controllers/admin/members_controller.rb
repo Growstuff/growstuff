@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class MembersController < ApplicationController
     before_action :admin!
