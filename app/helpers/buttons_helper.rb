@@ -81,7 +81,7 @@ module ButtonsHelper
   end
 
   def seed_finish_button(seed, classes: 'btn btn-default')
-    return unless can?(:create, Planting) && seed.active?
+    return unless can?(:create, Planting) && seed.active
 
     link_to seed_path(seed, seed: { finished: 1 }), method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')

@@ -24,6 +24,7 @@ module SearchSeeds
         finished:         finished?,
         gmo:              gmo,
         has_photos:       photos.size.positive?,
+        active:           active,
         heirloom:         heirloom,
         location:         owner.location,
         organic:          organic,
