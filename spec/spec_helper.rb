@@ -36,23 +36,36 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  config.before(:suite) do
-    # reindex models
-    Crop.searchkick_index.refresh
-    Seed.searchkick_index.refresh
-    Harvest.searchkick_index.refresh
-    Planting.searchkick_index.refresh
+  # config.before(:suite) do
+  #   # reindex models
+  #   Crop.searchkick_index.refresh
+  #   Seed.searchkick_index.refresh
+  #   Harvest.searchkick_index.refresh
+  #   Planting.searchkick_index.refresh
 
-    # and disable callbacks
-    Searchkick.disable_callbacks
-  end
+  #   # and disable callbacks
+  #   Searchkick.disable_callbacks
+  # end
 
-  config.around(:each, search: true) do |example|
-    Searchkick.callbacks(true) do
-      example.run
+  # config.around(:each, search: true) do |example|
+  #   Searchkick.callbacks(true) do
+  #     example.run
+  #   end
+  # end
+  config.before(:each) do |example|
+    # Elasticsearch / Searchkick
+    if example.metadata[:search]
+      Searchkick.enable_callbacks
+      Crop.reindex
+      Photo.reindex
+      Harvest.reindex
+      Seed.reindex
+      Planting.reindex
+    else
+      Searchkick.disable_callbacks
     end
   end
-
+  
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
