@@ -12,15 +12,15 @@ class Harvest < ApplicationRecord
   # Constants
   UNITS_VALUES = {
     "individual" => "individual",
-    "bunches" => "bunch",
-    "sprigs" => "sprig",
-    "handfuls" => "handful",
-    "litres" => "litre",
-    "pints" => "pint",
-    "quarts" => "quart",
-    "buckets" => "bucket",
-    "baskets" => "basket",
-    "bushels" => "bushel"
+    "bunches"    => "bunch",
+    "sprigs"     => "sprig",
+    "handfuls"   => "handful",
+    "litres"     => "litre",
+    "pints"      => "pint",
+    "quarts"     => "quart",
+    "buckets"    => "bucket",
+    "baskets"    => "basket",
+    "bushels"    => "bushel"
   }.freeze
 
   WEIGHT_UNITS_VALUES = {
@@ -50,8 +50,9 @@ class Harvest < ApplicationRecord
            ON (m.id=h2.owner_id AND harvests.id < h2.id)").where("h2 IS NULL")
   }
 
-  delegate :name, to: :crop, prefix: true
+  delegate :name, :slug, to: :crop, prefix: true
   delegate :login_name, :slug, to: :owner, prefix: true
+  delegate :name, to: :plant_part, prefix: true
 
   ##
   ## Validations

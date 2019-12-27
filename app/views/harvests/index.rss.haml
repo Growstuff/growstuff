@@ -11,6 +11,7 @@
         %description
           :escaped
             <p>Crop: #{harvest.crop_name}</p>
+            <p>Plant path: #{harvest.plant_part_name}</p>
             <p>Quantity: #{harvest.quantity ||= 'unknown' }</p>
             <p>Harvested on: #{harvest.harvested_at ||= 'unknown' }</p>
         %link= harvest_url(slug: harvest.slug)
