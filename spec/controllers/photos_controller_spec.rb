@@ -18,7 +18,7 @@ describe PhotosController, :search do
 
       it "finds photos" do
         expect(assigns(:photos).size).to eq 1
-        expect(assigns(:photos).first.id).to eq photo.id 
+        expect(assigns(:photos).first.id).to eq photo.id
       end
     end
 
