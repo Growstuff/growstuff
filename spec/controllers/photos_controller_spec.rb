@@ -9,29 +9,49 @@ describe PhotosController, :search do
     describe 'all photos' do
       let!(:photo) { FactoryBot.create :photo }
 
-      before { get :index }
+      before do
+        Photo.searchkick_index.refresh
+        photo.reindex
+        sleep 1
+        get :index
+      end
 
-      it { expect(assigns(:photos)).to eq [photo] }
+      it "finds photos" do
+        expect(assigns(:photos).size).to eq 1
+        expect(assigns(:photos).first.id).to eq photo.id 
+      end
     end
 
     describe 'crop photos' do
-      let!(:photo) { FactoryBot.create :photo, owner: member }
-      let!(:crop_photo) { FactoryBot.create :photo, owner: member                }
+      let!(:photo) { FactoryBot.create :photo, owner: member, title: 'no assocations photo' }
+      let!(:crop_photo) { FactoryBot.create :photo, owner: member, title: 'photos of planting' }
       let!(:planting)   { FactoryBot.create :planting, crop: crop, owner: member }
       let!(:crop)       { FactoryBot.create :crop                                }
 
       before do
         planting.photos << crop_photo
+        Photo.searchkick_index.refresh
+        crop_photo.reload
+        crop_photo.reindex
+        # This is terrible, but this is needed for ES to fully index this
+        sleep 1
+
+        # all these tests are inline, so we only sleep once
         get :index, params: { crop_slug: crop.to_param }
       end
 
-      it { expect(assigns(:crop)).to eq crop }
-      it { expect(assigns(:photos)).to eq [crop_photo] }
+      it "find photos by crop" do
+        expect(Photo.search).to include crop_photo
+        expect(assigns(:crop)).to eq crop
+        expect(assigns(:photos).size).to eq 1
+        expect(assigns(:photos).first.crops).to include crop.id
+        expect(assigns(:photos).first.id).to eq crop_photo.id
+      end
     end
   end
 
   describe "GET new" do
-    let(:tomato) { FactoryBot.create(:tomato) }
+    let(:tomato)   { FactoryBot.create(:tomato)                                }
     let(:planting) { FactoryBot.create(:planting, crop: tomato, owner: member) }
     let(:garden)   { FactoryBot.create(:garden, owner: member)                 }
     let(:harvest)  { FactoryBot.create(:harvest, owner: member)                }

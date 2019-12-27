@@ -12,12 +12,13 @@ module SearchPhotos
                  }
                }
 
-    # scope :search_import, -> { includes(:owner, :crops, :plantings, :harvests, :seeds, :posts) }
+    scope :search_import, -> { includes(:owner, :crops, :plantings, :harvests, :seeds, :posts) }
 
     def search_data
       {
+        id: id,
         title: title,
-        crops: crops.map(&:id),
+        crops: photo_associations.map(&:crop_id),
         owner_id: owner_id,
         owner_login_name: owner.login_name,
         thumbnail_url: thumbnail_url,
