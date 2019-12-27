@@ -8,7 +8,7 @@ describe PlantingsController, :search do
   def valid_attributes
     {
       garden_id: FactoryBot.create(:garden, owner: subject.current_member).id,
-      crop_id: FactoryBot.create(:crop).id
+      crop_id:   FactoryBot.create(:crop).id
     }
   end
 
@@ -19,6 +19,9 @@ describe PlantingsController, :search do
     let!(:maize)     { FactoryBot.create(:maize)                                                        }
     let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
+    before do
+      Planting.reindex
+    end
 
     describe "assigns all plantings as @plantings" do
       before { get :index }
