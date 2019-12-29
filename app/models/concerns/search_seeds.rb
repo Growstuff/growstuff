@@ -18,27 +18,38 @@ module SearchSeeds
     def search_data
       {
         slug:             slug,
-        crop_id:          crop_id,
-        crop_name:        crop.name,
-        crop_slug:        crop.slug,
         finished:         finished?,
         gmo:              gmo,
-        has_photos:       photos.size.positive?,
         active:           active,
         heirloom:         heirloom,
         location:         owner.location,
         organic:          organic,
+        quantity:         quantity,
+        plant_before:     plant_before&.to_s(:ymd),
+        tradable_to:      tradable_to,
+        tradable:         tradable?,
+
+        # crop
+        crop_id:          crop_id,
+        crop_name:        crop.name,
+        crop_slug:        crop.slug,
+
+        # owner
         owner_id:         owner_id,
         owner_location:   owner_location,
         owner_login_name: owner_login_name,
         owner_slug:       owner_slug,
+
+        # planting
         parent_planting:  parent_planting,
+
+        # counts
         photos_count:     photos.size,
-        plant_before:     plant_before&.to_s(:ymd),
-        quantity:         quantity,
+
+        # photo
+        has_photos:       photos.size.positive?,
         thumbnail_url:    default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
-        tradable_to:      tradable_to,
-        tradable:         tradable?,
+
         created_at:       created_at.to_i
       }
     end

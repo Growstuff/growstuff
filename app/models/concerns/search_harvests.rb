@@ -6,9 +6,9 @@ module SearchHarvests
   included do
     searchkick merge_mappings: true, mappings: {
       properties: {
-        created_at:     { type: :integer },
         harvests_count: { type: :integer },
         photos_count:   { type: :integer },
+        created_at:     { type: :integer },
         harvested_at:   { type: :date }
       }
     }
@@ -18,18 +18,32 @@ module SearchHarvests
     def search_data
       {
         slug:             slug,
+        quantity:         quantity,
+
+        # crop
         crop_id:          crop_id,
         crop_name:        crop_name,
         crop_slug:        crop.slug,
-        has_photos:       photos.size.positive?,
+
+        # owner
         owner_id:         owner_id,
         owner_login_name: owner_login_name,
         owner_slug:       owner_slug,
-        photos_count:     photos.count,
         plant_part_name:  plant_part_name,
+
+        #planting
         planting_id:      planting_id,
-        quantity:         quantity,
+        planting_slug:    planting_slug,
+
+        #photo
+        has_photos:       photos.size.positive?,
         thumbnail_url:    default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
+
+        # counts
+        harvests_count:   harvests_count,
+        photos_count:     photos.count,
+
+        # timestamps
         harvested_at:     harvested_at,
         created_at:       created_at.to_i
       }

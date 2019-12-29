@@ -20,24 +20,33 @@ module SearchPlantings
       {
         slug:             slug,
         active:           active,
-        crop_id:          crop_id,
-        crop_name:        crop.name,
-        crop_slug:        crop.slug,
         finished:         finished?,
-        harvests_count:   harvests_count,
         has_photos:       photos.size.positive?,
         location:         location,
-        owner_id:         owner_id,
-        owner_location:   owner_location,
-        owner_login_name: owner_login_name,
-        owner_slug:       owner_slug,
         percentage_grown: percentage_grown.to_i,
-        photos_count:     photos.size,
         planted_at:       planted_at,
         planted_from:     planted_from,
         quantity:         quantity,
         sunniness:        sunniness,
+
+        # crops
+        crop_id:          crop_id,
+        crop_name:        crop.name,
+        crop_slug:        crop.slug,
+
+        # owner
+        owner_id:         owner_id,
+        owner_location:   owner_location,
+        owner_login_name: owner_login_name,
+        owner_slug:       owner_slug,
+
+        # photos
         thumbnail_url:    default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
+        # counts
+        photos_count:     photos.size,
+        harvests_count:   harvests_count,
+
+        # timestamps
         created_at:       created_at.to_i
       }
     end
