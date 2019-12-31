@@ -10,9 +10,12 @@ class LikesController < ApplicationController
       likeable_type: params[:type],
       likeable_id:   params[:id]
     )
-    return failed(@like, message: 'Unable to like') unless @like.likeable && @like.save
-
-    success(@like, liked_by_member: true, status_code: :created)
+    if @like.likeable && @like.save
+      @like.likeable.reindex(refresh: true)
+      success(@like, liked_by_member: true, status_code: :created)
+    else
+      failed(@like, message: 'Unable to like')
+    end
   end
 
   def destroy
@@ -22,9 +25,12 @@ class LikesController < ApplicationController
       member:        current_member
     )
 
-    return failed(@like, message: 'Unable to unlike') unless @like&.destroy
-
-    success(@like, liked_by_member: false, status_code: :ok)
+    if @like&.destroy
+      @like.likeable.reindex(refresh: true)
+      success(@like, liked_by_member: false, status_code: :ok)
+    else
+      failed(@like, message: 'Unable to unlike')
+    end
   end
 
   private
