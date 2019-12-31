@@ -9,4 +9,5 @@
                 method: :delete, remote: true, class: 'photo-like like-btn' do
         = render 'likes/count', likeable: photo, liked: true
   - else
-    = render 'likes/count', likeable: photo
+    = render 'likes/count', likeable: photo, liked: member_signed_in? && photo.liked_by_members_names.include?(current_member.login_name)
+
