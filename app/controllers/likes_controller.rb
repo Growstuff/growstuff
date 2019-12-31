@@ -5,14 +5,23 @@ class LikesController < ApplicationController
   respond_to :html, :json
 
   def create
-    @like = Like.new(member: current_member, likeable: find_likeable)
+    @like = Like.new(
+      member:        current_member,
+      likeable_type: params[:type],
+      likeable_id:   params[:id]
+    )
     return failed(@like, message: 'Unable to like') unless @like.likeable && @like.save
 
     success(@like, liked_by_member: true, status_code: :created)
   end
 
   def destroy
-    @like = Like.find_by(id: params[:id], member: current_member)
+    @like = Like.find_by(
+      likeable_type: params[:type],
+      likeable_id:   params[:id],
+      member:        current_member
+    )
+
     return failed(@like, message: 'Unable to unlike') unless @like&.destroy
 
     success(@like, liked_by_member: false, status_code: :ok)
@@ -20,21 +29,12 @@ class LikesController < ApplicationController
 
   private
 
-  def find_likeable
-    if params[:post_id]
-      Post.find(params[:post_id])
-    elsif params[:photo_id]
-      Photo.find(params[:photo_id])
-    end
-  end
-
   def render_json(like, liked_by_member: true)
     {
-      id: like.likeable.id,
-      like_count: like.likeable.likes.count,
+      id:              like.likeable.id,
+      like_count:      like.likeable.likes.count,
       liked_by_member: liked_by_member,
-      description: ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like"),
-      url: like_path(like, format: :json)
+      description:     ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like")
     }
   end
 
@@ -42,9 +42,10 @@ class LikesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to like.likeable }
       format.json do
-        render(json: render_json(like,
-                                 liked_by_member: liked_by_member),
-               status: status_code)
+        render(json: render_json(
+          like,
+          liked_by_member: liked_by_member
+        ), status: status_code)
       end
     end
   end
