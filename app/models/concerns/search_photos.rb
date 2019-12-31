@@ -11,19 +11,23 @@ module SearchPhotos
       }
     }
 
-    scope :search_import, -> { includes(:owner, :crops, :plantings, :harvests, :seeds, :posts) }
-
     def search_data
       {
-        id:               id,
-        title:            title,
-        crops:            photo_associations.map(&:crop_id),
-        owner_id:         owner_id,
-        owner_login_name: owner.login_name,
-        likes_count:      likes_count,
-        thumbnail_url:    thumbnail_url,
-        fullsize_url:     fullsize_url,
-        created_at:       created_at.to_i
+        id:                     id,
+        title:                  title,
+        thumbnail_url:          thumbnail_url,
+        fullsize_url:           fullsize_url,
+        # crops
+        crops:                  crops.pluck(:id),
+        # likes
+        liked_by_members_names: liked_by_members_names,
+        # owner
+        owner_id:               owner_id,
+        owner_login_name:       owner.login_name,
+        # counts
+        likes_count:            likes_count,
+
+        created_at:             created_at.to_i
       }
     end
   end

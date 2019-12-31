@@ -18,7 +18,7 @@ class Crop < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
-  has_many :photo_associations, dependent: :delete_all
+  has_many :photo_associations, dependent: :delete_all, inverse_of: :crop
   has_many :photos, through: :photo_associations
   has_many :plant_parts, -> { joins_members.distinct.order("plant_parts.name") }, through: :harvests
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
@@ -50,10 +50,10 @@ class Crop < ApplicationRecord
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
             format: {
-              with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
               message: 'is not a valid English Wikipedia URL'
             },
-            if: :approved?
+            if:     :approved?
 
   def to_s
     name
