@@ -7,45 +7,42 @@ describe PhotosController, :search do
 
   describe 'GET index' do
     describe 'all photos' do
-      let!(:photo) { FactoryBot.create :photo }
+      let!(:photo) { FactoryBot.create :photo, :reindex }
 
       before do
         Photo.searchkick_index.refresh
-        photo.reindex
-        sleep 1
         get :index
       end
 
       it "finds photos" do
-        expect(assigns(:photos).size).to eq 1
+        expect(assigns(:photos).count).to eq 1
         expect(assigns(:photos).first.id).to eq photo.id
       end
     end
 
-    describe 'crop photos' do
-      let!(:photo) { FactoryBot.create :photo, owner: member, title: 'no assocations photo' }
-      let!(:crop_photo) { FactoryBot.create :photo, owner: member, title: 'photos of planting' }
-      let!(:planting)   { FactoryBot.create :planting, crop: crop, owner: member }
-      let!(:crop)       { FactoryBot.create :crop                                }
+    describe '#index crop photos' do
+      let!(:photo)      { FactoryBot.create :photo, :reindex, owner: member, title: 'no assocations photo' }
+      let!(:crop_photo) { FactoryBot.create :photo, :reindex, owner: member, title: 'photos of planting'   }
+      let!(:planting)   { FactoryBot.create :planting, :reindex, crop: crop, owner: member                 }
+      let!(:crop)       { FactoryBot.create :crop, :reindex                                                }
 
       before do
         planting.photos << crop_photo
         Photo.searchkick_index.refresh
-        crop_photo.reload
-        crop_photo.reindex
-        # This is terrible, but this is needed for ES to fully index this
-        sleep 1
-
-        # all these tests are inline, so we only sleep once
         get :index, params: { crop_slug: crop.to_param }
       end
 
-      it "find photos by crop" do
-        expect(Photo.search).to include crop_photo
-        expect(assigns(:crop)).to eq crop
-        expect(assigns(:photos).size).to eq 1
-        expect(assigns(:photos).first.crops).to include crop.id
-        expect(assigns(:photos).first.id).to eq crop_photo.id
+      describe "find photos by crop" do
+        it "has indexed the photos of this crop" do
+          expect(Photo.search).to include crop_photo
+        end
+        it "assigns crop" do
+          expect(assigns(:crop)).to eq crop
+        end
+
+        it { expect(assigns(:photos).size).to eq 1 }
+        it { expect(assigns(:photos).first.crops).to include crop.id }
+        it { expect(assigns(:photos).first.id).to eq crop_photo.id }
       end
     end
   end
@@ -91,12 +88,12 @@ describe PhotosController, :search do
 
   describe "POST create" do
     before do
-      Photo.any_instance.stub(:flickr_metadata).and_return(title: "A Heartbreaking work of staggering genius",
-                                                           license_name: "CC-BY",
-                                                           license_url: "http://example.com/aybpl",
+      Photo.any_instance.stub(:flickr_metadata).and_return(title:         "A Heartbreaking work of staggering genius",
+                                                           license_name:  "CC-BY",
+                                                           license_url:   "http://example.com/aybpl",
                                                            thumbnail_url: "http://example.com/thumb.jpg",
-                                                           fullsize_url: "http://example.com/full.jpg",
-                                                           link_url: "http://example.com")
+                                                           fullsize_url:  "http://example.com/full.jpg",
+                                                           link_url:      "http://example.com")
     end
 
     let(:member)   { FactoryBot.create(:member)                                  }
