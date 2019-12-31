@@ -2,11 +2,11 @@
   - if member_signed_in? && can?(:new, Like)
     - if !photo.liked_by_members_names.include?(current_member.login_name)
       = link_to likes_path(type: 'Photo', id: photo.id, format: :json),
-                method: :post, remote: true, class: 'photo-like like-btn' do
-        = render 'likes/count', likeable: photo
+                method: :post, remote: true, class: 'photo-like like-btn ' do
+        = render 'likes/count', likeable: photo, liked: false
     - else
       = link_to likes_path(type: 'Photo', id: photo.id, format: :json),
                 method: :delete, remote: true, class: 'photo-like like-btn' do
-        = render 'likes/count', likeable: photo
+        = render 'likes/count', likeable: photo, liked: true
   - else
     = render 'likes/count', likeable: photo

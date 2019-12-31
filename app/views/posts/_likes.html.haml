@@ -7,4 +7,4 @@
     = link_to 'Unlike', likes_path(type: 'Post', id: post.id, format: :json),
               method: :delete, remote: true, class: 'post-like btn like-btn'
 
-= render 'likes/count', likeable: post
+= render 'likes/count', likeable: post, liked: post.liked_by?(current_member)
