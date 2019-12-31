@@ -4,7 +4,7 @@ require 'will_paginate/array'
 
 class CropsController < ApplicationController
   before_action :authenticate_member!, except: %i(index hierarchy search show)
-  load_and_authorize_resource
+  load_and_authorize_resource id_param: :slug
   skip_authorize_resource only: %i(hierarchy search)
   respond_to :html, :json, :rss, :csv, :svg
   responders :flash
@@ -54,19 +54,19 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
 
-    @crops = CropSearchService.search(
-      @term, page:           params[:page],
-             per_page:       36,
-             current_member: current_member
-    )
+    @crops = CropSearchService.search(@term,
+                                      page:           params[:page],
+                                      per_page:       Crop.per_page,
+                                      current_member: current_member)
     respond_with @crops
   end
 
   def show
-    @crop = Crop.includes(:scientific_names, :alternate_names, :parent, :varieties).find_by!(slug: params[:slug])
+    @crop = Crop.includes(
+      :scientific_names, :alternate_names, :parent, :varieties
+    ).find_by!(slug: params[:slug])
     respond_to do |format|
       format.html do
-        @photos = Photo.by_crop(@crop)
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
         @companions = @crop.companions.approved
       end
