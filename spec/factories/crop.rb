@@ -86,5 +86,11 @@ FactoryBot.define do
       approval_status { "rejected" }
       reason_for_rejection { "Totally fake" }
     end
+
+    trait :reindex do
+      after(:create) do |crop, _evaluator|
+        crop.reindex(refresh: true)
+      end
+    end
   end
 end

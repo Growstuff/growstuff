@@ -190,4 +190,18 @@ describe Photo do
     it { expect(Photo.by_crop(planting_crop)).to eq([planting_photo]) }
     it { expect(Photo.by_crop(seed_crop)).to eq([seed_photo]) }
   end
+
+  describe 'Elastic search indexing', search: true do
+    describe "finds new photos in search index" do
+      let!(:photo) { FactoryBot.create :photo, :reindex }
+      before { Photo.searchkick_index.refresh }
+
+      it "finds just one" do
+        expect(Photo.search.size).to eq 1
+      end
+      it "finds the matching photo"  do
+        expect(Photo.search.first.id).to eq photo.id
+      end
+    end
+  end
 end
