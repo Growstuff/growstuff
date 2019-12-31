@@ -29,18 +29,18 @@ module SearchHarvests
         owner_id:         owner_id,
         owner_login_name: owner_login_name,
         owner_slug:       owner_slug,
-        plant_part_name:  plant_part_name,
+        plant_part_name:  plant_part&.name,
 
-        #planting
+        # planting
         planting_id:      planting_id,
-        planting_slug:    planting_slug,
+        planting_slug:    planting&.slug,
 
-        #photo
+        # photo
         has_photos:       photos.size.positive?,
         thumbnail_url:    default_photo&.thumbnail_url || crop.default_photo&.thumbnail_url,
 
         # counts
-        harvests_count:   harvests_count,
+        # harvests_count:   harvests_count,
         photos_count:     photos.count,
 
         # timestamps
