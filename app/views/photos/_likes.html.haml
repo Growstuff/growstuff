@@ -1,14 +1,12 @@
 %span.likes
-  - if member_signed_in?
-    - if can?(:new, Like) && !photo.liked_by?(current_member)
-      = link_to likes_path(photo_id: photo.id, format: :json),
+  - if member_signed_in? && can?(:new, Like)
+    - if !photo.liked_by_members_names.include?(current_member.login_name)
+      = link_to likes_path(type: 'Photo', id: photo.id, format: :json),
                 method: :post, remote: true, class: 'photo-like like-btn' do
         = render 'likes/count', likeable: photo
     - else
-      - like = photo.likes.find_by(member: current_member)
-      - if like && can?(:destroy, like)
-        = link_to like_path(id: like.id, format: :json),
-                  method: :delete, remote: true, class: 'photo-like like-btn' do
-          = render 'likes/count', likeable: photo
+      = link_to likes_path(type: 'Photo', id: photo.id, format: :json),
+                method: :delete, remote: true, class: 'photo-like like-btn' do
+        = render 'likes/count', likeable: photo
   - else
     = render 'likes/count', likeable: photo
