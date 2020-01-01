@@ -10,12 +10,13 @@ class CropSearchService
       match:        :word_start,
       boost_by:     [:plantings_count],
       includes:     %i(scientific_names alternate_names),
-      misspellings: { edit_distance: 2 }
+      misspellings: { edit_distance: 2 },
+      load: false
     }
     # prioritise crops the member has planted
     search_params[:boost_where] = { planters_ids: current_member.id } if current_member
 
-    Crop.search(query, search_params, load: false)
+    Crop.search(query, search_params)
   end
 
   def self.random_with_photos(limit)
