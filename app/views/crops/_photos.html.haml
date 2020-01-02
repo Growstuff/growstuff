@@ -1,4 +1,4 @@
-- if crop.photos_count.positive?
+- if photos.size.positive?
   %h2 #{photo_icon} Photos
   - [Crop, Planting, Harvest, Seed].each do |model_name|
     - if photos.by_model(model_name).size.positive?

@@ -32,7 +32,7 @@
 
     %section.photos
       = cute_icon
-      = render 'crops/photos', crop: @crop
+      = render 'crops/photos', photos: @photos, crop: @crop
 
     - if @crop.plantings.any?
       %section.charts
