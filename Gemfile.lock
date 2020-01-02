@@ -185,7 +185,7 @@ GEM
       railties (>= 4.2.0)
     faker (2.10.0)
       i18n (>= 1.6, < 1.8)
-    faraday (0.17.1)
+    faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
