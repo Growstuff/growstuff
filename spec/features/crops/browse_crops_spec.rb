@@ -3,13 +3,16 @@
 require 'rails_helper'
 
 describe "browse crops", :search do
-  let!(:tomato)         { FactoryBot.create :tomato        }
-  let!(:maize)          { FactoryBot.create :maize         }
-  let!(:pending_crop)   { FactoryBot.create :crop_request  }
-  let!(:rejected_crop)  { FactoryBot.create :rejected_crop }
+  let!(:tomato)         { FactoryBot.create :tomato, :reindex        }
+  let!(:maize)          { FactoryBot.create :maize, :reindex         }
+  let!(:pending_crop)   { FactoryBot.create :crop_request, :reindex  }
+  let!(:rejected_crop)  { FactoryBot.create :rejected_crop, :reindex }
 
   shared_examples 'shows crops' do
-    before { visit crops_path }
+    before do
+      Crop.reindex
+      visit crops_path
+    end 
 
     it "has a form for sorting by" do
       expect(page).to have_css "select#sort"
