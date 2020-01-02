@@ -155,7 +155,7 @@ describe PhotosController, :search do
           post :create, params: {
             photo: { source_id: photo.source_id, source: 'flickr' }, type: "comment", id: comment.id
           }
-        end.to raise_error
+        end.to raise_error 'Photos not supported'
       end
     end
 
