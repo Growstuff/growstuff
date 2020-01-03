@@ -88,12 +88,12 @@ describe PhotosController, :search do
 
   describe "POST create" do
     before do
-      Photo.any_instance.stub(:flickr_metadata).and_return(title:         "A Heartbreaking work of staggering genius",
-                                                           license_name:  "CC-BY",
-                                                           license_url:   "http://example.com/aybpl",
+      Photo.any_instance.stub(:flickr_metadata).and_return(title: "A Heartbreaking work of staggering genius",
+                                                           license_name: "CC-BY",
+                                                           license_url: "http://example.com/aybpl",
                                                            thumbnail_url: "http://example.com/thumb.jpg",
-                                                           fullsize_url:  "http://example.com/full.jpg",
-                                                           link_url:      "http://example.com")
+                                                           fullsize_url: "http://example.com/full.jpg",
+                                                           link_url: "http://example.com")
     end
 
     let(:member)   { FactoryBot.create(:member)                                  }

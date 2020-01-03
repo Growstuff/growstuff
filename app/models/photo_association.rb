@@ -2,7 +2,7 @@
 
 class PhotoAssociation < ApplicationRecord
   belongs_to :photo, touch: true
-  belongs_to :crop, optional: true, touch: true #, counter_cache: true
+  belongs_to :crop, optional: true, touch: true # , counter_cache: true
   belongs_to :photographable, polymorphic: true, touch: true
 
   validate :photo_and_item_have_same_owner
@@ -34,7 +34,7 @@ class PhotoAssociation < ApplicationRecord
 
   def crop_present
     if %w(Planting Seed Harvest).include?(photographable_type)
-      errors.add(:crop_id, "failed to calculate crop") unless crop_id.present?
+      errors.add(:crop_id, "failed to calculate crop") if crop_id.blank?
     end
   end
 end

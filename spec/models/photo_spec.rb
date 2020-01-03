@@ -41,7 +41,7 @@ describe Photo do
       end
 
       describe 'to a harvest' do
-        let(:crop){ harvest.crop }
+        let(:crop) { harvest.crop }
         before { harvest.photos << photo }
 
         it { expect(harvest.photos).to eq [photo] }
@@ -54,7 +54,7 @@ describe Photo do
 
         # Check the relationship from the photo
         it { expect(photo.photo_associations.count).to eq 1 }
-        it { expect(photo.photo_associations.map(&:crop)).to eq [ crop ]}
+        it { expect(photo.photo_associations.map(&:crop)).to eq [ crop ] }
         it { expect(photo.crops.count).to eq 1 }
         it { expect(photo.crops).to eq [crop] }
       end

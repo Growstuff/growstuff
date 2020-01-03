@@ -12,7 +12,7 @@ describe "browse crops", :search do
     before do
       Crop.reindex
       visit crops_path
-    end 
+    end
 
     it "has a form for sorting by" do
       expect(page).to have_css "select#sort"

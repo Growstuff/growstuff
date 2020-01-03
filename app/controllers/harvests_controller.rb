@@ -20,10 +20,10 @@ class HarvestsController < DataController
       where['planting_id'] = @planting.id
     end
 
-    @harvests = Harvest.search('*', where:    where,
-                                    limit:    100,
-                                    page:     params[:page],
-                                    load:     false,
+    @harvests = Harvest.search('*', where: where,
+                                    limit: 100,
+                                    page: params[:page],
+                                    load: false,
                                     boost_by: [:created_at])
 
     @filename = csv_filename

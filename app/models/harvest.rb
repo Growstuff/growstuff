@@ -12,15 +12,15 @@ class Harvest < ApplicationRecord
   # Constants
   UNITS_VALUES = {
     "individual" => "individual",
-    "bunches"    => "bunch",
-    "sprigs"     => "sprig",
-    "handfuls"   => "handful",
-    "litres"     => "litre",
-    "pints"      => "pint",
-    "quarts"     => "quart",
-    "buckets"    => "bucket",
-    "baskets"    => "basket",
-    "bushels"    => "bushel"
+    "bunches" => "bunch",
+    "sprigs" => "sprig",
+    "handfuls" => "handful",
+    "litres" => "litre",
+    "pints" => "pint",
+    "quarts" => "quart",
+    "buckets" => "bucket",
+    "baskets" => "basket",
+    "bushels" => "bushel"
   }.freeze
 
   WEIGHT_UNITS_VALUES = {

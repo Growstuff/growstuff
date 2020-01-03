@@ -6,9 +6,9 @@ class LikesController < ApplicationController
 
   def create
     @like = Like.new(
-      member:        current_member,
+      member: current_member,
       likeable_type: params[:type],
-      likeable_id:   params[:id]
+      likeable_id: params[:id]
     )
     if @like.likeable && @like.save
       @like.likeable.reindex(refresh: true)
@@ -21,8 +21,8 @@ class LikesController < ApplicationController
   def destroy
     @like = Like.find_by(
       likeable_type: params[:type],
-      likeable_id:   params[:id],
-      member:        current_member
+      likeable_id: params[:id],
+      member: current_member
     )
 
     if @like&.destroy
@@ -37,10 +37,10 @@ class LikesController < ApplicationController
 
   def render_json(like, liked_by_member: true)
     {
-      id:              like.likeable.id,
-      like_count:      like.likeable.likes.count,
+      id: like.likeable.id,
+      like_count: like.likeable.likes.count,
       liked_by_member: liked_by_member,
-      description:     ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like")
+      description: ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like")
     }
   end
 
