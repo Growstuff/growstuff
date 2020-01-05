@@ -2,15 +2,17 @@
 
 require 'rails_helper'
 
-describe "crop detail page", js: true do
+describe "crop detail page", :js, :search do
   subject { page }
 
   let!(:owner_member) { FactoryBot.create :member }
 
-  let!(:crop) { FactoryBot.create :crop }
+  let!(:crop) { FactoryBot.create :crop, :reindex }
 
+  let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
+
+  let!(:harvest)  { FactoryBot.create :harvest, crop: crop, owner: owner_member, plant_part: plant_part }
   let!(:planting) { FactoryBot.create :planting, crop: crop, owner: owner_member }
-  let!(:harvest)  { FactoryBot.create :harvest, crop: crop, owner: owner_member  }
   let!(:seed)     { FactoryBot.create :seed, crop: crop, owner: owner_member     }
 
   let!(:photo1) { FactoryBot.create(:photo, owner: owner_member) }
@@ -27,7 +29,11 @@ describe "crop detail page", js: true do
     harvest.photos << photo4
     seed.photos << photo5
     seed.photos << photo6
+    Crop.reindex
     visit crop_path(crop)
+    expect(crop.photos.count).to eq 6
+    expect(crop.photos.by_model(Planting).count).to eq 2
+    expect(page).to have_content 'Photos'
   end
 
   shared_examples "shows photos" do

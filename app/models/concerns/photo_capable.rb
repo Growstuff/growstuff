@@ -16,7 +16,11 @@ module PhotoCapable
     end
 
     def thumbnail_url
-      default_photo ? default_photo.thumbnail_url : nil
+      df = default_photo
+
+      return unless df
+
+      df.source == 'flickr' ? df.fullsize_url : df.thumbnail_url
     end
 
     def most_liked_photo
