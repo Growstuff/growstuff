@@ -24,11 +24,11 @@ class SeedsController < DataController
 
     @filename = csv_filename
     @seeds = Seed.search(
-      where: where,
-      page: params[:page],
-      limit: 30,
+      where:    where,
+      page:     params[:page],
+      limit:    30,
       boost_by: [:created_at],
-      load: false
+      load:     false
     )
 
     respond_with(@seeds)
@@ -42,8 +42,8 @@ class SeedsController < DataController
   def new
     @seed = Seed.new
 
-    if params[:planting_id]
-      @planting = Planting.find_by(slug: params[:planting_id])
+    if params[:planting_slug]
+      @planting = Planting.find_by(slug: params[:planting_slug])
     else
       @crop = Crop.find_or_initialize_by(id: params[:crop_id])
     end

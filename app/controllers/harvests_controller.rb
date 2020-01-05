@@ -20,10 +20,10 @@ class HarvestsController < DataController
       where['planting_id'] = @planting.id
     end
 
-    @harvests = Harvest.search('*', where: where,
-                                    limit: 100,
-                                    page: params[:page],
-                                    load: false,
+    @harvests = Harvest.search('*', where:    where,
+                                    limit:    100,
+                                    page:     params[:page],
+                                    load:     false,
                                     boost_by: [:created_at])
 
     @filename = csv_filename
@@ -39,7 +39,7 @@ class HarvestsController < DataController
 
   def new
     @harvest = Harvest.new(harvested_at: Time.zone.today)
-    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
+    @planting = Planting.find_by(slug: params[:planting_slug]) if params[:planting_slug]
     @crop = Crop.find_by(id: params[:crop_id])
     respond_with(@harvest)
   end

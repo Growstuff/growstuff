@@ -103,7 +103,7 @@ describe "Planting a crop", js: true do
     describe "Making a planting inactive from garden show" do
       it do
         visit garden_path(garden)
-        click_link(class: 'planting-menu')
+        click_link(class: 'planting-menu') # quick menu
         click_link "Mark as finished"
         find(".datepicker-days td.day", text: "21").click
         expect(page).to have_content 'Finished'

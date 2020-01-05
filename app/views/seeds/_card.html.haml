@@ -1,7 +1,7 @@
 - cache seed do
   .card.seed-card{class: seed.finished ? 'card-finished' : ''}
     = link_to seed_path(slug: seed.slug) do
-      = image_tag(seed.thumbnail_url ? seed.thumbnail_url : placeholder_image, alt: seed.name, class: 'img-card')
+      = image_tag(seed.thumbnail_url ? seed.thumbnail_url : placeholder_image, alt: seed.crop.name, class: 'img-card')
     .text
       %span.chip.member-chip
         = seed.owner_login_name

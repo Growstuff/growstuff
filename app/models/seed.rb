@@ -60,7 +60,7 @@ class Seed < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
 
-  def tradable?
+  def tradable
     tradable_to != 'nowhere'
   end
 
