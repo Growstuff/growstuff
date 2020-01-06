@@ -10,7 +10,7 @@ describe PhotosController, :search do
       let!(:photo) { FactoryBot.create :photo, :reindex }
 
       before do
-        Photo.searchkick_index.refresh
+        Photo.reindex
         get :index
       end
 
@@ -28,7 +28,7 @@ describe PhotosController, :search do
 
       before do
         planting.photos << crop_photo
-        Photo.searchkick_index.refresh
+        Photo.reindex
         get :index, params: { crop_slug: crop.to_param }
       end
 
