@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 guard :rspec,
       cmd:         'bundle exec rspec --format documentation',
       failed_mode: :keep do

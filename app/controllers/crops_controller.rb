@@ -4,7 +4,7 @@ require 'will_paginate/array'
 
 class CropsController < ApplicationController
   before_action :authenticate_member!, except: %i(index hierarchy search show)
-  load_and_authorize_resource
+  load_and_authorize_resource id_param: :slug
   skip_authorize_resource only: %i(hierarchy search)
   respond_to :html, :json, :rss, :csv, :svg
   responders :flash
