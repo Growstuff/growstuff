@@ -271,7 +271,7 @@ GEM
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
-    jsonapi-swagger (0.7.1)
+    jsonapi-swagger (0.8.0)
     jwt (2.2.1)
     kgio (2.11.2)
     kramdown (2.1.0)
