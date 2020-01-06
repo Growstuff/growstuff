@@ -81,6 +81,10 @@
           %p
             %strong Area:
             = pluralize(@garden.area, @garden.area_unit)
+        - unless @garden.garden_type.blank?
+          %p
+            %strong Garden type:
+            = @garden.garden_type.name
 
     .card
       .card-header
