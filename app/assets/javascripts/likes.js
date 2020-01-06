@@ -14,7 +14,7 @@ $(document).ready(function() {
     } else {
       likeBadge.removeClass('liked');
       likeButton.data('method', 'post');
-      likeButton.attr('href', '/likes.json?post_id=' + data.id);
+      likeButton.attr('href', '/likes.json?type=Post&id=' + data.id);
       likeButton.text('Like');
     }
   });
@@ -34,7 +34,7 @@ $(document).ready(function() {
       likeBadge.removeClass('liked');
       // Turn the button into an *like* button
       likeButton.data('method', 'post');
-      likeButton.attr('href', '/likes.json?photo_id=' + data.id);
+      likeButton.attr('href', '/likes.json?type=Photo&id=' + data.id);
     }
   });
 });

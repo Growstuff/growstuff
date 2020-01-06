@@ -86,7 +86,10 @@ Rails.application.routes.draw do
   resources :forums
 
   resources :follows, only: %i(create destroy)
-  resources :likes, only: %i(create destroy)
+
+  post 'likes' => 'likes#create'
+  delete 'likes' => 'likes#destroy'
+
   resources :timeline
 
   resources :members, param: :slug do
