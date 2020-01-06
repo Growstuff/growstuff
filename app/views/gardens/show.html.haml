@@ -73,15 +73,15 @@
         %p
           %strong Owner:
           = link_to @garden.owner, @garden.owner
-        - unless @garden.location.blank?
+        - if @garden.location.present?
           %p
             %strong Location:
             = @garden.location
-        - unless @garden.area.blank?
+        - if @garden.area.present?
           %p
             %strong Area:
             = pluralize(@garden.area, @garden.area_unit)
-        - unless @garden.garden_type.blank?
+        - if @garden.garden_type.present?
           %p
             %strong Garden type:
             = @garden.garden_type.name
