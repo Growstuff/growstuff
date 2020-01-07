@@ -2,8 +2,6 @@
 
 %h1= @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
-= render 'layouts/nav', model: Garden
-
 - content_for :breadcrumbs do
   - if @owner
     %li.breadcrumb-item= link_to 'Gardens', gardens_path
@@ -11,51 +9,74 @@
   - else
     %li.breadcrumb-item.active= link_to 'Gardens', gardens_path
 
-%section.border-top
-  = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all), class: 'btn'  do
-    = check_box_tag 'active', 'all', @show_all
-    include in-active
+.row
+  .col-md-2
+    = render 'layouts/nav', model: Garden
 
-- if @gardens.empty?
-  %p There are no gardens to display.
-  - if can?(:create, Garden) && @owner == current_member
-    = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
+    %section.border-top
+      = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all), class: 'btn'  do
+        = check_box_tag 'active', 'all', @show_all
+        include in-active
 
-- else
-  = page_entries_info @gardens
-  = will_paginate @gardens
-  .jump
-    jump to:
-    - @gardens.each do |garden|
-      .badge.badge-primary
-        - if @owner.present?
-          = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
-        - else
-          = link_to garden.name, gardens_path(anchor: "garden-#{garden.id}")
-  - @gardens.each do |garden|
-    %section.card
-      %h2= link_to garden.name, garden, name: "garden-#{garden.id}"
-      .card-header
-        .row
-          .col-12.col-md-3
-            - unless @owner.present?
-              owner:
-              = render 'members/tiny', member: garden.owner
-            = image_tag garden_image_path(garden), alt: garden.name, class: 'img-card'
-          .col-12.col-md-2= render 'gardens/actions', garden: garden
-          .col
-            - if garden.plantings.active.perennial.any?
-              %strong Perennials:
-              - garden.plantings.active.perennial.each do |planting|
-                = link_to planting do
-                  = crop_icon planting.crop
-                  = planting.crop
-      .card-body
-        - if garden.plantings.active.annual.any?
-          = render 'plantings/progress_list', plantings: garden.plantings.active.annual
-        - else
-          No annual plantings
+  .col-md-10
+    - if @gardens.empty?
+      %p There are no gardens to display.
+      - if can?(:create, Garden) && @owner == current_member
+        = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
 
-  .row
-    .col-12= page_entries_info @gardens
-    .col-12= will_paginate @gardens
+    - else
+      %section
+        %h2= page_entries_info @gardens
+        = will_paginate @gardens
+
+      - unless defined?(@show_all)
+        .jump
+          jump to:
+          - @gardens.each do |garden|
+            .badge.badge-primary
+              - if @owner.present?
+                = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
+              - else
+                = link_to garden.name, gardens_path(anchor: "garden-#{garden.id}")
+      - @gardens.each do |garden|
+        .card
+          .card-header
+            .row
+              .col-12.col-md-3
+                %h2= link_to garden.name, garden, name: "garden-#{garden.id}"
+            .row
+              .col-md-3
+                - if @owner.blank?
+                  owner:
+                  = render 'members/tiny', member: garden.owner
+
+
+                = image_tag garden_image_path(garden), alt: garden.name, class: 'img-card'
+
+              .col-md-9
+                %section
+                  = render 'gardens/actions', garden: garden
+
+                - active_plantings = garden.plantings.active
+
+                %section
+                  - if active_plantings.perennial.any?
+                    %strong Perennials:
+                    - active_plantings.perennial.each do |planting|
+                      = link_to planting do
+                        = crop_icon planting.crop
+                        = planting.crop
+                  - else
+                    %p No perennial plantings
+
+                %hr
+
+                %section
+                  - if active_plantings.annual.any?
+                    = render 'plantings/progress_list', plantings: garden.plantings.active.annual
+                  - else
+                    %p No annual plantings
+
+      .row
+        .col-12= page_entries_info @gardens
+        .col-12= will_paginate @gardens
