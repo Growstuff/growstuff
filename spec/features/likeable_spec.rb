@@ -7,6 +7,10 @@ describe 'Likeable', :js, search: true do
   let!(:post)           { FactoryBot.create(:post, :reindex, author: member) }
   let!(:photo)          { FactoryBot.create(:photo, :reindex, owner: member) }
 
+  before do
+    Photo.reindex
+  end
+
   include_context 'signed in member'
 
   describe 'photos' do
