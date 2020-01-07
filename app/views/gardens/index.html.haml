@@ -29,15 +29,16 @@
         %h2= page_entries_info @gardens
         = will_paginate @gardens
 
-      - unless defined?(@show_all)
-        .jump
-          jump to:
-          - @gardens.each do |garden|
-            .badge.badge-primary
-              - if @owner.present?
-                = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
-              - else
-                = link_to garden.name, gardens_path(anchor: "garden-#{garden.id}")
+      - if @my_garden == true
+        %section
+          .jump
+            jump to:
+            - @gardens.each do |garden|
+              .badge.badge-primary
+                - if @owner.present?
+                  = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
+                - else
+                  = link_to garden.name, gardens_path(anchor: "garden-#{garden.id}")
       - @gardens.each do |garden|
         .card
           .card-header
