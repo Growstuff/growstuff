@@ -23,10 +23,13 @@ describe "home page", :search do
     planting.photos << photo
     seed.photos << photo
     harvest.photos << photo
-    Crop.searchkick_index.refresh
-    Planting.searchkick_index.refresh
-    Seed.searchkick_index.refresh
-    Harvest.searchkick_index.refresh
+  end
+
+  before(:each) do
+    Crop.reindex
+    Planting.reindex
+    Seed.reindex
+    Harvest.reindex
   end
 
   before { visit root_path }
