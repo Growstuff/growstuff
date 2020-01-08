@@ -29,7 +29,7 @@
         %h2= page_entries_info @gardens
         = will_paginate @gardens
 
-      - if @my_garden == true
+      - if @show_jump_to == true
         %section
           .jump
             jump to:
