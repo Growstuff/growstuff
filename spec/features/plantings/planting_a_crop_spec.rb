@@ -10,6 +10,8 @@ describe "Planting a crop", :js, :search do
     FactoryBot.create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10")
   end
 
+  before { Planting.reindex }
+
   context 'signed in' do
     include_context 'signed in member'
     before { visit new_planting_path }
