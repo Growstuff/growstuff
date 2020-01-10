@@ -4,7 +4,9 @@ class GardensController < DataController
   def index
     @owner = Member.find_by(slug: params[:member_slug])
     @show_all = params[:all] == '1'
+    @show_jump_to = params[:member_slug].present? ? true : false
 
+    @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active unless @show_all
     @gardens = @gardens.where(owner: @owner) if @owner.present?
     @gardens = @gardens.where.not(members: { confirmed_at: nil })
