@@ -6,16 +6,16 @@ module SearchCrops
   included do
     ####################################
     # Elastic search configuration
-    searchkick word_start: %i(name description alternate_names scientific_names),
+    searchkick word_start:     %i(name description alternate_names scientific_names),
                case_sensitive: false,
-               searchable: %i(name descriptions alternate_names scientific_names),
+               searchable:     %i(name descriptions alternate_names scientific_names),
                merge_mappings: true,
-               mappings: {
+               mappings:       {
                  properties: {
-                   created_at: { type: :integer },
+                   created_at:      { type: :integer },
                    plantings_count: { type: :integer },
-                   harvests_count: { type: :integer },
-                   photos_count: { type: :integer }
+                   harvests_count:  { type: :integer },
+                   photos_count:    { type: :integer }
                  }
                }
 
@@ -28,21 +28,21 @@ module SearchCrops
 
     def search_data
       {
-        name: name,
-        description: description,
-        slug: slug,
-        alternate_names: alternate_names.pluck(:name),
+        name:             name,
+        description:      description,
+        slug:             slug,
+        alternate_names:  alternate_names.pluck(:name),
         scientific_names: scientific_names.pluck(:name),
-        photos_count: photo_associations_count,
+        photos_count:     photo_associations_count,
         # boost the crops that are planted the most
-        plantings_count: plantings_count,
-        harvests_count: harvests_count,
+        plantings_count:  plantings_count,
+        harvests_count:   harvests_count,
         # boost this crop for these members
-        planters_ids: plantings.pluck(:owner_id),
-        has_photos: photos.size.positive?,
-        thumbnail_url: thumbnail_url,
-        scientific_name: default_scientific_name&.name,
-        created_at: created_at.to_i
+        planters_ids:     plantings.pluck(:owner_id),
+        has_photos:       photos.size.positive?,
+        thumbnail_url:    thumbnail_url,
+        scientific_name:  default_scientific_name&.name,
+        created_at:       created_at.to_i
       }
     end
   end
