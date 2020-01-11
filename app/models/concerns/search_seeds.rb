@@ -6,14 +6,13 @@ module SearchSeeds
   included do
     searchkick merge_mappings: true, mappings: {
       properties: {
+        id:           { type: :integer },
         created_at:   { type: :integer },
         plant_before: { type: :text },
         photos_count: { type: :integer },
         tradable_to:  { type: :text }
       }
     }
-
-    scope :search_import, -> { includes(:owner, :crop, :parent_planting) }
 
     def search_data
       {

@@ -14,26 +14,24 @@ describe "home page", :search do
   let(:seed)    { FactoryBot.create :tradable_seed, owner: member, crop: crop }
   let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop       }
 
-  let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
-  let!(:finished_seed)   { FactoryBot.create :tradable_seed, finished: true }
-  let!(:untradable_seed) { FactoryBot.create :untradable_seed               }
+  let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
+  let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }
+  let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
 
   before do
     # Add photos, so they can appear on home page
     planting.photos << photo
     seed.photos << photo
     harvest.photos << photo
-  end
 
-  before(:each) do
     Crop.reindex
     Planting.reindex
     Seed.reindex
     Harvest.reindex
     Photo.reindex
-  end
 
-  before { visit root_path }
+    visit root_path
+  end
 
   shared_examples 'shows seeds' do
     it "show tradeable seed" do

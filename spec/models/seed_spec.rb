@@ -197,4 +197,16 @@ describe Seed do
       end
     end
   end
+
+  describe 'homepage', :search do
+    let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
+    let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }
+    let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
+
+    before { Seed.reindex }
+    subject { Seed.homepage_records(100) }
+
+    it { expect(subject.count).to eq 1 }
+    it { expect(subject.first.id).to eq tradable_seed.id.to_s }
+  end
 end
