@@ -77,7 +77,7 @@ class Garden < ApplicationRecord
     end
   end
 
-  def reindex; end
+  def reindex(refresh: false); end
 
   protected
 
