@@ -224,6 +224,9 @@ describe "Planting a crop", :js, :search do
       expect(page).to have_content "Finished"
       expect(page).to have_content "Aug 2014"
 
+      # ensure we've indexed in elastic search
+      planting.reindex(refresh: true)
+
       # shouldn't be on the page
       visit plantings_path
       expect(page).not_to have_content "maize"
