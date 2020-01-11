@@ -53,7 +53,7 @@ describe "home page", :search do
       it { expect(subject).to have_link href: planting_path(planting) }
     end
   end
-  
+
   shared_examples 'show harvests' do
     describe 'shows harvests section' do
       it { expect(subject).to have_text 'Recently Harvested' }
