@@ -6,7 +6,7 @@
                           crop
   .card-body
     %h3.card-title
-      %strong= link_to crop, crop
+      %strong= link_to crop.name, crop_path(slug: crop.slug)
       = crop.default_scientific_name
     .d-flex.justify-content-between
       - if crop.annual? && crop.median_lifespan.present?

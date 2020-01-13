@@ -3,11 +3,18 @@
 class Photo < ApplicationRecord
   include Likeable
   include Ownable
+  include SearchPhotos
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
   has_many :photo_associations, foreign_key: :photo_id, dependent: :delete_all, inverse_of: :photo
-  has_many :crops, through: :photo_associations, counter_cache: true
+
+  # This doesn't work, ActiveRecord tries to use the polymoriphinc photographable
+  # relationship instead.
+  # has_many :crops, through: :photo_associations
+  def crops
+    Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: self })
+  end
 
   validates :fullsize_url, url: true
   validates :thumbnail_url, url: true
@@ -24,6 +31,8 @@ class Photo < ApplicationRecord
   scope :by_model, lambda { |model_name|
     joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
   }
+
+  delegate :login_name, to: :owner, prefix: true
 
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.

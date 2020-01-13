@@ -61,5 +61,18 @@ FactoryBot.define do
         crop
       end
     end
+
+    trait :with_photo do
+      after(:create) do |planting, _evaluator|
+        planting.photos << FactoryBot.create(:photo, owner_id: planting.owner_id)
+        planting.save
+      end
+    end
+
+    trait :reindex do
+      after(:create) do |planting, _evaluator|
+        planting.reindex(refresh: true)
+      end
+    end
   end
 end

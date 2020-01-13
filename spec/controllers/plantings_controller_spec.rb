@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PlantingsController do
+describe PlantingsController, :search do
   login_member
 
   def valid_attributes
@@ -12,32 +12,38 @@ describe PlantingsController do
     }
   end
 
-  describe "GET index" do
+  describe "GET index", :search do
     let!(:member1)   { FactoryBot.create(:member)                                                       }
     let!(:member2)   { FactoryBot.create(:member)                                                       }
     let!(:tomato)    { FactoryBot.create(:tomato)                                                       }
     let!(:maize)     { FactoryBot.create(:maize)                                                        }
     let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
+    before do
+      Planting.reindex
+    end
 
     describe "assigns all plantings as @plantings" do
       before { get :index }
 
-      it { expect(assigns(:plantings)).to match [planting1, planting2] }
+      it { expect(assigns(:plantings).size).to eq 2 }
+      it { expect(assigns(:plantings)[0]['slug']).to eq planting1.slug }
+      it { expect(assigns(:plantings)[1]['slug']).to eq planting2.slug }
     end
 
     describe "picks up owner from params and shows owner's plantings only" do
       before { get :index, params: { member_slug: member1.slug } }
 
       it { expect(assigns(:owner)).to eq member1 }
-      it { expect(assigns(:plantings)).to eq [planting1] }
+      it { expect(assigns(:plantings).size).to eq 1 }
+      it { expect(assigns(:plantings).first['slug']).to eq planting1.slug }
     end
 
     describe "picks up crop from params and shows the plantings for the crop only" do
       before { get :index, params: { crop_slug: maize.slug } }
 
       it { expect(assigns(:crop)).to eq maize }
-      it { expect(assigns(:plantings)).to eq [planting2] }
+      it { expect(assigns(:plantings).first['slug']).to eq planting2.slug }
     end
   end
 
@@ -117,6 +123,21 @@ describe PlantingsController do
       before { post :create, params: { planting: valid_attributes } }
 
       it { expect(assigns(:planting).owner).to eq subject.current_member }
+    end
+  end
+
+  describe 'GET :edit' do
+    let(:my_planting) { FactoryBot.create :planting, owner: member }
+    let(:not_my_planting) { FactoryBot.create :planting }
+    context 'my planting' do
+      before { get :edit, params: { slug: my_planting } }
+      it { expect(assigns(:planting)).to eq my_planting }
+    end
+
+    context 'not my planting' do
+      before { get :edit, params: { slug: not_my_planting } }
+
+      it { expect(response).to redirect_to(root_path) }
     end
   end
 end

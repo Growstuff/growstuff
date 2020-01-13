@@ -7,6 +7,8 @@ class Planting < ApplicationRecord
   include Ownable
   include PredictPlanting
   include PredictHarvest
+  include SearchPlantings
+
   friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants
@@ -56,6 +58,8 @@ class Planting < ApplicationRecord
   ## Delegations
   delegate :name, :slug, :en_wikipedia_url, :default_scientific_name, :plantings_count,
            to: :crop, prefix: true
+  delegate :login_name, :slug, :location, to: :owner, prefix: true
+  delegate :slug, to: :planting, prefix: true
 
   delegate :annual?, :perennial?, :svg_icon, to: :crop
   delegate :location, :longitude, :latitude, to: :garden

@@ -38,9 +38,7 @@
       = will_paginate @seeds
 
       .index-cards
-        - @seeds.each do |seed|
-          = render 'seeds/card', seed: seed
+        - @seeds.each do |s|
+          = render 'seeds/card', seed: s
 
       = will_paginate @seeds
-
-

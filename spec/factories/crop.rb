@@ -53,6 +53,11 @@ FactoryBot.define do
       name { "eggplant" }
     end
 
+    factory :crop_with_photo do
+      name { 'marshmallow' }
+      photos { FactoryBot.create_list :photo, 1 }
+    end
+
     # This should have a name that is alphabetically earlier than :uppercase
     # crop to ensure that the ordering tests work.
     factory :lowercasecrop do
@@ -80,6 +85,12 @@ FactoryBot.define do
       name { "Fail bean" }
       approval_status { "rejected" }
       reason_for_rejection { "Totally fake" }
+    end
+
+    trait :reindex do
+      after(:create) do |crop, _evaluator|
+        crop.reindex(refresh: true)
+      end
     end
   end
 end

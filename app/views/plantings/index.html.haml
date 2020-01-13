@@ -10,7 +10,6 @@
 %h1.display-2.text-center
   = planting_icon
   = title('plantings', @owner, @crop, @planting)
-
 .row
   .col-md-2
     = render 'layouts/nav', model: Planting
@@ -20,9 +19,9 @@
       include finished plantings
     %hr
     - if @owner.present?
-      = render @owner
+      = render @owner, cached: true
     - if @crop.present?
-      = render @crop
+      = render @crop, cached: true
 
     %section.open-data
       %h2 Open Data
@@ -40,7 +39,6 @@
       %h2= page_entries_info @plantings
       = will_paginate @plantings
       .index-cards
-        - @plantings.each do |planting|
-          = render planting, full: true
-
+        - @plantings.each do |p|
+          = render 'plantings/card', planting: p
       = will_paginate @plantings

@@ -3,5 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe CropCompanion, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'has a crop' do
+    cc = CropCompanion.new
+    cc.crop_a = FactoryBot.create :tomato
+    cc.crop_b = FactoryBot.create :maize
+    cc.save!
+
+    expect(cc.crop_a.name).to eq 'tomato'
+  end
 end

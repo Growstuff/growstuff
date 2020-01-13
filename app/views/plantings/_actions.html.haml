@@ -4,7 +4,7 @@
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
       = planting_edit_button(planting, classes: 'dropdown-item')
       = add_photo_button(planting, classes: 'dropdown-item')
-      - if planting.active?
+      - if planting.active
         = planting_finish_button(planting, classes: 'dropdown-item')
         = planting_harvest_button(planting, classes: 'dropdown-item')
         = planting_save_seeds_button(planting, classes: 'dropdown-item')

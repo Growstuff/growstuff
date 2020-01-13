@@ -12,7 +12,7 @@
         %p.mb-2
           = truncate(strip_tags(post.body), length: 200)
         %small
-          = post.comments.size
+          = post.comments_count
           comments
 %p.text-right
   = link_to "#{t('.view_all')} »", posts_path, class: 'btn btn-block'

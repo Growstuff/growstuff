@@ -125,7 +125,7 @@ en:
       title:
         crop_harvests: Everyone's %{crop} harvests
         default: Everyone's harvests
-        owner_harvests: "%{owner} harvests"
+        owner_harvests: "%{owner}'s harvests"
         planting_harvests: Harvests from %{planting}
     updated: Harvest was successfully updated.
   home:

@@ -1,6 +1,4 @@
 - if local_assigns[:full]
-  - cache harvest do
-    = render 'harvests/card', harvest: harvest
+  = render 'harvests/card', harvest: harvest
 - else
-  - cache harvest do
-    = render 'harvests/thumbnail', harvest: harvest
+  = render 'harvests/thumbnail', harvest: harvest

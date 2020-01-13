@@ -18,5 +18,11 @@ FactoryBot.define do
       license_name { "All rights reserved" }
       license_url { nil }
     end
+
+    trait :reindex do
+      after(:create) do |photo, _evaluator|
+        photo.reindex(refresh: true)
+      end
+    end
   end
 end
