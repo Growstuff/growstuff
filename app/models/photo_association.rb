@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PhotoAssociation < ApplicationRecord
-  belongs_to :photo, touch: true
+  belongs_to :photo, touch: true, inverse_of: :photo_associations
   belongs_to :crop, optional: true, touch: true # , counter_cache: true
   belongs_to :photographable, polymorphic: true, touch: true
 

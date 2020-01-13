@@ -11,7 +11,7 @@ class Photo < ApplicationRecord
 
   # This doesn't work, ActiveRecord tries to use the polymoriphinc photographable
   # relationship instead.
-  # has_many :crops, through: :photo_associations
+  # has_many :crops, through: :photo_associations, counter_cache: true
   def crops
     Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: self })
   end
