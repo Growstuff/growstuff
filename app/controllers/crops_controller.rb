@@ -11,7 +11,10 @@ class CropsController < ApplicationController
 
   def index
     @sort = params[:sort]
-    @crops = crops
+    @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
+                              limit:    100,
+                              page:     params[:page],
+                              load:     false)
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
@@ -51,19 +54,19 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
 
-    @crops = CropSearchService.search(
-      @term, page: params[:page],
-             per_page: 36,
-             current_member: current_member
-    )
+    @crops = CropSearchService.search(@term,
+                                      page:           params[:page],
+                                      per_page:       Crop.per_page,
+                                      current_member: current_member)
     respond_with @crops
   end
 
   def show
-    @crop = Crop.includes(:scientific_names, :alternate_names, :parent, :varieties).find_by!(slug: params[:slug])
+    @crop = Crop.includes(
+      :scientific_names, :alternate_names, :parent, :varieties
+    ).find_by!(slug: params[:slug])
     respond_to do |format|
       format.html do
-        @photos = Photo.by_crop(@crop)
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
         @companions = @crop.companions.approved
       end
@@ -204,22 +207,15 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings: {
+        plantings:        {
           include: {
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
         scientific_names: { only: [:name] },
-        alternate_names: { only: [:name] }
+        alternate_names:  { only: [:name] }
       }
     }
-  end
-
-  def crops
-    q = Crop.approved.includes(:scientific_names, plantings: :photos)
-    q = q.popular unless @sort == 'alpha'
-    q.order(Arel.sql("LOWER(crops.name)"))
-      .includes(:photos).paginate(page: params[:page])
   end
 
   def requested_crops

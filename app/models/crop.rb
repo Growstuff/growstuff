@@ -4,7 +4,7 @@ class Crop < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include OpenFarmData
-  include CropSearch
+  include SearchCrops
 
   friendly_id :name, use: %i(slugged finders)
 
@@ -18,7 +18,7 @@ class Crop < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
-  has_many :photo_associations, dependent: :delete_all
+  has_many :photo_associations, dependent: :delete_all, inverse_of: :crop
   has_many :photos, through: :photo_associations
   has_many :plant_parts, -> { joins_members.distinct.order("plant_parts.name") }, through: :harvests
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent

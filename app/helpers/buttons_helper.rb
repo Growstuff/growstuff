@@ -74,14 +74,14 @@ module ButtonsHelper
   def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
     return unless can?(:edit, planting) || planting.finished
 
-    link_to planting_path(planting, planting: { finished: 1 }),
+    link_to planting_path(slug: planting.slug, planting: { finished: 1 }),
             method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')
     end
   end
 
   def seed_finish_button(seed, classes: 'btn btn-default')
-    return unless can?(:create, Planting) && seed.active?
+    return unless can?(:create, Planting) && seed.active
 
     link_to seed_path(seed, seed: { finished: 1 }), method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')
@@ -89,9 +89,9 @@ module ButtonsHelper
   end
 
   def planting_harvest_button(planting, classes: 'btn btn-default')
-    return unless planting.active? && can?(:create, Harvest) && can?(:edit, planting)
+    return unless planting.active && can?(:create, Harvest) && can?(:edit, planting)
 
-    link_to new_planting_harvest_path(planting), class: classes do
+    link_to new_planting_harvest_path(planting_slug: planting.slug), class: classes do
       harvest_icon + ' ' + t('buttons.record_harvest')
     end
   end
@@ -99,7 +99,7 @@ module ButtonsHelper
   def planting_save_seeds_button(planting, classes: 'btn btn-default')
     return unless can?(:edit, planting)
 
-    link_to new_planting_seed_path(planting), class: classes do
+    link_to new_planting_seed_path(planting_slug: planting.slug), class: classes do
       seed_icon + ' ' + t('buttons.save_seeds')
     end
   end

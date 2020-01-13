@@ -13,18 +13,22 @@ class PhotosController < ApplicationController
   end
 
   def index
+    where = {}
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
-      @photos = Photo.by_crop(@crop)
+      where = { crops: @crop.id }
     elsif params[:planting_id]
       @planting = Planting.find params[:planting_id]
-      @photos = @planting.photos
-    else
-      @photos = Photo.all
+      where = { planting_id: @planting.id }
     end
-    @photos = @photos.order(created_at: :desc)
-      .includes(:owner)
-      .paginate(page: params[:page])
+
+    @photos = Photo.search(
+      load:     false,
+      boost_by: [:created_at],
+      where:    where,
+      page:     params[:page],
+      limit:    Photo.per_page
+    )
     respond_with(@photos)
   end
 
@@ -86,7 +90,7 @@ class PhotosController < ApplicationController
   def find_or_create_photo_from_flickr_photo
     photo = Photo.find_or_initialize_by(
       source_id: photo_params[:source_id],
-      source: 'flickr'
+      source:    'flickr'
     )
     photo.update(photo_params)
     photo.owner_id = current_member.id

@@ -4,14 +4,27 @@ class HarvestsController < DataController
   after_action :update_crop_medians, only: %i(create update destroy)
 
   def index
-    @owner = Member.find_by(slug: params[:member_slug])
-    @crop = Crop.find_by(slug: params[:crop_slug])
-    @planting = Planting.find_by(slug: params[:planting_id])
+    where = {}
+    if params[:member_slug]
+      @owner = Member.find_by(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
+    end
 
-    @harvests = @harvests.where(owner: @owner) if @owner.present?
-    @harvests = @harvests.where(crop: @crop) if @crop.present?
-    @harvests = @harvests.where(planting: @planting) if @planting.present?
-    @harvests = @harvests.order(harvested_at: :desc).joins(:owner, :crop).paginate(page: params[:page])
+    if params[:crop_slug]
+      @crop = Crop.find_by(slug: params[:crop_slug])
+      where['crop_id'] = @crop.id
+    end
+
+    if params[:planting_slug]
+      @planting = Planting.find_by(slug: params[:planting_slug])
+      where['planting_id'] = @planting.id
+    end
+
+    @harvests = Harvest.search('*', where:    where,
+                                    limit:    100,
+                                    page:     params[:page],
+                                    load:     false,
+                                    boost_by: [:created_at])
 
     @filename = csv_filename
 
@@ -26,7 +39,7 @@ class HarvestsController < DataController
 
   def new
     @harvest = Harvest.new(harvested_at: Time.zone.today)
-    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
+    @planting = Planting.find_by(slug: params[:planting_slug]) if params[:planting_slug]
     @crop = Crop.find_by(id: params[:crop_id])
     respond_with(@harvest)
   end

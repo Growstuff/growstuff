@@ -179,8 +179,8 @@ describe Planting do
 
       before do
         FactoryBot.create(:harvest,
-                          planting: planting,
-                          crop: planting.crop,
+                          planting:     planting,
+                          crop:         planting.crop,
                           harvested_at: 10.days.ago)
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
@@ -232,8 +232,11 @@ describe Planting do
       before do
         # Near by planting with harvests
         nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
-        nearby_planting = FactoryBot.create :planting, crop: crop,
-                                                       garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
+        nearby_planting = FactoryBot.create(:planting,
+                                            crop:       crop,
+                                            garden:     nearby_garden,
+                                            owner:      nearby_garden.owner,
+                                            planted_at: '1 January 2000')
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
                                     harvested_at: '1 May 2019'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
@@ -354,9 +357,11 @@ describe Planting do
     end
 
     it 'all valid planted_from values should work' do
-      ['seed', 'seedling', 'cutting', 'root division',
-       'runner', 'bare root plant', 'advanced plant',
-       'graft', 'layering', 'bulb', 'root/tuber', nil, ''].each do |p|
+      [
+        'seed', 'seedling', 'cutting', 'root division',
+        'runner', 'bare root plant', 'advanced plant',
+        'graft', 'layering', 'bulb', 'root/tuber', nil, ''
+      ].each do |p|
         @planting = FactoryBot.build(:planting, planted_from: p)
         @planting.should be_valid
       end
@@ -407,16 +412,10 @@ describe Planting do
       before do
         # plantings have members created implicitly for them
         # each member is different, hence these are all interesting
-        @planting1 = FactoryBot.create(:planting, planted_at: 5.days.ago)
-        @planting2 = FactoryBot.create(:planting, planted_at: 4.days.ago)
-        @planting3 = FactoryBot.create(:planting, planted_at: 3.days.ago)
-        @planting4 = FactoryBot.create(:planting, planted_at: 2.days.ago)
-
-        # plantings need photos to be interesting
-        [@planting1, @planting2, @planting3, @planting4].each do |p|
-          p.photos << FactoryBot.create(:photo, owner_id: p.owner_id)
-          p.save
-        end
+        @planting1 = FactoryBot.create(:planting, :with_photo, planted_at: 5.days.ago)
+        @planting2 = FactoryBot.create(:planting, :with_photo, planted_at: 4.days.ago)
+        @planting3 = FactoryBot.create(:planting, :with_photo, planted_at: 3.days.ago)
+        @planting4 = FactoryBot.create(:planting, :with_photo, planted_at: 2.days.ago)
       end
 
       it { expect(Planting.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
@@ -445,8 +444,8 @@ describe Planting do
         # this one is newer, and has the same owner, through the garden
         @planting2 = FactoryBot.create(:planting,
                                        created_at: 1.minute.ago,
-                                       garden: @planting1.garden,
-                                       owner: @planting1.owner)
+                                       garden:     @planting1.garden,
+                                       owner:      @planting1.owner)
         @planting2.photos << FactoryBot.create(:photo, owner: @planting2.owner)
         @planting2.save
 
@@ -540,5 +539,17 @@ describe Planting do
     end
     it { expect(member.plantings.active).to include(planting) }
     it { expect(member.plantings.active).not_to include(finished_planting) }
+  end
+
+  describe 'homepage', :search do
+    let!(:interesting_planting) { FactoryBot.create :planting, :reindex, :with_photo }
+    let!(:finished_interesting_planting) { FactoryBot.create :finished_planting, :reindex, :with_photo }
+    let!(:planting) { FactoryBot.create :planting, :reindex }
+
+    before { Planting.reindex }
+    subject { Planting.homepage_records(100) }
+
+    it { expect(subject.count).to eq 2 }
+    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s]) }
   end
 end

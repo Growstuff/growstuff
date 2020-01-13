@@ -50,7 +50,7 @@
               #{strip_tags(@seed.description)}
 
       - if current_member
-        - if @seed.tradable? && current_member != @seed.owner
+        - if @seed.tradable && current_member != @seed.owner
           %p= link_to "Request seeds",
                       new_message_path(recipient_id: @seed.owner.id,
                                            subject: "Interested in your #{@seed.crop} seeds"),

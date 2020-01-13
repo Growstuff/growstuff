@@ -2,36 +2,53 @@
 
 require 'rails_helper'
 
-describe PhotosController do
+describe PhotosController, :search do
   login_member
 
   describe 'GET index' do
     describe 'all photos' do
-      let!(:photo) { FactoryBot.create :photo }
+      let!(:photo) { FactoryBot.create :photo, :reindex }
 
-      before { get :index }
+      before do
+        Photo.reindex
+        get :index
+      end
 
-      it { expect(assigns(:photos)).to eq [photo] }
+      it "finds photos" do
+        expect(assigns(:photos).count).to eq 1
+        expect(assigns(:photos).first.id).to eq photo.id
+      end
     end
 
-    describe 'crop photos' do
-      let!(:photo) { FactoryBot.create :photo, owner: member }
-      let!(:crop_photo) { FactoryBot.create :photo, owner: member                }
-      let!(:planting)   { FactoryBot.create :planting, crop: crop, owner: member }
-      let!(:crop)       { FactoryBot.create :crop                                }
+    describe '#index crop photos' do
+      let!(:photo)      { FactoryBot.create :photo, :reindex, owner: member, title: 'no assocations photo' }
+      let!(:crop_photo) { FactoryBot.create :photo, :reindex, owner: member, title: 'photos of planting'   }
+      let!(:planting)   { FactoryBot.create :planting, :reindex, crop: crop, owner: member                 }
+      let!(:crop)       { FactoryBot.create :crop, :reindex                                                }
 
       before do
         planting.photos << crop_photo
+        Photo.reindex
         get :index, params: { crop_slug: crop.to_param }
       end
 
-      it { expect(assigns(:crop)).to eq crop }
-      it { expect(assigns(:photos)).to eq [crop_photo] }
+      describe "find photos by crop" do
+        it "has indexed the photos of this crop" do
+          expect(Photo.search).to include crop_photo
+        end
+        it "assigns crop" do
+          expect(assigns(:crop)).to eq crop
+        end
+
+        it { expect(assigns(:photos).size).to eq 1 }
+        it { expect(assigns(:photos).first.crops).to include crop.id }
+        it { expect(assigns(:photos).first.id).to eq crop_photo.id }
+      end
     end
   end
 
   describe "GET new" do
-    let(:tomato) { FactoryBot.create(:tomato) }
+    let(:tomato)   { FactoryBot.create(:tomato)                                }
     let(:planting) { FactoryBot.create(:planting, crop: tomato, owner: member) }
     let(:garden)   { FactoryBot.create(:garden, owner: member)                 }
     let(:harvest)  { FactoryBot.create(:harvest, owner: member)                }

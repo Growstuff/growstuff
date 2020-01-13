@@ -15,6 +15,14 @@ module PhotoCapable
       end
     end
 
+    def thumbnail_url
+      df = default_photo
+
+      return unless df
+
+      df.source == 'flickr' ? df.fullsize_url : df.thumbnail_url
+    end
+
     def most_liked_photo
       photos.order(likes_count: :desc, created_at: :desc).first
     end

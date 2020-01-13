@@ -1,11 +1,13 @@
-.card
-  = link_to harvest do
-    = image_tag harvest_image_path(harvest), alt: harvest, class: 'img-card'
-  .card-body
-    %h5
-      = crop_icon(harvest.crop)
-      %strong
-        = link_to harvest.crop, harvest
-      %span.badge.badge-pill= harvest.plant_part
-  .card-footer
-    .float-right=render 'members/tiny', member: harvest.owner
+- cache harvest do
+  .card
+    = link_to harvest do
+      = image_tag harvest.thumbnail_url ? harvest.thumbnail_url : placeholder_image, alt: harvest.crop_name, class: 'img-card'
+    .card-body
+      %h5
+        %strong= link_to harvest.crop_name, harvest_path(slug: harvest.slug)
+        %span.badge.badge-pill= harvest.plant_part_name
+    .card-footer
+      .float-right
+        %span.chip.member-chip
+          = link_to member_path(slug: harvest.owner_slug) do
+            = harvest.owner_login_name

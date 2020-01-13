@@ -5,20 +5,28 @@ class PlantingsController < DataController
   after_action :update_planting_medians, only: :update
 
   def index
-    @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug]
-    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
-
     @show_all = params[:all] == '1'
 
-    @plantings = @plantings.where(owner: @owner) if @owner.present?
-    @plantings = @plantings.where(crop: @crop) if @crop.present?
+    where = {}
+    where['active'] = true unless @show_all
 
-    @plantings = @plantings.active unless params[:all] == '1'
+    if params[:member_slug]
+      @owner = Member.find_by(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
+    end
 
-    @plantings = @plantings.joins(:owner, :crop, :garden)
-      .order(created_at: :desc)
-      .includes(:owner, :garden, crop: :parent)
-      .paginate(page: params[:page])
+    if params[:crop_slug]
+      @crop = Crop.find_by(slug: params[:crop_slug])
+      where['crop_id'] = @crop.id
+    end
+
+    @plantings = Planting.search(
+      where:    where,
+      page:     params[:page],
+      limit:    30,
+      boost_by: [:created_at],
+      load:     false
+    )
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
@@ -27,9 +35,13 @@ class PlantingsController < DataController
 
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
+    @harvests = Harvest.search(where: { planting_id: @planting.id })
     @matching_seeds = matching_seeds
+
+    # TODO: use elastic search long/lat
     @neighbours = @planting.nearby_same_crop
       .where.not(id: @planting.id)
+      .includes(:owner, :crop, :garden)
       .limit(6)
     respond_with @planting
   end
@@ -37,15 +49,15 @@ class PlantingsController < DataController
   def new
     @planting = Planting.new(
       planted_at: Time.zone.today,
-      owner: current_member,
-      garden: current_member.gardens.first
+      owner:      current_member,
+      garden:     current_member.gardens.first
     )
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
     @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
     if params[:garden_id]
       @planting.garden = Garden.find_by(
         owner: current_member,
-        id: params[:garden_id]
+        id:    params[:garden_id]
       )
     end
 

@@ -63,23 +63,23 @@ describe Seed do
       @seed.should_not be_valid
     end
 
-    it 'tradable? gives the right answers' do
+    it 'tradable gives the right answers' do
       @seed = FactoryBot.create(:seed, tradable_to: 'nowhere')
-      @seed.tradable?.should eq false
+      @seed.tradable.should eq false
       @seed = FactoryBot.create(:seed, tradable_to: 'locally')
-      @seed.tradable?.should eq true
+      @seed.tradable.should eq true
       @seed = FactoryBot.create(:seed, tradable_to: 'nationally')
-      @seed.tradable?.should eq true
+      @seed.tradable.should eq true
       @seed = FactoryBot.create(:seed, tradable_to: 'internationally')
-      @seed.tradable?.should eq true
+      @seed.tradable.should eq true
     end
 
     it 'recognises a tradable seed' do
-      FactoryBot.create(:tradable_seed).tradable?.should == true
+      FactoryBot.create(:tradable_seed).tradable.should == true
     end
 
     it 'recognises an untradable seed' do
-      FactoryBot.create(:untradable_seed).tradable?.should == false
+      FactoryBot.create(:untradable_seed).tradable.should == false
     end
 
     it 'scopes correctly' do
@@ -196,5 +196,17 @@ describe Seed do
         it { expect(Seed.current).not_to include finished_seed }
       end
     end
+  end
+
+  describe 'homepage', :search do
+    let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
+    let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }
+    let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
+
+    before { Seed.reindex }
+    subject { Seed.homepage_records(100) }
+
+    it { expect(subject.count).to eq 1 }
+    it { expect(subject.first.id).to eq tradable_seed.id.to_s }
   end
 end

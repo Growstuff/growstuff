@@ -2,14 +2,21 @@
 
 require 'rails_helper'
 
-describe 'Likeable', js: true do
+describe 'Likeable', :js, search: true do
   let(:another_member) { FactoryBot.create(:london_member) }
-  let!(:post)           { FactoryBot.create(:post, author: member) }
-  let!(:photo)          { FactoryBot.create(:photo, owner: member) }
+  let!(:post)           { FactoryBot.create(:post, :reindex, author: member) }
+  let!(:photo)          { FactoryBot.create(:photo, :reindex, owner: member) }
+
+  before do
+    Photo.reindex
+  end
 
   include_context 'signed in member'
+
   describe 'photos' do
-    let(:like_count_class) { "#photo-#{photo.id} .like-count" }
+    def like_count_class
+      "#photo-#{photo.id} .like-count"
+    end
 
     shared_examples 'photo can be liked' do
       it 'can be liked' do

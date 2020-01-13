@@ -20,6 +20,7 @@ require 'simplecov'
 require 'percy'
 
 SimpleCov.start
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -36,9 +37,17 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  config.before(:suite) do
+  def index_everything
     # reindex models
     Crop.reindex
+    Harvest.reindex
+    Photo.reindex
+    Planting.reindex
+    Seed.reindex
+  end
+
+  config.before(:suite) do
+    index_everything
 
     # and disable callbacks
     Searchkick.disable_callbacks
@@ -46,7 +55,9 @@ RSpec.configure do |config|
 
   config.around(:each, search: true) do |example|
     Searchkick.callbacks(true) do
+      index_everything
       example.run
+      index_everything
     end
   end
 
