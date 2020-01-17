@@ -19,6 +19,7 @@ else
   until [ "$response" = "200" ]; do
       if [ $attempt -ge 25 ]; then
         echo "FAILED. Elasticsearch not responding after $attempt tries."
+        tail /var/log/elasticsearch/*.log
         exit 1
       fi
       echo "Contacting Elasticsearch on ${host}. Try number ${attempt}"
