@@ -2,6 +2,7 @@ sudo: required
 language: ruby
 dist: xenial
 services:
+  - elastiscearch
   - postgresql
   - xvfb
 cache:
@@ -19,26 +20,26 @@ addons:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
   matrix:
-    - COVERAGE=true
+    - COVERAGE=true ELASTIC_SEARCH_VERSION="6.7.1" RAILS_ENV=test
     - STATIC_CHECKS=true
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
-    - GROWSTUFF_EMAIL="noreply@test.growstuff.org"
+    - GROWSTUFF_EMAIL="noreply@test.growstuff.org"g
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
     - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 before_install:
   - sudo apt clean
-  # - sudo apt update
+  - sudo apt update
   - sudo apt install dpkg
   - sudo apt install google-chrome-stable
   - ./script/install_linters.sh
-  - ELASTIC_SEARCH_VERSION="6.7.1" ./script/install_elasticsearch.sh
+  - ./script/install_elasticsearch.sh
 script:
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
       ./script/check_static.rb
     else
-      RAILS_ENV=test bundle exec rake db:create db:migrate search:reindex assets:precompile;
+      bundle exec rake db:create db:migrate search:reindex assets:precompile;
       npx percy exec -- bundle exec rspec spec
     fi;
 after_script:
