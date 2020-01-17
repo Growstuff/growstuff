@@ -11,6 +11,16 @@ else
   sudo dpkg -i --force-confnew "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb"
 
   sudo service elasticsearch start
-  sleep 10
-  curl -v localhost:9200
+
+  host="localhost:9200"
+  # First wait for ES to start...
+  response=$(curl $host)
+
+  until [ "$response" = "200" ]; do
+      response=$(curl -v  --write-out %{http_code} --silent --output /dev/null "$host")
+      >&2 echo "Elastic Search is unavailable - sleeping.."
+      sleep 1
+  done
+
+
 fi
