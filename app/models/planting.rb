@@ -110,7 +110,7 @@ class Planting < ApplicationRecord
   end
 
   def nearby_same_crop
-    return Planting.none if location.blank?
+    return Planting.none if location.blank? || latitude.blank? || longitude.blank?
 
     # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
     Planting.joins(:garden)
