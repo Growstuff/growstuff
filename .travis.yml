@@ -1,6 +1,9 @@
 sudo: required
 language: ruby
-dist: trusty
+dist: xenial
+services:
+  - postgresql
+  - xvfb
 cache:
   bundler: true
   directories:
