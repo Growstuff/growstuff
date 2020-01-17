@@ -32,7 +32,7 @@ before_install:
   - sudo apt install dpkg
   - sudo apt install google-chrome-stable
   - ./script/install_linters.sh
-  - ELASTIC_SEARCH_VERSION="6.2.3" ./script/install_elasticsearch.sh
+  - ELASTIC_SEARCH_VERSION="6.7.1" ./script/install_elasticsearch.sh
 script:
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
