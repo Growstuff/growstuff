@@ -13,22 +13,23 @@ else
   # sudo service elasticsearch start
   sudo systemctl start elasticsearch
 
-  host="localhost:9200"
-  response=""
-  attempt=0
+  until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
+#   host="localhost:9200"
+#   response=""
+#   attempt=0
 
-  until [ "$response" = "200" ]; do
-      if [ $attempt -ge 25 ]; then
-        echo "FAILED. Elasticsearch not responding after $attempt tries."
-        tail /var/log/elasticsearch/*.log
-        exit 1
-      fi
-      echo "Contacting Elasticsearch on ${host}. Try number ${attempt}"
-      response=$(curl --write-out %{http_code} --silent --output /dev/null "$host")
+#   until [ "$response" = "200" ]; do
+#       if [ $attempt -ge 25 ]; then
+#         echo "FAILED. Elasticsearch not responding after $attempt tries."
+#         tail /var/log/elasticsearch/*.log
+#         exit 1
+#       fi
+#       echo "Contacting Elasticsearch on ${host}. Try number ${attempt}"
+#       response=$(curl --write-out %{http_code} --silent --output /dev/null "$host")
 
-      sleep 1
-      attempt=$[$attempt+1]
-  done
+#       sleep 1
+#       attempt=$[$attempt+1]
+#   done
 fi
 
 echo "SUCCESS. Elasticsearch is responding."
