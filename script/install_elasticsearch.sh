@@ -14,13 +14,11 @@ else
 
   host="localhost:9200"
   # First wait for ES to start...
-  response=$(curl $host)
+  response=$(curl -v  --write-out %{http_code} --silent --output /dev/null "$host")
 
   until [ "$response" = "200" ]; do
       response=$(curl -v  --write-out %{http_code} --silent --output /dev/null "$host")
       >&2 echo "Elastic Search is unavailable - sleeping.."
       sleep 1
   done
-
-
 fi
