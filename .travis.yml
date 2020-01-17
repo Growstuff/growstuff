@@ -20,6 +20,7 @@ addons:
 env:
   matrix:
     - COVERAGE=true ELASTIC_SEARCH_VERSION="6.7.1" RAILS_ENV=test
+    - COVERAGE=true ELASTIC_SEARCH_VERSION="6.2.3" RAILS_ENV=test
     - STATIC_CHECKS=true
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
