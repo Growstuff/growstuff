@@ -10,7 +10,8 @@ else
   sudo dpkg -i --force-confnew "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb"
 
   echo "Telling Elasticsearch to start."
-  sudo service elasticsearch start
+  # sudo service elasticsearch start
+  sudo systemctl start elasticsearch
 
   host="localhost:9200"
   response=""
