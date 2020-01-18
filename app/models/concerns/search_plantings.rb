@@ -4,17 +4,17 @@ module SearchPlantings
   extend ActiveSupport::Concern
 
   included do
-    searchkick merge_mappings: true, mappings: {
-      properties: {
-        active:         { type: :boolean },
-        created_at:     { type: :integer },
-        harvests_count: { type: :integer },
-        photos_count:   { type: :integer },
-        owner_location: { type: :text }
-      }
-    }
-
-    scope :search_import, -> { includes(:owner, :crop) }
+    searchkick merge_mappings: true,
+               settings:       { number_of_shards: 1 },
+               mappings:       {
+                 properties: {
+                   active:         { type: :boolean },
+                   created_at:     { type: :integer },
+                   harvests_count: { type: :integer },
+                   photos_count:   { type: :integer },
+                   owner_location: { type: :text }
+                 }
+               }
 
     def search_data
       {
