@@ -4,12 +4,14 @@ module SearchPhotos
   extend ActiveSupport::Concern
 
   included do
-    searchkick merge_mappings: true, mappings: {
-      properties: {
-        title:      { type: :text },
-        created_at: { type: :integer }
-      }
-    }
+    searchkick merge_mappings: true,
+               settings:       { number_of_shards: 1 },
+               mappings:       {
+                 properties: {
+                   title:      { type: :text },
+                   created_at: { type: :integer }
+                 }
+               }
 
     def search_data
       {
