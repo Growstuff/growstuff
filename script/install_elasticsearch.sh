@@ -16,12 +16,13 @@ else
   host="localhost:9200"
   response=""
   attempt=0
+  maxattempts=25
 
   # this would wait forever
   # until curl --silent -XGET --fail ${host} do printf '.'; sleep 1; done
 
   until [ "$response" = "200" ]; do
-      if [ $attempt -ge 25 ]; then
+      if [ $attempt -ge ${maxattempts} ]; then
         echo "FAILED. Elasticsearch not responding after $attempt tries."
         tail /var/log/elasticsearch/*.log
         exit 1
