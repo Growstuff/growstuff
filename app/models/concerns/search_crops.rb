@@ -7,9 +7,10 @@ module SearchCrops
     ####################################
     # Elastic search configuration
     searchkick word_start:     %i(name description alternate_names scientific_names),
-               case_sensitive: false,
                searchable:     %i(name descriptions alternate_names scientific_names),
+               case_sensitive: false,
                merge_mappings: true,
+               settings:       { number_of_shards: 1 },
                mappings:       {
                  properties: {
                    created_at:      { type: :integer },
@@ -20,7 +21,7 @@ module SearchCrops
                }
 
     # Special scope to control if it's in the search index
-    scope :search_import, -> { includes(:scientific_names, :photos) }
+    scope :search_import, -> { approved }
 
     def should_index?
       approved?

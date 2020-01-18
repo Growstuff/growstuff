@@ -26,13 +26,13 @@ module MemberFlickr
       result = if set
                  flickr.photosets.getPhotos(
                    photoset_id: set,
-                   page: page_num,
-                   per_page: 30
+                   page:        page_num,
+                   per_page:    30
                  )
                else
                  flickr.people.getPhotos(
-                   user_id: 'me',
-                   page: page_num,
+                   user_id:  'me',
+                   page:     page_num,
                    per_page: 30
                  )
                end
