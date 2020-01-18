@@ -5,8 +5,11 @@ if [[ -z "$ELASTIC_SEARCH_VERSION" ]]; then
 else
   echo "Downloading Elasticsearch ${ELASTIC_SEARCH_VERSION}"
   sudo dpkg -r elasticsearch
+
+
   wget "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTIC_SEARCH_VERSION}.deb"
   wget "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTIC_SEARCH_VERSION}.deb.sha512"
+
   shasum -a 512 -c "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb.sha512"
 
   echo "Installing Elasticsearch ${ELASTIC_SEARCH_VERSION}"
@@ -31,7 +34,7 @@ else
         exit 1
       fi
       echo "Contacting Elasticsearch on ${host}. Try number ${attempt}"
-      response=$(curl --write-out %{http_code} --silent --output /dev/null ${host})
+      response=$(curl --write-out %{http_code} --silent --output /dev/null $host)
 
       sleep 1
       attempt=$(($attempt+1))
