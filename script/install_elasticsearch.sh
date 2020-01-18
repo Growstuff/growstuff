@@ -24,7 +24,7 @@ else
   until [ "$response" = "200" ]; do
       if [ $attempt -ge ${maxattempts} ]; then
         echo "FAILED. Elasticsearch not responding after $attempt tries."
-        tail /var/log/elasticsearch/*.log
+        sudo tail /var/log/elasticsearch/*.log
         exit 1
       fi
       echo "Contacting Elasticsearch on ${host}. Try number ${attempt}"
