@@ -37,7 +37,7 @@ else
       response=$(curl --write-out %{http_code} --silent --output /dev/null $host)
 
       sleep 1
-      attempt=$(($attempt+1))
+      attempt=$((attempt+1))
   done
 fi
 
