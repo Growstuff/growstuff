@@ -19,9 +19,9 @@ addons:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
   matrix:
-    - COVERAGE=true ELASTIC_SEARCH_VERSION="7.5.1-amd64" RAILS_ENV=test # lFuture target (production needs upgrading)
-    - COVERAGE=true ELASTIC_SEARCH_VERSION="6.7.1" RAILS_ENV=test # last 6.x release
-    - COVERAGE=true ELASTIC_SEARCH_VERSION="6.2.3" RAILS_ENV=test # matches productions
+    - ELASTIC_SEARCH_VERSION="7.5.1-amd64" COVERAGE=true RAILS_ENV=test # lFuture target (production needs upgrading)
+    - ELASTIC_SEARCH_VERSION="6.7.1" COVERAGE=true RAILS_ENV=test # last 6.x release
+    - ELASTIC_SEARCH_VERSION="6.2.3" COVERAGE=true RAILS_ENV=test # matches productions
     - STATIC_CHECKS=true
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
