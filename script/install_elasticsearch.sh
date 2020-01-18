@@ -31,7 +31,7 @@ else
         exit 1
       fi
       echo "Contacting Elasticsearch on ${host}. Try number ${attempt}"
-      response=$(curl --write-out %{http_code} --silent --output /dev/null "${host}")
+      response=$(curl --write-out %{http_code} --silent --output /dev/null ${host})
 
       sleep 1
       attempt=$(($attempt+1))
