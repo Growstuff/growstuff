@@ -10,7 +10,7 @@ module SearchCrops
                searchable:     %i(name descriptions alternate_names scientific_names),
                case_sensitive: false,
                merge_mappings: true,
-               settings:       { number_of_shards: 1, number_of_replicas: 1 },
+               settings:       { number_of_shards: 1, number_of_replicas: 0 },
                mappings:       {
                  properties: {
                    created_at:      { type: :integer },
