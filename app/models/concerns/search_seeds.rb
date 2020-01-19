@@ -5,7 +5,7 @@ module SearchSeeds
 
   included do
     searchkick merge_mappings: true,
-               settings:       { number_of_shards: 1 },
+               settings:       { number_of_shards: 1, number_of_replicas: 1 },
                mappings:       {
                  properties: {
                    id:           { type: :integer },
