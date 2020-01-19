@@ -35,7 +35,7 @@ before_install:
   - ./script/install_elasticsearch.sh
   - sudo apt install google-chrome-stable
   - ./script/install_linters.sh
-  - ./script/check_elastic_search.sh
+  - ./script/check_elasticsearch.sh
 script:
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
