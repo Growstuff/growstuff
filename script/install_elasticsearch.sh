@@ -16,10 +16,13 @@ else
   echo "Installing Elasticsearch ${ELASTIC_SEARCH_VERSION}"
   sudo dpkg -i --force-confnew "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb"
 
-  sudo sed -i.old 's/-Xms1g/-Xms128m/' /etc/elasticsearch/jvm.options
-  sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
-  echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
-  sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+  if [[ $ELASTIC_SEARCH_VERSION == 7\.* ]]; then
+    # https://stackoverflow.com/questions/55951531/running-elasticsearch-7-0-on-a-travis-xenial-build-host
+    sudo sed -i.old 's/-Xms1g/-Xms128m/' /etc/elasticsearch/jvm.options
+    sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
+    echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
+    sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+  fi
 
   echo "Starting Elasticsearch ${ELASTIC_SEARCH_VERSION}"
   # sudo service elasticsearch start
