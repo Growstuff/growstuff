@@ -12,8 +12,14 @@ else
 
   shasum -a 512 -c "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb.sha512"
 
+
   echo "Installing Elasticsearch ${ELASTIC_SEARCH_VERSION}"
   sudo dpkg -i --force-confnew "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb"
+
+  sudo sed -i.old 's/-Xms1g/-Xms128m/' /etc/elasticsearch/jvm.options
+  sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
+  echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
+  sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
 
   echo "Starting Elasticsearch ${ELASTIC_SEARCH_VERSION}"
   # sudo service elasticsearch start
