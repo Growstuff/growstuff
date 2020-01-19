@@ -4,15 +4,17 @@ module SearchSeeds
   extend ActiveSupport::Concern
 
   included do
-    searchkick merge_mappings: true, mappings: {
-      properties: {
-        id:           { type: :integer },
-        created_at:   { type: :integer },
-        plant_before: { type: :text },
-        photos_count: { type: :integer },
-        tradable_to:  { type: :text }
-      }
-    }
+    searchkick merge_mappings: true,
+               settings:       { number_of_shards: 1 },
+               mappings:       {
+                 properties: {
+                   id:           { type: :integer },
+                   created_at:   { type: :integer },
+                   plant_before: { type: :text },
+                   photos_count: { type: :integer },
+                   tradable_to:  { type: :text }
+                 }
+               }
 
     def search_data
       {

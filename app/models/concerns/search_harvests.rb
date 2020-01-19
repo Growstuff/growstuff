@@ -4,16 +4,16 @@ module SearchHarvests
   extend ActiveSupport::Concern
 
   included do
-    searchkick merge_mappings: true, mappings: {
-      properties: {
-        harvests_count: { type: :integer },
-        photos_count:   { type: :integer },
-        created_at:     { type: :integer },
-        harvested_at:   { type: :date }
-      }
-    }
-
-    scope :search_import, -> { includes(:owner, :crop, :plant_part) }
+    searchkick merge_mappings: true,
+               settings:       { number_of_shards: 1 },
+               mappings:       {
+                 properties: {
+                   harvests_count: { type: :integer },
+                   photos_count:   { type: :integer },
+                   created_at:     { type: :integer },
+                   harvested_at:   { type: :date }
+                 }
+               }
 
     def search_data
       {
