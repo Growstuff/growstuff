@@ -32,9 +32,10 @@ before_install:
   - sudo apt clean
   - sudo apt update
   - sudo apt install dpkg
+  - ./script/install_elasticsearch.sh
   - sudo apt install google-chrome-stable
   - ./script/install_linters.sh
-  - ./script/install_elasticsearch.sh
+  - ./script/check_elastic_search.sh
 script:
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
