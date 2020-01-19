@@ -12,33 +12,19 @@ else
 
   shasum -a 512 -c "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb.sha512"
 
+
   echo "Installing Elasticsearch ${ELASTIC_SEARCH_VERSION}"
   sudo dpkg -i --force-confnew "elasticsearch-${ELASTIC_SEARCH_VERSION}.deb"
+
+  if [[ $ELASTIC_SEARCH_VERSION == 7\.* ]]; then
+    # https://stackoverflow.com/questions/55951531/running-elasticsearch-7-0-on-a-travis-xenial-build-host
+    sudo sed -i.old 's/-Xms1g/-Xms128m/' /etc/elasticsearch/jvm.options
+    sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
+    echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
+    sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+  fi
 
   echo "Starting Elasticsearch ${ELASTIC_SEARCH_VERSION}"
   # sudo service elasticsearch start
   sudo systemctl start elasticsearch
-
-  host="localhost:9200"
-  response=""
-  attempt=0
-  maxattempts=25
-
-  # this would wait forever
-  # until curl --silent -XGET --fail ${host} do printf '.'; sleep 1; done
-
-  until [ "$response" = "200" ]; do
-      if [ $attempt -ge ${maxattempts} ]; then
-        echo "FAILED. Elasticsearch not responding after $attempt tries."
-        sudo tail /var/log/elasticsearch/*.log
-        exit 1
-      fi
-      echo "Contacting Elasticsearch on ${host}. Try number ${attempt}"
-      response=$(curl --write-out %{http_code} --silent --output /dev/null $host)
-
-      sleep 1
-      attempt=$((attempt+1))
-  done
 fi
-
-echo "SUCCESS. Elasticsearch is responding."
