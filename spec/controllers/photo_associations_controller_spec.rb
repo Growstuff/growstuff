@@ -8,8 +8,8 @@ describe PhotoAssociationsController do
   describe "destroy" do
     let(:valid_params) do
       {
-        id: harvest.id,
-        type: 'harvest',
+        id:       harvest.id,
+        type:     'harvest',
         photo_id: photo.id
       }
     end

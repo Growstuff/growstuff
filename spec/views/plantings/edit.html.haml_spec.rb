@@ -6,7 +6,7 @@ describe "plantings/edit" do
   before do
     @member = FactoryBot.create(:member,
                                 login_name: 'right',
-                                email: 'right@example.com')
+                                email:      'right@example.com')
 
     # creating two crops to make sure that the correct one is selected
     # in the form.

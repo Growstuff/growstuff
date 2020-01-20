@@ -22,8 +22,8 @@ class Photo < ApplicationRecord
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
     has_many type.downcase.pluralize.to_s.to_sym,
-             through: :photo_associations,
-             source: :photographable,
+             through:     :photo_associations,
+             source:      :photographable,
              source_type: type
   end
 
@@ -42,13 +42,13 @@ class Photo < ApplicationRecord
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
-      title: calculate_title(info),
-      license_name: license.name,
-      license_url: license.url,
+      title:         calculate_title(info),
+      license_name:  license.name,
+      license_url:   license.url,
       thumbnail_url: FlickRaw.url_q(info),
-      fullsize_url: FlickRaw.url_z(info),
-      link_url: FlickRaw.url_photopage(info),
-      date_taken: info.dates.taken
+      fullsize_url:  FlickRaw.url_z(info),
+      link_url:      FlickRaw.url_photopage(info),
+      date_taken:    info.dates.taken
     }
   end
 

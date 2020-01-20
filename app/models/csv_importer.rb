@@ -13,7 +13,7 @@ class CsvImporter
     @crop = Crop.find_or_create_by(name: name)
     @crop.update(
       en_wikipedia_url: en_wikipedia_url,
-      creator_id: cropbot.id
+      creator_id:       cropbot.id
     )
 
     add_parent(parent_name) if parent_name
