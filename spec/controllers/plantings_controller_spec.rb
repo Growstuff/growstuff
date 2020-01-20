@@ -8,7 +8,7 @@ describe PlantingsController, :search do
   def valid_attributes
     {
       garden_id: FactoryBot.create(:garden, owner: subject.current_member).id,
-      crop_id: FactoryBot.create(:crop).id
+      crop_id:   FactoryBot.create(:crop).id
     }
   end
 
