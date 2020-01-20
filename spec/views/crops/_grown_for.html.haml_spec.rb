@@ -7,7 +7,7 @@ describe "crops/_grown_for" do
   let(:plant_path) { FactoryBot.create(:plant_part) }
   let!(:harvest) do
     FactoryBot.create(:harvest,
-                      crop: crop,
+                      crop:       crop,
                       plant_part: plant_path)
   end
 

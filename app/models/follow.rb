@@ -8,9 +8,9 @@ class Follow < ApplicationRecord
   after_create do
     Notification.create(
       recipient_id: followed_id,
-      sender_id: follower_id,
-      subject: "#{follower.login_name} is now following you",
-      body: "#{follower.login_name} just followed you on #{ENV['GROWSTUFF_SITE_NAME']}. "
+      sender_id:    follower_id,
+      subject:      "#{follower.login_name} is now following you",
+      body:         "#{follower.login_name} just followed you on #{ENV['GROWSTUFF_SITE_NAME']}. "
     )
   end
 end

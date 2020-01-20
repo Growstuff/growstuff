@@ -50,10 +50,10 @@ class Crop < ApplicationRecord
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
             format: {
-              with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
               message: 'is not a valid English Wikipedia URL'
             },
-            if: :approved?
+            if:     :approved?
 
   def to_s
     name

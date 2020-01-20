@@ -7,10 +7,10 @@ describe "admin/roles/index" do
     controller.stub(:current_user) { nil }
     assign(:roles, [
              stub_model(Role,
-                        name: "Name",
+                        name:        "Name",
                         description: "MyText"),
              stub_model(Role,
-                        name: "Name",
+                        name:        "Name",
                         description: "MyText")
            ])
   end

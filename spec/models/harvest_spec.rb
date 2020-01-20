@@ -152,74 +152,74 @@ describe Harvest do
     let(:crop) { FactoryBot.create(:crop, name: "apricot") }
 
     it "apricots" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: nil,
-                                       unit: nil,
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        nil,
+                                       unit:            nil,
                                        weight_quantity: nil,
-                                       weight_unit: nil)
+                                       weight_unit:     nil)
       expect(@h.to_s).to eq "apricots"
     end
 
     it "1 individual apricot" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: 1,
-                                       unit: 'individual',
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        1,
+                                       unit:            'individual',
                                        weight_quantity: nil,
-                                       weight_unit: nil)
+                                       weight_unit:     nil)
       expect(@h.to_s).to eq "1 individual apricot"
     end
 
     it "10 individual apricots" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: 10,
-                                       unit: 'individual',
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        10,
+                                       unit:            'individual',
                                        weight_quantity: nil,
-                                       weight_unit: nil)
+                                       weight_unit:     nil)
       expect(@h.to_s).to eq "10 individual apricots"
     end
 
     it "1 bushel of apricots" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: 1,
-                                       unit: 'bushel',
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        1,
+                                       unit:            'bushel',
                                        weight_quantity: nil,
-                                       weight_unit: nil)
+                                       weight_unit:     nil)
       expect(@h.to_s).to eq "1 bushel of apricots"
     end
 
     it "1.5 bushels of apricots" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: 1.5,
-                                       unit: 'bushel',
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        1.5,
+                                       unit:            'bushel',
                                        weight_quantity: nil,
-                                       weight_unit: nil)
+                                       weight_unit:     nil)
       expect(@h.to_s).to eq "1.5 bushels of apricots"
     end
 
     it "10 bushels of apricots" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: 10,
-                                       unit: 'bushel',
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        10,
+                                       unit:            'bushel',
                                        weight_quantity: nil,
-                                       weight_unit: nil)
+                                       weight_unit:     nil)
       expect(@h.to_s).to eq "10 bushels of apricots"
     end
 
     it "apricots weighing 1.2 kg" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: nil,
-                                       unit: nil,
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        nil,
+                                       unit:            nil,
                                        weight_quantity: 1.2,
-                                       weight_unit: 'kg')
+                                       weight_unit:     'kg')
       expect(@h.to_s).to eq "apricots weighing 1.2 kg"
     end
 
     it "10 bushels of apricots weighing 100 kg" do
-      @h = FactoryBot.create(:harvest, crop: crop,
-                                       quantity: 10,
-                                       unit: 'bushel',
+      @h = FactoryBot.create(:harvest, crop:            crop,
+                                       quantity:        10,
+                                       unit:            'bushel',
                                        weight_quantity: 100,
-                                       weight_unit: 'kg')
+                                       weight_unit:     'kg')
       expect(@h.to_s).to eq "10 bushels of apricots weighing 100 kg"
     end
   end
