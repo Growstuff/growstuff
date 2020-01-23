@@ -1,9 +1,9 @@
 - cache member do
   .card.member-card.text-center
-    = link_to member do
+    = link_to member_path(slug: member.slug) do
       = image_tag(avatar_uri(member, 150), class: 'img img-fluid avatar rounded', alt: member)
     .card-body
-      %h4.card-title.login-name= link_to member, member
+      %h4.card-title.login-name= link_to member.slug, member_path(slug: member)
     .card-footer
       %p
         %small
@@ -16,11 +16,11 @@
       %p
         %ul.nav.nav-justified.small
           %li.nav-item.border-right
-            = link_to member_plantings_path(member) do
-              = localize_plural(member.plantings, Planting)
+            = link_to member_plantings_path(member_slug: member.slug) do
+              = pluralize(member.plantings_count, 'planting')
           %li.nav-item.border-right
-            = link_to member_harvests_path(member) do
-              = localize_plural(member.harvests, Harvest)
+            = link_to member_harvests_path(member_slug: member.slug) do
+              = pluralize(member.harvests_count, 'harvest')
           %li.nav-item
-            = link_to member_seeds_path(member) do
-              = localize_plural(member.seeds, Seed)
+            = link_to member_seeds_path(member_slug: member.slug) do
+              = pluralize(member.seeds_count, 'seed')
