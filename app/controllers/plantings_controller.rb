@@ -23,7 +23,7 @@ class PlantingsController < DataController
     @plantings = Planting.search(
       where:    where,
       page:     params[:page],
-      limit:    30,
+      limit:    Planting.per_page,
       boost_by: [:created_at],
       load:     false
     )

@@ -21,7 +21,7 @@ class HarvestsController < DataController
     end
 
     @harvests = Harvest.search('*', where:    where,
-                                    limit:    100,
+                                    limit:    Harvest.per_page
                                     page:     params[:page],
                                     load:     false,
                                     boost_by: [:created_at])
