@@ -8,4 +8,4 @@
         %h5= planting['crop_name']
         - if planting['planted_from'].present?
           %span.badge.badge-success= planting['planted_from'].pluralize
-        %small.text-muted planted by #{planting['owner_name']}
+        %small.text-muted planted by #{planting['owner_login_name']}

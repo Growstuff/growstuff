@@ -89,7 +89,7 @@ GEM
     bullet (6.1.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
-    byebug (11.1.0)
+    byebug (11.1.1)
     cancancan (3.0.2)
     capybara (3.30.0)
       addressable
@@ -160,18 +160,18 @@ GEM
     discard (1.1.0)
       activerecord (>= 4.2, < 7)
     docile (1.1.5)
-    elasticsearch (6.8.0)
-      elasticsearch-api (= 6.8.0)
-      elasticsearch-transport (= 6.8.0)
-    elasticsearch-api (6.8.0)
+    elasticsearch (6.8.1)
+      elasticsearch-api (= 6.8.1)
+      elasticsearch-transport (= 6.8.1)
+    elasticsearch-api (6.8.1)
       multi_json
     elasticsearch-model (7.0.0)
       activesupport (> 3)
       elasticsearch (> 1)
       hashie
     elasticsearch-rails (6.0.0)
-    elasticsearch-transport (6.8.0)
-      faraday
+    elasticsearch-transport (6.8.1)
+      faraday (>= 0.14, < 1)
       multi_json
     equalizer (0.0.11)
     erubi (1.9.0)
