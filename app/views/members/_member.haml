@@ -4,15 +4,14 @@
       = image_tag(avatar_uri(member, 150), class: 'img img-fluid avatar rounded', alt: member)
     .card-body
       %h4.card-title.login-name= link_to member.slug, member_path(slug: member)
+      - if member.location.present?
+        = render 'members/location', member: member
     .card-footer
       %p
         %small
           Joined
           = distance_of_time_in_words(member.created_at, Time.zone.now)
           ago.
-      - if member.location.present?
-        = render 'members/location', member: member
-
       %p
         %ul.nav.nav-justified.small
           %li.nav-item.border-right

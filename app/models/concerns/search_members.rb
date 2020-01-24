@@ -47,7 +47,7 @@ module SearchMembers
     def self.homepage_records(limit)
       search('*', limit:    limit,
                   where:    {
-                    photos_count: { gt: 0 }
+                    plantings_count: { gt: 0 }
                   },
                   boost_by: [:last_sign_in_at],
                   load:     false)
