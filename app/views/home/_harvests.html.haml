@@ -7,6 +7,6 @@
           %h5= harvest.crop_name
           %span.badge.badge-success=harvest.plant_part
           %small.text-muted
-            harvested by #{harvest.owner_name}
+            harvested by #{harvest.owner_login_name}
         %p.mb-2
           = image_tag harvest.thumbnail_url, width: 75, class: 'rounded shadow'
