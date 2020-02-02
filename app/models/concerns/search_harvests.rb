@@ -49,12 +49,24 @@ module SearchHarvests
     end
 
     def self.homepage_records(limit)
-      search('*', limit:    limit,
-                  where:    {
-                    photos_count: { gt: 0 }
-                  },
-                  boost_by: [:created_at],
-                  load:     false)
+      records = []
+      owners = []
+      1..limit.times do
+        where = {
+          photos_count: { gt: 0 },
+          owner_id:     { not: owners }
+        }
+        one_record = search('*',
+                            limit:    1,
+                            where:    where,
+                            boost_by: [:created_at],
+                            load:     false).first
+        return records if one_record.nil?
+
+        owners << one_record.owner_id
+        records << one_record
+      end
+      records
     end
   end
 end
