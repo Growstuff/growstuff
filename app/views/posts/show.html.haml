@@ -1,5 +1,6 @@
 = content_for :title, @post.subject
 - content_for :opengraph do
+  = tag("meta", property: "og:image", content: post_image_path(@post))
   = tag("meta", property: "og:image", content: avatar_uri(@post.author, 200))
   = tag("meta", property: "og:description", content: og_description(@post.body))
   = tag("meta", property: "og:title", content: @post.subject)

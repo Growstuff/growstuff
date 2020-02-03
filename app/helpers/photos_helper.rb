@@ -19,6 +19,10 @@ module PhotosHelper
     photo_or_placeholder(garden)
   end
 
+  def post_image_path(post)
+    photo_or_placeholder(post)
+  end
+
   def planting_image_path(planting)
     photo_or_placeholder(planting)
   end

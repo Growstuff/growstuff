@@ -1,7 +1,6 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
 - content_for :opengraph do
-  - @seed.crop.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:image", content: seed_image_path(@seed))
   - if @seed.description
     = tag("meta", property: "og:description", content: og_description(@seed.description))
   = tag("meta", property: "og:image", content: "#{@seed.owner}'s #{@seed.crop} seeds")
