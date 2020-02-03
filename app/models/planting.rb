@@ -80,10 +80,6 @@ class Planting < ApplicationRecord
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
 
-  def age_in_days
-    (Time.zone.today - planted_at).to_i if planted_at.present?
-  end
-
   def planting_slug
     [
       owner.login_name,
