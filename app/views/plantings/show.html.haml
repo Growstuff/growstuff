@@ -1,7 +1,6 @@
 = content_for :title, "#{@planting.crop} in #{@planting.location}"
 - content_for :opengraph do
-  - @planting.crop.photos.limit(3).each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:image", content: planting_image_path(@planting))
   = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")
   - if @planting.description
     = tag("meta", property: "og:description", content: og_description(@planting.description))
