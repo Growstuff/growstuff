@@ -40,7 +40,10 @@ module PredictPlanting
     end
 
     def age_in_days
-      (Time.zone.today - planted_at).to_i if planted_at.present?
+      return if planted_at.blank?
+
+      known_last_day ||= finished_at || Time.zone.today
+      (known_last_day - planted_at).to_i
     end
 
     def percentage_grown

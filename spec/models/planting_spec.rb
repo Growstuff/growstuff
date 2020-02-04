@@ -38,11 +38,11 @@ describe Planting do
       end
 
       describe 'planting all finished' do
-        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 1.day.ago, finished: true }
+        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago, finished: true }
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
-        it { expect(planting.expected_lifespan).to eq(29) }
-        it { expect(planting.age_in_days).to eq(30) }
+        it { expect(planting.expected_lifespan).to eq(20) }
+        it { expect(planting.age_in_days).to eq(20) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
     end
@@ -99,7 +99,7 @@ describe Planting do
       describe 'planted 30 days ago, finished 10 days ago' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago }
 
-        it { expect(planting.age_in_days).to eq 30 }
+        it { expect(planting.age_in_days).to eq 20 }
         it { expect(planting.percentage_grown).to eq 100 }
       end
     end
