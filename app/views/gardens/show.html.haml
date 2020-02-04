@@ -1,8 +1,7 @@
 = content_for :title, "#{@garden.owner}'s #{@garden}"
 
 - content_for :opengraph do
-  - @garden.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:image", content: garden_image_path(@garden))
   - if @garden.description
     = tag("meta", property: "og:description", content: og_description(@garden.description))
   = tag("meta", property: "og:title", content: "#{@garden.owner}'s #{@garden}")
