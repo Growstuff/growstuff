@@ -14,8 +14,15 @@
   = page_entries_info @members
   = will_paginate @members
 
-.index-cards= render @members
+.index-cards
+  = render partial: 'members/member', collection: @members
 
-.pagination
-  = page_entries_info @members
-  = will_paginate @members
+#infinite-scrolling
+  = will_paginate
+
+$('#my-posts').append('#{j render @posts}');
+- if @posts.next_page
+  $('.pagination').replaceWith('#{j will_paginate @posts}');
+- else
+  $(window).off('scroll');
+  $('.pagination').remove();

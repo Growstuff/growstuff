@@ -26,7 +26,7 @@ class SeedsController < DataController
     @seeds = Seed.search(
       where:    where,
       page:     params[:page],
-      limit:    30,
+      limit:    Seed.per_page,
       boost_by: [:created_at],
       load:     false
     )

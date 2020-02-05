@@ -7,9 +7,20 @@ class MembersController < ApplicationController
 
   def index
     @sort = params[:sort]
-    @members = members
+
+    order = if @sort == 'recently_joined'
+              { "created_at": { "order": "desc" } }
+            else
+              { "login_name": { "order": "asc" } }
+            end
+
+    @members = Member.search('*',
+                             page:  params[:page],
+                             limit: Member.per_page,
+                             order: order,
+                             load:  false)
     respond_to do |format|
-      format.html # index.html.haml
+      format.html
       format.json { render json: @members.to_json(only: member_json_fields) }
     end
   end
@@ -84,13 +95,5 @@ class MembersController < ApplicationController
       slug bio created_at
       location latitude longitude
     )
-  end
-
-  def members
-    if @sort == 'recently_joined'
-      Member.recently_joined
-    else
-      Member.order(:login_name)
-    end.kept.confirmed.paginate(page: params[:page])
   end
 end

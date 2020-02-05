@@ -6,6 +6,7 @@ class Member < ApplicationRecord
   include Geocodable
   include MemberFlickr
   include MemberNewsletter
+  include SearchMembers
 
   extend FriendlyId
   friendly_id :login_name, use: %i(slugged finders)
