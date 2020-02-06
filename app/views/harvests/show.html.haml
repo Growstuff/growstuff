@@ -46,7 +46,7 @@
       - if @harvest.photos.size.positive?
         %section
           %h2 Photos
-          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
+          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc)
       %section.harvest-detail
         %h2 Detail
         - if @harvest.planting.present?
