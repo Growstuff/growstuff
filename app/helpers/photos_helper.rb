@@ -35,6 +35,10 @@ module PhotosHelper
     photo_or_placeholder(seed)
   end
 
+  def post_image_path(post)
+    photo_or_placeholder(post)
+  end
+
   private
 
   def photo_or_placeholder(item)
@@ -42,9 +46,13 @@ module PhotosHelper
       item_photo(item)
     elsif item.respond_to?(:crop)
       crop_image_path(item.crop)
+    elsif item.respond_to?(:crops) && item.crops.any?
+      crop_image_path(item.crops.first)
     else
       placeholder_image
     end
+  rescue
+    placeholder_image
   end
 
   def item_photo(item)
