@@ -35,10 +35,6 @@ module PhotosHelper
     photo_or_placeholder(seed)
   end
 
-  def post_image_path(post)
-    photo_or_placeholder(post)
-  end
-
   private
 
   def photo_or_placeholder(item)
