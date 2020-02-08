@@ -51,7 +51,7 @@ module PhotosHelper
     else
       placeholder_image
     end
-  rescue
+  rescue StandardError
     placeholder_image
   end
 
