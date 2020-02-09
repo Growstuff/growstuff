@@ -126,6 +126,10 @@ section {
     }
   }
 
+  .card-double {
+    width: 400px;
+  }
+
   .card-finished {
     background: darken($beige, 10%);
 
@@ -139,14 +143,15 @@ section {
   }
 }
 
+.img-cover,
+.card .img-card {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
 .card {
   margin-bottom: 1em;
-
-  .img-card {
-    height: 200px;
-    object-fit: cover;
-    width: 100%;
-  }
 
   a:hover {
     background-color: $beige;

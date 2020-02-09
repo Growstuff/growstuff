@@ -19,10 +19,6 @@ module PhotosHelper
     photo_or_placeholder(garden)
   end
 
-  def post_image_path(post)
-    photo_or_placeholder(post)
-  end
-
   def planting_image_path(planting)
     photo_or_placeholder(planting)
   end
@@ -33,6 +29,10 @@ module PhotosHelper
 
   def seed_image_path(seed)
     photo_or_placeholder(seed)
+  end
+
+  def post_image_path(post)
+    post.default_photo&.fullsize_url || post.crops.first&.default_photo&.fullsize_url || placeholder_image
   end
 
   private
