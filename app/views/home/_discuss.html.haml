@@ -3,7 +3,6 @@
 .row
   - Post.includes(:author, :crop_posts, :crops).order(created_at: :desc).limit(3).each do |post|
     .col-lg-4.col-md-12.mb-4
-      / Featured image
       .view
         = link_to post do
           = image_tag post_image_path(post), class: 'img img-cover'
