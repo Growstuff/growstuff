@@ -14,7 +14,7 @@ describe "Gardens" do
     describe '#index' do
       shared_examples "has buttons bar at top" do
         it "has buttons bar at top" do
-          within '.button-bar' do
+          within '.layout-nav' do
             expect(subject).to have_link 'Add a garden'
             expect(subject).to have_link 'My gardens'
             expect(subject).to have_link "Everyone's gardens"

@@ -1,5 +1,5 @@
 - if current_member.present?
-  .flex-column.nav-pills
+  .flex-column.nav-pills.layout-nav
     / %h2.card-title #{model} links
     = link_to url_for([current_member, model]), class: 'nav-link' do
       My #{model.model_name.human.pluralize}
