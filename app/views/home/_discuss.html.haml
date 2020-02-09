@@ -3,25 +3,7 @@
 .row
   - Post.includes(:author, :crop_posts, :crops).order(created_at: :desc).limit(3).each do |post|
     .col-lg-4.col-md-12.mb-4
-      .view
-        = link_to post do
-          = image_tag post_image_path(post), class: 'img img-cover'
-      %h4.font-weight-bold.mb-3
-        %strong
-          = link_to post do
-            = post.subject
-      %p
-        by
-        = succeed "," do
-          %a.font-weight-bold= post.author
-      %p= post_stripped_tags(post, length: 300)
-      %h6.font-weight-bold.mb-3
-        - post.crops.each do |crop|
-          = link_to crop do
-            = crop_icon(crop)
-            = crop.name.pluralize
-      / = image_tag avatar_uri(post.author, 50), class: 'avatar'
-      = link_to 'Read more', post, class: 'btn btn-pink btn-rounded btn-md'
+      = render 'posts/preview', post: post
 
 %p.text-right
   = link_to "#{t('.view_all')} »", posts_path, class: 'btn btn-block'
