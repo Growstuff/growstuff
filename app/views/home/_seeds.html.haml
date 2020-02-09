@@ -2,4 +2,4 @@
   %h2.text-center= t('home.seeds.title')
   .row
     - Seed.homepage_records(6).each do |s|
-      .col-4= render 'seeds/card', seed: s
+      .col-6.col-md-4= render 'seeds/card', seed: s
