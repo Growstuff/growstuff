@@ -19,10 +19,6 @@ module PhotosHelper
     photo_or_placeholder(garden)
   end
 
-  def post_image_path(post)
-    photo_or_placeholder(post)
-  end
-
   def planting_image_path(planting)
     photo_or_placeholder(planting)
   end
@@ -35,6 +31,10 @@ module PhotosHelper
     photo_or_placeholder(seed)
   end
 
+  def post_image_path(post)
+    item.default_photo&.fullsize_url ||  crops.first&.default_photo&.fullsize_url || placeholder_image
+  end
+
   private
 
   def photo_or_placeholder(item)
@@ -42,13 +42,9 @@ module PhotosHelper
       item_photo(item)
     elsif item.respond_to?(:crop)
       crop_image_path(item.crop)
-    elsif item.respond_to?(:crops) && item.crops.any?
-      crop_image_path(item.crops.first)
     else
       placeholder_image
     end
-  rescue StandardError
-    placeholder_image
   end
 
   def item_photo(item)
