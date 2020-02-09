@@ -1,6 +1,20 @@
-.card.card-cascade
-  .card-header
-    %h3= link_to post.subject, post
-    = render 'members/tiny', member: post.author
-  .card-body
-    %p= truncate(strip_tags(post.body), length: 200)
+
+.view
+  = link_to post do
+    = image_tag post_image_path(post), class: 'img img-cover'
+%h4.font-weight-bold.mb-3
+  %strong
+    = link_to post do
+      = post.subject
+%p
+  by
+  = succeed "," do
+    %a.font-weight-bold= post.author
+%p= post_stripped_tags(post, length: 300)
+%h6.font-weight-bold.mb-3
+  - post.crops.each do |crop|
+    = link_to crop do
+      = crop_icon(crop)
+      = crop.name.pluralize
+/ = image_tag avatar_uri(post.author, 50), class: 'avatar'
+= link_to 'Read more', post, class: 'btn btn-rounded btn-md'
