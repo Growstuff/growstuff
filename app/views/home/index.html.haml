@@ -27,12 +27,12 @@
         %h2= t('.recently_added')
         %p
           != CropSearchService.recent(30).map { |c| link_to(c['name'], crop_path(slug: c['slug'])) }.join(", ")
-  .col-xl-2.col
+  .col-xl-3.col
     %section.plantings
       = cute_icon
       =render 'plantings'
       %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
-  .col-xl-2.col
+  .col-xl-3.col
     %section.harvests
       = cute_icon
       = render 'harvests'

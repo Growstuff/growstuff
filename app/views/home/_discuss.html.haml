@@ -6,9 +6,7 @@
       / Featured image
       .view
         = link_to post do
-          %img.img-fluid{alt: 'post image', src: post_image_path(post), class: 'img img-cover'}/
-          %a
-            .mask.rgba-white-slight
+          = image_tag post_image_path(post), class: 'img img-cover'
       %h4.font-weight-bold.mb-3
         %strong
           = link_to post do
@@ -20,8 +18,9 @@
       %p= post_stripped_tags(post, length: 300)
       %h6.font-weight-bold.mb-3
         - post.crops.each do |crop|
-          = crop_icon(crop)
-          = crop.name.pluralize
+          = link_to crop do
+            = crop_icon(crop)
+            = crop.name.pluralize
       / = image_tag avatar_uri(post.author, 50), class: 'avatar'
       = link_to 'Read more', post, class: 'btn btn-pink btn-rounded btn-md'
 

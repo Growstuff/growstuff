@@ -1,5 +1,5 @@
 - cache cache_key_for(Seed) do
   %h2.text-center= t('home.seeds.title')
-  .index-cards
+  .row
     - Seed.homepage_records(6).each do |s|
-      = render 'seeds/card', seed: s
+      .col-4= render 'seeds/card', seed: s
