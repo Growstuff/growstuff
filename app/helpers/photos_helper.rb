@@ -32,7 +32,7 @@ module PhotosHelper
   end
 
   def post_image_path(post)
-    item.default_photo&.fullsize_url ||  crops.first&.default_photo&.fullsize_url || placeholder_image
+    post.default_photo&.fullsize_url ||  post.crops.first&.default_photo&.fullsize_url || placeholder_image
   end
 
   private
