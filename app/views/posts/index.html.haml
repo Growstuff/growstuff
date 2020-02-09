@@ -29,8 +29,8 @@
         = succeed "." do
           = link_to "comments RSS feed", comments_path(format: 'rss')
   .col-10
-    .row
-      - @posts.includes(:author, :crop_posts, :crops).order(created_at: :desc).each do |post|
-        .col-lg-3.col-md-6.mb-3
+    .row.posts
+      - @posts.each do |post|
+        .col-lg-3.col-md-6.mb-3.post
           = render 'posts/preview', post: post
     = will_paginate @posts
