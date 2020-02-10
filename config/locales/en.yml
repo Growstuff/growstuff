@@ -293,7 +293,7 @@ en:
       title:
         crop_plantings: Everyone's %{crop} plantings
         default: Everyone's plantings
-        owner_plantings: "%{owner} plantings"
+        owner_plantings: "%{owner}'s plantings"
       view_owners_profile: View %{owner}'s profile >>
     string: "%{crop} planting in %{garden} by %{owner}"
     progress:
