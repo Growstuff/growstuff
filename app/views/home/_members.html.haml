@@ -1,6 +1,6 @@
 - cache cache_key_for(Member) do
   .hidden-xs
-    - members = Member.interesting.limit(4)
+    - members = Member.interesting.limit(6)
     - if members.present?
       %h2.text-center= t('.title')
       .index-cards
