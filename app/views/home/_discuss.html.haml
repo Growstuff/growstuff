@@ -1,7 +1,7 @@
 
 %h2.font-weight-bold.mb-4.pb-2 Recent posts
 .row
-  - Post.includes(:author, :crop_posts, :crops).order(created_at: :desc).limit(3).each do |post|
+  - Post.includes(:author, :crop_posts, :crops).order(created_at: :desc).limit(6).each do |post|
     .col-lg-4.col-md-12.mb-4
       = render 'posts/preview', post: post
 
