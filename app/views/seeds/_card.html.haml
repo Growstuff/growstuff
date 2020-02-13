@@ -1,17 +1,29 @@
 - cache seed do
-  .card.seed-card{class: seed.finished ? 'card-finished' : ''}
+  .card.seed-card
     = link_to seed_path(slug: seed.slug) do
       = image_tag(seed.thumbnail_url ? seed.thumbnail_url : placeholder_image, alt: seed.crop_name, class: 'img-card')
     .text
-      %span.chip.member-chip
+      %h4.card-title
+        = link_to seed.crop_name, seed_path(slug: seed.slug)
+      %h5
+        %span.text-muted seeds saved by
         = seed.owner_login_name
     .card-body
-      .card-title
-        = link_to seed.crop_name, seed_path(slug: seed.slug)
-      - if seed.tradable
-        .text-muted
-          = icon 'fas', 'map'
-          Will trade #{seed.tradable_to}
-      .badge.badge-pill.badge-location
-        = icon 'fas', 'map-marker'
-        = truncate(seed.owner_location, length: 20, separator: ' ', omission: '... ')
+      - if seed.owner_location
+        %h6.small.badge.badge-pill.badge-location
+          = icon 'fas', 'map-marker'
+          = truncate(seed.owner_location, length: 40, separator: ' ', omission: '... ')
+      %p
+        - if seed.quantity
+          .badge.badge-info #{seed.quantity} seeds
+        - if seed.organic != 'unknown'
+          .badge.badge-success.seedtitle--organic= seed.organic
+        - if seed.gmo != 'unknown'
+          .badge.badge-success.seedtitle--gmo= seed.gmo
+        - if seed.heirloom != 'unknown'
+          .badge.badge-success.seedtitle--heirloom= seed.heirloom
+    - if seed.tradable
+      .card-footer
+        .d-flex.w-100.justify-content-between
+          %small Will trade #{seed.tradable_to}
+          / %a.btn.btn-sm{href: "#"} Request
