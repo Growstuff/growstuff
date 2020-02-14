@@ -1,10 +1,30 @@
 .seed-card {
   .text {
-    color: $white;
+    opacity: 0.8;
     margin: 0;
+    padding: 0;
     position: absolute;
     text-align: center;
     top: 1em;
     width: 100%;
+
+    h4 {
+      color: $white;
+      background-color: $green;
+      padding: 0;
+      margin: 0;
+      a {
+        color: $white;
+      }
+      a:hover {
+        color: $black;
+      }
+    }
+
+    h5 {
+      color: $black;
+      background-color: $beige;
+    }
+    color: $black;
   }
 }

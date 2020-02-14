@@ -9,11 +9,7 @@ cache:
   directories:
     - tmp/cache/assets/test/sprockets
 addons:
-  apt:
-    packages:
-      # Postgresql version used here should match production
-      - postgresql-9.4
-      - postgresql-client-9.4
+  postgresql: "9.4"
   code_climate:
     repo_token:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
