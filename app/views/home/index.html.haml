@@ -22,6 +22,7 @@
       %h2= t('home.crops.our_crops')
       = render 'crops'
       = link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
+  .col-xl-3.col
     %section.recent-crops
       - cache cache_key_for(Crop, 'recent') do
         %h2= t('.recently_added')
