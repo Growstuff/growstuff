@@ -49,13 +49,21 @@
           = link_to t('.forums'), forums_path, class: 'dropdown-item'
 
     - if member_signed_in?
+      - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.admin')
+          .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+            - if current_member.role?(:crop_wrangler)
+              = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
+            - if current_member.role?(:admin)
+              = link_to t('.admin'), admin_path, class: 'dropdown-item'
+
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+          = image_tag(avatar_uri(current_member, 50), alt: '', height: 25, width: 25)
+          = current_member.login_name
           - if current_member.unread_count.positive?
-            = t('.your_stuff')
             %span.badge.badge-info= current_member.unread_count
-          - else
-            = current_member.login_name
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to member_path(current_member), class: 'dropdown-item' do
             = t('.profile')
@@ -80,14 +88,6 @@
           .dropdown-divider
           = link_to t('.sign_out'), destroy_member_session_path, method: :delete, class: 'dropdown-item'
 
-        - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
-          %li.nav-item.dropdown
-            %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.admin')
-            .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-              - if current_member.role?(:crop_wrangler)
-                = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
-              - if current_member.role?(:admin)
-                = link_to t('.admin'), admin_path, class: 'dropdown-item'
     - else
       %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'btn btn-signin'
       %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn btn-signup'
