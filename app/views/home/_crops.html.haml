@@ -1,4 +1,4 @@
 - cache cache_key_for(Crop, 'homepage'), expires_in: 1.day do
   .index-cards
-    - CropSearchService.random_with_photos(10).each do |c|
+    - CropSearchService.random_with_photos(20).each do |c|
       = render 'crops/thumbnail', crop: c
