@@ -16,12 +16,12 @@
   .hidden-xs
     %section.jumbotron= render 'blurb', cached: true
 .row
-  .col-xl-9.col
+  .col-xl-9.col-12
     %section.crops
       %h2= t('home.crops.our_crops')
       = render 'crops'
       = link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
-  .col-xl-3.col
+  .col-xl-3.col-12
     %section.recent-crops
       - cache cache_key_for(Crop, 'recent') do
         %h2= t('.recently_added')
