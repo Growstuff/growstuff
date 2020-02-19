@@ -10,6 +10,10 @@
 - content_for :member_rss_login_name, @member.login_name
 - content_for :member_rss_slug, @member.slug
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Members', members_path
+  %li.breadcrumb-item.active= link_to @member.login_name, member_path(@member)
+
 .row
   .col-md-2
     .card
