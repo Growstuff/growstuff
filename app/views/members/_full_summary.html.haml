@@ -1,0 +1,42 @@
+- if current_member.plantings.active.empty?
+  %p
+    #{@sitename} lets you track what food you're growing
+    in your garden and see what other people near you are planting too.
+  %p
+    #{link_to "Get started now", new_planting_url} by planting your first crop.
+
+- else
+  - if @harvesting.size.positive?
+    %section.harvests
+      %h2 Ready to harvest
+      .index-cards
+        - @harvesting.each do |planting|
+          = render 'plantings/thumbnail', planting: planting
+  - if @others.size.positive?
+    %section.planting-progress
+      %h2 Progress report
+      %p Still growing
+      - @others.each do |planting|
+        .row
+          .col-2= render 'plantings/tiny', planting: planting
+          .col-10= render 'plantings/progress', planting: planting
+  - if @late.size.positive?
+    %section.late
+      %h2 Late
+      %p
+        These plantings are at the end of their lifecycle.
+        - if member_signed_in? && @member == current_member
+          When you have removed the planting from your garden, mark the planting as finished in Growstuff.
+      .index-cards
+        - @late.each do |planting|
+          = render 'plantings/thumbnail', planting: planting
+  - if @super_late.size.positive?
+    %section.superlate
+      %h2 Super late
+      %p
+        We suspect the following plantings finished long ago and no longer need tracking. You can mark them as finished to stop tracking.
+      %ul
+        - @super_late.each do |planting|
+          %li
+            = link_to planting.crop_name, planting_url(slug: planting.slug)
+            planted on #{planting.planted_at.to_date}
