@@ -14,7 +14,7 @@ describe "Conversations", :js do
   describe 'view conversation thread' do
     before do
       visit root_path
-      click_link member.login_name
+      click_link recipient.login_name
       click_link 'Inbox'
       click_link 'something i want to say'
     end
