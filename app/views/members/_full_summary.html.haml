@@ -8,10 +8,11 @@
   %section.planting-progress
     %h2 Progress report
     %p Still growing
-    - @others.each do |planting|
-      .row
-        .col-2= render 'plantings/tiny', planting: planting
-        .col-10= render 'plantings/progress', planting: planting
+    .list-group
+      - @others.each do |planting|
+        .list-group-item
+          %span= render 'plantings/tiny', planting: planting
+          %span= render 'plantings/progress', planting: planting
 - if @late.size.positive?
   %section.late
     %h2 Late
