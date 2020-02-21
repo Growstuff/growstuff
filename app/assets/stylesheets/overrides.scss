@@ -267,8 +267,12 @@ footer {
   max-width: 2500px;
   min-height: 80%;
   padding-bottom: 1em;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.container {
+  min-width: 90%;
 }
 
 // Autosuggest
