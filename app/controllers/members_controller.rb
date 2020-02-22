@@ -43,11 +43,11 @@ class MembersController < ApplicationController
     end
 
     @harvests = Harvest.search(
-      where: {owner_id: @member.id},
+      where:    { owner_id: @member.id },
       boost_by: [:created_at],
-      limit: 16,
-      load: false
-      )
+      limit:    16,
+      load:     false
+    )
 
     respond_to do |format|
       format.html # show.html.haml
