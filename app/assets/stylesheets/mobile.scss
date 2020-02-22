@@ -1,6 +1,6 @@
 // Overrides applying only to mobile view. This must be at the end of the overrides file.
 // Extra small devices (portrait phones, less than 576px)
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(md) {
 
   #maincontainer {
     width: 100%;

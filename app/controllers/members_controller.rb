@@ -42,6 +42,13 @@ class MembersController < ApplicationController
       end
     end
 
+    @harvests = Harvest.search(
+      where: {owner_id: @member.id},
+      boost_by: [:created_at],
+      limit: 16,
+      load: false
+      )
+
     respond_to do |format|
       format.html # show.html.haml
       format.json { render json: @member.to_json(only: member_json_fields) }
