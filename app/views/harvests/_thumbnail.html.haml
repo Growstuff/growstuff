@@ -1,11 +1,14 @@
 - cache harvest do
-  = link_to harvest_path(slug: harvest.slug) do
-    .card.harvest-thumbnail
+  .card.harvest-thumbnail
+    = link_to harvest_path(slug: harvest.slug) do
       = image_tag(harvest.thumbnail_url ? harvest.thumbnail_url : placeholder_image,
                             alt: harvest.crop_name,
                             class: 'img img-card')
 
-      .text
-        %h3.harvest-crop #{harvest.crop_name} harvest
-        %h4.harvest-plant-part= harvest.plant_part_name
-        %h5.harvest-date= harvest.harvested_at
+    .card-body
+      %h3.harvest-crop.card-title
+        = link_to harvest.crop_name harvest_path(slug: harvest.slug)
+        harvest
+      %h4.harvest-plant-part
+        = harvest.plant_part_name
+        %small.text-muted= harvest.harvested_at

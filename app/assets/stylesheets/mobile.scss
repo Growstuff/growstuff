@@ -2,6 +2,11 @@
 // Extra small devices (portrait phones, less than 576px)
 @include media-breakpoint-down(md) {
 
+  .container {
+    margin: 2px;
+    padding: 0;
+  }
+
   #maincontainer {
     width: 100%;
   }
