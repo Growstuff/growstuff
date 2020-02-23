@@ -150,6 +150,54 @@ describe "member profile", js: true do
       it { expect(page).to have_link href: photo_path(photo) }
       it { expect(page).to have_link href: planting_path(planting) }
     end
+
+    context 'plantings' do
+      let(:crop) { FactoryBot.create :crop }
+      before do
+        # time to harvest = 50 day
+        # time to finished = 90 days
+        FactoryBot.create(:harvest,
+                          harvested_at: 50.days.ago,
+                          crop:         crop,
+                          planting:     FactoryBot.create(:planting,
+                                                          crop:        crop,
+                                                          planted_at:  100.days.ago,
+                                                          finished_at: 10.days.ago))
+        crop.plantings.each(&:update_harvest_days!)
+        crop.update_lifespan_medians
+        crop.update_harvest_medians
+
+        growing_planting
+        harvesting_planting
+        super_late_planting
+
+        visit member_path(member)
+      end
+
+      let(:growing_planting) do
+        FactoryBot.create :planting,
+                          crop:       crop,
+                          owner:      member,
+                          planted_at: Time.zone.today
+      end
+
+      let(:harvesting_planting) do
+        FactoryBot.create :planting,
+                          crop:       crop,
+                          owner:      member,
+                          planted_at: 51.days.ago
+      end
+
+      let(:super_late_planting) do
+        FactoryBot.create :planting,
+                          crop: crop, owner: member,
+                          planted_at: 260.days.ago
+      end
+
+      it { expect(page).to have_link(href: planting_path(growing_planting)) }
+      it { expect(page).to have_link(href: planting_path(harvesting_planting)) }
+      it { expect(page).to have_link(href: planting_path(super_late_planting)) }
+    end
   end
 
   context "not signed in" do

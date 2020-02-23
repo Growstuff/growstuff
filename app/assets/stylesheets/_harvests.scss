@@ -2,21 +2,29 @@
   .text {
     color: $white;
     margin: 0;
-    opacity: .9;
+    opacity: .8;
     position: absolute;
     text-align: center;
-    top: 50%;
+    top: 30%;
     width: 100%;
+    color: $white;
+
+    h3,
+    h4,
+    h5 {
+      margin: 0
+    }
 
     h3 {
       background-color: $green;
-      font-size: 1em;
+    }
+
+    h4 {
+      background-color: $black;
     }
 
     h5 {
       background-color: $brown;
-      color: $white;
-      font-size: .7em;
     }
 
     a {
