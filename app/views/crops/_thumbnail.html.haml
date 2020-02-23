@@ -1,9 +1,10 @@
 - cache crop do
   .card.crop-thumbnail
-    = link_to image_tag(crop.thumbnail_url ? crop.thumbnail_url : placeholder_image,
+    = link_to crop_path(slug: crop.slug) do
+      = image_tag(crop.thumbnail_url ? crop.thumbnail_url : placeholder_image,
                           alt: crop.name,
-                          class: 'img img-card'),
-                          crop_path(slug: crop.slug)
+                          class: 'img img-card')
+
 
     .text
       %h3.crop-name= link_to crop.name, crop_path(slug: crop.slug)

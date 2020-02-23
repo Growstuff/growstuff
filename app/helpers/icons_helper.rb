@@ -91,6 +91,10 @@ module IconsHelper
     icon('fas', 'heart')
   end
 
+  def plantpart_icon(name)
+    image_icon "plant_parts/#{name}"
+  end
+
   def crop_icon(crop)
     if crop.svg_icon.present?
       image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon')
