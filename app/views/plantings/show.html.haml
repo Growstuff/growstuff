@@ -45,7 +45,6 @@
       = render 'plantings/owner', planting: @planting
 
     .col-md-8.col-xs-12
-      = render 'harvests/modal', harvest: Harvest.new(crop: @planting.crop, planting: @planting)
       %section= render 'facts', planting: @planting
       - if @planting.description.present?
         = cute_icon
