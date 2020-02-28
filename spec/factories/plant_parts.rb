@@ -4,6 +4,7 @@
 
 FactoryBot.define do
   factory :plant_part do
-    name { "#{Faker::Book.title}_#{rand(100..999)}" }
+    names = ["seed", "leaf", "bulb", "other", "tuber", "whole plant", "bark", "pod", "stem", "root", "fruit", "flower"]
+    sequence(:name, names.length-1) { |n| names[n] }
   end
 end
