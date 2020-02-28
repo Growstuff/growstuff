@@ -23,9 +23,10 @@
           %h6 All Plant parts
           %nav.nav
             - PlantPart.all.order(:name).each do |plant_part|
-              = link_to harvests_path(harvest: {crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link' do
+              = link_to harvests_path(harvest: {crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link border' do
                 = plant_part_icon(plant_part.name)
                 = plant_part
 
 %a.btn{"data-target" => "#modelHarvestForm", "data-toggle" => "modal", href: ""}
-  Harvest #{harvest.crop.name}
+  = harvest_icon
+  Harvest

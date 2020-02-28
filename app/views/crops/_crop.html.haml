@@ -30,4 +30,4 @@
         .d-flex.justify-content-between
           = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
           = render 'harvests/modal', harvest: Harvest.new(crop: crop, owner: current_member)
-          = crop_save_seeds_button(crop)
+          = render 'seeds/modal', seed: Seed.new(crop: crop, owner: current_member)
