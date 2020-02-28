@@ -1,14 +1,6 @@
 - if crop.approved? && signed_in?
   %ul.nav.crop-actions
-    %li.nav-item.dropdown
-      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button", href: '#'} Add to garden
-      .dropdown-menu.dropdown-secondary
-        - current_member.gardens.active.each do |garden|
-          = link_to plantings_path(planting: {crop_id: crop.id, garden_id: garden.id}), method: :post, class: 'dropdown-item' do
-            = garden.name
-        .dropdown-divider
-        = link_to 'add new garden', new_garden_path, class: 'dropdown-item'
-
+    %li.nav-item= render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
     %li.nav-item= render 'harvests/modal', harvest: Harvest.new(crop: @crop)
     %li.nav-item.dropdown
       %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button", href: '#'}=t('buttons.save_seeds', crop_name: crop.name)
