@@ -9,8 +9,7 @@
         .dropdown-divider
         = link_to 'add new garden', new_garden_path, class: 'dropdown-item'
 
-    %li.nav-item
-      = render 'harvests/modal'
+    %li.nav-item= render 'harvests/modal', harvest: Harvest.new(crop: @crop)
     %li.nav-item.dropdown
       %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button", href: '#'}=t('buttons.save_seeds', crop_name: crop.name)
       .dropdown-menu.dropdown-secondary

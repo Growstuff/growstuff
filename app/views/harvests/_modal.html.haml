@@ -2,29 +2,29 @@
   .modal-dialog{role: "document"}
     .modal-content
       .modal-header.text-center
-        %h4.modal-title.w-100.font-weight-bold Record #{@crop.name} Harvest
+        %h4.modal-title.w-100.font-weight-bold Record #{harvest.crop.name} Harvest
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
           %span{"aria-hidden" => "true"} &#215;
       .modal-body
         %p Select which plant part you have havested
 
-        - if @crop.plant_parts.any?
+        - if harvest.crop.plant_parts.any?
           %h5 Recommended plant parts to harvest:
           .index-cards
-            - @crop.plant_parts.order(:name).each do |plant_part|
+            - harvest.crop.plant_parts.order(:name).each do |plant_part|
               .card
-                = link_to harvests_path(harvest: {crop_id: @crop.id, plant_part_id: plant_part.id}), method: :post, class: 'dropdown-item' do
+                = link_to @planting ? harvests_path(return: 'planting', harvest: {crop_id: @planting.crop_id, planting_id: @planting.id, plant_part_id: plant_part.id}, method: :post) : harvests_path(harvest: {crop_id: harvest.crop.id, plant_part_id: plant_part.id}, method: :post) do
                   .card-title.text-center
                     %h3= plantpart_icon(plant_part.name)
                     %h3= plant_part.name
 
           %hr/
         %h6 All Plant parts
-        %nav
+        %nav.nav
           - PlantPart.all.order(:name).each do |plant_part|
-            = link_to harvests_path(harvest: {crop_id: @crop.id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link' do
+            = link_to @planting ? harvests_path(return: 'planting', harvest: {crop_id: @planting.crop_id, planting_id: @planting.id, plant_part_id: plant_part.id}, method: :post) : harvests_path(harvest: {crop_id: harvest.crop.id, plant_part_id: plant_part.id}, method: :post), class: 'nav-link' do
               = plantpart_icon(plant_part.name)
               = plant_part
 
 %a.btn{"data-target" => "#modelHarvestForm", "data-toggle" => "modal", href: ""}
-  Harvest #{@crop.name}
+  Harvest #{harvest.crop.name}
