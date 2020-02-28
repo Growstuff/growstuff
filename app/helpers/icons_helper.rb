@@ -91,7 +91,7 @@ module IconsHelper
     icon('fas', 'heart')
   end
 
-  def plantpart_icon(name)
+  def plant_part_icon(name)
     image_icon "plant_parts/#{name}"
   end
 
