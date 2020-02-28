@@ -4,7 +4,6 @@
     - if planting.finish_is_predicatable?
       - if planting.super_late?
         %span.badge.badge-info.badge-super-late= t('.super_late')
-        = planting_finish_button(planting)
       - elsif planting.late?
         %span.badge.badge-info.badge-late= t('.late_finishing')
 
