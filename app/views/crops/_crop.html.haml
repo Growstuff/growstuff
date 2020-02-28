@@ -29,4 +29,5 @@
       .card-footer
         .d-flex.justify-content-between
           = crop_plant_button(crop)
+          = render 'harvests/modal', harvest: Harvest.new(crop: crop)
           = crop_save_seeds_button(crop)
