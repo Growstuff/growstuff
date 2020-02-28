@@ -355,7 +355,7 @@ GEM
     popper_js (1.14.5)
     procto (0.0.3)
     public_suffix (4.0.3)
-    puma (4.3.1)
+    puma (4.3.2)
       nio4r (~> 2.0)
     query_diet (0.6.2)
     rack (2.2.2)
