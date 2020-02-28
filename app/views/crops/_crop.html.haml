@@ -28,6 +28,6 @@
     - if member_signed_in?
       .card-footer
         .d-flex.justify-content-between
-          = crop_plant_button(crop)
-          = render 'harvests/modal', harvest: Harvest.new(crop: crop)
+          = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
+          = render 'harvests/modal', harvest: Harvest.new(crop: crop, owner: current_member)
           = crop_save_seeds_button(crop)
