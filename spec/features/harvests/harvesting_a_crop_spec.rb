@@ -54,7 +54,7 @@ describe "Harvesting a crop", :js, :search do
     describe "Harvesting from crop page" do
       before do
         visit crop_path(maize)
-        click_link 'Record harvest'
+        click_link id: 'modalHarvestButton'
         click_link plant_part.name
       end
 
@@ -66,7 +66,7 @@ describe "Harvesting a crop", :js, :search do
       let!(:planting) { create :planting, crop: maize, owner: member, garden: member.gardens.first }
       before do
         visit planting_path(planting)
-        click_link "Record harvest"
+        click_link id: 'modalHarvestButton'
         click_link plant_part.name
       end
 
