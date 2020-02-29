@@ -26,7 +26,7 @@ module SearchPlantings
         percentage_grown:           percentage_grown.to_i,
         planted_at:                 planted_at,
         planted_from:               planted_from,
-        planted_year:               planted_at.year,
+        planted_year:               planted_at&.year,
         quantity:                   quantity,
         sunniness:                  sunniness,
         garden_id:                  garden_id,

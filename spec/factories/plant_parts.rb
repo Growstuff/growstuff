@@ -4,6 +4,6 @@
 
 FactoryBot.define do
   factory :plant_part do
-    name { Faker::Lorem.unique.word }
+    name { Faker::Games::Pokemon.unique.name }
   end
 end
