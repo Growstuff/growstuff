@@ -38,9 +38,13 @@ describe "crop detail page", js: true do
         click_link 'Record harvest'
         expect(page).to have_link "leaf"
       end
-      it "has a link to add seeds" do
-        click_link 'Save seeds'
-        expect(page).to have_link "Will trade: nowhere"
+      describe "Saving seeds" do
+        before { click_link 'Save seeds' }
+        it { expect(page).to have_text "Will you offer these seeds for trade?" }
+        it { expect(page).to have_button "locally" }
+        it { expect(page).to have_button "nationally" }
+        it { expect(page).to have_button "internationally" }
+        it { expect(page).to have_button "Save #{crop.name} seeds." }
       end
     end
 
