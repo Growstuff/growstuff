@@ -37,7 +37,7 @@
           = f.form_group :plant_part_id, label: { text: "Harvested Plant Part" } do
             .row
               - PlantPart.all.order(:name).pluck(:id, :name).each do |id, name|
-                .col-4.col-md-3= f.radio_button :plant_part_id, id, label: name, checked: true
+                .col-4.col-md-3= f.radio_button :plant_part_id, id, label: name, checked: (id == @planting.plant_part_id)
 
       -# Some browsers (eg Firefox for Android) assume "number" means
       -# "integer" unless you specify step="any":
