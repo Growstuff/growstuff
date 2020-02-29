@@ -31,11 +31,11 @@ describe "crop detail page", js: true do
       before { subject }
 
       it "has a link to plant the crop" do
-        click_link 'Add to garden'
+        click_link 'Plant'
         expect(page).to have_link "add new garden"
       end
       it "has a link to harvest the crop" do
-        click_link 'Record harvest'
+        click_link 'Harvest'
         expect(page).to have_link "leaf"
       end
       it "has a link to add seeds" do
