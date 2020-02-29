@@ -1,11 +1,5 @@
 - if crop.approved? && signed_in?
-  %ul.nav.crop-actions
-    %li.nav-item= render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
-    %li.nav-item= render 'harvests/modal', harvest: Harvest.new(crop: @crop)
-    %li.nav-item.dropdown
-      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", role: "button", href: '#'}=t('buttons.save_seeds', crop_name: crop.name)
-      .dropdown-menu.dropdown-secondary
-        - Seed::TRADABLE_TO_VALUES.each do |trade|
-          = link_to seeds_path(seed: {crop_id: crop.id, tradable_to: trade}), method: :post, class: 'dropdown-item' do
-            Will trade: #{trade}
-
+  .btn-toolbar{"aria-label" => "Toolbar with button groups", :role => "toolbar"}
+    = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
+    = render 'harvests/modal', harvest: Harvest.new(crop: @crop,  owner: current_member)
+    = render 'seeds/modal', seed: Seed.new(crop: @crop,  owner: current_member)
