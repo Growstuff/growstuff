@@ -4,7 +4,6 @@
 
 FactoryBot.define do
   factory :plant_part do
-    names = ["seed", "leaf", "bulb", "other", "tuber", "whole plant", "bark", "pod", "stem", "root", "fruit", "flower"]
-    sequence(:name, names.length-1) { |n| names[n] }
+    name { Faker::Lorem.unique.word }
   end
 end
