@@ -43,10 +43,10 @@
           %strong.quantity
             = display_quantity(@harvest)
 
-      - if @harvest.photos.size.positive?
-        %section
-          %h2 Photos
-          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc)
+      %section
+        %h2 Photos
+        = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc)
+        = add_photo_button(@harvest)
       %section.harvest-detail
         %h2 Detail
         - if @harvest.planting.present?
