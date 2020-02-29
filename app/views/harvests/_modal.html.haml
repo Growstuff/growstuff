@@ -13,7 +13,7 @@
           .index-cards
             - harvest.crop.plant_parts.order(:name).each do |plant_part|
               .card
-                = link_to harvests_path(harvest: {crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post do
+                = link_to harvests_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post do
                   .card-title.text-center
                     %h3= plant_part_icon(plant_part.name)
                     %h3= plant_part.name
@@ -23,7 +23,7 @@
           %h6 All Plant parts
           %nav.nav
             - PlantPart.all.order(:name).each do |plant_part|
-              = link_to harvests_path(harvest: {crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link border' do
+              = link_to harvests_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link border' do
                 = plant_part_icon(plant_part.name)
                 = plant_part
 
