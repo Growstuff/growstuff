@@ -166,7 +166,7 @@ describe "Planting a crop", :js, :search do
 
     it "Planting from crop page" do
       visit crop_path(maize)
-      click_link "Add to garden"
+      click_link "Add to my garden"
       click_link "Orchard"
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "maize"
