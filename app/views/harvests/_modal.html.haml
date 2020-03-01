@@ -19,7 +19,7 @@
                     %h3= plant_part.name
 
           %hr/
-        - cache PlantPart do
+        - cache(PlantPart, harvest.crop) do
           %h6 All Plant parts
           %nav.nav
             - PlantPart.all.order(:name).each do |plant_part|
