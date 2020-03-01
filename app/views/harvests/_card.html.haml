@@ -1,6 +1,6 @@
 - cache harvest do
   .card
-    = link_to harvest do
+    = link_to harvest_path(slug: harvest.slug) do
       = image_tag harvest.thumbnail_url ? harvest.thumbnail_url : placeholder_image, alt: harvest.crop_name, class: 'img-card'
     .card-body
       %h5

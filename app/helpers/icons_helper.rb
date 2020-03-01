@@ -91,6 +91,11 @@ module IconsHelper
     icon('fas', 'heart')
   end
 
+  def plant_part_icon(name)
+    image_icon "plant_parts/#{name}" if File.exist? Rails.root.join('app', 'assets', 'images', 'icons', "{name}.svg")
+    planting_icon
+  end
+
   def crop_icon(crop)
     if crop.svg_icon.present?
       image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon')

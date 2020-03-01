@@ -1,0 +1,35 @@
+#modelSeedForm.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header.text-center
+        %h4.modal-title.w-100.font-weight-bold
+          = seed_icon
+          Save #{seed.crop.name} seeds
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+          %span{"aria-hidden" => "true"} &#215;
+
+      .modal-body
+        %h4 You are adding seeds to your stash
+
+        %h5 Will you offer these seeds for trade?
+
+        %hr/
+        %p Yes, I would be willing trade these from #{current_member.location}
+
+        .btn-group{"aria-label" => "trade to", role: "group"}
+          - Seed::TRADABLE_TO_VALUES.each do |t|
+            - unless t == 'nowhere'
+              = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: t}), method: :post, class: 'btn' do
+                %h3= t
+
+        %hr/
+        %p
+          = icon('fas', 'no')
+          No, I don't want to trade.
+        = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: 'nowhere'}), method: :post, class: 'btn' do
+          Save #{seed.crop_name} seeds.
+
+
+%a.btn{"data-target" => "#modelSeedForm", "data-toggle" => "modal", href: ""}
+  = seed_icon
+  Save seeds

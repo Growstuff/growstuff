@@ -37,6 +37,7 @@ class PlantingsController < DataController
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     @harvests = Harvest.search(where: { planting_id: @planting.id })
     @matching_seeds = matching_seeds
+    @crop = @planting.crop
 
     # TODO: use elastic search long/lat
     @neighbours = @planting.nearby_same_crop

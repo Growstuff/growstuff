@@ -54,7 +54,7 @@ describe "Harvesting a crop", :js, :search do
     describe "Harvesting from crop page" do
       before do
         visit crop_path(maize)
-        click_link 'Record harvest'
+        click_link "Record harvest"
         click_link plant_part.name
       end
 
