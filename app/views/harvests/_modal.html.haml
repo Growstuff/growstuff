@@ -19,13 +19,12 @@
                     %h3= plant_part.name
 
           %hr/
-        - cache(PlantPart, harvest.crop) do
-          %h6 All Plant parts
-          %nav.nav
-            - PlantPart.all.order(:name).each do |plant_part|
-              = link_to harvests_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link border' do
-                = plant_part_icon(plant_part.name)
-                = plant_part
+        %h6 All Plant parts
+        %nav.nav
+          - PlantPart.all.order(:name).each do |plant_part|
+            = link_to harvests_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link border' do
+              = plant_part_icon(plant_part.name)
+              = plant_part
 
 %a.btn#modalHarvestButton{"data-target" => "#modelHarvestForm", "data-toggle" => "modal", href: ""}
   = harvest_icon
