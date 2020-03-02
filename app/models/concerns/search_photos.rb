@@ -25,8 +25,8 @@ module SearchPhotos
         liked_by_members_names: liked_by_members_names,
         # owner
         owner_id:               owner_id,
-        owner_login_name:       owner.login_name,
-        owner_slug:             owner.slug,
+        owner_login_name:       owner_login_name,
+        owner_slug:             owner_slug,
         # counts
         likes_count:            likes_count,
 
