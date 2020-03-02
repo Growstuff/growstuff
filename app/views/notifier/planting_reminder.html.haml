@@ -1,6 +1,6 @@
 %p Hello #{@member.login_name},
 
-%h2 Your #{Date.today.strftime("%B %Y")} #{@sitename} progress report
+%h2 Your Weekly #{@sitename} progress report
 
 - if @member.plantings.empty?
   %p
