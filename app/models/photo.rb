@@ -32,7 +32,7 @@ class Photo < ApplicationRecord
     joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
   }
 
-  delegate :login_name, to: :owner, prefix: true
+  delegate :login_name, :slug, to: :owner, prefix: true
 
   # This is split into a side-effect free method and a side-effecting method
   # for easier stubbing and testing.
