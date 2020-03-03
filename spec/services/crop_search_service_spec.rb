@@ -65,7 +65,7 @@ RSpec.describe CropSearchService, type: :service do
           it { expect(subject.second).to eq 'shitake mushroom' }
         end
         describe "biased to crops you've planted" do
-          subject { CropSearchService.search('mushroom', current_member: owner).map(&:name) }
+          subject { described_class.search('mushroom', current_member: owner).map(&:name) }
           let(:owner) { FactoryBot.create :member }
           before do
             FactoryBot.create_list :planting, 10, crop: brown
