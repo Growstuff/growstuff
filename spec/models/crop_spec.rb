@@ -12,7 +12,7 @@ describe Crop do
 
     it 'should be fetchable from the database' do
       crop.save
-      @crop2 = Crop.find_by(name: 'tomato')
+      @crop2 = described_class.find_by(name: 'tomato')
       @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
       @crop2.slug.should eq("tomato")
     end
@@ -42,7 +42,7 @@ describe Crop do
     end
 
     it 'recent scope sorts by creation date' do
-      Crop.recent.first.should == @uppercase
+      described_class.recent.first.should == @uppercase
     end
   end
 
@@ -56,9 +56,9 @@ describe Crop do
     end
 
     it "sorts by most plantings" do
-      expect(Crop.popular.first).to eq maize
+      expect(described_class.popular.first).to eq maize
       FactoryBot.create_list(:planting, 10, crop: tomato)
-      expect(Crop.popular.first).to eq tomato
+      expect(described_class.popular.first).to eq tomato
     end
   end
 
@@ -135,13 +135,13 @@ describe Crop do
     it 'toplevel scope works' do
       @tomato = FactoryBot.create(:tomato)
       @roma = FactoryBot.create(:roma, parent_id: @tomato.id)
-      expect(Crop.toplevel).to eq [@tomato]
+      expect(described_class.toplevel).to eq [@tomato]
     end
   end
 
   context 'photos' do
     shared_examples 'has default photo' do
-      it { expect(Crop.has_photos).to include(crop) }
+      it { expect(described_class.has_photos).to include(crop) }
     end
     let!(:crop) { FactoryBot.create :tomato }
 
@@ -291,7 +291,7 @@ describe Crop do
   end
 
   context 'interesting' do
-    subject { Crop.interesting }
+    subject { described_class.interesting }
 
     # first, a couple of candidate crops
     let(:crop1) { FactoryBot.create(:crop) }
@@ -502,7 +502,7 @@ describe Crop do
         CsvImporter.new.import_crop(row)
       end
 
-      loaded = Crop.last
+      loaded = described_class.last
       expect(loaded.parent).to be_nil
     end
 
@@ -513,7 +513,7 @@ describe Crop do
         CsvImporter.new.import_crop(row)
       end
 
-      loaded = Crop.last
+      loaded = described_class.last
       expect(loaded.name).to eq "tomato"
       expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
       expect(loaded.creator).to eq @cropbot

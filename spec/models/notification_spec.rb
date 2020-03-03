@@ -18,12 +18,12 @@ describe Notification do
   end
 
   it "has a scope for unread" do
-    expect(Notification.unread).to eq [notification]
+    expect(described_class.unread).to eq [notification]
     @n2 = FactoryBot.create(:notification, read: true)
-    expect(Notification.unread).to eq [notification]
+    expect(described_class.unread).to eq [notification]
     @n3 = FactoryBot.create(:notification, read: false)
-    expect(Notification.unread).to include @n3
-    expect(Notification.unread).to include notification
+    expect(described_class.unread).to include @n3
+    expect(described_class.unread).to include notification
   end
 
   it "sends email if asked" do

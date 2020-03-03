@@ -5,7 +5,7 @@ require 'cancan/matchers'
 
 describe Ability do
   let(:member)  { FactoryBot.create(:member) }
-  let(:ability) { Ability.new(member)        }
+  let(:ability) { described_class.new(member)        }
 
   context "notifications" do
     it 'member can view their own notifications' do
