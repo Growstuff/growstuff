@@ -159,7 +159,7 @@ describe Photo do
         planting.photos << photo
         harvest.photos << photo
         planting.destroy # photo is still used by the harvest
-        expect(photo).to be_an_instance_of Photo
+        expect(photo).to be_an_instance_of described_class
       end
     end # removing photos
   end # add/delete functionality
@@ -169,15 +169,15 @@ describe Photo do
     # which was epistemologically unsatisfactory.
     # So we're just going to test that the method exists.
     it 'exists' do
-      photo = Photo.new(owner_id: 1)
+      photo = described_class.new(owner_id: 1)
       photo.should.respond_to? :flickr_metadata
     end
   end
 
   it 'excludes deleted members' do
-    expect(Photo.joins(:owner).all).to include(photo)
+    expect(described_class.joins(:owner).all).to include(photo)
     member.destroy
-    expect(Photo.joins(:owner).all).not_to include(photo)
+    expect(described_class.joins(:owner).all).not_to include(photo)
   end
 
   describe 'assocations' do
@@ -223,13 +223,13 @@ describe Photo do
     end
 
     describe 'scopes' do
-      it { expect(Photo.by_model(Harvest)).to eq([harvest_photo]) }
-      it { expect(Photo.by_model(Planting)).to eq([planting_photo]) }
-      it { expect(Photo.by_model(Seed)).to eq([seed_photo]) }
+      it { expect(described_class.by_model(Harvest)).to eq([harvest_photo]) }
+      it { expect(described_class.by_model(Planting)).to eq([planting_photo]) }
+      it { expect(described_class.by_model(Seed)).to eq([seed_photo]) }
 
-      it { expect(Photo.by_crop(harvest_crop)).to eq([harvest_photo]) }
-      it { expect(Photo.by_crop(planting_crop)).to eq([planting_photo]) }
-      it { expect(Photo.by_crop(seed_crop)).to eq([seed_photo]) }
+      it { expect(described_class.by_crop(harvest_crop)).to eq([harvest_photo]) }
+      it { expect(described_class.by_crop(planting_crop)).to eq([planting_photo]) }
+      it { expect(described_class.by_crop(seed_crop)).to eq([seed_photo]) }
     end
   end
 
@@ -239,28 +239,28 @@ describe Photo do
 
     before do
       planting.photos << photo
-      Photo.reindex
-      Photo.searchkick_index.refresh
+      described_class.reindex
+      described_class.searchkick_index.refresh
     end
 
     describe "finds all photos in search index" do
       it "finds just one" do
-        expect(Photo.search.count).to eq 1
+        expect(described_class.search.count).to eq 1
       end
       it "finds the matching photo"  do
-        expect(Photo.search).to include photo
+        expect(described_class.search).to include photo
       end
 
       it "retrieves crops from ES" do
-        expect(Photo.search(load: false).first.crops).to eq [planting.crop.id]
+        expect(described_class.search(load: false).first.crops).to eq [planting.crop.id]
       end
     end
 
     it "finds photos by owner in search index" do
-      expect(Photo.search(where: { owner_id: planting.owner_id })).to include photo
+      expect(described_class.search(where: { owner_id: planting.owner_id })).to include photo
     end
     it "finds photos by crop in search index" do
-      expect(Photo.search(where: { crops: planting.crop.id })).to include photo
+      expect(described_class.search(where: { crops: planting.crop.id })).to include photo
     end
   end
 end

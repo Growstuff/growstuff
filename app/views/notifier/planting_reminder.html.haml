@@ -1,6 +1,6 @@
 %p Hello #{@member.login_name},
 
-%h2 Your #{Date.today.strftime("%B %Y")} #{@sitename} progress report
+%h2 Your Weekly #{@sitename} progress report
 
 - if @member.plantings.empty?
   %p
@@ -59,6 +59,9 @@
   Track and predict your entire garden, and keep your garden records up to date at
   = link_to member_gardens_url(@member), class: 'btn' do
     your garden overview
+  and on
+  = link_to member_url(@member) do
+    your profile page
 
 %h4
   See you soon on #{@sitename}!
