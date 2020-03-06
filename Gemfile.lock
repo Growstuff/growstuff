@@ -226,7 +226,7 @@ GEM
       rainbow
       rubocop (>= 0.50.0)
       sysexits (~> 1.1)
-    hashie (3.6.0)
+    hashie (4.1.0)
     heroics (0.0.25)
       erubis (~> 2.0)
       excon
