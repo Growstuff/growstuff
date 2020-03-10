@@ -82,7 +82,7 @@ GEM
       sassc-rails (>= 2.0.0)
     bootstrap-datepicker-rails (1.9.0.1)
       railties (>= 3.0)
-    bootstrap_form (4.3.0)
+    bootstrap_form (4.4.0)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
     builder (3.2.4)
