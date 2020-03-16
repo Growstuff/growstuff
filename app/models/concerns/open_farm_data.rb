@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module OpenFarmData
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     def update_openfarm_data!
       OpenfarmService.new.update_crop(self)
     end

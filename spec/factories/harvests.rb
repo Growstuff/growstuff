@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Read about factories at https://github.com/thoughtbot/factory_bot
 
 FactoryBot.define do
@@ -24,5 +26,11 @@ FactoryBot.define do
 
   trait :no_description do
     description { "" }
+  end
+
+  trait :reindex do
+    after(:create) do |harvest, _evaluator|
+      harvest.reindex(refresh: true)
+    end
   end
 end

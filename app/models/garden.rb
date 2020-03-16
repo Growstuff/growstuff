@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Garden < ApplicationRecord
   extend FriendlyId
   include Geocodable
@@ -74,6 +76,8 @@ class Garden < ApplicationRecord
       p.save
     end
   end
+
+  def reindex(refresh: false); end
 
   protected
 

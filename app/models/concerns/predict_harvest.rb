@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module PredictHarvest
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     # dates
     def first_harvest_date
       harvests_with_dates.minimum(:harvested_at)

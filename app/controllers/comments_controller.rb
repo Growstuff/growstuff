@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
   before_action :authenticate_member!, except: %i(index)
   load_and_authorize_resource
@@ -19,7 +21,7 @@ class CommentsController < ApplicationController
       respond_with(@comments)
     else
       redirect_to(request.referer || root_url,
-        alert: "Can't post a comment on a non-existent post")
+                  alert: "Can't post a comment on a non-existent post")
     end
   end
 

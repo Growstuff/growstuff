@@ -1,9 +1,16 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "signin", js: true do
   let(:member)       { FactoryBot.create :member                             }
   let(:recipient)    { FactoryBot.create :member                             }
   let(:wrangler)     { FactoryBot.create :crop_wrangling_member              }
+
+  before do
+    crop = FactoryBot.create :tomato
+    crop.reindex
+  end
 
   def login
     fill_in 'Login', with: member.login_name
@@ -15,6 +22,7 @@ describe "signin", js: true do
     visit crops_path # some random page
     click_link 'Sign in'
     login
+    click_link member.login_name
     expect(page).to have_content("Sign out")
   end
 

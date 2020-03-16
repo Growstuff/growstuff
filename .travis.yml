@@ -1,57 +1,49 @@
 sudo: required
 language: ruby
-dist: trusty
+dist: bionic
+services:
+  - postgresql
+  - xvfb
 cache:
   bundler: true
   directories:
     - tmp/cache/assets/test/sprockets
 addons:
-  apt:
-    packages:
-      # Postgresql version used here should match production
-      - postgresql-9.4
-      - postgresql-client-9.4
+  postgresql: "9.4"
   code_climate:
     repo_token:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
   matrix:
-    - GROWSTUFF_ELASTICSEARCH=true RSPEC_TAG=elasticsearch COVERAGE=true ELASTIC_SEARCH_VERSION="6.2.3"
-    - GROWSTUFF_ELASTICSEARCH=false RSPEC_TAG=~elasticsearch COVERAGE=false
-    - STATIC_CHECKS=true PERCY_CHECKS=true
+    - ELASTIC_SEARCH_VERSION="7.5.1-amd64" COVERAGE=true RAILS_ENV=test # Future target (production needs upgrading)
+    - STATIC_CHECKS=true
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
-    - GROWSTUFF_EMAIL="noreply@test.growstuff.org"
+    - GROWSTUFF_EMAIL="noreply@test.growstuff.org"g
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
     - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 before_install:
   - sudo apt clean
-  # - sudo apt update
+  - sudo apt update
   - sudo apt install dpkg
+  - ./script/install_elasticsearch.sh
   - sudo apt install google-chrome-stable
   - ./script/install_linters.sh
-  - ./script/install_elasticsearch.sh
+  - ./script/check_elasticsearch.sh
 script:
-  - set -e
   - >
     if [ "${STATIC_CHECKS}" = "true" ]; then
       ./script/check_static.rb
     else
-      set +e;
-      RAILS_ENV=test bundle exec rake db:create db:migrate search:reindex;
-      bundle exec rake assets:precompile;
-      bundle exec rspec -fd --tag $RSPEC_TAG spec/;
+      bundle exec rake db:create db:migrate search:reindex assets:precompile;
+      bundle exec rspec spec;
+      # npx percy exec -- bundle exec rspec spec # <- run this to send screen shots to percy
     fi;
-  - set +e
 after_script:
   - >
     if [ "${COVERAGE}" = "true" ]; then
       gem install codeclimate-test-reporter
       codeclimate-test-reporter
-    fi
-  - >
-    if [ "${PERCY}" = "true" ]; then
-      ./scripts/percy.sh
     fi
 before_deploy:
   - bundle exec script/heroku_maintenance.rb on
@@ -61,7 +53,6 @@ deploy:
     secure: "WrQxf0fEKkCdXrjcejurobOnNNz3he4dDwjBbToXbQTQNDObPp7NetJrLsfM8FiUFEeOuvhIHHiDQtMvY720zGGAGxDptvgFS+0QHCUqoTRZA/yFfUmHlG2jROXTzk5uVK0AE4k6Ion5kX8+mM0EnMT/7u+MTFiukrJctSiEXfg="
   on:
     repo: Growstuff/growstuff
-    condition: "$RSPEC_TAG = elasticsearch"
   app:
     dev: growstuff-staging
     master: growstuff-prod

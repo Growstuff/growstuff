@@ -2,6 +2,11 @@
   %h3 Activity
 %ul.list-group.list-group-flush
   %li.list-group-item
+    - if !member.gardens.empty?
+      = link_to localize_plural(member.gardens, Garden), member_gardens_path(member)
+    - else
+      0 gardens
+  %li.list-group-item
     - if !member.plantings.empty?
       = link_to localize_plural(member.plantings, Planting), member_plantings_path(member)
     - else

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 require 'custom_matchers'
 
-describe "Display a planting", :js, :elasticsearch do
+describe "Display a planting", :js do
   context 'anonymous' do
     before { visit planting_path(planting) }
 
@@ -23,6 +25,7 @@ describe "Display a planting", :js, :elasticsearch do
     context 'Annual with predicted finish' do
       let(:planting) { FactoryBot.create :predicatable_planting, planted_at: 2.weeks.ago }
       it { expect(page).to have_text '28%' }
+      it { expect(page).to have_text '14/50 days' }
       it { expect(page).to have_text "Planted #{I18n.l(2.weeks.ago.to_date)}" }
       it { expect(page).to have_text 'Finish expected' }
     end

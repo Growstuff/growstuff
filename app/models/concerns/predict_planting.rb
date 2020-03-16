@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module PredictPlanting
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     ## Triggers
     before_save :calculate_lifespan
 
@@ -37,19 +39,24 @@ module PredictPlanting
       (finished_at - planted_at).to_i
     end
 
-    def days_since_planted
-      (Time.zone.today - planted_at).to_i if planted_at.present?
+    def age_in_days
+      return if planted_at.blank?
+
+      known_last_day ||= finished_at || Time.zone.today
+      (known_last_day - planted_at).to_i
     end
 
     def percentage_grown
-      if finished?
-        100
-      elsif !planted?
-        0
-      elsif crop.perennial || finish_predicted_at.nil?
-        nil
-      else
-        calculate_percentage_grown
+      Rails.cache.fetch("#{cache_key_with_version}/percentage_grown", expires_in: 8.hours) do
+        if finished?
+          100
+        elsif !planted?
+          0
+        elsif crop.perennial || finish_predicted_at.nil?
+          nil
+        else
+          calculate_percentage_grown
+        end
       end
     end
 
@@ -73,7 +80,7 @@ module PredictPlanting
     private
 
     def calculate_percentage_grown
-      percent = (days_since_planted / expected_lifespan.to_f) * 100
+      percent = (age_in_days / expected_lifespan.to_f) * 100
       (percent > 100 ? 100 : percent)
     end
   end

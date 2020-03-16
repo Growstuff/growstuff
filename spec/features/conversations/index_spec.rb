@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "Conversations", :js do
@@ -12,7 +14,7 @@ describe "Conversations", :js do
   describe "Read conversations list" do
     before do
       visit root_path
-      click_link 'Your Stuff'
+      click_link recipient.login_name
       click_link 'Inbox'
     end
     it { expect(page).to have_content 'something i want to say' }
@@ -46,7 +48,7 @@ describe "Conversations", :js do
       sender.send_message(recipient, 'this is another message', 'follow up message')
 
       visit root_path
-      click_link 'Your Stuff'
+      click_link recipient.login_name
       click_link 'Inbox'
 
       all('input[type=checkbox]').each(&:click)
@@ -61,7 +63,7 @@ describe "Conversations", :js do
       sender.send_message(recipient, 'this is another message', 'follow up message')
 
       visit root_path
-      click_link 'Your Stuff'
+      click_link recipient.login_name
       click_link 'Inbox'
 
       expect(page).to have_selector('.sent')

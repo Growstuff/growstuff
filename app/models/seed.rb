@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class Seed < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include Finishable
   include Ownable
+  include SearchSeeds
   friendly_id :seed_slug, use: %i(slugged finders)
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
@@ -44,7 +47,9 @@ class Seed < ApplicationRecord
 
   #
   # Delegations
-  delegate :name, to: :crop
+  delegate :name, to: :crop, prefix: true
+  delegate :location, :latitude, :longitude, to: :owner
+  delegate :login_name, :slug, :location, to: :owner, prefix: true
 
   #
   # Scopes
@@ -55,7 +60,7 @@ class Seed < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
 
-  def tradable?
+  def tradable
     tradable_to != 'nowhere'
   end
 

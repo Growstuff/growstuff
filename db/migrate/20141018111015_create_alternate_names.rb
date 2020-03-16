@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAlternateNames < ActiveRecord::Migration[4.2]
   def change
     create_table :alternate_names do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TimelineService
   def self.member_query(member)
     query.where(owner_id: member.id)

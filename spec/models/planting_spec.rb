@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Planting do
@@ -13,7 +15,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.age_in_days).to eq(30) }
         it { expect(planting.percentage_grown).to eq(nil) }
       end
 
@@ -22,7 +24,7 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.age_in_days).to eq(nil) }
         it { expect(planting.percentage_grown).to eq(0) }
       end
 
@@ -31,16 +33,16 @@ describe Planting do
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
         it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.days_since_planted).to eq(nil) }
+        it { expect(planting.age_in_days).to eq(nil) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
 
       describe 'planting all finished' do
-        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 1.day.ago, finished: true }
+        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago, finished: true }
 
         it { expect(planting.crop.median_lifespan).to eq(nil) }
-        it { expect(planting.expected_lifespan).to eq(29) }
-        it { expect(planting.days_since_planted).to eq(30) }
+        it { expect(planting.expected_lifespan).to eq(20) }
+        it { expect(planting.age_in_days).to eq(20) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
     end
@@ -63,7 +65,7 @@ describe Planting do
         # 30 / 50 = 60%
         it { expect(planting.percentage_grown).to eq 60.0 }
         # planted 30 days ago
-        it { expect(planting.days_since_planted).to eq 30 }
+        it { expect(planting.age_in_days).to eq 30 }
         # means 20 days to go
         it { expect(planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
@@ -77,7 +79,7 @@ describe Planting do
         # 30 / 50 = 60%
         it { expect(child_planting.percentage_grown).to eq 60.0 }
         # planted 30 days ago
-        it { expect(child_planting.days_since_planted).to eq 30 }
+        it { expect(child_planting.age_in_days).to eq 30 }
         # means 20 days to go
         it { expect(child_planting.finish_predicted_at).to eq Time.zone.today + 20.days }
       end
@@ -97,7 +99,7 @@ describe Planting do
       describe 'planted 30 days ago, finished 10 days ago' do
         let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago }
 
-        it { expect(planting.days_since_planted).to eq 30 }
+        it { expect(planting.age_in_days).to eq 20 }
         it { expect(planting.percentage_grown).to eq 100 }
       end
     end
@@ -230,22 +232,25 @@ describe Planting do
       before do
         # Near by planting with harvests
         nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
-        nearby_planting = FactoryBot.create :planting, crop: crop,
-          garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000'
+        nearby_planting = FactoryBot.create(:planting,
+                                            crop:       crop,
+                                            garden:     nearby_garden,
+                                            owner:      nearby_garden.owner,
+                                            planted_at: '1 January 2000')
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '1 May 2019'
+                                    harvested_at: '1 May 2019'
         FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-          harvested_at: '18 June 2019'
+                                    harvested_at: '18 June 2019'
         FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop,
-          harvested_at: '18 August 2008'
+                                            harvested_at: '18 August 2008'
 
         # far away planting harvests
         faraway_garden = FactoryBot.create :garden, location: 'Amundsen-Scott Base, Antarctica'
         faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop,
-          owner: faraway_garden.owner, planted_at: '16 May 2001'
+                                                        owner: faraway_garden.owner, planted_at: '16 May 2001'
 
         FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop,
-          harvested_at: '18 December 2006'
+                                            harvested_at: '18 December 2006'
       end
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
@@ -264,7 +269,7 @@ describe Planting do
 
   it 'sorts in reverse creation order' do
     @planting2 = FactoryBot.create(:planting)
-    Planting.first.should eq @planting2
+    described_class.first.should eq @planting2
   end
 
   describe '#planted?' do
@@ -352,9 +357,11 @@ describe Planting do
     end
 
     it 'all valid planted_from values should work' do
-      ['seed', 'seedling', 'cutting', 'root division',
-       'runner', 'bare root plant', 'advanced plant',
-       'graft', 'layering', 'bulb', 'root/tuber', nil, ''].each do |p|
+      [
+        'seed', 'seedling', 'cutting', 'root division',
+        'runner', 'bare root plant', 'advanced plant',
+        'graft', 'layering', 'bulb', 'root/tuber', nil, ''
+      ].each do |p|
         @planting = FactoryBot.build(:planting, planted_from: p)
         @planting.should be_valid
       end
@@ -380,7 +387,7 @@ describe Planting do
     end
 
     it 'is found in has_photos scope' do
-      expect(Planting.has_photos).to include(planting)
+      expect(described_class.has_photos).to include(planting)
     end
 
     it 'deletes association with photos when photo is deleted' do
@@ -405,19 +412,13 @@ describe Planting do
       before do
         # plantings have members created implicitly for them
         # each member is different, hence these are all interesting
-        @planting1 = FactoryBot.create(:planting, planted_at: 5.days.ago)
-        @planting2 = FactoryBot.create(:planting, planted_at: 4.days.ago)
-        @planting3 = FactoryBot.create(:planting, planted_at: 3.days.ago)
-        @planting4 = FactoryBot.create(:planting, planted_at: 2.days.ago)
-
-        # plantings need photos to be interesting
-        [@planting1, @planting2, @planting3, @planting4].each do |p|
-          p.photos << FactoryBot.create(:photo, owner_id: p.owner_id)
-          p.save
-        end
+        @planting1 = FactoryBot.create(:planting, :with_photo, planted_at: 5.days.ago)
+        @planting2 = FactoryBot.create(:planting, :with_photo, planted_at: 4.days.ago)
+        @planting3 = FactoryBot.create(:planting, :with_photo, planted_at: 3.days.ago)
+        @planting4 = FactoryBot.create(:planting, :with_photo, planted_at: 2.days.ago)
       end
 
-      it { expect(Planting.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
+      it { expect(described_class.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
     end
 
     context "default arguments" do
@@ -430,8 +431,8 @@ describe Planting do
         # this one doesn't have a photo
         @no_photo_planting = FactoryBot.create(:planting)
 
-        expect(Planting.interesting).to include @planting
-        expect(Planting.interesting).not_to include @no_photo_planting
+        expect(described_class.interesting).to include @planting
+        expect(described_class.interesting).not_to include @no_photo_planting
       end
 
       it 'ignores plantings with the same owner' do
@@ -449,8 +450,8 @@ describe Planting do
         @planting2.save
 
         # result: the newer one is interesting, the older one isn't
-        expect(Planting.interesting).to include @planting2
-        expect(Planting.interesting).not_to include @planting1
+        expect(described_class.interesting).to include @planting2
+        expect(described_class.interesting).not_to include @planting1
       end
     end
 
@@ -460,7 +461,7 @@ describe Planting do
         @plantings.each do |p|
           p.photos << FactoryBot.create(:photo, owner: p.owner)
         end
-        expect(Planting.interesting.limit(3).count).to eq 3
+        expect(described_class.interesting.limit(3).count).to eq 3
       end
     end
   end # interesting plantings
@@ -475,15 +476,15 @@ describe Planting do
     it 'has finished scope' do
       @p = FactoryBot.create(:planting)
       @f = FactoryBot.create(:finished_planting)
-      Planting.finished.should include @f
-      Planting.finished.should_not include @p
+      described_class.finished.should include @f
+      described_class.finished.should_not include @p
     end
 
     it 'has current scope' do
       @p = FactoryBot.create(:planting)
       @f = FactoryBot.create(:finished_planting)
-      Planting.current.should include @p
-      Planting.current.should_not include @f
+      described_class.current.should include @p
+      described_class.current.should_not include @f
     end
 
     context "finished date validation" do
@@ -505,9 +506,9 @@ describe Planting do
   end
 
   it 'excludes deleted members' do
-    expect(Planting.joins(:owner).all).to include(planting)
+    expect(described_class.joins(:owner).all).to include(planting)
     planting.owner.destroy
-    expect(Planting.joins(:owner).all).not_to include(planting)
+    expect(described_class.joins(:owner).all).not_to include(planting)
   end
 
   context 'ancestry' do
@@ -538,5 +539,17 @@ describe Planting do
     end
     it { expect(member.plantings.active).to include(planting) }
     it { expect(member.plantings.active).not_to include(finished_planting) }
+  end
+
+  describe 'homepage', :search do
+    let!(:interesting_planting) { FactoryBot.create :planting, :reindex, :with_photo }
+    let!(:finished_interesting_planting) { FactoryBot.create :finished_planting, :reindex, :with_photo }
+    let!(:planting) { FactoryBot.create :planting, :reindex }
+
+    before { described_class.reindex }
+    subject { described_class.homepage_records(100) }
+
+    it { expect(subject.count).to eq 2 }
+    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s]) }
   end
 end

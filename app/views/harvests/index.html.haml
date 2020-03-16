@@ -6,16 +6,13 @@
     %li.breadcrumb-item.active= link_to "#{@owner}'s harvests", harvests_path(owner: @owner)
   - else
     %li.breadcrumb-item.active= link_to "Harvests", harvests_path
-
-%h1.display-2.text-center
-  = harvest_icon
-  = title('harvests', @owner, @crop, @planting)
-%p.text-center
-  #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
-  harvesting from your home garden and see how productive it is.
 .row
   .col-md-2
+    %h1
+      = harvest_icon
+      = title('harvests', @owner, @crop, @planting)
     = render 'layouts/nav', model: Harvest
+    %hr/
     - if @owner
       = render @owner
     %section.open-data
@@ -29,8 +26,9 @@
       .badge.badge-success= link_to 'API Methods', '/api-docs'
   .col-md-10
     %section
-      %h2
-        = page_entries_info @harvests
+      %h2= title('harvests', @owner, @crop, @planting)
       = will_paginate @harvests
-      .index-cards=render @harvests, full: true
+      .index-cards
+        - @harvests.each do |h|
+          = render 'harvests/card', harvest: h
       = will_paginate @harvests

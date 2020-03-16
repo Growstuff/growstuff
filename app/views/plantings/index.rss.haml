@@ -6,15 +6,15 @@
     %link= plantings_url
     - @plantings.each do |planting|
       %item
-        %title #{planting.crop} in #{planting.location}
-        %pubdate= planting.created_at.to_s(:rfc822)
+        %title #{planting['crop_name']} in #{planting['location']}
+        %pubdate= planting['created_at'].to_s(:rfc822)
         %description
           :escaped
-            <p>Quantity: #{planting.quantity ? planting.quantity : 'unknown' }</p>
-            <p>Planted on: #{planting.planted_at ? planting.planted_at : 'unknown' }</p>
-            <p>Sunniness: #{planting.sunniness ? planting.sunniness : 'unknown' }</p>
-            <p>Planted from: #{planting.planted_from ? planting.planted_from : 'unknown' }</p>
+            <p>Quantity: #{planting['quantity'] ? planting['quantity'] : 'unknown' }</p>
+            <p>Planted on: #{planting['planted_at'] ? planting['planted_at'] : 'unknown' }</p>
+            <p>Sunniness: #{planting['sunniness'] ? planting['sunniness'] : 'unknown' }</p>
+            <p>Planted from: #{planting['planted_from'] ? planting['planted_from'] : 'unknown' }</p>
           :escaped_markdown
-            #{ strip_tags planting.description }
-        %link= planting_url(planting)
-        %guid= planting_url(planting)
+            #{ strip_tags planting['description'] }
+        %link= planting_url(slug: planting['slug'])
+        %guid= planting_url(slug: planting['slug'])

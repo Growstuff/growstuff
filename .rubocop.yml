@@ -4,7 +4,7 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
-  TargetRailsVersion: 5.0
+  TargetRailsVersion: 5.2
 
 Rails:
   Enabled: true
@@ -15,6 +15,18 @@ Naming/FileName:
     - 'Gemfile'
     - 'Gemfile.lock'
 
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
+# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
+# SupportedStyles: with_first_parameter, with_fixed_indentation
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
+
 Style/StringLiterals:
   Enabled: false
 
@@ -24,23 +36,7 @@ Style/PercentLiteralDelimiters:
     '%i': ()
     '%w': ()
 
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-Layout/AlignHash:
-  EnforcedColonStyle: table
-  EnforcedHashRocketStyle: table
-
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: with_first_parameter, with_fixed_indentation
-Layout/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
-
 Style/Documentation:
-  Enabled: false
-
-Style/FrozenStringLiteralComment:
   Enabled: false
 
 # Configuration parameters: Include.
@@ -56,21 +52,8 @@ Metrics/BlockLength:
     - '**/*.rake'
     - 'config/**/*.rb'
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 140
-
-# Remove the following once the code style matches
-Metrics/MethodLength:
-  Max: 34
-Metrics/AbcSize:
-  Max: 33
-# Configuration parameters: CountComments.
-Metrics/ClassLength:
-  Max: 171
-Metrics/CyclomaticComplexity:
-  Max: 8
-Metrics/PerceivedComplexity:
-  Max: 9
 
 # Places we use update_all, etc even though it skips validations.
 Rails/SkipsModelValidations:

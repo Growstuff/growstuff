@@ -1,14 +1,17 @@
 - if current_member.present?
-  .card.button-bar
-    .card-header
-      %h2.card-title #{model} links
-    = link_to url_for([current_member, model]), class: 'btn' do
+  .flex-column.nav-pills.layout-nav
+    / %h2.card-title #{model} links
+    = link_to url_for([current_member, model]), class: 'nav-link' do
       My #{model.model_name.human.pluralize}
-    = link_to model, class: 'btn' do
+    = link_to model, class: 'nav-link' do
       Everyone's #{model.model_name.human.pluralize}
     - if can?(:create, model)
       = link_to url_for([model, action: :new]), class: 'btn' do
         Add a #{model.model_name.human}
-
 - else
   = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
+
+%hr/
+%p.text-center
+  #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
+  harvesting from your home garden and see how productive it is.

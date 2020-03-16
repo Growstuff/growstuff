@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Post do
@@ -79,16 +81,16 @@ describe Post do
     it "shiny new post is recently active" do
       # create a shiny new post
       post2 = FactoryBot.create(:post, created_at: 1.minute.ago)
-      Post.recently_active.first.should eq post2
-      Post.recently_active.second.should eq post
+      described_class.recently_active.first.should eq post2
+      described_class.recently_active.second.should eq post
     end
 
     it "new comment on old post is recently active" do
       # now comment on an older post
       post2 = FactoryBot.create(:post, created_at: 1.minute.ago)
       FactoryBot.create(:comment, post: post, created_at: 1.second.ago)
-      Post.recently_active.first.should eq post
-      Post.recently_active.second.should eq post2
+      described_class.recently_active.first.should eq post
+      described_class.recently_active.second.should eq post2
     end
   end
 
@@ -173,8 +175,8 @@ describe Post do
 
   it 'excludes deleted members' do
     post = FactoryBot.create :post, author: member
-    expect(Post.joins(:author).all).to include(post)
+    expect(described_class.joins(:author).all).to include(post)
     member.destroy
-    expect(Post.joins(:author).all).not_to include(post)
+    expect(described_class.joins(:author).all).not_to include(post)
   end
 end

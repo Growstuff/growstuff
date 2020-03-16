@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   load_and_authorize_resource
@@ -52,6 +54,8 @@ class PostsController < ApplicationController
       @author.posts
     else
       Post
-    end.order(created_at: :desc).includes(:author, comments: :author).paginate(page: params[:page], per_page: 12)
+    end.order(created_at: :desc)
+      .includes(:author,  :crop_posts, :crops, comments: :author)
+      .paginate(page: params[:page], per_page: 12)
   end
 end

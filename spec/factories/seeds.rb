@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Read about factories at https://github.com/thoughtbot/factory_bot
 
 FactoryBot.define do
@@ -28,6 +30,12 @@ FactoryBot.define do
 
     factory :untradable_seed do
       tradable_to { "nowhere" }
+    end
+
+    trait :reindex do
+      after(:create) do |seed, _evaluator|
+        seed.reindex(refresh: true)
+      end
     end
   end
 end

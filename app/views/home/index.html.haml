@@ -15,11 +15,37 @@
   .hidden-xs
     %section.jumbotron= render 'blurb', cached: true
 .row
-  .col-lg-8.col-md-12
-    = react_component("home/Crops")
-    = react_component("home/RecentCrops")
-  .col-xl-2.col
-    = react_component("home/Plantings")
-  .col-xl-2.col
-    = react_component("home/Harvests")
-
+  .col-xl-9.col-12
+    %section.crops
+      %h2= t('home.crops.our_crops')
+      = render 'crops'
+      = link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
+  .col-xl-3.col-12
+    %section.recent-crops
+      - cache cache_key_for(Crop, 'recent') do
+        %h2= t('.recently_added')
+        %p
+          != CropSearchService.recent(30).map { |c| link_to(c['name'], crop_path(slug: c['slug'])) }.join(", ")
+  .col-xl-3.col
+    %section.plantings
+      = cute_icon
+      =render 'plantings'
+      %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
+  .col-xl-3.col
+    %section.harvests
+      = cute_icon
+      = render 'harvests'
+      %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
+  .col-12.col-md-6
+    %section.seeds
+      = cute_icon
+      = render 'seeds'
+      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
+  .col-12.col-lg-6
+    %section.discussion.text-center
+      = cute_icon
+      = render 'discuss', cached: true
+  .col-12.col-lg-6
+    %section.members
+      = cute_icon
+      = render 'members', cached: true

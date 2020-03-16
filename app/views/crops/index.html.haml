@@ -22,8 +22,8 @@
   %h2= t('.title')
   = will_paginate @crops
   .index-cards
-    - @crops.each do |crop|
-      = render 'crops/thumbnail', crop: crop
+    - @crops.each do |c|
+      = render 'crops/thumbnail', crop: c
 
   = will_paginate @crops
 

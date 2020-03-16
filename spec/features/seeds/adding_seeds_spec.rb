@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'custom_matchers'
 
-describe "Seeds", :js, :elasticsearch do
+describe "Seeds", :js, :search do
   context 'signed in' do
     include_context 'signed in member'
     let!(:maize) { create :maize }
@@ -58,11 +60,19 @@ describe "Seeds", :js, :elasticsearch do
       before do
         visit crop_path(maize)
         click_link "Save seeds"
-        click_link "Will trade: nowhere"
       end
-
-      it { expect(page).to have_content "Successfully added maize seed to your stash" }
-      it { expect(page).to have_content "maize" }
+      describe 'no trades' do
+        before { click_button "Save #{maize.name} seeds." }
+        it { expect(page).to have_content "nowhere" }
+        it { expect(page).to have_content "Successfully added maize seed to your stash" }
+        it { expect(page).to have_content "maize" }
+      end
+      describe 'tradeable' do
+        before { click_button "locally" }
+        it { expect(page).to have_content "locally" }
+        it { expect(page).to have_content "Successfully added maize seed to your stash" }
+        it { expect(page).to have_content "maize" }
+      end
     end
   end
 end

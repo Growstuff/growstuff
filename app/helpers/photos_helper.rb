@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 module PhotosHelper
   def crop_image_path(crop)
-    if crop.default_photo.present?
-      # The flickr thumbnails are too small, use full size
-      if crop.default_photo.source == 'flickr'
-        crop.default_photo.fullsize_url
-      else
-        crop.default_photo.thumbnail_url
-      end
-    else
+    thumbnail_url(crop.default_photo)
+  end
+
+  def thumbnail_url(photo)
+    if photo.nil?
       placeholder_image
+    elsif photo.source == 'flickr'
+      photo.fullsize_url
+    else
+      photo.thumbnail_url
     end
   end
 
@@ -26,6 +29,10 @@ module PhotosHelper
 
   def seed_image_path(seed)
     photo_or_placeholder(seed)
+  end
+
+  def post_image_path(post)
+    post.default_photo&.fullsize_url || post.crops.first&.default_photo&.fullsize_url || placeholder_image
   end
 
   private

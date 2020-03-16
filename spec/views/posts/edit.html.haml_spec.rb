@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "posts/edit" do
@@ -32,8 +34,8 @@ describe "posts/edit" do
       before do
         @forum = assign(:forum, FactoryBot.create(:forum))
         assign(:post, FactoryBot.create(:post,
-          forum:  @forum,
-          author: @author))
+                                        forum:  @forum,
+                                        author: @author))
         render
       end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "Scientific names", js: true do
@@ -40,7 +42,7 @@ describe "Scientific names", js: true do
       visit crop_path(zea_mays.crop)
       click_link zea_mays.name
       expect(page).to have_link "Delete",
-        href: scientific_name_path(zea_mays)
+                                href: scientific_name_path(zea_mays)
       within('.scientific_names') do
         accept_confirm do
           click_link 'Delete'
@@ -54,7 +56,7 @@ describe "Scientific names", js: true do
     it "Crop wranglers can add scientific names" do
       visit crop_path(crop)
       expect(page).to have_link "Add",
-        href: new_scientific_name_path(crop_id: crop.id)
+                                href: new_scientific_name_path(crop_id: crop.id)
       within('.scientific_names') { click_on "Add" }
       # expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
@@ -69,7 +71,7 @@ describe "Scientific names", js: true do
       visit scientific_name_path(zea_mays)
       # expect(page.status_code).to equal 200
       expect(page).to have_link zea_mays.crop.name,
-        href: crop_path(zea_mays.crop)
+                                href: crop_path(zea_mays.crop)
     end
 
     context "When scientific name is pending" do

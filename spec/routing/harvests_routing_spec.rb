@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 describe HarvestsController do
@@ -12,11 +14,11 @@ describe HarvestsController do
     end
 
     it "routes to #show" do
-      get("/harvests/1").should route_to("harvests#show", id: "1")
+      get("/harvests/potato").should route_to("harvests#show", slug: "potato")
     end
 
     it "routes to #edit" do
-      get("/harvests/1/edit").should route_to("harvests#edit", id: "1")
+      get("/harvests/potato/edit").should route_to("harvests#edit", slug: "potato")
     end
 
     it "routes to #create" do
@@ -24,11 +26,11 @@ describe HarvestsController do
     end
 
     it "routes to #update" do
-      put("/harvests/1").should route_to("harvests#update", id: "1")
+      put("/harvests/potato").should route_to("harvests#update", slug: "potato")
     end
 
     it "routes to #destroy" do
-      delete("/harvests/1").should route_to("harvests#destroy", id: "1")
+      delete("/harvests/potato").should route_to("harvests#destroy", slug: "potato")
     end
   end
 end

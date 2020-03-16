@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "harvests/index" do
@@ -13,12 +15,12 @@ describe "harvests/index" do
     harvests = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
                       FactoryBot.create(:harvest,
-                        crop:  @tomato,
-                        owner: @member),
+                                        crop:  @tomato,
+                                        owner: @member),
                       FactoryBot.create(:harvest,
-                        crop:       @maize,
-                        plant_part: @pp,
-                        owner:      @member)
+                                        crop:       @maize,
+                                        plant_part: @pp,
+                                        owner:      @member)
                     ])
     end
     assign(:harvests, harvests)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameNotificationFields < ActiveRecord::Migration[4.2]
   def change
     change_table :notifications do |t|

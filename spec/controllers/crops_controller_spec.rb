@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe CropsController do
@@ -42,7 +44,7 @@ describe CropsController do
     describe 'fetches the crop search page' do
       let!(:tomato) { FactoryBot.create :tomato }
       let!(:maize)  { FactoryBot.create :maize }
-      before { Crop.reindex if ENV["GROWSTUFF_ELASTICSEARCH"] == "true" }
+      before { Crop.reindex }
       describe 'search form page' do
         before { get :search }
 

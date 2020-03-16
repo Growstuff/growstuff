@@ -1,7 +1,6 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
 - content_for :opengraph do
-  - @seed.crop.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:image", content: seed_image_path(@seed))
   - if @seed.description
     = tag("meta", property: "og:description", content: og_description(@seed.description))
   = tag("meta", property: "og:image", content: "#{@seed.owner}'s #{@seed.crop} seeds")
@@ -50,7 +49,7 @@
               #{strip_tags(@seed.description)}
 
       - if current_member
-        - if @seed.tradable? && current_member != @seed.owner
+        - if @seed.tradable && current_member != @seed.owner
           %p= link_to "Request seeds",
                       new_message_path(recipient_id: @seed.owner.id,
                                            subject: "Interested in your #{@seed.crop} seeds"),

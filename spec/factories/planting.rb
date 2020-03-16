@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :planting do
     owner
@@ -57,6 +59,19 @@ FactoryBot.define do
         FactoryBot.create :planting, crop: crop, planted_at: 150.days.ago, finished_at: 100.days.ago
         crop.update_lifespan_medians
         crop
+      end
+    end
+
+    trait :with_photo do
+      after(:create) do |planting, _evaluator|
+        planting.photos << FactoryBot.create(:photo, owner_id: planting.owner_id)
+        planting.save
+      end
+    end
+
+    trait :reindex do
+      after(:create) do |planting, _evaluator|
+        planting.reindex(refresh: true)
       end
     end
   end

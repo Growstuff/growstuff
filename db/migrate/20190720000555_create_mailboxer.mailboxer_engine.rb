@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This migration comes from mailboxer_engine (originally 20110511145103)
 class CreateMailboxer < ActiveRecord::Migration[4.2]
   def self.up
@@ -45,10 +47,10 @@ class CreateMailboxer < ActiveRecord::Migration[4.2]
     # Conversations
     # Receipts
     add_foreign_key "mailboxer_receipts", "mailboxer_notifications",
-      name: "receipts_on_notification_id", column: "notification_id"
+                    name: "receipts_on_notification_id", column: "notification_id"
     # Messages
     add_foreign_key "mailboxer_notifications", "mailboxer_conversations",
-      name: "notifications_on_conversation_id", column: "conversation_id"
+                    name: "notifications_on_conversation_id", column: "conversation_id"
   end
 
   def self.down

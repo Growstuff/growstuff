@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module MemberNewsletter
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     after_save :update_newsletter_subscription
     before_destroy :newsletter_unsubscribe
 

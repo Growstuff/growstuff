@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "Conversations", :js do
@@ -12,7 +14,7 @@ describe "Conversations", :js do
   describe 'view conversation thread' do
     before do
       visit root_path
-      click_link 'Your Stuff'
+      click_link recipient.login_name
       click_link 'Inbox'
       click_link 'something i want to say'
     end

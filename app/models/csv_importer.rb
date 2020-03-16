@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CsvImporter
   # used by db/seeds.rb and rake growstuff:import_crops
   # CSV fields:

@@ -8,6 +8,45 @@ body {
   font-family: $default-font;
 }
 
+.navbar-brand {
+  .site-name {
+    font-family: 'Modak', cursive;
+    font-size: 3em;
+    margin: .3em;
+  }
+
+  img {
+    height: 60px;
+  }
+}
+
+#navbar-search {
+  padding-left: 1em;
+
+  .input-group {
+    input {
+      background-color: $white;
+      color: $black;
+    }
+
+    input::placeholder {
+      color: $navbar-default-link-color;
+    }
+  }
+}
+
+.navbar .btn-signup,
+.navbar .btn-signin {
+  background-color: $green;
+  color: $white;
+  margin: 3px;
+}
+
+.homepage-blurb .site-name {
+  font-size: 5em;
+}
+
+
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -16,11 +55,6 @@ body {
 
 a {
   color: $green;
-
-  .navbar-brand {
-    margin: 0;
-    padding: 0;
-  }
 }
 
 a:hover {
@@ -48,18 +82,6 @@ h3 {
   font-size: 120%;
 }
 
-#navbar-search {
-  .input-group {
-    input {
-      background-color: $white;
-      color: $black;
-    }
-
-    input::placeholder {
-      color: $navbar-default-link-color;
-    }
-  }
-}
 
 section {
   margin: .5em 0 0;
@@ -69,6 +91,7 @@ section {
     background-color: $green;
     box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     color: $white;
+    font-weight: normal;
     padding: .2em;
 
     a {
@@ -102,8 +125,14 @@ section {
       border-top-right-radius: 5%;
     }
   }
+
+  .card-double {
+    width: 400px;
+  }
+
   .card-finished {
     background: darken($beige, 10%);
+
     a {
       color: $brown;
     }
@@ -114,14 +143,15 @@ section {
   }
 }
 
+.img-cover,
+.card .img-card {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
 .card {
   margin-bottom: 1em;
-
-  .img-card {
-    height: 200px;
-    object-fit: cover;
-    width: 100%;
-  }
 
   a:hover {
     background-color: $beige;
@@ -158,6 +188,7 @@ section {
 
   .thumbnail {
     height: 100px;
+
     img {
       border-radius: 5px;
       height: 75px;
@@ -205,6 +236,7 @@ ul.associations {
 
 // footer
 footer {
+
   #footer1,
   #footer2,
   #footer3 {
@@ -238,7 +270,13 @@ footer {
 #maincontainer {
   max-width: 2500px;
   min-height: 80%;
-  padding: 1em;
+  padding-bottom: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.container {
+  min-width: 90%;
 }
 
 // Autosuggest
@@ -276,7 +314,7 @@ $state-success-bg: lighten($green, 50%);
 
 label.required:after {
   color: red;
-  content:" *";
+  content: " *";
 }
 
 .truncate {
@@ -320,6 +358,10 @@ ul.thumbnail-buttons {
   margin-bottom: 1em;
   padding-bottom: 30px;
   padding-top: 30px;
+
+  h1 {
+    font-size: 400%;
+  }
 
   // signup widget on homepage
   .signup {
@@ -385,81 +427,4 @@ ul.thumbnail-buttons {
 
 .progress-fade:hover::before {
   background: none;
-}
-
-// Overrides applying only to mobile view. This must be at the end of the overrides file.
-// Extra small devices (portrait phones, less than 576px)
-@include media-breakpoint-down(xs) {
-  #maincontainer {
-    width: 100%;
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 200%;
-  }
-
-  h2 {
-    font-size: 130%;
-  }
-
-  h3 {
-    font-size: 120%;
-  }
-
-  .card-title {
-    margin-bottom: 0;
-  }
-
-  .sidebar {
-    margin-left: 0;
-    border-left: none;
-    padding-left: 0;
-  }
-
-  .map {
-    height: 300px;
-  }
-
-  .navbar .nav > li {
-    display: block;
-  }
-
-  .navbar .navbar-form {
-    padding-left: 0;
-    padding-right: 0;
-
-    .navbar-search {
-      width: auto;
-    }
-  }
-
-  .nav .btn {
-    background-color: lighten($green, 50%);
-    width: 100%;
-  }
-
-  section .btn {
-    width: 100%;
-  }
-
-  .index-cards {
-    .card {
-      margin: .2em;
-      width: 48%;
-
-      // Shrink title to fit more on page
-      .card-title {
-        font-size: 1em;
-      }
-
-      // Restrict height of image when on smaller screens
-      .img-card {
-        height: 100px;
-        object-fit: cover;
-        width: 100%;
-      }
-
-    }
-  }
 }

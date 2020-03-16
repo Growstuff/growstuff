@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IconsHelper
   include FontAwesome::Sass::Rails::ViewHelpers
 
@@ -10,7 +12,7 @@ module IconsHelper
                wheelbarrow cat spiderweb bug butterfly ladybird stones)
     rand_num = rand(1..icons.size)
     icon = icons[rand_num - 1]
-    image_tag("icons/#{icon}.svg", class: 'img img-cute', alt: icon)
+    image_tag("icons/#{icon}.svg", 'aria-hidden' => "true", class: 'img img-cute', alt: icon)
   end
 
   def timeline_icon
@@ -89,6 +91,14 @@ module IconsHelper
     icon('fas', 'heart')
   end
 
+  def plant_part_icon(name)
+    if File.exist? Rails.root.join('app', 'assets', 'images', 'icons', 'plant_parts', "#{name}.svg")
+      image_tag "icons/plant_parts/#{name}.svg", class: 'img img-icon', 'aria-hidden' => "true"
+    else
+      planting_icon
+    end
+  end
+
   def crop_icon(crop)
     if crop.svg_icon.present?
       image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon')
@@ -113,6 +123,6 @@ module IconsHelper
   end
 
   def image_icon(icon)
-    image_tag "icons/#{icon}.svg", class: 'img img-icon'
+    image_tag "icons/#{icon}.svg", class: 'img img-icon', 'aria-hidden' => "true"
   end
 end

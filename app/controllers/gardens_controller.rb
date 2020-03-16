@@ -1,14 +1,10 @@
-class GardensController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show layout)
-  after_action :expire_homepage, only: %i(create destroy)
-  load_and_authorize_resource
-  responders :flash
-  respond_to :html, :json
-
+class GardensController < DataController
   def index
     @owner = Member.find_by(slug: params[:member_slug])
     @show_all = params[:all] == '1'
+    @show_jump_to = params[:member_slug].present? ? true : false
 
+    @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active unless @show_all
     @gardens = @gardens.where(owner: @owner) if @owner.present?
     @gardens = @gardens.where.not(members: { confirmed_at: nil })
@@ -58,7 +54,9 @@ class GardensController < ApplicationController
   private
 
   def garden_params
-    params.require(:garden).permit(:name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id)
+    params.require(:garden).permit(
+      :name, :slug, :description, :active,
+      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id
+    )
   end
 end

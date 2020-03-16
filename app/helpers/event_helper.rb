@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventHelper
   def in_weeks(days)
     (days / 7.0).round

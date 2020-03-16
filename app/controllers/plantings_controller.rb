@@ -1,29 +1,32 @@
-class PlantingsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create update destroy)
+# frozen_string_literal: true
+
+class PlantingsController < DataController
   after_action :update_crop_medians, only: %i(create update destroy)
   after_action :update_planting_medians, only: :update
-  load_and_authorize_resource
-
-  respond_to :html, :json
-  respond_to :csv, :rss, only: [:index]
-  responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug]
-    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
-
     @show_all = params[:all] == '1'
 
-    @plantings = @plantings.where(owner: @owner) if @owner.present?
-    @plantings = @plantings.where(crop: @crop) if @crop.present?
+    where = {}
+    where['active'] = true unless @show_all
 
-    @plantings = @plantings.active unless params[:all] == '1'
+    if params[:member_slug]
+      @owner = Member.find_by(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
+    end
 
-    @plantings = @plantings.joins(:owner, :crop, :garden)
-      .order(created_at: :desc)
-      .includes(:owner, :garden, crop: :parent)
-      .paginate(page: params[:page])
+    if params[:crop_slug]
+      @crop = Crop.find_by(slug: params[:crop_slug])
+      where['crop_id'] = @crop.id
+    end
+
+    @plantings = Planting.search(
+      where:    where,
+      page:     params[:page],
+      limit:    30,
+      boost_by: [:created_at],
+      load:     false
+    )
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
@@ -32,9 +35,14 @@ class PlantingsController < ApplicationController
 
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
+    @harvests = Harvest.search(where: { planting_id: @planting.id })
     @matching_seeds = matching_seeds
+    @crop = @planting.crop
+
+    # TODO: use elastic search long/lat
     @neighbours = @planting.nearby_same_crop
       .where.not(id: @planting.id)
+      .includes(:owner, :crop, :garden)
       .limit(6)
     respond_with @planting
   end

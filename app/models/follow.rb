@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Follow < ApplicationRecord
   belongs_to :follower, class_name: "Member", inverse_of: :follows
   belongs_to :followed, class_name: "Member", inverse_of: :inverse_follows

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'bluecloth'
 
-module Haml::Filters # rubocop:disable Style/ClassAndModuleChildren
+module Haml::Filters
   module GrowstuffMarkdown
     include Haml::Filters::Base
 

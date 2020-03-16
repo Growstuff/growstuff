@@ -1,0 +1,47 @@
+- if @harvesting.size.positive?
+  %section.harvests
+    %h2 Ready to harvest
+    .index-cards
+      - @harvesting.each do |planting|
+        = render 'plantings/thumbnail', planting: planting
+
+- if @harvests.any?
+  %section.havests
+    %h2 Recent Harvests
+    .index-cards
+      - @harvests.each do |harvest|
+        = render 'harvests/thumbnail', harvest: harvest
+
+- if @others.size.positive?
+  %section.planting-progress
+    %h2 Progress report
+    %p Still growing and not ready for harvesting.
+    .list-group
+      - @others.each do |planting|
+        .list-group-item
+          %span= render 'plantings/tiny', planting: planting
+          %span= render 'plantings/progress', planting: planting
+- if @late.size.positive?
+  %section.late
+    %h2 Late
+    %p
+      These plantings are at the end of their lifecycle.
+      - if member_signed_in? && @member == current_member
+        %strong When you have removed the planting from your garden, mark the planting as finished in Growstuff.
+    .index-cards
+      - @late.each do |planting|
+        = render 'plantings/thumbnail', planting: planting
+- if @super_late.any?
+  %section.superlate
+    %h2 Super late
+    %p
+      We suspect the following plantings finished long ago and no longer need tracking.
+      - if member_signed_in? && current_member == @member
+        %strong You can mark these plantings as finished to stop tracking.
+    %ul
+      - @super_late.each do |planting|
+        %li
+          = link_to planting.crop_name, planting_url(slug: planting.slug)
+          planted on #{planting.planted_at.to_date}
+
+

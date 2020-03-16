@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module MemberFlickr
   extend ActiveSupport::Concern
 
-  included do # rubocop:disable Metrics/BlockLength
+  included do
     # Authenticates against Flickr and returns an object we can use for subsequent api calls
     def flickr
       if @flickr.nil?

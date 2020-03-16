@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PhotosController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   after_action :expire_homepage, only: %i(create destroy)
@@ -11,18 +13,22 @@ class PhotosController < ApplicationController
   end
 
   def index
+    where = {}
     if params[:crop_slug]
       @crop = Crop.find params[:crop_slug]
-      @photos = Photo.by_crop(@crop)
+      where = { crops: @crop.id }
     elsif params[:planting_id]
       @planting = Planting.find params[:planting_id]
-      @photos = @planting.photos
-    else
-      @photos = Photo.all
+      where = { planting_id: @planting.id }
     end
-    @photos = @photos.order(created_at: :desc)
-      .includes(:owner)
-      .paginate(page: params[:page])
+
+    @photos = Photo.search(
+      load:     false,
+      boost_by: [:created_at],
+      where:    where,
+      page:     params[:page],
+      limit:    Photo.per_page
+    )
     respond_with(@photos)
   end
 
@@ -65,7 +71,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).permit(:source_id, :source, :title, :license_name,
-      :license_url, :thumbnail_url, :fullsize_url, :link_url)
+                                  :license_url, :thumbnail_url, :fullsize_url, :link_url)
   end
 
   # Item with photos attached

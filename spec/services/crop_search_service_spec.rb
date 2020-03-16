@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CropSearchService, type: :service do
-  describe 'search', :elasticsearch do
+  describe 'search' do
     def search(term)
       CropSearchService.search(term).map(&:name)
     end
@@ -26,7 +26,7 @@ RSpec.describe CropSearchService, type: :service do
 
         # Child record
         FactoryBot.create(:crop, name: 'portobello', parent: mushroom)
-        Crop.reindex if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
+        Crop.reindex
       end
 
       describe 'finds exact match' do
@@ -37,47 +37,45 @@ RSpec.describe CropSearchService, type: :service do
         it { expect(search('mush')).to eq ['mushroom'] }
       end
 
-      if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
-        describe 'finds mispellings matches' do
-          it { expect(search('muhsroom')).to eq ['mushroom'] }
-          it { expect(search('mushrom')).to eq ['mushroom'] }
-          it { expect(search('zuchini')).to eq ['zucchini'] }
-          it { expect(search('brocoli')).to eq ['broccoli'] }
+      describe 'finds mispellings matches' do
+        it { expect(search('muhsroom')).to eq ['mushroom'] }
+        it { expect(search('mushrom')).to eq ['mushroom'] }
+        it { expect(search('zuchini')).to eq ['zucchini'] }
+        it { expect(search('brocoli')).to eq ['broccoli'] }
+      end
+
+      describe 'biased' do
+        # Make some crops with planting counts
+        let!(:mushroom_parent) { FactoryBot.create :crop, name: 'mushroom' }
+        let!(:oyster)  { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
+        let!(:shitake) { FactoryBot.create :crop, name: 'shitake mushroom', parent: mushroom_parent }
+        let!(:common)  { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
+        let!(:brown)   { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
+        let!(:white)   { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
+
+        describe 'biased to higher planting counts' do
+          subject { search('mushroom') }
+          before do
+            # Having plantings should bring these crops to the top of the search results
+            FactoryBot.create_list :planting, 10, crop: white
+            FactoryBot.create_list :planting, 4, crop: shitake
+            Crop.reindex
+          end
+          it { expect(subject.first).to eq 'white mushroom' }
+          it { expect(subject.second).to eq 'shitake mushroom' }
         end
-
-        describe 'biased' do
-          # Make some crops with planting counts
-          let!(:mushroom_parent) { FactoryBot.create :crop, name: 'mushroom' }
-          let!(:oyster)  { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
-          let!(:shitake) { FactoryBot.create :crop, name: 'shitake mushroom', parent: mushroom_parent }
-          let!(:common)  { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
-          let!(:brown)   { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
-          let!(:white)   { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
-
-          describe 'biased to higher planting counts' do
-            subject { search('mushroom') }
-            before do
-              # Having plantings should bring these crops to the top of the search results
-              FactoryBot.create_list :planting, 10, crop: white
-              FactoryBot.create_list :planting, 4, crop: shitake
-              Crop.reindex
-            end
-            it { expect(subject.first).to eq 'white mushroom' }
-            it { expect(subject.second).to eq 'shitake mushroom' }
+        describe "biased to crops you've planted" do
+          subject { described_class.search('mushroom', current_member: owner).map(&:name) }
+          let(:owner) { FactoryBot.create :member }
+          before do
+            FactoryBot.create_list :planting, 10, crop: brown
+            FactoryBot.create :planting, crop: oyster, owner: owner
+            FactoryBot.create :planting, crop: oyster, owner: owner
+            FactoryBot.create :planting, crop: shitake, owner: owner
+            Crop.reindex
           end
-          describe "biased to crops you've planted" do
-            subject { CropSearchService.search('mushroom', current_member: owner).map(&:name) }
-            let(:owner) { FactoryBot.create :member }
-            before do
-              FactoryBot.create_list :planting, 10, crop: brown
-              FactoryBot.create :planting, crop: oyster, owner: owner
-              FactoryBot.create :planting, crop: oyster, owner: owner
-              FactoryBot.create :planting, crop: shitake, owner: owner
-              Crop.reindex
-            end
-            it { expect(subject.first).to eq oyster.name }
-            it { expect(subject.second).to eq shitake.name }
-          end
+          it { expect(subject.first).to eq oyster.name }
+          it { expect(subject.second).to eq shitake.name }
         end
       end
 
@@ -85,11 +83,9 @@ RSpec.describe CropSearchService, type: :service do
         it { expect(search('coffee')).to eq [] }
       end
 
-      if ENV['GROWSTUFF_ELASTICSEARCH'] == 'true'
-        describe 'finds plurals' do
-          it { expect(search('mushrooms')).to eq ['mushroom'] }
-          it { expect(search('tomatoes')).to eq ['tomato'] }
-        end
+      describe 'finds plurals' do
+        it { expect(search('mushrooms')).to eq ['mushroom'] }
+        it { expect(search('tomatoes')).to eq ['tomato'] }
       end
 
       describe 'searches case insensitively' do

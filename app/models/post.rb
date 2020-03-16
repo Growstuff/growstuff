@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
@@ -54,6 +56,8 @@ class Post < ApplicationRecord
   def to_s
     subject
   end
+
+  def reindex(refresh: false); end
 
   private
 

@@ -1,18 +1,9 @@
-%h2.text-center= t('.discussion')
-.list-group
-  - Post.includes(:author).order(created_at: :desc).limit(6).each do |post|
-    - cache post do
-      = link_to post, class: 'list-group-item list-group-item-action flex-column align-items-start' do
-        .d-flex.w-100.justify-content-between
-          %h5.mb-2.h5= truncate(strip_tags(post.subject))
-          %small
-            = time_ago_in_words(post.created_at)
-            ago
-        = image_tag avatar_uri(post.author, 50), align: :right, class: 'avatar'
-        %p.mb-2
-          = truncate(strip_tags(post.body), length: 200)
-        %small
-          = post.comments.size
-          comments
+
+%h2.font-weight-bold.mb-4.pb-2 Recent posts
+.row
+  - Post.includes(:author, :crop_posts, :crops).order(created_at: :desc).limit(6).each do |post|
+    .col-lg-4.col-md-12.mb-4
+      = render 'posts/preview', post: post
+
 %p.text-right
   = link_to "#{t('.view_all')} »", posts_path, class: 'btn btn-block'

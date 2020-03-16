@@ -132,7 +132,6 @@ group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
   gem 'memcachier'
-  gem 'newrelic_rpm'
   gem 'rails_12factor' # supresses heroku plugin injection
   gem 'scout_apm' # monitoring
 end
@@ -149,6 +148,7 @@ group :development, :test do
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
+  gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rswag-specs'
   gem 'rubocop-rails'

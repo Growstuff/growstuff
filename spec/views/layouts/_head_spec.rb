@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe 'layouts/_meta.html.haml', type: "view" do
+describe 'layouts/_head.html.haml', type: "view" do
   before do
     render
   end

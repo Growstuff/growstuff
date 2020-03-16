@@ -1,11 +1,12 @@
-.card.thumbnail
+.card.planting.thumbnail
   .planting-thumbnail-image
     = link_to image_tag(planting_image_path(planting),
                         alt: planting.crop, class: 'img-card'),
                         planting
   .card-body
-    %h5.card-title
+    %h4
       = crop_icon(planting.crop)
       = link_to planting.crop, planting
-    %h6.card-subtitle.text-muted=planting.finished_at
-    = render 'plantings/badges', planting: planting
+      planting
+    - if planting.finished_at.present?
+      %h6.card-subtitle.text-muted=planting.finished_at

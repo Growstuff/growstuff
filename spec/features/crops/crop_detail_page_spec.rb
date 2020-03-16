@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "crop detail page", js: true do
@@ -29,16 +31,20 @@ describe "crop detail page", js: true do
       before { subject }
 
       it "has a link to plant the crop" do
-        click_link 'Add to garden'
+        click_link 'Add to my garden'
         expect(page).to have_link "add new garden"
       end
       it "has a link to harvest the crop" do
         click_link 'Record harvest'
         expect(page).to have_link "leaf"
       end
-      it "has a link to add seeds" do
-        click_link 'Save seeds'
-        expect(page).to have_link "Will trade: nowhere"
+      describe "Saving seeds" do
+        before { click_link 'Save seeds' }
+        it { expect(page).to have_text "Will you offer these seeds for trade?" }
+        it { expect(page).to have_button "locally" }
+        it { expect(page).to have_button "nationally" }
+        it { expect(page).to have_button "internationally" }
+        it { expect(page).to have_button "Save #{crop.name} seeds." }
       end
     end
 

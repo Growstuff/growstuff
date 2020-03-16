@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe AlternateName do
@@ -9,7 +11,7 @@ describe AlternateName do
 
   it 'is possible to add multiple alternate names to a crop' do
     crop = an.crop
-    an2 = AlternateName.create(
+    an2 = described_class.create(
       name:       "really alternative tomato",
       crop_id:    crop.id,
       creator_id: an.creator.id

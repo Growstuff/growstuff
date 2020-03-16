@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembersController < ApplicationController
   load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
   skip_authorize_resource only: %i(nearby unsubscribe finish_signup)
@@ -21,10 +23,31 @@ class MembersController < ApplicationController
 
     @activity = TimelineService.member_query(@member).limit(30)
 
-    # The garden form partial is called from the "New Garden" tab;
-    # it requires a garden to be passed in @garden.
-    # The new garden is not persisted unless Garden#save is called.
-    @garden = Garden.new
+    @late = []
+    @super_late = []
+    @harvesting = []
+    @others = []
+
+    @member.plantings.active.annual.each do |planting|
+      if planting.finish_is_predicatable?
+        if planting.super_late?
+          @super_late << planting
+        elsif planting.late?
+          @late << planting
+        elsif planting.harvest_time?
+          @harvesting << planting
+        else
+          @others << planting
+        end
+      end
+    end
+
+    @harvests = Harvest.search(
+      where:    { owner_id: @member.id },
+      boost_by: [:created_at],
+      limit:    16,
+      load:     false
+    )
 
     respond_to do |format|
       format.html # show.html.haml

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Finishable
   extend ActiveSupport::Concern
 
@@ -5,7 +7,7 @@ module Finishable
     scope :finished, -> { where(finished: true) }
     scope :current, -> { where.not(finished: true) }
 
-    def active?
+    def active
       !finished
     end
   end

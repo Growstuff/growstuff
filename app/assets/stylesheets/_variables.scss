@@ -15,37 +15,30 @@ $body-bg: $beige;
 $text-color: $brown;
 $link-color: $green;
 
-$default-font: "Fira Sans", Helvetica, Arial, sans-serif;
+$default-font: 'Raleway',
+"Fira Sans",
+Helvetica,
+Arial,
+sans-serif;
 
-$primary: (
-  color: $green,
-  dark:  darken($green, 20%),
-  light: lighten($green, 20%)
-);
-$secondary: (
-  color: $blue,
-  dark:  darken($blue, 20%),
-  light: lighten($blue, 20%)
-);
-$success: (
-  color: $green,
-  dark:  darken($green, 20%),
-  light: lighten($green, 20%)
-);
-$danger: (
-  color: $red,
-  dark:  darken($red, 20%),
-  light: lighten($red, 20%)
-);
-$dark: (
-  color: $brown,
-  dark:  darken($brown, 20%),
-  light: lighten($brown, 20%)
-);
+$primary: (color: $green,
+  dark: darken($green, 20%),
+  light: lighten($green, 20%));
+$secondary: (color: $blue,
+  dark: darken($blue, 20%),
+  light: lighten($blue, 20%));
+$success: (color: $green,
+  dark: darken($green, 20%),
+  light: lighten($green, 20%));
+$danger: (color: $red,
+  dark: darken($red, 20%),
+  light: lighten($red, 20%));
+$dark: (color: $brown,
+  dark: darken($brown, 20%),
+  light: lighten($brown, 20%));
 
 
-$grid-breakpoints: (
-  // Extra small screen / phone
+$grid-breakpoints: ( // Extra small screen / phone
   xs: 0,
   // Small screen / phone
   sm: 576px,
@@ -54,8 +47,7 @@ $grid-breakpoints: (
   // Large screen / desktop
   lg: 1200px,
   // Extra large screen / wide desktop
-  xl: 1800px
-);
+  xl: 1800px);
 
 // Nav bar
 $navbar-default-bg: $brown;
@@ -66,7 +58,7 @@ $navbar-default-link-hover-color: $beige;
 $navbar-default-link-active-color: darken($beige, 80%);
 $navbar-default-brand-color: lighten($green, 20%);
 
-$highest-level:  1070;
+$highest-level: 1070;
 
 $progress-height: 5em;
 $progress-bar-color: $green;

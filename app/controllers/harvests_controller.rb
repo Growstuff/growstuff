@@ -1,20 +1,30 @@
-class HarvestsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
+# frozen_string_literal: true
+
+class HarvestsController < DataController
   after_action :update_crop_medians, only: %i(create update destroy)
-  load_and_authorize_resource
-  respond_to :html, :json
-  respond_to :csv, :rss, only: :index
-  responders :flash
 
   def index
-    @owner = Member.find_by(slug: params[:member_slug])
-    @crop = Crop.find_by(slug: params[:crop_slug])
-    @planting = Planting.find_by(slug: params[:planting_id])
+    where = {}
+    if params[:member_slug]
+      @owner = Member.find_by(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
+    end
 
-    @harvests = @harvests.where(owner: @owner) if @owner.present?
-    @harvests = @harvests.where(crop: @crop) if @crop.present?
-    @harvests = @harvests.where(planting: @planting) if @planting.present?
-    @harvests = @harvests.order(harvested_at: :desc).joins(:owner, :crop).paginate(page: params[:page])
+    if params[:crop_slug]
+      @crop = Crop.find_by(slug: params[:crop_slug])
+      where['crop_id'] = @crop.id
+    end
+
+    if params[:planting_slug]
+      @planting = Planting.find_by(slug: params[:planting_slug])
+      where['planting_id'] = @planting.id
+    end
+
+    @harvests = Harvest.search('*', where:    where,
+                                    limit:    100,
+                                    page:     params[:page],
+                                    load:     false,
+                                    boost_by: [:created_at])
 
     @filename = csv_filename
 
@@ -29,7 +39,7 @@ class HarvestsController < ApplicationController
 
   def new
     @harvest = Harvest.new(harvested_at: Time.zone.today)
-    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id]
+    @planting = Planting.find_by(slug: params[:planting_slug]) if params[:planting_slug]
     @crop = Crop.find_by(id: params[:crop_id])
     respond_with(@harvest)
   end
@@ -65,8 +75,8 @@ class HarvestsController < ApplicationController
   def harvest_params
     params.require(:harvest)
       .permit(:planting_id, :crop_id, :harvested_at, :description,
-        :quantity, :unit, :weight_quantity, :weight_unit,
-        :plant_part_id, :slug, :si_weight)
+              :quantity, :unit, :weight_quantity, :weight_unit,
+              :plant_part_id, :slug, :si_weight)
       .merge(owner_id: current_member.id)
   end
 

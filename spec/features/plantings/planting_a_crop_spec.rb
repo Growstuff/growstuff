@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 require 'custom_matchers'
 
-describe "Planting a crop", :js, :elasticsearch do
+describe "Planting a crop", :js, :search do
   let!(:maize) { FactoryBot.create :maize }
   let(:garden) { FactoryBot.create :garden, owner: member, name: 'Orchard' }
   let!(:planting) do
     FactoryBot.create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10")
   end
+
+  before { Planting.reindex }
 
   context 'signed in' do
     include_context 'signed in member'
@@ -162,7 +166,7 @@ describe "Planting a crop", :js, :elasticsearch do
 
     it "Planting from crop page" do
       visit crop_path(maize)
-      click_link "Add to garden"
+      click_link "Add to my garden"
       click_link "Orchard"
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "maize"
@@ -219,6 +223,9 @@ describe "Planting a crop", :js, :elasticsearch do
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Finished"
       expect(page).to have_content "Aug 2014"
+
+      # ensure we've indexed in elastic search
+      planting.reindex(refresh: true)
 
       # shouldn't be on the page
       visit plantings_path

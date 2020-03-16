@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "crops/_grown_for" do
@@ -5,8 +7,8 @@ describe "crops/_grown_for" do
   let(:plant_path) { FactoryBot.create(:plant_part) }
   let!(:harvest) do
     FactoryBot.create(:harvest,
-      crop:       crop,
-      plant_part: plant_path)
+                      crop:       crop,
+                      plant_part: plant_path)
   end
 
   it 'shows plant parts' do

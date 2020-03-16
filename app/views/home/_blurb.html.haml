@@ -1,6 +1,5 @@
-.row
+.row.homepage-blurb
   .col-md-8.info
-    %h1.display-3= ENV['GROWSTUFF_SITE_NAME']
     %p= t('.intro', site_name: ENV['GROWSTUFF_SITE_NAME'])
     = render 'stats'
   .col-md-4

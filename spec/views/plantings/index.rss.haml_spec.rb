@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe 'plantings/index.rss.haml' do
+describe 'plantings/index.rss.haml', :search do
   before do
     controller.stub(:current_user) { nil }
   end
@@ -10,28 +12,25 @@ describe 'plantings/index.rss.haml' do
       @planting = FactoryBot.create(:planting)
       @sunny = FactoryBot.create(:sunny_planting)
       @seedling = FactoryBot.create(:seedling_planting)
-      assign(:plantings, [@planting, @sunny, @seedling])
+      Planting.searchkick_index.refresh
+      assign(:plantings, Planting.search(load: false))
       render
     end
 
     it 'shows RSS feed title' do
-      rendered.should have_content "Recent plantings from all members"
+      expect(rendered).to have_content "Recent plantings from all members"
     end
 
     it 'item title shows owner and location' do
-      rendered.should have_content "#{@planting.crop} in #{@planting.location}"
-    end
-
-    it 'shows formatted content of posts' do
-      rendered.should have_content "This is a <em>really</em> good plant."
+      expect(rendered).to have_content "#{@planting.crop.name} in #{@planting.location}"
     end
 
     it 'shows sunniness' do
-      rendered.should have_content 'Sunniness: sun'
+      expect(rendered).to have_content 'Sunniness: sun'
     end
 
     it 'shows propagation method' do
-      rendered.should have_content 'Planted from: seedling'
+      expect(rendered).to have_content 'Planted from: seedling'
     end
   end
 
@@ -44,7 +43,7 @@ describe 'plantings/index.rss.haml' do
     end
 
     it 'shows title for single member' do
-      rendered.should have_content "Recent plantings from #{@planting.owner}"
+      expect(rendered).to have_content "Recent plantings from #{@planting.owner}"
     end
   end
 end

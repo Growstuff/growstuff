@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe "home page" do
+describe "home page", :search do
   subject { page }
 
   let(:member) { FactoryBot.create :member }
@@ -12,18 +14,24 @@ describe "home page" do
   let(:seed)    { FactoryBot.create :tradable_seed, owner: member, crop: crop }
   let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop       }
 
-  let!(:tradable_seed) { FactoryBot.create :tradable_seed, finished: false }
-  let!(:finished_seed)   { FactoryBot.create :tradable_seed, finished: true }
-  let!(:untradable_seed) { FactoryBot.create :untradable_seed               }
+  let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
+  let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }
+  let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
 
   before do
     # Add photos, so they can appear on home page
     planting.photos << photo
     seed.photos << photo
     harvest.photos << photo
-  end
 
-  before { visit root_path }
+    Crop.reindex
+    Planting.reindex
+    Seed.reindex
+    Harvest.reindex
+    Photo.reindex
+
+    visit root_path
+  end
 
   shared_examples 'shows seeds' do
     it "show tradeable seed" do
@@ -45,6 +53,7 @@ describe "home page" do
       it { expect(subject).to have_link href: planting_path(planting) }
     end
   end
+
   shared_examples 'show harvests' do
     describe 'shows harvests section' do
       it { expect(subject).to have_text 'Recently Harvested' }
@@ -54,6 +63,7 @@ describe "home page" do
 
   shared_examples "show crops" do
     describe 'shows crops section' do
+      before { crop.reindex }
       it { is_expected.to have_text 'Some of our crops' }
       it { is_expected.to have_link href: crop_path(crop) }
     end

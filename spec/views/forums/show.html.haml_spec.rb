@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "forums/show" do
@@ -8,8 +10,8 @@ describe "forums/show" do
 
   it "renders attributes" do
     render
-    rendered.should have_content "Everything about permaculture"
-    rendered.should have_content @forum.owner.to_s
+    expect(rendered).to have_content "Everything about permaculture"
+    expect(rendered).to have_content @forum.owner.to_s
   end
 
   it "parses markdown description into html" do
@@ -24,14 +26,14 @@ describe "forums/show" do
 
   it 'has no posts' do
     render
-    rendered.should have_content "No posts yet."
+    expect(rendered).to have_content "No posts yet."
   end
 
   it 'shows posts' do
     @post = FactoryBot.create(:post, forum: @forum)
     render
     assert_select "table"
-    rendered.should have_content @post.subject
-    rendered.should have_content @post.author.to_s
+    expect(rendered).to have_content @post.subject
+    expect(rendered).to have_content @post.author.to_s
   end
 end

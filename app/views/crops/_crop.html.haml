@@ -5,8 +5,8 @@
                           class: 'img img-card'),
                           crop
   .card-body
-    .card-title
-      %strong= link_to crop, crop
+    %h3.card-title
+      %strong= link_to crop.name, crop_path(slug: crop.slug)
       = crop.default_scientific_name
       %span.text-muted
         - if crop.perennial?
@@ -33,5 +33,6 @@
     - if member_signed_in?
       .card-footer
         .d-flex.justify-content-between
-          = crop_plant_button(crop)
-          = crop_save_seeds_button(crop)
+          = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
+          - #= render 'harvests/modal', harvest: Harvest.new(crop: crop, owner: current_member)
+          = render 'seeds/modal', seed: Seed.new(crop: crop, owner: current_member)

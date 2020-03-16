@@ -1,8 +1,7 @@
 = content_for :title, "#{@garden.owner}'s #{@garden}"
 
 - content_for :opengraph do
-  - @garden.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:image", content: garden_image_path(@garden))
   - if @garden.description
     = tag("meta", property: "og:description", content: og_description(@garden.description))
   = tag("meta", property: "og:title", content: "#{@garden.owner}'s #{@garden}")
@@ -71,14 +70,18 @@
         %p
           %strong Owner:
           = link_to @garden.owner, @garden.owner
-        - unless @garden.location.blank?
+        - if @garden.location.present?
           %p
             %strong Location:
             = @garden.location
-        - unless @garden.area.blank?
+        - if @garden.area.present?
           %p
             %strong Area:
             = pluralize(@garden.area, @garden.area_unit)
+        - if @garden.garden_type.present?
+          %p
+            %strong Garden type:
+            = @garden.garden_type.name
 
     .card
       .card-header

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Planting < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
@@ -5,6 +7,8 @@ class Planting < ApplicationRecord
   include Ownable
   include PredictPlanting
   include PredictHarvest
+  include SearchPlantings
+
   friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants
@@ -54,7 +58,8 @@ class Planting < ApplicationRecord
   ## Delegations
   delegate :name, :slug, :en_wikipedia_url, :default_scientific_name, :plantings_count, :perennial,
            to: :crop, prefix: true
-  delegate :login_name, to: :owner, prefix: true
+  delegate :login_name, :slug, :location, to: :owner, prefix: true
+  delegate :slug, to: :planting, prefix: true
 
   delegate :annual?, :perennial?, :svg_icon, to: :crop
   delegate :location, :longitude, :latitude, to: :garden
@@ -74,10 +79,6 @@ class Planting < ApplicationRecord
   validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
-
-  def age_in_days
-    (Time.zone.today - planted_at).to_i if planted_at.present?
-  end
 
   def planting_slug
     [
@@ -105,14 +106,14 @@ class Planting < ApplicationRecord
   end
 
   def nearby_same_crop
-    return Planting.none if location.blank?
+    return Planting.none if location.blank? || latitude.blank? || longitude.blank?
 
     # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
     Planting.joins(:garden)
       .where(crop: crop)
       .located
       .where('gardens.latitude < ? AND gardens.latitude > ?',
-        latitude + 10, latitude - 10)
+             latitude + 10, latitude - 10)
   end
 
   private

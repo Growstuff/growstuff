@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil

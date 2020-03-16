@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Member < ApplicationRecord
   include Discard::Model
   acts_as_messageable # messages can be sent to this model
@@ -17,7 +19,7 @@ class Member < ApplicationRecord
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
-  has_and_belongs_to_many :roles # rubocop:disable Rails/HasAndBelongsToMany
+  has_and_belongs_to_many :roles
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender
   has_many :authentications, dependent: :destroy

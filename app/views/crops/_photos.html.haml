@@ -1,7 +1,7 @@
-- if @crop.photos.size.positive?
-  %h2 #{photo_icon} Photos
-  - [Crop, Planting, Harvest, Seed].each do |model_name|
-    - if photos.by_model(model_name).size.positive?
-      %h3 #{@crop.name.capitalize} #{t("activerecord.models.#{model_name.to_s.downcase}.other")}
-      = render 'photos/gallery', photos: photos.by_model(model_name).order(likes_count: :desc).limit(5)
+%h2 #{photo_icon} Photos
+- [Crop, Planting, Harvest, Seed].each do |model_name|
+  - if crop.photos.by_model(model_name).any?
+    %h3 #{@crop.name.capitalize} #{t("activerecord.models.#{model_name.to_s.downcase}.other")}
+    = render 'photos/gallery', photos: crop.photos.by_model(model_name).includes(:owner).order(likes_count: :desc).limit(5)
+- if crop.photos.count.positive?
   = link_to 'more photos »', crop_photos_path(@crop), class: 'btn'

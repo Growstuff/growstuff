@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
@@ -26,12 +28,12 @@ Rails.application.routes.draw do
     resources :photos, only: :index
   end
 
-  resources :gardens, concerns: :has_photos do
+  resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
     get 'layout' => 'gardens#layout'
   end
 
-  resources :plantings, concerns: :has_photos do
+  resources :plantings, concerns: :has_photos, param: :slug do
     resources :harvests
     resources :seeds
     collection do
@@ -39,12 +41,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :seeds, concerns: :has_photos do
-    resources :plantings
+  resources :seeds, concerns: :has_photos, param: :slug do
+    get 'plantings' => 'plantings#index'
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
 
-  resources :harvests, concerns: :has_photos do
+  resources :harvests, concerns: :has_photos, param: :slug do
     get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop', on: :collection
   end
 
@@ -85,7 +87,10 @@ Rails.application.routes.draw do
   resources :forums
 
   resources :follows, only: %i(create destroy)
-  resources :likes, only: %i(create destroy)
+
+  post 'likes' => 'likes#create'
+  delete 'likes' => 'likes#destroy'
+
   resources :timeline
 
   resources :members, param: :slug do

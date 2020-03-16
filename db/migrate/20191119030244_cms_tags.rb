@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CmsTags < ActiveRecord::Migration[5.2]
   def up
     Comfy::Cms::Layout.all.each do |layout|
@@ -28,7 +30,9 @@ class CmsTags < ActiveRecord::Migration[5.2]
       layout.content = layout.content.gsub(/\{\{ ?cms:(\w+):([\w]+):([^:]*) ?\}\}/, '{{ cms:\1 \2, "\3" }}') if layout.content.is_a? String
       layout.content = layout.content.gsub(/cms:rich_text/, 'cms:wysiwyg') if layout.content.is_a? String
       layout.content = layout.content.gsub(/cms:integer/, 'cms:number') if layout.content.is_a? String
-      layout.content = layout.content.gsub(/cms: string/, 'cms:text') if layout.content.is_a? String # probably a result of goofing one of the more general regexps
+      if layout.content.is_a? String
+        layout.content = layout.content.gsub(/cms: string/, 'cms:text')
+      end # probably a result of goofing one of the more general regexps
       if layout.content.is_a? String
         layout.content = layout.content.gsub(%r{\{\{ ?cms:page_file ([\w/]+) ?\}\}}, '{{ cms:file \1, render: false }}')
       end

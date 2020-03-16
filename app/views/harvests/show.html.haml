@@ -1,7 +1,6 @@
 = content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
 - content_for :opengraph do
-  - @harvest.photos.each do |photo|
-    = tag("meta", property: "og:image", content: photo.fullsize_url)
+  = tag("meta", property: "og:image", content: harvest_image_path(@harvest))
   = tag("meta", property: "og:image:user_generated", content: "true")
   = tag("meta", property: "og:title", content: "#{@harvest.crop} harvested by #{@harvest.owner}")
   = tag("meta", property: "og:type", content: "website")
@@ -44,10 +43,10 @@
           %strong.quantity
             = display_quantity(@harvest)
 
-      - if @harvest.photos.size.positive?
-        %section
-          %h2 Photos
-          = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc).limit(3)
+      %section
+        %h2 Photos
+        = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc)
+        = add_photo_button(@harvest)
       %section.harvest-detail
         %h2 Detail
         - if @harvest.planting.present?

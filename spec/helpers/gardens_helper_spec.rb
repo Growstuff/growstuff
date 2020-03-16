@@ -1,31 +1,33 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe GardensHelper do
   describe "garden description" do
     it "is missing" do
       garden = FactoryBot.create(:garden,
-        description: nil)
+                                 description: nil)
       result = helper.display_garden_description(garden)
       expect(result).to eq "no description provided."
     end
 
     it "is less than 130 characters long" do
       garden = FactoryBot.create(:garden,
-        description: 'a' * 20)
+                                 description: 'a' * 20)
       result = helper.display_garden_description(garden)
       expect(result).to eq 'a' * 20
     end
 
     it "is 130 characters long" do
       garden = FactoryBot.create(:garden,
-        description: 'a' * 130)
+                                 description: 'a' * 130)
       result = helper.display_garden_description(garden)
       expect(result).to eq 'a' * 130
     end
 
     it "is more than 130 characters long" do
       garden = FactoryBot.create(:garden,
-        description: 'a' * 140)
+                                 description: 'a' * 140)
       result = helper.display_garden_description(garden)
       expect(result).to eq 'a' * 126 + '...' + ' ' + link_to("Read more", garden_path(garden))
     end

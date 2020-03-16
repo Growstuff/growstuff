@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Charts
   class GardensController < ApplicationController
     respond_to :json
     def timeline
       @data = []
-      @garden = Garden.find(params[:garden_id])
+      @garden = Garden.find(params[:garden_slug])
       @garden.plantings.where.not(planted_at: nil)
         .order(finished_at: :desc).each do |p|
         # use finished_at if we have it, otherwise use predictions

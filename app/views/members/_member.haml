@@ -1,26 +1,28 @@
 - cache member do
-  .card.member-card.text-center
-    = link_to member do
-      = image_tag(avatar_uri(member, 150), class: 'img img-fluid avatar rounded', alt: member)
+  .card.card-double
     .card-body
-      %h4.card-title.login-name= link_to member, member
+      .row
+        .col-12.col-md-6
+          = render "members/avatar", member: member
+        .col-12.col-md-6
+          %h4.login-name= link_to member, member
+          = link_to "view all #{member}'s gardens", member_gardens_path(member)
+          %p
+            %small
+              Joined
+              = distance_of_time_in_words(member.created_at, Time.zone.now)
+              ago.
+          - if member.location.present?
+            = link_to member.location, place_path(member.location)
     .card-footer
-      %p
-        %small
-          Joined
-          = distance_of_time_in_words(member.created_at, Time.zone.now)
-          ago.
-      - if member.location.present?
-        = render 'members/location', member: member
+      %ul.nav.nav-justified.small
+        %li.nav-item.border-right
+          = link_to member_plantings_path(member) do
+            = localize_plural(member.plantings.active, Planting)
+        %li.nav-item.border-right
+          = link_to member_harvests_path(member) do
+            = localize_plural(member.harvests, Harvest)
+        %li.nav-item
+          = link_to member_seeds_path(member) do
+            = localize_plural(member.seeds.active, Seed)
 
-      %p
-        %ul.nav.nav-justified.small
-          %li.nav-item.border-right
-            = link_to member_plantings_path(member) do
-              = localize_plural(member.plantings, Planting)
-          %li.nav-item.border-right
-            = link_to member_harvests_path(member) do
-              = localize_plural(member.harvests, Harvest)
-          %li.nav-item
-            = link_to member_seeds_path(member) do
-              = localize_plural(member.seeds, Seed)

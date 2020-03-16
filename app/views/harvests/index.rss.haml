@@ -2,18 +2,17 @@
 %rss{ version: 2.0 }
   %channel
     %title
-      Recent harvests from #{@owner ? @owner : 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
+      Recent harvests from #{@owner ||= 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= harvests_url
     - @harvests.each do |harvest|
       %item
-        %title #{harvest.owner.login_name}'s #{harvest.crop.name}
-        %pubdate= harvest.harvested_at.to_s(:rfc822)
+        %title #{harvest.owner_login_name}'s #{harvest.crop_name}
+        %pubdate= harvest.harvested_at
         %description
           :escaped
-            <p>Crop: #{harvest.crop ? harvest.crop : 'unknown' }</p>
-            <p>Quantity: #{harvest.quantity ? harvest.quantity : 'unknown' }</p>
-            <p>Harvested on: #{harvest.harvested_at ? harvest.harvested_at : 'unknown' }</p>
-          :escaped_markdown
-            #{ strip_tags harvest.description }
-        %link= harvest_url(harvest)
-        %guid= harvest_url(harvest)
+            <p>Crop: #{harvest.crop_name}</p>
+            <p>Plant path: #{harvest.plant_part_name}</p>
+            <p>Quantity: #{harvest.quantity ||= 'unknown' }</p>
+            <p>Harvested on: #{harvest.harvested_at ||= 'unknown' }</p>
+        %link= harvest_url(slug: harvest.slug)
+        %guid= harvest_url(slug: harvest.slug)

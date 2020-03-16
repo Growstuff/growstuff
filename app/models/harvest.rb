@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class Harvest < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
   include PhotoCapable
   include Ownable
+  include SearchHarvests
 
   friendly_id :harvest_slug, use: %i(slugged finders)
 
@@ -33,8 +36,8 @@ class Harvest < ApplicationRecord
 
   ##
   ## Relationships
-  belongs_to :crop
-  belongs_to :plant_part
+  belongs_to :crop, counter_cache: true
+  belongs_to :plant_part, counter_cache: true
   belongs_to :planting, optional: true, counter_cache: true
 
   ##
@@ -43,9 +46,13 @@ class Harvest < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=harvests.owner_id)
-           LEFT OUTER JOIN harvests h2
-           ON (m.id=h2.owner_id AND harvests.id < h2.id)").where("h2 IS NULL")
+            LEFT OUTER JOIN harvests h2
+            ON (m.id=h2.owner_id AND harvests.id < h2.id)").where("h2 IS NULL")
   }
+
+  delegate :name, :slug, to: :crop, prefix: true
+  delegate :login_name, :slug, to: :owner, prefix: true
+  delegate :name, to: :plant_part, prefix: true
 
   ##
   ## Validations

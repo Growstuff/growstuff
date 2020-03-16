@@ -1,0 +1,93 @@
+// Overrides applying only to mobile view. This must be at the end of the overrides file.
+// Extra small devices (portrait phones, less than 576px)
+@include media-breakpoint-down(md) {
+
+  .container {
+    margin: 2px;
+    padding: 0;
+  }
+
+  #maincontainer {
+    width: 100%;
+  }
+
+  .navbar .nav>li {
+    display: block;
+  }
+
+  .navbar .navbar-form {
+    padding-left: 0;
+    padding-right: 0;
+
+    #navbar-search {
+      width: 100%;
+    }
+  }
+
+  .navbar-brand {
+    margin-bottom: 1em;
+
+    .site-name {
+      font-size: auto;
+      text-align: justify;
+    }
+
+    .site-name:after {
+      content: '';
+      display: inline-block;
+      width: 100%;
+    }
+
+  }
+
+  h1 {
+    font-size: 200%;
+  }
+
+  h2 {
+    font-size: 130%;
+  }
+
+  h3 {
+    font-size: 120%;
+  }
+
+  .card-title {
+    margin-bottom: 0;
+  }
+
+  .sidebar {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .map {
+    height: 300px;
+  }
+
+
+  section .btn {
+    width: 100%;
+  }
+
+  .index-cards {
+    .card {
+      margin: .2em;
+      width: 48%;
+
+      // Shrink title to fit more on page
+      .card-title {
+        font-size: 1em;
+      }
+
+      // Restrict height of image when on smaller screens
+      .img-card {
+        height: 100px;
+        object-fit: cover;
+        width: 100%;
+      }
+
+    }
+  }
+}

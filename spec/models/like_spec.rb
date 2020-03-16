@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'like' do
   let(:member) { FactoryBot.create(:member) }
   let(:post)   { FactoryBot.create(:post)   }
+  let(:photo)  { FactoryBot.create :photo }
 
   context 'existing like' do
     before do
@@ -58,5 +61,15 @@ describe 'like' do
     like = Like.create(member: member, likeable: post)
     member.destroy
     expect(Like.all).not_to include like
+  end
+
+  it 'liked_by_members_names' do
+    expect(post.liked_by_members_names).to eq []
+    Like.create(member: member, likeable: post)
+    expect(post.liked_by_members_names).to eq [member.login_name]
+
+    expect(photo.liked_by_members_names).to eq []
+    Like.create(member: member, likeable: photo)
+    expect(photo.liked_by_members_names).to eq [member.login_name]
   end
 end

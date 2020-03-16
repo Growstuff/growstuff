@@ -30,7 +30,7 @@
         .col-md-5.col-12= f.number_field :area, class: 'input-small'
         .col-md-7.col-12= f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false })
         .col-12= f.select(:garden_type_id, GardenType.all.order(:name).pluck(:name, :id),
-                          selected: @garden.garden_type_id)
+                          selected: @garden.garden_type_id, include_blank: true)
         .col-12
           = f.check_box :active, label: 'Active?'
           %p

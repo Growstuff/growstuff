@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe "show photo page" do
@@ -15,7 +17,7 @@ describe "show photo page" do
 
         it {
           expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
-            href: planting_path(planting)
+                                    href: planting_path(planting)
         }
         it { expect(page).to have_link planting.crop.name }
       end

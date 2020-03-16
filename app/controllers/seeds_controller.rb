@@ -1,20 +1,35 @@
-class SeedsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  load_and_authorize_resource
-  responders :flash
-  respond_to :html, :json
-  respond_to :csv, only: :index
-  respond_to :rss, only: :index
+# frozen_string_literal: true
 
+class SeedsController < DataController
   def index
-    @owner = Member.find_by(slug: params[:member_slug]) if params[:member_slug].present?
-    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug].present?
-    @planting = Planting.find_by(slug: params[:planting_id]) if params[:planting_id].present?
+    where = {}
+
+    if params[:member_slug].present?
+      @owner = Member.find_by(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
+    end
+
+    if params[:crop_slug].present?
+      @crop = Crop.find_by(slug: params[:crop_slug])
+      where['crop_id'] = @crop.id
+    end
+
+    if params[:planting_id].present?
+      @planting = Planting.find_by(slug: params[:planting_id])
+      where['parent_planting'] = @planting.id
+    end
 
     @show_all = (params[:all] == '1')
+    where['finished'] = false unless @show_all
 
     @filename = csv_filename
-    @seeds = seeds.order(created_at: :desc).includes(:owner, :crop).paginate(page: params[:page])
+    @seeds = Seed.search(
+      where:    where,
+      page:     params[:page],
+      limit:    30,
+      boost_by: [:created_at],
+      load:     false
+    )
 
     respond_with(@seeds)
   end
@@ -27,8 +42,8 @@ class SeedsController < ApplicationController
   def new
     @seed = Seed.new
 
-    if params[:planting_id]
-      @planting = Planting.find_by(slug: params[:planting_id])
+    if params[:planting_slug]
+      @planting = Planting.find_by(slug: params[:planting_slug])
     else
       @crop = Crop.find_or_initialize_by(id: params[:crop_id])
     end
@@ -60,15 +75,6 @@ class SeedsController < ApplicationController
   end
 
   private
-
-  def seeds
-    records = Seed.all
-    records = records.where(owner: @owner) if @owner.present?
-    records = records.where(crop: @crop) if @crop.present?
-    records = records.where(parent_planting: @planting) if @planting.present?
-    records = records.active unless @show_all
-    records
-  end
 
   def seed_params
     params.require(:seed).permit(

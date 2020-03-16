@@ -10,12 +10,17 @@
 - content_for :member_rss_login_name, @member.login_name
 - content_for :member_rss_slug, @member.slug
 
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Members', members_path
+  %li.breadcrumb-item.active= link_to @member.login_name, member_path(@member)
+
 .row
   .col-md-2
     .card
       .card-body
-        = render "avatar", member: @member
-        = render "bio", member: @member
+        .row
+          .col= render "bio", member: @member
+          .col= render "avatar", member: @member
         %p
           - @member.roles.each do |role|
             %span.badge.badge-info= role.name.titleize
@@ -57,6 +62,7 @@
 
   .col-md-10
     %section= render "map", member: @member
+    = render 'members/full_summary', member: @member
     %section.activity
       %h2 Activity
       .list-group

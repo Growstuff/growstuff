@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Harvest do
@@ -142,7 +144,7 @@ describe Harvest do
     it 'lists most recent harvests first' do
       @h1 = FactoryBot.create(:harvest, created_at: 1.day.ago)
       @h2 = FactoryBot.create(:harvest, created_at: 1.hour.ago)
-      expect(Harvest.all.order(created_at: :desc)).to eq [@h2, @h1]
+      expect(described_class.all.order(created_at: :desc)).to eq [@h2, @h1]
     end
   end
 
@@ -253,7 +255,7 @@ describe Harvest do
       end
 
       it 'is found in has_photos scope' do
-        Harvest.has_photos.should include(@harvest)
+        described_class.has_photos.should include(@harvest)
       end
 
       it 'has a photo' do
@@ -298,8 +300,8 @@ describe Harvest do
   it 'excludes deleted members' do
     member = FactoryBot.create :member
     harvest = FactoryBot.create :harvest, owner: member
-    expect(Harvest.joins(:owner).all).to include(harvest)
+    expect(described_class.joins(:owner).all).to include(harvest)
     member.destroy
-    expect(Harvest.joins(:owner).all).not_to include(harvest)
+    expect(described_class.joins(:owner).all).not_to include(harvest)
   end
 end

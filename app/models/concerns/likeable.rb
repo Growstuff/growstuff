@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Likeable
   extend ActiveSupport::Concern
 
@@ -7,6 +9,10 @@ module Likeable
   end
 
   def liked_by?(member)
-    member && members.include?(member)
+    liked_by_members_names.include?(member.login_name)
+  end
+
+  def liked_by_members_names
+    Member.where(id: likes.pluck(:member_id)).pluck(:login_name)
   end
 end

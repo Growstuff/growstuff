@@ -16,7 +16,7 @@
 
   .index-cards
     - @posts.each do |post|
-      = render 'posts/preview', post: post
+      .card.card-double= render 'posts/preview', post: post
 
   = will_paginate @posts
 

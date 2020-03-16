@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Comment < ApplicationRecord
   belongs_to :author, class_name: 'Member', inverse_of: :comments
-  belongs_to :post
+  belongs_to :post, counter_cache: true
 
   scope :post_order, -> { reorder("created_at ASC") } # for display on post page
 

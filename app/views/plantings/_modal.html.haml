@@ -1,0 +1,28 @@
+#modelPlantingForm.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "planting-button", role: "dialog", tabindex: "-1"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header.text-center
+        %h4.modal-title.w-100.font-weight-bold Record #{planting.crop.name} planting
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+          %span{"aria-hidden" => "true"} &#215;
+      .modal-body
+        %p Which garden is the planting in?
+
+        %ul.list-group
+          - planting.owner.gardens.active.order(:name).each do |garden|
+            %li.list-group-item
+              = link_to plantings_path(planting: {crop_id: planting.crop_id, garden_id: garden.id}), method: :post do
+                .md-v-line
+                .d-flex.justify-content-between
+                  = image_tag garden_image_path(garden), class: 'img', height: 50
+                  %span
+                    %h4= garden.name
+                    %p= garden.description
+                  %span
+                    - garden
+        = link_to 'add new garden', new_garden_path
+
+
+%a.btn{"data-target" => "#modelPlantingForm", "data-toggle" => "modal", href: "", id: 'planting-button'}
+  = planting_icon
+  Add to my garden

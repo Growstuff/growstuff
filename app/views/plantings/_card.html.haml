@@ -1,27 +1,37 @@
 - cache planting do
-  .card.planting{class: planting.active? ? '' : 'card-finished'}
-    = link_to planting do
-      = image_tag planting_image_path(planting), class: 'img-card', alt: planting
-    - if can? :edit, planting
-      .planting-quick-actions
-        .dropdown
-          %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
-          .dropdown-menu{"aria-labelledby" => "planting-menu"}
-            = planting_edit_button(planting, classes: 'dropdown-item')
-            = add_photo_button(planting, classes: 'dropdown-item')
+  .card.planting{class: planting.active ? '' : 'card-finished'}
+    = link_to planting_path(slug: planting.slug) do
+      = image_tag planting.thumbnail_url ? planting.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.crop_name
 
-            - if planting.active?
-              = planting_finish_button(planting, classes: 'dropdown-item')
-              = planting_harvest_button(planting, classes: 'dropdown-item')
-              = planting_save_seeds_button(planting, classes: 'dropdown-item')
+    - if member_signed_in? && current_member.id == planting.owner_id
+      = link_to planting_path(slug: planting.slug) do
+        .planting-quick-actions
+          .dropdown
+            %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
 
-            - if can? :destroy, planting
-              .dropdown-divider
-              = delete_button(planting, classes: 'dropdown-item text-danger')
-    = link_to planting do
+            .dropdown-menu{"aria-labelledby" => "planting-menu"}
+              = link_to edit_planting_path(slug: planting.slug), class: 'dropdown-item' do
+                = edit_icon
+                = t('buttons.edit')
+              = link_to new_photo_path(id: planting.id, type: 'planting'), class: 'dropdown-item' do
+                = add_photo_icon
+                = t('buttons.add_photo')
+  
+              - if planting.active
+                = planting_finish_button(planting, classes: 'dropdown-item')
+                = planting_harvest_button(planting, classes: 'dropdown-item')
+                = planting_save_seeds_button(planting, classes: 'dropdown-item')
+  
+              - if can? :destroy, planting
+                .dropdown-divider
+                = delete_button(planting, classes: 'dropdown-item text-danger')
+    = link_to planting_path(slug: planting.slug) do
       .card-body.text-center
-        %h4= planting.crop
+        %h4= planting.crop_name
         .text-center= render 'plantings/badges', planting: planting
         = render 'plantings/progress', planting: planting
     .card-footer
-      .float-right=render 'members/tiny', member: planting.owner
+      .float-right
+        %span.chip.member-chip
+          = link_to member_path(slug: planting.owner_slug) do
+            = planting.owner_login_name

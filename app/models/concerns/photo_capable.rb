@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PhotoCapable
   extend ActiveSupport::Concern
 
@@ -8,7 +10,17 @@ module PhotoCapable
     scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
     def default_photo
-      most_liked_photo
+      Rails.cache.fetch("#{cache_key_with_version}/default_photo", expires_in: 8.hours) do
+        most_liked_photo
+      end
+    end
+
+    def thumbnail_url
+      df = default_photo
+
+      return unless df
+
+      df.source == 'flickr' ? df.fullsize_url : df.thumbnail_url
     end
 
     def most_liked_photo
