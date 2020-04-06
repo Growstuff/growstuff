@@ -35,11 +35,21 @@ body {
   }
 }
 
+
+.crop-action-buttons a.btn {
+  background-color: $white;
+}
+
 .navbar .btn-signup,
 .navbar .btn-signin {
   background-color: $green;
   color: $white;
   margin: 3px;
+}
+
+%ol.breadcrumb {
+  background-color: $white;
+  color: $black;
 }
 
 .homepage-blurb .site-name {
@@ -142,6 +152,45 @@ section {
     background-color: $beige;
   }
 }
+
+.hero-photo {
+  height: 200px;
+  width: 100%;
+}
+
+.hero-photo-main-image {
+  height: 600px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.hero-info {
+  background-color: $beige;
+  border-color: $brown;
+  bottom: 1em;
+  // margin-top: 4.5em;
+  // bottom: 4em;
+  opacity: .9;
+  padding: 1em;
+  position: relative;
+  width: auto;
+}
+
+.carousel-photo {
+  object-fit: cover;
+}
+
+.carousel-photo {
+  max-height:600px;
+}
+.carousel-caption %p {
+  background-color: $beige;
+}
+
+.carousel-pause-button {
+  display: none;
+}
+
 
 .img-cover,
 .card .img-card {
@@ -266,10 +315,9 @@ footer {
   }
 }
 
-// ensure footer is pushed to bottom of browser window
 #maincontainer {
-  max-width: 2500px;
-  min-height: 80%;
+  max-width: 1500px;
+  min-height: 80%; // ensure footer is pushed to bottom of browser window
   padding-bottom: 1em;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -379,9 +427,6 @@ ul.thumbnail-buttons {
   }
 }
 
-.breadcrumb {
-  background-color: $beige;
-}
 
 .chip {
   background-color: lighten($brown, 20%);
