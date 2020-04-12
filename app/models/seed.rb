@@ -6,12 +6,12 @@ class Seed < ApplicationRecord
   include Finishable
   include Ownable
   include SearchSeeds
-  friendly_id :seed_slug, use: %i(slugged finders)
+  friendly_id :seed_slug, use: %i[slugged finders]
 
-  TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
+  TRADABLE_TO_VALUES = %w[nowhere locally nationally internationally].freeze
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze
-  HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  HEIRLOOM_VALUES = %w[heirloom hybrid unknown].freeze
 
   #
   # Relationships
