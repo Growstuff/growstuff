@@ -43,7 +43,7 @@ def load_roles
   @wrangler = Role.create(name: 'Crop Wrangler')
 end
 
-def load_test_users # rubocop:disable Metrics/AbcSize
+def load_test_users
   puts "Loading test users..."
 
   # Open suburb csv
