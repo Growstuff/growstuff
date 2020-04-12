@@ -15,7 +15,7 @@ describe 'Converstions' do
       expect(response).to redirect_to '/conversations'
       follow_redirect!
       expect(response).to render_template(:index)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'allows users to trash multiple inbox conversations' do
