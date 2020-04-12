@@ -13,7 +13,7 @@ describe "forums", js: true do
         click_link "Forums"
       end
     end
-    it { expect(current_path).to eq forums_path }
+    it { expect(page).to have_current_path forums_path, ignore_query: true }
     it { expect(page).to have_link "New forum" }
   end
 
@@ -21,12 +21,12 @@ describe "forums", js: true do
     before do
       visit forums_path
       click_link "New forum"
-      expect(current_path).to eq new_forum_path
+      expect(page).to have_current_path new_forum_path, ignore_query: true
       fill_in 'Name', with: 'Discussion'
       fill_in 'Description', with: "this is a new forum"
       click_button 'Save'
     end
-    it { expect(current_path).to eq forum_path(Forum.last) }
+    it { expect(page).to have_current_path forum_path(Forum.last), ignore_query: true }
     it { expect(page).to have_content 'Forum was successfully created' }
   end
 
@@ -38,7 +38,7 @@ describe "forums", js: true do
       click_button 'Save'
       forum.reload
     end
-    it { expect(current_path).to eq forum_path(forum) }
+    it { expect(page).to have_current_path forum_path(forum), ignore_query: true }
     it { expect(page).to have_content 'Forum was successfully updated' }
     it { expect(page).to have_content 'Something else' }
   end
@@ -50,7 +50,7 @@ describe "forums", js: true do
         click_link 'Delete'
       end
     end
-    it { expect(current_path).to eq forums_path }
+    it { expect(page).to have_current_path forums_path, ignore_query: true }
     it { expect(page).to have_content 'Forum was successfully deleted' }
   end
 end
