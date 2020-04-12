@@ -14,7 +14,7 @@ describe "seeds", js: true do
         click_link "Edit"
       end
 
-      it { expect(current_path).to eq edit_seed_path(seed) }
+      it { expect(page).to have_current_path edit_seed_path(seed), ignore_query: true }
       it { expect(page).to have_content 'Editing seeds' }
     end
 
@@ -25,7 +25,7 @@ describe "seeds", js: true do
         click_link(href: new_seed_path)
       end
 
-      it { expect(current_path).to eq new_seed_path }
+      it { expect(page).to have_current_path new_seed_path, ignore_query: true }
       it { expect(page).to have_content 'Save seeds' }
     end
 
@@ -37,7 +37,7 @@ describe "seeds", js: true do
         end
       end
 
-      it { expect(current_path).to eq member_path(member) }
+      it { expect(page).to have_current_path member_path(member), ignore_query: true }
     end
 
     # actually adding seeds is in spec/features/seeds_new_spec.rb
@@ -47,10 +47,10 @@ describe "seeds", js: true do
       visit seed_path(seed)
       click_link 'Actions'
       click_link 'Edit'
-      expect(current_path).to eq edit_seed_path(seed)
+      expect(page).to have_current_path edit_seed_path(seed), ignore_query: true
       fill_in 'Quantity', with: seed.quantity * 2
       click_button 'Save'
-      expect(current_path).to eq seed_path(seed)
+      expect(page).to have_current_path seed_path(seed), ignore_query: true
     end
 
     describe "delete seeds" do
@@ -64,7 +64,7 @@ describe "seeds", js: true do
         end
       end
 
-      it { expect(current_path).to eq seeds_path }
+      it { expect(page).to have_current_path seeds_path, ignore_query: true }
     end
 
     describe '#show' do

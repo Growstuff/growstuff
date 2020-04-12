@@ -47,7 +47,7 @@ describe "Harvesting a crop", :js, :search do
         within '.login-name' do
           click_link member.login_name
         end
-        expect(current_path).to eq member_path(member)
+        expect(page).to have_current_path member_path(member), ignore_query: true
       end
     end
 
