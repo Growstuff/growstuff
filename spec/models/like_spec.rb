@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe 'like' do
   let(:member) { FactoryBot.create(:member) }
-  let(:post)   { FactoryBot.create(:post)   }
-  let(:photo)  { FactoryBot.create :photo }
+  let(:post) { FactoryBot.create(:post) }
+  let(:photo) { FactoryBot.create :photo }
 
   context 'existing like' do
     before do

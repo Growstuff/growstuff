@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
   def show
     if (@message = Message.find_by(id: params[:id])) && (@conversation = @message.conversation)
       if @conversation.is_participant?(current_member)
-        redirect_to conversation_path(@conversation, box: @box, anchor: "message_" + @message.id.to_s)
+        redirect_to conversation_path(@conversation, box: @box, anchor: 'message_' + @message.id.to_s)
         return
       end
     end

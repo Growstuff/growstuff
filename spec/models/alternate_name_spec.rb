@@ -11,11 +11,7 @@ describe AlternateName do
 
   it 'is possible to add multiple alternate names to a crop' do
     crop = an.crop
-    an2 = described_class.create(
-      name:       "really alternative tomato",
-      crop_id:    crop.id,
-      creator_id: an.creator.id
-    )
+    an2 = described_class.create(name: 'really alternative tomato', crop_id: crop.id, creator_id: an.creator.id)
     crop.alternate_names << an2
     expect(crop.alternate_names).to include an
     expect(crop.alternate_names).to include an2
@@ -23,7 +19,7 @@ describe AlternateName do
 
   describe 'relationships' do
     let(:alternate_name) { FactoryBot.create :alternate_name, crop: crop, creator: member }
-    let(:crop)   { FactoryBot.create :crop   }
+    let(:crop) { FactoryBot.create :crop }
     let(:member) { FactoryBot.create :member }
 
     it { expect(alternate_name.crop).to eq crop }

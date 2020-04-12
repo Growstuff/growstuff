@@ -16,12 +16,10 @@ Rails.application.configure do
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
-  config.public_file_server.headers = {
-    'Cache-Control' => "public, max-age=#{1.hour.to_i}"
-  }
+  config.public_file_server.headers = { 'Cache-Control' => "public, max-age=#{1.hour.to_i}" }
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
 
   # Raise exceptions instead of rendering exception templates.
@@ -58,49 +56,29 @@ end
 
 Geocoder.configure(lookup: :test)
 
-Geocoder::Lookup::Test.add_stub(
-  "Amundsen-Scott Base, Antarctica", [
-    {
-      'latitude'  => -90.0,
-      'longitude' => 0.0
-    }
-  ]
-)
+Geocoder::Lookup::Test.add_stub('Amundsen-Scott Base, Antarctica', [{ 'latitude' => -90.0, 'longitude' => 0.0 }])
 
 Geocoder::Lookup::Test.add_stub(
-  "Philippines", [
+  'Philippines',
+  [
     {
-      'latitude'     => 12.7503486,
-      'longitude'    => 122.7312101,
-      'address'      => 'Manila, Mnl, Philippines',
-      'state'        => 'Manila',
-      'state_code'   => 'Mnl',
-      'country'      => 'Philippines',
+      'latitude' => 12.7503486,
+      'longitude' => 122.7312101,
+      'address' => 'Manila, Mnl, Philippines',
+      'state' => 'Manila',
+      'state_code' => 'Mnl',
+      'country' => 'Philippines',
       'country_code' => 'PH'
     }
   ]
 )
 
-Geocoder::Lookup::Test.add_stub(
-  "Greenwich, UK", [
-    {
-      'latitude'  => 51.483061,
-      'longitude' => -0.004151
-    }
-  ]
-)
+Geocoder::Lookup::Test.add_stub('Greenwich, UK', [{ 'latitude' => 51.483061, 'longitude' => -0.004151 }])
 
-Geocoder::Lookup::Test.add_stub(
-  "Edinburgh", [
-    {
-      'latitude'  => 55.953252,
-      'longitude' => -3.188267
-    }
-  ]
-)
+Geocoder::Lookup::Test.add_stub('Edinburgh', [{ 'latitude' => 55.953252, 'longitude' => -3.188267 }])
 
 # Unknown location
-Geocoder::Lookup::Test.add_stub("Tatooine", [])
+Geocoder::Lookup::Test.add_stub('Tatooine', [])
 
 Capybara.configure do |config|
   config.always_include_port = true
@@ -109,15 +87,15 @@ end
 
 OmniAuth.config.test_mode = true
 # Fake the omniauth
-OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(provider:    'facebook',
-                                                              uid:         '123545',
-                                                              info:        {
-                                                                name:     "John Testerson",
-                                                                nickname: 'JohnnyT',
-                                                                email:    'example.oauth.facebook@example.com',
-                                                                image:    'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
-                                                              },
-                                                              credentials: {
-                                                                token:  "token",
-                                                                secret: "donttell"
-                                                              })
+OmniAuth.config.mock_auth[:facebook] =
+  OmniAuth::AuthHash.new(
+    provider: 'facebook',
+    uid: '123545',
+    info: {
+      name: 'John Testerson',
+      nickname: 'JohnnyT',
+      email: 'example.oauth.facebook@example.com',
+      image: 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
+    },
+    credentials: { token: 'token', secret: 'donttell' }
+  )
