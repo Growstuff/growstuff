@@ -5,7 +5,7 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
-  friendly_id :garden_slug, use: %i(slugged finders)
+  friendly_id :garden_slug, use: %i[slugged finders]
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
@@ -20,7 +20,7 @@ class Garden < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
-  scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }
+  scope :order_by_name, -> { order(Arel.sql('lower(name) asc')) }
 
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
@@ -28,28 +28,25 @@ class Garden < ApplicationRecord
   before_validation :strip_blanks
   validates :name, uniqueness: { scope: :owner_id }
   validates :name,
-            format: { without: /\n/, message: "must contain no newlines" },
-            allow_blank: false, presence: true,
+            format: { without: /\n/, message: 'must contain no newlines' },
+            allow_blank: false,
+            presence: true,
             length: { maximum: 255 }
 
-  validates :area,
-            numericality: { only_integer: false, greater_than_or_equal_to: 0 },
-            allow_nil:    true
+  validates :area, numericality: { only_integer: false, greater_than_or_equal_to: 0 }, allow_nil: true
 
-  scope :located, lambda {
-    where.not(gardens: { location: '' })
-      .where.not(gardens: { latitude: nil })
-      .where.not(gardens: { longitude: nil })
-  }
+  scope :located,
+        lambda {
+          where.not(gardens: { location: '' }).where.not(gardens: { latitude: nil }).where.not(
+            gardens: { longitude: nil }
+          )
+        }
   AREA_UNITS_VALUES = {
-    "square metres" => "square metre",
-    "square feet"   => "square foot",
-    "hectares"      => "hectare",
-    "acres"         => "acre"
+    'square metres' => 'square metre', 'square feet' => 'square foot', 'hectares' => 'hectare', 'acres' => 'acre'
   }.freeze
-  validates :area_unit, inclusion:   { in:      AREA_UNITS_VALUES.values,
-                                       message: "%<value>s is not a valid area unit" },
-                        allow_blank: true
+  validates :area_unit,
+            inclusion: { in: AREA_UNITS_VALUES.values, message: '%<value>s is not a valid area unit' },
+            allow_blank: true
 
   after_validation :cleanup_area
 

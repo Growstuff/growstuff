@@ -10,8 +10,8 @@ RSpec.describe CropSearchService, type: :service do
 
     context 'with some crops' do
       let!(:mushroom) { FactoryBot.create(:crop, name: 'mushroom') }
-      let!(:tomato)   { FactoryBot.create(:crop, name: 'tomato') }
-      let!(:taewa)    { FactoryBot.create(:crop, name: 'taewa') }
+      let!(:tomato) { FactoryBot.create(:crop, name: 'tomato') }
+      let!(:taewa) { FactoryBot.create(:crop, name: 'taewa') }
       let!(:zucchini) { FactoryBot.create(:crop, name: 'zucchini') }
       let!(:broccoli) { FactoryBot.create(:crop, name: 'broccoli') }
       before do
@@ -47,11 +47,11 @@ RSpec.describe CropSearchService, type: :service do
       describe 'biased' do
         # Make some crops with planting counts
         let!(:mushroom_parent) { FactoryBot.create :crop, name: 'mushroom' }
-        let!(:oyster)  { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
+        let!(:oyster) { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
         let!(:shitake) { FactoryBot.create :crop, name: 'shitake mushroom', parent: mushroom_parent }
-        let!(:common)  { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
-        let!(:brown)   { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
-        let!(:white)   { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
+        let!(:common) { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
+        let!(:brown) { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
+        let!(:white) { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
 
         describe 'biased to higher planting counts' do
           subject { search('mushroom') }

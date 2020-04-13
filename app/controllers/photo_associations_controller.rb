@@ -5,7 +5,7 @@ class PhotoAssociationsController < ApplicationController
   respond_to :json, :html
 
   def destroy
-    raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+    raise 'Photos not supported' unless Photo::PHOTO_CAPABLE.include? item_class
 
     @photo = Photo.find_by!(id: params[:photo_id], owner: current_member)
     @item = PhotoAssociation.item(item_id, item_class)

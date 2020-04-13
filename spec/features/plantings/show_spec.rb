@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 require 'custom_matchers'
 
-describe "Display a planting", :js do
+describe 'Display a planting', :js do
   context 'anonymous' do
     before { visit planting_path(planting) }
 
@@ -13,7 +13,9 @@ describe "Display a planting", :js do
     end
 
     context 'Perennial finished' do
-      let(:planting) { FactoryBot.create :perennial_planting, planted_at: 6.years.ago, finished: true, finished_at: 1.year.ago }
+      let(:planting) do
+        FactoryBot.create :perennial_planting, planted_at: 6.years.ago, finished: true, finished_at: 1.year.ago
+      end
       it { expect(page).to have_text 'Perennial' }
     end
 
@@ -31,7 +33,9 @@ describe "Display a planting", :js do
     end
 
     context 'Annual finished' do
-      let(:planting) { FactoryBot.create :annual_planting, planted_at: 100.days.ago, finished: true, finished_at: 1.day.ago }
+      let(:planting) do
+        FactoryBot.create :annual_planting, planted_at: 100.days.ago, finished: true, finished_at: 1.day.ago
+      end
       it { expect(page).to have_text "Planted #{I18n.l(planting.planted_at)}" }
     end
 
@@ -44,14 +48,26 @@ describe "Display a planting", :js do
       let(:planting) do
         crop = FactoryBot.create :annual_crop
         # 50 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(
+          :harvest,
+          harvested_at: 150.days.ago,
+          crop: crop,
+          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+        )
         # 20 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(
+          :harvest,
+          harvested_at: 180.days.ago,
+          crop: crop,
+          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+        )
         # 10 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(
+          :harvest,
+          harvested_at: 190.days.ago,
+          crop: crop,
+          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+        )
         crop.update_medians
 
         FactoryBot.create :annual_planting, planted_at: 200.days.ago, crop: crop

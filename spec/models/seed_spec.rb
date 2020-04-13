@@ -4,13 +4,13 @@ require 'rails_helper'
 
 describe Seed do
   let(:owner) { FactoryBot.create :owner, login_name: 'tamateapokaiwhenua' }
-  let(:seed)  { FactoryBot.build(:seed, owner: owner)                      }
+  let(:seed) { FactoryBot.build(:seed, owner: owner) }
 
   it 'saves a basic seed' do
     seed.save.should be(true)
   end
 
-  it "has a slug" do
+  it 'has a slug' do
     seed.save
     seed.slug.should match(/tamateapokaiwhenua-magic-bean/)
   end
@@ -31,7 +31,7 @@ describe Seed do
       @seed.should_not be_valid
     end
 
-    it "allows blank quantities" do
+    it 'allows blank quantities' do
       @seed = FactoryBot.build(:seed, quantity: nil)
       @seed.should be_valid
       @seed = FactoryBot.build(:seed, quantity: '')
@@ -41,7 +41,7 @@ describe Seed do
 
   context 'tradable' do
     it 'all valid tradable_to values should work' do
-      %w(nowhere locally nationally internationally).each do |t|
+      %w[nowhere locally nationally internationally].each do |t|
         @seed = FactoryBot.build(:seed, tradable_to: t)
         @seed.should be_valid
       end
@@ -51,9 +51,9 @@ describe Seed do
       @seed = FactoryBot.build(:seed, tradable_to: 'not valid')
       @seed.should_not be_valid
       @seed.errors[:tradable_to].should include(
-        "You may only trade seed nowhere, locally, "\
-        "nationally, or internationally"
-      )
+                                          'You may only trade seed nowhere, locally, ' \
+                                            'nationally, or internationally'
+                                        )
     end
 
     it 'does not allow nil or blank values' do
@@ -92,30 +92,28 @@ describe Seed do
 
   context 'organic, gmo, heirloom' do
     it 'all valid organic values should work' do
-      ['certified organic', 'non-certified organic',
-       'conventional/non-organic', 'unknown'].each do |t|
+      ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].each do |t|
         @seed = FactoryBot.build(:seed, organic: t)
         @seed.should be_valid
       end
     end
 
     it 'all valid GMO values should work' do
-      ['certified GMO-free', 'non-certified GMO-free',
-       'GMO', 'unknown'].each do |t|
+      ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].each do |t|
         @seed = FactoryBot.build(:seed, gmo: t)
         @seed.should be_valid
       end
     end
 
     it 'all valid heirloom values should work' do
-      %w(heirloom hybrid unknown).each do |t|
+      %w[heirloom hybrid unknown].each do |t|
         @seed = FactoryBot.build(:seed, heirloom: t)
         @seed.should be_valid
       end
     end
 
     it 'refuses invalid organic/GMO/heirloom values' do
-      %i(organic gmo heirloom).each do |field|
+      %i[organic gmo heirloom].each do |field|
         @seed = FactoryBot.build(:seed, field => 'not valid')
         @seed.should_not be_valid
         @seed.errors[field].should_not be_empty
@@ -123,7 +121,7 @@ describe Seed do
     end
 
     it 'does not allow nil or blank values' do
-      %i(organic gmo heirloom).each do |field|
+      %i[organic gmo heirloom].each do |field|
         @seed = FactoryBot.build(:seed, field => nil)
         @seed.should_not be_valid
         @seed = FactoryBot.build(:seed, field => '')
@@ -163,18 +161,18 @@ describe Seed do
   end
 
   context 'ancestry' do
-    let(:parent_planting) { FactoryBot.create :planting                                                             }
-    let(:seed)            { FactoryBot.create :seed, parent_planting: parent_planting, owner: parent_planting.owner }
+    let(:parent_planting) { FactoryBot.create :planting }
+    let(:seed) { FactoryBot.create :seed, parent_planting: parent_planting, owner: parent_planting.owner }
 
-    it "seed has a parent planting" do
+    it 'seed has a parent planting' do
       expect(seed.parent_planting).to eq(parent_planting)
     end
-    it "planting has a child seed" do
+    it 'planting has a child seed' do
       expect(parent_planting.child_seeds).to eq [seed]
     end
   end
 
-  context "finished" do
+  context 'finished' do
     describe 'has finished fields' do
       let(:seed) { FactoryBot.create(:finished_seed) }
 
@@ -183,7 +181,7 @@ describe Seed do
     end
 
     describe 'scopes' do
-      let!(:seed)          { FactoryBot.create(:seed)          }
+      let!(:seed) { FactoryBot.create(:seed) }
       let!(:finished_seed) { FactoryBot.create(:finished_seed) }
 
       describe 'has finished scope' do
@@ -199,9 +197,9 @@ describe Seed do
   end
 
   describe 'homepage', :search do
-    let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
-    let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }
-    let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
+    let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false }
+    let!(:finished_seed) { FactoryBot.create :tradable_seed, :reindex, finished: true }
+    let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex }
 
     before { described_class.reindex }
     subject { described_class.homepage_records(100) }

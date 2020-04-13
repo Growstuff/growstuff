@@ -33,14 +33,14 @@ describe 'seeds/index.rss.haml', :search do
     include_examples 'displays seed in rss feed'
 
     it 'shows RSS feed title' do
-      expect(rendered).to have_content "Recent seeds from all members"
+      expect(rendered).to have_content 'Recent seeds from all members'
     end
 
     it 'mentions that one seed is tradable' do
       expect(rendered).to have_content "Will trade #{tradable.tradable_to} from #{tradable.owner.location}"
     end
 
-    it "does not offer untradable seed as tradeable" do
+    it 'does not offer untradable seed as tradeable' do
       expect(rendered).not_to have_content "Will trade #{seed.tradable_to} from #{seed.owner.location}"
     end
   end
