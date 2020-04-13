@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "posts/new" do
+describe 'posts/new' do
   let(:author) { FactoryBot.create(:member) }
 
   before do
@@ -13,19 +13,19 @@ describe "posts/new" do
     render
   end
 
-  it "renders new post form" do
-    assert_select "form", action: posts_path, method: "post" do
-      assert_select "input#post_subject", name: "post[subject]"
-      assert_select "textarea#post_body", name: "post[body]"
+  it 'renders new post form' do
+    assert_select 'form', action: posts_path, method: 'post' do
+      assert_select 'input#post_subject', name: 'post[subject]'
+      assert_select 'textarea#post_body', name: 'post[body]'
     end
   end
 
   it 'no hidden forum field' do
-    assert_select "input#post_forum_id[type=hidden]", false
+    assert_select 'input#post_forum_id[type=hidden]', false
   end
 
   it 'no forum mentioned' do
-    expect(rendered).not_to have_content "This post will be posted in the forum"
+    expect(rendered).not_to have_content 'This post will be posted in the forum'
   end
 
   it "asks what's going on in your garden" do
@@ -36,7 +36,7 @@ describe "posts/new" do
     expect(rendered).to have_content 'Markdown'
   end
 
-  context "forum specified" do
+  context 'forum specified' do
     let(:forum) { FactoryBot.create(:forum) }
 
     before do

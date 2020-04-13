@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlantingsController < DataController
-  after_action :update_crop_medians, only: %i(create update destroy)
+  after_action :update_crop_medians, only: %i[create update destroy]
   after_action :update_planting_medians, only: :update
 
   def index
@@ -20,13 +20,7 @@ class PlantingsController < DataController
       where['crop_id'] = @crop.id
     end
 
-    @plantings = Planting.search(
-      where:    where,
-      page:     params[:page],
-      limit:    30,
-      boost_by: [:created_at],
-      load:     false
-    )
+    @plantings = Planting.search(where: where, page: params[:page], limit: 30, boost_by: [:created_at], load: false)
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_s(:number)}.csv"
 
@@ -40,26 +34,16 @@ class PlantingsController < DataController
     @crop = @planting.crop
 
     # TODO: use elastic search long/lat
-    @neighbours = @planting.nearby_same_crop
-      .where.not(id: @planting.id)
-      .includes(:owner, :crop, :garden)
-      .limit(6)
+    @neighbours = @planting.nearby_same_crop.where.not(id: @planting.id).includes(:owner, :crop, :garden).limit(6)
     respond_with @planting
   end
 
   def new
-    @planting = Planting.new(
-      planted_at: Time.zone.today,
-      owner:      current_member,
-      garden:     current_member.gardens.first
-    )
+    @planting = Planting.new(planted_at: Time.zone.today, owner: current_member, garden: current_member.gardens.first)
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
     @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
     if params[:garden_id]
-      @planting.garden = Garden.find_by(
-        owner: current_member,
-        id:    params[:garden_id]
-      )
+      @planting.garden = Garden.find_by(owner: current_member, id: params[:garden_id])
     end
 
     respond_with @planting
@@ -103,32 +87,39 @@ class PlantingsController < DataController
   def planting_params
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
-      :crop_id, :description, :garden_id, :planted_at,
+      :crop_id,
+      :description,
+      :garden_id,
+      :planted_at,
       :parent_seed_id,
-      :quantity, :sunniness, :planted_from, :finished,
+      :quantity,
+      :sunniness,
+      :planted_from,
+      :finished,
       :finished_at
     )
   end
 
   def plantings
-    p = if @owner
-          @owner.plantings
-        elsif @crop
-          @crop.plantings
-        else
-          Planting
-        end
+    p =
+      if @owner
+        @owner.plantings
+      elsif @crop
+        @crop.plantings
+      else
+        Planting
+      end
     p = p.current unless @show_all
-    p.joins(:owner, :crop, :garden)
-      .order(created_at: :desc)
-      .includes(:crop, :owner, :garden)
-      .paginate(page: params[:page])
+    p.joins(:owner, :crop, :garden).order(created_at: :desc).includes(:crop, :owner, :garden).paginate(
+      page: params[:page]
+    )
   end
 
   def matching_seeds
-    Seed.where(crop: @planting.crop, owner: @planting.owner)
-      .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
-      .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
+    Seed.where(crop: @planting.crop, owner: @planting.owner).where(
+      '(finished_at IS NULL OR finished_at >= ?)',
+      @planting.planted_at
+    ).where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end
 
   def specifics

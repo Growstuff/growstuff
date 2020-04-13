@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'layouts/_head.html.haml', type: "view" do
+describe 'layouts/_head.html.haml', type: 'view' do
   before do
     render
   end
@@ -23,6 +23,6 @@ describe 'layouts/_head.html.haml', type: "view" do
   end
 
   it 'has a title' do
-    assert_select "head>title"
+    assert_select 'head>title'
   end
 end

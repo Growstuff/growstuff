@@ -12,21 +12,14 @@ class AuthenticationsController < ApplicationController
     if auth
       name = Growstuff::OauthSignupAction.new.determine_name(auth)
 
-      @authentication = current_member.authentications
-        .create_with(
-          name:   name,
-          token:  auth['credentials']['token'],
-          secret: auth['credentials']['secret']
-        )
-        .find_or_create_by(
-          provider: auth['provider'],
-          uid:      auth['uid'],
-          name:     name
-        )
+      @authentication =
+        current_member.authentications.create_with(
+          name: name, token: auth['credentials']['token'], secret: auth['credentials']['secret']
+        ).find_or_create_by(provider: auth['provider'], uid: auth['uid'], name: name)
 
-      flash[:notice] = "Authentication successful."
+      flash[:notice] = 'Authentication successful.'
     else
-      flash[:notice] = "Authentication failed."
+      flash[:notice] = 'Authentication failed.'
     end
     redirect_to request.env['omniauth.origin'] || edit_member_registration_path
   end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "crops/hierarchy" do
+describe 'crops/hierarchy' do
   before do
     controller.stub(:current_user) { nil }
     @tomato = FactoryBot.create(:tomato)
@@ -11,7 +11,7 @@ describe "crops/hierarchy" do
     render
   end
 
-  it "shows crop hierarchy" do
-    assert_select "ul>li>ul>li", text: @roma.name
+  it 'shows crop hierarchy' do
+    assert_select 'ul>li>ul>li', text: @roma.name
   end
 end

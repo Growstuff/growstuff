@@ -19,11 +19,11 @@ describe 'harvests/index.rss.haml', :search do
   context 'all harvests' do
     before { render }
     it 'shows RSS feed title' do
-      expect(rendered).to have_content "Recent harvests from all members"
+      expect(rendered).to have_content 'Recent harvests from all members'
     end
 
     it 'shows formatted content of harvest posts' do
-      expect(rendered).to have_content "<p>Quantity: "
+      expect(rendered).to have_content '<p>Quantity: '
     end
   end
 

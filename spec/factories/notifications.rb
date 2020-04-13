@@ -6,9 +6,9 @@ FactoryBot.define do
   factory :notification, aliases: [:message] do
     sender { FactoryBot.create :member }
     recipient { FactoryBot.create :member }
-    subject { "MyString" }
+    subject { 'MyString' }
 
-    body { "MyText" }
+    body { 'MyText' }
     read { false }
     post
 
