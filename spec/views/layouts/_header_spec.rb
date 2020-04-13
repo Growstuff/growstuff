@@ -2,15 +2,15 @@
 
 require 'rails_helper'
 
-describe 'layouts/_header.html.haml', type: "view" do
-  context "when not logged in" do
+describe 'layouts/_header.html.haml', type: 'view' do
+  context 'when not logged in' do
     before do
       controller.stub(:current_user) { nil }
       render
     end
 
     it 'shows the brand logo in the navbar' do
-      assert_select("a.navbar-brand img[src]", href: root_path)
+      assert_select('a.navbar-brand img[src]', href: root_path)
     end
 
     it 'has signup/signin links' do
@@ -19,19 +19,19 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'has a Crops link' do
-      rendered.should have_content "Crops"
+      rendered.should have_content 'Crops'
     end
 
     it 'has a Seeds link' do
-      rendered.should have_content "Seeds"
+      rendered.should have_content 'Seeds'
     end
 
     it 'has a Places link' do
-      rendered.should have_content "Community Map"
+      rendered.should have_content 'Community Map'
     end
 
     it 'has a Community section' do
-      rendered.should have_content "Community"
+      rendered.should have_content 'Community'
     end
 
     it 'links to members' do
@@ -48,11 +48,11 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     it 'has a crop search' do
       assert_select("form[action='#{search_crops_path}']")
-      assert_select("input#term")
+      assert_select('input#term')
     end
   end
 
-  context "logged in" do
+  context 'logged in' do
     before do
       @member = FactoryBot.create(:member)
       sign_in @member
@@ -60,21 +60,21 @@ describe 'layouts/_header.html.haml', type: "view" do
       render
     end
 
-    context "login name" do
+    context 'login name' do
       it 'has member login name' do
         rendered.should have_content @member.login_name.to_s
       end
       it "shows link to member's gardens" do
-        assert_select("a[href='#{member_gardens_path(@member)}']", "Gardens")
+        assert_select("a[href='#{member_gardens_path(@member)}']", 'Gardens')
       end
       it "shows link to member's plantings" do
-        assert_select("a[href='#{member_plantings_path(@member)}']", "Plantings")
+        assert_select("a[href='#{member_plantings_path(@member)}']", 'Plantings')
       end
       it "shows link to member's seeds" do
-        assert_select("a[href='#{member_seeds_path(@member)}']", "Seeds")
+        assert_select("a[href='#{member_seeds_path(@member)}']", 'Seeds')
       end
       it "shows link to member's posts" do
-        assert_select("a[href='#{member_posts_path(@member)}']", "Posts")
+        assert_select("a[href='#{member_posts_path(@member)}']", 'Posts')
       end
     end
 

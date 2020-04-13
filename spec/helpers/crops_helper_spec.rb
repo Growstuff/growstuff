@@ -3,19 +3,19 @@
 require 'rails_helper'
 
 describe CropsHelper do
-  describe "display_seed_availability" do
+  describe 'display_seed_availability' do
     before do
       @member = create :member
       @crop = create :tomato
     end
 
-    context "with no seeds" do
+    context 'with no seeds' do
       it 'renders' do
         expect(helper.display_seed_availability(@member, @crop)).to eq "You don't have any seeds of this crop."
       end
     end
 
-    context "with an unknown quantity of seeds" do
+    context 'with an unknown quantity of seeds' do
       before do
         create :seed, crop: @crop, quantity: nil, owner: @member
       end
@@ -23,11 +23,11 @@ describe CropsHelper do
       it 'renders' do
         expect(
           helper.display_seed_availability(@member, @crop)
-        ).to eq "You have an unknown quantity of seeds of this crop."
+        ).to eq 'You have an unknown quantity of seeds of this crop.'
       end
     end
 
-    context "with an quantity of seeds" do
+    context 'with an quantity of seeds' do
       before do
         a_different_crop = create :apple
 
@@ -38,7 +38,7 @@ describe CropsHelper do
       end
 
       it 'renders' do
-        expect(helper.display_seed_availability(@member, @crop)).to eq "You have 33 seeds of this crop."
+        expect(helper.display_seed_availability(@member, @crop)).to eq 'You have 33 seeds of this crop.'
       end
     end
   end

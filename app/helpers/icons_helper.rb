@@ -8,11 +8,30 @@ module IconsHelper
   end
 
   def cute_icon
-    icons = %w(slug sprinkler bee ant hose grass rabbit slug-eating snail earth-worm insect watering-can
-               wheelbarrow cat spiderweb bug butterfly ladybird stones)
+    icons = %w[
+      slug
+      sprinkler
+      bee
+      ant
+      hose
+      grass
+      rabbit
+      slug-eating
+      snail
+      earth-worm
+      insect
+      watering-can
+      wheelbarrow
+      cat
+      spiderweb
+      bug
+      butterfly
+      ladybird
+      stones
+    ]
     rand_num = rand(1..icons.size)
     icon = icons[rand_num - 1]
-    image_tag("icons/#{icon}.svg", 'aria-hidden' => "true", class: 'img img-cute', alt: icon)
+    image_tag("icons/#{icon}.svg", 'aria-hidden' => 'true', class: 'img img-cute', alt: icon)
   end
 
   def timeline_icon
@@ -93,7 +112,7 @@ module IconsHelper
 
   def plant_part_icon(name)
     if File.exist? Rails.root.join('app', 'assets', 'images', 'icons', 'plant_parts', "#{name}.svg")
-      image_tag "icons/plant_parts/#{name}.svg", class: 'img img-icon', 'aria-hidden' => "true"
+      image_tag "icons/plant_parts/#{name}.svg", class: 'img img-icon', 'aria-hidden' => 'true'
     else
       planting_icon
     end
@@ -123,6 +142,6 @@ module IconsHelper
   end
 
   def image_icon(icon)
-    image_tag "icons/#{icon}.svg", class: 'img img-icon', 'aria-hidden' => "true"
+    image_tag "icons/#{icon}.svg", class: 'img img-icon', 'aria-hidden' => 'true'
   end
 end
