@@ -25,7 +25,7 @@ ratings:
   - "**.rb"
   - "**.js"
   - "**.coffee"
-  - "**.sass"
+  - "**.scss"
   - "**.haml"
   - Gemfile.lock
 exclude_paths:
