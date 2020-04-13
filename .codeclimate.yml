@@ -20,15 +20,6 @@ engines:
       languages:
       - ruby
       - javascript
-    exclude_fingerprints:
-    - 16dbcb58d6caa7ccfe241417831ecfa6
-    - 7d7dca4f27f50e3084f203280073cc74
-  fixme:
-    enabled: true
-    exclude_fingerprints:  # rubocop_todo filename
-    - 63b8552079d106832fbe281566b6d028
-    - d38afbaaea3ecaa9a4cf046b07a01cec
-    - 57ff3968fd371d3e1f75c237d6c78acf
 ratings:
   paths:
   - "**.rb"
