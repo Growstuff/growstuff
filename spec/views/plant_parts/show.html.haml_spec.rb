@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "plant_parts/show" do
+describe 'plant_parts/show' do
   before do
     controller.stub(:current_user) { nil }
     @pp = FactoryBot.create(:plant_part)
@@ -10,11 +10,11 @@ describe "plant_parts/show" do
     assign(:plant_part, @pp)
   end
 
-  it "renders a list of crops harvested for this part" do
+  it 'renders a list of crops harvested for this part' do
     render
     @pp.crops.each do |c|
       rendered.should have_content c.name
-      assert_select "a", href: crop_path(c)
+      assert_select 'a', href: crop_path(c)
     end
   end
 end
