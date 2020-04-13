@@ -236,4 +236,4 @@ Devise.setup do |config|
   # Later we may wish to ask for user_photos,user_location, however this means we need to be reviewed by facebook
   config.omniauth :facebook, ENV['GROWSTUFF_FACEBOOK_KEY'], ENV['GROWSTUFF_FACEBOOK_SECRET'], scope: 'email,public_profile', display: 'page', info_fields: 'email,name,first_name,last_name,id'
 end
-# rubocop:enable Layout/LineLength
+
