@@ -655,7 +655,7 @@ DEPENDENCIES
   rswag-api
   rswag-specs
   rswag-ui
-  rubocop (~> 0.71)
+  rubocop
   rubocop-rails
   rubocop-rspec
   ruby-units
