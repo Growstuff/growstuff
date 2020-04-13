@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlantingsController < DataController
-  after_action :update_crop_medians, only: %i(create update destroy)
+  after_action :update_crop_medians, only: %i[create update destroy]
   after_action :update_planting_medians, only: :update
 
   def index

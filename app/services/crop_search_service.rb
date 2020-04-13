@@ -6,10 +6,10 @@ class CropSearchService
     search_params = {
       page:         page,
       per_page:     per_page,
-      fields:       %i(name^5 alternate_names scientific_names),
+      fields:       %i[name^5 alternate_names scientific_names],
       match:        :word_start,
       boost_by:     [:plantings_count],
-      includes:     %i(scientific_names alternate_names),
+      includes:     %i[scientific_names alternate_names],
       misspellings: { edit_distance: 2 },
       load:         false
     }

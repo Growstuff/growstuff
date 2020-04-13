@@ -8,8 +8,8 @@ module IconsHelper
   end
 
   def cute_icon
-    icons = %w(slug sprinkler bee ant hose grass rabbit slug-eating snail earth-worm insect watering-can
-               wheelbarrow cat spiderweb bug butterfly ladybird stones)
+    icons = %w[slug sprinkler bee ant hose grass rabbit slug-eating snail earth-worm insect watering-can
+               wheelbarrow cat spiderweb bug butterfly ladybird stones]
     rand_num = rand(1..icons.size)
     icon = icons[rand_num - 1]
     image_tag("icons/#{icon}.svg", 'aria-hidden' => "true", class: 'img img-cute', alt: icon)
