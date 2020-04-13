@@ -9,15 +9,15 @@ RSpec.describe 'Harvests', type: :request do
   let!(:harvest) { FactoryBot.create :harvest }
   let(:harvest_encoded_as_json_api) do
     {
-      'id' => harvest.id.to_s,
-      'type' => 'harvests',
-      'links' => { 'self' => resource_url },
-      'attributes' => attributes,
+      'id'            => harvest.id.to_s,
+      'type'          => 'harvests',
+      'links'         => { 'self' => resource_url },
+      'attributes'    => attributes,
       'relationships' => {
-        'crop' => crop_as_json_api,
+        'crop'     => crop_as_json_api,
         'planting' => planting_as_json_api,
-        'owner' => owner_as_json_api,
-        'photos' => photos_as_json_api
+        'owner'    => owner_as_json_api,
+        'photos'   => photos_as_json_api
       }
     }
   end
@@ -42,12 +42,12 @@ RSpec.describe 'Harvests', type: :request do
 
   let(:attributes) do
     {
-      'harvested-at' => '2015-09-17',
-      'description' => harvest.description,
-      'unit' => harvest.unit,
+      'harvested-at'    => '2015-09-17',
+      'description'     => harvest.description,
+      'unit'            => harvest.unit,
       'weight-quantity' => harvest.weight_quantity.to_s,
-      'weight-unit' => harvest.weight_unit,
-      'si-weight' => harvest.si_weight
+      'weight-unit'     => harvest.weight_unit,
+      'si-weight'       => harvest.si_weight
     }
   end
 

@@ -3,16 +3,16 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_action :authenticate_member!, except: %i[index hierarchy search show]
+  before_action :authenticate_member!, except: %i(index hierarchy search show)
   load_and_authorize_resource id_param: :slug
-  skip_authorize_resource only: %i[hierarchy search]
+  skip_authorize_resource only: %i(hierarchy search)
   respond_to :html, :json, :rss, :csv, :svg
   responders :flash
 
   def index
     @sort = params[:sort]
     @crops =
-      Crop.search('*', boost_by: %i[plantings_count harvests_count], limit: 100, page: params[:page], load: false)
+      Crop.search('*', boost_by: %i(plantings_count harvests_count), limit: 100, page: params[:page], load: false)
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
@@ -190,7 +190,7 @@ class CropsController < ApplicationController
       :request_notes,
       :reason_for_rejection,
       :rejection_notes,
-      scientific_names_attributes: %i[scientific_name _destroy id]
+      scientific_names_attributes: %i(scientific_name _destroy id)
     )
   end
 
@@ -201,9 +201,9 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings: { include: { owner: { only: %i[id login_name location latitude longitude] } } },
+        plantings:        { include: { owner: { only: %i(id login_name location latitude longitude) } } },
         scientific_names: { only: [:name] },
-        alternate_names: { only: [:name] }
+        alternate_names:  { only: [:name] }
       }
     }
   end

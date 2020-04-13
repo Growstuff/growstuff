@@ -22,9 +22,9 @@ module Charts
     def pie_chart_query(field)
       @crop = Crop.find_by!(slug: params[:crop_slug])
       render json:
-               Planting.where(crop: @crop).where.not(field.to_sym => nil).where.not(field.to_sym => '').group(
-                 field.to_sym
-               ).count(:id)
+                   Planting.where(crop: @crop).where.not(field.to_sym => nil).where.not(field.to_sym => '').group(
+                     field.to_sym
+                   ).count(:id)
     end
   end
 end

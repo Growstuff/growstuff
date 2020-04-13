@@ -9,10 +9,10 @@ RSpec.describe 'Photos', type: :request do
   let!(:seed) { FactoryBot.create :seed }
   let(:seed_encoded_as_json_api) do
     {
-      'id' => seed.id.to_s,
-      'type' => 'seeds',
-      'links' => { 'self' => resource_url },
-      'attributes' => attributes,
+      'id'            => seed.id.to_s,
+      'type'          => 'seeds',
+      'links'         => { 'self' => resource_url },
+      'attributes'    => attributes,
       'relationships' => { 'owner' => owner_as_json_api, 'crop' => crop_as_json_api }
     }
   end
@@ -29,15 +29,15 @@ RSpec.describe 'Photos', type: :request do
 
   let(:attributes) do
     {
-      'description' => seed.description,
-      'quantity' => seed.quantity,
-      'plant-before' => '2013-07-15',
-      'tradable-to' => seed.tradable_to,
+      'description'             => seed.description,
+      'quantity'                => seed.quantity,
+      'plant-before'            => '2013-07-15',
+      'tradable-to'             => seed.tradable_to,
       'days-until-maturity-min' => seed.days_until_maturity_min,
       'days-until-maturity-max' => seed.days_until_maturity_max,
-      'organic' => seed.organic,
-      'gmo' => seed.gmo,
-      'heirloom' => seed.heirloom
+      'organic'                 => seed.organic,
+      'gmo'                     => seed.gmo,
+      'heirloom'                => seed.heirloom
     }
   end
 

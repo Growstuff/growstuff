@@ -7,10 +7,10 @@ describe HarvestsController, :search do
 
   def valid_attributes
     {
-      owner_id: subject.current_member.id,
-      crop_id: FactoryBot.create(:crop).id,
+      owner_id:      subject.current_member.id,
+      crop_id:       FactoryBot.create(:crop).id,
       plant_part_id: FactoryBot.create(:plant_part).id,
-      harvested_at: '2017-01-01'
+      harvested_at:  '2017-01-01'
     }
   end
 

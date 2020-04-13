@@ -7,20 +7,20 @@ class Harvest < ApplicationRecord
   include Ownable
   include SearchHarvests
 
-  friendly_id :harvest_slug, use: %i[slugged finders]
+  friendly_id :harvest_slug, use: %i(slugged finders)
 
   # Constants
   UNITS_VALUES = {
     'individual' => 'individual',
-    'bunches' => 'bunch',
-    'sprigs' => 'sprig',
-    'handfuls' => 'handful',
-    'litres' => 'litre',
-    'pints' => 'pint',
-    'quarts' => 'quart',
-    'buckets' => 'bucket',
-    'baskets' => 'basket',
-    'bushels' => 'bushel'
+    'bunches'    => 'bunch',
+    'sprigs'     => 'sprig',
+    'handfuls'   => 'handful',
+    'litres'     => 'litre',
+    'pints'      => 'pint',
+    'quarts'     => 'quart',
+    'buckets'    => 'bucket',
+    'baskets'    => 'basket',
+    'bushels'    => 'bushel'
   }.freeze
 
   WEIGHT_UNITS_VALUES = { 'kg' => 'kg', 'lb' => 'lb', 'oz' => 'oz' }.freeze

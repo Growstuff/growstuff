@@ -9,16 +9,16 @@ RSpec.describe 'Members', type: :request do
   let!(:member) { FactoryBot.create :member }
   let(:member_encoded_as_json_api) do
     {
-      'id' => member.id.to_s,
-      'type' => 'members',
-      'links' => { 'self' => resource_url },
-      'attributes' => attributes,
+      'id'            => member.id.to_s,
+      'type'          => 'members',
+      'links'         => { 'self' => resource_url },
+      'attributes'    => attributes,
       'relationships' => {
-        'gardens' => gardens_as_json_api,
-        'harvests' => harvests_as_json_api,
-        'photos' => photos_as_json_api,
+        'gardens'   => gardens_as_json_api,
+        'harvests'  => harvests_as_json_api,
+        'photos'    => photos_as_json_api,
         'plantings' => plantings_as_json_api,
-        'seeds' => seeds_as_json_api
+        'seeds'     => seeds_as_json_api
       }
     }
   end

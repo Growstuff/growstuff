@@ -55,14 +55,14 @@ class OpenfarmService
 
       photo =
         Photo.new(
-          source_id: picture.fetch('id'),
-          source: 'openfarm',
-          owner: @cropbot,
+          source_id:     picture.fetch('id'),
+          source:        'openfarm',
+          owner:         @cropbot,
           thumbnail_url: data.fetch('thumbnail_url'),
-          fullsize_url: data.fetch('image_url'),
-          title: 'Open Farm photo',
-          license_name: 'No rights reserved',
-          link_url: "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
+          fullsize_url:  data.fetch('image_url'),
+          title:         'Open Farm photo',
+          license_name:  'No rights reserved',
+          link_url:      "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
         )
       if photo.valid?
         Photo.transaction do

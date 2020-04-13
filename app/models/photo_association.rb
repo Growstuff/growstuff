@@ -19,7 +19,7 @@ class PhotoAssociation < ApplicationRecord
   private
 
   def set_crop
-    if %w[Planting Seed Harvest].include?(photographable_type)
+    if %w(Planting Seed Harvest).include?(photographable_type)
       self.crop_id = photographable.crop_id
     elsif photographable_type == 'Crop'
       self.crop_id = photographable_id
@@ -33,7 +33,7 @@ class PhotoAssociation < ApplicationRecord
   end
 
   def crop_present
-    if %w[Planting Seed Harvest].include?(photographable_type)
+    if %w(Planting Seed Harvest).include?(photographable_type)
       errors.add(:crop_id, 'failed to calculate crop') if crop_id.blank?
     end
   end

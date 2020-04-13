@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlantingsController < DataController
-  after_action :update_crop_medians, only: %i[create update destroy]
+  after_action :update_crop_medians, only: %i(create update destroy)
   after_action :update_planting_medians, only: :update
 
   def index
@@ -42,9 +42,7 @@ class PlantingsController < DataController
     @planting = Planting.new(planted_at: Time.zone.today, owner: current_member, garden: current_member.gardens.first)
     @seed = Seed.find_by(slug: params[:seed_id]) if params[:seed_id]
     @crop = Crop.approved.find_by(id: params[:crop_id]) || Crop.new
-    if params[:garden_id]
-      @planting.garden = Garden.find_by(owner: current_member, id: params[:garden_id])
-    end
+    @planting.garden = Garden.find_by(owner: current_member, id: params[:garden_id]) if params[:garden_id]
 
     respond_with @planting
   end

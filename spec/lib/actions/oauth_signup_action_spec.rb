@@ -12,13 +12,13 @@ describe 'Growstuff::OauthSignupAction' do
     before do
       @auth =
         OmniAuth::AuthHash.new(
-          'provider' => 'facebook',
-          'uid' => '123545',
-          'info' => {
-            'name' => "John Testerson's Brother",
+          'provider'    => 'facebook',
+          'uid'         => '123545',
+          'info'        => {
+            'name'     => "John Testerson's Brother",
             'nickname' => 'JohnnyB',
-            'email' => 'example.oauth.facebook@example.com',
-            'image' => 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
+            'email'    => 'example.oauth.facebook@example.com',
+            'image'    => 'http://findicons.com/files/icons/1072/face_avatars/300/i04.png'
           },
           'credentials' => { 'token' => 'token', 'secret' => 'donttell' }
         )
@@ -78,8 +78,8 @@ describe 'Growstuff::OauthSignupAction' do
           Member.where(email: @auth['info']['email']).delete_all
           @existing_member =
             create :member,
-                   email: @auth['info']['email'],
-                   login_name: 'existing',
+                   email:                @auth['info']['email'],
+                   login_name:           'existing',
                    preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
 
           @member = @action.find_or_create_from_authorization(@auth)
@@ -124,8 +124,8 @@ describe 'Growstuff::OauthSignupAction' do
 
           @existing_member =
             create :member,
-                   email: @auth['info']['email'],
-                   login_name: 'schrodingerscat',
+                   email:                @auth['info']['email'],
+                   login_name:           'schrodingerscat',
                    preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
 
           @existing_authentication =

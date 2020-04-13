@@ -78,7 +78,7 @@ describe 'crop detail page', js: true do
 
       it 'has a link to gardenate' do
         expect(page).to have_link 'Gardenate - Planting reminders',
-                  href: "https://www.gardenate.com/plant/#{CGI.escape crop.name}"
+                                  href: "https://www.gardenate.com/plant/#{CGI.escape crop.name}"
       end
     end
   end
@@ -113,22 +113,22 @@ describe 'crop detail page', js: true do
         FactoryBot.create(
           :harvest,
           harvested_at: 150.days.ago,
-          crop: crop,
-          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+          crop:         crop,
+          planting:     FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
         )
         # 20 days to harvest
         FactoryBot.create(
           :harvest,
           harvested_at: 180.days.ago,
-          crop: crop,
-          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+          crop:         crop,
+          planting:     FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
         )
         # 10 days to harvest
         FactoryBot.create(
           :harvest,
           harvested_at: 190.days.ago,
-          crop: crop,
-          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+          crop:         crop,
+          planting:     FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
         )
         crop.update_medians
       end

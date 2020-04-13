@@ -51,22 +51,22 @@ describe 'Display a planting', :js do
         FactoryBot.create(
           :harvest,
           harvested_at: 150.days.ago,
-          crop: crop,
-          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+          crop:         crop,
+          planting:     FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
         )
         # 20 days to harvest
         FactoryBot.create(
           :harvest,
           harvested_at: 180.days.ago,
-          crop: crop,
-          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+          crop:         crop,
+          planting:     FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
         )
         # 10 days to harvest
         FactoryBot.create(
           :harvest,
           harvested_at: 190.days.ago,
-          crop: crop,
-          planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
+          crop:         crop,
+          planting:     FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop)
         )
         crop.update_medians
 
