@@ -6,7 +6,7 @@ class Crop < ApplicationRecord
   include OpenFarmData
   include SearchCrops
 
-  friendly_id :name, use: %i(slugged finders)
+  friendly_id :name, use: %i[slugged finders]
 
   ##
   ## Relationships
@@ -118,7 +118,7 @@ class Crop < ApplicationRecord
   end
 
   def approval_statuses
-    %w(rejected pending approved)
+    %w[rejected pending approved]
   end
 
   def reasons_for_rejection

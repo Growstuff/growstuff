@@ -20,7 +20,7 @@ end
 namespace :spec do
   desc "Run only unit tests"
   task unit: ['jasmine:ci'] do
-    suites = %w(controllers helpers lib mailers models requests routing views)
+    suites = %w[controllers helpers lib mailers models requests routing views]
     system('rspec', *suites.collect { |s| "spec/#{s}" })
   end
 end
