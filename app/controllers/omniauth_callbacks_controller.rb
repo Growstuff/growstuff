@@ -14,8 +14,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    flash[:alert] = "Authentication failed."
-    redirect_to request.env['omniauth.origin'] || "/"
+    flash[:alert] = 'Authentication failed.'
+    redirect_to request.env['omniauth.origin'] || '/'
   end
 
   private
@@ -32,9 +32,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @authentication = action.establish_authentication(auth, member)
 
     if action.member_created?
-      raise "Invalid provider" unless %w(facebook twitter flickr).index(auth['provider'].to_s)
+      raise 'Invalid provider' unless %w[facebook twitter flickr].index(auth['provider'].to_s)
 
-      session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
+      session["devise.#{auth['provider']}_data"] = request.env['omniauth.auth']
       sign_in member
       redirect_to finish_signup_url(member)
     else

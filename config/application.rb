@@ -44,7 +44,7 @@ module Growstuff
     config.i18n.fallbacks = [:en]
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
@@ -73,19 +73,19 @@ module Growstuff
     config.assets.initialize_on_precompile = true
 
     config.generators do |g|
-      g.template_engine  :haml
-      g.view_specs       false
+      g.template_engine :haml
+      g.view_specs false
       g.controller_specs false
-      g.helper           false
-      g.stylesheets      false
-      g.javascripts      false
+      g.helper false
+      g.stylesheets false
+      g.javascripts false
     end
 
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
     config.bot_email = ENV['GROWSTUFF_EMAIL']
     config.user_agent = 'Growstuff'
-    config.user_agent_email = "info@growstuff.org"
+    config.user_agent_email = 'info@growstuff.org'
 
     Gibbon::API.api_key = ENV['GROWSTUFF_MAILCHIMP_APIKEY'] || 'notarealkey'
     # API key can't be blank or tests fail
