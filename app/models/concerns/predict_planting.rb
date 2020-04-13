@@ -71,9 +71,7 @@ module PredictPlanting
     end
 
     def late?
-      crop.annual? && !finished &&
-        planted_at.present? &&
-        finish_predicted_at.present? &&
+      crop.annual? && !finished && planted_at.present? && finish_predicted_at.present? &&
         finish_predicted_at <= Time.zone.today
     end
 

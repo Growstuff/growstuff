@@ -23,13 +23,7 @@ class SeedsController < DataController
     where['finished'] = false unless @show_all
 
     @filename = csv_filename
-    @seeds = Seed.search(
-      where:    where,
-      page:     params[:page],
-      limit:    30,
-      boost_by: [:created_at],
-      load:     false
-    )
+    @seeds = Seed.search(where: where, page: params[:page], limit: 30, boost_by: [:created_at], load: false)
 
     respond_with(@seeds)
   end
@@ -78,12 +72,21 @@ class SeedsController < DataController
 
   def seed_params
     params.require(:seed).permit(
-      :crop_id, :description, :quantity, :plant_before,
-      :parent_planting_id, :saved_at,
-      :days_until_maturity_min, :days_until_maturity_max,
-      :organic, :gmo,
-      :heirloom, :tradable_to, :slug,
-      :finished, :finished_at
+      :crop_id,
+      :description,
+      :quantity,
+      :plant_before,
+      :parent_planting_id,
+      :saved_at,
+      :days_until_maturity_min,
+      :days_until_maturity_max,
+      :organic,
+      :gmo,
+      :heirloom,
+      :tradable_to,
+      :slug,
+      :finished,
+      :finished_at
     )
   end
 

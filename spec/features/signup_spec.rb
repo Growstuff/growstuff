@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe "signup", js: true do
-  it "sign up for new account from top menubar" do
+describe 'signup', js: true do
+  it 'sign up for new account from top menubar' do
     visit crops_path # something other than front page, which has multiple signup links
     click_link 'Sign up'
     fill_in 'Login name', with: 'person123'
@@ -15,7 +15,7 @@ describe "signup", js: true do
     expect(current_path).to eq root_path
   end
 
-  it "sign up for new account with existing username" do
+  it 'sign up for new account with existing username' do
     visit crops_path # something other than front page, which has multiple signup links
     click_link 'Sign up'
     fill_in 'Login name', with: 'person123'
@@ -25,29 +25,29 @@ describe "signup", js: true do
     check 'member_tos_agreement'
     click_button 'Sign up'
     expect(current_path).to eq root_path
-    first('.signup a').click # click the 'Sign up' button in the middle of the page
+    first('.signup a').click
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'
     fill_in 'Password confirmation', with: 'abc123'
     check 'member_tos_agreement'
-    click_button 'Sign up'
+    click_button 'Sign up' # click the 'Sign up' button in the middle of the page
   end
 
-  it "sign up for new account without accepting TOS" do
+  it 'sign up for new account without accepting TOS' do
     visit root_path
-    first('.signup a').click # click the 'Sign up' button in the middle of the page
+    first('.signup a').click
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'
     fill_in 'Password confirmation', with: 'abc123'
     # do not check 'member_tos_agreement'
     click_button 'Sign up'
-    expect(current_path).to eq members_path
+    expect(current_path).to eq members_path # click the 'Sign up' button in the middle of the page
   end
 
-  context "with facebook" do
-    it "sign up" do
+  context 'with facebook' do
+    it 'sign up' do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
       Member.where(email: 'tdawg@hotmail.com').delete_all

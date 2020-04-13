@@ -3,26 +3,26 @@
 require 'rails_helper'
 
 describe Comment do
-  context "basic" do
+  context 'basic' do
     let(:comment) { FactoryBot.create(:comment) }
 
-    it "belongs to a post" do
+    it 'belongs to a post' do
       comment.post.should be_an_instance_of Post
     end
 
-    it "belongs to an author" do
+    it 'belongs to an author' do
       comment.author.should be_an_instance_of Member
     end
   end
 
-  context "notifications" do
-    it "sends a notification when a comment is posted" do
+  context 'notifications' do
+    it 'sends a notification when a comment is posted' do
       expect do
         FactoryBot.create(:comment)
       end.to change(Notification, :count).by(1)
     end
 
-    it "sets the notification fields" do
+    it 'sets the notification fields' do
       @c = FactoryBot.create(:comment)
       @n = Notification.first
       @n.sender.should eq @c.author
@@ -41,7 +41,7 @@ describe Comment do
     end
   end
 
-  context "ordering" do
+  context 'ordering' do
     before do
       @m = FactoryBot.create(:member)
       @p = FactoryBot.create(:post, author: @m)

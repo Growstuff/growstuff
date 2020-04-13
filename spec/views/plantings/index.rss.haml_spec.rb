@@ -18,7 +18,7 @@ describe 'plantings/index.rss.haml', :search do
     end
 
     it 'shows RSS feed title' do
-      expect(rendered).to have_content "Recent plantings from all members"
+      expect(rendered).to have_content 'Recent plantings from all members'
     end
 
     it 'item title shows owner and location' do

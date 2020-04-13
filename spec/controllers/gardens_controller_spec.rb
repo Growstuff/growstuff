@@ -8,7 +8,7 @@ RSpec.describe GardensController, type: :controller do
 
   let(:garden) { FactoryBot.create :garden }
 
-  context "when not signed in" do
+  context 'when not signed in' do
     describe 'GET new' do
       before { get :new, params: { slug: garden.to_param } }
 
@@ -51,7 +51,7 @@ RSpec.describe GardensController, type: :controller do
     end
   end
 
-  context "when signed in" do
+  context 'when signed in' do
     before { sign_in member }
 
     let!(:member) { FactoryBot.create(:member) }

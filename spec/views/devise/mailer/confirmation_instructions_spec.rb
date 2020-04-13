@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'devise/mailer/confirmation_instructions.html.haml', type: "view" do
-  context "logged in" do
+describe 'devise/mailer/confirmation_instructions.html.haml', type: 'view' do
+  context 'logged in' do
     before do
       @resource = FactoryBot.create(:member)
       render

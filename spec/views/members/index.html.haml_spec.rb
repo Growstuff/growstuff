@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "members/index" do
+describe 'members/index' do
   let(:member) { FactoryBot.create(:london_member) }
 
   before do
@@ -10,15 +10,16 @@ describe "members/index" do
     page = 1
     per_page = 2
     total_entries = 2
-    members = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([member, member])
-    end
+    members =
+      WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
+        pager.replace([member, member])
+      end
     assign(:members, members)
     render
   end
 
-  it "contains two gravatar icons" do
-    assert_select "img", src: %r{gravatar\.com/avatar}, count: 2
+  it 'contains two gravatar icons' do
+    assert_select 'img', src: %r{gravatar\.com/avatar}, count: 2
   end
 
   it 'contains member locations' do

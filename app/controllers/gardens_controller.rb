@@ -9,17 +9,16 @@ class GardensController < DataController
     @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active unless @show_all
     @gardens = @gardens.where(owner: @owner) if @owner.present?
-    @gardens = @gardens.where.not(members: { confirmed_at: nil })
-      .order(:name).paginate(page: params[:page])
+    @gardens = @gardens.where.not(members: { confirmed_at: nil }).order(:name).paginate(page: params[:page])
     respond_with(@gardens)
   end
 
   def show
     @current_plantings = @garden.plantings.current.includes(:crop, :owner).order(planted_at: :desc)
     @finished_plantings = @garden.plantings.finished.includes(:crop)
-    @suggested_companions = Crop.approved.where(
-      id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
-    ).order(:name)
+    @suggested_companions =
+      Crop.approved.where(id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id))
+        .order(:name)
     respond_with(@garden)
   end
 
@@ -53,8 +52,16 @@ class GardensController < DataController
 
   def garden_params
     params.require(:garden).permit(
-      :name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id
+      :name,
+      :slug,
+      :description,
+      :active,
+      :location,
+      :latitude,
+      :longitude,
+      :area,
+      :area_unit,
+      :garden_type_id
     )
   end
 end

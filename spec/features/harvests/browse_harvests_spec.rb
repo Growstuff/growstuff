@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "browse harvests", :search do
+describe 'browse harvests', :search do
   subject { page }
 
   let!(:harvest) { create :harvest, owner: member }
@@ -19,11 +19,11 @@ describe "browse harvests", :search do
       end
 
       it 'read more' do
-        expect(subject).not_to have_link "Read more"
+        expect(subject).not_to have_link 'Read more'
       end
     end
 
-    describe "filled in optional fields" do
+    describe 'filled in optional fields' do
       let!(:harvest) { create :harvest, :long_description, :reindex }
 
       before do
