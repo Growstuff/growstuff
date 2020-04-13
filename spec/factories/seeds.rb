@@ -6,9 +6,9 @@ FactoryBot.define do
   factory :seed do
     owner
     crop
-    description { "MyText" }
+    description { 'MyText' }
     quantity { 1 }
-    plant_before { "2013-07-15" }
+    plant_before { '2013-07-15' }
     tradable_to { 'nowhere' }
     organic { 'unknown' }
     gmo { 'unknown' }
@@ -23,13 +23,13 @@ FactoryBot.define do
     end
 
     factory :tradable_seed do
-      tradable_to { "locally" }
+      tradable_to { 'locally' }
       finished { false }
       finished_at { nil }
     end
 
     factory :untradable_seed do
-      tradable_to { "nowhere" }
+      tradable_to { 'nowhere' }
     end
 
     trait :reindex do

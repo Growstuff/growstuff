@@ -5,8 +5,8 @@ require 'rails_helper'
 describe SeedsController, :search do
   let(:owner) { FactoryBot.create(:member) }
 
-  describe "GET index" do
-    describe "picks up owner from params" do
+  describe 'GET index' do
+    describe 'picks up owner from params' do
       before do
         Seed.reindex
         get :index, params: { member_slug: owner.slug }

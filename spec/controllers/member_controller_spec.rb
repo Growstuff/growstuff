@@ -9,32 +9,32 @@ describe MembersController do
     @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
   end
 
-  describe "GET index" do
-    it "assigns only confirmed members as @members" do
+  describe 'GET index' do
+    it 'assigns only confirmed members as @members' do
       get :index, params: {}
       expect(assigns(:members)).to eq([@member])
     end
   end
 
-  describe "GET JSON index" do
-    it "provides JSON for members" do
+  describe 'GET JSON index' do
+    it 'provides JSON for members' do
       get :index, format: 'json'
       expect(response).to be_successful
     end
   end
 
-  describe "GET show" do
-    it "provides JSON for member profile" do
+  describe 'GET show' do
+    it 'provides JSON for member profile' do
       get :show, params: { slug: @member.to_param }, format: 'json'
       expect(response).to be_successful
     end
 
-    it "assigns @twitter_auth" do
+    it 'assigns @twitter_auth' do
       get :show, params: { slug: @member.to_param }
       expect(assigns(:twitter_auth)).to eq(@twitter_auth)
     end
 
-    it "assigns @flickr_auth" do
+    it 'assigns @flickr_auth' do
       get :show, params: { slug: @member.to_param }
       expect(assigns(:flickr_auth)).to eq(@flickr_auth)
     end
@@ -52,12 +52,12 @@ describe MembersController do
   end
 
   describe "GET member's RSS feed" do
-    describe "returns an RSS feed" do
-      before { get :show, params: { slug: @member.to_param }, format: "rss" }
+    describe 'returns an RSS feed' do
+      before { get :show, params: { slug: @member.to_param }, format: 'rss' }
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template("members/show") }
-      it { expect(response.content_type).to eq("application/rss+xml") }
+      it { expect(response).to render_template('members/show') }
+      it { expect(response.content_type).to eq('application/rss+xml') }
     end
   end
 end

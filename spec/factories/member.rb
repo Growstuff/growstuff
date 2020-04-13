@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :member, aliases: %i(author owner sender recipient creator) do
+  factory :member, aliases: %i[author owner sender recipient creator] do
     login_name { (0...8).map { rand(65..90).chr }.join }
     password { 'password1' }
     email { Faker::Internet.unique.email }
@@ -9,7 +9,9 @@ FactoryBot.define do
     confirmed_at { Time.zone.now }
     show_email { false }
     bio { 'I love seeds' }
-    preferred_avatar_uri { 'https://secure.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
+    preferred_avatar_uri do
+      'https://secure.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon'
+    end
 
     # cropbot is needed for certain tests, eg. Crop.create_from_csv
     factory :cropbot do
@@ -87,7 +89,7 @@ FactoryBot.define do
     end
 
     factory :invalid_member_spaces do
-      login_name { "a b" }
+      login_name { 'a b' }
     end
 
     factory :invalid_member_badchars do
