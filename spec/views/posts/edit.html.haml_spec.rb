@@ -2,40 +2,38 @@
 
 require 'rails_helper'
 
-describe "posts/edit" do
+describe 'posts/edit' do
   before do
     controller.stub(:current_user) { nil }
     @author = FactoryBot.create(:member)
     @post = assign(:post, FactoryBot.create(:post, author: @author))
   end
 
-  context "logged in" do
+  context 'logged in' do
     before do
       sign_in @author
       render
     end
 
-    it "renders the edit post form" do
-      assert_select "form", action: posts_path(@post), method: "post" do
-        assert_select "input#post_subject", name: "post[subject]"
-        assert_select "textarea#post_body", name: "post[body]"
+    it 'renders the edit post form' do
+      assert_select 'form', action: posts_path(@post), method: 'post' do
+        assert_select 'input#post_subject', name: 'post[subject]'
+        assert_select 'textarea#post_body', name: 'post[body]'
       end
     end
 
     it 'no hidden forum field' do
-      assert_select "input#post_forum_id[type=hidden]", false
+      assert_select 'input#post_forum_id[type=hidden]', false
     end
 
     it 'no forum mentioned' do
-      rendered.should_not have_content "This post will be posted in the forum"
+      rendered.should_not have_content 'This post will be posted in the forum'
     end
 
-    context "forum specified" do
+    context 'forum specified' do
       before do
         @forum = assign(:forum, FactoryBot.create(:forum))
-        assign(:post, FactoryBot.create(:post,
-                                        forum:  @forum,
-                                        author: @author))
+        assign(:post, FactoryBot.create(:post, forum: @forum, author: @author))
         render
       end
 

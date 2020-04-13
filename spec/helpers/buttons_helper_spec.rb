@@ -15,10 +15,10 @@ require 'rails_helper'
 RSpec.describe ButtonsHelper, type: :helper do
   before { allow(self).to receive(:can?).and_return(true) }
 
-  let(:garden)   { FactoryBot.create :garden   }
+  let(:garden) { FactoryBot.create :garden }
   let(:planting) { FactoryBot.create :planting }
-  let(:harvest)  { FactoryBot.create :harvest  }
-  let(:seed)     { FactoryBot.create :seed     }
+  let(:harvest) { FactoryBot.create :harvest }
+  let(:seed) { FactoryBot.create :seed }
 
   describe 'add_photo_button' do
     it { expect(add_photo_button(garden)).to include "/photos/new?id=#{garden.id}&amp;type=garden" }

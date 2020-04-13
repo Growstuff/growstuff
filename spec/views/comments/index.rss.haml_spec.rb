@@ -7,15 +7,18 @@ describe 'comments/index.rss.haml' do
     controller.stub(:current_user) { nil }
     @author = FactoryBot.create(:member)
     @post = FactoryBot.create(:post)
-    assign(:comments, [
-             FactoryBot.create(:comment, author: @author, post: @post),
-             FactoryBot.create(:comment, author: @author, post: @post)
-           ])
+    assign(
+      :comments,
+      [
+        FactoryBot.create(:comment, author: @author, post: @post),
+        FactoryBot.create(:comment, author: @author, post: @post)
+      ]
+    )
     render
   end
 
   it 'shows RSS feed title' do
-    rendered.should have_content "Recent comments on all posts"
+    rendered.should have_content 'Recent comments on all posts'
   end
 
   it 'shows item title' do
@@ -28,6 +31,6 @@ describe 'comments/index.rss.haml' do
   end
 
   it 'shows content of comments' do
-    rendered.should have_content "OMG LOL"
+    rendered.should have_content 'OMG LOL'
   end
 end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'posts/index.rss.haml', type: "view" do
+describe 'posts/index.rss.haml', type: 'view' do
   before do
     controller.stub(:current_user) { nil }
     author = FactoryBot.create(:member)
@@ -13,11 +13,11 @@ describe 'posts/index.rss.haml', type: "view" do
   end
 
   it 'shows RSS feed title' do
-    expect(rendered).to have_content "Recent posts from all members"
+    expect(rendered).to have_content 'Recent posts from all members'
   end
 
   it 'shows content of posts' do
-    expect(rendered).to have_content "This is some text."
+    expect(rendered).to have_content 'This is some text.'
   end
 
   it 'gives the author in the item title' do

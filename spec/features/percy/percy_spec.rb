@@ -6,8 +6,10 @@ describe 'Test with visual testing', type: :feature, js: true do
   # Use the same random seed every time so our random data is the same
   # on every run, so doesn't trigger percy to see changes
   before { Faker::Config.random = Random.new(42) }
-  let!(:member)        { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
-  let!(:crop_wrangler) { FactoryBot.create :crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: gravatar2 }
+  let!(:member) { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
+  let!(:crop_wrangler) do
+    FactoryBot.create :crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: gravatar2
+  end
   let!(:admin_user) { FactoryBot.create :admin_member, login_name: 'janitor', preferred_avatar_uri: gravatar3 }
   let!(:someone_else) { FactoryBot.create :edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar4 }
 
@@ -16,14 +18,14 @@ describe 'Test with visual testing', type: :feature, js: true do
   let(:gravatar3) { 'https://secure.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
   let(:gravatar4) { 'https://secure.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
 
-  let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
+  let!(:tomato) { FactoryBot.create :tomato, creator: someone_else }
   let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
 
   let(:tomato_photo) do
     FactoryBot.create :photo,
-                      title:         'look at my tomatoes',
-                      owner:         member,
-                      fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
+                      title: 'look at my tomatoes',
+                      owner: member,
+                      fullsize_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
                       thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
   end
   let(:post_body) do
@@ -65,32 +67,36 @@ rest of the garden.
 [apple](crop)
     "
   end
-  let(:post) { FactoryBot.create :post, author: member, subject: "Watering", body: post_body }
+  let(:post) { FactoryBot.create :post, author: member, subject: 'Watering', body: post_body }
   before do
     # Freeze time, so we don't have variations in timestamps on the page
     Timecop.freeze(Time.zone.local(2019, 1, 1))
 
     {
-      chard:    'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
-      apple:    'https://farm5.staticflickr.com/4748/38932178855_6fe9bcdb48_q.jpg',
-      pear:     'https://farm1.staticflickr.com/113/250984726_0fc31fea6d_q.jpg',
-      popcorn:  'https://farm8.staticflickr.com/7893/33150160528_24a689c6bc_q.jpg',
+      chard: 'https://farm9.staticflickr.com/8516/8519911893_1759c28965_q.jpg',
+      apple: 'https://farm5.staticflickr.com/4748/38932178855_6fe9bcdb48_q.jpg',
+      pear: 'https://farm1.staticflickr.com/113/250984726_0fc31fea6d_q.jpg',
+      popcorn: 'https://farm8.staticflickr.com/7893/33150160528_24a689c6bc_q.jpg',
       eggplant: 'https://farm8.staticflickr.com/7856/47068736892_1af9b8a4ba_q.jpg',
-      maize:    'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
+      maize: 'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
     }.each do |crop_type, photo_url|
       crop = FactoryBot.create crop_type, creator: someone_else
       crop.reindex
-      owner = FactoryBot.create :interesting_member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
+      owner =
+        FactoryBot.create :interesting_member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
       planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
-      photo = FactoryBot.create(:photo, owner: owner,
-                                        thumbnail_url: "#{photo_url}_q.jpg", fullsize_url: "#{photo_url}_z.jpg")
+      photo =
+        FactoryBot.create(:photo, owner: owner, thumbnail_url: "#{photo_url}_q.jpg", fullsize_url: "#{photo_url}_z.jpg")
       planting.photos << photo
 
       harvest = FactoryBot.create :harvest, crop: crop, owner: owner, plant_part: plant_part
       harvest.photos << photo
-      FactoryBot.create :planting, crop: tomato,
-                                   planted_at: 1.year.ago, finished_at: 2.months.ago,
-                                   sunniness: 'sun', planted_from: 'seed'
+      FactoryBot.create :planting,
+                        crop: tomato,
+                        planted_at: 1.year.ago,
+                        finished_at: 2.months.ago,
+                        sunniness: 'sun',
+                        planted_from: 'seed'
     end
 
     FactoryBot.create :seed, owner: member, tradable_to: 'nationally'
@@ -110,12 +116,15 @@ rest of the garden.
       it 'loads crops#show' do
         FactoryBot.create :planting, planted_at: 2.months.ago, sunniness: 'shade', planted_from: 'seedling'
 
-        planting = FactoryBot.create :planting, planted_at: 1.year.ago, sunniness: 'sun', planted_from: 'seed', crop: tomato
-        FactoryBot.create(:harvest,
-                          crop:         tomato,
-                          plant_part:   FactoryBot.create(:plant_part, name: 'berry'),
-                          planting:     planting,
-                          harvested_at: 1.day.ago)
+        planting =
+          FactoryBot.create :planting, planted_at: 1.year.ago, sunniness: 'sun', planted_from: 'seed', crop: tomato
+        FactoryBot.create(
+          :harvest,
+          crop: tomato,
+          plant_part: FactoryBot.create(:plant_part, name: 'berry'),
+          planting: planting,
+          harvested_at: 1.day.ago
+        )
 
         post = FactoryBot.create :post, subject: 'tomatoes are delicious'
         tomato.posts << post
@@ -154,8 +163,8 @@ rest of the garden.
         garden = FactoryBot.create :garden, name: 'paradise', owner: member
         # with some lettuce (finished)
         FactoryBot.create(
-          :planting, crop: FactoryBot.create(:crop, name: 'lettuce'),
-                     garden: garden, owner: member, finished_at: 2.weeks.ago
+          :planting,
+          crop: FactoryBot.create(:crop, name: 'lettuce'), garden: garden, owner: member, finished_at: 2.weeks.ago
         )
         # tomato still growing
         tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
@@ -210,29 +219,29 @@ rest of the garden.
     end
   end
 
-  context "when signed out" do
+  context 'when signed out' do
     let(:prefix) { 'signed-out' }
     include_examples 'visit pages'
 
     it 'loads sign in page' do
       visit crops_path # some random page
       click_link 'Sign in'
-      Percy.snapshot(page, name: "sign-in")
+      Percy.snapshot(page, name: 'sign-in')
     end
 
     it 'loads sign up page' do
       visit crops_path # some random page
       click_link 'Sign up'
-      Percy.snapshot(page, name: "sign-up")
+      Percy.snapshot(page, name: 'sign-up')
     end
 
     it 'loads forgot password' do
       visit new_member_password_path
-      Percy.snapshot(page, name: "forgot-password")
+      Percy.snapshot(page, name: 'forgot-password')
     end
     it 'loads new confirmation' do
       visit new_member_confirmation_path
-      Percy.snapshot(page, name: "new-confimation")
+      Percy.snapshot(page, name: 'new-confimation')
     end
   end
 
@@ -322,7 +331,7 @@ rest of the garden.
 
       it 'comments#new' do
         visit new_comment_path(post_id: post.id)
-        Percy.snapshot(page, name: "comments#new")
+        Percy.snapshot(page, name: 'comments#new')
       end
     end
 
