@@ -41,7 +41,7 @@ describe Seed do
 
   context 'tradable' do
     it 'all valid tradable_to values should work' do
-      %w(nowhere locally nationally internationally).each do |t|
+      %w[nowhere locally nationally internationally].each do |t|
         @seed = FactoryBot.build(:seed, tradable_to: t)
         @seed.should be_valid
       end
@@ -108,14 +108,14 @@ describe Seed do
     end
 
     it 'all valid heirloom values should work' do
-      %w(heirloom hybrid unknown).each do |t|
+      %w[heirloom hybrid unknown].each do |t|
         @seed = FactoryBot.build(:seed, heirloom: t)
         @seed.should be_valid
       end
     end
 
     it 'refuses invalid organic/GMO/heirloom values' do
-      %i(organic gmo heirloom).each do |field|
+      %i[organic gmo heirloom].each do |field|
         @seed = FactoryBot.build(:seed, field => 'not valid')
         @seed.should_not be_valid
         @seed.errors[field].should_not be_empty
@@ -123,7 +123,7 @@ describe Seed do
     end
 
     it 'does not allow nil or blank values' do
-      %i(organic gmo heirloom).each do |field|
+      %i[organic gmo heirloom].each do |field|
         @seed = FactoryBot.build(:seed, field => nil)
         @seed.should_not be_valid
         @seed = FactoryBot.build(:seed, field => '')

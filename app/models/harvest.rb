@@ -7,7 +7,7 @@ class Harvest < ApplicationRecord
   include Ownable
   include SearchHarvests
 
-  friendly_id :harvest_slug, use: %i(slugged finders)
+  friendly_id :harvest_slug, use: %i[slugged finders]
 
   # Constants
   UNITS_VALUES = {

@@ -5,7 +5,7 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
-  friendly_id :garden_slug, use: %i(slugged finders)
+  friendly_id :garden_slug, use: %i[slugged finders]
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings

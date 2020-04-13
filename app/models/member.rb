@@ -8,7 +8,7 @@ class Member < ApplicationRecord
   include MemberNewsletter
 
   extend FriendlyId
-  friendly_id :login_name, use: %i(slugged finders)
+  friendly_id :login_name, use: %i[slugged finders]
 
   #
   # Relationships
@@ -82,7 +82,7 @@ class Member < ApplicationRecord
               minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
             },
             exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
+              in: %w[growstuff admin moderator staff nearby], message: "name is reserved"
             },
             format:     {
               with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
