@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AlternateNamesController < ApplicationController
-  before_action :authenticate_member!, except: %i(index)
+  before_action :authenticate_member!, except: %i[index]
   load_and_authorize_resource
   respond_to :html, :json
   responders :flash
@@ -32,7 +32,7 @@ class AlternateNamesController < ApplicationController
     if @alternate_name.save
       redirect_to @alternate_name.crop, notice: 'Alternate name was successfully created.'
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -42,7 +42,7 @@ class AlternateNamesController < ApplicationController
     if @alternate_name.update(alternate_name_params)
       redirect_to @alternate_name.crop, notice: 'Alternate name was successfully updated.'
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
