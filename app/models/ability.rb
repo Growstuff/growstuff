@@ -50,7 +50,7 @@ class Ability
     cannot :destroy, GardenType
   end
 
-  def member_abilities(member) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def member_abilities(member)
     return unless member
 
     # members can see even rejected or pending crops if they requested it

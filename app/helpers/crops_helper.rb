@@ -15,6 +15,6 @@ module CropsHelper
   end
 
   def crop_ebay_seeds_url(crop)
-    "https://rover.ebay.com/rover/1/705-53470-19255-0/1?icep_ff3=9&pub=5575213277&toolid=10001&campid=5337940151&customid=&icep_uq=#{CGI.escape crop.name}&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=181003&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229515&kwid=902099&mtid=824&kw=lg" # rubocop:disable Layout/LineLength
+    "https://rover.ebay.com/rover/1/705-53470-19255-0/1?icep_ff3=9&pub=5575213277&toolid=10001&campid=5337940151&customid=&icep_uq=#{CGI.escape crop.name}&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=181003&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229515&kwid=902099&mtid=824&kw=lg"
   end
 end
