@@ -27,6 +27,6 @@ describe 'posts/show.rss.haml' do
   end
 
   it 'shows content of comments' do
-    rendered.should have_content "OMG LOL"
+    rendered.should have_content 'OMG LOL'
   end
 end

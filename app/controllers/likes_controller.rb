@@ -5,11 +5,7 @@ class LikesController < ApplicationController
   respond_to :html, :json
 
   def create
-    @like = Like.new(
-      member:        current_member,
-      likeable_type: params[:type],
-      likeable_id:   params[:id]
-    )
+    @like = Like.new(member: current_member, likeable_type: params[:type], likeable_id: params[:id])
     if @like.likeable && @like.save
       @like.likeable.reindex(refresh: true)
       success(@like, liked_by_member: true, status_code: :created)
@@ -19,11 +15,7 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    @like = Like.find_by(
-      likeable_type: params[:type],
-      likeable_id:   params[:id],
-      member:        current_member
-    )
+    @like = Like.find_by(likeable_type: params[:type], likeable_id: params[:id], member: current_member)
 
     if @like&.destroy
       @like.likeable.reindex(refresh: true)
@@ -37,10 +29,10 @@ class LikesController < ApplicationController
 
   def render_json(like, liked_by_member: true)
     {
-      id:              like.likeable.id,
-      like_count:      like.likeable.likes.count,
+      id: like.likeable.id,
+      like_count: like.likeable.likes.count,
       liked_by_member: liked_by_member,
-      description:     ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like")
+      description: ActionController::Base.helpers.pluralize(like.likeable.likes.count, 'like')
     }
   end
 
@@ -48,10 +40,7 @@ class LikesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to like.likeable }
       format.json do
-        render(json: render_json(
-          like,
-          liked_by_member: liked_by_member
-        ), status: status_code)
+        render(json: render_json(like, liked_by_member: liked_by_member), status: status_code)
       end
     end
   end

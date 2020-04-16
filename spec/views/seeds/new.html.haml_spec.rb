@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe "seeds/new" do
-  let!(:seed)   { FactoryBot.create(:seed, owner: member) }
-  let!(:member) { FactoryBot.create(:member)              }
+describe 'seeds/new' do
+  let!(:seed) { FactoryBot.create(:seed, owner: member) }
+  let!(:member) { FactoryBot.create(:member) }
 
   before do
     sign_in member
@@ -13,20 +13,20 @@ describe "seeds/new" do
     render
   end
 
-  it "renders new seed form" do
-    assert_select "form", action: seeds_path, method: "post" do
-      assert_select "input#crop", class: "ui-autocomplete-input"
-      assert_select "input#seed_crop_id", name: "seed[crop_id]"
-      assert_select "textarea#seed_description", name: "seed[description]"
-      assert_select "input#seed_quantity", name: "seed[quantity]"
-      assert_select "select#seed_tradable_to", name: "seed[tradable_to]"
+  it 'renders new seed form' do
+    assert_select 'form', action: seeds_path, method: 'post' do
+      assert_select 'input#crop', class: 'ui-autocomplete-input'
+      assert_select 'input#seed_crop_id', name: 'seed[crop_id]'
+      assert_select 'textarea#seed_description', name: 'seed[description]'
+      assert_select 'input#seed_quantity', name: 'seed[quantity]'
+      assert_select 'select#seed_tradable_to', name: 'seed[tradable_to]'
     end
   end
 
   context 'member has no location' do
     describe 'reminds you to set your location' do
       it { expect(rendered).to have_content "Don't forget to set your location." }
-      it { expect(rendered).to have_link "set your location" }
+      it { expect(rendered).to have_link 'set your location' }
     end
   end
 
@@ -39,7 +39,7 @@ describe "seeds/new" do
     end
 
     it 'link to change location' do
-      expect(rendered).to have_link("Change your location.")
+      expect(rendered).to have_link('Change your location.')
     end
   end
 end

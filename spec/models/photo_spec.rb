@@ -3,19 +3,19 @@
 require 'rails_helper'
 
 describe Photo do
-  let(:photo)  { FactoryBot.create(:photo, :reindex, owner: member) }
+  let(:photo) { FactoryBot.create(:photo, :reindex, owner: member) }
   let(:member) { FactoryBot.create(:member) }
 
-  it_behaves_like "it is likeable"
+  it_behaves_like 'it is likeable'
 
   describe 'add/delete functionality' do
     let(:planting) { FactoryBot.create(:planting, owner: member) }
     let(:seed) { FactoryBot.create(:seed, owner: member) }
     let(:harvest) { FactoryBot.create(:harvest, owner: member) }
     let(:post) { FactoryBot.create(:post, author: member) }
-    let(:garden)  { FactoryBot.create(:garden, owner: member) }
+    let(:garden) { FactoryBot.create(:garden, owner: member) }
 
-    context "adds photos" do
+    context 'adds photos' do
       describe 'to a planting' do
         before { planting.photos << photo }
 
@@ -54,7 +54,7 @@ describe Photo do
 
         # Check the relationship from the photo
         it { expect(photo.photo_associations.count).to eq 1 }
-        it { expect(photo.photo_associations.map(&:crop)).to eq [ crop ] }
+        it { expect(photo.photo_associations.map(&:crop)).to eq [crop] }
         it { expect(photo.crops.count).to eq 1 }
         it { expect(photo.crops).to eq [crop] }
       end
@@ -82,7 +82,7 @@ describe Photo do
       end
     end
 
-    context "removing photos" do
+    context 'removing photos' do
       it 'from a planting' do
         planting.photos << photo
         photo.destroy
@@ -101,7 +101,7 @@ describe Photo do
         expect(garden.photos.count).to eq 0
       end
 
-      it "automatically if unused" do
+      it 'automatically if unused' do
         photo.destroy_if_unused
         expect(-> { photo.reload }).to raise_error ActiveRecord::RecordNotFound
       end
@@ -109,25 +109,25 @@ describe Photo do
       it 'they are used by plantings but not harvests' do
         harvest.photos << photo
         planting.photos << photo
-        harvest.destroy # photo is now used by harvest but not planting
+        harvest.destroy
         photo.destroy_if_unused
-        expect(-> { photo.reload }).not_to raise_error
+        expect(-> { photo.reload }).not_to raise_error # photo is now used by harvest but not planting
       end
 
       it 'they are used by harvests but not plantings' do
         harvest.photos << photo
         planting.photos << photo
-        planting.destroy # photo is now used by harvest but not planting
+        planting.destroy
         photo.destroy_if_unused
-        expect(-> { photo.reload }).not_to raise_error
+        expect(-> { photo.reload }).not_to raise_error # photo is now used by harvest but not planting
       end
 
       it 'they are used by gardens but not plantings' do
         garden.photos << photo
         planting.photos << photo
-        planting.destroy # photo is now used by garden but not planting
+        planting.destroy
         photo.destroy_if_unused
-        expect(-> { photo.reload }).not_to raise_error
+        expect(-> { photo.reload }).not_to raise_error # photo is now used by garden but not planting
       end
 
       it 'they are no longer used by anything' do
@@ -138,28 +138,28 @@ describe Photo do
         expect(photo.harvests.count).to eq 1
         expect(photo.gardens.count).to eq 1
 
-        planting.destroy # photo is still used by harvest and garden
+        planting.destroy
         photo.reload
 
         expect(photo.plantings.count).to eq 0
         expect(photo.harvests.count).to eq 1
 
         harvest.destroy
-        garden.destroy # photo is now no longer used by anything
+        garden.destroy
         photo.reload
 
         expect(photo.plantings.count).to eq 0
         expect(photo.harvests.count).to eq 0
         expect(photo.gardens.count).to eq 0
         photo.destroy_if_unused
-        expect(-> { photo.reload }).to raise_error ActiveRecord::RecordNotFound
+        expect(-> { photo.reload }).to raise_error ActiveRecord::RecordNotFound # photo is now no longer used by anything
       end
 
       it 'does not occur when a photo is still in use' do
         planting.photos << photo
         harvest.photos << photo
-        planting.destroy # photo is still used by the harvest
-        expect(photo).to be_an_instance_of described_class
+        planting.destroy
+        expect(photo).to be_an_instance_of described_class # photo is still used by the harvest
       end
     end # removing photos
   end # add/delete functionality
@@ -182,16 +182,16 @@ describe Photo do
 
   describe 'assocations' do
     let(:harvest_crop) { FactoryBot.create :crop, name: 'harvest_crop' }
-    let!(:harvest)       { FactoryBot.create :harvest, owner: member, crop: harvest_crop }
-    let!(:harvest_photo) { FactoryBot.create :photo, owner: member                       }
+    let!(:harvest) { FactoryBot.create :harvest, owner: member, crop: harvest_crop }
+    let!(:harvest_photo) { FactoryBot.create :photo, owner: member }
 
     let(:planting_crop) { FactoryBot.create :crop, name: 'planting_crop' }
-    let!(:planting)       { FactoryBot.create :planting, owner: member, crop: planting_crop }
-    let!(:planting_photo) { FactoryBot.create :photo, owner: member                         }
+    let!(:planting) { FactoryBot.create :planting, owner: member, crop: planting_crop }
+    let!(:planting_photo) { FactoryBot.create :photo, owner: member }
 
     let(:seed_crop) { FactoryBot.create :crop, name: 'seed_crop' }
-    let!(:seed)       { FactoryBot.create :seed, owner: member, crop: seed_crop }
-    let!(:seed_photo) { FactoryBot.create :photo, owner: member                 }
+    let!(:seed) { FactoryBot.create :seed, owner: member, crop: seed_crop }
+    let!(:seed_photo) { FactoryBot.create :photo, owner: member }
 
     before do
       harvest.photos << harvest_photo
@@ -243,23 +243,23 @@ describe Photo do
       described_class.searchkick_index.refresh
     end
 
-    describe "finds all photos in search index" do
-      it "finds just one" do
+    describe 'finds all photos in search index' do
+      it 'finds just one' do
         expect(described_class.search.count).to eq 1
       end
-      it "finds the matching photo"  do
+      it 'finds the matching photo' do
         expect(described_class.search).to include photo
       end
 
-      it "retrieves crops from ES" do
+      it 'retrieves crops from ES' do
         expect(described_class.search(load: false).first.crops).to eq [planting.crop.id]
       end
     end
 
-    it "finds photos by owner in search index" do
+    it 'finds photos by owner in search index' do
       expect(described_class.search(where: { owner_id: planting.owner_id })).to include photo
     end
-    it "finds photos by crop in search index" do
+    it 'finds photos by crop in search index' do
       expect(described_class.search(where: { crops: planting.crop.id })).to include photo
     end
   end

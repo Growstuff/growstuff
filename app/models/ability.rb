@@ -33,7 +33,7 @@ class Ability
     # nobody should be able to view unapproved crops unless they
     # are wranglers or admins
     cannot :read, Crop
-    can :read, Crop, approval_status: "approved"
+    can :read, Crop, approval_status: 'approved'
     # scientific names should only be viewable if associated crop is approved
     cannot :read, ScientificName
     can :read, ScientificName do |sn|
@@ -90,39 +90,39 @@ class Ability
 
     # anyone can create a post, like, or comment on a post,
     # but only the author can edit/destroy it.
-    can :create,  Post
-    can :update,  Post, author_id: member.id
+    can :create, Post
+    can :update, Post, author_id: member.id
     can :destroy, Post, author_id: member.id
-    can :create,  Like
+    can :create, Like
     can :destroy, Like, member_id: member.id
-    can :create,  Comment
-    can :update,  Comment, author_id: member.id
+    can :create, Comment
+    can :update, Comment, author_id: member.id
     can :destroy, Comment, author_id: member.id
 
     # same deal for gardens and plantings
-    can :create,  Garden
-    can :update,  Garden, owner_id: member.id
+    can :create, Garden
+    can :update, Garden, owner_id: member.id
     can :destroy, Garden, owner_id: member.id
 
-    can :create,  Planting
-    can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
+    can :create, Planting
+    can :update, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
 
-    can :create,  Harvest
-    can :update,  Harvest, owner_id: member.id
+    can :create, Harvest
+    can :update, Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
-    can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
+    can :update, Harvest, owner_id: member.id, planting: { owner_id: member.id }
     can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
 
     can :create, Photo
     can :update, Photo, owner_id: member.id
     can :destroy, Photo, owner_id: member.id
 
-    can :create,  Seed
-    can :update,  Seed, owner_id: member.id
+    can :create, Seed
+    can :update, Seed, owner_id: member.id
     can :destroy, Seed, owner_id: member.id
-    can :create,  Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
-    can :update,  Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
+    can :create, Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
+    can :update, Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
     can :destroy, Seed, owner_id: member.id, parent_planting: { owner_id: member.id }
 
     # following/unfollowing permissions

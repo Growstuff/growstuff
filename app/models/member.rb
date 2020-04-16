@@ -8,7 +8,7 @@ class Member < ApplicationRecord
   include MemberNewsletter
 
   extend FriendlyId
-  friendly_id :login_name, use: %i(slugged finders)
+  friendly_id :login_name, use: %i[slugged finders]
 
   #
   # Relationships
@@ -28,19 +28,17 @@ class Member < ApplicationRecord
 
   #
   # Following other members
-  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy,
-                     inverse_of: :follower
-  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_id",
-                             dependent: :destroy, inverse_of: :followed
+  has_many :follows, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy, inverse_of: :follower
+  has_many :inverse_follows,
+           class_name: 'Follow', foreign_key: 'followed_id', dependent: :destroy, inverse_of: :followed
   has_many :followed, through: :follows
   has_many :followers, through: :inverse_follows, source: :follower
 
   #
   # Global data records this member created
-  has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify,
-                             inverse_of: :requester
-  has_many :created_crops, class_name: 'Crop', foreign_key: 'creator_id', dependent: :nullify,
-                           inverse_of: :creator
+  has_many :requested_crops,
+           class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify, inverse_of: :requester
+  has_many :created_crops, class_name: 'Crop', foreign_key: 'creator_id', dependent: :nullify, inverse_of: :creator
   has_many :created_alternate_names, class_name: 'AlternateName', foreign_key: 'creator_id', inverse_of: :creator
   has_many :created_scientific_names, class_name: 'ScientificName', foreign_key: 'creator_id', inverse_of: :creator
 
@@ -51,15 +49,22 @@ class Member < ApplicationRecord
   scope :recently_signed_in, -> { reorder(updated_at: :desc) }
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
-  scope :has_plantings, -> { joins(:plantings).group("members.id") }
+  scope :has_plantings, -> { joins(:plantings).group('members.id') }
   scope :wants_reminders, -> { where(send_planting_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable, :omniauthable
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :trackable,
+         :validatable,
+         :confirmable,
+         :lockable,
+         :timeoutable,
+         :omniauthable
 
   # discarded (deleted) member cannot log in
   def active_for_authentication?
@@ -78,18 +83,10 @@ class Member < ApplicationRecord
   # Requires acceptance of the Terms of Service
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
-            length:     {
-              minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
-            },
-            exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
-            },
-            format:     {
-              with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
-            },
-            uniqueness: {
-              case_sensitive: false
-            }
+            length: { minimum: 2, maximum: 25, message: 'should be between 2 and 25 characters long' },
+            exclusion: { in: %w[growstuff admin moderator staff nearby], message: 'name is reserved' },
+            format: { with: /\A\w+\z/, message: 'may only include letters, numbers, or underscores' },
+            uniqueness: { case_sensitive: false }
 
   #
   # Triggers
@@ -99,13 +96,13 @@ class Member < ApplicationRecord
   # Give each new member a default garden
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryBot associations
-  after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
+  after_create { |member| Garden.create(name: 'Garden', owner_id: member.id) }
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
-    return  where(conditions).login_name_or_email(login).first if login
+    return where(conditions).login_name_or_email(login).first if login
 
     find_by(conditions)
   end
@@ -123,7 +120,7 @@ class Member < ApplicationRecord
   end
 
   def role?(role_sym)
-    roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
+    roles.any? { |r| r.name.gsub(/\s+/, '_').underscore.to_sym == role_sym }
   end
 
   def auth(provider)
@@ -135,15 +132,16 @@ class Member < ApplicationRecord
   end
 
   def self.login_name_or_email(login)
-    where(["lower(login_name) = :value OR lower(email) = :value", { value: login.downcase }])
+    where(['lower(login_name) = :value OR lower(email) = :value', { value: login.downcase }])
   end
 
   def self.case_insensitive_login_name(login)
-    where(["lower(login_name) = :value", { value: login.downcase }])
+    where(['lower(login_name) = :value', { value: login.downcase }])
   end
 
   def self.nearest_to(place)
     nearby_members = []
+
     if place
       latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
       nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) } if latitude && longitude

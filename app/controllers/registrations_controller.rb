@@ -4,10 +4,10 @@ class RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   def edit
-    @twitter_auth  = current_member.auth('twitter')
-    @flickr_auth   = current_member.auth('flickr')
+    @twitter_auth = current_member.auth('twitter')
+    @flickr_auth = current_member.auth('flickr')
     @facebook_auth = current_member.auth('facebook')
-    render "edit"
+    render 'edit'
   end
 
   # we need this subclassed method so that Devise doesn't force people to
@@ -34,7 +34,7 @@ class RegistrationsController < Devise::RegistrationsController
       sign_in @member, bypass: true
       redirect_to edit_member_registration_path
     else
-      render "edit"
+      render 'edit'
     end
   end
 
@@ -44,13 +44,12 @@ class RegistrationsController < Devise::RegistrationsController
       redirect_to root_path
     else
       @member.errors.add(:current_password, 'Incorrect password')
-      render "edit"
+      render 'edit'
     end
   end
 end
 
 # check if we need the current password to update fields
 def needs_password?(_member, params)
-  params[:member][:password].present? ||
-    params[:member][:password_confirmation].present?
+  params[:member][:password].present? || params[:member][:password_confirmation].present?
 end

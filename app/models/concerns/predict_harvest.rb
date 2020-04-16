@@ -29,6 +29,7 @@ module PredictHarvest
     def update_harvest_days!
       days_to_first_harvest = nil
       days_to_last_harvest = nil
+
       if planted_at.present? && harvests_with_dates.size.positive?
         days_to_first_harvest = (first_harvest_date - planted_at).to_i
         days_to_last_harvest = (last_harvest_date - planted_at).to_i if finished?
@@ -42,24 +43,18 @@ module PredictHarvest
 
       # We have harvests but haven't finished
       harvests.size.positive? ||
-
-        # or, we don't have harvests, but we predict we should by now
-        (first_harvest_predicted_at.present? &&
-          harvests.empty? &&
-          first_harvest_predicted_at < Time.zone.today)
+        (first_harvest_predicted_at.present? && harvests.empty? && first_harvest_predicted_at < Time.zone.today)
+      # or, we don't have harvests, but we predict we should by now
     end
 
     def before_harvest_time?
-      first_harvest_predicted_at.present? &&
-        harvests.empty? &&
-        first_harvest_predicted_at.present? &&
+      first_harvest_predicted_at.present? && harvests.empty? && first_harvest_predicted_at.present? &&
         first_harvest_predicted_at > Time.zone.today
     end
 
     def harvest_months
       Rails.cache.fetch("#{cache_key_with_version}/harvest_months", expires_in: 5.minutes) do
-        neighbours_for_harvest_predictions.where.not(harvested_at: nil)
-          .group("extract(MONTH from harvested_at)::int")
+        neighbours_for_harvest_predictions.where.not(harvested_at: nil).group('extract(MONTH from harvested_at)::int')
           .count
       end
     end
@@ -70,8 +65,7 @@ module PredictHarvest
 
       # otherwise use nearby plantings
       if location
-        return Harvest.where(planting: nearby_same_crop.has_harvests)
-            .where.not(planting_id: nil)
+        return Harvest.where(planting: nearby_same_crop.has_harvests).where.not(planting_id: nil)
       end
 
       Harvest.none

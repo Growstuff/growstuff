@@ -6,24 +6,21 @@ describe PlantingsController, :search do
   login_member
 
   def valid_attributes
-    {
-      garden_id: FactoryBot.create(:garden, owner: subject.current_member).id,
-      crop_id:   FactoryBot.create(:crop).id
-    }
+    { garden_id: FactoryBot.create(:garden, owner: subject.current_member).id, crop_id: FactoryBot.create(:crop).id }
   end
 
-  describe "GET index", :search do
-    let!(:member1)   { FactoryBot.create(:member)                                                       }
-    let!(:member2)   { FactoryBot.create(:member)                                                       }
-    let!(:tomato)    { FactoryBot.create(:tomato)                                                       }
-    let!(:maize)     { FactoryBot.create(:maize)                                                        }
+  describe 'GET index', :search do
+    let!(:member1) { FactoryBot.create(:member) }
+    let!(:member2) { FactoryBot.create(:member) }
+    let!(:tomato) { FactoryBot.create(:tomato) }
+    let!(:maize) { FactoryBot.create(:maize) }
     let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
     let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
     before do
       Planting.reindex
     end
 
-    describe "assigns all plantings as @plantings" do
+    describe 'assigns all plantings as @plantings' do
       before { get :index }
 
       it { expect(assigns(:plantings).size).to eq 2 }
@@ -39,7 +36,7 @@ describe PlantingsController, :search do
       it { expect(assigns(:plantings).first['slug']).to eq planting1.slug }
     end
 
-    describe "picks up crop from params and shows the plantings for the crop only" do
+    describe 'picks up crop from params and shows the plantings for the crop only' do
       before { get :index, params: { crop_slug: maize.slug } }
 
       it { expect(assigns(:crop)).to eq maize }
@@ -47,8 +44,8 @@ describe PlantingsController, :search do
     end
   end
 
-  describe "GET new" do
-    describe "picks up crop from params" do
+  describe 'GET new' do
+    describe 'picks up crop from params' do
       let(:crop) { FactoryBot.create(:crop) }
 
       before { get :new, params: { crop_id: crop.id } }
@@ -103,7 +100,7 @@ describe PlantingsController, :search do
       it { expect(assigns(:planting)).to be_a_new(Planting) }
     end
 
-    describe "sets the date of the planting to today" do
+    describe 'sets the date of the planting to today' do
       before { get :new }
 
       it { expect(assigns(:planting).planted_at).to eq Time.zone.today }
@@ -119,7 +116,7 @@ describe PlantingsController, :search do
   end
 
   describe 'POST :create' do
-    describe "sets the owner automatically" do
+    describe 'sets the owner automatically' do
       before { post :create, params: { planting: valid_attributes } }
 
       it { expect(assigns(:planting).owner).to eq subject.current_member }
