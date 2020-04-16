@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
 require 'coveralls'
 
 # output coverage locally AND send it to coveralls
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-                                                                 SimpleCov::Formatter::HTMLFormatter,
-                                                                 Coveralls::SimpleCov::Formatter
-                                                               ])
+SimpleCov.formatter =
+  SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Formatter::HTMLFormatter, Coveralls::SimpleCov::Formatter])
 
 # fail if there's a significant test coverage drop
 SimpleCov.maximum_coverage_drop 1
@@ -59,8 +57,8 @@ include Warden::Test::Helpers
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
-Dir[Rails.root.join("spec/features/shared_examples/**/*.rb")].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/features/shared_examples/**/*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -69,11 +67,11 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures =
+    false
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -107,12 +105,7 @@ RSpec.configure do |config|
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, js: true) do
     if page.driver.browser.respond_to?(:url_blacklist)
-      page.driver.browser.url_blacklist = [
-        'gravatar.com',
-        'mapbox.com',
-        'okfn.org',
-        'googlecode.com'
-      ]
+      page.driver.browser.url_blacklist = ['gravatar.com', 'mapbox.com', 'okfn.org', 'googlecode.com']
     end
 
     page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)

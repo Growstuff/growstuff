@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class PhotosController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  after_action :expire_homepage, only: %i(create destroy)
+  before_action :authenticate_member!, except: %i[index show]
+  after_action :expire_homepage, only: %i[create destroy]
   load_and_authorize_resource
   respond_to :html, :json
   responders :flash
@@ -22,13 +22,8 @@ class PhotosController < ApplicationController
       where = { planting_id: @planting.id }
     end
 
-    @photos = Photo.search(
-      load:     false,
-      boost_by: [:created_at],
-      where:    where,
-      page:     params[:page],
-      limit:    Photo.per_page
-    )
+    @photos =
+      Photo.search(load: false, boost_by: [:created_at], where: where, page: params[:page], limit: Photo.per_page)
     respond_with(@photos)
   end
 
@@ -70,17 +65,25 @@ class PhotosController < ApplicationController
   private
 
   def photo_params
-    params.require(:photo).permit(:source_id, :source, :title, :license_name,
-                                  :license_url, :thumbnail_url, :fullsize_url, :link_url)
+    params.require(:photo).permit(
+      :source_id,
+      :source,
+      :title,
+      :license_name,
+      :license_url,
+      :thumbnail_url,
+      :fullsize_url,
+      :link_url
+    )
   end
 
   # Item with photos attached
   def item_to_link_to
-    raise "No item id provided" if params[:id].nil?
-    raise "No item type provided" if params[:type].nil?
+    raise 'No item id provided' if params[:id].nil?
+    raise 'No item type provided' if params[:type].nil?
 
     item_class = params[:type].capitalize
-    raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+    raise 'Photos not supported' unless Photo::PHOTO_CAPABLE.include? item_class
 
     item_class.constantize.find(params[:id])
   end
@@ -88,10 +91,7 @@ class PhotosController < ApplicationController
   #
   # Flickr retrieval
   def find_or_create_photo_from_flickr_photo
-    photo = Photo.find_or_initialize_by(
-      source_id: photo_params[:source_id],
-      source:    'flickr'
-    )
+    photo = Photo.find_or_initialize_by(source_id: photo_params[:source_id], source: 'flickr')
     photo.update(photo_params)
     photo.owner_id = current_member.id
     photo.set_flickr_metadata!
@@ -108,8 +108,9 @@ class PhotosController < ApplicationController
     @sets = current_member.flickr_sets
     photos, total = current_member.flickr_photos(page, @current_set)
 
-    @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
-      pager.replace photos
-    end
+    @photos =
+      WillPaginate::Collection.create(page, 30, total) do |pager|
+        pager.replace photos
+      end
   end
 end

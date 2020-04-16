@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'home/_members.html.haml', type: "view" do
+describe 'home/_members.html.haml', type: 'view' do
   before do
     @member = FactoryBot.create(:london_member)
     @member.updated_at = 2.days.ago
@@ -13,7 +13,7 @@ describe 'home/_members.html.haml', type: "view" do
   end
 
   it 'Has a heading' do
-    expect(rendered).to have_content "Some of our members"
+    expect(rendered).to have_content 'Some of our members'
   end
 
   describe 'Shows members' do

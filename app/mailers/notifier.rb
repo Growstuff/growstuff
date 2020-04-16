@@ -6,8 +6,8 @@ class Notifier < ApplicationMailer
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
-      raise "RAILS_SECRET_TOKEN environment variable"\
-        "not set - have you created config/application.yml?"
+      raise 'RAILS_SECRET_TOKEN environment variable' \
+              'not set - have you created config/application.yml?'
     end
 
     ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
@@ -21,8 +21,7 @@ class Notifier < ApplicationMailer
     message = { member_id: @notification.recipient.id, type: :send_notification_email }
     @signed_message = verifier.generate(message)
 
-    mail(to:      @notification.recipient.email,
-         subject: @notification.subject)
+    mail(to: @notification.recipient.email, subject: @notification.subject)
   end
 
   def planting_reminder(member)

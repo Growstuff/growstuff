@@ -6,7 +6,7 @@ class Crop < ApplicationRecord
   include OpenFarmData
   include SearchCrops
 
-  friendly_id :name, use: %i(slugged finders)
+  friendly_id :name, use: %i[slugged finders]
 
   ##
   ## Relationships
@@ -20,7 +20,7 @@ class Crop < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :photo_associations, dependent: :delete_all, inverse_of: :crop
   has_many :photos, through: :photo_associations
-  has_many :plant_parts, -> { joins_members.distinct.order("plant_parts.name") }, through: :harvests
+  has_many :plant_parts, -> { joins_members.distinct.order('plant_parts.name') }, through: :harvests
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   has_many :crop_companions, foreign_key: :crop_a_id, dependent: :delete_all, inverse_of: :crop_a
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
@@ -33,13 +33,13 @@ class Crop < ApplicationRecord
   ## Scopes
   scope :recent, -> { approved.order(created_at: :desc) }
   scope :toplevel, -> { approved.where(parent_id: nil) }
-  scope :popular, -> { approved.order(Arel.sql("plantings_count desc, lower(name) asc")) }
-  scope :pending_approval, -> { where(approval_status: "pending") }
-  scope :approved, -> { where(approval_status: "approved") }
-  scope :rejected, -> { where(approval_status: "rejected") }
+  scope :popular, -> { approved.order(Arel.sql('plantings_count desc, lower(name) asc')) }
+  scope :pending_approval, -> { where(approval_status: 'pending') }
+  scope :approved, -> { where(approval_status: 'approved') }
+  scope :rejected, -> { where(approval_status: 'rejected') }
   scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
-  scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
+  scope :joins_members, -> { joins('INNER JOIN members ON members.id = harvests.owner_id') }
 
   ##
   ## Validations
@@ -50,10 +50,10 @@ class Crop < ApplicationRecord
   ## Wikipedia urls are only necessary when approving a crop
   validates :en_wikipedia_url,
             format: {
-              with:    %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
+              with: %r{\Ahttps?:\/\/en\.wikipedia\.org\/wiki\/[[:alnum:]%_\.()-]+\z},
               message: 'is not a valid English Wikipedia URL'
             },
-            if:     :approved?
+            if: :approved?
 
   def to_s
     name
@@ -86,11 +86,10 @@ class Crop < ApplicationRecord
   # key: plant part (eg. 'fruit')
   # value: count of how many times it's been used by harvests
   def popular_plant_parts
-    PlantPart.joins(:harvests)
-      .where("crop_id = ?", id)
-      .order("count_harvests_id DESC")
-      .group("plant_parts.id", "plant_parts.name")
-      .count("harvests.id")
+    PlantPart.joins(:harvests).where('crop_id = ?', id).order('count_harvests_id DESC').group(
+      'plant_parts.id',
+      'plant_parts.name'
+    ).count('harvests.id')
   end
 
   def perennial?
@@ -106,27 +105,27 @@ class Crop < ApplicationRecord
   end
 
   def pending?
-    approval_status == "pending"
+    approval_status == 'pending'
   end
 
   def approved?
-    approval_status == "approved"
+    approval_status == 'approved'
   end
 
   def rejected?
-    approval_status == "rejected"
+    approval_status == 'rejected'
   end
 
   def approval_statuses
-    %w(rejected pending approved)
+    %w[rejected pending approved]
   end
 
   def reasons_for_rejection
-    ["already in database", "not edible", "not enough information", "other"]
+    ['already in database', 'not edible', 'not enough information', 'other']
   end
 
   def rejection_explanation
-    return rejection_notes if reason_for_rejection == "other"
+    return rejection_notes if reason_for_rejection == 'other'
 
     reason_for_rejection
   end
@@ -148,28 +147,24 @@ class Crop < ApplicationRecord
   end
 
   def self.case_insensitive_name(name)
-    where(["lower(crops.name) = :value", { value: name.downcase }])
+    where(['lower(crops.name) = :value', { value: name.downcase }])
   end
 
   private
 
   def count_uses_of_property(col_name)
-    plantings.unscoped
-      .where(crop_id: id)
-      .where.not(col_name => nil)
-      .group(col_name)
-      .count
+    plantings.unscoped.where(crop_id: id).where.not(col_name => nil).group(col_name).count
   end
 
   def must_be_rejected_if_rejected_reasons_present
     return if rejected?
     return unless reason_for_rejection.present? || rejection_notes.present?
 
-    errors.add(:approval_status, "must be rejected if a reason for rejection is present")
+    errors.add(:approval_status, 'must be rejected if a reason for rejection is present')
   end
 
   def must_have_meaningful_reason_for_rejection
-    return unless reason_for_rejection == "other" && rejection_notes.blank?
+    return unless reason_for_rejection == 'other' && rejection_notes.blank?
 
     errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
   end
