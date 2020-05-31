@@ -124,6 +124,8 @@ gem 'mailboxer'
 gem 'faraday'
 gem 'faraday_middleware'
 
+gem 'rack-cors'
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
