@@ -107,9 +107,9 @@ module Growstuff
     # config.active_record.raise_in_transactional_callbacks = true
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-         origins '*'
-         resource '/api/v1/*', headers: :any, methods: [:get, :options]
-       end
+        origins '*'
+        resource '/api/v1/*', headers: :any, methods: %i(get options)
+      end
     end
   end
 end
