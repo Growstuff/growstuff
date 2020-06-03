@@ -2,12 +2,12 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@0.1.2
 workflows:
-   version: 2
-   fullbuild:
-     jobs:
-       - test
-       - lint
-       - contributors
+  version: 2
+  fullbuild:
+    jobs:
+      - test
+      - lint
+      - contributors
 jobs:
   contributors:
     docker:
@@ -29,6 +29,9 @@ jobs:
       - run:
           name: Install overcommit
           command: gem install overcommit
+      - run:
+          name: install eslint
+          command: npm install eslint
       - run:
           name: set up overcommit
           command: overcommit --sign
