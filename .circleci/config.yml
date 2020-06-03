@@ -30,6 +30,9 @@ jobs:
           name: Install overcommit
           command: gem install overcommit
       - run:
+          name: install eslint
+          command: npm install eslint
+      - run:
           name: set up overcommit
           command: overcommit --sign
       - run:
