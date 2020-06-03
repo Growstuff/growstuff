@@ -51,6 +51,17 @@ jobs:
   test:
     docker:
       - image: circleci/ruby:2.6.5-stretch-node
+        environment:
+          PG_HOST: localhost
+          PG_USER: ubuntu
+          RAILS_ENV: test
+          RACK_ENV: test
+      # The following example uses the official postgres 9.6 image, you may also use circleci/postgres:9.6 
+      # which includes a few enhancements and modifications. It is possible to use either image.
+      - image: postgres:9.6-jessie
+        environment:
+          POSTGRES_USER: ubuntu
+          POSTGRES_DB: db_name
     executor: ruby/default
     steps:
       - checkout
@@ -62,8 +73,8 @@ jobs:
           command: bundle check --path vendor/bundle || bundle install --deployment
 
       - run:
-          name: Create database
-          command: bundle exec rails db:create db:migrate
+          name: Install postgresql client
+          command: - run: sudo apt install -y postgresql-client || true
       - run:
           name: Create database
           command: bundle exec rails db:create db:migrate
