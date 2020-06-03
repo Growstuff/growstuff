@@ -1,15 +1,15 @@
-;#!/bin/bash
+#!/bin/bash
 
 set -euv
-yarn install;
+yarn install
 
-gem install --update overcommit haml-lint bundler-audit --no-document;
+gem install --update overcommit haml-lint bundler-audit --no-document
 
-# pip install --upgrade pip;
-pip install yamllint --user;
+# pip install --upgrade pip
+pip install yamllint --user
 
-overcommit --install;
-overcommit --sign;
-overcommit --sign pre-commit;
+overcommit --install
+overcommit --sign
+overcommit --sign pre-commit
 
-bundle-audit update;
+bundle-audit update
