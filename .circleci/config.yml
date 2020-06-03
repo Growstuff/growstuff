@@ -66,6 +66,9 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
     environment:
       DATABASE_URL: "postgres://ubuntu@localhost:5432/db_name"
+      ELASTIC_SEARCH_VERSION: "7.5.1-amd64"
+      COVERAGE: True
+      RAILS_ENV: test
     steps:
       - checkout
       - restore_cache:
@@ -106,7 +109,7 @@ workflows:
       - test:
           requires:
             - rubydeps
-      - lint:
+      - lint
           requires:
-            - rubydeps
+            - rubydeps # because we use rubcocop for bundler
       - contributors
