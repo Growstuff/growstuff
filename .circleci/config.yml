@@ -27,6 +27,9 @@ jobs:
           name: Upgrade bundler
           command: gem install bundler
       - run:
+          name: Install gems
+          command: bundle install
+      - run:
           name: Install overcommit
           command: gem install overcommit
       - run:
