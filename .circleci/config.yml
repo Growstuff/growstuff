@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Linters
           command: ./script/check_static.rb
-  build:
+  test:
     docker:
       - image: circleci/ruby:2.6.3-stretch-node
     executor: ruby/default
