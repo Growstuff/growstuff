@@ -87,6 +87,9 @@ jobs:
           name: Create database
           command: bundle exec rails db:create db:migrate
       - run:
+          name: Install Elasticsearch
+          command: ./script/install_elasticsearch.sh
+      - run:
           name: Precompile assets
           command: bundle exec rails assets:precompile
       - run:
