@@ -3,13 +3,32 @@ orbs:
   ruby: circleci/ruby@0.1.2 
 
 jobs:
-  build:
+  rspec:
     docker:
       - image: circleci/ruby:2.6.3-stretch-node
     executor: ruby/default
     steps:
       - checkout
       - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+          name: Install gems
+          command: bundle install
+      - run:
+          name: Create database
+          command: bundle exec rails db:create db:migrate
+          
+      - run:
+          name: Create database
+          command: bundle exec rails db:create db:migrate
+
+      - run:
+          name: Precompile assets
+          command: bundle exec rails assets:precompile
+
+      - run:
+          name: Create Elastic search index
+          command: bundle exec rails search:reindex
+
+      - run:
+          name: Run rpsec tests
+          command: bundle exec rspec spec
+          
