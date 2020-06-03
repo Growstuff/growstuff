@@ -76,7 +76,7 @@ jobs:
 
       - run:
           name: Install postgresql client
-          command: - run: sudo apt install -y postgresql-client || true
+          command: sudo apt install -y postgresql-client || true
       - run:
           name: Create database
           command: bundle exec rails db:create db:migrate
