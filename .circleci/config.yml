@@ -74,10 +74,12 @@ jobs:
       - run:
           name: Install dependencies
           command: bundle check --path vendor/bundle || bundle install --deployment
-
       - run:
           name: Install postgresql client
           command: sudo apt install -y postgresql-client || true
+      - run:
+          name: Install Elasticsearch
+          command: ./script/install_elasticsearch.sh
       # Here we make sure that the secondary container boots
       # up before we run operations on the database.
       - run:
@@ -86,9 +88,6 @@ jobs:
       - run:
           name: Create database
           command: bundle exec rails db:create db:migrate
-      - run:
-          name: Install Elasticsearch
-          command: ./script/install_elasticsearch.sh
       - run:
           name: Precompile assets
           command: bundle exec rails assets:precompile
