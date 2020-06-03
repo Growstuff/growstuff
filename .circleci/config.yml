@@ -2,12 +2,12 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@0.1.2
 workflows:
-   version: 2
-   fullbuild:
-     jobs:
-       - test
-       - lint
-       - contributors
+  version: 2
+  fullbuild:
+    jobs:
+      - test
+      - lint
+      - contributors
 jobs:
   contributors:
     docker:
