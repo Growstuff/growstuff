@@ -70,25 +70,25 @@ jobs:
       - restore_cache:
           keys:
             - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
-      - run:
-          name: Install dependencies
-          command: bundle check --path vendor/bundle || bundle install --deployment
+      # - run:
+      #     name: Install dependencies
+      #     command: bundle check --path vendor/bundle || bundle install --deployment
 
-      - run:
-          name: Install postgresql client
-          command: sudo apt install -y postgresql-client || true
-      - run:
-          name: Create database
-          command: bundle exec rails db:create db:migrate
-      - run:
-          name: Precompile assets
-          command: bundle exec rails assets:precompile
-      - run:
-          name: Create Elastic search index
-          command: bundle exec rails search:reindex
-      - run:
-          name: Run rpsec tests
-          command: bundle exec rspec spec
+      # - run:
+      #     name: Install postgresql client
+      #     command: sudo apt install -y postgresql-client || true
+      # - run:
+      #     name: Create database
+      #     command: bundle exec rails db:create db:migrate
+      # - run:
+      #     name: Precompile assets
+      #     command: bundle exec rails assets:precompile
+      # - run:
+      #     name: Create Elastic search index
+      #     command: bundle exec rails search:reindex
+      # - run:
+      #     name: Run rpsec tests
+      #     command: bundle exec rspec spec
 
 workflows:
   version: 2
