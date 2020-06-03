@@ -37,6 +37,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler
       - run:
           name: Install dependencies
           command: bundle check --path vendor/bundle || bundle install --deployment
