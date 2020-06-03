@@ -10,7 +10,7 @@ workflows:
 jobs:
   lint:
     docker:
-      - image: circleci/ruby:2.6.3-stretch-node
+      - image: circleci/ruby:2.6.5-stretch-node
     steps:
       - checkout
       - run:
@@ -21,7 +21,7 @@ jobs:
           command: ./script/check_static.rb
   test:
     docker:
-      - image: circleci/ruby:2.6.3-stretch-node
+      - image: circleci/ruby:2.6.5-stretch-node
     executor: ruby/default
     steps:
       - checkout
