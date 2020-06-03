@@ -589,7 +589,6 @@ DEPENDENCIES
   active_median (= 0.1.4)
   active_record_union
   active_utils
-  activesupport (>= 5.2.4.3)
   better_errors
   bluecloth
   bonsai-elasticsearch-rails
