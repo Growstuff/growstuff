@@ -62,7 +62,8 @@ jobs:
         environment:
           POSTGRES_USER: ubuntu
           POSTGRES_DB: db_name
-
+          POSTGRES_PASSWORD: ""
+          POSTGRES_HOST_AUTH_METHOD: trust
     environment:
       DATABASE_URL: "postgres://ubuntu@localhost:5432/db_name"
     steps:
