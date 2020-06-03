@@ -62,8 +62,10 @@ jobs:
         environment:
           POSTGRES_USER: ubuntu
           POSTGRES_DB: db_name
-    executor: ruby/default
+    
     steps:
+      - environment:
+          DATABASE_URL: "postgres://ubuntu@localhost:5432/db_name"
       - checkout
       - restore_cache:
           keys:
