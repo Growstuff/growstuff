@@ -1,21 +1,11 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@0.1.2
-workflows:
-  version: 2
-  fullbuild:
-    jobs:
-      - test:
-          requires:
-            - rubydeps
-      - lint:
-          requires:
-            - rubydeps
-      - contributors
+
 jobs:
   rubydeps:
     docker:
-      - image: circleci/ruby:2.6.3-node
+      - image: circleci/ruby:2.6.5-stretch-node
     steps:
       - checkout
       - restore_cache:
@@ -85,3 +75,15 @@ jobs:
       - run:
           name: Run rpsec tests
           command: bundle exec rspec spec
+
+workflows:
+  version: 2
+  fullbuild:
+    jobs:
+      - test:
+          requires:
+            - rubydeps
+      - lint:
+          requires:
+            - rubydeps
+      - contributors
