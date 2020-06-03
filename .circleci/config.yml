@@ -44,7 +44,7 @@ jobs:
 
       - run:
           name: Install linters
-          command: ./scripts/install_linters.sh
+          command: ./script/install_linters.sh
       - run:
           name: Run overcommit
           command: overcommit --run
