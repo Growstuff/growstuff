@@ -21,7 +21,7 @@
       %td= role.description
       %td
         - if can? :edit, role
-          = link_to edit_admin_role_path(role), class: 'btn btn-default btn-xs' do 
+          = link_to edit_admin_role_path(role), class: 'btn btn-default btn-xs' do
             = edit_icon
             = t('.edit')
         - if can?(:destroy, role) && ! role.members.any?

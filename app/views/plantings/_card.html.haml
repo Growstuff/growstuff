@@ -16,12 +16,12 @@
               = link_to new_photo_path(id: planting.id, type: 'planting'), class: 'dropdown-item' do
                 = add_photo_icon
                 = t('buttons.add_photo')
-  
+
               - if planting.active
                 = planting_finish_button(planting, classes: 'dropdown-item')
                 = planting_harvest_button(planting, classes: 'dropdown-item')
                 = planting_save_seeds_button(planting, classes: 'dropdown-item')
-  
+
               - if can? :destroy, planting
                 .dropdown-divider
                 = delete_button(planting, classes: 'dropdown-item text-danger')
