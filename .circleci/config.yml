@@ -3,6 +3,14 @@ orbs:
   ruby: circleci/ruby@0.1.2 
 
 jobs:
+  lint:
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node
+    steps:
+      - checkout
+      - run:
+        name: Linters
+        command: ./script/check_static.rb
   build:
     docker:
       - image: circleci/ruby:2.6.3-stretch-node
