@@ -14,6 +14,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install gems
+          command: bundle install
+      - run:
           name: Linters
           command: ./script/check_static.rb
   test:
