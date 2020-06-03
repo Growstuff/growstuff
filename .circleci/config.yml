@@ -7,7 +7,17 @@ workflows:
      jobs:
        - test
        - lint
+       - contributors
 jobs:
+  contributors:
+    docker:
+      - image: circleci/ruby:2.6.5-stretch-node
+    steps:
+      - checkout
+      - run:
+          name: Check contributors
+          command: bundle exec script/check_contributors_md.rb
+
   lint:
     docker:
       - image: circleci/ruby:2.6.5-stretch-node
