@@ -5,10 +5,31 @@ workflows:
   version: 2
   fullbuild:
     jobs:
-      - test
-      - lint
+      - test:
+          requires:
+            - rubydeps
+      - lint:
+          requires:
+            - rubydeps
       - contributors
 jobs:
+  rubydeps:
+    docker:
+      - image: circleci/ruby:2.6.3-node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler
+      - run:
+          name: Install dependencies
+          command: bundle check --path vendor/bundle || bundle install --deployment
+      - save_cache:
+          key: v1-ruby-deps-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
   contributors:
     docker:
       - image: circleci/ruby:2.6.5-stretch-node
@@ -23,12 +44,10 @@ jobs:
       - image: circleci/ruby:2.6.5-stretch-node
     steps:
       - checkout
-      - run:
-          name: Upgrade bundler
-          command: gem install bundler
-      - run:
-          name: Install gems
-          command: bundle install
+      - restore_cache:
+          keys:
+            - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
+
       - run:
           name: Install linters
           command: ./scripts/install_linters.sh
@@ -41,9 +60,9 @@ jobs:
     executor: ruby/default
     steps:
       - checkout
-      - run:
-          name: Install gems
-          command: bundle install
+      - restore_cache:
+          keys:
+            - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
       - run:
           name: Create database
           command: bundle exec rails db:create db:migrate
