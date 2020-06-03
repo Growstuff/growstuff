@@ -7,9 +7,6 @@ workflows:
      jobs:
        - test
        - lint
-
-cron
-
 jobs:
   lint:
     docker:
