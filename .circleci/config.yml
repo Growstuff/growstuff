@@ -14,6 +14,9 @@ jobs:
     steps:
       - checkout
       - run:
+        name: Upgrade bundler
+        command: gem install bundler
+      - run:
           name: Install gems
           command: bundle install
       - run:
