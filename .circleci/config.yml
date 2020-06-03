@@ -80,6 +80,7 @@ workflows:
   version: 2
   fullbuild:
     jobs:
+      - rubydeps
       - test:
           requires:
             - rubydeps
