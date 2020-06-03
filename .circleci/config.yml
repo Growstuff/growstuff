@@ -30,14 +30,8 @@ jobs:
           name: Install gems
           command: bundle install
       - run:
-          name: Install overcommit
-          command: gem install overcommit
-      - run:
-          name: install eslint
-          command: npm install eslint
-      - run:
-          name: set up overcommit
-          command: overcommit --sign
+          name: Install linters
+          command: ./scripts/install_linters.sh
       - run:
           name: Run overcommit
           command: overcommit --run
