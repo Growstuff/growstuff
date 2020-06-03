@@ -27,11 +27,14 @@ jobs:
           name: Upgrade bundler
           command: gem install bundler
       - run:
-          name: Install gems
-          command: bundle install
+          name: Install overcommit
+          command: gem install overcommit
       - run:
-          name: Linters
-          command: ./script/check_static.rb
+          name: set up overcommit
+          command: overcommit --sign
+      - run:
+          name: Run overcommit
+          command: overcommit --run
   test:
     docker:
       - image: circleci/ruby:2.6.5-stretch-node
