@@ -5,11 +5,11 @@ require "English"
 
 puts "Checking to see if you're in CONTRIBUTORS.md..."
 
-if ENV['TRAVIS']
-  if ENV['TRAVIS_PULL_REQUEST']
+if ENV['TRAVIS'] || ENV['CI']
+  if ENV['TRAVIS_PULL_REQUEST'] || ENV['CIRCLE_PULL_REQUEST']
     require 'httparty'
-    repo = ENV['TRAVIS_REPO_SLUG']
-    pr = ENV['TRAVIS_PULL_REQUEST']
+    repo = ENV['TRAVIS_REPO_SLUG'] + ENV['CIRCLE_PROJECT_REPONAME']
+    pr = ENV['TRAVIS_PULL_REQUEST'] + ENV['CIRCLE_PR_NUMBER']
     url = "https://api.github.com/repos/#{repo}/pulls/#{pr}"
     response = HTTParty.get(url).parsed_response
     author = response['user']['login'] if response && response['user']
