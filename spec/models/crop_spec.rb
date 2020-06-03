@@ -6,18 +6,18 @@ describe Crop do
   context 'all fields present' do
     let(:crop) { FactoryBot.create(:tomato) }
 
-    it 'should save a basic crop' do
+    it 'saves a basic crop' do
       crop.save.should be(true)
     end
 
-    it 'should be fetchable from the database' do
+    it 'is fetchable from the database' do
       crop.save
-      @crop2 = Crop.find_by(name: 'tomato')
+      @crop2 = described_class.find_by(name: 'tomato')
       @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
       @crop2.slug.should eq("tomato")
     end
 
-    it 'should stringify as the system name' do
+    it 'stringifies as the system name' do
       crop.save
       crop.to_s.should eq('tomato')
     end
@@ -29,7 +29,7 @@ describe Crop do
   end
 
   context 'invalid data' do
-    it 'should not save a crop without a system name' do
+    it 'does not save a crop without a system name' do
       crop = FactoryBot.build(:crop, name: nil)
       expect { crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
@@ -42,7 +42,7 @@ describe Crop do
     end
 
     it 'recent scope sorts by creation date' do
-      Crop.recent.first.should == @uppercase
+      described_class.recent.first.should == @uppercase
     end
   end
 
@@ -56,9 +56,9 @@ describe Crop do
     end
 
     it "sorts by most plantings" do
-      expect(Crop.popular.first).to eq maize
+      expect(described_class.popular.first).to eq maize
       FactoryBot.create_list(:planting, 10, crop: tomato)
-      expect(Crop.popular.first).to eq tomato
+      expect(described_class.popular.first).to eq tomato
     end
   end
 
@@ -135,13 +135,13 @@ describe Crop do
     it 'toplevel scope works' do
       @tomato = FactoryBot.create(:tomato)
       @roma = FactoryBot.create(:roma, parent_id: @tomato.id)
-      expect(Crop.toplevel).to eq [@tomato]
+      expect(described_class.toplevel).to eq [@tomato]
     end
   end
 
   context 'photos' do
     shared_examples 'has default photo' do
-      it { expect(Crop.has_photos).to include(crop) }
+      it { expect(described_class.has_photos).to include(crop) }
     end
     let!(:crop) { FactoryBot.create :tomato }
 
@@ -291,7 +291,7 @@ describe Crop do
   end
 
   context 'interesting' do
-    subject { Crop.interesting }
+    subject { described_class.interesting }
 
     # first, a couple of candidate crops
     let(:crop1) { FactoryBot.create(:crop) }
@@ -363,7 +363,7 @@ describe Crop do
   end
 
   context "csv loading" do
-    before(:each) do
+    before do
       # don't use 'let' for this -- we need to actually create it,
       # regardless of whether it's used.
       @cropbot = FactoryBot.create(:cropbot)
@@ -502,7 +502,7 @@ describe Crop do
         CsvImporter.new.import_crop(row)
       end
 
-      loaded = Crop.last
+      loaded = described_class.last
       expect(loaded.parent).to be_nil
     end
 
@@ -513,7 +513,7 @@ describe Crop do
         CsvImporter.new.import_crop(row)
       end
 
-      loaded = Crop.last
+      loaded = described_class.last
       expect(loaded.name).to eq "tomato"
       expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
       expect(loaded.creator).to eq @cropbot
@@ -530,11 +530,11 @@ describe Crop do
         tomato.destroy
       end
 
-      it "should delete the association between post and the crop(tomato)" do
+      it "deletes the association between post and the crop(tomato)" do
         expect(Post.find(post.id).crops).to eq [maize]
       end
 
-      it "should not delete the posts" do
+      it "does not delete the posts" do
         expect(Post.find(post.id)).not_to eq nil
       end
     end
@@ -554,11 +554,11 @@ describe Crop do
     end
 
     describe "rejecting a crop" do
-      it "should give reason if a default option" do
+      it "gives reason if a default option" do
         expect(rejected_reason.rejection_explanation).to eq "not edible"
       end
 
-      it "should show rejection notes if reason was other" do
+      it "shows rejection notes if reason was other" do
         expect(rejected_other.rejection_explanation).to eq "blah blah blah"
       end
     end

@@ -30,14 +30,14 @@ describe "signin", js: true do
     visit crops_path # some random page
     click_link 'Sign in'
     login
-    expect(current_path).to eq crops_path
+    expect(page).to have_current_path crops_path, ignore_query: true
   end
 
   it "don't redirect to devise pages after signin" do
     visit new_member_registration_path # devise signup page
     click_link 'Sign in'
     login
-    expect(current_path).to eq root_path
+    expect(page).to have_current_path root_path, ignore_query: true
   end
 
   describe "redirect to signin page for if not authenticated to view conversations" do
@@ -45,15 +45,15 @@ describe "signin", js: true do
       conversation = member.send_message(recipient, 'hey there', 'kiaora')
       visit conversation_path(conversation)
     end
-    it { expect(current_path).to eq new_member_session_path }
+    it { expect(page).to have_current_path new_member_session_path, ignore_query: true }
   end
 
   shared_examples "redirects to what you were trying to do" do
     it do
       visit "/#{model_name}/new"
-      expect(current_path).to eq new_member_session_path
+      expect(page).to have_current_path new_member_session_path, ignore_query: true
       login
-      expect(current_path).to eq "/#{model_name}/new"
+      expect(page).to have_current_path "/#{model_name}/new", ignore_query: true
     end
   end
 
@@ -67,9 +67,9 @@ describe "signin", js: true do
 
   it "after signin, redirect to new message page" do
     visit new_message_path(recipient_id: recipient.id)
-    expect(current_path).to eq new_member_session_path
+    expect(page).to have_current_path new_member_session_path, ignore_query: true
     login
-    expect(current_path).to eq new_message_path
+    expect(page).to have_current_path new_message_path, ignore_query: true
   end
 
   it "after crop wrangler signs in and crops await wrangling, show alert" do
@@ -101,7 +101,7 @@ describe "signin", js: true do
       # that we pretended to auth as
 
       # Signed up and logged in
-      expect(current_path).to eq root_path
+      expect(page).to have_current_path root_path, ignore_query: true
       expect(page.text).to include("Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, tdawg")
     end
   end

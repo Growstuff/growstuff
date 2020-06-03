@@ -50,7 +50,7 @@ describe Comment do
     end
 
     it 'has a scope for ASC order for displaying on post page' do
-      Comment.post_order.should eq [@c1, @c2]
+      described_class.post_order.should eq [@c1, @c2]
     end
   end
 end

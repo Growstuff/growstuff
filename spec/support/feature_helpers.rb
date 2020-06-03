@@ -25,7 +25,7 @@ module FeatureHelpers
     include_examples 'sign in'
   end
 
-  shared_examples 'sign in' do
+  shared_context 'sign in' do
     before { sign_in member }
     after { sign_out member }
   end

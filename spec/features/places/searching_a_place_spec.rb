@@ -44,17 +44,17 @@ describe "User searches" do
 
     it "goes to members' index page" do
       click_link 'View all members >>'
-      expect(current_path).to eq members_path
+      expect(page).to have_current_path members_path, ignore_query: true
     end
 
     it "goes to plantings' index page" do
       click_link 'View all plantings >>'
-      expect(current_path).to eq plantings_path
+      expect(page).to have_current_path plantings_path, ignore_query: true
     end
 
     it "goes to seeds' index page" do
       click_link 'View all seeds >>'
-      expect(current_path).to eq seeds_path
+      expect(page).to have_current_path seeds_path, ignore_query: true
     end
   end
 

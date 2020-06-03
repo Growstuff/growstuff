@@ -46,8 +46,8 @@ namespace :growstuff do
 
   task send_planting_reminder: :environment do
     # Heroku scheduler only lets us run things daily, so this checks
-    # Send on the first of the month
-    if Time.zone.today.day == 1
+    # Send on Monday
+    if Time.zone.today.wday == 1
       Member.confirmed.wants_reminders.each do |m|
         Notifier.planting_reminder(m).deliver_now! unless m.plantings.active.empty?
       end

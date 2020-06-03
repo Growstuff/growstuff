@@ -135,12 +135,12 @@ describe Garden do
     let(:inactive) { FactoryBot.create(:inactive_garden) }
 
     it 'includes active garden in active scope' do
-      Garden.active.should include active
-      Garden.active.should_not include inactive
+      described_class.active.should include active
+      described_class.active.should_not include inactive
     end
     it 'includes inactive garden in inactive scope' do
-      Garden.inactive.should include inactive
-      Garden.inactive.should_not include active
+      described_class.inactive.should include inactive
+      described_class.inactive.should_not include active
     end
   end
 
@@ -210,8 +210,8 @@ describe Garden do
   end
 
   it 'excludes deleted members' do
-    expect(Garden.joins(:owner).all).to include(garden)
+    expect(described_class.joins(:owner).all).to include(garden)
     owner.destroy
-    expect(Garden.joins(:owner).all).not_to include(garden)
+    expect(described_class.joins(:owner).all).not_to include(garden)
   end
 end
