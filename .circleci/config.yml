@@ -64,7 +64,7 @@ jobs:
           POSTGRES_DB: db_name
     
     steps:
-      - environment:
+      environment:
           DATABASE_URL: "postgres://ubuntu@localhost:5432/db_name"
       - checkout
       - restore_cache:
