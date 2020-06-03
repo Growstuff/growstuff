@@ -6,9 +6,6 @@ ruby '2.6.5'
 
 gem 'rails', '5.2.4.3'
 
-# security patch to at least this version
-gem "activesupport", ">= 5.2.4.3"
-
 gem 'bundler', '>=1.1.5'
 
 gem 'coffee-rails'
