@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: Check contributors
-          command: bundle exec script/check_contributors_md.rb
+          command: script/check_contributors_md.rb
 
   lint:
     docker:
