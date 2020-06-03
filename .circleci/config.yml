@@ -47,20 +47,15 @@ jobs:
       - run:
           name: Create database
           command: bundle exec rails db:create db:migrate
-          
       - run:
           name: Create database
           command: bundle exec rails db:create db:migrate
-
       - run:
           name: Precompile assets
           command: bundle exec rails assets:precompile
-
       - run:
           name: Create Elastic search index
           command: bundle exec rails search:reindex
-
       - run:
           name: Run rpsec tests
           command: bundle exec rspec spec
-          
