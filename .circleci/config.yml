@@ -47,6 +47,9 @@ jobs:
       - restore_cache:
           keys:
             - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install dependencies
+          command: bundle check --path vendor/bundle || bundle install --deployment
 
       - run:
           name: Install linters
@@ -63,6 +66,10 @@ jobs:
       - restore_cache:
           keys:
             - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install dependencies
+          command: bundle check --path vendor/bundle || bundle install --deployment
+
       - run:
           name: Create database
           command: bundle exec rails db:create db:migrate
