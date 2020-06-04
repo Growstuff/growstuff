@@ -56,17 +56,15 @@ jobs:
           PG_USER: ubuntu
           RAILS_ENV: test
           RACK_ENV: test
-      # The following example uses the official postgres 9.6 image, you may also use circleci/postgres:9.6
-      # which includes a few enhancements and modifications. It is possible to use either image.
       - image: postgres:11.8
         environment:
           POSTGRES_USER: ubuntu
           POSTGRES_DB: db_name
           POSTGRES_PASSWORD: ""
           POSTGRES_HOST_AUTH_METHOD: trust
+      - image: elasticsearch:7.7.1
     environment:
       DATABASE_URL: "postgres://ubuntu@localhost:5432/db_name"
-      ELASTIC_SEARCH_VERSION: "7.5.1-amd64"
       COVERAGE: True
       RAILS_ENV: test
     steps:
@@ -80,9 +78,6 @@ jobs:
       - run:
           name: Install postgresql client
           command: sudo apt install -y postgresql-client || true
-      - run:
-          name: Install Elasticsearch
-          command: ./script/install_elasticsearch.sh
       # Here we make sure that the secondary container boots
       # up before we run operations on the database.
       - run:

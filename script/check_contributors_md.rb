@@ -3,6 +3,9 @@
 
 require "English"
 
+# NOTE: circleci docs are here:
+# https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
+
 puts "Checking to see if you're in CONTRIBUTORS.md..."
 
 if ENV['TRAVIS'] || ENV['CI']
