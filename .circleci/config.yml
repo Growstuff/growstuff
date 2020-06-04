@@ -109,7 +109,7 @@ workflows:
       - test:
           requires:
             - rubydeps
-      lint:
+      - lint:
           requires:
             - rubydeps # because we use rubcocop for bundler
       - contributors
