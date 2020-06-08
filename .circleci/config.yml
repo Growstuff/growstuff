@@ -86,6 +86,9 @@ jobs:
       - run:
           name: Install postgresql client
           command: sudo apt install -y postgresql-client || true
+    steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       # Here we make sure that the secondary container boots
       # up before we run operations on the database.
       - run:
