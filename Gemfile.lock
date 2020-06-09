@@ -457,7 +457,7 @@ GEM
     rswag-ui (2.3.1)
       actionpack (>= 3.1, < 7.0)
       railties (>= 3.1, < 7.0)
-    rubocop (0.85.0)
+    rubocop (0.85.1)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
