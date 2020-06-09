@@ -99,7 +99,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    capybara-email (3.0.1)
+    capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
     capybara-screenshot (1.0.24)
