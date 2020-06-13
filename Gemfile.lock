@@ -197,7 +197,7 @@ GEM
       sassc (>= 1.11)
     friendly_id (5.3.0)
       activerecord (>= 4.0.0)
-    geocoder (1.4.9)
+    geocoder (1.6.1)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
@@ -616,7 +616,7 @@ DEPENDENCIES
   flickraw
   font-awesome-sass
   friendly_id
-  geocoder (= 1.4.9)
+  geocoder (= 1.6.1)
   gibbon (~> 1.2.0)
   gravatar-ultimate
   haml
