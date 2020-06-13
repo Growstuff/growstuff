@@ -103,6 +103,9 @@ jobs:
           name: Create Elastic search index
           command: bundle exec rails search:reindex
       - run:
+          name: DB seeds
+          command: bundle exec rails db:seed
+      - run:
           name: Run rpsec tests
           command: bundle exec rspec spec
 
