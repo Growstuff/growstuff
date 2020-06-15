@@ -114,7 +114,7 @@ workflows:
       - test:
           requires:
             - rubydeps
-      - lint:
-          requires:
-            - rubydeps # because we use rubcocop for bundler
+      # - lint:
+      #     requires:
+      #       - rubydeps # because we use rubcocop for bundler
       - contributors
