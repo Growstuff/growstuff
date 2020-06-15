@@ -29,25 +29,25 @@ jobs:
           name: Check contributors
           command: script/check_contributors_md.rb
 
-  lint:
-    docker:
-      - image: circleci/ruby:2.6.5-stretch-node
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler
-      - run:
-          name: Install dependencies
-          command: bundle check --path vendor/bundle || bundle install --deployment
+  # lint:
+  #   docker:
+  #     - image: circleci/ruby:2.6.5-stretch-node
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - v1-ruby-deps-{{ checksum "Gemfile.lock" }}
+  #     - run: gem install bundler
+  #     - run:
+  #         name: Install dependencies
+  #         command: bundle check --path vendor/bundle || bundle install --deployment
 
-      - run:
-          name: Install linters
-          command: ./script/install_linters.sh
-      - run:
-          name: Run overcommit
-          command: overcommit --run
+  #     - run:
+  #         name: Install linters
+  #         command: ./script/install_linters.sh
+  #     - run:
+  #         name: Run overcommit
+  #         command: overcommit --run
   test:
     docker:
       - image: circleci/ruby:2.6.5-stretch-node
@@ -104,7 +104,7 @@ jobs:
           command: RAILS_ENV=test bundle exec rails search:reindex
       - run:
           name: Run rpsec tests
-          command: bundle exec rspec spec
+          command: bundle exec rspec spec --fail-fast
 
 workflows:
   version: 2
