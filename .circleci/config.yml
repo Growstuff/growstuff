@@ -84,6 +84,9 @@ jobs:
           name: Install dependencies
           command: bundle check --path vendor/bundle || bundle install --deployment
       - run:
+          name: Make config file
+          command: cp config/application.yml.example config/application.yml
+      - run:
           name: Install postgresql client
           command: sudo apt install -y postgresql-client || true
       - browser-tools/install-chrome
