@@ -35,7 +35,9 @@ script:
     if [ "${STATIC_CHECKS}" = "true" ]; then
       ./script/check_static.rb
     else
-      bundle exec rake db:create db:migrate search:reindex assets:precompile;
+      bundle exec rails db:create db:migrate;
+      bundle exec rails assets:precompile;
+      bundle exec rails search:reindex;
       bundle exec rspec spec;
       # npx percy exec -- bundle exec rspec spec # <- run this to send screen shots to percy
     fi;
