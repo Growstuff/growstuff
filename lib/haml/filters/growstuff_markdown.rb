@@ -17,8 +17,8 @@ module Haml::Filters
 
     CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/.freeze
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/.freeze
-    MEMBER_AT_REGEX = /(?<!\\)(\@\w+)/.freeze
-    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=\@\w+)/.freeze
+    MEMBER_AT_REGEX = /(?<!\\)(@\w+)/.freeze
+    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/.freeze
     HOST = Rails.application.config.host
 
     def expand_crops!
@@ -65,7 +65,7 @@ module Haml::Filters
 
     def find_member(login_name)
       # Remove @ if present
-      login_name = login_name[1..-1] if login_name.start_with?('@')
+      login_name = login_name[1..] if login_name.start_with?('@')
       Member.case_insensitive_login_name(login_name).first
     end
   end

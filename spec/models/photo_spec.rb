@@ -247,7 +247,7 @@ describe Photo do
       it "finds just one" do
         expect(described_class.search.count).to eq 1
       end
-      it "finds the matching photo"  do
+      it "finds the matching photo" do
         expect(described_class.search).to include photo
       end
 
