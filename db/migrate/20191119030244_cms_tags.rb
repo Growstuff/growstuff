@@ -6,16 +6,16 @@ class CmsTags < ActiveRecord::Migration[5.2]
       layout.content = layout.content.gsub(%r{\{\{ ?cms:page:([\w/]+) ?\}\}}, '{{ cms:text \1 }}') if layout.content.is_a? String
 
       # {{cms:page:page_header:string}} -> {{ cms:text page_header }}
-      layout.content = layout.content.gsub(/\{\{ ?cms:page:([\w]+):string ?\}\}/, '{{ cms:text \1 }}') if layout.content.is_a? String
+      layout.content = layout.content.gsub(/\{\{ ?cms:page:(\w+):string ?\}\}/, '{{ cms:text \1 }}') if layout.content.is_a? String
 
       # {{cms:page:content:rich_text}} -> {{ cms:wysiwyg content }}
-      layout.content = layout.content.gsub(/\{\{ ?cms:page:([\w]+):rich_text ?\}\}/, '{{ cms:wysiwyg \1 }}') if layout.content.is_a? String
-      layout.content = layout.content.gsub(/\{\{ ?cms:page:([\w]+):([^:]*) ?\}\}/, '{{ cms:\2 \1 }}') if layout.content.is_a? String
+      layout.content = layout.content.gsub(/\{\{ ?cms:page:(\w+):rich_text ?\}\}/, '{{ cms:wysiwyg \1 }}') if layout.content.is_a? String
+      layout.content = layout.content.gsub(/\{\{ ?cms:page:(\w+):([^:]*) ?}}/, '{{ cms:\2 \1 }}') if layout.content.is_a? String
       if layout.content.is_a? String
-        layout.content = layout.content.gsub(/\{\{ ?cms:field:([\w]+):string ?\}\}/, '{{ cms:text \1, render: false }}')
+        layout.content = layout.content.gsub(/\{\{ ?cms:field:(\w+):string ?\}\}/, '{{ cms:text \1, render: false }}')
       end
       if layout.content.is_a? String
-        layout.content = layout.content.gsub(/\{\{ ?cms:field:([\w]+):([^:]*) ?\}\}/, '{{ cms:\2 \1, render: false }}')
+        layout.content = layout.content.gsub(/\{\{ ?cms:field:(\w+):([^:]*) ?}}/, '{{ cms:\2 \1, render: false }}')
       end
 
       # {{ cms:partial:main/homepage }} -> {{ cms:partial "main/homepage" }}
@@ -27,7 +27,7 @@ class CmsTags < ActiveRecord::Migration[5.2]
       if layout.content.is_a? String
         layout.content = layout.content.gsub(%r{\{\{ ?cms:(\w+):([\w/-]+):([\w/-]+):([\w/-]+) ?\}\}}, '{{ cms:\1 \2 \3 \4}}')
       end
-      layout.content = layout.content.gsub(/\{\{ ?cms:(\w+):([\w]+):([^:]*) ?\}\}/, '{{ cms:\1 \2, "\3" }}') if layout.content.is_a? String
+      layout.content = layout.content.gsub(/\{\{ ?cms:(\w+):(\w+):([^:]*) ?}}/, '{{ cms:\1 \2, "\3" }}') if layout.content.is_a? String
       layout.content = layout.content.gsub(/cms:rich_text/, 'cms:wysiwyg') if layout.content.is_a? String
       layout.content = layout.content.gsub(/cms:integer/, 'cms:number') if layout.content.is_a? String
       if layout.content.is_a? String
@@ -49,20 +49,20 @@ class CmsTags < ActiveRecord::Migration[5.2]
         fragment.content = fragment.content.gsub(%r{\{\{ ?cms:partial:([\w/]+) ?\}\}}, '{{ cms:partial \1 }}')
       end
 
-      fragment.content = fragment.content.gsub(/\{\{ ?cms:page:([\w]+):string ?\}\}/, '{{ cms:text \1 }}') if fragment.content.is_a? String
+      fragment.content = fragment.content.gsub(/\{\{ ?cms:page:(\w+):string ?\}\}/, '{{ cms:text \1 }}') if fragment.content.is_a? String
       if fragment.content.is_a? String
-        fragment.content = fragment.content.gsub(/\{\{ ?cms:page:([\w]+):rich_text ?\}\}/, '{{ cms:wysiwyg \1 }}')
+        fragment.content = fragment.content.gsub(/\{\{ ?cms:page:(\w+):rich_text ?\}\}/, '{{ cms:wysiwyg \1 }}')
       end
 
       fragment.content = fragment.content.gsub(%r{\{\{ ?cms:page:([\w/]+) ?\}\}}, '{{ cms:text \1 }}') if fragment.content.is_a? String
-      fragment.content = fragment.content.gsub(/\{\{ ?cms:page:([\w]+):([^:]*) ?\}\}/, '{{ cms:\2 \1 }}') if fragment.content.is_a? String
+      fragment.content = fragment.content.gsub(/\{\{ ?cms:page:(\w+):([^:]*) ?}}/, '{{ cms:\2 \1 }}') if fragment.content.is_a? String
       if fragment.content.is_a? String
-        fragment.content = fragment.content.gsub(/\{\{ ?cms:field:([\w]+):([^:]*) ?\}\}/, '{{ cms:\2 \1, render: false }}')
+        fragment.content = fragment.content.gsub(/\{\{ ?cms:field:(\w+):([^:]*) ?}}/, '{{ cms:\2 \1, render: false }}')
       end
 
-      fragment.content = fragment.content.gsub(/\{\{ ?cms:(\w+):([\w]+) ?\}\}/, '{{ cms:\1 \2 }}') if fragment.content.is_a? String
+      fragment.content = fragment.content.gsub(/\{\{ ?cms:(\w+):(\w+) ?\}\}/, '{{ cms:\1 \2 }}') if fragment.content.is_a? String
       if fragment.content.is_a? String
-        fragment.content = fragment.content.gsub(/\{\{ ?cms:(\w+):([\w]+):([^:]*) ?\}\}/, '{{ cms:\1 \2, "\3" }}')
+        fragment.content = fragment.content.gsub(/\{\{ ?cms:(\w+):(\w+):([^:]*) ?}}/, '{{ cms:\1 \2, "\3" }}')
       end
       fragment.save if fragment.changed?
     end
