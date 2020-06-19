@@ -4,7 +4,11 @@ source 'https://rubygems.org'
 
 ruby '2.6.5'
 
-gem 'rails', '5.2.2.1'
+gem 'rails', '5.2.4.3'
+
+# Keeping old sprockets
+# https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
+gem "sprockets", "<4"
 
 gem 'bundler', '>=1.1.5'
 
