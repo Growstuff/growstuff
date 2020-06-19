@@ -623,7 +623,7 @@ DEPENDENCIES
   flickraw
   font-awesome-sass
   friendly_id
-  geocoder (= 1.6.1)
+  geocoder
   gibbon (~> 1.2.0)
   gravatar-ultimate
   haml

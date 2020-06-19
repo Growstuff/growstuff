@@ -84,7 +84,7 @@ gem "validate_url"
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder', '1.6.1' # TODO: Fails on version 1.5.0. Needs investigation
+gem 'geocoder'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
