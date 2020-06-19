@@ -61,8 +61,7 @@ Geocoder.configure(lookup: :test)
 Geocoder::Lookup::Test.add_stub(
   "Amundsen-Scott Base, Antarctica", [
     {
-      'latitude'  => -90.0,
-      'longitude' => 0.0
+      'coordinates' => [-90.0,  0.0]
     }
   ]
 )
@@ -70,8 +69,7 @@ Geocoder::Lookup::Test.add_stub(
 Geocoder::Lookup::Test.add_stub(
   "Philippines", [
     {
-      'latitude'     => 12.7503486,
-      'longitude'    => 122.7312101,
+      'coordinates' => [12.7503486,  122.7312101],
       'address'      => 'Manila, Mnl, Philippines',
       'state'        => 'Manila',
       'state_code'   => 'Mnl',
@@ -84,8 +82,7 @@ Geocoder::Lookup::Test.add_stub(
 Geocoder::Lookup::Test.add_stub(
   "Greenwich, UK", [
     {
-      'latitude'  => 51.483061,
-      'longitude' => -0.004151
+      'coordinates' => [51.483061, -0.004151]
     }
   ]
 )
@@ -93,8 +90,7 @@ Geocoder::Lookup::Test.add_stub(
 Geocoder::Lookup::Test.add_stub(
   "Edinburgh", [
     {
-      'latitude'  => 55.953252,
-      'longitude' => -3.188267
+      'coordinates' => [55.953252, -3.188267]
     }
   ]
 )
