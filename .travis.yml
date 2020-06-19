@@ -57,9 +57,7 @@ deploy:
     repo: Growstuff/growstuff
   app:
     dev: growstuff-staging
-    master: growstuff-prod
-    travis_deploy: tranquil-basin-3130
-    travis_containers: tranquil-basin-3130
+    mainline: growstuff-prod
   run:
     - "rake db:migrate"
     - "script/deploy-tasks.sh"
