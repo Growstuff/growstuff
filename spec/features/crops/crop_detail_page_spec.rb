@@ -101,7 +101,7 @@ describe "crop detail page", js: true do
       it "click link to your owned seeds" do
         visit crop_path(seed.crop)
         click_link "You have 20 seeds of this crop."
-        expect(current_path).to eq member_seeds_path(member_slug: member.slug)
+        expect(page).to have_current_path member_seeds_path(member_slug: member.slug), ignore_query: true
       end
     end
   end

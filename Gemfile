@@ -4,7 +4,11 @@ source 'https://rubygems.org'
 
 ruby '2.6.5'
 
-gem 'rails', '5.2.2.1'
+gem 'rails', '5.2.4.3'
+
+# Keeping old sprockets
+# https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
+gem "sprockets", "<4"
 
 gem 'bundler', '>=1.1.5'
 
@@ -80,7 +84,7 @@ gem "validate_url"
 gem 'gravatar-ultimate'
 
 # For geolocation
-gem 'geocoder', '1.4.9' # TODO: Fails on version 1.5.0. Needs investigation
+gem 'geocoder'
 
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
@@ -128,6 +132,8 @@ gem 'mailboxer'
 gem 'faraday'
 gem 'faraday_middleware'
 
+gem 'rack-cors'
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
@@ -160,7 +166,7 @@ group :development, :test do
   gem 'haml_lint', '>= 0.25.1', require: false # Checks haml files for goodness
   gem 'i18n-tasks', require: false # adds tests for finding missing and unused translations
   gem 'rspectre', require: false # finds unused code in specs
-  gem 'rubocop', '~> 0.71', require: false
+  gem 'rubocop', require: false
 end
 
 group :test do
@@ -171,7 +177,6 @@ group :test do
   gem 'database_cleaner'
   gem 'percy-capybara', '~> 4.0.0'
   gem 'rails-controller-testing'
-  gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
   gem 'selenium-webdriver'
   gem 'timecop'

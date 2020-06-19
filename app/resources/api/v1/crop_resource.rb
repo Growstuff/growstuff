@@ -19,6 +19,8 @@ module Api
       attributes :perennial, :median_lifespan, :median_days_to_first_harvest, :median_days_to_last_harvest
       attributes :created_at, :updated_at
 
+      has_one :parent, class_name: 'Crop'
+
       attribute :thumbnail
       def thumbnail
         @model.default_photo&.thumbnail_url
