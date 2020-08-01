@@ -14,10 +14,10 @@ class Post < ApplicationRecord
   has_many :crop_posts, dependent: :delete_all
   has_many :crops, through: :crop_posts
 
+  after_create :send_notification
   #
   # Triggers
   after_save :update_crop_posts_association
-  after_create  :send_notification
 
   default_scope { joins(:author).merge(Member.kept) } # Ensures the owner still exists
 
