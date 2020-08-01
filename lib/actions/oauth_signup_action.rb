@@ -41,7 +41,7 @@ class Growstuff::OauthSignupAction
   def establish_authentication(auth, member)
     name = determine_name(auth)
 
-    authentication = member.authentications
+    member.authentications
       .create_with(
         name:   name,
         token:  auth['credentials']['token'],
@@ -53,8 +53,6 @@ class Growstuff::OauthSignupAction
         name:      name,
         member_id: member.id
       )
-
-    authentication
   end
 
   def member_created?
