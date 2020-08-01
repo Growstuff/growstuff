@@ -75,7 +75,7 @@ module ApplicationHelper
       public_send("crop_#{type}_path", crop, all: all)
     else
       public_send("#{type}_path", all: all)
-           end
+    end
   end
 
   def title(type, owner, crop, planting)
