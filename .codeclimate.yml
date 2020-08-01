@@ -11,7 +11,7 @@ engines:
   coffeelint:
     enabled: true
   brakeman:
-    enabled: true
+    enabled: false
   bundler-audit:
     enabled: true
   duplication:
