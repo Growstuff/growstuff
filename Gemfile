@@ -48,7 +48,6 @@ gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
-gem 'figaro'                       # for handling config via ENV variables
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
@@ -162,6 +161,8 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'webrat'                  # provides HTML matchers for view tests
+
+  gem 'dotenv-rails'
 
   # cli utils
   gem 'coveralls', require: false # coverage analysis
