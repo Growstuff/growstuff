@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
- # frozen_string_literal: true 
+# frozen_string_literal: true
+
 APP_ROOT = File.expand_path('..', __dir__)
 Dir.chdir(APP_ROOT) do
   exec "yarnpkg", *ARGV
