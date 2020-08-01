@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   belongs_to :author, class_name: 'Member', inverse_of: :comments
   belongs_to :post, counter_cache: true
 
-  scope :post_order, -> { reorder("created_at ASC") } # for display on post page
+  scope :post_order, -> { order(created_at: :asc) } # for display on post page
 
   after_create do
     recipient = post.author.id
