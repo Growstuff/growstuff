@@ -15,7 +15,7 @@
 
 # Settings in this file will be available to you as ENV['WHATEVER']
 
-# NOTE: please prefix all environment variables with GROWSTUFF_ to make
+# NOTE=please prefix all environment variables with GROWSTUFF_ to make
 # it easy to identify which were set by us vs. the system or anyone else
 
 ##############################################################################
@@ -26,10 +26,10 @@
 # It's the only one without "GROWSTUFF_" prefix.
 # To generate a real one, use 'rake secret' (you don't need to for
 # dev, though.)
-RAILS_SECRET_TOKEN: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+RAILS_SECRET_TOKEN="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # name that appears on the site, eg. in page titles
-GROWSTUFF_SITE_NAME: Growstuff (dev)
+GROWSTUFF_SITE_NAME="Growstuff (dev)"
 
 # Mailchimp is used for subscribing/unsubscribing people from the newsletter
 # To fetch list IDs using Gibbon (and thus find the ID of your newsletter):
@@ -37,45 +37,27 @@ GROWSTUFF_SITE_NAME: Growstuff (dev)
 #   Gibbon::API.api_key = '...'
 #   gb = Gibbon::API.new
 #   puts gb.lists.list.to_yaml
-GROWSTUFF_MAILCHIMP_APIKEY: ""
-GROWSTUFF_MAILCHIMP_NEWSLETTER_ID: ""
+GROWSTUFF_MAILCHIMP_APIKEY=""
+GROWSTUFF_MAILCHIMP_NEWSLETTER_ID=""
 
 # Used for connecting member accounts to Twitter
 # Get Twitter key from https://dev.twitter.com/apps
-GROWSTUFF_TWITTER_KEY: ""
-GROWSTUFF_TWITTER_SECRET: ""
+GROWSTUFF_TWITTER_KEY=""
+GROWSTUFF_TWITTER_SECRET=""
 
 # Used for connecting member accounts to Flickr
 # Get Flickr key from http://www.flickr.com/services/apps/create/apply/
-GROWSTUFF_FLICKR_KEY: ""
-GROWSTUFF_FLICKR_SECRET: ""
+GROWSTUFF_FLICKR_KEY=""
+GROWSTUFF_FLICKR_SECRET=""
 
 # https://developers.facebook.com/
-GROWSTUFF_FACEBOOK_KEY: ""
-GROWSTUFF_FACEBOOK_SECRET: ""
+GROWSTUFF_FACEBOOK_KEY=""
+GROWSTUFF_FACEBOOK_SECRET=""
 
-GROWSTUFF_MAPBOX_MAP_ID: ""
-GROWSTUFF_MAPBOX_ACCESS_TOKEN: ""
-
-##############################################################################
-# Other environments
-# You can override the above for staging, production, etc.
-# To push these settings to Heroku, use "rake figaro:heroku --app=whatever".
-# To see current settings on Heroku, use "heroku config --app=whatever".
-##############################################################################
-
-### EMAil addres for notifier and mailers to use as from
-GROWSTUFF_EMAIL: 'noreply@dev.growstuff.org'
-
-test:
-  GROWSTUFF_SITE_NAME: Growstuff (test)
-
-# Note: there is no good way to deploy settings from Figaro to
-# Travis-CI.  If you need env vars set there in order for tests to pass,
-# set them in .travis.yml
-
-staging:
-  GROWSTUFF_SITE_NAME: Growstuff (staging)
-
-production:
-  GROWSTUFF_SITE_NAME: Growstuff
+# Elasticsearch is used for flexible search and it requires another component
+# to be installed. To make it easy for people who don't need to test this feature
+# it's been turned off for test and development environment as a default.
+# If you want to test this functionality, install elasticsearch and
+# set this flag to "true".
+GROWSTUFF_ELASTICSEARCH="true"
+GROWSTUFF_EMAIL='noreply@dev.growstuff.org'
