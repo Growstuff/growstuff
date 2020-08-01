@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_01_084007) do
+ActiveRecord::Schema.define(version: 2020_08_01_210054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,6 +225,8 @@ ActiveRecord::Schema.define(version: 2020_08_01_084007) do
     t.text "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_garden_types_on_name", unique: true
+    t.index ["slug"], name: "index_garden_types_on_slug", unique: true
   end
 
   create_table "gardens", id: :serial, force: :cascade do |t|
