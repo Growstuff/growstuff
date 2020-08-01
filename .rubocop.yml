@@ -81,7 +81,7 @@ Style/AccessorGrouping:
 Style/ArrayCoercion:
   Enabled: true
 Style/BisectedAttrAccessor:
-  Enabled: true
+  Enabled: false
 Style/CaseLikeIf:
   Enabled: true
 Style/ExponentialNotation:
