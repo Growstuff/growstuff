@@ -61,7 +61,7 @@ Geocoder.configure(lookup: :test)
 Geocoder::Lookup::Test.add_stub(
   "Amundsen-Scott Base, Antarctica", [
     {
-      'coordinates' => [-90.0,  0.0]
+      'coordinates' => [-90.0, 0.0]
     }
   ]
 )
@@ -69,7 +69,7 @@ Geocoder::Lookup::Test.add_stub(
 Geocoder::Lookup::Test.add_stub(
   "Philippines", [
     {
-      'coordinates' => [12.7503486,  122.7312101],
+      'coordinates'  => [12.7503486, 122.7312101],
       'address'      => 'Manila, Mnl, Philippines',
       'state'        => 'Manila',
       'state_code'   => 'Mnl',

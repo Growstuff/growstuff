@@ -68,7 +68,7 @@ class Post < ApplicationRecord
       crop_name = Regexp.last_match(1)
       crop = Crop.case_insensitive_name(crop_name).first
       # create association
-      crops << crop if crop && !crops.include?(crop)
+      crops << crop if crop && crops.exclude?(crop)
     end
   end
 
@@ -78,12 +78,12 @@ class Post < ApplicationRecord
     body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_REGEX) do |_m|
       # find member case-insensitively and add to list of recipients
       member = Member.case_insensitive_login_name(Regexp.last_match(1)).first
-      recipients << member if member && !recipients.include?(member)
+      recipients << member if member && recipients.exclude?(member)
     end
     body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_AT_REGEX) do |_m|
       # find member case-insensitively and add to list of recipients
       member = Member.case_insensitive_login_name(Regexp.last_match(1)[1..-1]).first
-      recipients << member if member && !recipients.include?(member)
+      recipients << member if member && recipients.exclude?(member)
     end
     # don't send notifications to yourself
     recipients.map(&:id).each do |recipient_id|
