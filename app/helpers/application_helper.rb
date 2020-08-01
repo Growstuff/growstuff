@@ -29,9 +29,9 @@ module ApplicationHelper
   end
 
   def required_field_help_text
-    asterisk = content_tag :span, '*', class: ['red']
-    text = content_tag :em, 'denotes a required field'
-    content_tag :div, asterisk + ' '.html_safe + text, class: ['margin-bottom']
+    asterisk = tag.span('*', class: ['red'])
+    text = tag.em('denotes a required field')
+    tag.div(asterisk + ' '.html_safe + text, class: ['margin-bottom'])
   end
 
   #
@@ -69,14 +69,13 @@ module ApplicationHelper
   def show_inactive_tickbox_path(type, owner: nil, crop: nil, show_all: false)
     all = show_all ? '' : 1
 
-    path = if owner.present?
-             public_send("member_#{type}_path", owner, all: all)
-           elsif crop.present?
-             public_send("crop_#{type}_path", crop, all: all)
-           else
-             public_send("#{type}_path", all: all)
+    if owner.present?
+      public_send("member_#{type}_path", owner, all: all)
+    elsif crop.present?
+      public_send("crop_#{type}_path", crop, all: all)
+    else
+      public_send("#{type}_path", all: all)
            end
-    path
   end
 
   def title(type, owner, crop, planting)
