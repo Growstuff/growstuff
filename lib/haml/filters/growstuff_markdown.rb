@@ -65,7 +65,7 @@ module Haml::Filters
 
     def find_member(login_name)
       # Remove @ if present
-      login_name = login_name[1..-1] if login_name.start_with?('@')
+      login_name = login_name[1..] if login_name.start_with?('@')
       Member.case_insensitive_login_name(login_name).first
     end
   end
