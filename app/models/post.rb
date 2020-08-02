@@ -82,7 +82,7 @@ class Post < ApplicationRecord
     end
     body.scan(Haml::Filters::GrowstuffMarkdown::MEMBER_AT_REGEX) do |_m|
       # find member case-insensitively and add to list of recipients
-      member = Member.case_insensitive_login_name(Regexp.last_match(1)[1..-1]).first
+      member = Member.case_insensitive_login_name(Regexp.last_match(1)[1..]).first
       recipients << member if member && recipients.exclude?(member)
     end
     # don't send notifications to yourself
