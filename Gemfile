@@ -112,7 +112,7 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem 'discard', '~> 1.0'
+gem 'discard', '~> 1.2'
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 

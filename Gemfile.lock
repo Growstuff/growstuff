@@ -644,7 +644,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   devise
-  discard (~> 1.0)
+  discard (~> 1.2)
   dotenv-rails
   elasticsearch (< 7.0.0)
   factory_bot_rails
