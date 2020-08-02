@@ -11,7 +11,7 @@ class Growstuff::OauthSignupAction
   # variable
   #
   def find_or_create_from_authorization(auth)
-    member ||= Member.where(email: auth.info.email).first_or_create do |m|
+    member ||= Member.kept.where(email: auth.info.email).first_or_create do |m|
       m.email = auth.info.email
       m.password = Devise.friendly_token[0, 20]
 
