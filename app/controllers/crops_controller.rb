@@ -145,9 +145,9 @@ class CropsController < ApplicationController
   def notifier
     case @crop.approval_status
     when "approved"
-      Notifier.crop_request_approved(@crop.requester, @crop)
+      NotifierMailer.crop_request_approved(@crop.requester, @crop)
     when "rejected"
-      Notifier.crop_request_rejected(@crop.requester, @crop)
+      NotifierMailer.crop_request_rejected(@crop.requester, @crop)
     end
   end
 
@@ -164,7 +164,7 @@ class CropsController < ApplicationController
     return if current_member.role? :crop_wrangler
 
     Role.crop_wranglers&.each do |w|
-      Notifier.new_crop_request(w, @crop).deliver_now!
+      NotifierMailer.new_crop_request(w, @crop).deliver_now!
     end
   end
 
