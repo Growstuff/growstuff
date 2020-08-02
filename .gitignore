@@ -1,5 +1,6 @@
 .byebug_history
 .bundle
+.env
 
 # Folders to ignore
 /log
