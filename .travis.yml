@@ -21,7 +21,8 @@ env:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
     - GROWSTUFF_EMAIL="noreply@test.growstuff.org"g
     - GROWSTUFF_SITE_NAME="Growstuff (travis)"
-    - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx']
+    - RAILS_ENV=test
 before_install:
   - sudo apt clean
   - sudo apt update
