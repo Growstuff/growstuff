@@ -85,7 +85,7 @@ describe CropsController do
 
     context 'wrangler' do
       include_context 'login as wrangler'
-      it { expect { subject }.to change(Crop, :count).by -1 }
+      it { expect { subject }.to change(Crop, :count).by(-1) }
     end
   end
 end
