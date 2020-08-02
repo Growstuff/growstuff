@@ -36,6 +36,7 @@ script:
       ./script/check_static.rb
     else
       bundle exec rails db:create db:migrate;
+      bundle exec rails runner "ActiveMedian.create_function";
       bundle exec rails assets:precompile;
       bundle exec rails search:reindex;
       bundle exec rspec spec;
