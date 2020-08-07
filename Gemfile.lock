@@ -281,7 +281,7 @@ GEM
     jsonapi-swagger (0.8.0)
     jwt (2.2.1)
     kgio (2.11.3)
-    kramdown (2.2.1)
+    kramdown (2.3.0)
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
