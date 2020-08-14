@@ -1,11 +1,6 @@
 name: CI
 
-on:
-  pull_request:
-  push:
-    branches:
-      - mainline
-      - dev
+on: [push, pull_request]
 
 jobs:
   contributors:
