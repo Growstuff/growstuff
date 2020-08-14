@@ -16,7 +16,7 @@ describe "unsubscribe" do
     expect(member.send_notification_email).to eq(true)
 
     # generate planting reminder email
-    Notifier.planting_reminder(member).deliver_now
+    NotifierMailer.planting_reminder(member).deliver_now
     open_email(member.email)
 
     # clicking 'Unsubscribe' link will unsubscribe the member
@@ -35,7 +35,7 @@ describe "unsubscribe" do
 
     # generate inbox notification email
     notification.recipient = member
-    Notifier.notify(notification).deliver_now
+    NotifierMailer.notify(notification).deliver_now
     open_email(member.email)
 
     # clicking 'Unsubscribe' link will unsubscribe the member
