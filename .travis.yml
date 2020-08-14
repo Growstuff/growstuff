@@ -32,11 +32,9 @@ before_install:
   - ./script/check_elasticsearch.sh
 script:
   - bundle exec rails db:create db:migrate
-  - bundle exec rails db:prepare
-  - bundle exec rails runner "ActiveMedian.create_function"
   - bundle exec rails assets:precompile
   - bundle exec rails search:reindex
-  - bundle exec rspec spec
+  - bundle exec rspec spec -fd
 after_script:
   - >
     gem install codeclimate-test-reporter
