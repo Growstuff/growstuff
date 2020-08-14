@@ -66,7 +66,7 @@ describe CropsController do
 
       it { is_expected.to be_successful }
       it { is_expected.to render_template("crops/index") }
-      it { expect(response.content_type).to eq("application/rss+xml") }
+      it { expect(response.content_type).to eq("application/rss+xml; charset=utf-8") }
     end
   end
 

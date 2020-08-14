@@ -57,7 +57,7 @@ describe MembersController do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template("members/show") }
-      it { expect(response.content_type).to eq("application/rss+xml") }
+      it { expect(response.content_type).to eq("application/rss+xml; charset=utf-8") }
     end
   end
 end
