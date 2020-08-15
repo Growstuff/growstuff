@@ -23,6 +23,7 @@ engines:
 ratings:
   paths:
   - "**.rb"
+  - "**.ru"
   - "**.js"
   - "**.coffee"
   - "**.scss"
