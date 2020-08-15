@@ -38,7 +38,7 @@ gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
-gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
+gem 'active_median', '0.2.0'
 gem 'active_record_union'
 
 gem 'flickraw'
