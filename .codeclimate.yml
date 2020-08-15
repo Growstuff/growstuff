@@ -11,7 +11,7 @@ engines:
   coffeelint:
     enabled: true
   brakeman:
-    enabled: false
+    enabled: false # codeclimate's brakeman is stuck in rails 5 rules
   bundler-audit:
     enabled: true
   duplication:
