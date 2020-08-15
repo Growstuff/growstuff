@@ -16,8 +16,4 @@ describe "places/_map_attribution.html.haml", type: :view do
     assert_select "a", href: "http://www.openstreetmap.org/copyright",
                        text: "ODbL"
   end
-
-  it "links to CloudMade" do
-    assert_select "a", href: "http://cloudmade.com", text: "CloudMade"
-  end
 end
