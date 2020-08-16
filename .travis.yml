@@ -4,6 +4,10 @@ dist: bionic
 services:
   - postgresql
   - xvfb
+branches:
+  only:
+  - mainline
+  - dev
 cache:
   bundler: true
   directories:
