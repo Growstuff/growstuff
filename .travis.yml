@@ -35,7 +35,7 @@ before_install:
   - sudo apt install dpkg
   - ./script/install_elasticsearch.sh
   - sudo apt install google-chrome-stable
-  - ./script/check_elasticsearch.sh
+  - ./bin/setup
 script:
   # - bundle exec rails db:create db:migrate
   # - bundle exec rails assets:precompile
