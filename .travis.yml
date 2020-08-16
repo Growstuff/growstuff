@@ -18,9 +18,6 @@ env:
     - "TEST_GROUP=1"
     - "TEST_GROUP=2"
     - "TEST_GROUP=3"
-    - "TEST_GROUP=4"
-    - "TEST_GROUP=5"
-    - "TEST_GROUP=6"
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
     - ELASTIC_SEARCH_VERSION="7.5.1-amd64"
@@ -41,7 +38,7 @@ script:
   # - bundle exec rails assets:precompile
   # - bundle exec rails search:reindex
   # - bundle exec rspec spec -fd
-  - bundle exec parallel_test spec/ -n 6 --only-group $TEST_GROUP --group-by filesize --type rspec
+  - bundle exec parallel_test spec/ -n 3 --only-group $TEST_GROUP --group-by filesize --type rspec
 after_script:
   - >
     gem install codeclimate-test-reporter
