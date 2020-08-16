@@ -11,10 +11,11 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Install gem bundle
+      - name: Install ruby dependencies
         run: |
+          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
           gem install bundler
-          bundle install
+          bundle install --jobs 4 --retry 3
       - name: Check contributors
         run: |
           bundle exec script/check_contributors_md.rb
