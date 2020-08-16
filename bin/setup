@@ -19,13 +19,19 @@ FileUtils.chdir APP_ROOT do
   system! 'gem install bundler --conservative'
   system('bundle check') || system!('bundle install')
 
-  # Install JavaScript dependencies
-  # system('bin/yarn')
+  puts "Install JavaScript dependencies"
+  system('bin/yarn')
 
-  # puts "\n== Copying sample files =="
-  # unless File.exist?('config/database.yml')
-  #   FileUtils.cp 'config/database.yml.sample', 'config/database.yml'
-  # end
+  puts "\n== Copying sample files =="
+  unless File.exist?('config/database.yml')
+    FileUtils.cp 'config/database.yml.example', 'config/database.yml'
+  end
+  unless File.exist?('.env')
+    FileUtils.cp 'env-example', '.env'
+  end
+
+  puts "\n== Checking for elastic search =="
+  system! 'script/check_elasticsearch.sh'
 
   puts "\n== Preparing database =="
   system! 'bin/rails db:prepare'
