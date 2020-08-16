@@ -1,6 +1,6 @@
 name: CI
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   contributors:
@@ -8,18 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      # Set these so we can run git commands
-      - run: git config --global user.name "Mona Lisa"
-      - run: git config --global user.email "email@example.com"
       - name: Install ruby version specified in .ruby-version
         uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: Install ruby dependencies
-        run: |
-          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
-          gem install bundler
-          bundle install --jobs 4 --retry 3
       - name: Check contributors
         run: |
-          bundle exec script/check_contributors_md.rb
+          ./script/check_contributors_md.rb
