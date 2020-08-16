@@ -1,16 +1,10 @@
 development:
   adapter: postgresql
   database: growstuff_dev
-  host: localhost
-  user: postgres
-  password: postgres
 
 test:
   adapter: postgresql
-  database: growstuff_test
-  host: localhost
-  user: postgres
-  password: postgres
+  database: growstuff_test<%= ENV['TEST_ENV_NUMBER'] %>
 
 production:
   adapter: postgresql
