@@ -6,6 +6,7 @@ jobs:
   contributors:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Install ruby version specified in .ruby-version
         uses: ruby/setup-ruby@v1
         with:
