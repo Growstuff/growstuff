@@ -155,6 +155,7 @@ group :development, :test do
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
   gem 'query_diet'
+  gem 'parallel_tests'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'

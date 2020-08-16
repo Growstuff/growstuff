@@ -14,6 +14,12 @@ addons:
     repo_token:
       secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
+  - "TEST_GROUP=1"
+  - "TEST_GROUP=2"
+  - "TEST_GROUP=3"
+  - "TEST_GROUP=4"
+  - "TEST_GROUP=5"
+  - "TEST_GROUP=6"
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
     - ELASTIC_SEARCH_VERSION="7.5.1-amd64"
@@ -28,13 +34,13 @@ before_install:
   - sudo apt install dpkg
   - ./script/install_elasticsearch.sh
   - sudo apt install google-chrome-stable
-  - ./script/install_linters.sh
   - ./script/check_elasticsearch.sh
 script:
-  - bundle exec rails db:create db:migrate
-  - bundle exec rails assets:precompile
-  - bundle exec rails search:reindex
-  - bundle exec rspec spec -fd
+  # - bundle exec rails db:create db:migrate
+  # - bundle exec rails assets:precompile
+  # - bundle exec rails search:reindex
+  # - bundle exec rspec spec -fd
+  - bundle exec parallel_test spec/ -n 6 --only-group $TEST_GROUP --group-by filesize --type rspec
 after_script:
   - >
     gem install codeclimate-test-reporter
