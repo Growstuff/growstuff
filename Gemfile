@@ -112,7 +112,7 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem 'discard', '~> 1.2'
+gem 'discard', '>= 1.2'
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
@@ -175,7 +175,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
-  gem 'percy-capybara', '~> 4.0.0'
+  gem 'percy-capybara'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'

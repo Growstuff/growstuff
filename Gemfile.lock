@@ -374,7 +374,7 @@ GEM
     parallel (1.19.2)
     parser (2.7.1.4)
       ast (~> 2.4.1)
-    percy-capybara (4.0.2)
+    percy-capybara (4.2.0)
     pg (0.21.0)
     platform-api (3.0.0)
       heroics (~> 0.1.1)
@@ -681,7 +681,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-flickr (>= 0.0.15)
   omniauth-twitter
-  percy-capybara (~> 4.0.0)
+  percy-capybara
   pg (< 1.0.0)
   platform-api
   puma
