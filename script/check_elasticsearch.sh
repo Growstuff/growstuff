@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source .env
+
 if [[ -z "$ELASTIC_SEARCH_VERSION" ]]; then
   echo "ELASTIC_SEARCH_VERSION variable not set"
 else
