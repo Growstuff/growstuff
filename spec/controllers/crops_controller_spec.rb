@@ -70,6 +70,32 @@ describe CropsController do
     end
   end
 
+  describe 'CREATE' do
+    let(:crop_params) do
+      {
+        crop: {
+          name: 'aubergine',
+          en_wikipedia_url: "https://en.wikipedia.org/wiki/Eggplant"
+        },
+        alt_name: {"1": "egg plant", "2": "purple apple"},
+        sci_name: {"1": "fancy sci name", "2": ""}
+      }
+    end
+    subject { put :create, params: crop_params }
+    context 'not logged in' do
+      it { expect { subject }.not_to change(Crop, :count) }
+    end
+    context 'logged in as member' do
+      it { expect { subject }.not_to change(Crop, :count) }
+    end
+    context 'wrangler' do
+      include_context 'login as wrangler'
+      it { expect { subject }.to change(Crop, :count).by(1) }
+      it { expect { subject }.to change(AlternateName, :count).by(2) }
+      it { expect { subject }.to change(ScientificName, :count).by(1) }
+    end
+  end
+
   describe 'DELETE destroy' do
     subject { delete :destroy, params: { slug: crop.to_param } }
 
