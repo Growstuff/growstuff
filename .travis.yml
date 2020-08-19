@@ -10,6 +10,7 @@ branches:
     - dev
 cache:
   bundler: true
+  yarn: true
   directories:
     - tmp/cache/assets/test/sprockets
 addons:
