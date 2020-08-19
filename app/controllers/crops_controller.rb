@@ -62,9 +62,6 @@ class CropsController < ApplicationController
   end
 
   def show
-    @crop = Crop.includes(
-      :scientific_names, :alternate_names, :parent, :varieties
-    ).find_by!(slug: params[:slug])
     respond_to do |format|
       format.html do
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
@@ -89,7 +86,6 @@ class CropsController < ApplicationController
   end
 
   def edit
-    @crop = Crop.find_by!(slug: params[:slug])
     @crop.alternate_names.build if @crop.alternate_names.blank?
     @crop.scientific_names.build if @crop.scientific_names.blank?
   end
@@ -110,14 +106,13 @@ class CropsController < ApplicationController
   end
 
   def update
-    @crop = Crop.find_by!(slug: params[:slug])
-
     if can?(:wrangle, @crop)
       @crop.approval_status = 'rejected' if params.fetch("reject", false)
       @crop.approval_status = 'approved' if params.fetch("approve", false)
     end
 
     @crop.creator = current_member if @crop.approval_status == "pending"
+
     if @crop.update(crop_params)
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
@@ -152,12 +147,8 @@ class CropsController < ApplicationController
   end
 
   def save_crop_names
-    params[:alt_name]&.values&.each do |value|
-      create_name!('alternate', value) unless value.empty?
-    end
-    params[:sci_name]&.values&.each do |value|
-      create_name!('scientific', value) unless value.empty?
-    end
+    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
+    ScientificName.create!(names_params(:sci_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
   end
 
   def notify_wranglers
@@ -187,17 +178,16 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(
-      :en_wikipedia_url,
-      :name,
-      :parent_id,
-      :perennial,
-      :request_notes,
-      :reason_for_rejection,
+      :name, :en_wikipedia_url,
+      :parent_id, :perennial,
+      :request_notes, :reason_for_rejection,
       :rejection_notes,
-      scientific_names_attributes: %i(scientific_name
-                                      _destroy
-                                      id)
+      scientific_names_attributes: %i(scientific_name _destroy id)
     )
+  end
+
+  def names_params(name_type)
+    params.require(name_type).values&.reject { |n| n.empty? }
   end
 
   def filename
@@ -212,8 +202,7 @@ class CropsController < ApplicationController
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
-        scientific_names: { only: [:name] },
-        alternate_names:  { only: [:name] }
+        scientific_names: { only: [:name] }, alternate_names:  { only: [:name] }
       }
     }
   end
