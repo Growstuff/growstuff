@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.5'
 
-gem 'rails', '5.2.4.3'
+gem 'rails', '6.0.3.2'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -38,7 +38,7 @@ gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
-gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
+gem 'active_median', '0.2.0'
 gem 'active_record_union'
 
 gem 'flickraw'
@@ -112,7 +112,7 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem 'discard', '~> 1.0'
+gem 'discard', '>= 1.2'
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
@@ -175,7 +175,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
-  gem 'percy-capybara', '~> 4.0.0'
+  gem 'percy-capybara'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'

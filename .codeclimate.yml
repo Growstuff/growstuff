@@ -1,7 +1,7 @@
 engines:
   rubocop:
     enabled: true
-    channel: "rubocop-0-88"
+    channel: "rubocop-0-89"
   scss-lint:
     enabled: true
   shellcheck:
@@ -11,7 +11,7 @@ engines:
   coffeelint:
     enabled: true
   brakeman:
-    enabled: true
+    enabled: false # codeclimate's brakeman is stuck in rails 5 rules
   bundler-audit:
     enabled: true
   duplication:
@@ -23,6 +23,7 @@ engines:
 ratings:
   paths:
   - "**.rb"
+  - "**.ru"
   - "**.js"
   - "**.coffee"
   - "**.scss"

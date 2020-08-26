@@ -14,6 +14,8 @@ class Garden < ApplicationRecord
 
   # set up geocoding
   geocoded_by :location
+  before_validation :strip_blanks
+  after_validation :cleanup_area
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
   after_save :mark_inactive_garden_plantings_as_finished
@@ -25,7 +27,6 @@ class Garden < ApplicationRecord
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
 
-  before_validation :strip_blanks
   validates :name, uniqueness: { scope: :owner_id }
   validates :name,
             format: { without: /\n/, message: "must contain no newlines" },
@@ -50,8 +51,6 @@ class Garden < ApplicationRecord
   validates :area_unit, inclusion:   { in:      AREA_UNITS_VALUES.values,
                                        message: "%<value>s is not a valid area unit" },
                         allow_blank: true
-
-  after_validation :cleanup_area
 
   def cleanup_area
     self.area = nil if area&.zero?

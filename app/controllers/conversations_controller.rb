@@ -7,9 +7,10 @@ class ConversationsController < ApplicationController
   before_action :check_current_subject_in_conversation, only: %i(show update destroy)
 
   def index
-    @conversations = if @box.eql? "inbox"
+    @conversations = case @box
+                     when "inbox"
                        mailbox.inbox
-                     elsif @box.eql? "sent"
+                     when "sent"
                        mailbox.sentbox
                      else
                        mailbox.trash
@@ -59,7 +60,7 @@ class ConversationsController < ApplicationController
       'sent'  => { 'total' => mailbox.sentbox.size, 'unread' => 0 },
       'trash' => { 'total' => mailbox.trash.size, 'unread' => 0 }
     }
-    @box = if params[:box].blank? || !@boxes.keys.include?(params[:box])
+    @box = if params[:box].blank? || @boxes.keys.exclude?(params[:box])
              'inbox'
            else
              params[:box]

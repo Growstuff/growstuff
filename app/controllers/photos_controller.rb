@@ -2,6 +2,7 @@
 
 class PhotosController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
+  before_action :set_crop_and_planting, only: :index
   after_action :expire_homepage, only: %i(create destroy)
   load_and_authorize_resource
   respond_to :html, :json
@@ -13,19 +14,10 @@ class PhotosController < ApplicationController
   end
 
   def index
-    where = {}
-    if params[:crop_slug]
-      @crop = Crop.find params[:crop_slug]
-      where = { crops: @crop.id }
-    elsif params[:planting_id]
-      @planting = Planting.find params[:planting_id]
-      where = { planting_id: @planting.id }
-    end
-
     @photos = Photo.search(
       load:     false,
       boost_by: [:created_at],
-      where:    where,
+      where:    index_where_clause,
       page:     params[:page],
       limit:    Photo.per_page
     )
@@ -111,5 +103,20 @@ class PhotosController < ApplicationController
     @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
       pager.replace photos
     end
+  end
+
+  def index_where_clause
+    if params[:crop_slug]
+      { crops: @crop.id }
+    elsif params[:planting_id]
+      { planting_id: @planting.id }
+    else
+      {}
+    end
+  end
+
+  def set_crop_and_planting
+    @crop = Crop.find params[:crop_slug] if params[:crop_slug]
+    @planting = Planting.find params[:planting_id] if params[:planting_id]
   end
 end
