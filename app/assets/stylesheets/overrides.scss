@@ -10,9 +10,9 @@ body {
 
 .navbar-brand {
   .site-name {
-    font-family: 'Modak', cursive;
+    font-family: "Modak", cursive;
     font-size: 3em;
-    margin: .3em;
+    margin: 0.3em;
   }
 
   img {
@@ -45,7 +45,6 @@ body {
 .homepage-blurb .site-name {
   font-size: 5em;
 }
-
 
 .ellipsis {
   overflow: hidden;
@@ -82,9 +81,8 @@ h3 {
   font-size: 120%;
 }
 
-
 section {
-  margin: .5em 0 0;
+  margin: 0.5em 0 0;
   padding: 0 0 1em;
 
   h2 {
@@ -92,7 +90,7 @@ section {
     box-shadow: 1px 1px 1px 1px darken($beige, 20%);
     color: $white;
     font-weight: normal;
-    padding: .2em;
+    padding: 0.2em;
 
     a {
       color: $white;
@@ -117,7 +115,7 @@ section {
   .card {
     background: $white;
     border-radius: 5%;
-    margin: .5em .5em .5em 0;
+    margin: 0.5em 0.5em 0.5em 0;
     width: 200px;
 
     .img-card {
@@ -232,7 +230,6 @@ ul.associations {
 
 // footer
 footer {
-
   #footer1,
   #footer2,
   #footer3 {
@@ -370,7 +367,7 @@ ul.thumbnail-buttons {
   }
 
   .info {
-    padding: .5em;
+    padding: 0.5em;
     text-align: center;
   }
 }
@@ -386,7 +383,7 @@ ul.thumbnail-buttons {
   display: inline-block;
   height: 30px;
   line-height: 30px;
-  margin: .2em;
+  margin: 0.2em;
   padding: 0 25px;
 
   a {
@@ -411,14 +408,14 @@ ul.thumbnail-buttons {
 .progress-fade::before {
   background: $beige;
   bottom: 0;
-  content: '';
+  content: "";
   display: block;
   left: 0;
-  opacity: .7;
+  opacity: 0.7;
   position: absolute;
   right: 0;
   top: 0;
-  transition: background .3s linear;
+  transition: background 0.3s linear;
 }
 
 .progress-fade:hover::before {
