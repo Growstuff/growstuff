@@ -11,21 +11,22 @@ class Growstuff::OauthSignupAction
   # variable
   #
   def find_or_create_from_authorization(auth)
-    member ||= Member.kept.where(email: auth.info.email).first_or_create do |m|
-      m.email = auth.info.email
-      m.password = Devise.friendly_token[0, 20]
+    member ||=
+      Member.kept.where(email: auth.info.email).first_or_create do |m|
+        m.email = auth.info.email
+        m.password = Devise.friendly_token[0, 20]
 
-      # First, try the nickname or friendly generate from the email
-      m.login_name = auth.info.nickname || auth.info.email.split("@").first.gsub(/[^A-Za-z]+/, '_').underscore
+        # First, try the nickname or friendly generate from the email
+        m.login_name = auth.info.nickname || auth.info.email.split('@').first.gsub(/[^A-Za-z]+/, '_').underscore
 
-      # Do we have a collision with an existing account? Generate a 20 character long random name
-      # so the user can update it later
-      m.login_name = Devise.friendly_token[0, 20] if Member.where(login_name: m.login_name).any?
-      m.preferred_avatar_uri = auth.info.image # assuming the user model has an image
-      m.skip_confirmation!
+        # Do we have a collision with an existing account? Generate a 20 character long random name
+        # so the user can update it later
+        m.login_name = Devise.friendly_token[0, 20] if Member.where(login_name: m.login_name).any?
+        m.preferred_avatar_uri = auth.info.image # assuming the user model has an image
+        m.skip_confirmation!
 
-      @member_created = true
-    end
+        @member_created = true
+      end
 
     member.save!
 
@@ -41,18 +42,9 @@ class Growstuff::OauthSignupAction
   def establish_authentication(auth, member)
     name = determine_name(auth)
 
-    member.authentications
-      .create_with(
-        name:   name,
-        token:  auth['credentials']['token'],
-        secret: auth['credentials']['secret']
-      )
-      .find_or_create_by(
-        provider:  auth['provider'],
-        uid:       auth['uid'],
-        name:      name,
-        member_id: member.id
-      )
+    member.authentications.create_with(
+      name: name, token: auth['credentials']['token'], secret: auth['credentials']['secret']
+    ).find_or_create_by(provider: auth['provider'], uid: auth['uid'], name: name, member_id: member.id)
   end
 
   def member_created?

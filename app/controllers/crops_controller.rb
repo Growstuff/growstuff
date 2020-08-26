@@ -3,18 +3,16 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index hierarchy search show)
+  before_action :authenticate_member!, except: %i[index hierarchy search show]
   load_and_authorize_resource id_param: :slug
-  skip_authorize_resource only: %i(hierarchy search)
+  skip_authorize_resource only: %i[hierarchy search]
   respond_to :html, :json, :rss, :csv, :svg
   responders :flash
 
   def index
     @sort = params[:sort]
-    @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
-                              limit:    100,
-                              page:     params[:page],
-                              load:     false)
+    @crops =
+      Crop.search('*', boost_by: %i[plantings_count harvests_count], limit: 100, page: params[:page], load: false)
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
@@ -27,14 +25,15 @@ class CropsController < ApplicationController
 
   def wrangle
     @approval_status = params[:approval_status]
-    @crops = case @approval_status
-             when "pending"
-               Crop.pending_approval
-             when "rejected"
-               Crop.rejected
-             else
-               Crop.recent
-             end.paginate(page: params[:page])
+    @crops =
+      case @approval_status
+      when 'pending'
+        Crop.pending_approval
+      when 'rejected'
+        Crop.rejected
+      else
+        Crop.recent
+      end.paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
     respond_with @crops
@@ -54,10 +53,8 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
 
-    @crops = CropSearchService.search(@term,
-                                      page:           params[:page],
-                                      per_page:       Crop.per_page,
-                                      current_member: current_member)
+    @crops =
+      CropSearchService.search(@term, page: params[:page], per_page: Crop.per_page, current_member: current_member)
     respond_with @crops
   end
 
@@ -68,8 +65,9 @@ class CropsController < ApplicationController
         @companions = @crop.companions.approved
       end
       format.svg do
-        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
-        send_data(icon_data, type: "image/svg+xml", disposition: "inline")
+        icon_data =
+          @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
+        send_data(icon_data, type: 'image/svg+xml', disposition: 'inline')
       end
       format.json do
         render json: @crop.to_json(crop_json_fields)
@@ -97,7 +95,7 @@ class CropsController < ApplicationController
       @crop.creator = current_member
     else
       @crop.requester = current_member
-      @crop.approval_status = "pending"
+      @crop.approval_status = 'pending'
     end
 
     notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
@@ -107,17 +105,17 @@ class CropsController < ApplicationController
 
   def update
     if can?(:wrangle, @crop)
-      @crop.approval_status = 'rejected' if params.fetch("reject", false)
-      @crop.approval_status = 'approved' if params.fetch("approve", false)
+      @crop.approval_status = 'rejected' if params.fetch('reject', false)
+      @crop.approval_status = 'approved' if params.fetch('approve', false)
     end
 
-    @crop.creator = current_member if @crop.approval_status == "pending"
+    @crop.creator = current_member if @crop.approval_status == 'pending'
 
     if @crop.update(crop_params)
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      if @crop.approval_status_changed?(from: "pending", to: "approved")
+      if @crop.approval_status_changed?(from: 'pending', to: 'approved')
         notifier.deliver_now!
         @crop.update_openfarm_data!
       end
@@ -139,16 +137,20 @@ class CropsController < ApplicationController
 
   def notifier
     case @crop.approval_status
-    when "approved"
+    when 'approved'
       NotifierMailer.crop_request_approved(@crop.requester, @crop)
-    when "rejected"
+    when 'rejected'
       NotifierMailer.crop_request_rejected(@crop.requester, @crop)
     end
   end
 
   def save_crop_names
-    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
-    ScientificName.create!(names_params(:sci_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
+    AlternateName.create!(
+      names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } }
+    )
+    ScientificName.create!(
+      names_params(:sci_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } }
+    )
   end
 
   def notify_wranglers
@@ -178,11 +180,14 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(
-      :name, :en_wikipedia_url,
-      :parent_id, :perennial,
-      :request_notes, :reason_for_rejection,
+      :name,
+      :en_wikipedia_url,
+      :parent_id,
+      :perennial,
+      :request_notes,
+      :reason_for_rejection,
       :rejection_notes,
-      scientific_names_attributes: %i(scientific_name _destroy id)
+      scientific_names_attributes: %i[scientific_name _destroy id]
     )
   end
 
@@ -197,12 +202,9 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings:        {
-          include: {
-            owner: { only: %i(id login_name location latitude longitude) }
-          }
-        },
-        scientific_names: { only: [:name] }, alternate_names:  { only: [:name] }
+        plantings: { include: { owner: { only: %i[id login_name location latitude longitude] } } },
+        scientific_names: { only: [:name] },
+        alternate_names: { only: [:name] }
       }
     }
   end

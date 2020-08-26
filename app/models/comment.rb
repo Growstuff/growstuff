@@ -8,15 +8,15 @@ class Comment < ApplicationRecord
 
   after_create do
     recipient = post.author.id
-    sender    = author.id
+    sender = author.id
     # don't send notifications to yourself
     if recipient != sender
       Notification.create(
         recipient_id: recipient,
-        sender_id:    sender,
-        subject:      "#{author} commented on #{post.subject}",
-        body:         body,
-        post_id:      post.id
+        sender_id: sender,
+        subject: "#{author} commented on #{post.subject}",
+        body: body,
+        post_id: post.id
       )
     end
   end

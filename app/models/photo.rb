@@ -5,7 +5,7 @@ class Photo < ApplicationRecord
   include Ownable
   include SearchPhotos
 
-  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
+  PHOTO_CAPABLE = %w[Garden Planting Harvest Seed Post Crop].freeze
 
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
 
@@ -22,15 +22,14 @@ class Photo < ApplicationRecord
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
     has_many type.downcase.pluralize.to_s.to_sym,
-             through:     :photo_associations,
-             source:      :photographable,
-             source_type: type
+             through: :photo_associations, source: :photographable, source_type: type
   end
 
   scope :by_crop, ->(crop) { joins(:photo_associations).where(photo_associations: { crop: crop }) }
-  scope :by_model, lambda { |model_name|
-    joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
-  }
+  scope :by_model,
+        lambda { |model_name|
+          joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
+        }
 
   delegate :login_name, :slug, to: :owner, prefix: true
 
@@ -42,13 +41,13 @@ class Photo < ApplicationRecord
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
     {
-      title:         calculate_title(info),
-      license_name:  license.name,
-      license_url:   license.url,
+      title: calculate_title(info),
+      license_name: license.name,
+      license_url: license.url,
       thumbnail_url: FlickRaw.url_q(info),
-      fullsize_url:  FlickRaw.url_z(info),
-      link_url:      FlickRaw.url_photopage(info),
-      date_taken:    info.dates.taken
+      fullsize_url: FlickRaw.url_z(info),
+      link_url: FlickRaw.url_photopage(info),
+      date_taken: info.dates.taken
     }
   end
 
@@ -63,7 +62,8 @@ class Photo < ApplicationRecord
   def calculate_title(info)
     if id && title # already has a title saved
       title
-    elsif info.title # use title from flickr
+    elsif info.title
+      # use title from flickr
       info.title
     else
       'untitled'
