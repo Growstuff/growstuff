@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "crops/index" do
+describe "crops/index.html.haml" do
   before do
     controller.stub(:current_user) { nil }
     page = 1

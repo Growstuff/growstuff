@@ -61,3 +61,5 @@ GROWSTUFF_FACEBOOK_SECRET=""
 # set this flag to "true".
 GROWSTUFF_ELASTICSEARCH="true"
 GROWSTUFF_EMAIL='noreply@dev.growstuff.org'
+ELASTIC_SEARCH_VERSION="7.5.1-amd64"
+
