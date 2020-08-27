@@ -298,7 +298,7 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jsonapi-swagger (0.8.0)
-    jwt (2.2.1)
+    jwt (2.2.2)
     kgio (2.11.3)
     kramdown (2.3.0)
       rexml
@@ -358,7 +358,7 @@ GEM
     omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-facebook (6.0.0)
+    omniauth-facebook (7.0.0)
       omniauth-oauth2 (~> 1.2)
     omniauth-flickr (0.0.20)
       multi_json (~> 1.12)
