@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "plantings/index" do
+describe "plantings/index.html.haml" do
   let(:member) { FactoryBot.create(:member)                 }
   let(:garden) { FactoryBot.create(:garden, owner: member)  }
   let(:tomato) { FactoryBot.create(:tomato, name: 'tomato') }

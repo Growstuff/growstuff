@@ -2,7 +2,7 @@
   border-radius: 12px;
   height: 200px;
   margin: 1em;
-  padding: .25em;
+  padding: 0.25em;
 
   div {
     display: inline-block;
@@ -11,11 +11,10 @@
   }
 }
 
-.member-thumbnail div~div {
+.member-thumbnail div ~ div {
   padding-left: 1em;
   width: 15em;
 }
-
 
 .member-chip {
   background-color: lighten($green, 30%);
@@ -35,7 +34,7 @@
 }
 
 .location-not-set {
-  background-image: image-url('location-not-set.en.png');
+  background-image: image-url("location-not-set.en.png");
   background-position: center;
   background-repeat: no-repeat;
   height: 250px;

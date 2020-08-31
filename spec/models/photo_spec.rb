@@ -54,7 +54,7 @@ describe Photo do
 
         # Check the relationship from the photo
         it { expect(photo.photo_associations.count).to eq 1 }
-        it { expect(photo.photo_associations.map(&:crop)).to eq [ crop ] }
+        it { expect(photo.photo_associations.map(&:crop)).to eq [crop] }
         it { expect(photo.crops.count).to eq 1 }
         it { expect(photo.crops).to eq [crop] }
       end
@@ -247,7 +247,7 @@ describe Photo do
       it "finds just one" do
         expect(described_class.search.count).to eq 1
       end
-      it "finds the matching photo"  do
+      it "finds the matching photo" do
         expect(described_class.search).to include photo
       end
 

@@ -26,7 +26,7 @@ describe CommentsController do
 
       it { is_expected.to be_successful }
       it { is_expected.to render_template("comments/index") }
-      it { expect(response.content_type).to eq("application/rss+xml") }
+      it { expect(response.content_type).to eq("application/rss+xml; charset=utf-8") }
       it { expect(assigns(:comments)).to eq([last_comment, first_comment]) }
     end
   end

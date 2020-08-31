@@ -1,0 +1,20 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  contributors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install ruby version specified in .ruby-version
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install gem bundle
+        run: |
+          gem install bundler
+          bundle install
+      - name: Check contributors
+        run: |
+          bundle exec script/check_contributors_md.rb
