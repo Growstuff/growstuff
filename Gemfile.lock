@@ -303,7 +303,7 @@ GEM
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
-    leaflet-rails (1.6.0)
+    leaflet-rails (1.7.0)
       rails (>= 4.2.0)
     letter_opener (1.7.0)
       launchy (~> 2.2)
