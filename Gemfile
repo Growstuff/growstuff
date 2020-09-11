@@ -2,7 +2,8 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.5'
+# Match ruby version in .ruby-version
+ruby File.read('.ruby-version')
 
 gem 'rails', '6.0.3.2'
 
