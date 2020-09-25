@@ -384,7 +384,7 @@ GEM
     public_suffix (4.0.5)
     puma (4.3.6)
       nio4r (~> 2.0)
-    query_diet (0.6.2)
+    query_diet (0.7.0)
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
