@@ -382,7 +382,7 @@ GEM
       moneta (~> 1.0.0)
       rate_throttle_client (~> 0.1.0)
     popper_js (1.16.0)
-    public_suffix (4.0.5)
+    public_suffix (4.0.6)
     puma (5.0.2)
       nio4r (~> 2.0)
     query_diet (0.7.0)
@@ -582,7 +582,7 @@ GEM
       kgio (~> 2.6)
       raindrops (~> 0.7)
     uniform_notifier (1.13.0)
-    validate_url (1.0.11)
+    validate_url (1.0.13)
       activemodel (>= 3.0.0)
       public_suffix
     warden (1.2.9)
