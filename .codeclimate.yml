@@ -1,7 +1,7 @@
 engines:
   rubocop:
     enabled: true
-    channel: "rubocop-0-89"
+    channel: "rubocop-0-91"
   scss-lint:
     enabled: true
   shellcheck:
