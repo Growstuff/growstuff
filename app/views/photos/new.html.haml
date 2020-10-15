@@ -38,6 +38,8 @@
     .col-md-12= will_paginate @photos
 - else
   .alert
-    You must
-    = link_to "connect your account to Flickr", '/members/auth/flickr'
-    to add photos.
+    %p You must connect your account to Flickr to add photos.
+
+    = link_to '/members/auth/flickr', class: :btn do
+      = icon 'fab', 'flickr'
+      connect to Flickr
