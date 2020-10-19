@@ -213,7 +213,7 @@ GEM
       faraday (~> 1.0)
     ffi (1.13.1)
     flickraw (0.9.10)
-    font-awesome-sass (5.13.0)
+    font-awesome-sass (5.15.1)
       sassc (>= 1.11)
     friendly_id (5.4.0)
       activerecord (>= 4.0.0)
