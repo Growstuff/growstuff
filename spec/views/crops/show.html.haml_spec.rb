@@ -10,7 +10,7 @@ describe "crops/show" do
     @member = FactoryBot.create(:crop_wrangling_member)
     sign_in @member
     @current_member = @member
-    @harvest = FactoryBot.create :harvest, owner: @member 
+    @harvest = FactoryBot.create :harvest, owner: @member
     controller.stub(:current_user) { @member }
   end
 
