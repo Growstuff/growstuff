@@ -242,7 +242,6 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.float "longitude"
     t.decimal "area"
     t.string "area_unit"
-    t.json "layout"
     t.integer "garden_type_id"
     t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
