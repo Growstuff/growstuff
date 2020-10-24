@@ -3,8 +3,6 @@
 module Api
   module V1
     class PhotoResource < BaseResource
-      immutable
-
       has_one :owner, class_name: 'Member'
       has_many :plantings
       has_many :gardens

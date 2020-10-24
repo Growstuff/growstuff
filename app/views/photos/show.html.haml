@@ -11,22 +11,20 @@
   %li.breadcrumb-item= link_to 'Photos', photos_path
   %li.breadcrumb-item.active= link_to @photo, @photo
 
+= react_component("Photo", { id: @photo.id, title: @photo.title, canEdit: can?(:edit, @photo) }) 
+
 .row{id: "photo-#{@photo.id}"}
   .col-md-9
     %section.photo
-      %h2.text-center.ellipsis
-        = photo_icon
-        = @photo.title
-
       %p.text-center
         = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-responsive shadow-sm')
 
 
+  .col-md-3
     - if @crops.size.positive?
       .index-cards
         - @crops.each do |crop|
           = render 'crops/thumbnail', crop: crop
-  .col-md-3
     %p
       = render 'photos/actions', photo: @photo
       = link_to @photo.link_url, class: 'btn btn-info' do

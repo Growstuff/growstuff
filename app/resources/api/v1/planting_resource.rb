@@ -11,14 +11,14 @@ module Api
       has_many :photos
       has_many :harvests
 
-      attribute :slug
       attribute :planted_at
       attribute :finished
       attribute :finished_at
       attribute :quantity
       attribute :description
-      attribute :sunniness
-      attribute :planted_from
+      attribute :slug
+      attributes :sunniness, :planted_from
+      attributes :active?, :finished?
 
       # Predictions
       attribute :expected_lifespan
@@ -26,27 +26,50 @@ module Api
       attribute :first_harvest_date
       attribute :last_harvest_date
 
+      # crops
+      attributes :crop_name, :crop_perennial, :crop_slug
+      attribute :owner_login_name
       attributes :longitude, :latitude, :location
 
-      filter :slug
-      filter :crop
-      filter :planted_from
-      filter :garden
-      filter :owner
-      filter :finished
-
+      # calculated attributes
       attribute :percentage_grown
       def percentage_grown
-        @model.percentage_grown
+        @model.percentage_grown.to_i
       end
-
-      attribute :crop_name
-      attribute :crop_slug
 
       attribute :thumbnail
       def thumbnail
         @model.default_photo&.thumbnail_url
       end
+
+      filter :crop
+      filter :crop_id
+      filter :finished
+      filter :garden
+      filter :garden_id
+      filter :owner
+      filter :owner_id
+      filter :planted_from
+      filter :slug
+      filter :active, apply: lambda { |records, value, _options|
+        if value
+          records.active
+        else
+          records.not.active
+        end
+      }
+
+      filter :interesting, apply: lambda { |records, value, _options|
+        if value
+          records.interesting
+        else
+          records
+        end
+      }
+
+      filter :perennial, apply: lambda { |records, value, _options|
+        records.joins(:crop).where(crops: { perennial: value })
+      }
     end
   end
 end

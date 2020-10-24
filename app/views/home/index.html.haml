@@ -5,7 +5,6 @@
   .row
     .col-lg-8.col-md-12
       %h1.display-4= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
-
       %p= render 'stats', cached: true
     .col
       %p

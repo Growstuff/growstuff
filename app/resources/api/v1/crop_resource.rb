@@ -6,6 +6,7 @@ module Api
       immutable
 
       filter :approval_status, default: 'approved'
+      filter :perennial
 
       has_many :plantings
       has_many :seeds
@@ -13,15 +14,25 @@ module Api
 
       has_many :photos
 
+      attributes :name, :default_scientific_name, :slug
+      attributes :en_wikipedia_url
+      attributes :perennial, :median_lifespan, :median_days_to_first_harvest, :median_days_to_last_harvest
+      attributes :created_at, :updated_at
+
       has_one :parent, class_name: 'Crop'
 
-      attribute :name
-      attribute :en_wikipedia_url
+      attribute :thumbnail
+      def thumbnail
+        @model.default_photo&.thumbnail_url
+      end
 
-      attribute :perennial
-      attribute :median_lifespan
-      attribute :median_days_to_first_harvest
-      attribute :median_days_to_last_harvest
+      filter :interesting, apply: lambda { |records, value, _options|
+        value ? records.interesting : records
+      }
+
+      filter :random, apply: lambda { |records, value, _options|
+        value ? records.shuffle : records
+      }
     end
   end
 end

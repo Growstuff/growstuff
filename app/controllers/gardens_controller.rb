@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class GardensController < DataController
   def index
     @owner = Member.find_by(slug: params[:member_slug])
@@ -21,6 +19,10 @@ class GardensController < DataController
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
     respond_with(@garden)
+  end
+
+  def layout
+    @garden = Garden.find_by(slug: params[:garden_id])
   end
 
   def new

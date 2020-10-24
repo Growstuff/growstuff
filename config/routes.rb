@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
+    get 'layout' => 'gardens#layout'
   end
 
   resources :plantings, concerns: :has_photos, param: :slug do

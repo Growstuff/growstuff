@@ -119,6 +119,10 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
+# ReactJS on rails
+gem 'react-rails'
+gem 'webpacker'
+
 gem 'loofah', '>= 2.2.1'
 gem 'rack-protection', '>= 2.0.1'
 
@@ -135,7 +139,6 @@ group :production do
   gem 'dalli'
   gem 'memcachier'
   gem 'rails_12factor' # supresses heroku plugin injection
-
   gem 'scout_apm' # monitoring
 end
 
@@ -148,20 +151,14 @@ end
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
   gem 'byebug'                  # debugging
-  gem 'capybara'                # integration tests
-  gem 'capybara-email'          # integration tests for email
-  gem 'capybara-screenshot'     # for test debugging
-  gem 'database_cleaner'
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'webrat'                  # provides HTML matchers for view tests
 
   gem 'dotenv-rails'
 
@@ -175,12 +172,18 @@ group :development, :test do
 end
 
 group :test do
+  gem 'capybara'                # integration tests
+  gem 'capybara-email'          # integration tests for email
+  gem 'capybara-screenshot'     # for test debugging
   gem 'codeclimate-test-reporter', require: false
+  gem 'database_cleaner'
   gem 'percy-capybara'
   gem 'rails-controller-testing'
+  gem 'rspec-rails'             # unit testing framework
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'webdrivers'
+  gem 'webrat'                  # provides HTML matchers for view tests
 end
 
 group :travis do
