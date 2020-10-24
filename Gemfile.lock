@@ -115,7 +115,7 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
-    capybara-screenshot (1.0.24)
+    capybara-screenshot (1.0.25)
       capybara (>= 1.0, < 4)
       launchy
     carrierwave (2.1.0)
