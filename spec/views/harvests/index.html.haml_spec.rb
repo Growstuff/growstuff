@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "harvests/index" do
+describe "harvests/index.html.haml" do
   before do
     controller.stub(:current_user) { nil }
     @member = FactoryBot.create(:member)

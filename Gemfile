@@ -2,9 +2,10 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.5'
+# Match ruby version in .ruby-version
+ruby File.read('.ruby-version')
 
-gem 'rails', '5.2.4.3'
+gem 'rails', '6.0.3.2'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -38,7 +39,7 @@ gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
-gem 'active_median', '0.1.4' # needs postgresql update https://github.com/Growstuff/growstuff/issues/1757
+gem 'active_median', '0.2.0'
 gem 'active_record_union'
 
 gem 'flickraw'
@@ -48,7 +49,6 @@ gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
-gem 'figaro'                       # for handling config via ENV variables
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
@@ -113,7 +113,7 @@ gem 'rake', '>= 10.0.0'
 gem "responders"
 
 # allows soft delete. Used for members.
-gem 'discard', '~> 1.0'
+gem 'discard', '>= 1.2'
 
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
@@ -160,6 +160,8 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
 
+  gem 'dotenv-rails'
+
   # cli utils
   gem 'coveralls', require: false # coverage analysis
   gem 'haml-i18n-extractor', require: false
@@ -175,7 +177,7 @@ group :test do
   gem 'capybara-screenshot'     # for test debugging
   gem 'codeclimate-test-reporter', require: false
   gem 'database_cleaner'
-  gem 'percy-capybara', '~> 4.0.0'
+  gem 'percy-capybara'
   gem 'rails-controller-testing'
   gem 'rspec-rails'             # unit testing framework
   gem 'selenium-webdriver'
