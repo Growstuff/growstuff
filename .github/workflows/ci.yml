@@ -98,7 +98,7 @@ jobs:
       - name: Prepare database for testing
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
-          DEVISE_SECRET_KEY: anything
+          DEVISE_SECRET_KEY: secret
           RAILS_ENV: test
         run: |
           bundle exec rails db:prepare
