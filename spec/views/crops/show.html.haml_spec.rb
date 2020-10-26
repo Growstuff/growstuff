@@ -2,7 +2,8 @@
 
 require 'rails_helper'
 
-describe "crops/show" do
+describe "crops/show", :js do
+
   before do
     @crop = FactoryBot.create(:maize)
     @posts = []
@@ -44,4 +45,3 @@ describe "crops/show" do
     expect(rendered).to have_content "Harvested for"
   end
 end
-
