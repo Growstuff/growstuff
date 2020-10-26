@@ -18,3 +18,84 @@ jobs:
       - name: Check contributors
         run: |
           bundle exec script/check_contributors_md.rb
+  rspec:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres
+        env:
+          ##
+          # The Postgres service fails its docker health check unless you
+          # specify these environment variables
+          #
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: growstuff_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v2
+
+      ##
+      # Cache Yarn modules
+      #
+      # See https://github.com/actions/cache/blob/master/examples.md#node---yarn for details
+      #
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Setup yarn cache
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install required OS packages
+        run: |
+          sudo apt-get -y install libpq-dev google-chrome-stable
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+
+      - name: Install Ruby (version given by .ruby-version) and Bundler
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install required JS packages
+        run: |
+          yarn install
+
+      - name: Setup CodeClimate Reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+
+      - name: Prepare database for testing
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
+          DEVISE_SECRET_KEY: anything
+          RAILS_ENV: test
+        run: |
+          bundle exec rails db:prepare
+
+      - name: Run rspec (report results to Percy.io and CodeClimate)
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
+          DEVISE_SECRET_KEY: secret
+          APP_DOMAIN_NAME: localhost:3000
+          APP_PROTOCOL: http
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: bundle exec rspec spec &&  ./cc-test-reporter after-build
