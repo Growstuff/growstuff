@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "crops/show", :js do
+describe "crops/show" do
 
   before do
     @crop = FactoryBot.create(:maize)
@@ -15,32 +15,35 @@ describe "crops/show", :js do
     controller.stub(:current_user) { @member }
   end
 
-  it "hides sunniness block iff no sunniness" do
+  it "hides sunniness block if no sunniness" do
     render
     expect(rendered).not_to have_content "Sunniness"
+  end
 
+  it "has sunniness block if sunny planting" do
     FactoryBot.create(:sunny_planting, crop: @crop)
-    assign(:crop, @crop)
     render
     expect(rendered).to have_content "Sunniness"
   end
 
-  it "hides planted from block iff no planted_from" do
+  it "hides planted from block if no planted_from" do
     render
     expect(rendered).not_to have_content "Planted from"
+  end
 
+  it "has planted from block if seed planting" do
     FactoryBot.create(:seed_planting, crop: @crop)
-    assign(:crop, @crop)
     render
     expect(rendered).to have_content "Planted from"
   end
 
-  it "hides harvesting block iff no harvests" do
+  it "hides harvested block if no harvests" do
     render
     expect(rendered).not_to have_content "Harvested for"
+  end 
 
+  it "has harvested block if harvest" do
     @crop.harvests << @harvest
-    assign(:crop, @crop)
     render
     expect(rendered).to have_content "Harvested for"
   end
