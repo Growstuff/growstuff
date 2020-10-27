@@ -3,7 +3,8 @@
 # tasks to run at deploy time, usually after 'rake db:migrate'
 
 # Permanent tasks
-rake assets:precompile
+rails db:migrate
+rails assets:precompile
 
 # When adding tasks, do so in chronological order, and note the date
 # when it was added.  This will help us know which ones have been run

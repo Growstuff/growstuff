@@ -1,9 +1,6 @@
 sudo: required
 language: ruby
 dist: bionic
-services:
-  - postgresql
-  - xvfb
 branches:
   only:
     - mainline
@@ -13,37 +10,9 @@ cache:
   yarn: true
   directories:
     - tmp/cache/assets/test/sprockets
-addons:
-  postgresql: "9.4" # Matches production
-  code_climate:
-    repo_token:
-      secure: "PfhLGBKRgNqhKuYCJsK+VPhdAzcgWFGeeOyxC/eS8gtlvIISVdgyZE+r30uIei0DFI6zEiN62eW4d+xtT4j7/e2ZcAcx7U52mza/SnQNuu3nCGQDJB8VOvV5NbnwXfi8vfr4e889Mt7k3ocd2c4gqB4UtRqrzhygj7HN+B/GfEk="
 env:
   global:
     - secure: "Z5TpM2jEX4UCvNePnk/LwltQX48U2u9BRc+Iypr1x9QW2o228QJhPIOH39a8RMUrepGnkQIq9q3ZRUn98RfrJz1yThtlNFL3NmzdQ57gKgjGwfpa0e4Dwj/ZJqV2D84tDGjvdVYLP7zzaYZxQcwk/cgNpzKf/jq97HLNP7CYuf4="
-    - ELASTIC_SEARCH_VERSION="7.5.1-amd64"
-    - COVERAGE=true
-    - GROWSTUFF_EMAIL="noreply@test.growstuff.org"g
-    - GROWSTUFF_SITE_NAME="Growstuff (travis)"
-    - RAILS_SECRET_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx']
-    - RAILS_ENV=test
-before_install:
-  - sudo apt clean
-  - sudo apt update
-  - sudo apt install dpkg
-  - ./script/install_elasticsearch.sh
-  - sudo apt install google-chrome-stable
-  - ./script/install_linters.sh
-  - ./script/check_elasticsearch.sh
-script:
-  - bundle exec rails db:create db:migrate
-  - bundle exec rails assets:precompile
-  - bundle exec rails search:reindex
-  - bundle exec rspec spec -fd
-after_script:
-  - >
-    gem install codeclimate-test-reporter
-    codeclimate-test-reporter
 before_deploy:
   - bundle exec script/heroku_maintenance.rb on
 deploy:
@@ -56,7 +25,6 @@ deploy:
     dev: growstuff-staging
     mainline: growstuff-prod
   run:
-    - "rake db:migrate"
     - "script/deploy-tasks.sh"
     - restart
 after_deploy:
