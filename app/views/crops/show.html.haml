@@ -34,7 +34,7 @@
       = cute_icon
       = render 'crops/photos', crop: @crop
 
-    - if @crop.plantings.any?
+    - if @crop.plantings.any? or @crop.harvests.any?
       %section.charts
         .row
           - if @crop.sunniness.any?
