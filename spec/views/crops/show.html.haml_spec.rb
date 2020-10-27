@@ -40,7 +40,7 @@ describe "crops/show" do
   it "hides harvested block if no harvests" do
     render
     expect(rendered).not_to have_content "Harvested for"
-  end 
+  end
 
   it "has harvested block if harvest" do
     @crop.harvests << @harvest
