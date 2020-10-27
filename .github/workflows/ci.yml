@@ -99,6 +99,7 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
           DEVISE_SECRET_KEY: secret
+          RAILS_SECRET_TOKEN: supersecret
           RAILS_ENV: test
         run: |
           bundle exec rails db:prepare
@@ -107,6 +108,7 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
           DEVISE_SECRET_KEY: secret
+          RAILS_SECRET_TOKEN: supersecret
           APP_DOMAIN_NAME: localhost:3000
           APP_PROTOCOL: http
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
