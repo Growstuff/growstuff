@@ -357,7 +357,7 @@ GEM
     omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-facebook (7.0.0)
+    omniauth-facebook (8.0.0)
       omniauth-oauth2 (~> 1.2)
     omniauth-flickr (0.0.20)
       multi_json (~> 1.12)
