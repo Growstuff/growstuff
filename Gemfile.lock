@@ -207,8 +207,9 @@ GEM
       railties (>= 5.0.0)
     faker (2.14.0)
       i18n (>= 1.6, < 2)
-    faraday (1.0.1)
+    faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
+      ruby2_keywords
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     ffi (1.13.1)
@@ -513,6 +514,7 @@ GEM
     ruby-units (2.3.1)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
+    ruby2_keywords (0.0.2)
     ruby_parser (3.14.2)
       sexp_processor (~> 4.9)
     rubyzip (2.3.0)
