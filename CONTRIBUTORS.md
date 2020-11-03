@@ -91,6 +91,7 @@ submit the change with your pull request.
 - Taylor William / [bestest-mensch](https://github.com/bestest-mensch)
 - André Aubin / [lambda2](https://github.com/lambda2)
 - Martina Simicic / [simicic](https://github.com/simicic)
+- Rowan Crawford / [wombleton](https://github.com/wombleton)
 
 ## Bots
 

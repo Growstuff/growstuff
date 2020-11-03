@@ -34,18 +34,21 @@
       = cute_icon
       = render 'crops/photos', crop: @crop
 
-    - if @crop.plantings.any?
+    - if @crop.plantings.any? or @crop.harvests.any?
       %section.charts
         .row
-          .col-lg-4.col-12
-            %h2 Sunniness
-            = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-          .col-lg-4.col-12
-            %h2 Planted from
-            = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
-          .col-lg-4.col-12
-            %h2 Harvested for
-            = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
+          - if @crop.sunniness.any?
+            .col-lg-4.col-12
+              %h2 Sunniness
+              = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+          - if @crop.planted_from.any?
+            .col-lg-4.col-12
+              %h2 Planted from
+              = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+          - if @crop.harvests.any?
+            .col-lg-4.col-12
+              %h2 Harvested for
+              = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     - if @crop.varieties.any?
       %section.varieties
