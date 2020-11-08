@@ -166,7 +166,6 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # cli utils
-  gem 'coveralls', require: false # coverage analysis
   gem 'haml-i18n-extractor', require: false
   gem 'haml_lint', '>= 0.25.1', require: false # Checks haml files for goodness
   gem 'i18n-tasks', require: false # adds tests for finding missing and unused translations
