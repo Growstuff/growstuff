@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 describe "crops/show" do
-
   before do
     @crop = FactoryBot.create(:maize)
     @posts = []
