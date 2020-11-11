@@ -15,6 +15,12 @@ plugins:
     enabled: true
   eslint:
     enabled: true
+  fixme:
+    enabled: true
+  haml-lint:
+    enabled: true
+  nodesecurity:
+    enabled: true
   rubocop:
     enabled: true
     channel: "rubocop-1-11"
