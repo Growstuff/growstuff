@@ -17,7 +17,7 @@ plugins:
     enabled: true
   rubocop:
     enabled: true
-    channel: "rubocop-0-91"
+    channel: "rubocop-1-11"
   scss-lint:
     enabled: true
   shellcheck:
