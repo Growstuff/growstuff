@@ -103,7 +103,13 @@ jobs:
         run: sudo apt-get install google-chrome-stable
 
       - name: Prepare database for testing
-        run: bundle exec rails db:prepare assets:precompile search:reindex
+        run: bundle exec rails db:prepare
+        
+      - name: precompile assets
+        run: bundle exec rails assets:precompile
+        
+      - name: index into elastic search
+        run: bundle exec rails search:reindex
 
       - name: Run rspec (report results to Percy.io and CodeClimate)
         run: bundle exec rspec spec -fd
