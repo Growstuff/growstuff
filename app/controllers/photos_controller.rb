@@ -94,8 +94,7 @@ class PhotosController < ApplicationController
     @flickr_auth = current_member.auth('flickr')
     return if @flickr_auth.nil?
 
-    
-    if ! current_member.flickr_auth_valid?
+    unless current_member.flickr_auth_valid?
       current_member.remove_stale_flickr_auth
       @please_reconnect_flickr = true
       return
