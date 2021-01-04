@@ -47,7 +47,6 @@ jobs:
       GROWSTUFF_EMAIL: "noreply@test.growstuff.org"
       GROWSTUFF_SITE_NAME: "Growstuff (travis)"
       RAILS_ENV: test
-      RAILS_SECRET_TOKEN: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
       RAILS_SECRET_TOKEN: supersecret
 
     steps:
