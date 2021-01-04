@@ -19,6 +19,24 @@ module MemberFlickr
       @flickr
     end
 
+    def flickr_auth_valid?
+      # no flickr token saved for this member
+      return false if flickr.nil?
+      
+      # test the token/secret we have
+      flickr.test.login # This throws exception if fails
+
+      # success!
+      true
+    rescue FlickRaw::FailedResponse, FlickRaw::OAuthClient::FailedResponse
+      # token for this user doesn't work
+      false
+    end
+
+    def remove_stale_flickr_auth
+      authentications.find_by(provider: "flickr")&.delete
+    end
+
     # Fetches a collection of photos from Flickr
     # Returns a [[page of photos], total] pair.
     # Total is needed for pagination.

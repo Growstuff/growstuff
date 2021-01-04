@@ -1,9 +1,20 @@
 - content_for :title, "New Photo"
 
 %h1 New Photo
-%h2 Choose photo for #{link_to @item, @item}
 
-- if @flickr_auth
+
+- if @please_reconnect_flickr
+  %h2 Please reconnect your flickr account
+
+  %p the token has expired or been revoked.
+
+  = link_to '/members/auth/flickr', class: "btn btn-lg" do
+    = icon 'fab', 'flickr'
+    Reconnect Flickr
+
+
+- elsif @flickr_auth
+  %h2 Choose photo for #{link_to @item, @item}
   %p
     Connected to Flickr as
     = succeed "." do
