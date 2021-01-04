@@ -106,7 +106,7 @@ jobs:
           ./cc-test-reporter before-build
 
       - name: install chrome
-        run: sudo apt install google-chrome-stable
+        run: sudo apt-get install google-chrome-stable
 
       - name: Prepare database for testing
         run: bundle exec rails db:prepare
