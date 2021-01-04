@@ -22,7 +22,7 @@ module MemberFlickr
     def flickr_auth_valid?
       # no flickr token saved for this member
       return false if flickr.nil?
-      
+
       # test the token/secret we have
       flickr.test.login # This throws exception if fails
 
