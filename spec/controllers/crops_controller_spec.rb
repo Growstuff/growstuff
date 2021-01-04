@@ -73,12 +73,12 @@ describe CropsController do
   describe 'CREATE' do
     let(:crop_params) do
       {
-        crop: {
-          name: 'aubergine',
+        crop:     {
+          name:             'aubergine',
           en_wikipedia_url: "https://en.wikipedia.org/wiki/Eggplant"
         },
-        alt_name: {"1": "egg plant", "2": "purple apple"},
-        sci_name: {"1": "fancy sci name", "2": ""}
+        alt_name: { "1": "egg plant", "2": "purple apple" },
+        sci_name: { "1": "fancy sci name", "2": "" }
       }
     end
     subject { put :create, params: crop_params }
