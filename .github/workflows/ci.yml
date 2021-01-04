@@ -45,6 +45,8 @@ jobs:
       DEVISE_SECRET_KEY: secret
       ELASTIC_SEARCH_VERSION: "7.5.1-amd64"
       GROWSTUFF_EMAIL: "noreply@test.growstuff.org"
+      GROWSTUFF_FLICKR_KEY: secretkey"
+      GROWSTUFF_FLICKR_SECRET: secretsecret
       GROWSTUFF_SITE_NAME: "Growstuff (travis)"
       RAILS_ENV: test
       RAILS_SECRET_TOKEN: supersecret
