@@ -92,8 +92,16 @@ class PhotosController < ApplicationController
 
   def retrieve_from_flickr
     @flickr_auth = current_member.auth('flickr')
+    return if @flickr_auth.nil?
+
+    
+    if ! current_member.flickr_auth_valid?
+      current_member.remove_stale_flickr_auth
+      @please_reconnect_flickr = true
+      return
+    end
+
     @current_set = params[:set]
-    return unless @flickr_auth
 
     page = params[:page] || 1
 
