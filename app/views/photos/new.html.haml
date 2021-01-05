@@ -1,10 +1,10 @@
 - content_for :title, "New Photo"
 
 %h1 New Photo
-
+%h2 Choose photo for #{link_to @item, @item}
 
 - if @please_reconnect_flickr
-  %h2 Please reconnect your flickr account
+  %h2.alert Please reconnect your flickr account
 
   %p the token has expired or been revoked.
 
@@ -14,7 +14,6 @@
 
 
 - elsif @flickr_auth
-  %h2 Choose photo for #{link_to @item, @item}
   %p
     Connected to Flickr as
     = succeed "." do
@@ -48,9 +47,9 @@
   .row.pagination
     .col-md-12= will_paginate @photos
 - else
-  .alert
-    %p You must connect your account to Flickr to add photos.
+  %h2.alert You must connect your account to Flickr to add photos.
 
+  %p
     = link_to '/members/auth/flickr', class: :btn do
       = icon 'fab', 'flickr'
       connect to Flickr
