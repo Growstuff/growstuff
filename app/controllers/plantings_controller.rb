@@ -17,7 +17,7 @@ class PlantingsController < DataController
 
     if params[:crop_slug]
       @crop = Crop.find_by(slug: params[:crop_slug])
-      where['crop_id'] = @crop.id
+      where['crop_id'] = @crop.id unless @crop.nil?
     end
 
     @plantings = Planting.search(
