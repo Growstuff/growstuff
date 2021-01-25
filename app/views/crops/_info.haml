@@ -22,7 +22,7 @@
       - else
         Nobody is growing this yet. You could be the first!
     - if @crop.description.present?
-      %p= @crop.description
+      %p= simple_format @crop.description
   .col-md-3
     = image_tag crop_image_path(@crop),
       class: 'img-responsive shadow rounded crop-hero-photo', alt: 'photo of crop'
