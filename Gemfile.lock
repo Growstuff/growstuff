@@ -475,7 +475,7 @@ GEM
       concord (~> 0.1)
       parser (~> 2.3)
       rspec (~> 3.0)
-    rswag-api (2.3.2)
+    rswag-api (2.3.3)
       railties (>= 3.1, < 7.0)
     rswag-specs (2.3.2)
       activesupport (>= 3.1, < 7.0)
