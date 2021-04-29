@@ -1,0 +1,59 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: lockfile-only
+  ignore:
+  - dependency-name: active_median
+    versions:
+    - "< 0.2.2, >= 0.2.1.a"
+  - dependency-name: rubocop
+    versions:
+    - "< 0.63, >= 0.62.a"
+  - dependency-name: rubocop
+    versions:
+    - "< 0.64, >= 0.63.a"
+  - dependency-name: sidekiq
+    versions:
+    - 5.2.4
+  - dependency-name: oj
+    versions:
+    - 3.11.4
+  - dependency-name: listen
+    versions:
+    - 3.5.0
+  - dependency-name: rspec-rails
+    versions:
+    - 4.1.0
+    - 5.0.0
+  - dependency-name: searchkick
+    versions:
+    - 4.4.3
+  - dependency-name: rswag-api
+    versions:
+    - 2.3.3
+  - dependency-name: rswag-specs
+    versions:
+    - 2.3.3
+  - dependency-name: rswag-ui
+    versions:
+    - 2.3.3
+  - dependency-name: timecop
+    versions:
+    - 0.9.3
+  - dependency-name: puma
+    versions:
+    - 5.2.0
+  - dependency-name: capybara
+    versions:
+    - 3.35.1
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+  open-pull-requests-limit: 10
