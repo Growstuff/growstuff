@@ -269,7 +269,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    i18n-tasks (0.9.31)
+    i18n-tasks (0.9.34)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
       erubi
@@ -339,7 +339,7 @@ GEM
       rake
     mini_magick (4.11.0)
     mini_mime (1.0.2)
-    mini_portile2 (2.5.0)
+    mini_portile2 (2.5.1)
     minitest (5.14.4)
     moneta (1.0.0)
     multi_json (1.15.0)
@@ -560,7 +560,7 @@ GEM
     ssrf_filter (1.0.7)
     sysexits (1.2.0)
     temple (0.8.2)
-    terminal-table (1.8.0)
+    terminal-table (3.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     thor (1.1.0)
     thread_safe (0.3.6)
