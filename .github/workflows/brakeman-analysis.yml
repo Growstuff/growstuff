@@ -21,7 +21,7 @@ jobs:
 
     # Customize the ruby version depending on your needs
     - name: Setup Ruby
-      uses: actions/setup-ruby@v1
+      uses: actions/setup-ruby@v1.1.3
       with:
         ruby-version: '2.7'
 
