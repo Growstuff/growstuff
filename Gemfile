@@ -59,7 +59,7 @@ gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growst
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem "comfortable_mexican_sofa", "~> 2.0.0"
+gem "comfortable_mexican_sofa", "~> 2.0.19"
 
 gem 'active_utils'
 gem 'sidekiq'
@@ -123,7 +123,7 @@ gem 'loofah', '>= 2.2.1'
 gem 'rack-protection', '>= 2.0.1'
 
 # Member to member messaging system
-gem 'mailboxer'
+gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
 gem 'faraday_middleware'
@@ -141,16 +141,16 @@ end
 
 group :development do
   gem 'better_errors'
-  gem 'letter_opener'
+  gem 'letter_opener', '>= 1.7.0'
   gem 'listen'
 end
 
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
   gem 'byebug'                  # debugging
-  gem 'capybara'                # integration tests
-  gem 'capybara-email'          # integration tests for email
-  gem 'capybara-screenshot'     # for test debugging
+  gem 'capybara'                , '>= 3.35.3' # integration tests
+  gem 'capybara-email'          , '>= 3.0.2' # integration tests for email
+  gem 'capybara-screenshot'     , '>= 1.0.25' # for test debugging
   gem 'database_cleaner'
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
@@ -158,7 +158,7 @@ group :development, :test do
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
-  gem 'rswag-specs'
+  gem 'rswag-specs', '>= 2.4.0'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'webrat'                  # provides HTML matchers for view tests
