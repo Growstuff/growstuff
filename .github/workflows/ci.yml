@@ -89,7 +89,7 @@ jobs:
           sudo apt-get -y install libpq-dev google-chrome-stable
 
       - name: Install NodeJS
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@v2.3.2
         with:
           node-version: '12'
 
