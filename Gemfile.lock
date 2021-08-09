@@ -220,7 +220,7 @@ GEM
     faraday-excon (1.1.0)
     faraday-httpclient (1.0.1)
     faraday-net_http (1.0.1)
-    faraday-net_http_persistent (1.1.0)
+    faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
@@ -520,7 +520,7 @@ GEM
     ruby-units (2.3.2)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
-    ruby2_keywords (0.0.4)
+    ruby2_keywords (0.0.5)
     ruby_parser (3.14.2)
       sexp_processor (~> 4.9)
     rubyzip (2.3.0)
@@ -541,7 +541,7 @@ GEM
       tilt
     scout_apm (4.0.4)
       parser
-    searchkick (4.4.4)
+    searchkick (4.5.2)
       activemodel (>= 5)
       elasticsearch (>= 6)
       hashie
