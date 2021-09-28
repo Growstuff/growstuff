@@ -13,22 +13,22 @@ gem "sprockets", "<4"
 
 gem 'bundler', '>=1.1.5'
 
-gem 'coffee-rails'
+gem 'coffee-rails', '>= 5.0.0'
 gem 'haml'
-gem 'sass-rails'
+gem 'sass-rails', '>= 6.0.0'
 
 # API data
-gem 'jsonapi-resources'
+gem 'jsonapi-resources', '>= 0.10.5'
 gem 'jsonapi-swagger'
-gem 'rswag-api'
-gem 'rswag-ui'
+gem 'rswag-api', '>= 2.4.0'
+gem 'rswag-ui', '>= 2.4.0'
 
 # CSS framework
-gem "bootstrap", ">= 4.3.1"
+gem "bootstrap", ">= 4.6.0"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
-gem 'material_icons'
+gem 'material_icons', '>= 2.2.1'
 
 # icons
 gem 'font-awesome-sass'
@@ -43,23 +43,23 @@ gem 'active_median', '0.2.0'
 gem 'active_record_union'
 
 gem 'flickraw'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-gem 'js-routes' # provides access to Rails routes in Javascript
+gem 'jquery-rails', '>= 4.4.0'
+gem 'jquery-ui-rails', '>= 6.0.1'
+gem 'js-routes' , '>= 1.4.14' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
-gem 'leaflet-rails'
+gem 'leaflet-rails', '>= 1.7.0'
 gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
 gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growstuff/growstuff/pull/1539
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem "comfortable_mexican_sofa", "~> 2.0.0"
+gem "comfortable_mexican_sofa", "~> 2.0.19"
 
 gem 'active_utils'
 gem 'sidekiq'
@@ -72,7 +72,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
 
 # user signup/login/etc
-gem 'devise'
+gem 'devise', '>= 4.8.0'
 
 # nicely formatted URLs
 gem 'friendly_id'
@@ -87,10 +87,10 @@ gem 'gravatar-ultimate'
 gem 'geocoder'
 
 # For easy calendar selection
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', '>= 1.9.0.1'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.2.0"
+gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
@@ -110,7 +110,7 @@ gem "hashie", ">= 3.5.3"
 gem 'rake', '>= 10.0.0'
 
 # locale based flash notices for controllers
-gem "responders"
+gem "responders", ">= 3.0.1"
 
 # allows soft delete. Used for members.
 gem 'discard', '>= 1.2'
@@ -119,11 +119,11 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
-gem 'loofah', '>= 2.2.1'
+gem 'loofah', '>= 2.9.1'
 gem 'rack-protection', '>= 2.0.1'
 
 # Member to member messaging system
-gem 'mailboxer'
+gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
 gem 'faraday_middleware'
@@ -148,27 +148,27 @@ end
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
   gem 'byebug'                  # debugging
-  gem 'capybara'                # integration tests
-  gem 'capybara-email'          # integration tests for email
-  gem 'capybara-screenshot'     # for test debugging
+  gem 'capybara'                , '>= 3.35.3' # integration tests
+  gem 'capybara-email'          , '>= 3.0.2' # integration tests for email
+  gem 'capybara-screenshot'     , '>= 1.0.25' # for test debugging
   gem 'database_cleaner'
-  gem 'factory_bot_rails'       # for creating test data
+  gem 'factory_bot_rails'       , '>= 6.2.0' # for creating test data
   gem 'faker'
-  gem 'haml-rails'              # HTML templating language
+  gem 'haml-rails'              , '>= 2.0.1' # HTML templating language
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails'             # unit testing framework
-  gem 'rswag-specs'
+  gem 'rspec-rails'             , '>= 5.0.1' # unit testing framework
+  gem 'rswag-specs', '>= 2.4.0'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'webrat'                  # provides HTML matchers for view tests
+  gem 'webrat'                  , '>= 0.7.3' # provides HTML matchers for view tests
 
-  gem 'dotenv-rails'
+  gem 'dotenv-rails', '>= 2.7.6'
 
   # cli utils
   gem 'haml-i18n-extractor', require: false
   gem 'haml_lint', '>= 0.25.1', require: false # Checks haml files for goodness
-  gem 'i18n-tasks', require: false # adds tests for finding missing and unused translations
+  gem 'i18n-tasks', '>= 0.9.34', require: false # adds tests for finding missing and unused translations
   gem 'rspectre', require: false # finds unused code in specs
   gem 'rubocop', require: false
 end
@@ -176,10 +176,10 @@ end
 group :test do
   gem 'codeclimate-test-reporter', require: false
   gem 'percy-capybara'
-  gem 'rails-controller-testing'
+  gem 'rails-controller-testing', '>= 1.0.5'
   gem 'selenium-webdriver'
   gem 'timecop'
-  gem 'webdrivers'
+  gem 'webdrivers', '>= 4.6.0'
 end
 
 group :travis do
