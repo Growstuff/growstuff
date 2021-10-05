@@ -92,7 +92,6 @@ submit the change with your pull request.
 - André Aubin / [lambda2](https://github.com/lambda2)
 - Martina Simicic / [simicic](https://github.com/simicic)
 - Rowan Crawford / [wombleton](https://github.com/wombleton)
-- Le-jun - [lejun](https://github.com/le-jun)
 
 ## Bots
 
