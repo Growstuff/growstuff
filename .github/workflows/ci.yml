@@ -76,7 +76,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Setup yarn cache
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -89,7 +89,7 @@ jobs:
           sudo apt-get -y install libpq-dev google-chrome-stable
 
       - name: Install NodeJS
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.4.1
         with:
           node-version: '12'
 
