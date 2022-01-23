@@ -62,7 +62,7 @@ gem 'unicorn'                      # http server
 gem "comfortable_mexican_sofa", "~> 2.0.19"
 
 gem 'active_utils'
-gem 'sidekiq'
+gem 'sidekiq', '>= 6.4.0'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
