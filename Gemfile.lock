@@ -395,7 +395,7 @@ GEM
       rate_throttle_client (~> 0.1.0)
     popper_js (1.16.0)
     public_suffix (4.0.6)
-    puma (5.5.0)
+    puma (5.6.0)
       nio4r (~> 2.0)
     query_diet (0.7.0)
     racc (1.5.2)
