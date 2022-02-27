@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.3.1"
+gem "bootstrap", ">= 4.6.0"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
@@ -90,7 +90,7 @@ gem 'geocoder'
 gem 'bootstrap-datepicker-rails'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.2.0"
+gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
@@ -119,7 +119,7 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
-gem 'loofah', '>= 2.2.1'
+gem 'loofah', '>= 2.12.0'
 gem 'rack-protection', '>= 2.0.1'
 
 # Member to member messaging system
