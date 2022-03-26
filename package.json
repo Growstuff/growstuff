@@ -4,7 +4,7 @@
   "description": "Growstuff Linters",
   "main": "index.js",
   "dependencies": {
-    "mdbootstrap": "^4.20.0
+    "mdbootstrap": "^4.20.0"
   },
   "engines": {
     "node": ">=6.0.0",
