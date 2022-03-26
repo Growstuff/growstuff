@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '6.0.4.1'
+gem 'rails', '~> 6.0.4.1'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -55,7 +55,7 @@ gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 gem 'leaflet-rails', '>= 1.7.0'
 gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
-gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growstuff/growstuff/pull/1539
+gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
