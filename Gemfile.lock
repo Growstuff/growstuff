@@ -716,7 +716,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-   ruby 2.7.0p0
+   ruby 2.7.2p137
 
 BUNDLED WITH
    1.17.3
