@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@percy/agent": "^0.28.7",
-    "mdbootstrap": "^4.19.2"
+    "mdbootstrap": "^4.20.0"
   },
   "engines": {
     "node": ">=6.0.0",
