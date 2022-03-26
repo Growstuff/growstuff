@@ -1172,10 +1172,20 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-mdbootstrap@^4.19.2:
+mdbootstrap@^4.20.0:
   version "4.20.0"
   resolved "https://registry.yarnpkg.com/mdbootstrap/-/mdbootstrap-4.20.0.tgz#3f37f4747888cb8da32ab2bb3166c69448630f59"
   integrity sha512-eIxaYsvHct2BKqkJWphh6j7nFQXHh9NjbbN7a+dctfrVsKaydNW5XpKIxmq2tDSb9+XYGm9hK7hMTlHgeV6wdw==
+
+media-typer@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
+  integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
+
+merge-descriptors@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
+  integrity sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=
 
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
