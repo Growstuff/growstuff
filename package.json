@@ -4,7 +4,6 @@
   "description": "Growstuff Linters",
   "main": "index.js",
   "dependencies": {
-    "@percy/agent": "^0.28.7",
     "mdbootstrap": "^4.19.2"
   },
   "engines": {
@@ -12,6 +11,7 @@
     "yarn": ">=0.25.2"
   },
   "devDependencies": {
+    "@percy/cli": "^1.0.0-beta.76",
     "coffeelint": "^2.0.7",
     "csslint": "^1.0.5",
     "eslint": "^4.14.0",
