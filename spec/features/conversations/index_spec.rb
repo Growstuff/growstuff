@@ -18,7 +18,7 @@ describe "Conversations", :js do
       click_link 'Inbox'
     end
     it { expect(page).to have_content 'something i want to say' }
-    it { Percy.snapshot(page, name: 'conversations#index') }
+    it { page.percy_snapshot(page, name: 'conversations#index') }
 
     describe 'deleting' do
       before do
