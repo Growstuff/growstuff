@@ -102,7 +102,7 @@ rest of the garden.
     describe 'home' do
       it 'loads homepage' do
         visit root_path
-        Percy.snapshot(page, name: "#{prefix}/homepage")
+        page.percy_snapshot(page, name: "#{prefix}/homepage")
       end
     end
 
@@ -122,31 +122,31 @@ rest of the garden.
 
         visit crop_path(tomato)
         expect(page).to have_text 'tomato'
-        Percy.snapshot(page, name: "#{prefix}/crops#show")
+        page.percy_snapshot(page, name: "#{prefix}/crops#show")
       end
       it 'loads crops#index' do
         visit crops_path
-        Percy.snapshot(page, name: "#{prefix}/crops#index")
+        page.percy_snapshot(page, name: "#{prefix}/crops#index")
       end
     end
 
     describe 'plantings' do
       it 'loads plantings#index' do
         visit plantings_path
-        Percy.snapshot(page, name: "#{prefix}/plantings#index")
+        page.percy_snapshot(page, name: "#{prefix}/plantings#index")
       end
 
       it 'load another member plantings#show' do
         planting = FactoryBot.create :planting, crop: tomato, owner: someone_else, garden: someone_else.gardens.first
         visit planting_path(planting)
-        Percy.snapshot(page, name: "#{prefix}/plantings#show")
+        page.percy_snapshot(page, name: "#{prefix}/plantings#show")
       end
     end
 
     describe 'gardens' do
       it 'loads gardens#index' do
         visit gardens_path
-        Percy.snapshot(page, name: "#{prefix}/gardens#index")
+        page.percy_snapshot(page, name: "#{prefix}/gardens#index")
       end
 
       it 'gardens#show' do
@@ -161,14 +161,14 @@ rest of the garden.
         tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
         tomato_photo.plantings << tomato_planting
         visit garden_path(garden)
-        Percy.snapshot(page, name: "#{prefix}/gardens#show")
+        page.percy_snapshot(page, name: "#{prefix}/gardens#show")
       end
     end
 
     describe 'members' do
       it 'loads members#index' do
         visit members_path
-        Percy.snapshot(page, name: "#{prefix}/members#index")
+        page.percy_snapshot(page, name: "#{prefix}/members#index")
       end
 
       it 'loads another members#show' do
@@ -178,7 +178,7 @@ rest of the garden.
         FactoryBot.create :harvest, owner: someone_else, created_at: 1.day.ago, crop: tomato
 
         visit member_path(someone_else)
-        Percy.snapshot(page, name: "#{prefix}/members#show")
+        page.percy_snapshot(page, name: "#{prefix}/members#show")
       end
     end
 
@@ -187,7 +187,7 @@ rest of the garden.
         FactoryBot.create :comment, post: post
         FactoryBot.create :comment, post: post
         visit post_path(post)
-        Percy.snapshot(page, name: "#{prefix}/posts#show")
+        page.percy_snapshot(page, name: "#{prefix}/posts#show")
       end
       it 'loads posts#index' do
         Member.all.limit(5).each do |member|
@@ -197,7 +197,7 @@ rest of the garden.
           FactoryBot.create_list :comment, rand(1..5), post: post
         end
         visit posts_path
-        Percy.snapshot(page, name: "#{prefix}/posts#index")
+        page.percy_snapshot(page, name: "#{prefix}/posts#index")
       end
     end
 
@@ -205,7 +205,7 @@ rest of the garden.
       it 'loads photos#show' do
         tomato_photo.plantings << FactoryBot.create(:planting, owner: member, crop: tomato)
         visit photo_path(tomato_photo)
-        Percy.snapshot(page, name: "#{prefix}/photos#show")
+        page.percy_snapshot(page, name: "#{prefix}/photos#show")
       end
     end
   end
@@ -217,22 +217,22 @@ rest of the garden.
     it 'loads sign in page' do
       visit crops_path # some random page
       click_link 'Sign in'
-      Percy.snapshot(page, name: "sign-in")
+      page.percy_snapshot(page, name: "sign-in")
     end
 
     it 'loads sign up page' do
       visit crops_path # some random page
       click_link 'Sign up'
-      Percy.snapshot(page, name: "sign-up")
+      page.percy_snapshot(page, name: "sign-up")
     end
 
     it 'loads forgot password' do
       visit new_member_password_path
-      Percy.snapshot(page, name: "forgot-password")
+      page.percy_snapshot(page, name: "forgot-password")
     end
     it 'loads new confirmation' do
       visit new_member_confirmation_path
-      Percy.snapshot(page, name: "new-confimation")
+      page.percy_snapshot(page, name: "new-confimation")
     end
   end
 
@@ -244,55 +244,55 @@ rest of the garden.
     it 'load my plantings#show' do
       planting = FactoryBot.create :planting, crop: tomato, owner: member, garden: member.gardens.first
       visit planting_path(planting)
-      Percy.snapshot(page, name: "#{prefix}/self/plantings#show")
+      page.percy_snapshot(page, name: "#{prefix}/self/plantings#show")
     end
 
     it 'load my members#show' do
       visit member_path(member)
-      Percy.snapshot(page, name: "#{prefix}/self/members#show")
+      page.percy_snapshot(page, name: "#{prefix}/self/members#show")
     end
 
     it 'load my gardens#show' do
       garden = FactoryBot.create :garden, name: 'paradise', owner: member
       visit garden_path(garden)
-      Percy.snapshot(page, name: "#{prefix}/self/gardens#show")
+      page.percy_snapshot(page, name: "#{prefix}/self/gardens#show")
     end
 
     describe '#new' do
       it 'crops#new' do
         visit new_crop_path
-        Percy.snapshot(page, name: "#{prefix}/crops#new")
+        page.percy_snapshot(page, name: "#{prefix}/crops#new")
       end
 
       it 'gardens#new' do
         visit new_garden_path
-        Percy.snapshot(page, name: "#{prefix}/gardens#new")
+        page.percy_snapshot(page, name: "#{prefix}/gardens#new")
       end
 
       it 'harvests#new' do
         visit new_harvest_path
-        Percy.snapshot(page, name: "#{prefix}/harvests#new")
+        page.percy_snapshot(page, name: "#{prefix}/harvests#new")
         fill_in(id: 'crop', with: 'tom')
-        Percy.snapshot(page, name: "#{prefix}/harvests#new-autosuggest")
+        page.percy_snapshot(page, name: "#{prefix}/harvests#new-autosuggest")
       end
 
       it 'plantings#new' do
         visit new_planting_path
-        Percy.snapshot(page, name: "#{prefix}/plantings#new")
+        page.percy_snapshot(page, name: "#{prefix}/plantings#new")
         fill_in(id: 'crop', with: 'tom')
-        Percy.snapshot(page, name: "#{prefix}/plantings#new-autosuggest")
+        page.percy_snapshot(page, name: "#{prefix}/plantings#new-autosuggest")
       end
 
       it 'seeds#new' do
         visit new_seed_path
-        Percy.snapshot(page, name: "#{prefix}/seeds#new")
+        page.percy_snapshot(page, name: "#{prefix}/seeds#new")
         fill_in(id: 'crop', with: 'tom')
-        Percy.snapshot(page, name: "#{prefix}/seeds#new-autosuggest")
+        page.percy_snapshot(page, name: "#{prefix}/seeds#new-autosuggest")
       end
 
       it 'posts#new' do
         visit new_post_path
-        Percy.snapshot(page, name: "#{prefix}/posts#new")
+        page.percy_snapshot(page, name: "#{prefix}/posts#new")
       end
     end
 
@@ -300,29 +300,29 @@ rest of the garden.
       it 'loads gardens#edit' do
         garden = FactoryBot.create :garden, owner: member
         visit edit_garden_path(garden)
-        Percy.snapshot(page, name: "#{prefix}/gardens#edit")
+        page.percy_snapshot(page, name: "#{prefix}/gardens#edit")
       end
 
       it 'loads harvests#edit' do
         harvest = FactoryBot.create :harvest, owner: member
         visit edit_harvest_path(harvest)
-        Percy.snapshot(page, name: "#{prefix}/harvests#edit")
+        page.percy_snapshot(page, name: "#{prefix}/harvests#edit")
       end
 
       it 'loads planting#edit' do
         planting = FactoryBot.create :planting, owner: member
         visit edit_planting_path(planting)
-        Percy.snapshot(page, name: "#{prefix}/plantings#edit")
+        page.percy_snapshot(page, name: "#{prefix}/plantings#edit")
       end
 
       it 'loads posts#edit' do
         visit edit_post_path(post)
-        Percy.snapshot(page, name: "#{prefix}/posts#edit")
+        page.percy_snapshot(page, name: "#{prefix}/posts#edit")
       end
 
       it 'comments#new' do
         visit new_comment_path(post_id: post.id)
-        Percy.snapshot(page, name: "comments#new")
+        page.percy_snapshot(page, name: "comments#new")
       end
     end
 
@@ -331,11 +331,11 @@ rest of the garden.
         member.update! login_name: 'percy'
         visit root_path
         click_on 'Crops'
-        Percy.snapshot(page, name: "#{prefix}/crops-menu")
+        page.percy_snapshot(page, name: "#{prefix}/crops-menu")
         click_on 'Community'
-        Percy.snapshot(page, name: "#{prefix}/community-menu")
+        page.percy_snapshot(page, name: "#{prefix}/community-menu")
         click_on 'percy', class: 'nav-link'
-        Percy.snapshot(page, name: "#{prefix}/member-menu")
+        page.percy_snapshot(page, name: "#{prefix}/member-menu")
       end
     end
   end
@@ -346,11 +346,11 @@ rest of the garden.
 
     it 'crop wrangling page' do
       visit wrangle_crops_path
-      Percy.snapshot(page, name: 'crops wrangle')
+      page.percy_snapshot(page, name: 'crops wrangle')
       click_link 'Pending approval'
-      Percy.snapshot(page, name: 'crops pending approval')
+      page.percy_snapshot(page, name: 'crops pending approval')
       click_link 'candy'
-      Percy.snapshot(page, name: 'editing pending crop')
+      page.percy_snapshot(page, name: 'editing pending crop')
     end
   end
 
@@ -358,36 +358,36 @@ rest of the garden.
     include_context 'signed in admin'
     before { visit admin_path }
     it 'admin page' do
-      Percy.snapshot(page, name: 'Admin')
+      page.percy_snapshot(page, name: 'Admin')
     end
     it 'Roles' do
       click_link 'Roles'
-      Percy.snapshot(page, name: 'Admin Roles')
+      page.percy_snapshot(page, name: 'Admin Roles')
     end
     it 'CMS' do
       click_link 'CMS'
-      Percy.snapshot(page, name: 'CMS')
+      page.percy_snapshot(page, name: 'CMS')
     end
     it 'Garden Types' do
       click_link 'Garden Types'
-      Percy.snapshot(page, name: 'Admin Garden type')
+      page.percy_snapshot(page, name: 'Admin Garden type')
     end
     it 'Alternate names' do
       click_link 'Alternate names'
-      Percy.snapshot(page, name: 'Admin Alternate names')
+      page.percy_snapshot(page, name: 'Admin Alternate names')
     end
     it 'Scientific names' do
       click_link 'Scientific names'
-      Percy.snapshot(page, name: 'Admin Scientific names')
+      page.percy_snapshot(page, name: 'Admin Scientific names')
     end
     it 'Members' do
       click_link 'Members'
-      Percy.snapshot(page, name: 'Admin Members')
+      page.percy_snapshot(page, name: 'Admin Members')
     end
   end
 
   it 'api docs' do
     visit '/api-docs'
-    Percy.snapshot(page, name: 'api docs')
+    page.percy_snapshot(page, name: 'api docs')
   end
 end
