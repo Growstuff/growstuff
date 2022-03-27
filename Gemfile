@@ -175,7 +175,6 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
-  gem 'percy-capybara'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
@@ -185,3 +184,5 @@ end
 group :travis do
   gem 'platform-api'
 end
+
+gem "percy-capybara", "~> 5.0.0"

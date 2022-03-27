@@ -33,7 +33,7 @@ describe "Alternate names", js: true do
       # expect(page.status_code).to equal 200
       expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
       fill_in 'Name', with: "alternative aubergine"
-      Percy.snapshot(page, name: 'Crop wrangler adding alternate name')
+      page.percy_snapshot(page, name: 'Crop wrangler adding alternate name')
       click_on "Save"
       # expect(page.status_code).to equal 200
       expect(page).to have_content "alternative aubergine"
@@ -77,7 +77,7 @@ describe "Alternate names", js: true do
       it "Displays crop rejection message" do
         visit alternate_name_path(pending_alt_name)
         expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
-        Percy.snapshot(page, name: 'Rejecting crops')
+        page.percy_snapshot(page, name: 'Rejecting crops')
       end
     end
   end
