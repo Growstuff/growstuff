@@ -46,7 +46,7 @@ describe "show photo page" do
         before do
           garden.photos << photo
           visit photo_path(photo)
-          Percy.snapshot(page, name: 'Show photo of a garden')
+          page.percy_snapshot(page, name: 'Show photo of a garden')
         end
 
         it { expect(page).to have_link "garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden) }
