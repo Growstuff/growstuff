@@ -14,7 +14,7 @@ describe 'Commenting on a post' do
     click_button "Post comment"
     expect(page).to have_content "comment was successfully created."
     expect(page).to have_content "Posted by"
-    Percy.snapshot(page, name: 'Posting a comment')
+    page.percy_snapshot(page, name: 'Posting a comment')
   end
 
   context "editing a comment" do
