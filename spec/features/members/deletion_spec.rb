@@ -71,7 +71,7 @@ describe "member deletion" do
         visit member_path(member)
         click_link 'Edit profile'
         click_link 'Delete Account'
-        Percy.snapshot(page, name: 'Account deletion')
+        page.percy_snapshot(page, name: 'Account deletion')
       end
     end
 

@@ -15,7 +15,7 @@ describe "new photo page" do
           click_link('Add photo')
         end
         expect(page).to have_text planting.crop.name
-        Percy.snapshot(page, name: 'Add photo to planting')
+        page.percy_snapshot(page, name: 'Add photo to planting')
       end
     end
 

@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '6.0.3.2'
+gem 'rails', '~> 6.1.0'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -52,14 +52,14 @@ gem 'csv_shaper'                   # CSV export
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
-gem 'leaflet-rails'
+gem 'leaflet-rails', '>= 1.7.0'
 gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
-gem 'pg', '< 1.0.0'                # Upstream bug, see https://github.com/Growstuff/growstuff/pull/1539
+gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem "comfortable_mexican_sofa", "~> 2.0.0"
+gem "comfortable_mexican_sofa", "~> 2.0.19"
 
 gem 'active_utils'
 gem 'sidekiq'
@@ -123,7 +123,7 @@ gem 'loofah', '>= 2.2.1'
 gem 'rack-protection', '>= 2.0.1'
 
 # Member to member messaging system
-gem 'mailboxer'
+gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
 gem 'faraday_middleware'
@@ -175,7 +175,6 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
-  gem 'percy-capybara'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
@@ -185,3 +184,5 @@ end
 group :travis do
   gem 'platform-api'
 end
+
+gem "percy-capybara", "~> 5.0.0"
