@@ -273,7 +273,7 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
-    haml_lint (0.37.1)
+    haml_lint (0.40.0)
       haml (>= 4.0, < 5.3)
       parallel (~> 1.10)
       rainbow
@@ -404,7 +404,7 @@ GEM
       omniauth-oauth (~> 1.1)
       rack
     orm_adapter (0.5.0)
-    parallel (1.20.1)
+    parallel (1.22.1)
     parser (3.1.1.0)
       ast (~> 2.4.1)
     percy-capybara (5.0.0)
@@ -529,8 +529,8 @@ GEM
       rubocop-ast (>= 0.6.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (1.4.1)
-      parser (>= 2.7.1.5)
+    rubocop-ast (1.16.0)
+      parser (>= 3.1.1.0)
     rubocop-rails (2.9.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
