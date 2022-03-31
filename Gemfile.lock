@@ -563,7 +563,7 @@ GEM
       tilt
     scout_apm (5.1.1)
       parser
-    searchkick (4.6.1)
+    searchkick (4.6.3)
       activemodel (>= 5)
       elasticsearch (>= 6, < 7.14)
       hashie
