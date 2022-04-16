@@ -340,8 +340,8 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jsonapi-swagger (0.8.1)
-    jwt (2.2.2)
-    kgio (2.11.3)
+    jwt (2.3.0)
+    kgio (2.11.4)
     kramdown (2.3.2)
       rexml
     launchy (2.5.0)
