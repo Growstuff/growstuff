@@ -39,7 +39,7 @@ class CreateCms < ActiveRecord::Migration[4.2]
       t.integer :target_page_id
       t.string  :label, null: false
       t.string  :slug
-      t.string  :full_path,       null: false
+      t.string  :full_path, null: false
       t.text    :content_cache
       t.integer :position,        null: false, default: 0
       t.integer :children_count,  null: false, default: 0
@@ -52,7 +52,7 @@ class CreateCms < ActiveRecord::Migration[4.2]
 
     # -- Page Blocks --------------------------------------------------------
     create_table :comfy_cms_blocks do |t|
-      t.string     :identifier,  null: false
+      t.string     :identifier, null: false
       t.text       :content
       t.references :blockable, polymorphic: true
       t.timestamps null: true
