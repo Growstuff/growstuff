@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 6.0.4.1'
+gem 'rails', '~> 6.1.0'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -175,7 +175,6 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
-  gem 'percy-capybara'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
@@ -185,3 +184,5 @@ end
 group :travis do
   gem 'platform-api'
 end
+
+gem "percy-capybara", "~> 5.0.0"

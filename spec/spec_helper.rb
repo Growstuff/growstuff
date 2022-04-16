@@ -17,7 +17,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'simplecov'
-require 'percy'
+require 'percy/capybara'
 
 SimpleCov.start
 
