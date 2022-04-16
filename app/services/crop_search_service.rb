@@ -21,10 +21,10 @@ class CropSearchService
 
   def self.random_with_photos(limit)
     body = {
-      "query": {
-        "function_score": {
-          "query":        { "query_string": { "query": 'has_photos:true' } },
-          "random_score": { "seed": DateTime.now.to_i }
+      query: {
+        function_score: {
+          query:        { query_string: { query: 'has_photos:true' } },
+          random_score: { seed: DateTime.now.to_i }
         }
       }
     }
