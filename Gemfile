@@ -59,7 +59,7 @@ gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem "comfortable_mexican_sofa", "~> 2.0.19"
+gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
 
 gem 'active_utils'
 gem 'sidekiq'

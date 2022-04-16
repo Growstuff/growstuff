@@ -1,3 +1,20 @@
+GIT
+  remote: https://github.com/restarone/comfortable-mexican-sofa.git
+  revision: 2b80ce723ce9b80bb20752c32e81870ad37a25d5
+  specs:
+    comfortable_mexican_sofa (2.0.19)
+      active_link_to (>= 1.0.0)
+      comfy_bootstrap_form (>= 4.0.0)
+      haml-rails (>= 1.0.0)
+      image_processing (>= 1.2)
+      jquery-rails (>= 4.3.1)
+      kramdown (>= 1.0.0)
+      mimemagic (>= 0.3.2)
+      mini_magick (>= 4.8.0)
+      rails (>= 5.2.0)
+      rails-i18n (>= 5.0.0)
+      sassc-rails (>= 2.0.0)
+
 GEM
   remote: https://rails-assets.org/
   specs:
@@ -144,17 +161,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    comfortable_mexican_sofa (2.0.19)
-      active_link_to (>= 1.0.0)
-      comfy_bootstrap_form (>= 4.0.0)
-      haml-rails (>= 1.0.0)
-      jquery-rails (>= 4.3.1)
-      kramdown (>= 1.0.0)
-      mimemagic (>= 0.3.2)
-      mini_magick (>= 4.8.0)
-      rails (>= 5.2.0)
-      rails-i18n (>= 5.0.0)
-      sassc-rails (>= 2.0.0)
     comfy_bootstrap_form (4.0.9)
       rails (>= 5.0.0)
     concord (0.1.5)
@@ -317,7 +323,7 @@ GEM
     jsonapi-swagger (0.8.1)
     jwt (2.2.2)
     kgio (2.11.3)
-    kramdown (2.3.1)
+    kramdown (2.3.2)
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
@@ -637,7 +643,7 @@ DEPENDENCIES
   chartkick
   codeclimate-test-reporter
   coffee-rails
-  comfortable_mexican_sofa (~> 2.0.19)
+  comfortable_mexican_sofa!
   csv_shaper
   dalli
   database_cleaner
