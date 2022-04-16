@@ -10,7 +10,6 @@ AllCops:
 Rails:
   Enabled: true
 
-# Comment to trigger deploy
 Naming/FileName:
   Exclude:
     - 'Guardfile'
