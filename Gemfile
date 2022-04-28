@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.3.1"
+gem "bootstrap", ">= 4.6.1"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
@@ -90,7 +90,7 @@ gem 'geocoder'
 gem 'bootstrap-datepicker-rails'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.2.0"
+gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
