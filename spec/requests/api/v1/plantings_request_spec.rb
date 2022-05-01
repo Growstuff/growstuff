@@ -113,4 +113,22 @@ RSpec.describe 'Plantings', type: :request do
       delete "/api/v1/plantings/#{planting.id}", params: {}, headers: headers
     end.to raise_error ActionController::RoutingError
   end
+
+  describe "by member/owner" do
+    before :each do
+      @member1 = planting.owner
+      @planting2 = create(:planting, owner: create(:owner))
+      @member2 = @planting2.owner
+    end
+
+    describe "#show" do
+      it "locates the correct member" do
+        get "/api/v1/members/#{@member1.id}/plantings"
+        expect(subject['data'][0]['id']).to eq(planting.id.to_s)
+
+        get "/api/v1/members/#{@member2.id}/plantings"
+        expect(subject['data'][0]['id']).to eq(@planting2.id.to_s)
+      end
+    end
+  end
 end
