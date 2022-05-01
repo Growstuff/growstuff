@@ -5,10 +5,10 @@ module Api
     class MemberResource < BaseResource
       immutable
 
-      has_many :gardens
-      has_many :plantings
-      has_many :harvests
-      has_many :seeds
+      has_many :gardens, foreign_key: 'owner_id'
+      has_many :plantings, foreign_key: 'owner_id'
+      has_many :harvests, foreign_key: 'owner_id'
+      has_many :seeds, foreign_key: 'owner_id'
 
       has_many :photos
 
