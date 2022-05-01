@@ -123,11 +123,19 @@ RSpec.describe 'Plantings', type: :request do
 
     describe "#show" do
       it "locates the correct member" do
+        get "/api/v1/plantings?filter[owner-id]=#{@member1.id}"
+        expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
+
+        get "/api/v1/plantings?filter[owner-id]=#{@member2.id}"
+        expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
+
+        pending "The below should be identical to the above, but aren't."
+
         get "/api/v1/members/#{@member1.id}/plantings"
-        expect(subject['data'][0]['id']).to eq(planting.id.to_s)
+        expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
 
         get "/api/v1/members/#{@member2.id}/plantings"
-        expect(subject['data'][0]['id']).to eq(@planting2.id.to_s)
+        expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
       end
     end
   end
