@@ -655,7 +655,7 @@ DEPENDENCIES
   bonsai-elasticsearch-rails
   bootstrap (>= 4.3.1)
   bootstrap-datepicker-rails
-  bootstrap_form (>= 4.2.0)
+  bootstrap_form (>= 4.5.0)
   bullet
   bundler (>= 1.1.5)
   byebug
@@ -751,4 +751,4 @@ RUBY VERSION
     ruby 3.0.4p208
 
 BUNDLED WITH
-    2.3.10
+    2.3.11

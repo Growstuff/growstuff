@@ -90,7 +90,7 @@ gem 'geocoder'
 gem 'bootstrap-datepicker-rails'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.2.0"
+gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
