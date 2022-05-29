@@ -5,11 +5,11 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
+gem 'rails', '~> 6.1.6'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
-gem "sprockets", "<4"
+gem "sprockets", ">= 3.7.2", "< 4"
 
 gem 'bundler', '>=1.1.5'
 
@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.3.1"
+gem "bootstrap", ">= 4.6.1"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
@@ -93,9 +93,9 @@ gem 'bootstrap-datepicker-rails'
 gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
-gem 'omniauth', '~> 1.3'
+gem 'omniauth', '~> 1.9', '>= 1.9.1'
 gem 'omniauth-facebook'
-gem 'omniauth-flickr', '>= 0.0.15'
+gem 'omniauth-flickr', '>= 0.0.20'
 gem 'omniauth-twitter'
 
 # Pretty charts
@@ -120,7 +120,7 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 gem 'puma'
 
 gem 'loofah', '>= 2.2.1'
-gem 'rack-protection', '>= 2.0.1'
+gem 'rack-protection', '>= 2.2.0'
 
 # Member to member messaging system
 gem 'mailboxer', '>= 0.15.1'
