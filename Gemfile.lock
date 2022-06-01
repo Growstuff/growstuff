@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/restarone/comfortable-mexican-sofa.git
-  revision: 2b80ce723ce9b80bb20752c32e81870ad37a25d5
+  revision: 456fb8507e9668128529c0302fa2e77e029c1f88
   specs:
     comfortable_mexican_sofa (2.0.19)
       active_link_to (>= 1.0.0)
@@ -342,7 +342,7 @@ GEM
     jsonapi-swagger (0.8.1)
     jwt (2.3.0)
     kgio (2.11.4)
-    kramdown (2.3.2)
+    kramdown (2.4.0)
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
@@ -552,7 +552,7 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
-    ruby_parser (3.18.1)
+    ruby_parser (3.19.1)
       sexp_processor (~> 4.16)
     rubyzip (2.3.2)
     sass (3.7.4)
@@ -581,7 +581,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sexp_processor (4.16.0)
+    sexp_processor (4.16.1)
     sidekiq (6.4.2)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
