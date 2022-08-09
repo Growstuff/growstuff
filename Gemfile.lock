@@ -582,7 +582,7 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     sexp_processor (4.16.1)
-    sidekiq (6.5.3)
+    sidekiq (6.5.4)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.5.0)
