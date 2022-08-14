@@ -421,7 +421,7 @@ GEM
       ast (~> 2.4.1)
     percy-capybara (5.0.0)
       capybara (>= 3)
-    pg (1.4.2)
+    pg (1.4.3)
     platform-api (3.3.0)
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)
