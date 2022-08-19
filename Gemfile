@@ -93,9 +93,9 @@ gem 'bootstrap-datepicker-rails'
 gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
-gem 'omniauth', '~> 1.3'
+gem 'omniauth', '~> 2.0', '>= 2.0.0'
 gem 'omniauth-facebook'
-gem 'omniauth-flickr', '>= 0.0.15'
+gem 'omniauth-flickr', '>= 0.0.20'
 gem 'omniauth-twitter'
 
 # Pretty charts
