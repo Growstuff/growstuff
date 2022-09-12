@@ -219,7 +219,7 @@ GEM
       faraday (~> 1)
       multi_json
     equalizer (0.0.11)
-    erubi (1.10.0)
+    erubi (1.11.0)
     erubis (2.7.0)
     excon (0.78.1)
     execjs (2.8.1)
@@ -346,7 +346,7 @@ GEM
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
-    leaflet-rails (1.7.0)
+    leaflet-rails (1.8.0)
       rails (>= 4.2.0)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
@@ -381,7 +381,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.16.2)
+    minitest (5.16.3)
     moneta (1.0.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
