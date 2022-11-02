@@ -11,7 +11,7 @@ gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
 gem "sprockets", "<4"
 
-gem 'bundler', '>=1.1.5'
+gem 'bundler', '>=2.0'
 
 gem 'coffee-rails'
 gem 'haml'
