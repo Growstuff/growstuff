@@ -221,7 +221,7 @@ GEM
     equalizer (0.0.11)
     erubi (1.11.0)
     erubis (2.7.0)
-    excon (0.78.1)
+    excon (0.93.1)
     execjs (2.8.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -292,11 +292,12 @@ GEM
       rubocop (>= 0.50.0)
       sysexits (~> 1.1)
     hashie (5.0.0)
-    heroics (0.1.1)
+    heroics (0.1.2)
       erubis (~> 2.0)
       excon
       moneta
       multi_json (>= 1.9.2)
+      webrick
     highline (2.0.3)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
@@ -422,7 +423,7 @@ GEM
     percy-capybara (5.0.0)
       capybara (>= 3)
     pg (1.4.3)
-    platform-api (3.3.0)
+    platform-api (3.5.0)
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)
       rate_throttle_client (~> 0.1.0)
