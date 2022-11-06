@@ -92,7 +92,7 @@ class HarvestsController < DataController
                 elsif @crop
                   "#{@crop.to_param}-"
                 end
-    "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_s(:number)}.csv"
+    "Growstuff-#{specifics}Harvests-#{Time.zone.now.to_fs(:number)}.csv"
   end
 
   def update_crop_medians
