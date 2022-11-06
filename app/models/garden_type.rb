@@ -9,6 +9,8 @@ class GardenType < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
 
+  attr_accessible :name, :slug
+
   def garden_type_slug
     name.gsub!(/[^A-Za-z]/, '')
   end
