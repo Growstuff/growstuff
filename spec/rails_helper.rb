@@ -10,10 +10,6 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Forma
 # fail if there's a significant test coverage drop
 SimpleCov.maximum_coverage_drop 1
 
-SimpleCov.start :rails do
-  add_filter 'spec/'
-end
-
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
