@@ -5,8 +5,6 @@ class Follow < ApplicationRecord
   belongs_to :followed, class_name: "Member", inverse_of: :inverse_follows
   validates :follower_id, uniqueness: { scope: :followed_id }
 
-  attr_accessible :follower_id, :followed_id
-
   after_create do
     Notification.create(
       recipient_id: followed_id,
