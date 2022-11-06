@@ -279,11 +279,10 @@ GEM
       highline
       tilt
       trollop (= 1.16.2)
-    haml-rails (2.0.1)
+    haml-rails (2.1.0)
       actionpack (>= 5.1)
       activesupport (>= 5.1)
-      haml (>= 4.0.6, < 6.0)
-      html2haml (>= 1.0.1)
+      haml (>= 4.0.6)
       railties (>= 5.1)
     haml_lint (0.42.0)
       haml (>= 4.0, < 6.1)
@@ -299,11 +298,6 @@ GEM
       multi_json (>= 1.9.2)
       webrick
     highline (2.0.3)
-    html2haml (2.2.0)
-      erubis (~> 2.7.0)
-      haml (>= 4.0, < 6)
-      nokogiri (>= 1.6.0)
-      ruby_parser (~> 3.5)
     html_tokenizer (0.0.7)
     httparty (0.18.1)
       mime-types (~> 3.0)
@@ -554,8 +548,6 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
-    ruby_parser (3.19.1)
-      sexp_processor (~> 4.16)
     rubyzip (2.3.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -583,7 +575,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sexp_processor (4.16.1)
     sidekiq (6.5.5)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
@@ -645,7 +636,7 @@ GEM
       webrick
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.4)
+    zeitwerk (2.6.5)
 
 PLATFORMS
   ruby
