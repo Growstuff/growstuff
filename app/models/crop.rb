@@ -28,6 +28,10 @@ class Crop < ApplicationRecord
   has_many :posts, through: :crop_posts, dependent: :delete_all
 
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
+  attr_accessible :name, :en_wikipedia_url, :slug, :parent_id, :plantings_count, :creator_id, :requester_id,
+                  :approval_status, :reason_for_rejection, :request_notes, :rejection_notes, :perennial,
+                  :median_lifespan, :median_days_to_first_harvest, :median_days_to_last_harvest, :openfarm_data,
+                  :harvests_count, :photo_associations_count
 
   ##
   ## Scopes
