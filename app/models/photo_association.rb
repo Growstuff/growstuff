@@ -8,8 +8,6 @@ class PhotoAssociation < ApplicationRecord
   validate :photo_and_item_have_same_owner
   validate :crop_present
 
-  attr_accessible :photo_id, :photographable_id, :photographable_type, :crop_id
-
   ##
   ## Triggers
   before_validation :set_crop
