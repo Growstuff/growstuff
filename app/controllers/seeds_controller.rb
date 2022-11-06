@@ -24,7 +24,7 @@ class SeedsController < DataController
 
     @filename = csv_filename
     @seeds = Seed.search(
-      where:    where,
+      where:,
       page:     params[:page],
       limit:    30,
       boost_by: [:created_at],

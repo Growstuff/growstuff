@@ -63,8 +63,8 @@ describe 'member' do
     it "has many likes" do
       @post1 = FactoryBot.create(:post, author: member)
       @post2 = FactoryBot.create(:post, author: member)
-      @like1 = FactoryBot.create(:like, member: member, likeable: @post1)
-      @like2 = FactoryBot.create(:like, member: member, likeable: @post2)
+      @like1 = FactoryBot.create(:like, member:, likeable: @post1)
+      @like2 = FactoryBot.create(:like, member:, likeable: @post2)
 
       expect(member.likes.length).to eq 2
     end

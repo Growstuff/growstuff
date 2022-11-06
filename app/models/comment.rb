@@ -15,7 +15,7 @@ class Comment < ApplicationRecord
         recipient_id: recipient,
         sender_id:    sender,
         subject:      "#{author} commented on #{post.subject}",
-        body:         body,
+        body:,
         post_id:      post.id
       )
     end

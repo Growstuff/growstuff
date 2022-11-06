@@ -18,31 +18,31 @@ module SearchSeeds
 
     def search_data
       {
-        slug:             slug,
+        slug:,
         finished:         finished?,
-        gmo:              gmo,
-        active:           active,
-        heirloom:         heirloom,
+        gmo:,
+        active:,
+        heirloom:,
         location:         owner.location,
-        organic:          organic,
-        quantity:         quantity,
+        organic:,
+        quantity:,
         plant_before:     plant_before&.to_fs(:ymd),
-        tradable_to:      tradable_to,
-        tradable:         tradable,
+        tradable_to:,
+        tradable:,
 
         # crop
-        crop_id:          crop_id,
+        crop_id:,
         crop_name:        crop.name,
         crop_slug:        crop.slug,
 
         # owner
-        owner_id:         owner_id,
-        owner_location:   owner_location,
-        owner_login_name: owner_login_name,
-        owner_slug:       owner_slug,
+        owner_id:,
+        owner_location:,
+        owner_login_name:,
+        owner_slug:,
 
         # planting
-        parent_planting:  parent_planting,
+        parent_planting:,
 
         # counts
         photos_count:     photos.size,
@@ -56,7 +56,7 @@ module SearchSeeds
     end
 
     def self.homepage_records(limit)
-      search('*', limit:    limit,
+      search('*', limit:,
                   where:    {
                     finished: false,
                     tradable: true

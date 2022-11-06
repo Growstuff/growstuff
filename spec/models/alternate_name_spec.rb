@@ -22,7 +22,7 @@ describe AlternateName do
   end
 
   describe 'relationships' do
-    let(:alternate_name) { FactoryBot.create :alternate_name, crop: crop, creator: member }
+    let(:alternate_name) { FactoryBot.create :alternate_name, crop:, creator: member }
     let(:crop)   { FactoryBot.create :crop   }
     let(:member) { FactoryBot.create :member }
 

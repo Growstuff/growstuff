@@ -7,7 +7,7 @@ describe "plantings/show" do
   let(:member) { FactoryBot.create(:member)                }
   let(:garden) { FactoryBot.create(:garden, owner: member) }
   let(:planting) do
-    FactoryBot.create(:planting, garden: garden, crop: crop,
+    FactoryBot.create(:planting, garden:, crop:,
                                  owner: garden.owner,
                                  planted_from: 'cutting')
   end

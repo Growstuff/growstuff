@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Seed do
   let(:owner) { FactoryBot.create :owner, login_name: 'tamateapokaiwhenua' }
-  let(:seed)  { FactoryBot.build(:seed, owner: owner)                      }
+  let(:seed)  { FactoryBot.build(:seed, owner:) }
 
   it 'saves a basic seed' do
     seed.save.should be(true)
@@ -163,8 +163,8 @@ describe Seed do
   end
 
   context 'ancestry' do
-    let(:parent_planting) { FactoryBot.create :planting                                                             }
-    let(:seed)            { FactoryBot.create :seed, parent_planting: parent_planting, owner: parent_planting.owner }
+    let(:parent_planting) { FactoryBot.create :planting }
+    let(:seed)            { FactoryBot.create :seed, parent_planting:, owner: parent_planting.owner }
 
     it "seed has a parent planting" do
       expect(seed.parent_planting).to eq(parent_planting)

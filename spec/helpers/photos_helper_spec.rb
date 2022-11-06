@@ -8,11 +8,11 @@ describe PhotosHelper do
   let(:crop_photo_flickr) { FactoryBot.create(:photo, source: 'flickr') }
 
   let(:garden) { FactoryBot.create :garden }
-  let(:planting)       { FactoryBot.create :planting, crop: crop, owner: garden.owner }
+  let(:planting)       { FactoryBot.create :planting, crop:, owner: garden.owner }
   let(:planting_photo) { FactoryBot.create(:photo, owner: garden.owner) }
-  let(:harvest)        { FactoryBot.create :harvest, crop: crop, owner: garden.owner }
+  let(:harvest)        { FactoryBot.create :harvest, crop:, owner: garden.owner }
   let(:harvest_photo)  { FactoryBot.create(:photo, owner: garden.owner) }
-  let(:seed)           { FactoryBot.create :seed, crop: crop, owner: garden.owner }
+  let(:seed)           { FactoryBot.create :seed, crop:, owner: garden.owner }
   let(:seed_photo)     { FactoryBot.create(:photo, owner: garden.owner) }
 
   describe "crops" do

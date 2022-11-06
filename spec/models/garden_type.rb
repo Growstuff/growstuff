@@ -30,7 +30,7 @@ describe GardenType do
   end
 
   describe "does not delete gardens when deleted" do
-    before { FactoryBot.create :garden, garden_type: garden_type }
+    before { FactoryBot.create :garden, garden_type: }
 
     let(:garden_type) { FactoryBot.create(:garden_type, name: "Massive Flower Pot") }
 

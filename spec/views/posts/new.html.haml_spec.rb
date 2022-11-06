@@ -6,7 +6,7 @@ describe "posts/new" do
   let(:author) { FactoryBot.create(:member) }
 
   before do
-    assign(:post, FactoryBot.create(:post, author: author))
+    assign(:post, FactoryBot.create(:post, author:))
     # assign(:forum, Forum.new)
     sign_in author
     controller.stub(:current_user) { author }
@@ -41,7 +41,7 @@ describe "posts/new" do
 
     before do
       assign(:forum, forum)
-      assign(:post, FactoryBot.create(:post, forum: forum))
+      assign(:post, FactoryBot.create(:post, forum:))
       render
     end
 

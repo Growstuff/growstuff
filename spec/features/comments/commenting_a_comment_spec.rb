@@ -18,7 +18,7 @@ describe 'Commenting on a post' do
   end
 
   context "editing a comment" do
-    let(:existing_comment) { create :comment, post: post, author: member }
+    let(:existing_comment) { create :comment, post:, author: member }
 
     before do
       visit edit_comment_path existing_comment

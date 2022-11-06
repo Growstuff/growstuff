@@ -39,7 +39,7 @@ class LikesController < ApplicationController
     {
       id:              like.likeable.id,
       like_count:      like.likeable.likes.count,
-      liked_by_member: liked_by_member,
+      liked_by_member:,
       description:     ActionController::Base.helpers.pluralize(like.likeable.likes.count, "like")
     }
   end
@@ -50,7 +50,7 @@ class LikesController < ApplicationController
       format.json do
         render(json: render_json(
           like,
-          liked_by_member: liked_by_member
+          liked_by_member:
         ), status: status_code)
       end
     end

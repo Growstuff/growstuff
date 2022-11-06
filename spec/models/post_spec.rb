@@ -19,22 +19,22 @@ describe Post do
 
   it "has many comments" do
     post = FactoryBot.create(:post, author: member)
-    FactoryBot.create(:comment, post: post)
-    FactoryBot.create(:comment, post: post)
+    FactoryBot.create(:comment, post:)
+    FactoryBot.create(:comment, post:)
     post.comments.size.should == 2
   end
 
   it "supports counting comments" do
     post = FactoryBot.create(:post, author: member)
-    FactoryBot.create(:comment, post: post)
-    FactoryBot.create(:comment, post: post)
+    FactoryBot.create(:comment, post:)
+    FactoryBot.create(:comment, post:)
     post.comment_count.should == 2
   end
 
   it "destroys comments when deleted" do
     post = FactoryBot.create(:post, author: member)
-    FactoryBot.create(:comment, post: post)
-    FactoryBot.create(:comment, post: post)
+    FactoryBot.create(:comment, post:)
+    FactoryBot.create(:comment, post:)
     post.comments.size.should eq(2)
     all = Comment.count
     post.destroy
@@ -73,7 +73,7 @@ describe Post do
     end
 
     it "sets recent activity to comment time" do
-      comment = FactoryBot.create(:comment, post:       post,
+      comment = FactoryBot.create(:comment, post:,
                                             created_at: 1.hour.ago)
       post.recent_activity.to_i.should eq comment.created_at.to_i
     end
@@ -88,7 +88,7 @@ describe Post do
     it "new comment on old post is recently active" do
       # now comment on an older post
       post2 = FactoryBot.create(:post, created_at: 1.minute.ago)
-      FactoryBot.create(:comment, post: post, created_at: 1.second.ago)
+      FactoryBot.create(:comment, post:, created_at: 1.second.ago)
       described_class.recently_active.first.should eq post
       described_class.recently_active.second.should eq post2
     end

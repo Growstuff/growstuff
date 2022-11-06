@@ -71,7 +71,7 @@ class ConversationsController < ApplicationController
     @conversation = Mailboxer::Conversation.find_by(id: params[:id])
     return unless @conversation.nil? || !@conversation.is_participant?(current_member)
 
-    redirect_to conversations_path(box: box)
+    redirect_to conversations_path(box:)
     nil
   end
 end

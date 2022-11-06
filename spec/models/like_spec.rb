@@ -9,7 +9,7 @@ describe 'like' do
 
   context 'existing like' do
     before do
-      @like = Like.create(member: member, likeable: post)
+      @like = Like.create(member:, likeable: post)
     end
 
     it 'is valid' do
@@ -40,36 +40,36 @@ describe 'like' do
   end
 
   it 'does not allow duplicate likes by the same member' do
-    Like.create(member: member, likeable: post)
-    second_like = Like.new(member: member, likeable: post)
+    Like.create(member:, likeable: post)
+    second_like = Like.new(member:, likeable: post)
     expect(second_like).not_to be_valid
   end
 
   it 'destroys like if post no longer exists' do
-    like = Like.create(member: member, likeable: post)
+    like = Like.create(member:, likeable: post)
     post.destroy
     expect(Like.all).not_to include like
   end
 
   it 'destroys like if post no longer exists' do
-    like = Like.create(member: member, likeable: post)
+    like = Like.create(member:, likeable: post)
     post.destroy
     expect(Like.all).not_to include like
   end
 
   it 'destroys like if member no longer exists' do
-    like = Like.create(member: member, likeable: post)
+    like = Like.create(member:, likeable: post)
     member.destroy
     expect(Like.all).not_to include like
   end
 
   it 'liked_by_members_names' do
     expect(post.liked_by_members_names).to eq []
-    Like.create(member: member, likeable: post)
+    Like.create(member:, likeable: post)
     expect(post.liked_by_members_names).to eq [member.login_name]
 
     expect(photo.liked_by_members_names).to eq []
-    Like.create(member: member, likeable: photo)
+    Like.create(member:, likeable: photo)
     expect(photo.liked_by_members_names).to eq [member.login_name]
   end
 end

@@ -44,19 +44,19 @@ module ButtonsHelper
   end
 
   def seed_edit_button(seed, classes: "btn btn-raised btn-info")
-    edit_button(edit_seed_path(seed), classes: classes)
+    edit_button(edit_seed_path(seed), classes:)
   end
 
   def harvest_edit_button(harvest, classes: "btn btn-raised btn-info")
-    edit_button(edit_harvest_path(harvest), classes: classes)
+    edit_button(edit_harvest_path(harvest), classes:)
   end
 
   def garden_edit_button(garden, classes: "btn btn-raised btn-info")
-    edit_button(edit_garden_path(garden), classes: classes)
+    edit_button(edit_garden_path(garden), classes:)
   end
 
   def planting_edit_button(planting, classes: "btn btn-raised btn-info")
-    edit_button(edit_planting_path(planting), classes: classes)
+    edit_button(edit_planting_path(planting), classes:)
   end
 
   def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')

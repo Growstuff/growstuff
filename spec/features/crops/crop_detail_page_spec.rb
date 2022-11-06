@@ -84,7 +84,7 @@ describe "crop detail page", js: true do
   end
 
   context "seed quantity for a crop" do
-    let(:seed)   { create :seed, crop: crop, quantity: 20 }
+    let(:seed)   { create :seed, crop:, quantity: 20 }
 
     it "User not signed in" do
       visit crop_path(seed.crop)
@@ -110,14 +110,14 @@ describe "crop detail page", js: true do
     describe 'with harvest history data' do
       before do
         # 50 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         # 20 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         # 10 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         crop.update_medians
       end
 
@@ -129,7 +129,7 @@ describe "crop detail page", js: true do
 
   context 'predictions' do
     let!(:planting) do
-      FactoryBot.create(:planting, crop:        crop,
+      FactoryBot.create(:planting, crop:,
                                    planted_at:  100.days.ago,
                                    finished_at: 1.day.ago)
     end

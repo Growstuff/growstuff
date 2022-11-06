@@ -96,13 +96,13 @@ RSpec.describe 'Plantings', type: :request do
 
   it '#create' do
     expect do
-      post '/api/v1/plantings', params: { 'planting' => { 'description' => 'can i make this' } }, headers: headers
+      post '/api/v1/plantings', params: { 'planting' => { 'description' => 'can i make this' } }, headers:
     end.to raise_error ActionController::RoutingError
   end
 
   it '#update' do
     expect do
-      post "/api/v1/plantings/#{planting.id}", headers: headers, params: {
+      post "/api/v1/plantings/#{planting.id}", headers:, params: {
         'planting' => { 'description' => 'can i modify this' }
       }
     end.to raise_error ActionController::RoutingError
@@ -110,7 +110,7 @@ RSpec.describe 'Plantings', type: :request do
 
   it '#delete' do
     expect do
-      delete "/api/v1/plantings/#{planting.id}", params: {}, headers: headers
+      delete "/api/v1/plantings/#{planting.id}", params: {}, headers:
     end.to raise_error ActionController::RoutingError
   end
 

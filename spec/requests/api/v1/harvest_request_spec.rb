@@ -60,13 +60,13 @@ RSpec.describe 'Harvests', type: :request do
   end
 
   describe '#index' do
-    before { get '/api/v1/harvests', params: {}, headers: headers }
+    before { get '/api/v1/harvests', params: {}, headers: }
 
     it { expect(subject['data']).to include(harvest_encoded_as_json_api) }
   end
 
   describe '#show' do
-    before { get "/api/v1/harvests/#{harvest.id}", params: {}, headers: headers }
+    before { get "/api/v1/harvests/#{harvest.id}", params: {}, headers: }
 
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("planting" => planting_as_json_api) }
@@ -78,7 +78,7 @@ RSpec.describe 'Harvests', type: :request do
 
   it '#create' do
     expect do
-      put '/api/v1/harvests', headers: headers, params: {
+      put '/api/v1/harvests', headers:, params: {
         'harvest' => { 'description' => 'can i make this' }
       }
     end.to raise_error ActionController::RoutingError
@@ -86,7 +86,7 @@ RSpec.describe 'Harvests', type: :request do
 
   it '#update' do
     expect do
-      post "/api/v1/harvests/#{harvest.id}", headers: headers, params: {
+      post "/api/v1/harvests/#{harvest.id}", headers:, params: {
         'harvest' => { 'description' => 'can i modify this' }
       }
     end.to raise_error ActionController::RoutingError
@@ -94,7 +94,7 @@ RSpec.describe 'Harvests', type: :request do
 
   it '#delete' do
     expect do
-      delete "/api/v1/harvests/#{harvest.id}", headers: headers, params: {}
+      delete "/api/v1/harvests/#{harvest.id}", headers:, params: {}
     end.to raise_error ActionController::RoutingError
   end
 end

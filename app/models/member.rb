@@ -127,7 +127,7 @@ class Member < ApplicationRecord
   end
 
   def auth(provider)
-    authentications.find_by(provider: provider)
+    authentications.find_by(provider:)
   end
 
   def unread_count

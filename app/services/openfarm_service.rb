@@ -64,7 +64,7 @@ class OpenfarmService
       if photo.valid?
         Photo.transaction do
           photo.save
-          PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
+          PhotoAssociation.find_or_create_by! photo:, photographable: crop
         end
         Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
       else

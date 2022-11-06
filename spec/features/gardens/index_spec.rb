@@ -80,9 +80,9 @@ describe "Gardens#index", :js do
       # time to finished = 90 days
       FactoryBot.create(:harvest,
                         harvested_at: 50.days.ago,
-                        crop:         crop,
+                        crop:,
                         planting:     FactoryBot.create(:planting,
-                                                        crop:        crop,
+                                                        crop:,
                                                         planted_at:  100.days.ago,
                                                         finished_at: 10.days.ago))
       crop.plantings.each(&:update_harvest_days!)
@@ -97,9 +97,9 @@ describe "Gardens#index", :js do
     describe 'harvest still growing' do
       let!(:planting) do
         FactoryBot.create :planting,
-                          crop:       crop,
+                          crop:,
                           owner:      member,
-                          garden:     garden,
+                          garden:,
                           planted_at: Time.zone.today
       end
 
@@ -112,8 +112,8 @@ describe "Gardens#index", :js do
     describe 'harvesting now' do
       let!(:planting) do
         FactoryBot.create :planting,
-                          crop: crop,
-                          owner: member, garden: garden,
+                          crop:,
+                          owner: member, garden:,
                           planted_at: 51.days.ago
       end
 
@@ -127,8 +127,8 @@ describe "Gardens#index", :js do
     describe 'super late' do
       let!(:planting) do
         FactoryBot.create :planting,
-                          crop: crop, owner: member,
-                          garden: garden, planted_at: 260.days.ago
+                          crop:, owner: member,
+                          garden:, planted_at: 260.days.ago
       end
 
       it { expect(page).to have_text 'super late' }

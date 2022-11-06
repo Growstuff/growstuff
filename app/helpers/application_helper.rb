@@ -55,7 +55,7 @@ module ApplicationHelper
       return uri.to_s
     end
 
-    Gravatar.new(member.email).image_url(size:    size,
+    Gravatar.new(member.email).image_url(size:,
                                          default: :identicon,
                                          ssl:     true)
   end
@@ -70,11 +70,11 @@ module ApplicationHelper
     all = show_all ? '' : 1
 
     if owner.present?
-      public_send("member_#{type}_path", owner, all: all)
+      public_send("member_#{type}_path", owner, all:)
     elsif crop.present?
-      public_send("crop_#{type}_path", crop, all: all)
+      public_send("crop_#{type}_path", crop, all:)
     else
-      public_send("#{type}_path", all: all)
+      public_send("#{type}_path", all:)
     end
   end
 

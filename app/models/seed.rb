@@ -69,6 +69,6 @@ class Seed < ApplicationRecord
   end
 
   def to_s
-    I18n.t('seeds.string', crop: crop.name, owner: owner)
+    I18n.t('seeds.string', crop: crop.name, owner:)
   end
 end

@@ -32,8 +32,8 @@ module MemberNewsletter
 
       gibbon.lists.subscribe(
         id:           Rails.application.config.newsletter_list_id,
-        email:        { email: email },
-        merge_vars:   { login_name: login_name },
+        email:        { email: },
+        merge_vars:   { login_name: },
         double_optin: false # they already confirmed their email with us
       )
     end
@@ -42,7 +42,7 @@ module MemberNewsletter
       return true if Rails.env.test? && !testing
 
       gibbon.lists.unsubscribe(id:    Rails.application.config.newsletter_list_id,
-                               email: { email: email })
+                               email: { email: })
     end
   end
 end

@@ -20,7 +20,7 @@ class HarvestsController < DataController
       where['planting_id'] = @planting.id
     end
 
-    @harvests = Harvest.search('*', where:    where,
+    @harvests = Harvest.search('*', where:,
                                     limit:    100,
                                     page:     params[:page],
                                     load:     false,

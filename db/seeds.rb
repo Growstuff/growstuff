@@ -75,8 +75,8 @@ def load_test_users
       suburb, _country, _state, latitude, longitude = row[0]
       # Using 'update_column' method instead of 'update' so that
       # it avoids accessing Geocoding service for faster processing
-      @user.gardens.first.update_columns(location: suburb, latitude: latitude, longitude: longitude)
-      @user.update_columns(location: suburb, latitude: latitude, longitude: longitude)
+      @user.gardens.first.update_columns(location: suburb, latitude:, longitude:)
+      @user.update_columns(location: suburb, latitude:, longitude:)
     end
 
     # Create a planting by the member

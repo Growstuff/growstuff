@@ -23,8 +23,8 @@ describe PhotosController, :search do
     describe '#index crop photos' do
       let!(:photo)      { FactoryBot.create :photo, :reindex, owner: member, title: 'no assocations photo' }
       let!(:crop_photo) { FactoryBot.create :photo, :reindex, owner: member, title: 'photos of planting'   }
-      let!(:planting)   { FactoryBot.create :planting, :reindex, crop: crop, owner: member                 }
-      let!(:crop)       { FactoryBot.create :crop, :reindex                                                }
+      let!(:planting)   { FactoryBot.create :planting, :reindex, crop:, owner: member }
+      let!(:crop)       { FactoryBot.create :crop, :reindex }
 
       before do
         planting.photos << crop_photo
@@ -53,7 +53,7 @@ describe PhotosController, :search do
     let(:garden)   { FactoryBot.create(:garden, owner: member)                 }
     let(:harvest)  { FactoryBot.create(:harvest, owner: member)                }
     let(:member)   { FactoryBot.create(:member)                                }
-    let!(:auth)    { FactoryBot.create(:flickr_authentication, member: member) }
+    let!(:auth)    { FactoryBot.create(:flickr_authentication, member:) }
 
     before do
       sign_in member
@@ -98,7 +98,7 @@ describe PhotosController, :search do
 
     let(:member)   { FactoryBot.create(:member)                                  }
     let(:garden)   { FactoryBot.create(:garden, owner: member)                   }
-    let(:planting) { FactoryBot.create(:planting, garden: garden, owner: member) }
+    let(:planting) { FactoryBot.create(:planting, garden:, owner: member) }
     let(:harvest)  { FactoryBot.create(:harvest, owner: member)                  }
     let(:photo)    { FactoryBot.create(:photo, owner: member)                    }
 
@@ -173,7 +173,7 @@ describe PhotosController, :search do
       before { controller.stub(:current_member) { member } }
 
       describe "creates the planting/photo link" do
-        let(:planting) { FactoryBot.create(:planting, garden: garden, owner: member) }
+        let(:planting) { FactoryBot.create(:planting, garden:, owner: member) }
         let(:photo) { FactoryBot.create(:photo, owner: member) }
         before { post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id } }
         it { expect(flash[:alert]).not_to be_present }
