@@ -16,15 +16,15 @@ class CropSearchService
     # prioritise crops the member has planted
     search_params[:boost_where] = { planters_ids: current_member.id } if current_member
 
-    Crop.search(query, search_params)
+    Crop.search(query, **search_params)
   end
 
   def self.random_with_photos(limit)
     body = {
-      "query": {
-        "function_score": {
-          "query":        { "query_string": { "query": 'has_photos:true' } },
-          "random_score": { "seed": DateTime.now.to_i }
+      query: {
+        function_score: {
+          query:        { query_string: { query: 'has_photos:true' } },
+          random_score: { seed: DateTime.now.to_i }
         }
       }
     }

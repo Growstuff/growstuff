@@ -5,8 +5,6 @@ name: Brakeman Scan
 
 # This section configures the trigger for the workflow. Feel free to customize depending on your convention
 on:
-  push:
-    branches: [ dev ]
   pull_request:
     branches: [ dev ]
 
@@ -39,6 +37,6 @@ jobs:
 
     # Upload the SARIF file generated in the previous step
     - name: Upload SARIF
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: output.sarif.json

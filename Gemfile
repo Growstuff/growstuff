@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -59,7 +59,7 @@ gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 gem 'unicorn'                      # http server
 
-gem "comfortable_mexican_sofa", "~> 2.0.19"
+gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
 
 gem 'active_utils'
 gem 'sidekiq'
@@ -90,7 +90,7 @@ gem 'geocoder'
 gem 'bootstrap-datepicker-rails'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.2.0"
+gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
