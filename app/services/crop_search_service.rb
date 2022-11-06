@@ -4,8 +4,8 @@ class CropSearchService
   # Crop.search(string)
   def self.search(query, page: 1, per_page: 12, current_member: nil)
     search_params = {
-      page:         page,
-      per_page:     per_page,
+      page:,
+      per_page:,
       fields:       %i(name^5 alternate_names scientific_names),
       match:        :word_start,
       boost_by:     [:plantings_count],
@@ -29,15 +29,15 @@ class CropSearchService
       }
     }
     Crop.search(
-      limit: limit,
+      limit:,
       load:  false,
-      body:  body
+      body:
     )
   end
 
   def self.recent(limit)
     Crop.search(
-      limit:    limit,
+      limit:,
       load:     false,
       boost_by: { created_at: { factor: 100 } } # default factor is 1
     )
