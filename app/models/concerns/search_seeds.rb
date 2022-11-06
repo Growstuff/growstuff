@@ -26,7 +26,7 @@ module SearchSeeds
         location:         owner.location,
         organic:          organic,
         quantity:         quantity,
-        plant_before:     plant_before&.to_s(:ymd),
+        plant_before:     plant_before&.to_fs(:ymd),
         tradable_to:      tradable_to,
         tradable:         tradable,
 
