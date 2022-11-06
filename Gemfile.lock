@@ -661,7 +661,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap_form (>= 4.5.0)
   bullet
-  bundler (>= 1.1.5)
+  bundler (>= 2.3.10)
   byebug
   cancancan
   capybara
@@ -752,7 +752,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-    ruby 3.0.4p208
+   ruby 3.0.4p208
 
 BUNDLED WITH
-    2.3.11
+   2.3.11
