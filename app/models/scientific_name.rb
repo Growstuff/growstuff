@@ -8,6 +8,8 @@ class ScientificName < ApplicationRecord
   after_commit :reindex
   delegate :reindex, to: :crop
 
+  attr_accessible :name, :crop_id, :creator_id
+
   def to_s
     name
   end
