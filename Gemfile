@@ -49,7 +49,7 @@ gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
-gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
+gem 'gibbon', '~> 3.4.4' # for Mailchimp newsletter subscriptions
 
 # Maps
 gem 'leaflet-rails', '>= 1.7.0'

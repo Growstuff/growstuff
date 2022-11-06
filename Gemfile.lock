@@ -262,9 +262,9 @@ GEM
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     geocoder (1.8.0)
-    gibbon (1.2.1)
-      httparty
-      multi_json (>= 1.9.0)
+    gibbon (3.4.4)
+      faraday (>= 1.0)
+      multi_json (>= 1.11.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     gravatar-ultimate (2.0.0)
@@ -367,9 +367,6 @@ GEM
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (1.0.0)
-    mime-types (3.3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0512)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -679,7 +676,7 @@ DEPENDENCIES
   font-awesome-sass
   friendly_id
   geocoder
-  gibbon (~> 1.2.0)
+  gibbon (~> 3.4.4)
   gravatar-ultimate
   haml
   haml-i18n-extractor
