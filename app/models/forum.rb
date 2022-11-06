@@ -8,6 +8,8 @@ class Forum < ApplicationRecord
 
   has_many :posts, dependent: :destroy
 
+  attr_accessible :name, :description, :owner_id, :slug
+
   def to_s
     name
   end
