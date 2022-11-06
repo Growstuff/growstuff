@@ -11,7 +11,7 @@ gem 'rails', '~> 7.0.0'
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
 gem "sprockets", "<4"
 
-gem 'bundler', '>=1.1.5'
+gem 'bundler', '>= 2.3.10'
 
 gem 'coffee-rails'
 gem 'haml'
@@ -90,7 +90,7 @@ gem 'geocoder'
 gem 'bootstrap-datepicker-rails'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.2.0"
+gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
