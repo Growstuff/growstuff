@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'member' do
+describe Member do
   context 'valid member' do
     let!(:member) { FactoryBot.create(:member, login_name: 'hinemoa') }
 
