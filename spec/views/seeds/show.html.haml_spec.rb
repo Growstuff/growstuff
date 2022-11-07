@@ -24,7 +24,7 @@ describe "seeds/show" do
 
       before do
         assign(:seed, seed)
-        # note current_member is not the owner of this seed
+        # NOTE: current_member is not the owner of this seed
         sign_in member
         controller.stub(:current_user) { member }
         render

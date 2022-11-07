@@ -8,11 +8,6 @@ class PhotosController < ApplicationController
   respond_to :html, :json
   responders :flash
 
-  def show
-    @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
-    respond_with(@photo)
-  end
-
   def index
     @photos = Photo.search(
       load:     false,
@@ -22,6 +17,11 @@ class PhotosController < ApplicationController
       limit:    Photo.per_page
     )
     respond_with(@photos)
+  end
+
+  def show
+    @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
+    respond_with(@photo)
   end
 
   def new

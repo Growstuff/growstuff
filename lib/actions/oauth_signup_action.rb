@@ -63,13 +63,11 @@ class Growstuff::OauthSignupAction
     name = ''
     case auth['provider']
     when 'twitter'
-      name = auth['info']['nickname']
+      auth['info']['nickname']
     when 'flickr', 'facebook'
-      name = auth['info']['name']
+      auth['info']['name']
     else
-      name = auth['info']['name']
+      auth['info']['name']
     end
-
-    name
   end
 end
