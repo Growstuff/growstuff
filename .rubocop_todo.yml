@@ -155,28 +155,6 @@ RSpec/AnyInstance:
     - 'spec/controllers/harvests_controller_spec.rb'
     - 'spec/controllers/photos_controller_spec.rb'
 
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnabledMethods.
-RSpec/Capybara/FeatureMethods:
-  Exclude:
-    - 'spec/features/shared_examples/crop_suggest.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_no, not_to
-RSpec/Capybara/NegationMatcher:
-  Exclude:
-    - 'spec/features/crops/crop_wrangling_button_spec.rb'
-
-# Offense count: 12
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/Capybara/SpecificFinders:
-  Exclude:
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/plantings/prediction_spec.rb'
-
 # Offense count: 15
 RSpec/Capybara/SpecificMatcher:
   Exclude:

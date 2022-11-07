@@ -207,7 +207,7 @@ describe "Planting a crop", :js, :search do
 
       # Javascript removes the finished at date when the
       # planting is marked unfinished.
-      expect(find("#planting_finished_at").value).to eq("")
+      expect(find_by_id('planting_finished_at').value).to eq("")
 
       within "form#new_planting" do
         check 'Mark as finished'
@@ -215,7 +215,7 @@ describe "Planting a crop", :js, :search do
 
       # The finished at date was cached in Javascript in
       # case the user clicks unfinished accidentally.
-      expect(find("#planting_finished_at").value).to eq("2014-08-30")
+      expect(find_by_id('planting_finished_at').value).to eq("2014-08-30")
 
       within "form#new_planting" do
         click_button "Save"

@@ -21,11 +21,11 @@ describe "Display a planting", :js do
         FactoryBot.create_list :harvest, 4, planting:, crop:, harvested_at: '18 August 2019'
       end
       before { visit planting_path(planting) }
-      it { expect(page.find("#month-1")[:class]).not_to include("badge-harvesting") }
-      it { expect(page.find("#month-2")[:class]).not_to include("badge-harvesting") }
-      it { expect(page.find("#month-5")[:class]).to include("badge-harvesting") }
-      it { expect(page.find("#month-6")[:class]).to include("badge-harvesting") }
-      it { expect(page.find("#month-8")[:class]).to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-1')[:class]).not_to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-2')[:class]).not_to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-5')[:class]).to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-6')[:class]).to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-8')[:class]).to include("badge-harvesting") }
     end
 
     describe 'nearby plantings used to predict' do
@@ -52,11 +52,11 @@ describe "Display a planting", :js do
                                             harvested_at: '18 December 2006'
       end
       before { visit planting_path(planting) }
-      it { expect(page.find("#month-1")[:class]).not_to include("badge-harvesting") }
-      it { expect(page.find("#month-2")[:class]).not_to include("badge-harvesting") }
-      it { expect(page.find("#month-5")[:class]).to include("badge-harvesting") }
-      it { expect(page.find("#month-6")[:class]).to include("badge-harvesting") }
-      it { expect(page.find("#month-8")[:class]).to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-1')[:class]).not_to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-2')[:class]).not_to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-5')[:class]).to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-6')[:class]).to include("badge-harvesting") }
+      it { expect(page.find_by_id('month-8')[:class]).to include("badge-harvesting") }
     end
   end
 end
