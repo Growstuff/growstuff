@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe "timeline", js: true do
-  let(:member) { FactoryBot.create :member }
-  let(:friend1) { FactoryBot.create :member }
-  let(:friend2) { FactoryBot.create :member }
+  let(:member) { FactoryBot.create(:member) }
+  let(:friend1) { FactoryBot.create(:member) }
+  let(:friend2) { FactoryBot.create(:member) }
 
   before do
     member.followed << friend1
@@ -13,10 +13,10 @@ describe "timeline", js: true do
   end
 
   describe 'visit timeline' do
-    let!(:friend_planting) { FactoryBot.create :planting, owner: friend1, planted_at: 1.day.ago }
-    let!(:friend_harvest) { FactoryBot.create :planting, owner: friend2, planted_at: 3.years.ago }
-    let!(:finished_planting) { FactoryBot.create :finished_planting, owner: friend1 }
-    let!(:no_planted_at_planting) { FactoryBot.create :planting, owner: friend2, planted_at: nil }
+    let!(:friend_planting) { FactoryBot.create(:planting, owner: friend1, planted_at: 1.day.ago) }
+    let!(:friend_harvest) { FactoryBot.create(:planting, owner: friend2, planted_at: 3.years.ago) }
+    let!(:finished_planting) { FactoryBot.create(:finished_planting, owner: friend1) }
+    let!(:no_planted_at_planting) { FactoryBot.create(:planting, owner: friend2, planted_at: nil) }
 
     before do
       login_as(member)

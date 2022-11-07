@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 describe "signin", js: true do
-  let(:member)       { FactoryBot.create :member                             }
-  let(:recipient)    { FactoryBot.create :member                             }
-  let(:wrangler)     { FactoryBot.create :crop_wrangling_member              }
+  let(:member)       { FactoryBot.create(:member)                             }
+  let(:recipient)    { FactoryBot.create(:member)                             }
+  let(:wrangler)     { FactoryBot.create(:crop_wrangling_member)              }
 
   before do
-    crop = FactoryBot.create :tomato
+    crop = FactoryBot.create(:tomato)
     crop.reindex
   end
 
@@ -74,7 +74,7 @@ describe "signin", js: true do
   end
 
   it "after crop wrangler signs in and crops await wrangling, show alert" do
-    create :crop_request
+    create(:crop_request)
     visit crops_path # some random page
     click_link 'Sign in'
     fill_in 'Login', with: wrangler.login_name
@@ -88,7 +88,7 @@ describe "signin", js: true do
       # Ordinarily done by database_cleaner
       Member.where(login_name: 'tdawg').delete_all
 
-      create :member, login_name: 'tdawg', email: 'example.oauth.facebook@example.com'
+      create(:member, login_name: 'tdawg', email: 'example.oauth.facebook@example.com')
 
       # Start the test
       visit root_path

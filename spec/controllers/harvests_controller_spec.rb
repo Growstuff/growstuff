@@ -153,7 +153,7 @@ describe HarvestsController, :search do
       let(:harvest) { Harvest.create! valid_attributes }
 
       it "updates the requested harvest" do
-        new_crop = FactoryBot.create :crop
+        new_crop = FactoryBot.create(:crop)
         expect do
           put :update, params: { slug: harvest.to_param, harvest: { crop_id: new_crop.id } }
           harvest.reload

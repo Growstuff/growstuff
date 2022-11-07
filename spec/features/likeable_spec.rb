@@ -64,8 +64,8 @@ describe 'Likeable', :js, search: true do
     end
 
     describe 'crops#show' do
-      let(:crop) { FactoryBot.create :crop }
-      let(:planting) { FactoryBot.create :planting, owner: member, crop: }
+      let(:crop) { FactoryBot.create(:crop) }
+      let(:planting) { FactoryBot.create(:planting, owner: member, crop:) }
       let(:path) { crop_path(crop) }
 
       before { planting.photos << photo }

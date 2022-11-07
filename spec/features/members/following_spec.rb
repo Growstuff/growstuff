@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "follows", :js do
   context "when signed out" do
-    let(:member) { create :member }
+    let(:member) { create(:member) }
 
     it "follow buttons on member profile page" do
       visit member_path(member)
@@ -15,7 +15,7 @@ describe "follows", :js do
 
   context "when signed in" do
     include_context 'signed in member'
-    let(:other_member) { create :member }
+    let(:other_member) { create(:member) }
 
     it "your profile doesn't have a follow button" do
       visit member_path(member)

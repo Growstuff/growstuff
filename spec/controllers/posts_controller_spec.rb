@@ -12,8 +12,8 @@ describe PostsController do
 
   describe '#index' do
     before do
-      FactoryBot.create_list :post, 100
-      FactoryBot.create_list :post, 5, author: member
+      FactoryBot.create_list(:post, 100)
+      FactoryBot.create_list(:post, 5, author: member)
     end
 
     describe "everyone's posts" do

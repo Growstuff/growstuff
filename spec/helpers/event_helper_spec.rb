@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe EventHelper, type: :helper do
-  let(:planting) { FactoryBot.create :planting }
-  let(:harvest) { FactoryBot.create :harvest }
-  let(:seed) { FactoryBot.create :seed }
-  let(:post) { FactoryBot.create :post }
-  let(:comment) { FactoryBot.create :comment }
-  let(:photo) { FactoryBot.create :photo }
-
   subject { resolve_model(event) }
+
+  let(:planting) { FactoryBot.create(:planting) }
+  let(:harvest) { FactoryBot.create(:harvest) }
+  let(:seed) { FactoryBot.create(:seed) }
+  let(:post) { FactoryBot.create(:post) }
+  let(:comment) { FactoryBot.create(:comment) }
+  let(:photo) { FactoryBot.create(:photo) }
 
   describe 'plantings' do
     let(:event) { OpenStruct.new(id: planting.id, event_type: 'planting') }

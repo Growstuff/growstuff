@@ -174,7 +174,7 @@ describe Post do
   end
 
   it 'excludes deleted members' do
-    post = FactoryBot.create :post, author: member
+    post = FactoryBot.create(:post, author: member)
     expect(described_class.joins(:author).all).to include(post)
     member.destroy
     expect(described_class.joins(:author).all).not_to include(post)

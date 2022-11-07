@@ -4,10 +4,10 @@ require "rails_helper"
 require 'custom_matchers'
 
 describe "Planting a crop", :js, :search do
-  let!(:maize) { FactoryBot.create :maize }
-  let(:garden) { FactoryBot.create :garden, owner: member, name: 'Orchard' }
+  let!(:maize) { FactoryBot.create(:maize) }
+  let(:garden) { FactoryBot.create(:garden, owner: member, name: 'Orchard') }
   let!(:planting) do
-    FactoryBot.create :planting, garden:, owner: member, planted_at: Date.parse("2013-03-10")
+    FactoryBot.create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
   end
 
   before { Planting.reindex }

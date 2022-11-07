@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 describe PhotosHelper do
-  let(:crop) { FactoryBot.create :crop }
+  let(:crop) { FactoryBot.create(:crop) }
   let(:crop_photo_of) { FactoryBot.create(:photo, source: 'openfarm') }
   let(:crop_photo_flickr) { FactoryBot.create(:photo, source: 'flickr') }
 
-  let(:garden) { FactoryBot.create :garden }
-  let(:planting)       { FactoryBot.create :planting, crop:, owner: garden.owner }
+  let(:garden) { FactoryBot.create(:garden) }
+  let(:planting)       { FactoryBot.create(:planting, crop:, owner: garden.owner) }
   let(:planting_photo) { FactoryBot.create(:photo, owner: garden.owner) }
-  let(:harvest)        { FactoryBot.create :harvest, crop:, owner: garden.owner }
+  let(:harvest)        { FactoryBot.create(:harvest, crop:, owner: garden.owner) }
   let(:harvest_photo)  { FactoryBot.create(:photo, owner: garden.owner) }
-  let(:seed)           { FactoryBot.create :seed, crop:, owner: garden.owner }
+  let(:seed)           { FactoryBot.create(:seed, crop:, owner: garden.owner) }
   let(:seed_photo)     { FactoryBot.create(:photo, owner: garden.owner) }
 
   describe "crops" do

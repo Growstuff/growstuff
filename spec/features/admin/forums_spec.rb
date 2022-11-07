@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "forums", js: true do
   include_context 'signed in admin'
-  let(:forum) { create :forum }
+  let(:forum) { create(:forum) }
 
   describe "navigating to forum admin with js" do
     before do

@@ -76,9 +76,9 @@ describe 'Growstuff::OauthSignupAction' do
           @auth['info']['email'] = 'never.used.oauth@yahoo.com'
 
           Member.where(email: @auth['info']['email']).delete_all
-          @existing_member = create :member,             email:                @auth['info']['email'],
+          @existing_member = create(:member,             email:                @auth['info']['email'],
                                                          login_name:           'existing',
-                                                         preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+                                                         preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg')
 
           @member = @action.find_or_create_from_authorization(@auth)
           @authentication = @action.establish_authentication(@auth, @member)
@@ -120,9 +120,9 @@ describe 'Growstuff::OauthSignupAction' do
           Member.where(email: @auth['info']['email']).delete_all
           Authentication.delete_all
 
-          @existing_member = create :member, email:                @auth['info']['email'],
+          @existing_member = create(:member, email:                @auth['info']['email'],
                                              login_name:           'schrodingerscat',
-                                             preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+                                             preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg')
 
           @existing_authentication = @existing_member.authentications.create(provider:  'facebook',
                                                                              uid:       '123545',

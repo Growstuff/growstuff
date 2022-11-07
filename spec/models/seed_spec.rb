@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Seed do
-  let(:owner) { FactoryBot.create :owner, login_name: 'tamateapokaiwhenua' }
+  let(:owner) { FactoryBot.create(:owner, login_name: 'tamateapokaiwhenua') }
   let(:seed)  { FactoryBot.build(:seed, owner:) }
 
   it 'saves a basic seed' do
@@ -153,7 +153,7 @@ describe Seed do
   end
 
   context 'photos' do
-    let(:seed) { FactoryBot.create :seed }
+    let(:seed) { FactoryBot.create(:seed) }
 
     before { seed.photos << FactoryBot.create(:photo, owner: seed.owner) }
 
@@ -163,8 +163,8 @@ describe Seed do
   end
 
   context 'ancestry' do
-    let(:parent_planting) { FactoryBot.create :planting }
-    let(:seed)            { FactoryBot.create :seed, parent_planting:, owner: parent_planting.owner }
+    let(:parent_planting) { FactoryBot.create(:planting) }
+    let(:seed)            { FactoryBot.create(:seed, parent_planting:, owner: parent_planting.owner) }
 
     it "seed has a parent planting" do
       expect(seed.parent_planting).to eq(parent_planting)
@@ -200,13 +200,13 @@ describe Seed do
   end
 
   describe 'homepage', :search do
-    let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
-    let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }
-    let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
+    subject { described_class.homepage_records(100) }
+
+    let!(:tradable_seed) { FactoryBot.create(:tradable_seed, :reindex, finished: false)  }
+    let!(:finished_seed)   { FactoryBot.create(:tradable_seed, :reindex, finished: true) }
+    let!(:untradable_seed) { FactoryBot.create(:untradable_seed, :reindex)               }
 
     before { described_class.reindex }
-
-    subject { described_class.homepage_records(100) }
 
     it { expect(subject.count).to eq 1 }
     it { expect(subject.first.id).to eq tradable_seed.id.to_s }

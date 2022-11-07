@@ -298,8 +298,8 @@ describe Harvest do
   end
 
   it 'excludes deleted members' do
-    member = FactoryBot.create :member
-    harvest = FactoryBot.create :harvest, owner: member
+    member = FactoryBot.create(:member)
+    harvest = FactoryBot.create(:harvest, owner: member)
     expect(described_class.joins(:owner).all).to include(harvest)
     member.destroy
     expect(described_class.joins(:owner).all).not_to include(harvest)

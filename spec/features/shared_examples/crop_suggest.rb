@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 shared_examples "crop suggest" do |resource|
-  let!(:pea)    { create :crop, name: 'pea' }
-  let!(:pear)   { create :pear              }
-  let!(:tomato) { create :tomato            }
-  let!(:roma)   { create :roma              }
+  let!(:pea)    { create(:crop, name: 'pea') }
+  let!(:pear)   { create(:pear)              }
+  let!(:tomato) { create(:tomato)            }
+  let!(:roma)   { create(:roma)              }
 
   it "placeholder text in crop auto suggest field" do
     expect(page).to have_selector("input[placeholder='e.g. lettuce']")

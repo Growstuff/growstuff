@@ -5,10 +5,10 @@ require 'rails_helper'
 describe "crop wranglers", js: true do
   context "signed in wrangler" do
     include_context 'signed in crop wrangler'
-    let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
-    let!(:crops)          { create_list :crop, 2                  }
-    let!(:requested_crop) { create :crop_request                  }
-    let!(:rejected_crop)  { create :rejected_crop                 }
+    let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
+    let!(:crops)          { create_list(:crop, 2)                  }
+    let!(:requested_crop) { create(:crop_request)                  }
+    let!(:rejected_crop)  { create(:rejected_crop)                 }
 
     it "sees crop wranglers listed on the crop wrangler page" do
       visit root_path
@@ -71,7 +71,7 @@ end
 
 context "signed in non-wrangler" do
   include_context 'signed in member'
-  let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
+  let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
 
   it "can't see wrangling page without js", js: false do
     visit root_path

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe "Alternate names", js: true do
-  let!(:alternate_eggplant) { create :alternate_eggplant }
-  let(:crop)                { alternate_eggplant.crop    }
+  let!(:alternate_eggplant) { create(:alternate_eggplant) }
+  let(:crop)                { alternate_eggplant.crop }
 
   shared_examples 'show alt names' do
     it "can see alternate names on crop page" do
@@ -20,7 +20,7 @@ describe "Alternate names", js: true do
   end
 
   shared_examples 'edit alt names' do
-    let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
+    let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
 
     it "can edit alternate names" do
       visit crop_path(crop)
@@ -71,8 +71,8 @@ describe "Alternate names", js: true do
     end
 
     context "When alternate name is rejected" do
-      let(:rejected_crop) { create :rejected_crop }
-      let(:pending_alt_name) { create :alternate_name, crop: rejected_crop }
+      let(:rejected_crop) { create(:rejected_crop) }
+      let(:pending_alt_name) { create(:alternate_name, crop: rejected_crop) }
 
       it "Displays crop rejection message" do
         visit alternate_name_path(pending_alt_name)

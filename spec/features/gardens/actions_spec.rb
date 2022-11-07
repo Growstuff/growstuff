@@ -9,7 +9,7 @@ describe "Gardens" do
 
     include_context 'signed in member'
     let(:garden) { member.gardens.first }
-    let(:other_member_garden) { FactoryBot.create :garden }
+    let(:other_member_garden) { FactoryBot.create(:garden) }
 
     describe '#index' do
       shared_examples "has buttons bar at top" do

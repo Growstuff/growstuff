@@ -4,8 +4,8 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 describe "unsubscribe" do
-  let(:member)       { create :member       }
-  let(:notification) { create :notification }
+  let(:member)       { create(:member)       }
+  let(:notification) { create(:notification) }
 
   before { clear_emails }
 

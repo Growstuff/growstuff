@@ -7,7 +7,7 @@ describe PhotosController, :search do
 
   describe 'GET index' do
     describe 'all photos' do
-      let!(:photo) { FactoryBot.create :photo, :reindex }
+      let!(:photo) { FactoryBot.create(:photo, :reindex) }
 
       before do
         Photo.reindex
@@ -21,10 +21,10 @@ describe PhotosController, :search do
     end
 
     describe '#index crop photos' do
-      let!(:photo)      { FactoryBot.create :photo, :reindex, owner: member, title: 'no assocations photo' }
-      let!(:crop_photo) { FactoryBot.create :photo, :reindex, owner: member, title: 'photos of planting'   }
-      let!(:planting)   { FactoryBot.create :planting, :reindex, crop:, owner: member }
-      let!(:crop)       { FactoryBot.create :crop, :reindex }
+      let!(:photo)      { FactoryBot.create(:photo, :reindex, owner: member, title: 'no assocations photo') }
+      let!(:crop_photo) { FactoryBot.create(:photo, :reindex, owner: member, title: 'photos of planting')   }
+      let!(:planting)   { FactoryBot.create(:planting, :reindex, crop:, owner: member) }
+      let!(:crop)       { FactoryBot.create(:crop, :reindex) }
 
       before do
         planting.photos << crop_photo
@@ -163,7 +163,7 @@ describe PhotosController, :search do
     end
 
     describe "for the second time" do
-      let(:planting) { FactoryBot.create :planting, owner: member }
+      let(:planting) { FactoryBot.create(:planting, owner: member) }
       let(:valid_params) { { photo: { source_id: 1 }, id: planting.id, type: 'planting' } }
 
       it "does not add a photo twice" do

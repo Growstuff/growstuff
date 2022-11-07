@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe LikesController do
-  let(:like)     { FactoryBot.create :like, member: }
+  let(:like)     { FactoryBot.create(:like, member:) }
   let(:member)   { FactoryBot.create(:member)               }
   let(:blogpost) { FactoryBot.create(:post)                 }
 
@@ -37,7 +37,7 @@ describe LikesController do
     end
 
     describe "Deleting someone else's like" do
-      let(:like) { FactoryBot.create :like }
+      let(:like) { FactoryBot.create(:like) }
 
       it { expect(response.code).to eq('403') }
       it { JSON.parse(response.body)["error"] == "Unable to like" }

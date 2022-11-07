@@ -55,7 +55,7 @@ FactoryBot.define do
 
     factory :crop_with_photo do
       name { 'marshmallow' }
-      photos { FactoryBot.create_list :photo, 1 }
+      photos { FactoryBot.create_list(:photo, 1) }
     end
 
     # This should have a name that is alphabetically earlier than :uppercase

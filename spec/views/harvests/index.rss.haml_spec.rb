@@ -8,9 +8,9 @@ describe 'harvests/index.rss.haml', :search do
     @member = FactoryBot.create(:member)
     @tomato = FactoryBot.create(:tomato)
 
-    @harvest1 = FactoryBot.create :harvest, crop: @tomato
-    @harvest2 = FactoryBot.create :harvest, crop: @tomato
-    @harvest3 = FactoryBot.create :harvest, crop: @tomato
+    @harvest1 = FactoryBot.create(:harvest, crop: @tomato)
+    @harvest2 = FactoryBot.create(:harvest, crop: @tomato)
+    @harvest3 = FactoryBot.create(:harvest, crop: @tomato)
 
     Harvest.searchkick_index.refresh
     assign(:harvests, Harvest.search(load: false))

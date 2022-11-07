@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "Requesting Crops" do
-  let!(:requested_crop) { create :crop, requester: member, approval_status: 'pending', name: 'puha for dinner' }
+  let!(:requested_crop) { create(:crop, requester: member, approval_status: 'pending', name: 'puha for dinner') }
 
   context 'signed in' do
     include_context 'signed in member'

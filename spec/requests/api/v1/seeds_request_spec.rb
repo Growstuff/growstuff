@@ -6,7 +6,7 @@ RSpec.describe 'Photos', type: :request do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:seed)   { FactoryBot.create :seed                    }
+  let!(:seed)   { FactoryBot.create(:seed) }
   let(:seed_encoded_as_json_api) do
     { "id"            => seed.id.to_s,
       "type"          => "seeds",

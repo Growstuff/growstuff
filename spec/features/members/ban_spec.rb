@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe "members list" do
-  let!(:spammer) { FactoryBot.create :member }
-  let!(:admin) { FactoryBot.create :admin_member }
+  let!(:spammer) { FactoryBot.create(:member) }
+  let!(:admin) { FactoryBot.create(:admin_member) }
 
   context 'logged in as admin' do
     include_context 'signed in admin'

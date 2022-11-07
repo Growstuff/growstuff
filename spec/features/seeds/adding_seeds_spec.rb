@@ -6,7 +6,7 @@ require 'custom_matchers'
 describe "Seeds", :js, :search do
   context 'signed in' do
     include_context 'signed in member'
-    let!(:maize) { create :maize }
+    let!(:maize) { create(:maize) }
 
     before { visit new_seed_path }
 

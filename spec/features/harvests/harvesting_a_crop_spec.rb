@@ -6,8 +6,8 @@ require 'custom_matchers'
 describe "Harvesting a crop", :js, :search do
   context 'signed in' do
     include_context 'signed in member'
-    let!(:maize)      { create :maize }
-    let!(:plant_part) { create :plant_part }
+    let!(:maize)      { create(:maize) }
+    let!(:plant_part) { create(:plant_part) }
 
     before { visit new_harvest_path }
 
@@ -65,7 +65,7 @@ describe "Harvesting a crop", :js, :search do
     end
 
     describe "Harvesting from planting page" do
-      let!(:planting) { create :planting, crop: maize, owner: member, garden: member.gardens.first }
+      let!(:planting) { create(:planting, crop: maize, owner: member, garden: member.gardens.first) }
 
       before do
         visit planting_path(planting)
@@ -79,8 +79,8 @@ describe "Harvesting a crop", :js, :search do
     end
 
     context "Editing a harvest" do
-      let(:existing_harvest)  { create :harvest, crop: maize, owner: member }
-      let!(:other_plant_part) { create :plant_part, name: 'chocolate'       }
+      let(:existing_harvest)  { create(:harvest, crop: maize, owner: member) }
+      let!(:other_plant_part) { create(:plant_part, name: 'chocolate')       }
 
       before do
         visit harvest_path(existing_harvest)
@@ -106,12 +106,12 @@ describe "Harvesting a crop", :js, :search do
 
     context "Viewing a harvest" do
       let(:existing_harvest) do
-        create :harvest, crop: maize, owner: member,
-                         harvested_at: Time.zone.today
+        create(:harvest, crop: maize, owner: member,
+                         harvested_at: Time.zone.today)
       end
       let!(:existing_planting) do
-        create :planting, crop: maize, owner: member,
-                          planted_at: Time.zone.yesterday
+        create(:planting, crop: maize, owner: member,
+                          planted_at: Time.zone.yesterday)
       end
 
       before do

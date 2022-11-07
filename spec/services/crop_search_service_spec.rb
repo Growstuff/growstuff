@@ -17,9 +17,9 @@ RSpec.describe CropSearchService, type: :service do
 
       before do
         # Alternate name
-        FactoryBot.create :alternate_name, name: 'fungus', crop: mushroom
+        FactoryBot.create(:alternate_name, name: 'fungus', crop: mushroom)
         # scientific name
-        FactoryBot.create :scientific_name, name: 'Agaricus bisporus', crop: mushroom
+        FactoryBot.create(:scientific_name, name: 'Agaricus bisporus', crop: mushroom)
 
         # Requested and rejected
         FactoryBot.create(:rejected_crop, name: 'rejected mushroom')
@@ -47,20 +47,20 @@ RSpec.describe CropSearchService, type: :service do
 
       describe 'biased' do
         # Make some crops with planting counts
-        let!(:mushroom_parent) { FactoryBot.create :crop, name: 'mushroom' }
-        let!(:oyster)  { FactoryBot.create :crop, name: 'oyster mushroom', parent: mushroom_parent }
-        let!(:shitake) { FactoryBot.create :crop, name: 'shitake mushroom', parent: mushroom_parent }
-        let!(:common)  { FactoryBot.create :crop, name: 'common mushroom', parent: mushroom_parent }
-        let!(:brown)   { FactoryBot.create :crop, name: 'brown mushroom', parent: mushroom_parent }
-        let!(:white)   { FactoryBot.create :crop, name: 'white mushroom', parent: mushroom_parent }
+        let!(:mushroom_parent) { FactoryBot.create(:crop, name: 'mushroom') }
+        let!(:oyster)  { FactoryBot.create(:crop, name: 'oyster mushroom', parent: mushroom_parent) }
+        let!(:shitake) { FactoryBot.create(:crop, name: 'shitake mushroom', parent: mushroom_parent) }
+        let!(:common)  { FactoryBot.create(:crop, name: 'common mushroom', parent: mushroom_parent) }
+        let!(:brown)   { FactoryBot.create(:crop, name: 'brown mushroom', parent: mushroom_parent) }
+        let!(:white)   { FactoryBot.create(:crop, name: 'white mushroom', parent: mushroom_parent) }
 
         describe 'biased to higher planting counts' do
           subject { search('mushroom') }
 
           before do
             # Having plantings should bring these crops to the top of the search results
-            FactoryBot.create_list :planting, 10, crop: white
-            FactoryBot.create_list :planting, 4, crop: shitake
+            FactoryBot.create_list(:planting, 10, crop: white)
+            FactoryBot.create_list(:planting, 4, crop: shitake)
             Crop.reindex
           end
 
@@ -71,13 +71,13 @@ RSpec.describe CropSearchService, type: :service do
         describe "biased to crops you've planted" do
           subject { described_class.search('mushroom', current_member: owner).map(&:name) }
 
-          let(:owner) { FactoryBot.create :member }
+          let(:owner) { FactoryBot.create(:member) }
 
           before do
-            FactoryBot.create_list :planting, 10, crop: brown
-            FactoryBot.create :planting, crop: oyster, owner: owner
-            FactoryBot.create :planting, crop: oyster, owner: owner
-            FactoryBot.create :planting, crop: shitake, owner: owner
+            FactoryBot.create_list(:planting, 10, crop: brown)
+            FactoryBot.create(:planting, crop: oyster, owner:)
+            FactoryBot.create(:planting, crop: oyster, owner:)
+            FactoryBot.create(:planting, crop: shitake, owner:)
             Crop.reindex
           end
 

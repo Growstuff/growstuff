@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe "Delete crop spec" do
   shared_examples 'delete crop' do
-    let!(:pending_crop)  { FactoryBot.create :crop_request          }
-    let!(:approved_crop) { FactoryBot.create :crop                  }
+    let!(:pending_crop)  { FactoryBot.create(:crop_request)          }
+    let!(:approved_crop) { FactoryBot.create(:crop)                  }
     it "deletes approved crop" do
       visit crop_path(approved_crop)
       click_link 'Actions'

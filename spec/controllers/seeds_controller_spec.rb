@@ -26,7 +26,7 @@ describe SeedsController, :search do
     end
 
     context 'with parent planting' do
-      let!(:planting) { FactoryBot.create :planting, owner: }
+      let!(:planting) { FactoryBot.create(:planting, owner:) }
 
       before do
         Seed.reindex

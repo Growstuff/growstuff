@@ -16,7 +16,7 @@ describe 'Post a post' do
     end
 
     context "editing a post" do
-      let(:existing_post) { create :post, author: member }
+      let(:existing_post) { create(:post, author: member) }
 
       before do
         visit edit_post_path(existing_post)

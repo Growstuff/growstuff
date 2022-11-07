@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe "Conversations", :js do
-  let(:sender)    { create :member                        }
-  let(:recipient) { create :member, login_name: 'beyonce' }
+  let(:sender)    { create(:member)                        }
+  let(:recipient) { create(:member, login_name: 'beyonce') }
 
   before do
     sender.send_message(recipient, "this is the body", "something i want to say")

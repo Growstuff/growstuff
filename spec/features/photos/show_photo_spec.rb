@@ -6,8 +6,8 @@ describe "show photo page" do
   context "signed in member" do
     include_context 'signed in member'
     context "linked to planting" do
-      let(:planting) { create :planting }
-      let(:photo) { create :photo, owner: planting.owner }
+      let(:planting) { create(:planting) }
+      let(:photo) { create(:photo, owner: planting.owner) }
 
       context "shows linkback to planting" do
         before do
@@ -25,8 +25,8 @@ describe "show photo page" do
     end
 
     context "linked to harvest" do
-      let(:photo) { create :photo, owner: harvest.owner }
-      let(:harvest) { create :harvest }
+      let(:photo) { create(:photo, owner: harvest.owner) }
+      let(:harvest) { create(:harvest) }
 
       context "shows linkback to harvest" do
         before do
@@ -40,8 +40,8 @@ describe "show photo page" do
     end
 
     context "linked to garden" do
-      let(:photo) { create :photo, owner: garden.owner }
-      let(:garden) { create :garden }
+      let(:photo) { create(:photo, owner: garden.owner) }
+      let(:garden) { create(:garden) }
 
       context "shows linkback to garden" do
         before do
@@ -55,8 +55,8 @@ describe "show photo page" do
     end
 
     context "linked to seed" do
-      let(:photo) { create :photo, owner: seed.owner }
-      let(:seed) { create :seed }
+      let(:photo) { create(:photo, owner: seed.owner) }
+      let(:seed) { create(:seed) }
 
       context "shows linkback to seed" do
         before do
