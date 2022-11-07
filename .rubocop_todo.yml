@@ -546,13 +546,6 @@ Style/GlobalStdStream:
     - 'config/environments/production.rb'
     - 'lib/tasks/openfarm.rake'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: MinBodyLength, AllowConsecutiveConditionals.
-Style/GuardClause:
-  Exclude:
-    - 'app/models/photo_association.rb'
-
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 Style/IfUnlessModifier:
@@ -622,12 +615,6 @@ Style/RedundantArgument:
 Style/RedundantFetchBlock:
   Exclude:
     - 'config/puma.rb'
-
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantFreeze:
-  Exclude:
-    - 'lib/haml/filters/growstuff_markdown.rb'
 
 # Offense count: 3
 # This cop supports safe autocorrection (--autocorrect).

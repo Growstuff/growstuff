@@ -15,10 +15,10 @@ module Haml::Filters
 
     private
 
-    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/.freeze
-    MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/.freeze
-    MEMBER_AT_REGEX = /(?<!\\)(@\w+)/.freeze
-    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/.freeze
+    CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
+    MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
+    MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
+    MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/
     HOST = Rails.application.config.host
 
     def expand_crops!
