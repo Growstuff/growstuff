@@ -64,7 +64,7 @@ describe Crop do
 
   it 'finds a default scientific name' do
     @crop = FactoryBot.create(:tomato)
-    expect(@crop.default_scientific_name).to eq nil
+    expect(@crop.default_scientific_name).to be_nil
     @sn = FactoryBot.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
     expect(@crop.default_scientific_name.to_s).to eq @sn.name
@@ -178,7 +178,7 @@ describe Crop do
 
     context 'with no plantings or harvests' do
       it 'has no default photo' do
-        expect(crop.default_photo).to eq nil
+        expect(crop.default_photo).to be_nil
       end
 
       it { expect(crop.photos.size).to eq 0 }
@@ -535,7 +535,7 @@ describe Crop do
       end
 
       it "does not delete the posts" do
-        expect(Post.find(post.id)).not_to eq nil
+        expect(Post.find(post.id)).not_to be_nil
       end
     end
   end

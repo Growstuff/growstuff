@@ -167,8 +167,8 @@ describe Post do
       end
 
       it "does not delete the crops" do
-        expect(Crop.find(tomato.id)).not_to eq nil
-        expect(Crop.find(maize.id)).not_to eq nil
+        expect(Crop.find(tomato.id)).not_to be_nil
+        expect(Crop.find(maize.id)).not_to be_nil
       end
     end
   end

@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe ApplicationHelper do
   it "parses dates" do
-    parse_date(nil).should eq nil
-    parse_date('').should eq nil
+    parse_date(nil).should be_nil
+    parse_date('').should be_nil
     parse_date('2012-05-12').should eq Date.new(2012, 5, 12)
     parse_date('may 12th 2012').should eq Date.new(2012, 5, 12)
   end

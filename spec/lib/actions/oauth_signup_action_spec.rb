@@ -40,7 +40,7 @@ describe 'Growstuff::OauthSignupAction' do
       end
 
       it 'creates a new user' do
-        expect(@action.member_created?).to eq true
+        expect(@action.member_created?).to be true
       end
 
       it 'sets the right email' do
@@ -56,11 +56,11 @@ describe 'Growstuff::OauthSignupAction' do
       end
 
       it 'generates a random password' do
-        expect(@member.password).not_to eq nil
+        expect(@member.password).not_to be_nil
       end
 
       it 'does not agree to the tos' do
-        expect(@member.tos_agreement).to eq nil
+        expect(@member.tos_agreement).to be_nil
       end
 
       it 'stores the uid and provider for the member' do
@@ -91,7 +91,7 @@ describe 'Growstuff::OauthSignupAction' do
         end
 
         it 'does not create a new user' do
-          expect(@action.member_created?).to eq nil
+          expect(@action.member_created?).to be_nil
         end
 
         it 'locates the existing member by email' do
@@ -141,7 +141,7 @@ describe 'Growstuff::OauthSignupAction' do
         end
 
         it 'does not create a new user' do
-          expect(@action.member_created?).to eq nil
+          expect(@action.member_created?).to be_nil
         end
 
         it 'locates the existing member by uid and provider' do

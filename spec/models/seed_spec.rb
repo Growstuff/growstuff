@@ -65,13 +65,13 @@ describe Seed do
 
     it 'tradable gives the right answers' do
       @seed = FactoryBot.create(:seed, tradable_to: 'nowhere')
-      @seed.tradable.should eq false
+      @seed.tradable.should be false
       @seed = FactoryBot.create(:seed, tradable_to: 'locally')
-      @seed.tradable.should eq true
+      @seed.tradable.should be true
       @seed = FactoryBot.create(:seed, tradable_to: 'nationally')
-      @seed.tradable.should eq true
+      @seed.tradable.should be true
       @seed = FactoryBot.create(:seed, tradable_to: 'internationally')
-      @seed.tradable.should eq true
+      @seed.tradable.should be true
     end
 
     it 'recognises a tradable seed' do
@@ -178,7 +178,7 @@ describe Seed do
     describe 'has finished fields' do
       let(:seed) { FactoryBot.create(:finished_seed) }
 
-      it { expect(seed.finished).to eq true }
+      it { expect(seed.finished).to be true }
       it { expect(seed.finished_at).to be_an_instance_of Date }
     end
 

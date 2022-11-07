@@ -201,7 +201,7 @@ describe HarvestsController, :search do
           }
         end
 
-        it { expect(harvest.planting_id).to eq(nil) }
+        it { expect(harvest.planting_id).to be_nil }
       end
     end
   end

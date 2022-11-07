@@ -27,7 +27,7 @@ describe Member do
     end
 
     it "doesn't show email by default" do
-      expect(member.show_email).to eq false
+      expect(member.show_email).to be false
     end
 
     it 'stringifies as the login_name' do
@@ -185,19 +185,19 @@ describe Member do
 
     it 'has a role' do
       member.roles.first.should eq role
-      member.role?(:moderator).should eq true
+      member.role?(:moderator).should be true
     end
 
     it 'sets up roles in factories' do
       admin = FactoryBot.create(:admin_member)
-      admin.role?(:admin).should eq true
+      admin.role?(:admin).should be true
     end
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
       role = FactoryBot.create(:role, name: "a b c")
       member.roles << role
-      member.role?(:a_b_c).should eq true
+      member.role?(:a_b_c).should be true
     end
   end
 
@@ -303,11 +303,11 @@ describe Member do
 
     context 'already_following' do
       it 'detects that member is already following a member' do
-        expect(member1.already_following?(member2)).to eq true
+        expect(member1.already_following?(member2)).to be true
       end
 
       it 'detects that member is not already following a member' do
-        expect(member1.already_following?(member3)).to eq false
+        expect(member1.already_following?(member3)).to be false
       end
     end
 

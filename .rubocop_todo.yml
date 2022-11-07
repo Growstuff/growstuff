@@ -155,24 +155,6 @@ RSpec/AnyInstance:
     - 'spec/controllers/harvests_controller_spec.rb'
     - 'spec/controllers/photos_controller_spec.rb'
 
-# Offense count: 78
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/BeEq:
-  Exclude:
-    - 'spec/controllers/admin/roles_controller_spec.rb'
-    - 'spec/controllers/harvests_controller_spec.rb'
-    - 'spec/features/members/deletion_spec.rb'
-    - 'spec/features/unsubscribing_spec.rb'
-    - 'spec/helpers/application_helper_spec.rb'
-    - 'spec/lib/actions/oauth_signup_action_spec.rb'
-    - 'spec/models/crop_spec.rb'
-    - 'spec/models/garden_spec.rb'
-    - 'spec/models/harvest_spec.rb'
-    - 'spec/models/member_spec.rb'
-    - 'spec/models/planting_spec.rb'
-    - 'spec/models/post_spec.rb'
-    - 'spec/models/seed_spec.rb'
-
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnabledMethods.
