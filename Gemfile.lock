@@ -583,7 +583,7 @@ GEM
       activemodel (>= 5)
       elasticsearch (>= 6, < 7.14)
       hashie
-    selenium-webdriver (4.4.0)
+    selenium-webdriver (4.6.1)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
