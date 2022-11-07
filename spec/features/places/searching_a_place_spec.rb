@@ -14,6 +14,7 @@ describe "User searches" do
       visit places_path
       search_with "Philippines"
     end
+
     it { expect(page).to have_content "community near Philippines" }
     it { expect(page).to have_button "search_button" }
     it { expect(page).to have_content "Nearby members" }
@@ -30,6 +31,7 @@ describe "User searches" do
   describe "Nearby plantings, seed, and members" do
     include_context 'signed in member'
     let(:member) { located_member }
+
     before do
       visit places_path
       search_with "Philippines"

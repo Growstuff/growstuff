@@ -17,6 +17,7 @@ describe "scientific_names/edit" do
     it "shows the creator" do
       expect(rendered).to have_content "Added by #{member} less than a minute ago."
     end
+
     it { expect(rendered).to have_link member_path(member) }
 
     it "renders the edit scientific_name form" do

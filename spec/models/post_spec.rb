@@ -128,7 +128,7 @@ describe Post do
     it "doesn't send notifications if you mention yourself" do
       expect do
         FactoryBot.create(:post, author: member, body: "@#{member}")
-      end.to change(Notification, :count).by(0)
+      end.not_to change(Notification, :count)
     end
   end
 

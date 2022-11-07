@@ -52,7 +52,9 @@ describe PhotosHelper do
 
     describe "has a flickr photo" do
       let(:garden_photo)   { FactoryBot.create(:photo, owner: garden.owner, source: 'flickr') }
+
       before { garden.photos << garden_photo }
+
       it { is_expected.to eq garden_photo.fullsize_url }
     end
   end

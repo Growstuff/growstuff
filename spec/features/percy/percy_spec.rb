@@ -6,6 +6,7 @@ describe 'Test with visual testing', js: true, type: :feature do
   # Use the same random seed every time so our random data is the same
   # on every run, so doesn't trigger percy to see changes
   before { Faker::Config.random = Random.new(42) }
+
   let!(:member)        { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
   let!(:crop_wrangler) { FactoryBot.create :crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: gravatar2 }
   let!(:admin_user) { FactoryBot.create :admin_member, login_name: 'janitor', preferred_avatar_uri: gravatar3 }
@@ -66,6 +67,7 @@ rest of the garden.
     "
   end
   let(:post) { FactoryBot.create :post, author: member, subject: "Watering", body: post_body }
+
   before do
     # Freeze time, so we don't have variations in timestamps on the page
     Timecop.freeze(Time.zone.local(2019, 1, 1))
@@ -96,6 +98,7 @@ rest of the garden.
     FactoryBot.create :seed, owner: member, tradable_to: 'nationally'
     FactoryBot.create :seed, owner: someone_else, tradable_to: 'nationally'
   end
+
   after { Timecop.return }
 
   shared_examples 'visit pages' do
@@ -124,6 +127,7 @@ rest of the garden.
         expect(page).to have_text 'tomato'
         page.percy_snapshot(page, name: "#{prefix}/crops#show")
       end
+
       it 'loads crops#index' do
         visit crops_path
         page.percy_snapshot(page, name: "#{prefix}/crops#index")
@@ -189,6 +193,7 @@ rest of the garden.
         visit post_path(post)
         page.percy_snapshot(page, name: "#{prefix}/posts#show")
       end
+
       it 'loads posts#index' do
         Member.all.limit(5).each do |member|
           FactoryBot.create_list :post, 12, author: member
@@ -212,6 +217,7 @@ rest of the garden.
 
   context "when signed out" do
     let(:prefix) { 'signed-out' }
+
     include_examples 'visit pages'
 
     it 'loads sign in page' do
@@ -230,6 +236,7 @@ rest of the garden.
       visit new_member_password_path
       page.percy_snapshot(page, name: "forgot-password")
     end
+
     it 'loads new confirmation' do
       visit new_member_confirmation_path
       page.percy_snapshot(page, name: "new-confimation")
@@ -238,6 +245,7 @@ rest of the garden.
 
   context 'when signed in' do
     let(:prefix) { 'signed-in' }
+
     include_context 'signed in member'
     include_examples 'visit pages'
 
@@ -357,29 +365,36 @@ rest of the garden.
   context 'admin' do
     include_context 'signed in admin'
     before { visit admin_path }
+
     it 'admin page' do
       page.percy_snapshot(page, name: 'Admin')
     end
+
     it 'Roles' do
       click_link 'Roles'
       page.percy_snapshot(page, name: 'Admin Roles')
     end
+
     it 'CMS' do
       click_link 'CMS'
       page.percy_snapshot(page, name: 'CMS')
     end
+
     it 'Garden Types' do
       click_link 'Garden Types'
       page.percy_snapshot(page, name: 'Admin Garden type')
     end
+
     it 'Alternate names' do
       click_link 'Alternate names'
       page.percy_snapshot(page, name: 'Admin Alternate names')
     end
+
     it 'Scientific names' do
       click_link 'Scientific names'
       page.percy_snapshot(page, name: 'Admin Scientific names')
     end
+
     it 'Members' do
       click_link 'Members'
       page.percy_snapshot(page, name: 'Admin Members')

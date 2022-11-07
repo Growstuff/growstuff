@@ -9,11 +9,14 @@ describe "members list" do
   context 'logged in as admin' do
     include_context 'signed in admin'
     before { visit member_path(spammer) }
+
     it { expect(page).to have_link "Ban member" }
+
     describe 'bans the user' do
       before do
         accept_confirm { click_link 'Ban member' }
       end
+
       it { expect(page).to have_link admin.login_name }
       it { expect(page).not_to have_link spammer.login_name }
     end

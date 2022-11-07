@@ -61,14 +61,18 @@ describe "Seeds", :js, :search do
         visit crop_path(maize)
         click_link "Save seeds"
       end
+
       describe 'no trades' do
         before { click_button "Save #{maize.name} seeds." }
+
         it { expect(page).to have_content "nowhere" }
         it { expect(page).to have_content "Successfully added maize seed to your stash" }
         it { expect(page).to have_content "maize" }
       end
+
       describe 'tradeable' do
         before { click_button "locally" }
+
         it { expect(page).to have_content "locally" }
         it { expect(page).to have_content "Successfully added maize seed to your stash" }
         it { expect(page).to have_content "maize" }

@@ -19,6 +19,7 @@ describe "Gardens#index", :js do
           expect(page).to have_text garden.name
         end
       end
+
       it "links to each garden" do
         member.gardens.each do |garden|
           expect(page).to have_link(garden.name, href: garden_path(garden))
@@ -35,12 +36,15 @@ describe "Gardens#index", :js do
       it "show active garden" do
         expect(page).to have_text active_garden.name
       end
+
       it "does not show inactive garden" do
         expect(page).not_to have_text inactive_garden.name
       end
+
       it "links to active garden" do
         expect(page).to have_link(active_garden.name, href: garden_path(active_garden))
       end
+
       it "does not link to inactive gardens" do
         expect(page).not_to have_link(inactive_garden.name, href: garden_path(inactive_garden))
       end
@@ -64,6 +68,7 @@ describe "Gardens#index", :js do
       it "shows planting in garden" do
         expect(page).to have_link(planting.crop.name, href: planting_path(planting))
       end
+
       it "does not show finished planting" do
         expect(page).not_to have_text(finished_planting.crop.name)
       end

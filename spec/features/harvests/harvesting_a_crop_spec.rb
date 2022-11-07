@@ -42,7 +42,9 @@ describe "Harvesting a crop", :js, :search do
 
     describe 'member harvests' do
       before { visit member_harvests_path(member) }
+
       it { expect(page).to have_text "#{member.login_name}'s harvests" }
+
       it "Clicking link to owner's profile" do
         within '.login-name' do
           click_link member.login_name
@@ -64,6 +66,7 @@ describe "Harvesting a crop", :js, :search do
 
     describe "Harvesting from planting page" do
       let!(:planting) { create :planting, crop: maize, owner: member, garden: member.gardens.first }
+
       before do
         visit planting_path(planting)
         click_link "Record harvest"

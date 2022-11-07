@@ -24,6 +24,7 @@ describe "plantings/show" do
 
     describe "shows the sunniness" do
       before { render }
+
       it { expect(rendered).to have_content 'Planted in' }
       it { expect(rendered).to have_content 'sun' }
     end
@@ -34,6 +35,7 @@ describe "plantings/show" do
 
     describe "shows planted_from" do
       before { render }
+
       it { expect(rendered).to have_content 'Grown from' }
       it { expect(rendered).to have_content 'cutting' }
     end
@@ -43,6 +45,7 @@ describe "plantings/show" do
         planting.update(planted_from: '')
         render
       end
+
       it { expect(rendered).not_to have_content 'Planted from' }
     end
   end
@@ -59,6 +62,7 @@ describe "plantings/show" do
 
   describe "shows a link to add photos" do
     before { render }
+
     it { expect(rendered).to have_content "Add photo" }
   end
 

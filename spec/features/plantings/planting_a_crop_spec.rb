@@ -58,6 +58,7 @@ describe "Planting a crop", :js, :search do
           click_link member.login_name
         end
       end
+
       it { expect(page).to have_current_path member_path(member), ignore_query: true }
     end
 

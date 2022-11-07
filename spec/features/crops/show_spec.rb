@@ -14,7 +14,9 @@ describe "browse crops" do
     let!(:cherry) { FactoryBot.create :crop, name: 'cherry tomato', parent: tomato }
     let!(:heirloom) { FactoryBot.create :crop, name: 'heirloom tomato', parent: tomato }
     let!(:striped) { FactoryBot.create :crop, name: 'striped tomato', parent: heirloom }
+
     before { visit crop_path(tomato) }
+
     it { expect(page).to have_link heirloom.name, href: crop_path(heirloom) }
     it { expect(page).to have_link cherry.name, href: crop_path(cherry) }
     it { expect(page).to have_link striped.name, href: crop_path(striped) }

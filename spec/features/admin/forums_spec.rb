@@ -13,6 +13,7 @@ describe "forums", js: true do
         click_link "Forums"
       end
     end
+
     it { expect(page).to have_current_path forums_path, ignore_query: true }
     it { expect(page).to have_link "New forum" }
   end
@@ -26,6 +27,7 @@ describe "forums", js: true do
       fill_in 'Description', with: "this is a new forum"
       click_button 'Save'
     end
+
     it { expect(page).to have_current_path forum_path(Forum.last), ignore_query: true }
     it { expect(page).to have_content 'Forum was successfully created' }
   end
@@ -38,6 +40,7 @@ describe "forums", js: true do
       click_button 'Save'
       forum.reload
     end
+
     it { expect(page).to have_current_path forum_path(forum), ignore_query: true }
     it { expect(page).to have_content 'Forum was successfully updated' }
     it { expect(page).to have_content 'Something else' }
@@ -50,6 +53,7 @@ describe "forums", js: true do
         click_link 'Delete'
       end
     end
+
     it { expect(page).to have_current_path forums_path, ignore_query: true }
     it { expect(page).to have_content 'Forum was successfully deleted' }
   end

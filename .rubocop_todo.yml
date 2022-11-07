@@ -170,14 +170,6 @@ RSpec/Capybara/VisibilityMatcher:
   Exclude:
     - 'spec/features/shared_examples/crop_suggest.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: NegatedMatcher.
-RSpec/ChangeByZero:
-  Exclude:
-    - 'spec/models/comment_spec.rb'
-    - 'spec/models/post_spec.rb'
-
 # Offense count: 292
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
@@ -210,47 +202,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/views/home/index_spec.rb'
     - 'spec/views/photos/edit.html.haml_spec.rb'
     - 'spec/views/posts/_single.html.haml_spec.rb'
-
-# Offense count: 78
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Enabled: false
-
-# Offense count: 13
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterExampleGroup:
-  Exclude:
-    - 'spec/controllers/crops_controller_spec.rb'
-    - 'spec/controllers/posts_controller_spec.rb'
-    - 'spec/features/cms_spec.rb'
-    - 'spec/features/crops/creating_a_crop_spec.rb'
-    - 'spec/features/likeable_spec.rb'
-    - 'spec/features/seeds/adding_seeds_spec.rb'
-    - 'spec/features/timeline/index_spec.rb'
-    - 'spec/models/planting_spec.rb'
-    - 'spec/services/crop_search_service_spec.rb'
-
-# Offense count: 51
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterFinalLet:
-  Enabled: false
-
-# Offense count: 88
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterHook:
-  Enabled: false
-
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterSubject:
-  Exclude:
-    - 'spec/controllers/crops_controller_spec.rb'
-    - 'spec/features/members/deletion_spec.rb'
-    - 'spec/helpers/event_helper_spec.rb'
-    - 'spec/services/crop_search_service_spec.rb'
-    - 'spec/services/timeline_service_spec.rb'
 
 # Offense count: 136
 # Configuration parameters: CountAsOne.

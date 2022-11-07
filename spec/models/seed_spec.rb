@@ -169,6 +169,7 @@ describe Seed do
     it "seed has a parent planting" do
       expect(seed.parent_planting).to eq(parent_planting)
     end
+
     it "planting has a child seed" do
       expect(parent_planting.child_seeds).to eq [seed]
     end
@@ -204,6 +205,7 @@ describe Seed do
     let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
 
     before { described_class.reindex }
+
     subject { described_class.homepage_records(100) }
 
     it { expect(subject.count).to eq 1 }

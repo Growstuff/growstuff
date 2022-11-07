@@ -10,6 +10,7 @@ describe "Display a planting", :js do
 
     describe 'no harvest to predict from' do
       before { visit planting_path(planting) }
+
       it { expect(planting.harvest_months).to eq({}) }
       it { expect(page).to have_content 'We need more data on this crop in your latitude.' }
     end
@@ -20,7 +21,9 @@ describe "Display a planting", :js do
         FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '18 June 2019'
         FactoryBot.create_list :harvest, 4, planting:, crop:, harvested_at: '18 August 2019'
       end
+
       before { visit planting_path(planting) }
+
       it { expect(page.find_by_id('month-1')[:class]).not_to include("badge-harvesting") }
       it { expect(page.find_by_id('month-2')[:class]).not_to include("badge-harvesting") }
       it { expect(page.find_by_id('month-5')[:class]).to include("badge-harvesting") }
@@ -51,7 +54,9 @@ describe "Display a planting", :js do
         FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop:,
                                             harvested_at: '18 December 2006'
       end
+
       before { visit planting_path(planting) }
+
       it { expect(page.find_by_id('month-1')[:class]).not_to include("badge-harvesting") }
       it { expect(page.find_by_id('month-2')[:class]).not_to include("badge-harvesting") }
       it { expect(page.find_by_id('month-5')[:class]).to include("badge-harvesting") }

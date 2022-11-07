@@ -14,7 +14,9 @@ describe TimelineService do
 
   describe 'a friend you followed' do
     before { friend.followers << member }
+
     subject { TimelineService.followed_query(member) }
+
     it { expect(subject.first.id).to eq friend_planting.id }
     it { expect(subject.first.event_type).to eq 'planting' }
     it { expect(subject.second.id).to eq friend_harvest.id }

@@ -6,6 +6,7 @@ describe "crop detail page", js: true do
   before do
     FactoryBot.create :plant_part, name: 'leaf'
   end
+
   subject do
     # Update the medians after all the
     # data has been loaded
@@ -34,12 +35,15 @@ describe "crop detail page", js: true do
         click_link 'Add to my garden'
         expect(page).to have_link "add new garden"
       end
+
       it "has a link to harvest the crop" do
         click_link 'Record harvest'
         expect(page).to have_link "leaf"
       end
+
       describe "Saving seeds" do
         before { click_link 'Save seeds' }
+
         it { expect(page).to have_text "Will you offer these seeds for trade?" }
         it { expect(page).to have_button "locally" }
         it { expect(page).to have_button "nationally" }
@@ -94,10 +98,12 @@ describe "crop detail page", js: true do
     context 'signed in' do
       include_context 'signed in member'
       before { seed.update! owner: member }
+
       it "User signed in" do
         visit crop_path(seed.crop)
         expect(page).to have_link "You have 20 seeds of this crop."
       end
+
       it "click link to your owned seeds" do
         visit crop_path(seed.crop)
         click_link "You have 20 seeds of this crop."

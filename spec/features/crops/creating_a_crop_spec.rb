@@ -31,6 +31,7 @@ describe "Crop", js: true do
           click_button "Save"
         end
       end
+
       it { expect(page).to have_content 'crop was successfully created.' }
       it { expect(page).to have_content "This crop is currently pending approval." }
       it { expect(page).to have_content "Jasminum sambac 2" }
@@ -43,6 +44,7 @@ describe "Crop", js: true do
       before do
         click_button "Save"
       end
+
       it { expect(page).to have_content 'crop was successfully created.' }
       it { expect(page).to have_content "Jasminum sambac 2" }
       it { expect(page).to have_content "Matsurika" }
@@ -51,16 +53,20 @@ describe "Crop", js: true do
 
   context 'anon' do
     before { visit new_crop_path }
+
     it { expect(page).to have_content 'You need to sign in' }
   end
+
   context 'member' do
     include_context 'signed in member'
     include_examples 'request crop'
   end
+
   context 'crop wrangler' do
     include_context 'signed in crop wrangler'
     include_examples 'create crop'
   end
+
   context 'admin' do
     include_context 'signed in admin'
     include_examples 'create crop'

@@ -89,6 +89,7 @@ describe "member deletion" do
 
       describe 'member exists but is marked deleted' do
         subject { Member.all.find(member.id) }
+
         it { expect(subject).to eq member }
         it { expect(subject.discarded?).to be true }
         it { expect(Member.kept).not_to include(member) }
@@ -158,6 +159,7 @@ describe "member deletion" do
     let(:otherwrangler) { FactoryBot.create(:crop_wrangling_member) }
     let(:crop)          { FactoryBot.create(:crop, creator: member) }
     before { FactoryBot.create(:cropbot) }
+
     let!(:ex_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: "ex_wrangler") }
 
     it "leaves crops behind" do

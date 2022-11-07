@@ -44,6 +44,7 @@ describe "member profile", js: true do
         visit member_path(public_member)
         expect(page).to have_content public_member.email
       end
+
       it "private email address" do
         visit member_path(member)
         expect(page).not_to have_content member.email
@@ -65,7 +66,9 @@ describe "member profile", js: true do
         let!(:harvest) { FactoryBot.create :harvest, owner: member }
         let!(:seed) { FactoryBot.create :seed, owner: member }
         let!(:post) { FactoryBot.create :post, author: member }
+
         before { visit member_path(member) }
+
         it { expect(page).to have_link(href: planting_path(planting)) }
         it { expect(page).to have_link(href: harvest_path(harvest)) }
         it { expect(page).to have_link(href: seed_path(seed)) }
@@ -88,6 +91,7 @@ describe "member profile", js: true do
     describe 'user role labels' do
       describe "admin user's page" do
         before { visit member_path(admin_member) }
+
         it { expect(page).to have_text "Admin" }
       end
 
@@ -110,7 +114,9 @@ describe "member profile", js: true do
       let!(:old_planting) { FactoryBot.create :planting, owner: member, planted_at: 3.years.ago }
       let!(:finished_planting) { FactoryBot.create :finished_planting, owner: member }
       let!(:no_planted_at_planting) { FactoryBot.create :planting, owner: member, planted_at: nil }
+
       before { visit member_path(member) }
+
       it { expect(page).to have_link href: planting_path(new_planting) }
       it { expect(page).to have_link href: planting_path(old_planting) }
       it { expect(page).to have_link href: planting_path(finished_planting) }
@@ -119,26 +125,34 @@ describe "member profile", js: true do
 
     context 'member has seeds' do
       let!(:seed) { FactoryBot.create :seed, owner: member }
+
       before { visit member_path(member) }
+
       it { expect(page).to have_link href: seed_path(seed) }
     end
 
     context 'member has harvests' do
       let!(:harvest) { FactoryBot.create :harvest, owner: member }
+
       before { visit member_path(member) }
+
       it { expect(page).to have_link href: harvest_path(harvest) }
     end
 
     context 'member has posts' do
       let!(:post) { FactoryBot.create :post, author: member }
+
       before { visit member_path(member) }
+
       it { expect(page).to have_link href: post_path(post) }
     end
 
     context 'member has comments' do
       let(:post) { FactoryBot.create :post }
       let!(:comment) { FactoryBot.create :comment, post:, author: member }
+
       before { visit member_path(member) }
+
       it { expect(page).to have_link href: post_path(post) }
       it { expect(page).to have_link href: comment_path(comment) }
     end
@@ -146,7 +160,9 @@ describe "member profile", js: true do
     context 'photos' do
       let(:planting) { FactoryBot.create :planting, owner: member }
       let!(:photo) { FactoryBot.create :photo, owner: member, plantings: [planting] }
+
       before { visit member_path(member) }
+
       it { expect(page).to have_link href: photo_path(photo) }
       it { expect(page).to have_link href: planting_path(planting) }
     end
@@ -230,6 +246,7 @@ describe "member profile", js: true do
       it "has a private message button" do
         expect(page).to have_link "Send message", href: new_message_path(recipient_id: other_member.id)
       end
+
       it { expect(page).not_to have_link "Edit profile", href: edit_member_registration_path }
     end
   end

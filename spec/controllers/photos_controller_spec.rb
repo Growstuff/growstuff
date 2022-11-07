@@ -36,6 +36,7 @@ describe PhotosController, :search do
         it "has indexed the photos of this crop" do
           expect(Photo.search).to include crop_photo
         end
+
         it "assigns crop" do
           expect(assigns(:crop)).to eq crop
         end
@@ -112,6 +113,7 @@ describe PhotosController, :search do
             type: "planting", id: planting.id
           }
         end
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.plantings.first).to eq planting }
       end
@@ -145,6 +147,7 @@ describe PhotosController, :search do
             photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id
           }
         end
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.harvests.size).to eq 1 }
       end
@@ -175,7 +178,9 @@ describe PhotosController, :search do
       describe "creates the planting/photo link" do
         let(:planting) { FactoryBot.create(:planting, garden:, owner: member) }
         let(:photo) { FactoryBot.create(:photo, owner: member) }
+
         before { post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id } }
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.plantings.first).to eq planting }
       end

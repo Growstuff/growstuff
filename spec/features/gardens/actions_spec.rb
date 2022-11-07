@@ -29,6 +29,7 @@ describe "Gardens" do
 
         context 'with actions menu expanded' do
           before { click_link 'Actions' }
+
           it "has actions on garden" do
             expect(subject).to have_link 'Plant something here'
             expect(subject).to have_link 'Mark as inactive'
@@ -61,6 +62,7 @@ describe "Gardens" do
 
         context 'with actions menu expanded' do
           before { click_link 'Actions' }
+
           it { is_expected.to have_link 'Edit' }
           it { is_expected.to have_link 'Delete' }
           it { is_expected.to have_content "Plant something here" }
@@ -70,6 +72,7 @@ describe "Gardens" do
 
       describe "someone else's garden" do
         before { visit garden_path(other_member_garden) }
+
         it { is_expected.not_to have_link 'Actions' }
       end
     end

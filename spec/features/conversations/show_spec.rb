@@ -28,6 +28,7 @@ describe "Conversations", :js do
         fill_in :body, with: 'i like this too'
         click_button 'Send'
       end
+
       it { expect(page).to have_content "i like this too" }
     end
   end

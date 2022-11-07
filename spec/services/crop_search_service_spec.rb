@@ -14,6 +14,7 @@ RSpec.describe CropSearchService, type: :service do
       let!(:taewa)    { FactoryBot.create(:crop, name: 'taewa') }
       let!(:zucchini) { FactoryBot.create(:crop, name: 'zucchini') }
       let!(:broccoli) { FactoryBot.create(:crop, name: 'broccoli') }
+
       before do
         # Alternate name
         FactoryBot.create :alternate_name, name: 'fungus', crop: mushroom
@@ -55,18 +56,23 @@ RSpec.describe CropSearchService, type: :service do
 
         describe 'biased to higher planting counts' do
           subject { search('mushroom') }
+
           before do
             # Having plantings should bring these crops to the top of the search results
             FactoryBot.create_list :planting, 10, crop: white
             FactoryBot.create_list :planting, 4, crop: shitake
             Crop.reindex
           end
+
           it { expect(subject.first).to eq 'white mushroom' }
           it { expect(subject.second).to eq 'shitake mushroom' }
         end
+
         describe "biased to crops you've planted" do
           subject { described_class.search('mushroom', current_member: owner).map(&:name) }
+
           let(:owner) { FactoryBot.create :member }
+
           before do
             FactoryBot.create_list :planting, 10, crop: brown
             FactoryBot.create :planting, crop: oyster, owner: owner
@@ -74,6 +80,7 @@ RSpec.describe CropSearchService, type: :service do
             FactoryBot.create :planting, crop: shitake, owner: owner
             Crop.reindex
           end
+
           it { expect(subject.first).to eq oyster.name }
           it { expect(subject.second).to eq shitake.name }
         end

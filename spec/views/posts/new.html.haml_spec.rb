@@ -52,6 +52,7 @@ describe "posts/new" do
     it 'tells the user what forum it will be posted in' do
       expect(rendered).to have_content "This post will be posted in the forum #{forum.name}"
     end
+
     it { expect(rendered).to have_link forum.name }
 
     describe "asks what's going on generally" do

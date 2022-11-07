@@ -27,13 +27,16 @@ describe Photo do
 
         describe 'with a second older photo' do
           let(:old_photo) { FactoryBot.create(:photo, owner: member, created_at: 1.year.ago, date_taken: 2.years.ago) }
+
           # Add an old photo
           before { planting.photos << old_photo }
+
           it { expect(planting.default_photo).to eq photo }
           it { expect(planting.crop.default_photo).to eq photo }
 
           describe 'and someone likes the old photo' do
             before { FactoryBot.create :like, likeable: old_photo }
+
             it { expect(planting.default_photo).to eq old_photo }
             it { expect(planting.crop.default_photo).to eq old_photo }
           end
@@ -42,6 +45,7 @@ describe Photo do
 
       describe 'to a harvest' do
         let(:crop) { harvest.crop }
+
         before { harvest.photos << photo }
 
         it { expect(harvest.photos).to eq [photo] }
@@ -247,6 +251,7 @@ describe Photo do
       it "finds just one" do
         expect(described_class.search.count).to eq 1
       end
+
       it "finds the matching photo" do
         expect(described_class.search).to include photo
       end
@@ -259,6 +264,7 @@ describe Photo do
     it "finds photos by owner in search index" do
       expect(described_class.search(where: { owner_id: planting.owner_id })).to include photo
     end
+
     it "finds photos by crop in search index" do
       expect(described_class.search(where: { crops: planting.crop.id })).to include photo
     end

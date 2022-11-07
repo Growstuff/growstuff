@@ -65,6 +65,7 @@ describe "crop detail page", :js, :search do
   context "when signed in as photos owner" do
     include_context 'signed in member'
     let(:member) { owner_member }
+
     include_examples "shows photos"
   end
 

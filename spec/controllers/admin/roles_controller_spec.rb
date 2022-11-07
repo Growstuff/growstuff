@@ -11,11 +11,13 @@ describe Admin::RolesController do
 
     describe "GET index" do
       before { get :index }
+
       it { expect(assigns(:roles)).to be_nil }
     end
 
     describe "GET new" do
       before { get :new }
+
       it { expect(assigns(:role)).to be_nil }
     end
 
@@ -27,11 +29,13 @@ describe Admin::RolesController do
 
     describe "GET edit" do
       before { get :edit, params: { id: role.to_param } }
+
       it { expect(assigns(:role)).to be_nil }
     end
 
     describe "update" do
       before { patch :update, params: { id: role.id, role: { name: 'updated role' } } }
+
       it { expect(Role.first.name).to eq 'MyString' }
     end
   end
@@ -41,11 +45,13 @@ describe Admin::RolesController do
 
     describe "GET index" do
       before { get :index }
+
       it { expect(assigns(:roles)).to eq([Role.find_by(name: 'admin'), role]) }
     end
 
     describe "GET new" do
       before { get :new }
+
       it { expect(assigns(:role)).to be_a(Role) }
     end
 
@@ -59,11 +65,13 @@ describe Admin::RolesController do
 
     describe "GET edit" do
       before { get :edit, params: { id: role.to_param } }
+
       it { expect(assigns(:role)).to eq(role) }
     end
 
     describe "update" do
       before { patch :update, params: { id: role.id, role: { name: 'updated role' } } }
+
       it { expect(Role.first.name).to eq 'updated role' }
     end
   end

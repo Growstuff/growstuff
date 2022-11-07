@@ -45,6 +45,7 @@ describe "signin", js: true do
       conversation = member.send_message(recipient, 'hey there', 'kiaora')
       visit conversation_path(conversation)
     end
+
     it { expect(page).to have_current_path new_member_session_path, ignore_query: true }
   end
 

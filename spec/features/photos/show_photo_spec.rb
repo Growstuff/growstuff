@@ -19,6 +19,7 @@ describe "show photo page" do
           expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
                                     href: planting_path(planting)
         }
+
         it { expect(page).to have_link planting.crop.name }
       end
     end

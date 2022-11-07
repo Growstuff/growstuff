@@ -44,7 +44,9 @@ describe CropsController do
     describe 'fetches the crop search page' do
       let!(:tomato) { FactoryBot.create :tomato }
       let!(:maize)  { FactoryBot.create :maize }
+
       before { Crop.reindex }
+
       describe 'search form page' do
         before { get :search }
 
@@ -54,6 +56,7 @@ describe CropsController do
 
       describe 'perform a search' do
         before { get :search, params: { term: 'tom' } }
+
         it { expect(assigns(:term)).to eq 'tom' }
         it { expect(assigns(:crops).map(&:name)).to eq ['tomato'] }
       end
@@ -81,13 +84,17 @@ describe CropsController do
         sci_name: { "1": "fancy sci name", "2": "" }
       }
     end
+
     subject { put :create, params: crop_params }
+
     context 'not logged in' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
+
     context 'logged in as member' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
+
     context 'wrangler' do
       include_context 'login as wrangler'
       it { expect { subject }.to change(Crop, :count).by(1) }

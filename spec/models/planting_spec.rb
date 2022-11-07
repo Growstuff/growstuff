@@ -140,6 +140,7 @@ describe Planting do
       end
 
       it { expect(crop.median_days_to_first_harvest).to eq(20) }
+
       describe 'sets median time to harvest' do
         let(:planting) { FactoryBot.create :planting, crop:, planted_at: Time.zone.today }
 
@@ -211,7 +212,9 @@ describe Planting do
 
   describe 'planting perennial' do
     let(:crop) { FactoryBot.create(:crop, name: 'feijoa', perennial: true) }
+
     it { expect(planting.perennial?).to be true }
+
     describe 'no harvest to predict from' do
       it { expect(planting.harvest_months).to eq({}) }
     end
@@ -222,6 +225,7 @@ describe Planting do
         FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '18 June 2019'
         FactoryBot.create_list :harvest, 4, planting:, crop:, harvested_at: '18 August 2019'
       end
+
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
 
@@ -252,9 +256,11 @@ describe Planting do
         FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop:,
                                             harvested_at: '18 December 2006'
       end
+
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
   end
+
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
   end
@@ -277,10 +283,12 @@ describe Planting do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today + 1
       expect(planting.planted?).to be(false)
     end
+
     it "is false for never planted" do
       planting = FactoryBot.create :planting, planted_at: nil
       expect(planting.planted?).to be(false)
     end
+
     it "is true for past plantings" do
       planting = FactoryBot.create :planting, planted_at: Time.zone.today - 1
       expect(planting.planted?).to be(true)
@@ -518,9 +526,11 @@ describe Planting do
     it "planting has a parent seed" do
       expect(planting.parent_seed).to eq(parent_seed)
     end
+
     it "seed has a child planting" do
       expect(parent_seed.child_plantings).to eq [planting]
     end
+
     describe 'grandchildren' do
       let(:grandchild_seed) { FactoryBot.create :seed, parent_planting: planting }
 
@@ -537,6 +547,7 @@ describe Planting do
     let!(:finished_planting) do
       FactoryBot.create :finished_planting, owner: member, garden: member.gardens.first
     end
+
     it { expect(member.plantings.active).to include(planting) }
     it { expect(member.plantings.active).not_to include(finished_planting) }
   end
@@ -547,6 +558,7 @@ describe Planting do
     let!(:planting) { FactoryBot.create :planting, :reindex }
 
     before { described_class.reindex }
+
     subject { described_class.homepage_records(100) }
 
     it { expect(subject.count).to eq 2 }

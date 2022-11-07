@@ -152,6 +152,7 @@ describe Crop do
       before { planting.photos << photo }
 
       it { expect(crop.default_photo).to eq photo }
+
       include_examples 'has default photo'
     end
 
@@ -162,6 +163,7 @@ describe Crop do
       before { harvest.photos << photo }
 
       it { expect(crop.default_photo).to eq photo }
+
       include_examples 'has default photo'
 
       context 'and planting photo' do
@@ -301,6 +303,7 @@ describe Crop do
     let(:crop2_planting) { crop2.plantings.first }
 
     let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
+
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting

@@ -18,6 +18,7 @@ describe 'harvests/index.rss.haml', :search do
 
   context 'all harvests' do
     before { render }
+
     it 'shows RSS feed title' do
       expect(rendered).to have_content "Recent harvests from all members"
     end
@@ -32,6 +33,7 @@ describe 'harvests/index.rss.haml', :search do
       assign(:crop, @tomato)
       render
     end
+
     it "displays crop's name in title" do
       expect(rendered).to have_content @tomato.name
     end

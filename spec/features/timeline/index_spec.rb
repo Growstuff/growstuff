@@ -29,6 +29,7 @@ describe "timeline", js: true do
       it { expect(page).to have_link href: planting_path(finished_planting) }
       it { expect(page).not_to have_link href: planting_path(no_planted_at_planting) }
     end
+
     describe 'shows the friends you follow' do
       it { expect(page).to have_link href: member_path(friend1) }
       it { expect(page).to have_link href: member_path(friend2) }

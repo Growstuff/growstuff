@@ -138,6 +138,7 @@ describe Garden do
       described_class.active.should include active
       described_class.active.should_not include inactive
     end
+
     it 'includes inactive garden in inactive scope' do
       described_class.inactive.should include inactive
       described_class.inactive.should_not include active
