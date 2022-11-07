@@ -13,7 +13,7 @@ describe "member profile", js: true do
       visit member_path(member)
       expect(page).to have_content("All about #{member.login_name}")
       expect(page).to have_content member.bio
-      expect(page).to have_content "Member since #{member.created_at.to_s(:date)}"
+      expect(page).to have_content "Member since #{member.created_at.to_fs(:date)}"
     end
 
     it "gravatar" do

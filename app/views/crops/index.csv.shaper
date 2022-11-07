@@ -107,8 +107,8 @@ csv.headers *all_headers
 
     csv.cell :added_by_member_id, c.creator.id
     csv.cell :added_by_member_name, c.creator.to_s
-    csv.cell :date_added, c.created_at.to_s(:db)
-    csv.cell :last_modified, c.updated_at.to_s(:db)
+    csv.cell :date_added, c.created_at.to_fs(:db)
+    csv.cell :last_modified, c.updated_at.to_fs(:db)
 
     csv.cell :license, "CC-BY-SA Growstuff http://growstuff.org/"
 

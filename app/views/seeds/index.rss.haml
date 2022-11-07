@@ -7,7 +7,7 @@
     - @seeds.each do |seed|
       %item
         %title #{seed.owner_login_name}'s #{seed.crop_name} seeds
-        %pubdate= seed.created_at.to_s(:rfc822)
+        %pubdate= seed.created_at.to_fs(:rfc822)
         %description
           :escaped
             <p>Quantity: #{seed.quantity ||= 'unknown' }</p>

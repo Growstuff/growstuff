@@ -16,6 +16,6 @@
           :escaped_markdown
             #{ strip_tags comment.body }
 
-        %pubdate= comment.created_at.to_s(:rfc822)
+        %pubdate= comment.created_at.to_fs(:rfc822)
         %link= post_url(comment.post)
         %guid= comment_url(comment)

@@ -34,12 +34,12 @@ csv.headers :id,
 
     csv.cells :quantity, :unit, :weight_quantity, :weight_unit, :si_weight
 
-    csv.cell :date_harvested, h.created_at.to_s(:db)
+    csv.cell :date_harvested, h.created_at.to_fs(:db)
 
     csv.cell :description
 
-    csv.cell :date_added, h.created_at.to_s(:db)
-    csv.cell :last_modified, h.updated_at.to_s(:db)
+    csv.cell :date_added, h.created_at.to_fs(:db)
+    csv.cell :last_modified, h.updated_at.to_fs(:db)
 
     csv.cell :license, "CC-BY-SA Growstuff http://growstuff.org/"
 

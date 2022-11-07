@@ -30,7 +30,7 @@
             = truncate(@member.location, length: 25, separator: ' ', omission: '... ')
         %p
           %strong Member since
-          = @member.created_at.to_s(:date)
+          = @member.created_at.to_fs(:date)
         %p
           %strong Last Login
           = @member.last_sign_in_at
