@@ -91,7 +91,7 @@ class SeedsController < DataController
     if @owner
       "Growstuff-#{@owner.to_param}-Seeds-#{Time.zone.now.to_fs(:number)}.csv"
     else
-      "Growstuff-Seeds-#{Time.zone.now.to_s(:number)}.csv"
+      "Growstuff-Seeds-#{Time.zone.now.to_fs(:number)}.csv"
     end
   end
 end
