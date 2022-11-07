@@ -100,7 +100,7 @@ describe Garden do
 
     it 'cleans up zero quantities' do
       garden = FactoryBot.build(:garden, area: 0)
-      exect(garden.area).to eq 0
+      expect(garden.area).to eq 0
     end
 
     it "doesn't allow non-numeric quantities" do
