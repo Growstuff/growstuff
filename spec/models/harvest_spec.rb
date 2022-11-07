@@ -36,7 +36,7 @@ describe Harvest do
 
     it 'cleans up zero quantities' do
       @harvest = FactoryBot.build(:harvest, quantity: 0)
-      @harvest.quantity.should == 0
+      expect(@harvest.quantity).to eq 0
     end
 
     it "doesn't allow non-numeric quantities" do
@@ -90,7 +90,7 @@ describe Harvest do
 
     it 'cleans up zero quantities' do
       @harvest = FactoryBot.build(:harvest, weight_quantity: 0)
-      @harvest.weight_quantity.should == 0
+      expect(@harvest.weight_quantity).to eq 0
     end
 
     it "doesn't allow non-numeric weight quantities" do
