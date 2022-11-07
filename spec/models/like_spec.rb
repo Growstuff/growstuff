@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'like' do
+describe Like do
   let(:member) { FactoryBot.create(:member) }
   let(:post)   { FactoryBot.create(:post)   }
   let(:photo)  { FactoryBot.create :photo }

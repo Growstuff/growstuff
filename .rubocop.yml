@@ -18,6 +18,11 @@ Naming/FileName:
     - 'Gemfile'
     - 'Gemfile.lock'
 
+RSpec/DescribeClass:
+  Exclude:
+   - 'spec/views/**/*.rb'
+   - 'spec/features/**/*.rb'
+
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
