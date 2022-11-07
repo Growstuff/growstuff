@@ -6,6 +6,6 @@
     - @crops.each do |crop|
       %item
         %title= crop.name
-        %pubdate= crop.created_at.to_s(:rfc822)
+        %pubdate= crop.created_at.to_fs(:rfc822)
         %link= crop_url(crop)
         %guid= crop_url(crop)
