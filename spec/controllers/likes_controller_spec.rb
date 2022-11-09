@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe LikesController do
-  let(:like)     { FactoryBot.create :like, member: member  }
+  let(:like)     { FactoryBot.create :like, member: }
   let(:member)   { FactoryBot.create(:member)               }
   let(:blogpost) { FactoryBot.create(:post)                 }
 

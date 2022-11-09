@@ -2,7 +2,7 @@
 
 module EditableFormHelper
   def editable(field_type, model, field, display_field:, collection: [])
-    render 'shared/editable/form', field_type: field_type,
-                                   model: model, field: field, display_field: display_field, collection: collection
+    render 'shared/editable/form', field_type:,
+                                   model:, field:, display_field:, collection:
   end
 end

@@ -13,7 +13,7 @@ describe "member profile", js: true do
       visit member_path(member)
       expect(page).to have_content("All about #{member.login_name}")
       expect(page).to have_content member.bio
-      expect(page).to have_content "Member since #{member.created_at.to_s(:date)}"
+      expect(page).to have_content "Member since #{member.created_at.to_fs(:date)}"
     end
 
     it "gravatar" do
@@ -137,7 +137,7 @@ describe "member profile", js: true do
 
     context 'member has comments' do
       let(:post) { FactoryBot.create :post }
-      let!(:comment) { FactoryBot.create :comment, post: post, author: member }
+      let!(:comment) { FactoryBot.create :comment, post:, author: member }
       before { visit member_path(member) }
       it { expect(page).to have_link href: post_path(post) }
       it { expect(page).to have_link href: comment_path(comment) }
@@ -158,9 +158,9 @@ describe "member profile", js: true do
         # time to finished = 90 days
         FactoryBot.create(:harvest,
                           harvested_at: 50.days.ago,
-                          crop:         crop,
+                          crop:,
                           planting:     FactoryBot.create(:planting,
-                                                          crop:        crop,
+                                                          crop:,
                                                           planted_at:  100.days.ago,
                                                           finished_at: 10.days.ago))
         crop.plantings.each(&:update_harvest_days!)
@@ -176,21 +176,21 @@ describe "member profile", js: true do
 
       let(:growing_planting) do
         FactoryBot.create :planting,
-                          crop:       crop,
+                          crop:,
                           owner:      member,
                           planted_at: Time.zone.today
       end
 
       let(:harvesting_planting) do
         FactoryBot.create :planting,
-                          crop:       crop,
+                          crop:,
                           owner:      member,
                           planted_at: 51.days.ago
       end
 
       let(:super_late_planting) do
         FactoryBot.create :planting,
-                          crop: crop, owner: member,
+                          crop:, owner: member,
                           planted_at: 260.days.ago
       end
 

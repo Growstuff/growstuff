@@ -36,7 +36,7 @@ describe Harvest do
 
     it 'cleans up zero quantities' do
       @harvest = FactoryBot.build(:harvest, quantity: 0)
-      @harvest.quantity.should == 0
+      expect(@harvest.quantity).to eq 0
     end
 
     it "doesn't allow non-numeric quantities" do
@@ -90,7 +90,7 @@ describe Harvest do
 
     it 'cleans up zero quantities' do
       @harvest = FactoryBot.build(:harvest, weight_quantity: 0)
-      @harvest.weight_quantity.should == 0
+      expect(@harvest.weight_quantity).to eq 0
     end
 
     it "doesn't allow non-numeric weight quantities" do
@@ -152,7 +152,7 @@ describe Harvest do
     let(:crop) { FactoryBot.create(:crop, name: "apricot") }
 
     it "apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        nil,
                                        unit:            nil,
                                        weight_quantity: nil,
@@ -161,7 +161,7 @@ describe Harvest do
     end
 
     it "1 individual apricot" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        1,
                                        unit:            'individual',
                                        weight_quantity: nil,
@@ -170,7 +170,7 @@ describe Harvest do
     end
 
     it "10 individual apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        10,
                                        unit:            'individual',
                                        weight_quantity: nil,
@@ -179,7 +179,7 @@ describe Harvest do
     end
 
     it "1 bushel of apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        1,
                                        unit:            'bushel',
                                        weight_quantity: nil,
@@ -188,7 +188,7 @@ describe Harvest do
     end
 
     it "1.5 bushels of apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        1.5,
                                        unit:            'bushel',
                                        weight_quantity: nil,
@@ -197,7 +197,7 @@ describe Harvest do
     end
 
     it "10 bushels of apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        10,
                                        unit:            'bushel',
                                        weight_quantity: nil,
@@ -206,7 +206,7 @@ describe Harvest do
     end
 
     it "apricots weighing 1.2 kg" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        nil,
                                        unit:            nil,
                                        weight_quantity: 1.2,
@@ -215,7 +215,7 @@ describe Harvest do
     end
 
     it "10 bushels of apricots weighing 100 kg" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        10,
                                        unit:            'bushel',
                                        weight_quantity: 100,

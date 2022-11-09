@@ -2,7 +2,7 @@
 
 module CropsHelper
   def display_seed_availability(member, crop)
-    seeds = member.seeds.where(crop: crop)
+    seeds = member.seeds.where(crop:)
     total_quantity = seeds.where.not(quantity: nil).sum(:quantity)
 
     return "You don't have any seeds of this crop." if seeds.none?

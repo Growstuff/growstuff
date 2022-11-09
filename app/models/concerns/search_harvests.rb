@@ -17,22 +17,22 @@ module SearchHarvests
 
     def search_data
       {
-        slug:             slug,
-        quantity:         quantity,
+        slug:,
+        quantity:,
 
         # crop
-        crop_id:          crop_id,
-        crop_name:        crop_name,
+        crop_id:,
+        crop_name:,
         crop_slug:        crop.slug,
 
         # owner
-        owner_id:         owner_id,
-        owner_login_name: owner_login_name,
-        owner_slug:       owner_slug,
+        owner_id:,
+        owner_login_name:,
+        owner_slug:,
         plant_part_name:  plant_part&.name,
 
         # planting
-        planting_id:      planting_id,
+        planting_id:,
         planting_slug:    planting&.slug,
 
         # photo
@@ -43,7 +43,7 @@ module SearchHarvests
         photos_count:     photos.count,
 
         # timestamps
-        harvested_at:     harvested_at,
+        harvested_at:,
         created_at:       created_at.to_i
       }
     end
@@ -58,7 +58,7 @@ module SearchHarvests
         }
         one_record = search('*',
                             limit:    1,
-                            where:    where,
+                            where:,
                             boost_by: [:created_at],
                             load:     false).first
         return records if one_record.nil?

@@ -57,7 +57,7 @@ class CropsController < ApplicationController
     @crops = CropSearchService.search(@term,
                                       page:           params[:page],
                                       per_page:       Crop.per_page,
-                                      current_member: current_member)
+                                      current_member:)
     respond_with @crops
   end
 
@@ -191,7 +191,7 @@ class CropsController < ApplicationController
   end
 
   def filename
-    "Growstuff-Crops-#{Time.zone.now.to_s(:number)}.csv"
+    "Growstuff-Crops-#{Time.zone.now.to_fs(:number)}.csv"
   end
 
   def crop_json_fields

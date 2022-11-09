@@ -41,7 +41,7 @@ describe GardensHelper do
 
     it "has 1 planting" do
       crop = FactoryBot.create(:crop)
-      plantings = [FactoryBot.create(:planting, quantity: 10, crop: crop)]
+      plantings = [FactoryBot.create(:planting, quantity: 10, crop:)]
       result = helper.display_garden_plantings(plantings)
 
       output = '<ul class="plantings"><li>'

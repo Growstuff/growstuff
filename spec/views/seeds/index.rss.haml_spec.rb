@@ -17,7 +17,7 @@ describe 'seeds/index.rss.haml', :search do
     end
 
     it 'shows the plant_before date' do
-      expect(rendered).to have_content "Plant before: #{seed.plant_before.to_s(:ymd)}"
+      expect(rendered).to have_content "Plant before: #{seed.plant_before.to_fs(:ymd)}"
     end
   end
 

@@ -10,9 +10,9 @@ describe "home page", :search do
   let(:photo) { FactoryBot.create :photo, owner: member }
   let(:crop) { FactoryBot.create :crop, created_at: 1.day.ago }
 
-  let(:planting) { FactoryBot.create :planting, owner: member, crop: crop }
-  let(:seed)    { FactoryBot.create :tradable_seed, owner: member, crop: crop }
-  let(:harvest) { FactoryBot.create :harvest, owner: member, crop: crop       }
+  let(:planting) { FactoryBot.create :planting, owner: member, crop: }
+  let(:seed)    { FactoryBot.create :tradable_seed, owner: member, crop: }
+  let(:harvest) { FactoryBot.create :harvest, owner: member, crop:       }
 
   let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
   let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }

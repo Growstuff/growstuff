@@ -1,5 +1,7 @@
 inherit_from: .rubocop_todo.yml
-require: rubocop-rails
+require:
+ - rubocop-rails
+ - rubocop-rspec
 AllCops:
   NewCops: enable
   Exclude:
@@ -15,6 +17,11 @@ Naming/FileName:
     - 'Guardfile'
     - 'Gemfile'
     - 'Gemfile.lock'
+
+RSpec/DescribeClass:
+  Exclude:
+   - 'spec/views/**/*.rb'
+   - 'spec/features/**/*.rb'
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented

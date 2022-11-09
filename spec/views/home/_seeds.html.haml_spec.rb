@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'home/_seeds.html.haml', type: "view", search: true do
-  let!(:seed) { FactoryBot.create(:tradable_seed, owner: owner) }
+  let!(:seed) { FactoryBot.create(:tradable_seed, owner:) }
   let(:owner) { FactoryBot.create(:london_member) }
   before do
     Seed.searchkick_index.refresh

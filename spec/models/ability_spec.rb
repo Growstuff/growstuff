@@ -107,7 +107,7 @@ describe Ability do
       end
 
       it "can't delete a plant part that has harvests" do
-        @harvest = FactoryBot.create(:harvest, plant_part: plant_part)
+        @harvest = FactoryBot.create(:harvest, plant_part:)
         ability.should_not be_able_to(:destroy, plant_part)
       end
     end

@@ -44,17 +44,17 @@ describe "Display a planting", :js do
       let(:planting) do
         crop = FactoryBot.create :annual_crop
         # 50 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         # 20 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         # 10 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         crop.update_medians
 
-        FactoryBot.create :annual_planting, planted_at: 200.days.ago, crop: crop
+        FactoryBot.create :annual_planting, planted_at: 200.days.ago, crop:
       end
       it { expect(page).to have_text 'First harvest expected' }
     end

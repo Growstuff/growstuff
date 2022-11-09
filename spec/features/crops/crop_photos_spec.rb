@@ -11,9 +11,9 @@ describe "crop detail page", :js, :search do
 
   let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
 
-  let!(:harvest)  { FactoryBot.create :harvest, crop: crop, owner: owner_member, plant_part: plant_part }
-  let!(:planting) { FactoryBot.create :planting, crop: crop, owner: owner_member }
-  let!(:seed)     { FactoryBot.create :seed, crop: crop, owner: owner_member     }
+  let!(:harvest)  { FactoryBot.create :harvest, crop:, owner: owner_member, plant_part: }
+  let!(:planting) { FactoryBot.create :planting, crop:, owner: owner_member }
+  let!(:seed)     { FactoryBot.create :seed, crop:, owner: owner_member     }
 
   let!(:photo1) { FactoryBot.create(:photo, owner: owner_member) }
   let!(:photo2) { FactoryBot.create(:photo, owner: owner_member) }

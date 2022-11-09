@@ -90,10 +90,10 @@ class Post < ApplicationRecord
       next unless recipient_id != sender
 
       Notification.create(
-        recipient_id: recipient_id,
+        recipient_id:,
         sender_id:    sender,
         subject:      "#{author} mentioned you in their post #{subject}",
-        body:         body
+        body:
       )
     end
   end

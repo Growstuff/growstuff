@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :role do
     name { "Moderator" }
     description { "These people moderate the forums" }
-    initialize_with { Role.find_or_create_by(name: name) }
+    initialize_with { Role.find_or_create_by(name:) }
 
     factory :admin do
       name { "admin" }

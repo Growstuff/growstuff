@@ -82,7 +82,7 @@ rest of the garden.
       crop.reindex
       owner = FactoryBot.create :interesting_member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
       planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
-      photo = FactoryBot.create(:photo, owner: owner,
+      photo = FactoryBot.create(:photo, owner:,
                                         thumbnail_url: "#{photo_url}_q.jpg", fullsize_url: "#{photo_url}_z.jpg")
       planting.photos << photo
 
@@ -114,7 +114,7 @@ rest of the garden.
         FactoryBot.create(:harvest,
                           crop:         tomato,
                           plant_part:   FactoryBot.create(:plant_part, name: 'berry'),
-                          planting:     planting,
+                          planting:,
                           harvested_at: 1.day.ago)
 
         post = FactoryBot.create :post, subject: 'tomatoes are delicious'
@@ -155,7 +155,7 @@ rest of the garden.
         # with some lettuce (finished)
         FactoryBot.create(
           :planting, crop: FactoryBot.create(:crop, name: 'lettuce'),
-                     garden: garden, owner: member, finished_at: 2.weeks.ago
+                     garden:, owner: member, finished_at: 2.weeks.ago
         )
         # tomato still growing
         tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
@@ -194,7 +194,7 @@ rest of the garden.
           FactoryBot.create_list :post, 12, author: member
         end
         Post.all.order(id: :desc).limit(4) do |post|
-          FactoryBot.create_list :comment, rand(1..5), post: post
+          FactoryBot.create_list :comment, rand(1..5), post:
         end
         visit posts_path
         page.percy_snapshot(page, name: "#{prefix}/posts#index")

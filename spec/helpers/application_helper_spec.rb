@@ -48,7 +48,7 @@ describe ApplicationHelper do
 
     context 'with a populated collection' do
       context 'with one element' do
-        before { create(:comment, post: post) }
+        before { create(:comment, post:) }
 
         it 'returns a string with the quantity and the plural of the model' do
           expect(localize_plural(post.comments, Comment)).to eq '1 comment'
@@ -56,7 +56,7 @@ describe ApplicationHelper do
       end
 
       context 'with more than one element' do
-        before { create_list(:comment, 2, post: post) }
+        before { create_list(:comment, 2, post:) }
 
         it 'returns a string with the quantity and the plural of the model' do
           expect(localize_plural(post.comments, Comment)).to eq '2 comments'

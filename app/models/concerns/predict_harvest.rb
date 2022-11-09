@@ -33,7 +33,7 @@ module PredictHarvest
         days_to_first_harvest = (first_harvest_date - planted_at).to_i
         days_to_last_harvest = (last_harvest_date - planted_at).to_i if finished?
       end
-      update(days_to_first_harvest: days_to_first_harvest, days_to_last_harvest: days_to_last_harvest)
+      update(days_to_first_harvest:, days_to_last_harvest:)
     end
 
     # status

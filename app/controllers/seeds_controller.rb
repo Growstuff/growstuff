@@ -24,7 +24,7 @@ class SeedsController < DataController
 
     @filename = csv_filename
     @seeds = Seed.search(
-      where:    where,
+      where:,
       page:     params[:page],
       limit:    30,
       boost_by: [:created_at],
@@ -89,9 +89,9 @@ class SeedsController < DataController
 
   def csv_filename
     if @owner
-      "Growstuff-#{@owner.to_param}-Seeds-#{Time.zone.now.to_s(:number)}.csv"
+      "Growstuff-#{@owner.to_param}-Seeds-#{Time.zone.now.to_fs(:number)}.csv"
     else
-      "Growstuff-Seeds-#{Time.zone.now.to_s(:number)}.csv"
+      "Growstuff-Seeds-#{Time.zone.now.to_fs(:number)}.csv"
     end
   end
 end

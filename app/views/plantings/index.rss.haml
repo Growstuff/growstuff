@@ -7,7 +7,7 @@
     - @plantings.each do |planting|
       %item
         %title #{planting['crop_name']} in #{planting['location']}
-        %pubdate= planting['created_at'].to_s(:rfc822)
+        %pubdate= planting['created_at'].to_fs(:rfc822)
         %description
           :escaped
             <p>Quantity: #{planting['quantity'] ? planting['quantity'] : 'unknown' }</p>

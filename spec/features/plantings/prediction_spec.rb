@@ -6,7 +6,7 @@ describe "Display a planting", :js do
   describe 'planting perennial' do
     let(:garden) { FactoryBot.create :garden, location: 'Edinburgh' }
     let(:crop) { FactoryBot.create(:crop, name: 'feijoa', perennial: true) }
-    let(:planting) { FactoryBot.create :planting, crop: crop, garden: garden, owner: garden.owner }
+    let(:planting) { FactoryBot.create :planting, crop:, garden:, owner: garden.owner }
 
     describe 'no harvest to predict from' do
       before { visit planting_path(planting) }
@@ -18,7 +18,7 @@ describe "Display a planting", :js do
       before do
         FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '1 May 2019'
         FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '18 June 2019'
-        FactoryBot.create_list :harvest, 4, planting: planting, crop: crop, harvested_at: '18 August 2019'
+        FactoryBot.create_list :harvest, 4, planting:, crop:, harvested_at: '18 August 2019'
       end
       before { visit planting_path(planting) }
       it { expect(page.find("#month-1")[:class]).not_to include("badge-harvesting") }
@@ -48,7 +48,7 @@ describe "Display a planting", :js do
         faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop,
                                                         owner: faraway_garden.owner, planted_at: '16 May 2001'
 
-        FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop: crop,
+        FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop:,
                                             harvested_at: '18 December 2006'
       end
       before { visit planting_path(planting) }

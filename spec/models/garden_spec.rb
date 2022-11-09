@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe Garden do
-  let(:owner)       { FactoryBot.create(:member, login_name: 'hatupatu')                             }
-  let(:garden)      { FactoryBot.create(:garden, owner: owner, name: 'Springfield Community Garden') }
+  let(:owner)       { FactoryBot.create(:member, login_name: 'hatupatu') }
+  let(:garden)      { FactoryBot.create(:garden, owner:, name: 'Springfield Community Garden') }
 
   it "has a slug" do
     garden.slug.should match(/hatupatu-springfield-community-garden/)
@@ -63,9 +63,9 @@ describe Garden do
   end
 
   it "destroys plantings when deleted" do
-    garden = FactoryBot.create(:garden, owner: owner)
-    @planting1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
-    @planting2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
+    garden = FactoryBot.create(:garden, owner:)
+    @planting1 = FactoryBot.create(:planting, garden:, owner: garden.owner)
+    @planting2 = FactoryBot.create(:planting, garden:, owner: garden.owner)
     expect(garden.plantings.size).to eq(2)
     all = Planting.count
     garden.destroy
@@ -100,7 +100,7 @@ describe Garden do
 
     it 'cleans up zero quantities' do
       garden = FactoryBot.build(:garden, area: 0)
-      garden.area.should == 0
+      expect(garden.area).to eq 0
     end
 
     it "doesn't allow non-numeric quantities" do
@@ -146,8 +146,8 @@ describe Garden do
 
   it "marks plantings as finished when garden is inactive" do
     garden = FactoryBot.create(:garden)
-    p1 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
-    p2 = FactoryBot.create(:planting, garden: garden, owner: garden.owner)
+    p1 = FactoryBot.create(:planting, garden:, owner: garden.owner)
+    p2 = FactoryBot.create(:planting, garden:, owner: garden.owner)
 
     expect(p1.finished).to eq false
     expect(p2.finished).to eq false

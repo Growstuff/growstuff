@@ -21,7 +21,7 @@ class Member < ApplicationRecord
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_and_belongs_to_many :roles
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
-  has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender
+  has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
   has_many :authentications, dependent: :destroy
   has_many :photos, inverse_of: :owner
   has_many :likes, dependent: :destroy
@@ -127,7 +127,7 @@ class Member < ApplicationRecord
   end
 
   def auth(provider)
-    authentications.find_by(provider: provider)
+    authentications.find_by(provider:)
   end
 
   def unread_count
