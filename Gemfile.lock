@@ -345,7 +345,7 @@ GEM
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
-    leaflet-rails (1.8.0)
+    leaflet-rails (1.9.2)
       rails (>= 4.2.0)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
