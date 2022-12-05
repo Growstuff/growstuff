@@ -63,7 +63,7 @@ describe Harvest do
     it 'sets unit to blank if quantity is blank' do
       @harvest = FactoryBot.build(:harvest, quantity: '', unit: 'individual')
       @harvest.should be_valid
-      expect(@harvest.unit).to eq nil
+      expect(@harvest.unit).to be_nil
     end
   end
 
@@ -116,7 +116,7 @@ describe Harvest do
     it 'sets weight_unit to blank if quantity is blank' do
       @harvest = FactoryBot.build(:harvest, weight_quantity: '', weight_unit: 'kg')
       @harvest.should be_valid
-      expect(@harvest.weight_unit).to eq nil
+      expect(@harvest.weight_unit).to be_nil
     end
   end
 
@@ -231,7 +231,7 @@ describe Harvest do
 
     context 'without a photo' do
       it 'has no default photo' do
-        expect(@harvest.default_photo).to eq nil
+        expect(@harvest.default_photo).to be_nil
       end
 
       context 'and with a crop(planting) photo' do
@@ -298,8 +298,8 @@ describe Harvest do
   end
 
   it 'excludes deleted members' do
-    member = FactoryBot.create :member
-    harvest = FactoryBot.create :harvest, owner: member
+    member = FactoryBot.create(:member)
+    harvest = FactoryBot.create(:harvest, owner: member)
     expect(described_class.joins(:owner).all).to include(harvest)
     member.destroy
     expect(described_class.joins(:owner).all).not_to include(harvest)

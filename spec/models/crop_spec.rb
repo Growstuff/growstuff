@@ -64,7 +64,7 @@ describe Crop do
 
   it 'finds a default scientific name' do
     @crop = FactoryBot.create(:tomato)
-    expect(@crop.default_scientific_name).to eq nil
+    expect(@crop.default_scientific_name).to be_nil
     @sn = FactoryBot.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
     expect(@crop.default_scientific_name.to_s).to eq @sn.name
@@ -143,7 +143,7 @@ describe Crop do
     shared_examples 'has default photo' do
       it { expect(described_class.has_photos).to include(crop) }
     end
-    let!(:crop) { FactoryBot.create :tomato }
+    let!(:crop) { FactoryBot.create(:tomato) }
 
     context 'with a planting photo' do
       let!(:photo) { FactoryBot.create(:photo, owner: planting.owner) }
@@ -152,6 +152,7 @@ describe Crop do
       before { planting.photos << photo }
 
       it { expect(crop.default_photo).to eq photo }
+
       include_examples 'has default photo'
     end
 
@@ -162,6 +163,7 @@ describe Crop do
       before { harvest.photos << photo }
 
       it { expect(crop.default_photo).to eq photo }
+
       include_examples 'has default photo'
 
       context 'and planting photo' do
@@ -178,7 +180,7 @@ describe Crop do
 
     context 'with no plantings or harvests' do
       it 'has no default photo' do
-        expect(crop.default_photo).to eq nil
+        expect(crop.default_photo).to be_nil
       end
 
       it { expect(crop.photos.size).to eq 0 }
@@ -188,9 +190,9 @@ describe Crop do
     end
 
     describe 'finding all photos' do
-      let(:planting) { FactoryBot.create :planting, crop: }
-      let(:harvest) { FactoryBot.create :harvest, crop: }
-      let(:seed)    { FactoryBot.create :seed, crop:    }
+      let(:planting) { FactoryBot.create(:planting, crop:) }
+      let(:harvest) { FactoryBot.create(:harvest, crop:) }
+      let(:seed)    { FactoryBot.create(:seed, crop:)    }
 
       before do
         # Add photos to all
@@ -300,7 +302,8 @@ describe Crop do
     let(:crop1_planting) { crop1.plantings.first }
     let(:crop2_planting) { crop2.plantings.first }
 
-    let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
+    let(:member) { FactoryBot.create(:member, login_name: 'pikachu') }
+
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
@@ -535,7 +538,7 @@ describe Crop do
       end
 
       it "does not delete the posts" do
-        expect(Post.find(post.id)).not_to eq nil
+        expect(Post.find(post.id)).not_to be_nil
       end
     end
   end

@@ -53,24 +53,32 @@ describe 'Likeable', :js, search: true do
     end
     describe 'photos#index' do
       let(:path) { photos_path }
+
       include_examples 'photo can be liked'
     end
+
     describe 'photos#show' do
       let(:path) { photo_path(photo) }
+
       include_examples 'photo can be liked'
     end
+
     describe 'crops#show' do
-      let(:crop) { FactoryBot.create :crop }
-      let(:planting) { FactoryBot.create :planting, owner: member, crop: }
+      let(:crop) { FactoryBot.create(:crop) }
+      let(:planting) { FactoryBot.create(:planting, owner: member, crop:) }
       let(:path) { crop_path(crop) }
+
       before { planting.photos << photo }
+
       include_examples 'photo can be liked'
     end
   end
 
   describe 'posts' do
     let(:like_count_class) { "#post-#{post.id} .like-count" }
+
     before { visit post_path(post) }
+
     it 'can be liked' do
       expect(page).to have_css(like_count_class, text: "0")
       expect(page).to have_link 'Like'

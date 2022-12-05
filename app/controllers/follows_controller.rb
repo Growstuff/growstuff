@@ -5,6 +5,10 @@ class FollowsController < ApplicationController
   load_and_authorize_resource
   skip_load_resource only: :create
 
+  def index
+    @follows = @member.followed.paginate(page: params[:page])
+  end
+
   def create
     @follow = current_member.follows.build(followed: Member.find(params[:followed]))
 
@@ -23,10 +27,6 @@ class FollowsController < ApplicationController
 
     flash[:notice] = "Unfollowed #{@unfollowed.login_name}"
     redirect_to @unfollowed
-  end
-
-  def index
-    @follows = @member.followed.paginate(page: params[:page])
   end
 
   def followers

@@ -126,7 +126,7 @@ describe Garden do
     it 'sets area unit to blank if area is blank' do
       garden = FactoryBot.build(:garden, area: '', area_unit: 'acre')
       garden.should be_valid
-      expect(garden.area_unit).to eq nil
+      expect(garden.area_unit).to be_nil
     end
   end
 
@@ -138,6 +138,7 @@ describe Garden do
       described_class.active.should include active
       described_class.active.should_not include inactive
     end
+
     it 'includes inactive garden in inactive scope' do
       described_class.inactive.should include inactive
       described_class.inactive.should_not include active
@@ -149,16 +150,16 @@ describe Garden do
     p1 = FactoryBot.create(:planting, garden:, owner: garden.owner)
     p2 = FactoryBot.create(:planting, garden:, owner: garden.owner)
 
-    expect(p1.finished).to eq false
-    expect(p2.finished).to eq false
+    expect(p1.finished).to be false
+    expect(p2.finished).to be false
 
     garden.active = false
     garden.save
 
     p1.reload
-    expect(p1.finished).to eq true
+    expect(p1.finished).to be true
     p2.reload
-    expect(p2.finished).to eq true
+    expect(p2.finished).to be true
   end
 
   it "doesn't mark the wrong plantings as finished" do
@@ -173,11 +174,11 @@ describe Garden do
 
     # plantings in that garden should be "finished"
     p1.reload
-    expect(p1.finished).to eq true
+    expect(p1.finished).to be true
 
     # plantings in other gardens should not be.
     p2.reload
-    expect(p2.finished).to eq false
+    expect(p2.finished).to be false
   end
 
   context 'photos' do

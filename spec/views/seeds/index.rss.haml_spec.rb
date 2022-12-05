@@ -24,6 +24,7 @@ describe 'seeds/index.rss.haml', :search do
   context 'all seeds' do
     let!(:seed) { FactoryBot.create(:seed) }
     let!(:tradable) { FactoryBot.create(:tradable_seed) }
+
     before do
       Seed.searchkick_index.refresh
       assign(:seeds, Seed.search(load: false))

@@ -128,7 +128,7 @@ describe Post do
     it "doesn't send notifications if you mention yourself" do
       expect do
         FactoryBot.create(:post, author: member, body: "@#{member}")
-      end.to change(Notification, :count).by(0)
+      end.not_to change(Notification, :count)
     end
   end
 
@@ -167,14 +167,14 @@ describe Post do
       end
 
       it "does not delete the crops" do
-        expect(Crop.find(tomato.id)).not_to eq nil
-        expect(Crop.find(maize.id)).not_to eq nil
+        expect(Crop.find(tomato.id)).not_to be_nil
+        expect(Crop.find(maize.id)).not_to be_nil
       end
     end
   end
 
   it 'excludes deleted members' do
-    post = FactoryBot.create :post, author: member
+    post = FactoryBot.create(:post, author: member)
     expect(described_class.joins(:author).all).to include(post)
     member.destroy
     expect(described_class.joins(:author).all).not_to include(post)

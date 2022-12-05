@@ -76,6 +76,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
         it 'has a link to twitter profile' do
           assert_select "a", href: "http://twitter.com/#{@twitter_auth.name}"
         end
+
         it 'has a link to disconnect' do
           render
           assert_select "a", href: @twitter_auth, text: "Disconnect"
@@ -98,6 +99,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
         it 'has a link to flickr photostream' do
           assert_select "a", href: "http://flickr.com/photos/#{@flickr_auth.uid}"
         end
+
         it 'has a link to disconnect' do
           render
           assert_select "a", href: @flickr_auth, text: "Disconnect"

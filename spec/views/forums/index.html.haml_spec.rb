@@ -6,6 +6,7 @@ describe "forums/index" do
   let(:admin) { FactoryBot.create(:admin_member) }
   let(:forum1) { FactoryBot.create(:forum) }
   let(:forum2) { FactoryBot.create(:forum) }
+
   before do
     controller.stub(:current_user) { admin }
     assign(:forums, [forum1, forum2])
@@ -24,6 +25,7 @@ describe "forums/index" do
   context "posts" do
     let!(:post) { FactoryBot.create(:forum_post, forum: forum1) }
     let!(:comment) { FactoryBot.create(:comment, post:) }
+
     before { render }
 
     describe "displays posts" do

@@ -6,7 +6,7 @@ describe "seeds", js: true do
   context "signed in user" do
     include_context 'signed in member'
     xit "button on index to edit seed" do
-      let!(:seed) { create :seed, owner: member }
+      let!(:seed) { create(:seed, owner: member) }
 
       before do
         visit seeds_path
@@ -43,7 +43,7 @@ describe "seeds", js: true do
     # actually adding seeds is in spec/features/seeds_new_spec.rb
 
     it "edit seeds" do
-      seed = create :seed, owner: member
+      seed = create(:seed, owner: member)
       visit seed_path(seed)
       click_link 'Actions'
       click_link 'Edit'
@@ -54,7 +54,7 @@ describe "seeds", js: true do
     end
 
     describe "delete seeds" do
-      let(:seed) { FactoryBot.create :seed, owner: member }
+      let(:seed) { FactoryBot.create(:seed, owner: member) }
 
       before do
         visit seed_path(seed)
@@ -71,25 +71,25 @@ describe "seeds", js: true do
       before { visit seed_path(seed) }
 
       describe "view seeds with max and min days until maturity" do
-        let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5, days_until_maturity_max: 7 }
+        let(:seed) { FactoryBot.create(:seed, days_until_maturity_min: 5, days_until_maturity_max: 7) }
 
         it { expect(find('.seedfacts--maturity')).to have_content("5–7") }
       end
 
       describe "view seeds with only max days until maturity" do
-        let(:seed) { FactoryBot.create :seed, days_until_maturity_max: 7 }
+        let(:seed) { FactoryBot.create(:seed, days_until_maturity_max: 7) }
 
         it { expect(find('.seedfacts--maturity')).to have_content("7") }
       end
 
       describe "view seeds with only min days until maturity" do
-        let(:seed) { FactoryBot.create :seed, days_until_maturity_min: 5 }
+        let(:seed) { FactoryBot.create(:seed, days_until_maturity_min: 5) }
 
         it { expect(find('.seedfacts--maturity')).to have_content("5") }
       end
 
       describe "view seeds with neither max nor min days until maturity" do
-        let(:seed) { FactoryBot.create :seed }
+        let(:seed) { FactoryBot.create(:seed) }
 
         it { expect(find('.seedfacts--maturity')).to have_content "unknown" }
       end

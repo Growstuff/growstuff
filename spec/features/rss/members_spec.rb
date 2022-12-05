@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Members RSS feed' do
-  let(:member) { create :member }
+  let(:member) { create(:member) }
 
   before { visit member_path(member, format: 'rss') }
 

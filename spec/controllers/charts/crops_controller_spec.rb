@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Charts::CropsController do
   describe 'GET charts' do
-    let(:crop) { FactoryBot.create :crop }
+    let(:crop) { FactoryBot.create(:crop) }
 
     describe 'sunniness' do
       before { get :sunniness, params: { crop_slug: crop.to_param } }

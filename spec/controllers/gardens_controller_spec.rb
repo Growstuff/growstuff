@@ -6,7 +6,7 @@ RSpec.describe GardensController, type: :controller do
   include Devise::Test::ControllerHelpers
   let(:valid_params) { { name: 'My second Garden' } }
 
-  let(:garden) { FactoryBot.create :garden }
+  let(:garden) { FactoryBot.create(:garden) }
 
   context "when not signed in" do
     describe 'GET new' do

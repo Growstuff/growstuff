@@ -27,13 +27,16 @@ describe Photo do
 
         describe 'with a second older photo' do
           let(:old_photo) { FactoryBot.create(:photo, owner: member, created_at: 1.year.ago, date_taken: 2.years.ago) }
+
           # Add an old photo
           before { planting.photos << old_photo }
+
           it { expect(planting.default_photo).to eq photo }
           it { expect(planting.crop.default_photo).to eq photo }
 
           describe 'and someone likes the old photo' do
-            before { FactoryBot.create :like, likeable: old_photo }
+            before { FactoryBot.create(:like, likeable: old_photo) }
+
             it { expect(planting.default_photo).to eq old_photo }
             it { expect(planting.crop.default_photo).to eq old_photo }
           end
@@ -42,6 +45,7 @@ describe Photo do
 
       describe 'to a harvest' do
         let(:crop) { harvest.crop }
+
         before { harvest.photos << photo }
 
         it { expect(harvest.photos).to eq [photo] }
@@ -181,17 +185,17 @@ describe Photo do
   end
 
   describe 'assocations' do
-    let(:harvest_crop) { FactoryBot.create :crop, name: 'harvest_crop' }
-    let!(:harvest)       { FactoryBot.create :harvest, owner: member, crop: harvest_crop }
-    let!(:harvest_photo) { FactoryBot.create :photo, owner: member                       }
+    let(:harvest_crop) { FactoryBot.create(:crop, name: 'harvest_crop') }
+    let!(:harvest)       { FactoryBot.create(:harvest, owner: member, crop: harvest_crop) }
+    let!(:harvest_photo) { FactoryBot.create(:photo, owner: member)                       }
 
-    let(:planting_crop) { FactoryBot.create :crop, name: 'planting_crop' }
-    let!(:planting)       { FactoryBot.create :planting, owner: member, crop: planting_crop }
-    let!(:planting_photo) { FactoryBot.create :photo, owner: member                         }
+    let(:planting_crop) { FactoryBot.create(:crop, name: 'planting_crop') }
+    let!(:planting)       { FactoryBot.create(:planting, owner: member, crop: planting_crop) }
+    let!(:planting_photo) { FactoryBot.create(:photo, owner: member)                         }
 
-    let(:seed_crop) { FactoryBot.create :crop, name: 'seed_crop' }
-    let!(:seed)       { FactoryBot.create :seed, owner: member, crop: seed_crop }
-    let!(:seed_photo) { FactoryBot.create :photo, owner: member                 }
+    let(:seed_crop) { FactoryBot.create(:crop, name: 'seed_crop') }
+    let!(:seed)       { FactoryBot.create(:seed, owner: member, crop: seed_crop) }
+    let!(:seed_photo) { FactoryBot.create(:photo, owner: member)                 }
 
     before do
       harvest.photos << harvest_photo
@@ -235,7 +239,7 @@ describe Photo do
 
   describe 'Elastic search indexing', search: true do
     let!(:planting) { FactoryBot.create(:planting, :reindex, owner: photo.owner) }
-    let!(:crop) { FactoryBot.create :crop, :reindex }
+    let!(:crop) { FactoryBot.create(:crop, :reindex) }
 
     before do
       planting.photos << photo
@@ -247,6 +251,7 @@ describe Photo do
       it "finds just one" do
         expect(described_class.search.count).to eq 1
       end
+
       it "finds the matching photo" do
         expect(described_class.search).to include photo
       end
@@ -259,6 +264,7 @@ describe Photo do
     it "finds photos by owner in search index" do
       expect(described_class.search(where: { owner_id: planting.owner_id })).to include photo
     end
+
     it "finds photos by crop in search index" do
       expect(described_class.search(where: { crops: planting.crop.id })).to include photo
     end

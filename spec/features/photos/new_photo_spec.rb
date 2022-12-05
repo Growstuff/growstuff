@@ -6,7 +6,7 @@ describe "new photo page" do
   context "signed in member" do
     include_context 'signed in member'
     context "viewing a planting" do
-      let(:planting) { FactoryBot.create :planting, owner: member }
+      let(:planting) { FactoryBot.create(:planting, owner: member) }
 
       it "add photo" do
         visit planting_path(planting)
@@ -20,7 +20,7 @@ describe "new photo page" do
     end
 
     context "viewing a harvest" do
-      let(:harvest) { FactoryBot.create :harvest, owner: member }
+      let(:harvest) { FactoryBot.create(:harvest, owner: member) }
 
       it "add photo" do
         visit harvest_path(harvest)
@@ -33,7 +33,7 @@ describe "new photo page" do
     end
 
     context "viewing a garden" do
-      let(:garden) { FactoryBot.create :garden, owner: member }
+      let(:garden) { FactoryBot.create(:garden, owner: member) }
 
       it "add photo" do
         visit garden_path(garden)
@@ -46,7 +46,7 @@ describe "new photo page" do
     end
 
     describe "viewing a seed" do
-      let(:seed) { FactoryBot.create :seed, owner: member }
+      let(:seed) { FactoryBot.create(:seed, owner: member) }
 
       it "add photo" do
         visit seed_path(seed)

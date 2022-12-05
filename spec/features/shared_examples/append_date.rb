@@ -15,6 +15,7 @@ shared_examples "append date" do
         find(".datepicker-days td.day", text: "21").click
       end
     end
+
     it { expect(page).to have_content "Finished" }
     it { expect(page).to have_content "#{this_month} #{this_year}" }
   end
@@ -25,6 +26,7 @@ shared_examples "append date" do
       click_link link_text
       click_link "Confirm without date"
     end
+
     it { expect(page).to have_content("Finished") }
   end
 end

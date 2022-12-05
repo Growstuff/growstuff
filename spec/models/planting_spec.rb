@@ -11,36 +11,36 @@ describe Planting do
   describe 'planting lifespan predictions' do
     context 'no predications data yet' do
       describe 'planting planted, not finished' do
-        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: nil, finished: false }
+        let(:planting) { FactoryBot.create(:planting, planted_at: 30.days.ago, finished_at: nil, finished: false) }
 
-        it { expect(planting.crop.median_lifespan).to eq(nil) }
-        it { expect(planting.expected_lifespan).to eq(nil) }
+        it { expect(planting.crop.median_lifespan).to be_nil }
+        it { expect(planting.expected_lifespan).to be_nil }
         it { expect(planting.age_in_days).to eq(30) }
-        it { expect(planting.percentage_grown).to eq(nil) }
+        it { expect(planting.percentage_grown).to be_nil }
       end
 
       describe 'planting not planted yet' do
-        let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil, finished: false }
+        let(:planting) { FactoryBot.create(:planting, planted_at: nil, finished_at: nil, finished: false) }
 
-        it { expect(planting.crop.median_lifespan).to eq(nil) }
-        it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.age_in_days).to eq(nil) }
+        it { expect(planting.crop.median_lifespan).to be_nil }
+        it { expect(planting.expected_lifespan).to be_nil }
+        it { expect(planting.age_in_days).to be_nil }
         it { expect(planting.percentage_grown).to eq(0) }
       end
 
       describe 'planting finished, no planted_at' do
-        let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: 1.day.ago, finished: true }
+        let(:planting) { FactoryBot.create(:planting, planted_at: nil, finished_at: 1.day.ago, finished: true) }
 
-        it { expect(planting.crop.median_lifespan).to eq(nil) }
-        it { expect(planting.expected_lifespan).to eq(nil) }
-        it { expect(planting.age_in_days).to eq(nil) }
+        it { expect(planting.crop.median_lifespan).to be_nil }
+        it { expect(planting.expected_lifespan).to be_nil }
+        it { expect(planting.age_in_days).to be_nil }
         it { expect(planting.percentage_grown).to eq(100) }
       end
 
       describe 'planting all finished' do
-        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago, finished: true }
+        let(:planting) { FactoryBot.create(:planting, planted_at: 30.days.ago, finished_at: 10.days.ago, finished: true) }
 
-        it { expect(planting.crop.median_lifespan).to eq(nil) }
+        it { expect(planting.crop.median_lifespan).to be_nil }
         it { expect(planting.expected_lifespan).to eq(20) }
         it { expect(planting.age_in_days).to eq(20) }
         it { expect(planting.percentage_grown).to eq(100) }
@@ -49,18 +49,18 @@ describe Planting do
 
     context 'lots of data' do
       before do
-        FactoryBot.create :planting, crop: planting.crop, planted_at: 10.days.ago
-        FactoryBot.create :planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 50.days.ago
-        FactoryBot.create :planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 51.days.ago
-        FactoryBot.create :planting, crop: planting.crop, planted_at: 2.years.ago, finished_at: 50.days.ago
-        FactoryBot.create :planting, crop: planting.crop, planted_at: 150.days.ago, finished_at: 100.days.ago
+        FactoryBot.create(:planting, crop: planting.crop, planted_at: 10.days.ago)
+        FactoryBot.create(:planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 50.days.ago)
+        FactoryBot.create(:planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 51.days.ago)
+        FactoryBot.create(:planting, crop: planting.crop, planted_at: 2.years.ago, finished_at: 50.days.ago)
+        FactoryBot.create(:planting, crop: planting.crop, planted_at: 150.days.ago, finished_at: 100.days.ago)
         planting.crop.update_lifespan_medians
       end
 
       it { expect(planting.crop.median_lifespan).to eq 50 }
 
       describe 'planting 30 days ago, not finished' do
-        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago }
+        let(:planting) { FactoryBot.create(:planting, planted_at: 30.days.ago) }
 
         # 30 / 50 = 60%
         it { expect(planting.percentage_grown).to eq 60.0 }
@@ -71,11 +71,11 @@ describe Planting do
       end
 
       describe 'child crop uses parent data' do
-        let(:child_crop)     { FactoryBot.create :crop, parent: crop, name: 'child'                   }
-        let(:child_planting) { FactoryBot.create :planting, crop: child_crop, planted_at: 30.days.ago }
+        let(:child_crop)     { FactoryBot.create(:crop, parent: crop, name: 'child')                   }
+        let(:child_planting) { FactoryBot.create(:planting, crop: child_crop, planted_at: 30.days.ago) }
 
         # not data for this crop
-        it { expect(child_crop.median_lifespan).to eq nil }
+        it { expect(child_crop.median_lifespan).to be_nil }
         # 30 / 50 = 60%
         it { expect(child_planting.percentage_grown).to eq 60.0 }
         # planted 30 days ago
@@ -85,19 +85,19 @@ describe Planting do
       end
 
       describe 'planting not planted yet' do
-        let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: nil }
+        let(:planting) { FactoryBot.create(:planting, planted_at: nil, finished_at: nil) }
 
         it { expect(planting.percentage_grown).to eq 0 }
       end
 
       describe 'planting finished 10 days, but was never planted' do
-        let(:planting) { FactoryBot.create :planting, planted_at: nil, finished_at: 10.days.ago }
+        let(:planting) { FactoryBot.create(:planting, planted_at: nil, finished_at: 10.days.ago) }
 
         it { expect(planting.percentage_grown).to eq 100 }
       end
 
       describe 'planted 30 days ago, finished 10 days ago' do
-        let(:planting) { FactoryBot.create :planting, planted_at: 30.days.ago, finished_at: 10.days.ago }
+        let(:planting) { FactoryBot.create(:planting, planted_at: 30.days.ago, finished_at: 10.days.ago) }
 
         it { expect(planting.age_in_days).to eq 20 }
         it { expect(planting.percentage_grown).to eq 100 }
@@ -107,17 +107,17 @@ describe Planting do
 
   describe 'planting first harvest preductions' do
     context 'no data' do
-      let(:planting) { FactoryBot.create :planting }
+      let(:planting) { FactoryBot.create(:planting) }
 
-      it { expect(planting.crop.median_days_to_first_harvest).to eq(nil) }
-      it { expect(planting.crop.median_days_to_last_harvest).to eq(nil) }
-      it { expect(planting.days_to_first_harvest).to eq(nil) }
-      it { expect(planting.days_to_last_harvest).to eq(nil) }
-      it { expect(planting.expected_lifespan).to eq(nil) }
+      it { expect(planting.crop.median_days_to_first_harvest).to be_nil }
+      it { expect(planting.crop.median_days_to_last_harvest).to be_nil }
+      it { expect(planting.days_to_first_harvest).to be_nil }
+      it { expect(planting.days_to_last_harvest).to be_nil }
+      it { expect(planting.expected_lifespan).to be_nil }
     end
 
     context 'lots of data' do
-      let(:crop) { FactoryBot.create :crop }
+      let(:crop) { FactoryBot.create(:crop) }
       # this is a method so it creates a new one each time
 
       def one_hundred_day_old_planting
@@ -140,42 +140,43 @@ describe Planting do
       end
 
       it { expect(crop.median_days_to_first_harvest).to eq(20) }
+
       describe 'sets median time to harvest' do
-        let(:planting) { FactoryBot.create :planting, crop:, planted_at: Time.zone.today }
+        let(:planting) { FactoryBot.create(:planting, crop:, planted_at: Time.zone.today) }
 
         it { expect(planting.first_harvest_predicted_at).to eq(Time.zone.today + 20.days) }
       end
 
       describe 'harvest still growing' do
-        let(:planting) { FactoryBot.create :planting, crop:, planted_at: Time.zone.today }
+        let(:planting) { FactoryBot.create(:planting, crop:, planted_at: Time.zone.today) }
 
-        it { expect(planting.before_harvest_time?).to eq true }
-        it { expect(planting.harvest_time?).to eq false }
+        it { expect(planting.before_harvest_time?).to be true }
+        it { expect(planting.harvest_time?).to be false }
       end
 
       describe 'harvesting ready now' do
-        let(:planting) { FactoryBot.create :planting, crop:, planted_at: 21.days.ago }
+        let(:planting) { FactoryBot.create(:planting, crop:, planted_at: 21.days.ago) }
 
         it { expect(planting.first_harvest_predicted_at).to eq(1.day.ago.to_date) }
-        it { expect(planting.before_harvest_time?).to eq false }
-        it { expect(planting.harvest_time?).to eq true }
+        it { expect(planting.before_harvest_time?).to be false }
+        it { expect(planting.harvest_time?).to be true }
       end
     end
 
     describe 'planting has no harvests' do
-      let(:planting) { FactoryBot.create :planting }
+      let(:planting) { FactoryBot.create(:planting) }
 
       before do
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
       end
 
-      it { expect(planting.days_to_first_harvest).to eq(nil) }
-      it { expect(planting.days_to_last_harvest).to eq(nil) }
+      it { expect(planting.days_to_first_harvest).to be_nil }
+      it { expect(planting.days_to_last_harvest).to be_nil }
     end
 
     describe 'planting has first harvest' do
-      let(:planting) { FactoryBot.create :planting, planted_at: 100.days.ago }
+      let(:planting) { FactoryBot.create(:planting, planted_at: 100.days.ago) }
 
       before do
         FactoryBot.create(:harvest,
@@ -187,17 +188,17 @@ describe Planting do
       end
 
       it { expect(planting.days_to_first_harvest).to eq(90) }
-      it { expect(planting.days_to_last_harvest).to eq(nil) }
+      it { expect(planting.days_to_last_harvest).to be_nil }
       it { expect(planting.crop.median_days_to_first_harvest).to eq(90) }
-      it { expect(planting.crop.median_days_to_last_harvest).to eq(nil) }
+      it { expect(planting.crop.median_days_to_last_harvest).to be_nil }
     end
 
     describe 'planting has last harvest' do
-      let(:planting) { FactoryBot.create :planting, planted_at: 100.days.ago, finished_at: 1.day.ago, finished: true }
+      let(:planting) { FactoryBot.create(:planting, planted_at: 100.days.ago, finished_at: 1.day.ago, finished: true) }
 
       before do
-        FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 90.days.ago
-        FactoryBot.create :harvest, planting: planting, crop: planting.crop, harvested_at: 10.days.ago
+        FactoryBot.create(:harvest, planting:, crop: planting.crop, harvested_at: 90.days.ago)
+        FactoryBot.create(:harvest, planting:, crop: planting.crop, harvested_at: 10.days.ago)
         planting.update_harvest_days!
         planting.crop.update_harvest_medians
       end
@@ -211,50 +212,55 @@ describe Planting do
 
   describe 'planting perennial' do
     let(:crop) { FactoryBot.create(:crop, name: 'feijoa', perennial: true) }
-    it { expect(planting.perennial?).to eq true }
+
+    it { expect(planting.perennial?).to be true }
+
     describe 'no harvest to predict from' do
       it { expect(planting.harvest_months).to eq({}) }
     end
 
     describe 'harvests used to predict' do
       before do
-        FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '1 May 2019'
-        FactoryBot.create :harvest, planting: planting, crop: crop, harvested_at: '18 June 2019'
-        FactoryBot.create_list :harvest, 4, planting:, crop:, harvested_at: '18 August 2019'
+        FactoryBot.create(:harvest, planting:, crop:, harvested_at: '1 May 2019')
+        FactoryBot.create(:harvest, planting:, crop:, harvested_at: '18 June 2019')
+        FactoryBot.create_list(:harvest, 4, planting:, crop:, harvested_at: '18 August 2019')
       end
+
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
 
     describe 'nearby plantings used to predict' do
       # Note the locations used need to be stubbed in geocoder
-      let(:garden) { FactoryBot.create :garden, location: 'Edinburgh', owner: garden_owner }
+      let(:garden) { FactoryBot.create(:garden, location: 'Edinburgh', owner: garden_owner) }
 
       before do
         # Near by planting with harvests
-        nearby_garden = FactoryBot.create :garden, location: 'Greenwich, UK'
+        nearby_garden = FactoryBot.create(:garden, location: 'Greenwich, UK')
         nearby_planting = FactoryBot.create(:planting,
                                             crop:,
                                             garden:     nearby_garden,
                                             owner:      nearby_garden.owner,
                                             planted_at: '1 January 2000')
-        FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-                                    harvested_at: '1 May 2019'
-        FactoryBot.create :harvest, planting: nearby_planting, crop: crop,
-                                    harvested_at: '18 June 2019'
-        FactoryBot.create_list :harvest, 4, planting: nearby_planting, crop: crop,
-                                            harvested_at: '18 August 2008'
+        FactoryBot.create(:harvest, planting: nearby_planting, crop:,
+                                    harvested_at: '1 May 2019')
+        FactoryBot.create(:harvest, planting: nearby_planting, crop:,
+                                    harvested_at: '18 June 2019')
+        FactoryBot.create_list(:harvest, 4, planting: nearby_planting, crop:,
+                                            harvested_at: '18 August 2008')
 
         # far away planting harvests
-        faraway_garden = FactoryBot.create :garden, location: 'Amundsen-Scott Base, Antarctica'
-        faraway_planting = FactoryBot.create :planting, garden: faraway_garden, crop: crop,
-                                                        owner: faraway_garden.owner, planted_at: '16 May 2001'
+        faraway_garden = FactoryBot.create(:garden, location: 'Amundsen-Scott Base, Antarctica')
+        faraway_planting = FactoryBot.create(:planting, garden: faraway_garden, crop:,
+                                                        owner: faraway_garden.owner, planted_at: '16 May 2001')
 
-        FactoryBot.create_list :harvest, 4, planting: faraway_planting, crop:,
-                                            harvested_at: '18 December 2006'
+        FactoryBot.create_list(:harvest, 4, planting: faraway_planting, crop:,
+                                            harvested_at: '18 December 2006')
       end
+
       it { expect(planting.harvest_months).to eq(5 => 1, 6 => 1, 8 => 4) }
     end
   end
+
   it 'has an owner' do
     planting.owner.should be_an_instance_of Member
   end
@@ -274,16 +280,18 @@ describe Planting do
 
   describe '#planted?' do
     it "is false for future plantings" do
-      planting = FactoryBot.create :planting, planted_at: Time.zone.today + 1
-      expect(planting.planted?).to eq(false)
+      planting = FactoryBot.create(:planting, planted_at: Time.zone.today + 1)
+      expect(planting.planted?).to be(false)
     end
+
     it "is false for never planted" do
-      planting = FactoryBot.create :planting, planted_at: nil
-      expect(planting.planted?).to eq(false)
+      planting = FactoryBot.create(:planting, planted_at: nil)
+      expect(planting.planted?).to be(false)
     end
+
     it "is true for past plantings" do
-      planting = FactoryBot.create :planting, planted_at: Time.zone.today - 1
-      expect(planting.planted?).to eq(true)
+      planting = FactoryBot.create(:planting, planted_at: Time.zone.today - 1)
+      expect(planting.planted?).to be(true)
     end
   end
 
@@ -512,17 +520,19 @@ describe Planting do
   end
 
   context 'ancestry' do
-    let(:parent_seed) { FactoryBot.create :seed }
-    let(:planting) { FactoryBot.create :planting, parent_seed: }
+    let(:parent_seed) { FactoryBot.create(:seed) }
+    let(:planting) { FactoryBot.create(:planting, parent_seed:) }
 
     it "planting has a parent seed" do
       expect(planting.parent_seed).to eq(parent_seed)
     end
+
     it "seed has a child planting" do
       expect(parent_seed.child_plantings).to eq [planting]
     end
+
     describe 'grandchildren' do
-      let(:grandchild_seed) { FactoryBot.create :seed, parent_planting: planting }
+      let(:grandchild_seed) { FactoryBot.create(:seed, parent_planting: planting) }
 
       it { expect(grandchild_seed.parent_planting).to eq planting }
       it { expect(grandchild_seed.parent_planting.parent_seed).to eq parent_seed }
@@ -530,24 +540,26 @@ describe Planting do
   end
 
   describe 'active scope' do
-    let(:member) { FactoryBot.create :member }
+    let(:member) { FactoryBot.create(:member) }
     let!(:planting) do
-      FactoryBot.create :planting, owner: member, garden: member.gardens.first
+      FactoryBot.create(:planting, owner: member, garden: member.gardens.first)
     end
     let!(:finished_planting) do
-      FactoryBot.create :finished_planting, owner: member, garden: member.gardens.first
+      FactoryBot.create(:finished_planting, owner: member, garden: member.gardens.first)
     end
+
     it { expect(member.plantings.active).to include(planting) }
     it { expect(member.plantings.active).not_to include(finished_planting) }
   end
 
   describe 'homepage', :search do
-    let!(:interesting_planting) { FactoryBot.create :planting, :reindex, :with_photo }
-    let!(:finished_interesting_planting) { FactoryBot.create :finished_planting, :reindex, :with_photo }
-    let!(:planting) { FactoryBot.create :planting, :reindex }
+    subject { described_class.homepage_records(100) }
+
+    let!(:interesting_planting) { FactoryBot.create(:planting, :reindex, :with_photo) }
+    let!(:finished_interesting_planting) { FactoryBot.create(:finished_planting, :reindex, :with_photo) }
+    let!(:planting) { FactoryBot.create(:planting, :reindex) }
 
     before { described_class.reindex }
-    subject { described_class.homepage_records(100) }
 
     it { expect(subject.count).to eq 2 }
     it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s]) }

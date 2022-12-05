@@ -37,7 +37,7 @@ describe Comment do
       @p = FactoryBot.create(:post, author: @m)
       expect do
         FactoryBot.create(:comment, post: @p, author: @m)
-      end.to change(Notification, :count).by(0)
+      end.not_to change(Notification, :count)
     end
   end
 
