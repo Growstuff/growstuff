@@ -10,11 +10,11 @@
           .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
             = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
               = edit_icon
-              = t('.edit')
+              = t('buttons.edit')
             .dropdown-divider
             = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
               = delete_icon
-              = t('.delete')
+              = t('buttons.delete')
       - else
         .badge= sn.name
 

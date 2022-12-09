@@ -91,6 +91,7 @@ en:
     save_seeds: Save seeds
     timeline: Timeline
     write_blog_post: Write blog post
+    plant_something: Plant something
   crops:
     search: Search crops
     index:
