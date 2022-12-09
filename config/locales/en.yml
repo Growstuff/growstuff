@@ -139,7 +139,10 @@ en:
       ad_free_linktext: ad-free
       api_docs_linktext: API documentation
       creative_commons_linktext: Creative Commons license
-      get_involved_body_html: 'We believe in collaboration, and work closely with our members and the wider food-growing community. Our team includes volunteers from all walks of life and all skill levels. To get involved, visit %{talk_link} or find more information on the %{wiki_link}.
+      get_involved_body_html: >
+        We believe in collaboration, and work closely with our members and the wider food-growing community.
+        Our team includes volunteers from all walks of life and all skill levels. To get involved,
+        visit %{talk_link} or find more information on the %{wiki_link}.
 
         '
       get_involved_title: Get Involved
