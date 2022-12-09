@@ -47,7 +47,8 @@ search:
 
   ## Paths to search in, passed to File.find
   paths:
-    - app/
+    - app/views/
+    - app/controllers/
 
   ## Root for resolving relative keys (default)
   # relative_roots:
