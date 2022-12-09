@@ -129,6 +129,7 @@ gem 'faraday'
 gem 'faraday_middleware'
 
 gem 'rack-cors'
+gem 'rails-i18n'
 
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
