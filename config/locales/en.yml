@@ -106,7 +106,9 @@ en:
   home:
     blurb:
       already_html: Or %{sign_in} if you already have an account
-      intro: "%{site_name} is a community of food gardeners. %{site_name}'s open source and open data platform can predict when your plantings will be ready to harvest. The more you tell it, the better the predictions.\n"
+      intro: >
+        %{site_name} is a community of food gardeners. %{site_name}'s open source and open data platform
+        can predict when your plantings will be ready to harvest. The more you tell it, the better the predictions.
       perks: Join now for your free garden journal, harvest predictions, forums, and more.
       sign_in_linktext: sign in
       sign_up: Sign up
