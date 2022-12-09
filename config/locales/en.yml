@@ -144,7 +144,10 @@ en:
         '
       get_involved_title: Get Involved
       github_linktext: Github
-      open_data_body_html: 'We''re building a database of crops, planting advice, seed sources, and other information that anyone can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps, or for any purpose at all.  Read more about our %{wiki_link} and %{api_docs_link}.
+      open_data_body_html: >
+        We're building a database of crops, planting advice, seed sources, and other information that anyone
+        can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps,
+        or for any purpose at all.  Read more about our %{wiki_link} and %{api_docs_link}.
 
         '
       open_data_title: Open Data and APIs
