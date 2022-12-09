@@ -71,7 +71,19 @@ en:
       title: Requested crops
     search: Search crops
   date:
-    abbr_month_names: Abbr month names
+    abbr_month_names:
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - May
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Oct
+      - Nov
+      - Dec
   edit_crop: Edit crop
   errors:
     messages:
@@ -150,7 +162,7 @@ en:
         can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps,
         or for any purpose at all.  Read more about our %{wiki_link} and %{api_docs_link}.
       open_data_title: Open Data and APIs
-      open_source_body_html >
+      open_source_body_html: >
         %{site_name} is open source software, which means that we share this website's code for free with our community and the world.
         We believe that openness, sustainability, and social good go hand in hand. You can read more about %{why} or check out our code on %{github}.
       open_source_title: Open Source
