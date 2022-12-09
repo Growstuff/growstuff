@@ -143,18 +143,16 @@ en:
         We believe in collaboration, and work closely with our members and the wider food-growing community.
         Our team includes volunteers from all walks of life and all skill levels. To get involved,
         visit %{talk_link} or find more information on the %{wiki_link}.
-
-        '
       get_involved_title: Get Involved
       github_linktext: Github
       open_data_body_html: >
         We're building a database of crops, planting advice, seed sources, and other information that anyone
         can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps,
         or for any purpose at all.  Read more about our %{wiki_link} and %{api_docs_link}.
-
-        '
       open_data_title: Open Data and APIs
-      open_source_body_html: "%{site_name} is open source software, which means that we share this website's code for free with our community and the world.  We believe that openness, sustainability, and social good go hand in hand. You can read more about %{why} or check out our code on %{github}.\n"
+      open_source_body_html >
+        %{site_name} is open source software, which means that we share this website's code for free with our community and the world.
+        We believe that openness, sustainability, and social good go hand in hand. You can read more about %{why} or check out our code on %{github}.
       open_source_title: Open Source
       support_body_html: Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}.
       support_title: Support Growstuff
@@ -279,9 +277,9 @@ en:
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
     form:
-      finish_helper: 'A planting is finished when you''ve harvested all of the crop, or it dies, or it''s otherwise no longer growing in your garden.
-
-        '
+      finish_helper: >
+        A planting is finished when you've harvested all of the crop, or it dies, 
+        or it's otherwise no longer growing in your garden.
     index:
       title:
         crop_plantings: Everyone's %{crop} plantings
@@ -300,12 +298,12 @@ en:
     write_blog_post: Write blog post
   seeds:
     form:
-      finish_helper: 'Seeds are finished when you''ve planted them all, or you''ve traded them all away.
-
-        '
-      trade_help: 'Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
-
-        '
+      finish_helper: >
+        Seeds are finished when you've planted them all, or you've traded them all away.
+      trade_help: >
+        Are you interested in trading or swapping seeds with other %{site_name} members?
+        If you list your seeds as available for trade, other members can contact you to request seeds.
+        You can list any conditions or other information in the description, above.
     index:
       title:
         crop_seeds: Everyone's %{crop} seeds
