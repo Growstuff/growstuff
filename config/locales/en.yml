@@ -290,7 +290,7 @@ en:
       super_late: super late
     form:
       finish_helper: >
-        A planting is finished when you've harvested all of the crop, or it dies, 
+        A planting is finished when you've harvested all of the crop, or it dies,
         or it's otherwise no longer growing in your garden.
     index:
       title:
