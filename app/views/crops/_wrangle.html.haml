@@ -8,7 +8,7 @@
       .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
         = link_to edit_crop_path(crop), class: 'dropdown-item' do
           = edit_icon
-          = t('.edit')
+          = t('buttons.edit')
 
         = link_to crop_openfarm_path(crop), method: :post, class: 'dropdown-item' do
           = icon 'far', 'update'
