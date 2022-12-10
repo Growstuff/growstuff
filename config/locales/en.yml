@@ -228,23 +228,6 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
-      admin: Admin
-      browse_crops: Browse crops
-      browse_members: Browse members
-      community: Community
-      community_map: Community map
-      crop_wrangling: Crop wrangling
-      crops: Crops
-      forums: Forums
-      gardens: Gardens
-      harvest: Harvest
-      harvests: Harvests
-      inbox: Inbox
-      plantings: Plantings
-      posts: Posts
-      profile: Profile
-      record: Record
-      seeds: Seeds
       sign_in: Sign in
       sign_out: Sign out
       sign_up: Sign up
