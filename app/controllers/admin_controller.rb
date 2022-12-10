@@ -8,7 +8,7 @@ class AdminController < ApplicationController
 
   def newsletter
     authorize! :manage, :all
-    @members = Member.confirmed.wants_newsletter.all
+    @members = Member.confirmed.wants_newsletter.all.paginate(page: params[:page])
     respond_with @members
   end
 end
