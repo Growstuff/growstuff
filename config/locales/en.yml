@@ -92,21 +92,11 @@ en:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     location: "%{owner}'s %{garden}"
     overview:
-      gardensactions: gardens/actions
-      gardensphoto: gardens/photo
       no_plantings: no plantings
       plantingsthumbnail: plantings/thumbnail
     updated: Garden was successfully updated.
   harvests:
-    created: Harvest was successfully created.
     harvest_something: Harvest something
-    index:
-      title:
-        crop_harvests: Everyone's %{crop} harvests
-        default: Everyone's harvests
-        owner_harvests: "%{owner}'s harvests"
-        planting_harvests: Harvests from %{planting}
-    updated: Harvest was successfully updated.
   home:
     blurb:
       already_html: Or %{sign_in} if you already have an account
