@@ -18,7 +18,9 @@ describe "scientific_names/edit" do
       expect(rendered).to have_content "Added by #{member} less than a minute ago."
     end
 
-    xit { expect(rendered).to have_link member_path(member) }
+    it "shows member link" do 
+      expect(rendered).to have_link member.login_name, href: member_path(member)
+    end
 
     it "renders the edit scientific_name form" do
       assert_select "form", action: scientific_names_path(scientific_name), method: "post" do
