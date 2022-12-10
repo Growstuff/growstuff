@@ -178,8 +178,6 @@ en:
       number_plantings_linktext: "%{count} times"
   label:
     data: 'The data on this page is available in the following formats:'
-    days_until_finished: "%{number} days"
-    days_until_harvest: "%{number} days"
     harvesting_now: harvesting now
     weeks_until_finished: "%{number} weeks"
     weeks_until_harvest: "%{number} weeks until harvest"
@@ -187,20 +185,14 @@ en:
     application:
       skip: Skip
     header:
-      account: Account
       admin: Admin
       browse_crops: Browse Crops
       browse_members: Browse Members
       community: Community
       community_map: Community Map
       crop_wrangling: Crop Wrangling
-      crops: Crops
       current_memberlogin_name: "%{current_memberlogin_name}"
       forums: Forums
-      garden_type: Garden Type
-      garden_types: Garden Types
-      gardens: Gardens
-      harvest: Harvest
       harvests: Harvests
       inbox: Inbox
       inbox_unread: Inbox (%{unread_count})
