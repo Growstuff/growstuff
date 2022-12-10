@@ -41,27 +41,17 @@ en:
     add_photo: Add photo
     delete: Delete
     edit: Edit
-    harvest: Harvest
-    harvest_crop: Harvest %{crop_name}
-    mark_as_active: Mark as active
-    mark_as_inactive: Mark as inactive
-    my_gardens: My Gardens
     new_harvest: New harvest
     new_planting: New planting
     new_post: Write new post
     new_seeds: New saved seed
-    record_harvest: Record Harvest
     save_seeds: Save seeds
-    write_blog_post: Write blog post
   crops:
     index:
-      subtitle: "%{crops_size} total"
       title: Browse Crops
     requested:
-      link: You have %{number_crops} crops awaiting approval
       subtitle: Pending approval
       title: Requested crops
-    search: Search crops
   date:
     abbr_month_names:
       - Jan
@@ -76,12 +66,9 @@ en:
       - Oct
       - Nov
       - Dec
-  edit_crop: Edit crop
   errors:
     messages:
       not_saved: Not saved
-  forms:
-    optional: "(Optional)"
   forums:
     index:
       title: Forums
@@ -90,10 +77,6 @@ en:
     deleted: Garden was successfully deleted.
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
-    location: "%{owner}'s %{garden}"
-    overview:
-      no_plantings: no plantings
-      plantingsthumbnail: plantings/thumbnail
     updated: Garden was successfully updated.
   harvests:
     harvest_something: Harvest something
@@ -110,8 +93,6 @@ en:
       our_crops: Some of our crops
       view_all: View all crops
     discuss:
-      discussion: Discussion
-      forums: Forums
       view_all: View all posts
     harvests:
       recently_harvested: Recently Harvested
@@ -148,8 +129,8 @@ en:
       community: Community
       community_map: Community Map
       crop_wrangling: Crop Wrangling
-      current_memberlogin_name: "%{current_memberlogin_name}"
       forums: Forums
+      garden_types: Garden Types
       harvests: Harvests
       inbox: Inbox
       plantings: Plantings
