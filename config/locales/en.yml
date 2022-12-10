@@ -32,10 +32,6 @@ en:
       seed:
         one: seed
         other: seeds
-  application_helper:
-    title:
-      title:
-        default: Default
   are_you_sure: Are you sure?
   buttons:
     add_photo: Add photo
@@ -163,7 +159,6 @@ en:
   plantings:
     badges:
       late_finishing: late finishing
-      sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
     form:
       finish_helper: >
