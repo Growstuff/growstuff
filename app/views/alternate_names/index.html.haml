@@ -17,10 +17,11 @@
       %td= link_to 'Show', alternate_name
       %td
         - if can? :edit, alternate_name
-          = link_to 'Edit', edit_alternate_name_path(alternate_name), class: 'btn btn-default btn-xs'
+          = link_to t('buttons.edit'), edit_alternate_name_path(alternate_name), class: 'btn btn-default btn-xs'
       %td
         - if can? :destroy, alternate_name
-          = link_to 'Delete', alternate_name,
+          = link_to t('buttons.delete'), alternate_name,
                      method: :delete,
-                     data: { confirm: 'Are you sure?' },
+                     data: { confirm: t(:are_you_sure?) },
                      class: 'btn btn-default btn-xs'
+= will_paginate(@alternate_names)
