@@ -166,7 +166,6 @@ en:
       profile: Profile
       record: Record
       seeds: Seeds
-      toggle_navigation: Toggle Navigation
     menu:
       sign_in: Sign in
       sign_out: Sign out
