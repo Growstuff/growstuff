@@ -8,7 +8,7 @@ module Admin
     responders :flash
 
     def index
-      @roles = Role.all.order(:name)
+      @roles = Role.all.order(:name).paginate(page: params[:page])
       respond_with @roles
     end
 
