@@ -163,11 +163,9 @@ en:
       harvests: Harvests
       inbox: Inbox
       plantings: Plantings
-      posts: Posts
       profile: Profile
       record: Record
       seeds: Seeds
-      support_growstuff: Support Growstuff
       toggle_navigation: Toggle Navigation
     menu:
       sign_in: Sign in
@@ -201,16 +199,7 @@ en:
       finish_helper: >
         A planting is finished when you've harvested all of the crop, or it dies,
         or it's otherwise no longer growing in your garden.
-    index:
-      title:
-        crop_plantings: Everyone's %{crop} plantings
-        default: Everyone's plantings
-        owner_plantings: "%{owner}'s plantings"
-      view_owners_profile: View %{owner}'s profile >>
     plant_something: Plant something
-    progress:
-      progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
-    string: "%{crop} planting in %{garden} by %{owner}"
   posts:
     index:
       title:
