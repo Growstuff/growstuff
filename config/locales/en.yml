@@ -38,28 +38,20 @@ en:
         default: Default
   are_you_sure: Are you sure?
   buttons:
-    add: Add
     add_photo: Add photo
-    add_seed_to_stash: Add %{crop_name} seeds to stash
     delete: Delete
     edit: Edit
     harvest: Harvest
     harvest_crop: Harvest %{crop_name}
     mark_as_active: Mark as active
-    mark_as_finished: Mark as finished
     mark_as_inactive: Mark as inactive
     my_gardens: My Gardens
     new_harvest: New harvest
     new_planting: New planting
     new_post: Write new post
     new_seeds: New saved seed
-    plant: Plant
-    plant_crop: Plant %{crop_name}
-    plant_something: Plant something
-    plant_something_here: Plant something here
     record_harvest: Record Harvest
     save_seeds: Save seeds
-    timeline: Timeline
     write_blog_post: Write blog post
   crops:
     index:
@@ -126,8 +118,6 @@ en:
       sign_up: Sign up
     crops:
       our_crops: Some of our crops
-      recently_added: Recently added crops
-      recently_planted: Recently Planted
       view_all: View all crops
     discuss:
       discussion: Discussion
@@ -146,11 +136,6 @@ en:
       recently_planted: Recently Planted
       view_all: View all plantings
     seeds:
-      crop: Crop
-      description: Description
-      details: Details
-      from: From location
-      owner: Owner
       title: Seeds available to trade
       view_all: View all seeds
     stats:
@@ -207,16 +192,6 @@ en:
   places:
     index:
       title: "%{site_name} Community Map"
-  planting:
-    status:
-      finished: Finished
-      growing: Growing
-      harvesting: Harvesting
-      late: Late
-      not planted: Not planted
-      not_enough_data: Not enough data
-      perennial: Perennial
-      unknown: Unknown
   plantings:
     badges:
       late_finishing: late finishing
