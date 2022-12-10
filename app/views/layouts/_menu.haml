@@ -27,7 +27,7 @@
 
     - cache("everyone-menu", expires_in: 1.week) do
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('activerecord.models.crop.other').titleize
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= Crop.model_name.human(count: 2).titleize
         .dropdown-menu
           = link_to crops_path, class: 'dropdown-item' do
             = t('layouts.header.browse_crops')
@@ -45,7 +45,7 @@
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to t('layouts.header.community_map'), places_path, class: 'dropdown-item'
           = link_to t('layouts.header.browse_members'), members_path, class: 'dropdown-item'
-          = link_to t('activerecord.models.post.other').titleize, posts_path, class: 'dropdown-item'
+          = link_to Post.model_name.human(count: 2).titleize, posts_path, class: 'dropdown-item'
           = link_to t('layouts.header.forums'), forums_path, class: 'dropdown-item'
 
     - if member_signed_in?
@@ -68,14 +68,14 @@
           = link_to member_path(current_member), class: 'dropdown-item' do
             = t('layouts.header.profile')
           = link_to member_gardens_path(current_member), class: 'dropdown-item' do
-            = t('activerecord.models.garden.other').titleize
+            = Garden.model_name.human(count: 2).titleize
           = link_to member_plantings_path(current_member), class: 'dropdown-item' do
-            = t('activerecord.models.planting.other').titleize
+            = Planting.model_name.human(count: 2).titleize
           = link_to member_harvests_path(current_member), class: 'dropdown-item' do
-            = t('activerecord.models.harvest.other').titleize
+            = Harvest.model_name.human(count: 2).titleize
           = link_to member_seeds_path(current_member), class: 'dropdown-item' do
-            = t('activerecord.models.seed.other').titleize
-          = link_to t('activerecord.models.post.other').titleize, member_posts_path(current_member), class: 'dropdown-item'
+            = Seed.model_name.human(count: 2).titleize
+          = link_to Post.model_name.human(count: 2).titleize, member_posts_path(current_member), class: 'dropdown-item'
 
           - if current_member.unread_count.positive?
             .dropdown-divider

@@ -1,27 +1,5 @@
 ---
 en:
-  activerecord:
-    models:
-      comment:
-        other: comments
-      crop:
-        other: crops
-      follow:
-        other: follows
-      garden:
-        other: gardens
-      harvest:
-        other: harvests
-      member:
-        other: members
-      photo:
-        other: photos
-      planting:
-        other: plantings
-      post:
-        other: posts
-      seed:
-        other: seeds
   are_you_sure: Are you sure?
   buttons:
     add_photo: Add photo
