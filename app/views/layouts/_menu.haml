@@ -45,7 +45,7 @@
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to t('layouts.header.community_map'), places_path, class: 'dropdown-item'
           = link_to t('layouts.header.browse_members'), members_path, class: 'dropdown-item'
-          = link_to t('activerecord.models.post.other').titlize, posts_path, class: 'dropdown-item'
+          = link_to t('activerecord.models.post.other').titleize, posts_path, class: 'dropdown-item'
           = link_to t('layouts.header.forums'), forums_path, class: 'dropdown-item'
 
     - if member_signed_in?
