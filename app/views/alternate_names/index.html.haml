@@ -21,7 +21,7 @@
       %td
         - if can? :destroy, alternate_name
           = link_to t('buttons.delete'), alternate_name,
-                     method: :delete,
-                     data: { confirm: t(:are_you_sure?) },
-                     class: 'btn btn-default btn-xs'
+                    method: :delete,
+                    data: { confirm: t(:are_you_sure?) },
+                    class: 'btn btn-default btn-xs'
 = will_paginate(@alternate_names)
