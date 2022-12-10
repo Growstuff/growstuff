@@ -137,26 +137,11 @@ en:
       recently_harvested: Recently Harvested
       view_all: View all harvests
     index:
-      add_seeds: Add seeds
-      edit_profile: Edit profile
-      harvest: Harvest
-      plant: Plant
-      post: Post
       recently_added: Recently Added
       welcome: Welcome to %{site_name}, %{member_name}
     members:
       title: Some of our members
       view_all: View all members
-    open:
-      ad_free_linktext: ad-free
-      api_docs_linktext: API documentation
-      creative_commons_linktext: Creative Commons license
-      github_linktext: Github
-      support_body_html: Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}.
-      support_title: Support Growstuff
-      talk_linktext: Growstuff Talk
-      why_linktext: why Growstuff is open source
-      wiki_linktext: Growstuff Wiki
     plantings:
       recently_planted: Recently Planted
       view_all: View all plantings
@@ -167,8 +152,6 @@ en:
       from: From location
       owner: Owner
       title: Seeds available to trade
-      trade_to: Will trade to
-      unspecified: unspecified
       view_all: View all seeds
     stats:
       member_linktext: "%{count} members"
@@ -179,7 +162,6 @@ en:
   label:
     data: 'The data on this page is available in the following formats:'
     harvesting_now: harvesting now
-    weeks_until_finished: "%{number} weeks"
     weeks_until_harvest: "%{number} weeks until harvest"
   layouts:
     application:
@@ -202,7 +184,6 @@ en:
       seeds: Seeds
       support_growstuff: Support Growstuff
       toggle_navigation: Toggle Navigation
-      your_stuff: Your Stuff
     menu:
       sign_in: Sign in
       sign_out: Sign out
@@ -238,9 +219,6 @@ en:
       unknown: Unknown
   plantings:
     badges:
-      days_until_finished: days until finished
-      days_until_harvest: days until harvest
-      harvesting_now: harvesting now
       late_finishing: late finishing
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
@@ -272,9 +250,5 @@ en:
         Are you interested in trading or swapping seeds with other %{site_name} members?
         If you list your seeds as available for trade, other members can contact you to request seeds.
         You can list any conditions or other information in the description, above.
-    index:
-      title:
-        default: Everyone's seeds
     save_seeds: Save seeds
-    string: "%{crop} seeds belonging to %{owner}"
   view: View
