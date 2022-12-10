@@ -58,6 +58,7 @@ function showMap(placesmap) {
   });
 
   function fetchCropsForMap(url) {
+    var n = 0;
     $.getJSON(url, function(crop_data) {
       $.each(crop_data['data'], function(i, p) {
         if (p.attributes.latitude && p.attributes.longitude) {
@@ -78,7 +79,8 @@ function showMap(placesmap) {
           markers.addLayer(marker);
         }
       });
-      if (crop_data['links']['next']) {
+      // We fetch pages of 10 at a time. Stop after 200 crops; so we are showing only 'active' plantings.
+      if (crop_data['links']['next'] && n++ < 20) {
         fetchCropsForMap(crop_data['links']['next'])
       }
       return crop_data;
