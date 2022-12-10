@@ -18,7 +18,7 @@ describe "scientific_names/edit" do
       expect(rendered).to have_content "Added by #{member} less than a minute ago."
     end
 
-    it "render member link" do 
+    it "render member link" do
       expect(rendered).to have_link member.login_name, href: member_path(member)
     end
 
