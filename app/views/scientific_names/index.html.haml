@@ -22,3 +22,5 @@
         - if can? :destroy, scientific_name
           = link_to 'Delete', scientific_name, method: :delete, data: { confirm: 'Are you sure?' },
             class: 'btn btn-default btn-xs'
+
+= will_paginate @scientific_names

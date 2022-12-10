@@ -9,7 +9,7 @@ class ScientificNamesController < ApplicationController
   # GET /scientific_names
   # GET /scientific_names.json
   def index
-    @scientific_names = ScientificName.all.order(:name)
+    @scientific_names = ScientificName.all.order(:name).paginate(page: params[:page], per_page: 100)
     respond_with(@scientific_names)
   end
 
