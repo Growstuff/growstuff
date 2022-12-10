@@ -209,8 +209,6 @@ en:
       sign_in: Sign in
       sign_out: Sign out
       sign_up: Sign up
-  links:
-    my_gardens: My gardens
   members:
     edit_profile: Edit profile
     index:
@@ -227,7 +225,6 @@ en:
       harvest: "%{crop} harvest by %{owner}"
       planting: "%{planting}"
       seed: "%{seed}"
-      thing_by: A %{thing} by %{owner}
   places:
     index:
       title: "%{site_name} Community Map"
