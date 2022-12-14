@@ -351,7 +351,7 @@ GEM
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.19.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -661,7 +661,7 @@ DEPENDENCIES
   better_errors
   bluecloth
   bonsai-elasticsearch-rails
-  bootstrap (>= 4.3.1)
+  bootstrap (>= 4.6.2)
   bootstrap-datepicker-rails
   bootstrap_form (>= 4.5.0)
   bullet
@@ -703,10 +703,10 @@ DEPENDENCIES
   js-routes
   jsonapi-resources
   jsonapi-swagger
-  leaflet-rails (>= 1.7.0)
+  leaflet-rails (>= 1.9.2)
   letter_opener
   listen
-  loofah (>= 2.2.1)
+  loofah (>= 2.19.1)
   mailboxer (>= 0.15.1)
   material-sass (= 4.1.1)
   material_icons
@@ -756,7 +756,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-    ruby 3.1.3p185
+   ruby 3.1.3p185
 
 BUNDLED WITH
-    2.3.26
+   2.3.26
