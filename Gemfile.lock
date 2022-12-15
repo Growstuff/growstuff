@@ -661,7 +661,7 @@ DEPENDENCIES
   better_errors
   bluecloth
   bonsai-elasticsearch-rails
-  bootstrap (>= 4.3.1)
+  bootstrap (>= 4.6.2)
   bootstrap-datepicker-rails
   bootstrap_form (>= 4.5.0)
   bullet
@@ -703,10 +703,10 @@ DEPENDENCIES
   js-routes
   jsonapi-resources
   jsonapi-swagger
-  leaflet-rails (>= 1.7.0)
+  leaflet-rails (>= 1.9.2)
   letter_opener
   listen
-  loofah (>= 2.2.1)
+  loofah (>= 2.19.1)
   mailboxer (>= 0.15.1)
   material-sass (= 4.1.1)
   material_icons

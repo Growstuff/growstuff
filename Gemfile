@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.3.1"
+gem "bootstrap", ">= 4.6.2"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
@@ -52,7 +52,7 @@ gem 'csv_shaper'                   # CSV export
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
-gem 'leaflet-rails', '>= 1.7.0'
+gem 'leaflet-rails', '>= 1.9.2'
 gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
 gem 'pg'
@@ -119,7 +119,7 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
-gem 'loofah', '>= 2.2.1'
+gem 'loofah', '>= 2.19.1'
 gem 'rack-protection', '>= 2.0.1'
 
 # Member to member messaging system
