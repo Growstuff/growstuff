@@ -18,8 +18,8 @@ describe CommentsController do
   end
 
   describe "GET RSS feed" do
-    let!(:first_comment) { FactoryBot.create :comment, created_at: 10.days.ago }
-    let!(:last_comment) { FactoryBot.create :comment, created_at: 4.minutes.ago }
+    let!(:first_comment) { FactoryBot.create(:comment, created_at: 10.days.ago) }
+    let!(:last_comment) { FactoryBot.create(:comment, created_at: 4.minutes.ago) }
 
     describe "returns an RSS feed" do
       before { get :index, format: "rss" }
@@ -37,7 +37,7 @@ describe CommentsController do
     describe "with valid params" do
       before { get :new, params: { post_id: post.id } }
 
-      let(:old_comment) { FactoryBot.create(:comment, post: post) }
+      let(:old_comment) { FactoryBot.create(:comment, post:) }
 
       it "picks up post from params" do
         expect(assigns(:post)).to eq(post)
@@ -60,8 +60,8 @@ describe CommentsController do
     before { get :edit, params: { id: comment.to_param } }
 
     describe "my comment" do
-      let!(:comment)     { FactoryBot.create :comment, author: member, post: post                   }
-      let!(:old_comment) { FactoryBot.create(:comment, post: post, created_at: Time.zone.yesterday) }
+      let!(:comment)     { FactoryBot.create(:comment, author: member, post:) }
+      let!(:old_comment) { FactoryBot.create(:comment, post:, created_at: Time.zone.yesterday) }
 
       it "assigns previous comments as @comments" do
         expect(assigns(:comments)).to eq([comment, old_comment])
@@ -69,7 +69,7 @@ describe CommentsController do
     end
 
     describe "not my comment" do
-      let(:comment) { FactoryBot.create :comment, post: post }
+      let(:comment) { FactoryBot.create(:comment, post:) }
 
       it { expect(response).not_to be_successful }
     end
@@ -79,7 +79,7 @@ describe CommentsController do
     before { put :update, params: { id: comment.to_param, comment: valid_attributes } }
 
     describe "my comment" do
-      let(:comment) { FactoryBot.create :comment, author: member }
+      let(:comment) { FactoryBot.create(:comment, author: member) }
 
       it "redirects to the comment's post" do
         expect(response).to redirect_to(comment.post)
@@ -87,16 +87,16 @@ describe CommentsController do
     end
 
     describe "not my comment" do
-      let(:comment) { FactoryBot.create :comment }
+      let(:comment) { FactoryBot.create(:comment) }
 
       it { expect(response).not_to be_successful }
     end
 
     describe "attempting to change post_id" do
-      let(:post)             { FactoryBot.create :post, subject: 'our post'           }
-      let(:other_post)       { FactoryBot.create :post, subject: 'the other post'     }
-      let(:valid_attributes) { { post_id: other_post.id, body: "kōrero" }             }
-      let(:comment)          { FactoryBot.create :comment, author: member, post: post }
+      let(:post)             { FactoryBot.create(:post, subject: 'our post')           }
+      let(:other_post)       { FactoryBot.create(:post, subject: 'the other post')     }
+      let(:valid_attributes) { { post_id: other_post.id, body: "kōrero" } }
+      let(:comment)          { FactoryBot.create(:comment, author: member, post:) }
 
       it "does not change post_id" do
         comment.reload
@@ -109,7 +109,7 @@ describe CommentsController do
     before { delete :destroy, params: { id: comment.to_param } }
 
     describe "my comment" do
-      let(:comment) { FactoryBot.create :comment, author: member }
+      let(:comment) { FactoryBot.create(:comment, author: member) }
 
       it "redirects to the post the comment was on" do
         expect(response).to redirect_to(comment.post)
@@ -117,7 +117,7 @@ describe CommentsController do
     end
 
     describe "not my comment" do
-      let(:comment) { FactoryBot.create :comment }
+      let(:comment) { FactoryBot.create(:comment) }
 
       it { expect(response).not_to be_successful }
     end

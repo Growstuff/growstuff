@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe "Scientific names", js: true do
-  let!(:zea_mays) { create :zea_mays }
-  let(:crop)      { zea_mays.crop    }
+  let!(:zea_mays) { create(:zea_mays) }
+  let(:crop)      { zea_mays.crop }
 
   it "Display scientific names on crop page" do
     visit crop_path(zea_mays.crop)
@@ -19,7 +19,7 @@ describe "Scientific names", js: true do
   end
 
   context "User is a crop wrangler" do
-    let!(:crop_wranglers) { create_list :crop_wrangling_member, 3 }
+    let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
 
     include_context 'signed in crop wrangler'
     it "Crop wranglers can edit scientific names" do
@@ -75,8 +75,8 @@ describe "Scientific names", js: true do
     end
 
     context "When scientific name is pending" do
-      let(:pending_crop) { create :crop_request }
-      let(:pending_sci_name) { create :scientific_name, crop: pending_crop }
+      let(:pending_crop) { create(:crop_request) }
+      let(:pending_sci_name) { create(:scientific_name, crop: pending_crop) }
 
       it "Displays crop pending message" do
         visit scientific_name_path(pending_sci_name)

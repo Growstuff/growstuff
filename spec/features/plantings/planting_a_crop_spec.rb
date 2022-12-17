@@ -4,10 +4,10 @@ require "rails_helper"
 require 'custom_matchers'
 
 describe "Planting a crop", :js, :search do
-  let!(:maize) { FactoryBot.create :maize }
-  let(:garden) { FactoryBot.create :garden, owner: member, name: 'Orchard' }
+  let!(:maize) { FactoryBot.create(:maize) }
+  let(:garden) { FactoryBot.create(:garden, owner: member, name: 'Orchard') }
   let!(:planting) do
-    FactoryBot.create :planting, garden: garden, owner: member, planted_at: Date.parse("2013-03-10")
+    FactoryBot.create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
   end
 
   before { Planting.reindex }
@@ -58,6 +58,7 @@ describe "Planting a crop", :js, :search do
           click_link member.login_name
         end
       end
+
       it { expect(page).to have_current_path member_path(member), ignore_query: true }
     end
 
@@ -207,7 +208,7 @@ describe "Planting a crop", :js, :search do
 
       # Javascript removes the finished at date when the
       # planting is marked unfinished.
-      expect(find("#planting_finished_at").value).to eq("")
+      expect(find_by_id('planting_finished_at').value).to eq("")
 
       within "form#new_planting" do
         check 'Mark as finished'
@@ -215,7 +216,7 @@ describe "Planting a crop", :js, :search do
 
       # The finished at date was cached in Javascript in
       # case the user clicks unfinished accidentally.
-      expect(find("#planting_finished_at").value).to eq("2014-08-30")
+      expect(find_by_id('planting_finished_at').value).to eq("2014-08-30")
 
       within "form#new_planting" do
         click_button "Save"

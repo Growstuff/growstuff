@@ -89,7 +89,7 @@ class Planting < ApplicationRecord
 
   # stringify as "beet in Skud's backyard" or similar
   def to_s
-    I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner: owner)
+    I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner:)
   end
 
   def finished?
@@ -109,7 +109,7 @@ class Planting < ApplicationRecord
 
     # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
     Planting.joins(:garden)
-      .where(crop: crop)
+      .where(crop:)
       .located
       .where('gardens.latitude < ? AND gardens.latitude > ?',
              latitude + 10, latitude - 10)

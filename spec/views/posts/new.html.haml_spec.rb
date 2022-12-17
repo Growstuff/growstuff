@@ -6,7 +6,7 @@ describe "posts/new" do
   let(:author) { FactoryBot.create(:member) }
 
   before do
-    assign(:post, FactoryBot.create(:post, author: author))
+    assign(:post, FactoryBot.create(:post, author:))
     # assign(:forum, Forum.new)
     sign_in author
     controller.stub(:current_user) { author }
@@ -41,7 +41,7 @@ describe "posts/new" do
 
     before do
       assign(:forum, forum)
-      assign(:post, FactoryBot.create(:post, forum: forum))
+      assign(:post, FactoryBot.create(:post, forum:))
       render
     end
 
@@ -52,6 +52,7 @@ describe "posts/new" do
     it 'tells the user what forum it will be posted in' do
       expect(rendered).to have_content "This post will be posted in the forum #{forum.name}"
     end
+
     it { expect(rendered).to have_link forum.name }
 
     describe "asks what's going on generally" do

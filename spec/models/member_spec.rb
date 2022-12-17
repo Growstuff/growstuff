@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'member' do
+describe Member do
   context 'valid member' do
     let!(:member) { FactoryBot.create(:member, login_name: 'hinemoa') }
 
@@ -27,7 +27,7 @@ describe 'member' do
     end
 
     it "doesn't show email by default" do
-      expect(member.show_email).to eq false
+      expect(member.show_email).to be false
     end
 
     it 'stringifies as the login_name' do
@@ -63,8 +63,8 @@ describe 'member' do
     it "has many likes" do
       @post1 = FactoryBot.create(:post, author: member)
       @post2 = FactoryBot.create(:post, author: member)
-      @like1 = FactoryBot.create(:like, member: member, likeable: @post1)
-      @like2 = FactoryBot.create(:like, member: member, likeable: @post2)
+      @like1 = FactoryBot.create(:like, member:, likeable: @post1)
+      @like2 = FactoryBot.create(:like, member:, likeable: @post2)
 
       expect(member.likes.length).to eq 2
     end
@@ -138,21 +138,25 @@ describe 'member' do
       member.should_not be_valid
       member.errors[:login_name].should include("should be between 2 and 25 characters long")
     end
+
     it "doesn't allow really long names" do
       member = FactoryBot.build(:invalid_member_longname)
       member.should_not be_valid
       member.errors[:login_name].should include("should be between 2 and 25 characters long")
     end
+
     it "doesn't allow spaces in names" do
       member = FactoryBot.build(:invalid_member_spaces)
       member.should_not be_valid
       member.errors[:login_name].should include("may only include letters, numbers, or underscores")
     end
+
     it "doesn't allow other chars in names" do
       member = FactoryBot.build(:invalid_member_badchars)
       member.should_not be_valid
       member.errors[:login_name].should include("may only include letters, numbers, or underscores")
     end
+
     it "doesn't allow reserved names" do
       member = FactoryBot.build(:invalid_member_badname)
       member.should_not be_valid
@@ -165,10 +169,12 @@ describe 'member' do
       member = FactoryBot.build(:valid_member_alphanumeric)
       member.should be_valid
     end
+
     it "allows uppercase chars in names" do
       member = FactoryBot.build(:valid_member_uppercase)
       member.should be_valid
     end
+
     it "allows underscores in names" do
       member = FactoryBot.build(:valid_member_underscore)
       member.should be_valid
@@ -185,19 +191,19 @@ describe 'member' do
 
     it 'has a role' do
       member.roles.first.should eq role
-      member.role?(:moderator).should eq true
+      member.role?(:moderator).should be true
     end
 
     it 'sets up roles in factories' do
       admin = FactoryBot.create(:admin_member)
-      admin.role?(:admin).should eq true
+      admin.role?(:admin).should be true
     end
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
       role = FactoryBot.create(:role, name: "a b c")
       member.roles << role
-      member.role?(:a_b_c).should eq true
+      member.role?(:a_b_c).should be true
     end
   end
 
@@ -303,11 +309,11 @@ describe 'member' do
 
     context 'already_following' do
       it 'detects that member is already following a member' do
-        expect(member1.already_following?(member2)).to eq true
+        expect(member1.already_following?(member2)).to be true
       end
 
       it 'detects that member is not already following a member' do
-        expect(member1.already_following?(member3)).to eq false
+        expect(member1.already_following?(member3)).to be false
       end
     end
 

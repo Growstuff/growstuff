@@ -70,7 +70,7 @@ class Ability
     can :create, Notification do |n|
       n.recipient_id != member.id
     end
-    # note we don't support update for notifications
+    # NOTE: we don't support update for notifications
 
     # only crop wranglers can create/edit/destroy crops
     if member.role? :crop_wrangler

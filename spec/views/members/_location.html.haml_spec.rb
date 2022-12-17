@@ -6,7 +6,7 @@ describe "members/_location" do
   context "member with location" do
     let(:member) { FactoryBot.create(:london_member) }
 
-    before { render partial: 'members/location', locals: { member: member } }
+    before { render partial: 'members/location', locals: { member: } }
 
     it 'shows location if available' do
       expect(rendered).to have_content member.location
@@ -20,7 +20,7 @@ describe "members/_location" do
   context "member with no location" do
     before do
       member = FactoryBot.create(:member)
-      render partial: 'members/location', locals: { member: member }
+      render partial: 'members/location', locals: { member: }
     end
 
     it 'shows unknown location' do

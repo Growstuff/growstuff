@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe ApplicationHelper do
   it "parses dates" do
-    parse_date(nil).should eq nil
-    parse_date('').should eq nil
+    parse_date(nil).should be_nil
+    parse_date('').should be_nil
     parse_date('2012-05-12').should eq Date.new(2012, 5, 12)
     parse_date('may 12th 2012').should eq Date.new(2012, 5, 12)
   end
@@ -48,7 +48,7 @@ describe ApplicationHelper do
 
     context 'with a populated collection' do
       context 'with one element' do
-        before { create(:comment, post: post) }
+        before { create(:comment, post:) }
 
         it 'returns a string with the quantity and the plural of the model' do
           expect(localize_plural(post.comments, Comment)).to eq '1 comment'
@@ -56,7 +56,7 @@ describe ApplicationHelper do
       end
 
       context 'with more than one element' do
-        before { create_list(:comment, 2, post: post) }
+        before { create_list(:comment, 2, post:) }
 
         it 'returns a string with the quantity and the plural of the model' do
           expect(localize_plural(post.comments, Comment)).to eq '2 comments'
@@ -75,18 +75,23 @@ describe ApplicationHelper do
         it 'works when :alert' do
           expect(build_alert_classes(:alert)).to include 'alert-danger'
         end
+
         it 'works when :danger' do
           expect(build_alert_classes(:danger)).to include 'alert-danger'
         end
+
         it 'works when :error' do
           expect(build_alert_classes(:error)).to include 'alert-danger'
         end
+
         it 'works when :validation_errors' do
           expect(build_alert_classes(:validation_errors)).to include 'alert-danger'
         end
+
         it 'includes base classes' do
           expect(build_alert_classes(:danger)).to include 'alert alert-dismissable'
         end
+
         it 'does not include danger when info' do
           expect(build_alert_classes(:info)).not_to include ' alert-danger'
         end
@@ -96,12 +101,15 @@ describe ApplicationHelper do
         it 'works when :warning' do
           expect(build_alert_classes(:warning)).to include 'alert-warning'
         end
+
         it 'works when :todo' do
           expect(build_alert_classes(:todo)).to include 'alert-warning'
         end
+
         it 'includes base classes' do
           expect(build_alert_classes(:warning)).to include 'alert alert-dismissable'
         end
+
         it 'does not include warning when info' do
           expect(build_alert_classes(:info)).not_to include ' alert-warning'
         end
@@ -111,12 +119,15 @@ describe ApplicationHelper do
         it 'works when :notice' do
           expect(build_alert_classes(:notice)).to include 'alert-success'
         end
+
         it 'works when :success' do
           expect(build_alert_classes(:success)).to include 'alert-success'
         end
+
         it 'includes base classes' do
           expect(build_alert_classes(:success)).to include 'alert alert-dismissable'
         end
+
         it 'does not include success when info' do
           expect(build_alert_classes(:info)).not_to include ' alert-success'
         end
@@ -126,12 +137,15 @@ describe ApplicationHelper do
         it 'works when :info' do
           expect(build_alert_classes(:info)).to include 'alert-info'
         end
+
         it 'works when blank' do
           expect(build_alert_classes).to include 'alert-info'
         end
+
         it 'includes base classes' do
           expect(build_alert_classes(:info)).to include 'alert alert-dismissable'
         end
+
         it 'does not include info when danger' do
           expect(build_alert_classes(:danger)).not_to include ' alert-info'
         end

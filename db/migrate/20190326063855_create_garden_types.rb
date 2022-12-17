@@ -13,7 +13,7 @@ class CreateGardenTypes < ActiveRecord::Migration[5.2]
      'wicking bed', 'permaculture', 'hydroponic', 'aquaponic', 'orchard', 'food forest',
      'biodynamic'].each do |name|
       say "Creating #{name}"
-      GardenType.create! name: name
+      GardenType.create! name:
     end
   end
 end

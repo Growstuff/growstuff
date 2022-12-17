@@ -64,7 +64,7 @@ describe Crop do
 
   it 'finds a default scientific name' do
     @crop = FactoryBot.create(:tomato)
-    expect(@crop.default_scientific_name).to eq nil
+    expect(@crop.default_scientific_name).to be_nil
     @sn = FactoryBot.create(:solanum_lycopersicum, crop: @crop)
     @crop.reload
     expect(@crop.default_scientific_name.to_s).to eq @sn.name
@@ -143,29 +143,31 @@ describe Crop do
     shared_examples 'has default photo' do
       it { expect(described_class.has_photos).to include(crop) }
     end
-    let!(:crop) { FactoryBot.create :tomato }
+    let!(:crop) { FactoryBot.create(:tomato) }
 
     context 'with a planting photo' do
       let!(:photo) { FactoryBot.create(:photo, owner: planting.owner) }
-      let!(:planting) { FactoryBot.create(:planting, crop: crop) }
+      let!(:planting) { FactoryBot.create(:planting, crop:) }
 
       before { planting.photos << photo }
 
       it { expect(crop.default_photo).to eq photo }
+
       include_examples 'has default photo'
     end
 
     context 'with a harvest photo' do
-      let!(:harvest) { FactoryBot.create(:harvest, crop: crop) }
+      let!(:harvest) { FactoryBot.create(:harvest, crop:) }
       let!(:photo) { FactoryBot.create(:photo, owner: harvest.owner) }
 
       before { harvest.photos << photo }
 
       it { expect(crop.default_photo).to eq photo }
+
       include_examples 'has default photo'
 
       context 'and planting photo' do
-        let(:planting) { FactoryBot.create(:planting, crop: crop) }
+        let(:planting) { FactoryBot.create(:planting, crop:) }
         let!(:planting_photo) { FactoryBot.create(:photo, owner: planting.owner) }
 
         before { planting.photos << planting_photo }
@@ -178,7 +180,7 @@ describe Crop do
 
     context 'with no plantings or harvests' do
       it 'has no default photo' do
-        expect(crop.default_photo).to eq nil
+        expect(crop.default_photo).to be_nil
       end
 
       it { expect(crop.photos.size).to eq 0 }
@@ -188,9 +190,9 @@ describe Crop do
     end
 
     describe 'finding all photos' do
-      let(:planting) { FactoryBot.create :planting, crop: crop }
-      let(:harvest) { FactoryBot.create :harvest, crop: crop }
-      let(:seed)    { FactoryBot.create :seed, crop: crop    }
+      let(:planting) { FactoryBot.create(:planting, crop:) }
+      let(:harvest) { FactoryBot.create(:harvest, crop:) }
+      let(:seed)    { FactoryBot.create(:seed, crop:)    }
 
       before do
         # Add photos to all
@@ -210,25 +212,25 @@ describe Crop do
     let(:crop) { FactoryBot.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      FactoryBot.create(:sunny_planting, crop: crop)
-      FactoryBot.create(:sunny_planting, crop: crop)
-      FactoryBot.create(:semi_shady_planting, crop: crop)
-      FactoryBot.create(:shady_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop:)
+      FactoryBot.create(:sunny_planting, crop:)
+      FactoryBot.create(:semi_shady_planting, crop:)
+      FactoryBot.create(:shady_planting, crop:)
       crop.sunniness.should be_an_instance_of Hash
     end
 
     it 'counts each sunniness value' do
-      FactoryBot.create(:sunny_planting, crop: crop)
-      FactoryBot.create(:sunny_planting, crop: crop)
-      FactoryBot.create(:semi_shady_planting, crop: crop)
-      FactoryBot.create(:shady_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop:)
+      FactoryBot.create(:sunny_planting, crop:)
+      FactoryBot.create(:semi_shady_planting, crop:)
+      FactoryBot.create(:shady_planting, crop:)
       crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
     end
 
     it 'ignores unused sunniness values' do
-      FactoryBot.create(:sunny_planting, crop: crop)
-      FactoryBot.create(:sunny_planting, crop: crop)
-      FactoryBot.create(:semi_shady_planting, crop: crop)
+      FactoryBot.create(:sunny_planting, crop:)
+      FactoryBot.create(:sunny_planting, crop:)
+      FactoryBot.create(:semi_shady_planting, crop:)
       crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
     end
   end
@@ -237,25 +239,25 @@ describe Crop do
     let(:crop) { FactoryBot.create(:tomato) }
 
     it 'returns a hash of sunniness values' do
-      FactoryBot.create(:seed_planting, crop: crop)
-      FactoryBot.create(:seed_planting, crop: crop)
-      FactoryBot.create(:seedling_planting, crop: crop)
-      FactoryBot.create(:cutting_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop:)
+      FactoryBot.create(:seed_planting, crop:)
+      FactoryBot.create(:seedling_planting, crop:)
+      FactoryBot.create(:cutting_planting, crop:)
       crop.planted_from.should be_an_instance_of Hash
     end
 
     it 'counts each planted_from value' do
-      FactoryBot.create(:seed_planting, crop: crop)
-      FactoryBot.create(:seed_planting, crop: crop)
-      FactoryBot.create(:seedling_planting, crop: crop)
-      FactoryBot.create(:cutting_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop:)
+      FactoryBot.create(:seed_planting, crop:)
+      FactoryBot.create(:seedling_planting, crop:)
+      FactoryBot.create(:cutting_planting, crop:)
       crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
     end
 
     it 'ignores unused planted_from values' do
-      FactoryBot.create(:seed_planting, crop: crop)
-      FactoryBot.create(:seed_planting, crop: crop)
-      FactoryBot.create(:seedling_planting, crop: crop)
+      FactoryBot.create(:seed_planting, crop:)
+      FactoryBot.create(:seed_planting, crop:)
+      FactoryBot.create(:seedling_planting, crop:)
       crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
     end
   end
@@ -273,16 +275,16 @@ describe Crop do
       @root = FactoryBot.create(:plant_part, name: 'root')
       @bulb = FactoryBot.create(:plant_part, name: 'bulb')
       @harvest1 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop:,
                                     plant_part: @fruit)
       @harvest2 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop:,
                                     plant_part: @fruit)
       @harvest3 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop:,
                                     plant_part: @seed)
       @harvest4 = FactoryBot.create(:harvest,
-                                    crop:       crop,
+                                    crop:,
                                     plant_part: @root)
       crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
                                            [@seed.id, @seed.name]   => 1,
@@ -300,7 +302,8 @@ describe Crop do
     let(:crop1_planting) { crop1.plantings.first }
     let(:crop2_planting) { crop2.plantings.first }
 
-    let(:member) { FactoryBot.create :member, login_name: 'pikachu' }
+    let(:member) { FactoryBot.create(:member, login_name: 'pikachu') }
+
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
@@ -346,8 +349,8 @@ describe Crop do
   end
 
   context "harvests" do
-    let!(:crop)    { FactoryBot.create(:crop)                                  }
-    let!(:harvest) { FactoryBot.create(:harvest, crop: crop)                   }
+    let!(:crop)    { FactoryBot.create(:crop) }
+    let!(:harvest) { FactoryBot.create(:harvest, crop:) }
 
     it "has harvests" do
       expect(crop.harvests).to eq [harvest]
@@ -535,7 +538,7 @@ describe Crop do
       end
 
       it "does not delete the posts" do
-        expect(Post.find(post.id)).not_to eq nil
+        expect(Post.find(post.id)).not_to be_nil
       end
     end
   end

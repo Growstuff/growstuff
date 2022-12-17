@@ -43,14 +43,14 @@ class Growstuff::OauthSignupAction
 
     member.authentications
       .create_with(
-        name:   name,
+        name:,
         token:  auth['credentials']['token'],
         secret: auth['credentials']['secret']
       )
       .find_or_create_by(
         provider:  auth['provider'],
         uid:       auth['uid'],
-        name:      name,
+        name:,
         member_id: member.id
       )
   end
@@ -60,16 +60,13 @@ class Growstuff::OauthSignupAction
   end
 
   def determine_name(auth)
-    name = ''
     case auth['provider']
     when 'twitter'
-      name = auth['info']['nickname']
+      auth['info']['nickname']
     when 'flickr', 'facebook'
-      name = auth['info']['name']
+      auth['info']['name']
     else
-      name = auth['info']['name']
+      auth['info']['name']
     end
-
-    name
   end
 end

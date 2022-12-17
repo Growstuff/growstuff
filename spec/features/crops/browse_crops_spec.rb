@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe "browse crops", :search do
-  let!(:tomato)         { FactoryBot.create :tomato, :reindex        }
-  let!(:maize)          { FactoryBot.create :maize, :reindex         }
-  let!(:pending_crop)   { FactoryBot.create :crop_request, :reindex  }
-  let!(:rejected_crop)  { FactoryBot.create :rejected_crop, :reindex }
+  let!(:tomato)         { FactoryBot.create(:tomato, :reindex)        }
+  let!(:maize)          { FactoryBot.create(:maize, :reindex)         }
+  let!(:pending_crop)   { FactoryBot.create(:crop_request, :reindex)  }
+  let!(:rejected_crop)  { FactoryBot.create(:rejected_crop, :reindex) }
 
   shared_examples 'shows crops' do
     before do

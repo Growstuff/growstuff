@@ -89,8 +89,9 @@ describe "member deletion" do
 
       describe 'member exists but is marked deleted' do
         subject { Member.all.find(member.id) }
+
         it { expect(subject).to eq member }
-        it { expect(subject.discarded?).to eq true }
+        it { expect(subject.discarded?).to be true }
         it { expect(Member.kept).not_to include(member) }
       end
 
@@ -127,7 +128,7 @@ describe "member deletion" do
       end
 
       it "replaces comments on others' posts with deletion note, leaving post intact" do
-        FactoryBot.create :comment, post: othermemberpost, author: member, body: 'i am deleting my account'
+        FactoryBot.create(:comment, post: othermemberpost, author: member, body: 'i am deleting my account')
 
         visit post_path(othermemberpost)
         expect(page).not_to have_content member.login_name
@@ -155,10 +156,11 @@ describe "member deletion" do
 
   context "for a crop wrangler" do
     let(:member) { FactoryBot.create(:crop_wrangling_member) }
+    let!(:ex_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: "ex_wrangler") }
     let(:otherwrangler) { FactoryBot.create(:crop_wrangling_member) }
     let(:crop)          { FactoryBot.create(:crop, creator: member) }
+
     before { FactoryBot.create(:cropbot) }
-    let!(:ex_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: "ex_wrangler") }
 
     it "leaves crops behind" do
       login_as(otherwrangler)

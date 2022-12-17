@@ -6,7 +6,7 @@ RSpec.describe 'Gardens', type: :request do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:garden) { FactoryBot.create :garden                  }
+  let!(:garden) { FactoryBot.create(:garden) }
   let(:garden_encoded_as_json_api) do
     { "id"            => garden.id.to_s,
       "type"          => "gardens",
@@ -52,19 +52,19 @@ RSpec.describe 'Gardens', type: :request do
 
   it '#create' do
     expect do
-      post '/api/v1/gardens', params: { 'garden' => { 'name' => 'can i make this' } }, headers: headers
+      post '/api/v1/gardens', params: { 'garden' => { 'name' => 'can i make this' } }, headers:
     end.to raise_error ActionController::RoutingError
   end
 
   it '#update' do
     expect do
-      post "/api/v1/gardens/#{garden.id}", params: { 'garden' => { 'name' => 'can i modify this' } }, headers: headers
+      post "/api/v1/gardens/#{garden.id}", params: { 'garden' => { 'name' => 'can i modify this' } }, headers:
     end.to raise_error ActionController::RoutingError
   end
 
   it '#delete' do
     expect do
-      delete "/api/v1/gardens/#{garden.id}", params: {}, headers: headers
+      delete "/api/v1/gardens/#{garden.id}", params: {}, headers:
     end.to raise_error ActionController::RoutingError
   end
 end

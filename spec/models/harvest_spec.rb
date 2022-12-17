@@ -36,7 +36,7 @@ describe Harvest do
 
     it 'cleans up zero quantities' do
       @harvest = FactoryBot.build(:harvest, quantity: 0)
-      @harvest.quantity.should == 0
+      expect(@harvest.quantity).to eq 0
     end
 
     it "doesn't allow non-numeric quantities" do
@@ -63,7 +63,7 @@ describe Harvest do
     it 'sets unit to blank if quantity is blank' do
       @harvest = FactoryBot.build(:harvest, quantity: '', unit: 'individual')
       @harvest.should be_valid
-      expect(@harvest.unit).to eq nil
+      expect(@harvest.unit).to be_nil
     end
   end
 
@@ -90,7 +90,7 @@ describe Harvest do
 
     it 'cleans up zero quantities' do
       @harvest = FactoryBot.build(:harvest, weight_quantity: 0)
-      @harvest.weight_quantity.should == 0
+      expect(@harvest.weight_quantity).to eq 0
     end
 
     it "doesn't allow non-numeric weight quantities" do
@@ -116,7 +116,7 @@ describe Harvest do
     it 'sets weight_unit to blank if quantity is blank' do
       @harvest = FactoryBot.build(:harvest, weight_quantity: '', weight_unit: 'kg')
       @harvest.should be_valid
-      expect(@harvest.weight_unit).to eq nil
+      expect(@harvest.weight_unit).to be_nil
     end
   end
 
@@ -152,7 +152,7 @@ describe Harvest do
     let(:crop) { FactoryBot.create(:crop, name: "apricot") }
 
     it "apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        nil,
                                        unit:            nil,
                                        weight_quantity: nil,
@@ -161,7 +161,7 @@ describe Harvest do
     end
 
     it "1 individual apricot" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        1,
                                        unit:            'individual',
                                        weight_quantity: nil,
@@ -170,7 +170,7 @@ describe Harvest do
     end
 
     it "10 individual apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        10,
                                        unit:            'individual',
                                        weight_quantity: nil,
@@ -179,7 +179,7 @@ describe Harvest do
     end
 
     it "1 bushel of apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        1,
                                        unit:            'bushel',
                                        weight_quantity: nil,
@@ -188,7 +188,7 @@ describe Harvest do
     end
 
     it "1.5 bushels of apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        1.5,
                                        unit:            'bushel',
                                        weight_quantity: nil,
@@ -197,7 +197,7 @@ describe Harvest do
     end
 
     it "10 bushels of apricots" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        10,
                                        unit:            'bushel',
                                        weight_quantity: nil,
@@ -206,7 +206,7 @@ describe Harvest do
     end
 
     it "apricots weighing 1.2 kg" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        nil,
                                        unit:            nil,
                                        weight_quantity: 1.2,
@@ -215,7 +215,7 @@ describe Harvest do
     end
 
     it "10 bushels of apricots weighing 100 kg" do
-      @h = FactoryBot.create(:harvest, crop:            crop,
+      @h = FactoryBot.create(:harvest, crop:,
                                        quantity:        10,
                                        unit:            'bushel',
                                        weight_quantity: 100,
@@ -231,7 +231,7 @@ describe Harvest do
 
     context 'without a photo' do
       it 'has no default photo' do
-        expect(@harvest.default_photo).to eq nil
+        expect(@harvest.default_photo).to be_nil
       end
 
       context 'and with a crop(planting) photo' do
@@ -298,8 +298,8 @@ describe Harvest do
   end
 
   it 'excludes deleted members' do
-    member = FactoryBot.create :member
-    harvest = FactoryBot.create :harvest, owner: member
+    member = FactoryBot.create(:member)
+    harvest = FactoryBot.create(:harvest, owner: member)
     expect(described_class.joins(:owner).all).to include(harvest)
     member.destroy
     expect(described_class.joins(:owner).all).not_to include(harvest)

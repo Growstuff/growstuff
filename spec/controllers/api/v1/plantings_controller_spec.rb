@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Api::V1::PlantingsController, type: :controller do
   subject { JSON.parse response.body }
 
-  let!(:member) { FactoryBot.create :member }
+  let!(:member) { FactoryBot.create(:member) }
 
   describe '#index' do
     let(:matching_planting) { subject['data'].select { |planting| planting['id'] == my_planting.id.to_s }.first }

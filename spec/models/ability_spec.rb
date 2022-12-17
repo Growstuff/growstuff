@@ -18,12 +18,14 @@ describe Ability do
                                        recipient: FactoryBot.create(:member))
       ability.should_not be_able_to(:read, notification)
     end
+
     it "member can't send messages to themself" do
       ability.should_not be_able_to(:create,
                                     FactoryBot.create(:notification,
                                                       recipient: member,
                                                       sender:    member))
     end
+
     it "member can send messages to someone else" do
       ability.should be_able_to(:create,
                                 FactoryBot.create(:notification,
@@ -64,9 +66,11 @@ describe Ability do
       it "can create crops" do
         ability.should be_able_to(:create, Crop)
       end
+
       it "can update crops" do
         ability.should be_able_to(:update, crop)
       end
+
       it "can destroy crops" do
         ability.should be_able_to(:destroy, crop)
       end
@@ -80,6 +84,7 @@ describe Ability do
       it "can read plant parts" do
         ability.should be_able_to(:read, plant_part)
       end
+
       it "can't manage plant parts" do
         ability.should_not be_able_to(:create, PlantPart)
         ability.should_not be_able_to(:update, plant_part)
@@ -97,6 +102,7 @@ describe Ability do
       it "can read plant_part details" do
         ability.should be_able_to(:read, plant_part)
       end
+
       it "can manage plant_part details" do
         ability.should be_able_to(:create, PlantPart)
         ability.should be_able_to(:update, plant_part)
@@ -107,7 +113,7 @@ describe Ability do
       end
 
       it "can't delete a plant part that has harvests" do
-        @harvest = FactoryBot.create(:harvest, plant_part: plant_part)
+        @harvest = FactoryBot.create(:harvest, plant_part:)
         ability.should_not be_able_to(:destroy, plant_part)
       end
     end

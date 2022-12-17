@@ -34,7 +34,7 @@
           = link_to "Add a garden.", new_garden_path
         .col-md-4
           = f.text_field :planted_at,
-                     value: @planting.planted_at ? @planting.planted_at.to_s(:ymd) : '',
+                     value: @planting.planted_at ? @planting.planted_at.to_fs(:ymd) : '',
                      class: 'add-datepicker', label: 'When?'
 
       .row
@@ -52,7 +52,7 @@
           %span.help-block= t('.finish_helper')
         .col-md-6
           = f.text_field :finished_at,
-                     value: @planting.finished_at ? @planting.finished_at.to_s(:ymd) : '',
+                     value: @planting.finished_at ? @planting.finished_at.to_fs(:ymd) : '',
                      class: 'add-datepicker',
                      label: 'Finished date',
                      placeholder: 'optional'

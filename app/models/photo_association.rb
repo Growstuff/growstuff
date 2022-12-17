@@ -33,8 +33,8 @@ class PhotoAssociation < ApplicationRecord
   end
 
   def crop_present
-    if %w(Planting Seed Harvest).include?(photographable_type)
-      errors.add(:crop_id, "failed to calculate crop") if crop_id.blank?
-    end
+    return unless %w(Planting Seed Harvest).include?(photographable_type)
+
+    errors.add(:crop_id, "failed to calculate crop") if crop_id.blank?
   end
 end

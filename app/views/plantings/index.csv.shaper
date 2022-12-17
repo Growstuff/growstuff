@@ -34,15 +34,15 @@ csv.headers :id,
 
     csv.cells :quantity, :planted_from, :sunniness
 
-    csv.cell :date_planted, p.planted_at ? p.planted_at.to_s(:db) : ''
+    csv.cell :date_planted, p.planted_at ? p.planted_at.to_fs(:db) : ''
 
     csv.cell :finished
-    csv.cell :date_finished, p.finished_at ? p.finished_at.to_s(:db) : ''
+    csv.cell :date_finished, p.finished_at ? p.finished_at.to_fs(:db) : ''
 
     csv.cell :description
 
-    csv.cell :date_added, p.created_at.to_s(:db)
-    csv.cell :last_modified, p.updated_at.to_s(:db)
+    csv.cell :date_added, p.created_at.to_fs(:db)
+    csv.cell :last_modified, p.updated_at.to_fs(:db)
 
     csv.cell :license, "CC-BY-SA Growstuff http://growstuff.org/"
 

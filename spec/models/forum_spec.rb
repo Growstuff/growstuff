@@ -18,8 +18,8 @@ describe Forum do
   end
 
   it "has many posts" do
-    @post1 = FactoryBot.create(:forum_post, forum: forum)
-    @post2 = FactoryBot.create(:forum_post, forum: forum)
+    @post1 = FactoryBot.create(:forum_post, forum:)
+    @post2 = FactoryBot.create(:forum_post, forum:)
     forum.posts.size.should == 2
   end
 end

@@ -64,15 +64,19 @@ describe 'layouts/_header.html.haml', type: "view" do
       it 'has member login name' do
         rendered.should have_content @member.login_name.to_s
       end
+
       it "shows link to member's gardens" do
         assert_select("a[href='#{member_gardens_path(@member)}']", "Gardens")
       end
+
       it "shows link to member's plantings" do
         assert_select("a[href='#{member_plantings_path(@member)}']", "Plantings")
       end
+
       it "shows link to member's seeds" do
         assert_select("a[href='#{member_seeds_path(@member)}']", "Seeds")
       end
+
       it "shows link to member's posts" do
         assert_select("a[href='#{member_posts_path(@member)}']", "Posts")
       end

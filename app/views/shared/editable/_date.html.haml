@@ -6,6 +6,6 @@
   .hide{id: "date--#{model.id}-#{field.to_s}"}
     = bootstrap_form_for(model) do |f|
       = f.text_field field,
-               value: model.send(field) ? model.send(field).to_s(:ymd) : '',
+               value: model.send(field) ? model.send(field).to_fs(:ymd) : '',
                class: 'add-datepicker', label: 'When?'
       = f.submit :save

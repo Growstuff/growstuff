@@ -10,7 +10,7 @@ class OpenfarmService
 
   def import!
     Crop.all.order(updated_at: :desc).each do |crop|
-      Rails.logger.debug("#{crop.id}, #{crop.name}")
+      Rails.logger.debug { "#{crop.id}, #{crop.name}" }
       update_crop(crop) if crop.valid?
     end
   end
@@ -64,9 +64,9 @@ class OpenfarmService
       if photo.valid?
         Photo.transaction do
           photo.save
-          PhotoAssociation.find_or_create_by! photo: photo, photographable: crop
+          PhotoAssociation.find_or_create_by! photo:, photographable: crop
         end
-        Rails.logger.debug "\t saved photo #{photo.id} #{photo.source_id}"
+        Rails.logger.debug { "\t saved photo #{photo.id} #{photo.source_id}" }
       else
         Rails.logger.warn "Photo not valid"
       end

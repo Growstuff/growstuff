@@ -86,7 +86,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "dd24b97208cc11ebae765edd19bee764aacafa99b3711440f08fe92e8f790d0b4ab60ebb6bc3bcc2c526438eefa50326eddf4d3e429a2431f8a646d8a7d7bd1f"
+  # config.pepper = "..."
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -235,5 +235,6 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 
   # Later we may wish to ask for user_photos,user_location, however this means we need to be reviewed by facebook
-  config.omniauth :facebook, ENV['GROWSTUFF_FACEBOOK_KEY'], ENV['GROWSTUFF_FACEBOOK_SECRET'], scope: 'email,public_profile', display: 'page', info_fields: 'email,name,first_name,last_name,id'
+  config.omniauth :facebook, ENV['GROWSTUFF_FACEBOOK_KEY'], ENV['GROWSTUFF_FACEBOOK_SECRET'], scope: 'email,public_profile',
+display: 'page', info_fields: 'email,name,first_name,last_name,id'
 end

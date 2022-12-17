@@ -17,8 +17,8 @@ describe PhotoAssociationsController do
     before { photo.harvests << harvest }
 
     describe "my harvest my photo" do
-      let(:harvest) { FactoryBot.create :harvest, owner: member }
-      let(:photo)   { FactoryBot.create :photo, owner: member   }
+      let(:harvest) { FactoryBot.create(:harvest, owner: member) }
+      let(:photo)   { FactoryBot.create(:photo, owner: member)   }
 
       it "removes link" do
         expect { delete :destroy, params: valid_params }.to change { photo.harvests.count }.by(-1)
@@ -26,8 +26,8 @@ describe PhotoAssociationsController do
     end
 
     describe "another member's harvest from another member's photo" do
-      let(:harvest) { FactoryBot.create :harvest, owner: photo.owner }
-      let(:photo) { FactoryBot.create :photo }
+      let(:harvest) { FactoryBot.create(:harvest, owner: photo.owner) }
+      let(:photo) { FactoryBot.create(:photo) }
 
       it do
         expect do

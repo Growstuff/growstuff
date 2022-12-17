@@ -13,12 +13,6 @@ module Admin
       @members = @members.order(:login_name).paginate(page: params[:page])
     end
 
-    def destroy
-      @member = Member.find_by!(slug: params[:slug])
-      @member.discard
-      redirect_to admin_members_path
-    end
-
     def edit
       @member = Member.find_by!(slug: params[:slug])
     end
@@ -28,6 +22,12 @@ module Admin
       @member.update(roles: Role.where(id: params.require(:member).require(:role_ids)))
 
       respond_with @member, location: admin_members_path
+    end
+
+    def destroy
+      @member = Member.find_by!(slug: params[:slug])
+      @member.discard
+      redirect_to admin_members_path
     end
 
     private

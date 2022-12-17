@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 describe "Planting reminder email", :js do
-  let(:member) { create :member }
+  let(:member) { create(:member) }
   let(:mail)   { NotifierMailer.planting_reminder(member) }
 
   # Unfortunately, we can't use the default url options for ActionMailer as configured in
@@ -30,8 +30,8 @@ describe "Planting reminder email", :js do
   context "when member has some plantings" do
     # Bangs are used on the following 2 let blocks in order to ensure that the plantings are present
     # in the database before the email is generated: otherwise, they won't be present in the email.
-    let!(:p1) { FactoryBot.create :predicatable_planting, planted_at: 10.days.ago, garden: member.gardens.first, owner: member }
-    let!(:p2) { FactoryBot.create :predicatable_planting, planted_at: 30.days.ago, garden: member.gardens.first, owner: member }
+    let!(:p1) { FactoryBot.create(:predicatable_planting, planted_at: 10.days.ago, garden: member.gardens.first, owner: member) }
+    let!(:p2) { FactoryBot.create(:predicatable_planting, planted_at: 30.days.ago, garden: member.gardens.first, owner: member) }
 
     describe "lists plantings" do
       it { expect(mail).to have_content "Progress report" }
@@ -50,10 +50,10 @@ describe "Planting reminder email", :js do
   context "when member has some harvests" do
     # Bangs are used on the following 2 let blocks in order to ensure that the plantings are present
     # in the database before the spec is run.
-    let!(:p1) { FactoryBot.create :predicatable_planting, garden: member.gardens.first, owner: member, planted_at: 20.days.ago }
-    let!(:p2) { FactoryBot.create :predicatable_planting, garden: member.gardens.first, owner: member }
-    let!(:h1) { FactoryBot.create :harvest, owner: member, planting: p1, harvested_at: 1.day.ago }
-    let!(:h2) { FactoryBot.create :harvest, owner: member, planting: p2, harvested_at: 3.days.ago }
+    let!(:p1) { FactoryBot.create(:predicatable_planting, garden: member.gardens.first, owner: member, planted_at: 20.days.ago) }
+    let!(:p2) { FactoryBot.create(:predicatable_planting, garden: member.gardens.first, owner: member) }
+    let!(:h1) { FactoryBot.create(:harvest, owner: member, planting: p1, harvested_at: 1.day.ago) }
+    let!(:h2) { FactoryBot.create(:harvest, owner: member, planting: p2, harvested_at: 3.days.ago) }
 
     describe "lists planting that are ready for harvest" do
       it { expect(mail).to have_content "Ready to harvest" }

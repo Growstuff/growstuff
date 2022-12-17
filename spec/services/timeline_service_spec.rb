@@ -2,19 +2,21 @@
 
 require 'rails_helper'
 
-describe 'timeline' do
-  let(:member) { FactoryBot.create :member }
-  let(:friend) { FactoryBot.create :member }
+describe TimelineService do
+  let(:member) { FactoryBot.create(:member) }
+  let(:friend) { FactoryBot.create(:member) }
 
-  let!(:friend_planting) { FactoryBot.create :planting, owner: friend, planted_at: 1.day.ago }
-  let!(:friend_harvest) { FactoryBot.create :harvest, owner: friend, harvested_at: 2.days.ago }
+  let!(:friend_planting) { FactoryBot.create(:planting, owner: friend, planted_at: 1.day.ago) }
+  let!(:friend_harvest) { FactoryBot.create(:harvest, owner: friend, harvested_at: 2.days.ago) }
 
-  let!(:my_seeds) { FactoryBot.create :seed, owner: member, created_at: 4.days.ago }
-  let!(:my_post) { FactoryBot.create :post, author: member, created_at: 3.months.ago }
+  let!(:my_seeds) { FactoryBot.create(:seed, owner: member, created_at: 4.days.ago) }
+  let!(:my_post) { FactoryBot.create(:post, author: member, created_at: 3.months.ago) }
 
   describe 'a friend you followed' do
-    before { friend.followers << member }
     subject { TimelineService.followed_query(member) }
+
+    before { friend.followers << member }
+
     it { expect(subject.first.id).to eq friend_planting.id }
     it { expect(subject.first.event_type).to eq 'planting' }
     it { expect(subject.second.id).to eq friend_harvest.id }

@@ -10,6 +10,6 @@
         %description
           :escaped_markdown
             #{ strip_tags post.body }
-        %pubdate= post.created_at.to_s(:rfc822)
+        %pubdate= post.created_at.to_fs(:rfc822)
         %link= post_url(post)
         %guid= post_url(post)

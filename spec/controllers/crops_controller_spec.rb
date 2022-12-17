@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe CropsController do
+  subject { response }
+
   shared_context 'login as wrangler' do
     login_member(:crop_wrangling_member)
   end
-
-  subject { response }
 
   describe "GET crop wrangler homepage" do
     describe 'fetches the crop wrangler homepage' do
@@ -42,9 +42,11 @@ describe CropsController do
 
   describe "GET crop search" do
     describe 'fetches the crop search page' do
-      let!(:tomato) { FactoryBot.create :tomato }
-      let!(:maize)  { FactoryBot.create :maize }
+      let!(:tomato) { FactoryBot.create(:tomato) }
+      let!(:maize)  { FactoryBot.create(:maize) }
+
       before { Crop.reindex }
+
       describe 'search form page' do
         before { get :search }
 
@@ -54,6 +56,7 @@ describe CropsController do
 
       describe 'perform a search' do
         before { get :search, params: { term: 'tom' } }
+
         it { expect(assigns(:term)).to eq 'tom' }
         it { expect(assigns(:crops).map(&:name)).to eq ['tomato'] }
       end
@@ -71,6 +74,8 @@ describe CropsController do
   end
 
   describe 'CREATE' do
+    subject { put :create, params: crop_params }
+
     let(:crop_params) do
       {
         crop:     {
@@ -81,13 +86,15 @@ describe CropsController do
         sci_name: { "1": "fancy sci name", "2": "" }
       }
     end
-    subject { put :create, params: crop_params }
+
     context 'not logged in' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
+
     context 'logged in as member' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
+
     context 'wrangler' do
       include_context 'login as wrangler'
       it { expect { subject }.to change(Crop, :count).by(1) }
@@ -99,7 +106,7 @@ describe CropsController do
   describe 'DELETE destroy' do
     subject { delete :destroy, params: { slug: crop.to_param } }
 
-    let!(:crop) { FactoryBot.create :crop }
+    let!(:crop) { FactoryBot.create(:crop) }
 
     context 'not logged in' do
       it { expect { subject }.not_to change(Crop, :count) }

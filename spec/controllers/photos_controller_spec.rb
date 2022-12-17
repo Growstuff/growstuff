@@ -7,7 +7,7 @@ describe PhotosController, :search do
 
   describe 'GET index' do
     describe 'all photos' do
-      let!(:photo) { FactoryBot.create :photo, :reindex }
+      let!(:photo) { FactoryBot.create(:photo, :reindex) }
 
       before do
         Photo.reindex
@@ -21,10 +21,10 @@ describe PhotosController, :search do
     end
 
     describe '#index crop photos' do
-      let!(:photo)      { FactoryBot.create :photo, :reindex, owner: member, title: 'no assocations photo' }
-      let!(:crop_photo) { FactoryBot.create :photo, :reindex, owner: member, title: 'photos of planting'   }
-      let!(:planting)   { FactoryBot.create :planting, :reindex, crop: crop, owner: member                 }
-      let!(:crop)       { FactoryBot.create :crop, :reindex                                                }
+      let!(:photo)      { FactoryBot.create(:photo, :reindex, owner: member, title: 'no assocations photo') }
+      let!(:crop_photo) { FactoryBot.create(:photo, :reindex, owner: member, title: 'photos of planting')   }
+      let!(:planting)   { FactoryBot.create(:planting, :reindex, crop:, owner: member) }
+      let!(:crop)       { FactoryBot.create(:crop, :reindex) }
 
       before do
         planting.photos << crop_photo
@@ -36,6 +36,7 @@ describe PhotosController, :search do
         it "has indexed the photos of this crop" do
           expect(Photo.search).to include crop_photo
         end
+
         it "assigns crop" do
           expect(assigns(:crop)).to eq crop
         end
@@ -53,7 +54,7 @@ describe PhotosController, :search do
     let(:garden)   { FactoryBot.create(:garden, owner: member)                 }
     let(:harvest)  { FactoryBot.create(:harvest, owner: member)                }
     let(:member)   { FactoryBot.create(:member)                                }
-    let!(:auth)    { FactoryBot.create(:flickr_authentication, member: member) }
+    let!(:auth)    { FactoryBot.create(:flickr_authentication, member:) }
 
     before do
       sign_in member
@@ -98,7 +99,7 @@ describe PhotosController, :search do
 
     let(:member)   { FactoryBot.create(:member)                                  }
     let(:garden)   { FactoryBot.create(:garden, owner: member)                   }
-    let(:planting) { FactoryBot.create(:planting, garden: garden, owner: member) }
+    let(:planting) { FactoryBot.create(:planting, garden:, owner: member) }
     let(:harvest)  { FactoryBot.create(:harvest, owner: member)                  }
     let(:photo)    { FactoryBot.create(:photo, owner: member)                    }
 
@@ -112,6 +113,7 @@ describe PhotosController, :search do
             type: "planting", id: planting.id
           }
         end
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.plantings.first).to eq planting }
       end
@@ -145,6 +147,7 @@ describe PhotosController, :search do
             photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id
           }
         end
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.harvests.size).to eq 1 }
       end
@@ -160,7 +163,7 @@ describe PhotosController, :search do
     end
 
     describe "for the second time" do
-      let(:planting) { FactoryBot.create :planting, owner: member }
+      let(:planting) { FactoryBot.create(:planting, owner: member) }
       let(:valid_params) { { photo: { source_id: 1 }, id: planting.id, type: 'planting' } }
 
       it "does not add a photo twice" do
@@ -173,9 +176,11 @@ describe PhotosController, :search do
       before { controller.stub(:current_member) { member } }
 
       describe "creates the planting/photo link" do
-        let(:planting) { FactoryBot.create(:planting, garden: garden, owner: member) }
+        let(:planting) { FactoryBot.create(:planting, garden:, owner: member) }
         let(:photo) { FactoryBot.create(:photo, owner: member) }
+
         before { post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id } }
+
         it { expect(flash[:alert]).not_to be_present }
         it { expect(Photo.last.plantings.first).to eq planting }
       end

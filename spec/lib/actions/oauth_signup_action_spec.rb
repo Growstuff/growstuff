@@ -40,7 +40,7 @@ describe 'Growstuff::OauthSignupAction' do
       end
 
       it 'creates a new user' do
-        expect(@action.member_created?).to eq true
+        expect(@action.member_created?).to be true
       end
 
       it 'sets the right email' do
@@ -56,11 +56,11 @@ describe 'Growstuff::OauthSignupAction' do
       end
 
       it 'generates a random password' do
-        expect(@member.password).not_to eq nil
+        expect(@member.password).not_to be_nil
       end
 
       it 'does not agree to the tos' do
-        expect(@member.tos_agreement).to eq nil
+        expect(@member.tos_agreement).to be_nil
       end
 
       it 'stores the uid and provider for the member' do
@@ -76,9 +76,9 @@ describe 'Growstuff::OauthSignupAction' do
           @auth['info']['email'] = 'never.used.oauth@yahoo.com'
 
           Member.where(email: @auth['info']['email']).delete_all
-          @existing_member = create :member,             email:                @auth['info']['email'],
+          @existing_member = create(:member,             email:                @auth['info']['email'],
                                                          login_name:           'existing',
-                                                         preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+                                                         preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg')
 
           @member = @action.find_or_create_from_authorization(@auth)
           @authentication = @action.establish_authentication(@auth, @member)
@@ -91,7 +91,7 @@ describe 'Growstuff::OauthSignupAction' do
         end
 
         it 'does not create a new user' do
-          expect(@action.member_created?).to eq nil
+          expect(@action.member_created?).to be_nil
         end
 
         it 'locates the existing member by email' do
@@ -120,9 +120,9 @@ describe 'Growstuff::OauthSignupAction' do
           Member.where(email: @auth['info']['email']).delete_all
           Authentication.delete_all
 
-          @existing_member = create :member, email:                @auth['info']['email'],
+          @existing_member = create(:member, email:                @auth['info']['email'],
                                              login_name:           'schrodingerscat',
-                                             preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
+                                             preferred_avatar_uri: 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg')
 
           @existing_authentication = @existing_member.authentications.create(provider:  'facebook',
                                                                              uid:       '123545',
@@ -141,7 +141,7 @@ describe 'Growstuff::OauthSignupAction' do
         end
 
         it 'does not create a new user' do
-          expect(@action.member_created?).to eq nil
+          expect(@action.member_created?).to be_nil
         end
 
         it 'locates the existing member by uid and provider' do

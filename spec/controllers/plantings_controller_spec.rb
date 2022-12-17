@@ -17,8 +17,9 @@ describe PlantingsController, :search do
     let!(:member2)   { FactoryBot.create(:member)                                                       }
     let!(:tomato)    { FactoryBot.create(:tomato)                                                       }
     let!(:maize)     { FactoryBot.create(:maize)                                                        }
-    let!(:planting1) { FactoryBot.create :planting, crop: tomato, owner: member1, created_at: 1.day.ago }
-    let!(:planting2) { FactoryBot.create :planting, crop: maize, owner: member2, created_at: 5.days.ago }
+    let!(:planting1) { FactoryBot.create(:planting, crop: tomato, owner: member1, created_at: 1.day.ago) }
+    let!(:planting2) { FactoryBot.create(:planting, crop: maize, owner: member2, created_at: 5.days.ago) }
+
     before do
       Planting.reindex
     end
@@ -110,7 +111,7 @@ describe PlantingsController, :search do
     end
 
     context 'with parent seed' do
-      let(:seed) { FactoryBot.create :seed, owner: member }
+      let(:seed) { FactoryBot.create(:seed, owner: member) }
 
       before { get :new, params: { seed_id: seed.to_param } }
 
@@ -127,10 +128,12 @@ describe PlantingsController, :search do
   end
 
   describe 'GET :edit' do
-    let(:my_planting) { FactoryBot.create :planting, owner: member }
-    let(:not_my_planting) { FactoryBot.create :planting }
+    let(:my_planting) { FactoryBot.create(:planting, owner: member) }
+    let(:not_my_planting) { FactoryBot.create(:planting) }
+
     context 'my planting' do
       before { get :edit, params: { slug: my_planting } }
+
       it { expect(assigns(:planting)).to eq my_planting }
     end
 

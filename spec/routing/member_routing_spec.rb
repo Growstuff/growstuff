@@ -35,6 +35,7 @@ describe MembersController do
     it "routes to harvests#index" do
       get("/members/name/harvests").should route_to("harvests#index", member_slug: 'name')
     end
+
     it "routes to plantings#index" do
       get("/members/name/plantings").should route_to("plantings#index", member_slug: 'name')
     end

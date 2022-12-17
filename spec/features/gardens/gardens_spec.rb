@@ -6,10 +6,10 @@ describe "Planting a crop", js: true do
   context 'signed in' do
     include_context 'signed in member'
     # name is aaa to ensure it is ordered first
-    let!(:garden)            { create :garden, name: 'aaa', owner: member }
-    let!(:planting)          { create :planting, garden: garden, owner: garden.owner, planted_at: Date.parse("2013-3-10") }
-    let!(:tomato)            { create :tomato                                                                             }
-    let!(:finished_planting) { create :finished_planting, owner: garden.owner, garden: garden, crop: tomato               }
+    let!(:garden)            { create(:garden, name: 'aaa', owner: member) }
+    let!(:planting)          { create(:planting, garden:, owner: garden.owner, planted_at: Date.parse("2013-3-10")) }
+    let!(:tomato)            { create(:tomato) }
+    let!(:finished_planting) { create(:finished_planting, owner: garden.owner, garden:, crop: tomato) }
 
     it "View gardens" do
       visit gardens_path
@@ -74,8 +74,8 @@ describe "Planting a crop", js: true do
     end
 
     context 'When a garden has a garden type' do
-      let(:garden_type) { create :garden_type }
-      let(:garden_with_type) { create :garden, garden_type: garden_type }
+      let(:garden_type) { create(:garden_type) }
+      let(:garden_with_type) { create(:garden, garden_type:) }
 
       it "Shows a garden type for a garden" do
         visit garden_path(garden_with_type)

@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 shared_examples "crop suggest" do |resource|
-  let!(:pea)    { create :crop, name: 'pea' }
-  let!(:pear)   { create :pear              }
-  let!(:tomato) { create :tomato            }
-  let!(:roma)   { create :roma              }
+  let!(:pea)    { create(:crop, name: 'pea') }
+  let!(:pear)   { create(:pear)              }
+  let!(:tomato) { create(:tomato)            }
+  let!(:roma)   { create(:roma)              }
 
-  scenario "placeholder text in crop auto suggest field" do
+  it "placeholder text in crop auto suggest field" do
     expect(page).to have_selector("input[placeholder='e.g. lettuce']")
   end
 
-  scenario "typing in the crop name displays suggestions" do
+  it "typing in the crop name displays suggestions" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "pe"
     end
@@ -34,7 +34,7 @@ shared_examples "crop suggest" do |resource|
     expect(page).to have_content("pear")
   end
 
-  scenario "selecting crop from dropdown" do
+  it "selecting crop from dropdown" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "pear"
     end
@@ -44,7 +44,7 @@ shared_examples "crop suggest" do |resource|
     expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", visible: false)
   end
 
-  scenario "Typing and pausing does not affect input" do
+  it "Typing and pausing does not affect input" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "pea"
     end
@@ -53,7 +53,7 @@ shared_examples "crop suggest" do |resource|
     expect(find_field("crop").value).to eq("pea")
   end
 
-  scenario "Searching for a crop casts a wide net on results" do
+  it "Searching for a crop casts a wide net on results" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "tom"
     end
@@ -62,7 +62,7 @@ shared_examples "crop suggest" do |resource|
     expect(page).to have_content("roma tomato")
   end
 
-  scenario "Submitting a crop that doesn't exist in the database produces a meaningful error" do
+  it "Submitting a crop that doesn't exist in the database produces a meaningful error" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "Ryan Gosling"
       click_button "Save"

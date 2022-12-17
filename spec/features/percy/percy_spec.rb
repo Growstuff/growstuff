@@ -2,29 +2,30 @@
 
 require 'rails_helper'
 
-describe 'Test with visual testing', type: :feature, js: true do
+describe 'Test with visual testing', js: true, type: :feature do
   # Use the same random seed every time so our random data is the same
   # on every run, so doesn't trigger percy to see changes
   before { Faker::Config.random = Random.new(42) }
-  let!(:member)        { FactoryBot.create :member, login_name: 'percy', preferred_avatar_uri: gravatar }
-  let!(:crop_wrangler) { FactoryBot.create :crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: gravatar2 }
-  let!(:admin_user) { FactoryBot.create :admin_member, login_name: 'janitor', preferred_avatar_uri: gravatar3 }
-  let!(:someone_else) { FactoryBot.create :edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar4 }
+
+  let!(:member)        { FactoryBot.create(:member, login_name: 'percy', preferred_avatar_uri: gravatar) }
+  let!(:crop_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: gravatar2) }
+  let!(:admin_user) { FactoryBot.create(:admin_member, login_name: 'janitor', preferred_avatar_uri: gravatar3) }
+  let!(:someone_else) { FactoryBot.create(:edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar4) }
 
   let(:gravatar) { 'https://secure.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
   let(:gravatar2) { 'https://secure.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
   let(:gravatar3) { 'https://secure.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
   let(:gravatar4) { 'https://secure.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
 
-  let!(:tomato)   { FactoryBot.create :tomato, creator: someone_else }
-  let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
+  let!(:tomato)   { FactoryBot.create(:tomato, creator: someone_else) }
+  let(:plant_part) { FactoryBot.create(:plant_part, name: 'fruit') }
 
   let(:tomato_photo) do
-    FactoryBot.create :photo,
+    FactoryBot.create(:photo,
                       title:         'look at my tomatoes',
                       owner:         member,
                       fullsize_url:  'https://farm1.staticflickr.com/177/432250619_2fe19d067d_z.jpg',
-                      thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg'
+                      thumbnail_url: 'https://farm1.staticflickr.com/177/432250619_2fe19d067d_q.jpg')
   end
   let(:post_body) do
     "So, um, watering's important. Yep. Very important.
@@ -65,7 +66,8 @@ rest of the garden.
 [apple](crop)
     "
   end
-  let(:post) { FactoryBot.create :post, author: member, subject: "Watering", body: post_body }
+  let(:post) { FactoryBot.create(:post, author: member, subject: "Watering", body: post_body) }
+
   before do
     # Freeze time, so we don't have variations in timestamps on the page
     Timecop.freeze(Time.zone.local(2019, 1, 1))
@@ -78,24 +80,25 @@ rest of the garden.
       eggplant: 'https://farm8.staticflickr.com/7856/47068736892_1af9b8a4ba_q.jpg',
       maize:    'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
     }.each do |crop_type, photo_url|
-      crop = FactoryBot.create crop_type, creator: someone_else
+      crop = FactoryBot.create(crop_type, creator: someone_else)
       crop.reindex
-      owner = FactoryBot.create :interesting_member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com"
-      planting = FactoryBot.create :planting, crop: crop, owner: owner, garden: owner.gardens.first
-      photo = FactoryBot.create(:photo, owner: owner,
+      owner = FactoryBot.create(:interesting_member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com")
+      planting = FactoryBot.create(:planting, crop:, owner:, garden: owner.gardens.first)
+      photo = FactoryBot.create(:photo, owner:,
                                         thumbnail_url: "#{photo_url}_q.jpg", fullsize_url: "#{photo_url}_z.jpg")
       planting.photos << photo
 
-      harvest = FactoryBot.create :harvest, crop: crop, owner: owner, plant_part: plant_part
+      harvest = FactoryBot.create(:harvest, crop:, owner:, plant_part:)
       harvest.photos << photo
-      FactoryBot.create :planting, crop: tomato,
+      FactoryBot.create(:planting, crop: tomato,
                                    planted_at: 1.year.ago, finished_at: 2.months.ago,
-                                   sunniness: 'sun', planted_from: 'seed'
+                                   sunniness: 'sun', planted_from: 'seed')
     end
 
-    FactoryBot.create :seed, owner: member, tradable_to: 'nationally'
-    FactoryBot.create :seed, owner: someone_else, tradable_to: 'nationally'
+    FactoryBot.create(:seed, owner: member, tradable_to: 'nationally')
+    FactoryBot.create(:seed, owner: someone_else, tradable_to: 'nationally')
   end
+
   after { Timecop.return }
 
   shared_examples 'visit pages' do
@@ -108,22 +111,23 @@ rest of the garden.
 
     describe 'crops' do
       it 'loads crops#show' do
-        FactoryBot.create :planting, planted_at: 2.months.ago, sunniness: 'shade', planted_from: 'seedling'
+        FactoryBot.create(:planting, planted_at: 2.months.ago, sunniness: 'shade', planted_from: 'seedling')
 
-        planting = FactoryBot.create :planting, planted_at: 1.year.ago, sunniness: 'sun', planted_from: 'seed', crop: tomato
+        planting = FactoryBot.create(:planting, planted_at: 1.year.ago, sunniness: 'sun', planted_from: 'seed', crop: tomato)
         FactoryBot.create(:harvest,
                           crop:         tomato,
                           plant_part:   FactoryBot.create(:plant_part, name: 'berry'),
-                          planting:     planting,
+                          planting:,
                           harvested_at: 1.day.ago)
 
-        post = FactoryBot.create :post, subject: 'tomatoes are delicious'
+        post = FactoryBot.create(:post, subject: 'tomatoes are delicious')
         tomato.posts << post
 
         visit crop_path(tomato)
         expect(page).to have_text 'tomato'
         page.percy_snapshot(page, name: "#{prefix}/crops#show")
       end
+
       it 'loads crops#index' do
         visit crops_path
         page.percy_snapshot(page, name: "#{prefix}/crops#index")
@@ -137,7 +141,7 @@ rest of the garden.
       end
 
       it 'load another member plantings#show' do
-        planting = FactoryBot.create :planting, crop: tomato, owner: someone_else, garden: someone_else.gardens.first
+        planting = FactoryBot.create(:planting, crop: tomato, owner: someone_else, garden: someone_else.gardens.first)
         visit planting_path(planting)
         page.percy_snapshot(page, name: "#{prefix}/plantings#show")
       end
@@ -151,14 +155,14 @@ rest of the garden.
 
       it 'gardens#show' do
         # a garden
-        garden = FactoryBot.create :garden, name: 'paradise', owner: member
+        garden = FactoryBot.create(:garden, name: 'paradise', owner: member)
         # with some lettuce (finished)
         FactoryBot.create(
           :planting, crop: FactoryBot.create(:crop, name: 'lettuce'),
-                     garden: garden, owner: member, finished_at: 2.weeks.ago
+                     garden:, owner: member, finished_at: 2.weeks.ago
         )
         # tomato still growing
-        tomato_planting = FactoryBot.create :planting, garden: garden, owner: member, crop: tomato
+        tomato_planting = FactoryBot.create(:planting, garden:, owner: member, crop: tomato)
         tomato_photo.plantings << tomato_planting
         visit garden_path(garden)
         page.percy_snapshot(page, name: "#{prefix}/gardens#show")
@@ -172,10 +176,10 @@ rest of the garden.
       end
 
       it 'loads another members#show' do
-        FactoryBot.create :planting, owner: someone_else, created_at: 30.days.ago, crop: tomato
-        FactoryBot.create :planting, owner: someone_else, created_at: 24.days.ago, crop: tomato
-        FactoryBot.create :post, author: someone_else, created_at: 4.days.ago, subject: 'waiting for my tomatoes'
-        FactoryBot.create :harvest, owner: someone_else, created_at: 1.day.ago, crop: tomato
+        FactoryBot.create(:planting, owner: someone_else, created_at: 30.days.ago, crop: tomato)
+        FactoryBot.create(:planting, owner: someone_else, created_at: 24.days.ago, crop: tomato)
+        FactoryBot.create(:post, author: someone_else, created_at: 4.days.ago, subject: 'waiting for my tomatoes')
+        FactoryBot.create(:harvest, owner: someone_else, created_at: 1.day.ago, crop: tomato)
 
         visit member_path(someone_else)
         page.percy_snapshot(page, name: "#{prefix}/members#show")
@@ -184,17 +188,18 @@ rest of the garden.
 
     describe 'posts' do
       it 'loads posts#show' do
-        FactoryBot.create :comment, post: post
-        FactoryBot.create :comment, post: post
+        FactoryBot.create(:comment, post:)
+        FactoryBot.create(:comment, post:)
         visit post_path(post)
         page.percy_snapshot(page, name: "#{prefix}/posts#show")
       end
+
       it 'loads posts#index' do
         Member.all.limit(5).each do |member|
-          FactoryBot.create_list :post, 12, author: member
+          FactoryBot.create_list(:post, 12, author: member)
         end
         Post.all.order(id: :desc).limit(4) do |post|
-          FactoryBot.create_list :comment, rand(1..5), post: post
+          FactoryBot.create_list(:comment, rand(1..5), post:)
         end
         visit posts_path
         page.percy_snapshot(page, name: "#{prefix}/posts#index")
@@ -212,6 +217,7 @@ rest of the garden.
 
   context "when signed out" do
     let(:prefix) { 'signed-out' }
+
     include_examples 'visit pages'
 
     it 'loads sign in page' do
@@ -230,6 +236,7 @@ rest of the garden.
       visit new_member_password_path
       page.percy_snapshot(page, name: "forgot-password")
     end
+
     it 'loads new confirmation' do
       visit new_member_confirmation_path
       page.percy_snapshot(page, name: "new-confimation")
@@ -238,11 +245,12 @@ rest of the garden.
 
   context 'when signed in' do
     let(:prefix) { 'signed-in' }
+
     include_context 'signed in member'
     include_examples 'visit pages'
 
     it 'load my plantings#show' do
-      planting = FactoryBot.create :planting, crop: tomato, owner: member, garden: member.gardens.first
+      planting = FactoryBot.create(:planting, crop: tomato, owner: member, garden: member.gardens.first)
       visit planting_path(planting)
       page.percy_snapshot(page, name: "#{prefix}/self/plantings#show")
     end
@@ -253,7 +261,7 @@ rest of the garden.
     end
 
     it 'load my gardens#show' do
-      garden = FactoryBot.create :garden, name: 'paradise', owner: member
+      garden = FactoryBot.create(:garden, name: 'paradise', owner: member)
       visit garden_path(garden)
       page.percy_snapshot(page, name: "#{prefix}/self/gardens#show")
     end
@@ -298,19 +306,19 @@ rest of the garden.
 
     describe '#edit' do
       it 'loads gardens#edit' do
-        garden = FactoryBot.create :garden, owner: member
+        garden = FactoryBot.create(:garden, owner: member)
         visit edit_garden_path(garden)
         page.percy_snapshot(page, name: "#{prefix}/gardens#edit")
       end
 
       it 'loads harvests#edit' do
-        harvest = FactoryBot.create :harvest, owner: member
+        harvest = FactoryBot.create(:harvest, owner: member)
         visit edit_harvest_path(harvest)
         page.percy_snapshot(page, name: "#{prefix}/harvests#edit")
       end
 
       it 'loads planting#edit' do
-        planting = FactoryBot.create :planting, owner: member
+        planting = FactoryBot.create(:planting, owner: member)
         visit edit_planting_path(planting)
         page.percy_snapshot(page, name: "#{prefix}/plantings#edit")
       end
@@ -342,7 +350,7 @@ rest of the garden.
 
   context 'wrangling crops' do
     include_context 'signed in crop wrangler'
-    let!(:candy) { FactoryBot.create :crop_request, name: 'candy' }
+    let!(:candy) { FactoryBot.create(:crop_request, name: 'candy') }
 
     it 'crop wrangling page' do
       visit wrangle_crops_path
@@ -357,29 +365,36 @@ rest of the garden.
   context 'admin' do
     include_context 'signed in admin'
     before { visit admin_path }
+
     it 'admin page' do
       page.percy_snapshot(page, name: 'Admin')
     end
+
     it 'Roles' do
       click_link 'Roles'
       page.percy_snapshot(page, name: 'Admin Roles')
     end
+
     it 'CMS' do
       click_link 'CMS'
       page.percy_snapshot(page, name: 'CMS')
     end
+
     it 'Garden Types' do
       click_link 'Garden Types'
       page.percy_snapshot(page, name: 'Admin Garden type')
     end
+
     it 'Alternate names' do
       click_link 'Alternate names'
       page.percy_snapshot(page, name: 'Admin Alternate names')
     end
+
     it 'Scientific names' do
       click_link 'Scientific names'
       page.percy_snapshot(page, name: 'Admin Scientific names')
     end
+
     it 'Members' do
       click_link 'Members'
       page.percy_snapshot(page, name: 'Admin Members')

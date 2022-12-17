@@ -8,9 +8,9 @@ describe 'harvests/index.rss.haml', :search do
     @member = FactoryBot.create(:member)
     @tomato = FactoryBot.create(:tomato)
 
-    @harvest1 = FactoryBot.create :harvest, crop: @tomato
-    @harvest2 = FactoryBot.create :harvest, crop: @tomato
-    @harvest3 = FactoryBot.create :harvest, crop: @tomato
+    @harvest1 = FactoryBot.create(:harvest, crop: @tomato)
+    @harvest2 = FactoryBot.create(:harvest, crop: @tomato)
+    @harvest3 = FactoryBot.create(:harvest, crop: @tomato)
 
     Harvest.searchkick_index.refresh
     assign(:harvests, Harvest.search(load: false))
@@ -18,6 +18,7 @@ describe 'harvests/index.rss.haml', :search do
 
   context 'all harvests' do
     before { render }
+
     it 'shows RSS feed title' do
       expect(rendered).to have_content "Recent harvests from all members"
     end
@@ -32,6 +33,7 @@ describe 'harvests/index.rss.haml', :search do
       assign(:crop, @tomato)
       render
     end
+
     it "displays crop's name in title" do
       expect(rendered).to have_content @tomato.name
     end

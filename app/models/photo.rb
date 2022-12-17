@@ -27,7 +27,7 @@ class Photo < ApplicationRecord
              source_type: type
   end
 
-  scope :by_crop, ->(crop) { joins(:photo_associations).where(photo_associations: { crop: crop }) }
+  scope :by_crop, ->(crop) { joins(:photo_associations).where(photo_associations: { crop: }) }
   scope :by_model, lambda { |model_name|
     joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
   }

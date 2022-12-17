@@ -3,17 +3,18 @@
 require "rails_helper"
 
 describe "User searches" do
-  let!(:located_member) { create :member, location: "Philippines" }
-  let!(:maize)    { create :maize }
-  let(:garden)    { create :garden, owner: located_member                                                        }
-  let!(:seed1)    { create :seed, owner: located_member                                                          }
-  let!(:planting) { create :planting, garden: garden, owner: located_member, planted_at: Date.parse("2013-3-10") }
+  let!(:located_member) { create(:member, location: "Philippines") }
+  let!(:maize)    { create(:maize) }
+  let(:garden)    { create(:garden, owner: located_member)                                                        }
+  let!(:seed1)    { create(:seed, owner: located_member)                                                          }
+  let!(:planting) { create(:planting, garden:, owner: located_member, planted_at: Date.parse("2013-3-10")) }
 
   describe "with a valid place" do
     before do
       visit places_path
       search_with "Philippines"
     end
+
     it { expect(page).to have_content "community near Philippines" }
     it { expect(page).to have_button "search_button" }
     it { expect(page).to have_content "Nearby members" }
@@ -30,6 +31,7 @@ describe "User searches" do
   describe "Nearby plantings, seed, and members" do
     include_context 'signed in member'
     let(:member) { located_member }
+
     before do
       visit places_path
       search_with "Philippines"

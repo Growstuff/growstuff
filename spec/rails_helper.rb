@@ -10,10 +10,6 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Forma
 # fail if there's a significant test coverage drop
 SimpleCov.maximum_coverage_drop 1
 
-SimpleCov.start :rails do
-  add_filter 'spec/'
-end
-
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
@@ -90,6 +86,8 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  config.raise_errors_for_deprecations!
 
   # controller specs require this to work with Devise
   # see https://github.com/plataformatec/devise/wiki/How-To%3a-Controllers-and-Views-tests-with-Rails-3-%28and-rspec%29

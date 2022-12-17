@@ -17,6 +17,7 @@ describe "cms admin" do
       expect(page).to have_content "Please sign in as an admin user"
     end
   end
+
   context 'admin' do
     include_context 'signed in admin'
     it "admin members can view CMS admin area" do

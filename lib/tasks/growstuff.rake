@@ -20,7 +20,7 @@ namespace :growstuff do
       raise "Usage: rake growstuff:[rolename] name=[username] "\
         "\n (login name is case-sensitive)\n"
     end
-    member = Member.find_by!(login_name: login_name)
+    member = Member.find_by!(login_name:)
     role = Role.find_by!(name: role_name)
     member.roles << role
   end

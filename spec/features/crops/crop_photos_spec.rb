@@ -5,15 +5,15 @@ require 'rails_helper'
 describe "crop detail page", :js, :search do
   subject { page }
 
-  let!(:owner_member) { FactoryBot.create :member }
+  let!(:owner_member) { FactoryBot.create(:member) }
 
-  let!(:crop) { FactoryBot.create :crop, :reindex }
+  let!(:crop) { FactoryBot.create(:crop, :reindex) }
 
-  let(:plant_part) { FactoryBot.create :plant_part, name: 'fruit' }
+  let(:plant_part) { FactoryBot.create(:plant_part, name: 'fruit') }
 
-  let!(:harvest)  { FactoryBot.create :harvest, crop: crop, owner: owner_member, plant_part: plant_part }
-  let!(:planting) { FactoryBot.create :planting, crop: crop, owner: owner_member }
-  let!(:seed)     { FactoryBot.create :seed, crop: crop, owner: owner_member     }
+  let!(:harvest)  { FactoryBot.create(:harvest, crop:, owner: owner_member, plant_part:) }
+  let!(:planting) { FactoryBot.create(:planting, crop:, owner: owner_member) }
+  let!(:seed)     { FactoryBot.create(:seed, crop:, owner: owner_member)     }
 
   let!(:photo1) { FactoryBot.create(:photo, owner: owner_member) }
   let!(:photo2) { FactoryBot.create(:photo, owner: owner_member) }
@@ -65,6 +65,7 @@ describe "crop detail page", :js, :search do
   context "when signed in as photos owner" do
     include_context 'signed in member'
     let(:member) { owner_member }
+
     include_examples "shows photos"
   end
 

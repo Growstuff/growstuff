@@ -6,7 +6,7 @@ RSpec.describe 'Photos', type: :request do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:seed)   { FactoryBot.create :seed                    }
+  let!(:seed)   { FactoryBot.create(:seed) }
   let(:seed_encoded_as_json_api) do
     { "id"            => seed.id.to_s,
       "type"          => "seeds",
@@ -47,13 +47,13 @@ RSpec.describe 'Photos', type: :request do
   end
 
   describe '#index' do
-    before { get '/api/v1/seeds', params: {}, headers: headers }
+    before { get '/api/v1/seeds', params: {}, headers: }
 
     it { expect(subject['data']).to include(seed_encoded_as_json_api) }
   end
 
   describe '#show' do
-    before { get "/api/v1/seeds/#{seed.id}", params: {}, headers: headers }
+    before { get "/api/v1/seeds/#{seed.id}", params: {}, headers: }
 
     it { expect(subject['data']['attributes']).to eq(attributes) }
     it { expect(subject['data']['relationships']).to include("owner" => owner_as_json_api) }
@@ -63,19 +63,19 @@ RSpec.describe 'Photos', type: :request do
 
   it '#create' do
     expect do
-      post '/api/v1/seeds', params: { 'seed' => { 'name' => 'can i make this' } }, headers: headers
+      post '/api/v1/seeds', params: { 'seed' => { 'name' => 'can i make this' } }, headers:
     end.to raise_error ActionController::RoutingError
   end
 
   it '#update' do
     expect do
-      post "/api/v1/seeds/#{seed.id}", params: { 'seed' => { 'name' => 'can i modify this' } }, headers: headers
+      post "/api/v1/seeds/#{seed.id}", params: { 'seed' => { 'name' => 'can i modify this' } }, headers:
     end.to raise_error ActionController::RoutingError
   end
 
   it '#delete' do
     expect do
-      delete "/api/v1/seeds/#{seed.id}", params: {}, headers: headers
+      delete "/api/v1/seeds/#{seed.id}", params: {}, headers:
     end.to raise_error ActionController::RoutingError
   end
 end

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe Seed do
-  let(:owner) { FactoryBot.create :owner, login_name: 'tamateapokaiwhenua' }
-  let(:seed)  { FactoryBot.build(:seed, owner: owner)                      }
+  let(:owner) { FactoryBot.create(:owner, login_name: 'tamateapokaiwhenua') }
+  let(:seed)  { FactoryBot.build(:seed, owner:) }
 
   it 'saves a basic seed' do
     seed.save.should be(true)
@@ -65,13 +65,13 @@ describe Seed do
 
     it 'tradable gives the right answers' do
       @seed = FactoryBot.create(:seed, tradable_to: 'nowhere')
-      @seed.tradable.should eq false
+      @seed.tradable.should be false
       @seed = FactoryBot.create(:seed, tradable_to: 'locally')
-      @seed.tradable.should eq true
+      @seed.tradable.should be true
       @seed = FactoryBot.create(:seed, tradable_to: 'nationally')
-      @seed.tradable.should eq true
+      @seed.tradable.should be true
       @seed = FactoryBot.create(:seed, tradable_to: 'internationally')
-      @seed.tradable.should eq true
+      @seed.tradable.should be true
     end
 
     it 'recognises a tradable seed' do
@@ -153,7 +153,7 @@ describe Seed do
   end
 
   context 'photos' do
-    let(:seed) { FactoryBot.create :seed }
+    let(:seed) { FactoryBot.create(:seed) }
 
     before { seed.photos << FactoryBot.create(:photo, owner: seed.owner) }
 
@@ -163,12 +163,13 @@ describe Seed do
   end
 
   context 'ancestry' do
-    let(:parent_planting) { FactoryBot.create :planting                                                             }
-    let(:seed)            { FactoryBot.create :seed, parent_planting: parent_planting, owner: parent_planting.owner }
+    let(:parent_planting) { FactoryBot.create(:planting) }
+    let(:seed)            { FactoryBot.create(:seed, parent_planting:, owner: parent_planting.owner) }
 
     it "seed has a parent planting" do
       expect(seed.parent_planting).to eq(parent_planting)
     end
+
     it "planting has a child seed" do
       expect(parent_planting.child_seeds).to eq [seed]
     end
@@ -178,7 +179,7 @@ describe Seed do
     describe 'has finished fields' do
       let(:seed) { FactoryBot.create(:finished_seed) }
 
-      it { expect(seed.finished).to eq true }
+      it { expect(seed.finished).to be true }
       it { expect(seed.finished_at).to be_an_instance_of Date }
     end
 
@@ -199,12 +200,13 @@ describe Seed do
   end
 
   describe 'homepage', :search do
-    let!(:tradable_seed) { FactoryBot.create :tradable_seed, :reindex, finished: false  }
-    let!(:finished_seed)   { FactoryBot.create :tradable_seed, :reindex, finished: true }
-    let!(:untradable_seed) { FactoryBot.create :untradable_seed, :reindex               }
+    subject { described_class.homepage_records(100) }
+
+    let!(:tradable_seed) { FactoryBot.create(:tradable_seed, :reindex, finished: false)  }
+    let!(:finished_seed)   { FactoryBot.create(:tradable_seed, :reindex, finished: true) }
+    let!(:untradable_seed) { FactoryBot.create(:untradable_seed, :reindex)               }
 
     before { described_class.reindex }
-    subject { described_class.homepage_records(100) }
 
     it { expect(subject.count).to eq 1 }
     it { expect(subject.first.id).to eq tradable_seed.id.to_s }

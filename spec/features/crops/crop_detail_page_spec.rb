@@ -3,9 +3,6 @@
 require 'rails_helper'
 
 describe "crop detail page", js: true do
-  before do
-    FactoryBot.create :plant_part, name: 'leaf'
-  end
   subject do
     # Update the medians after all the
     # data has been loaded
@@ -16,7 +13,11 @@ describe "crop detail page", js: true do
     page
   end
 
-  let(:crop) { create :crop }
+  before do
+    FactoryBot.create(:plant_part, name: 'leaf')
+  end
+
+  let(:crop) { create(:crop) }
 
   context "varieties" do
     it "The crop DOES NOT have varieties" do
@@ -34,12 +35,15 @@ describe "crop detail page", js: true do
         click_link 'Add to my garden'
         expect(page).to have_link "add new garden"
       end
+
       it "has a link to harvest the crop" do
         click_link 'Record harvest'
         expect(page).to have_link "leaf"
       end
+
       describe "Saving seeds" do
         before { click_link 'Save seeds' }
+
         it { expect(page).to have_text "Will you offer these seeds for trade?" }
         it { expect(page).to have_button "locally" }
         it { expect(page).to have_button "nationally" }
@@ -84,7 +88,7 @@ describe "crop detail page", js: true do
   end
 
   context "seed quantity for a crop" do
-    let(:seed)   { create :seed, crop: crop, quantity: 20 }
+    let(:seed)   { create(:seed, crop:, quantity: 20) }
 
     it "User not signed in" do
       visit crop_path(seed.crop)
@@ -94,10 +98,12 @@ describe "crop detail page", js: true do
     context 'signed in' do
       include_context 'signed in member'
       before { seed.update! owner: member }
+
       it "User signed in" do
         visit crop_path(seed.crop)
         expect(page).to have_link "You have 20 seeds of this crop."
       end
+
       it "click link to your owned seeds" do
         visit crop_path(seed.crop)
         click_link "You have 20 seeds of this crop."
@@ -110,14 +116,14 @@ describe "crop detail page", js: true do
     describe 'with harvest history data' do
       before do
         # 50 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 150.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         # 20 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 180.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         # 10 days to harvest
-        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop: crop,
-                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop: crop))
+        FactoryBot.create(:harvest, harvested_at: 190.days.ago, crop:,
+                                    planting: FactoryBot.create(:planting, planted_at: 200.days.ago, crop:))
         crop.update_medians
       end
 
@@ -129,7 +135,7 @@ describe "crop detail page", js: true do
 
   context 'predictions' do
     let!(:planting) do
-      FactoryBot.create(:planting, crop:        crop,
+      FactoryBot.create(:planting, crop:,
                                    planted_at:  100.days.ago,
                                    finished_at: 1.day.ago)
     end
@@ -153,7 +159,7 @@ describe "crop detail page", js: true do
     end
 
     context 'crop is Perennial' do
-      let(:crop) { FactoryBot.create :perennial_crop }
+      let(:crop) { FactoryBot.create(:perennial_crop) }
 
       describe 'with no harvests' do
       end
@@ -169,7 +175,7 @@ describe "crop detail page", js: true do
     end
 
     context 'crop Perennial value is null' do
-      let(:crop) { FactoryBot.create :crop, perennial: nil }
+      let(:crop) { FactoryBot.create(:crop, perennial: nil) }
 
       describe 'with no harvests' do
       end
@@ -184,7 +190,7 @@ describe "crop detail page", js: true do
     before { visit crop_path(crop) }
 
     context 'crop is an Annual' do
-      let(:crop) { FactoryBot.create :annual_crop }
+      let(:crop) { FactoryBot.create(:annual_crop) }
 
       it { expect(page).to have_text 'Annual' }
       it { expect(page).to have_text 'living and reproducing in a single year or less' }
@@ -192,7 +198,7 @@ describe "crop detail page", js: true do
     end
 
     context 'crop is Perennial' do
-      let(:crop) { FactoryBot.create :perennial_crop }
+      let(:crop) { FactoryBot.create(:perennial_crop) }
 
       it { expect(page).to have_text 'Perennial' }
       it { expect(page).to have_text 'living more than two years' }
@@ -200,7 +206,7 @@ describe "crop detail page", js: true do
     end
 
     context 'crop Perennial value is null' do
-      let(:crop) { FactoryBot.create :crop, perennial: nil }
+      let(:crop) { FactoryBot.create(:crop, perennial: nil) }
 
       it { expect(page).not_to have_text 'Perennial' }
       it { expect(page).not_to have_text 'Annual' }

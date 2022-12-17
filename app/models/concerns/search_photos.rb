@@ -15,20 +15,20 @@ module SearchPhotos
 
     def search_data
       {
-        id:                     id,
-        title:                  title,
-        thumbnail_url:          thumbnail_url,
-        fullsize_url:           fullsize_url,
+        id:,
+        title:,
+        thumbnail_url:,
+        fullsize_url:,
         # crops
         crops:                  crops.pluck(:id),
         # likes
-        liked_by_members_names: liked_by_members_names,
+        liked_by_members_names:,
         # owner
-        owner_id:               owner_id,
-        owner_login_name:       owner_login_name,
-        owner_slug:             owner_slug,
+        owner_id:,
+        owner_login_name:,
+        owner_slug:,
         # counts
-        likes_count:            likes_count,
+        likes_count:,
 
         created_at:             created_at.to_i
       }
