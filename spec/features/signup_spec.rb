@@ -45,37 +45,4 @@ describe "signup", js: true do
     click_button 'Sign up'
     expect(page).to have_current_path members_path, ignore_query: true
   end
-
-  context "with facebook" do
-    it "sign up" do
-      # Ordinarily done by database_cleaner
-      Member.where(login_name: 'tdawg').delete_all
-      Member.where(email: 'tdawg@hotmail.com').delete_all
-      Member.where(email: 'example.oauth.facebook@example.com').delete_all
-      Authentication.where(provider: 'facebook', uid: '123545').delete_all
-
-      # Start the test
-      visit root_path
-      first('.signup a').click
-
-      # Click the signup with facebook link
-
-      first('a[href="/members/auth/facebook"]').click
-      # Magic happens!
-      # See config/environments/test.rb for the fake user
-      # that we pretended to auth as
-
-      # Confirm page
-      expect(page).to have_current_path '/members/johnnyt/finish_signup'
-
-      fill_in 'Login name', with: 'tdawg'
-      fill_in 'Email', with: 'tdawg@hotmail.com'
-      check 'member_tos_agreement'
-      click_button 'Continue'
-
-      # Signed up and logged in
-      expect(page).to have_current_path root_path, ignore_query: true
-      expect(page.text).to include("Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, tdawg")
-    end
-  end
 end
