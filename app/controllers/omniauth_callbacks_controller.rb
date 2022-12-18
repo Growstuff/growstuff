@@ -9,10 +9,6 @@ require './lib/actions/oauth_signup_action'
 # Heavily overlaps with Authentications controller
 #
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def facebook
-    create
-  end
-
   def failure
     flash[:alert] = "Authentication failed."
     redirect_to request.env['omniauth.origin'] || "/"
@@ -32,7 +28,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @authentication = action.establish_authentication(auth, member)
 
     if action.member_created?
-      raise "Invalid provider" unless %w(facebook twitter flickr).index(auth['provider'].to_s)
+      raise "Invalid provider" unless %w(twitter flickr).index(auth['provider'].to_s)
 
       session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
       sign_in member

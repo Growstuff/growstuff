@@ -28,17 +28,3 @@
                     method: :delete, class: "remove btn btn-danger"
         - else
           = link_to 'Connect to Flickr', '/members/auth/flickr', class: 'btn'
-
-  .row
-    .col-md-12
-      %p
-        = image_tag "facebook_32.png", size: "32x32", alt: 'Facebook logo'
-        - if @facebook_auth
-          You are connected to Facebook as
-          = succeed "." do
-            = link_to @facebook_auth.name, "https://facebook.com/profile/#{@facebook_auth.uid}"
-          = link_to "Disconnect", @facebook_auth,
-                    confirm: "Are you sure you want to remove this connection?",
-                    method: :delete, class: "remove btn btn-danger"
-        - else
-          = link_to 'Connect to Facebook', '/members/auth/facebook', class: 'btn'

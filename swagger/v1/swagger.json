@@ -92,13 +92,6 @@
           "type": "string",
           "description": "Display field",
           "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
         }
       ],
       "responses": {
