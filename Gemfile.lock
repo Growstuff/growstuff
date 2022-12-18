@@ -288,8 +288,8 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    haml_lint (0.42.0)
-      haml (>= 4.0, < 6.1)
+    haml_lint (0.43.0)
+      haml (>= 4.0, < 6.2)
       parallel (~> 1.10)
       rainbow
       rubocop (>= 0.50.0)
@@ -338,7 +338,6 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jsonapi-swagger (0.8.1)
-    jwt (2.3.0)
     kgio (2.11.4)
     kramdown (2.4.0)
       rexml
@@ -351,7 +350,7 @@ GEM
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.19.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -396,28 +395,19 @@ GEM
     nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
+    nokogiri (1.13.10-x86_64-linux)
+      racc (~> 1.4)
     oauth (0.5.6)
-    oauth2 (1.4.9)
-      faraday (>= 0.17.3, < 3.0)
-      jwt (>= 1.0, < 3.0)
-      multi_json (~> 1.3)
-      multi_xml (~> 0.5)
-      rack (>= 1.2, < 3)
     oj (3.13.23)
     omniauth (1.9.2)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-facebook (9.0.0)
-      omniauth-oauth2 (~> 1.2)
     omniauth-flickr (0.0.20)
       multi_json (~> 1.12)
       omniauth-oauth (~> 1.0)
     omniauth-oauth (1.1.0)
       oauth
       omniauth (~> 1.0)
-    omniauth-oauth2 (1.7.2)
-      oauth2 (~> 1.4)
-      omniauth (>= 1.9, < 3)
     omniauth-twitter (1.4.0)
       omniauth-oauth (~> 1.1)
       rack
@@ -466,8 +456,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     rails-i18n (7.0.5)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
@@ -553,7 +543,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.15.0)
+    rubocop-rspec (2.16.0)
       rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
     ruby-units (3.0.0)
@@ -653,6 +643,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86_64-linux
 
 DEPENDENCIES
   active_median (= 0.2.0)
@@ -661,7 +652,7 @@ DEPENDENCIES
   better_errors
   bluecloth
   bonsai-elasticsearch-rails
-  bootstrap (>= 4.3.1)
+  bootstrap (>= 4.6.2)
   bootstrap-datepicker-rails
   bootstrap_form (>= 4.5.0)
   bullet
@@ -703,17 +694,16 @@ DEPENDENCIES
   js-routes
   jsonapi-resources
   jsonapi-swagger
-  leaflet-rails (>= 1.7.0)
+  leaflet-rails (>= 1.9.2)
   letter_opener
   listen
-  loofah (>= 2.2.1)
+  loofah (>= 2.19.1)
   mailboxer (>= 0.15.1)
   material-sass (= 4.1.1)
   material_icons
   memcachier
   oj
   omniauth (~> 1.3)
-  omniauth-facebook
   omniauth-flickr (>= 0.0.15)
   omniauth-twitter
   percy-capybara (~> 5.0.0)
@@ -756,7 +746,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-    ruby 3.1.3p185
+   ruby 3.1.2p20
 
 BUNDLED WITH
-    2.3.26
+   2.3.11
