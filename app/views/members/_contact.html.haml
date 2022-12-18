@@ -1,4 +1,4 @@
-- if twitter_auth || flickr_auth || facebook_auth || member.show_email
+- if twitter_auth || flickr_auth || member.show_email
   %h4 Contact
 
   - if twitter_auth
@@ -10,11 +10,6 @@
     %p
       = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
       = link_to flickr_auth.name, "https://flickr.com/photos/#{flickr_auth.uid}"
-
-  - if facebook_auth
-    %p
-      = image_tag "facebook_32.png", size: "32x32", alt: 'Facebook logo'
-      = link_to facebook_auth.name, "https://facebook.com/profile/#{facebook_auth.uid}"
 
   - if member.show_email
     %p
