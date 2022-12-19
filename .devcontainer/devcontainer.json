@@ -9,7 +9,7 @@
 // Features to add to the dev container. More info: https://containers.dev/features.
 // Need something to get javascript working
 "features": {
-    "ghcr.io/devcontainers-contrib/features/deno:1": {}
+    "ghcr.io/devcontainers/features/node:1": {}
 },
 
 // Use 'forwardPorts' to make a list of ports inside the container available locally.
