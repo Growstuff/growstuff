@@ -67,6 +67,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
 
   config.host = 'localhost:3000'
+  config.hosts << ".preview.app.github.dev"
   config.analytics_code = ''
 
   # this config variable cannot be put in application.yml as it is needed
