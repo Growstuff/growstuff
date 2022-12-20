@@ -14,13 +14,13 @@
 
 // Use 'forwardPorts' to make a list of ports inside the container available locally.
 // This can be used to network with other containers or the host.
-// "forwardPorts": [3000, 5432],
+"forwardPorts": [3000, 5432]
 
 // Use 'postCreateCommand' to run commands after the container is created.
 // these don't actually work as postCreateCommands, you need to run them manually
 // for some unknown reason, Github codespaces use rbenv and rvm simultaneously
 // and you need both to be correct for it to work
-"postCreateCommand": "rbenv install 3.1.2 && rvm install 3.1.2 && bundle install && rake db:setup"
+// "postCreateCommand": "rbenv install 3.1.2 && rvm install 3.1.2 && bundle install && rake db:setup"
 
 // Configure tool-specific properties.
 // "customizations": {},
