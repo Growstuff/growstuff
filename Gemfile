@@ -9,7 +9,7 @@ gem 'rails', '~> 7.0.4'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
-gem "sprockets", "<4"
+gem "sprockets", "~> 4.2"
 
 gem 'bundler', '>= 2.3.10'
 
