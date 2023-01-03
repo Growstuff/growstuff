@@ -302,8 +302,8 @@ GEM
       multi_json (>= 1.9.2)
       webrick
     highline (2.0.3)
-    httparty (0.18.1)
-      mime-types (~> 3.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -369,9 +369,6 @@ GEM
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (1.0.0)
-    mime-types (3.3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0512)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
