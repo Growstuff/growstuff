@@ -344,7 +344,7 @@ GEM
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
-    leaflet-rails (1.9.2)
+    leaflet-rails (1.9.3)
       rails (>= 4.2.0)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
@@ -354,7 +354,7 @@ GEM
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.8.0.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
