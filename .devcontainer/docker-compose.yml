@@ -8,6 +8,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      setup:
+        condition: service_healthy
     volumes:
       - ../..:/workspaces:cached
 
