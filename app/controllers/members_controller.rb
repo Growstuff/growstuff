@@ -18,7 +18,6 @@ class MembersController < ApplicationController
     @member        = Member.confirmed.kept.find_by!(slug: params[:slug])
     @twitter_auth  = @member.auth('twitter')
     @flickr_auth   = @member.auth('flickr')
-    @facebook_auth = @member.auth('facebook')
     @posts         = @member.posts
 
     @activity = TimelineService.member_query(@member).limit(30)
