@@ -27,7 +27,7 @@
         - else
           = link_to "Change your location.", edit_member_registration_path
       .row
-        .col-md-5.col-12= f.number_field :area, class: 'input-small', step: ".1"
+        .col-md-5.col-12= f.number_field :area, class: 'input-small', step: "any"
         .col-md-7.col-12= f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false })
         .col-12= f.select(:garden_type_id, GardenType.all.order(:name).pluck(:name, :id),
                           selected: @garden.garden_type_id, include_blank: true)
