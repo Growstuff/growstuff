@@ -69,11 +69,6 @@ Rails.application.configure do
   config.host = 'localhost:3000'
   config.analytics_code = ''
 
-  # this config variable cannot be put in application.yml as it is needed
-  # by the assets pipeline, which doesn't have access to ENV.
-  config.mapbox_map_id = 'growstuff.i3n2il6a'
-  config.mapbox_access_token = 'pk.eyJ1IjoiZ3Jvd3N0dWZmIiwiYSI6IkdxMkx4alUifQ.n0igaBsw97s14zMa0lwKCA'
-
   config.action_controller.action_on_unpermitted_parameters = :raise
 
   config.active_job.queue_adapter = :sidekiq
