@@ -20,7 +20,7 @@
 // these don't actually work as postCreateCommands, you need to run them manually
 // for some unknown reason, Github codespaces use rbenv and rvm simultaneously
 // and you need both to be correct for it to work
-"postCreateCommand": "bundle install && bundle exec rake db:create"
+"postCreateCommand": "nice -n 19 bundle install && nice -n 19 bundle exec rake db:create && nice -n 19 bundle exec rake db:migrate"
 
 // Configure tool-specific properties.
 // "customizations": {},
