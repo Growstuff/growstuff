@@ -103,7 +103,6 @@ RSpec.configure do |config|
     if page.driver.browser.respond_to?(:url_blacklist)
       page.driver.browser.url_blacklist = [
         'gravatar.com',
-        'mapbox.com',
         'okfn.org',
         'googlecode.com'
       ]
