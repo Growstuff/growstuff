@@ -12,6 +12,8 @@ services:
         condition: service_healthy
       es01:
         condition: service-healthy
+    environment:
+      - ELASTICSEARCH_URL=https://es01:9200/
     volumes:
       - ../..:/workspaces:cached
 
