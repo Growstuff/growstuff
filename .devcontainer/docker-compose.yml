@@ -10,6 +10,8 @@ services:
         condition: service_healthy
       setup:
         condition: service_healthy
+      es01:
+        condition: service-healthy
     volumes:
       - ../..:/workspaces:cached
 
