@@ -83,7 +83,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "curl http://localhost:9200",
+          "curl http://localhost:9200 | grep tagline",
         ]
       interval: 10s
       timeout: 10s
