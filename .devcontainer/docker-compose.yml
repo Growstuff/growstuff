@@ -20,9 +20,6 @@ services:
       GROWSTUFF_FLICKR_SECRET: secretsecret
       GROWSTUFF_SITE_NAME: "Growstuff (local)"
       RAILS_SECRET_TOKEN: supersecret
-      # CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      # DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
-      # ELASTIC_SEARCH_VERSION: "7.5.1-amd64"
     volumes:
       - ../..:/workspaces:cached
 
