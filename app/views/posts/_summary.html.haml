@@ -2,10 +2,10 @@
 - unless posts.empty?
   %table.table.table-striped
     %tr
-      %th Subject
-      %th.hidden-xs Posted by
-      %th Most recent activity
-      %th.hidden-xs Comments
+      %th.col-6 Subject
+      %th.col-2.hidden-xs Posted by
+      %th.col-2 Most recent activity
+      %th.col-2.hidden-xs Comments
 
     - posts.recently_active[0..howmany - 1].each do |post|
       - cache post do

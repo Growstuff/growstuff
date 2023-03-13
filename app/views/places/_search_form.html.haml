@@ -1,6 +1,6 @@
 %form.form-inline{ action: search_places_path, method: :get, role: 'form' }
   .form-group
     = label_tag :new_place, "Change location:", class: 'sr-only'
-    = text_field_tag :new_place, '', class: 'form-control', placeholder: "New location..."
+    = text_field_tag :new_place, '', class: 'form-control', placeholder: "Search for city, suburb or state..."
   = submit_tag "Search", class: 'btn btn-primary', id: "search_button"
 %br/

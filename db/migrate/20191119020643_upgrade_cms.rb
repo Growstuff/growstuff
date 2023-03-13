@@ -23,9 +23,9 @@ class UpgradeCms < ActiveRecord::Migration[5.2]
       t.string  :locale,    null: false
       t.integer :page_id,   null: false
       t.integer :layout_id
-      t.string  :label,           null: false
-      t.text    :content_cache,   limit: limit
-      t.boolean :is_published,    null: false, default: true
+      t.string  :label, null: false
+      t.text(:content_cache, limit:)
+      t.boolean :is_published, null: false, default: true
       t.timestamps
 
       t.index [:page_id]
