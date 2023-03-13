@@ -5,7 +5,9 @@ services:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
       - ../..:/workspaces:cached
 
