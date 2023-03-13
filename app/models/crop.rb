@@ -54,6 +54,7 @@ class Crop < ApplicationRecord
               message: 'is not a valid English Wikipedia URL'
             },
             if:     :approved?
+  validates :name, uniqueness: { scope: :approval_status }, if: :pending?
 
   def to_s
     name
