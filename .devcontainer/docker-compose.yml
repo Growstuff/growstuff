@@ -14,16 +14,15 @@ services:
       ELASTICSEARCH_URL: http://elasticsearch:9200/
       APP_DOMAIN_NAME: localhost:3000
       APP_PROTOCOL: http
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      # DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
       DEVISE_SECRET_KEY: secret
-      # ELASTIC_SEARCH_VERSION: "7.5.1-amd64"
       GROWSTUFF_EMAIL: "noreply@test.growstuff.org"
       GROWSTUFF_FLICKR_KEY: secretkey"
       GROWSTUFF_FLICKR_SECRET: secretsecret
       GROWSTUFF_SITE_NAME: "Growstuff (local)"
-      # RAILS_ENV: test
       RAILS_SECRET_TOKEN: supersecret
+      # CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      # DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
+      # ELASTIC_SEARCH_VERSION: "7.5.1-amd64"
     volumes:
       - ../..:/workspaces:cached
 

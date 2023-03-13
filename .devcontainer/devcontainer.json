@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/ruby-rails-postgres
 {
-"name": "Ruby on Rails & Postgres",
+"name": "Growstuff",
 "dockerComposeFile": "docker-compose.yml",
 "service": "app",
 "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
@@ -20,7 +20,7 @@
 // these don't actually work as postCreateCommands, you need to run them manually
 // for some unknown reason, Github codespaces use rbenv and rvm simultaneously
 // and you need both to be correct for it to work
-"postCreateCommand": "nice -n 19 bundle install && nice -n 19 bundle exec rake db:create && nice -n 19 bundle exec rake db:migrate"
+"postCreateCommand": "nice -n 19 bundle install && nice -n 19 bundle exec rake db:create && nice -n 19 bundle exec rake db:migrate && nice -n19 bundle exec rake db:seed"
 
 // Configure tool-specific properties.
 // "customizations": {},
