@@ -8,6 +8,9 @@ development:
 test:
   adapter: postgresql
   database: growstuff_test
+  user: postgres
+  password: postgres
+  host: db
 
 production:
   adapter: postgresql
