@@ -109,11 +109,6 @@ Rails.application.configure do
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
   eos
 
-  # this config variable cannot be put in application.yml as it is needed
-  # by the assets pipeline, which doesn't have access to ENV.
-  config.mapbox_map_id = ENV['GROWSTUFF_MAPBOX_MAP_ID']
-  config.mapbox_access_token = ENV['GROWSTUFF_MAPBOX_ACCESS_TOKEN']
-
   config.active_job.queue_adapter = :sidekiq
   # Use a different logger for distributed setups.
   # require 'syslog/logger'

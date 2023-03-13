@@ -1,10 +1,4 @@
 if (document.getElementById("membermap") !== null) {
-  var mapbox_map_id = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_map_id %>";
-  var mapbox_access_token = "<%= Rails.env == 'test' ? 0 : Rails.application.config.mapbox_access_token %>";
-  var mapbox_base_url = "https://a.tiles.mapbox.com/v4/" + mapbox_map_id + "/{z}/{x}/{y}.png?access_token=" + mapbox_access_token;
-
-  L.Icon.Default.imagePath = '/assets'
-
   L.Icon.Default.imagePath = '/assets';
 
   var default_marker_icon = L.icon({
@@ -18,8 +12,8 @@ if (document.getElementById("membermap") !== null) {
     if (member.latitude && member.longitude) {
       var membermap = L.map('membermap').setView([member.latitude, member.longitude], 4);
 
-      L.tileLayer(mapbox_base_url, {
-        attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a> | Map imagery &copy; <a href="https://mapbox.com">Mapbox</a>',
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 18
       }).addTo(membermap);
       var marker = new L.Marker(new L.LatLng(member.latitude, member.longitude),
