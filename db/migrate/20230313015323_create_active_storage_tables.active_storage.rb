@@ -19,7 +19,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
         t.datetime :created_at, null: false
       end
 
-      t.index [ :key ], unique: true
+      t.index [:key], unique: true
     end
 
     create_table :active_storage_attachments, id: primary_key_type do |t|
