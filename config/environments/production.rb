@@ -92,10 +92,10 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV['HOST'] }
 
   config.action_mailer.smtp_settings = {
-    user_name:            ENV['SENDGRID_USERNAME'],
-    password:             ENV['SENDGRID_PASSWORD'],
+    user_name:            ENV['MAILGUN_SMTP_LOGIN'],
+    password:             ENV['MAILGUN_SMTP_PASSWORD'],
     domain:               ENV['GROWSTUFF_EMAIL_DOMAIN'],
-    address:              'smtp.sendgrid.net',
+    address:              ENV['MAILGUN_SMTP_SERVER'],
     port:                 587,
     authentication:       :plain,
     enable_starttls_auto: true
@@ -108,11 +108,6 @@ Rails.application.configure do
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
   eos
-
-  # this config variable cannot be put in application.yml as it is needed
-  # by the assets pipeline, which doesn't have access to ENV.
-  config.mapbox_map_id = ENV['GROWSTUFF_MAPBOX_MAP_ID']
-  config.mapbox_access_token = ENV['GROWSTUFF_MAPBOX_ACCESS_TOKEN']
 
   config.active_job.queue_adapter = :sidekiq
   # Use a different logger for distributed setups.

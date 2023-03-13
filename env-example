@@ -50,10 +50,6 @@ GROWSTUFF_TWITTER_SECRET=""
 GROWSTUFF_FLICKR_KEY=""
 GROWSTUFF_FLICKR_SECRET=""
 
-# https://developers.facebook.com/
-GROWSTUFF_FACEBOOK_KEY=""
-GROWSTUFF_FACEBOOK_SECRET=""
-
 # Elasticsearch is used for flexible search and it requires another component
 # to be installed. To make it easy for people who don't need to test this feature
 # it's been turned off for test and development environment as a default.

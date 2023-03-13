@@ -4,9 +4,9 @@
   "title": "API V1",
   "version": "V1"
 },
-  "basePath" : "",
+  "basePath" : "/api/v1",
   "paths": {
-  "/api/v1/crops": {
+  "/crops": {
     "get": {
       "summary": "crops List",
       "tags": [
@@ -92,13 +92,6 @@
           "type": "string",
           "description": "Display field",
           "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
         }
       ],
       "responses": {
@@ -132,32 +125,32 @@
                         "name": {
                           "type": "string",
                           "x-nullable": false,
-                          "description": null
+                          "description": "Name"
                         },
                         "en_wikipedia_url": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Wikipedia URL (English)"
                         },
                         "perennial": {
                           "type": "boolean",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Is the item perennial? (A plant that lives more than two years)"
                         },
                         "median_lifespan": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Median lifespan"
                         },
                         "median_days_to_first_harvest": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Median days to first harvest"
                         },
                         "median_days_to_last_harvest": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Median days to last harvest"
                         }
                       },
                       "description": "Attributes"
@@ -313,7 +306,7 @@
       }
     }
   },
-  "/api/v1/crops/{id}": {
+  "/crops/{id}": {
     "get": {
       "summary": "crops Detail",
       "tags": [
@@ -371,13 +364,6 @@
           "type": "string",
           "description": "Display field",
           "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
         }
       ],
       "responses": {
@@ -413,32 +399,32 @@
                       "name": {
                         "type": "string",
                         "x-nullable": false,
-                        "description": null
+                        "description": "Name"
                       },
                       "en_wikipedia_url": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Wikipedia URL (English)"
                       },
                       "perennial": {
                         "type": "boolean",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Is the item perennial? (A plant that lives more than two years)"
                       },
                       "median_lifespan": {
                         "type": "integer",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Median lifespan"
                       },
                       "median_days_to_first_harvest": {
                         "type": "integer",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Median days to first harvest"
                       },
                       "median_days_to_last_harvest": {
                         "type": "integer",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Median days to last harvest"
                       }
                     },
                     "description": "Attributes"
@@ -561,7 +547,7 @@
       }
     }
   },
-  "/api/v1/gardens": {
+  "/gardens": {
     "get": {
       "summary": "gardens List",
       "tags": [
@@ -666,7 +652,7 @@
                         "name": {
                           "type": "string",
                           "x-nullable": false,
-                          "description": null
+                          "description": "Name"
                         }
                       },
                       "description": "Attributes"
@@ -782,7 +768,7 @@
       }
     }
   },
-  "/api/v1/gardens/{id}": {
+  "/gardens/{id}": {
     "get": {
       "summary": "gardens Detail",
       "tags": [
@@ -868,7 +854,7 @@
                       "name": {
                         "type": "string",
                         "x-nullable": false,
-                        "description": null
+                        "description": "Name"
                       }
                     },
                     "description": "Attributes"
@@ -951,7 +937,7 @@
       }
     }
   },
-  "/api/v1/members": {
+  "/members": {
     "get": {
       "summary": "members List",
       "tags": [
@@ -1084,12 +1070,12 @@
                         "login_name": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Login name"
                         },
                         "slug": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Slug"
                         }
                       },
                       "description": "Attributes"
@@ -1245,7 +1231,7 @@
       }
     }
   },
-  "/api/v1/members/{id}": {
+  "/members/{id}": {
     "get": {
       "summary": "members Detail",
       "tags": [
@@ -1345,12 +1331,12 @@
                       "login_name": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Login name"
                       },
                       "slug": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Slug"
                       }
                     },
                     "description": "Attributes"
@@ -1473,7 +1459,7 @@
       }
     }
   },
-  "/api/v1/harvests": {
+  "/harvests": {
     "get": {
       "summary": "harvests List",
       "tags": [
@@ -1585,32 +1571,32 @@
                         "harvested_at": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Harvested date time"
                         },
                         "description": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Description"
                         },
                         "unit": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Unit"
                         },
                         "weight_quantity": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Weight/Quanitity"
                         },
                         "weight_unit": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Weight Unit"
                         },
                         "si_weight": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "SI Weight"
                         }
                       },
                       "description": "Attributes"
@@ -1746,7 +1732,7 @@
       }
     }
   },
-  "/api/v1/harvests/{id}": {
+  "/harvests/{id}": {
     "get": {
       "summary": "harvests Detail",
       "tags": [
@@ -1839,32 +1825,32 @@
                       "harvested_at": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Harvested datetime"
                       },
                       "description": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Description"
                       },
                       "unit": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Unit"
                       },
                       "weight_quantity": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Weight/Quantity"
                       },
                       "weight_unit": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Weight Unit"
                       },
                       "si_weight": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "SI Weight"
                       }
                     },
                     "description": "Attributes"
@@ -1967,7 +1953,7 @@
       }
     }
   },
-  "/api/v1/seeds": {
+  "/seeds": {
     "get": {
       "summary": "seeds List",
       "tags": [
@@ -2065,47 +2051,47 @@
                         "description": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Description"
                         },
                         "quantity": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Quanitity"
                         },
                         "plant_before": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Plant before"
                         },
                         "tradable_to": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Tradeable to"
                         },
                         "days_until_maturity_min": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Days until maturity (min)"
                         },
                         "days_until_maturity_max": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Days until maturity (max)"
                         },
                         "organic": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Organic"
                         },
                         "gmo": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "GMO"
                         },
                         "heirloom": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Heirloom"
                         }
                       },
                       "description": "Attributes"
@@ -2201,7 +2187,7 @@
       }
     }
   },
-  "/api/v1/seeds/{id}": {
+  "/seeds/{id}": {
     "get": {
       "summary": "seeds Detail",
       "tags": [
@@ -2280,47 +2266,47 @@
                       "description": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Description"
                       },
                       "quantity": {
                         "type": "integer",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Quanity"
                       },
                       "plant_before": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Plant before"
                       },
                       "tradable_to": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Tradable to"
                       },
                       "days_until_maturity_min": {
                         "type": "integer",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Days until maturity (min)"
                       },
                       "days_until_maturity_max": {
                         "type": "integer",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Days until maturity (max)"
                       },
                       "organic": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Organic"
                       },
                       "gmo": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "GMO"
                       },
                       "heirloom": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Heirloom"
                       }
                     },
                     "description": "Attributes"
@@ -2383,7 +2369,7 @@
       }
     }
   },
-  "/api/v1/plantings": {
+  "/plantings": {
     "get": {
       "summary": "plantings List",
       "tags": [
@@ -2537,42 +2523,42 @@
                         "slug": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Slug"
                         },
                         "planted_at": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Planted at"
                         },
                         "finished": {
                           "type": "boolean",
                           "x-nullable": false,
-                          "description": null
+                          "description": "Finished?"
                         },
                         "finished_at": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Finished at"
                         },
                         "quantity": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Quanity"
                         },
                         "description": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Description"
                         },
                         "sunniness": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Sunniness"
                         },
                         "planted_from": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": null
+                          "description": "Planted from"
                         }
                       },
                       "description": "Attributes"
@@ -2708,7 +2694,7 @@
       }
     }
   },
-  "/api/v1/plantings/{id}": {
+  "/plantings/{id}": {
     "get": {
       "summary": "plantings Detail",
       "tags": [
@@ -2801,42 +2787,42 @@
                       "slug": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Slug"
                       },
                       "planted_at": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Planted at"
                       },
                       "finished": {
                         "type": "boolean",
                         "x-nullable": false,
-                        "description": null
+                        "description": "Finished?"
                       },
                       "finished_at": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Finished at"
                       },
                       "quantity": {
                         "type": "integer",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Quantity"
                       },
                       "description": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Description"
                       },
                       "sunniness": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Sunniness"
                       },
                       "planted_from": {
                         "type": "string",
                         "x-nullable": true,
-                        "description": null
+                        "description": "Planted from"
                       }
                     },
                     "description": "Attributes"
@@ -2939,7 +2925,7 @@
       }
     }
   },
-  "/api/v1/photos": {
+  "/photos": {
     "get": {
       "summary": "photos List",
       "tags": [
@@ -3051,27 +3037,27 @@
                         "thumbnail_url": {
                           "type": "string",
                           "x-nullable": false,
-                          "description": null
+                          "description": "Thumbnail URL"
                         },
                         "fullsize_url": {
                           "type": "string",
                           "x-nullable": false,
-                          "description": null
+                          "description": "Full-size URL"
                         },
                         "license_name": {
                           "type": "string",
                           "x-nullable": false,
-                          "description": null
+                          "description": "License name"
                         },
                         "link_url": {
                           "type": "string",
                           "x-nullable": false,
-                          "description": null
+                          "description": "Link URL"
                         },
                         "title": {
                           "type": "string",
                           "x-nullable": false,
-                          "description": null
+                          "description": "Title"
                         }
                       },
                       "description": "Attributes"
@@ -3207,7 +3193,7 @@
       }
     }
   },
-  "/api/v1/photos/{id}": {
+  "/photos/{id}": {
     "get": {
       "summary": "photos Detail",
       "tags": [
@@ -3300,27 +3286,27 @@
                       "thumbnail_url": {
                         "type": "string",
                         "x-nullable": false,
-                        "description": null
+                        "description": "Thumbnail URL"
                       },
                       "fullsize_url": {
                         "type": "string",
                         "x-nullable": false,
-                        "description": null
+                        "description": "Full-size URL"
                       },
                       "license_name": {
                         "type": "string",
                         "x-nullable": false,
-                        "description": null
+                        "description": "License name"
                       },
                       "link_url": {
                         "type": "string",
                         "x-nullable": false,
-                        "description": null
+                        "description": "Link URL"
                       },
                       "title": {
                         "type": "string",
                         "x-nullable": false,
-                        "description": null
+                        "description": "Title"
                       }
                     },
                     "description": "Attributes"
