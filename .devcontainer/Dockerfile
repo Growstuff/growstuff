@@ -7,9 +7,9 @@ RUN gem install rails:7.0.4 webdrivers:5.2.0
 # The value is a comma-separated list of allowed domains
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
 
-RUN bundle
-RUN bundle exec rake db:create
-RUN bundle exec rake db:migrate
+#RUN bundle
+#RUN bundle exec rake db:create
+#RUN bundle exec rake db:migrate
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
