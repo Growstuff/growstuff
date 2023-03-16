@@ -430,7 +430,7 @@ GEM
       nio4r (~> 2.0)
     query_diet (0.7.1)
     racc (1.6.2)
-    rack (2.2.6.3)
+    rack (2.2.6.4)
     rack-cors (2.0.0)
       rack (>= 2.0.0)
     rack-protection (3.0.5)
