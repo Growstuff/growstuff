@@ -5,11 +5,11 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.0.4'
+gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
-gem "sprockets", "<4"
+gem "sprockets", "~> 4.2"
 
 gem 'bundler', '>= 2.3.10'
 
@@ -49,10 +49,10 @@ gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
-gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
+gem 'gibbon', '~> 3.4.4' # for Mailchimp newsletter subscriptions
 
 # Maps
-gem 'leaflet-rails', '>= 1.9.2'
+gem 'leaflet-rails', '>= 1.9.3'
 gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
 gem 'pg'
@@ -93,8 +93,8 @@ gem 'bootstrap-datepicker-rails'
 gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Twitter)
-gem 'omniauth', '~> 1.3'
-gem 'omniauth-flickr', '>= 0.0.15'
+gem 'omniauth', '~> 2.1', '>= 2.1.0'
+gem 'omniauth-flickr', '>= 0.0.20'
 gem 'omniauth-twitter'
 
 # Pretty charts
@@ -119,7 +119,7 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 gem 'puma'
 
 gem 'loofah', '>= 2.19.1'
-gem 'rack-protection', '>= 2.0.1'
+gem 'rack-protection', '>= 3.0.5'
 
 # Member to member messaging system
 gem 'mailboxer', '>= 0.15.1'
