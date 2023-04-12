@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-info@growstuff.org. Any issues with a particular moderator can be reported to 
+info@growstuff.org. Any issues with a particular moderator can be reported to
 any one of the other moderators.
 All complaints will be reviewed and investigated promptly and fairly.
 
