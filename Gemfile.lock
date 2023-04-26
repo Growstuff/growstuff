@@ -719,6 +719,7 @@ DEPENDENCIES
   rails (~> 7.0.4)
   rails-assets-leaflet.markercluster!
   rails-controller-testing
+  rails-i18n
   rails_12factor
   rake (>= 10.0.0)
   responders

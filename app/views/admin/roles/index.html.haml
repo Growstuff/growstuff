@@ -23,8 +23,8 @@
         - if can? :edit, role
           = link_to edit_admin_role_path(role), class: 'btn btn-default btn-xs' do 
             = edit_icon
-            = t('.edit')
+            = t('buttons.edit')
         - if can?(:destroy, role) && ! role.members.any?
           = link_to admin_role_path(role), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs text-danger' do
             = delete_icon
-            = t('.delete')
+            = t('buttons.delete')

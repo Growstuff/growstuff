@@ -10,11 +10,11 @@
             - if can? :edit, an
               = link_to edit_alternate_name_path(an), class: 'dropdown-item' do
                 = edit_icon
-                = t('.edit')
+                = t('buttons.edit')
             - if can? :destroy, an
               = link_to an, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' do
                 = delete_icon
-                = t('.delete')
+                = t('buttons.delete')
       - else
         .badge= an.name
 

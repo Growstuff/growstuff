@@ -10,7 +10,7 @@
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
           = image_tag "icons/gardener.svg", class: 'img img-icon'
-          = t('.record')
+          = t('layouts.header.record')
         .dropdown-menu
           = link_to new_planting_path, class: 'dropdown-item' do
             = image_icon('planting-add')
@@ -27,36 +27,36 @@
 
     - cache("everyone-menu", expires_in: 1.week) do
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.crops')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= Crop.model_name.human(count: 2).titleize
         .dropdown-menu
           = link_to crops_path, class: 'dropdown-item' do
-            = t('.browse_crops')
+            = t('layouts.header.browse_crops')
           = link_to seeds_path, class: 'dropdown-item' do
             = seed_icon
-            = t('.seeds')
+            = t('layouts.header.seeds')
           = link_to plantings_path, class: 'dropdown-item' do
             = planting_icon
-            = t('.plantings')
+            = t('layouts.header.plantings')
           = link_to harvests_path, class: 'dropdown-item' do
             = harvest_icon
-            = t('.harvests')
+            = t('layouts.header.harvests')
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('layouts.header.community')
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-          = link_to t('.community_map'), places_path, class: 'dropdown-item'
-          = link_to t('.browse_members'), members_path, class: 'dropdown-item'
-          = link_to t('.posts'), posts_path, class: 'dropdown-item'
-          = link_to t('.forums'), forums_path, class: 'dropdown-item'
+          = link_to t('layouts.header.community_map'), places_path, class: 'dropdown-item'
+          = link_to t('layouts.header.browse_members'), members_path, class: 'dropdown-item'
+          = link_to Post.model_name.human(count: 2).titleize, posts_path, class: 'dropdown-item'
+          = link_to t('layouts.header.forums'), forums_path, class: 'dropdown-item'
 
     - if member_signed_in?
       - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.admin')
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('layouts.header.admin')
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             - if current_member.role?(:crop_wrangler)
-              = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
+              = link_to t('layouts.header.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
             - if current_member.role?(:admin)
-              = link_to t('.admin'), admin_path, class: 'dropdown-item'
+              = link_to t('layouts.header.admin'), admin_path, class: 'dropdown-item'
 
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
@@ -66,25 +66,25 @@
             %span.badge.badge-info= current_member.unread_count
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to member_path(current_member), class: 'dropdown-item' do
-            = t('.profile')
+            = t('layouts.header.profile')
           = link_to member_gardens_path(current_member), class: 'dropdown-item' do
-            = t('.gardens')
+            = Garden.model_name.human(count: 2).titleize
           = link_to member_plantings_path(current_member), class: 'dropdown-item' do
-            = t('.plantings')
+            = Planting.model_name.human(count: 2).titleize
           = link_to member_harvests_path(current_member), class: 'dropdown-item' do
-            = t('.harvest')
+            = Harvest.model_name.human(count: 2).titleize
           = link_to member_seeds_path(current_member), class: 'dropdown-item' do
-            = t('.seeds')
-          = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
+            = Seed.model_name.human(count: 2).titleize
+          = link_to Post.model_name.human(count: 2).titleize, member_posts_path(current_member), class: 'dropdown-item'
 
           - if current_member.unread_count.positive?
             .dropdown-divider
             %strong
               = link_to(conversations_path, class: 'dropdown-item') do
-                = t('.inbox')
+                = t('layouts.header.inbox')
                 %span.badge.badge-info= current_member.unread_count
           - else
-            = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
+            = link_to t('layouts.header.inbox'), conversations_path, class: 'dropdown-item'
           .dropdown-divider
           = link_to t('.sign_out'), destroy_member_session_path, method: :delete, class: 'dropdown-item'
 
