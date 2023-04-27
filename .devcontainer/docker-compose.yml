@@ -15,7 +15,7 @@ services:
       APP_DOMAIN_NAME: localhost:3000
       APP_PROTOCOL: http
       DEVISE_SECRET_KEY: secret
-      GROWSTUFF_EMAIL: "noreply@test.growstuff.org"
+      GROWSTUFF_EMAIL: noreply@test.growstuff.org"
       GROWSTUFF_FLICKR_KEY: secretkey
       GROWSTUFF_FLICKR_SECRET: secretsecret
       GROWSTUFF_SITE_NAME: "Growstuff (local)"
