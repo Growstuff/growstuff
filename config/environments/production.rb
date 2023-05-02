@@ -83,7 +83,7 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
@@ -103,11 +103,11 @@ Rails.application.configure do
   ActionMailer::Base.delivery_method = :smtp
 
   config.host = ENV['HOST']
-  config.analytics_code = <<-eos
+  config.analytics_code = <<-GET_CLICKY_SCRIPT
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
-  eos
+  GET_CLICKY_SCRIPT
 
   config.active_job.queue_adapter = :sidekiq
   # Use a different logger for distributed setups.
