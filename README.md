@@ -20,7 +20,7 @@ encourage participation from people of all backgrounds and skill levels.
 * [Issues](https://github.com/orgs/Growstuff/projects/1) (features we're
   working on, known bugs, etc)
 * [![Gitter](https://badges.gitter.im/Growstuff/growstuff.svg)](https://gitter.im/Growstuff/growstuff?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-* [Wiki](https://github.com/Growstuff/growstuff/wiki) (general documentation, etc. Help by migrating from the [old wiki](https://web.archive.org/web/*/wiki.growstuff.org))
+* [Wiki](https://github.com/Growstuff/growstuff/wiki) (general documentation, etc.)
 
 ## For coders
 
@@ -29,7 +29,6 @@ frontend features. We welcome contributions -- see
 [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 * To set up your development environment, see [Getting started](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide).
-* We encourage [pair programming](http://wiki.growstuff.org/index.php/Pairing), especially for newer developers.
 * You may also be interested in our [API](https://github.com/Growstuff/growstuff/wiki/API).
 
 ## For designers, writers, researchers, data wranglers, and other contributors

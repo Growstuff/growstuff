@@ -1,0 +1,82 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+      APP_DOMAIN_NAME: localhost:3000
+      APP_PROTOCOL: http
+      DEVISE_SECRET_KEY: secret
+      GROWSTUFF_EMAIL: "noreply@test.growstuff.org"
+      GROWSTUFF_FLICKR_KEY: secretkey
+      GROWSTUFF_FLICKR_SECRET: secretsecret
+      GROWSTUFF_SITE_NAME: "Growstuff (local)"
+      RAILS_SECRET_TOKEN: supersecret
+    volumes:
+      - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./create-db-user.sql:/docker-entrypoint-initdb.d/create-db-user.sql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: growstuff_dev
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl http://localhost:9200 | grep tagline",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+    volumes:
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+volumes:
+  postgres-data:
+  certs:
+    driver: local
+  esdata01:
+    driver: local

@@ -12,7 +12,7 @@ class PlantingsController < DataController
 
     if params[:member_slug]
       @owner = Member.find_by(slug: params[:member_slug])
-      where['owner_id'] = @owner.id
+      where['owner_id'] = @owner.id unless @owner.nil?
     end
 
     if params[:crop_slug]

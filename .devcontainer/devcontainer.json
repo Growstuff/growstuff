@@ -1,0 +1,30 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ruby-rails-postgres
+{
+"name": "Growstuff",
+"dockerComposeFile": "docker-compose.yml",
+"service": "app",
+"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+// Features to add to the dev container. More info: https://containers.dev/features.
+// Need something to get javascript working
+"features": {
+    "ghcr.io/devcontainers/features/node:1": {}
+},
+
+// Use 'forwardPorts' to make a list of ports inside the container available locally.
+// This can be used to network with other containers or the host.
+"forwardPorts": [3000, 5432, 9200],
+
+// Use 'postCreateCommand' to run commands after the container is created.
+// these don't actually work as postCreateCommands, you need to run them manually
+// for some unknown reason, Github codespaces use rbenv and rvm simultaneously
+// and you need both to be correct for it to work
+"postCreateCommand": "nice -n 19 bundle install && nice -n 19 bundle exec rake db:create && nice -n 19 bundle exec rake db:migrate && nice -n19 bundle exec rake db:seed"
+
+// Configure tool-specific properties.
+// "customizations": {},
+
+// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+// "remoteUser": "root"
+}
