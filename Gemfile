@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.0.4'
+gem 'rails', '~> 7.0.5', '>= 7.0.5.1'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -43,7 +43,7 @@ gem 'active_median', '0.2.0'
 gem 'active_record_union'
 
 gem 'flickraw'
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 4.6.0'
 gem 'jquery-ui-rails'
 gem 'js-routes' # provides access to Rails routes in Javascript
 
