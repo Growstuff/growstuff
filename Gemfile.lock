@@ -328,6 +328,7 @@ GEM
     kgio (2.11.4)
     kramdown (2.4.0)
       rexml
+    language_server-protocol (3.17.0.3)
     launchy (2.5.0)
       addressable (~> 2.7)
     leaflet-rails (1.9.3)
@@ -514,8 +515,9 @@ GEM
     rswag-ui (2.9.0)
       actionpack (>= 3.1, < 7.1)
       railties (>= 3.1, < 7.1)
-    rubocop (1.52.1)
+    rubocop (1.53.1)
       json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
       parser (>= 3.2.2.3)
       rainbow (>= 2.2.2, < 4.0)
