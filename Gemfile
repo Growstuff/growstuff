@@ -20,8 +20,8 @@ gem 'sassc-rails'
 # API data
 gem 'jsonapi-resources'
 gem 'jsonapi-swagger'
-gem 'rswag-api'
-gem 'rswag-ui'
+gem 'rswag-api', '>= 2.10.0'
+gem 'rswag-ui', '>= 2.10.0'
 
 # CSS framework
 gem "bootstrap", ">= 4.6.2"
@@ -157,7 +157,7 @@ group :development, :test do
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
-  gem 'rswag-specs'
+  gem 'rswag-specs', '>= 2.10.0'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'webrat'                  # provides HTML matchers for view tests
