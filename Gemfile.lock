@@ -620,7 +620,7 @@ GEM
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
-    webrick (1.7.0)
+    webrick (1.8.1)
     websocket (1.2.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -628,7 +628,7 @@ GEM
     will_paginate (4.0.0)
     will_paginate-bootstrap4 (0.0.1)
       will_paginate
-    xmlrpc (0.3.2)
+    xmlrpc (0.3.3)
       webrick
     xpath (3.2.0)
       nokogiri (~> 1.8)
