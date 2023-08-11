@@ -23,6 +23,6 @@ ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.git
 
 # We run as the vscode user.
 # Make sure this is writable as https://github.com/rubygems/rubygems/issues/6272 was removed
-RUN sudo mkdir -p /usr/local/rvm/gems/default/cache/bundler/
-RUN sudo mkdir -p /usr/local/rvm/gems/default/bundler/gems/
-RUN sudo chmod -R 777 /usr/local/rvm/gems/
+RUN su root -c "mkdir -p /usr/local/rvm/gems/default/cache/bundler/"
+RUN su root -c "mkdir -p /usr/local/rvm/gems/default/bundler/gems/"
+RUN su root -c "chmod -R 777 /usr/local/rvm/gems/"
