@@ -45,7 +45,6 @@ gem 'active_record_union'
 gem 'flickraw'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
