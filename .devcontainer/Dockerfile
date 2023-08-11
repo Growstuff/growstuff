@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/ruby:0-3.1-bullseye
+FROM mcr.microsoft.com/devcontainers/ruby:0-3.2-bullseye
 
 # Install Rails
 RUN gem install rails:7.0.4 webdrivers:5.2.0
@@ -20,3 +20,7 @@ ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.git
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+
+# We run as the vscode user.
+# Make sure this is writable as https://github.com/rubygems/rubygems/issues/6272 was removed
+RUN chmod 777 /usr/local/rvm/gems/default/cache/bundler/
