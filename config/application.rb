@@ -81,8 +81,3 @@ module Growstuff
     end
   end
 end
-# https://github.com/railsware/js-routes/blob/master/VERSION_2_UPGRADE.md
-JsRoutes.setup do |config|
-  config.module_type = nil
-  config.namespace = "Routes"
-end
