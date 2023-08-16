@@ -708,7 +708,7 @@ DEPENDENCIES
   query_diet
   rack-cors
   rack-protection (>= 2.0.1)
-  rails (~> 7.0.4)
+  rails (~> 7.0.7)
   rails-assets-leaflet.markercluster!
   rails-controller-testing
   rails_12factor
