@@ -33,7 +33,7 @@
           = @member.created_at.to_fs(:date)
         %p
           %strong Last Login
-          = @member.last_sign_in_at
+          = @member.last_sign_in_at.to_fs(:default)
 
         - if can? :update, @member
           = link_to edit_member_registration_path, class: 'btn btn-block' do
