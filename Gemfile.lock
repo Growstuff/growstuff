@@ -626,8 +626,8 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (4.0.0)
-    will_paginate-bootstrap4 (0.0.1)
-      will_paginate
+    will_paginate-bootstrap-style (0.3.0)
+      will_paginate (~> 4.0, >= 4.0.0)
     xmlrpc (0.3.3)
       webrick
     xpath (3.2.0)
@@ -734,7 +734,7 @@ DEPENDENCIES
   webdrivers
   webrat
   will_paginate
-  will_paginate-bootstrap4
+  will_paginate-bootstrap-style
   xmlrpc
 
 RUBY VERSION
