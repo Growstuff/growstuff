@@ -68,7 +68,7 @@ gem 'bluecloth'
 
 # Pagination
 gem 'will_paginate'
-gem 'will_paginate-bootstrap4'
+gem 'will_paginate-bootstrap-style'
 
 # user signup/login/etc
 gem 'devise'
