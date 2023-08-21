@@ -3,6 +3,7 @@
     %h1 Join #{ENV['GROWSTUFF_SITE_NAME']}
     .card-body
       %p Sign up for a #{ENV['GROWSTUFF_SITE_NAME']} account to track your vegetable garden and connect with other local growers.
+      %p If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.
 
     = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name),
         html: { class: "text-center border border-light p-5", data: { turbo: false} }) do |f|
