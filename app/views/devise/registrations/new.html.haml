@@ -5,7 +5,7 @@
       %p Sign up for a #{ENV['GROWSTUFF_SITE_NAME']} account to track your vegetable garden and connect with other local growers.
 
     = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name),
-        html: { class: "text-center border border-light p-5" }) do |f|
+        html: { class: "text-center border border-light p-5", data: { turbo: false} }) do |f|
       = render 'devise/shared/error_messages', resource: resource
 
       = f.text_field :login_name
