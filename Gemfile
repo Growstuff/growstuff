@@ -128,6 +128,9 @@ gem 'faraday_middleware'
 
 gem 'rack-cors'
 
+# for signups as requested by email service
+gem 'recaptcha'
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
