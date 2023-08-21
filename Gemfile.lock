@@ -469,6 +469,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    recaptcha (5.15.0)
     redis-client (0.14.1)
       connection_pool
     regexp_parser (2.8.1)
@@ -710,6 +711,7 @@ DEPENDENCIES
   rails-controller-testing
   rails_12factor
   rake (>= 10.0.0)
+  recaptcha
   responders
   rspec-activemodel-mocks
   rspec-rails
@@ -738,7 +740,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-    ruby 3.1.4p223
+   ruby 3.1.4p223
 
 BUNDLED WITH
    2.3.11
