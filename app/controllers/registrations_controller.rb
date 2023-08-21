@@ -2,7 +2,7 @@
 
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
-  
+
   prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect with recaptcha.
 
   def edit
@@ -50,7 +50,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   private
-  
+
   def check_captcha
     return if verify_recaptcha # verify_recaptcha(action: 'signup') for v3
 
