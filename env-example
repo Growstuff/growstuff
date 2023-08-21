@@ -65,7 +65,7 @@ MAILGUN_SMTP_LOGIN=""
 MAILGUN_SMTP_PASSWORD=""
 MAILGUN_SMTP_PORT=""
 MAILGUN_SMTP_SERVER=""
-# These recaptcha values are the official Google test ones from 
+# These recaptcha values are the official Google test ones from
 # https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
 # In production, replace them with real ones
 RECAPTCHA_SITE_KEY="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
