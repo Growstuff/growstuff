@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.0.7'
+gem 'rails', '~> 7.0.7', '>= 7.0.7.1'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.6.2"
+gem "bootstrap", ">= 5.0.0"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
@@ -39,7 +39,7 @@ gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
-gem 'active_median', '0.2.0'
+gem 'active_median', '0.2.1'
 gem 'active_record_union'
 
 gem 'flickraw'
@@ -86,10 +86,10 @@ gem 'gravatar-ultimate'
 gem 'geocoder'
 
 # For easy calendar selection
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', '>= 1.10.0.1'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.5.0"
+gem "bootstrap_form", ">= 5.0.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
@@ -101,7 +101,7 @@ gem "chartkick"
 
 # clever elastic search
 gem 'elasticsearch', '< 7.0.0'
-gem 'searchkick'
+gem 'searchkick', '>= 5.0.0'
 
 gem "hashie", ">= 3.5.3"
 
