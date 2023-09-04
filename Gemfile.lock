@@ -384,7 +384,7 @@ GEM
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.6)
-    oj (3.16.0)
+    oj (3.16.1)
     omniauth (1.9.2)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
