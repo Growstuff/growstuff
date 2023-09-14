@@ -51,7 +51,7 @@ gem 'csv_shaper'                   # CSV export
 gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
-gem 'leaflet-rails', '>= 1.9.2'
+gem 'leaflet-rails', '>= 1.9.4'
 gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
 gem 'pg'
@@ -157,7 +157,7 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'
-  gem 'rubocop-rails'
+  gem 'rubocop-rails', '>= 2.21.1'
   gem 'rubocop-rspec'
   gem 'webrat'                  # provides HTML matchers for view tests
 
