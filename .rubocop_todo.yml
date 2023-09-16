@@ -48,12 +48,6 @@ FactoryBot/CreateList:
     - 'spec/views/places/show.html.haml_spec.rb'
     - 'spec/views/posts/index.html.haml_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-FactoryBot/RedundantFactoryOption:
-  Exclude:
-    - 'spec/factories/scientific_name.rb'
-
 # Offense count: 1135
 # This cop supports unsafe autocorrection (--autocorrect-all).
 FactoryBot/SyntaxMethods:
