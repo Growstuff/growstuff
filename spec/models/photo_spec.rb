@@ -115,7 +115,7 @@ describe Photo do
         planting.photos << photo
         harvest.destroy # photo is now used by harvest but not planting
         photo.destroy_if_unused
-        expect{ photo.reload }.not_to raise_error
+        expect { photo.reload }.not_to raise_error
       end
 
       it 'they are used by harvests but not plantings' do
