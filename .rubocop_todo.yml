@@ -227,15 +227,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/views/photos/edit.html.haml_spec.rb'
     - 'spec/views/posts/_single.html.haml_spec.rb'
 
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterExampleGroup:
-  Exclude:
-    - 'spec/features/crops/creating_a_crop_spec.rb'
-    - 'spec/features/likeable_spec.rb'
-    - 'spec/models/crop_spec.rb'
-    - 'spec/support/feature_helpers.rb'
-
 # Offense count: 134
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:

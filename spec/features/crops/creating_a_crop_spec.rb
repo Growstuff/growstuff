@@ -22,6 +22,7 @@ describe "Crop", js: true do
       end
     end
   end
+
   shared_examples 'request crop' do
     describe "requesting a crop with multiple scientific and alternate name" do
       include_examples 'fill in form'
@@ -38,6 +39,7 @@ describe "Crop", js: true do
       it { expect(page).to have_content "Matsurika" }
     end
   end
+
   shared_examples 'create crop' do
     describe "creating a crop with multiple scientific and alternate name" do
       include_examples 'fill in form'

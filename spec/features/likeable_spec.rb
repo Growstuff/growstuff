@@ -51,6 +51,7 @@ describe 'Likeable', :js, search: true do
         logout(another_member)
       end
     end
+
     describe 'photos#index' do
       let(:path) { photos_path }
 
