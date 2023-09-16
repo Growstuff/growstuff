@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Likeable', :js, search: true do
+describe 'Likeable', :js, :search do
   let(:another_member) { FactoryBot.create(:london_member) }
   let!(:post)           { FactoryBot.create(:post, :reindex, author: member) }
   let!(:photo)          { FactoryBot.create(:photo, :reindex, owner: member) }

@@ -237,7 +237,7 @@ describe Photo do
     end
   end
 
-  describe 'Elastic search indexing', search: true do
+  describe 'Elastic search indexing', :search do
     let!(:planting) { FactoryBot.create(:planting, :reindex, owner: photo.owner) }
     let!(:crop) { FactoryBot.create(:crop, :reindex) }
 

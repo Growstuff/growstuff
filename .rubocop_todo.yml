@@ -299,13 +299,6 @@ RSpec/MessageChain:
 RSpec/MessageSpies:
   EnforcedStyle: receive
 
-# Offense count: 22
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: hash, symbol
-RSpec/MetadataStyle:
-  Enabled: false
-
 # Offense count: 1
 RSpec/MultipleDescribes:
   Exclude:

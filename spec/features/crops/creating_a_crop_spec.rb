@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Crop", js: true do
+describe "Crop", :js do
   shared_context 'fill in form' do
     before do
       visit new_crop_path
