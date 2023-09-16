@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddWeatherObservations < ActiveRecord::Migration[7.0]
   def change
     # See https://github.com/schemaorg/schemaorg/issues/362
