@@ -15,7 +15,7 @@ class AddWeatherObservations < ActiveRecord::Migration[7.0]
       t.decimal :precipitation_probability
       t.decimal :dew_point_temperature_centigrade
       t.decimal :pressure
-      t.string :visibility
+      t.integer :visibility_distance_metres
       t.string :weather_type
       t.references :garden_id
       t.timestamps
