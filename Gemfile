@@ -20,8 +20,8 @@ gem 'sassc-rails'
 # API data
 gem 'jsonapi-resources'
 gem 'jsonapi-swagger'
-gem 'rswag-api'
-gem 'rswag-ui'
+gem 'rswag-api', '>= 2.11.0'
+gem 'rswag-ui', '>= 2.11.0'
 
 # CSS framework
 gem "bootstrap", ">= 4.6.2"
@@ -108,7 +108,7 @@ gem "hashie", ">= 3.5.3"
 gem 'rake', '>= 10.0.0'
 
 # locale based flash notices for controllers
-gem "responders"
+gem "responders", ">= 3.1.1"
 
 # allows soft delete. Used for members.
 gem 'discard', '>= 1.2'
@@ -156,7 +156,7 @@ group :development, :test do
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
-  gem 'rswag-specs'
+  gem 'rswag-specs', '>= 2.11.0'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'webrat'                  # provides HTML matchers for view tests
