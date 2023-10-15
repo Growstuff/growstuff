@@ -166,7 +166,7 @@ group :development, :test do
   # cli utils
   gem 'haml-i18n-extractor', require: false
   gem 'haml_lint', '>= 0.25.1', require: false # Checks haml files for goodness
-  gem 'i18n-tasks', require: false # adds tests for finding missing and unused translations
+  gem 'i18n-tasks', '>= 1.0.13', require: false # adds tests for finding missing and unused translations
   gem 'rspectre', require: false # finds unused code in specs
   gem 'rubocop', require: false
 end
