@@ -157,7 +157,7 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'
-  gem 'rubocop-rails'
+  gem 'rubocop-rails', '>= 2.22.0'
   gem 'rubocop-rspec'
   gem 'webrat'                  # provides HTML matchers for view tests
 
