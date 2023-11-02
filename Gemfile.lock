@@ -464,7 +464,7 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     raindrops (0.20.0)
-    rake (13.0.6)
+    rake (13.1.0)
     rate_throttle_client (0.1.2)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
