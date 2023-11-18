@@ -150,7 +150,7 @@ group :development, :test do
   gem 'capybara-email'          # integration tests for email
   gem 'capybara-screenshot'     # for test debugging
   gem 'database_cleaner'
-  gem 'factory_bot_rails'       # for creating test data
+  gem 'factory_bot_rails'       , '>= 6.3.0' # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
   gem 'query_diet'
