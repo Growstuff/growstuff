@@ -155,7 +155,7 @@ group :development, :test do
   gem 'haml-rails'              # HTML templating language
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
-  gem 'rspec-rails'             # unit testing framework
+  gem 'rspec-rails'             , '>= 6.0.4' # unit testing framework
   gem 'rswag-specs'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
