@@ -29,9 +29,9 @@
 
       = f.submit "Sign up", class: 'btn btn-block btn-success'
 
-      # START add reCAPTCHA
+      -# START add reCAPTCHA
       = flash[:recaptcha_error]
       = recaptcha_tags
-      # END add reCAPTCHA
+      -# END add reCAPTCHA
 
     .card-footer= render "devise/shared/links"
