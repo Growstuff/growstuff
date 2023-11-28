@@ -12,7 +12,6 @@
 //
 // = require leaflet
 // = require leaflet.markercluster
-// = require js-routes
 // = require popper
 // = require jquery
 // = require jquery_ujs
