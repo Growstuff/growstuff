@@ -117,6 +117,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
+    bigdecimal (3.1.4)
     bluecloth (2.2.0)
     bonsai-elasticsearch-rails (7.0.1)
       elasticsearch-model (< 8)
@@ -384,7 +385,8 @@ GEM
     nokogiri (1.15.5-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.6)
-    oj (3.16.1)
+    oj (3.16.2)
+      bigdecimal (~> 3.1)
     omniauth (1.9.2)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
