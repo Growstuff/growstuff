@@ -4,6 +4,7 @@ class Forum < ApplicationRecord
   extend FriendlyId
   include Ownable
   validates :name, presence: true
+  validates :description, presence: true
   friendly_id :name, use: %i(slugged finders)
 
   has_many :posts, dependent: :destroy
