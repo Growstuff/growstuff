@@ -378,7 +378,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
-    nio4r (2.5.9)
+    nio4r (2.7.0)
     nokogiri (1.16.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -413,7 +413,7 @@ GEM
       rate_throttle_client (~> 0.1.0)
     popper_js (1.16.1)
     public_suffix (5.0.4)
-    puma (6.4.0)
+    puma (6.4.1)
       nio4r (~> 2.0)
     query_diet (0.7.1)
     racc (1.7.3)
