@@ -41,7 +41,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def after_sign_in_path_for(resource)
     if resource.tos_agreement
-      super resource
+      super(resource)
     else
       finish_signup_path(resource)
     end

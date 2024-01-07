@@ -99,7 +99,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   # Prevent Poltergeist from fetching external URLs during feature tests
-  config.before(:each, js: true) do
+  config.before(:each, :js) do
     if page.driver.browser.respond_to?(:url_blacklist)
       page.driver.browser.url_blacklist = [
         'gravatar.com',

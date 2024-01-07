@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "member profile", js: true do
+describe "member profile", :js do
   let(:member) { create(:member) }
   let(:other_member)  { create(:member)                }
   let(:admin_member)  { create(:admin_member)          }
