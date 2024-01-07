@@ -17,7 +17,7 @@ class AddWeatherObservations < ActiveRecord::Migration[7.0]
       t.decimal :pressure
       t.integer :visibility_distance_metres
       t.string :weather_type
-      t.references :garden_id
+      t.references :owner
       t.timestamps
     end
   end
