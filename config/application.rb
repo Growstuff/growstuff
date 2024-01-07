@@ -3,7 +3,7 @@
 require_relative 'boot'
 
 require 'rails/all'
-ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = git"true"
+ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = "true"
 
 require 'openssl'
 
