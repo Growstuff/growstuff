@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Alternate names", js: true do
+describe "Alternate names", :js do
   let!(:alternate_eggplant) { create(:alternate_eggplant) }
   let(:crop)                { alternate_eggplant.crop }
 

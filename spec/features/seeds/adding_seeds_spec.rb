@@ -29,7 +29,7 @@ describe "Seeds", :js, :search do
       it { expect(page).to have_selector '.form-group.required', text: 'Will trade' }
     end
 
-    describe "Adding a new seed", js: true do
+    describe "Adding a new seed", :js do
       before do
         fill_autocomplete "crop", with: "mai"
         select_from_autocomplete "maize"

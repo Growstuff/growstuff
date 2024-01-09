@@ -163,7 +163,7 @@ class CropsController < ApplicationController
     return if params[param_name].blank?
 
     destroy_names(name_type)
-    params[param_name].each do |_i, value|
+    params[param_name].each_value do |value|
       create_name!(name_type, value) unless value.empty?
     end
   end
