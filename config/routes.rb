@@ -54,7 +54,9 @@ Rails.application.routes.draw do
   end
 
   resources :scientific_names do
-    get :gbif_suggest
+    collection do
+      get :gbif_suggest
+    end
   end
   resources :alternate_names
   resources :plant_parts
