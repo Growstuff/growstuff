@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
     post :openfarm
+    post :gbif
 
     collection do
       get 'requested'
