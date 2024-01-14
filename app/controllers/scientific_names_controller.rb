@@ -59,101 +59,25 @@ class ScientificNamesController < ApplicationController
   end
 
   def gbif_suggest
-    species = Gbif::Species
-
-    # Query the GBIF name autocomplete and discover the scientific name.
-    # [
-    #   {
-    #   "key": 2932942,
-    #   "nameKey": 1970347,
-    #   "kingdom": "Plantae",
-    #   "phylum": "Tracheophyta",
-    #   "order": "Solanales",
-    #   "family": "Solanaceae",
-    #   "genus": "Capsicum",
-    #   "species": "Capsicum chinense",
-    #   "kingdomKey": 6,
-    #   "phylumKey": 7707728,
-    #   "classKey": 220,
-    #   "orderKey": 1176,
-    #   "familyKey": 7717,
-    #   "genusKey": 2932937,
-    #   "speciesKey": 2932942,
-    #   "parent": "Capsicum",
-    #   "parentKey": 2932937,
-    #   "nubKey": 2932942,
-    #   "scientificName": "Capsicum chinense Jacq.",
-    #   "canonicalName": "Capsicum chinense",
-    #   "rank": "SPECIES",
-    #   "status": "ACCEPTED",
-    #   "synonym": false,
-    #   "higherClassificationMap": {
-    #   "6": "Plantae",
-    #   "220": "Magnoliopsida",
-    #   "1176": "Solanales",
-    #   "7717": "Solanaceae",
-    #   "2932937": "Capsicum",
-    #   "7707728": "Tracheophyta"
-    #   },
-    #   "class": "Magnoliopsida"
-    #   },
-    #   {
-    #   "key": 12079498,
-    #   "nameKey": 81778754,
-    #   "kingdom": "Plantae",
-    #   "phylum": "Tracheophyta",
-    #   "order": "Solanales",
-    #   "family": "Solanaceae",
-    #   "genus": "Capsicum",
-    #   "species": "Capsicum chinense",
-    #   "kingdomKey": 6,
-    #   "phylumKey": 7707728,
-    #   "classKey": 220,
-    #   "orderKey": 1176,
-    #   "familyKey": 7717,
-    #   "genusKey": 2932937,
-    #   "speciesKey": 2932942,
-    #   "parent": "Capsicum",
-    #   "parentKey": 2932937,
-    #   "nubKey": 12079498,
-    #   "scientificName": "Capsicum annuum var. chinense (Jacq.) Alef.",
-    #   "canonicalName": "Capsicum annuum chinense",
-    #   "rank": "VARIETY",
-    #   "status": "SYNONYM",
-    #   "synonym": true,
-    #   "higherClassificationMap": {
-    #   "6": "Plantae",
-    #   "220": "Magnoliopsida",
-    #   "1176": "Solanales",
-    #   "7717": "Solanaceae",
-    #   "2932937": "Capsicum",
-    #   "2932942": "Capsicum chinense",
-    #   "7707728": "Tracheophyta"
-    #   },
-    #   "class": "Magnoliopsida"
-    #   }
-    #   ]
-
-    data = species.name_suggest(q: params[:term])
-    render json: data
+    render json: gbif_service.suggest(params[:term])
   end
 
   private
 
-  def gbif_show(key)
-    Gbif::Request.new("species/#{key}", nil, nil, nil).perform
-  end
-
   def gbif_sync!(model)
     if model.gbif_key
-      result = gbif_lookup(model.gbif_key)
+      result = gbif_service.fetch(model.gbif_key)
 
       model.gbif_rank = result["rank"]
-      model.gbif_status = result["status"] 
+      model.gbif_status = result["status"]
     end
   end
 
   def scientific_name_params
     params.require(:scientific_name).permit(:crop_id, :name, :gbif_key)
+  end
+
+  def gbif_service
+    GbifService.new
   end
 end
