@@ -543,7 +543,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_045751) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "creator_id"
-    t.integer "gbif_namekey"
+    t.integer "gbif_key"
     t.string "gbif_rank"
     t.string "gbif_status"
     t.string "wikidata_id"

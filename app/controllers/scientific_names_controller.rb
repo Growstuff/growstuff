@@ -35,7 +35,7 @@ class ScientificNamesController < ApplicationController
   def create
     @scientific_name = ScientificName.new(scientific_name_params)
     @scientific_name.creator = current_member
-
+    gbif_sync!(@scientific_name)
     @scientific_name.save
     respond_with(@scientific_name.crop)
   end
@@ -43,7 +43,9 @@ class ScientificNamesController < ApplicationController
   # PUT /scientific_names/1
   # PUT /scientific_names/1.json
   def update
-    @scientific_name.update(scientific_name_params)
+    @scientific_name.assign_attributes(scientific_name_params)
+    gbif_sync!(@scientific_name)
+    @scientific_name.save
     respond_with(@scientific_name.crop)
   end
 
@@ -133,13 +135,25 @@ class ScientificNamesController < ApplicationController
     #   ]
 
     data = species.name_suggest(q: params[:term])
-
     render json: data
   end
 
   private
 
+  def gbif_show(key)
+    Gbif::Request.new("species/#{key}", nil, nil, nil).perform
+  end
+
+  def gbif_sync!(model)
+    if model.gbif_key
+      result = gbif_lookup(model.gbif_key)
+
+      model.gbif_rank = result["rank"]
+      model.gbif_status = result["status"] 
+    end
+  end
+
   def scientific_name_params
-    params.require(:scientific_name).permit(:crop_id, :name)
+    params.require(:scientific_name).permit(:crop_id, :name, :gbif_key)
   end
 end
