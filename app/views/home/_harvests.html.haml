@@ -9,4 +9,4 @@
           %small.text-muted
             harvested by #{harvest.owner_login_name}
         %p.mb-2
-          = image_tag harvest.thumbnail_url, width: 75, class: 'rounded shadow'
+          = image_tag harvest.thumbnail_url, width: 75, class: 'rounded shadow', alt: "Image of #{harvest.crop.name} by #{harvest.owner}"
