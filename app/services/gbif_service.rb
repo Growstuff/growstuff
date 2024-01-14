@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 class GbifService
   def initialize
     @cropbot = Member.find_by(login_name: 'cropbot')
@@ -87,6 +88,8 @@ class GbifService
     Crop.order(updated_at: :desc).each do |crop|
       Rails.logger.debug { "#{crop.id}, #{crop.name}" }
       update_crop(crop) if crop.valid?
+    rescue ActiveRecord::RecordInvalid
+      Rails.logger.error($ERROR_INFO.message)
     end
   end
 
@@ -150,7 +153,7 @@ class GbifService
 
       next unless url.start_with? 'http'
       next if Photo.find_by(source_id: result["key"], source: 'gbif')
-      next unless media["references"].present?
+      next if media["references"].blank?
 
       photo = Photo.new(
         # This is for the overall observation which may technically have multiple media. However, we're only taking the first.
