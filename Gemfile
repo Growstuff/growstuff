@@ -155,8 +155,8 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
-  gem 'pry'
   gem 'haml-rails'              # HTML templating language
+  gem 'pry'
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
@@ -180,8 +180,8 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
-  gem 'webdrivers'
   gem 'vcr'
+  gem 'webdrivers'
 end
 
 group :travis do
