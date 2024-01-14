@@ -136,7 +136,6 @@ class GbifService
     #  https://api.gbif.org/v1/occurrence/search?taxon_key=3084850
 
     occurrences = Gbif::Occurrences.search(taxonKey: key, mediatype: 'StillImage', limit: 3, hasCoordinate: true)
-    pictures = []
     occurrences["results"].each do |result|
       next unless result["media"]
 
