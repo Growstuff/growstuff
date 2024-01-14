@@ -65,12 +65,12 @@ class ScientificNamesController < ApplicationController
   private
 
   def gbif_sync!(model)
-    if model.gbif_key
-      result = gbif_service.fetch(model.gbif_key)
+    return unless model.gbif_key
 
-      model.gbif_rank = result["rank"]
-      model.gbif_status = result["status"]
-    end
+    result = gbif_service.fetch(model.gbif_key)
+
+    model.gbif_rank = result["rank"]
+    model.gbif_status = result["status"]
   end
 
   def scientific_name_params
