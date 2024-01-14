@@ -16,8 +16,13 @@ class Photo < ApplicationRecord
     Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: self })
   end
 
-  validates :fullsize_url, url: true
-  validates :thumbnail_url, url: true
+  validates :fullsize_url, url: true, presence: true
+  validates :thumbnail_url, url: true, presence: true
+  validates :link_url, url: true, presence: true
+  validates :owner, presence: true
+  validates :title, presence: true
+  validates :license_name, presence: true # Should assert this is one of CC-BY, CC-BY-NC, etc
+  validates :license_url,  url: true
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
