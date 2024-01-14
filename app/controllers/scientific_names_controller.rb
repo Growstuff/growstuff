@@ -132,12 +132,7 @@ class ScientificNamesController < ApplicationController
     #   }
     #   ]
 
-    data = species.name_suggest(q: params[:term]).map do |result|
-      result["name"] = result["canonicalName"]
-      result["id"] = result["nameKey"]
-
-      result
-    end
+    data = species.name_suggest(q: params[:term])
 
     render json: data
   end
