@@ -48,12 +48,6 @@ FactoryBot/CreateList:
     - 'spec/views/places/show.html.haml_spec.rb'
     - 'spec/views/posts/index.html.haml_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-FactoryBot/RedundantFactoryOption:
-  Exclude:
-    - 'spec/factories/scientific_name.rb'
-
 # Offense count: 1135
 # This cop supports unsafe autocorrection (--autocorrect-all).
 FactoryBot/SyntaxMethods:
@@ -100,15 +94,6 @@ Layout/LineEndStringConcatenationIndentation:
 # URISchemes: http, https
 Layout/LineLength:
   Max: 304
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceBeforeBlockBraces:
-  Exclude:
-    - 'spec/models/photo_spec.rb'
 
 # Offense count: 3
 # This cop supports safe autocorrection (--autocorrect).
@@ -242,15 +227,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/views/photos/edit.html.haml_spec.rb'
     - 'spec/views/posts/_single.html.haml_spec.rb'
 
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterExampleGroup:
-  Exclude:
-    - 'spec/features/crops/creating_a_crop_spec.rb'
-    - 'spec/features/likeable_spec.rb'
-    - 'spec/models/crop_spec.rb'
-    - 'spec/support/feature_helpers.rb'
-
 # Offense count: 134
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
@@ -322,13 +298,6 @@ RSpec/MessageChain:
 # SupportedStyles: have_received, receive
 RSpec/MessageSpies:
   EnforcedStyle: receive
-
-# Offense count: 22
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: hash, symbol
-RSpec/MetadataStyle:
-  Enabled: false
 
 # Offense count: 1
 RSpec/MultipleDescribes:

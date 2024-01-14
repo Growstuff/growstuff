@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "forums", js: true do
+describe "forums", :js do
   include_context 'signed in admin'
   let(:forum) { create(:forum) }
 

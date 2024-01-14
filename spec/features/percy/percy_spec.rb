@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Test with visual testing', js: true, type: :feature do
+describe 'Test with visual testing', :js, type: :feature do
   # Use the same random seed every time so our random data is the same
   # on every run, so doesn't trigger percy to see changes
   before { Faker::Config.random = Random.new(42) }

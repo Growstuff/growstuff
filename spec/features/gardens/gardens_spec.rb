@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Planting a crop", js: true do
+describe "Planting a crop", :js do
   context 'signed in' do
     include_context 'signed in member'
     # name is aaa to ensure it is ordered first
