@@ -135,11 +135,12 @@ class GbifService
   def save_photos(crop, key)
     #  https://api.gbif.org/v1/occurrence/search?taxon_key=3084850
 
-    occurrences = Gbif::Occurrences.search(taxonKey: key, mediatype: 'StillImage', limit: 10, hasCoordinate: true)
+    occurrences = Gbif::Occurrences.search(taxonKey: key, mediatype: 'StillImage', limit: 3, hasCoordinate: true)
     occurrences["results"].each do |result|
       next unless result["media"]
 
       media = result["media"].first
+      next unless media["identifier"]
 
       # Example: "https://inaturalist-open-data.s3.amazonaws.com/photos/250226497/original.jpg"
       url = media["identifier"]

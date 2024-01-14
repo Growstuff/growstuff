@@ -57,11 +57,12 @@ describe GbifService, :vcr, type: :service do
       tomato.reload
       expect(tomato.photos.count).to eq 3
 
-      photo = tomato.photos[0]
+      photo = tomato.photos.order(:id)[0]
       expect(photo.fullsize_url).to eq "https://inaturalist-open-data.s3.amazonaws.com/photos/343874350/original.jpeg"
       expect(photo.thumbnail_url).to eq "https://api.gbif.org/v1/image/cache/200x/occurrence/4507688130/media/7bc2c1b87c7110b785674bfc198d891c"
-      expect(photo.title).to eq "GBIF photo"
-      expect(photo.license_url).to eq "http://creativecommons.org/licenses/by-nc/4.0/" # Should this be CC BY NC 4.0?
+      expect(photo.title).to eq "Photo by Ingeborg van Leeuwen via iNaturalist (Copyright Ingeborg van Leeuwen)"
+      expect(photo.license_name).to eq "CC BY-NC 4.0"
+      expect(photo.license_url).to eq "http://creativecommons.org/licenses/by-nc/4.0/"
       expect(photo.link_url).to eq "https://www.inaturalist.org/photos/343874350"
       expect(photo.source_id).to eq("4507688130")
       expect(photo.source).to eq("gbif")
