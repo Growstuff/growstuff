@@ -95,7 +95,7 @@ class GbifService
     gbif_usage_key = crop.scientific_names.detect { |sn| sn.gbif_key.present? }&.gbif_key
     unless gbif_usage_key
       crop.scientific_names.each do |sn|
-        result = @species.name_backbone(name: sn.name) #, higherTaxonKey: 6, nameType: 'SCIENTIFIC')
+        result = @species.name_backbone(name: sn.name) # , higherTaxonKey: 6, nameType: 'SCIENTIFIC')
         next unless result["confidence"] > 95 && result["matchType"] == "EXACT"
 
         sn.gbif_key = result["usageKey"]
@@ -145,29 +145,30 @@ class GbifService
       url = media["identifier"]
       md5 = Digest::MD5.hexdigest(url)
       width = 200
-      thumbnail = "https://api.gbif.org/v1/image/cache/#{width}x/occurrence/#{result["key"]}/media/#{md5}"
+      thumbnail = "https://api.gbif.org/v1/image/cache/#{width}x/occurrence/#{result['key']}/media/#{md5}"
 
       next unless url.start_with? 'http'
       next if Photo.find_by(source_id: result["key"], source: 'gbif')
 
-    license_name = case media["license"]
-    when "http://creativecommons.org/licenses/by-nc/4.0/"
-        "CC BY-NC 4.0"
-    else
-        media["license"]
-    end
+      license_name = case media["license"]
+                     when "http://creativecommons.org/licenses/by-nc/4.0/"
+                       "CC BY-NC 4.0"
+                     else
+                       media["license"]
+                     end
 
       photo = Photo.new(
-        source_id:     result["key"], # This is for the overall observation which may technically have multiple media. However, we're only taking the first.
+        # This is for the overall observation which may technically have multiple media. However, we're only taking the first.
+        source_id:     result["key"],
         source:        'gbif',
         owner:         @cropbot,
         thumbnail_url: thumbnail,
         fullsize_url:  url,
         title:         'GBIF photo', # TODO: By creator, publisher?
-        license_name:  license_name,
-        license_url:  media["license"],
+        license_name:,
+        license_url:   media["license"],
         link_url:      media["references"],
-        date_taken: DateTime.parse(media["created"])
+        date_taken:    DateTime.parse(media["created"])
       )
       if photo.valid?
         Photo.transaction do
