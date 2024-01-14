@@ -215,7 +215,7 @@ GEM
       multi_json
     erubi (1.12.0)
     erubis (2.7.0)
-    excon (0.93.1)
+    excon (0.109.0)
     execjs (2.8.1)
     factory_bot (6.4.5)
       activesupport (>= 5.0.0)
@@ -409,7 +409,7 @@ GEM
     percy-capybara (5.0.0)
       capybara (>= 3)
     pg (1.5.4)
-    platform-api (3.5.0)
+    platform-api (3.6.0)
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)
       rate_throttle_client (~> 0.1.0)
