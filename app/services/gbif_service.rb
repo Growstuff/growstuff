@@ -91,13 +91,11 @@ class GbifService
   end
 
   def update_crop(crop)
-    return unless crop.scientific_names.any?
-
     # Attempt to resolve the scientific names via /species/match.
-    gbif_usage_key = crop.scientific_names.detect { |sn| sn.gbif_key.present? }
+    gbif_usage_key = crop.scientific_names.detect { |sn| sn.gbif_key.present? }&.gbif_key
     unless gbif_usage_key
-      crops.scientific_names.each do |sn|
-        @species.name_backbone(q: sn.name, higherTaxonKey: 6, nameType: 'SCIENTIFIC')
+      crop.scientific_names.each do |sn|
+        result = @species.name_backbone(name: sn.name) #, higherTaxonKey: 6, nameType: 'SCIENTIFIC')
         next unless result["confidence"] > 95 && result["matchType"] == "EXACT"
 
         sn.gbif_key = result["usageKey"]
@@ -106,17 +104,19 @@ class GbifService
         sn.save!
       end
 
-      gbif_usage_key = crop.scientific_names.detect { |sn| sn.gbif_key.present? }
+      gbif_usage_key = crop.scientific_names.detect { |sn| sn.gbif_key.present? }&.gbif_key
     end
 
     # No match? Fall back to common names
     unless gbif_usage_key
-      query_results = @species.name_lookup(crop.name, higherTaxonKey: 6)
+      query_results = @species.name_lookup(q: crop.name, higherTaxonKey: 6)
 
       # We only want one result, otherwise it needs human.
       return unless query_results.length == 1
 
       gbif_usage_key = query_results["results"].first["usageKey"]
+
+      crop.scientific_names.create(gbif_key: gbif_usage_key, name: query_results["results"].first["canonicalName"])
     end
 
     gbif_record = fetch(gbif_usage_key)
