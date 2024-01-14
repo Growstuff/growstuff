@@ -84,7 +84,7 @@ class GbifService
   end
 
   def import!
-    Crop.all.order(updated_at: :desc).each do |crop|
+    Crop.order(updated_at: :desc).each do |crop|
       Rails.logger.debug { "#{crop.id}, #{crop.name}" }
       update_crop(crop) if crop.valid?
     end
@@ -94,61 +94,72 @@ class GbifService
     return unless crop.scientific_names.any?
 
     # Attempt to resolve the scientific names via /species/match.
-    gbif_usage_key = crop.scientific_names.detect {|sn| sn.gbif_key.present? }
+    gbif_usage_key = crop.scientific_names.detect { |sn| sn.gbif_key.present? }
     unless gbif_usage_key
-       crops.scientific_names.each do |sn|
-          results = @species.name_backbone(q: sn.name, higherTaxonKey: 6, nameType: 'SCIENTIFIC')
-          next unless result["confidence"] > 95 && result["matchType"] == "EXACT"
+      crops.scientific_names.each do |sn|
+        @species.name_backbone(q: sn.name, higherTaxonKey: 6, nameType: 'SCIENTIFIC')
+        next unless result["confidence"] > 95 && result["matchType"] == "EXACT"
 
-          sn.gbif_key = result["usageKey"]
-          sn.gbif_rank = result["rank"]
-          sn.gbif_status = result["status"]
-          sn.save!
-       end
+        sn.gbif_key = result["usageKey"]
+        sn.gbif_rank = result["rank"]
+        sn.gbif_status = result["status"]
+        sn.save!
+      end
 
-       gbif_usage_key = crop.scientific_names.detect {|sn| sn.gbif_key.present? }
+      gbif_usage_key = crop.scientific_names.detect { |sn| sn.gbif_key.present? }
     end
 
     # No match? Fall back to common names
     unless gbif_usage_key
-        query_results = @species.name_lookup(crop.name, higherTaxonKey: 6)
+      query_results = @species.name_lookup(crop.name, higherTaxonKey: 6)
 
-        # We only want one result, otherwise it needs human.
-        return unless query_results.length == 1
+      # We only want one result, otherwise it needs human.
+      return unless query_results.length == 1
 
-        gbif_usage_key = query_results["results"].first["usageKey"]
+      gbif_usage_key = query_results["results"].first["usageKey"]
     end
 
     gbif_record = fetch(gbif_usage_key)
     if gbif_record.present? && gbif_record.is_a?(String)
       Rails.logger.info(gbif_record)
     elsif gbif_record.present? && gbif_record.fetch('data', false)
-    #   crop.update! openfarm_data: gbif_record.fetch('data', false)
-    #   save_companions(crop, gbif_record)
-    #   save_photos(crop)
+      #   crop.update! openfarm_data: gbif_record.fetch('data', false)
+      #   save_companions(crop, gbif_record)
+      save_photos(crop, gbif_usage_key)
     else
       Rails.logger.debug "\tcrop not found on GBIF"
-    #   crop.update!(openfarm_data: false)
+      #   crop.update!(openfarm_data: false)
     end
   end
 
-  def save_photos(crop)
-    pictures = fetch_pictures(crop.name)
-    pictures.each do |picture|
-      data = picture.fetch('attributes')
-      Rails.logger.debug(data)
-      next unless data.fetch('image_url').start_with? 'http'
-      next if Photo.find_by(source_id: picture.fetch('id'), source: 'openfarm')
+  def save_photos(crop, key)
+    #  https://api.gbif.org/v1/occurrence/search?taxon_key=3084850
 
+    occurrences = Gbif::Occurrences.search(key, mediatype: 'StillImage', limit: 3, hasCoordinate: true)
+    pictures = []
+    occurrences["results"].each do |result|
+      media = result["media"]
+
+      # Example: "https://inaturalist-open-data.s3.amazonaws.com/photos/250226497/original.jpg"
+      url = media["identifier"]
+      Digest::MD5.hexdigest(url)
+
+      next unless url.start_with? 'http'
+      next if Photo.find_by(source_id: result["key"], source: 'gbif')
+
+      pictures << result
+    end
+
+    pictures.each do |_picture|
       photo = Photo.new(
-        source_id:     picture.fetch('id'),
-        source:        'openfarm',
+        source_id:     result["key"],
+        source:        'gbif',
         owner:         @cropbot,
-        thumbnail_url: data.fetch('thumbnail_url'),
-        fullsize_url:  data.fetch('image_url'),
-        title:         'Open Farm photo',
-        license_name:  'No rights reserved',
-        link_url:      "https://openfarm.cc/en/crops/#{name_to_slug(crop.name)}"
+        thumbnail_url: thumbnail,
+        fullsize_url:  url,
+        title:         'GBIF photo', # TODO: By creator, publisher?
+        license_name:  media["license"],
+        link_url:      media["references"]
       )
       if photo.valid?
         Photo.transaction do
@@ -165,14 +176,4 @@ class GbifService
   def fetch(key)
     Gbif::Request.new("species/#{key}", nil, nil, nil).perform
   end
-
-
-  def fetch_pictures(name)
-    body = conn.get("crops/#{name_to_slug(name)}/pictures.json").body
-    body.fetch('data', false)
-  rescue StandardError
-    Rails.logger.debug "Error fetching photos"
-    Rails.logger.debug []
-  end
-
 end
