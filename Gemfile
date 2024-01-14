@@ -155,6 +155,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
+  gem 'pry'
   gem 'haml-rails'              # HTML templating language
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'

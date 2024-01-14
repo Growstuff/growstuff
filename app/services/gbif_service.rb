@@ -112,17 +112,17 @@ class GbifService
       query_results = @species.name_lookup(q: crop.name, higherTaxonKey: 6)
 
       # We only want one result, otherwise it needs human.
-      return unless query_results.length == 1
+      return unless query_results["results"].length == 1
 
-      gbif_usage_key = query_results["results"].first["usageKey"]
+      query_result = query_results["results"].first
 
-      crop.scientific_names.create(gbif_key: gbif_usage_key, name: query_results["results"].first["canonicalName"])
+      gbif_usage_key = query_result["key"]
+
+      crop.scientific_names.create!(gbif_key: gbif_usage_key, name: query_result["canonicalName"], creator: @cropbot)
     end
 
     gbif_record = fetch(gbif_usage_key)
-    if gbif_record.present? && gbif_record.is_a?(String)
-      Rails.logger.info(gbif_record)
-    elsif gbif_record.present? && gbif_record.fetch('data', false)
+    if gbif_record.present?
       #   crop.update! openfarm_data: gbif_record.fetch('data', false)
       #   save_companions(crop, gbif_record)
       save_photos(crop, gbif_usage_key)
@@ -135,31 +135,40 @@ class GbifService
   def save_photos(crop, key)
     #  https://api.gbif.org/v1/occurrence/search?taxon_key=3084850
 
-    occurrences = Gbif::Occurrences.search(key, mediatype: 'StillImage', limit: 3, hasCoordinate: true)
+    occurrences = Gbif::Occurrences.search(taxonKey: key, mediatype: 'StillImage', limit: 3, hasCoordinate: true)
     pictures = []
     occurrences["results"].each do |result|
-      media = result["media"]
+      next unless result["media"]
+
+      media = result["media"].first
 
       # Example: "https://inaturalist-open-data.s3.amazonaws.com/photos/250226497/original.jpg"
       url = media["identifier"]
-      Digest::MD5.hexdigest(url)
+      md5 = Digest::MD5.hexdigest(url)
+      width = 200
+      thumbnail = "https://api.gbif.org/v1/image/cache/#{width}x/occurrence/#{result["key"]}/media/#{md5}"
 
       next unless url.start_with? 'http'
       next if Photo.find_by(source_id: result["key"], source: 'gbif')
 
-      pictures << result
+    license_name = case media["license"]
+    when "http://creativecommons.org/licenses/by-nc/4.0/"
+        "CC BY-NC 4.0"
+    else
+        media["license"]
     end
 
-    pictures.each do |_picture|
       photo = Photo.new(
-        source_id:     result["key"],
+        source_id:     result["key"], # This is for the overall observation which may technically have multiple media. However, we're only taking the first.
         source:        'gbif',
         owner:         @cropbot,
         thumbnail_url: thumbnail,
         fullsize_url:  url,
         title:         'GBIF photo', # TODO: By creator, publisher?
-        license_name:  media["license"],
-        link_url:      media["references"]
+        license_name:  license_name,
+        license_url:  media["license"],
+        link_url:      media["references"],
+        date_taken: DateTime.parse(media["created"])
       )
       if photo.valid?
         Photo.transaction do

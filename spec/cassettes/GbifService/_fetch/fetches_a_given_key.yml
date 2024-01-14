@@ -31,13 +31,13 @@ http_interactions:
       content-type:
       - application/json
       date:
-      - Sun, 14 Jan 2024 08:40:59 GMT
+      - Sun, 14 Jan 2024 10:03:58 GMT
       cache-control:
       - public, max-age=3601
       x-varnish:
-      - 910395266 906396389
+      - 952863014 979042621
       age:
-      - '888'
+      - '126'
       via:
       - 1.1 varnish (Varnish/6.0)
       accept-ranges:
@@ -53,5 +53,5 @@ http_interactions:
         lycopersicum L.","canonicalName":"Solanum lycopersicum","vernacularName":"Garden
         tomato","authorship":"L.","nameType":"SCIENTIFIC","rank":"SPECIES","origin":"SOURCE","taxonomicStatus":"ACCEPTED","nomenclaturalStatus":[],"remarks":"","publishedIn":"L.
         (1753). In: Sp. Pl. 185.","numDescendants":23,"lastCrawled":"2023-08-22T23:20:59.545+00:00","lastInterpreted":"2023-08-22T23:12:05.487+00:00","issues":[],"class":"Magnoliopsida"}'
-  recorded_at: Sun, 14 Jan 2024 08:55:49 GMT
+  recorded_at: Sun, 14 Jan 2024 10:06:05 GMT
 recorded_with: VCR 6.2.0
