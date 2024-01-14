@@ -56,6 +56,11 @@ class ScientificNamesController < ApplicationController
     respond_with(@crop)
   end
 
+  def gbif_suggest
+    species = Gbif::Species
+    render json: species.name_backbone(name: params[:name])
+  end
+
   private
 
   def scientific_name_params

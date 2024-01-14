@@ -53,7 +53,9 @@ Rails.application.routes.draw do
     get 'author/:author' => 'posts#index', as: 'by_author', on: :collection
   end
 
-  resources :scientific_names
+  resources :scientific_names do
+    get :gbif_suggest
+  end
   resources :alternate_names
   resources :plant_parts
   resources :photos
