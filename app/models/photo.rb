@@ -22,7 +22,7 @@ class Photo < ApplicationRecord
   validates :owner, presence: true
   validates :title, presence: true
   validates :license_name, presence: true # Should assert this is one of CC-BY, CC-BY-NC, etc
-  validates :license_url,  url: true
+  validates :license_url,  url: true, allow_blank: true
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
