@@ -615,6 +615,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
+    vcr (6.2.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     webdrivers (5.3.1)
@@ -737,6 +738,7 @@ DEPENDENCIES
   uglifier
   unicorn
   validate_url
+  vcr
   webdrivers
   webrat
   will_paginate

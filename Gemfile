@@ -180,6 +180,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'webdrivers'
+  gem 'vcr'
 end
 
 group :travis do
