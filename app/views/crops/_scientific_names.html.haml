@@ -16,7 +16,7 @@
               = delete_icon
               = t('.delete')
       - else
-        - if sn.gbif_key = 3084850
+        - if sn.gbif_key
           = link_to sn.name, "https://www.gbif.org/species/#{sn.gbif_key}",
                   class: 'card-link',
                   target: "_blank",
