@@ -150,13 +150,6 @@ class GbifService
       next unless url.start_with? 'http'
       next if Photo.find_by(source_id: result["key"], source: 'gbif')
 
-      license_name = case media["license"]
-                     when "http://creativecommons.org/licenses/by-nc/4.0/"
-                       "CC BY-NC 4.0"
-                     else
-                       media["license"]
-                     end
-
       photo = Photo.new(
         # This is for the overall observation which may technically have multiple media. However, we're only taking the first.
         source_id:     result["key"],
@@ -164,12 +157,19 @@ class GbifService
         owner:         @cropbot,
         thumbnail_url: thumbnail,
         fullsize_url:  url,
-        title:         'GBIF photo', # TODO: By creator, publisher?
-        license_name:,
+        title:         "Photo by #{media['creator']} via #{media['publisher']} (Copyright #{media['rightsHolder']})",
+        license_name:  case media["license"]
+                       when "http://creativecommons.org/licenses/by/4.0/"
+                         "CC BY 4.0"
+                       when "http://creativecommons.org/licenses/by-nc/4.0/"
+                         "CC BY-NC 4.0"
+                       else
+                         media["license"]
+                       end,
         license_url:   media["license"],
-        link_url:      media["references"],
-        date_taken:    DateTime.parse(media["created"])
+        link_url:      media["references"]
       )
+      photo.date_taken = DateTime.parse(media["created"]) if media["created"]
       if photo.valid?
         Photo.transaction do
           photo.save
