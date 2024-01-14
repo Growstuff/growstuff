@@ -128,6 +128,9 @@ gem 'faraday_middleware'
 
 gem 'rack-cors'
 
+# External APIs for data
+gem "gbifrb"
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
