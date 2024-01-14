@@ -65,8 +65,9 @@
             .col-2
               = label_tag :scientific_names, "Scientific name #{index + 1}:", class: 'control-label'
             .col-8
-              = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]", class: 'form-control'
-              %span.help-block Scientific name of crop.
+              = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]", class: 'scientific-name-auto-suggest form-control', data: { source_url: gbif_suggest_scientific_names_path }
+              %span.help-block Searches GBIF to determine scientific name of crop.
+              = hidden_field_tag "sci_gbif_namekey[#{index + 1}]", sci.gbif_namekey, id: "sci_gbif_namekey[#{index + 1}]" class: 'scientific-name-auto-suggest-id'
       %h2 Alternate names
       = button_tag "+", class: "add-altname-row", type: "button"
       = button_tag "-", class: "remove-altname-row", type: "button"

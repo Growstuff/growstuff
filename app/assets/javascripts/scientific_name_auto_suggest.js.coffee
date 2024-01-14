@@ -1,3 +1,5 @@
+# TODO: This assumes one autocomplete per page.
+# Needs to be a function so that when we append one of these, it gets uniquely associated with the hidden controls.
 jQuery ->
 
   if el = $( '.scientific-name-auto-suggest' )
@@ -5,7 +7,7 @@ jQuery ->
     id = $( '.scientific-name-auto-suggest-id' )
 
     el.autocomplete
-      minLength: 10,
+      minLength: 3,
       source: el.attr( 'data-source-url' ),
       focus: ( event, ui ) ->
         el.val( ui.item.canonicalName )

@@ -5,7 +5,7 @@ jQuery ->
   $(".remove-altname-row").css("display", "inline-block")
 
 -$ ->
-  sci_template = "<div id='sci_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Scientific name INDEX:</label></div><div class='col-md-8'><input name='sci_name[INDEX]' class='form-control', id='sci_name[INDEX]')'></input><span class='help-block'>Scientific name of crop.</span></div><div class='col-md-2'></div></div>"
+  sci_template = "<div id='sci_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Scientific name INDEX:</label></div><div class='col-md-8'><input name='sci_name[INDEX]' class='scientific-name-auto-suggest form-control' id='sci_name[INDEX]' data-source-url='/scientific_names/gbif_suggest')'></input><span class='help-block'>Scientific name of crop</span><input type='text' id='sci_gbifnamekey[INDEX]' class=''></div><div class='col-md-2'></div></div>"
 
   sci_index = $('#scientific_names .template').length + 1
 
@@ -21,7 +21,7 @@ jQuery ->
       element = document.getElementById(tmp)
       element.remove()
 
-  alt_template = "<div id='alt_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Alternate name INDEX:</label></div><div class='col-md-8'><input name='alt_name[INDEX]' class='form-control', id='alt_name[INDEX]')'></input><span class='help-block'>Alternate name of crop.</span></div><div class='col-md-2'></div></div>"
+  alt_template = "<div id='alt_template[INDEX]' class='template col-md-12'><div class='col-md-2'><label>Alternate name INDEX:</label></div><div class='col-md-8'><input name='alt_name[INDEX]' class='form-control' id='alt_name[INDEX]')'></input><span class='help-block'>Alternate name of crop.</span></div><div class='col-md-2'></div></div>"
 
   alt_index = $('#alternate_names .template').length + 1
 
