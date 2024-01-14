@@ -135,7 +135,7 @@ class GbifService
   def save_photos(crop, key)
     #  https://api.gbif.org/v1/occurrence/search?taxon_key=3084850
 
-    occurrences = Gbif::Occurrences.search(taxonKey: key, mediatype: 'StillImage', limit: 3, hasCoordinate: true)
+    occurrences = Gbif::Occurrences.search(taxonKey: key, mediatype: 'StillImage', limit: 10, hasCoordinate: true)
     occurrences["results"].each do |result|
       next unless result["media"]
 
@@ -149,6 +149,7 @@ class GbifService
 
       next unless url.start_with? 'http'
       next if Photo.find_by(source_id: result["key"], source: 'gbif')
+      next unless media["references"].present?
 
       photo = Photo.new(
         # This is for the overall observation which may technically have multiple media. However, we're only taking the first.
