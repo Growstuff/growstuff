@@ -111,6 +111,10 @@ GEM
     axe-core-capybara (4.8.0)
       axe-core-api
       dumb_delegator
+    axe-core-rspec (4.8.0)
+      axe-core-api
+      dumb_delegator
+      virtus
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -664,6 +668,7 @@ DEPENDENCIES
   active_record_union
   active_utils
   axe-core-capybara
+  axe-core-rspec
   better_errors
   bluecloth
   bonsai-elasticsearch-rails

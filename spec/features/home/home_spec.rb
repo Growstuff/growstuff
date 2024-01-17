@@ -90,6 +90,7 @@ describe "home page", :search do
     include_examples 'show harvests'
     include_examples 'shows seeds'
     it { is_expected.to have_text 'community of food gardeners' }
+    it "is accessible" do expect(page).to be_axe_clean end 
   end
 
   context "when signed in" do
@@ -98,7 +99,7 @@ describe "home page", :search do
     include_examples 'show plantings'
     include_examples 'show harvests'
     include_examples 'shows seeds'
-
+    it "is accessible" do expect(page).to be_axe_clean end 
     describe 'should say welcome' do
       before { visit root_path }
 

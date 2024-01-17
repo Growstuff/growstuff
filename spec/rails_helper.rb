@@ -20,6 +20,8 @@ require 'capybara'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'capybara-screenshot/rspec'
+require 'axe-capybara'
+require 'axe-rspec'
 
 # TODO: We may want to trial options.add_argument('--disable-dev-shm-usage')      ### optional
 
@@ -42,6 +44,7 @@ else
   Capybara.default_driver = :selenium_chrome_customised_headless
   Capybara.javascript_driver = :selenium_chrome_customised_headless
 end
+Capybara.enable_aria_label = true
 
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
   "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
